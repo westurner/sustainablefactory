@@ -41,6 +41,18 @@ The project provides the `sfcli` tool line for data extraction and conversion:
   sfcli info
   ```
 
+## Directory Structure
+
+Here is a brief overview of the top-level directories in this workspace:
+
+- **`data/`**: Raw input data, including interactive chat exports (Markdown and JSON) describing sustainable processes.
+- **`docs/`**: Sphinx documentation source files, configuration, and generated HTML builds.
+- **`schema/`**: Foundational Industrial Ontologies Foundry (IOF) RDF schemas, ontologies, and the core `sustainable-factory.ttl` schema.
+- **`src/`**: Supplementary source code utilities like `schematool` and `transform_md`.
+- **`sustainablefactory/`**: The core Python package providing parsing logic, knowledge graph generation, and RDF extraction features.
+- **`tests/`**: Unit testing suite using `pytest`.
+- **`tools/`**: Standalone helper scripts, such as data aggregation utilities and RDF-to-Mermaid conversions.
+
 ## Development Tasks
 
 A `Makefile` is included to streamline common tasks:
