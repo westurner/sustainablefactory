@@ -1,31 +1,53 @@
 {
-	"name": "Sustainable Factory",
-	"image": "quay.io/fedora/fedora-toolbox:43",
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"ms-python.python",
-				"ms-python.vscode-pylance",
-				"tamasfe.even-better-toml",
-				"executablebookproject.myst-highlight",
-				"cospaia.turtle",
-				"redhat.vscode-xml",
-				"stardog-union.stardog-sparql-grammar",
-				"arkaitz.markdown-mermaid",
-				"charliermarsh.ruff"
-			],
-			"settings": {
-				"python.defaultInterpreterPath": "/usr/bin/python3"
-			}
-		}
-	},
-	"remoteUser": "root",
-	"runArgs": [
-		//"--privileged",
-		"--userns=keep-id",
-		"--security-opt=label=disable"
+  "name": "Sustainable Factory",
+  //"image": "quay.io/fedora/fedora-toolbox:43",
+  "build": {
+    "dockerfile": "../Dockerfile.e2e",
+    "context": "../"
+  },
+  "runArgs": [
+    "--userns=keep-id",
+		"--security-opt=label=disable",
+		"--log-level=debug"
+  ],
+  // "mounts": [
+  //   {
+  //     "type": "bind",
+  //     "source": "/usr/sbin/distrobox-host-exec",
+  //     "target": "/usr/local/sbin/distrobox-host-exec"
+  //   }
+  // ],
+  "forwardPorts": [3000, 8000],
+  //"postCreateCommand": "sudo dnf install -y python3-pip zsh ripgrep zeromq-devel nodejs-npm python3-pytest-mock python3-pytest-cov python3-pytest-xdist python3-hypothesis python3-hypothesis+pytest make bash-completion && pip install -e . && pip install -e src/schematool && pip install -e src/transform_md",
+  "postCreateCommand": "python3 -m venv ~/.venv && ~/.venv/bin/pip install -e . && ~/.venv/bin/pip install -e src/schematool && ~/.venv/bin/pip install -e src/transform_md && cd e2e && npm install",
+  //"postCreateCommand": "sh -c 'npm install && npm run build --workspace=sustainablefactory'"
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-docker",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "ms-playwright.playwright",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "tamasfe.even-better-toml",
+        "executablebookproject.myst-highlight",
+        "cospaia.turtle",
+        "redhat.vscode-xml",
+        "stardog-union.stardog-sparql-grammar",
+        "arkaitz.markdown-mermaid",
+        "charliermarsh.ruff"
 	],
-	//"onCreateCommand": "sudo useradd -s /bin/bash -m fedora",
-	"postCreateCommand": "sudo dnf install -y python3-pip ruff zsh ripgrep zeromq-devel nodejs-npm python3-pytest-mock python3-pytest-cov python3-pytest-xdist python3-hypothesis python3-hypothesis+pytest make bash-completion && pip install -e . && pip install -e src/schematool && pip install -e src/transform_md",
-	"features": {}
+	"settings": {
+		"python.defaultInterpreterPath": "/home/appuser/.venv/bin/python3"
+	}
+   }
+  },
+  "remoteEnv": {
+    "PATH": "/home/appuser/.venv/bin:/home/appuser/.local/bin:${containerEnv:PATH}"
+  },
+  "remoteUser": "appuser" // Or "root" or a specific user if created in Dockerfile
+
+
+  
 }

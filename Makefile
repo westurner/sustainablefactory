@@ -1,6 +1,6 @@
 
 
-.PHONY: default help docs aggregate_data transform_md_all test pytest serve
+.PHONY: default help docs aggregate_data transform_md_all test pytest serve e2etest
 
 default: help
 
@@ -33,3 +33,6 @@ pytest:
 serve:
 	tree -a -L 2 ./docs/_build/html
 	python -m http.server -p ./docs/_build/html
+
+e2etest:
+	./e2etest.sh --on-host

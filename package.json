@@ -1,0 +1,19 @@
+{
+  "name": "sustainablefactory",
+  "version": "0.1.0",
+  "description": "sustainablefactory",
+  "main": "jest.config.js",
+  "scripts": {
+    "test": "jest",
+    "e2e": "sh e2etest.sh"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "overrides": {
+  },
+  "keywords": [],
+  "author": "",
+  "license": ""
+}

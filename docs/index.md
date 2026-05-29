@@ -13,18 +13,21 @@ paper.myst
 schema
 visualization
 cli_reference
+glossary
 ```
 
 ## Appendices
 
 ```{toctree}
-tables_and_figures.myst
+:maxdepth: 2
 chats/index
-chats/*.myst
 ```
+--- chats/*.md
+
+- {ref}`tables_and_figures`
 
 ## `sustainablefactory` Software
-This project uses MyST Markdown and JSON to capture and model sustainable process and product information and generates RDF-star linked data.
+This project uses MyST Markdown and JSON to capture and model sustainable process and product information and generates RDF linked data.
 
 This system parses industrial process descriptions (like [paper.myst.md](paper.myst.md)) and converts them into a structured graph linked data representation
 using the **Industrial Ontologies Foundry (IOF)** and sustainablefactory process schema.
