@@ -1,6 +1,9 @@
 {
     "iof": {
         "url": "https://spec.industrialontologies.org/ontology/core/Core/",
+        "extra_prefixes": {
+            "iof-meta": "https://spec.industrialontologies.org/ontology/core/meta/"
+        },
         "dependencies": {
             "brick": {
                 "url": "https://brickschema.org/schema/Brick#",
@@ -999,6 +1002,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/dcat"
+                                    },
+                                    {
+                                        "path": "dcat/dcat.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -1174,6 +1182,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://opengeospatial.github.io/ogc-geosparql/geosparql11/geo.ttl"
+                                    },
+                                    {
+                                        "path": "geo/geo.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -1271,6 +1284,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/odrl/2/"
+                                    },
+                                    {
+                                        "path": "odrl/odrl.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -1360,6 +1378,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/org"
+                                    },
+                                    {
+                                        "path": "org/org.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -1437,6 +1460,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/dx/prof/"
+                                    },
+                                    {
+                                        "path": "prof/prof.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -1506,6 +1534,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/prov"
+                                    },
+                                    {
+                                        "path": "prov/prov.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -1575,6 +1608,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/cube.ttl"
+                                    },
+                                    {
+                                        "path": "qb/qb.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -1831,6 +1869,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/shacl"
+                                    },
+                                    {
+                                        "path": "sh/sh.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -1892,6 +1935,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/sosa/"
+                                    },
+                                    {
+                                        "path": "sosa/sosa.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -1945,6 +1993,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/ssn/"
+                                    },
+                                    {
+                                        "path": "ssn/ssn.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -1994,6 +2047,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/2006/time"
+                                    },
+                                    {
+                                        "path": "time/time.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2042,6 +2100,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/2003/01/geo/wgs84_pos"
+                                    },
+                                    {
+                                        "path": "wgs/wgs.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2079,6 +2142,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/activitystreams"
+                                    },
+                                    {
+                                        "path": "as/as.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2302,6 +2370,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/dqv"
+                                    },
+                                    {
+                                        "path": "dqv/dqv.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2348,6 +2421,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "http://www.heppnetz.de/ontologies/goodrelations/v1.owl"
+                                    },
+                                    {
+                                        "path": "gr/gr.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2385,6 +2463,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/2003/g/data-view"
+                                    },
+                                    {
+                                        "path": "grddl/grddl.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2435,6 +2518,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/ldp"
+                                    },
+                                    {
+                                        "path": "ldp/ldp.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2467,6 +2555,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/ma-ont"
+                                    },
+                                    {
+                                        "path": "ma/ma.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2556,6 +2649,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/oa"
+                                    },
+                                    {
+                                        "path": "oa/oa.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2601,6 +2699,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/rdfa"
+                                    },
+                                    {
+                                        "path": "rdfa/rdfa.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2651,6 +2754,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/2007/rif"
+                                    },
+                                    {
+                                        "path": "rif/rif.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2694,6 +2802,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/r2rml"
+                                    },
+                                    {
+                                        "path": "rr/rr.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2897,6 +3010,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/ns/sparql-service-description"
+                                    },
+                                    {
+                                        "path": "sd/sd.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2929,6 +3047,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "http://rdfs.org/sioc/ns"
+                                    },
+                                    {
+                                        "path": "sioc/sioc.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -2961,6 +3084,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/2009/08/skos-reference/skos-xl.rdf"
+                                    },
+                                    {
+                                        "path": "skosxl/skosxl.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -3006,6 +3134,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/2006/vcard/ns"
+                                    },
+                                    {
+                                        "path": "vcard/vcard.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -3056,6 +3189,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "https://www.w3.org/2007/05/powder-s"
+                                    },
+                                    {
+                                        "path": "wrds/wrds.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -3099,6 +3237,11 @@
                                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                 },
                                 "redirected_to": "https://www.w3.org/ns/csvw"
+                            },
+                            {
+                                "path": "csvw/csvw.compacted.jsonld",
+                                "format": "compacted_jsonld",
+                                "generated": true
                             }
                         ]
                     },
@@ -4122,6 +4265,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "http://www.linkedmodel.org/schema/dtype"
+                                    },
+                                    {
+                                        "path": "dtype/dtype.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -4159,6 +4307,11 @@
                                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                         },
                                         "redirected_to": "http://www.linkedmodel.org/schema/vaem"
+                                    },
+                                    {
+                                        "path": "vaem/vaem.compacted.jsonld",
+                                        "format": "compacted_jsonld",
+                                        "generated": true
                                     }
                                 ]
                             },
@@ -4202,6 +4355,11 @@
                                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                 },
                                 "redirected_to": "https://qudt.org/schema/qudt/"
+                            },
+                            {
+                                "path": "qudt/qudt.compacted.jsonld",
+                                "format": "compacted_jsonld",
+                                "generated": true
                             }
                         ]
                     },
@@ -4403,6 +4561,11 @@
                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                         },
                         "redirected_to": "https://brickschema.org/schema/Brick"
+                    },
+                    {
+                        "path": "brick/brick.compacted.jsonld",
+                        "format": "compacted_jsonld",
+                        "generated": true
                     }
                 ]
             },
@@ -5562,6 +5725,11 @@
                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                         },
                         "redirected_to": "https://berkeleybop.org/ontologies/"
+                    },
+                    {
+                        "path": "bfo/bfo.compacted.jsonld",
+                        "format": "compacted_jsonld",
+                        "generated": true
                     }
                 ]
             },
@@ -5576,7 +5744,7 @@
                                 "headers_used": {
                                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                 },
-                                "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202502/individual.rdf",
+                                "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202601/individual.rdf",
                                 "format": null
                             }
                         ]
@@ -5608,6 +5776,11 @@
                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                         },
                         "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202502/annotation.rdf"
+                    },
+                    {
+                        "path": "iof-av/iof-av.compacted.jsonld",
+                        "format": "compacted_jsonld",
+                        "generated": true
                     }
                 ]
             },
@@ -5619,7 +5792,7 @@
                         "headers_used": {
                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                         },
-                        "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202502/construct.rdf",
+                        "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202601/construct.rdf",
                         "format": null
                     }
                 ]
@@ -5664,11 +5837,19 @@
                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                 },
                 "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202502/core/Core.rdf"
+            },
+            {
+                "path": "iof/iof.compacted.jsonld",
+                "format": "compacted_jsonld",
+                "generated": true
             }
         ]
     },
     "bfo": {
         "url": "http://purl.obolibrary.org/obo/bfo.owl",
+        "extra_prefixes": {
+            "bfo-axiom": "http://purl.obolibrary.org/obo/bfo/axiom/"
+        },
         "dependencies": {
             "brick": {
                 "url": "https://brickschema.org/schema/Brick#",
@@ -5917,6 +6098,11 @@
                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                 },
                 "redirected_to": "https://raw.githubusercontent.com/BFO-ontology/BFO/v2019-08-26/bfo_classes_only.owl"
+            },
+            {
+                "path": "bfo/bfo.compacted.jsonld",
+                "format": "compacted_jsonld",
+                "generated": true
             }
         ]
     },
@@ -6205,6 +6391,11 @@
                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                 },
                 "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202502/core/meta/AnnotationVocabulary.rdf"
+            },
+            {
+                "path": "iof-av/iof-av.compacted.jsonld",
+                "format": "compacted_jsonld",
+                "generated": true
             }
         ]
     },
@@ -6240,6 +6431,11 @@
                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                         },
                         "redirected_to": "http://www.omg.org/techprocess/ab/SpecificationMetadata.rdf"
+                    },
+                    {
+                        "path": "sm/sm.compacted.jsonld",
+                        "format": "compacted_jsonld",
+                        "generated": true
                     }
                 ]
             }
@@ -6270,6 +6466,11 @@
                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                 },
                 "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202502/core/Metadatacore.rdf"
+            },
+            {
+                "path": "iof-metadata/iof-metadata.compacted.jsonld",
+                "format": "compacted_jsonld",
+                "generated": true
             }
         ]
     },
@@ -6302,6 +6503,11 @@
                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                 },
                 "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202502/supplychain/SupplyChain.rdf"
+            },
+            {
+                "path": "iof-supply/iof-supply.compacted.jsonld",
+                "format": "compacted_jsonld",
+                "generated": true
             }
         ]
     },
@@ -6334,6 +6540,11 @@
                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                 },
                 "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202502/maintenance/Maintenance.rdf"
+            },
+            {
+                "path": "iof-maint/iof-maint.compacted.jsonld",
+                "format": "compacted_jsonld",
+                "generated": true
             }
         ]
     },
@@ -6366,6 +6577,11 @@
                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                 },
                 "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202502/certification/Certification.rdf"
+            },
+            {
+                "path": "iof-cert/iof-cert.compacted.jsonld",
+                "format": "compacted_jsonld",
+                "generated": true
             }
         ]
     },
@@ -6404,6 +6620,11 @@
                                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                 },
                                 "redirected_to": "https://www.omg.org/spec/Commons/AnnotationVocabulary/"
+                            },
+                            {
+                                "path": "cmns-av/cmns-av.compacted.jsonld",
+                                "format": "compacted_jsonld",
+                                "generated": true
                             }
                         ]
                     },
@@ -6436,6 +6657,11 @@
                                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                                 },
                                 "redirected_to": "https://www.omg.org/spec/Commons/TextDatatype/"
+                            },
+                            {
+                                "path": "cmns-txt/cmns-txt.compacted.jsonld",
+                                "format": "compacted_jsonld",
+                                "generated": true
                             }
                         ]
                     }
@@ -6466,6 +6692,11 @@
                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                         },
                         "redirected_to": "https://www.omg.org/spec/Commons/Collections/"
+                    },
+                    {
+                        "path": "cmns-col/cmns-col.compacted.jsonld",
+                        "format": "compacted_jsonld",
+                        "generated": true
                     }
                 ]
             },
@@ -6521,6 +6752,11 @@
                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                         },
                         "redirected_to": "https://www.omg.org/spec/Commons/Designators/"
+                    },
+                    {
+                        "path": "cmns-dsg/cmns-dsg.compacted.jsonld",
+                        "format": "compacted_jsonld",
+                        "generated": true
                     }
                 ]
             },
@@ -6565,6 +6801,11 @@
                             "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                         },
                         "redirected_to": "https://www.omg.org/spec/Commons/Identifiers/"
+                    },
+                    {
+                        "path": "cmns-id/cmns-id.compacted.jsonld",
+                        "format": "compacted_jsonld",
+                        "generated": true
                     }
                 ]
             }
@@ -6595,6 +6836,11 @@
                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                 },
                 "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202502/core/commonstocoremapping/MappingCommonsToIOF.rdf"
+            },
+            {
+                "path": "iof-mapping/iof-mapping.compacted.jsonld",
+                "format": "compacted_jsonld",
+                "generated": true
             }
         ]
     },
@@ -6627,6 +6873,11 @@
                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                 },
                 "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202502/productservicesystem/ProductServiceSystem.rdf"
+            },
+            {
+                "path": "iof-pss/iof-pss.compacted.jsonld",
+                "format": "compacted_jsonld",
+                "generated": true
             }
         ]
     },
@@ -6659,6 +6910,11 @@
                     "Accept": "text/turtle, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/xml;q=0.7, text/plain;q=0.6, */*;q=0.1"
                 },
                 "redirected_to": "https://raw.githubusercontent.com/iofoundry/ontology/Release_202502/productionplanning/ProductionPlanning.rdf"
+            },
+            {
+                "path": "iof-planning/iof-planning.compacted.jsonld",
+                "format": "compacted_jsonld",
+                "generated": true
             }
         ]
     }
