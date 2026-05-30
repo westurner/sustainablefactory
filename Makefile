@@ -31,8 +31,10 @@ pytest:
 	pytest --cov=. --cov-report=term-missing .
 
 serve:
-	tree -a -L 2 ./docs/_build/html
-	python -m http.server -p ./docs/_build/html
+	(type -a tree && tree -a -L 2 ./docs/_build/html) || true
+	python3 -m http.server 8000 --directory docs/_build/html
+
+
 
 e2etest:
 	./e2etest.sh --on-host
