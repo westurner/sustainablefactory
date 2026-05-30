@@ -4,10 +4,11 @@ manage.py -- a port of the Makefile tasks
 """
 
 import argparse
+import logging
+import os
+import shlex
 import subprocess
 import sys
-import os
-import logging
 
 
 # Setup Logging
@@ -56,7 +57,7 @@ def setup_logging(log_file=None, verbose=False, quiet=False):
 def run_command(command, cwd=None):
     """Utility to run a shell command and exit on failure."""
     logger.info(
-        f"Executing: {' '.join(command) if isinstance(command, list) else command}"
+        f"Executing: {' '.join(shlex.quote(part) for part in command) if isinstance(command, list) else command}"
     )
     try:
         # Use shell=True for strings, or pass list directly
@@ -87,13 +88,13 @@ def aggregate_data(input_dir=None, output=None):
 
 
 def transform_md(indir=None, outdir=None):
-    """Run transform-md on the chatoverlay data."""
+    """Run transform-md with project defaults equivalent to Makefile."""
     command = [
         "transform-md",
         "--indir",
         indir or "data/chatoverlay/chats__all/",
         "--outdir",
-        outdir or "data/chats_ipynb/",
+        outdir or "docs/chats/",
         "--transform-cell-split",
         "m1",
         "--out-format=myst,ipynb,chatexport_abc1",
@@ -101,16 +102,51 @@ def transform_md(indir=None, outdir=None):
     run_command(command)
 
 
-def run_tests():
-    """Run technical data aggregation and markdown transformation."""
-    logger.info("Running integrated tests...")
+def transform_md_data_chats(outdir=None):
+    """Run transform-md over data/chats, matching Makefile target."""
+    transform_md(indir="data/chats/", outdir=outdir or "docs/chats/")
+
+
+def update_schemadir():
+    """Update RDF schemas using schematool."""
+    run_command(["schematool"])
+
+
+def build_all():
+    """Run full build pipeline: aggregate_data -> transform_md_all -> docs."""
     aggregate_data()
     transform_md()
+    build_docs()
+
+
+def run_tests():
+    """Run pytest suite, matching Makefile test target."""
+    run_pytest()
 
 
 def run_pytest():
     """Run pytest suite."""
-    run_command(["pytest", "."])
+    run_command(["pytest", "--cov=.", "--cov-report=term-missing", "."])
+
+
+def run_e2etest():
+    """Run end-to-end Playwright tests on host."""
+    run_command(["./e2etest.sh", "--on-host"])
+
+
+def serve_docs(port=8000):
+    """Serve built docs over HTTP and print a short tree summary if available."""
+    run_command(
+        '(type -a tree && tree -a -L 2 ./docs/_build/html) || true'
+    )
+    run_command([
+        sys.executable,
+        "-m",
+        "http.server",
+        str(port),
+        "--directory",
+        "docs/_build/html",
+    ])
 
 
 def main():
@@ -152,6 +188,54 @@ def main():
         "--output", default="docs/tables_and_figures.myst.md", help="Output file path"
     )
 
+    agg_alias_parser = subparsers.add_parser(
+        "aggregate-chats",
+        help="Alias for aggregate",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    agg_alias_parser.add_argument(
+        "--input-dir",
+        default="data/chats",
+        help="Directory containing input .md and .json files",
+    )
+    agg_alias_parser.add_argument(
+        "--output",
+        default="docs/tables_and_figures.myst.md",
+        help="Output file path",
+    )
+
+    agg_data_parser = subparsers.add_parser(
+        "aggregate_data",
+        help="Aggregate technical data from documents",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    agg_data_parser.add_argument(
+        "--input-dir",
+        default="data/chats",
+        help="Directory containing input .md and .json files",
+    )
+    agg_data_parser.add_argument(
+        "--output",
+        default="docs/tables_and_figures.myst.md",
+        help="Output file path",
+    )
+
+    agg_data_alias_parser = subparsers.add_parser(
+        "aggregate-data",
+        help="Alias for aggregate_data",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    agg_data_alias_parser.add_argument(
+        "--input-dir",
+        default="data/chats",
+        help="Directory containing input .md and .json files",
+    )
+    agg_data_alias_parser.add_argument(
+        "--output",
+        default="docs/tables_and_figures.myst.md",
+        help="Output file path",
+    )
+
     # Transform command
     trans_parser = subparsers.add_parser(
         "transform",
@@ -162,13 +246,75 @@ def main():
         "--indir", default="data/chatoverlay/chats__all/", help="Input directory"
     )
     trans_parser.add_argument(
-        "--outdir", default="data/chats_ipynb/", help="Output directory"
+        "--outdir", default="docs/chats/", help="Output directory"
     )
 
-    # Test command (composite)
+    transform_all_parser = subparsers.add_parser(
+        "transform_md_all",
+        help="Transform markdown chat exports from chatoverlay to docs",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    transform_all_parser.add_argument(
+        "--indir", default="data/chatoverlay/chats__all/", help="Input directory"
+    )
+    transform_all_parser.add_argument(
+        "--outdir", default="docs/chats/", help="Output directory"
+    )
+
+    transform_all_alias_parser = subparsers.add_parser(
+        "transform-md-all",
+        help="Alias for transform_md_all",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    transform_all_alias_parser.add_argument(
+        "--indir", default="data/chatoverlay/chats__all/", help="Input directory"
+    )
+    transform_all_alias_parser.add_argument(
+        "--outdir", default="docs/chats/", help="Output directory"
+    )
+
+    transform_data_parser = subparsers.add_parser(
+        "transform_md_data_chats",
+        help="Transform markdown chat exports from data/chats to docs",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    transform_data_parser.add_argument(
+        "--outdir", default="docs/chats/", help="Output directory"
+    )
+
+    transform_data_alias_parser = subparsers.add_parser(
+        "transform-md-data-chats",
+        help="Alias for transform_md_data_chats",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    transform_data_alias_parser.add_argument(
+        "--outdir", default="docs/chats/", help="Output directory"
+    )
+
+    # Build command
+    subparsers.add_parser(
+        "build",
+        help="Full build pipeline (aggregate_data, transform_md_all, docs)",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+
+    # Update schema command
+    subparsers.add_parser(
+        "update_schemadir",
+        help="Update RDF schemas using schematool",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+
+    subparsers.add_parser(
+        "update-schemadir",
+        help="Alias for update_schemadir",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+
+    # Test command
     subparsers.add_parser(
         "test",
-        help="Run aggregate and transform (composite test)",
+        help="Run test suite",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
@@ -179,20 +325,75 @@ def main():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
+    subparsers.add_parser(
+        "run-tests",
+        help="Alias for pytest",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+
+    # E2E test command
+    subparsers.add_parser(
+        "e2etest",
+        help="Run end-to-end tests with Playwright",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+
+    subparsers.add_parser(
+        "e2e-test",
+        help="Alias for e2etest",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+
+    # Serve command
+    serve_parser = subparsers.add_parser(
+        "serve",
+        help="Serve docs with HTTP server",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    serve_parser.add_argument(
+        "--port", type=int, default=8000, help="Port to bind HTTP server"
+    )
+
+    serve_alias_parser = subparsers.add_parser(
+        "serve-docs",
+        help="Alias for serve",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    serve_alias_parser.add_argument(
+        "--port", type=int, default=8000, help="Port to bind HTTP server"
+    )
+
     args = parser.parse_args()
 
     setup_logging(log_file=args.log_output, verbose=args.verbose, quiet=args.quiet)
 
     if args.command == "docs":
         build_docs()
-    elif args.command == "aggregate":
+    elif args.command in {
+        "aggregate",
+        "aggregate_data",
+        "aggregate-data",
+        "aggregate-chats",
+    }:
         aggregate_data(input_dir=args.input_dir, output=args.output)
     elif args.command == "transform":
         transform_md(indir=args.indir, outdir=args.outdir)
+    elif args.command in {"transform_md_all", "transform-md-all"}:
+        transform_md(indir=args.indir, outdir=args.outdir)
+    elif args.command in {"transform_md_data_chats", "transform-md-data-chats"}:
+        transform_md_data_chats(outdir=args.outdir)
+    elif args.command in {"update_schemadir", "update-schemadir"}:
+        update_schemadir()
+    elif args.command == "build":
+        build_all()
     elif args.command == "test":
         run_tests()
-    elif args.command == "pytest":
+    elif args.command in {"pytest", "run-tests"}:
         run_pytest()
+    elif args.command in {"e2etest", "e2e-test"}:
+        run_e2etest()
+    elif args.command in {"serve", "serve-docs"}:
+        serve_docs(port=args.port)
     else:
         parser.print_help()
 
