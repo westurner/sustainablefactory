@@ -248,6 +248,9 @@ reports/
 *.key
 *.pem
 
+# .tmp/ dir for agents
+.tmp/
+
 # sustainablefactory
 schema/
 docs/chats/
