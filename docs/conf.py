@@ -25,6 +25,7 @@ extensions = [
     "sphinx.ext.napoleon",
     # "sphinx.ext.todo",
     "sphinx.ext.viewcode",
+    "wrd_sphinx_theme",
 ]
 
 templates_path = ["_templates"]

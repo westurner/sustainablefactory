@@ -12,12 +12,14 @@ test.describe('Sphinx Docs - index.html', () => {
   });
 
   test('sidebar is visible', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/');
     const sidebar = page.locator('#sidebar-wrapper');
     await expect(sidebar).toBeVisible();
   });
 
   test('sidebar Table of Contents links navigate to anchors', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/');
 
     const sidebar = page.locator('#sidebar-wrapper');
@@ -44,8 +46,9 @@ test.describe('Sphinx Docs - index.html', () => {
   });
 
   test('sidebar "Next topic" link navigates to readme.html', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/');
-    const nextLink = page.locator('#sidebar-wrapper a[href="readme.html"]');
+    const nextLink = page.locator('#sidebar-wrapper h4:has-text("Next topic") + p a[href="readme.html"]');
     await expect(nextLink).toBeVisible();
     await nextLink.click();
     await expect(page).toHaveURL(/readme\.html$/);
@@ -54,7 +57,7 @@ test.describe('Sphinx Docs - index.html', () => {
 
   test('top navbar "next" link navigates to readme.html', async ({ page }) => {
     await page.goto('/');
-    const nextLink = page.locator('#navbar-top a[href="readme.html"]');
+    const nextLink = page.locator('#navbar-related a[href="readme.html"]');
     await expect(nextLink).toBeVisible();
     await nextLink.click();
     await expect(page).toHaveURL(/readme\.html$/);
@@ -62,7 +65,7 @@ test.describe('Sphinx Docs - index.html', () => {
 
   test('top navbar "index" link navigates to genindex.html', async ({ page }) => {
     await page.goto('/');
-    const indexLink = page.locator('#navbar-top a[href="genindex.html"]');
+    const indexLink = page.locator('#navbar-related a[href="genindex.html"]');
     await expect(indexLink).toBeVisible();
     await indexLink.click();
     await expect(page).toHaveURL(/genindex\.html$/);
@@ -83,7 +86,7 @@ test.describe('Sphinx Docs - General Index (genindex.html)', () => {
   test('index link is present on index.html and navigates to genindex.html', async ({ page }) => {
     await page.goto('/');
     // sidebar index link
-    const sidebarIndexLink = page.locator('a[href="genindex.html"]').first();
+    const sidebarIndexLink = page.locator('#navbar-related a[href="genindex.html"]');
     await expect(sidebarIndexLink).toBeVisible();
     await sidebarIndexLink.click();
     await expect(page).toHaveURL(/genindex\.html$/);
