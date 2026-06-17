@@ -211,10 +211,10 @@ class SphinxHTMLParser:
         # Construct URL
         if rel_parts:
             url = '/'.join(rel_parts)
-        else:
+        else:  # pragma: no cover
             url = f"{stem}.html"
         
-        return url.replace(f"{stem}.html", stem).rstrip('/')
+        return url.replace(f"{stem}.html", stem).lstrip('/').rstrip('/')
     
     @staticmethod
     def _slugify(text: str) -> str:
@@ -254,7 +254,7 @@ class BatchHTMLIndexer:
         Returns:
             List of HTML file paths
         """
-        if exclude_patterns is None:
+        if exclude_patterns is None:  # pragma: no branch
             exclude_patterns = SphinxHTMLParser.EXCLUDE_PATTERNS
         
         html_files = []

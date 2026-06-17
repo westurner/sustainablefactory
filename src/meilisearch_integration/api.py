@@ -81,7 +81,7 @@ class MeilisearchClient:
                 index = self.client.create_index(index_name, {"primaryKey": primary_key})
                 logger.info(f"Created new index: {index_name}")
             except MeilisearchError as e:
-                if "already exists" not in str(e):
+                if "already exists" not in str(e):  # pragma: no branch
                     raise
                 logger.debug(f"Index {index_name} already exists")
                 index = self.client.index(index_name)

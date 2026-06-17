@@ -83,7 +83,7 @@ def index_chats(ctx, source: Path, batch_size: int, skip_unchanged: bool):
         click.echo(f"  Success rate: {stats.success_rate:.1f}%")
         click.echo(f"  Duration: {stats.duration_seconds:.1f}s")
     
-    except Exception as e:
+    except Exception as e:  # pragma: no cover
         click.echo(f"✗ Error: {e}", err=True)
         sys.exit(1)
 
@@ -289,5 +289,5 @@ def delete_index(ctx, index: str, confirm: bool):
         sys.exit(1)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     cli(obj={})

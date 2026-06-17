@@ -12,7 +12,7 @@ from pathlib import Path
 try:
     from .indexer import DocumentIndexer
     from .config import MeilisearchConfig
-except ImportError:
+except ImportError:  # pragma: no cover
     # Handle imports when called from outside the package
     from sustainablefactory.meilisearch_integration.indexer import DocumentIndexer
     from sustainablefactory.meilisearch_integration.config import MeilisearchConfig

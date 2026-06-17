@@ -7,6 +7,7 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 from typing import Optional, List
+from datetime import datetime
 
 from .api import MeilisearchClient
 from .config import MeilisearchConfig, Document, IndexingStats, DEFAULT_INDEX_SETTINGS
@@ -91,8 +92,8 @@ class DocumentIndexer:
                 indexed_documents=0,
                 skipped_documents=0,
                 errors=0,
-                start_time=None,
-                end_time=None,
+                start_time=datetime.utcnow(),
+                end_time=datetime.utcnow(),
                 duration_seconds=0.0
             )
     
@@ -149,8 +150,8 @@ class DocumentIndexer:
                 indexed_documents=0,
                 skipped_documents=0,
                 errors=0,
-                start_time=None,
-                end_time=None,
+                start_time=datetime.utcnow(),
+                end_time=datetime.utcnow(),
                 duration_seconds=0.0
             )
     
