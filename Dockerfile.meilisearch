@@ -1,0 +1,71 @@
+# Dockerfile for Meilisearch development environment
+# Based on fedora-toolbox:44
+#
+# Usage:
+#   podman build -f Dockerfile.meilisearch -t sustainablefactory-meilisearch:latest
+#   podman run -it -p 7700:7700 -p 8000:8000 -v $(pwd):/workspace sustainablefactory-meilisearch:latest
+
+FROM fedora-toolbox:44
+
+LABEL maintainer="sustainablefactory"
+LABEL description="Meilisearch development environment for indexing Sphinx docs"
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PATH="/root/.local/bin:$PATH"
+
+# Update and install system dependencies
+RUN dnf update -y && dnf install -y \
+    python3 \
+    python3-pip \
+    python3-devel \
+    python3-poetry \
+    git \
+    curl \
+    wget \
+    make \
+    gcc \
+    g++ \
+    pkg-config \
+    nodejs \
+    npm \
+    rust \
+    cargo \
+    libssl-devel \
+    zlib-devel \
+    sqlite-devel \
+    && dnf clean all
+
+# Install Python runtime dependencies
+RUN pip3 install --upgrade pip setuptools wheel
+
+# Install Meilisearch server
+# Note: Meilisearch is available as a pre-compiled binary
+RUN curl -L https://releases.meilisearch.com/latest/linux-x86_64 -o /usr/local/bin/meilisearch && \
+    chmod +x /usr/local/bin/meilisearch && \
+    meilisearch --version
+
+# Install Python dependencies for indexing
+# These will be mounted from the workspace or copied in the build stage
+# Copy requirements for Meilisearch integration
+COPY requirements-meilisearch.txt /tmp/requirements-meilisearch.txt 2>/dev/null || true
+
+RUN if [ -f /tmp/requirements-meilisearch.txt ]; then \
+    pip3 install -r /tmp/requirements-meilisearch.txt; \
+  else \
+    pip3 install meilisearch sphinx-pagefind pydantic click python-dotenv; \
+  fi
+
+# Create working directory
+WORKDIR /workspace
+
+# Expose ports
+# 7700: Meilisearch API
+# 8000: Sphinx documentation server
+EXPOSE 7700 8000
+
+# Volume for workspace
+VOLUME ["/workspace"]
+
+# Default command: start Meilisearch with development settings
+CMD ["meilisearch", "--http-addr", "0.0.0.0:7700", "--master-key", "dev-key"]
