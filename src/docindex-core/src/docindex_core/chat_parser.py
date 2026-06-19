@@ -9,7 +9,6 @@ import logging
 import re
 from pathlib import Path
 from typing import List, Optional, Generator
-from datetime import datetime
 
 from .config import Document, DocumentType, DocumentMetadata
 

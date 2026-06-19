@@ -81,7 +81,7 @@ def index_chats(ctx, source: Path, batch_size: int, skip_unchanged: bool):
         indexer = DocumentIndexer(config)
         stats = indexer.index_chat_directory(source, skip_unchanged=skip_unchanged)
         
-        click.echo(f"\n✓ Chat indexing complete")
+        click.echo("\n✓ Chat indexing complete")
         click.echo(f"  Total: {stats.total_documents}")
         click.echo(f"  Indexed: {stats.indexed_documents}")
         click.echo(f"  Success rate: {stats.success_rate:.1f}%")
@@ -132,7 +132,7 @@ def index_html(ctx, source: Path, headings: str, exclude: tuple):
             exclude_patterns=exclude_list
         )
         
-        click.echo(f"\n✓ HTML indexing complete")
+        click.echo("\n✓ HTML indexing complete")
         click.echo(f"  Total: {stats.total_documents}")
         click.echo(f"  Indexed: {stats.indexed_documents}")
         click.echo(f"  Success rate: {stats.success_rate:.1f}%")
