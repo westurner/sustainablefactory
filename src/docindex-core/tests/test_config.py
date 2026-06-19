@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from meilisearch_integration.config import (
+from docindex_core.config import (
     DEFAULT_INDEX_SETTINGS,
     Document,
     DocumentMetadata,
@@ -19,12 +19,12 @@ from meilisearch_integration.config import (
         ("search", 9999, "http://search:9999"),
     ],
 )
-def test_meilisearch_config_url(host, port, expected):
+def test_docindex_config_url(host, port, expected):
     cfg = MeilisearchConfig(host=host, port=port)
     assert cfg.url == expected
 
 
-def test_meilisearch_config_from_env(monkeypatch):
+def test_docindex_config_from_env(monkeypatch):
     monkeypatch.setenv("MEILISEARCH_HOST", "meili")
     monkeypatch.setenv("MEILISEARCH_PORT", "8800")
     monkeypatch.setenv("MEILISEARCH_API_KEY", "abc")

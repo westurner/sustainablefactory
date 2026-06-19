@@ -2,7 +2,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from meilisearch_integration.config import (
+from docindex_core.config import (
     Document,
     DocumentMetadata,
     DocumentType,
@@ -104,7 +104,7 @@ class FakeClient:
 
 @pytest.fixture
 def api_mod(monkeypatch):
-    import meilisearch_integration.api as api
+    import docindex_core.api as api
 
     fake = FakeClient()
 
@@ -138,7 +138,7 @@ def test_verify_connection_false_branch(api_mod):
 
 
 def test_client_property_connection_error(monkeypatch):
-    import meilisearch_integration.api as api
+    import docindex_core.api as api
     from meilisearch.errors import MeilisearchCommunicationError
 
     def raise_ctor(url, api_key=None):

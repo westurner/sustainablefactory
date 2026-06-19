@@ -9,13 +9,7 @@ import logging
 import os
 from pathlib import Path
 
-try:
-    from .indexer import DocumentIndexer
-    from .config import MeilisearchConfig
-except ImportError:  # pragma: no cover
-    # Handle imports when called from outside the package
-    from sustainablefactory.meilisearch_integration.indexer import DocumentIndexer
-    from sustainablefactory.meilisearch_integration.config import MeilisearchConfig
+from docindex_core import DocumentIndexer, MeilisearchConfig
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +19,7 @@ def setup_meilisearch_hooks(app):
     
     Add this to your Sphinx conf.py:
     
-    from sustainablefactory.meilisearch_integration.hooks import setup_meilisearch_hooks
+    from sustainablefactory.docindex_integration.hooks import setup_meilisearch_hooks
     
     def setup(app):
         setup_meilisearch_hooks(app)
@@ -112,7 +106,7 @@ def setup(app):
     This allows the module to be used as a Sphinx extension in conf.py:
     
     extensions = [
-        'sustainablefactory.meilisearch_integration.hooks'
+        'sustainablefactory.docindex_integration.hooks'
     ]
     """
     setup_meilisearch_hooks(app)

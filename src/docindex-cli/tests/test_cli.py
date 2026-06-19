@@ -1,10 +1,8 @@
-from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
 from click.testing import CliRunner
-
-from meilisearch_integration.config import IndexingStats
+from docindex_core.config import IndexingStats
 
 
 @pytest.fixture
@@ -20,183 +18,10 @@ def stats_obj():
     )
 
 
-def test_document_indexer_paths(monkeypatch, tmp_path, stats_obj):
-    import meilisearch_integration.indexer as idx_mod
-
-    class FakeClient:
-        def __init__(self, cfg):
-            self.created = []
-            self.added = []
-
-        def create_or_update_index(self, name, settings=None):
-            if name == "myst":
-                raise RuntimeError("ignore")
-            self.created.append(name)
-
-        def add_documents(self, name, docs):
-            self.added.append((name, len(docs)))
-            return stats_obj
-
-        def list_indices(self):
-            return [{"name": "all"}]
-
-        def get_index_stats(self, name):
-            return {"numberOfDocuments": 3, "isIndexing": False}
-
-    class FakeBatchChat:
-        def __init__(self, path):
-            if "missing" in str(path):
-                raise ValueError("missing")
-
-        def parse_all(self):
-            return iter([(Path("a.md"), [SimpleNamespace()])])
-
-    class FakeBatchHtml:
-        def __init__(self, path):
-            if "missing" in str(path):
-                raise ValueError("missing")
-
-        def parse_all(self, exclude_patterns=None, max_heading_level=3):
-            return iter([(Path("a.html"), [SimpleNamespace()])])
-
-    monkeypatch.setattr(idx_mod, "MeilisearchClient", FakeClient)
-    monkeypatch.setattr(idx_mod, "BatchChatIndexer", FakeBatchChat)
-    monkeypatch.setattr(idx_mod, "BatchHTMLIndexer", FakeBatchHtml)
-
-    indexer = idx_mod.DocumentIndexer()
-    s1 = indexer.index_chat_directory(tmp_path / "ok")
-    s2 = indexer.index_sphinx_html(tmp_path / "ok")
-    assert s1.indexed_documents == 2
-    assert s2.indexed_documents == 2
-
-    with pytest.raises(ValueError):
-        indexer.index_chat_directory(tmp_path / "missing")
-    with pytest.raises(ValueError):
-        indexer.index_sphinx_html(tmp_path / "missing")
-
-    status = indexer.get_index_status()
-    assert status["connected"] is True
-
-    class BadClient(FakeClient):
-        def list_indices(self):
-            raise RuntimeError("down")
-
-    monkeypatch.setattr(idx_mod, "MeilisearchClient", BadClient)
-    bad = idx_mod.DocumentIndexer()
-    s = bad.get_index_status()
-    assert s["connected"] is False
-
-
-def test_document_indexer_empty_collections(monkeypatch, tmp_path):
-    import meilisearch_integration.indexer as idx_mod
-
-    class FakeClient:
-        def __init__(self, cfg):
-            pass
-
-        def create_or_update_index(self, name, settings=None):
-            return None
-
-        def add_documents(self, name, docs):
-            raise AssertionError("should not be called")
-
-    class EmptyBatch:
-        def __init__(self, path):
-            pass
-
-        def parse_all(self, *args, **kwargs):
-            return iter([])
-
-    monkeypatch.setattr(idx_mod, "MeilisearchClient", FakeClient)
-    monkeypatch.setattr(idx_mod, "BatchChatIndexer", EmptyBatch)
-    monkeypatch.setattr(idx_mod, "BatchHTMLIndexer", EmptyBatch)
-
-    indexer = idx_mod.DocumentIndexer()
-    s1 = indexer.index_chat_directory(tmp_path)
-    s2 = indexer.index_sphinx_html(tmp_path)
-    assert s1.total_documents == 0
-    assert s2.total_documents == 0
-
-
-def test_hooks_setup_and_build_finished(monkeypatch, tmp_path, stats_obj):
-    import meilisearch_integration.hooks as hooks
-
-    calls = []
-
-    class FakeIndexer:
-        def __init__(self, cfg):
-            calls.append(("init", cfg.host))
-
-        def index_sphinx_html(self, outdir):
-            calls.append(("index", str(outdir)))
-            return stats_obj
-
-    monkeypatch.setattr(hooks, "DocumentIndexer", FakeIndexer)
-
-    class App:
-        def __init__(self):
-            self.config = SimpleNamespace()
-            self.builder = SimpleNamespace(name="html")
-            self.outdir = str(tmp_path)
-            self._events = []
-
-        def connect(self, event, func):
-            self._events.append((event, func.__name__))
-
-    app = App()
-    hooks.setup_meilisearch_hooks(app)
-    assert any(ev[0] == "build-finished" for ev in app._events)
-
-    # config-inited branches
-    cfg_disabled = SimpleNamespace(meilisearch_enabled=False)
-    hooks.on_config_inited(app, cfg_disabled)
-    cfg_enabled = SimpleNamespace(meilisearch_enabled=True, meilisearch_host="localhost", meilisearch_port=7700)
-    hooks.on_config_inited(app, cfg_enabled)
-
-    # Disabled branch
-    app.config.meilisearch_enabled = False
-    hooks.on_build_finished(app, None)
-
-    # Exception branch
-    app.config.meilisearch_enabled = True
-    hooks.on_build_finished(app, RuntimeError("build failed"))
-
-    # Non-html branch
-    app.builder.name = "dirhtml"
-    hooks.on_build_finished(app, None)
-
-    # Missing dir branch
-    app.builder.name = "html"
-    app.outdir = str(tmp_path / "missing")
-    hooks.on_build_finished(app, None)
-
-    # Happy path
-    app.outdir = str(tmp_path)
-    hooks.on_build_finished(app, None)
-    assert any(c[0] == "index" for c in calls)
-
-    class RaisingIndexer:
-        def __init__(self, cfg):
-            raise RuntimeError("init failed")
-
-    monkeypatch.setattr(hooks, "DocumentIndexer", RaisingIndexer)
-    hooks.on_build_finished(app, None)
-
-    meta = hooks.setup(app)
-    assert meta["parallel_read_safe"] is True
-
-
-def test_hooks_importerror_fallback_module():
-    import importlib
-
-    m = importlib.import_module("meilisearch_integration.hooks")
-    assert hasattr(m, "setup")
-
-
 def test_cli_commands(monkeypatch, tmp_path, stats_obj):
     import importlib
 
-    cli_mod = importlib.import_module("meilisearch_integration.cli")
+    cli_mod = importlib.import_module("docindex_cli.cli")
 
     class FakeIndexer:
         def __init__(self, cfg):
@@ -260,7 +85,7 @@ def test_cli_commands(monkeypatch, tmp_path, stats_obj):
 def test_cli_empty_and_cancel_branches(monkeypatch):
     import importlib
 
-    cli_mod = importlib.import_module("meilisearch_integration.cli")
+    cli_mod = importlib.import_module("docindex_cli.cli")
 
     class FakeIndexer:
         def __init__(self, cfg):
@@ -310,7 +135,7 @@ def test_cli_empty_and_cancel_branches(monkeypatch):
 def test_cli_status_disconnected_and_confirm_yes(monkeypatch):
     import importlib
 
-    cli_mod = importlib.import_module("meilisearch_integration.cli")
+    cli_mod = importlib.import_module("docindex_cli.cli")
 
     class DownIndexer:
         def __init__(self, cfg):
@@ -337,7 +162,6 @@ def test_cli_status_disconnected_and_confirm_yes(monkeypatch):
     assert status_result.exit_code == 1
     assert "Connection failed" in status_result.output
 
-    # Cover positive confirmation path when --confirm is not provided.
     clear_result = runner.invoke(cli_mod.cli, ["clear-index", "--index", "all"], input="y\n")
     assert clear_result.exit_code == 0
     delete_result = runner.invoke(cli_mod.cli, ["delete-index", "--index", "all"], input="y\n")
@@ -347,7 +171,7 @@ def test_cli_status_disconnected_and_confirm_yes(monkeypatch):
 def test_cli_status_exception_branch(monkeypatch):
     import importlib
 
-    cli_mod = importlib.import_module("meilisearch_integration.cli")
+    cli_mod = importlib.import_module("docindex_cli.cli")
 
     class ExplodingIndexer:
         def __init__(self, cfg):
@@ -367,7 +191,7 @@ def test_cli_status_exception_branch(monkeypatch):
 def test_cli_error_branches(monkeypatch, tmp_path):
     import importlib
 
-    cli_mod = importlib.import_module("meilisearch_integration.cli")
+    cli_mod = importlib.import_module("docindex_cli.cli")
 
     class BrokenIndexer:
         def __init__(self, cfg):

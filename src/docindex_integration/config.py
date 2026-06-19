@@ -8,7 +8,7 @@ from __future__ import annotations
 import os
 from enum import Enum
 from typing import Optional, List, Dict, Any
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 from pydantic import BaseModel, Field, ConfigDict
@@ -33,7 +33,7 @@ class CodeSnippet(BaseModel):
 class DocumentMetadata(BaseModel):
     """Metadata for indexed documents."""
     source_file: str
-    date_indexed: datetime = Field(default_factory=datetime.utcnow)
+    date_indexed: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     chat_type: Optional[str] = None
     tags: List[str] = Field(default_factory=list)
     concepts: List[str] = Field(default_factory=list)

@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.7
+
 # Dockerfile for Meilisearch development environment
 # Based on fedora-toolbox:44
 #
@@ -7,6 +9,10 @@
 
 FROM fedora-toolbox:44
 
+# Set to a specific tag (for example v1.15.2) for reproducible builds.
+# Keep as "latest" to resolve dynamically from GitHub releases.
+ARG MEILISEARCH_VERSION=latest
+
 LABEL maintainer="sustainablefactory"
 LABEL description="Meilisearch development environment for indexing Sphinx docs"
 
@@ -15,7 +21,9 @@ ENV PYTHONUNBUFFERED=1
 ENV PATH="/root/.local/bin:$PATH"
 
 # Update and install system dependencies
-RUN dnf update -y && dnf install -y \
+RUN --mount=type=cache,target=/var/cache/dnf,sharing=locked \
+  --mount=type=cache,target=/var/lib/dnf,sharing=locked \
+  dnf update -y && dnf install -y \
     python3 \
     python3-pip \
     python3-devel \
@@ -27,30 +35,56 @@ RUN dnf update -y && dnf install -y \
     gcc \
     g++ \
     pkg-config \
+    bash-completion \
     nodejs \
     npm \
     rust \
     cargo \
-    libssl-devel \
+    openssl-devel \
     zlib-devel \
     sqlite-devel \
     && dnf clean all
 
 # Install Python runtime dependencies
-RUN pip3 install --upgrade pip setuptools wheel
+RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked \
+  pip3 install --upgrade pip setuptools wheel
 
 # Install Meilisearch server
-# Note: Meilisearch is available as a pre-compiled binary
-RUN curl -L https://releases.meilisearch.com/latest/linux-x86_64 -o /usr/local/bin/meilisearch && \
-    chmod +x /usr/local/bin/meilisearch && \
-    meilisearch --version
+# Follow Meilisearch's official installer strategy:
+# resolve latest release from GitHub, then download the platform binary.
+# Keep all curl outputs in a cache mount and copy into place.
+RUN --mount=type=cache,target=/var/cache/curl,sharing=locked \
+  set -eux; \
+  os="linux"; \
+  case "$(uname -m)" in \
+    x86_64|amd64) arch="amd64" ;; \
+    aarch64|arm64) arch="aarch64" ;; \
+    *) echo "Unsupported architecture: $(uname -m)" >&2; exit 1 ;; \
+  esac; \
+  if [ "${MEILISEARCH_VERSION}" = "latest" ]; then \
+    release_meta="/var/cache/curl/meilisearch-release-latest.json"; \
+    curl -fsSL "https://api.github.com/repos/meilisearch/meilisearch/releases/latest" -o "$release_meta"; \
+    tag="$(grep '"tag_name":' "$release_meta" | head -n1 | cut -d '"' -f4)"; \
+  else \
+    tag="${MEILISEARCH_VERSION}"; \
+  fi; \
+  [ -n "$tag" ]; \
+  release_file="meilisearch-${os}-${arch}"; \
+  cached_binary="/var/cache/curl/${release_file}-${tag}"; \
+  if [ ! -s "$cached_binary" ]; then \
+    curl -fsSL "https://github.com/meilisearch/meilisearch/releases/download/${tag}/${release_file}" -o "$cached_binary"; \
+  fi; \
+  cp "$cached_binary" /usr/local/bin/meilisearch && \
+  chmod +x /usr/local/bin/meilisearch && \
+  meilisearch --version
 
 # Install Python dependencies for indexing
 # These will be mounted from the workspace or copied in the build stage
 # Copy requirements for Meilisearch integration
-COPY requirements-meilisearch.txt /tmp/requirements-meilisearch.txt 2>/dev/null || true
+COPY requirements-meilisearch.txt /tmp/requirements-meilisearch.txt
 
-RUN if [ -f /tmp/requirements-meilisearch.txt ]; then \
+RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked \
+    if [ -f /tmp/requirements-meilisearch.txt ]; then \
     pip3 install -r /tmp/requirements-meilisearch.txt; \
   else \
     pip3 install meilisearch sphinx-pagefind pydantic click python-dotenv; \

@@ -1,5 +1,18 @@
 # Meilisearch Integration for Sphinx Documentation
 
+## Migration Status
+
+This module has been refactored into extraction-ready reusable package roots under src:
+
+- src/docindex-core
+- src/docindex-sphinx
+- src/docindex-cli
+- src/docindex-sustainablefactory
+
+See src/SEARCH_PACKAGE_SPLIT.md for repository split and publish steps.
+
+In this repository, sustainablefactory is represented as one concrete implementation via sustainablefactory/docindex_impl.py.
+
 A complete search infrastructure for indexing and searching Sphinx documentation, chat exports, and MyST markdown files using Meilisearch.
 
 ## Features
@@ -81,7 +94,7 @@ pip install meilisearch sphinx-pagefind pydantic click python-dotenv
 ### Core Components
 
 ```
-src/meilisearch_integration/
+src/docindex_integration/
 ├── config.py            # Configuration, schemas, models
 ├── api.py               # Meilisearch client wrapper
 ├── indexer.py           # Main indexing coordinator
@@ -114,34 +127,34 @@ src/meilisearch_integration/
 
 ```bash
 # Index chat files
-python3 -m sustainablefactory.meilisearch_integration.cli index-chats \
+python3 -m sustainablefactory.docindex_integration.cli index-chats \
   --source docs/chats \
   --batch-size 1000
 
 # Index Sphinx HTML
-python3 -m sustainablefactory.meilisearch_integration.cli index-html \
+python3 -m sustainablefactory.docindex_integration.cli index-html \
   --source docs/_build/html \
   --headings 1-3
 
 # Search
-python3 -m sustainablefactory.meilisearch_integration.cli search \
+python3 -m sustainablefactory.docindex_integration.cli search \
   --query "lignin vitrimer" \
   --index all \
   --limit 20
 
 # Show status
-python3 -m sustainablefactory.meilisearch_integration.cli status
+python3 -m sustainablefactory.docindex_integration.cli status
 
 # List indices
-python3 -m sustainablefactory.meilisearch_integration.cli list-indices
+python3 -m sustainablefactory.docindex_integration.cli list-indices
 
 # Clear an index
-python3 -m sustainablefactory.meilisearch_integration.cli clear-index \
+python3 -m sustainablefactory.docindex_integration.cli clear-index \
   --index chats \
   --confirm
 
 # Delete an index
-python3 -m sustainablefactory.meilisearch_integration.cli delete-index \
+python3 -m sustainablefactory.docindex_integration.cli delete-index \
   --index myst \
   --confirm
 ```
@@ -149,7 +162,7 @@ python3 -m sustainablefactory.meilisearch_integration.cli delete-index \
 ### Python API
 
 ```python
-from sustainablefactory.meilisearch_integration import DocumentIndexer, MeilisearchConfig
+from sustainablefactory.docindex_integration import DocumentIndexer, MeilisearchConfig
 from pathlib import Path
 
 # Create indexer
@@ -171,7 +184,7 @@ print(status)
 ### Search API
 
 ```python
-from sustainablefactory.meilisearch_integration import MeilisearchClient
+from sustainablefactory.docindex_integration import MeilisearchClient
 
 client = MeilisearchClient()
 results = client.search(
@@ -206,7 +219,7 @@ export MEILISEARCH_ENABLED=true
 ```python
 # Enable automatic Meilisearch indexing after builds
 extensions = [
-    'sustainablefactory.meilisearch_integration.hooks',
+    'sustainablefactory.docindex_integration.hooks',
     # ... other extensions
 ]
 
@@ -261,11 +274,11 @@ podman run -d \
 
 ```bash
 # Index chats
-podman exec meilisearch-dev python3 -m sustainablefactory.meilisearch_integration.cli \
+podman exec meilisearch-dev python3 -m sustainablefactory.docindex_integration.cli \
   index-chats --source docs/chats
 
 # Check status
-podman exec meilisearch-dev python3 -m sustainablefactory.meilisearch_integration.cli \
+podman exec meilisearch-dev python3 -m sustainablefactory.docindex_integration.cli \
   status
 ```
 
@@ -276,7 +289,7 @@ podman exec meilisearch-dev python3 -m sustainablefactory.meilisearch_integratio
 Documents are indexed in batches (default 1000) to avoid hitting Meilisearch limits:
 
 ```bash
-python3 -m sustainablefactory.meilisearch_integration.cli index-chats \
+python3 -m sustainablefactory.docindex_integration.cli index-chats \
   --source docs/chats \
   --batch-size 5000  # Larger batches for faster indexing
 ```
@@ -286,7 +299,7 @@ python3 -m sustainablefactory.meilisearch_integration.cli index-chats \
 Extract only important heading levels to reduce document count:
 
 ```bash
-python3 -m sustainablefactory.meilisearch_integration.cli index-html \
+python3 -m sustainablefactory.docindex_integration.cli index-html \
   --source docs/_build/html \
   --headings 1-2  # Only H1-H2
 ```
@@ -367,7 +380,7 @@ make meilisearch_index_html          # Index only HTML
 Search only chat exports:
 
 ```bash
-python3 -m sustainablefactory.meilisearch_integration.cli search \
+python3 -m sustainablefactory.docindex_integration.cli search \
   --query "carbon" \
   --index chats \
   --limit 50
@@ -396,7 +409,7 @@ make meilisearch_start
 make meilisearch_status
 
 # Debug with verbose output
-LOGLEVEL=DEBUG python3 -m sustainablefactory.meilisearch_integration.cli \
+LOGLEVEL=DEBUG python3 -m sustainablefactory.docindex_integration.cli \
   index-chats --source docs/chats
 ```
 
@@ -425,7 +438,7 @@ pytest tests/ -k meilisearch -v
 ### Add Custom Parsers
 
 ```python
-from sustainablefactory.meilisearch_integration.config import Document, DocumentType, DocumentMetadata
+from sustainablefactory.docindex_integration.config import Document, DocumentType, DocumentMetadata
 
 class CustomParser:
     @staticmethod
@@ -446,7 +459,7 @@ class CustomParser:
 ### Extend Index Settings
 
 ```python
-from sustainablefactory.meilisearch_integration.config import IndexSettings
+from sustainablefactory.docindex_integration.config import IndexSettings
 
 settings = IndexSettings(
     searchable_attributes=[...],

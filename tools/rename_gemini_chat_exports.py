@@ -153,7 +153,7 @@ def build_rename_plan(root: Path) -> list[tuple[Path, Path, str]]:
     """Build a collision-safe rename plan for Gemini exports."""
     plan: list[tuple[Path, Path, str]] = []
     used: set[Path] = set()
-    slug_counts: dict[tuple[str,int], int] = {}
+    slug_counts: dict[str, int] = {}
 
     for src in candidate_files(root):
         prompt = extract_first_prompt(src)
@@ -161,18 +161,15 @@ def build_rename_plan(root: Path) -> list[tuple[Path, Path, str]]:
         if not slug:
             slug = "untitled"
 
-        fileext = os.path.splitext(src)[-1]
-        slug = (slug, fileext)
-
         slug_counts[slug] = slug_counts.get(slug, 0) + 1
         suffix = "" if slug_counts[slug] == 1 else f"-{slug_counts[slug]}"
-        stem = _truncate_stem(slug[0], suffix)
+        stem = _truncate_stem(slug, suffix)
         dst = src.with_name(f"{stem}{suffix}{src.suffix.lower()}")
 
         while dst in used or (dst.exists() and dst != src):
             slug_counts[slug] += 1
             suffix = f"-{slug_counts[slug]}"
-            stem = _truncate_stem(slug[0], suffix)
+            stem = _truncate_stem(slug, suffix)
             dst = src.with_name(f"{stem}{suffix}{src.suffix.lower()}")
 
         used.add(dst)
@@ -212,10 +209,11 @@ def main(argv: list[str] | None = None) -> int:
         preview = prompt.replace("\n", " ").strip()
         if len(preview) > 80:
             preview = preview[:77] + "..."
+        suffix = f"  # {preview}" if preview else ""
         if args.yes:
-            print(f"mv {shlex.quote(src.name)} {shlex.quote(dst.name)}")   # {preview}")
+            print(f"mv {shlex.quote(src.name)} {shlex.quote(dst.name)}{suffix}")
         else:
-            print(f"mv {shlex.quote(src.name)} {shlex.quote(dst.name)}")   # {preview}")
+            print(f"mv {shlex.quote(src.name)} {shlex.quote(dst.name)}{suffix}")
 
     if args.yes:
         apply_rename_plan(plan)

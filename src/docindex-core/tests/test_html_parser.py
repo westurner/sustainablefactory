@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from meilisearch_integration.html_parser import (
+from docindex_core.html_parser import (
     BatchHTMLIndexer,
     HTMLSectionExtractor,
     SphinxHTMLParser,
@@ -79,7 +79,7 @@ def test_parse_html_file_feed_error_branch(tmp_path, monkeypatch):
             raise RuntimeError("bad html")
 
     monkeypatch.setattr(
-        "meilisearch_integration.html_parser.HTMLSectionExtractor", BrokenExtractor
+        "docindex_core.html_parser.HTMLSectionExtractor", BrokenExtractor
     )
     # feed fails, so no sections/documents.
     assert SphinxHTMLParser.parse_html_file(p) == []

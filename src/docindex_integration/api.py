@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import logging
 from typing import List, Optional, Dict, Any
-from datetime import datetime
+from datetime import datetime, timezone
 
 import meilisearch
 from meilisearch.errors import MeilisearchError, MeilisearchCommunicationError
@@ -125,12 +125,12 @@ class MeilisearchClient:
                 indexed_documents=0,
                 skipped_documents=0,
                 errors=0,
-                start_time=datetime.utcnow(),
-                end_time=datetime.utcnow(),
+                start_time=datetime.now(timezone.utc),
+                end_time=datetime.now(timezone.utc),
                 duration_seconds=0.0
             )
         
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
         index = self.client.index(index_name)
         
         total = len(documents)
@@ -160,7 +160,7 @@ class MeilisearchClient:
             logger.error(f"Unexpected error during indexing: {e}")
             raise
         
-        end_time = datetime.utcnow()
+        end_time = datetime.now(timezone.utc)
         duration = (end_time - start_time).total_seconds()
         
         stats = IndexingStats(

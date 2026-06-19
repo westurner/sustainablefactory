@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docindex-sustainablefactory"
+version = "0.1.0"
+description = "Sustainablefactory implementation package for docindex components"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "docindex-core>=0.1.0",
+  "docindex-sphinx>=0.1.0",
+  "docindex-cli>=0.1.0"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

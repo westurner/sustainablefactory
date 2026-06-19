@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from meilisearch_integration.chat_parser import BatchChatIndexer, ChatParser
+from docindex_core.chat_parser import BatchChatIndexer, ChatParser
 
 
 def _write(path: Path, content: str):

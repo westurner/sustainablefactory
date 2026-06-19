@@ -50,6 +50,15 @@ meilisearch_build:
 	@echo "meilisearch_build  #  Build Meilisearch Docker image"
 	podman build -f Dockerfile.meilisearch -t sustainablefactory-meilisearch:latest
 
+.PHONY: meilisearch_build_version
+meilisearch_build_version:
+	@echo "meilisearch_build_version  #  Build Meilisearch image with MEILISEARCH_VERSION=vX.Y.Z"
+	@test -n "$(MEILISEARCH_VERSION)" || (echo "Usage: make meilisearch_build_version MEILISEARCH_VERSION=v1.15.2" && exit 1)
+	podman build \
+		--build-arg MEILISEARCH_VERSION=$(MEILISEARCH_VERSION) \
+		-f Dockerfile.meilisearch \
+		-t sustainablefactory-meilisearch:$(MEILISEARCH_VERSION)
+
 .PHONY: meilisearch_index_chats
 meilisearch_index_chats:
 	@echo "meilisearch_index_chats  #  Index chat exports to Meilisearch"
