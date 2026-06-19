@@ -29,3 +29,24 @@ sfcli = "sustainablefactory.cli:main"
 
 [tool.setuptools]
 packages = ["sustainablefactory"]
+
+[tool.coverage.run]
+# Exclude auto-generated schema.py from coverage
+omit = [
+    "schema.py",
+]
+
+[tool.coverage.report]
+# Skip files with no executed lines
+skip_empty = true
+
+# Exclude lines from coverage
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "if typing.TYPE_CHECKING:",
+]
