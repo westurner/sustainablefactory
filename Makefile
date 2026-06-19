@@ -39,7 +39,7 @@ sync_glossary: export_synonyms generate_glossary
 	@echo "  Next step: run 'make meilisearch_update_synonyms' to push to Meilisearch."
 
 .PHONY: meilisearch_update_synonyms
-meilisearch_update_synonyms: meilisearch_install_python
+meilisearch_update_synonyms:  # meilisearch_install_python
 	@echo "meilisearch_update_synonyms  #  Push synonyms.yaml to all Meilisearch indices"
 	docindex update-synonyms
 
@@ -89,12 +89,12 @@ meilisearch_build_version:
 		-t sustainablefactory-meilisearch:$(MEILISEARCH_VERSION)
 
 .PHONY: meilisearch_index_chats
-meilisearch_index_chats: meilisearch_install_python
+meilisearch_index_chats: # meilisearch_install_python
 	@echo "meilisearch_index_chats  #  Index chat exports to Meilisearch"
 	$(PYTHON) -m docindex_cli.cli index-chats --source docs/chats
 
 .PHONY: meilisearch_index_html
-meilisearch_index_html: meilisearch_install_python
+meilisearch_index_html: # meilisearch_install_python
 	@echo "meilisearch_index_html  #  Index Sphinx HTML to Meilisearch"
 	$(PYTHON) -m docindex_cli.cli index-html --source docs/_build/html
 
@@ -103,12 +103,12 @@ meilisearch_index_all: meilisearch_index_chats meilisearch_index_html
 	@echo "meilisearch_index_all  #  Index all sources (chats and HTML)"
 
 .PHONY: meilisearch_status
-meilisearch_status: meilisearch_install_python
+meilisearch_status: # meilisearch_install_python
 	@echo "meilisearch_status  #  Show Meilisearch indices and status"
 	$(PYTHON) -m docindex_cli.cli status
 
 .PHONY: meilisearch_search
-meilisearch_search: meilisearch_install_python
+meilisearch_search: # meilisearch_install_python
 	@echo "meilisearch_search  #  Search Meilisearch (interactive)"
 	$(PYTHON) -m docindex_cli.cli search --index all
 
