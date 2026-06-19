@@ -30,7 +30,13 @@ def test_cli_commands(monkeypatch, tmp_path, stats_obj):
         def index_chat_directory(self, source, skip_unchanged=False):
             return stats_obj
 
-        def index_sphinx_html(self, source, max_heading_level=3, exclude_patterns=None):
+        def index_sphinx_html(
+            self, source, max_heading_level=3, exclude_patterns=None,
+            max_retries=3, retry_delay=1.0, staging_suffix="_staging",
+        ):
+            return stats_obj
+
+        def index_sphinx_html_legacy(self, source, max_heading_level=3, exclude_patterns=None):
             return stats_obj
 
         def get_index_status(self):
@@ -200,7 +206,13 @@ def test_cli_error_branches(monkeypatch, tmp_path):
         def index_chat_directory(self, source, skip_unchanged=False):
             raise RuntimeError("boom")
 
-        def index_sphinx_html(self, source, max_heading_level=3, exclude_patterns=None):
+        def index_sphinx_html(
+            self, source, max_heading_level=3, exclude_patterns=None,
+            max_retries=3, retry_delay=1.0, staging_suffix="_staging",
+        ):
+            raise RuntimeError("boom")
+
+        def index_sphinx_html_legacy(self, source, max_heading_level=3, exclude_patterns=None):
             raise RuntimeError("boom")
 
         def get_index_status(self):
@@ -232,8 +244,101 @@ def test_cli_error_branches(monkeypatch, tmp_path):
 
     assert runner.invoke(cli_mod.cli, ["index-chats", "--source", str(src_dir)]).exit_code == 1
     assert runner.invoke(cli_mod.cli, ["index-html", "--source", str(src_dir)]).exit_code == 1
+    assert runner.invoke(cli_mod.cli, ["index-html-legacy", "--source", str(src_dir)]).exit_code == 1
     assert runner.invoke(cli_mod.cli, ["status"]).exit_code == 1
     assert runner.invoke(cli_mod.cli, ["search", "--query", "q"]).exit_code == 1
     assert runner.invoke(cli_mod.cli, ["list-indices"]).exit_code == 1
     assert runner.invoke(cli_mod.cli, ["clear-index", "--confirm"]).exit_code == 1
     assert runner.invoke(cli_mod.cli, ["delete-index", "--confirm"]).exit_code == 1
+
+
+def test_cli_index_html_atomic_options(monkeypatch, tmp_path, stats_obj):
+    """index-html passes all atomic options through to index_sphinx_html."""
+    import importlib
+    cli_mod = importlib.import_module("docindex_cli.cli")
+
+    received = {}
+
+    class FakeIndexer:
+        def __init__(self, cfg):
+            pass
+
+        def index_sphinx_html(
+            self, source, max_heading_level=3, exclude_patterns=None,
+            max_retries=3, retry_delay=1.0, staging_suffix="_staging",
+        ):
+            received.update(
+                max_retries=max_retries,
+                retry_delay=retry_delay,
+                staging_suffix=staging_suffix,
+                max_heading_level=max_heading_level,
+            )
+            return stats_obj
+
+    monkeypatch.setattr(cli_mod, "DocumentIndexer", FakeIndexer)
+
+    src_dir = tmp_path / "src"
+    src_dir.mkdir()
+    runner = CliRunner()
+
+    result = runner.invoke(cli_mod.cli, [
+        "index-html",
+        "--source", str(src_dir),
+        "--headings", "1-4",
+        "--max-retries", "5",
+        "--retry-delay", "2.5",
+        "--staging-suffix", "_tmp",
+    ])
+    assert result.exit_code == 0, result.output
+    assert received["max_retries"] == 5
+    assert received["retry_delay"] == 2.5
+    assert received["staging_suffix"] == "_tmp"
+    assert received["max_heading_level"] == 4
+    assert "Strategy: Version-tag GC" in result.output
+
+
+def test_cli_index_html_legacy_success(monkeypatch, tmp_path, stats_obj):
+    """index-html-legacy calls index_sphinx_html_legacy and shows deprecation note."""
+    import importlib
+    cli_mod = importlib.import_module("docindex_cli.cli")
+
+    class FakeIndexer:
+        def __init__(self, cfg):
+            pass
+
+        def index_sphinx_html_legacy(self, source, max_heading_level=3, exclude_patterns=None):
+            return stats_obj
+
+    monkeypatch.setattr(cli_mod, "DocumentIndexer", FakeIndexer)
+
+    src_dir = tmp_path / "src"
+    src_dir.mkdir()
+    runner = CliRunner()
+
+    result = runner.invoke(cli_mod.cli, ["index-html-legacy", "--source", str(src_dir)])
+    assert result.exit_code == 0, result.output
+    assert "legacy" in result.output.lower()
+    assert "index-html" in result.output  # deprecation note pointing to primary command
+
+
+def test_cli_index_html_cancellation(monkeypatch, tmp_path):
+    """index-html exits cleanly on KeyboardInterrupt with non-zero code."""
+    import importlib
+    cli_mod = importlib.import_module("docindex_cli.cli")
+
+    class FakeIndexer:
+        def __init__(self, cfg):
+            pass
+
+        def index_sphinx_html(self, source, **kwargs):
+            raise KeyboardInterrupt()
+
+    monkeypatch.setattr(cli_mod, "DocumentIndexer", FakeIndexer)
+
+    src_dir = tmp_path / "src"
+    src_dir.mkdir()
+    runner = CliRunner()
+
+    result = runner.invoke(cli_mod.cli, ["index-html", "--source", str(src_dir)])
+    assert result.exit_code == 1
+    assert "Cancelled" in result.output

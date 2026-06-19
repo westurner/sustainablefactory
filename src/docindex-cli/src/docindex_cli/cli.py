@@ -92,7 +92,101 @@ def index_chats(ctx, source: Path, batch_size: int, skip_unchanged: bool):
         sys.exit(1)
 
 
-@cli.command()
+@cli.command(name='index-html')
+@click.option(
+    '--source',
+    type=click.Path(exists=True, path_type=Path),
+    required=True,
+    help='Sphinx _build/html directory'
+)
+@click.option(
+    '--headings',
+    type=str,
+    default='1-3',
+    help='Heading levels to extract (e.g., 1-3)'
+)
+@click.option(
+    '--exclude',
+    multiple=True,
+    help='Exclude page patterns'
+)
+@click.option(
+    '--max-retries',
+    type=int,
+    default=3,
+    help='Maximum retry attempts per batch (exponential backoff)'
+)
+@click.option(
+    '--retry-delay',
+    type=float,
+    default=1.0,
+    help='Base delay in seconds between retries'
+)
+@click.option(
+    '--staging-suffix',
+    type=str,
+    default='_staging',
+    help='Suffix for staging index names'
+)
+@click.pass_context
+def index_html(
+    ctx,
+    source: Path,
+    headings: str,
+    exclude: tuple,
+    max_retries: int,
+    retry_delay: float,
+    staging_suffix: str,
+):
+    """Index Sphinx HTML to Meilisearch with atomic guarantees (zero-gap updates).
+    
+    This command uses a version-tag strategy to achieve zero-gap updates:
+    - New sphinx docs are written to the live 'all' index immediately
+    - Per-source indices (sphinx, myst) use atomic index swaps
+    - Stale docs are garbage-collected by build_id
+    
+    Zero downtime: searches never see a gap where sphinx docs are absent.
+    Cancellation-safe: staging indices are cleaned up; live indices untouched.
+    """
+    config = ctx.obj['config']
+    
+    # Parse heading range
+    try:
+        start, end = headings.split('-')
+        max_heading = int(end)
+    except ValueError:
+        max_heading = 3
+    
+    exclude_list = list(exclude) if exclude else None
+    
+    try:
+        indexer = DocumentIndexer(config)
+        stats = indexer.index_sphinx_html(
+            source,
+            max_heading_level=max_heading,
+            exclude_patterns=exclude_list,
+            max_retries=max_retries,
+            retry_delay=retry_delay,
+            staging_suffix=staging_suffix,
+        )
+        
+        click.echo("\n✓ HTML indexing complete")
+        click.echo(f"  Total: {stats.total_documents}")
+        click.echo(f"  Indexed: {stats.indexed_documents}")
+        click.echo(f"  Errors: {stats.errors}")
+        click.echo(f"  Success rate: {stats.success_rate:.1f}%")
+        click.echo(f"  Duration: {stats.duration_seconds:.1f}s")
+        click.echo("\n  Strategy: Version-tag GC (zero gap, brief overlap)")
+    
+    except KeyboardInterrupt:
+        click.echo("\n✗ Cancelled (staging indices cleaned up)", err=True)
+        sys.exit(1)
+    except Exception as e:
+        click.echo(f"✗ Error: {e}", err=True)
+        sys.exit(1)
+
+
+@cli.command(name='index-html-legacy')
 @click.option(
     '--source',
     type=click.Path(exists=True, path_type=Path),
@@ -111,8 +205,12 @@ def index_chats(ctx, source: Path, batch_size: int, skip_unchanged: bool):
     help='Exclude page patterns'
 )
 @click.pass_context
-def index_html(ctx, source: Path, headings: str, exclude: tuple):
-    """Index Sphinx HTML to Meilisearch."""
+def index_html_legacy(ctx, source: Path, headings: str, exclude: tuple):
+    """Index Sphinx HTML to Meilisearch (legacy, non-atomic).
+    
+    DEPRECATED: Use 'index-html' instead for zero-gap atomic updates.
+    This command is kept for backward compatibility only.
+    """
     config = ctx.obj['config']
     
     # Parse heading range
@@ -126,17 +224,18 @@ def index_html(ctx, source: Path, headings: str, exclude: tuple):
     
     try:
         indexer = DocumentIndexer(config)
-        stats = indexer.index_sphinx_html(
+        stats = indexer.index_sphinx_html_legacy(
             source,
             max_heading_level=max_heading,
             exclude_patterns=exclude_list
         )
         
-        click.echo("\n✓ HTML indexing complete")
+        click.echo("\n✓ HTML indexing complete (legacy, non-atomic)")
         click.echo(f"  Total: {stats.total_documents}")
         click.echo(f"  Indexed: {stats.indexed_documents}")
         click.echo(f"  Success rate: {stats.success_rate:.1f}%")
         click.echo(f"  Duration: {stats.duration_seconds:.1f}s")
+        click.echo("\n  ⚠ Note: Use 'index-html' for atomic zero-gap updates")
     
     except Exception as e:
         click.echo(f"✗ Error: {e}", err=True)

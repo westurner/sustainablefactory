@@ -202,7 +202,7 @@ class DocumentIndexer:
                 duration_seconds=duration
             )
     
-    def index_sphinx_html(
+    def index_sphinx_html_legacy(
         self,
         html_dir: Path,
         max_heading_level: int = 3,
@@ -210,7 +210,7 @@ class DocumentIndexer:
         max_retries: int = 3,
         retry_delay: float = 1.0,
     ) -> IndexingStats:
-        """Index Sphinx HTML documentation with memory-efficient batching.
+        """Index Sphinx HTML documentation with memory-efficient batching (legacy, non-atomic).
         
         Args:
             html_dir: Path to _build/html directory
@@ -316,7 +316,7 @@ class DocumentIndexer:
         "sphinx_html", "sphinx_rst", "sphinx_md", "sphinx_nb",
     )
 
-    def index_sphinx_html_atomic(
+    def index_sphinx_html(
         self,
         html_dir: Path,
         max_heading_level: int = 3,
@@ -325,7 +325,7 @@ class DocumentIndexer:
         retry_delay: float = 1.0,
         staging_suffix: str = "_staging",
     ) -> IndexingStats:
-        """Index Sphinx HTML atomically using a staging-then-swap strategy.
+        """Index Sphinx HTML atomically using a staging-then-swap strategy (primary method).
 
         Indexing pipeline
         -----------------
