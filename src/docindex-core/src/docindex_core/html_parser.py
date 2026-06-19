@@ -170,7 +170,7 @@ class SphinxHTMLParser:
             
             doc = Document(
                 id=f"html_{stem}_{i}",
-                type=DocumentType.SPHINX,
+                type=DocumentType.SPHINX_HTML,
                 title=title,
                 content=content,
                 filename=filepath.name,

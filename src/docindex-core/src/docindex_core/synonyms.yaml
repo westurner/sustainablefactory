@@ -1,0 +1,87 @@
+additive manufacturing:
+- 3d printing
+- fdm
+- fused deposition modeling
+- selective laser sintering
+- sls
+bfo:
+- basic formal ontology
+biochar:
+- activated carbon
+- charcoal
+- pyrolytic carbon
+carbothermic:
+- carbothermal
+- carbothermal reduction
+circularity:
+- circular economy
+- closed-loop recycling
+- material circularity
+cnt:
+- carbon nanotube
+- carbon nanotubes
+- multi-walled carbon nanotube
+- mwcnt
+- nanotube
+- single-walled carbon nanotube
+- swcnt
+extrusion:
+- melt processing
+- single-screw extrusion
+- twin-screw extrusion
+gwp:
+- carbon footprint
+- co2 equivalent
+- co2eq
+- global warming potential
+iof:
+- industrial ontology foundry
+- iof core
+knowledge graph:
+- knowledge representation
+- semantic model
+lca:
+- life cycle analysis
+- life cycle assessment
+- lifecycle assessment
+lignin:
+- kraft lignin
+- kraft-lignin
+- lig
+- organosolv lignin
+- soda lignin
+myst:
+- markedly structured text
+- myst markdown
+- sphinx markdown
+ontology:
+- knowledge graph
+- knowledge representation
+- ontology
+- semantic model
+pyrolysis:
+- thermal cracking
+- thermal decomposition
+- thermolysis
+qudt:
+- quantities units dimensions types
+- units of measure
+- uom
+rdf:
+- linked data
+- resource description framework
+- semantic web
+sintering:
+- solid-state sintering
+- spark plasma sintering
+- sps
+ultrasonic:
+- acoustic cavitation
+- sonication
+- sonochemical
+- ultrasonication
+vitrimer:
+- can polymer
+- covalent adaptable network
+- vitrimer polymer
+- vitrimeric

@@ -1,0 +1,2 @@
+# Development dependencies: editable docindex packages
+-r requirements-meilisearch.txt

@@ -25,3 +25,59 @@ repos:
       - id: bandit
         args: ["-c", "pyproject.toml"]
         additional_dependencies: ["bandit[toml]"]
+
+  # ---------------------------------------------------------------------------
+  # Glossary & synonym sync hooks
+  #
+  # These run automatically when either source-of-truth YAML file changes:
+  #
+  #   docs/glossary.yaml  → regenerate docs/glossary.md
+  #                       → export synonyms back into synonyms.yaml
+  #
+  #   synonyms.yaml       → push updated synonyms to Meilisearch
+  #                         (skipped gracefully when server is unreachable)
+  #
+  # To install: pre-commit install
+  # To run manually: pre-commit run generate-glossary --all-files
+  # ---------------------------------------------------------------------------
+  - repo: local
+    hooks:
+      - id: generate-glossary
+        name: Generate glossary.md from glossary.yaml
+        language: system
+        # Trigger when the glossary YAML source or the bundled synonyms file changes.
+        files: |
+          (?x)^(
+            docs/glossary\.yaml |
+            src/docindex-core/src/docindex_core/synonyms\.yaml
+          )$
+        pass_filenames: false
+        # Regenerate glossary.md and simultaneously export glossary synonyms
+        # back into synonyms.yaml (merge mode).
+        entry: docindex generate-glossary --export-synonyms
+        # Stage the generated/updated files so they are included in the commit.
+        stages: [pre-commit]
+
+      - id: update-synonyms-meilisearch
+        name: Push synonyms.yaml to Meilisearch indices
+        language: system
+        # Trigger when synonyms.yaml is modified (either directly or via the
+        # generate-glossary hook above).
+        files: ^src/docindex-core/src/docindex_core/synonyms\.yaml$
+        pass_filenames: false
+        # Use a small wrapper that exits 0 when Meilisearch is unreachable so
+        # the commit is not blocked during offline development.  Override the
+        # exit behaviour with DOCINDEX_REQUIRE_MEILISEARCH=1.
+        entry: >-
+          sh -c '
+            docindex update-synonyms ||
+            { ec=$?;
+              if [ "${DOCINDEX_REQUIRE_MEILISEARCH:-0}" = "1" ]; then
+                echo "update-synonyms failed (exit $ec)" >&2; exit $ec;
+              else
+                echo "update-synonyms failed — Meilisearch may be offline. Skipping (set DOCINDEX_REQUIRE_MEILISEARCH=1 to enforce)." >&2;
+                exit 0;
+              fi;
+            }
+          '
+        stages: [pre-commit]

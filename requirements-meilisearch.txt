@@ -1,11 +1,6 @@
-# Python dependencies for Meilisearch integration with Sphinx
-meilisearch>=0.28.0
-pydantic>=2.0.0
-click>=8.1.0
-python-dotenv>=1.0.0
-sphinx>=7.0.0
-atsphinx-pagefind>=0.1.2
-pyyaml>=6.0
-markdown>=3.4.0
-bleach>=6.0.0  # For HTML cleaning
-markdownify>=0.11.0  # For HTML to markdown conversion
+# Editable installs for docindex components
+# Package-specific dependencies are declared in each package's pyproject.toml
+-e ./src/docindex-core
+-e ./src/docindex-cli
+-e ./src/docindex-sphinx
+-e ./src/docindex-sustainablefactory

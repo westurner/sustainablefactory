@@ -2,6 +2,13 @@
 # sustainablefactory Makefile
 # Build automation for documentation, data processing, and testing
 
+# Optional explicit virtualenv path, e.g. `make ... VENV=.venv`.
+VENV ?=
+PYTHON ?= $(if $(VENV),$(VENV)/bin/python,$(if $(wildcard .venv/bin/python),.venv/bin/python,$(if $(wildcard $(HOME)/.venv/bin/python),$(HOME)/.venv/bin/python,python3)))
+# Installer selector: auto|uv|pip. auto prefers uv with pip fallback.
+INSTALLER ?= auto
+PODMAN ?= $(if $(shell command -v flatpak-spawn 2>/dev/null),flatpak-spawn podman,podman)
+
 .PHONY: default
 default: help
 
@@ -14,6 +21,27 @@ help:
 docs:
 	@echo "docs  #  Build Sphinx documentation"
 	$(MAKE) -C docs html
+
+
+.PHONY: generate_glossary
+generate_glossary:
+	@echo "generate_glossary  #  Regenerate docs/glossary.md from docs/glossary.yaml"
+	docindex generate-glossary
+
+.PHONY: export_synonyms
+export_synonyms:
+	@echo "export_synonyms  #  Export synonym lists from glossary.yaml into synonyms.yaml"
+	docindex export-synonyms
+
+.PHONY: sync_glossary
+sync_glossary: export_synonyms generate_glossary
+	@echo "sync_glossary  #  Full glossary sync: export synonyms, regenerate glossary.md"
+	@echo "  Next step: run 'make meilisearch_update_synonyms' to push to Meilisearch."
+
+.PHONY: meilisearch_update_synonyms
+meilisearch_update_synonyms: meilisearch_install_python
+	@echo "meilisearch_update_synonyms  #  Push synonyms.yaml to all Meilisearch indices"
+	docindex update-synonyms
 
 
 .PHONY: aggregate_data
@@ -36,52 +64,68 @@ transform_md_data_chats:
 .PHONY: meilisearch_start
 meilisearch_start:
 	@echo "meilisearch_start  #  Start Meilisearch server in container"
-	podman run -d -p 7700:7700 -e MEILI_MASTER_KEY=dev-key \
+	$(PODMAN) run -d -p 7700:7700 -e MEILI_MASTER_KEY=dev-key \
 		--name meilisearch-dev sustainablefactory-meilisearch:latest || true
 
 .PHONY: meilisearch_stop
 meilisearch_stop:
 	@echo "meilisearch_stop  #  Stop Meilisearch container"
-	podman stop meilisearch-dev || true
-	podman rm meilisearch-dev || true
+	$(PODMAN) stop meilisearch-dev || true
+	$(PODMAN) rm meilisearch-dev || true
 
 .PHONY: meilisearch_build
 meilisearch_build:
 	@echo "meilisearch_build  #  Build Meilisearch Docker image"
-	podman build -f Dockerfile.meilisearch -t sustainablefactory-meilisearch:latest
+	$(PODMAN) build -f Dockerfile.meilisearch -t sustainablefactory-meilisearch:latest
 
 .PHONY: meilisearch_build_version
 meilisearch_build_version:
 	@echo "meilisearch_build_version  #  Build Meilisearch image with MEILISEARCH_VERSION=vX.Y.Z"
 	@test -n "$(MEILISEARCH_VERSION)" || (echo "Usage: make meilisearch_build_version MEILISEARCH_VERSION=v1.15.2" && exit 1)
-	podman build \
+	$(PODMAN) build \
 		--build-arg MEILISEARCH_VERSION=$(MEILISEARCH_VERSION) \
+		--build-arg MEILISEARCH_NO_ANALYTICS=$(MEILISEARCH_NO_ANALYTICS) \
 		-f Dockerfile.meilisearch \
 		-t sustainablefactory-meilisearch:$(MEILISEARCH_VERSION)
 
 .PHONY: meilisearch_index_chats
-meilisearch_index_chats:
+meilisearch_index_chats: meilisearch_install_python
 	@echo "meilisearch_index_chats  #  Index chat exports to Meilisearch"
-	python3 -m sustainablefactory.meilisearch_integration.cli index-chats --source docs/chats
+	$(PYTHON) -m docindex_cli.cli index-chats --source docs/chats
 
 .PHONY: meilisearch_index_html
-meilisearch_index_html:
+meilisearch_index_html: meilisearch_install_python
 	@echo "meilisearch_index_html  #  Index Sphinx HTML to Meilisearch"
-	python3 -m sustainablefactory.meilisearch_integration.cli index-html --source docs/_build/html
+	$(PYTHON) -m docindex_cli.cli index-html --source docs/_build/html
 
 .PHONY: meilisearch_index_all
 meilisearch_index_all: meilisearch_index_chats meilisearch_index_html
 	@echo "meilisearch_index_all  #  Index all sources (chats and HTML)"
 
 .PHONY: meilisearch_status
-meilisearch_status:
+meilisearch_status: meilisearch_install_python
 	@echo "meilisearch_status  #  Show Meilisearch indices and status"
-	python3 -m sustainablefactory.meilisearch_integration.cli status
+	$(PYTHON) -m docindex_cli.cli status
 
 .PHONY: meilisearch_search
-meilisearch_search:
+meilisearch_search: meilisearch_install_python
 	@echo "meilisearch_search  #  Search Meilisearch (interactive)"
-	python3 -m sustainablefactory.meilisearch_integration.cli search --index all
+	$(PYTHON) -m docindex_cli.cli search --index all
+
+.PHONY: meilisearch_install_python
+meilisearch_install_python:
+	@echo "meilisearch_install_python  #  Install docindex components (INSTALLER=$(INSTALLER), PYTHON=$(PYTHON))"
+	@if [ "$(INSTALLER)" = "uv" ]; then \
+		uv pip install --python "$(PYTHON)" -r requirements-meilisearch.txt; \
+	elif [ "$(INSTALLER)" = "pip" ]; then \
+		"$(PYTHON)" -m pip install -r requirements-meilisearch.txt; \
+	else \
+		if command -v uv >/dev/null 2>&1; then \
+			uv pip install --python "$(PYTHON)" -r requirements-meilisearch.txt; \
+		else \
+			"$(PYTHON)" -m pip install -r requirements-meilisearch.txt; \
+		fi; \
+	fi
 
 .PHONY: update_schemadir
 update_schemadir:

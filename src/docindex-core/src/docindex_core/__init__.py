@@ -11,6 +11,8 @@ from .config import (
     DocumentMetadata,
 )
 from .indexer import DocumentIndexer
+from .synonyms_manager import SynonymsManager
+from .glossary_manager import GlossaryManager
 from .chat_parser import ChatParser, BatchChatIndexer
 from .html_parser import SphinxHTMLParser, BatchHTMLIndexer
 
@@ -30,4 +32,6 @@ __all__ = [
     "BatchChatIndexer",
     "SphinxHTMLParser",
     "BatchHTMLIndexer",
+    "SynonymsManager",
+    "GlossaryManager",
 ]

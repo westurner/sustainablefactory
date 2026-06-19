@@ -10,7 +10,8 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
   "pydantic>=2.0.0",
-  "meilisearch>=0.28.0"
+  "meilisearch>=0.28.0",
+  "pyyaml>=6.0"
 ]
 
 [tool.setuptools]

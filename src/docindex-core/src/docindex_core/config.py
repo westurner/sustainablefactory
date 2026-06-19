@@ -13,12 +13,20 @@ from pathlib import Path
 
 from pydantic import BaseModel, Field, ConfigDict
 
+from .synonyms_manager import SynonymsManager
+
 
 class DocumentType(str, Enum):
-    """Types of documents that can be indexed."""
+    """Types of documents that can be indexed.
+    
+    Format-specific types enable targeted parsing, format-aware ranking,
+    and proper routing through the indexing pipeline.
+    """
     CHAT = "chat"
-    SPHINX = "sphinx"
-    MYST = "myst"
+    SPHINX_RST = "sphinx_rst"         # reStructuredText source files
+    SPHINX_MD = "sphinx_md"           # MyST or Markdown source files
+    SPHINX_NB = "sphinx_nb"           # Jupyter Notebook source files
+    SPHINX_HTML = "sphinx_html"       # Post-build Sphinx HTML output
     JSON = "json"
 
 
@@ -104,13 +112,7 @@ class IndexSettings(BaseModel):
         "date_indexed"
     ]
     synonyms: Dict[str, List[str]] = Field(
-        default_factory=lambda: {
-            "lignin": ["kraft lignin", "kraft-lignin", "lig"],
-            "vitrimer": ["vitrimer polymer", "vitrimeric"],
-            "cnt": ["carbon nanotube", "carbon nanotubes"],
-            "rdf": ["resource description framework", "semantic web"],
-            "myst": ["myst markdown", "markedly structured text"],
-        }
+        default_factory=SynonymsManager.load
     )
 
 

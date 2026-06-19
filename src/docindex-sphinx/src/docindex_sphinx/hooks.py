@@ -19,7 +19,7 @@ def setup_meilisearch_hooks(app):
     
     Add this to your Sphinx conf.py:
     
-    from sustainablefactory.docindex_integration.hooks import setup_meilisearch_hooks
+    from docindex_integration.hooks import setup_meilisearch_hooks
     
     def setup(app):
         setup_meilisearch_hooks(app)
@@ -37,6 +37,9 @@ def setup_meilisearch_hooks(app):
     
     if not hasattr(app.config, 'meilisearch_api_key'):
         app.config.meilisearch_api_key = os.getenv('MEILISEARCH_API_KEY')
+
+    if not hasattr(app.config, 'meilisearch_no_analytics'):
+        app.config.meilisearch_no_analytics = os.getenv('MEILISEARCH_NO_ANALYTICS', '')
     
     # Register event handlers
     app.connect('config-inited', on_config_inited)
@@ -106,7 +109,7 @@ def setup(app):
     This allows the module to be used as a Sphinx extension in conf.py:
     
     extensions = [
-        'sustainablefactory.docindex_integration.hooks'
+        'docindex_integration.hooks'
     ]
     """
     setup_meilisearch_hooks(app)

@@ -68,6 +68,46 @@ html_static_path = ["_static", "../schema"]
 
 
 # -- Custom Setup to handle RDF visualization --------------------------------
+def _regenerate_glossary(app):
+    """Regenerate docs/glossary.md from docs/glossary.yaml before building.
+
+    Only rewrites the file when the content would change, so incremental
+    Sphinx builds stay fast.  Skips silently when docindex_core is not
+    installed (e.g. read-the-docs minimal builds).
+    """
+    try:
+        from docindex_core import GlossaryManager, SynonymsManager
+    except ImportError:
+        return
+
+    docs_dir = Path(__file__).parent
+    glossary_yaml = docs_dir / "glossary.yaml"
+    glossary_md = docs_dir / "glossary.md"
+
+    if not glossary_yaml.exists():
+        return
+
+    data = GlossaryManager.load(glossary_yaml)
+
+    # Optionally fold in synonyms from the bundled synonyms.yaml
+    synonyms_yaml = (
+        docs_dir.parent
+        / "src" / "docindex-core" / "src" / "docindex_core" / "synonyms.yaml"
+    )
+    if synonyms_yaml.exists():
+        synonyms = SynonymsManager.load(synonyms_yaml)
+        data = GlossaryManager.merge_synonyms(data, synonyms)
+
+    changed = GlossaryManager.write_myst_if_changed(
+        data, glossary_md, source_path=glossary_yaml
+    )
+    if changed:
+        import logging
+        logging.getLogger(__name__).info(
+            "glossary.md regenerated from glossary.yaml"
+        )
+
+
 def setup(app):
-    # This is where we could add custom directives for RDF if we wanted
-    pass
+    # Regenerate glossary.md from glossary.yaml at build start
+    app.connect("builder-inited", lambda app: _regenerate_glossary(app))

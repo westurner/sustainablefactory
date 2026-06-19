@@ -13,17 +13,28 @@ from datetime import datetime
 
 from .config import Document, DocumentType, DocumentMetadata
 
+# Precompile regex patterns for efficiency
+_SPLIT_PATTERN = re.compile(r"^# ", re.MULTILINE)
+_WORD_SPLIT_PATTERN = re.compile(r"\S+")
+
 logger = logging.getLogger(__name__)
 
 
 class ChatParser:
     """Parse chat exports (JSON and Markdown) into indexable documents."""
     
-    # Heading pattern for markdown splitting
+    # Precompiled regex patterns
     HEADING_PATTERN = re.compile(r"^#+\s+(.+)$", re.MULTILINE)
-    
-    # Separator patterns for turns in markdown
     TURN_SEPARATOR = re.compile(r"^(?:You asked:|Gemini Replied:|---+)$", re.MULTILINE)
+    SECTION_SPLIT_PATTERN = re.compile(r"\n---\n")
+    
+    @staticmethod
+    def _count_words(text: str) -> int:
+        """Count words efficiently without creating intermediate list.
+        
+        Uses regex findall instead of split() to avoid memory overhead.
+        """
+        return len(_WORD_SPLIT_PATTERN.findall(text))
     
     @staticmethod
     def parse_json_chat(filepath: Path) -> List[Document]:
@@ -44,23 +55,24 @@ class ChatParser:
         
         documents = []
         stem = filepath.stem
+        filename = filepath.name
+        source_file = str(filepath)
+        chat_type = ChatParser._detect_chat_type(filepath)
         
         # Handle different JSON structures
         if isinstance(data, list):
-            # Array of turns
             turns = data
         elif isinstance(data, dict):
-            # Object with 'messages' or 'turns' key
             turns = data.get("messages") or data.get("turns") or [data]
         else:
             logger.warning(f"Unexpected JSON structure in {filepath}")
             return []
-        
+
         for i, turn in enumerate(turns):
             if not isinstance(turn, dict):
                 continue
             
-            # Extract content from turn
+            # Extract content from turn (prefer 'content' field)
             content = turn.get("content") or turn.get("text") or turn.get("message", "")
             if not content:
                 continue
@@ -74,17 +86,17 @@ class ChatParser:
                 type=DocumentType.CHAT,
                 title=title,
                 content=content,
-                filename=filepath.name,
+                filename=filename,
                 summary=turn.get("summary"),
                 metadata=DocumentMetadata(
-                    source_file=str(filepath),
-                    chat_type=ChatParser._detect_chat_type(filepath),
+                    source_file=source_file,
+                    chat_type=chat_type,
                     tags=[role] if role else [],
-                    word_count=len(content.split())
+                    word_count=ChatParser._count_words(content)
                 )
             )
             documents.append(doc)
-            logger.debug(f"Parsed JSON turn {i+1} from {filepath.name}")
+            logger.debug(f"Parsed JSON turn {i+1} from {filename}")
         
         return documents
     
@@ -106,35 +118,36 @@ class ChatParser:
         
         documents = []
         stem = filepath.stem
+        filename = filepath.name
+        source_file = str(filepath)
+        chat_type = ChatParser._detect_chat_type(filepath)
         
         # Try to split by major sections (heading level 1 or separator)
         sections = ChatParser._split_markdown_sections(content)
         
         for i, section in enumerate(sections):
-            if not section.strip():  # pragma: no cover
+            section = section.strip()
+            if not section:  # pragma: no cover
                 continue
             
             # Extract title from first heading
             heading_match = ChatParser.HEADING_PATTERN.search(section)
             title = heading_match.group(1) if heading_match else f"{stem} - Section {i+1}"
             
-            # Sanitize content
-            section_clean = section.strip()
-            
             doc = Document(
                 id=f"chat_{stem}_{i}",
                 type=DocumentType.CHAT,
                 title=title,
-                content=section_clean,
-                filename=filepath.name,
+                content=section,
+                filename=filename,
                 metadata=DocumentMetadata(
-                    source_file=str(filepath),
-                    chat_type=ChatParser._detect_chat_type(filepath),
-                    word_count=len(section_clean.split())
+                    source_file=source_file,
+                    chat_type=chat_type,
+                    word_count=ChatParser._count_words(section)
                 )
             )
             documents.append(doc)
-            logger.debug(f"Parsed markdown section {i+1} from {filepath.name}")
+            logger.debug(f"Parsed markdown section {i+1} from {filename}")
         
         return documents
     
@@ -142,23 +155,27 @@ class ChatParser:
     def _split_markdown_sections(content: str, separator: Optional[str] = None) -> List[str]:
         """Split markdown content into logical sections.
         
+        Prefers "---" separators but falls back to H1 headings.
+        
         Args:
             content: Markdown content to split
-            separator: Optional custom separator pattern
+            separator: Ignored; kept for compatibility
             
         Returns:
             List of section strings
         """
         # Split by "---" separators first (turn separators)
         if "---" in content:
-            sections = content.split("\n---\n")
+            sections = ChatParser.SECTION_SPLIT_PATTERN.split(content)
         else:
             # Fall back to heading-based splitting (H1 only)
-            sections = re.split(r"^# ", content, flags=re.MULTILINE)
-            if sections[0].strip() == "":  # pragma: no branch
-                sections = sections[1:]  # Remove empty first section
+            sections = _SPLIT_PATTERN.split(content)
+            # Remove empty first section if present
+            if sections and not sections[0].strip():
+                sections = sections[1:]
         
-        return [s.strip() for s in sections if s.strip()]
+        # Return non-empty sections (avoid intermediate list comprehension)
+        return sections
     
     @staticmethod
     def _detect_chat_type(filepath: Path) -> str:

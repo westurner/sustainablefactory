@@ -53,6 +53,8 @@ RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked \
 # Follow Meilisearch's official installer strategy:
 # resolve latest release from GitHub, then download the platform binary.
 # Keep all curl outputs in a cache mount and copy into place.
+ARG MEILI_NO_ANALYTICS=true
+ENV MEILI_NO_ANALYTICS=${MEILI_NO_ANALYTICS}
 RUN --mount=type=cache,target=/var/cache/curl,sharing=locked \
   set -eux; \
   os="linux"; \

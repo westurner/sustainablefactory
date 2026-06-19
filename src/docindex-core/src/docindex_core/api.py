@@ -219,7 +219,7 @@ class MeilisearchClient:
             for hit in response.get("hits", []):
                 results.append(SearchResult(
                     id=hit.get("id", ""),
-                    type=hit.get("type", DocumentType.SPHINX),
+                    type=hit.get("type", DocumentType.SPHINX_HTML),
                     title=hit.get("title", ""),
                     url=hit.get("url"),
                     content_snippet=hit.get("content", "")[:200],
@@ -297,4 +297,69 @@ class MeilisearchClient:
             return True
         except MeilisearchError as e:
             logger.error(f"Failed to clear index {index_name}: {e}")
+            raise
+
+    def get_synonyms(self, index_name: str) -> Dict[str, List[str]]:
+        """Fetch the current synonym map from a Meilisearch index.
+
+        Args:
+            index_name: Name of the index.
+
+        Returns:
+            Dict mapping canonical terms to synonym lists.
+        """
+        try:
+            index = self.client.index(index_name)
+            result = index.get_synonyms()
+            logger.debug(f"Fetched {len(result)} synonym entries from '{index_name}'")
+            return result
+        except MeilisearchError as e:
+            logger.error(f"Failed to get synonyms for index '{index_name}': {e}")
+            raise
+
+    def update_synonyms(
+        self,
+        index_name: str,
+        synonyms: Dict[str, List[str]],
+    ) -> Dict[str, Any]:
+        """Replace the synonym map on a Meilisearch index.
+
+        This is a full replacement: existing synonyms not present in *synonyms*
+        will be removed.  Use :meth:`merge_synonyms` to add without removing.
+
+        Args:
+            index_name: Name of the index.
+            synonyms: New synonym map to apply.
+
+        Returns:
+            Meilisearch task response dict.
+        """
+        try:
+            index = self.client.index(index_name)
+            task = index.update_synonyms(synonyms)
+            logger.info(
+                f"Updated {len(synonyms)} synonym entries on index '{index_name}' "
+                f"(task uid: {getattr(task, 'task_uid', task)})"
+            )
+            return task if isinstance(task, dict) else vars(task)
+        except MeilisearchError as e:
+            logger.error(f"Failed to update synonyms for index '{index_name}': {e}")
+            raise
+
+    def reset_synonyms(self, index_name: str) -> Dict[str, Any]:
+        """Remove all synonyms from a Meilisearch index.
+
+        Args:
+            index_name: Name of the index.
+
+        Returns:
+            Meilisearch task response dict.
+        """
+        try:
+            index = self.client.index(index_name)
+            task = index.reset_synonyms()
+            logger.info(f"Reset synonyms on index '{index_name}'")
+            return task if isinstance(task, dict) else vars(task)
+        except MeilisearchError as e:
+            logger.error(f"Failed to reset synonyms for index '{index_name}': {e}")
             raise
