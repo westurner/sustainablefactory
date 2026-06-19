@@ -363,3 +363,126 @@ class MeilisearchClient:
         except MeilisearchError as e:
             logger.error(f"Failed to reset synonyms for index '{index_name}': {e}")
             raise
+
+    def wait_for_task(
+        self,
+        task_uid: int,
+        timeout_ms: int = 30_000,
+        interval_ms: int = 250,
+    ) -> Dict[str, Any]:
+        """Block until a Meilisearch task reaches a terminal state.
+
+        Used after ``delete_documents_by_filter`` to ensure the deletion is
+        fully applied before querying or further writes depend on its result.
+
+        Args:
+            task_uid: Task UID returned by an enqueue operation.
+            timeout_ms: Maximum wait in milliseconds (default 30 s).
+            interval_ms: Polling interval in milliseconds (default 250 ms).
+
+        Returns:
+            Final task status dict.
+
+        Raises:
+            TimeoutError: If the task has not completed within *timeout_ms*.
+            MeilisearchError: If the task itself failed.
+        """
+        try:
+            result = self.client.wait_for_task(
+                task_uid,
+                timeout_in_ms=timeout_ms,
+                interval_in_ms=interval_ms,
+            )
+            status = getattr(result, 'status', None) or result.get('status')
+            if status == 'failed':
+                error = getattr(result, 'error', None) or result.get('error', {})
+                raise MeilisearchError(f"Task {task_uid} failed: {error}")
+            logger.debug(f"Task {task_uid} completed with status '{status}'")
+            return result if isinstance(result, dict) else vars(result)
+        except MeilisearchError:
+            raise
+        except Exception as e:
+            logger.error(f"wait_for_task({task_uid}) raised unexpected error: {e}")
+            raise
+
+    def swap_indexes(self, pairs: List[tuple]) -> Dict[str, Any]:
+        """Atomically swap pairs of Meilisearch indices.
+
+        Meilisearch swaps all documents, settings, and metadata between each
+        pair in a single atomic operation — live queries keep working on the
+        current index while the swap is applied.
+
+        Args:
+            pairs: List of (index_a, index_b) name tuples to swap.
+
+        Returns:
+            Meilisearch task response dict.
+
+        Example::
+
+            client.swap_indexes([("sphinx_staging", "sphinx"),
+                                 ("myst_staging",   "myst")])
+        """
+        swap_payload = [{"indexes": [a, b]} for a, b in pairs]
+        try:
+            task = self.client.swap_indexes(swap_payload)
+            logger.info(
+                f"Swapped index pairs: {pairs} "
+                f"(task uid: {getattr(task, 'task_uid', task)})"
+            )
+            return task if isinstance(task, dict) else vars(task)
+        except MeilisearchError as e:
+            logger.error(f"Failed to swap indexes {pairs}: {e}")
+            raise
+
+    def delete_documents_by_filter(
+        self,
+        index_name: str,
+        filter_str: str,
+    ) -> Dict[str, Any]:
+        """Delete documents matching a filter expression from an index.
+
+        Requires the filtered fields to be listed in filterableAttributes.
+
+        Args:
+            index_name: Name of the index.
+            filter_str: Meilisearch filter string, e.g. ``'type IN ["sphinx_html"]'``.
+
+        Returns:
+            Meilisearch task response dict.
+        """
+        try:
+            index = self.client.index(index_name)
+            task = index.delete_documents_by_filter(filter_str)
+            logger.info(
+                f"Deleting docs from '{index_name}' where {filter_str!r} "
+                f"(task uid: {getattr(task, 'task_uid', task)})"
+            )
+            return task if isinstance(task, dict) else vars(task)
+        except MeilisearchError as e:
+            logger.error(
+                f"Failed to delete documents by filter from '{index_name}': {e}"
+            )
+            raise
+
+    def delete_index_if_exists(self, index_name: str) -> bool:
+        """Delete an index, silently succeeding if it does not exist.
+
+        Useful for cleaning up staging indices after a swap or on cancellation.
+
+        Args:
+            index_name: Name of the index to delete.
+
+        Returns:
+            True if deleted, False if it did not exist.
+        """
+        try:
+            self.client.delete_index(index_name)
+            logger.info(f"Deleted staging index: {index_name}")
+            return True
+        except MeilisearchError as e:
+            if "not found" in str(e).lower() or "index_not_found" in str(e).lower():
+                logger.debug(f"Index '{index_name}' did not exist — nothing to delete")
+                return False
+            logger.error(f"Failed to delete index '{index_name}': {e}")
+            raise

@@ -66,6 +66,7 @@ class Document(BaseModel):
     summary: Optional[str] = None
     code_snippets: List[CodeSnippet] = Field(default_factory=list)
     metadata: DocumentMetadata
+    build_id: Optional[str] = None  # Set per-build for version-tag GC in 'all' index
 
 
 class MeilisearchConfig(BaseModel):
@@ -106,7 +107,8 @@ class IndexSettings(BaseModel):
         "type",
         "date_indexed",
         "filename",
-        "chat_type"
+        "chat_type",
+        "build_id",
     ]
     sortable_attributes: List[str] = [
         "date_indexed"
