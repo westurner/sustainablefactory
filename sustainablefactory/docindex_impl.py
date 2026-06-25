@@ -4,7 +4,7 @@ This module intentionally represents one concrete implementation in this
 repository while generic components live in separate, reusable packages.
 """
 
-from docindex_integration import (
+from docindex_core import (
     MeilisearchClient,
     Document,
     DocumentType,
