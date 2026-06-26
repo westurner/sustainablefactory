@@ -144,6 +144,8 @@ RUN --mount=type=cache,target=/var/lib/apt/lists,id=apt-cache-lists \
     \
     libzmq3-dev \
     \
+    podman-remote \
+    \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
