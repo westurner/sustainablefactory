@@ -7,19 +7,18 @@ import types
 from pathlib import Path
 
 
-if os.environ.get("SETUP_SYSPATH"):
-    # Ensure project and package src/ modules are importable in tests.
-    ROOT = Path(__file__).resolve().parent
-    SEARCH_PATHS = [
-        ROOT / "src",
-        ROOT / "src" / "docindex-core" / "src",
-        ROOT / "src" / "docindex-sphinx" / "src",
-        ROOT / "src" / "docindex-cli" / "src",
-    ]
-    for path in SEARCH_PATHS:
-        as_str = str(path)
-        if as_str not in sys.path:
-            sys.path.insert(0, as_str)
+# Always ensure project and package src/ modules are importable in tests.
+ROOT = Path(__file__).resolve().parent
+SEARCH_PATHS = [
+    ROOT / "src" / "docindex-core" / "src",
+    ROOT / "src" / "docindex-sphinx" / "src",
+    ROOT / "src" / "docindex-cli" / "src",
+    ROOT / "src" / "docindex-sustainablefactory" / "src",
+]
+for path in SEARCH_PATHS:
+    as_str = str(path)
+    if as_str not in sys.path:
+        sys.path.insert(0, as_str)
 
 
 # Provide a lightweight pydantic stub when dependency is unavailable.

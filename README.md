@@ -41,6 +41,22 @@ The project provides the `sfcli` tool line for data extraction and conversion:
   sfcli info
   ```
 
+## Search Indexing (`docindex`)
+
+The project includes an indexer and search library (`docindex`) under `src/` to index sphinx documentation and chat logs:
+- **Default backend**: `oxirs` (RDF/SPARQL using `pyoxigraph` store).
+- **Supported backends**: `oxirs`, `milli` (Meilisearch).
+- **Multi-backend**: Index to both backends simultaneously using `--backend oxirs,milli`.
+
+Usage examples:
+```bash
+# Index chats using default OxiRS backend
+docindex index-chats --source data/chats/
+
+# Index Sphinx HTML atomically
+docindex index-html --source docs/_build/html --backend oxirs,milli
+```
+
 ## Directory Structure
 
 Here is a brief overview of the top-level directories in this workspace:

@@ -149,3 +149,13 @@ def test_batch_html_indexer_parse_all_skips_empty_documents(tmp_path, monkeypatc
 def test_batch_html_indexer_init_missing_dir(tmp_path):
     with pytest.raises(ValueError):
         BatchHTMLIndexer(tmp_path / "missing")
+
+
+def test_html_parser_ignores_script_and_style(tmp_path):
+    p = tmp_path / "ignores.html"
+    p.write_text("<h1>Ignore</h1><script>const a = 1;</script><style>body {color: red;}</style><p>Expected &amp; Text that is longer than min content length requirement which is fifty characters.</p>")
+    docs = SphinxHTMLParser.parse_html_file(p)
+    assert len(docs) == 1
+    assert "Expected & Text" in docs[0].content
+    assert "const a = 1" not in docs[0].content
+    assert "body {" not in docs[0].content

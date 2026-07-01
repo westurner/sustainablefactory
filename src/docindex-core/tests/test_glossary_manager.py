@@ -313,3 +313,32 @@ def test_generate_glossary_export_synonyms_flag_writes_synonyms(tmp_path):
     assert "cnt" in reloaded
     assert "myst" in reloaded
 
+
+def test_glossary_manager_malformed_entries(tmp_path):
+    import yaml as _yaml
+    bad_yaml = tmp_path / "bad_glossary.yaml"
+    # YAML with no categories, and terms with string value instead of dict
+    with open(bad_yaml, "w") as fh:
+        _yaml.dump({
+            "terms": {
+                "CNT": "this is a string, not a dict",
+                "Lignin": {"definition": "real definition"}
+            }
+        }, fh)
+    
+    data = GlossaryManager.load(bad_yaml)
+    assert data["categories"] == {}
+    
+    # Try merging synonyms
+    merged = GlossaryManager.merge_synonyms(data, {"cnt": ["nano"]})
+    assert merged["terms"]["CNT"] == "this is a string, not a dict"
+    
+    # Try generating myst
+    myst = GlossaryManager.to_myst(data)
+    assert "real definition" in myst
+    
+    # Try extracting synonyms
+    syns = GlossaryManager.extract_synonyms(data)
+    assert "cnt" not in syns
+
+

@@ -103,5 +103,9 @@ EXPOSE 7700 8000
 # Volume for workspace
 VOLUME ["/workspace"]
 
+# Runtime master key — override with: podman run -e MEILI_MASTER_KEY=<secret>
+# or: podman run --env-file .env.meilisearch
+ENV MEILI_MASTER_KEY=dev-key
+
 # Default command: start Meilisearch with development settings
-CMD ["meilisearch", "--http-addr", "0.0.0.0:7700", "--master-key", "dev-key"]
+CMD meilisearch --http-addr 0.0.0.0:7700 --master-key ${MEILI_MASTER_KEY}

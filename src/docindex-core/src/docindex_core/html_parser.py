@@ -15,6 +15,14 @@ from .config import Document, DocumentType, DocumentMetadata
 
 logger = logging.getLogger(__name__)
 
+# Meilisearch IDs must be alphanumeric, hyphens, or underscores (max 511 bytes).
+_INVALID_ID_CHARS = re.compile(r"[^a-zA-Z0-9_-]")
+
+
+def _sanitize_id(value: str) -> str:
+    """Replace characters invalid in Meilisearch document IDs with underscores."""
+    return _INVALID_ID_CHARS.sub("_", value)[:511]
+
 
 class HTMLSectionExtractor(HTMLParser):
     """Extract text sections from HTML by heading levels."""
@@ -33,48 +41,42 @@ class HTMLSectionExtractor(HTMLParser):
         self.in_code = False
         self.in_script = False
         self.in_style = False
-        self.tag_stack = []
+        self.heading_tags = {f'h{i}' for i in range(1, max_heading_level + 1)}
     
     def handle_starttag(self, tag: str, attrs: tuple):
         """Handle opening tags."""
-        self.tag_stack.append(tag)
-        
-        if tag in ['script', 'style']:
+        if tag in ('script', 'style'):
             if tag == 'script':
                 self.in_script = True
             else:
                 self.in_style = True
         elif tag == 'code':
             self.in_code = True
-        elif tag.startswith('h') and len(tag) == 2:
+        elif tag in self.heading_tags:
             # Heading tag
             level = int(tag[1])
-            if level <= self.max_heading_level:
-                # Save previous section
-                if self.current_section:
-                    self.sections.append(self.current_section)
-                
-                # Start new section
-                self.current_section = {
-                    'level': level,
-                    'title': '',
-                    'content': [],
-                    'start_tag': tag
-                }
-                self.current_text = []
+            # Save previous section
+            if self.current_section:
+                self.sections.append(self.current_section)
+            
+            # Start new section
+            self.current_section = {
+                'level': level,
+                'title': '',
+                'content': [],
+                'start_tag': tag
+            }
+            self.current_text = []
     
     def handle_endtag(self, tag: str):
         """Handle closing tags."""
-        if self.tag_stack and self.tag_stack[-1] == tag:
-            self.tag_stack.pop()
-        
         if tag == 'script':
             self.in_script = False
         elif tag == 'style':
             self.in_style = False
         elif tag == 'code':
             self.in_code = False
-        elif tag.startswith('h') and self.current_section and self.current_section['start_tag'] == tag:
+        elif tag in self.heading_tags and self.current_section and self.current_section['start_tag'] == tag:
             # End of heading
             self.current_section['title'] = ' '.join(self.current_text).strip()
             self.current_text = []
@@ -92,7 +94,9 @@ class HTMLSectionExtractor(HTMLParser):
         # Clean up whitespace but preserve content
         text = data.strip()
         if text and not text.isspace():
-            self.current_text.append(unescape(text))
+            if '&' in text:
+                text = unescape(text)
+            self.current_text.append(text)
     
     def get_sections(self) -> List[dict]:
         """Get extracted sections.
@@ -169,7 +173,7 @@ class SphinxHTMLParser:
                 url = f"{url}#{SphinxHTMLParser._slugify(section['title'])}"
             
             doc = Document(
-                id=f"html_{stem}_{i}",
+                id=f"html_{_sanitize_id(stem)}_{i}",
                 type=DocumentType.SPHINX_HTML,
                 title=title,
                 content=content,

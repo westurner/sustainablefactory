@@ -1,5 +1,12 @@
 {
   "name": "Sustainable Factory",
+  // Dotfiles: automatically cloned and installed after container creation.
+  // Uses the 'develop' branch; see https://github.com/westurner/dotfiles/tree/develop
+  // Note: devcontainer spec does not support a 'branch' field — pin via installCommand
+  //       or fork/mirror the desired branch as the default branch if needed.
+  "dotfiles": {
+    "repository": "https://github.com/westurner/dotfiles"
+  },
   //"image": "quay.io/fedora/fedora-toolbox:43",
   "build": {
     "dockerfile": "../Dockerfile.e2e",
@@ -8,15 +15,24 @@
   "runArgs": [
     "--userns=keep-id",
 		"--security-opt=label=disable",
-		"--log-level=debug"
+		"--log-level=debug",
+    "--net=host"
   ],
-  // "mounts": [
+  // Bind-mount the host user's rootless Podman socket (least-privilege; requires
+  // --userns=keep-id so the UID is identical inside and outside the container).
+  // Prerequisite on host: systemctl --user enable --now podman.socket
+  "mounts": [
+    {
+      "type": "bind",
+      "source": "${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock",
+      "target": "${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock"
+    }
   //   {
   //     "type": "bind",
   //     "source": "/usr/sbin/distrobox-host-exec",
   //     "target": "/usr/local/sbin/distrobox-host-exec"
   //   }
-  // ],
+  ],
   "forwardPorts": [3000, 8000],
   //"postCreateCommand": "sudo dnf install -y python3-pip zsh ripgrep zeromq-devel nodejs-npm python3-pytest-mock python3-pytest-cov python3-pytest-xdist python3-hypothesis python3-hypothesis+pytest make bash-completion && pip install -e . && pip install -e src/schematool && pip install -e src/transform_md",
   "postCreateCommand": "python3 -m venv ~/.venv && ~/.venv/bin/pip install -e . && ~/.venv/bin/pip install -e src/schematool && ~/.venv/bin/pip install -e src/transform_md && cd e2e && npm install",
@@ -44,7 +60,10 @@
    }
   },
   "remoteEnv": {
-    "PATH": "/home/appuser/.venv/bin:/home/appuser/.local/bin:${containerEnv:PATH}"
+    "PATH": "/home/appuser/.venv/bin:/home/appuser/.local/bin:${containerEnv:PATH}",
+    "DOCKER_HOST": "unix://${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock",
+    "MEILISEARCH_HOST": "host.docker.internal",
+    "MEILI_MASTER_KEY": "dev-key"
   },
   "remoteUser": "appuser" // Or "root" or a specific user if created in Dockerfile
 

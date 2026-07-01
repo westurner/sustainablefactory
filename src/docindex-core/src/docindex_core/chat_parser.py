@@ -9,12 +9,67 @@ import logging
 import re
 from pathlib import Path
 from typing import List, Optional, Generator
+from datetime import datetime
 
 from .config import Document, DocumentType, DocumentMetadata
 
 # Precompile regex patterns for efficiency
 _SPLIT_PATTERN = re.compile(r"^# ", re.MULTILINE)
 _WORD_SPLIT_PATTERN = re.compile(r"\S+")
+# Meilisearch IDs must be alphanumeric, hyphens, or underscores (max 511 bytes).
+_INVALID_ID_CHARS = re.compile(r"[^a-zA-Z0-9_-]")
+
+# Map role strings (from JSON turn 'role' field) to DocumentType.
+_ROLE_TO_DOC_TYPE: dict[str, DocumentType] = {
+    # User / human turns
+    "user": DocumentType.CHAT_INPUT,
+    "human": DocumentType.CHAT_INPUT,
+    "you": DocumentType.CHAT_INPUT,
+    # Model / assistant response turns
+    "model": DocumentType.CHAT_OUTPUT,
+    "assistant": DocumentType.CHAT_OUTPUT,
+    "gemini": DocumentType.CHAT_OUTPUT,
+    "chatgpt": DocumentType.CHAT_OUTPUT,
+    "claude": DocumentType.CHAT_OUTPUT,
+    "bot": DocumentType.CHAT_OUTPUT,
+    # Thinking / reasoning turns (some providers expose these)
+    "thinking": DocumentType.CHAT_THINKING,
+    "thought": DocumentType.CHAT_THINKING,
+    "reasoning": DocumentType.CHAT_THINKING,
+}
+
+# Patterns that identify a markdown section as a particular chat role.
+_MD_INPUT_PATTERN = re.compile(
+    r"^(?:You asked:|User:|Human:|Q:|\*\*You\*\*)", re.IGNORECASE | re.MULTILINE
+)
+_MD_THINKING_PATTERN = re.compile(
+    r"^(?:Thinking:|<think>|\*thinking\*)", re.IGNORECASE | re.MULTILINE
+)
+_MD_OUTPUT_PATTERN = re.compile(
+    r"^(?:Gemini Replied:|Assistant:|AI:|A:|\*\*Gemini\*\*|\*\*Assistant\*\*)",
+    re.IGNORECASE | re.MULTILINE,
+)
+
+
+def _role_to_doc_type(role: str) -> DocumentType:
+    """Map a role string to the appropriate DocumentType."""
+    return _ROLE_TO_DOC_TYPE.get(role.lower().strip(), DocumentType.CHAT_OUTPUT)
+
+
+def _md_section_doc_type(section: str) -> DocumentType:
+    """Heuristically determine the DocumentType of a markdown chat section."""
+    if _MD_THINKING_PATTERN.search(section):
+        return DocumentType.CHAT_THINKING
+    if _MD_INPUT_PATTERN.search(section):
+        return DocumentType.CHAT_INPUT
+    if _MD_OUTPUT_PATTERN.search(section):
+        return DocumentType.CHAT_OUTPUT
+    return DocumentType.CHAT
+
+
+def _sanitize_id(value: str) -> str:
+    """Replace characters invalid in Meilisearch document IDs with underscores."""
+    return _INVALID_ID_CHARS.sub("_", value)[:511]
 
 logger = logging.getLogger(__name__)
 
@@ -78,11 +133,12 @@ class ChatParser:
             
             role = turn.get("role") or turn.get("author", "unknown")
             title = turn.get("title") or f"{stem} - Turn {i+1}"
-            
+            doc_type = _role_to_doc_type(role) if role and role != "unknown" else DocumentType.CHAT
+
             # Create document for this turn
             doc = Document(
-                id=f"chat_{stem}_{i}",
-                type=DocumentType.CHAT,
+                id=f"chat_{_sanitize_id(stem)}_{i}",
+                type=doc_type,
                 title=title,
                 content=content,
                 filename=filename,
@@ -132,10 +188,11 @@ class ChatParser:
             # Extract title from first heading
             heading_match = ChatParser.HEADING_PATTERN.search(section)
             title = heading_match.group(1) if heading_match else f"{stem} - Section {i+1}"
-            
+            doc_type = _md_section_doc_type(section)
+
             doc = Document(
-                id=f"chat_{stem}_{i}",
-                type=DocumentType.CHAT,
+                id=f"chat_{_sanitize_id(stem)}_{i}",
+                type=doc_type,
                 title=title,
                 content=section,
                 filename=filename,

@@ -242,14 +242,15 @@ def test_cli_error_branches(monkeypatch, tmp_path):
 
     runner = CliRunner()
 
-    assert runner.invoke(cli_mod.cli, ["index-chats", "--source", str(src_dir)]).exit_code == 1
-    assert runner.invoke(cli_mod.cli, ["index-html", "--source", str(src_dir)]).exit_code == 1
-    assert runner.invoke(cli_mod.cli, ["index-html-legacy", "--source", str(src_dir)]).exit_code == 1
-    assert runner.invoke(cli_mod.cli, ["status"]).exit_code == 1
-    assert runner.invoke(cli_mod.cli, ["search", "--query", "q"]).exit_code == 1
-    assert runner.invoke(cli_mod.cli, ["list-indices"]).exit_code == 1
-    assert runner.invoke(cli_mod.cli, ["clear-index", "--confirm"]).exit_code == 1
-    assert runner.invoke(cli_mod.cli, ["delete-index", "--confirm"]).exit_code == 1
+    assert runner.invoke(cli_mod.cli, ["index-chats", "--source", str(src_dir), "--backend", "milli", "--oxirs-url", "http://x", "--oxirs-storage-path", "/tmp/y"]).exit_code == 1
+    assert runner.invoke(cli_mod.cli, ["index-html", "--source", str(src_dir), "--backend", "milli", "--oxirs-url", "http://x", "--oxirs-storage-path", "/tmp/y"]).exit_code == 1
+    assert runner.invoke(cli_mod.cli, ["index-html-legacy", "--source", str(src_dir), "--backend", "milli", "--oxirs-url", "http://x", "--oxirs-storage-path", "/tmp/y"]).exit_code == 1
+    assert runner.invoke(cli_mod.cli, ["--backend", "milli", "status"]).exit_code == 1
+    assert runner.invoke(cli_mod.cli, ["--backend", "milli", "search", "--query", "q"]).exit_code == 1
+    assert runner.invoke(cli_mod.cli, ["--backend", "milli", "list-indices"]).exit_code == 1
+    assert runner.invoke(cli_mod.cli, ["--backend", "milli", "clear-index", "--confirm"]).exit_code == 1
+    assert runner.invoke(cli_mod.cli, ["--backend", "milli", "delete-index", "--confirm"]).exit_code == 1
+
 
 
 def test_cli_index_html_atomic_options(monkeypatch, tmp_path, stats_obj):
@@ -342,3 +343,28 @@ def test_cli_index_html_cancellation(monkeypatch, tmp_path):
     result = runner.invoke(cli_mod.cli, ["index-html", "--source", str(src_dir)])
     assert result.exit_code == 1
     assert "Cancelled" in result.output
+
+
+def test_cli_multi_backend_and_empty_value_error(monkeypatch):
+    import importlib
+    cli_mod = importlib.import_module("docindex_cli.cli")
+    
+    # 1. Multi backend
+    config_multi = SimpleNamespace(
+        backend="oxirs,milli",
+        url="http://remote",
+        storage_path="/tmp/fake",
+        batch_size=10,
+        enabled=True,
+        host="localhost",
+        port=7700,
+        api_key="key",
+        index_name="index"
+    )
+    # mock OxiRSBackend and MeilisearchClient to avoid real connections
+    monkeypatch.setattr(cli_mod, "MeilisearchClient", lambda x: "milli_client")
+    
+    backend_multi = cli_mod.get_backend(config_multi)
+    from docindex_core.backends.multi import MultiBackend
+    assert isinstance(backend_multi, MultiBackend)
+    assert len(backend_multi.backends) == 2

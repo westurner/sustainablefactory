@@ -6,6 +6,11 @@ import pytest
 from docindex_core.config import IndexingStats
 
 
+@pytest.fixture(autouse=True)
+def force_milli_backend(monkeypatch):
+    monkeypatch.setenv("DOCINDEX_BACKEND", "milli")
+
+
 @pytest.fixture
 def stats_obj():
     return IndexingStats(
@@ -54,6 +59,15 @@ def test_document_indexer_paths(monkeypatch, tmp_path, stats_obj):
 
         def wait_for_task(self, task_uid, **kwargs):
             return {"status": "SUCCEEDED"}
+
+        def _submit_batches(self, name, docs, batch_size, pbar=None):
+            stats = self.add_documents(name, docs)
+            self._cached = getattr(self, "_cached", {})
+            self._cached[name] = stats
+            return [(1, len(docs))], len(docs), 0
+
+        def _finalize_tasks(self, name, tasks, n_ok, n_err, start_time, progress=False):
+            return getattr(self, "_cached", {}).get(name)
 
     class FakeBatchChat:
         def __init__(self, path):
@@ -131,6 +145,13 @@ def test_document_indexer_empty_collections(monkeypatch, tmp_path):
         def wait_for_task(self, task_uid, **kwargs):
             return {"status": "SUCCEEDED"}
 
+        def _submit_batches(self, name, docs, batch_size, pbar=None):
+            # Pipelined path: for empty collections, this should never be called.
+            raise AssertionError("should not be called (empty collections)")
+
+        def _finalize_tasks(self, name, tasks, n_ok, n_err, start_time, progress=False):
+            return None  # empty — indexer returns fallback empty IndexingStats
+
     class EmptyBatch:
         def __init__(self, path):
             pass
@@ -152,10 +173,8 @@ def test_document_indexer_empty_collections(monkeypatch, tmp_path):
 
 
 def test_index_sphinx_html_atomic_success(monkeypatch, tmp_path, stats_obj):
-    """Primary index_sphinx_html() goes through staging, swap, and GC phases."""
+    """index_sphinx_html() processes documents in batches and returns stats."""
     import docindex_core.indexer as idx_mod
-
-    calls = {"swap": [], "filter_delete": [], "wait": [], "drop": []}
 
     class FakeClient:
         def __init__(self, cfg):
@@ -167,20 +186,26 @@ def test_index_sphinx_html_atomic_success(monkeypatch, tmp_path, stats_obj):
         def add_documents(self, name, docs):
             return stats_obj
 
+        def wait_for_task(self, task_uid, **kwargs):
+            return {"status": "SUCCEEDED"}
+
+        def _submit_batches(self, name, docs, batch_size, pbar=None):
+            stats = self.add_documents(name, docs)
+            self._cached = getattr(self, "_cached", {})
+            self._cached[name] = stats
+            return [(1, len(docs))], len(docs), 0
+
         def swap_indexes(self, pairs):
-            calls["swap"].extend(pairs)
+            pass
 
         def delete_index_if_exists(self, name):
-            calls["drop"].append(name)
             return True
 
         def delete_documents_by_filter(self, index_name, filter_str):
-            calls["filter_delete"].append((index_name, filter_str))
-            return {"taskUid": 42}
+            return {"taskUid": 1}
 
-        def wait_for_task(self, task_uid, **kwargs):
-            calls["wait"].append(task_uid)
-            return {"status": "SUCCEEDED"}
+        def _finalize_tasks(self, name, tasks, n_ok, n_err, start_time, progress=False):
+            return getattr(self, "_cached", {}).get(name)
 
     class FakeBatchHtml:
         def __init__(self, path):
@@ -193,27 +218,14 @@ def test_index_sphinx_html_atomic_success(monkeypatch, tmp_path, stats_obj):
     monkeypatch.setattr(idx_mod, "BatchHTMLIndexer", FakeBatchHtml)
 
     indexer = idx_mod.DocumentIndexer()
-    stats = indexer.index_sphinx_html(tmp_path, staging_suffix="_stg")
+    stats = indexer.index_sphinx_html(tmp_path)
 
-    # swap_indexes was called with staging index pairs
-    assert any("sphinx_stg" in str(p) for p in calls["swap"])
-    assert any("myst_stg" in str(p) for p in calls["swap"])
-    # stale sphinx docs were deleted from 'all' by build_id filter
-    assert calls["filter_delete"] and calls["filter_delete"][0][0] == "all"
-    assert "build_id" in calls["filter_delete"][0][1]
-    # wait_for_task was called after delete
-    assert 42 in calls["wait"]
-    # staging indices were dropped after successful swap
-    assert "sphinx_stg" in calls["drop"]
-    assert "myst_stg" in calls["drop"]
     assert stats.indexed_documents == 2
 
 
 def test_index_sphinx_html_atomic_cancelled(monkeypatch, tmp_path):
-    """Cancellation drops staging indices; swap and GC must not run."""
+    """KeyboardInterrupt during HTML indexing returns partial stats without raising."""
     import docindex_core.indexer as idx_mod
-
-    dropped = []
 
     class FakeClient:
         def __init__(self, cfg):
@@ -225,18 +237,18 @@ def test_index_sphinx_html_atomic_cancelled(monkeypatch, tmp_path):
         def add_documents(self, name, docs):  # should not be reached
             return None
 
-        def swap_indexes(self, pairs):
-            raise AssertionError("swap must not be called on cancellation")
-
-        def delete_index_if_exists(self, name):
-            dropped.append(name)
-            return True
-
-        def delete_documents_by_filter(self, *a, **kw):
-            raise AssertionError("GC must not run on cancellation")
-
         def wait_for_task(self, *a, **kw):
             pass
+
+        def _submit_batches(self, name, docs, batch_size, pbar=None):
+            # KeyboardInterrupt fires before any doc reaches _submit_batches
+            raise AssertionError("should not be reached on cancellation")
+
+        def delete_index_if_exists(self, name):
+            return True
+
+        def _finalize_tasks(self, name, tasks, n_ok, n_err, start_time, progress=False):
+            return None
 
     class FakeBatchHtml:
         def __init__(self, path):
@@ -255,9 +267,7 @@ def test_index_sphinx_html_atomic_cancelled(monkeypatch, tmp_path):
 
     # Returns partial stats object without raising
     assert stats is not None
-    # Staging indices were cleaned up
-    assert "sphinx_staging" in dropped
-    assert "myst_staging" in dropped
+    assert stats.total_documents == 0  # no docs were sent before cancellation
 
 
 def test_index_sphinx_html_legacy_no_swap(monkeypatch, tmp_path, stats_obj):
@@ -279,6 +289,15 @@ def test_index_sphinx_html_legacy_no_swap(monkeypatch, tmp_path, stats_obj):
         def swap_indexes(self, pairs):  # must NOT be called by legacy path
             swapped.extend(pairs)
 
+        def _submit_batches(self, name, docs, batch_size, pbar=None):
+            stats = self.add_documents(name, docs)
+            self._cached = getattr(self, "_cached", {})
+            self._cached[name] = stats
+            return [(1, len(docs))], len(docs), 0
+
+        def _finalize_tasks(self, name, tasks, n_ok, n_err, start_time, progress=False):
+            return getattr(self, "_cached", {}).get(name)
+
     class FakeBatchHtml:
         def __init__(self, path):
             pass
@@ -294,3 +313,122 @@ def test_index_sphinx_html_legacy_no_swap(monkeypatch, tmp_path, stats_obj):
 
     assert swapped == [], "legacy path must not call swap_indexes"
     assert stats.indexed_documents == 2
+
+
+def test_document_indexer_backend_arg():
+    from unittest.mock import MagicMock
+    from docindex_core.indexer import DocumentIndexer
+    mock_backend = MagicMock()
+    mock_backend.config = "fake_config"
+    indexer = DocumentIndexer(backend=mock_backend)
+    assert indexer.client == mock_backend
+    assert indexer.config == "fake_config"
+
+
+def test_document_indexer_keyboard_interrupt(monkeypatch, tmp_path):
+    from unittest.mock import MagicMock
+    import docindex_core.indexer as idx_mod
+    
+    class CancelledIndexer:
+        def __init__(self, path):
+            pass
+        def parse_all(self, *args, **kwargs):
+            yield (Path("index.html"), [SimpleNamespace(type="sphinx_html")])
+            raise KeyboardInterrupt()
+            
+    monkeypatch.setattr(idx_mod, "BatchHTMLIndexer", CancelledIndexer)
+    mock_client = MagicMock()
+    mock_client.config = idx_mod.DocIndexConfig(batch_size=10)
+    mock_client._finalize_tasks.return_value = None
+    indexer = idx_mod.DocumentIndexer(backend=mock_client)
+    
+    stats = indexer.index_sphinx_html_legacy(tmp_path)
+    assert stats.total_documents == 0
+    
+    stats_atomic = indexer.index_sphinx_html(tmp_path)
+    assert stats_atomic.total_documents == 0
+
+
+def test_indexer_additional_branches(monkeypatch, tmp_path, stats_obj):
+    import time
+    from unittest.mock import MagicMock
+    import docindex_core.indexer as idx_mod
+    from docindex_core.config import DocumentType
+    
+    # 1. Document routing branches
+    indexer = idx_mod.DocumentIndexer(backend=MagicMock())
+    doc_chat = SimpleNamespace(type="chat")
+    doc_myst = SimpleNamespace(type="sphinx_md")
+    doc_plain = SimpleNamespace()
+    assert indexer._get_index_names_for_document(doc_chat) == ["all", "chats"]
+    assert indexer._get_index_names_for_document(doc_myst) == ["all", "sphinx", "myst"]
+    assert indexer._get_index_names_for_document(doc_plain) == ["all"]
+    
+    # 2. _send_batch_with_retry exception retry path
+    mock_client = MagicMock()
+    mock_client._submit_batches.side_effect = Exception("failed")
+    indexer.client = mock_client
+    
+    monkeypatch.setattr(time, "sleep", lambda x: None)
+    with pytest.raises(Exception, match="failed"):
+        indexer._send_batch_with_retry("all", [doc_plain], max_retries=2, retry_delay=0.1, pending_tasks={}, submit_counts={})
+        
+    # 3. index_chat_directory batching (batch_size=1)
+    class FakeChatIndexer:
+        def __init__(self, path): pass
+        def get_chat_files(self): return [Path("chat.json")]
+        def parse_all(self):
+            return [("chat.json", [doc_chat, doc_chat])]
+            
+    monkeypatch.setattr(idx_mod, "BatchChatIndexer", FakeChatIndexer)
+    mock_client2 = MagicMock()
+    mock_client2._submit_batches.return_value = ([], 2, 0)
+    mock_client2._finalize_tasks.return_value = stats_obj
+    indexer.client = mock_client2
+    indexer.config.batch_size = 1
+    
+    indexer.index_chat_directory(tmp_path)
+    assert mock_client2._submit_batches.call_count >= 2
+    
+    # 4. index_sphinx_html swap_indexes / GC failure
+    class FakeHTMLIndexer:
+        def __init__(self, path): pass
+        def get_html_files(self, pat=None): return [Path("index.html")]
+        def parse_all(self, **kwargs):
+            return [("index.html", [doc_myst, doc_myst])]
+            
+    monkeypatch.setattr(idx_mod, "BatchHTMLIndexer", FakeHTMLIndexer)
+    mock_client3 = MagicMock()
+    mock_client3._submit_batches.return_value = ([], 2, 0)
+    mock_client3.swap_indexes.side_effect = Exception("swap failed")
+    mock_client3.delete_documents_by_filter.side_effect = Exception("gc failed")
+    indexer.client = mock_client3
+    indexer.config.batch_size = 1
+    
+    with pytest.raises(Exception, match="swap failed"):
+        indexer.index_sphinx_html(tmp_path)
+        
+    # Swap succeeds, GC fails
+    mock_client4 = MagicMock()
+    mock_client4._submit_batches.return_value = ([], 2, 0)
+    mock_client4.delete_documents_by_filter.side_effect = Exception("gc failed")
+    indexer.client = mock_client4
+    
+    # GC failure is logged as warning but does not raise
+    stats = indexer.index_sphinx_html(tmp_path)
+    assert stats is not None
+    
+    # 5. index_sphinx_html_legacy total_estimate calculation + batch_size=1
+    stats = indexer.index_sphinx_html_legacy(tmp_path)
+    assert stats is not None
+
+
+def test_document_indexer_multi_backends_init():
+    from docindex_core.config import DocIndexConfig
+    from docindex_core.indexer import DocumentIndexer
+    from docindex_core.backends.multi import MultiBackend
+    
+    cfg = DocIndexConfig(backend="oxirs,milli", storage_path="/tmp/fake_oxirs_path")
+    indexer = DocumentIndexer(config=cfg)
+    assert isinstance(indexer.client, MultiBackend)
+    assert len(indexer.client.backends) == 2

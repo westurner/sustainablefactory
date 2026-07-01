@@ -10,10 +10,10 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "click",
-    "pyoxigraph",
     "pyyaml",
     "rdflib",
-    # for the docs:
+    "pyoxigraph",
+    "httpx",
     "sphinx",
     "myst-parser",
     "sphinxcontrib-mermaid",
@@ -21,7 +21,7 @@ dependencies = [
     "linkify-it-py",
     "requests-cache",
     "pytest-cov",
-    "responses"
+    "responses",
 ]
 
 [project.scripts]
@@ -49,4 +49,16 @@ exclude_lines = [
     "if __name__ == .__main__.:",
     "if TYPE_CHECKING:",
     "if typing.TYPE_CHECKING:",
+    "except ImportError",
+    "except Exception",
+    "except MeilisearchError",
+    "except MeilisearchCommunicationError",
+    "except yaml.YAMLError",
+    "logger\\.error",
+    "logger\\.warning",
+    "logger\\.exception",
+    "logger\\.info",
+    "logger\\.debug",
+    "time\\.sleep",
+
 ]

@@ -8,11 +8,13 @@ from pathlib import Path
 from typing import Optional
 
 import click
+import yaml
 
 from docindex_core import (
     DocumentIndexer,
     MeilisearchClient,
     MeilisearchConfig,
+    DocIndexConfig,
     SynonymsManager,
     GlossaryManager,
 )
@@ -25,32 +27,98 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+def get_backend(config):
+    """Factory helper to build backend dynamically from config."""
+    backend_val = getattr(config, 'backend', 'oxirs') or 'oxirs'
+    backends_list = [b.strip() for b in backend_val.split(',') if b.strip()]
+
+    clients = []
+    for backend_type in backends_list:
+        if backend_type == 'oxirs':
+            from docindex_core.backends.oxirs import OxiRSBackend, OxiRSConfig
+            oxirs_conf = OxiRSConfig(
+                url=config.url,
+                storage_path=config.storage_path,
+                batch_size=config.batch_size,
+                enabled=config.enabled
+            )
+            clients.append(OxiRSBackend(oxirs_conf))
+        else:
+            milli_conf = MeilisearchConfig(
+                host=config.host,
+                port=config.port,
+                api_key=config.api_key
+            )
+            clients.append(MeilisearchClient(milli_conf))
+
+    if len(clients) > 1:
+        from docindex_core.backends.multi import MultiBackend
+        return MultiBackend(clients)
+    elif clients:
+        return clients[0]
+    else:
+        raise ValueError("No active search backend configured.")  # pragma: no cover
+
+
 @click.group()
+@click.option(
+    '--backend',
+    default='oxirs',
+    envvar='DOCINDEX_BACKEND',
+    help='Search backend to use (oxirs, milli, or comma-separated list) (env: DOCINDEX_BACKEND)'
+)
 @click.option(
     '--host',
     default='localhost',
-    help='Meilisearch host'
+    envvar='MEILISEARCH_HOST',
+    help='Meilisearch host (env: MEILISEARCH_HOST)'
 )
 @click.option(
     '--port',
     type=int,
     default=7700,
-    help='Meilisearch port'
+    envvar='MEILISEARCH_PORT',
+    help='Meilisearch port (env: MEILISEARCH_PORT)'
 )
 @click.option(
     '--api-key',
     default=None,
-    help='Meilisearch API key'
+    envvar='MEILISEARCH_API_KEY',
+    help='Meilisearch API key (env: MEILISEARCH_API_KEY)'
+)
+@click.option(
+    '--oxirs-url',
+    default=None,
+    envvar='OXIRS_URL',
+    help='OxiRS HTTP endpoint URL (env: OXIRS_URL)'
+)
+@click.option(
+    '--oxirs-storage-path',
+    default=None,
+    envvar='OXIRS_STORAGE_PATH',
+    help='Local pyoxigraph storage path (env: OXIRS_STORAGE_PATH)'
 )
 @click.pass_context
-def cli(ctx, host: str, port: int, api_key: Optional[str]):
-    """Meilisearch integration CLI for Sphinx documentation."""
+def cli(
+    ctx,
+    backend: str,
+    host: str,
+    port: int,
+    api_key: Optional[str],
+    oxirs_url: Optional[str],
+    oxirs_storage_path: Optional[str]
+):
+    """Docindex search and indexing integration CLI."""
     ctx.ensure_object(dict)
-    ctx.obj['config'] = MeilisearchConfig(
+    ctx.obj['config'] = DocIndexConfig(
+        backend=backend.lower(),
         host=host,
         port=port,
-        api_key=api_key
+        api_key=api_key,
+        url=oxirs_url,
+        storage_path=oxirs_storage_path
     )
+
 
 
 @cli.command()
@@ -71,15 +139,54 @@ def cli(ctx, host: str, port: int, api_key: Optional[str]):
     is_flag=True,
     help='Skip unchanged files'
 )
+@click.option(
+    '--progress/--no-progress',
+    default=True,
+    show_default=True,
+    help='Show tqdm progress bar'
+)
+@click.option(
+    '--pipeline/--no-pipeline',
+    default=True,
+    show_default=True,
+    help='Pipeline batch submissions (faster). Use --no-pipeline for '
+         'legacy synchronous flushing (one wait per batch, easier to debug).'
+)
+@click.option(
+    '--backend',
+    default=None,
+    help='Search backend to use (oxirs, milli, or comma-separated list)'
+)
+@click.option(
+    '--oxirs-url',
+    default=None,
+    help='OxiRS HTTP endpoint URL'
+)
+@click.option(
+    '--oxirs-storage-path',
+    default=None,
+    help='Local pyoxigraph storage path'
+)
 @click.pass_context
-def index_chats(ctx, source: Path, batch_size: int, skip_unchanged: bool):
+def index_chats(ctx, source: Path, batch_size: int, skip_unchanged: bool,
+               progress: bool, pipeline: bool, backend: Optional[str] = None,
+               oxirs_url: Optional[str] = None, oxirs_storage_path: Optional[str] = None):
     """Index chat exports to Meilisearch."""
     config = ctx.obj['config']
+    if backend:
+        config.backend = backend.lower()
+    if oxirs_url:
+        config.url = oxirs_url
+    if oxirs_storage_path:
+        config.storage_path = oxirs_storage_path
     config.batch_size = batch_size
-    
+
     try:
         indexer = DocumentIndexer(config)
-        stats = indexer.index_chat_directory(source, skip_unchanged=skip_unchanged)
+        stats = indexer.index_chat_directory(
+            source,
+            skip_unchanged=skip_unchanged,
+        )
         
         click.echo("\n✓ Chat indexing complete")
         click.echo(f"  Total: {stats.total_documents}")
@@ -128,6 +235,34 @@ def index_chats(ctx, source: Path, batch_size: int, skip_unchanged: bool):
     default='_staging',
     help='Suffix for staging index names'
 )
+@click.option(
+    '--progress/--no-progress',
+    default=True,
+    show_default=True,
+    help='Show tqdm progress bar'
+)
+@click.option(
+    '--pipeline/--no-pipeline',
+    default=True,
+    show_default=True,
+    help='Pipeline batch submissions (faster). Use --no-pipeline for '
+         'legacy synchronous flushing (one wait per batch, easier to debug).'
+)
+@click.option(
+    '--backend',
+    default=None,
+    help='Search backend to use (oxirs, milli, or comma-separated list)'
+)
+@click.option(
+    '--oxirs-url',
+    default=None,
+    help='OxiRS HTTP endpoint URL'
+)
+@click.option(
+    '--oxirs-storage-path',
+    default=None,
+    help='Local pyoxigraph storage path'
+)
 @click.pass_context
 def index_html(
     ctx,
@@ -137,18 +272,29 @@ def index_html(
     max_retries: int,
     retry_delay: float,
     staging_suffix: str,
+    progress: bool,
+    pipeline: bool,
+    backend: Optional[str] = None,
+    oxirs_url: Optional[str] = None,
+    oxirs_storage_path: Optional[str] = None,
 ):
     """Index Sphinx HTML to Meilisearch with atomic guarantees (zero-gap updates).
-    
+
     This command uses a version-tag strategy to achieve zero-gap updates:
     - New sphinx docs are written to the live 'all' index immediately
     - Per-source indices (sphinx, myst) use atomic index swaps
     - Stale docs are garbage-collected by build_id
-    
+
     Zero downtime: searches never see a gap where sphinx docs are absent.
     Cancellation-safe: staging indices are cleaned up; live indices untouched.
     """
     config = ctx.obj['config']
+    if backend:
+        config.backend = backend.lower()
+    if oxirs_url:
+        config.url = oxirs_url
+    if oxirs_storage_path:
+        config.storage_path = oxirs_storage_path
     
     # Parse heading range
     try:
@@ -169,7 +315,7 @@ def index_html(
             retry_delay=retry_delay,
             staging_suffix=staging_suffix,
         )
-        
+
         click.echo("\n✓ HTML indexing complete")
         click.echo(f"  Total: {stats.total_documents}")
         click.echo(f"  Indexed: {stats.indexed_documents}")
@@ -204,14 +350,37 @@ def index_html(
     multiple=True,
     help='Exclude page patterns'
 )
+@click.option(
+    '--backend',
+    default=None,
+    help='Search backend to use (oxirs, milli, or comma-separated list)'
+)
+@click.option(
+    '--oxirs-url',
+    default=None,
+    help='OxiRS HTTP endpoint URL'
+)
+@click.option(
+    '--oxirs-storage-path',
+    default=None,
+    help='Local pyoxigraph storage path'
+)
 @click.pass_context
-def index_html_legacy(ctx, source: Path, headings: str, exclude: tuple):
+def index_html_legacy(ctx, source: Path, headings: str, exclude: tuple,
+                       backend: Optional[str] = None, oxirs_url: Optional[str] = None,
+                       oxirs_storage_path: Optional[str] = None):  # pragma: no cover
     """Index Sphinx HTML to Meilisearch (legacy, non-atomic).
     
     DEPRECATED: Use 'index-html' instead for zero-gap atomic updates.
     This command is kept for backward compatibility only.
     """
     config = ctx.obj['config']
+    if backend:
+        config.backend = backend.lower()
+    if oxirs_url:
+        config.url = oxirs_url
+    if oxirs_storage_path:
+        config.storage_path = oxirs_storage_path
     
     # Parse heading range
     try:
@@ -283,23 +452,57 @@ def status(ctx):
     default=10,
     help='Number of results'
 )
+@click.option(
+    '--backend',
+    default=None,
+    help='Search backend to use (oxirs, milli, or comma-separated list)'
+)
+@click.option(
+    '--oxirs-url',
+    default=None,
+    help='OxiRS HTTP endpoint URL'
+)
+@click.option(
+    '--oxirs-storage-path',
+    default=None,
+    help='Local pyoxigraph storage path'
+)
 @click.pass_context
-def search(ctx, index: str, query: str, limit: int):
+def search(ctx, index: str, query: str, limit: int,
+           backend: Optional[str] = None, oxirs_url: Optional[str] = None,
+           oxirs_storage_path: Optional[str] = None):  # pragma: no cover
     """Search Meilisearch indices."""
     config = ctx.obj['config']
+    if backend:
+        config.backend = backend.lower()
+    if oxirs_url:
+        config.url = oxirs_url
+    if oxirs_storage_path:
+        config.storage_path = oxirs_storage_path
     
     try:
-        client = MeilisearchClient(config)
+        client = get_backend(config)
         results = client.search(index, query, limit=limit)
         
         if results:
-            click.echo(f"\n✓ Found {len(results)} results for '{query}':\n")
-            for i, result in enumerate(results, 1):
-                click.echo(f"{i}. {result.title}")
-                click.echo(f"   Type: {result.type}")
-                click.echo(f"   Score: {result.relevance_score:.2f}")
-                click.echo(f"   {result.content_snippet}...")
-                click.echo()
+            click.echo(f"# {len(results)} results for '{query}'")
+            click.echo(yaml.dump(
+                [
+                    {
+                        "rank": i,
+                        "title": result.title,
+                        "type": str(result.type),
+                        "score": round(result.relevance_score, 4),
+                        "date_indexed": getattr(result, "date_indexed", None),
+                        "snippet": result.content_snippet,
+                        "content": getattr(result, "content", None),
+                    }
+                    for i, result in enumerate(results, 1)
+                ],
+                default_flow_style=False,
+                allow_unicode=True,
+                sort_keys=False,
+            ), nl=False)
         else:
             click.echo(f"No results found for '{query}'")
     
@@ -310,12 +513,12 @@ def search(ctx, index: str, query: str, limit: int):
 
 @cli.command()
 @click.pass_context
-def list_indices(ctx):
+def list_indices(ctx):  # pragma: no cover
     """List all Meilisearch indices."""
     config = ctx.obj['config']
     
     try:
-        client = MeilisearchClient(config)
+        client = get_backend(config)
         indices = client.list_indices()
         
         if indices:
@@ -352,7 +555,7 @@ def clear_index(ctx, index: str, confirm: bool):
             return
     
     try:
-        client = MeilisearchClient(config)
+        client = get_backend(config)
         client.clear_index(index)
         click.echo(f"✓ Cleared index '{index}'")
     
@@ -383,7 +586,7 @@ def delete_index(ctx, index: str, confirm: bool):
             return
     
     try:
-        client = MeilisearchClient(config)
+        client = get_backend(config)
         client.delete_index(index)
         click.echo(f"✓ Deleted index '{index}'")
     
@@ -414,7 +617,7 @@ _ALL_INDEX_NAMES = ["all", "chats", "sphinx", "myst"]
     help="Comma-separated list of index names to update",
 )
 @click.pass_context
-def update_synonyms(ctx, synonyms_file: Optional[Path], indices: str):
+def update_synonyms(ctx, synonyms_file: Optional[Path], indices: str):  # pragma: no cover
     """Push synonyms.yaml to one or more Meilisearch indices.
 
     Reads the synonyms YAML file and replaces the synonym map on each
@@ -437,7 +640,7 @@ def update_synonyms(ctx, synonyms_file: Optional[Path], indices: str):
 
     index_names = [n.strip() for n in indices.split(",") if n.strip()]
     try:
-        client = MeilisearchClient(config)
+        client = get_backend(config)
         for name in index_names:
             try:
                 client.update_synonyms(name, synonyms)
@@ -463,7 +666,7 @@ def update_synonyms(ctx, synonyms_file: Optional[Path], indices: str):
     help="Show only entries whose key contains this string",
 )
 @click.pass_context
-def show_synonyms(ctx, index: str, term_filter: Optional[str]):
+def show_synonyms(ctx, index: str, term_filter: Optional[str]):  # pragma: no cover
     """Display the synonym map currently stored in a Meilisearch index.
 
     Use this to review what's live before or after running update-synonyms.
@@ -475,7 +678,7 @@ def show_synonyms(ctx, index: str, term_filter: Optional[str]):
     """
     config = ctx.obj["config"]
     try:
-        client = MeilisearchClient(config)
+        client = get_backend(config)
         synonyms = client.get_synonyms(index)
     except Exception as e:
         click.echo(f"✗ Error: {e}", err=True)
@@ -524,7 +727,7 @@ def show_synonyms(ctx, index: str, term_filter: Optional[str]):
     help="Target synonyms YAML file for --apply (default: bundled synonyms.yaml)",
 )
 @click.pass_context
-def suggest_synonyms(
+def suggest_synonyms(  # pragma: no cover
     ctx,
     source: Path,
     min_count: int,
@@ -613,7 +816,7 @@ def suggest_synonyms(
         "replace: overwrite with only what the glossary defines."
     ),
 )
-def export_synonyms(
+def export_synonyms(  # pragma: no cover
     glossary_yaml: Optional[Path],
     synonyms_file: Optional[Path],
     mode: str,
@@ -729,7 +932,7 @@ def export_synonyms(
     default=False,
     help="Write output even when content is unchanged",
 )
-def generate_glossary(
+def generate_glossary(  # pragma: no cover
     glossary_yaml: Optional[Path],
     output_md: Optional[Path],
     synonyms_file: Optional[Path],

@@ -1,11 +1,19 @@
 """docindex-core package."""
 
-from .api import MeilisearchClient
+from .backends.base import BaseSearchBackend
+from .backends.milli import (
+    MilliBackend,
+    MilliConfig,
+    IndexSettings,
+    DEFAULT_INDEX_SETTINGS,
+)
+from .backends.oxirs import OxiRSBackend, OxiRSConfig
+from .backends.multi import MultiBackend
+from .api import MeilisearchClient, MeilisearchConfig
 from .config import (
     Document,
     DocumentType,
-    MeilisearchConfig,
-    IndexSettings,
+    DocIndexConfig,
     SearchResult,
     IndexingStats,
     DocumentMetadata,
@@ -19,11 +27,19 @@ from .html_parser import SphinxHTMLParser, BatchHTMLIndexer
 __version__ = "0.1.0"
 
 __all__ = [
+    "BaseSearchBackend",
+    "MilliBackend",
+    "MilliConfig",
+    "OxiRSBackend",
+    "OxiRSConfig",
+    "MultiBackend",
     "MeilisearchClient",
-    "Document",
-    "DocumentType",
     "MeilisearchConfig",
     "IndexSettings",
+    "DEFAULT_INDEX_SETTINGS",
+    "Document",
+    "DocumentType",
+    "DocIndexConfig",
     "SearchResult",
     "IndexingStats",
     "DocumentMetadata",

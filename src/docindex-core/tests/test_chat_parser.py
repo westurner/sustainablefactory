@@ -142,3 +142,14 @@ def test_batch_chat_indexer_parse_all_skips_empty_documents(tmp_path, monkeypatc
 def test_batch_chat_indexer_init_missing_dir(tmp_path):
     with pytest.raises(ValueError):
         BatchChatIndexer(tmp_path / "missing")
+
+
+def test_md_section_doc_type_heuristics():
+    from docindex_core.chat_parser import _md_section_doc_type
+    from docindex_core.config import DocumentType
+    
+    assert _md_section_doc_type("Thinking:\nLet's see...") == DocumentType.CHAT_THINKING
+    assert _md_section_doc_type("User:\nHello") == DocumentType.CHAT_INPUT
+    assert _md_section_doc_type("Gemini Replied:\nHello back") == DocumentType.CHAT_OUTPUT
+    assert _md_section_doc_type("Normal section without keywords") == DocumentType.CHAT
+

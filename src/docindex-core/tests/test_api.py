@@ -13,12 +13,15 @@ from docindex_core.config import (
 
 class FakeIndex:
     def __init__(self):
+        self.uid = "all"
+        self.primary_key = "id"
         self.settings_updated = None
         self.docs = []
         self.fail_add = False
         self.fail_search = False
         self.fail_stats = False
         self.fail_clear = False
+        self.fail_task = False  # if True, get_task returns "failed" status
 
     def update_settings(self, settings):
         self.settings_updated = settings
@@ -29,7 +32,24 @@ class FakeIndex:
 
             raise MeilisearchError("batch failed")
         self.docs.extend(docs)
-        return {"taskUid": 1}
+        return SimpleNamespace(task_uid=1)
+
+    def wait_for_task(self, uid, **kwargs):
+        status = "failed" if self.fail_task else "succeeded"
+        return SimpleNamespace(status=status)
+
+    def get_task(self, uid):
+        if self.fail_task:
+            return SimpleNamespace(
+                status="failed",
+                error={"message": "simulated task failure", "code": "test_error"},
+                details={"indexedDocuments": 0},
+            )
+        return SimpleNamespace(
+            status="succeeded",
+            error=None,
+            details={"indexedDocuments": len(self.docs)},
+        )
 
     def search(self, query, options):
         if self.fail_search:
@@ -83,7 +103,8 @@ class FakeClient:
     def create_index(self, index_name, payload):
         if self.create_raises is not None:
             raise self.create_raises
-        return self.idx
+        # Real SDK returns TaskInfo, not an Index; return a stub task object.
+        return SimpleNamespace(task_uid=1, status="enqueued")
 
     def index(self, name):
         return self.idx
@@ -99,7 +120,7 @@ class FakeClient:
             from meilisearch.errors import MeilisearchError
 
             raise MeilisearchError("list failed")
-        return [SimpleNamespace(get_dict=lambda: {"name": "all"})]
+        return {"results": [self.idx], "offset": 0, "limit": 20, "total": 1}
 
 
 @pytest.fixture
@@ -195,12 +216,74 @@ def test_add_documents_empty_and_batches(api_mod, docs):
     assert stats2.errors == 3
 
 
+def test_add_documents_task_failure_detected(api_mod, docs):
+    """When a submitted task comes back as 'failed', errors are counted correctly."""
+    api, fake = api_mod
+    fake.idx.fail_task = True
+    c = api.MeilisearchClient(MeilisearchConfig())
+
+    stats = c.add_documents("all", docs)
+    # All 3 docs were submitted but the task reported failure.
+    assert stats.errors == 3
+    assert stats.indexed_documents == 0
+
+
+def test_add_documents_progress_bar(api_mod, docs, monkeypatch):
+    """tqdm progress bar is called with document updates when progress=True."""
+    api, fake = api_mod
+
+    updates = []
+
+    class FakeTqdm:
+        def __init__(self, **kwargs):
+            self.total = kwargs.get("total")
+
+        def update(self, n):
+            updates.append(n)
+
+        def close(self):
+            pass
+
+        def set_postfix_str(self, s):
+            pass
+
+    monkeypatch.setattr(api, "_tqdm", FakeTqdm)
+    monkeypatch.setattr(api, "_HAS_TQDM", True)
+
+    c = api.MeilisearchClient(MeilisearchConfig())
+    stats = c.add_documents("all", docs, progress=True, total_estimate=3)
+
+    # 3 doc updates from the submission bar + 1 task update from the verification bar
+    assert 3 in updates    # full batch of 3 docs submitted
+    assert 1 in updates    # 1 queued task verified
+    assert stats.indexed_documents == 3
+
+
+def test_add_documents_progress_disabled(api_mod, docs, monkeypatch):
+    """No tqdm calls when progress=False even when tqdm is available."""
+    api, fake = api_mod
+
+    tqdm_called = []
+
+    class FakeTqdm:
+        def __init__(self, **kwargs):
+            tqdm_called.append(True)
+
+    monkeypatch.setattr(api, "_tqdm", FakeTqdm)
+    monkeypatch.setattr(api, "_HAS_TQDM", True)
+
+    c = api.MeilisearchClient(MeilisearchConfig())
+    c.add_documents("all", docs, progress=False)
+
+    assert tqdm_called == []
+
+
 def test_add_documents_outer_exception(api_mod, docs, monkeypatch):
     api, fake = api_mod
     c = api.MeilisearchClient(MeilisearchConfig(batch_size=2))
 
     class BadDoc:
-        def model_dump(self):
+        def model_dump(self, **kwargs):
             raise RuntimeError("serialize failed")
 
     with pytest.raises(RuntimeError):

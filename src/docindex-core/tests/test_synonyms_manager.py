@@ -148,8 +148,35 @@ def test_suggest_from_files_returns_sorted_by_count(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_default_index_settings_synonyms_loaded_from_yaml():
-    """IndexSettings default synonyms come from synonyms.yaml, not hardcoded."""
     synonyms = DEFAULT_INDEX_SETTINGS.synonyms
-    # Verify broader YAML content is present
     assert "vitrimer" in synonyms
     assert "pyrolysis" in synonyms or "lignin" in synonyms
+
+
+
+def test_synonyms_manager_edge_cases(tmp_path):
+    # 1. YAMLError fallback
+    bad_yaml = tmp_path / "bad.yaml"
+    bad_yaml.write_text("{invalid: yaml:")
+    assert SynonymsManager.load(bad_yaml) == {}
+    
+    # 2. Short description filter in suggest_from_text
+    assert SynonymsManager.suggest_from_text("XYZ (abc) is short") == {}
+    
+    # 3. OSError in suggest_from_files
+    dir_path = tmp_path / "scan_dir"
+    dir_path.mkdir()
+    unreadable = dir_path / "unreadable.md"
+    unreadable.write_text("dummy content")
+    
+    original_read_text = Path.read_text
+    def mock_read(*args, **kwargs):
+        if "unreadable" in str(args[0]):
+            raise OSError("permission denied")
+        return original_read_text(*args, **kwargs)
+        
+    import unittest.mock as mock
+    with mock.patch.object(Path, "read_text", mock_read):
+        results = SynonymsManager.suggest_from_files(dir_path)
+        assert results == []
+
