@@ -1,0 +1,1 @@
+../chats/design-an-a2ui-table-control-for-mobile-to-support-table-density-padding-margins-zoom-allnormalnrowsncols.md
