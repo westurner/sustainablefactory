@@ -108,48 +108,48 @@ meilisearch_build_version:
 		-t sustainablefactory-meilisearch:$(MEILISEARCH_VERSION)
 
 .PHONY: meilisearch_index_chats
-meilisearch_index_chats: # meilisearch_install_python
-	@echo "meilisearch_index_chats  #  Index chat exports to Meilisearch"
+docindex_index_chats: # docindex_install_python
+	@echo "docindex_index_chats  #  Index chat exports to docindex"
 	$(PYTHON) -m docindex_cli.cli index-chats --source docs/chats --progress --pipeline
 
-.PHONY: meilisearch_index_html
-meilisearch_index_html: # meilisearch_install_python
-	@echo "meilisearch_index_html  #  Index Sphinx HTML to Meilisearch"
+.PHONY: docindex_index_html
+docindex_index_html: # docindex_install_python
+	@echo "docindex_index_html  #  Index Sphinx HTML to docindex"
 	$(PYTHON) -m docindex_cli.cli index-html --source docs/_build/html --progress --pipeline
 
-.PHONY: meilisearch_index_all
-meilisearch_index_all: meilisearch_index_chats meilisearch_index_html
-	@echo "meilisearch_index_all  #  Index all sources (chats and HTML)"
+.PHONY: docindex_index_all
+docindex_index_all: docindex_index_chats docindex_index_html
+	@echo "docindex_index_all  #  Index all sources (chats and HTML)"
 
-.PHONY: meilisearch_drop_all_indexes
-meilisearch_drop_all_indexes: # meilisearch_install_python
-	@echo "meilisearch_drop_all_indexes  #  Drop all Meilisearch indexes (non-interactive)"
+.PHONY: docindex_drop_all_indexes
+docindex_drop_all_indexes: # docindex_install_python
+	@echo "docindex_drop_all_indexes  #  Drop all docindex indexes (non-interactive)"
 	$(PYTHON) -m docindex_cli.cli delete-index --index all --confirm
 	$(PYTHON) -m docindex_cli.cli delete-index --index chats --confirm
 	$(PYTHON) -m docindex_cli.cli delete-index --index sphinx --confirm
 
-.PHONY: meilisearch_status
-meilisearch_status: # meilisearch_install_python
-	@echo "meilisearch_status  #  Show Meilisearch indices and status"
+.PHONY: docindex_status
+docindex_status: # docindex_install_python
+	@echo "docindex_status  #  Show docindex indices and status"
 	$(PYTHON) -m docindex_cli.cli status
 
-.PHONY: meilisearch_search
-meilisearch_search: # meilisearch_install_python
-	@echo "meilisearch_search  #  Search Meilisearch (interactive)"
+.PHONY: docindex_search
+docindex_search: # docindex_install_python
+	@echo "docindex_search  #  Search docindex (interactive)"
 	$(PYTHON) -m docindex_cli.cli search --index all
 
-.PHONY: meilisearch_install_python
-meilisearch_install_python:
-	@echo "meilisearch_install_python  #  Install docindex components (INSTALLER=$(INSTALLER), PYTHON=$(PYTHON))"
+.PHONY: docindex_install_python
+docindex_install_python:
+	@echo "docindex_install_python  #  Install docindex components (INSTALLER=$(INSTALLER), PYTHON=$(PYTHON))"
 	@if [ "$(INSTALLER)" = "uv" ]; then \
-		uv pip install --python "$(PYTHON)" -r requirements-meilisearch.txt; \
+		uv pip install --python "$(PYTHON)" -r requirements-docindex.txt; \
 	elif [ "$(INSTALLER)" = "pip" ]; then \
-		"$(PYTHON)" -m pip install -r requirements-meilisearch.txt; \
+		"$(PYTHON)" -m pip install -r requirements-docindex.txt; \
 	else \
 		if command -v uv >/dev/null 2>&1; then \
-			uv pip install --python "$(PYTHON)" -r requirements-meilisearch.txt; \
+			uv pip install --python "$(PYTHON)" -r requirements-docindex.txt; \
 		else \
-			"$(PYTHON)" -m pip install -r requirements-meilisearch.txt; \
+			"$(PYTHON)" -m pip install -r requirements-docindex.txt; \
 		fi; \
 	fi
 

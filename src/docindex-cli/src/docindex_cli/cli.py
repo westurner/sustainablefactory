@@ -414,7 +414,7 @@ def index_html_legacy(ctx, source: Path, headings: str, exclude: tuple,
 @cli.command()
 @click.pass_context
 def status(ctx):
-    """Show Meilisearch status and indices."""
+    """Show docindex status and indices."""
     config = ctx.obj['config']
     
     try:
@@ -422,10 +422,15 @@ def status(ctx):
         status_info = indexer.get_index_status()
         
         if status_info['connected']:
-            click.echo("✓ Meilisearch connected\n")
+            click.echo("✓ docindex connected\n")
+
+            click.echo("status_info:")
+            click.echo(status_info)
+
             click.echo("Indices:")
             for index_name, info in status_info['indices'].items():
                 click.echo(f"  {index_name}: {info['documents']} documents")
+
         else:
             click.echo(f"✗ Connection failed: {status_info.get('error')}", err=True)
             sys.exit(1)
