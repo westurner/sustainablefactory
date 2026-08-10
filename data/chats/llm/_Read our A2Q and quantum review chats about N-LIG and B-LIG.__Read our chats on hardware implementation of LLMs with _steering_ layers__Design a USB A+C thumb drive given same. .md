@@ -1,0 +1,1 @@
+../_Read our A2Q and quantum review chats about N-LIG and B-LIG.__Read our chats on hardware implementation of LLMs with _steering_ layers__Design a USB A+C thumb drive given same. .md
