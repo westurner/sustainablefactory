@@ -1,0 +1,47 @@
+[
+  {
+    "id": "r_b9167f7be7eb8398_user",
+    "chatGroupId": "cd1127ff358ecbbf",
+    "role": "user",
+    "model": "gemini",
+    "displayModel": "Gemini",
+    "contents": [
+      {
+        "type": "text",
+        "content": "https://news.ycombinator.com/item?id=48653986 :\n\n> Why mmwave instead of ultrasonic? FWIU 28 kHz shreds the quartzite in granite?\nreply\n\n\t\nhangonhn 18 hours ago | unvote | parent | next [–]\n\n> Isn't the idea here to gasify the rock by essentially microwaving it? With ultrasound, wouldn't you still need to remove the leftover rocks?"
+      }
+    ],
+    "created_at": "2026-06-24 17:33:41",
+    "updated_at": 1785843305355
+  },
+  {
+    "id": "r_b9167f7be7eb8398_assistant",
+    "chatGroupId": "cd1127ff358ecbbf",
+    "role": "assistant",
+    "model": "gemini",
+    "displayModel": "Gemini",
+    "modelId": "3.1 Flash-Lite",
+    "contents": [
+      {
+        "type": "text",
+        "content": "The distinction between millimeter-wave (mmWave) or microwave-based methods and ultrasonic techniques for rock breaking lies in their physical mechanism and the scale of the effect they induce.\n\n### Ultrasonic Rock Breaking\nUltrasonic methods generally rely on mechanical excitation. By matching the excitation frequency to the natural resonant frequency of the rock mass (often above 20 kHz), the system induces vibrations that propagate through the rock structure. This triggers:\n* **Micro-cracking:** Stress accumulates along crystal boundaries, causing existing micro-cracks to grow and propagate until the rock’s compressive strength is significantly reduced.\n* **Mechanical Weakening:** It is typically used as a pre-fracturing step to make subsequent mechanical cutting (e.g., using disc cutters or conical picks) more efficient, thereby reducing tool wear and improving penetration rates.\n* **Removal:** It is rarely a standalone \"disintegration\" process that removes the rock; it is a preparatory step to facilitate mechanical removal.\n\n### mmWave / Microwave Rock Breaking\nMicrowave and mmWave technologies rely on dielectric heating. When rocks are subjected to high-frequency electromagnetic fields, the energy is absorbed by polar molecules and minerals within the rock, transforming into thermal energy.\n* **Differential Thermal Expansion:** Because different minerals have different dielectric properties and thermal expansion coefficients, the rapid, non-uniform heating causes internal stresses that shatter the rock matrix.\n* **Potential for Gasification:** At high enough power densities, this process can cause local melting, sublimation, or even \"gasification\" of moisture and minerals trapped within the rock. \n* **\"Gasifying\" vs. Removing:** While the term \"gasification\" is sometimes used to describe the vaporizing of volatile components (like trapped water) or the localized melting that weakens the structure, it is not typically a process that turns the *entire* solid rock mass into gas. It remains a form of thermal fracturing or spallation, meant to displace or weaken the material for excavation.\n\n\nThe preference for mmWave in specific high-end applications (like deep hard rock penetration research) often stems from its higher power density and focus, which can theoretically achieve much higher penetration rates compared to mechanical drilling, essentially \"drilling\" a hole through thermal spallation rather than grinding it away.\n\n[Breaking Rocks with Microwaves?](https://www.youtube.com/watch?v=sA9kj2UmMvs)\n\nThis presentation explores how microwave treatment can pre-damage granite, providing insight into the thermal mechanisms that assist mechanical excavation and reduce tool wear."
+      },
+      {
+        "type": "video_blocks",
+        "videoBlocks": [
+          {
+            "url": "https://www.youtube.com/watch?v=sA9kj2UmMvs",
+            "title": "Breaking Rocks with Microwaves? - YouTube",
+            "description": "Ever wondered how microwaves could make rock breaking easier and more energy-efficient? In this fascinating talk, Xiaoli Su (visiting PhD student) from Deep Earth Energy Laboratory, Monash University explores how microwave treatment can pre-damage granite, making it easier to cut while reducing tool wear.\n\nKey insights you'll learn:\nHow microwaves weaken hard rocks before cutting\nThe impact on energy efficiency and mechanical wear\nExperimental and simulation results from ground-breaking research\n\nIf you're interested in mining innovation, geomechanics, or just cool science, this video is a must-watch. Further information can be obtained from Prof Ranjith PG, FTSE (ranjith.pg@monash.edu)",
+            "thumbnail": "https://i.ytimg.com/vi/sA9kj2UmMvs/hqdefault.jpg",
+            "duration": 540,
+            "views": 156,
+            "uploadedAt": "2025-03-07"
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-06-24 17:33:41",
+    "updated_at": 1785843305355
+  }
+]
