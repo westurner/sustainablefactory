@@ -172,9 +172,11 @@ def test_document_indexer_empty_collections(monkeypatch, tmp_path):
     assert s3.total_documents == 0
 
 
-def test_index_sphinx_html_atomic_success(monkeypatch, tmp_path, stats_obj):
+def test_index_sphinx_html_atomic_success(monkeypatch, tmp_path, stats_obj, caplog):
     """index_sphinx_html() processes documents in batches and returns stats."""
     import docindex_core.indexer as idx_mod
+
+    caplog.set_level("INFO", logger="docindex_core.indexer")
 
     class FakeClient:
         def __init__(self, cfg):
@@ -212,7 +214,9 @@ def test_index_sphinx_html_atomic_success(monkeypatch, tmp_path, stats_obj):
             pass
 
         def parse_all(self, exclude_patterns=None, max_heading_level=3):
-            return iter([(Path("index.html"), [SimpleNamespace(type="sphinx_html")])])
+            html_file = tmp_path / "index.html"
+            html_file.write_bytes(b"x" * 1024)
+            return iter([(html_file, [SimpleNamespace(type="sphinx_html")])])
 
     monkeypatch.setattr(idx_mod, "MeilisearchClient", FakeClient)
     monkeypatch.setattr(idx_mod, "BatchHTMLIndexer", FakeBatchHtml)
@@ -221,6 +225,14 @@ def test_index_sphinx_html_atomic_success(monkeypatch, tmp_path, stats_obj):
     stats = indexer.index_sphinx_html(tmp_path)
 
     assert stats.indexed_documents == 2
+    completion_logs = [
+        record.getMessage()
+        for record in caplog.records
+        if "Atomic HTML indexing complete" in record.getMessage()
+    ]
+    assert completion_logs
+    assert "documents/s" in completion_logs[-1]
+    assert "kilobytes/s" in completion_logs[-1]
 
 
 def test_index_sphinx_html_atomic_cancelled(monkeypatch, tmp_path):

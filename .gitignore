@@ -4,6 +4,7 @@ _build
 # Python ignore
 __pycache__
 .coverage
+.tmp/
 
 
 # requests_cache db

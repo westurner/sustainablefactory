@@ -3,8 +3,12 @@ CLI interface for Meilisearch integration.
 """
 
 import logging
+import os
+import re
 import sys
 from pathlib import Path
+from typing import Optional
+from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
 
 import click
 import yaml
@@ -24,13 +28,75 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+def _browser_url(
+    result_url: str | None, url_prefix: str | None, query: str
+) -> str | None:
+    """Build a browser URL with the search term and existing fragment."""
+    if not result_url:
+        return None
+    if url_prefix:
+        prefix = url_prefix if url_prefix.endswith("/") else f"{url_prefix}/"
+        result_url = urljoin(prefix, result_url.lstrip("/"))
+    parsed = urlsplit(result_url)
+    query_params = parse_qsl(parsed.query, keep_blank_values=True)
+    query_params.append(("highlight", query))
+    return urlunsplit(
+        (
+            parsed.scheme,
+            parsed.netloc,
+            parsed.path,
+            urlencode(query_params),
+            parsed.fragment,
+        )
+    )
+
+
+def _source_location(source_uri: str | None, query: str) -> str | None:
+    """Find the first query match in a local source and return path:line:char."""
+    if not source_uri:
+        return None
+    parsed = urlsplit(source_uri)
+    if parsed.scheme not in ("", "file"):
+        return None
+    source_path = Path(parsed.path if parsed.scheme == "file" else source_uri)
+    if not source_path.is_file():
+        return None
+    try:
+        source_text = source_path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    terms = [term for term in query.split() if term]
+    if not terms:
+        return None
+    match = re.search(
+        r"\s+".join(re.escape(term) for term in terms), source_text, re.IGNORECASE
+    )
+    if match is None:
+        return None
+    line = source_text.count("\n", 0, match.start()) + 1
+    previous_newline = source_text.rfind("\n", 0, match.start())
+    character = match.start() - previous_newline
+    return f"{source_path}:{line}:{character}"
+
+
+def _osc8(label: str, target: str | None, enabled: bool) -> str:
+    """Wrap a terminal label in an OSC 8 hyperlink when enabled."""
+    if not enabled or not target:
+        return label
+    return f"\033]8;;{target}\033\\{label}\033]8;;\033\\"
+
+
 def _default_oxirs_storage_path() -> str:
     """Return the workspace-local default for persistent OxiRS data."""
     candidates = [Path.cwd(), *Path.cwd().parents, *Path(__file__).resolve().parents]
     for candidate in candidates:
-        if (candidate / "Makefile").is_file() and (
-            candidate / "src" / "docindex-core"
-        ).is_dir():
+        package_roots = (
+            candidate / "src" / "docindex-core",
+            candidate / "src" / "docindex" / "src" / "docindex-core",
+        )
+        if (candidate / "Makefile").is_file() and any(
+            package_root.is_dir() for package_root in package_roots
+        ):
             return str(candidate / ".tmp" / "docindex" / "oxirs")
     return str(Path.cwd() / ".tmp" / "docindex" / "oxirs")
 
@@ -112,9 +178,9 @@ def cli(
     backend: str,
     host: str,
     port: int,
-    api_key: str | None,
-    oxirs_url: str | None,
-    oxirs_storage_path: str | None,
+    api_key: Optional[str],
+    oxirs_url: Optional[str],
+    oxirs_storage_path: Optional[str],
 ):
     """Docindex search and indexing integration CLI."""
     ctx.ensure_object(dict)
@@ -170,9 +236,9 @@ def index_chats(
     skip_unchanged: bool,
     progress: bool,
     pipeline: bool,
-    backend: str | None = None,
-    oxirs_url: str | None = None,
-    oxirs_storage_path: str | None = None,
+    backend: Optional[str] = None,
+    oxirs_url: Optional[str] = None,
+    oxirs_storage_path: Optional[str] = None,
 ):
     """Index chat exports to Meilisearch."""
     config = ctx.obj["config"]
@@ -197,7 +263,7 @@ def index_chats(
         click.echo(f"  Success rate: {stats.success_rate:.1f}%")
         click.echo(f"  Duration: {stats.duration_seconds:.1f}s")
 
-    except Exception as e:  # pragma: no cover  # noqa: BLE001
+    except Exception as e:  # pragma: no cover
         click.echo(f"✗ Error: {e}", err=True)
         sys.exit(1)
 
@@ -264,9 +330,9 @@ def index_html(
     staging_suffix: str,
     progress: bool,
     pipeline: bool,
-    backend: str | None = None,
-    oxirs_url: str | None = None,
-    oxirs_storage_path: str | None = None,
+    backend: Optional[str] = None,
+    oxirs_url: Optional[str] = None,
+    oxirs_storage_path: Optional[str] = None,
 ):
     """Index Sphinx HTML to Meilisearch with atomic guarantees (zero-gap updates).
 
@@ -288,7 +354,7 @@ def index_html(
 
     # Parse heading range
     try:
-        _start, end = headings.split("-")
+        start, end = headings.split("-")
         max_heading = int(end)
     except ValueError:
         max_heading = 3
@@ -317,7 +383,7 @@ def index_html(
     except KeyboardInterrupt:
         click.echo("\n✗ Cancelled (staging indices cleaned up)", err=True)
         sys.exit(1)
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         click.echo(f"✗ Error: {e}", err=True)
         sys.exit(1)
 
@@ -348,9 +414,9 @@ def index_html_legacy(
     source: Path,
     headings: str,
     exclude: tuple,
-    backend: str | None = None,
-    oxirs_url: str | None = None,
-    oxirs_storage_path: str | None = None,
+    backend: Optional[str] = None,
+    oxirs_url: Optional[str] = None,
+    oxirs_storage_path: Optional[str] = None,
 ):  # pragma: no cover
     """Index Sphinx HTML to Meilisearch (legacy, non-atomic).
 
@@ -367,7 +433,7 @@ def index_html_legacy(
 
     # Parse heading range
     try:
-        _start, end = headings.split("-")
+        start, end = headings.split("-")
         max_heading = int(end)
     except ValueError:
         max_heading = 3
@@ -387,7 +453,7 @@ def index_html_legacy(
         click.echo(f"  Duration: {stats.duration_seconds:.1f}s")
         click.echo("\n  ⚠ Note: Use 'index-html' for atomic zero-gap updates")
 
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         click.echo(f"✗ Error: {e}", err=True)
         sys.exit(1)
 
@@ -416,14 +482,15 @@ def status(ctx):
             click.echo(f"✗ Connection failed: {status_info.get('error')}", err=True)
             sys.exit(1)
 
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         click.echo(f"✗ Error: {e}", err=True)
         sys.exit(1)
 
 
 @cli.command()
 @click.option("--index", default="all", help="Index name")
-@click.option("--query", prompt="Search query", help="Search query")
+@click.argument("query_arg", required=False)
+@click.option("--query", "query_option", default=None, help="Search query")
 @click.option("--limit", type=int, default=10, help="Number of results")
 @click.option(
     "--backend",
@@ -434,17 +501,46 @@ def status(ctx):
 @click.option(
     "--oxirs-storage-path", default=None, help="Local pyoxigraph storage path"
 )
+@click.option(
+    "--url-prefix",
+    default=None,
+    envvar="DOCINDEX_URL_PREFIX",
+    help="Browser URL prefix for relative result URLs (env: DOCINDEX_URL_PREFIX)",
+)
+@click.option(
+    "--no-osc8",
+    is_flag=True,
+    envvar="DOCINDEX_NO_OSC8",
+    help="Disable OSC 8 terminal hyperlinks (env: DOCINDEX_NO_OSC8)",
+)
+@click.option(
+    "--output-format",
+    type=click.Choice(("yaml", "text")),
+    default="yaml",
+    show_default=True,
+    help="Search result output format",
+)
 @click.pass_context
 def search(
     ctx,
     index: str,
-    query: str,
+    query_arg: Optional[str],
+    query_option: Optional[str],
     limit: int,
-    backend: str | None = None,
-    oxirs_url: str | None = None,
-    oxirs_storage_path: str | None = None,
+    backend: Optional[str] = None,
+    oxirs_url: Optional[str] = None,
+    oxirs_storage_path: Optional[str] = None,
+    url_prefix: Optional[str] = None,
+    no_osc8: bool = False,
+    output_format: str = "yaml",
 ):  # pragma: no cover
     """Search Meilisearch indices."""
+    if query_arg is not None and query_option is not None:
+        raise click.UsageError("provide the query either positionally or with --query")
+    query = query_option if query_option is not None else query_arg
+    if query is None:
+        query = click.prompt("Search query")
+
     config = ctx.obj["config"]
     if backend:
         config.backend = backend.lower()
@@ -459,30 +555,63 @@ def search(
 
         if results:
             click.echo(f"# {len(results)} results for '{query}'")
-            click.echo(
-                yaml.dump(
-                    [
-                        {
-                            "rank": i,
-                            "title": result.title,
-                            "type": str(result.type),
-                            "score": round(result.relevance_score, 4),
-                            "date_indexed": getattr(result, "date_indexed", None),
-                            "snippet": result.content_snippet,
-                            "content": getattr(result, "content", None),
-                        }
-                        for i, result in enumerate(results, 1)
-                    ],
-                    default_flow_style=False,
-                    allow_unicode=True,
-                    sort_keys=False,
-                ),
-                nl=False,
-            )
+            rendered_results = []
+            osc8_enabled = not no_osc8 and os.getenv(
+                "DOCINDEX_NO_OSC8", ""
+            ).lower() not in {
+                "1",
+                "true",
+                "yes",
+            }
+            for i, result in enumerate(results, 1):
+                source_uri = getattr(result, "source_uri", None)
+                browser_url = _browser_url(result.url, url_prefix, query)
+                source_location = _source_location(source_uri, query)
+                open_target = browser_url or source_uri
+                rendered_results.append(
+                    {
+                        "rank": i,
+                        "id": result.id,
+                        "title": result.title,
+                        "type": str(result.type),
+                        "score": round(result.relevance_score, 4),
+                        "date_indexed": getattr(result, "date_indexed", None),
+                        "url": result.url,
+                        "browser_url": browser_url,
+                        "source_uri": source_uri,
+                        "source_location": source_location,
+                        "open": open_target,
+                        "snippet": result.content_snippet,
+                        "content": getattr(result, "content", None),
+                    }
+                )
+            if output_format == "yaml":
+                click.echo(
+                    yaml.dump(
+                        rendered_results,
+                        default_flow_style=False,
+                        allow_unicode=True,
+                        sort_keys=False,
+                    ),
+                    nl=False,
+                )
+            else:
+                for result in rendered_results:
+                    label = (
+                        result["browser_url"]
+                        or result["source_location"]
+                        or result["source_uri"]
+                        or result["id"]
+                    )
+                    click.echo(f"{result['rank']}. {result['title']}")
+                    click.echo(f"   open: {_osc8(label, result['open'], osc8_enabled)}")
+                    if result["source_location"]:
+                        click.echo(f"   source: {result['source_location']}")
+                    click.echo(f"   snippet: {result['snippet']}")
         else:
             click.echo(f"No results found for '{query}'")
 
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         click.echo(f"✗ Error: {e}", err=True)
         sys.exit(1)
 
@@ -504,7 +633,7 @@ def list_indices(ctx):  # pragma: no cover
         else:
             click.echo("No indices found")
 
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         click.echo(f"✗ Error: {e}", err=True)
         sys.exit(1)
 
@@ -517,18 +646,17 @@ def clear_index(ctx, index: str, confirm: bool):
     """Clear all documents from an index."""
     config = ctx.obj["config"]
 
-    if not confirm and not click.confirm(
-        f"Clear index '{index}'? This cannot be undone."
-    ):
-        click.echo("Cancelled")
-        return
+    if not confirm:
+        if not click.confirm(f"Clear index '{index}'? This cannot be undone."):
+            click.echo("Cancelled")
+            return
 
     try:
         client = get_backend(config)
         client.clear_index(index)
         click.echo(f"✓ Cleared index '{index}'")
 
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         click.echo(f"✗ Error: {e}", err=True)
         sys.exit(1)
 
@@ -541,18 +669,17 @@ def delete_index(ctx, index: str, confirm: bool):
     """Delete an index."""
     config = ctx.obj["config"]
 
-    if not confirm and not click.confirm(
-        f"Delete index '{index}'? This cannot be undone."
-    ):
-        click.echo("Cancelled")
-        return
+    if not confirm:
+        if not click.confirm(f"Delete index '{index}'? This cannot be undone."):
+            click.echo("Cancelled")
+            return
 
     try:
         client = get_backend(config)
         client.delete_index(index)
         click.echo(f"✓ Deleted index '{index}'")
 
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         click.echo(f"✗ Error: {e}", err=True)
         sys.exit(1)
 
@@ -579,7 +706,9 @@ _ALL_INDEX_NAMES = ["all", "chats", "sphinx", "myst"]
     help="Comma-separated list of index names to update",
 )
 @click.pass_context
-def update_synonyms(ctx, synonyms_file: Path | None, indices: str):  # pragma: no cover
+def update_synonyms(
+    ctx, synonyms_file: Optional[Path], indices: str
+):  # pragma: no cover
     """Push synonyms.yaml to one or more Meilisearch indices.
 
     Reads the synonyms YAML file and replaces the synonym map on each
@@ -609,9 +738,9 @@ def update_synonyms(ctx, synonyms_file: Path | None, indices: str):  # pragma: n
             try:
                 client.update_synonyms(name, synonyms)
                 click.echo(f"  ✓ {name}")
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 click.echo(f"  ✗ {name}: {exc}", err=True)
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         click.echo(f"✗ Error connecting: {e}", err=True)
         sys.exit(1)
 
@@ -630,7 +759,7 @@ def update_synonyms(ctx, synonyms_file: Path | None, indices: str):  # pragma: n
     help="Show only entries whose key contains this string",
 )
 @click.pass_context
-def show_synonyms(ctx, index: str, term_filter: str | None):  # pragma: no cover
+def show_synonyms(ctx, index: str, term_filter: Optional[str]):  # pragma: no cover
     """Display the synonym map currently stored in a Meilisearch index.
 
     Use this to review what's live before or after running update-synonyms.
@@ -644,7 +773,7 @@ def show_synonyms(ctx, index: str, term_filter: str | None):  # pragma: no cover
     try:
         client = get_backend(config)
         synonyms = client.get_synonyms(index)
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         click.echo(f"✗ Error: {e}", err=True)
         sys.exit(1)
 
@@ -698,7 +827,7 @@ def suggest_synonyms(  # pragma: no cover
     source: Path,
     min_count: int,
     apply: bool,
-    synonyms_file: Path | None,
+    synonyms_file: Optional[Path],
 ):
     """Discover synonym candidates by scanning corpus files.
 
@@ -783,8 +912,8 @@ def suggest_synonyms(  # pragma: no cover
     ),
 )
 def export_synonyms(  # pragma: no cover
-    glossary_yaml: Path | None,
-    synonyms_file: Path | None,
+    glossary_yaml: Optional[Path],
+    synonyms_file: Optional[Path],
     mode: str,
 ):
     """Export synonym lists from glossary.yaml into synonyms.yaml.
@@ -897,9 +1026,9 @@ def export_synonyms(  # pragma: no cover
     help="Write output even when content is unchanged",
 )
 def generate_glossary(  # pragma: no cover
-    glossary_yaml: Path | None,
-    output_md: Path | None,
-    synonyms_file: Path | None,
+    glossary_yaml: Optional[Path],
+    output_md: Optional[Path],
+    synonyms_file: Optional[Path],
     export_synonyms_file,  # None | "" | Path
     label: str,
     title: str,

@@ -1,6 +1,7 @@
 # Editable installs for docindex components
 # Package-specific dependencies are declared in each package's pyproject.toml
--e ./src/docindex-core
--e ./src/docindex-cli
--e ./src/docindex-sphinx
--e ./src/docindex-sustainablefactory
+-e ./src/docindex/src/docindex-core
+-e ./src/docindex/src/docindex-cli
+-e ./src/docindex/src/docindex-sphinx
+-e ./src/docindex/src/docindex-sustainablefactory
+-e ./src/docindex

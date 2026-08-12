@@ -6,21 +6,27 @@ from __future__ import annotations
 
 import logging
 import time
+from datetime import datetime
 from pathlib import Path
-from typing import Optional, List
-from datetime import datetime, timezone
 from uuid import uuid4
 
-from .config import DocIndexConfig, MeilisearchConfig, DocumentType, IndexingStats, DEFAULT_INDEX_SETTINGS
-from .chat_parser import BatchChatIndexer
-from .html_parser import BatchHTMLIndexer
-from .backends.base import BaseSearchBackend
 from .api import MeilisearchClient
+from .backends.base import BaseSearchBackend
+from .chat_parser import BatchChatIndexer
+from .config import (
+    DEFAULT_INDEX_SETTINGS,
+    DocIndexConfig,
+    DocumentType,
+    IndexingStats,
+    MeilisearchConfig,
+)
+from .html_parser import BatchHTMLIndexer
 
 logger = logging.getLogger(__name__)
 
 try:
     from tqdm.auto import tqdm as _tqdm
+
     _HAS_TQDM = True
 except ImportError:  # pragma: no cover
     _HAS_TQDM = False
@@ -29,88 +35,92 @@ except ImportError:  # pragma: no cover
 
 class DocumentIndexer:
     """Main indexer coordinating all indexing operations."""
-    
+
     def __init__(
         self,
-        config: Optional[DocIndexConfig | MeilisearchConfig] = None,
-        backend: Optional[BaseSearchBackend] = None
+        config: DocIndexConfig | MeilisearchConfig | None = None,
+        backend: BaseSearchBackend | None = None,
     ):
         """Initialize indexer.
-        
+
         Args:
             config: Config instance. If None, loads from environment.
             backend: Optional custom backend instance.
         """
         if backend is not None:
             self.client = backend
-            self.config = getattr(backend, 'config', None)
+            self.config = getattr(backend, "config", None)
         else:
             self.config = config or DocIndexConfig.from_env()
-            
+
             # Dynamically import and build backend(s)
-            backends_list = getattr(self.config, 'backends', [])
+            backends_list = getattr(self.config, "backends", [])
             if not backends_list:
-                backends_list = [getattr(self.config, 'backend', 'oxirs') or 'oxirs']  # pragma: no cover
+                backends_list = [
+                    getattr(self.config, "backend", "oxirs") or "oxirs"
+                ]  # pragma: no cover
 
             clients = []
             for backend_type in backends_list:
-                if backend_type == 'oxirs':
+                if backend_type == "oxirs":
                     from .backends.oxirs import OxiRSBackend, OxiRSConfig
+
                     oxirs_conf = OxiRSConfig(
                         url=self.config.url,
                         storage_path=self.config.storage_path,
                         batch_size=self.config.batch_size,
-                        enabled=self.config.enabled
+                        enabled=self.config.enabled,
                     )
                     clients.append(OxiRSBackend(oxirs_conf))
                 else:
-                    from .backends.milli import MilliBackend, MilliConfig
+                    from .backends.milli import MilliConfig
+
                     milli_conf = MilliConfig(
                         host=self.config.host,
                         port=self.config.port,
                         api_key=self.config.api_key,
                         batch_size=self.config.batch_size,
                         index_name=self.config.index_name,
-                        enabled=self.config.enabled
+                        enabled=self.config.enabled,
                     )
                     clients.append(MeilisearchClient(milli_conf))
 
             if len(clients) > 1:
                 from .backends.multi import MultiBackend
+
                 self.client = MultiBackend(clients)
             elif clients:
                 self.client = clients[0]
             else:
-                raise ValueError("No active search backend configured.")  # pragma: no cover
+                raise ValueError(
+                    "No active search backend configured."
+                )  # pragma: no cover
 
-        
         # Ensure default indices exist
         self._init_indices()
 
-    
     def _init_indices(self):
         """Initialize Meilisearch indices.
-        
+
         Indices group documents by source system:
         - 'all': all documents across all sources
         - 'chats': chat export documents
         - 'sphinx': all sphinx-based documents (html, rst, md, notebooks)
         - 'myst': MyST/Markdown-specific documents
         """
-        index_names = ['all', 'chats', 'sphinx', 'myst']
+        index_names = ["all", "chats", "sphinx", "myst"]
         for index_name in index_names:
             try:
                 self.client.create_or_update_index(
-                    index_name,
-                    settings=DEFAULT_INDEX_SETTINGS
+                    index_name, settings=DEFAULT_INDEX_SETTINGS
                 )
             except Exception as e:
                 logger.error(f"Failed to initialize index {index_name}: {e}")
-    
+
     def _send_batch_with_retry(
         self,
         index_name: str,
-        batch: List,
+        batch: list,
         max_retries: int,
         retry_delay: float,
         pending_tasks: dict,
@@ -122,7 +132,7 @@ class DocumentIndexer:
         *pending_tasks[index_name]* so the caller can finalize all indices in
         one consolidated wait at the end.
         """
-        last_exc: Optional[Exception] = None
+        last_exc: Exception | None = None
 
         for attempt in range(max_retries):
             try:
@@ -140,35 +150,35 @@ class DocumentIndexer:
                     f"(attempt {attempt + 1}/{max_retries}): {exc}"
                 )
                 if attempt < max_retries - 1:
-                    wait = retry_delay * (2 ** attempt)
+                    wait = retry_delay * (2**attempt)
                     logger.info(f"Retrying in {wait:.1f}s…")
                     time.sleep(wait)
 
         if last_exc is not None:
             raise last_exc
 
-    def _get_index_names_for_document(self, doc) -> List[str]:
+    def _get_index_names_for_document(self, doc) -> list[str]:
         """Get indices where this document should be indexed.
 
         Args:
             doc: Document to route (or SimpleNamespace for testing)
 
         Returns:
-            List of index names to send document to
+            list of index names to send document to
         """
-        indices = ['all']  # All documents go to 'all' index
+        indices = ["all"]  # All documents go to 'all' index
 
         # Handle both Document objects and test mocks (SimpleNamespace)
-        if not hasattr(doc, 'type'):
+        if not hasattr(doc, "type"):
             return indices  # Default: only 'all' index
 
-        if str(doc.type).startswith('chat'):
-            indices.append('chats')
-        elif str(doc.type).startswith('sphinx'):
-            indices.append('sphinx')
+        if str(doc.type).startswith("chat"):
+            indices.append("chats")
+        elif str(doc.type).startswith("sphinx"):
+            indices.append("sphinx")
             # Route SPHINX_MD documents to 'myst' index for MyST-specific queries
             if doc.type in (DocumentType.SPHINX_MD, "sphinx_md"):
-                indices.append('myst')
+                indices.append("myst")
 
         return indices
 
@@ -177,7 +187,7 @@ class DocumentIndexer:
         chat_dir: Path,
         skip_unchanged: bool = False,
         progress: bool = True,
-        total_estimate: Optional[int] = None,
+        total_estimate: int | None = None,
         pipeline: bool = True,
     ) -> IndexingStats:
         """Index all chat files in a directory with memory-efficient batching.
@@ -213,15 +223,15 @@ class DocumentIndexer:
             except AttributeError:
                 pass  # FakeBatchChat in tests may not expose this method
 
-        start_time = datetime.now(timezone.utc)
-        batch: List = []
+        start_time = datetime.now(datetime.UTC)
+        batch: list = []
         total_submitted = 0
         file_count = 0
         batch_size = self.config.batch_size
 
         # Per-index accumulators (fire-and-collect pattern)
-        pending_tasks: dict = {}   # index_name → [(task_uid, batch_len)]
-        submit_counts: dict = {}   # index_name → (n_ok, n_err)
+        pending_tasks: dict = {}  # index_name → [(task_uid, batch_len)]
+        submit_counts: dict = {}  # index_name → (n_ok, n_err)
 
         pbar = (
             _tqdm(
@@ -248,7 +258,10 @@ class DocumentIndexer:
                             )
                             pending_tasks.setdefault(index_name, []).extend(tasks)
                             prev = submit_counts.get(index_name, (0, 0))
-                            submit_counts[index_name] = (prev[0] + n_ok, prev[1] + n_err)
+                            submit_counts[index_name] = (
+                                prev[0] + n_ok,
+                                prev[1] + n_err,
+                            )
                         total_submitted += len(batch)
                         logger.info(
                             f"Submitted batch of {len(batch)} docs "
@@ -282,7 +295,7 @@ class DocumentIndexer:
             stats = self.client._finalize_tasks(
                 index_name, tasks, n_ok, n_err, start_time, progress
             )
-            if index_name == 'all':
+            if index_name == "all":
                 last_stats = stats
 
         try:
@@ -290,7 +303,7 @@ class DocumentIndexer:
         except Exception as e:
             logger.warning(f"Failed to optimize search backend: {e}")
 
-        end_time = datetime.now(timezone.utc)
+        end_time = datetime.now(datetime.UTC)
         duration = (end_time - start_time).total_seconds()
 
         if last_stats:
@@ -314,14 +327,17 @@ class DocumentIndexer:
     # Sphinx document types that live in the 'sphinx' and 'myst' indices.
     # These are also written to 'all'; the atomic rebuild replaces only these.
     _SPHINX_TYPES: tuple = (
-        "sphinx_html", "sphinx_rst", "sphinx_md", "sphinx_nb",
+        "sphinx_html",
+        "sphinx_rst",
+        "sphinx_md",
+        "sphinx_nb",
     )
 
     def index_sphinx_html(
         self,
         html_dir: Path,
         max_heading_level: int = 3,
-        exclude_patterns: Optional[List[str]] = None,
+        exclude_patterns: list[str] | None = None,
         max_retries: int = 3,
         retry_delay: float = 1.0,
         staging_suffix: str = "_staging",
@@ -337,7 +353,9 @@ class DocumentIndexer:
         Cancellation-safe: staging indices are cleaned up; live indices untouched.
         """
         html_dir = Path(html_dir)
-        logger.info(f"Atomic HTML indexing: {html_dir} (staging suffix='{staging_suffix}')")
+        logger.info(
+            f"Atomic HTML indexing: {html_dir} (staging suffix='{staging_suffix}')"
+        )
 
         try:
             indexer = BatchHTMLIndexer(html_dir)
@@ -354,27 +372,33 @@ class DocumentIndexer:
                 staging_name, settings=DEFAULT_INDEX_SETTINGS
             )
 
-        start_time = datetime.now(timezone.utc)
+        start_time = datetime.now(datetime.UTC)
         build_id = str(uuid4())  # Unique tag for this build run
-        batch: List = []
+        batch: list = []
         total_docs_sent = 0
         file_count = 0
+        total_bytes = 0
         batch_size = self.config.batch_size
-        last_stats: Optional[IndexingStats] = None
+        last_stats: IndexingStats | None = None
         cancelled = False
 
         # Per-index accumulators for pipelined submission
         pending_tasks: dict = {}
         submit_counts: dict = {}
 
-        def _flush_to_staging(b: List) -> None:
+        def _flush_to_staging(b: list) -> None:
             nonlocal total_docs_sent
             # Stamp every doc with this build's ID
             for doc in b:
                 doc.build_id = build_id
             # All sphinx docs go to sphinx_staging
             self._send_batch_with_retry(
-                sphinx_staging, b, max_retries, retry_delay, pending_tasks, submit_counts
+                sphinx_staging,
+                b,
+                max_retries,
+                retry_delay,
+                pending_tasks,
+                submit_counts,
             )
             # Also write to 'all' immediately — new docs join the live index
             # alongside the still-present old docs (overlap, not a gap)
@@ -383,12 +407,19 @@ class DocumentIndexer:
             )
             # MyST/MD docs additionally go to myst_staging
             myst_batch = [
-                d for d in b
-                if hasattr(d, 'type') and str(getattr(d, 'type', '')).endswith('sphinx_md')
+                d
+                for d in b
+                if hasattr(d, "type")
+                and str(getattr(d, "type", "")).endswith("sphinx_md")
             ]
             if myst_batch:
                 self._send_batch_with_retry(
-                    myst_staging, myst_batch, max_retries, retry_delay, pending_tasks, submit_counts
+                    myst_staging,
+                    myst_batch,
+                    max_retries,
+                    retry_delay,
+                    pending_tasks,
+                    submit_counts,
                 )
             total_docs_sent += len(b)
 
@@ -398,6 +429,10 @@ class DocumentIndexer:
                 max_heading_level=max_heading_level,
             ):
                 file_count += 1
+                try:
+                    total_bytes += Path(_filepath).stat().st_size
+                except OSError:
+                    pass
                 for doc in documents:
                     batch.append(doc)
                     if len(batch) >= batch_size:
@@ -437,7 +472,7 @@ class DocumentIndexer:
         if cancelled:
             for name in (sphinx_staging, myst_staging):
                 self.client.delete_index_if_exists(name)
-            end_time = datetime.now(timezone.utc)
+            end_time = datetime.now(datetime.UTC)
             return last_stats or IndexingStats(
                 total_documents=0,
                 indexed_documents=0,
@@ -450,10 +485,12 @@ class DocumentIndexer:
 
         # --- Step 2a: Atomic swap of per-source indices ---
         try:
-            self.client.swap_indexes([
-                (sphinx_staging, "sphinx"),
-                (myst_staging,   "myst"),
-            ])
+            self.client.swap_indexes(
+                [
+                    (sphinx_staging, "sphinx"),
+                    (myst_staging, "myst"),
+                ]
+            )
             logger.info("Swapped staging indices into live sphinx/myst.")
         except Exception as e:
             logger.error(
@@ -480,7 +517,7 @@ class DocumentIndexer:
             task_uid = (
                 task.get("taskUid") or task.get("uid")
                 if isinstance(task, dict)
-                else getattr(task, 'task_uid', None)
+                else getattr(task, "task_uid", None)
             )
             if task_uid is not None:
                 self.client.wait_for_task(task_uid)
@@ -497,13 +534,17 @@ class DocumentIndexer:
         except Exception as e:
             logger.warning(f"Failed to optimize search backend: {e}")
 
-        end_time = datetime.now(timezone.utc)
+        end_time = datetime.now(datetime.UTC)
         duration = (end_time - start_time).total_seconds()
+        documents_per_second = total_docs_sent / duration if duration > 0 else 0.0
+        kilobytes_per_second = total_bytes / 1024 / duration if duration > 0 else 0.0
 
         if last_stats:
             logger.info(
                 f"Atomic HTML indexing complete: {total_docs_sent} documents "
-                f"from {file_count} files in {duration:.2f}s"
+                f"from {file_count} files in {duration:.2f}s "
+                f"({documents_per_second:.2f} documents/s, "
+                f"{kilobytes_per_second:.2f} kilobytes/s)"
             )
             return last_stats
         else:
@@ -522,11 +563,11 @@ class DocumentIndexer:
         self,
         html_dir: Path,
         max_heading_level: int = 3,
-        exclude_patterns: Optional[List[str]] = None,
+        exclude_patterns: list[str] | None = None,
         max_retries: int = 3,
         retry_delay: float = 1.0,
         progress: bool = True,
-        total_estimate: Optional[int] = None,
+        total_estimate: int | None = None,
         pipeline: bool = True,
     ) -> IndexingStats:
         """Index Sphinx HTML with memory-efficient pipelined batching (non-atomic).
@@ -553,16 +594,16 @@ class DocumentIndexer:
             except AttributeError:
                 pass  # FakeBatchHtml in tests may not expose this method
 
-        start_time = datetime.now(timezone.utc)
-        batch: List = []
+        start_time = datetime.now(datetime.UTC)
+        batch: list = []
         total_submitted = 0
         file_count = 0
         batch_size = self.config.batch_size
         cancelled = False
 
         # Per-index accumulators (fire-and-collect pattern)
-        pending_tasks: dict = {}   # index_name → [(task_uid, batch_len)]
-        submit_counts: dict = {}   # index_name → (n_ok, n_err)
+        pending_tasks: dict = {}  # index_name → [(task_uid, batch_len)]
+        submit_counts: dict = {}  # index_name → (n_ok, n_err)
 
         pbar = (
             _tqdm(
@@ -574,11 +615,15 @@ class DocumentIndexer:
             else None
         )
 
-        def _flush_batch(b: List) -> None:
+        def _flush_batch(b: list) -> None:
             for index_name in self._get_index_names_for_document(b[0]):
                 self._send_batch_with_retry(
-                    index_name, b, max_retries, retry_delay,
-                    pending_tasks, submit_counts,
+                    index_name,
+                    b,
+                    max_retries,
+                    retry_delay,
+                    pending_tasks,
+                    submit_counts,
                 )
 
         try:
@@ -636,10 +681,10 @@ class DocumentIndexer:
             stats = self.client._finalize_tasks(
                 index_name, tasks, n_ok, n_err, start_time, progress
             )
-            if index_name == 'all':
+            if index_name == "all":
                 last_stats = stats
 
-        end_time = datetime.now(timezone.utc)
+        end_time = datetime.now(datetime.UTC)
         duration = (end_time - start_time).total_seconds()
 
         if last_stats:
@@ -668,25 +713,22 @@ class DocumentIndexer:
 
     def get_index_status(self) -> dict:
         """Get status of all indices.
-        
+
         Returns:
             Dictionary with index information
         """
         try:
             indices = self.client.list_indices()
-            status = {
-                'connected': True,
-                'indices': {}
-            }
-            
+            status = {"connected": True, "indices": {}}
+
             for idx in indices:
-                stats = self.client.get_index_stats(idx['name'])
-                status['indices'][idx['name']] = {
-                    'documents': stats.get('numberOfDocuments', 0),
-                    'updates': stats.get('isIndexing', False)
+                stats = self.client.get_index_stats(idx["name"])
+                status["indices"][idx["name"]] = {
+                    "documents": stats.get("numberOfDocuments", 0),
+                    "updates": stats.get("isIndexing", False),
                 }
-            
+
             return status
         except Exception as e:
             logger.error(f"Failed to get index status: {e}")
-            return {'connected': False, 'error': str(e)}
+            return {"connected": False, "error": str(e)}

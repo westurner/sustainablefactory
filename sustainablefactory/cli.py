@@ -1,5 +1,10 @@
-import click
+"""
+sustainablefactory.cli
+"""
 from pathlib import Path
+
+import click
+
 from .parser import parse_and_extract_from_markdown
 from .rdf_gen import generate_rdf_star
 
@@ -7,7 +12,6 @@ from .rdf_gen import generate_rdf_star
 @click.group()
 def main():
     """Sustainable Factory CLI tool."""
-    pass
 
 
 @main.command()

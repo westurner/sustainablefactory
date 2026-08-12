@@ -111,6 +111,7 @@ class SearchResult(BaseModel):
     type: DocumentType
     title: str
     url: Optional[str] = None
+    source_uri: Optional[str] = None
     content: str = ""
     content_snippet: str
     date_indexed: Optional[str] = None

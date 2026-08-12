@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docindex"
+version = "0.1.0"
+description = "Workspace package for the docindex component repositories"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "docindex-core==0.1.0",
+  "docindex-sphinx==0.1.0",
+  "docindex-cli==0.1.0",
+  "docindex-sustainablefactory==0.1.0"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["docindex_workspace*"]
+
+[tool.uv.workspace]
+members = [
+  "src/docindex-core",
+  "src/docindex-sphinx",
+  "src/docindex-cli",
+
+  "src/docindex-sustainablefactory"
+]
+
+[tool.uv.sources]
+docindex-core = { workspace = true }
+docindex-sphinx = { workspace = true }
+docindex-cli = { workspace = true }
+docindex-sustainablefactory = { workspace = true }
