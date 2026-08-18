@@ -64,6 +64,10 @@ transform_md_data_chats:
 	transform-md --indir data/chats/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst,ipynb,chatexport_abc1
 
 
+## Docindex requires MeiliSearch (rust) and/or oxirs:
+## - Meilisearch requires setup and a server to be running
+## - Oxirs runs an embedded database
+
 .PHONY: meilisearch_start
 meilisearch_start:
 	@echo "meilisearch_start  #  Start Meilisearch server in container or with binary"
@@ -107,7 +111,18 @@ meilisearch_build_version:
 		-f Dockerfile.meilisearch \
 		-t sustainablefactory-meilisearch:$(MEILISEARCH_VERSION)
 
-.PHONY: meilisearch_index_chats
+.PHONY: docindex_help
+docindex_help:
+	@echo "docindex_help       #  Show docindex help"
+	$(PYTHON) -m docindex_cli.cli --help
+
+.PHONY: docindex_status
+docindex_status:
+	@echo "docindex_status       #  Show index status report"
+	$(PYTHON) -m docindex_cli.cli status
+
+
+.PHONY: docindex_index_chats
 docindex_index_chats: # docindex_install_python
 	@echo "docindex_index_chats  #  Index chat exports to docindex"
 	$(PYTHON) -m docindex_cli.cli index-chats --source docs/chats --progress --pipeline
@@ -152,6 +167,7 @@ docindex_install_python:
 			"$(PYTHON)" -m pip install -r requirements-docindex.txt; \
 		fi; \
 	fi
+
 
 .PHONY: meilisearch_setup_subuids
 meilisearch_setup_subuids:
@@ -202,6 +218,7 @@ meilisearch_setup_subuids:
 	@echo "Current /etc/subuid:"; cat /etc/subuid
 	@echo "Current /etc/subgid:"; cat /etc/subgid
 	@echo "Run 'podman system migrate' if Podman was already used before this change."
+
 
 .PHONY: update_schemadir
 update_schemadir:
