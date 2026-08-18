@@ -158,7 +158,7 @@ def test_cli_c12_search_includes_term_in_snippet(monkeypatch):
                     type="chat",
                     relevance_score=1.0,
                     url=None,
-                    source_uri="urn:docindex:doc-c12-2",
+                    source_uri="urn:docindex:doc c12-2",
                     content_snippet="The c12 isotope is used in this design.",
                 ),
             ]
@@ -177,14 +177,15 @@ def test_cli_c12_search_includes_term_in_snippet(monkeypatch):
 
     assert snippets
     assert all("c12" in snippet.casefold() for snippet in snippets)
-    assert source_uris == ["file:///workspace/c12.md", "urn:docindex:doc-c12-2"]
+    assert source_uris == ["file:///workspace/c12.md", "urn:docindex:doc%20c12-2"]
 
 
 def test_cli_search_adds_browser_highlight_and_source_location(monkeypatch, tmp_path):
     import importlib
 
     cli_mod = importlib.import_module("docindex_cli.cli")
-    source_path = tmp_path / "tables.md"
+    source_path = tmp_path / "html with spaces" / "tables.html"
+    source_path.parent.mkdir()
     source_path.write_text("heading\nC12 is here\n", encoding="utf-8")
 
     class FakeClient:
@@ -198,7 +199,7 @@ def test_cli_search_adds_browser_highlight_and_source_location(monkeypatch, tmp_
                     title="C12 section",
                     type="sphinx_html",
                     relevance_score=1.0,
-                    url="tables_and_figures.myst#scaling-the-magnetic-vacuum",
+                    url="tables and figures.myst#scaling the magnetic vacuum",
                     source_uri=source_path.as_uri(),
                     content_snippet="C12 is here",
                 )
@@ -213,11 +214,16 @@ def test_cli_search_adds_browser_highlight_and_source_location(monkeypatch, tmp_
 
     assert result.exit_code == 0, result.output
     rendered = yaml.safe_load(result.output[result.output.index("- rank:") :])[0]
+    assert (
+        rendered["url"]
+        == "tables%20and%20figures.myst#scaling%20the%20magnetic%20vacuum"
+    )
     assert rendered["browser_url"] == (
-        "https://docs.example/reference/tables_and_figures.myst?highlight=C12#"
-        "scaling-the-magnetic-vacuum"
+        "https://docs.example/reference/tables%20and%20figures.myst?highlight=C12#"
+        "scaling%20the%20magnetic%20vacuum"
     )
     assert rendered["source_location"] == f"{source_path}:2:1"
+    assert f'  source_location: "{source_path}:2:1"' in result.output
     assert rendered["open"] == rendered["browser_url"]
 
 

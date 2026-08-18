@@ -138,15 +138,25 @@ class SynonymsManager:
         """
         candidates: Dict[str, List[str]] = {}
 
-        def _add(acronym: str, full: str) -> None:
-            key = acronym.lower().rstrip("s")  # normalise plurals
-            val = full.lower().strip()
-            if not val or len(val) < 4:
-                return
-            if key not in candidates:
-                candidates[key] = []
-            if val not in candidates[key]:
-                candidates[key].append(val)
+        def _add(acronym: str, full: str, lowercase=False) -> None:
+            if lowercase:
+                key = acronym.lower().rstrip("s")  # normalise plurals
+                val = full.lower().strip()
+                if not val or len(val) < 4:
+                    return
+                if key not in candidates:
+                    candidates[key] = []
+                if val not in candidates[key]:
+                    candidates[key].append(val)
+            else:
+                key = acronym.rstrip("s")  # normalise plurals
+                val = full.strip()
+                if not val or len(val) < 4:
+                    return
+                if key not in candidates:
+                    candidates[key] = []
+                if val not in candidates[key]:
+                    candidates[key].append(val)
 
         for m in _FULL_THEN_ACRONYM.finditer(text):
             _add(m.group(2), m.group(1))

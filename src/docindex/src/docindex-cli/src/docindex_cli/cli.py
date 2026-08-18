@@ -8,7 +8,15 @@ import re
 import sys
 from pathlib import Path
 from typing import Optional
-from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
+from urllib.parse import (
+    parse_qsl,
+    quote,
+    unquote,
+    urlencode,
+    urljoin,
+    urlsplit,
+    urlunsplit,
+)
 
 import click
 import yaml
@@ -28,6 +36,31 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+class _QuotedYamlString(str):
+    """String value rendered with double quotes by PyYAML."""
+
+
+class _SearchResultDumper(yaml.SafeDumper):
+    pass
+
+
+def _represent_quoted_yaml_string(dumper, value):
+    return dumper.represent_scalar("tag:yaml.org,2002:str", value, style='"')
+
+
+_SearchResultDumper.add_representer(_QuotedYamlString, _represent_quoted_yaml_string)
+
+
+def _yaml_width(results: list[dict]) -> int:
+    """Keep source_location scalars on one physical YAML line."""
+    source_lengths = [
+        len(result["source_location"])
+        for result in results
+        if result["source_location"] is not None
+    ]
+    return max(80, max(source_lengths, default=0) + 64)
+
+
 def _browser_url(
     result_url: str | None, url_prefix: str | None, query: str
 ) -> str | None:
@@ -44,9 +77,25 @@ def _browser_url(
         (
             parsed.scheme,
             parsed.netloc,
-            parsed.path,
+            quote(parsed.path, safe="/%:@!$&'()*+,;=-._~"),
             urlencode(query_params),
-            parsed.fragment,
+            quote(parsed.fragment, safe="/?%@!$&'()*+,;=-._~"),
+        )
+    )
+
+
+def _encoded_url(value: str | None) -> str | None:
+    """Percent-encode URL path and fragment while preserving URL delimiters."""
+    if not value:
+        return value
+    parsed = urlsplit(value)
+    return urlunsplit(
+        (
+            parsed.scheme,
+            parsed.netloc,
+            quote(parsed.path, safe="/%:@!$&'()*+,;=-._~"),
+            quote(parsed.query, safe="=&/%:@!$'()*+,;=-._~"),
+            quote(parsed.fragment, safe="/?%@!$&'()*+,;=-._~"),
         )
     )
 
@@ -58,7 +107,7 @@ def _source_location(source_uri: str | None, query: str) -> str | None:
     parsed = urlsplit(source_uri)
     if parsed.scheme not in ("", "file"):
         return None
-    source_path = Path(parsed.path if parsed.scheme == "file" else source_uri)
+    source_path = Path(unquote(parsed.path) if parsed.scheme == "file" else source_uri)
     if not source_path.is_file():
         return None
     try:
@@ -564,9 +613,16 @@ def search(
                 "yes",
             }
             for i, result in enumerate(results, 1):
-                source_uri = getattr(result, "source_uri", None)
-                browser_url = _browser_url(result.url, url_prefix, query)
-                source_location = _source_location(source_uri, query)
+                raw_source_uri = getattr(result, "source_uri", None)
+                source_uri = _encoded_url(raw_source_uri)
+                result_url = _encoded_url(result.url)
+                browser_url = _browser_url(result_url, url_prefix, query)
+                source_location = _source_location(raw_source_uri, query)
+                quoted_source_location = (
+                    _QuotedYamlString(source_location)
+                    if source_location is not None
+                    else None
+                )
                 open_target = browser_url or source_uri
                 rendered_results.append(
                     {
@@ -576,10 +632,10 @@ def search(
                         "type": str(result.type),
                         "score": round(result.relevance_score, 4),
                         "date_indexed": getattr(result, "date_indexed", None),
-                        "url": result.url,
+                        "url": result_url,
                         "browser_url": browser_url,
                         "source_uri": source_uri,
-                        "source_location": source_location,
+                        "source_location": quoted_source_location,
                         "open": open_target,
                         "snippet": result.content_snippet,
                         "content": getattr(result, "content", None),
@@ -592,6 +648,8 @@ def search(
                         default_flow_style=False,
                         allow_unicode=True,
                         sort_keys=False,
+                        Dumper=_SearchResultDumper,
+                        width=_yaml_width(rendered_results),
                     ),
                     nl=False,
                 )

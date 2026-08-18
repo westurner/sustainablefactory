@@ -3,8 +3,10 @@ CLI interface for Meilisearch integration.
 """
 
 import logging
+import re
 import sys
 from pathlib import Path
+from urllib.parse import quote, unquote, urlsplit, urlunsplit
 
 import click
 import yaml
@@ -22,6 +24,83 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
+
+
+class _QuotedYamlString(str):
+    """String value rendered with double quotes by PyYAML."""
+
+
+class _SearchResultDumper(yaml.SafeDumper):
+    pass
+
+
+def _represent_quoted_yaml_string(dumper, value):
+    return dumper.represent_scalar("tag:yaml.org,2002:str", value, style='"')
+
+
+_SearchResultDumper.add_representer(_QuotedYamlString, _represent_quoted_yaml_string)
+
+
+def _yaml_width(results: list[dict]) -> int:
+    """Keep source_location scalars on one physical YAML line."""
+    source_lengths = [
+        len(result["source_location"])
+        for result in results
+        if result["source_location"] is not None
+    ]
+    return max(80, max(source_lengths, default=0) + 64)
+
+
+def _encoded_url(value: str | None) -> str | None:
+    """Percent-encode URL components while preserving URL delimiters."""
+    if not value:
+        return value
+    parsed = urlsplit(value)
+    return urlunsplit(
+        (
+            parsed.scheme,
+            parsed.netloc,
+            quote(parsed.path, safe="/%:@!$&'()*+,;=-._~"),
+            quote(parsed.query, safe="=&/%:@!$'()*+,;=-._~"),
+            quote(parsed.fragment, safe="/?%@!$&'()*+,;=-._~"),
+        )
+    )
+
+
+def _source_location(source_uri: str | None, query: str) -> str | None:
+    """Find the first query match in a local source and return path:line:col."""
+    if not source_uri:
+        return None
+    parsed = urlsplit(source_uri)
+    if parsed.scheme not in ("", "file"):
+        return None
+    source_path = Path(unquote(parsed.path) if parsed.scheme == "file" else source_uri)
+    if not source_path.is_file():
+        return None
+    try:
+        source_text = source_path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    terms = [term for term in query.split() if term]
+    if not terms:
+        return None
+    match = re.search(
+        r"\s+".join(re.escape(term) for term in terms),
+        source_text,
+        re.IGNORECASE,
+    )
+    if match is None:
+        return None
+    line = source_text.count("\n", 0, match.start()) + 1
+    previous_newline = source_text.rfind("\n", 0, match.start())
+    column = match.start() - previous_newline
+    return f"{source_path}:{line}:{column}"
+
+
+def _quoted_source_location(source_uri: str | None, query: str) -> str | None:
+    """Return a source location marked for double-quoted YAML output."""
+    location = _source_location(source_uri, query)
+    return _QuotedYamlString(location) if location is not None else None
 
 
 def _default_oxirs_storage_path() -> str:
@@ -459,23 +538,34 @@ def search(
 
         if results:
             click.echo(f"# {len(results)} results for '{query}'")
+            rendered_results = [
+                {
+                    "rank": i,
+                    "id": result.id,
+                    "title": result.title,
+                    "type": str(result.type),
+                    "score": round(result.relevance_score, 4),
+                    "date_indexed": getattr(result, "date_indexed", None),
+                    "url": _encoded_url(getattr(result, "url", None)),
+                    "source_uri": _encoded_url(getattr(result, "source_uri", None)),
+                    "source_location": _quoted_source_location(
+                        getattr(result, "source_uri", None), query
+                    ),
+                    "open": _encoded_url(getattr(result, "url", None))
+                    or _encoded_url(getattr(result, "source_uri", None)),
+                    "snippet": result.content_snippet,
+                    "content": getattr(result, "content", None),
+                }
+                for i, result in enumerate(results, 1)
+            ]
             click.echo(
                 yaml.dump(
-                    [
-                        {
-                            "rank": i,
-                            "title": result.title,
-                            "type": str(result.type),
-                            "score": round(result.relevance_score, 4),
-                            "date_indexed": getattr(result, "date_indexed", None),
-                            "snippet": result.content_snippet,
-                            "content": getattr(result, "content", None),
-                        }
-                        for i, result in enumerate(results, 1)
-                    ],
+                    rendered_results,
                     default_flow_style=False,
                     allow_unicode=True,
                     sort_keys=False,
+                    Dumper=_SearchResultDumper,
+                    width=_yaml_width(rendered_results),
                 ),
                 nl=False,
             )

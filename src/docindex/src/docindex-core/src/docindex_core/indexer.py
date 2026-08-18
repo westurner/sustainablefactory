@@ -4,9 +4,9 @@ Main indexer module for coordinating document indexing.
 
 from __future__ import annotations
 
+import datetime
 import logging
 import time
-from datetime import datetime
 from pathlib import Path
 from uuid import uuid4
 
@@ -23,6 +23,9 @@ from .config import (
 from .html_parser import BatchHTMLIndexer
 
 logger = logging.getLogger(__name__)
+
+def datetime_now():
+    return datetime.datetime.now(datetime.UTC)
 
 try:
     from tqdm.auto import tqdm as _tqdm
@@ -223,7 +226,7 @@ class DocumentIndexer:
             except AttributeError:
                 pass  # FakeBatchChat in tests may not expose this method
 
-        start_time = datetime.now(datetime.UTC)
+        start_time = datetime_now()
         batch: list = []
         total_submitted = 0
         file_count = 0
@@ -303,7 +306,7 @@ class DocumentIndexer:
         except Exception as e:
             logger.warning(f"Failed to optimize search backend: {e}")
 
-        end_time = datetime.now(datetime.UTC)
+        end_time = datetime_now()
         duration = (end_time - start_time).total_seconds()
 
         if last_stats:
@@ -372,7 +375,7 @@ class DocumentIndexer:
                 staging_name, settings=DEFAULT_INDEX_SETTINGS
             )
 
-        start_time = datetime.now(datetime.UTC)
+        start_time = datetime_now()
         build_id = str(uuid4())  # Unique tag for this build run
         batch: list = []
         total_docs_sent = 0
@@ -472,7 +475,7 @@ class DocumentIndexer:
         if cancelled:
             for name in (sphinx_staging, myst_staging):
                 self.client.delete_index_if_exists(name)
-            end_time = datetime.now(datetime.UTC)
+            end_time = datetime_now()
             return last_stats or IndexingStats(
                 total_documents=0,
                 indexed_documents=0,
@@ -534,7 +537,7 @@ class DocumentIndexer:
         except Exception as e:
             logger.warning(f"Failed to optimize search backend: {e}")
 
-        end_time = datetime.now(datetime.UTC)
+        end_time = datetime_now()
         duration = (end_time - start_time).total_seconds()
         documents_per_second = total_docs_sent / duration if duration > 0 else 0.0
         kilobytes_per_second = total_bytes / 1024 / duration if duration > 0 else 0.0
@@ -594,7 +597,7 @@ class DocumentIndexer:
             except AttributeError:
                 pass  # FakeBatchHtml in tests may not expose this method
 
-        start_time = datetime.now(datetime.UTC)
+        start_time = datetime_now()
         batch: list = []
         total_submitted = 0
         file_count = 0
@@ -684,7 +687,7 @@ class DocumentIndexer:
             if index_name == "all":
                 last_stats = stats
 
-        end_time = datetime.now(datetime.UTC)
+        end_time = datetime_now()
         duration = (end_time - start_time).total_seconds()
 
         if last_stats:
