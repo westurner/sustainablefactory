@@ -4,3 +4,8 @@
 [submodule "src/transform_md"]
 	path = src/transform_md
 	url = https://github.com/westurner/transform_md
+
+[submodule "src/wrd-sphinx-theme"]
+	path = src/wrd-sphinx-theme
+	url = https://github.com/westurner/wrd_sphinx_theme
+	branch = develop
