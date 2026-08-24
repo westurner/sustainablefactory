@@ -1,65 +1,82 @@
-name: "Build the docs"
+name: Build the docs
 
 on:
-  pull_request: 
+  pull_request:
   push:
     branches:
       - main
-      - 'releases/**'
-    #paths:
-    #  - 'src/**'
-
+      - "releases/**"
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    #runs-on: readthedocs/build
+    permissions:
+      contents: read
 
     steps:
-    - uses: actions/checkout@v1
-    # Standard drop-in approach that should work for most people.
-    - uses: ammaraskar/sphinx-action@master
-      with:
-        docs-folder: "docs/"
-        build-command: "make html singlehtml" # latexpdf"
+      - name: Check out source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
 
-    # Grabbing custom dependencies and building as a pdf.
-    #- uses: ammaraskar/sphinx-action@master
-    #  with:
-    #    #pre-build-command: "apt-get update -y && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
-    #    build-command: "make latexpdf"
-    #    docs-folder: "docs2/"
-  
-    # Great extra actions to compose with:
-    # Create an artifact of the html output.
-    - uses: actions/upload-artifact@v1
-      with:
-        name: lignolux.github.io-archive
-        path: docs/_build/html/
-    # Create an artifact out of the previously built pdf.
-    #- uses: actions/upload-artifact@v1
-    #  with:
-    #    name: Documentation
-    #    path: docs/_build/latex/pdfexample.pdf  # TODO
-    # Publish built docs to gh-pages branch.
-    # ===============================
-    - name: Commit documentation changes
-      run: |
-        git clone https://github.com/ammaraskar/sphinx-action-test.git --branch gh-pages --single-branch gh-pages
-        cp -r docs/_build/html/* gh-pages/
-        cd gh-pages
-        touch .nojekyll
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add .
-        git commit -m "DOC: :boat: Built the docs" -a || true
-        # The above command will fail if no changes were present, so we ignore
-        # that.
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        branch: gh-pages
-        directory: gh-pages
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-    # ===============================
+      - name: Set up Python
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install documentation dependencies
+        run: python -m pip install --upgrade pip && python -m pip install --editable .
+
+      - name: Build documentation
+        working-directory: docs
+        run: python -m sphinx -M html . _build
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: lignolux.github.io-archive
+          path: docs/_build/html/
+          if-no-files-found: error
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out deployment branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Download documentation
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: lignolux.github.io-archive
+          path: site
+
+      - name: Publish documentation
+        run: |
+          set -euo pipefail
+
+          git fetch origin gh-pages || true
+          if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
+            git worktree add gh-pages origin/gh-pages
+          else
+            git worktree add --orphan -b gh-pages gh-pages
+          fi
+
+          find gh-pages -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf -- {} +
+          cp -R site/. gh-pages/
+          touch gh-pages/.nojekyll
+
+          git -C gh-pages config user.name "github-actions[bot]"
+          git -C gh-pages config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C gh-pages add --all
+          if ! git -C gh-pages diff --cached --quiet; then
+            git -C gh-pages commit -m "DOC: Build documentation"
+            git push origin HEAD:gh-pages
+          fi
