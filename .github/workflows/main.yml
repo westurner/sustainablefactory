@@ -81,6 +81,6 @@ jobs:
           git -C gh-pages config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git -C gh-pages add --all
           if ! git -C gh-pages diff --cached --quiet; then
-            git -C gh-pages commit -m "DOC: Build documentation"
-            git push origin HEAD:gh-pages
+            git -C gh-pages commit -m "DOC: :boat: Build documentation"
+            git push -f origin HEAD:gh-pages
           fi
