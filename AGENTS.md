@@ -20,6 +20,29 @@ Use the definitions and accessor lemmas in
 [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean) when
 adding tests or extending the SQG model.
 
+## Atmospheric Scavenging and Panel Plumes
+
+The attached atmospheric-scavenging proposal is represented as Pending model
+data in the same module. `AtmosphericSpecies`, `TensorGaussianSplat`, and
+`AtmosphericMixture` preserve species-dependent mass, partial density,
+temperature, and covariance. `AtmosphericScavenging` uses bounded acceptance
+factors to represent a finite normalized gate-overlap approximation.
+
+`PhaseSlipHomogenization` makes common output velocity and collapsed output
+covariance explicit assumptions. They must not be described as experimentally
+verified homogenization of air. `SquarePanelPlume.edgeShearIndicator` is a
+classical residual edge-shear risk proxy: apodization can lower the proxy, but
+the model does not establish zero turbulence, zero acoustic output, or zero
+shock formation. Extend these records with dimensioned conservation laws,
+compressible-flow validation, and measured boundary conditions before making
+performance claims. `DimensionedScavengingFlow` and
+`ClassicalControlVolume` provide the first dimension-labeled calibration and
+conservation boundary. `FlowBoundaryCondition` and
+`FlowBoundaryObservation` provide pressure, heat-flux, and vector-velocity
+residuals. Do not treat any of these records as evidence that phase-slip
+homogenization or a turbulence-free plume exists; connect them to measured or
+compressible-flow data first.
+
 ---
 
 ## Core Project Agents

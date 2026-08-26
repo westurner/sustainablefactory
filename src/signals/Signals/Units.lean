@@ -15,6 +15,34 @@ structure Length where
 structure Power where
   watts : ℝ
 
+/-- A mass density measured in kilograms per cubic metre. -/
+structure MassDensity where
+  kilogramsPerCubicMeter : ℝ
+
+/-- A mass flow rate measured in kilograms per second. -/
+structure MassFlowRate where
+  kilogramsPerSecond : ℝ
+
+/-- A speed measured in metres per second. -/
+structure Speed where
+  metersPerSecond : ℝ
+
+/-- An area measured in square metres. -/
+structure Area where
+  squareMeters : ℝ
+
+/-- A force measured in newtons. -/
+structure Force where
+  newtons : ℝ
+
+/-- A pressure measured in pascals. -/
+structure Pressure where
+  pascals : ℝ
+
+/-- A heat flux measured in watts per square metre. -/
+structure HeatFlux where
+  wattsPerSquareMeter : ℝ
+
 /-- A peak electric-field amplitude measured in volts per metre. -/
 structure ElectricFieldAmplitude where
   voltsPerMeter : ℝ

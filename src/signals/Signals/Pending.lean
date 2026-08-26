@@ -194,6 +194,273 @@ lemma InhomogeneousGPEPoint.balance_holds (point : InhomogeneousGPEPoint) :
           point.source :=
   point.balance
 
+/-! ## Mixed-species atmospheric scavenging
+
+These records are a finite normalized model of the source-chat Gaussian-splat
+proposal. They expose species-dependent mass and thermal covariance, but do
+not assert that a phase gradient can homogenize a real atmospheric flow.
+-/
+
+/-- A gas component with particle mass, partial density, and temperature data. -/
+structure AtmosphericSpecies where
+  name : String
+  particleMass : ℝ
+  particleMass_pos : 0 < particleMass
+  partialDensity : ℝ
+  partialDensity_nonnegative : 0 ≤ partialDensity
+  temperature : ℝ
+  temperature_pos : 0 < temperature
+
+/-- A finite tensor Gaussian splat for one atmospheric species. -/
+structure TensorGaussianSplat where
+  species : AtmosphericSpecies
+  meanVelocity : Vector3
+  covariance : Matrix (Fin 3) (Fin 3) ℝ
+  covariance_symmetric : ∀ row column,
+    covariance row column = covariance column row
+  covariance_diagonal_nonnegative : ∀ axis, 0 ≤ covariance axis axis
+  boltzmannScale : ℝ
+  boltzmannScale_pos : 0 < boltzmannScale
+  thermalVariance : ℝ
+  thermalVariance_nonnegative : 0 ≤ thermalVariance
+  thermalVarianceLaw : thermalVariance =
+    boltzmannScale * species.temperature / species.particleMass
+  covarianceDiagonalLaw : ∀ axis, covariance axis axis = thermalVariance
+
+/-- A finite mixture of species-dependent atmospheric splats. -/
+structure AtmosphericMixture (componentCount : ℕ) where
+  component : Fin componentCount → TensorGaussianSplat
+
+/-- The summed partial density represented by a finite mixture. -/
+def AtmosphericMixture.totalPartialDensity
+    {componentCount : ℕ} (mixture : AtmosphericMixture componentCount) : ℝ :=
+  ∑ index, (mixture.component index).species.partialDensity
+
+/-- A finite mixture has nonnegative total partial density. -/
+lemma AtmosphericMixture.totalPartialDensity_nonnegative
+    {componentCount : ℕ} (mixture : AtmosphericMixture componentCount) :
+    0 ≤ mixture.totalPartialDensity := by
+  unfold AtmosphericMixture.totalPartialDensity
+  exact Finset.sum_nonneg fun index _ =>
+    (mixture.component index).species.partialDensity_nonnegative
+
+/-- A normalized finite approximation to the source-chat gate-overlap integral. -/
+structure AtmosphericScavenging (componentCount : ℕ) where
+  mixture : AtmosphericMixture componentCount
+  gateWidth : ℝ
+  gateWidth_pos : 0 < gateWidth
+  acceptance : Fin componentCount → ℝ
+  acceptance_nonnegative : ∀ index, 0 ≤ acceptance index
+  acceptance_le_one : ∀ index, acceptance index ≤ 1
+  normalizedThroughput : ℝ
+  normalizedThroughputLaw : normalizedThroughput =
+    ∑ index, (mixture.component index).species.partialDensity * acceptance index
+
+/-- The normalized scavenging throughput is nonnegative. -/
+lemma AtmosphericScavenging.normalizedThroughput_nonnegative
+    {componentCount : ℕ} (model : AtmosphericScavenging componentCount) :
+    0 ≤ model.normalizedThroughput := by
+  rw [model.normalizedThroughputLaw]
+  exact Finset.sum_nonneg fun index _ =>
+    mul_nonneg (model.mixture.component index).species.partialDensity_nonnegative
+      (model.acceptance_nonnegative index)
+
+/-- An idealized phase-slip output with explicit homogenization assumptions. -/
+structure PhaseSlipHomogenization (componentCount : ℕ) where
+  input : AtmosphericMixture componentCount
+  targetVelocity : Vector3
+  outputVelocity : Fin componentCount → Vector3
+  outputCovariance : Fin componentCount → Matrix (Fin 3) (Fin 3) ℝ
+  velocityLock : ∀ index, outputVelocity index = targetVelocity
+  covarianceCollapse : ∀ index, outputCovariance index = 0
+
+/-- The idealized homogenization record exposes its common output velocity. -/
+lemma PhaseSlipHomogenization.common_velocity
+    {componentCount : ℕ} (model : PhaseSlipHomogenization componentCount)
+    (index : Fin componentCount) :
+    model.outputVelocity index = model.targetVelocity :=
+  model.velocityLock index
+
+/-- The idealized homogenization record exposes its zero covariance assumption. -/
+lemma PhaseSlipHomogenization.zero_output_covariance
+    {componentCount : ℕ} (model : PhaseSlipHomogenization componentCount)
+    (index : Fin componentCount) :
+    model.outputCovariance index = 0 :=
+  model.covarianceCollapse index
+
+/-- A tiled square panel with explicit stable dimensions. -/
+structure SquarePanel where
+  width : ℝ
+  width_pos : 0 < width
+  height : ℝ
+  height_pos : 0 < height
+  tileRows : ℕ
+  tileRows_positive : 0 < tileRows
+  tileColumns : ℕ
+  tileColumns_positive : 0 < tileColumns
+
+/-- A classical edge-shear indicator for a square-panel plume.
+
+This is a risk proxy for discontinuity at the physical aperture. It is not a
+proof that the surrounding fluid is turbulent or laminar.
+-/
+structure SquarePanelPlume where
+  panel : SquarePanel
+  unshapedEdgeShear : ℝ
+  unshapedEdgeShear_nonnegative : 0 ≤ unshapedEdgeShear
+  apodization : ℝ
+  apodization_nonnegative : 0 ≤ apodization
+  apodization_le_one : apodization ≤ 1
+  residualEdgeShear : ℝ
+  residualEdgeShearLaw : residualEdgeShear =
+    unshapedEdgeShear * (1 - apodization)
+
+/-- The residual edge-shear proxy after square-panel apodization. -/
+def SquarePanelPlume.edgeShearIndicator (plume : SquarePanelPlume) : ℝ :=
+  plume.residualEdgeShear
+
+/-- Apodization leaves a nonnegative edge-shear indicator no larger than the
+unshaped square-panel value. -/
+lemma SquarePanelPlume.edgeShearIndicator_bounds (plume : SquarePanelPlume) :
+    0 ≤ plume.edgeShearIndicator ∧
+      plume.edgeShearIndicator ≤ plume.unshapedEdgeShear := by
+  rw [SquarePanelPlume.edgeShearIndicator, plume.residualEdgeShearLaw]
+  constructor
+  · exact mul_nonneg plume.unshapedEdgeShear_nonnegative
+      (sub_nonneg.mpr plume.apodization_le_one)
+  · exact mul_le_of_le_one_right plume.unshapedEdgeShear_nonnegative
+      (by linarith [plume.apodization_nonnegative])
+
+/-- A calibrated conversion from normalized gate throughput to mass flow. -/
+structure DimensionedScavengingFlow (componentCount : ℕ) where
+  normalizedModel : AtmosphericScavenging componentCount
+  flowScale : MassFlowRate
+  flowScale_nonnegative : 0 ≤ flowScale.kilogramsPerSecond
+  massFlow : MassFlowRate
+  massFlowLaw : massFlow.kilogramsPerSecond =
+    flowScale.kilogramsPerSecond * normalizedModel.normalizedThroughput
+
+/-- A calibrated scavenging flow has nonnegative mass flow. -/
+lemma DimensionedScavengingFlow.massFlow_nonnegative
+    {componentCount : ℕ} (flow : DimensionedScavengingFlow componentCount) :
+    0 ≤ flow.massFlow.kilogramsPerSecond := by
+  rw [flow.massFlowLaw]
+  exact mul_nonneg flow.flowScale_nonnegative
+    flow.normalizedModel.normalizedThroughput_nonnegative
+
+/-- A finite classical control volume with mass, momentum, and energy balances.
+
+The scalar momentum direction is a chosen control-volume axis. All quantities
+are supplied in the unit wrappers from `Signals.Units`; the balance fields are
+model assumptions to be checked against a physical experiment.
+-/
+structure ClassicalControlVolume where
+  inletMassFlow : MassFlowRate
+  inletMassFlow_nonnegative : 0 ≤ inletMassFlow.kilogramsPerSecond
+  outletMassFlow : MassFlowRate
+  outletMassFlow_nonnegative : 0 ≤ outletMassFlow.kilogramsPerSecond
+  massStorageRate : MassFlowRate
+  massBalance : inletMassFlow.kilogramsPerSecond =
+    outletMassFlow.kilogramsPerSecond + massStorageRate.kilogramsPerSecond
+  inletSpeed : Speed
+  inletSpeed_nonnegative : 0 ≤ inletSpeed.metersPerSecond
+  outletSpeed : Speed
+  outletSpeed_nonnegative : 0 ≤ outletSpeed.metersPerSecond
+  inletMomentumFlux : Force
+  inletMomentumFluxLaw : inletMomentumFlux.newtons =
+    inletMassFlow.kilogramsPerSecond * inletSpeed.metersPerSecond
+  outletMomentumFlux : Force
+  outletMomentumFluxLaw : outletMomentumFlux.newtons =
+    outletMassFlow.kilogramsPerSecond * outletSpeed.metersPerSecond
+  momentumStorageRate : Force
+  externalAxialForce : Force
+  momentumBalance : outletMomentumFlux.newtons - inletMomentumFlux.newtons +
+      momentumStorageRate.newtons = externalAxialForce.newtons
+  electricalInputPower : Power
+  electricalInputPower_nonnegative : 0 ≤ electricalInputPower.watts
+  aerodynamicHeatPower : Power
+  aerodynamicHeatPower_nonnegative : 0 ≤ aerodynamicHeatPower.watts
+  usefulOutputPower : Power
+  usefulOutputPower_nonnegative : 0 ≤ usefulOutputPower.watts
+  lossPower : Power
+  lossPower_nonnegative : 0 ≤ lossPower.watts
+  energyBalance : usefulOutputPower.watts + lossPower.watts =
+    electricalInputPower.watts + aerodynamicHeatPower.watts
+
+/-- A steady control volume has equal inlet and outlet mass flow. -/
+lemma ClassicalControlVolume.steady_mass_flow
+    (volume : ClassicalControlVolume)
+    (steady : volume.massStorageRate.kilogramsPerSecond = 0) :
+    volume.inletMassFlow.kilogramsPerSecond =
+      volume.outletMassFlow.kilogramsPerSecond := by
+  linarith [volume.massBalance]
+
+/-- Momentum accounting exposes the external axial force. -/
+lemma ClassicalControlVolume.external_force_eq_momentum_change
+    (volume : ClassicalControlVolume) :
+    volume.externalAxialForce.newtons =
+      volume.outletMomentumFlux.newtons - volume.inletMomentumFlux.newtons +
+        volume.momentumStorageRate.newtons := by
+  linarith [volume.momentumBalance]
+
+/-- A control volume cannot deliver more useful power than its declared inputs. -/
+lemma ClassicalControlVolume.useful_output_le_input
+    (volume : ClassicalControlVolume) :
+    volume.usefulOutputPower.watts ≤
+      volume.electricalInputPower.watts + volume.aerodynamicHeatPower.watts := by
+  linarith [volume.energyBalance, volume.lossPower_nonnegative]
+
+/-- Pressure, heat flux, and vector velocity at a control-volume boundary. -/
+structure FlowBoundaryCondition where
+  pressure : Pressure
+  pressure_nonnegative : 0 ≤ pressure.pascals
+  heatFlux : HeatFlux
+  heatFlux_nonnegative : 0 ≤ heatFlux.wattsPerSquareMeter
+  velocity : Fin 3 → Speed
+
+/-- Measured-versus-predicted boundary data with explicit residual tolerances. -/
+structure FlowBoundaryObservation where
+  measured : FlowBoundaryCondition
+  predicted : FlowBoundaryCondition
+  pressureTolerance : ℝ
+  pressureTolerance_nonnegative : 0 ≤ pressureTolerance
+  pressureResidual : ℝ
+  pressureResidualLaw : pressureResidual =
+    measured.pressure.pascals - predicted.pressure.pascals
+  heatFluxTolerance : ℝ
+  heatFluxTolerance_nonnegative : 0 ≤ heatFluxTolerance
+  heatFluxResidual : ℝ
+  heatFluxResidualLaw : heatFluxResidual =
+    measured.heatFlux.wattsPerSquareMeter -
+      predicted.heatFlux.wattsPerSquareMeter
+  velocityTolerance : ℝ
+  velocityTolerance_nonnegative : 0 ≤ velocityTolerance
+  velocityResidual : Fin 3 → ℝ
+  velocityResidualLaw : ∀ axis, velocityResidual axis =
+    (measured.velocity axis).metersPerSecond -
+      (predicted.velocity axis).metersPerSecond
+  consistent : |pressureResidual| ≤ pressureTolerance ∧
+    |heatFluxResidual| ≤ heatFluxTolerance ∧
+      ∀ axis, |velocityResidual axis| ≤ velocityTolerance
+
+/-- A consistent boundary observation exposes its pressure residual check. -/
+lemma FlowBoundaryObservation.pressure_within_tolerance
+    (observation : FlowBoundaryObservation) :
+    |observation.pressureResidual| ≤ observation.pressureTolerance :=
+  observation.consistent.1
+
+/-- A consistent boundary observation exposes its heat-flux residual check. -/
+lemma FlowBoundaryObservation.heatFlux_within_tolerance
+    (observation : FlowBoundaryObservation) :
+    |observation.heatFluxResidual| ≤ observation.heatFluxTolerance :=
+  observation.consistent.2.1
+
+/-- A consistent boundary observation exposes its componentwise velocity checks. -/
+lemma FlowBoundaryObservation.velocity_within_tolerance
+    (observation : FlowBoundaryObservation) (axis : Fin 3) :
+    |observation.velocityResidual axis| ≤ observation.velocityTolerance :=
+  observation.consistent.2.2 axis
+
 /-- Pending SQG medium parameters for a Maxwell constitutive model.
 
 The metric correction, effective constitutive parameters, and dilatant pressure

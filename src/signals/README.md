@@ -62,6 +62,14 @@ interpretation while keeping experimental premises explicit:
    Its GPE records distinguish inverse reconstruction, inhomogeneous
    source-driven evolution, and the nonlinear interactive model; `IGPEPoint`
    remains a compatibility alias for `InteractiveGPEPoint`.
+   Its atmospheric-scavenging records separate species-dependent Gaussian
+   splats and finite gate throughput from an idealized homogenization
+   assumption. Square-panel output is represented with an edge-shear risk
+   proxy that apodization can reduce, not a proof of turbulence-free flow.
+   The Pending model also includes dimensioned flow wrappers and a classical
+   control-volume baseline for mass, momentum, and energy accounting.
+   Pressure, heat-flux, and vector-velocity boundary observations can now be
+   compared with explicit residual tolerances.
    It also contains LF/VLF radio test vectors for Earth, named planets,
    asteroids, and arbitrary named bodies, plus a conditional ultrasonic
    fracture-evidence protocol.
@@ -183,6 +191,12 @@ used as the local and CI check.
 
 ## Development Plan
 
+The plan is executed as a short agent loop. Each iteration selects one
+well-scoped item, adds the smallest model and compile-time test that can
+discriminate its behavior, runs `make signals_build`, updates this plan with
+the result, and records a focused commit message. A model remains Pending when
+its physical premises or calibration data are not established.
+
 ### Phase 1: Stabilize the base API
 
 1. [Implemented] Keep the I/Q API aligned with complex baseband magnitude and
@@ -239,6 +253,45 @@ used as the local and CI check.
    positive Grassmannian cells, projective canonical forms, and residues only
    after supplying precise finite-dimensional definitions and proofs.
 
+### Phase 4: Atmospheric scavenging and panel models
+
+1. [Implemented in Pending] Represent mixed atmospheric species with
+   species-dependent mass, partial density, temperature, and covariance data.
+2. [Implemented in Pending] Represent finite gate acceptance and normalized
+   mixed-species throughput, keeping the Gaussian-overlap interpretation
+   explicit rather than presenting it as a measured mass-flow rate.
+3. [Implemented in Pending] Represent phase-slip homogenization as supplied
+   common-velocity and covariance-collapse assumptions.
+4. [Implemented in Pending] Represent square-panel dimensions and an
+   apodization-adjusted edge-shear risk proxy. The proxy is not a turbulence,
+   shock, or acoustic-output theorem.
+5. [Implemented in Pending] Add calibrated dimensioned mass flow and a
+   classical control-volume baseline with mass, momentum, and energy balances.
+   These balances provide the comparison point for any proposed phase-slip
+   result.
+6. [Implemented in Pending] Add measured pressure, heat-transfer, and
+   vector-flow boundary conditions with componentwise residual tolerances.
+7. Next: connect these boundary records to a compressible-flow or CFD adapter
+   and compare predicted mass, momentum, heat, and acoustic outputs before
+   making plume or drag claims.
+
+### Agent Loop Record
+
+1. [Complete] Atmospheric model loop: added species-dependent splats, bounded
+   gate throughput, explicit homogenization assumptions, and square-panel
+   edge-shear risk. Proposed commit:
+   `feat(signals): model mixed atmospheric scavenging and panel edge risk`.
+2. [Complete] Conservation loop: added dimension-labeled flow wrappers,
+   calibrated `kg/s` conversion, and classical control-volume mass, momentum,
+   and energy balances. Proposed commit:
+   `feat(signals): add calibrated control-volume conservation model`.
+3. [Complete] Boundary-data loop: added pressure, heat-flux, and vector-flow
+   observations with residual tolerances. Proposed commit:
+   `feat(signals): add measured flow boundary residuals`.
+4. Next loop: connect the records to measured or simulated compressible-flow
+   data. Do not promote phase-slip homogenization or apodization to a physical
+   performance claim without that comparison.
+
 ### Pending Physical Formalisms
 
 `Signals.Pending` develops the requested precedent formalisms in an isolated
@@ -253,6 +306,26 @@ namespace and build target:
 - `InteractiveGPEPoint` records the nonlinear local balance with effective mass,
    potential, coupling, density, time derivative, and Laplacian terms.
    `IGPEPoint` remains its compatibility alias.
+- `AtmosphericSpecies`, `TensorGaussianSplat`, and `AtmosphericMixture` record
+   species-dependent particle mass, partial density, temperature, and
+   covariance data for finite mixed-gas models.
+- `AtmosphericScavenging` records a normalized finite approximation to a gate
+   overlap integral with bounded component acceptance factors. It is not yet a
+   dimensioned mass-flow solver.
+- `PhaseSlipHomogenization` records common output velocity and collapsed
+   covariance as explicit idealized assumptions; it does not prove that a
+   Proca or phase-slip field produces those effects in air.
+- `SquarePanel` and `SquarePanelPlume` record tiled aperture dimensions and a
+   bounded residual edge-shear indicator. This makes square-edge turbulence a
+   calibration risk rather than silently assuming that apodization eliminates
+   it.
+- `DimensionedScavengingFlow` converts normalized gate throughput to `kg/s` only
+   through an explicit calibration scale.
+- `ClassicalControlVolume` records supplied mass, momentum, and energy balances
+   in dimension-labeled wrappers and proves steady-flow and useful-power bounds.
+- `FlowBoundaryCondition` and `FlowBoundaryObservation` record pressure,
+   heat-flux, and vector-velocity boundary data with measured-versus-predicted
+   residual tolerances.
 - `SQGMaxwellSystem` records Maxwell's vector equations with effective
    permittivity/permeability, an explicit extra SQG current, and a classical
    Maxwell reduction when that current is disabled.
@@ -298,10 +371,10 @@ deterministic fusion, or spacetime energy extraction exist physically.
 4. Next: add finite array/grid observations, complex material transfer
    functions, frequency-dependent attenuation, speckle covariance, and
    uncertainty propagation.
-6. Pending: add weak-derivative, trace, and jump-condition structures for a
+5. Pending: add weak-derivative, trace, and jump-condition structures for a
    fracture boundary only after the relevant measure, function-space, and flux
    assumptions are supplied.
-7. Pending: add a numerical Madelung/GP splat model with variable covariance,
+6. Pending: add a numerical Madelung/GP splat model with variable covariance,
    compressibility, healing length, and FTLE diagnostics. A fixed determinant
    must not be treated as incompressibility; the source chat itself notes that
    air and superfluids are compressible
@@ -324,7 +397,7 @@ deterministic fusion, or spacetime energy extraction exist physically.
    uncertainty fields. A geometric coordinate or chart weight must not be
    promoted to a physical scattering amplitude without that evidence.
 
-### Phase 4: Upstream contributions
+### Phase 5: Upstream contributions
 
 - Candidate Physlib contributions: reusable mainstream definitions and lemmas
   for electromagnetic wave conventions, polarization, sampling interfaces,

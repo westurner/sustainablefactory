@@ -238,6 +238,256 @@ example :
         toyInhomogeneousGPE.source := by
   exact toyInhomogeneousGPE.balance_holds
 
+def toyThermalCovariance : Matrix (Fin 3) (Fin 3) ℝ :=
+  fun row column => if row = column then 1 else 0
+
+def toyNitrogen : AtmosphericSpecies :=
+  { name := "N2"
+    particleMass := 28
+    particleMass_pos := by norm_num
+    partialDensity := 7
+    partialDensity_nonnegative := by norm_num
+    temperature := 300
+    temperature_pos := by norm_num }
+
+def toyOxygen : AtmosphericSpecies :=
+  { name := "O2"
+    particleMass := 32
+    particleMass_pos := by norm_num
+    partialDensity := 2
+    partialDensity_nonnegative := by norm_num
+    temperature := 300
+    temperature_pos := by norm_num }
+
+noncomputable def toyNitrogenSplat : TensorGaussianSplat :=
+  { species := toyNitrogen
+    meanVelocity := fun _ => 0
+    covariance := toyThermalCovariance
+    covariance_symmetric := by
+      intro row column
+      by_cases equal : row = column
+      · simp [equal]
+      · have notEqual : column ≠ row := by
+          intro reverse
+          exact equal reverse.symm
+        simp [toyThermalCovariance, equal, notEqual]
+    covariance_diagonal_nonnegative := by
+      intro axis
+      simp [toyThermalCovariance]
+    boltzmannScale := 28 / 300
+    boltzmannScale_pos := by norm_num
+    thermalVariance := 1
+    thermalVariance_nonnegative := by norm_num
+    thermalVarianceLaw := by norm_num [toyNitrogen]
+    covarianceDiagonalLaw := by
+      intro axis
+      simp [toyThermalCovariance] }
+
+noncomputable def toyOxygenSplat : TensorGaussianSplat :=
+  { species := toyOxygen
+    meanVelocity := fun _ => 0
+    covariance := toyThermalCovariance
+    covariance_symmetric := by
+      intro row column
+      by_cases equal : row = column
+      · simp [equal]
+      · have notEqual : column ≠ row := by
+          intro reverse
+          exact equal reverse.symm
+        simp [toyThermalCovariance, equal, notEqual]
+    covariance_diagonal_nonnegative := by
+      intro axis
+      simp [toyThermalCovariance]
+    boltzmannScale := 32 / 300
+    boltzmannScale_pos := by norm_num
+    thermalVariance := 1
+    thermalVariance_nonnegative := by norm_num
+    thermalVarianceLaw := by norm_num [toyOxygen]
+    covarianceDiagonalLaw := by
+      intro axis
+      simp [toyThermalCovariance] }
+
+noncomputable def toyAtmosphericMixture : AtmosphericMixture 2 :=
+  { component := fun index =>
+      if index = 0 then toyNitrogenSplat else toyOxygenSplat }
+
+example : (toyAtmosphericMixture.component 0).species.name = "N2" := by
+  rfl
+
+example : (toyAtmosphericMixture.component 1).species.name = "O2" := by
+  rfl
+
+example : toyAtmosphericMixture.totalPartialDensity = 9 := by
+  norm_num [AtmosphericMixture.totalPartialDensity, toyAtmosphericMixture,
+    toyNitrogenSplat, toyOxygenSplat, toyNitrogen, toyOxygen,
+    Fin.sum_univ_succ]
+
+noncomputable def toyAtmosphericScavenging : AtmosphericScavenging 2 :=
+  { mixture := toyAtmosphericMixture
+    gateWidth := 1
+    gateWidth_pos := by norm_num
+    acceptance := fun index => if index = 0 then 1 else 1 / 2
+    acceptance_nonnegative := by
+      intro index
+      fin_cases index <;> norm_num
+    acceptance_le_one := by
+      intro index
+      fin_cases index <;> norm_num
+    normalizedThroughput := 8
+    normalizedThroughputLaw := by
+      norm_num [toyAtmosphericMixture, toyNitrogenSplat, toyOxygenSplat,
+        toyNitrogen, toyOxygen, Fin.sum_univ_succ] }
+
+example : toyAtmosphericScavenging.normalizedThroughput = 8 := by
+  rfl
+
+example : 0 ≤ toyAtmosphericScavenging.normalizedThroughput := by
+  exact toyAtmosphericScavenging.normalizedThroughput_nonnegative
+
+noncomputable def toyDimensionedScavenging : DimensionedScavengingFlow 2 :=
+  { normalizedModel := toyAtmosphericScavenging
+    flowScale := { kilogramsPerSecond := 2 }
+    flowScale_nonnegative := by norm_num
+    massFlow := { kilogramsPerSecond := 16 }
+    massFlowLaw := by norm_num [toyAtmosphericScavenging] }
+
+example : toyDimensionedScavenging.massFlow.kilogramsPerSecond = 16 := by
+  rfl
+
+example : 0 ≤ toyDimensionedScavenging.massFlow.kilogramsPerSecond := by
+  exact toyDimensionedScavenging.massFlow_nonnegative
+
+def toyClassicalControlVolume : ClassicalControlVolume :=
+  { inletMassFlow := { kilogramsPerSecond := 2 }
+    inletMassFlow_nonnegative := by norm_num
+    outletMassFlow := { kilogramsPerSecond := 2 }
+    outletMassFlow_nonnegative := by norm_num
+    massStorageRate := { kilogramsPerSecond := 0 }
+    massBalance := by norm_num
+    inletSpeed := { metersPerSecond := 10 }
+    inletSpeed_nonnegative := by norm_num
+    outletSpeed := { metersPerSecond := 20 }
+    outletSpeed_nonnegative := by norm_num
+    inletMomentumFlux := { newtons := 20 }
+    inletMomentumFluxLaw := by norm_num
+    outletMomentumFlux := { newtons := 40 }
+    outletMomentumFluxLaw := by norm_num
+    momentumStorageRate := { newtons := 0 }
+    externalAxialForce := { newtons := 20 }
+    momentumBalance := by norm_num
+    electricalInputPower := { watts := 5 }
+    electricalInputPower_nonnegative := by norm_num
+    aerodynamicHeatPower := { watts := 7 }
+    aerodynamicHeatPower_nonnegative := by norm_num
+    usefulOutputPower := { watts := 10 }
+    usefulOutputPower_nonnegative := by norm_num
+    lossPower := { watts := 2 }
+    lossPower_nonnegative := by norm_num
+    energyBalance := by norm_num }
+
+example : toyClassicalControlVolume.inletMassFlow.kilogramsPerSecond =
+    toyClassicalControlVolume.outletMassFlow.kilogramsPerSecond := by
+  exact toyClassicalControlVolume.steady_mass_flow (by
+    norm_num [toyClassicalControlVolume])
+
+example : toyClassicalControlVolume.externalAxialForce.newtons = 20 := by
+  norm_num [ClassicalControlVolume.external_force_eq_momentum_change,
+    toyClassicalControlVolume]
+
+example : toyClassicalControlVolume.usefulOutputPower.watts ≤
+    toyClassicalControlVolume.electricalInputPower.watts +
+      toyClassicalControlVolume.aerodynamicHeatPower.watts := by
+  exact toyClassicalControlVolume.useful_output_le_input
+
+def toyFlowBoundaryCondition : FlowBoundaryCondition :=
+  { pressure := { pascals := 101325 }
+    pressure_nonnegative := by norm_num
+    heatFlux := { wattsPerSquareMeter := 100 }
+    heatFlux_nonnegative := by norm_num
+    velocity := fun _ => { metersPerSecond := 3 } }
+
+def toyFlowBoundaryObservation : FlowBoundaryObservation :=
+  { measured := toyFlowBoundaryCondition
+    predicted := toyFlowBoundaryCondition
+    pressureTolerance := 1
+    pressureTolerance_nonnegative := by norm_num
+    pressureResidual := 0
+    pressureResidualLaw := by norm_num [toyFlowBoundaryCondition]
+    heatFluxTolerance := 1
+    heatFluxTolerance_nonnegative := by norm_num
+    heatFluxResidual := 0
+    heatFluxResidualLaw := by norm_num [toyFlowBoundaryCondition]
+    velocityTolerance := 1
+    velocityTolerance_nonnegative := by norm_num
+    velocityResidual := fun _ => 0
+    velocityResidualLaw := by
+      intro axis
+      norm_num [toyFlowBoundaryCondition]
+    consistent := by
+      constructor
+      · norm_num
+      constructor
+      · norm_num
+      · intro axis
+        norm_num }
+
+example : |toyFlowBoundaryObservation.pressureResidual| ≤
+    toyFlowBoundaryObservation.pressureTolerance := by
+  exact toyFlowBoundaryObservation.pressure_within_tolerance
+
+example : |toyFlowBoundaryObservation.heatFluxResidual| ≤
+    toyFlowBoundaryObservation.heatFluxTolerance := by
+  exact toyFlowBoundaryObservation.heatFlux_within_tolerance
+
+example : |toyFlowBoundaryObservation.velocityResidual 2| ≤
+    toyFlowBoundaryObservation.velocityTolerance := by
+  exact toyFlowBoundaryObservation.velocity_within_tolerance 2
+
+noncomputable def toyHomogenization : PhaseSlipHomogenization 2 :=
+  { input := toyAtmosphericMixture
+    targetVelocity := fun _ => 1
+    outputVelocity := fun _ => fun _ => 1
+    outputCovariance := fun _ => 0
+    velocityLock := by
+      intro index
+      rfl
+    covarianceCollapse := by
+      intro index
+      rfl }
+
+example : toyHomogenization.outputVelocity 0 = toyHomogenization.targetVelocity := by
+  exact toyHomogenization.common_velocity 0
+
+example : toyHomogenization.outputCovariance 1 = 0 := by
+  exact toyHomogenization.zero_output_covariance 1
+
+def toySquarePanel : SquarePanel :=
+  { width := 1
+    width_pos := by norm_num
+    height := 1
+    height_pos := by norm_num
+    tileRows := 2
+    tileRows_positive := by norm_num
+    tileColumns := 2
+    tileColumns_positive := by norm_num }
+
+noncomputable def toySquarePanelPlume : SquarePanelPlume :=
+  { panel := toySquarePanel
+    unshapedEdgeShear := 10
+    unshapedEdgeShear_nonnegative := by norm_num
+    apodization := 3 / 5
+    apodization_nonnegative := by norm_num
+    apodization_le_one := by norm_num
+    residualEdgeShear := 4
+    residualEdgeShearLaw := by norm_num }
+
+example : toySquarePanelPlume.edgeShearIndicator = 4 := by
+  rfl
+
+example : toySquarePanelPlume.edgeShearIndicator ≤
+    toySquarePanelPlume.unshapedEdgeShear := by
+  exact toySquarePanelPlume.edgeShearIndicator_bounds.2
+
 noncomputable def toyAcousticMedium : Signals.Acoustics.Medium :=
   { density := 1
     density_pos := by norm_num
