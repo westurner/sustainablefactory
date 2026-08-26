@@ -7,37 +7,60 @@ mechanisms have been experimentally validated.
 
 ## Current Scope
 
-The first build deliberately starts with statements that have a clear
-mathematical interpretation and an existing library foundation:
+The current build deliberately implements statements with a clear mathematical
+interpretation while keeping experimental premises explicit:
 
 - `Signals.Units` provides named wrappers for frequency, length, and power.
 - `Signals.IQ` represents an in-phase/quadrature sample as a complex baseband
-  value and exposes its magnitude and principal phase.
+   value, exposes its magnitude and principal phase, records carrier and
+   quadrature conventions, and provides a conditional phase-to-height formula.
+- `Signals.Sampling` defines finite sampled tones, exact buffer reconstruction,
+   integer-rate aliases, and a strict Nyquist no-alias consequence. The finite
+   model is intentional; it is not a replacement for a continuous
+   band-limited Fourier theorem.
 - `Signals.Coherence` records the polarization/entanglement complementarity
    identity as explicit model data and states the scalar Huygens-Steiner
    parallel-axis identity.
 - `Signals.OAM` represents a finite normalized OAM qudit and computes its basis
   state count. The exact identity `100^10 = 10^20` is a combinatorial result,
   not a performance or physical-realizability claim.
-- `Signals.Physlib` imports Physlib's vacuum harmonic-wave model and proves a
-  small interface lemma over its `FreeSpace` parameters.
+- `Signals.Physlib` imports Physlib's compatible free-space parameter model and
+   proves a small interface lemma over its `FreeSpace` parameters.
+- `Signals.Proca` provides a normalized massive-vector mode with explicit mass,
+   medium, coupling, boundary, dispersion, and longitudinal-polarization data.
+   Its phase-height result requires an explicit unwrapped-phase measurement.
+- `Signals.Geometry` contains Weyl spinors, twistors, antisymmetric minors, and
+   the finite $2 \times 4$ Pluecker relation.
+- `Signals.Fabrication` models voxel fields, active phase masks, calibration
+   tolerances, height-map bounds, and thermal budgets as data with accessor
+   lemmas.
+- `SignalsTests` contains compile-time examples for the supported identities
+   and edge cases. `make signals_build` builds both library targets.
 
 The source chat's extracted Lean corpus is available at
 `../../data/chats/IQ-Sampling-for-Signal-Phase.lean` from this project directory.
-The consolidated library proposal in that corpus names the intended future
-areas as units, spinors, twistors, Grassmannians, Amplituhedron forms,
-Proca-SQG models, holography, quantum states, and thermodynamics. See
-`../../data/chats/IQ-Sampling-for-Signal-Phase.md` around lines 6815-6887 and
-10253-10418.
+The motivating I/Q equations and phase extraction are in the
+[source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L7-L80); its
+later Proca discussion explicitly corrects the ordinary-air premise and states
+the effective-mass requirement
+([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L359-L377)).
+The extracted corpus also names future areas including spinors, twistors,
+Grassmannians, Amplituhedron forms, Proca-SQG models, holography, quantum
+states, and thermodynamics, but those names are not evidence for the associated
+hardware claims.
 
 ## Build
 
-The project expects Lean `v4.33.0`, matching the current Physlib baseline.
+The project currently selects Lean `v4.34.0-rc2`; the sibling Physlib checkout
+must remain on a compatible revision.
 From the repository root:
 
 ```text
 make signals_build
 ```
+
+This builds `Signals` and `SignalsTests`; the latter uses Lean `example`
+declarations as executable compile-time tests.
 
 Or from this directory:
 
@@ -59,41 +82,43 @@ started, the local mathlib checkout reported `v4.34.0-rc2` while Physlib
 reported `v4.33.0`; do not mix their build artifacts. A clean CI checkout pins
 the matching dependency revisions before running Lean.
 
-No Lean executable was available in the development environment when this
-project was scaffolded, so CI is the authoritative executable build check
-until Lean is installed locally.
+The local toolchain is available in the dev container, and the same build is
+used as the local and CI check.
 
 ## Development Plan
 
 ### Phase 1: Stabilize the base API
 
-1. Keep the I/Q API aligned with Physlib's electromagnetic potential and plane
-   wave definitions.
-2. Add tests for phase conventions, zero magnitude, sign conventions, and
-   principal-argument boundaries.
-3. Replace scalar unit wrappers with a reviewed unit representation only when
-   it prevents a demonstrated class of errors.
+1. [Implemented] Keep the I/Q API aligned with complex baseband magnitude and
+   principal-phase definitions.
+2. [Implemented] Test zero magnitude, orientation conventions, and the
+   principal-argument boundary.
+3. Keep the scalar unit wrappers until a demonstrated dimensional error
+   justifies a larger unit representation.
 
 ### Phase 2: Formalize standard signal and field models
 
-1. Define a convention-record for carrier sign, quadrature sign, and phase
-   range so receiver implementations cannot silently disagree.
-2. Add band-limited sampling assumptions and prove the ordinary aliasing and
-   reconstruction lemmas needed by the application.
-3. Build on Physlib's Maxwell and harmonic-wave results before introducing new
-   electromagnetic definitions.
-4. Add a Proca field only as an explicit massive-vector mathematical model,
-   with its mass, dispersion relation, medium, coupling, and boundary
-   assumptions visible in the types.
+1. [Implemented] Define a convention record for carrier sign, quadrature
+   orientation, and phase range.
+2. [Implemented, finite model] Prove exact sampled-tone aliasing and a strict
+   Nyquist no-alias consequence. Continuous Shannon reconstruction remains
+   future work.
+3. Retain the compatible Physlib `FreeSpace` interface; importing the full
+   harmonic-wave module currently crosses an incompatible local dependency
+   boundary.
+4. [Implemented] Add a normalized Proca mode with mass, dispersion, medium,
+   coupling, boundary, and longitudinal-polarization assumptions visible in
+   the types.
 
 ### Phase 3: Add geometry and fabrication abstractions
 
-1. Introduce spinors and twistors only after identifying reusable structures
-   already available in Mathlib.
-2. Implement finite matrix minors and Pluecker relations with correct index
-   proofs; do not encode physical behavior as an unproved axiom.
-3. Model masks, voxels, calibration, and thermal budgets as data plus proved
-   bounds. Keep fabrication execution outside the theorem-proving core.
+1. [Implemented, finite algebra] Introduce spinors and twistors as data and
+   prove their elementary antisymmetry identities.
+2. [Implemented, finite algebra] Prove a $2 \times 4$ Pluecker relation with
+   determinants; do not encode an Amplituhedron volume as an axiom.
+3. [Implemented] Model masks, voxels, calibration, height bounds, and thermal
+   budgets as data plus proved bounds. Fabrication execution remains outside
+   the theorem-proving core.
 4. Keep OAM state-space counting separate from claims about computational
    speed, fault tolerance, or device capacity.
 

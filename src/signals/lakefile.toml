@@ -1,6 +1,6 @@
 name = "Signals"
 version = "0.1.0"
-defaultTargets = ["Signals"]
+defaultTargets = ["Signals", "SignalsTests"]
 
 [[require]]
 name = "Physlib"
@@ -12,3 +12,6 @@ path = "../mathlib4"
 
 [[lean_lib]]
 name = "Signals"
+
+[[lean_lib]]
+name = "SignalsTests"

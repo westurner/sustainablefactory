@@ -12,7 +12,7 @@ help:
 		'lean-clean  # Remove Lake build artifacts'
 
 lean-cache:
-	$(LEAN) update
+	@#$(LEAN) update
 	@if $(LEAN) exe cache get; then \
 		echo "Lean cache restored"; \
 	else \
@@ -20,7 +20,7 @@ lean-cache:
 	fi
 
 lean-build:
-	$(LEAN) build Signals
+	$(LEAN) build Signals SignalsTests
 
 lean-clean:
 	$(LEAN) clean
