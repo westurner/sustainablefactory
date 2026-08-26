@@ -20,7 +20,7 @@ lean-cache:
 	fi
 
 lean-build:
-	$(LEAN) build Signals SignalsTests
+	$(LEAN) build Signals SignalsTests SignalsPending SignalsPendingTests
 
 lean-clean:
 	$(LEAN) clean

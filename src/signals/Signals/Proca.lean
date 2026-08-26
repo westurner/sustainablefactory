@@ -26,6 +26,58 @@ structure Model where
   medium : Medium
   boundary : BoundaryCondition
 
+/-- A normalized four-current with an explicit continuity residual. -/
+structure FourCurrent where
+  chargeDensity : ℝ
+  currentX : ℝ
+  currentY : ℝ
+  currentZ : ℝ
+  continuityResidual : ℝ
+  conserved : continuityResidual = 0
+
+/-- Constitutive response data for a homogeneous matter model.
+
+The parameters are normalized real values. Conductivity and loss tangent are
+nonnegative so attenuation cannot be silently represented as gain. -/
+structure ConstitutiveRelation where
+  relativePermittivity : ℝ
+  relativePermittivity_pos : 0 < relativePermittivity
+  relativePermeability : ℝ
+  relativePermeability_pos : 0 < relativePermeability
+  conductivity : ℝ
+  conductivity_nonneg : 0 ≤ conductivity
+  lossTangent : ℝ
+  lossTangent_nonneg : 0 ≤ lossTangent
+
+/-- Coupling data between a Proca field and ordinary matter. -/
+structure MatterCoupling where
+  strength : ℝ
+  strength_nonneg : 0 ≤ strength
+  constitutive : ConstitutiveRelation
+  source : FourCurrent
+
+/-- A source-driven Proca equation in normalized units.
+
+Taking the divergence of the sourced field equation gives the displayed
+relation between source nonconservation and field four-divergence. -/
+structure DrivenField (model : Model) where
+  fourDivergence : ℝ
+  coupling : MatterCoupling
+  fieldEquation : model.mass ^ 2 * fourDivergence = coupling.source.continuityResidual
+
+/-- A conserved source forces the source-driven Proca field to be divergence-free. -/
+lemma DrivenField.lorenz_condition {model : Model} (field : DrivenField model) :
+    field.fourDivergence = 0 := by
+  have equation_zero : model.mass ^ 2 * field.fourDivergence = 0 := by
+    rw [field.fieldEquation, field.coupling.source.conserved]
+  exact (mul_eq_zero.mp equation_zero).resolve_left
+    (pow_ne_zero 2 (ne_of_gt model.mass_pos))
+
+/-- The sourced equation exposes the continuity residual used by the model. -/
+lemma DrivenField.source_balance {model : Model} (field : DrivenField model) :
+    model.mass ^ 2 * field.fourDivergence = field.coupling.source.continuityResidual :=
+  field.fieldEquation
+
 /-- A four-component vector in the `(time, x, y, z)` ordering. -/
 structure FourVector where
   time : ℝ

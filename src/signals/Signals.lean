@@ -1,9 +1,12 @@
 import Signals.Coherence
+import Signals.Applications
 import Signals.Fabrication
 import Signals.Geometry
 import Signals.IQ
+import Signals.Maxwell
 import Signals.OAM
 import Signals.Physlib
 import Signals.Proca
+import Signals.Propagation
 import Signals.Sampling
 import Signals.Units

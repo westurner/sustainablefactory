@@ -28,14 +28,36 @@ interpretation while keeping experimental premises explicit:
    proves a small interface lemma over its `FreeSpace` parameters.
 - `Signals.Proca` provides a normalized massive-vector mode with explicit mass,
    medium, coupling, boundary, dispersion, and longitudinal-polarization data.
-   Its phase-height result requires an explicit unwrapped-phase measurement.
+   It now also models a source-driven field equation, current continuity,
+   constitutive response, and conditional phase-height measurements.
+- `Signals.Maxwell` provides a coordinate-free three-vector formulation of
+   Maxwell's equations, including Gauss, Faraday, and Ampere-Maxwell laws. It
+   also includes the isotropic-vacuum form often used as a compact pre-tensor
+   formulation; fields are represented directly as vectors, with no Euler-angle
+   or gimbal-lock state.
+- `Signals.Propagation` models far-field and near-field coupling, antenna
+   efficiency, impedance matching, aperture coupling, alignment, radiation,
+   bulk attenuation, interface reflection/transmission/absorption, and passive
+   link-power bounds.
+- `Signals.Applications` defines measured-model application contracts for
+   finite Airy packets, waveguides, nonlinear frequency conversion, MIMO
+   pumping, wireless power transfer, and plasma-drive power balance. It does not
+   import the pending SQG/fracture claims.
+- `Signals.Pending` is an intentionally separate submodule for the requested
+   SQG, fracture-state, anti-Amplituhedron, deterministic-fusion, and
+   spacetime-energy formalisms. These models are explicit mathematical
+   hypotheses and are not imported by `Signals`. It also contains
+   `SQGMaxwellSystem`, which adds effective constitutive parameters and an
+   explicit SQG current to Maxwell's equations.
 - `Signals.Geometry` contains Weyl spinors, twistors, antisymmetric minors, and
    the finite $2 \times 4$ Pluecker relation.
 - `Signals.Fabrication` models voxel fields, active phase masks, calibration
    tolerances, height-map bounds, and thermal budgets as data with accessor
    lemmas.
-- `SignalsTests` contains compile-time examples for the supported identities
-   and edge cases. `make signals_build` builds both library targets.
+- `SignalsTests` contains compile-time examples for the verified identities and
+   edge cases. `SignalsPendingTests` separately compiles examples of the pending
+   hypotheses and their conditional consequences. `make signals_build` builds
+   all four targets.
 
 The source chat's extracted Lean corpus is available at
 `../../data/chats/IQ-Sampling-for-Signal-Phase.lean` from this project directory.
@@ -44,6 +66,36 @@ The motivating I/Q equations and phase extraction are in the
 later Proca discussion explicitly corrects the ordinary-air premise and states
 the effective-mass requirement
 ([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L359-L377)).
+The chat's iGPE/waveguide proposal is recorded at
+([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L564-L571)),
+while its anti-fire and vacuum-expansion claims are recorded at
+([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L1451-L1465)).
+The companion Airy discussion describes the proposed Proca equation and later
+reuses it for lithospheric, ionospheric, and through-space channels
+([Airy chat](../../data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2147-L2206),
+[Airy chat](../../data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2378-L2390)).
+The primary chat later proposes 400 GHz beam mixing, nonlinear conversion, and
+an intensity estimate
+([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L1546-L1591),
+[source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L1645-L1686)).
+The Signals model corrects the reported intensity: $10^6$ V/m gives about
+$1.33 \times 10^9$ W/m², or $132.7$ kW/cm², under the stated vacuum plane-wave
+formula. The source's later atmospheric-scavenging and bow-shock sections reuse
+the unverified SQG premise
+([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L2579-L2611),
+[source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L2648-L2660)).
+
+The companion Airy-beam chat proposes four routing modes: lithospheric chord,
+surface Airy arc, ionospheric MHD ducting, and through-space ballistic
+propagation
+([Airy chat](../../data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2198-L2240),
+[Airy chat](../../data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2378-L2390)).
+It also identifies the relevant unresolved engineering variables: interface
+impedance, finite Airy truncation, space-weather variation, insertion loss,
+re-entry loss, and the absence of a supporting nonlinear medium in vacuum
+([Airy chat](../../data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2858-L2933)).
+The current propagation layer makes those quantities explicit and bounded; it
+does not assert the proposed channel performance.
 The extracted corpus also names future areas including spinors, twistors,
 Grassmannians, Amplituhedron forms, Proca-SQG models, holography, quantum
 states, and thermodynamics, but those names are not evidence for the associated
@@ -59,8 +111,9 @@ From the repository root:
 make signals_build
 ```
 
-This builds `Signals` and `SignalsTests`; the latter uses Lean `example`
-declarations as executable compile-time tests.
+This builds `Signals`, `SignalsTests`, `SignalsPending`, and
+`SignalsPendingTests`. The two test targets use Lean `example` declarations as
+executable compile-time tests.
 
 Or from this directory:
 
@@ -109,6 +162,12 @@ used as the local and CI check.
 4. [Implemented] Add a normalized Proca mode with mass, dispersion, medium,
    coupling, boundary, and longitudinal-polarization assumptions visible in
    the types.
+5. [Implemented] Add source continuity, constitutive response, lossy
+   propagation, interface power conservation, near-field coupling, and
+   application-level power budgets.
+6. [Implemented] Add the coordinate-free three-vector Maxwell equations and
+   their derived charge-continuity law. Keep the SQG-modified Maxwell system in
+   `Signals.Pending`.
 
 ### Phase 3: Add geometry and fabrication abstractions
 
@@ -121,6 +180,38 @@ used as the local and CI check.
    the theorem-proving core.
 4. Keep OAM state-space counting separate from claims about computational
    speed, fault tolerance, or device capacity.
+5. [Moved to Pending] Represent SQG fracture states and finite Amplituhedron
+    phase profiles as explicit hypotheses without importing them into the
+    verified library.
+
+### Pending Physical Formalisms
+
+`Signals.Pending` develops the requested precedent formalisms in an isolated
+namespace and build target:
+
+- `IGPEPoint` records the local iGPE balance with effective mass, potential,
+   coupling, density, time derivative, and Laplacian terms.
+- `SQGMaxwellSystem` records Maxwell's vector equations with effective
+   permittivity/permeability, an explicit extra SQG current, and a classical
+   Maxwell reduction when that current is disabled.
+- `EffectiveAcousticMetric` records the pending acoustic metric law and its
+   ergoregion sign condition.
+- `PhaseSlip` records integer winding and the corresponding $2\pi$ phase jump.
+- `ProcaChannel` joins a massive-vector mode to an explicitly assumed
+   longitudinal channel, a lossy link budget, and a propagation domain.
+- `WKBBarrier` records a proper-distance factor, effective barrier, WKB
+   exponent, and bounded Gamow probability.
+- `AntiAmplituhedronProfile` and `SQGVacuumExpansion` record divergent-profile
+   and negative-coupling hypotheses.
+- `AntiFireSuppression` records suppression as an explicit rate inequality.
+- `FusionReaction` and `DeterministicFusionClaim` make reaction probability and
+   energy per reaction explicit rather than replacing probability with a theorem.
+- `EnergyLedger` and `SpacetimeExtractionClaim` require any output beyond
+   control and fuel power to appear as a declared spacetime input.
+
+The pending target proves only conditional algebraic consequences of these
+records. It does not establish that SQG, anti-Amplituhedron fields,
+deterministic fusion, or spacetime energy extraction exist physically.
 
 ### Phase 4: Upstream contributions
 
@@ -136,12 +227,22 @@ used as the local and CI check.
 
 ## Research Boundaries
 
-The chat includes claims about longitudinal optical waves in ordinary air,
-SQG vacuum coupling, over-unity power generation, deterministic fusion, and
-sub-diffraction lithography.
+The chats include claims about longitudinal optical waves in ordinary air,
+SQG vacuum coupling, lithospheric or ionospheric routing, over-unity power
+generation, deterministic fusion, and sub-diffraction lithography.
 
-> Those claims are not represented by the current
-> Lean library. Lean checks consequences of definitions and hypotheses; it does
-> not turn unsupported physical premises into evidence. The relevant review
-> starting point is the chat's own distinction between theorem proving and
-> physical validation around lines 4350-4354.
+> Those claims are not represented by the verified `Signals` library. Lean
+> checks consequences of definitions and hypotheses; it does not turn
+> unsupported physical premises into evidence. The separate `Signals.Pending`
+> target represents Proca/SQG/fracture/Amplituhedron concepts as explicit model
+> objects because they are part of the requested mathematical framework, but
+> their medium support, coupling coefficients, attenuation, and performance
+> remain hypotheses. The source chat itself acknowledges the distinction
+> between theorem proving and physical validation ([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L4350-L4354)).
+
+In particular, no current module proves that a massive longitudinal photon
+propagates through ordinary tropospheric air, that SQG changes vacuum pressure,
+that a fracture state transmits information faster than light, or that a
+Proca/SQG device extracts net energy without an input budget. Those are future
+experimental or theoretical work items, not consequences of the formal
+definitions.

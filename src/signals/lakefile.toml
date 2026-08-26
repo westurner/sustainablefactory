@@ -1,6 +1,6 @@
 name = "Signals"
 version = "0.1.0"
-defaultTargets = ["Signals", "SignalsTests"]
+defaultTargets = ["Signals", "SignalsTests", "SignalsPending", "SignalsPendingTests"]
 
 [[require]]
 name = "Physlib"
@@ -15,3 +15,9 @@ name = "Signals"
 
 [[lean_lib]]
 name = "SignalsTests"
+
+[[lean_lib]]
+name = "SignalsPending"
+
+[[lean_lib]]
+name = "SignalsPendingTests"

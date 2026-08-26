@@ -8,6 +8,87 @@ open Signals.Geometry
 open Signals.IQ
 open Signals.Proca
 open Signals.Sampling
+open Signals.Units
+open Signals.Propagation
+open Signals.Applications
+open Signals.Maxwell
+
+def zeroCalculus : VectorCalculus where
+  divergence := fun _ => 0
+  curl := fun _ => 0
+  vectorTimeDerivative := fun _ => 0
+  scalarTimeDerivative := fun _ => 0
+  divergence_curl := by intro; rfl
+  divergence_add := by intro left right; norm_num
+  divergence_timeDerivative := by intro; rfl
+
+def zeroMaxwell : System zeroCalculus where
+  electricField := 0
+  displacementField := 0
+  magneticField := 0
+  magneticIntensity := 0
+  rho := 0
+  current := 0
+  gaussElectric := by rfl
+  gaussMagnetic := by rfl
+  faraday := by
+    ext index
+    simp [zeroCalculus]
+  ampere := by
+    ext index
+    simp [zeroCalculus]
+
+example : zeroCalculus.divergence zeroMaxwell.displacementField = zeroMaxwell.rho := by
+  exact zeroMaxwell.gauss_electric
+
+example : zeroCalculus.divergence zeroMaxwell.magneticField = 0 := by
+  exact zeroMaxwell.gauss_magnetic
+
+example : zeroCalculus.curl zeroMaxwell.electricField =
+    -zeroCalculus.vectorTimeDerivative zeroMaxwell.magneticField := by
+  exact zeroMaxwell.faraday_law
+
+example : zeroCalculus.curl zeroMaxwell.magneticIntensity =
+    zeroMaxwell.current + zeroCalculus.vectorTimeDerivative zeroMaxwell.displacementField := by
+  exact zeroMaxwell.ampere_maxwell_law
+
+example : zeroCalculus.scalarTimeDerivative zeroMaxwell.rho +
+    zeroCalculus.divergence zeroMaxwell.current = 0 := by
+  exact zeroMaxwell.charge_continuity
+
+def zeroMaterial : MaterialParameters where
+  permittivity := 2
+  permittivity_pos := by norm_num
+  permeability := 3
+  permeability_pos := by norm_num
+
+def zeroOriginalVacuum : OriginalVacuumSystem zeroCalculus where
+  parameters := zeroMaterial
+  electricField := 0
+  magneticField := 0
+  rho := 0
+  current := 0
+  gaussElectric := by norm_num [zeroCalculus, zeroMaterial]
+  gaussMagnetic := by rfl
+  faraday := by
+    ext index
+    simp [zeroCalculus]
+  ampere := by
+    ext index
+    simp [zeroCalculus]
+
+example : zeroCalculus.divergence zeroOriginalVacuum.electricField =
+    zeroOriginalVacuum.rho / zeroOriginalVacuum.parameters.permittivity := by
+  exact zeroOriginalVacuum.gauss_electric
+
+example : zeroCalculus.divergence zeroOriginalVacuum.magneticField = 0 := by
+  exact zeroOriginalVacuum.gauss_magnetic
+
+example : zeroCalculus.curl zeroOriginalVacuum.magneticField =
+    zeroOriginalVacuum.parameters.permeability • zeroOriginalVacuum.current +
+      (zeroOriginalVacuum.parameters.permeability * zeroOriginalVacuum.parameters.permittivity) •
+        zeroCalculus.vectorTimeDerivative zeroOriginalVacuum.electricField := by
+  exact zeroOriginalVacuum.ampere_maxwell_law
 
 example : (⟨0, 0⟩ : Sample).magnitude = 0 := by
   rw [Sample.zero_magnitude_iff]
@@ -70,6 +151,161 @@ def toyMeasurement : PhaseHeightMeasurement :=
 example : toyMeasurement.height =
   Signals.IQ.heightFromPhase toyMeasurement.waveNumber toyMeasurement.unwrappedPhase := by
   exact toyMeasurement.height_eq_heightFromPhase
+
+def toyCurrent : FourCurrent :=
+  { chargeDensity := 0
+    currentX := 0
+    currentY := 0
+    currentZ := 0
+    continuityResidual := 0
+    conserved := by norm_num }
+
+def toyConstitutive : ConstitutiveRelation :=
+  { relativePermittivity := 2
+    relativePermittivity_pos := by norm_num
+    relativePermeability := 1
+    relativePermeability_pos := by norm_num
+    conductivity := 0
+    conductivity_nonneg := by norm_num
+    lossTangent := 0
+    lossTangent_nonneg := by norm_num }
+
+def toyMatterCoupling : MatterCoupling :=
+  { strength := 1
+    strength_nonneg := by norm_num
+    constitutive := toyConstitutive
+    source := toyCurrent }
+
+def toyDrivenField : DrivenField toyModel :=
+  { fourDivergence := 0
+    coupling := toyMatterCoupling
+    fieldEquation := by norm_num [toyModel, toyMatterCoupling, toyCurrent] }
+
+example : toyDrivenField.fourDivergence = 0 := by
+  exact toyDrivenField.lorenz_condition
+
+example :
+    toyModel.mass ^ 2 * toyDrivenField.fourDivergence =
+      toyDrivenField.coupling.source.continuityResidual := by
+  exact toyDrivenField.source_balance
+
+def toyConversion : NonlinearConversion :=
+  { nonlinearCoefficient := 1
+    nonlinearCoefficient_nonnegative := by norm_num
+    mechanicalSusceptibility := 1
+    mechanicalSusceptibility_nonnegative := by norm_num
+    phaseMatching := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    modeOverlap := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    propagationLoss := 0
+    propagationLoss_nonnegative := by norm_num
+    interactionLength := 1
+    interactionLength_nonnegative := by norm_num
+    boundary :=
+      { reflectionPower := 0
+        transmissionPower := 1
+        absorptionPower := 0
+        reflection_nonnegative := by norm_num
+        transmission_nonnegative := by norm_num
+        absorption_nonnegative := by norm_num
+        power_conservation := by norm_num } }
+
+def toyPump : FireCannonPump :=
+  { beamA :=
+      { center := gigahertz 400
+        center_positive := by norm_num [gigahertz]
+        halfWidthHz := 1
+        halfWidth_nonnegative := by norm_num }
+    beamB :=
+      { center := gigahertz 400
+        center_positive := by norm_num [gigahertz]
+        halfWidthHz := 1
+        halfWidth_nonnegative := by norm_num }
+    conversion := toyConversion }
+
+example : toyPump.sumFrequency.hz = (gigahertz 800).hz := by
+  apply FireCannonPump.two_400GHz_sum
+  · rfl
+  · rfl
+
+example : 0 ≤ toyConversion.response := by
+  exact toyConversion.response_nonnegative
+
+noncomputable def toyCouplingFactors : CouplingFactors :=
+  { regime := CouplingRegime.nearField
+    antennaEfficiency := { value := 9 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    impedanceMatch := { value := 4 / 5, nonnegative := by norm_num, le_one := by norm_num }
+    apertureCoupling := { value := 3 / 4, nonnegative := by norm_num, le_one := by norm_num }
+    alignment := { value := 9 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    radiativeCoupling := { value := 7 / 8, nonnegative := by norm_num, le_one := by norm_num }
+    reactiveFraction := { value := 1 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    energyPartition := by norm_num }
+
+noncomputable def toyInterface : InterfaceResponse :=
+  { reflectionPower := 1 / 10
+    transmissionPower := 4 / 5
+    absorptionPower := 1 / 10
+    reflection_nonnegative := by norm_num
+    transmission_nonnegative := by norm_num
+    absorption_nonnegative := by norm_num
+    power_conservation := by norm_num }
+
+noncomputable def toyMediumLoss : MediumLoss :=
+  { attenuationPerLength := 1 / 10
+    attenuation_nonneg := by norm_num
+    bulkTransmission := { value := 9 / 10, nonnegative := by norm_num, le_one := by norm_num } }
+
+noncomputable def toyLink : LinkBudget :=
+  { mode := PropagationMode.lithosphericChord
+    sourcePower := 100
+    sourcePower_nonnegative := by norm_num
+    distance := 2
+    distance_nonnegative := by norm_num
+    coupling := toyCouplingFactors
+    medium := toyMediumLoss
+    interface := toyInterface }
+
+example : 0 ≤ toyCouplingFactors.total ∧ toyCouplingFactors.total ≤ 1 := by
+  exact ⟨toyCouplingFactors.total_nonnegative, toyCouplingFactors.total_le_one⟩
+
+example : toyLink.transferFactor ≤ 1 := by
+  exact toyLink.transferFactor_le_one
+
+example : toyCouplingFactors.reactiveFraction.value + toyCouplingFactors.radiativeCoupling.value ≤ 1 := by
+  exact toyCouplingFactors.reactive_plus_radiative_le_one
+
+example : toyLink.receivedPower ≤ toyLink.sourcePower := by
+  exact toyLink.receivedPower_le_sourcePower
+
+noncomputable def toyPowerTransfer : PowerTransfer :=
+  { link := toyLink
+    receiverEfficiency := { value := 3 / 4, nonnegative := by norm_num, le_one := by norm_num } }
+
+example : toyPowerTransfer.usablePower ≤ toyPowerTransfer.link.receivedPower := by
+  exact toyPowerTransfer.usablePower_le_receivedPower
+
+noncomputable def toyMimo : MimoArray :=
+  { elementCount := 2
+    elementCount_positive := by norm_num
+    elementPower := { watts := 100 }
+    elementPower_nonnegative := by norm_num
+    arrayEfficiency := { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num } }
+
+example : toyMimo.sourcePower = 100 := by
+  norm_num [MimoArray.sourcePower, toyMimo]
+
+example : toyMimo.sourcePower ≤ toyMimo.elementCount * toyMimo.elementPower.watts := by
+  exact toyMimo.sourcePower_le_element_budget
+
+example :
+    1.3 * 10 ^ 9 <
+        (planeWaveIrradiance ⟨10 ^ 6⟩).wattsPerSquareMeter ∧
+      (planeWaveIrradiance ⟨10 ^ 6⟩).wattsPerSquareMeter < 1.4 * 10 ^ 9 := by
+  exact irradiance_one_megavolt_per_meter_bounds
+
+example :
+    132000 < wattsPerSquareCentimeter (planeWaveIrradiance ⟨10 ^ 6⟩) ∧
+      wattsPerSquareCentimeter (planeWaveIrradiance ⟨10 ^ 6⟩) < 134000 := by
+  exact irradiance_one_megavolt_per_meter_watts_per_square_centimeter_bounds
 
 example (matrix : Matrix2x4) :
     minor matrix 0 1 * minor matrix 2 3 -
