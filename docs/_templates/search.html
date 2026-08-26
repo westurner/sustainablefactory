@@ -12,7 +12,7 @@
     {% if docindex_search_config.native.enabled %}
     <script src="{{ pathto('searchindex.js', 1) }}" defer="defer"></script>
     {% endif %}
-    {% if docindex_enhanced_searchtools %}
+    {% if docindex_searchtools_enhanced %}
     <script>
       window.DOCINDEX_SEARCH_CONFIG = {{ docindex_search_config | tojson }};
     </script>
@@ -41,7 +41,7 @@
   </section>
   {% endif %}
 
-  {% if docindex_enhanced_searchtools %}
+  {% if docindex_searchtools_enhanced %}
   <section id="docindex-search" aria-labelledby="docindex-search-title">
     <h2 id="docindex-search-title">DocIndex search</h2>
     <p>Search configured OxiRS and Meilisearch indexes separately from native Sphinx search.</p>

@@ -39,10 +39,10 @@ def normalize_search_config(config: object) -> dict[str, Any]:
 
 def setup(app):
     app.add_config_value(
-        "enhanced_searchtools", False, "html", types=frozenset({bool})
+        "docindex_searchtools_enhanced", False, "html", types=frozenset({bool})
     )
     app.add_config_value(
-        "searchtools", DEFAULT_SEARCH_CONFIG, "html", types=frozenset({dict})
+        "docindex_searchtools", DEFAULT_SEARCH_CONFIG, "html", types=frozenset({dict})
     )
     app.connect("config-inited", _configure_search_assets)
     app.connect("html-page-context", _add_search_context)
@@ -54,14 +54,14 @@ def setup(app):
 
 
 def _configure_search_assets(app, config) -> None:
-    if config.enhanced_searchtools:
+    if config.docindex_searchtools_enhanced:
         app.add_js_file("docindex-search.js")
 
 
 def _add_search_context(app, pagename, templatename, context, doctree) -> None:
-    context["docindex_enhanced_searchtools"] = bool(
-        app.config.enhanced_searchtools
+    context["docindex_searchtools_enhanced"] = bool(
+        app.config.docindex_searchtools_enhanced
     )
     context["docindex_search_config"] = normalize_search_config(
-        app.config.searchtools
+        app.config.docindex_searchtools
     )

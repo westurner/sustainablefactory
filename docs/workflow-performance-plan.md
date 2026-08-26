@@ -31,6 +31,13 @@ The main avoidable costs are repeated file discovery, transforming each input
 again for each output format, rebuilding or parsing unchanged documents, and
 parsing rendered HTML after Sphinx has already resolved the document tree.
 
+The first implementation is available through `make chat_overlays`, which
+writes `.tmp/workflow/chat-manifest.json`, and
+`tools/workflow_transform.py`, which transforms only records whose content hash
+or requested outputs are stale. The manifest also fingerprints output formats
+and transform settings, removes stale generated outputs, and writes atomically.
+`make transform_md_all` now uses this incremental runner.
+
 ## Design principles
 
 1. `docs/_toc.yml` is the only project workflow configuration file. Its
@@ -49,7 +56,8 @@ parsing rendered HTML after Sphinx has already resolved the document tree.
 
 ## Phase 0: establish one manifest
 
-Add a small generated manifest under `.tmp/workflow/` containing, for each
+The initial implementation adds a small generated manifest under
+`.tmp/workflow/` containing, for each
 selected source document:
 
 - source path and stable document key
@@ -59,14 +67,20 @@ selected source document:
 - transform configuration/version
 - last successful transform and indexing status
 
-`create_symlinks.py` should produce the selection portion of this manifest and
+`create_symlinks.py` produces the selection portion of this manifest and
 use it to remove stale tag symlinks. It should not follow generated tag-folder
 symlinks while selecting source files. The manifest should be reproducible from
 `docs/_toc.yml` and should make the selected file list inspectable in CI.
 
+The current runner provides the initial per-file incremental behavior. The
+remaining work is to move parsing/output fan-out into transform-md itself, so
+the batch process can parse each input once and write all requested formats
+atomically. Notebook generation remains requested by the current project
+target; a MyST-only target should be added before disabling notebook output.
+
 ## Phase 1: make transform-md incremental
 
-1. Add a manifest-aware batch mode that transforms only new or changed source
+1. The initial manifest-aware batch mode transforms only new or changed source
    files.
 2. Parse and normalize each source once, then fan out the in-memory result to
    MyST and notebook serializers. The current per-output loop can otherwise
@@ -74,9 +88,12 @@ symlinks while selecting source files. The manifest should be reproducible from
 3. Keep MyST as the default output for `transform_md_all`; move notebook
    generation behind an explicit output flag or separate target when notebooks
    are not needed.
-4. Write outputs to a temporary sibling and rename them into place. Do not
+4. The manifest is written atomically after successful transforms. The runner
+   must also write outputs to a temporary sibling and rename them into place.
+   Do not
    update the manifest until every requested output succeeds.
-5. Remove stale generated files when their source disappears from the manifest.
+5. Remove stale generated files when their source disappears from the manifest
+   or when an output format is removed.
 6. Add bounded worker parallelism only after measuring parser memory. Prefer
    process workers for CPU-heavy parsing and avoid creating one worker per file.
 
@@ -86,6 +103,12 @@ Acceptance criteria:
 - A one-file source edit rewrites only that source's outputs.
 - MyST-only mode does not create or read notebook outputs.
 - A failed transform leaves the previous valid output and manifest intact.
+
+The manifest producer and incremental runner implement the selection, hashing,
+configuration fingerprinting, stale-output cleanup, and atomic promotion pieces
+of this phase. `make transform_md_all` and the default `manage.py transform`
+path use them. Direct custom `indir`/`outdir` calls remain available for
+one-off conversions.
 
 ## Phase 2: make Sphinx consume the manifest and TOC
 
@@ -110,7 +133,7 @@ Acceptance criteria:
    versioned search assets into the repository; verify their presence in the
    built output instead.
 8. Keep the optional enhanced UI behind the boolean
-   `enhanced_searchtools`. Its `searchtools` configuration keeps
+   `docindex_searchtools_enhanced`. Its `docindex_searchtools` configuration keeps
    native Sphinx, OxiRS, and Meilisearch results visibly separate.
 
 Acceptance criteria:
@@ -178,3 +201,8 @@ pull request.
 
 This order keeps the workflow behavior stable while making each performance
 improvement measurable and reversible.
+
+The manifest and incremental transform runner are implemented first. The
+incremental Sphinx and docindex phases remain planned work; full docindex
+rebuilds continue to be the supported indexing operation until their delete
+and upsert semantics are implemented and tested.

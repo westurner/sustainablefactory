@@ -4,6 +4,15 @@ sustainablefactory:
     source: ../data/chats
     overlay_root: ../data/chatoverlay
     tag_root: ../data/chats
+    manifest_source: ../data/chatoverlay/chats__all
+    output_dir: ../docs/chats
+    output_formats:
+      - myst
+      - ipynb
+    manifest: ../.tmp/workflow/chat-manifest.json
+    temp_dir: ../.tmp/workflow/transform
+    transform:
+      cell_split: m1
     include:
       - '*.json'
       - '*.md'

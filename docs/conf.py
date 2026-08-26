@@ -45,8 +45,8 @@ docindex_html_exclude_patterns = [
 
 html_search_options = {"type": "js"}
 
-enhanced_searchtools = True
-searchtools = {
+docindex_searchtools_enhanced = True
+docindex_searchtools = {
     "native": {"enabled": True},
     "docindex": {
         "enabled": False,

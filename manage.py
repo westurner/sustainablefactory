@@ -88,21 +88,24 @@ def aggregate_data(input_dir=None, output=None):
 
 
 def transform_md(indir=None, outdir=None):
-    """Run transform-md with project defaults equivalent to Makefile."""
+    """Run the incremental project transform or an explicit custom transform."""
+    if indir or outdir:
+        command = [
+            "transform-md",
+            "--indir",
+            indir or "data/chatoverlay/chats__all/",
+            "--outdir",
+            outdir or "docs/chats/",
+            "--transform-cell-split",
+            "m1",
+            "--out-format=myst,ipynb",
+        ]
+        run_command(command)
+        return
     run_command(
         [sys.executable, "data/create_symlinks.py", "--config", "docs/_toc.yml", "--quiet"]
     )
-    command = [
-        "transform-md",
-        "--indir",
-        indir or "data/chatoverlay/chats__all/",
-        "--outdir",
-        outdir or "docs/chats/",
-        "--transform-cell-split",
-        "m1",
-        "--out-format=myst,ipynb",
-    ]
-    run_command(command)
+    run_command([sys.executable, "tools/workflow_transform.py", "--config", "docs/_toc.yml"])
 
 
 def transform_md_data_chats(outdir=None):

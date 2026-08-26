@@ -92,6 +92,7 @@ class YAMLToctree(TocTree):
         if inline.strip():
             data = yaml.safe_load(inline)
         elif path.exists():
+            self.env.note_dependency(str(path))
             data = yaml.safe_load(path.read_text(encoding="utf-8"))
         else:
             raise self.error(f"YAML toctree file not found: {path}")

@@ -43,5 +43,5 @@ def test_search_extension_registers_bool_toggle_and_mode_dict():
 
     searchtools.setup(App())
 
-    assert registered["enhanced_searchtools"][2] == frozenset({bool})
-    assert registered["searchtools"][2] == frozenset({dict})
+    assert registered["docindex_searchtools_enhanced"][2] == frozenset({bool})
+    assert registered["docindex_searchtools"][2] == frozenset({dict})

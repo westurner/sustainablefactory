@@ -99,7 +99,7 @@ aggregate_data:
 .PHONY: transform_md_all
 transform_md_all: chat_overlays
 	@echo "transform_md_all  #  Transform markdown chat exports from chatoverlay to docs"
-	transform-md --indir data/chatoverlay/chats__all/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst,ipynb
+	$(PYTHON) tools/workflow_transform.py --config docs/_toc.yml
 
 .PHONY: transform_md_data_chats
 transform_md_data_chats: chat_overlays

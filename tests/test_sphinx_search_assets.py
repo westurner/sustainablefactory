@@ -42,8 +42,8 @@ def test_enhanced_searchtools_renders_separate_docindex_mode(tmp_path):
         f"html_static_path = [{str(workspace / 'docs' / '_static')!r}]\n"
         "extensions = ['myst_parser', 'sustainablefactory.searchtools']\n"
         "project = 'enhanced search fixture'\n"
-        "enhanced_searchtools = True\n"
-        "searchtools = {'native': {'enabled': True}, 'docindex': "
+        "docindex_searchtools_enhanced = True\n"
+        "docindex_searchtools = {'native': {'enabled': True}, 'docindex': "
         "{'enabled': True, 'oxirs': {'enabled': False}, "
         "'meilisearch': {'enabled': False}}}\n"
     )

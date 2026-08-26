@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import fnmatch
+import hashlib
 import json
 import os
 import re
@@ -22,6 +23,7 @@ except ImportError as exc:  # pragma: no cover
 __version__ = "0.1.0"
 DEFAULT_INCLUDE_GLOBS = ("*.json", "*.md")
 DEFAULT_CONFIG_NAME = "../docs/_toc.yml"
+DEFAULT_MANIFEST_PATH = "../.tmp/workflow/chat-manifest.json"
 _INVALID_TAG_CHARS = re.compile(r"[^a-zA-Z0-9._-]+")
 
 
@@ -73,6 +75,130 @@ def document_tags(path: Path) -> list[str]:
 def _matches(path: Path, pattern: str, source_root: Path) -> bool:
     relative = path.relative_to(source_root).as_posix()
     return fnmatch.fnmatch(path.name, pattern) or fnmatch.fnmatch(relative, pattern)
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _output_paths(output_dir: Path, filename: str, formats: Iterable[str]) -> dict[str, str]:
+    stem = Path(filename).stem
+    extensions = {
+        "myst": ".myst.md",
+        "ipynb": ".ipynb",
+        "qmd": ".qmd",
+        "standard": ".md",
+        "chatexport_abc1": ".chatexport_abc1.md",
+    }
+    return {
+        output_format: str(output_dir / f"{stem}{extensions[output_format]}")
+        for output_format in formats
+        if output_format in extensions
+    }
+
+
+def _transform_fingerprint(config: dict) -> str:
+    payload = {
+        "output_formats": list(config.get("output_formats", ["myst", "ipynb"])),
+        "transform": config.get("transform", {}),
+    }
+    return hashlib.sha256(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+
+
+def build_manifest(
+    source_root: Path,
+    source_files: Iterable[Path],
+    config: dict,
+    previous: dict | None = None,
+) -> dict:
+    """Build a deterministic source manifest, retaining transform status."""
+    previous_files = (previous or {}).get("files", {})
+    output_dir = Path(config.get("output_dir", source_root))
+    temp_dir = Path(config.get("temp_dir", output_dir.parent / ".workflow-tmp"))
+    formats = config.get("output_formats", ["myst", "ipynb"])
+    transform_fingerprint = _transform_fingerprint(config)
+    files = {}
+    for path in sorted(source_files):
+        relative = path.relative_to(source_root).as_posix()
+        old = previous_files.get(relative, {})
+        files[relative] = {
+            "source": relative,
+            "sha256": _sha256(path),
+            "size": path.stat().st_size,
+            "tags": document_tags(path),
+            "outputs": _output_paths(output_dir, path.name, formats),
+            "transformed_sha256": old.get("transformed_sha256"),
+            "transformed_fingerprint": old.get("transformed_fingerprint"),
+            "status": old.get("status", "selected"),
+        }
+    return {
+        "version": 1,
+        "source_root": str(source_root.resolve()),
+        "output_dir": str(output_dir.resolve()),
+        "temp_dir": str(temp_dir.resolve()),
+        "output_formats": list(formats),
+        "transform_fingerprint": transform_fingerprint,
+        "files": files,
+    }
+
+
+def remove_stale_outputs(previous: dict | None, manifest: dict) -> list[Path]:
+    """Remove generated outputs no longer selected or requested."""
+    current_sources = set(manifest.get("files", {}))
+    current_outputs = {
+        output
+        for record in manifest.get("files", {}).values()
+        for output in record.get("outputs", {}).values()
+    }
+    removed = []
+    for source, record in (previous or {}).get("files", {}).items():
+        for value in record.get("outputs", {}).values():
+            if source in current_sources and value in current_outputs:
+                continue
+            output = Path(value)
+            if output.is_file() and not output.is_symlink():
+                output.unlink()
+                removed.append(output)
+    return removed
+
+
+def remove_stale_symlinks(
+    overlay_root: Path,
+    source_files: Iterable[Path],
+    source_root: Path,
+    tag_root: Path | None = None,
+) -> list[Path]:
+    """Remove generated symlinks that are absent from the selected source set."""
+    selected_names = {path.name for path in source_files}
+    roots = [Path(overlay_root)]
+    if tag_root is not None:
+        roots.append(Path(tag_root))
+    removed = []
+    for root in roots:
+        if not root.exists():
+            continue
+        for path in root.glob("**/*"):
+            if path.is_symlink() and path.name not in selected_names:
+                path.unlink()
+                removed.append(path)
+    return removed
+
+
+def write_manifest(path: Path, manifest: dict) -> None:
+    """Atomically write a workflow manifest."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f"{path.name}.tmp")
+    temporary.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    temporary.replace(path)
 
 
 def source_documents(
@@ -189,6 +315,10 @@ def load_config(path: Path) -> dict:
         data["overlay_root"] = (base / data.pop("overlay_root")).resolve()
     if data.get("tag_root"):
         data["tag_root"] = (base / data.pop("tag_root")).resolve()
+    for key in ("manifest", "manifest_source", "output_dir", "temp_dir"):
+        if data.get(key):
+            data[key] = (base / data[key]).resolve()
+    data["temp_dir"] = (base / data.get("temp_dir", "../.tmp/workflow/transform")).resolve()
     return data
 
 
@@ -233,6 +363,9 @@ def main(argv: list[str] | None = None) -> int:
     )
     files = args.files or config.get("files", [])
     tag_root = config.get("tag_root")
+    manifest_path = config.get(
+        "manifest", Path(__file__).resolve().parent / DEFAULT_MANIFEST_PATH
+    )
     overlays = {"all": overlay_root / "chats__all"}
     create_chat_symlinks(
         source,
@@ -244,6 +377,22 @@ def main(argv: list[str] | None = None) -> int:
         files=files,
         tag_root=tag_root,
     )
+    if not args.dry_run:
+        remove_stale_symlinks(overlay_root, source_documents(source, include_globs, exclude_globs, files), source, tag_root)
+        previous = None
+        if manifest_path.exists():
+            previous = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest_source = config.get("manifest_source", source)
+        manifest_files = source_documents(
+            manifest_source,
+            config.get("manifest_include", ["*.md"]),
+            config.get("manifest_exclude", []),
+        )
+        manifest = build_manifest(manifest_source, manifest_files, config, previous)
+        manifest["stale_outputs_removed"] = [
+            str(path) for path in remove_stale_outputs(previous, manifest)
+        ]
+        write_manifest(manifest_path, manifest)
     return 0
 
 

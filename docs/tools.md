@@ -36,9 +36,9 @@ overlay and one `chats/TAG` symlink directory for each source-document tag.
 The transformation targets use the all overlay and generate only MyST and
 notebook outputs; `docindex` indexes the MyST files.
 
-When `enhanced_searchtools` is enabled, `docs/_templates/search.html`
+When `docindex_searchtools_enhanced` is enabled, `docs/_templates/search.html`
 shows native Sphinx and DocIndex as separate modes. Enable either configured
-backend under `searchtools.docindex`; `oxirs.url` must accept the existing
+backend under `docindex_searchtools.docindex`; `oxirs.url` must accept the existing
 form-encoded `query` request, and `meilisearch.url` must be reachable from the
 browser. Only a Meilisearch public search key may be placed in
 `public_api_key`; never put an administrative key in a static documentation
