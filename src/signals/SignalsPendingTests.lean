@@ -9,6 +9,8 @@ open Signals.Geometry
 open Signals.IQ
 open Signals.Antennas
 open Signals.Maxwell
+open Signals.NonDestructive
+open Signals.OAM
 open Signals.Pending
 open Signals.Proca
 open Signals.Propagation
@@ -782,6 +784,40 @@ example : toyLogarithmicChart.weight *
 
 example : toyAmplituhedronHypothesis.measuredAmplitude = 7 := by
   rfl
+
+noncomputable def toyQudit : Qudit 1 :=
+  { amplitudes := fun _ => 1
+    normalized := by norm_num [Fin.sum_univ_succ] }
+
+noncomputable def toyQNDParity : QuantumNonDemolitionParity 1 :=
+  { readout :=
+      { signalBefore := toyQudit
+        signalAfter := toyQudit
+        signalPreserved := by rfl
+        probePhaseBefore := 0
+        probePhaseAfter := 2
+        probePhaseShift := 2
+        coupling := 1
+        signalObservable := 2
+        probePhaseLaw := by norm_num
+        probePhaseShiftLaw := by norm_num
+        absorbedProbeEnergy := { watts := 0 }
+        absorbedProbeEnergy_nonnegative := by norm_num
+        absorbedProbeEnergy_zero := by norm_num }
+    parityBefore := false
+    parityAfter := false
+    parityPreserved := by rfl
+    measuredParity := false
+    parityReadoutLaw := by rfl }
+
+example : toyQNDParity.readout.signalAfter = toyQNDParity.readout.signalBefore := by
+  exact toyQNDParity.signal_preserved
+
+example : toyQNDParity.parityAfter = toyQNDParity.parityBefore := by
+  exact toyQNDParity.parity_preserved
+
+example : toyQNDParity.measuredParity = toyQNDParity.parityAfter := by
+  exact toyQNDParity.measured_parity_eq
 
 noncomputable def toyPendingLigninVitrimer : LigninVitrimerDielectric :=
   { relativePermittivity := 2

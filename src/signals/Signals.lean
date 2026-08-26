@@ -6,6 +6,7 @@ import Signals.Geometry
 import Signals.IQ
 import Signals.DirectionalBroadbandAntenna
 import Signals.Maxwell
+import Signals.NonDestructive
 import Signals.OAM
 import Signals.Physlib
 import Signals.Proca

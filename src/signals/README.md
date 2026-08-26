@@ -42,6 +42,10 @@ interpretation while keeping experimental premises explicit:
 - `Signals.Scattering` models coherent I/Q observations, scattered-to-incident
    power ratios, reference-subtracted phase-height reconstruction, scattering
    cross-section inversion, SNR, and residual-based anomaly candidates.
+- `Signals.NonDestructive` separates nondestructive inspection methods,
+   phase-fingerprint observations, dispersive probe readout, raw-data-preserving
+   calibration, and reversible operations. Preservation is represented as an
+   explicit invariant rather than inferred from the word "nondestructive".
 - `Signals.Propagation` models far-field and near-field coupling, antenna
    efficiency, impedance matching, aperture coupling, alignment, radiation,
    bulk attenuation, interface reflection/transmission/absorption, and passive
@@ -85,6 +89,8 @@ interpretation while keeping experimental premises explicit:
    It also contains LF/VLF radio test vectors for Earth, named planets,
    asteroids, and arbitrary named bodies, plus a conditional ultrasonic
    fracture-evidence protocol.
+   Its `QuantumNonDemolitionParity` record keeps OAM-state and parity
+   preservation as Pending assumptions over a dispersive readout.
 - `Signals.Geometry` contains Weyl spinors, twistors, antisymmetric minors, and
    the finite $2 \times 4$ Pluecker relation. It also provides unrestricted
    finite Grassmannian matrices, ordered maximal minors, an optional positive
@@ -178,6 +184,29 @@ Proca interpretation remains Pending ([superfluid waveguide chat](../../docs/cha
 The implemented model therefore records ordinary sweep, resonance, loss, and
 Stark-response quantities without asserting that a dielectric or CW resonator
 generates a massive longitudinal field.
+
+The nondestructive corpus review separates several meanings that the chats use
+interchangeably. THz conductivity/integrity scans, ultrasonic pulse-echo,
+phased-array ultrasound, eddy-current testing, lock-in thermography, distributed
+Rayleigh/Brillouin fiber sensing, infrared photothermal checks, acoustic-emission
+monitoring, mmWave radar, and RFID audits are inspection methods whose
+non-destructive property must be established by a preserved specimen state and
+a calibrated response
+([inspection corpus](../../docs/chats/Lignin-Vitrimer-Surface-Roughness-Limits.myst.md#L1596-L1610),
+[over-mold NDT chat](../../docs/chats/_Lignin,%20Super%20Glue,%20Baking%20Soda%20Mix%20.myst.md#L1795-L1795),
+[mmWave inspection chat](../../docs/chats/_Ultrasonic-Drilling-Hardware,-Control,-Sensing.myst.md#L313-L313)).
+The optical chats describe a phase fingerprint or a probe-beam phase shift while
+the target photon or qubit remains unchanged ([phase-fingerprint chat](../../docs/chats/Photon's%20Phase%20Fingerprint%20on%20Particles%20.myst.md#L812-L921),
+[homodyne QND chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L9359-L9540)).
+The source also describes raw telemetry retained through calibration and
+reversible vitrimer disassembly ([calibration chat](../../docs/chats/_weather_app_0%20.myst.md#L8613-L8613),
+[reversible assembly chat](../../docs/chats/_Sustainable%20Composites_%20Energy,%20Processing,%20Costs.myst.md#L8531-L8563)).
+
+The verified API records the corresponding state, energy, polarization, raw-data,
+and restoration invariants. `QuantumNonDemolitionParity` remains Pending because
+zero absorption, repeatability, and no quantum backaction require a physical
+Hamiltonian, commutation model, detector calibration, and loss measurement; an
+algebraic equality in a test fixture is not experimental QND evidence.
 
 ## CW Application Review
 
@@ -302,6 +331,15 @@ its physical premises or calibration data are not established.
 10. [Implemented] Classify CW application requirements and readiness conditions
    for phase references, active masks, convergent beams, range modulation,
    and Pending massive-mode hypotheses.
+11. [Implemented] Add nondestructive inspection, phase-fingerprint, dispersive
+   readout, calibration-preservation, and reversible-operation contracts.
+   Keep quantum nondemolition parity in `Signals.Pending`.
+11. [Implemented] Add nondestructive inspection, phase-fingerprint, dispersive
+   readout, calibration-preservation, and reversible-operation contracts.
+   Keep quantum nondemolition parity in `Signals.Pending`.
+11. [Implemented] Add nondestructive inspection, phase-fingerprint, dispersive
+   readout, calibration-preservation, and reversible-operation contracts.
+   Keep quantum nondemolition parity in `Signals.Pending`.
 
 ### Phase 3: Add geometry and fabrication abstractions
 
@@ -376,6 +414,13 @@ its physical premises or calibration data are not established.
 7. Next loop: add measured mode-conversion efficiency, polarization-resolved
    near-field data, thermal/loss characterization, and causal waveform controls,
    then connect them to the compressible-flow validation path.
+8. [Complete] Nondestructive-measurement loop: added inspection-method tags,
+   preservation invariants, dispersive phase readout, calibration preservation,
+   reversible restoration, and Pending OAM parity QND assumptions. Proposed
+   commit:
+   `feat(signals): model nondestructive inspection and QND boundaries`.
+9. Next loop: add method-specific calibration records and measured disturbance,
+   absorption, repeatability, and detector-loss observations.
 
 ### Pending Physical Formalisms
 
@@ -411,6 +456,18 @@ namespace and build target:
 - `FlowBoundaryCondition` and `FlowBoundaryObservation` record pressure,
    heat-flux, and vector-velocity boundary data with measured-versus-predicted
    residual tolerances.
+- `InspectionMethod` and `InspectionRecord` cover the corpus's THz, mmWave,
+   ultrasonic, eddy-current, thermal, fiber, acoustic, infrared, and RFID
+   inspection paths.
+- `PhaseFingerprint` records a measured phase change with preserved target energy
+   and polarization.
+- `DispersiveReadout` records signal-state preservation, a coupled probe phase
+   response, and zero absorbed probe energy as explicit model data.
+- `CalibrationRecord` preserves a raw reading while deriving a calibrated value.
+- `ReversibleOperation` records restoration of an original state after a
+   reversible material operation.
+- `QuantumNonDemolitionParity` records OAM-state and parity preservation as a
+   Pending QND hypothesis; it does not prove no backaction in hardware.
 - `CWApplication` and `CWApplicationRequirements` classify the ten CW uses
    found in the IQ Myst document by their phase-reference, mask, convergence,
    range-modulation, and massive-mode requirements.
@@ -514,7 +571,22 @@ deterministic fusion, or spacetime energy extraction exist physically.
 6. Next: add measured mode-conversion efficiency, polarization-resolved
    near-field data, thermal/loss characterization, and causal waveform tests.
 
-### Phase 6: Upstream contributions
+### Phase 6: Nondestructive measurement and reversible operations
+
+1. [Implemented] Cover the corpus's distinct nondestructive inspection methods
+   with explicit specimen-state preservation and nonnegative stimulus/response
+   data.
+2. [Implemented] Cover phase fingerprints and dispersive probe readout with
+   explicit phase-response, energy/polarization preservation, and zero-absorption
+   assumptions.
+3. [Implemented] Cover raw-data-preserving calibration and reversible material
+   restoration.
+4. [Implemented in Pending] Cover OAM parity QND as an explicit hypothesis over
+   a dispersive readout.
+5. Next: add method-specific calibration, detector loss, repeatability, and
+   measured disturbance fields before making QND or zero-damage claims.
+
+### Phase 7: Upstream contributions
 
 - Candidate Physlib contributions: reusable mainstream definitions and lemmas
   for electromagnetic wave conventions, polarization, sampling interfaces,

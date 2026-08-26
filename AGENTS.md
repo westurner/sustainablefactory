@@ -64,6 +64,24 @@ SQG, or vacuum fracture. Promote none of these interpretations without
 polarization-resolved measurements, mode-conversion efficiency, power/loss
 accounting, and causal waveform controls.
 
+## Nondestructive Measurement and Testing
+
+`Signals.NonDestructive` distinguishes non-destructive inspection from stronger
+quantum and reversible-operation claims. `InspectionMethod` and
+`InspectionRecord` cover THz, ultrasonic, eddy-current, thermal, fiber,
+acoustic, infrared, and RFID inspection paths. `PhaseFingerprint` and
+`DispersiveReadout` preserve modeled target state, energy, polarization, and
+probe-energy invariants. `CalibrationRecord` preserves raw readings while
+applying a calibration, and `ReversibleOperation` records explicit restoration.
+
+`QuantumNonDemolitionParity` in
+[`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean) is a
+Pending OAM/QND hypothesis. Do not describe a phase shift, homodyne output,
+zero absorbed probe energy, or a preserved test fixture as proof of zero
+backaction, repeatability, or physical QND behavior. Add detector loss,
+Hamiltonian/commutation assumptions, calibration, and disturbance measurements
+before making those claims.
+
 ---
 
 ## Core Project Agents

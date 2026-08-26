@@ -7,6 +7,8 @@ import Signals.Applications
 import Signals.Geometry
 import Signals.DirectionalBroadbandAntenna
 import Signals.Maxwell
+import Signals.NonDestructive
+import Signals.OAM
 import Signals.Proca
 import Signals.Propagation
 import Signals.Units
@@ -18,6 +20,8 @@ open Signals.Acoustics
 open Signals.Geometry
 open Signals.Antennas
 open Signals.Maxwell
+open Signals.NonDestructive
+open Signals.OAM
 open Signals.Proca
 open Signals.Propagation
 open Signals.Units
@@ -195,6 +199,38 @@ lemma InhomogeneousGPEPoint.balance_holds (point : InhomogeneousGPEPoint) :
         (point.potential + point.coupling * point.density) * point.wavefunction +
           point.source :=
   point.balance
+
+/-- A Pending QND parity contract over a finite OAM qudit.
+
+The signal state and parity are required to survive a dispersive probe readout.
+This records the claimed non-demolition behavior; it does not prove that a
+physical Kerr interaction has no unmodeled loss or backaction.
+-/
+structure QuantumNonDemolitionParity (dimension : ℕ) where
+  readout : DispersiveReadout (Qudit dimension)
+  parityBefore : Bool
+  parityAfter : Bool
+  parityPreserved : parityAfter = parityBefore
+  measuredParity : Bool
+  parityReadoutLaw : measuredParity = parityAfter
+
+/-- The QND parity contract preserves the signal qudit state. -/
+lemma QuantumNonDemolitionParity.signal_preserved
+    {dimension : ℕ} (measurement : QuantumNonDemolitionParity dimension) :
+    measurement.readout.signalAfter = measurement.readout.signalBefore :=
+  measurement.readout.signalPreserved
+
+/-- The QND parity contract preserves the measured parity. -/
+lemma QuantumNonDemolitionParity.parity_preserved
+    {dimension : ℕ} (measurement : QuantumNonDemolitionParity dimension) :
+    measurement.parityAfter = measurement.parityBefore :=
+  measurement.parityPreserved
+
+/-- The QND parity readout returns the post-interaction parity. -/
+lemma QuantumNonDemolitionParity.measured_parity_eq
+    {dimension : ℕ} (measurement : QuantumNonDemolitionParity dimension) :
+    measurement.measuredParity = measurement.parityAfter :=
+  measurement.parityReadoutLaw
 
 /-! ## Mixed-species atmospheric scavenging
 

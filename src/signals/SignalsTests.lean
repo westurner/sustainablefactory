@@ -14,6 +14,7 @@ open Signals.Propagation
 open Signals.Applications
 open Signals.Acoustics
 open Signals.Maxwell
+open Signals.NonDestructive
 open Signals.Scattering
 
 def zeroCalculus : VectorCalculus where
@@ -705,5 +706,136 @@ example : toyPCLPApplicationReadiness.informationSpeed.metersPerSecond ≤
 
 example : toyConvergentCWBeams.beamCount ≥ 2 := by
   exact toyConvergentCWBeams.beamCount_at_least_two
+
+def toyInspection (method : InspectionMethod) : InspectionRecord :=
+  { method := method
+    specimenStateBefore := 1
+    specimenStateAfter := 1
+    statePreserved := by rfl
+    stimulusPower := { watts := 1 }
+    stimulusPower_nonnegative := by norm_num
+    response := 1
+    response_nonnegative := by norm_num }
+
+example : (toyInspection InspectionMethod.terahertzConductivity).method =
+    InspectionMethod.terahertzConductivity := by
+  rfl
+
+example : (toyInspection InspectionMethod.terahertzIntegrity).method =
+    InspectionMethod.terahertzIntegrity := by
+  rfl
+
+example : (toyInspection InspectionMethod.mmWaveRadar).method =
+    InspectionMethod.mmWaveRadar := by
+  rfl
+
+example : (toyInspection InspectionMethod.ultrasonicPulseEcho).method =
+    InspectionMethod.ultrasonicPulseEcho := by
+  rfl
+
+example : (toyInspection InspectionMethod.phasedArrayUltrasound).method =
+    InspectionMethod.phasedArrayUltrasound := by
+  rfl
+
+example : (toyInspection InspectionMethod.eddyCurrent).method =
+    InspectionMethod.eddyCurrent := by
+  rfl
+
+example : (toyInspection InspectionMethod.lockInThermography).method =
+    InspectionMethod.lockInThermography := by
+  rfl
+
+example : (toyInspection InspectionMethod.fiberRayleighBrillouin).method =
+    InspectionMethod.fiberRayleighBrillouin := by
+  rfl
+
+example : (toyInspection InspectionMethod.infraredPhotothermal).method =
+    InspectionMethod.infraredPhotothermal := by
+  rfl
+
+example : (toyInspection InspectionMethod.acousticEmission).method =
+    InspectionMethod.acousticEmission := by
+  rfl
+
+example : (toyInspection InspectionMethod.rfidAudit).method =
+    InspectionMethod.rfidAudit := by
+  rfl
+
+example : (toyInspection InspectionMethod.eddyCurrent).specimenStateAfter =
+    (toyInspection InspectionMethod.eddyCurrent).specimenStateBefore := by
+  rfl
+
+def toyPhaseFingerprint : PhaseFingerprint :=
+  { targetPhaseBefore := 0
+    targetPhaseAfter := 2
+    phaseShift := 2
+    phaseShiftLaw := by norm_num
+    targetEnergyBefore := 1
+    targetEnergyAfter := 1
+    energyPreserved := by norm_num
+    polarizationBefore := 1
+    polarizationAfter := 1
+    polarizationPreserved := by norm_num }
+
+example : toyPhaseFingerprint.phaseShift = 2 := by
+  norm_num [PhaseFingerprint.phase_shift_holds, toyPhaseFingerprint]
+
+example : toyPhaseFingerprint.targetEnergyAfter =
+    toyPhaseFingerprint.targetEnergyBefore := by
+  exact toyPhaseFingerprint.energy_preserved
+
+example : toyPhaseFingerprint.polarizationAfter =
+    toyPhaseFingerprint.polarizationBefore := by
+  exact toyPhaseFingerprint.polarization_preserved
+
+def toyDispersiveReadout : DispersiveReadout ℝ :=
+  { signalBefore := 1
+    signalAfter := 1
+    signalPreserved := by rfl
+    probePhaseBefore := 0
+    probePhaseAfter := 2
+    probePhaseShift := 2
+    coupling := 1
+    signalObservable := 2
+    probePhaseLaw := by norm_num
+    probePhaseShiftLaw := by norm_num
+    absorbedProbeEnergy := { watts := 0 }
+    absorbedProbeEnergy_nonnegative := by norm_num
+    absorbedProbeEnergy_zero := by norm_num }
+
+example : toyDispersiveReadout.signalAfter = toyDispersiveReadout.signalBefore := by
+  exact toyDispersiveReadout.signal_preserved
+
+example : toyDispersiveReadout.probePhaseAfter =
+    toyDispersiveReadout.probePhaseBefore + toyDispersiveReadout.probePhaseShift := by
+  exact toyDispersiveReadout.probe_phase_holds
+
+example : toyDispersiveReadout.absorbedProbeEnergy.watts = 0 := by
+  exact toyDispersiveReadout.no_absorbed_probe_energy
+
+def toyCalibrationRecord : CalibrationRecord :=
+  { rawBefore := 10
+    rawAfter := 10
+    rawPreserved := by norm_num
+    multiplier := 2
+    calibrated := 20
+    calibrationLaw := by norm_num }
+
+example : toyCalibrationRecord.rawAfter = toyCalibrationRecord.rawBefore := by
+  exact toyCalibrationRecord.raw_preserved
+
+example : toyCalibrationRecord.calibrated = 20 := by
+  norm_num [CalibrationRecord.calibration_holds, toyCalibrationRecord]
+
+def toyReversibleOperation : ReversibleOperation :=
+  { stateBefore := 1
+    stateAfter := 2
+    stateAfterLaw := by norm_num
+    restoredState := 1
+    restoreLaw := by norm_num }
+
+example : toyReversibleOperation.restoredState =
+    toyReversibleOperation.stateBefore := by
+  exact toyReversibleOperation.restores_state
 
 end SignalsTests
