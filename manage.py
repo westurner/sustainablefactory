@@ -89,6 +89,9 @@ def aggregate_data(input_dir=None, output=None):
 
 def transform_md(indir=None, outdir=None):
     """Run transform-md with project defaults equivalent to Makefile."""
+    run_command(
+        [sys.executable, "data/create_symlinks.py", "--config", "docs/_toc.yml", "--quiet"]
+    )
     command = [
         "transform-md",
         "--indir",
@@ -97,7 +100,7 @@ def transform_md(indir=None, outdir=None):
         outdir or "docs/chats/",
         "--transform-cell-split",
         "m1",
-        "--out-format=myst,ipynb,chatexport_abc1",
+        "--out-format=myst,ipynb",
     ]
     run_command(command)
 

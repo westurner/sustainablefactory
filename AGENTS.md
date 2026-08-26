@@ -175,7 +175,7 @@ sfcli batch_export data/chats/ --output all_processes.ttl
 **Key Commands**:
 ```bash
 transform-md --indir data/chatoverlay/chats__all/ --outdir docs/chats/ \
-  --transform-cell-split m1 --out-format=myst,ipynb,chatexport_abc1
+  --transform-cell-split m1 --out-format=myst,ipynb
 transform-md --help
 make transform_md_all
 ```

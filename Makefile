@@ -97,14 +97,19 @@ aggregate_data:
 
 
 .PHONY: transform_md_all
-transform_md_all:
+transform_md_all: chat_overlays
 	@echo "transform_md_all  #  Transform markdown chat exports from chatoverlay to docs"
-	transform-md --indir data/chatoverlay/chats__all/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst,ipynb,chatexport_abc1
+	transform-md --indir data/chatoverlay/chats__all/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst,ipynb
 
 .PHONY: transform_md_data_chats
-transform_md_data_chats:
+transform_md_data_chats: chat_overlays
 	@echo "transform_md_data_chats  #  Transform markdown chat exports from data/chats to docs"
-	transform-md --indir data/chats/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst,ipynb,chatexport_abc1
+	transform-md --indir data/chats/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst,ipynb
+
+.PHONY: chat_overlays
+chat_overlays:
+	@echo "chat_overlays  #  Build tagged chat source overlays"
+	$(PYTHON) data/create_symlinks.py --config docs/_toc.yml --quiet
 
 
 ## Docindex requires MeiliSearch (rust) and/or oxirs:
@@ -173,7 +178,7 @@ docindex_index_chats: # docindex_install_python
 .PHONY: docindex_index_html
 docindex_index_html: # docindex_install_python
 	@echo "docindex_index_html  #  Index Sphinx HTML to docindex"
-	$(PYTHON) -m docindex_cli.cli index-html --source docs/_build/html --progress --pipeline
+	$(PYTHON) -m docindex_cli.cli index-html --source docs/_build/html --exclude tables_and_figures.myst.html --progress --pipeline
 
 .PHONY: docindex_index_all
 docindex_index_all: docindex_index_chats docindex_index_html

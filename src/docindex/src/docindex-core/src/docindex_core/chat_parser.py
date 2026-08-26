@@ -296,7 +296,7 @@ class BatchChatIndexer:
         Returns:
             List of chat file paths
         """
-        patterns = ['*.json', '*.md', '*.myst.md', '*.chatexport_abc1.md']
+        patterns = ['*.json', '*.myst.md']
         files = []
         for pattern in patterns:
             files.extend(self.chat_dir.glob(pattern))

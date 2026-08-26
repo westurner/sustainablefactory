@@ -98,7 +98,15 @@ def on_build_finished(app, exception):
         # Index the HTML build output
         html_dir = Path(app.outdir)
         if html_dir.exists():
-            stats = indexer.index_sphinx_html(html_dir)
+            exclude_patterns = getattr(
+                app.config, "docindex_html_exclude_patterns", None
+            )
+            if exclude_patterns is None:
+                stats = indexer.index_sphinx_html(html_dir)
+            else:
+                stats = indexer.index_sphinx_html(
+                    html_dir, exclude_patterns=exclude_patterns
+                )
             logger.info(
                 f"✓ Indexed {stats.indexed_documents}/{stats.total_documents} documents "
                 f"({stats.success_rate:.1f}% success rate)"

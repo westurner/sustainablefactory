@@ -113,6 +113,9 @@ def test_batch_html_indexer_get_files_parse_all_total(tmp_path, monkeypatch):
 
     (html_dir / "index.html").write_text("<h1>Home</h1><p>" + ("a" * 60) + "</p>")
     (html_dir / "genindex.html").write_text("<h1>Index</h1><p>" + ("b" * 60) + "</p>")
+    (html_dir / "tables_and_figures.myst.html").write_text(
+        "<h1>Tables</h1><p>" + ("t" * 60) + "</p>"
+    )
     (html_dir / "sub" / "index.html").write_text("<h1>Nested</h1><p>" + ("c" * 60) + "</p>")
     (html_dir / "sub" / "page.html").write_text("<h1>Page</h1><p>" + ("d" * 60) + "</p>")
 
@@ -121,6 +124,11 @@ def test_batch_html_indexer_get_files_parse_all_total(tmp_path, monkeypatch):
     names = [f.name for f in files]
     assert "index.html" in names
     assert "genindex.html" not in names
+    assert "tables_and_figures.myst.html" in names
+    project_files = idx.get_html_files(
+        exclude_patterns=["tables_and_figures.myst.html"]
+    )
+    assert "tables_and_figures.myst.html" not in [f.name for f in project_files]
     assert not any(str(f).endswith("sub/index.html") for f in files)
 
     original = SphinxHTMLParser.parse_html_file

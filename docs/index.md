@@ -4,23 +4,10 @@ Welcome to the Sustainable Factory project documentation.
 
 
 ## Sustainable Factory Project
-```{toctree}
+```{toctreeyaml}
 :maxdepth: 3
 :caption: Table of Contents:
-
-readme
-paper.myst
-schema
-visualization
-cli_reference
-glossary
-```
-
-## Appendices
-
-```{toctree}
-:maxdepth: 2
-chats/index
+:file: _toc.yml
 ```
 --- chats/*.md
 

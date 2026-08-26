@@ -110,7 +110,7 @@ def test_batch_chat_indexer_get_files_parse_all_and_total(tmp_path, monkeypatch)
 
     idx = BatchChatIndexer(d)
     files = idx.get_chat_files()
-    assert len(files) == 4
+    assert [path.name for path in files] == ["a.json", "c.myst.md"]
 
     # Cover parse_all exception branch.
     original = ChatParser.parse_chat_file

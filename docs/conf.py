@@ -25,7 +25,7 @@ extensions = [
     "sphinx.ext.napoleon",
     # "sphinx.ext.todo",
     "sphinx.ext.viewcode",
-    "wrd_sphinx_theme",
+    "sustainablefactory.sphinx_yaml_toc",
 ]
 
 templates_path = ["_templates"]
@@ -36,6 +36,10 @@ exclude_patterns = [
     "__pycache__",
     "chats/*.chatexport_abc1.md",
 ]
+
+docindex_html_exclude_patterns = ["tables_and_figures.myst.html"]
+
+html_search_options = {"type": "js"}
 
 # -- MyST Parser configuration -----------------------------------------------
 myst_enable_extensions = [
@@ -63,6 +67,7 @@ try:
     import wrd_sphinx_theme
 
     html_theme = "wrd_sphinx_theme"
+    extensions.append("wrd_sphinx_theme")
 except ImportError:
     # html_theme = "furo"      # pip install furo
     # html_theme = "sphinxdoc" # native
