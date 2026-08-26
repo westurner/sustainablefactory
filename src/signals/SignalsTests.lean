@@ -11,7 +11,9 @@ open Signals.Sampling
 open Signals.Units
 open Signals.Propagation
 open Signals.Applications
+open Signals.Acoustics
 open Signals.Maxwell
+open Signals.Scattering
 
 def zeroCalculus : VectorCalculus where
   divergence := fun _ => 0
@@ -282,6 +284,124 @@ noncomputable def toyPowerTransfer : PowerTransfer :=
 
 example : toyPowerTransfer.usablePower ≤ toyPowerTransfer.link.receivedPower := by
   exact toyPowerTransfer.usablePower_le_receivedPower
+
+noncomputable def toyAcousticMedium : Signals.Acoustics.Medium :=
+  { density := 1
+    density_pos := by norm_num
+    soundSpeed := 1
+    soundSpeed_pos := by norm_num
+    attenuationPerLength := 0
+    attenuation_nonnegative := by norm_num }
+
+noncomputable def toyAcousticWave : Signals.Acoustics.Wave :=
+  { frequencyHz := 30000
+    frequency_positive := by norm_num
+    pressureAmplitude := 10
+    pressureAmplitude_nonnegative := by norm_num
+    medium := toyAcousticMedium }
+
+example : toyAcousticMedium.impedance = 1 := by
+  norm_num [Signals.Acoustics.Medium.impedance, toyAcousticMedium]
+
+example : toyAcousticWave.intensity = 100 := by
+  norm_num [Signals.Acoustics.Wave.intensity, toyAcousticWave,
+    Signals.Acoustics.Medium.impedance, toyAcousticMedium]
+
+noncomputable def toyUltrasonicTransfer : Signals.Acoustics.UltrasonicTransfer :=
+  { wave := toyAcousticWave
+    ultrasonicFrequency := by norm_num [toyAcousticWave]
+    link := toyLink
+    apertureArea := 1
+    apertureArea_pos := by norm_num
+    transmitterEfficiency := { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    receiverEfficiency := { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    sourcePowerLaw := by
+      norm_num [toyLink, toyAcousticWave, toyAcousticMedium,
+        Signals.Acoustics.Wave.intensity, Signals.Acoustics.Medium.impedance,
+        toyCouplingFactors, toyInterface, toyMediumLoss] }
+
+example : 0 ≤ toyUltrasonicTransfer.receivedPower := by
+  exact toyUltrasonicTransfer.receivedPower_nonnegative
+
+example : toyUltrasonicTransfer.receivedPower ≤ toyUltrasonicTransfer.incidentPower := by
+  exact toyUltrasonicTransfer.receivedPower_le_incidentPower
+
+noncomputable def toyScatteringObservation : Signals.Scattering.Observation :=
+  { incident := ⟨1, 0⟩
+    incidentNormSq := 1
+    incidentNormSq_pos := by norm_num
+    incidentNormSqLaw := by
+      norm_num [Signals.IQ.Sample.asComplex, Complex.normSq]
+    scattered := ⟨0, 1⟩ }
+
+example : toyScatteringObservation.powerRatio = 1 := by
+  norm_num [Signals.Scattering.Observation.powerRatio,
+    toyScatteringObservation, Signals.IQ.Sample.asComplex, Complex.normSq]
+
+example : toyScatteringObservation.incident.asComplex ≠ 0 := by
+  exact toyScatteringObservation.incident_ne_zero
+
+example : 0 ≤ toyScatteringObservation.powerRatio := by
+  exact toyScatteringObservation.powerRatio_nonnegative
+
+def toyScatteringHeight : Signals.Scattering.HeightModel :=
+  { waveNumber := 2
+    waveNumber_ne_zero := by norm_num
+    referencePhase := 1
+    height := 3
+    unwrappedPhase := 13
+    roundTripLaw := by norm_num }
+
+example : toyScatteringHeight.reconstructHeight = 3 := by
+  norm_num [Signals.Scattering.HeightModel.reconstructHeight, toyScatteringHeight]
+
+example : toyScatteringHeight.reconstructHeight = toyScatteringHeight.height := by
+  exact toyScatteringHeight.reconstructHeight_eq_height
+
+def toyCrossSection : Signals.Scattering.CrossSectionMeasurement :=
+  { incidentFlux := 2
+    incidentFlux_pos := by norm_num
+    scatteredPower := 6
+    scatteredPower_nonnegative := by norm_num
+    crossSection := 3
+    crossSection_nonnegative := by norm_num
+    powerLaw := by norm_num }
+
+example : toyCrossSection.crossSection = toyCrossSection.scatteredPower /
+    toyCrossSection.incidentFlux := by
+  exact toyCrossSection.crossSection_eq_ratio
+
+def toyConsistentResidual : Signals.Scattering.ResidualMeasurement :=
+  { predicted := 10
+    observed := 10.1
+    residual := 0.1
+    tolerance := 0.1
+    tolerance_nonnegative := by norm_num
+    residualLaw := by norm_num }
+
+def toyAnomalousResidual : Signals.Scattering.ResidualMeasurement :=
+  { predicted := 10
+    observed := 10.5
+    residual := 0.5
+    tolerance := 0.1
+    tolerance_nonnegative := by norm_num
+    residualLaw := by norm_num }
+
+example : toyConsistentResidual.consistent := by
+  norm_num [Signals.Scattering.ResidualMeasurement.consistent, toyConsistentResidual]
+
+example : toyAnomalousResidual.anomalyCandidate := by
+  norm_num [Signals.Scattering.ResidualMeasurement.anomalyCandidate,
+    Signals.Scattering.ResidualMeasurement.consistent, toyAnomalousResidual]
+
+def toySNR : Signals.Scattering.SignalToNoise :=
+  { signalPower := 4
+    signalPower_nonnegative := by norm_num
+    noisePower := 2
+    noisePower_pos := by norm_num }
+
+example : toySNR.ratio = 2 := by
+  norm_num [Signals.Scattering.SignalToNoise.ratio, toySNR]
 
 noncomputable def toyMimo : MimoArray :=
   { elementCount := 2

@@ -4,6 +4,7 @@ import SignalsPending
 namespace SignalsPendingTests
 
 open Signals.Applications
+open Signals.Acoustics
 open Signals.IQ
 open Signals.Maxwell
 open Signals.Pending
@@ -108,6 +109,55 @@ noncomputable def toyChannel : ProcaChannel :=
 example : toyChannel.longitudinalCoupling * toyChannel.mode.longitudinalWaveNumber ≠ 0 := by
   exact toyChannel.longitudinalModeAssumed
 
+def earthLfVector : RadioTestVector :=
+  { band := RadioBand.lf
+    frequencyHz := 100000
+    frequency_positive := by norm_num
+    inBand := by norm_num [RadioBand.inRange, RadioBand.lowerHz, RadioBand.upperHz] }
+
+def marsVlfVector : RadioTestVector :=
+  { band := RadioBand.vlf
+    frequencyHz := 10000
+    frequency_positive := by norm_num
+    inBand := by norm_num [RadioBand.inRange, RadioBand.lowerHz, RadioBand.upperHz] }
+
+def earthRouteVector : ThroughBodyRadioTestVector :=
+  { target := BodyTarget.earth
+    domain := MediumDomain.throughBody BodyTarget.earth
+    frequency := earthLfVector
+    domainLaw := by rfl }
+
+def marsRouteVector : ThroughBodyRadioTestVector :=
+  { target := BodyTarget.planet "Mars"
+    domain := MediumDomain.throughBody (BodyTarget.planet "Mars")
+    frequency := marsVlfVector
+    domainLaw := by rfl }
+
+def asteroidRouteVector : ThroughBodyRadioTestVector :=
+  { target := BodyTarget.asteroid "Ceres"
+    domain := MediumDomain.throughBody (BodyTarget.asteroid "Ceres")
+    frequency := earthLfVector
+    domainLaw := by rfl }
+
+def namedBodyRouteVector : ThroughBodyRadioTestVector :=
+  { target := BodyTarget.named "TestBody"
+    domain := MediumDomain.throughBody (BodyTarget.named "TestBody")
+    frequency := marsVlfVector
+    domainLaw := by rfl }
+
+example : earthRouteVector.frequency.band = RadioBand.lf := by
+  rfl
+
+example : marsRouteVector.frequency.band = RadioBand.vlf := by
+  rfl
+
+example : asteroidRouteVector.target.kind = BodyKind.asteroid := by
+  rfl
+
+example : namedBodyRouteVector.domain =
+    MediumDomain.throughBody (BodyTarget.named "TestBody") := by
+  exact namedBodyRouteVector.domain_eq_target
+
 noncomputable def toyIGPE : IGPEPoint :=
   { hbar := 1
     hbar_pos := by norm_num
@@ -127,6 +177,60 @@ example :
       (-(toyIGPE.hbar ^ 2 / (2 * toyIGPE.effectiveMass))) * toyIGPE.laplacian +
         (toyIGPE.potential + toyIGPE.coupling * toyIGPE.density) * toyIGPE.wavefunction := by
   exact toyIGPE.balance_holds
+
+noncomputable def toyAcousticMedium : Signals.Acoustics.Medium :=
+  { density := 1
+    density_pos := by norm_num
+    soundSpeed := 1
+    soundSpeed_pos := by norm_num
+    attenuationPerLength := 0
+    attenuation_nonnegative := by norm_num }
+
+noncomputable def toyAcousticWave : Signals.Acoustics.Wave :=
+  { frequencyHz := 30000
+    frequency_positive := by norm_num
+    pressureAmplitude := 1
+    pressureAmplitude_nonnegative := by norm_num
+    medium := toyAcousticMedium }
+
+noncomputable def toyUltrasonicTransfer : Signals.Acoustics.UltrasonicTransfer :=
+  { wave := toyAcousticWave
+    ultrasonicFrequency := by norm_num [toyAcousticWave]
+    link := toyPendingLink
+    apertureArea := 1
+    apertureArea_pos := by norm_num
+    transmitterEfficiency := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    receiverEfficiency := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    sourcePowerLaw := by
+      norm_num [toyPendingLink, toyAcousticWave, toyAcousticMedium,
+        Signals.Acoustics.Wave.intensity, Signals.Acoustics.Medium.impedance] }
+
+noncomputable def toyAcousticMeasurement : Signals.Acoustics.TransferMeasurement :=
+  { predictedPower := 1
+    observedPower := 6 / 5
+    tolerance := 1 / 10
+    tolerance_nonnegative := by norm_num
+    residual := 1 / 5
+    residualLaw := by norm_num }
+
+noncomputable def toyAcousticEvidence : AcousticFractureEvidence :=
+  { transfer := toyUltrasonicTransfer
+    measurement := toyAcousticMeasurement
+    predictedPowerLaw := by
+      norm_num [toyUltrasonicTransfer, toyPendingLink,
+        Signals.Acoustics.UltrasonicTransfer.receivedPower,
+        LinkBudget.receivedPower, LinkBudget.transferFactor,
+        CouplingFactors.total, LinkBudget.attenuationFactor,
+        toyAcousticMeasurement]
+    outsideClassicalTolerance := by
+      norm_num [Signals.Acoustics.TransferMeasurement.consistent,
+        toyAcousticMeasurement] }
+
+example : toyUltrasonicTransfer.receivedPower ≤ toyUltrasonicTransfer.incidentPower := by
+  exact toyUltrasonicTransfer.receivedPower_le_incidentPower
+
+example : toyAcousticEvidence.supportsFractureHypothesis := by
+  exact toyAcousticEvidence.outsideClassicalTolerance
 
 noncomputable def toySQGMedium : SQGMedium :=
   { baseline :=

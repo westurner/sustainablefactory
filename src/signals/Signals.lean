@@ -1,3 +1,4 @@
+import Signals.Acoustics
 import Signals.Coherence
 import Signals.Applications
 import Signals.Fabrication
@@ -9,4 +10,5 @@ import Signals.Physlib
 import Signals.Proca
 import Signals.Propagation
 import Signals.Sampling
+import Signals.Scattering
 import Signals.Units

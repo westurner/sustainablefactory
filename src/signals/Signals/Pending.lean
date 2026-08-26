@@ -2,6 +2,7 @@ import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Data.Complex.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
+import Signals.Acoustics
 import Signals.Applications
 import Signals.Maxwell
 import Signals.Proca
@@ -11,6 +12,7 @@ import Signals.Units
 namespace Signals.Pending
 
 open Signals.Applications
+open Signals.Acoustics
 open Signals.Maxwell
 open Signals.Proca
 open Signals.Propagation
@@ -23,6 +25,63 @@ fracture-state, and Amplituhedron proposals. The structures make their physical
 premises visible as fields. A constructed value is a model instance, not an
 experimental validation of the associated proposal.
 -/
+
+/-- Conventional low-frequency and very-low-frequency radio bands. -/
+inductive RadioBand
+  | lf
+  | vlf
+  deriving DecidableEq, Repr
+
+/-- Lower edge in hertz of a conventional radio band. -/
+def RadioBand.lowerHz : RadioBand → ℝ
+  | RadioBand.lf => 30000
+  | RadioBand.vlf => 3000
+
+/-- Upper edge in hertz of a conventional radio band. -/
+def RadioBand.upperHz : RadioBand → ℝ
+  | RadioBand.lf => 300000
+  | RadioBand.vlf => 30000
+
+/-- A frequency is inside a selected LF/VLF half-open band. -/
+def RadioBand.inRange (band : RadioBand) (frequencyHz : ℝ) : Prop :=
+  band.lowerHz ≤ frequencyHz ∧ frequencyHz < band.upperHz
+
+/-- A radio test vector with an explicit band-membership proof. -/
+structure RadioTestVector where
+  band : RadioBand
+  frequencyHz : ℝ
+  frequency_positive : 0 < frequencyHz
+  inBand : band.inRange frequencyHz
+
+/-- Broad body classes for through-body propagation test vectors. -/
+inductive BodyKind
+  | earth
+  | planet
+  | asteroid
+  | named
+  deriving DecidableEq, Repr
+
+/-- A named planetary or small-body propagation target. -/
+structure BodyTarget where
+  kind : BodyKind
+  name : String
+  deriving DecidableEq, Repr
+
+/-- The Earth as a through-body test target. -/
+def BodyTarget.earth : BodyTarget :=
+  { kind := BodyKind.earth, name := "Earth" }
+
+/-- A named planet as a through-body test target. -/
+def BodyTarget.planet (name : String) : BodyTarget :=
+  { kind := BodyKind.planet, name := name }
+
+/-- A named asteroid as a through-body test target. -/
+def BodyTarget.asteroid (name : String) : BodyTarget :=
+  { kind := BodyKind.asteroid, name := name }
+
+/-- An arbitrary named body as a through-body test target. -/
+def BodyTarget.named (name : String) : BodyTarget :=
+  { kind := BodyKind.named, name := name }
 
 /-- A pointwise iGPE balance in normalized units.
 
@@ -223,7 +282,21 @@ inductive MediumDomain
   | ionosphere
   | waveguide
   | throughSpace
+  | throughBody (body : BodyTarget)
   deriving DecidableEq, Repr
+
+/-- An LF/VLF test vector explicitly assigned to a named through-body domain. -/
+structure ThroughBodyRadioTestVector where
+  target : BodyTarget
+  domain : MediumDomain
+  frequency : RadioTestVector
+  domainLaw : domain = MediumDomain.throughBody target
+
+/-- The domain recorded by a through-body vector is its target body. -/
+lemma ThroughBodyRadioTestVector.domain_eq_target
+    (vector : ThroughBodyRadioTestVector) :
+    vector.domain = MediumDomain.throughBody vector.target :=
+  vector.domainLaw
 
 /-- A pending Proca channel treats a longitudinal massive mode as supplied
 model data for one propagation domain. -/
@@ -236,6 +309,30 @@ structure ProcaChannel where
   longitudinalCoupling : ℝ
   longitudinalCoupling_nonzero : longitudinalCoupling ≠ 0
   longitudinalModeAssumed : longitudinalCoupling * mode.longitudinalWaveNumber ≠ 0
+
+/-- A candidate fracture observation built from a classical ultrasonic transfer.
+
+An anomalous residual may motivate a fracture-state hypothesis only after the
+ordinary acoustic model and its uncertainty are specified. This record does
+not identify an unexplained residual with fracture. -/
+structure AcousticFractureEvidence where
+  transfer : Acoustics.UltrasonicTransfer
+  measurement : Acoustics.TransferMeasurement
+  predictedPowerLaw : measurement.predictedPower = transfer.receivedPower
+  outsideClassicalTolerance : ¬measurement.consistent
+
+/-- The candidate satisfies the explicit residual criterion for further fracture
+hypothesis testing. -/
+def AcousticFractureEvidence.supportsFractureHypothesis
+    (evidence : AcousticFractureEvidence) : Prop :=
+  ¬evidence.measurement.consistent
+
+/-- The fracture-supporting criterion is exactly the recorded unexplained
+residual condition. -/
+lemma AcousticFractureEvidence.supportsFractureHypothesis_iff
+    (evidence : AcousticFractureEvidence) :
+    evidence.supportsFractureHypothesis ↔ ¬evidence.measurement.consistent := by
+  rfl
 
 /-- A pending communications contract joins a fracture wave to a measured link. -/
 structure FractureCommunication where

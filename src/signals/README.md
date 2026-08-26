@@ -14,6 +14,10 @@ interpretation while keeping experimental premises explicit:
 - `Signals.IQ` represents an in-phase/quadrature sample as a complex baseband
    value, exposes its magnitude and principal phase, records carrier and
    quadrature conventions, and provides a conditional phase-to-height formula.
+- `Signals.Acoustics` models classical ultrasonic transfer from pressure
+   amplitude and acoustic impedance through aperture, transducer, link, and
+   receiver efficiencies. It proves passive received power is bounded by
+   incident power.
 - `Signals.Sampling` defines finite sampled tones, exact buffer reconstruction,
    integer-rate aliases, and a strict Nyquist no-alias consequence. The finite
    model is intentional; it is not a replacement for a continuous
@@ -35,6 +39,9 @@ interpretation while keeping experimental premises explicit:
    also includes the isotropic-vacuum form often used as a compact pre-tensor
    formulation; fields are represented directly as vectors, with no Euler-angle
    or gimbal-lock state.
+- `Signals.Scattering` models coherent I/Q observations, scattered-to-incident
+   power ratios, reference-subtracted phase-height reconstruction, scattering
+   cross-section inversion, SNR, and residual-based anomaly candidates.
 - `Signals.Propagation` models far-field and near-field coupling, antenna
    efficiency, impedance matching, aperture coupling, alignment, radiation,
    bulk attenuation, interface reflection/transmission/absorption, and passive
@@ -49,6 +56,9 @@ interpretation while keeping experimental premises explicit:
    hypotheses and are not imported by `Signals`. It also contains
    `SQGMaxwellSystem`, which adds effective constitutive parameters and an
    explicit SQG current to Maxwell's equations.
+   It also contains LF/VLF radio test vectors for Earth, named planets,
+   asteroids, and arbitrary named bodies, plus a conditional ultrasonic
+   fracture-evidence protocol.
 - `Signals.Geometry` contains Weyl spinors, twistors, antisymmetric minors, and
    the finite $2 \times 4$ Pluecker relation.
 - `Signals.Fabrication` models voxel fields, active phase masks, calibration
@@ -70,6 +80,18 @@ The chat's iGPE/waveguide proposal is recorded at
 ([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L564-L571)),
 while its anti-fire and vacuum-expansion claims are recorded at
 ([source chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L1451-L1465)).
+The neutron/fracture chat proposes an acoustic-to-photonic chain: machinery
+vibration creates underwater pressure waves, surface micro-ripples modulate
+reflected optical phase, and Brillouin scattering can expose acoustic or density
+changes
+([fracture chat](../../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md#L94-L129)).
+It further proposes LDV, LiDAR, SAR, and DAS as complementary readout paths and
+calls out ocean-wave background and orbital coherence requirements
+([fracture chat](../../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md#L133-L147)).
+The implementation treats these as ordinary scattering/metrology observables.
+An ultrasonic transfer result becomes a Pending fracture candidate only when
+its calibrated classical residual is outside tolerance; transfer by itself is
+not evidence of a massive photon or spacetime fracture.
 The companion Airy discussion describes the proposed Proca equation and later
 reuses it for lithospheric, ionospheric, and through-space channels
 ([Airy chat](../../data/chats/_Airy-Beams-and-Communications-and-Illumination.md#L2147-L2206),
@@ -168,6 +190,9 @@ used as the local and CI check.
 6. [Implemented] Add the coordinate-free three-vector Maxwell equations and
    their derived charge-continuity law. Keep the SQG-modified Maxwell system in
    `Signals.Pending`.
+7. [Implemented] Add classical acoustic transfer and scattering-metrology
+   primitives, including I/Q backscatter, cross section, SNR, phase-height
+   reconstruction, and residual classification.
 
 ### Phase 3: Add geometry and fabrication abstractions
 
@@ -199,6 +224,12 @@ namespace and build target:
 - `PhaseSlip` records integer winding and the corresponding $2\pi$ phase jump.
 - `ProcaChannel` joins a massive-vector mode to an explicitly assumed
    longitudinal channel, a lossy link budget, and a propagation domain.
+- `RadioBand`, `RadioTestVector`, `BodyTarget`, and
+   `ThroughBodyRadioTestVector` represent LF/VLF through-body test cases without
+   claiming that a particular body is a viable propagation medium.
+- `AcousticFractureEvidence` links a classical ultrasonic transfer measurement
+   to an out-of-tolerance residual as a candidate for further fracture testing;
+   it does not diagnose the cause of that residual.
 - `WKBBarrier` records a proper-distance factor, effective barrier, WKB
    exponent, and bounded Gamow probability.
 - `AntiAmplituhedronProfile` and `SQGVacuumExpansion` record divergent-profile
@@ -212,6 +243,25 @@ namespace and build target:
 The pending target proves only conditional algebraic consequences of these
 records. It does not establish that SQG, anti-Amplituhedron fields,
 deterministic fusion, or spacetime energy extraction exist physically.
+
+### Scattering Metrology Plan
+
+1. [Implemented] Validate I/Q phase and magnitude from coherent returns.
+2. [Implemented] Tie acoustic pressure, impedance, aperture area, and transfer
+   efficiency to a passive power budget.
+3. [Implemented] Represent phase-height inversion, cross section, SNR, and
+   calibrated residuals.
+4. Next: add finite array/grid observations, complex material transfer
+   functions, frequency-dependent attenuation, speckle covariance, and
+   uncertainty propagation.
+5. Pending: add weak-derivative, trace, and jump-condition structures for a
+   fracture boundary only after the relevant measure, function-space, and flux
+   assumptions are supplied.
+6. Pending: add a numerical Madelung/GP splat model with variable covariance,
+   compressibility, healing length, and FTLE diagnostics. A fixed determinant
+   must not be treated as incompressibility; the source chat itself notes that
+   air and superfluids are compressible
+   ([fracture chat](../../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md#L1258-L1308)).
 
 ### Phase 4: Upstream contributions
 
