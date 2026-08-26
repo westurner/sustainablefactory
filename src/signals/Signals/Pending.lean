@@ -4,6 +4,7 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
 import Signals.Acoustics
 import Signals.Applications
+import Signals.Geometry
 import Signals.Maxwell
 import Signals.Proca
 import Signals.Propagation
@@ -13,6 +14,7 @@ namespace Signals.Pending
 
 open Signals.Applications
 open Signals.Acoustics
+open Signals.Geometry
 open Signals.Maxwell
 open Signals.Proca
 open Signals.Propagation
@@ -83,13 +85,23 @@ def BodyTarget.asteroid (name : String) : BodyTarget :=
 def BodyTarget.named (name : String) : BodyTarget :=
   { kind := BodyKind.named, name := name }
 
-/-- A pointwise iGPE balance in normalized units.
+/-! ## GPE formulation distinctions
 
-The intended equation is
-`i hbar dpsi/dt = (-hbar^2/(2 m) Laplacian + V + g |psi|^2) psi`.
-Spatial derivatives and the state domain are represented by supplied complex
-values here; a PDE discretization remains a separate task. -/
-structure IGPEPoint where
+The abbreviation `iGPE` is used inconsistently in the source material. These
+records distinguish the three requested meanings: inverse reconstruction,
+inhomogeneous source-driven evolution, and the nonlinear interactive model.
+They are pointwise normalized records rather than PDE solvers.
+-/
+
+/-- The equation role represented by a pointwise GPE record. -/
+inductive GPEVariant
+  | inverse
+  | inhomogeneous
+  | interactive
+  deriving DecidableEq, Repr
+
+/-- The nonlinear, interactive GPE point used by the existing SQG record. -/
+structure InteractiveGPEPoint where
   hbar : ℝ
   hbar_pos : 0 < hbar
   effectiveMass : ℝ
@@ -105,11 +117,81 @@ structure IGPEPoint where
     (-(hbar ^ 2 / (2 * effectiveMass))) * laplacian +
       (potential + coupling * density) * wavefunction
 
-/-- An iGPE point exposes its assumed local field equation. -/
-lemma IGPEPoint.balance_holds (point : IGPEPoint) :
+/-- Compatibility name retained for existing SQG and test fixtures. -/
+abbrev IGPEPoint := InteractiveGPEPoint
+
+/-- The interactive record's formulation tag. -/
+def InteractiveGPEPoint.formulation (_point : InteractiveGPEPoint) : GPEVariant :=
+  GPEVariant.interactive
+
+/-- An interactive GPE point exposes its assumed local field equation. -/
+lemma InteractiveGPEPoint.balance_holds (point : InteractiveGPEPoint) :
     Complex.I * point.hbar * point.timeDerivative =
       (-(point.hbar ^ 2 / (2 * point.effectiveMass))) * point.laplacian +
         (point.potential + point.coupling * point.density) * point.wavefunction :=
+  point.balance
+
+/-- An inverse GPE point reconstructs the potential from a nonzero wavefunction. -/
+structure InverseGPEPoint where
+  hbar : ℝ
+  hbar_pos : 0 < hbar
+  effectiveMass : ℝ
+  effectiveMass_pos : 0 < effectiveMass
+  coupling : ℝ
+  density : ℝ
+  density_nonnegative : 0 ≤ density
+  wavefunction : ℂ
+  wavefunction_nonzero : wavefunction ≠ 0
+  timeDerivative : ℂ
+  laplacian : ℂ
+  potential : ℂ
+  inverseLaw : potential =
+    Complex.I * hbar * timeDerivative / wavefunction +
+      ((hbar ^ 2 / (2 * effectiveMass) : ℝ) : ℂ) * laplacian / wavefunction -
+      ((coupling * density : ℝ) : ℂ)
+
+/-- The inverse record's formulation tag. -/
+def InverseGPEPoint.formulation (_point : InverseGPEPoint) : GPEVariant :=
+  GPEVariant.inverse
+
+/-- An inverse GPE point exposes its supplied potential reconstruction. -/
+lemma InverseGPEPoint.potential_reconstruction (point : InverseGPEPoint) :
+    point.potential =
+      Complex.I * point.hbar * point.timeDerivative / point.wavefunction +
+        ((point.hbar ^ 2 / (2 * point.effectiveMass) : ℝ) : ℂ) *
+          point.laplacian / point.wavefunction -
+        ((point.coupling * point.density : ℝ) : ℂ) :=
+  point.inverseLaw
+
+/-- An inhomogeneous GPE point includes an explicit external source term. -/
+structure InhomogeneousGPEPoint where
+  hbar : ℝ
+  hbar_pos : 0 < hbar
+  effectiveMass : ℝ
+  effectiveMass_pos : 0 < effectiveMass
+  potential : ℝ
+  coupling : ℝ
+  density : ℝ
+  density_nonnegative : 0 ≤ density
+  wavefunction : ℂ
+  timeDerivative : ℂ
+  laplacian : ℂ
+  source : ℂ
+  balance : Complex.I * hbar * timeDerivative =
+    (-(hbar ^ 2 / (2 * effectiveMass))) * laplacian +
+      (potential + coupling * density) * wavefunction + source
+
+/-- The inhomogeneous record's formulation tag. -/
+def InhomogeneousGPEPoint.formulation
+    (_point : InhomogeneousGPEPoint) : GPEVariant :=
+  GPEVariant.inhomogeneous
+
+/-- An inhomogeneous GPE point exposes its source-driven balance. -/
+lemma InhomogeneousGPEPoint.balance_holds (point : InhomogeneousGPEPoint) :
+    Complex.I * point.hbar * point.timeDerivative =
+      (-(point.hbar ^ 2 / (2 * point.effectiveMass))) * point.laplacian +
+        (point.potential + point.coupling * point.density) * point.wavefunction +
+          point.source :=
   point.balance
 
 /-- Pending SQG medium parameters for a Maxwell constitutive model.
@@ -234,6 +316,63 @@ lemma PhaseSlip.zero_winding_phase (slip : PhaseSlip)
     slip.phaseJump = 0 := by
   rw [slip.windingLaw, zero_winding]
   norm_num
+
+/-! ## Amplituhedron-inspired finite maps
+
+The source-chat construction uses a matrix map `Y = C * Z`. The records below
+make that map executable over finite real matrices while keeping positivity as
+an optional condition on the input. The reciprocal chart is only a local
+finite-dimensional analogue of a logarithmic form; it is not a formalization
+of the full canonical differential form.
+-/
+
+/-- A finite matrix map from Grassmannian data to an image matrix. -/
+structure AmplituhedronMap (k n m : ℕ) where
+  source : GrassmannianMatrix k n
+  externalData : Matrix (Fin n) (Fin m) ℝ
+  image : Matrix (Fin k) (Fin m) ℝ
+  imageLaw : image = source.mat * externalData
+
+/-- The finite image equation is available as a normal rewrite lemma. -/
+lemma AmplituhedronMap.image_eq
+    {k n m : ℕ} (map : AmplituhedronMap k n m) :
+    map.image = map.source.mat * map.externalData :=
+  map.imageLaw
+
+/-- A local chart with explicit positive-domain and non-boundary assumptions. -/
+structure LogarithmicChart (k n m : ℕ) where
+  map : AmplituhedronMap k n m
+  source_positive : map.source.hasPositiveOrderedMinors
+  boundary : OrderedColumns k n
+  boundaryCoordinate : ℝ
+  boundaryCoordinateLaw : boundaryCoordinate =
+    map.source.pluckerCoordinate boundary
+  boundaryCoordinate_nonzero : boundaryCoordinate ≠ 0
+  residue : ℝ
+
+/-- The finite reciprocal weight associated with a non-boundary chart. -/
+noncomputable def LogarithmicChart.weight
+    {k n m : ℕ} (chart : LogarithmicChart k n m) : ℝ :=
+  chart.residue / chart.boundaryCoordinate
+
+/-- The chart weight has the expected residue-times-coordinate law. -/
+lemma LogarithmicChart.weight_mul_boundary
+    {k n m : ℕ} (chart : LogarithmicChart k n m) :
+    chart.weight * chart.boundaryCoordinate = chart.residue := by
+  dsimp [LogarithmicChart.weight]
+  field_simp [chart.boundaryCoordinate_nonzero]
+
+/-- A measured amplitude identified with the finite chart weight by hypothesis. -/
+structure AmplituhedronScatteringHypothesis (k n m : ℕ) where
+  chart : LogarithmicChart k n m
+  measuredAmplitude : ℝ
+  measuredAmplitudeLaw : measuredAmplitude = chart.weight
+
+/-- The measured amplitude exposes the chart interpretation as supplied data. -/
+lemma AmplituhedronScatteringHypothesis.measured_amplitude_eq
+    {k n m : ℕ} (hypothesis : AmplituhedronScatteringHypothesis k n m) :
+    hypothesis.measuredAmplitude = hypothesis.chart.weight :=
+  hypothesis.measuredAmplitudeLaw
 
 /-- A finite Amplituhedron-inspired phase profile used by pending models. -/
 structure AmplituhedronProfile where

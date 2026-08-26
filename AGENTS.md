@@ -2,6 +2,24 @@
 
 This document defines specialized agents and their purposes for working with the sustainablefactory project. Use these agent descriptions to guide your work on specific tasks.
 
+## GPE Terminology
+
+The Signals Pending model uses distinct records for the three meanings that
+have been abbreviated as “iGPE” in the research chats:
+
+- `InverseGPEPoint` is an inverse GPE record. It reconstructs the potential
+  from a nonzero wavefunction and supplied derivative data.
+- `InhomogeneousGPEPoint` is an inhomogeneous GPE record. It includes an
+  explicit external source term in the local balance.
+- `InteractiveGPEPoint` is the nonlinear interactive GPE record. The existing
+  `IGPEPoint` name is retained as a compatibility alias for this record.
+
+The shared role tag is `GPEVariant`. These are normalized pointwise model
+records, not claims that a particular physical medium realizes the equations.
+Use the definitions and accessor lemmas in
+[`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean) when
+adding tests or extending the SQG model.
+
 ---
 
 ## Core Project Agents

@@ -433,6 +433,72 @@ example (matrix : Matrix2x4) :
       minor matrix 0 3 * minor matrix 1 2 = 0 := by
   exact pluecker_relation matrix
 
+def identityColumns : OrderedColumns 2 2 :=
+  { index := id
+    strictlyIncreasing := strictMono_id }
+
+def negativeMinorMatrix : GrassmannianMatrix 2 2 :=
+  { mat := !![1, 0; 0, -1] }
+
+example : negativeMinorMatrix.pluckerCoordinate identityColumns = -1 := by
+  rw [GrassmannianMatrix.pluckerCoordinate, selectedMinor,
+    Matrix.det_fin_two]
+  norm_num [negativeMinorMatrix, identityColumns, Matrix.submatrix]
+
+def positiveMinorMatrix : GrassmannianMatrix 1 1 :=
+  { mat := !![1] }
+
+def positiveIdentityColumns : OrderedColumns 1 1 :=
+  { index := id
+    strictlyIncreasing := strictMono_id }
+
+def positiveMinorWitness : PositiveGrassmannian 1 1 :=
+  { toGrassmannianMatrix := positiveMinorMatrix
+    strictly_positive := by
+      intro columns
+      have index_zero : columns.index 0 = 0 := Fin.eq_zero (columns.index 0)
+      change 0 < (positiveMinorMatrix.mat.submatrix id columns.index).det
+      rw [Matrix.det_fin_one]
+      change 0 < positiveMinorMatrix.mat 0 (columns.index 0)
+      rw [index_zero]
+      norm_num [positiveMinorMatrix, Matrix.submatrix] }
+
+example : positiveMinorWitness.pluckerCoordinate positiveIdentityColumns = 1 := by
+  norm_num [GrassmannianMatrix.pluckerCoordinate, selectedMinor,
+    positiveMinorWitness, positiveMinorMatrix, positiveIdentityColumns,
+    Matrix.submatrix]
+
+def unitMassMomentum : FourMomentum :=
+  { energy := 1
+    px := 0
+    py := 0
+    pz := 0
+    mass := 1
+    mass_nonnegative := by norm_num
+    mass_shell := by norm_num }
+
+def unitMassFactorization : MassiveSpinorHelicity unitMassMomentum :=
+  { left := fun label =>
+      if label = 0 then { first := 1, second := 0 }
+      else { first := 0, second := 1 }
+    right := fun label =>
+      if label = 0 then { first := 1, second := 0 }
+      else { first := 0, second := 1 }
+    factorization := by
+      funext row column
+      fin_cases row <;> fin_cases column <;>
+        simp [FourMomentum.bispinor, massiveSpinorProduct,
+          WeylSpinor.component, unitMassMomentum] }
+
+example : unitMassMomentum.energy ^ 2 - unitMassMomentum.px ^ 2 -
+    unitMassMomentum.py ^ 2 - unitMassMomentum.pz ^ 2 =
+      unitMassMomentum.mass ^ 2 := by
+  exact unitMassMomentum.mass_shell
+
+example : unitMassMomentum.bispinor =
+    massiveSpinorProduct unitMassFactorization.left unitMassFactorization.right := by
+  exact unitMassFactorization.factorization
+
 def toyCalibration : Calibration :=
   { expected := 10
     measured := 10.1

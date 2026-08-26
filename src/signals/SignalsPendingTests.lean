@@ -5,6 +5,7 @@ namespace SignalsPendingTests
 
 open Signals.Applications
 open Signals.Acoustics
+open Signals.Geometry
 open Signals.IQ
 open Signals.Maxwell
 open Signals.Pending
@@ -177,6 +178,65 @@ example :
       (-(toyIGPE.hbar ^ 2 / (2 * toyIGPE.effectiveMass))) * toyIGPE.laplacian +
         (toyIGPE.potential + toyIGPE.coupling * toyIGPE.density) * toyIGPE.wavefunction := by
   exact toyIGPE.balance_holds
+
+example : toyIGPE.formulation = GPEVariant.interactive := by
+  rfl
+
+noncomputable def toyInverseGPE : InverseGPEPoint :=
+  { hbar := 1
+    hbar_pos := by norm_num
+    effectiveMass := 1
+    effectiveMass_pos := by norm_num
+    coupling := 0
+    density := 0
+    density_nonnegative := by norm_num
+    wavefunction := 1
+    wavefunction_nonzero := by norm_num
+    timeDerivative := 0
+    laplacian := 0
+    potential := 0
+    inverseLaw := by norm_num }
+
+example : toyInverseGPE.formulation = GPEVariant.inverse := by
+  rfl
+
+example : toyInverseGPE.potential =
+    Complex.I * toyInverseGPE.hbar * toyInverseGPE.timeDerivative /
+        toyInverseGPE.wavefunction +
+      ((toyInverseGPE.hbar ^ 2 /
+          (2 * toyInverseGPE.effectiveMass) : ℝ) : ℂ) *
+        toyInverseGPE.laplacian / toyInverseGPE.wavefunction -
+      ((toyInverseGPE.coupling * toyInverseGPE.density : ℝ) : ℂ) := by
+  exact toyInverseGPE.potential_reconstruction
+
+noncomputable def toyInhomogeneousGPE : InhomogeneousGPEPoint :=
+  { hbar := 1
+    hbar_pos := by norm_num
+    effectiveMass := 1
+    effectiveMass_pos := by norm_num
+    potential := 0
+    coupling := 0
+    density := 0
+    density_nonnegative := by norm_num
+    wavefunction := 1
+    timeDerivative := -Complex.I
+    laplacian := 0
+    source := 1
+    balance := by norm_num }
+
+example : toyInhomogeneousGPE.formulation = GPEVariant.inhomogeneous := by
+  rfl
+
+example :
+    Complex.I * toyInhomogeneousGPE.hbar * toyInhomogeneousGPE.timeDerivative =
+      (-(toyInhomogeneousGPE.hbar ^ 2 /
+          (2 * toyInhomogeneousGPE.effectiveMass))) *
+          toyInhomogeneousGPE.laplacian +
+        (toyInhomogeneousGPE.potential +
+          toyInhomogeneousGPE.coupling * toyInhomogeneousGPE.density) *
+          toyInhomogeneousGPE.wavefunction +
+        toyInhomogeneousGPE.source := by
+  exact toyInhomogeneousGPE.balance_holds
 
 noncomputable def toyAcousticMedium : Signals.Acoustics.Medium :=
   { density := 1
@@ -412,5 +472,64 @@ noncomputable def toyExtractionClaim : SpacetimeExtractionClaim :=
 
 example : 0 < toyExtractionClaim.ledger.spacetimePower := by
   exact toyExtractionClaim.spacetimePower_positive
+
+def toyAmplituhedronSource : GrassmannianMatrix 1 1 :=
+  { mat := fun _ _ => 1 }
+
+def toyAmplituhedronExternalData : Matrix (Fin 1) (Fin 1) ℝ :=
+  fun _ _ => 3
+
+def toyAmplituhedronMap : AmplituhedronMap 1 1 1 :=
+  { source := toyAmplituhedronSource
+    externalData := toyAmplituhedronExternalData
+    image := fun _ _ => 3
+    imageLaw := by
+      funext row column
+      change (3 : ℝ) = ∑ index : Fin 1, 1 * 3
+      simp }
+
+def toyAmplituhedronBoundary : OrderedColumns 1 1 :=
+  { index := fun _ => 0
+    strictlyIncreasing := by
+      intro left right greater
+      omega }
+
+def toyLogarithmicChart : LogarithmicChart 1 1 1 :=
+  { map := toyAmplituhedronMap
+    source_positive := by
+      intro columns
+      have index_zero : columns.index 0 = 0 := Fin.eq_zero (columns.index 0)
+      change 0 < (toyAmplituhedronSource.mat.submatrix id columns.index).det
+      rw [Matrix.det_fin_one]
+      change 0 < toyAmplituhedronSource.mat 0 (columns.index 0)
+      rw [index_zero]
+      norm_num [toyAmplituhedronSource, Matrix.submatrix]
+    boundary := toyAmplituhedronBoundary
+    boundaryCoordinate := 1
+    boundaryCoordinateLaw := by
+      change (1 : ℝ) =
+        (toyAmplituhedronSource.mat.submatrix id toyAmplituhedronBoundary.index).det
+      rw [Matrix.det_fin_one]
+      norm_num [toyAmplituhedronSource, toyAmplituhedronBoundary,
+        Matrix.submatrix]
+    boundaryCoordinate_nonzero := by norm_num
+    residue := 7 }
+
+def toyAmplituhedronHypothesis : AmplituhedronScatteringHypothesis 1 1 1 :=
+  { chart := toyLogarithmicChart
+    measuredAmplitude := 7
+    measuredAmplitudeLaw := by
+      norm_num [LogarithmicChart.weight, toyLogarithmicChart] }
+
+example : toyAmplituhedronMap.image =
+    toyAmplituhedronMap.source.mat * toyAmplituhedronMap.externalData := by
+  exact toyAmplituhedronMap.image_eq
+
+example : toyLogarithmicChart.weight *
+    toyLogarithmicChart.boundaryCoordinate = toyLogarithmicChart.residue := by
+  exact toyLogarithmicChart.weight_mul_boundary
+
+example : toyAmplituhedronHypothesis.measuredAmplitude = 7 := by
+  rfl
 
 end SignalsPendingTests

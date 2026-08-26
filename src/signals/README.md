@@ -55,12 +55,21 @@ interpretation while keeping experimental premises explicit:
    spacetime-energy formalisms. These models are explicit mathematical
    hypotheses and are not imported by `Signals`. It also contains
    `SQGMaxwellSystem`, which adds effective constitutive parameters and an
-   explicit SQG current to Maxwell's equations.
+   explicit SQG current to Maxwell's equations. Its finite Amplituhedron layer
+   now records unrestricted `C * Z` image maps, optional positive ordered
+   minors, a non-boundary reciprocal chart, and a measured-amplitude equality
+   only as an explicit hypothesis.
+   Its GPE records distinguish inverse reconstruction, inhomogeneous
+   source-driven evolution, and the nonlinear interactive model; `IGPEPoint`
+   remains a compatibility alias for `InteractiveGPEPoint`.
    It also contains LF/VLF radio test vectors for Earth, named planets,
    asteroids, and arbitrary named bodies, plus a conditional ultrasonic
    fracture-evidence protocol.
 - `Signals.Geometry` contains Weyl spinors, twistors, antisymmetric minors, and
-   the finite $2 \times 4$ Pluecker relation.
+   the finite $2 \times 4$ Pluecker relation. It also provides unrestricted
+   finite Grassmannian matrices, ordered maximal minors, an optional positive
+   Grassmannian condition, and massive four-momentum/spinor-helicity records.
+   Negative minors remain valid in the unrestricted matrix layer.
 - `Signals.Fabrication` models voxel fields, active phase masks, calibration
    tolerances, height-map bounds, and thermal budgets as data with accessor
    lemmas.
@@ -122,6 +131,18 @@ The extracted corpus also names future areas including spinors, twistors,
 Grassmannians, Amplituhedron forms, Proca-SQG models, holography, quantum
 states, and thermodynamics, but those names are not evidence for the associated
 hardware claims.
+
+The local transformed Myst corpus was searched for the requested Amplituhedron
+research. The source describes massless spinor factorization, momentum-twistor
+incidence data, the proposed map $Y = C \cdot Z$, and a canonical form with
+logarithmic boundary behavior ([IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L7520-L7580)).
+Its follow-up Lean snippets mark the generalized Pluecker relations, positive
+minor predicate, canonical volume form, and pole theorem as `sorry` stubs
+([IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L7868-L7920)).
+The implemented API therefore formalizes only the finite algebra that can be
+checked locally and keeps the physical amplitude interpretation Pending. No
+`data/chats/*.myst.md` files are present in this checkout; the inventory above
+uses the transformed files under `docs/chats/`.
 
 ## Build
 
@@ -200,22 +221,38 @@ used as the local and CI check.
    prove their elementary antisymmetry identities.
 2. [Implemented, finite algebra] Prove a $2 \times 4$ Pluecker relation with
    determinants; do not encode an Amplituhedron volume as an axiom.
-3. [Implemented] Model masks, voxels, calibration, height bounds, and thermal
+3. [Implemented, finite algebra] Add ordered finite Grassmannian matrices and
+   maximal minors. Keep negative minors valid in the unrestricted layer and
+   isolate strict positivity as an optional subtype.
+4. [Implemented, finite bookkeeping] Add a mostly-minus mass-shell record and
+   a supplied two-term massive spinor-helicity factorization. This is
+   kinematic data, not evidence for a massive optical mode.
+5. [Implemented] Model masks, voxels, calibration, height bounds, and thermal
    budgets as data plus proved bounds. Fabrication execution remains outside
    the theorem-proving core.
-4. Keep OAM state-space counting separate from claims about computational
+6. Keep OAM state-space counting separate from claims about computational
    speed, fault tolerance, or device capacity.
-5. [Moved to Pending] Represent SQG fracture states and finite Amplituhedron
-    phase profiles as explicit hypotheses without importing them into the
-    verified library.
+7. [Implemented in Pending] Represent the finite $C \cdot Z$ image, a local
+   reciprocal boundary chart, and measured-amplitude identification as
+   explicit hypotheses without importing them into the verified library.
+8. Pending: formalize general Pluecker relations over arbitrary index sets,
+   positive Grassmannian cells, projective canonical forms, and residues only
+   after supplying precise finite-dimensional definitions and proofs.
 
 ### Pending Physical Formalisms
 
 `Signals.Pending` develops the requested precedent formalisms in an isolated
 namespace and build target:
 
-- `IGPEPoint` records the local iGPE balance with effective mass, potential,
-   coupling, density, time derivative, and Laplacian terms.
+- `GPEVariant` distinguishes `inverse`, `inhomogeneous`, and `interactive`
+   pointwise GPE records.
+- `InverseGPEPoint` reconstructs a complex potential from a nonzero wavefunction
+   and supplied time derivative, Laplacian, coupling, and density.
+- `InhomogeneousGPEPoint` records an explicit external source term in the GPE
+   balance.
+- `InteractiveGPEPoint` records the nonlinear local balance with effective mass,
+   potential, coupling, density, time derivative, and Laplacian terms.
+   `IGPEPoint` remains its compatibility alias.
 - `SQGMaxwellSystem` records Maxwell's vector equations with effective
    permittivity/permeability, an explicit extra SQG current, and a classical
    Maxwell reduction when that current is disabled.
@@ -232,6 +269,13 @@ namespace and build target:
    it does not diagnose the cause of that residual.
 - `WKBBarrier` records a proper-distance factor, effective barrier, WKB
    exponent, and bounded Gamow probability.
+- `AmplituhedronMap` records the finite matrix image $Y = C \cdot Z$ without
+   asserting that it is an Amplituhedron or that its image has a physical
+   volume.
+- `LogarithmicChart` records positive source-minor assumptions, a nonzero
+   selected coordinate, and a reciprocal finite chart weight. Its
+   `AmplituhedronScatteringHypothesis` makes any equality to a measured
+   scattering amplitude explicit rather than proving it from geometry.
 - `AntiAmplituhedronProfile` and `SQGVacuumExpansion` record divergent-profile
    and negative-coupling hypotheses.
 - `AntiFireSuppression` records suppression as an explicit rate inequality.
@@ -254,14 +298,31 @@ deterministic fusion, or spacetime energy extraction exist physically.
 4. Next: add finite array/grid observations, complex material transfer
    functions, frequency-dependent attenuation, speckle covariance, and
    uncertainty propagation.
-5. Pending: add weak-derivative, trace, and jump-condition structures for a
+6. Pending: add weak-derivative, trace, and jump-condition structures for a
    fracture boundary only after the relevant measure, function-space, and flux
    assumptions are supplied.
-6. Pending: add a numerical Madelung/GP splat model with variable covariance,
+7. Pending: add a numerical Madelung/GP splat model with variable covariance,
    compressibility, healing length, and FTLE diagnostics. A fixed determinant
    must not be treated as incompressibility; the source chat itself notes that
    air and superfluids are compressible
    ([fracture chat](../../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md#L1258-L1308)).
+
+### Amplituhedron Formalization Plan
+
+1. [Implemented] Keep arbitrary real Grassmannian matrices and negative
+   Pluecker coordinates available for intermediate or non-positive charts.
+2. [Implemented in Pending] Represent the finite $C \cdot Z$ image and a
+   local reciprocal weight with explicit non-boundary assumptions.
+3. Pending: define ordered Pluecker coordinates over general $k,n$ with
+   proved indexing and determinant identities, then formalize the generalized
+   Pluecker relations.
+4. Pending: define positive cells and amplituhedron images separately from
+   canonical differential forms; add boundary and residue notions only with a
+   precise mathematical domain.
+5. Pending: add massive momentum-twistor incidence and Proca/rGO hardware
+   mappings only as conditional records with measured calibration, loss, and
+   uncertainty fields. A geometric coordinate or chart weight must not be
+   promoted to a physical scattering amplitude without that evidence.
 
 ### Phase 4: Upstream contributions
 
