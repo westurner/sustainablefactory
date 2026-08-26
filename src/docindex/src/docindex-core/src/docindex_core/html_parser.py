@@ -5,6 +5,7 @@ HTML parser for indexing Sphinx-built documentation.
 from __future__ import annotations
 
 import logging
+import fnmatch
 import re
 from pathlib import Path
 from typing import List, Generator, Optional
@@ -258,13 +259,20 @@ class BatchHTMLIndexer:
         Returns:
             List of HTML file paths
         """
-        if exclude_patterns is None:  # pragma: no branch
-            exclude_patterns = SphinxHTMLParser.EXCLUDE_PATTERNS
+        exclude_patterns = list(SphinxHTMLParser.EXCLUDE_PATTERNS) + list(
+            exclude_patterns or []
+        )
         
         html_files = []
         for html_file in self.html_dir.rglob('*.html'):
             # Skip excluded files
-            if any(pattern in html_file.name for pattern in exclude_patterns):
+            relative_name = html_file.relative_to(self.html_dir).as_posix()
+            if any(
+                pattern in html_file.name
+                or fnmatch.fnmatch(html_file.name, pattern)
+                or fnmatch.fnmatch(relative_name, pattern)
+                for pattern in exclude_patterns
+            ):
                 continue
             
             # Skip index files that aren't main pages

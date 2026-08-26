@@ -26,6 +26,7 @@ extensions = [
     # "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "sustainablefactory.sphinx_yaml_toc",
+    "sustainablefactory.searchtools",
 ]
 
 templates_path = ["_templates"]
@@ -37,9 +38,32 @@ exclude_patterns = [
     "chats/*.chatexport_abc1.md",
 ]
 
-docindex_html_exclude_patterns = ["tables_and_figures.myst.html"]
+docindex_html_exclude_patterns = [
+    "tables_and_figures.myst.html",
+    "chats/*.html",
+]
 
 html_search_options = {"type": "js"}
+
+enhanced_searchtools = True
+searchtools = {
+    "native": {"enabled": True},
+    "docindex": {
+        "enabled": False,
+        "index": "all",
+        "oxirs": {
+            "enabled": False,
+            "url": "http://localhost:7878/query",
+            "index": "all",
+        },
+        "meilisearch": {
+            "enabled": False,
+            "url": "http://localhost:7700",
+            "index": "all",
+            "public_api_key": "",
+        },
+    },
+}
 
 # -- MyST Parser configuration -----------------------------------------------
 myst_enable_extensions = [

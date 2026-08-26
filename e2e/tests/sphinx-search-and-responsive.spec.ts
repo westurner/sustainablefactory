@@ -28,6 +28,80 @@ test.describe('Sphinx docs search and responsive behavior', () => {
     await expect(page.locator('body')).toContainText(/search|results/i);
   });
 
+  test('search page loads native Sphinx search assets', async ({ page }) => {
+    await page.goto('/search.html');
+
+    await expect(page.locator('#native-sphinx-search')).toBeVisible();
+    await expect(page.locator('script[src*="searchtools.js"]')).toHaveCount(1);
+    await expect(page.locator('script[src*="searchindex.js"]')).toHaveCount(1);
+    await expect(page.locator('#native-search-query')).toBeVisible();
+    await expect(page.locator('#search-results')).toBeAttached();
+  });
+
+  test('enhanced search is a separate labeled mode and is disabled without backends', async ({ page }) => {
+    await page.goto('/search.html');
+
+    await expect(page.locator('#docindex-search')).toBeVisible();
+    await expect(page.locator('#docindex-search-title')).toHaveText('DocIndex search');
+    await expect(page.locator('script[src*="docindex-search.js"]')).toHaveCount(1);
+
+    const queryInput = page.locator('#docindex-search-query');
+    await queryInput.fill('homodyne');
+    await queryInput.press('Enter');
+
+    await expect(page.locator('#docindex-search-results')).toContainText(
+      'DocIndex search is disabled.'
+    );
+  });
+
+  test('enhanced search renders OxiRS and Meilisearch results separately', async ({ page }) => {
+    await page.route('**/indexes/all/search', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          hits: [{ title: 'Meili result', url: '/readme.html', content: 'Meilisearch content' }],
+        }),
+      });
+    });
+    await page.route('**/query', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/sparql-results+json',
+        body: JSON.stringify({
+          results: {
+            bindings: [{
+              id: { value: 'oxirs-1' },
+              title: { value: 'OxiRS result' },
+              url: { value: '/schema.html' },
+              content: { value: 'OxiRS content' },
+            }],
+          },
+        }),
+      });
+    });
+
+    await page.goto('/search.html');
+    await page.evaluate(() => {
+      (window as any).DOCINDEX_SEARCH_CONFIG = {
+        docindex: {
+          enabled: true,
+          index: 'all',
+          oxirs: { enabled: true, url: '/query' },
+          meilisearch: { enabled: true, url: '/', search_url: '/indexes/all/search' },
+        },
+      };
+    });
+    await page.locator('#docindex-search-query').fill('homodyne');
+    await page.locator('#docindex-search-query').press('Enter');
+
+    const results = page.locator('#docindex-search-results');
+    await expect(results).toContainText('DocIndex: OxiRS');
+    await expect(results).toContainText('OxiRS result');
+    await expect(results).toContainText('DocIndex: Meilisearch');
+    await expect(results).toContainText('Meili result');
+  });
+
   test('mobile viewport keeps top content reachable', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');

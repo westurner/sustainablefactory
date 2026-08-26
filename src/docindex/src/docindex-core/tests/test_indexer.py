@@ -177,6 +177,7 @@ def test_index_sphinx_html_atomic_success(monkeypatch, tmp_path, stats_obj, capl
     import docindex_core.indexer as idx_mod
 
     caplog.set_level("INFO", logger="docindex_core.indexer")
+    swapped = []
 
     class FakeClient:
         def __init__(self, cfg):
@@ -198,7 +199,7 @@ def test_index_sphinx_html_atomic_success(monkeypatch, tmp_path, stats_obj, capl
             return [(1, len(docs))], len(docs), 0
 
         def swap_indexes(self, pairs):
-            pass
+            swapped.extend(pairs)
 
         def delete_index_if_exists(self, name):
             return True
@@ -225,6 +226,7 @@ def test_index_sphinx_html_atomic_success(monkeypatch, tmp_path, stats_obj, capl
     stats = indexer.index_sphinx_html(tmp_path)
 
     assert stats.indexed_documents == 2
+    assert swapped == [("sphinx_staging", "sphinx")]
     completion_logs = [
         record.getMessage()
         for record in caplog.records

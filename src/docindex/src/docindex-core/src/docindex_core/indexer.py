@@ -349,7 +349,7 @@ class DocumentIndexer:
 
         This command uses a version-tag strategy to achieve zero-gap updates:
         - New sphinx docs are written to the live 'all' index immediately
-        - Per-source indices (sphinx, myst) use atomic index swaps
+        - The sphinx index uses an atomic index swap
         - Stale docs are garbage-collected by build_id
 
         Zero downtime: searches never see a gap where sphinx docs are absent.
@@ -367,10 +367,9 @@ class DocumentIndexer:
             raise
 
         sphinx_staging = f"sphinx{staging_suffix}"
-        myst_staging = f"myst{staging_suffix}"
 
         # Create staging indices with the same settings as live indices
-        for staging_name in (sphinx_staging, myst_staging):
+        for staging_name in (sphinx_staging,):
             self.client.create_or_update_index(
                 staging_name, settings=DEFAULT_INDEX_SETTINGS
             )
@@ -408,22 +407,6 @@ class DocumentIndexer:
             self._send_batch_with_retry(
                 "all", b, max_retries, retry_delay, pending_tasks, submit_counts
             )
-            # MyST/MD docs additionally go to myst_staging
-            myst_batch = [
-                d
-                for d in b
-                if hasattr(d, "type")
-                and str(getattr(d, "type", "")).endswith("sphinx_md")
-            ]
-            if myst_batch:
-                self._send_batch_with_retry(
-                    myst_staging,
-                    myst_batch,
-                    max_retries,
-                    retry_delay,
-                    pending_tasks,
-                    submit_counts,
-                )
             total_docs_sent += len(b)
 
         try:
@@ -473,7 +456,7 @@ class DocumentIndexer:
 
         # --- Cleanup on cancellation: drop staging, leave live indices alone ---
         if cancelled:
-            for name in (sphinx_staging, myst_staging):
+            for name in (sphinx_staging,):
                 self.client.delete_index_if_exists(name)
             end_time = datetime_now()
             return last_stats or IndexingStats(
@@ -491,10 +474,9 @@ class DocumentIndexer:
             self.client.swap_indexes(
                 [
                     (sphinx_staging, "sphinx"),
-                    (myst_staging, "myst"),
                 ]
             )
-            logger.info("Swapped staging indices into live sphinx/myst.")
+            logger.info("Swapped staging index into live sphinx.")
         except Exception as e:
             logger.error(
                 f"swap_indexes failed: {e}. "
@@ -503,7 +485,7 @@ class DocumentIndexer:
             )
             raise
         # Drop the (now-empty) old live indices that became the staging shells
-        for name in (sphinx_staging, myst_staging):
+        for name in (sphinx_staging,):
             self.client.delete_index_if_exists(name)
 
         # --- Step 2b: Remove stale sphinx docs from 'all' by version tag ---

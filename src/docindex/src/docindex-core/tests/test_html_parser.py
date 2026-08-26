@@ -128,6 +128,7 @@ def test_batch_html_indexer_get_files_parse_all_total(tmp_path, monkeypatch):
     project_files = idx.get_html_files(
         exclude_patterns=["tables_and_figures.myst.html"]
     )
+    assert "genindex.html" not in [f.name for f in project_files]
     assert "tables_and_figures.myst.html" not in [f.name for f in project_files]
     assert not any(str(f).endswith("sub/index.html") for f in files)
 

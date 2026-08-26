@@ -46,6 +46,9 @@ This document outlines the architecture for integrating Meilisearch full-text se
    - Sphinx-pagefind for static site search
    - JSON API for programmatic access
    - Snippet highlighting and relevance ranking
+  - Native Sphinx search and optional DocIndex search are separate modes;
+    configure the enhanced UI with `docindex_enhanced_searchtools` and
+    `docindex_search` in `docs/conf.py`.
 
 ---
 

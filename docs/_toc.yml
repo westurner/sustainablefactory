@@ -21,5 +21,6 @@ chapters:
   - file: tables_and_figures.myst
   - file: tools
   - file: workflow-performance-plan
+  - file: dispersive-homodyne-plan
   - file: water
   - file: chats/index

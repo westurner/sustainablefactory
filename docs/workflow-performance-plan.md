@@ -109,6 +109,9 @@ Acceptance criteria:
    `searchindex.js` as the static search UI contract. Do not copy Sphinx's
    versioned search assets into the repository; verify their presence in the
    built output instead.
+8. Keep the optional enhanced UI behind the boolean
+   `enhanced_searchtools`. Its `searchtools` configuration keeps
+   native Sphinx, OxiRS, and Meilisearch results visibly separate.
 
 Acceptance criteria:
 

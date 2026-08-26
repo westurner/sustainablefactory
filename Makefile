@@ -178,7 +178,7 @@ docindex_index_chats: # docindex_install_python
 .PHONY: docindex_index_html
 docindex_index_html: # docindex_install_python
 	@echo "docindex_index_html  #  Index Sphinx HTML to docindex"
-	$(PYTHON) -m docindex_cli.cli index-html --source docs/_build/html --exclude tables_and_figures.myst.html --progress --pipeline
+	$(PYTHON) -m docindex_cli.cli index-html --source docs/_build/html --exclude tables_and_figures.myst.html --exclude 'chats/*.html' --progress --pipeline
 
 .PHONY: docindex_index_all
 docindex_index_all: docindex_index_chats docindex_index_html
