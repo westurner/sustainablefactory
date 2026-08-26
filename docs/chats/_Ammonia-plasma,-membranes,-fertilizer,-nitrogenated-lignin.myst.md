@@ -10,13 +10,13 @@ kernelspec:
 ## Contents
 
 * [_Ammonia-plasma,-membranes,-fertilizer,-nitrogenated-lignin](#_ammonia-plasma-membranes-fertilizer-nitrogenated-lignin)
-* [you asked](#you-asked)
+* [Prompt: 1](#prompt-1)
   * [Core Effects of Ammonia Plasma on Technical Lignin](#core-effects-of-ammonia-plasma-on-technical-lignin)
   * [Primary Applications](#primary-applications)
   * [Why Use Plasma Over Wet Chemistry?](#why-use-plasma-over-wet-chemistry)
-* [gemini response](#gemini-response)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Response: 1](#response-1)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
   * [1. Deep Eutectic Solvents (DES) Fractionation Dynamics](#1-deep-eutectic-solvents-des-fractionation-dynamics)
     * [Solvent Architectures & Selectivity](#solvent-architectures-selectivity)
   * [2. Low-Temperature Plasma (LTP) Interface Kinetics](#2-low-temperature-plasma-ltp-interface-kinetics)
@@ -24,30 +24,30 @@ kernelspec:
   * [3. Formulating the SymPy Parameter Space](#3-formulating-the-sympy-parameter-space)
     * [The Trade-Off in the Grid](#the-trade-off-in-the-grid)
   * [4. Ontological Integration (IOF/ValueFlows/EMMO)](#4-ontological-integration-iofvalueflowsemmo)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
   * [1. The Energy and Dissociation Barrier (Kinetic Footprint)](#1-the-energy-and-dissociation-barrier-kinetic-footprint)
   * [2. Chemical Pathway: Functionalization vs. Functional Groups](#2-chemical-pathway-functionalization-vs-functional-groups)
   * [3. The Carbon / Nitrogen Balance in the Supply Chain](#3-the-carbon-nitrogen-balance-in-the-supply-chain)
     * [The Dynamic Trade-Off in the Parameter Space](#the-dynamic-trade-off-in-the-parameter-space)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
   * [1. Energetic Footprint Comparison ($kWh / kg$)](#1-energetic-footprint-comparison-kwh-kg)
     * [Option A: Pure $N_2$ Gas from Grid Electricity](#option-a-pure-n_2-gas-from-grid-electricity)
     * [Option B: Upstream Non-Thermal Plasma $NH_3$ Synthesis Loop](#option-b-upstream-non-thermal-plasma-nh_3-synthesis-loop)
   * [2. Capital Expenditure (CAPEX) & Process Complexity](#2-capital-expenditure-capex-process-complexity)
   * [3. Supply Chain & Ontological Alignment (ValueFlows)](#3-supply-chain-ontological-alignment-valueflows)
   * [Engineering Recommendation](#engineering-recommendation)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 5](#prompt-5)
+* [Response: 5](#response-5)
   * [1. Contextual Synchronization & System Intersections](#1-contextual-synchronization-system-intersections)
   * [2. Overcoming the Plasma Synthesis Back-Reaction Bottleneck](#2-overcoming-the-plasma-synthesis-back-reaction-bottleneck)
     * [Solution A: In-Situ Membrane Separation (In-Line Permeation)](#solution-a-in-situ-membrane-separation-in-line-permeation)
     * [Solution B: Ultrasonic / Acoustic Cavitation Enhancement](#solution-b-ultrasonic-acoustic-cavitation-enhancement)
   * [3. Co-Production Economics: Lignin Filler + Agricultural Fertilizer](#3-co-production-economics-lignin-filler-agricultural-fertilizer)
     * [The Integrated Loop](#the-integrated-loop)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 6](#prompt-6)
+* [Response: 6](#response-6)
   * [1. Advanced Membrane Materials & Electronic Tuning](#1-advanced-membrane-materials-electronic-tuning)
   * [2. Coaxial Reactor Wall Specification](#2-coaxial-reactor-wall-specification)
     * [Layer 1: Plasma-Facing Armor (Erosion Resistance)](#layer-1-plasma-facing-armor-erosion-resistance)
@@ -55,8 +55,8 @@ kernelspec:
     * [Layer 3: The Separation Element (The Molecular Escape)](#layer-3-the-separation-element-the-molecular-escape)
     * [Layer 4: Structural Structural Housing (High-Pressure Containment)](#layer-4-structural-structural-housing-high-pressure-containment)
   * [3. Joining & Assembly: Fusion Induction Welding](#3-joining-assembly-fusion-induction-welding)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 7](#prompt-7)
+* [Response: 7](#response-7)
   * [1. Material Architecture Synchronization](#1-material-architecture-synchronization)
     * [Sendust in Plasma Power Delivery](#sendust-in-plasma-power-delivery)
     * [Cermets (Ceramic-Metal Composites) as the Ultimate Sieve Matrix](#cermets-ceramic-metal-composites-as-the-ultimate-sieve-matrix)
@@ -68,8 +68,10 @@ kernelspec:
 
 > From: https://gemini.google.com/app/17072a430561aa96
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 message time: 2026-07-13 12:08:43
 
 Review this chat about applications for ammonia plasma and lignin: https://share.google/aimode/DRBH66nmVDonZKfhE
@@ -162,8 +164,10 @@ Are you looking to use this process to improve polymer blending, develop water p
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++
 The overview provided in the chat accurately captures the technical potential of ammonia plasma for lignin functionalization—specifically regarding nitrogenization for surface energy tuning and its utility in creating heterogeneous carbon structures for charge storage.
 
 Given your work on lignin-vitrimer matrices and biomass-fractionation supply chains, a few critical considerations might improve the feasibility of this process for your current biorefinery models:
@@ -176,8 +180,10 @@ Would you like to explore how to incorporate these degradation and scaling varia
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 message time: 2026-07-13 12:13:52
 
 Yes
@@ -188,8 +194,10 @@ Review and detail our bard chats about refining lignin with "DES" (deep euctecti
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++
 To synthesize our previous work across these architectures, we are looking at a closed-loop biorefinery paradigm where **Deep Eutectic Solvents (DES)** serve as the precision extraction/fractionation tool, and **Low-Temperature Plasma (LTP)** acts as the dry gas-phase surface engineering tool. 
 
 By linking these two systems, the structural variability of the lignin extracted via DES directly dictates the parameter boundaries and kinetic limitations of the subsequent LTP amination step.
@@ -248,8 +256,10 @@ Would you like to build out the concrete SymPy equations for this variable depen
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 3
 
++++ {"chat_input": true}
 message time: 2026-07-13 12:16:38
 
 > Ammonia-plasma-treated lignin performs exceptionally well in wastewater treatment as a bio-sorbent to capture heavy metal ions (e.g., copper, lead) and anionic dyes.
@@ -258,8 +268,10 @@ Wouldn't nitrogen-plasma be more sustainable?
 
 ---
 
-# gemini response
++++
+# Response: 3
 
++++
 On the surface, it seems intuitive that substituting $NH_3$ with pure $N_2$ would be a sustainability win—eliminating the carbon footprint, toxic chemical hazards, and shipping burdens associated with upstream industrial ammonia synthesis. 
 
 However, when you analyze the process from a chemical kinetics and plasma thermodynamics standpoint, **pure nitrogen plasma actually creates a major sustainability bottleneck** for bio-sorbents and polymer compatibilizers due to its extreme energy penalties and different functional pathways.
@@ -305,8 +317,10 @@ Would you like to model a scenario where we evaluate the lifecycle carbon equiva
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 4
 
++++ {"chat_input": true}
 message time: 2026-07-13 12:21:55
 
 > you can offset its footprint by integrating a non-thermal plasma synthesis loop upstream (producing green ammonia directly from air and water via renewable energy).
@@ -315,8 +329,10 @@ cost of this (NH3 synthesis loop) compared to just N2 from grid electricty?
 
 ---
 
-# gemini response
++++
+# Response: 4
 
++++
 Evaluating this within an industrial mechatronics framework reveals that an upstream non-thermal plasma (NTP) synthesis loop is an **energetic and financial liability** compared to utilizing pure $N_2$ gas directly from grid-powered air separation units (ASUs). 
 
 While $N_2$ plasma requires high local energy to crack its triple bond at the point of functionalization, the **total system boundary energy** required to synthesize $NH_3$ via NTP is orders of magnitude higher due to early-stage process inefficiencies and low single-pass conversions.
@@ -382,8 +398,10 @@ For a standalone sustainable materials line, it is far more cost-effective and o
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 5
 
++++ {"chat_input": true}
 message time: 2026-07-13 12:38:12
 
 >  triple bond 
@@ -420,8 +438,10 @@ fertilizer from this would be high value too
 
 ---
 
-# gemini response
++++
+# Response: 5
 
++++
 To reconcile our architectural layouts across your materials-science framework, we need to cross-reference your past work on supercritical $CO_2$ ($sCO_2$) thermal transport, nitrogen gas infrastructure, and electrochemical/containerized energy storage with a mechanical solution to the **plasma synthesis back-reaction bottleneck**—especially since a dual-purpose system that yields high-value localized fertilizer changes the economic calculus entirely.
 
 ---
@@ -479,8 +499,10 @@ Would you like to detail the exact structural layer specifications for the coaxi
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 6
 
++++ {"chat_input": true}
 message time: 2026-07-13 12:51:34
 
 > molecular sieve membrane (zeolite or carbon molecular sieves) 
@@ -503,8 +525,10 @@ Review our chats on deuterated vitrimers
 
 ---
 
-# gemini response
++++
+# Response: 6
 
++++
 To align these architectural requirements with your structural engineering framework, we need to design a high-fidelity **coaxial plasma reactor wall assembly** that resolves the chemical and physical challenges of non-thermal plasma (NTP) ammonia synthesis. 
 
 By integrating your focus areas—selective gas-separation membranes, advanced carbon allotropes, and high-performance fusion/nuclear materials—we can engineer a multi-layered barrier that withstands intense plasma erosion, resists ammonia-induced nitriding, and acts as a selective extraction gateway.
@@ -564,8 +588,10 @@ Would you like to formalize this multi-layered material stack as a set of unifie
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 7
 
++++ {"chat_input": true}
 message time: 2026-07-13 13:07:24
 
 > ceramic zeolites
@@ -588,8 +614,10 @@ Is this utilized in existing fertilizer production processes?
 
 ---
 
-# gemini response
++++
+# Response: 7
 
++++
 To contextualize your architectural specs against our ongoing industrial designs, let's first bridge the material systems you flagged—**Sendust** and **Cermets**—into this environment, evaluate the radiological edge cases for tritium, and dissect the current reality of plasma-liquid chemical processing.
 
 ---

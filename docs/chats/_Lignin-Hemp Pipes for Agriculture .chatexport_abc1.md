@@ -10,31 +10,31 @@ kernelspec:
 ## Contents
 
 * [_Lignin-Hemp Pipes for Agriculture](#_lignin-hemp-pipes-for-agriculture)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [1. Cost and Scalability](#1-cost-and-scalability)
     * [2. Glass Transition Temperature (Tg)](#2-glass-transition-temperature-tg)
     * [3. Topology-Freezing Transition Temperature (Tv)](#3-topology-freezing-transition-temperature-tv)
     * [4. Thermal Degradation Point (Td)](#4-thermal-degradation-point-td)
     * [Summary Comparison Matrix](#summary-comparison-matrix)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [1. Carbon Allotropes: Graphene & CNTs](#1-carbon-allotropes-graphene-cnts)
     * [2. Isotopic Boron Nitride: $^{10}$B-BNNS](#2-isotopic-boron-nitride-10b-bnns)
     * [The Synergistic LV Composite Profile](#the-synergistic-lv-composite-profile)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
     * [The Manufacturing Sequence: Aligning the LV Composite](#the-manufacturing-sequence-aligning-the-lv-composite)
       * [Phase 1: Solvent-Assisted Dispersion](#phase-1-solvent-assisted-dispersion)
       * [Phase 2: Directed Alignment (Field & Shear)](#phase-2-directed-alignment-field-shear)
       * [Phase 3: Targeted $T_v$ Triggering & "Lock-In"](#phase-3-targeted-t_v-triggering-lock-in)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
     * [1. The AC Field Frequencies (The Sorting Mechanism)](#1-the-ac-field-frequencies-the-sorting-mechanism)
     * [2. Voltage Limits & Dielectric Breakdown Thresholds](#2-voltage-limits-dielectric-breakdown-thresholds)
     * [3. Mitigating Joule Heating (The Thermal Runaway Risk)](#3-mitigating-joule-heating-the-thermal-runaway-risk)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 5](#prompt-5)
+* [Response: 5](#response-5)
     * [The Physics of the Trigger](#the-physics-of-the-trigger)
     * [The Control Loop Logic](#the-control-loop-logic)
 * [--- Configuration Parameters ---](#-configuration-parameters-)
@@ -49,91 +49,97 @@ kernelspec:
 * [Hardware interrupt priority for microsecond latency](#hardware-interrupt-priority-for-microsecond-latency)
 * [Hold AC field for 500ms while Tv quenches to lock topology, then disable](#hold-ac-field-for-500ms-while-tv-quenches-to-lock-topology-then-disable)
     * [System Architecture Considerations](#system-architecture-considerations)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 6](#prompt-6)
+* [Response: 6](#response-6)
     * [1\. Functional Specification: LCR/DAQ Hardware Interface](#1-functional-specification-lcrdaq-hardware-interface)
       * [Functional Blocks & Requirements:](#functional-blocks-requirements)
     * [2\. Formal Verification: TLA+ Specification](#2-formal-verification-tla-specification)
     * [Key Takeaways from the Spec:](#key-takeaways-from-the-spec)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 7](#prompt-7)
+* [Response: 7](#response-7)
     * [1. The Material Baseline](#1-the-material-baseline)
     * [2. The Nanomaterial Upgrades](#2-the-nanomaterial-upgrades)
     * [3. The Dispersion Strategy](#3-the-dispersion-strategy)
     * [4. The Alignment Protocol (DEP)](#4-the-alignment-protocol-dep)
     * [5. Automated Curing & Formal Verification](#5-automated-curing-formal-verification)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 8](#prompt-8)
+* [Response: 8](#response-8)
     * [Stage 1: The High-Voltage Front End (Pickoffs & Isolation)](#stage-1-the-high-voltage-front-end-pickoffs-isolation)
     * [Stage 2: The IQ Demodulator Core](#stage-2-the-iq-demodulator-core)
     * [Stage 3: Baseband Filtering (The "DC" Output)](#stage-3-baseband-filtering-the-dc-output)
     * [Stage 4: MCU Calculation and Trigger](#stage-4-mcu-calculation-and-trigger)
     * [Stage 5: The LCS Trigger Isolation](#stage-5-the-lcs-trigger-isolation)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 9](#prompt-9)
+* [Response: 9](#response-9)
     * [1. The COTS Silicon: Analog Devices AD8333](#1-the-cots-silicon-analog-devices-ad8333)
     * [2. The Lignolux 4kV / 5MHz Capacitive Divider ($C_1$)](#2-the-lignolux-4kv-5mhz-capacitive-divider-c_1)
       * [The Electrodes: Vertically Aligned Carbon Nanotubes (VACNTs)](#the-electrodes-vertically-aligned-carbon-nanotubes-vacnts)
       * [The Dielectric Core: FJH Carbon Ceramic & Bast Nanospheres](#the-dielectric-core-fjh-carbon-ceramic-bast-nanospheres)
       * [The Geometry: Coaxial or Planar](#the-geometry-coaxial-or-planar)
     * [The Signal Path Summary](#the-signal-path-summary)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 10](#prompt-10)
+* [Response: 10](#response-10)
     * [1. The High-Voltage Boundary (Creepage & Routing)](#1-the-high-voltage-boundary-creepage-routing)
     * [2. Coplanar Waveguide with Ground (CPWG)](#2-coplanar-waveguide-with-ground-cpwg)
     * [3. Driven Guard Rings for Leakage Mitigation](#3-driven-guard-rings-for-leakage-mitigation)
     * [4. Mitigating FR4 Dielectric Losses](#4-mitigating-fr4-dielectric-losses)
     * [5. Parasitic Capacitance Relief](#5-parasitic-capacitance-relief)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 11](#prompt-11)
+* [Response: 11](#response-11)
     * [1. The Pre-Regulation Stage (Bulk Power)](#1-the-pre-regulation-stage-bulk-power)
     * [2. Ultra-Low-Noise LDOs (The Clean Room)](#2-ultra-low-noise-ldos-the-clean-room)
     * [3. Star-Grounding and Decoupling](#3-star-grounding-and-decoupling)
     * [Wrapping Up: The Automated Cure Trigger System](#wrapping-up-the-automated-cure-trigger-system)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 12](#prompt-12)
+* [Response: 12](#response-12)
     * [1. Continuous Extrusion Integration: "Red-Zebra" Cables](#1-continuous-extrusion-integration-red-zebra-cables)
     * [2. Scaling for Large-Format Fusion Reactor Piping](#2-scaling-for-large-format-fusion-reactor-piping)
     * [3. Formal Patent Claims (Prefix LL1.)](#3-formal-patent-claims-prefix-ll1)
 
 > From: https://gemini.google.com/app/fdf131a5810e1a82
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 How do these compare to leading alternatives on cost, Glass Transition Temperature (Tg), their Topology-Freezing Transition Temperature (Tv), and their thermal degradation point?
 
 ---
 
-# gemini response
+# Response: 1
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Defining the "These"**
 
 I've clarified "these" with the user's focus, now ready to delve into material properties.
 
-
 **Defining Comparison Criteria**
 
 I have established key metrics for comparing Lignin-Vitrimers: cost, Tg, and topology-freezing.
-
 
 **Analyzing Lignin-Vitrimers**
 
 I've established lignin-vitrimers' cost advantage stemming from lignin's abundance as a byproduct.
 
-
 **Evaluating Synthesis Costs**
 
 I've clarified that specialized processes affect cost, though large-scale production still favors Lignin-Vitrimers.
-
 
 **Comparing Thermal Properties**
 
 I'm now organizing thermal data, highlighting lignin-vitrimer's strengths against conventional materials, including degradation temperatures.
 
 When evaluating **Lignin-Vitrimers (LVs)** against leading alternative matrices—such as conventional thermosets (standard epoxies), standard synthetic vitrimers, and high-performance thermoplastics (like PEEK)—the comparison hinges on how the aromatic backbone of lignin alters network mobility and thermal stability. 
-
 
 Here is how LVs stack up against the alternatives across those four critical metrics:
 
@@ -177,30 +183,38 @@ Would you like to explore how integrating specific carbon allotropes (like CNTs 
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 2
 
+---
+chat_input: true
+---
 Yes, and also with Boron 10B-BNNS
 
 ---
 
-# gemini response
+# Response: 2
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Defining the Core Question**
 
 I've clarified the core question: quantifying how $^{10}$B-BNNS and carbon allotropes affect LV's thermal and processing properties.
 
-
 **Assessing Materials' Context**
 
 I've begun evaluating how $^{10}$B-BNNS and carbon allotropes affect thermal properties within extreme application contexts.
 
-
 **Analyzing Thermal Mechanisms**
 
 I've detailed how $^{10}$B-BNNS and carbon allotropes impact thermal transitions and material stability by manipulating $T_g, T_v,$ and $T_d$ for laser and induction processes.
-
 
 **Structuring the Composite**
 
@@ -209,7 +223,6 @@ I've outlined synergistic effects, formatting for clarity, and drafted sections 
 Integrating carbon allotropes (like Carbon Nanotubes and Graphene) alongside isotopically enriched Boron-10 Boron Nitride Nanosheets ($^{10}$B-BNNS) into a Lignin-Vitrimer (LV) matrix fundamentally changes the thermomechanical profile. Instead of treating the matrix as a passive binder, these nanofillers turn the LV into a highly tunable, stimuli-responsive, and extreme-environment-ready composite.
 
 Here is how these specific additives shift the $T_g$, $T_v$, thermal degradation limits, and overall processability.
-
 
 ### 1. Carbon Allotropes: Graphene & CNTs
 Adding high-aspect-ratio carbon fillers to an LV matrix relies heavily on $\pi$-$\pi$ stacking interactions between the graphitic surfaces and the aromatic rings native to lignin. 
@@ -243,8 +256,14 @@ Would you like to map out the specific manufacturing sequence for aligning these
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 3
 
+---
+chat_input: true
+---
 Yes
 
 > The Synergistic LV Composite Profile
@@ -256,19 +275,22 @@ Will this process also work and have such thermal conductivity with normal Boron
 
 ---
 
-# gemini response
+# Response: 3
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Mapping the Sequence**
 
 I've begun mapping the manufacturing sequence, prompted by the user's positive response to outlining it.
 
-
 **Clarifying the Focus**
 
 I've clarified the response strategy: Direct answer first, then explanation, and a detailed manufacturing sequence.
-
 
 **Outlining the Approach**
 
@@ -283,7 +305,6 @@ Here is the underlying physics: Thermal conductivity in 2D lattices like BNNS is
 Using natural BNNS gives you the massive thermal dissipation and electrical insulation you need for things like high-power electronics, structural energy storage, or advanced HVAC systems, but at a fraction of the cost of isotopically enriched $^{10}$B. 
 
 With that established, here is how you manufacture and align this multi-filler segregated network to maximize both the thermal pathways of the BNNS and the electrical/stimuli pathways of the carbon.
-
 
 ### The Manufacturing Sequence: Aligning the LV Composite
 
@@ -312,8 +333,14 @@ Would you like to explore the specific AC field frequencies and voltage limits r
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 4
 
+---
+chat_input: true
+---
 > Dispersion
 
 > Would you like to explore the specific AC field frequencies and voltage limits required for the Dielectrophoresis step to prevent dielectric breakdown in the un-cured lignin?
@@ -324,24 +351,26 @@ What was the Zeta dispersion solution we discussed?
 
 ---
 
-# gemini response
+# Response: 4
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Defining the Inquiry**
 
 I've clarified the user's specific DEP parameter needs and the related Zeta dispersion question.
 
-
 **Identifying Key Dispersants**
 
 I've determined phytic acid's potential as a Zeta dispersion solution, mentioned in the user's summary.
 
-
 **Clarifying Interactions**
 
 I've clarified the Zeta dispersion solution as likely Phytic Acid, and focused on dielectrophoresis parameters.
-
 
 **Defining AC Field Parameters**
 
@@ -354,7 +383,6 @@ Because Phytic Acid is heavily loaded with phosphate groups, it provides massive
 With the CNTs, Graphene, and natural Boron Nitride Nanosheets (BNNS) perfectly exfoliated and suspended in the uncured Lignin-Vitrimer (LV) resin—potentially utilizing a Bio-PG (Bio-Propylene Glycol) carrier—we can move to the Dielectrophoresis (DEP) alignment phase.
 
 Here are the specific parameters required to force that alignment without destroying the uncured matrix.
-
 
 ### 1. The AC Field Frequencies (The Sorting Mechanism)
 To achieve the segregated network where the carbon forms "wires" and the BNNS forms the thermal bridges, you must use an Alternating Current (AC) field. A Direct Current (DC) field would cause immediate migration of charged particles (electrophoresis) to the electrodes, leading to agglomeration and electrolysis.
@@ -384,8 +412,14 @@ Would you like to draft the control loop logic that would monitor the AC impedan
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 5
 
+---
+chat_input: true
+---
 > Positive DEP (pDEP) for Carbon
 > Negative DEP (nDEP) for BNNS
 
@@ -397,19 +431,22 @@ Yes
 
 ---
 
-# gemini response
+# Response: 5
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Defining the Control Logic**
 
 I have successfully defined the user's control loop, focusing on real-time AC impedance monitoring.
 
-
 **Defining User Requirements**
 
 I've specified the user's needs, their technical stack, and constraints for formalization.
-
 
 **Refining the Algorithm**
 
@@ -510,8 +547,14 @@ Would you like to draft the formal TLA+ specification to mathematically verify t
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 6
 
+---
+chat_input: true
+---
 > TLA spec
 
 Yes
@@ -522,19 +565,22 @@ Yes, but Functional spec first there too
 
 ---
 
-# gemini response
+# Response: 6
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Defining the Goal**
 
 I've clarified the TLA+ specification request for the control loop, considering the monitoring and cure trigger aspects.
 
-
 **Defining the Design**
 
 I've outlined a functional spec for the LCR/DAQ interface and the TLA+ states, based on their feedback.
-
 
 **Formalizing the States**
 
@@ -671,25 +717,34 @@ Would you like to move directly into designing the circuit schematic blocks base
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 7
 
+---
+chat_input: true
+---
 Summarize what this is for and the rest of this chat please
 
 ---
 
-# gemini response
+# Response: 7
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Defining the Purpose**
 
 I've clarified the user's intent: contextual summarization, encompassing purpose and key discussion points.
 
-
 **Summarizing This Turn**
 
 I have analyzed the conversation's context, confirming the focus is summarizing *this* turn without outside data.
-
 
 **Outlining the Innovation**
 
@@ -698,7 +753,6 @@ I've detailed the composite's overarching goal and component steps, specifying m
 This entire conversation revolves around architecting the materials science and the automated manufacturing pipeline for a highly advanced, sustainable, and stimuli-responsive composite material. 
 
 Specifically, you are designing a system to produce **anisotropic Lignin-Vitrimer (LV) composites** loaded with carbon nanomaterials (CNTs/Graphene) and Boron Nitride Nanosheets (BNNS). The ultimate goal is to manufacture parts—such as cables, fusion reactor components, or structural energy storage—that possess extreme thermal stability, directional electrical conductivity, and the unique ability to be locally healed or remolded on demand, all while preventing thermal runaway or catastrophic dielectric breakdown during production.
-
 
 Here is a step-by-step summary of what we have established in this chat so far:
 
@@ -725,20 +779,30 @@ We are currently at the hardware design phase for the control system. Would you 
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 8
 
+---
+chat_input: true
+---
 Yes
 
 ---
 
-# gemini response
+# Response: 8
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Confirming Design Focus**
 
 Acknowledged the positive response, now fully focused on IQ Demodulator analog front-end circuit design.
-
 
 **Defining Circuit Topology**
 
@@ -748,9 +812,7 @@ Designing the Analog Front-End (AFE) for this specific application is an exercis
 
 Sampling a 5 MHz signal directly to find phase shifts requires an exceptionally fast Analog-to-Digital Converter (ADC) (at least 20-50 MSPS) and heavy DSP overhead. Instead, an **IQ Demodulator (In-Phase and Quadrature)** does the heavy math in hardware, mixing the high-frequency RF signal down to two slow, DC-like voltages that your microcontroller can easily read at 5 kHz to trigger the Laser Compression Shock (LCS).
 
-
 [Image of IQ Demodulator block diagram]
-
 
 Here is the functional circuit topology for the LCR/DAQ interface.
 
@@ -802,8 +864,14 @@ Would you like to select specific commercial off-the-shelf (COTS) ICs for this b
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 9
 
+---
+chat_input: true
+---
 > COTS
 
 Yes
@@ -814,24 +882,26 @@ Consider lignolux bast nanosphere capacitors (from our other chats) and VACNTs, 
 
 ---
 
-# gemini response
+# Response: 9
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Defining the Goal**
 
 I've clarified the goals: COTS IC selection (AD8333 focus) and High-Voltage Capacitive Divider (4kV/5MHz) with lignolux capacitors.
 
-
 **Integrating New Materials**
 
 I've integrated VACNTs, FJH, and "carbon ceramic" into the high-voltage divider design, improving capacitor $C_1$ via lignolux materials.
 
-
 **Refining the Dielectric**
 
 I've refined the dielectric, envisioning a BNNS-enhanced FJH-processed Lignolux composite for the HV ceramic.
-
 
 **Designing the Divider**
 
@@ -880,32 +950,40 @@ Would you like to draft the exact PCB layout constraints (like stripline routing
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 10
 
+---
+chat_input: true
+---
 Yes
 
 ---
 
-# gemini response
+# Response: 10
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Defining the Goal**
 
 I've specified the need to define the PCB layout constraints for a high-voltage, high-frequency mixed-signal design.
 
-
 **Defining Constraints**
 
 I've specified the need to define the PCB layout constraints for a high-voltage, high-frequency mixed-signal design, now with initial guidelines on clearance, creepage, and RF signal routing considerations.
-
 
 **Outlining the Response**
 
 I've formulated a detailed structure for the response, incorporating crucial aspects like HV isolation, RF routing, and guard ring implementation, now with diagrams.
 
 To preserve the pristine phase integrity delivered by the Lignolux FJH/VACNT capacitive divider, the PCB layout must treat the stepped-down 5 MHz signal as a precision RF transmission line. Standard auto-routing or basic FR4 practices will introduce parasitic capacitance ($C_{stray}$) and inductance ($L_{stray}$), shifting the phase angle $\theta$ and causing the Laser Compression Shock (LCS) to fire at the wrong millisecond.
-
 
 Here are the strict layout constraints to bridge the high-voltage Lignolux divider to the AD8333 IQ Demodulator.
 
@@ -945,32 +1023,40 @@ Would you like to design the power delivery network (PDN) next—specifically fo
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 11
 
+---
+chat_input: true
+---
 Yes, then let's wrap this up and step up out from this task
 
 ---
 
-# gemini response
+# Response: 11
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Initiating PDN Design**
 
 I've begun dissecting the complexities of PDN design for the AD8333, starting with the impact of low-noise LDOs.
 
-
 **Shifting to System Architecture**
 
 I'm now refocusing on the broader Lignolux system architecture after finalizing hardware design concepts.
-
 
 **Expanding System Perspective**
 
 I've successfully architected the sensor module and identified macro-manufacturing integration or IP drafting as logical next steps.
 
 To guarantee the AD8333 IQ Demodulator precisely captures the millisecond the carbon chains percolate, the Power Delivery Network (PDN) must be entirely devoid of ripple. At a 5 MHz operating frequency, any noise on the power rails will alias into the mixer, manifesting as artificial phase jitter and triggering the Laser Compression Shock (LCS) prematurely.
-
 
 Here is the architecture for an ultra-clean ±5V PDN:
 
@@ -1004,27 +1090,36 @@ Stepping up to the macro-system level, how would you like to apply this module n
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 12
 
+---
+chat_input: true
+---
 > We can integrate this triggering logic into the continuous extrusion process for the "Red-Zebra" advanced cables, scale it for molding the large-format fusion reactor piping, or begin drafting the formal patent claims (prefix LL1) for this specific manufacturing apparatus.
 
 All of the above
 
 ---
 
-# gemini response
+# Response: 12
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Initiating Project Scope**
 
 I've scoped the task: integrating, scaling, and patenting the Red-Zebra cable logic.
 
-
 **Refining Manufacturing Constraints**
 
 I've established a detailed constraint checklist and validated project-specific parameters for continuous extrusion.
-
 
 **Analyzing System Integration**
 
@@ -1041,14 +1136,12 @@ Here is the blueprint for integrating this system across your production lines, 
 ### 1. Continuous Extrusion Integration: "Red-Zebra" Cables
 Manufacturing the lightweight, high-performance "Red-Zebra" cables requires adapting our static mold logic to a high-speed, dynamic flow. The Lignin-Vitrimer (LV) resin, loaded with Phytic Acid-wrapped CNTs/Graphene and Boron Nitride Nanosheets (BNNS), must be aligned and cured while moving at meters per second.
 
-
 * **Coaxial DEP Alignment:** Instead of parallel plates, the extrusion die itself acts as the high-voltage AC electrode, with a grounded central mandrel (or vice versa). As the resin is pushed through the annular gap, the radial 100 kHz – 5 MHz AC field forces the carbon to form continuous axial wires, while the BNNS pushes into the interstitial insulating spaces.
 * **Inline Impedance Ring (The Sensor):** Immediately downstream of the die, the cable passes through a non-contact, toroidal version of our Lignolux FJH/VACNT capacitive divider. This continuously streams the $V$ and $I$ data to the AD8333 DAQ.
 * **Continuous LCS Firing:** Because the material is moving, we aren't waiting for a single static percolation event. The DAQ monitors the continuous $\Delta \theta$ phase angle. If the phase drops (indicating the carbon chains are breaking), the system automatically slows the extrusion drive motor to allow the AC field more time to align the matrix. When optimal phase is held, the surrounding ring of Laser Compression Shock (LCS) diodes fires in a continuous, high-frequency pulse train to lock the topology as the cable exits the die.
 
 ### 2. Scaling for Large-Format Fusion Reactor Piping
 For extreme-environment applications—like the self-healing, neutron-shielding ($^{10}$B-BNNS) containment and cooling pipes—we are dealing with massive thermal mass and thick walls. A single global AC field is computationally and electrically impractical at this scale.
-
 
 * **Segmented Orbital DEP:** The mold is constructed with segmented, electrically isolated electrode rings along its length. The AC field is applied to only one localized 10-20 cm sector at a time.
 * **Sector-by-Sector DAQ:** The AD8333 DAQ multiplexes its inputs, reading the impedance of only the actively driven sector. 

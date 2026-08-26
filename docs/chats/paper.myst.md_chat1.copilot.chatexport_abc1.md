@@ -54,6 +54,9 @@ chat_input: true
 ---
 # Prompt: 1
 
+---
+chat_input: true
+---
 Summarize these with the goal of producing a synergistic process for fabricating semiconducting electronic and photonic components
 
 ---
@@ -61,6 +64,9 @@ chat_input: true
 ---
 # Prompt: 2
 
+---
+chat_input: true
+---
 @agent Enable: "Enable Gemini 3 Pro (Preview) for all clients"
 
 # Response: 2
@@ -105,6 +111,9 @@ chat_input: true
 ---
 # Prompt: 3
 
+---
+chat_input: true
+---
 What are sustainable alternatives to  **rigid, helical conjugated polymers** (e.g., PFO-BPy or P3HT), ideally sourceable from trees or other biomass
 
 ---
@@ -112,6 +121,9 @@ chat_input: true
 ---
 # Prompt: 4
 
+---
+chat_input: true
+---
 yes, note that Hexyl-Cellulose is an alternative to PFO-BPY and P3HT in parens. How does the Hexyl-Cellulose work with the PCLP? Does PCLP work with DUV/EUV/XUV?
 
 # Response: 4
@@ -123,6 +135,9 @@ chat_input: true
 ---
 # Prompt: 5
 
+---
+chat_input: true
+---
 Yes, and that PCLP works with DUV (but that there is then UV degradation risk instead of charred Hexyl Cellulose from the LCS)
 
 # Response: 5
@@ -135,6 +150,9 @@ chat_input: true
 ---
 # Prompt: 6
 
+---
+chat_input: true
+---
 Which of the existing inputs or processes in #file:CNT Bandgap Creation with Lignin Vitrimer .md can coat the chip to prevent UV degradation at fab time? foamed lignin-vitrimer in packaging?
 
 ---
@@ -142,6 +160,9 @@ chat_input: true
 ---
 # Prompt: 7
 
+---
+chat_input: true
+---
 Yes. First Re-read #file:CNT Bandgap Creation with Lignin Vitrimer .md for the last version of the process developed therein
 
 # Response: 7
@@ -158,6 +179,9 @@ chat_input: true
 ---
 # Prompt: 8
 
+---
+chat_input: true
+---
 What else did you determine from re-reading?
 
 ---
@@ -165,6 +189,9 @@ chat_input: true
 ---
 # Prompt: 9
 
+---
+chat_input: true
+---
 Note the Hybrid Energy core as an optional Step 0. Add the QA smart loop to Phase 3, and for Phase 4 note how both metallic CNTs and how laser welding the lignin layer into LIG would solve and their advantages and disadvantages
 
 # Response: 9
@@ -189,6 +216,9 @@ chat_input: true
 ---
 # Prompt: 10
 
+---
+chat_input: true
+---
 Note the graphene absorber under the hybrid laser engine in phase 0
 
 # Response: 10
@@ -200,6 +230,9 @@ chat_input: true
 ---
 # Prompt: 11
 
+---
+chat_input: true
+---
 what type of a saturable/saturatable absorber is it?
 
 ---
@@ -207,6 +240,9 @@ chat_input: true
 ---
 # Prompt: 12
 
+---
+chat_input: true
+---
 yes update the term
 
 # Response: 12
@@ -218,6 +254,9 @@ chat_input: true
 ---
 # Prompt: 13
 
+---
+chat_input: true
+---
 What type of a fiber laser or other laser would work instead?
 
 ---
@@ -225,6 +264,9 @@ chat_input: true
 ---
 # Prompt: 14
 
+---
+chat_input: true
+---
 Read #file:Rare Earth-Free Permanent Magnet Alternatives .md and summarize.
 
 Can the neodymium in a Nd:YAG (Neodymium-doped Yttrium Aluminum Garnet) laser be replaced with other high performance permanent magnets?
@@ -234,6 +276,9 @@ chat_input: true
 ---
 # Prompt: 15
 
+---
+chat_input: true
+---
 Excellent
 
 ---
@@ -241,6 +286,9 @@ chat_input: true
 ---
 # Prompt: 16
 
+---
+chat_input: true
+---
 What of the  fab process can be improved given methods and capabilities described in #file:Rare Earth-Free Permanent Magnet Alternatives .md ?
 
 ---
@@ -248,6 +296,9 @@ chat_input: true
 ---
 # Prompt: 17
 
+---
+chat_input: true
+---
 Do update Phase 3. And, Find sources for "Cold Hydrogen Plasma reactor capable of reducing metal oxides at <600°C"
 
 # Response: 17
@@ -262,6 +313,9 @@ chat_input: true
 ---
 # Prompt: 18
 
+---
+chat_input: true
+---
 If that component doesn't exist without a red nud processing plant too, let's omit it from phase 4 but mention it in a new thermal management heading
 
 # Response: 18
@@ -280,6 +334,9 @@ chat_input: true
 ---
 # Prompt: 19
 
+---
+chat_input: true
+---
 Yes, refer to spinduction instead of FuseRing (only because there aren't other brands listed at this point). 
 
  VACNTs could be part of the thermal management strategy?
@@ -302,6 +359,9 @@ chat_input: true
 ---
 # Prompt: 20
 
+---
+chat_input: true
+---
 Yes. And explain the Bio-PG synthesis process
 
 # Response: 20
@@ -318,6 +378,9 @@ chat_input: true
 ---
 # Prompt: 21
 
+---
+chat_input: true
+---
 Review the V6.3 process in #file:CNT Bandgap Creation with Lignin Vitrimer .md  and update the paper according to it, and then add a copy of the v6.3 process and mermaid diagram to a new header in the #file:paper.myst.md
 
 # Response: 21
@@ -431,6 +494,9 @@ chat_input: true
 ---
 # Prompt: 22
 
+---
+chat_input: true
+---
 append the exact expanded v6.3 diagram, then add more detail (QC branches, energy loops,)
 
 # Response: 22

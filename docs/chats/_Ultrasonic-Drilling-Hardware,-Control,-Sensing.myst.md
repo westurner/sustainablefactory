@@ -10,90 +10,90 @@ kernelspec:
 ## Contents
 
 * [_Ultrasonic-Drilling-Hardware,-Control,-Sensing](#_ultrasonic-drilling-hardware-control-sensing)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [Hardware Design & Fabrication](#hardware-design-fabrication)
     * [Dynamics & Sensing](#dynamics-sensing)
     * [Embedded Control](#embedded-control)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [Embedded Rust & RTOS Frameworks](#embedded-rust-rtos-frameworks)
     * [Lignin-Vitrimer & Laser-Induced Graphene (LIG)](#lignin-vitrimer-laser-induced-graphene-lig)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
     * [1. The Concentric Bragg Reflector Geometry](#1-the-concentric-bragg-reflector-geometry)
     * [2. Frequency Tuning (20 kHz – 28 kHz)](#2-frequency-tuning-20-khz-28-khz)
     * [3. N-LIG and B-LIG Stratification](#3-n-lig-and-b-lig-stratification)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
     * [Processing History: Lignin Extraction & Refining](#processing-history-lignin-extraction-refining)
     * [Integrating mmWave into the Ultrasonic Drill](#integrating-mmwave-into-the-ultrasonic-drill)
     * [Variable Spacing Model for the LIG Acoustic Barrier](#variable-spacing-model-for-the-lig-acoustic-barrier)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 5](#prompt-5)
+* [Response: 5](#response-5)
   * [Embassy Architecture Overview](#embassy-architecture-overview)
   * [Embedded Rust Implementation Strategy](#embedded-rust-implementation-strategy)
   * [Interactive Frequency Sweep & Material Profiling Simulator](#interactive-frequency-sweep-material-profiling-simulator)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 6](#prompt-6)
+* [Response: 6](#response-6)
     * [Key Integrations](#key-integrations)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 7](#prompt-7)
+* [Response: 7](#response-7)
     * [1. Channel Saturation and Blocking](#1-channel-saturation-and-blocking)
     * [2. Hardware Timer and ADC Synchronization](#2-hardware-timer-and-adc-synchronization)
     * [3. Telemetry Exfiltration and Semantic Units](#3-telemetry-exfiltration-and-semantic-units)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 8](#prompt-8)
+* [Response: 8](#response-8)
     * [The TLA+ Specification](#the-tla-specification)
 * [TypeOK == Len(control_channel) <= MaxQueue](#typeok-lencontrol_channel-maxqueue)
     * [The TLC Model Checker Failure Trace](#the-tlc-model-checker-failure-trace)
     * [The Verified Architectural Fix](#the-verified-architectural-fix)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 9](#prompt-9)
+* [Response: 9](#response-9)
     * [`src/drill_control.rs`](#srcdrill_controlrs)
     * [`src/drill_control/tests.rs`](#srcdrill_controltestsrs)
     * [Generating the Snapshots](#generating-the-snapshots)
   * [```yaml](#yaml)
   * [expression: mock_driver](#expression-mock_driver)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 10](#prompt-10)
+* [Response: 10](#response-10)
     * [1. Embedded Rust Serialization Strategy](#1-embedded-rust-serialization-strategy)
     * [2. The Semantic Graph Payload (JSON-LD)](#2-the-semantic-graph-payload-json-ld)
     * [3. Updating the Material Profiler Task](#3-updating-the-material-profiler-task)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 11](#prompt-11)
+* [Response: 11](#response-11)
     * [The Zero-Trust Telemetry Pipeline](#the-zero-trust-telemetry-pipeline)
     * [Embassy-Net Exfiltration Implementation](#embassy-net-exfiltration-implementation)
     * [Protocol Trade-offs](#protocol-trade-offs)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 12](#prompt-12)
+* [Response: 12](#response-12)
     * [1. Network & Topology Terms](#1-network-topology-terms)
     * [2. Pipeline & Process Terms](#2-pipeline-process-terms)
     * [Addressing the TCP vs. UDP Protocol Choice](#addressing-the-tcp-vs-udp-protocol-choice)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 13](#prompt-13)
+* [Response: 13](#response-13)
     * [1. HTTP/3 (QUIC) and WebRTC](#1-http3-quic-and-webrtc)
     * [2. WebSockets (WS)](#2-websockets-ws)
     * [3. The "Proprietary" Protocol (Raw UDP/TCP + Postcard)](#3-the-proprietary-protocol-raw-udptcp-postcard)
     * [4. The Industrial Standard Alternative: CoAP](#4-the-industrial-standard-alternative-coap)
     * [The Recommended Architecture](#the-recommended-architecture)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 14](#prompt-14)
+* [Response: 14](#response-14)
     * [1. The Edge (RP2350 Embassy) - Egress Task](#1-the-edge-rp2350-embassy-egress-task)
     * [2. The Gateway (Linux/IPC) - Ingestion Service](#2-the-gateway-linuxipc-ingestion-service)
     * [The Handoff](#the-handoff)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 15](#prompt-15)
+* [Response: 15](#response-15)
     * [1. Semantic Hydration with RosettaStune](#1-semantic-hydration-with-rosettastune)
     * [2. Zero-Trust WebRTC Distribution](#2-zero-trust-webrtc-distribution)
     * [The End-to-End Flow](#the-end-to-end-flow)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 16](#prompt-16)
+* [Response: 16](#response-16)
     * [1. Updating the Embedded Telemetry and Control Structs](#1-updating-the-embedded-telemetry-and-control-structs)
     * [2. Modifying the FBG Safety Task (Thermal Prioritization)](#2-modifying-the-fbg-safety-task-thermal-prioritization)
     * [3. Updating the Semantic Hydration (Gateway)](#3-updating-the-semantic-hydration-gateway)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 17](#prompt-17)
+* [Response: 17](#response-17)
     * [The RP2350 & mmWave Compute Constraint](#the-rp2350-mmwave-compute-constraint)
     * [Hadfield Manganese Steel: Integration & Trade-offs](#hadfield-manganese-steel-integration-trade-offs)
       * [1. The Drill Bit/Impact Face (Exceptional)](#1-the-drill-bitimpact-face-exceptional)
@@ -102,32 +102,34 @@ kernelspec:
 
 > From: https://gemini.google.com/app/02cc7c9eb5ca524c
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 message time: 2026-06-23 23:08:54
 
 Detail our chats on ultrasonic drilling
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the Parameters**
 
++++
 I've successfully defined the parameters: user intent, tool needs, and the target domain.
-
 
 **Evaluating Ultrasonic Design**
 
 I've outlined a DIY ultrasonic drill design, noting piezoelectric transducers, and laser thermal shock.
 
-
 **Refining FBG Application**
 
 I've integrated Fiber Bragg Grating sensors, targeting 20-28 kHz for resonant machining using embedded Rust.
-
 
 **Detailing Ultrasonic Drilling**
 
@@ -150,8 +152,10 @@ Are you currently looking to refine the embedded Rust frequency tracking, or are
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 message time: 2026-06-23 23:12:59
 
 > Are you currently looking to refine the embedded Rust frequency tracking, 
@@ -164,29 +168,28 @@ Find our chats on healing Lignin-Vitrimer with heat and/or LIG Laser-Induced Gra
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Pinpointing Specific Chats**
 
 I've successfully identified the two specific chat topics the user is interested in retrieving.
-
 
 **Refining Search Queries**
 
 I've refined my query to search the user's personal data using a specific phrase encompassing RTOS, Rust, and embedded frequency tracking.
 
-
 **Exploring Embedded Rust**
 
 I've begun synthesizing findings, focusing on Embassy for concurrent tasks in a laser welding rig, replacing RTOS.
 
-
 **Synthesizing New Concepts**
 
 I've integrated Lignin-Vitrimer and LIG with frequency tracking, targeting resonant transducers, which should work.
-
 
 **Considering Vibration Isolation**
 
@@ -214,8 +217,10 @@ Which side of the physical assembly should we tackle first—mapping out the LIG
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 3
 
++++ {"chat_input": true}
 message time: 2026-06-23 23:15:38
 
 > mapping out the LIG isolation patterning
@@ -224,19 +229,20 @@ Yes
 
 ---
 
-# gemini response
++++
+# Response: 3
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the Patterning**
 
++++
 I've just pinpointed the user's focus on LIG isolation patterning, crucial for the project's ultrasonic drill design.
-
 
 **Designing the Pattern**
 
 I'm now drafting the technical specifics for an LIG pattern, exploring phononic crystal concepts for ultrasonic vibration dampening.
-
 
 **Detailing the Geometry**
 
@@ -267,8 +273,10 @@ Do you have the approximate speed of sound for your specific Lignin-Vitrimer for
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 4
 
++++ {"chat_input": true}
 message time: 2026-06-23 23:19:22
 
 Yes, range the material. First, detail our chats on:  refining lignin, enzymatic rhetting, ultrasonic ball milling (in protective gas, in thermal fluid as a wet-processing slurry base,)
@@ -277,8 +285,10 @@ Costs and benefits to adding mmwave to such a tool?
 
 ---
 
-# gemini response
++++
+# Response: 4
 
++++
 ### Processing History: Lignin Extraction & Refining
 
 Our previous architecture for refining the Lignolux matrix focused on high-purity, low-sulfur lignin fractions to ensure predictable cross-linking in the resulting vitrimers. 
@@ -329,8 +339,10 @@ Would you like to model the exact dielectric properties of the refined Lignin-Vi
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 5
 
++++ {"chat_input": true}
 message time: 2026-06-23 23:41:46
 
 Yes, 
@@ -339,14 +351,16 @@ And further develop the combined frequency sweep and material search algorithms 
 
 ---
 
-# gemini response
++++
+# Response: 5
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Developing Resonance Tracking**
 
 I've begun designing the Embassy-based async structure for a 20-28 kHz frequency sweep algorithm to track ultrasonic drilling resonance.
-
 
 **Defining Algorithm Details**
 
@@ -478,27 +492,30 @@ To help visualize how the tracking algorithm behaves when migrating across diffe
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 6
 
++++ {"chat_input": true}
 message time: 2026-06-23 23:45:13
 
 Add the Bragg grating fiber sensors to the code
 
 ---
 
-# gemini response
++++
+# Response: 6
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Initiating Requirements Analysis**
 
++++
 I've clarified the user's need to integrate FBG sensors within the existing Embassy Rust code for ultrasonic drilling.
-
 
 **Defining FBG Integration**
 
 I'm now integrating FBG sensor readings within an `fbg_monitor_task`, designing an `FbgInterrogator`, and defining strain thresholds.
-
 
 **Implementing Sensor Feedback**
 
@@ -632,27 +649,30 @@ impl HighFreqPwmPeripheral {
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 7
 
++++ {"chat_input": true}
 message time: 2026-06-23 23:47:15
 
 Additional considerations for the code?
 
 ---
 
-# gemini response
++++
+# Response: 7
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Assessing the Context**
 
 I've assessed the user's request, recognizing the technical context and desired tone.
 
-
 **Defining the User's Persona**
 
 I've clarified the user's profile and specific interests to accurately address their requests.
-
 
 **Defining Telemetry Semantics**
 
@@ -680,42 +700,42 @@ Should we map out the TLA+ specification to verify the safety-critical channel l
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 8
 
++++ {"chat_input": true}
 message time: 2026-06-23 23:48:10
 
 Model the tool states with TLA+ to don't trust verify the tool safety
 
 ---
 
-# gemini response
++++
+# Response: 8
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Modeling Safety with TLA+**
 
 I've begun initial TLA+ modeling, focusing on defining tool states and channel interactions for safety verification.
-
 
 **Refining Channel Modeling**
 
 I'm now focusing on modeling channel saturation scenarios to ensure safety commands are eventually processed.
 
-
 **Focusing on Race Conditions**
 
 I've crafted a TLA+ module to highlight a potential race condition and its safety invariant succinctly.
-
 
 **Defining Safety Properties**
 
 I've formalized the FbgMustStop liveness property and recognized the queue-full deadlock risk in the model.
 
-
 **Implementing Atomic Safety Fix**
 
 I've implemented a direct safety signal, bypassing the queue, for immediate FBG hazard response.
-
 
 **Addressing the Trace Error**
 
@@ -839,27 +859,30 @@ By mapping to an `embassy_sync::signal::Signal` in Rust, the model proves that n
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 9
 
++++ {"chat_input": true}
 message time: 2026-06-23 23:53:20
 
 Update the code and add tests with parametrization, fixtures, and mocks using rstest and cargo-insta
 
 ---
 
-# gemini response
++++
+# Response: 9
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Assessing the New Request**
 
 I've scoped out the new requirements:  tests with `rstest`, `cargo-insta` and mocks are now clearly defined.
 
-
 **Refining Architecture Changes**
 
 I've integrated the `Signal` for emergency stops, keeping channels for telemetry and control.
-
 
 **Defining Mocking Strategies**
 
@@ -1061,27 +1084,30 @@ is_disabled: true
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 10
 
++++ {"chat_input": true}
 message time: 2026-06-23 23:58:11
 
 Add support for logging material attributes and parameters in order to support online and offline optimization. Use industry-standard schema. Consider VF, IOF, EMMO
 
 ---
 
-# gemini response
++++
+# Response: 10
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining Logging Standards**
 
++++
 I've scoped the request, identifying logging goals, format, tech, and recommendations like VF, IOF, and EMMO.
-
 
 **Mapping Telemetry to Ontologies**
 
 I've formulated a serialization strategy, prioritizing `serde`, binary formats, and EMMO/IOF mappings for material attributes.
-
 
 **Integrating Semantic Standards**
 
@@ -1237,27 +1263,30 @@ Are you planning to route this binary telemetry over a standard serial interface
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 11
 
++++ {"chat_input": true}
 message time: 2026-06-24 00:54:36
 
 Undecided. RP2350-ETH has an Ethernet port a good Embassy support
 
 ---
 
-# gemini response
++++
+# Response: 11
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the Goal**
 
++++
 I've clarified the user's need: binary data transfer from an RP2350-ETH to an edge gateway.
-
 
 **Proposing a Strategy**
 
 I've formulated a strategy: leveraging RP2350-ETH's Ethernet for local-first, zero-trust data streaming.
-
 
 **Outlining the Solution**
 
@@ -1333,22 +1362,26 @@ Which transport layer should we prioritize for the `embassy-net` configuration: 
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 12
 
++++ {"chat_input": true}
 message time: 2026-06-24 00:57:48
 
 Isn't there a more industrial technical term than "exfiltration" of sensor data
 
 ---
 
-# gemini response
++++
+# Response: 12
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Refining Terminology Search**
 
++++
 I've narrowed the search to technical terms suitable for industrial data transfer, considering the edge device to gateway context.
-
 
 **Clarifying Terminology Usage**
 
@@ -1385,27 +1418,30 @@ Would you like to structure the Edge Gateway ingestion service next to handle un
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 13
 
++++ {"chat_input": true}
 message time: 2026-06-24 00:59:44
 
 Actually, HTTP/3 (UFP, QUIC) would probably be great. WebRTC or WS or proprietary protocol?
 
 ---
 
-# gemini response
++++
+# Response: 13
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Considering Communication Protocols**
 
 I'm now weighing the implications of HTTP for telemetry backhaul, relative to TCP and UDP.
 
-
 **Analyzing Protocols**
 
++++
 I've dismissed QUIC and WebRTC as far too heavyweight, and now am weighing custom UDP/TCP against MQTT-SN/CoAP.
-
 
 **Refining Protocol Choices**
 
@@ -1455,27 +1491,30 @@ If you want to keep the Embassy implementation as simple and reliable as possibl
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 14
 
++++ {"chat_input": true}
 message time: 2026-06-24 01:01:55
 
 Yes, CoAP to control/telemetry gateway
 
 ---
 
-# gemini response
++++
+# Response: 14
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Confirming Control Protocol**
 
 I've affirmed CoAP as the control and telemetry protocol for the gateway.
 
-
 **Detailing Ingestion Logic**
 
 I'm now detailing CoAP telemetry ingestion, including Rust implementations for device and gateway sides.
-
 
 **Defining Tokio Implementation**
 
@@ -1604,22 +1643,26 @@ To complete the pipeline, should we map out how this Gateway service utilizes Ro
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 15
 
++++ {"chat_input": true}
 message time: 2026-06-24 01:03:02
 
 Yes
 
 ---
 
-# gemini response
++++
+# Response: 15
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Mapping Ingestion Logic**
 
 I've begun mapping the Gateway's unit resolution logic for the Edge Gateway, focusing on integration.
-
 
 **Checking Constraints Now**
 
@@ -1719,22 +1762,26 @@ If we drop this data directly into the frontend visualizer you are building, the
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 16
 
++++ {"chat_input": true}
 message time: 2026-06-24 01:03:45
 
 Add support for mmWave, too
 
 ---
 
-# gemini response
++++
+# Response: 16
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Initiating The Scope**
 
++++
 I've scoped the mmWave support request within the existing Rust/Embassy architecture.
-
 
 **Defining mmWave Integration**
 
@@ -1890,8 +1937,10 @@ Are you planning to multiplex the mmWave return signal processing directly on th
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 17
 
++++ {"chat_input": true}
 message time: 2026-06-24 01:07:22
 
 Does a 2350 have enough CPU to process the mmwave? Something with TOPS can do the sensor fusion and spatial inference, but the tool head cost is a constraint.b
@@ -1902,24 +1951,24 @@ Detail our chats about hadfield manganese steel. How does that material compare 
 
 ---
 
-# gemini response
++++
+# Response: 17
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Assessing The Query**
 
 I have parsed the user's initial questions, noting the TOPS requirement and metal comparison aspect.
-
 
 **Integrating HMS Application**
 
 I've outlined HMS's integration, focusing on rapid quenching for robust component use in MetalPlantB.
 
-
 **Analyzing Material Integration**
 
 I've specified HMS's acoustic and electromagnetic roles, considering mmWave reflection in the tool design.
-
 
 **Refining Application Parameters**
 

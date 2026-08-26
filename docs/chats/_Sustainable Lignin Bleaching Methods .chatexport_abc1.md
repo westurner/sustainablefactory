@@ -10,15 +10,15 @@ kernelspec:
 ## Contents
 
 * [_Sustainable Lignin Bleaching Methods](#_sustainable-lignin-bleaching-methods)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [1. Oxidative Bleaching with Hydrogen Peroxide ($H_2O_2$)](#1-oxidative-bleaching-with-hydrogen-peroxide-h_2o_2)
     * [2. Ozonolysis ($O_3$)](#2-ozonolysis-o_3)
     * [3. Biotechnical / Enzymatic Bleaching](#3-biotechnical-enzymatic-bleaching)
     * [Comparison of Sustainable Bleaching Methods](#comparison-of-sustainable-bleaching-methods)
     * [Strategic Considerations for Your Projects](#strategic-considerations-for-your-projects)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
   * [1. Titration Methods for Carboxylate ($-\text{COOH}$) Density](#1-titration-methods-for-carboxylate-textcooh-density)
     * [Conductometric Titration (The Standard)](#conductometric-titration-the-standard)
     * [$^{31}\text{P}$ NMR Spectroscopy (The Gold Standard)](#31textp-nmr-spectroscopy-the-gold-standard)
@@ -29,25 +29,34 @@ kernelspec:
 
 > From: https://gemini.google.com/app/2ecd75e2e17bbe4f
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 Is there a sustainable way to bleach (Kraft or other) lignin?
 
 ---
 
-# gemini response
+# Response: 1
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Initiating Lignin Research**
 
 I've begun researching sustainable lignin bleaching, focusing initially on industrial and experimental methods.
 
-
 **Exploring Bleaching Techniques**
 
 I've established that hydrogen peroxide and ozone are promising eco-friendly oxidizers for lignin bleaching.
-
 
 **Analyzing Bleaching Techniques**
 
@@ -94,32 +103,40 @@ Using a **Laccase-Mediator System (LMS)** is arguably the most "sustainable" rou
 * **For Carbon Materials:** Be cautious with ozonolysis. If your goal is high-yield carbon fibers or CNT precursors, you want to maintain the **aromaticity**. $H_2O_2$ is generally safer here as it preserves more of the carbon skeleton compared to the ring-opening nature of ozone.
 * **Solvent Systems:** Consider performing these bleaching steps in **Deep Eutectic Solvents (DES)** or **Organosolv** liquors. This integrates the extraction and bleaching/functionalization into a single circular process, minimizing the high water and salt load typical of the Kraft process.
 
-
 Would you like to dive deeper into the specific titration methods for verifying the carboxylate density after an $H_2O_2$ run?
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 2
 
+---
+chat_input: true
+---
 Yes.
 
 Which method would be best for sunscreen?
 
 ---
 
-# gemini response
+# Response: 2
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Evaluating Sunscreen Bleaching**
 
 I've outlined four potential lignin bleaching methods for sunscreen, addressing color issues with Kraft lignin.
 
-
 **Analyzing Bleaching Methods**
 
 I am now focusing on finding the best sustainable lignin bleaching method for sunscreen.
-
 
 **Analyzing Lignin Properties**
 
@@ -175,6 +192,5 @@ Bleaching alone won't make Kraft lignin "invisible." To achieve a commercial-gra
 | **Scalability** | Excellent | Moderate (Enzyme cost) | High |
 
 > **Pro Tip:** In your formulations, bleached lignin actually shows a **synergistic effect** with mineral filters like $TiO_2$. It can reduce the "white cast" of titanium dioxide while allowing you to use less of the synthetic chemical filters (like oxybenzone) that are being banned for coral reef toxicity.
-
 
 Does this align with the aesthetic requirements for the Lignolux personal care line, or are you aiming for a completely transparent "invisible" gel?

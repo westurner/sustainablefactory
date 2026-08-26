@@ -10,44 +10,46 @@ kernelspec:
 ## Contents
 
 * [_Hemp-Derived-Polycarbonate-A-Sustainable-Material](#_hemp-derived-polycarbonate-a-sustainable-material)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [Core Chemical Innovation](#core-chemical-innovation)
     * [Mechanical Profile and Processability](#mechanical-profile-and-processability)
     * [Surface Energy and System Applications](#surface-energy-and-system-applications)
     * [Circularity and End-of-Life](#circularity-and-end-of-life)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [The Mechanics of Low-Temperature Deposition](#the-mechanics-of-low-temperature-deposition)
     * [Integration into Continuous Roll-to-Roll (R2R) Lines](#integration-into-continuous-roll-to-roll-r2r-lines)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
   * [Semiconductor and Microelectronics Manufacturing](#semiconductor-and-microelectronics-manufacturing)
   * [Photovoltaics (Solar Cells)](#photovoltaics-solar-cells)
   * [Optical and Display Coatings](#optical-and-display-coatings)
   * [Biomedical and Filtration Functionalization](#biomedical-and-filtration-functionalization)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
   * [Architectural & Process Comparison](#architectural-process-comparison)
   * [PolyCBD vs. The Lignin-Vitrimer (LV) Ecosystem](#polycbd-vs-the-lignin-vitrimer-lv-ecosystem)
     * [Thermal and Flow Dynamics](#thermal-and-flow-dynamics)
     * [The Composite Loadouts (LVH, LVCF, LV-CNC, LV-CNS)](#the-composite-loadouts-lvh-lvcf-lv-cnc-lv-cns)
   * [PolyCBD vs. BioTPU](#polycbd-vs-biotpu)
   * [The Circular Synergy](#the-circular-synergy)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 5](#prompt-5)
+* [Response: 5](#response-5)
 * [MetalPlantB v0.1 - Material Ontology Registry](#metalplantb-v01-material-ontology-registry)
 * [Schema Alignment: IOF, EMMO, QUDT](#schema-alignment-iof-emmo-qudt)
     * [Key Architectural Decisions](#key-architectural-decisions)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 6](#prompt-6)
+* [Response: 6](#response-6)
 * [MetalPlantB v0.1 - Material Ontology Registry (Thermal Dynamics Update)](#metalplantb-v01-material-ontology-registry-thermal-dynamics-update)
 * [Schema Alignment: IOF, EMMO, QUDT](#schema-alignment-iof-emmo-qudt)
 
 > From: https://gemini.google.com/app/0525262eb07daa0f
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 message time: 2026-06-08 14:51:23
 
 Review this article: 
@@ -56,34 +58,32 @@ Review this article:
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Initiating Article Review**
 
++++
 I've begun analyzing Wes Turner's article on hemp-derived thermoplastics, examining its core claims and relevance.
-
 
 **Discovering Article Basics**
 
 I've located the article's core details, including its authors and the polymer type.
 
-
 **Analyzing User Connections**
 
 I've integrated Wes Turner's interest in circular processes, connecting this CBD-based plastic to sustainable apparel or MetalPlantB-style industrial contexts.
-
 
 **Refining Response Structure**
 
 I've structured the review around key aspects, incorporating technical details and an image tag for clarity.
 
-
 **Evaluating CBD Polymer**
 
 I've determined that this polyCBD-carbonate is a critical advance, overcoming limitations of bio-based PET alternatives with high thermal stability.
-
 
 **Expanding Application Analysis**
 
@@ -109,32 +109,34 @@ Within a vertically integrated Lignolux-style biorefinery framework—where hemp
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 message time: 2026-06-08 15:32:12
 
 > viable substrate for advanced treatments like plasma-enhanced chemical vapor deposition (PECVD)
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Understanding PECVD Processes**
 
 I've begun dissecting the PECVD process, focusing on its mechanism in roll-to-roll manufacturing scenarios.
-
 
 **Elaborating PECVD Mechanism**
 
 I've detailed PECVD, focusing on its physics and chemistry, tailoring it for R2R and fleece substrates.
 
-
 **Defining PECVD's Role**
 
 I've established PECVD as the core mechanism for R2R functionalization, tailored for sensitive substrates.
-
 
 **Developing the Chamber Model**
 
@@ -168,8 +170,10 @@ If you are mapping out the vacuum zones for a multi-stage R2R web, what specific
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 3
 
++++ {"chat_input": true}
 message time: 2026-06-08 15:36:39
 
 Find our chats on PECVD.
@@ -177,14 +181,16 @@ What are the applications for PECVD?
 
 ---
 
-# gemini response
++++
+# Response: 3
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Reviewing Initial Parameters**
 
 I'm now re-examining initial parameters, hoping to refine the search for relevant PECVD applications.
-
 
 **Framing Applications Precisely**
 
@@ -228,8 +234,10 @@ Similar to the nutrient capture fleece architecture, PECVD is used to alter the 
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 4
 
++++ {"chat_input": true}
 message time: 2026-06-08 15:44:57
 
 > By utilizing cannabidiol (CBD) extracted from hemp to synthesize a polyCBD-carbonate thermoplastic, the researchers have resolved the chronic thermal and structural deficits that typically plague plant-derived alternatives to polyethylene terephthalate (PET).
@@ -238,24 +246,24 @@ Compare this with LV Lignin-Vitrimer, LVH Lignin-vitrimer-hemp, LVCF Lignin-Vitr
 
 ---
 
-# gemini response
++++
+# Response: 4
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Initiating Comparative Analysis**
 
++++
 I've initiated a direct comparison of polyCBD-carbonate to LV and LVH based on the user's specific request.
-
 
 **Defining Material Specifications**
 
 I've defined the key material specifications for a structured comparison of all materials for Wes, our materials expert.
 
-
 **Refining Comparison Structure**
 
 I'm structuring the comparison with Markdown tables and headings, focusing on key attributes and exploring a Widget Caddy check.
-
 
 **Analyzing Material Synergies**
 
@@ -320,37 +328,38 @@ If we integrate this into a singular industrial flow:
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 5
 
++++ {"chat_input": true}
 message time: 2026-06-08 18:00:58
 
 How would we structure the specific material properties (Tg, Tv, elasticity) of PolyCBD vs LV in a YAML-based ontology for the MetalPlantB foundry model?
 
 ---
 
-# gemini response
++++
+# Response: 5
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining Material Properties**
 
++++
 I've begun outlining the YAML structure for $T_g$, $T_v$, and elasticity properties for PolyCBD and Lignin-Vitrimer.
-
 
 **Refining Interaction Style**
 
 I've integrated the Gemini persona, YAML formatting, and user data, aiming for clear and insightful responses.
 
-
 **Refining Response Format**
 
 I've crafted a YAML structure aligning with EMMO/QUDT, aiming for parseable and unit-aware material definitions.
 
-
 **Elaborating Material Differences**
 
 I've detailed topological distinctions within YAML, explaining QUDT for unit conversion and state-change modeling.
-
 
 **Assessing Compliance & Polish**
 
@@ -452,8 +461,10 @@ By tying the materials to specific IOF manufacturing processes (`iof:ContinuousE
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 6
 
++++ {"chat_input": true}
 message time: 2026-06-08 18:06:47
 
 LV has a tunable glass temperature; from as the model has there 85C all the way up to 180C?
@@ -472,24 +483,24 @@ burning
 
 ---
 
-# gemini response
++++
+# Response: 6
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Verifying Temperature Ranges**
 
 I'm now verifying the tunable glass transition temperature ranges of Lignin-Vitrimer and polyCBD-carbonate.
 
-
 **Defining Thermal Limits**
 
++++
 I've specified `hydrothermal_stability_limit` and `vaporization_temperature` in the YAML model for both materials.
-
 
 **Refining Thermal Definitions**
 
 I've added charring and burning temperatures, and clarified hydrothermal stability for EMMO compliance.
-
 
 **Adding Hydrolysis Resistance**
 

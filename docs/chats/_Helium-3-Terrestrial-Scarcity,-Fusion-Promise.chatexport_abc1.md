@@ -10,54 +10,60 @@ kernelspec:
 ## Contents
 
 * [_Helium-3-Terrestrial-Scarcity,-Fusion-Promise](#_helium-3-terrestrial-scarcity-fusion-promise)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [Natural Gas Reserves](#natural-gas-reserves)
     * [Ocean Water](#ocean-water)
     * [The Aneutronic Advantage](#the-aneutronic-advantage)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [Lithium-6 and the Active Breeding Blanket](#lithium-6-and-the-active-breeding-blanket)
     * [Deuterated Vitrimers](#deuterated-vitrimers)
 
 > From: https://gemini.google.com/app/a121d9f12facabcb
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 message time: 2026-06-23 09:38:46
 
 there's He3 for Fusion in Natural Gas and ocean water.
 
 ---
 
-# gemini response
+# Response: 1
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Assessing the Claim**
 
 I've clarified the user's assertion concerning Helium-3's natural sources, outlining the user's intent and adopting a suitable assistant persona.
 
-
 **Assessing Personalization Value**
 
 I've determined personalization isn't relevant to this factual statement, focusing instead on objective evaluation.
-
 
 **Validating Claim Details**
 
 I have validated the user's claim, noting helium-3 presence in both sources, but emphasizing concentration's significance.
 
-
 **Refining Abundance Details**
 
 I have clarified He-3 concentrations in natural gas and oceans, emphasizing Deuterium's dominance in seawater as a fusion fuel.
 
-
 **Quantifying Scarcity Details**
 
 I have quantified He-3's rarity by comparing its natural gas concentration to the oceanic inventory, which remains meager.
-
 
 **Structuring Information Hierarchically**
 
@@ -86,8 +92,14 @@ Because terrestrial sources in natural gas and the oceans are so extremely diffu
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 2
 
+---
+chat_input: true
+---
 message time: 2026-06-23 09:41:58
 
 Detail our chats on Lithium-6
@@ -96,19 +108,22 @@ Detail our chats on deuterated vitrimers
 
 ---
 
-# gemini response
+# Response: 2
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Analyzing Reactor Technologies**
 
 I've integrated lithium-6's role in breeding tritium and deuterated vitrimers' broader applications in reactors.
 
-
 **Clarifying Response Structure**
 
 I've clarified the response structure, prioritizing user-specific requests while avoiding prohibited introductory phrases.
-
 
 **Summarizing Technical Directions**
 

@@ -10,8 +10,8 @@ kernelspec:
 ## Contents
 
 * [_Magnetic-Bearings-in-Ultrasonic-Ball-Mills](#_magnetic-bearings-in-ultrasonic-ball-mills)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
   * [1. Core Value Drivers (The "Why")](#1-core-value-drivers-the-why)
     * [Absolute Hermetic Sealing & Zero Contamination](#absolute-hermetic-sealing-zero-contamination)
     * [Elimination of Lubricant Contamination](#elimination-of-lubricant-contamination)
@@ -22,14 +22,14 @@ kernelspec:
     * [Particulate Interference](#particulate-interference)
   * [3. Comparative Architecture Assessment](#3-comparative-architecture-assessment)
   * [The Verdict](#the-verdict)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
   * [1. The Critical Moment: The Cataracting Transition](#1-the-critical-moment-the-cataracting-transition)
     * [How the AMB Captures This Moment](#how-the-amb-captures-this-moment)
   * [2. Addressing the Core Concern: Acoustic Resonance on a Spinning Drum](#2-addressing-the-core-concern-acoustic-resonance-on-a-spinning-drum)
     * [The Frequency Separation Blueprint](#the-frequency-separation-blueprint)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
   * [1. Advanced Architecture: The Core Control Strategy](#1-advanced-architecture-the-core-control-strategy)
     * [Layer 1: Generalized PID with Low Proportional Stiffness](#layer-1-generalized-pid-with-low-proportional-stiffness)
     * [Layer 2: Adaptive Notch Filtering (ANF) for Unbalance](#layer-2-adaptive-notch-filtering-anf-for-unbalance)
@@ -37,8 +37,8 @@ kernelspec:
   * [2. Setting the Frequency Bounds & Filter Matrix](#2-setting-the-frequency-bounds-filter-matrix)
   * [3. The Tuning Workflow: A Step-by-Step Procedure](#3-the-tuning-workflow-a-step-by-step-procedure)
   * [4. Turning the Current Signature into an Efficiency Map](#4-turning-the-current-signature-into-an-efficiency-map)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
   * [1. Top Material Options for Shaft Isolation](#1-top-material-options-for-shaft-isolation)
     * [High-Damping Engineering Polymers (Low $Z$, High Strength)](#high-damping-engineering-polymers-low-z-high-strength)
     * [Advanced Vitrimers and Bio-Composites](#advanced-vitrimers-and-bio-composites)
@@ -49,15 +49,21 @@ kernelspec:
 
 > From: https://gemini.google.com/app/38d51d6bbb437a68
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 message time: 2026-07-13 13:00:52
 
 Evaluate the value of magnetic bearings for a sealed, gas and/or thermal fluid wet ultrasonic ball mill (a ball mill with e.g. a suspended transducer)
 
 ---
 
-# gemini response
+# Response: 1
 
 Evaluating the integration of magnetic bearings into a sealed, wet ultrasonic ball mill—especially one handling gas or thermal fluid—presents a compelling engineering trade-off. In a system driven by ultrasonic transducers, you are combining high-frequency acoustic cavitation with mechanical particle attrition. 
 
@@ -128,8 +134,14 @@ However, if you proceed with this architecture, a **hybrid approach** is often m
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 2
 
+---
+chat_input: true
+---
 message time: 2026-07-13 13:05:03
 
 Yes
@@ -144,7 +156,7 @@ The initial concept concern justifying the magnetic bearings is the ultrasonic r
 
 ---
 
-# gemini response
+# Response: 2
 
 You have hit on a brilliant intersection here. By using active magnetic bearings (AMBs) instead of mechanical ones, you aren't just solving the seal problem—you gain a real-time window into the exact physics inside the mill.
 
@@ -219,15 +231,21 @@ By ensuring the AMB is completely blind to the ultrasonic frequency, you preserv
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 3
 
+---
+chat_input: true
+---
 message time: 2026-07-18 01:49:12
 
 How do you tune an AMB controller to handle high-mass chaotic impact loads like those in a cataracting ball mill?
 
 ---
 
-# gemini response
+# Response: 3
 
 Tuning an Active Magnetic Bearing (AMB) controller to handle a cataracting wet ball mill requires moving away from traditional, stiff industrial tuning. A standard PID controller assumes a relatively predictable rotor with a deterministic unbalance synchronous to the rotational speed ($1\times \text{RPM}$). 
 
@@ -313,15 +331,21 @@ Because the AMB loop is actively damping the impact energy of the cataracting ba
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 4
 
+---
+chat_input: true
+---
 message time: 2026-07-18 01:53:55
 
 What materials provide the best acoustic impedance mismatch to block 20 kHz ultrasonic transmission down a rotating shaft?
 
 ---
 
-# gemini response
+# Response: 4
 
 To block a 20 kHz ultrasonic signal from travelling down a rotating shaft into your magnetic bearings, you need to exploit **acoustic impedance mismatching**. 
 

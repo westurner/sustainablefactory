@@ -51,13 +51,6 @@ open source
 
 # Response: 1
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Investigating IPO Modeling**
 
 I'm currently focused on identifying relevant standards and ontologies for modeling manufacturing processes with an IPO structure. Right now, I'm diving into ISO standards to see what they offer. The goal is to find a robust framework for representing inputs, the processes themselves, and the resulting outputs. I'm hoping to pinpoint the most promising options for a comprehensive model.

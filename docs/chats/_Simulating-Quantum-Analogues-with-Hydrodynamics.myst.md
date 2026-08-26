@@ -10,32 +10,34 @@ kernelspec:
 ## Contents
 
 * [_Simulating-Quantum-Analogues-with-Hydrodynamics](#_simulating-quantum-analogues-with-hydrodynamics)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
   * [The Mathematical Foundation](#the-mathematical-foundation)
   * [R3F Architecture Strategy](#r3f-architecture-strategy)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
   * [1. The FBO Simulation Fragment Shader](#1-the-fbo-simulation-fragment-shader)
   * [2. The Display Vertex Shader](#2-the-display-vertex-shader)
   * [3. The Display Fragment Shader](#3-the-display-fragment-shader)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
   * [1. Shader Optimization (Gradient Packing)](#1-shader-optimization-gradient-packing)
   * [2. The Ping-Pong Manager & Physics Loop](#2-the-ping-pong-manager-physics-loop)
   * [Architecture Notes](#architecture-notes)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
+* [Prompt: 5](#prompt-5)
+* [Response: 5](#response-5)
   * [1. The GPU Barrier Mask (Wave Interference)](#1-the-gpu-barrier-mask-wave-interference)
   * [2. Droplet Collision & Lifecycle (CPU)](#2-droplet-collision-lifecycle-cpu)
   * [3. The Statistical Accumulator](#3-the-statistical-accumulator)
 
 > From: https://gemini.google.com/app/5df103e189af3e6e
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 message time: 2026-08-02 22:58:56
 
 Review our other R3F simulators and then
@@ -45,34 +47,32 @@ Develop a simulator for: Classical Hydrodynamic Analogues to Madelung’s :
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Initiating Exploration**
 
++++
 I've begun analyzing the request, focusing on the R3F simulator development for Madelung's analogues.
-
 
 **Discovering Key Models**
 
 I've identified key projects: a Smart Rail Tie Explorer and a quantum gravity simulator.
 
-
 **Designing R3F Simulator**
 
 I'm now outlining a walking droplet simulator, incorporating R3F components and UI controls.
-
 
 **Crafting Response Synthesis**
 
 I've formulated a response, ensuring adherence to constraints and leveraging the Lignolux model, while acknowledging prior R3F setups.
 
-
 **Developing Simulator Framework**
 
 I've integrated mathematical formalisms from Madelung's work, along with R3F implementation strategies for the simulation's framework.
-
 
 **Refining Architectural Design**
 
@@ -172,27 +172,30 @@ You can explore the interactive pilot-wave mechanics and adjust the memory param
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 message time: 2026-08-03 02:02:12
 
 How should we structure the GLSL fragment and vertex shaders to compute the standing wave interference patterns efficiently for the Faraday bath?
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the Shader Goal**
 
++++
 I've scoped the task: constructing GLSL shaders to simulate Faraday waves in R3F.
-
 
 **Refining the Simulation**
 
 I'm now focusing on a Ping-Pong FBO strategy for simulating continuous heightmaps with the 2D wave equation.
-
 
 **Constructing the Wave Equation**
 
@@ -335,27 +338,30 @@ By decoupling the wave state into this FBO pipeline, the path memory parameter c
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 3
 
++++ {"chat_input": true}
 message time: 2026-08-03 02:03:15
 
 Update the simulator
 
 ---
 
-# gemini response
++++
+# Response: 3
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Reviewing The Context**
 
 I've clarified the core request and its origin, considering the goal to improve the simulation.
 
-
 **Defining Data Extraction**
 
 I've specified an asynchronous WebGL2 data read (or tiny synchronous read of gradient) to link FBO wave heights to droplet physics.
-
 
 **Implementing FBO Integration**
 
@@ -501,22 +507,26 @@ function SimulationCore() {
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 4
 
++++ {"chat_input": true}
 message time: 2026-08-03 02:04:29
 
 Show the simulator
 
 ---
 
-# gemini response
++++
+# Response: 4
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Re-generating the Simulation**
 
 I'm now focused on generating and displaying the interactive R3F simulator as requested in the explicit prompt.
-
 
 **Generating the Widget**
 
@@ -543,37 +553,38 @@ In this simulation, the droplet's path is strictly governed by the gradients (sl
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 5
 
++++ {"chat_input": true}
 message time: 2026-08-03 02:06:23
 
 How could we adapt this R3F architecture to simulate the double-slit experiment using these same walking droplets?
 
 ---
 
-# gemini response
++++
+# Response: 5
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Initiating Conceptualization**
 
++++
 I've begun analyzing the user's R3F adaptation request within the droplet simulation context.
-
 
 **Analyzing User Ecosystem**
 
 I've clarified the Lignolux ecosystem focus and applied strict naming conventions in this R3F adaptation, rejecting irrelevant data.
 
-
 **Constructing Double-Slit Model**
 
 I've formulated a detailed plan, including FBO modification, histogram logic, and clarified formatting guidelines for adaptation.
 
-
 **Refining Response Generation**
 
 I've crafted a comprehensive, step-by-step response, now incorporating a follow-up question regarding droplet lifecycle management, plus evaluation.
-
 
 **Evaluating Widget Strategy**
 

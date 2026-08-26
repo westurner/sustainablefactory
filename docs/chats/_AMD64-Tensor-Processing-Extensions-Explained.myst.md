@@ -10,62 +10,60 @@ kernelspec:
 ## Contents
 
 * [_AMD64-Tensor-Processing-Extensions-Explained](#_amd64-tensor-processing-extensions-explained)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [Core Architectural Additions](#core-architectural-additions)
     * [Real-World AMD64 Implementations](#real-world-amd64-implementations)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [Core Architectural Additions for RISC-V](#core-architectural-additions-for-risc-v)
 
 > From: https://gemini.google.com/app/24b44c4a1305ae75
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 message time: 2026-06-18 08:01:03
 
 What tensor processing extensions could be added to the AMD64 instruction set in order to make training and hosting models more efficient?
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Evaluating Extensions**
 
 I'm exploring the merits of an interactive simulator to visualize potential tensor processing extensions for AMD64.
-
 
 **Analyzing AI Acceleration**
 
 I've learned about AMD and Intel's joint ACE for AI acceleration, with tile registers and new algorithms.
 
-
 **Visualizing Architecture Throughput**
 
 I've outlined an interactive widget simulating matrix multiplication throughput across architectures like x86 ACE, AMX, and AVX-512.
-
 
 **Defining Tensor Extensions**
 
 I've specified the key ISA components for efficient tensor processing: tile registers, fused multiply-add, and low-precision support.
 
-
 **Refining Simulator Mechanics**
 
 I'm now detailing an interactive simulator, visualizing matrix multiplication execution across x86 instruction sets, considering AVX-512 and AMX specifics.
-
 
 **Quantifying AMX Efficiency**
 
 I've quantified AMX's INT8/BF16 throughput and ACE's theoretical operations, abstracting for conceptual ratio clarity.
 
-
 **Defining Tensor ISA**
 
 I've specified efficient tensor processing ISA components, focusing on low-precision data types and tile memory streaming.
-
 
 **Refining Interactive Simulation**
 
@@ -95,67 +93,62 @@ To better understand how these different instruction set paradigms process matri
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 message time: 2026-06-18 08:03:45
 
 What instructions could be added to RISC64 in order to make training and hosting models more efficient?
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Analyzing RISC-V Extensions**
 
++++
 I've begun analyzing RISC-V extensions, focusing on the V and proposed Matrix/Tensor extensions to boost ML efficiency.
-
 
 **Considering RISC-V Extensions**
 
 I've begun exploring potential RISC-V instructions for AI, focusing on the RVV extension's implications.
 
-
 **Analyzing Matrix Extensions**
 
 I've examined the Zvbdot, IME, VME, and AME extensions, considering their differing architectural impacts and use-cases.
-
 
 **Designing Matrix Simulators**
 
 I'm now generating a JSON widget to interactively simulate various RISC-V matrix extension behaviors.
 
-
 **Developing Simulation Parameters**
 
 I've defined interactive widget controls, including extensions, precisions, and dimensions, alongside behavioral visualizations.
-
 
 **Evaluating Image Inclusion**
 
 I've decided against static images, prioritizing the interactive widget, though I considered architectural diagrams.
 
-
 **Defining RISC-V Extensions**
 
 I've outlined RISC-V extensions, covering IME, `Zvbdot`, VME, and AME for AI, along with precision datatypes.
-
 
 **Prioritizing Vector Instructions**
 
 I've determined RVV's vital role in optimizing activation functions, preventing bottlenecks in AI models.
 
-
 **Refining LaTeX Usage**
 
 I've clarified the use of LaTeX for math expressions, ensuring proper rendering of `$N^3$` and `$N^2$` and reviewed extension terminology.
 
-
 **Defining Scalability Plans**
 
 I'm now integrating scalability, examining diverse RISC-V extensions for low-power to high-performance AI processing.
-
 
 **Integrating Vector Ops**
 
@@ -164,7 +157,6 @@ I'm now integrating RVV, Zvbdot, and IME for activation functions and layer norm
 Just as x86 architectures are evolving to handle matrix math natively, the RISC-V (RISC64) instruction set is actively being extended to support the massive $N^3$ computational demands of neural networks. 
 
 Because RISC-V is inherently modular, adding tensor processing doesn't mean forcing a single, heavy architecture onto every chip. Instead, the RISC-V ecosystem is standardizing a spectrum of **Matrix Extensions** and specialized AI instructions designed to scale from low-power edge devices up to high-performance cloud accelerators.
-
 
 ### Core Architectural Additions for RISC-V
 

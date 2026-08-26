@@ -10,12 +10,12 @@ kernelspec:
 ## Contents
 
 * [_Rammed Earth Compactor and Ultrasonics](#_rammed-earth-compactor-and-ultrasonics)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [**The Lignolux R-7 Rammer**](#the-lignolux-r-7-rammer)
     * [**Is Ultrasonic Compaction Useful for Artisan Rammed Earth?**](#is-ultrasonic-compaction-useful-for-artisan-rammed-earth)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [**Energy Recovery: TENG and Piezoelectric Integration**](#energy-recovery-teng-and-piezoelectric-integration)
     * [**The Physics of the 28 kHz Wand**](#the-physics-of-the-28-khz-wand)
     * [**Sustainable Product Designs: Resonant Compaction Tools**](#sustainable-product-designs-resonant-compaction-tools)
@@ -25,35 +25,36 @@ kernelspec:
 
 > From: https://gemini.google.com/app/0f9548937d2ee538
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 Design a rammed earth soil compactor with lignin-vitrimer materials. Is ultrasonic useful for (artisan) rammed earth walls?
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the Scope**
 
++++
 I have successfully defined the scope of this project, focusing on two key topics and the user's sustainable manufacturing interests.
-
 
 **Refining the Model**
 
 I've established naming conventions, steering clear of "Sovereign," focusing on model prefixes and designations.
 
-
 **Exploring New Designs**
 
 I've examined lignin-vitrimers for tamping heads and ultrasonic compaction for less strenuous artisan rammed earth.
 
-
 **Designing the Compactor**
 
 I've specified Lignolux C-7 compactor components: lignin-vitrimer head, composite body, and electro-pneumatic mechanism.
-
 
 **Validating Compliance & Constraints**
 
@@ -102,8 +103,10 @@ If we were to integrate an ultrasonic transducer directly into the core of the L
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 Compactor, tamping head, wand, ...
 
 Design each: electric, pneumatic, electric-pneumatic
@@ -118,34 +121,32 @@ Resonant compaction
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the Project Scope**
 
++++
 I've clarified the core tools requested and the required power variations for this design project.
-
 
 **Synthesizing Information**
 
 I'm now synthesizing constraints and the inputs for model naming conventions.
 
-
 **Clarifying The Physics**
 
 I've clarified the physics to gently correct the misconception on where the tool is gripped: at the node.
-
 
 **Defining Tool Specs**
 
 I've defined new tool specs to include series for compaction, tamping and ultrasonic applications, considering diverse power options.
 
-
 **Outlining Technical Specs**
 
 I've outlined detailed technical specs for electric, pneumatic, and hybrid tools, plus Lignolux T-50 and W-28 models.
-
 
 **Delineating Form Factors**
 
@@ -162,7 +163,6 @@ I've drafted the energy recovery section, explaining how PEH and TENGs will work
 **Specifying Lignolux Models**
 
 I'm now detailing Lignolux models, including the bulk compactor C-Series with electric and pneumatic options.
-
 
 **Detailing Power Modalities**
 

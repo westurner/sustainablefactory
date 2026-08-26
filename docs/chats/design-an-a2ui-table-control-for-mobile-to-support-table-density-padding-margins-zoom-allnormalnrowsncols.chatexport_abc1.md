@@ -10,27 +10,27 @@ kernelspec:
 ## Contents
 
 * [design-an-a2ui-table-control-for-mobile-to-support-table-density-padding-margins-zoom-allnormalnrowsncols](#design-an-a2ui-table-control-for-mobile-to-support-table-density-padding-margins-zoom-allnormalnrowsncols)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
   * [Design System Specifications](#design-system-specifications)
     * [1. Table Density Matrix](#1-table-density-matrix)
     * [2. Zoom Modes (Structural Zoom)](#2-zoom-modes-structural-zoom)
   * [The Interactive Control Blueprint](#the-interactive-control-blueprint)
   * [Implementation Best Practices for Mobile](#implementation-best-practices-for-mobile)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
   * [The Transposed Matrix Architecture](#the-transposed-matrix-architecture)
   * [Updated Configuration Engine](#updated-configuration-engine)
   * [Technical Challenges & Rules for Transposition](#technical-challenges-rules-for-transposition)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
   * [The UI Layout Architecture](#the-ui-layout-architecture)
     * [1. The Persistent Table Header & Quick Actions](#1-the-persistent-table-header-quick-actions)
     * [2. The View Customization Bottom Sheet](#2-the-view-customization-bottom-sheet)
   * [Interactive Interface Preview](#interactive-interface-preview)
   * [UX Principles for Table Parameter Controls](#ux-principles-for-table-parameter-controls)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
   * [1. The Architectural Design](#1-the-architectural-design)
   * [2. The Python Implementation Framework](#2-the-python-implementation-framework)
 * [Output widget where the styled table will render](#output-widget-where-the-styled-table-will-render)
@@ -49,15 +49,21 @@ kernelspec:
 
 > From: https://gemini.google.com/app/e15a7b8f1030414a
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 message time: 2026-05-20 01:47:48
 
 Design an a2ui table control for mobile to support: table density (padding, margins), zoom all/normal/n_rows/n_cols
 
 ---
 
-# gemini response
+# Response: 1
 
 Designing a mobile-first table control that handles density and zooming requires balancing tiny screen real estate with data readability. On mobile, "zooming" a table isn't just about pinch-to-zoom (which breaks layouts); it’s about **structural zooming**—controlling how much data fits on the screen at once.
 
@@ -122,15 +128,21 @@ json
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 2
 
+---
+chat_input: true
+---
 message time: 2026-05-20 01:52:22
 
 Add support for transposing tables,
 
 ---
 
-# gemini response
+# Response: 2
 
 Transposing a table on mobile—swapping rows and columns so that columns run horizontally and rows become the vertical layout—is one of the most effective ways to make wide datasets readable on narrow screens. 
 
@@ -183,15 +195,21 @@ json
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 3
 
+---
+chat_input: true
+---
 message time: 2026-05-20 01:53:51
 
 and a UI for the transposition parameters
 
 ---
 
-# gemini response
+# Response: 3
 
 To allow mobile users to shift, transpose, and adjust these data views on the fly, the control UI needs to be highly compact, thumb-friendly, and accessible without cluttering the screen. 
 
@@ -253,15 +271,21 @@ json
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 4
 
+---
+chat_input: true
+---
 message time: 2026-05-20 01:55:50
 
 Design and refine such a table control for (pandas) tables in jupyter notebooks
 
 ---
 
-# gemini response
+# Response: 4
 
 To bring this level of adaptive mobile design into Jupyter Notebooks, we have to bridge the gap between heavy Python backend data processing (`pandas.DataFrame`) and a smooth, interactive frontend UI. 
 

@@ -10,15 +10,21 @@ kernelspec:
 ## Contents
 
 * [_Microwaves-vs.-Ultrasound-for-Rock-Breaking](#_microwaves-vs-ultrasound-for-rock-breaking)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [Ultrasonic Rock Breaking](#ultrasonic-rock-breaking)
     * [mmWave / Microwave Rock Breaking](#mmwave-microwave-rock-breaking)
 
 > From: https://gemini.google.com/app/cd1127ff358ecbbf
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 message time: 2026-06-24 17:33:41
 
 https://news.ycombinator.com/item?id=48653986 :
@@ -33,7 +39,7 @@ hangonhn 18 hours ago | unvote | parent | next [–]
 
 ---
 
-# gemini response
+# Response: 1
 
 The distinction between millimeter-wave (mmWave) or microwave-based methods and ultrasonic techniques for rock breaking lies in their physical mechanism and the scale of the effect they induce.
 
@@ -48,7 +54,6 @@ Microwave and mmWave technologies rely on dielectric heating. When rocks are sub
 * **Differential Thermal Expansion:** Because different minerals have different dielectric properties and thermal expansion coefficients, the rapid, non-uniform heating causes internal stresses that shatter the rock matrix.
 * **Potential for Gasification:** At high enough power densities, this process can cause local melting, sublimation, or even "gasification" of moisture and minerals trapped within the rock. 
 * **"Gasifying" vs. Removing:** While the term "gasification" is sometimes used to describe the vaporizing of volatile components (like trapped water) or the localized melting that weakens the structure, it is not typically a process that turns the *entire* solid rock mass into gas. It remains a form of thermal fracturing or spallation, meant to displace or weaken the material for excavation.
-
 
 The preference for mmWave in specific high-end applications (like deep hard rock penetration research) often stems from its higher power density and focus, which can theoretically achieve much higher penetration rates compared to mechanical drilling, essentially "drilling" a hole through thermal spallation rather than grinding it away.
 

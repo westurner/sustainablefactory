@@ -10,16 +10,18 @@ kernelspec:
 ## Contents
 
 * [_Zwitterionic Hydrogels_ PFAS Removal](#_zwitterionic-hydrogels_-pfas-removal)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [What They Absorb](#what-they-absorb)
     * [How Dense Are They?](#how-dense-are-they)
     * [The Closed-Loop Synthesis: CO2-to-Ethanol](#the-closed-loop-synthesis-co2-to-ethanol)
 
 > From: https://gemini.google.com/app/8384b38d6a3f14dd
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 > "Ask HN: Methods for removing parts per trillions of PFAS from water?" (2024) https://news.ycombinator.com/item?id=40036764 ; RO: Reverse Osmosis, Zwitterionic hydrogels (that are reusable if washed with ethanol)
 
 There's CO2-to-Ethanol
@@ -30,34 +32,32 @@ How dense?
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Exploring PFAS Removal**
 
 I've clarified the user's query: it centers on hydrogel density/absorption capabilities related to ppt PFAS removal via RO.
-
 
 **Defining Absorption Potential**
 
 I'm now focusing on defining the absorption potential of zwitterionic hydrogels, considering PFAS, density, and closed-loop process integration.
 
-
 **Assessing Absorption Capacity**
 
 I've determined these materials demonstrate exceptional water absorption, especially from humidity.
-
 
 **Exploring Pollutant Trapping**
 
 I've discovered zwitterionic hydrogels' exceptional micropollutant and PFAS absorption, ten-fold faster than activated carbon.
 
-
 **Defining Regeneration Pathways**
 
 I've outlined closed-loop ethanol regeneration, boiling off PFAS for destruction and recycling the ethanol.
-
 
 **Quantifying Adsorption Capacity**
 

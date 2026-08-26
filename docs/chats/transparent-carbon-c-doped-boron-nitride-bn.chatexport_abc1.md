@@ -10,8 +10,8 @@ kernelspec:
 ## Contents
 
 * [transparent-carbon-c-doped-boron-nitride-bn](#transparent-carbon-c-doped-boron-nitride-bn)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
   * [1. Bandgap Engineering and Optical Transparency](#1-bandgap-engineering-and-optical-transparency)
   * [2. Structural Dynamics: Substitution vs. Phase Separation](#2-structural-dynamics-substitution-vs-phase-separation)
   * [3. Quantum and Optoelectronic Properties](#3-quantum-and-optoelectronic-properties)
@@ -21,15 +21,21 @@ kernelspec:
 
 > From: https://gemini.google.com/app/79d07d501e187c57
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 message time: 2026-05-29 01:55:03
 
 transparent carbon (C) doped boron nitride (BN)
 
 ---
 
-# gemini response
+# Response: 1
 
 **Carbon-doped boron nitride ($\text{C:BN}$ or $\text{BC}_x\text{N}_y$)** represents a highly tunable, wide-bandgap hybrid semiconductor platform. By structurally substituting alternating boron and nitrogen sites in a hexagonal ($\text{h-BN}$) or cubic ($\text{c-BN}$) lattice with carbon pairs ($\text{C}_2$), the material transitions from a wide-gap insulator to a highly engineered optoelectronic material while retaining excellent optical transparency across tailored spectral regimes.
 

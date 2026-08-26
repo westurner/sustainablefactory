@@ -10,14 +10,14 @@ kernelspec:
 ## Contents
 
 * [_Beyond-Jupyter-Notebook-Alternatives-Explored](#_beyond-jupyter-notebook-alternatives-explored)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [1. Reactive & Code-First Notebooks (Solving the "Hidden State" Problem)](#1-reactive-code-first-notebooks-solving-the-hidden-state-problem)
     * [2. Cloud & Collaborative Enterprise Platforms](#2-cloud-collaborative-enterprise-platforms)
     * [3. Integrated Development Environment (IDE) Native Notebooks](#3-integrated-development-environment-ide-native-notebooks)
     * [4. Plain-Text & Literate Programming Systems](#4-plain-text-literate-programming-systems)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [1. Reactive & Code-First Notebooks](#1-reactive-code-first-notebooks)
     * [2. Cloud & Collaborative Enterprise Platforms](#2-cloud-collaborative-enterprise-platforms)
     * [3. Integrated Development Environment (IDE) Native Notebooks](#3-integrated-development-environment-ide-native-notebooks)
@@ -28,33 +28,39 @@ kernelspec:
   * [```markdown](#markdown)
   * [format: html](#format-html)
     * [Summary Matrix](#summary-matrix)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
     * [Core Concepts of the Proposal](#core-concepts-of-the-proposal)
     * [Status and Pragmatic Workarounds](#status-and-pragmatic-workarounds)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
     * [1. Strict Schema Validation (The `additionalProperties: false` Constraint)](#1-strict-schema-validation-the-additionalproperties-false-constraint)
     * [2. The JSON-LD Validation Paradox](#2-the-json-ld-validation-paradox)
     * [3. Git Diff and Round-Tripping Noise](#3-git-diff-and-round-tripping-noise)
     * [4. Downstream Ecosystem Fragmentation](#4-downstream-ecosystem-fragmentation)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 5](#prompt-5)
+* [Response: 5](#response-5)
     * [1. The Strategy: Gradual Loosening of the Validator](#1-the-strategy-gradual-loosening-of-the-validator)
     * [2. Parallels Between `$schema` and `@context`](#2-parallels-between-schema-and-context)
     * [Why `@context` Faces a High Bar](#why-context-faces-a-high-bar)
 
 > From: https://gemini.google.com/app/18b2bd52508970c1
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 message time: 2026-05-27 10:06:03
 
 other types of software notebooks like jupyter notebooks?
 
 ---
 
-# gemini response
+# Response: 1
 
 The ecosystem for software notebooks has expanded significantly beyond traditional Jupyter Notebooks. While Jupyter popularized the cell-based execution model, newer platforms address some of its inherent drawbacks—such as out-of-order execution, broken state, version control difficulties, and limited real-time collaboration. 
 
@@ -101,15 +107,21 @@ This video goes over several modern notebook tools and explores alternatives tha
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 2
 
+---
+chat_input: true
+---
 message time: 2026-05-27 10:06:33
 
 what are the file storage formats of each of these tools?
 
 ---
 
-# gemini response
+# Response: 2
 
 The storage format of a software notebook dictates how well it plays with version control (like Git), how easy it is to track changes, and whether it suffers from merge conflicts caused by rich-text or metadata overhead. 
 
@@ -176,15 +188,21 @@ Because these platforms are designed for cloud-native collaboration, they abstra
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 3
 
+---
+chat_input: true
+---
 message time: 2026-05-27 10:31:26
 
 https://github.com/jupyter/nbformat/issues/44
 
 ---
 
-# gemini response
+# Response: 3
 
 The GitHub issue **`jupyter/nbformat#44`** is titled **"Add JSONLD @context to the top level .ipynb node"**. 
 
@@ -205,8 +223,14 @@ For engineers who require structured graph representations and strict metadata c
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 4
 
+---
+chat_input: true
+---
 message time: 2026-05-27 10:35:20
 
 > Because modifying the base Jupyter format engine (nbformat) introduces strict backward-compatibility challenges across a massive ecosystem of frontends (VS Code, JupyterLab, GitHub's renderer), implementing a permanent top-level schema change takes a highly deliberative path.
@@ -215,7 +239,7 @@ How is adding `@context` backwards incompatible?
 
 ---
 
-# gemini response
+# Response: 4
 
 In strict JSON parsing, simply adding an arbitrary new key like `"@context"` to a JSON object usually doesn't crash a program—most parsers simply ignore unrecognized keys. 
 
@@ -269,8 +293,14 @@ If the top-level schema is modified without a major version bump (e.g., transiti
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 5
 
+---
+chat_input: true
+---
 message time: 2026-05-27 10:43:48
 
 so, all it takes it adding an `@context` key to the nbformat schema; just like `$schema` was added for jsonschema support?
@@ -278,7 +308,7 @@ https://github.com/jupyter/enhancement-proposals/pull/97
 
 ---
 
-# gemini response
+# Response: 5
 
 Yes, exactly. The process followed in **JEP 97 (`Add $schema to notebook format`)** provides the precise historical blueprint for how a new top-level field like `@context` can be introduced to the notebook format safely. 
 

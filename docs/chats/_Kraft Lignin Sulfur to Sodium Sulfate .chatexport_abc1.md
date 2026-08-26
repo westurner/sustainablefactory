@@ -10,13 +10,13 @@ kernelspec:
 ## Contents
 
 * [_Kraft Lignin Sulfur to Sodium Sulfate](#_kraft-lignin-sulfur-to-sodium-sulfate)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [1. Alkaline Wet Air Oxidation (WAO)](#1-alkaline-wet-air-oxidation-wao)
     * [2. Thermal Combustion with Alkaline Scrubbing](#2-thermal-combustion-with-alkaline-scrubbing)
     * [3. Mild Chemical Oxidation (Peroxide Treatment)](#3-mild-chemical-oxidation-peroxide-treatment)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [Quick Reference Comparison](#quick-reference-comparison)
     * [1. Alkaline Wet Air Oxidation (WAO)](#1-alkaline-wet-air-oxidation-wao)
     * [2. Thermal Combustion with Alkaline Scrubbing](#2-thermal-combustion-with-alkaline-scrubbing)
@@ -24,40 +24,46 @@ kernelspec:
 
 > From: https://gemini.google.com/app/007b49d0c4b3cdf4
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 How to get from kraft lignin with sulfur in it to sodium sulfate?
 
 ---
 
-# gemini response
+# Response: 1
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Defining the Objective**
 
 I've specified the user's needs and reframed the query to directly address converting sulfurous kraft lignin into sodium sulfate.
 
-
 **Refining the Process**
 
 I've decided standard text is the most useful response format, and explored direct conversion of isolated kraft lignin for $Na_2SO_4$ production.
-
 
 **Outlining Conversion Methods**
 
 I've considered combustion, wet air oxidation, and chemical oxidation for sulfur removal and sulfate formation.
 
-
 **Analyzing Conversion Methods**
 
 I've determined aqueous oxidation, thermal combustion, and peroxide oxidation offer viable routes for kraft lignin transformation.
 
-
 **Refining Response Format**
 
 I've decided to prioritize standard text and use LaTeX sparingly only for reaction equations, to follow the instructions' guidelines.
-
 
 **Elaborating Conversion Pathways**
 
@@ -100,25 +106,34 @@ Are you aiming to completely mineralize the lignin strictly for the sulfate reco
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 2
 
+---
+chat_input: true
+---
 Costs and efficiency for each option
 
 ---
 
-# gemini response
+# Response: 2
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Defining the Goal**
 
 I've clarified the primary objective: cost/efficiency analysis of three Na₂SO₄ production methods.
 
-
 **Defining the Persona & Instructions**
 
 I've specified a helpful, factual persona, prioritizing scannable formats; personal context is assessed as non-essential here.
-
 
 **Refining the Approach**
 

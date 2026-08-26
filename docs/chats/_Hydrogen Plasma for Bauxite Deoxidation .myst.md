@@ -10,58 +10,60 @@ kernelspec:
 ## Contents
 
 * [_Hydrogen Plasma for Bauxite Deoxidation](#_hydrogen-plasma-for-bauxite-deoxidation)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [1. The Stoichiometric Baseline](#1-the-stoichiometric-baseline)
     * [2. Hydrogen Plasma (Thermal/Smelting)](#2-hydrogen-plasma-thermalsmelting)
     * [3. Hydrogen Cold Plasma (Non-Equilibrium)](#3-hydrogen-cold-plasma-non-equilibrium)
     * [Summary Comparison Table](#summary-comparison-table)
     * [Engineering Verdict](#engineering-verdict)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [1. Baseline Plasma-Chemical Yields: $Al_2O_3$ vs. $Fe_2O_3$](#1-baseline-plasma-chemical-yields-al_2o_3-vs-fe_2o_3)
     * [2. The Impact of 20 kHz Ultrasonic Ball Milling](#2-the-impact-of-20-khz-ultrasonic-ball-milling)
     * [3. Atmosphere Dynamics During Milling](#3-atmosphere-dynamics-during-milling)
     * [Summary Verdict](#summary-verdict)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
     * [Key Mechanisms of the Max Planck Study](#key-mechanisms-of-the-max-planck-study)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
     * [The Researchers: Non-Equilibrium Plasma Metallurgy](#the-researchers-non-equilibrium-plasma-metallurgy)
     * [The Alkalinity Problem](#the-alkalinity-problem)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 5](#prompt-5)
+* [Response: 5](#response-5)
     * [Phase 1: Ultrasonic Milling (Neutralization & Chelation)](#phase-1-ultrasonic-milling-neutralization-chelation)
     * [Phase 2: Hydrogen Cold Plasma (Hybrid Reduction)](#phase-2-hydrogen-cold-plasma-hybrid-reduction)
     * [The Final Outcome Profile](#the-final-outcome-profile)
 
 > From: https://gemini.google.com/app/b1171cbd6385dab6
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 How much hydrogen cold plasma is necessary to deoxidize bauxite (residue) compared to hydrogen plasma?
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Quantifying Plasma Efficacy**
 
 I've specified plasma types and a clear goal: assessing hydrogen plasma quantities for bauxite deoxidation.
-
 
 **Refining Information Retrieval**
 
 I've decided to provide a generic, technically sound response, avoiding user-specific projects until requested.
 
-
 **Analyzing Hydrogen Reduction Methods**
 
 I've outlined thermal hydrogen reduction, like EAF methods, noting high efficiency and temperature requirements.
-
 
 **Comparing Plasma Approaches**
 
@@ -116,35 +118,36 @@ Would you like to look into the specific plasma-chemical yields for the alumina 
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 Yes, and also yields if ultrasonically ball-milled with a sweep around 20 kHz (in argon, or nitrogen, or ammonia)
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Assessing Decomposition Reactions**
 
 I am now focused on evaluating the user's request, specifically the alumina and iron yields during deoxidation of red mud.
-
 
 **Defining Role and Format**
 
 I've clarified the assistant's persona, formatting rules including LaTeX usage, and appropriate tone, ready to address user questions with precision.
 
-
 **Analyzing Plasma Interactions**
 
 I've examined the thermodynamics and effects of ultrasonic milling, focusing on Al2O3 and Fe2O3 behavior during hydrogen cold plasma reduction.
 
-
 **Evaluating Milling Atmospheres**
 
 I've determined that Argon creates clean surfaces, while Nitrogen and Ammonia cause nitride formation, impacting deoxidation yields.
-
 
 **Clarifying Milling Impacts**
 
@@ -191,35 +194,36 @@ If the goal is to extract pure iron and isolate the alumina, **ultrasonic millin
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 3
 
++++ {"chat_input": true}
 Find the Max Planck article on Cold plasma reduction of bauxite residue
 
 ---
 
-# gemini response
++++
+# Response: 3
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining Factual Parameters**
 
++++
 I've pinpointed the query as a straightforward request for a specific article, leaning towards an objective response.
-
 
 **Refining Relevance Criteria**
 
 I've specified search parameters, using sustainable materials and bauxite residue to find the correct Max Planck article.
 
-
 **Analyzing the Request**
 
 I've clarified the specific Max Planck article sought, identifying a hydrogen-plasma-based reduction paper in Nature, crucial for accurate retrieval.
 
-
 **Clarifying User's Intent**
 
 I realized the Max Planck paper focuses on thermal plasma, contrasting the user's focus on cold plasma, and will specify the Nature article.
-
 
 **Distinguishing Plasma Types**
 
@@ -242,8 +246,10 @@ If your engineering focus requires strictly solid-state, non-equilibrium (cold) 
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 4
 
++++ {"chat_input": true}
 > specialized plasma-catalysis groups
 
 Which?
@@ -254,39 +260,36 @@ Does cold plasma reduce the alkalinity of bauxite residue too?
 
 ---
 
-# gemini response
++++
+# Response: 4
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the Inquiry**
 
++++
 I've clarified the core research questions regarding cold plasma and bauxite residue processing.
-
 
 **Mapping the Plasma Research**
 
 I've begun mapping relevant plasma research, focusing on thermal and cold hydrogen plasma applications for iron ore reduction.
 
-
 **Focusing on Catalysis Groups**
 
 I've specified plasma catalysis groups, particularly those working on cold plasma and mineral processing, like PLASMANT and CSU.
-
 
 **Identifying Key Groups**
 
 I have successfully identified key research groups focusing on non-equilibrium plasma for iron oxide reduction.
 
-
 **Analyzing Plasma's Effects**
 
 I've clarified cold plasma's limitations: it won't neutralize bauxite residue's alkalinity like thermal plasma does.
 
-
 **Revising Response Structure**
 
 I've decided on a direct textual response, omitting image triggers, focusing on research group names.
-
 
 **Pinpointing Key Players**
 
@@ -323,22 +326,26 @@ Therefore, if you run bauxite residue through a pure non-equilibrium hydrogen pl
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 5
 
++++ {"chat_input": true}
 > such as co-milling it with an acidic additive
 
 Citric acid
 
 ---
 
-# gemini response
++++
+# Response: 5
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Assessing the Core Challenge**
 
 I've clarified the user's focus on mitigating red mud's alkalinity via citric acid co-milling for plasma reduction.
-
 
 **Analyzing the Synergies**
 

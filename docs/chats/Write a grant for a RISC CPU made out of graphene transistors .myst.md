@@ -15,20 +15,18 @@ kernelspec:
 * [Prompt: 2](#prompt-2)
 * [Response: 2](#response-2)
 
----
-chat_input: true
----
++++ {"chat_input": true}
 # Prompt: 1
 
----
-chat_input: true
----
++++ {"chat_input": true}
 Write a grant for a RISC CPU made out of graphene transistors
 
 ---
 
++++
 # Response: 1
 
++++
 **Grant Proposal: Pioneering Graphene-Based RISC CPU for Next-Generation Computing**
 
 **1\. Executive Summary:**
@@ -85,20 +83,18 @@ The development of a graphene-based RISC CPU represents a bold and ambitious und
 
 ---
 
----
-chat_input: true
----
++++ {"chat_input": true}
 # Prompt: 2
 
----
-chat_input: true
----
++++ {"chat_input": true}
 Reformat that as markdown
 
 ---
 
++++
 # Response: 2
 
++++
 **Grant Proposal: Pioneering Graphene-Based RISC CPU for Next-Generation Computing**
 
 **1\. Executive Summary:**

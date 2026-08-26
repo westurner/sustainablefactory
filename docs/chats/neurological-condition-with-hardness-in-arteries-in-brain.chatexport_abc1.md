@@ -10,24 +10,24 @@ kernelspec:
 ## Contents
 
 * [neurological-condition-with-hardness-in-arteries-in-brain](#neurological-condition-with-hardness-in-arteries-in-brain)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
   * [The Core Conditions](#the-core-conditions)
   * [Related Neurological Consequences](#related-neurological-consequences)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [1. The Role of Cholesterol Crystals](#1-the-role-of-cholesterol-crystals)
     * [2. How Cyclodextrin Intervenes](#2-how-cyclodextrin-intervenes)
     * [3. Macrophage Reprogramming](#3-macrophage-reprogramming)
     * [4. Regression vs. Prevention](#4-regression-vs-prevention)
     * [Current Status and Implications](#current-status-and-implications)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
     * [1. Niemann-Pick Disease Type C (NPC)](#1-niemann-pick-disease-type-c-npc)
     * [2. Experimental Cardiovascular / Atherosclerosis Studies](#2-experimental-cardiovascular-atherosclerosis-studies)
     * [The Dosing Hurdle](#the-dosing-hurdle)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
   * [1. Biomimetic "Trojan Horse" Homing (Cell Membrane Coating)](#1-biomimetic-trojan-horse-homing-cell-membrane-coating)
   * [2. Microenvironment-Responsive "Smart" Switches](#2-microenvironment-responsive-smart-switches)
   * [3. Poly-Cyclodextrin Conjugation for Extended Circulation](#3-poly-cyclodextrin-conjugation-for-extended-circulation)
@@ -36,27 +36,36 @@ kernelspec:
 
 > From: https://gemini.google.com/app/f52c5a61d38f5ab6
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 message time: 2026-05-24 18:55:07
 
 neurological condition with hardness in arteries in brain
 
 ---
 
-# gemini response
+# Response: 1
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Defining the Core Problem**
 
 I've pinpointed "Arteriosclerosis" or "Atherosclerosis" as the probable medical condition requested.
 
-
 **Refining the Answer**
 
 I've formulated a comprehensive answer, covering core definitions, related conditions, and a necessary, objective disclaimer.
-
 
 **Structuring the Explanation**
 
@@ -82,22 +91,32 @@ When the arteries in the brain harden and narrow, the brain receives less oxygen
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 2
 
+---
+chat_input: true
+---
 message time: 2026-05-24 18:58:57
 
 "Cyclodextrin promotes atherosclerosis regression via macrophage reprogramming" (2016)  https://www.science.org/doi/10.1126/scitranslmed.aad6100
 
 ---
 
-# gemini response
+# Response: 2
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Reviewing the Paper**
 
 I'm now diving into the details, extracting key findings on cyclodextrin's impact on atherosclerosis regression.
-
 
 **Summarizing Cyclodextrin Findings**
 
@@ -128,27 +147,36 @@ Since this 2016 paper, HPβCD has garnered significant interest as a potential t
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 3
 
+---
+chat_input: true
+---
 message time: 2026-05-24 19:02:03
 
 dose levels in those human studies?
 
 ---
 
-# gemini response
+# Response: 3
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Pinpointing Relevant Dosages**
 
 I've clarified the request, focusing on human studies regarding HPβCD dosage in contexts of cholesterol accumulation.
 
-
 **Pinpointing Human Doses**
 
 I've specified IV HPβCD doses for Niemann-Pick C: 1500-2500 mg/kg bi-weekly, but need to find cardiovascular trials.
-
 
 **Clarifying Dosing Routes**
 
@@ -177,8 +205,14 @@ Consequently, current pharmaceutical research is highly focused on finding ways 
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 4
 
+---
+chat_input: true
+---
 message time: 2026-05-24 19:06:03
 
 > ways to modify the cyclodextrin molecule [...] that can deliver the drug directly to the arterial plaques at much lower, safer systemic doses
@@ -187,24 +221,26 @@ deep research this, for reversing atherosclerosis
 
 ---
 
-# gemini response
+# Response: 4
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Exploring Cyclodextrin Modifications**
 
 I am now delving into pH-sensitive nanoassemblies, particularly Zhang et al.'s work for targeted delivery to arterial plaques.
 
-
 **Analyzing Atherosclerosis Papers**
 
 I've learned about β-cyclodextrin nanoassemblies, specifically MM@MTX NPs for targeted methotrexate delivery in atherosclerosis treatment.
 
-
 **Targeting Relevant Hits**
 
 I've precisely identified research that matches the user's need for cyclodextrin modification, aiming for targeted delivery to arterial plaques.
-
 
 **Refining Therapeutic Strategies**
 
@@ -212,11 +248,9 @@ I've clarified the necessity of cyclodextrin modification to minimize systemic s
 
 I am also seeing, in these recent updates, that I need to expand upon the types of CD modifications.
 
-
 **Exploring Plaque Environments**
 
 I've detailed specific cyclodextrin strategies like ROS-sensitive and receptor-targeted systems, plus passive and active targeting mechanisms.
-
 
 **Elaborating Delivery Designs**
 

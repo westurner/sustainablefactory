@@ -10,16 +10,16 @@ kernelspec:
 ## Contents
 
 * [Lignin-Vitrimer-Dry-Erase-Whiteboard-Fabrication](#lignin-vitrimer-dry-erase-whiteboard-fabrication)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [1. Determine Equivalent Weights](#1-determine-equivalent-weights)
     * [2. Define the Stoichiometric Ratio ($R$)](#2-define-the-stoichiometric-ratio-r)
     * [3. The Stoichiometry Calculation](#3-the-stoichiometry-calculation)
     * [4. Adjusting for Network Defects](#4-adjusting-for-network-defects)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
     * [Process and Material Modeling Framework](#process-and-material-modeling-framework)
     * [YAML-LD Semantic Comparison Model](#yaml-ld-semantic-comparison-model)
 * [---------------------------------------------------------------------------](#-)
@@ -32,8 +32,8 @@ kernelspec:
 * [SEMANTIC COMPARISON METRICS (EMMO / IOF BRIDGE)](#semantic-comparison-metrics-emmo-iof-bridge)
 * [---------------------------------------------------------------------------](#-)
     * [Comparative Analysis of the Systems](#comparative-analysis-of-the-systems)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
     * [The Economic Metrics](#the-economic-metrics)
     * [The Three Scales of Manufacturing](#the-three-scales-of-manufacturing)
       * [1. Lab Scale (Discovery & Feasibility)](#1-lab-scale-discovery-feasibility)
@@ -42,32 +42,34 @@ kernelspec:
 
 > From: https://gemini.google.com/app/bde566777ffecf22
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 message time: 2026-06-11 10:27:07
 
 How to make a dry erasable whiteboard out of peroxide-bleached lignin-vitrimer?
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the Core Focus**
 
++++
 I've scoped the task: create a dry-erase LV whiteboard for Wes Turner, a materials expert.
-
 
 **Analyzing the Details**
 
 I've specified the process: lignin extraction, vitrimer synthesis with TiO2, and casting for the whiteboard.
 
-
 **Refining the Procedure**
 
 I've specified the vitrimer process, including bleaching, formulation, curing, and dry-erase properties for the whiteboard.
-
 
 **Reviewing image resources**
 
@@ -114,39 +116,40 @@ Once cooled below its $180^\circ$C $T_g$, the dynamic exchange reactions freeze.
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 message time: 2026-06-11 10:34:04
 
 Walk me through the stoichiometry calculations to ensure optimal cross-link density for an epoxy-acid Lignin-Vitrimer matrix.
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Initiating the Analysis**
 
++++
 I've initiated the analysis, focusing on Wes Turner's stoichiometric request for the LVH matrix design.
-
 
 **Refining the Stoichiometry**
 
 I am now refining stoichiometric ratios, aiming for a rigid matrix suitable for high $T_g$ applications.
 
-
 **Calculating Stoichiometry Ratios**
 
 I've determined key equations, focusing on calculating acid mass needed for optimal ratios based on epoxy and acid equivalents.
-
 
 **Developing the Explanation**
 
 I've crafted a comprehensive explanation of stoichiometry, incorporating LaTeX, focusing on clarity and factual tone.
 
 I've outlined the stoichiometry response, refining the text, and establishing an interactive widget plan with LaTeX.
-
 
 **Constructing the Widget**
 
@@ -211,8 +214,10 @@ You can use the calculator below to model the required mass parameters based on 
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 3
 
++++ {"chat_input": true}
 message time: 2026-06-11 10:35:47
 
 Sustainable alternatives to Lignin-Vitrimer for this application?
@@ -221,14 +226,16 @@ Model and compare the processes on YAML-LD with IOF, VF, EMMO
 
 ---
 
-# gemini response
++++
+# Response: 3
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Evaluating Widget Options**
 
 I'm assessing interactive widgets to model and compare processes for this dry-erase application.
-
 
 **Defining Artifact Requirements**
 
@@ -338,32 +345,34 @@ While the CNC-based system eliminates the chemical overhead of bleaching, the **
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 4
 
++++ {"chat_input": true}
 message time: 2026-06-11 10:43:35
 
 Capex, OpEx, marginal cost, cost breakdown, gross margin? At lab, pilot, and production scales?
 
 ---
 
-# gemini response
++++
+# Response: 4
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Analyzing Economic Viability**
 
++++
 I've begun initial cost breakdowns for CapEx and OpEx across lab, pilot, and production scales.
-
 
 **Defining the Framework**
 
 I have established core components and identified key metrics for the interactive TEA model widget.
 
-
 **Analyzing the Metrics**
 
 I have detailed the behavior of CapEx, OpEx, Marginal Cost, and Gross Margin across scales, providing specific data points.
-
 
 **Refining the Model**
 

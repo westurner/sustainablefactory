@@ -10,44 +10,46 @@ kernelspec:
 ## Contents
 
 * [_Biomaterials for Advanced Energy Storage](#_biomaterials-for-advanced-energy-storage)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
   * [1. Chitosan & Alginate: The Self-Healing Matrix](#1-chitosan-alginate-the-self-healing-matrix)
   * [2. Hemp Fluff & Bast: The "Green Graphene"](#2-hemp-fluff-bast-the-green-graphene)
     * [The Bio-Advantage at a Glance](#the-bio-advantage-at-a-glance)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
   * [1. The Architecture Comparison](#1-the-architecture-comparison)
   * [2. Building Batteries on Hemostatic Fleece Gauze](#2-building-batteries-on-hemostatic-fleece-gauze)
 
 > From: https://gemini.google.com/app/123e26222ed88535
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 Chitosan-Alginate and Hemp fluff for other types of batteries energy storage devices?
 
 Find our other chats on same
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Examining Initial Concepts**
 
++++
 I've initiated analysis, focusing on Chitosan-Alginate, Hemp fluff, and their potential in energy storage.
-
 
 **Exploring Battery Potential**
 
 I am now looking at applications of Chitosan-Alginate and Hemp fluff in diverse energy storage contexts.
 
-
 **Refining Electrolyte Details**
 
 I've specified Chitosan and Alginate for Zinc-Air and Sodium-Ion batteries, detailing their roles as safe and conductive electrolytes.
-
 
 **Analyzing Bio-Alternatives**
 
@@ -91,8 +93,10 @@ Hemp fluff, hurd, and bast (the inner bark) are rich in lignin and cellulose. Wh
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 Compare those other batteries and anodes to Lignolux energy storage devices and variants per our other chats on same.
 
 Can batteries be made on 
@@ -100,29 +104,28 @@ Chitosan-Alginate hemostatic fleece gauze?
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Assessing Complex Queries**
 
 I've decomposed the prompt into parts, clarified constraints, and prepped to consult prior context.
-
 
 **Analyzing Lignolux Capabilities**
 
 I've gathered insights on Lignolux, a waste-to-product company with diverse applications, now comparing its energy storage offerings.
 
-
 **Defining Key Comparisons**
 
 I now understand the core comparison points, like shared sustainability goals and material source differences.
 
-
 **Comparing Battery Architectures**
 
 I've established a clear framework to contrast hemp/chitosan's flexibility with Lignolux's rigidity for structural battery designs.
-
 
 **Structuring the Concepts**
 

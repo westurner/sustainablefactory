@@ -10,8 +10,8 @@ kernelspec:
 ## Contents
 
 * [_Lignin-Biochar-for-TiO2-Carbothermic-Reduction](#_lignin-biochar-for-tio2-carbothermic-reduction)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
   * [1. Thermodynamic Phase Progression](#1-thermodynamic-phase-progression)
   * [2. Kinetic Advantages of Pyrolyzed Lignin](#2-kinetic-advantages-of-pyrolyzed-lignin)
   * [3. Critical Process Engineering Parameters](#3-critical-process-engineering-parameters)
@@ -22,15 +22,21 @@ kernelspec:
 
 > From: https://gemini.google.com/app/78065d06fe5a0a3a
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 message time: 2026-05-20 01:40:21
 
 Pyrolyzed lignin for Carbothermic reduction of TiO2 powder?
 
 ---
 
-# gemini response
+# Response: 1
 
 Using pyrolyzed lignin (lignin-derived biochar) as the reducing agent for the carbothermic reduction of titanium dioxide ($\text{TiO}_2$) powder is highly viable and chemically elegant. Because of its cross-linked aromatic structure, lignin yields a highly disordered, amorphous hard carbon upon pyrolysis. This structure provides distinct kinetic advantages over conventional crystalline graphitic carbons.
 

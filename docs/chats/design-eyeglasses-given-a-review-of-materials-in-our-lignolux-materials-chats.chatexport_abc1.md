@@ -10,15 +10,15 @@ kernelspec:
 ## Contents
 
 * [design-eyeglasses-given-a-review-of-materials-in-our-lignolux-materials-chats](#design-eyeglasses-given-a-review-of-materials-in-our-lignolux-materials-chats)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
   * [1. Material Allocation & Architecture](#1-material-allocation-architecture)
   * [2. Frame Engineering & Assembly Sequence](#2-frame-engineering-assembly-sequence)
   * [3. Advanced Design Considerations](#3-advanced-design-considerations)
     * [Circular Lifecycle (End-of-Life Routing)](#circular-lifecycle-end-of-life-routing)
     * [Surface Finish & Sweat Resistance](#surface-finish-sweat-resistance)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
   * [1. The Modified Guth-Smallwood Equation for Modulus Prediction](#1-the-modified-guth-smallwood-equation-for-modulus-prediction)
     * [The Percolation Threshold ($\phi_c$) Constraint](#the-percolation-threshold-phi_c-constraint)
   * [2. Optimal Loading Ratios for Flexibility](#2-optimal-loading-ratios-for-flexibility)
@@ -26,15 +26,21 @@ kernelspec:
 
 > From: https://gemini.google.com/app/611a16866f6fae4e
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 message time: 2026-05-21 23:09:21
 
 Design eyeglasses given a review of materials in our Lignolux materials chats
 
 ---
 
-# gemini response
+# Response: 1
 
 Integrating our **Lignolux** materials into an eyewear design presents a compelling material routing challenge. As noted in our earlier technical reviews, we have a hard boundary between the structural components and the optical payload: while our bio-derived composites excel structurally, they lack the minimum $92\%$ optical clarity required for precision lenses or heads-up display (HUD) visors. 
 
@@ -91,8 +97,14 @@ Raw lignin can suffer from UV degradation and moisture-induced swelling if left 
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 2
 
+---
+chat_input: true
+---
 message time: 2026-05-29 17:00:08
 
 > Would you like to detail the specific CNC-to-Vitrimer loading ratio equations for optimal frame stiffness?
@@ -103,7 +115,7 @@ For flexible glasses
 
 ---
 
-# gemini response
+# Response: 2
 
 To optimize the frame for a **flexible** eyewear profile—where the temples and bridge can tolerate significant elastic deformation (twisting and bending) without permanent yielding or snapping—we need to precisely calibrate the Cellulose Nanocrystal (CNC) loading within the lignin-vitrimer matrix. 
 

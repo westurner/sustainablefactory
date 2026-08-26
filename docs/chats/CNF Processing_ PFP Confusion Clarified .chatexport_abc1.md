@@ -86,13 +86,6 @@ Int J Biol Macromol
 
 # Response: 1
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Investigating PFP Safety**
 
 I'm now delving into the safety aspects of using Pore Forming Proteins in solvent exchange for Hydro-CNF. Currently, I'm focusing on potential toxicity and environmental impact. I've begun to research the types of PFPs available, along with their characteristics and mechanisms of action. This stage will involve assessing the risks of each specific PFP, focusing on those suitable for industrial scale processing.
@@ -236,13 +229,6 @@ collapsed: true
 jupyter:
   source_hidden: true
 ---
-Show thinking
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
 **Analyzing Pore Dimensions**
 
 I'm currently focused on determining the dimensions of these "pores" within the context of the conversion process. Recent thought updates involve considering how the PFP structure might influence pore size and shape, particularly in relation to solvent exchange efficiency. I'm exploring the implications of different PFP isoforms.
@@ -356,13 +342,6 @@ How do hemp aerogels compare to CNF aerogels?
 ---
 
 # Response: 3
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 **Evaluating Aerogel Options**
 

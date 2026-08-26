@@ -26,14 +26,10 @@ kernelspec:
     * [2\. "Waste Hemp Noil" vs. "Hydro-CNF"](#2-waste-hemp-noil-vs-hydro-cnf)
     * [3\. Impact on your "Solvent Exchange" Process](#3-impact-on-your-solvent-exchange-process)
 
----
-chat_input: true
----
++++ {"chat_input": true}
 # Prompt: 1
 
----
-chat_input: true
----
++++ {"chat_input": true}
 Are PFP Pore Forming Proteins too dangerous for industrial feedstock processing? Specifically for Solvent Exchange to turn "Hydro-CNF" (Water-based) into "Organo-CNF" (Oil-based)
 
 
@@ -84,15 +80,10 @@ Int J Biol Macromol
 
 ---
 
++++
 # Response: 1
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
++++
 **Investigating PFP Safety**
 
 I'm now delving into the safety aspects of using Pore Forming Proteins in solvent exchange for Hydro-CNF. Currently, I'm focusing on potential toxicity and environmental impact. I've begun to research the types of PFPs available, along with their characteristics and mechanisms of action. This stage will involve assessing the risks of each specific PFP, focusing on those suitable for industrial scale processing.
@@ -217,38 +208,25 @@ Sources
 
 ---
 
----
-chat_input: true
----
++++ {"chat_input": true}
 # Prompt: 2
 
----
-chat_input: true
----
++++ {"chat_input": true}
 What are the dimensions of the pores?
 
 ---
 
++++
 # Response: 2
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 **Analyzing Pore Dimensions**
 
 I'm currently focused on determining the dimensions of these "pores" within the context of the conversion process. Recent thought updates involve considering how the PFP structure might influence pore size and shape, particularly in relation to solvent exchange efficiency. I'm exploring the implications of different PFP isoforms.
 
 **Refining Pore Size Focus**
 
++++
 My current thinking is narrowing down. I've realized the core focus is on CNF material pore dimensions, specifically within aerogels and organogels. I'm actively pinpointing pore size ranges directly linked to solvent exchange and emulsion templating, as discussed in pertinent research. I’m zeroing in on the specific sizes mentioned in the previous search results, like 120 and 40 µm from one paper, and considering the adjustable nature of these pore dimensions in the context of emulsion templating techniques, per the related papers.
 
 **Narrowing Down Aerogel Focus**
@@ -331,14 +309,10 @@ Sources
 
 ---
 
----
-chat_input: true
----
++++ {"chat_input": true}
 # Prompt: 3
 
----
-chat_input: true
----
++++ {"chat_input": true}
 "Pore formation mechanism and size regulation study of atmospheric dried cellulose nanofiber aerogel templated by emulsions" https://pubmed.ncbi.nlm.nih.gov/39848365/
 
 
@@ -355,15 +329,10 @@ How do hemp aerogels compare to CNF aerogels?
 
 ---
 
++++
 # Response: 3
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
++++
 **Evaluating Aerogel Options**
 
 I'm currently focused on the distinctions between hemp and CNF aerogels. I've begun reviewing the provided research and image search results. My goal is to compile a detailed comparison covering key properties like elasticity, porosity, and thermal conductivity. I'm keen to understand the specific advantages each material offers in aerogel production.

@@ -25,14 +25,10 @@ kernelspec:
     * [**3\. Open Source Tooling Stack**](#3-open-source-tooling-stack)
     * [**Summary of Recommendation**](#summary-of-recommendation)
 
----
-chat_input: true
----
++++ {"chat_input": true}
 # Prompt: 1
 
----
-chat_input: true
----
++++ {"chat_input": true}
 Goal:
 
 
@@ -49,15 +45,10 @@ open source
 
 ---
 
++++
 # Response: 1
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
++++
 **Investigating IPO Modeling**
 
 I'm currently focused on identifying relevant standards and ontologies for modeling manufacturing processes with an IPO structure. Right now, I'm diving into ISO standards to see what they offer. The goal is to find a robust framework for representing inputs, the processes themselves, and the resulting outputs. I'm hoping to pinpoint the most promising options for a comprehensive model.

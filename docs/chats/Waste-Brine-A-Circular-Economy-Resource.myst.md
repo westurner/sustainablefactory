@@ -10,15 +10,15 @@ kernelspec:
 ## Contents
 
 * [Waste-Brine-A-Circular-Economy-Resource](#waste-brine-a-circular-economy-resource)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
   * [1. Core Industrial Chemicals](#1-core-industrial-chemicals)
   * [2. Strategic and Agricultural Minerals](#2-strategic-and-agricultural-minerals)
   * [3. High-Density Thermal Energy Storage](#3-high-density-thermal-energy-storage)
   * [4. Advanced & Critical Materials](#4-advanced-critical-materials)
   * [5. Pure Crystallized Salts & Clean Water](#5-pure-crystallized-salts-clean-water)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [1. Where Valorization *Is* Happening (The Current Sub-1%)](#1-where-valorization-is-happening-the-current-sub-1)
     * [2. The Multi-Billion Dollar Market Divide](#2-the-multi-billion-dollar-market-divide)
     * [3. Why is Progress Slow?](#3-why-is-progress-slow)
@@ -26,16 +26,20 @@ kernelspec:
 
 > From: https://gemini.google.com/app/2853fa0c0ee09bc6
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 message time: 2026-06-15 09:33:17
 
 what can be made out of waste brine?
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++
 Waste brine—whether sourced from reverse osmosis (RO) desalination plants, industrial wastewater, or inland salt mining—is shifting from an environmental liability into a major feedstock for the circular economy. Through "brine mining" and advanced separation technologies (like selective nanofiltration, electrodialysis, and thermal crystallization), this concentrated stream can be transformed into industrial chemicals, minerals, energy storage components, and construction materials.
 
 The key products and commodities that can be made from waste brine include:
@@ -58,7 +62,6 @@ Sea and industrial brines are rich in valuable ions that can be selectively prec
 Brine can be concentrated to precipitate specific phase-change minerals for green building and thermal grids:
 * **Mirabilite / Glauber’s Salt ($\text{Na}_2\text{SO}_4 \cdot 10\text{H}_2\text{O}$):** Sodium sulfate fractions can be crystallized into form-stable thermal storage blocks. These materials absorb and release massive amounts of latent heat during phase changes, allowing them to regulate temperatures in passive solar or industrial energy storage systems.
 
-
 ## 4. Advanced & Critical Materials
 Depending on the brine source (especially geographic salt lakes or deep geothermal brines), highly strategic technology materials can be isolated:
 * **Lithium Carbonate ($\text{Li}_2\text{CO}_3$):** Extracted using direct lithium extraction (DLE) or advanced selective membranes, serving as a critical pillar for the electric vehicle battery supply chain.
@@ -75,16 +78,20 @@ By integrating these extraction pathways into standard industrial architectures,
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 message time: 2026-06-15 09:37:04
 
 How much brine from desalination is so waste valorized at present?
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++
 While the conceptual framework for brine mining and valorization is highly lucrative—with the global inventory of desalination waste holding an estimated **$2.2 trillion worth of commodities**—the reality of current commercial adoption is stark. 
 
 At present, **less than 1% of the world's desalination brine is actively valorized.** 

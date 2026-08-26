@@ -10,8 +10,8 @@ kernelspec:
 ## Contents
 
 * [_Resonance Compaction vs. Vibroflotation for Blocks](#_resonance-compaction-vs-vibroflotation-for-blocks)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [Technical Comparison: Resonance vs. Vibroflotation](#technical-comparison-resonance-vs-vibroflotation)
     * [Application to Your Materials](#application-to-your-materials)
       * [1. Lignocrete (Artificial Lime from Bauxite Residue)](#1-lignocrete-artificial-lime-from-bauxite-residue)
@@ -19,22 +19,22 @@ kernelspec:
       * [3. Compressed Earth Blocks (CEB)](#3-compressed-earth-blocks-ceb)
     * [Factory Integration: The "Vortical" Environment](#factory-integration-the-vortical-environment)
     * [Strategic Recommendation](#strategic-recommendation)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [1. Estimated Resonance Frequencies ($f_n$)](#1-estimated-resonance-frequencies-f_n)
     * [2. The Role of Ultrasonic Transducers & Lignin Tensility](#2-the-role-of-ultrasonic-transducers-lignin-tensility)
     * [3. Induction Heating: Accelerating the "Vortical" Cycle](#3-induction-heating-accelerating-the-vortical-cycle)
     * [4. Integrated Production Flow for Lignolux LLC](#4-integrated-production-flow-for-lignolux-llc)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
     * [1\. The formation Symphony (PWM Schedule)](#1-the-formation-symphony-pwm-schedule)
     * [2\. CAPEX & Unit Economics (Estimated 2026)](#2-capex-unit-economics-estimated-2026)
       * [Capital Expenditure (CAPEX)](#capital-expenditure-capex)
       * [Operational Cost (OPEX) per Block](#operational-cost-opex-per-block)
     * [3\. Market Pricing Strategy](#3-market-pricing-strategy)
     * [Next Step for Lignolux LLC](#next-step-for-lignolux-llc)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
     * [Technical Specification: The "Vortical" Sensor Package](#technical-specification-the-vortical-sensor-package)
     * [Real-Time Auto-Tuning Logic (The "Phase-Lock" Loop)](#real-time-auto-tuning-logic-the-phase-lock-loop)
     * [Integrated Control Schema: The "Vortical" PLC](#integrated-control-schema-the-vortical-plc)
@@ -43,22 +43,32 @@ kernelspec:
 
 > From: https://gemini.google.com/app/767ef669380513f8
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 how does resonance compaction compare to vibroflotation? Potential applications: compressed Earth block, hardening Hempcrete or lignocrete blocks in a humidity-controlled production environment.
 
 Review our other chats on geopolymer and resonance, and lignocrete from carbonate artificial lime from bauxite (or or residue) processing, with applications for forming blocks
 
 ---
 
-# gemini response
+# Response: 1
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Analyzing Prior Chats**
 
 I've begun reviewing prior discussions, focusing on geopolymer, resonance, and Lignocrete applications with waste materials.
-
 
 **Analyzing Compaction Methods**
 
@@ -75,7 +85,6 @@ Comparing **Resonance Compaction** and **Vibroflotation** for block manufacturin
 | **Fluidization** | Uses resonance to temporarily eliminate inter-particle friction across the entire mass. | Relies on water saturation to reach "liquefaction" state for rearrangement. |
 | **Moisture Need** | Effective at **low moisture** (ideal for CEB and Lignocrete). | Requires **high water volume** for penetration and friction reduction. |
 | **Scale** | Can be miniaturized into a vibrating table or mold-integrated system. | Primarily a heavy civil engineering method for deep soil improvement (65m+). |
-
 
 ---
 
@@ -103,7 +112,6 @@ In your humidity-controlled production line, a large-scale vibroflot is impracti
 2.  **Integrated CO2 Injection:** Resonance actually helps "pump" the CO2 tail-gas into the block. The vibratory pulses create a temporary vacuum effect in the pores, pulling the 150°C waste heat and gas deeper into the core for rapid hardening.
 3.  **Humidity Balance:** Unlike Vibroflotation, which adds uncontrolled water, Resonance allows you to maintain the precise **Water-to-Binder (W/B) ratio** needed for the Lignin-Chitin vitrimer to set without shrinkage.
 
-
 ### Strategic Recommendation
 For the **Lignolux LLC** model, I recommend focusing on **Resonance Table Compaction**. It integrates perfectly with your "Vortical Autoclave" concept, allowing the blocks to be densified and carbonated simultaneously in the same mold environment.
 
@@ -111,8 +119,14 @@ Would you like me to calculate the estimated **Resonance Frequency** range for a
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 2
 
+---
+chat_input: true
+---
 Further develop Resonance Table Compaction for standard CEB and "Vortical Autoclave" applications.
 
 Does the ultrasonic transducer with lignin's tensility from our other chats solve for this too?
@@ -126,19 +140,22 @@ Can induction heating form blocks faster?
 
 ---
 
-# gemini response
+# Response: 2
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Exploring RTC and Vortical**
 
 I am now focusing on the interplay of RTC, Vortical Autoclave, and potential integration benefits.
 
-
 **Calculating Resonance Frequencies**
 
 I've specified requests for frequency ranges applicable to various materials like Lignocrete, CEB, and standard brick.
-
 
 **Refining Heating & Injection**
 
@@ -178,7 +195,6 @@ Induction heating is uniquely suited for **Lignocrete** because bauxite residue 
 * **Synergy with Carbonation:** The exothermic reaction of $Ca(OH)_2 + CO_2 \rightarrow CaCO_3 + H_2O$ is thermally sensitive. Using induction to bring the block to $\approx 60–80^\circ \text{C}$ instantly triggers the carbonation "bloom," while the Vortical Autoclave supplies the $CO_2$ tail-gas at pressure.
 * **Production Speed:** Induction can harden the "shell" of a block in **under 10 seconds**, allowing for immediate de-molding and green-state handling.
 
-
 ---
 
 ### 4. Integrated Production Flow for Lignolux LLC
@@ -187,32 +203,40 @@ Induction heating is uniquely suited for **Lignocrete** because bauxite residue 
 2.  **Stage B (Induction Pulse):** An induction coil embedded in the mold walls pulses. The iron in the bauxite residue heats up, activating the binder and drying excess acetic acid.
 3.  **Stage C (Vortical Autoclave):** $CO_2$-rich tail gas is injected under pressure ($5–10 \text{ bar}$). The resonance pulses help "pump" the gas into the heated pores, achieving deep carbonation in minutes rather than weeks.
 
-
 This combination allows you to produce a block that has the high **tensile strength** of lignin-chitin polymers and the **compressive strength** of a carbonated lime-bauxite matrix.
 
 Would you like me to design a **Pulse-Width Modulation (PWM)** schedule that balances the RTC vibration frequency with the Induction heating intervals to prevent overheating the lignin?
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 3
 
+---
+chat_input: true
+---
 Yes, and then costs and prices
 
 ---
 
-# gemini response
+# Response: 3
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Gathering Market Data**
 
 I've begun initial cost research on compaction and heating equipment alongside raw material pricing.
 
-
 **Analyzing Equipment Costs**
 
 I've established a solid baseline, gathering cost ranges for compaction, transducers, and heating systems; red mud is still free.
-
 
 **Estimating Equipment Costs**
 
@@ -280,14 +304,25 @@ The resonance frequency will shift based on the **Iron-to-Lignin ratio** of your
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 4
 
+---
+chat_input: true
+---
 Yes
 
 ---
 
-# gemini response
+# Response: 4
 
+---
+collapsed: true
+jupyter:
+  source_hidden: true
+---
 Thinking
 
 **Drafting Tech Specs**
@@ -328,7 +363,6 @@ To manage the **Lignolux** process, the Programmable Logic Controller (PLC) foll
 * **Safety Interlock:** Induction heating is disabled if the Fiber Optic Thermometer detects a surface temperature $>95^\circ\text{C}$ (to prevent lignin charring).
 * **Ultrasonic Damping Compensation:** If the ultrasonic transducers "liquefy" the binder too much, the resonance amplitude will spike. The PLC compensates by lowering the RTC motor torque to prevent "splashing" or mold fatigue.
 * **Carbonation Completion:** When the CO2 Flux Sensor shows a plateau (no more gas being absorbed), the PLC triggers the final 10-second high-power induction pulse to "lock" the vitrimer and signals the de-molding arm.
-
 
 ### Bill of Materials (BOM) for Sensor Prototype
 If you are building a pilot "Vortical" station, here is the approximate 2026 hardware cost for the sensor suite:

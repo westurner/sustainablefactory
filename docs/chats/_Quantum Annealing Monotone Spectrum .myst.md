@@ -10,15 +10,15 @@ kernelspec:
 ## Contents
 
 * [_Quantum Annealing Monotone Spectrum](#_quantum-annealing-monotone-spectrum)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [1. The QRT Framework: Gibbs Distance as Resource](#1-the-qrt-framework-gibbs-distance-as-resource)
       * [The Spectrum of Monotones](#the-spectrum-of-monotones)
     * [2. Application to Simulated Annealing (SA)](#2-application-to-simulated-annealing-sa)
     * [3. Application to Quantum Annealing (QA)](#3-application-to-quantum-annealing-qa)
     * [Summary Table](#summary-table)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [1. The TTS Foundation](#1-the-tts-foundation)
     * [2. How Rényi Monotones Bound $P_s$](#2-how-rényi-monotones-bound-p_s)
     * [3. NISQ Context: Noise as a Resource Drain](#3-nisq-context-noise-as-a-resource-drain)
@@ -26,8 +26,10 @@ kernelspec:
 
 > From: https://gemini.google.com/app/6fd1bf9246a02fce
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 Describe a Spectrum of Monotones QRT approach (with Gibbs distance as Resource).
 
 How does this apply to :
@@ -35,39 +37,36 @@ Simulated annealing and quantum annealing
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the Core Concept**
 
++++
 I've clarified the fundamental "Spectrum of Monotones QRT approach" using Gibbs distance as the resource.
-
 
 **Refining the Framework**
 
 I'm now focusing on the "Spectrum of Monotones" aspect, connecting it to Rényi divergences and majorization within Thermal Operations for state transformations.
 
-
 **Refining the Framework**
 
 I am now connecting the spectrum of Rényi divergences within the Spectrum of Monotones to state transformations via Majorization/Thermo-majorization, readying application to Simulated Annealing.
-
 
 **Defining the Core Terms**
 
 The initial search clarified terminology, pinpointing QRT, thermal states, and Gibbs state deviation as key research focuses.
 
-
 **Clarifying Resource Concepts**
 
 I've defined the Gibbs distance as work potential, and synthesized SA/QA within the QRT framework using the spectrum of monotones.
 
-
 **Defining Resource and Monotones**
 
 I have successfully identified the core resource as non-Gibbs states and the monotones as the spectrum within the framework.
-
 
 **Generalizing Entropy Conditions**
 
@@ -98,7 +97,6 @@ In **Simulated Annealing**, the goal is to drive a system toward the ground stat
 * **The Monotone Path:** The annealing schedule defines a trajectory in the state space. The Spectrum of Monotones allows us to quantify the **irreversibility** of the cooling. If the cooling is too fast (a quench), the "Gibbs distance" for higher $\alpha$ values increases, indicating the formation of local minima traps (unwanted resource accumulation in excited states).
 * **Classical Majorization:** In SA, this approach is often visualized via **Lorenz curves** (or Thermo-majorization curves). A successful anneal ensures that the state at $t+1$ is thermo-majorized by the state at $t$.
 
-
 ---
 
 ### 3. Application to Quantum Annealing (QA)
@@ -124,20 +122,24 @@ Would you like to explore how these Rényi monotones specifically bound the "Tim
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 Yes
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the Relationship**
 
++++
 I've begun explaining how Rényi monotones will bound the Time-to-Solution in NISQ devices, per the user's positive response.
-
 
 **Analyzing Rényi Bounds**
 
@@ -161,7 +163,6 @@ In the resource theory of thermodynamics, the transformation from an initial sta
 $$D_\infty(\rho || \gamma) = \ln || \gamma^{-1/2} \rho \gamma^{-1/2} ||_\infty$$
 
 The probability $P_s$ is essentially the "conversion rate" of the Gibbs distance resource into the target configuration. If $D_\alpha$ decreases too rapidly (due to noise), the "budget" required to reach the ground state is depleted before the annealing cycle completes. 
-
 
 * **The $\alpha = 1$ Monotone (Kullback-Leibler):** Bounds the **average** energy of the system. In SA, this is often the only monotone considered.
 * **The $\alpha = \infty$ Monotone (Min-Entropy):** Bounds the **peak** probability. This is crucial for QA because TTS is highly sensitive to the "tail" of the distribution—if the ground state is missed, the "cost" is a full restart.

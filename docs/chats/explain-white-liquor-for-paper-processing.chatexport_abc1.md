@@ -10,25 +10,25 @@ kernelspec:
 ## Contents
 
 * [explain-white-liquor-for-paper-processing](#explain-white-liquor-for-paper-processing)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
   * [1. Chemical Composition](#1-chemical-composition)
   * [2. How It Works in the Digester](#2-how-it-works-in-the-digester)
   * [3. The Industrial "Liquor Life Cycle"](#3-the-industrial-liquor-life-cycle)
     * [Turning Green Back to White (Causticizing)](#turning-green-back-to-white-causticizing)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
   * [1. Organosolv Pulping (The Most Sustainable Alternative)](#1-organosolv-pulping-the-most-sustainable-alternative)
   * [2. Soda-AQ Pulping (The Immediate Commercial Alternative)](#2-soda-aq-pulping-the-immediate-commercial-alternative)
   * [3. Deep Eutectic Solvents (DES) (The Emerging Green Chemistry)](#3-deep-eutectic-solvents-des-the-emerging-green-chemistry)
   * [Comparison Summary](#comparison-summary)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
     * [1. Solvent Extraction vs. Chemical Destruction](#1-solvent-extraction-vs-chemical-destruction)
     * [2. Upstream Pulping as a Precursor to Advanced Materials](#2-upstream-pulping-as-a-precursor-to-advanced-materials)
     * [3. Deep Eutectic Solvents (DES) and Vitrimers](#3-deep-eutectic-solvents-des-and-vitrimers)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
   * [1. Techno-Economic Comparison (TEA): Kraft vs. Next-Gen Biorefinery](#1-techno-economic-comparison-tea-kraft-vs-next-gen-biorefinery)
   * [2. Deep Dive: Low-Temperature Plasma (LTP) & Green Chemistry](#2-deep-dive-low-temperature-plasma-ltp-green-chemistry)
     * [The Mechanism](#the-mechanism)
@@ -36,8 +36,8 @@ kernelspec:
     * [A. Ultrasonic Processing (Acoustic Cavitation in Liquid Media)](#a-ultrasonic-processing-acoustic-cavitation-in-liquid-media)
     * [B. Ultrasonic Ball Milling (Mechanochemical Hybridization)](#b-ultrasonic-ball-milling-mechanochemical-hybridization)
     * [Why This Maximizes Sustainability](#why-this-maximizes-sustainability)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 5](#prompt-5)
+* [Response: 5](#response-5)
   * [1. Capital Expenditure (CapEx) Estimation](#1-capital-expenditure-capex-estimation)
     * [Kraft Mill Baseline Drivers](#kraft-mill-baseline-drivers)
     * [Next-Gen Plant Drivers](#next-gen-plant-drivers)
@@ -51,8 +51,8 @@ kernelspec:
     * [Marginal Cost Math](#marginal-cost-math)
   * [4. Summary Matrix: The Efficiency Shift](#4-summary-matrix-the-efficiency-shift)
     * [The Strategic Conclusion](#the-strategic-conclusion)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 6](#prompt-6)
+* [Response: 6](#response-6)
     * [Context and Namespace Definition](#context-and-namespace-definition)
   * [```yaml](#yaml)
 * [Standard Semantic Web Namespaces](#standard-semantic-web-namespaces)
@@ -83,15 +83,21 @@ kernelspec:
 
 > From: https://gemini.google.com/app/4cd5f4073940819c
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 message time: 2026-05-28 19:04:45
 
 Explain white liquor for paper processing
 
 ---
 
-# gemini response
+# Response: 1
 
 In the pulp and paper industry, **white liquor** is the strongly alkaline chemical solution used in the first step of the **Kraft pulping process**. Its primary job is to chemically dissolve **lignin**—the natural glue holding wood fibers together—separating it from the desirable **cellulose** fibers used to make paper.
 
@@ -121,7 +127,6 @@ The pulping process takes place in a massive pressure vessel called a **digester
 ## 3. The Industrial "Liquor Life Cycle"
 White liquor is not a single-use consumable; it is part of a highly efficient, closed-loop chemical recovery cycle that keeps Kraft mills economically viable and environmentally compliant. 
 
-
 The transformation follows a strict color-coded nomenclature:
 
 | Liquor Type | Status / Role in the Cycle |
@@ -140,15 +145,21 @@ $$\text{Na}_2\text{CO}_3 + \text{Ca(OH)}_2 \rightarrow 2\text{NaOH} + \text{CaCO
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 2
 
+---
+chat_input: true
+---
 message time: 2026-05-28 19:08:12
 
 What would be more sustainable (and less hazardous) than white liquor for paper processing?
 
 ---
 
-# gemini response
+# Response: 2
 
 The Kraft process using white liquor is notoriously difficult to replace because it is incredibly efficient at dissolving lignin while leaving strong cellulose fibers behind, and its chemical recovery loop is highly optimized. 
 
@@ -193,15 +204,21 @@ DES represents the cutting edge of green chemistry in papermaking. These are ion
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 3
 
+---
+chat_input: true
+---
 message time: 2026-05-28 19:13:37
 
 Find our other chats about Organosolv and alternatives
 
 ---
 
-# gemini response
+# Response: 3
 
 While we haven't explicitly dug into traditional paper-mill Organosolv scaling in our recent sessions, our past discussions on bio-based polymers and the **Lignolux** ecosystem tie directly into the core mechanics of why Organosolv is so compelling. 
 
@@ -226,8 +243,14 @@ Would you like to bridge these concepts and look at a techno-economic comparison
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 4
 
+---
+chat_input: true
+---
 message time: 2026-05-28 19:59:57
 
 > bridge these concepts and look at a techno-economic comparison
@@ -242,7 +265,7 @@ Would ultrasonic processing and/or ultrasonic ball milling increase the efficien
 
 ---
 
-# gemini response
+# Response: 4
 
 To bridge these concepts, we need to look at how we can move away from the brute-force thermal and chemical energy of Kraft white liquor ($170^\circ\text{C}$, high $\text{pH}$, sulfur chemistry) and instead use **targeted physical and non-thermal energy inputs**. 
 
@@ -267,7 +290,6 @@ From a techno-economic perspective, a traditional Kraft mill is optimized for a 
 ## 2. Deep Dive: Low-Temperature Plasma (LTP) & Green Chemistry
 
 Using Deep Eutectic Solvents (DES) or Organosolv systems alone can sometimes suffer from slow reaction kinetics because biomass is naturally recalcitrant. **Low-Temperature (Non-Thermal) Plasma** acts as a powerful chemical accelerator.
-
 
 ### The Mechanism
 LTP introduces highly reactive, non-equilibrium species—such as hydroxyl radicals ($\cdot\text{OH}$), atomic oxygen ($\cdot\text{O}$), ozone ($\text{O}_3$), and solvated electrons—directly to the biomass matrix at or near room temperature.
@@ -308,15 +330,21 @@ Standard ball milling breaks down biomass via mechanical impact and shear, but i
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 5
 
+---
+chat_input: true
+---
 message time: 2026-05-28 20:10:26
 
 Estimate the efficiency advantage relative to current processes. CapEx, OpEx, Marginal cost
 
 ---
 
-# gemini response
+# Response: 5
 
 To provide a rigorous techno-economic estimation, let’s compare a next-gen biorefinery facility—integrating **Ultrasonic Ball Milling, Low-Temperature Plasma (LTP), and a Deep Eutectic Solvent (DES) extraction loop**—against a state-of-the-art **Kraft Mill (White/Black Liquor loop)**. 
 
@@ -418,15 +446,21 @@ Crucially, the "waste" stream changes from a hazardous liability into a high-mar
 
 ---
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 6
 
+---
+chat_input: true
+---
 message time: 2026-05-28 20:35:28
 
 Develop and refine the process in YAML-LD with IOF schema and a lignolux schema for any additional custom properties, though, try to use IOF if possible
 
 ---
 
-# gemini response
+# Response: 6
 
 To formalize this next-generation biorefinery process, we will map the workflow using **YAML-LD** (YAML for Linked Data). 
 

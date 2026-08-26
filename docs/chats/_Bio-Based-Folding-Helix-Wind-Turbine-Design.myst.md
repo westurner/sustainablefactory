@@ -10,8 +10,8 @@ kernelspec:
 ## Contents
 
 * [_Bio-Based-Folding-Helix-Wind-Turbine-Design](#_bio-based-folding-helix-wind-turbine-design)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
   * [1. Kinematic & Aerodynamic Design](#1-kinematic-aerodynamic-design)
     * [Folding Kinematics](#folding-kinematics)
   * [2. Advanced Material Stack & Architecture](#2-advanced-material-stack-architecture)
@@ -19,8 +19,8 @@ kernelspec:
     * [Nitrogenated Lignin-Vitrimer (N-LV) Synthesis](#nitrogenated-lignin-vitrimer-n-lv-synthesis)
     * [Surface Laser-Induced Graphene (LIG) Integration](#surface-laser-induced-graphene-lig-integration)
   * [4. Manufacturing Process Flow](#4-manufacturing-process-flow)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
   * [1. Single-Material System: Nitrogenated Lignin-Vitrimer (N-LV) + LIG](#1-single-material-system-nitrogenated-lignin-vitrimer-n-lv-lig)
   * [2. Aerodynamic & Folding Screw Kinematics](#2-aerodynamic-folding-screw-kinematics)
     * [Foldable Origami Mechanism](#foldable-origami-mechanism)
@@ -31,16 +31,20 @@ kernelspec:
 
 > From: https://gemini.google.com/app/1a4c64a6fc20a35c
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 message time: 2026-07-24 12:42:32
 
 Research and design a folding Archimedean double helix wind turbine (out of (nitrogenated) Lignin-Vitrimer (LV) with Laser-Induced Graphene on the surface at least, LVH, LVCF, Wheat Straw and BioTPU (ideally also with Laser-Induced Graphene)
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++
 Designing a deployable, high-efficiency vertical wind turbine requires balancing aerodynamic curvature, structural rigidity, and dynamic flexibility. The Archimedean double-helix geometry excels in urban and low-wind environments due to its omnidirectional, low-drag torque generation and quiet operation. Making it **foldable** and **fully bio-based** transforms it into a rapidly deployable, circular energy solution.
 
 ---
@@ -134,8 +138,10 @@ $$\Delta R / R_0 = GF \cdot \varepsilon$$
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 message time: 2026-07-24 12:48:24
 
 Research and design a folding Archimedean double screw wind turbine using only one of these materials: (nitrogenated) Lignin-Vitrimer (LV) with Laser-Induced Graphene on the surface at least, LVH, LVCF, Wheat Straw and BioTPU (ideally also with Laser-Induced Graphene) 
@@ -144,8 +150,10 @@ Include energy harvesting with LIG: TENG and piezoelectric energy harvesting
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++
 Designing a folding Archimedean double screw (helical) wind turbine using **a single unified material system** requires a material that can simultaneously act as a rigid structural shell, a flexible origami fold hinge, and a carbon precursor for direct laser writing of active electronics.
 
 The ideal single-material choice for this system is **Nitrogenated Lignin-Vitrimer (N-LV)** functionalized with surface **Laser-Induced Graphene (LIG)**.

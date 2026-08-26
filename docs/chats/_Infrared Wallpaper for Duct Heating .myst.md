@@ -10,61 +10,61 @@ kernelspec:
 ## Contents
 
 * [_Infrared Wallpaper for Duct Heating](#_infrared-wallpaper-for-duct-heating)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [**1. Radiant vs. Convective Heat Transfer**](#1-radiant-vs-convective-heat-transfer)
     * [**2. Inadequate Temperature Delta**](#2-inadequate-temperature-delta)
     * [**3. Insufficient Power Density**](#3-insufficient-power-density)
     * [**4. Material Reflection inside the Duct**](#4-material-reflection-inside-the-duct)
     * [**5. Fire Codes and Material Degradation**](#5-fire-codes-and-material-degradation)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [**1. The Advantage of the LGBPC Fluid**](#1-the-advantage-of-the-lgbpc-fluid)
     * [**2. The Second Law of Thermodynamics**](#2-the-second-law-of-thermodynamics)
     * [**3. Power Density vs. Volumetric Heat Capacity**](#3-power-density-vs-volumetric-heat-capacity)
     * [**4. The Physical Barrier of the Pipe**](#4-the-physical-barrier-of-the-pipe)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
     * [1. Submerged Resistance Element](#1-submerged-resistance-element)
     * [2. Induction Coil](#2-induction-coil)
     * [3. Concentrated Solar Thermal Array (CST)](#3-concentrated-solar-thermal-array-cst)
 
 > From: https://gemini.google.com/app/c0b37cc80906454e
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 Research infrared wallpaper. Can infrared wallpaper be used to heat a duct of forced air?
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the Parameters**
 
++++
 I've clarified the core question and defined parameters for exploring infrared wallpaper's duct heating potential.
-
 
 **Assessing Infrared Heating**
 
 I've begun analyzing infrared wallpaper's physics, focusing on its radiant heat emission and absorption.
 
-
 **Analyzing Heat Transfer**
 
 I've clarified that infrared wallpaper's radiant heating is insufficient for forced air systems due to low temperatures and power.
-
 
 **Clarifying Ineffectiveness**
 
 I've definitively concluded infrared wallpaper's impracticality for duct heating, citing temperature, power, and air interaction issues.
 
-
 **Refining Technical Tone**
 
 I am now focusing on aligning the explanation's physics and engineering details to the user's expertise.
-
 
 **Evaluating Duct Suitability**
 
@@ -96,25 +96,28 @@ This video provides a helpful visual breakdown of the multi-layer carbon-paste c
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 Can infrared wallpaper heat a boiler loop, or Lignolux LGBPC thermal fluid (Lignin, BioPG, Graphene, Phytic Acid, Citric Acid)?
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Assessing the Query**
 
 I've clarified the user's question, identifying the specific fluids to be heated by the IR wallpaper.
 
-
 **Analyzing the System**
 
 I've determined that the user's custom fluid, LGBPC, is relevant due to its carbon allotrope composition and must be considered.
-
 
 **Addressing the Limitation**
 
@@ -150,32 +153,34 @@ To heat the fluid radiantly, the infrared waves must first interact with the pip
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 3
 
++++ {"chat_input": true}
 >  like a submerged resistance element, an induction coil, or a concentrated solar thermal array
 
 Which is most electrically efficient?
 
 ---
 
-# gemini response
++++
+# Response: 3
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Assessing Efficiencies**
 
 I've begun dissecting the electrical efficiency comparison requested, focusing on the heating methods provided.
-
 
 **Defining Efficiency Factors**
 
 I've specified efficiency figures for submerged resistance and induction heating, contextualized for LGBPC fluid.
 
-
 **Clarifying Energy Sources**
 
 I'm now detailing efficiencies, reframing solar thermal and submerged resistance, as requested.
-
 
 **Confirming Electrical Efficiency**
 

@@ -10,8 +10,8 @@ kernelspec:
 ## Contents
 
 * [_Ancient Tech_ Pyramids, Caves, and RF](#_ancient-tech_-pyramids-caves-and-rf)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [1. The Scalloped Walls: RF Diffusers vs. VLF](#1-the-scalloped-walls-rf-diffusers-vs-vlf)
     * [2. The Great Pyramid Star Shafts as Waveguides](#2-the-great-pyramid-star-shafts-as-waveguides)
     * [3. TTE (Through-The-Earth) Communication: VLF vs. LoRa](#3-tte-through-the-earth-communication-vlf-vs-lora)
@@ -20,8 +20,10 @@ kernelspec:
 
 > From: https://gemini.google.com/app/6b21a49df947e2cf
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 I happened to find a video about how the Osireon in Egypt is similar to structures constructed within Longyou caves. They are historically contemporary and they are separated by a multiple of 72 degrees. Angkor Wat and (TODO a number of other ancient facilities) perhaps coincidentally are also on a geographic pentagon at 72° degrees.
 Unfortunately, due to TODO some sort of procession you would expect such a LF/VLF comm net to be off by about 1° after 72 years though? Perhaps this is part of why they built new temples etc. adjacent to older sites. The Temple of Seti is built adjacent to the Osireon, for example.
 
@@ -59,29 +61,28 @@ Receiver cost for AM vs LoRa; but range? And then why not LF/VLF?
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Analyzing Communication Methods**
 
++++
 I've begun comparing LoRa, AM, and LF/VLF for TTE communication, considering scalloped walls in this speculative hypothesis.
-
 
 **Validating Frequency Penetration**
 
 I've confirmed LF/VLF is key for TTE and analyzed LoRa, AM, and LF/VLF limitations concerning "scalloped walls" for potential diffraction.
 
-
 **Refining Diffraction Effects**
 
 I'm now clarifying how scalloped walls affect various frequencies, particularly comparing acoustic and RF diffusion for practical applications.
 
-
 **Verifying Specifics**
 
 I've verified the user's core claim, locating supporting evidence to create a relevant and detailed response.
-
 
 **Analyzing Dimensions**
 

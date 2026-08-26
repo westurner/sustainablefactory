@@ -10,39 +10,39 @@ kernelspec:
 ## Contents
 
 * [_Algae-A-Natural-Nitrogen-Fertilizer](#_algae-a-natural-nitrogen-fertilizer)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
     * [How Algae Creates Fertilizer](#how-algae-creates-fertilizer)
     * [The Benefits Over Synthetic Fertilizers](#the-benefits-over-synthetic-fertilizers)
     * [Current Challenges](#current-challenges)
     * [The Future: "Green" Ammonia](#the-future-green-ammonia)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 2](#prompt-2)
+* [Response: 2](#response-2)
     * [**Comparative Review: Chitosan + Magnesium vs. Hydrogels**](#comparative-review-chitosan-magnesium-vs-hydrogels)
       * [**1. Efficiency (Removal & Recovery)**](#1-efficiency-removal-recovery)
       * [**2. Sustainability (Lifecycle & Energy)**](#2-sustainability-lifecycle-energy)
     * [**Synthesis of Linked Research**](#synthesis-of-linked-research)
     * [**The Verdict: Which is better?**](#the-verdict-which-is-better)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 3](#prompt-3)
+* [Response: 3](#response-3)
     * [**Mechanism: The "Living Fleece" Bio-Refinery**](#mechanism-the-living-fleece-bio-refinery)
     * [**Comparative Advantage: Fleece vs. Hydrogel Beads**](#comparative-advantage-fleece-vs-hydrogel-beads)
     * [**Optimization for Sustainability**](#optimization-for-sustainability)
     * [**Next Steps for Design**](#next-steps-for-design)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 4](#prompt-4)
+* [Response: 4](#response-4)
     * [**1. Chemical Cross-linking: Ensuring Magnesium Retention**](#1-chemical-cross-linking-ensuring-magnesium-retention)
     * [**2. The Degradation Timeline: From Fleece to Fertilizer**](#2-the-degradation-timeline-from-fleece-to-fertilizer)
     * [**Tuning the "Longevity"**](#tuning-the-longevity)
     * [**Next Steps for Integration**](#next-steps-for-integration)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 5](#prompt-5)
+* [Response: 5](#response-5)
     * [**1. Lignin-Incorporation: The "Shield & Sponge"**](#1-lignin-incorporation-the-shield-sponge)
     * [**2. Modulating the Electrostatic Attraction: The pH Switch**](#2-modulating-the-electrostatic-attraction-the-ph-switch)
     * [**3. Standardized Test Protocol: The "Fleece Saturation" Benchmark**](#3-standardized-test-protocol-the-fleece-saturation-benchmark)
     * [**Summary Table: The Optimized Smart Fleece**](#summary-table-the-optimized-smart-fleece)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 6](#prompt-6)
+* [Response: 6](#response-6)
     * [**1. Review: Plasma Sterilization and Absorbability**](#1-review-plasma-sterilization-and-absorbability)
     * [**2. Design: Nutrient Capture Bags for Agriculture**](#2-design-nutrient-capture-bags-for-agriculture)
       * [**The Bag Architecture**](#the-bag-architecture)
@@ -50,22 +50,22 @@ kernelspec:
     * [**3. Magnesium on the Fleece: The Loading Mechanism**](#3-magnesium-on-the-fleece-the-loading-mechanism)
     * [**Comparison: Diaper vs. Capture Bag**](#comparison-diaper-vs-capture-bag)
     * [**Next Step**](#next-step)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 7](#prompt-7)
+* [Response: 7](#response-7)
   * [1. Chemistry: PECVD Grafting for Hyper-Capture](#1-chemistry-pecvd-grafting-for-hyper-capture)
   * [2. Mechanics: The Anti-Clogging Flow-Through Bag](#2-mechanics-the-anti-clogging-flow-through-bag)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 8](#prompt-8)
+* [Response: 8](#response-8)
     * [**Stage 1: Substrate Preparation and Layering**](#stage-1-substrate-preparation-and-layering)
     * [**Stage 2: The Continuous APCVD Chamber**](#stage-2-the-continuous-apcvd-chamber)
     * [**Stage 3: Tube Forming and Encapsulation**](#stage-3-tube-forming-and-encapsulation)
     * [**Production Variables for Optimization**](#production-variables-for-optimization)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 9](#prompt-9)
+* [Response: 9](#response-9)
     * [**Agricultural Scaling Matrix**](#agricultural-scaling-matrix)
     * [**Engineering Design Trade-offs**](#engineering-design-trade-offs)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 10](#prompt-10)
+* [Response: 10](#response-10)
     * [**Ontological Architecture**](#ontological-architecture)
     * [**The YAML-LD Context & Graph**](#the-yaml-ld-context-graph)
 * [--- Core Ontologies ---](#-core-ontologies-)
@@ -86,8 +86,8 @@ kernelspec:
 * [Station 3: Chemical Grafting](#station-3-chemical-grafting)
 * [Station 4: Assembly & Finalization](#station-4-assembly-finalization)
     * [**Extending the Local Schema**](#extending-the-local-schema)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 11](#prompt-11)
+* [Response: 11](#response-11)
 * [--- Core Ontologies ---](#-core-ontologies-)
 * [--- Local Namespace ---](#-local-namespace-)
 * [--- Base Types ---](#-base-types-)
@@ -104,8 +104,8 @@ kernelspec:
 * [The Saturated State (Intermediate Resource)](#the-saturated-state-intermediate-resource)
 * [Phase B: Transfer to Soil Ecosystem](#phase-b-transfer-to-soil-ecosystem)
 * [Phase C: Biological Release (In the Soil)](#phase-c-biological-release-in-the-soil)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 12](#prompt-12)
+* [Response: 12](#response-12)
     * [1. What else is in the bag?](#1-what-else-is-in-the-bag)
     * [2. IOF and VF Equivalents for `containsCompound`](#2-iof-and-vf-equivalents-for-containscompound)
       * [**Industrial Ontologies Foundry (IOF) / BFO**](#industrial-ontologies-foundry-iof-bfo)
@@ -116,8 +116,8 @@ kernelspec:
       * [**A. Hydraulic Head Differential (The Physical Indicator)**](#a-hydraulic-head-differential-the-physical-indicator)
       * [**B. Effluent Breakthrough (The Chemical Indicator)**](#b-effluent-breakthrough-the-chemical-indicator)
       * [**C. Time/Flow Integration (The Predictive Indicator)**](#c-timeflow-integration-the-predictive-indicator)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 13](#prompt-13)
+* [Response: 13](#response-13)
     * [1. How else to utilize EMMO for this application?](#1-how-else-to-utilize-emmo-for-this-application)
     * [2. Standardizing URIs: Upgrading the Vocabulary](#2-standardizing-uris-upgrading-the-vocabulary)
     * [3. The Updated YAML-LD Process Model](#3-the-updated-yaml-ld-process-model)
@@ -141,16 +141,20 @@ kernelspec:
 
 > From: https://gemini.google.com/app/071a012bf2c92fd2
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 1
 
++++ {"chat_input": true}
 message time: 2026-03-13 17:48:26
 
 Can algae produce nitrogen fertilizers?
 
 ---
 
-# gemini response
++++
+# Response: 1
 
++++
 Yes, algae can produce nitrogen fertilizers, primarily through a natural process called **biological nitrogen fixation**. 
 
 While most plants cannot pull nitrogen directly from the air, certain types of algae—specifically **cyanobacteria** (often called blue-green algae)—possess a specialized enzyme called **nitrogenase** that allows them to convert atmospheric nitrogen ($N_2$) into ammonia ($NH_3$), a form that plants can actually use.
@@ -160,7 +164,6 @@ There are two main ways algae are used to provide nitrogen to crops:
 
 * **Living Biofertilizers:** In wet agriculture, like rice paddies, cyanobacteria (such as *Anabaena* or *Nostoc*) are grown directly in the water. They fix nitrogen throughout their life cycle and release it into the ecosystem as they die and decompose.
 * **Processed Algal Meal:** Microalgae or seaweed can be harvested, dried, and processed into pellets or liquid extracts. This "algal meal" is rich in nitrogen, phosphorus, and potassium (NPK), as well as micronutrients and growth hormones that improve soil health.
-
 
 ---
 
@@ -187,8 +190,10 @@ Would you like to explore the specific species of algae best suited for differen
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 2
 
++++ {"chat_input": true}
 message time: 2026-03-13 17:58:25
 
 Review this article and the articles linked therein: 
@@ -222,19 +227,20 @@ Supporting Information for "Molecular Insights into Novel Struvite– Hydrogel C
 
 ---
 
-# gemini response
++++
+# Response: 2
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Analyzing Environmental Technologies**
 
++++
 I've scoped out the initial articles, focusing on their potential for sustainable material applications.
-
 
 **Comparing Material Efficacy**
 
 I am now focusing on efficiency differences between chitosan/magnesium and hydrogel composites for NH4 and PO4 removal.
-
 
 **Synthesizing Article Information**
 
@@ -250,7 +256,6 @@ To answer your specific question on efficiency and sustainability, we must look 
 * **Mg-loaded Chitosan Microspheres:** This approach is highly efficient for **rapid removal**. Chitosan acts as a high-surface-area scaffold, and the addition of Magnesium ($Mg$) facilitates the precipitation of phosphorus and nitrogen into **struvite** ($MgNH_4PO_4 \cdot 6H_2O$). Carbonizing the chitosan (creating microspheres) increases stability and surface area, making it a powerful "magnet" for ions in industrial wastewater.
 * **Struvite-Hydrogel Composites:** Hydrogels excel in **molecular precision**. As noted in the 2025 *ACS* paper, hydrogels provide a controlled environment where struvite crystals can grow within the polymer matrix. While perhaps slower to "capture" than carbonized chitosan, they are more efficient at **retention and delivery**. They act as a "smart" reservoir, preventing the captured nutrients from washing away too quickly when reused.
 
-
 #### **2. Sustainability (Lifecycle & Energy)**
 * **Chitosan + Mg:** Chitosan is exceptionally sustainable because it is derived from chitin, a waste product of the seafood industry. However, the **carbonization process** (heating to high temperatures to create microspheres) is energy-intensive. While the resulting material is stable, the carbon footprint of production is higher than non-carbonized alternatives.
 * **Hydrogels (Bio-derived):** The latest research (like the "Garden Gold" article) emphasizes hydrogels made from yeast, whey, or cellulose. These can often be produced using "green chemistry" at lower temperatures. Because they are often biodegradable and intended for direct soil application, they offer a more seamless **circular economy** loop—transforming toxic algae blooms directly into a soil amendment without intermediate high-heat processing.
@@ -265,7 +270,6 @@ The provided links demonstrate a "Materials Hierarchy" for resource recovery:
 * **For Heavy Metal Remediation (Lead/Coal Regions):** **Yeast-laden hydrogels** and **brewing waste** are preferred. These utilize "biosorption"—using the natural affinity of biological cell walls (like yeast) to bind to toxic metals like lead. This is far cheaper than synthetic resins.
 * **For Nutrient Recovery (Fertilizer):** This is where the **Hydrogel vs. Chitosan** debate sits.
 
-
 ### **The Verdict: Which is better?**
 
 | Criteria | Chitosan + Magnesium | Hydrogel Composites |
@@ -278,16 +282,20 @@ The provided links demonstrate a "Materials Hierarchy" for resource recovery:
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 3
 
++++ {"chat_input": true}
 message time: 2026-03-13 18:06:55
 
 In our other chats we designed a chitosan-alginate fleece. Could that be combined with these methods to produce fertilizer?
 
 ---
 
-# gemini response
++++
+# Response: 3
 
++++
 Integrating the **chitosan-alginate fleece** we discussed previously with these nutrient-recovery methods is a brilliant step toward a "closed-loop" textile and agricultural system. Your fleece, which already utilizes a high-surface-area biopolymer matrix, is an ideal scaffold for the **struvite crystallization** and **algal capture** processes mentioned in the recent research.
 
 By modifying the fleece's chemistry, you could transform it from a functional material into an active "nutrient sponge" for producing fertilizer.
@@ -330,22 +338,26 @@ Would you like to look at the **chemical cross-linking** required to ensure the 
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 4
 
++++ {"chat_input": true}
 message time: 2026-03-13 18:12:01
 
 Both
 
 ---
 
-# gemini response
++++
+# Response: 4
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Addressing Dual Aspects**
 
 I have acknowledged the dual request and will proceed with separate sections on cross-linking and degradation.
-
 
 **Analyzing Cross-Linkers**
 
@@ -376,7 +388,6 @@ Once the fleece is saturated with nutrients and moved to the garden, the degrada
 | **Stage 2: Struvite Dissolution** | **1–4 Months** | As soil moisture acidity fluctuates, the **struvite crystals** embedded in the fiber interstices begin to dissolve slowly, providing a steady stream of nitrogen and phosphorus. |
 | **Stage 3: Polymer Breakdown** | **4–12 Months** | Soil microbes (secreting *chitosanase* and *alginate lyase*) begin to break the polymer backbones. The fleece loses its physical integrity, turning into organic humus. |
 
-
 ### **Tuning the "Longevity"**
 * **For Fast-Acting Fertilizer:** Increase the **Alginate** ratio. Alginate is more susceptible to moisture and rapid microbial breakdown, leading to a faster release of the "loaded" nutrients.
 * **For Multi-Season Mulch:** Increase the **Chitosan** ratio and the degree of covalent cross-linking. This creates a tougher, more crystalline fiber that can suppress weeds for a full growing season while slowly "bleeding" nutrients into the root zone.
@@ -390,8 +401,10 @@ Would you like to explore the **lignin-incorporation chemistry**, or should we l
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 5
 
++++ {"chat_input": true}
 message time: 2026-03-13 18:16:23
 
 Both. And,
@@ -402,8 +415,10 @@ Can this electrostatic attraction be modulated in order to cause release of the 
 
 ---
 
-# gemini response
++++
+# Response: 5
 
++++
 The combination of lignin-stabilized fibers and a pH-sensitive release mechanism transforms your fleece from a passive filter into a "smart" delivery system.
 
 ### **1. Lignin-Incorporation: The "Shield & Sponge"**
@@ -412,7 +427,6 @@ Integrating lignin (specifically **lignosulfonates** or **kraft lignin**) into t
 
 * **UV Resistance:** Lignin contains aromatic rings that absorb UV radiation, preventing the "photodegradation" of the chitosan backbone when the fleece is exposed to sunlight in the garden.
 * **Enhanced Porosity:** Lignin acts as a natural "spacer" between the tightly packed chitosan-alginate chains, creating a more porous structure that increases the surface area for $Mg^{2+}$ and $NH_4^+$ capture.
-
 
 ---
 
@@ -454,8 +468,10 @@ Would you like me to generate a **Python script** to help you calculate the adso
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 6
 
++++ {"chat_input": true}
 message time: 2026-03-17 16:56:01
 
 Review this chat: https://gemini.google.com/share/bf69f819902e
@@ -468,8 +484,10 @@ Magnesium on the chitosan-alginate fleece?
 
 ---
 
-# gemini response
++++
+# Response: 6
 
++++
 The shared conversation highlights a sophisticated "Life Cycle" approach to materials—specifically using **Chitosan-Alginate (CA)** and **Lignin** composites for hygiene products like diapers. Transitioning this architecture from "absorbent hygiene" to "agricultural nutrient capture" is a natural evolution of your "Lignolux" circular economy model.
 
 ### **1. Review: Plasma Sterilization and Absorbability**
@@ -490,7 +508,6 @@ Instead of a loose fleece, we can design **"Reactive Filter Socks"**—modular, 
 * **Outer Shell:** A coarse, high-strength **Hemp or Jute mesh** treated with Lignin for UV stability. This provides the structural "cage."
 * **Active Core:** A multi-layered **Chitosan-Alginate-Lignin (CAL) Fleece** spiral-wound to maximize contact time with flowing water.
 * **The "Nutrient Anchor":** The fleece is pre-loaded with **Magnesium ($Mg^{2+}$)** during the electrospinning or wet-laying process.
-
 
 #### **Operational Cycle**
 1.  **Deployment:** Bags are placed in agricultural runoff "choke points."
@@ -525,32 +542,34 @@ Since you've been looking at **plasma-sterilized** materials, would you like to 
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 7
 
++++ {"chat_input": true}
 message time: 2026-06-05 03:40:51
 
 Yes, both
 
 ---
 
-# gemini response
++++
+# Response: 7
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Exploring PECVD & Design**
 
 My analysis indicates a dual focus is needed: PECVD grafting and flow-through bag design, per the user's "Yes, both."
-
 
 **Detailing PECVD & Bag Design**
 
 I've outlined two key sections: PECVD grafting details, including molecule choices, and an anti-clogging bag design with a gradient flow approach.
 
-
 **Organizing Content Structure**
 
 I've decided to format with images to enhance explanation and organized into sections, improving clarity.
-
 
 **Refining The Approach**
 
@@ -613,32 +632,34 @@ By separating the "physical filtration" (outer layers) from the "chemical captur
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 8
 
++++ {"chat_input": true}
 message time: 2026-06-05 03:43:41
 
 How could we scale the PECVD treatment and multi-layer fleece assembly into a continuous roll-to-roll manufacturing line?
 
 ---
 
-# gemini response
++++
+# Response: 8
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the R2R System**
 
++++
 I've defined key R2R system components needed for the multi-layer bag's continuous manufacturing, focusing on material handling.
-
 
 **Outlining the R2R System**
 
 I'm now drafting the response's structure, focusing on a clear, step-by-step R2R system design.
 
-
 **Designing the Widget**
 
 I've specified the widget's inputs (sliders), data state, behavior, and visual feedback, focusing on a continuous R2R line simulation.
-
 
 **Refining the Approach**
 
@@ -694,27 +715,30 @@ To finalize the physical dimensions of the machinery, we need to know the target
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 9
 
++++ {"chat_input": true}
 message time: 2026-06-05 03:47:02
 
 what ranges of sizes can be constructed for which flow rates?
 
 ---
 
-# gemini response
++++
+# Response: 9
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the Parameters**
 
++++
 I've begun to define size ranges and associated flow rates for the agricultural filter socks.
-
 
 **Assessing Interaction Potential**
 
 I've realized a calculator/simulator for sizing the filter socks would be highly interactive and educational.
-
 
 **Calculating Flow Parameters**
 
@@ -764,32 +788,34 @@ To accurately configure the R2R line tooling (adjusting the forming collar diame
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 10
 
++++ {"chat_input": true}
 message time: 2026-06-05 03:53:36
 
 Develop and refine a model for this process and product in YAML-LD with IOF and VF and our local schema for any additional properties if necessary
 
 ---
 
-# gemini response
++++
+# Response: 10
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the Framework**
 
++++
 I have established the user's role and task, specifying ontologies for YAML-LD modeling.
-
 
 **Refining the Structure**
 
 I've set up YAML-LD structure with namespaces, key entities (filter bag, manufacturing line), using IOF, VF and Lignolux.
 
-
 **Constructing the YAML-LD**
 
 I am now drafting the YAML-LD structure and defining all the entities, including context and graph.
-
 
 **Elaborating the Components**
 
@@ -918,22 +944,26 @@ Would you like to draft the RDF schema defining how these specific `lignolux:` p
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 11
 
++++ {"chat_input": true}
 message time: 2026-06-05 03:56:13
 
 add Tier 2 and Tier 3, then the units, then the post-deployment phase
 
 ---
 
-# gemini response
++++
+# Response: 11
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Defining the New Structure**
 
++++
 I've defined the structure for Tier 2 and 3 bags, integrating nutrient capture and unit definitions.
-
 
 **Refining the YAML-LD**
 
@@ -1071,8 +1101,10 @@ Here is the extended YAML-LD schema. We utilize `vf:Process` to model both the a
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 12
 
++++ {"chat_input": true}
 message time: 2026-06-05 04:01:25
 
 lignolux:SaturatedCaptureBag-Tier1 from
@@ -1084,19 +1116,20 @@ how to determine that a bag is ripe / full / oversaturated / near peak saturatio
 
 ---
 
-# gemini response
++++
+# Response: 12
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
++++
 **Investigating Components**
 
 I've begun analyzing the request, focusing on the contents of the capture bag and related IOF properties.
 
-
 **Defining Bag Attributes**
 
 I've specified additional contents, including silt, heavy metals, organic detritus, and residual magnesium.
-
 
 **Mapping Relationships**
 
@@ -1105,7 +1138,6 @@ I've clarified the use of `iof:hasComponentPart`, `vf:contains`, and related ont
 **Modeling Ranges and Thresholds**
 
 I'm now exploring QUDT, SOSA/SSN, and SHACL to define and validate normal operating ranges and thresholds for bag properties.
-
 
 **Refining Monitoring Approach**
 
@@ -1194,8 +1226,10 @@ If sensors are too expensive for Tier 1 ditch deployments, you calculate saturat
 
 ---
 
-# you asked
++++ {"chat_input": true}
+# Prompt: 13
 
++++ {"chat_input": true}
 message time: 2026-06-05 04:07:23
 
 > European Materials Modelling Ontology (EMMO) and use emmo:hasSubPart or emmo:hasComposition.
@@ -1209,19 +1243,20 @@ Are there better URIs for these materials
 
 ---
 
-# gemini response
++++
+# Response: 13
 
++++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
 
 **Examining User Request**
 
++++
 I've clarified the user's need to integrate EMMO with their nutrient capture bag process model, specifically adding compounds.
-
 
 **Refining Vocabulary Choices**
 
 I've selected standard URIs like ChEBI and ENVO, opting for their broader applicability to represent the materials.
-
 
 **Mapping Materials Now**
 
@@ -1230,7 +1265,6 @@ I've mapped several more materials to standard URIs, ready for implementation in
 **Constructing YAML-LD Block**
 
 Now I'm defining namespaces and considering how to integrate the materials into the YAML-LD code, using EMMO predicates.
-
 
 **Defining EMMO Scope**
 

@@ -10,8 +10,8 @@ kernelspec:
 ## Contents
 
 * [_Plasma Variants of the Bayer Process](#_plasma-variants-of-the-bayer-process)
-* [you asked](#you-asked)
-* [gemini response](#gemini-response)
+* [Prompt: 1](#prompt-1)
+* [Response: 1](#response-1)
   * [1. Plasma Reduction Pre-treatment](#1-plasma-reduction-pre-treatment)
   * [2. Hydrogen Plasma Smelting (Bayer Replacement)](#2-hydrogen-plasma-smelting-bayer-replacement)
   * [3. Submerged Plasma Treatment (Liquor Purification)](#3-submerged-plasma-treatment-liquor-purification)
@@ -20,13 +20,19 @@ kernelspec:
 
 > From: https://gemini.google.com/app/c3414a92bc474753
 
-# you asked
+---
+chat_input: true
+---
+# Prompt: 1
 
+---
+chat_input: true
+---
 Are there already plasma variants of the Bayer process?
 
 ---
 
-# gemini response
+# Response: 1
 
 While there is no "Plasma Bayer Process" in the sense of a complete replacement for the chemical digestion cycle, researchers have developed several **plasma-assisted variants** to solve the Bayer process's biggest drawbacks: extreme alkalinity and the massive accumulation of "red mud" waste.
 

@@ -434,13 +434,6 @@ Review our chat about speckle random; specifically on Fast Optical sensing and m
 
 # Response: 1
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Exploring Research Synergy**
 
 I'm currently focused on identifying recent research connecting fast optical sensing, metamaterials, and speckle patterns. I'm prioritizing finding applications within this intersection. My initial search yielded some promising leads, and I'm now diving deeper into the literature. I'm looking for specific examples and implementations.
@@ -524,13 +517,6 @@ hw fab
 ---
 
 # Response: 2
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 **Focusing on HW Fab**
 
@@ -654,13 +640,6 @@ Find our chat about an e-ink like product. How fast was its response time?
 
 # Response: 3
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Clarifying the Focus**
 
 I'm now zeroing in on the user's specific query regarding response time, remembering the e-ink product. My primary goal is to accurately pinpoint the detail the user seeks. I have clearly defined the scope to address this user request directly.
@@ -710,13 +689,6 @@ Yes, but didn't we discuss a design with much faster response time than that?
 ---
 
 # Response: 4
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 **Recalling Previous Data**
 
@@ -791,13 +763,6 @@ Yes. Is this a or nearly a metamaterial? Could it whiten speckle random? Could i
 ---
 
 # Response: 5
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 **Connecting Concepts**
 
@@ -911,13 +876,6 @@ Could gratings in rGO and/or bragg reflectors modulate phase, too?
 
 # Response: 6
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Reviewing Past Discussions**
 
 I'm now diving into our previous conversations about Bragg reflectors to refresh my memory on the specifics we've explored, especially materials. Currently, I'm focusing on the phase modulation potential within graphene-based gratings and Bragg reflectors, with particular attention to thermo-optic effects.
@@ -1028,13 +986,6 @@ With Bragg reflectors
 ---
 
 # Response: 7
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 **Combining Concepts**
 
@@ -1159,13 +1110,6 @@ collapsed: true
 jupyter:
   source_hidden: true
 ---
-Show thinking
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
 **Defining Spectral Range**
 
 I'm currently working on defining the viable spectral range for the rGO + Lignin-Vitrimer Bragg Reflector device, beginning by analyzing the request and clarifying the core question of possible wavelengths. I'm focusing on identifying suitable spectral properties given the materials, beyond just the example green 532nm.
@@ -1273,13 +1217,6 @@ What sustainable alternative solves for UV with these methods?
 ---
 
 # Response: 9
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 ---
 collapsed: true
@@ -1406,13 +1343,6 @@ Yes, and costs
 ---
 
 # Response: 10
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 ---
 collapsed: true
@@ -1561,13 +1491,6 @@ Yes
 
 # Response: 11
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Developing Chamber Control Code**
 
 Okay, I'm working on a Python script now. The goal is to monitor humidity and temperature, probably with a DHT22 or BME280 sensor. I'm focusing on the humidifier control logic. I'm figuring out how to set thresholds for activation and deactivation.
@@ -1714,13 +1637,6 @@ Design this production process. Identify synergies and revise
 
 # Response: 12
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Integrating Manufacturing Approaches**
 
 I'm currently focused on the integration of two distinct manufacturing methods. The challenge lies in combining the slow, self-assembly of the CNC Bragg mirror with the fast, precise laser patterning of the rGO active layer. It's a delicate balance.
@@ -1847,13 +1763,6 @@ Yes
 ---
 
 # Response: 13
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 **Outlining CNC Layer Prep**
 
@@ -2042,13 +1951,6 @@ Production volumes and costs?
 ---
 
 # Response: 14
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 ---
 collapsed: true
@@ -2281,13 +2183,6 @@ Sustainability impact, feasibility, possible applications?
 
 # Response: 15
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Assessing Sustainability Impact**
 
 I'm now diving into the sustainability impact of the Active UV-Bragg Sensor, which I'm calling "The Green Optic." My initial assessment indicates it represents a significant shift away from traditional, less eco-friendly methods. I will be looking closely into the potential for this technology to contribute to a circular economy, reduce waste, and promote resource efficiency.
@@ -2402,13 +2297,6 @@ collapsed: true
 jupyter:
   source_hidden: true
 ---
-Show thinking
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
 **Considering UV Protection**
 
 I'm currently focused on preventing UV damage in the CNC-rGO bio-chip. Encapsulation seems critical to avoid photo-oxidation, as oxygen exposure is a major concern. Sealing the device appears to be the most promising path forward, and I'm investigating suitable materials.
@@ -2514,13 +2402,6 @@ Could this make a wide gamut holographic projector?
 ---
 
 # Response: 17
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 ---
 collapsed: true
@@ -2653,13 +2534,6 @@ Yes, and what about Lignin-Vitrimer + CNT or just Lignin-Vitrimer + Graphene ins
 
 # Response: 18
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Integrating Designs & Projector**
 
 I'm now focusing on integrating my existing Lignin-Vitrimer computing designs (CPU/QPU) with this Active Bragg/rGO holographic projector concept. The core challenge involves replacing the traditional Silicon CMOS backplane. I'm exploring how this material change can synergize.
@@ -2789,13 +2663,6 @@ Cost of a TV and a holographic laser system like lcos made with this process?
 
 # Response: 19
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Estimating Display Costs**
 
 I'm now focusing on estimating the production costs of a display, specifically using the "Active UV-Bragg/rGO/Lignin-Vitrimer" process. The key components I'm considering are the TV display itself and a holographic laser system (like LCoS). I'm breaking down the costs associated with materials, manufacturing, and potential scaling for mass production, especially for the display.
@@ -2924,13 +2791,6 @@ Cost to make HPC RAM with this process?
 
 # Response: 20
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Calculating HPC RAM Costs**
 
 I'm now diving into the cost analysis for manufacturing High-Performance Computing (HPC) RAM using the proposed "All-Carbon" (Lignin-Vitrimer + CNT) process. I'm focusing on the different components of production, including raw material costs, labor, energy, and anticipated yields, to offer a comprehensive estimate of the process.
@@ -3033,13 +2893,6 @@ Find our chats about thermal management in chips
 
 # Response: 21
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Reviewing Relevant Chats**
 
 I'm now diving into the user's past chats, aiming to uncover prior discussions on layer coding, vias in Quantum Processing Units (QPUs), and thermal management in chips. The goal is to see if any of those past designs offer clues to solving the 3D L resistance and heat problems. I anticipate it will be helpful to see prior discussions.
@@ -3141,13 +2994,6 @@ What about leakage and errors? Is there a grating method for this?
 ---
 
 # Response: 22
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 **Addressing Signal Leakage**
 
@@ -3258,13 +3104,6 @@ How does that compare to magic angle graphene? Is there potentially computation 
 ---
 
 # Response: 23
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 ---
 collapsed: true
@@ -3388,13 +3227,6 @@ Describe how this compares to NN and LLM models
 
 # Response: 24
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Exploring Passive Computation**
 
 I'm currently focused on unraveling the mechanics of passive computation within the RF/Holographic Memory Cube, specifically regarding Diffractive Deep Neural Networks ( $D^{2}NN$ ). My aim is to articulate how these  $D^{2}NN$  function and pinpoint their similarities and differences with traditional Neural Networks and LLMs. I'm starting by explaining how the light diffracted through layers passively computes a result.
@@ -3512,13 +3344,6 @@ Yes
 ---
 
 # Response: 25
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 **Conceptualizing Diffraction Weights**
 
@@ -3672,13 +3497,6 @@ collapsed: true
 jupyter:
   source_hidden: true
 ---
-Show thinking
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
 **Considering High-Speed RAM**
 
 I'm currently focused on the potential of Nitrogen-doped Laser Induced Graphene (N-LIG) and soliton buses for high-speed RAM at room temperature. My initial thought is to analyze if these elements can be effectively combined. I'm focusing on the conductive interconnect material aspect of N-LIG and how that might integrate with soliton bus architecture.
@@ -3780,13 +3598,6 @@ Yes. And research the feasibility, costs, benefits, methods
 ---
 
 # Response: 27
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 ---
 collapsed: true
@@ -3938,13 +3749,6 @@ Solutions with this process?
 ---
 
 # Response: 28
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 ---
 collapsed: true
@@ -4123,13 +3927,6 @@ From there where do they go?
 
 # Response: 29
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Tracing Soliton Paths**
 
 I'm now contemplating the solitons' trajectory post-ignition within the high-speed RAM architecture. My focus is on mapping where these data pulses venture after their generation and conversion. I intend to assess their destination, and the implications of those paths.
@@ -4260,13 +4057,6 @@ collapsed: true
 jupyter:
   source_hidden: true
 ---
-Show thinking
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
 **Considering Material Options**
 
 Okay, I'm now focusing on comparing graphene foam, CNT foam, and foamed lignin for thermal management and signal termination in the memory cube. I'm also actively considering if the vascular cooling channels are feasible, and their potential effectiveness. I will soon be making a decision on the merits of each approach.
@@ -4355,13 +4145,6 @@ Can these work passively, if printed to cause flow due to diameter and expected 
 ---
 
 # Response: 31
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 ---
 collapsed: true
@@ -4476,13 +4259,6 @@ How to vary this design to work with just air cooling? as a product variant, or 
 
 # Response: 32
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Conceptualizing Fractal Cooling**
 
 I am now structuring my explanation around the "Interwoven Mesh" fractal, with an image tag to demonstrate it. My focus shifts towards adapting this design for air cooling, specifically on how to maximize surface area and airflow within this fractal framework. I am considering its impact on heat dissipation.
@@ -4596,13 +4372,6 @@ Yes
 ---
 
 # Response: 33
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 **Calculating Dielectric Strength**
 
@@ -4723,13 +4492,6 @@ How to multiplex solitons here?
 
 # Response: 34
 
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
-
 **Focusing on Soliton Selection**
 
 I'm now zeroing in on the soliton selection challenge within the Trap-Door memory. It's becoming clearer that we need a precise mechanism to isolate a single soliton from a flowing stream. The current direction of thought is revolving around finding a method to modulate the properties of only the desired soliton. Further investigation is needed for this selection method.
@@ -4823,13 +4585,6 @@ Is there OAM with solitons?
 ---
 
 # Response: 35
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 **Investigating OAM Solitons**
 
@@ -4943,13 +4698,6 @@ This too
 ---
 
 # Response: 36
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 **Modeling OAM Solitons**
 
@@ -5145,13 +4893,6 @@ How does this change the scaling characteristics of this as a RAM product?
 ---
 
 # Response: 37
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 **Connecting MDM Impacts**
 
@@ -5384,13 +5125,6 @@ collapsed: true
 jupyter:
   source_hidden: true
 ---
-Show thinking
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
 **Analyzing OAM Beam Sorting**
 
 Okay, I'm currently delving into the latest developments. I am primarily researching the application of spiral transformations to passively sort Orbital Angular Momentum (OAM) beams. In particular, I am considering mapping modes to radial positions. I am also researching non-linear soliton sorting with Y-junctions or waveguide splitting.
@@ -5506,13 +5240,6 @@ Yes
 ---
 
 # Response: 40
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 ---
 collapsed: true
@@ -5678,13 +5405,6 @@ Yes
 ---
 
 # Response: 41
-
----
-collapsed: true
-jupyter:
-  source_hidden: true
----
-Show thinking
 
 ---
 collapsed: true
