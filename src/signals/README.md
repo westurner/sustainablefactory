@@ -50,6 +50,15 @@ interpretation while keeping experimental premises explicit:
    finite Airy packets, waveguides, nonlinear frequency conversion, MIMO
    pumping, wireless power transfer, and plasma-drive power balance. It does not
    import the pending SQG/fracture claims.
+- `Signals.Antennas` models a Lignin-Vitrimer dielectric track, a directional
+   broadband antenna with volume-distributed polarization currents, causal
+   group and information speeds, passive radiated power, continuous-wave
+   resonators, and a calibrated Rydberg-EIT Stark response. The former
+   `Signals.LightSlinger` module remains a compatibility facade. `CWApplication` and
+   `CWApplicationReadiness` classify whether each proposed application needs a
+   phase reference, active mask, convergent beams, range modulation, or a
+   Pending massive-mode hypothesis. A superluminal phase-pattern speed is kept
+   separate from causal information transport.
 - `Signals.Pending` is an intentionally separate submodule for the requested
    SQG, fracture-state, anti-Amplituhedron, deterministic-fusion, and
    spacetime-energy formalisms. These models are explicit mathematical
@@ -70,6 +79,9 @@ interpretation while keeping experimental premises explicit:
    control-volume baseline for mass, momentum, and energy accounting.
    Pressure, heat-flux, and vector-velocity boundary observations can now be
    compared with explicit residual tolerances.
+   Its LightSlinger extension links an antenna to a Proca channel only through
+   explicit frequency and longitudinal-coupling hypotheses; CW resonance does
+   not itself establish massive-mode emission.
    It also contains LF/VLF radio test vectors for Earth, named planets,
    asteroids, and arbitrary named bodies, plus a conditional ultrasonic
    fracture-evidence protocol.
@@ -152,6 +164,59 @@ checked locally and keeps the physical amplitude interpretation Pending. No
 `data/chats/*.myst.md` files are present in this checkout; the inventory above
 uses the transformed files under `docs/chats/`.
 
+The full LightSlinger review found a useful classical boundary and several
+unsupported extensions. The source describes a laser-driven polarization spot
+with superluminal pattern speed while distinguishing that from faster-than-light
+information transfer ([Airy LightSlinger chat](../../docs/chats/_Airy-Beams-and-Communications-and-Illumination.myst.md#L2876-L2922)).
+It proposes lignin-vitrimer/carbon dielectric tuning, moisture protection, and
+active-mask integration, but supplies no measured permittivity, loss, thermal,
+or mode-conversion data ([Airy LightSlinger chat](../../docs/chats/_Airy-Beams-and-Communications-and-Illumination.myst.md#L2922-L2986)).
+The companion waveguide review presents Kerr solitons, spin-nematic routing,
+and Rydberg-EIT detection as analog or metrology ideas, while its longitudinal
+Proca interpretation remains Pending ([superfluid waveguide chat](../../docs/chats/Superfluid-Gravity-and-Negative-Energy.myst.md#L280-L410),
+[superfluid Rydberg chat](../../docs/chats/Superfluid-Gravity-and-Negative-Energy.myst.md#L800-L860)).
+The implemented model therefore records ordinary sweep, resonance, loss, and
+Stark-response quantities without asserting that a dielectric or CW resonator
+generates a massive longitudinal field.
+
+## CW Application Review
+
+The IQ Myst document uses CW in several different roles. The initial I/Q and
+ocean sections use a CW laser as a stable phase reference, but ranging still
+requires pulsing, modulation, or an independent time-of-flight observable
+([IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L886-L985)).
+The Lignolux and PCLP sections use a CW master oscillator for steady exposure
+and resonant buildup, while attributing spatial selectivity to an active mask
+and longitudinal-Proca chemistry ([IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L1613-L1863)).
+The 400/800 GHz sections require phase-matched nonlinear mixing or intersecting
+beams; a single CW carrier does not create a sum-frequency acoustic mode by
+itself ([IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L2053-L2447)).
+The later thruster, power-plant, communication, wireless-power, medical, and
+fabrication sections reuse CW as a steady drive, resonant pump, or continuous
+carrier ([IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L3006-L3151),
+[IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L4848-L6100),
+[IQ Myst chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L8069-L9240)).
+
+The model does not treat those repeated uses as proof that CW works for every
+application. The defensible division is:
+
+| Application class | What CW can provide | Additional requirement | Signals status |
+| --- | --- | --- | --- |
+| Ocean I/Q metrology | Stable optical phase reference | Range modulation or pulsing, surface-return calibration | Classical envelope |
+| Waveguide transport | Continuous carrier and resonant buildup | Dispersion, loss, and thermal characterization | Classical envelope |
+| PCLP nanolithography | Steady exposure | rGO phase/amplitude mask and measured resist response | Pending interpretation |
+| 400/800 GHz acoustic mixing | Continuous pump energy | At least two phase-coherent beams, nonlinear coefficient, phase matching, and heat budget | Pending interpretation |
+| Anti-fire and FRC proposals | Continuous drive or rotating phase pattern | Active mask, target coupling, energy ledger, and physical validation | Pending |
+| Thruster and argon-power proposals | Continuous drive and control bandwidth | Propellant mass/momentum/energy balance and mode-conversion measurements | Pending |
+| Wireless power and deep-space communication | Continuous carrier | Causal link budget, receiver selectivity, safety exposure, and information-channel test | Pending |
+
+An rGO-Vitrimer active mask can encode a spatial phase or amplitude profile, but
+it does not create a new field species. Convergent beams can create a localized
+interference or nonlinear interaction region, but they do not by themselves
+prove second-harmonic generation, thrust, vacuum coupling, or massive-Proca
+emission. Those distinctions are represented by `CWApplicationRequirements`,
+`CWApplicationReadiness`, and the explicit `CWProcaEmissionHypothesis`.
+
 ## Build
 
 The project currently selects Lean `v4.34.0-rc2`; the sibling Physlib checkout
@@ -228,6 +293,15 @@ its physical premises or calibration data are not established.
 7. [Implemented] Add classical acoustic transfer and scattering-metrology
    primitives, including I/Q backscatter, cross section, SNR, phase-height
    reconstruction, and residual classification.
+8. [Implemented] Add the classical LightSlinger-like antenna envelope with
+   Lignin-Vitrimer material parameters, sweep timing, causal-speed separation,
+   and passive power bounds.
+9. [Implemented] Add continuous-wave resonator enhancement/loss accounting and
+   Rydberg-EIT Stark-response metrology. Keep massive longitudinal emission in
+   `Signals.Pending`.
+10. [Implemented] Classify CW application requirements and readiness conditions
+   for phase references, active masks, convergent beams, range modulation,
+   and Pending massive-mode hypotheses.
 
 ### Phase 3: Add geometry and fabrication abstractions
 
@@ -291,6 +365,17 @@ its physical premises or calibration data are not established.
 4. Next loop: connect the records to measured or simulated compressible-flow
    data. Do not promote phase-slip homogenization or apodization to a physical
    performance claim without that comparison.
+5. [Complete] LightSlinger loop: added Lignin-Vitrimer antenna, CW resonator,
+   Rydberg-EIT, and explicit Pending Proca-emission contracts. Proposed commit:
+   `feat(signals): model LightSlinger antennas and guarded CW emission`.
+6. [Complete] CW-application loop: reviewed every CW reference in the IQ Myst
+   document and added application requirements for phase references, active
+   masks, convergent beams, range modulation, and Pending massive-mode claims.
+   Proposed commit:
+   `feat(signals): classify CW application requirements and causal limits`.
+7. Next loop: add measured mode-conversion efficiency, polarization-resolved
+   near-field data, thermal/loss characterization, and causal waveform controls,
+   then connect them to the compressible-flow validation path.
 
 ### Pending Physical Formalisms
 
@@ -326,6 +411,19 @@ namespace and build target:
 - `FlowBoundaryCondition` and `FlowBoundaryObservation` record pressure,
    heat-flux, and vector-velocity boundary data with measured-versus-predicted
    residual tolerances.
+- `CWApplication` and `CWApplicationRequirements` classify the ten CW uses
+   found in the IQ Myst document by their phase-reference, mask, convergence,
+   range-modulation, and massive-mode requirements.
+- `RGOVitrimerActiveMask`, `ConvergentCWBeams`, and
+   `CWApplicationReadiness` record the additional controls required by a
+   proposed application and preserve the causal information-speed bound.
+- `LightSlingerProcaCoupling` associates a LightSlinger antenna with a Proca
+   channel only through explicit frequency and longitudinal-coupling
+   assumptions.
+- `CWProcaEmissionHypothesis` requires positive CW drive, resonance matching,
+   a longitudinal mode label, positive Proca mass, and nonzero coupling before
+   recording a massive-mode emission hypothesis. CW resonance alone is not
+   sufficient.
 - `SQGMaxwellSystem` records Maxwell's vector equations with effective
    permittivity/permeability, an explicit extra SQG current, and a classical
    Maxwell reduction when that current is disabled.
@@ -397,7 +495,26 @@ deterministic fusion, or spacetime energy extraction exist physically.
    uncertainty fields. A geometric coordinate or chart weight must not be
    promoted to a physical scattering amplitude without that evidence.
 
-### Phase 5: Upstream contributions
+### Phase 5: LightSlinger and resonator models
+
+1. [Implemented] Model Lignin-Vitrimer dielectric inputs and a moving
+   polarization-pattern antenna with separate phase-pattern, group, and
+   information speeds.
+2. [Implemented] Model CW resonant frequency matching, intracavity enhancement,
+   passive out-coupling, and dissipation.
+3. [Implemented] Model Rydberg-EIT Stark response as a calibrated electric-field
+   observation, without claiming that its shift uniquely identifies a
+   longitudinal field.
+4. [Implemented in Pending] Require CW drive, longitudinal mode labeling,
+   positive Proca mass, frequency matching, and nonzero coupling before a
+   LightSlinger-to-Proca emission hypothesis can be constructed.
+5. [Implemented] Classify the ten CW application families from the IQ Myst
+   document and require explicit mask, beam, and causal-envelope conditions
+   where applicable.
+6. Next: add measured mode-conversion efficiency, polarization-resolved
+   near-field data, thermal/loss characterization, and causal waveform tests.
+
+### Phase 6: Upstream contributions
 
 - Candidate Physlib contributions: reusable mainstream definitions and lemmas
   for electromagnetic wave conventions, polarization, sampling interfaces,

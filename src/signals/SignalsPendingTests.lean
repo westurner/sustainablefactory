@@ -7,6 +7,7 @@ open Signals.Applications
 open Signals.Acoustics
 open Signals.Geometry
 open Signals.IQ
+open Signals.Antennas
 open Signals.Maxwell
 open Signals.Pending
 open Signals.Proca
@@ -781,5 +782,129 @@ example : toyLogarithmicChart.weight *
 
 example : toyAmplituhedronHypothesis.measuredAmplitude = 7 := by
   rfl
+
+noncomputable def toyPendingLigninVitrimer : LigninVitrimerDielectric :=
+  { relativePermittivity := 2
+    relativePermittivity_pos := by norm_num
+    lossTangent := 0
+    lossTangent_nonnegative := by norm_num
+    tuningRange := 1
+    tuningRange_nonnegative := by norm_num
+    moistureSensitivity :=
+      { value := 0
+        nonnegative := by norm_num
+        le_one := by norm_num } }
+
+noncomputable def toyPendingLightSlinger : DirectionalBroadbandAntenna :=
+  { material := toyPendingLigninVitrimer
+    polarizationCurrent :=
+      { supportVolume := { cubicMeters := 1 }
+        supportVolume_pos := by norm_num
+        sourceCount := 1
+        sourceCount_positive := by norm_num
+        currentDensityAmplitude := { amperesPerSquareMeter := 1 }
+        currentDensityAmplitude_nonnegative := by norm_num
+        directionality := 1
+        directionality_nonnegative := by norm_num }
+    carrierFrequency := { hz := 5 }
+    carrierFrequency_pos := by norm_num
+    bandwidth := { hz := 1 }
+    bandwidth_pos := by norm_num
+    trackLength := { meters := 1 }
+    trackLength_pos := by norm_num
+    sweepDuration := { seconds := 1 }
+    sweepDuration_pos := by norm_num
+    sweepSpeed := { metersPerSecond := 1 }
+    sweepSpeedLaw := by norm_num
+    phasePatternSpeed := { metersPerSecond := 1 }
+    phasePatternSpeed_pos := by norm_num
+    groupSpeed := { metersPerSecond := 1 }
+    groupSpeed_pos := by norm_num
+    groupSpeed_causal := by norm_num [vacuumSpeedOfLight]
+    informationSpeed := { metersPerSecond := 1 }
+    informationSpeed_pos := by norm_num
+    informationSpeed_causal := by norm_num [vacuumSpeedOfLight]
+    inputPower := { watts := 1 }
+    inputPower_nonnegative := by norm_num
+    radiatedPower := { watts := 1 }
+    radiatedPower_nonnegative := by norm_num
+    radiationEfficiency :=
+      { value := 1
+        nonnegative := by norm_num
+        le_one := by norm_num }
+    radiatedPowerLaw := by norm_num }
+
+noncomputable def toyCWResonator : ContinuousWaveResonator :=
+  { mode := ResonatorMode.longitudinal
+    resonantFrequency := { hz := 5 }
+    resonantFrequency_pos := by norm_num
+    driveFrequency := { hz := 5 }
+    driveFrequency_pos := by norm_num
+    resonanceMatch := by norm_num
+    drivePower := { watts := 1 }
+    drivePower_nonnegative := by norm_num
+    intracavityPower := { watts := 2 }
+    intracavityPower_nonnegative := by norm_num
+    enhancementFactor := 2
+    enhancementFactor_ge_one := by norm_num
+    intracavityPowerLaw := by norm_num
+    emittedPower := { watts := 1 }
+    emittedPower_nonnegative := by norm_num
+    dissipatedPower := { watts := 0 }
+    dissipatedPower_nonnegative := by norm_num
+    passivePowerBalance := by norm_num }
+
+example : toyCWResonator.isDriven := by
+  norm_num [ContinuousWaveResonator.isDriven, toyCWResonator]
+
+example : toyCWResonator.drivePower.watts ≤
+    toyCWResonator.intracavityPower.watts := by
+  exact toyCWResonator.drive_power_le_intracavity
+
+example : toyCWResonator.emittedPower.watts ≤ toyCWResonator.drivePower.watts := by
+  exact toyCWResonator.emitted_power_le_drive
+
+noncomputable def toyLightSlingerProca : LightSlingerProcaCoupling :=
+  { antenna := toyPendingLightSlinger
+    channel := toyChannel
+    frequencyMatch := by
+      change (5 : ℝ) = 5
+      rfl
+    longitudinalCouplingAssumed := toyChannel.longitudinalModeAssumed }
+
+noncomputable def toyCWProcaEmission : CWProcaEmissionHypothesis :=
+  { application := CWApplication.topologicalThruster
+    massiveModeRequired := by rfl
+    resonator := toyCWResonator
+    channel := toyChannel
+    cwDriven := by
+      norm_num [ContinuousWaveResonator.isDriven, toyCWResonator]
+    longitudinalMode := by rfl
+    frequencyMatch := by
+      change (5 : ℝ) = 5
+      rfl
+    massiveMode := toyChannel.model.mass_pos
+    longitudinalCouplingAssumed := toyChannel.longitudinalModeAssumed
+    emittedPower := { watts := 1 }
+    emittedPower_nonnegative := by norm_num
+    emittedPowerLaw := by rfl }
+
+example : toyLightSlingerProca.antenna.carrierFrequency.hz =
+    toyLightSlingerProca.channel.mode.frequency := by
+  exact toyLightSlingerProca.frequency_match
+
+example : toyLightSlingerProca.channel.longitudinalCoupling *
+    toyLightSlingerProca.channel.mode.longitudinalWaveNumber ≠ 0 := by
+  exact toyLightSlingerProca.longitudinal_mode_assumed
+
+example : toyCWProcaEmission.resonator.mode = ResonatorMode.longitudinal := by
+  exact toyCWProcaEmission.longitudinal_mode
+
+example : toyCWProcaEmission.channel.model.mass > 0 := by
+  exact toyCWProcaEmission.massive_mode
+
+example : toyCWProcaEmission.emittedPower.watts =
+    toyCWProcaEmission.resonator.emittedPower.watts := by
+  exact toyCWProcaEmission.emitted_power_eq
 
 end SignalsPendingTests

@@ -43,6 +43,27 @@ residuals. Do not treat any of these records as evidence that phase-slip
 homogenization or a turbulence-free plume exists; connect them to measured or
 compressible-flow data first.
 
+## Dielectric Waveguides and CW Modes
+
+`Signals.Antennas` contains the generic classical envelope:
+Lignin-Vitrimer dielectric inputs, directional broadband antenna kinematics
+with volume-distributed polarization currents, separate phase-pattern/group/
+information speeds, passive power accounting, CW resonator enhancement and
+loss, Rydberg-EIT Stark-response metrology, and a `CWApplication` requirement
+matrix for the application families in the IQ Myst document. 
+`CWApplicationReadiness` records the explicit active-mask,
+convergent-beam, range-modulation, and causal-envelope conditions.
+
+`LightSlingerProcaCoupling` and `CWProcaEmissionHypothesis` in
+[`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean) are
+conditional interfaces. They require explicit frequency matching, positive
+Proca mass, longitudinal mode labeling, and nonzero coupling. CW operation,
+resonance, a longitudinal field component, or a superluminal phase/spot speed
+must not be described as evidence of massive-mode generation, FTL information,
+SQG, or vacuum fracture. Promote none of these interpretations without
+polarization-resolved measurements, mode-conversion efficiency, power/loss
+accounting, and causal waveform controls.
+
 ---
 
 ## Core Project Agents

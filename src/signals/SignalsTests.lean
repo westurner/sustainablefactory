@@ -6,6 +6,7 @@ namespace SignalsTests
 open Signals.Fabrication
 open Signals.Geometry
 open Signals.IQ
+open Signals.Antennas
 open Signals.Proca
 open Signals.Sampling
 open Signals.Units
@@ -516,5 +517,193 @@ def toyBudget : ThermalBudget :=
 
 example : toyBudget.peakTemperature ≤ toyBudget.limitTemperature := by
   exact toyBudget.peak_le_limit
+
+noncomputable def toyLigninVitrimer : LigninVitrimerDielectric :=
+  { relativePermittivity := 2
+    relativePermittivity_pos := by norm_num
+    lossTangent := 1 / 100
+    lossTangent_nonnegative := by norm_num
+    tuningRange := 1 / 10
+    tuningRange_nonnegative := by norm_num
+    moistureSensitivity :=
+      { value := 1 / 10
+        nonnegative := by norm_num
+        le_one := by norm_num } }
+
+noncomputable def toyLightSlinger : DirectionalBroadbandAntenna :=
+  { material := toyLigninVitrimer
+    polarizationCurrent :=
+      { supportVolume := { cubicMeters := 1 }
+        supportVolume_pos := by norm_num
+        sourceCount := 4
+        sourceCount_positive := by norm_num
+        currentDensityAmplitude := { amperesPerSquareMeter := 1 }
+        currentDensityAmplitude_nonnegative := by norm_num
+        directionality := 1
+        directionality_nonnegative := by norm_num }
+    carrierFrequency := { hz := 400 * 10 ^ 9 }
+    carrierFrequency_pos := by norm_num
+    bandwidth := { hz := 1 * 10 ^ 9 }
+    bandwidth_pos := by norm_num
+    trackLength := { meters := 2 }
+    trackLength_pos := by norm_num
+    sweepDuration := { seconds := 1 }
+    sweepDuration_pos := by norm_num
+    sweepSpeed := { metersPerSecond := 2 }
+    sweepSpeedLaw := by norm_num
+    phasePatternSpeed := { metersPerSecond := 600000000 }
+    phasePatternSpeed_pos := by norm_num
+    groupSpeed := { metersPerSecond := 200000000 }
+    groupSpeed_pos := by norm_num
+    groupSpeed_causal := by norm_num [vacuumSpeedOfLight]
+    informationSpeed := { metersPerSecond := 200000000 }
+    informationSpeed_pos := by norm_num
+    informationSpeed_causal := by norm_num [vacuumSpeedOfLight]
+    inputPower := { watts := 10 }
+    inputPower_nonnegative := by norm_num
+    radiatedPower := { watts := 8 }
+    radiatedPower_nonnegative := by norm_num
+    radiationEfficiency :=
+      { value := 4 / 5
+        nonnegative := by norm_num
+        le_one := by norm_num }
+    radiatedPowerLaw := by norm_num }
+
+example : toyLightSlinger.phasePatternSuperluminal := by
+  norm_num [DirectionalBroadbandAntenna.phasePatternSuperluminal, toyLightSlinger,
+    vacuumSpeedOfLight]
+
+example : toyLightSlinger.informationSpeed.metersPerSecond ≤ vacuumSpeedOfLight := by
+  exact toyLightSlinger.information_speed_causal
+
+example : toyLightSlinger.sweepSpeed.metersPerSecond = 2 := by
+  norm_num [DirectionalBroadbandAntenna.sweep_speed_holds, toyLightSlinger]
+
+example : toyLightSlinger.radiatedPower.watts ≤ toyLightSlinger.inputPower.watts := by
+  exact toyLightSlinger.radiated_power_le_input
+
+def toyRydbergReceiver : RydbergEITReceiver :=
+  { probeFrequency := { hz := 1 }
+    probeFrequency_pos := by norm_num
+    couplingFrequency := { hz := 2 }
+    couplingFrequency_pos := by norm_num
+    fieldAmplitude := { voltsPerMeter := 2 }
+    fieldAmplitude_nonnegative := by norm_num
+    starkCoefficient := 3
+    starkCoefficient_nonnegative := by norm_num
+    starkShift := 12
+    starkShiftLaw := by norm_num }
+
+example : toyRydbergReceiver.starkShift = 12 := by
+  rfl
+
+example : 0 ≤ toyRydbergReceiver.starkShift := by
+  exact toyRydbergReceiver.stark_shift_nonnegative
+
+example : CWApplication.oceanMetrology.requirements.rangeModulation = true := by
+  rfl
+
+example : CWApplication.waveguideTransport.requirements.massiveModeHypothesis =
+    false := by
+  rfl
+
+example : CWApplication.pclpNanolithography.requirements.activeMask = true := by
+  rfl
+
+example : CWApplication.mimoAcousticMixing.requirements.convergentBeams = true := by
+  rfl
+
+example : CWApplication.antiFireSuppression.requirements.activeMask = true := by
+  rfl
+
+example : CWApplication.frcFusion.requirements.convergentBeams = true := by
+  rfl
+
+example : CWApplication.topologicalThruster.requirements.massiveModeHypothesis =
+    true := by
+  rfl
+
+example : CWApplication.argonPowerPlant.requirements.activeMask = true := by
+  rfl
+
+example : CWApplication.wirelessPower.requirements.massiveModeHypothesis = true := by
+  rfl
+
+example : CWApplication.deepSpaceCommunications.requirements.phaseReference =
+    true := by
+  rfl
+
+noncomputable def toyCWApplicationResonator : ContinuousWaveResonator :=
+  { mode := ResonatorMode.transverse
+    resonantFrequency := { hz := 10 }
+    resonantFrequency_pos := by norm_num
+    driveFrequency := { hz := 10 }
+    driveFrequency_pos := by norm_num
+    resonanceMatch := by norm_num
+    drivePower := { watts := 2 }
+    drivePower_nonnegative := by norm_num
+    intracavityPower := { watts := 4 }
+    intracavityPower_nonnegative := by norm_num
+    enhancementFactor := 2
+    enhancementFactor_ge_one := by norm_num
+    intracavityPowerLaw := by norm_num
+    emittedPower := { watts := 1 }
+    emittedPower_nonnegative := by norm_num
+    dissipatedPower := { watts := 1 }
+    dissipatedPower_nonnegative := by norm_num
+    passivePowerBalance := by norm_num }
+
+def toyRGOVitrimerActiveMask : RGOVitrimerActiveMask :=
+  { elementCount := 4
+    elementCount_positive := by norm_num
+    phaseModulationRange := 1
+    phaseModulationRange_nonnegative := by norm_num
+    amplitudeModulationRange := 1
+    amplitudeModulationRange_nonnegative := by norm_num
+    controlPower := { watts := 1 }
+    controlPower_nonnegative := by norm_num }
+
+noncomputable def toyPCLPApplicationReadiness : CWApplicationReadiness :=
+  { application := CWApplication.pclpNanolithography
+    resonator := toyCWApplicationResonator
+    activeMask := some toyRGOVitrimerActiveMask
+    convergentBeams := none
+    rangeModulationEnabled := false
+    informationSpeed := { metersPerSecond := 1 }
+    informationSpeed_pos := by norm_num
+    informationSpeed_causal := by norm_num [vacuumSpeedOfLight]
+    activeMaskRequirement := by simp [CWApplication.requirements]
+    convergentBeamRequirement := by simp [CWApplication.requirements]
+    rangeModulationRequirement := by simp [CWApplication.requirements]
+    cwDriven := by
+      norm_num [ContinuousWaveResonator.isDriven,
+        toyCWApplicationResonator] }
+
+def toyConvergentCWBeams : ConvergentCWBeams :=
+  { beamCount := 2
+    beamCount_at_least_two := by norm_num
+    driveFrequency := { hz := 400 * 10 ^ 9 }
+    driveFrequency_pos := by norm_num
+    intersectionArea := { squareMeters := 1 }
+    intersectionArea_pos := by norm_num
+    phaseAlignment :=
+      { value := 1
+        nonnegative := by norm_num
+        le_one := by norm_num } }
+
+example : toyPCLPApplicationReadiness.application.requirements.activeMask = false ∨
+    toyPCLPApplicationReadiness.activeMask.isSome = true := by
+  exact toyPCLPApplicationReadiness.active_mask_requirement
+
+example : toyPCLPApplicationReadiness.application.requirements.convergentBeams =
+    false ∨ toyPCLPApplicationReadiness.convergentBeams.isSome = true := by
+  exact toyPCLPApplicationReadiness.convergent_beam_requirement
+
+example : toyPCLPApplicationReadiness.informationSpeed.metersPerSecond ≤
+    vacuumSpeedOfLight := by
+  exact toyPCLPApplicationReadiness.information_speed_causal
+
+example : toyConvergentCWBeams.beamCount ≥ 2 := by
+  exact toyConvergentCWBeams.beamCount_at_least_two
 
 end SignalsTests

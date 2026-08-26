@@ -11,6 +11,14 @@ structure Frequency where
 structure Length where
   meters : ℝ
 
+/-- A duration measured in seconds. -/
+structure Duration where
+  seconds : ℝ
+
+/-- A volume measured in cubic metres. -/
+structure Volume where
+  cubicMeters : ℝ
+
 /-- A power measured in watts. -/
 structure Power where
   watts : ℝ
@@ -42,6 +50,10 @@ structure Pressure where
 /-- A heat flux measured in watts per square metre. -/
 structure HeatFlux where
   wattsPerSquareMeter : ℝ
+
+/-- A polarization-current density measured in amperes per square metre. -/
+structure PolarizationCurrentDensity where
+  amperesPerSquareMeter : ℝ
 
 /-- A peak electric-field amplitude measured in volts per metre. -/
 structure ElectricFieldAmplitude where

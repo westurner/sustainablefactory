@@ -4,6 +4,7 @@ import Signals.Applications
 import Signals.Fabrication
 import Signals.Geometry
 import Signals.IQ
+import Signals.DirectionalBroadbandAntenna
 import Signals.Maxwell
 import Signals.OAM
 import Signals.Physlib

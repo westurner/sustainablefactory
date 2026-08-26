@@ -5,6 +5,7 @@ import Mathlib.Tactic
 import Signals.Acoustics
 import Signals.Applications
 import Signals.Geometry
+import Signals.DirectionalBroadbandAntenna
 import Signals.Maxwell
 import Signals.Proca
 import Signals.Propagation
@@ -15,6 +16,7 @@ namespace Signals.Pending
 open Signals.Applications
 open Signals.Acoustics
 open Signals.Geometry
+open Signals.Antennas
 open Signals.Maxwell
 open Signals.Proca
 open Signals.Propagation
@@ -715,6 +717,84 @@ structure ProcaChannel where
   longitudinalCoupling : ℝ
   longitudinalCoupling_nonzero : longitudinalCoupling ≠ 0
   longitudinalModeAssumed : longitudinalCoupling * mode.longitudinalWaveNumber ≠ 0
+
+/-- A LightSlinger antenna paired with an explicitly assumed Proca channel.
+
+The frequency match and longitudinal coupling are hypotheses about an interface
+experiment; this record does not establish that a dielectric track generates or
+transmits a massive longitudinal mode.
+-/
+structure LightSlingerProcaCoupling where
+  antenna : Signals.Antennas.DirectionalBroadbandAntenna
+  channel : ProcaChannel
+  frequencyMatch : antenna.carrierFrequency.hz = channel.mode.frequency
+  longitudinalCouplingAssumed :
+    channel.longitudinalCoupling * channel.mode.longitudinalWaveNumber ≠ 0
+
+/-- The coupled antenna and channel use the same supplied carrier frequency. -/
+lemma LightSlingerProcaCoupling.frequency_match
+    (coupling : LightSlingerProcaCoupling) :
+    coupling.antenna.carrierFrequency.hz = coupling.channel.mode.frequency :=
+  coupling.frequencyMatch
+
+/-- The coupled channel exposes its supplied longitudinal-mode assumption. -/
+lemma LightSlingerProcaCoupling.longitudinal_mode_assumed
+    (coupling : LightSlingerProcaCoupling) :
+    coupling.channel.longitudinalCoupling *
+        coupling.channel.mode.longitudinalWaveNumber ≠ 0 :=
+  coupling.longitudinalCouplingAssumed
+
+/-- A CW resonator hypothesized to emit a longitudinal massive Proca mode.
+
+CW drive, resonance, and a longitudinal field label are necessary bookkeeping
+conditions in this model. They do not prove that the dielectric track converts
+ordinary radiation into a massive mode; that conversion remains the explicit
+coupling hypothesis below.
+-/
+structure CWProcaEmissionHypothesis where
+  application : CWApplication
+  massiveModeRequired : application.requirements.massiveModeHypothesis = true
+  resonator : ContinuousWaveResonator
+  channel : ProcaChannel
+  cwDriven : resonator.isDriven
+  longitudinalMode : resonator.mode = ResonatorMode.longitudinal
+  frequencyMatch : resonator.driveFrequency.hz = channel.mode.frequency
+  massiveMode : 0 < channel.model.mass
+  longitudinalCouplingAssumed :
+    channel.longitudinalCoupling * channel.mode.longitudinalWaveNumber ≠ 0
+  emittedPower : Power
+  emittedPower_nonnegative : 0 ≤ emittedPower.watts
+  emittedPowerLaw : emittedPower.watts = resonator.emittedPower.watts
+
+/-- The CW emission hypothesis exposes its positive drive condition. -/
+lemma CWProcaEmissionHypothesis.cw_drive_positive
+    (emission : CWProcaEmissionHypothesis) :
+    0 < emission.resonator.drivePower.watts :=
+  emission.cwDriven
+
+/-- The CW emission hypothesis exposes its longitudinal resonator mode. -/
+lemma CWProcaEmissionHypothesis.longitudinal_mode
+    (emission : CWProcaEmissionHypothesis) :
+    emission.resonator.mode = ResonatorMode.longitudinal :=
+  emission.longitudinalMode
+
+/-- The CW emission hypothesis exposes its frequency matching condition. -/
+lemma CWProcaEmissionHypothesis.frequency_match
+    (emission : CWProcaEmissionHypothesis) :
+    emission.resonator.driveFrequency.hz = emission.channel.mode.frequency :=
+  emission.frequencyMatch
+
+/-- The CW emission hypothesis exposes its positive Proca mass. -/
+lemma CWProcaEmissionHypothesis.massive_mode
+    (emission : CWProcaEmissionHypothesis) :
+    0 < emission.channel.model.mass :=
+  emission.massiveMode
+
+/-- The hypothesized emitted power is the resonator's supplied output. -/
+lemma CWProcaEmissionHypothesis.emitted_power_eq
+    (emission : CWProcaEmissionHypothesis) :
+    emission.emittedPower.watts = emission.resonator.emittedPower.watts :=
+  emission.emittedPowerLaw
 
 /-- A candidate fracture observation built from a classical ultrasonic transfer.
 
