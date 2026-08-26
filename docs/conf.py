@@ -29,7 +29,13 @@ extensions = [
 ]
 
 templates_path = ["_templates"]
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "__pycache__"]
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    "__pycache__",
+    "chats/*.chatexport_abc1.md",
+]
 
 # -- MyST Parser configuration -----------------------------------------------
 myst_enable_extensions = [
@@ -64,7 +70,14 @@ except ImportError:
     html_theme = "classic"  # native
     print(f"NOTE: wrd_sphinx_theme not found. Defaulting to html_theme={html_theme!r}")
 
-html_static_path = ["_static", "../schema"]
+html_static_path = [
+    static_path
+    for static_path in (
+        "_static",
+        "data/",
+    )
+    if (Path(__file__).parent / static_path).is_dir()
+]
 
 
 # -- Custom Setup to handle RDF visualization --------------------------------
