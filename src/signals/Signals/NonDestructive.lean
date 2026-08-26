@@ -11,6 +11,8 @@ inductive InspectionMethod
   | terahertzConductivity
   | terahertzIntegrity
   | mmWaveRadar
+  | resonantFrequencyMapping
+  | opticalInterferometry
   | ultrasonicPulseEcho
   | phasedArrayUltrasound
   | eddyCurrent
@@ -36,6 +38,19 @@ structure InspectionRecord where
 lemma InspectionRecord.state_preserved (record : InspectionRecord) :
     record.specimenStateAfter = record.specimenStateBefore :=
   record.statePreserved
+
+/-- An in-situ remediation record whose host integrity does not decrease. -/
+structure InSituRemediation where
+  hostIntegrityBefore : ℝ
+  hostIntegrityAfter : ℝ
+  integrity_non_decreased : hostIntegrityBefore ≤ hostIntegrityAfter
+  stimulusPower : Power
+  stimulusPower_nonnegative : 0 ≤ stimulusPower.watts
+
+/-- The remediation preserves or improves the modeled host integrity. -/
+lemma InSituRemediation.integrity_bound (remediation : InSituRemediation) :
+    remediation.hostIntegrityBefore ≤ remediation.hostIntegrityAfter :=
+  remediation.integrity_non_decreased
 
 /-- A phase fingerprint can be observed while target energy and polarization are
 preserved by the model. -/
@@ -127,6 +142,21 @@ lemma CalibrationRecord.raw_preserved (record : CalibrationRecord) :
 lemma CalibrationRecord.calibration_holds (record : CalibrationRecord) :
     record.calibrated = record.multiplier * record.rawAfter :=
   record.calibrationLaw
+
+/-- A continuous recovery process preserves its source while extracting a
+nonnegative recovered quantity. -/
+structure NonDestructiveRecovery where
+  sourceStateBefore : ℝ
+  sourceStateAfter : ℝ
+  sourceStatePreserved : sourceStateAfter = sourceStateBefore
+  recoveredQuantity : ℝ
+  recoveredQuantity_nonnegative : 0 ≤ recoveredQuantity
+
+/-- The recovery process leaves its modeled source state unchanged. -/
+lemma NonDestructiveRecovery.source_preserved
+    (recovery : NonDestructiveRecovery) :
+    recovery.sourceStateAfter = recovery.sourceStateBefore :=
+  recovery.sourceStatePreserved
 
 /-- A reversible operation restores the original state after an explicit undo. -/
 structure ReversibleOperation where

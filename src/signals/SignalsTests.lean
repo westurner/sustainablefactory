@@ -729,6 +729,14 @@ example : (toyInspection InspectionMethod.mmWaveRadar).method =
     InspectionMethod.mmWaveRadar := by
   rfl
 
+example : (toyInspection InspectionMethod.resonantFrequencyMapping).method =
+    InspectionMethod.resonantFrequencyMapping := by
+  rfl
+
+example : (toyInspection InspectionMethod.opticalInterferometry).method =
+    InspectionMethod.opticalInterferometry := by
+  rfl
+
 example : (toyInspection InspectionMethod.ultrasonicPulseEcho).method =
     InspectionMethod.ultrasonicPulseEcho := by
   rfl
@@ -837,5 +845,27 @@ def toyReversibleOperation : ReversibleOperation :=
 example : toyReversibleOperation.restoredState =
     toyReversibleOperation.stateBefore := by
   exact toyReversibleOperation.restores_state
+
+def toyInSituRemediation : InSituRemediation :=
+  { hostIntegrityBefore := 1
+    hostIntegrityAfter := 2
+    integrity_non_decreased := by norm_num
+    stimulusPower := { watts := 1 }
+    stimulusPower_nonnegative := by norm_num }
+
+example : toyInSituRemediation.hostIntegrityBefore ≤
+    toyInSituRemediation.hostIntegrityAfter := by
+  exact toyInSituRemediation.integrity_bound
+
+def toyNonDestructiveRecovery : NonDestructiveRecovery :=
+  { sourceStateBefore := 1
+    sourceStateAfter := 1
+    sourceStatePreserved := by rfl
+    recoveredQuantity := 2
+    recoveredQuantity_nonnegative := by norm_num }
+
+example : toyNonDestructiveRecovery.sourceStateAfter =
+    toyNonDestructiveRecovery.sourceStateBefore := by
+  exact toyNonDestructiveRecovery.source_preserved
 
 end SignalsTests

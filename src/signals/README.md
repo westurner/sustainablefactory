@@ -44,8 +44,9 @@ interpretation while keeping experimental premises explicit:
    cross-section inversion, SNR, and residual-based anomaly candidates.
 - `Signals.NonDestructive` separates nondestructive inspection methods,
    phase-fingerprint observations, dispersive probe readout, raw-data-preserving
-   calibration, and reversible operations. Preservation is represented as an
-   explicit invariant rather than inferred from the word "nondestructive".
+   calibration, reversible operations, in-situ remediation, and continuous
+   recovery. Preservation is represented as an explicit invariant rather than
+   inferred from the word "nondestructive".
 - `Signals.Propagation` models far-field and near-field coupling, antenna
    efficiency, impedance matching, aperture coupling, alignment, radiation,
    bulk attenuation, interface reflection/transmission/absorption, and passive
@@ -201,6 +202,11 @@ the target photon or qubit remains unchanged ([phase-fingerprint chat](../../doc
 The source also describes raw telemetry retained through calibration and
 reversible vitrimer disassembly ([calibration chat](../../docs/chats/_weather_app_0%20.myst.md#L8613-L8613),
 [reversible assembly chat](../../docs/chats/_Sustainable%20Composites_%20Energy,%20Processing,%20Costs.myst.md#L8531-L8563)).
+Other records describe low-power diagnostic pulses, in-situ structural
+remediation, and continuous recovery processes; these are modeled as distinct
+operation contracts rather than being treated as inspections
+([diagnostic pulse chat](../../docs/chats/_Lignolux%20Enhances%20Fusion%20Production%20Design.myst.md#L4242-L4242),
+[recovery claim](../../docs/chats/_Sustainable%20textiles,%20outerwear,%20apparel.myst.md#L3901-L3901)).
 
 The verified API records the corresponding state, energy, polarization, raw-data,
 and restoration invariants. `QuantumNonDemolitionParity` remains Pending because
@@ -331,12 +337,6 @@ its physical premises or calibration data are not established.
 10. [Implemented] Classify CW application requirements and readiness conditions
    for phase references, active masks, convergent beams, range modulation,
    and Pending massive-mode hypotheses.
-11. [Implemented] Add nondestructive inspection, phase-fingerprint, dispersive
-   readout, calibration-preservation, and reversible-operation contracts.
-   Keep quantum nondemolition parity in `Signals.Pending`.
-11. [Implemented] Add nondestructive inspection, phase-fingerprint, dispersive
-   readout, calibration-preservation, and reversible-operation contracts.
-   Keep quantum nondemolition parity in `Signals.Pending`.
 11. [Implemented] Add nondestructive inspection, phase-fingerprint, dispersive
    readout, calibration-preservation, and reversible-operation contracts.
    Keep quantum nondemolition parity in `Signals.Pending`.
@@ -579,8 +579,8 @@ deterministic fusion, or spacetime energy extraction exist physically.
 2. [Implemented] Cover phase fingerprints and dispersive probe readout with
    explicit phase-response, energy/polarization preservation, and zero-absorption
    assumptions.
-3. [Implemented] Cover raw-data-preserving calibration and reversible material
-   restoration.
+3. [Implemented] Cover raw-data-preserving calibration, reversible material
+   restoration, in-situ remediation, and continuous source-preserving recovery.
 4. [Implemented in Pending] Cover OAM parity QND as an explicit hypothesis over
    a dispersive readout.
 5. Next: add method-specific calibration, detector loss, repeatability, and

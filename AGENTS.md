@@ -68,11 +68,14 @@ accounting, and causal waveform controls.
 
 `Signals.NonDestructive` distinguishes non-destructive inspection from stronger
 quantum and reversible-operation claims. `InspectionMethod` and
-`InspectionRecord` cover THz, ultrasonic, eddy-current, thermal, fiber,
-acoustic, infrared, and RFID inspection paths. `PhaseFingerprint` and
-`DispersiveReadout` preserve modeled target state, energy, polarization, and
-probe-energy invariants. `CalibrationRecord` preserves raw readings while
-applying a calibration, and `ReversibleOperation` records explicit restoration.
+`InspectionRecord` cover THz, mmWave, resonant-frequency,
+optical-interferometry, ultrasonic, eddy-current, thermal, fiber, acoustic,
+infrared, and RFID inspection paths. `PhaseFingerprint` and `DispersiveReadout`
+preserve modeled target state, energy, polarization, and probe-energy
+invariants. `CalibrationRecord` preserves raw readings while applying a
+calibration, `ReversibleOperation` records explicit restoration,
+`InSituRemediation` records a non-decreasing integrity bound, and
+`NonDestructiveRecovery` records source-preserving recovery.
 
 `QuantumNonDemolitionParity` in
 [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean) is a
