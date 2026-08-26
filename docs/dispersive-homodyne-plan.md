@@ -1,8 +1,10 @@
 # Dispersive Homodyne Coverage and Implementation Plan
 
-**Status:** Implementation in progress; Phases 1-6 and spatial/runtime
-bookkeeping are implemented, while measured-data and external runtime work
-remain.
+**Status:** Implementation in progress; finite homodyne/CV bookkeeping and
+Pending interfaces are implemented, including the finite Hawking-like
+iGPE/iQFT/Amplituhedron/ALS decoding boundary, while Proca/QND wake
+measurements, M-gate validation, measured-data adapters, and external runtime
+work remain.
 
 **Scope:** Verify and fully cover the dispersive-homodyne material found by
 `docindex search quantum homodyne` in the Signals library, its documentation,
@@ -86,6 +88,215 @@ lines 2676-2721). These requirements are concrete measurement and calibration
 surfaces and should not be hidden behind an unqualified “photocurrent is
 proportional to phase” assertion.
 
+### Hawking-like Decoding Chain: iGPE, iQFT, Amplituhedron, and ALS
+
+The attached Hawking-radiation chat proposes a staged decoding story: a
+prepared modulation $X(t)$ is measured as a scattered homodyne signal $Y(t)$,
+then corrected with an inverse Gross-Pitaevskii step, phase-processed with an
+iQFT, and passed to an Amplituhedron-constrained CANDECOMP/PARAFAC ALS
+decomposition (source: `data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md`,
+lines 2451-2500). The same source describes homodyne phase sweeping for both
+quadratures and an inverse Fourier routine before tensor decomposition (source:
+`data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md`, lines
+2390-2440). A later widget specification exposes ALS rank as a 1--10 control
+and presents rank 2--3 or rank 2 near-zero reconstruction error as simulation
+behavior, not as an experimental result (source:
+`data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md`, lines
+2524-2540).
+
+The Pending implementation now records the finite boundaries of that proposal:
+
+- `PreparedModulation` preserves the known finite input trace.
+- `ObservedHomodyneTensor` preserves finite $Y(x,y,t)$ data and exposes a
+  complex trace at a selected spatial index.
+- `FiniteIQFT` records a normalized finite inverse-DFT-style kernel and its
+  input/output law. It does not claim quantum operator semantics or a physical
+  phase-unscrambling device.
+- `ALSRank` requires $2 \leq r \leq 10$. `ALSDecomposition` records three CP
+  factor matrices, the reconstruction law, residual/tolerance bounds, and an
+  iteration limit. A configured rank and a small residual are not evidence of
+  identifiability or successful decoding.
+- `HawkingRadiationDecoding` composes the `FractureWave`, interactive and
+  inverse GPE records, observed tensor, iGPE residual, finite iQFT, existing
+  `AmplituhedronMap`, ALS projection, and known-input comparison.
+
+These records remain in `Signals.Pending`: they are finite data contracts for a
+numerical or experimental adapter. They do not prove Hawking radiation,
+superfluid quantum gravity, a physical inverse-GPE solver, an Amplituhedron
+description of scattering, cryptographic recovery, or a low-rank physical
+decoder. The rank-2 and rank-10 fixtures only verify the declared configuration
+range and composition laws.
+
+### M-Gate, Photonic Hub, and Coherence Validation
+
+The follow-up `docindex search "M-gate"`, `docindex search "dispersive hub"`,
+and `docindex search "single-shot fidelity"` results add a distinct
+opto-electronic M-gate boundary. The reviewed raw protocol describes a detuned
+telecom probe entering a nanophotonic cavity, a state-dependent optical
+AC-Stark phase, comparison of reflected or transmitted phase against a
+reference arm, and a claimed non-absorbing readout (source:
+`data/chats/Gemini-_08.md`, lines 2598-2631). This requires
+explicit detuning, cavity linewidth, reference-arm phase, state-assignment
+error, optical loss/absorption, readout latency, and measurement-induced
+dephasing observations. The claimed fidelity and speed are targets, not
+evidence.
+
+The same raw review proposes wavelength-division routing through arrayed
+waveguide gratings, state-dependent phase imprints at multiple hubs, and a
+coherent receiver that de-multiplexes the return (source:
+`data/chats/Gemini-_08.md`, lines 2660-2715). A complete plan
+therefore needs wavelength assignment, channel isolation, crosstalk, return
+loss, coherent demultiplexing, and per-channel calibration records. A nominal
+WDM channel list does not establish spectral isolation or readout fidelity.
+
+The proposed real-time tuning loop uses vitrimer thermal reflow to move a
+waveguide or cavity toward the desired coupling (source:
+`data/chats/Gemini-_08.md`, lines 2925-2945). This adds
+tuning stimulus, temperature, cavity response, phase residual, and state
+disturbance fields. It must be tested against an untuned control and must not
+silently conflate thermal tuning with a non-perturbative operation.
+
+The source also proposes microring parametric amplification to compensate
+waveguide loss while squeezing noise (source:
+`data/chats/_Quantum Processor and Soliton Discussions  .md`, lines 1825-1835).
+The corresponding plan needs pump phase-lock, optical gain, added noise,
+squeezing variance, saturation, and transmission-loss measurements. A sharper
+homodyne trace does not by itself prove noiseless amplification.
+
+Projected $T_1/T_2$ coherence values and charge-noise explanations appear in
+the same raw quantum-processor review (source:
+`data/chats/_Quantum Processor and Soliton Discussions  .md`, lines 1896-1950).
+The source separately proposes SIMS testing for ionic charge traps and baseline
+$T_1/T_2$ measurements (source: `data/chats/Gemini-_08.md`, lines 4018-4035).
+These must be represented as independent material and device observations:
+charge-trap concentration, dielectric loss, moisture, temperature, phase-noise
+spectrum, $T_1$, and $T_2$.
+
+The source's projected M-gate latency, fidelity, coherence, dielectric-loss,
+and bandwidth values are targets requiring confidence intervals, reference
+controls, and independent measurements (source: `data/chats/Gemini-_08.md`,
+lines 2995-3040).
+
+The follow-up `docindex search "noise figure CMRR"` results add frequency-
+dependent CMRR degradation, local-oscillator relative-intensity-noise leakage,
+channel resistance, shot-noise density, electronic noise, and
+transimpedance-amplifier noise matching (sources:
+`data/chats/Bell-Correlations-in-Atomic-Momentum.md`, lines 2670-2755 and
+2815-2865).
+These should be frequency-indexed observations rather than a single scalar
+CMRR or bandwidth assumption.
+
+Finally, `docindex search "plasmon-exciton coupling"` identifies microwave-to-
+optical/THz transduction as a weak point (source:
+`data/chats/Gemini-_08.md`, lines 3550-3570).
+The coupling efficiency, mode overlap, detuning, and conversion noise belong in
+the Pending hardware boundary. They must not be inferred from the verified
+phase-to-current algebra.
+
+### Proca Waves and Controlled Closure
+
+The Proca source material introduces a third, longitudinal polarization and a
+mass-dependent dispersion relation, then proposes wave-packet propagation and
+coherent demodulation at a boundary (source: `data/chats/IQ-Sampling-for-Signal-Phase.md`,
+lines 254-330). The same source explicitly corrects the ordinary-air premise:
+massless photons in vacuum and ordinary atmosphere do not provide the proposed
+macroscopic longitudinal mode; an effective mass must be demonstrated in a
+controlled plasma, metamaterial, or waveguide medium (source:
+`data/chats/IQ-Sampling-for-Signal-Phase.md`, lines 359-380).
+
+The verified `Signals.Proca` model is therefore a normalized mode and source
+bookkeeping interface, not a proof that an optical Proca field exists. A
+Proca closure experiment must measure the medium, dispersion, polarization,
+attenuation, source coupling, and boundary response separately. A longitudinal
+fit is not sufficient if a transverse Maxwell model or instrument cross-talk
+fits the same data.
+
+### Measuring a Photon Phase Wake
+
+The phrase “phase wake” needs an operational definition. A freely propagating
+photon in a linear vacuum does not leave a persistent classical wake. In a
+dispersive interaction, the measurable object is a conditional response: a
+time-dependent phase shift on a probe or a phase rotation of a prepared target
+state, referenced to an otherwise identical control. The photon-fingerprint
+source describes an off-resonant AC-Stark interaction, virtual excitation, and
+an observable phase rotation while the target energy and polarization are
+intended to remain unchanged (source: `data/chats/Photon's Phase Fingerprint on Particles .md`,
+lines 33-80).
+
+For a probe-arm measurement, define the demodulated phase residual from the
+balanced-homodyne traces as
+
+$$
+\Delta\phi_{\mathrm{probe}}(t) =
+\operatorname{unwrap}\!\left(\operatorname{atan2}(Q_{\mathrm{on}}(t), I_{\mathrm{on}}(t)) -
+\operatorname{atan2}(Q_{\mathrm{off}}(t), I_{\mathrm{off}}(t))\right).
+$$
+
+Here “on” and “off” are matched probe shots with and without the signal
+interaction. The wake response is then the calibrated impulse response
+
+$$
+W(\tau) = \int \Delta\phi_{\mathrm{probe}}(t)\,w(t-\tau)\,dt,
+$$
+
+where $w$ is an explicitly recorded pulse or analysis window. Report at least
+the peak phase, integrated phase, arrival/group delay, decay time, residual
+after the interaction window, and uncertainty. A nonzero post-pulse residual
+is evidence of a target or medium response only after instrument drift,
+reference-arm motion, detector imbalance, and ordinary dispersive delay are
+removed.
+
+Use the following measurement sequence:
+
+1. Stabilize a local oscillator and split a probe/reference pair. Record raw
+  detector A/B currents, LO phase, detector calibration, and timing.
+2. Prepare a target in a known state, then send a detuned signal pulse or
+  photon through the interaction region. Record the probe-arm homodyne trace.
+3. Repeat with the signal path blocked, the target absent, the detuning
+  reversed, and an intensity-matched classical control. These controls
+  distinguish AC-Stark phase, ordinary Kerr/index response, optical leakage,
+  and detector artifacts.
+4. Measure target phase independently, for example with a Ramsey or target
+  interferometry sequence. Compare the target phase rotation with the probe
+  phase residual; do not identify one as the other.
+5. Verify target and probe energy, polarization, and state-population changes.
+  Record absorption, loss, dephasing, and repeated-shot statistics. A phase
+  shift without these controls is not a QND or non-absorption result.
+6. Sweep delay, pulse energy, detuning, and LO phase. Fit the response and
+  confidence interval, then test whether the residual follows the supplied
+  coupling model rather than an unmodeled instrument transfer function.
+
+For a proposed Proca wake, repeat the same sequence in a controlled effective-
+mass medium and add polarization-resolved detection. Measure $k(\omega)$ and
+the group delay over a frequency sweep, fit the stated mass-dependent
+dispersion only after unit calibration, and quantify the longitudinal fraction
+against transverse Maxwell controls. Measure attenuation and deposited energy
+through the full path. Do not infer a Proca wake from a phase shift alone, and
+do not extrapolate a controlled medium result to clouds or ordinary air.
+
+### Pending Closure Matrix
+
+Each Pending record should be resolved by a typed observation adapter and a
+discriminating control, not by moving its hypothesis into the verified target:
+
+| Pending model | Closure data or theorem needed | Promotion boundary |
+| --- | --- | --- |
+| `KerrInteraction` | Detuning sweep, cavity linewidth, interaction length, probe phase, loss, and signal-state comparison | Measured phase law agrees with controls and uncertainty bounds |
+| `QuantumNonDemolitionParity` | Detector loss, repeated parity reads, parity residual, signal disturbance, and absorbed energy | Repeatability and disturbance remain within declared tolerances |
+| `QuantumQuadratureAssumption` | Operator-level commutation/uncertainty semantics or an explicitly classical variance contract | Keep operator claims Pending unless the mathematical representation is supplied |
+| `TwoModeSqueezedVacuum` | Calibrated covariance matrix, quadrature variances, phase reference, and loss correction | DGCZ or Bell claims require measured state preparation and statistics |
+| `CVBellStateMeasurement` and `CVTeleportationBookkeeping` | Dual-quadrature calibration, feed-forward gain, resource loss, finite-squeezing noise, and fidelity estimate | Protocol bookkeeping is verified; fidelity remains measured/Pending |
+| `HomodyneHardwareReadiness` | Insertion loss, balance, bandwidth, thermal load, material response, mode overlap, and calibration status | Hardware claims require independent measurements and uncertainty |
+| Proca mode/channel records | Effective mass in a controlled medium, polarization-resolved dispersion, source coupling, attenuation, and boundary reflection | No ordinary-air or vacuum promotion without a validated medium model |
+| GPE/SQG and fracture records | Dimensioned PDE/function-space definitions, measured boundary conditions, compressible-flow/CFD comparison, and energy balance | Keep speculative SQG/fracture interpretations isolated in `Signals.Pending` |
+| Amplituhedron and geometric amplitude records | Precise projective/canonical-form definitions and independent scattering calibration | Finite algebra does not establish a physical amplitude |
+| Material/charge-noise hypotheses | SIMS or equivalent impurity data, dielectric loss, moisture, phase-noise spectra, $T_1$, and $T_2$ | Material benefit is a measured comparison, not a property inferred from composition |
+
+The current solution strategy is to add these adapters and controls around the
+existing records. The Lean layer should prove unit-safe algebra, conservation,
+calibration, and residual implications; experiments and numerical solvers must
+supply the physical values and uncertainty distributions.
+
 ### Spatial Coherent Sensing
 
 The wavefield-camera section extends single-mode homodyne detection to a
@@ -159,6 +370,34 @@ lines 821-855, 876-935, 9359-9366, and 9487-9553. The quantum-homodyne query
 also requires the Bell-correlation and runtime passages listed above; they are
 not covered by the earlier single-channel plan alone.
 
+### Follow-Up Search Log
+
+The additional searches used to extend this plan were:
+
+- `docindex search "M-gate"`: ranked M-gate protocol, dispersive-hub, and
+  performance-estimate sections; direct raw context was reviewed in
+  `data/chats/Gemini-_08.md` around lines 2598-2631 and 2660-2715.
+- `docindex search "dispersive hub"`: returned hub topology, phase-fingerprint,
+  and fidelity sections; direct raw context was reviewed around lines
+  2296-2324 and 2598-2631 in `data/chats/Gemini-_08.md`.
+- `docindex search "single-shot fidelity"`: returned M-gate target and
+  parametric-readout sections; direct raw context was reviewed around lines
+  1778-1790, 2598-2631, and 1825-1835 of the relevant raw chats.
+- `docindex search "T1 T2 coherence"`: returned projected coherence and
+  simulation-parameter sections; direct raw context was reviewed in
+  `_Quantum Processor and Soliton Discussions  .md` around lines 1825-1950.
+- `docindex search "noise figure CMRR"`: returned the BHD noise derivation and
+  frequency-dependent CMRR sections; direct raw context was reviewed in
+  `Bell-Correlations-in-Atomic-Momentum.md` around lines 2670-2865.
+- `docindex search "plasmon-exciton coupling"`: returned transduction-risk and
+  phase-tuning sections; direct raw context was reviewed in
+  `Gemini-_08.md` around lines 3550-3570.
+
+The raw review used `rg -n -i -C`-style outward context on the matching files.
+Indexed HTML duplicates and transformed chunk locations were treated as
+discovery results only; implementation citations use the directly reviewed raw
+chat files.
+
 ### Context Review by Requirement
 
 The grep-style outward review maps the search results to these requirements:
@@ -212,8 +451,9 @@ The existing verified library covers:
   hardware-readiness observations in [Pending](../src/signals/Signals/Pending.lean).
 - Pending Kerr interaction data for nonlinear signal/probe phase coupling in
   [Pending](../src/signals/Signals/Pending.lean).
-- Pending Kerr interaction data for nonlinear signal/probe phase coupling in
-  [Pending](../src/signals/Signals/Pending.lean).
+- The normalized Proca mode model and its Pending closure boundary are covered
+  by the existing `Signals.Proca` and `Signals.Pending` APIs; physical
+  longitudinal-wave evidence remains unestablished.
 - Compile-time fixtures for these contracts in
   [SignalsTests](../src/signals/SignalsTests.lean#L805) and
   [SignalsPendingTests](../src/signals/SignalsPendingTests.lean#L792).
@@ -235,6 +475,20 @@ implementation:
 - Physical Kerr-cavity calibration and experimentally validated cross-phase
   coupling. The Pending `KerrInteraction` record is only the supplied finite
   coupling interface.
+- M-gate detuning, cavity linewidth, reference-arm phase, state-assignment
+  fidelity, readout latency, optical absorption, and measurement-induced
+  dephasing.
+- Photon phase-wake peak/integrated response, delay, decay, target-phase
+  comparison, and matched-control residuals.
+- Proca effective-mass-medium validation, longitudinal polarization fraction,
+  frequency-dependent dispersion, attenuation, source coupling, and boundary
+  reflection.
+- WDM/AWG wavelength assignment, per-channel isolation, crosstalk, return loss,
+  and coherent-receiver demultiplexing.
+- Parametric gain, pump phase locking, added noise, squeezing, and loss
+  compensation for microring readout.
+- $T_1/T_2$ baselines, charge-trap concentration, dielectric loss, moisture,
+  temperature, and phase-noise spectra.
 - Quantum operator semantics, detector backaction, and validated squeezing or
   entanglement measurements.
 - Runtime Rust/WASM demodulation, tensor processing, and visualization
@@ -280,7 +534,7 @@ Proved finite algebraic laws for:
 
 - beam-splitter energy conservation;
 - balanced output symmetry;
-- common-mode local-oscillator cancellation in the differential current;
+- common-mode detector-current cancellation in the differential current;
 - dependence on the selected quadrature angle;
 - consistency with the existing I/Q phase convention.
 
@@ -326,6 +580,90 @@ observable. [Complete Pending interface]
 
 A nonzero phase shift must not be treated as proof of Kerr coupling without
 measured calibration.
+
+### Phase 4A: Model the Optical M-Gate Validation Boundary
+
+Add a Pending M-gate validation record that composes the existing dispersive
+and homodyne records with:
+
+- probe and transition frequencies with explicit nonzero detuning;
+- cavity resonance, linewidth, and coupling parameters;
+- incident, reflected, and reference-arm phase observations;
+- target-state assignment result and assignment residual;
+- probe/target absorption and optical-loss observations;
+- measurement-induced dephasing or disturbance;
+- readout latency and confidence interval.
+
+Prove only phase-difference and calibration bookkeeping. Require a detuning
+control, a no-signal control, a reference-arm comparison, and repeated shots
+before treating an M-gate result as a measured phase fingerprint. Keep claims
+of non-absorption, QND behavior, sub-5-ns operation, or greater-than-99.9%
+single-shot fidelity as Pending or measured-result fields.
+
+Add a separate WDM hub record for wavelength assignment, AWG routing, channel
+isolation, crosstalk, return loss, and coherent demultiplexing. Do not infer
+spectral isolation from a nominal channel list.
+
+### Phase 4B: Measure the Photon Phase Wake and Proca Controls
+
+Define a `PhotonPhaseWakeObservation` boundary around the existing homodyne and
+dispersive records. The record should preserve the raw “on,” “off,” and control
+traces and expose:
+
+- demodulated $I/Q$ phase residual;
+- pulse envelope and analysis window;
+- peak and integrated phase response;
+- arrival/group delay and post-pulse decay;
+- target-state phase rotation measured independently;
+- target/probe energy and polarization changes;
+- absorption, optical loss, dephasing, and repeatability;
+- reference-arm drift, detector imbalance, and residual uncertainty.
+
+Define the wake as a conditional response relative to a matched control, not a
+permanent free-space photon trail. Require blocked-signal, absent-target,
+detuning-reversal, intensity-matched classical, and LO-phase controls. Compare
+the probe phase residual with a separate Ramsey or target-interferometry phase
+measurement before assigning the effect to the target.
+
+For the Proca branch, define a `ProcaPropagationObservation` boundary that
+requires a controlled plasma, metamaterial, or waveguide medium with measured
+effective mass. Record frequency-dependent $k(\omega)$, phase/group delay,
+polarization-resolved longitudinal fraction, attenuation, deposited energy,
+source coupling, and boundary reflection. Fit the mass-dependent dispersion
+against a massless Maxwell control and instrument cross-talk controls. Do not
+promote a Proca interpretation from a phase residual alone, and do not
+extrapolate a controlled-medium result to ordinary atmosphere or clouds.
+
+[Next: implement these observation records and compile-time fixtures, then
+connect them to experimental or numerical data adapters.]
+
+### Phase 4C: Represent the Hawking-like iGPE/iQFT/ALS Pipeline
+
+[Complete finite Pending bookkeeping] Add a bounded decoding composition for
+the source-chat chain:
+
+- `PreparedModulation` for the known injected modulation $X(t)$;
+- `ObservedHomodyneTensor` for finite spatial-temporal observations $Y(x,y,t)$;
+- `FiniteIQFT` for a normalized inverse-DFT-style finite transform after the
+  iGPE boundary;
+- `ALSRank` with the explicit bound $2 \leq r \leq 10$;
+- `ALSDecomposition` for CP factor matrices, reconstruction, residual and
+  iteration-limit metadata;
+- `HawkingRadiationDecoding` to compose the `FractureWave`, interactive and
+  inverse GPE records, observed tensor, iGPE residual, iQFT, existing finite
+  `AmplituhedronMap`, ALS projection, and known-input comparison.
+
+Add compile-time fixtures for rank 2 and rank 10, a finite homodyne tensor,
+the inverse-transform law, the CP reconstruction law, and the composed stage
+accessors. The fixtures must use explicit residual and tolerance fields and
+must not encode the widget's claimed zero-error behavior as a theorem.
+
+Keep this entire chain in `Signals.Pending`. The records are interfaces for
+external numerical or experimental adapters, not an iGPE PDE solver, quantum
+Fourier-transform semantics, physical Amplituhedron scattering law, or proof
+that Hawking radiation or information has been decoded. In particular, ALS
+rank selection is a configuration parameter; convergence and agreement with a
+known input require measured or simulated residuals, controls, and uncertainty.
 
 ### Phase 5: Add Dual Homodyne and CV Correlation Records
 
@@ -441,6 +779,23 @@ boundary and YAML playbooks as an optional declarative input; do not encode a
 Fedora Silverblue, `rpm-ostree`, or external Ansiblers dependency in the core
 model.
 
+### Phase 11A: Add Simulation and Measurement Adapters
+
+Keep QuTiP, Meep, Palace, LAMMPS, and similar tools as optional external
+adapters. Define interchange records for:
+
+- cavity detuning and linewidth sweeps;
+- optical gain and added-noise measurements;
+- CMRR and noise spectral density versus frequency;
+- $T_1/T_2$, charge-trap, dielectric-loss, moisture, and temperature data;
+- plasmon-exciton or microwave-to-optical conversion efficiency;
+- M-gate assignment error, latency, loss, and disturbance.
+
+Each adapter must preserve raw inputs and calibration metadata and must compare
+predicted phase/current traces against measured residuals. A simulation result
+is not a hardware validation result unless the boundary conditions and
+uncertainty data are recorded.
+
 ## Acceptance Criteria
 
 Full coverage means:
@@ -459,6 +814,22 @@ Full coverage means:
   observations rather than silently assumed away.
 - Channel mismatch, CMRR, RIN leakage, bandwidth, and residual conventions are
   dimensioned or explicitly labeled as calibration data.
+- M-gate and WDM claims include detuning, cavity, reference-arm, isolation,
+  loss, assignment, latency, and dephasing fields.
+- Photon phase wakes are defined relative to matched controls and include
+  time-resolved phase, target-state, energy, loss, and disturbance data.
+- Hawking-like decoding records preserve prepared input, observed homodyne
+  tensors, inverse-GPE and inverse-QFT stage boundaries, finite Amplituhedron
+  projection, CP/ALS factors, rank bounds $2 \leq r \leq 10$, iteration
+  metadata, and reconstruction/input residuals.
+- Rank selection, finite inverse transforms, iGPE bookkeeping, and
+  Amplituhedron-constrained ALS remain Pending data contracts; they do not
+  establish Hawking radiation, SQG, cryptographic recovery, or physical
+  information decoding.
+- Proca interpretations include effective-mass, polarization, dispersion,
+  attenuation, source, boundary, and massless-Maxwell control records.
+- Coherence, parametric gain, squeezing, and transduction claims include
+  control measurements, raw calibration data, and uncertainty metadata.
 - QND, squeezed-state, material, and analog-gravity interpretations remain
   conditional.
 - `absorbedProbeEnergy` is dimensionally an `Energy` with a joule-based
@@ -475,19 +846,24 @@ Full coverage means:
 3. [Complete finite bookkeeping] Add detector calibration, loss, noise, CMRR,
   and residual records.
 4. [Complete] Compose the detector with the dispersive phase-readout record.
-5. [Complete finite bookkeeping] Add dual-receiver covariance and sign-binning
+5. Next: model the optical M-gate validation boundary and WDM hub isolation.
+6. Next: define photon phase-wake observations and Proca polarization/dispersion
+   controls.
+7. [Complete finite Pending bookkeeping] Add prepared-input, observed-tensor,
+   finite iQFT, bounded ALS rank, and composed Hawking-like decoding records.
+8. Next: add measured M-gate, detector-loss, repeatability, disturbance,
+   coherence, CMRR, WDM-isolation, and frequency-dependent noise observations.
+9. [Complete finite bookkeeping] Add dual-receiver covariance and sign-binning
   plumbing.
-6. [Complete Pending bookkeeping] Add CV Bell-state measurement and feed-forward
+10. [Complete Pending bookkeeping] Add CV Bell-state measurement and feed-forward
   bookkeeping.
-7. [Complete Pending bookkeeping] Strengthen the Pending QND parity boundary.
-8. [Complete Pending bookkeeping] Add Pending quantum quadrature assumptions
+11. [Complete Pending bookkeeping] Strengthen the Pending QND parity boundary.
+12. [Complete Pending bookkeeping] Add Pending quantum quadrature assumptions
   and finite spatial arrays.
-9. [Complete Pending bookkeeping] Add hardware-readiness observations.
-10. Next: define Lean-generated golden vectors and validate Rust/WASM consumers.
-11. Next: add measured detector-loss, repeatability, disturbance, and
-   frequency-dependent noise observations.
-12. [Complete] Update the Signals README and contributor guidance after each
-  completed phase.
+13. [Complete Pending bookkeeping] Add hardware-readiness observations.
+14. Next: define Lean-generated golden vectors and validate Rust/WASM consumers.
+15. [Complete] Update the Signals README and contributor guidance after each
+    completed phase.
 
 Each phase should make the smallest testable change, run
 `make -C /workspaces/sustainablefactory signals_build`, and record whether the

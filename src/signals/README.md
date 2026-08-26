@@ -104,6 +104,10 @@ interpretation while keeping experimental premises explicit:
    quantum quadrature assumptions, TMSV variance bookkeeping, CV Bell-state
    measurement/feed-forward plumbing, Pending Kerr interaction data, and
    integrated homodyne hardware readiness observations.
+   Its Hawking-like decoding boundary preserves prepared modulation, observed
+   homodyne tensors, finite inverse-QFT bookkeeping, bounded CP/ALS rank and
+   residual metadata, and composition with the existing GPE and Amplituhedron
+   records. These are Pending data contracts, not a physical Hawking decoder.
 - `Signals.Geometry` contains Weyl spinors, twistors, antisymmetric minors, and
    the finite $2 \times 4$ Pluecker relation. It also provides unrestricted
    finite Grassmannian matrices, ordered maximal minors, an optional positive
@@ -515,6 +519,18 @@ namespace and build target:
    fidelity.
 - `KerrInteraction` and `HomodyneHardwareReadiness` record Pending nonlinear
    coupling and integrated-detector readiness observations.
+- `PreparedModulation` and `ObservedHomodyneTensor` preserve finite known-input
+   and spatial-temporal homodyne data for a Pending decoding pipeline.
+- `FiniteIQFT` records a normalized inverse-DFT-style finite transform law; it
+   does not supply quantum operator semantics.
+- `ALSRank` bounds the configured CP/ALS rank to $2 \leq r \leq 10$, while
+   `ALSDecomposition` records factor matrices, reconstruction, residual and
+   iteration-limit metadata.
+- `HawkingRadiationDecoding` composes the prepared input, observed tensor,
+   interactive/inverse GPE points, finite iQFT, Amplituhedron map, ALS
+   projection, and known-input comparison. It remains Pending and does not
+   establish Hawking radiation, SQG, cryptographic recovery, or physical
+   information decoding.
 - `CWApplication` and `CWApplicationRequirements` classify the ten CW uses
    found in the IQ Myst document by their phase-reference, mask, convergence,
    range-modulation, and massive-mode requirements.

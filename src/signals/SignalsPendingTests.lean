@@ -785,6 +785,158 @@ example : toyLogarithmicChart.weight *
 example : toyAmplituhedronHypothesis.measuredAmplitude = 7 := by
   rfl
 
+def toyALSRank2 : ALSRank :=
+  { rank := 2
+    lowerBound := by norm_num
+    upperBound := by norm_num }
+
+def toyALSRank10 : ALSRank :=
+  { rank := 10
+    lowerBound := by norm_num
+    upperBound := by norm_num }
+
+example : toyALSRank2.rank = 2 := by
+  rfl
+
+example : toyALSRank10.rank = 10 := by
+  rfl
+
+def toyPreparedModulation : PreparedModulation 2 :=
+  { value := fun _ => 1 }
+
+def toyObservedHomodyneTensor : ObservedHomodyneTensor 1 1 2 :=
+  { value := fun _ _ time => (time.val : ℝ) }
+
+noncomputable def toyFiniteIQFT : FiniteIQFT 2 :=
+  { dimension_positive := by norm_num
+    input := fun _ => 1
+    output := fun outputIndex =>
+      finiteInverseQFT 2 (fun _ => 1) outputIndex
+    normalizationFactor := 1 / Real.sqrt (2 : ℝ)
+    normalizationLaw := by rfl
+    outputLaw := by
+      intro outputIndex
+      rfl }
+
+noncomputable def toyHawkingAmplituhedronMap : AmplituhedronMap 1 1 2 :=
+  { source := { mat := fun _ _ => 1 }
+    externalData := fun _ column => (toyFiniteIQFT.output column).re
+    image := fun _ column => (toyFiniteIQFT.output column).re
+    imageLaw := by
+      funext row column
+      change (toyFiniteIQFT.output column).re =
+        ∑ index : Fin 1, 1 * (toyFiniteIQFT.output column).re
+      simp }
+
+noncomputable def toyHawkingLogarithmicChart : LogarithmicChart 1 1 2 :=
+  { map := toyHawkingAmplituhedronMap
+    source_positive := by
+      intro columns
+      have index_zero : columns.index 0 = 0 := Fin.eq_zero (columns.index 0)
+      change 0 < (toyHawkingAmplituhedronMap.source.mat.submatrix id columns.index).det
+      rw [Matrix.det_fin_one]
+      change 0 < toyHawkingAmplituhedronMap.source.mat 0 (columns.index 0)
+      rw [index_zero]
+      norm_num [toyHawkingAmplituhedronMap]
+    boundary := toyAmplituhedronBoundary
+    boundaryCoordinate := 1
+    boundaryCoordinateLaw := by
+      change (1 : ℝ) =
+        (toyHawkingAmplituhedronMap.source.mat.submatrix id
+          toyAmplituhedronBoundary.index).det
+      rw [Matrix.det_fin_one]
+      norm_num [toyHawkingAmplituhedronMap, toyAmplituhedronBoundary,
+        Matrix.submatrix]
+    boundaryCoordinate_nonzero := by norm_num
+    residue := 1 }
+
+noncomputable def toyHawkingALS : ALSDecomposition 1 1 2 :=
+  { rank := toyALSRank2
+    observed := fun _ _ time => (toyFiniteIQFT.output time).re
+    reconstructed := fun _ _ _ => 0
+    factorX := fun _ _ => 0
+    factorY := fun _ _ => 0
+    factorT := fun _ _ => 0
+    reconstructionLaw := by
+      intro x y time
+      simp [cpReconstruction]
+    residualMagnitude := 1
+    residualMagnitude_nonnegative := by norm_num
+    residualTolerance := 1
+    residualTolerance_nonnegative := by norm_num
+    residualWithinTolerance := by norm_num
+    iterations := 2
+    maximumIterations := 10
+    iterationsWithinLimit := by norm_num }
+
+example : toyHawkingALS.rank.rank = 2 := by
+  rfl
+
+example : toyHawkingALS.residualMagnitude ≤ toyHawkingALS.residualTolerance := by
+  exact toyHawkingALS.residual_within_tolerance
+
+noncomputable def toyHawkingDecoding : HawkingRadiationDecoding 1 1 2 :=
+  { emission := toyWave
+    interactiveGPE := toyIGPE
+    inverseGPE := toyInverseGPE
+    preparedModulation := toyPreparedModulation
+    observedTensor := toyObservedHomodyneTensor
+    observationX := 0
+    observationY := 0
+    observedTrace := toyObservedHomodyneTensor.trace 0 0
+    observedTraceLaw := by
+      intro time
+      rfl
+    iGPEOutput := fun _ => 1
+    iGPEResidualMagnitude := 0
+    iGPEResidualMagnitude_nonnegative := by norm_num
+    iGPEResidualTolerance := 1
+    iGPEResidualTolerance_nonnegative := by norm_num
+    iGPEResidualWithinTolerance := by norm_num
+    iqft := toyFiniteIQFT
+    iqftInputLaw := by
+      intro inputIndex
+      rfl
+    amplituhedron := toyHawkingAmplituhedronMap
+    amplituhedronChart := toyHawkingLogarithmicChart
+    amplituhedronChartMapLaw := by
+      rfl
+    iqftExternalDataLaw := by
+      intro row column
+      rfl
+    als := toyHawkingALS
+    alsSliceY := 0
+    alsProjection := fun _ time => toyHawkingAmplituhedronMap.image 0 time
+    alsProjectionObservedLaw := by
+      intro x time
+      rfl
+    alsProjectionMapLaw := by
+      rfl
+    inputComparison :=
+      { prepared := toyPreparedModulation.value
+        recovered := fun time => (toyFiniteIQFT.output time).re
+        residualMagnitude := 1
+        residualMagnitude_nonnegative := by norm_num
+        residualTolerance := 1
+        residualTolerance_nonnegative := by norm_num
+        residualWithinTolerance := by norm_num }
+    inputComparisonPreparedLaw := by
+      rfl
+    inputComparisonRecoveredLaw := by
+      intro time
+      rfl }
+
+example : toyHawkingDecoding.observedTrace 0 =
+    toyHawkingDecoding.observedTensor.trace 0 0 0 := by
+  exact toyHawkingDecoding.observed_trace_holds 0
+
+example : toyHawkingDecoding.iqft.input 0 = toyHawkingDecoding.iGPEOutput 0 := by
+  exact toyHawkingDecoding.iqft_input_holds 0
+
+example : toyHawkingDecoding.alsProjection =
+    toyHawkingDecoding.amplituhedron.image := by
+  exact toyHawkingDecoding.als_projection_holds
+
 noncomputable def toyQudit : Qudit 1 :=
   { amplitudes := fun _ => 1
     normalized := by norm_num [Fin.sum_univ_succ] }
