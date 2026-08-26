@@ -794,6 +794,12 @@ noncomputable def toyQNDParity : QuantumNonDemolitionParity 1 :=
       { signalBefore := toyQudit
         signalAfter := toyQudit
         signalPreserved := by rfl
+        signalEnergyBefore := { joules := 1 }
+        signalEnergyAfter := { joules := 1 }
+        signalEnergyPreserved := by rfl
+        absorbedSignalEnergy := { joules := 0 }
+        absorbedSignalEnergy_nonnegative := by norm_num
+        absorbedSignalEnergy_zero := by norm_num
         probePhaseBefore := 0
         probePhaseAfter := 2
         probePhaseShift := 2

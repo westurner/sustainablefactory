@@ -783,7 +783,10 @@ def toyPhaseFingerprint : PhaseFingerprint :=
     energyPreserved := by norm_num
     polarizationBefore := 1
     polarizationAfter := 1
-    polarizationPreserved := by norm_num }
+    polarizationPreserved := by norm_num
+    absorbedTargetEnergy := { joules := 0 }
+    absorbedTargetEnergy_nonnegative := by norm_num
+    absorbedTargetEnergy_zero := by norm_num }
 
 example : toyPhaseFingerprint.phaseShift = 2 := by
   norm_num [PhaseFingerprint.phase_shift_holds, toyPhaseFingerprint]
@@ -796,10 +799,19 @@ example : toyPhaseFingerprint.polarizationAfter =
     toyPhaseFingerprint.polarizationBefore := by
   exact toyPhaseFingerprint.polarization_preserved
 
+example : toyPhaseFingerprint.absorbedTargetEnergy.joules = 0 := by
+  exact toyPhaseFingerprint.no_absorbed_target_energy
+
 def toyDispersiveReadout : DispersiveReadout ℝ :=
   { signalBefore := 1
     signalAfter := 1
     signalPreserved := by rfl
+    signalEnergyBefore := { joules := 1 }
+    signalEnergyAfter := { joules := 1 }
+    signalEnergyPreserved := by rfl
+    absorbedSignalEnergy := { joules := 0 }
+    absorbedSignalEnergy_nonnegative := by norm_num
+    absorbedSignalEnergy_zero := by norm_num
     probePhaseBefore := 0
     probePhaseAfter := 2
     probePhaseShift := 2
@@ -814,6 +826,13 @@ def toyDispersiveReadout : DispersiveReadout ℝ :=
 example : toyDispersiveReadout.signalAfter = toyDispersiveReadout.signalBefore := by
   exact toyDispersiveReadout.signal_preserved
 
+example : toyDispersiveReadout.signalEnergyAfter =
+    toyDispersiveReadout.signalEnergyBefore := by
+  exact toyDispersiveReadout.signal_energy_preserved
+
+example : toyDispersiveReadout.absorbedSignalEnergy.joules = 0 := by
+  exact toyDispersiveReadout.no_absorbed_signal_energy
+
 example : toyDispersiveReadout.probePhaseAfter =
     toyDispersiveReadout.probePhaseBefore + toyDispersiveReadout.probePhaseShift := by
   exact toyDispersiveReadout.probe_phase_holds
@@ -821,11 +840,21 @@ example : toyDispersiveReadout.probePhaseAfter =
 example : toyDispersiveReadout.absorbedProbeEnergy.watts = 0 := by
   exact toyDispersiveReadout.no_absorbed_probe_energy
 
+def toyDispersivePhaseFingerprint : DispersivePhaseFingerprint ℝ :=
+  { readout := toyDispersiveReadout
+    fingerprint := toyPhaseFingerprint
+    phaseShiftAgreement := by rfl }
+
+example : toyDispersivePhaseFingerprint.fingerprint.phaseShift =
+    toyDispersivePhaseFingerprint.readout.probePhaseShift := by
+  exact toyDispersivePhaseFingerprint.phase_shift_agrees
+
 def toyCalibrationRecord : CalibrationRecord :=
   { rawBefore := 10
     rawAfter := 10
     rawPreserved := by norm_num
     multiplier := 2
+    offset := 0
     calibrated := 20
     calibrationLaw := by norm_num }
 
@@ -836,9 +865,12 @@ example : toyCalibrationRecord.calibrated = 20 := by
   norm_num [CalibrationRecord.calibration_holds, toyCalibrationRecord]
 
 def toyReversibleOperation : ReversibleOperation :=
-  { stateBefore := 1
+  { kind := VitrimerOperationKind.disassembly
+    stateBefore := 1
     stateAfter := 2
     stateAfterLaw := by norm_num
+    operationPower := { watts := 1 }
+    operationPower_nonnegative := by norm_num
     restoredState := 1
     restoreLaw := by norm_num }
 

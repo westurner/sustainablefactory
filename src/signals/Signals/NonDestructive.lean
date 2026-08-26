@@ -65,6 +65,9 @@ structure PhaseFingerprint where
   polarizationBefore : ℝ
   polarizationAfter : ℝ
   polarizationPreserved : polarizationAfter = polarizationBefore
+  absorbedTargetEnergy : Energy
+  absorbedTargetEnergy_nonnegative : 0 ≤ absorbedTargetEnergy.joules
+  absorbedTargetEnergy_zero : absorbedTargetEnergy.joules = 0
 
 /-- The phase fingerprint is the measured target phase difference. -/
 lemma PhaseFingerprint.phase_shift_holds (fingerprint : PhaseFingerprint) :
@@ -82,12 +85,23 @@ lemma PhaseFingerprint.polarization_preserved (fingerprint : PhaseFingerprint) :
     fingerprint.polarizationAfter = fingerprint.polarizationBefore :=
   fingerprint.polarizationPreserved
 
+/-- The phase fingerprint has no modeled absorbed target energy. -/
+lemma PhaseFingerprint.no_absorbed_target_energy (fingerprint : PhaseFingerprint) :
+    fingerprint.absorbedTargetEnergy.joules = 0 :=
+  fingerprint.absorbedTargetEnergy_zero
+
 /-- A dispersive probe readout with explicit state preservation and zero absorbed
 probe energy. -/
 structure DispersiveReadout (state : Type u) where
   signalBefore : state
   signalAfter : state
   signalPreserved : signalAfter = signalBefore
+  signalEnergyBefore : Energy
+  signalEnergyAfter : Energy
+  signalEnergyPreserved : signalEnergyAfter = signalEnergyBefore
+  absorbedSignalEnergy : Energy
+  absorbedSignalEnergy_nonnegative : 0 ≤ absorbedSignalEnergy.joules
+  absorbedSignalEnergy_zero : absorbedSignalEnergy.joules = 0
   probePhaseBefore : ℝ
   probePhaseAfter : ℝ
   probePhaseShift : ℝ
@@ -104,6 +118,18 @@ lemma DispersiveReadout.signal_preserved
     {state : Type u} (readout : DispersiveReadout state) :
     readout.signalAfter = readout.signalBefore :=
   readout.signalPreserved
+
+/-- A dispersive readout preserves the modeled signal energy. -/
+lemma DispersiveReadout.signal_energy_preserved
+    {state : Type u} (readout : DispersiveReadout state) :
+    readout.signalEnergyAfter = readout.signalEnergyBefore :=
+  readout.signalEnergyPreserved
+
+/-- The dispersive readout has no modeled absorbed signal energy. -/
+lemma DispersiveReadout.no_absorbed_signal_energy
+    {state : Type u} (readout : DispersiveReadout state) :
+    readout.absorbedSignalEnergy.joules = 0 :=
+  readout.absorbedSignalEnergy_zero
 
 /-- The probe phase response follows the supplied dispersive coupling law. -/
 lemma DispersiveReadout.phase_shift_holds
@@ -123,6 +149,18 @@ lemma DispersiveReadout.no_absorbed_probe_energy
     readout.absorbedProbeEnergy.watts = 0 :=
   readout.absorbedProbeEnergy_zero
 
+/-- A phase fingerprint and dispersive readout whose measured phase shifts agree. -/
+structure DispersivePhaseFingerprint (state : Type u) where
+  readout : DispersiveReadout state
+  fingerprint : PhaseFingerprint
+  phaseShiftAgreement : fingerprint.phaseShift = readout.probePhaseShift
+
+/-- The combined record exposes agreement between the fingerprint and probe phase. -/
+lemma DispersivePhaseFingerprint.phase_shift_agrees
+    {state : Type u} (record : DispersivePhaseFingerprint state) :
+    record.fingerprint.phaseShift = record.readout.probePhaseShift :=
+  record.phaseShiftAgreement
+
 /-- A calibration record preserves the raw reading while exposing a transformed
 value for downstream use. -/
 structure CalibrationRecord where
@@ -130,8 +168,9 @@ structure CalibrationRecord where
   rawAfter : ℝ
   rawPreserved : rawAfter = rawBefore
   multiplier : ℝ
+  offset : ℝ
   calibrated : ℝ
-  calibrationLaw : calibrated = multiplier * rawAfter
+  calibrationLaw : calibrated = multiplier * rawAfter + offset
 
 /-- The raw calibration reading is retained unchanged. -/
 lemma CalibrationRecord.raw_preserved (record : CalibrationRecord) :
@@ -140,7 +179,7 @@ lemma CalibrationRecord.raw_preserved (record : CalibrationRecord) :
 
 /-- The calibrated value follows the supplied transformation. -/
 lemma CalibrationRecord.calibration_holds (record : CalibrationRecord) :
-    record.calibrated = record.multiplier * record.rawAfter :=
+  record.calibrated = record.multiplier * record.rawAfter + record.offset :=
   record.calibrationLaw
 
 /-- A continuous recovery process preserves its source while extracting a
@@ -158,11 +197,21 @@ lemma NonDestructiveRecovery.source_preserved
     recovery.sourceStateAfter = recovery.sourceStateBefore :=
   recovery.sourceStatePreserved
 
+/-- Vitrimer operations can disassemble, restore, or repair a material. -/
+inductive VitrimerOperationKind
+  | disassembly
+  | restoration
+  | repair
+  deriving DecidableEq, Repr
+
 /-- A reversible operation restores the original state after an explicit undo. -/
 structure ReversibleOperation where
+  kind : VitrimerOperationKind
   stateBefore : ℝ
   stateAfter : ℝ
   stateAfterLaw : stateAfter ≠ stateBefore
+  operationPower : Power
+  operationPower_nonnegative : 0 ≤ operationPower.watts
   restoredState : ℝ
   restoreLaw : restoredState = stateBefore
 

@@ -46,7 +46,9 @@ interpretation while keeping experimental premises explicit:
    phase-fingerprint observations, dispersive probe readout, raw-data-preserving
    calibration, reversible operations, in-situ remediation, and continuous
    recovery. Preservation is represented as an explicit invariant rather than
-   inferred from the word "nondestructive".
+   inferred from the word "nondestructive". Phase fingerprints and readouts now
+   expose target/signal energy preservation and explicit zero-absorption fields;
+   a compositional phase/readout bridge keeps their measured shifts aligned.
 - `Signals.Propagation` models far-field and near-field coupling, antenna
    efficiency, impedance matching, aperture coupling, alignment, radiation,
    bulk attenuation, interface reflection/transmission/absorption, and passive
@@ -187,10 +189,11 @@ Stark-response quantities without asserting that a dielectric or CW resonator
 generates a massive longitudinal field.
 
 The nondestructive corpus review separates several meanings that the chats use
-interchangeably. THz conductivity/integrity scans, ultrasonic pulse-echo,
+interchangeably. THz conductivity/integrity scans, mmWave radar,
+resonant-frequency mapping, optical interferometry, ultrasonic pulse-echo,
 phased-array ultrasound, eddy-current testing, lock-in thermography, distributed
 Rayleigh/Brillouin fiber sensing, infrared photothermal checks, acoustic-emission
-monitoring, mmWave radar, and RFID audits are inspection methods whose
+monitoring, and RFID audits are inspection methods whose
 non-destructive property must be established by a preserved specimen state and
 a calibrated response
 ([inspection corpus](../../docs/chats/Lignin-Vitrimer-Surface-Roughness-Limits.myst.md#L1596-L1610),
@@ -340,6 +343,9 @@ its physical premises or calibration data are not established.
 11. [Implemented] Add nondestructive inspection, phase-fingerprint, dispersive
    readout, calibration-preservation, and reversible-operation contracts.
    Keep quantum nondemolition parity in `Signals.Pending`.
+12. [Implemented] Strengthen the focused nondestructive contracts with explicit
+   target/signal energy preservation, zero-absorption fields, compositional
+   phase/readout agreement, affine calibration, and typed vitrimer operations.
 
 ### Phase 3: Add geometry and fabrication abstractions
 
@@ -419,8 +425,13 @@ its physical premises or calibration data are not established.
    reversible restoration, and Pending OAM parity QND assumptions. Proposed
    commit:
    `feat(signals): model nondestructive inspection and QND boundaries`.
-9. Next loop: add method-specific calibration records and measured disturbance,
-   absorption, repeatability, and detector-loss observations.
+9. [Complete] Focused nondestructive-contract loop: strengthened phase
+   fingerprints and dispersive readout with explicit energy/absorption fields,
+   composed their phase agreement, added affine calibration offsets, and typed
+   vitrimer operations with power accounting. Proposed commit:
+   `feat(signals): compose phase fingerprints with guarded dispersive readout`.
+10. Next loop: add method-specific calibration records and measured disturbance,
+    absorption, repeatability, and detector-loss observations.
 
 ### Pending Physical Formalisms
 
@@ -460,12 +471,15 @@ namespace and build target:
    ultrasonic, eddy-current, thermal, fiber, acoustic, infrared, and RFID
    inspection paths.
 - `PhaseFingerprint` records a measured phase change with preserved target energy
-   and polarization.
-- `DispersiveReadout` records signal-state preservation, a coupled probe phase
-   response, and zero absorbed probe energy as explicit model data.
-- `CalibrationRecord` preserves a raw reading while deriving a calibrated value.
-- `ReversibleOperation` records restoration of an original state after a
-   reversible material operation.
+   and polarization, plus explicit zero absorbed target energy.
+- `DispersiveReadout` records signal-state preservation, signal-energy
+   preservation, a coupled probe phase response, and zero absorbed signal/probe
+   energy as explicit model data. `DispersivePhaseFingerprint` links its phase
+   shift to the corresponding readout response.
+- `CalibrationRecord` preserves a raw reading while deriving an affine
+   calibrated value with multiplier and offset.
+- `ReversibleOperation` records typed vitrimer disassembly, restoration, or
+   repair, operation power, and restoration of an original state.
 - `QuantumNonDemolitionParity` records OAM-state and parity preservation as a
    Pending QND hypothesis; it does not prove no backaction in hardware.
 - `CWApplication` and `CWApplicationRequirements` classify the ten CW uses
@@ -585,6 +599,9 @@ deterministic fusion, or spacetime energy extraction exist physically.
    a dispersive readout.
 5. Next: add method-specific calibration, detector loss, repeatability, and
    measured disturbance fields before making QND or zero-damage claims.
+6. Next focused check: add detector-loss and repeatability observations, then
+   compare QND disturbance and absorption measurements against the explicit
+   preservation fields.
 
 ### Phase 7: Upstream contributions
 

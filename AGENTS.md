@@ -71,11 +71,20 @@ quantum and reversible-operation claims. `InspectionMethod` and
 `InspectionRecord` cover THz, mmWave, resonant-frequency,
 optical-interferometry, ultrasonic, eddy-current, thermal, fiber, acoustic,
 infrared, and RFID inspection paths. `PhaseFingerprint` and `DispersiveReadout`
-preserve modeled target state, energy, polarization, and probe-energy
-invariants. `CalibrationRecord` preserves raw readings while applying a
+preserve their respective modeled state and energy invariants, while the phase
+fingerprint also preserves target polarization and the readout records probe
+response and probe-energy invariants. `CalibrationRecord` preserves raw readings while applying a
 calibration, `ReversibleOperation` records explicit restoration,
 `InSituRemediation` records a non-decreasing integrity bound, and
 `NonDestructiveRecovery` records source-preserving recovery.
+
+`PhaseFingerprint` also records zero absorbed target energy.
+`DispersiveReadout` records signal-energy preservation, zero absorbed signal
+and probe energy, and a coupled probe phase response.
+`DispersivePhaseFingerprint` links the fingerprint phase to that readout.
+`CalibrationRecord` supports an affine calibration while retaining the raw
+value. `ReversibleOperation` identifies the vitrimer operation kind and its
+restoration law.
 
 `QuantumNonDemolitionParity` in
 [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean) is a

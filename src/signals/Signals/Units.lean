@@ -23,6 +23,10 @@ structure Volume where
 structure Power where
   watts : ℝ
 
+/-- An energy measured in joules. -/
+structure Energy where
+  joules : ℝ
+
 /-- A mass density measured in kilograms per cubic metre. -/
 structure MassDensity where
   kilogramsPerCubicMeter : ℝ
