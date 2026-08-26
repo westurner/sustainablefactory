@@ -5,6 +5,8 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NODE_VERSION=22.x
 
+ARG LEAN_TOOLCHAIN=leanprover/lean4:v4.33.0
+
 #ARG TZ=America/New_York
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
@@ -179,6 +181,27 @@ RUN (set -x; \
     && mkdir -p "/home/$USERNAME/.cache/ms-playwright")
     #&& chown -R 1000:1000 "/home/$USERNAME/.npm" \
     #&& chown -Rv "$USERNAME:$USERNAME" "/home/$USERNAME" \
+
+# Install the Lean toolchain used by the Signals project.
+ENV ELAN_HOME=/home/appuser/.elan
+ENV PATH=/home/appuser/.elan/bin:${PATH}
+# Cache the complete Elan home, then copy it into the image-backed installation.
+USER root
+RUN mkdir -p "$ELAN_HOME" /mnt/elan-cache && \
+    chown -R "$USERNAME:$USERNAME" "$ELAN_HOME" /mnt/elan-cache
+USER $USERNAME
+RUN --mount=type=cache,target=/mnt/elan-cache,uid=1000,gid=1000,id=elan-home-cache,sharing=locked \
+    export ELAN_HOME=/mnt/elan-cache; \
+    export PATH="/mnt/elan-cache/bin:$PATH"; \
+    curl https://elan.lean-lang.org/elan-init.sh -sSf | sh -s -- \
+    --default-toolchain "$LEAN_TOOLCHAIN" -y && \
+    elan toolchain install "$LEAN_TOOLCHAIN" && \
+    elan default "$LEAN_TOOLCHAIN" && \
+    rm -rf /home/appuser/.elan && \
+    mkdir -p /home/appuser/.elan && \
+    cp -a /mnt/elan-cache/. /home/appuser/.elan/ && \
+    lean --version && \
+    lake --version
 
 # Switch to the non-root user
 WORKDIR /app

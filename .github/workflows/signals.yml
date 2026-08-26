@@ -1,0 +1,57 @@
+name: Signals Lean build
+
+on:
+  pull_request:
+    paths:
+      - "src/signals/**"
+      - ".github/workflows/signals.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "src/signals/**"
+      - ".github/workflows/signals.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Signals with Mathlib and Physlib
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out sustainablefactory
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Check out compatible mathlib
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: leanprover-community/mathlib4
+          ref: db584cd6d46c92f209a44c0f1c829460d327499d
+          path: src/mathlib4
+          persist-credentials: false
+
+      - name: Check out compatible Physlib
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: westurner/physlib
+          ref: f6d7fe3d32f1849a153147f2868d6db2d9daf40a
+          path: src/physlib
+          persist-credentials: false
+
+      - name: Set up Lean
+        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1.5.0
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+
+      - name: Download dependency artifacts
+        working-directory: src/signals
+        run: make lean-cache
+
+      - name: Build Signals
+        run: make -C src/signals lean-build

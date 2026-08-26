@@ -25,6 +25,11 @@ docs:
 	@echo "docs  #  Build Sphinx documentation"
 	$(MAKE) -C docs html
 
+.PHONY: signals_build
+signals_build:
+	@echo "signals_build  #  Build the sustainablefactory/src/signals library"
+	$(MAKE) -C src/signals lean-cache lean-build
+
 
 .PHONY: generate_glossary
 generate_glossary:
@@ -56,12 +61,12 @@ aggregate_data:
 .PHONY: transform_md_all
 transform_md_all:
 	@echo "transform_md_all  #  Transform markdown chat exports from chatoverlay to docs"
-	transform-md --indir data/chatoverlay/chats__all/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst,ipynb,chatexport_abc1
+	transform-md --indir data/chatoverlay/chats__all/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst #,ipynb,chatexport_abc1
 
 .PHONY: transform_md_data_chats
 transform_md_data_chats:
 	@echo "transform_md_data_chats  #  Transform markdown chat exports from data/chats to docs"
-	transform-md --indir data/chats/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst,ipynb,chatexport_abc1
+	transform-md --indir data/chats/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst  #,ipynb,chatexport_abc1
 
 
 ## Docindex requires MeiliSearch (rust) and/or oxirs:
