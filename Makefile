@@ -5,12 +5,27 @@
 # Optional explicit virtualenv path, e.g. `make ... VENV=.venv`.
 VENV ?=
 PYTHON ?= $(if $(VENV),$(VENV)/bin/python,$(if $(wildcard .venv/bin/python),.venv/bin/python,$(if $(wildcard $(HOME)/.venv/bin/python),$(HOME)/.venv/bin/python,python3)))
+
 # Installer selector: auto|uv|pip. auto prefers uv with pip fallback.
 INSTALLER ?= auto
+
+# Container
 PODMAN ?= $(if $(shell command -v flatpak-spawn 2>/dev/null),flatpak-spawn podman,$(if $(shell command -v podman 2>/dev/null),podman,$(if $(shell command -v podman-remote 2>/dev/null),podman-remote,podman)))
+CONTAINER_USER ?= appuser
+CONTAINER_WORKSPACE ?= /workspaces/$(notdir $(CURDIR))
+PODMAN_SOCKET ?= $(XDG_RUNTIME_DIR)/podman/podman.sock
+
+# Signals Lean4 library
+SIGNALS_LAKE_VOLUME ?= sustainablefactory-$(notdir $(CURDIR))-signals-lake
+SIGNALS_ELAN_TOOLCHAINS_VOLUME ?= sustainablefactory-$(notdir $(CURDIR))-elan-toolchains
+SIGNALS_CONTAINER_RUNTIME ?= podman
+SIGNALS_E2E_IMAGE ?= sustainablefactory-e2e-lean
+
+# docindex Meilisearch 
 MEILISEARCH_HOST ?= localhost
 MEILISEARCH_URL ?= http://$(MEILISEARCH_HOST):7700
 MEILI_MASTER_KEY ?= dev-key
+
 
 .PHONY: default
 default: help
@@ -29,6 +44,29 @@ docs:
 signals_build:
 	@echo "signals_build  #  Build the sustainablefactory/src/signals library"
 	$(MAKE) -C src/signals lean-cache lean-build
+
+.PHONY: signals_build_e2e
+signals_build_e2e:
+	@echo "signals_build_e2e  #  Build Signals inside the E2E container using the devcontainer volumes"
+	@test -S "$(PODMAN_SOCKET)" || (echo "Podman socket not found: $(PODMAN_SOCKET)" && exit 1)
+	@$(SIGNALS_CONTAINER_RUNTIME) image exists "$(SIGNALS_E2E_IMAGE)" || $(MAKE) signals_e2e_image
+	$(SIGNALS_CONTAINER_RUNTIME) run --rm \
+		--security-opt=label=disable \
+		--user="$(CONTAINER_USER)" \
+		--userns=keep-id \
+		-v "$(CURDIR):$(CONTAINER_WORKSPACE)" \
+		-v "$(SIGNALS_LAKE_VOLUME):$(CONTAINER_WORKSPACE)/src/signals/.lake" \
+		-v "$(SIGNALS_ELAN_TOOLCHAINS_VOLUME):/home/$(CONTAINER_USER)/.elan/toolchains" \
+		-v "$(PODMAN_SOCKET):$(PODMAN_SOCKET)" \
+		-e DOCKER_HOST="unix://$(PODMAN_SOCKET)" \
+		-w "$(CONTAINER_WORKSPACE)" \
+		"$(SIGNALS_E2E_IMAGE)" \
+		sh -lc 'sudo chown $(CONTAINER_USER):$(CONTAINER_USER) src/signals/.lake /home/$(CONTAINER_USER)/.elan/toolchains && make signals_build'
+
+.PHONY: signals_build_e2e_build_image
+signals_build_e2e_build_image:
+	@echo "signals_e2e_image  #  Build the Lean-capable E2E image"
+	$(SIGNALS_CONTAINER_RUNTIME) build --security-opt=label=disable -f Dockerfile.e2e -t "$(SIGNALS_E2E_IMAGE)" .
 
 
 .PHONY: generate_glossary
@@ -61,12 +99,12 @@ aggregate_data:
 .PHONY: transform_md_all
 transform_md_all:
 	@echo "transform_md_all  #  Transform markdown chat exports from chatoverlay to docs"
-	transform-md --indir data/chatoverlay/chats__all/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst #,ipynb,chatexport_abc1
+	transform-md --indir data/chatoverlay/chats__all/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst,ipynb,chatexport_abc1
 
 .PHONY: transform_md_data_chats
 transform_md_data_chats:
 	@echo "transform_md_data_chats  #  Transform markdown chat exports from data/chats to docs"
-	transform-md --indir data/chats/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst  #,ipynb,chatexport_abc1
+	transform-md --indir data/chats/ --outdir docs/chats/ --transform-cell-split m1 --out-format=myst,ipynb,chatexport_abc1
 
 
 ## Docindex requires MeiliSearch (rust) and/or oxirs:
@@ -147,11 +185,6 @@ docindex_drop_all_indexes: # docindex_install_python
 	$(PYTHON) -m docindex_cli.cli delete-index --index all --confirm
 	$(PYTHON) -m docindex_cli.cli delete-index --index chats --confirm
 	$(PYTHON) -m docindex_cli.cli delete-index --index sphinx --confirm
-
-.PHONY: docindex_status
-docindex_status: # docindex_install_python
-	@echo "docindex_status  #  Show docindex indices and status"
-	$(PYTHON) -m docindex_cli.cli status
 
 .PHONY: docindex_search
 docindex_search: # docindex_install_python

@@ -3,12 +3,12 @@ version = "0.1.0"
 defaultTargets = ["Signals"]
 
 [[require]]
-name = "mathlib"
-path = "../mathlib4"
-
-[[require]]
 name = "Physlib"
 path = "../physlib"
+
+[[require]]
+name = "mathlib"
+path = "../mathlib4"
 
 [[lean_lib]]
 name = "Signals"

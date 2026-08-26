@@ -37,8 +37,10 @@ The normal task from the repository root is:
 make signals_build
 ```
 
-It downloads available Mathlib/Physlib Lake artifacts and builds the Signals
-library. From inside `src/signals`, use the equivalent commands:
+It attempts to download available Mathlib/Physlib Lake artifacts and then
+builds the Signals library. A cache miss or an unavailable cache for a local
+fork is reported and the local build continues. From inside `src/signals`, use
+the equivalent commands:
 
 ```text
 make lean-cache
@@ -60,6 +62,10 @@ compatible mathlib and Physlib revisions.
 The devcontainer mounts the repository at `/workspaces/sustainablefactory` and
 persists `src/signals/.lake` in the named volume
 `sustainablefactory-${localWorkspaceFolderBasename}-signals-lake`.
+The E2E Make task also persists Elan toolchains in
+`sustainablefactory-${localWorkspaceFolderBasename}-elan-toolchains`, mounted
+at `/home/appuser/.elan/toolchains`; this prevents Lake from downloading the
+workspace-selected Lean toolchain again after its first successful install.
 
 After the container is created, run the build from the workspace root:
 
@@ -72,6 +78,34 @@ If the current directory is `src/signals`, the equivalent command is:
 ```text
 make
 ```
+
+To run the same build in the E2E image with the devcontainer workspace,
+Podman socket, and persistent `.lake` volume, run from the repository root:
+
+```text
+make signals_build_e2e
+```
+
+This task mounts both persistent volumes. Override the Elan toolchain volume
+with `SIGNALS_ELAN_TOOLCHAINS_VOLUME=...` when sharing a cache between related
+workspaces.
+
+The default image is `sustainablefactory-e2e-lean`. If that image is missing,
+the task builds it from `Dockerfile.e2e` first. Override the image when using a
+different tag:
+
+```text
+make signals_build_e2e SIGNALS_E2E_IMAGE=localhost/my-e2e-image:latest
+```
+
+To build the image explicitly without running Lean, use
+`make signals_build_e2e_build_image`.
+
+The target expects the rootless Podman socket at
+`$XDG_RUNTIME_DIR/podman/podman.sock`, matching the devcontainer mount. Start
+it on the host with `systemctl --user enable --now podman.socket` when needed.
+It uses the `podman` executable directly by default; override it with
+`SIGNALS_CONTAINER_RUNTIME` if the container runtime is installed elsewhere.
 
 Do not compile Signals in `Dockerfile.e2e`; that image installs the Lean
 toolchain only. Mathlib, Physlib, and Signals compilation belongs in the

@@ -12,7 +12,12 @@ help:
 		'lean-clean  # Remove Lake build artifacts'
 
 lean-cache:
-	$(LEAN) exe cache get
+	$(LEAN) update
+	@if $(LEAN) exe cache get; then \
+		echo "Lean cache restored"; \
+	else \
+		echo "Lean cache unavailable; continuing with a local build"; \
+	fi
 
 lean-build:
 	$(LEAN) build Signals
