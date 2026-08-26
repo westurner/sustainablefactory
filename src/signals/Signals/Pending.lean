@@ -6,6 +6,7 @@ import Signals.Acoustics
 import Signals.Applications
 import Signals.Geometry
 import Signals.DirectionalBroadbandAntenna
+import Signals.Homodyne
 import Signals.Maxwell
 import Signals.NonDestructive
 import Signals.OAM
@@ -19,6 +20,7 @@ open Signals.Applications
 open Signals.Acoustics
 open Signals.Geometry
 open Signals.Antennas
+open Signals.Homodyne
 open Signals.Maxwell
 open Signals.NonDestructive
 open Signals.OAM
@@ -208,11 +210,29 @@ physical Kerr interaction has no unmodeled loss or backaction.
 -/
 structure QuantumNonDemolitionParity (dimension : ℕ) where
   readout : DispersiveReadout (Qudit dimension)
+  detectorLoss : BoundedFactor
   parityBefore : Bool
   parityAfter : Bool
   parityPreserved : parityAfter = parityBefore
   measuredParity : Bool
   parityReadoutLaw : measuredParity = parityAfter
+  repeatedParity : Bool
+  repeatedParityLaw : repeatedParity = measuredParity
+  parityResidual : ℝ
+  parityResidual_nonnegative : 0 ≤ parityResidual
+  parityResidualBound : ℝ
+  parityResidualBound_nonnegative : 0 ≤ parityResidualBound
+  parityResidualWithinBound : parityResidual ≤ parityResidualBound
+  signalDisturbance : ℝ
+  signalDisturbance_nonnegative : 0 ≤ signalDisturbance
+  disturbanceBound : ℝ
+  disturbanceBound_nonnegative : 0 ≤ disturbanceBound
+  disturbanceWithinBound : signalDisturbance ≤ disturbanceBound
+  absorptionMeasurement : Energy
+  absorptionMeasurement_nonnegative : 0 ≤ absorptionMeasurement.joules
+  absorptionBound : Energy
+  absorptionBound_nonnegative : 0 ≤ absorptionBound.joules
+  absorptionWithinBound : absorptionMeasurement.joules ≤ absorptionBound.joules
 
 /-- The QND parity contract preserves the signal qudit state. -/
 lemma QuantumNonDemolitionParity.signal_preserved
@@ -231,6 +251,181 @@ lemma QuantumNonDemolitionParity.measured_parity_eq
     {dimension : ℕ} (measurement : QuantumNonDemolitionParity dimension) :
     measurement.measuredParity = measurement.parityAfter :=
   measurement.parityReadoutLaw
+
+/-- The Pending QND record exposes its detector-loss factor. -/
+lemma QuantumNonDemolitionParity.detector_loss_nonnegative
+    {dimension : ℕ} (measurement : QuantumNonDemolitionParity dimension) :
+    0 ≤ measurement.detectorLoss.value :=
+  measurement.detectorLoss.nonnegative
+
+/-- The Pending QND record compares a repeated parity result with the first result. -/
+lemma QuantumNonDemolitionParity.repeated_parity_eq
+    {dimension : ℕ} (measurement : QuantumNonDemolitionParity dimension) :
+    measurement.repeatedParity = measurement.measuredParity :=
+  measurement.repeatedParityLaw
+
+/-- The Pending QND record bounds its parity-classification residual. -/
+lemma QuantumNonDemolitionParity.parity_residual_within_bound
+    {dimension : ℕ} (measurement : QuantumNonDemolitionParity dimension) :
+    measurement.parityResidual ≤ measurement.parityResidualBound :=
+  measurement.parityResidualWithinBound
+
+/-- The Pending QND record bounds the measured signal disturbance. -/
+lemma QuantumNonDemolitionParity.disturbance_within_bound
+    {dimension : ℕ} (measurement : QuantumNonDemolitionParity dimension) :
+    measurement.signalDisturbance ≤ measurement.disturbanceBound :=
+  measurement.disturbanceWithinBound
+
+/-- The Pending QND record bounds its measured absorbed energy. -/
+lemma QuantumNonDemolitionParity.absorption_within_bound
+    {dimension : ℕ} (measurement : QuantumNonDemolitionParity dimension) :
+    measurement.absorptionMeasurement.joules ≤ measurement.absorptionBound.joules :=
+  measurement.absorptionWithinBound
+
+/-- Pending assumptions for quantum quadrature commutation and uncertainty. -/
+structure QuantumQuadratureAssumption where
+  hbar : ℝ
+  hbar_pos : 0 < hbar
+  amplitudeVariance : ℝ
+  amplitudeVariance_nonnegative : 0 ≤ amplitudeVariance
+  phaseVariance : ℝ
+  phaseVariance_nonnegative : 0 ≤ phaseVariance
+  commutatorMagnitude : ℝ
+  commutatorLaw : commutatorMagnitude = hbar / 2
+  uncertaintyProduct : ℝ
+  uncertaintyBound : ℝ
+  uncertaintyBoundLaw : uncertaintyBound = hbar ^ 2 / 4
+  uncertaintyWithinBound : uncertaintyBound ≤ uncertaintyProduct
+  squeezingParameter : ℝ
+  squeezingParameter_nonnegative : 0 ≤ squeezingParameter
+
+/-- The Pending quadrature record exposes its commutator assumption. -/
+lemma QuantumQuadratureAssumption.commutator_holds
+    (assumption : QuantumQuadratureAssumption) :
+    assumption.commutatorMagnitude = assumption.hbar / 2 :=
+  assumption.commutatorLaw
+
+/-- The Pending quadrature record exposes its uncertainty lower bound. -/
+lemma QuantumQuadratureAssumption.uncertainty_holds
+    (assumption : QuantumQuadratureAssumption) :
+    assumption.uncertaintyBound = assumption.hbar ^ 2 / 4 :=
+  assumption.uncertaintyBoundLaw
+
+/-- A Pending two-mode squeezed-vacuum variance model. -/
+structure TwoModeSqueezedVacuum where
+  squeezingParameter : ℝ
+  squeezingParameter_nonnegative : 0 ≤ squeezingParameter
+  xDifferenceVariance : ℝ
+  pSumVariance : ℝ
+  xDifferenceVarianceLaw :
+    xDifferenceVariance = 2 * Real.exp (-2 * squeezingParameter)
+  pSumVarianceLaw :
+    pSumVariance = 2 * Real.exp (-2 * squeezingParameter)
+
+/-- The Pending TMSV record exposes its X-difference variance. -/
+lemma TwoModeSqueezedVacuum.x_difference_variance_holds
+    (state : TwoModeSqueezedVacuum) :
+    state.xDifferenceVariance = 2 * Real.exp (-2 * state.squeezingParameter) :=
+  state.xDifferenceVarianceLaw
+
+/-- The Pending TMSV record exposes its P-sum variance. -/
+lemma TwoModeSqueezedVacuum.p_sum_variance_holds
+    (state : TwoModeSqueezedVacuum) :
+    state.pSumVariance = 2 * Real.exp (-2 * state.squeezingParameter) :=
+  state.pSumVarianceLaw
+
+/-- Finite CV Bell-state measurement bookkeeping for two quadrature modes. -/
+structure CVBellStateMeasurement where
+  inputX : ℝ
+  resourceX : ℝ
+  inputP : ℝ
+  resourceP : ℝ
+  measuredX : ℝ
+  measuredP : ℝ
+  measuredXLaw : measuredX = (inputX - resourceX) / Real.sqrt 2
+  measuredPLaw : measuredP = (inputP + resourceP) / Real.sqrt 2
+
+/-- The measured X combination follows the balanced Bell-state law. -/
+lemma CVBellStateMeasurement.measured_x_holds
+    (measurement : CVBellStateMeasurement) :
+    measurement.measuredX =
+      (measurement.inputX - measurement.resourceX) / Real.sqrt 2 :=
+  measurement.measuredXLaw
+
+/-- The measured P combination follows the balanced Bell-state law. -/
+lemma CVBellStateMeasurement.measured_p_holds
+    (measurement : CVBellStateMeasurement) :
+    measurement.measuredP =
+      (measurement.inputP + measurement.resourceP) / Real.sqrt 2 :=
+  measurement.measuredPLaw
+
+/-- Continuous classical feed-forward bookkeeping for CV teleportation. -/
+structure CVFeedForward where
+  gain : ℝ
+  measuredX : ℝ
+  measuredP : ℝ
+  displacementX : ℝ
+  displacementP : ℝ
+  displacementXLaw : displacementX = gain * measuredX
+  displacementPLaw : displacementP = gain * measuredP
+
+/-- The X displacement follows the supplied feed-forward gain. -/
+lemma CVFeedForward.displacement_x_holds (feedForward : CVFeedForward) :
+    feedForward.displacementX = feedForward.gain * feedForward.measuredX :=
+  feedForward.displacementXLaw
+
+/-- The P displacement follows the supplied feed-forward gain. -/
+lemma CVFeedForward.displacement_p_holds (feedForward : CVFeedForward) :
+    feedForward.displacementP = feedForward.gain * feedForward.measuredP :=
+  feedForward.displacementPLaw
+
+/-- Pending CV teleportation plumbing with explicit loss and finite-squeezing noise. -/
+structure CVTeleportationBookkeeping where
+  bellMeasurement : CVBellStateMeasurement
+  feedForward : CVFeedForward
+  resourceLoss : BoundedFactor
+  finiteSqueezingNoise : ℝ
+  finiteSqueezingNoise_nonnegative : 0 ≤ finiteSqueezingNoise
+  feedForwardMeasurementLaw :
+    feedForward.measuredX = bellMeasurement.measuredX ∧
+      feedForward.measuredP = bellMeasurement.measuredP
+
+/-- Pending nonlinear signal/probe phase coupling data for a Kerr interaction. -/
+structure KerrInteraction (state : Type u) where
+  signalBefore : state
+  signalAfter : state
+  signalPreserved : signalAfter = signalBefore
+  couplingStrength : ℝ
+  couplingStrength_nonnegative : 0 ≤ couplingStrength
+  interactionLength : Length
+  interactionLength_nonnegative : 0 ≤ interactionLength.meters
+  signalObservable : ℝ
+  probePhaseShift : ℝ
+  probePhaseShiftLaw :
+    probePhaseShift = couplingStrength * interactionLength.meters * signalObservable
+
+/-- The Pending Kerr record exposes its supplied cross-phase law. -/
+lemma KerrInteraction.probe_phase_shift_holds
+    {state : Type u} (interaction : KerrInteraction state) :
+    interaction.probePhaseShift =
+      interaction.couplingStrength * interaction.interactionLength.meters *
+        interaction.signalObservable :=
+  interaction.probePhaseShiftLaw
+
+/-- Pending hardware-readiness observations for an integrated homodyne detector. -/
+structure HomodyneHardwareReadiness where
+  insertionLoss : ℝ
+  insertionLoss_nonnegative : 0 ≤ insertionLoss
+  beamSplitterImbalance : ℝ
+  beamSplitterImbalance_nonnegative : 0 ≤ beamSplitterImbalance
+  detectorBandwidth : Frequency
+  detectorBandwidth_pos : 0 < detectorBandwidth.hz
+  thermalLoad : Power
+  thermalLoad_nonnegative : 0 ≤ thermalLoad.watts
+  materialResponse : ℝ
+  materialResponse_nonnegative : 0 ≤ materialResponse
+  modeOverlap : BoundedFactor
+  calibrationReady : Bool
 
 /-! ## Mixed-species atmospheric scavenging
 

@@ -23,6 +23,18 @@ structure Volume where
 structure Power where
   watts : ℝ
 
+/-- An electrical current measured in amperes. -/
+structure Current where
+  amperes : ℝ
+
+/-- A photodetector responsivity measured in amperes per watt. -/
+structure Responsivity where
+  amperesPerWatt : ℝ
+
+/-- A current-noise power spectral density measured in amperes squared per hertz. -/
+structure CurrentNoisePowerDensity where
+  amperesSquaredPerHertz : ℝ
+
 /-- An energy measured in joules. -/
 structure Energy where
   joules : ℝ

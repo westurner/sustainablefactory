@@ -5,6 +5,7 @@ namespace SignalsTests
 
 open Signals.Fabrication
 open Signals.Geometry
+open Signals.Homodyne
 open Signals.IQ
 open Signals.Antennas
 open Signals.Proca
@@ -155,6 +156,277 @@ def toyMeasurement : PhaseHeightMeasurement :=
 example : toyMeasurement.height =
   Signals.IQ.heightFromPhase toyMeasurement.waveNumber toyMeasurement.unwrappedPhase := by
   exact toyMeasurement.height_eq_heightFromPhase
+
+  def toyLocalOscillator : LocalOscillator :=
+    { amplitude := 1
+      amplitude_nonnegative := by norm_num
+      phase := 0 }
+
+  noncomputable def toyBalancedHomodyne : BalancedHomodyne :=
+    { signal := { inPhase := 1, quadrature := 0 }
+      localOscillator := toyLocalOscillator
+      plusOutput := beamSplitterPlus { inPhase := 1, quadrature := 0 }
+        toyLocalOscillator.asSample
+      minusOutput := beamSplitterMinus { inPhase := 1, quadrature := 0 }
+        toyLocalOscillator.asSample
+      plusOutputLaw := by rfl
+      minusOutputLaw := by rfl
+      plusDetector := sampleEnergy (beamSplitterPlus { inPhase := 1, quadrature := 0 }
+        toyLocalOscillator.asSample)
+      minusDetector := sampleEnergy (beamSplitterMinus { inPhase := 1, quadrature := 0 }
+        toyLocalOscillator.asSample)
+      plusDetectorLaw := by rfl
+      minusDetectorLaw := by rfl
+      differentialPhotocurrent := differentialPhotocurrent
+        { inPhase := 1, quadrature := 0 } toyLocalOscillator
+      differentialLaw := by rfl }
+
+  example : sampleEnergy (beamSplitterPlus toyBalancedHomodyne.signal
+      toyBalancedHomodyne.localOscillator.asSample) +
+      sampleEnergy (beamSplitterMinus toyBalancedHomodyne.signal
+        toyBalancedHomodyne.localOscillator.asSample) =
+      sampleEnergy toyBalancedHomodyne.signal +
+        sampleEnergy toyBalancedHomodyne.localOscillator.asSample := by
+    exact beamSplitter_energy_conserved toyBalancedHomodyne.signal
+      toyBalancedHomodyne.localOscillator.asSample
+
+  example : differentialPhotocurrent toyBalancedHomodyne.signal
+      toyBalancedHomodyne.localOscillator = 2 := by
+    norm_num [differentialPhotocurrent_eq_interference, toyBalancedHomodyne,
+      toyLocalOscillator, LocalOscillator.asSample]
+
+  example : differentialPhotocurrent toyBalancedHomodyne.signal
+      toyBalancedHomodyne.localOscillator =
+      2 * toyBalancedHomodyne.localOscillator.amplitude *
+        rotatedQuadrature toyBalancedHomodyne.signal
+          toyBalancedHomodyne.localOscillator.phase := by
+    exact differentialPhotocurrent_eq_rotatedQuadrature toyBalancedHomodyne.signal
+      toyBalancedHomodyne.localOscillator
+
+  example : toyBalancedHomodyne.differentialPhotocurrent =
+      toyBalancedHomodyne.plusDetector - toyBalancedHomodyne.minusDetector := by
+    exact toyBalancedHomodyne.differential_holds
+
+  def toySecondLocalOscillator : LocalOscillator :=
+    { amplitude := 1
+      amplitude_nonnegative := by norm_num
+      phase := 1 }
+
+  noncomputable def toyBalancedHomodyneB : BalancedHomodyne :=
+    { signal := { inPhase := 1, quadrature := 0 }
+      localOscillator := toySecondLocalOscillator
+      plusOutput := beamSplitterPlus { inPhase := 1, quadrature := 0 }
+        toySecondLocalOscillator.asSample
+      minusOutput := beamSplitterMinus { inPhase := 1, quadrature := 0 }
+        toySecondLocalOscillator.asSample
+      plusOutputLaw := by rfl
+      minusOutputLaw := by rfl
+      plusDetector := sampleEnergy (beamSplitterPlus { inPhase := 1, quadrature := 0 }
+        toySecondLocalOscillator.asSample)
+      minusDetector := sampleEnergy (beamSplitterMinus { inPhase := 1, quadrature := 0 }
+        toySecondLocalOscillator.asSample)
+      plusDetectorLaw := by rfl
+      minusDetectorLaw := by rfl
+      differentialPhotocurrent := differentialPhotocurrent
+        { inPhase := 1, quadrature := 0 }
+        toySecondLocalOscillator
+      differentialLaw := by rfl }
+
+  noncomputable def toyDualHomodyneTrace : DualHomodyneTrace 2 :=
+    { sampleCount_pos := by norm_num
+      receiverA := toyBalancedHomodyne
+      receiverB := toyBalancedHomodyneB
+      missingSamples := 0
+      missingSamples_le_count := by norm_num
+      outcomesA := fun _ => 1
+      outcomesB := fun _ => 2
+      meanA := 1
+      meanB := 2
+      meanALaw := by norm_num [Fin.sum_univ_succ]
+      meanBLaw := by norm_num [Fin.sum_univ_succ]
+      covariance := 0
+      covarianceLaw := by norm_num [Fin.sum_univ_succ]
+      correlationScale := 1
+      correlationScale_pos := by norm_num
+      normalizedCorrelation := 0
+      normalizedCorrelationLaw := by norm_num
+      residual := 0
+      residualTolerance := 1
+      residualTolerance_nonnegative := by norm_num
+      residualWithinTolerance := by norm_num
+      thresholdA := 1
+      thresholdB := 2
+      binsA := fun _ => true
+      binsB := fun _ => true
+      binsALaw := by intro index; simp [signBin]
+      binsBLaw := by intro index; simp [signBin] }
+
+  example : toyDualHomodyneTrace.meanA = 1 := by
+    norm_num [DualHomodyneTrace.mean_a_holds, toyDualHomodyneTrace,
+      Fin.sum_univ_succ]
+
+  example : toyDualHomodyneTrace.covariance = 0 := by
+    norm_num [DualHomodyneTrace.covariance_holds, toyDualHomodyneTrace,
+      Fin.sum_univ_succ]
+
+  example : toyDualHomodyneTrace.normalizedCorrelation = 0 := by
+    norm_num [DualHomodyneTrace.normalized_correlation_holds,
+      toyDualHomodyneTrace]
+
+  example : toyDualHomodyneTrace.missingSamples ≤ 2 := by
+    exact toyDualHomodyneTrace.missing_samples_bounded
+
+  example : |toyDualHomodyneTrace.residual| ≤
+      toyDualHomodyneTrace.residualTolerance := by
+    exact toyDualHomodyneTrace.residual_within_tolerance
+
+  noncomputable def toyHomodyneGrid : HomodyneGrid 1 1 :=
+    { width_pos := by norm_num
+      height_pos := by norm_num
+      localOscillator := toyLocalOscillator
+      signal := fun _ _ => { inPhase := 1, quadrature := 0 }
+      pixelPhotocurrent := fun _ _ => differentialPhotocurrent
+        { inPhase := 1, quadrature := 0 } toyLocalOscillator
+      pixelPhotocurrentLaw := by intro column row; rfl
+      phaseMap := fun _ _ => ({ inPhase := 1, quadrature := 0 } : Sample).phase
+      phaseMapLaw := by intro column row; rfl }
+
+example : toyHomodyneGrid.pixelPhotocurrent 0 0 =
+    differentialPhotocurrent (toyHomodyneGrid.signal 0 0)
+      toyHomodyneGrid.localOscillator := by
+  exact toyHomodyneGrid.pixel_photocurrent_holds 0 0
+
+example : toyHomodyneGrid.phaseMap 0 0 =
+    (toyHomodyneGrid.signal 0 0).phase := by
+  exact toyHomodyneGrid.phase_map_holds 0 0
+
+  def toyDetectorChannel : DetectorChannel :=
+    { efficiency := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+      responsivity := { amperesPerWatt := 2 }
+      responsivity_nonnegative := by norm_num
+      darkCurrent := { amperes := 1 }
+      darkCurrent_nonnegative := by norm_num
+      bandwidth := { hz := 10 }
+      bandwidth_pos := by norm_num }
+
+  def toyDetectorObservation : DetectorObservation :=
+    { detector := toyDetectorChannel
+      incidentPower := { watts := 3 }
+      incidentPower_nonnegative := by norm_num
+      outputCurrent := { amperes := 7 }
+      outputCurrentLaw := by norm_num [toyDetectorChannel] }
+
+  noncomputable def toyDetectorNoiseProfile : DetectorNoiseProfile :=
+    { shotNoise := { amperesSquaredPerHertz := 1 }
+      shotNoise_nonnegative := by norm_num
+      electronicNoise := { amperesSquaredPerHertz := 2 }
+      electronicNoise_nonnegative := by norm_num
+      localOscillatorRin := { amperesSquaredPerHertz := 3 }
+      localOscillatorRin_nonnegative := by norm_num
+      commonModeRejection :=
+        { decibels := 6
+          decibels_nonnegative := by norm_num
+          leakageFactor := { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num } } }
+
+  def toyBalancedDetectorObservation : BalancedDetectorObservation :=
+    { plus := toyDetectorObservation
+      minus := toyDetectorObservation
+      commonModeCurrent := { amperes := 7 }
+      differentialCurrent := { amperes := 0 }
+      commonModeLaw := by norm_num [toyDetectorObservation]
+      differentialLaw := by norm_num [toyDetectorObservation] }
+
+  def toyZeroDarkDetectorChannel : DetectorChannel :=
+    { efficiency := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+      responsivity := { amperesPerWatt := 2 }
+      responsivity_nonnegative := by norm_num
+      darkCurrent := { amperes := 0 }
+      darkCurrent_nonnegative := by norm_num
+      bandwidth := { hz := 10 }
+      bandwidth_pos := by norm_num }
+
+  def toyZeroDarkDetectorObservation : DetectorObservation :=
+    { detector := toyZeroDarkDetectorChannel
+      incidentPower := { watts := 0 }
+      incidentPower_nonnegative := by norm_num
+      outputCurrent := { amperes := 0 }
+      outputCurrentLaw := by norm_num [toyZeroDarkDetectorChannel] }
+
+  noncomputable def toyBalancedDetectorForComposition : BalancedDetectorObservation :=
+    { plus := toyDetectorObservation
+      minus := toyZeroDarkDetectorObservation
+      commonModeCurrent := { amperes := 7 / 2 }
+      differentialCurrent := { amperes := 7 }
+      commonModeLaw := by norm_num [toyDetectorObservation, toyZeroDarkDetectorObservation]
+      differentialLaw := by norm_num [toyDetectorObservation, toyZeroDarkDetectorObservation] }
+
+  def toyCalibratedPhotocurrent : CalibratedPhotocurrent :=
+    { rawCurrent := { amperes := 7 }
+      calibration :=
+        { rawBefore := 7
+          rawAfter := 7
+          rawPreserved := by norm_num
+          multiplier := 2
+          offset := 1
+          calibrated := 15
+          calibrationLaw := by norm_num }
+      rawCurrentLaw := by rfl
+      calibratedCurrent := { amperes := 15 }
+      calibratedCurrentLaw := by rfl
+      residual := 0
+      tolerance := 1
+      tolerance_nonnegative := by norm_num
+      residualLaw := by norm_num }
+
+  example : toyDetectorObservation.outputCurrent.amperes = 7 := by
+    norm_num [toyDetectorObservation, toyDetectorChannel]
+
+  example : toyBalancedDetectorObservation.differentialCurrent.amperes = 0 := by
+    apply toyBalancedDetectorObservation.differential_zero_of_equal
+    rfl
+
+  example : toyDetectorNoiseProfile.commonModeRejection.leakedNoise
+      toyDetectorNoiseProfile.localOscillatorRin = 3 / 2 := by
+    norm_num [CommonModeRejection.leakedNoise, toyDetectorNoiseProfile]
+
+  example : toyDetectorNoiseProfile.commonModeRejection.leakedNoise
+      toyDetectorNoiseProfile.localOscillatorRin ≤
+      toyDetectorNoiseProfile.localOscillatorRin.amperesSquaredPerHertz := by
+    exact toyDetectorNoiseProfile.commonModeRejection.leakedNoise_le
+      toyDetectorNoiseProfile.localOscillatorRin
+      toyDetectorNoiseProfile.localOscillatorRin_nonnegative
+
+  example : toyCalibratedPhotocurrent.calibration.rawAfter =
+      toyCalibratedPhotocurrent.calibration.rawBefore := by
+    exact toyCalibratedPhotocurrent.raw_preserved
+
+  example : toyCalibratedPhotocurrent.consistent := by
+    norm_num [CalibratedPhotocurrent.consistent, toyCalibratedPhotocurrent]
+
+  def toyHomodyneTraceSample : HomodyneTraceSample :=
+    { timestamp := { seconds := 0 }
+      localOscillatorPhase := 0
+      detectorA := { amperes := 7 }
+      detectorB := { amperes := 0 }
+      rawDifferential := { amperes := 7 }
+      rawDifferentialLaw := by norm_num
+      calibration := toyCalibratedPhotocurrent.calibration
+      calibratedDifferential := { amperes := 15 }
+      calibratedDifferentialLaw := by rfl
+      residual := 0
+      residualTolerance := 1
+      residualTolerance_nonnegative := by norm_num
+      loss := { value := 0, nonnegative := by norm_num, le_one := by norm_num }
+      efficiency := { value := 1, nonnegative := by norm_num, le_one := by norm_num } }
+
+  example : toyHomodyneTraceSample.rawDifferential.amperes =
+      toyHomodyneTraceSample.detectorA.amperes -
+        toyHomodyneTraceSample.detectorB.amperes := by
+    exact toyHomodyneTraceSample.raw_differential_holds
+
+  example : toyHomodyneTraceSample.calibratedDifferential.amperes =
+      toyHomodyneTraceSample.calibration.calibrated := by
+    exact toyHomodyneTraceSample.calibrated_differential_holds
 
 def toyCurrent : FourCurrent :=
   { chargeDensity := 0
@@ -819,7 +1091,7 @@ def toyDispersiveReadout : DispersiveReadout ℝ :=
     signalObservable := 2
     probePhaseLaw := by norm_num
     probePhaseShiftLaw := by norm_num
-    absorbedProbeEnergy := { watts := 0 }
+    absorbedProbeEnergy := { joules := 0 }
     absorbedProbeEnergy_nonnegative := by norm_num
     absorbedProbeEnergy_zero := by norm_num }
 
@@ -837,7 +1109,7 @@ example : toyDispersiveReadout.probePhaseAfter =
     toyDispersiveReadout.probePhaseBefore + toyDispersiveReadout.probePhaseShift := by
   exact toyDispersiveReadout.probe_phase_holds
 
-example : toyDispersiveReadout.absorbedProbeEnergy.watts = 0 := by
+example : toyDispersiveReadout.absorbedProbeEnergy.joules = 0 := by
   exact toyDispersiveReadout.no_absorbed_probe_energy
 
 def toyDispersivePhaseFingerprint : DispersivePhaseFingerprint ℝ :=
@@ -848,6 +1120,26 @@ def toyDispersivePhaseFingerprint : DispersivePhaseFingerprint ℝ :=
 example : toyDispersivePhaseFingerprint.fingerprint.phaseShift =
     toyDispersivePhaseFingerprint.readout.probePhaseShift := by
   exact toyDispersivePhaseFingerprint.phase_shift_agrees
+
+noncomputable def toyDispersiveHomodyneReadout : DispersiveHomodyneReadout ℝ :=
+  { readout := toyDispersiveReadout
+    opticalMeasurement := toyBalancedHomodyne
+    detectorMeasurement := toyBalancedDetectorForComposition
+    calibratedCurrent := toyCalibratedPhotocurrent
+    phaseShiftAgreement := by
+      norm_num [toyDispersiveReadout, toyBalancedHomodyne,
+        differentialPhotocurrent_eq_interference, toyLocalOscillator,
+        LocalOscillator.asSample]
+    rawCurrentAgreement := by norm_num [toyCalibratedPhotocurrent,
+      toyBalancedDetectorForComposition] }
+
+example : toyDispersiveHomodyneReadout.readout.probePhaseShift =
+    toyDispersiveHomodyneReadout.opticalMeasurement.differentialPhotocurrent := by
+  exact toyDispersiveHomodyneReadout.phase_shift_agrees
+
+example : toyDispersiveHomodyneReadout.calibratedCurrent.rawCurrent.amperes =
+    toyDispersiveHomodyneReadout.detectorMeasurement.differentialCurrent.amperes := by
+  exact toyDispersiveHomodyneReadout.raw_current_agrees
 
 def toyCalibrationRecord : CalibrationRecord :=
   { rawBefore := 10

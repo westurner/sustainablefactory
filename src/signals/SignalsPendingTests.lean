@@ -807,14 +807,32 @@ noncomputable def toyQNDParity : QuantumNonDemolitionParity 1 :=
         signalObservable := 2
         probePhaseLaw := by norm_num
         probePhaseShiftLaw := by norm_num
-        absorbedProbeEnergy := { watts := 0 }
+        absorbedProbeEnergy := { joules := 0 }
         absorbedProbeEnergy_nonnegative := by norm_num
         absorbedProbeEnergy_zero := by norm_num }
+    detectorLoss := { value := 0, nonnegative := by norm_num, le_one := by norm_num }
     parityBefore := false
     parityAfter := false
     parityPreserved := by rfl
     measuredParity := false
-    parityReadoutLaw := by rfl }
+    parityReadoutLaw := by rfl
+    repeatedParity := false
+    repeatedParityLaw := by rfl
+    parityResidual := 0
+    parityResidual_nonnegative := by norm_num
+    parityResidualBound := 1
+    parityResidualBound_nonnegative := by norm_num
+    parityResidualWithinBound := by norm_num
+    signalDisturbance := 0
+    signalDisturbance_nonnegative := by norm_num
+    disturbanceBound := 1
+    disturbanceBound_nonnegative := by norm_num
+    disturbanceWithinBound := by norm_num
+    absorptionMeasurement := { joules := 0 }
+    absorptionMeasurement_nonnegative := by norm_num
+    absorptionBound := { joules := 1 }
+    absorptionBound_nonnegative := by norm_num
+    absorptionWithinBound := by norm_num }
 
 example : toyQNDParity.readout.signalAfter = toyQNDParity.readout.signalBefore := by
   exact toyQNDParity.signal_preserved
@@ -824,6 +842,130 @@ example : toyQNDParity.parityAfter = toyQNDParity.parityBefore := by
 
 example : toyQNDParity.measuredParity = toyQNDParity.parityAfter := by
   exact toyQNDParity.measured_parity_eq
+
+example : toyQNDParity.repeatedParity = toyQNDParity.measuredParity := by
+  exact toyQNDParity.repeated_parity_eq
+
+example : toyQNDParity.parityResidual ≤ toyQNDParity.parityResidualBound := by
+  exact toyQNDParity.parity_residual_within_bound
+
+example : toyQNDParity.signalDisturbance ≤ toyQNDParity.disturbanceBound := by
+  exact toyQNDParity.disturbance_within_bound
+
+example : toyQNDParity.absorptionMeasurement.joules ≤
+    toyQNDParity.absorptionBound.joules := by
+  exact toyQNDParity.absorption_within_bound
+
+noncomputable def toyQuantumQuadratureAssumption : QuantumQuadratureAssumption :=
+  { hbar := 1
+    hbar_pos := by norm_num
+    amplitudeVariance := 1
+    amplitudeVariance_nonnegative := by norm_num
+    phaseVariance := 1
+    phaseVariance_nonnegative := by norm_num
+    commutatorMagnitude := 1 / 2
+    commutatorLaw := by norm_num
+    uncertaintyProduct := 1
+    uncertaintyBound := 1 / 4
+    uncertaintyBoundLaw := by norm_num
+    uncertaintyWithinBound := by norm_num
+    squeezingParameter := 0
+    squeezingParameter_nonnegative := by norm_num }
+
+noncomputable def toyTwoModeSqueezedVacuum : TwoModeSqueezedVacuum :=
+  { squeezingParameter := 0
+    squeezingParameter_nonnegative := by norm_num
+    xDifferenceVariance := 2
+    pSumVariance := 2
+    xDifferenceVarianceLaw := by norm_num
+    pSumVarianceLaw := by norm_num }
+
+noncomputable def toyCVBellStateMeasurement : CVBellStateMeasurement :=
+  { inputX := 3
+    resourceX := 1
+    inputP := 1
+    resourceP := 1
+    measuredX := (3 - 1) / Real.sqrt 2
+    measuredP := (1 + 1) / Real.sqrt 2
+    measuredXLaw := by rfl
+    measuredPLaw := by rfl }
+
+def toyCVFeedForward : CVFeedForward :=
+  { gain := 2
+    measuredX := 1
+    measuredP := -1
+    displacementX := 2
+    displacementP := -2
+    displacementXLaw := by norm_num
+    displacementPLaw := by norm_num }
+
+noncomputable def toyCVTeleportationBookkeeping : CVTeleportationBookkeeping :=
+  { bellMeasurement := toyCVBellStateMeasurement
+    feedForward :=
+      { toyCVFeedForward with
+        measuredX := toyCVBellStateMeasurement.measuredX
+        measuredP := toyCVBellStateMeasurement.measuredP
+        displacementX := 2 * toyCVBellStateMeasurement.measuredX
+        displacementP := 2 * toyCVBellStateMeasurement.measuredP
+        displacementXLaw := by rfl
+        displacementPLaw := by rfl }
+    resourceLoss := { value := 0, nonnegative := by norm_num, le_one := by norm_num }
+    finiteSqueezingNoise := 0
+    finiteSqueezingNoise_nonnegative := by norm_num
+    feedForwardMeasurementLaw := by constructor <;> rfl }
+
+example : toyQuantumQuadratureAssumption.commutatorMagnitude =
+    toyQuantumQuadratureAssumption.hbar / 2 := by
+  exact toyQuantumQuadratureAssumption.commutator_holds
+
+example : toyQuantumQuadratureAssumption.uncertaintyBound ≤
+    toyQuantumQuadratureAssumption.uncertaintyProduct := by
+  exact toyQuantumQuadratureAssumption.uncertaintyWithinBound
+
+example : toyTwoModeSqueezedVacuum.xDifferenceVariance = 2 := by
+  norm_num [TwoModeSqueezedVacuum.x_difference_variance_holds,
+    toyTwoModeSqueezedVacuum]
+
+example : toyCVBellStateMeasurement.measuredX =
+    (toyCVBellStateMeasurement.inputX - toyCVBellStateMeasurement.resourceX) /
+      Real.sqrt 2 := by
+  exact toyCVBellStateMeasurement.measured_x_holds
+
+example : toyCVTeleportationBookkeeping.feedForward.displacementP =
+    2 * toyCVTeleportationBookkeeping.feedForward.measuredP := by
+  exact toyCVTeleportationBookkeeping.feedForward.displacement_p_holds
+
+def toyKerrInteraction : KerrInteraction ℝ :=
+  { signalBefore := 1
+    signalAfter := 1
+    signalPreserved := by rfl
+    couplingStrength := 2
+    couplingStrength_nonnegative := by norm_num
+    interactionLength := { meters := 1 }
+    interactionLength_nonnegative := by norm_num
+    signalObservable := 3
+    probePhaseShift := 6
+    probePhaseShiftLaw := by norm_num }
+
+example : toyKerrInteraction.probePhaseShift = 6 := by
+  norm_num [KerrInteraction.probe_phase_shift_holds, toyKerrInteraction]
+
+def toyHomodyneHardwareReadiness : HomodyneHardwareReadiness :=
+  { insertionLoss := 0
+    insertionLoss_nonnegative := by norm_num
+    beamSplitterImbalance := 0
+    beamSplitterImbalance_nonnegative := by norm_num
+    detectorBandwidth := { hz := 1 }
+    detectorBandwidth_pos := by norm_num
+    thermalLoad := { watts := 1 }
+    thermalLoad_nonnegative := by norm_num
+    materialResponse := 1
+    materialResponse_nonnegative := by norm_num
+    modeOverlap := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    calibrationReady := true }
+
+example : toyHomodyneHardwareReadiness.insertionLoss = 0 := by
+  rfl
 
 noncomputable def toyPendingLigninVitrimer : LigninVitrimerDielectric :=
   { relativePermittivity := 2

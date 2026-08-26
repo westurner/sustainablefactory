@@ -86,13 +86,24 @@ and probe energy, and a coupled probe phase response.
 value. `ReversibleOperation` identifies the vitrimer operation kind and its
 restoration law.
 
+`Signals.Homodyne` is the verified finite classical layer for local-oscillator
+conversion, normalized 50:50 mixing, detector currents, differential
+photocurrent, detector calibration/noise/CMRR, dual traces, spatial grids, and
+typed runtime trace samples. `QuantumQuadratureAssumption`,
+`TwoModeSqueezedVacuum`, `CVBellStateMeasurement`,
+`CVTeleportationBookkeeping`, `KerrInteraction`, and
+`HomodyneHardwareReadiness` remain Pending records for quantum-state, protocol,
+nonlinear-coupling, or integrated-hardware assumptions.
+
 `QuantumNonDemolitionParity` in
 [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean) is a
 Pending OAM/QND hypothesis. Do not describe a phase shift, homodyne output,
 zero absorbed probe energy, or a preserved test fixture as proof of zero
-backaction, repeatability, or physical QND behavior. Add detector loss,
-Hamiltonian/commutation assumptions, calibration, and disturbance measurements
-before making those claims.
+backaction, repeatability, or physical QND behavior. Its detector-loss,
+repeatability, disturbance, and absorption fields are evidence boundaries, not
+proofs. Add detector calibration, Hamiltonian/commutation assumptions, and
+measured disturbance data before making those claims. `absorbedProbeEnergy`
+uses `Energy` and must be interpreted in joules, not watts.
 
 ---
 

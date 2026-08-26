@@ -10,10 +10,16 @@ mechanisms have been experimentally validated.
 The current build deliberately implements statements with a clear mathematical
 interpretation while keeping experimental premises explicit:
 
-- `Signals.Units` provides named wrappers for frequency, length, and power.
+- `Signals.Units` provides named wrappers for frequency, length, power, energy,
+   current, responsivity, and current-noise density.
 - `Signals.IQ` represents an in-phase/quadrature sample as a complex baseband
    value, exposes its magnitude and principal phase, records carrier and
    quadrature conventions, and provides a conditional phase-to-height formula.
+- `Signals.Homodyne` models a finite classical local oscillator, normalized
+   50:50 beam splitter, balanced detector currents, differential photocurrent,
+   detector efficiency/responsivity, dark current, noise, CMRR, affine current
+   calibration, dual-receiver covariance/sign-binning traces, finite spatial
+   grids, dispersive-readout composition, and a typed runtime trace boundary.
 - `Signals.Acoustics` models classical ultrasonic transfer from pressure
    amplitude and acoustic impedance through aperture, transducer, link, and
    receiver efficiencies. It proves passive received power is bounded by
@@ -93,7 +99,11 @@ interpretation while keeping experimental premises explicit:
    asteroids, and arbitrary named bodies, plus a conditional ultrasonic
    fracture-evidence protocol.
    Its `QuantumNonDemolitionParity` record keeps OAM-state and parity
-   preservation as Pending assumptions over a dispersive readout.
+   preservation as Pending assumptions over a dispersive readout. It also
+   records detector loss, repeatability, disturbance and absorption bounds,
+   quantum quadrature assumptions, TMSV variance bookkeeping, CV Bell-state
+   measurement/feed-forward plumbing, Pending Kerr interaction data, and
+   integrated homodyne hardware readiness observations.
 - `Signals.Geometry` contains Weyl spinors, twistors, antisymmetric minors, and
    the finite $2 \times 4$ Pluecker relation. It also provides unrestricted
    finite Grassmannian matrices, ordered maximal minors, an optional positive
@@ -202,6 +212,11 @@ a calibrated response
 The optical chats describe a phase fingerprint or a probe-beam phase shift while
 the target photon or qubit remains unchanged ([phase-fingerprint chat](../../docs/chats/Photon's%20Phase%20Fingerprint%20on%20Particles%20.myst.md#L812-L921),
 [homodyne QND chat](../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L9359-L9540)).
+The broader quantum-homodyne review adds dual balanced receivers,
+local-oscillator phase settings, continuous quadrature outcomes, sign binning,
+covariance/CHSH bookkeeping, CV Bell-state measurement, and feed-forward
+([dual BHD context](../../docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md#L2396-L2606),
+[BHD noise context](../../docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md#L2676-L2721)).
 The source also describes raw telemetry retained through calibration and
 reversible vitrimer disassembly ([calibration chat](../../docs/chats/_weather_app_0%20.myst.md#L8613-L8613),
 [reversible assembly chat](../../docs/chats/_Sustainable%20Composites_%20Energy,%20Processing,%20Costs.myst.md#L8531-L8563)).
@@ -212,8 +227,10 @@ operation contracts rather than being treated as inspections
 [recovery claim](../../docs/chats/_Sustainable%20textiles,%20outerwear,%20apparel.myst.md#L3901-L3901)).
 
 The verified API records the corresponding state, energy, polarization, raw-data,
-and restoration invariants. `QuantumNonDemolitionParity` remains Pending because
-zero absorption, repeatability, and no quantum backaction require a physical
+and restoration invariants. `Signals.Homodyne` records classical detector
+algebra and measured-observation contracts; it does not model quantum operators
+or prove squeezing. `QuantumNonDemolitionParity` remains Pending because zero
+absorption, repeatability, and no quantum backaction require a physical
 Hamiltonian, commutation model, detector calibration, and loss measurement; an
 algebraic equality in a test fixture is not experimental QND evidence.
 
@@ -476,12 +493,28 @@ namespace and build target:
    preservation, a coupled probe phase response, and zero absorbed signal/probe
    energy as explicit model data. `DispersivePhaseFingerprint` links its phase
    shift to the corresponding readout response.
+- `BalancedHomodyne`, `DualHomodyneTrace`, `HomodyneGrid`, and
+   `HomodyneTraceSample` provide finite local-oscillator, beam-splitter,
+   detector, spatial, and runtime-trace records. The model proves energy
+   conservation, interference/differential-current laws, rotated-quadrature
+   selection, finite covariance bookkeeping, threshold binning, and raw/current
+   calibration laws.
 - `CalibrationRecord` preserves a raw reading while deriving an affine
    calibrated value with multiplier and offset.
 - `ReversibleOperation` records typed vitrimer disassembly, restoration, or
    repair, operation power, and restoration of an original state.
 - `QuantumNonDemolitionParity` records OAM-state and parity preservation as a
-   Pending QND hypothesis; it does not prove no backaction in hardware.
+   Pending QND hypothesis with detector-loss, repeatability, parity-residual,
+   disturbance, and absorption bounds; it does not prove no backaction in
+   hardware.
+- `QuantumQuadratureAssumption` and `TwoModeSqueezedVacuum` record Pending
+   commutation, uncertainty, squeezing, and variance assumptions.
+- `CVBellStateMeasurement`, `CVFeedForward`, and
+   `CVTeleportationBookkeeping` record Pending dual-quadrature measurement and
+   displacement plumbing without proving entanglement or teleportation
+   fidelity.
+- `KerrInteraction` and `HomodyneHardwareReadiness` record Pending nonlinear
+   coupling and integrated-detector readiness observations.
 - `CWApplication` and `CWApplicationRequirements` classify the ten CW uses
    found in the IQ Myst document by their phase-reference, mask, convergence,
    range-modulation, and massive-mode requirements.
@@ -597,11 +630,16 @@ deterministic fusion, or spacetime energy extraction exist physically.
    restoration, in-situ remediation, and continuous source-preserving recovery.
 4. [Implemented in Pending] Cover OAM parity QND as an explicit hypothesis over
    a dispersive readout.
-5. Next: add method-specific calibration, detector loss, repeatability, and
-   measured disturbance fields before making QND or zero-damage claims.
-6. Next focused check: add detector-loss and repeatability observations, then
-   compare QND disturbance and absorption measurements against the explicit
-   preservation fields.
+5. [Implemented] Add finite balanced-homodyne algebra, detector calibration,
+   noise/CMRR observations, dispersive composition, dual traces, spatial grids,
+   and typed runtime trace samples.
+6. [Implemented in Pending] Add quadrature assumptions, TMSV variance data, CV
+   Bell-state measurement/feed-forward plumbing, QND evidence bounds, and
+   integrated hardware-readiness observations.
+7. Next: add measured detector-loss, repeatability, disturbance, and
+   frequency-dependent noise observations before making QND or zero-damage
+   claims. Runtime Rust/WASM consumers should validate against typed trace
+   vectors rather than treating the Lean records as hardware evidence.
 
 ### Phase 7: Upstream contributions
 

@@ -1,6 +1,8 @@
 # Dispersive Homodyne Coverage and Implementation Plan
 
-**Status:** Audit complete; implementation plan ready
+**Status:** Implementation in progress; Phases 1-6 and spatial/runtime
+bookkeeping are implemented, while measured-data and external runtime work
+remain.
 
 **Scope:** Verify and fully cover the dispersive-homodyne material found by
 `docindex search quantum homodyne` in the Signals library, its documentation,
@@ -18,9 +20,11 @@ locations for implementation decisions. The CLI requires the two-word query
 to be quoted as one argument, so the executable form is
 `docindex search 'quantum homodyne'`.
 
-The current Signals coverage is **partial**. It models a guarded dispersive
-phase response and preservation assumptions, but it does not yet model a
-complete balanced homodyne detector.
+The current Signals coverage is **substantially implemented but still partial**.
+It now models a finite classical balanced homodyne detector, calibrated
+detector observations, dual traces, spatial grids, Pending CV/QND bookkeeping,
+and a typed runtime trace boundary. It does not establish measured hardware
+performance, quantum operator behavior, or a complete Rust/WASM runtime.
 
 ## Evidence Clusters
 
@@ -198,48 +202,49 @@ The existing verified library covers:
   [NonDestructive](../src/signals/Signals/NonDestructive.lean#L153).
 - Affine calibration with raw-telemetry preservation.
 - Typed vitrimer operations and operation-power accounting.
+- Finite classical homodyne algebra, typed detector/noise/calibration records,
+  dual trace statistics, spatial grids, and typed runtime trace samples in
+  [Homodyne](../src/signals/Signals/Homodyne.lean).
 - Pending OAM parity preservation over a dispersive readout in
   [Pending](../src/signals/Signals/Pending.lean#L203).
+- Pending quadrature uncertainty assumptions, TMSV variance bookkeeping,
+  CV Bell-state/feed-forward plumbing, QND evidence bounds, and integrated
+  hardware-readiness observations in [Pending](../src/signals/Signals/Pending.lean).
+- Pending Kerr interaction data for nonlinear signal/probe phase coupling in
+  [Pending](../src/signals/Signals/Pending.lean).
+- Pending Kerr interaction data for nonlinear signal/probe phase coupling in
+  [Pending](../src/signals/Signals/Pending.lean).
 - Compile-time fixtures for these contracts in
   [SignalsTests](../src/signals/SignalsTests.lean#L805) and
   [SignalsPendingTests](../src/signals/SignalsPendingTests.lean#L792).
 
-The current build is a compiling baseline, but it does not yet contain an
-explicit local oscillator, beam splitter, detector pair, differential current,
-quadrature-angle readout, dual-receiver statistics, CV state model, or
-detector-noise model. The existing `Signals.IQ` sample is a useful classical
-baseband representation, but it does not by itself model optical mixing or
-quantum quadrature operators.
+The current build is a compiling baseline containing explicit local-oscillator,
+beam-splitter, detector-pair, differential-current, dual-receiver, spatial-grid,
+calibration/noise, and runtime-trace records. The existing `Signals.IQ` sample
+remains the classical baseband representation; the Pending layer contains
+quantum quadrature and CV-state assumptions rather than verified operator
+semantics.
 
-## Coverage Gaps
+## Remaining Gaps
 
-The following source requirements are not yet represented as typed verified
-records or explicitly Pending hypotheses:
+The following source requirements remain beyond the current finite bookkeeping
+implementation:
 
-- A local-oscillator amplitude and phase record.
-- A 50:50 beam-splitter transformation.
-- Two detector outputs and a differential photocurrent.
-- The rotated-quadrature law
-  `$X_\theta = X_1 \cos(\theta) + X_2 \sin(\theta)$`.
-- A dual-receiver record with independent local-oscillator phases.
-- Finite quadrature samples, covariance estimates, and sign-binning rules.
-- TMSV/CV state parameters and entanglement witnesses as Pending data.
-- Detector efficiency, dark current, shot noise, electronic noise, relative
-  intensity noise, common-mode rejection, and bandwidth.
-- Calibrated differential-current observations and residual bounds.
-- Spatial detector arrays and per-pixel homodyne reconstruction.
-- Kerr-cavity or cross-phase interaction parameters.
-- QND repeatability, detector loss, and measured disturbance.
-- Quantum commutation, uncertainty, and squeezing assumptions.
-- CV Bell-state measurement, feed-forward, and teleportation bookkeeping.
+- Measured detector-loss, repeatability, disturbance, and frequency-dependent
+  noise observations.
+- Physical Kerr-cavity calibration and experimentally validated cross-phase
+  coupling. The Pending `KerrInteraction` record is only the supplied finite
+  coupling interface.
+- Quantum operator semantics, detector backaction, and validated squeezing or
+  entanglement measurements.
 - Runtime Rust/WASM demodulation, tensor processing, and visualization
-  integration.
-- A Linux- and YAML-oriented orchestration boundary that does not couple the
-  project to a particular distro or to the external Ansiblers codebase.
+  integration against the typed trace boundary.
+- A Linux- and YAML-oriented orchestration implementation that does not couple
+  the project to a particular distro or configuration management tool.
 
-There is also a dimensional issue in the current dispersive record:
-`absorbedProbeEnergy` is typed as `Power` and proves zero watts. If the claim is
-zero absorbed probe energy, it must use `Energy` and prove zero joules.
+`absorbedProbeEnergy` is now typed as `Energy` and proves zero joules. The
+remaining non-absorption gap is measured detector and system loss rather than
+the dimensional type of the probe field.
 
 The source corpus also contains numerical claims about room-temperature
 operation, detector efficiency, CMRR, bandwidth, squeezing, CHSH violation,
@@ -251,27 +256,27 @@ be derived from the existence of a homodyne record.
 
 ### Phase 1: Correct Energy Semantics
 
-1. Change `absorbedProbeEnergy : Power` to `absorbedProbeEnergy : Energy`.
-2. Rename the accessor if needed so the joule-based invariant is unambiguous.
-3. Update verified and Pending fixtures.
-4. Add a compile-time regression proving zero absorbed probe energy in joules.
-5. Rebuild before beginning the next phase.
+1. [Complete] Change `absorbedProbeEnergy : Power` to `absorbedProbeEnergy : Energy`.
+2. [Complete] Update the accessor, verified/Pending fixtures, and compile-time
+  regression for zero absorbed probe energy in joules.
+3. [Complete] Rebuild before beginning the next phase.
 
 ### Phase 2: Add a Classical Homodyne Module
 
-Create `Signals.Homodyne` or `Signals.Detection` and reuse
+[Complete] Create `Signals.Homodyne` and reuse
 `Signals.IQ.Sample` instead of introducing a second I/Q representation.
 
-Add records for:
+Implemented records:
 
 - local-oscillator amplitude and phase;
 - balanced 50:50 beam-splitter inputs and outputs using an explicit sign and
   normalization convention;
 - detector efficiency and responsivity;
 - positive and negative detector outputs;
-- differential photocurrent and common-mode output.
+- differential photocurrent, common-mode output, and rotated-quadrature
+  selection.
 
-Prove finite algebraic laws for:
+Proved finite algebraic laws for:
 
 - beam-splitter energy conservation;
 - balanced output symmetry;
@@ -280,12 +285,12 @@ Prove finite algebraic laws for:
 - consistency with the existing I/Q phase convention.
 
 Keep this module classical and finite. Do not encode quantum operator claims as
-ordinary real-valued I/Q fields.
+ordinary real-valued I/Q fields. [Complete finite algebra]
 
 ### Phase 3: Add Calibrated Detector Observations
 
-Introduce typed current and noise wrappers where they fit the existing unit
-style. Represent:
+[Complete finite bookkeeping] Introduce typed current and noise wrappers where
+they fit the existing unit style. Represent:
 
 - raw detector currents;
 - dark-current offsets;
@@ -299,12 +304,12 @@ style. Represent:
 
 Reuse the existing affine `CalibrationRecord` for gain and offset. Require
 explicit residual tolerances instead of using an unqualified proportionality
-claim. Add finite frequency-bin or time-window conventions before introducing
-power spectral density formulas.
+claim. Measured frequency-bin or time-window
+observations and power spectral density formulas remain.
 
 ### Phase 4: Compose Dispersive Readout with Homodyne Detection
 
-Add a composition record linking:
+[Complete] Add a composition record linking:
 
 - the signal state;
 - the signal and probe energy records;
@@ -315,34 +320,34 @@ Add a composition record linking:
 - the calibrated differential current.
 
 Retain the existing phase-shift law as the classical interface. Add a separate
-Pending Kerr-interaction record for nonlinear susceptibility, interaction
-length, probe phase response, and the supplied signal observable.
+Pending `KerrInteraction` record for nonlinear susceptibility, interaction
+length, probe phase response, signal preservation, and the supplied signal
+observable. [Complete Pending interface]
 
 A nonzero phase shift must not be treated as proof of Kerr coupling without
 measured calibration.
 
 ### Phase 5: Add Dual Homodyne and CV Correlation Records
 
-Add a dual-receiver composition for the Bell-correlation material. It should
-record:
+[Complete finite bookkeeping] Add a dual-receiver composition for the
+Bell-correlation material. It records:
 
 - two signal modes and their local-oscillator phases;
 - two balanced detector outputs per receiver;
 - continuous quadrature outcomes;
 - finite covariance and correlation estimators;
 - sign-binning thresholds and dichotomic outcomes;
-- sample counts, missing samples, and confidence or residual metadata.
+- sample counts, missing samples, and residual tolerance metadata.
 
-Prove only finite data-structure and estimator laws in the verified layer. Put
-TMSV preparation, entanglement, Wigner negativity, DGCZ witnesses, CHSH
-violation, and any claimed optimum in `Signals.Pending`. In particular, add a
-test or numerical reference that can distinguish the Gaussian sign-binned
-bound from a non-Gaussian photon-subtraction hypothesis before recording either
-as a theorem.
+The implementation proves only finite data-structure and estimator laws in the
+verified layer. TMSV preparation, entanglement, Wigner negativity, DGCZ
+witnesses, CHSH violation, and any claimed optimum remain in `Signals.Pending`.
+[Complete finite bookkeeping; measured correlation analysis remains]
 
 ### Phase 6: Strengthen the Pending QND Boundary
 
-Extend `QuantumNonDemolitionParity` with explicit records for:
+[Complete Pending bookkeeping] Extend `QuantumNonDemolitionParity` with explicit
+records for:
 
 - detector loss;
 - repeated-readout agreement;
@@ -355,7 +360,7 @@ expose observations without turning fixture equalities into physical theorems.
 
 ### Phase 7: Model Quantum Quadrature Assumptions Separately
 
-If quantum-level coverage is needed, add a separate Pending quadrature record
+[Complete Pending bookkeeping] Add a separate Pending quadrature record
 for:
 
 - quadrature variances;
@@ -368,7 +373,8 @@ Do not merge these assumptions into the verified classical homodyne module.
 
 ### Phase 8: Cover CV Bell-State Measurement and Teleportation Plumbing
 
-Represent the finite protocol plumbing described by the CV teleportation
+[Complete Pending bookkeeping] Represent the finite protocol plumbing described
+by the CV teleportation
 context:
 
 - input mode and entangled resource mode;
@@ -385,7 +391,8 @@ room-temperature quantum efficiency.
 
 ### Phase 9: Cover Spatial Homodyne Sensing
 
-Add a finite detector-grid or pixel-array record. It should explicitly model:
+[Complete finite bookkeeping] Add a finite detector-grid or pixel-array record.
+It explicitly models:
 
 - shared or per-pixel local-oscillator phase;
 - pixel detector outputs;
@@ -398,7 +405,7 @@ only through explicit finite interfaces.
 
 ### Phase 10: Keep Integrated Hardware Claims Pending
 
-Add a hardware-readiness record for:
+[Complete Pending bookkeeping] Add a hardware-readiness record for:
 
 - insertion loss;
 - beam-splitter balance;
@@ -414,10 +421,11 @@ on measured observations.
 
 ### Phase 11: Define the Rust/WASM Boundary
 
-Treat the Rust iQFT demodulation and visualization references as a runtime layer
+[Partially complete] Treat the Rust iQFT demodulation and visualization references
+as a runtime layer
 separate from the Lean verification target.
 
-Define a stable trace format containing:
+The stable trace format is implemented as `HomodyneTraceSample`. It contains:
 
 - timestamp;
 - local-oscillator phase;
@@ -438,7 +446,9 @@ model.
 Full coverage means:
 
 - Every technical homodyne requirement from the returned documents maps to a
-  typed record, theorem, fixture, or explicitly Pending hypothesis.
+  typed record, theorem, fixture, or explicitly Pending hypothesis. The finite
+  apparatus and bookkeeping portions below are implemented; measured and
+  external-runtime validation remain.
 - Balanced mixing and differential photocurrent are executable compile-time
   models.
 - Single- and dual-receiver local-oscillator phase selection, quadrature
@@ -452,7 +462,7 @@ Full coverage means:
 - QND, squeezed-state, material, and analog-gravity interpretations remain
   conditional.
 - `absorbedProbeEnergy` is dimensionally an `Energy` with a joule-based
-  invariant.
+  invariant. [Complete]
 - `make -C /workspaces/sustainablefactory signals_build` passes.
 - `get_errors` reports no issues in touched files.
 - `git diff --check` passes.
@@ -460,18 +470,24 @@ Full coverage means:
 
 ## Recommended Execution Order
 
-1. Correct the probe-energy type and update fixtures.
-2. Add the classical balanced-homodyne algebra and compile-time tests.
-3. Add detector calibration, loss, noise, CMRR, and residual records.
-4. Compose the detector with the dispersive phase-readout record.
-5. Add dual-receiver covariance and sign-binning plumbing.
-6. Add CV Bell-state measurement and feed-forward bookkeeping.
-7. Strengthen the Pending QND parity boundary.
-8. Add Pending quantum quadrature assumptions and finite spatial arrays.
-9. Add hardware-readiness observations.
-10. Define Lean-generated golden vectors for Rust/WASM consumers.
-11. Update the Signals README and contributor guidance after each completed
-   phase.
+1. [Complete] Correct the probe-energy type and update fixtures.
+2. [Complete] Add the classical balanced-homodyne algebra and compile-time tests.
+3. [Complete finite bookkeeping] Add detector calibration, loss, noise, CMRR,
+  and residual records.
+4. [Complete] Compose the detector with the dispersive phase-readout record.
+5. [Complete finite bookkeeping] Add dual-receiver covariance and sign-binning
+  plumbing.
+6. [Complete Pending bookkeeping] Add CV Bell-state measurement and feed-forward
+  bookkeeping.
+7. [Complete Pending bookkeeping] Strengthen the Pending QND parity boundary.
+8. [Complete Pending bookkeeping] Add Pending quantum quadrature assumptions
+  and finite spatial arrays.
+9. [Complete Pending bookkeeping] Add hardware-readiness observations.
+10. Next: define Lean-generated golden vectors and validate Rust/WASM consumers.
+11. Next: add measured detector-loss, repeatability, disturbance, and
+   frequency-dependent noise observations.
+12. [Complete] Update the Signals README and contributor guidance after each
+  completed phase.
 
 Each phase should make the smallest testable change, run
 `make -C /workspaces/sustainablefactory signals_build`, and record whether the

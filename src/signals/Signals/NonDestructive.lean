@@ -109,9 +109,9 @@ structure DispersiveReadout (state : Type u) where
   signalObservable : ℝ
   probePhaseLaw : probePhaseAfter = probePhaseBefore + probePhaseShift
   probePhaseShiftLaw : probePhaseShift = coupling * signalObservable
-  absorbedProbeEnergy : Power
-  absorbedProbeEnergy_nonnegative : 0 ≤ absorbedProbeEnergy.watts
-  absorbedProbeEnergy_zero : absorbedProbeEnergy.watts = 0
+  absorbedProbeEnergy : Energy
+  absorbedProbeEnergy_nonnegative : 0 ≤ absorbedProbeEnergy.joules
+  absorbedProbeEnergy_zero : absorbedProbeEnergy.joules = 0
 
 /-- A dispersive readout leaves the signal state unchanged. -/
 lemma DispersiveReadout.signal_preserved
@@ -146,7 +146,7 @@ lemma DispersiveReadout.probe_phase_holds
 /-- The dispersive readout has no modeled absorbed probe energy. -/
 lemma DispersiveReadout.no_absorbed_probe_energy
     {state : Type u} (readout : DispersiveReadout state) :
-    readout.absorbedProbeEnergy.watts = 0 :=
+  readout.absorbedProbeEnergy.joules = 0 :=
   readout.absorbedProbeEnergy_zero
 
 /-- A phase fingerprint and dispersive readout whose measured phase shifts agree. -/

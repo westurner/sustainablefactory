@@ -3,6 +3,7 @@ import Signals.Coherence
 import Signals.Applications
 import Signals.Fabrication
 import Signals.Geometry
+import Signals.Homodyne
 import Signals.IQ
 import Signals.DirectionalBroadbandAntenna
 import Signals.Maxwell
