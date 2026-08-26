@@ -1,4 +1,4 @@
-import Physlib.Electromagnetism.Vacuum.HarmonicWave
+import Physlib.Electromagnetism.Dynamics.Basic
 
 namespace Signals.Physlib
 

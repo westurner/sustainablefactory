@@ -26,12 +26,12 @@ lemma Complementarity.identity_holds (profile : Complementarity) :
 /-- The normalized model bounds the degree of polarization by one. -/
 lemma Complementarity.polarization_le_one (profile : Complementarity) :
     profile.polarization ≤ 1 := by
-  nlinarith [sq_nonneg profile.entanglement]
+  nlinarith [profile.identity, sq_nonneg profile.entanglement]
 
 /-- The normalized model bounds the entanglement measure by one. -/
 lemma Complementarity.entanglement_le_one (profile : Complementarity) :
     profile.entanglement ≤ 1 := by
-  nlinarith [sq_nonneg profile.polarization]
+  nlinarith [profile.identity, sq_nonneg profile.polarization]
 
 /-- A scalar parallel-axis model with center-of-mass inertia. -/
 structure ParallelAxis where
