@@ -1131,6 +1131,170 @@ noncomputable def toyPendingLigninVitrimer : LigninVitrimerDielectric :=
         nonnegative := by norm_num
         le_one := by norm_num } }
 
+noncomputable def toyLVPProcess : LVPProcess :=
+  { route := LVPProcessRoute.rollToRoll
+    webSpeed := { metersPerSecond := 1 }
+    webSpeed_pos := by norm_num
+    webTension := { newtons := 1 }
+    webTension_nonnegative := by norm_num
+    rollerRate := { hz := 1 }
+    rollerRate_nonnegative := by norm_num
+    precursorViscosity := { pascalSeconds := 1 }
+    precursorViscosity_nonnegative := by norm_num
+    precursorMassFlow := { kilogramsPerSecond := 1 }
+    precursorMassFlow_nonnegative := by norm_num
+    ambientHumidity := { fraction := 1 / 2 }
+    ambientHumidity_nonnegative := by norm_num
+    ambientHumidity_le_one := by norm_num
+    wetFilmThickness := { meters := 1 / 1000 }
+    wetFilmThickness_pos := by norm_num
+    processTemperature := { kelvin := 300 }
+    processTemperature_pos := by norm_num
+    crystallizationTime := { seconds := 1 }
+    crystallizationTime_pos := by norm_num
+    availableCureTime := { seconds := 2 }
+    availableCureTime_pos := by norm_num
+    cureSufficient := by norm_num }
+
+noncomputable def toyLVP : LigninVitrimerPerovskite :=
+  { perovskiteComposition := "lead-halide"
+    ligninFraction := { value := 1 / 4, nonnegative := by norm_num, le_one := by norm_num }
+    vitrimerFraction := { value := 1 / 4, nonnegative := by norm_num, le_one := by norm_num }
+    perovskiteFraction := { value := 1 / 4, nonnegative := by norm_num, le_one := by norm_num }
+    carbonTransportFraction :=
+      { value := 1 / 4, nonnegative := by norm_num, le_one := by norm_num }
+    compositionLaw := by norm_num
+    activeLayerThickness := { meters := 1 / 1000000 }
+    activeLayerThickness_pos := by norm_num
+    process := toyLVPProcess }
+
+example : toyLVPProcess.crystallizationTime.seconds ≤
+    toyLVPProcess.availableCureTime.seconds := by
+  exact toyLVPProcess.cure_sufficient
+
+example : toyLVP.ligninFraction.value + toyLVP.vitrimerFraction.value +
+    toyLVP.perovskiteFraction.value + toyLVP.carbonTransportFraction.value = 1 := by
+  exact toyLVP.composition_holds
+
+noncomputable def toyLVPSolarObservation : LVPPhotovoltaicObservation :=
+  { material := toyLVP
+    activeArea := { squareMeters := 2 }
+    activeArea_pos := by norm_num
+    incidentIrradiance := { wattsPerSquareMeter := 1000 }
+    incidentIrradiance_nonnegative := by norm_num
+    outputPower := { watts := 400 }
+    outputPower_nonnegative := by norm_num
+    conversionEfficiency :=
+      { value := 1 / 5, nonnegative := by norm_num, le_one := by norm_num }
+    outputPowerLaw := by norm_num
+    openCircuitVoltage := { volts := 1 }
+    openCircuitVoltage_nonnegative := by norm_num
+    shortCircuitCurrentDensity := { amperesPerSquareMeter := 20 }
+    shortCircuitCurrentDensity_nonnegative := by norm_num
+    fillFactor := { value := 4 / 5, nonnegative := by norm_num, le_one := by norm_num }
+    operatingTemperature := { kelvin := 300 }
+    operatingTemperature_pos := by norm_num
+    relativeHumidity := { fraction := 1 / 2 }
+    relativeHumidity_nonnegative := by norm_num
+    relativeHumidity_le_one := by norm_num
+    exposureDuration := { seconds := 10 }
+    exposureDuration_pos := by norm_num
+    postExposureOutputPower := { watts := 360 }
+    postExposureOutputPower_nonnegative := by norm_num
+    retainedPowerFraction :=
+      { value := 9 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    retentionLaw := by norm_num
+    comparisonResidual := 0
+    comparisonResidual_nonnegative := by norm_num
+    comparisonTolerance := 1
+    comparisonTolerance_nonnegative := by norm_num
+    comparisonWithinTolerance := by norm_num }
+
+example : toyLVPSolarObservation.outputPower.watts =
+    toyLVPSolarObservation.conversionEfficiency.value *
+      toyLVPSolarObservation.incidentIrradiance.wattsPerSquareMeter *
+        toyLVPSolarObservation.activeArea.squareMeters := by
+  exact toyLVPSolarObservation.output_power_holds
+
+example : toyLVPSolarObservation.comparisonResidual ≤
+    toyLVPSolarObservation.comparisonTolerance := by
+  exact toyLVPSolarObservation.comparison_within_tolerance
+
+noncomputable def toyLVPDirectConversionImaging : LVPDirectConversionImaging 2 2 :=
+  { material := toyLVP
+    validationLevel := LVPImagingValidationLevel.benchtop
+    pixelPitch := { meters := 1 / 1000 }
+    pixelPitch_pos := by norm_num
+    incidentDose := { grays := 1 }
+    incidentDose_nonnegative := by norm_num
+    exposureDuration := { seconds := 1 }
+    exposureDuration_pos := by norm_num
+    pixelDose := fun _ _ => { grays := 1 }
+    pixelDose_nonnegative := by
+      intro row column
+      norm_num
+    rawSignal := fun _ _ => 3
+    darkSignal := fun _ _ => 1
+    correctedSignal := fun _ _ => 2
+    darkCorrectionLaw := by
+      intro row column
+      norm_num
+    signalGain := 2
+    signalGain_nonnegative := by norm_num
+    directConversionLaw := by
+      intro row column
+      norm_num
+    detectionSensitivity := 1
+    detectionSensitivity_nonnegative := by norm_num
+    spatialResolution := { meters := 1 / 1000 }
+    spatialResolution_pos := by norm_num
+    imageResidual := 0
+    imageResidual_nonnegative := by norm_num
+    imageResidualTolerance := 1
+    imageResidualTolerance_nonnegative := by norm_num
+    imageResidualWithinTolerance := by norm_num }
+
+example : toyLVPDirectConversionImaging.correctedSignal 0 0 =
+    toyLVPDirectConversionImaging.rawSignal 0 0 -
+      toyLVPDirectConversionImaging.darkSignal 0 0 := by
+  exact toyLVPDirectConversionImaging.dark_correction_holds 0 0
+
+example : toyLVPDirectConversionImaging.correctedSignal 1 1 =
+    toyLVPDirectConversionImaging.signalGain *
+      (toyLVPDirectConversionImaging.pixelDose 1 1).grays := by
+  exact toyLVPDirectConversionImaging.dose_response_holds 1 1
+
+noncomputable def toyLVPProcaImaging : LVPProcaImagingHypothesis 1 1 :=
+  { material := toyLVP
+    channel := toyChannel
+    phaseMap := fun _ _ => 0
+    longitudinalFraction :=
+      { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    spatialResolution := { meters := 1 / 1000000 }
+    spatialResolution_pos := by norm_num
+    incidentProbeEnergy := { joules := 1 }
+    incidentProbeEnergy_nonnegative := by norm_num
+    absorbedProbeEnergy := { joules := 1 / 1000000 }
+    absorbedProbeEnergy_nonnegative := by norm_num
+    phaseResidual := 0
+    phaseResidual_nonnegative := by norm_num
+    phaseResidualTolerance := 1
+    phaseResidualTolerance_nonnegative := by norm_num
+    phaseResidualWithinTolerance := by norm_num
+    masslessControlResidual := 0
+    masslessControlResidual_nonnegative := by norm_num
+    masslessControlTolerance := 1
+    masslessControlTolerance_nonnegative := by norm_num
+    masslessControlWithinTolerance := by norm_num }
+
+example : toyLVPProcaImaging.phaseResidual ≤
+    toyLVPProcaImaging.phaseResidualTolerance := by
+  exact toyLVPProcaImaging.phase_residual_within_tolerance
+
+example : toyLVPProcaImaging.masslessControlResidual ≤
+    toyLVPProcaImaging.masslessControlTolerance := by
+  exact toyLVPProcaImaging.massless_control_within_tolerance
+
 noncomputable def toyPendingLightSlinger : DirectionalBroadbandAntenna :=
   { material := toyPendingLigninVitrimer
     polarizationCurrent :=

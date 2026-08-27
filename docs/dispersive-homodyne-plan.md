@@ -3,8 +3,8 @@
 **Status:** Implementation in progress; finite homodyne/CV bookkeeping and
 Pending interfaces are implemented, including the finite Hawking-like
 iGPE/iQFT/Amplituhedron/ALS decoding boundary, while Proca/QND wake
-measurements, M-gate validation, measured-data adapters, and external runtime
-work remain.
+measurements, LVP device validation, M-gate validation, measured-data adapters,
+and external runtime work remain.
 
 **Scope:** Verify and fully cover the dispersive-homodyne material found by
 `docindex search quantum homodyne` in the Signals library, its documentation,
@@ -127,6 +127,77 @@ description of scattering, cryptographic recovery, or a low-rank physical
 decoder. The rank-2 and rank-10 fixtures only verify the declared configuration
 range and composition laws.
 
+### LVP Perovskite Solar and Imaging
+
+The LVP discussion proposes embedding a printable perovskite absorber in a
+lignin-vitrimer matrix to address brittleness, moisture sensitivity, and thermal
+cycling, then forming flexible solar membranes (source:
+`data/chats/IQ-Sampling-for-Signal-Phase.md`, lines 3581-3610). A related
+materials chat separately identifies printable
+perovskites and organic photovoltaics as candidate thin-film technologies rather
+than established Lignolux device results (source:
+`data/chats/_Lignin-Vitrimer Material Design .md`, line 1548).
+
+The proposed manufacturing route is a slot-die and roll-to-roll process with
+web speed, tension, roller rate, precursor rheology, mass flow, humidity, and
+crystallization timing as process variables (source:
+`data/chats/IQ-Sampling-for-Signal-Phase.md`, lines 3647-3685). The process
+chat also invokes IOF for factory telemetry and EMMO for crystallization
+semantics; those ontology mappings are requirements
+for a future data adapter, not proof that a flat-light or Proca exposure
+produces a defect-free lattice (source:
+`data/chats/IQ-Sampling-for-Signal-Phase.md`, lines 3690-3770).
+
+For imaging, the source proposes a thick LVP film as a flexible direct-
+conversion X-ray panel and claims improved sensitivity and reduced dose
+(source: `data/chats/IQ-Sampling-for-Signal-Phase.md`, lines 5873-5885).
+The model therefore records pixel pitch, incident dose, exposure duration,
+dark-signal correction, pixel dose response, detection sensitivity, spatial
+resolution, validation stage, and image residuals. These fields describe a
+measurement contract; they do not establish medical performance or clinical
+authorization.
+
+The same discussion proposes longitudinally polarized Proca phase-contrast
+imaging and sub-angstrom resolution (source:
+`data/chats/IQ-Sampling-for-Signal-Phase.md`, lines 6083-6095). That branch is
+kept as a separate Pending hypothesis with incident and absorbed probe energy,
+longitudinal fraction, phase residual, and massless-control residual. It must
+not be conflated with the conventional X-ray detector record or described as a
+working non-ionizing medical scanner without polarization-resolved propagation,
+dosimetry, tissue controls, and independent imaging validation.
+
+The corpus also proposes flexible or bifacial panels, shape-memory tracking,
+and ultrasonic cleaning in the 20--40 kHz range (source:
+`data/chats/IQ-Sampling-for-Signal-Phase.md`, lines 5566-5646). Those mechanisms
+remain outside the current LVP device laws; their closure requires measured
+bend-cycle retention, acoustic pressure and cavitation thresholds, coating
+damage limits, surface contamination controls, and energy accounting.
+
+Related factory-imaging chats recommend hyperspectral and THz inspection for
+chemical and subsurface defect detection (source:
+`data/chats/CNT Bandgap Creation with Lignin Vitrimer .md`, lines 7633-7654).
+These are useful quality-control adapters for a future LVP process record, but
+they do not substitute for photovoltaic or medical-detector calibration.
+
+The Pending implementation now provides:
+
+- `LVPProcess` for explicit IOF/EMMO process-boundary data;
+- `LigninVitrimerPerovskite` (and `LVP`) for bounded composition fractions,
+  active-layer thickness, and process linkage;
+- `LVPPhotovoltaicObservation` for irradiance, area, efficiency, electrical
+  figures of merit, environmental exposure, retained output, and residuals;
+- `LVPDirectConversionImaging` for finite pixel matrices, dark correction,
+  dose-response calibration, sensitivity, resolution, validation stage, and
+  image residuals; and
+- `LVPProcaImagingHypothesis` for the speculative longitudinal-wave branch and
+  its explicit massless control.
+
+All LVP records remain in `Signals.Pending`. Composition fractions, output
+laws, calibration equalities, and residual bounds are model data or finite
+bookkeeping. They do not prove perovskite crystallization, self-healing,
+moisture resistance, high photovoltaic efficiency, reduced patient dose,
+sub-angstrom resolution, Proca propagation, or clinical safety.
+
 ### M-Gate, Photonic Hub, and Coherence Validation
 
 The follow-up `docindex search "M-gate"`, `docindex search "dispersive hub"`,
@@ -209,7 +280,7 @@ bookkeeping interface, not a proof that an optical Proca field exists. A
 Proca closure experiment must measure the medium, dispersion, polarization,
 attenuation, source coupling, and boundary response separately. A longitudinal
 fit is not sufficient if a transverse Maxwell model or instrument cross-talk
-fits the same data.
+fits the same data. (And vice-versa.)
 
 ### Measuring a Photon Phase Wake
 
@@ -451,6 +522,9 @@ The existing verified library covers:
   hardware-readiness observations in [Pending](../src/signals/Signals/Pending.lean).
 - Pending Kerr interaction data for nonlinear signal/probe phase coupling in
   [Pending](../src/signals/Signals/Pending.lean).
+- Pending LVP process, composition, photovoltaic, direct-conversion imaging,
+  and Proca phase-contrast boundaries in
+  [Pending](../src/signals/Signals/Pending.lean).
 - The normalized Proca mode model and its Pending closure boundary are covered
   by the existing `Signals.Proca` and `Signals.Pending` APIs; physical
   longitudinal-wave evidence remains unestablished.
@@ -491,6 +565,10 @@ implementation:
   temperature, and phase-noise spectra.
 - Quantum operator semantics, detector backaction, and validated squeezing or
   entanglement measurements.
+- LVP material composition and crystallization, encapsulation barrier and
+  leaching measurements, photovoltaic current-voltage and degradation data,
+  mechanical bend-cycle retention, X-ray detector MTF/DQE/lag/dark-current
+  characterization, phantom studies, and clinical safety validation.
 - Runtime Rust/WASM demodulation, tensor processing, and visualization
   integration against the typed trace boundary.
 - A Linux- and YAML-oriented orchestration implementation that does not couple
@@ -665,6 +743,42 @@ that Hawking radiation or information has been decoded. In particular, ALS
 rank selection is a configuration parameter; convergence and agreement with a
 known input require measured or simulated residuals, controls, and uncertainty.
 
+### Phase 4D: Model LVP Solar and Imaging Interfaces
+
+[Complete finite Pending bookkeeping] Add a shared LVP material and process
+boundary plus separate application records:
+
+- `LVPProcess` records the route, web speed and tension, roller rate, precursor
+  viscosity and mass flow, humidity, wet-film thickness, process temperature,
+  and crystallization-versus-cure timing;
+- `LigninVitrimerPerovskite` records bounded lignin, vitrimer, perovskite, and
+  carbon-transport fractions, active-layer thickness, and process linkage;
+- `LVPPhotovoltaicObservation` records incident irradiance, active area,
+  output power, conversion efficiency, open-circuit voltage, short-circuit
+  current density, fill factor, environmental exposure, retained output, and
+  comparison residuals;
+- `LVPDirectConversionImaging` records finite pixel dose and signal matrices,
+  dark correction, dose response, sensitivity, pixel pitch, spatial
+  resolution, validation stage, and image residuals; and
+- `LVPProcaImagingHypothesis` records the speculative phase-contrast branch,
+  longitudinal fraction, probe energy, phase residual, and massless control.
+
+Add compile-time fixtures for the roll-to-roll process law, composition sum,
+photovoltaic output and retention laws, X-ray dark-signal and dose-response
+laws, and Proca control residuals. Keep the solar and X-ray records separate
+from the Proca hypothesis: direct-conversion detector calibration is not proof
+of longitudinal waves, and a Proca phase residual is not medical imaging
+validation.
+
+Remaining closure work includes composition and crystallization measurements,
+encapsulation water-vapor and oxygen transmission, lead/tin containment and
+leaching, photovoltaic current-voltage curves and degradation testing,
+mechanical bend and thermal-cycle retention, X-ray modulation-transfer and
+dose-efficiency measurements, detector lag and dark current, phantom testing,
+and clinical safety review. IOF/EMMO mappings and any claimed self-healing,
+room-temperature crystallization, high efficiency, reduced dose, or
+sub-angstrom resolution remain conditional until those measurements exist.
+
 ### Phase 5: Add Dual Homodyne and CV Correlation Records
 
 [Complete finite bookkeeping] Add a dual-receiver composition for the
@@ -826,6 +940,13 @@ Full coverage means:
   Amplituhedron-constrained ALS remain Pending data contracts; they do not
   establish Hawking radiation, SQG, cryptographic recovery, or physical
   information decoding.
+- LVP records preserve explicit process telemetry, bounded composition,
+  photovoltaic output and stability observations, direct-conversion X-ray
+  calibration, and a separate Proca phase-contrast hypothesis.
+- LVP photovoltaic and imaging fields include units, residual tolerances,
+  environmental or dose conditions, and validation-stage metadata; they do not
+  establish self-healing, moisture resistance, high efficiency, reduced dose,
+  sub-angstrom resolution, or clinical safety.
 - Proca interpretations include effective-mass, polarization, dispersion,
   attenuation, source, boundary, and massless-Maxwell control records.
 - Coherence, parametric gain, squeezing, and transduction claims include
@@ -851,18 +972,20 @@ Full coverage means:
    controls.
 7. [Complete finite Pending bookkeeping] Add prepared-input, observed-tensor,
    finite iQFT, bounded ALS rank, and composed Hawking-like decoding records.
-8. Next: add measured M-gate, detector-loss, repeatability, disturbance,
+8. [Complete finite Pending bookkeeping] Add LVP process, composition,
+   photovoltaic, direct-conversion imaging, and Proca phase-contrast records.
+9. Next: add measured M-gate, detector-loss, repeatability, disturbance,
    coherence, CMRR, WDM-isolation, and frequency-dependent noise observations.
-9. [Complete finite bookkeeping] Add dual-receiver covariance and sign-binning
+10. [Complete finite bookkeeping] Add dual-receiver covariance and sign-binning
   plumbing.
-10. [Complete Pending bookkeeping] Add CV Bell-state measurement and feed-forward
+11. [Complete Pending bookkeeping] Add CV Bell-state measurement and feed-forward
   bookkeeping.
-11. [Complete Pending bookkeeping] Strengthen the Pending QND parity boundary.
-12. [Complete Pending bookkeeping] Add Pending quantum quadrature assumptions
+12. [Complete Pending bookkeeping] Strengthen the Pending QND parity boundary.
+13. [Complete Pending bookkeeping] Add Pending quantum quadrature assumptions
   and finite spatial arrays.
-13. [Complete Pending bookkeeping] Add hardware-readiness observations.
-14. Next: define Lean-generated golden vectors and validate Rust/WASM consumers.
-15. [Complete] Update the Signals README and contributor guidance after each
+14. [Complete Pending bookkeeping] Add hardware-readiness observations.
+15. Next: define Lean-generated golden vectors and validate Rust/WASM consumers.
+16. [Complete] Update the Signals README and contributor guidance after each
     completed phase.
 
 Each phase should make the smallest testable change, run

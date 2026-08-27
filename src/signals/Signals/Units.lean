@@ -39,6 +39,30 @@ structure CurrentNoisePowerDensity where
 structure Energy where
   joules : ℝ
 
+/-- An electrical potential measured in volts. -/
+structure Voltage where
+  volts : ℝ
+
+/-- An electrical current density measured in amperes per square metre. -/
+structure CurrentDensity where
+  amperesPerSquareMeter : ℝ
+
+/-- An absolute temperature measured in kelvin. -/
+structure Temperature where
+  kelvin : ℝ
+
+/-- A relative humidity represented as a fraction of saturation. -/
+structure RelativeHumidity where
+  fraction : ℝ
+
+/-- An absorbed radiation dose measured in gray (joules per kilogram). -/
+structure AbsorbedDose where
+  grays : ℝ
+
+/-- A dynamic viscosity measured in pascal-seconds. -/
+structure DynamicViscosity where
+  pascalSeconds : ℝ
+
 /-- A mass density measured in kilograms per cubic metre. -/
 structure MassDensity where
   kilogramsPerCubicMeter : ℝ

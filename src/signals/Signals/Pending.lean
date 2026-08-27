@@ -427,6 +427,191 @@ structure HomodyneHardwareReadiness where
   modeOverlap : BoundedFactor
   calibrationReady : Bool
 
+/-! ## Lignin-vitrimer perovskite solar and imaging boundaries
+
+The source chats use LVP for a proposed lignin-vitrimer perovskite material
+family spanning roll-to-roll solar membranes, direct-conversion X-ray panels,
+and speculative Proca phase-contrast imaging. These records retain composition,
+process, calibration, stability, and control data without promoting proposed
+material performance to a verified property.
+-/
+
+/-- Manufacturing routes proposed for an LVP precursor or membrane. -/
+inductive LVPProcessRoute
+  | laboratory
+  | slotDie
+  | rollToRoll
+  | maskedExposure
+  deriving DecidableEq, Repr
+
+/-- A finite IOF/EMMO process bridge for LVP deposition and crystallization. -/
+structure LVPProcess where
+  route : LVPProcessRoute
+  webSpeed : Speed
+  webSpeed_pos : 0 < webSpeed.metersPerSecond
+  webTension : Force
+  webTension_nonnegative : 0 ≤ webTension.newtons
+  rollerRate : Frequency
+  rollerRate_nonnegative : 0 ≤ rollerRate.hz
+  precursorViscosity : DynamicViscosity
+  precursorViscosity_nonnegative : 0 ≤ precursorViscosity.pascalSeconds
+  precursorMassFlow : MassFlowRate
+  precursorMassFlow_nonnegative : 0 ≤ precursorMassFlow.kilogramsPerSecond
+  ambientHumidity : RelativeHumidity
+  ambientHumidity_nonnegative : 0 ≤ ambientHumidity.fraction
+  ambientHumidity_le_one : ambientHumidity.fraction ≤ 1
+  wetFilmThickness : Length
+  wetFilmThickness_pos : 0 < wetFilmThickness.meters
+  processTemperature : Temperature
+  processTemperature_pos : 0 < processTemperature.kelvin
+  crystallizationTime : Duration
+  crystallizationTime_pos : 0 < crystallizationTime.seconds
+  availableCureTime : Duration
+  availableCureTime_pos : 0 < availableCureTime.seconds
+  cureSufficient : crystallizationTime.seconds ≤ availableCureTime.seconds
+
+/-- The process bridge exposes its explicit cure-time condition. -/
+lemma LVPProcess.cure_sufficient (process : LVPProcess) :
+    process.crystallizationTime.seconds ≤ process.availableCureTime.seconds :=
+  process.cureSufficient
+
+/-- A proposed Lignin-Vitrimer Perovskite composition and deposition process. -/
+structure LigninVitrimerPerovskite where
+  perovskiteComposition : String
+  ligninFraction : BoundedFactor
+  vitrimerFraction : BoundedFactor
+  perovskiteFraction : BoundedFactor
+  carbonTransportFraction : BoundedFactor
+  compositionLaw : ligninFraction.value + vitrimerFraction.value +
+      perovskiteFraction.value + carbonTransportFraction.value = 1
+  activeLayerThickness : Length
+  activeLayerThickness_pos : 0 < activeLayerThickness.meters
+  process : LVPProcess
+
+/-- Compatibility abbreviation for the LVP material record. -/
+abbrev LVP := LigninVitrimerPerovskite
+
+/-- The LVP composition fractions sum to one by supplied model data. -/
+lemma LigninVitrimerPerovskite.composition_holds
+    (material : LigninVitrimerPerovskite) :
+    material.ligninFraction.value + material.vitrimerFraction.value +
+      material.perovskiteFraction.value + material.carbonTransportFraction.value = 1 :=
+  material.compositionLaw
+
+/-- Photovoltaic output and stability observations for an LVP solar membrane. -/
+structure LVPPhotovoltaicObservation where
+  material : LigninVitrimerPerovskite
+  activeArea : Area
+  activeArea_pos : 0 < activeArea.squareMeters
+  incidentIrradiance : Irradiance
+  incidentIrradiance_nonnegative : 0 ≤ incidentIrradiance.wattsPerSquareMeter
+  outputPower : Power
+  outputPower_nonnegative : 0 ≤ outputPower.watts
+  conversionEfficiency : BoundedFactor
+  outputPowerLaw : outputPower.watts =
+    conversionEfficiency.value * incidentIrradiance.wattsPerSquareMeter *
+      activeArea.squareMeters
+  openCircuitVoltage : Voltage
+  openCircuitVoltage_nonnegative : 0 ≤ openCircuitVoltage.volts
+  shortCircuitCurrentDensity : CurrentDensity
+  shortCircuitCurrentDensity_nonnegative :
+    0 ≤ shortCircuitCurrentDensity.amperesPerSquareMeter
+  fillFactor : BoundedFactor
+  operatingTemperature : Temperature
+  operatingTemperature_pos : 0 < operatingTemperature.kelvin
+  relativeHumidity : RelativeHumidity
+  relativeHumidity_nonnegative : 0 ≤ relativeHumidity.fraction
+  relativeHumidity_le_one : relativeHumidity.fraction ≤ 1
+  exposureDuration : Duration
+  exposureDuration_pos : 0 < exposureDuration.seconds
+  postExposureOutputPower : Power
+  postExposureOutputPower_nonnegative : 0 ≤ postExposureOutputPower.watts
+  retainedPowerFraction : BoundedFactor
+  retentionLaw : postExposureOutputPower.watts =
+    retainedPowerFraction.value * outputPower.watts
+  comparisonResidual : ℝ
+  comparisonResidual_nonnegative : 0 ≤ comparisonResidual
+  comparisonTolerance : ℝ
+  comparisonTolerance_nonnegative : 0 ≤ comparisonTolerance
+  comparisonWithinTolerance : comparisonResidual ≤ comparisonTolerance
+
+/-- The LVP photovoltaic output follows the irradiance-area-efficiency law. -/
+lemma LVPPhotovoltaicObservation.output_power_holds
+    (observation : LVPPhotovoltaicObservation) :
+    observation.outputPower.watts =
+      observation.conversionEfficiency.value *
+        observation.incidentIrradiance.wattsPerSquareMeter *
+          observation.activeArea.squareMeters :=
+  observation.outputPowerLaw
+
+/-- The photovoltaic stability comparison is within its supplied tolerance. -/
+lemma LVPPhotovoltaicObservation.comparison_within_tolerance
+    (observation : LVPPhotovoltaicObservation) :
+    observation.comparisonResidual ≤ observation.comparisonTolerance :=
+  observation.comparisonWithinTolerance
+
+/-- A validation stage for an LVP imaging device. -/
+inductive LVPImagingValidationLevel
+  | material
+  | benchtop
+  | phantom
+  | preclinical
+  | clinical
+  deriving DecidableEq, Repr
+
+/-- Finite direct-conversion X-ray imaging observations for an LVP panel. -/
+structure LVPDirectConversionImaging (width height : ℕ) where
+  material : LigninVitrimerPerovskite
+  validationLevel : LVPImagingValidationLevel
+  pixelPitch : Length
+  pixelPitch_pos : 0 < pixelPitch.meters
+  incidentDose : AbsorbedDose
+  incidentDose_nonnegative : 0 ≤ incidentDose.grays
+  exposureDuration : Duration
+  exposureDuration_pos : 0 < exposureDuration.seconds
+  pixelDose : Matrix (Fin width) (Fin height) AbsorbedDose
+  pixelDose_nonnegative : ∀ row column, 0 ≤ (pixelDose row column).grays
+  rawSignal : Matrix (Fin width) (Fin height) ℝ
+  darkSignal : Matrix (Fin width) (Fin height) ℝ
+  correctedSignal : Matrix (Fin width) (Fin height) ℝ
+  darkCorrectionLaw : ∀ row column,
+    correctedSignal row column = rawSignal row column - darkSignal row column
+  signalGain : ℝ
+  signalGain_nonnegative : 0 ≤ signalGain
+  directConversionLaw : ∀ row column,
+    correctedSignal row column = signalGain * (pixelDose row column).grays
+  detectionSensitivity : ℝ
+  detectionSensitivity_nonnegative : 0 ≤ detectionSensitivity
+  spatialResolution : Length
+  spatialResolution_pos : 0 < spatialResolution.meters
+  imageResidual : ℝ
+  imageResidual_nonnegative : 0 ≤ imageResidual
+  imageResidualTolerance : ℝ
+  imageResidualTolerance_nonnegative : 0 ≤ imageResidualTolerance
+  imageResidualWithinTolerance : imageResidual ≤ imageResidualTolerance
+
+/-- Dark-current correction for a direct-conversion LVP image. -/
+lemma LVPDirectConversionImaging.dark_correction_holds
+    {width height : ℕ} (observation : LVPDirectConversionImaging width height)
+    (row : Fin width) (column : Fin height) :
+    observation.correctedSignal row column =
+      observation.rawSignal row column - observation.darkSignal row column :=
+  observation.darkCorrectionLaw row column
+
+/-- The direct-conversion pixel response follows its supplied dose calibration. -/
+lemma LVPDirectConversionImaging.dose_response_holds
+    {width height : ℕ} (observation : LVPDirectConversionImaging width height)
+    (row : Fin width) (column : Fin height) :
+    observation.correctedSignal row column =
+      observation.signalGain * (observation.pixelDose row column).grays :=
+  observation.directConversionLaw row column
+
+/-- The imaging residual is within its supplied calibration tolerance. -/
+lemma LVPDirectConversionImaging.residual_within_tolerance
+    {width height : ℕ} (observation : LVPDirectConversionImaging width height) :
+    observation.imageResidual ≤ observation.imageResidualTolerance :=
+  observation.imageResidualWithinTolerance
+
 /-! ## Mixed-species atmospheric scavenging
 
 These records are a finite normalized model of the source-chat Gaussian-splat
@@ -1118,6 +1303,41 @@ structure ProcaChannel where
   longitudinalCoupling : ℝ
   longitudinalCoupling_nonzero : longitudinalCoupling ≠ 0
   longitudinalModeAssumed : longitudinalCoupling * mode.longitudinalWaveNumber ≠ 0
+
+/-- A Pending Proca phase-contrast imaging hypothesis using an LVP detector. -/
+structure LVPProcaImagingHypothesis (width height : ℕ) where
+  material : LigninVitrimerPerovskite
+  channel : ProcaChannel
+  phaseMap : Matrix (Fin width) (Fin height) ℝ
+  longitudinalFraction : BoundedFactor
+  spatialResolution : Length
+  spatialResolution_pos : 0 < spatialResolution.meters
+  incidentProbeEnergy : Energy
+  incidentProbeEnergy_nonnegative : 0 ≤ incidentProbeEnergy.joules
+  absorbedProbeEnergy : Energy
+  absorbedProbeEnergy_nonnegative : 0 ≤ absorbedProbeEnergy.joules
+  phaseResidual : ℝ
+  phaseResidual_nonnegative : 0 ≤ phaseResidual
+  phaseResidualTolerance : ℝ
+  phaseResidualTolerance_nonnegative : 0 ≤ phaseResidualTolerance
+  phaseResidualWithinTolerance : phaseResidual ≤ phaseResidualTolerance
+  masslessControlResidual : ℝ
+  masslessControlResidual_nonnegative : 0 ≤ masslessControlResidual
+  masslessControlTolerance : ℝ
+  masslessControlTolerance_nonnegative : 0 ≤ masslessControlTolerance
+  masslessControlWithinTolerance : masslessControlResidual ≤ masslessControlTolerance
+
+/-- The Proca imaging phase residual is within its supplied tolerance. -/
+lemma LVPProcaImagingHypothesis.phase_residual_within_tolerance
+    {width height : ℕ} (hypothesis : LVPProcaImagingHypothesis width height) :
+    hypothesis.phaseResidual ≤ hypothesis.phaseResidualTolerance :=
+  hypothesis.phaseResidualWithinTolerance
+
+/-- The Proca imaging hypothesis retains an explicit massless control residual. -/
+lemma LVPProcaImagingHypothesis.massless_control_within_tolerance
+    {width height : ℕ} (hypothesis : LVPProcaImagingHypothesis width height) :
+    hypothesis.masslessControlResidual ≤ hypothesis.masslessControlTolerance :=
+  hypothesis.masslessControlWithinTolerance
 
 /-- A LightSlinger antenna paired with an explicitly assumed Proca channel.
 
