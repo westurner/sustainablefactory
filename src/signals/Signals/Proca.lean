@@ -1,6 +1,7 @@
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
 import Signals.IQ
+import Signals.Maxwell
 
 namespace Signals.Proca
 
@@ -33,7 +34,16 @@ structure FourCurrent where
   currentY : ℝ
   currentZ : ℝ
   continuityResidual : ℝ
-  conserved : continuityResidual = 0
+
+/- View a Proca four-current through the shared Maxwell source boundary. -/
+def FourCurrent.toSource (source : FourCurrent) : Maxwell.Source :=
+  { chargeDensity := source.chargeDensity
+    current := fun axis =>
+      match axis.val with
+      | 0 => source.currentX
+      | 1 => source.currentY
+      | _ => source.currentZ
+    continuityResidual := source.continuityResidual }
 
 /-- Constitutive response data for a homogeneous matter model.
 
@@ -63,19 +73,23 @@ relation between source nonconservation and field four-divergence. -/
 structure DrivenField (model : Model) where
   fourDivergence : ℝ
   coupling : MatterCoupling
-  fieldEquation : model.mass ^ 2 * fourDivergence = coupling.source.continuityResidual
+  couplingStrengthLaw : coupling.strength = model.coupling
+  fieldEquation : model.mass ^ 2 * fourDivergence =
+    coupling.strength * coupling.source.continuityResidual
 
 /-- A conserved source forces the source-driven Proca field to be divergence-free. -/
-lemma DrivenField.lorenz_condition {model : Model} (field : DrivenField model) :
+lemma DrivenField.lorenz_condition {model : Model} (field : DrivenField model)
+    (source_conserved : field.coupling.source.continuityResidual = 0) :
     field.fourDivergence = 0 := by
   have equation_zero : model.mass ^ 2 * field.fourDivergence = 0 := by
-    rw [field.fieldEquation, field.coupling.source.conserved]
+    rw [field.fieldEquation, source_conserved, mul_zero]
   exact (mul_eq_zero.mp equation_zero).resolve_left
     (pow_ne_zero 2 (ne_of_gt model.mass_pos))
 
 /-- The sourced equation exposes the continuity residual used by the model. -/
 lemma DrivenField.source_balance {model : Model} (field : DrivenField model) :
-    model.mass ^ 2 * field.fourDivergence = field.coupling.source.continuityResidual :=
+    model.mass ^ 2 * field.fourDivergence =
+      field.coupling.strength * field.coupling.source.continuityResidual :=
   field.fieldEquation
 
 /-- A four-component vector in the `(time, x, y, z)` ordering. -/

@@ -110,6 +110,7 @@ structure CommonModeRejection where
   decibels : ℝ
   decibels_nonnegative : 0 ≤ decibels
   leakageFactor : BoundedFactor
+  leakageFactorLaw : leakageFactor.value = 10 ^ (-decibels / 10)
 
 /-- A finite detector channel response with efficiency, bandwidth, and dark current. -/
 structure DetectorChannel where
@@ -233,19 +234,24 @@ structure DualHomodyneTrace (sampleCount : ℕ) where
   receiverB : BalancedHomodyne
   missingSamples : ℕ
   missingSamples_le_count : missingSamples ≤ sampleCount
+  validSampleCount : ℕ
+  validSampleCount_pos : 0 < validSampleCount
+  validSampleCountLaw : validSampleCount + missingSamples = sampleCount
   outcomesA : Fin sampleCount → ℝ
   outcomesB : Fin sampleCount → ℝ
+  outcomesALaw : ∀ index, outcomesA index = receiverA.differentialPhotocurrent
+  outcomesBLaw : ∀ index, outcomesB index = receiverB.differentialPhotocurrent
   meanA : ℝ
   meanB : ℝ
   meanALaw : meanA =
-    (∑ index : Fin sampleCount, outcomesA index) / (sampleCount : ℝ)
+    (∑ index : Fin sampleCount, outcomesA index) / (validSampleCount : ℝ)
   meanBLaw : meanB =
-    (∑ index : Fin sampleCount, outcomesB index) / (sampleCount : ℝ)
+    (∑ index : Fin sampleCount, outcomesB index) / (validSampleCount : ℝ)
   covariance : ℝ
   covarianceLaw : covariance =
     (∑ index : Fin sampleCount,
       (outcomesA index - meanA) * (outcomesB index - meanB)) /
-        (sampleCount : ℝ)
+        (validSampleCount : ℝ)
   correlationScale : ℝ
   correlationScale_pos : 0 < correlationScale
   normalizedCorrelation : ℝ
@@ -266,14 +272,16 @@ structure DualHomodyneTrace (sampleCount : ℕ) where
 lemma DualHomodyneTrace.mean_a_holds {sampleCount : ℕ}
     (trace : DualHomodyneTrace sampleCount) :
     trace.meanA =
-      (∑ index : Fin sampleCount, trace.outcomesA index) / (sampleCount : ℝ) :=
+      (∑ index : Fin sampleCount, trace.outcomesA index) /
+        (trace.validSampleCount : ℝ) :=
   trace.meanALaw
 
 /-- The second finite trace mean follows its supplied sample average. -/
 lemma DualHomodyneTrace.mean_b_holds {sampleCount : ℕ}
     (trace : DualHomodyneTrace sampleCount) :
     trace.meanB =
-      (∑ index : Fin sampleCount, trace.outcomesB index) / (sampleCount : ℝ) :=
+      (∑ index : Fin sampleCount, trace.outcomesB index) /
+        (trace.validSampleCount : ℝ) :=
   trace.meanBLaw
 
 /-- The finite covariance follows its supplied centered-product average. -/
@@ -283,7 +291,7 @@ lemma DualHomodyneTrace.covariance_holds {sampleCount : ℕ}
       (∑ index : Fin sampleCount,
         (trace.outcomesA index - trace.meanA) *
           (trace.outcomesB index - trace.meanB)) /
-        (sampleCount : ℝ) :=
+        (trace.validSampleCount : ℝ) :=
   trace.covarianceLaw
 
 /-- The normalized finite correlation follows its supplied scale. -/

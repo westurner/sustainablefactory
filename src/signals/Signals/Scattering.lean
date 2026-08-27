@@ -1,12 +1,14 @@
 import Mathlib.Data.Complex.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
+import Signals.Contracts
 import Signals.IQ
 import Signals.Propagation
 
 namespace Signals.Scattering
 
 open Signals.IQ
+open Signals.Contracts
 open Signals.Propagation
 
 /-- A coherent incident/return observation represented by I/Q samples. -/
@@ -103,6 +105,22 @@ lemma ResidualMeasurement.consistent_iff (measurement : ResidualMeasurement) :
 lemma ResidualMeasurement.anomalyCandidate_iff (measurement : ResidualMeasurement) :
     measurement.anomalyCandidate ↔ ¬|measurement.residual| ≤ measurement.tolerance := by
   rfl
+
+/-- Adapt a scattering residual to the shared measurement contract. -/
+def ResidualMeasurement.toResidualContract (measurement : ResidualMeasurement)
+  (consistent : measurement.consistent) :
+    ResidualContract ℝ ℝ ℝ :=
+  { measured := measurement.observed
+    predicted := measurement.predicted
+    residual := measurement.residual
+    residualFunction := fun observed predicted => observed - predicted
+    residualLaw := measurement.residualLaw
+    magnitude := abs
+    magnitude_nonnegative := abs_nonneg _
+    tolerance := measurement.tolerance
+    tolerance_nonnegative := measurement.tolerance_nonnegative
+    withinTolerance := by
+      exact measurement.consistent_iff.mp consistent }
 
 /-- A nonnegative signal and positive noise power define a linear SNR model. -/
 structure SignalToNoise where

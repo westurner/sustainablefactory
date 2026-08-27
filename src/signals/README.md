@@ -11,7 +11,8 @@ The current build deliberately implements statements with a clear mathematical
 interpretation while keeping experimental premises explicit:
 
 - `Signals.Units` provides named wrappers for frequency, length, power, energy,
-   current, responsivity, and current-noise density.
+   current, voltage, current density, temperature, relative humidity, absorbed
+   dose, dynamic viscosity, responsivity, and current-noise density.
 - `Signals.IQ` represents an in-phase/quadrature sample as a complex baseband
    value, exposes its magnitude and principal phase, records carrier and
    quadrature conventions, and provides a conditional phase-to-height formula.
@@ -108,6 +109,11 @@ interpretation while keeping experimental premises explicit:
    homodyne tensors, finite inverse-QFT bookkeeping, bounded CP/ALS rank and
    residual metadata, and composition with the existing GPE and Amplituhedron
    records. These are Pending data contracts, not a physical Hawking decoder.
+   Its LVP boundary records a proposed lignin-vitrimer perovskite composition,
+   roll-to-roll process telemetry, photovoltaic output and stability
+   observations, direct-conversion X-ray calibration, and a separate Proca
+   phase-contrast imaging hypothesis. These records do not establish material,
+   device, or clinical performance.
 - `Signals.Geometry` contains Weyl spinors, twistors, antisymmetric minors, and
    the finite $2 \times 4$ Pluecker relation. It also provides unrestricted
    finite Grassmannian matrices, ordered maximal minors, an optional positive
@@ -531,6 +537,17 @@ namespace and build target:
    projection, and known-input comparison. It remains Pending and does not
    establish Hawking radiation, SQG, cryptographic recovery, or physical
    information decoding.
+- `LVPProcess` and `LigninVitrimerPerovskite` preserve explicit process
+   telemetry, bounded composition fractions, active-layer thickness, and the
+   proposed IOF/EMMO process boundary.
+- `LVPPhotovoltaicObservation` records irradiance, area, efficiency, electrical
+   figures of merit, environmental exposure, retained output, and comparison
+   residuals. `LVPDirectConversionImaging` records pixel dose/signal matrices,
+   dark correction, dose response, sensitivity, resolution, validation stage,
+   and image residuals.
+- `LVPProcaImagingHypothesis` records the speculative longitudinal-wave branch,
+   probe energy, phase residual, longitudinal fraction, and massless control.
+   It does not establish Proca propagation or medical imaging.
 - `CWApplication` and `CWApplicationRequirements` classify the ten CW uses
    found in the IQ Myst document by their phase-reference, mask, convergence,
    range-modulation, and massive-mode requirements.

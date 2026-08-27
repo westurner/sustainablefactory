@@ -40,8 +40,7 @@ noncomputable def toyCurrent : FourCurrent :=
     currentX := 0
     currentY := 0
     currentZ := 0
-    continuityResidual := 0
-    conserved := by norm_num }
+    continuityResidual := 0 }
 
 noncomputable def toyConstitutive : ConstitutiveRelation :=
   { relativePermittivity := 2
@@ -60,6 +59,7 @@ noncomputable def toyField : DrivenField toyModel :=
         strength_nonneg := by norm_num
         constitutive := toyConstitutive
         source := toyCurrent }
+    couplingStrengthLaw := by rfl
     fieldEquation := by norm_num [toyModel, toyCurrent] }
 
 noncomputable def toyMode : Mode toyModel :=
@@ -70,13 +70,14 @@ noncomputable def toyMode : Mode toyModel :=
     dispersion := by norm_num [toyModel] }
 
 example : toyField.fourDivergence = 0 := by
-  exact toyField.lorenz_condition
+  apply toyField.lorenz_condition
+  rfl
 
 noncomputable def toyPendingLink : LinkBudget :=
   { mode := PropagationMode.throughSpaceBallistic
-    sourcePower := 1
+    sourcePower := { watts := 1 }
     sourcePower_nonnegative := by norm_num
-    distance := 1
+    distance := { meters := 1 }
     distance_nonnegative := by norm_num
     coupling :=
       { regime := CouplingRegime.farField

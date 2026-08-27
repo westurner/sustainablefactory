@@ -238,12 +238,17 @@ example : toyMeasurement.height =
       receiverB := toyBalancedHomodyneB
       missingSamples := 0
       missingSamples_le_count := by norm_num
-      outcomesA := fun _ => 1
-      outcomesB := fun _ => 2
-      meanA := 1
-      meanB := 2
-      meanALaw := by norm_num [Fin.sum_univ_succ]
-      meanBLaw := by norm_num [Fin.sum_univ_succ]
+      validSampleCount := 2
+      validSampleCount_pos := by norm_num
+      validSampleCountLaw := by norm_num
+      outcomesA := fun _ => toyBalancedHomodyne.differentialPhotocurrent
+      outcomesB := fun _ => toyBalancedHomodyneB.differentialPhotocurrent
+      outcomesALaw := by intro index; rfl
+      outcomesBLaw := by intro index; rfl
+      meanA := toyBalancedHomodyne.differentialPhotocurrent
+      meanB := toyBalancedHomodyneB.differentialPhotocurrent
+      meanALaw := by simp [Fin.sum_univ_succ]
+      meanBLaw := by simp [Fin.sum_univ_succ]
       covariance := 0
       covarianceLaw := by norm_num [Fin.sum_univ_succ]
       correlationScale := 1
@@ -256,14 +261,17 @@ example : toyMeasurement.height =
       residualWithinTolerance := by norm_num
       thresholdA := 1
       thresholdB := 2
-      binsA := fun _ => true
-      binsB := fun _ => true
-      binsALaw := by intro index; simp [signBin]
-      binsBLaw := by intro index; simp [signBin] }
+      binsA := fun index => signBin 1
+        toyBalancedHomodyne.differentialPhotocurrent
+      binsB := fun index => signBin 2
+        toyBalancedHomodyneB.differentialPhotocurrent
+      binsALaw := by intro index; rfl
+      binsBLaw := by intro index; rfl }
 
-  example : toyDualHomodyneTrace.meanA = 1 := by
-    norm_num [DualHomodyneTrace.mean_a_holds, toyDualHomodyneTrace,
-      Fin.sum_univ_succ]
+  example : toyDualHomodyneTrace.meanA =
+      (∑ index : Fin 2, toyDualHomodyneTrace.outcomesA index) /
+        (toyDualHomodyneTrace.validSampleCount : ℝ) := by
+    exact toyDualHomodyneTrace.mean_a_holds
 
   example : toyDualHomodyneTrace.covariance = 0 := by
     norm_num [DualHomodyneTrace.covariance_holds, toyDualHomodyneTrace,
@@ -324,9 +332,10 @@ example : toyHomodyneGrid.phaseMap 0 0 =
       localOscillatorRin := { amperesSquaredPerHertz := 3 }
       localOscillatorRin_nonnegative := by norm_num
       commonModeRejection :=
-        { decibels := 6
+        { decibels := 0
           decibels_nonnegative := by norm_num
-          leakageFactor := { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num } } }
+          leakageFactor := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+          leakageFactorLaw := by norm_num } }
 
   def toyBalancedDetectorObservation : BalancedDetectorObservation :=
     { plus := toyDetectorObservation
@@ -386,7 +395,7 @@ example : toyHomodyneGrid.phaseMap 0 0 =
     rfl
 
   example : toyDetectorNoiseProfile.commonModeRejection.leakedNoise
-      toyDetectorNoiseProfile.localOscillatorRin = 3 / 2 := by
+      toyDetectorNoiseProfile.localOscillatorRin = 3 := by
     norm_num [CommonModeRejection.leakedNoise, toyDetectorNoiseProfile]
 
   example : toyDetectorNoiseProfile.commonModeRejection.leakedNoise
@@ -433,8 +442,7 @@ def toyCurrent : FourCurrent :=
     currentX := 0
     currentY := 0
     currentZ := 0
-    continuityResidual := 0
-    conserved := by norm_num }
+    continuityResidual := 0 }
 
 def toyConstitutive : ConstitutiveRelation :=
   { relativePermittivity := 2
@@ -455,14 +463,17 @@ def toyMatterCoupling : MatterCoupling :=
 def toyDrivenField : DrivenField toyModel :=
   { fourDivergence := 0
     coupling := toyMatterCoupling
+      couplingStrengthLaw := by rfl
     fieldEquation := by norm_num [toyModel, toyMatterCoupling, toyCurrent] }
 
 example : toyDrivenField.fourDivergence = 0 := by
-  exact toyDrivenField.lorenz_condition
+    apply toyDrivenField.lorenz_condition
+    rfl
 
 example :
     toyModel.mass ^ 2 * toyDrivenField.fourDivergence =
-      toyDrivenField.coupling.source.continuityResidual := by
+        toyDrivenField.coupling.strength *
+          toyDrivenField.coupling.source.continuityResidual := by
   exact toyDrivenField.source_balance
 
 def toyConversion : NonlinearConversion :=
@@ -532,9 +543,9 @@ noncomputable def toyMediumLoss : MediumLoss :=
 
 noncomputable def toyLink : LinkBudget :=
   { mode := PropagationMode.lithosphericChord
-    sourcePower := 100
+    sourcePower := { watts := 100 }
     sourcePower_nonnegative := by norm_num
-    distance := 2
+    distance := { meters := 2 }
     distance_nonnegative := by norm_num
     coupling := toyCouplingFactors
     medium := toyMediumLoss
@@ -549,7 +560,7 @@ example : toyLink.transferFactor ≤ 1 := by
 example : toyCouplingFactors.reactiveFraction.value + toyCouplingFactors.radiativeCoupling.value ≤ 1 := by
   exact toyCouplingFactors.reactive_plus_radiative_le_one
 
-example : toyLink.receivedPower ≤ toyLink.sourcePower := by
+example : toyLink.receivedPower ≤ toyLink.sourcePower.watts := by
   exact toyLink.receivedPower_le_sourcePower
 
 noncomputable def toyPowerTransfer : PowerTransfer :=

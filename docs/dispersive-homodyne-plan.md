@@ -28,6 +28,104 @@ detector observations, dual traces, spatial grids, Pending CV/QND bookkeeping,
 and a typed runtime trace boundary. It does not establish measured hardware
 performance, quantum operator behavior, or a complete Rust/WASM runtime.
 
+## Review Findings
+
+The Signals library builds successfully, including `SignalsTests` and
+`SignalsPendingTests`. The review found contract-level issues rather than Lean
+type errors:
+
+1. `Signals.Proca.FourCurrent` requires a zero continuity residual, so
+  `DrivenField` cannot represent the nonconserved-source case described by its
+  documentation. The model-level coupling strength is also not present in the
+  driven-field equation. See [Proca](../src/signals/Signals/Proca.lean#L29).
+2. `WaveguideSpec.propagationLoss` is stored but omitted from
+  `transferFactor`; waveguides with different losses therefore have the same
+  modeled transfer. See [Applications](../src/signals/Signals/Applications.lean#L31).
+3. `DualHomodyneTrace` stores receivers independently from its outcomes, and
+  `missingSamples` does not affect the estimator denominator. Arbitrary traces
+  can be attached to arbitrary receivers. See
+  [Homodyne](../src/signals/Signals/Homodyne.lean#L230).
+4. Proca medium, boundary, and model-level coupling data are not connected to
+  mode dispersion or the field equation. Treating these as metadata must be
+  explicit, or constitutive and boundary laws must consume them. See
+  [Proca](../src/signals/Signals/Proca.lean#L22).
+5. Homodyne common-mode rejection stores both dB and leakage-factor values
+  without a conversion law, so the two measurements can disagree. See
+  [Homodyne](../src/signals/Signals/Homodyne.lean#L109).
+6. `LinkBudget` uses bare real numbers for source power, distance, and
+  attenuation while other modules use unit wrappers. This permits dimensional
+  mistakes and leaves the attenuation convention implicit. See
+  [Propagation](../src/signals/Signals/Propagation.lean#L119) and
+  [Units](../src/signals/Signals/Units.lean#L7).
+
+These are contract defects, not evidence for or against any Pending physical
+interpretation. The first implementation pass should add regression fixtures
+that vary each formerly ignored input.
+
+## Unification Opportunities
+
+### Measurements and residuals
+
+Unify the repeated measured/predicted/residual/tolerance shape around a small
+generic law-bearing contract. The contract should preserve the original typed
+measurement and expose a residual law plus an acceptance predicate; it should
+not erase units, uncertainty semantics, or domain-specific calibration. Keep
+specialized wrappers for phase, power, current, dose, and vector residuals.
+
+This matches the local Lean style of structures carrying explicit law fields,
+as seen in [CalibrationRecord](../src/signals/Signals/NonDestructive.lean#L153),
+and the explicit state/channel boundaries in the local Physlib quantum
+information modules. The downside is real: a universal residual type can make
+the API less discoverable, encourage accidental comparison of unlike units,
+and hide whether a tolerance is an absolute error, norm, confidence interval,
+or statistical estimator. The generic layer should therefore be structural,
+not a replacement for domain types.
+
+### Attributed signal pipelines
+
+Use a pipeline record that composes typed stages but leaves stage attributes
+open. A stage may carry frequency band, spatial support, calibration status,
+causal role, physical domain, provenance, or validation level. This permits
+classical homodyne, acoustic transfer, scattering, harvesting, and Pending
+SQG/Amplituhedron experiments to share ingestion and residual plumbing without
+claiming that they share the same physics.
+
+Harvesting belongs at the application boundary: model input energy, harvested
+output energy/power, storage, conversion efficiency, and losses with the same
+passive ledger, while retaining an explicit environmental source. Ultrasonic
+power transfer can use the same source-to-receiver pipeline and passive budget;
+an SQG or Amplituhedron interpretation remains an optional Pending attribute,
+not a prerequisite for the ordinary acoustic model.
+
+### Passive power transfer
+
+Factor `BoundedFactor`, `InterfaceResponse`, `LinkBudget`, waveguide transfer,
+antenna efficiency, receiver extraction, and ultrasonic transfer around one
+passive transfer abstraction. The abstraction should expose source power,
+dimensionless factors, received power, and a non-amplification theorem. Near-
+field reactive energy and harvesting storage must remain separate ledgers rather
+than being silently counted as delivered power.
+
+### Field and source interfaces
+
+Share a typed source/medium boundary between Maxwell and Proca, then build the
+Pending SQG Maxwell extension on that boundary. The verified Maxwell system
+should remain the ordinary source/current layer; `SQGMaxwellSystem` should be a
+refinement with an explicit additional current and constitutive laws. Proca
+should use the same source residual convention while retaining its massive-mode
+and longitudinal-polarization data. Conversion back to Maxwell is valid only
+when the additional current is explicitly zero.
+
+### Conventions and scope
+
+Mathlib and Physlib generally prefer ordinary structures with explicit fields,
+laws, and side-condition proofs, rather than a universal physics ontology or a
+global unit-class hierarchy. The Signals implementation should follow that
+pattern, use typed wrappers at physical boundaries, and reserve typeclasses for
+genuine algebraic interfaces. General mathematical residual lemmas can be
+upstreamed later; application vocabulary and experimental acceptance criteria
+belong here.
+
 ## Evidence Clusters
 
 ### CV Homodyne and Quadratures

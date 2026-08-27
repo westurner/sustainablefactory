@@ -32,6 +32,12 @@ structure MaterialParameters where
   permeability : ℝ
   permeability_pos : 0 < permeability
 
+/- A source view shared by classical field models. -/
+structure Source where
+  chargeDensity : ℝ
+  current : Vector3
+  continuityResidual : ℝ
+
 /-- Macroscopic Maxwell fields and sources in three-vector notation.
 
 The fields use the standard $(E,D,B,H)$ convention and the source terms are
@@ -48,6 +54,13 @@ structure System (calculus : VectorCalculus) where
   faraday : calculus.curl electricField = -calculus.vectorTimeDerivative magneticField
   ampere : calculus.curl magneticIntensity =
     current + calculus.vectorTimeDerivative displacementField
+
+/- The source view of a Maxwell system's scalar and vector source fields. -/
+def System.source {calculus : VectorCalculus} (system : System calculus) : Source :=
+  { chargeDensity := system.rho
+    current := system.current
+    continuityResidual :=
+      calculus.scalarTimeDerivative system.rho + calculus.divergence system.current }
 
 /-- Gauss's electric equation is available directly from the system record. -/
 lemma System.gauss_electric {calculus : VectorCalculus} (system : System calculus) :
@@ -82,6 +95,12 @@ lemma System.charge_continuity {calculus : VectorCalculus} (system : System calc
     calculus.divergence_timeDerivative,
     system.gaussElectric] at divergence_ampere
   linarith
+
+/- The Maxwell source view has zero continuity residual. -/
+lemma System.source_continuity_residual {calculus : VectorCalculus}
+    (system : System calculus) :
+    system.source.continuityResidual = 0 := by
+  exact system.charge_continuity
 
 /-- A source-free macroscopic Maxwell system has zero current and charge density. -/
 structure SourceFreeSystem (calculus : VectorCalculus) extends System calculus where

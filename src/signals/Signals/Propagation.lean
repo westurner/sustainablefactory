@@ -1,6 +1,7 @@
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
+import Signals.Units
 
 namespace Signals.Propagation
 
@@ -119,17 +120,17 @@ inductive PropagationMode
 /-- A link budget with explicit near/far-field coupling and propagation losses. -/
 structure LinkBudget where
   mode : PropagationMode
-  sourcePower : ℝ
-  sourcePower_nonnegative : 0 ≤ sourcePower
-  distance : ℝ
-  distance_nonnegative : 0 ≤ distance
+  sourcePower : Signals.Units.Power
+  sourcePower_nonnegative : 0 ≤ sourcePower.watts
+  distance : Signals.Units.Length
+  distance_nonnegative : 0 ≤ distance.meters
   coupling : CouplingFactors
   medium : MediumLoss
   interface : InterfaceResponse
 
 /-- Power attenuation from the modeled bulk attenuation coefficient. -/
 noncomputable def LinkBudget.attenuationFactor (link : LinkBudget) : ℝ :=
-  Real.exp (-2 * link.medium.attenuationPerLength * link.distance)
+  Real.exp (-2 * link.medium.attenuationPerLength * link.distance.meters)
 
 /-- Bulk attenuation is nonnegative. -/
 lemma LinkBudget.attenuationFactor_nonnegative (link : LinkBudget) :
@@ -174,7 +175,7 @@ lemma LinkBudget.transferFactor_le_one (link : LinkBudget) :
 
 /-- Received power after antenna, interface, material, and attenuation losses. -/
 noncomputable def LinkBudget.receivedPower (link : LinkBudget) : ℝ :=
-  link.sourcePower * link.transferFactor
+  link.sourcePower.watts * link.transferFactor
 
 /-- A passive link budget cannot deliver negative received power. -/
 lemma LinkBudget.receivedPower_nonnegative (link : LinkBudget) :
@@ -183,11 +184,11 @@ lemma LinkBudget.receivedPower_nonnegative (link : LinkBudget) :
 
 /-- Explicit loss factors guarantee received power does not exceed source power. -/
 lemma LinkBudget.receivedPower_le_sourcePower (link : LinkBudget) :
-    link.receivedPower ≤ link.sourcePower := by
+  link.receivedPower ≤ link.sourcePower.watts := by
   unfold LinkBudget.receivedPower
   calc
-    link.sourcePower * link.transferFactor ≤ link.sourcePower * 1 :=
+    link.sourcePower.watts * link.transferFactor ≤ link.sourcePower.watts * 1 :=
       mul_le_mul_of_nonneg_left link.transferFactor_le_one link.sourcePower_nonnegative
-    _ = link.sourcePower := by ring
+    _ = link.sourcePower.watts := by ring
 
 end Signals.Propagation

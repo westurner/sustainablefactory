@@ -1,11 +1,13 @@
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
+import Signals.Contracts
 import Signals.Propagation
 
 namespace Signals.Acoustics
 
 open Signals.Propagation
+open Signals.Contracts
 
 /-- Homogeneous acoustic-medium parameters in normalized SI-style units. -/
 structure Medium where
@@ -57,7 +59,7 @@ structure UltrasonicTransfer where
   apertureArea_pos : 0 < apertureArea
   transmitterEfficiency : BoundedFactor
   receiverEfficiency : BoundedFactor
-  sourcePowerLaw : link.sourcePower = wave.intensity * apertureArea
+  sourcePowerLaw : link.sourcePower.watts = wave.intensity * apertureArea
 
 /-- Incident acoustic power through the modeled transducer aperture. -/
 noncomputable def UltrasonicTransfer.incidentPower
@@ -113,7 +115,7 @@ lemma UltrasonicTransfer.receivedPower_le_linkPower
 /-- Passive acoustic transfer cannot deliver more power than its source. -/
 lemma UltrasonicTransfer.receivedPower_le_sourcePower
     (transfer : UltrasonicTransfer) :
-    transfer.receivedPower ≤ transfer.link.sourcePower := by
+  transfer.receivedPower ≤ transfer.link.sourcePower.watts := by
   exact le_trans transfer.receivedPower_le_linkPower
     transfer.link.receivedPower_le_sourcePower
 
@@ -142,5 +144,21 @@ def TransferMeasurement.consistent (measurement : TransferMeasurement) : Prop :=
 lemma TransferMeasurement.consistent_iff (measurement : TransferMeasurement) :
     measurement.consistent ↔ |measurement.residual| ≤ measurement.tolerance := by
   rfl
+
+/-- Adapt an acoustic residual to the shared measurement contract. -/
+def TransferMeasurement.toResidualContract (measurement : TransferMeasurement)
+  (consistent : measurement.consistent) :
+    ResidualContract ℝ ℝ ℝ :=
+  { measured := measurement.observedPower
+    predicted := measurement.predictedPower
+    residual := measurement.residual
+    residualFunction := fun observed predicted => observed - predicted
+    residualLaw := measurement.residualLaw
+    magnitude := abs
+    magnitude_nonnegative := abs_nonneg _
+    tolerance := measurement.tolerance
+    tolerance_nonnegative := measurement.tolerance_nonnegative
+    withinTolerance := by
+      exact measurement.consistent_iff.mp consistent }
 
 end Signals.Acoustics

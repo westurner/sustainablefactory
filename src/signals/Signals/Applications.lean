@@ -38,18 +38,31 @@ structure WaveguideSpec where
   confinement : BoundedFactor
   propagationLoss : ℝ
   propagationLoss_nonnegative : 0 ≤ propagationLoss
+  interactionLength : Length
+  interactionLength_pos : 0 < interactionLength.meters
 
 /-- The normalized guided-mode transfer factor. -/
-def WaveguideSpec.transferFactor (waveguide : WaveguideSpec) : ℝ :=
-  waveguide.modeOverlap.value * waveguide.confinement.value
+noncomputable def WaveguideSpec.transferFactor (waveguide : WaveguideSpec) : ℝ :=
+  waveguide.modeOverlap.value * waveguide.confinement.value *
+    Real.exp (-waveguide.propagationLoss * waveguide.interactionLength.meters)
 
 /-- Modal and confinement factors cannot amplify guided power. -/
 lemma WaveguideSpec.transferFactor_bounds (waveguide : WaveguideSpec) :
     0 ≤ waveguide.transferFactor ∧ waveguide.transferFactor ≤ 1 := by
   constructor
-  · exact mul_nonneg waveguide.modeOverlap.nonnegative waveguide.confinement.nonnegative
-  · exact mul_le_one waveguide.modeOverlap.le_one waveguide.confinement.nonnegative
-      waveguide.confinement.le_one
+  · exact mul_nonneg
+      (mul_nonneg waveguide.modeOverlap.nonnegative waveguide.confinement.nonnegative)
+      (Real.exp_pos _).le
+  · have modal_nonnegative := mul_nonneg waveguide.modeOverlap.nonnegative
+      waveguide.confinement.nonnegative
+    have modal_le_one := mul_le_one waveguide.modeOverlap.le_one
+      waveguide.confinement.nonnegative waveguide.confinement.le_one
+    have attenuation_le_one : Real.exp
+        (-waveguide.propagationLoss * waveguide.interactionLength.meters) ≤ 1 := by
+      rw [← Real.exp_zero, Real.exp_le_exp]
+      nlinarith [waveguide.propagationLoss_nonnegative,
+        waveguide.interactionLength_pos.le]
+    exact mul_le_one modal_le_one (Real.exp_pos _).le attenuation_le_one
 
 /-- A two-beam nonlinear frequency-conversion specification.
 

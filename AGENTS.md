@@ -105,6 +105,27 @@ proofs. Add detector calibration, Hamiltonian/commutation assumptions, and
 measured disturbance data before making those claims. `absorbedProbeEnergy`
 uses `Energy` and must be interpreted in joules, not watts.
 
+The same Pending module contains the finite Hawking-like decoding boundary:
+`PreparedModulation`, `ObservedHomodyneTensor`, `FiniteIQFT`, `ALSRank`,
+`ALSDecomposition`, and `HawkingRadiationDecoding`. These records preserve
+known input, observed tensor data, finite transform laws, CP factors, rank
+bounds, iteration limits, and residuals. They do not prove Hawking radiation,
+SQG, cryptographic recovery, quantum Fourier-transform semantics, physical
+iGPE inversion, or Amplituhedron scattering. Treat rank 2--10 as a configured
+search range and require external numerical or measured controls before
+describing convergence or information recovery.
+
+The Pending model also contains `LVPProcess`, `LigninVitrimerPerovskite`,
+`LVPPhotovoltaicObservation`, `LVPDirectConversionImaging`, and
+`LVPProcaImagingHypothesis`. These preserve LVP composition, roll-to-roll
+process telemetry, photovoltaic and direct-conversion X-ray calibration, and
+the speculative Proca phase-contrast branch. Do not describe the composition
+law or fixture values as proof of perovskite crystallization, self-healing,
+moisture resistance, high efficiency, reduced patient dose, sub-angstrom
+resolution, Proca propagation, or clinical safety. Require external materials,
+device, dosimetry, phantom, and clinical validation data before making those
+claims.
+
 ---
 
 ## Core Project Agents
