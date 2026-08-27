@@ -63,6 +63,26 @@ structure AbsorbedDose where
 structure DynamicViscosity where
   pascalSeconds : ℝ
 
+/-- An electrical conductivity measured in siemens per metre. -/
+structure ElectricalConductivity where
+  siemensPerMeter : ℝ
+
+/-- A magnetic flux density measured in tesla. -/
+structure MagneticFluxDensity where
+  tesla : ℝ
+
+/-- A power density measured in watts per cubic metre. -/
+structure PowerDensity where
+  wattsPerCubicMeter : ℝ
+
+/-- An amount of substance measured in moles. -/
+structure AmountOfSubstance where
+  moles : ℝ
+
+/-- A molar flow rate measured in moles per second. -/
+structure MolarFlowRate where
+  molesPerSecond : ℝ
+
 /-- A mass density measured in kilograms per cubic metre. -/
 structure MassDensity where
   kilogramsPerCubicMeter : ℝ

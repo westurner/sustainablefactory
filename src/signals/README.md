@@ -12,7 +12,9 @@ interpretation while keeping experimental premises explicit:
 
 - `Signals.Units` provides named wrappers for frequency, length, power, energy,
    current, voltage, current density, temperature, relative humidity, absorbed
-   dose, dynamic viscosity, responsivity, and current-noise density.
+   dose, dynamic viscosity, electrical conductivity, magnetic flux density,
+   power density, amount of substance, molar flow rate, responsivity, and
+   current-noise density.
 - `Signals.IQ` represents an in-phase/quadrature sample as a complex baseband
    value, exposes its magnitude and principal phase, records carrier and
    quadrature conventions, and provides a conditional phase-to-height formula.
@@ -21,6 +23,11 @@ interpretation while keeping experimental premises explicit:
    detector efficiency/responsivity, dark current, noise, CMRR, affine current
    calibration, dual-receiver covariance/sign-binning traces, finite spatial
    grids, dispersive-readout composition, and a typed runtime trace boundary.
+- `Signals.MHD` models conductive Argon flow through a finite classical Faraday
+   channel, its matched-load power-density law, kinetic input, passive total-
+   input efficiency, auxiliary pump/ionization/field/cooling costs, and
+   closed-loop energy accounting. It does not claim a Proca field accelerates
+   neutral Argon or that a vacuum-powered plant exists.
 - `Signals.Acoustics` models classical ultrasonic transfer from pressure
    amplitude and acoustic impedance through aperture, transducer, link, and
    receiver efficiencies. It proves passive received power is bounded by
@@ -537,6 +544,14 @@ namespace and build target:
    projection, and known-input comparison. It remains Pending and does not
    establish Hawking radiation, SQG, cryptographic recovery, or physical
    information decoding.
+- `ProcaMHDHypothesis` links a Proca channel to the classical MHD plant only as
+   a conditional boundary. It separates optical/control power from motive
+   input and keeps a control-only ratio distinct from total-input efficiency.
+- `ProcaControlField` records a frequency-matched Pending control/coupling
+   field, supplied coupling gain, coupled motive power, and residual bound.
+- `AtmosphericArgonSource` records body-specific Argon molar-fraction feed
+   assumptions and captured molar flow. The Earth/Mars abundance values are
+   inputs to the source model, not energy supplies or operating-cost proofs.
 - `LVPProcess` and `LigninVitrimerPerovskite` preserve explicit process
    telemetry, bounded composition fractions, active-layer thickness, and the
    proposed IOF/EMMO process boundary.

@@ -17,6 +17,7 @@ open Signals.Acoustics
 open Signals.Maxwell
 open Signals.NonDestructive
 open Signals.Scattering
+open Signals.MHD
 
 def zeroCalculus : VectorCalculus where
   divergence := fun _ => 0
@@ -463,12 +464,13 @@ def toyMatterCoupling : MatterCoupling :=
 def toyDrivenField : DrivenField toyModel :=
   { fourDivergence := 0
     coupling := toyMatterCoupling
-      couplingStrengthLaw := by rfl
+    couplingStrengthLaw := by rfl
     fieldEquation := by norm_num [toyModel, toyMatterCoupling, toyCurrent] }
 
 example : toyDrivenField.fourDivergence = 0 := by
-    apply toyDrivenField.lorenz_condition
-    rfl
+  apply toyDrivenField.lorenz_condition
+  change (0 : ℝ) = 0
+  rfl
 
 example :
     toyModel.mass ^ 2 * toyDrivenField.fourDivergence =
@@ -1202,5 +1204,183 @@ def toyNonDestructiveRecovery : NonDestructiveRecovery :=
 example : toyNonDestructiveRecovery.sourceStateAfter =
     toyNonDestructiveRecovery.sourceStateBefore := by
   exact toyNonDestructiveRecovery.source_preserved
+
+noncomputable def toyConductiveArgonFlow : ConductiveArgonFlow :=
+  { massFlow := { kilogramsPerSecond := 1 }
+    massFlow_nonnegative := by norm_num
+    velocity := { metersPerSecond := 2 }
+    velocity_nonnegative := by norm_num
+    ionizationFraction :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    ionizationFraction_positive := by norm_num
+    conductivity := { siemensPerMeter := 1 }
+    conductivity_positive := by norm_num }
+
+noncomputable def toyFaradayChannel : FaradayChannel :=
+  { conductivity := { siemensPerMeter := 1 }
+    conductivity_nonnegative := by norm_num
+    velocity := { metersPerSecond := 2 }
+    velocity_nonnegative := by norm_num
+    magneticFluxDensity := { tesla := 2 }
+    magneticFluxDensity_nonnegative := by norm_num
+    load :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    channelVolume := { cubicMeters := 1 }
+    channelVolume_pos := by norm_num
+    powerDensity := { wattsPerCubicMeter := 4 }
+    powerDensityLaw := by
+      norm_num [idealFaradayPowerDensity, loadingFactor]
+    extractedPower := { watts := 4 }
+    extractedPower_nonnegative := by norm_num
+    extractedPowerLaw := by norm_num }
+
+example : loadingFactor toyFaradayChannel.load = 1 / 4 := by
+  norm_num [loadingFactor, toyFaradayChannel]
+
+example : toyFaradayChannel.powerDensity.wattsPerCubicMeter = 4 := by
+  norm_num [toyFaradayChannel]
+
+example : toyFaradayChannel.powerDensity.wattsPerCubicMeter ≤
+    (baseFaradayPowerDensity toyFaradayChannel.conductivity
+      toyFaradayChannel.velocity toyFaradayChannel.magneticFluxDensity).wattsPerCubicMeter *
+      (1 / 4 : ℝ) := by
+  exact toyFaradayChannel.power_density_le_quarter_base
+
+example : toyFaradayChannel.extractedPower.watts ≤
+    toyFaradayChannel.extractedPower.watts := by
+  exact le_rfl
+
+def toyMHDPowerAccounting : MHDPowerAccounting :=
+  { controlPower := { watts := 2 }
+    controlPower_nonnegative := by norm_num
+    motivePower := { watts := 2 }
+    motivePower_nonnegative := by norm_num
+    electricalOutputPower := { watts := 4 }
+    electricalOutputPower_nonnegative := by norm_num
+    lossPower := { watts := 0 }
+    lossPower_nonnegative := by norm_num
+    energyBalance := by norm_num }
+
+example : toyMHDPowerAccounting.electricalOutputPower.watts ≤
+    toyMHDPowerAccounting.totalInputPower.watts := by
+  exact toyMHDPowerAccounting.output_le_total_input
+
+example : toyMHDPowerAccounting.efficiency ≤ 1 := by
+  apply toyMHDPowerAccounting.efficiency_le_one
+  norm_num [MHDPowerAccounting.totalInputPower, toyMHDPowerAccounting]
+
+example : toyMHDPowerAccounting.efficiency = 1 := by
+  norm_num [MHDPowerAccounting.efficiency,
+    MHDPowerAccounting.totalInputPower, toyMHDPowerAccounting]
+
+example : controlOnlyRatio toyMHDPowerAccounting.electricalOutputPower
+    toyMHDPowerAccounting.controlPower = 2 := by
+  norm_num [controlOnlyRatio, toyMHDPowerAccounting]
+
+noncomputable def toyArgonMHDPlant : ArgonMHDPlant :=
+  { argon := toyConductiveArgonFlow
+    channel := toyFaradayChannel
+    accounting := toyMHDPowerAccounting
+    kineticInputPower := { watts := 2 }
+    kineticInputPowerLaw := by
+      norm_num [argonKineticPower, toyConductiveArgonFlow]
+    motivePowerLaw := by rfl
+    outputPowerLaw := by rfl }
+
+example : toyArgonMHDPlant.accounting.motivePower.watts =
+    (argonKineticPower toyArgonMHDPlant.argon).watts := by
+  exact toyArgonMHDPlant.motive_power_eq_kinetic
+
+example : toyArgonMHDPlant.accounting.electricalOutputPower.watts ≤
+    toyArgonMHDPlant.accounting.controlPower.watts +
+      (argonKineticPower toyArgonMHDPlant.argon).watts := by
+  exact toyArgonMHDPlant.output_le_declared_input
+
+noncomputable def toyClosedLoopArgonMHD : ClosedLoopArgonMHD :=
+  { plant := toyArgonMHDPlant
+    controlPower := { watts := 2 }
+    controlPower_nonnegative := by norm_num
+    externalMotivePower := { watts := 2 }
+    externalMotivePower_nonnegative := by norm_num
+    exportedPower := { watts := 4 }
+    exportedPower_nonnegative := by norm_num
+    loopLossPower := { watts := 0 }
+    loopLossPower_nonnegative := by norm_num
+    controlPowerLaw := by rfl
+    externalMotivePowerLaw := by rfl
+    exportedPowerLaw := by rfl
+    closedLoopEnergyBalance := by norm_num }
+
+example : toyClosedLoopArgonMHD.exportedPower.watts ≤
+    toyClosedLoopArgonMHD.controlPower.watts +
+      toyClosedLoopArgonMHD.externalMotivePower.watts := by
+  exact toyClosedLoopArgonMHD.exported_le_declared_input
+
+noncomputable def toyZeroConductiveArgonFlow : ConductiveArgonFlow :=
+  { massFlow := { kilogramsPerSecond := 0 }
+    massFlow_nonnegative := by norm_num
+    velocity := { metersPerSecond := 1 }
+    velocity_nonnegative := by norm_num
+    ionizationFraction :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    ionizationFraction_positive := by norm_num
+    conductivity := { siemensPerMeter := 1 }
+    conductivity_positive := by norm_num }
+
+def toyZeroFaradayChannel : FaradayChannel :=
+  { conductivity := { siemensPerMeter := 1 }
+    conductivity_nonnegative := by norm_num
+    velocity := { metersPerSecond := 1 }
+    velocity_nonnegative := by norm_num
+    magneticFluxDensity := { tesla := 1 }
+    magneticFluxDensity_nonnegative := by norm_num
+    load := { value := 0, nonnegative := by norm_num, le_one := by norm_num }
+    channelVolume := { cubicMeters := 1 }
+    channelVolume_pos := by norm_num
+    powerDensity := { wattsPerCubicMeter := 0 }
+    powerDensityLaw := by
+      norm_num [idealFaradayPowerDensity, loadingFactor]
+    extractedPower := { watts := 0 }
+    extractedPower_nonnegative := by norm_num
+    extractedPowerLaw := by norm_num }
+
+def toyZeroMHDPowerAccounting : MHDPowerAccounting :=
+  { controlPower := { watts := 0 }
+    controlPower_nonnegative := by norm_num
+    motivePower := { watts := 0 }
+    motivePower_nonnegative := by norm_num
+    electricalOutputPower := { watts := 0 }
+    electricalOutputPower_nonnegative := by norm_num
+    lossPower := { watts := 0 }
+    lossPower_nonnegative := by norm_num
+    energyBalance := by norm_num }
+
+noncomputable def toyZeroArgonMHDPlant : ArgonMHDPlant :=
+  { argon := toyZeroConductiveArgonFlow
+    channel := toyZeroFaradayChannel
+    accounting := toyZeroMHDPowerAccounting
+    kineticInputPower := { watts := 0 }
+    kineticInputPowerLaw := by
+      norm_num [argonKineticPower, toyZeroConductiveArgonFlow]
+    motivePowerLaw := by rfl
+    outputPowerLaw := by rfl }
+
+noncomputable def toyZeroClosedLoopArgonMHD : ClosedLoopArgonMHD :=
+  { plant := toyZeroArgonMHDPlant
+    controlPower := { watts := 0 }
+    controlPower_nonnegative := by norm_num
+    externalMotivePower := { watts := 0 }
+    externalMotivePower_nonnegative := by norm_num
+    exportedPower := { watts := 0 }
+    exportedPower_nonnegative := by norm_num
+    loopLossPower := { watts := 0 }
+    loopLossPower_nonnegative := by norm_num
+    controlPowerLaw := by rfl
+    externalMotivePowerLaw := by rfl
+    exportedPowerLaw := by rfl
+    closedLoopEnergyBalance := by norm_num }
+
+example : toyZeroClosedLoopArgonMHD.exportedPower.watts = 0 := by
+  exact toyZeroClosedLoopArgonMHD.zero_export_of_zero_inputs rfl rfl
 
 end SignalsTests

@@ -8,6 +8,7 @@ import Signals.Homodyne
 import Signals.IQ
 import Signals.DirectionalBroadbandAntenna
 import Signals.Maxwell
+import Signals.MHD
 import Signals.NonDestructive
 import Signals.OAM
 import Signals.Physlib

@@ -95,6 +95,23 @@ typed runtime trace samples. `QuantumQuadratureAssumption`,
 `HomodyneHardwareReadiness` remain Pending records for quantum-state, protocol,
 nonlinear-coupling, or integrated-hardware assumptions.
 
+`Signals.MHD` is the verified classical layer for conductive Argon flow,
+Faraday loading, kinetic input, passive total-input efficiency, and closed-loop
+energy accounting. `MHDOperatingCosts` records pump, ionization, magnetic-field,
+and cooling power for plant-level accounting. It does not establish that
+neutral Argon is an MHD working fluid, that a Proca field supplies motive
+energy, or that vacuum energy is available. `ProcaControlField` and
+`ProcaMHDHypothesis` in `Signals.Pending` are conditional and keep
+optical/control power separate from motive input; a control-only ratio is not an
+efficiency.
+
+`AtmosphericArgonSource` in `Signals.Pending` represents Earth/Mars Argon
+abundance as a molar feed fraction. Abundance can reduce feedstock scarcity but
+does not remove compression, separation, ionization, pumping, field, cooling,
+or plasma-sustainment costs. Treat the abundance values as explicit inputs
+until local atmospheric composition and capture-throughput measurements are
+available.
+
 `QuantumNonDemolitionParity` in
 [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean) is a
 Pending OAM/QND hypothesis. Do not describe a phase shift, homodyne output,

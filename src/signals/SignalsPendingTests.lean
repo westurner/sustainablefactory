@@ -9,6 +9,7 @@ open Signals.Geometry
 open Signals.IQ
 open Signals.Antennas
 open Signals.Maxwell
+open Signals.MHD
 open Signals.NonDestructive
 open Signals.OAM
 open Signals.Pending
@@ -113,6 +114,172 @@ noncomputable def toyChannel : ProcaChannel :=
 
 example : toyChannel.longitudinalCoupling * toyChannel.mode.longitudinalWaveNumber ≠ 0 := by
   exact toyChannel.longitudinalModeAssumed
+
+noncomputable def toyEarthArgonSource : AtmosphericArgonSource :=
+  { body := BodyTarget.earth
+    argonMoleFraction := earthArgonMoleFraction
+    ambientMolarFlow := { molesPerSecond := 1000 }
+    ambientMolarFlow_nonnegative := by norm_num
+    capturedArgonMolarFlow := { molesPerSecond := 9 }
+    capturedArgonMolarFlow_nonnegative := by norm_num
+    captureLaw := by norm_num [earthArgonMoleFraction] }
+
+noncomputable def toyMarsArgonSource : AtmosphericArgonSource :=
+  { body := BodyTarget.planet "Mars"
+    argonMoleFraction := marsArgonMoleFraction
+    ambientMolarFlow := { molesPerSecond := 1000 }
+    ambientMolarFlow_nonnegative := by norm_num
+    capturedArgonMolarFlow := { molesPerSecond := 19 }
+    capturedArgonMolarFlow_nonnegative := by norm_num
+    captureLaw := by norm_num [marsArgonMoleFraction] }
+
+example : toyEarthArgonSource.argonMoleFraction.value = 0.009 := by
+  rfl
+
+example : toyMarsArgonSource.argonMoleFraction.value = 0.019 := by
+  rfl
+
+example : toyEarthArgonSource.capturedArgonMolarFlow.molesPerSecond = 9 := by
+  norm_num [AtmosphericArgonSource.capture_flow_holds,
+    toyEarthArgonSource, earthArgonMoleFraction]
+
+example : toyMarsArgonSource.capturedArgonMolarFlow.molesPerSecond = 19 := by
+  norm_num [AtmosphericArgonSource.capture_flow_holds,
+    toyMarsArgonSource, marsArgonMoleFraction]
+
+noncomputable def toyPendingArgonFlow : ConductiveArgonFlow :=
+  { massFlow := { kilogramsPerSecond := 3 / 2 }
+    massFlow_nonnegative := by norm_num
+    velocity := { metersPerSecond := 2 }
+    velocity_nonnegative := by norm_num
+    ionizationFraction :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    ionizationFraction_positive := by norm_num
+    conductivity := { siemensPerMeter := 1 }
+    conductivity_positive := by norm_num }
+
+noncomputable def toyPendingFaradayChannel : FaradayChannel :=
+  { conductivity := { siemensPerMeter := 1 }
+    conductivity_nonnegative := by norm_num
+    velocity := { metersPerSecond := 2 }
+    velocity_nonnegative := by norm_num
+    magneticFluxDensity := { tesla := 2 }
+    magneticFluxDensity_nonnegative := by norm_num
+    load :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    channelVolume := { cubicMeters := 1 }
+    channelVolume_pos := by norm_num
+    powerDensity := { wattsPerCubicMeter := 4 }
+    powerDensityLaw := by
+      norm_num [idealFaradayPowerDensity, loadingFactor]
+    extractedPower := { watts := 4 }
+    extractedPower_nonnegative := by norm_num
+    extractedPowerLaw := by norm_num }
+
+def toyPendingMHDAccounting : MHDPowerAccounting :=
+  { controlPower := { watts := 1 }
+    controlPower_nonnegative := by norm_num
+    motivePower := { watts := 3 }
+    motivePower_nonnegative := by norm_num
+    electricalOutputPower := { watts := 4 }
+    electricalOutputPower_nonnegative := by norm_num
+    lossPower := { watts := 0 }
+    lossPower_nonnegative := by norm_num
+    energyBalance := by norm_num }
+
+noncomputable def toyPendingArgonMHDPlant : ArgonMHDPlant :=
+  { argon := toyPendingArgonFlow
+    channel := toyPendingFaradayChannel
+    accounting := toyPendingMHDAccounting
+    kineticInputPower := { watts := 3 }
+    kineticInputPowerLaw := by
+      norm_num [argonKineticPower, toyPendingArgonFlow]
+    motivePowerLaw := by rfl
+    outputPowerLaw := by rfl }
+
+noncomputable def toyProcaMHDHypothesis : ProcaMHDHypothesis :=
+  { channel := toyChannel
+    plant := toyPendingArgonMHDPlant
+    operatingCosts :=
+      { pumpPower := { watts := 1 }
+        pumpPower_nonnegative := by norm_num
+        ionizationPower := { watts := 2 }
+        ionizationPower_nonnegative := by norm_num
+        fieldPower := { watts := 1 }
+        fieldPower_nonnegative := by norm_num
+        coolingPower := { watts := 1 }
+        coolingPower_nonnegative := by norm_num }
+    controlField :=
+      { channel := toyChannel
+        role := ProcaMHDFieldRole.coupling
+        frequency := { hz := 5 }
+        frequency_pos := by norm_num
+        frequencyMatch := by
+          change (5 : ℝ) = 5
+          rfl
+        controlPower := { watts := 1 }
+        controlPower_nonnegative := by norm_num
+        couplingGain := 3
+        couplingGain_nonnegative := by norm_num
+        coupledMotivePower := { watts := 3 }
+        coupledMotivePower_nonnegative := by norm_num
+        couplingPowerLaw := by norm_num
+        couplingResidual := 0
+        couplingResidual_nonnegative := by norm_num
+        couplingTolerance := 1
+        couplingTolerance_nonnegative := by norm_num
+        couplingWithinTolerance := by norm_num }
+    controlFieldChannelLaw := by rfl
+    opticalControlPower := { watts := 1 }
+    opticalControlPower_pos := by norm_num
+    opticalControlPowerLaw := by rfl
+    controlFieldPowerLaw := by rfl
+    motivePower := { watts := 3 }
+    motivePower_nonnegative := by norm_num
+    motivePowerLaw := by rfl
+    coupledMotivePowerLaw := by rfl
+    reportedQFactor := 4
+    reportedQFactorLaw := by
+      norm_num [controlOnlyRatio, toyPendingArgonMHDPlant,
+        toyPendingMHDAccounting] }
+
+example : toyPendingArgonMHDPlant.channel.load.value = 1 / 2 := by
+  rfl
+
+example : toyPendingArgonMHDPlant.accounting.electricalOutputPower.watts =
+    toyPendingArgonMHDPlant.accounting.controlPower.watts +
+      toyPendingArgonMHDPlant.accounting.motivePower.watts -
+        toyPendingArgonMHDPlant.accounting.lossPower.watts := by
+  norm_num [toyPendingArgonMHDPlant, toyPendingMHDAccounting]
+
+example : toyProcaMHDHypothesis.reportedQFactor = 4 := by
+  rfl
+
+example : toyProcaMHDHypothesis.controlField.coupledMotivePower.watts =
+    toyProcaMHDHypothesis.controlField.couplingGain *
+      toyProcaMHDHypothesis.controlField.controlPower.watts := by
+  exact toyProcaMHDHypothesis.controlField.coupled_motive_power_holds
+
+example : toyProcaMHDHypothesis.reportedQFactor > 2 ↔
+    2 * toyProcaMHDHypothesis.opticalControlPower.watts <
+      toyProcaMHDHypothesis.plant.accounting.electricalOutputPower.watts := by
+  exact toyProcaMHDHypothesis.reported_qfactor_gt_iff 2
+
+example : toyProcaMHDHypothesis.plant.accounting.totalInputPower.watts =
+    toyProcaMHDHypothesis.opticalControlPower.watts +
+      toyProcaMHDHypothesis.motivePower.watts := by
+  exact toyProcaMHDHypothesis.total_input_includes_motive
+
+example : toyProcaMHDHypothesis.plant.accounting.efficiency ≤ 1 := by
+  apply toyProcaMHDHypothesis.actual_efficiency_le_one
+  change (0 : ℝ) < 1 + 3
+  norm_num
+
+example : toyProcaMHDHypothesis.plant.accounting.fullEfficiency
+    toyProcaMHDHypothesis.operatingCosts ≤ 1 := by
+  apply toyProcaMHDHypothesis.actual_full_efficiency_le_one
+  change (0 : ℝ) < (1 + 3) + (1 + 2 + 1 + 1)
+  norm_num
 
 def earthLfVector : RadioTestVector :=
   { band := RadioBand.lf

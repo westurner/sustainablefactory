@@ -3,8 +3,8 @@
 **Status:** Implementation in progress; finite homodyne/CV bookkeeping and
 Pending interfaces are implemented, including the finite Hawking-like
 iGPE/iQFT/Amplituhedron/ALS decoding boundary, while Proca/QND wake
-measurements, LVP device validation, M-gate validation, measured-data adapters,
-and external runtime work remain.
+measurements, LVP device validation, Argon MHD closure data, M-gate validation,
+measured-data adapters, and external runtime work remain.
 
 **Scope:** Verify and fully cover the dispersive-homodyne material found by
 `docindex search quantum homodyne` in the Signals library, its documentation,
@@ -185,6 +185,90 @@ frequency-dependent noise figure ([BHD noise model](chats/Bell-Correlations-in-A
 lines 2676-2721). These requirements are concrete measurement and calibration
 surfaces and should not be hidden behind an unqualified “photocurrent is
 proportional to phase” assertion.
+
+### Argon MHD Power-Plant Feasibility
+
+The attached Argon concept proposes a closed-loop stream accelerated by a
+CW Proca field, followed by Faraday MHD extraction. It writes the idealized
+power-density relation
+
+$$
+P_{\mathrm{elec}} = \sigma v^2 B^2 K(1-K)
+$$
+
+and identifies $K=0.5$ as the matched-load maximum (source:
+`docs/chats/IQ-Sampling-for-Signal-Phase.myst.md`, lines 4898-5121). The same
+proposal defines a purported $Q$ ratio against optical and magnet power and
+claims that a sub-watt control field could yield gigawatt output (source:
+`docs/chats/IQ-Sampling-for-Signal-Phase.myst.md`, lines 5010-5075).
+
+That claim is not physically established. Ordinary Argon is neutral and a
+Faraday MHD generator requires a sufficiently ionized, electrically conductive
+working fluid. Ionization energy, plasma temperature and pressure, conductivity
+versus state, recombination, wall and electrode losses, magnetic-field energy,
+and flow enthalpy are all omitted. The displayed equation is therefore an
+idealized local power-density law, not a complete generator model. It also does
+not by itself establish a stable supersonic flow, usable channel voltage, or
+continuous operation.
+
+The energy accounting is the decisive issue. The flow carries classical kinetic
+power
+
+$$
+P_{\mathrm{kin}} = \frac{1}{2}\dot{m}v^2,
+$$
+
+and the MHD generator extracts energy from that flow. A closed loop must pay
+the pump, ionization, field, cooling, pressure-drop, conversion, and control
+costs. A ratio of electrical output to optical control power can exceed one
+only when motive input is omitted from the denominator; it is not an energy
+efficiency and does not imply vacuum-energy extraction. Superconducting coils
+also require cryogenic and ramp/AC-loss power, even if their DC resistance is
+small. An MHD channel normally supplies DC output, with additional conversion
+losses required for grid-quality AC.
+
+The refined implementation separates these questions. `Signals.MHD` models a
+conductive Argon flow, the ideal Faraday loading factor, finite channel-volume
+power, kinetic input, total-input accounting, and passive efficiency. It proves
+that $K(1-K) \leq 1/4$, that passive output cannot exceed control plus motive
+input, and that a closed loop with zero declared inputs has zero export.
+`Signals.Pending.ProcaMHDHypothesis` links an existing Proca channel to that
+classical plant only as a conditional interface. Its control-only ratio is
+explicitly distinct from total-input efficiency.
+
+The minimum closure experiment requires an ionization and conductivity map,
+mass-flow and velocity measurements, magnetic-field and channel geometry,
+load-voltage/current data, pump and plasma-sustainment power, field and cooling
+power, pressure drop, recombination and wall losses, and a full electrical
+power balance. No Proca or vacuum-gradient interpretation should be promoted
+unless it produces a reproducible incremental force or energy term that
+survives ordinary electromagnetic, fluid, thermal, and instrument controls.
+
+### Argon Availability Is Not Nominal Plant Power
+
+The chat describes Argon as abundant in Earth's atmosphere at approximately one
+percent and uses that abundance to motivate atmospheric scavenging (source:
+`docs/chats/IQ-Sampling-for-Signal-Phase.myst.md`, line 5432). The current
+request supplies 0.9% for Earth air and 1.9% for Mars; the model records those
+values as explicit `earthArgonMoleFraction` and `marsArgonMoleFraction`
+parameters. They are molar or volume fractions, not mass fractions, and are
+feed-composition assumptions rather than corpus-verified constants.
+
+At a fixed Argon production rate, the total gas stream is inversely proportional
+to the Argon fraction: obtaining a given Argon molar flow requires roughly
+$1/0.009$ times that flow of Earth air or $1/0.019$ times that flow of Mars
+atmosphere. Separation, compression, storage, leakage, and contamination
+therefore remain engineering costs. The abundance can reduce feedstock scarcity
+or delivered propellant cost; it does not make pump, ionization, flow-control,
+magnetic-field, cooling, or conversion power negligible.
+
+The later chat itself states that conventional Argon MHD needs hot conductive
+gas and often alkali seeding (source:
+`docs/chats/IQ-Sampling-for-Signal-Phase.myst.md`, line 11514). The Pending
+`ProcaControlField` records a frequency-matched control/coupling field and a
+supplied coupling gain, but does not assert athermal ionization. The verified
+`MHDOperatingCosts` boundary separately records pump, ionization, magnetic-field,
+and cooling power so a plant-level efficiency cannot silently omit them.
 
 ### Hawking-like Decoding Chain: iGPE, iQFT, Amplituhedron, and ALS
 
@@ -623,6 +707,16 @@ The existing verified library covers:
 - Pending LVP process, composition, photovoltaic, direct-conversion imaging,
   and Proca phase-contrast boundaries in
   [Pending](../src/signals/Signals/Pending.lean).
+- Classical Faraday MHD and Argon power accounting in
+  [MHD](../src/signals/Signals/MHD.lean); the Proca-linked plant remains a
+  Pending hypothesis in [Pending](../src/signals/Signals/Pending.lean).
+- `AtmosphericArgonSource` records Earth/Mars Argon molar-fraction feed
+  assumptions and captured molar flow; abundance is not treated as an energy
+  source or as proof that operating costs are nominal.
+- `ProcaControlField` records a frequency-matched control/coupling interface,
+  supplied coupling gain, coupled motive power, and residual tolerance.
+- `MHDOperatingCosts` records pump, ionization, magnetic-field, and cooling
+  power and supports a full-input passive-efficiency bound.
 - The normalized Proca mode model and its Pending closure boundary are covered
   by the existing `Signals.Proca` and `Signals.Pending` APIs; physical
   longitudinal-wave evidence remains unestablished.
@@ -667,6 +761,13 @@ implementation:
   leaching measurements, photovoltaic current-voltage and degradation data,
   mechanical bend-cycle retention, X-ray detector MTF/DQE/lag/dark-current
   characterization, phantom studies, and clinical safety validation.
+- Argon MHD ionization and conductivity maps, flow and pressure measurements,
+  magnetic-field and channel characterization, load voltage/current, pump and
+  plasma-sustainment power, cooling and field power, pressure drop,
+  recombination, wall losses, and DC-to-AC conversion efficiency.
+- Earth/Mars atmospheric capture throughput, compression and separation energy,
+  Argon loss or leakage, contamination control, and confirmation of the local
+  atmospheric composition values used by the fixtures.
 - Runtime Rust/WASM demodulation, tensor processing, and visualization
   integration against the typed trace boundary.
 - A Linux- and YAML-oriented orchestration implementation that does not couple
@@ -877,6 +978,39 @@ and clinical safety review. IOF/EMMO mappings and any claimed self-healing,
 room-temperature crystallization, high efficiency, reduced dose, or
 sub-angstrom resolution remain conditional until those measurements exist.
 
+### Phase 4E: Formalize the Argon MHD Energy Boundary
+
+[Complete classical and conditional bookkeeping] Add `Signals.MHD` as the
+classical layer for the Argon proposal:
+
+- `ConductiveArgonFlow` requires explicit ionization, conductivity, mass flow,
+  and velocity data;
+- `loadingFactor` and `idealFaradayPowerDensity` represent the simplified
+  $\sigma v^2 B^2 K(1-K)$ relation and prove the matched-load bound
+  $K(1-K) \leq 1/4$;
+- `FaradayChannel` integrates the power density over a finite channel volume;
+- `MHDPowerAccounting` separates control power, motive power, electrical
+  output, losses, total input, and passive efficiency;
+- `MHDOperatingCosts` records pump, ionization, magnetic-field, and cooling
+  power and supports a full-input passive-efficiency bound;
+- `ArgonMHDPlant` links channel output to classical kinetic flow power
+  $\frac{1}{2}\dot{m}v^2$; and
+- `ClosedLoopArgonMHD` proves that zero declared control and motive input with
+  nonnegative losses implies zero electrical export.
+
+Keep the Proca connection in `Signals.Pending.ProcaMHDHypothesis`. Its
+control-only ratio may be reported conditionally, but it must not be called an
+efficiency or used as evidence of vacuum-energy extraction. The closure
+requirements are measured ionization/conductivity state, flow and pressure,
+magnetic field and channel geometry, load voltage/current, pump and plasma
+sustainment power, field and cooling power, pressure drop, wall/recombination
+losses, and DC-to-AC conversion efficiency.
+
+`AtmosphericArgonSource` and `ProcaControlField` are the corresponding Pending
+interfaces for the feed and field assumptions. Atmospheric composition can
+make Argon acquisition attractive, but it does not establish low-cost
+compression, separation, ionization, plasma sustainment, or heat rejection.
+
 ### Phase 5: Add Dual Homodyne and CV Correlation Records
 
 [Complete finite bookkeeping] Add a dual-receiver composition for the
@@ -1045,6 +1179,15 @@ Full coverage means:
   environmental or dose conditions, and validation-stage metadata; they do not
   establish self-healing, moisture resistance, high efficiency, reduced dose,
   sub-angstrom resolution, or clinical safety.
+- Argon MHD records preserve conductive-flow, Faraday loading, kinetic-input,
+  total-input, passive-efficiency, and closed-loop zero-input boundaries; they
+  do not establish Proca acceleration or vacuum-energy extraction.
+- Atmospheric Argon availability is represented as a molar feed fraction and
+  captured-flow law, while pump, ionization, field, and cooling costs remain
+  explicit operating inputs.
+- Proca control/coupling fields are frequency-matched Pending interfaces with
+  supplied coupling gains and residual bounds; they do not turn a control-only
+  ratio into an efficiency.
 - Proca interpretations include effective-mass, polarization, dispersion,
   attenuation, source, boundary, and massless-Maxwell control records.
 - Coherence, parametric gain, squeezing, and transduction claims include

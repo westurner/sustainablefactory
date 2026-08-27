@@ -8,6 +8,7 @@ import Signals.Geometry
 import Signals.DirectionalBroadbandAntenna
 import Signals.Homodyne
 import Signals.Maxwell
+import Signals.MHD
 import Signals.NonDestructive
 import Signals.OAM
 import Signals.Proca
@@ -22,6 +23,7 @@ open Signals.Geometry
 open Signals.Antennas
 open Signals.Homodyne
 open Signals.Maxwell
+open Signals.MHD
 open Signals.NonDestructive
 open Signals.OAM
 open Signals.Proca
@@ -92,6 +94,40 @@ def BodyTarget.asteroid (name : String) : BodyTarget :=
 /-- An arbitrary named body as a through-body test target. -/
 def BodyTarget.named (name : String) : BodyTarget :=
   { kind := BodyKind.named, name := name }
+
+/-- A body-specific atmospheric Argon feed model.
+
+The abundance is represented as a molar fraction, not as a mass fraction or an
+energy source. Captured molar flow remains an explicit process measurement. -/
+structure AtmosphericArgonSource where
+  body : BodyTarget
+  argonMoleFraction : BoundedFactor
+  ambientMolarFlow : MolarFlowRate
+  ambientMolarFlow_nonnegative : 0 ≤ ambientMolarFlow.molesPerSecond
+  capturedArgonMolarFlow : MolarFlowRate
+  capturedArgonMolarFlow_nonnegative :
+    0 ≤ capturedArgonMolarFlow.molesPerSecond
+  captureLaw : capturedArgonMolarFlow.molesPerSecond =
+    argonMoleFraction.value * ambientMolarFlow.molesPerSecond
+
+/-- Approximate atmospheric Argon molar fraction supplied for Earth-air studies. -/
+def earthArgonMoleFraction : BoundedFactor :=
+  { value := 0.009
+    nonnegative := by norm_num
+    le_one := by norm_num }
+
+/-- Approximate atmospheric Argon molar fraction supplied for Mars-atmosphere studies. -/
+def marsArgonMoleFraction : BoundedFactor :=
+  { value := 0.019
+    nonnegative := by norm_num
+    le_one := by norm_num }
+
+/-- The atmospheric source exposes its captured Argon flow law. -/
+lemma AtmosphericArgonSource.capture_flow_holds
+    (source : AtmosphericArgonSource) :
+    source.capturedArgonMolarFlow.molesPerSecond =
+      source.argonMoleFraction.value * source.ambientMolarFlow.molesPerSecond :=
+  source.captureLaw
 
 /-! ## GPE formulation distinctions
 
@@ -1303,6 +1339,122 @@ structure ProcaChannel where
   longitudinalCoupling : ℝ
   longitudinalCoupling_nonzero : longitudinalCoupling ≠ 0
   longitudinalModeAssumed : longitudinalCoupling * mode.longitudinalWaveNumber ≠ 0
+
+/-- The role assigned to a Pending Proca field at an MHD interface. -/
+inductive ProcaMHDFieldRole
+  | control
+  | coupling
+  deriving DecidableEq, Repr
+
+/-- A Pending Proca control/coupling field interface.
+
+The coupled motive power is supplied model data with an explicit gain and
+residual. This record does not assert that a Proca field exists, accelerates
+Argon, or supplies energy from vacuum geometry. -/
+structure ProcaControlField where
+  channel : ProcaChannel
+  role : ProcaMHDFieldRole
+  frequency : Frequency
+  frequency_pos : 0 < frequency.hz
+  frequencyMatch : frequency.hz = channel.mode.frequency
+  controlPower : Power
+  controlPower_nonnegative : 0 ≤ controlPower.watts
+  couplingGain : ℝ
+  couplingGain_nonnegative : 0 ≤ couplingGain
+  coupledMotivePower : Power
+  coupledMotivePower_nonnegative : 0 ≤ coupledMotivePower.watts
+  couplingPowerLaw : coupledMotivePower.watts =
+    couplingGain * controlPower.watts
+  couplingResidual : ℝ
+  couplingResidual_nonnegative : 0 ≤ couplingResidual
+  couplingTolerance : ℝ
+  couplingTolerance_nonnegative : 0 ≤ couplingTolerance
+  couplingWithinTolerance : couplingResidual ≤ couplingTolerance
+
+/-- The Pending Proca control field exposes its supplied coupling law. -/
+lemma ProcaControlField.coupled_motive_power_holds
+    (field : ProcaControlField) :
+    field.coupledMotivePower.watts = field.couplingGain * field.controlPower.watts :=
+  field.couplingPowerLaw
+
+/-- The Pending control field exposes its supplied mode-frequency match. -/
+lemma ProcaControlField.frequency_match (field : ProcaControlField) :
+    field.frequency.hz = field.channel.mode.frequency :=
+  field.frequencyMatch
+
+/-- The Pending Proca control field exposes its coupling residual bound. -/
+lemma ProcaControlField.coupling_within_tolerance
+    (field : ProcaControlField) :
+    field.couplingResidual ≤ field.couplingTolerance :=
+  field.couplingWithinTolerance
+
+/-- A Pending bridge from a Proca channel to the classical Argon MHD plant.
+
+The optical control power and motive flow power are kept separate. A reported
+ratio against control power alone is not the plant efficiency and does not
+demonstrate energy extraction from vacuum geometry. -/
+structure ProcaMHDHypothesis where
+  channel : ProcaChannel
+  plant : ArgonMHDPlant
+  operatingCosts : MHDOperatingCosts
+  controlField : ProcaControlField
+  controlFieldChannelLaw : controlField.channel = channel
+  opticalControlPower : Power
+  opticalControlPower_pos : 0 < opticalControlPower.watts
+  opticalControlPowerLaw : opticalControlPower.watts =
+    plant.accounting.controlPower.watts
+  controlFieldPowerLaw : controlField.controlPower.watts =
+    opticalControlPower.watts
+  motivePower : Power
+  motivePower_nonnegative : 0 ≤ motivePower.watts
+  motivePowerLaw : motivePower.watts = plant.accounting.motivePower.watts
+  coupledMotivePowerLaw : motivePower.watts = controlField.coupledMotivePower.watts
+  reportedQFactor : ℝ
+  reportedQFactorLaw : reportedQFactor =
+    controlOnlyRatio plant.accounting.electricalOutputPower opticalControlPower
+
+/-- The total-input accounting includes both control and motive power. -/
+lemma ProcaMHDHypothesis.total_input_includes_motive
+    (hypothesis : ProcaMHDHypothesis) :
+    hypothesis.plant.accounting.totalInputPower.watts =
+      hypothesis.opticalControlPower.watts + hypothesis.motivePower.watts := by
+  unfold MHDPowerAccounting.totalInputPower
+  rw [← hypothesis.opticalControlPowerLaw, ← hypothesis.motivePowerLaw]
+
+/-- The reported Proca control ratio is the supplied control-only ratio. -/
+lemma ProcaMHDHypothesis.reported_qfactor_holds
+    (hypothesis : ProcaMHDHypothesis) :
+    hypothesis.reportedQFactor =
+      controlOnlyRatio hypothesis.plant.accounting.electricalOutputPower
+        hypothesis.opticalControlPower :=
+  hypothesis.reportedQFactorLaw
+
+/-- A control-only Q-ratio threshold is an output-versus-control inequality. -/
+lemma ProcaMHDHypothesis.reported_qfactor_gt_iff
+    (hypothesis : ProcaMHDHypothesis) (threshold : ℝ) :
+    hypothesis.reportedQFactor > threshold ↔
+      threshold * hypothesis.opticalControlPower.watts <
+        hypothesis.plant.accounting.electricalOutputPower.watts := by
+  rw [hypothesis.reportedQFactorLaw]
+  exact controlOnlyRatio_gt_iff
+    hypothesis.plant.accounting.electricalOutputPower hypothesis.opticalControlPower
+    hypothesis.opticalControlPower_pos threshold
+
+/-- The actual positive-input plant efficiency remains bounded by one. -/
+lemma ProcaMHDHypothesis.actual_efficiency_le_one
+    (hypothesis : ProcaMHDHypothesis)
+    (totalInput_positive : 0 < hypothesis.plant.accounting.totalInputPower.watts) :
+    hypothesis.plant.accounting.efficiency ≤ 1 :=
+  hypothesis.plant.accounting.efficiency_le_one totalInput_positive
+
+/-- The full-input efficiency includes all declared auxiliary operating costs. -/
+lemma ProcaMHDHypothesis.actual_full_efficiency_le_one
+    (hypothesis : ProcaMHDHypothesis)
+    (fullInput_positive :
+      0 < (hypothesis.plant.accounting.fullInputPower hypothesis.operatingCosts).watts) :
+    hypothesis.plant.accounting.fullEfficiency hypothesis.operatingCosts ≤ 1 :=
+  hypothesis.plant.accounting.full_efficiency_le_one hypothesis.operatingCosts
+    fullInput_positive
 
 /-- A Pending Proca phase-contrast imaging hypothesis using an LVP detector. -/
 structure LVPProcaImagingHypothesis (width height : ℕ) where
