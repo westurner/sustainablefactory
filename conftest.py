@@ -14,6 +14,8 @@ SEARCH_PATHS = [
     ROOT / "src" / "docindex-sphinx" / "src",
     ROOT / "src" / "docindex-cli" / "src",
     ROOT / "src" / "docindex-sustainablefactory" / "src",
+    ROOT / "src" / "sphinxcontrib-webmcp" / "src",
+    ROOT / "src" / "sphinxcontrib-mcp" / "src",
 ]
 for path in SEARCH_PATHS:
     as_str = str(path)

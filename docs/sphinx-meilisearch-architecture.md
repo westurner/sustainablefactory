@@ -49,6 +49,8 @@ This document outlines the architecture for integrating Meilisearch full-text se
   - Native Sphinx search and optional DocIndex search are separate modes;
     configure the enhanced UI with `docindex_searchtools_enhanced` and
     `docindex_searchtools` in `docs/conf.py`.
+   - `sphinxcontrib.webmcp` exposes the same public search modes, navigation,
+     page context, and compact doctree metadata through `document.modelContext`.
 
 ---
 

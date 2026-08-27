@@ -135,6 +135,9 @@ one-off conversions.
 8. Keep the optional enhanced UI behind the boolean
    `docindex_searchtools_enhanced`. Its `docindex_searchtools` configuration keeps
    native Sphinx, OxiRS, and Meilisearch results visibly separate.
+9. Treat the WebMCP `webmcp.json` manifest as a public, derived interface. Keep
+   its page/navigation/doctree summary stable and do not expose raw Sphinx
+   pickle files or private backend credentials.
 
 Acceptance criteria:
 

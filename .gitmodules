@@ -9,3 +9,9 @@
 	path = src/wrd-sphinx-theme
 	url = https://github.com/westurner/wrd_sphinx_theme
 	branch = develop
+[submodule "src/sphinxcontrib-mcp"]
+	path = src/sphinxcontrib-mcp
+	url = https://github.com/westurner/sphinxcontrib-mcp
+[submodule "src/sphinxcontrib-webmcp"]
+	path = src/sphinxcontrib-webmcp
+	url = https://github.com/westurner/sphinxcontrib-webmcp

@@ -25,6 +25,7 @@ extensions = [
     "sphinx.ext.napoleon",
     # "sphinx.ext.todo",
     "sphinx.ext.viewcode",
+    "sphinxcontrib.webmcp",
     "sustainablefactory.sphinx_yaml_toc",
     "sustainablefactory.searchtools",
 ]
@@ -61,6 +62,28 @@ docindex_searchtools = {
             "url": "http://localhost:7700",
             "index": "all",
             "public_api_key": "",
+        },
+    },
+}
+
+
+docindex_webmcp_enabled = True
+docindex_webmcp = {
+    "exposed_to": [],
+    "search": {
+        "native": True,
+        "docindex": {
+            "enabled": False,
+            "index": "all",
+            "oxirs": {
+                "enabled": False,
+                "url": "http://localhost:7878/query",
+            },
+            "meilisearch": {
+                "enabled": False,
+                "url": "http://localhost:7700",
+                "public_api_key": "",
+            },
         },
     },
 }
