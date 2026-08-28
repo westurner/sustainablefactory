@@ -114,6 +114,21 @@ interpretation while keeping experimental premises explicit:
    maximum watts are source or equipment ceilings, not experimentally validated
    material thresholds, and do not turn chat-derived wattages into process
    specifications.
+- `Signals.LaserReferences` is imported through `Signals.Pending` and provides
+   a normalized, deduplicated registry for the attached graphene, biomass,
+   nanodiamond, optical-modification, maskless-fabrication, additive-
+   manufacturing, holography, and Proca references. It records whether each
+   source is experimental, a review, theoretical, or metadata-only; whether it
+   provides watts, pulse/fluence parameters, process parameters, or no
+   transferable wattage; whether a verified local PDF is present in
+   `data/papers`; and whether Proca fields or CW holographic carbon synthesis
+   are demonstrated. Four of the 13 canonical works have verified PDFs in the
+   repository; the other nine retain DOI/repository sources but were
+   access-limited during acquisition. The per-key results and SHA-256 hashes
+   are recorded in `data/papers/paper_artifact_manifest.csv`. The registry does
+   not promote the Lin biomass nanodiamond result into a CW lignin-vitrimer
+   recipe and does not treat any optical holography paper as evidence for Proca
+   fields or CW holographic graphene/diamond synthesis.
 - `Signals.ProtocolZ8` is imported through `Signals.Pending` and
    records strict majority post-processing, shot-derived fidelity, the five
    self-reported Protocol Z.8 heartbeat fidelities and rounded 92.42% average,
@@ -674,6 +689,13 @@ namespace and build target:
 - `AntiAmplituhedronProfile` and `SQGVacuumExpansion` record divergent-profile
    and negative-coupling hypotheses.
 - `AntiFireSuppression` records suppression as an explicit rate inequality.
+- `GroundDrivenMember` and `GroundDrivenAntiFireDevice` connect piston,
+   cylinder, and shaft members driven into a subsurface target with the pending
+   anti-fire profile. They keep member geometry, insertion force and stroke,
+   thermal harvesting, piezoelectric stress harvesting, conversion efficiency,
+   battery power, external input power, and emitter-power coverage explicit.
+   These are conditional power and deployment contracts, not evidence of
+   landfill-fire suppression or self-powered emission.
 - `FusionReaction` and `DeterministicFusionClaim` make reaction probability and
    energy per reaction explicit rather than replacing probability with a theorem.
 - `EnergyLedger` and `SpacetimeExtractionClaim` require any output beyond

@@ -1964,6 +1964,213 @@ example : layerCodeReference.localStatus =
     QECReferenceStatus.localParameterMetadata := by
   rfl
 
+example : attachedLaserScholarlyReferences.length = 13 := by
+  exact attachedLaserScholarlyReferences_count
+
+example :
+    (attachedLaserScholarlyReferences.filter (fun reference =>
+      reference.localArtifactStatus = LaserReferenceArtifactStatus.localPdf)).length = 4 := by
+  exact attachedLaserScholarlyReferences_local_pdf_count
+
+example : laserReferenceWan2018.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceYe2024.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceCheng2026.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceCheng2026.localArtifactStatus =
+    LaserReferenceArtifactStatus.localPdf := by
+  rfl
+
+example : laserReferenceCheng2026.doi =
+    some "10.1007/s44275-026-00046-7" := by
+  rfl
+
+example : laserReferencePark2024.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceYou2020.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceClaro2022.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceLee2023.doi =
+    some "10.1038/s41377-023-01143-0" := by
+  rfl
+
+example : laserReferenceKim2025.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceLin2021.evidenceStatus =
+    LaserReferenceEvidenceStatus.experimental := by
+  rfl
+
+example : laserReferenceJoshi2021.powerEvidence =
+    LaserReferencePowerEvidence.pulseEnergyOrFluence := by
+  rfl
+
+example : laserReferenceMorais2026.procaFieldStatus =
+    LaserReferenceClaimStatus.conditionalModel := by
+  rfl
+
+example : laserReferenceAkkanen2022.evidenceStatus =
+    LaserReferenceEvidenceStatus.review := by
+  rfl
+
+example : laserReferenceMikki2021.procaFieldStatus =
+    LaserReferenceClaimStatus.conditionalModel := by
+  rfl
+
+example : laserReferenceClaro2022.localArtifact =
+    some "data/papers/c2022sustainable.pdf" := by
+  rfl
+
+example : laserReferenceLee2023.localArtifact =
+    some "data/papers/lee2023ultra.pdf" := by
+  rfl
+
+example : laserReferenceMorais2026.localArtifact =
+    some "data/papers/2607.23013v1.pdf" := by
+  rfl
+
+example : laserReferenceWan2018.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceYe2024.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferencePark2024.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceYou2020.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceKim2025.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceLin2021.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceJoshi2021.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceAkkanen2022.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : laserReferenceMikki2021.localArtifactStatus =
+    LaserReferenceArtifactStatus.accessBlocked := by
+  rfl
+
+example : ∀ reference ∈ attachedLaserScholarlyReferences,
+    reference.cwHolographicCarbonSynthesisStatus ≠
+      LaserReferenceClaimStatus.demonstrated := by
+  exact attachedLaserScholarlyReferences_claim_boundary
+
+example : ∀ reference ∈ attachedLaserScholarlyReferences,
+    reference.procaFieldStatus ≠ LaserReferenceClaimStatus.demonstrated ∧
+      reference.cwHolographicCarbonSynthesisStatus ≠
+        LaserReferenceClaimStatus.demonstrated := by
+  exact attachedLaserScholarlyReferences_no_Proca_or_CW_holography
+
+noncomputable def toyGroundDrivenAntiFireDevice : GroundDrivenAntiFireDevice :=
+  { member := GroundDrivenMember.shaft
+    suppression :=
+      { baselineRate := 10
+        baselineRate_nonnegative := by norm_num
+        effectiveRate := 4
+        effectiveRate_nonnegative := by norm_num
+        profile :=
+          { divergence := -1
+            divergent := by norm_num
+            phaseGradient := 0
+            phaseGradient_nonnegative := by norm_num
+            profileWeight := 1
+            profileWeight_nonnegative := by norm_num
+            pressureExpansion := 1
+            expansionLaw := by norm_num }
+        suppression := by norm_num }
+    memberLength := { meters := 3 }
+    memberLength_positive := by norm_num
+    memberRadius := { meters := 0.1 }
+    memberRadius_positive := by norm_num
+    insertionStroke := { meters := 0.5 }
+    insertionStroke_positive := by norm_num
+    insertionForce := { newtons := 1000 }
+    insertionForce_nonnegative := by norm_num
+    thermalHarvestedPower := { watts := 30 }
+    thermalHarvestedPower_nonnegative := by norm_num
+    piezoelectricHarvestedPower := { watts := 10 }
+    piezoelectricHarvestedPower_nonnegative := by norm_num
+    conversionEfficiency :=
+      { value := 0.5
+        nonnegative := by norm_num
+        le_one := by norm_num }
+    batteryPower := { watts := 0 }
+    batteryPower_nonnegative := by norm_num
+    externalInputPower := { watts := 0 }
+    externalInputPower_nonnegative := by norm_num
+    emitterPower := { watts := 20 }
+    emitterPower_nonnegative := by norm_num
+    inputPowerLaw := by norm_num }
+
+example : toyGroundDrivenAntiFireDevice.member = GroundDrivenMember.shaft := by
+  rfl
+
+example :
+    toyGroundDrivenAntiFireDevice.thermalHarvestedPower.watts +
+      toyGroundDrivenAntiFireDevice.piezoelectricHarvestedPower.watts = 40 := by
+  norm_num [toyGroundDrivenAntiFireDevice]
+
+example :
+    toyGroundDrivenAntiFireDevice.emitterPower.watts ≤
+      (toyGroundDrivenAntiFireDevice.thermalHarvestedPower.watts +
+        toyGroundDrivenAntiFireDevice.piezoelectricHarvestedPower.watts +
+        toyGroundDrivenAntiFireDevice.batteryPower.watts +
+        toyGroundDrivenAntiFireDevice.externalInputPower.watts) *
+        toyGroundDrivenAntiFireDevice.conversionEfficiency.value := by
+  exact toyGroundDrivenAntiFireDevice.emitterPower_le_availableInputPower
+
+noncomputable def toyExternallyPoweredAntiFireDevice : GroundDrivenAntiFireDevice :=
+  { toyGroundDrivenAntiFireDevice with
+    batteryPower := { watts := 5 }
+    batteryPower_nonnegative := by norm_num
+    externalInputPower := { watts := 15 }
+    externalInputPower_nonnegative := by norm_num
+    inputPowerLaw := by norm_num [toyGroundDrivenAntiFireDevice] }
+
+example :
+    toyExternallyPoweredAntiFireDevice.batteryPower.watts = 5 ∧
+      toyExternallyPoweredAntiFireDevice.externalInputPower.watts = 15 := by
+  norm_num [toyExternallyPoweredAntiFireDevice]
+
+example :
+    toyExternallyPoweredAntiFireDevice.emitterPower.watts ≤
+      (toyExternallyPoweredAntiFireDevice.thermalHarvestedPower.watts +
+        toyExternallyPoweredAntiFireDevice.piezoelectricHarvestedPower.watts +
+        toyExternallyPoweredAntiFireDevice.batteryPower.watts +
+        toyExternallyPoweredAntiFireDevice.externalInputPower.watts) *
+        toyExternallyPoweredAntiFireDevice.conversionEfficiency.value := by
+  exact toyExternallyPoweredAntiFireDevice.emitterPower_le_availableInputPower
+
 def toyStarConsensusCouncil : StarConsensusCouncil :=
   { nodeCount := 10
     nodeCount_at_least_two := by norm_num

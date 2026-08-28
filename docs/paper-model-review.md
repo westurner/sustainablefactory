@@ -1355,6 +1355,82 @@ system figures therefore remain proposal metadata, with the task-specific
 ceilings above kept separate from experimental laser-process evidence
 ([sub-threshold beam proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md#L8490-L8560), [3D CW holographic proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md#L8940-L9115)).
 
+### Attached bibliography evidence map
+
+The canonical attached bibliography contains 13 BibTeX records for 13 unique
+works. An earlier version contained duplicate Morais and Akkanen records; those
+duplicates are represented once here. The Lee record is cited below with the
+DOI registered by Crossref, `10.1038/s41377-023-01143-0`, correcting the
+attached `01182-3` suffix. These sources expand the evidence boundary as
+follows:
+
+The acquisition manifest at
+`data/papers/paper_artifact_manifest.csv` records the download result for every
+key. Four verified PDFs are stored in `data/papers`: Cheng et al. 2026,
+C. Claro et al. 2022, Lee et al. 2023, and Morais et al. 2026. The remaining
+nine records are retained with their DOI or repository source, but their file
+endpoints returned authentication, paywall, bot-challenge, timeout, or other
+non-PDF responses in the acquisition environment. Those records are therefore
+marked access-limited rather than represented by HTML or thumbnails.
+
+| Article | Evidence contributed | Lean treatment and limit |
+| --- | --- | --- |
+| [Wan et al. 2018](#wan2018lrg) | Review of laser-reduced graphene, direct writing, photoreduction, applications, and unresolved formation mechanisms | `laserReferenceWan2018`; review metadata only, no universal CW watts or Proca evidence |
+| [Ye et al. 2024](#ye2024lig) | Review of laser-induced graphene synthesis and sensor applications | `laserReferenceYe2024`; process parameters remain precursor- and apparatus-specific |
+| [Cheng et al. 2026](#cheng2026maskless) | Attached metadata for maskless photolithography | `laserReferenceCheng2026`; metadata-only because the attached record supplies no DOI or verified full text |
+| [Park et al. 2024](#park2024selective) | Review of laser-material interactions and selective processing for additive manufacturing | `laserReferencePark2024`; intersecting beams do not establish volumetric carbon synthesis |
+| [You et al. 2020](#you2020flexible) | Review of laser fabrication and modification of graphene-based flexible electronics | `laserReferenceYou2020`; no transferable CW power threshold |
+| [C. Claro et al. 2022](#claro2022sustainable) | Review of renewable carbon sources, green LIG mechanisms, polymer incorporation, and implementation challenges | `laserReferenceClaro2022`; supports precursor screening, not a lignin-vitrimer wattage |
+| [Lee et al. 2023](#lee2023ligoptics) | Laser-written LIG diffractive optics with amplitude/phase optical functionality | `laserReferenceLee2023`; optical patterning is not Proca-field evidence or CW in-volume synthesis |
+| [Kim and Kim 2025](#kim2025wearable) | Review of LIG fabrication parameters and wearable sensing applications | `laserReferenceKim2025`; no universal CW process power |
+| [Lin et al. 2021](#lin2021nanodiamond) | Experimental direct laser writing of nanodiamonds from a nanolignin/cellulose nanofibril biomass film in ambient air | `laserReferenceLin2021`; real biomass-to-nanodiamond evidence, but not diamond formation from lignin-vitrimer by CW holography and no verified absolute wattage in the attached metadata |
+| [Joshi et al. 2021](#joshi2021nanodiamond) | Review of UV and nanosecond laser-assisted conversion of polymeric or graphitic carbon into nanodiamond films | `laserReferenceJoshi2021`; pulsed/fluence-oriented evidence, not a CW holographic threshold |
+| [Morais et al. 2026](#morais2026proca) | Theoretical nonlinear planar Proca metamaterial and constitutive model | `laserReferenceMorais2026`; conditional theory, not a laboratory Proca field or process power |
+| [Akkanen et al. 2022](#akkanen2022optical) | Review of local optical modification and patterning of existing 2D materials in ambient conditions | `laserReferenceAkkanen2022`; modification of an existing 2D material is not synthesis inside polymer |
+| [Mikki 2021](#mikki2021proca) | Theoretical Maxwell-Proca equivalence under spatial-dispersion assumptions | `laserReferenceMikki2021`; no material realization or graphene/diamond power threshold |
+
+### Updated power answer
+
+For the question “what power is necessary?”, the reviewed evidence supports
+the following narrower answer:
+
+- **Semi-Dirac fermions:** no absolute watts value is supplied. Ghosh et al.
+   model a CW pump-dependent optical response, while Uchoa et al. review the
+   quasiparticle context. Neither paper gives a synthesis recipe for graphene
+   in lignin-vitrimer, rGO-vitrimer, plastic, or another hydrocarbon
+   ([Semi-Dirac section](#semidirac)).
+- **CW or scanned LIG on a carbon-bearing precursor:** use a calibrated,
+   apparatus-specific process window. The existing kraft-lignin/PEO example
+   records 32 W operating power and a 40 W maximum average-power ceiling; the
+   attached reviews justify measuring wavelength, absorption, scan speed,
+   thermal history, and material characterization, but do not make 40 W a
+   universal threshold ([Mahmood et al.](#mahmood2020ligninlig), [Wan et al.](#wan2018lrg), [Ye et al.](#ye2024lig), [C. Claro et al.](#claro2022sustainable)).
+- **Fiber laser feeding a semi-Dirac/rGO-vitrimer control chain:** calculate a
+   necessary incident lower bound only after measuring absorbed required power
+   and end-to-end efficiency:
+   $$
+   P_{\rm fiber,minimum} \geq
+   \frac{P_{\rm absorbed,required}}{\eta_{\rm end-to-end}}.
+   $$
+   The Lean fixture uses 4 W required absorbed power and $\eta=0.5$, hence an
+   8 W lower bound inside a 10 W illustrative budget. Those numbers are
+   assumptions in a finite model, not values reported by the semi-Dirac or
+   attached review papers.
+- **Nanodiamond from biomass or polymeric carbon:** the attached evidence now
+   supports a qualified experimental analogue. Lin et al. report biomass
+   nanodiamond formation by direct laser writing, and Joshi et al. review
+   nanosecond/UV conversion routes. This does not transfer to bulk
+   lignin-vitrimer, rGO-vitrimer, or CW operation without the actual wavelength,
+   pulse or dwell profile, fluence, atmosphere, thermal history, and structural
+   verification ([Lin et al.](#lin2021nanodiamond), [Joshi et al.](#joshi2021nanodiamond)).
+- **Convergent holographic graphene or diamond:** no necessary wattage is
+   established. The 60 mW and 25 kW values remain chat-derived proposal
+   budgets, and the 1.5--2.5 TW/cm$^2$ value is an intensity claim, not a watts
+   ceiling. The optical-holography, LIG-optics, maskless-fabrication, and
+   additive-manufacturing sources do not demonstrate a Proca field or CW
+   holographic synthesis of graphene or diamond in polymer or lignin
+   ([Cheng et al.](#cheng2026maskless), [Park et al.](#park2024selective), [Lee et al.](#lee2023ligoptics), [Huang et al. 2013](#huang2013holography), [Hu et al. 2019](#hu2019holography)).
+
 ### Lean extraction
 
 `LaserBeamKind`, `LaserTask`, and `LaserTaskStatus` classify the requested
@@ -1501,6 +1577,32 @@ explicit Pending target in [SignalsPendingTests.lean](../src/signals/SignalsPend
 <a id="hu2019holography"></a> Hu, Y., Luo, X., Chen, Y., Liu, Q., Li, X., Wang, Y., Liu, N., and Duan, H. (2019). *3D-Integrated metasurfaces for full-colour holography*. Light: Science & Applications, 8, 86. DOI: [10.1038/s41377-019-0198-y](https://doi.org/10.1038/s41377-019-0198-y). Open article: [Nature PDF](https://www.nature.com/articles/s41377-019-0198-y.pdf).
 
 <a id="salter2019adaptive"></a> Salter, P. S., and Booth, M. J. (2019). *Adaptive optics in laser processing*. Light: Science & Applications, 8, 110. DOI: [10.1038/s41377-019-0215-1](https://doi.org/10.1038/s41377-019-0215-1). Open article: [Nature PDF](https://www.nature.com/articles/s41377-019-0215-1.pdf).
+
+<a id="wan2018lrg"></a> Wan, Z., Streed, E. W., Lobino, M., Wang, S., Sang, R. T., Cole, I. S., Thiel, D. V., and Li, Q. (2018). *Laser-Reduced Graphene: Synthesis, Properties, and Applications*. Advanced Materials Technologies, 3(4), 1700315. DOI: [10.1002/admt.201700315](https://doi.org/10.1002/admt.201700315).
+
+<a id="ye2024lig"></a> Ye, X., Yang, Z., Zheng, X., Qiang, H., Wei, M., Li, Y., Chen, M., and Luo, N. (2024). *A review on the laser-induced synthesis of graphene and its applications in sensors*. Journal of Materials Science, 59(26), 11644--11668. DOI: [10.1007/s10853-024-09883-z](https://doi.org/10.1007/s10853-024-09883-z).
+
+<a id="cheng2026maskless"></a> Cheng, Z., Zhong, Z., Wang, Q., Wu, Y., Li, Z., Guo, J., Fan, Y., Song, Y., Feng, Y., Farajollahi, M., et al. (2026). *Maskless photolithography for micro-and nanofabrication*. Moore and More, 3(1), 7. Attached provenance: [Google Scholar search](https://scholar.google.com/scholar?q=%22Maskless+photolithography+for+micro-and+nanofabrication%22). The attached record supplies no DOI or verified full text and is retained as metadata-only.
+
+<a id="park2024selective"></a> Park, H., Park, J. J., Bui, P.-D., Yoon, H., Grigoropoulos, C. P., Lee, D., and Ko, S. H. (2024). *Laser-Based Selective Material Processing for Next-Generation Additive Manufacturing*. Advanced Materials, 36(34), 2307586. DOI: [10.1002/adma.202307586](https://doi.org/10.1002/adma.202307586).
+
+<a id="you2020flexible"></a> You, R., Liu, Y.-Q., Hao, Y.-L., Han, D.-D., Zhang, Y.-L., and You, Z. (2020). *Laser Fabrication of Graphene-Based Flexible Electronics*. Advanced Materials, 32(15), 1901981. DOI: [10.1002/adma.201901981](https://doi.org/10.1002/adma.201901981).
+
+<a id="claro2022sustainable"></a> C. Claro, P. I., Pinheiro, T., Silvestre, S. L., Marques, A. C., Coelho, J., Marconcini, J. M., Fortunato, E., C. Mattoso, L. H., and Martins, R. (2022). *Sustainable carbon sources for green laser-induced graphene: A perspective on fundamental principles, applications, and challenges*. Applied Physics Reviews, 9(4), 041305. DOI: [10.1063/5.0100785](https://doi.org/10.1063/5.0100785).
+
+<a id="lee2023ligoptics"></a> Lee, Y., Low, M. J., Yang, D., Nam, H. K., Le, T.-S. D., Lee, S. E., Han, H., Kim, S., Vu, Q. H., Yoo, H., Yoon, H., Lee, J., Sandeep, C. S. S., Lee, K., Kim, S.-W., and Kim, Y.-J. (2023). *Ultra-thin light-weight laser-induced-graphene (LIG) diffractive optics*. Light: Science & Applications, 12, 146. DOI: [10.1038/s41377-023-01143-0](https://doi.org/10.1038/s41377-023-01143-0). Open article: [Nature PDF](https://www.nature.com/articles/s41377-023-01143-0.pdf).
+
+<a id="kim2025wearable"></a> Kim, H., and Kim, Y.-J. (2025). *Wearable healthcare using laser-induced graphene*. JMST Advances, 7(3), 177--185. DOI: [10.1007/s42791-025-00113-4](https://doi.org/10.1007/s42791-025-00113-4).
+
+<a id="lin2021nanodiamond"></a> Lin, Y., Zhang, Q., Deng, Y., Shen, K., Xu, K., Yu, Y., Wang, S., and Fang, G. (2021). *Fabricating Nanodiamonds from Biomass by Direct Laser Writing under Ambient Conditions*. ACS Sustainable Chemistry & Engineering, 9(8), 3112--3123. DOI: [10.1021/acssuschemeng.0c07607](https://doi.org/10.1021/acssuschemeng.0c07607).
+
+<a id="joshi2021nanodiamond"></a> Joshi, P., Riley, P., Gupta, S., Narayan, R. J., and Narayan, J. (2021). *Advances in laser-assisted conversion of polymeric and graphitic carbon into nanodiamond films*. Nanotechnology, 32(43), 432001. DOI: [10.1088/1361-6528/ac1097](https://doi.org/10.1088/1361-6528/ac1097).
+
+<a id="morais2026proca"></a> Morais, W. de Deus, Strikos, S., Thibes, R., and Helayël-Neto, J. A. (2026). *Investigating planar Proca metamaterials in nonlinear (2+1)-Electrodynamics*. arXiv preprint arXiv:2607.23013. [arXiv record](https://arxiv.org/abs/2607.23013). The two attached Morais records are duplicates of this preprint.
+
+<a id="akkanen2022optical"></a> Akkanen, S.-T. M., Fernández, H. A., and Sun, Z. (2022). *Optical Modification of 2D Materials: Methods and Applications*. Advanced Materials, 34(19), e2110152. DOI: [10.1002/adma.202110152](https://doi.org/10.1002/adma.202110152).
+
+<a id="mikki2021proca"></a> Mikki, S. (2021). *Proca Metamaterials, Massive Electromagnetism, and Spatial Dispersion*. Annalen der Physik, 533(8), 2000625. DOI: [10.1002/andp.202000625](https://doi.org/10.1002/andp.202000625).
 
 ### BibTeX
 

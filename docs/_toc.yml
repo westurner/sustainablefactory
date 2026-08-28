@@ -7,30 +7,32 @@ sustainablefactory:
     manifest_source: ../data/chatoverlay/chats__all
     output_dir: ../docs/chats
     output_formats:
-      - myst
-      - ipynb
+    - myst
+    - ipynb
     manifest: ../.tmp/workflow/chat-manifest.json
     temp_dir: ../.tmp/workflow/transform
     transform:
       cell_split: m1
     include:
-      - '*.json'
-      - '*.md'
+    - '*.json'
+    - '*.md'
     exclude: []
     files: []
 chapters:
-  - file: readme
-  - file: paper.myst
-  - file: schema
-  - file: visualization
-  - file: cli_reference
-  - file: glossary
-  - file: research_brief_carbothermic_ultrasonic
-  - file: sphinx-meilisearch-architecture
-  - file: tables_and_figures.myst
-  - file: tools
-  - file: workflow-performance-plan
-  - file: dispersive-homodyne-plan
-  - file: paper-model-review
-  - file: water
-  - file: chats/index
+- file: readme
+- file: paper.myst
+- file: schema
+- file: visualization
+- file: cli_reference
+- file: glossary
+- file: research_brief_carbothermic_ultrasonic
+- file: sphinx-meilisearch-architecture
+- file: tables_and_figures.myst
+- file: tools
+- file: workflow-performance-plan
+- file: dispersive-homodyne-plan
+- file: paper-model-review
+- file: anti-fire-cannon-review.myst
+- file: water
+- file: chats/index
+- file: flat-light-nanolithography-scholarly

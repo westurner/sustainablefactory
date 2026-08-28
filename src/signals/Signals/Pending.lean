@@ -10,6 +10,7 @@ import Signals.ProtocolZ8
 import Signals.QuditQEC
 import Signals.SemiDirac
 import Signals.LaserProcesses
+import Signals.LaserReferences
 import Signals.Geometry
 import Signals.DirectionalBroadbandAntenna
 import Signals.Homodyne
@@ -1700,6 +1701,78 @@ lemma AntiFireSuppression.effectiveRate_le_baseline
     model.effectiveRate ≤ model.baselineRate :=
   model.suppression
 
+/-- Mechanical members that can be driven into a subsurface fire zone. -/
+inductive GroundDrivenMember
+  | piston
+  | cylinder
+  | shaft
+  deriving DecidableEq, Repr
+
+/-- A pending ground-driven anti-fire device with explicit local power accounting.
+
+The thermal and piezoelectric fields are harvested source-power measurements or
+assumptions. They do not establish that a landfill fire is extinguished or that
+the device is self-powered until the corresponding field values are measured. -/
+structure GroundDrivenAntiFireDevice where
+  member : GroundDrivenMember
+  suppression : AntiFireSuppression
+  memberLength : Length
+  memberLength_positive : 0 < memberLength.meters
+  memberRadius : Length
+  memberRadius_positive : 0 < memberRadius.meters
+  insertionStroke : Length
+  insertionStroke_positive : 0 < insertionStroke.meters
+  insertionForce : Force
+  insertionForce_nonnegative : 0 ≤ insertionForce.newtons
+  thermalHarvestedPower : Power
+  thermalHarvestedPower_nonnegative : 0 ≤ thermalHarvestedPower.watts
+  piezoelectricHarvestedPower : Power
+  piezoelectricHarvestedPower_nonnegative :
+    0 ≤ piezoelectricHarvestedPower.watts
+  conversionEfficiency : BoundedFactor
+  batteryPower : Power
+  batteryPower_nonnegative : 0 ≤ batteryPower.watts
+  externalInputPower : Power
+  externalInputPower_nonnegative : 0 ≤ externalInputPower.watts
+  emitterPower : Power
+  emitterPower_nonnegative : 0 ≤ emitterPower.watts
+  inputPowerLaw :
+    emitterPower.watts ≤
+      (thermalHarvestedPower.watts + piezoelectricHarvestedPower.watts +
+        batteryPower.watts + externalInputPower.watts) *
+        conversionEfficiency.value
+
+/-- The device's two declared harvesting channels are nonnegative. -/
+lemma GroundDrivenAntiFireDevice.harvestedPower_nonnegative
+    (device : GroundDrivenAntiFireDevice) :
+    0 ≤ device.thermalHarvestedPower.watts +
+      device.piezoelectricHarvestedPower.watts := by
+  exact add_nonneg device.thermalHarvestedPower_nonnegative
+    device.piezoelectricHarvestedPower_nonnegative
+
+/-- All declared source channels provide nonnegative input power. -/
+lemma GroundDrivenAntiFireDevice.availableInputPower_nonnegative
+    (device : GroundDrivenAntiFireDevice) :
+    0 ≤ device.thermalHarvestedPower.watts +
+      device.piezoelectricHarvestedPower.watts + device.batteryPower.watts +
+      device.externalInputPower.watts := by
+  exact add_nonneg
+    (add_nonneg
+      (add_nonneg device.thermalHarvestedPower_nonnegative
+        device.piezoelectricHarvestedPower_nonnegative)
+      device.batteryPower_nonnegative)
+    device.externalInputPower_nonnegative
+
+/-- The emitter budget cannot exceed the declared total input-power contract. -/
+lemma GroundDrivenAntiFireDevice.emitterPower_le_availableInputPower
+    (device : GroundDrivenAntiFireDevice) :
+    device.emitterPower.watts ≤
+      (device.thermalHarvestedPower.watts +
+        device.piezoelectricHarvestedPower.watts + device.batteryPower.watts +
+        device.externalInputPower.watts) *
+        device.conversionEfficiency.value :=
+  device.inputPowerLaw
+
 /-- A fusion reaction model with explicit probability and energy accounting. -/
 structure FusionReaction where
   reactionProbability : ℝ
@@ -1759,5 +1832,50 @@ lemma SpacetimeExtractionClaim.spacetimePower_positive
     0 < claim.ledger.spacetimePower := by
   nlinarith [claim.ledger.balance, claim.ledger.lossPower_nonnegative,
     claim.overControlAndFuel]
+
+
+/-- A pending flat-light lithography state generated in an N-LIG or similar waveguide.
+
+Flat light is hypothesized as a state with infinite effective mass, modeled
+by setting the group velocity dispersion toward zero. This record does not physically
+establish the existence of a perfectly non-diffracting topological fluid. -/
+structure FlatLightLithography where
+  maskVoltage : ℝ
+  maskVoltage_nonnegative : 0 ≤ maskVoltage
+  effectiveMass : ℝ
+  effectiveMass_positive : 0 < effectiveMass
+  nonlinearCoupling : ℝ
+  phaseSlipGradient : ℝ
+  phaseSlipGradient_nonnegative : 0 ≤ phaseSlipGradient
+  diffractionBlur : ℝ
+  diffractionBlur_nonnegative : 0 ≤ diffractionBlur
+  diffractionBlur_near_zero : diffractionBlur = 0   -- Idealized flat-light limit
+
+/-- In the idealized pending model, diffraction blur is strictly zero. -/
+lemma FlatLightLithography.zero_diffraction
+    (model : FlatLightLithography) :
+    model.diffractionBlur = 0 :=
+  model.diffractionBlur_near_zero
+
+/-- The cleavage of PCLP photo-resist by a Proca phase-gradient.
+
+This record hypothesizes that the cleavage rate is driven by the longitudinal
+divergence (phase-slip) rather than ordinary UV/EUV photon absorption. -/
+structure PhaseSlipCleavage where
+  photoresistBindingEnergy : ℝ
+  photoresistBindingEnergy_positive : 0 < photoresistBindingEnergy
+  phaseSlipAmplitude : ℝ
+  phaseSlipAmplitude_nonnegative : 0 ≤ phaseSlipAmplitude
+  cleavageRate : ℝ
+  cleavageRate_nonnegative : 0 ≤ cleavageRate
+  rateLaw : cleavageRate = phaseSlipAmplitude / photoresistBindingEnergy
+
+/-- The hypothesized cleavage rate is nonnegative given the binding energy bounding. -/
+lemma PhaseSlipCleavage.rate_nonnegative
+    (cleavage : PhaseSlipCleavage) :
+    0 ≤ cleavage.cleavageRate := by
+  rw [cleavage.rateLaw]
+  exact div_nonneg cleavage.phaseSlipAmplitude_nonnegative
+    (le_of_lt cleavage.photoresistBindingEnergy_positive)
 
 end Signals.Pending

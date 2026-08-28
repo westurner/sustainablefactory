@@ -9,8 +9,6 @@ Welcome to the Sustainable Factory project documentation.
 :caption: Table of Contents:
 :file: _toc.yml
 ```
---- chats/*.md
-
 - {ref}`tables_and_figures`
 
 ## `sustainablefactory` Software
