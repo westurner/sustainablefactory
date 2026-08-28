@@ -37,8 +37,11 @@ interpretation while keeping experimental premises explicit:
    model is intentional; it is not a replacement for a continuous
    band-limited Fourier theorem.
 - `Signals.Coherence` records the polarization/entanglement complementarity
-   identity as explicit model data and states the scalar Huygens-Steiner
-   parallel-axis identity.
+   identity, derives the paper's arbitrary-dimensional $P_N^2+K_N^2=1$ law
+   from a normalized finite coherence spectrum, and connects the squared
+   quantities to an explicit unit-mass Huygens-Steiner parallel-axis mapping.
+   These are finite coherence and mechanics identities, not claims about
+   quantum state collapse, QND behavior, or Amplituhedron physics.
 - `Signals.OAM` represents a finite normalized OAM qudit and computes its basis
   state count. The exact identity `100^10 = 10^20` is a combinatorial result,
   not a performance or physical-realizability claim.
@@ -48,6 +51,75 @@ interpretation while keeping experimental premises explicit:
    medium, coupling, boundary, dispersion, and longitudinal-polarization data.
    It now also models a source-driven field equation, current continuity,
    constitutive response, and conditional phase-height measurements.
+- `Signals.PaperModels` records finite equations extracted from the four Proca
+   PDFs in `data/papers/`: normalized Proca dispersion and dielectric response,
+   planar Proca/Chern-Simons response, massive Fabry-Perot resonance and
+   radiation-pressure ratios, complementary Proca dipole patterns, finite
+   quantum-source directivity, and inverse-fourth-power nonlocality decay.
+   These records preserve theoretical and experimental-status boundaries; they
+   do not establish Proca material realization, quantum hardware, or any
+   propulsion, SQG, vacuum-energy, Argon-MHD, or fracture claim. The cited
+   review is in [paper-model-review.md](../../docs/paper-model-review.md).
+- `Signals.CavityQED` is imported through `Signals.Pending` and records the
+   attached graphite/graphene cavity and Grover cavity-QED models: coupled-mode
+   hybrid frequencies, carrier-density resonance fits, spectral-weight
+   transfer, two-dimensional Grover rotations, Dicke overlaps, dispersive
+   phase oracles, and cooperativity/fidelity metadata. These remain Pending
+   conditional records; they do not establish a Lignolux cavity, perfect
+   reflection, unit-fidelity state preparation, QND behavior, or a general
+   optical implementation.
+- `Signals.ActiveOptics` is imported through `Signals.Pending` and records
+   second-harmonic resonance, active optical-amplifier power balance, and
+   free-electron-pumped cylindrical SPP models. It keeps pump power, output,
+   dissipation, phase matching, redshift, overlap, and coherent $N^2$ versus
+   incoherent $N$ radiation scaling explicit. These are finite Pending models;
+   optical gain is not free energy, and the CSR enhancement is not an
+   independently measured X-ray result.
+- `Signals.LayerCodes` is imported through `Signals.Pending` and records finite
+   CSS input-code and 3D layer-code construction parameters, including logical
+   count, one-dimensional junctions, maximum check weight six, and polynomial
+   energy-barrier metadata. It does not implement stabilizer generators,
+   homology, decoding, thresholds, or NISQ hardware performance.
+- `Signals.QECReferences` is imported through `Signals.Pending` and is
+   reference-only: it links the [Kitaev surface code entry](https://errorcorrectionzoo.org/c/surface),
+   the [quantum surface-code list](https://errorcorrectionzoo.org/list/quantum_surface),
+   and the [Layer code entry](https://errorcorrectionzoo.org/c/layer). It also
+   names [QECLean](https://github.com/Stavan-Jain/QECLean) as an external Lean
+   candidate without adding it as a dependency. The supplied
+   `quantum_layer` list URL currently returns 404; the Layer entry is the
+   canonical reference here.
+- `Signals.QuditQEC` is imported through `Signals.Pending` and records finite
+   composite-dimension qudit arithmetic, GKP qutrit/ququart spacing and gain
+   laws, and a 100-mode OAM QEC design contract. The GKP papers provide
+   syndrome and lifetime-comparison ideas, not an OAM implementation; the
+   design therefore keeps mode loss, dephasing, syndrome readout, and recovery
+   readiness explicit. In particular, dimension 100 is modeled over cyclic
+   arithmetic rather than treated as a field.
+- `Signals.SemiDirac` is imported through `Signals.Pending` and records the
+   normalized linear/quadratic semi-Dirac dispersion, a calibrated CW
+   pump-dependent anisotropic response, and a fiber-laser/resonator/
+   metamaterial/process power budget. `SemiDiracGrapheneProcess` proves only
+   the necessary lower bound from an independently supplied absorbed-power
+   threshold and end-to-end efficiency; it does not claim semi-Dirac behavior,
+   Proca coupling, or graphene formation in lignin-vitrimer or hydrocarbon
+   material.
+- `Signals.LaserProcesses` is imported through `Signals.Pending` and separates
+   average CW optical power from pulsed pulse energy, fluence, duration, peak
+   power, repetition rate, and shock pressure. It also records maximum average
+   CW power, maximum pulsed peak power, maximum pulse-train average power, and
+   maximum holographic source power as explicit ceilings. It classifies
+   ablation, laser shock compression, direct-write graphene, diamond shock
+   synthesis, and the unsupported convergent-holographic proposals. The records
+   prove only unit-consistent identities and supplied calibration bounds; the
+   maximum watts are source or equipment ceilings, not experimentally validated
+   material thresholds, and do not turn chat-derived wattages into process
+   specifications.
+- `Signals.ProtocolZ8` is imported through `Signals.Pending` and
+   records strict majority post-processing, shot-derived fidelity, the five
+   self-reported Protocol Z.8 heartbeat fidelities and rounded 92.42% average,
+   and the reported backend/job/count metadata. Its evidence predicate requires
+   complete raw counts and reproduction, so the repository's 98.85% badge and
+   heartbeat table are not encoded as independently verified theorems.
 - `Signals.Maxwell` provides a coordinate-free three-vector formulation of
    Maxwell's equations, including Gauss, Faraday, and Ampere-Maxwell laws. It
    also includes the isotropic-vacuum form often used as a compact pre-tensor
@@ -722,3 +794,408 @@ that a fracture state transmits information faster than light, or that a
 Proca/SQG device extracts net energy without an input budget. Those are future
 experimental or theoretical work items, not consequences of the formal
 definitions.
+
+## Radio Basics: Crystal, AM, and FM with Lean Signals
+
+```{note}
+This tutorial models classical radio reception and modulation schemes using the
+Lean Signals library. These are well-established physics and engineering
+concepts, verified at scale in commercial radio systems worldwide.
+```
+
+### Introduction to Radio Reception
+
+Radio waves are electromagnetic signals carrying information. Three foundational
+receiver architectures dominate practical radio:
+
+1. **Crystal Radio**: A passive detector using a semiconducting junction (diode).
+   No external power source is required, making it the simplest working radio.
+
+2. **AM (Amplitude Modulation)**: Information is encoded by varying the 
+   amplitude of a carrier wave. The baseband signal modulates the carrier strength.
+   Standard AM band: 530 kHz to 1.7 MHz.
+
+3. **FM (Frequency Modulation)**: Information is encoded by varying the 
+   frequency of a carrier wave. The baseband signal modulates the carrier frequency.
+   Commercial FM band: 88 to 108 MHz.
+
+The `Signals.Radio` module formalizes the mathematics of these receivers.
+
+### Crystal Radio: The Simplest Radio Receiver
+
+A crystal radio consists of:
+- An LC tuning circuit (resonates at the desired frequency)
+- A crystal detector (semiconductor diode)
+- An earphone (output transducer)
+
+The crystal detector acts as a nonlinear device, passing positive voltage peaks
+and blocking negative peaks (half-wave rectification).
+
+#### Crystal Detector Model
+
+```lean
+structure CrystalDetector where
+  forwardDrop : ℝ          -- Voltage drop across the junction (V)
+  threshold : ℝ            -- Minimum voltage to conduct (V)
+  hThreshold : threshold > 0
+  hDrop : 0 ≤ forwardDrop
+  hDropSmall : forwardDrop < threshold
+```
+
+The detector output follows a simple rule: conduct (and subtract the forward 
+drop) only when the input signal exceeds the threshold.
+
+```lean
+noncomputable def crystalDetectorOutput (detector : CrystalDetector)
+    (inputVoltage : ℝ) : ℝ :=
+  if inputVoltage > detector.threshold
+  then max 0 (inputVoltage - detector.forwardDrop)
+  else 0
+```
+
+**Verification**: Ideal crystal detectors have zero forward drop and negligible
+threshold:
+
+```lean
+def idealCrystalDetector : CrystalDetector where
+  forwardDrop := 0
+  threshold := 0.0001
+  hThreshold := by norm_num
+  hDrop := by norm_num
+  hDropSmall := by norm_num
+```
+
+#### LC Tuning Circuit
+
+The selectivity of a crystal radio depends on its LC tuning circuit. The 
+resonant frequency is given by:
+
+$$f_0 = \frac{1}{2\pi\sqrt{LC}}$$
+
+Quality factor $Q$ measures selectivity:
+
+$$Q = \frac{\omega_0 L}{R} = \frac{f_0}{B}$$
+
+where $R$ is the circuit resistance and $B$ is the bandwidth.
+
+```lean
+structure LCTuner where
+  inductance : ℝ
+  hInductance : inductance > 0
+  capacitance : ℝ
+  hCapacitance : capacitance > 0
+
+noncomputable def LCTuner.resonantFreq (tuner : LCTuner) : ℝ :=
+  1 / (2 * Real.pi * Real.sqrt (tuner.inductance * tuner.capacitance))
+
+noncomputable def LCTuner.qualityFactor (tuner : LCTuner) (resistance : ℝ) : ℝ :=
+  let ω₀ := 2 * Real.pi * (tuner.resonantFreq)
+  (ω₀ * tuner.inductance) / resistance
+```
+
+### AM (Amplitude Modulation)
+
+In amplitude modulation, the message signal $m(t)$ modulates the amplitude of 
+a carrier wave:
+
+$$s(t) = [A_c + m(t)] \cos(2\pi f_c t + \phi)$$
+
+or equivalently, with modulation index $\mu = \max|m(t)|/A_c$:
+
+$$s(t) = A_c[1 + \mu \cdot n(t)] \cos(2\pi f_c t + \phi)$$
+
+where $n(t) = m(t)/\max|m(t)|$ is the normalized modulation and $0 \leq \mu \leq 1$.
+
+#### AM Signal Structure
+
+```lean
+structure AMSignal where
+  carrierFreq : ℝ           -- Carrier frequency (Hz)
+  carrierAmplitude : ℝ      -- Carrier amplitude (V)
+  hCarrierAmp : carrierAmplitude > 0
+  modulation : ℝ → ℝ        -- Modulating signal m(t)
+  modulationIndex : ℝ       -- μ: typically 0 to 1
+  hModIndex : 0 ≤ modulationIndex ∧ modulationIndex ≤ 1
+  phase : ℝ                 -- Initial phase (rad)
+```
+
+#### AM Bandwidth and Sidebands
+
+Amplitude modulation creates two sidebands:
+- **Lower sideband**: $f_c - f_m$
+- **Upper sideband**: $f_c + f_m$
+
+where $f_m$ is the modulation frequency. The total bandwidth is:
+
+$$B_{AM} = 2 f_m$$
+
+For example, an AM station at 1000 kHz modulated by audio up to 5 kHz 
+occupies frequencies from 995 kHz to 1005 kHz.
+
+```lean
+noncomputable def AMSignal.envelope (signal : AMSignal) (t : ℝ) : ℝ :=
+  signal.carrierAmplitude +
+  signal.modulationIndex * signal.carrierAmplitude * signal.modulation t
+
+noncomputable def AMSignal.voltage (signal : AMSignal) (t : ℝ) : ℝ :=
+  signal.envelope t * Real.cos (2 * Real.pi * signal.carrierFreq * t + signal.phase)
+
+def AMSignal.lowerSideband (signal : AMSignal) (modulationFreq : ℝ) : ℝ :=
+  signal.carrierFreq - modulationFreq
+
+def AMSignal.upperSideband (signal : AMSignal) (modulationFreq : ℝ) : ℝ :=
+  signal.carrierFreq + modulationFreq
+```
+
+**Verification**: AM sidebands are symmetric around the carrier:
+
+```lean
+lemma AMSignal.sidebands_symmetric (signal : AMSignal) (modulationFreq : ℝ) :
+    signal.carrierFreq - signal.lowerSideband signal.modulationFreq =
+    signal.upperSideband signal.modulationFreq - signal.carrierFreq := by
+  unfold AMSignal.lowerSideband AMSignal.upperSideband
+  ring
+```
+
+#### AM Demodulation
+
+An envelope detector recovers the modulation by rectifying and low-pass filtering.
+The detected output is proportional to the envelope:
+
+$$\text{output} \propto 1 + \mu \cdot n(t)$$
+
+```lean
+lemma AMDemodulation (signal : AMSignal) (t : ℝ) (detectorIdeal : True) :
+    ∃ A_c m f_c φ,
+      signal.carrierAmplitude = A_c ∧
+      signal.carrierFreq = f_c ∧
+      signal.phase = φ ∧
+      signal.envelope t = A_c * (1 + signal.modulationIndex * signal.modulation t) := by
+  use signal.carrierAmplitude, signal.modulation, signal.carrierFreq, signal.phase
+  exact ⟨rfl, rfl, rfl, rfl⟩
+```
+
+### FM (Frequency Modulation)
+
+In frequency modulation, the message signal modulates the carrier frequency:
+
+$$s(t) = A_c \cos\left(2\pi f_c t + 2\pi \Delta f \int_0^t m(\tau) d\tau + \phi\right)$$
+
+where $\Delta f$ is the **frequency deviation** (maximum shift from carrier).
+
+#### FM Signal Structure
+
+```lean
+structure FMSignal where
+  carrierFreq : ℝ           -- Carrier frequency (Hz)
+  carrierAmplitude : ℝ      -- Carrier amplitude (V)
+  hCarrierAmp : carrierAmplitude > 0
+  modulation : ℝ → ℝ        -- Modulating signal m(t)
+  frequencyDeviation : ℝ    -- Δf: frequency shift (Hz)
+  hFreqDev : frequencyDeviation > 0
+  phase : ℝ                 -- Initial phase (rad)
+
+noncomputable def FMSignal.instantaneousFreq (signal : FMSignal) (t : ℝ) : ℝ :=
+  signal.carrierFreq + signal.frequencyDeviation * signal.modulation t
+```
+
+#### Carson's Bandwidth Rule
+
+The bandwidth required for FM transmission depends on the modulation index:
+
+$$\beta = \frac{\Delta f}{f_m}$$
+
+**Carson's rule** gives the required bandwidth:
+
+$$B_{FM} \approx 2(\Delta f + f_m)$$
+
+where $f_m$ is the modulation frequency.
+
+```lean
+def FMSignal.modulationIndex (signal : FMSignal) (modulationFreq : ℝ) : ℝ :=
+  signal.frequencyDeviation / modulationFreq
+
+def FMSignal.carsonBandwidth (signal : FMSignal) (modulationFreq : ℝ) : ℝ :=
+  2 * (signal.frequencyDeviation + modulationFreq)
+```
+
+#### Narrowband vs. Wideband FM
+
+- **Narrowband FM** ($\beta \ll 1$): $B_{NB} \approx 2 f_m$ (similar to AM)
+- **Wideband FM** ($\beta \gg 1$): $B_{WB} \approx 2 \Delta f$ (much wider than AM)
+
+Commercial FM radio uses wideband FM with $\Delta f = 75$ kHz and $f_m$ up to 
+15 kHz, giving $\beta \approx 5$ and bandwidth $\approx 180$ kHz per station.
+
+```lean
+def FMSignal.narrowbandApprox (signal : FMSignal) (modulationFreq : ℝ) : ℝ :=
+  2 * modulationFreq
+
+def FMSignal.widebandApprox (signal : FMSignal) (modulationFreq : ℝ) : ℝ :=
+  2 * signal.frequencyDeviation
+```
+
+### Radio Receiver Model
+
+A complete receiver tunes to a desired frequency and has finite selectivity:
+
+```lean
+structure RadioReceiver where
+  tuneFreq : ℝ              -- Receiver center frequency (Hz)
+  bandwidth : ℝ             -- Filter bandwidth (Hz)
+  hBandwidth : bandwidth > 0
+  sensitivity : ℝ           -- Minimum detectable signal (V)
+  hSensitivity : sensitivity > 0
+
+def RadioReceiver.isInBand (receiver : RadioReceiver) (signalFreq : ℝ) : Prop :=
+  |signalFreq - receiver.tuneFreq| ≤ receiver.bandwidth / 2
+```
+
+**Verification**: A signal at the tuned frequency is always in-band:
+
+```lean
+lemma RadioReceiver.tuneFreq_in_band (receiver : RadioReceiver) :
+    receiver.isInBand receiver.tuneFreq := by
+  unfold RadioReceiver.isInBand
+  simp
+  linarith [receiver.hBandwidth]
+```
+
+### Example: AM Radio Station
+
+A typical AM radio station operates as follows:
+
+```lean
+def toySinusoidalModulation : ℝ → ℝ :=
+  fun t => Real.sin (2 * Real.pi * 1000 * t)  -- 1 kHz audio tone
+
+def toyAMSignal : AMSignal :=
+  { carrierFreq := 1_000_000      -- 1 MHz (typical AM frequency)
+    carrierAmplitude := 10         -- 10 V
+    hCarrierAmp := by norm_num
+    modulation := toySinusoidalModulation
+    modulationIndex := 0.8         -- 80% modulation depth
+    hModIndex := by norm_num
+    phase := 0 }
+
+example : toyAMSignal.lowerSideband 1000 = 999_000 := by
+  norm_num [AMSignal.lowerSideband, toyAMSignal]
+
+example : toyAMSignal.upperSideband 1000 = 1_001_000 := by
+  norm_num [AMSignal.upperSideband, toyAMSignal]
+
+example : toyAMSignal.bandwidth 1000 = 2000 := by
+  norm_num [AMSignal.bandwidth, toyAMSignal]
+```
+
+This signal occupies 2 kHz (from 999 kHz to 1001 kHz). A receiver tuned to 
+1 MHz with a 10 kHz bandwidth can receive it clearly.
+
+### Example: FM Radio Station
+
+A commercial FM station:
+
+```lean
+def toyFMSignal : FMSignal :=
+  { carrierFreq := 100_000_000    -- 100 MHz (commercial FM)
+    carrierAmplitude := 10         -- 10 V
+    hCarrierAmp := by norm_num
+    modulation := toySinusoidalModulation
+    frequencyDeviation := 75_000   -- 75 kHz (standard FM)
+    hFreqDev := by norm_num
+    phase := 0 }
+
+example : toyFMSignal.modulationIndex 1000 = 75 := by
+  norm_num [FMSignal.modulationIndex, toyFMSignal]
+
+example : toyFMSignal.carsonBandwidth 1000 = 152_000 := by
+  norm_num [FMSignal.carsonBandwidth, toyFMSignal]
+```
+
+With 75 kHz deviation and 1 kHz modulation, Carson's bandwidth is 152 kHz—
+much wider than AM but providing better noise immunity and fidelity.
+
+### Impedance and Power Conversion
+
+Radio systems commonly use 50 ohm impedance. Voltage-to-power conversion:
+
+$$P = \frac{V^2}{50}$$
+
+```lean
+noncomputable def voltageToPower (voltage : ℝ) : ℝ :=
+  (voltage * voltage) / 50
+
+example : voltageToPower 10 = 2 := by
+  norm_num [voltageToPower]  -- 100 V² / 50 Ω = 2 W
+```
+
+### Narrowband Approximation
+
+When the signal bandwidth is much smaller than the receiver bandwidth 
+(< 10%), the signal can be represented in complex baseband (I/Q) form:
+
+```lean
+def isNarrowband (signalBandwidth receiverBandwidth : ℝ) : Prop :=
+  signalBandwidth < receiverBandwidth / 10
+```
+
+This enables efficient digital signal processing using I/Q sampling.
+
+### Key Insights and Design Principles
+
+1. **AM is bandwidth-efficient** but noise-prone. AM bandwidth = 2 × modulation BW.
+
+2. **FM trades bandwidth for noise immunity**. FM bandwidth ≈ 2(Δf + f_m).
+
+3. **Crystal radios are passive** but achieve only limited selectivity without 
+   active amplification.
+
+4. **Narrowband signals** (BW << 10% of center frequency) allow I/Q representation
+   and efficient DSP processing.
+
+5. **Resonant tuning** with high Q provides selectivity to reject adjacent 
+   channel interference.
+
+6. **Envelope detection** (crystal radio) recovers AM modulation but cannot 
+   recover FM.
+
+7. **Frequency demodulation** (superheterodyne or direct FM detection) is 
+   required for FM recovery.
+
+### Verification Examples
+
+All radio equations and properties in the Signals library are proved as Lean
+theorems. The mathematics is identical to what appears in standard textbooks
+(Haykin, Proakis, Pozar) but formalized for mechanical verification.
+
+Try these examples in the test suite to verify the formalization:
+
+```lean
+def toyCrystalDetector : CrystalDetector :=
+  { forwardDrop := 0.3
+    threshold := 0.7
+    hThreshold := by norm_num
+    hDrop := by norm_num
+    hDropSmall := by norm_num }
+
+example : toyCrystalDetector.forwardDrop < toyCrystalDetector.threshold := by
+  exact toyCrystalDetector.hDropSmall
+```
+
+### Further Reading
+
+- **Standard Textbooks**:
+  - Haykin, S. (2001). *Communication Systems*. 4th ed., John Wiley & Sons.
+  - Proakis, J. G., & Salehi, M. (2007). *Digital Communications*. 5th ed.
+  
+- **Radio History**:
+  - Crystal radio detectors were the first practical radio receivers (1900s).
+  - AM broadcasting began commercially in the 1920s.
+  - FM broadcasting began in the 1940s (Armstrong modulation system).
+
+- **Related Signals Modules**:
+  - `Signals.Sampling` for sampled-tone modeling and Nyquist limits.
+  - `Signals.IQ` for complex baseband representation.
+  - `Signals.Acoustics` for ultrasonic and audio transducers.
+  - `Signals.Propagation` for radio wave propagation and link budgets.
+

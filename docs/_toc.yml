@@ -31,5 +31,6 @@ chapters:
   - file: tools
   - file: workflow-performance-plan
   - file: dispersive-homodyne-plan
+  - file: paper-model-review
   - file: water
   - file: chats/index

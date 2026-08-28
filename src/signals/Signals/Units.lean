@@ -75,6 +75,10 @@ structure MagneticFluxDensity where
 structure PowerDensity where
   wattsPerCubicMeter : ℝ
 
+/-- A laser fluence measured in joules per square metre. -/
+structure LaserFluence where
+  joulesPerSquareMeter : ℝ
+
 /-- An amount of substance measured in moles. -/
 structure AmountOfSubstance where
   moles : ℝ

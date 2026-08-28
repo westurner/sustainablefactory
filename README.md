@@ -7,7 +7,11 @@ This project parses industrial process descriptions (stored as MyST Markdown and
 
 ## Features
 - **MyST Markdown & JSON Parser**: Extracts process steps, properties, equipment, materials, cost figures, metrics, and source citations.
-- **RDF-star Generation**: Exports to Turtle-star format with reified metadata (`.ttl`).
+- **Linked Data**
+  - RDFS
+  - ValueFlows (VF), Industrial Ontologies Foundry (IOF),
+    Elementary Multiperspective Material Ontology (EMMO)
+  - `schematool` (`src/schematool`) generates a directory of precedent RDFS schema in `schema/`
 - **Mermaid Integration**: Visualizes process flows directly from documentation.
 - **Sphinx Documentation**: High-quality HTML output with integrated diagrams.
 
@@ -28,7 +32,7 @@ The project provides the `sfcli` tool line for data extraction and conversion:
   ```bash
   sfcli parse <input_file>
   ```
-- **Export to RDF-star**: Parse a file and export the output as a `.ttl` script.
+- **Export to RDF**: Parse a file and export the output as a `.ttl` script.
   ```bash
   sfcli export_rdf <input_file> --output process_data.ttl
   ```

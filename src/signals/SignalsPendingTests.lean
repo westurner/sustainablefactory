@@ -1575,4 +1575,902 @@ example : toyCWProcaEmission.emittedPower.watts =
     toyCWProcaEmission.resonator.emittedPower.watts := by
   exact toyCWProcaEmission.emitted_power_eq
 
+def toyPaperProcaDispersion : ProcaDispersion :=
+  { mass := 3
+    mass_nonnegative := by norm_num
+    angularFrequency := 5
+    angularFrequency_pos := by norm_num
+    waveNumber := 4
+    waveNumber_nonnegative := by norm_num
+    aboveCutoff := by norm_num
+    dispersionLaw := by norm_num }
+
+noncomputable def toyPaperProcaResponse : ProcaMaterialResponse :=
+  { mode := toyPaperProcaDispersion
+    transverseDielectric := 16 / 25
+    longitudinalDielectric := 0
+    transverseLaw := by norm_num [toyPaperProcaDispersion]
+    longitudinalLaw := by norm_num [toyPaperProcaDispersion] }
+
+example : toyPaperProcaResponse.longitudinalDielectric = 0 := by
+  exact toyPaperProcaResponse.longitudinal_zero_on_dispersion
+
+noncomputable def toyPaperPlanarResponse : PlanarProcaCSResponse :=
+  { procaMass := 3
+    procaMass_nonnegative := by norm_num
+    chernSimonsMass := 2
+    angularFrequency := 5
+    angularFrequency_pos := by norm_num
+    waveNumber := 4
+    transverseDielectric := 16 / 25
+    longitudinalDielectric := 0
+    chernSimonsDielectric := Complex.I * (2 : ℂ) / (5 : ℂ) ^ 3
+    transverseLaw := by norm_num
+    longitudinalLaw := by norm_num
+    chernSimonsLaw := rfl }
+
+example : toyPaperPlanarResponse.chernSimonsDielectric =
+    Complex.I * (2 : ℂ) / (5 : ℂ) ^ 3 := by
+  exact toyPaperPlanarResponse.chern_simons_holds
+
+noncomputable def toyMassiveCavityMode : MassiveCavityMode :=
+  { masslessFrequency := 3
+    masslessFrequency_pos := by norm_num
+    photonMassFrequency := 4
+    photonMassFrequency_nonnegative := by norm_num
+    massiveFrequency := 5
+    massiveFrequency_pos := by norm_num
+    resonanceLaw := by norm_num
+    radiationPressureRatio := 5 / 3
+    radiationPressureRatioLaw := by norm_num }
+
+example : 1 < toyMassiveCavityMode.radiationPressureRatio := by
+  exact toyMassiveCavityMode.radiation_pressure_ratio_gt_one
+    (by norm_num [toyMassiveCavityMode])
+
+noncomputable def toyPaperDipolePattern : ProcaDipolePattern :=
+  { scale := 2
+    scale_nonnegative := by norm_num
+    angle := 0
+    transversePattern := 0
+    longitudinalPattern := 2
+    totalPattern := 2
+    transverseLaw := by norm_num
+    longitudinalLaw := by norm_num
+    totalLaw := by norm_num }
+
+example : toyPaperDipolePattern.totalPattern = toyPaperDipolePattern.scale := by
+  exact toyPaperDipolePattern.total_isotropic
+
+noncomputable def toyQuantumSourceDirectivity : QuantumSourceDirectivity :=
+  { localDetectionRate := 3
+    localDetectionRate_nonnegative := by norm_num
+    angularAverageRate := 2
+    angularAverageRate_pos := by norm_num
+    directivity := 3 / 2
+    directivityLaw := by norm_num }
+
+example : 0 ≤ toyQuantumSourceDirectivity.directivity := by
+  exact toyQuantumSourceDirectivity.directivity_nonnegative
+
+noncomputable def toyNonlocalityDecay : NonlocalityDecay :=
+  { separation := 2
+    separation_pos := by norm_num
+    coefficient := 3
+    coefficient_pos := by norm_num
+    commutatorMagnitude := 3 / 16
+    commutatorMagnitudeLaw := by norm_num }
+
+example : 0 < toyNonlocalityDecay.commutatorMagnitude := by
+  exact toyNonlocalityDecay.commutator_positive
+
+noncomputable def toyCoupledCavityModes : CoupledCavityModes :=
+  { cavityFrequency := { hz := 5 }
+    cavityFrequency_pos := by norm_num
+    matterFrequency := { hz := 5 }
+    matterFrequency_pos := by norm_num
+    couplingFrequency := { hz := 1 }
+    couplingFrequency_nonnegative := by norm_num
+    lowerHybridFrequency := { hz := 4 }
+    lowerHybridFrequency_nonnegative := by norm_num
+    upperHybridFrequency := { hz := 6 }
+    upperHybridFrequency_pos := by norm_num
+    modeSplitting := { hz := 2 }
+    modeSplitting_nonnegative := by norm_num
+    normalizedCoupling := 1 / 5
+    lowerHybridLaw := by norm_num
+    upperHybridLaw := by norm_num
+    modeSplittingLaw := by norm_num
+    normalizedCouplingLaw := by norm_num }
+
+example : toyCoupledCavityModes.modeSplitting.hz = 2 := by
+  rw [toyCoupledCavityModes.resonant_splitting rfl]
+  norm_num [toyCoupledCavityModes]
+
+noncomputable def toyCarrierDensityResonance : CarrierDensityResonance :=
+  { carrierDensity := 4
+    carrierDensity_pos := by norm_num
+    prefactor := 2
+    prefactor_pos := by norm_num
+    exponent := 0
+    resonanceFrequency := { hz := 2 }
+    resonanceFrequency_pos := by norm_num
+    resonanceLaw := by norm_num }
+
+example : toyCarrierDensityResonance.resonanceFrequency.hz = 2 := by
+  rw [toyCarrierDensityResonance.resonanceLaw]
+  norm_num [toyCarrierDensityResonance]
+
+def toySpectralWeightTransfer : SpectralWeightTransfer :=
+  { upperWeightBefore := 4
+    upperWeightBefore_nonnegative := by norm_num
+    lowerWeightBefore := 1
+    lowerWeightBefore_nonnegative := by norm_num
+    upperWeightAfter := 2
+    upperWeightAfter_nonnegative := by norm_num
+    lowerWeightAfter := 3
+    lowerWeightAfter_nonnegative := by norm_num
+    conservation := by norm_num
+    transferAmount := 2
+    transferAmount_nonnegative := by norm_num
+    transferLaw := by norm_num }
+
+example : toySpectralWeightTransfer.lowerWeightAfter -
+    toySpectralWeightTransfer.lowerWeightBefore =
+    toySpectralWeightTransfer.transferAmount := by
+  exact toySpectralWeightTransfer.lower_branch_gain
+
+def toyGroverPhaseInversion : GroverPhaseInversion :=
+  { targetBefore := 1
+    targetAfter := -1
+    orthogonalBefore := 2
+    orthogonalAfter := 2
+    targetLaw := by norm_num
+    orthogonalLaw := by norm_num }
+
+noncomputable def toyGroverRotation : GroverRotation :=
+  { overlap := 1 / 2
+    overlap_nonnegative := by norm_num
+    overlap_le_one := by norm_num
+    angle := Real.pi / 3
+    overlapLaw := by
+      rw [show Real.pi / 3 / 2 = Real.pi / 6 by ring,
+        Real.sin_pi_div_six]
+    iterationCount := 1
+    targetAmplitude := 1
+    orthogonalAmplitude := 0
+    targetAmplitudeLaw := by
+      have angle_identity :
+          ((2 * 1 + 1 : ℕ) : ℝ) * (Real.pi / 3) / 2 = Real.pi / 2 := by
+        norm_num
+        ring
+      rw [angle_identity, Real.sin_pi_div_two]
+    orthogonalAmplitudeLaw := by
+      have angle_identity :
+          ((2 * 1 + 1 : ℕ) : ℝ) * (Real.pi / 3) / 2 = Real.pi / 2 := by
+        norm_num
+        ring
+      rw [angle_identity, Real.cos_pi_div_two]
+    fidelity := 1
+    fidelityLaw := by norm_num }
+
+example : toyGroverRotation.targetAmplitude = 1 ∧
+    toyGroverRotation.fidelity = 1 := by
+  exact toyGroverRotation.one_step_perfect rfl rfl
+
+noncomputable def toyDickeStateOverlap : DickeStateOverlap :=
+  { qubitCount := 4
+    excitations := 2
+    excitations_le_qubits := by norm_num
+    rotationAngle := 0
+    overlapAmplitude := 0
+    overlapLaw := by norm_num }
+
+example : toyDickeStateOverlap.overlapAmplitude = 0 := by
+  rw [toyDickeStateOverlap.overlapLaw]
+  norm_num [toyDickeStateOverlap]
+
+def toyCavityQEDPhaseOracle : CavityQEDPhaseOracle :=
+  { atomCavityCoupling := 2
+    atomCavityCoupling_nonnegative := by norm_num
+    detuning := 4
+    detuning_ne_zero := by norm_num
+    dispersiveShift := 1
+    dispersiveShiftLaw := by norm_num
+    bareCavityFrequency := { hz := 10 }
+    bareCavityFrequency_pos := by norm_num
+    selectedExcitation := 3
+    targetExcitation := 3
+    shiftedCavityFrequency := { hz := 13 }
+    shiftedCavityFrequency_pos := by norm_num
+    shiftedFrequencyLaw := by norm_num
+    reflectedPhase := -1
+    reflectedPhaseLaw := by norm_num }
+
+example : toyCavityQEDPhaseOracle.shiftedCavityFrequency.hz = 13 := by
+  rw [toyCavityQEDPhaseOracle.shifted_frequency_holds]
+  norm_num [toyCavityQEDPhaseOracle]
+
+example : Complex.normSq toyCavityQEDPhaseOracle.reflectedPhase = 1 := by
+  exact toyCavityQEDPhaseOracle.reflected_phase_normSq
+
+noncomputable def toyGroverCavityFidelityScaling : GroverCavityFidelityScaling :=
+  { cooperativity := 100
+    cooperativity_pos := by norm_num
+    bandwidthRatio := 1 / 100
+    bandwidthRatio_nonnegative := by norm_num
+    unheraldedExponent := 1 / 2
+    unheraldedExponentLaw := by norm_num
+    heraldedExponent := 2 / 3
+    heraldedExponentLaw := by norm_num
+    modeMatching := 99 / 100
+    modeMatching_nonnegative := by norm_num
+    modeMatching_le_one := by norm_num
+    heraldingSuccessProbability := 4 / 5
+    heraldingSuccessProbability_nonnegative := by norm_num
+    heraldingSuccessProbability_le_one := by norm_num }
+
+example : toyGroverCavityFidelityScaling.heraldedExponent = 2 / 3 := by
+  exact toyGroverCavityFidelityScaling.heralded_exponent
+
+noncomputable def toySecondHarmonicResonance : SecondHarmonicResonance :=
+  { fundamentalFrequency := { hz := 5 }
+    fundamentalFrequency_pos := by norm_num
+    secondHarmonicFrequency := { hz := 10 }
+    secondHarmonicFrequency_pos := by norm_num
+    resonantFrequency := { hz := 10 }
+    resonantFrequency_pos := by norm_num
+    secondHarmonicLaw := by norm_num
+    resonanceLaw := by norm_num }
+
+noncomputable def toyActiveOpticalAmplifier : ActiveOpticalAmplifier :=
+  { signalInputPower := { watts := 1 }
+    signalInputPower_nonnegative := by norm_num
+    pumpPower := { watts := 2 }
+    pumpPower_nonnegative := by norm_num
+    signalOutputPower := { watts := 2 }
+    signalOutputPower_nonnegative := by norm_num
+    dissipatedPower := { watts := 1 }
+    dissipatedPower_nonnegative := by norm_num
+    linearGain := 2
+    linearGain_nonnegative := by norm_num
+    gainLaw := by norm_num
+    powerBalance := by norm_num }
+
+noncomputable def toyLowPowerIntegratedOPA : LowPowerIntegratedOPA :=
+  { resonance := toySecondHarmonicResonance
+    amplifier := toyActiveOpticalAmplifier
+    reportedGainDecibels := 17
+    reportedGainDecibels_min := by norm_num
+    bandwidthHz := 1
+    bandwidth_nonnegative := by norm_num
+    inputPowerLimitWatts := 200
+    inputPowerLimit_pos := by norm_num
+    inputPowerBelowLimit := by norm_num [toyActiveOpticalAmplifier] }
+
+example : toyLowPowerIntegratedOPA.amplifier.signalOutputPower.watts ≤
+    toyLowPowerIntegratedOPA.amplifier.signalInputPower.watts +
+      toyLowPowerIntegratedOPA.amplifier.pumpPower.watts := by
+  exact toyLowPowerIntegratedOPA.amplifier.output_le_input_and_pump
+
+noncomputable def toySPPFreeElectronAmplifier : SPPFreeElectronAmplifier :=
+  { inputPower := { watts := 1 }
+    inputPower_nonnegative := by norm_num
+    electronPumpPower := { watts := 3 }
+    electronPumpPower_nonnegative := by norm_num
+    outputPower := { watts := 3 }
+    outputPower_nonnegative := by norm_num
+    lossPower := { watts := 1 }
+    lossPower_nonnegative := by norm_num
+    linearGain := 3
+    linearGain_nonnegative := by norm_num
+    gainLaw := by norm_num
+    powerBalance := by norm_num
+    initialFrequency := { hz := 4 }
+    initialFrequency_pos := by norm_num
+    finalFrequency := { hz := 2 }
+    finalFrequency_pos := by norm_num
+    interactionLength := { meters := 1 }
+    interactionLength_pos := by norm_num
+    twofoldRedshiftLaw := by norm_num
+    phaseAlignment := { value := 1, nonnegative := by norm_num, le_one := by norm_num } }
+
+example : toySPPFreeElectronAmplifier.finalFrequency.hz =
+    toySPPFreeElectronAmplifier.initialFrequency.hz / 2 := by
+  exact toySPPFreeElectronAmplifier.twofold_redshift
+
+def toyCylindricalSPPMode : CylindricalSPPMode :=
+  { laserWaveNumber := 3
+    laserWaveNumber_nonnegative := by norm_num
+    sppWaveNumber := 3
+    sppWaveNumber_nonnegative := by norm_num
+    laserAzimuthalIndex := 1
+    sppAzimuthalIndex := 1
+    phaseMatching := by norm_num
+    azimuthalMatching := by norm_num
+    overlapEfficiency := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    electronDensity := 1
+    electronDensity_pos := by norm_num
+    criticalDensity := 1
+    criticalDensity_pos := by norm_num
+    nearCriticalRatio := 1
+    nearCriticalRatioLaw := by norm_num }
+
+def toyCoherentRadiationScaling : CoherentRadiationScaling :=
+  { electronCount := 4
+    electronCount_ge_one := by norm_num
+    singleElectronIntensity := 2
+    singleElectronIntensity_nonnegative := by norm_num
+    coherentIntensity := 32
+    coherentIntensity_nonnegative := by norm_num
+    incoherentIntensity := 8
+    incoherentIntensity_nonnegative := by norm_num
+    coherentLaw := by norm_num
+    incoherentLaw := by norm_num }
+
+example : toyCoherentRadiationScaling.incoherentIntensity ≤
+    toyCoherentRadiationScaling.coherentIntensity := by
+  exact toyCoherentRadiationScaling.incoherent_le_coherent
+
+def toyCSSStabilizerCode : CSSStabilizerCode :=
+  { physicalQubits := 3
+    physicalQubits_positive := by norm_num
+    logicalQubits := 1
+    logicalQubits_le_physical := by norm_num
+    codeDistance := 1
+    codeDistance_positive := by norm_num
+    maximumCheckWeight := 4
+    maximumCheckWeight_positive := by norm_num
+    cssCommutationResidual := 0
+    cssCommutationLaw := by norm_num }
+
+def toyLayerCodeLift : LayerCodeLift :=
+  { input := toyCSSStabilizerCode
+    layerCount := 2
+    layerCount_positive := by norm_num
+    outputPhysicalQubits := 4
+    outputPhysicalQubits_positive := by norm_num
+    outputLogicalQubits := 1
+    outputLogicalQubits_le_physical := by norm_num
+    outputCodeDistance := 1
+    outputCodeDistance_positive := by norm_num
+    topologicalDimension := 3
+    junctionDimension := 1
+    maximumStabilizerWeight := 6
+    logicalQubitsLaw := by norm_num [toyCSSStabilizerCode]
+    topologicalDimensionLaw := by norm_num
+    junctionDimensionLaw := by norm_num
+    stabilizerWeightBound := by norm_num
+    outputCommutationResidual := 0
+    outputCommutationLaw := by norm_num
+    optimalScalingClaimed := true
+    energyBarrierSystemSize := 2
+    energyBarrierSystemSize_pos := by norm_num
+    energyBarrierCoefficient := 1
+    energyBarrierCoefficient_nonnegative := by norm_num
+    energyBarrierExponent := 2
+    energyBarrierExponent_positive := by norm_num
+    energyBarrier := 4
+    energyBarrier_nonnegative := by norm_num
+    energyBarrierLaw := by norm_num }
+
+example : toyLayerCodeLift.maximumStabilizerWeight ≤ 6 := by
+  exact toyLayerCodeLift.stabilizer_weight_le_six
+
+example : surfaceCodeReference.localStatus = QECReferenceStatus.referenceOnly := by
+  rfl
+
+example : layerCodeReference.localStatus =
+    QECReferenceStatus.localParameterMetadata := by
+  rfl
+
+def toyStarConsensusCouncil : StarConsensusCouncil :=
+  { nodeCount := 10
+    nodeCount_at_least_two := by norm_num
+    anchorCount := 1
+    anchorCountLaw := by norm_num
+    spokeCount := 9
+    spokeCountLaw := by norm_num
+    globalEntanglingRounds := 1
+    globalEntanglingRounds_positive := by norm_num
+    postProcessingMajority := true }
+
+noncomputable def toyConsensusObservation : ConsensusObservation :=
+  { shots := 100
+    shots_positive := by norm_num
+    logicalSuccesses := 99
+    logicalSuccesses_le_shots := by norm_num
+    logicalFidelity := 99 / 100
+    logicalFidelity_nonnegative := by norm_num
+    logicalFidelity_le_one := by norm_num
+    logicalFidelityLaw := by norm_num }
+
+noncomputable def toyMajorityDecodedObservation : MajorityDecodedObservation :=
+  { council := toyStarConsensusCouncil
+    measuredHammingWeight := 7
+    hammingWeight_le_nodeCount := by norm_num [toyStarConsensusCouncil]
+    decodedBit := some true
+    decodedBitLaw := by norm_num [majorityDecision, toyStarConsensusCouncil]
+    fidelity := toyConsensusObservation }
+
+def toyProtocolZ8ReportedBenchmark : ProtocolZ8ReportedBenchmark :=
+  { backend := "ibm_torino"
+    heartbeat :=
+      { backend := "ibm_torino"
+        date := "2026-01-09"
+        run1 :=
+          { runId := 1
+            logicalFidelity := 0.9353
+            logicalFidelity_nonnegative := by norm_num
+            logicalFidelity_le_one := by norm_num
+            passed := true }
+        run1_id_law := by norm_num
+        run2 :=
+          { runId := 2
+            logicalFidelity := 0.9080
+            logicalFidelity_nonnegative := by norm_num
+            logicalFidelity_le_one := by norm_num
+            passed := true }
+        run2_id_law := by norm_num
+        run3 :=
+          { runId := 3
+            logicalFidelity := 0.9363
+            logicalFidelity_nonnegative := by norm_num
+            logicalFidelity_le_one := by norm_num
+            passed := true }
+        run3_id_law := by norm_num
+        run4 :=
+          { runId := 4
+            logicalFidelity := 0.9204
+            logicalFidelity_nonnegative := by norm_num
+            logicalFidelity_le_one := by norm_num
+            passed := true }
+        run4_id_law := by norm_num
+        run5 :=
+          { runId := 5
+            logicalFidelity := 0.9211
+            logicalFidelity_nonnegative := by norm_num
+            logicalFidelity_le_one := by norm_num
+            passed := true }
+        run5_id_law := by norm_num
+        averageFidelity := 0.92422
+        averageFidelity_nonnegative := by norm_num
+        averageFidelity_le_one := by norm_num
+        averageFidelityLaw := by norm_num
+        reportedAverageFidelity := 0.9242
+        reportedAverageFidelity_nonnegative := by norm_num
+        reportedAverageFidelity_le_one := by norm_num
+        reportedAverageFidelityLaw := by norm_num }
+    jobIdentifier := "d5gk867ea9qs739131u0"
+    totalShots := 4096
+    totalShots_positive := by norm_num
+    majorityThreshold := 5
+    majorityThreshold_positive := by norm_num
+    consensusZeroCount := 1983
+    consensusOneCount := 1674
+    correctedCount := 103
+    listedRawCountCoverage := 3760
+    listedRawCountCoverageLaw := by norm_num
+    listedRawCountCoverage_le_total := by norm_num
+    reportedPhysicalFidelity := 0.6809
+    reportedPhysicalFidelity_nonnegative := by norm_num
+    reportedPhysicalFidelity_le_one := by norm_num
+    reportedLogicalFidelity := 0.9885
+    reportedLogicalFidelityLaw := by norm_num
+    reportedLogicalFidelity_nonnegative := by norm_num
+    reportedLogicalFidelity_le_one := by norm_num
+    reportedCorrectionRate := 0.1072
+    reportedCorrectionRate_nonnegative := by norm_num
+    reportedCorrectionRate_le_one := by norm_num
+    evidenceStatus := ConsensusEvidenceStatus.reportedHardware
+    completeRawCounts := false
+    reproduction := false
+    sourceRepository := "https://github.com/ENKI-420/consensus-quantum-protocol" }
+
+example : ¬toyProtocolZ8ReportedBenchmark.independentlyVerified := by
+  apply toyProtocolZ8ReportedBenchmark.not_independentlyVerified_of_incomplete
+  rfl
+
+example : toyProtocolZ8ReportedBenchmark.heartbeat.averageFidelity = 0.92422 := by
+  rw [toyProtocolZ8ReportedBenchmark.heartbeat.average_fidelity_holds]
+  norm_num [toyProtocolZ8ReportedBenchmark]
+
+example : toyProtocolZ8ReportedBenchmark.heartbeat.reportedAverageFidelity =
+    0.9242 := by
+  exact toyProtocolZ8ReportedBenchmark.heartbeat.reported_average_fidelity_holds
+
+example : cyclicShift (by norm_num : 0 < 100)
+    ⟨0, by norm_num⟩ ⟨7, by norm_num⟩ = ⟨7, by norm_num⟩ := by
+  exact cyclicShift_zero (by norm_num) ⟨7, by norm_num⟩
+
+noncomputable def toyGKPQutrit : GKPQuditModel 3 :=
+  { dimension_at_least_two := by norm_num
+    logicalPauliSpacing := Real.sqrt (Real.pi / 3)
+    logicalPauliSpacing_nonnegative := Real.sqrt_nonneg _
+    logicalPauliSpacingLaw := by rfl
+    stabilizerLength := Real.sqrt (Real.pi * 3)
+    stabilizerLength_nonnegative := Real.sqrt_nonneg _
+    stabilizerLengthLaw := by rfl
+    envelopeParameter := 0.32
+    envelopeParameter_pos := by norm_num
+    meanPhotonNumber := 1 / (2 * (0.32 : ℝ) ^ 2)
+    meanPhotonNumber_nonnegative := by positivity
+    finiteEnergyEnvelopeLaw := by rfl }
+
+noncomputable def toyGKPQuquart : GKPQuditModel 4 :=
+  { dimension_at_least_two := by norm_num
+    logicalPauliSpacing := Real.sqrt (Real.pi / 4)
+    logicalPauliSpacing_nonnegative := Real.sqrt_nonneg _
+    logicalPauliSpacingLaw := by rfl
+    stabilizerLength := Real.sqrt (Real.pi * 4)
+    stabilizerLength_nonnegative := Real.sqrt_nonneg _
+    stabilizerLengthLaw := by rfl
+    envelopeParameter := 0.32
+    envelopeParameter_pos := by norm_num
+    meanPhotonNumber := 1 / (2 * (0.32 : ℝ) ^ 2)
+    meanPhotonNumber_nonnegative := by positivity
+    finiteEnergyEnvelopeLaw := by rfl }
+
+noncomputable def toyQutritGain : QuditQECGainObservation :=
+  { dimension := 3
+    dimension_at_least_two := by norm_num
+    physicalDecayRate := 1
+    physicalDecayRate_pos := by norm_num
+    logicalDecayRate := 1 / 1.82
+    logicalDecayRate_pos := by norm_num
+    gain := 1.82
+    gain_nonnegative := by norm_num
+    gainLaw := by norm_num
+    reportedStandardError := 0.03
+    reportedStandardError_nonnegative := by norm_num
+    reportedGainAboveBreakEven := by norm_num
+    sourceStatus := "Brock et al. 2025; experimentally reported qutrit" }
+
+noncomputable def toyQuquartGain : QuditQECGainObservation :=
+  { dimension := 4
+    dimension_at_least_two := by norm_num
+    physicalDecayRate := 1
+    physicalDecayRate_pos := by norm_num
+    logicalDecayRate := 1 / 1.87
+    logicalDecayRate_pos := by norm_num
+    gain := 1.87
+    gain_nonnegative := by norm_num
+    gainLaw := by norm_num
+    reportedStandardError := 0.03
+    reportedStandardError_nonnegative := by norm_num
+    reportedGainAboveBreakEven := by norm_num
+    sourceStatus := "Brock et al. 2025; experimentally reported ququart" }
+
+example : 1 < toyQutritGain.gain := by
+  apply toyQutritGain.gain_gt_one
+  norm_num [toyQutritGain]
+
+example : 1 < toyQuquartGain.gain := by
+  apply toyQuquartGain.gain_gt_one
+  norm_num [toyQuquartGain]
+
+noncomputable def toyOAM100State : Qudit 100 :=
+  { amplitudes := fun mode =>
+      if mode = ⟨0, by norm_num⟩ then 1 else 0
+    normalized := by
+      classical
+      simp }
+
+noncomputable def toyOAM100QuditQECDesign : OAM100QuditQECDesign :=
+  { state := toyOAM100State
+    modeLabel := centeredOAMMode
+    modeLabelLaw := by intro mode; rfl
+    modeLabel_injective := centeredOAMMode_injective
+    modeSpacing := 1
+    modeSpacing_pos := by norm_num
+    gkpModel :=
+      { dimension_at_least_two := by norm_num
+        logicalPauliSpacing := Real.sqrt (Real.pi / 100)
+        logicalPauliSpacing_nonnegative := Real.sqrt_nonneg _
+        logicalPauliSpacingLaw := by rfl
+        stabilizerLength := Real.sqrt (Real.pi * 100)
+        stabilizerLength_nonnegative := Real.sqrt_nonneg _
+        stabilizerLengthLaw := by rfl
+        envelopeParameter := 0.1
+        envelopeParameter_pos := by norm_num
+        meanPhotonNumber := 50
+        meanPhotonNumber_nonnegative := by norm_num
+        finiteEnergyEnvelopeLaw := by norm_num }
+    factorLeft := 4
+    factorRight := 25
+    factorizationLaw := by norm_num
+    syndromeAxisCount := 2
+    syndromeAxisCountLaw := by norm_num
+    syndromeReadoutSpecified := false
+    recoveryMapSpecified := false
+    modeLossRate := 0
+    modeLossRate_nonnegative := by norm_num
+    modeDephasingRate := 0
+    modeDephasingRate_nonnegative := by norm_num }
+
+example : toyOAM100QuditQECDesign.factorLeft *
+    toyOAM100QuditQECDesign.factorRight = 100 := by
+  exact toyOAM100QuditQECDesign.factorization
+
+example : toyOAM100QuditQECDesign.syndromeAxisCount = 2 := by
+  exact toyOAM100QuditQECDesign.two_syndrome_axes
+
+noncomputable def toySemiDiracQuadraticAxis : SemiDiracDispersion :=
+  { mass := 2
+    mass_pos := by norm_num
+    linearVelocity := 3
+    linearVelocity_pos := by norm_num
+    momentumX := 2
+    momentumY := 0
+    energy := 1
+    energy_nonnegative := by norm_num
+    dispersionLaw := by norm_num }
+
+noncomputable def toySemiDiracLinearAxis : SemiDiracDispersion :=
+  { mass := 2
+    mass_pos := by norm_num
+    linearVelocity := 3
+    linearVelocity_pos := by norm_num
+    momentumX := 0
+    momentumY := 2
+    energy := 6
+    energy_nonnegative := by norm_num
+    dispersionLaw := by norm_num }
+
+example : toySemiDiracQuadraticAxis.energy ^ 2 =
+    (toySemiDiracQuadraticAxis.momentumX ^ 2 /
+      (2 * toySemiDiracQuadraticAxis.mass)) ^ 2 := by
+  apply toySemiDiracQuadraticAxis.quadratic_axis_energy_squared
+  rfl
+
+example : toySemiDiracLinearAxis.energy ^ 2 =
+    (toySemiDiracLinearAxis.linearVelocity *
+      toySemiDiracLinearAxis.momentumY) ^ 2 := by
+  apply toySemiDiracLinearAxis.linear_axis_energy_squared
+  rfl
+
+noncomputable def toySemiDiracOpticalResponse : SemiDiracOpticalResponse :=
+  { pumpPower := { watts := 2 }
+    pumpPower_nonnegative := by norm_num
+    quadraticResponse := 1
+    quadraticResponse_nonnegative := by norm_num
+    linearResponse := 2
+    linearResponse_nonnegative := by norm_num
+    quadraticResponseGain := 3
+    quadraticResponseGain_nonnegative := by norm_num
+    linearResponseGain := 1
+    linearResponseGain_nonnegative := by norm_num
+    quadraticSignal := 7
+    quadraticSignal_nonnegative := by norm_num
+    linearSignal := 4
+    linearSignal_nonnegative := by norm_num
+    quadraticResponseLaw := by norm_num
+    linearResponseLaw := by norm_num }
+
+example : toySemiDiracOpticalResponse.quadraticResponse <
+    toySemiDiracOpticalResponse.quadraticSignal := by
+  apply toySemiDiracOpticalResponse.quadratic_response_increases
+  · norm_num [toySemiDiracOpticalResponse]
+  · norm_num [toySemiDiracOpticalResponse]
+
+noncomputable def toySemiDiracPowerBudget : SemiDiracOpticalPowerBudget :=
+  { fiberLaserPower := { watts := 10 }
+    fiberLaserPower_nonnegative := by norm_num
+    resonatorPower := { watts := 2 }
+    resonatorPower_nonnegative := by norm_num
+    metamaterialPower := { watts := 3 }
+    metamaterialPower_nonnegative := by norm_num
+    processPower := { watts := 4 }
+    processPower_nonnegative := by norm_num
+    lossPower := { watts := 1 }
+    lossPower_nonnegative := by norm_num
+    inputPower := { watts := 10 }
+    inputPower_nonnegative := by norm_num
+    powerBalance := by norm_num
+    laserInputLaw := by norm_num }
+
+example : toySemiDiracPowerBudget.resonatorPower.watts +
+    toySemiDiracPowerBudget.metamaterialPower.watts +
+    toySemiDiracPowerBudget.processPower.watts ≤
+      toySemiDiracPowerBudget.fiberLaserPower.watts := by
+  exact toySemiDiracPowerBudget.outputs_le_fiber_laser
+
+noncomputable def toySemiDiracGrapheneProcess : SemiDiracGrapheneProcess :=
+  { budget := toySemiDiracPowerBudget
+    endToEndEfficiency :=
+      { value := 1 / 2
+        nonnegative := by norm_num
+        le_one := by norm_num }
+    absorbedPower := { watts := 5 }
+    absorbedPower_nonnegative := by norm_num
+    absorbedPowerLaw := by norm_num [toySemiDiracPowerBudget]
+    requiredAbsorbedPower := { watts := 4 }
+    requiredAbsorbedPower_nonnegative := by norm_num
+    thresholdLaw := by norm_num
+    materialCalibrationSpecified := true
+    phaseIdentificationSpecified := false
+    grapheneFormationVerified := false }
+
+example : toySemiDiracGrapheneProcess.requiredAbsorbedPower.watts ≤
+    toySemiDiracGrapheneProcess.absorbedPower.watts := by
+  exact toySemiDiracGrapheneProcess.threshold_holds
+
+example : 8 ≤ toySemiDiracGrapheneProcess.budget.fiberLaserPower.watts := by
+  have lowerBound :=
+    toySemiDiracGrapheneProcess.fiber_laser_power_lower_bound (by
+      norm_num [toySemiDiracGrapheneProcess])
+  norm_num [toySemiDiracGrapheneProcess] at lowerBound ⊢
+  exact lowerBound
+
+noncomputable def toyPulsedAblation : PulsedLaserTask :=
+  { task := LaserTask.ablation
+    beamKind := LaserBeamKind.femtosecondPulse
+    status := LaserTaskStatus.demonstratedAnalog
+    wavelength := { meters := 800e-9 }
+    wavelength_pos := by norm_num
+    pulseEnergy := { joules := 1e-6 }
+    pulseEnergy_nonnegative := by norm_num
+    pulseDuration := { seconds := 100e-15 }
+    pulseDuration_pos := by norm_num
+    repetitionRate := { hz := 100000 }
+    repetitionRate_nonnegative := by norm_num
+    spotArea := { squareMeters := 1e-10 }
+    spotArea_pos := by norm_num
+    fluence := { joulesPerSquareMeter := 10000 }
+    fluence_nonnegative := by norm_num
+    peakPower := { watts := 1e7 }
+    peakPower_nonnegative := by norm_num
+    maximumPeakPower := { watts := 2e7 }
+    maximumPeakPower_nonnegative := by norm_num
+    peakPower_le_maximum := by norm_num
+    fluenceLaw := by norm_num
+    peakPowerLaw := by norm_num }
+
+example : toyPulsedAblation.fluence.joulesPerSquareMeter *
+  toyPulsedAblation.spotArea.squareMeters =
+    toyPulsedAblation.pulseEnergy.joules := by
+  exact toyPulsedAblation.fluence_holds
+
+example : toyPulsedAblation.peakPower.watts ≤
+    toyPulsedAblation.maximumPeakPower.watts := by
+  exact toyPulsedAblation.peak_power_le_maximum
+
+noncomputable def toyLaserCompressionShock : LaserShockTask :=
+  { pulsedTask :=
+      { task := LaserTask.laserCompressionShock
+        beamKind := LaserBeamKind.pulsedShockDrive
+        status := LaserTaskStatus.demonstratedAnalog
+        wavelength := { meters := 527e-9 }
+        wavelength_pos := by norm_num
+        pulseEnergy := { joules := 16 }
+        pulseEnergy_nonnegative := by norm_num
+        pulseDuration := { seconds := 10e-9 }
+        pulseDuration_pos := by norm_num
+        repetitionRate := { hz := 1 }
+        repetitionRate_nonnegative := by norm_num
+        spotArea := { squareMeters := 1e-8 }
+        spotArea_pos := by norm_num
+        fluence := { joulesPerSquareMeter := 1.6e9 }
+        fluence_nonnegative := by norm_num
+        peakPower := { watts := 1.6e9 }
+        peakPower_nonnegative := by norm_num
+        maximumPeakPower := { watts := 2e9 }
+        maximumPeakPower_nonnegative := by norm_num
+        peakPower_le_maximum := by norm_num
+        fluenceLaw := by norm_num
+        peakPowerLaw := by norm_num }
+    shockPressure := { pascals := 2.27e9 }
+    shockPressure_nonnegative := by norm_num
+    shockPressureThreshold := { pascals := 2e9 }
+    shockPressureThreshold_nonnegative := by norm_num
+    pressureThresholdLaw := by norm_num
+    substrateCalibrated := true
+    shockConfinementCalibrated := false }
+
+example : toyLaserCompressionShock.shockPressureThreshold.pascals ≤
+    toyLaserCompressionShock.shockPressure.pascals := by
+  exact toyLaserCompressionShock.pressure_threshold_met
+
+example : toyLaserCompressionShock.pulsedTask.peakPower.watts ≤
+    toyLaserCompressionShock.pulsedTask.maximumPeakPower.watts := by
+  exact toyLaserCompressionShock.pulsedTask.peak_power_le_maximum
+
+noncomputable def toyDirectWriteGraphene : ContinuousWaveLaserTask :=
+  { task := LaserTask.graphene
+    beamKind := LaserBeamKind.continuousWave
+    status := LaserTaskStatus.demonstratedProcess
+    wavelength := { meters := 10.6e-6 }
+    wavelength_pos := by norm_num
+    averagePower := { watts := 32 }
+    averagePower_nonnegative := by norm_num
+    maximumAveragePower := { watts := 40 }
+    maximumAveragePower_nonnegative := by norm_num
+    averagePower_le_maximum := by norm_num
+    spotArea := { squareMeters := 1e-8 }
+    spotArea_pos := by norm_num
+    scanSpeed := { metersPerSecond := 0.2 }
+    scanSpeed_pos := by norm_num
+    absorbedPowerThreshold := { watts := 16 }
+    absorbedPowerThreshold_nonnegative := by norm_num
+    endToEndEfficiency := 1 / 2
+    endToEndEfficiency_nonnegative := by norm_num
+    endToEndEfficiency_le_one := by norm_num
+    absorbedPowerLaw := by norm_num }
+
+example : 32 ≤ toyDirectWriteGraphene.averagePower.watts := by
+  have lowerBound := toyDirectWriteGraphene.average_power_lower_bound (by
+    norm_num [toyDirectWriteGraphene])
+  norm_num [toyDirectWriteGraphene] at lowerBound ⊢
+
+example : toyDirectWriteGraphene.averagePower.watts ≤
+    toyDirectWriteGraphene.maximumAveragePower.watts := by
+  exact toyDirectWriteGraphene.average_power_le_maximum
+
+noncomputable def toyShockSynthesizedDiamond : LaserShockTask :=
+  { pulsedTask := toyLaserCompressionShock.pulsedTask
+    shockPressure := { pascals := 60e9 }
+    shockPressure_nonnegative := by norm_num
+    shockPressureThreshold := { pascals := 50e9 }
+    shockPressureThreshold_nonnegative := by norm_num
+    pressureThresholdLaw := by norm_num
+    substrateCalibrated := true
+    shockConfinementCalibrated := true }
+
+example : toyShockSynthesizedDiamond.shockPressureThreshold.pascals ≤
+    toyShockSynthesizedDiamond.shockPressure.pascals := by
+  exact toyShockSynthesizedDiamond.pressure_threshold_met
+
+example : toyShockSynthesizedDiamond.pulsedTask.peakPower.watts ≤
+    toyShockSynthesizedDiamond.pulsedTask.maximumPeakPower.watts := by
+  exact toyShockSynthesizedDiamond.pulsedTask.peak_power_le_maximum
+
+noncomputable def toyConvergentHolographicGraphene : HolographicLaserTaskBoundary :=
+  { task := LaserTask.convergentHolographicGraphene
+    beamKind := LaserBeamKind.unsupportedProcaHolographic
+    status := LaserTaskStatus.unsupportedProposal
+    sourcePower := { watts := 0.06 }
+    sourcePower_nonnegative := by norm_num
+    maximumSourcePower := { watts := 0.12 }
+    maximumSourcePower_nonnegative := by norm_num
+    sourcePower_le_maximum := by norm_num
+    beamCount := 4
+    beamCount_pos := by norm_num
+    phaseControlCalibrated := false
+    focalVolumeCalibrated := false
+    materialTransformationVerified := false
+    independentStructuralVerification := false }
+
+example : toyConvergentHolographicGraphene.status =
+    LaserTaskStatus.unsupportedProposal := by
+  exact toyConvergentHolographicGraphene.is_unsupported_proposal rfl
+
+example : toyConvergentHolographicGraphene.sourcePower.watts ≤
+    toyConvergentHolographicGraphene.maximumSourcePower.watts := by
+  exact toyConvergentHolographicGraphene.source_power_le_maximum
+
+noncomputable def toyConvergentHolographicGrapheneAndDiamond :
+    HolographicLaserTaskBoundary :=
+  { task := LaserTask.convergentHolographicGrapheneAndDiamond
+    beamKind := LaserBeamKind.unsupportedProcaHolographic
+    status := LaserTaskStatus.unsupportedProposal
+    sourcePower := { watts := 25000 }
+    sourcePower_nonnegative := by norm_num
+    maximumSourcePower := { watts := 25000 }
+    maximumSourcePower_nonnegative := by norm_num
+    sourcePower_le_maximum := by norm_num
+    beamCount := 4
+    beamCount_pos := by norm_num
+    phaseControlCalibrated := false
+    focalVolumeCalibrated := false
+    materialTransformationVerified := false
+    independentStructuralVerification := false }
+
+example : toyConvergentHolographicGrapheneAndDiamond.status =
+    LaserTaskStatus.unsupportedProposal := by
+  exact toyConvergentHolographicGrapheneAndDiamond.is_unsupported_proposal rfl
+
+example : toyConvergentHolographicGrapheneAndDiamond.sourcePower.watts ≤
+    toyConvergentHolographicGrapheneAndDiamond.maximumSourcePower.watts := by
+  exact toyConvergentHolographicGrapheneAndDiamond.source_power_le_maximum
+
 end SignalsPendingTests

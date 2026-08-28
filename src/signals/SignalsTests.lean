@@ -14,10 +14,12 @@ open Signals.Units
 open Signals.Propagation
 open Signals.Applications
 open Signals.Acoustics
+open Signals.Coherence
 open Signals.Maxwell
 open Signals.NonDestructive
 open Signals.Scattering
 open Signals.MHD
+open Signals.Radio
 
 def zeroCalculus : VectorCalculus where
   divergence := fun _ => 0
@@ -1382,5 +1384,154 @@ noncomputable def toyZeroClosedLoopArgonMHD : ClosedLoopArgonMHD :=
 
 example : toyZeroClosedLoopArgonMHD.exportedPower.watts = 0 := by
   exact toyZeroClosedLoopArgonMHD.zero_export_of_zero_inputs rfl rfl
+
+noncomputable def toyEqualCoherenceSpectrum : CoherenceSpectrum 3 :=
+  { weight := fun _ => 1 / 3
+    weight_nonnegative := by
+      intro index
+      norm_num
+    normalized := by
+      norm_num }
+
+noncomputable def toyEqualCoherenceProfile : CoherenceComplementarity 3 :=
+  { spectrum := toyEqualCoherenceSpectrum
+    polarization := 0
+    entanglement := 1
+    polarization_nonnegative := by norm_num
+    entanglement_nonnegative := by norm_num
+    polarization_squared_law := by
+      norm_num [CoherenceSpectrum.polarizationSquared,
+        toyEqualCoherenceSpectrum]
+    entanglement_squared_law := by
+      norm_num [CoherenceSpectrum.entanglementSquared,
+        toyEqualCoherenceSpectrum] }
+
+example : toyEqualCoherenceProfile.polarization ^ 2 +
+    toyEqualCoherenceProfile.entanglement ^ 2 = 1 := by
+  exact toyEqualCoherenceProfile.complementarity_identity (by norm_num)
+
+example : toyEqualCoherenceProfile.polarization = 0 := by
+  exact rfl
+
+def toyHuygensSteinerMapping : HuygensSteinerMapping :=
+  { axis :=
+      { centerInertia := 2
+        mass := 1
+        offset := 1 }
+    originInertia := 3
+    originInertiaLaw := by
+      norm_num [ParallelAxis.inertia]
+    normalizedMass := by norm_num
+    polarizationSquared := 1
+    entanglementSquared := 0
+    polarizationSquared_nonnegative := by norm_num
+    entanglementSquared_nonnegative := by norm_num
+    polarizationLaw := by norm_num
+    entanglementLaw := by norm_num }
+
+example : toyHuygensSteinerMapping.polarizationSquared =
+    toyHuygensSteinerMapping.axis.offset ^ 2 := by
+  exact toyHuygensSteinerMapping.polarization_eq_offset_squared
+
+example : toyHuygensSteinerMapping.polarizationSquared +
+    toyHuygensSteinerMapping.entanglementSquared = 1 := by
+  exact toyHuygensSteinerMapping.complementarity_identity
+
+  -- Radio module tests
+
+  def toyCrystalDetector : CrystalDetector :=
+    { forwardDrop := 0.3
+      threshold := 0.7
+      hThreshold := by norm_num
+      hDrop := by norm_num
+      hDropSmall := by norm_num }
+
+  example : toyCrystalDetector.forwardDrop < toyCrystalDetector.threshold := by
+    exact toyCrystalDetector.hDropSmall
+
+  example : crystalDetectorOutput toyCrystalDetector 1.0 = 0.7 := by
+    norm_num [crystalDetectorOutput, toyCrystalDetector]
+
+  noncomputable def toySinusoidalModulation : ℝ → ℝ :=
+    fun t => Real.sin (2 * Real.pi * 1000 * t)
+
+  noncomputable def toyAMSignal : AMSignal :=
+    { carrierFreq := 1_000_000
+      carrierAmplitude := 10
+      hCarrierAmp := by norm_num
+      modulation := toySinusoidalModulation
+      modulationIndex := 0.8
+      hModIndex := by norm_num
+      phase := 0 }
+
+  example : toyAMSignal.modulationIndex ≤ 1 := by
+    norm_num [toyAMSignal]
+
+  example : toyAMSignal.bandwidth 1000 = 2000 := by
+    norm_num [AMSignal.bandwidth, toyAMSignal]
+
+  example : toyAMSignal.lowerSideband 1000 = 999_000 := by
+    norm_num [AMSignal.lowerSideband, toyAMSignal]
+
+  example : toyAMSignal.upperSideband 1000 = 1_001_000 := by
+    norm_num [AMSignal.upperSideband, toyAMSignal]
+
+  noncomputable def toyFMSignal : FMSignal :=
+    { carrierFreq := 100_000_000
+      carrierAmplitude := 10
+      hCarrierAmp := by norm_num
+      modulation := toySinusoidalModulation
+      frequencyDeviation := 75_000
+      hFreqDev := by norm_num
+      phase := 0 }
+
+  example : toyFMSignal.frequencyDeviation > 0 := by
+    norm_num [toyFMSignal]
+
+  example : toyFMSignal.modulationIndex 1000 = 75 := by
+    norm_num [FMSignal.modulationIndex, toyFMSignal]
+
+  example : toyFMSignal.carsonBandwidth 1000 = 152000 := by
+    norm_num [FMSignal.carsonBandwidth, toyFMSignal]
+
+  example : toyFMSignal.narrowbandApprox 1000 = 2000 := by
+    norm_num [FMSignal.narrowbandApprox, toyFMSignal]
+
+  def toyReceiver : RadioReceiver :=
+    { tuneFreq := 1_000_000
+      bandwidth := 10_000
+      hBandwidth := by norm_num
+      sensitivity := 0.0001
+      hSensitivity := by norm_num }
+
+  example : toyReceiver.isInBand toyReceiver.tuneFreq := by
+    exact toyReceiver.tuneFreq_in_band
+
+  example : toyReceiver.isInBand 1_005_000 := by
+    norm_num [RadioReceiver.isInBand, toyReceiver]
+
+  example : ¬toyReceiver.isInBand 1_020_000 := by
+    norm_num [RadioReceiver.isInBand, toyReceiver]
+
+  example : voltageToPower 10 = 2 := by
+    norm_num [voltageToPower]
+
+  example : powerToVoltage 2 = 10 := by
+    norm_num [powerToVoltage]
+
+  def toyLCTuner : LCTuner :=
+    { inductance := 0.0001  -- 100 μH
+      hInductance := by norm_num
+      capacitance := 0.00000025  -- 250 pF
+      hCapacitance := by norm_num }
+
+  example : 0 < toyLCTuner.resonantFreq := by
+    unfold LCTuner.resonantFreq toyLCTuner
+    norm_num
+    exact Real.pi_pos
+
+  example : isNarrowband 100 10_000 := by
+    unfold isNarrowband
+    linarith
 
 end SignalsTests
