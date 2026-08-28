@@ -257,3 +257,7 @@ schema/
 #docs/chats/
 
 /tmp
+
+/data/papers
+
+node_modules
