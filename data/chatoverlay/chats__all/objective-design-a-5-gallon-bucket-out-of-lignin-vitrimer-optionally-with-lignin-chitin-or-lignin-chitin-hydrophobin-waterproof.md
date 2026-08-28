@@ -1,0 +1,1 @@
+../../chats/objective-design-a-5-gallon-bucket-out-of-lignin-vitrimer-optionally-with-lignin-chitin-or-lignin-chitin-hydrophobin-waterproof.md

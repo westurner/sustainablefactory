@@ -488,12 +488,16 @@ kernelspec:
   * [📊 Mapping to Equipment Validation (IQ/OQ/PQ)](#-mapping-to-equipment-validation-iqoqpq)
 
 +++ {"chat_input": true}
-# Prompt: 1
+:::{class} chat-input
+> # Prompt: 1
+:::
 
 +++ {"chat_input": true}
-Will soaking in lignin vitrimer and drying it out induce a bandgap in CNT carbon nanotubes? A bandgap usable for transistors?
-
----
+:::{class} chat-input
+> Will soaking in lignin vitrimer and drying it out induce a bandgap in CNT carbon nanotubes? A bandgap usable for transistors?
+>
+> ---
+:::
 
 +++
 # Response: 1
@@ -591,12 +595,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 2
+:::{class} chat-input
+> # Prompt: 2
+:::
 
 +++ {"chat_input": true}
-Yes, and what about COFs?
-
----
+:::{class} chat-input
+> Yes, and what about COFs?
+>
+> ---
+:::
 
 +++
 # Response: 2
@@ -698,12 +706,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 3
+:::{class} chat-input
+> # Prompt: 3
+:::
 
 +++ {"chat_input": true}
-Yes, and what are some sustainable alternatives
-
----
+:::{class} chat-input
+> Yes, and what are some sustainable alternatives
+>
+> ---
+:::
 
 +++
 # Response: 3
@@ -802,12 +814,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 4
+:::{class} chat-input
+> # Prompt: 4
+:::
 
 +++ {"chat_input": true}
-How would an LCS laser change the production process with each of these methods of inducing a band gap in carbon nanotubes?
-
----
+:::{class} chat-input
+> How would an LCS laser change the production process with each of these methods of inducing a band gap in carbon nanotubes?
+>
+> ---
+:::
 
 +++
 # Response: 4
@@ -942,15 +958,19 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 5
+:::{class} chat-input
+> # Prompt: 5
+:::
 
 +++ {"chat_input": true}
-More about
-
-
-\> LCS + Alkylated Cellulose (The "Sinterer")
-
----
+:::{class} chat-input
+> More about
+>
+>
+> \> LCS + Alkylated Cellulose (The "Sinterer")
+>
+> ---
+:::
 
 +++
 # Response: 5
@@ -1059,12 +1079,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 6
+:::{class} chat-input
+> # Prompt: 6
+:::
 
 +++ {"chat_input": true}
-What would be needed for this process to scale to 2nm?
-
----
+:::{class} chat-input
+> What would be needed for this process to scale to 2nm?
+>
+> ---
+:::
 
 +++
 # Response: 6
@@ -1206,12 +1230,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 7
+:::{class} chat-input
+> # Prompt: 7
+:::
 
 +++ {"chat_input": true}
-Don't cellulose wrapped CNT align to a field? In lignin?
-
----
+:::{class} chat-input
+> Don't cellulose wrapped CNT align to a field? In lignin?
+>
+> ---
+:::
 
 +++
 # Response: 7
@@ -1307,12 +1335,16 @@ If you are determined to use the "Lignin Vitrimer + Field" approach, you can imp
 ---
 
 +++ {"chat_input": true}
-# Prompt: 8
+:::{class} chat-input
+> # Prompt: 8
+:::
 
 +++ {"chat_input": true}
-Describe the process including a trim step
-
----
+:::{class} chat-input
+> Describe the process including a trim step
+>
+> ---
+:::
 
 +++
 # Response: 8
@@ -1433,12 +1465,16 @@ This "Trim" methodology allows you to use a low-precision alignment method (Lign
 ---
 
 +++ {"chat_input": true}
-# Prompt: 9
+:::{class} chat-input
+> # Prompt: 9
+:::
 
 +++ {"chat_input": true}
-How would this process at scale compare to existing processes in terms of cost and sustainability?
-
----
+:::{class} chat-input
+> How would this process at scale compare to existing processes in terms of cost and sustainability?
+>
+> ---
+:::
 
 +++
 # Response: 9
@@ -1582,12 +1618,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 10
+:::{class} chat-input
+> # Prompt: 10
+:::
 
 +++ {"chat_input": true}
-How would an mask work with LCS?
-
----
+:::{class} chat-input
+> How would an mask work with LCS?
+>
+> ---
+:::
 
 +++
 # Response: 10
@@ -1741,12 +1781,16 @@ This "Hybrid Masking" approach allows you to achieve 2nm precision with "legacy"
 ---
 
 +++ {"chat_input": true}
-# Prompt: 11
+:::{class} chat-input
+> # Prompt: 11
+:::
 
 +++ {"chat_input": true}
-Describe the fab equipment and process for masked LCS
-
----
+:::{class} chat-input
+> Describe the fab equipment and process for masked LCS
+>
+> ---
+:::
 
 +++
 # Response: 11
@@ -1920,12 +1964,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 12
+:::{class} chat-input
+> # Prompt: 12
+:::
 
 +++ {"chat_input": true}
-What are the carbon based alternatives for the Gate Dielectric instead of Hafnium Oxide?
-
----
+:::{class} chat-input
+> What are the carbon based alternatives for the Gate Dielectric instead of Hafnium Oxide?
+>
+> ---
+:::
 
 +++
 # Response: 12
@@ -2049,12 +2097,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 13
+:::{class} chat-input
+> # Prompt: 13
+:::
 
 +++ {"chat_input": true}
-How does using SAND change the fab cost?
-
----
+:::{class} chat-input
+> How does using SAND change the fab cost?
+>
+> ---
+:::
 
 +++
 # Response: 13
@@ -2149,12 +2201,16 @@ This is the only area where SANDs might initially be more expensive.
 ---
 
 +++ {"chat_input": true}
-# Prompt: 14
+:::{class} chat-input
+> # Prompt: 14
+:::
 
 +++ {"chat_input": true}
-How do Nanocellulose Aerogel and/pr Sodium Alginate compare as alternative dielectrics for this application?
-
----
+:::{class} chat-input
+> How do Nanocellulose Aerogel and/pr Sodium Alginate compare as alternative dielectrics for this application?
+>
+> ---
+:::
 
 +++
 # Response: 14
@@ -2255,12 +2311,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 15
+:::{class} chat-input
+> # Prompt: 15
+:::
 
 +++ {"chat_input": true}
-Research and build a table of high-k dielectrics, with a sustainability rating column
-
----
+:::{class} chat-input
+> Research and build a table of high-k dielectrics, with a sustainability rating column
+>
+> ---
+:::
 
 +++
 # Response: 15
@@ -2376,12 +2436,16 @@ While CEP looks attractive (High k + Bio-base), it is a "Wolf in Sheep's Clothin
 ---
 
 +++ {"chat_input": true}
-# Prompt: 16
+:::{class} chat-input
+> # Prompt: 16
+:::
 
 +++ {"chat_input": true}
-How to produce SANDs? From cellulose in a bioreactor? with ethyl lactate?
-
----
+:::{class} chat-input
+> How to produce SANDs? From cellulose in a bioreactor? with ethyl lactate?
+>
+> ---
+:::
 
 +++
 # Response: 16
@@ -2515,12 +2579,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 17
+:::{class} chat-input
+> # Prompt: 17
+:::
 
 +++ {"chat_input": true}
-Yes
-
----
+:::{class} chat-input
+> Yes
+>
+> ---
+:::
 
 +++
 # Response: 17
@@ -2700,12 +2768,16 @@ You now have a complete, closed-loop materials system where the substrate, the s
 ---
 
 +++ {"chat_input": true}
-# Prompt: 18
+:::{class} chat-input
+> # Prompt: 18
+:::
 
 +++ {"chat_input": true}
-How to produce SANDs sustainably with other methods?
-
----
+:::{class} chat-input
+> How to produce SANDs sustainably with other methods?
+>
+> ---
+:::
 
 +++
 # Response: 18
@@ -2871,12 +2943,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 19
+:::{class} chat-input
+> # Prompt: 19
+:::
 
 +++ {"chat_input": true}
-How would this work with masked LCS?
-
----
+:::{class} chat-input
+> How would this work with masked LCS?
+>
+> ---
+:::
 
 +++
 # Response: 19
@@ -3025,12 +3101,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 20
+:::{class} chat-input
+> # Prompt: 20
+:::
 
 +++ {"chat_input": true}
-Update "Summary Table: Your 2nm Bio-Fab Materials"
-
----
+:::{class} chat-input
+> Update "Summary Table: Your 2nm Bio-Fab Materials"
+>
+> ---
+:::
 
 +++
 # Response: 20
@@ -3080,15 +3160,19 @@ This manufacturing flow relies on three primary biological feedstocks: **Wood Wa
 ---
 
 +++ {"chat_input": true}
-# Prompt: 21
+:::{class} chat-input
+> # Prompt: 21
+:::
 
 +++ {"chat_input": true}
-"Promising 2D Carbon Allotropes with Intrinsic Bandgaps Based on Bilayer α-Graphyne"
-
-
-Is it possible to synthesize α-Graphyne with this or a similar process? What would be more efficient and sustainable?
-
----
+:::{class} chat-input
+> "Promising 2D Carbon Allotropes with Intrinsic Bandgaps Based on Bilayer α-Graphyne"
+>
+>
+> Is it possible to synthesize α-Graphyne with this or a similar process? What would be more efficient and sustainable?
+>
+> ---
+:::
 
 +++
 # Response: 21
@@ -3221,12 +3305,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 22
+:::{class} chat-input
+> # Prompt: 22
+:::
 
 +++ {"chat_input": true}
-Why CNSL again? Would Lignin-vitrimer work?
-
----
+:::{class} chat-input
+> Why CNSL again? Would Lignin-vitrimer work?
+>
+> ---
+:::
 
 +++
 # Response: 22
@@ -3315,12 +3403,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 23
+:::{class} chat-input
+> # Prompt: 23
+:::
 
 +++ {"chat_input": true}
-Read this https://gemini.google.com/share/6f167d9b1b8d re "Lignin-Derived Epoxy-Anhydride Vitrimer" and the rest. Evolve the process
-
----
+:::{class} chat-input
+> Read this https://gemini.google.com/share/6f167d9b1b8d re "Lignin-Derived Epoxy-Anhydride Vitrimer" and the rest. Evolve the process
+>
+> ---
+:::
 
 +++
 # Response: 23
@@ -3462,12 +3554,16 @@ This is the ultimate **"Wooden Microchip"**—processed with nanometer precision
 ---
 
 +++ {"chat_input": true}
-# Prompt: 24
+:::{class} chat-input
+> # Prompt: 24
+:::
 
 +++ {"chat_input": true}
-Outline the process, produce an executive summary of this version of the process, and then create a process flow diagram, given 1050C from solar trapping
-
----
+:::{class} chat-input
+> Outline the process, produce an executive summary of this version of the process, and then create a process flow diagram, given 1050C from solar trapping
+>
+> ---
+:::
 
 +++
 # Response: 24
@@ -3672,12 +3768,16 @@ This diagram illustrates the flow from raw materials to final product, highlight
 ---
 
 +++ {"chat_input": true}
-# Prompt: 25
+:::{class} chat-input
+> # Prompt: 25
+:::
 
 +++ {"chat_input": true}
-Generate a diagram image of the Process Flow Diagram
-
----
+:::{class} chat-input
+> Generate a diagram image of the Process Flow Diagram
+>
+> ---
+:::
 
 +++
 # Response: 25
@@ -3714,12 +3814,16 @@ I'm now cross-referencing the image with the initial prompt. It clearly visualiz
 ---
 
 +++ {"chat_input": true}
-# Prompt: 26
+:::{class} chat-input
+> # Prompt: 26
+:::
 
 +++ {"chat_input": true}
-Update the process to also source clean electricity, and then update the diagram
-
----
+:::{class} chat-input
+> Update the process to also source clean electricity, and then update the diagram
+>
+> ---
+:::
 
 +++
 # Response: 26
@@ -3752,12 +3856,16 @@ I'm checking that the solar thermal power generation element is functioning as r
 ---
 
 +++ {"chat_input": true}
-# Prompt: 27
+:::{class} chat-input
+> # Prompt: 27
+:::
 
 +++ {"chat_input": true}
-Add a description for each phase and update the diagram
-
----
+:::{class} chat-input
+> Add a description for each phase and update the diagram
+>
+> ---
+:::
 
 +++
 # Response: 27
@@ -3786,12 +3894,16 @@ I'm checking that the generated image satisfies the user's requirements. The tex
 ---
 
 +++ {"chat_input": true}
-# Prompt: 28
+:::{class} chat-input
+> # Prompt: 28
+:::
 
 +++ {"chat_input": true}
-How does the Solar bio-methane CVD reactor produce CNT and also Hexl-cellulose? What are its inputs and outputs?
-
----
+:::{class} chat-input
+> How does the Solar bio-methane CVD reactor produce CNT and also Hexl-cellulose? What are its inputs and outputs?
+>
+> ---
+:::
 
 +++
 # Response: 28
@@ -3905,12 +4017,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 29
+:::{class} chat-input
+> # Prompt: 29
+:::
 
 +++ {"chat_input": true}
-The diagram needs an edge there at least
-
----
+:::{class} chat-input
+> The diagram needs an edge there at least
+>
+> ---
+:::
 
 +++
 # Response: 29
@@ -4064,12 +4180,16 @@ This version adds the **"Biomass Fractionation"** node and the edge connecting t
 ---
 
 +++ {"chat_input": true}
-# Prompt: 30
+:::{class} chat-input
+> # Prompt: 30
+:::
 
 +++ {"chat_input": true}
-Also re: the diagram: the "Vitri-Wafer casting" should feeds/ into the LCS Laser Trenching and Alignment/Calibration marking (?) step, and then through each step of the LCS Stepper IIUC?
-
----
+:::{class} chat-input
+> Also re: the diagram: the "Vitri-Wafer casting" should feeds/ into the LCS Laser Trenching and Alignment/Calibration marking (?) step, and then through each step of the LCS Stepper IIUC?
+>
+> ---
+:::
 
 +++
 # Response: 30
@@ -4207,12 +4327,16 @@ I have added the **"LCS Calibration & Marking"** node and straightened the flow 
 ---
 
 +++ {"chat_input": true}
-# Prompt: 31
+:::{class} chat-input
+> # Prompt: 31
+:::
 
 +++ {"chat_input": true}
-Generate an image of the updated diagram. Include the version of the process in the diagram title
-
----
+:::{class} chat-input
+> Generate an image of the updated diagram. Include the version of the process in the diagram title
+>
+> ---
+:::
 
 +++
 # Response: 31
@@ -4245,12 +4369,16 @@ I've checked the latest image against the user's detailed v2.3 instructions. The
 ---
 
 +++ {"chat_input": true}
-# Prompt: 32
+:::{class} chat-input
+> # Prompt: 32
+:::
 
 +++ {"chat_input": true}
-List the Inputs, Outputs, Processes, and Synergies from this whole chat
-
----
+:::{class} chat-input
+> List the Inputs, Outputs, Processes, and Synergies from this whole chat
+>
+> ---
+:::
 
 +++
 # Response: 32
@@ -4401,18 +4529,22 @@ These are the cross-functional advantages that make this specific process effici
 ---
 
 +++ {"chat_input": true}
-# Prompt: 33
+:::{class} chat-input
+> # Prompt: 33
+:::
 
 +++ {"chat_input": true}
-What of this is likely to be challenging, cost prohibitive, unnecessarily complex, or unlikely to work?
-
-
-Is there an alternative to the Bromide and/or Hexyl-Cellulose?
-
-
-Why is Molybdenum/Palladium necessary? Would (metallic) CNTs and LCS work instead?
-
----
+:::{class} chat-input
+> What of this is likely to be challenging, cost prohibitive, unnecessarily complex, or unlikely to work?
+>
+>
+> Is there an alternative to the Bromide and/or Hexyl-Cellulose?
+>
+>
+> Why is Molybdenum/Palladium necessary? Would (metallic) CNTs and LCS work instead?
+>
+> ---
+:::
 
 +++
 # Response: 33
@@ -4528,12 +4660,16 @@ This removes the last non-renewable elements (Metals and Halogens) from the fact
 ---
 
 +++ {"chat_input": true}
-# Prompt: 34
+:::{class} chat-input
+> # Prompt: 34
+:::
 
 +++ {"chat_input": true}
-What are some alternatives to Coconut?
-
----
+:::{class} chat-input
+> What are some alternatives to Coconut?
+>
+> ---
+:::
 
 +++
 # Response: 34
@@ -4657,12 +4793,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 35
+:::{class} chat-input
+> # Prompt: 35
+:::
 
 +++ {"chat_input": true}
-Preferences: first is more preferred: Tall Oil, Algae Oil, Biodiesel-refine waste cooking oil
-
----
+:::{class} chat-input
+> Preferences: first is more preferred: Tall Oil, Algae Oil, Biodiesel-refine waste cooking oil
+>
+> ---
+:::
 
 +++
 # Response: 35
@@ -4862,15 +5002,19 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 36
+:::{class} chat-input
+> # Prompt: 36
+:::
 
 +++ {"chat_input": true}
-\> All-Carbon Contacts
-
-
-Can this be layered? How porous can the layers be for thermal cooling with rGO graphene heatsinks if necessary?
-
----
+:::{class} chat-input
+> \> All-Carbon Contacts
+>
+>
+> Can this be layered? How porous can the layers be for thermal cooling with rGO graphene heatsinks if necessary?
+>
+> ---
+:::
 
 +++
 # Response: 36
@@ -4987,12 +5131,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 37
+:::{class} chat-input
+> # Prompt: 37
+:::
 
 +++ {"chat_input": true}
-Can convergence optics simplify this updated process? Research convergence optics for LCS
-
----
+:::{class} chat-input
+> Can convergence optics simplify this updated process? Research convergence optics for LCS
+>
+> ---
+:::
 
 +++
 # Response: 37
@@ -5190,12 +5338,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 38
+:::{class} chat-input
+> # Prompt: 38
+:::
 
 +++ {"chat_input": true}
-Update the diagram with more information than "beam shaping" for each under optical control. What is each for, how
-
----
+:::{class} chat-input
+> Update the diagram with more information than "beam shaping" for each under optical control. What is each for, how
+>
+> ---
+:::
 
 +++
 # Response: 38
@@ -5396,12 +5548,16 @@ Here is what the "Convergence Optics Engine" actually does for each step:
 ---
 
 +++ {"chat_input": true}
-# Prompt: 39
+:::{class} chat-input
+> # Prompt: 39
+:::
 
 +++ {"chat_input": true}
-Include the descriptions ( "Creating the grid", ) in the diagram
-
----
+:::{class} chat-input
+> Include the descriptions ( "Creating the grid", ) in the diagram
+>
+> ---
+:::
 
 +++
 # Response: 39
@@ -5509,12 +5665,16 @@ Here is the updated V4.1 diagram with the descriptive labels fully integrated.
 ---
 
 +++ {"chat_input": true}
-# Prompt: 40
+:::{class} chat-input
+> # Prompt: 40
+:::
 
 +++ {"chat_input": true}
-Generate an image of the v4.1 diagram
-
----
+:::{class} chat-input
+> Generate an image of the v4.1 diagram
+>
+> ---
+:::
 
 +++
 # Response: 40
@@ -5547,12 +5707,16 @@ I'm checking that the diagram aligns with the user's detailed request. The title
 ---
 
 +++ {"chat_input": true}
-# Prompt: 41
+:::{class} chat-input
+> # Prompt: 41
+:::
 
 +++ {"chat_input": true}
-Describe the process in detail and provide cost estimates. Also, what would it cost to produce another laser and convergence optics engine given the first at what cost?
-
----
+:::{class} chat-input
+> Describe the process in detail and provide cost estimates. Also, what would it cost to produce another laser and convergence optics engine given the first at what cost?
+>
+> ---
+:::
 
 +++
 # Response: 41
@@ -5740,12 +5904,16 @@ Once the design is done and the code is written, you are just buying parts and a
 ---
 
 +++ {"chat_input": true}
-# Prompt: 42
+:::{class} chat-input
+> # Prompt: 42
+:::
 
 +++ {"chat_input": true}
-Yes
-
----
+:::{class} chat-input
+> Yes
+>
+> ---
+:::
 
 +++
 # Response: 42
@@ -5778,12 +5946,16 @@ I'm now comparing the visual representation against the initial prompt. The imag
 ---
 
 +++ {"chat_input": true}
-# Prompt: 43
+:::{class} chat-input
+> # Prompt: 43
+:::
 
 +++ {"chat_input": true}
-How could these holographic optical engine components be fabricated with a process to extend v4.1?
-
----
+:::{class} chat-input
+> How could these holographic optical engine components be fabricated with a process to extend v4.1?
+>
+> ---
+:::
 
 +++
 # Response: 43
@@ -6007,12 +6179,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 44
+:::{class} chat-input
+> # Prompt: 44
+:::
 
 +++ {"chat_input": true}
-Update the factory cost estimate. And generate an image of this v5.0 diagram, but first make sure to include everything from the v4.1 diagram
-
----
+:::{class} chat-input
+> Update the factory cost estimate. And generate an image of this v5.0 diagram, but first make sure to include everything from the v4.1 diagram
+>
+> ---
+:::
 
 +++
 # Response: 44
@@ -6086,12 +6262,16 @@ This diagram combines the detailed optical control of v4.1 with the new self-fab
 ---
 
 +++ {"chat_input": true}
-# Prompt: 45
+:::{class} chat-input
+> # Prompt: 45
+:::
 
 +++ {"chat_input": true}
-Print the source of the v5.0 diagram
-
----
+:::{class} chat-input
+> Print the source of the v5.0 diagram
+>
+> ---
+:::
 
 +++
 # Response: 45
@@ -6268,12 +6448,16 @@ This code captures the complete system: the Solar/Chemical synthesis, the detail
 ---
 
 +++ {"chat_input": true}
-# Prompt: 46
+:::{class} chat-input
+> # Prompt: 46
+:::
 
 +++ {"chat_input": true}
-What are the per chip cost estimates for an ARM64 w/ licensing vs RISC-V with comparable extensions to run Linux?
-
----
+:::{class} chat-input
+> What are the per chip cost estimates for an ARM64 w/ licensing vs RISC-V with comparable extensions to run Linux?
+>
+> ---
+:::
 
 +++
 # Response: 46
@@ -6407,12 +6591,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 47
+:::{class} chat-input
+> # Prompt: 47
+:::
 
 +++ {"chat_input": true}
-What are the per chip cost estimates for an ARM64 w/ licensing vs RISC-V with comparable extensions to run Linux, with the v5.0 process?
-
----
+:::{class} chat-input
+> What are the per chip cost estimates for an ARM64 w/ licensing vs RISC-V with comparable extensions to run Linux, with the v5.0 process?
+>
+> ---
+:::
 
 +++
 # Response: 47
@@ -6555,24 +6743,28 @@ Using ARM in a Solar-Lignin Fab is like putting a Ferrari engine in a wooden gli
 ---
 
 +++ {"chat_input": true}
-# Prompt: 48
+:::{class} chat-input
+> # Prompt: 48
+:::
 
 +++ {"chat_input": true}
-What are the sustainable carbon-based (graphene, rGO, CNT,) alternatives to the 'Remaining "Bought" Parts'?
-
-
-\> Remaining "Bought" Parts:
-
-\> The Laser Gain Medium: You still need to buy the Ytterbium-doped crystal or fiber (Synthesis of high-gain laser crystals from wood is currently sci-fi).
-
-\> The Pump Diodes: Standard semiconductor lasers to power the main laser.
-
-\> The Camera Sensor: SWIR sensors (InGaAs) are hard to make with Carbon.
-
-
-Search for articles with queries like: swir sensor graphene
-
----
+:::{class} chat-input
+> What are the sustainable carbon-based (graphene, rGO, CNT,) alternatives to the 'Remaining "Bought" Parts'?
+>
+>
+> \> Remaining "Bought" Parts:
+>
+> \> The Laser Gain Medium: You still need to buy the Ytterbium-doped crystal or fiber (Synthesis of high-gain laser crystals from wood is currently sci-fi).
+>
+> \> The Pump Diodes: Standard semiconductor lasers to power the main laser.
+>
+> \> The Camera Sensor: SWIR sensors (InGaAs) are hard to make with Carbon.
+>
+>
+> Search for articles with queries like: swir sensor graphene
+>
+> ---
+:::
 
 +++
 # Response: 48
@@ -6658,12 +6850,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 49
+:::{class} chat-input
+> # Prompt: 49
+:::
 
 +++ {"chat_input": true}
-No Lead (Pb) because it would not be sustainable. Generate search queries to find articles on solutions that do not require Lead (or Silver, ideally)
-
----
+:::{class} chat-input
+> No Lead (Pb) because it would not be sustainable. Generate search queries to find articles on solutions that do not require Lead (or Silver, ideally)
+>
+> ---
+:::
 
 +++
 # Response: 49
@@ -6755,12 +6951,16 @@ If higher sensitivity is needed later, upgrade to **Bismuth Sulfide (Option 1)**
 ---
 
 +++ {"chat_input": true}
-# Prompt: 50
+:::{class} chat-input
+> # Prompt: 50
+:::
 
 +++ {"chat_input": true}
-Update the process description and diagram and call it v5.2
-
----
+:::{class} chat-input
+> Update the process description and diagram and call it v5.2
+>
+> ---
+:::
 
 +++
 # Response: 50
@@ -7015,12 +7215,16 @@ _The heart of the factory is the "Holographic Optical Engine," which is now powe
 ---
 
 +++ {"chat_input": true}
-# Prompt: 51
+:::{class} chat-input
+> # Prompt: 51
+:::
 
 +++ {"chat_input": true}
-Better to use sunlight when available, and electricity and sand battery heat when the sun isn't shining. Both Option A (Organic Semiconductor Lasers (OSLs)) and Option B (Direct Solar Pumping.)
-
----
+:::{class} chat-input
+> Better to use sunlight when available, and electricity and sand battery heat when the sun isn't shining. Both Option A (Organic Semiconductor Lasers (OSLs)) and Option B (Direct Solar Pumping.)
+>
+> ---
+:::
 
 +++
 # Response: 51
@@ -7251,18 +7455,22 @@ This diagram explicitly shows the **Sand Battery** buffering the heat and the **
 ---
 
 +++ {"chat_input": true}
-# Prompt: 52
+:::{class} chat-input
+> # Prompt: 52
+:::
 
 +++ {"chat_input": true}
-Generate an image of the v5.3 diagram.
-
-
-FWIU rock gravel works as well or better than sand for thermal storage.
-
-
-Where does the SiO2 come from; the Pine tree input?
-
----
+:::{class} chat-input
+> Generate an image of the v5.3 diagram.
+>
+>
+> FWIU rock gravel works as well or better than sand for thermal storage.
+>
+>
+> Where does the SiO2 come from; the Pine tree input?
+>
+> ---
+:::
 
 +++
 # Response: 52
@@ -7283,12 +7491,16 @@ I'm now cross-referencing the new diagram with the prompt's detailed specs, part
 ---
 
 +++ {"chat_input": true}
-# Prompt: 53
+:::{class} chat-input
+> # Prompt: 53
+:::
 
 +++ {"chat_input": true}
-Update the v5.3 diagram to include the "Phase 1B", wafer flow, and packaging details from the v5.0 diagram.
-
----
+:::{class} chat-input
+> Update the v5.3 diagram to include the "Phase 1B", wafer flow, and packaging details from the v5.0 diagram.
+>
+> ---
+:::
 
 +++
 # Response: 53
@@ -7321,16 +7533,20 @@ I'm confirming the diagram's adherence to the complete user input. The integrati
 ---
 
 +++ {"chat_input": true}
-# Prompt: 54
+:::{class} chat-input
+> # Prompt: 54
+:::
 
 +++ {"chat_input": true}
-\- typo: "Graphine".
-
-\- What is the edge between "LCS Stepper: 3D Print mode" and "Printed Bragg Reflector DMD"?
-
-\- The LCS Stepper also controls the wafer flow, correct?
-
----
+:::{class} chat-input
+> \- typo: "Graphine".
+>
+> \- What is the edge between "LCS Stepper: 3D Print mode" and "Printed Bragg Reflector DMD"?
+>
+> \- The LCS Stepper also controls the wafer flow, correct?
+>
+> ---
+:::
 
 +++
 # Response: 54
@@ -7423,16 +7639,20 @@ This updated diagram clarifies the central role of the Stepper.
 ---
 
 +++ {"chat_input": true}
-# Prompt: 55
+:::{class} chat-input
+> # Prompt: 55
+:::
 
 +++ {"chat_input": true}
-Revise the diagram for understanding. What would be more descriptive than "Replacements for Future Engines"
-
-and "Spare Parts"? What would be a better name for "Phase 1B: Optical
-
-Fabrication"? Why is "LCS Stepper: 3D Print Mode" inside of "Phase 1B"?
-
----
+:::{class} chat-input
+> Revise the diagram for understanding. What would be more descriptive than "Replacements for Future Engines"
+>
+> and "Spare Parts"? What would be a better name for "Phase 1B: Optical
+>
+> Fabrication"? Why is "LCS Stepper: 3D Print Mode" inside of "Phase 1B"?
+>
+> ---
+:::
 
 +++
 # Response: 55
@@ -7461,15 +7681,19 @@ I'm validating the v5.5 diagram against the user's explicit directives. Phase re
 ---
 
 +++ {"chat_input": true}
-# Prompt: 56
+:::{class} chat-input
+> # Prompt: 56
+:::
 
 +++ {"chat_input": true}
-Print the source of the v5.5 diagram please
-
-
-\- typo: "Crystl"
-
----
+:::{class} chat-input
+> Print the source of the v5.5 diagram please
+>
+>
+> \- typo: "Crystl"
+>
+> ---
+:::
 
 +++
 # Response: 56
@@ -7648,12 +7872,16 @@ Here is the source code that defines the **Solar-Powered Monolithic Lignin 2nm F
 ---
 
 +++ {"chat_input": true}
-# Prompt: 57
+:::{class} chat-input
+> # Prompt: 57
+:::
 
 +++ {"chat_input": true}
-How would you improve this process and diagram?
-
----
+:::{class} chat-input
+> How would you improve this process and diagram?
+>
+> ---
+:::
 
 +++
 # Response: 57
@@ -7826,21 +8054,25 @@ This revised diagram simplifies the flow by deleting three steps and replacing t
 ---
 
 +++ {"chat_input": true}
-# Prompt: 58
+:::{class} chat-input
+> # Prompt: 58
+:::
 
 +++ {"chat_input": true}
-\> Change: The Cellulose Oleate (wrapper) synthesis is replaced by the synthesis of Photo-Cleavable Lignin Polymer (PCLP).
-
-
-How does this change the process cost and inputs?
-
-
-\> In-Situ Electrical Test.
-
-
-Is this feasible? Is it slower than SWIR imaging? What is the comparable failure rate of SWIR? Would both be advantageous?
-
----
+:::{class} chat-input
+> \> Change: The Cellulose Oleate (wrapper) synthesis is replaced by the synthesis of Photo-Cleavable Lignin Polymer (PCLP).
+>
+>
+> How does this change the process cost and inputs?
+>
+>
+> \> In-Situ Electrical Test.
+>
+>
+> Is this feasible? Is it slower than SWIR imaging? What is the comparable failure rate of SWIR? Would both be advantageous?
+>
+> ---
+:::
 
 +++
 # Response: 58
@@ -7899,12 +8131,16 @@ While the v6.0 process **replaces** the SWIR sensor for real-time trimming (beca
 ---
 
 +++ {"chat_input": true}
-# Prompt: 59
+:::{class} chat-input
+> # Prompt: 59
+:::
 
 +++ {"chat_input": true}
-Is there a newer imaging capability than SWIR for this?
-
----
+:::{class} chat-input
+> Is there a newer imaging capability than SWIR for this?
+>
+> ---
+:::
 
 +++
 # Response: 59
@@ -7957,12 +8193,16 @@ This provides the ultimate quality control by checking the chips physically (THz
 ---
 
 +++ {"chat_input": true}
-# Prompt: 60
+:::{class} chat-input
+> # Prompt: 60
+:::
 
 +++ {"chat_input": true}
-add these QC steps to the process diagram and call it v6.1
-
----
+:::{class} chat-input
+> add these QC steps to the process diagram and call it v6.1
+>
+> ---
+:::
 
 +++
 # Response: 60
@@ -8115,12 +8355,16 @@ This diagram incorporates the new nodes for sensing and quality assurance.
 ---
 
 +++ {"chat_input": true}
-# Prompt: 61
+:::{class} chat-input
+> # Prompt: 61
+:::
 
 +++ {"chat_input": true}
-Generate an image of the diagram
-
----
+:::{class} chat-input
+> Generate an image of the diagram
+>
+> ---
+:::
 
 +++
 # Response: 61
@@ -8131,12 +8375,16 @@ Generate an image of the diagram
 ---
 
 +++ {"chat_input": true}
-# Prompt: 62
+:::{class} chat-input
+> # Prompt: 62
+:::
 
 +++ {"chat_input": true}
-Revert gemini fast's changes from "add these QC steps to the process diagram and call it v6.1" and then add the QC steps to the process diagram and call it v6.1
-
----
+:::{class} chat-input
+> Revert gemini fast's changes from "add these QC steps to the process diagram and call it v6.1" and then add the QC steps to the process diagram and call it v6.1
+>
+> ---
+:::
 
 +++
 # Response: 62
@@ -8299,12 +8547,16 @@ Here is the correct **v6.1 Process Flow Diagram**, explicitly redrawn to include
 ---
 
 +++ {"chat_input": true}
-# Prompt: 63
+:::{class} chat-input
+> # Prompt: 63
+:::
 
 +++ {"chat_input": true}
-Generate an image of the v6.1 diagram
-
----
+:::{class} chat-input
+> Generate an image of the v6.1 diagram
+>
+> ---
+:::
 
 +++
 # Response: 63
@@ -8325,12 +8577,16 @@ I've verified that the latest output reflects the requested updates and aligns w
 ---
 
 +++ {"chat_input": true}
-# Prompt: 64
+:::{class} chat-input
+> # Prompt: 64
+:::
 
 +++ {"chat_input": true}
-Describe the process in full: inputs, processes, outputs; synergies
-
----
+:::{class} chat-input
+> Describe the process in full: inputs, processes, outputs; synergies
+>
+> ---
+:::
 
 +++
 # Response: 64
@@ -8467,12 +8723,16 @@ The factory operates in three integrated phases.
 ---
 
 +++ {"chat_input": true}
-# Prompt: 65
+:::{class} chat-input
+> # Prompt: 65
+:::
 
 +++ {"chat_input": true}
-Which of these production processes need to be proven, given incremental r&d commitment?
-
----
+:::{class} chat-input
+> Which of these production processes need to be proven, given incremental r&d commitment?
+>
+> ---
+:::
 
 +++
 # Response: 65
@@ -8580,12 +8840,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 66
+:::{class} chat-input
+> # Prompt: 66
+:::
 
 +++ {"chat_input": true}
-What are the cost, benefits, and challenges of Hexl-Cellulose vs PCLP? Is UV degradation a risk with PCLP? Describe the Minimum Viable Experiment with Hexl-Cellulose instead
-
----
+:::{class} chat-input
+> What are the cost, benefits, and challenges of Hexl-Cellulose vs PCLP? Is UV degradation a risk with PCLP? Describe the Minimum Viable Experiment with Hexl-Cellulose instead
+>
+> ---
+:::
 
 +++
 # Response: 66
@@ -8699,15 +8963,19 @@ This experiment requires no custom PCLP synthesis and uses standard lab equipmen
 ---
 
 +++ {"chat_input": true}
-# Prompt: 67
+:::{class} chat-input
+> # Prompt: 67
+:::
 
 +++ {"chat_input": true}
-What about straining a bandgap in CNT with Lignin-Vitrimer? Doesn't this need to be proven?
-
-
-Haven't we specified non-SEM imaging for QC? What is more likely to be available to an r&d lab?
-
----
+:::{class} chat-input
+> What about straining a bandgap in CNT with Lignin-Vitrimer? Doesn't this need to be proven?
+>
+>
+> Haven't we specified non-SEM imaging for QC? What is more likely to be available to an r&d lab?
+>
+> ---
+:::
 
 +++
 # Response: 67
@@ -8883,12 +9151,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 68
+:::{class} chat-input
+> # Prompt: 68
+:::
 
 +++ {"chat_input": true}
-Generate an image of this v6.2 diagram.
-
----
+:::{class} chat-input
+> Generate an image of this v6.2 diagram.
+>
+> ---
+:::
 
 +++
 # Response: 68
@@ -8909,12 +9181,16 @@ I've completed my final check of the v6.2 diagram representation. The lab's R&D 
 ---
 
 +++ {"chat_input": true}
-# Prompt: 69
+:::{class} chat-input
+> # Prompt: 69
+:::
 
 +++ {"chat_input": true}
-Are the spin nematic properties of cellulose nanocrystals useful for uniformly straining a bandgap (CNT) transistors? Do LCS SLM lased cellulose nanocrystals have a bandgap?
-
----
+:::{class} chat-input
+> Are the spin nematic properties of cellulose nanocrystals useful for uniformly straining a bandgap (CNT) transistors? Do LCS SLM lased cellulose nanocrystals have a bandgap?
+>
+> ---
+:::
 
 +++
 # Response: 69
@@ -9046,12 +9322,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 70
+:::{class} chat-input
+> # Prompt: 70
+:::
 
 +++ {"chat_input": true}
-Don't CNT's naturally have no semiconducting electronic bandgap?
-
----
+:::{class} chat-input
+> Don't CNT's naturally have no semiconducting electronic bandgap?
+>
+> ---
+:::
 
 +++
 # Response: 70
@@ -9117,12 +9397,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 71
+:::{class} chat-input
+> # Prompt: 71
+:::
 
 +++ {"chat_input": true}
-In a prior design (in a linked other chat with gemini), we had Lignin to encase the CNT for environmental sustainability. What ensures that the CNTs are encased for safety? Even before packaging with foaming?
-
----
+:::{class} chat-input
+> In a prior design (in a linked other chat with gemini), we had Lignin to encase the CNT for environmental sustainability. What ensures that the CNTs are encased for safety? Even before packaging with foaming?
+>
+> ---
+:::
 
 +++
 # Response: 71
@@ -9224,15 +9508,19 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 72
+:::{class} chat-input
+> # Prompt: 72
+:::
 
 +++ {"chat_input": true}
-Design an experiment to test whether CNTs are bio-hazardous when burned in a Lignin Vitrimer wafer. Would adding salt or another green flame-retardant to the wafer be more fire safe?
-
-
-Why is it called a 'Coupon' in the v6.2 diagram?
-
----
+:::{class} chat-input
+> Design an experiment to test whether CNTs are bio-hazardous when burned in a Lignin Vitrimer wafer. Would adding salt or another green flame-retardant to the wafer be more fire safe?
+>
+>
+> Why is it called a 'Coupon' in the v6.2 diagram?
+>
+> ---
+:::
 
 +++
 # Response: 72
@@ -9326,12 +9614,16 @@ Would you like me to create a final **v6.3** summary that integrates the **Phyti
 ---
 
 +++ {"chat_input": true}
-# Prompt: 73
+:::{class} chat-input
+> # Prompt: 73
+:::
 
 +++ {"chat_input": true}
-Yes on the v6.3 summary. Be sure to include from v6.1.
-
----
+:::{class} chat-input
+> Yes on the v6.3 summary. Be sure to include from v6.1.
+>
+> ---
+:::
 
 +++
 # Response: 73
@@ -9576,12 +9868,16 @@ This diagram adds the **Phytic Acid** input stream and solidifies the integrated
 ---
 
 +++ {"chat_input": true}
-# Prompt: 74
+:::{class} chat-input
+> # Prompt: 74
+:::
 
 +++ {"chat_input": true}
-List each of the components of the holographic optics, and define all of the acryonyms
-
----
+:::{class} chat-input
+> List each of the components of the holographic optics, and define all of the acryonyms
+>
+> ---
+:::
 
 +++
 # Response: 74
@@ -9714,12 +10010,16 @@ These components form the "LCS Stepper" (Phase 2). In this self-replicating fact
 ---
 
 +++ {"chat_input": true}
-# Prompt: 75
+:::{class} chat-input
+> # Prompt: 75
+:::
 
 +++ {"chat_input": true}
-Again, Which of these production processes need to be proven, given incremental R&D commitment and priority for safety experiments like the \[Phytic Acid +\] CNT burn test?
-
----
+:::{class} chat-input
+> Again, Which of these production processes need to be proven, given incremental R&D commitment and priority for safety experiments like the \[Phytic Acid +\] CNT burn test?
+>
+> ---
+:::
 
 +++
 # Response: 75
@@ -9771,12 +10071,16 @@ These are engineering and systems challenges that require significant resources 
 ---
 
 +++ {"chat_input": true}
-# Prompt: 76
+:::{class} chat-input
+> # Prompt: 76
+:::
 
 +++ {"chat_input": true}
-What equipment and qualifications and resources are necessary for each validation challenge?
-
----
+:::{class} chat-input
+> What equipment and qualifications and resources are necessary for each validation challenge?
+>
+> ---
+:::
 
 +++
 # Response: 76
@@ -9791,12 +10095,16 @@ I'm currently structuring the response, focusing on outlining the necessary equi
 ---
 
 +++ {"chat_input": true}
-# Prompt: 77
+:::{class} chat-input
+> # Prompt: 77
+:::
 
 +++ {"chat_input": true}
-What equipment and qualifications and resources are necessary for each Tier of validation challenges?
-
----
+:::{class} chat-input
+> What equipment and qualifications and resources are necessary for each Tier of validation challenges?
+>
+> ---
+:::
 
 +++
 # Response: 77

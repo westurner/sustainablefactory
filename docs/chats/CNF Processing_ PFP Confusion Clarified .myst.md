@@ -27,58 +27,62 @@ kernelspec:
     * [3\. Impact on your "Solvent Exchange" Process](#3-impact-on-your-solvent-exchange-process)
 
 +++ {"chat_input": true}
-# Prompt: 1
+:::{class} chat-input
+> # Prompt: 1
+:::
 
 +++ {"chat_input": true}
-Are PFP Pore Forming Proteins too dangerous for industrial feedstock processing? Specifically for Solvent Exchange to turn "Hydro-CNF" (Water-based) into "Organo-CNF" (Oil-based)
-
-
-https://www.embopress.org/doi/full/10.15252/embj.2020105753
-
-
-https://www.science.org/doi/10.1126/sciadv.adv0683
-
-
-Full text links
-
-
-Actions
-
-
-Page navigation
-
-
-Title & authors
-
-
-Abstract
-
-
-Conflict of interest statement
-
-Similar articles
-
-
-MeSH terms
-
-
-Substances
-
-Related information
-
-
-LinkOut - more resources
-
-
-Int J Biol Macromol
-
-
-. 2025 Apr doi: 10.1016/j.ijbiomac.2025.140214.
-
-
-"Pore formation mechanism and size regulation study of atmospheric dried cellulose nanofiber aerogel templated by emulsions" https://pubmed.ncbi.nlm.nih.gov/39848365/
-
----
+:::{class} chat-input
+> Are PFP Pore Forming Proteins too dangerous for industrial feedstock processing? Specifically for Solvent Exchange to turn "Hydro-CNF" (Water-based) into "Organo-CNF" (Oil-based)
+>
+>
+> https://www.embopress.org/doi/full/10.15252/embj.2020105753
+>
+>
+> https://www.science.org/doi/10.1126/sciadv.adv0683
+>
+>
+> Full text links
+>
+>
+> Actions
+>
+>
+> Page navigation
+>
+>
+> Title & authors
+>
+>
+> Abstract
+>
+>
+> Conflict of interest statement
+>
+> Similar articles
+>
+>
+> MeSH terms
+>
+>
+> Substances
+>
+> Related information
+>
+>
+> LinkOut - more resources
+>
+>
+> Int J Biol Macromol
+>
+>
+> . 2025 Apr doi: 10.1016/j.ijbiomac.2025.140214.
+>
+>
+> "Pore formation mechanism and size regulation study of atmospheric dried cellulose nanofiber aerogel templated by emulsions" https://pubmed.ncbi.nlm.nih.gov/39848365/
+>
+> ---
+:::
 
 +++
 # Response: 1
@@ -209,12 +213,16 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 2
+:::{class} chat-input
+> # Prompt: 2
+:::
 
 +++ {"chat_input": true}
-What are the dimensions of the pores?
-
----
+:::{class} chat-input
+> What are the dimensions of the pores?
+>
+> ---
+:::
 
 +++
 # Response: 2
@@ -310,24 +318,28 @@ Sources
 ---
 
 +++ {"chat_input": true}
-# Prompt: 3
+:::{class} chat-input
+> # Prompt: 3
+:::
 
 +++ {"chat_input": true}
-"Pore formation mechanism and size regulation study of atmospheric dried cellulose nanofiber aerogel templated by emulsions" https://pubmed.ncbi.nlm.nih.gov/39848365/
-
-
-"Superelastic and Ultralight Aerogel Assembled from Hemp Microfibers" (2023) https://onlinelibrary.wiley.com/doi/full/10.1002/adfm.202300893
-
-
-Hemp bast fiber is cheap: https://www.google.com/search?q=hemp+bast+fiber ?tbm=isch
-
-
-"Self-cleaning superhydrophobic aerogels from waste hemp noil for ultrafast oil absorption and highly efficient PM removal" (2023) https://www.sciencedirect.com/science/article/abs/pii/S1383586622020597 : superhydrophobic and porous
-
-
-How do hemp aerogels compare to CNF aerogels?
-
----
+:::{class} chat-input
+> "Pore formation mechanism and size regulation study of atmospheric dried cellulose nanofiber aerogel templated by emulsions" https://pubmed.ncbi.nlm.nih.gov/39848365/
+>
+>
+> "Superelastic and Ultralight Aerogel Assembled from Hemp Microfibers" (2023) https://onlinelibrary.wiley.com/doi/full/10.1002/adfm.202300893
+>
+>
+> Hemp bast fiber is cheap: https://www.google.com/search?q=hemp+bast+fiber ?tbm=isch
+>
+>
+> "Self-cleaning superhydrophobic aerogels from waste hemp noil for ultrafast oil absorption and highly efficient PM removal" (2023) https://www.sciencedirect.com/science/article/abs/pii/S1383586622020597 : superhydrophobic and porous
+>
+>
+> How do hemp aerogels compare to CNF aerogels?
+>
+> ---
+:::
 
 +++
 # Response: 3

@@ -221,18 +221,22 @@ kernelspec:
 > From: https://gemini.google.com/app/d455d720059bf191
 
 +++ {"chat_input": true}
-# Prompt: 1
+:::{class} chat-input
+> # Prompt: 1
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-05 23:32:35
-
-Review this article:
-
-"Bell correlations between momentum-entangled pairs of 4He* atoms" (2025)
-
-https://arxiv.org/html/2502.12392v2
-
----
+:::{class} chat-input
+> message time: 2026-08-05 23:32:35
+>
+> Review this article:
+>
+> "Bell correlations between momentum-entangled pairs of 4He* atoms" (2025)
+>
+> https://arxiv.org/html/2502.12392v2
+>
+> ---
+:::
 
 +++
 # Response: 1
@@ -302,16 +306,20 @@ This work represents a major experimental milestone: **the first direct observat
 ---
 
 +++ {"chat_input": true}
-# Prompt: 2
+:::{class} chat-input
+> # Prompt: 2
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-05 23:36:40
-
-Find our recent chat about amplituhedron, massive Proca waves, and superfluid quantum gravity and *fracture*
-
-How to interpret the paper's findings in light of such results
-
----
+:::{class} chat-input
+> message time: 2026-08-05 23:36:40
+>
+> Find our recent chat about amplituhedron, massive Proca waves, and superfluid quantum gravity and *fracture*
+>
+> How to interpret the paper's findings in light of such results
+>
+> ---
+:::
 
 +++
 # Response: 2
@@ -349,14 +357,18 @@ The $^4\text{He}^*$ momentum-entanglement paper (Athreya et al.) provides a dire
 ---
 
 +++ {"chat_input": true}
-# Prompt: 3
+:::{class} chat-input
+> # Prompt: 3
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-05 23:38:57
-
-Map the two-body s-wave scattering of colliding helium BECs directly to a 4-point positive geometry in twistor space.
-
----
+:::{class} chat-input
+> message time: 2026-08-05 23:38:57
+>
+> Map the two-body s-wave scattering of colliding helium BECs directly to a 4-point positive geometry in twistor space.
+>
+> ---
+:::
 
 +++
 # Response: 3
@@ -429,16 +441,20 @@ The observed violation of the CHSH inequality ($S > 2$) proves that the kinemati
 ---
 
 +++ {"chat_input": true}
-# Prompt: 4
+:::{class} chat-input
+> # Prompt: 4
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-05 23:40:51
-
-Explain Yang-Mills Twistor-Spinor and Amplituhedron for the OT article authors, and then for laypersons.
-
-Include citations in BibTex format
-
----
+:::{class} chat-input
+> message time: 2026-08-05 23:40:51
+>
+> Explain Yang-Mills Twistor-Spinor and Amplituhedron for the OT article authors, and then for laypersons.
+>
+> Include citations in BibTex format
+>
+> ---
+:::
 
 +++
 # Response: 4
@@ -549,14 +565,18 @@ Cited by: 961
 ---
 
 +++ {"chat_input": true}
-# Prompt: 5
+:::{class} chat-input
+> # Prompt: 5
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-05 23:47:46
-
-Show a step-by-step mathematical comparison of a 4-gluon scattering calculation using Feynman diagrams versus the Amplituhedron.
-
----
+:::{class} chat-input
+> message time: 2026-08-05 23:47:46
+>
+> Show a step-by-step mathematical comparison of a 4-gluon scattering calculation using Feynman diagrams versus the Amplituhedron.
+>
+> ---
+:::
 
 +++
 # Response: 5
@@ -630,16 +650,20 @@ $$\mathcal{A}_4(1^-, 2^-, 3^+, 4^+) = \frac{\langle 1 2 \rangle^4}{\langle 1 2 \
 ---
 
 +++ {"chat_input": true}
-# Prompt: 6
+:::{class} chat-input
+> # Prompt: 6
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-05 23:50:32
-
-Find the 2024 extension of amplituhedron to massive particles. Explain how an additional twistor makes a photon massive (or massful)
-
-Explain what we get when we have n twistors, in a table
-
----
+:::{class} chat-input
+> message time: 2026-08-05 23:50:32
+>
+> Find the 2024 extension of amplituhedron to massive particles. Explain how an additional twistor makes a photon massive (or massful)
+>
+> Explain what we get when we have n twistors, in a table
+>
+> ---
+:::
 
 +++
 # Response: 6
@@ -688,14 +712,18 @@ where $I \in \{1, 2\}$ is the $SU(2)$ massive Little Group index.
 ---
 
 +++ {"chat_input": true}
-# Prompt: 7
+:::{class} chat-input
+> # Prompt: 7
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-05 23:56:25
-
-How do twistors, a positive Grassmanian, and superfluid quantum fracture states help us describe and predict non-quantum and quantum entanglement? In 4He
-
----
+:::{class} chat-input
+> message time: 2026-08-05 23:56:25
+>
+> How do twistors, a positive Grassmanian, and superfluid quantum fracture states help us describe and predict non-quantum and quantum entanglement? In 4He
+>
+> ---
+:::
 
 +++
 # Response: 7
@@ -781,14 +809,18 @@ Macroscopic Vortices & Shear Loops  ──>  Helicity & Circulation Integrals  �
 ---
 
 +++ {"chat_input": true}
-# Prompt: 8
+:::{class} chat-input
+> # Prompt: 8
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-05 23:58:58
-
-Model Penning ionization on a microchannel plate detector as a fluidic phase fracture using Finite-Time Lyapunov Exponents.
-
----
+:::{class} chat-input
+> message time: 2026-08-05 23:58:58
+>
+> Model Penning ionization on a microchannel plate detector as a fluidic phase fracture using Finite-Time Lyapunov Exponents.
+>
+> ---
+:::
 
 +++
 # Response: 8
@@ -873,15 +905,19 @@ Phase gradient ∇φ is smooth & bounded  ──>  FTLE diverges at impact site:
 ---
 
 +++ {"chat_input": true}
-# Prompt: 9
+:::{class} chat-input
+> # Prompt: 9
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:08:53
-
-- Find our chats on *entropy siphoning* ("Quantum knowledge cools computers")
-- Can this 4He experiment be done with less nitrogen? Or, how to demonstrate the same effect without the costs (given FTLE and superfluid fracture)?
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:08:53
+>
+> - Find our chats on *entropy siphoning* ("Quantum knowledge cools computers")
+> - Can this 4He experiment be done with less nitrogen? Or, how to demonstrate the same effect without the costs (given FTLE and superfluid fracture)?
+>
+> ---
+:::
 
 +++
 # Response: 9
@@ -930,14 +966,18 @@ If the goal is to observe **momentum entanglement, phase fracture, and FTLE topo
 ---
 
 +++ {"chat_input": true}
-# Prompt: 10
+:::{class} chat-input
+> # Prompt: 10
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:13:00
-
-Design a room-temperature nonlinear optical setup to measure FTLE phase fracture and vortex formation in a fluid of light.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:13:00
+>
+> Design a room-temperature nonlinear optical setup to measure FTLE phase fracture and vortex formation in a fluid of light.
+>
+> ---
+:::
 
 +++
 # Response: 10
@@ -984,14 +1024,18 @@ Splitting the beam after the cell and mixing it with a simple reference beam on 
 ---
 
 +++ {"chat_input": true}
-# Prompt: 11
+:::{class} chat-input
+> # Prompt: 11
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:13:27
-
-Detail the integration of phonon-siphoning vitrimer substrates into an atom-chip vacuum flange to minimize thermal load.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:13:27
+>
+> Detail the integration of phonon-siphoning vitrimer substrates into an atom-chip vacuum flange to minimize thermal load.
+>
+> ---
+:::
 
 +++
 # Response: 11
@@ -1027,18 +1071,22 @@ By channeling over 90% of ohmic dissipation ($I^2 R$) along the in-plane BNNT ch
 ---
 
 +++ {"chat_input": true}
-# Prompt: 12
+:::{class} chat-input
+> # Prompt: 12
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:16:51
-
-Can LCDs, as spin-nematic liquid crystals, demonstrate this effect as well?
-
-Research the connection between superfluid quantum gravity, supersolid spin nematic crystals, and spin-nematic liquid crystals (LCDs,) for waveguiding entangled photons.
-
-And also anyons in neutron stars
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:16:51
+>
+> Can LCDs, as spin-nematic liquid crystals, demonstrate this effect as well?
+>
+> Research the connection between superfluid quantum gravity, supersolid spin nematic crystals, and spin-nematic liquid crystals (LCDs,) for waveguiding entangled photons.
+>
+> And also anyons in neutron stars
+>
+> ---
+:::
 
 +++
 # Response: 12
@@ -1089,14 +1137,18 @@ By structuring the director field disclinations of a **spin-nematic liquid cryst
 ---
 
 +++ {"chat_input": true}
-# Prompt: 13
+:::{class} chat-input
+> # Prompt: 13
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:23:14
-
-How to demonstrate entangled particles in superposition like "Bell Correlations Between Momentum-Entangled Pairs of $^4\text{He}^$ Atoms" , given these additional advances?
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:23:14
+>
+> How to demonstrate entangled particles in superposition like "Bell Correlations Between Momentum-Entangled Pairs of $^4\text{He}^$ Atoms" , given these additional advances?
+>
+> ---
+:::
 
 +++
 # Response: 13
@@ -1154,14 +1206,18 @@ For a room-temperature, purely optical demonstration, a ferroelectric/spin-nemat
 ---
 
 +++ {"chat_input": true}
-# Prompt: 14
+:::{class} chat-input
+> # Prompt: 14
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:27:19
-
-Derive the CHSH inequality parameter S in terms of spatial light modulator phase settings for momentum-entangled photon pairs.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:27:19
+>
+> Derive the CHSH inequality parameter S in terms of spatial light modulator phase settings for momentum-entangled photon pairs.
+>
+> ---
+:::
 
 +++
 # Response: 14
@@ -1270,14 +1326,18 @@ This proves that configuring SLM phase masks to these precise relative shifts yi
 ---
 
 +++ {"chat_input": true}
-# Prompt: 15
+:::{class} chat-input
+> # Prompt: 15
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:27:47
-
-Provide a complete component list, alignment procedure, and optical budget for the room-temperature spin-nematic photon entanglement setup.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:27:47
+>
+> Provide a complete component list, alignment procedure, and optical budget for the room-temperature spin-nematic photon entanglement setup.
+>
+> ---
+:::
 
 +++
 # Response: 15
@@ -1347,14 +1407,18 @@ This room-temperature setup uses a ferroelectric nematic liquid crystal (FNLC) c
 ---
 
 +++ {"chat_input": true}
-# Prompt: 16
+:::{class} chat-input
+> # Prompt: 16
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:28:50
-
-Extend the SLM phase derivation from two discrete momentum modes to higher-dimensional OAM d-level states (qudits).
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:28:50
+>
+> Extend the SLM phase derivation from two discrete momentum modes to higher-dimensional OAM d-level states (qudits).
+>
+> ---
+:::
 
 +++
 # Response: 16
@@ -1428,14 +1492,18 @@ Increasing the dimension $d$ increases noise robustness and yields higher violat
 ---
 
 +++ {"chat_input": true}
-# Prompt: 17
+:::{class} chat-input
+> # Prompt: 17
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:34:13
-
-Map the d-dimensional OAM joint coincidence probability distribution directly to the canonical form of the positive Grassmannian Gr+(k,n).
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:34:13
+>
+> Map the d-dimensional OAM joint coincidence probability distribution directly to the canonical form of the positive Grassmannian Gr+(k,n).
+>
+> ---
+:::
 
 +++
 # Response: 17
@@ -1508,14 +1576,18 @@ $$P_d(\theta) = \frac{1}{d^2 \cdot \left| \Omega\left(Gr^+(2, d)\right)\right|_\
 ---
 
 +++ {"chat_input": true}
-# Prompt: 18
+:::{class} chat-input
+> # Prompt: 18
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:35:59
-
-Derive the canonical form on Gr+(2,d) for non-maximally entangled OAM qudit states with non-uniform Schmidt coefficients.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:35:59
+>
+> Derive the canonical form on Gr+(2,d) for non-maximally entangled OAM qudit states with non-uniform Schmidt coefficients.
+>
+> ---
+:::
 
 +++
 # Response: 18
@@ -1593,14 +1665,18 @@ $$P_{\boldsymbol{\lambda}}(\theta) = \frac{1}{d^2 \cdot \left| \Omega_{\boldsymb
 ---
 
 +++ {"chat_input": true}
-# Prompt: 19
+:::{class} chat-input
+> # Prompt: 19
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:36:27
-
-Show how the boundaries of Gr+(k,n) define necessary and sufficient conditions for high-dimensional quantum steering with OAM states.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:36:27
+>
+> Show how the boundaries of Gr+(k,n) define necessary and sufficient conditions for high-dimensional quantum steering with OAM states.
+>
+> ---
+:::
 
 +++
 # Response: 19
@@ -1692,14 +1768,18 @@ A violation $\text{Tr}\left( W \cdot C \right) > \beta_{\text{LHS}}$ occurs if a
 ---
 
 +++ {"chat_input": true}
-# Prompt: 20
+:::{class} chat-input
+> # Prompt: 20
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:38:15
-
-Formulate the boundary conditions of Gr+(k,n) for OAM steering in the presence of asymmetric detector losses and finite detection efficiency.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:38:15
+>
+> Formulate the boundary conditions of Gr+(k,n) for OAM steering in the presence of asymmetric detector losses and finite detection efficiency.
+>
+> ---
+:::
 
 +++
 # Response: 20
@@ -1766,14 +1846,18 @@ $$\eta_A \eta_B > \eta_{\text{crit}}(k, n) = \frac{1}{1 + (n - 1) \cos\left(\fra
 ---
 
 +++ {"chat_input": true}
-# Prompt: 21
+:::{class} chat-input
+> # Prompt: 21
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:38:57
-
-Derive the quantum steering robustness SR(C) explicitly as a geodesic distance metric on the positive Grassmannian Gr+(k,n).
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:38:57
+>
+> Derive the quantum steering robustness SR(C) explicitly as a geodesic distance metric on the positive Grassmannian Gr+(k,n).
+>
+> ---
+:::
 
 +++
 # Response: 21
@@ -1876,14 +1960,18 @@ $$SR(C) = \sqrt{\sum_{i=1}^k \tan^2\left( \frac{\theta_i(C, \mathcal{P}_{\text{L
 ---
 
 +++ {"chat_input": true}
-# Prompt: 22
+:::{class} chat-input
+> # Prompt: 22
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:39:24
-
-Derive the mathematical constraints on post-selected OAM steering assemblages in Gr+(k,n) when using detection-loophole-free bounds.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:39:24
+>
+> Derive the mathematical constraints on post-selected OAM steering assemblages in Gr+(k,n) when using detection-loophole-free bounds.
+>
+> ---
+:::
 
 +++
 # Response: 22
@@ -1980,14 +2068,18 @@ $$\eta_A \eta_B > \eta_{\text{no-hole}}(k, n) = \frac{n \cos\left(\frac{\pi}{k}\
 ---
 
 +++ {"chat_input": true}
-# Prompt: 23
+:::{class} chat-input
+> # Prompt: 23
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:40:11
-
-Formulate how high-efficiency ferroelectric nematic liquid crystal waveguides minimize spatial mode loss in the Gr+(k,n) boundary framework.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:40:11
+>
+> Formulate how high-efficiency ferroelectric nematic liquid crystal waveguides minimize spatial mode loss in the Gr+(k,n) boundary framework.
+>
+> ---
+:::
 
 +++
 # Response: 23
@@ -2081,14 +2173,18 @@ By locking spatial mode attenuation below $0.1\text{ dB/cm}$ and matching Laguer
 ---
 
 +++ {"chat_input": true}
-# Prompt: 24
+:::{class} chat-input
+> # Prompt: 24
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:41:33
-
-Derive the topological immunity of OAM modes against domain wall scattering in ferroelectric nematic liquid crystals.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:41:33
+>
+> Derive the topological immunity of OAM modes against domain wall scattering in ferroelectric nematic liquid crystals.
+>
+> ---
+:::
 
 +++
 # Response: 24
@@ -2190,18 +2286,22 @@ Because $w_d \ll \lambda$ (domain wall width $\sim 20\text{ nm}$ vs. optical wav
 ---
 
 +++ {"chat_input": true}
-# Prompt: 25
+:::{class} chat-input
+> # Prompt: 25
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:43:14
-
-Can this platform demonstrate the same effect? 
-"Telecom-wavelength quantum teleportation using frequency-converted photons from remote quantum dots" (2025) https://www.nature.com/articles/s41467-025-65912-8 
-
-
-( "Tunable entangled photon-pair generation in a liquid crystal" (2024) https://www.nature.com/articles/s41586-024-07543-5 )
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:43:14
+>
+> Can this platform demonstrate the same effect? 
+> "Telecom-wavelength quantum teleportation using frequency-converted photons from remote quantum dots" (2025) https://www.nature.com/articles/s41467-025-65912-8 
+>
+>
+> ( "Tunable entangled photon-pair generation in a liquid crystal" (2024) https://www.nature.com/articles/s41586-024-07543-5 )
+>
+> ---
+:::
 
 +++
 # Response: 25
@@ -2251,14 +2351,18 @@ To achieve teleportation fidelity above the classical limit ($F > 2/3$) using FN
 ---
 
 +++ {"chat_input": true}
-# Prompt: 26
+:::{class} chat-input
+> # Prompt: 26
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:46:29
-
-Design an optical circuit diagram using two FNLC cells to demonstrate heralded telecom-wavelength quantum teleportation.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:46:29
+>
+> Design an optical circuit diagram using two FNLC cells to demonstrate heralded telecom-wavelength quantum teleportation.
+>
+> ---
+:::
 
 +++
 # Response: 26
@@ -2340,20 +2444,24 @@ Trigger 1   Photon 1                             Photon 2    Photon 3
 ---
 
 +++ {"chat_input": true}
-# Prompt: 27
+:::{class} chat-input
+> # Prompt: 27
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:49:46
-
-Find our chats about QND Quantum nondemolition measurement and wavefield recording 
-
-***
-
-Find our chats about detecting *squeezed states* with inexpensive sensors. 
-
-Can the effect of the OT be demonstrated with squeezed States?
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:49:46
+>
+> Find our chats about QND Quantum nondemolition measurement and wavefield recording 
+>
+> ***
+>
+> Find our chats about detecting *squeezed states* with inexpensive sensors. 
+>
+> Can the effect of the OT be demonstrated with squeezed States?
+>
+> ---
+:::
 
 +++
 # Response: 27
@@ -2429,14 +2537,18 @@ Instead of destroying the squeezed field during measurement, a **Soliton Shadow 
 ---
 
 +++ {"chat_input": true}
-# Prompt: 28
+:::{class} chat-input
+> # Prompt: 28
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 00:55:24
-
-Derive the CHSH parameter S for continuous-variable squeezed states using sign-binned balanced homodyne detection.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 00:55:24
+>
+> Derive the CHSH parameter S for continuous-variable squeezed states using sign-binned balanced homodyne detection.
+>
+> ---
+:::
 
 +++
 # Response: 28
@@ -2537,15 +2649,19 @@ $$S_{\text{sub, 2-mode}} \longrightarrow 2\sqrt{2} \approx 2.8284$$
 ---
 
 +++ {"chat_input": true}
-# Prompt: 29
+:::{class} chat-input
+> # Prompt: 29
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 01:05:09
-
-Can this platform demonstrate the same entanglement effect:
-"Telecom-wavelength quantum teleportation using frequency-converted photons from remote quantum dots" (2025) https://www.nature.com/articles/s41467-025-65912-8
-
----
+:::{class} chat-input
+> message time: 2026-08-06 01:05:09
+>
+> Can this platform demonstrate the same entanglement effect:
+> "Telecom-wavelength quantum teleportation using frequency-converted photons from remote quantum dots" (2025) https://www.nature.com/articles/s41467-025-65912-8
+>
+> ---
+:::
 
 +++
 # Response: 29
@@ -2613,14 +2729,18 @@ Instead of teleporting discrete photonic qubits using single-photon emitters and
 ---
 
 +++ {"chat_input": true}
-# Prompt: 30
+:::{class} chat-input
+> # Prompt: 30
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 01:08:27
-
-Provide a schematic for a photon-subtracted non-Gaussian CV teleportation circuit using N-LIG homodyne sensors.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 01:08:27
+>
+> Provide a schematic for a photon-subtracted non-Gaussian CV teleportation circuit using N-LIG homodyne sensors.
+>
+> ---
+:::
 
 +++
 # Response: 30
@@ -2705,14 +2825,18 @@ Provide a schematic for a photon-subtracted non-Gaussian CV teleportation circui
 ---
 
 +++ {"chat_input": true}
-# Prompt: 31
+:::{class} chat-input
+> # Prompt: 31
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 01:10:07
-
-Derive the output noise figure of the N-LIG balanced homodyne detector circuit as a function of common-mode rejection ratio (CMRR).
-
----
+:::{class} chat-input
+> message time: 2026-08-06 01:10:07
+>
+> Derive the output noise figure of the N-LIG balanced homodyne detector circuit as a function of common-mode rejection ratio (CMRR).
+>
+> ---
+:::
 
 +++
 # Response: 31
@@ -2760,14 +2884,18 @@ For a $1550\text{ nm}$ N-LIG receiver ($\mathcal{R} = 0.8\text{ A/W}$, $P_{\text
 ---
 
 +++ {"chat_input": true}
-# Prompt: 32
+:::{class} chat-input
+> # Prompt: 32
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 01:12:43
-
-Derive the frequency-dependent CMRR(f) decay and noise figure degradation caused by parasitic capacitance in N-LIG photodetector channels.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 01:12:43
+>
+> Derive the frequency-dependent CMRR(f) decay and noise figure degradation caused by parasitic capacitance in N-LIG photodetector channels.
+>
+> ---
+:::
 
 +++
 # Response: 32
@@ -2864,14 +2992,18 @@ For a typical N-LIG channel pair ($R_0 = 500\,\Omega$, $C_{p,0} = 2\text{ pF}$, 
 ---
 
 +++ {"chat_input": true}
-# Prompt: 33
+:::{class} chat-input
+> # Prompt: 33
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 01:15:14
-
-Calculate the shot-noise clearance ratio (SNCR) comparing room-temperature N-LIG photodetectors to commercial silicon PIN diodes.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 01:15:14
+>
+> Calculate the shot-noise clearance ratio (SNCR) comparing room-temperature N-LIG photodetectors to commercial silicon PIN diodes.
+>
+> ---
+:::
 
 +++
 # Response: 33
@@ -2933,14 +3065,18 @@ $$\text{SNCR}(P_{\text{LO}}) = \frac{S_{\text{shot}}}{S_{\text{elec}}} = \frac{2
 ---
 
 +++ {"chat_input": true}
-# Prompt: 34
+:::{class} chat-input
+> # Prompt: 34
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 01:17:51
-
-Calculate the shot-noise clearance ratio comparing room-temperature N-LIG photodetectors directly to commercial InGaAs PIN diodes at 1550 nm.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 01:17:51
+>
+> Calculate the shot-noise clearance ratio comparing room-temperature N-LIG photodetectors directly to commercial InGaAs PIN diodes at 1550 nm.
+>
+> ---
+:::
 
 +++
 # Response: 34
@@ -3009,14 +3145,18 @@ $$\text{SNCR}(P_{\text{LO}}) = \frac{S_{\text{shot}}}{S_{\text{elec}}} = \frac{2
 ---
 
 +++ {"chat_input": true}
-# Prompt: 35
+:::{class} chat-input
+> # Prompt: 35
+:::
 
 +++ {"chat_input": true}
-message time: 2026-08-06 01:19:00
-
-Derive the optimal channel resistance R_ch for an N-LIG photodetector to maximize SNCR at a given LO power.
-
----
+:::{class} chat-input
+> message time: 2026-08-06 01:19:00
+>
+> Derive the optimal channel resistance R_ch for an N-LIG photodetector to maximize SNCR at a given LO power.
+>
+> ---
+:::
 
 +++
 # Response: 35

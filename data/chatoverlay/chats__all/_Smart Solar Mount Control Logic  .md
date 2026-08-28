@@ -1,0 +1,1 @@
+../../chats/_Smart Solar Mount Control Logic  .md
