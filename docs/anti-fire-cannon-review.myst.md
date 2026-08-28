@@ -9,15 +9,15 @@ This page reviews the Anti-Fire Cannon concept developed in the IQ-sampling chat
 3. Which design parameters are stated, and how are they justified?
 4. What operating parameters are stated, and which are missing?
 
-The source material is a speculative design record. It contains proposed mechanisms, equations, component descriptions, and a simulation prompt, but it does not contain experimental measurements, validated material data, a completed energy balance, or a demonstrated fire-suppression result. The device should therefore be treated as a **pending hypothesis**, not as deployable fire-suppression equipment. ([Core proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2130-L2188))
+The source material is a speculative design record. It contains proposed mechanisms, equations, component descriptions, and a simulation prompt, but it does not contain experimental measurements, validated material data, a completed energy balance, or a demonstrated fire-suppression result. The device should therefore be treated as a **pending hypothesis**, not as deployable fire-suppression equipment. ([Core proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2130-2188)
 
 ## Executive assessment
 
-The concept has a recognizable systems architecture: sense a subterranean combustion zone, generate coherent high-frequency fields, shape the field with an active mask, and apply feedback to the target. The proposed suppression mechanism is a divergent phase profile intended to separate combustion reactants and reduce heat release. ([Source mechanism](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2140-L2160))
+The concept has a recognizable systems architecture: sense a subterranean combustion zone, generate coherent high-frequency fields, shape the field with an active mask, and apply feedback to the target. The proposed suppression mechanism is a divergent phase profile intended to separate combustion reactants and reduce heat release. ([Source mechanism](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2140-2160)
 
-The central physical claims are not established. In particular, the proposal assumes that a longitudinal effective-Proca mode can propagate through soil and waste with negligible loss, that a 400 GHz interaction can generate a useful 800 GHz mechanical mode, that negative nonlinear coupling produces vacuum expansion and cooling, and that a high-frequency field can chemically interrupt combustion without a quantified energy or reaction-kinetics model. ([Ground-penetration claim](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2178-L2188))
+The central physical claims are not established. In particular, the proposal assumes that a longitudinal effective-Proca mode can propagate through soil and waste with negligible loss, that a 400 GHz interaction can generate a useful 800 GHz mechanical mode, that negative nonlinear coupling produces vacuum expansion and cooling, and that a high-frequency field can chemically interrupt combustion without a quantified energy or reaction-kinetics model. ([Ground-penetration claim](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2178-2188)
 
-Several numerical values are conditional rather than measured. The 400 GHz value follows arithmetically from an assumed 10 nm period and an assumed 8,000 m/s sound speed. The quoted field and intensity are mutually inconsistent, and the 400 GHz, 800 GHz, and parametric-pump descriptions are not one unambiguous operating point. ([Frequency assumptions](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2218-L2288) [MIMO and intensity assumptions](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2330-L2378))
+Several numerical values are conditional rather than measured. The 400 GHz value follows arithmetically from an assumed 10 nm period and an assumed 8,000 m/s sound speed. The quoted field and intensity are mutually inconsistent, and the 400 GHz, 800 GHz, and parametric-pump descriptions are not one unambiguous operating point. ([Frequency assumptions](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2218-2288; [MIMO and intensity assumptions](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2330-2378)
 
 
 
@@ -41,17 +41,16 @@ The proposal describes the following sequence.
 5. **Couple to the fire.** The field is intended to alter the combustion zone by separating oxygen and fuel reaction channels and disrupting radical chemistry.
 6. **Terminate the event.** The target is claimed to cool and remain quenched without water, foam, grout, or excavation.
 
-The first and fourth steps are control-system concepts. The fifth and sixth steps are physical hypotheses that require direct measurement. ([System architecture](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2178-L2188))
+The first and fourth steps are control-system concepts. The fifth and sixth steps are physical hypotheses that require direct measurement. ([System architecture](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2178-2188)
 
 ## Proposed ground-driven variant
 
 The archived anti-fire discussion names an underground garbage or landfill fire as
 the target and describes a cylindrical device whose piezoelectric transducers
-apply acoustic strain. ([Anti-fire target and transducers](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1405-L1437)
-[Cylindrical layout](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1677-L1688))
+apply acoustic strain. (Source `data/chats/IQ-Sampling-for-Signal-Phase.md`, lines 1405-1437; cylindrical layout, lines 1677-1688)
 The separate public-safety design supplies the deployment pattern: a flush,
 below-grade vault with recessed operating and hose interfaces rather than an
-obstructing surface hydrant. ([In-ground hydrant layout](../data/chats/design-an-in-ground-water-shutoff-valve-that-works-as-a-fire-hydrant.md#L17-L61))
+obstructing surface hydrant. (Source `data/chats/design-an-in-ground-water-shutoff-valve-that-works-as-a-fire-hydrant.md`, lines 17-61)
 
 Those ideas can be combined into a **ground-driven anti-fire shaft array**:
 
@@ -79,8 +78,7 @@ conversion efficiency is an input to be measured, not free energy. Battery power
 is discharged stored energy; external power is an explicit supplied input. This
 is consistent with the composites discussion's
 piezoelectric stress-harvesting concept and its separate waste-heat recovery
-loop. ([Piezoelectric harvesting](../data/chats/_Sustainable%20Composites_%20Energy,%20Processing,%20Costs%20.md#L80-L85)
-[Waste-heat recovery](../data/chats/_Sustainable%20Composites_%20Energy,%20Processing,%20Costs%20.md#L440-L444))
+loop. (Source `data/chats/_Sustainable Composites_ Energy, Processing, Costs .md`, lines 80-85 and 440-444)
 
 The thermal channel must be treated carefully: extracting heat from a burning
 mass can reduce its temperature only if the full heat path, sink, and heat
@@ -94,11 +92,11 @@ isolation methods.
 
 ### Proposed suppression mechanism
 
-The chat describes a fire as a weakly ionized, turbulent plasma and identifies radical chemistry as the control target. It then applies a phase-gradient update to a momentum spinor and claims that oxygen and hydrocarbon states can be driven into separated phase-space regions. ([Combustion model](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2138-L2155))
+The chat describes a fire as a weakly ionized, turbulent plasma and identifies radical chemistry as the control target. It then applies a phase-gradient update to a momentum spinor and claims that oxygen and hydrocarbon states can be driven into separated phase-space regions. ([Combustion model](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2138-2155)
 
-The second proposed mechanism sets the effective iGPE coupling to $g<0$ and interprets that sign change as expansion of vacuum pressure and rapid thermal cooling. No constitutive relation connects $g$ to a measurable pressure, no heat sink is identified, and no energy balance demonstrates removal of the heat already stored in the burning material. ([Negative-coupling claim](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2151-L2160))
+The second proposed mechanism sets the effective iGPE coupling to $g<0$ and interprets that sign change as expansion of vacuum pressure and rapid thermal cooling. No constitutive relation connects $g$ to a measurable pressure, no heat sink is identified, and no energy balance demonstrates removal of the heat already stored in the burning material. ([Negative-coupling claim](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2151-2160)
 
-The later summary repeats the same interpretation as “divergent vacuum expansion,” molecular cleavage, and thermal freezing. Those labels describe the intended effect, not a validated field theory or combustion model. ([Later summary](chats/IQ-Sampling-for-Signal-Phase.myst.md#L4690-L4702))
+The later summary repeats the same interpretation as “divergent vacuum expansion,” molecular cleavage, and thermal freezing. Those labels describe the intended effect, not a validated field theory or combustion model. ([Later summary](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 4690-4702)
 
 ## 2. Proposed design
 
@@ -115,7 +113,7 @@ The proposed cannon is a monolithic cylindrical assembly:
 | rGO vitrimer output mask | Encode the divergent spatial phase profile and steer the intervention | Spatial resolution, voltage range, response time, damage threshold, and calibration are absent |
 | Microfluidic cooling network | Remove RF and dielectric losses | Channel dimensions, flow rate, pressure drop, heat-transfer coefficient, and coolant compatibility are absent |
 
-The source gives the 2 mm gap, 10 nm core, cylindrical array, and rGO output lens as the physical layout. ([Detailed layout](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2370-L2378)) The proposed monolithic manufacturing route laser-scribes N-LIG oscillators, fractal radiators, and vitrimer phase shifters into a lignin-based block, but this is a fabrication concept rather than a demonstrated process. ([Monolithic redesign](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2435-L2461))
+The source gives the 2 mm gap, 10 nm core, cylindrical array, and rGO output lens as the physical layout. ([Detailed layout](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2370-2378) The proposed monolithic manufacturing route laser-scribes N-LIG oscillators, fractal radiators, and vitrimer phase shifters into a lignin-based block, but this is a fabrication concept rather than a demonstrated process. ([Monolithic redesign](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2435-2461)
 
 ### Control architecture
 
@@ -133,7 +131,7 @@ $$
 \text{suppression measurement}.
 $$
 
-The chat does not define the sensor physics or an inverse problem that can recover fire depth and temperature through heterogeneous soil. It also does not define a model-predictive controller, a tracking rate, a failure detector, or a safe fallback mode. The simulation prompt only specifies sliders for fire intensity and wave divergence and a visual extinguishing effect. ([Simulator specification](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2166-L2176))
+The chat does not define the sensor physics or an inverse problem that can recover fire depth and temperature through heterogeneous soil. It also does not define a model-predictive controller, a tracking rate, a failure detector, or a safe fallback mode. The simulation prompt only specifies sliders for fire intensity and wave divergence and a visual extinguishing effect. ([Simulator specification](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2166-2176)
 
 ## 3. Design parameters and justification
 
@@ -153,7 +151,7 @@ The chat does not define the sensor physics or an inverse problem that can recov
 | Pumping gap | 2 mm | Proposed packaging geometry | No near-field coupling or array impedance model |
 | Suppression time | Milliseconds locally; hours to days operationally | Narrative performance claims | Neither follows from a fire-volume, propagation, or heat-removal calculation |
 
-The frequency, strain, and parametric-pump assumptions are stated in the acoustic design. ([Acoustic parameters](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2218-L2288)) The MIMO, field, intensity, and package dimensions are stated separately. ([MIMO parameters](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2330-L2378)) The RTD values appear in the later oscillator proposal. ([RTD parameters](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2499-L2571))
+The frequency, strain, and parametric-pump assumptions are stated in the acoustic design. ([Acoustic parameters](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2218-2288) The MIMO, field, intensity, and package dimensions are stated separately. ([MIMO parameters](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2330-2378) The RTD values appear in the later oscillator proposal. ([RTD parameters](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2499-2571)
 
 ## 4. Mathematical and physical checks
 
@@ -167,7 +165,7 @@ $$
 f_\text{ac}=\frac{8{,}000\ \text{m/s}}{20\ \text{nm}}=400\ \text{GHz}.
 $$
 
-That calculation is dimensionally correct. It does not establish that the proposed material has a 20 nm longitudinal eigenmode, that the mode is loss-limited rather than boundary-limited, or that the sound velocity remains 8,000 m/s in the N-LIG/vitrimer composite. ([Frequency derivation](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2238-L2250))
+That calculation is dimensionally correct. It does not establish that the proposed material has a 20 nm longitudinal eigenmode, that the mode is loss-limited rather than boundary-limited, or that the sound velocity remains 8,000 m/s in the N-LIG/vitrimer composite. ([Frequency derivation](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2238-2250)
 
 ### 4.2 The frequency chain is ambiguous
 
@@ -178,7 +176,7 @@ The design uses all of the following descriptions:
 - 800 GHz as the sum of two 400 GHz fields;
 - 800 GHz as the generated acoustic output.
 
-These are different physical statements. A parametric pump at $2\omega_m$ drives a mechanical mode at $\omega_m$; it is not automatically an 800 GHz propagating acoustic wave. Conversely, an 800 GHz acoustic wave in a medium with $v_s=8{,}000$ m/s has a wavelength near 10 nm, not 20 nm. ([Pump and conversion descriptions](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2248-L2288) [Two-beam description](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2338-L2355))
+These are different physical statements. A parametric pump at $2\omega_m$ drives a mechanical mode at $\omega_m$; it is not automatically an 800 GHz propagating acoustic wave. Conversely, an 800 GHz acoustic wave in a medium with $v_s=8{,}000$ m/s has a wavelength near 10 nm, not 20 nm. ([Pump and conversion descriptions](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2248-2288; [Two-beam description](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2338-2355)
 
 There is also a momentum-matching problem. A 400 GHz free-space electromagnetic wave has a wavelength of about 0.75 mm, while a 20 nm acoustic mode has a wavevector roughly $3.1\times10^8$ m$^{-1}$. Two counterpropagating free-space fields provide only about $1.7\times10^4$ m$^{-1}$ of wavevector difference. A grating or phononic-crystal reciprocal vector could supply the missing momentum, but the proposal does not define one or calculate its conversion efficiency.
 
@@ -197,7 +195,7 @@ I\approx1.33\times10^9\ \text{W/m}^2
 =133\ \text{kW/cm}^2.
 $$
 
-Conversely, $2.5$ kW/cm$^2=25$ MW/m$^2$ corresponds to approximately $1.37\times10^5$ V/m peak field, or $9.7\times10^4$ V/m RMS field for a sinusoidal plane wave. The source labels $1.37\times10^5$ V/m as RMS, so its field convention is also inconsistent. ([Stated field and intensity](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2356-L2368) [Thermal restatement](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2608-L2623))
+ Conversely, $2.5$ kW/cm$^2=25$ MW/m$^2$ corresponds to approximately $1.37\times10^5$ V/m peak field, or $9.7\times10^4$ V/m RMS field for a sinusoidal plane wave. The source labels $1.37\times10^5$ V/m as RMS, so its field convention is also inconsistent. ([Stated field and intensity](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2356-2368; [Thermal restatement](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2608-2623)
 
 ### 4.4 The RTD timing argument is incomplete
 
@@ -207,15 +205,15 @@ $$
 \tau_\text{dwell}=\frac{\hbar}{\Gamma}\approx0.065\ \text{ps}.
 $$
 
-That arithmetic is correct for the supplied linewidth. However, the document compares the total transit time with $1/(2\pi f)\approx0.39$ ps and calls it the oscillation period. The physical period at 400 GHz is $1/f=2.5$ ps; $1/(2\pi f)$ is the inverse angular frequency. More importantly, an RTD oscillator requires a measured negative small-signal resistance, capacitance, series resistance, load, gain margin, and phase condition. A dwell-time estimate alone does not demonstrate a 400 GHz power oscillator. ([RTD timing proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2543-L2571))
+That arithmetic is correct for the supplied linewidth. However, the document compares the total transit time with $1/(2\pi f)\approx0.39$ ps and calls it the oscillation period. The physical period at 400 GHz is $1/f=2.5$ ps; $1/(2\pi f)$ is the inverse angular frequency. More importantly, an RTD oscillator requires a measured negative small-signal resistance, capacitance, series resistance, load, gain margin, and phase condition. A dwell-time estimate alone does not demonstrate a 400 GHz power oscillator. ([RTD timing proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2543-2571)
 
 ### 4.5 Proca and negative-coupling assumptions
 
-The chat itself correctly notes that ordinary atmospheric photons are massless and that an effective massive mode would require a medium or plasma response. It also notes that an artificially generated plasma channel would be absorptive. The later cannon design does not resolve that propagation problem; it simply assumes that the field can travel through soil, rocks, and waste without ordinary attenuation. ([Reality check](chats/IQ-Sampling-for-Signal-Phase.myst.md#L1060-L1074))
+The chat itself correctly notes that ordinary atmospheric photons are massless and that an effective massive mode would require a medium or plasma response. It also notes that an artificially generated plasma channel would be absorptive. The later cannon design does not resolve that propagation problem; it simply assumes that the field can travel through soil, rocks, and waste without ordinary attenuation. ([Reality check](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 1060-1074)
 
-The Proca subsidiary condition is $\partial_\mu A^\mu=0$. A nonzero spatial divergence or a longitudinal label does not by itself specify a force on molecules, a chemical bond-cleavage rate, or a pressure change. Those effects require an interaction Hamiltonian, constitutive response, and experimentally measured coupling. ([Proca formulation](chats/IQ-Sampling-for-Signal-Phase.myst.md#L963-L979))
+The Proca subsidiary condition is $\partial_\mu A^\mu=0$. A nonzero spatial divergence or a longitudinal label does not by itself specify a force on molecules, a chemical bond-cleavage rate, or a pressure change. Those effects require an interaction Hamiltonian, constitutive response, and experimentally measured coupling. ([Proca formulation](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 963-979)
 
-Likewise, $g<0$ in a Gross-Pitaevskii-type model is a sign choice for the nonlinear self-interaction. The proposal supplies no derivation that this sign change produces vacuum expansion, a stable cooling state, or a heat sink for a burning waste mass. Its effective-coupling expression has no measured $\xi$, strain, detuning, damping, or normalization. ([Effective-coupling proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2258-L2288))
+Likewise, $g<0$ in a Gross-Pitaevskii-type model is a sign choice for the nonlinear self-interaction. The proposal supplies no derivation that this sign change produces vacuum expansion, a stable cooling state, or a heat sink for a burning waste mass. Its effective-coupling expression has no measured $\xi$, strain, detuning, damping, or normalization. ([Effective-coupling proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2258-2288)
 
 ## 5. Fire-suppression requirements
 
@@ -232,7 +230,7 @@ At minimum, the model needs:
 - a fire-front and gas-flow model;
 - a reignition test after the field is removed.
 
-The proposal currently asserts oxygen/fuel separation and thermal freezing but supplies none of these closure relations. ([Combustion and cooling claims](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2140-L2160))
+The proposal currently asserts oxygen/fuel separation and thermal freezing but supplies none of these closure relations. ([Combustion and cooling claims](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2140-2160)
 
 A defensible energy balance would be:
 
@@ -265,7 +263,7 @@ The proposed operating point is approximately:
 - local response claimed in milliseconds;
 - field operation claimed over hours to days.
 
-These values are distributed across several iterations and are not yet a single closed operating specification. ([Operating concept](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2218-L2288) [Array operating assumptions](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2330-L2378) [Response and deployment claims](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2424-L2428) [Aerospace-scale response claim](chats/IQ-Sampling-for-Signal-Phase.myst.md#L4726-L4738))
+These values are distributed across several iterations and are not yet a single closed operating specification. ([Operating concept](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2218-2288; [Array operating assumptions](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2330-2378; [Response and deployment claims](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2424-2428; [Aerospace-scale response claim](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 4726-4738)
 
 ### Required but unspecified values
 
@@ -285,21 +283,21 @@ The cannon cannot be sized or operated safely without:
 - electromagnetic exclusion zones and personnel/aircraft interlocks;
 - independent confirmation that the fire is out and cannot reignite.
 
-The thermal proposal acknowledges that polymer loss could overheat the block and suggests hBN-doped isoparaffin microfluidics, but it does not supply the measurements needed to close the thermal design. ([Thermal-management proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2608-L2678))
+The thermal proposal acknowledges that polymer loss could overheat the block and suggests hBN-doped isoparaffin microfluidics, but it does not supply the measurements needed to close the thermal design. ([Thermal-management proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2608-2678)
 
 ## 7. Cost and sustainability claims
 
-The chat estimates $2$ to $4 million for a mobile cannon, less than $100 per acre in marginal cost, and hours to days for field operation. It contrasts those values with excavation and foam/grout injection. ([Cost table](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2420-L2431))
+The chat estimates $2$ to $4 million for a mobile cannon, less than $100 per acre in marginal cost, and hours to days for field operation. It contrasts those values with excavation and foam/grout injection. ([Cost table](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2420-2431)
 
 Those numbers are not yet justified. A credible comparison must include site characterization, drilling or access, power generation, RF conversion losses, cooling, maintenance, hazardous-area certification, operator time, monitoring, repeat treatments, environmental remediation, and the cost of failure or reignition. The claim of zero environmental impact is also premature: high-power RF exposure, thermal damage, unexpected gas movement, ground heating, and decomposition products would need assessment.
 
-The proposed sustainability advantage is therefore conditional. A non-water suppression system could reduce excavation and chemical use if it worked, but the current record does not establish that it works or that its own energy, material, and safety burdens are lower. ([Sustainability summary](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2758-L2763))
+The proposed sustainability advantage is therefore conditional. A non-water suppression system could reduce excavation and chemical use if it worked, but the current record does not establish that it works or that its own energy, material, and safety burdens are lower. ([Sustainability summary](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2758-2763)
 
 ## 8. Formal-model status
 
-The chat's proposed Lean theorem introduces an 800 GHz resonance as an axiom, defines sum frequency as ordinary addition, assumes a squeeze threshold, and ends the suppression theorem with `sorry`. That formalization checks the shape of a conditional statement; it does not prove field generation, propagation, molecular lysis, cooling, or quenching. ([Proposed Lean formalization](chats/IQ-Sampling-for-Signal-Phase.myst.md#L11288-L11342))
+The chat's proposed Lean theorem introduces an 800 GHz resonance as an axiom, defines sum frequency as ordinary addition, assumes a squeeze threshold, and ends the suppression theorem with `sorry`. That formalization checks the shape of a conditional statement; it does not prove field generation, propagation, molecular lysis, cooling, or quenching. ([Proposed Lean formalization](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 11288-11342)
 
-The repository's current Pending model is more appropriately scoped. `AntiAmplituhedronProfile` records a supplied divergent profile, `SQGVacuumExpansion` records a supplied negative-coupling hypothesis and pressure law, and `AntiFireSuppression` records only the explicit inequality that an effective rate is no larger than a baseline. These are conditional records, not device proofs. ([Current Pending model](../src/signals/Signals/Pending.lean#L1653-L1700))
+The repository's current Pending model is more appropriately scoped. `AntiAmplituhedronProfile` records a supplied divergent profile, `SQGVacuumExpansion` records a supplied negative-coupling hypothesis and pressure law, and `AntiFireSuppression` records only the explicit inequality that an effective rate is no larger than a baseline. These are conditional records, not device proofs. ([Current Pending model](../src/signals/Signals/Pending.lean), source lines 1653-1700)
 
 ## 9. Minimum validation path
 
@@ -312,7 +310,7 @@ A responsible development sequence would be:
 5. **Combustion test.** Use a small, instrumented, permitted test cell with calorimetry, gas analysis, thermography, and controls. The success criterion must be a reproducible reduction in heat-release rate and no reignition after the field is removed.
 6. **Thermal and safety qualification.** Close the cooling and power budgets, define RF exclusion zones, verify interlocks, and test failure modes before any field deployment.
 
-Until those tests succeed, established methods such as excavation, inert-gas injection, water where appropriate, foam, grouting, or controlled isolation remain the engineering baseline. The Anti-Fire Cannon should be described as a speculative, pending model rather than a replacement for those methods. ([Source baseline and claimed replacement](chats/IQ-Sampling-for-Signal-Phase.myst.md#L2420-L2431))
+Until those tests succeed, established methods such as excavation, inert-gas injection, water where appropriate, foam, grouting, or controlled isolation remain the engineering baseline. The Anti-Fire Cannon should be described as a speculative, pending model rather than a replacement for those methods. ([Source baseline and claimed replacement](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2420-2431)
 
 ## Conclusion
 
