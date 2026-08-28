@@ -298,10 +298,12 @@ e2etest:
 	./e2etest.sh --on-host
 
 
+HTTP_SERVER_PORT=18088
+
 .PHONY: serve
 serve:
-	@echo "serve  #  Serve docs with HTTP server on port 8000"
+	@echo "serve  #  Serve docs with HTTP server on port HTTP_SERVER_PORT=18088"
 	(type -a tree && tree -a -L 2 ./docs/_build/html) || true
-	python3 -m http.server 8000 --directory docs/_build/html
+	python3 -m http.server ${HTTP_SERVER_PORT} --directory docs/_build/html
 
 
