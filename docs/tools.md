@@ -14,14 +14,17 @@ The `toctreeyaml` directive extends Sphinx's native `toctree` directive with a
 Jupyter Book-compatible YAML tree. It reads `_toc.yml` by default, or a file
 selected with `:file:`:
 
+````yaml
 ```{toctreeyaml}
 :file: _toc.yml
 :maxdepth: 2
 ```
+````
 
 The same attributes can be supplied inline as YAML content. `root`,
 `chapters`, nested `sections`, `parts`, `file`, and `title` are supported.
 
+````yaml
 ```{toctreeyaml}
 maxdepth: 2
 chapters:
@@ -29,6 +32,7 @@ chapters:
   - file: schema
     title: Project Schema
 ```
+````
 
 Chat source selection and tag overlays are configured in
 `docs/_toc.yml` under `sustainablefactory.chat_sources`. Run `make chat_overlays` to create the `chats__all`
