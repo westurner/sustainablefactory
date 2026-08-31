@@ -1,13 +1,15 @@
 """
 aggregate_technical_data.py
 """
+
 import argparse
 import glob
 import json
 import logging
 import os
 import sys
-from typing import List, TextIO, Optional
+from typing import TextIO
+
 from sustainablefactory.parser import parse_and_extract_from_markdown
 
 
@@ -26,7 +28,7 @@ logger = logging.getLogger("aggregate_technical_data")
 
 
 def setup_logging(
-    log_file: Optional[str] = None, verbose: bool = False, quiet: bool = False
+    log_file: str | None = None, verbose: bool = False, quiet: bool = False
 ) -> None:
     """Configure logging handlers."""
     logger.setLevel(logging.DEBUG)
@@ -56,7 +58,7 @@ def setup_logging(
         logger.addHandler(fh)
 
 
-def get_files(input_dir: str) -> List[str]:
+def get_files(input_dir: str) -> list[str]:
     """
     Retrieve and sort markdown and json files from the directory.
 
@@ -72,12 +74,12 @@ def get_files(input_dir: str) -> List[str]:
     return sorted(files)
 
 
-def generate_report_content(files: List[str], output: TextIO) -> None:
+def generate_report_content(files: list[str], output: TextIO) -> None:
     """
     Iterate through files, extract data, and write to the output handle.
 
     Args:
-        files (list): List of file paths to process.
+        files (list): list of file paths to process.
         output_handle (file object): File-like object to write output to.
     """
 
@@ -155,12 +157,12 @@ def generate_report_content(files: List[str], output: TextIO) -> None:
         write("---\n\n")
 
 
-def generate_jsonld_content(files: List[str], output: TextIO) -> None:
+def generate_jsonld_content(files: list[str], output: TextIO) -> None:
     """
     Iterate through files, extract data, and write JSON-LD to the output handle.
 
     Args:
-        files (list): List of file paths to process.
+        files (list): list of file paths to process.
         output (file object): File-like object to write output to.
     """
     graph = []
