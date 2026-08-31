@@ -45,13 +45,17 @@ def _normalise_tags(value: object) -> list[str]:
 
 def _front_matter(path: Path) -> dict:
     if yaml is None:  # pragma: no cover
-        raise RuntimeError("PyYAML is required to read document tags") from _YAML_IMPORT_ERROR
+        raise RuntimeError(
+            "PyYAML is required to read document tags"
+        ) from _YAML_IMPORT_ERROR
 
     lines = path.read_text(encoding="utf-8").splitlines()
     if not lines or lines[0].strip() != "---":
         return {}
     try:
-        end = next(index for index, line in enumerate(lines[1:], 1) if line.strip() == "---")
+        end = next(
+            index for index, line in enumerate(lines[1:], 1) if line.strip() == "---"
+        )
     except StopIteration:
         return {}
     data = yaml.safe_load("\n".join(lines[1:end]))
@@ -85,7 +89,9 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _output_paths(output_dir: Path, filename: str, formats: Iterable[str]) -> dict[str, str]:
+def _output_paths(
+    output_dir: Path, filename: str, formats: Iterable[str]
+) -> dict[str, str]:
     stem = Path(filename).stem
     extensions = {
         "myst": ".myst.md",
@@ -297,7 +303,9 @@ def build_config() -> dict:
 def load_config(path: Path) -> dict:
     """Load chat settings from a Jupyter Book or project TOC YAML file."""
     if yaml is None:  # pragma: no cover
-        raise RuntimeError("PyYAML is required to read project settings") from _YAML_IMPORT_ERROR
+        raise RuntimeError(
+            "PyYAML is required to read project settings"
+        ) from _YAML_IMPORT_ERROR
     document = yaml.safe_load(path.read_text(encoding="utf-8"))
     if not isinstance(document, dict):
         raise ValueError(f"project settings must be a mapping: {path}")
@@ -318,7 +326,9 @@ def load_config(path: Path) -> dict:
     for key in ("manifest", "manifest_source", "output_dir", "temp_dir"):
         if data.get(key):
             data[key] = (base / data[key]).resolve()
-    data["temp_dir"] = (base / data.get("temp_dir", "../.tmp/workflow/transform")).resolve()
+    data["temp_dir"] = (
+        base / data.get("temp_dir", "../.tmp/workflow/transform")
+    ).resolve()
     return data
 
 
@@ -336,13 +346,24 @@ def main(argv: list[str] | None = None) -> int:
         help="Directory containing chats__all and generated chats__TAG directories",
     )
     parser.add_argument(
-        "--include", dest="include_globs", action="append", help="Input glob (repeatable)"
+        "--include",
+        dest="include_globs",
+        action="append",
+        help="Input glob (repeatable)",
     )
     parser.add_argument(
-        "--exclude", dest="exclude_globs", action="append", default=[], help="Excluded glob (repeatable)"
+        "--exclude",
+        dest="exclude_globs",
+        action="append",
+        default=[],
+        help="Excluded glob (repeatable)",
     )
     parser.add_argument(
-        "--file", dest="files", action="append", default=[], help="Explicit source file (repeatable)"
+        "--file",
+        dest="files",
+        action="append",
+        default=[],
+        help="Explicit source file (repeatable)",
     )
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
@@ -378,7 +399,12 @@ def main(argv: list[str] | None = None) -> int:
         tag_root=tag_root,
     )
     if not args.dry_run:
-        remove_stale_symlinks(overlay_root, source_documents(source, include_globs, exclude_globs, files), source, tag_root)
+        remove_stale_symlinks(
+            overlay_root,
+            source_documents(source, include_globs, exclude_globs, files),
+            source,
+            tag_root,
+        )
         previous = None
         if manifest_path.exists():
             previous = json.loads(manifest_path.read_text(encoding="utf-8"))

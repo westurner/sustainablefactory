@@ -1,6 +1,7 @@
 """
 Docstring for tests.test_parser
 """
+
 from textwrap import dedent
 from sustainablefactory.parser import (
     parse_markdown_tables,

@@ -56,7 +56,6 @@ class BaseSearchBackend(ABC):
         """Clear all documents from an index."""
         raise NotImplementedError
 
-
     @abstractmethod
     def get_index_stats(self, index_name: str) -> Dict[str, Any]:
         """Get statistics for an index."""
@@ -85,4 +84,3 @@ class BaseSearchBackend(ABC):
     def optimize(self) -> None:
         """Optimize the backend database (no-op by default)."""
         pass
-

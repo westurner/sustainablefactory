@@ -103,9 +103,17 @@ def transform_md(indir=None, outdir=None):
         run_command(command)
         return
     run_command(
-        [sys.executable, "data/create_symlinks.py", "--config", "docs/_toc.yml", "--quiet"]
+        [
+            sys.executable,
+            "data/create_symlinks.py",
+            "--config",
+            "docs/_toc.yml",
+            "--quiet",
+        ]
     )
-    run_command([sys.executable, "tools/workflow_transform.py", "--config", "docs/_toc.yml"])
+    run_command(
+        [sys.executable, "tools/workflow_transform.py", "--config", "docs/_toc.yml"]
+    )
 
 
 def transform_md_data_chats(outdir=None):
@@ -142,17 +150,17 @@ def run_e2etest():
 
 def serve_docs(port=8000):
     """Serve built docs over HTTP and print a short tree summary if available."""
+    run_command("(type -a tree && tree -a -L 2 ./docs/_build/html) || true")
     run_command(
-        '(type -a tree && tree -a -L 2 ./docs/_build/html) || true'
+        [
+            sys.executable,
+            "-m",
+            "http.server",
+            str(port),
+            "--directory",
+            "docs/_build/html",
+        ]
     )
-    run_command([
-        sys.executable,
-        "-m",
-        "http.server",
-        str(port),
-        "--directory",
-        "docs/_build/html",
-    ])
 
 
 def main():

@@ -187,7 +187,9 @@ class SynonymsManager:
             for path in sorted(source.rglob(f"*{ext}")):
                 try:
                     text = path.read_text(encoding="utf-8", errors="ignore")
-                    for acronym, fulls in SynonymsManager.suggest_from_text(text).items():
+                    for acronym, fulls in SynonymsManager.suggest_from_text(
+                        text
+                    ).items():
                         for full in fulls:
                             counts[(acronym, full)] += 1
                 except OSError as exc:

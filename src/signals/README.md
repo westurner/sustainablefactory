@@ -833,11 +833,11 @@ receiver architectures dominate practical radio:
 1. **Crystal Radio**: A passive detector using a semiconducting junction (diode).
    No external power source is required, making it the simplest working radio.
 
-2. **AM (Amplitude Modulation)**: Information is encoded by varying the 
+2. **AM (Amplitude Modulation)**: Information is encoded by varying the
    amplitude of a carrier wave. The baseband signal modulates the carrier strength.
    Standard AM band: 530 kHz to 1.7 MHz.
 
-3. **FM (Frequency Modulation)**: Information is encoded by varying the 
+3. **FM (Frequency Modulation)**: Information is encoded by varying the
    frequency of a carrier wave. The baseband signal modulates the carrier frequency.
    Commercial FM band: 88 to 108 MHz.
 
@@ -864,7 +864,7 @@ structure CrystalDetector where
   hDropSmall : forwardDrop < threshold
 ```
 
-The detector output follows a simple rule: conduct (and subtract the forward 
+The detector output follows a simple rule: conduct (and subtract the forward
 drop) only when the input signal exceeds the threshold.
 
 ```lean
@@ -889,7 +889,7 @@ def idealCrystalDetector : CrystalDetector where
 
 #### LC Tuning Circuit
 
-The selectivity of a crystal radio depends on its LC tuning circuit. The 
+The selectivity of a crystal radio depends on its LC tuning circuit. The
 resonant frequency is given by:
 
 $$f_0 = \frac{1}{2\pi\sqrt{LC}}$$
@@ -917,7 +917,7 @@ noncomputable def LCTuner.qualityFactor (tuner : LCTuner) (resistance : ℝ) : �
 
 ### AM (Amplitude Modulation)
 
-In amplitude modulation, the message signal $m(t)$ modulates the amplitude of 
+In amplitude modulation, the message signal $m(t)$ modulates the amplitude of
 a carrier wave:
 
 $$s(t) = [A_c + m(t)] \cos(2\pi f_c t + \phi)$$
@@ -951,7 +951,7 @@ where $f_m$ is the modulation frequency. The total bandwidth is:
 
 $$B_{AM} = 2 f_m$$
 
-For example, an AM station at 1000 kHz modulated by audio up to 5 kHz 
+For example, an AM station at 1000 kHz modulated by audio up to 5 kHz
 occupies frequencies from 995 kHz to 1005 kHz.
 
 ```lean
@@ -1046,7 +1046,7 @@ def FMSignal.carsonBandwidth (signal : FMSignal) (modulationFreq : ℝ) : ℝ :=
 - **Narrowband FM** ($\beta \ll 1$): $B_{NB} \approx 2 f_m$ (similar to AM)
 - **Wideband FM** ($\beta \gg 1$): $B_{WB} \approx 2 \Delta f$ (much wider than AM)
 
-Commercial FM radio uses wideband FM with $\Delta f = 75$ kHz and $f_m$ up to 
+Commercial FM radio uses wideband FM with $\Delta f = 75$ kHz and $f_m$ up to
 15 kHz, giving $\beta \approx 5$ and bandwidth $\approx 180$ kHz per station.
 
 ```lean
@@ -1110,7 +1110,7 @@ example : toyAMSignal.bandwidth 1000 = 2000 := by
   norm_num [AMSignal.bandwidth, toyAMSignal]
 ```
 
-This signal occupies 2 kHz (from 999 kHz to 1001 kHz). A receiver tuned to 
+This signal occupies 2 kHz (from 999 kHz to 1001 kHz). A receiver tuned to
 1 MHz with a 10 kHz bandwidth can receive it clearly.
 
 ### Example: FM Radio Station
@@ -1153,7 +1153,7 @@ example : voltageToPower 10 = 2 := by
 
 ### Narrowband Approximation
 
-When the signal bandwidth is much smaller than the receiver bandwidth 
+When the signal bandwidth is much smaller than the receiver bandwidth
 (< 10%), the signal can be represented in complex baseband (I/Q) form:
 
 ```lean
@@ -1169,19 +1169,19 @@ This enables efficient digital signal processing using I/Q sampling.
 
 2. **FM trades bandwidth for noise immunity**. FM bandwidth ≈ 2(Δf + f_m).
 
-3. **Crystal radios are passive** but achieve only limited selectivity without 
+3. **Crystal radios are passive** but achieve only limited selectivity without
    active amplification.
 
 4. **Narrowband signals** (BW << 10% of center frequency) allow I/Q representation
    and efficient DSP processing.
 
-5. **Resonant tuning** with high Q provides selectivity to reject adjacent 
+5. **Resonant tuning** with high Q provides selectivity to reject adjacent
    channel interference.
 
-6. **Envelope detection** (crystal radio) recovers AM modulation but cannot 
+6. **Envelope detection** (crystal radio) recovers AM modulation but cannot
    recover FM.
 
-7. **Frequency demodulation** (superheterodyne or direct FM detection) is 
+7. **Frequency demodulation** (superheterodyne or direct FM detection) is
    required for FM recovery.
 
 ### Verification Examples
@@ -1209,7 +1209,7 @@ example : toyCrystalDetector.forwardDrop < toyCrystalDetector.threshold := by
 - **Standard Textbooks**:
   - Haykin, S. (2001). *Communication Systems*. 4th ed., John Wiley & Sons.
   - Proakis, J. G., & Salehi, M. (2007). *Digital Communications*. 5th ed.
-  
+
 - **Radio History**:
   - Crystal radio detectors were the first practical radio receivers (1900s).
   - AM broadcasting began commercially in the 1920s.
@@ -1220,4 +1220,3 @@ example : toyCrystalDetector.forwardDrop < toyCrystalDetector.threshold := by
   - `Signals.IQ` for complex baseband representation.
   - `Signals.Acoustics` for ultrasonic and audio transducers.
   - `Signals.Propagation` for radio wave propagation and link budgets.
-

@@ -7,7 +7,7 @@
   - When and where it was formed
 - Water is a solution and a mixture
   - Nitrogen
-  - 
+  -
 - Water is scarce
   - The groundwater level is dropping unsustainably in many places,
   - Aquifer levels are falling,
@@ -20,14 +20,14 @@
     - lead
     - iron
     - calcium
-  - biological hazards of water 
+  - biological hazards of water
     - fungii
     - bacteria
     - viruses
   - water treatment additives
     - Cl: Chlorine
     - F: Fluoride
-    
+
 
 ## Water capture methods
 - Reservoir
@@ -52,10 +52,10 @@
   - Caveats:
     - wastes TODO n:m parts water for the concentrated backwash
     - requires electricity: TODO amount
-    
+
 
 ### PFAS Removal Methods
-- EPA: 
+- EPA:
   - granular activated carbon
   - ion exchange resins
   - high-pressure membrane systems

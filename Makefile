@@ -21,7 +21,7 @@ SIGNALS_ELAN_TOOLCHAINS_VOLUME ?= sustainablefactory-$(notdir $(CURDIR))-elan-to
 SIGNALS_CONTAINER_RUNTIME ?= podman
 SIGNALS_E2E_IMAGE ?= sustainablefactory-e2e-lean
 
-# docindex Meilisearch 
+# docindex Meilisearch
 MEILISEARCH_HOST ?= localhost
 MEILISEARCH_URL ?= http://$(MEILISEARCH_HOST):7700
 MEILI_MASTER_KEY ?= dev-key
@@ -305,5 +305,3 @@ serve:
 	@echo "serve  #  Serve docs with HTTP server on port HTTP_SERVER_PORT=18088"
 	(type -a tree && tree -a -L 2 ./docs/_build/html) || true
 	python3 -m http.server ${HTTP_SERVER_PORT} --directory docs/_build/html
-
-

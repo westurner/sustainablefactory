@@ -11,5 +11,7 @@ WORKSPACE_ROOT = Path(__file__).parents[1]
 def test_workspace_members_are_present():
     subrepos = WORKSPACE_ROOT / "src" / "subrepos"
 
-    assert tuple(path.name for path in sorted(subrepos.iterdir())) == tuple(sorted(SUBREPOS))
+    assert tuple(path.name for path in sorted(subrepos.iterdir())) == tuple(
+        sorted(SUBREPOS)
+    )
     assert all((subrepos / name / "pyproject.toml").is_file() for name in SUBREPOS)

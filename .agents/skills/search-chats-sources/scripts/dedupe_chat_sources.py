@@ -32,7 +32,9 @@ def iter_chat_files(root: Path) -> Iterable[Path]:
         yield from sorted(root.glob(f"*.{extension}"))
 
 
-def dedupe_chat_files(root: Path, prefer: str) -> tuple[list[SelectedFile], list[dict[str, str]]]:
+def dedupe_chat_files(
+    root: Path, prefer: str
+) -> tuple[list[SelectedFile], list[dict[str, str]]]:
     grouped: dict[str, dict[str, Path]] = {}
     skipped: list[dict[str, str]] = []
 
@@ -42,7 +44,9 @@ def dedupe_chat_files(root: Path, prefer: str) -> tuple[list[SelectedFile], list
     selected: list[SelectedFile] = []
     for basename in sorted(grouped):
         variants = grouped[basename]
-        duplicate_pair = all(extension in variants for extension in SUPPORTED_EXTENSIONS)
+        duplicate_pair = all(
+            extension in variants for extension in SUPPORTED_EXTENSIONS
+        )
 
         if duplicate_pair:
             chosen_extension = prefer
@@ -69,7 +73,9 @@ def dedupe_chat_files(root: Path, prefer: str) -> tuple[list[SelectedFile], list
     return selected, skipped
 
 
-def build_summary(selected: list[SelectedFile], skipped: list[dict[str, str]], prefer: str) -> dict[str, object]:
+def build_summary(
+    selected: list[SelectedFile], skipped: list[dict[str, str]], prefer: str
+) -> dict[str, object]:
     counts = Counter(item.extension for item in selected)
     return {
         "root": str(Path(selected[0].path).parent) if selected else "",
@@ -84,7 +90,9 @@ def build_summary(selected: list[SelectedFile], skipped: list[dict[str, str]], p
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--root", default="data/chats", help="Directory containing chat export files")
+    parser.add_argument(
+        "--root", default="data/chats", help="Directory containing chat export files"
+    )
     parser.add_argument(
         "--prefer",
         choices=SUPPORTED_EXTENSIONS,
@@ -116,7 +124,13 @@ def main() -> int:
             print(item.path)
         return 0
 
-    print(json.dumps(build_summary(selected, skipped, prefer=args.prefer), indent=2, sort_keys=True))
+    print(
+        json.dumps(
+            build_summary(selected, skipped, prefer=args.prefer),
+            indent=2,
+            sort_keys=True,
+        )
+    )
     return 0
 
 

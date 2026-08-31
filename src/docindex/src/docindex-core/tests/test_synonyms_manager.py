@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import textwrap
 from pathlib import Path
 
 import pytest
@@ -16,6 +15,7 @@ from docindex_core.config import DEFAULT_INDEX_SETTINGS
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _write_yaml(tmp_path: Path, data: dict) -> Path:
     p = tmp_path / "synonyms.yaml"
     p.write_text(yaml.dump(data))
@@ -25,6 +25,7 @@ def _write_yaml(tmp_path: Path, data: dict) -> Path:
 # ---------------------------------------------------------------------------
 # load
 # ---------------------------------------------------------------------------
+
 
 def test_load_returns_dict_from_yaml(tmp_path):
     p = _write_yaml(tmp_path, {"cnt": ["carbon nanotube", "carbon nanotubes"]})
@@ -56,11 +57,14 @@ def test_load_bundled_yaml_contains_known_terms():
 # save
 # ---------------------------------------------------------------------------
 
+
 def test_save_round_trips(tmp_path):
     original = {"lca": ["life cycle assessment", "life cycle analysis"]}
     p = tmp_path / "out.yaml"
     SynonymsManager.save(original, p)
-    assert SynonymsManager.load(p) == {"lca": ["life cycle analysis", "life cycle assessment"]}
+    assert SynonymsManager.load(p) == {
+        "lca": ["life cycle analysis", "life cycle assessment"]
+    }
 
 
 def test_save_deduplicates_and_sorts(tmp_path):
@@ -74,6 +78,7 @@ def test_save_deduplicates_and_sorts(tmp_path):
 # ---------------------------------------------------------------------------
 # merge
 # ---------------------------------------------------------------------------
+
 
 def test_merge_adds_new_term():
     base = {"cnt": ["nanotube"]}
@@ -107,11 +112,15 @@ def test_merge_deduplicates():
 # suggest_from_text
 # ---------------------------------------------------------------------------
 
-@pytest.mark.parametrize("text,expected_key,expected_syn", [
-    ("carbon nanotubes (CNT) are widely used", "cnt", "carbon nanotubes"),
-    ("CNT (carbon nanotube) improves strength", "cnt", "carbon nanotube"),
-    ("life cycle assessment (LCA) methodology", "lca", "life cycle assessment"),
-])
+
+@pytest.mark.parametrize(
+    "text,expected_key,expected_syn",
+    [
+        ("carbon nanotubes (CNT) are widely used", "cnt", "carbon nanotubes"),
+        ("CNT (carbon nanotube) improves strength", "cnt", "carbon nanotube"),
+        ("life cycle assessment (LCA) methodology", "lca", "life cycle assessment"),
+    ],
+)
 def test_suggest_from_text_detects_acronym_patterns(text, expected_key, expected_syn):
     result = SynonymsManager.suggest_from_text(text)
     assert expected_key in result
@@ -125,6 +134,7 @@ def test_suggest_from_text_empty_returns_empty():
 # ---------------------------------------------------------------------------
 # suggest_from_files
 # ---------------------------------------------------------------------------
+
 
 def test_suggest_from_files_scans_directory(tmp_path):
     (tmp_path / "doc1.md").write_text("carbon nanotubes (CNT) are strong.\n" * 3)
@@ -147,11 +157,11 @@ def test_suggest_from_files_returns_sorted_by_count(tmp_path):
 # Integration: DEFAULT_INDEX_SETTINGS uses YAML file
 # ---------------------------------------------------------------------------
 
+
 def test_default_index_settings_synonyms_loaded_from_yaml():
     synonyms = DEFAULT_INDEX_SETTINGS.synonyms
     assert "vitrimer" in synonyms
     assert "pyrolysis" in synonyms or "lignin" in synonyms
-
 
 
 def test_synonyms_manager_edge_cases(tmp_path):
@@ -159,24 +169,25 @@ def test_synonyms_manager_edge_cases(tmp_path):
     bad_yaml = tmp_path / "bad.yaml"
     bad_yaml.write_text("{invalid: yaml:")
     assert SynonymsManager.load(bad_yaml) == {}
-    
+
     # 2. Short description filter in suggest_from_text
     assert SynonymsManager.suggest_from_text("XYZ (abc) is short") == {}
-    
+
     # 3. OSError in suggest_from_files
     dir_path = tmp_path / "scan_dir"
     dir_path.mkdir()
     unreadable = dir_path / "unreadable.md"
     unreadable.write_text("dummy content")
-    
+
     original_read_text = Path.read_text
+
     def mock_read(*args, **kwargs):
         if "unreadable" in str(args[0]):
             raise OSError("permission denied")
         return original_read_text(*args, **kwargs)
-        
+
     import unittest.mock as mock
+
     with mock.patch.object(Path, "read_text", mock_read):
         results = SynonymsManager.suggest_from_files(dir_path)
         assert results == []
-

@@ -68,19 +68,19 @@ install_browsers() {
     echo "## Installing Playwright browsers to ${PLAYWRIGHT_BROWSERS_PATH}..."
     export PLAYWRIGHT_BROWSERS_PATH
     mkdir -p "${PLAYWRIGHT_BROWSERS_PATH}"
-    
+
     # Save current directory and change to test directory
     original_dir="$PWD"
     cd "$test_dir"
-    
+
     # Install browsers defined in config (just what is needed)
     (set -x; ./node_modules/.bin/playwright install --list | tee "${PLAYWRIGHT_BROWSERS_PATH}/.install.0_before.txt")
     (set -x; ./node_modules/.bin/playwright install chromium | tee -a "${PLAYWRIGHT_BROWSERS_PATH}/install.log")
     (set -x; ./node_modules/.bin/playwright install --list | tee "${PLAYWRIGHT_BROWSERS_PATH}/.install.1_after.txt")
-    
+
     # We ignore the error from diff because we want to proceed anyway, but exit code 1 means differences found
-    (set -x; diff -Nau "${PLAYWRIGHT_BROWSERS_PATH}/.install.0_before.txt" "${PLAYWRIGHT_BROWSERS_PATH}/.install.1_after.txt" || true) 
-    
+    (set -x; diff -Nau "${PLAYWRIGHT_BROWSERS_PATH}/.install.0_before.txt" "${PLAYWRIGHT_BROWSERS_PATH}/.install.1_after.txt" || true)
+
     cd "$original_dir"
 }
 
@@ -133,7 +133,7 @@ e2etest_main() {
                 ;;
         esac
     done
-    
+
     # Trim leading space
     test_args=$(echo "$test_args" | sed 's/^ *//')
 
@@ -171,7 +171,7 @@ run_in_container() {
     args="$2"
     project_name="$3"
     test_dir="$4"
-    
+
     if [ -z "$project_name" ]; then
         echo "## Error: project_name must be specified."
         exit 1
@@ -221,7 +221,7 @@ run_in_container() {
 run_on_host() {
     args="$1"
     test_dir="$2"
-    
+
     # Environment Setup
     if is_container; then
         echo "## Detected container environment. Using system browsers."
@@ -231,10 +231,10 @@ run_on_host() {
         export PLAYWRIGHT_BROWSERS_PATH
         echo "## Running tests on host with PLAYWRIGHT_BROWSERS_PATH=$PLAYWRIGHT_BROWSERS_PATH"
     fi
-    
+
     # Ensure no duplicate node_modules
     fix_node_modules
-    
+
     echo "## Changing directory to $test_dir"
     cd "$test_dir"
 
@@ -244,9 +244,9 @@ run_on_host() {
         echo "## Install dependencies from package.json before running E2E tests."
         echo "## Run: npm install (or npm ci / pnpm install / yarn install) in ${test_dir}"
     fi
-    
+
     echo "## Args: $args"
-    
+
     # Debug info
     if is_container; then
         whoami

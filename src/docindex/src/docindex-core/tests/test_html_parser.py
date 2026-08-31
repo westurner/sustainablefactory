@@ -116,8 +116,12 @@ def test_batch_html_indexer_get_files_parse_all_total(tmp_path, monkeypatch):
     (html_dir / "tables_and_figures.myst.html").write_text(
         "<h1>Tables</h1><p>" + ("t" * 60) + "</p>"
     )
-    (html_dir / "sub" / "index.html").write_text("<h1>Nested</h1><p>" + ("c" * 60) + "</p>")
-    (html_dir / "sub" / "page.html").write_text("<h1>Page</h1><p>" + ("d" * 60) + "</p>")
+    (html_dir / "sub" / "index.html").write_text(
+        "<h1>Nested</h1><p>" + ("c" * 60) + "</p>"
+    )
+    (html_dir / "sub" / "page.html").write_text(
+        "<h1>Page</h1><p>" + ("d" * 60) + "</p>"
+    )
 
     idx = BatchHTMLIndexer(html_dir)
     files = idx.get_html_files()
@@ -151,7 +155,9 @@ def test_batch_html_indexer_parse_all_skips_empty_documents(tmp_path, monkeypatc
     (html_dir / "page.html").write_text("<h1>Page</h1><p>" + ("x" * 60) + "</p>")
 
     idx = BatchHTMLIndexer(html_dir)
-    monkeypatch.setattr(SphinxHTMLParser, "parse_html_file", staticmethod(lambda *a, **k: []))
+    monkeypatch.setattr(
+        SphinxHTMLParser, "parse_html_file", staticmethod(lambda *a, **k: [])
+    )
     assert list(idx.parse_all()) == []
 
 
@@ -162,7 +168,9 @@ def test_batch_html_indexer_init_missing_dir(tmp_path):
 
 def test_html_parser_ignores_script_and_style(tmp_path):
     p = tmp_path / "ignores.html"
-    p.write_text("<h1>Ignore</h1><script>const a = 1;</script><style>body {color: red;}</style><p>Expected &amp; Text that is longer than min content length requirement which is fifty characters.</p>")
+    p.write_text(
+        "<h1>Ignore</h1><script>const a = 1;</script><style>body {color: red;}</style><p>Expected &amp; Text that is longer than min content length requirement which is fifty characters.</p>"
+    )
     docs = SphinxHTMLParser.parse_html_file(p)
     assert len(docs) == 1
     assert "Expected & Text" in docs[0].content

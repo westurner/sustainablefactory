@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import os
 import logging
-import time
 from typing import List, Optional, Dict, Any
 from datetime import datetime, timezone
 
@@ -18,14 +17,17 @@ from ..synonyms_manager import SynonymsManager
 
 logger = logging.getLogger(__name__)
 
+
 def _get_tqdm():
     import sys
-    if 'docindex_core.api' in sys.modules:
-        api = sys.modules['docindex_core.api']
-        if hasattr(api, '_tqdm') and api._tqdm is not None:
-            return api._tqdm, getattr(api, '_HAS_TQDM', True)
+
+    if "docindex_core.api" in sys.modules:
+        api = sys.modules["docindex_core.api"]
+        if hasattr(api, "_tqdm") and api._tqdm is not None:
+            return api._tqdm, getattr(api, "_HAS_TQDM", True)
     try:  # pragma: no cover
         from tqdm.auto import tqdm as local_tqdm
+
         return local_tqdm, True
     except ImportError:  # pragma: no cover
         return None, False
@@ -33,18 +35,19 @@ def _get_tqdm():
 
 class MilliConfig(BaseModel):
     """Configuration for Meilisearch connection."""
+
     host: str = Field(default="localhost", description="Meilisearch host")
     port: int = Field(default=7700, description="Meilisearch port")
     api_key: Optional[str] = Field(default=None, description="Meilisearch API key")
     batch_size: int = Field(default=1000, description="Batch size for indexing")
     index_name: str = Field(default="all", description="Default index name")
     enabled: bool = Field(default=True, description="Enable Meilisearch indexing")
-    
+
     @property
     def url(self) -> str:
         """Get Meilisearch URL."""
         return f"http://{self.host}:{self.port}"
-    
+
     @classmethod
     def from_env(cls) -> MilliConfig:
         """Load configuration from environment variables."""
@@ -53,30 +56,17 @@ class MilliConfig(BaseModel):
             port=int(os.getenv("MEILISEARCH_PORT", "7700")),
             api_key=os.getenv("MEILISEARCH_API_KEY"),
             batch_size=int(os.getenv("MEILISEARCH_BATCH_SIZE", "1000")),
-            enabled=os.getenv("MEILISEARCH_ENABLED", "true").lower() == "true"
+            enabled=os.getenv("MEILISEARCH_ENABLED", "true").lower() == "true",
         )
 
 
 class IndexSettings(BaseModel):
     """Meilisearch index settings."""
-    searchable_attributes: List[str] = [
-        "title",
-        "content",
-        "summary",
-        "concepts"
-    ]
-    filterable_attributes: List[str] = [
-        "type",
-        "date_indexed",
-        "filename",
-        "chat_type"
-    ]
-    sortable_attributes: List[str] = [
-        "date_indexed"
-    ]
-    synonyms: Dict[str, List[str]] = Field(
-        default_factory=SynonymsManager.load
-    )
+
+    searchable_attributes: List[str] = ["title", "content", "summary", "concepts"]
+    filterable_attributes: List[str] = ["type", "date_indexed", "filename", "chat_type"]
+    sortable_attributes: List[str] = ["date_indexed"]
+    synonyms: Dict[str, List[str]] = Field(default_factory=SynonymsManager.load)
 
 
 DEFAULT_INDEX_SETTINGS = IndexSettings()
@@ -84,32 +74,31 @@ DEFAULT_INDEX_SETTINGS = IndexSettings()
 
 class MilliBackend(BaseSearchBackend):
     """Wrapper around Meilisearch client for document indexing and search."""
-    
+
     def __init__(self, config: Optional[MilliConfig] = None):
         """Initialize Meilisearch client.
-        
+
         Args:
             config: MilliConfig instance. If None, loads from environment.
         """
         self.config = config or MilliConfig.from_env()
         self._client: Optional[meilisearch.Client] = None
         self._verify_connection()
-    
+
     @property
     def client(self) -> meilisearch.Client:
         """Lazy-load and return Meilisearch client."""
         if self._client is None:
             try:
                 self._client = meilisearch.Client(
-                    url=self.config.url,
-                    api_key=self.config.api_key
+                    url=self.config.url, api_key=self.config.api_key
                 )
                 logger.info(f"Connected to Meilisearch at {self.config.url}")
             except MeilisearchCommunicationError as e:
                 logger.error(f"Failed to connect to Meilisearch: {e}")
                 raise
         return self._client
-    
+
     def _verify_connection(self) -> bool:
         """Verify connection to Meilisearch server."""
         try:
@@ -122,26 +111,23 @@ class MilliBackend(BaseSearchBackend):
     def verify_connection(self) -> bool:
         """Verify connection to the backend."""
         return self._verify_connection()
-    
+
     def create_or_update_index(
-        self,
-        index_name: str,
-        settings: Optional[Any] = None,
-        primary_key: str = "id"
+        self, index_name: str, settings: Optional[Any] = None, primary_key: str = "id"
     ) -> Dict[str, Any]:
         """Create or update a Meilisearch index.
-        
+
         Args:
             index_name: Name of the index
             settings: IndexSettings to apply
             primary_key: Primary key field for documents
-            
+
         Returns:
             Index creation/update response
         """
         if settings is None:
             settings = DEFAULT_INDEX_SETTINGS
-        
+
         try:
             # Create index if it doesn't exist
             try:
@@ -157,19 +143,21 @@ class MilliBackend(BaseSearchBackend):
             index = self.client.index(index_name)
 
             # Update settings
-            index.update_settings({
-                "searchableAttributes": settings.searchable_attributes,
-                "filterableAttributes": settings.filterable_attributes,
-                "sortableAttributes": settings.sortable_attributes,
-                "synonyms": settings.synonyms,
-            })
+            index.update_settings(
+                {
+                    "searchableAttributes": settings.searchable_attributes,
+                    "filterableAttributes": settings.filterable_attributes,
+                    "sortableAttributes": settings.sortable_attributes,
+                    "synonyms": settings.synonyms,
+                }
+            )
             logger.info(f"Updated settings for index: {index_name}")
             return {"index": index_name, "status": "ready"}
-        
+
         except MeilisearchError as e:
             logger.error(f"Failed to create/update index {index_name}: {e}")
             raise
-    
+
     def _submit_batches(
         self,
         index_name: str,
@@ -191,7 +179,12 @@ class MilliBackend(BaseSearchBackend):
 
         for i in range(0, total, batch_size):
             batch = documents[i : i + batch_size]
-            batch_data = [doc.model_dump(mode='json') if hasattr(doc, 'model_dump') else getattr(doc, '__dict__', doc) for doc in batch]
+            batch_data = [
+                doc.model_dump(mode="json")
+                if hasattr(doc, "model_dump")
+                else getattr(doc, "__dict__", doc)
+                for doc in batch
+            ]
             try:
                 task = index.add_documents(batch_data)
                 submitted_tasks.append((task.task_uid, len(batch)))
@@ -233,7 +226,7 @@ class MilliBackend(BaseSearchBackend):
             )
             index = self.client.index(index_name)
             finished = index.wait_for_task(last_uid, timeout_in_ms=120_000)
-            last_status = getattr(finished, 'status', 'unknown')
+            last_status = getattr(finished, "status", "unknown")
             logger.info(f"Last task {last_uid}: {last_status}")
 
             task_errors = 0
@@ -251,15 +244,15 @@ class MilliBackend(BaseSearchBackend):
             try:
                 for task_uid, batch_len in submitted_tasks:
                     result = index.get_task(task_uid)
-                    status = getattr(result, 'status', 'unknown')
-                    details = getattr(result, 'details', {})
+                    status = getattr(result, "status", "unknown")
+                    details = getattr(result, "details", {})
                     committed = (
-                        details.get('indexedDocuments', batch_len)
+                        details.get("indexedDocuments", batch_len)
                         if isinstance(details, dict)
-                        else getattr(details, 'indexed_documents', batch_len)
+                        else getattr(details, "indexed_documents", batch_len)
                     )
-                    if status == 'failed':
-                        err_info = getattr(result, 'error', {})
+                    if status == "failed":
+                        err_info = getattr(result, "error", {})
                         logger.error(
                             f"Task {task_uid} FAILED "
                             f"({batch_len} docs submitted): {err_info}"
@@ -348,7 +341,7 @@ class MilliBackend(BaseSearchBackend):
         return self._finalize_tasks(
             index_name, submitted_tasks, n_submitted, n_errors, start_time, progress
         )
-    
+
     def search(
         self,
         index_name: str,
@@ -356,7 +349,7 @@ class MilliBackend(BaseSearchBackend):
         limit: int = 20,
         offset: int = 0,
         filters: Optional[str] = None,
-        sort: Optional[List[str]] = None
+        sort: Optional[List[str]] = None,
     ) -> List[SearchResult]:
         """Search documents in index."""
         try:
@@ -369,28 +362,30 @@ class MilliBackend(BaseSearchBackend):
                     "filter": filters,
                     "sort": sort,
                     "showRankingScore": True,
-                }
+                },
             )
-            
+
             results = []
             for hit in response.get("hits", []):
-                results.append(SearchResult(
-                    id=hit.get("id", ""),
-                    type=hit.get("type", DocumentType.SPHINX_HTML),
-                    title=hit.get("title", ""),
-                    url=hit.get("url"),
-                    content_snippet=hit.get("content", "")[:200],
-                    relevance_score=hit.get("_rankingScore", 0.0),
-                    matched_fields=hit.get("_matchedFields", [])
-                ))
-            
+                results.append(
+                    SearchResult(
+                        id=hit.get("id", ""),
+                        type=hit.get("type", DocumentType.SPHINX_HTML),
+                        title=hit.get("title", ""),
+                        url=hit.get("url"),
+                        content_snippet=hit.get("content", "")[:200],
+                        relevance_score=hit.get("_rankingScore", 0.0),
+                        matched_fields=hit.get("_matchedFields", []),
+                    )
+                )
+
             logger.debug(f"Search '{query}' returned {len(results)} results")
             return results
-        
+
         except MeilisearchError as e:
             logger.error(f"Search failed for query '{query}': {e}")
             raise
-    
+
     def delete_index(self, index_name: str) -> bool:
         """Delete an index."""
         try:
@@ -400,7 +395,7 @@ class MilliBackend(BaseSearchBackend):
         except MeilisearchError as e:
             logger.error(f"Failed to delete index {index_name}: {e}")
             raise
-    
+
     def get_index_stats(self, index_name: str) -> Dict[str, Any]:
         """Get statistics for an index."""
         try:
@@ -415,13 +410,14 @@ class MilliBackend(BaseSearchBackend):
         except MeilisearchError as e:
             logger.error(f"Failed to get stats for index {index_name}: {e}")
             raise
-    
+
     def list_indices(self) -> List[Dict[str, Any]]:
         """List all indices."""
         try:
             indices = self.client.get_indexes()
             result_list = (
-                indices.get("results", []) if isinstance(indices, dict)
+                indices.get("results", [])
+                if isinstance(indices, dict)
                 else list(indices)
             )
             return [
@@ -435,7 +431,7 @@ class MilliBackend(BaseSearchBackend):
         except MeilisearchError as e:
             logger.error(f"Failed to list indices: {e}")
             raise
-    
+
     def clear_index(self, index_name: str) -> bool:
         """Clear all documents from an index."""
         try:
@@ -504,9 +500,9 @@ class MilliBackend(BaseSearchBackend):
                 timeout_in_ms=timeout_ms,
                 interval_in_ms=interval_ms,
             )
-            status = getattr(result, 'status', None) or result.get('status')
-            if status == 'failed':
-                error = getattr(result, 'error', None) or result.get('error', {})
+            status = getattr(result, "status", None) or result.get("status")
+            if status == "failed":
+                error = getattr(result, "error", None) or result.get("error", {})
                 raise MeilisearchError(f"Task {task_uid} failed: {error}")
             logger.debug(f"Task {task_uid} completed with status '{status}'")
             return result if isinstance(result, dict) else vars(result)

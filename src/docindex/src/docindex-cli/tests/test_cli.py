@@ -63,13 +63,13 @@ def test_cli_commands(monkeypatch, tmp_path, stats_obj):
         def search(self, index, query, limit=10):
             return [
                 SimpleNamespace(
-                        id="doc-1",
-                        title="T",
-                        type="chat",
-                        relevance_score=0.5,
-                        url=None,
-                        source_uri="file:///workspace/doc-1.md",
-                        content_snippet="x",
+                    id="doc-1",
+                    title="T",
+                    type="chat",
+                    relevance_score=0.5,
+                    url=None,
+                    source_uri="file:///workspace/doc-1.md",
+                    content_snippet="x",
                 )
             ]
 

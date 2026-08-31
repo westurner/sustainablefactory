@@ -75,5 +75,5 @@
   "remoteUser": "appuser" // Or "root" or a specific user if created in Dockerfile
 
 
-  
+
 }

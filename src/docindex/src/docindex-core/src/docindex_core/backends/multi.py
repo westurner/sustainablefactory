@@ -1,6 +1,5 @@
 import logging
 from typing import List, Dict, Any, Optional
-from datetime import datetime
 
 from docindex_core.backends.base import BaseSearchBackend
 from docindex_core.config import Document, SearchResult, IndexingStats
@@ -29,7 +28,9 @@ class MultiBackend(BaseSearchBackend):
             try:
                 results.append(b.verify_connection())
             except Exception as e:
-                logger.warning(f"Backend connection check failed for {b.__class__.__name__}: {e}")
+                logger.warning(
+                    f"Backend connection check failed for {b.__class__.__name__}: {e}"
+                )
                 results.append(False)
         return all(results)
 
@@ -39,13 +40,12 @@ class MultiBackend(BaseSearchBackend):
             try:
                 b.optimize()
             except Exception as e:
-                logger.warning(f"Backend optimization failed for {b.__class__.__name__}: {e}")
+                logger.warning(
+                    f"Backend optimization failed for {b.__class__.__name__}: {e}"
+                )
 
     def create_or_update_index(
-        self,
-        index_name: str,
-        settings: Optional[Any] = None,
-        primary_key: str = "id"
+        self, index_name: str, settings: Optional[Any] = None, primary_key: str = "id"
     ) -> Dict[str, Any]:
         """Create or update index on all backends."""
         results = {}
@@ -77,7 +77,7 @@ class MultiBackend(BaseSearchBackend):
         documents: List[Document],
         batch_size: Optional[int] = None,
         progress: bool = False,
-        total_estimate: Optional[int] = None
+        total_estimate: Optional[int] = None,
     ) -> IndexingStats:
         """Add documents to all backends. Returns stats from primary backend."""
         stats_list = []
@@ -87,7 +87,7 @@ class MultiBackend(BaseSearchBackend):
                 documents=documents,
                 batch_size=batch_size,
                 progress=progress,
-                total_estimate=total_estimate
+                total_estimate=total_estimate,
             )
             stats_list.append(stats)
         return stats_list[0]
@@ -108,7 +108,7 @@ class MultiBackend(BaseSearchBackend):
             limit=limit,
             offset=offset,
             filters=filters,
-            sort=sort
+            sort=sort,
         )
 
     def get_index_stats(self, index_name: str) -> Dict[str, Any]:
@@ -119,7 +119,9 @@ class MultiBackend(BaseSearchBackend):
         """Get synonyms from the primary backend."""
         return self.primary_backend.get_synonyms(index_name)
 
-    def update_synonyms(self, index_name: str, synonyms: Dict[str, List[str]]) -> Dict[str, Any]:
+    def update_synonyms(
+        self, index_name: str, synonyms: Dict[str, List[str]]
+    ) -> Dict[str, Any]:
         """Update synonyms on all backends."""
         results = {}
         for b in self.backends:
@@ -137,7 +139,9 @@ class MultiBackend(BaseSearchBackend):
                 results.update(res)
         return results
 
-    def delete_documents_by_filter(self, index_name: str, filters: str) -> Dict[str, Any]:
+    def delete_documents_by_filter(
+        self, index_name: str, filters: str
+    ) -> Dict[str, Any]:
         """Delete documents by filter on all backends."""
         results = {}
         for b in self.backends:

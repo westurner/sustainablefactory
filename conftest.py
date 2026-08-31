@@ -1,7 +1,7 @@
 """
 conftest.py pytest configuration file
 """
-import os
+
 import sys
 import types
 from pathlib import Path
@@ -36,7 +36,9 @@ except Exception:
             self.description = description
 
     def Field(default=None, default_factory=None, description=None):
-        return _FieldInfo(default=default, default_factory=default_factory, description=description)
+        return _FieldInfo(
+            default=default, default_factory=default_factory, description=description
+        )
 
     class ConfigDict(dict):
         pass

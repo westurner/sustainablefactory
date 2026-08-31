@@ -241,7 +241,7 @@ RUN --mount=type=cache,target=/var/lib/apt/lists,id=apt-cache-lists \
 
 # Switch to the non-root user
 USER $USERNAME
-# COPY --chown=$USERNAME package.json /app/${PROJECT_NAME:-my-project}/ 
+# COPY --chown=$USERNAME package.json /app/${PROJECT_NAME:-my-project}/
 
 # Install Next.js dependencies
 WORKDIR /app
@@ -270,7 +270,7 @@ VOLUME /home/appuser/e2e-logs
 
 # Explanation of /app vs /workspaces/<project-name>:
 # - /app: Used during container BUILD time. Standard `docker build` does not support
-#   bind-mounting host directories (unlike `podman build`). We COPY configuration 
+#   bind-mounting host directories (unlike `podman build`). We COPY configuration
 #   files (like package.json) into /app to install/cache dependencies.
 # - /workspaces/<project-name>: Used at container RUN time. DevContainers and our testing
 #   scripts dynamically bind-mount the live host project repository here. This setup

@@ -1,5 +1,3 @@
-import os
-
 import pytest
 
 from docindex_core.config import (

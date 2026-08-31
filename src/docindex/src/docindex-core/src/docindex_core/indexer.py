@@ -24,8 +24,10 @@ from .html_parser import BatchHTMLIndexer
 
 logger = logging.getLogger(__name__)
 
+
 def datetime_now():
     return datetime.datetime.now(datetime.UTC)
+
 
 try:
     from tqdm.auto import tqdm as _tqdm

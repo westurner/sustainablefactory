@@ -9,7 +9,6 @@ definitions.  The generated MyST file is consumed directly by Sphinx.
 from __future__ import annotations
 
 import logging
-import textwrap
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 
@@ -100,8 +99,9 @@ class GlossaryManager:
         out = {"categories": categories, "terms": sorted_terms}
 
         with open(path, "w", encoding="utf-8") as fh:
-            yaml.dump(out, fh, default_flow_style=False, allow_unicode=True,
-                      sort_keys=False)
+            yaml.dump(
+                out, fh, default_flow_style=False, allow_unicode=True, sort_keys=False
+            )
         logger.info("Saved glossary (%d terms) to %s", len(sorted_terms), path)
 
     # -------------------------------------------------------------------------
@@ -128,6 +128,7 @@ class GlossaryManager:
             New glossary dict with synonym lists enriched.
         """
         import copy
+
         result = copy.deepcopy(data)
         terms = result.setdefault("terms", {})
 
@@ -202,7 +203,9 @@ class GlossaryManager:
                 groups["_uncategorised"].append(term_key)
 
         # ── Render each category group ─────────────────────────────────────────
-        for cat_key, cat_label in list(categories.items()) + [("_uncategorised", "Other")]:
+        for cat_key, cat_label in list(categories.items()) + [
+            ("_uncategorised", "Other")
+        ]:
             term_keys = groups.get(cat_key, [])
             if not term_keys:
                 continue

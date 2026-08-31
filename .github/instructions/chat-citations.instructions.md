@@ -80,4 +80,3 @@ Minimal JSON-LD for synthesis:
 2. BibTeX block
 3. JSON-LD block
 - Keep metadata consistent with cited files and lines.
-

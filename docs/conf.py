@@ -157,7 +157,11 @@ def _regenerate_glossary(app):
     # Optionally fold in synonyms from the bundled synonyms.yaml
     synonyms_yaml = (
         docs_dir.parent
-        / "src" / "docindex-core" / "src" / "docindex_core" / "synonyms.yaml"
+        / "src"
+        / "docindex-core"
+        / "src"
+        / "docindex_core"
+        / "synonyms.yaml"
     )
     if synonyms_yaml.exists():
         synonyms = SynonymsManager.load(synonyms_yaml)
@@ -168,9 +172,8 @@ def _regenerate_glossary(app):
     )
     if changed:
         import logging
-        logging.getLogger(__name__).info(
-            "glossary.md regenerated from glossary.yaml"
-        )
+
+        logging.getLogger(__name__).info("glossary.md regenerated from glossary.yaml")
 
 
 def setup(app):

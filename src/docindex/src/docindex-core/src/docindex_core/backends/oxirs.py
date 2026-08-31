@@ -513,7 +513,7 @@ class OxiRSBackend(BaseSearchBackend):
 
         sparql_query = f"""
         PREFIX docindex: <{DOCINDEX_NS}>
-        
+
         SELECT ?id ?type ?title ?url ?sourceUri ?content ?filename ?dateIndexed WHERE {{
             GRAPH <{graph_uri}> {{
                 ?subject a docindex:Document ;
@@ -525,7 +525,7 @@ class OxiRSBackend(BaseSearchBackend):
                 OPTIONAL {{ ?subject docindex:url ?url }}
                 OPTIONAL {{ ?subject docindex:sourceUri ?sourceUri }}
                 OPTIONAL {{ ?subject docindex:dateIndexed ?dateIndexed }}
-                
+
                 # Check for query match in content or title (case-insensitive)
                 FILTER ({search_filter})
             }}

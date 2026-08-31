@@ -50,6 +50,7 @@ def _write_yaml(tmp_path: Path, data: dict) -> Path:
 # load
 # ---------------------------------------------------------------------------
 
+
 def test_load_returns_expected_structure(tmp_path):
     p = _write_yaml(tmp_path, MINIMAL_DATA)
     data = GlossaryManager.load(p)
@@ -81,6 +82,7 @@ def test_load_adds_empty_terms_if_missing(tmp_path):
 # save
 # ---------------------------------------------------------------------------
 
+
 def test_save_round_trips(tmp_path):
     p = _write_yaml(tmp_path, MINIMAL_DATA)
     data = GlossaryManager.load(p)
@@ -93,6 +95,7 @@ def test_save_round_trips(tmp_path):
 # ---------------------------------------------------------------------------
 # to_myst
 # ---------------------------------------------------------------------------
+
 
 def test_to_myst_contains_generated_marker():
     myst = GlossaryManager.to_myst(MINIMAL_DATA)
@@ -158,6 +161,7 @@ def test_to_myst_skips_terms_without_definition():
 # write_myst_if_changed
 # ---------------------------------------------------------------------------
 
+
 def test_write_myst_if_changed_creates_file(tmp_path):
     out = tmp_path / "glossary.md"
     changed = GlossaryManager.write_myst_if_changed(MINIMAL_DATA, out)
@@ -176,6 +180,7 @@ def test_write_myst_if_changed_updates_on_new_term(tmp_path):
     out = tmp_path / "glossary.md"
     GlossaryManager.write_myst_if_changed(MINIMAL_DATA, out)
     import copy
+
     data2 = copy.deepcopy(MINIMAL_DATA)
     data2["terms"]["NewTerm"] = {"definition": "A brand new term."}
     changed = GlossaryManager.write_myst_if_changed(data2, out)
@@ -185,6 +190,7 @@ def test_write_myst_if_changed_updates_on_new_term(tmp_path):
 # ---------------------------------------------------------------------------
 # merge_synonyms
 # ---------------------------------------------------------------------------
+
 
 def test_merge_synonyms_adds_to_existing_term():
     synonyms = {"cnt": ["mwcnt", "swcnt"]}
@@ -216,6 +222,7 @@ def test_merge_synonyms_case_insensitive_match():
 # extract_synonyms
 # ---------------------------------------------------------------------------
 
+
 def test_extract_synonyms_returns_dict():
     result = GlossaryManager.extract_synonyms(MINIMAL_DATA)
     assert "cnt" in result
@@ -236,6 +243,7 @@ def test_extract_synonyms_lowercases_keys():
 # export-synonyms workflow (extract + merge/save round-trip)
 # ---------------------------------------------------------------------------
 
+
 def test_export_synonyms_merge_adds_new_entries(tmp_path):
     """Glossary extract merged into an existing synonyms file gains new keys."""
     from docindex_core.synonyms_manager import SynonymsManager
@@ -249,9 +257,9 @@ def test_export_synonyms_merge_adds_new_entries(tmp_path):
     SynonymsManager.save(merged, syn_path)
 
     reloaded = SynonymsManager.load(syn_path)
-    assert "lca" in reloaded          # original preserved
-    assert "cnt" in reloaded          # from glossary
-    assert "myst" in reloaded         # from glossary
+    assert "lca" in reloaded  # original preserved
+    assert "cnt" in reloaded  # from glossary
+    assert "myst" in reloaded  # from glossary
     assert "carbon nanotube" in reloaded["cnt"]
 
 
@@ -268,8 +276,8 @@ def test_export_synonyms_replace_discards_non_glossary_entries(tmp_path):
     SynonymsManager.save(extracted, syn_path)
 
     reloaded = SynonymsManager.load(syn_path)
-    assert "lca" not in reloaded      # not in glossary, so gone
-    assert "cnt" in reloaded          # glossary has CNT synonyms
+    assert "lca" not in reloaded  # not in glossary, so gone
+    assert "cnt" in reloaded  # glossary has CNT synonyms
 
 
 def test_export_synonyms_idempotent(tmp_path):
@@ -296,6 +304,7 @@ def test_generate_glossary_export_synonyms_flag_writes_synonyms(tmp_path):
 
     glossary_yaml = tmp_path / "glossary.yaml"
     import yaml as _yaml
+
     with open(glossary_yaml, "w") as fh:
         _yaml.dump(MINIMAL_DATA, fh)
 
@@ -316,29 +325,31 @@ def test_generate_glossary_export_synonyms_flag_writes_synonyms(tmp_path):
 
 def test_glossary_manager_malformed_entries(tmp_path):
     import yaml as _yaml
+
     bad_yaml = tmp_path / "bad_glossary.yaml"
     # YAML with no categories, and terms with string value instead of dict
     with open(bad_yaml, "w") as fh:
-        _yaml.dump({
-            "terms": {
-                "CNT": "this is a string, not a dict",
-                "Lignin": {"definition": "real definition"}
-            }
-        }, fh)
-    
+        _yaml.dump(
+            {
+                "terms": {
+                    "CNT": "this is a string, not a dict",
+                    "Lignin": {"definition": "real definition"},
+                }
+            },
+            fh,
+        )
+
     data = GlossaryManager.load(bad_yaml)
     assert data["categories"] == {}
-    
+
     # Try merging synonyms
     merged = GlossaryManager.merge_synonyms(data, {"cnt": ["nano"]})
     assert merged["terms"]["CNT"] == "this is a string, not a dict"
-    
+
     # Try generating myst
     myst = GlossaryManager.to_myst(data)
     assert "real definition" in myst
-    
+
     # Try extracting synonyms
     syns = GlossaryManager.extract_synonyms(data)
     assert "cnt" not in syns
-
-

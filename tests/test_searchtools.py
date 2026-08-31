@@ -18,9 +18,10 @@ def test_normalize_search_config_preserves_separate_search_modes():
     assert config["native"]["enabled"] is False
     assert config["docindex"]["enabled"] is True
     assert config["docindex"]["oxirs"]["enabled"] is True
-    assert config["docindex"]["meilisearch"] == DEFAULT_SEARCH_CONFIG[
-        "docindex"
-    ]["meilisearch"]
+    assert (
+        config["docindex"]["meilisearch"]
+        == DEFAULT_SEARCH_CONFIG["docindex"]["meilisearch"]
+    )
 
 
 def test_normalize_search_config_does_not_mutate_defaults():

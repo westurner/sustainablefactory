@@ -254,8 +254,8 @@ def test_add_documents_progress_bar(api_mod, docs, monkeypatch):
     stats = c.add_documents("all", docs, progress=True, total_estimate=3)
 
     # 3 doc updates from the submission bar + 1 task update from the verification bar
-    assert 3 in updates    # full batch of 3 docs submitted
-    assert 1 in updates    # 1 queued task verified
+    assert 3 in updates  # full batch of 3 docs submitted
+    assert 1 in updates  # 1 queued task verified
     assert stats.indexed_documents == 3
 
 

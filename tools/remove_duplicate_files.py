@@ -54,7 +54,9 @@ def _prefix_preview(prefix: bytes) -> str:
     return text
 
 
-def build_removal_plan(root: Path, prefix_bytes: int = DEFAULT_PREFIX_BYTES) -> list[RemovalPlanItem]:
+def build_removal_plan(
+    root: Path, prefix_bytes: int = DEFAULT_PREFIX_BYTES
+) -> list[RemovalPlanItem]:
     """Build a deterministic plan for removing identical files."""
     plan: list[RemovalPlanItem] = []
     size_groups: dict[int, list[Path]] = {}
@@ -96,7 +98,11 @@ def build_removal_plan(root: Path, prefix_bytes: int = DEFAULT_PREFIX_BYTES) -> 
                     reverse=True,
                 )
                 for remove in removals:
-                    plan.append(RemovalPlanItem(keep=keep, remove=remove, size=size, prefix=prefix))
+                    plan.append(
+                        RemovalPlanItem(
+                            keep=keep, remove=remove, size=size, prefix=prefix
+                        )
+                    )
 
     return plan
 

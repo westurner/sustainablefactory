@@ -24,8 +24,8 @@ MAX_FILENAME_STEM_LENGTH = 128
 def slugify(text: str) -> str:
     """Convert text to a filesystem-safe slug."""
     text = re.sub(r"https?://\S+|www\.\S+", " ", text)
-    normalized = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode(
-        "ascii"
+    normalized = (
+        unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
     )
     normalized = normalized.lower().strip()
     normalized = re.sub(r"[^a-z0-9\s-]", "", normalized)
@@ -109,7 +109,9 @@ def _first_text_from_markdown(text: str) -> str:
             if stripped.lower().startswith("message time:"):
                 seen_time = True
             continue
-        if stripped.startswith("---") or stripped.lower().startswith("# gemini response"):
+        if stripped.startswith("---") or stripped.lower().startswith(
+            "# gemini response"
+        ):
             break
         if not stripped and not prompt_lines:
             continue
@@ -136,14 +138,23 @@ def extract_first_prompt(path: Path) -> str:
 def candidate_files(root: Path) -> list[Path]:
     """Return Gemini export files that live directly in root."""
     if root.is_file():
-        return [root] if root.name.startswith(GEMINI_PREFIX) and root.suffix.lower() in GEMINI_EXTENSIONS else []
+        return (
+            [root]
+            if root.name.startswith(GEMINI_PREFIX)
+            and root.suffix.lower() in GEMINI_EXTENSIONS
+            else []
+        )
 
     if not root.is_dir():
         return []
 
     files = []
     for path in sorted(root.iterdir()):
-        if path.is_file() and path.name.startswith(GEMINI_PREFIX) and path.suffix.lower() in GEMINI_EXTENSIONS:
+        if (
+            path.is_file()
+            and path.name.startswith(GEMINI_PREFIX)
+            and path.suffix.lower() in GEMINI_EXTENSIONS
+        ):
             files.append(path)
     return files
 

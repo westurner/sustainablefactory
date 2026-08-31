@@ -28,13 +28,15 @@ def test_detect_chat_type(name, expected):
 def test_parse_json_chat_list_and_dict_variants(tmp_path):
     p1 = tmp_path / "a.json"
     p1.write_text(
-        json.dumps([
-            {"content": "hello", "role": "user", "title": "A"},
-            {"text": "world", "author": "assistant"},
-            {"message": "final"},
-            "skip-me",
-            {},
-        ])
+        json.dumps(
+            [
+                {"content": "hello", "role": "user", "title": "A"},
+                {"text": "world", "author": "assistant"},
+                {"message": "final"},
+                "skip-me",
+                {},
+            ]
+        )
     )
 
     docs = ChatParser.parse_json_chat(p1)
@@ -147,9 +149,10 @@ def test_batch_chat_indexer_init_missing_dir(tmp_path):
 def test_md_section_doc_type_heuristics():
     from docindex_core.chat_parser import _md_section_doc_type
     from docindex_core.config import DocumentType
-    
+
     assert _md_section_doc_type("Thinking:\nLet's see...") == DocumentType.CHAT_THINKING
     assert _md_section_doc_type("User:\nHello") == DocumentType.CHAT_INPUT
-    assert _md_section_doc_type("Gemini Replied:\nHello back") == DocumentType.CHAT_OUTPUT
+    assert (
+        _md_section_doc_type("Gemini Replied:\nHello back") == DocumentType.CHAT_OUTPUT
+    )
     assert _md_section_doc_type("Normal section without keywords") == DocumentType.CHAT
-

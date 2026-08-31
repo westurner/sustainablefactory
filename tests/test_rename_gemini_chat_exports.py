@@ -31,7 +31,7 @@ def test_extract_first_prompt_from_markdown_and_json(tmp_path: Path):
 
     js = tmp_path / "Gemini-_15.json"
     js.write_text(
-        "[{\"role\": \"user\", \"contents\": [{\"type\": \"text\", \"content\": \"Design an in-ground water shutoff valve that works as a fire hydrant\"}]}]",
+        '[{"role": "user", "contents": [{"type": "text", "content": "Design an in-ground water shutoff valve that works as a fire hydrant"}]}]',
         encoding="utf-8",
     )
 
@@ -50,7 +50,7 @@ def test_build_rename_plan_and_preview(tmp_path: Path, capsys):
     )
     second = tmp_path / "Gemini-_15.json"
     second.write_text(
-        "[{\"role\": \"user\", \"contents\": [{\"type\": \"text\", \"content\": \"How to test this agent session backup tool?\"}]}]",
+        '[{"role": "user", "contents": [{"type": "text", "content": "How to test this agent session backup tool?"}]}]',
         encoding="utf-8",
     )
 
@@ -62,7 +62,10 @@ def test_build_rename_plan_and_preview(tmp_path: Path, capsys):
 
     mod.main([str(tmp_path)])
     out = capsys.readouterr().out
-    assert "mv Gemini-_11.md how-to-test-this-agent-session-backup-tool.md  # How to test this agent session backup tool?" in out
+    assert (
+        "mv Gemini-_11.md how-to-test-this-agent-session-backup-tool.md  # How to test this agent session backup tool?"
+        in out
+    )
     assert "Add -y to apply these renames." in out
     assert first.exists()
     assert second.exists()
@@ -78,6 +81,11 @@ def test_main_with_yes_renames_files(tmp_path: Path, capsys):
 
     mod.main([str(tmp_path), "-y"])
     out = capsys.readouterr().out
-    assert "mv Gemini-_40.md is-superconductivity-any-more-useful-for-qc-than-qahe.md  # Is superconductivity any more useful for QC than QAHE?" in out
+    assert (
+        "mv Gemini-_40.md is-superconductivity-any-more-useful-for-qc-than-qahe.md  # Is superconductivity any more useful for QC than QAHE?"
+        in out
+    )
     assert not md.exists()
-    assert (tmp_path / "is-superconductivity-any-more-useful-for-qc-than-qahe.md").exists()
+    assert (
+        tmp_path / "is-superconductivity-any-more-useful-for-qc-than-qahe.md"
+    ).exists()

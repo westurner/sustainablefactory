@@ -4,6 +4,7 @@ RDF generation module for Sustainable Factory Process data.
 This module is responsible for converting parsed process steps into RDF (Resource Description Framework)
 representations, specifically leveraging RDF-star / RDF 1.2 patterns for statement-level metadata.
 """
+
 import io
 import pyoxigraph as ox
 import re

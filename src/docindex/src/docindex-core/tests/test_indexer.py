@@ -165,7 +165,7 @@ def test_document_indexer_empty_collections(monkeypatch, tmp_path):
 
     indexer = idx_mod.DocumentIndexer()
     s1 = indexer.index_chat_directory(tmp_path)
-    s2 = indexer.index_sphinx_html(tmp_path)      # atomic primary
+    s2 = indexer.index_sphinx_html(tmp_path)  # atomic primary
     s3 = indexer.index_sphinx_html_legacy(tmp_path)  # non-atomic legacy
     assert s1.total_documents == 0
     assert s2.total_documents == 0
@@ -332,6 +332,7 @@ def test_index_sphinx_html_legacy_no_swap(monkeypatch, tmp_path, stats_obj):
 def test_document_indexer_backend_arg():
     from unittest.mock import MagicMock
     from docindex_core.indexer import DocumentIndexer
+
     mock_backend = MagicMock()
     mock_backend.config = "fake_config"
     indexer = DocumentIndexer(backend=mock_backend)
@@ -342,23 +343,24 @@ def test_document_indexer_backend_arg():
 def test_document_indexer_keyboard_interrupt(monkeypatch, tmp_path):
     from unittest.mock import MagicMock
     import docindex_core.indexer as idx_mod
-    
+
     class CancelledIndexer:
         def __init__(self, path):
             pass
+
         def parse_all(self, *args, **kwargs):
             yield (Path("index.html"), [SimpleNamespace(type="sphinx_html")])
             raise KeyboardInterrupt()
-            
+
     monkeypatch.setattr(idx_mod, "BatchHTMLIndexer", CancelledIndexer)
     mock_client = MagicMock()
     mock_client.config = idx_mod.DocIndexConfig(batch_size=10)
     mock_client._finalize_tasks.return_value = None
     indexer = idx_mod.DocumentIndexer(backend=mock_client)
-    
+
     stats = indexer.index_sphinx_html_legacy(tmp_path)
     assert stats.total_documents == 0
-    
+
     stats_atomic = indexer.index_sphinx_html(tmp_path)
     assert stats_atomic.total_documents == 0
 
@@ -367,8 +369,7 @@ def test_indexer_additional_branches(monkeypatch, tmp_path, stats_obj):
     import time
     from unittest.mock import MagicMock
     import docindex_core.indexer as idx_mod
-    from docindex_core.config import DocumentType
-    
+
     # 1. Document routing branches
     indexer = idx_mod.DocumentIndexer(backend=MagicMock())
     doc_chat = SimpleNamespace(type="chat")
@@ -377,40 +378,55 @@ def test_indexer_additional_branches(monkeypatch, tmp_path, stats_obj):
     assert indexer._get_index_names_for_document(doc_chat) == ["all", "chats"]
     assert indexer._get_index_names_for_document(doc_myst) == ["all", "sphinx", "myst"]
     assert indexer._get_index_names_for_document(doc_plain) == ["all"]
-    
+
     # 2. _send_batch_with_retry exception retry path
     mock_client = MagicMock()
     mock_client._submit_batches.side_effect = Exception("failed")
     indexer.client = mock_client
-    
+
     monkeypatch.setattr(time, "sleep", lambda x: None)
     with pytest.raises(Exception, match="failed"):
-        indexer._send_batch_with_retry("all", [doc_plain], max_retries=2, retry_delay=0.1, pending_tasks={}, submit_counts={})
-        
+        indexer._send_batch_with_retry(
+            "all",
+            [doc_plain],
+            max_retries=2,
+            retry_delay=0.1,
+            pending_tasks={},
+            submit_counts={},
+        )
+
     # 3. index_chat_directory batching (batch_size=1)
     class FakeChatIndexer:
-        def __init__(self, path): pass
-        def get_chat_files(self): return [Path("chat.json")]
+        def __init__(self, path):
+            pass
+
+        def get_chat_files(self):
+            return [Path("chat.json")]
+
         def parse_all(self):
             return [("chat.json", [doc_chat, doc_chat])]
-            
+
     monkeypatch.setattr(idx_mod, "BatchChatIndexer", FakeChatIndexer)
     mock_client2 = MagicMock()
     mock_client2._submit_batches.return_value = ([], 2, 0)
     mock_client2._finalize_tasks.return_value = stats_obj
     indexer.client = mock_client2
     indexer.config.batch_size = 1
-    
+
     indexer.index_chat_directory(tmp_path)
     assert mock_client2._submit_batches.call_count >= 2
-    
+
     # 4. index_sphinx_html swap_indexes / GC failure
     class FakeHTMLIndexer:
-        def __init__(self, path): pass
-        def get_html_files(self, pat=None): return [Path("index.html")]
+        def __init__(self, path):
+            pass
+
+        def get_html_files(self, pat=None):
+            return [Path("index.html")]
+
         def parse_all(self, **kwargs):
             return [("index.html", [doc_myst, doc_myst])]
-            
+
     monkeypatch.setattr(idx_mod, "BatchHTMLIndexer", FakeHTMLIndexer)
     mock_client3 = MagicMock()
     mock_client3._submit_batches.return_value = ([], 2, 0)
@@ -418,20 +434,20 @@ def test_indexer_additional_branches(monkeypatch, tmp_path, stats_obj):
     mock_client3.delete_documents_by_filter.side_effect = Exception("gc failed")
     indexer.client = mock_client3
     indexer.config.batch_size = 1
-    
+
     with pytest.raises(Exception, match="swap failed"):
         indexer.index_sphinx_html(tmp_path)
-        
+
     # Swap succeeds, GC fails
     mock_client4 = MagicMock()
     mock_client4._submit_batches.return_value = ([], 2, 0)
     mock_client4.delete_documents_by_filter.side_effect = Exception("gc failed")
     indexer.client = mock_client4
-    
+
     # GC failure is logged as warning but does not raise
     stats = indexer.index_sphinx_html(tmp_path)
     assert stats is not None
-    
+
     # 5. index_sphinx_html_legacy total_estimate calculation + batch_size=1
     stats = indexer.index_sphinx_html_legacy(tmp_path)
     assert stats is not None
@@ -441,7 +457,7 @@ def test_document_indexer_multi_backends_init():
     from docindex_core.config import DocIndexConfig
     from docindex_core.indexer import DocumentIndexer
     from docindex_core.backends.multi import MultiBackend
-    
+
     cfg = DocIndexConfig(backend="oxirs,milli", storage_path="/tmp/fake_oxirs_path")
     indexer = DocumentIndexer(config=cfg)
     assert isinstance(indexer.client, MultiBackend)

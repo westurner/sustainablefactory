@@ -34,15 +34,15 @@ This document outlines the architecture for integrating Meilisearch full-text se
 ### 1.2 Key Integration Points
 
 1. **Document Sources**: Chat exports (JSON/Markdown), Sphinx-built HTML, MyST markdown
-2. **Indexing Strategy**: 
+2. **Indexing Strategy**:
    - Index raw chats by segments
    - Index HTML build output by sections
    - Index source markdown for development
-3. **Index Management**: 
+3. **Index Management**:
    - Track file modifications with inode/hash
    - Rebuild on `make html` via hooks
    - Batch operations for performance
-4. **Search UI**: 
+4. **Search UI**:
    - Sphinx-pagefind for static site search
    - JSON API for programmatic access
    - Snippet highlighting and relevance ranking
@@ -239,7 +239,7 @@ def on_build_finished(app, exception):
     """Index HTML documents after build completion."""
     if exception or not app.config.meilisearch_enabled:
         return
-    
+
     logger.info("Indexing Sphinx HTML output to Meilisearch...")
     indexer = SphinxHTMLIndexer(
         host=app.config.meilisearch_host,
@@ -305,29 +305,29 @@ from typing import Dict
 
 class IndexCache:
     """Track file hashes to detect changes."""
-    
+
     def __init__(self, cache_file: Path = Path(".meilisearch_cache")):
         self.cache_file = cache_file
         self.hashes = self._load_cache()
-    
+
     def _load_cache(self) -> Dict[str, str]:
         if self.cache_file.exists():
             return json.loads(self.cache_file.read_text())
         return {}
-    
+
     def save_cache(self):
         self.cache_file.write_text(json.dumps(self.hashes, indent=2))
-    
+
     def file_changed(self, filepath: Path) -> bool:
         """Check if file has been modified since last index."""
         new_hash = hashlib.md5(filepath.read_bytes()).hexdigest()
         old_hash = self.hashes.get(str(filepath))
-        
+
         if new_hash != old_hash:
             self.hashes[str(filepath)] = new_hash
             return True
         return False
-    
+
     def get_changed_files(self, directory: Path) -> list[Path]:
         """Get list of changed files in directory."""
         return [
@@ -408,7 +408,7 @@ const resultsDiv = document.getElementById('search-results');
 searchInput.addEventListener('input', async (e) => {
   const query = e.target.value;
   if (query.length < 2) return;
-  
+
   try {
     const response = await fetch(`${MEILISEARCH_HOST}/indexes/all/search`, {
       method: 'POST',
@@ -564,4 +564,3 @@ podman run -d \
 - [Sphinx-Pagefind](https://github.com/lelouch77/sphinx-pagefind)
 - [Django-Haystack (Hook System Reference)](https://django-haystack.readthedocs.io/)
 - [Sphinx Events](https://www.sphinx-doc.org/en/master/extdev/appapi.html#event-api)
-

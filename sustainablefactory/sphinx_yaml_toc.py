@@ -65,9 +65,7 @@ def _chapter_entries(data: dict[str, Any]) -> list[Any]:
 
 def _yaml_options(data: dict[str, Any]) -> dict[str, Any]:
     options = data.get("options", {})
-    merged = {
-        key: data[key] for key in _YAML_OPTIONS if key in data
-    }
+    merged = {key: data[key] for key in _YAML_OPTIONS if key in data}
     if isinstance(options, dict):
         merged.update({key: options[key] for key in _YAML_OPTIONS if key in options})
     return merged
@@ -116,7 +114,9 @@ class YAMLToctree(TocTree):
     def _run_entries(self, entries: list[Any], caption: str | None = None):
         saved_content = self.content
         saved_caption = self.options.get("caption")
-        self.content = StringList(_entry_lines(entries), source=self.state.document["source"])
+        self.content = StringList(
+            _entry_lines(entries), source=self.state.document["source"]
+        )
         if caption is not None:
             self.options["caption"] = caption
         result = super().run()
@@ -143,9 +143,9 @@ class YAMLToctree(TocTree):
             if not isinstance(part, dict):
                 continue
             entries = part.get("chapters", part.get("sections", []))
-            result.extend(self._run_entries(
-                _as_list(entries), caption=part.get("caption")
-            ))
+            result.extend(
+                self._run_entries(_as_list(entries), caption=part.get("caption"))
+            )
         return result
 
 

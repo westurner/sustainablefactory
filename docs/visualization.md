@@ -3891,4 +3891,3 @@ iof-constr:InformationContentEntity a owl:Class ;
   - **vcard**: [http://www.w3.org/2006/vcard/ns#](http://www.w3.org/2006/vcard/ns#) (Local: `vcard/vcard.ttl`)
   - **void**: [http://rdfs.org/ns/void#](http://rdfs.org/ns/void#) (Local: `void/void.ttl`)
   - **wgs**: [https://www.w3.org/2003/01/geo/wgs84_pos#](https://www.w3.org/2003/01/geo/wgs84_pos#) (Local: `wgs/wgs.ttl`)
-

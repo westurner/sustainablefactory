@@ -78,9 +78,7 @@ def test_remove_stale_outputs_removes_formats_no_longer_requested(tmp_path):
             }
         }
     }
-    manifest = {
-        "files": {"one.md": {"outputs": {"myst": str(current_myst)}}}
-    }
+    manifest = {"files": {"one.md": {"outputs": {"myst": str(current_myst)}}}}
 
     removed = remove_stale_outputs(previous, manifest)
 

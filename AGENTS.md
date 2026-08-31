@@ -50,7 +50,7 @@ Lignin-Vitrimer dielectric inputs, directional broadband antenna kinematics
 with volume-distributed polarization currents, separate phase-pattern/group/
 information speeds, passive power accounting, CW resonator enhancement and
 loss, Rydberg-EIT Stark-response metrology, and a `CWApplication` requirement
-matrix for the application families in the IQ Myst document. 
+matrix for the application families in the IQ Myst document.
 `CWApplicationReadiness` records the explicit active-mask,
 convergent-beam, range-modulation, and causal-envelope conditions.
 

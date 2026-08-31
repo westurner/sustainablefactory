@@ -18,7 +18,17 @@ def test_sphinx_build_emits_search_ui_assets(tmp_path):
     output = tmp_path / "build"
 
     subprocess.run(
-        [sys.executable, "-m", "sphinx", "-b", "html", "-E", "-q", str(source), str(output)],
+        [
+            sys.executable,
+            "-m",
+            "sphinx",
+            "-b",
+            "html",
+            "-E",
+            "-q",
+            str(source),
+            str(output),
+        ],
         check=True,
     )
 
@@ -56,7 +66,17 @@ def test_enhanced_searchtools_renders_separate_docindex_mode(tmp_path):
     ).rstrip(os.pathsep)
 
     subprocess.run(
-        [sys.executable, "-m", "sphinx", "-b", "html", "-E", "-q", str(source), str(output)],
+        [
+            sys.executable,
+            "-m",
+            "sphinx",
+            "-b",
+            "html",
+            "-E",
+            "-q",
+            str(source),
+            str(output),
+        ],
         check=True,
         env=environment,
     )
@@ -93,7 +113,17 @@ def test_search_page_preserves_native_layout_and_hides_disabled_docindex(tmp_pat
     ).rstrip(os.pathsep)
 
     subprocess.run(
-        [sys.executable, "-m", "sphinx", "-b", "html", "-E", "-q", str(source), str(output)],
+        [
+            sys.executable,
+            "-m",
+            "sphinx",
+            "-b",
+            "html",
+            "-E",
+            "-q",
+            str(source),
+            str(output),
+        ],
         check=True,
         env=environment,
     )
@@ -104,7 +134,10 @@ def test_search_page_preserves_native_layout_and_hides_disabled_docindex(tmp_pat
     assert "URLSearchParams" in search_page
     assert 'id="search-results"' in search_page
     merged_search_script = output / "_static" / "searchtools.js"
-    assert "sustainablefactory grouped search snippets" in merged_search_script.read_text(encoding="utf-8")
+    assert (
+        "sustainablefactory grouped search snippets"
+        in merged_search_script.read_text(encoding="utf-8")
+    )
     assert not (output / "_static" / "search-snippets.js").exists()
     assert 'data-content_root="./"' in search_page
     assert "FILE_SUFFIX = DOCUMENTATION_OPTIONS.FILE_SUFFIX || '.html'" in search_page
