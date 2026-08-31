@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 
@@ -34,7 +35,10 @@ def _merge_dicts(base: dict[str, Any], override: object) -> dict[str, Any]:
 
 def normalize_search_config(config: object) -> dict[str, Any]:
     """Return a complete, template-safe copy of the search configuration."""
-    return _merge_dicts(DEFAULT_SEARCH_CONFIG, config)
+    return _merge_dicts(
+        DEFAULT_SEARCH_CONFIG,
+        config if isinstance(config, dict) else {},
+    )
 
 
 def setup(app):
@@ -46,6 +50,7 @@ def setup(app):
     )
     app.connect("config-inited", _configure_search_assets)
     app.connect("html-page-context", _add_search_context)
+    app.connect("build-finished", _merge_native_search_asset)
     return {
         "version": "0.1.0",
         "parallel_read_safe": True,
@@ -54,7 +59,8 @@ def setup(app):
 
 
 def _configure_search_assets(app, config) -> None:
-    if config.docindex_searchtools_enhanced:
+    search_config = normalize_search_config(config.docindex_searchtools)
+    if config.docindex_searchtools_enhanced and search_config["docindex"]["enabled"]:
         app.add_js_file("docindex-search.js")
 
 
@@ -65,3 +71,28 @@ def _add_search_context(app, pagename, templatename, context, doctree) -> None:
     context["docindex_search_config"] = normalize_search_config(
         app.config.docindex_searchtools
     )
+
+
+def _merge_native_search_asset(app, exception) -> None:
+    """Append the grouped-summary implementation to Sphinx's native asset."""
+    if exception is not None or app.builder.name != "html":
+        return
+
+    output = Path(app.outdir) / "_static" / "searchtools.js"
+    source = Path(__file__).parents[1] / "docs" / "_static" / "search-snippets.js"
+    if not output.exists() or not source.exists():
+        return
+
+    marker = "/* sustainablefactory grouped search snippets */"
+    native = output.read_text(encoding="utf-8")
+    if marker in native:
+        return
+
+    snippets = source.read_text(encoding="utf-8")
+    output.write_text(
+        f"{native}\n{marker}\n{snippets}",
+        encoding="utf-8",
+    )
+    generated_source = output.parent / source.name
+    if generated_source != output:
+        generated_source.unlink(missing_ok=True)

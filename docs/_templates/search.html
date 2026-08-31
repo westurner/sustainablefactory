@@ -1,47 +1,49 @@
-{# Separate native Sphinx and optional DocIndex search modes. #}
 {%- extends "layout.html" %}
 {% set title = _('Search') %}
-{%- block scripts %}
-    {{ super() }}
-    {% if docindex_search_config.native.enabled %}
-    <script src="{{ pathto('_static/searchtools.js', 1) }}"></script>
-    <script src="{{ pathto('_static/language_data.js', 1) }}"></script>
-    {% endif %}
-{%- endblock %}
 {% block extrahead %}
+  {{ super() }}
     {% if docindex_search_config.native.enabled %}
+  <script>
+      document.documentElement.dataset.content_root = {{ pathto('', 1) | tojson }};
+    window.DOCUMENTATION_OPTIONS = window.DOCUMENTATION_OPTIONS || {};
+    var DOCUMENTATION_OPTIONS = window.DOCUMENTATION_OPTIONS;
+    DOCUMENTATION_OPTIONS.BUILDER = DOCUMENTATION_OPTIONS.BUILDER || 'html';
+    DOCUMENTATION_OPTIONS.FILE_SUFFIX = DOCUMENTATION_OPTIONS.FILE_SUFFIX || '.html';
+    DOCUMENTATION_OPTIONS.LINK_SUFFIX = DOCUMENTATION_OPTIONS.LINK_SUFFIX || '.html';
+    DOCUMENTATION_OPTIONS.SHOW_SEARCH_SUMMARY = true;
+  </script>
+  <script src="{{ pathto('_static/searchtools.js', 1) }}"></script>
+  <script src="{{ pathto('_static/language_data.js', 1) }}"></script>
     <script src="{{ pathto('searchindex.js', 1) }}" defer="defer"></script>
     {% endif %}
-    {% if docindex_searchtools_enhanced %}
+    {% if docindex_searchtools_enhanced and docindex_search_config.docindex.enabled %}
     <script>
       window.DOCINDEX_SEARCH_CONFIG = {{ docindex_search_config | tojson }};
     </script>
     {% endif %}
     <meta name="robots" content="noindex" />
-    {{ super() }}
 {% endblock %}
 {% block body %}
   <h1 id="search-documentation">{{ _('Search') }}</h1>
 
   {% if docindex_search_config.native.enabled %}
   <section id="native-sphinx-search" aria-labelledby="native-sphinx-search-title">
-    <h2 id="native-sphinx-search-title">Native Sphinx search</h2>
+    <h2 id="native-sphinx-search-title">{{ _('Search') }}</h2>
     <noscript>
       <div class="admonition warning">
         <p>{{ _('Please activate JavaScript to enable the search functionality.') }}</p>
       </div>
     </noscript>
-    <form action="" method="get">
-      <label for="native-search-query">Search the built documentation</label>
-      <input id="native-search-query" type="text" name="q" value="" autocomplete="off" />
+    <form action="{{ pathto('search') }}" method="get">
+      <label for="native-search-query">{{ _('Search') }}</label>
+      <input id="native-search-query" type="text" name="q" value="" aria-label="{{ _('Search') }}" autocomplete="off" />
       <input type="submit" value="{{ _('search') }}" />
-      <span id="search-progress" style="padding-left: 10px"></span>
     </form>
     <div id="search-results" role="region" aria-live="polite"></div>
   </section>
   {% endif %}
 
-  {% if docindex_searchtools_enhanced %}
+  {% if docindex_searchtools_enhanced and docindex_search_config.docindex.enabled %}
   <section id="docindex-search" aria-labelledby="docindex-search-title">
     <h2 id="docindex-search-title">DocIndex search</h2>
     <p>Search configured OxiRS and Meilisearch indexes separately from native Sphinx search.</p>
@@ -52,5 +54,17 @@
     </form>
     <div id="docindex-search-results" role="region" aria-live="polite"></div>
   </section>
+  {% endif %}
+{% endblock %}
+
+{% block footer %}
+  {{ super() }}
+  {% if docindex_search_config.native.enabled %}
+  <script>
+    (function () {
+      var query = new URLSearchParams(window.location.search).get('q') || '';
+      document.getElementById('native-search-query').value = query;
+    }());
+  </script>
   {% endif %}
 {% endblock %}

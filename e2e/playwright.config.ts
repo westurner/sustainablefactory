@@ -20,6 +20,6 @@ export default defineConfig({
   webServer: {
     command: 'python3 -m http.server 8000 --directory ../docs/_build/html',
     url: 'http://localhost:8000',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: process.env.PW_REUSE_SERVER === '1',
   },
 });

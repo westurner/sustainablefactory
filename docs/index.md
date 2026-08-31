@@ -2,6 +2,13 @@
 
 Welcome to the Sustainable Factory project documentation.
 
+```{toctree}
+:hidden:
+
+search
+```
+
+{doc}`Search <search>`
 
 ## Sustainable Factory Project
 ```{toctreeyaml}

@@ -28,6 +28,23 @@ test.describe('Sphinx docs search and responsive behavior', () => {
     await expect(page.locator('body')).toContainText(/search|results/i);
   });
 
+  test('native Sphinx search returns results for a fixture term', async ({ page }) => {
+    await page.goto('/search.html?q=sustainable');
+
+    const queryInput = page.locator('input[name="q"]:visible').first();
+    await expect(queryInput).toHaveValue('sustainable');
+    await expect(page.locator('#search-results li').first()).toBeVisible();
+    await expect(page.locator('#search-results')).toContainText('sustainable');
+  });
+
+  test('native results show all matching snippets for a document', async ({ page }) => {
+    await page.goto('/search.html?q=lignin&check_keywords=yes&area=default');
+
+    const snippetGroups = page.locator('#search-results .search-snippets');
+    await expect(snippetGroups.first()).toBeVisible();
+    expect(await snippetGroups.first().locator('.context').count()).toBeGreaterThan(1);
+  });
+
   test('search page loads native Sphinx search assets', async ({ page }) => {
     await page.goto('/search.html');
 

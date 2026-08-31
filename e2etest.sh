@@ -38,6 +38,7 @@ usage() {
     echo "  PODMAN             Override podman executable"
     echo "  CONTAINER_USER     Override user inside container (Default: appuser)"
     echo "  PLAYWRIGHT_BROWSERS_PATH  Override path to Playwright browsers (Default: \${PWD}/.playwright-browsers)"
+    echo "  PW_REUSE_SERVER=1  Reuse an existing localhost:8000 server (Default: start a fresh server)"
 }
 
 is_container() {
@@ -49,7 +50,7 @@ is_container() {
 }
 
 fix_node_modules() {
-    # If e2e/node_modules exists, it conflicts with root node_modules for playwright config
+    # Keep the e2e package as the single Playwright dependency source.
     if [ -d "e2e/node_modules" ]; then
         echo "NOTE: there are both e2e/node_modules and root node_modules directories"
 
@@ -73,9 +74,9 @@ install_browsers() {
     cd "$test_dir"
     
     # Install browsers defined in config (just what is needed)
-    (set -x; npx playwright install --list | tee "${PLAYWRIGHT_BROWSERS_PATH}/.install.0_before.txt")
-    (set -x; npx playwright install chromium | tee -a "${PLAYWRIGHT_BROWSERS_PATH}/install.log")
-    (set -x; npx playwright install --list | tee "${PLAYWRIGHT_BROWSERS_PATH}/.install.1_after.txt")
+    (set -x; ./node_modules/.bin/playwright install --list | tee "${PLAYWRIGHT_BROWSERS_PATH}/.install.0_before.txt")
+    (set -x; ./node_modules/.bin/playwright install chromium | tee -a "${PLAYWRIGHT_BROWSERS_PATH}/install.log")
+    (set -x; ./node_modules/.bin/playwright install --list | tee "${PLAYWRIGHT_BROWSERS_PATH}/.install.1_after.txt")
     
     # We ignore the error from diff because we want to proceed anyway, but exit code 1 means differences found
     (set -x; diff -Nau "${PLAYWRIGHT_BROWSERS_PATH}/.install.0_before.txt" "${PLAYWRIGHT_BROWSERS_PATH}/.install.1_after.txt" || true) 
@@ -254,7 +255,7 @@ run_on_host() {
 
     echo "## Executing: npx playwright test $args"
     (set -x -e;
-        npx playwright test --output=e2e-logs $args;
+        ./node_modules/.bin/playwright test --output=e2e-logs $args;
         echo "# Note: coverage output is in coverage/"
     )
 }
