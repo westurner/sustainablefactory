@@ -49,7 +49,8 @@
         "ms-vscode.vscode-docker",
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
-        "ms-playwright.playwright",
+        // Playwright CLI is provided by e2e/node_modules. Installing the VS Code
+        // extension starts a persistent test-server in this container.
         "ms-python.python",
         "ms-python.vscode-pylance",
         "tamasfe.even-better-toml",
