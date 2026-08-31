@@ -261,3 +261,4 @@ schema/
 /data/papers
 
 node_modules
+/.browser-profiles
