@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-
 DEFAULT_SEARCH_CONFIG: dict[str, Any] = {
     "native": {"enabled": True},
     "docindex": {
