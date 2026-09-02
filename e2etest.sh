@@ -12,6 +12,28 @@ DO_IN_CONTAINER="${DO_IN_CONTAINER:-}"
 DO_INSTALL="${DO_INSTALL:-0}"
 PLAYWRIGHT_BROWSERS_PATH="${PLAYWRIGHT_BROWSERS_PATH:-"${PWD}/.playwright-browsers"}"
 CONTAINER_USER="${CONTAINER_USER:-"appuser"}"
+E2E_LOCK_DIR="${TMPDIR:-/tmp}/sustainablefactory-e2e.lock"
+
+acquire_lock() {
+    if mkdir "$E2E_LOCK_DIR" 2>/dev/null; then
+        printf '%s\n' "$$" > "$E2E_LOCK_DIR/pid"
+        trap 'rm -rf "$E2E_LOCK_DIR"' EXIT HUP INT TERM
+        return
+    fi
+
+    lock_pid=""
+    if [ -f "$E2E_LOCK_DIR/pid" ]; then
+        lock_pid=$(cat "$E2E_LOCK_DIR/pid")
+    fi
+    if [ -n "$lock_pid" ] && kill -0 "$lock_pid" 2>/dev/null; then
+        echo "## Another e2etest.sh run is active (PID $lock_pid). Aborting to avoid concurrent Playwright processes." >&2
+        exit 1
+    fi
+
+    echo "## Removing stale e2etest.sh lock."
+    rm -rf "$E2E_LOCK_DIR"
+    acquire_lock
+}
 
 usage() {
     echo "Usage: $0 [options] [playwright-args...]"
@@ -39,6 +61,8 @@ usage() {
     echo "  CONTAINER_USER     Override user inside container (Default: appuser)"
     echo "  PLAYWRIGHT_BROWSERS_PATH  Override path to Playwright browsers (Default: \${PWD}/.playwright-browsers)"
     echo "  PW_REUSE_SERVER=1  Reuse an existing localhost:8000 server (Default: start a fresh server)"
+    echo "  PW_WORKERS=N       Limit Playwright workers (Default: 1 to avoid EAGAIN)"
+    echo "  PW_PORT=N          Documentation server port (Default: per-run high port)"
 }
 
 is_container() {
@@ -85,6 +109,8 @@ install_browsers() {
 }
 
 e2etest_main() {
+    acquire_lock
+
     # Initialize variables
     do_in_container="$DO_IN_CONTAINER"
     do_build="$DO_BUILD"
@@ -206,7 +232,7 @@ run_in_container() {
          BROWSER_MOUNT="-v ${PLAYWRIGHT_BROWSERS_PATH}:/home/${CONTAINER_USER}/.cache/ms-playwright"
     fi
 
-    (set -x; $PODMAN run --rm -it --replace \
+    (set -x; $PODMAN run --rm --replace \
         --security-opt=label=disable \
         -v "${PWD}:/workspaces/${project_name}" \
         -v "${PWD}/e2e-logs:/workspaces/${project_name}/e2e-logs" \
@@ -226,6 +252,10 @@ run_on_host() {
     if is_container; then
         echo "## Detected container environment. Using system browsers."
         unset PLAYWRIGHT_BROWSERS_PATH
+        if command -v google-chrome >/dev/null 2>&1; then
+            export PW_EXECUTABLE_PATH="$(command -v google-chrome)"
+            echo "## Using system Chrome at $PW_EXECUTABLE_PATH"
+        fi
     else
         # On Host: Use local browser path
         export PLAYWRIGHT_BROWSERS_PATH
@@ -254,6 +284,8 @@ run_on_host() {
     fi
 
     echo "## Executing: npx playwright test $args"
+    export PW_PORT="${PW_PORT:-$((20000 + $$ % 20000))}"
+    echo "## Documentation server: http://127.0.0.1:$PW_PORT"
     (set -x -e;
         ./node_modules/.bin/playwright test --output=e2e-logs $args;
         echo "# Note: coverage output is in coverage/"
