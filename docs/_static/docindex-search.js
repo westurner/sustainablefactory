@@ -89,7 +89,59 @@
     });
   }
 
+  var wasmStorePromise;
+
+  function getWasmStore(config) {
+    if (!wasmStorePromise) {
+      var moduleUrl = config.wasm_module || "_static/oxirs_wasm.js";
+      var hdtUrl = config.hdt_enabled && config.hdt_module ? config.hdt_module : "";
+      wasmStorePromise = (hdtUrl ? import(hdtUrl) : Promise.resolve(null)).then(function (hdt) {
+        if (hdt && typeof hdt.loadHDT === "function") {
+          return hdt.loadHDT(config.static_hdt || "_static/docindex.hdt");
+        }
+        return import(moduleUrl);
+      }).then(function (module) {
+        if (module && typeof module.query === "function") return module;
+        return Promise.resolve(module.init()).then(function () {
+          return fetch(config.static_data || "_static/docindex.nt")
+            .then(function (response) {
+              if (!response.ok) throw new Error("Static OxiRS data returned " + response.status);
+              return response.text();
+            })
+            .then(function (data) {
+              var store = new module.OxiRSStore();
+              store.loadNTriples(data);
+              return store;
+            });
+        });
+      });
+    }
+    return wasmStorePromise;
+  }
+
+  function searchOxirsWasm(config, query, index) {
+    var namespace = "http://westurner.github.io/sustainablefactory/docindex/#";
+    var terms = query.trim().split(/\s+/).filter(Boolean).map(function (term) {
+      var escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      return '(regex(str(?content), ' + JSON.stringify(escaped) + ', "i") || ' +
+        'regex(str(?title), ' + JSON.stringify(escaped) + ', "i"))';
+    });
+    var sparql = "PREFIX docindex: <" + namespace + "> SELECT ?id ?title ?url ?content WHERE { " +
+      "?subject docindex:id ?id ; docindex:title ?title ; docindex:content ?content . " +
+      "OPTIONAL { ?subject docindex:url ?url } FILTER (" + terms.join(" && ") + ") } LIMIT " +
+      (config.limit || 20);
+    return getWasmStore(config).then(function (store) {
+      return {results: {bindings: store.query(sparql).map(function (row) {
+        return Object.keys(row).reduce(function (binding, key) {
+          binding[key] = {value: row[key]};
+          return binding;
+        }, {});
+      })}};
+    });
+  }
+
   function searchBackend(name, config, query, index) {
+    if (name === "oxirs-wasm") return searchOxirsWasm(config, query, index);
     if (name === "meilisearch") return searchMeilisearch(config, query, index);
     if (name === "oxirs") return searchOxirs(config, query, index);
     return Promise.reject(new Error("Unsupported docindex backend: " + name));
@@ -109,9 +161,14 @@
       return;
     }
 
-    var backends = ["oxirs", "meilisearch"].filter(function (name) {
-      return docindex[name] && docindex[name].enabled && docindex[name].url;
-    });
+    var backends = [];
+    if (docindex.oxirs && docindex.oxirs.enabled) {
+      backends.push("oxirs-wasm");
+      if (docindex.oxirs.query_url || docindex.oxirs.url) backends.push("oxirs");
+    }
+    if (docindex.meilisearch && docindex.meilisearch.enabled && docindex.meilisearch.url) {
+      backends.push("meilisearch");
+    }
     if (!backends.length) {
       addText(output, "No DocIndex backend is configured.");
       return;
@@ -125,7 +182,8 @@
     })).then(function (groups) {
       groups.forEach(function (group) {
         var heading = document.createElement("h3");
-        heading.textContent = group.name === "oxirs" ? "DocIndex: OxiRS" : "DocIndex: Meilisearch";
+        heading.textContent = group.name === "oxirs-wasm" ? "DocIndex: OxiRS WASM" :
+          (group.name === "oxirs" ? "DocIndex: OxiRS URL" : "DocIndex: Meilisearch");
         output.appendChild(heading);
         var list = document.createElement("ul");
         group.results.forEach(function (result) { addResult(list, result); });
@@ -139,7 +197,13 @@
 
   function initialize() {
     var form = byId("docindex-search-form");
-    if (form) form.addEventListener("submit", runSearch);
+    if (!form) return;
+    form.addEventListener("submit", runSearch);
+
+    var query = new URLSearchParams(window.location.search).get("docindex_q") || "";
+    var input = byId("docindex-search-query");
+    input.value = query;
+    if (query) form.dispatchEvent(new Event("submit", {cancelable: true}));
   }
 
   if (document.readyState === "loading") {

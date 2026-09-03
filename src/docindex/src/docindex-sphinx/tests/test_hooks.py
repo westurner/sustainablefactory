@@ -43,6 +43,9 @@ def test_hooks_setup_and_build_finished(monkeypatch, tmp_path, stats_obj):
         def connect(self, event, func):
             self._events.append((event, func.__name__))
 
+        def add_config_value(self, name, default, rebuild, **kwargs):
+            setattr(self.config, name, default)
+
     app = App()
     hooks.setup_meilisearch_hooks(app)
     assert any(ev[0] == "build-finished" for ev in app._events)
@@ -89,3 +92,22 @@ def test_hooks_importerror_fallback_module():
 
     m = importlib.import_module("docindex_sphinx.hooks")
     assert hasattr(m, "setup")
+
+
+def test_hdt_export_uses_configured_encoder(monkeypatch, tmp_path):
+    import docindex_sphinx.hooks as hooks
+
+    source = tmp_path / "docindex.nt"
+    target = tmp_path / "docindex.hdt"
+    source.write_text("<urn:s> <urn:p> <urn:o> .\n", encoding="utf-8")
+
+    monkeypatch.setenv("DOCINDEX_HDT_COMMAND", "fake-rdf2hdt {input} {output}")
+    monkeypatch.setattr(hooks.shutil, "which", lambda name: None)
+
+    def fake_run(argv, **kwargs):
+        target.write_bytes(source.read_bytes())
+
+    monkeypatch.setattr(hooks.subprocess, "run", fake_run)
+
+    assert hooks._try_write_hdt(source, target) is True
+    assert target.read_bytes() == source.read_bytes()

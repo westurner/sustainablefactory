@@ -119,6 +119,25 @@ test.describe('Sphinx docs search and responsive behavior', () => {
     await expect(results).toContainText('Meili result');
   });
 
+  test('DocIndex query parameters populate the field safely', async ({ page }) => {
+    const query = '<script>alert("x")</script>';
+    await page.goto(`/search.html?docindex_q=${encodeURIComponent(query)}`);
+
+    await expect(page.locator('#docindex-search-query')).toHaveValue(query);
+    await expect(page.locator('script')).not.toContainText('alert("x")');
+  });
+
+  test('static OxiRS WASM search returns DocIndex results', async ({ page }) => {
+    test.setTimeout(120_000);
+    await page.goto('/search.html?docindex_q=sustainable');
+
+    const results = page.locator('#docindex-search-results');
+    await expect(page.locator('#docindex-search-query')).toHaveValue('sustainable');
+    await expect(results).toContainText('DocIndex: OxiRS WASM', { timeout: 90_000 });
+    await expect(results.locator('li').first()).toBeVisible();
+    await expect(results.locator('li').first()).toContainText(/sustainable/i);
+  });
+
   test('mobile viewport keeps top content reachable', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');

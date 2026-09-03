@@ -26,6 +26,7 @@ extensions = [
     # "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "sphinxcontrib.webmcp",
+    "docindex_sphinx.hooks",
     "sustainablefactory.sphinx_yaml_toc",
     "sustainablefactory.searchtools",
 ]
@@ -47,14 +48,27 @@ docindex_html_exclude_patterns = [
 html_search_options = {"type": "js"}
 
 docindex_searchtools_enhanced = True
+docindex_static_wasm_enabled = True
+docindex_rdf_hdt_enabled = True
 docindex_searchtools = {
+    "rdf_hdt": {
+        "enabled": True,
+        "static_hdt": "_static/docindex.hdt",
+        "hdt_module": "",
+    },
     "native": {"enabled": True},
     "docindex": {
-        "enabled": False,
+        "enabled": True,
         "index": "all",
         "oxirs": {
-            "enabled": False,
-            "url": "http://localhost:7878/query",
+            "enabled": True,
+            "url": "",
+            "query_url": "http://localhost:7878/query",
+            "static_data": "_static/docindex.nt",
+            "wasm_module": "_static/oxirs_wasm.js",
+            "static_hdt": "_static/docindex.hdt",
+            "hdt_enabled": True,
+            "hdt_module": "",
             "index": "all",
         },
         "meilisearch": {
@@ -73,11 +87,17 @@ docindex_webmcp = {
     "search": {
         "native": True,
         "docindex": {
-            "enabled": False,
+            "enabled": True,
             "index": "all",
             "oxirs": {
-                "enabled": False,
-                "url": "http://localhost:7878/query",
+                "enabled": True,
+                "url": "",
+                "query_url": "http://localhost:7878/query",
+                "static_data": "_static/docindex.nt",
+                "wasm_module": "_static/oxirs_wasm.js",
+                "static_hdt": "_static/docindex.hdt",
+                "hdt_enabled": True,
+                "hdt_module": "",
             },
             "meilisearch": {
                 "enabled": False,

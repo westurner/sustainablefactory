@@ -11,13 +11,13 @@
     "e2e": "sh e2etest.sh"
   },
   "dependencies": {
+    "@cooljapan/oxirs": "^0.4.1"
   },
   "devDependencies": {
     "vite": "^7.1.3",
     "vitest": "^3.2.4"
   },
-  "overrides": {
-  },
+  "overrides": {},
   "keywords": [],
   "author": "",
   "license": ""

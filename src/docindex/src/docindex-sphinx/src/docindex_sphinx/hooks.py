@@ -7,6 +7,9 @@ documentation as it's built.
 
 import logging
 import os
+import shlex
+import shutil
+import subprocess
 from pathlib import Path
 
 from docindex_core import DocumentIndexer, DocIndexConfig
@@ -24,6 +27,13 @@ def setup_meilisearch_hooks(app):
     def setup(app):
         setup_meilisearch_hooks(app)
     """
+
+    app.add_config_value(
+        "docindex_static_wasm_enabled", False, "html", types=frozenset({bool})
+    )
+    app.add_config_value(
+        "docindex_rdf_hdt_enabled", True, "html", types=frozenset({bool})
+    )
 
     # Initialize configuration
     if not hasattr(app.config, "docindex_backend"):
@@ -74,9 +84,6 @@ def on_build_finished(app, exception):
     Automatically indexes the HTML output if build was successful.
     """
     # Skip if disabled or build failed
-    if not app.config.meilisearch_enabled:
-        return
-
     if exception:
         logger.warning(f"Build failed, skipping indexing: {exception}")
         return
@@ -86,7 +93,12 @@ def on_build_finished(app, exception):
         logger.debug(f"Skipping indexing for builder: {app.builder.name}")
         return
 
-    logger.info(f"Indexing Sphinx HTML output to {app.config.docindex_backend}...")
+    static_wasm_enabled = getattr(app.config, "docindex_static_wasm_enabled", False)
+    if not app.config.meilisearch_enabled and not static_wasm_enabled:
+        return
+
+    if app.config.meilisearch_enabled:
+        logger.info(f"Indexing Sphinx HTML output to {app.config.docindex_backend}...")
 
     try:
         config = DocIndexConfig(
@@ -100,9 +112,11 @@ def on_build_finished(app, exception):
 
         indexer = DocumentIndexer(config)
 
-        # Index the HTML build output
         html_dir = Path(app.outdir)
-        if html_dir.exists():
+        if html_dir.exists() and (
+            app.config.meilisearch_enabled
+            or getattr(app.config, "docindex_static_wasm_enabled", False)
+        ):
             exclude_patterns = getattr(
                 app.config, "docindex_html_exclude_patterns", None
             )
@@ -112,16 +126,75 @@ def on_build_finished(app, exception):
                 stats = indexer.index_sphinx_html(
                     html_dir, exclude_patterns=exclude_patterns
                 )
-            logger.info(
-                f"✓ Indexed {stats.indexed_documents}/{stats.total_documents} documents "
-                f"({stats.success_rate:.1f}% success rate)"
-            )
+            if app.config.meilisearch_enabled:
+                logger.info(
+                    f"✓ Indexed {stats.indexed_documents}/{stats.total_documents} documents "
+                    f"({stats.success_rate:.1f}% success rate)"
+                )
+            if static_wasm_enabled:
+                _write_static_wasm_assets(app, indexer.client)
         else:
             logger.error(f"HTML output directory not found: {html_dir}")
 
     except Exception as e:
         logger.error(f"Indexing failed: {e}")
         # Don't fail the build, just log the error
+
+
+def _write_static_wasm_assets(app, backend) -> None:
+    """Write the local OxiRS dataset and WASM runtime into the HTML output."""
+    from docindex_core.backends.oxirs import OxiRSBackend
+
+    if not isinstance(backend, OxiRSBackend):
+        logger.warning("Static OxiRS WASM export requires the OxiRS backend")
+        return
+
+    static_dir = Path(app.outdir) / "_static"
+    static_dir.mkdir(parents=True, exist_ok=True)
+    ntriples_path = static_dir / "docindex.nt"
+    ntriples_path.write_bytes(backend.dump_ntriples())
+    if getattr(app.config, "docindex_rdf_hdt_enabled", True):
+        _try_write_hdt(ntriples_path, static_dir / "docindex.hdt")
+
+    package_dir = Path(app.srcdir).parent / "node_modules" / "@cooljapan" / "oxirs"
+    for filename in ("oxirs_wasm.js", "oxirs_wasm_bg.js", "oxirs_wasm_bg.wasm"):
+        source = package_dir / filename
+        if not source.exists():
+            raise FileNotFoundError(f"OxiRS WASM asset not found: {source}")
+        shutil.copy2(source, static_dir / filename)
+
+
+def _try_write_hdt(ntriples_path: Path, hdt_path: Path) -> bool:
+    """Encode N-Triples as HDT when an encoder is available."""
+    configured = os.getenv("DOCINDEX_HDT_COMMAND")
+    commands = [shlex.split(configured)] if configured else []
+    for executable in ("rdf2hdt", "hdt"):
+        if shutil.which(executable):
+            commands.append([executable])
+
+    for command in commands:
+        if not command:
+            continue
+        has_placeholders = any(
+            "{input}" in part or "{output}" in part for part in command
+        )
+        argv = [
+            part.format(input=str(ntriples_path), output=str(hdt_path))
+            for part in command
+        ]
+        if not has_placeholders:
+            argv.extend([str(ntriples_path), str(hdt_path)])
+        try:
+            subprocess.run(argv, check=True, capture_output=True, text=True)
+        except (OSError, subprocess.CalledProcessError) as error:
+            logger.warning("HDT export failed with %s: %s", command[0], error)
+            continue
+        if hdt_path.is_file() and hdt_path.stat().st_size:
+            logger.info("Wrote static RDF-HDT dataset: %s", hdt_path)
+            return True
+
+    logger.info("No RDF-HDT encoder found; retaining static N-Triples dataset")
+    return False
 
 
 def setup(app):

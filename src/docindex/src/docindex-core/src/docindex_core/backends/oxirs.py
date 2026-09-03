@@ -115,6 +115,17 @@ class OxiRSBackend(BaseSearchBackend):
             f"http://westurner.github.io/sustainablefactory/docindex/graph/{index_name}"
         )
 
+    def dump_ntriples(self) -> bytes:
+        """Serialize the local store for browser-side OxiRS WASM search."""
+        if self._local_store is None:
+            raise RuntimeError("Static export requires a local OxiRS store.")
+        lines = []
+        for subject, predicate, object_, _graph in self._local_store.quads_for_pattern(
+            None, None, None, None
+        ):
+            lines.append(f"{subject} {predicate} {object_} .")
+        return ("\n".join(lines) + ("\n" if lines else "")).encode("utf-8")
+
     @staticmethod
     def _is_missing_graph_error(error: Exception) -> bool:
         """Return whether an OxiRS error indicates an absent graph."""
