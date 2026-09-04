@@ -39,6 +39,8 @@ def _entry_lines(entries: list[Any]) -> list[str]:
             continue
         if not isinstance(entry, dict):
             continue
+        if entry.get("build") is False:
+            continue
 
         target = entry.get("file", entry.get("url"))
         if target:

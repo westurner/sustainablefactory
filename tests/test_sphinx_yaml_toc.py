@@ -33,3 +33,12 @@ def test_yaml_options_accept_inline_toctree_attributes():
         "hidden": True,
         "titlesonly": True,
     }
+
+
+def test_build_false_entries_are_excluded_from_sphinx_toctree():
+    entries = [
+        {"file": "search-only", "index": True, "build": False, "link": True},
+        {"file": "built", "index": True, "build": True, "link": True},
+    ]
+
+    assert _entry_lines(entries) == ["built"]
