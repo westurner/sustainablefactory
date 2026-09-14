@@ -5,7 +5,8 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NODE_VERSION=22.x
 
-ARG LEAN_TOOLCHAIN=leanprover/lean4:v4.33.0
+#ARG LEAN_TOOLCHAIN=leanprover/lean4:v4.33.0
+ARG LEAN_TOOLCHAIN=leanprover/lean4:v4.34.0-rc2
 
 #ARG TZ=America/New_York
 ENV LANG=C.UTF-8
