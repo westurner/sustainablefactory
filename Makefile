@@ -48,7 +48,7 @@ signals_build:
 .PHONY: signals_build_e2e
 signals_build_e2e:
 	@echo "signals_build_e2e  #  Build Signals inside the E2E container using the devcontainer volumes"
-	@test -S "$(PODMAN_SOCKET)" || (echo "Podman socket not found: $(PODMAN_SOCKET)" && exit 1)
+	@test -S "$(PODMAN_SOCKET)" || echo "Note: Podman socket not found at $(PODMAN_SOCKET); building Signals without Docker socket mount"
 	@$(SIGNALS_CONTAINER_RUNTIME) image exists "$(SIGNALS_E2E_IMAGE)" || $(MAKE) signals_e2e_image
 	$(SIGNALS_CONTAINER_RUNTIME) run --rm \
 		--security-opt=label=disable \
@@ -57,13 +57,13 @@ signals_build_e2e:
 		-v "$(CURDIR):$(CONTAINER_WORKSPACE)" \
 		-v "$(SIGNALS_LAKE_VOLUME):$(CONTAINER_WORKSPACE)/src/signals/.lake" \
 		-v "$(SIGNALS_ELAN_TOOLCHAINS_VOLUME):/home/$(CONTAINER_USER)/.elan/toolchains" \
-		-v "$(PODMAN_SOCKET):$(PODMAN_SOCKET)" \
-		-e DOCKER_HOST="unix://$(PODMAN_SOCKET)" \
+		$(if $(shell test -S "$(PODMAN_SOCKET)" && echo 1),-v "$(PODMAN_SOCKET):$(PODMAN_SOCKET)" -e DOCKER_HOST="unix://$(PODMAN_SOCKET)",) \
 		-w "$(CONTAINER_WORKSPACE)" \
 		"$(SIGNALS_E2E_IMAGE)" \
 		sh -lc 'sudo chown $(CONTAINER_USER):$(CONTAINER_USER) src/signals/.lake /home/$(CONTAINER_USER)/.elan/toolchains && make signals_build'
 
-.PHONY: signals_build_e2e_build_image
+.PHONY: signals_e2e_image signals_build_e2e_build_image
+signals_e2e_image: signals_build_e2e_build_image
 signals_build_e2e_build_image:
 	@echo "signals_e2e_image  #  Build the Lean-capable E2E image"
 	$(SIGNALS_CONTAINER_RUNTIME) build --security-opt=label=disable -f Dockerfile.e2e -t "$(SIGNALS_E2E_IMAGE)" .
