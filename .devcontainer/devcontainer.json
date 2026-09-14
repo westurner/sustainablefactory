@@ -1,12 +1,5 @@
 {
   "name": "Sustainable Factory",
-  // Dotfiles: automatically cloned and installed after container creation.
-  // Uses the 'develop' branch; see https://github.com/westurner/dotfiles/tree/develop
-  // Note: devcontainer spec does not support a 'branch' field — pin via installCommand
-  //       or fork/mirror the desired branch as the default branch if needed.
-  "dotfiles": {
-    "repository": "https://github.com/westurner/dotfiles"
-  },
   //"image": "quay.io/fedora/fedora-toolbox:43",
   "build": {
     "dockerfile": "../Dockerfile.e2e",
