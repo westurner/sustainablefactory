@@ -187,6 +187,11 @@ interpretation while keeping experimental premises explicit:
    control-volume baseline for mass, momentum, and energy accounting.
    Pressure, heat-flux, and vector-velocity boundary observations can now be
    compared with explicit residual tolerances.
+   Its shared evidence boundary also records closed uncertainty intervals,
+   raw-to-calibrated scalar observations, method calibration metadata, repeated
+   trial summaries, and separate positive, negative, held-out, and synthetic
+   control slots. Residual predicates classify consistency versus anomaly
+   candidates without identifying an unexplained residual with a mechanism.
    Its LightSlinger extension links an antenna to a Proca channel only through
    explicit frequency and longitudinal-coupling hypotheses; CW resonance does
    not itself establish massive-mode emission.
@@ -562,15 +567,21 @@ model, or environmental error.
    composed their phase agreement, added affine calibration offsets, and typed
    vitrimer operations with power accounting. Proposed commit:
    `feat(signals): compose phase fingerprints with guarded dispersive readout`.
-10. Next loop: add method-specific calibration records and measured disturbance,
-    absorption, repeatability, and detector-loss observations.
+10. [Complete, contract metadata] Added method-specific calibration metadata
+   for units, reference standards, instrument transforms, detector loss,
+   repeatability uncertainty, environmental drift, and optional frequency
+   dependence. The next adapter must populate measured disturbance,
+   absorption, repeatability, and detector-loss observations.
 
-11. Next loop: establish a shared Pending-contract evidence boundary with raw
+11. [Complete] Added the shared Pending-contract evidence boundary with raw
    observations, unit and instrument calibration, uncertainty intervals,
    repeated trials, negative and positive controls, and held-out or synthetic
-   checks. Connect each proposal-specific record to a classical baseline
-   before interpreting an out-of-tolerance residual as evidence for a new
-   mechanism.
+   checks. The new contracts preserve conditional status and classify an
+   out-of-tolerance residual as an anomaly candidate only. Proposed commit:
+   `feat(signals): add Pending evidence contracts`.
+12. Next loop: connect the shared contracts to domain-specific adapters for
+   compressible flow, polarization-resolved Proca tests, quantum detector
+   characterization, LVP materials/imaging, and complete energy ledgers.
 
 ### Pending Physical Formalisms
 
@@ -606,6 +617,19 @@ namespace and build target:
 - `FlowBoundaryCondition` and `FlowBoundaryObservation` record pressure,
    heat-flux, and vector-velocity boundary data with measured-versus-predicted
    residual tolerances.
+- `UncertaintyInterval` records a closed scalar uncertainty range, while
+   `CalibratedObservation` retains a raw value, affine instrument calibration,
+   calibrated value, and interval-membership premise.
+- `MethodCalibration` records a unit label, reference standard, instrument
+   calibration, detector loss, repeatability uncertainty, environmental drift,
+   and optional frequency-dependent noise metadata.
+- `RepeatedObservation` retains nonempty calibrated trials, a supplied
+   arithmetic-mean summary, and summary uncertainty. Its trial-count lemma
+   exposes the positive denominator implied by the nonempty run.
+- `ControlledMeasurement` compares a repeated observation with a named scalar
+   baseline and residual tolerance, with separate positive, negative, held-out,
+   and synthetic control slots. It exposes consistency and anomaly-candidate
+   predicates but does not diagnose an out-of-tolerance result.
 - `InspectionMethod` and `InspectionRecord` cover the corpus's THz, mmWave,
    ultrasonic, eddy-current, thermal, fiber, acoustic, infrared, and RFID
    inspection paths.
@@ -835,8 +859,9 @@ performance claim, the loop should record:
 7. Independent replication or an external dataset before changing a record
    from a conditional hypothesis to a verified physical interface.
 
-The immediate implementation priority is a reusable observation and
-uncertainty layer, followed by domain adapters for compressible flow,
+The reusable observation and uncertainty layer is now implemented in
+`Signals.Pending`. The immediate implementation priority is domain adapters for
+compressible flow,
 polarization-resolved Proca tests, quantum detector characterization, LVP
 materials/imaging, and complete energy ledgers. This keeps the Pending target
 useful as a research notebook without allowing compile-time proofs of supplied

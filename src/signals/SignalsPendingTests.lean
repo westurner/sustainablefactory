@@ -2680,4 +2680,163 @@ example : toyConvergentHolographicGrapheneAndDiamond.sourcePower.watts ≤
     toyConvergentHolographicGrapheneAndDiamond.maximumSourcePower.watts := by
   exact toyConvergentHolographicGrapheneAndDiamond.source_power_le_maximum
 
+noncomputable def toyMethodCalibration : MethodCalibration :=
+  { method := InspectionMethod.mmWaveRadar
+    unitLabel := "arbitrary calibrated amplitude units"
+    referenceStandard := "synthetic reference target"
+    instrumentCalibration :=
+      { rawBefore := 1
+        rawAfter := 1
+        rawPreserved := by rfl
+        multiplier := 1
+        offset := 0
+        calibrated := 1
+        calibrationLaw := by norm_num }
+    detectorLoss := { value := 0, nonnegative := by norm_num, le_one := by norm_num }
+    repeatabilityUncertainty := 1 / 10
+    repeatabilityUncertainty_nonnegative := by norm_num
+    environmentalDrift := 1 / 100
+    environmentalDrift_nonnegative := by norm_num
+    frequencyDependentNoise := none }
+
+noncomputable def toyCalibratedObservation (raw : ℝ) : CalibratedObservation :=
+  { rawValue := raw
+    calibration :=
+      { rawBefore := raw
+        rawAfter := raw
+        rawPreserved := by rfl
+        multiplier := 1
+        offset := 0
+        calibrated := raw
+        calibrationLaw := by ring }
+    rawValueLaw := by rfl
+    calibratedValue := raw
+    calibratedValueLaw := by rfl
+    uncertainty :=
+      { lower := raw - 1 / 10
+        upper := raw + 1 / 10
+        lower_le_upper := by linarith }
+    calibratedWithinUncertainty := by
+      unfold UncertaintyInterval.contains
+      constructor <;> linarith }
+
+noncomputable def toyRepeatedObservationAt (value : ℝ) : RepeatedObservation :=
+  { methodCalibration := toyMethodCalibration
+    trials :=
+      [ toyCalibratedObservation value,
+        toyCalibratedObservation value,
+        toyCalibratedObservation value ]
+    trials_nonempty := by simp
+    summary := value
+    summaryLaw := by
+      norm_num [toyCalibratedObservation]; ring
+    summaryUncertainty :=
+      { lower := value - 1 / 10
+        upper := value + 1 / 10
+        lower_le_upper := by linarith }
+    summaryWithinUncertainty := by
+      unfold UncertaintyInterval.contains
+      constructor <;> linarith }
+
+noncomputable def toyRepeatedObservation : RepeatedObservation :=
+  toyRepeatedObservationAt 1
+
+noncomputable def toyBackgroundControl : RepeatedObservation :=
+  toyRepeatedObservationAt 0
+
+noncomputable def toyControlledMeasurement : ControlledMeasurement :=
+  { baseline := 1
+    baselineName := "classical mmWave reference"
+    observation := toyRepeatedObservation
+    residual := 0
+    residualLaw := by
+      norm_num [toyRepeatedObservation, toyRepeatedObservationAt]
+    tolerance := 1 / 10
+    tolerance_nonnegative := by norm_num
+    positiveControl := some toyRepeatedObservation
+    negativeControl := some toyBackgroundControl
+    heldOutCheck := some toyRepeatedObservation
+    syntheticCheck := some toyBackgroundControl }
+
+noncomputable def toyAnomalousMeasurement : ControlledMeasurement :=
+  { baseline := 2
+    baselineName := "classical mmWave reference"
+    observation := toyRepeatedObservation
+    residual := -1
+    residualLaw := by
+      norm_num [toyRepeatedObservation, toyRepeatedObservationAt]
+    tolerance := 1 / 10
+    tolerance_nonnegative := by norm_num
+    positiveControl := some toyRepeatedObservation
+    negativeControl := some toyBackgroundControl
+    heldOutCheck := some toyRepeatedObservation
+    syntheticCheck := some toyBackgroundControl }
+
+example : toyMethodCalibration.unitLabel = "arbitrary calibrated amplitude units" := by
+  rfl
+
+example :
+    (toyCalibratedObservation 3).calibration.rawBefore =
+      (toyCalibratedObservation 3).rawValue := by
+  exact (toyCalibratedObservation 3).raw_value_holds
+
+example :
+    (toyCalibratedObservation 3).calibratedValue =
+      (toyCalibratedObservation 3).calibration.calibrated := by
+  exact (toyCalibratedObservation 3).calibrated_value_holds
+
+example : (toyCalibratedObservation 3).uncertainty.contains 3 := by
+  exact (toyCalibratedObservation 3).calibratedWithinUncertainty
+
+example :
+    (toyCalibratedObservation 3).uncertainty.lower ≤
+      (toyCalibratedObservation 3).uncertainty.upper := by
+  exact (toyCalibratedObservation 3).uncertainty.endpoints_ordered
+
+example : toyRepeatedObservation.trials.length = 3 := by
+  norm_num [toyRepeatedObservation, toyRepeatedObservationAt]
+
+example : 0 < toyRepeatedObservation.trials.length := by
+  exact toyRepeatedObservation.trials_length_pos
+
+example : toyRepeatedObservation.summary = 1 := by
+  norm_num [toyRepeatedObservation, toyRepeatedObservationAt]
+
+example :
+    toyRepeatedObservation.summary =
+      (toyRepeatedObservation.trials.map (fun trial => trial.calibratedValue)).sum /
+        toyRepeatedObservation.trials.length := by
+  exact toyRepeatedObservation.summary_holds
+
+example : toyControlledMeasurement.residual = 0 := by
+  norm_num [toyControlledMeasurement, toyRepeatedObservation,
+    toyRepeatedObservationAt]
+
+example : toyControlledMeasurement.consistent := by
+  norm_num [ControlledMeasurement.consistent, toyControlledMeasurement]
+
+example :
+    toyControlledMeasurement.consistent ∨
+      toyControlledMeasurement.anomalyCandidate := by
+  exact toyControlledMeasurement.consistent_or_anomaly
+
+example : ¬toyAnomalousMeasurement.consistent := by
+  norm_num [ControlledMeasurement.consistent, toyAnomalousMeasurement]
+
+example : toyAnomalousMeasurement.anomalyCandidate := by
+  norm_num [ControlledMeasurement.anomalyCandidate, ControlledMeasurement.consistent,
+    toyAnomalousMeasurement, toyRepeatedObservation, toyRepeatedObservationAt]
+
+example : toyControlledMeasurement.positiveControl.isSome := by
+  simp [toyControlledMeasurement]
+
+example : toyControlledMeasurement.negativeControl.isSome := by
+  simp [toyControlledMeasurement]
+
+example : toyControlledMeasurement.heldOutCheck.isSome := by
+  simp [toyControlledMeasurement]
+
+example : toyControlledMeasurement.syntheticCheck.isSome := by
+  simp [toyControlledMeasurement]
+
 end SignalsPendingTests

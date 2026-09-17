@@ -1880,4 +1880,151 @@ lemma PhaseSlipCleavage.rate_nonnegative
   exact div_nonneg cleavage.phaseSlipAmplitude_nonnegative
     (le_of_lt cleavage.photoresistBindingEnergy_positive)
 
+/-! ## Shared evidence and calibration boundaries
+
+These records retain the raw scalar readings, instrument calibration, repeated
+trials, uncertainty intervals, and control slots needed before a Pending model
+can be compared with a classical baseline. They are evidence contracts rather
+than evidence claims: every numerical law remains supplied model data. -/
+
+/-- A closed scalar interval used to report a calibrated uncertainty range. -/
+structure UncertaintyInterval where
+  lower : ℝ
+  upper : ℝ
+  lower_le_upper : lower ≤ upper
+
+/-- Membership in a supplied closed uncertainty interval. -/
+def UncertaintyInterval.contains
+    (interval : UncertaintyInterval) (value : ℝ) : Prop :=
+  interval.lower ≤ value ∧ value ≤ interval.upper
+
+/-- The interval endpoints retain their declared ordering. -/
+lemma UncertaintyInterval.endpoints_ordered
+    (interval : UncertaintyInterval) :
+    interval.lower ≤ interval.upper :=
+  interval.lower_le_upper
+
+/-- An observation with raw data, an affine instrument calibration, and an
+    explicit interval containing its calibrated value. -/
+structure CalibratedObservation where
+  rawValue : ℝ
+  calibration : CalibrationRecord
+  rawValueLaw : calibration.rawBefore = rawValue
+  calibratedValue : ℝ
+  calibratedValueLaw : calibratedValue = calibration.calibrated
+  uncertainty : UncertaintyInterval
+  calibratedWithinUncertainty : uncertainty.contains calibratedValue
+
+/-- The raw reading used by an observation is retained by its calibration. -/
+lemma CalibratedObservation.raw_value_holds
+    (observation : CalibratedObservation) :
+    observation.calibration.rawBefore = observation.rawValue :=
+  observation.rawValueLaw
+
+/-- The calibrated observation follows its instrument calibration. -/
+lemma CalibratedObservation.calibrated_value_holds
+    (observation : CalibratedObservation) :
+    observation.calibratedValue = observation.calibration.calibrated :=
+  observation.calibratedValueLaw
+
+/-- A method-specific calibration and environmental metadata record. -/
+structure MethodCalibration where
+  method : InspectionMethod
+  unitLabel : String
+  referenceStandard : String
+  instrumentCalibration : CalibrationRecord
+  detectorLoss : BoundedFactor
+  repeatabilityUncertainty : ℝ
+  repeatabilityUncertainty_nonnegative : 0 ≤ repeatabilityUncertainty
+  environmentalDrift : ℝ
+  environmentalDrift_nonnegative : 0 ≤ environmentalDrift
+  frequencyDependentNoise : Option (Frequency → ℝ)
+
+/-- Repeated calibrated observations with an explicit summary and uncertainty.
+
+The summary law is an arithmetic mean of the retained calibrated trial values;
+the nonempty premise prevents the evidence record from describing an empty
+trial run. -/
+structure RepeatedObservation where
+  methodCalibration : MethodCalibration
+  trials : List CalibratedObservation
+  trials_nonempty : trials ≠ []
+  summary : ℝ
+  summaryLaw :
+    summary = (trials.map (fun trial => trial.calibratedValue)).sum / trials.length
+  summaryUncertainty : UncertaintyInterval
+  summaryWithinUncertainty : summaryUncertainty.contains summary
+
+/-- The retained trial count is positive because the run is nonempty. -/
+lemma RepeatedObservation.trials_length_pos
+    (observation : RepeatedObservation) :
+    0 < observation.trials.length := by
+  apply Nat.pos_of_ne_zero
+  intro length_zero
+  apply observation.trials_nonempty
+  exact List.eq_nil_of_length_eq_zero length_zero
+
+/-- The repeated observation exposes its supplied arithmetic summary law. -/
+lemma RepeatedObservation.summary_holds
+    (observation : RepeatedObservation) :
+    observation.summary =
+      (observation.trials.map (fun trial => trial.calibratedValue)).sum /
+        observation.trials.length :=
+  observation.summaryLaw
+
+/-- A controlled comparison between repeated observations and a scalar baseline.
+
+The optional control slots are deliberately separate: positive and negative
+controls test different failure modes, while held-out and synthetic checks
+test generalization and pipeline correctness. -/
+structure ControlledMeasurement where
+  baseline : ℝ
+  baselineName : String
+  observation : RepeatedObservation
+  residual : ℝ
+  residualLaw : residual = observation.summary - baseline
+  tolerance : ℝ
+  tolerance_nonnegative : 0 ≤ tolerance
+  positiveControl : Option RepeatedObservation
+  negativeControl : Option RepeatedObservation
+  heldOutCheck : Option RepeatedObservation
+  syntheticCheck : Option RepeatedObservation
+
+/-- A controlled measurement agrees with its baseline within tolerance. -/
+def ControlledMeasurement.consistent
+    (measurement : ControlledMeasurement) : Prop :=
+  |measurement.residual| ≤ measurement.tolerance
+
+/-- An out-of-tolerance controlled result is an anomaly candidate, not a
+diagnosis of its proposed mechanism. -/
+def ControlledMeasurement.anomalyCandidate
+    (measurement : ControlledMeasurement) : Prop :=
+  ¬measurement.consistent
+
+/-- The controlled residual follows the baseline comparison law. -/
+lemma ControlledMeasurement.residual_holds
+    (measurement : ControlledMeasurement) :
+    measurement.residual = measurement.observation.summary - measurement.baseline :=
+  measurement.residualLaw
+
+/-- The consistency predicate exposes its calibrated residual inequality. -/
+lemma ControlledMeasurement.consistent_iff
+    (measurement : ControlledMeasurement) :
+    measurement.consistent ↔ |measurement.residual| ≤ measurement.tolerance := by
+  rfl
+
+/-- The anomaly predicate exposes its out-of-tolerance interpretation. -/
+lemma ControlledMeasurement.anomalyCandidate_iff
+    (measurement : ControlledMeasurement) :
+    measurement.anomalyCandidate ↔ ¬|measurement.residual| ≤ measurement.tolerance := by
+  rfl
+
+/-- Every controlled result is either within tolerance or an anomaly candidate. -/
+lemma ControlledMeasurement.consistent_or_anomaly
+    (measurement : ControlledMeasurement) :
+    measurement.consistent ∨ measurement.anomalyCandidate := by
+  by_cases within : |measurement.residual| ≤ measurement.tolerance
+  · exact Or.inl within
+  · exact Or.inr within
+
 end Signals.Pending
