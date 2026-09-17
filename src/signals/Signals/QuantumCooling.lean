@@ -35,13 +35,19 @@ structure NegativeEntropyCoolingContract where
   h_negative_entropy : sys.conditional_entropy < 0
 
   -- Axiom 2: Generalized Landauer principle where negative entropy extracts heat
-  h_landauer_work : sys.heat_transfer = sys.conditional_entropy * 1.38e-23 * temperature
+  h_landauer_work :
+    sys.heat_transfer = sys.conditional_entropy * ((138 : ℝ) / 10 ^ 25) * temperature
 
 /-- Theorem: Erasing entangled states guarantees system refrigeration (heat extraction). -/
 theorem quantum_cooling_guaranteed (contract : NegativeEntropyCoolingContract) :
   contract.sys.heat_transfer < 0 := by
   rw [contract.h_landauer_work]
-  exact mul_neg_of_neg_of_pos contract.h_negative_entropy (mul_pos (by norm_num) contract.h_temp_pos)
+  have h_boltzmann : (0 : ℝ) < (138 : ℝ) / 10 ^ 25 := by
+    norm_num
+  have h_entropy_constant :
+      contract.sys.conditional_entropy * ((138 : ℝ) / 10 ^ 25) < 0 := by
+    exact mul_neg_of_neg_of_pos contract.h_negative_entropy h_boltzmann
+  exact mul_neg_of_neg_of_pos h_entropy_constant contract.h_temp_pos
 
 /-
 
