@@ -421,6 +421,17 @@ discriminate its behavior, runs `make signals_build`, updates this plan with
 the result, and records a focused commit message. A model remains Pending when
 its physical premises or calibration data are not established.
 
+Every Pending structure is a contract boundary. Its fields are supplied
+premises, observations, calibration values, or bookkeeping laws; the accessor
+lemmas prove only the consequences of those fields. Constructing a value and
+building `SignalsPendingTests` therefore establishes type consistency and
+conditional algebra, not that the premises were measured or that the proposed
+mechanism exists. Promotion out of Pending requires an explicit measurement
+path, calibrated uncertainty, a classical control, conservation and input
+accounting, and reproducible data. A residual or a fitted parameter is a
+candidate observation until those controls distinguish it from instrument,
+model, or environmental error.
+
 ### Phase 1: Stabilize the base API
 
 1. [Implemented] Keep the I/Q API aligned with complex baseband magnitude and
@@ -553,6 +564,13 @@ its physical premises or calibration data are not established.
    `feat(signals): compose phase fingerprints with guarded dispersive readout`.
 10. Next loop: add method-specific calibration records and measured disturbance,
     absorption, repeatability, and detector-loss observations.
+
+11. Next loop: establish a shared Pending-contract evidence boundary with raw
+   observations, unit and instrument calibration, uncertainty intervals,
+   repeated trials, negative and positive controls, and held-out or synthetic
+   checks. Connect each proposal-specific record to a classical baseline
+   before interpreting an out-of-tolerance residual as evidence for a new
+   mechanism.
 
 ### Pending Physical Formalisms
 
@@ -704,6 +722,131 @@ namespace and build target:
 The pending target proves only conditional algebraic consequences of these
 records. It does not establish that SQG, anti-Amplituhedron fields,
 deterministic fusion, or spacetime energy extraction exist physically.
+
+### Pending Contract Implications and Validation
+
+The following implications define how the contracts should be used in research.
+They are validation requirements, not additional physical conclusions.
+
+- **Quantum information, QND, and cooling.**
+  `QuantumNonDemolitionParity`, the quadrature and squeezed-state records, CV
+  teleportation bookkeeping, Kerr coupling, and homodyne readiness preserve
+  supplied states, variances, phase laws, and residual bounds. They do not
+  provide density operators, measurement instruments, Hamiltonians, detector
+  models, or a proof of zero backaction. The next experiment must include
+  detector-loss calibration, state tomography, repeated parity outcomes,
+  disturbance and absorption statistics, frequency-dependent noise, and a
+  classical dispersive control. The related
+  [`QuantumCooling` contract](Signals/QuantumCooling.lean#L26-L51) similarly
+  assumes negative conditional entropy and a generalized Landauer equality;
+  its theorem derives negative heat transfer from those assumptions, but does
+  not derive entanglement, specify an erasure channel, or establish a
+  reservoir-level cooling measurement. This is consistent with the operational
+  qualification in [del Rio et al.](https://arxiv.org/abs/1009.1630).
+  See the QND boundary in
+  [`Pending.lean`](Signals/Pending.lean#L253-L328) and the CV boundary in
+  [`Pending.lean`](Signals/Pending.lean#L334-L478).
+
+- **GPE, SQG, Proca, and DDF interfaces.** The three GPE records are
+  pointwise equation contracts, not PDE solvers; inverse reconstruction also
+  needs conditioning and noise analysis near a small wavefunction. The SQG
+  Maxwell record makes the extra current and constitutive parameters explicit,
+  but a conservation lemma does not identify that current in a real medium.
+  Proca records require polarization-resolved dispersion, a measured
+  longitudinal component, mode-conversion efficiency, attenuation, and total
+  power/loss accounting. The DDF model has the same status at its experimental
+  discriminator: its internal theorems do not test the predicted null
+  deflection of non-co-propagating beams. These interfaces should remain
+  conditional until independent measurements separate them from ordinary
+  Maxwell, material, and propagation models. See
+  [`GPE` records](Signals/Pending.lean#L144-L253),
+  [`SQGMaxwellSystem`](Signals/Pending.lean#L930-L1020),
+  [`Proca` contracts](Signals/Pending.lean#L1343-L1588), and the
+  [`DDF` model](Signals/DDF.lean#L8-L34).
+
+- **Materials and imaging.** LVP composition fractions, process telemetry,
+  photovoltaic output laws, direct-conversion dose response, and Proca imaging
+  residuals are structured observations or hypotheses. They do not establish
+  crystallization, self-healing, moisture resistance, efficiency, clinical
+  safety, sub-diffraction resolution, or massive-mode propagation. Validation
+  needs independent synthesis and phase characterization, device IV/PCE and
+  aging data, environmental cycling, dosimetry, detector noise, MTF/DQE,
+  phantom studies, and a massless imaging control before any clinical or
+  materials claim is promoted. See the
+  [`LVP` contracts](Signals/Pending.lean#L478-L662).
+
+- **Atmospheric scavenging and plumes.** Species splats, bounded gate
+  acceptance, covariance collapse, apodization, calibrated mass flow, and
+  boundary residuals form a finite surrogate and a classical comparison
+  baseline. They do not prove homogenization, turbulence suppression, zero
+  acoustic output, absence of shocks, or drag reduction. The next adapter
+  should connect measured or compressible-CFD pressure, heat flux, velocity,
+  mass, momentum, energy, and acoustic outputs to the control volume, with
+  inlet/outlet boundary conditions and uncertainty propagation. See the
+  [`atmospheric` contracts](Signals/Pending.lean#L663-L929).
+
+- **Decoding and geometric amplitude claims.** The finite inverse-QFT kernel,
+  `C * Z` map, reciprocal chart, and CP/ALS residuals establish executable
+  finite bookkeeping and numerical-fit metadata. They do not establish a
+  quantum Fourier transform, Hawking radiation, cryptographic recovery,
+  Amplituhedron geometry, or physical information decoding. Required checks
+  are synthetic end-to-end data, held-out recovery, rank and initialization
+  sensitivity, noise and residual calibration, and a measurement-to-model
+  derivation independent of the proposed interpretation. See the
+  [`HawkingRadiationDecoding` boundary](Signals/Pending.lean#L1149-L1318)
+  and the [`Amplituhedron` records](Signals/Pending.lean#L1053-L1148).
+
+- **Energy, fusion, anti-fire, and deployment claims.** Reaction probability,
+  suppression rate, harvested power, control-only Q-factor, and declared
+  spacetime power are explicit inputs. An output above control plus fuel in an
+  `EnergyLedger` therefore requires a positive declared additional input; the
+  algebra does not show that spacetime supplies energy. Promotion requires
+  independent calorimetry, source and auxiliary-power accounting, mass and
+  momentum balance, run-to-run controls, and a measured endpoint such as
+  reaction yield or fire suppression. A control-only ratio is never the plant
+  efficiency. See the [`Proca/MHD` accounting](Signals/Pending.lean#L1343-L1470)
+  and [`energy claims`](Signals/Pending.lean#L1779-L1843).
+
+- **Fracture and propagation anomalies.** An ultrasonic transfer outside a
+  classical tolerance is only a candidate anomaly. It does not identify a
+  fracture state, massive carrier, faster-than-light channel, or unexplained
+  coupling. First reproduce the transfer with ordinary acoustic and link
+  models, characterize environmental backgrounds and uncertainty, and then
+  use blinded controls and independent receivers. See
+  [`AcousticFractureEvidence`](Signals/Pending.lean#L1589-L1625) and the
+  [`radio/Proca` test-vector boundary](Signals/Pending.lean#L1319-L1438).
+
+#### Pending-contract promotion checklist
+
+Before a contract is moved into the verified library or used for a physical
+performance claim, the loop should record:
+
+1. A precise domain, unit convention, state space, and measurement operator.
+2. Raw observations retained alongside calibrated values, with calibration
+   uncertainty, detector loss, environmental conditions, and repeatability.
+3. A conventional baseline and positive/negative controls that exercise the
+   same hardware and data path.
+4. Conservation, causality, and complete input/output power accounting where
+   the proposal involves fields, flow, information, or energy.
+5. Synthetic, held-out, and sensitivity tests for inverse, fit, rank, and
+   threshold-based conclusions.
+6. An explicit residual criterion and an interpretation that does not identify
+   an unexplained residual with the proposed mechanism by default.
+7. Independent replication or an external dataset before changing a record
+   from a conditional hypothesis to a verified physical interface.
+
+The immediate implementation priority is a reusable observation and
+uncertainty layer, followed by domain adapters for compressible flow,
+polarization-resolved Proca tests, quantum detector characterization, LVP
+materials/imaging, and complete energy ledgers. This keeps the Pending target
+useful as a research notebook without allowing compile-time proofs of supplied
+premises to become claims of experimental validation.
+
+### Scholarly References
+
+<a id="delrio2011"></a> del Rio, L., Aberg, J., Renner, R., Dahlsten, O., and
+Vedral, V. (2011). *The thermodynamic meaning of negative entropy*. Nature
+474, 61-63. [arXiv:1009.1630](https://arxiv.org/abs/1009.1630).
 
 ### Scattering Metrology Plan
 
