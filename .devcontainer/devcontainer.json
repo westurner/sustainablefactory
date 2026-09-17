@@ -52,8 +52,9 @@
         "redhat.vscode-xml",
         "stardog-union.stardog-sparql-grammar",
         "arkaitz.markdown-mermaid",
-        "charliermarsh.ruff"
-	],
+        "charliermarsh.ruff",
+        "leanprover.lean4"
+      ],
 	"settings": {
 		"python.defaultInterpreterPath": "/home/appuser/.venv/bin/python3"
 	}
