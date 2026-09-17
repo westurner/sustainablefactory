@@ -2681,7 +2681,7 @@ example : toyConvergentHolographicGrapheneAndDiamond.sourcePower.watts ≤
   exact toyConvergentHolographicGrapheneAndDiamond.source_power_le_maximum
 
 noncomputable def toyMethodCalibration : MethodCalibration :=
-  { method := InspectionMethod.mmWaveRadar
+  { method := MeasurementMethod.inspection InspectionMethod.mmWaveRadar
     unitLabel := "arbitrary calibrated amplitude units"
     referenceStandard := "synthetic reference target"
     instrumentCalibration :=
@@ -2743,6 +2743,29 @@ noncomputable def toyRepeatedObservation : RepeatedObservation :=
 
 noncomputable def toyBackgroundControl : RepeatedObservation :=
   toyRepeatedObservationAt 0
+
+noncomputable def toyFlowMethodCalibration : MethodCalibration :=
+  { toyMethodCalibration with
+    method := MeasurementMethod.flowBoundary
+    unitLabel := "SI boundary quantities" }
+
+noncomputable def toyFlowRepeatedObservationAt (value : ℝ) : RepeatedObservation :=
+  { toyRepeatedObservationAt value with
+    methodCalibration := toyFlowMethodCalibration }
+
+noncomputable def toyFlowControlledAt (summary baseline tolerance : ℝ)
+    (tolerance_nonnegative : 0 ≤ tolerance) : ControlledMeasurement :=
+  { baseline := baseline
+    baselineName := "classical flow boundary prediction"
+    observation := toyFlowRepeatedObservationAt summary
+    residual := summary - baseline
+    residualLaw := by rfl
+    tolerance := tolerance
+    tolerance_nonnegative := tolerance_nonnegative
+    positiveControl := none
+    negativeControl := none
+    heldOutCheck := none
+    syntheticCheck := none }
 
 noncomputable def toyControlledMeasurement : ControlledMeasurement :=
   { baseline := 1
@@ -2838,5 +2861,55 @@ example : toyControlledMeasurement.heldOutCheck.isSome := by
 
 example : toyControlledMeasurement.syntheticCheck.isSome := by
   simp [toyControlledMeasurement]
+
+noncomputable def toyFlowBoundaryEvidence : FlowBoundaryEvidence :=
+  { boundary := toyFlowBoundaryObservation
+    pressure := toyFlowControlledAt 101325 101325 1 (by norm_num)
+    pressureMethodLaw := by
+      rfl
+    pressureSummaryLaw := by
+      rfl
+    pressureBaselineLaw := by
+      rfl
+    pressureResidualLaw := by
+      norm_num [toyFlowControlledAt, toyFlowBoundaryObservation]
+    pressureToleranceLaw := by
+      rfl
+    heatFlux := toyFlowControlledAt 100 100 1 (by norm_num)
+    heatFluxMethodLaw := by
+      rfl
+    heatFluxSummaryLaw := by
+      rfl
+    heatFluxBaselineLaw := by
+      rfl
+    heatFluxResidualLaw := by
+      norm_num [toyFlowControlledAt, toyFlowBoundaryObservation]
+    heatFluxToleranceLaw := by
+      rfl
+    velocity := fun _ => toyFlowControlledAt 3 3 1 (by norm_num)
+    velocityMethodLaw := by
+      intro axis
+      rfl
+    velocitySummaryLaw := by
+      intro axis
+      rfl
+    velocityBaselineLaw := by
+      intro axis
+      rfl
+    velocityResidualLaw := by
+      intro axis
+      norm_num [toyFlowControlledAt, toyFlowBoundaryObservation]
+    velocityToleranceLaw := by
+      intro axis
+      rfl }
+
+example : toyFlowBoundaryEvidence.pressure.consistent := by
+  exact toyFlowBoundaryEvidence.pressure_consistent
+
+example : toyFlowBoundaryEvidence.heatFlux.consistent := by
+  exact toyFlowBoundaryEvidence.heat_flux_consistent
+
+example : (toyFlowBoundaryEvidence.velocity 2).consistent := by
+  exact toyFlowBoundaryEvidence.velocity_consistent 2
 
 end SignalsPendingTests

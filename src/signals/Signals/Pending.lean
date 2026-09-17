@@ -1928,8 +1928,15 @@ lemma CalibratedObservation.calibrated_value_holds
   observation.calibratedValueLaw
 
 /-- A method-specific calibration and environmental metadata record. -/
+inductive MeasurementMethod
+  | inspection (method : InspectionMethod)
+  | flowBoundary
+  | synthetic
+  deriving DecidableEq, Repr
+
+/-- A method-specific calibration and environmental metadata record. -/
 structure MethodCalibration where
-  method : InspectionMethod
+  method : MeasurementMethod
   unitLabel : String
   referenceStandard : String
   instrumentCalibration : CalibrationRecord
@@ -2026,5 +2033,64 @@ lemma ControlledMeasurement.consistent_or_anomaly
   by_cases within : |measurement.residual| ≤ measurement.tolerance
   · exact Or.inl within
   · exact Or.inr within
+
+/-- A flow-boundary adapter linking scalar controlled measurements to the
+    pressure, heat-flux, and velocity residuals of a boundary observation. -/
+structure FlowBoundaryEvidence where
+  boundary : FlowBoundaryObservation
+  pressure : ControlledMeasurement
+  pressureMethodLaw :
+    pressure.observation.methodCalibration.method = MeasurementMethod.flowBoundary
+  pressureSummaryLaw :
+    pressure.observation.summary = boundary.measured.pressure.pascals
+  pressureBaselineLaw :
+    pressure.baseline = boundary.predicted.pressure.pascals
+  pressureResidualLaw : pressure.residual = boundary.pressureResidual
+  pressureToleranceLaw : pressure.tolerance = boundary.pressureTolerance
+  heatFlux : ControlledMeasurement
+  heatFluxMethodLaw :
+    heatFlux.observation.methodCalibration.method = MeasurementMethod.flowBoundary
+  heatFluxSummaryLaw :
+    heatFlux.observation.summary = boundary.measured.heatFlux.wattsPerSquareMeter
+  heatFluxBaselineLaw :
+    heatFlux.baseline = boundary.predicted.heatFlux.wattsPerSquareMeter
+  heatFluxResidualLaw : heatFlux.residual = boundary.heatFluxResidual
+  heatFluxToleranceLaw : heatFlux.tolerance = boundary.heatFluxTolerance
+  velocity : Fin 3 → ControlledMeasurement
+  velocityMethodLaw : ∀ axis,
+    (velocity axis).observation.methodCalibration.method = MeasurementMethod.flowBoundary
+  velocitySummaryLaw : ∀ axis,
+    (velocity axis).observation.summary =
+      (boundary.measured.velocity axis).metersPerSecond
+  velocityBaselineLaw : ∀ axis,
+    (velocity axis).baseline = (boundary.predicted.velocity axis).metersPerSecond
+  velocityResidualLaw : ∀ axis,
+    (velocity axis).residual = boundary.velocityResidual axis
+  velocityToleranceLaw : ∀ axis,
+    (velocity axis).tolerance = boundary.velocityTolerance
+
+/-- The flow adapter inherits the pressure residual tolerance check. -/
+lemma FlowBoundaryEvidence.pressure_consistent
+    (evidence : FlowBoundaryEvidence) :
+    evidence.pressure.consistent := by
+  unfold ControlledMeasurement.consistent
+  rw [evidence.pressureResidualLaw, evidence.pressureToleranceLaw]
+  exact evidence.boundary.pressure_within_tolerance
+
+/-- The flow adapter inherits the heat-flux residual tolerance check. -/
+lemma FlowBoundaryEvidence.heat_flux_consistent
+    (evidence : FlowBoundaryEvidence) :
+    evidence.heatFlux.consistent := by
+  unfold ControlledMeasurement.consistent
+  rw [evidence.heatFluxResidualLaw, evidence.heatFluxToleranceLaw]
+  exact evidence.boundary.heatFlux_within_tolerance
+
+/-- The flow adapter inherits each componentwise velocity tolerance check. -/
+lemma FlowBoundaryEvidence.velocity_consistent
+    (evidence : FlowBoundaryEvidence) (axis : Fin 3) :
+    (evidence.velocity axis).consistent := by
+  unfold ControlledMeasurement.consistent
+  rw [evidence.velocityResidualLaw axis, evidence.velocityToleranceLaw axis]
+  exact evidence.boundary.velocity_within_tolerance axis
 
 end Signals.Pending

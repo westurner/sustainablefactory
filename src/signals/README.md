@@ -630,8 +630,18 @@ namespace and build target:
    baseline and residual tolerance, with separate positive, negative, held-out,
    and synthetic control slots. It exposes consistency and anomaly-candidate
    predicates but does not diagnose an out-of-tolerance result.
-- `InspectionMethod` and `InspectionRecord` cover the corpus's THz, mmWave,
-   ultrasonic, eddy-current, thermal, fiber, acoustic, infrared, and RFID
+   `MeasurementMethod` keeps calibration tags extensible beyond inspection
+   methods, and `FlowBoundaryEvidence` connects controlled pressure, heat-flux,
+   and componentwise velocity measurements to the existing flow-boundary
+   residuals. This is an adapter contract, not a compressible-flow simulation.
+12. [Complete, first domain adapter] Connected the shared contracts to flow
+   boundary pressure, heat-flux, and velocity residuals through
+   `FlowBoundaryEvidence`, and generalized calibration method tags beyond
+   inspection-only methods. Proposed commit:
+   `feat(signals): connect evidence contracts to flow boundaries`.
+13. Next loop: connect the shared contracts to measured or simulated
+   compressible-flow data, polarization-resolved Proca tests, quantum detector
+   characterization, LVP materials/imaging, and complete energy ledgers.
    inspection paths.
 - `PhaseFingerprint` records a measured phase change with preserved target energy
    and polarization, plus explicit zero absorbed target energy.
@@ -801,13 +811,15 @@ They are validation requirements, not additional physical conclusions.
 
 - **Atmospheric scavenging and plumes.** Species splats, bounded gate
   acceptance, covariance collapse, apodization, calibrated mass flow, and
-  boundary residuals form a finite surrogate and a classical comparison
-  baseline. They do not prove homogenization, turbulence suppression, zero
-  acoustic output, absence of shocks, or drag reduction. The next adapter
-  should connect measured or compressible-CFD pressure, heat flux, velocity,
-  mass, momentum, energy, and acoustic outputs to the control volume, with
-  inlet/outlet boundary conditions and uncertainty propagation. See the
-  [`atmospheric` contracts](Signals/Pending.lean#L663-L929).
+   boundary residuals form a finite surrogate and a classical comparison
+   baseline. `FlowBoundaryEvidence` now connects those scalar boundary
+   residuals to the shared calibration, repeated-trial, and control contracts.
+   This still does not prove homogenization, turbulence suppression, zero
+   acoustic output, absence of shocks, or drag reduction. The next adapter
+   should connect measured or compressible-CFD pressure, heat flux, velocity,
+   mass, momentum, energy, and acoustic outputs to the control volume, with
+   inlet/outlet boundary conditions and uncertainty propagation. See the
+   [`atmospheric` contracts](Signals/Pending.lean#L663-L929).
 
 - **Decoding and geometric amplitude claims.** The finite inverse-QFT kernel,
   `C * Z` map, reciprocal chart, and CP/ALS residuals establish executable
