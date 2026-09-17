@@ -6,6 +6,7 @@ import Signals.Acoustics
 import Signals.Applications
 import Signals.CavityQED
 import Signals.ActiveOptics
+import Signals.DDF
 import Signals.ProtocolZ8
 import Signals.QuditQEC
 import Signals.SemiDirac
@@ -31,6 +32,7 @@ open Signals.Applications
 open Signals.Acoustics
 open Signals.Geometry
 open Signals.Antennas
+open Signals.DDF
 open Signals.Homodyne
 open Signals.Maxwell
 open Signals.MHD

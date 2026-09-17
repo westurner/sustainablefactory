@@ -143,6 +143,39 @@ resolution, Proca propagation, or clinical safety. Require external materials,
 device, dosimetry, phantom, and clinical validation data before making those
 claims.
 
+## Dilatant Dark Fluid (DDF) Modeling
+
+[src/signals/Signals/DDF.lean](src/signals/Signals/DDF.lean) formalizes the core
+mathematical framework of the Dilatant Dark Fluid (Fedi, 2026, SSRN 7406660):
+- `DDFSubstrate` defines the two-component ultralight bosonic medium: a coherent
+  $\phi$ superfluid condensate coupled to a heavier dispersed $\varphi$ phase
+  undergoing stress-induced shear thickening and jamming. It derives the
+  saturated transverse phonon speed $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$
+  identified with the speed of light.
+- `MovingSheath` models the longitudinal sheath compression $\Lambda_\parallel(v)$,
+  proving the profile closure theorem that uniquely yields the Lorentz jamming factor
+  $\gamma_\varphi(v) = (1 - v^2/c^2)^{-1/2}$, reversible kinetic energy $K_D(v) = mc^2(\gamma_\varphi(v) - 1)$,
+  and the operational Minkowski interval $c^2 d\tau_D^2 = c^2 dt^2 - d\mathbf{x}^2$
+  from clock dilation.
+- `RiverExterior` models coarse-grained superfluid flow in Painlevé-Gullstrand river
+  geometry, proving that the Bernoulli potential $\Phi_\phi = -|v_\phi|^2/2$ recovers
+  the Newtonian potential $-G_\phi M / r$, the acoustic event horizon occurs at
+  $r_H = 2G_\phi M / c^2$ with inflow speed matching $c$, and dipolar swirl encodes
+  Kerr-Lense-Thirring frame dragging.
+- `IsothermalGalacticRegime` proves that an isothermal barotrope in the low-acceleration
+  outer disk yields flat orbital plateaus $v_{\text{flat}} = \sqrt{q_\rho}\,c_\phi$
+  ($v_{\text{flat}} = \sqrt{2}c_\phi$ for $q_\rho = 2$) without dark matter halos.
+- `ActiveRadiationSourcing` records the decisive experimental discriminator between GR
+  ($\eta_{\text{act}}^\gamma = 1$) and DDF ($\eta_{\text{act}}^\gamma = 0$), proving that
+  the mutual gravitational deflection of non-co-propagating laser beams vanishes
+  identically in DDF.
+
+Do not describe DDF as an experimental proof of a material ether or a disproof of general
+relativity. The library checks the internal consistency of the quantum-hydrodynamic
+constitutive equations and discriminator predictions, but testing whether
+$\eta_{\text{act}}^\gamma = 0$ requires high-sensitivity laboratory beam-deflection
+experiments.
+
 ---
 
 ## Core Project Agents

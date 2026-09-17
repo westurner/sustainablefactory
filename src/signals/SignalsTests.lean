@@ -20,6 +20,7 @@ open Signals.NonDestructive
 open Signals.Scattering
 open Signals.MHD
 open Signals.Radio
+open Signals.DDF
 
 def zeroCalculus : VectorCalculus where
   divergence := fun _ => 0
@@ -250,8 +251,8 @@ example : toyMeasurement.height =
       outcomesBLaw := by intro index; rfl
       meanA := toyBalancedHomodyne.differentialPhotocurrent
       meanB := toyBalancedHomodyneB.differentialPhotocurrent
-      meanALaw := by simp [Fin.sum_univ_succ]
-      meanBLaw := by simp [Fin.sum_univ_succ]
+      meanALaw := by simp /- [Fin.sum_univ_succ] -/
+      meanBLaw := by simp /- [Fin.sum_univ_succ] -/
       covariance := 0
       covarianceLaw := by norm_num [Fin.sum_univ_succ]
       correlationScale := 1
@@ -1533,5 +1534,102 @@ example : toyHuygensSteinerMapping.polarizationSquared +
   example : isNarrowband 100 10_000 := by
     unfold isNarrowband
     linarith
+
+  -- DDF module tests
+
+  noncomputable def toyDDFSubstrate : DDFSubstrate :=
+    { m_phi := 1
+      m_phi_pos := by norm_num
+      m_varphi := 10
+      m_varphi_pos := by norm_num
+      rho_phi_0 := 1
+      rho_phi_0_pos := by norm_num
+      rho_max_varphi := 1
+      rho_max_varphi_pos := by norm_num
+      j_min_varphi := 1 / 4
+      j_min_varphi_pos := by norm_num }
+
+  example : 0 < toyDDFSubstrate.c := by
+    exact toyDDFSubstrate.c_pos
+
+  example : toyDDFSubstrate.c = 2 := by
+    dsimp [DDFSubstrate.c, toyDDFSubstrate]
+    norm_num
+
+  noncomputable def toyMovingSheath : MovingSheath toyDDFSubstrate :=
+    { velocity := 1
+      velocity_nonneg := by norm_num
+      subluminal := by
+        have hc : toyDDFSubstrate.c = 2 := by
+          dsimp [DDFSubstrate.c, toyDDFSubstrate]
+          norm_num
+        rw [hc]
+        norm_num }
+
+  example : 0 < toyMovingSheath.jammingFactor := by
+    exact toyMovingSheath.jammingFactor_pos
+
+  example : toyMovingSheath.betaSq = 1 / 4 := by
+    dsimp [MovingSheath.betaSq, toyMovingSheath]
+    have hc : toyDDFSubstrate.c = 2 := by
+      dsimp [DDFSubstrate.c, toyDDFSubstrate]
+      norm_num
+    rw [hc]
+    norm_num
+
+  example (dt dtau : ℝ) (h_dtau : dtau = dt / toyMovingSheath.jammingFactor) :
+      toyDDFSubstrate.c ^ 2 * dtau ^ 2 =
+        toyDDFSubstrate.c ^ 2 * dt ^ 2 - (toyMovingSheath.velocity * dt) ^ 2 := by
+    exact material_minkowski_interval toyMovingSheath dt dtau h_dtau
+
+  noncomputable def toyRiverExterior : RiverExterior toyDDFSubstrate :=
+    { G_phi := 1
+      G_phi_pos := by norm_num
+      sourceMass := 2
+      sourceMass_pos := by norm_num }
+
+  example (r : ℝ) (hr : 0 < r) :
+      toyRiverExterior.bernoulliPotential r = - (2 / r) := by
+    have h := toyRiverExterior.bernoulli_potential_eq r hr
+    rw [h]
+    dsimp [toyRiverExterior]
+    ring
+
+  example : toyRiverExterior.horizonRadius = 1 := by
+    dsimp [RiverExterior.horizonRadius, toyRiverExterior]
+    have hc : toyDDFSubstrate.c = 2 := by
+      dsimp [DDFSubstrate.c, toyDDFSubstrate]
+      norm_num
+    rw [hc]
+    norm_num
+
+  example : toyRiverExterior.velocity toyRiverExterior.horizonRadius = - toyDDFSubstrate.c := by
+    exact toyRiverExterior.horizon_velocity_matches_c
+
+  noncomputable def toyIsothermalRegime : IsothermalGalacticRegime toyDDFSubstrate :=
+    { c_phi := 10
+      c_phi_pos := by norm_num
+      q_rho := 2
+      q_rho_pos := by norm_num
+      a_iso := 1 / 10
+      a_iso_pos := by norm_num }
+
+  example : toyIsothermalRegime.v_flat = Real.sqrt 2 * 10 := by
+    exact isothermal_sphere_flat_velocity toyIsothermalRegime rfl
+
+  example : toyIsothermalRegime.v_flat ^ 2 = 200 := by
+    have h := toyIsothermalRegime.v_flat_sq
+    rw [h]
+    dsimp [toyIsothermalRegime]
+    norm_num
+
+  example (G c E b K : ℝ) :
+      mutualPhotonDeflection ActiveRadiationSourcing.dilatantDarkFluid G c E b K = 0 := by
+    exact ddf_photon_deflection_null G c E b K
+
+  example (G c E b K : ℝ) :
+      mutualPhotonDeflection ActiveRadiationSourcing.generalRelativity G c E b K =
+        K * G * E / (c ^ 4 * b) := by
+    exact gr_photon_deflection_active G c E b K
 
 end SignalsTests

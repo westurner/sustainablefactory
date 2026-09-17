@@ -1,6 +1,7 @@
 import Signals.Acoustics
 import Signals.Coherence
 import Signals.Contracts
+import Signals.DDF
 import Signals.Applications
 import Signals.Fabrication
 import Signals.Geometry

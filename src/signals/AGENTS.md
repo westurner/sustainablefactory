@@ -99,7 +99,7 @@ make signals_build_e2e SIGNALS_E2E_IMAGE=localhost/my-e2e-image:latest
 ```
 
 To build the image explicitly without running Lean, use
-`make signals_build_e2e_build_image`.
+`make signals_build_e2e_build_image` (or alias `make signals_e2e_image`).
 
 The target expects the rootless Podman socket at
 `$XDG_RUNTIME_DIR/podman/podman.sock`, matching the devcontainer mount. Start
@@ -110,6 +110,32 @@ It uses the `podman` executable directly by default; override it with
 Do not compile Signals in `Dockerfile.e2e`; that image installs the Lean
 toolchain only. Mathlib, Physlib, and Signals compilation belongs in the
 mounted workspace so the persistent `.lake` volume can be reused.
+
+## Dilatant Dark Fluid (DDF) Modeling
+
+[src/signals/Signals/DDF.lean](src/signals/Signals/DDF.lean) formalizes the two-component quantum-hydrodynamic
+substrate from Fedi (2026, SSRN 7406660):
+- `Signals.DDF.DDFSubstrate` defines the coherent superfluid $\phi$ and heavier dispersed
+  $\varphi$ phases, deriving the emergent transverse-phonon speed $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$.
+- `Signals.DDF.MovingSheath` models the body-induced dilatant sheath, proving the profile
+  closure theorem for the Lorentz jamming factor $\gamma_\varphi(v) = (1 - v^2/c^2)^{-1/2}$,
+  reversible kinetic energy $K_D(v) = mc^2(\gamma_\varphi(v) - 1)$, and the operational
+  Minkowski interval $c^2 d\tau_D^2 = c^2 dt^2 - (v dt)^2$.
+- `Signals.DDF.RiverExterior` models Painlevé-Gullstrand river superflow $v_r = -\sqrt{2GM/r}$,
+  recovering the Bernoulli/Newtonian potential $\Phi_\phi = -GM/r$, acoustic event horizon
+  at $r_H = 2GM/c^2$, and Kerr-Lense-Thirring swirl.
+- `Signals.DDF.IsothermalGalacticRegime` proves the flat rotation velocity plateau
+  $v_{\text{flat}} = \sqrt{q_\rho} c_\phi$ (and $v_{\text{flat}} = \sqrt{2} c_\phi$ for $q_\rho = 2$)
+  from the outer-disk isothermal barotrope.
+- `Signals.DDF.ActiveRadiationSourcing` models the experimental discriminator between GR
+  ($\eta_{\text{act}}^\gamma = 1$) and DDF ($\eta_{\text{act}}^\gamma = 0$), proving that
+  the mutual gravitational deflection of non-co-propagating laser beams vanishes
+  identically in DDF.
+
+Do not treat DDF as empirical evidence of a preferred material ether or a disproof
+of general relativity. The Lean proofs verify the mathematical consistency of the
+constitutive equations and discriminator predictions, but testing whether $\eta_{\text{act}}^\gamma = 0$
+requires high-sensitivity laboratory beam-deflection experiments.
 
 ## Upstreaming
 
