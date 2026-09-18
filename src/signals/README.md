@@ -632,14 +632,20 @@ model, or environmental error.
 18. Next loop: formalize the required weak derivative/trace spaces and numerical
    GP/FTLE adapter against a selected mathematical library and real dataset,
    then connect the shared contracts to external flow, Proca, detector, LVP,
-   and energy evidence. The Rust/WASM boundary is specified in
-   [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
+   and energy evidence. Use Vortex as the primary large-array artifact format,
+   with Arrow interoperability and CSV/JSON fixtures; the Rust/WASM boundary
+   is specified in [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
 
 The finite fracture/GP loop deliberately stops at explicit trace conventions,
 prescribed jumps, residuals, variable covariance, and diagnostic metadata. It
 does not claim a weak solution, crack evolution, turbulent-flow diagnosis, or
 physical fracture mechanism. The numerical implementation requirements are
 tracked in [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
+
+Vortex is the planned large-array transport for the Rust adapter. Its upstream
+format and Rust API are versioned dependencies, so local performance claims
+must be benchmarked and its file-format edition must be recorded in dataset
+provenance.
 
 ### Further Questions
 
@@ -660,6 +666,10 @@ tracked in [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
    compressibility, and velocity fields in the proposed numerical splat?
 7. Which FTLE/LCS validation cases and resolution-convergence checks should be
    required before interpreting a diagnostic ridge as a material boundary?
+8. Which pinned Vortex release, file-format edition, encoding set, and chunk
+   layout should the first benchmark adopt for the target flow arrays?
+9. Should WASM decode Vortex directly, or should the native CLI convert bounded
+   Vortex chunks to Arrow/summary payloads for browser-side diagnostics?
 
 ### Scholarly Basis
 

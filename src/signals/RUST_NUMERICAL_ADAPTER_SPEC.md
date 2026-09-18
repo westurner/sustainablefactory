@@ -7,7 +7,7 @@ outside the Lean proof kernel:
 
 - finite Gross-Pitaevskii/Madelung evolution and diagnostics;
 - finite-time flow-map and FTLE/LCS calculations;
-- array and file ingestion for measured or simulated flow data;
+- Vortex-columnar array and file ingestion for measured or simulated flow data;
 - one-sided trace, jump, and normal-flux residual calculations.
 
 Lean remains the contract and provenance boundary. Rust may compute arrays,
@@ -32,7 +32,7 @@ Lean owns:
 
 Rust owns:
 
-- parsing CSV, JSON, or binary array artifacts;
+- parsing Vortex artifacts and converting CSV/JSON/Arrow fixtures;
 - checksum and schema validation;
 - dense or sparse array storage;
 - interpolation and finite-difference stencils;
@@ -46,6 +46,39 @@ The first Rust implementation should be a native CLI. WASM is a later target
 for browser-side visualization or interactive parameter sweeps after the native
 numerics and serialized schema are stable.
 
+## Preferred Artifact Format: Vortex
+
+Use [Vortex](https://github.com/vortex-data/vortex) as the primary artifact
+format for large numerical arrays. The upstream project describes a Rust
+columnar format with extensible encodings, Arrow interoperability, and lazy
+statistics. These properties fit time-indexed flow fields better than parsing
+large CSV or JSON files repeatedly.
+
+The adapter must:
+
+- pin the Vortex crate version and file-format edition in the run metadata;
+- record the Vortex encoding set and schema hash;
+- store dense fields as flattened columns with explicit shape, coordinate, and
+  chunk metadata rather than relying on implicit array dimensions;
+- chunk by time and spatial tile so FTLE windows and boundary faces can be read
+  without materializing unrelated fields;
+- preserve an Arrow conversion path for interoperability and test fixtures;
+- retain CSV/JSON as small human-readable fixtures and emergency fallback
+  inputs, not as the preferred large-array transport;
+- benchmark Vortex versus Arrow/Parquet and fallback readers on representative
+  density/velocity/covariance data before selecting chunk sizes.
+
+The Vortex README states that the file format is intended to remain backwards
+compatible from its 0.36.0 release, while library APIs may change. The adapter
+must therefore pin both the crate API and the file-format edition, and must
+reject unsupported editions with an `incomplete` or `invalid` status rather
+than silently converting data.
+
+For WASM, prefer native Vortex decoding when the pinned crate and encoding set
+compile cleanly. Otherwise perform Vortex-to-Arrow/summary conversion in the
+native CLI and send bounded chunks to the browser; do not force a large or
+unsupported Vortex dependency into the browser bundle.
+
 ## Input Contract
 
 Every run must include a metadata object matching the Lean
@@ -53,7 +86,7 @@ Every run must include a metadata object matching the Lean
 
 ```json
 {
-  "artifact_reference": "data/flow/case-001.h5",
+  "artifact_reference": "data/flow/case-001.vortex",
   "artifact_checksum": "sha256:...",
   "license_reference": "...",
   "unit_convention": "SI",
@@ -65,6 +98,7 @@ Every run must include a metadata object matching the Lean
 The numerical payload must additionally record:
 
 - `origin`: `measured` or `simulated`;
+- Vortex format edition, crate version, schema hash, and encoding set;
 - case name and source label;
 - grid dimensions and coordinate vectors;
 - time stamps and monotonic time-step checks;
@@ -178,6 +212,9 @@ The native adapter must have tests for:
 - refinement studies over spatial step, time step, interpolation order, and
   FTLE window;
 - deterministic serialization and checksum round trips.
+- Vortex-to-Arrow equivalence on representative columns and chunk selections;
+- pinned-edition rejection and fallback-reader equivalence;
+- native Vortex versus Arrow/Parquet read benchmarks for representative cases.
 
 WASM tests should reuse native fixtures and compare summary values within an
 explicit tolerance. Browser rendering must remain separate from numerical
@@ -198,3 +235,9 @@ correctness tests.
   https://doi.org/10.1016/S0022-5096(98)00034-9.
 - Haller, *Lagrangian Coherent Structures*, Annual Review of Fluid Mechanics 47
   (2015), DOI: https://doi.org/10.1146/annurev-fluid-010313-141322.
+
+### Format Reference
+
+- [Vortex project](https://github.com/vortex-data/vortex), Apache-2.0 columnar
+  format and Rust toolkit. Treat its README and pinned release metadata as the
+  format reference; performance claims must be reproduced locally.
