@@ -43,6 +43,7 @@ RUN --mount=type=cache,target=/var/lib/apt/lists,id=apt-cache-lists \
     build-essential \
     pkg-config \
     llvm \
+    libclang-dev \
     libbz2-dev \
     libffi-dev \
     liblzma-dev \

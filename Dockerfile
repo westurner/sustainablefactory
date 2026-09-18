@@ -25,6 +25,7 @@ RUN --mount=type=cache,target=/var/lib/apt/lists,id=apt-cache-lists \
     libreadline-dev \
     libsqlite3-dev \
     libssl-dev \
+    libclang-dev \
     libxml2-dev \
     libxmlsec1-dev \
     llvm \
