@@ -1927,10 +1927,11 @@ lemma CalibratedObservation.calibrated_value_holds
     observation.calibratedValue = observation.calibration.calibrated :=
   observation.calibratedValueLaw
 
-/-- A method-specific calibration and environmental metadata record. -/
+/-- Domains whose calibration metadata can be attached to an evidence run. -/
 inductive MeasurementMethod
   | inspection (method : InspectionMethod)
   | flowBoundary
+  | compressibleFlow
   | synthetic
   deriving DecidableEq, Repr
 
@@ -2092,5 +2093,53 @@ lemma FlowBoundaryEvidence.velocity_consistent
   unfold ControlledMeasurement.consistent
   rw [evidence.velocityResidualLaw axis, evidence.velocityToleranceLaw axis]
   exact evidence.boundary.velocity_within_tolerance axis
+
+/-- A finite measured-or-simulated comparison for a compressible-flow run.
+
+The control volume supplies classical mass-flow, momentum, and heat baselines;
+acoustic output remains an explicit baseline because it is not part of the
+scalar control-volume energy fields. This record compares supplied data and
+does not execute a CFD solver or establish a plume-performance claim. -/
+structure CompressibleFlowComparison where
+  boundary : FlowBoundaryEvidence
+  controlVolume : ClassicalControlVolume
+  massFlow : ControlledMeasurement
+  massFlowMethodLaw :
+    massFlow.observation.methodCalibration.method = MeasurementMethod.compressibleFlow
+  massFlowBaselineLaw :
+    massFlow.baseline = controlVolume.inletMassFlow.kilogramsPerSecond
+  momentumFlux : ControlledMeasurement
+  momentumFluxMethodLaw :
+    momentumFlux.observation.methodCalibration.method = MeasurementMethod.compressibleFlow
+  momentumFluxBaselineLaw :
+    momentumFlux.baseline = controlVolume.externalAxialForce.newtons
+  heatPower : ControlledMeasurement
+  heatPowerMethodLaw :
+    heatPower.observation.methodCalibration.method = MeasurementMethod.compressibleFlow
+  heatPowerBaselineLaw :
+    heatPower.baseline = controlVolume.aerodynamicHeatPower.watts
+  acousticPower : ControlledMeasurement
+  acousticPowerMethodLaw :
+    acousticPower.observation.methodCalibration.method = MeasurementMethod.compressibleFlow
+  acousticBaseline : Power
+  acousticBaseline_nonnegative : 0 ≤ acousticBaseline.watts
+  acousticPowerBaselineLaw :
+    acousticPower.baseline = acousticBaseline.watts
+
+/-- All four declared compressible-flow outputs agree with their tolerances. -/
+def CompressibleFlowComparison.outputsConsistent
+    (comparison : CompressibleFlowComparison) : Prop :=
+  comparison.massFlow.consistent ∧
+    comparison.momentumFlux.consistent ∧
+      comparison.heatPower.consistent ∧ comparison.acousticPower.consistent
+
+/-- The output-consistency predicate exposes its four scalar checks. -/
+lemma CompressibleFlowComparison.outputs_consistent_iff
+    (comparison : CompressibleFlowComparison) :
+    comparison.outputsConsistent ↔
+      comparison.massFlow.consistent ∧
+        comparison.momentumFlux.consistent ∧
+          comparison.heatPower.consistent ∧ comparison.acousticPower.consistent := by
+  rfl
 
 end Signals.Pending

@@ -192,6 +192,9 @@ interpretation while keeping experimental premises explicit:
    trial summaries, and separate positive, negative, held-out, and synthetic
    control slots. Residual predicates classify consistency versus anomaly
    candidates without identifying an unexplained residual with a mechanism.
+   `MeasurementMethod`, `FlowBoundaryEvidence`, and
+   `CompressibleFlowComparison` connect those contracts to extensible method
+   tags and finite flow-output baselines without importing a CFD solver.
    Its LightSlinger extension links an antenna to a Proca channel only through
    explicit frequency and longitudinal-coupling hypotheses; CW resonance does
    not itself establish massive-mode emission.
@@ -526,9 +529,10 @@ model, or environmental error.
    result.
 6. [Implemented in Pending] Add measured pressure, heat-transfer, and
    vector-flow boundary conditions with componentwise residual tolerances.
-7. Next: connect these boundary records to a compressible-flow or CFD adapter
-   and compare predicted mass, momentum, heat, and acoustic outputs before
-   making plume or drag claims.
+7. [Implemented in Pending, finite comparison] Connect the boundary records
+   to controlled mass-flow, momentum, heat, and acoustic output baselines with
+   `CompressibleFlowComparison`. Measured or compressible-CFD ingestion remains
+   future work before making plume or drag claims.
 
 ### Agent Loop Record
 
@@ -543,9 +547,12 @@ model, or environmental error.
 3. [Complete] Boundary-data loop: added pressure, heat-flux, and vector-flow
    observations with residual tolerances. Proposed commit:
    `feat(signals): add measured flow boundary residuals`.
-4. Next loop: connect the records to measured or simulated compressible-flow
-   data. Do not promote phase-slip homogenization or apodization to a physical
-   performance claim without that comparison.
+4. [Complete, finite comparison] Connected the boundary records to controlled
+   mass-flow, momentum, heat, and acoustic output baselines through
+   `CompressibleFlowComparison`. Proposed commit:
+   `feat(signals): compare compressible flow outputs through Pending evidence`.
+   Do not promote phase-slip homogenization or apodization to a physical
+   performance claim without measured or simulated data.
 5. [Complete] LightSlinger loop: added Lignin-Vitrimer antenna, CW resonator,
    Rydberg-EIT, and explicit Pending Proca-emission contracts. Proposed commit:
    `feat(signals): model LightSlinger antennas and guarded CW emission`.
@@ -579,8 +586,17 @@ model, or environmental error.
    checks. The new contracts preserve conditional status and classify an
    out-of-tolerance residual as an anomaly candidate only. Proposed commit:
    `feat(signals): add Pending evidence contracts`.
-12. Next loop: connect the shared contracts to domain-specific adapters for
-   compressible flow, polarization-resolved Proca tests, quantum detector
+12. [Complete, first domain adapter] Connected the shared contracts to flow
+   boundary pressure, heat-flux, and velocity residuals through
+   `FlowBoundaryEvidence`, and generalized calibration method tags beyond
+   inspection-only methods. Proposed commit:
+   `feat(signals): connect evidence contracts to flow boundaries`.
+13. [Complete, finite flow comparison] Added `CompressibleFlowComparison` for
+   controlled mass-flow, momentum, heat, and acoustic baselines. Proposed
+   commit:
+   `feat(signals): compare compressible flow outputs through Pending evidence`.
+14. Next loop: connect the shared contracts to measured or simulated
+   compressible-flow data, polarization-resolved Proca tests, quantum detector
    characterization, LVP materials/imaging, and complete energy ledgers.
 
 ### Pending Physical Formalisms
@@ -634,15 +650,10 @@ namespace and build target:
    methods, and `FlowBoundaryEvidence` connects controlled pressure, heat-flux,
    and componentwise velocity measurements to the existing flow-boundary
    residuals. This is an adapter contract, not a compressible-flow simulation.
-12. [Complete, first domain adapter] Connected the shared contracts to flow
-   boundary pressure, heat-flux, and velocity residuals through
-   `FlowBoundaryEvidence`, and generalized calibration method tags beyond
-   inspection-only methods. Proposed commit:
-   `feat(signals): connect evidence contracts to flow boundaries`.
-13. Next loop: connect the shared contracts to measured or simulated
-   compressible-flow data, polarization-resolved Proca tests, quantum detector
-   characterization, LVP materials/imaging, and complete energy ledgers.
-   inspection paths.
+- `CompressibleFlowComparison` connects controlled mass-flow, momentum, heat,
+   and acoustic outputs to classical control-volume or explicit acoustic
+   baselines. It is a finite comparison contract, not a CFD solver or plume
+   performance theorem.
 - `PhaseFingerprint` records a measured phase change with preserved target energy
    and polarization, plus explicit zero absorbed target energy.
 - `DispersiveReadout` records signal-state preservation, signal-energy
@@ -812,13 +823,15 @@ They are validation requirements, not additional physical conclusions.
 - **Atmospheric scavenging and plumes.** Species splats, bounded gate
   acceptance, covariance collapse, apodization, calibrated mass flow, and
    boundary residuals form a finite surrogate and a classical comparison
-   baseline. `FlowBoundaryEvidence` now connects those scalar boundary
-   residuals to the shared calibration, repeated-trial, and control contracts.
-   This still does not prove homogenization, turbulence suppression, zero
-   acoustic output, absence of shocks, or drag reduction. The next adapter
-   should connect measured or compressible-CFD pressure, heat flux, velocity,
-   mass, momentum, energy, and acoustic outputs to the control volume, with
-   inlet/outlet boundary conditions and uncertainty propagation. See the
+   baseline. `FlowBoundaryEvidence` connects scalar boundary residuals to the
+   shared calibration, repeated-trial, and control contracts, while
+   `CompressibleFlowComparison` adds finite mass-flow, momentum, heat, and
+   acoustic baseline comparisons. These contracts still do not prove
+   homogenization, turbulence suppression, zero acoustic output, absence of
+   shocks, or drag reduction. The next adapter should ingest measured or
+   compressible-CFD pressure, heat flux, velocity, mass, momentum, energy, and
+   acoustic outputs with inlet/outlet boundary conditions and uncertainty
+   propagation. See the
    [`atmospheric` contracts](Signals/Pending.lean#L663-L929).
 
 - **Decoding and geometric amplitude claims.** The finite inverse-QFT kernel,
@@ -871,9 +884,9 @@ performance claim, the loop should record:
 7. Independent replication or an external dataset before changing a record
    from a conditional hypothesis to a verified physical interface.
 
-The reusable observation and uncertainty layer is now implemented in
-`Signals.Pending`. The immediate implementation priority is domain adapters for
-compressible flow,
+The reusable observation and uncertainty layer and finite compressible-flow
+comparison adapter are now implemented in `Signals.Pending`. The immediate
+implementation priority is measured or simulated compressible-flow ingestion,
 polarization-resolved Proca tests, quantum detector characterization, LVP
 materials/imaging, and complete energy ledgers. This keeps the Pending target
 useful as a research notebook without allowing compile-time proofs of supplied

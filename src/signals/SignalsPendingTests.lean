@@ -2767,6 +2767,16 @@ noncomputable def toyFlowControlledAt (summary baseline tolerance : ℝ)
     heldOutCheck := none
     syntheticCheck := none }
 
+noncomputable def toyCompressibleControlledAt (summary baseline tolerance : ℝ)
+    (tolerance_nonnegative : 0 ≤ tolerance) : ControlledMeasurement :=
+  { toyFlowControlledAt summary baseline tolerance tolerance_nonnegative with
+    observation :=
+      { toyFlowRepeatedObservationAt summary with
+        methodCalibration :=
+          { toyFlowMethodCalibration with
+            method := MeasurementMethod.compressibleFlow
+            unitLabel := "compressible-flow output" } } }
+
 noncomputable def toyControlledMeasurement : ControlledMeasurement :=
   { baseline := 1
     baselineName := "classical mmWave reference"
@@ -2911,5 +2921,68 @@ example : toyFlowBoundaryEvidence.heatFlux.consistent := by
 
 example : (toyFlowBoundaryEvidence.velocity 2).consistent := by
   exact toyFlowBoundaryEvidence.velocity_consistent 2
+
+noncomputable def toyCompressibleFlowComparison : CompressibleFlowComparison :=
+  { boundary := toyFlowBoundaryEvidence
+    controlVolume := toyClassicalControlVolume
+    massFlow := toyCompressibleControlledAt 2 2 1 (by norm_num)
+    massFlowMethodLaw := by
+      rfl
+    massFlowBaselineLaw := by
+      rfl
+    momentumFlux := toyCompressibleControlledAt 20 20 1 (by norm_num)
+    momentumFluxMethodLaw := by
+      rfl
+    momentumFluxBaselineLaw := by
+      rfl
+    heatPower := toyCompressibleControlledAt 7 7 1 (by norm_num)
+    heatPowerMethodLaw := by
+      rfl
+    heatPowerBaselineLaw := by
+      rfl
+    acousticPower := toyCompressibleControlledAt 0 0 1 (by norm_num)
+    acousticPowerMethodLaw := by
+      rfl
+    acousticBaseline := { watts := 0 }
+    acousticBaseline_nonnegative := by norm_num
+    acousticPowerBaselineLaw := by
+      rfl }
+
+example :
+    toyCompressibleFlowComparison.massFlow.baseline =
+      toyCompressibleFlowComparison.controlVolume.inletMassFlow.kilogramsPerSecond := by
+  exact toyCompressibleFlowComparison.massFlowBaselineLaw
+
+example :
+    toyCompressibleFlowComparison.momentumFlux.baseline =
+      toyCompressibleFlowComparison.controlVolume.externalAxialForce.newtons := by
+  exact toyCompressibleFlowComparison.momentumFluxBaselineLaw
+
+example :
+    toyCompressibleFlowComparison.heatPower.baseline =
+      toyCompressibleFlowComparison.controlVolume.aerodynamicHeatPower.watts := by
+  exact toyCompressibleFlowComparison.heatPowerBaselineLaw
+
+example : toyCompressibleFlowComparison.outputsConsistent := by
+  unfold CompressibleFlowComparison.outputsConsistent
+  constructor
+  · norm_num [ControlledMeasurement.consistent, toyCompressibleFlowComparison,
+      toyCompressibleControlledAt, toyFlowControlledAt]
+  constructor
+  · norm_num [ControlledMeasurement.consistent, toyCompressibleFlowComparison,
+      toyCompressibleControlledAt, toyFlowControlledAt]
+  constructor
+  · norm_num [ControlledMeasurement.consistent, toyCompressibleFlowComparison,
+      toyCompressibleControlledAt, toyFlowControlledAt]
+  · norm_num [ControlledMeasurement.consistent, toyCompressibleFlowComparison,
+      toyCompressibleControlledAt, toyFlowControlledAt]
+
+example :
+    toyCompressibleFlowComparison.outputsConsistent ↔
+      toyCompressibleFlowComparison.massFlow.consistent ∧
+        toyCompressibleFlowComparison.momentumFlux.consistent ∧
+          toyCompressibleFlowComparison.heatPower.consistent ∧
+            toyCompressibleFlowComparison.acousticPower.consistent := by
+  exact toyCompressibleFlowComparison.outputs_consistent_iff
 
 end SignalsPendingTests
