@@ -1695,6 +1695,184 @@ def DDFVortexObservable.supportsIndependentDefectSlot
       observable.pressure_deficit_detectable ∨
       observable.transverse_mode_detectable)
 
+  /-! ## Finite multi-beam holography and trilateration
+
+  The following records extract the reusable bookkeeping from the holography
+  chat proposals. They preserve measured mask-state transfer, target-field
+  residuals, and independent position estimates. They do not assert that an
+  rGO-vitrimer mask is an activated metamaterial, that Gerchberg-Saxton found a
+  global optimum, or that a successful reconstruction is Proca evidence. -/
+
+  /-- The four preregistered mask states used for a holography ablation. -/
+  inductive HolographyMaskState
+    | noMask
+    | passiveMask
+    | activatedMask
+    | shamActivation
+    deriving DecidableEq, Repr
+
+  /-- Measured transfer data for one holography mask state. -/
+  structure HolographyMaskTransfer where
+    state : HolographyMaskState
+    amplitudeTransmission : ℝ
+    amplitudeTransmission_nonnegative : 0 ≤ amplitudeTransmission
+    phaseDelay : ℝ
+    phaseDelay_uncertainty : ℝ
+    phaseDelay_uncertainty_nonnegative : 0 ≤ phaseDelay_uncertainty
+    polarizationConversion : ℝ
+    polarizationConversion_nonnegative : 0 ≤ polarizationConversion
+    insertionLoss : ℝ
+    insertionLoss_nonnegative : 0 ≤ insertionLoss
+    temperature : Temperature
+    temperature_nonnegative : 0 ≤ temperature.kelvin
+    controlLabel : String
+    calibrationReference : String
+
+  /-- A finite target-field result from a multi-beam holography reconstruction. -/
+  structure MultiBeamHolographyResult where
+    beamCount : ℕ
+    beamCount_min : 4 ≤ beamCount
+    maskTransfer : HolographyMaskTransfer
+    solverName : String
+    solverIterations : ℕ
+    solverIterations_pos : 0 < solverIterations
+    targetFieldRMSE : ℝ
+    targetFieldRMSE_nonnegative : 0 ≤ targetFieldRMSE
+    intensityUniformityError : ℝ
+    intensityUniformityError_nonnegative : 0 ≤ intensityUniformityError
+    sideLobeRatio : ℝ
+    sideLobeRatio_nonnegative : 0 ≤ sideLobeRatio
+    crosstalkError : ℝ
+    crosstalkError_nonnegative : 0 ≤ crosstalkError
+    deliveredPower : Power
+    deliveredPower_nonnegative : 0 ≤ deliveredPower.watts
+    absorbedPower : Power
+    absorbedPower_nonnegative : 0 ≤ absorbedPower.watts
+    calibrationResidual : ℝ
+    calibrationResidual_nonnegative : 0 ≤ calibrationResidual
+    heldOutPattern : Prop
+    heldOutPattern_hypothesis : heldOutPattern
+
+  /-- A multi-beam target result is numerically acceptable below all tolerances. -/
+  def MultiBeamHolographyResult.withinTolerances
+      (result : MultiBeamHolographyResult)
+      (fieldTolerance uniformityTolerance sideLobeTolerance crosstalkTolerance
+        calibrationTolerance : ℝ) : Prop :=
+    0 ≤ fieldTolerance ∧
+      0 ≤ uniformityTolerance ∧
+      0 ≤ sideLobeTolerance ∧
+      0 ≤ crosstalkTolerance ∧
+      0 ≤ calibrationTolerance ∧
+      result.targetFieldRMSE ≤ fieldTolerance ∧
+      result.intensityUniformityError ≤ uniformityTolerance ∧
+      result.sideLobeRatio ≤ sideLobeTolerance ∧
+      result.crosstalkError ≤ crosstalkTolerance ∧
+      result.calibrationResidual ≤ calibrationTolerance
+
+  /-- An independently sensed range for one beam used in trilateration. -/
+  structure TrilaterationRange where
+    beamIndex : ℕ
+    rangeMeters : ℝ
+    range_nonnegative : 0 ≤ rangeMeters
+    uncertaintyMeters : ℝ
+    uncertainty_nonnegative : 0 ≤ uncertaintyMeters
+    sensorLabel : String
+
+  /-- A four-or-more-beam independent trilateration result. -/
+  structure MultiBeamTrilateration where
+    beamCount : ℕ
+    beamCount_min : 4 ≤ beamCount
+    ranges : List TrilaterationRange
+    rangeCountLaw : ranges.length = beamCount
+    targetX : ℝ
+    targetY : ℝ
+    targetZ : ℝ
+    sharedDelayBias : ℝ
+    positionErrorMeters : ℝ
+    positionError_nonnegative : 0 ≤ positionErrorMeters
+    covarianceTrace : ℝ
+    covarianceTrace_nonnegative : 0 ≤ covarianceTrace
+    independentSensorLabel : String
+    calibrationResidual : ℝ
+    calibrationResidual_nonnegative : 0 ≤ calibrationResidual
+
+  /-- The recorded trilateration result has the declared number of beam ranges. -/
+  lemma MultiBeamTrilateration.range_count_holds
+      (result : MultiBeamTrilateration) :
+      result.ranges.length = result.beamCount :=
+    result.rangeCountLaw
+
+  /-- A trilateration result is independently sensed when it has a label and
+  nonnegative finite error bookkeeping. -/
+  def MultiBeamTrilateration.independentlySensed
+      (result : MultiBeamTrilateration) : Prop :=
+    result.independentSensorLabel ≠ "" ∧
+      0 ≤ result.positionErrorMeters ∧
+      0 ≤ result.covarianceTrace ∧
+      0 ≤ result.calibrationResidual
+
+  /-- Classical helical/vector-beam apparatus bookkeeping.
+
+  The apparatus may use a q-plate, spatial light modulator, geometric-phase
+  optic, or equivalent polarization/phase element. OAM charge and a longitudinal
+  near-field component are measured optical quantities here; neither one asserts
+  Proca propagation or a massive photon. -/
+  structure HelicalBeamApparatus where
+    beamCount : ℕ
+    beamCount_min : 1 ≤ beamCount
+    wavelength : Length
+    wavelength_pos : 0 < wavelength.meters
+    sourcePower : Power
+    sourcePower_nonnegative : 0 ≤ sourcePower.watts
+    beamPower : Power
+    beamPower_nonnegative : 0 ≤ beamPower.watts
+    beamPowerLaw : beamPower.watts ≤ sourcePower.watts
+    oamCharge : ℤ
+    polarizationLabel : String
+    polarizationPurity : ℝ
+    polarizationPurity_nonnegative : 0 ≤ polarizationPurity
+    polarizationPurity_le_one : polarizationPurity ≤ 1
+    phaseResidual : ℝ
+    phaseResidual_nonnegative : 0 ≤ phaseResidual
+    topologicalChargeFidelity : ℝ
+    topologicalChargeFidelity_nonnegative : 0 ≤ topologicalChargeFidelity
+    topologicalChargeFidelity_le_one : topologicalChargeFidelity ≤ 1
+    longitudinalNearFieldFraction : ℝ
+    longitudinalNearFieldFraction_nonnegative :
+      0 ≤ longitudinalNearFieldFraction
+    longitudinalNearFieldFraction_le_one : longitudinalNearFieldFraction ≤ 1
+    alignmentError : ℝ
+    alignmentError_nonnegative : 0 ≤ alignmentError
+    sourceCalibration : Prop
+    sourceCalibration_hypothesis : sourceCalibration
+    polarizationCalibration : Prop
+    polarizationCalibration_hypothesis : polarizationCalibration
+    modeCalibration : Prop
+    modeCalibration_hypothesis : modeCalibration
+    apparatusLabel : String
+
+  /-- The helical apparatus has enough independent beams for spatial convergence. -/
+  def HelicalBeamApparatus.isMultiBeam
+      (apparatus : HelicalBeamApparatus) : Prop :=
+    4 ≤ apparatus.beamCount
+
+  /-- A classical helical apparatus is ready for a bounded precision experiment. -/
+  def HelicalBeamApparatus.calibrated
+      (apparatus : HelicalBeamApparatus) : Prop :=
+    apparatus.apparatusLabel ≠ "" ∧
+      apparatus.polarizationLabel ≠ "" ∧
+      apparatus.sourceCalibration ∧
+      apparatus.polarizationCalibration ∧
+      apparatus.modeCalibration ∧
+      apparatus.phaseResidual ≥ 0 ∧
+      apparatus.alignmentError ≥ 0
+
+  /-- Beam power is bounded by source power in the recorded apparatus. -/
+  lemma HelicalBeamApparatus.beam_power_le_source
+      (apparatus : HelicalBeamApparatus) :
+      apparatus.beamPower.watts ≤ apparatus.sourcePower.watts :=
+    apparatus.beamPowerLaw
+
 /-! ## DDF fracture-communication evidence boundary
 
 The DDF plan keeps ordinary acoustic/elastic communication as the null and
@@ -2119,6 +2297,113 @@ lemma SpacetimeExtractionClaim.spacetimePower_positive
     0 < claim.ledger.spacetimePower := by
   nlinarith [claim.ledger.balance, claim.ledger.lossPower_nonnegative,
     claim.overControlAndFuel]
+
+/-! ## Experimental energy-extraction boundary
+
+The accepted classical library already proves passive MHD and active-optical
+input/output bounds. The following record is the missing measurement boundary
+for a claimed over-unity result. It requires every declared power channel,
+stored-energy change, uncertainty, controls, and replication to be supplied as
+data. It does not assert that spacetime power exists, that a DCE process is
+vacuum-powered, or that a control-only ratio is an efficiency. -/
+
+/-- How a measured output is interpreted after the complete ledger is closed. -/
+inductive EnergyExtractionInterpretation
+  | classicalConversion
+  | activelyPumped
+  | unresolvedLedger
+  | candidateAdditionalSource
+  deriving DecidableEq, Repr
+
+/-- A finite measured energy balance for a device or plant run.
+
+`storedEnergyChange` is positive when the device's internal stored energy
+increases during the observation window. It must be included rather than
+silently counted as output. -/
+structure EnergyExtractionEvidence where
+  sourceLabel : String
+  artifactReference : String
+  observationDuration : Duration
+  observationDuration_pos : 0 < observationDuration.seconds
+  controlInputPower : Power
+  controlInputPower_nonnegative : 0 ≤ controlInputPower.watts
+  motiveInputPower : Power
+  motiveInputPower_nonnegative : 0 ≤ motiveInputPower.watts
+  pumpInputPower : Power
+  pumpInputPower_nonnegative : 0 ≤ pumpInputPower.watts
+  auxiliaryInputPower : Power
+  auxiliaryInputPower_nonnegative : 0 ≤ auxiliaryInputPower.watts
+  exportedOutputPower : Power
+  exportedOutputPower_nonnegative : 0 ≤ exportedOutputPower.watts
+  measuredLossPower : Power
+  measuredLossPower_nonnegative : 0 ≤ measuredLossPower.watts
+  storedEnergyChange : Energy
+  storedEnergyChangeLaw : storedEnergyChange.joules =
+    (controlInputPower.watts + motiveInputPower.watts +
+      pumpInputPower.watts + auxiliaryInputPower.watts -
+      exportedOutputPower.watts - measuredLossPower.watts) *
+      observationDuration.seconds
+  balanceResidualPower : ℝ
+  balanceResidualPowerLaw : balanceResidualPower =
+    exportedOutputPower.watts +
+      storedEnergyChange.joules / observationDuration.seconds +
+      measuredLossPower.watts -
+      (controlInputPower.watts + motiveInputPower.watts +
+        pumpInputPower.watts + auxiliaryInputPower.watts)
+  balanceTolerancePower : ℝ
+  balanceTolerancePower_nonnegative : 0 ≤ balanceTolerancePower
+  balanceWithinTolerance : |balanceResidualPower| ≤ balanceTolerancePower
+  independentCalibration : Prop
+  independentCalibration_hypothesis : independentCalibration
+  negativeControlPassed : Prop
+  negativeControlPassed_hypothesis : negativeControlPassed
+  replicationCount : ℕ
+  replicationCount_min : 2 ≤ replicationCount
+  interpretation : EnergyExtractionInterpretation
+
+/-- The complete measured input power includes control, motive, pump, and
+auxiliary channels. -/
+def EnergyExtractionEvidence.totalInputPower
+    (evidence : EnergyExtractionEvidence) : Power :=
+  { watts := evidence.controlInputPower.watts +
+      evidence.motiveInputPower.watts + evidence.pumpInputPower.watts +
+      evidence.auxiliaryInputPower.watts }
+
+/-- A complete ledger's exported power is bounded by total input, losses, and
+the rate of stored-energy decrease. -/
+lemma EnergyExtractionEvidence.exported_power_balance
+    (evidence : EnergyExtractionEvidence) :
+    evidence.exportedOutputPower.watts +
+        evidence.storedEnergyChange.joules / evidence.observationDuration.seconds +
+        evidence.measuredLossPower.watts =
+      evidence.totalInputPower.watts + evidence.balanceResidualPower := by
+  unfold EnergyExtractionEvidence.totalInputPower
+  rw [evidence.balanceResidualPowerLaw]
+  ring
+
+/-- A candidate additional-source interpretation requires a complete, replicated
+and independently calibrated ledger with residual outside the declared bound.
+This is a test predicate over observations, not a theorem that an extra source
+exists. -/
+def EnergyExtractionEvidence.supportsAdditionalSource
+    (evidence : EnergyExtractionEvidence) : Prop :=
+  evidence.sourceLabel ≠ "" ∧
+    evidence.artifactReference ≠ "" ∧
+    evidence.independentCalibration ∧
+    evidence.negativeControlPassed ∧
+    2 ≤ evidence.replicationCount ∧
+    evidence.interpretation = EnergyExtractionInterpretation.candidateAdditionalSource ∧
+    evidence.balanceTolerancePower < |evidence.balanceResidualPower|
+
+/-- A residual within tolerance cannot support an additional-source claim. -/
+lemma EnergyExtractionEvidence.not_supported_within_tolerance
+    (evidence : EnergyExtractionEvidence)
+    (residualWithinTolerance :
+      |evidence.balanceResidualPower| ≤ evidence.balanceTolerancePower) :
+    ¬evidence.supportsAdditionalSource := by
+  rintro ⟨_source, _artifact, _calibration, _negative, _replication,
+    _interpretation, residualOutside⟩
+  exact (not_lt_of_ge residualWithinTolerance) residualOutside
 
 
 /-- A pending flat-light lithography state generated in an N-LIG or similar waveguide.

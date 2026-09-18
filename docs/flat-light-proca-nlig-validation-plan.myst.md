@@ -1,8 +1,8 @@
 ---
 title: Flat Light, Proca, and N-LIG Waveguide Validation Plan
 description: >-
-  A falsifiable, dataset-backed validation plan for the Flat Light and
-  nitrogen-doped laser-induced graphene waveguide hypothesis.
+  A falsifiable, dataset-backed validation plan for Flat Light, N-LIG
+  waveguides, and multi-beam holography.
 ---
 
 # Flat Light, Proca, and N-LIG Waveguide Validation Plan
@@ -23,10 +23,19 @@ The proposal combines three different claims that must be separated:
 2. **Guided-mode claim:** the material and geometry support a measured classical
    optical or terahertz mode with a known propagation constant, loss, group
    delay, polarization, and mode profile.
-3. **Proca/Flat Light claim:** an additional massive-vector or zero-diffraction
-   signature remains after the classical material and waveguide model is
-   calibrated, with a transferable mass parameter, a matched longitudinal
-   polarization prediction, and independent replication.
+3. **Multi-beam holography claim:** a phase-retrieved hologram can synthesize
+  four or more independently addressable beams, locate a target by
+  trilateration, and improve target-plane fidelity when an rGO-vitrimer mask
+  is activated.
+4. **Low-power CW N-LIG success claim:** graphene formation on lignin at the
+  lowest reproducible continuous-wave optical input, with measured sheet
+  resistance, Raman/XPS signature, pattern fidelity, and heat-affected zone.
+  A successful result here is valuable even if every optical field remains
+  classical.
+5. **Proca/Flat Light claim:** an additional massive-vector or zero-diffraction
+  signature remains after the classical material and waveguide model is
+  calibrated, with a transferable mass parameter, a matched longitudinal
+  polarization prediction, and independent replication.
 
 A classical effective photon mass, plasma cutoff, photonic-crystal band edge,
 slow-light mode, plasmon-polariton, or anisotropic dielectric response is not
@@ -34,6 +43,14 @@ by itself a fundamental Proca photon mass. A finite-aperture Bessel or Airy
 beam is not zero diffraction. A phase-dependent chemical response is not a
 phase-slip cleavage mechanism until absorbed energy, temperature, carrier
 excitation, and ordinary photochemistry are matched.
+
+For this application, the first engineering success should be the least
+extraordinary one: reproducible graphene-on-lignin processing with a lower-power
+CW laser and a measured process window. A nominal 20 W fiber laser is an upper
+bound for the initial apparatus, not a required threshold. If $N$ independently
+calibrated beams share total power $P_{\mathrm{total}}$, report both total and
+per-beam power $P_j$; convergence can improve spatial dose uniformity but cannot
+create energy or silently replace absorbed-dose accounting.
 
 ## Provenance and Claim Boundary
 
@@ -69,6 +86,52 @@ frequency as supplied model data ([Pending.lean](../src/signals/Signals/Pending.
 while `PhaseSlipCleavage` records a supplied rate law
 ([Pending.lean](../src/signals/Signals/Pending.lean#L2126-L2162)). These are
 contracts to be tested, not existence theorems.
+
+## Accepted Mechanics and Pending Contracts
+
+The library already separates accepted mechanics from speculative extensions:
+
+- `Signals.Maxwell.System` derives charge continuity from Gauss, Faraday, and
+  Ampere-Maxwell equations; an added SQG current is a separate source term,
+  not free energy ([Maxwell.lean](../src/signals/Signals/Maxwell.lean#L20-L95),
+  [Pending.lean](../src/signals/Signals/Pending.lean#L953-L1020)).
+- `Signals.MHD.MHDPowerAccounting` requires output plus losses to equal control
+  plus motive input and proves ordinary efficiency is at most one when total
+  input is positive ([MHD.lean](../src/signals/Signals/MHD.lean#L167-L246)).
+- `Signals.Pending.ArgonMHDPlant` identifies motive input with classical Argon
+  kinetic power, while `ProcaMHDHypothesis` keeps optical control power separate
+  from motive power ([MHD.lean](../src/signals/Signals/MHD.lean#L250-L300),
+  [Pending.lean](../src/signals/Signals/Pending.lean#L1403-L1460)).
+- `Signals.Pending.ActiveOpticalAmplifier` and the OPA record include pump power,
+  dissipation, and signal output; gain above one is active amplification, not
+  passive energy creation ([ActiveOptics.lean](../src/signals/Signals/ActiveOptics.lean#L25-L88)).
+- `EnergyLedger` and `SpacetimeExtractionClaim` make a claimed excess over
+  control plus fuel require an explicitly positive additional source; they do
+  not prove that a spacetime source exists ([Pending.lean](../src/signals/Signals/Pending.lean#L2271-L2305)).
+- `HelicalBeamApparatus` records classical q-plate/SLM/vector-vortex
+  bookkeeping, OAM charge, polarization purity, longitudinal near-field
+  fraction, alignment, and source/mode calibration. Its beam-power bound and
+  calibration predicates do not assert Proca propagation
+  ([Pending.lean](../src/signals/Signals/Pending.lean#L1815-L1875)).
+
+The literature supports the same division. Poynting-theorem energy balance is
+the classical accounting boundary; parametric and second-harmonic amplifiers
+are pump-driven systems; and dynamical-Casimir observations in superconducting
+circuits are driven, time-dependent boundary experiments. Relevant anchors are
+DCE in superconducting circuits (Wilson et al., DOI
+`10.1038/nature10561`; Johansson et al., DOI `10.1103/physreva.82.052509`),
+active optical amplification and nonlinear optics (Boyd, *Nonlinear Optics*,
+and the project’s `ActiveOptics.lean` record), and photon-mass propagation
+constraints from FRB catalogs (Bonetti et al., DOI `10.3847/2041-8205/822/1/l15`;
+Wu et al., DOI `10.1103/PhysRevD.95.123010`). None of these references supports
+passive over-unity output or a laboratory Proca detection.
+
+The `EnergyExtractionEvidence` contract records control, motive, pump,
+auxiliary, exported, loss, and stored-energy channels, plus calibration,
+negative controls, replication, and a residual tolerance. A candidate
+additional-source result is accepted only as a supplied interpretation after
+those fields are measured; the contract deliberately does not manufacture a
+vacuum-power term.
 
 ## Hypotheses
 
@@ -153,16 +216,75 @@ $$
 $q_{\mathrm{slip}}$ must be measured independently from the receiver residual;
 it cannot be defined as the residual after the fact.
 
+### H5: Multi-beam holography and activated-mask ablation
+
+The holography subclaim is a classical inverse-propagation hypothesis before it
+is a metamaterial or Proca hypothesis. For $N\geq4$ phase-locked beams, solve a
+measured propagation model for a target field $U_t$:
+
+$$
+U(\mathbf r,z) = \mathcal P_z\left[
+  M_s(\mathbf r)\sum_{j=1}^{N} A_j(\mathbf r)
+  e^{i(\mathbf k_j\cdot\mathbf r+\phi_j(\mathbf r))}
+\right],
+$$
+
+where $M_s$ is the measured mask-state transfer function. The mask-state
+factor is randomized and recorded:
+
+- `S0`: no mask or transparent substrate;
+- `S1`: fabricated but passive rGO-vitrimer mask, activation drive off;
+- `S2`: activated rGO-vitrimer mask under the preregistered control input;
+- `S3`: sham activation, detuned drive, or spatially displaced activation with
+  matched power and temperature.
+
+Gerchberg-Saxton or weighted Gerchberg-Saxton is the classical reconstruction
+baseline. It can explain a successful multi-spot pattern through ordinary
+Fourier optics and therefore cannot establish an activated metamaterial or a
+Proca field. The activated-mask claim requires a paired improvement from `S1`
+to `S2` that survives `S3`, measured transmission/phase calibration, source
+power matching, temperature control, and independent replication.
+
+For a point target, estimate location from independent ranges or wavefront
+sensors, not from the intended hologram. With beam origins $\mathbf p_j$ and
+measured ranges $\rho_j$, use
+
+$$
+\widehat{\mathbf r} = \arg\min_{\mathbf r,b}
+\sum_{j=1}^{N}
+\frac{\left(\|\mathbf r-\mathbf p_j\|-\rho_j-b\right)^2}{\sigma_j^2},
+$$
+
+where $b$ is a shared timing/path-delay nuisance parameter. The primary
+endpoints are 3D position error/covariance, complex target-plane field RMSE,
+spot uniformity, side-lobe ratio, crosstalk, axial/lateral resolution, phase
+synchronization residual, and delivered/absorbed power. This is a holography
+and metrology result; it enters the Proca evidence path only through the
+independent dispersion and polarization tests in H2 and WP4.
+
 ## What Would Count as Evidence?
 
 | Claim | Minimum positive result | Mandatory classical alternative | Rejection condition |
 | --- | --- | --- | --- |
 | N-LIG material | Raman/XPS/SEM or AFM/electrical/optical measurements match a preregistered batch specification | Unirradiated lignin, non-nitrogen LIG, and commercial graphene controls | Composition or properties are not reproducible across batches |
+| Low-power CW N-LIG | A reproducible graphene signature and sheet resistance are obtained while stepping CW power downward and measuring fluence, scan speed, HAZ, and temperature | Pulsed/UV and higher-power CW references, unexposed lignin, and sham scans | No graphene conversion below the declared power, or apparent conversion is thermal damage/char |
 | Classical waveguide | Measured complex $S_{11}/S_{21}$ or optical transfer, mode profile, loss, group delay, and polarization agree with Maxwell/material simulation | Fused silica, silicon photonics, ordinary graphene, and geometry-only waveguides | Classical model explains the result within uncertainty |
 | Effective mass/cutoff | A stable dispersion parameter improves prediction over H0 and transfers across geometry | Photonic-crystal cutoff, plasma frequency, plasmon-polariton, slow-light, and anisotropic-index fits | Parameter tracks geometry, loss, or material dispersion |
 | Fundamental Proca mode | Nonzero longitudinal field plus the Proca dispersion and a transferable $m_\gamma$ | Classical TM mode, near-field probe cross-talk, anisotropy, and boundary-charge artifacts | No longitudinal mode, no transferable mass, or power/phase mismatch |
 | Flat Light | Aperture-matched PSF/MTF broadening remains below the preregistered bound over distance | Gaussian, Bessel, Airy, self-healing, and ordinary guided modes | Broadening, side-lobe power, or resolution follows classical propagation |
 | Phase-slip cleavage | Blinded chemical endpoint exceeds matched classical dose/temperature controls and tracks an independent phase-slip observable | UV/EUV, thermal, acoustic, carrier, photochemical, and mask-on/off controls | Cleavage follows absorbed energy or ordinary photochemistry |
+| Multi-beam holography | Four-or-more-beam target fidelity and independent trilateration improve under the activated-mask state with matched power and temperature | Gerchberg-Saxton, weighted GS, angular-spectrum propagation, no-mask, passive-mask, and sham-activation controls | Error is explained by phase retrieval, ordinary mask diffraction, detector sampling, power redistribution, or activation drift |
+
+## Significance of the Model Layers
+
+The model layers answer different questions. Lignin-to-graphene conversion is a
+materials and process result. A CW fiber laser, a q-plate, a spatial light
+modulator, and a phase mask are classical apparatus components. A helical beam
+has a measurable azimuthal phase factor $e^{i\ell\phi}$ and can improve focusing,
+mode selectivity, or multi-beam addressing; it does not imply a massive photon.
+An rGO-vitrimer mask can be a useful electro-thermal or thermo-optic phase
+modulator without being a Proca metamaterial. Only a residual field signature
+that survives these classical explanations enters the Proca branch.
 
 ## Open Dataset Register
 
@@ -244,6 +366,32 @@ raw spectra and images, calibration files, sample map, and batch identifiers.
 Acceptance is material reproducibility and a complete uncertainty budget. It is
 not evidence of a guided Proca mode.
 
+### WP1A: Find the lowest-power CW N-LIG process window
+
+Use a calibrated fiber-laser or diode-laser source with a nominal ceiling of
+20 W, but begin below that ceiling and step downward. A useful first matrix is
+0.5, 1, 2, 5, 10, and 20 W total source power, with scan speed, spot area,
+line overlap, wavelength, duty factor, atmosphere, and substrate thickness
+recorded for every run. The actual dose is the primary variable:
+
+$$
+F = \frac{P_{\mathrm{abs}}}{v_{\mathrm{scan}} w_{\mathrm{spot}}},
+\qquad
+P_{\mathrm{abs}} = \eta_{\mathrm{abs}} P_{\mathrm{incident}}.
+$$
+
+For each power step, measure Raman $D/G$ and $2D$, XPS C/N/O bonding, sheet
+resistance, thickness, morphology, HAZ width, substrate temperature, and
+pattern continuity. Use pulsed UV/femtosecond and higher-power CW references to
+separate photochemical or multiphoton conversion from ordinary thermal
+carbonization. The minimum-power success point is the lowest total power whose
+confidence interval meets the preregistered graphene, resistance, continuity,
+and HAZ thresholds across independent batches.
+
+Do not call a darkened, ablated, or electrically discontinuous track graphene.
+Do not call a lower laser power an efficiency improvement until absorbed power,
+throughput, yield, cooling, and post-processing energy are included.
+
 ### WP2: Establish the classical guide
 
 Build a geometry-matched Maxwell model using measured complex material constants.
@@ -265,6 +413,36 @@ H0 passes when measured responses, including loss and mode conversion, are
 predicted within the preregistered uncertainty by the measured-material
 classical model. H0 passing is a successful classical result, not a failure of
 the project.
+
+### WP2A: Build and calibrate the helical-beam apparatus
+
+The helical apparatus is a classical vector-vortex measurement system. Use a
+CW fiber or diode source up to 20 W, attenuated during alignment, followed by:
+
+1. beam expander and spatial filter;
+2. polarization cleanup and power monitor;
+3. q-plate, geometric-phase plate, or phase-only SLM for radial/azimuthal
+  vector polarization and OAM charge $\ell$;
+4. optional four-way splitter/star coupler with independently calibrated phase
+  shifters;
+5. rGO-vitrimer mask in passive and activated states, plus ordinary SLM and
+  dielectric phase-plate controls;
+6. relay/focusing optics, wavefront sensor, polarization camera, power meter,
+  and independent position/range sensors;
+7. target plane with thermal, chemical, AFM/SEM, or camera readout.
+
+Measure Stokes parameters, phase residual, OAM spectrum, topological-charge
+fidelity, longitudinal near-field fraction, insertion loss, alignment error,
+thermal drift, and power at every plane. The apparatus is ready only when
+source, polarization, and mode calibrations are independently recorded. A
+measured $E_z$ component from tight focusing or an evanescent field is a
+classical result unless the Proca-specific dispersion and polarization tests
+also pass.
+
+For four or more convergent beams, compare total-power and per-beam-power
+scaling. The useful engineering question is whether distributing a fixed total
+power improves target uniformity, HAZ, and throughput; it is not whether beam
+convergence creates energy.
 
 ### WP3: Test an effective mass without calling it fundamental
 
@@ -340,7 +518,112 @@ energy, heat, photochemistry, carrier excitation, and mechanical stress are
 matched. An atomic-scale image without a calibrated point-spread function and
 chemical control is insufficient.
 
-### WP7: Independent propagation and astrophysical nulls
+### WP7: Test multi-beam holography and trilateration
+
+The chat corpus discusses holographic spatial-light-modulator splitting into
+eight or more spots, Gerchberg-Saxton/weighted Gerchberg-Saxton phase retrieval,
+and an rGO-vitrimer phase modulator ([rGO-vitrimer holography chat](../data/chats/_rGO-Vitrimer%20Applications%20and%20Properties%20.json#L528-L583)).
+Related laser-engraving and metamaterial conversations describe computer-
+generated holography, beam arrays, and phase-mask pre-distortion
+([laser-engraving holography chat](../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials%20(1).json#L475-L537),
+[metamaterial holography chat](../data/chats/_Ball%20Milling%20Metal%20Under%20Protective%20Gas%20.json#L620-L675)).
+These records establish proposal provenance only.
+
+Use at least four mutually non-coplanar or independently phase-addressable
+beams, with recorded source phase, power, polarization, waist, numerical
+aperture, incidence vector, coherence, and timing. Compare four mask states:
+
+1. `S0`: no mask or transparent substrate;
+2. `S1`: fabricated rGO-vitrimer mask, activation off;
+3. `S2`: activated rGO-vitrimer/metamaterial mask;
+4. `S3`: sham, detuned, displaced, or thermally matched activation.
+
+Measure the mask transfer function for each state: amplitude, phase,
+polarization conversion, insertion loss, temperature, resistance, switching
+latency, hysteresis, and recovery. Include an ordinary SLM, DMD, dielectric
+phase plate, or calibrated static diffractive optic with the same nominal phase
+pattern as a classical positive control.
+
+Use Gerchberg-Saxton, weighted Gerchberg-Saxton, and direct angular-spectrum or
+adjoint optimization as separate solvers. Record initial phase, iteration
+count, target amplitude, propagation operator, sampling grid, regularization,
+and held-out target patterns. Do not tune the solver on the final masked-state
+endpoint.
+
+For each state and beam count, measure target-plane complex field, intensity,
+PSF/MTF, spot centroid and width, side-lobe power, inter-spot crosstalk,
+wavefront error, axial/lateral resolution, and total delivered/absorbed power.
+Use independent phase/time-of-flight or wavefront sensors for trilateration.
+With beam origins $\mathbf p_j$ and measured ranges $\rho_j$, report the
+solution and covariance from:
+
+$$
+\widehat{\mathbf r} = \arg\min_{\mathbf r,b}
+\sum_{j=1}^{N}
+\frac{\left(\|\mathbf r-\mathbf p_j\|-\rho_j-b\right)^2}{\sigma_j^2},
+\qquad N\geq4.
+$$
+
+Primary comparisons are paired `S2-S1` and `S2-S3` differences with identical
+beam phases, power, target, detector, and temperature. Randomize mask-state
+order, blind target patterns, and reserve devices and target geometries for
+held-out evaluation. A lower error in `S2` is a classical activated-mask result
+unless an independent longitudinal field, transferable dispersion parameter,
+and energy-accounted coupling also satisfy H2/H3/WP4.
+
+Reject the activated-metamaterial interpretation when Gerchberg-Saxton or the
+ordinary measured transfer model predicts the result, when improvement vanishes
+after transmission/phase/temperature matching, when `S2` and `S3` are
+indistinguishable, or when the apparent trilateration gain is caused by detector
+recalibration, aperture truncation, phase wrapping, source drift, or side-lobe
+power omitted from the metric.
+
+### WP8: Test energy extraction and over-unity claims
+
+An over-unity claim is a closed measurement problem, not an output-versus-
+control-power ratio. Preregister the observation window and measure every
+channel at the same time base:
+
+$$
+P_{\mathrm{out}} + P_{\mathrm{loss}} + \frac{dE_{\mathrm{stored}}}{dt}
+ = P_{\mathrm{control}} + P_{\mathrm{motive}} + P_{\mathrm{pump}}
+   + P_{\mathrm{aux}} + P_{\mathrm{unmodeled}}.
+$$
+
+The primary energy-extraction endpoint is the posterior or confidence interval
+for $P_{\mathrm{unmodeled}}$ after calibration and nuisance terms, not a
+control-only Q-factor. Measure electrical input with four-wire power analyzers,
+optical/RF pump power at the device plane, gas or fluid mass flow and enthalpy,
+mechanical torque/force where applicable, auxiliary pumps and cooling, thermal
+storage, chemical/fuel inventory, exported electrical power, radiated power, and
+all relevant electromagnetic/acoustic leakage.
+
+For any DCE, parametric, OPA, or active-metamaterial test, the modulation drive
+is an input channel. Compare passive, static-boundary, actively pumped, and
+detuned controls. A signal generated by a time-dependent boundary can be a
+valid actively pumped quantum-optical result while still obeying the complete
+ledger; it is not passive vacuum-energy extraction.
+
+Required controls and stopping rules:
+
+- zero-output dummy load with the same meters and cabling;
+- source-only, device-only, and pump-only runs;
+- activation off/on and detuned-frequency runs with matched temperature;
+- storage-energy discharge and charge-cycle tests;
+- blind meter-swapping and independent calorimetry;
+- at least three independent replications and held-out operating points;
+- abort if any channel is unmeasured, saturated, phase-uncalibrated, or
+  excluded after seeing the residual.
+
+Classify results as `classicalConversion`, `activelyPumped`, `unresolvedLedger`,
+or `candidateAdditionalSource`. Promote the last category only when the
+complete ledger residual is outside tolerance, the negative control passes,
+storage change is accounted for, calibration is independent, and replication
+survives. A positive residual is an anomaly candidate, not evidence of SQG,
+DCE vacuum extraction, Proca coupling, or over-unity power until those gates
+are met.
+
+### WP9: Independent propagation and astrophysical nulls
 
 Use the public CHIME/FRB catalogs as an external constraint on frequency-
 dependent propagation. Fit the standard plasma dispersion jointly with a Proca
@@ -363,7 +646,7 @@ cross-correlation pipeline. Do not claim that a null in gravitational-wave data
 measures optical photon mass; use it to test calibration, propagation, and false
 positive controls.
 
-### WP8: Blind replication and public release
+### WP10: Blind replication and public release
 
 A result can advance from Pending to a conditional physical hypothesis only
 after:
@@ -406,6 +689,16 @@ penalty and out-of-sample prediction improve.
 - the claimed zero diffraction disappears under aperture-matched controls;
 - phase-slip cleavage follows absorbed power, heat, carrier density, or ordinary
   photochemistry;
+- four-or-more-beam target fidelity or trilateration is explained by
+  Gerchberg-Saxton, weighted phase retrieval, ordinary mask diffraction, or
+  detector/calibration changes;
+- the activated rGO-vitrimer state is not distinguishable from passive, sham,
+  or thermally matched states;
+- the complete energy ledger requires an unmeasured channel, excludes pump or
+  auxiliary power, omits stored-energy change, or fails an independent
+  calorimetric/electrical replication;
+- a DCE, OPA, parametric, or active-metamaterial output is reported against
+  control power alone rather than against all pump and motive inputs;
 - the signal does not replicate or fails held-out prediction;
 - energy, momentum, or detector accounting does not close;
 - the interpretation requires superluminal information transfer.
@@ -438,9 +731,21 @@ The next repository implementation should add:
 5. a Proca nested-model fit that reports effective-cutoff versus transferable-mass
    behavior;
 6. a PSF/MTF propagation analysis with aperture-matched controls;
-7. a blinded phase-slip/resist analysis that keeps chemistry separate from
+7. a four-or-more-beam holography solver and trilateration analyzer with
+  Gerchberg-Saxton/WGS baselines, `S0`-`S3` mask-state ablations, independent
+  wavefront/range sensors, and held-out target patterns;
+8. a power-stepped CW N-LIG process search from sub-watt/low-watt operation to
+  a 20 W ceiling, with dose, HAZ, sheet resistance, Raman/XPS, yield, and
+  throughput accounting;
+9. a helical/vector-vortex apparatus using q-plate/SLM phase control, Stokes
+  polarimetry, OAM-spectrum recovery, longitudinal near-field controls, and
+  four-beam power-scaling measurements;
+10. a blinded phase-slip/resist analysis that keeps chemistry separate from
    field residuals;
-8. a report generator with source DOI, license, checksum, schema, and
+11. an energy-ledger report implementing `EnergyExtractionEvidence`, tracking
+  storage change and pump/motive/auxiliary channels, and classifying results as
+  classical, actively pumped, unresolved, or candidate additional source;
+12. a report generator with source DOI, license, checksum, schema, and
    interpretation boundary for every artifact.
 
 No implementation should populate `FlatLightLithography` or
@@ -465,6 +770,24 @@ classical controls, and replication criteria above are satisfied.
   lines 1345-1400: supplied-data Proca channel and coupling contract.
 - [Pending.lean](../src/signals/Signals/Pending.lean#L2126-L2162),
   lines 2126-2162: pending Flat Light and phase-slip contracts.
+- [Pending.lean helical apparatus contracts](../src/signals/Signals/Pending.lean#L1815-L1865),
+  lines 1815-1865: classical OAM/helical-beam apparatus fields, power,
+  polarization, alignment, and calibration boundaries.
+- [Extreme dielectric nanolaser chat](../data/chats/Breakthrough-in-Extreme-Dielectric-Nanolasers.json#L53-L88),
+  lines 53-88: tight-confinement $E_z$, OAM, and evanescent-coupling proposals;
+  these require classical vector-field controls.
+- [Convergent holography chat](../data/chats/Longitudinally-polarized-Continuous-Wave-Laser-emissions-from-Sunlight.json#L142-L173),
+  lines 142-173: proposed q-plate, radial-vector, and metamaterial validation
+  architecture; this is hypothesis provenance, not validation.
+- [_rGO-Vitrimer Applications and Properties .json](../data/chats/_rGO-Vitrimer%20Applications%20and%20Properties%20.json#L528-L583),
+  lines 528-583: multi-spot holographic SLM, Gerchberg-Saxton, and rGO-vitrimer
+  phase-modulator discussion.
+- [_Laser-Engraving-circuits-on-Lignin-and-other-materials (1).json](../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials%20(1).json#L475-L537),
+  lines 475-537: computer-generated holography, beam arrays, and phase-map
+  discussion.
+- [_Ball Milling Metal Under Protective Gas .json](../data/chats/_Ball%20Milling%20Metal%20Under%20Protective%20Gas%20.json#L620-L675),
+  lines 620-675: rGO-vitrimer/metamaterial holography and Gerchberg-Saxton
+  discussion.
 
 ### External data and methods
 
@@ -531,6 +854,30 @@ formation via laser-induced graphene on polyethersulfone membranes," DOI
   howpublished = {AI chat export},
   note         = {Source: data/chats/_Preventing-LIG-Defects-on-Lignin.json, lines 11-27}
 }
+
+@misc{chat_rgo_vitrimer_holography_2026,
+  author       = {Unknown},
+  title        = {rGO-Vitrimer Applications and Properties: Gerchberg-Saxton and Holography},
+  year         = {2026},
+  howpublished = {AI chat export},
+  note         = {Source: data/chats/_rGO-Vitrimer Applications and Properties .json, lines 528-583}
+}
+
+@misc{chat_lignin_holography_2026,
+  author       = {Unknown},
+  title        = {Laser Engraving Circuits on Lignin: Holographic Beam Shaping},
+  year         = {2026},
+  howpublished = {AI chat export},
+  note         = {Source: data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials (1).json, lines 475-537}
+}
+
+@misc{chat_helical_nanolasers_2026,
+  author       = {Unknown},
+  title        = {Extreme Dielectric Nanolasers, Longitudinal Fields, and OAM Coupling},
+  year         = {2026},
+  howpublished = {AI chat export},
+  note         = {Source: data/chats/Breakthrough-in-Extreme-Dielectric-Nanolasers.json, lines 53-88}
+}
 ```
 
 ### Machine-readable provenance
@@ -544,6 +891,9 @@ formation via laser-induced graphene on polyethersulfone membranes," DOI
     "data/chats/IQ-Sampling-for-Signal-Phase.json",
     "data/chats/_Pyramid Star Shafts_ Waveguides and Resonance .json",
     "data/chats/_Preventing-LIG-Defects-on-Lignin.json",
+    "data/chats/_rGO-Vitrimer Applications and Properties .json",
+    "data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials (1).json",
+    "data/chats/_Ball Milling Metal Under Protective Gas .json",
     "https://doi.org/10.5281/zenodo.22819801",
     "https://doi.org/10.6084/m9.figshare.33483753",
     "https://refractiveindex.info/",
@@ -554,6 +904,10 @@ formation via laser-induced graphene on polyethersulfone membranes," DOI
     "Proca model discrimination",
     "N-LIG materials",
     "classical waveguides",
+    "multi-beam holography",
+    "Gerchberg-Saxton phase retrieval",
+    "rGO-vitrimer active masks",
+    "trilateration",
     "nanolithography"
   ],
   "dateModified": "2026-09-18"

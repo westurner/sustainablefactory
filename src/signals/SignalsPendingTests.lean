@@ -758,6 +758,156 @@ example : toyDDFVortexObservable.supportsIndependentDefectSlot := by
     DDFVortexObservable.transverse_mode_detectable,
     toyDDFVortexObservable]
 
+noncomputable def toyActivatedHolographyTransfer : HolographyMaskTransfer :=
+  { state := HolographyMaskState.activatedMask
+    amplitudeTransmission := 4 / 5
+    amplitudeTransmission_nonnegative := by norm_num
+    phaseDelay := 1 / 4
+    phaseDelay_uncertainty := 1 / 100
+    phaseDelay_uncertainty_nonnegative := by norm_num
+    polarizationConversion := 1 / 10
+    polarizationConversion_nonnegative := by norm_num
+    insertionLoss := 1 / 5
+    insertionLoss_nonnegative := by norm_num
+    temperature := { kelvin := 300 }
+    temperature_nonnegative := by norm_num
+    controlLabel := "activated rGO-vitrimer phase drive"
+    calibrationReference := "interferometric transfer calibration" }
+
+noncomputable def toyMultiBeamHolographyResult : MultiBeamHolographyResult :=
+  { beamCount := 4
+    beamCount_min := by norm_num
+    maskTransfer := toyActivatedHolographyTransfer
+    solverName := "weighted Gerchberg-Saxton"
+    solverIterations := 25
+    solverIterations_pos := by norm_num
+    targetFieldRMSE := 1 / 100
+    targetFieldRMSE_nonnegative := by norm_num
+    intensityUniformityError := 1 / 100
+    intensityUniformityError_nonnegative := by norm_num
+    sideLobeRatio := 1 / 20
+    sideLobeRatio_nonnegative := by norm_num
+    crosstalkError := 1 / 100
+    crosstalkError_nonnegative := by norm_num
+    deliveredPower := { watts := 2 }
+    deliveredPower_nonnegative := by norm_num
+    absorbedPower := { watts := 1 / 2 }
+    absorbedPower_nonnegative := by norm_num
+    calibrationResidual := 1 / 100
+    calibrationResidual_nonnegative := by norm_num
+    heldOutPattern := True
+    heldOutPattern_hypothesis := True.intro }
+
+example : toyMultiBeamHolographyResult.maskTransfer.state =
+    HolographyMaskState.activatedMask := by
+  rfl
+
+example : toyMultiBeamHolographyResult.withinTolerances
+    (1 / 10) (1 / 10) (1 / 5) (1 / 10) (1 / 10) := by
+  norm_num [MultiBeamHolographyResult.withinTolerances,
+    toyMultiBeamHolographyResult]
+
+noncomputable def toyRange0 : TrilaterationRange :=
+  { beamIndex := 0
+    rangeMeters := 1
+    range_nonnegative := by norm_num
+    uncertaintyMeters := 1 / 100
+    uncertainty_nonnegative := by norm_num
+    sensorLabel := "range sensor 0" }
+
+noncomputable def toyRange1 : TrilaterationRange :=
+  { beamIndex := 1
+    rangeMeters := 1
+    range_nonnegative := by norm_num
+    uncertaintyMeters := 1 / 100
+    uncertainty_nonnegative := by norm_num
+    sensorLabel := "range sensor 1" }
+
+noncomputable def toyRange2 : TrilaterationRange :=
+  { beamIndex := 2
+    rangeMeters := 1
+    range_nonnegative := by norm_num
+    uncertaintyMeters := 1 / 100
+    uncertainty_nonnegative := by norm_num
+    sensorLabel := "range sensor 2" }
+
+noncomputable def toyRange3 : TrilaterationRange :=
+  { beamIndex := 3
+    rangeMeters := 1
+    range_nonnegative := by norm_num
+    uncertaintyMeters := 1 / 100
+    uncertainty_nonnegative := by norm_num
+    sensorLabel := "range sensor 3" }
+
+noncomputable def toyMultiBeamTrilateration : MultiBeamTrilateration :=
+  { beamCount := 4
+    beamCount_min := by norm_num
+    ranges := [toyRange0, toyRange1, toyRange2, toyRange3]
+    rangeCountLaw := by norm_num
+    targetX := 0
+    targetY := 0
+    targetZ := 0
+    sharedDelayBias := 0
+    positionErrorMeters := 1 / 100
+    positionError_nonnegative := by norm_num
+    covarianceTrace := 3 / 10000
+    covarianceTrace_nonnegative := by norm_num
+    independentSensorLabel := "four-channel time-of-flight array"
+    calibrationResidual := 1 / 1000
+    calibrationResidual_nonnegative := by norm_num }
+
+example : toyMultiBeamTrilateration.ranges.length =
+    toyMultiBeamTrilateration.beamCount := by
+  exact MultiBeamTrilateration.range_count_holds toyMultiBeamTrilateration
+
+example : toyMultiBeamTrilateration.independentlySensed := by
+  simp [MultiBeamTrilateration.independentlySensed,
+    toyMultiBeamTrilateration]
+  norm_num
+
+noncomputable def toyHelicalFiberApparatus : HelicalBeamApparatus :=
+  { beamCount := 4
+    beamCount_min := by norm_num
+    wavelength := { meters := 405e-9 }
+    wavelength_pos := by norm_num
+    sourcePower := { watts := 20 }
+    sourcePower_nonnegative := by norm_num
+    beamPower := { watts := 5 }
+    beamPower_nonnegative := by norm_num
+    beamPowerLaw := by norm_num
+    oamCharge := 1
+    polarizationLabel := "radial vector vortex from q-plate"
+    polarizationPurity := 9 / 10
+    polarizationPurity_nonnegative := by norm_num
+    polarizationPurity_le_one := by norm_num
+    phaseResidual := 1 / 100
+    phaseResidual_nonnegative := by norm_num
+    topologicalChargeFidelity := 19 / 20
+    topologicalChargeFidelity_nonnegative := by norm_num
+    topologicalChargeFidelity_le_one := by norm_num
+    longitudinalNearFieldFraction := 1 / 5
+    longitudinalNearFieldFraction_nonnegative := by norm_num
+    longitudinalNearFieldFraction_le_one := by norm_num
+    alignmentError := 1 / 1000
+    alignmentError_nonnegative := by norm_num
+    sourceCalibration := True
+    sourceCalibration_hypothesis := True.intro
+    polarizationCalibration := True
+    polarizationCalibration_hypothesis := True.intro
+    modeCalibration := True
+    modeCalibration_hypothesis := True.intro
+    apparatusLabel := "20 W four-beam radial-vector fiber apparatus" }
+
+example : toyHelicalFiberApparatus.isMultiBeam := by
+  norm_num [HelicalBeamApparatus.isMultiBeam, toyHelicalFiberApparatus]
+
+example : toyHelicalFiberApparatus.calibrated := by
+  simp [HelicalBeamApparatus.calibrated, toyHelicalFiberApparatus]
+
+example : toyHelicalFiberApparatus.beamPower.watts ≤
+    toyHelicalFiberApparatus.sourcePower.watts := by
+  exact toyHelicalFiberApparatus.beamPowerLaw
+
 noncomputable def toyDDFFractureEvidence : DDFFractureCommunicationEvidence :=
   { sourceLabel := "controlled DDF transverse-mode fixture"
     defectObservableLabel := "independent vortex pressure proxy"
@@ -979,6 +1129,50 @@ noncomputable def toyExtractionClaim : SpacetimeExtractionClaim :=
 
 example : 0 < toyExtractionClaim.ledger.spacetimePower := by
   exact toyExtractionClaim.spacetimePower_positive
+
+noncomputable def toyMeasuredEnergyEvidence : EnergyExtractionEvidence :=
+  { sourceLabel := "actively pumped optical amplifier fixture"
+    artifactReference := "synthetic://energy-ledger/active-pump-v1"
+    observationDuration := { seconds := 2 }
+    observationDuration_pos := by norm_num
+    controlInputPower := { watts := 1 }
+    controlInputPower_nonnegative := by norm_num
+    motiveInputPower := { watts := 0 }
+    motiveInputPower_nonnegative := by norm_num
+    pumpInputPower := { watts := 2 }
+    pumpInputPower_nonnegative := by norm_num
+    auxiliaryInputPower := { watts := 1 }
+    auxiliaryInputPower_nonnegative := by norm_num
+    exportedOutputPower := { watts := 3 }
+    exportedOutputPower_nonnegative := by norm_num
+    measuredLossPower := { watts := 1 }
+    measuredLossPower_nonnegative := by norm_num
+    storedEnergyChange := { joules := 0 }
+    storedEnergyChangeLaw := by norm_num
+    balanceResidualPower := 0
+    balanceResidualPowerLaw := by norm_num
+    balanceTolerancePower := 1 / 10
+    balanceTolerancePower_nonnegative := by norm_num
+    balanceWithinTolerance := by norm_num
+    independentCalibration := True
+    independentCalibration_hypothesis := True.intro
+    negativeControlPassed := True
+    negativeControlPassed_hypothesis := True.intro
+    replicationCount := 3
+    replicationCount_min := by norm_num
+    interpretation := EnergyExtractionInterpretation.activelyPumped }
+
+example : toyMeasuredEnergyEvidence.exportedOutputPower.watts +
+      toyMeasuredEnergyEvidence.storedEnergyChange.joules /
+        toyMeasuredEnergyEvidence.observationDuration.seconds +
+      toyMeasuredEnergyEvidence.measuredLossPower.watts =
+    toyMeasuredEnergyEvidence.totalInputPower.watts +
+      toyMeasuredEnergyEvidence.balanceResidualPower := by
+  exact toyMeasuredEnergyEvidence.exported_power_balance
+
+example : ¬toyMeasuredEnergyEvidence.supportsAdditionalSource := by
+  apply toyMeasuredEnergyEvidence.not_supported_within_tolerance
+  exact toyMeasuredEnergyEvidence.balanceWithinTolerance
 
 def toyAmplituhedronSource : GrassmannianMatrix 1 1 :=
   { mat := fun _ _ => 1 }
