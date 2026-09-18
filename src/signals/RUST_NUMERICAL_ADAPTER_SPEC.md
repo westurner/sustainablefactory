@@ -77,6 +77,16 @@ covariance, healing length, or FTLE from this file.
 The artifact is downloaded outside the repository; set
 `SIGNALS_PDEBENCH_SOD6` to run the environment-gated integration test.
 
+The separate `jhtdb_probe.py` utility uses `givernylocal` 3.6.2 to query the
+JHTDB `channel` dataset. Its default bounded run samples 1024 spatial points at
+two times, while the utility permits at most 4096 spatial points per request,
+and records velocity, pressure, and velocity-gradient fields in an
+NPZ artifact plus a JSON manifest. The manifest records the JHTDB dataset DOI,
+ODC-By terms, client version, interpolation methods, coordinate ranges, query
+times, generated-artifact SHA-256, and the fact that the temporary testing token
+was not persisted. It intentionally does not claim a full-domain flow map or
+FTLE field.
+
 ## Preferred Artifact Format: Vortex
 
 Use [Vortex](https://github.com/vortex-data/vortex) as the primary artifact
@@ -152,14 +162,18 @@ No run is ingestion-ready when a required field is empty, a checksum does not
 match, units are ambiguous, coordinates are non-monotone, or array shapes do
 not agree.
 
-The initial external reader is intentionally source-specific. A future generic
+The initial external readers are intentionally source-specific. A future generic
 HDF5/Vortex schema should only be added after a second artifact demonstrates a
 stable mapping for spatial coordinates, time windows, density, pressure,
 velocity components, boundary faces, and uncertainty fields. The next measured
-candidate is the [TMBWG NACA 0012 experimental data](https://tmbwg.github.io/turbmodels/naca0012_val.html),
-which supplies scalar lift/drag/pressure curves rather than a volumetric flow
-field. [JHTDB](https://turbulence.idies.jhu.edu/home) remains a later cutout
-source for large time-resolved DNS/LES fields.
+candidate is the [Zenodo cylinder PIV source](https://doi.org/10.5281/zenodo.20765567),
+which supplies measured `u/v/x/y` fields at 20 Hz but no pressure or density.
+The [RSPID source](https://doi.org/10.5281/zenodo.7832205) is a synthetic
+positive-control suite for PIV reconstruction and must not be used as physical
+validation. The compact MorphoDunes MATLAB files provide measured spatial PIV
+fields and NaN masks, but the inspected file lacks an explicit time vector.
+[JHTDB](https://turbulence.idies.jhu.edu/home) is the later cutout source for
+large time-resolved DNS/LES fields.
 
 ## Madelung/GP Diagnostics
 

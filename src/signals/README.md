@@ -213,7 +213,8 @@ interpretation while keeping experimental premises explicit:
    simulated flow-dataset ingestion, weak-jump residuals, covariance PSD checks,
    and deterministic FTLE fixtures. Its optional Vortex file round-trip and
    pure-Rust HDF5 input path are gated separately from the dependency-light
-   core.
+   core. The external `jhtdb_probe.py` utility records a bounded, attributed
+   JHTDB velocity/pressure/gradient query without storing the service token.
    Its LightSlinger extension links an antenna to a Proca channel only through
    explicit frequency and longitudinal-coupling hypotheses; CW resonance does
    not itself establish massive-mode emission.
@@ -653,14 +654,24 @@ model, or environmental error.
    explicit prefix handling for the source's 202 time coordinates versus 201
    field rows. The artifact is not committed; set
    `SIGNALS_PDEBENCH_SOD6` to its local path to run the integration test.
-21. Next loop: add a measured validation adapter for the NASA/TMBWG NACA 0012
-   experimental `.dat` curves, then connect scalar pressure/force observations
-   to the shared evidence and comparison contracts. The Sod6 `Vx` field is
-   identically zero and supplies no resolved flow map, so it must not be used
-   as an FTLE or physical plume validation case.
-22. Later: evaluate JHTDB cutouts and larger PDEBench cases for time-resolved
-   velocity fields. Benchmark Vortex against Arrow/Parquet and fallback readers
-   only after a representative large artifact is selected.
+21. [Complete, multi-source research and bounded JHTDB probe] Fully attributed
+   PDEBench, JHTDB, cylinder PIV, RSPID, and MorphoDunes sources in
+   [`OPEN_FLOW_DATASETS.md`](OPEN_FLOW_DATASETS.md). Added
+   `jhtdb_probe.py`, which uses `givernylocal` with the temporary testing token
+   for at most 4096 points at two times and records velocity, pressure, and all
+   nine velocity-gradient components in a local NPZ plus manifest. The token is
+   not stored, and no full JHTDB database download is attempted.
+22. Next loop: add a measured MATLAB PIV adapter for the Zenodo cylinder source
+   (`u`, `v`, `x`, `y`, 20 Hz, Re=413), preserving masks and source checksums.
+   It is the first source suitable for a measured flow-map/FTLE diagnostic, but
+   it does not provide pressure, density, or 3D velocity.
+23. Next control loop: ingest one RSPID image/validation subset for known-flow
+   PIV reconstruction error, noise, displacement, and missing-vector controls.
+   RSPID is synthetic and must remain separate from physical validation.
+24. Later: request a JHTDB HDF5 cutout or larger bounded time-resolved field,
+   then connect particle advection, deformation gradients, and FTLE sensitivity
+   checks. Benchmark Vortex against Arrow/Parquet only after a representative
+   large artifact is selected.
 
 The finite fracture/GP loop deliberately stops at explicit trace conventions,
 prescribed jumps, residuals, variable covariance, and diagnostic metadata. It
@@ -681,8 +692,9 @@ the upstream `custom-labels` build dependency. The adapter now validates a
 deterministic simulated affine-flow dataset and, behind the `hdf5` feature,
 reads the public PDEBench Sod6 HDF5 artifact with `hdf5-pure` 0.46.1. The
 downloaded artifact is kept outside the repository and its checksum is retained
-in the reader metadata; broader real-artifact coverage and benchmarks remain
-future work.
+in the reader metadata. `jhtdb_probe.py` writes only a local bounded NPZ and
+manifest; broader measured-artifact coverage, JHTDB cutouts, and benchmarks
+remain future work.
 
 ### Open Flow Dataset Research
 
