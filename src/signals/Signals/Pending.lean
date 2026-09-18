@@ -1605,6 +1605,122 @@ lemma AcousticFractureEvidence.supportsFractureHypothesis_iff
     evidence.supportsFractureHypothesis ↔ ¬evidence.measurement.consistent := by
   rfl
 
+/-! ## Finite weak traces and Madelung/GP diagnostics
+
+The following records make the missing analytical and numerical inputs
+explicit. They are finite contracts for trace, jump, weak-balance, and
+Madelung/GP data; they are not weak-PDE theorems, numerical solvers, or
+fracture diagnoses. -/
+
+/-- A one-dimensional weak trace and flux-jump bookkeeping contract.
+
+The labels identify the supplied measure, function space, trace operator, and
+test-function convention. The residual fields keep a prescribed jump and flux
+source distinct from an unexplained anomaly. -/
+structure WeakTraceJumpContract where
+  measureLabel : String
+  functionSpaceLabel : String
+  traceOperatorLabel : String
+  testFunctionLabel : String
+  boundaryCoordinate : ℝ
+  leftTrace : ℝ
+  rightTrace : ℝ
+  traceJump : ℝ
+  traceJumpLaw : traceJump = rightTrace - leftTrace
+  prescribedTraceJump : ℝ
+  traceJumpResidual : ℝ
+  traceJumpResidualLaw : traceJumpResidual = traceJump - prescribedTraceJump
+  traceJumpTolerance : ℝ
+  traceJumpTolerance_nonnegative : 0 ≤ traceJumpTolerance
+  traceJumpWithinTolerance : |traceJumpResidual| ≤ traceJumpTolerance
+  leftFlux : ℝ
+  rightFlux : ℝ
+  fluxJump : ℝ
+  fluxJumpLaw : fluxJump = rightFlux - leftFlux
+  prescribedFluxJump : ℝ
+  fluxJumpResidual : ℝ
+  fluxJumpResidualLaw : fluxJumpResidual = fluxJump - prescribedFluxJump
+  fluxJumpTolerance : ℝ
+  fluxJumpTolerance_nonnegative : 0 ≤ fluxJumpTolerance
+  fluxJumpWithinTolerance : |fluxJumpResidual| ≤ fluxJumpTolerance
+  weakDerivativePairing : ℝ
+  testFunctionBoundaryTerm : ℝ
+  weakBalanceResidual : ℝ
+  weakBalanceLaw :
+    weakDerivativePairing = testFunctionBoundaryTerm + fluxJump + weakBalanceResidual
+  weakBalanceTolerance : ℝ
+  weakBalanceTolerance_nonnegative : 0 ≤ weakBalanceTolerance
+  weakBalanceWithinTolerance : |weakBalanceResidual| ≤ weakBalanceTolerance
+
+/-- The trace jump follows the supplied left/right trace convention. -/
+lemma WeakTraceJumpContract.trace_jump_holds
+    (contract : WeakTraceJumpContract) :
+    contract.traceJump = contract.rightTrace - contract.leftTrace :=
+  contract.traceJumpLaw
+
+/-- The flux jump follows the supplied left/right flux convention. -/
+lemma WeakTraceJumpContract.flux_jump_holds
+    (contract : WeakTraceJumpContract) :
+    contract.fluxJump = contract.rightFlux - contract.leftFlux :=
+  contract.fluxJumpLaw
+
+/-- The weak derivative pairing follows the supplied balance convention. -/
+lemma WeakTraceJumpContract.weak_balance_holds
+    (contract : WeakTraceJumpContract) :
+    contract.weakDerivativePairing =
+      contract.testFunctionBoundaryTerm + contract.fluxJump +
+        contract.weakBalanceResidual :=
+  contract.weakBalanceLaw
+
+/-- A finite Madelung/Gross-Pitaevskii diagnostic at one sample location.
+
+The covariance is variable data with only symmetry and diagonal nonnegativity;
+no determinant is treated as an incompressibility proof. Compressibility,
+healing length, numerical resolution, and FTLE metadata remain supplied inputs
+for a later numerical adapter. -/
+structure MadelungGPSplat where
+  massDensity : ℝ
+  massDensity_pos : 0 < massDensity
+  meanVelocity : Vector3
+  covariance : Matrix (Fin 3) (Fin 3) ℝ
+  covariance_symmetric : ∀ row column,
+    covariance row column = covariance column row
+  covariance_diagonal_nonnegative : ∀ axis, 0 ≤ covariance axis axis
+  compressibility : ℝ
+  compressibility_nonnegative : 0 ≤ compressibility
+  healingLength : Length
+  healingLength_pos : 0 < healingLength.meters
+  spatialStep : Length
+  spatialStep_pos : 0 < spatialStep.meters
+  timeStep : Duration
+  timeStep_pos : 0 < timeStep.seconds
+  ftleWindow : Duration
+  ftleWindow_pos : 0 < ftleWindow.seconds
+  ftleIndicator : ℝ
+
+/-- A Madelung/GP splat exposes its variable covariance symmetry. -/
+lemma MadelungGPSplat.symmetric_covariance
+    (splat : MadelungGPSplat) (row column : Fin 3) :
+    splat.covariance row column = splat.covariance column row :=
+  splat.covariance_symmetric row column
+
+/-- A Madelung/GP splat exposes nonnegative diagonal covariance data. -/
+lemma MadelungGPSplat.diagonal_covariance_nonnegative
+    (splat : MadelungGPSplat) (axis : Fin 3) :
+    0 ≤ splat.covariance axis axis :=
+  splat.covariance_diagonal_nonnegative axis
+
+/-- A finite indexed collection of Madelung/GP diagnostic splats. -/
+structure MadelungGPGrid (sampleCount : ℕ) where
+  splat : Fin sampleCount → MadelungGPSplat
+  sampleCount_positive : 0 < sampleCount
+
+/-- A Madelung/GP grid retains a positive number of diagnostic samples. -/
+lemma MadelungGPGrid.sample_count_pos
+    {sampleCount : ℕ} (grid : MadelungGPGrid sampleCount) :
+    0 < sampleCount :=
+  grid.sampleCount_positive
+
 /-- A pending communications contract joins a fracture wave to a measured link. -/
 structure FractureCommunication where
   wave : FractureWave

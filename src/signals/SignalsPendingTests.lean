@@ -3033,4 +3033,86 @@ example :
       (toyCompressibleFlowDataset.samples 1).boundary.boundary := by
   exact toyCompressibleFlowDataset.raw_boundary_holds 1
 
+noncomputable def toyWeakTraceJump : WeakTraceJumpContract :=
+  { measureLabel := "one-dimensional Lebesgue measure"
+    functionSpaceLabel := "piecewise H1 test space"
+    traceOperatorLabel := "one-sided boundary trace"
+    testFunctionLabel := "compactly supported scalar test function"
+    boundaryCoordinate := 0
+    leftTrace := 1
+    rightTrace := 3
+    traceJump := 2
+    traceJumpLaw := by norm_num
+    prescribedTraceJump := 2
+    traceJumpResidual := 0
+    traceJumpResidualLaw := by norm_num
+    traceJumpTolerance := 1 / 10
+    traceJumpTolerance_nonnegative := by norm_num
+    traceJumpWithinTolerance := by norm_num
+    leftFlux := 4
+    rightFlux := 5
+    fluxJump := 1
+    fluxJumpLaw := by norm_num
+    prescribedFluxJump := 1
+    fluxJumpResidual := 0
+    fluxJumpResidualLaw := by norm_num
+    fluxJumpTolerance := 1 / 10
+    fluxJumpTolerance_nonnegative := by norm_num
+    fluxJumpWithinTolerance := by norm_num
+    weakDerivativePairing := 7
+    testFunctionBoundaryTerm := 6
+    weakBalanceResidual := 0
+    weakBalanceLaw := by norm_num
+    weakBalanceTolerance := 1 / 10
+    weakBalanceTolerance_nonnegative := by norm_num
+    weakBalanceWithinTolerance := by norm_num }
+
+example : toyWeakTraceJump.traceJump = 2 := by
+  norm_num [WeakTraceJumpContract.trace_jump_holds, toyWeakTraceJump]
+
+example : toyWeakTraceJump.fluxJump = 1 := by
+  norm_num [WeakTraceJumpContract.flux_jump_holds, toyWeakTraceJump]
+
+example : toyWeakTraceJump.weakDerivativePairing =
+    toyWeakTraceJump.testFunctionBoundaryTerm + toyWeakTraceJump.fluxJump +
+      toyWeakTraceJump.weakBalanceResidual := by
+  exact toyWeakTraceJump.weak_balance_holds
+
+noncomputable def toyMadelungGPSplat : MadelungGPSplat :=
+  { massDensity := 2
+    massDensity_pos := by norm_num
+    meanVelocity := fun _ => 3
+    covariance := fun _ _ => 1
+    covariance_symmetric := by
+      intro row column
+      rfl
+    covariance_diagonal_nonnegative := by
+      intro axis
+      norm_num
+    compressibility := 1 / 2
+    compressibility_nonnegative := by norm_num
+    healingLength := { meters := 1 / 10 }
+    healingLength_pos := by norm_num
+    spatialStep := { meters := 1 / 100 }
+    spatialStep_pos := by norm_num
+    timeStep := { seconds := 1 / 1000 }
+    timeStep_pos := by norm_num
+    ftleWindow := { seconds := 1 }
+    ftleWindow_pos := by norm_num
+    ftleIndicator := -2 }
+
+example : toyMadelungGPSplat.covariance 0 1 =
+    toyMadelungGPSplat.covariance 1 0 := by
+  exact toyMadelungGPSplat.symmetric_covariance 0 1
+
+example : 0 ≤ toyMadelungGPSplat.covariance 2 2 := by
+  exact toyMadelungGPSplat.diagonal_covariance_nonnegative 2
+
+noncomputable def toyMadelungGPGrid : MadelungGPGrid 2 :=
+  { splat := fun _ => toyMadelungGPSplat
+    sampleCount_positive := by norm_num }
+
+example : 0 < 2 := by
+  exact toyMadelungGPGrid.sample_count_pos
+
 end SignalsPendingTests

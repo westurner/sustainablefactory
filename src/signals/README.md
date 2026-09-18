@@ -203,6 +203,10 @@ interpretation while keeping experimental premises explicit:
    simulated provenance and raw-boundary linkage without parsing external data.
    `FlowDatasetMetadata` records the minimum artifact identity, license, unit,
    calibration, and execution-context fields for an ingestion-ready dataset.
+   Its fracture boundary records finite trace, prescribed jump, flux residual,
+   and weak-balance metadata, while its Madelung/GP records retain variable
+   covariance, compressibility, healing length, numerical steps, and FTLE
+   diagnostics without implementing a weak-PDE or numerical solver.
    Its LightSlinger extension links an antenna to a Proca channel only through
    explicit frequency and longitudinal-coupling hypotheses; CW resonance does
    not itself establish massive-mode emission.
@@ -620,38 +624,63 @@ model, or environmental error.
    speckle covariance metadata, and per-sample residual uncertainty. Proposed
    commit:
    `feat(signals): extend finite scattering metrology`.
-17. Next loop: parse and validate external measured or simulated
-   compressible-flow data, then connect the shared contracts to
-   polarization-resolved Proca tests, quantum detector characterization, LVP
-   materials/imaging, and complete energy ledgers.
+17. [Complete, finite fracture/GP diagnostics] Added finite weak trace/jump
+   balance contracts and Madelung/GP splat/grid diagnostics. Proposed commit:
+   `feat(signals): model finite fracture traces and Madelung diagnostics`.
+18. Next loop: formalize the required weak derivative/trace spaces and numerical
+   GP/FTLE adapter against a selected mathematical library and real dataset,
+   then connect the shared contracts to external flow, Proca, detector, LVP,
+   and energy evidence.
 
-The focused finite-scattering loop deliberately stops at algebraic and
-finite-dimensional contracts. It does not claim a continuous inverse problem,
-material identification, turbulence diagnosis, or fracture mechanism. Those
-claims require measured transfer functions, calibrated array geometry, noise
-and covariance estimates, and independent controls.
+The finite fracture/GP loop deliberately stops at explicit trace conventions,
+prescribed jumps, residuals, variable covariance, and diagnostic metadata. It
+does not claim a weak solution, crack evolution, turbulent-flow diagnosis, or
+physical fracture mechanism.
 
 ### Further Questions
 
-1. Which measured or simulated compressible-flow datasets are authoritative,
-   and where should their raw files, licenses, checksums, and provenance live?
-2. Which SI units, sensor models, calibration standards, and uncertainty
-   conventions should the ingestion adapter enforce for pressure, heat flux,
-   velocity, mass flow, momentum, energy, and acoustic power?
-3. For simulated cases, which solver, version, mesh, timestep, constitutive
-   model, inlet/outlet boundary conditions, and convergence criteria are part
-   of the reproducibility record?
-4. How should repeated snapshots, time averaging, spatial averaging, and
-   correlated uncertainty be represented without treating an arithmetic mean
-   as independent evidence?
-5. What microphone, hydrophone, or acoustic-field measurement defines the
-   acoustic-output baseline, including background subtraction and bandwidth?
-6. Which positive, negative, calibration, and held-out controls distinguish
-   panel-edge, apodization, and phase-slip effects from ordinary turbulence,
-   shocks, thermal drift, and sensor artifacts?
-7. What residual and replication threshold is sufficient to open a separate
-   Proca, SQG, or fracture investigation without promoting the anomaly to a
-   mechanism claim?
+1. Which measured or simulated compressible-flow data should supply the
+   velocity flow map used for FTLE, and what time window and interpolation error
+   should be recorded?
+2. Which weak function space, measure, trace operator, and normal-flux pairing
+   should govern the fracture contract before a genuine weak derivative theorem
+   is attempted?
+3. Are prescribed trace and flux jumps intended as crack-face data, source
+   terms, or numerical residuals, and what sign convention is authoritative?
+4. Which GP regime is intended: conservative Gross-Pitaevskii, hydrodynamic
+   Thomas-Fermi, or driven-dissipative quantum fluid? The equations and
+   uncertainty model differ materially.
+5. How should covariance be represented as a positive-semidefinite tensor rather
+   than only symmetric with nonnegative diagonal entries?
+6. What healing-length and equation-of-state calibration supports the density,
+   compressibility, and velocity fields in the proposed numerical splat?
+7. Which FTLE/LCS validation cases and resolution-convergence checks should be
+   required before interpreting a diagnostic ridge as a material boundary?
+
+### Scholarly Basis
+
+- [Dalfovo et al. (1999)](https://doi.org/10.1103/RevModPhys.71.463), *Theory
+  of Bose-Einstein condensation in trapped gases*, reviews mean-field and
+  Gross-Pitaevskii modeling, density dynamics, vortices, and model limits.
+- [Carusotto and Ciuti (2013)](https://doi.org/10.1103/RevModPhys.85.299),
+  *Quantum fluids of light*, reviews hydrodynamic behavior in nonlinear,
+  intrinsically nonequilibrium optical fluids; it is not evidence for the
+  proposed Signals media.
+- [Fetter (2009)](https://doi.org/10.1103/RevModPhys.81.647), *Rotating trapped
+  Bose-Einstein condensates*, supplies scholarly context for vortices,
+  Bogoliubov dynamics, and rotating condensate approximations.
+- [Chen and Frid (1999)](https://doi.org/10.1007/s002050050146),
+  *Divergence-measure fields and hyperbolic conservation laws*, motivates
+  treating normal traces and flux pairings as analytical prerequisites rather
+  than assuming pointwise derivatives across a discontinuity.
+- [Francfort and Marigo (1998)](https://doi.org/10.1016/S0022-5096(98)00034-9),
+  *Revisiting brittle fracture as an energy minimization problem*, motivates
+  keeping crack evolution and fracture interpretation separate from a local
+  residual or jump record.
+- [Haller (2015)](https://doi.org/10.1146/annurev-fluid-010313-141322),
+  *Lagrangian coherent structures*, explains that FTLE/LCS diagnostics require
+  resolved flow-map deformation and are not interchangeable with single-tracer
+  or scalar residual evidence.
 
 ### Pending Physical Formalisms
 
@@ -802,6 +831,14 @@ namespace and build target:
 - `AcousticFractureEvidence` links a classical ultrasonic transfer measurement
    to an out-of-tolerance residual as a candidate for further fracture testing;
    it does not diagnose the cause of that residual.
+- `WeakTraceJumpContract` records supplied measure, function-space, trace, and
+   test-function labels together with left/right traces, prescribed jumps,
+   flux jumps, weak-balance residuals, and tolerances. It is finite bookkeeping,
+   not a weak derivative or crack-evolution theorem.
+- `MadelungGPSplat` and `MadelungGPGrid` record finite density/velocity data,
+   variable covariance, compressibility, healing length, numerical step sizes,
+   and an FTLE diagnostic window. They do not execute Gross-Pitaevskii or
+   Madelung dynamics, and a covariance determinant is not incompressibility.
 - `WKBBarrier` records a proper-distance factor, effective barrier, WKB
    exponent, and bounded Gamow probability.
 - `AmplituhedronMap` records the finite matrix image $Y = C \cdot Z$ without
@@ -949,9 +986,10 @@ performance claim, the loop should record:
    from a conditional hypothesis to a verified physical interface.
 
 The reusable observation and uncertainty layer, finite compressible-flow
-comparison adapter, provenance bridge, and ingestion metadata gate are now
-implemented in `Signals.Pending`. The immediate implementation priority is
-parsing and validating external measured or simulated compressible-flow data,
+comparison adapter, provenance bridge, ingestion metadata gate, and finite
+fracture/GP diagnostic contracts are now implemented in `Signals.Pending`. The
+immediate implementation priority is parsing and validating external measured
+or simulated compressible-flow data,
 polarization-resolved Proca tests, quantum detector characterization, LVP
 materials/imaging, and complete energy ledgers. This keeps the Pending target
 useful as a research notebook without allowing compile-time proofs of supplied
@@ -974,13 +1012,15 @@ Vedral, V. (2011). *The thermodynamic meaning of negative entropy*. Nature
    complex material transfer functions, frequency-dependent attenuation,
    speckle covariance metadata, and per-sample residual uncertainty. These
    records do not replace continuous inversion or external data ingestion.
-5. Pending: add weak-derivative, trace, and jump-condition structures for a
-   fracture boundary only after the relevant measure, function-space, and flux
-   assumptions are supplied.
-6. Pending: add a numerical Madelung/GP splat model with variable covariance,
-   compressibility, healing length, and FTLE diagnostics. A fixed determinant
-   must not be treated as incompressibility; the source chat itself notes that
-   air and superfluids are compressible
+5. [Implemented, finite contract] Add `WeakTraceJumpContract` with explicit
+   measure/function-space/trace labels, prescribed trace and flux jumps, weak
+   balance residuals, and tolerances. Full weak derivative and trace spaces
+   remain future work.
+6. [Implemented, finite diagnostics] Add `MadelungGPSplat` and
+   `MadelungGPGrid` with variable covariance, compressibility, healing length,
+   numerical step sizes, and FTLE metadata. No fixed determinant is treated as
+   incompressibility; numerical GP/Madelung solving remains future work. The
+   source chat itself notes that air and superfluids are compressible
    ([fracture chat](../../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md#L1258-L1308)).
 
 ### Amplituhedron Formalization Plan
