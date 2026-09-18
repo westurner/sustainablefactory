@@ -51,13 +51,20 @@ numerics and serialized schema are stable.
 The native core is implemented in `numerical_adapter/` with no required
 third-party numerical dependency. It currently provides metadata validation,
 weak trace/jump residuals, covariance positive-semidefinite checks, diagonal
-affine FTLE fixtures, a deterministic self-check CLI, and unit tests.
+affine FTLE fixtures, a deterministic simulated affine-flow dataset, a
+self-check CLI, and unit tests.
 
 The optional Vortex round-trip uses Vortex `0.86.1` and the documented session,
 in-memory write, and read APIs. The development Dockerfiles install
 `libclang-dev` for the upstream `custom-labels` build dependency, and the
 current environment has a passing fixed-u64 round-trip test. Do not treat this
 fixture as benchmark or real-artifact validation; those remain separate steps.
+
+The simulated affine-flow fixture is the first integrated dataset path. It
+validates metadata, ordered time snapshots, covariance/GP diagnostics, and
+affine FTLE output without claiming external measurement or solver validation.
+Performance benchmarks are intentionally deferred until a representative real
+artifact is selected.
 
 ## Preferred Artifact Format: Vortex
 

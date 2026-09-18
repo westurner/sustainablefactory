@@ -13,6 +13,22 @@ pub enum FlowDataOrigin {
     Simulated,
 }
 
+/// One time-indexed flow snapshot retained by the numerical adapter.
+#[derive(Clone, Debug, PartialEq)]
+pub struct FlowSnapshot {
+    pub time: f64,
+    pub pressure: f64,
+    pub diagnostic: MadelungSample,
+}
+
+impl FlowSnapshot {
+    pub fn validate(&self, tolerance: f64) -> Result<(), ValidationError> {
+        require_finite("time", self.time)?;
+        require_finite("pressure", self.pressure)?;
+        self.diagnostic.validate(tolerance)
+    }
+}
+
 /// Provenance metadata required before an artifact enters the numerical path.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct DatasetMetadata {
@@ -40,6 +56,96 @@ impl DatasetMetadata {
             }
         }
         Ok(())
+    }
+}
+
+/// A validated finite measured or simulated flow dataset.
+#[derive(Clone, Debug, PartialEq)]
+pub struct FlowDataset {
+    pub origin: FlowDataOrigin,
+    pub case_name: String,
+    pub source_label: String,
+    pub metadata: DatasetMetadata,
+    pub snapshots: Vec<FlowSnapshot>,
+    pub affine_velocity_rate: [f64; 3],
+    pub ftle_window: f64,
+}
+
+impl FlowDataset {
+    pub fn validate(&self, tolerance: f64) -> Result<(), ValidationError> {
+        self.metadata.validate()?;
+        if self.case_name.trim().is_empty() {
+            return Err(ValidationError::MissingMetadata("case_name"));
+        }
+        if self.source_label.trim().is_empty() {
+            return Err(ValidationError::MissingMetadata("source_label"));
+        }
+        if self.snapshots.is_empty() {
+            return Err(ValidationError::EmptyDataset);
+        }
+        require_positive("ftle_window", self.ftle_window)?;
+        for rate in self.affine_velocity_rate {
+            require_finite("affine_velocity_rate", rate)?;
+        }
+        let mut previous_time = None;
+        for snapshot in &self.snapshots {
+            snapshot.validate(tolerance)?;
+            if let Some(previous) = previous_time
+                && snapshot.time <= previous
+            {
+                return Err(ValidationError::NonMonotonicTime);
+            }
+            previous_time = Some(snapshot.time);
+        }
+        Ok(())
+    }
+
+    pub fn affine_ftle(&self) -> Result<f64, ValidationError> {
+        diagonal_affine_ftle(self.affine_velocity_rate, self.ftle_window)
+    }
+}
+
+/// A deterministic simulated fixture for adapter and Lean-handoff tests.
+pub fn simulated_affine_fixture() -> FlowDataset {
+    let metadata = DatasetMetadata {
+        artifact_reference: "synthetic://signals/affine-flow-v1".into(),
+        artifact_checksum: "sha256:signals-affine-flow-v1".into(),
+        license_reference: "internal synthetic fixture".into(),
+        unit_convention: "SI".into(),
+        calibration_reference: "analytic-fixture-v1".into(),
+        execution_context: "affine-flow; analytic-flow-map; no-solver".into(),
+    };
+    let covariance = [[1.0, 0.1, 0.0], [0.1, 2.0, 0.0], [0.0, 0.0, 0.5]];
+    let diagnostic = |time: f64| MadelungSample {
+        mass_density: 2.0,
+        mean_velocity: [0.2 * time, 0.1 * time, 0.0],
+        covariance,
+        compressibility: 0.5,
+        healing_length: 0.1,
+        spatial_step: 0.01,
+        time_step: 0.001,
+        ftle_window: 1.0,
+        ftle_indicator: 0.2,
+    };
+    FlowDataset {
+        origin: FlowDataOrigin::Simulated,
+        case_name: "affine flow validation case".into(),
+        source_label: "analytic simulated fixture".into(),
+        metadata,
+        snapshots: vec![
+            FlowSnapshot {
+                time: 0.0,
+                pressure: 101_325.0,
+                diagnostic: diagnostic(0.0),
+            },
+            FlowSnapshot {
+                time: 1.0,
+                pressure: 101_325.0,
+                diagnostic: diagnostic(1.0),
+            },
+        ],
+        affine_velocity_rate: [0.2, 0.1, 0.0],
+        ftle_window: 1.0,
     }
 }
 
@@ -197,6 +303,12 @@ pub fn diagonal_affine_ftle(rates: [f64; 3], window: f64) -> Result<f64, Validat
 
 /// A compact deterministic self-check used by the native CLI.
 pub fn self_check() -> Result<(), ValidationError> {
+    let dataset = simulated_affine_fixture();
+    dataset.validate(1e-12)?;
+    if (dataset.affine_ftle()? - 0.2).abs() > 1e-12 {
+        return Err(ValidationError::ResidualTooLarge("simulated affine FTLE"));
+    }
+
     let metadata = DatasetMetadata {
         artifact_reference: "synthetic://uniform-flow".into(),
         artifact_checksum: "sha256:synthetic".into(),
@@ -258,6 +370,8 @@ pub enum ValidationError {
     NonPositive(&'static str),
     Negative(&'static str),
     EmptyGrid,
+    EmptyDataset,
+    NonMonotonicTime,
     CovarianceNotSymmetric,
     CovarianceNotPositiveSemidefinite,
     ResidualTooLarge(&'static str),
@@ -388,6 +502,25 @@ mod tests {
         assert_eq!(
             metadata.validate(),
             Err(ValidationError::MissingMetadata("artifact_reference"))
+        );
+    }
+
+    #[test]
+    fn simulated_fixture_validates_and_produces_ftle() {
+        let dataset = simulated_affine_fixture();
+        assert_eq!(dataset.origin, FlowDataOrigin::Simulated);
+        dataset.validate(1e-12).unwrap();
+        assert!((dataset.affine_ftle().unwrap() - 0.2).abs() < 1e-12);
+        assert_eq!(dataset.snapshots.len(), 2);
+    }
+
+    #[test]
+    fn dataset_rejects_non_monotonic_time() {
+        let mut dataset = simulated_affine_fixture();
+        dataset.snapshots[1].time = 0.0;
+        assert_eq!(
+            dataset.validate(1e-12),
+            Err(ValidationError::NonMonotonicTime)
         );
     }
 

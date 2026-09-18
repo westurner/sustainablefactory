@@ -210,7 +210,8 @@ interpretation while keeping experimental premises explicit:
    native-first numerical handoff is specified in
    [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
    `numerical_adapter` provides a native Rust core for metadata validation,
-   weak-jump residuals, covariance PSD checks, and deterministic FTLE fixtures;
+   simulated flow-dataset ingestion, weak-jump residuals, covariance PSD checks,
+   and deterministic FTLE fixtures;
    its optional Vortex file round-trip is gated separately from the dependency-
    light core.
    Its LightSlinger extension links an antenna to a Proca channel only through
@@ -639,12 +640,16 @@ model, or environmental error.
    The Vortex 0.86.1 in-memory round-trip is also enabled and tested. Proposed
    follow-up commit:
    `fix(signals): complete Vortex adapter round trip`.
-19. Next loop: benchmark Vortex against Arrow/Parquet and fallback readers,
-   then integrate a real measured or simulated dataset and connect the shared
-   contracts to external flow, Proca, detector, LVP, and energy evidence. Use
-   Vortex as the primary large-array artifact format with Arrow interoperability
-   and CSV/JSON fixtures; the boundary is specified in
+19. [Complete, simulated dataset integration] Added a deterministic affine
+   simulated flow dataset with metadata validation, ordered snapshots, and
+   integrated FTLE output. Benchmarks are intentionally deferred; use Vortex
+   as the primary large-array artifact format with Arrow interoperability and
+   CSV/JSON fixtures. The boundary is specified in
    [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
+20. Next loop: ingest a real measured or solver-produced dataset, then connect
+   the shared contracts to external flow, Proca, detector, LVP, and energy
+   evidence. Benchmark Vortex against Arrow/Parquet and fallback readers after
+   the first representative artifact is selected.
 
 The finite fracture/GP loop deliberately stops at explicit trace conventions,
 prescribed jumps, residuals, variable covariance, and diagnostic metadata. It
@@ -661,7 +666,8 @@ The native Rust adapter core is implemented under
 [`numerical_adapter`](numerical_adapter/). The optional Vortex feature is
 wired to Vortex 0.86.1 and has a passing in-memory round-trip test in the
 current environment. The development Dockerfiles install `libclang-dev` for
-the upstream `custom-labels` build dependency; benchmark and real-artifact
+the upstream `custom-labels` build dependency. The adapter now validates a
+deterministic simulated affine-flow dataset; benchmark and real-artifact
 ingestion remain future work.
 
 ### Further Questions
