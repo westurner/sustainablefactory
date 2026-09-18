@@ -2148,6 +2148,44 @@ inductive FlowDataOrigin
   | simulated
   deriving DecidableEq, Repr
 
+/-- Required provenance fields for an external flow artifact. -/
+structure FlowDatasetMetadata where
+  artifactReference : String
+  artifactChecksum : String
+  licenseReference : String
+  unitConvention : String
+  calibrationReference : String
+  executionContext : String
+  completeness :
+    artifactReference ≠ "" ∧
+      artifactChecksum ≠ "" ∧
+        licenseReference ≠ "" ∧
+          unitConvention ≠ "" ∧
+            calibrationReference ≠ "" ∧ executionContext ≠ ""
+
+/-- The metadata record contains all required ingestion fields. -/
+def FlowDatasetMetadata.complete (metadata : FlowDatasetMetadata) : Prop :=
+  metadata.artifactReference ≠ "" ∧
+    metadata.artifactChecksum ≠ "" ∧
+      metadata.licenseReference ≠ "" ∧
+        metadata.unitConvention ≠ "" ∧
+          metadata.calibrationReference ≠ "" ∧ metadata.executionContext ≠ ""
+
+/-- The metadata completeness predicate exposes its supplied field checks. -/
+lemma FlowDatasetMetadata.complete_iff (metadata : FlowDatasetMetadata) :
+    metadata.complete ↔
+      metadata.artifactReference ≠ "" ∧
+        metadata.artifactChecksum ≠ "" ∧
+          metadata.licenseReference ≠ "" ∧
+            metadata.unitConvention ≠ "" ∧
+              metadata.calibrationReference ≠ "" ∧ metadata.executionContext ≠ "" := by
+  rfl
+
+/-- A constructed metadata record is complete by its explicit premise. -/
+lemma FlowDatasetMetadata.complete_holds (metadata : FlowDatasetMetadata) :
+    metadata.complete := by
+  exact metadata.completeness
+
 /-- A finite provenance bridge from indexed flow data to Pending comparisons.
 
 The raw boundary observations are retained and linked to each comparison, but
@@ -2157,10 +2195,25 @@ structure CompressibleFlowDataset (sampleCount : ℕ) where
   origin : FlowDataOrigin
   caseName : String
   sourceLabel : String
+  metadata : FlowDatasetMetadata
   samples : Fin sampleCount → CompressibleFlowComparison
   sampleCount_positive : 0 < sampleCount
   rawBoundary : Fin sampleCount → FlowBoundaryObservation
   rawBoundaryLaw : ∀ index, rawBoundary index = (samples index).boundary.boundary
+
+/-- A dataset is ready for an ingestion adapter when its index and provenance
+metadata are present. This is a bookkeeping gate, not a data-quality claim. -/
+def CompressibleFlowDataset.ingestionReady
+    {sampleCount : ℕ} (dataset : CompressibleFlowDataset sampleCount) : Prop :=
+  0 < sampleCount ∧ dataset.metadata.complete
+
+/-- A constructed dataset satisfies its ingestion-readiness gate. -/
+lemma CompressibleFlowDataset.ingestion_ready
+    {sampleCount : ℕ} (dataset : CompressibleFlowDataset sampleCount) :
+    dataset.ingestionReady := by
+  constructor
+  · exact dataset.sampleCount_positive
+  · exact dataset.metadata.complete_holds
 
 /-- The dataset retains a positive number of indexed comparison samples. -/
 lemma CompressibleFlowDataset.sample_count_pos

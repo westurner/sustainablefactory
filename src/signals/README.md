@@ -197,6 +197,8 @@ interpretation while keeping experimental premises explicit:
    tags and finite flow-output baselines without importing a CFD solver.
    `FlowDataOrigin` and `CompressibleFlowDataset` preserve finite measured or
    simulated provenance and raw-boundary linkage without parsing external data.
+   `FlowDatasetMetadata` records the minimum artifact identity, license, unit,
+   calibration, and execution-context fields for an ingestion-ready dataset.
    Its LightSlinger extension links an antenna to a Proca channel only through
    explicit frequency and longitudinal-coupling hypotheses; CW resonance does
    not itself establish massive-mode emission.
@@ -535,7 +537,9 @@ model, or environmental error.
    to controlled mass-flow, momentum, heat, and acoustic output baselines with
    `CompressibleFlowComparison`, and preserve measured-versus-simulated
    provenance with `CompressibleFlowDataset`. External data ingestion remains
-   future work before making plume or drag claims.
+   future work before making plume or drag claims; `FlowDatasetMetadata` now
+   defines the minimum artifact, checksum, license, unit, calibration, and
+   execution-context fields for an ingestion-ready record.
 
 ### Agent Loop Record
 
@@ -602,10 +606,15 @@ model, or environmental error.
    `CompressibleFlowDataset` for indexed comparison samples, source labels, and
    raw-boundary linkage. Proposed commit:
    `feat(signals): preserve compressible flow data provenance`.
-15. Next loop: ingest external measured or simulated compressible-flow data,
-   then connect the shared contracts to polarization-resolved Proca tests,
-   quantum detector characterization, LVP materials/imaging, and complete
-   energy ledgers.
+15. [Complete, ingestion metadata] Added `FlowDatasetMetadata` and an
+   `ingestionReady` gate requiring artifact identity, license, units,
+   calibration, execution context, and a positive sample count. Proposed
+   commit:
+   `feat(signals): define compressible flow ingestion metadata`.
+16. Next loop: parse and validate external measured or simulated
+   compressible-flow data, then connect the shared contracts to
+   polarization-resolved Proca tests, quantum detector characterization, LVP
+   materials/imaging, and complete energy ledgers.
 
 ### Further Questions
 
@@ -687,7 +696,11 @@ namespace and build target:
 - `FlowDataOrigin` and `CompressibleFlowDataset` preserve whether a finite
    indexed comparison came from a measurement or simulation, retain case and
    source labels, and link each raw boundary observation to its comparison.
-   They do not parse external files or validate a simulation against reality.
+   `FlowDatasetMetadata` records artifact reference and checksum, license,
+   unit convention, calibration reference, and execution context; the
+   `ingestionReady` predicate is a bookkeeping gate, not data-quality or
+   physical validation. These records do not parse external files or validate
+   a simulation against reality.
 - `PhaseFingerprint` records a measured phase change with preserved target energy
    and polarization, plus explicit zero absorbed target energy.
 - `DispersiveReadout` records signal-state preservation, signal-energy
@@ -861,8 +874,9 @@ They are validation requirements, not additional physical conclusions.
    shared calibration, repeated-trial, and control contracts, while
    `CompressibleFlowComparison` adds finite mass-flow, momentum, heat, and
    acoustic baseline comparisons. `CompressibleFlowDataset` preserves finite
-   measurement/simulation provenance and raw-boundary linkage. These contracts
-   still do not prove homogenization, turbulence suppression, zero acoustic
+   measurement/simulation provenance and raw-boundary linkage, and
+   `FlowDatasetMetadata` gates the minimum external-artifact metadata. These
+   contracts still do not prove homogenization, turbulence suppression, zero acoustic
    output, absence of shocks, or drag reduction. The next adapter should
    ingest measured or compressible-CFD pressure, heat flux, velocity, mass,
    momentum, energy, and acoustic outputs with inlet/outlet boundary conditions
@@ -920,9 +934,9 @@ performance claim, the loop should record:
    from a conditional hypothesis to a verified physical interface.
 
 The reusable observation and uncertainty layer, finite compressible-flow
-comparison adapter, and provenance bridge are now implemented in
-`Signals.Pending`. The immediate implementation priority is external measured
-or simulated compressible-flow ingestion,
+comparison adapter, provenance bridge, and ingestion metadata gate are now
+implemented in `Signals.Pending`. The immediate implementation priority is
+parsing and validating external measured or simulated compressible-flow data,
 polarization-resolved Proca tests, quantum detector characterization, LVP
 materials/imaging, and complete energy ledgers. This keeps the Pending target
 useful as a research notebook without allowing compile-time proofs of supplied

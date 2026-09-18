@@ -2985,10 +2985,20 @@ example :
             toyCompressibleFlowComparison.acousticPower.consistent := by
   exact toyCompressibleFlowComparison.outputs_consistent_iff
 
+def toyCompressibleFlowMetadata : FlowDatasetMetadata :=
+  { artifactReference := "data/flow/steady-square-panel.csv"
+    artifactChecksum := "sha256:synthetic-flow-fixture"
+    licenseReference := "internal synthetic fixture"
+    unitConvention := "SI"
+    calibrationReference := "flow-sensor-calibration-v1"
+    executionContext := "solver=synthetic; mesh=uniform; timestep=steady"
+    completeness := by decide }
+
 noncomputable def toyCompressibleFlowDataset : CompressibleFlowDataset 2 :=
   { origin := FlowDataOrigin.simulated
     caseName := "steady square-panel baseline"
     sourceLabel := "synthetic compressible-flow fixture"
+    metadata := toyCompressibleFlowMetadata
     samples := fun _ => toyCompressibleFlowComparison
     sampleCount_positive := by norm_num
     rawBoundary := fun _ => toyFlowBoundaryObservation
@@ -2999,8 +3009,24 @@ noncomputable def toyCompressibleFlowDataset : CompressibleFlowDataset 2 :=
 example : toyCompressibleFlowDataset.origin = FlowDataOrigin.simulated := by
   rfl
 
+example : toyCompressibleFlowMetadata.complete := by
+  exact toyCompressibleFlowMetadata.complete_holds
+
+example :
+    toyCompressibleFlowMetadata.complete ↔
+      toyCompressibleFlowMetadata.artifactReference ≠ "" ∧
+        toyCompressibleFlowMetadata.artifactChecksum ≠ "" ∧
+          toyCompressibleFlowMetadata.licenseReference ≠ "" ∧
+            toyCompressibleFlowMetadata.unitConvention ≠ "" ∧
+              toyCompressibleFlowMetadata.calibrationReference ≠ "" ∧
+                toyCompressibleFlowMetadata.executionContext ≠ "" := by
+  exact toyCompressibleFlowMetadata.complete_iff
+
 example : 0 < 2 := by
   exact toyCompressibleFlowDataset.sample_count_pos
+
+example : toyCompressibleFlowDataset.ingestionReady := by
+  exact toyCompressibleFlowDataset.ingestion_ready
 
 example :
     toyCompressibleFlowDataset.rawBoundary 1 =
