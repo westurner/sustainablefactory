@@ -2985,4 +2985,26 @@ example :
             toyCompressibleFlowComparison.acousticPower.consistent := by
   exact toyCompressibleFlowComparison.outputs_consistent_iff
 
+noncomputable def toyCompressibleFlowDataset : CompressibleFlowDataset 2 :=
+  { origin := FlowDataOrigin.simulated
+    caseName := "steady square-panel baseline"
+    sourceLabel := "synthetic compressible-flow fixture"
+    samples := fun _ => toyCompressibleFlowComparison
+    sampleCount_positive := by norm_num
+    rawBoundary := fun _ => toyFlowBoundaryObservation
+    rawBoundaryLaw := by
+      intro index
+      rfl }
+
+example : toyCompressibleFlowDataset.origin = FlowDataOrigin.simulated := by
+  rfl
+
+example : 0 < 2 := by
+  exact toyCompressibleFlowDataset.sample_count_pos
+
+example :
+    toyCompressibleFlowDataset.rawBoundary 1 =
+      (toyCompressibleFlowDataset.samples 1).boundary.boundary := by
+  exact toyCompressibleFlowDataset.raw_boundary_holds 1
+
 end SignalsPendingTests

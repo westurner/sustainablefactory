@@ -2142,4 +2142,37 @@ lemma CompressibleFlowComparison.outputs_consistent_iff
           comparison.heatPower.consistent ∧ comparison.acousticPower.consistent := by
   rfl
 
+/-- Provenance tags for finite measured or simulated flow data. -/
+inductive FlowDataOrigin
+  | measured
+  | simulated
+  deriving DecidableEq, Repr
+
+/-- A finite provenance bridge from indexed flow data to Pending comparisons.
+
+The raw boundary observations are retained and linked to each comparison, but
+the record does not parse external files, solve fluid equations, or establish
+that a simulated case matches a physical plume. -/
+structure CompressibleFlowDataset (sampleCount : ℕ) where
+  origin : FlowDataOrigin
+  caseName : String
+  sourceLabel : String
+  samples : Fin sampleCount → CompressibleFlowComparison
+  sampleCount_positive : 0 < sampleCount
+  rawBoundary : Fin sampleCount → FlowBoundaryObservation
+  rawBoundaryLaw : ∀ index, rawBoundary index = (samples index).boundary.boundary
+
+/-- The dataset retains a positive number of indexed comparison samples. -/
+lemma CompressibleFlowDataset.sample_count_pos
+    {sampleCount : ℕ} (dataset : CompressibleFlowDataset sampleCount) :
+    0 < sampleCount :=
+  dataset.sampleCount_positive
+
+/-- Each retained raw boundary observation is linked to its comparison sample. -/
+lemma CompressibleFlowDataset.raw_boundary_holds
+    {sampleCount : ℕ} (dataset : CompressibleFlowDataset sampleCount)
+    (index : Fin sampleCount) :
+    dataset.rawBoundary index = (dataset.samples index).boundary.boundary :=
+  dataset.rawBoundaryLaw index
+
 end Signals.Pending
