@@ -242,6 +242,189 @@ impl FlowFieldDataset {
     }
 }
 
+/// A vector field frame with optional pressure, velocity gradients, and mask.
+#[derive(Clone, Debug, PartialEq)]
+pub struct VectorFieldFrame {
+    pub time: f64,
+    pub velocity: Vec<[f64; 3]>,
+    pub pressure: Option<Vec<f64>>,
+    pub velocity_gradient: Option<Vec<[[f64; 3]; 3]>>,
+    pub valid_mask: Option<Vec<bool>>,
+}
+
+/// A common summary boundary for measured or solver-produced vector fields.
+#[derive(Clone, Debug, PartialEq)]
+pub struct VectorFieldDataset {
+    pub origin: FlowDataOrigin,
+    pub case_name: String,
+    pub source_label: String,
+    pub metadata: DatasetMetadata,
+    pub points: Vec<[f64; 3]>,
+    pub times: Vec<f64>,
+    pub frames: Vec<VectorFieldFrame>,
+    pub spatial_interpolation: String,
+    pub temporal_interpolation: String,
+}
+
+impl VectorFieldDataset {
+    pub fn validate(&self, tolerance: f64) -> Result<(), ValidationError> {
+        self.metadata.validate()?;
+        if self.case_name.trim().is_empty() {
+            return Err(ValidationError::MissingMetadata("case_name"));
+        }
+        if self.source_label.trim().is_empty() {
+            return Err(ValidationError::MissingMetadata("source_label"));
+        }
+        if self.spatial_interpolation.trim().is_empty() {
+            return Err(ValidationError::MissingMetadata("spatial_interpolation"));
+        }
+        if self.temporal_interpolation.trim().is_empty() {
+            return Err(ValidationError::MissingMetadata("temporal_interpolation"));
+        }
+        require_nonnegative("vector_field_tolerance", tolerance)?;
+        if self.points.is_empty() || self.times.is_empty() || self.frames.is_empty() {
+            return Err(ValidationError::EmptyDataset);
+        }
+        if self.times.len() != self.frames.len() {
+            return Err(ValidationError::ShapeMismatch(
+                "vector field time/frame count",
+            ));
+        }
+        for point in &self.points {
+            for coordinate in point {
+                require_finite("point_coordinate", *coordinate)?;
+            }
+        }
+        let mut previous_time = None;
+        for (index, time) in self.times.iter().enumerate() {
+            require_finite("vector_field_time", *time)?;
+            if let Some(previous) = previous_time
+                && *time <= previous
+            {
+                return Err(ValidationError::NonMonotonicTime);
+            }
+            previous_time = Some(*time);
+            if (self.frames[index].time - *time).abs() > tolerance {
+                return Err(ValidationError::CoordinateMismatch("vector frame time"));
+            }
+            self.frames[index].validate(self.points.len())?;
+        }
+        Ok(())
+    }
+}
+
+impl VectorFieldFrame {
+    fn validate(&self, point_count: usize) -> Result<(), ValidationError> {
+        require_finite("vector_field_frame_time", self.time)?;
+        if self.velocity.len() != point_count {
+            return Err(ValidationError::ShapeMismatch("velocity point count"));
+        }
+        if let Some(pressure) = &self.pressure
+            && pressure.len() != point_count
+        {
+            return Err(ValidationError::ShapeMismatch("pressure point count"));
+        }
+        if let Some(gradient) = &self.velocity_gradient
+            && gradient.len() != point_count
+        {
+            return Err(ValidationError::ShapeMismatch("gradient point count"));
+        }
+        if let Some(mask) = &self.valid_mask
+            && mask.len() != point_count
+        {
+            return Err(ValidationError::ShapeMismatch("velocity mask point count"));
+        }
+        for index in 0..point_count {
+            let valid = self.valid_mask.as_ref().is_none_or(|mask| mask[index]);
+            if valid {
+                for component in self.velocity[index] {
+                    require_finite("velocity_component", component)?;
+                }
+                if let Some(pressure) = &self.pressure {
+                    require_finite("pressure", pressure[index])?;
+                }
+                if let Some(gradient) = &self.velocity_gradient {
+                    for row in gradient[index] {
+                        for component in row {
+                            require_finite("velocity_gradient", component)?;
+                        }
+                    }
+                }
+            }
+        }
+        Ok(())
+    }
+}
+
+/// Status of a numerical diagnostic handoff.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum DiagnosticStatus {
+    Computed,
+    Incomplete,
+    Invalid,
+}
+
+/// A finite-time FTLE result with its numerical provenance and error budget.
+#[derive(Clone, Debug, PartialEq)]
+pub struct FtleResult {
+    pub status: DiagnosticStatus,
+    pub values: Vec<f64>,
+    pub time_window: f64,
+    pub seed_spacing: f64,
+    pub spatial_interpolation: String,
+    pub temporal_interpolation: String,
+    pub trajectory_integrator: String,
+    pub deformation_method: String,
+    pub integration_error: f64,
+    pub interpolation_error: f64,
+    pub convergence_delta: Option<f64>,
+}
+
+impl FtleResult {
+    pub fn validate(&self) -> Result<(), ValidationError> {
+        require_positive("ftle_time_window", self.time_window.abs())?;
+        require_positive("ftle_seed_spacing", self.seed_spacing)?;
+        require_nonnegative("ftle_integration_error", self.integration_error)?;
+        require_nonnegative("ftle_interpolation_error", self.interpolation_error)?;
+        if self.spatial_interpolation.trim().is_empty() {
+            return Err(ValidationError::MissingMetadata(
+                "ftle_spatial_interpolation",
+            ));
+        }
+        if self.temporal_interpolation.trim().is_empty() {
+            return Err(ValidationError::MissingMetadata(
+                "ftle_temporal_interpolation",
+            ));
+        }
+        if self.trajectory_integrator.trim().is_empty() {
+            return Err(ValidationError::MissingMetadata(
+                "ftle_trajectory_integrator",
+            ));
+        }
+        if self.deformation_method.trim().is_empty() {
+            return Err(ValidationError::MissingMetadata("ftle_deformation_method"));
+        }
+        if let Some(delta) = self.convergence_delta {
+            require_nonnegative("ftle_convergence_delta", delta)?;
+        }
+        for value in &self.values {
+            require_finite("ftle_value", *value)?;
+        }
+        if self.status == DiagnosticStatus::Computed && self.values.is_empty() {
+            return Err(ValidationError::EmptyGrid);
+        }
+        Ok(())
+    }
+
+    pub fn is_converged(&self, tolerance: f64) -> Result<bool, ValidationError> {
+        require_nonnegative("ftle_convergence_tolerance", tolerance)?;
+        self.validate()?;
+        Ok(self
+            .convergence_delta
+            .is_some_and(|delta| delta <= tolerance))
+    }
+}
+
 #[cfg(feature = "hdf5")]
 pub mod hdf5_io {
     use super::*;
@@ -865,6 +1048,79 @@ mod tests {
             sample.validate(1e-12),
             Err(ValidationError::CovarianceNotPositiveSemidefinite)
         );
+    }
+
+    #[test]
+    fn vector_field_and_ftle_metadata_are_validated() {
+        let metadata = DatasetMetadata {
+            artifact_reference: "synthetic://vector-field".into(),
+            artifact_checksum: "sha256:test".into(),
+            license_reference: "internal".into(),
+            unit_convention: "SI".into(),
+            calibration_reference: "test".into(),
+            execution_context: "finite-grid".into(),
+        };
+        let dataset = VectorFieldDataset {
+            origin: FlowDataOrigin::Simulated,
+            case_name: "vector control".into(),
+            source_label: "unit fixture".into(),
+            metadata,
+            points: vec![[0.0, 0.0, 0.0], [1.0, 0.0, 0.0]],
+            times: vec![0.0, 0.1],
+            frames: vec![
+                VectorFieldFrame {
+                    time: 0.0,
+                    velocity: vec![[1.0, 0.0, 0.0], [1.0, 0.0, 0.0]],
+                    pressure: Some(vec![1.0, 1.0]),
+                    velocity_gradient: None,
+                    valid_mask: Some(vec![true, true]),
+                },
+                VectorFieldFrame {
+                    time: 0.1,
+                    velocity: vec![[1.0, 0.0, 0.0], [1.0, 0.0, 0.0]],
+                    pressure: Some(vec![1.0, 1.0]),
+                    velocity_gradient: None,
+                    valid_mask: Some(vec![true, true]),
+                },
+            ],
+            spatial_interpolation: "linear".into(),
+            temporal_interpolation: "none".into(),
+        };
+        dataset.validate(1e-12).unwrap();
+
+        let result = FtleResult {
+            status: DiagnosticStatus::Computed,
+            values: vec![0.0, 0.1],
+            time_window: 0.1,
+            seed_spacing: 1.0,
+            spatial_interpolation: "linear".into(),
+            temporal_interpolation: "none".into(),
+            trajectory_integrator: "RK2".into(),
+            deformation_method: "centered finite difference".into(),
+            integration_error: 1e-6,
+            interpolation_error: 2e-6,
+            convergence_delta: Some(3e-6),
+        };
+        assert!(result.is_converged(1e-5).unwrap());
+        result.validate().unwrap();
+    }
+
+    #[test]
+    fn incomplete_ftle_result_may_have_no_values() {
+        let result = FtleResult {
+            status: DiagnosticStatus::Incomplete,
+            values: Vec::new(),
+            time_window: 0.1,
+            seed_spacing: 1.0,
+            spatial_interpolation: "unavailable".into(),
+            temporal_interpolation: "unavailable".into(),
+            trajectory_integrator: "not run".into(),
+            deformation_method: "not run".into(),
+            integration_error: 0.0,
+            interpolation_error: 0.0,
+            convergence_delta: None,
+        };
+        result.validate().unwrap();
     }
 
     #[cfg(feature = "hdf5")]

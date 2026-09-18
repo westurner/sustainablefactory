@@ -670,13 +670,17 @@ model, or environmental error.
    for paired image/validation-MAT subsets, image geometry, per-file checksums,
    generator metadata, and explicit synthetic-only interpretation boundaries.
    The 2.1 GB source archive is not committed or downloaded as a prerequisite.
-24. Next numerical loop: add a common vector-field summary and FTLE result
-   contract, then connect the JHTDB NPZ probe and cylinder extraction to
-   particle advection, gradient consistency, and convergence metadata.
-25. Later: request a JHTDB HDF5 cutout or larger bounded time-resolved field.
-   Benchmark Vortex against Arrow/Parquet only after a representative large
-   artifact is selected.
-25. [Complete, DDF hypothesis update] Replaced the earlier SQG-centered
+24. [Complete, vector-field and FTLE result boundary] Added common Rust
+   `VectorFieldDataset`/`VectorFieldFrame` validation and an `FtleResult`
+   contract for interpolation, integrator, deformation, error, and convergence
+   metadata. The JHTDB probe now records finite-difference gradient comparisons
+   and a one-step Euler displacement diagnostic while explicitly reporting that
+   FTLE was not computed.
+25. Next numerical loop: request a JHTDB HDF5 cutout or larger bounded
+   time-resolved field, then connect particle advection and deformation-gradient
+   integration to the FTLE result contract. Benchmark Vortex against
+   Arrow/Parquet only after a representative large artifact is selected.
+26. [Complete, DDF hypothesis update] Replaced the earlier SQG-centered
    fracture-communication framing with a conditional DDF plan. The plan
    requires an independently observed defect/mode variable, ordinary causal
    propagation at the declared transverse-phonon speed, classical controls,
@@ -704,9 +708,9 @@ deterministic simulated affine-flow dataset and, behind the `hdf5` feature,
    reads the public PDEBench Sod6 HDF5 artifact with `hdf5-pure` 0.46.1. The
 downloaded artifact is kept outside the repository and its checksum is retained
 in the reader metadata. `jhtdb_probe.py` writes only a local bounded NPZ and
-   manifest. `matlab_piv_probe.py` now verifies and extracts the measured
-   cylinder PIV source; RSPID controls, common vector summaries, JHTDB cutouts,
-   and benchmarks remain future work.
+manifest. `matlab_piv_probe.py` now verifies and extracts the measured
+cylinder PIV source; RSPID controls, common vector summaries, JHTDB cutouts,
+and benchmarks remain future work.
 
 ### Open Flow Dataset Research
 

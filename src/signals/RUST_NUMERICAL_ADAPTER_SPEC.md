@@ -87,6 +87,15 @@ times, generated-artifact SHA-256, and the fact that the temporary testing token
 was not persisted. It intentionally does not claim a full-domain flow map or
 FTLE field.
 
+The common `VectorFieldDataset`/`VectorFieldFrame` boundary validates points,
+monotone times, velocity, optional pressure, optional velocity gradients, and
+explicit missing-data masks. `FtleResult` records diagnostic status, values,
+time window, seed spacing, spatial/temporal interpolation, trajectory
+integrator, deformation method, integration/interpolation errors, and optional
+convergence delta. A `Computed` result must contain values; `Incomplete` is
+valid for a source or run that lacks a resolved flow map. These records do not
+derive FTLE from a two-time sample.
+
 ## Preferred Artifact Format: Vortex
 
 Use [Vortex](https://github.com/vortex-data/vortex) as the primary artifact
@@ -187,6 +196,12 @@ preserves NaN masks, and extracts an explicit bounded time window using the
 `t = 0` and `0.05 s`; the source and derived NPZ checksums are recorded in
 `OPEN_FLOW_DATASETS.md`. The reader rejects temporal extraction when a source
 does not declare a sampling frequency, as with the inspected MorphoDunes file.
+
+The JHTDB probe also reports a finite-difference comparison between sampled
+velocity fields and service-provided gradients, plus a one-step Euler
+displacement summary. These are sensitivity diagnostics; a nonzero comparison
+residual is not a failed source or a DDF signal, and the probe sets
+`ftle_computed` to false.
 
 ## Madelung/GP Diagnostics
 

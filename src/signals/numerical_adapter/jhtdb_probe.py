@@ -47,6 +47,34 @@ def _query(cube, variable: str, spatial_method: str, spatial_operator: str, poin
     return np.stack(frames), np.asarray(times, dtype=np.float64), columns
 
 
+def _gradient_consistency(velocity: np.ndarray, service_gradient: np.ndarray, x_points: np.ndarray, z_points: np.ndarray) -> list[dict[str, Any]]:
+    point_count = len(x_points)
+    velocity_grid = velocity.reshape(velocity.shape[0], point_count, point_count, 3)
+    gradient_grid = service_gradient.reshape(service_gradient.shape[0], point_count, point_count, 9)
+    comparisons = []
+    component_names = [(0, "u"), (1, "v"), (2, "w")]
+    axis_columns = [(0, "x", 0), (2, "z", 1)]
+    for component, component_name in component_names:
+        finite_differences = np.gradient(
+            velocity_grid[..., component],
+            x_points,
+            z_points,
+            axis=(1, 2),
+            edge_order=2,
+        )
+        for service_column, axis_name, finite_difference_index in axis_columns:
+            difference = finite_differences[finite_difference_index] - gradient_grid[..., service_column + component * 3]
+            comparisons.append({
+                "component": component_name,
+                "axis": axis_name,
+                "service_column": int(service_column + component * 3),
+                "samples": int(difference.size),
+                "rmse": float(np.sqrt(np.mean(difference**2))),
+                "max_abs": float(np.max(np.abs(difference))),
+            })
+    return comparisons
+
+
 def acquire(output_dir: Path, points_per_axis: int, time_start: float, time_end: float, delta_t: float) -> Path:
     auth_token = os.environ.get("JHTDB_AUTH_TOKEN")
     if not auth_token:
@@ -81,6 +109,17 @@ def acquire(output_dir: Path, points_per_axis: int, time_start: float, time_end:
     )
     if not np.array_equal(times, pressure_times) or not np.array_equal(times, gradient_times):
         raise SystemExit("JHTDB variables returned inconsistent time coordinates")
+
+    gradient_consistency = _gradient_consistency(velocity, velocity_gradient, x_points, z_points)
+    time_step = float(times[1] - times[0])
+    euler_displacement = velocity[0] * time_step
+    advection_probe = {
+        "method": "one-step Euler at sampled grid points; no off-grid interpolation",
+        "time_step": time_step,
+        "mean_abs_displacement": float(np.mean(np.abs(euler_displacement))),
+        "max_abs_displacement": float(np.max(np.abs(euler_displacement))),
+        "ftle_computed": False,
+    }
 
     artifact_path = output_dir / "jhtdb_channel_probe.npz"
     np.savez_compressed(
@@ -119,6 +158,8 @@ def acquire(output_dir: Path, points_per_axis: int, time_start: float, time_end:
                 "z": [float(z_points[0]), float(z_points[-1])],
             },
             "temporary_token_policy": "testing token; at most 4096 spatial points per request",
+            "gradient_consistency": gradient_consistency,
+            "advection_probe": advection_probe,
         },
         "artifact": {
             "path": artifact_path.name,
