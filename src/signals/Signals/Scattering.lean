@@ -10,6 +10,7 @@ namespace Signals.Scattering
 open Signals.IQ
 open Signals.Contracts
 open Signals.Propagation
+open Signals.Units
 
 /-- A coherent incident/return observation represented by I/Q samples. -/
 structure Observation where
@@ -154,5 +155,104 @@ def MetrologyRecord.accepted (record : MetrologyRecord) : Prop :=
 lemma MetrologyRecord.accepted_iff (record : MetrologyRecord) :
     record.accepted ↔ |record.residual.residual| ≤ record.residual.tolerance := by
   rfl
+
+/-- A passive complex material response at one measured frequency. -/
+structure MaterialTransferFunction where
+  frequency : Frequency
+  frequency_pos : 0 < frequency.hz
+  transfer : ℂ
+  transmittedPowerRatio : ℝ
+  transmittedPowerRatio_nonnegative : 0 ≤ transmittedPowerRatio
+  transmittedPowerRatio_le_one : transmittedPowerRatio ≤ 1
+  powerLaw : transmittedPowerRatio = Complex.normSq transfer
+
+/-- The material transfer function exposes its complex power law. -/
+lemma MaterialTransferFunction.power_holds
+    (response : MaterialTransferFunction) :
+    response.transmittedPowerRatio = Complex.normSq response.transfer :=
+  response.powerLaw
+
+/-- Frequency-dependent bulk attenuation with an explicit exponential law. -/
+structure FrequencyDependentAttenuation where
+  frequency : Frequency
+  frequency_pos : 0 < frequency.hz
+  attenuationPerLength : ℝ
+  attenuation_nonnegative : 0 ≤ attenuationPerLength
+  distance : Length
+  distance_nonnegative : 0 ≤ distance.meters
+  factor : ℝ
+  factorLaw : factor =
+    Real.exp (-2 * attenuationPerLength * distance.meters)
+
+/-- Frequency-dependent attenuation is nonnegative. -/
+lemma FrequencyDependentAttenuation.factor_nonnegative
+    (attenuation : FrequencyDependentAttenuation) :
+    0 ≤ attenuation.factor := by
+  rw [attenuation.factorLaw]
+  exact (Real.exp_pos _).le
+
+/-- Nonnegative frequency-dependent attenuation cannot amplify power. -/
+lemma FrequencyDependentAttenuation.factor_le_one
+    (attenuation : FrequencyDependentAttenuation) :
+    attenuation.factor ≤ 1 := by
+  rw [attenuation.factorLaw, ← Real.exp_zero, Real.exp_le_exp]
+  nlinarith [attenuation.attenuation_nonnegative,
+    attenuation.distance_nonnegative]
+
+/-- Finite speckle covariance metadata for a grid of observations. -/
+structure SpeckleCovariance (sampleCount : ℕ) where
+  sampleCount_positive : 0 < sampleCount
+  covariance : Matrix (Fin sampleCount) (Fin sampleCount) ℝ
+  covariance_symmetric : ∀ row column,
+    covariance row column = covariance column row
+  covariance_diagonal_nonnegative : ∀ index,
+    0 ≤ covariance index index
+
+/-- A speckle covariance record exposes its symmetry law. -/
+lemma SpeckleCovariance.symmetric
+    {sampleCount : ℕ} (covariance : SpeckleCovariance sampleCount)
+    (row column : Fin sampleCount) :
+    covariance.covariance row column = covariance.covariance column row :=
+  covariance.covariance_symmetric row column
+
+/-- A speckle covariance record exposes nonnegative diagonal variance. -/
+lemma SpeckleCovariance.diagonal_nonnegative
+    {sampleCount : ℕ} (covariance : SpeckleCovariance sampleCount)
+    (index : Fin sampleCount) :
+    0 ≤ covariance.covariance index index :=
+  covariance.covariance_diagonal_nonnegative index
+
+/-- A finite scattering grid with residual uncertainty and speckle metadata. -/
+structure GridMetrologyRecord (width height : ℕ) where
+  width_positive : 0 < width
+  height_positive : 0 < height
+  samples : Fin width → Fin height → Observation
+  residuals : Fin width → Fin height → ResidualMeasurement
+  covariance : SpeckleCovariance (width * height)
+
+/-- A finite grid contains at least one observation in each dimension. -/
+lemma GridMetrologyRecord.dimensions_positive
+    {width height : ℕ} (record : GridMetrologyRecord width height) :
+    0 < width ∧ 0 < height :=
+  ⟨record.width_positive, record.height_positive⟩
+
+/-- Every grid residual retains its calibrated uncertainty predicate. -/
+def GridMetrologyRecord.consistent
+    {width height : ℕ} (record : GridMetrologyRecord width height) : Prop :=
+  ∀ row column, (record.residuals row column).consistent
+
+/-- A grid is consistent when each retained residual is within tolerance. -/
+lemma GridMetrologyRecord.consistent_iff
+    {width height : ℕ} (record : GridMetrologyRecord width height) :
+    record.consistent ↔ ∀ row column,
+      |(record.residuals row column).residual| ≤
+        (record.residuals row column).tolerance := by
+  constructor
+  · intro consistent row column
+    exact (record.residuals row column).consistent_iff.mp
+      (consistent row column)
+  · intro consistent row column
+    exact (record.residuals row column).consistent_iff.mpr
+      (consistent row column)
 
 end Signals.Scattering

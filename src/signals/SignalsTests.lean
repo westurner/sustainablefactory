@@ -693,6 +693,69 @@ def toySNR : Signals.Scattering.SignalToNoise :=
 example : toySNR.ratio = 2 := by
   norm_num [Signals.Scattering.SignalToNoise.ratio, toySNR]
 
+noncomputable def toyMaterialTransfer : Signals.Scattering.MaterialTransferFunction :=
+  { frequency := { hz := 400 * 10 ^ 9 }
+    frequency_pos := by norm_num
+    transfer := (1 / 2 : ℂ)
+    transmittedPowerRatio := 1 / 4
+    transmittedPowerRatio_nonnegative := by norm_num
+    transmittedPowerRatio_le_one := by norm_num
+    powerLaw := by norm_num [Complex.normSq] }
+
+example : toyMaterialTransfer.transmittedPowerRatio = 1 / 4 := by
+  norm_num [toyMaterialTransfer, Complex.normSq]
+
+noncomputable def toyFrequencyAttenuation :
+    Signals.Scattering.FrequencyDependentAttenuation :=
+  { frequency := { hz := 400 * 10 ^ 9 }
+    frequency_pos := by norm_num
+    attenuationPerLength := 1 / 10
+    attenuation_nonnegative := by norm_num
+    distance := { meters := 2 }
+    distance_nonnegative := by norm_num
+    factor := Real.exp (-2 / 5)
+    factorLaw := by norm_num }
+
+example : 0 ≤ toyFrequencyAttenuation.factor := by
+  exact toyFrequencyAttenuation.factor_nonnegative
+
+example : toyFrequencyAttenuation.factor ≤ 1 := by
+  exact toyFrequencyAttenuation.factor_le_one
+
+noncomputable def toySpeckleCovariance :
+    Signals.Scattering.SpeckleCovariance 4 :=
+  { sampleCount_positive := by norm_num
+    covariance := fun _ _ => 1
+    covariance_symmetric := by
+      intro row column
+      rfl
+    covariance_diagonal_nonnegative := by
+      intro index
+      norm_num }
+
+example : toySpeckleCovariance.covariance 0 1 =
+    toySpeckleCovariance.covariance 1 0 := by
+  exact toySpeckleCovariance.symmetric 0 1
+
+example : 0 ≤ toySpeckleCovariance.covariance 2 2 := by
+  exact toySpeckleCovariance.diagonal_nonnegative 2
+
+noncomputable def toyScatteringGrid :
+    Signals.Scattering.GridMetrologyRecord 2 2 :=
+  { width_positive := by norm_num
+    height_positive := by norm_num
+    samples := fun _ _ => toyScatteringObservation
+    residuals := fun _ _ => toyConsistentResidual
+    covariance := toySpeckleCovariance }
+
+example : 0 < 2 ∧ 0 < 2 := by
+  exact toyScatteringGrid.dimensions_positive
+
+example : toyScatteringGrid.consistent := by
+  rw [toyScatteringGrid.consistent_iff]
+  intro row column
+  norm_num [toyScatteringGrid, toyConsistentResidual]
+
 noncomputable def toyMimo : MimoArray :=
   { elementCount := 2
     elementCount_positive := by norm_num

@@ -142,7 +142,11 @@ interpretation while keeping experimental premises explicit:
    or gimbal-lock state.
 - `Signals.Scattering` models coherent I/Q observations, scattered-to-incident
    power ratios, reference-subtracted phase-height reconstruction, scattering
-   cross-section inversion, SNR, and residual-based anomaly candidates.
+   cross-section inversion, SNR, and residual-based anomaly candidates. It also
+   records finite grid observations, passive complex material transfer laws,
+   frequency-dependent attenuation, speckle covariance metadata, and per-sample
+   residual tolerances. These remain finite metrology contracts, not a
+   continuous inverse-scattering solver.
 - `Signals.NonDestructive` separates nondestructive inspection methods,
    phase-fingerprint observations, dispersive probe readout, raw-data-preserving
    calibration, reversible operations, in-situ remediation, and continuous
@@ -611,10 +615,21 @@ model, or environmental error.
    calibration, execution context, and a positive sample count. Proposed
    commit:
    `feat(signals): define compressible flow ingestion metadata`.
-16. Next loop: parse and validate external measured or simulated
+16. [Complete, finite scattering metrology] Added finite scattering grids,
+   passive material transfer functions, frequency-dependent attenuation,
+   speckle covariance metadata, and per-sample residual uncertainty. Proposed
+   commit:
+   `feat(signals): extend finite scattering metrology`.
+17. Next loop: parse and validate external measured or simulated
    compressible-flow data, then connect the shared contracts to
    polarization-resolved Proca tests, quantum detector characterization, LVP
    materials/imaging, and complete energy ledgers.
+
+The focused finite-scattering loop deliberately stops at algebraic and
+finite-dimensional contracts. It does not claim a continuous inverse problem,
+material identification, turbulence diagnosis, or fracture mechanism. Those
+claims require measured transfer functions, calibrated array geometry, noise
+and covariance estimates, and independent controls.
 
 ### Further Questions
 
@@ -955,9 +970,10 @@ Vedral, V. (2011). *The thermodynamic meaning of negative entropy*. Nature
    efficiency to a passive power budget.
 3. [Implemented] Represent phase-height inversion, cross section, SNR, and
    calibrated residuals.
-4. Next: add finite array/grid observations, complex material transfer
-   functions, frequency-dependent attenuation, speckle covariance, and
-   uncertainty propagation.
+4. [Implemented, finite extension] Add finite grid observations, passive
+   complex material transfer functions, frequency-dependent attenuation,
+   speckle covariance metadata, and per-sample residual uncertainty. These
+   records do not replace continuous inversion or external data ingestion.
 5. Pending: add weak-derivative, trace, and jump-condition structures for a
    fracture boundary only after the relevant measure, function-space, and flux
    assumptions are supplied.
