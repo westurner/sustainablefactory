@@ -206,7 +206,9 @@ interpretation while keeping experimental premises explicit:
    Its fracture boundary records finite trace, prescribed jump, flux residual,
    and weak-balance metadata, while its Madelung/GP records retain variable
    covariance, compressibility, healing length, numerical steps, and FTLE
-   diagnostics without implementing a weak-PDE or numerical solver.
+   diagnostics without implementing a weak-PDE or numerical solver. The
+   native-first numerical handoff is specified in
+   [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
    Its LightSlinger extension links an antenna to a Proca channel only through
    explicit frequency and longitudinal-coupling hypotheses; CW resonance does
    not itself establish massive-mode emission.
@@ -630,12 +632,14 @@ model, or environmental error.
 18. Next loop: formalize the required weak derivative/trace spaces and numerical
    GP/FTLE adapter against a selected mathematical library and real dataset,
    then connect the shared contracts to external flow, Proca, detector, LVP,
-   and energy evidence.
+   and energy evidence. The Rust/WASM boundary is specified in
+   [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
 
 The finite fracture/GP loop deliberately stops at explicit trace conventions,
 prescribed jumps, residuals, variable covariance, and diagnostic metadata. It
 does not claim a weak solution, crack evolution, turbulent-flow diagnosis, or
-physical fracture mechanism.
+physical fracture mechanism. The numerical implementation requirements are
+tracked in [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
 
 ### Further Questions
 
@@ -1015,13 +1019,18 @@ Vedral, V. (2011). *The thermodynamic meaning of negative entropy*. Nature
 5. [Implemented, finite contract] Add `WeakTraceJumpContract` with explicit
    measure/function-space/trace labels, prescribed trace and flux jumps, weak
    balance residuals, and tolerances. Full weak derivative and trace spaces
-   remain future work.
+   remain future work; see [Chen and Frid (1999)](https://doi.org/10.1007/s002050050146)
+   and [Francfort and Marigo (1998)](https://doi.org/10.1016/S0022-5096(98)00034-9).
 6. [Implemented, finite diagnostics] Add `MadelungGPSplat` and
    `MadelungGPGrid` with variable covariance, compressibility, healing length,
    numerical step sizes, and FTLE metadata. No fixed determinant is treated as
    incompressibility; numerical GP/Madelung solving remains future work. The
    source chat itself notes that air and superfluids are compressible
    ([fracture chat](../../data/chats/_Neutrons-and-Black-Holes-and-Fracture.md#L1258-L1308)).
+   See [Dalfovo et al. (1999)](https://doi.org/10.1103/RevModPhys.71.463),
+   [Carusotto and Ciuti (2013)](https://doi.org/10.1103/RevModPhys.85.299),
+   [Fetter (2009)](https://doi.org/10.1103/RevModPhys.81.647), and
+   [Haller (2015)](https://doi.org/10.1146/annurev-fluid-010313-141322).
 
 ### Amplituhedron Formalization Plan
 
