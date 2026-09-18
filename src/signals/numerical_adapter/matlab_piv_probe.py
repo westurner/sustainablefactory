@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import importlib.metadata
 import json
+import struct
 from pathlib import Path
 from typing import Any
 
@@ -179,6 +180,94 @@ def extract(source: str, input_path: Path, output_path: Path, frame_axis: int, s
     return output_path
 
 
+def write_cylinder_binary(input_path: Path, output_path: Path, sampling_hz: float) -> Path:
+    config = SOURCES["cylinder"]
+    metadata = source_manifest("cylinder", input_path)
+    if sampling_hz <= 0 or not np.isfinite(sampling_hz):
+        raise ValueError("sampling frequency must be finite and positive")
+    values, schema = _load_variables("cylinder", input_path)
+    u = np.asarray(values[config["variables"]["u"]], dtype=np.float64)
+    v = np.asarray(values[config["variables"]["v"]], dtype=np.float64)
+    x = _normalize_grid(values[config["variables"]["x"]], "x")
+    y = _normalize_grid(values[config["variables"]["y"]], "y")
+    if u.ndim != 3 or v.shape != u.shape:
+        raise ValueError(f"cylinder u/v must be 3D and equal, got {u.shape} and {v.shape}")
+    if x.shape != u.shape[:2] or y.shape != u.shape[:2]:
+        raise ValueError(f"cylinder x/y grids must match u/v spatial shape, got {x.shape}, {y.shape}, {u.shape}")
+    x_axis = x[:, 0]
+    y_axis = y[0, :]
+    if not np.allclose(x, x_axis[:, None]) or not np.allclose(y, y_axis[None, :]):
+        raise ValueError("cylinder grid is not rectilinear")
+    dx = float(x_axis[1] - x_axis[0])
+    dy = float(y_axis[1] - y_axis[0])
+    if dx == 0 or dy == 0 or not np.allclose(np.diff(x_axis), dx) or not np.allclose(np.diff(y_axis), dy):
+        raise ValueError("cylinder grid spacing is not regular")
+    if not np.isfinite(u).all() or not np.isfinite(v).all():
+        raise ValueError("cylinder binary conversion requires finite u/v values")
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    rows, columns, frames = u.shape
+    header_size = 144
+    plane_values = rows * columns
+    u_offset = header_size
+    v_offset = u_offset + frames * plane_values * 4
+    source_sha256 = bytes.fromhex(metadata["source_sha256"])
+    source_md5 = bytes.fromhex(metadata["source_md5"])
+    header = b"SFLOW01\0" + struct.pack(
+        "<IIQQQdddddQQ32s16s",
+        1,
+        header_size,
+        rows,
+        columns,
+        frames,
+        1.0 / sampling_hz,
+        float(x_axis[0]),
+        dx,
+        float(y_axis[0]),
+        dy,
+        u_offset,
+        v_offset,
+        source_sha256,
+        source_md5,
+    )
+    if len(header) != header_size:
+        raise AssertionError(f"unexpected flow binary header size: {len(header)}")
+    with output_path.open("wb") as stream:
+        stream.write(header)
+        for frame in range(frames):
+            np.asarray(u[:, :, frame], dtype="<f4").tofile(stream)
+        for frame in range(frames):
+            np.asarray(v[:, :, frame], dtype="<f4").tofile(stream)
+    manifest = {
+        "source": metadata,
+        "schema": [{"name": name, "shape": list(shape), "dtype": dtype} for name, shape, dtype in schema],
+        "binary": {
+            "format": "SFLOW01",
+            "path": output_path.name,
+            "sha256": sha256_file(output_path),
+            "rows": rows,
+            "columns": columns,
+            "frames": frames,
+            "sampling_hz": sampling_hz,
+            "time_step": 1.0 / sampling_hz,
+            "x0": float(x_axis[0]),
+            "dx": dx,
+            "y0": float(y_axis[0]),
+            "dy": dy,
+            "u_offset": u_offset,
+            "v_offset": v_offset,
+            "dtype": "little-endian f32",
+            "layout": "frame-major, then first MATLAB spatial axis, then second spatial axis",
+        },
+        "interpretation_boundary": {
+            "supports": ["Rust memory-mapped flow-map integration", "measured 2D velocity diagnostics", "bounded FTLE input"],
+            "does_not_establish": ["pressure or density", "3D velocity", "DDF, fracture, Proca, SQG, or FTL communication"],
+        },
+    }
+    output_path.with_suffix(".manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    return output_path
+
+
 def inspect(source: str, input_path: Path) -> None:
     metadata = source_manifest(source, input_path)
     _, schema = _load_variables(source, input_path)
@@ -195,7 +284,15 @@ def main() -> None:
     parser.add_argument("--start", type=int, default=0)
     parser.add_argument("--count", type=int, default=2)
     parser.add_argument("--sampling-hz", type=float)
+    parser.add_argument("--binary-output", type=Path, help="write a cylinder-only SFLOW01 binary for the Rust FTLE engine")
     args = parser.parse_args()
+    if args.binary_output is not None:
+        if args.source != "cylinder":
+            parser.error("--binary-output is currently supported only for --source cylinder")
+        sampling_hz = args.sampling_hz if args.sampling_hz is not None else SOURCES[args.source]["sampling_hz"]
+        output = write_cylinder_binary(args.input, args.binary_output, sampling_hz)
+        print(f"Cylinder SFLOW01 binary written: {output}")
+        return
     if args.inspect:
         inspect(args.source, args.input)
         return

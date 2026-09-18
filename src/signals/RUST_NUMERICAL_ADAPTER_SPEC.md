@@ -203,6 +203,16 @@ displacement summary. These are sensitivity diagnostics; a nonzero comparison
 residual is not a failed source or a DDF signal, and the probe sets
 `ftle_computed` to false.
 
+The `jhtdb_cutout_probe.py` utility uses the official `getCutout` path and
+writes HDF5/XMF files plus an attribution manifest. The checked probe is an
+8 x 8 x 8 x 2 channel velocity brick, bounded to 1024 values and the temporary
+token limit. The cylinder path uses `SFLOW01`: a one-time MATLAB conversion
+stores little-endian f32 frame-major `u` and `v` planes, after which Rust uses
+memory mapping and Rayon for RK2 advection and FTLE. The full cylinder sequence
+is fast to compute but is marked incomplete when trajectories leave the finite
+measured domain; short-window coverage must be reported alongside any FTLE
+field.
+
 ## Madelung/GP Diagnostics
 
 The adapter must select one explicit regime before computing:

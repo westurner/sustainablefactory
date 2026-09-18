@@ -43,6 +43,12 @@ are independently available.
 - Probe: 1024 points on a 32 x 32 plane at `y = 0`, at `t = 1.0` and `t = 1.1`.
 - Temporary-token policy: the testing token is used only for at most 4096 spatial points per request. The token is never written to the artifact or manifest.
 - Verified local output: `jhtdb_channel_probe.npz` plus `jhtdb_channel_probe.manifest.json` under `.tmp/jhtdb_probe/`; the default 1024-point probe SHA-256 is `206ea4e3820593f41a3acc1097a5ed43bf4045ad3a6b281d2a0a3c9096c1cdea`, and the capped 4096-point probe SHA-256 is `847c6dfc59023228b697767373e033993ad211b8bd1bb7599cf3dd93cbbfd947`; neither file is committed.
+- Verified cutout: the official `getCutout` path produced an 8 x 8 x 8 x 2
+  velocity HDF5/XMF pair. The HDF5 SHA-256 is
+  `db8a8dfcb8ccf05b66fd14182555b244c30da41aa422234f804b9dd86a1d7957` and the
+  XMF SHA-256 is
+  `b8d8fdfe609e30876e12683afcc843d0bd9382ceb01c5014edb660e00ad92309`.
+  The token was not recorded and the full database was not downloaded.
 
 The JHTDB service is a database, not one downloadable finite file. Its published
 DNS/LES collections are multi-terabyte or larger, and the service provides
@@ -70,6 +76,11 @@ data of flow past a cylinder" (2026), Zenodo.
 - Verified bounded extraction: first two frames at `t = 0` and `0.05 s`,
   output `2 x 135 x 80` `u/v` arrays with 21,600 valid vector values and
   NPZ SHA-256 `d47053c16f9c4c207a7e528e7ccb8c70761f5c487da9dc36d2d12e1f9548912f`.
+- Verified Rust full-sequence FTLE run: SFLOW01 binary SHA-256
+  `94a51fa5414c8f13b1c1c9c35251ae7f2d32983f454fb7122a842e7ea9f009ef`;
+  8,000 frames at 20 Hz completed in about 0.50 s release wall time. The
+  full 399.95 s window is explicitly `incomplete` because only 645 of 10,374
+  interior seeds remain in-domain. A 0.95 s window retained 7,331 seeds.
 
 This is the best measured source for the first flow-map/FTLE adapter. The adapter
 must preserve masked values, retain the original `u/v` arrays and grids, record

@@ -676,24 +676,31 @@ model, or environmental error.
    metadata. The JHTDB probe now records finite-difference gradient comparisons
    and a one-step Euler displacement diagnostic while explicitly reporting that
    FTLE was not computed.
-25. Next numerical loop: request a JHTDB HDF5 cutout or larger bounded
-   time-resolved field, then connect particle advection and deformation-gradient
-   integration to the FTLE result contract. Benchmark Vortex against
-   Arrow/Parquet only after a representative large artifact is selected.
-26. [Complete, DDF hypothesis update] Replaced the earlier SQG-centered
+25. [Complete, bounded JHTDB cutout and accelerated cylinder FTLE] Added the
+   official `getCutout` utility and verified an 8 x 8 x 8 x 2 HDF5/XMF velocity
+   cutout. Added a memory-mapped, Rayon-parallel Rust cylinder engine with RK2
+   midpoint integration, bilinear spatial interpolation, centered deformation
+   gradients, 2D Cauchy-Green eigenvalue FTLE, and machine-readable coverage
+   status. The full 8,000-frame run is intentionally `incomplete` at 6.2%
+   interior coverage over 399.95 s; a 0.95 s window retains 70.7%.
+26. Next numerical loop: use the bounded cutout in Rust particle advection,
+   add convergence/error estimates, and request a larger JHTDB cutout only
+   after the coverage and interpolation policy are fixed. Benchmark Vortex
+   against Arrow/Parquet only after a representative large artifact is selected.
+27. [Complete, DDF hypothesis update] Replaced the earlier SQG-centered
    fracture-communication framing with a conditional DDF plan. The plan
    requires an independently observed defect/mode variable, ordinary causal
    propagation at the declared transverse-phonon speed, classical controls,
    conservation accounting, and blinded replication. A weak jump, FTLE ridge,
    acoustic residual, or superluminal result is not a DDF confirmation. See
    [`DDF_FRACTURE_COMMUNICATION_PLAN.md`](DDF_FRACTURE_COMMUNICATION_PLAN.md).
-27. [Complete, DDF evidence contract] Added
+28. [Complete, DDF evidence contract] Added
    `DDFFractureCommunicationEvidence` and `DDFCommunicationMode` in
    `Signals.Pending`. The contract requires an independent defect observable,
    a classical residual outside tolerance, nonzero coupling, a causal
    transverse-phonon mode, replication, held-out agreement, and energy closure;
    it rejects unsupported longitudinal and superluminal modes by construction.
-28. Next DDF loop: populate that contract from an independent measured defect
+29. Next DDF loop: populate that contract from an independent measured defect
    observable and a classical control. No current fixture is physical DDF
    evidence.
 
