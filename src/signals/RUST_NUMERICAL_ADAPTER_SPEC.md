@@ -46,6 +46,20 @@ The first Rust implementation should be a native CLI. WASM is a later target
 for browser-side visualization or interactive parameter sweeps after the native
 numerics and serialized schema are stable.
 
+## Current Implementation Status
+
+The native core is implemented in `numerical_adapter/` with no required
+third-party numerical dependency. It currently provides metadata validation,
+weak trace/jump residuals, covariance positive-semidefinite checks, diagonal
+affine FTLE fixtures, a deterministic self-check CLI, and unit tests.
+
+The optional Vortex round-trip uses Vortex `0.86.1` and the documented session,
+in-memory write, and read APIs. In the current container, compiling that
+feature is blocked by the upstream `custom-labels` build dependency requiring a
+system `libclang` shared library. Do not treat the dependency-light core tests
+as Vortex integration validation; enable the feature only after that toolchain
+prerequisite is available.
+
 ## Preferred Artifact Format: Vortex
 
 Use [Vortex](https://github.com/vortex-data/vortex) as the primary artifact

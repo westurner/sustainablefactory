@@ -1,0 +1,19 @@
+[package]
+name = "signals-numerical-adapter"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.95"
+license = "Apache-2.0"
+description = "Native numerical boundary for Signals Pending diagnostics"
+
+[features]
+default = []
+vortex = ["dep:tokio", "dep:vortex", "vortex/tokio"]
+
+[dependencies]
+tokio = { version = "1.47.1", features = ["macros", "rt-multi-thread"], optional = true }
+vortex = { version = "0.86.1", default-features = false, features = ["files", "zstd"], optional = true }
+
+[[bin]]
+name = "signals-numerical-adapter"
+path = "src/main.rs"

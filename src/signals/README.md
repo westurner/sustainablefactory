@@ -209,6 +209,10 @@ interpretation while keeping experimental premises explicit:
    diagnostics without implementing a weak-PDE or numerical solver. The
    native-first numerical handoff is specified in
    [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
+   `numerical_adapter` provides a native Rust core for metadata validation,
+   weak-jump residuals, covariance PSD checks, and deterministic FTLE fixtures;
+   its optional Vortex file round-trip is gated separately from the dependency-
+   light core.
    Its LightSlinger extension links an antenna to a Proca channel only through
    explicit frequency and longitudinal-coupling hypotheses; CW resonance does
    not itself establish massive-mode emission.
@@ -629,12 +633,18 @@ model, or environmental error.
 17. [Complete, finite fracture/GP diagnostics] Added finite weak trace/jump
    balance contracts and Madelung/GP splat/grid diagnostics. Proposed commit:
    `feat(signals): model finite fracture traces and Madelung diagnostics`.
-18. Next loop: formalize the required weak derivative/trace spaces and numerical
-   GP/FTLE adapter against a selected mathematical library and real dataset,
-   then connect the shared contracts to external flow, Proca, detector, LVP,
-   and energy evidence. Use Vortex as the primary large-array artifact format,
-   with Arrow interoperability and CSV/JSON fixtures; the Rust/WASM boundary
-   is specified in [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
+18. [Complete, native Rust core] Implemented the dependency-light
+   `numerical_adapter` crate for metadata validation, weak-jump residuals,
+   covariance PSD checks, affine FTLE fixtures, and deterministic self-checks.
+   The optional Vortex 0.86.1 round-trip is wired but awaits the container's
+   missing `libclang` prerequisite. Proposed commit:
+   `feat(signals): implement native numerical adapter core`.
+19. Next loop: enable and benchmark the Vortex feature, then integrate a real
+   measured or simulated dataset and connect the shared contracts to external
+   flow, Proca, detector, LVP, and energy evidence. Use Vortex as the primary
+   large-array artifact format with Arrow interoperability and CSV/JSON
+   fixtures; the boundary is specified in
+   [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
 
 The finite fracture/GP loop deliberately stops at explicit trace conventions,
 prescribed jumps, residuals, variable covariance, and diagnostic metadata. It
@@ -646,6 +656,12 @@ Vortex is the planned large-array transport for the Rust adapter. Its upstream
 format and Rust API are versioned dependencies, so local performance claims
 must be benchmarked and its file-format edition must be recorded in dataset
 provenance.
+
+The native Rust adapter core is implemented under
+[`numerical_adapter`](numerical_adapter/). The optional Vortex feature is
+wired to Vortex 0.86.1 but requires a system `libclang` for the upstream
+`custom-labels` build dependency; the current Lean container lacks that shared
+library, so Vortex-feature compilation remains an environment setup step.
 
 ### Further Questions
 
