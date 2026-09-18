@@ -23,6 +23,13 @@ The extension order is deliberate:
 4. Add particle advection, deformation-gradient estimation, and FTLE only after time coordinates, interpolation error, and missing masks are explicit.
 5. Add density, pressure, temperature, and boundary/control-volume comparisons only where the source actually supplies those fields.
 
+The JHTDB convergence extension also uses source-time decimation and
+matched-coordinate spatial subsampling. A seven-frame 8 x 8 x 8 cutout is
+within the temporary 4096-value cap and supports a source-time comparison;
+spatial subsampling is a grid sensitivity, not independent higher-resolution
+validation. A representative flattened velocity export can be written as a
+Vortex 0.86.1 artifact with an explicit schema and provenance manifest.
+
 A two-time velocity sample is not by itself an FTLE field. FTLE requires a
 resolved flow map over a declared time window, interpolation rules, and a
 convergence or sensitivity check. A measured velocity field is not a pressure,
@@ -74,6 +81,14 @@ are independently available.
     `0.02038675411831692`, with a Richardson-like fine-step sensitivity estimate
     of `0.00679558470610564`. This is a bounded solver diagnostic, not a complete
     flow map or DDF evidence.
+
+  The bounded seven-frame follow-up cutout has HDF5 SHA-256
+  `d6d53c171a111cd0316bf7ed29668ed12fd165a39feeca3b14dca79ed3e98cf0` and XMF
+  SHA-256 `dff1179fadd3dcf5abbc7896438156a6ff2b3a17261584763f14b9ec769af4fd`.
+  It contains 3,584 velocity values across seven adjacent JHTDB time indices;
+  the temporary token was not recorded. The derived Vortex velocity artifact is
+  40,908 bytes with SHA-256
+  `6cf5739f7f7e3311b68c1088896c9b642c69ebbfd2156fbdc719eea2214b0799`.
 
 The JHTDB service is a database, not one downloadable finite file. Its published
 DNS/LES collections are multi-terabyte or larger, and the service provides

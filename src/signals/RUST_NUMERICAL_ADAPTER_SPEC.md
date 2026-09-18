@@ -229,6 +229,16 @@ temporal substeps; absent overlapping valid cells are reported as `null`, not
 as zero error. Finite-domain exits produce an `incomplete` result rather than
 being extrapolated.
 
+The `jhtdb-ftle` CLI also supports `--source-time-stride` and
+`--spatial-stride`. The first compares the full source-time sequence with a
+decimated sequence on the same grid; the second compares a coordinate-preserving
+subsampled grid. A separate `--spatial-reference` cutout can provide an
+independently acquired grid comparison when its calibrated time coordinates
+match. These are sensitivity diagnostics and report valid overlap counts. The
+optional `jhtdb-vortex-export` binary writes the selected velocity field as a
+flattened Vortex 0.86.1 `f32` artifact and records dimensions, coordinate
+vectors, time calibration, source checksum, and layout in a sidecar manifest.
+
 ## Madelung/GP Diagnostics
 
 The adapter must select one explicit regime before computing:

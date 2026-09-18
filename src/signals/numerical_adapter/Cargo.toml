@@ -34,3 +34,8 @@ required-features = ["cylinder"]
 name = "jhtdb-ftle"
 path = "src/bin/jhtdb_ftle.rs"
 required-features = ["jhtdb"]
+
+[[bin]]
+name = "jhtdb-vortex-export"
+path = "src/bin/jhtdb_vortex_export.rs"
+required-features = ["jhtdb", "vortex"]

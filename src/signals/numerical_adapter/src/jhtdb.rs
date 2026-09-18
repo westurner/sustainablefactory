@@ -93,9 +93,22 @@ pub struct JhtdbConvergence {
 }
 
 #[derive(Clone, Debug, PartialEq)]
+pub struct JhtdbSensitivity {
+    pub comparison: String,
+    pub compared_count: usize,
+    pub max_abs_ftle_delta: Option<f64>,
+    pub mean_abs_ftle_delta: Option<f64>,
+    pub rmse_ftle_delta: Option<f64>,
+    pub reference_valid_count: usize,
+    pub comparison_valid_count: usize,
+}
+
+#[derive(Clone, Debug, PartialEq)]
 pub struct JhtdbFlowMapResult {
     pub field: JhtdbFtleField,
     pub convergence: JhtdbConvergence,
+    pub source_time_sensitivity: Option<JhtdbSensitivity>,
+    pub spatial_sensitivity: Option<JhtdbSensitivity>,
 }
 
 impl JhtdbCutout {
@@ -294,6 +307,71 @@ impl JhtdbCutout {
         Ok(calibrated)
     }
 
+    pub fn with_time_stride(&self, stride: usize) -> Result<Self, JhtdbError> {
+        if stride == 0 {
+            return Err(JhtdbError::InvalidParameter(
+                "time stride must be positive".into(),
+            ));
+        }
+        let indices: Vec<usize> = (0..self.frames.len()).step_by(stride).collect();
+        if indices.len() < 2 {
+            return Err(JhtdbError::InvalidParameter(
+                "time stride must retain at least two frames".into(),
+            ));
+        }
+        let mut selected = self.clone();
+        selected.times = indices.iter().map(|index| self.times[*index]).collect();
+        selected.frames = indices
+            .iter()
+            .map(|index| self.frames[*index].clone())
+            .collect();
+        selected.time_index_step = self.time_index_step * stride as f64;
+        selected.time_calibration = format!(
+            "source-time decimation by factor {stride}; raw HDF5 index stride {}",
+            selected.time_index_step
+        );
+        Ok(selected)
+    }
+
+    pub fn with_spatial_stride(&self, stride: usize) -> Result<Self, JhtdbError> {
+        if stride == 0 {
+            return Err(JhtdbError::InvalidParameter(
+                "spatial stride must be positive".into(),
+            ));
+        }
+        let x_indices = subsampled_indices(self.x.len(), stride);
+        let y_indices = subsampled_indices(self.y.len(), stride);
+        let z_indices = subsampled_indices(self.z.len(), stride);
+        if x_indices.len() < 3 || y_indices.len() < 3 || z_indices.len() < 3 {
+            return Err(JhtdbError::InvalidParameter(
+                "spatial stride must retain at least three points per axis".into(),
+            ));
+        }
+        let mut selected = self.clone();
+        selected.x = x_indices.iter().map(|index| self.x[*index]).collect();
+        selected.y = y_indices.iter().map(|index| self.y[*index]).collect();
+        selected.z = z_indices.iter().map(|index| self.z[*index]).collect();
+        selected.frames = self
+            .frames
+            .iter()
+            .map(|frame| {
+                let mut values =
+                    Vec::with_capacity(x_indices.len() * y_indices.len() * z_indices.len());
+                for z_index in &z_indices {
+                    for y_index in &y_indices {
+                        for x_index in &x_indices {
+                            values.push(frame[self.flat_index(*x_index, *y_index, *z_index)]);
+                        }
+                    }
+                }
+                values
+            })
+            .collect();
+        selected.time_calibration =
+            format!("spatial subsampling by factor {stride}; source coordinates retained");
+        Ok(selected)
+    }
+
     pub fn x(&self) -> &[f64] {
         &self.x
     }
@@ -308,6 +386,17 @@ impl JhtdbCutout {
 
     pub fn times(&self) -> &[f64] {
         &self.times
+    }
+
+    pub fn flattened_velocity_f32(&self) -> Vec<f32> {
+        self.frames
+            .iter()
+            .flat_map(|frame| {
+                frame
+                    .iter()
+                    .flat_map(|velocity| velocity.iter().map(|value| *value as f32))
+            })
+            .collect()
     }
 
     pub fn dimensions(&self) -> [usize; DIMENSION_COUNT] {
@@ -514,7 +603,54 @@ impl JhtdbCutout {
                 coarse_valid_count: coarse.valid_count,
                 fine_valid_count: fine.valid_count,
             },
+            source_time_sensitivity: None,
+            spatial_sensitivity: None,
         })
+    }
+
+    pub fn compute_sensitivities(
+        &self,
+        coarse_substeps: usize,
+        source_time_stride: usize,
+        spatial_stride: usize,
+    ) -> Result<JhtdbFlowMapResult, JhtdbError> {
+        let mut result = self.compute_convergence(coarse_substeps)?;
+        if source_time_stride > 1 {
+            let source_time = self.with_time_stride(source_time_stride)?;
+            let source_time_field = source_time.compute_ftle(result.field.substeps_per_interval)?;
+            result.source_time_sensitivity = Some(compare_same_grid(
+                "source-time decimation",
+                &result.field,
+                &source_time_field,
+            ));
+        }
+        if spatial_stride > 1 {
+            let spatial = self.with_spatial_stride(spatial_stride)?;
+            let spatial_field = spatial.compute_ftle(result.field.substeps_per_interval)?;
+            result.spatial_sensitivity = Some(compare_spatial_grid(
+                "spatial subsampling",
+                &result.field,
+                self,
+                &spatial,
+                &spatial_field,
+            ));
+        }
+        Ok(result)
+    }
+
+    pub fn compare_spatial_resolution(
+        &self,
+        reference: &JhtdbFtleField,
+        candidate_cutout: &JhtdbCutout,
+        candidate: &JhtdbFtleField,
+    ) -> JhtdbSensitivity {
+        compare_spatial_grid(
+            "spatial reference cutout",
+            reference,
+            self,
+            candidate_cutout,
+            candidate,
+        )
     }
 
     fn flat_index(&self, x_index: usize, y_index: usize, z_index: usize) -> usize {
@@ -614,6 +750,131 @@ fn read_axis(file: &File, name: &str) -> Result<Vec<f64>, JhtdbError> {
     dataset
         .read_f64()
         .map_err(|error| JhtdbError::Hdf5(format!("{name} values: {error}")))
+}
+
+fn subsampled_indices(length: usize, stride: usize) -> Vec<usize> {
+    let mut indices: Vec<usize> = (0..length).step_by(stride).collect();
+    if indices.last().copied() != Some(length - 1) {
+        indices.push(length - 1);
+    }
+    indices
+}
+
+fn compare_same_grid(
+    comparison: &str,
+    reference: &JhtdbFtleField,
+    candidate: &JhtdbFtleField,
+) -> JhtdbSensitivity {
+    let deltas: Vec<f64> = reference
+        .values
+        .iter()
+        .zip(&candidate.values)
+        .filter_map(|(reference, candidate)| {
+            if reference.is_finite() && candidate.is_finite() {
+                Some((candidate - reference).abs())
+            } else {
+                None
+            }
+        })
+        .collect();
+    sensitivity_from_deltas(
+        comparison,
+        &deltas,
+        reference.valid_count,
+        candidate.valid_count,
+    )
+}
+
+fn compare_spatial_grid(
+    comparison: &str,
+    reference: &JhtdbFtleField,
+    reference_cutout: &JhtdbCutout,
+    candidate_cutout: &JhtdbCutout,
+    candidate: &JhtdbFtleField,
+) -> JhtdbSensitivity {
+    let x_indices = candidate_cutout
+        .x
+        .iter()
+        .map(|coordinate| find_coordinate_index(&reference_cutout.x, *coordinate))
+        .collect::<Option<Vec<_>>>();
+    let y_indices = candidate_cutout
+        .y
+        .iter()
+        .map(|coordinate| find_coordinate_index(&reference_cutout.y, *coordinate))
+        .collect::<Option<Vec<_>>>();
+    let z_indices = candidate_cutout
+        .z
+        .iter()
+        .map(|coordinate| find_coordinate_index(&reference_cutout.z, *coordinate))
+        .collect::<Option<Vec<_>>>();
+    let (Some(x_indices), Some(y_indices), Some(z_indices)) = (x_indices, y_indices, z_indices)
+    else {
+        return sensitivity_from_deltas(comparison, &[], 0, 0);
+    };
+    let mut deltas = Vec::new();
+    let mut reference_valid_count = 0;
+    let mut candidate_valid_count = 0;
+    for (z_index, _) in z_indices.iter().enumerate() {
+        for (y_index, _) in y_indices.iter().enumerate() {
+            for (x_index, _) in x_indices.iter().enumerate() {
+                let candidate_index = (z_index * candidate.dimensions[1] + y_index)
+                    * candidate.dimensions[0]
+                    + x_index;
+                let reference_index = (z_indices[z_index] * reference.dimensions[1]
+                    + y_indices[y_index])
+                    * reference.dimensions[0]
+                    + x_indices[x_index];
+                let reference_value = reference.values[reference_index];
+                let candidate_value = candidate.values[candidate_index];
+                if reference_value.is_finite() {
+                    reference_valid_count += 1;
+                }
+                if candidate_value.is_finite() {
+                    candidate_valid_count += 1;
+                }
+                if reference_value.is_finite() && candidate_value.is_finite() {
+                    deltas.push((candidate_value - reference_value).abs());
+                }
+            }
+        }
+    }
+    sensitivity_from_deltas(
+        comparison,
+        &deltas,
+        reference_valid_count,
+        candidate_valid_count,
+    )
+}
+
+fn find_coordinate_index(axis: &[f64], coordinate: f64) -> Option<usize> {
+    axis.iter()
+        .position(|value| (*value - coordinate).abs() <= 1e-12)
+}
+
+fn sensitivity_from_deltas(
+    comparison: &str,
+    deltas: &[f64],
+    reference_valid_count: usize,
+    comparison_valid_count: usize,
+) -> JhtdbSensitivity {
+    let (max_abs, mean_abs, rmse) = if deltas.is_empty() {
+        (None, None, None)
+    } else {
+        let max_abs = deltas.iter().copied().fold(0.0, f64::max);
+        let mean_abs = deltas.iter().sum::<f64>() / deltas.len() as f64;
+        let rmse =
+            (deltas.iter().map(|delta| delta * delta).sum::<f64>() / deltas.len() as f64).sqrt();
+        (Some(max_abs), Some(mean_abs), Some(rmse))
+    };
+    JhtdbSensitivity {
+        comparison: comparison.into(),
+        compared_count: deltas.len(),
+        max_abs_ftle_delta: max_abs,
+        mean_abs_ftle_delta: mean_abs,
+        rmse_ftle_delta: rmse,
+        reference_valid_count,
+        comparison_valid_count,
+    }
 }
 
 fn validate_axes_and_frames(

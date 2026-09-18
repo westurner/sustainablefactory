@@ -6,6 +6,12 @@ use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::path::{Path, PathBuf};
 
+struct SensitivityOptions<'a> {
+    source_time_stride: usize,
+    spatial_stride: usize,
+    spatial_reference: Option<&'a Path>,
+}
+
 fn main() {
     if let Err(error) = run() {
         eprintln!("jhtdb-ftle failed: {error}");
@@ -19,6 +25,10 @@ fn run() -> Result<(), JhtdbError> {
     let output = required_path(&arguments, "--output")?;
     let expected_sha256 = optional_string(&arguments, "--expected-sha256")?;
     let coarse_substeps = optional_usize(&arguments, "--substeps")?.unwrap_or(1);
+    let source_time_stride = optional_usize(&arguments, "--source-time-stride")?.unwrap_or(1);
+    let spatial_stride = optional_usize(&arguments, "--spatial-stride")?.unwrap_or(1);
+    let spatial_reference = optional_path(&arguments, "--spatial-reference")?;
+    let spatial_reference_sha256 = optional_string(&arguments, "--spatial-reference-sha256")?;
     let physical_time_step = optional_f64(&arguments, "--physical-time-step")?;
     let cutout = JhtdbCutout::open(&input, expected_sha256.as_deref())?;
     let cutout = match physical_time_step {
@@ -26,9 +36,44 @@ fn run() -> Result<(), JhtdbError> {
         None => cutout,
     };
     let common_dataset = cutout.to_vector_field_dataset()?;
-    let result = cutout.compute_convergence(coarse_substeps)?;
+    let mut result = cutout.compute_sensitivities(
+        coarse_substeps,
+        source_time_stride,
+        if spatial_reference.is_some() {
+            1
+        } else {
+            spatial_stride
+        },
+    )?;
+    if let Some(spatial_reference) = spatial_reference.as_ref() {
+        let spatial_cutout =
+            JhtdbCutout::open(spatial_reference, spatial_reference_sha256.as_deref())?;
+        let spatial_cutout = match physical_time_step {
+            Some(step) => spatial_cutout.with_physical_time_step(step)?,
+            None => spatial_cutout,
+        };
+        if spatial_cutout.times() != cutout.times() {
+            return Err(JhtdbError::InvalidParameter(
+                "spatial reference must have the same calibrated time coordinates".into(),
+            ));
+        }
+        let spatial_field = spatial_cutout.compute_ftle(result.field.substeps_per_interval)?;
+        result.spatial_sensitivity =
+            Some(cutout.compare_spatial_resolution(&result.field, &spatial_cutout, &spatial_field));
+    }
     write_csv(&output, &cutout, &result.field)?;
-    write_manifest(&output, &input, &cutout, &common_dataset, &result)?;
+    write_manifest(
+        &output,
+        &input,
+        &cutout,
+        &common_dataset,
+        &result,
+        SensitivityOptions {
+            source_time_stride,
+            spatial_stride,
+            spatial_reference: spatial_reference.as_deref(),
+        },
+    )?;
 
     let finite_values: Vec<f64> = result
         .field
@@ -100,6 +145,7 @@ fn write_manifest(
     cutout: &JhtdbCutout,
     common_dataset: &signals_numerical_adapter::VectorFieldDataset,
     result: &JhtdbFlowMapResult,
+    sensitivity: SensitivityOptions<'_>,
 ) -> Result<(), JhtdbError> {
     let manifest_path = output.with_extension("manifest.json");
     let field = &result.field;
@@ -129,6 +175,26 @@ fn write_manifest(
     )
     .map_err(JhtdbError::Io)?;
     writeln!(writer, "  \"frame_count\": {},", cutout.times().len()).map_err(JhtdbError::Io)?;
+    writeln!(
+        writer,
+        "  \"source_time_stride\": {},",
+        sensitivity.source_time_stride
+    )
+    .map_err(JhtdbError::Io)?;
+    writeln!(
+        writer,
+        "  \"spatial_stride\": {},",
+        sensitivity.spatial_stride
+    )
+    .map_err(JhtdbError::Io)?;
+    writeln!(
+        writer,
+        "  \"spatial_reference\": {},",
+        sensitivity
+            .spatial_reference
+            .map_or_else(|| "null".into(), |path| format!("{:?}", path.display()))
+    )
+    .map_err(JhtdbError::Io)?;
     writeln!(
         writer,
         "  \"time_index_step\": {},",
@@ -244,6 +310,18 @@ fn write_manifest(
     )
     .map_err(JhtdbError::Io)?;
     writeln!(writer, "  }},").map_err(JhtdbError::Io)?;
+    write_sensitivity(
+        &mut writer,
+        "source_time_sensitivity",
+        result.source_time_sensitivity.as_ref(),
+    )?;
+    writeln!(writer, ",").map_err(JhtdbError::Io)?;
+    write_sensitivity(
+        &mut writer,
+        "spatial_sensitivity",
+        result.spatial_sensitivity.as_ref(),
+    )?;
+    writeln!(writer, ",").map_err(JhtdbError::Io)?;
     writeln!(
         writer,
         "  \"common_vector_field_points\": {},",
@@ -267,6 +345,31 @@ fn optional_value(value: Option<f64>) -> String {
     value.map_or_else(|| "null".into(), |value| value.to_string())
 }
 
+fn write_sensitivity(
+    writer: &mut BufWriter<File>,
+    name: &str,
+    sensitivity: Option<&signals_numerical_adapter::jhtdb::JhtdbSensitivity>,
+) -> Result<(), JhtdbError> {
+    write!(writer, "  \"{name}\": ").map_err(JhtdbError::Io)?;
+    let Some(sensitivity) = sensitivity else {
+        write!(writer, "null").map_err(JhtdbError::Io)?;
+        return Ok(());
+    };
+    write!(
+        writer,
+        "{{\"comparison\": {:?}, \"compared_count\": {}, \"max_abs_ftle_delta\": {}, \"mean_abs_ftle_delta\": {}, \"rmse_ftle_delta\": {}, \"reference_valid_count\": {}, \"comparison_valid_count\": {}}}",
+        sensitivity.comparison,
+        sensitivity.compared_count,
+        optional_value(sensitivity.max_abs_ftle_delta),
+        optional_value(sensitivity.mean_abs_ftle_delta),
+        optional_value(sensitivity.rmse_ftle_delta),
+        sensitivity.reference_valid_count,
+        sensitivity.comparison_valid_count
+    )
+    .map_err(JhtdbError::Io)?;
+    Ok(())
+}
+
 fn required_path(arguments: &[String], flag: &str) -> Result<PathBuf, JhtdbError> {
     arguments
         .iter()
@@ -274,6 +377,16 @@ fn required_path(arguments: &[String], flag: &str) -> Result<PathBuf, JhtdbError
         .and_then(|index| arguments.get(index + 1))
         .map(PathBuf::from)
         .ok_or_else(|| JhtdbError::InvalidParameter(format!("missing {flag} <path>")))
+}
+
+fn optional_path(arguments: &[String], flag: &str) -> Result<Option<PathBuf>, JhtdbError> {
+    let Some(index) = arguments.iter().position(|argument| argument == flag) else {
+        return Ok(None);
+    };
+    arguments
+        .get(index + 1)
+        .map(|value| Some(PathBuf::from(value)))
+        .ok_or_else(|| JhtdbError::InvalidParameter(format!("missing value after {flag}")))
 }
 
 fn optional_string(arguments: &[String], flag: &str) -> Result<Option<String>, JhtdbError> {

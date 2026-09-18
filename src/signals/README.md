@@ -695,20 +695,30 @@ model, or environmental error.
    `incomplete`; the refinement estimate is a sensitivity diagnostic, not
    continuum-convergence proof. Benchmark Vortex against Arrow/Parquet only
    after a representative large artifact is selected.
-27. [Complete, DDF hypothesis update] Replaced the earlier SQG-centered
+27. [Complete, multi-axis convergence and Vortex artifact] Added source-time
+   decimation, matched-coordinate spatial subsampling, and a separate spatial
+   reference-cutout comparison to `jhtdb-ftle`. The verified seven-frame
+   8 x 8 x 8 cutout produced RK2 max delta `0.00412244`, source-time max delta
+   `0.01024616`, and spatial-subsampling max delta `0.22363163`; coverage was
+   84 of 216 interior cells (38.9%) over the longer window, so the result is
+   intentionally incomplete. Added an optional Vortex 0.86.1 export with a
+   flattened frame-major `f32` layout and provenance manifest; the verified
+   artifact is 40,908 bytes with SHA-256
+   `6cf5739f7f7e3311b68c1088896c9b642c69ebbfd2156fbdc719eea2214b0799`.
+28. [Complete, DDF hypothesis update] Replaced the earlier SQG-centered
    fracture-communication framing with a conditional DDF plan. The plan
    requires an independently observed defect/mode variable, ordinary causal
    propagation at the declared transverse-phonon speed, classical controls,
    conservation accounting, and blinded replication. A weak jump, FTLE ridge,
    acoustic residual, or superluminal result is not a DDF confirmation. See
    [`DDF_FRACTURE_COMMUNICATION_PLAN.md`](DDF_FRACTURE_COMMUNICATION_PLAN.md).
-28. [Complete, DDF evidence contract] Added
+29. [Complete, DDF evidence contract] Added
    `DDFFractureCommunicationEvidence` and `DDFCommunicationMode` in
    `Signals.Pending`. The contract requires an independent defect observable,
    a classical residual outside tolerance, nonzero coupling, a causal
    transverse-phonon mode, replication, held-out agreement, and energy closure;
    it rejects unsupported longitudinal and superluminal modes by construction.
-29. Next DDF loop: populate that contract from an independent measured defect
+30. Next DDF loop: populate that contract from an independent measured defect
    observable and a classical control. No current fixture is physical DDF
    evidence.
 
@@ -734,8 +744,8 @@ downloaded artifact is kept outside the repository and its checksum is retained
 in the reader metadata. `jhtdb_probe.py` writes a local bounded NPZ, a
 `VectorFieldDataset`-shaped JSON summary, and an attribution manifest;
 `matlab_piv_probe.py` verifies and extracts the measured cylinder PIV source;
-RSPID controls and the bounded JHTDB cutout are implemented. Rust
-source-time/spatial convergence, larger-array benchmarks, and physical DDF
+RSPID controls and bounded JHTDB cutouts are implemented. Larger-array
+benchmarks, independent spatial/source-time validation, and physical DDF
 evidence remain future work.
 
 ### Open Flow Dataset Research

@@ -279,3 +279,36 @@ not a proof of continuum convergence.
 The next numerical loop is a larger or more temporally resolved cutout with
 independent spatial and source-time convergence checks. Physical DDF evidence
 remains a separate, unpopulated boundary.
+
+## Alternative Independent Observables
+
+The current DDF contract needs an observable measured independently of the
+proposed communication residual. These alternatives are ordered by how directly
+they can satisfy that requirement, not by whether they support DDF:
+
+| Alternative | Independent observable | Classical controls | Access and attribution | DDF boundary |
+| --- | --- | --- | --- | --- |
+| Open acoustic-emission fracture data | Sensor waveforms, onset times, source location, frequency content, and load-linked event rate | Load/displacement curve, sensor calibration, arrival-time triangulation, known Mode I/II specimens, and blind negative controls | Zenodo 10565566, `10.5281/zenodo.10565566`, open; waveform data for microscopic fracturing in tight reservoir rocks | Ordinary elastic fracture/acoustic emission only; not a DDF defect or carrier |
+| Hydraulic-fracture interaction data | Crack geometry and interaction with discontinuities under controlled injection/loading | Pump pressure/flow, boundary conditions, imaging, and injected-volume/energy accounting | Zenodo 6811452, `10.5281/zenodo.6811452`, open; inspect files and license before acquisition | Mechanical fracture control; residuals remain classical without a separate DDF observable |
+| AE plus time-frequency shale data | Event timing and time-frequency features tied to bedding-dependent tensile failure | Stress path, specimen geometry, sensor response, and held-out failure mode | Zenodo 18501172, `10.5281/zenodo.18501172`, open; seven files reported by the record | Mode/arrival control, not evidence of transverse-phonon propagation |
+| Distributed fiber-optic fracture monitoring | Spatially resolved strain during fracture propagation and caging | Fiber gauge calibration, mechanical load, boundary conditions, and independent crack imaging | Zenodo 20780049, `10.5281/zenodo.20780049`, open; 22 files reported by the record | Strong strain-defect candidate, but ordinary elastic strain is the null |
+| Superfluid-vortex analog | Processed vortex shedding, circulation/wake observables, force response, and selected wavefunction snapshots | Gross-Pitaevskii parameter recovery, obstacle geometry, grid/time-step convergence, and classical-fluid benchmark | Kwon and Shin, Zenodo 20068724, `10.5281/zenodo.20068724`, CC BY 4.0; 18.7 MB processed archive, raw time-dependent wavefunctions excluded | Analog/model control only; cannot confirm a terrestrial DDF medium |
+
+### Recommended DDF evidence sequence
+
+1. Start with an open AE or fiber-optic record to build an independent defect
+   observable and calibrate event timing, strain, energy release, and ordinary
+   elastic propagation.
+2. Pair it with controlled force/pressure or hydraulic-fracture data to estimate
+   classical coupling and reject load, pump, boundary, and sensor explanations.
+3. Use the superfluid-vortex archive only as a model/API control for circulation,
+   pressure-deficit, mode, and wake extraction. It is not a physical DDF test.
+4. Populate `DDFVortexObservable` only when the observable is acquired through a
+   channel independent of the communication residual and its calibration data
+   are retained. Populate `DDFFractureCommunicationEvidence` only after a
+   held-out waveform, replication, causal mode/arrival test, and energy closure.
+
+The restricted fatigue-crack-growth record `10.5281/zenodo.20610375` links
+crack growth, acoustic emission, and fractography, but it is not currently an
+open acquisition target. The open alternatives above are the reproducible first
+choices.
