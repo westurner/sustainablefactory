@@ -23,6 +23,17 @@ specified in [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
 
 ## Updated Hypotheses
 
+### Summary
+The revised model is:
+
+- `H0`: ordinary calibrated acoustic, elastic, optical, detector, and environmental effects explain the signal.
+- `HDDF`: an additional reproducible term exists, tied to an independently measured DDF defect, pressure/enthalpy deficit, phase winding, or transverse-mode signature.
+- DDF propagation remains causal at the declared transverse-phonon speed. FTL, SQG-current, or longitudinal-Proca results reject this DDF model rather than confirm it.
+- The active-radiation null test is separate and cannot establish fracture communication.
+
+This plan covers classical calibration, PIV/JHTDB flow maps, weak trace/jump controls, mode and arrival-time analysis, blinded waveform transmission, conservation accounting, replication, and explicit rejection criteria.
+
+
 ### Classical null hypothesis
 
 `H0` states that every observed signal is explained by the ordinary calibrated
