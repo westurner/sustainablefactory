@@ -211,9 +211,9 @@ interpretation while keeping experimental premises explicit:
    [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
    `numerical_adapter` provides a native Rust core for metadata validation,
    simulated flow-dataset ingestion, weak-jump residuals, covariance PSD checks,
-   and deterministic FTLE fixtures;
-   its optional Vortex file round-trip is gated separately from the dependency-
-   light core.
+   and deterministic FTLE fixtures. Its optional Vortex file round-trip and
+   pure-Rust HDF5 input path are gated separately from the dependency-light
+   core.
    Its LightSlinger extension links an antenna to a Proca channel only through
    explicit frequency and longitudinal-coupling hypotheses; CW resonance does
    not itself establish massive-mode emission.
@@ -646,10 +646,21 @@ model, or environmental error.
    as the primary large-array artifact format with Arrow interoperability and
    CSV/JSON fixtures. The boundary is specified in
    [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
-20. Next loop: ingest a real measured or solver-produced dataset, then connect
-   the shared contracts to external flow, Proca, detector, LVP, and energy
-   evidence. Benchmark Vortex against Arrow/Parquet and fallback readers after
-   the first representative artifact is selected.
+20. [Complete, solver-produced external ingestion] Researched open flow
+   sources and selected PDEBench's DaRUS `Sod6.hdf5` as the first bounded
+   artifact. The optional `hdf5-pure` reader validates its metadata, array
+   shapes, monotone coordinates, decoded density/pressure/`Vx` fields, and
+   explicit prefix handling for the source's 202 time coordinates versus 201
+   field rows. The artifact is not committed; set
+   `SIGNALS_PDEBENCH_SOD6` to its local path to run the integration test.
+21. Next loop: add a measured validation adapter for the NASA/TMBWG NACA 0012
+   experimental `.dat` curves, then connect scalar pressure/force observations
+   to the shared evidence and comparison contracts. The Sod6 `Vx` field is
+   identically zero and supplies no resolved flow map, so it must not be used
+   as an FTLE or physical plume validation case.
+22. Later: evaluate JHTDB cutouts and larger PDEBench cases for time-resolved
+   velocity fields. Benchmark Vortex against Arrow/Parquet and fallback readers
+   only after a representative large artifact is selected.
 
 The finite fracture/GP loop deliberately stops at explicit trace conventions,
 prescribed jumps, residuals, variable covariance, and diagnostic metadata. It
@@ -667,14 +678,43 @@ The native Rust adapter core is implemented under
 wired to Vortex 0.86.1 and has a passing in-memory round-trip test in the
 current environment. The development Dockerfiles install `libclang-dev` for
 the upstream `custom-labels` build dependency. The adapter now validates a
-deterministic simulated affine-flow dataset; benchmark and real-artifact
-ingestion remain future work.
+deterministic simulated affine-flow dataset and, behind the `hdf5` feature,
+reads the public PDEBench Sod6 HDF5 artifact with `hdf5-pure` 0.46.1. The
+downloaded artifact is kept outside the repository and its checksum is retained
+in the reader metadata; broader real-artifact coverage and benchmarks remain
+future work.
+
+### Open Flow Dataset Research
+
+- **Selected first: [PDEBench Datasets](https://doi.org/10.18419/darus-2986).**
+   The DaRUS record is released under CC BY 4.0 and describes solver-produced
+   HDF5 arrays with compressible Navier-Stokes variables. Its compact
+   `Sod6.hdf5` file is 4,948,776 bytes and contains `density`, `pressure`, and
+   `Vx` arrays with shape `(201, 1024)`, plus `x-coordinate` `(1024,)` and
+   `t-coordinate` `(202,)`. The adapter records the source MD5 and the locally
+   verified SHA-256. This is a schema and provenance test, not an experimental
+   validation: the stored `Vx` field is zero and no flow map is supplied.
+- **Measured follow-up: [NASA/TMBWG NACA 0012 validation case](https://tmbwg.github.io/turbmodels/naca0012_val.html).**
+   TMBWG publishes small experimental lift, drag, and surface-pressure data
+   files alongside the CFD grids. These are useful for a measured scalar
+   comparison adapter, but they are not a time-resolved volumetric velocity
+   field and the page should be treated as the authoritative access and
+   attribution boundary rather than assuming a separate license.
+- **Large solver-produced follow-up: [JHTDB](https://turbulence.idies.jhu.edu/home).**
+   JHTDB provides web-service queries and HDF5 cutouts from multi-terabyte DNS
+   and LES databases, including velocity, pressure, and gradients. It is a
+   strong later source for flow-map/FTLE work, but its remote query and cutout
+   provenance need a bounded artifact manifest before entering this repository.
+- **PIV candidates:** Zenodo and Dryad expose open experimental PIV/PTV
+   records with CC BY or CC0 terms, but file sizes and schemas vary widely. A
+   candidate must be inspected for calibration, coordinate units, uncertainty,
+   and a reproducible subset before it is selected over the TMBWG scalar case.
 
 ### Further Questions
 
-1. Which measured or simulated compressible-flow data should supply the
-   velocity flow map used for FTLE, and what time window and interpolation error
-   should be recorded?
+1. Which time-resolved velocity dataset should replace the zero-`Vx` Sod6
+   fixture for a flow map used in FTLE, and what time window and interpolation
+   error should be recorded?
 2. Which weak function space, measure, trace operator, and normal-flux pairing
    should govern the fracture contract before a genuine weak derivative theorem
    is attempted?

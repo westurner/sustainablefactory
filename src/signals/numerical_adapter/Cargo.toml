@@ -8,9 +8,12 @@ description = "Native numerical boundary for Signals Pending diagnostics"
 
 [features]
 default = []
+hdf5 = ["dep:hdf5-pure", "dep:sha2"]
 vortex = ["dep:tokio", "dep:vortex", "vortex/tokio"]
 
 [dependencies]
+hdf5-pure = { version = "0.46.1", optional = true }
+sha2 = { version = "0.10.9", optional = true }
 tokio = { version = "1.47.1", features = ["macros", "rt-multi-thread"], optional = true }
 vortex = { version = "0.86.1", default-features = false, features = ["files", "zstd"], optional = true }
 

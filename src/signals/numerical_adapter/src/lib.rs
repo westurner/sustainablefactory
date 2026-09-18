@@ -105,6 +105,288 @@ impl FlowDataset {
     }
 }
 
+/// The relationship between source time coordinates and stored field rows.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum TimeAxisPolicy {
+    Exact,
+    PrefixByOne,
+}
+
+/// One spatial row from an external compressible-flow field dataset.
+#[derive(Clone, Debug, PartialEq)]
+pub struct FlowFieldSnapshot {
+    pub time: f64,
+    pub density: Vec<f64>,
+    pub pressure: Vec<f64>,
+    pub velocity_x: Vec<f64>,
+}
+
+impl FlowFieldSnapshot {
+    fn validate(&self, spatial_count: usize) -> Result<(), ValidationError> {
+        require_finite("field_time", self.time)?;
+        if self.density.len() != spatial_count
+            || self.pressure.len() != spatial_count
+            || self.velocity_x.len() != spatial_count
+        {
+            return Err(ValidationError::ShapeMismatch("flow snapshot fields"));
+        }
+        for value in &self.density {
+            require_finite("density", *value)?;
+        }
+        for value in &self.pressure {
+            require_finite("pressure", *value)?;
+        }
+        for value in &self.velocity_x {
+            require_finite("velocity_x", *value)?;
+        }
+        Ok(())
+    }
+}
+
+/// A validated external measured or solver-produced field dataset.
+#[derive(Clone, Debug, PartialEq)]
+pub struct FlowFieldDataset {
+    pub origin: FlowDataOrigin,
+    pub case_name: String,
+    pub source_label: String,
+    pub metadata: DatasetMetadata,
+    pub coordinates: Vec<f64>,
+    pub time_coordinates: Vec<f64>,
+    pub snapshots: Vec<FlowFieldSnapshot>,
+    pub time_axis_policy: TimeAxisPolicy,
+}
+
+impl FlowFieldDataset {
+    pub fn validate(&self, tolerance: f64) -> Result<(), ValidationError> {
+        self.metadata.validate()?;
+        if self.case_name.trim().is_empty() {
+            return Err(ValidationError::MissingMetadata("case_name"));
+        }
+        if self.source_label.trim().is_empty() {
+            return Err(ValidationError::MissingMetadata("source_label"));
+        }
+        require_nonnegative("coordinate_tolerance", tolerance)?;
+        if self.coordinates.is_empty()
+            || self.time_coordinates.is_empty()
+            || self.snapshots.is_empty()
+        {
+            return Err(ValidationError::EmptyDataset);
+        }
+
+        let mut previous_coordinate = None;
+        for coordinate in &self.coordinates {
+            require_finite("coordinate", *coordinate)?;
+            if let Some(previous) = previous_coordinate
+                && *coordinate <= previous
+            {
+                return Err(ValidationError::NonMonotonicCoordinate("x-coordinate"));
+            }
+            previous_coordinate = Some(*coordinate);
+        }
+
+        match self.time_axis_policy {
+            TimeAxisPolicy::Exact if self.time_coordinates.len() != self.snapshots.len() => {
+                return Err(ValidationError::CoordinateLengthMismatch("time-coordinate"));
+            }
+            TimeAxisPolicy::PrefixByOne
+                if self.time_coordinates.len() != self.snapshots.len() + 1 =>
+            {
+                return Err(ValidationError::CoordinateLengthMismatch("time-coordinate"));
+            }
+            _ => {}
+        }
+
+        let mut previous_time = None;
+        for (index, time) in self.time_coordinates.iter().enumerate() {
+            require_finite("time-coordinate", *time)?;
+            if let Some(previous) = previous_time
+                && *time <= previous
+            {
+                return Err(ValidationError::NonMonotonicTime);
+            }
+            previous_time = Some(*time);
+            if index < self.snapshots.len()
+                && (self.snapshots[index].time - *time).abs() > tolerance
+            {
+                return Err(ValidationError::CoordinateMismatch("snapshot time"));
+            }
+        }
+
+        let mut previous_snapshot_time = None;
+        for snapshot in &self.snapshots {
+            snapshot.validate(self.coordinates.len())?;
+            if let Some(previous) = previous_snapshot_time
+                && snapshot.time <= previous
+            {
+                return Err(ValidationError::NonMonotonicTime);
+            }
+            previous_snapshot_time = Some(snapshot.time);
+        }
+        Ok(())
+    }
+
+    pub fn spatial_count(&self) -> usize {
+        self.coordinates.len()
+    }
+
+    pub fn snapshot_count(&self) -> usize {
+        self.snapshots.len()
+    }
+
+    pub fn max_abs_velocity_x(&self) -> f64 {
+        self.snapshots
+            .iter()
+            .flat_map(|snapshot| snapshot.velocity_x.iter())
+            .map(|value| value.abs())
+            .fold(0.0, f64::max)
+    }
+}
+
+#[cfg(feature = "hdf5")]
+pub mod hdf5_io {
+    use super::*;
+    use hdf5_pure::File;
+    use sha2::{Digest, Sha256};
+    use std::path::Path;
+
+    const PDEBENCH_SOD6_SHA256: &str =
+        "43fe3a129579cd8bd38d5a84502a9f45ed307d8af55fdc631d8fba53998e4d74";
+
+    /// Errors raised while opening or validating an external HDF5 artifact.
+    #[derive(Clone, Debug, PartialEq)]
+    pub enum Hdf5IngestionError {
+        Read(String),
+        Validation(ValidationError),
+    }
+
+    impl fmt::Display for Hdf5IngestionError {
+        fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+            write!(formatter, "{self:?}")
+        }
+    }
+
+    impl std::error::Error for Hdf5IngestionError {}
+
+    impl From<ValidationError> for Hdf5IngestionError {
+        fn from(error: ValidationError) -> Self {
+            Self::Validation(error)
+        }
+    }
+
+    /// Metadata for the public PDEBench/DaRUS Sod6 artifact.
+    pub fn pdebench_sod6_metadata() -> DatasetMetadata {
+        DatasetMetadata {
+            artifact_reference:
+                "https://darus.uni-stuttgart.de/api/access/datafile/133150".into(),
+            artifact_checksum: "sha256:43fe3a129579cd8bd38d5a84502a9f45ed307d8af55fdc631d8fba53998e4d74;md5:adb2d95bf0d48e03bc0d8f4a2cbcd1c6".into(),
+            license_reference: "https://creativecommons.org/licenses/by/4.0/".into(),
+            unit_convention:
+                "PDEBench dimensionless CFD variables; x/t coordinates as stored".into(),
+            calibration_reference: "solver-produced; no experimental calibration".into(),
+            execution_context:
+                "PDEBench Sod6; HDF5; density/pressure/Vx; prefix 201 of 202 t-coordinate values"
+                    .into(),
+        }
+    }
+
+    /// Read the compact PDEBench Sod6 shock-tube artifact.
+    pub fn read_pdebench_sod6<P: AsRef<Path>>(
+        path: P,
+    ) -> Result<FlowFieldDataset, Hdf5IngestionError> {
+        let file = File::open(path).map_err(|error| Hdf5IngestionError::Read(error.to_string()))?;
+        let actual_checksum = format!("{:x}", Sha256::digest(file.as_bytes()));
+        if actual_checksum != PDEBENCH_SOD6_SHA256 {
+            return Err(Hdf5IngestionError::Read(format!(
+                "PDEBench Sod6 SHA-256 mismatch: expected {PDEBENCH_SOD6_SHA256}, got {actual_checksum}"
+            )));
+        }
+        let (density_shape, density) = read_f64_dataset(&file, "density")?;
+        let (pressure_shape, pressure) = read_f64_dataset(&file, "pressure")?;
+        let (velocity_shape, velocity_x) = read_f64_dataset(&file, "Vx")?;
+        let (coordinate_shape, coordinates) = read_f64_dataset(&file, "x-coordinate")?;
+        let (time_shape, time_coordinates) = read_f64_dataset(&file, "t-coordinate")?;
+
+        if density_shape.len() != 2
+            || pressure_shape != density_shape
+            || velocity_shape != density_shape
+        {
+            return Err(ValidationError::ShapeMismatch("PDEBench field arrays").into());
+        }
+        if coordinate_shape.len() != 1 || coordinate_shape[0] != density_shape[1] {
+            return Err(ValidationError::ShapeMismatch("PDEBench x-coordinate").into());
+        }
+        if time_shape.len() != 1 {
+            return Err(ValidationError::ShapeMismatch("PDEBench t-coordinate").into());
+        }
+
+        let snapshot_count = checked_dimension(density_shape[0], "snapshot")?;
+        let spatial_count = checked_dimension(density_shape[1], "spatial")?;
+        let expected_values = snapshot_count.checked_mul(spatial_count).ok_or_else(|| {
+            Hdf5IngestionError::Read("PDEBench field shape overflows usize".into())
+        })?;
+        if density.len() != expected_values
+            || pressure.len() != expected_values
+            || velocity_x.len() != expected_values
+        {
+            return Err(ValidationError::ShapeMismatch("PDEBench field values").into());
+        }
+
+        let time_axis_policy = if time_coordinates.len() == snapshot_count {
+            TimeAxisPolicy::Exact
+        } else if time_coordinates.len() == snapshot_count + 1 {
+            TimeAxisPolicy::PrefixByOne
+        } else {
+            return Err(ValidationError::CoordinateLengthMismatch("PDEBench t-coordinate").into());
+        };
+
+        let snapshots = (0..snapshot_count)
+            .map(|row| {
+                let start = row * spatial_count;
+                let end = start + spatial_count;
+                FlowFieldSnapshot {
+                    time: time_coordinates[row],
+                    density: density[start..end].to_vec(),
+                    pressure: pressure[start..end].to_vec(),
+                    velocity_x: velocity_x[start..end].to_vec(),
+                }
+            })
+            .collect();
+        let dataset = FlowFieldDataset {
+            origin: FlowDataOrigin::Simulated,
+            case_name: "PDEBench 1D CFD Sod6 shock tube".into(),
+            source_label: "PDEBench / DaRUS / Sod6.hdf5".into(),
+            metadata: pdebench_sod6_metadata(),
+            coordinates,
+            time_coordinates,
+            snapshots,
+            time_axis_policy,
+        };
+        dataset.validate(1e-12)?;
+        Ok(dataset)
+    }
+
+    fn read_f64_dataset(
+        file: &File,
+        name: &'static str,
+    ) -> Result<(Vec<u64>, Vec<f64>), Hdf5IngestionError> {
+        let dataset = file
+            .dataset(name)
+            .map_err(|error| Hdf5IngestionError::Read(format!("{name}: {error}")))?;
+        let shape = dataset
+            .shape()
+            .map_err(|error| Hdf5IngestionError::Read(format!("{name} shape: {error}")))?;
+        let values = dataset
+            .read_f64()
+            .map_err(|error| Hdf5IngestionError::Read(format!("{name} values: {error}")))?;
+        Ok((shape, values))
+    }
+
+    fn checked_dimension(value: u64, name: &'static str) -> Result<usize, Hdf5IngestionError> {
+        usize::try_from(value)
+            .map_err(|_| Hdf5IngestionError::Read(format!("{name} dimension exceeds usize")))
+    }
+}
+
 /// A deterministic simulated fixture for adapter and Lean-handoff tests.
 pub fn simulated_affine_fixture() -> FlowDataset {
     let metadata = DatasetMetadata {
@@ -372,6 +654,10 @@ pub enum ValidationError {
     EmptyGrid,
     EmptyDataset,
     NonMonotonicTime,
+    NonMonotonicCoordinate(&'static str),
+    CoordinateLengthMismatch(&'static str),
+    CoordinateMismatch(&'static str),
+    ShapeMismatch(&'static str),
     CovarianceNotSymmetric,
     CovarianceNotPositiveSemidefinite,
     ResidualTooLarge(&'static str),
@@ -578,6 +864,27 @@ mod tests {
         assert_eq!(
             sample.validate(1e-12),
             Err(ValidationError::CovarianceNotPositiveSemidefinite)
+        );
+    }
+
+    #[cfg(feature = "hdf5")]
+    #[test]
+    fn pdebench_sod6_fixture_is_ingested_when_available() {
+        let Some(path) = std::env::var_os("SIGNALS_PDEBENCH_SOD6") else {
+            return;
+        };
+        let dataset = hdf5_io::read_pdebench_sod6(path).unwrap();
+        assert_eq!(dataset.origin, FlowDataOrigin::Simulated);
+        assert_eq!(dataset.spatial_count(), 1024);
+        assert_eq!(dataset.snapshot_count(), 201);
+        assert_eq!(dataset.time_coordinates.len(), 202);
+        assert_eq!(dataset.time_axis_policy, TimeAxisPolicy::PrefixByOne);
+        assert!((dataset.snapshots[0].density[0] - 1.4).abs() < 1e-6);
+        assert_eq!(dataset.snapshots[0].pressure[0], 1.0);
+        assert_eq!(dataset.max_abs_velocity_x(), 0.0);
+        assert_eq!(
+            dataset.metadata.license_reference,
+            "https://creativecommons.org/licenses/by/4.0/"
         );
     }
 }

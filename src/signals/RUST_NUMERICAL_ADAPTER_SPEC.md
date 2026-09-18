@@ -66,6 +66,17 @@ affine FTLE output without claiming external measurement or solver validation.
 Performance benchmarks are intentionally deferred until a representative real
 artifact is selected.
 
+The optional `hdf5` feature uses `hdf5-pure` 0.46.1 to ingest the public
+PDEBench/DaRUS `Sod6.hdf5` solver artifact without a C library dependency.
+`hdf5_io::read_pdebench_sod6` checks the source metadata, the `density`,
+`pressure`, and `Vx` field shapes, monotone `x-coordinate` and `t-coordinate`
+vectors, the recorded SHA-256 checksum, finite decoded values, and the
+source-specific prefix policy for 201 field rows backed by 202 time
+coordinates. It preserves the raw coordinate vectors and does not infer
+covariance, healing length, or FTLE from this file.
+The artifact is downloaded outside the repository; set
+`SIGNALS_PDEBENCH_SOD6` to run the environment-gated integration test.
+
 ## Preferred Artifact Format: Vortex
 
 Use [Vortex](https://github.com/vortex-data/vortex) as the primary artifact
@@ -73,6 +84,14 @@ format for large numerical arrays. The upstream project describes a Rust
 columnar format with extensible encodings, Arrow interoperability, and lazy
 statistics. These properties fit time-indexed flow fields better than parsing
 large CSV or JSON files repeatedly.
+
+HDF5 is a compatibility input, not a replacement for Vortex. The first
+external artifact is the compact [PDEBench DaRUS Sod6 file](https://doi.org/10.18419/darus-2986):
+the record identifies a CC BY 4.0 dataset, HDF5 storage, and a 4,948,776-byte
+`Sod6.hdf5` file with solver-produced density, pressure, and velocity arrays.
+Its stored `Vx` values are identically zero, so this artifact exercises parsing,
+shape checks, provenance, and coordinate handling but does not provide a
+resolved velocity flow map for FTLE.
 
 The adapter must:
 
@@ -132,6 +151,15 @@ The numerical payload must additionally record:
 No run is ingestion-ready when a required field is empty, a checksum does not
 match, units are ambiguous, coordinates are non-monotone, or array shapes do
 not agree.
+
+The initial external reader is intentionally source-specific. A future generic
+HDF5/Vortex schema should only be added after a second artifact demonstrates a
+stable mapping for spatial coordinates, time windows, density, pressure,
+velocity components, boundary faces, and uncertainty fields. The next measured
+candidate is the [TMBWG NACA 0012 experimental data](https://tmbwg.github.io/turbmodels/naca0012_val.html),
+which supplies scalar lift/drag/pressure curves rather than a volumetric flow
+field. [JHTDB](https://turbulence.idies.jhu.edu/home) remains a later cutout
+source for large time-resolved DNS/LES fields.
 
 ## Madelung/GP Diagnostics
 
