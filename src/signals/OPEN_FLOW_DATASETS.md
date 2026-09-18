@@ -42,7 +42,16 @@ are independently available.
 - Query methods: `lag8` field interpolation for velocity and pressure; `fd4lag4` velocity gradient; no temporal interpolation.
 - Probe: 1024 points on a 32 x 32 plane at `y = 0`, at `t = 1.0` and `t = 1.1`.
 - Temporary-token policy: the testing token is used only for at most 4096 spatial points per request. The token is never written to the artifact or manifest.
-- Verified local output: `jhtdb_channel_probe.npz` plus `jhtdb_channel_probe.manifest.json` under `.tmp/jhtdb_probe/`; the default 1024-point probe SHA-256 is `206ea4e3820593f41a3acc1097a5ed43bf4045ad3a6b281d2a0a3c9096c1cdea`, and the capped 4096-point probe SHA-256 is `847c6dfc59023228b697767373e033993ad211b8bd1bb7599cf3dd93cbbfd947`; neither file is committed.
+- The probe writes `jhtdb_channel_probe.npz`, the matching
+  `jhtdb_channel_probe.vector.json` common-contract summary, and
+  `jhtdb_channel_probe.manifest.json` under `.tmp/jhtdb_probe/`; the verified
+  default
+  1024-point probe SHA-256 is
+  `206ea4e3820593f41a3acc1097a5ed43bf4045ad3a6b281d2a0a3c9096c1cdea`, and
+  the capped 4096-point probe SHA-256 is
+  `847c6dfc59023228b697767373e033993ad211b8bd1bb7599cf3dd93cbbfd947`.
+  The manifest records bounded RK2 particle-advection coverage and gradient
+  consistency residuals; none of these local files is committed.
 - Verified cutout: the official `getCutout` path produced an 8 x 8 x 8 x 2
   velocity HDF5/XMF pair. The HDF5 SHA-256 is
   `db8a8dfcb8ccf05b66fd14182555b244c30da41aa422234f804b9dd86a1d7957` and the

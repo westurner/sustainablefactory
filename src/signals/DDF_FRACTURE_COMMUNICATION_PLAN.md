@@ -249,15 +249,22 @@ against the hypothesis.
 
 ## Next Implementation Loops
 
-1. Add a MATLAB reader for the measured cylinder PIV artifact with `u/v/x/y`,
+1. [Complete] Add a MATLAB reader for the measured cylinder PIV artifact with `u/v/x/y`,
    20 Hz metadata, NaN/mask preservation, MD5/SHA-256 verification, and a
    bounded time-window selector.
-2. Add one RSPID validation subset reader for paired images, generator
+2. [Complete] Add one RSPID validation subset reader for paired images, generator
    parameters, validation fields, and reconstruction-error summaries.
-3. Convert the bounded JHTDB NPZ probe to the common field-summary contract and
-   add particle advection/gradient consistency checks before requesting a cutout.
-4. Add a flow-map/FTLE result contract with interpolation, seed, window, and
+3. [Complete, bounded diagnostic] Convert the bounded JHTDB NPZ probe to the
+   common `VectorFieldDataset` JSON contract and add bounded RK2 particle
+   advection, out-of-domain coverage, and velocity-gradient consistency checks.
+   This remains a solver-produced diagnostic and is not experimental evidence.
+4. [Complete, contract boundary] Add a flow-map/FTLE result contract with interpolation, seed, window, and
    convergence metadata; keep it separate from fracture evidence.
-5. [Complete, contract boundary] Add the DDF-specific defect/mode contract;
-   populate it only after an independent observable and a classical control are
-   available.
+5. [Complete, contract boundary] Add the DDF-specific defect/mode contract and
+   the classical Magnus control. Populate it only after an independent
+   observable and a classical control are available; no current fixture is
+   physical DDF evidence.
+
+The next numerical loop is Rust ingestion of the bounded JHTDB HDF5 cutout,
+multi-step flow-map integration, and convergence/error estimates. Request a
+larger cutout only after that coverage and interpolation policy is fixed.

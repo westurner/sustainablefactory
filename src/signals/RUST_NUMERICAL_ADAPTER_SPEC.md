@@ -197,11 +197,14 @@ preserves NaN masks, and extracts an explicit bounded time window using the
 `OPEN_FLOW_DATASETS.md`. The reader rejects temporal extraction when a source
 does not declare a sampling frequency, as with the inspected MorphoDunes file.
 
-The JHTDB probe also reports a finite-difference comparison between sampled
-velocity fields and service-provided gradients, plus a one-step Euler
-displacement summary. These are sensitivity diagnostics; a nonzero comparison
-residual is not a failed source or a DDF signal, and the probe sets
-`ftle_computed` to false.
+The JHTDB probe also writes a `VectorFieldDataset`-shaped JSON summary beside
+the NPZ artifact. It reports a finite-difference comparison between sampled
+velocity fields and service-provided gradients, plus bounded RK2 particle
+advection using bilinear spatial interpolation and linear temporal
+interpolation. Trajectories that leave the queried brick are terminated and
+reported as incomplete coverage. These are sensitivity diagnostics; a nonzero
+comparison residual or an advection residual is not a failed source or a DDF
+signal, and the probe sets `ftle_computed` to false.
 
 The `jhtdb_cutout_probe.py` utility uses the official `getCutout` path and
 writes HDF5/XMF files plus an attribution manifest. The checked probe is an

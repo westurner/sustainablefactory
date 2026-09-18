@@ -673,9 +673,9 @@ model, or environmental error.
 24. [Complete, vector-field and FTLE result boundary] Added common Rust
    `VectorFieldDataset`/`VectorFieldFrame` validation and an `FtleResult`
    contract for interpolation, integrator, deformation, error, and convergence
-   metadata. The JHTDB probe now records finite-difference gradient comparisons
-   and a one-step Euler displacement diagnostic while explicitly reporting that
-   FTLE was not computed.
+   metadata. The JHTDB probe now emits the matching JSON field summary, bounded
+   RK2 particle-advection coverage, finite-difference gradient comparisons, and
+   an explicit `ftle_computed: false` boundary.
 25. [Complete, bounded JHTDB cutout and accelerated cylinder FTLE] Added the
    official `getCutout` utility and verified an 8 x 8 x 8 x 2 HDF5/XMF velocity
    cutout. Added a memory-mapped, Rayon-parallel Rust cylinder engine with RK2
@@ -723,10 +723,12 @@ the upstream `custom-labels` build dependency. The adapter now validates a
 deterministic simulated affine-flow dataset and, behind the `hdf5` feature,
    reads the public PDEBench Sod6 HDF5 artifact with `hdf5-pure` 0.46.1. The
 downloaded artifact is kept outside the repository and its checksum is retained
-in the reader metadata. `jhtdb_probe.py` writes only a local bounded NPZ and
-manifest. `matlab_piv_probe.py` now verifies and extracts the measured
-cylinder PIV source; RSPID controls, common vector summaries, JHTDB cutouts,
-and benchmarks remain future work.
+in the reader metadata. `jhtdb_probe.py` writes a local bounded NPZ, a
+`VectorFieldDataset`-shaped JSON summary, and an attribution manifest;
+`matlab_piv_probe.py` verifies and extracts the measured cylinder PIV source;
+RSPID controls and the bounded JHTDB cutout are implemented. Rust ingestion of
+the cutout, larger-array benchmarks, and physical DDF evidence remain future
+work.
 
 ### Open Flow Dataset Research
 
