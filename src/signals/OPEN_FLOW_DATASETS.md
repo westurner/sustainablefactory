@@ -96,7 +96,9 @@ Dataset (RSPID)" (2023), Zenodo.
 RSPID is the positive-control source for PIV reconstruction, image noise,
 missing-vector masks, and known-flow error. It must not be described as measured
 fluid behavior. The first useful subset is one flow family plus its paired images
-and validation file, not the entire 2.1 GB archive.
+and validation file, not the entire 2.1 GB archive. The reusable
+`rspid_subset_probe.py` utility validates such an extracted subset, preserves
+image and validation-file checksums, and records the validation MAT schema.
 
 ## MorphoDunes Compact Measured Candidate
 

@@ -175,6 +175,11 @@ fields and NaN masks, but the inspected file lacks an explicit time vector.
 [JHTDB](https://turbulence.idies.jhu.edu/home) is the later cutout source for
 large time-resolved DNS/LES fields.
 
+The `rspid_subset_probe.py` utility validates an extracted RSPID image pair and
+validation `.mat` file without requiring the full archive. It records image
+shape/dtype, per-file SHA-256 values, validation-variable shapes, generator
+parameters supplied by the source, and an explicit synthetic-control boundary.
+
 The MATLAB v5 reader `matlab_piv_probe.py` now verifies the Zenodo cylinder
 artifact, recognizes `u/v` arrays with shape `135 x 80 x 8000` and frame axis 2,
 preserves NaN masks, and extracts an explicit bounded time window using the

@@ -666,9 +666,10 @@ model, or environmental error.
    its published MD5 and local SHA-256, and extracted a bounded two-frame,
    mask-aware 20 Hz NPZ. This is the first measured flow-map/FTLE input; it
    still provides no pressure, density, or 3D velocity.
-23. Next control loop: ingest one RSPID image/validation subset for known-flow
-   PIV reconstruction error, noise, displacement, and missing-vector controls.
-   RSPID is synthetic and must remain separate from physical validation.
+23. [Complete, synthetic RSPID control reader] Added `rspid_subset_probe.py`
+   for paired image/validation-MAT subsets, image geometry, per-file checksums,
+   generator metadata, and explicit synthetic-only interpretation boundaries.
+   The 2.1 GB source archive is not committed or downloaded as a prerequisite.
 24. Next numerical loop: add a common vector-field summary and FTLE result
    contract, then connect the JHTDB NPZ probe and cylinder extraction to
    particle advection, gradient consistency, and convergence metadata.
