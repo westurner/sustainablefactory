@@ -55,10 +55,9 @@ affine FTLE fixtures, a deterministic self-check CLI, and unit tests.
 
 The optional Vortex round-trip uses Vortex `0.86.1` and the documented session,
 in-memory write, and read APIs. The development Dockerfiles install
-`libclang-dev` for the upstream `custom-labels` build dependency; an existing
-container must be rebuilt before the feature can compile. Do not treat the
-dependency-light core tests as Vortex integration validation; enable the
-feature only after that toolchain prerequisite is available.
+`libclang-dev` for the upstream `custom-labels` build dependency, and the
+current environment has a passing fixed-u64 round-trip test. Do not treat this
+fixture as benchmark or real-artifact validation; those remain separate steps.
 
 ## Preferred Artifact Format: Vortex
 

@@ -636,14 +636,14 @@ model, or environmental error.
 18. [Complete, native Rust core] Implemented the dependency-light
    `numerical_adapter` crate for metadata validation, weak-jump residuals,
    covariance PSD checks, affine FTLE fixtures, and deterministic self-checks.
-   The optional Vortex 0.86.1 round-trip is wired but awaits the container's
-   missing `libclang` prerequisite. Proposed commit:
-   `feat(signals): implement native numerical adapter core`.
-19. Next loop: enable and benchmark the Vortex feature, then integrate a real
-   measured or simulated dataset and connect the shared contracts to external
-   flow, Proca, detector, LVP, and energy evidence. Use Vortex as the primary
-   large-array artifact format with Arrow interoperability and CSV/JSON
-   fixtures; the boundary is specified in
+   The Vortex 0.86.1 in-memory round-trip is also enabled and tested. Proposed
+   follow-up commit:
+   `fix(signals): complete Vortex adapter round trip`.
+19. Next loop: benchmark Vortex against Arrow/Parquet and fallback readers,
+   then integrate a real measured or simulated dataset and connect the shared
+   contracts to external flow, Proca, detector, LVP, and energy evidence. Use
+   Vortex as the primary large-array artifact format with Arrow interoperability
+   and CSV/JSON fixtures; the boundary is specified in
    [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
 
 The finite fracture/GP loop deliberately stops at explicit trace conventions,
@@ -659,9 +659,10 @@ provenance.
 
 The native Rust adapter core is implemented under
 [`numerical_adapter`](numerical_adapter/). The optional Vortex feature is
-wired to Vortex 0.86.1 but requires a system `libclang` for the upstream
-`custom-labels` build dependency; the current Lean container lacks that shared
-library, so Vortex-feature compilation remains an environment setup step.
+wired to Vortex 0.86.1 and has a passing in-memory round-trip test in the
+current environment. The development Dockerfiles install `libclang-dev` for
+the upstream `custom-labels` build dependency; benchmark and real-artifact
+ingestion remain future work.
 
 ### Further Questions
 

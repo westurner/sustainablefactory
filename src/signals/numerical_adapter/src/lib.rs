@@ -352,6 +352,8 @@ pub mod vortex_io {
             .open_buffer(bytes)
             .map_err(|error| error.to_string())?;
         let decoded = file
+            .scan()
+            .map_err(|error| error.to_string())?
             .into_array_stream()
             .map_err(|error| error.to_string())?
             .read_all()
