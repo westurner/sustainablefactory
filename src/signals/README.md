@@ -661,17 +661,20 @@ model, or environmental error.
    for at most 4096 points at two times and records velocity, pressure, and all
    nine velocity-gradient components in a local NPZ plus manifest. The token is
    not stored, and no full JHTDB database download is attempted.
-22. Next loop: add a measured MATLAB PIV adapter for the Zenodo cylinder source
-   (`u`, `v`, `x`, `y`, 20 Hz, Re=413), preserving masks and source checksums.
-   It is the first source suitable for a measured flow-map/FTLE diagnostic, but
-   it does not provide pressure, density, or 3D velocity.
+22. [Complete, measured cylinder PIV ingestion] Added the MATLAB v5 reader
+   `matlab_piv_probe.py`, verified the complete Zenodo cylinder artifact against
+   its published MD5 and local SHA-256, and extracted a bounded two-frame,
+   mask-aware 20 Hz NPZ. This is the first measured flow-map/FTLE input; it
+   still provides no pressure, density, or 3D velocity.
 23. Next control loop: ingest one RSPID image/validation subset for known-flow
    PIV reconstruction error, noise, displacement, and missing-vector controls.
    RSPID is synthetic and must remain separate from physical validation.
-24. Later: request a JHTDB HDF5 cutout or larger bounded time-resolved field,
-   then connect particle advection, deformation gradients, and FTLE sensitivity
-   checks. Benchmark Vortex against Arrow/Parquet only after a representative
-   large artifact is selected.
+24. Next numerical loop: add a common vector-field summary and FTLE result
+   contract, then connect the JHTDB NPZ probe and cylinder extraction to
+   particle advection, gradient consistency, and convergence metadata.
+25. Later: request a JHTDB HDF5 cutout or larger bounded time-resolved field.
+   Benchmark Vortex against Arrow/Parquet only after a representative large
+   artifact is selected.
 25. [Complete, DDF hypothesis update] Replaced the earlier SQG-centered
    fracture-communication framing with a conditional DDF plan. The plan
    requires an independently observed defect/mode variable, ordinary causal
@@ -697,11 +700,12 @@ wired to Vortex 0.86.1 and has a passing in-memory round-trip test in the
 current environment. The development Dockerfiles install `libclang-dev` for
 the upstream `custom-labels` build dependency. The adapter now validates a
 deterministic simulated affine-flow dataset and, behind the `hdf5` feature,
-reads the public PDEBench Sod6 HDF5 artifact with `hdf5-pure` 0.46.1. The
+   reads the public PDEBench Sod6 HDF5 artifact with `hdf5-pure` 0.46.1. The
 downloaded artifact is kept outside the repository and its checksum is retained
 in the reader metadata. `jhtdb_probe.py` writes only a local bounded NPZ and
-manifest; broader measured-artifact coverage, JHTDB cutouts, and benchmarks
-remain future work.
+   manifest. `matlab_piv_probe.py` now verifies and extracts the measured
+   cylinder PIV source; RSPID controls, common vector summaries, JHTDB cutouts,
+   and benchmarks remain future work.
 
 ### Open Flow Dataset Research
 

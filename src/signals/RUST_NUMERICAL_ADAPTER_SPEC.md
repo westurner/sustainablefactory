@@ -175,6 +175,14 @@ fields and NaN masks, but the inspected file lacks an explicit time vector.
 [JHTDB](https://turbulence.idies.jhu.edu/home) is the later cutout source for
 large time-resolved DNS/LES fields.
 
+The MATLAB v5 reader `matlab_piv_probe.py` now verifies the Zenodo cylinder
+artifact, recognizes `u/v` arrays with shape `135 x 80 x 8000` and frame axis 2,
+preserves NaN masks, and extracts an explicit bounded time window using the
+20 Hz source calibration. The first verified extraction contains two frames at
+`t = 0` and `0.05 s`; the source and derived NPZ checksums are recorded in
+`OPEN_FLOW_DATASETS.md`. The reader rejects temporal extraction when a source
+does not declare a sampling frequency, as with the inspected MorphoDunes file.
+
 ## Madelung/GP Diagnostics
 
 The adapter must select one explicit regime before computing:

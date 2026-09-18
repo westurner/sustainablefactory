@@ -61,9 +61,15 @@ data of flow past a cylinder" (2026), Zenodo.
 - Source MD5: `4cc876439c48f7970afa477ea17d217a`.
 - License: CC BY 4.0.
 - Variables: `u`, `v`, `x`, and `y`; velocity is in m/s and coordinates are in m.
+- Verified MATLAB schema: `u`/`v` have shape `135 x 80 x 8000` with frame axis 2;
+  `x`/`y` have shape `135 x 80`.
 - Experiment: planar PIV in a recirculating water channel, cylinder Reynolds number 413, mid-span plane, 20 Hz sampling.
 - Processing: LaVision DaVis 8.1.2.
 - Related publication: J. H. Tu et al., "Spectral analysis of fluid flows using sub-Nyquist-rate PIV data," *Experiments in Fluids* (2014), <https://doi.org/10.1007/s00348-014-1805-6>.
+- Verified source SHA-256: `328cd8d17cd2eb42faef6e4766bc8e515e0eac06868152972adab9bdf91926e7`.
+- Verified bounded extraction: first two frames at `t = 0` and `0.05 s`,
+  output `2 x 135 x 80` `u/v` arrays with 21,600 valid vector values and
+  NPZ SHA-256 `d47053c16f9c4c207a7e528e7ccb8c70761f5c487da9dc36d2d12e1f9548912f`.
 
 This is the best measured source for the first flow-map/FTLE adapter. The adapter
 must preserve masked values, retain the original `u/v` arrays and grids, record
