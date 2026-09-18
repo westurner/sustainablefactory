@@ -58,6 +58,22 @@ are independently available.
   XMF SHA-256 is
   `b8d8fdfe609e30876e12683afcc843d0bd9382ceb01c5014edb660e00ad92309`.
   The token was not recorded and the full database was not downloaded.
+  - Verified larger cutout: an explicit 16 x 8 x 16 x 2 velocity brick at the
+    temporary 4096-value cap. HDF5 SHA-256 is
+    `b7b9d832a4046ff8d36f8ba88398e3018093516e9928570c1faaeb4d8c8aaf17`; XMF
+    SHA-256 is
+    `59e9745dbf17cd10c7510d7b29cc9cbb5dfd11f16ad09eb58f0fd0da909c7cd8`.
+    The JHTDB HDF5 `t_start/t_end/t_step` values are integer time indices, not
+    physical seconds. The channel metadata supplies a physical adjacent-index
+    interval of `25.9935 / 3999 = 0.006500000000000001`; the Rust CLI requires
+    this calibration explicitly with `--physical-time-step`.
+  - Verified Rust flow-map result: with that interval and one-to-two RK2
+    substep refinement, 845 of 1,176 interior cells were valid (71.85%), 331
+    were incomplete because trajectories left the finite brick, and 845 cells
+    overlapped for refinement. The maximum absolute FTLE delta was
+    `0.02038675411831692`, with a Richardson-like fine-step sensitivity estimate
+    of `0.00679558470610564`. This is a bounded solver diagnostic, not a complete
+    flow map or DDF evidence.
 
 The JHTDB service is a database, not one downloadable finite file. Its published
 DNS/LES collections are multi-terabyte or larger, and the service provides

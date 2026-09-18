@@ -216,6 +216,19 @@ is fast to compute but is marked incomplete when trajectories leave the finite
 measured domain; short-window coverage must be reported alongside any FTLE
 field.
 
+The optional Rust `jhtdb` feature provides `jhtdb-ftle` for the HDF5 cutout
+path. It validates the source SHA-256, root `t_start/t_end/t_step` attributes,
+`xcoor/ycoor/zcoor` axes, and `velocity_%04d` datasets stored as
+`(z,y,x,vector)`. The reader exposes a validated `VectorFieldDataset` handoff
+and retains raw HDF5 time-index units unless the CLI receives an explicit
+`--physical-time-step`. Flow-map integration uses trilinear spatial
+interpolation, linear temporal interpolation, RK2 midpoint steps, centered
+three-dimensional deformation gradients, and the largest eigenvalue of the
+3D Cauchy-Green tensor. The convergence report compares `N` and `2N`
+temporal substeps; absent overlapping valid cells are reported as `null`, not
+as zero error. Finite-domain exits produce an `incomplete` result rather than
+being extrapolated.
+
 ## Madelung/GP Diagnostics
 
 The adapter must select one explicit regime before computing:

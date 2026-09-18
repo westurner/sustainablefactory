@@ -683,10 +683,18 @@ model, or environmental error.
    gradients, 2D Cauchy-Green eigenvalue FTLE, and machine-readable coverage
    status. The full 8,000-frame run is intentionally `incomplete` at 6.2%
    interior coverage over 399.95 s; a 0.95 s window retains 70.7%.
-26. Next numerical loop: use the bounded cutout in Rust particle advection,
-   add convergence/error estimates, and request a larger JHTDB cutout only
-   after the coverage and interpolation policy are fixed. Benchmark Vortex
-   against Arrow/Parquet only after a representative large artifact is selected.
+26. [Complete, Rust JHTDB cutout flow map] Added the `jhtdb` feature and
+   `jhtdb-ftle` CLI. The HDF5 reader validates the artifact checksum, root time
+   index attributes, `(z,y,x,vector)` storage order, coordinate axes, and the
+   common vector-field handoff. The 3D engine uses trilinear spatial and linear
+   temporal interpolation, RK2 midpoint advection, centered deformation
+   gradients, a symmetric 3D Cauchy-Green eigenvalue, and `N` versus `2N`
+   temporal-substep sensitivity. HDF5 indices require an explicit physical
+   interval; the verified 16 x 8 x 16 x 2 cutout used `25.9935 / 3999` and
+   retained 845 of 1,176 interior cells (71.85%). The result is intentionally
+   `incomplete`; the refinement estimate is a sensitivity diagnostic, not
+   continuum-convergence proof. Benchmark Vortex against Arrow/Parquet only
+   after a representative large artifact is selected.
 27. [Complete, DDF hypothesis update] Replaced the earlier SQG-centered
    fracture-communication framing with a conditional DDF plan. The plan
    requires an independently observed defect/mode variable, ordinary causal
@@ -726,9 +734,9 @@ downloaded artifact is kept outside the repository and its checksum is retained
 in the reader metadata. `jhtdb_probe.py` writes a local bounded NPZ, a
 `VectorFieldDataset`-shaped JSON summary, and an attribution manifest;
 `matlab_piv_probe.py` verifies and extracts the measured cylinder PIV source;
-RSPID controls and the bounded JHTDB cutout are implemented. Rust ingestion of
-the cutout, larger-array benchmarks, and physical DDF evidence remain future
-work.
+RSPID controls and the bounded JHTDB cutout are implemented. Rust
+source-time/spatial convergence, larger-array benchmarks, and physical DDF
+evidence remain future work.
 
 ### Open Flow Dataset Research
 

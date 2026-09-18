@@ -265,6 +265,17 @@ against the hypothesis.
    observable and a classical control are available; no current fixture is
    physical DDF evidence.
 
-The next numerical loop is Rust ingestion of the bounded JHTDB HDF5 cutout,
-multi-step flow-map integration, and convergence/error estimates. Request a
-larger cutout only after that coverage and interpolation policy is fixed.
+The bounded Rust JHTDB loop is complete: the reader validates the HDF5
+checksum, root time-index attributes, `(z,y,x,vector)` velocity datasets, and
+coordinate axes; the CLI performs 3D RK2 flow-map integration, centered
+deformation gradients, Cauchy-Green FTLE, and `N` versus `2N` temporal-substep
+sensitivity. HDF5 time indices are not treated as physical seconds without an
+explicit `--physical-time-step` calibration. The tested 16 x 8 x 16 x 2
+cutout uses the JHTDB channel metadata interval `25.9935 / 3999` and retains
+845 of 1,176 interior FTLE cells (71.85%); its result is intentionally
+`incomplete`, and the refinement estimate is a temporal sensitivity diagnostic,
+not a proof of continuum convergence.
+
+The next numerical loop is a larger or more temporally resolved cutout with
+independent spatial and source-time convergence checks. Physical DDF evidence
+remains a separate, unpopulated boundary.

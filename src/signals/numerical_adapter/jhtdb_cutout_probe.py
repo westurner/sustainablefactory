@@ -23,6 +23,10 @@ DATABASE_REFERENCE = "https://turbulence.idies.jhu.edu/home"
 DATASET_REFERENCE = "https://doi.org/10.7281/T10K26QW"
 LICENSE_REFERENCE = "https://opendatacommons.org/licenses/by/"
 POINT_LIMIT = 4096
+CHANNEL_PHYSICAL_TIME_LOWER = 0.0
+CHANNEL_PHYSICAL_TIME_UPPER = 25.9935
+CHANNEL_PHYSICAL_TIME_COUNT = 4000
+CHANNEL_PHYSICAL_TIME_STEP = (CHANNEL_PHYSICAL_TIME_UPPER - CHANNEL_PHYSICAL_TIME_LOWER) / (CHANNEL_PHYSICAL_TIME_COUNT - 1)
 
 
 def sha256_file(path: Path) -> str:
@@ -91,6 +95,15 @@ def acquire(
             "shape": dimensions,
             "value_count": point_count,
             "temporary_token_policy": "testing token; bounded cutout at or below 4096 values",
+            "temporal_calibration": {
+                "cutout_time_units": "integer JHTDB time indices",
+                "physical_time_lower": CHANNEL_PHYSICAL_TIME_LOWER,
+                "physical_time_upper": CHANNEL_PHYSICAL_TIME_UPPER,
+                "physical_time_count": CHANNEL_PHYSICAL_TIME_COUNT,
+                "physical_time_step": CHANNEL_PHYSICAL_TIME_STEP,
+                "calibration_reference": "JHTDB channel givernylocal metadata; HDF5 t_* attributes are indices",
+                "rust_cli_flag": "--physical-time-step",
+            },
         },
         "result": {
             "dimensions": {name: int(size) for name, size in result.sizes.items()},

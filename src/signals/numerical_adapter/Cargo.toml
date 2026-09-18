@@ -10,6 +10,7 @@ description = "Native numerical boundary for Signals Pending diagnostics"
 default = []
 cylinder = ["dep:memmap2", "dep:rayon"]
 hdf5 = ["dep:hdf5-pure", "dep:sha2"]
+jhtdb = ["dep:hdf5-pure", "dep:rayon", "dep:sha2"]
 vortex = ["dep:tokio", "dep:vortex", "vortex/tokio"]
 
 [dependencies]
@@ -28,3 +29,8 @@ path = "src/main.rs"
 name = "cylinder-ftle"
 path = "src/bin/cylinder_ftle.rs"
 required-features = ["cylinder"]
+
+[[bin]]
+name = "jhtdb-ftle"
+path = "src/bin/jhtdb_ftle.rs"
+required-features = ["jhtdb"]

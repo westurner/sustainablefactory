@@ -9,6 +9,9 @@ use std::fmt;
 #[cfg(feature = "cylinder")]
 pub mod cylinder;
 
+#[cfg(feature = "jhtdb")]
+pub mod jhtdb;
+
 /// A finite measured or simulated data origin.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum FlowDataOrigin {
