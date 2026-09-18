@@ -1605,6 +1605,85 @@ lemma AcousticFractureEvidence.supportsFractureHypothesis_iff
     evidence.supportsFractureHypothesis ↔ ¬evidence.measurement.consistent := by
   rfl
 
+/-! ## DDF fracture-communication evidence boundary
+
+The DDF plan keeps ordinary acoustic/elastic communication as the null and
+requires an independently observed defect or transverse-mode quantity before
+introducing a DDF coupling term. A causal transverse mode is allowed; a
+superluminal or unsupported longitudinal interpretation is explicitly outside
+this contract. -/
+
+/-- Propagation labels for the DDF communication evidence boundary. -/
+inductive DDFCommunicationMode
+  | classicalControl
+  | transversePhonon
+  | unsupportedLongitudinal
+  | superluminal
+  deriving DecidableEq, Repr
+
+/-- Finite evidence contract for a conditional DDF communication hypothesis.
+
+The fields are supplied observations, calibration results, and control
+premises. The accessor predicate is not a physical DDF theorem. -/
+structure DDFFractureCommunicationEvidence where
+  sourceLabel : String
+  defectObservableLabel : String
+  defectObservable : ℝ
+  defectUncertainty : ℝ
+  defectUncertainty_nonnegative : 0 ≤ defectUncertainty
+  independentDefectObservable : Prop
+  independentDefectObservable_hypothesis : independentDefectObservable
+  classicalResidual : ℝ
+  classicalTolerance : ℝ
+  classicalTolerance_nonnegative : 0 ≤ classicalTolerance
+  outsideClassicalTolerance : |classicalResidual| > classicalTolerance
+  couplingGain : ℝ
+  couplingGain_nonzero : couplingGain ≠ 0
+  propagationMode : DDFCommunicationMode
+  pathLength : ℝ
+  pathLength_pos : 0 < pathLength
+  arrivalTime : ℝ
+  arrivalTime_pos : 0 < arrivalTime
+  emergentSpeed : ℝ
+  emergentSpeed_pos : 0 < emergentSpeed
+  causalArrival : pathLength ≤ emergentSpeed * arrivalTime
+  replicationCount : ℕ
+  replicationCount_min : 2 ≤ replicationCount
+  heldOutResidual : ℝ
+  heldOutTolerance : ℝ
+  heldOutTolerance_nonnegative : 0 ≤ heldOutTolerance
+  heldOutWithinTolerance : |heldOutResidual| ≤ heldOutTolerance
+  energyClosed : Prop
+  energyClosed_hypothesis : energyClosed
+
+/-- The independent defect observable is separated from the communication residual. -/
+def DDFFractureCommunicationEvidence.defectObservable_detectable
+    (evidence : DDFFractureCommunicationEvidence) : Prop :=
+  evidence.defectUncertainty < |evidence.defectObservable|
+
+/-- A conditional DDF candidate requires every preregistered boundary premise. -/
+def DDFFractureCommunicationEvidence.supportsDDFHypothesis
+    (evidence : DDFFractureCommunicationEvidence) : Prop :=
+  evidence.sourceLabel ≠ "" ∧
+    evidence.defectObservableLabel ≠ "" ∧
+    evidence.independentDefectObservable ∧
+    evidence.defectObservable_detectable ∧
+    |evidence.classicalResidual| > evidence.classicalTolerance ∧
+    evidence.couplingGain ≠ 0 ∧
+    evidence.propagationMode = DDFCommunicationMode.transversePhonon ∧
+    evidence.pathLength ≤ evidence.emergentSpeed * evidence.arrivalTime ∧
+    2 ≤ evidence.replicationCount ∧
+    |evidence.heldOutResidual| ≤ evidence.heldOutTolerance ∧
+    evidence.energyClosed
+
+/-- Unsupported superluminal or longitudinal labels cannot satisfy the DDF candidate predicate. -/
+lemma DDFFractureCommunicationEvidence.not_supported_by_noncausal_mode
+    (evidence : DDFFractureCommunicationEvidence)
+    (h_mode : evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon) :
+    ¬evidence.supportsDDFHypothesis := by
+  intro h_support
+  exact h_mode h_support.2.2.2.2.2.2.1
+
 /-! ## Finite weak traces and Madelung/GP diagnostics
 
 The following records make the missing analytical and numerical inputs

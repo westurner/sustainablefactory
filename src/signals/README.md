@@ -687,6 +687,15 @@ model, or environmental error.
    conservation accounting, and blinded replication. A weak jump, FTLE ridge,
    acoustic residual, or superluminal result is not a DDF confirmation. See
    [`DDF_FRACTURE_COMMUNICATION_PLAN.md`](DDF_FRACTURE_COMMUNICATION_PLAN.md).
+27. [Complete, DDF evidence contract] Added
+   `DDFFractureCommunicationEvidence` and `DDFCommunicationMode` in
+   `Signals.Pending`. The contract requires an independent defect observable,
+   a classical residual outside tolerance, nonzero coupling, a causal
+   transverse-phonon mode, replication, held-out agreement, and energy closure;
+   it rejects unsupported longitudinal and superluminal modes by construction.
+28. Next DDF loop: populate that contract from an independent measured defect
+   observable and a classical control. No current fixture is physical DDF
+   evidence.
 
 The finite fracture/GP loop deliberately stops at explicit trace conventions,
 prescribed jumps, residuals, variable covariance, and diagnostic metadata. It

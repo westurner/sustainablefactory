@@ -713,6 +713,47 @@ example : toyUltrasonicTransfer.receivedPower ≤ toyUltrasonicTransfer.incident
 example : toyAcousticEvidence.supportsFractureHypothesis := by
   exact toyAcousticEvidence.outsideClassicalTolerance
 
+noncomputable def toyDDFFractureEvidence : DDFFractureCommunicationEvidence :=
+  { sourceLabel := "controlled DDF transverse-mode fixture"
+    defectObservableLabel := "independent vortex pressure proxy"
+    defectObservable := 2
+    defectUncertainty := 1 / 10
+    defectUncertainty_nonnegative := by norm_num
+    independentDefectObservable := True
+    independentDefectObservable_hypothesis := True.intro
+    classicalResidual := 3 / 10
+    classicalTolerance := 1 / 10
+    classicalTolerance_nonnegative := by norm_num
+    outsideClassicalTolerance := by norm_num [abs_of_nonneg]
+    couplingGain := 1 / 2
+    couplingGain_nonzero := by norm_num
+    propagationMode := DDFCommunicationMode.transversePhonon
+    pathLength := 2
+    pathLength_pos := by norm_num
+    arrivalTime := 3
+    arrivalTime_pos := by norm_num
+    emergentSpeed := 1
+    emergentSpeed_pos := by norm_num
+    causalArrival := by norm_num
+    replicationCount := 3
+    replicationCount_min := by norm_num
+    heldOutResidual := 1 / 20
+    heldOutTolerance := 1 / 10
+    heldOutTolerance_nonnegative := by norm_num
+    heldOutWithinTolerance := by norm_num [abs_of_nonneg]
+    energyClosed := True
+    energyClosed_hypothesis := True.intro }
+
+example : toyDDFFractureEvidence.defectObservable_detectable := by
+  norm_num [DDFFractureCommunicationEvidence.defectObservable_detectable,
+    toyDDFFractureEvidence, abs_of_nonneg]
+
+example : toyDDFFractureEvidence.supportsDDFHypothesis := by
+  simp [DDFFractureCommunicationEvidence.supportsDDFHypothesis,
+    DDFFractureCommunicationEvidence.defectObservable_detectable,
+    toyDDFFractureEvidence]
+  norm_num [abs_of_nonneg]
+
 noncomputable def toySQGMedium : SQGMedium :=
   { baseline :=
       { permittivity := 2

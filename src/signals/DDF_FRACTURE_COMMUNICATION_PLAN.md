@@ -21,6 +21,14 @@ The finite trace and acoustic boundaries remain in
 [`Signals/Pending.lean`](Signals/Pending.lean), and the numerical handoff is
 specified in [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
 
+The Lean Pending boundary now includes `DDFCommunicationMode` and
+`DDFFractureCommunicationEvidence`. Its support predicate requires an
+independent defect proposition and detectable defect observable, a classical
+residual outside tolerance, nonzero coupling, a causal transverse-phonon mode,
+replication, held-out agreement, and an energy-closure premise. This is a
+typed contract over supplied premises, not a measurement or DDF existence
+theorem.
+
 ## Updated Hypotheses
 
 ### Summary
@@ -220,5 +228,6 @@ against the hypothesis.
    add particle advection/gradient consistency checks before requesting a cutout.
 4. Add a flow-map/FTLE result contract with interpolation, seed, window, and
    convergence metadata; keep it separate from fracture evidence.
-5. Add a DDF-specific defect/mode contract only after an independent observable
-   and a classical control are available.
+5. [Complete, contract boundary] Add the DDF-specific defect/mode contract;
+   populate it only after an independent observable and a classical control are
+   available.
