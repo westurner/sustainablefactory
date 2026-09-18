@@ -713,6 +713,51 @@ example : toyUltrasonicTransfer.receivedPower ≤ toyUltrasonicTransfer.incident
 example : toyAcousticEvidence.supportsFractureHypothesis := by
   exact toyAcousticEvidence.outsideClassicalTolerance
 
+noncomputable def toyMagnusControl : MagnusEffectControl :=
+  { mediumDensity := { kilogramsPerCubicMeter := 2 }
+    mediumDensity_nonnegative := by norm_num
+    inflowSpeed := { metersPerSecond := 3 }
+    inflowSpeed_nonnegative := by norm_num
+    signedCirculation := 4
+    predictedLiftPerSpan := 24
+    predictedLiftPerSpanLaw := by norm_num
+    measuredLiftPerSpan := 24
+    liftResidual := 0
+    liftResidualLaw := by norm_num
+    liftTolerance := 1 / 10
+    liftTolerance_nonnegative := by norm_num
+    liftWithinTolerance := by norm_num
+    circulationConvention := "positive counter-clockwise circulation"
+    inflowCalibrationReference := "classical flow-control fixture" }
+
+example : toyMagnusControl.consistent := by
+  exact toyMagnusControl.liftWithinTolerance
+
+noncomputable def toyDDFVortexObservable : DDFVortexObservable :=
+  { circulation := 2
+    circulationUncertainty := 1 / 10
+    circulationUncertainty_nonnegative := by norm_num
+    bernoulliPressureDeficit := { pascals := 3 }
+    bernoulliPressureDeficit_nonnegative := by norm_num
+    radialInflow := -4
+    swirlVelocity := 1
+    transverseModeAmplitude := 1 / 2
+    transverseModeAmplitude_nonnegative := by norm_num
+    independentCalibration := True
+    independentCalibration_hypothesis := True.intro
+    observableLabel := "independent vortex circulation and pressure fixture" }
+
+example : toyDDFVortexObservable.circulation_detectable := by
+  norm_num [DDFVortexObservable.circulation_detectable,
+    toyDDFVortexObservable, abs_of_nonneg]
+
+example : toyDDFVortexObservable.supportsIndependentDefectSlot := by
+  simp [DDFVortexObservable.supportsIndependentDefectSlot,
+    DDFVortexObservable.circulation_detectable,
+    DDFVortexObservable.pressure_deficit_detectable,
+    DDFVortexObservable.transverse_mode_detectable,
+    toyDDFVortexObservable]
+
 noncomputable def toyDDFFractureEvidence : DDFFractureCommunicationEvidence :=
   { sourceLabel := "controlled DDF transverse-mode fixture"
     defectObservableLabel := "independent vortex pressure proxy"

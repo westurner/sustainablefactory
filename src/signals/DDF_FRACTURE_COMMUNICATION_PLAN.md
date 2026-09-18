@@ -96,6 +96,30 @@ beam-deflection result does not establish substrate fracture or communication.
 - A fitted residual is not `q_DDF` until a mechanism-specific observable is
   specified.
 
+### DDF observables and the Magnus control
+
+The current DDF formalization and paper summary expose candidate observables:
+quantized circulation, Bernoulli pressure/enthalpy deficit, radial river
+inflow, swirl velocity, the emergent transverse-phonon speed, and the separate
+active-radiation null. The local workspace does not contain the cited SSRN PDF,
+so these are treated as model/API observables until the appendix source is
+available for page-level verification.
+
+The inflow Magnus effect is a classical control, not a DDF observable. With a
+declared circulation sign convention, the first control law is the
+Kutta-Joukowski relation per unit span:
+
+\[
+L'_{\mathrm{classical}} = \rho U \Gamma.
+\]
+
+An observed lift or transverse drift explained by this relation belongs to
+`H0`. A DDF candidate requires a residual after this control, an independent
+circulation/pressure/defect measurement, causal transverse-mode propagation,
+and replication. It is invalid to relabel ordinary Magnus lift as DDF
+coupling, and the current DDF paper formalization does not itself claim a
+Magnus law.
+
 ## What Each Analysis Can Establish
 
 | Analysis | Positive result can establish | It cannot establish by itself |
@@ -166,6 +190,12 @@ For a DDF interpretation, add an independent defect observable: vortex
 circulation, pressure/enthalpy deficit, phase winding, or a calibrated
 transverse-mode signature. Do not infer this observable from the communication
 residual itself.
+
+Before interpreting inflow-induced transverse force, fit the classical Magnus
+control with density, inflow speed, signed circulation, lift-per-span, and
+calibrated uncertainty. The `MagnusEffectControl` record in
+`Signals.Pending` preserves this law and its residual separately from
+`DDFVortexObservable`.
 
 ### Stage 4: Test DDF mode and causality predictions
 

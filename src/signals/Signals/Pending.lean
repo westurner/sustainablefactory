@@ -1605,6 +1605,96 @@ lemma AcousticFractureEvidence.supportsFractureHypothesis_iff
     evidence.supportsFractureHypothesis ↔ ¬evidence.measurement.consistent := by
   rfl
 
+/-! ## Classical inflow and DDF vortex observables
+
+The Magnus/Kutta-Joukowski relation is kept as an ordinary inflow control. A
+lift residual after this control is not itself evidence for DDF. The DDF
+observable record keeps circulation, Bernoulli-pressure, river-inflow, and
+swirl quantities separate so one of them can be calibrated independently
+before populating `DDFFractureCommunicationEvidence`. -/
+
+/-- Finite classical Magnus-effect control for an oriented inflow convention. -/
+structure MagnusEffectControl where
+  mediumDensity : MassDensity
+  mediumDensity_nonnegative : 0 ≤ mediumDensity.kilogramsPerCubicMeter
+  inflowSpeed : Speed
+  inflowSpeed_nonnegative : 0 ≤ inflowSpeed.metersPerSecond
+  signedCirculation : ℝ
+  predictedLiftPerSpan : ℝ
+  predictedLiftPerSpanLaw :
+    predictedLiftPerSpan =
+      mediumDensity.kilogramsPerCubicMeter * inflowSpeed.metersPerSecond *
+        signedCirculation
+  measuredLiftPerSpan : ℝ
+  liftResidual : ℝ
+  liftResidualLaw : liftResidual = measuredLiftPerSpan - predictedLiftPerSpan
+  liftTolerance : ℝ
+  liftTolerance_nonnegative : 0 ≤ liftTolerance
+  liftWithinTolerance : |liftResidual| ≤ liftTolerance
+  circulationConvention : String
+  inflowCalibrationReference : String
+
+/-- The supplied Magnus/Kutta-Joukowski lift law. -/
+lemma MagnusEffectControl.predicted_lift_per_span_holds
+    (control : MagnusEffectControl) :
+    control.predictedLiftPerSpan =
+      control.mediumDensity.kilogramsPerCubicMeter *
+        control.inflowSpeed.metersPerSecond * control.signedCirculation :=
+  control.predictedLiftPerSpanLaw
+
+/-- The measured lift residual follows the declared classical control law. -/
+lemma MagnusEffectControl.lift_residual_holds
+    (control : MagnusEffectControl) :
+    control.liftResidual = control.measuredLiftPerSpan - control.predictedLiftPerSpan :=
+  control.liftResidualLaw
+
+/-- The bounded Magnus control is consistent with its supplied tolerance. -/
+def MagnusEffectControl.consistent (control : MagnusEffectControl) : Prop :=
+  |control.liftResidual| ≤ control.liftTolerance
+
+/-- Finite, independently calibrated DDF-vortex observable data.
+
+These fields are candidates for an independent defect observable; nonzero
+values do not identify DDF without controls and replication. -/
+structure DDFVortexObservable where
+  circulation : ℝ
+  circulationUncertainty : ℝ
+  circulationUncertainty_nonnegative : 0 ≤ circulationUncertainty
+  bernoulliPressureDeficit : Pressure
+  bernoulliPressureDeficit_nonnegative :
+    0 ≤ bernoulliPressureDeficit.pascals
+  radialInflow : ℝ
+  swirlVelocity : ℝ
+  transverseModeAmplitude : ℝ
+  transverseModeAmplitude_nonnegative : 0 ≤ transverseModeAmplitude
+  independentCalibration : Prop
+  independentCalibration_hypothesis : independentCalibration
+  observableLabel : String
+
+/-- Circulation is independently detectable when it exceeds its uncertainty. -/
+def DDFVortexObservable.circulation_detectable
+    (observable : DDFVortexObservable) : Prop :=
+  observable.circulationUncertainty < |observable.circulation|
+
+/-- A calibrated pressure deficit is a candidate observable, not a DDF proof. -/
+def DDFVortexObservable.pressure_deficit_detectable
+    (observable : DDFVortexObservable) : Prop :=
+  0 < observable.bernoulliPressureDeficit.pascals
+
+/-- A nonzero transverse mode is a candidate observable, not a DDF proof. -/
+def DDFVortexObservable.transverse_mode_detectable
+    (observable : DDFVortexObservable) : Prop :=
+  0 < observable.transverseModeAmplitude
+
+/-- Independent calibration plus one observable supports a candidate defect slot. -/
+def DDFVortexObservable.supportsIndependentDefectSlot
+    (observable : DDFVortexObservable) : Prop :=
+  observable.observableLabel ≠ "" ∧
+    observable.independentCalibration ∧
+    (observable.circulation_detectable ∨
+      observable.pressure_deficit_detectable ∨
+      observable.transverse_mode_detectable)
+
 /-! ## DDF fracture-communication evidence boundary
 
 The DDF plan keeps ordinary acoustic/elastic communication as the null and
