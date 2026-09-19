@@ -6,6 +6,7 @@ import Signals.Units
 namespace Signals.Lasers
 
 open Signals.Antennas
+open Signals.Propagation
 open Signals.Units
 
 /-! # Laser source and process parameter contracts
@@ -28,6 +29,8 @@ inductive LaserKind
   | laserCompressionShock
   | integratedCarbon
   | lightSlinger
+  | nanophotonicParametricOscillator
+  | hollowCoreSoliton
   | proposedProcaHolographic
   deriving DecidableEq, Repr
 
@@ -69,13 +72,17 @@ def laserKinds : List LaserKind :=
     LaserKind.carbonDioxide, LaserKind.ndYag, LaserKind.excimer,
     LaserKind.ultrafast, LaserKind.shockDrive,
     LaserKind.laserCompressionShock, LaserKind.integratedCarbon,
-    LaserKind.lightSlinger,
+    LaserKind.lightSlinger, LaserKind.nanophotonicParametricOscillator,
+    LaserKind.hollowCoreSoliton,
     LaserKind.proposedProcaHolographic]
 
 /-- A conservative default evidence boundary for a source family. -/
 def LaserKind.defaultEvidence : LaserKind → LaserEvidenceStatus
   | LaserKind.proposedProcaHolographic => LaserEvidenceStatus.unsupportedProposal
   | LaserKind.lightSlinger => LaserEvidenceStatus.modeledOnly
+  | LaserKind.nanophotonicParametricOscillator =>
+      LaserEvidenceStatus.demonstratedProcess
+  | LaserKind.hollowCoreSoliton => LaserEvidenceStatus.demonstratedProcess
   | _ => LaserEvidenceStatus.calibrationRequired
 
 /-- Nominal telecom signal wavelength used by the integrated-carbon chat model. -/
@@ -101,6 +108,268 @@ inductive CarbonIntegration
   | rgoVitrimerMetasurface
   | carbonSaturableAbsorber
   deriving DecidableEq, Repr
+
+/-- Soliton applications represented by the waveguide model. -/
+inductive SolitonApplication
+  | hollowCoreAttosecond
+  | qpuBus
+  | frequencyComb
+  | waveguideTransport
+  deriving DecidableEq, Repr
+
+/-- Platforms used by a nanophotonic parametric oscillator record. -/
+inductive ParametricOscillatorPlatform
+  | thinFilmLithiumNiobate
+  | proposedCarbonComposite
+  | other
+  deriving DecidableEq, Repr
+
+/-- Spectral regions used by a soliton or its generated dispersive wave. -/
+inductive SpectralBand
+  | deepUltraviolet
+  | nearInfrared
+  | extremeUltraviolet
+  | softXray
+  | terahertz
+  deriving DecidableEq, Repr
+
+/-- Photon energy represented in electron-volts. -/
+structure PhotonEnergy where
+  electronVolts : ℝ
+  electronVolts_pos : 0 < electronVolts
+
+/-- Strong-field ionization evidence for an argon target. -/
+structure ArgonIonizationObservation where
+  pulseDuration : Duration
+  pulseDuration_pos : 0 < pulseDuration.seconds
+  irradiance : Irradiance
+  irradiance_nonnegative : 0 ≤ irradiance.wattsPerSquareMeter
+  photonEnergy : PhotonEnergy
+  observedChargeState : ℕ
+  observedChargeState_pos : 0 < observedChargeState
+  ionizationObserved : Prop
+  ionizationObserved_hypothesis : ionizationObserved
+  evidenceStatus : LaserEvidenceStatus
+
+/-- Calibrated soliton mechanics for a waveguide or QPU bus. -/
+structure SolitonWaveguideParameters where
+  application : SolitonApplication
+  mediumLabel : String
+  carrierWavelength : Length
+  carrierWavelength_pos : 0 < carrierWavelength.meters
+  coreRadius : Length
+  coreRadius_pos : 0 < coreRadius.meters
+  gasPressure : Pressure
+  gasPressure_nonnegative : 0 ≤ gasPressure.pascals
+  propagationDistance : Length
+  propagationDistance_pos : 0 < propagationDistance.meters
+  pulseDuration : Duration
+  pulseDuration_pos : 0 < pulseDuration.seconds
+  peakPower : Power
+  peakPower_pos : 0 < peakPower.watts
+  groupSpeed : Speed
+  groupSpeed_pos : 0 < groupSpeed.metersPerSecond
+  groupSpeed_causal : groupSpeed.metersPerSecond ≤ vacuumSpeedOfLight
+  modeCount : ℕ
+  modeCount_pos : 0 < modeCount
+  dispersionParameter : ℝ
+  dispersionParameter_anomalous : dispersionParameter < 0
+  nonlinearParameter : ℝ
+  nonlinearParameter_pos : 0 < nonlinearParameter
+  solitonOrderSquared : ℝ
+  solitonOrderSquared_law :
+    solitonOrderSquared =
+      nonlinearParameter * peakPower.watts * pulseDuration.seconds ^ 2 /
+        |dispersionParameter|
+  solitonOrderSquared_pos : 0 < solitonOrderSquared
+  solitonOrderSquared_supercritical : 1 < solitonOrderSquared
+  modeMatched : Prop
+  modeMatched_hypothesis : modeMatched
+  pressureProfileControlled : Prop
+  pressureProfileControlled_hypothesis : pressureProfileControlled
+  dispersionNonlinearityBalanced : Prop
+  dispersionNonlinearityBalanced_hypothesis : dispersionNonlinearityBalanced
+  shapePreservationObserved : Prop
+  shapePreservationObserved_hypothesis : shapePreservationObserved
+  evidenceStatus : LaserEvidenceStatus
+
+/-- The measured or simulated soliton-order control law. -/
+lemma SolitonWaveguideParameters.soliton_order_squared_holds
+    (parameters : SolitonWaveguideParameters) :
+    parameters.solitonOrderSquared =
+      parameters.nonlinearParameter * parameters.peakPower.watts *
+          parameters.pulseDuration.seconds ^ 2 /
+        |parameters.dispersionParameter| :=
+  parameters.solitonOrderSquared_law
+
+/-- The contract is in the compression regime when its supplied order exceeds one. -/
+lemma SolitonWaveguideParameters.soliton_order_supercritical
+    (parameters : SolitonWaveguideParameters) :
+    1 < parameters.solitonOrderSquared :=
+  parameters.solitonOrderSquared_supercritical
+
+/-- Quantitative contract for a nanophotonic parametric frequency-comb source. -/
+structure NanophotonicParametricOscillatorParameters where
+  platform : ParametricOscillatorPlatform
+  pumpWavelength : Length
+  pumpWavelength_pos : 0 < pumpWavelength.meters
+  pumpRepetitionRate : Frequency
+  pumpRepetitionRate_pos : 0 < pumpRepetitionRate.hz
+  pumpPulseEnergy : Energy
+  pumpPulseEnergy_pos : 0 < pumpPulseEnergy.joules
+  oscillationThresholdEnergy : Energy
+  oscillationThresholdEnergy_pos : 0 < oscillationThresholdEnergy.joules
+  threshold_le_pump : oscillationThresholdEnergy.joules ≤ pumpPulseEnergy.joules
+  spectralSpanOctaves : ℝ
+  spectralSpanOctaves_pos : 0 < spectralSpanOctaves
+  dispersionEngineered : Prop
+  dispersionEngineered_hypothesis : dispersionEngineered
+  coherentCombObserved : Prop
+  coherentCombObserved_hypothesis : coherentCombObserved
+  phaseLockedToPump : Prop
+  phaseLockedToPump_hypothesis : phaseLockedToPump
+  evidenceStatus : LaserEvidenceStatus
+
+/-- The pump energy is above the supplied oscillation threshold. -/
+lemma NanophotonicParametricOscillatorParameters.pump_above_threshold
+    (parameters : NanophotonicParametricOscillatorParameters) :
+    parameters.oscillationThresholdEnergy.joules ≤
+      parameters.pumpPulseEnergy.joules :=
+  parameters.threshold_le_pump
+
+/-- Optical-to-microwave control data for a superconducting-qubit transducer. -/
+structure OpticalSuperconductingQubitControlParameters where
+  transducerPlatform : String
+  opticalCarrierFrequency : Frequency
+  opticalCarrierFrequency_pos : 0 < opticalCarrierFrequency.hz
+  microwaveQubitFrequency : Frequency
+  microwaveQubitFrequency_pos : 0 < microwaveQubitFrequency.hz
+  opticalPumpPower : Power
+  opticalPumpPower_nonnegative : 0 ≤ opticalPumpPower.watts
+  conversionEfficiency : BoundedFactor
+  addedNoisePhotons : ℝ
+  addedNoisePhotons_nonnegative : 0 ≤ addedNoisePhotons
+  addedNoiseBudget : ℝ
+  addedNoiseBudget_nonnegative : 0 ≤ addedNoiseBudget
+  addedNoiseWithinBudget : addedNoisePhotons ≤ addedNoiseBudget
+  microwaveLinkLossDb : ℝ
+  microwaveLinkLossDb_nonnegative : 0 ≤ microwaveLinkLossDb
+  coherentOpticalControlObserved : Prop
+  coherentOpticalControlObserved_hypothesis : coherentOpticalControlObserved
+  rabiOscillationsObserved : Prop
+  rabiOscillationsObserved_hypothesis : rabiOscillationsObserved
+  cryogenicOperation : Prop
+  cryogenicOperation_hypothesis : cryogenicOperation
+  evidenceStatus : LaserEvidenceStatus
+
+/-- A transducer's conversion efficiency remains in its declared range. -/
+lemma OpticalSuperconductingQubitControlParameters.conversion_efficiency_nonnegative
+    (parameters : OpticalSuperconductingQubitControlParameters) :
+    0 ≤ parameters.conversionEfficiency.value :=
+  parameters.conversionEfficiency.nonnegative
+
+/-- Chiral microwave-interconnect data for remote entanglement. -/
+structure ChiralQuantumInterconnectParameters where
+  moduleCount : ℕ
+  moduleCount_pos : 0 < moduleCount
+  waveguideFrequency : Frequency
+  waveguideFrequency_pos : 0 < waveguideFrequency.hz
+  qubitSpacing : Length
+  qubitSpacing_pos : 0 < qubitSpacing.meters
+  interModuleDistance : Length
+  interModuleDistance_pos : 0 < interModuleDistance.meters
+  propagationTransmission : BoundedFactor
+  wStateQubitCount : ℕ
+  wStateQubitCount_law : wStateQubitCount = 4
+  wStateFidelity : BoundedFactor
+  directionalEmissionObserved : Prop
+  directionalEmissionObserved_hypothesis : directionalEmissionObserved
+  directionalAbsorptionObserved : Prop
+  directionalAbsorptionObserved_hypothesis : directionalAbsorptionObserved
+  pulseOptimizationCalibrated : Prop
+  pulseOptimizationCalibrated_hypothesis : pulseOptimizationCalibrated
+  remoteEntanglementObserved : Prop
+  remoteEntanglementObserved_hypothesis : remoteEntanglementObserved
+  evidenceStatus : LaserEvidenceStatus
+
+/-- The interconnect records a four-qubit W-state target, not a generic fidelity claim. -/
+lemma ChiralQuantumInterconnectParameters.w_state_qubit_count
+    (parameters : ChiralQuantumInterconnectParameters) :
+    parameters.wStateQubitCount = 4 :=
+  parameters.wStateQubitCount_law
+
+/-- Dual-beam femtosecond-processing data for localized waveguide writing. -/
+structure DualBeamFsProcessingParameters where
+  pulseDuration : Duration
+  pulseDuration_pos : 0 < pulseDuration.seconds
+  pulseEnergy : Energy
+  pulseEnergy_pos : 0 < pulseEnergy.joules
+  beamAngleRadians : ℝ
+  processingDepth : Length
+  processingDepth_pos : 0 < processingDepth.meters
+  dualBeamCoherenceObserved : Prop
+  dualBeamCoherenceObserved_hypothesis : dualBeamCoherenceObserved
+  aberrationReduced : Prop
+  aberrationReduced_hypothesis : aberrationReduced
+  selfFocusingSuppressed : Prop
+  selfFocusingSuppressed_hypothesis : selfFocusingSuppressed
+  filamentationSuppressed : Prop
+  filamentationSuppressed_hypothesis : filamentationSuppressed
+  depthDependenceReduced : Prop
+  depthDependenceReduced_hypothesis : depthDependenceReduced
+  interfaceRoughnessReduced : Prop
+  interfaceRoughnessReduced_hypothesis : interfaceRoughnessReduced
+  waveguideWritten : Prop
+  waveguideWritten_hypothesis : waveguideWritten
+  propagationLossDbPerCentimeter : ℝ
+  propagationLossDbPerCentimeter_nonnegative :
+    0 ≤ propagationLossDbPerCentimeter
+  evidenceStatus : LaserEvidenceStatus
+
+/-- Field-resolved attosecond soliton and dispersive-wave parameters. -/
+structure AttosecondSolitonParameters where
+  waveguide : SolitonWaveguideParameters
+  pulseDuration : Duration
+  pulseDuration_pos : 0 < pulseDuration.seconds
+  fieldSquaredFwhm : Duration
+  fieldSquaredFwhm_pos : 0 < fieldSquaredFwhm.seconds
+  dispersiveWaveBand : SpectralBand
+  dispersiveWaveGenerated : Prop
+  dispersiveWaveGenerated_hypothesis : dispersiveWaveGenerated
+  nonlinearPhotoconductiveSampling : Prop
+  nonlinearPhotoconductiveSampling_hypothesis :
+    nonlinearPhotoconductiveSampling
+  argonIonization : Option ArgonIonizationObservation
+  evidenceStatus : LaserEvidenceStatus
+
+/-- Gaseous medium used by a plasma-lens contract. -/
+inductive PlasmaLensGas
+  | hydrogen
+  | other
+  deriving DecidableEq, Repr
+
+/-- Plasma-lens parameters for broadband attosecond focusing. -/
+structure PlasmaLensParameters where
+  gas : PlasmaLensGas
+  photonEnergy : PhotonEnergy
+  inputPulseDuration : Duration
+  inputPulseDuration_pos : 0 < inputPulseDuration.seconds
+  outputPulseDuration : Duration
+  outputPulseDuration_pos : 0 < outputPulseDuration.seconds
+  transmission : BoundedFactor
+  pulseStretchingNegligible : Prop
+  pulseStretchingNegligible_hypothesis : pulseStretchingNegligible
+  temporalCompressionPossible : Prop
+  temporalCompressionPossible_hypothesis : temporalCompressionPossible
+  harmonicSeparationSupported : Prop
+  harmonicSeparationSupported_hypothesis : harmonicSeparationSupported
+  evidenceStatus : LaserEvidenceStatus
+
+/-- The plasma-lens transmission remains in the declared bounded range. -/
+lemma PlasmaLensParameters.transmission_nonnegative
+    (parameters : PlasmaLensParameters) :
+    0 ≤ parameters.transmission.value :=
+  parameters.transmission.nonnegative
 
 /-- Color-center families represented by nanodiamond product records. -/
 inductive NanodiamondColorCenter
@@ -232,6 +501,15 @@ inductive LaserInteractionKind
   | cavityElectrodynamics
   | phononPolariton
   | lightSlingerWaveguide
+  | solitonWaveguide
+  | attosecondSoliton
+  | argonStrongFieldIonization
+  | plasmaLens
+  | solitonBus
+  | nanophotonicParametricOscillator
+  | opticalSuperconductingQubitControl
+  | chiralQuantumInterconnect
+  | dualBeamFemtosecondProcessing
   deriving DecidableEq, Repr
 
 /-- Radiation channels that may coexist in a surface-mode model. -/
@@ -364,6 +642,18 @@ inductive LaserInteractionProfile
   | cavityElectrodynamics (parameters : CavityElectrodynamicsParameters)
   | phononPolariton (parameters : PhononPolaritonParameters)
   | lightSlinger (parameters : LightSlingerParameters)
+  | solitonWaveguide (parameters : SolitonWaveguideParameters)
+  | attosecondSoliton (parameters : AttosecondSolitonParameters)
+  | argonIonization (parameters : ArgonIonizationObservation)
+  | plasmaLens (parameters : PlasmaLensParameters)
+    | nanophotonicParametricOscillator
+      (parameters : NanophotonicParametricOscillatorParameters)
+    | opticalSuperconductingQubitControl
+      (parameters : OpticalSuperconductingQubitControlParameters)
+    | chiralQuantumInterconnect
+      (parameters : ChiralQuantumInterconnectParameters)
+    | dualBeamFemtosecondProcessing
+      (parameters : DualBeamFsProcessingParameters)
 
 /-- The interaction class associated with a laser-matter profile. -/
 def LaserInteractionProfile.kind : LaserInteractionProfile → LaserInteractionKind
@@ -377,6 +667,25 @@ def LaserInteractionProfile.kind : LaserInteractionProfile → LaserInteractionK
       LaserInteractionKind.phononPolariton
     | LaserInteractionProfile.lightSlinger _ =>
       LaserInteractionKind.lightSlingerWaveguide
+  | LaserInteractionProfile.solitonWaveguide parameters =>
+      match parameters.application with
+      | SolitonApplication.qpuBus => LaserInteractionKind.solitonBus
+      | SolitonApplication.hollowCoreAttosecond =>
+        LaserInteractionKind.attosecondSoliton
+      | _ => LaserInteractionKind.solitonWaveguide
+  | LaserInteractionProfile.attosecondSoliton _ =>
+      LaserInteractionKind.attosecondSoliton
+  | LaserInteractionProfile.argonIonization _ =>
+      LaserInteractionKind.argonStrongFieldIonization
+  | LaserInteractionProfile.plasmaLens _ => LaserInteractionKind.plasmaLens
+    | LaserInteractionProfile.nanophotonicParametricOscillator _ =>
+      LaserInteractionKind.nanophotonicParametricOscillator
+    | LaserInteractionProfile.opticalSuperconductingQubitControl _ =>
+      LaserInteractionKind.opticalSuperconductingQubitControl
+    | LaserInteractionProfile.chiralQuantumInterconnect _ =>
+      LaserInteractionKind.chiralQuantumInterconnect
+    | LaserInteractionProfile.dualBeamFemtosecondProcessing _ =>
+      LaserInteractionKind.dualBeamFemtosecondProcessing
 
 /-- A cavity profile is in the quantum-QED class only when explicitly labeled. -/
 def CavityElectrodynamicsParameters.isCavityQED

@@ -21,6 +21,7 @@ open Signals.Scattering
 open Signals.MHD
 open Signals.Radio
 open Signals.DDF
+open Signals.Lasers
 
 def zeroCalculus : VectorCalculus where
   divergence := fun _ => 0
@@ -933,6 +934,115 @@ example : toyLightSlinger.sweepSpeed.metersPerSecond = 2 := by
 
 example : toyLightSlinger.radiatedPower.watts ≤ toyLightSlinger.inputPower.watts := by
   exact toyLightSlinger.radiated_power_le_input
+
+noncomputable def toySolitonWaveguide : SolitonWaveguideParameters where
+  application := SolitonApplication.qpuBus
+  mediumLabel := "argon"
+  carrierWavelength := { meters := 800 * 10 ^ (-9 : ℤ) }
+  carrierWavelength_pos := by norm_num [zpow_neg]
+  coreRadius := { meters := 50 * 10 ^ (-6 : ℤ) }
+  coreRadius_pos := by norm_num [zpow_neg]
+  gasPressure := { pascals := 10 ^ 5 }
+  gasPressure_nonnegative := by norm_num
+  propagationDistance := { meters := 1 }
+  propagationDistance_pos := by norm_num
+  pulseDuration := { seconds := 2 * 10 ^ (-15 : ℤ) }
+  pulseDuration_pos := by norm_num [zpow_neg]
+  peakPower := { watts := 1 }
+  peakPower_pos := by norm_num
+  groupSpeed := { metersPerSecond := 200000000 }
+  groupSpeed_pos := by norm_num
+  groupSpeed_causal := by norm_num [vacuumSpeedOfLight]
+  modeCount := 1
+  modeCount_pos := by norm_num
+  dispersionParameter := -1
+  dispersionParameter_anomalous := by norm_num
+  nonlinearParameter := 10 ^ 30
+  nonlinearParameter_pos := by norm_num
+  solitonOrderSquared := 4
+  solitonOrderSquared_law := by
+    norm_num [abs_of_nonpos]
+  solitonOrderSquared_pos := by norm_num
+  solitonOrderSquared_supercritical := by norm_num
+  modeMatched := True
+  modeMatched_hypothesis := by trivial
+  pressureProfileControlled := True
+  pressureProfileControlled_hypothesis := by trivial
+  dispersionNonlinearityBalanced := True
+  dispersionNonlinearityBalanced_hypothesis := by trivial
+  shapePreservationObserved := True
+  shapePreservationObserved_hypothesis := by trivial
+  evidenceStatus := LaserEvidenceStatus.calibrationRequired
+
+example : toySolitonWaveguide.groupSpeed.metersPerSecond ≤ vacuumSpeedOfLight := by
+  exact toySolitonWaveguide.groupSpeed_causal
+
+example : toySolitonWaveguide.solitonOrderSquared = 4 := by
+  rfl
+
+example : 1 < toySolitonWaveguide.solitonOrderSquared := by
+  exact toySolitonWaveguide.soliton_order_supercritical
+
+example : LaserInteractionProfile.kind
+    (LaserInteractionProfile.solitonWaveguide toySolitonWaveguide) =
+      LaserInteractionKind.solitonBus := by
+  rfl
+
+noncomputable def toyHydrogenPlasmaLens : PlasmaLensParameters where
+  gas := PlasmaLensGas.hydrogen
+  photonEnergy := { electronVolts := 20, electronVolts_pos := by norm_num }
+  inputPulseDuration := { seconds := 100 * 10 ^ (-18 : ℤ) }
+  inputPulseDuration_pos := by norm_num [zpow_neg]
+  outputPulseDuration := { seconds := 90 * 10 ^ (-18 : ℤ) }
+  outputPulseDuration_pos := by norm_num [zpow_neg]
+  transmission := { value := 9 / 10, nonnegative := by norm_num, le_one := by norm_num }
+  pulseStretchingNegligible := True
+  pulseStretchingNegligible_hypothesis := by trivial
+  temporalCompressionPossible := True
+  temporalCompressionPossible_hypothesis := by trivial
+  harmonicSeparationSupported := True
+  harmonicSeparationSupported_hypothesis := by trivial
+  evidenceStatus := LaserEvidenceStatus.calibrationRequired
+
+example : 0 ≤ toyHydrogenPlasmaLens.transmission.value := by
+  exact toyHydrogenPlasmaLens.transmission_nonnegative
+
+example : LaserKind.defaultEvidence LaserKind.hollowCoreSoliton =
+    LaserEvidenceStatus.demonstratedProcess := by
+  rfl
+
+example : LaserKind.defaultEvidence LaserKind.nanophotonicParametricOscillator =
+    LaserEvidenceStatus.demonstratedProcess := by
+  rfl
+
+example (parameters : NanophotonicParametricOscillatorParameters) :
+    parameters.oscillationThresholdEnergy.joules ≤
+      parameters.pumpPulseEnergy.joules := by
+  exact parameters.pump_above_threshold
+
+example (parameters : NanophotonicParametricOscillatorParameters) :
+    LaserInteractionProfile.kind
+        (LaserInteractionProfile.nanophotonicParametricOscillator parameters) =
+      LaserInteractionKind.nanophotonicParametricOscillator := by
+  rfl
+
+example (parameters : OpticalSuperconductingQubitControlParameters) :
+    LaserInteractionProfile.kind
+        (LaserInteractionProfile.opticalSuperconductingQubitControl parameters) =
+      LaserInteractionKind.opticalSuperconductingQubitControl := by
+  rfl
+
+example (parameters : ChiralQuantumInterconnectParameters) :
+    LaserInteractionProfile.kind
+        (LaserInteractionProfile.chiralQuantumInterconnect parameters) =
+      LaserInteractionKind.chiralQuantumInterconnect := by
+  rfl
+
+example (parameters : DualBeamFsProcessingParameters) :
+    LaserInteractionProfile.kind
+        (LaserInteractionProfile.dualBeamFemtosecondProcessing parameters) =
+      LaserInteractionKind.dualBeamFemtosecondProcessing := by
+  rfl
 
 def toyRydbergReceiver : RydbergEITReceiver :=
   { probeFrequency := { hz := 1 }

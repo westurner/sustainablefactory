@@ -62,6 +62,23 @@ inductive LaserReferenceRole
   | volumeDistributedPolarization
   | superluminalPhasePattern
   | causalSpeedSeparation
+  | attosecondSoliton
+  | dispersiveWave
+  | argonIonization
+  | plasmaLens
+  | solitonBus
+  | fieldResolvedSampling
+  | frequencyComb
+  | nanophotonicParametricOscillator
+  | opticalSuperconductingQubitControl
+  | microwaveOpticalTransduction
+  | superconductingQubit
+  | chiralQuantumInterconnect
+  | remoteEntanglement
+  | dualBeamFemtosecondProcessing
+  | selfFocusingSuppression
+  | filamentationSuppression
+  | waveguideWriting
   | opticalModification
   | holography
   | masklessFabrication
@@ -475,6 +492,141 @@ def laserReferenceLightSlingerChat : LaserScholarlyReference where
   scopeNote :=
     "Chat-derived conditional model: a volume-distributed polarization-current antenna in a dielectric waveguide with a superluminal phase-pattern hypothesis. It does not establish superluminal matter, energy, or information transfer."
 
+/-- Field-resolved attosecond soliton generation and argon ionization. -/
+def laserReferenceHeinzerling2025AttosecondSoliton : LaserScholarlyReference where
+  bibKey := "heinzerling2025attosecondSoliton"
+  title := "Field-resolved attosecond solitons"
+  year := 2025
+  doi := some "10.1038/s41566-025-01658-5"
+  sourceUrl := "https://doi.org/10.1038/s41566-025-01658-5"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.experimental
+  powerEvidence := LaserReferencePowerEvidence.processParametersOnly
+  roles := [LaserReferenceRole.attosecondSoliton,
+    LaserReferenceRole.dispersiveWave,
+    LaserReferenceRole.argonIonization,
+    LaserReferenceRole.fieldResolvedSampling,
+    LaserReferenceRole.solitonBus]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Reports hollow-core-fibre soliton dynamics, resonant DUV dispersive-wave generation, nonlinear photoconductive field sampling, and argon ionization; the QPU-bus application remains a separate engineering extrapolation."
+
+/-- Hydrogen-plasma focusing and temporal control of attosecond pulses. -/
+def laserReferenceSvirplys2025PlasmaLens : LaserScholarlyReference where
+  bibKey := "svirplys2025plasmaLens"
+  title := "Plasma lens for focusing attosecond pulses"
+  year := 2025
+  doi := some "10.1038/s41566-025-01794-y"
+  sourceUrl := "https://doi.org/10.1038/s41566-025-01794-y"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.experimental
+  powerEvidence := LaserReferencePowerEvidence.processParametersOnly
+  roles := [LaserReferenceRole.plasmaLens,
+    LaserReferenceRole.attosecondSoliton,
+    LaserReferenceRole.dispersiveWave]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Reports a tunable hydrogen-plasma lens for broadband EUV attosecond focusing, including approximately 20 eV and 80 eV regimes, with negligible simulated pulse stretching, possible atto-chirp compression, and high-transmission harmonic separation."
+
+/-- Chat-derived QPU soliton-bus design reference. -/
+def laserReferenceSolitonQpuBusChat : LaserScholarlyReference where
+  bibKey := "solitonQpuBusChat"
+  title := "N-LIG soliton bus and QPU waveguide design notes"
+  year := 2026
+  doi := none
+  sourceUrl := "data/chats/_Quantum Processor and Soliton Discussions  .md"
+  localArtifactStatus := LaserReferenceArtifactStatus.metadataOnly
+  localArtifact := some "data/chats/_Quantum Processor and Soliton Discussions  .md"
+  evidenceStatus := LaserReferenceEvidenceStatus.metadataOnly
+  powerEvidence := LaserReferencePowerEvidence.noTransferableWattage
+  roles := [LaserReferenceRole.solitonBus,
+    LaserReferenceRole.attosecondSoliton]
+  procaFieldStatus := LaserReferenceClaimStatus.conditionalModel
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Chat-derived QPU-bus and N-LIG waveguide proposal; it is not evidence that the cited attosecond fibre or plasma-lens experiments realize a quantum processor bus."
+
+/-- Ultra-low-threshold multi-octave nanophotonic parametric oscillator. -/
+def laserReferenceSekine2025MultiOctaveComb : LaserScholarlyReference where
+  bibKey := "sekine2025multiOctaveComb"
+  title := "Multi-octave frequency comb from an ultra-low-threshold nanophotonic parametric oscillator"
+  year := 2025
+  doi := some "10.1038/s41566-025-01753-7"
+  sourceUrl := "https://doi.org/10.1038/s41566-025-01753-7"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.experimental
+  powerEvidence := LaserReferencePowerEvidence.pulseEnergyOrFluence
+  roles := [LaserReferenceRole.frequencyComb,
+    LaserReferenceRole.nanophotonicParametricOscillator,
+    LaserReferenceRole.opticalModification]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Reports a coherent 2.6-octave comb from a thin-film lithium-niobate optical parametric oscillator using 121 fJ pump energy and dispersion engineering; it is not evidence that rGO-vitrimer or N-LIG supplies the same chi(2) platform."
+
+/-- Coherent optical control of a superconducting microwave qubit. -/
+def laserReferenceWarner2025OpticalQubitControl : LaserScholarlyReference where
+  bibKey := "warner2025opticalQubitControl"
+  title := "Coherent control of a superconducting qubit using light"
+  year := 2025
+  doi := some "10.1038/s41567-025-02812-0"
+  sourceUrl := "https://doi.org/10.1038/s41567-025-02812-0"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.experimental
+  powerEvidence := LaserReferencePowerEvidence.absoluteWatts
+  roles := [LaserReferenceRole.opticalSuperconductingQubitControl,
+    LaserReferenceRole.microwaveOpticalTransduction,
+    LaserReferenceRole.superconductingQubit]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Demonstrates optically driven Rabi oscillations using a cryogenic microwave-optical transducer, with up to 1.18 percent conversion efficiency and low added microwave noise; the measured link remains loss- and cooperativity-limited."
+
+/-- Directional remote entanglement through a chiral microwave interconnect. -/
+def laserReferenceAlmanakly2025ChiralInterconnect : LaserScholarlyReference where
+  bibKey := "almanakly2025chiralInterconnect"
+  title := "Deterministic remote entanglement using a chiral quantum interconnect"
+  year := 2025
+  doi := some "10.1038/s41567-025-02811-1"
+  sourceUrl := "https://doi.org/10.1038/s41567-025-02811-1"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.experimental
+  powerEvidence := LaserReferencePowerEvidence.processParametersOnly
+  roles := [LaserReferenceRole.chiralQuantumInterconnect,
+    LaserReferenceRole.remoteEntanglement,
+    LaserReferenceRole.superconductingQubit]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Uses interference-controlled directional emission and absorption between superconducting modules; reports a four-qubit W state at about 62 percent fidelity in each direction, with propagation loss as the main limitation."
+
+/-- Dual-beam femtosecond processing for localized waveguide writing. -/
+def laserReferenceLapointe2017DualBeamProcessing : LaserScholarlyReference where
+  bibKey := "lapointe2017dualBeamProcessing"
+  title := "A simple technique to overcome self-focusing, filamentation, supercontinuum generation, aberrations, depth dependence and waveguide interface roughness using fs laser processing"
+  year := 2017
+  doi := some "10.1038/s41598-017-00589-8"
+  sourceUrl := "https://doi.org/10.1038/s41598-017-00589-8"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.experimental
+  powerEvidence := LaserReferencePowerEvidence.pulseEnergyOrFluence
+  roles := [LaserReferenceRole.dualBeamFemtosecondProcessing,
+    LaserReferenceRole.selfFocusingSuppression,
+    LaserReferenceRole.filamentationSuppression,
+    LaserReferenceRole.waveguideWriting]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Demonstrates two coherent parallel beams focused through one lens to reduce aberration, depth dependence, filamentation, and waveguide-interface roughness in glass; it is a processing geometry, not evidence for a sub-10 nm vitrimer aperture or PCLP cleavage."
+
 /-- Supplemental laser-matter references retained separately from the original
 13-work carbon-processing registry. -/
 def supplementalLaserMatterReferences : List LaserScholarlyReference :=
@@ -485,10 +637,17 @@ def supplementalLaserMatterReferences : List LaserScholarlyReference :=
     laserReferenceLightSlingerChat,
     laserReferenceFu2025ElectronNanodiamond,
     laserReferenceBao2025QuantumNanodiamond,
-    laserReferenceKim2025ColorCenterPositioning ]
+    laserReferenceKim2025ColorCenterPositioning,
+    laserReferenceHeinzerling2025AttosecondSoliton,
+    laserReferenceSvirplys2025PlasmaLens,
+    laserReferenceSolitonQpuBusChat,
+    laserReferenceSekine2025MultiOctaveComb,
+    laserReferenceWarner2025OpticalQubitControl,
+    laserReferenceAlmanakly2025ChiralInterconnect,
+    laserReferenceLapointe2017DualBeamProcessing ]
 
 lemma supplementalLaserMatterReferences_count :
-  supplementalLaserMatterReferences.length = 8 := by
+  supplementalLaserMatterReferences.length = 15 := by
   rfl
 
 /-- The 13 unique works represented by the canonical attached bibliography. -/
