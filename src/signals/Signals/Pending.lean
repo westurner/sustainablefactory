@@ -1735,6 +1735,145 @@ lemma AcousticFractureEvidence.supportsFractureHypothesis_iff
     evidence.supportsFractureHypothesis ↔ ¬evidence.measurement.consistent := by
   rfl
 
+/-- A finite fracture-mediated ultrasonic transfer boundary.
+
+The ordinary acoustic transfer remains explicit. The fracture/cavitation term is
+an additional measured mechanism candidate, not an assumed Proca channel or a
+claim that energy can pass harmlessly through tissue. -/
+structure FractureMediatedUltrasonicTransfer where
+  transfer : Acoustics.UltrasonicTransfer
+  fractureMechanismLabel : String
+  fractureCouplingFraction : BoundedFactor
+  fractureCouplingResidual : ℝ
+  fractureCouplingResidual_nonnegative : 0 ≤ fractureCouplingResidual
+  fractureCouplingTolerance : ℝ
+  fractureCouplingTolerance_nonnegative : 0 ≤ fractureCouplingTolerance
+  fractureCouplingWithinTolerance :
+    fractureCouplingResidual ≤ fractureCouplingTolerance
+  receiverPower : Power
+  receiverPower_nonnegative : 0 ≤ receiverPower.watts
+  receiverPowerLaw : receiverPower.watts =
+    fractureCouplingFraction.value * transfer.incidentPower
+  absorbedPower : Power
+  absorbedPower_nonnegative : 0 ≤ absorbedPower.watts
+  lossPower : Power
+  lossPower_nonnegative : 0 ≤ lossPower.watts
+  receivedPowerBalance : receiverPower.watts + absorbedPower.watts +
+      lossPower.watts = transfer.incidentPower
+  cavitationControl : Prop
+  cavitationControl_hypothesis : cavitationControl
+  fractureControl : Prop
+  fractureControl_hypothesis : fractureControl
+  thermalControl : Prop
+  thermalControl_hypothesis : thermalControl
+  detectorCalibration : Prop
+  detectorCalibration_hypothesis : detectorCalibration
+  replicationCount : ℕ
+  replicationCount_min : 2 ≤ replicationCount
+
+/-- The proposed fracture-mediated transfer has enough controls for a bounded
+classical mechanism comparison. -/
+def FractureMediatedUltrasonicTransfer.comparisonReady
+    (transfer : FractureMediatedUltrasonicTransfer) : Prop :=
+  transfer.fractureMechanismLabel ≠ "" ∧
+    transfer.fractureCouplingResidual ≤ transfer.fractureCouplingTolerance ∧
+    transfer.cavitationControl ∧
+    transfer.fractureControl ∧
+    transfer.thermalControl ∧
+    transfer.detectorCalibration ∧
+    2 ≤ transfer.replicationCount
+
+/-! ## Fracture crackle, phase-slip cores, and QHD residual boundaries
+
+The following contracts extract the testable parts of the I/Q/fracture summary.
+Solid-network fracture is not identified with fluid cavitation; a phase slip is
+not inferred from winding alone; and homodyne/IQ data do not establish
+squeezing or a Bohm-potential interpretation without calibrated covariance and
+shot-noise controls. -/
+
+/-- A finite acoustic-crackle diagnostic with higher-order spectral metadata. -/
+structure AcousticCrackleObservation where
+  sourceLabel : String
+  artifactReference : String
+  calibratedIQLength : ℕ
+  calibratedIQLength_min : 2 ≤ calibratedIQLength
+  acousticResidual : ℝ
+  acousticResidual_nonnegative : 0 ≤ acousticResidual
+  classicalResidualTolerance : ℝ
+  classicalResidualTolerance_nonnegative : 0 ≤ classicalResidualTolerance
+  outsideClassicalTolerance : acousticResidual > classicalResidualTolerance
+  bispectrumMagnitude : ℝ
+  bispectrumMagnitude_nonnegative : 0 ≤ bispectrumMagnitude
+  trispectrumMagnitude : ℝ
+  trispectrumMagnitude_nonnegative : 0 ≤ trispectrumMagnitude
+  higherOrderNoiseFloor : ℝ
+  higherOrderNoiseFloor_nonnegative : 0 ≤ higherOrderNoiseFloor
+  trispectrumAboveNoise : higherOrderNoiseFloor < trispectrumMagnitude
+  thermalNoiseEstimate : ℝ
+  thermalNoiseEstimate_nonnegative : 0 ≤ thermalNoiseEstimate
+  strainRate : ℝ
+  strainRate_nonnegative : 0 ≤ strainRate
+  dielectricPhaseResidual : ℝ
+  dielectricPhaseResidual_nonnegative : 0 ≤ dielectricPhaseResidual
+  detectorCalibration : Prop
+  detectorCalibration_hypothesis : detectorCalibration
+  negativeControlPassed : Prop
+  negativeControlPassed_hypothesis : negativeControlPassed
+  replicationCount : ℕ
+  replicationCount_min : 2 ≤ replicationCount
+
+/-- A crackle record is ready for a bounded nonlinear-fracture comparison. -/
+def AcousticCrackleObservation.comparisonReady
+    (observation : AcousticCrackleObservation) : Prop :=
+  observation.sourceLabel ≠ "" ∧
+    observation.artifactReference ≠ "" ∧
+    2 ≤ observation.calibratedIQLength ∧
+    observation.acousticResidual > observation.classicalResidualTolerance ∧
+    observation.higherOrderNoiseFloor < observation.trispectrumMagnitude ∧
+    observation.detectorCalibration ∧
+    observation.negativeControlPassed ∧
+    2 ≤ observation.replicationCount
+
+/-- A finite phase-slip core observation keeps order-parameter amplitude and
+phase winding together. The density-zero condition is an observed or simulated
+core boundary, not a theorem that every large phase jump creates a slip. -/
+structure PhaseSlipCoreObservation where
+  sourceLabel : String
+  artifactReference : String
+  winding : ℤ
+  phaseJump : ℝ
+  phaseJumpLaw : phaseJump = (winding : ℝ) * (2 * Real.pi)
+  orderParameterAmplitude : ℝ
+  orderParameterAmplitude_nonnegative : 0 ≤ orderParameterAmplitude
+  coreDensity : ℝ
+  coreDensity_nonnegative : 0 ≤ coreDensity
+  coreDensityZero : coreDensity = 0
+  phaseUndefinedAtCore : Prop
+  phaseUndefinedAtCore_hypothesis : phaseUndefinedAtCore
+  densityCalibration : Prop
+  densityCalibration_hypothesis : densityCalibration
+  phaseCalibration : Prop
+  phaseCalibration_hypothesis : phaseCalibration
+  controlCoreDensity : ℝ
+  controlCoreDensity_nonnegative : 0 ≤ controlCoreDensity
+  controlCoreDensityTolerance : ℝ
+  controlCoreDensityTolerance_nonnegative : 0 ≤ controlCoreDensityTolerance
+  controlCoreWithinTolerance :
+    |controlCoreDensity| ≤ controlCoreDensityTolerance
+
+/-- The observed phase-slip core is a candidate topological-defect record. -/
+def PhaseSlipCoreObservation.supportsCandidate
+    (observation : PhaseSlipCoreObservation) : Prop :=
+  observation.sourceLabel ≠ "" ∧
+    observation.artifactReference ≠ "" ∧
+    observation.winding ≠ 0 ∧
+    observation.phaseJump = (observation.winding : ℝ) * (2 * Real.pi) ∧
+    observation.coreDensity = 0 ∧
+    observation.phaseUndefinedAtCore ∧
+    observation.densityCalibration ∧
+    observation.phaseCalibration ∧
+    |observation.controlCoreDensity| ≤ observation.controlCoreDensityTolerance
+
 /-! ## Classical inflow and DDF vortex observables
 
 The Magnus/Kutta-Joukowski relation is kept as an ordinary inflow control. A
@@ -2275,6 +2414,127 @@ def PopIIIGWCutoffComparison.characterizationReady
       apparatus.beamPower.watts ≤ apparatus.sourcePower.watts :=
     apparatus.beamPowerLaw
 
+  /-! ## High-value longitudinal-beam application boundary
+
+  This record turns the most valuable near-term target into a finite classical
+  experiment: a calibrated vector beam with a measurable longitudinal field,
+  aperture-matched imaging data, causal communications bookkeeping, and a
+  fixed-power process outcome. These observables do not establish a Proca mode,
+  zero diffraction, or faster-than-light information transfer. -/
+
+  /-- The application outcome being evaluated for one longitudinal-beam run. -/
+  inductive LongitudinalBeamApplication
+    | imaging
+    | nanolithography
+    | communications
+    | plasmaYield
+    deriving DecidableEq, Repr
+
+  /-- A finite longitudinal-beam application evidence record. -/
+  structure LongitudinalBeamApplicationEvidence where
+    application : LongitudinalBeamApplication
+    sourceLabel : String
+    artifactReference : String
+    wavelength : Length
+    wavelength_pos : 0 < wavelength.meters
+    sourcePower : Power
+    sourcePower_nonnegative : 0 ≤ sourcePower.watts
+    absorbedPower : Power
+    absorbedPower_nonnegative : 0 ≤ absorbedPower.watts
+    absorbedPower_le_source : absorbedPower.watts ≤ sourcePower.watts
+    longitudinalFraction : BoundedFactor
+    transverseFraction : BoundedFactor
+    longitudinalToTransverseRatio : ℝ
+    ratioLaw : longitudinalToTransverseRatio =
+      longitudinalFraction.value / transverseFraction.value
+    longitudinalProbeCalibration : Prop
+    longitudinalProbeCalibration_hypothesis : longitudinalProbeCalibration
+    apertureMatchedControl : Prop
+    apertureMatchedControl_hypothesis : apertureMatchedControl
+    longitudinalSuppressionControl : Prop
+    longitudinalSuppressionControl_hypothesis : longitudinalSuppressionControl
+    detectorCalibration : Prop
+    detectorCalibration_hypothesis : detectorCalibration
+    psfResidual : ℝ
+    psfResidual_nonnegative : 0 ≤ psfResidual
+    psfTolerance : ℝ
+    psfTolerance_nonnegative : 0 ≤ psfTolerance
+    psfWithinTolerance : psfResidual ≤ psfTolerance
+    mtfResidual : ℝ
+    mtfResidual_nonnegative : 0 ≤ mtfResidual
+    mtfTolerance : ℝ
+    mtfTolerance_nonnegative : 0 ≤ mtfTolerance
+    mtfWithinTolerance : mtfResidual ≤ mtfTolerance
+    sideLobeEnergyFraction : BoundedFactor
+    propagationBroadening : Length
+    propagationBroadening_nonnegative : 0 ≤ propagationBroadening.meters
+    propagationBroadeningTolerance : Length
+    propagationBroadeningTolerance_nonnegative :
+      0 ≤ propagationBroadeningTolerance.meters
+    broadeningWithinTolerance :
+      propagationBroadening.meters ≤ propagationBroadeningTolerance.meters
+    groupSpeed : Speed
+    groupSpeed_pos : 0 < groupSpeed.metersPerSecond
+    groupSpeed_causal : groupSpeed.metersPerSecond ≤ vacuumSpeedOfLight
+    informationSpeed : Speed
+    informationSpeed_pos : 0 < informationSpeed.metersPerSecond
+    informationSpeed_causal : informationSpeed.metersPerSecond ≤ vacuumSpeedOfLight
+    communicationResidual : ℝ
+    communicationResidual_nonnegative : 0 ≤ communicationResidual
+    communicationTolerance : ℝ
+    communicationTolerance_nonnegative : 0 ≤ communicationTolerance
+    communicationWithinTolerance : communicationResidual ≤ communicationTolerance
+    yieldMetric : ℝ
+    yieldMetric_nonnegative : 0 ≤ yieldMetric
+    classicalControlYieldMetric : ℝ
+    classicalControlYieldMetric_nonnegative : 0 ≤ classicalControlYieldMetric
+    yieldImprovement : ℝ
+    yieldImprovementLaw : yieldImprovement =
+      yieldMetric - classicalControlYieldMetric
+    thermalLoad : Temperature
+    thermalLoad_nonnegative : 0 ≤ thermalLoad.kelvin
+    replicationCount : ℕ
+    replicationCount_min : 2 ≤ replicationCount
+    modeCalibration : Prop
+    modeCalibration_hypothesis : modeCalibration
+
+  /-- The longitudinal field ratio is positive when both supplied fractions are
+  positive. -/
+  lemma LongitudinalBeamApplicationEvidence.ratio_pos
+      (evidence : LongitudinalBeamApplicationEvidence)
+      (longitudinal_pos : 0 < evidence.longitudinalFraction.value)
+      (transverse_pos : 0 < evidence.transverseFraction.value) :
+      0 < evidence.longitudinalToTransverseRatio := by
+    rw [evidence.ratioLaw]
+    exact div_pos longitudinal_pos transverse_pos
+
+  /-- A calibrated classical result is ready for application comparison. -/
+  def LongitudinalBeamApplicationEvidence.comparisonReady
+      (evidence : LongitudinalBeamApplicationEvidence) : Prop :=
+    evidence.sourceLabel ≠ "" ∧
+      evidence.artifactReference ≠ "" ∧
+      evidence.longitudinalProbeCalibration ∧
+      evidence.apertureMatchedControl ∧
+      evidence.longitudinalSuppressionControl ∧
+      evidence.detectorCalibration ∧
+      evidence.modeCalibration ∧
+      evidence.psfResidual ≤ evidence.psfTolerance ∧
+      evidence.mtfResidual ≤ evidence.mtfTolerance ∧
+      evidence.propagationBroadening.meters ≤
+        evidence.propagationBroadeningTolerance.meters ∧
+      evidence.groupSpeed.metersPerSecond ≤ vacuumSpeedOfLight ∧
+      evidence.informationSpeed.metersPerSecond ≤ vacuumSpeedOfLight ∧
+      evidence.communicationResidual ≤ evidence.communicationTolerance ∧
+      2 ≤ evidence.replicationCount
+
+  /-- The yield comparison is a supplied classical process metric, not an
+  energy-creation claim. -/
+  lemma LongitudinalBeamApplicationEvidence.yield_improvement_holds
+      (evidence : LongitudinalBeamApplicationEvidence) :
+      evidence.yieldImprovement =
+        evidence.yieldMetric - evidence.classicalControlYieldMetric :=
+    evidence.yieldImprovementLaw
+
 /-! ## DDF fracture-communication evidence boundary
 
 The DDF plan keeps ordinary acoustic/elastic communication as the null and
@@ -2446,6 +2706,360 @@ structure MadelungGPSplat where
   ftleWindow : Duration
   ftleWindow_pos : 0 < ftleWindow.seconds
   ftleIndicator : ℝ
+
+/-- Finite Euler--Korteweg/Madelung residual bookkeeping at one calibrated
+sample. The residuals are supplied numerical diagnostics, not a PDE theorem or
+a proof of SQG dynamics. -/
+structure EulerKortewegResidualObservation where
+  sourceLabel : String
+  artifactReference : String
+  hbar : ℝ
+  hbar_pos : 0 < hbar
+  mass : ℝ
+  mass_pos : 0 < mass
+  interactionCoupling : ℝ
+  interactionCoupling_nonnegative : 0 ≤ interactionCoupling
+  densityFloor : ℝ
+  densityFloor_pos : 0 < densityFloor
+  observedDensity : ℝ
+  observedDensity_nonnegative : 0 ≤ observedDensity
+  densityAboveFloor : densityFloor ≤ observedDensity
+  bohmsCoefficient : ℝ
+  bohmsCoefficientLaw : bohmsCoefficient = hbar ^ 2 / (2 * mass ^ 2)
+  continuityResidual : ℝ
+  continuityResidual_nonnegative : 0 ≤ continuityResidual
+  continuityTolerance : ℝ
+  continuityTolerance_nonnegative : 0 ≤ continuityTolerance
+  continuityWithinTolerance : continuityResidual ≤ continuityTolerance
+  momentumResidual : ℝ
+  momentumResidual_nonnegative : 0 ≤ momentumResidual
+  momentumTolerance : ℝ
+  momentumTolerance_nonnegative : 0 ≤ momentumTolerance
+  momentumWithinTolerance : momentumResidual ≤ momentumTolerance
+  irrotationalResidual : ℝ
+  irrotationalResidual_nonnegative : 0 ≤ irrotationalResidual
+  irrotationalTolerance : ℝ
+  irrotationalTolerance_nonnegative : 0 ≤ irrotationalTolerance
+  irrotationalWithinTolerance : irrotationalResidual ≤ irrotationalTolerance
+  quantumPressureTermIncluded : Prop
+  quantumPressureTermIncluded_hypothesis : quantumPressureTermIncluded
+  calibrated : Prop
+  calibrated_hypothesis : calibrated
+
+/-- The Bohm coefficient follows the supplied Madelung scaling law. -/
+lemma EulerKortewegResidualObservation.bohm_coefficient_holds
+    (observation : EulerKortewegResidualObservation) :
+    observation.bohmsCoefficient =
+      observation.hbar ^ 2 / (2 * observation.mass ^ 2) :=
+  observation.bohmsCoefficientLaw
+
+/-- A finite Euler--Korteweg diagnostic is ready when density remains above the
+floor and all residuals are within calibration tolerances. -/
+def EulerKortewegResidualObservation.comparisonReady
+    (observation : EulerKortewegResidualObservation) : Prop :=
+  observation.sourceLabel ≠ "" ∧
+    observation.artifactReference ≠ "" ∧
+    observation.densityFloor ≤ observation.observedDensity ∧
+    observation.continuityResidual ≤ observation.continuityTolerance ∧
+    observation.momentumResidual ≤ observation.momentumTolerance ∧
+    observation.irrotationalResidual ≤ observation.irrotationalTolerance ∧
+    observation.quantumPressureTermIncluded ∧
+    observation.calibrated
+
+/-- A calibrated homodyne quadrature variance comparison.
+
+The shot-noise reference, measured variance, detector calibration, and mode
+matching are explicit. A sub-reference variance is an observation; it is not
+automatically a quantum squeezing proof. -/
+structure HomodyneQuadratureVarianceObservation where
+  sourceLabel : String
+  artifactReference : String
+  quadratureLabel : String
+  measuredVariance : ℝ
+  measuredVariance_nonnegative : 0 ≤ measuredVariance
+  shotNoiseReference : ℝ
+  shotNoiseReference_pos : 0 < shotNoiseReference
+  varianceTolerance : ℝ
+  varianceTolerance_nonnegative : 0 ≤ varianceTolerance
+  detectorNoise : ℝ
+  detectorNoise_nonnegative : 0 ≤ detectorNoise
+  calibratedVariance : ℝ
+  calibratedVarianceLaw : calibratedVariance =
+    measuredVariance - detectorNoise
+  calibrationResidual : ℝ
+  calibrationResidual_nonnegative : 0 ≤ calibrationResidual
+  calibrationTolerance : ℝ
+  calibrationTolerance_nonnegative : 0 ≤ calibrationTolerance
+  calibrationWithinTolerance : calibrationResidual ≤ calibrationTolerance
+  localOscillatorPhase : ℝ
+  phaseReferenceCalibrated : Prop
+  phaseReferenceCalibrated_hypothesis : phaseReferenceCalibrated
+  modeMatched : Prop
+  modeMatched_hypothesis : modeMatched
+
+/-- A calibrated variance is below shot noise by more than its tolerance. -/
+def HomodyneQuadratureVarianceObservation.supportsSubShotNoiseCandidate
+    (observation : HomodyneQuadratureVarianceObservation) : Prop :=
+  observation.sourceLabel ≠ "" ∧
+    observation.artifactReference ≠ "" ∧
+    observation.quadratureLabel ≠ "" ∧
+    observation.calibratedVariance + observation.varianceTolerance <
+      observation.shotNoiseReference ∧
+    observation.calibrationResidual ≤ observation.calibrationTolerance ∧
+    observation.phaseReferenceCalibrated ∧
+    observation.modeMatched
+
+/-! ## Regime-explicit NS, Madelung, DDF, and EHT bridge
+
+The bridge is layered rather than derived from Schwarzschild geometry. A
+nonvanishing Madelung field maps a Gross--Pitaevskii model to compressible
+Euler--Korteweg variables. DDF then adds a constitutive substrate, a low-Mach
+projection, and a shear-jamming regime. EHT ring data are observational image
+constraints: they are compared with metric/radiative-transfer models and do not
+directly measure an event horizon or a Schwarzschild radius. -/
+
+/-- Phase conventions for the Madelung map. -/
+inductive MadelungPhaseConvention
+  | actionPhase
+  | dimensionlessPhase
+  deriving DecidableEq, Repr
+
+/-- A finite bridge from a nonvanishing wavefunction to Euler--Korteweg data.
+
+`actionPhase` means `psi = sqrt rho * exp (i S / hbar)` and
+`u = grad S / m`; `dimensionlessPhase` means the phase variable already has no
+`hbar` denominator. Keeping this convention explicit avoids a silent scale
+error in the velocity reconstruction. -/
+structure MadelungEulerKortewegBridge where
+  phaseConvention : MadelungPhaseConvention
+  hbar : ℝ
+  hbar_pos : 0 < hbar
+  mass : ℝ
+  mass_pos : 0 < mass
+  densityFloor : ℝ
+  densityFloor_pos : 0 < densityFloor
+  observedDensity : ℝ
+  observedDensity_nonnegative : 0 ≤ observedDensity
+  densityAboveFloor : densityFloor ≤ observedDensity
+  phaseGradientMagnitude : ℝ
+  phaseGradientMagnitude_nonnegative : 0 ≤ phaseGradientMagnitude
+  velocityPotentialMagnitude : ℝ
+  velocityPotentialMagnitude_nonnegative : 0 ≤ velocityPotentialMagnitude
+  velocityPotentialLaw :
+    match phaseConvention with
+    | MadelungPhaseConvention.actionPhase =>
+        velocityPotentialMagnitude = phaseGradientMagnitude / mass
+    | MadelungPhaseConvention.dimensionlessPhase =>
+        velocityPotentialMagnitude = hbar * phaseGradientMagnitude / mass
+  quantumPressureCoefficient : ℝ
+  quantumPressureCoefficientLaw : quantumPressureCoefficient =
+    hbar ^ 2 / (2 * mass ^ 2)
+  continuityResidual : ℝ
+  continuityResidual_nonnegative : 0 ≤ continuityResidual
+  continuityTolerance : ℝ
+  continuityTolerance_nonnegative : 0 ≤ continuityTolerance
+  continuityWithinTolerance : continuityResidual ≤ continuityTolerance
+  momentumResidual : ℝ
+  momentumResidual_nonnegative : 0 ≤ momentumResidual
+  momentumTolerance : ℝ
+  momentumTolerance_nonnegative : 0 ≤ momentumTolerance
+  momentumWithinTolerance : momentumResidual ≤ momentumTolerance
+  irrotationalResidual : ℝ
+  irrotationalResidual_nonnegative : 0 ≤ irrotationalResidual
+  irrotationalTolerance : ℝ
+  irrotationalTolerance_nonnegative : 0 ≤ irrotationalTolerance
+  irrotationalWithinTolerance : irrotationalResidual ≤ irrotationalTolerance
+  quantumPressureIncluded : Prop
+  quantumPressureIncluded_hypothesis : quantumPressureIncluded
+  calibrated : Prop
+  calibrated_hypothesis : calibrated
+
+/-- The Madelung bridge exposes its phase-convention-dependent velocity law. -/
+lemma MadelungEulerKortewegBridge.velocity_potential_holds
+    (bridge : MadelungEulerKortewegBridge) :
+    match bridge.phaseConvention with
+    | MadelungPhaseConvention.actionPhase =>
+        bridge.velocityPotentialMagnitude = bridge.phaseGradientMagnitude / bridge.mass
+    | MadelungPhaseConvention.dimensionlessPhase =>
+        bridge.velocityPotentialMagnitude =
+          bridge.hbar * bridge.phaseGradientMagnitude / bridge.mass :=
+  bridge.velocityPotentialLaw
+
+/-- The Madelung bridge exposes its quantum-pressure coefficient. -/
+lemma MadelungEulerKortewegBridge.quantum_pressure_coefficient_holds
+    (bridge : MadelungEulerKortewegBridge) :
+    bridge.quantumPressureCoefficient = bridge.hbar ^ 2 / (2 * bridge.mass ^ 2) :=
+  bridge.quantumPressureCoefficientLaw
+
+/-- A finite regime label for the DDF constitutive bridge. -/
+inductive DDFFlowRegime
+  | compressible
+  | lowMachEffectiveIncompressible
+  | shearJammed
+  deriving DecidableEq, Repr
+
+/-- A regime-explicit bridge from compressible Navier--Stokes bookkeeping to
+DDF constitutive data. The low-Mach branch is an approximation predicate, not
+an assertion that the substrate is globally incompressible. -/
+structure NSDDFBridge where
+  substrate : DDFSubstrate
+  regime : DDFFlowRegime
+  sourceLabel : String
+  artifactReference : String
+  density : ℝ
+  density_pos : 0 < density
+  densityRate : ℝ
+  divergence : ℝ
+  sinkRate : ℝ
+  sinkRate_nonnegative : 0 ≤ sinkRate
+  continuityResidual : ℝ
+  continuityResidual_nonnegative : 0 ≤ continuityResidual
+  continuityTolerance : ℝ
+  continuityTolerance_nonnegative : 0 ≤ continuityTolerance
+  continuityWithinTolerance : |continuityResidual| ≤ continuityTolerance
+  continuityLaw :
+    densityRate + density * divergence = -sinkRate + continuityResidual
+  velocityMagnitude : ℝ
+  velocityMagnitude_nonnegative : 0 ≤ velocityMagnitude
+  machNumber : ℝ
+  machLaw : machNumber = velocityMagnitude / substrate.c
+  lowMachThreshold : ℝ
+  lowMachThreshold_pos : 0 < lowMachThreshold
+  incompressibilityResidual : ℝ
+  incompressibilityResidualLaw : incompressibilityResidual = |divergence|
+  incompressibilityTolerance : ℝ
+  incompressibilityTolerance_nonnegative : 0 ≤ incompressibilityTolerance
+  lowMachProjectionResidual : ℝ
+  lowMachProjectionResidual_nonnegative : 0 ≤ lowMachProjectionResidual
+  lowMachProjectionTolerance : ℝ
+  lowMachProjectionTolerance_nonnegative : 0 ≤ lowMachProjectionTolerance
+  lowMachProjectionWithinTolerance :
+    lowMachProjectionResidual ≤ lowMachProjectionTolerance
+  baselineViscosity : ℝ
+  baselineViscosity_nonnegative : 0 ≤ baselineViscosity
+  effectiveViscosity : ℝ
+  effectiveViscosity_nonnegative : 0 ≤ effectiveViscosity
+  shearRate : ℝ
+  shearRate_nonnegative : 0 ≤ shearRate
+  viscosityFloorLaw : baselineViscosity ≤ effectiveViscosity
+  shearJammingThreshold : ℝ
+  shearJammingThreshold_pos : 0 < shearJammingThreshold
+  shearJammingCrossed : Bool
+  pressureResidual : ℝ
+  pressureResidual_nonnegative : 0 ≤ pressureResidual
+  pressureTolerance : ℝ
+  pressureTolerance_nonnegative : 0 ≤ pressureTolerance
+  pressureWithinTolerance : pressureResidual ≤ pressureTolerance
+  calibrated : Prop
+  calibrated_hypothesis : calibrated
+
+/-- The continuity balance exposes the compressible/sink-flow law. -/
+lemma NSDDFBridge.continuity_balance_holds (bridge : NSDDFBridge) :
+    bridge.densityRate + bridge.density * bridge.divergence =
+      -bridge.sinkRate + bridge.continuityResidual :=
+  bridge.continuityLaw
+
+/-- The DDF sound-speed Mach number follows the supplied substrate speed. -/
+lemma NSDDFBridge.mach_number_holds (bridge : NSDDFBridge) :
+    bridge.machNumber = bridge.velocityMagnitude / bridge.substrate.c :=
+  bridge.machLaw
+
+/-- The low-Mach effective-incompressible branch is explicitly approximate. -/
+def NSDDFBridge.lowMachEffectiveIncompressible
+    (bridge : NSDDFBridge) : Prop :=
+  0 ≤ bridge.machNumber ∧
+    bridge.machNumber ≤ bridge.lowMachThreshold ∧
+    bridge.incompressibilityResidual ≤ bridge.incompressibilityTolerance ∧
+    bridge.lowMachProjectionResidual ≤ bridge.lowMachProjectionTolerance
+
+/-- A DDF bridge is calibrated when its regime-specific residual bookkeeping is
+closed; no branch is a theorem about the physical vacuum. -/
+def NSDDFBridge.comparisonReady (bridge : NSDDFBridge) : Prop :=
+  bridge.sourceLabel ≠ "" ∧
+    bridge.artifactReference ≠ "" ∧
+    |bridge.continuityResidual| ≤ bridge.continuityTolerance ∧
+    bridge.pressureResidual ≤ bridge.pressureTolerance ∧
+    bridge.calibrated ∧
+    (match bridge.regime with
+     | DDFFlowRegime.compressible => True
+     | DDFFlowRegime.lowMachEffectiveIncompressible =>
+         bridge.lowMachEffectiveIncompressible
+     | DDFFlowRegime.shearJammed =>
+       bridge.shearJammingCrossed = true)
+
+/-- Observable layers for an EHT compact-object image. -/
+inductive EHTObservableLayer
+  | complexVisibilities
+  | emissionRing
+  | inferredShadow
+  deriving DecidableEq, Repr
+
+/-- Metric/reference classes used when interpreting an EHT ring or shadow. -/
+inductive EHTMetricReference
+  | schwarzschildReference
+  | kerrReference
+  | ddfRiverAnalog
+  | alternativeMetric
+  | unresolved
+  deriving DecidableEq, Repr
+
+/-- EHT ring/shadow bookkeeping that keeps image observables separate from
+inferred geometric scales. The ring is not treated as a direct Schwarzschild
+radius measurement. -/
+structure EHTShadowRingObservation where
+  sourceLabel : String
+  artifactReference : String
+  observableLayer : EHTObservableLayer
+  metricReference : EHTMetricReference
+  ringDiameterMicroarcsec : ℝ
+  ringDiameter_nonnegative : 0 ≤ ringDiameterMicroarcsec
+  ringDiameterUncertaintyMicroarcsec : ℝ
+  ringDiameterUncertainty_nonnegative : 0 ≤ ringDiameterUncertaintyMicroarcsec
+  angularGravitationalRadiusMicroarcsec : ℝ
+  angularGravitationalRadius_pos : 0 < angularGravitationalRadiusMicroarcsec
+  schwarzschildRadiusMicroarcsec : ℝ
+  schwarzschildRadiusLaw : schwarzschildRadiusMicroarcsec =
+    2 * angularGravitationalRadiusMicroarcsec
+  ringScaleFactor : ℝ
+  ringScaleFactor_pos : 0 < ringScaleFactor
+  ringDiameterLaw : ringDiameterMicroarcsec =
+    ringScaleFactor * angularGravitationalRadiusMicroarcsec
+  shadowScaleFactor : ℝ
+  shadowScaleFactor_pos : 0 < shadowScaleFactor
+  inferredShadowDiameterMicroarcsec : ℝ
+  inferredShadowDiameter_nonnegative : 0 ≤ inferredShadowDiameterMicroarcsec
+  inferredShadowDiameterLaw : inferredShadowDiameterMicroarcsec =
+    shadowScaleFactor * angularGravitationalRadiusMicroarcsec
+  centralBrightnessDepression : BoundedFactor
+  ringEmissionInterpretation : Prop
+  ringEmissionInterpretation_hypothesis : ringEmissionInterpretation
+  modelResidual : ℝ
+  modelResidual_nonnegative : 0 ≤ modelResidual
+  modelTolerance : ℝ
+  modelTolerance_nonnegative : 0 ≤ modelTolerance
+  modelWithinTolerance : modelResidual ≤ modelTolerance
+  calibrationReady : Prop
+  calibrationReady_hypothesis : calibrationReady
+
+/-- The angular Schwarzschild scale is a separate derived reference quantity. -/
+lemma EHTShadowRingObservation.schwarzschild_radius_holds
+    (observation : EHTShadowRingObservation) :
+    observation.schwarzschildRadiusMicroarcsec =
+      2 * observation.angularGravitationalRadiusMicroarcsec :=
+  observation.schwarzschildRadiusLaw
+
+/-- A calibrated EHT observation is ready for metric-model comparison without
+claiming direct horizon or Schwarzschild-radius imaging. -/
+def EHTShadowRingObservation.comparisonReady
+    (observation : EHTShadowRingObservation) : Prop :=
+  observation.sourceLabel ≠ "" ∧
+    observation.artifactReference ≠ "" ∧
+    observation.observableLayer = EHTObservableLayer.emissionRing ∧
+    observation.ringDiameterMicroarcsec ≥ 0 ∧
+    observation.ringScaleFactor > 0 ∧
+    observation.ringEmissionInterpretation ∧
+    observation.modelResidual ≤ observation.modelTolerance ∧
+    observation.calibrationReady
 
 /-- A Madelung/GP splat exposes its variable covariance symmetry. -/
 lemma MadelungGPSplat.symmetric_covariance
@@ -2899,6 +3513,143 @@ def NLIGProcessObservation.ingestionReady
     observation.instrumentCalibration ∧
     observation.negativeControlPassed ∧
     2 ≤ observation.batchReplicateCount
+
+/-! ## CW vitrimer lithography state bookkeeping
+
+The active chat's `VitrimerLithography` block is retained as finite material and
+process data. Its CW fluence, temperature, carbon-state, and optional nitrogen
+state are observations or calibrated process labels; they do not prove an
+athermal Proca transformation, superconductivity, or atomically precise doping.
+-/
+
+/-- Finite carbon states used for CW lignin-vitrimer processing. -/
+inductive VitrimerCarbonState
+  | amorphousLignin
+  | grapheneSp2
+  | defectiveChar
+  deriving DecidableEq, Repr
+
+/-- Optional nitrogen precursor/product labels for N-LIG characterization. -/
+inductive VitrimerNitrogenState
+  | undoped
+  | aminePrecursor
+  | pyridinicNitrogen
+  | graphiticNitrogen
+  deriving DecidableEq, Repr
+
+/-- A finite CW vitrimer lithography observation. -/
+structure VitrimerLithographyObservation where
+  nodeLabel : String
+  precursorLabel : String
+  atmosphereLabel : String
+  artifactReference : String
+  beamKind : LaserBeamKind
+  beamKind_continuousWave : beamKind = LaserBeamKind.continuousWave
+  carbonStateBefore : VitrimerCarbonState
+  carbonStateAfter : VitrimerCarbonState
+  nitrogenStateBefore : VitrimerNitrogenState
+  nitrogenStateAfter : VitrimerNitrogenState
+  incidentPower : Power
+  incidentPower_nonnegative : 0 ≤ incidentPower.watts
+  incidentFluence : LaserFluence
+  incidentFluence_nonnegative :
+    0 ≤ incidentFluence.joulesPerSquareMeter
+  spotWidth : Length
+  spotWidth_pos : 0 < spotWidth.meters
+  scanSpeed : Speed
+  scanSpeed_pos : 0 < scanSpeed.metersPerSecond
+  incidentFluenceLaw :
+    incidentFluence.joulesPerSquareMeter * scanSpeed.metersPerSecond *
+      spotWidth.meters = incidentPower.watts
+  absorbedFluence : LaserFluence
+  absorbedFluence_nonnegative :
+    0 ≤ absorbedFluence.joulesPerSquareMeter
+  absorbedFluence_le_incident :
+    absorbedFluence.joulesPerSquareMeter ≤ incidentFluence.joulesPerSquareMeter
+  exposureDuration : Duration
+  exposureDuration_pos : 0 < exposureDuration.seconds
+  laserWavelength : Length
+  laserWavelength_pos : 0 < laserWavelength.meters
+  substrateTemperatureBefore : Temperature
+  substrateTemperatureBefore_nonnegative :
+    0 ≤ substrateTemperatureBefore.kelvin
+  substrateTemperatureAfter : Temperature
+  substrateTemperatureAfter_nonnegative :
+    0 ≤ substrateTemperatureAfter.kelvin
+  vitrimerTransitionTemperature : Temperature
+  vitrimerTransitionTemperature_pos : 0 < vitrimerTransitionTemperature.kelvin
+  temperatureAtOrBelowTransition :
+    substrateTemperatureAfter.kelvin ≤ vitrimerTransitionTemperature.kelvin
+  sheetResistance : ℝ
+  sheetResistance_nonnegative : 0 ≤ sheetResistance
+  ramanDToGRatio : ℝ
+  ramanDToGRatio_nonnegative : 0 ≤ ramanDToGRatio
+  xpsNitrogenFraction : ℝ
+  xpsNitrogenFraction_nonnegative : 0 ≤ xpsNitrogenFraction
+  patternFidelity : BoundedFactor
+  processResidual : ℝ
+  processResidual_nonnegative : 0 ≤ processResidual
+  processTolerance : ℝ
+  processTolerance_nonnegative : 0 ≤ processTolerance
+  processWithinTolerance : processResidual ≤ processTolerance
+  instrumentCalibration : Prop
+  instrumentCalibration_hypothesis : instrumentCalibration
+  thermalControl : Prop
+  thermalControl_hypothesis : thermalControl
+  ordinaryLaserControl : Prop
+  ordinaryLaserControl_hypothesis : ordinaryLaserControl
+  independentBatchCount : ℕ
+  independentBatchCount_min : 2 ≤ independentBatchCount
+
+/-- A CW vitrimer observation is ready for a classical material comparison. -/
+def VitrimerLithographyObservation.comparisonReady
+    (observation : VitrimerLithographyObservation) : Prop :=
+  observation.nodeLabel ≠ "" ∧
+    observation.precursorLabel ≠ "" ∧
+    observation.atmosphereLabel ≠ "" ∧
+    observation.artifactReference ≠ "" ∧
+    observation.beamKind = LaserBeamKind.continuousWave ∧
+    observation.incidentFluence.joulesPerSquareMeter ≥ 0 ∧
+    observation.absorbedFluence.joulesPerSquareMeter ≤
+      observation.incidentFluence.joulesPerSquareMeter ∧
+    observation.substrateTemperatureAfter.kelvin ≤
+      observation.vitrimerTransitionTemperature.kelvin ∧
+    observation.processResidual ≤ observation.processTolerance ∧
+    observation.instrumentCalibration ∧
+    observation.thermalControl ∧
+    observation.ordinaryLaserControl ∧
+    2 ≤ observation.independentBatchCount
+
+/-- A state transition is recorded as graphene formation only when the output
+state says so; the predicate does not infer chemistry from fluence alone. -/
+def VitrimerLithographyObservation.grapheneFormationObserved
+    (observation : VitrimerLithographyObservation) : Prop :=
+  observation.carbonStateBefore = VitrimerCarbonState.amorphousLignin ∧
+    observation.carbonStateAfter = VitrimerCarbonState.grapheneSp2
+
+/-- A recorded CW material transition exposes its graphene-state result. -/
+lemma VitrimerLithographyObservation.graphene_formation_holds
+    (observation : VitrimerLithographyObservation)
+    (transition :
+      observation.carbonStateBefore = VitrimerCarbonState.amorphousLignin ∧
+        observation.carbonStateAfter = VitrimerCarbonState.grapheneSp2) :
+    observation.grapheneFormationObserved :=
+  transition
+
+/-- A named CW accessor exposes only the recorded material-state transition. -/
+lemma VitrimerLithographyObservation.cw_graphene_induction
+    (observation : VitrimerLithographyObservation)
+    (observed : observation.grapheneFormationObserved) :
+    observation.carbonStateAfter = VitrimerCarbonState.grapheneSp2 :=
+  observed.2
+
+/-- Nitrogen incorporation is a labeled materials observation, not a resonant
+mass-selection theorem. -/
+def VitrimerLithographyObservation.nitrogenIncorporationObserved
+    (observation : VitrimerLithographyObservation) : Prop :=
+  observation.nitrogenStateBefore = VitrimerNitrogenState.aminePrecursor ∧
+    (observation.nitrogenStateAfter = VitrimerNitrogenState.pyridinicNitrogen ∨
+      observation.nitrogenStateAfter = VitrimerNitrogenState.graphiticNitrogen)
 
 /-- A finite aperture-matched Flat-Light propagation observation. -/
 structure FlatLightPropagationObservation where

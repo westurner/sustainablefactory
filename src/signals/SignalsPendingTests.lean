@@ -713,6 +713,118 @@ example : toyUltrasonicTransfer.receivedPower ≤ toyUltrasonicTransfer.incident
 example : toyAcousticEvidence.supportsFractureHypothesis := by
   exact toyAcousticEvidence.outsideClassicalTolerance
 
+noncomputable def toyFractureMediatedUltrasonicTransfer :
+    FractureMediatedUltrasonicTransfer :=
+  { transfer := toyUltrasonicTransfer
+    fractureMechanismLabel := "cavitation-assisted fracture transfer"
+    fractureCouplingFraction :=
+      { value := 1 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    fractureCouplingResidual := 1 / 100
+    fractureCouplingResidual_nonnegative := by norm_num
+    fractureCouplingTolerance := 1 / 10
+    fractureCouplingTolerance_nonnegative := by norm_num
+    fractureCouplingWithinTolerance := by norm_num
+    receiverPower := { watts := 1 / 10 }
+    receiverPower_nonnegative := by norm_num
+    receiverPowerLaw := by
+      norm_num [toyUltrasonicTransfer,
+        Signals.Acoustics.UltrasonicTransfer.receivedPower,
+        Signals.Acoustics.UltrasonicTransfer.incidentPower,
+        toyPendingLink, LinkBudget.receivedPower, LinkBudget.transferFactor,
+        CouplingFactors.total, LinkBudget.attenuationFactor,
+        toyAcousticWave, toyAcousticMedium,
+        Signals.Acoustics.Wave.intensity,
+        Signals.Acoustics.Medium.impedance]
+    absorbedPower := { watts := 1 / 10 }
+    absorbedPower_nonnegative := by norm_num
+    lossPower := { watts := 4 / 5 }
+    lossPower_nonnegative := by norm_num
+    receivedPowerBalance := by
+      norm_num [toyUltrasonicTransfer,
+        Signals.Acoustics.UltrasonicTransfer.incidentPower,
+        toyAcousticWave, toyAcousticMedium,
+        Signals.Acoustics.Wave.intensity,
+        Signals.Acoustics.Medium.impedance]
+    cavitationControl := True
+    cavitationControl_hypothesis := True.intro
+    fractureControl := True
+    fractureControl_hypothesis := True.intro
+    thermalControl := True
+    thermalControl_hypothesis := True.intro
+    detectorCalibration := True
+    detectorCalibration_hypothesis := True.intro
+    replicationCount := 2
+    replicationCount_min := by norm_num }
+
+example : FractureMediatedUltrasonicTransfer.comparisonReady
+    toyFractureMediatedUltrasonicTransfer := by
+  simp [FractureMediatedUltrasonicTransfer.comparisonReady,
+    toyFractureMediatedUltrasonicTransfer]
+  norm_num
+
+noncomputable def toyAcousticCrackleObservation : AcousticCrackleObservation :=
+  { sourceLabel := "lignin-vitrimer acoustic crackle run"
+    artifactReference := "calibrated I/Q acoustic capture"
+    calibratedIQLength := 4096
+    calibratedIQLength_min := by norm_num
+    acousticResidual := 2
+    acousticResidual_nonnegative := by norm_num
+    classicalResidualTolerance := 1
+    classicalResidualTolerance_nonnegative := by norm_num
+    outsideClassicalTolerance := by norm_num
+    bispectrumMagnitude := 2
+    bispectrumMagnitude_nonnegative := by norm_num
+    trispectrumMagnitude := 3
+    trispectrumMagnitude_nonnegative := by norm_num
+    higherOrderNoiseFloor := 1
+    higherOrderNoiseFloor_nonnegative := by norm_num
+    trispectrumAboveNoise := by norm_num
+    thermalNoiseEstimate := 1 / 10
+    thermalNoiseEstimate_nonnegative := by norm_num
+    strainRate := 4
+    strainRate_nonnegative := by norm_num
+    dielectricPhaseResidual := 1 / 100
+    dielectricPhaseResidual_nonnegative := by norm_num
+    detectorCalibration := True
+    detectorCalibration_hypothesis := True.intro
+    negativeControlPassed := True
+    negativeControlPassed_hypothesis := True.intro
+    replicationCount := 2
+    replicationCount_min := by norm_num }
+
+example : AcousticCrackleObservation.comparisonReady
+    toyAcousticCrackleObservation := by
+  simp [AcousticCrackleObservation.comparisonReady,
+    toyAcousticCrackleObservation]
+
+noncomputable def toyPhaseSlipCoreObservation : PhaseSlipCoreObservation :=
+  { sourceLabel := "phase-ordered superfluid analog"
+    artifactReference := "phase-density interferometric capture"
+    winding := 1
+    phaseJump := 2 * Real.pi
+    phaseJumpLaw := by norm_num
+    orderParameterAmplitude := 0
+    orderParameterAmplitude_nonnegative := by norm_num
+    coreDensity := 0
+    coreDensity_nonnegative := by norm_num
+    coreDensityZero := by rfl
+    phaseUndefinedAtCore := True
+    phaseUndefinedAtCore_hypothesis := True.intro
+    densityCalibration := True
+    densityCalibration_hypothesis := True.intro
+    phaseCalibration := True
+    phaseCalibration_hypothesis := True.intro
+    controlCoreDensity := 0
+    controlCoreDensity_nonnegative := by norm_num
+    controlCoreDensityTolerance := 1 / 10
+    controlCoreDensityTolerance_nonnegative := by norm_num
+    controlCoreWithinTolerance := by norm_num }
+
+example : PhaseSlipCoreObservation.supportsCandidate
+    toyPhaseSlipCoreObservation := by
+  simp [PhaseSlipCoreObservation.supportsCandidate,
+    toyPhaseSlipCoreObservation]
+
 noncomputable def toyMagnusControl : MagnusEffectControl :=
   { mediumDensity := { kilogramsPerCubicMeter := 2 }
     mediumDensity_nonnegative := by norm_num
@@ -757,6 +869,383 @@ example : toyDDFVortexObservable.supportsIndependentDefectSlot := by
     DDFVortexObservable.pressure_deficit_detectable,
     DDFVortexObservable.transverse_mode_detectable,
     toyDDFVortexObservable]
+
+noncomputable def toyDDFSubstrate : Signals.DDF.DDFSubstrate :=
+  { m_phi := 1
+    m_phi_pos := by norm_num
+    m_varphi := 2
+    m_varphi_pos := by norm_num
+    rho_phi_0 := 1
+    rho_phi_0_pos := by norm_num
+    rho_max_varphi := 1
+    rho_max_varphi_pos := by norm_num
+    j_min_varphi := 1
+    j_min_varphi_pos := by norm_num }
+
+noncomputable def toyMadelungEulerKortewegBridge :
+    MadelungEulerKortewegBridge :=
+  { phaseConvention := MadelungPhaseConvention.actionPhase
+    hbar := 1
+    hbar_pos := by norm_num
+    mass := 2
+    mass_pos := by norm_num
+    densityFloor := 1 / 10
+    densityFloor_pos := by norm_num
+    observedDensity := 1
+    observedDensity_nonnegative := by norm_num
+    densityAboveFloor := by norm_num
+    phaseGradientMagnitude := 2
+    phaseGradientMagnitude_nonnegative := by norm_num
+    velocityPotentialMagnitude := 1
+    velocityPotentialMagnitude_nonnegative := by norm_num
+    velocityPotentialLaw := by norm_num
+    quantumPressureCoefficient := 1 / 8
+    quantumPressureCoefficientLaw := by norm_num
+    continuityResidual := 1 / 100
+    continuityResidual_nonnegative := by norm_num
+    continuityTolerance := 1 / 10
+    continuityTolerance_nonnegative := by norm_num
+    continuityWithinTolerance := by norm_num
+    momentumResidual := 1 / 100
+    momentumResidual_nonnegative := by norm_num
+    momentumTolerance := 1 / 10
+    momentumTolerance_nonnegative := by norm_num
+    momentumWithinTolerance := by norm_num
+    irrotationalResidual := 1 / 100
+    irrotationalResidual_nonnegative := by norm_num
+    irrotationalTolerance := 1 / 10
+    irrotationalTolerance_nonnegative := by norm_num
+    irrotationalWithinTolerance := by norm_num
+    quantumPressureIncluded := True
+    quantumPressureIncluded_hypothesis := True.intro
+    calibrated := True
+    calibrated_hypothesis := True.intro }
+
+example : toyMadelungEulerKortewegBridge.velocityPotentialMagnitude = 1 := by
+  rfl
+
+noncomputable def toyNSDDFBridge : NSDDFBridge :=
+  { substrate := toyDDFSubstrate
+    regime := DDFFlowRegime.lowMachEffectiveIncompressible
+    sourceLabel := "low-Mach DDF bridge diagnostic"
+    artifactReference := "synthetic continuity-pressure comparison"
+    density := 1
+    density_pos := by norm_num
+    densityRate := 0
+    divergence := 0
+    sinkRate := 0
+    sinkRate_nonnegative := by norm_num
+    continuityResidual := 0
+    continuityResidual_nonnegative := by norm_num
+    continuityTolerance := 1 / 10
+    continuityTolerance_nonnegative := by norm_num
+    continuityWithinTolerance := by norm_num
+    continuityLaw := by norm_num
+    velocityMagnitude := 1 / 10
+    velocityMagnitude_nonnegative := by norm_num
+    machNumber := 1 / 10
+    machLaw := by norm_num [toyDDFSubstrate, Signals.DDF.DDFSubstrate.c]
+    lowMachThreshold := 1 / 5
+    lowMachThreshold_pos := by norm_num
+    incompressibilityResidual := 0
+    incompressibilityResidualLaw := by simp
+    incompressibilityTolerance := 1 / 10
+    incompressibilityTolerance_nonnegative := by norm_num
+    lowMachProjectionResidual := 1 / 100
+    lowMachProjectionResidual_nonnegative := by norm_num
+    lowMachProjectionTolerance := 1 / 10
+    lowMachProjectionTolerance_nonnegative := by norm_num
+    lowMachProjectionWithinTolerance := by norm_num
+    baselineViscosity := 1
+    baselineViscosity_nonnegative := by norm_num
+    effectiveViscosity := 1
+    effectiveViscosity_nonnegative := by norm_num
+    shearRate := 1 / 10
+    shearRate_nonnegative := by norm_num
+    viscosityFloorLaw := by norm_num
+    shearJammingThreshold := 1
+    shearJammingThreshold_pos := by norm_num
+    shearJammingCrossed := false
+    pressureResidual := 1 / 100
+    pressureResidual_nonnegative := by norm_num
+    pressureTolerance := 1 / 10
+    pressureTolerance_nonnegative := by norm_num
+    pressureWithinTolerance := by norm_num
+    calibrated := True
+    calibrated_hypothesis := True.intro }
+
+example : NSDDFBridge.comparisonReady toyNSDDFBridge := by
+  simp [NSDDFBridge.comparisonReady, NSDDFBridge.lowMachEffectiveIncompressible,
+    toyNSDDFBridge, toyDDFSubstrate]
+  norm_num
+
+noncomputable def toyEHTShadowRingObservation : EHTShadowRingObservation :=
+  { sourceLabel := "synthetic EHT-like compact-object ring"
+    artifactReference := "EHT ring-model comparison fixture"
+    observableLayer := EHTObservableLayer.emissionRing
+    metricReference := EHTMetricReference.kerrReference
+    ringDiameterMicroarcsec := 50
+    ringDiameter_nonnegative := by norm_num
+    ringDiameterUncertaintyMicroarcsec := 2
+    ringDiameterUncertainty_nonnegative := by norm_num
+    angularGravitationalRadiusMicroarcsec := 5
+    angularGravitationalRadius_pos := by norm_num
+    schwarzschildRadiusMicroarcsec := 10
+    schwarzschildRadiusLaw := by norm_num
+    ringScaleFactor := 10
+    ringScaleFactor_pos := by norm_num
+    ringDiameterLaw := by norm_num
+    shadowScaleFactor := 10
+    shadowScaleFactor_pos := by norm_num
+    inferredShadowDiameterMicroarcsec := 50
+    inferredShadowDiameter_nonnegative := by norm_num
+    inferredShadowDiameterLaw := by norm_num
+    centralBrightnessDepression := { value := 4 / 5, nonnegative := by norm_num, le_one := by norm_num }
+    ringEmissionInterpretation := True
+    ringEmissionInterpretation_hypothesis := True.intro
+    modelResidual := 1 / 100
+    modelResidual_nonnegative := by norm_num
+    modelTolerance := 1 / 10
+    modelTolerance_nonnegative := by norm_num
+    modelWithinTolerance := by norm_num
+    calibrationReady := True
+    calibrationReady_hypothesis := True.intro }
+
+example : EHTShadowRingObservation.comparisonReady
+    toyEHTShadowRingObservation := by
+  simp [EHTShadowRingObservation.comparisonReady,
+    toyEHTShadowRingObservation]
+  norm_num
+
+example : toyEHTShadowRingObservation.schwarzschildRadiusMicroarcsec = 10 := by
+  rfl
+
+noncomputable def toyEulerKortewegResidualObservation :
+    EulerKortewegResidualObservation :=
+  { sourceLabel := "Madelung density-phase sample"
+    artifactReference := "Euler-Korteweg residual run"
+    hbar := 1
+    hbar_pos := by norm_num
+    mass := 2
+    mass_pos := by norm_num
+    interactionCoupling := 1
+    interactionCoupling_nonnegative := by norm_num
+    densityFloor := 1 / 10
+    densityFloor_pos := by norm_num
+    observedDensity := 1
+    observedDensity_nonnegative := by norm_num
+    densityAboveFloor := by norm_num
+    bohmsCoefficient := 1 / 8
+    bohmsCoefficientLaw := by norm_num
+    continuityResidual := 1 / 100
+    continuityResidual_nonnegative := by norm_num
+    continuityTolerance := 1 / 10
+    continuityTolerance_nonnegative := by norm_num
+    continuityWithinTolerance := by norm_num
+    momentumResidual := 1 / 100
+    momentumResidual_nonnegative := by norm_num
+    momentumTolerance := 1 / 10
+    momentumTolerance_nonnegative := by norm_num
+    momentumWithinTolerance := by norm_num
+    irrotationalResidual := 1 / 100
+    irrotationalResidual_nonnegative := by norm_num
+    irrotationalTolerance := 1 / 10
+    irrotationalTolerance_nonnegative := by norm_num
+    irrotationalWithinTolerance := by norm_num
+    quantumPressureTermIncluded := True
+    quantumPressureTermIncluded_hypothesis := True.intro
+    calibrated := True
+    calibrated_hypothesis := True.intro }
+
+example : EulerKortewegResidualObservation.comparisonReady
+    toyEulerKortewegResidualObservation := by
+  simp [EulerKortewegResidualObservation.comparisonReady,
+    toyEulerKortewegResidualObservation]
+  norm_num
+
+example : toyEulerKortewegResidualObservation.bohmsCoefficient = 1 / 8 := by
+  rfl
+
+noncomputable def toyHomodyneQuadratureVarianceObservation :
+    HomodyneQuadratureVarianceObservation :=
+  { sourceLabel := "balanced homodyne quadrature"
+    artifactReference := "shot-noise calibrated variance run"
+    quadratureLabel := "X difference"
+    measuredVariance := 1 / 2
+    measuredVariance_nonnegative := by norm_num
+    shotNoiseReference := 1
+    shotNoiseReference_pos := by norm_num
+    varianceTolerance := 1 / 10
+    varianceTolerance_nonnegative := by norm_num
+    detectorNoise := 1 / 10
+    detectorNoise_nonnegative := by norm_num
+    calibratedVariance := 2 / 5
+    calibratedVarianceLaw := by norm_num
+    calibrationResidual := 1 / 100
+    calibrationResidual_nonnegative := by norm_num
+    calibrationTolerance := 1 / 10
+    calibrationTolerance_nonnegative := by norm_num
+    calibrationWithinTolerance := by norm_num
+    localOscillatorPhase := 0
+    phaseReferenceCalibrated := True
+    phaseReferenceCalibrated_hypothesis := True.intro
+    modeMatched := True
+    modeMatched_hypothesis := True.intro }
+
+example : HomodyneQuadratureVarianceObservation.supportsSubShotNoiseCandidate
+    toyHomodyneQuadratureVarianceObservation := by
+  simp [HomodyneQuadratureVarianceObservation.supportsSubShotNoiseCandidate,
+    toyHomodyneQuadratureVarianceObservation]
+  norm_num
+
+noncomputable def toyLongitudinalBeamApplicationEvidence :
+    LongitudinalBeamApplicationEvidence :=
+  { application := LongitudinalBeamApplication.imaging
+    sourceLabel := "radial-vector high-NA source"
+    artifactReference := "longitudinal-beam aperture-matched run"
+    wavelength := { meters := 532e-9 }
+    wavelength_pos := by norm_num
+    sourcePower := { watts := 1 }
+    sourcePower_nonnegative := by norm_num
+    absorbedPower := { watts := 1 / 2 }
+    absorbedPower_nonnegative := by norm_num
+    absorbedPower_le_source := by norm_num
+    longitudinalFraction := { value := 3 / 5, nonnegative := by norm_num, le_one := by norm_num }
+    transverseFraction := { value := 2 / 5, nonnegative := by norm_num, le_one := by norm_num }
+    longitudinalToTransverseRatio := 3 / 2
+    ratioLaw := by norm_num
+    longitudinalProbeCalibration := True
+    longitudinalProbeCalibration_hypothesis := True.intro
+    apertureMatchedControl := True
+    apertureMatchedControl_hypothesis := True.intro
+    longitudinalSuppressionControl := True
+    longitudinalSuppressionControl_hypothesis := True.intro
+    detectorCalibration := True
+    detectorCalibration_hypothesis := True.intro
+    psfResidual := 1 / 100
+    psfResidual_nonnegative := by norm_num
+    psfTolerance := 1 / 10
+    psfTolerance_nonnegative := by norm_num
+    psfWithinTolerance := by norm_num
+    mtfResidual := 1 / 100
+    mtfResidual_nonnegative := by norm_num
+    mtfTolerance := 1 / 10
+    mtfTolerance_nonnegative := by norm_num
+    mtfWithinTolerance := by norm_num
+    sideLobeEnergyFraction := { value := 1 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    propagationBroadening := { meters := 1 / 1000 }
+    propagationBroadening_nonnegative := by norm_num
+    propagationBroadeningTolerance := { meters := 1 / 100 }
+    propagationBroadeningTolerance_nonnegative := by norm_num
+    broadeningWithinTolerance := by norm_num
+    groupSpeed := { metersPerSecond := 2e8 }
+    groupSpeed_pos := by norm_num
+    groupSpeed_causal := by norm_num [vacuumSpeedOfLight]
+    informationSpeed := { metersPerSecond := 2e8 }
+    informationSpeed_pos := by norm_num
+    informationSpeed_causal := by norm_num [vacuumSpeedOfLight]
+    communicationResidual := 1 / 100
+    communicationResidual_nonnegative := by norm_num
+    communicationTolerance := 1 / 10
+    communicationTolerance_nonnegative := by norm_num
+    communicationWithinTolerance := by norm_num
+    yieldMetric := 6
+    yieldMetric_nonnegative := by norm_num
+    classicalControlYieldMetric := 4
+    classicalControlYieldMetric_nonnegative := by norm_num
+    yieldImprovement := 2
+    yieldImprovementLaw := by norm_num
+    thermalLoad := { kelvin := 300 }
+    thermalLoad_nonnegative := by norm_num
+    replicationCount := 2
+    replicationCount_min := by norm_num
+    modeCalibration := True
+    modeCalibration_hypothesis := True.intro }
+
+example : LongitudinalBeamApplicationEvidence.comparisonReady
+    toyLongitudinalBeamApplicationEvidence := by
+  simp [LongitudinalBeamApplicationEvidence.comparisonReady,
+    toyLongitudinalBeamApplicationEvidence]
+  norm_num [vacuumSpeedOfLight]
+
+example : toyLongitudinalBeamApplicationEvidence.yieldImprovement = 2 := by
+  rfl
+
+noncomputable def toyVitrimerLithographyObservation :
+    VitrimerLithographyObservation :=
+  { nodeLabel := "CW lignin-vitrimer N-LIG node"
+    precursorLabel := "lignin-vitrimer with amine precursor"
+    atmosphereLabel := "nitrogen"
+    artifactReference := "CW N-LIG process observation"
+    beamKind := LaserBeamKind.continuousWave
+    beamKind_continuousWave := rfl
+    carbonStateBefore := VitrimerCarbonState.amorphousLignin
+    carbonStateAfter := VitrimerCarbonState.grapheneSp2
+    nitrogenStateBefore := VitrimerNitrogenState.aminePrecursor
+    nitrogenStateAfter := VitrimerNitrogenState.graphiticNitrogen
+    incidentPower := { watts := 2 }
+    incidentPower_nonnegative := by norm_num
+    incidentFluence := { joulesPerSquareMeter := 2 }
+    incidentFluence_nonnegative := by norm_num
+    spotWidth := { meters := 1 }
+    spotWidth_pos := by norm_num
+    scanSpeed := { metersPerSecond := 1 }
+    scanSpeed_pos := by norm_num
+    incidentFluenceLaw := by norm_num
+    absorbedFluence := { joulesPerSquareMeter := 1 }
+    absorbedFluence_nonnegative := by norm_num
+    absorbedFluence_le_incident := by norm_num
+    exposureDuration := { seconds := 1 }
+    exposureDuration_pos := by norm_num
+    laserWavelength := { meters := 1e-6 }
+    laserWavelength_pos := by norm_num
+    substrateTemperatureBefore := { kelvin := 300 }
+    substrateTemperatureBefore_nonnegative := by norm_num
+    substrateTemperatureAfter := { kelvin := 350 }
+    substrateTemperatureAfter_nonnegative := by norm_num
+    vitrimerTransitionTemperature := { kelvin := 400 }
+    vitrimerTransitionTemperature_pos := by norm_num
+    temperatureAtOrBelowTransition := by norm_num
+    sheetResistance := 10
+    sheetResistance_nonnegative := by norm_num
+    ramanDToGRatio := 1 / 2
+    ramanDToGRatio_nonnegative := by norm_num
+    xpsNitrogenFraction := 1 / 20
+    xpsNitrogenFraction_nonnegative := by norm_num
+    patternFidelity := { value := 9 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    processResidual := 1 / 100
+    processResidual_nonnegative := by norm_num
+    processTolerance := 1 / 10
+    processTolerance_nonnegative := by norm_num
+    processWithinTolerance := by norm_num
+    instrumentCalibration := True
+    instrumentCalibration_hypothesis := True.intro
+    thermalControl := True
+    thermalControl_hypothesis := True.intro
+    ordinaryLaserControl := True
+    ordinaryLaserControl_hypothesis := True.intro
+    independentBatchCount := 2
+    independentBatchCount_min := by norm_num }
+
+example : VitrimerLithographyObservation.comparisonReady
+    toyVitrimerLithographyObservation := by
+  simp [VitrimerLithographyObservation.comparisonReady,
+    toyVitrimerLithographyObservation]
+  norm_num
+
+example : VitrimerLithographyObservation.grapheneFormationObserved
+    toyVitrimerLithographyObservation := by
+  exact toyVitrimerLithographyObservation.graphene_formation_holds ⟨rfl, rfl⟩
+
+example : toyVitrimerLithographyObservation.carbonStateAfter =
+    VitrimerCarbonState.grapheneSp2 := by
+  apply toyVitrimerLithographyObservation.cw_graphene_induction
+  exact ⟨rfl, rfl⟩
+
+example : VitrimerLithographyObservation.nitrogenIncorporationObserved
+    toyVitrimerLithographyObservation := by
+  simp [VitrimerLithographyObservation.nitrogenIncorporationObserved,
+    toyVitrimerLithographyObservation]
 
 noncomputable def toyFaradayGoldstoneObservation : FaradayGoldstoneObservation :=
   { materialLabel := "K0.3MoO3 blue bronze"
