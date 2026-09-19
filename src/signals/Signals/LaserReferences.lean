@@ -47,12 +47,21 @@ inductive LaserReferenceRole
   | ligninOrBiomass
   | polymerCarbon
   | nanodiamond
+  | quantumGradeNanodiamond
+  | colorCenter
+  | nanodiamondPositioning
+  | electronBeamPumping
+  | highPressureNanodiamond
   | surfacePlasmonPolariton
   | coherentSynchrotronRadiation
   | freeElectronPumping
   | cavityElectrodynamics
   | cavityQED
   | phononPolariton
+  | lightSlinger
+  | volumeDistributedPolarization
+  | superluminalPhasePattern
+  | causalSpeedSeparation
   | opticalModification
   | holography
   | masklessFabrication
@@ -387,16 +396,99 @@ def laserReferenceGaliffi2023PhononPolariton : LaserScholarlyReference where
   scopeNote :=
     "Reviews hybrid photon-phonon modes, anisotropic confinement, and low-symmetry polar crystals; phonon-polariton propagation is distinct from SPP and cavity-QED labels."
 
+/-- Electron-beam activation of adamantane into cubic nanodiamond. -/
+def laserReferenceFu2025ElectronNanodiamond : LaserScholarlyReference where
+  bibKey := "fu2025electronNanodiamond"
+  title := "Rapid, low-temperature nanodiamond formation by electron-beam activation of adamantane C-H bonds"
+  year := 2025
+  doi := some "10.1126/science.adw2025"
+  sourceUrl := "https://doi.org/10.1126/science.adw2025"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.experimental
+  powerEvidence := LaserReferencePowerEvidence.processParametersOnly
+  roles := [LaserReferenceRole.nanodiamond,
+    LaserReferenceRole.electronBeamPumping]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Reports cubic nanodiamonds from adamantane submicrocrystals under 80-200 keV electron irradiation at 100-296 K in vacuum; the route is precursor-specific and not a laser or lignin-vitrimer process."
+
+/-- Single-step industrial-scale quantum-grade NV nanodiamond process. -/
+def laserReferenceBao2025QuantumNanodiamond : LaserScholarlyReference where
+  bibKey := "bao2025quantumNanodiamond"
+  title := "Quantum-Grade Nanodiamonds from a Single-Step, Industrial-Scale Pressure and Temperature Process"
+  year := 2025
+  doi := some "10.1002/adfm.202520907"
+  sourceUrl := "https://doi.org/10.1002/adfm.202520907"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.experimental
+  powerEvidence := LaserReferencePowerEvidence.processParametersOnly
+  roles := [LaserReferenceRole.nanodiamond,
+    LaserReferenceRole.quantumGradeNanodiamond,
+    LaserReferenceRole.colorCenter,
+    LaserReferenceRole.highPressureNanodiamond]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Reports 50 nm luminescent nanodiamonds with improved NV charge stability, near-1 ms T1 relaxation, and enhanced optical Rabi contrast from a single high-pressure/high-temperature process; it does not establish laser or lignin-vitrimer synthesis."
+
+/-- Nanoscale positioning of coherent NV centers in prefabricated diamond pillars. -/
+def laserReferenceKim2025ColorCenterPositioning : LaserScholarlyReference where
+  bibKey := "kim2025colorCenterPositioning"
+  title := "Scalable nanoscale positioning of highly coherent color centers in prefabricated diamond nanostructures"
+  year := 2025
+  doi := some "10.1038/s41467-025-64758-4"
+  sourceUrl := "https://doi.org/10.1038/s41467-025-64758-4"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.experimental
+  powerEvidence := LaserReferencePowerEvidence.processParametersOnly
+  roles := [LaserReferenceRole.nanodiamond,
+    LaserReferenceRole.colorCenter,
+    LaserReferenceRole.nanodiamondPositioning]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Combines delta-doping during CVD diamond growth with localized electron irradiation; reports approximately 4 nm depth and 46 nm lateral positioning in 280 nm pillars, with improved single-NV yield and coherence."
+
+/-- Chat-derived LightSlinger volume-current waveguide model. -/
+def laserReferenceLightSlingerChat : LaserScholarlyReference where
+  bibKey := "lightslingerVolumeCurrentChat"
+  title := "LightSlinger volume-distributed polarization-current waveguide model"
+  year := 2026
+  doi := none
+  sourceUrl :=
+    "data/chats/_Airy-Beams-and-Communications-and-Illumination.md"
+  localArtifactStatus := LaserReferenceArtifactStatus.metadataOnly
+  localArtifact := some
+    "data/chats/_Airy-Beams-and-Communications-and-Illumination.md"
+  evidenceStatus := LaserReferenceEvidenceStatus.metadataOnly
+  powerEvidence := LaserReferencePowerEvidence.noTransferableWattage
+  roles := [LaserReferenceRole.lightSlinger,
+    LaserReferenceRole.volumeDistributedPolarization,
+    LaserReferenceRole.superluminalPhasePattern,
+    LaserReferenceRole.causalSpeedSeparation]
+  procaFieldStatus := LaserReferenceClaimStatus.conditionalModel
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Chat-derived conditional model: a volume-distributed polarization-current antenna in a dielectric waveguide with a superluminal phase-pattern hypothesis. It does not establish superluminal matter, energy, or information transfer."
+
 /-- Supplemental laser-matter references retained separately from the original
 13-work carbon-processing registry. -/
 def supplementalLaserMatterReferences : List LaserScholarlyReference :=
   [ laserReferenceLei2025Csr,
     laserReferenceZhang2022FreeElectron,
     laserReferenceKipp2024Cavity,
-    laserReferenceGaliffi2023PhononPolariton ]
+    laserReferenceGaliffi2023PhononPolariton,
+    laserReferenceLightSlingerChat,
+    laserReferenceFu2025ElectronNanodiamond,
+    laserReferenceBao2025QuantumNanodiamond,
+    laserReferenceKim2025ColorCenterPositioning ]
 
 lemma supplementalLaserMatterReferences_count :
-    supplementalLaserMatterReferences.length = 4 := by
+  supplementalLaserMatterReferences.length = 8 := by
   rfl
 
 /-- The 13 unique works represented by the canonical attached bibliography. -/
