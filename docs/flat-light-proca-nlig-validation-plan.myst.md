@@ -52,6 +52,56 @@ calibrated beams share total power $P_{\mathrm{total}}$, report both total and
 per-beam power $P_j$; convergence can improve spatial dose uniformity but cannot
 create energy or silently replace absorbed-dose accounting.
 
+## High-Value Longitudinal-Beam Target
+
+Prioritize a calibrated radial-vector, high-NA longitudinal near-field source
+for sub-wavelength imaging. Nanolithography is the second gate; communications
+and plasma-yield optimization reuse the same calibrated source. This ordering
+minimizes ambiguity because the first gate can measure the full vector field,
+PSF/MTF, side-lobe energy, and power before chemistry, plasma kinetics, or
+channel coding are introduced.
+
+The target is a classical programmable Floquet/vector beam with amplitude and
+phase controls:
+
+$$
+E_{\mathrm{out}}(x,t) = E_0[1+A_H(x,t)]
+\exp\!\left(i[\omega_0t+\phi_G(x,t)]\right).
+$$
+
+Thresholded amplitude/phase-mode coupling can create sidebands, beating, and
+spatiotemporal patterns. It does not establish a massive photon or zero
+diffraction. The rGO-vitrimer layer should first be treated as a programmable
+amplitude/phase mask or active metasurface. A blue-bronze/rGO composite remains
+a material compatibility hypothesis requiring loss, switching, thermal, and
+mode-coupling measurements. LightSlinger-like distributed polarization-current
+mechanics provide directional synthesis and MIMO beam steering while retaining
+causal group and information speeds.
+
+### Application gates
+
+1. **Imaging:** maximize calibrated $E_z/E_\perp$ and vectorial focal contrast
+  under fixed aperture, wavelength, and total power. Compare radial,
+  azimuthal, linear, circular, and longitudinal-suppressed controls using
+  complex PSF/MTF, side-lobe energy, encircled energy, phase residual,
+  alignment, and thermal drift.
+2. **Nanolithography:** expose LIG/N-LIG or a resist only after the imaging gate
+  passes. Compare feature width, HAZ, absorbed fluence, Raman/XPS chemistry,
+  yield, and throughput against Gaussian and ordinary dielectric controls.
+3. **Communications:** encode only causal amplitude, phase, sideband,
+  polarization, or OAM channels. Measure BER, bandwidth, crosstalk, group
+  delay, and information speed; do not use phase-pattern speed as a signaling
+  speed.
+4. **Plasma yield:** hold absorbed power, gas flow, pressure, temperature, and
+  duty cycle fixed while comparing emission spectra, electron density,
+  deposited mass, and energy yield under longitudinal/vector-beam states.
+
+The Lean evidence boundary is `LongitudinalBeamApplicationEvidence`; its
+readiness requires a longitudinal probe calibration, aperture-matched and
+suppression controls, causal speeds, source/absorbed-power accounting, residual
+bounds, and replication. A passing record is a classical structured-light
+result, not Proca or Flat Light evidence.
+
 ## Provenance and Claim Boundary
 
 The local scholarly overview describes a CW master oscillator, an N-LIG
@@ -73,25 +123,127 @@ oscillators and proposes dielectric waveguide behavior
 Those lines are provenance for the hypothesis, not evidence that the proposed
 structures or mechanisms exist.
 
+The NS/GPE/DDF bridge is regime-explicit. Madelung/Euler--Korteweg applies to a
+nonvanishing complex order parameter with a fixed phase convention; it is not a
+derivation from Schwarzschild geometry. DDF is represented as a compressible
+continuity/sink regime, a low-Mach effective-incompressible projection, or a
+shear-jammed constitutive regime. The latter two are approximation/model
+branches, not a theorem that physical space is globally incompressible and
+compressible simultaneously. Use `MadelungEulerKortewegBridge` and `NSDDFBridge`
+for residual-based comparisons ([Pending.lean](../src/signals/Signals/Pending.lean#L2833-L3000)).
+
+EHT should be compared at the observable level: complex visibilities, emission
+ring diameter, central brightness depression, variability, polarization, and
+model residuals. The EHT ring is lensed emission near the compact object; its
+conversion to an inferred shadow diameter or angular gravitational radius uses
+calibrated metric and radiative-transfer models. It is not a direct measurement
+of a Schwarzschild radius or a proof that a DDF acoustic horizon exists. The
+finite `EHTShadowRingObservation` record keeps those scales separate
+([Pending.lean](../src/signals/Signals/Pending.lean#L3009-L3075)).
+
 The material chat correctly identifies lignin-derived LIG as sensitive to
 precursor heterogeneity, laser fluence, ablation, oxidation, and defects
 ([LIG defect-control chat](../data/chats/_Preventing-LIG-Defects-on-Lignin.json#L11-L27)).
 Those variables become controlled factors in this plan rather than assumed
 properties of N-LIG.
 
+### Scholar-query literature check: CW versus laser precedents
+
+The Google Scholar query for `continuous wave laser lignin` was unavailable
+behind an automated redirect during review. Crossref/OpenAlex metadata and
+publisher records identify a useful primary set: Kraft-lignin LIG by direct
+laser writing ([Mahmood et al. 2020](#mahmood2020)), CO2-laser graphene on wood
+([Ye et al. 2017](#ye2017)), cellulose/lignin conversion with molecular-dynamics
+and experimental controls ([Ghavipanjeh and Sadeghzadeh 2024](#ghavipanjeh2024)),
+laser-induced lignin-to-few-layer graphene ([Zhang et al. 2024](#zhang2024)),
+and sequential laser lithography for lignin-derived biosensor electrodes
+([Meng et al. 2022](#meng2022)). These records support the classical material
+claim and process-variable matrix. They do not, by themselves, prove that
+every experiment used a continuous-wave source or that graphitization is
+athermal.
+
+The CW hypothesis should therefore be preregistered as a distinct experiment:
+
+1. Use a calibrated CW source and record wavelength, average power, spot width,
+  scan speed, atmosphere, and absorbed fluence.
+2. Fit the dose relation $F v w = P$ for each material lot, then step dose
+  downward while measuring Raman $D/G$ and $2D$, XPS C/N/O states, sheet
+  resistance, morphology, HAZ, and substrate temperature.
+3. Treat pulsed, CO2-laser, and unspecified-mode papers as material precedents
+  or controls unless their methods explicitly match the CW regime.
+4. Do not use a graphene endpoint to infer N-LIG, Proca emission, athermal
+  chemistry, or zero-diffraction propagation.
+
+The active chat's CW block is provenance for the proposed observation schema,
+not external evidence ([CW Lean block](../data/chats/IQ-Sampling-for-Signal-Phase.md#L7394-L7482),
+[CW narrative](../data/chats/IQ-Sampling-for-Signal-Phase.md#L7484-L7491)).
+
+The Navier--Stokes/FTLE/SQG summary adds a useful diagnostics layer: calibrated
+acoustic crackle, phase-slip core observations, I/Q/homodyne quadratures, and
+Madelung/Euler--Korteweg residuals ([fracture/crackle](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L741-L748),
+[phase slips](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L746-L748),
+[homodyne/IQ](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L751-L756),
+[QHD equations](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L520-L543)).
+The summary's equivalences remain hypotheses: solid fracture is not fluid
+cavitation, I/Q does not establish squeezing without shot-noise and detector
+calibration, and a Madelung residual does not establish SQG or a gravitational
+horizon. The chat also mixes $e^{iS/\hbar}$ and $e^{iS}$ phase conventions in
+its Madelung/reconstruction discussion; the convention must be fixed before any
+formal reconstruction is interpreted physically.
+
+The finite implementation boundary is:
+
+- `AcousticCrackleObservation`: calibrated I/Q length, classical residual,
+  bispectrum/trispectrum metadata, noise floor, detector controls, and
+  replication ([Pending.lean](../src/signals/Signals/Pending.lean#L1747-L1790));
+- `PhaseSlipCoreObservation`: winding, phase jump, zero-density core,
+  phase/density calibration, and control-core tolerance
+  ([Pending.lean](../src/signals/Signals/Pending.lean#L1792-L1835));
+- `EulerKortewegResidualObservation`: density floor, Bohm coefficient law,
+  continuity/momentum/irrotational residuals, and calibration
+  ([Pending.lean](../src/signals/Signals/Pending.lean#L2665-L2725));
+- `HomodyneQuadratureVarianceObservation`: measured and calibrated variance,
+  shot-noise reference, detector noise, local-oscillator phase, and mode match
+  ([Pending.lean](../src/signals/Signals/Pending.lean#L2726-L2765)).
+
+The ultrasonic-power discussion should be split into two regimes. Existing
+`Signals.Acoustics.UltrasonicTransfer` models ordinary passive acoustic power
+transfer. The proposed fracture/cavitation mechanism is a separate, alternative
+channel that must be measured rather than added as hidden energy. Its receiver,
+absorbed, and loss powers must sum to incident acoustic power, with cavitation,
+fracture, thermal, detector, and replication controls. The chat's claims that a
+phase-locked fracture state can transmit large power harmlessly through tissue
+are speculative and are not promoted by this plan
+([fracture-state power proposal](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1992-L2032),
+[ultrasonic cavitation processing](../data/chats/IQ-Sampling-for-Signal-Phase.md#L3837-L3844)).
+Use `FractureMediatedUltrasonicTransfer` as the finite candidate boundary
+([Pending.lean](../src/signals/Signals/Pending.lean#L1728-L1785)).
+
+The attached bibliography supports the classical and materials portions of the
+plan: LIG synthesis and applications ([Wan et al. 2018](#wan2018), [Ye et al.
+2024](#ye2024), [Claro et al. 2022](#claro2022), [You et al. 2020](#you2020)),
+maskless and selective laser processing ([Cheng et al. 2026](#cheng2026), [Park
+et al. 2024](#park2024)), LIG diffractive optics ([Lee et al. 2023](#lee2023)),
+biomass-derived nanodiamond controls ([Lin et al. 2021](#lin2021), [Joshi et al.
+2021](#joshi2021)), and optical modification of 2D materials ([Akkanen et al.
+2022](#akkanen2022)). The Proca references ([Morais et al. 2026](#morais2026),
+[Mikki 2021](#mikki2021)) support theory/model construction, not a laboratory
+detection claim.
+
 The current Lean boundary is deliberately weaker than the proposal. `ProcaChannel`
 and `ProcaControlField` carry a longitudinal mode, coupling, power, and
 frequency as supplied model data ([Pending.lean](../src/signals/Signals/Pending.lean#L1345-L1400)).
 `FlatLightLithography` records positive effective mass and idealized zero blur,
 while `PhaseSlipCleavage` records a supplied rate law
-([Pending.lean](../src/signals/Signals/Pending.lean#L2126-L2162)). These are
+([Pending.lean](../src/signals/Signals/Pending.lean#L2414-L2449)). These are
 contracts to be tested, not existence theorems. The measured boundary now also
 contains `NLIGProcessObservation` for batch/process characterization and
 `FlatLightPropagationObservation` for aperture-matched PSF/MTF and second-
 moment broadening. Their readiness predicates require artifact provenance,
 independent calibration, classical/negative controls, replication, and an
 uncertainty bound; they do not promote a material result or bounded beam
-propagation result to Proca evidence.
+propagation result to Proca evidence
+([Pending.lean](../src/signals/Signals/Pending.lean#L2461-L2543)).
 
 ## Accepted Mechanics and Pending Contracts
 
@@ -118,7 +270,7 @@ The library already separates accepted mechanics from speculative extensions:
   bookkeeping, OAM charge, polarization purity, longitudinal near-field
   fraction, alignment, and source/mode calibration. Its beam-power bound and
   calibration predicates do not assert Proca propagation
-  ([Pending.lean](../src/signals/Signals/Pending.lean#L1815-L1875)).
+  ([Pending.lean](../src/signals/Signals/Pending.lean#L1820-L1875)).
 
 The literature supports the same division. Poynting-theorem energy balance is
 the classical accounting boundary; parametric and second-harmonic amplifiers
@@ -372,6 +524,15 @@ raw spectra and images, calibration files, sample map, and batch identifiers.
 Acceptance is material reproducibility and a complete uncertainty budget. It is
 not evidence of a guided Proca mode.
 
+Use the LIG reviews and sustainable-carbon perspective to define the process
+factor matrix and characterization vocabulary ([Wan et al. 2018](#wan2018), [Ye
+et al. 2024](#ye2024), [Claro et al. 2022](#claro2022)). Use the flexible-LIG
+electronics and LIG-diffractive-optics literature as classical application and
+pattern-fidelity controls ([You et al. 2020](#you2020), [Lee et al.
+2023](#lee2023)); neither establishes lignin-derived N-LIG or Proca coupling.
+Wearable and sensor applications provide additional classical endpoint context,
+but not proof of the proposed waveguide mechanism ([Kim and Kim 2025](#kim2025)).
+
 ### WP1A: Find the lowest-power CW N-LIG process window
 
 Use a calibrated fiber-laser or diode-laser source with a nominal ceiling of
@@ -397,6 +558,12 @@ and HAZ thresholds across independent batches.
 Do not call a darkened, ablated, or electrically discontinuous track graphene.
 Do not call a lower laser power an efficiency improvement until absorbed power,
 throughput, yield, cooling, and post-processing energy are included.
+
+The attached laser-processing reviews support this as a materials/process
+optimization question, not as a shortcut to Flat Light. Maskless photolithography
+and selective laser-processing reviews provide comparison methods for the
+classical direct-write baseline ([Cheng et al. 2026](#cheng2026), [Park et al.
+2024](#park2024)).
 
 ### WP2: Establish the classical guide
 
@@ -502,6 +669,11 @@ Reject the Flat Light claim if broadening or resolution is predicted by the
 classical guide model, if the result depends on aperture truncation, or if
 side-lobe energy is omitted from the resolution metric.
 
+Use LIG diffractive optics as a useful classical positive control for the
+proposed rGO/N-LIG optical-patterning path ([Lee et al. 2023](#lee2023)). A
+successful diffractive LIG optic validates fabrication and pattern transfer; it
+does not validate zero diffraction or a massive photon.
+
 ### WP6: Test phase-slip lithography
 
 Use a blinded, randomized sample layout with:
@@ -523,6 +695,12 @@ A phase-slip result requires an excess chemical rate after ordinary absorbed
 energy, heat, photochemistry, carrier excitation, and mechanical stress are
 matched. An atomic-scale image without a calibrated point-spread function and
 chemical control is insufficient.
+
+Biomass-to-nanodiamond direct laser writing provides a separate material
+transformation control ([Lin et al. 2021](#lin2021)); it must be analyzed by
+its measured chemistry and thermal history rather than relabeled as a Proca
+phase-slip result. The nanodiamond review supplies additional process context
+and failure modes ([Joshi et al. 2021](#joshi2021)).
 
 ### WP7: Test multi-beam holography and trilateration
 
@@ -784,10 +962,10 @@ classical controls, and replication criteria above are satisfied.
   lines 11-27: LIG-on-lignin defect and processing variables.
 - [Pending.lean](../src/signals/Signals/Pending.lean#L1345-L1400),
   lines 1345-1400: supplied-data Proca channel and coupling contract.
-- [Pending.lean](../src/signals/Signals/Pending.lean#L2126-L2162),
-  lines 2126-2162: pending Flat Light and phase-slip contracts.
-- [Pending.lean helical apparatus contracts](../src/signals/Signals/Pending.lean#L1815-L1865),
-  lines 1815-1865: classical OAM/helical-beam apparatus fields, power,
+- [Pending.lean](../src/signals/Signals/Pending.lean#L2414-L2449),
+  lines 2414-2449: pending Flat Light and phase-slip contracts.
+- [Pending.lean helical apparatus contracts](../src/signals/Signals/Pending.lean#L1820-L1875),
+  lines 1820-1875: classical OAM/helical-beam apparatus fields, power,
   polarization, alignment, and calibration boundaries.
 - [Extreme dielectric nanolaser chat](../data/chats/Breakthrough-in-Extreme-Dielectric-Nanolasers.json#L53-L88),
   lines 53-88: tight-confinement $E_z$, OAM, and evanescent-coupling proposals;
@@ -804,8 +982,23 @@ classical controls, and replication criteria above are satisfied.
 - [_Ball Milling Metal Under Protective Gas .json](../data/chats/_Ball%20Milling%20Metal%20Under%20Protective%20Gas%20.json#L620-L675),
   lines 620-675: rGO-vitrimer/metamaterial holography and Gerchberg-Saxton
   discussion.
+- [Navier--Stokes, FTLE, and SQG chat](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L520-L756),
+  lines 520-756: Madelung/Euler--Korteweg, fracture/crackle, phase-slip, and
+  homodyne/IQ proposals; these are diagnostic hypotheses, not SQG evidence.
 
 ### External data and methods
+
+- Mahmood et al., Kraft-lignin LIG direct-writing paper, DOI
+  `10.1021/acsomega.0c01293`.
+- Ye et al., wood-derived LIG paper, DOI `10.1002/adma.201702211`.
+- Ghavipanjeh and Sadeghzadeh, cellulose/lignin simulation and experiment,
+  DOI `10.1038/s41598-024-54982-1`.
+- Zhang et al., lignin-to-few-layer graphene experiment/MD study, DOI
+  `10.1039/d3gc03603k`.
+- Meng et al., green lignin-derived graphene electrode route, DOI
+  `10.1016/j.bios.2022.114742`.
+- Yang et al., low-defect lignin LIG touch sensors, DOI
+  `10.1021/acsanm.4c05362`.
 
 - WDM-MZI dataset, Zenodo record `10.5281/zenodo.22819801`, CC BY 4.0,
   ZIP MD5 `86e2e1f949fab4d969f8441eba772bfe`.
@@ -823,7 +1016,9 @@ classical controls, and replication criteria above are satisfied.
 - JHTDB, cylinder PIV, and RSPID provenance already recorded in
   [`OPEN_FLOW_DATASETS.md`](../src/signals/OPEN_FLOW_DATASETS.md).
 
-## Scholarly and Dataset References
+## References
+
+### Dataset References
 
 <a id="polyanskiy2024"></a> M. N. Polyanskiy, "Refractiveindex.info database of
 optical constants," *Scientific Data* 11, 94 (2024),
@@ -843,6 +1038,77 @@ in Silicon Photonics," DOI `10.5281/zenodo.22819801`.
 <a id="ligfigshare"></a> Figshare, "Impact of visible laser on graphene
 formation via laser-induced graphene on polyethersulfone membranes," DOI
 `10.6084/m9.figshare.33483753`.
+
+### Scholarly References
+
+<a id="ehtm872019"></a> Event Horizon Telescope Collaboration et al., "First
+M87 Event Horizon Telescope Results. I. The Shadow of the Supermassive Black
+Hole," *The Astrophysical Journal Letters* 875, L1 (2019),
+<https://doi.org/10.3847/2041-8213/ab0ec7>. Ring and shadow observables are
+calibrated against metric and radiative-transfer models.
+
+<a id="ehtsgr2022"></a> Event Horizon Telescope Collaboration et al., "First
+Sagittarius A* Event Horizon Telescope Results. I. The Shadow of the Supermassive
+Black Hole in the Center of the Milky Way," *The Astrophysical Journal Letters*
+930, L12 (2022), <https://doi.org/10.3847/2041-8213/ac6674>. Ring and central-
+depression observables are not direct horizon-radius pixels.
+
+<a id="wan2018"></a> Wan, Z., Streed, E. W., Lobino, M., Wang, S., Sang, R.
+T., Cole, I. S., Thiel, D. V., and Li, Q., "Laser-reduced graphene: synthesis,
+properties, and applications," *Advanced Materials Technologies* 3, 1700315
+(2018), <https://doi.org/10.1002/admt.201700315>.
+
+<a id="ye2024"></a> Ye, X., Yang, Z., Zheng, X., Qiang, H., Wei, M., Li, Y.,
+Chen, M., and Luo, N., "A review on the laser-induced synthesis of graphene and
+its applications in sensors," *Journal of Materials Science* 59, 11644-11668
+(2024), <https://doi.org/10.1007/s10853-024-09883-z>.
+
+<a id="cheng2026"></a> Cheng, Z. et al., "Maskless photolithography for
+micro- and nanofabrication," *Moore and More* 3, 7 (2026),
+<https://doi.org/10.1007/s44275-026-00046-7>.
+
+<a id="park2024"></a> Park, H. et al., "Laser-based selective material
+processing for next-generation additive manufacturing," *Advanced Materials*
+36, 2307586 (2024), <https://doi.org/10.1002/adma.202307586>.
+
+<a id="you2020"></a> You, R. et al., "Laser fabrication of graphene-based
+flexible electronics," *Advanced Materials* 32, 1901981 (2020),
+<https://doi.org/10.1002/adma.201901981>.
+
+<a id="claro2022"></a> Claro, P. I. C. et al., "Sustainable carbon sources for
+green laser-induced graphene: A perspective on fundamental principles,
+applications, and challenges," *Applied Physics Reviews* 9 (2022),
+<https://doi.org/10.1063/5.0100785>.
+
+<a id="lee2023"></a> Lee, Y. et al., "Ultra-thin light-weight laser-induced-
+graphene (LIG) diffractive optics," *Light: Science & Applications* 12, 146
+(2023), <https://doi.org/10.1038/s41377-023-01143-0>.
+
+<a id="kim2025"></a> Kim, H. and Kim, Y.-J., "Wearable healthcare using
+laser-induced graphene," *JMST Advances* 7, 177-185 (2025),
+<https://doi.org/10.1007/s42791-025-00113-4>.
+
+<a id="lin2021"></a> Lin, Y. et al., "Fabricating nanodiamonds from biomass by
+direct laser writing under ambient conditions," *ACS Sustainable Chemistry &
+Engineering* 9, 3112-3123 (2021),
+<https://doi.org/10.1021/acssuschemeng.0c07607>.
+
+<a id="joshi2021"></a> Joshi, P. et al., "Advances in laser-assisted conversion
+of polymeric and graphitic carbon into nanodiamond films," *Nanotechnology* 32,
+432001 (2021), <https://doi.org/10.1088/1361-6528/ac1097>.
+
+<a id="morais2026"></a> Morais, W. de D. et al., "Investigating planar Proca
+metamaterials in nonlinear (2+1)-Electrodynamics," arXiv:2607.23013 (2026),
+<https://arxiv.org/abs/2607.23013>. Theory/model reference only.
+
+<a id="akkanen2022"></a> Akkanen, S.-T. M., Fernandez, H. A., and Sun, Z.,
+"Optical modification of 2D materials: methods and applications," *Advanced
+Materials* 34, 2110152 (2022),
+<https://doi.org/10.1002/adma.202110152>.
+
+<a id="mikki2021"></a> Mikki, S., "Proca metamaterials, massive electromagnetism,
+and spatial dispersion," *Annalen der Physik* 533, 2000625 (2021),
+<https://doi.org/10.1002/andp.202000625>. Theory/model reference only.
 
 ### Chat-derived BibTeX
 
@@ -893,6 +1159,14 @@ formation via laser-induced graphene on polyethersulfone membranes," DOI
   year         = {2026},
   howpublished = {AI chat export},
   note         = {Source: data/chats/Breakthrough-in-Extreme-Dielectric-Nanolasers.json, lines 53-88}
+}
+
+@misc{eht_m87_sgr_bridge,
+  author       = {{Event Horizon Telescope Collaboration}},
+  title        = {EHT ring and shadow observables for M87* and Sagittarius A*},
+  year         = {2022},
+  howpublished = {Peer-reviewed EHT results},
+  note         = {M87*: DOI 10.3847/2041-8213/ab0ec7; Sgr A*: DOI 10.3847/2041-8213/ac6674; ring/shadow scales are model-calibrated observables}
 }
 ```
 
