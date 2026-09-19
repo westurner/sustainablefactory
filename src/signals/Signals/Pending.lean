@@ -460,6 +460,136 @@ lemma KerrInteraction.probe_phase_shift_holds
         interaction.signalObservable :=
   interaction.probePhaseShiftLaw
 
+/-! ## Optically driven Faraday--Goldstone and photonic time-crystal models
+
+The following finite records extract observables and model boundaries from
+Kaplan et al., *Optically induced Faraday--Goldstone waves* (2026), and
+Kiselev and Pan, *Symmetry breaking and spatiotemporal pattern formation in
+photonic time crystals* (2025). They do not identify Goldstone-like modes with
+Proca modes, do not establish zero diffraction, and do not promote a modeled
+time-crystal transition to a realized device without calibration and residual
+data. -/
+
+/-- Finite observables for an optically driven amplitude/phase-mode experiment.
+
+The threshold and mode fields preserve the Faraday--Goldstone mechanism as
+data: a pump above threshold drives an amplitude mode that couples to a phase
+mode, with a measured spatiotemporal pattern and residual. -/
+structure FaradayGoldstoneObservation where
+  materialLabel : String
+  artifactReference : String
+  pumpFluence : LaserFluence
+  pumpFluence_nonnegative : 0 ≤ pumpFluence.joulesPerSquareMeter
+  thresholdFluence : LaserFluence
+  thresholdFluence_pos : 0 < thresholdFluence.joulesPerSquareMeter
+  aboveThreshold :
+    thresholdFluence.joulesPerSquareMeter ≤ pumpFluence.joulesPerSquareMeter
+  higgsModeAmplitude : ℝ
+  higgsModeAmplitude_nonnegative : 0 ≤ higgsModeAmplitude
+  goldstoneModeAmplitude : ℝ
+  goldstoneModeAmplitude_nonnegative : 0 ≤ goldstoneModeAmplitude
+  nonlinearModeCoupling : ℝ
+  nonlinearModeCoupling_nonnegative : 0 ≤ nonlinearModeCoupling
+  phaseModeFrequency : Frequency
+  phaseModeFrequency_nonnegative : 0 ≤ phaseModeFrequency.hz
+  amplitudeModeFrequency : Frequency
+  amplitudeModeFrequency_pos : 0 < amplitudeModeFrequency.hz
+  beatingAmplitude : ℝ
+  beatingAmplitude_nonnegative : 0 ≤ beatingAmplitude
+  patternResidual : ℝ
+  patternResidual_nonnegative : 0 ≤ patternResidual
+  patternTolerance : ℝ
+  patternTolerance_nonnegative : 0 ≤ patternTolerance
+  patternWithinTolerance : patternResidual ≤ patternTolerance
+  thermalNoiseResidual : ℝ
+  thermalNoiseResidual_nonnegative : 0 ≤ thermalNoiseResidual
+  coherentPatternObserved : Prop
+  coherentPatternObserved_hypothesis : coherentPatternObserved
+  modelExperimentAgreement : Prop
+  modelExperimentAgreement_hypothesis : modelExperimentAgreement
+  calibrationReady : Prop
+  calibrationReady_hypothesis : calibrationReady
+
+/-- The finite Faraday--Goldstone record is ready for a bounded comparison. -/
+def FaradayGoldstoneObservation.comparisonReady
+    (observation : FaradayGoldstoneObservation) : Prop :=
+  observation.materialLabel ≠ "" ∧
+    observation.artifactReference ≠ "" ∧
+    observation.thresholdFluence.joulesPerSquareMeter ≤
+      observation.pumpFluence.joulesPerSquareMeter ∧
+    0 < observation.higgsModeAmplitude ∧
+    0 < observation.goldstoneModeAmplitude ∧
+    0 < observation.nonlinearModeCoupling ∧
+    0 < observation.beatingAmplitude ∧
+    observation.patternResidual ≤ observation.patternTolerance ∧
+    observation.coherentPatternObserved ∧
+    observation.modelExperimentAgreement ∧
+    observation.calibrationReady
+
+/-- A thresholded pump condition exposes the supplied fluence comparison. -/
+lemma FaradayGoldstoneObservation.above_threshold_holds
+    (observation : FaradayGoldstoneObservation) :
+    observation.thresholdFluence.joulesPerSquareMeter ≤
+      observation.pumpFluence.joulesPerSquareMeter :=
+  observation.aboveThreshold
+
+/-- A finite photonic-time-crystal symmetry-breaking model.
+
+`modelOnly` is explicit because the cited work is a theoretical model of a
+time-varying Kerr medium. Spatial and temporal translation breaking, soft and
+massive mode labels, and pattern residuals remain supplied model outputs. -/
+structure PhotonicTimeCrystalPatternModel where
+  artifactReference : String
+  spatialDimension : ℕ
+  spatialDimensionLaw : spatialDimension = 2
+  modulationFrequency : Frequency
+  modulationFrequency_pos : 0 < modulationFrequency.hz
+  permittivityModulationAmplitude : ℝ
+  permittivityModulationAmplitude_nonnegative :
+    0 ≤ permittivityModulationAmplitude
+  kerrNonlinearity : ℝ
+  kerrNonlinearity_nonnegative : 0 ≤ kerrNonlinearity
+  driveAmplitude : ℝ
+  driveAmplitude_nonnegative : 0 ≤ driveAmplitude
+  criticalDriveAmplitude : ℝ
+  criticalDriveAmplitude_pos : 0 < criticalDriveAmplitude
+  aboveTransition : criticalDriveAmplitude ≤ driveAmplitude
+  spatialTranslationBroken : Prop
+  spatialTranslationBroken_hypothesis : spatialTranslationBroken
+  temporalTranslationBroken : Prop
+  temporalTranslationBroken_hypothesis : temporalTranslationBroken
+  goldstoneLikeModeFrequency : Frequency
+  goldstoneLikeModeFrequency_nonnegative : 0 ≤ goldstoneLikeModeFrequency.hz
+  higgsLikeModeFrequency : Frequency
+  higgsLikeModeFrequency_pos : 0 < higgsLikeModeFrequency.hz
+  latticePatternResidual : ℝ
+  latticePatternResidual_nonnegative : 0 ≤ latticePatternResidual
+  latticePatternTolerance : ℝ
+  latticePatternTolerance_nonnegative : 0 ≤ latticePatternTolerance
+  latticePatternWithinTolerance :
+    latticePatternResidual ≤ latticePatternTolerance
+  modelOnly : Prop
+  modelOnly_hypothesis : modelOnly
+
+/-- The finite time-crystal model has the stated 2+1D spatial dimension. -/
+lemma PhotonicTimeCrystalPatternModel.spatial_dimension_two
+    (model : PhotonicTimeCrystalPatternModel) :
+    model.spatialDimension = 2 :=
+  model.spatialDimensionLaw
+
+/-- A modeled pattern transition requires explicit symmetry-breaking and mode
+bookkeeping; it is not a claim that a photonic time crystal was fabricated. -/
+def PhotonicTimeCrystalPatternModel.transitionReady
+    (model : PhotonicTimeCrystalPatternModel) : Prop :=
+  model.artifactReference ≠ "" ∧
+    model.spatialDimension = 2 ∧
+    model.criticalDriveAmplitude ≤ model.driveAmplitude ∧
+    model.spatialTranslationBroken ∧
+    model.temporalTranslationBroken ∧
+    0 < model.higgsLikeModeFrequency.hz ∧
+    model.latticePatternResidual ≤ model.latticePatternTolerance ∧
+    model.modelOnly
+
 /-- Pending hardware-readiness observations for an integrated homodyne detector. -/
 structure HomodyneHardwareReadiness where
   insertionLoss : ℝ
@@ -1694,6 +1824,278 @@ def DDFVortexObservable.supportsIndependentDefectSlot
     (observable.circulation_detectable ∨
       observable.pressure_deficit_detectable ∨
       observable.transverse_mode_detectable)
+
+/-! ## Finite DDF wave-tail and Pop III gravitational-wave diagnostics
+
+These records extract the measurable bookkeeping from the superfluid/DDF and
+Population III review chats. They preserve constitutive laws, finite tensor
+conditioning, detector-cutoff comparisons, and posterior metadata. They do not
+prove Hawking radiation, a DDF medium, a Pop III origin, or a new gravitational
+wave propagation law. -/
+
+/-- A finite shear-thickening viscosity law used as supplied model data. -/
+def dilatantViscosity
+    (baselineViscosity shearCoefficient waveNumber : ℝ) : ℝ :=
+  baselineViscosity * (1 + shearCoefficient * waveNumber ^ 2)
+
+/-- The shear-thickening viscosity is nonnegative under nonnegative inputs. -/
+lemma dilatantViscosity_nonnegative
+    (baselineViscosity shearCoefficient waveNumber : ℝ)
+    (baselineViscosity_nonnegative : 0 ≤ baselineViscosity)
+    (shearCoefficient_nonnegative : 0 ≤ shearCoefficient) :
+    0 ≤ dilatantViscosity baselineViscosity shearCoefficient waveNumber := by
+  dsimp [dilatantViscosity]
+  have h_factor : 0 ≤ 1 + shearCoefficient * waveNumber ^ 2 := by
+    nlinarith [sq_nonneg waveNumber]
+  exact mul_nonneg baselineViscosity_nonnegative h_factor
+
+/-- Shear thickening cannot reduce a nonnegative baseline viscosity. -/
+lemma dilatantViscosity_ge_baseline
+    (baselineViscosity shearCoefficient waveNumber : ℝ)
+    (baselineViscosity_nonnegative : 0 ≤ baselineViscosity)
+    (shearCoefficient_nonnegative : 0 ≤ shearCoefficient) :
+    baselineViscosity ≤ dilatantViscosity baselineViscosity shearCoefficient waveNumber := by
+  dsimp [dilatantViscosity]
+  nlinarith [mul_nonneg baselineViscosity_nonnegative
+    (mul_nonneg shearCoefficient_nonnegative (sq_nonneg waveNumber))]
+
+/-- A finite damping-rate law for a dilatant wave packet. -/
+def dilatantDampingRate
+    (baselineViscosity shearCoefficient waveNumber : ℝ) : ℝ :=
+  baselineViscosity * waveNumber ^ 2 *
+    (1 + shearCoefficient * waveNumber ^ 2)
+
+/-- The finite damping-rate law is nonnegative under nonnegative inputs. -/
+lemma dilatantDampingRate_nonnegative
+    (baselineViscosity shearCoefficient waveNumber : ℝ)
+    (baselineViscosity_nonnegative : 0 ≤ baselineViscosity)
+    (shearCoefficient_nonnegative : 0 ≤ shearCoefficient) :
+    0 ≤ dilatantDampingRate baselineViscosity shearCoefficient waveNumber := by
+  dsimp [dilatantDampingRate]
+  have h_factor : 0 ≤ 1 + shearCoefficient * waveNumber ^ 2 := by
+    nlinarith [sq_nonneg waveNumber]
+  exact mul_nonneg
+    (mul_nonneg baselineViscosity_nonnegative (sq_nonneg waveNumber)) h_factor
+
+/-- A finite Schur-complement conditioning of a 3D spatial slice by one time
+coordinate. The matrix data are supplied numerical inputs, not a positivity or
+PDE theorem. -/
+noncomputable def schurConditionedTwistorSlice
+    (spatialCovariance : Matrix (Fin 3) (Fin 3) ℝ)
+    (spatialTemporalCovariance : Matrix (Fin 3) (Fin 1) ℝ)
+    (inverseTemporalCovariance : Matrix (Fin 1) (Fin 1) ℝ)
+    (temporalSpatialCovariance : Matrix (Fin 1) (Fin 3) ℝ) :
+    Matrix (Fin 3) (Fin 3) ℝ :=
+  spatialCovariance - spatialTemporalCovariance * inverseTemporalCovariance *
+    temporalSpatialCovariance
+
+/-- A finite viscosity-scaled Schur-complement slice. -/
+noncomputable def viscosityConditionedTwistorSlice
+    (spatialCovariance : Matrix (Fin 3) (Fin 3) ℝ)
+    (spatialTemporalCovariance : Matrix (Fin 3) (Fin 1) ℝ)
+    (inverseTemporalCovariance : Matrix (Fin 1) (Fin 1) ℝ)
+    (temporalSpatialCovariance : Matrix (Fin 1) (Fin 3) ℝ)
+    (viscosityScale : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
+  spatialCovariance - spatialTemporalCovariance *
+    (viscosityScale • inverseTemporalCovariance) * temporalSpatialCovariance
+
+/-- A finite DDF-inspired temporal-slice conditioning record. -/
+structure DDFTwistorSliceConditioning where
+  baselineViscosity : ℝ
+  baselineViscosity_nonnegative : 0 ≤ baselineViscosity
+  shearCoefficient : ℝ
+  shearCoefficient_nonnegative : 0 ≤ shearCoefficient
+  waveNumber : ℝ
+  viscosity : ℝ
+  viscosityLaw : viscosity =
+    dilatantViscosity baselineViscosity shearCoefficient waveNumber
+  spatialCovariance : Matrix (Fin 3) (Fin 3) ℝ
+  spatialTemporalCovariance : Matrix (Fin 3) (Fin 1) ℝ
+  inverseTemporalCovariance : Matrix (Fin 1) (Fin 1) ℝ
+  temporalSpatialCovariance : Matrix (Fin 1) (Fin 3) ℝ
+  conditionedSlice : Matrix (Fin 3) (Fin 3) ℝ
+  conditioningLaw : conditionedSlice =
+    schurConditionedTwistorSlice spatialCovariance spatialTemporalCovariance
+      inverseTemporalCovariance temporalSpatialCovariance
+  stiffenedSlice : Matrix (Fin 3) (Fin 3) ℝ
+  stiffenedSliceLaw : stiffenedSlice =
+    viscosityConditionedTwistorSlice spatialCovariance spatialTemporalCovariance
+      inverseTemporalCovariance temporalSpatialCovariance viscosity
+  artifactReference : String
+
+/-- The conditioning record exposes its supplied Schur-complement law. -/
+lemma DDFTwistorSliceConditioning.conditioned_slice_holds
+    (conditioning : DDFTwistorSliceConditioning) :
+    conditioning.conditionedSlice =
+      schurConditionedTwistorSlice conditioning.spatialCovariance
+        conditioning.spatialTemporalCovariance conditioning.inverseTemporalCovariance
+        conditioning.temporalSpatialCovariance :=
+  conditioning.conditioningLaw
+
+/-- The conditioning record exposes its viscosity-scaled slice law. -/
+lemma DDFTwistorSliceConditioning.stiffened_slice_holds
+    (conditioning : DDFTwistorSliceConditioning) :
+    conditioning.stiffenedSlice =
+      viscosityConditionedTwistorSlice conditioning.spatialCovariance
+        conditioning.spatialTemporalCovariance conditioning.inverseTemporalCovariance
+        conditioning.temporalSpatialCovariance conditioning.viscosity :=
+  conditioning.stiffenedSliceLaw
+
+/-- A rational finite profile for a GPE-like vortex density. -/
+noncomputable def gpeVortexDensity (bulkDensity healingLength radius : ℝ) : ℝ :=
+  bulkDensity * (radius ^ 2 / (radius ^ 2 + healingLength ^ 2))
+
+/-- The radial density-gradient magnitude used as a supplied scattering proxy. -/
+noncomputable def gpeVortexScatteringPotential
+    (bulkDensity healingLength radius : ℝ) : ℝ :=
+  (2 * bulkDensity * healingLength ^ 2 * radius) /
+    (radius ^ 2 + healingLength ^ 2) ^ 2
+
+/-- The finite vortex profile has a depleted core at zero radius. -/
+lemma gpeVortexDensity_core_zero
+    (bulkDensity healingLength : ℝ) :
+    gpeVortexDensity bulkDensity healingLength 0 = 0 := by
+  simp [gpeVortexDensity]
+
+/-- The supplied scattering proxy is positive outside a positive-radius core. -/
+lemma gpeVortexScatteringPotential_pos
+    (bulkDensity healingLength radius : ℝ)
+    (bulkDensity_pos : 0 < bulkDensity)
+    (healingLength_pos : 0 < healingLength)
+    (radius_pos : 0 < radius) :
+    0 < gpeVortexScatteringPotential bulkDensity healingLength radius := by
+  dsimp [gpeVortexScatteringPotential]
+  positivity
+
+/-- Mechanism labels for a finite observed wave tail. -/
+inductive WaveTailMechanism
+  | curvatureBackscatter
+  | ddfVortexScattering
+  | unresolved
+  deriving DecidableEq, Repr
+
+/-- A finite wave-tail/fracture observation with classical and DDF control slots. -/
+structure DDFWaveTailObservation where
+  sourceLabel : String
+  artifactReference : String
+  mechanism : WaveTailMechanism
+  primaryAmplitude : ℝ
+  primaryAmplitude_nonnegative : 0 ≤ primaryAmplitude
+  tailAmplitude : ℝ
+  tailAmplitude_nonnegative : 0 ≤ tailAmplitude
+  tailDecayExponent : ℝ
+  tailDecayExponent_nonnegative : 0 ≤ tailDecayExponent
+  tailFitResidual : ℝ
+  tailFitTolerance : ℝ
+  tailFitTolerance_nonnegative : 0 ≤ tailFitTolerance
+  tailFitWithinTolerance : |tailFitResidual| ≤ tailFitTolerance
+  secondaryWaveletAmplitude : ℝ
+  secondaryWaveletAmplitude_nonnegative : 0 ≤ secondaryWaveletAmplitude
+  fractureBurstAmplitude : ℝ
+  fractureBurstAmplitude_nonnegative : 0 ≤ fractureBurstAmplitude
+  shearRate : ℝ
+  shearRate_nonnegative : 0 ≤ shearRate
+  criticalShearRate : ℝ
+  criticalShearRate_pos : 0 < criticalShearRate
+  fractureThresholdCrossed : criticalShearRate ≤ shearRate
+  detectorCalibration : Prop
+  detectorCalibration_hypothesis : detectorCalibration
+  independentVortexControl : Prop
+  independentVortexControl_hypothesis : independentVortexControl
+  replicationCount : ℕ
+  replicationCount_min : 2 ≤ replicationCount
+  energyClosed : Prop
+  energyClosed_hypothesis : energyClosed
+
+/-- A wave-tail record has enough controls for a conditional DDF candidate. -/
+def DDFWaveTailObservation.supportsDDFCandidate
+    (observation : DDFWaveTailObservation) : Prop :=
+  observation.sourceLabel ≠ "" ∧
+    observation.artifactReference ≠ "" ∧
+    observation.mechanism = WaveTailMechanism.ddfVortexScattering ∧
+  |observation.tailFitResidual| ≤ observation.tailFitTolerance ∧
+    0 < observation.secondaryWaveletAmplitude ∧
+  observation.criticalShearRate ≤ observation.shearRate ∧
+    observation.detectorCalibration ∧
+    observation.independentVortexControl ∧
+    2 ≤ observation.replicationCount ∧
+    observation.energyClosed
+
+/-- Spin-inference labels retain the review's limitation without inventing a
+quantitative spin posterior. -/
+inductive SpinConstraintStatus
+  | modest
+  | informative
+  | unresolved
+  deriving DecidableEq, Repr
+
+/-- A finite Pop III-remnant inference record from an XG detector simulation. -/
+structure PopIIIGWRemnantInference where
+  sourceLabel : String
+  artifactReference : String
+  networkLabel : String
+  lowFrequencyCutoff : Frequency
+  lowFrequencyCutoff_pos : 0 < lowFrequencyCutoff.hz
+  trueRedshift : ℝ
+  trueRedshift_nonnegative : 0 ≤ trueRedshift
+  redshiftLowerBound90 : ℝ
+  redshiftLowerBound90_nonnegative : 0 ≤ redshiftLowerBound90
+  redshiftBoundValid : redshiftLowerBound90 ≤ trueRedshift
+  sourceFrameMassRelativeUncertainty : ℝ
+  sourceFrameMassRelativeUncertainty_nonnegative :
+    0 ≤ sourceFrameMassRelativeUncertainty
+  sourceFrameMassRelativeUncertainty_le_one :
+    sourceFrameMassRelativeUncertainty ≤ 1
+  skyLocalizationUncertainty : ℝ
+  skyLocalizationUncertainty_nonnegative : 0 ≤ skyLocalizationUncertainty
+  spinConstraint : SpinConstraintStatus
+  posteriorCalibration : Prop
+  posteriorCalibration_hypothesis : posteriorCalibration
+  simulationOnly : Prop
+  simulationOnly_hypothesis : simulationOnly
+
+/-- A remnant inference is in the high-redshift regime used by the review. -/
+def PopIIIGWRemnantInference.highRedshift
+    (inference : PopIIIGWRemnantInference) : Prop :=
+  15 ≤ inference.trueRedshift
+
+/-- A finite inference has provenance and calibrated posterior bookkeeping. -/
+def PopIIIGWRemnantInference.characterizationReady
+    (inference : PopIIIGWRemnantInference) : Prop :=
+  inference.sourceLabel ≠ "" ∧
+    inference.artifactReference ≠ "" ∧
+    inference.networkLabel ≠ "" ∧
+    inference.redshiftLowerBound90 ≤ inference.trueRedshift ∧
+    inference.posteriorCalibration ∧
+    inference.simulationOnly
+
+/-- A paired 5 Hz/10 Hz cutoff comparison for the reviewed XG simulation. -/
+structure PopIIIGWCutoffComparison where
+  fiveHz : PopIIIGWRemnantInference
+  tenHz : PopIIIGWRemnantInference
+  fiveHz_cutoff : fiveHz.lowFrequencyCutoff.hz = 5
+  tenHz_cutoff : tenHz.lowFrequencyCutoff.hz = 10
+  same_true_redshift : fiveHz.trueRedshift = tenHz.trueRedshift
+  fiveHz_bound_below_true : fiveHz.redshiftLowerBound90 ≤ fiveHz.trueRedshift
+  tenHz_bound_below_true : tenHz.redshiftLowerBound90 ≤ tenHz.trueRedshift
+  fiveHz_bound_improves : tenHz.redshiftLowerBound90 < fiveHz.redshiftLowerBound90
+  mass_uncertainty_reported : fiveHz.sourceFrameMassRelativeUncertainty ≤ 1
+  spin_constraint_recorded : fiveHz.spinConstraint = SpinConstraintStatus.modest
+  simulation_provenance : fiveHz.simulationOnly ∧ tenHz.simulationOnly
+
+/-- The 5 Hz configuration has the supplied stricter lower-redshift bound. -/
+lemma PopIIIGWCutoffComparison.five_hz_bound_improves
+    (comparison : PopIIIGWCutoffComparison) :
+    comparison.tenHz.redshiftLowerBound90 < comparison.fiveHz.redshiftLowerBound90 :=
+  comparison.fiveHz_bound_improves
+
+/-- The comparison is ready as a simulation result, not as a Pop III discovery. -/
+def PopIIIGWCutoffComparison.characterizationReady
+    (comparison : PopIIIGWCutoffComparison) : Prop :=
+  comparison.fiveHz.characterizationReady ∧
+    comparison.tenHz.characterizationReady ∧
+  comparison.tenHz.redshiftLowerBound90 < comparison.fiveHz.redshiftLowerBound90 ∧
+    comparison.fiveHz.spinConstraint = SpinConstraintStatus.modest
 
   /-! ## Finite multi-beam holography and trilateration
 

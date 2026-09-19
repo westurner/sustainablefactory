@@ -758,6 +758,246 @@ example : toyDDFVortexObservable.supportsIndependentDefectSlot := by
     DDFVortexObservable.transverse_mode_detectable,
     toyDDFVortexObservable]
 
+noncomputable def toyFaradayGoldstoneObservation : FaradayGoldstoneObservation :=
+  { materialLabel := "K0.3MoO3 blue bronze"
+    artifactReference := "10.1073/pnas.2535297123"
+    pumpFluence := { joulesPerSquareMeter := 2 }
+    pumpFluence_nonnegative := by norm_num
+    thresholdFluence := { joulesPerSquareMeter := 1 }
+    thresholdFluence_pos := by norm_num
+    aboveThreshold := by norm_num
+    higgsModeAmplitude := 3 / 2
+    higgsModeAmplitude_nonnegative := by norm_num
+    goldstoneModeAmplitude := 1
+    goldstoneModeAmplitude_nonnegative := by norm_num
+    nonlinearModeCoupling := 1 / 2
+    nonlinearModeCoupling_nonnegative := by norm_num
+    phaseModeFrequency := { hz := 2 }
+    phaseModeFrequency_nonnegative := by norm_num
+    amplitudeModeFrequency := { hz := 4 }
+    amplitudeModeFrequency_pos := by norm_num
+    beatingAmplitude := 1 / 4
+    beatingAmplitude_nonnegative := by norm_num
+    patternResidual := 1 / 100
+    patternResidual_nonnegative := by norm_num
+    patternTolerance := 1 / 10
+    patternTolerance_nonnegative := by norm_num
+    patternWithinTolerance := by norm_num
+    thermalNoiseResidual := 1 / 20
+    thermalNoiseResidual_nonnegative := by norm_num
+    coherentPatternObserved := True
+    coherentPatternObserved_hypothesis := True.intro
+    modelExperimentAgreement := True
+    modelExperimentAgreement_hypothesis := True.intro
+    calibrationReady := True
+    calibrationReady_hypothesis := True.intro }
+
+example : FaradayGoldstoneObservation.comparisonReady
+    toyFaradayGoldstoneObservation := by
+  simp [FaradayGoldstoneObservation.comparisonReady,
+    toyFaradayGoldstoneObservation]
+  norm_num
+
+example : toyFaradayGoldstoneObservation.thresholdFluence.joulesPerSquareMeter ≤
+    toyFaradayGoldstoneObservation.pumpFluence.joulesPerSquareMeter := by
+  exact toyFaradayGoldstoneObservation.above_threshold_holds
+
+noncomputable def toyPhotonicTimeCrystalPatternModel :
+    PhotonicTimeCrystalPatternModel :=
+  { artifactReference := "10.1103/PhysRevA.111.053509"
+    spatialDimension := 2
+    spatialDimensionLaw := by rfl
+    modulationFrequency := { hz := 10 }
+    modulationFrequency_pos := by norm_num
+    permittivityModulationAmplitude := 1 / 2
+    permittivityModulationAmplitude_nonnegative := by norm_num
+    kerrNonlinearity := 1
+    kerrNonlinearity_nonnegative := by norm_num
+    driveAmplitude := 2
+    driveAmplitude_nonnegative := by norm_num
+    criticalDriveAmplitude := 1
+    criticalDriveAmplitude_pos := by norm_num
+    aboveTransition := by norm_num
+    spatialTranslationBroken := True
+    spatialTranslationBroken_hypothesis := True.intro
+    temporalTranslationBroken := True
+    temporalTranslationBroken_hypothesis := True.intro
+    goldstoneLikeModeFrequency := { hz := 1 }
+    goldstoneLikeModeFrequency_nonnegative := by norm_num
+    higgsLikeModeFrequency := { hz := 3 }
+    higgsLikeModeFrequency_pos := by norm_num
+    latticePatternResidual := 1 / 100
+    latticePatternResidual_nonnegative := by norm_num
+    latticePatternTolerance := 1 / 10
+    latticePatternTolerance_nonnegative := by norm_num
+    latticePatternWithinTolerance := by norm_num
+    modelOnly := True
+    modelOnly_hypothesis := True.intro }
+
+example : toyPhotonicTimeCrystalPatternModel.spatialDimension = 2 := by
+  exact toyPhotonicTimeCrystalPatternModel.spatial_dimension_two
+
+example : PhotonicTimeCrystalPatternModel.transitionReady
+    toyPhotonicTimeCrystalPatternModel := by
+  simp [PhotonicTimeCrystalPatternModel.transitionReady,
+    toyPhotonicTimeCrystalPatternModel]
+  norm_num
+
+noncomputable def toyDDFTwistorSliceConditioning : DDFTwistorSliceConditioning :=
+  { baselineViscosity := 1
+    baselineViscosity_nonnegative := by norm_num
+    shearCoefficient := 1
+    shearCoefficient_nonnegative := by norm_num
+    waveNumber := 2
+    viscosity := 5
+    viscosityLaw := by norm_num [dilatantViscosity]
+    spatialCovariance := 0
+    spatialTemporalCovariance := 0
+    inverseTemporalCovariance := 0
+    temporalSpatialCovariance := 0
+    conditionedSlice := 0
+    conditioningLaw := by
+      simp [schurConditionedTwistorSlice]
+    stiffenedSlice := 0
+    stiffenedSliceLaw := by
+      simp [viscosityConditionedTwistorSlice]
+    artifactReference := "finite DDF twistor-slice diagnostic" }
+
+example : toyDDFTwistorSliceConditioning.viscosity = 5 := by
+  rfl
+
+example : toyDDFTwistorSliceConditioning.conditionedSlice =
+    schurConditionedTwistorSlice
+      toyDDFTwistorSliceConditioning.spatialCovariance
+      toyDDFTwistorSliceConditioning.spatialTemporalCovariance
+      toyDDFTwistorSliceConditioning.inverseTemporalCovariance
+      toyDDFTwistorSliceConditioning.temporalSpatialCovariance := by
+  exact toyDDFTwistorSliceConditioning.conditioned_slice_holds
+
+example : toyDDFTwistorSliceConditioning.stiffenedSlice =
+    viscosityConditionedTwistorSlice
+      toyDDFTwistorSliceConditioning.spatialCovariance
+      toyDDFTwistorSliceConditioning.spatialTemporalCovariance
+      toyDDFTwistorSliceConditioning.inverseTemporalCovariance
+      toyDDFTwistorSliceConditioning.temporalSpatialCovariance
+      toyDDFTwistorSliceConditioning.viscosity := by
+  exact toyDDFTwistorSliceConditioning.stiffened_slice_holds
+
+example : dilatantViscosity 1 1 2 = 5 := by
+  norm_num [dilatantViscosity]
+
+example : 0 < gpeVortexScatteringPotential 1 2 1 := by
+  norm_num [gpeVortexScatteringPotential]
+
+noncomputable def toyDDFWaveTailObservation : DDFWaveTailObservation :=
+  { sourceLabel := "analog polariton tail simulation"
+    artifactReference := "bounded wave-tail run"
+    mechanism := WaveTailMechanism.ddfVortexScattering
+    primaryAmplitude := 1
+    primaryAmplitude_nonnegative := by norm_num
+    tailAmplitude := 1 / 10
+    tailAmplitude_nonnegative := by norm_num
+    tailDecayExponent := 7
+    tailDecayExponent_nonnegative := by norm_num
+    tailFitResidual := 1 / 100
+    tailFitTolerance := 1 / 10
+    tailFitTolerance_nonnegative := by norm_num
+    tailFitWithinTolerance := by norm_num
+    secondaryWaveletAmplitude := 1 / 5
+    secondaryWaveletAmplitude_nonnegative := by norm_num
+    fractureBurstAmplitude := 1 / 2
+    fractureBurstAmplitude_nonnegative := by norm_num
+    shearRate := 2
+    shearRate_nonnegative := by norm_num
+    criticalShearRate := 1
+    criticalShearRate_pos := by norm_num
+    fractureThresholdCrossed := by norm_num
+    detectorCalibration := True
+    detectorCalibration_hypothesis := True.intro
+    independentVortexControl := True
+    independentVortexControl_hypothesis := True.intro
+    replicationCount := 2
+    replicationCount_min := by norm_num
+    energyClosed := True
+    energyClosed_hypothesis := True.intro }
+
+example : DDFWaveTailObservation.supportsDDFCandidate
+    toyDDFWaveTailObservation := by
+  simp [DDFWaveTailObservation.supportsDDFCandidate,
+    toyDDFWaveTailObservation]
+  norm_num
+
+noncomputable def toyPopIII5Hz : PopIIIGWRemnantInference :=
+  { sourceLabel := "Population III remnant simulation"
+    artifactReference := "arXiv:2608.05846"
+    networkLabel := "Einstein Telescope and Cosmic Explorer"
+    lowFrequencyCutoff := { hz := 5 }
+    lowFrequencyCutoff_pos := by norm_num
+    trueRedshift := 99 / 5
+    trueRedshift_nonnegative := by norm_num
+    redshiftLowerBound90 := 37 / 2
+    redshiftLowerBound90_nonnegative := by norm_num
+    redshiftBoundValid := by norm_num
+    sourceFrameMassRelativeUncertainty := 12 / 100
+    sourceFrameMassRelativeUncertainty_nonnegative := by norm_num
+    sourceFrameMassRelativeUncertainty_le_one := by norm_num
+    skyLocalizationUncertainty := 1
+    skyLocalizationUncertainty_nonnegative := by norm_num
+    spinConstraint := SpinConstraintStatus.modest
+    posteriorCalibration := True
+    posteriorCalibration_hypothesis := True.intro
+    simulationOnly := True
+    simulationOnly_hypothesis := True.intro }
+
+noncomputable def toyPopIII10Hz : PopIIIGWRemnantInference :=
+  { sourceLabel := "Population III remnant simulation"
+    artifactReference := "arXiv:2608.05846"
+    networkLabel := "Einstein Telescope and Cosmic Explorer"
+    lowFrequencyCutoff := { hz := 10 }
+    lowFrequencyCutoff_pos := by norm_num
+    trueRedshift := 99 / 5
+    trueRedshift_nonnegative := by norm_num
+    redshiftLowerBound90 := 35 / 2
+    redshiftLowerBound90_nonnegative := by norm_num
+    redshiftBoundValid := by norm_num
+    sourceFrameMassRelativeUncertainty := 12 / 100
+    sourceFrameMassRelativeUncertainty_nonnegative := by norm_num
+    sourceFrameMassRelativeUncertainty_le_one := by norm_num
+    skyLocalizationUncertainty := 2
+    skyLocalizationUncertainty_nonnegative := by norm_num
+    spinConstraint := SpinConstraintStatus.modest
+    posteriorCalibration := True
+    posteriorCalibration_hypothesis := True.intro
+    simulationOnly := True
+    simulationOnly_hypothesis := True.intro }
+
+noncomputable def toyPopIIICutoffComparison : PopIIIGWCutoffComparison :=
+  { fiveHz := toyPopIII5Hz
+    tenHz := toyPopIII10Hz
+    fiveHz_cutoff := by norm_num [toyPopIII5Hz]
+    tenHz_cutoff := by norm_num [toyPopIII10Hz]
+    same_true_redshift := by rfl
+    fiveHz_bound_below_true := by norm_num [toyPopIII5Hz]
+    tenHz_bound_below_true := by norm_num [toyPopIII10Hz]
+    fiveHz_bound_improves := by norm_num [toyPopIII5Hz, toyPopIII10Hz]
+    mass_uncertainty_reported := by norm_num [toyPopIII5Hz]
+    spin_constraint_recorded := by rfl
+    simulation_provenance := by simp [toyPopIII5Hz, toyPopIII10Hz] }
+
+example : toyPopIII5Hz.highRedshift := by
+  norm_num [PopIIIGWRemnantInference.highRedshift, toyPopIII5Hz]
+
+example : toyPopIIICutoffComparison.tenHz.redshiftLowerBound90 <
+    toyPopIIICutoffComparison.fiveHz.redshiftLowerBound90 := by
+  exact toyPopIIICutoffComparison.fiveHz_bound_improves
+
+example : PopIIIGWCutoffComparison.characterizationReady
+    toyPopIIICutoffComparison := by
+  simp [PopIIIGWCutoffComparison.characterizationReady,
+    PopIIIGWRemnantInference.characterizationReady,
+    toyPopIIICutoffComparison, toyPopIII5Hz, toyPopIII10Hz]
+  norm_num
+
 noncomputable def toyActivatedHolographyTransfer : HolographyMaskTransfer :=
   { state := HolographyMaskState.activatedMask
     amplitudeTransmission := 4 / 5
