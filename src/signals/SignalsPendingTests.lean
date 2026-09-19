@@ -908,6 +908,80 @@ example : toyHelicalFiberApparatus.beamPower.watts ≤
     toyHelicalFiberApparatus.sourcePower.watts := by
   exact toyHelicalFiberApparatus.beamPowerLaw
 
+noncomputable def toyNLIGProcessObservation : NLIGProcessObservation :=
+  { batchLabel := "N-LIG batch A"
+    precursorLabel := "lignin-cellulose nitrogen precursor"
+    atmosphereLabel := "nitrogen"
+    laserWavelength := { meters := 1.064e-6 }
+    laserWavelength_positive := by norm_num
+    incidentPower := { watts := 2 }
+    incidentPower_nonnegative := by norm_num
+    absorbedFluence := { joulesPerSquareMeter := 1000 }
+    absorbedFluence_nonnegative := by norm_num
+    substrateTemperature := { kelvin := 450 }
+    substrateTemperature_nonnegative := by norm_num
+    sheetResistance := 10
+    sheetResistance_nonnegative := by norm_num
+    ramanDToGRatio := 1
+    ramanDToGRatio_nonnegative := by norm_num
+    xpsNitrogenFraction := 1 / 10
+    xpsNitrogenFraction_nonnegative := by norm_num
+    heatAffectedZone := { meters := 1e-4 }
+    heatAffectedZone_nonnegative := by norm_num
+    patternFidelity := { value := 9 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    batchReplicateCount := 3
+    batchReplicateCount_min := by norm_num
+    instrumentCalibration := True
+    instrumentCalibration_hypothesis := True.intro
+    negativeControlPassed := True
+    negativeControlPassed_hypothesis := True.intro
+    artifactReference := "synthetic://nlig/process-v1" }
+
+example : toyNLIGProcessObservation.ingestionReady := by
+  simp [NLIGProcessObservation.ingestionReady, toyNLIGProcessObservation]
+
+noncomputable def toyFlatLightPropagationObservation : FlatLightPropagationObservation :=
+  { modeLabel := "aperture-matched classical control"
+    controlLabel := "Gaussian/Bessel/Airy matched-aperture control"
+    wavelength := { meters := 405e-9 }
+    wavelength_positive := by norm_num
+    apertureDiameter := { meters := 1e-3 }
+    apertureDiameter_positive := by norm_num
+    propagationDistance := { meters := 1e-2 }
+    propagationDistance_positive := by norm_num
+    inputPower := { watts := 1 }
+    inputPower_nonnegative := by norm_num
+    initialSecondMomentRadius := { meters := 1e-4 }
+    initialSecondMomentRadius_positive := by norm_num
+    finalSecondMomentRadius := { meters := 1e-4 }
+    finalSecondMomentRadius_positive := by norm_num
+    broadening := { meters := 0 }
+    broadeningLaw := by norm_num
+    broadeningUncertainty := { meters := 1e-6 }
+    broadeningUncertainty_nonnegative := by norm_num
+    psfResidual := 1 / 100
+    psfResidual_nonnegative := by norm_num
+    mtfResidual := 1 / 100
+    mtfResidual_nonnegative := by norm_num
+    sideLobeEnergyFraction := { value := 1 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    apertureMatchedControl := True
+    apertureMatchedControl_hypothesis := True.intro
+    detectorCalibration := True
+    detectorCalibration_hypothesis := True.intro
+    replicationCount := 3
+    replicationCount_min := by norm_num
+    artifactReference := "synthetic://flat-light/psf-v1" }
+
+example : toyFlatLightPropagationObservation.withinBroadeningBound := by
+  norm_num [FlatLightPropagationObservation.withinBroadeningBound,
+    toyFlatLightPropagationObservation]
+
+example : toyFlatLightPropagationObservation.supportsBoundedFlatLightClaim := by
+  simp [FlatLightPropagationObservation.supportsBoundedFlatLightClaim,
+    FlatLightPropagationObservation.withinBroadeningBound,
+    toyFlatLightPropagationObservation]
+  norm_num
+
 noncomputable def toyDDFFractureEvidence : DDFFractureCommunicationEvidence :=
   { sourceLabel := "controlled DDF transverse-mode fixture"
     defectObservableLabel := "independent vortex pressure proxy"

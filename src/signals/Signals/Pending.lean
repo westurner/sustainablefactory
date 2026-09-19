@@ -2450,6 +2450,105 @@ lemma PhaseSlipCleavage.rate_nonnegative
   exact div_nonneg cleavage.phaseSlipAmplitude_nonnegative
     (le_of_lt cleavage.photoresistBindingEnergy_positive)
 
+/-! ## Measured N-LIG and Flat-Light propagation boundaries
+
+These records keep the first engineering endpoints separate from the
+speculative Proca and phase-slip interpretations. A reproducible N-LIG process
+is a materials result; a bounded PSF broadening result is a propagation
+measurement. Neither result establishes a fundamental photon mass. -/
+
+/-- A finite N-LIG process/material characterization observation. -/
+structure NLIGProcessObservation where
+  batchLabel : String
+  precursorLabel : String
+  atmosphereLabel : String
+  laserWavelength : Length
+  laserWavelength_positive : 0 < laserWavelength.meters
+  incidentPower : Power
+  incidentPower_nonnegative : 0 ≤ incidentPower.watts
+  absorbedFluence : LaserFluence
+  absorbedFluence_nonnegative : 0 ≤ absorbedFluence.joulesPerSquareMeter
+  substrateTemperature : Temperature
+  substrateTemperature_nonnegative : 0 ≤ substrateTemperature.kelvin
+  sheetResistance : ℝ
+  sheetResistance_nonnegative : 0 ≤ sheetResistance
+  ramanDToGRatio : ℝ
+  ramanDToGRatio_nonnegative : 0 ≤ ramanDToGRatio
+  xpsNitrogenFraction : ℝ
+  xpsNitrogenFraction_nonnegative : 0 ≤ xpsNitrogenFraction
+  heatAffectedZone : Length
+  heatAffectedZone_nonnegative : 0 ≤ heatAffectedZone.meters
+  patternFidelity : BoundedFactor
+  batchReplicateCount : ℕ
+  batchReplicateCount_min : 2 ≤ batchReplicateCount
+  instrumentCalibration : Prop
+  instrumentCalibration_hypothesis : instrumentCalibration
+  negativeControlPassed : Prop
+  negativeControlPassed_hypothesis : negativeControlPassed
+  artifactReference : String
+
+/-- The N-LIG observation has enough provenance to enter a process comparison. -/
+def NLIGProcessObservation.ingestionReady
+    (observation : NLIGProcessObservation) : Prop :=
+  observation.batchLabel ≠ "" ∧
+    observation.precursorLabel ≠ "" ∧
+    observation.atmosphereLabel ≠ "" ∧
+    observation.artifactReference ≠ "" ∧
+    observation.instrumentCalibration ∧
+    observation.negativeControlPassed ∧
+    2 ≤ observation.batchReplicateCount
+
+/-- A finite aperture-matched Flat-Light propagation observation. -/
+structure FlatLightPropagationObservation where
+  modeLabel : String
+  controlLabel : String
+  wavelength : Length
+  wavelength_positive : 0 < wavelength.meters
+  apertureDiameter : Length
+  apertureDiameter_positive : 0 < apertureDiameter.meters
+  propagationDistance : Length
+  propagationDistance_positive : 0 < propagationDistance.meters
+  inputPower : Power
+  inputPower_nonnegative : 0 ≤ inputPower.watts
+  initialSecondMomentRadius : Length
+  initialSecondMomentRadius_positive : 0 < initialSecondMomentRadius.meters
+  finalSecondMomentRadius : Length
+  finalSecondMomentRadius_positive : 0 < finalSecondMomentRadius.meters
+  broadening : Length
+  broadeningLaw : broadening.meters =
+    finalSecondMomentRadius.meters - initialSecondMomentRadius.meters
+  broadeningUncertainty : Length
+  broadeningUncertainty_nonnegative : 0 ≤ broadeningUncertainty.meters
+  psfResidual : ℝ
+  psfResidual_nonnegative : 0 ≤ psfResidual
+  mtfResidual : ℝ
+  mtfResidual_nonnegative : 0 ≤ mtfResidual
+  sideLobeEnergyFraction : BoundedFactor
+  apertureMatchedControl : Prop
+  apertureMatchedControl_hypothesis : apertureMatchedControl
+  detectorCalibration : Prop
+  detectorCalibration_hypothesis : detectorCalibration
+  replicationCount : ℕ
+  replicationCount_min : 2 ≤ replicationCount
+  artifactReference : String
+
+/-- A propagation observation is bounded by its declared broadening uncertainty. -/
+def FlatLightPropagationObservation.withinBroadeningBound
+    (observation : FlatLightPropagationObservation) : Prop :=
+  |observation.broadening.meters| ≤ observation.broadeningUncertainty.meters
+
+/-- A zero-broadening candidate requires controls and replication; it remains a
+finite measurement predicate rather than a theorem of nondiffraction. -/
+def FlatLightPropagationObservation.supportsBoundedFlatLightClaim
+    (observation : FlatLightPropagationObservation) : Prop :=
+  observation.modeLabel ≠ "" ∧
+    observation.controlLabel ≠ "" ∧
+    observation.artifactReference ≠ "" ∧
+    observation.apertureMatchedControl ∧
+    observation.detectorCalibration ∧
+    2 ≤ observation.replicationCount ∧
+    observation.withinBroadeningBound
+
 /-! ## Shared evidence and calibration boundaries
 
 These records retain the raw scalar readings, instrument calibration, repeated

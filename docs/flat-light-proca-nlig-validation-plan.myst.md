@@ -85,7 +85,13 @@ frequency as supplied model data ([Pending.lean](../src/signals/Signals/Pending.
 `FlatLightLithography` records positive effective mass and idealized zero blur,
 while `PhaseSlipCleavage` records a supplied rate law
 ([Pending.lean](../src/signals/Signals/Pending.lean#L2126-L2162)). These are
-contracts to be tested, not existence theorems.
+contracts to be tested, not existence theorems. The measured boundary now also
+contains `NLIGProcessObservation` for batch/process characterization and
+`FlatLightPropagationObservation` for aperture-matched PSF/MTF and second-
+moment broadening. Their readiness predicates require artifact provenance,
+independent calibration, classical/negative controls, replication, and an
+uncertainty bound; they do not promote a material result or bounded beam
+propagation result to Proca evidence.
 
 ## Accepted Mechanics and Pending Contracts
 
@@ -720,32 +726,42 @@ that the N-LIG proposal or a vacuum Proca photon exists without further tests.
 
 ## Implementation Handoff
 
+The control-source manifest implementation is now available as
+`tools/flat_light_control_manifest.py`. It verifies the local WDM-MZI ZIP,
+Figshare LIG supplement, fused-silica Malitson YAML, and GWOSC catalog metadata
+under `.tmp/flat-light-open-data/`, while retaining CHIME/FRB as an explicit
+metadata-only external source until a bounded archive artifact and access terms
+are selected. The generated manifest records DOI/URL, license, MD5/SHA-256,
+file size, fields, and interpretation boundaries. It does not download or
+claim evidence for N-LIG, zero diffraction, or Proca physics.
+
 The next repository implementation should add:
 
-1. a source manifest for the WDM-MZI ZIP, Figshare LIG supplement,
-   RefractiveIndex.INFO YAML, CHIME catalog metadata, and GWOSC release;
-2. checksummed downloads under `.tmp/` with no raw artifacts committed;
-3. parsers that normalize spectra, $S$-parameters, optical constants, timing,
-   polarization, and calibration metadata into a common dataset contract;
-4. a classical waveguide fit with held-out prediction and uncertainty;
-5. a Proca nested-model fit that reports effective-cutoff versus transferable-mass
+1. parsers that normalize spectra, $S$-parameters, optical constants, timing,
+  polarization, and calibration metadata into a common dataset contract;
+2. checksummed download refreshes under `.tmp/` with no raw artifacts committed;
+3. a classical waveguide fit with held-out prediction and uncertainty;
+4. a Proca nested-model fit that reports effective-cutoff versus transferable-mass
    behavior;
-6. a PSF/MTF propagation analysis with aperture-matched controls;
-7. a four-or-more-beam holography solver and trilateration analyzer with
+5. [Contract complete] Populate `FlatLightPropagationObservation` from a PSF/MTF
+  propagation analysis with aperture-matched Gaussian, Bessel, Airy, fiber,
+  and photonic-crystal controls;
+6. a four-or-more-beam holography solver and trilateration analyzer with
   Gerchberg-Saxton/WGS baselines, `S0`-`S3` mask-state ablations, independent
   wavefront/range sensors, and held-out target patterns;
-8. a power-stepped CW N-LIG process search from sub-watt/low-watt operation to
-  a 20 W ceiling, with dose, HAZ, sheet resistance, Raman/XPS, yield, and
-  throughput accounting;
-9. a helical/vector-vortex apparatus using q-plate/SLM phase control, Stokes
+7. [Contract complete] Populate `NLIGProcessObservation` from a power-stepped
+  CW N-LIG process search from sub-watt/low-watt operation to a 20 W ceiling,
+  with dose, HAZ, sheet resistance, Raman/XPS, yield, and throughput
+  accounting;
+8. a helical/vector-vortex apparatus using q-plate/SLM phase control, Stokes
   polarimetry, OAM-spectrum recovery, longitudinal near-field controls, and
   four-beam power-scaling measurements;
-10. a blinded phase-slip/resist analysis that keeps chemistry separate from
+9. a blinded phase-slip/resist analysis that keeps chemistry separate from
    field residuals;
-11. an energy-ledger report implementing `EnergyExtractionEvidence`, tracking
+10. an energy-ledger report implementing `EnergyExtractionEvidence`, tracking
   storage change and pump/motive/auxiliary channels, and classifying results as
   classical, actively pumped, unresolved, or candidate additional source;
-12. a report generator with source DOI, license, checksum, schema, and
+11. a report generator with source DOI, license, checksum, schema, and
    interpretation boundary for every artifact.
 
 No implementation should populate `FlatLightLithography` or
