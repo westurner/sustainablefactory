@@ -67,6 +67,13 @@ inductive LaserReferenceRole
   | argonIonization
   | plasmaLens
   | solitonBus
+  | solitonSelfCompression
+  | solitonPropagationDynamics
+  | solitonCollision
+  | crossPhaseModulation
+  | oamModeMultiplexing
+  | modeCrosstalk
+  | longHaulTransmission
   | fieldResolvedSampling
   | frequencyComb
   | nanophotonicParametricOscillator
@@ -550,6 +557,83 @@ def laserReferenceSolitonQpuBusChat : LaserScholarlyReference where
   scopeNote :=
     "Chat-derived QPU-bus and N-LIG waveguide proposal; it is not evidence that the cited attosecond fibre or plasma-lens experiments realize a quantum processor bus."
 
+/-- Experimental hollow-capillary soliton self-compression and UV generation. -/
+def laserReferenceTravers2019SolitonCompression : LaserScholarlyReference where
+  bibKey := "travers2019solitonCompression"
+  title := "High-energy pulse self-compression and ultraviolet generation through soliton dynamics in hollow capillary fibres"
+  year := 2019
+  doi := some "10.1038/s41566-019-0416-4"
+  sourceUrl := "https://doi.org/10.1038/s41566-019-0416-4"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.experimental
+  powerEvidence := LaserReferencePowerEvidence.pulseEnergyOrFluence
+  roles := [LaserReferenceRole.solitonSelfCompression,
+    LaserReferenceRole.solitonPropagationDynamics,
+    LaserReferenceRole.dispersiveWave]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Experimental hollow-capillary work on high-energy soliton self-compression and ultraviolet dispersive-wave generation; it supports propagation and compression dynamics, not N-LIG room-temperature bus operation."
+
+/-- Review of optical soliton dynamics in gas-filled hollow-core fibres. -/
+def laserReferenceTravers2024HollowCoreReview : LaserScholarlyReference where
+  bibKey := "travers2024hollowCoreReview"
+  title := "Optical solitons in hollow-core fibres"
+  year := 2024
+  doi := some "10.1016/j.optcom.2023.130191"
+  sourceUrl := "https://doi.org/10.1016/j.optcom.2023.130191"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.review
+  powerEvidence := LaserReferencePowerEvidence.processParametersOnly
+  roles := [LaserReferenceRole.solitonPropagationDynamics,
+    LaserReferenceRole.solitonSelfCompression,
+    LaserReferenceRole.dispersiveWave]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Reviews gas-filled capillary, photonic-crystal, bandgap, and antiresonant hollow-core soliton dynamics, including self-compression, Raman shift, photoionization, plasma, and dispersive-wave effects."
+
+/-- Cross-phase modulation and soliton switching in nonlinear fibre couplers. -/
+def laserReferenceKivshar1993SolitonSwitching : LaserScholarlyReference where
+  bibKey := "kivshar1993solitonSwitching"
+  title := "Influence of cross-phase modulation on soliton switching in nonlinear optical fibers"
+  year := 1993
+  doi := some "10.1364/ol.18.000980"
+  sourceUrl := "https://doi.org/10.1364/ol.18.000980"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.theoretical
+  powerEvidence := LaserReferencePowerEvidence.noTransferableWattage
+  roles := [LaserReferenceRole.solitonCollision,
+    LaserReferenceRole.crossPhaseModulation,
+    LaserReferenceRole.solitonBus]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Analyzes cross-phase modulation versus self-phase modulation in nonlinear-fibre soliton switching and confirms the conclusions numerically; it is a conditional coupled-mode model, not single-photon Kerr evidence."
+
+/-- Long-haul six-mode OAM transmission in conventional multimode fibre. -/
+def laserReferenceWang2018OAMLongHaul : LaserScholarlyReference where
+  bibKey := "wang2018oamLongHaul"
+  title := "Directly using 88-km conventional multi-mode fiber for 6-mode orbital angular momentum multiplexing transmission"
+  year := 2018
+  doi := some "10.1364/oe.26.010038"
+  sourceUrl := "https://doi.org/10.1364/oe.26.010038"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.experimental
+  powerEvidence := LaserReferencePowerEvidence.processParametersOnly
+  roles := [LaserReferenceRole.oamModeMultiplexing,
+    LaserReferenceRole.modeCrosstalk,
+    LaserReferenceRole.longHaulTransmission,
+    LaserReferenceRole.solitonBus]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Demonstrates 120-Gbit/s QPSK transmission over 8.8 km of OM4 multimode fibre using six OAM mode groups, with 2x2 or 4x4 MIMO equalization; it is evidence for modal transport and crosstalk management, not soliton or N-LIG operation."
+
 /-- Ultra-low-threshold multi-octave nanophotonic parametric oscillator. -/
 def laserReferenceSekine2025MultiOctaveComb : LaserScholarlyReference where
   bibKey := "sekine2025multiOctaveComb"
@@ -641,13 +725,17 @@ def supplementalLaserMatterReferences : List LaserScholarlyReference :=
     laserReferenceHeinzerling2025AttosecondSoliton,
     laserReferenceSvirplys2025PlasmaLens,
     laserReferenceSolitonQpuBusChat,
+    laserReferenceTravers2019SolitonCompression,
+    laserReferenceTravers2024HollowCoreReview,
+    laserReferenceKivshar1993SolitonSwitching,
+    laserReferenceWang2018OAMLongHaul,
     laserReferenceSekine2025MultiOctaveComb,
     laserReferenceWarner2025OpticalQubitControl,
     laserReferenceAlmanakly2025ChiralInterconnect,
     laserReferenceLapointe2017DualBeamProcessing ]
 
 lemma supplementalLaserMatterReferences_count :
-  supplementalLaserMatterReferences.length = 15 := by
+  supplementalLaserMatterReferences.length = 19 := by
   rfl
 
 /-- The 13 unique works represented by the canonical attached bibliography. -/

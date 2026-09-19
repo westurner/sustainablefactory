@@ -1079,6 +1079,37 @@ example (gate : TwoQubitBusGate) (state : TwoQubitBasis → ℂ) :
       Matrix.mulVec gate.toGate state := by
   rfl
 
+example (dynamics : SolitonPropagationDynamics) :
+    dynamics.dispersionLength.meters =
+      dynamics.pulseDuration.seconds ^ 2 /
+        |dynamics.groupVelocityDispersion| := by
+  exact dynamics.dispersion_length_holds
+
+example (dynamics : SolitonPropagationDynamics) :
+    dynamics.nonlinearLength.meters =
+      1 / (dynamics.nonlinearCoefficient * dynamics.peakPower.watts) := by
+  exact dynamics.nonlinear_length_holds
+
+example (dynamics : SolitonPropagationDynamics) :
+    dynamics.solitonOrderSquared =
+      dynamics.dispersionLength.meters / dynamics.nonlinearLength.meters := by
+  exact dynamics.soliton_order_squared_holds
+
+example :
+    SolitonDynamicsOperator.homodyneReadout.defaultPlacement =
+      SolitonOperatorPlacement.offBus := by
+  rfl
+
+example :
+    SolitonDynamicsOperator.crossPhaseModulation.defaultPlacement =
+      SolitonOperatorPlacement.onBus := by
+  rfl
+
+example :
+    SolitonDynamicsOperator.resonantDispersiveWave.defaultPlacement =
+      SolitonOperatorPlacement.busInterface := by
+  rfl
+
 example (parameters : NanophotonicParametricOscillatorParameters) :
     parameters.oscillationThresholdEnergy.joules ≤
       parameters.pumpPulseEnergy.joules := by

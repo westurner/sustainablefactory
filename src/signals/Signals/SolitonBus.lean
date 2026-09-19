@@ -239,6 +239,133 @@ noncomputable def crossPhaseModulate (coupling : ℝ) (signal probe : Quadrature
     QuadraturePoint :=
   rotateQuadrature (kerrPhaseShift coupling signal.q) probe
 
+/-! ## Scholarly propagation dynamics -/
+
+/-- Propagation lengths and soliton-order data for a finite NLSE contract. -/
+structure SolitonPropagationDynamics where
+  pulseDuration : Duration
+  pulseDuration_pos : 0 < pulseDuration.seconds
+  peakPower : Power
+  peakPower_pos : 0 < peakPower.watts
+  groupVelocityDispersion : ℝ
+  groupVelocityDispersion_anomalous : groupVelocityDispersion < 0
+  nonlinearCoefficient : ℝ
+  nonlinearCoefficient_pos : 0 < nonlinearCoefficient
+  dispersionLength : Length
+  dispersionLength_pos : 0 < dispersionLength.meters
+  nonlinearLength : Length
+  nonlinearLength_pos : 0 < nonlinearLength.meters
+  solitonOrderSquared : ℝ
+  solitonOrderSquared_pos : 0 < solitonOrderSquared
+  dispersionLengthLaw :
+    dispersionLength.meters =
+      pulseDuration.seconds ^ 2 / |groupVelocityDispersion|
+  nonlinearLengthLaw :
+    nonlinearLength.meters =
+      1 / (nonlinearCoefficient * peakPower.watts)
+  solitonOrderSquaredLaw :
+    solitonOrderSquared = dispersionLength.meters / nonlinearLength.meters
+  fissionLength : Option Length
+  selfCompressionObserved : Prop
+  selfCompressionObserved_hypothesis : selfCompressionObserved
+  dispersiveWaveObserved : Prop
+  dispersiveWaveObserved_hypothesis : dispersiveWaveObserved
+  evidenceStatus : LaserEvidenceStatus
+
+lemma SolitonPropagationDynamics.dispersion_length_holds
+    (dynamics : SolitonPropagationDynamics) :
+    dynamics.dispersionLength.meters =
+      dynamics.pulseDuration.seconds ^ 2 /
+        |dynamics.groupVelocityDispersion| :=
+  dynamics.dispersionLengthLaw
+
+lemma SolitonPropagationDynamics.nonlinear_length_holds
+    (dynamics : SolitonPropagationDynamics) :
+    dynamics.nonlinearLength.meters =
+      1 / (dynamics.nonlinearCoefficient * dynamics.peakPower.watts) :=
+  dynamics.nonlinearLengthLaw
+
+lemma SolitonPropagationDynamics.soliton_order_squared_holds
+    (dynamics : SolitonPropagationDynamics) :
+    dynamics.solitonOrderSquared =
+      dynamics.dispersionLength.meters / dynamics.nonlinearLength.meters :=
+  dynamics.solitonOrderSquaredLaw
+
+/-- Two co-propagating pulses with a calibrated cross-phase collision law. -/
+structure SolitonCollisionDynamics where
+  signalAddress : LaneAddress
+  probeAddress : LaneAddress
+  effectiveInteractionLength : Length
+  effectiveInteractionLength_pos : 0 < effectiveInteractionLength.meters
+  probePower : Power
+  probePower_nonnegative : 0 ≤ probePower.watts
+  xpmCoefficient : ℝ
+  xpmCoefficient_nonnegative : 0 ≤ xpmCoefficient
+  xpmPhaseShift : ℝ
+  xpmPhaseShiftLaw :
+    xpmPhaseShift =
+      xpmCoefficient * probePower.watts * effectiveInteractionLength.meters
+  collisionObserved : Prop
+  collisionObserved_hypothesis : collisionObserved
+  crosstalkFraction : BoundedFactor
+  evidenceStatus : LaserEvidenceStatus
+
+lemma SolitonCollisionDynamics.xpm_phase_shift_holds
+    (collision : SolitonCollisionDynamics) :
+    collision.xpmPhaseShift =
+      collision.xpmCoefficient * collision.probePower.watts *
+        collision.effectiveInteractionLength.meters :=
+  collision.xpmPhaseShiftLaw
+
+/-- Long-haul OAM/MDM transmission data with measured crosstalk controls. -/
+structure OAMMultiplexingObservation where
+  fiberLength : Length
+  fiberLength_pos : 0 < fiberLength.meters
+  modeGroupCount : ℕ
+  modeGroupCount_pos : 0 < modeGroupCount
+  symbolRate : Frequency
+  symbolRate_pos : 0 < symbolRate.hz
+  dataRateGbps : ℝ
+  dataRateGbps_pos : 0 < dataRateGbps
+  modeCrosstalk : BoundedFactor
+  equalizerOrder : ℕ
+  equalizerOrder_pos : 0 < equalizerOrder
+  transmissionObserved : Prop
+  transmissionObserved_hypothesis : transmissionObserved
+  evidenceStatus : LaserEvidenceStatus
+
+/-- Operators can act inside the bus, at a bus interface, or off the bus. -/
+inductive SolitonOperatorPlacement
+  | onBus
+  | busInterface
+  | offBus
+  deriving DecidableEq, Repr
+
+inductive SolitonDynamicsOperator
+  | linearPropagation
+  | selfPhaseModulation
+  | crossPhaseModulation
+  | solitonSelfCompression
+  | resonantDispersiveWave
+  | oamModeCoupling
+  | homodyneReadout
+  | parityMeasurement
+  deriving DecidableEq, Repr
+
+def SolitonDynamicsOperator.defaultPlacement :
+    SolitonDynamicsOperator → SolitonOperatorPlacement
+  | SolitonDynamicsOperator.linearPropagation => SolitonOperatorPlacement.onBus
+  | SolitonDynamicsOperator.selfPhaseModulation => SolitonOperatorPlacement.onBus
+  | SolitonDynamicsOperator.crossPhaseModulation => SolitonOperatorPlacement.onBus
+  | SolitonDynamicsOperator.solitonSelfCompression =>
+      SolitonOperatorPlacement.onBus
+  | SolitonDynamicsOperator.resonantDispersiveWave =>
+      SolitonOperatorPlacement.busInterface
+  | SolitonDynamicsOperator.oamModeCoupling => SolitonOperatorPlacement.onBus
+  | SolitonDynamicsOperator.homodyneReadout => SolitonOperatorPlacement.offBus
+  | SolitonDynamicsOperator.parityMeasurement =>
+      SolitonOperatorPlacement.busInterface
+
 /-! ## Finite qubit operators on the bus -/
 
 abbrev QubitBasis : Type := Fin 2

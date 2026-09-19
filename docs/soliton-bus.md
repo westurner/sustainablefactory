@@ -73,9 +73,61 @@ modulation. These are finite mathematical operators, not claims that N-LIG
 provides the required nonlinear coefficient or low-loss quantum regime.
 
 The chat proposal describes Gaussian rotations and squeezing together with a
-Kerr/non-Gaussian path [in the optical-gate discussion](../data/chats/Breakthrough-in-Extreme-Dielectric-Nanolasers.md#L302)
-and proposes cross-phase modulation between OAM solitons [in the nonlinear interaction discussion](../data/chats/Breakthrough-in-Extreme-Dielectric-Nanolasers.md#L330).
+Kerr/non-Gaussian path in `data/chats/Breakthrough-in-Extreme-Dielectric-Nanolasers.md`
+and proposes cross-phase modulation between OAM solitons in that same chat.
 Those claims remain conditional in the model.
+
+## Dynamics Contracts
+
+The propagation layer now records the standard finite nonlinear-envelope
+quantities used in hollow-core soliton work:
+
+$$
+L_D = \frac{T_0^2}{|\beta_2|}, \qquad
+L_{NL} = \frac{1}{\gamma P_0}, \qquad
+N^2 = \frac{L_D}{L_{NL}}.
+$$
+
+`SolitonPropagationDynamics` stores the pulse duration $T_0$, peak power
+$P_0$, anomalous group-velocity dispersion $\beta_2$, nonlinear coefficient
+$\gamma$, both characteristic lengths, and the supplied soliton order. The
+record also keeps self-compression and resonant-dispersive-wave observations as
+hypotheses, because those outcomes depend on gas pressure, core geometry,
+loss, mode matching, and photoionization.
+
+`SolitonCollisionDynamics` makes the two-pulse interaction explicit:
+
+$$
+\Delta\phi_{XPM} = \gamma_{XPM} P_{probe} L_{eff}.
+$$
+
+The phase law is checked algebraically, while collision observation,
+nonabsorption, and crosstalk remain measured or conditional fields. This is the
+appropriate boundary for XPM and Kerr proposals: a formula for phase shift is
+not a demonstrated single-photon gate.
+
+`OAMMultiplexingObservation` records fibre length, mode-group count, symbol
+rate, data rate, modal crosstalk, and MIMO equalizer order. The long-haul OAM
+experiment below demonstrates modal transport and equalization, but it does
+not demonstrate soliton propagation or N-LIG fabrication.
+
+`SolitonDynamicsOperator.defaultPlacement` separates operator location:
+
+| Placement | Operators | Interpretation |
+| --- | --- | --- |
+| `onBus` | linear propagation, self-phase modulation, XPM, self-compression, OAM mode coupling | Co-propagating or in-guide dynamics, subject to dispersion, loss, and modal calibration. |
+| `busInterface` | resonant dispersive-wave generation, parity measurement | Requires a spectral or measurement boundary; not a transparent bus primitive by default. |
+| `offBus` | homodyne readout | A detector/local oscillator path outside the transported signal mode. |
+
+### Scholarly References
+
+<a id="travers2019"></a> Travers, J. C., Grigorova, T. F., Brahms, C., and Belli, F. (2019), [High-energy pulse self-compression and ultraviolet generation through soliton dynamics in hollow capillary fibres](https://doi.org/10.1038/s41566-019-0416-4). Experimental hollow-capillary self-compression and UV dispersive-wave generation.
+
+<a id="travers2024"></a> Travers, J. C. (2024), [Optical solitons in hollow-core fibres](https://doi.org/10.1016/j.optcom.2023.130191). Review of gas-filled hollow-core propagation, self-compression, Raman shifting, photoionization, plasma, and dispersive-wave effects.
+
+<a id="kivshar1993"></a> Kivshar, Y. S., and Quiroga-Teixeiro, M. L. (1993), [Influence of cross-phase modulation on soliton switching in nonlinear optical fibers](https://doi.org/10.1364/ol.18.000980). Coupled nonlinear-fibre model for XPM-mediated soliton switching.
+
+<a id="wang2018"></a> Wang, A. et al. (2018), [Directly using 88-km conventional multi-mode fiber for 6-mode orbital angular momentum multiplexing transmission](https://doi.org/10.1364/oe.26.010038). Reports 120-Gbit/s QPSK over 8.8 km of OM4 fibre with six OAM mode groups and 2x2 or 4x4 MIMO equalization.
 
 ## Evidence Boundary
 
