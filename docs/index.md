@@ -26,10 +26,18 @@ using the **Industrial Ontologies Foundry (IOF)** and sustainablefactory process
 [ [schema](schema.md) ]
 
 - **Parser**: Extracts steps, properties, and Mermaid diagrams.
-- **RDF Generator**: Produces Turtle-star (`.ttl`) with reified confidence metrics.
+- **RDF Generator**: Produces Turtle RDF (`.ttl`) with reified confidence metrics.
 - **Visualizer**: Integrated Mermaid diagrams for process flow overview.
 
-- [Soliton bus model](soliton-bus.md): finite multiplexing, routing, and
-	operator contracts with chat-derived evidence boundaries.
+## `sustainablefactory` research
+
+- Source chats
+  - `data/chats/*.{md,json}`
+- Quantum computing
+  - [Sustainable Quantum architecture](paper.myst.md)
+  - [Soliton bus model](soliton-bus.md): finite multiplexing, routing, and
+    operator contracts with chat-derived evidence boundaries.
+- [Chat physics catalog](chat-physics-catalog.md): applications, processes,
+	products, evidence status, and prioritized Signals-model update candidates.
 
 - See {ref}`readme`

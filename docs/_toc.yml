@@ -32,6 +32,8 @@ chapters:
 - file: workflow-performance-plan
 - file: dispersive-homodyne-plan
 - file: paper-model-review
+- file: soliton-bus
+- file: chat-physics-catalog
 - file: anti-fire-cannon-review.myst
 - file: water
 - file: chats/index
