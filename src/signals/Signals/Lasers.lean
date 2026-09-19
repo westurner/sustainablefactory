@@ -137,6 +137,119 @@ inductive ShockProcess
   | laserPeening
   deriving DecidableEq, Repr
 
+/-- Laser-matter interaction classes kept distinct from laser source families. -/
+inductive LaserInteractionKind
+  | surfacePlasmonPolariton
+  | coherentSynchrotronRadiation
+  | freeElectronSurfacePlasmonAmplification
+  | cavityElectrodynamics
+  | phononPolariton
+  deriving DecidableEq, Repr
+
+/-- Radiation channels that may coexist in a surface-mode model. -/
+inductive SurfaceEmissionChannel
+  | surfacePlasmonMode
+  | coherentSynchrotron
+  | vavilovCherenkov
+  deriving DecidableEq, Repr
+
+/-- Coupling regime for a material mode and a cavity mode. -/
+inductive CavityRegime
+  | classicalCoupledMode
+  | strongCoupling
+  | cavityQED
+  deriving DecidableEq, Repr
+
+/-- Parameters for the modeled near-critical microtube SPP/CSR mechanism. -/
+structure SurfacePlasmonCSRParameters where
+  driveWavelength : Length
+  driveWavelength_pos : 0 < driveWavelength.meters
+  microtubeRadius : Length
+  microtubeRadius_pos : 0 < microtubeRadius.meters
+  electronNumberDensity : ℝ
+  electronNumberDensity_nonnegative : 0 ≤ electronNumberDensity
+  emissionChannel : SurfaceEmissionChannel
+  emissionAngleRadians : ℝ
+  harmonicOrder : ℕ
+  harmonicOrder_pos : 0 < harmonicOrder
+  coherenceEnhancementFactor : ℝ
+  coherenceEnhancementFactor_nonnegative : 0 ≤ coherenceEnhancementFactor
+  highContrastLaserControl : Prop
+  highContrastLaserControl_hypothesis : highContrastLaserControl
+  microtubeAlignmentCalibrated : Prop
+  microtubeAlignmentCalibrated_hypothesis : microtubeAlignmentCalibrated
+  evidenceStatus : LaserEvidenceStatus
+
+/-- Parameters for free-electron pumping of a surface plasmon mode. -/
+structure FreeElectronSPPAmplificationParameters where
+  driveFrequency : Frequency
+  driveFrequency_pos : 0 < driveFrequency.hz
+  inputEnergy : Energy
+  inputEnergy_nonnegative : 0 ≤ inputEnergy.joules
+  emissionFrequency : Frequency
+  emissionFrequency_pos : 0 < emissionFrequency.hz
+  gainFactor : ℝ
+  gainFactor_nonnegative : 0 ≤ gainFactor
+  emitterMaterial : String
+  electronPumpCalibrated : Prop
+  electronPumpCalibrated_hypothesis : electronPumpCalibrated
+  evidenceStatus : LaserEvidenceStatus
+
+/-- Parameters for cavity electrodynamics and material-mode coupling. -/
+structure CavityElectrodynamicsParameters where
+  cavityModeFrequency : Frequency
+  cavityModeFrequency_pos : 0 < cavityModeFrequency.hz
+  matterModeFrequency : Frequency
+  matterModeFrequency_pos : 0 < matterModeFrequency.hz
+  couplingRate : Frequency
+  couplingRate_pos : 0 < couplingRate.hz
+  cavityLinewidth : Frequency
+  cavityLinewidth_pos : 0 < cavityLinewidth.hz
+  matterLinewidth : Frequency
+  matterLinewidth_pos : 0 < matterLinewidth.hz
+  cooperativity : ℝ
+  cooperativity_nonnegative : 0 ≤ cooperativity
+  regime : CavityRegime
+  avoidedCrossingObserved : Prop
+  avoidedCrossingObserved_hypothesis : avoidedCrossingObserved
+  evidenceStatus : LaserEvidenceStatus
+
+/-- Parameters for photon-phonon polariton confinement and propagation. -/
+structure PhononPolaritonParameters where
+  opticalFrequency : Frequency
+  opticalFrequency_pos : 0 < opticalFrequency.hz
+  phononFrequency : Frequency
+  phononFrequency_pos : 0 < phononFrequency.hz
+  confinementLength : Length
+  confinementLength_pos : 0 < confinementLength.meters
+  anisotropyFactor : ℝ
+  anisotropyFactor_nonnegative : 0 ≤ anisotropyFactor
+  evidenceStatus : LaserEvidenceStatus
+
+/-- A typed laser-matter interaction profile. -/
+inductive LaserInteractionProfile
+  | surfacePlasmonCSR (parameters : SurfacePlasmonCSRParameters)
+  | freeElectronSPPAmplification
+      (parameters : FreeElectronSPPAmplificationParameters)
+  | cavityElectrodynamics (parameters : CavityElectrodynamicsParameters)
+  | phononPolariton (parameters : PhononPolaritonParameters)
+
+/-- The interaction class associated with a laser-matter profile. -/
+def LaserInteractionProfile.kind : LaserInteractionProfile → LaserInteractionKind
+  | LaserInteractionProfile.surfacePlasmonCSR _ =>
+      LaserInteractionKind.coherentSynchrotronRadiation
+  | LaserInteractionProfile.freeElectronSPPAmplification _ =>
+      LaserInteractionKind.freeElectronSurfacePlasmonAmplification
+  | LaserInteractionProfile.cavityElectrodynamics _ =>
+      LaserInteractionKind.cavityElectrodynamics
+  | LaserInteractionProfile.phononPolariton _ =>
+      LaserInteractionKind.phononPolariton
+
+/-- A cavity profile is in the quantum-QED class only when explicitly labeled. -/
+def CavityElectrodynamicsParameters.isCavityQED
+    (parameters : CavityElectrodynamicsParameters) : Prop :=
+  parameters.regime = CavityRegime.cavityQED
+
 /-- Parameters shared by continuous-wave and pulsed laser profiles. -/
 structure CommonParameters where
   wavelength : Length

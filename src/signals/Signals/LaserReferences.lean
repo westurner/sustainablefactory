@@ -47,6 +47,12 @@ inductive LaserReferenceRole
   | ligninOrBiomass
   | polymerCarbon
   | nanodiamond
+  | surfacePlasmonPolariton
+  | coherentSynchrotronRadiation
+  | freeElectronPumping
+  | cavityElectrodynamics
+  | cavityQED
+  | phononPolariton
   | opticalModification
   | holography
   | masklessFabrication
@@ -308,6 +314,90 @@ def laserReferenceMikki2021 : LaserScholarlyReference where
   cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
   scopeNote :=
     "Theoretical Maxwell-Proca equivalence under spatial-dispersion assumptions; it does not provide a CW graphene or diamond synthesis threshold."
+
+/-- CSR from laser-excited SPP modes on a near-critical microtube surface. -/
+def laserReferenceLei2025Csr : LaserScholarlyReference where
+  bibKey := "lei2025csrSpp"
+  title := "Coherent Synchrotron Radiation by Excitation of Surface Plasmon Polariton on Near-Critical Solid Microtube Surface"
+  year := 2025
+  doi := some "10.1103/cnym-16hc"
+  sourceUrl := "https://arxiv.org/abs/2507.04561"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.theoretical
+  powerEvidence := LaserReferencePowerEvidence.noTransferableWattage
+  roles := [LaserReferenceRole.surfacePlasmonPolariton,
+    LaserReferenceRole.coherentSynchrotronRadiation]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Three-dimensional particle-in-cell study of laser-excited cylindrical SPP modes, surface-electron acceleration, and coherent X-ray CSR; it is not a cavity-QED or Proca experiment."
+
+/-- Free-electron-pumped plasmon amplification experiment behind the Nature news item. -/
+def laserReferenceZhang2022FreeElectron : LaserScholarlyReference where
+  bibKey := "zhang2022freeElectronSpp"
+  title := "Coherent surface plasmon polariton amplification via free-electron pumping"
+  year := 2022
+  doi := some "10.1038/s41586-022-05239-2"
+  sourceUrl := "https://doi.org/10.1038/s41586-022-05239-2"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.experimental
+  powerEvidence := LaserReferencePowerEvidence.processParametersOnly
+  roles := [LaserReferenceRole.surfacePlasmonPolariton,
+    LaserReferenceRole.freeElectronPumping]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "The Nature news report describes laser-driven electrons on an iron wire amplifying electromagnetic waves; it is not evidence of a graphene-circuit THz/eV input or a universal emission spectrum."
+
+/-- Measured graphite-cavity/graphene-plasmon avoided crossing. -/
+def laserReferenceKipp2024Cavity : LaserScholarlyReference where
+  bibKey := "kipp2024VdwCavity"
+  title := "Cavity electrodynamics of van der Waals heterostructures"
+  year := 2024
+  doi := some "10.1038/s41567-025-03064-8"
+  sourceUrl := "https://arxiv.org/abs/2403.19745"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.experimental
+  powerEvidence := LaserReferencePowerEvidence.processParametersOnly
+  roles := [LaserReferenceRole.cavityElectrodynamics,
+    LaserReferenceRole.surfacePlasmonPolariton]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "On-chip THz spectroscopy observes spectral-weight transfer and avoided crossing between graphite cavity and graphene plasmon modes; this is cavity electrodynamics with ultrastrong coupling, not automatically single-photon cavity QED."
+
+/-- Review of low-symmetry phonon-polaritonic crystals. -/
+def laserReferenceGaliffi2023PhononPolariton : LaserScholarlyReference where
+  bibKey := "galiffi2023phononPolariton"
+  title := "Extreme light confinement and control in low-symmetry phonon-polaritonic crystals"
+  year := 2023
+  doi := none
+  sourceUrl := "https://arxiv.org/abs/2312.06805"
+  localArtifactStatus := LaserReferenceArtifactStatus.accessBlocked
+  localArtifact := none
+  evidenceStatus := LaserReferenceEvidenceStatus.review
+  powerEvidence := LaserReferencePowerEvidence.processParametersOnly
+  roles := [LaserReferenceRole.phononPolariton,
+    LaserReferenceRole.opticalModification]
+  procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
+  cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
+  scopeNote :=
+    "Reviews hybrid photon-phonon modes, anisotropic confinement, and low-symmetry polar crystals; phonon-polariton propagation is distinct from SPP and cavity-QED labels."
+
+/-- Supplemental laser-matter references retained separately from the original
+13-work carbon-processing registry. -/
+def supplementalLaserMatterReferences : List LaserScholarlyReference :=
+  [ laserReferenceLei2025Csr,
+    laserReferenceZhang2022FreeElectron,
+    laserReferenceKipp2024Cavity,
+    laserReferenceGaliffi2023PhononPolariton ]
+
+lemma supplementalLaserMatterReferences_count :
+    supplementalLaserMatterReferences.length = 4 := by
+  rfl
 
 /-- The 13 unique works represented by the canonical attached bibliography. -/
 def attachedLaserScholarlyReferences : List LaserScholarlyReference :=
