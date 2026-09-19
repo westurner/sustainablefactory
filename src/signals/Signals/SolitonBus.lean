@@ -297,14 +297,17 @@ structure SolitonCollisionDynamics where
   probeAddress : LaneAddress
   effectiveInteractionLength : Length
   effectiveInteractionLength_pos : 0 < effectiveInteractionLength.meters
+  signalPower : Power
+  signalPower_nonnegative : 0 ≤ signalPower.watts
   probePower : Power
   probePower_nonnegative : 0 ≤ probePower.watts
+  /-- Includes the convention-dependent XPM factor and modal overlap. -/
   xpmCoefficient : ℝ
   xpmCoefficient_nonnegative : 0 ≤ xpmCoefficient
   xpmPhaseShift : ℝ
   xpmPhaseShiftLaw :
     xpmPhaseShift =
-      xpmCoefficient * probePower.watts * effectiveInteractionLength.meters
+      xpmCoefficient * signalPower.watts * effectiveInteractionLength.meters
   collisionObserved : Prop
   collisionObserved_hypothesis : collisionObserved
   crosstalkFraction : BoundedFactor
@@ -313,7 +316,7 @@ structure SolitonCollisionDynamics where
 lemma SolitonCollisionDynamics.xpm_phase_shift_holds
     (collision : SolitonCollisionDynamics) :
     collision.xpmPhaseShift =
-      collision.xpmCoefficient * collision.probePower.watts *
+      collision.xpmCoefficient * collision.signalPower.watts *
         collision.effectiveInteractionLength.meters :=
   collision.xpmPhaseShiftLaw
 

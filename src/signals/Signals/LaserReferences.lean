@@ -632,7 +632,7 @@ def laserReferenceWang2018OAMLongHaul : LaserScholarlyReference where
   procaFieldStatus := LaserReferenceClaimStatus.notDemonstrated
   cwHolographicCarbonSynthesisStatus := LaserReferenceClaimStatus.notDemonstrated
   scopeNote :=
-    "Demonstrates 120-Gbit/s QPSK transmission over 8.8 km of OM4 multimode fibre using six OAM mode groups, with 2x2 or 4x4 MIMO equalization; it is evidence for modal transport and crosstalk management, not soliton or N-LIG operation."
+    "The published title says 88-km, while the abstract reports 8.8 km of OM4 multimode fibre. This registry follows the abstract's 8.8 km figure: 120-Gbit/s QPSK, six OAM mode groups, and 2x2 or 4x4 MIMO equalization. It is evidence for modal transport and crosstalk management, not soliton or N-LIG operation."
 
 /-- Ultra-low-threshold multi-octave nanophotonic parametric oscillator. -/
 def laserReferenceSekine2025MultiOctaveComb : LaserScholarlyReference where

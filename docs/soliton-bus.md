@@ -98,13 +98,19 @@ loss, mode matching, and photoionization.
 `SolitonCollisionDynamics` makes the two-pulse interaction explicit:
 
 $$
-\Delta\phi_{XPM} = \gamma_{XPM} P_{probe} L_{eff}.
+\Delta\phi_{probe,XPM} = \gamma_{XPM} P_{signal} L_{eff}.
 $$
 
-The phase law is checked algebraically, while collision observation,
-nonabsorption, and crosstalk remain measured or conditional fields. This is the
-appropriate boundary for XPM and Kerr proposals: a formula for phase shift is
-not a demonstrated single-photon gate.
+The phase law is checked algebraically. The coefficient includes the chosen
+XPM convention and modal-overlap factor; it is not a universal material
+constant. Collision observation, nonabsorption, and crosstalk remain measured
+or conditional fields. This is the appropriate boundary for XPM and Kerr
+proposals: a formula for phase shift is not a demonstrated single-photon gate.
+
+This is also a review correction: the phase shift is driven by the interacting
+signal power, not by the probe power being phase-shifted. Both powers remain in
+the record so self-phase, probe loading, and collision bookkeeping can be
+extended without changing the meaning of the XPM law.
 
 `OAMMultiplexingObservation` records fibre length, mode-group count, symbol
 rate, data rate, modal crosstalk, and MIMO equalizer order. The long-haul OAM
@@ -127,7 +133,7 @@ not demonstrate soliton propagation or N-LIG fabrication.
 
 <a id="kivshar1993"></a> Kivshar, Y. S., and Quiroga-Teixeiro, M. L. (1993), [Influence of cross-phase modulation on soliton switching in nonlinear optical fibers](https://doi.org/10.1364/ol.18.000980). Coupled nonlinear-fibre model for XPM-mediated soliton switching.
 
-<a id="wang2018"></a> Wang, A. et al. (2018), [Directly using 88-km conventional multi-mode fiber for 6-mode orbital angular momentum multiplexing transmission](https://doi.org/10.1364/oe.26.010038). Reports 120-Gbit/s QPSK over 8.8 km of OM4 fibre with six OAM mode groups and 2x2 or 4x4 MIMO equalization.
+<a id="wang2018"></a> Wang, A. et al. (2018), [Directly using 88-km conventional multi-mode fiber for 6-mode orbital angular momentum multiplexing transmission](https://doi.org/10.1364/oe.26.010038). The title says 88 km, while the abstract reports 8.8 km of OM4 fibre; the model follows the abstract and records 120-Gbit/s QPSK, six OAM mode groups, and 2x2 or 4x4 MIMO equalization.
 
 ## Evidence Boundary
 

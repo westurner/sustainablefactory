@@ -1095,6 +1095,12 @@ example (dynamics : SolitonPropagationDynamics) :
       dynamics.dispersionLength.meters / dynamics.nonlinearLength.meters := by
   exact dynamics.soliton_order_squared_holds
 
+example (collision : SolitonCollisionDynamics) :
+    collision.xpmPhaseShift =
+      collision.xpmCoefficient * collision.signalPower.watts *
+        collision.effectiveInteractionLength.meters := by
+  exact collision.xpm_phase_shift_holds
+
 example :
     SolitonDynamicsOperator.homodyneReadout.defaultPlacement =
       SolitonOperatorPlacement.offBus := by
