@@ -45,6 +45,19 @@ interpretation while keeping experimental premises explicit:
 - `Signals.OAM` represents a finite normalized OAM qudit and computes its basis
   state count. The exact identity `100^10 = 10^20` is a combinatorial result,
   not a performance or physical-realizability claim.
+- `Signals.SolitonBus` models the proposed soliton transport layer with finite
+   WDM, MDM, OAM, polarization, and time-slot addresses; selectors,
+   demultiplexing, injective routing plans, and bucket-brigade fan-out; a
+   complete Boolean operator inventory; finite quadrature operations; and
+   explicit one-qubit, controlled, swap, and Toffoli matrix operators. Its
+   dynamics contracts expose dispersion length, nonlinear length, soliton order,
+   self-compression/dispersive-wave observations, signal-driven XPM collision
+   phase, OAM modal crosstalk, MIMO equalization, and on-bus/interface/off-bus
+   operator placement. The source chats remain proposal evidence: the model does
+   not establish room-temperature N-LIG soliton stability, single-photon Kerr
+   coupling, nondestructive parity measurement, or a fault-tolerant QPU. See
+   [`docs/soliton-bus.md`](../../docs/soliton-bus.md) and the
+   [signal-phase chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L8547).
 - `Signals.Physlib` imports Physlib's compatible free-space parameter model and
    proves a small interface lemma over its `FreeSpace` parameters.
 - `Signals.Proca` provides a normalized massive-vector mode with explicit mass,
