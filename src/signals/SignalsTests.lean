@@ -22,6 +22,7 @@ open Signals.MHD
 open Signals.Radio
 open Signals.DDF
 open Signals.Lasers
+open Signals.SolitonBus
 
 def zeroCalculus : VectorCalculus where
   divergence := fun _ => 0
@@ -1013,6 +1014,69 @@ example : LaserKind.defaultEvidence LaserKind.hollowCoreSoliton =
 
 example : LaserKind.defaultEvidence LaserKind.nanophotonicParametricOscillator =
     LaserEvidenceStatus.demonstratedProcess := by
+  rfl
+
+example : completeClassicalBusOperators.length = 8 := by
+  exact completeClassicalBusOperators_count
+
+example (left right : Bool) :
+    classicalNand (classicalNand left right)
+      (classicalNand left right) = classicalAnd left right := by
+  exact nand_complete_and left right
+
+example : parity [true, false, true] = false := by
+  rfl
+
+def toySolitonAddress : LaneAddress where
+  wavelengthChannel := 3
+  spatialMode := 2
+  oamCharge := 7
+  polarizationChannel := 1
+  timeSlot := 4
+
+def toySolitonSelector : LaneSelector where
+  wavelengthChannel := some 3
+  spatialMode := some 2
+  oamCharge := some 7
+  polarizationChannel := some 1
+  timeSlot := some 4
+
+def toySolitonFrame : ClassicalSolitonFrame where
+  address := toySolitonAddress
+  amplitude := 1
+  phase := 0
+  energy := { joules := 1 }
+  energy_nonnegative := by norm_num
+
+example : toySolitonSelector.matches toySolitonAddress = true := by
+  rfl
+
+example : demultiplex toySolitonSelector [toySolitonFrame] = [toySolitonFrame] := by
+  rfl
+
+example : completeQuantumBusGenerators.length = 7 := by
+  exact completeQuantumBusGenerators_count
+
+example (gate : OneQubitBusGate) : isUnitaryMatrix gate.toGate := by
+  exact gate.unitary
+
+example : Function.Involutive cnotMap := by
+  exact cnotMap_involutive
+
+example : Function.Involutive swapMap := by
+  exact swapMap_involutive
+
+example : Function.Involutive toffoliMap := by
+  exact toffoliMap_involutive
+
+example (gate : OneQubitBusGate) (state : QubitBasis → ℂ) :
+    applyOneQubitGate gate state =
+      Matrix.mulVec gate.toGate state := by
+  rfl
+
+example (gate : TwoQubitBusGate) (state : TwoQubitBasis → ℂ) :
+    applyTwoQubitGate gate state =
+      Matrix.mulVec gate.toGate state := by
   rfl
 
 example (parameters : NanophotonicParametricOscillatorParameters) :

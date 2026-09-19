@@ -29,4 +29,7 @@ using the **Industrial Ontologies Foundry (IOF)** and sustainablefactory process
 - **RDF Generator**: Produces Turtle-star (`.ttl`) with reified confidence metrics.
 - **Visualizer**: Integrated Mermaid diagrams for process flow overview.
 
+- [Soliton bus model](soliton-bus.md): finite multiplexing, routing, and
+	operator contracts with chat-derived evidence boundaries.
+
 - See {ref}`readme`
