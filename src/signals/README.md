@@ -5,6 +5,15 @@ signal-processing parts of the sustainablefactory research notes. It is a
 research companion, not a claim that the proposed hardware or physical
 mechanisms have been experimentally validated.
 
+## Research Workflow
+
+For chat-derived changes, first use the [research evidence triage skill](../../.agents/skills/research-evidence-triage/SKILL.md)
+to capture source lines and classify the claim. Then use the [Signals evidence modeling skill](../../.agents/skills/signals-evidence-modeling/SKILL.md)
+to choose a verified module, `Signals.Pending`, or a process/catalog record.
+The current cross-topic review is in the [chat physics catalog](../../docs/chat-physics-catalog.md).
+Type-checking a finite record proves only its stated assumptions; it does not
+establish the proposed material, hardware, or operating regime.
+
 ## Current Scope
 
 The current build deliberately implements statements with a clear mathematical

@@ -5,6 +5,17 @@ Modeling sustainable factory processes with Linked Data and MyST Markdown.
 ## Overview
 This project parses industrial process descriptions (stored as MyST Markdown and JSON chat exports) and converts them into a structured graph linked data representation using the [Industrial Ontologies Foundry (IOF)](https://spec.industrialontologies.org/) core schema.
 
+## Research and Evidence Workflow
+
+Chat-derived physics and engineering work follows an explicit evidence
+boundary. Use the [research evidence triage skill](.agents/skills/research-evidence-triage/SKILL.md)
+to search and cite source chats, then use the [Signals evidence modeling skill](.agents/skills/signals-evidence-modeling/SKILL.md)
+to decide whether a result belongs in verified Lean Signals, `Signals.Pending`,
+the process/RDF catalog, or an exclusions list. The [chat physics catalog](docs/chat-physics-catalog.md)
+shows the current applications, processes, products, evidence status, and
+recommended model updates. See [AGENTS.md](AGENTS.md) for project-wide
+boundaries and validation commands.
+
 ## Features
 - **MyST Markdown & JSON Parser**: Extracts process steps, properties, equipment, materials, cost figures, metrics, and source citations.
 - **Linked Data**

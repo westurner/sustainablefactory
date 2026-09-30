@@ -2,6 +2,35 @@
 
 This document defines specialized agents and their purposes for working with the sustainablefactory project. Use these agent descriptions to guide your work on specific tasks.
 
+## Research Evidence and Signals Workflow
+
+Use the reusable workspace skills for chat-derived physics, engineering, and
+process work:
+
+- [Research evidence triage](.agents/skills/research-evidence-triage/SKILL.md)
+  searches the chat corpus, deduplicates sources, captures file-and-line
+  citations, checks scholarly provenance, and assigns an evidence status.
+- [Signals evidence modeling](.agents/skills/signals-evidence-modeling/SKILL.md)
+  maps that status to the smallest verified Signals model, Pending contract,
+  process/catalog entry, focused test, and documentation update.
+
+Keep the following boundaries visible throughout the workflow:
+
+1. Chat text is design evidence and provenance, not a measurement by itself.
+2. A checked equation or type-correct record proves only the consequences of
+  its supplied fields; it does not validate the material, hardware, or
+  physical premise.
+3. Missing units, calibration, uncertainty, loss, controls, conservation
+  accounting, or reproducible data keep a result in Pending or catalog-only
+  status.
+4. Every substantive chat-derived statement in a report or catalog needs a
+  directly searched source file and line reference.
+
+For model changes, start with the owning module and a nearby test, make one
+small falsifiable change, run the focused check, then run `make signals_build`
+from the repository root.
+If documentation changed, also run `make -C docs html` and `git diff --check`.
+
 ## GPE Terminology
 
 The Signals Pending model uses distinct records for the three meanings that
