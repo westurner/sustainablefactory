@@ -1,8 +1,6 @@
 //! Native numerical diagnostics for the Signals Pending boundary.
 //!
-//! This crate computes finite summaries and validates input metadata. It does
-//! not prove a physical fracture, solve a complete GP model, or identify a
-//! new propagation mechanism.
+//! This crate computes finite summaries and validates input metadata.
 
 use std::fmt;
 
