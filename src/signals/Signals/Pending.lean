@@ -1499,41 +1499,175 @@ lemma HawkingRadiationDecoding.comparison_ready
     decoding.als.iterationsWithinLimit,
     decoding.inputComparison.residualWithinTolerance⟩
 
-/-- Medium domains proposed for pending massive-vector propagation. -/
-inductive MediumDomain
+/-- Physical constituents that may be mixed within one propagation layer. -/
+inductive MediumConstituent
   | atmosphere
   | cloud
-  | lithosphere
-  | ionosphere
-  | waveguide
-  | throughSpace
-  | throughBody (body : BodyTarget)
+  | dirt
+  | drySoil
+  | ionizedArgon
+  | neutralArgon
+  | procaMetamaterial
+  | rock
+  | soil
+  | vacuum
+  | wetSoil
   deriving DecidableEq, Repr
 
-/-- An LF/VLF test vector explicitly assigned to a named through-body domain. -/
+/-- Constitutive response regimes are labels, not mixture constituents. -/
+inductive MediumResponseRegime
+  | ordinary
+  | epsilonNearZero
+  | plasma
+  deriving DecidableEq, Repr
+
+/-- Geometry or environment for a propagation path. -/
+inductive PropagationRegime
+  | freeSpace
+  | ionosphericPath
+  | lithosphericPath
+  | throughBody (body : BodyTarget)
+  | troposphericDuct
+  | waveguide
+  deriving DecidableEq, Repr
+
+/-- Basis used for dimensionless constituent shares. -/
+inductive CompositionBasis
+  | volume
+  | mass
+  | mole
+  deriving DecidableEq, Repr
+
+/-- A normalized, unordered composition of distinct physical constituents.
+
+Shares are stored as fractions in `[0, 1]`; for example, 25% is `0.25`.
+Choose one basis for the whole composition. -/
+structure MediumComposition where
+  basis : CompositionBasis
+  constituents : Finset MediumConstituent
+  fraction : MediumConstituent → BoundedFactor
+  fractions_sum_to_one :
+    constituents.sum (fun constituent => (fraction constituent).value) = 1
+
+/-- One ordered propagation layer, with its composition, response regimes,
+thickness, and bulk-loss inputs kept separate. -/
+structure PropagationLayer where
+  composition : MediumComposition
+  responseRegimes : Finset MediumResponseRegime
+  thickness : Length
+  thickness_positive : 0 < thickness.meters
+  bulkLoss : MediumLoss
+
+/-- An ordered, frequency-specific stack with explicit boundary interfaces.
+
+The interface list has one entry before the first layer, between each adjacent
+pair, and after the final layer. No effective permittivity or aggregate
+attenuation is inferred by averaging the layer inputs. -/
+structure LayeredPropagationPath where
+  geometry : PropagationRegime
+  frequency : Frequency
+  frequency_positive : 0 < frequency.hz
+  layers : List PropagationLayer
+  layers_nonempty : layers ≠ []
+  interfaces : List InterfaceResponse
+  interface_count : interfaces.length = layers.length + 1
+
+/-- Sum of the declared physical layer thicknesses along the path. -/
+def LayeredPropagationPath.totalThickness (path : LayeredPropagationPath) : ℝ :=
+  path.layers.foldl (fun total layer => total + layer.thickness.meters) 0
+
+/-- An LF/VLF test vector explicitly assigned to a named through-body path. -/
 structure ThroughBodyRadioTestVector where
   target : BodyTarget
-  domain : MediumDomain
+  geometry : PropagationRegime
   frequency : RadioTestVector
-  domainLaw : domain = MediumDomain.throughBody target
+  geometryLaw : geometry = PropagationRegime.throughBody target
 
-/-- The domain recorded by a through-body vector is its target body. -/
-lemma ThroughBodyRadioTestVector.domain_eq_target
+/-- The geometry recorded by a through-body vector is its target body. -/
+lemma ThroughBodyRadioTestVector.geometry_eq_target
     (vector : ThroughBodyRadioTestVector) :
-    vector.domain = MediumDomain.throughBody vector.target :=
-  vector.domainLaw
+    vector.geometry = PropagationRegime.throughBody vector.target :=
+  vector.geometryLaw
 
-/-- A pending Proca channel treats a longitudinal massive mode as supplied
-model data for one propagation domain. -/
+/-- A pending Proca channel associates a supplied mode with an ordered path. -/
 structure ProcaChannel where
-  domain : MediumDomain
+  path : LayeredPropagationPath
   model : Proca.Model
   field : Proca.DrivenField model
   mode : Proca.Mode model
   link : LinkBudget
+  pathFrequencyLaw : path.frequency.hz = mode.frequency
+  pathDistanceLaw : path.totalThickness = link.distance.meters
   longitudinalCoupling : ℝ
   longitudinalCoupling_nonzero : longitudinalCoupling ≠ 0
   longitudinalModeAssumed : longitudinalCoupling * mode.longitudinalWaveNumber ≠ 0
+
+/-- Physical interpretation assigned to a measured field pattern. -/
+inductive ProcaModeInterpretation
+  | massiveLongitudinal
+  | materialLongitudinalEz
+  | transverseMaxwellControl
+  deriving DecidableEq, Repr
+
+/-- Coordinate representation used to analyze a field; it is not a mode type. -/
+inductive ProcaStateRepresentation
+  | spacetimeVector
+  | twistorCoordinates
+  deriving DecidableEq, Repr
+
+/-- Provenance class for propagation-trial inputs. -/
+inductive ProcaEvidenceStatus
+  | proposal
+  | simulation
+  | calibratedMeasurement
+  deriving DecidableEq, Repr
+
+/-- A medium-specific Proca/longitudinal-field propagation trial.
+
+The shared link budget accounts for bulk, interface, and coupling losses. The
+mode label, field fractions, dispersion residuals, and control residuals are
+trial inputs: a nonzero `Ez` fraction or a twistor coordinate representation
+does not establish a massive Proca mode. -/
+structure ProcaPropagationTrial where
+  path : LayeredPropagationPath
+  frequency : Frequency
+  frequency_nonnegative : 0 ≤ frequency.hz
+  pathFrequencyLaw : path.frequency.hz = frequency.hz
+  interpretation : ProcaModeInterpretation
+  representation : ProcaStateRepresentation
+  evidenceStatus : ProcaEvidenceStatus
+  link : LinkBudget
+  pathDistanceLaw : path.totalThickness = link.distance.meters
+  ezFieldFraction : BoundedFactor
+  longitudinalFieldFraction : BoundedFactor
+  attenuationUncertaintyPerLength : ℝ
+  attenuationUncertainty_nonnegative : 0 ≤ attenuationUncertaintyPerLength
+  procaDispersionResidual : ℝ
+  procaDispersionResidual_nonnegative : 0 ≤ procaDispersionResidual
+  procaDispersionTolerance : ℝ
+  procaDispersionTolerance_nonnegative : 0 ≤ procaDispersionTolerance
+  masslessControlResidual : ℝ
+  masslessControlResidual_nonnegative : 0 ≤ masslessControlResidual
+  masslessControlSeparationThreshold : ℝ
+  masslessControlSeparationThreshold_nonnegative :
+    0 ≤ masslessControlSeparationThreshold
+
+/-- Explicit criteria for calling a trial evidence for a massive longitudinal mode.
+
+The predicate is only as good as its supplied calibration and residual data; it
+does not certify that an experiment was performed correctly. -/
+def ProcaPropagationTrial.procaModeQualified (trial : ProcaPropagationTrial) : Prop :=
+  trial.evidenceStatus = ProcaEvidenceStatus.calibratedMeasurement ∧
+  trial.interpretation = ProcaModeInterpretation.massiveLongitudinal ∧
+  0 < trial.longitudinalFieldFraction.value ∧
+  trial.procaDispersionResidual ≤ trial.procaDispersionTolerance ∧
+  trial.masslessControlResidual ≥ trial.masslessControlSeparationThreshold
+
+/-- A propagation trial inherits the passive received-power bound from its link budget. -/
+lemma ProcaPropagationTrial.receivedPower_le_sourcePower
+    (trial : ProcaPropagationTrial) :
+    trial.link.receivedPower ≤ trial.link.sourcePower.watts :=
+  trial.link.receivedPower_le_sourcePower
 
 /-- The role assigned to a Pending Proca field at an MHD interface. -/
 inductive ProcaMHDFieldRole

@@ -102,18 +102,138 @@ noncomputable def toyPendingLink : LinkBudget :=
         absorption_nonnegative := by norm_num
         power_conservation := by norm_num } }
 
+noncomputable def toyPureMediumComposition (constituent : MediumConstituent) : MediumComposition :=
+  { basis := CompositionBasis.volume
+    constituents := {constituent}
+    fraction := fun _ => { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    fractions_sum_to_one := by simp }
+
+noncomputable def toySoilRockComposition : MediumComposition := by
+  let fraction : MediumConstituent → BoundedFactor := fun constituent =>
+    if constituent = MediumConstituent.soil then
+      { value := 3 / 4, nonnegative := by norm_num, le_one := by norm_num }
+    else
+      { value := 1 / 4, nonnegative := by norm_num, le_one := by norm_num }
+  refine
+    { basis := CompositionBasis.volume
+      constituents := {MediumConstituent.soil, MediumConstituent.rock}
+      fraction := fraction
+      fractions_sum_to_one := ?_ }
+  rw [Finset.sum_insert (by simp)]
+  simp [fraction]
+  norm_num
+
+noncomputable def toySoilRockLayer : PropagationLayer :=
+  { composition := toySoilRockComposition
+    responseRegimes := {MediumResponseRegime.ordinary}
+    thickness := { meters := 1 }
+    thickness_positive := by norm_num
+    bulkLoss := toyPendingLink.medium }
+
+noncomputable def toyRockLayer : PropagationLayer :=
+  { composition := toyPureMediumComposition MediumConstituent.rock
+    responseRegimes := {MediumResponseRegime.ordinary}
+    thickness := { meters := 2 }
+    thickness_positive := by norm_num
+    bulkLoss := toyPendingLink.medium }
+
+noncomputable def toyThroughSpacePath : LayeredPropagationPath :=
+  { geometry := PropagationRegime.freeSpace
+    frequency := { hz := 5 }
+    frequency_positive := by norm_num
+    layers := [
+      { composition := toyPureMediumComposition MediumConstituent.vacuum
+        responseRegimes := {MediumResponseRegime.ordinary}
+        thickness := { meters := 1 }
+        thickness_positive := by norm_num
+        bulkLoss := toyPendingLink.medium }
+    ]
+    layers_nonempty := by simp
+    interfaces := [toyPendingLink.interface, toyPendingLink.interface]
+    interface_count := by norm_num }
+
+noncomputable def toySoilRockPath : LayeredPropagationPath :=
+  { geometry := PropagationRegime.lithosphericPath
+    frequency := { hz := 400e9 }
+    frequency_positive := by norm_num
+    layers := [toySoilRockLayer]
+    layers_nonempty := by simp
+    interfaces := [toyPendingLink.interface, toyPendingLink.interface]
+    interface_count := by norm_num }
+
+noncomputable def toyOrderedLayerPath : LayeredPropagationPath :=
+  { geometry := PropagationRegime.lithosphericPath
+    frequency := { hz := 400e9 }
+    frequency_positive := by norm_num
+    layers := [toySoilRockLayer, toyRockLayer]
+    layers_nonempty := by simp
+    interfaces := [toyPendingLink.interface, toyPendingLink.interface,
+      toyPendingLink.interface]
+    interface_count := by norm_num }
+
+example : toySoilRockComposition.constituents.sum
+    (fun constituent => (toySoilRockComposition.fraction constituent).value) = 1 :=
+  toySoilRockComposition.fractions_sum_to_one
+
+example : toyOrderedLayerPath.layers = [toySoilRockLayer, toyRockLayer] := by
+  rfl
+
+example : toyOrderedLayerPath.totalThickness = 3 := by
+  norm_num [LayeredPropagationPath.totalThickness, toyOrderedLayerPath,
+    toySoilRockLayer, toyRockLayer]
+
 noncomputable def toyChannel : ProcaChannel :=
-  { domain := MediumDomain.throughSpace
+  { path := toyThroughSpacePath
     model := toyModel
     field := toyField
     mode := toyMode
     link := toyPendingLink
+    pathFrequencyLaw := by rfl
+    pathDistanceLaw := by norm_num [LayeredPropagationPath.totalThickness,
+      toyThroughSpacePath, toyPendingLink]
     longitudinalCoupling := 1
     longitudinalCoupling_nonzero := by norm_num
     longitudinalModeAssumed := by norm_num [toyMode] }
 
 example : toyChannel.longitudinalCoupling * toyChannel.mode.longitudinalWaveNumber ≠ 0 := by
   exact toyChannel.longitudinalModeAssumed
+
+noncomputable def toyEzPropagationTrial : ProcaPropagationTrial :=
+  { path := toySoilRockPath
+    frequency := { hz := 400e9 }
+    frequency_nonnegative := by norm_num
+    pathFrequencyLaw := by rfl
+    interpretation := ProcaModeInterpretation.materialLongitudinalEz
+    representation := ProcaStateRepresentation.twistorCoordinates
+    evidenceStatus := ProcaEvidenceStatus.simulation
+    link := toyPendingLink
+    pathDistanceLaw := by norm_num [LayeredPropagationPath.totalThickness,
+      toySoilRockPath, toySoilRockLayer, toyPendingLink]
+    ezFieldFraction := { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    longitudinalFieldFraction :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    attenuationUncertaintyPerLength := 0
+    attenuationUncertainty_nonnegative := by norm_num
+    procaDispersionResidual := 1
+    procaDispersionResidual_nonnegative := by norm_num
+    procaDispersionTolerance := 1 / 100
+    procaDispersionTolerance_nonnegative := by norm_num
+    masslessControlResidual := 0
+    masslessControlResidual_nonnegative := by norm_num
+    masslessControlSeparationThreshold := 1 / 10
+    masslessControlSeparationThreshold_nonnegative := by norm_num }
+
+example : toyEzPropagationTrial.interpretation = ProcaModeInterpretation.materialLongitudinalEz := by
+  rfl
+
+example : toyEzPropagationTrial.representation = ProcaStateRepresentation.twistorCoordinates := by
+  rfl
+
+example : ¬ toyEzPropagationTrial.procaModeQualified := by
+  simp [ProcaPropagationTrial.procaModeQualified, toyEzPropagationTrial]
+
+example : toyEzPropagationTrial.link.receivedPower ≤ toyEzPropagationTrial.link.sourcePower.watts := by
+  exact toyEzPropagationTrial.receivedPower_le_sourcePower
 
 noncomputable def toyEarthArgonSource : AtmosphericArgonSource :=
   { body := BodyTarget.earth
@@ -295,27 +415,27 @@ def marsVlfVector : RadioTestVector :=
 
 def earthRouteVector : ThroughBodyRadioTestVector :=
   { target := BodyTarget.earth
-    domain := MediumDomain.throughBody BodyTarget.earth
+    geometry := PropagationRegime.throughBody BodyTarget.earth
     frequency := earthLfVector
-    domainLaw := by rfl }
+    geometryLaw := by rfl }
 
 def marsRouteVector : ThroughBodyRadioTestVector :=
   { target := BodyTarget.planet "Mars"
-    domain := MediumDomain.throughBody (BodyTarget.planet "Mars")
+    geometry := PropagationRegime.throughBody (BodyTarget.planet "Mars")
     frequency := marsVlfVector
-    domainLaw := by rfl }
+    geometryLaw := by rfl }
 
 def asteroidRouteVector : ThroughBodyRadioTestVector :=
   { target := BodyTarget.asteroid "Ceres"
-    domain := MediumDomain.throughBody (BodyTarget.asteroid "Ceres")
+    geometry := PropagationRegime.throughBody (BodyTarget.asteroid "Ceres")
     frequency := earthLfVector
-    domainLaw := by rfl }
+    geometryLaw := by rfl }
 
 def namedBodyRouteVector : ThroughBodyRadioTestVector :=
   { target := BodyTarget.named "TestBody"
-    domain := MediumDomain.throughBody (BodyTarget.named "TestBody")
+    geometry := PropagationRegime.throughBody (BodyTarget.named "TestBody")
     frequency := marsVlfVector
-    domainLaw := by rfl }
+    geometryLaw := by rfl }
 
 example : earthRouteVector.frequency.band = RadioBand.lf := by
   rfl
@@ -326,9 +446,9 @@ example : marsRouteVector.frequency.band = RadioBand.vlf := by
 example : asteroidRouteVector.target.kind = BodyKind.asteroid := by
   rfl
 
-example : namedBodyRouteVector.domain =
-    MediumDomain.throughBody (BodyTarget.named "TestBody") := by
-  exact namedBodyRouteVector.domain_eq_target
+example : namedBodyRouteVector.geometry =
+    PropagationRegime.throughBody (BodyTarget.named "TestBody") := by
+  exact namedBodyRouteVector.geometry_eq_target
 
 noncomputable def toyIGPE : IGPEPoint :=
   { hbar := 1
