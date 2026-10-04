@@ -279,6 +279,8 @@ The verified parameter landscape is therefore:
 | --- | --- | --- |
 | Electron cyclotron drive | $f_{ce}=\gamma_e B$ with measured $\gamma_e$ | Sweep matched $(f,B)$ pairs and compare ionized mass flow per ionization joule. |
 | Plasma production | $Y_{\mathrm{ion}}=\dot m x_i/P_{\mathrm{ion}}$ | Measure $x_i$, conductivity, density, temperature, and recombination at equal mass flow and pressure. |
+| Cellulose strip | $L=Nd$, $\lambda_0=2d$, $f_0=c_s/(2d)$ | Sweep period, cell count, measured sound speed, damping, and electro-acoustic conversion; frequency matching alone is insufficient. |
+| Solid-to-Argon interface | $\eta_{\mathrm{strip\to Ar}}=P_{\mathrm{Ar\ link}}/P_{\mathrm{array}}$ | Measure reflection, absorption, and transmission; rank strip candidates by end-to-end power reaching Argon. |
 | Longitudinal mode | $f\lambda=c_s$ | Sweep measured $f$, $\lambda$, and phase speed; do not transfer the solid's $c_s$ to plasma. |
 | Acoustic injection | $I=p_{\mathrm{rms}}^2/(\rho c_s)$ with bounded link and transducer factors | Maximize measured deposited power per source watt while tracking attenuation and heating. |
 | Argon exhaust | $F=\dot m v$ and $P_{\mathrm{jet}}=\tfrac12\dot m v^2$ | At fixed jet power, $F=2P_{\mathrm{jet}}/v$; high exhaust velocity trades against thrust rather than providing both without added power. |
@@ -292,6 +294,25 @@ record the classical momentum and power tradeoff.
 inside the declared MHD control budget. The 400 GHz, 20 nm test fixture checks
 the supplied arithmetic only; type checking does not validate the medium or
 transducer.
+
+The phrase “cellulose strip resonator” is best treated as a finite
+implementation of the chat's periodic cellulose/N-LIG waveguide. The source
+specifies a 10 nm period and the Bragg relation $\lambda_0=2d$
+([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1538-L1560)), while the
+layout calls it a core or cylindrical mantle rather than a literal strip
+([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1677-L1688)).
+`CelluloseStripResonator` makes the finite length and cell count explicit;
+`FireCannonCelluloseStripDrive` separates the 400 GHz fundamental from the
+800 GHz sum target. `CelluloseStripArgonOperatingPoint` then inserts the missing
+solid-to-gas interface and charges the full MIMO source to plant control power.
+
+This interface can dominate the optimum. The corpus separately warns of more
+than 99.9% reflection across the proposed solid/cellulose/Argon path
+([source](../data/chats/Review-Pop-III-GW-Remnants.md#L3934-L3944)). The Lean
+fixture illustrates that boundary with 100 W array input, 50 W strip acoustic
+output, and 0.05 W reaching the Argon link. Its end-to-end source efficiency is
+$1/2000$, despite exact 400/800 GHz matching. The values are supplied test data,
+not measured performance.
 
 `ElectronCyclotronResonance` keeps carrier frequency, static field, source
 power, and the measured Hz/T calibration together. `ArgonFrequencySweepPoint`
@@ -311,7 +332,8 @@ claim. Real measurements may select another point.
 The recommended search order is to hold Argon mass flow, inlet pressure, and
 geometry fixed; sweep matched ECR frequency and field; reject unstable or
 wall-heating points; rank the survivors by $Y_{\mathrm{ion}}$; then sweep the
-ordinary longitudinal drive independently at equal acoustic source power.
+strip period and longitudinal drive independently at equal MIMO array power,
+ranking by measured strip-to-Argon source efficiency before plasma response.
 Finally tune the Faraday load toward $K=1/2$ and compare full electrical yield
 or thrust per watt. Report both objectives or a Pareto frontier rather than
 collapsing generator and thruster performance into one score.

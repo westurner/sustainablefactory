@@ -145,6 +145,97 @@ structure MimoFireCannonPump extends FireCannonPump where
   beamPowerBudget_nonnegative : 0 ≤ beamPowerBudget
   beamPowerBound : beamPowerBudget ≤ array.sourcePower
 
+/-- A finite cellulose/N-LIG strip used as an ordinary longitudinal-acoustic
+Bragg resonator. Material parameters and conversion efficiency are supplied by
+measurement; the record does not assert a nonclassical propagating mode. -/
+structure CelluloseStripResonator where
+  unitCellPeriod : Length
+  unitCellPeriod_pos : 0 < unitCellPeriod.meters
+  unitCellCount : ℕ
+  unitCellCount_pos : 0 < unitCellCount
+  stripLength : Length
+  stripLength_pos : 0 < stripLength.meters
+  stripLengthLaw : stripLength.meters = unitCellCount * unitCellPeriod.meters
+  acousticWavelength : Length
+  acousticWavelength_pos : 0 < acousticWavelength.meters
+  braggLaw : acousticWavelength.meters = 2 * unitCellPeriod.meters
+  longitudinalSoundSpeed : Speed
+  longitudinalSoundSpeed_pos : 0 < longitudinalSoundSpeed.metersPerSecond
+  fundamentalFrequency : Frequency
+  fundamentalFrequency_pos : 0 < fundamentalFrequency.hz
+  dispersionLaw : fundamentalFrequency.hz * acousticWavelength.meters =
+    longitudinalSoundSpeed.metersPerSecond
+  drivePower : Power
+  drivePower_nonnegative : 0 ≤ drivePower.watts
+  acousticConversionEfficiency : BoundedFactor
+  acousticOutputPower : Power
+  acousticOutputPowerLaw : acousticOutputPower.watts =
+    drivePower.watts * acousticConversionEfficiency.value
+
+/-- The strip's Bragg fundamental is its longitudinal sound speed divided by
+twice the unit-cell period. -/
+lemma CelluloseStripResonator.fundamentalFrequency_eq
+    (resonator : CelluloseStripResonator) :
+    resonator.fundamentalFrequency.hz =
+      resonator.longitudinalSoundSpeed.metersPerSecond /
+        (2 * resonator.unitCellPeriod.meters) := by
+  apply (eq_div_iff (mul_pos (by norm_num) resonator.unitCellPeriod_pos).ne').2
+  calc
+    resonator.fundamentalFrequency.hz * (2 * resonator.unitCellPeriod.meters) =
+        resonator.fundamentalFrequency.hz * resonator.acousticWavelength.meters := by
+          rw [resonator.braggLaw]
+    _ = resonator.longitudinalSoundSpeed.metersPerSecond := resonator.dispersionLaw
+
+/-- Acoustic conversion in the strip cannot exceed supplied drive power. -/
+lemma CelluloseStripResonator.acoustic_output_le_drive
+    (resonator : CelluloseStripResonator) :
+    resonator.acousticOutputPower.watts ≤ resonator.drivePower.watts := by
+  rw [resonator.acousticOutputPowerLaw]
+  calc
+    resonator.drivePower.watts * resonator.acousticConversionEfficiency.value ≤
+        resonator.drivePower.watts * 1 :=
+      mul_le_mul_of_nonneg_left resonator.acousticConversionEfficiency.le_one
+        resonator.drivePower_nonnegative
+    _ = resonator.drivePower.watts := by ring
+
+/-- Acoustic output from a passive strip conversion is nonnegative. -/
+lemma CelluloseStripResonator.acoustic_output_nonnegative
+    (resonator : CelluloseStripResonator) :
+    0 ≤ resonator.acousticOutputPower.watts := by
+  rw [resonator.acousticOutputPowerLaw]
+  exact mul_nonneg resonator.drivePower_nonnegative
+    resonator.acousticConversionEfficiency.nonnegative
+
+/-- Twice the strip's Bragg fundamental, used as the proposed sum-frequency
+drive target. -/
+def CelluloseStripResonator.secondHarmonicFrequency
+    (resonator : CelluloseStripResonator) : Frequency :=
+  { hz := 2 * resonator.fundamentalFrequency.hz }
+
+/-- A two-beam fire-cannon pump matched to a finite cellulose strip.
+
+The two carrier centers match the strip fundamental and their sum matches the
+second harmonic. This is frequency and passive-power bookkeeping only. -/
+structure FireCannonCelluloseStripDrive where
+  pump : MimoFireCannonPump
+  resonator : CelluloseStripResonator
+  beamAMatchesFundamental :
+    pump.beamA.center.hz = resonator.fundamentalFrequency.hz
+  beamBMatchesFundamental :
+    pump.beamB.center.hz = resonator.fundamentalFrequency.hz
+  sumMatchesSecondHarmonic :
+    pump.beamA.center.hz + pump.beamB.center.hz =
+      resonator.secondHarmonicFrequency.hz
+  stripDriveWithinBeamBudget :
+    resonator.drivePower.watts ≤ pump.beamPowerBudget
+
+/-- The strip's acoustic output cannot exceed the MIMO element-power budget. -/
+lemma FireCannonCelluloseStripDrive.acoustic_output_le_array_source
+    (drive : FireCannonCelluloseStripDrive) :
+    drive.resonator.acousticOutputPower.watts ≤ drive.pump.array.sourcePower := by
+  exact le_trans drive.resonator.acoustic_output_le_drive
+    (le_trans drive.stripDriveWithinBeamBudget drive.pump.beamPowerBound)
+
 /-- The central sum-frequency of the two fire-cannon beams. -/
 def FireCannonPump.sumFrequency (pump : FireCannonPump) : Frequency :=
   { hz := pump.beamA.center.hz + pump.beamB.center.hz }

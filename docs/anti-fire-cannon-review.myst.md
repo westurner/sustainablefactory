@@ -180,6 +180,53 @@ These are different physical statements. A parametric pump at $2\omega_m$ drives
 
 There is also a momentum-matching problem. A 400 GHz free-space electromagnetic wave has a wavelength of about 0.75 mm, while a 20 nm acoustic mode has a wavevector roughly $3.1\times10^8$ m$^{-1}$. Two counterpropagating free-space fields provide only about $1.7\times10^4$ m$^{-1}$ of wavevector difference. A grating or phononic-crystal reciprocal vector could supply the missing momentum, but the proposal does not define one or calculate its conversion efficiency.
 
+#### Finite cellulose-strip interpretation
+
+The source does not literally name a “cellulose strip resonator.” It describes
+a periodic array of 10 nm cellulose nanocrystals in an N-LIG/vitrimer
+waveguide, later calling the assembly a core or cylindrical mantle
+([lattice description](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1538-L1560),
+[physical layout](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1677-L1688)).
+The smallest ordinary-physics interpretation is a finite distributed Bragg
+strip cut from that composite, not a lumped electromagnetic cavity.
+
+For cell period $d$, cell count $N$, and longitudinal speed $c_s$, that model
+uses
+
+$$
+L=Nd,\qquad \lambda_0=2d,\qquad f_0=\frac{c_s}{2d}.
+$$
+
+The two 400 GHz beam centers can then be required to match $f_0$, while their
+sum is recorded as a separate $2f_0$ target. This resolves the geometry and
+frequency bookkeeping, but does not prove efficient conversion to an 800 GHz
+mechanical mode.
+
+`Signals.Applications.CelluloseStripResonator` now records the finite period,
+cell count, strip length, Bragg wavelength, sound speed, fundamental frequency,
+drive power, and bounded electro-acoustic conversion efficiency.
+`FireCannonCelluloseStripDrive` joins it to the existing MIMO pump and proves
+that strip acoustic output cannot exceed array source power.
+
+The Argon interface is a separate bottleneck. Another corpus passage warns
+that transfer from a dense solid through porous cellulose into low-density
+Argon may reflect more than 99.9% of the acoustic energy
+([impedance warning](../data/chats/Review-Pop-III-GW-Remnants.md#L3934-L3944)).
+`Signals.MHD.CelluloseStripArgonOperatingPoint` therefore records explicit
+solid-to-Argon reflection, transmission, and absorption. Its source efficiency
+is
+
+$$
+\eta_{\mathrm{strip\to Ar}}
+=\frac{P_{\mathrm{Argon\ link}}}{P_{\mathrm{MIMO\ array}}}\leq1.
+$$
+
+The Lean fixture uses 100 W array input, 50% strip conversion, and 0.1%
+interface transmission. It consequently supplies only 0.05 W to the Argon
+link, or $\eta_{\mathrm{strip\to Ar}}=1/2000=0.05\%$. These are illustrative
+inputs, not measurements, but they demonstrate why resonance matching alone
+cannot optimize reactor or thruster yield.
+
 ### 4.3 The quoted field and intensity conflict
 
 The source states both $E\approx10^6$ V/m and $I=2.5$ kW/cm$^2$. Using its own plane-wave relation,

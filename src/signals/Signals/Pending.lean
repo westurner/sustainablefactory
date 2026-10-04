@@ -1351,6 +1351,13 @@ noncomputable def cpReconstruction
   fun x y time => ∑ component : Fin rank,
     factorX x component * factorY y component * factorT time component
 
+/-- The finite Euclidean residual between an observed tensor and its reconstruction. -/
+noncomputable def tensorResidualMagnitude
+    (width height sampleCount : ℕ)
+    (observed reconstructed : Fin width → Fin height → Fin sampleCount → ℝ) : ℝ :=
+  Real.sqrt (∑ x : Fin width, ∑ y : Fin height, ∑ time : Fin sampleCount,
+    (observed x y time - reconstructed x y time) ^ 2)
+
 /-- A finite CP/ALS reconstruction record with factor, residual, and iteration
 metadata. It records an ALS result supplied by an external numerical process. -/
 structure ALSDecomposition (width height sampleCount : ℕ) where
@@ -1364,6 +1371,8 @@ structure ALSDecomposition (width height sampleCount : ℕ) where
     cpReconstruction width height sampleCount rank.rank factorX factorY factorT x y time
   residualMagnitude : ℝ
   residualMagnitude_nonnegative : 0 ≤ residualMagnitude
+  residualMagnitudeLaw : residualMagnitude =
+    tensorResidualMagnitude width height sampleCount observed reconstructed
   residualTolerance : ℝ
   residualTolerance_nonnegative : 0 ≤ residualTolerance
   residualWithinTolerance : residualMagnitude ≤ residualTolerance
@@ -1377,15 +1386,37 @@ lemma ALSDecomposition.residual_within_tolerance
     decomposition.residualMagnitude ≤ decomposition.residualTolerance :=
   decomposition.residualWithinTolerance
 
+/-- The reported ALS residual is the finite Euclidean reconstruction residual. -/
+lemma ALSDecomposition.residual_magnitude_holds
+    {width height sampleCount : ℕ} (decomposition : ALSDecomposition width height sampleCount) :
+    decomposition.residualMagnitude =
+      tensorResidualMagnitude width height sampleCount
+        decomposition.observed decomposition.reconstructed :=
+  decomposition.residualMagnitudeLaw
+
+/-- The finite Euclidean residual between prepared and recovered traces. -/
+noncomputable def traceResidualMagnitude
+    (sampleCount : ℕ) (prepared recovered : Fin sampleCount → ℝ) : ℝ :=
+  Real.sqrt (∑ time : Fin sampleCount, (prepared time - recovered time) ^ 2)
+
 /-- A known-input comparison records recovered samples and its residual bound. -/
 structure KnownInputComparison (sampleCount : ℕ) where
   prepared : Fin sampleCount → ℝ
   recovered : Fin sampleCount → ℝ
   residualMagnitude : ℝ
   residualMagnitude_nonnegative : 0 ≤ residualMagnitude
+  residualMagnitudeLaw : residualMagnitude =
+    traceResidualMagnitude sampleCount prepared recovered
   residualTolerance : ℝ
   residualTolerance_nonnegative : 0 ≤ residualTolerance
   residualWithinTolerance : residualMagnitude ≤ residualTolerance
+
+/-- The reported known-input residual is the finite Euclidean trace residual. -/
+lemma KnownInputComparison.residual_magnitude_holds
+    {sampleCount : ℕ} (comparison : KnownInputComparison sampleCount) :
+    comparison.residualMagnitude =
+      traceResidualMagnitude sampleCount comparison.prepared comparison.recovered :=
+  comparison.residualMagnitudeLaw
 
 /-- Pending decoding of a Hawking-like emission through iGPE, iQFT,
 Amplituhedron, and finite-rank ALS stages. -/
@@ -1445,6 +1476,28 @@ lemma HawkingRadiationDecoding.als_projection_holds
     (decoding : HawkingRadiationDecoding width height sampleCount) :
     decoding.alsProjection = decoding.amplituhedron.image :=
   decoding.alsProjectionMapLaw
+
+/-- A decoder is ready for a bounded numerical comparison when every supplied
+residual is accepted and the ALS solve stayed within its iteration limit. -/
+def HawkingRadiationDecoding.comparisonReady
+    {width height sampleCount : ℕ}
+    (decoding : HawkingRadiationDecoding width height sampleCount) : Prop :=
+  decoding.iGPEResidualMagnitude ≤ decoding.iGPEResidualTolerance ∧
+    decoding.als.residualMagnitude ≤ decoding.als.residualTolerance ∧
+    decoding.als.iterations ≤ decoding.als.maximumIterations ∧
+    decoding.inputComparison.residualMagnitude ≤
+      decoding.inputComparison.residualTolerance
+
+/-- Every constructed decoder exposes its bounded numerical checks without
+promoting them to evidence of Hawking radiation or physical decoding. -/
+lemma HawkingRadiationDecoding.comparison_ready
+    {width height sampleCount : ℕ}
+    (decoding : HawkingRadiationDecoding width height sampleCount) :
+    decoding.comparisonReady :=
+  ⟨decoding.iGPEResidualWithinTolerance,
+    decoding.als.residualWithinTolerance,
+    decoding.als.iterationsWithinLimit,
+    decoding.inputComparison.residualWithinTolerance⟩
 
 /-- Medium domains proposed for pending massive-vector propagation. -/
 inductive MediumDomain

@@ -2053,16 +2053,16 @@ example : toyALSRank10.rank = 10 := by
   rfl
 
 def toyPreparedModulation : PreparedModulation 2 :=
-  { value := fun _ => 1 }
+  { value := fun _ => 0 }
 
 def toyObservedHomodyneTensor : ObservedHomodyneTensor 1 1 2 :=
   { value := fun _ _ time => (time.val : ℝ) }
 
 noncomputable def toyFiniteIQFT : FiniteIQFT 2 :=
   { dimension_positive := by norm_num
-    input := fun _ => 1
+    input := fun _ => 0
     output := fun outputIndex =>
-      finiteInverseQFT 2 (fun _ => 1) outputIndex
+      finiteInverseQFT 2 (fun _ => 0) outputIndex
     normalizationFactor := 1 / Real.sqrt (2 : ℝ)
     normalizationLaw := by rfl
     outputLaw := by
@@ -2111,8 +2111,10 @@ noncomputable def toyHawkingALS : ALSDecomposition 1 1 2 :=
     reconstructionLaw := by
       intro x y time
       simp [cpReconstruction]
-    residualMagnitude := 1
+    residualMagnitude := 0
     residualMagnitude_nonnegative := by norm_num
+    residualMagnitudeLaw := by
+      simp [tensorResidualMagnitude, toyFiniteIQFT, finiteInverseQFT]
     residualTolerance := 1
     residualTolerance_nonnegative := by norm_num
     residualWithinTolerance := by norm_num
@@ -2138,7 +2140,7 @@ noncomputable def toyHawkingDecoding : HawkingRadiationDecoding 1 1 2 :=
     observedTraceLaw := by
       intro time
       rfl
-    iGPEOutput := fun _ => 1
+    iGPEOutput := fun _ => 0
     iGPEResidualMagnitude := 0
     iGPEResidualMagnitude_nonnegative := by norm_num
     iGPEResidualTolerance := 1
@@ -2166,8 +2168,11 @@ noncomputable def toyHawkingDecoding : HawkingRadiationDecoding 1 1 2 :=
     inputComparison :=
       { prepared := toyPreparedModulation.value
         recovered := fun time => (toyFiniteIQFT.output time).re
-        residualMagnitude := 1
+        residualMagnitude := 0
         residualMagnitude_nonnegative := by norm_num
+        residualMagnitudeLaw := by
+          simp [traceResidualMagnitude, toyPreparedModulation, toyFiniteIQFT,
+            finiteInverseQFT]
         residualTolerance := 1
         residualTolerance_nonnegative := by norm_num
         residualWithinTolerance := by norm_num }
@@ -2187,6 +2192,16 @@ example : toyHawkingDecoding.iqft.input 0 = toyHawkingDecoding.iGPEOutput 0 := b
 example : toyHawkingDecoding.alsProjection =
     toyHawkingDecoding.amplituhedron.image := by
   exact toyHawkingDecoding.als_projection_holds
+
+example : tensorResidualMagnitude 1 1 1
+    (fun _ _ _ => 3) (fun _ _ _ => 2) = 1 := by
+  norm_num [tensorResidualMagnitude]
+
+example : traceResidualMagnitude 1 (fun _ => 3) (fun _ => 2) = 1 := by
+  norm_num [traceResidualMagnitude]
+
+example : toyHawkingDecoding.comparisonReady := by
+  exact toyHawkingDecoding.comparison_ready
 
 noncomputable def toyQudit : Qudit 1 :=
   { amplitudes := fun _ => 1

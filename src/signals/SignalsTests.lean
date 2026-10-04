@@ -771,6 +771,66 @@ example : toyMimo.sourcePower = 100 := by
 example : toyMimo.sourcePower ≤ toyMimo.elementCount * toyMimo.elementPower.watts := by
   exact toyMimo.sourcePower_le_element_budget
 
+noncomputable def toyMimoFireCannonPump : MimoFireCannonPump :=
+  { beamA := toyPump.beamA
+    beamB := toyPump.beamB
+    conversion := toyConversion
+    array := toyMimo
+    beamPowerBudget := 100
+    beamPowerBudget_nonnegative := by norm_num
+    beamPowerBound := by norm_num [MimoArray.sourcePower, toyMimo] }
+
+noncomputable def toyCelluloseStripResonator : CelluloseStripResonator :=
+  { unitCellPeriod := { meters := 1 / 100000000 }
+    unitCellPeriod_pos := by norm_num
+    unitCellCount := 100
+    unitCellCount_pos := by norm_num
+    stripLength := { meters := 1 / 1000000 }
+    stripLength_pos := by norm_num
+    stripLengthLaw := by norm_num
+    acousticWavelength := { meters := 1 / 50000000 }
+    acousticWavelength_pos := by norm_num
+    braggLaw := by norm_num
+    longitudinalSoundSpeed := { metersPerSecond := 8000 }
+    longitudinalSoundSpeed_pos := by norm_num
+    fundamentalFrequency := gigahertz 400
+    fundamentalFrequency_pos := by norm_num [gigahertz]
+    dispersionLaw := by norm_num [gigahertz]
+    drivePower := { watts := 100 }
+    drivePower_nonnegative := by norm_num
+    acousticConversionEfficiency :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    acousticOutputPower := { watts := 50 }
+    acousticOutputPowerLaw := by norm_num }
+
+noncomputable def toyFireCannonCelluloseStripDrive :
+    FireCannonCelluloseStripDrive :=
+  { pump := toyMimoFireCannonPump
+    resonator := toyCelluloseStripResonator
+    beamAMatchesFundamental := by
+      norm_num [toyMimoFireCannonPump, toyPump, toyCelluloseStripResonator]
+    beamBMatchesFundamental := by
+      norm_num [toyMimoFireCannonPump, toyPump, toyCelluloseStripResonator]
+    sumMatchesSecondHarmonic := by
+      norm_num [toyMimoFireCannonPump, toyPump, toyCelluloseStripResonator,
+        CelluloseStripResonator.secondHarmonicFrequency, gigahertz]
+    stripDriveWithinBeamBudget := by
+      norm_num [toyMimoFireCannonPump, toyCelluloseStripResonator] }
+
+example : toyCelluloseStripResonator.fundamentalFrequency.hz =
+    (gigahertz 400).hz := by
+  norm_num [CelluloseStripResonator.fundamentalFrequency_eq,
+    toyCelluloseStripResonator, gigahertz]
+
+example : toyCelluloseStripResonator.secondHarmonicFrequency.hz =
+    (gigahertz 800).hz := by
+  norm_num [CelluloseStripResonator.secondHarmonicFrequency,
+    toyCelluloseStripResonator, gigahertz]
+
+example : toyFireCannonCelluloseStripDrive.resonator.acousticOutputPower.watts ≤
+    toyFireCannonCelluloseStripDrive.pump.array.sourcePower := by
+  exact toyFireCannonCelluloseStripDrive.acoustic_output_le_array_source
+
 example :
     1.3 * 10 ^ 9 <
         (planeWaveIrradiance ⟨10 ^ 6⟩).wattsPerSquareMeter ∧
@@ -1482,6 +1542,98 @@ example : toyNonDestructiveRecovery.sourceStateAfter =
     toyNonDestructiveRecovery.sourceStateBefore := by
   exact toyNonDestructiveRecovery.source_preserved
 
+noncomputable def toyECR245GHz : ElectronCyclotronResonance :=
+  { driveFrequency := gigahertz (49 / 20)
+    driveFrequency_pos := by norm_num [gigahertz]
+    magneticFluxDensity := { tesla := 7 / 80 }
+    magneticFluxDensity_pos := by norm_num
+    electronGyromagneticRatioHzPerTesla := (gigahertz 28).hz
+    electronGyromagneticRatio_pos := by norm_num [gigahertz]
+    sourcePower := { watts := 20 }
+    sourcePower_nonnegative := by norm_num
+    resonanceLaw := by norm_num [gigahertz] }
+
+noncomputable def toyECR28GHz : ElectronCyclotronResonance :=
+  { driveFrequency := gigahertz 28
+    driveFrequency_pos := by norm_num [gigahertz]
+    magneticFluxDensity := { tesla := 1 }
+    magneticFluxDensity_pos := by norm_num
+    electronGyromagneticRatioHzPerTesla := (gigahertz 28).hz
+    electronGyromagneticRatio_pos := by norm_num [gigahertz]
+    sourcePower := { watts := 20 }
+    sourcePower_nonnegative := by norm_num
+    resonanceLaw := by norm_num [gigahertz] }
+
+noncomputable def toyECR98GHz : ElectronCyclotronResonance :=
+  { driveFrequency := gigahertz 98
+    driveFrequency_pos := by norm_num [gigahertz]
+    magneticFluxDensity := { tesla := 7 / 2 }
+    magneticFluxDensity_pos := by norm_num
+    electronGyromagneticRatioHzPerTesla := (gigahertz 28).hz
+    electronGyromagneticRatio_pos := by norm_num [gigahertz]
+    sourcePower := { watts := 20 }
+    sourcePower_nonnegative := by norm_num
+    resonanceLaw := by norm_num [gigahertz] }
+
+example : toyECR245GHz.magneticFluxDensity.tesla = 7 / 80 := by
+  norm_num [ElectronCyclotronResonance.magneticFluxDensity_eq_frequency_div_ratio,
+    toyECR245GHz, gigahertz]
+
+example : toyECR28GHz.magneticFluxDensity.tesla = 1 := by
+  norm_num [ElectronCyclotronResonance.magneticFluxDensity_eq_frequency_div_ratio,
+    toyECR28GHz, gigahertz]
+
+example : toyECR98GHz.magneticFluxDensity.tesla = 7 / 2 := by
+  norm_num [ElectronCyclotronResonance.magneticFluxDensity_eq_frequency_div_ratio,
+    toyECR98GHz, gigahertz]
+
+noncomputable def toyGHzAcousticMedium : Signals.Acoustics.Medium :=
+  { density := 1
+    density_pos := by norm_num
+    soundSpeed := 8000
+    soundSpeed_pos := by norm_num
+    attenuationPerLength := 0
+    attenuation_nonnegative := by norm_num }
+
+noncomputable def toyGHzAcousticWave : Signals.Acoustics.Wave :=
+  { frequencyHz := (gigahertz 400).hz
+    frequency_positive := by norm_num [gigahertz]
+    pressureAmplitude := 10
+    pressureAmplitude_nonnegative := by norm_num
+    medium := toyGHzAcousticMedium }
+
+noncomputable def toyGHzUltrasonicTransfer : Signals.Acoustics.UltrasonicTransfer :=
+  { wave := toyGHzAcousticWave
+    ultrasonicFrequency := by norm_num [toyGHzAcousticWave, gigahertz]
+    link := toyLink
+    apertureArea := 8000
+    apertureArea_pos := by norm_num
+    transmitterEfficiency :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    receiverEfficiency :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    sourcePowerLaw := by
+      norm_num [toyLink, toyGHzAcousticWave, toyGHzAcousticMedium,
+        Signals.Acoustics.Wave.intensity, Signals.Acoustics.Medium.impedance,
+        toyCouplingFactors, toyInterface, toyMediumLoss] }
+
+noncomputable def toyLongitudinalAcousticDrive : LongitudinalAcousticDrive :=
+  { transfer := toyGHzUltrasonicTransfer
+    wavelength := { meters := 1 / 50000000 }
+    wavelength_pos := by norm_num
+    dispersionLaw := by
+      norm_num [toyGHzUltrasonicTransfer, toyGHzAcousticWave,
+        toyGHzAcousticMedium, gigahertz] }
+
+example : toyLongitudinalAcousticDrive.wavelength.meters = 1 / 50000000 := by
+  norm_num [LongitudinalAcousticDrive.wavelength_eq_soundSpeed_div_frequency,
+    toyLongitudinalAcousticDrive, toyGHzUltrasonicTransfer, toyGHzAcousticWave,
+    toyGHzAcousticMedium, gigahertz]
+
+example : toyLongitudinalAcousticDrive.depositedPower.watts ≤
+    toyLongitudinalAcousticDrive.transfer.link.sourcePower.watts := by
+  exact toyLongitudinalAcousticDrive.deposited_power_le_source
+
 noncomputable def toyConductiveArgonFlow : ConductiveArgonFlow :=
   { massFlow := { kilogramsPerSecond := 1 }
     massFlow_nonnegative := by norm_num
@@ -1572,6 +1724,283 @@ example : toyArgonMHDPlant.accounting.electricalOutputPower.watts ≤
     toyArgonMHDPlant.accounting.controlPower.watts +
       (argonKineticPower toyArgonMHDPlant.argon).watts := by
   exact toyArgonMHDPlant.output_le_declared_input
+
+example : (argonJetThrust toyConductiveArgonFlow).newtons = 2 := by
+  norm_num [argonJetThrust, toyConductiveArgonFlow]
+
+example : (argonJetThrust toyConductiveArgonFlow).newtons *
+    toyConductiveArgonFlow.velocity.metersPerSecond =
+      2 * (argonKineticPower toyConductiveArgonFlow).watts := by
+  exact argonJetThrust_mul_velocity toyConductiveArgonFlow
+
+def toyLongitudinalMHDPowerAccounting : MHDPowerAccounting :=
+  { controlPower := { watts := 100 }
+    controlPower_nonnegative := by norm_num
+    motivePower := { watts := 2 }
+    motivePower_nonnegative := by norm_num
+    electricalOutputPower := { watts := 4 }
+    electricalOutputPower_nonnegative := by norm_num
+    lossPower := { watts := 98 }
+    lossPower_nonnegative := by norm_num
+    energyBalance := by norm_num }
+
+noncomputable def toyLongitudinalArgonMHDPlant : ArgonMHDPlant :=
+  { argon := toyConductiveArgonFlow
+    channel := toyFaradayChannel
+    accounting := toyLongitudinalMHDPowerAccounting
+    kineticInputPower := { watts := 2 }
+    kineticInputPowerLaw := by
+      norm_num [argonKineticPower, toyConductiveArgonFlow]
+    motivePowerLaw := by rfl
+    outputPowerLaw := by rfl }
+
+noncomputable def toyLongitudinalAcousticArgonOperatingPoint :
+    LongitudinalAcousticArgonOperatingPoint :=
+  { plant := toyLongitudinalArgonMHDPlant
+    drive := toyLongitudinalAcousticDrive
+    acousticSourceWithinControl := by
+      norm_num [toyLongitudinalArgonMHDPlant, toyLongitudinalMHDPowerAccounting,
+        toyLongitudinalAcousticDrive, toyGHzUltrasonicTransfer, toyLink] }
+
+example : toyLongitudinalAcousticArgonOperatingPoint.drive.depositedPower.watts ≤
+    toyLongitudinalAcousticArgonOperatingPoint.plant.accounting.controlPower.watts := by
+  exact toyLongitudinalAcousticArgonOperatingPoint.deposited_power_le_control
+
+noncomputable def toyStripToArgonInterface : InterfaceResponse :=
+  { reflectionPower := 999 / 1000
+    transmissionPower := 1 / 1000
+    absorptionPower := 0
+    reflection_nonnegative := by norm_num
+    transmission_nonnegative := by norm_num
+    absorption_nonnegative := by norm_num
+    power_conservation := by norm_num }
+
+noncomputable def toyStripArgonLink : LinkBudget :=
+  { mode := PropagationMode.ionosphericMhdDuct
+    sourcePower := { watts := 1 / 20 }
+    sourcePower_nonnegative := by norm_num
+    distance := { meters := 1 }
+    distance_nonnegative := by norm_num
+    coupling := toyCouplingFactors
+    medium := toyMediumLoss
+    interface := toyInterface }
+
+noncomputable def toyStripArgonWave : Signals.Acoustics.Wave :=
+  { frequencyHz := (gigahertz 800).hz
+    frequency_positive := by norm_num [gigahertz]
+    pressureAmplitude := 10
+    pressureAmplitude_nonnegative := by norm_num
+    medium := toyGHzAcousticMedium }
+
+noncomputable def toyStripArgonTransfer : Signals.Acoustics.UltrasonicTransfer :=
+  { wave := toyStripArgonWave
+    ultrasonicFrequency := by norm_num [toyStripArgonWave, gigahertz]
+    link := toyStripArgonLink
+    apertureArea := 4
+    apertureArea_pos := by norm_num
+    transmitterEfficiency :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    receiverEfficiency :=
+      { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    sourcePowerLaw := by
+      norm_num [toyStripArgonLink, toyStripArgonWave, toyGHzAcousticMedium,
+        Signals.Acoustics.Wave.intensity, Signals.Acoustics.Medium.impedance] }
+
+noncomputable def toyStripArgonAcousticDrive : LongitudinalAcousticDrive :=
+  { transfer := toyStripArgonTransfer
+    wavelength := { meters := 1 / 100000000 }
+    wavelength_pos := by norm_num
+    dispersionLaw := by
+      norm_num [toyStripArgonTransfer, toyStripArgonWave,
+        toyGHzAcousticMedium, gigahertz] }
+
+noncomputable def toyStripLongitudinalArgonPoint :
+    LongitudinalAcousticArgonOperatingPoint :=
+  { plant := toyLongitudinalArgonMHDPlant
+    drive := toyStripArgonAcousticDrive
+    acousticSourceWithinControl := by
+      norm_num [toyStripArgonAcousticDrive, toyStripArgonTransfer,
+        toyStripArgonLink, toyLongitudinalArgonMHDPlant,
+        toyLongitudinalMHDPowerAccounting] }
+
+noncomputable def toyCelluloseStripArgonOperatingPoint :
+    CelluloseStripArgonOperatingPoint :=
+  { argonPoint := toyStripLongitudinalArgonPoint
+    stripDrive := toyFireCannonCelluloseStripDrive
+    stripToArgonInterface := toyStripToArgonInterface
+    transmittedAcousticPower := { watts := 1 / 20 }
+    transmittedAcousticPower_nonnegative := by norm_num
+    transmittedPowerLaw := by
+      norm_num [toyFireCannonCelluloseStripDrive, toyCelluloseStripResonator,
+        toyStripToArgonInterface]
+    acousticSourcePowerLaw := by
+      norm_num [toyStripLongitudinalArgonPoint, toyStripArgonAcousticDrive,
+        toyStripArgonTransfer, toyStripArgonLink]
+    frequencyMatch := by
+      norm_num [toyStripLongitudinalArgonPoint, toyStripArgonAcousticDrive,
+        toyStripArgonTransfer, toyStripArgonWave,
+        toyFireCannonCelluloseStripDrive, toyCelluloseStripResonator,
+        CelluloseStripResonator.secondHarmonicFrequency, gigahertz]
+    arraySource_positive := by
+      norm_num [toyFireCannonCelluloseStripDrive, toyMimoFireCannonPump,
+        MimoArray.sourcePower, toyMimo]
+    arraySourceWithinControl := by
+      norm_num [toyFireCannonCelluloseStripDrive, toyMimoFireCannonPump,
+        MimoArray.sourcePower, toyMimo, toyStripLongitudinalArgonPoint,
+        toyLongitudinalArgonMHDPlant, toyLongitudinalMHDPowerAccounting] }
+
+example :
+    toyCelluloseStripArgonOperatingPoint.transmittedAcousticPower.watts = 1 / 20 := by
+  norm_num [toyCelluloseStripArgonOperatingPoint]
+
+example : toyCelluloseStripArgonOperatingPoint.sourceEfficiency = 1 / 2000 := by
+  norm_num [CelluloseStripArgonOperatingPoint.sourceEfficiency,
+    toyCelluloseStripArgonOperatingPoint, toyStripLongitudinalArgonPoint,
+    toyStripArgonAcousticDrive, toyStripArgonTransfer, toyStripArgonLink,
+    toyFireCannonCelluloseStripDrive, toyMimoFireCannonPump,
+    MimoArray.sourcePower, toyMimo]
+
+example : toyCelluloseStripArgonOperatingPoint.sourceEfficiency ≤ 1 := by
+  exact toyCelluloseStripArgonOperatingPoint.source_efficiency_le_one
+
+example :
+    toyCelluloseStripArgonOperatingPoint.argonPoint.drive.transfer.link.sourcePower.watts ≤
+      toyCelluloseStripArgonOperatingPoint.stripDrive.resonator.acousticOutputPower.watts := by
+  exact toyCelluloseStripArgonOperatingPoint.source_power_le_strip_output
+
+example :
+    toyCelluloseStripArgonOperatingPoint.argonPoint.drive.transfer.link.sourcePower.watts ≤
+      toyCelluloseStripArgonOperatingPoint.argonPoint.plant.accounting.controlPower.watts := by
+  exact toyCelluloseStripArgonOperatingPoint.source_power_le_control
+
+def toyECR245GHzCosts : MHDOperatingCosts :=
+  { pumpPower := { watts := 0 }
+    pumpPower_nonnegative := by norm_num
+    ionizationPower := { watts := 20 }
+    ionizationPower_nonnegative := by norm_num
+    fieldPower := { watts := 0 }
+    fieldPower_nonnegative := by norm_num
+    coolingPower := { watts := 0 }
+    coolingPower_nonnegative := by norm_num }
+
+def toyECR28GHzCosts : MHDOperatingCosts :=
+  { pumpPower := { watts := 0 }
+    pumpPower_nonnegative := by norm_num
+    ionizationPower := { watts := 30 }
+    ionizationPower_nonnegative := by norm_num
+    fieldPower := { watts := 0 }
+    fieldPower_nonnegative := by norm_num
+    coolingPower := { watts := 0 }
+    coolingPower_nonnegative := by norm_num }
+
+def toyECR98GHzCosts : MHDOperatingCosts :=
+  { pumpPower := { watts := 0 }
+    pumpPower_nonnegative := by norm_num
+    ionizationPower := { watts := 40 }
+    ionizationPower_nonnegative := by norm_num
+    fieldPower := { watts := 0 }
+    fieldPower_nonnegative := by norm_num
+    coolingPower := { watts := 0 }
+    coolingPower_nonnegative := by norm_num }
+
+noncomputable def toyArgonSweepPoint245GHz : ArgonFrequencySweepPoint :=
+  { ecr := toyECR245GHz
+    operatingPoint := toyLongitudinalAcousticArgonOperatingPoint
+    operatingCosts := toyECR245GHzCosts
+    ecrSourceWithinIonizationCost := by
+      norm_num [toyECR245GHz, toyECR245GHzCosts]
+    ionizationPower_positive := by norm_num [toyECR245GHzCosts]
+    fullInput_positive := by
+      norm_num [MHDPowerAccounting.fullInputPower,
+        MHDPowerAccounting.totalInputPower, MHDOperatingCosts.auxiliaryPower,
+        toyLongitudinalAcousticArgonOperatingPoint, toyLongitudinalArgonMHDPlant,
+        toyLongitudinalMHDPowerAccounting, toyECR245GHzCosts] }
+
+noncomputable def toyArgonSweepPoint28GHz : ArgonFrequencySweepPoint :=
+  { ecr := toyECR28GHz
+    operatingPoint := toyLongitudinalAcousticArgonOperatingPoint
+    operatingCosts := toyECR28GHzCosts
+    ecrSourceWithinIonizationCost := by
+      norm_num [toyECR28GHz, toyECR28GHzCosts]
+    ionizationPower_positive := by norm_num [toyECR28GHzCosts]
+    fullInput_positive := by
+      norm_num [MHDPowerAccounting.fullInputPower,
+        MHDPowerAccounting.totalInputPower, MHDOperatingCosts.auxiliaryPower,
+        toyLongitudinalAcousticArgonOperatingPoint, toyLongitudinalArgonMHDPlant,
+        toyLongitudinalMHDPowerAccounting, toyECR28GHzCosts] }
+
+noncomputable def toyArgonSweepPoint98GHz : ArgonFrequencySweepPoint :=
+  { ecr := toyECR98GHz
+    operatingPoint := toyLongitudinalAcousticArgonOperatingPoint
+    operatingCosts := toyECR98GHzCosts
+    ecrSourceWithinIonizationCost := by
+      norm_num [toyECR98GHz, toyECR98GHzCosts]
+    ionizationPower_positive := by norm_num [toyECR98GHzCosts]
+    fullInput_positive := by
+      norm_num [MHDPowerAccounting.fullInputPower,
+        MHDPowerAccounting.totalInputPower, MHDOperatingCosts.auxiliaryPower,
+        toyLongitudinalAcousticArgonOperatingPoint, toyLongitudinalArgonMHDPlant,
+        toyLongitudinalMHDPowerAccounting, toyECR98GHzCosts] }
+
+noncomputable def toyArgonFrequencySweep : ArgonFrequencySweep 3 :=
+  { point := ![toyArgonSweepPoint245GHz, toyArgonSweepPoint28GHz,
+      toyArgonSweepPoint98GHz] }
+
+example : toyArgonSweepPoint245GHz.electricalYield = 2 / 61 := by
+  norm_num [ArgonFrequencySweepPoint.electricalYield,
+    MHDPowerAccounting.fullEfficiency, MHDPowerAccounting.fullInputPower,
+    MHDPowerAccounting.totalInputPower, MHDOperatingCosts.auxiliaryPower,
+    toyArgonSweepPoint245GHz, toyLongitudinalAcousticArgonOperatingPoint,
+    toyLongitudinalArgonMHDPlant, toyLongitudinalMHDPowerAccounting,
+    toyECR245GHzCosts]
+
+example : toyArgonSweepPoint245GHz.ionizationYield = 1 / 40 := by
+  norm_num [ArgonFrequencySweepPoint.ionizationYield,
+    ConductiveArgonFlow.ionizedMassFlow, toyArgonSweepPoint245GHz,
+    toyLongitudinalAcousticArgonOperatingPoint, toyLongitudinalArgonMHDPlant,
+    toyConductiveArgonFlow, toyECR245GHzCosts]
+
+example : toyArgonSweepPoint245GHz.thrustPerInputPower = 1 / 61 := by
+  norm_num [ArgonFrequencySweepPoint.thrustPerInputPower, argonJetThrust,
+    MHDPowerAccounting.fullInputPower, MHDPowerAccounting.totalInputPower,
+    MHDOperatingCosts.auxiliaryPower, toyArgonSweepPoint245GHz,
+    toyLongitudinalAcousticArgonOperatingPoint, toyLongitudinalArgonMHDPlant,
+    toyLongitudinalMHDPowerAccounting, toyConductiveArgonFlow,
+    toyECR245GHzCosts]
+
+example : toyArgonFrequencySweep.IsElectricalYieldOptimal (0 : Fin 3) := by
+  intro index
+  fin_cases index <;>
+    norm_num [ArgonFrequencySweepPoint.electricalYield,
+      MHDPowerAccounting.fullEfficiency, MHDPowerAccounting.fullInputPower,
+      MHDPowerAccounting.totalInputPower, MHDOperatingCosts.auxiliaryPower,
+      toyArgonFrequencySweep, toyArgonSweepPoint245GHz,
+      toyArgonSweepPoint28GHz, toyArgonSweepPoint98GHz,
+      toyLongitudinalAcousticArgonOperatingPoint, toyLongitudinalArgonMHDPlant,
+      toyLongitudinalMHDPowerAccounting, toyECR245GHzCosts, toyECR28GHzCosts,
+      toyECR98GHzCosts]
+
+example : toyArgonFrequencySweep.IsIonizationYieldOptimal (0 : Fin 3) := by
+  intro index
+  fin_cases index <;>
+    norm_num [ArgonFrequencySweepPoint.ionizationYield,
+      ConductiveArgonFlow.ionizedMassFlow, toyArgonFrequencySweep,
+      toyArgonSweepPoint245GHz, toyArgonSweepPoint28GHz,
+      toyArgonSweepPoint98GHz, toyLongitudinalAcousticArgonOperatingPoint,
+      toyLongitudinalArgonMHDPlant, toyConductiveArgonFlow,
+      toyECR245GHzCosts, toyECR28GHzCosts, toyECR98GHzCosts]
+
+example : toyArgonFrequencySweep.IsThrustPerPowerOptimal (0 : Fin 3) := by
+  intro index
+  fin_cases index <;>
+    norm_num [ArgonFrequencySweepPoint.thrustPerInputPower, argonJetThrust,
+      MHDPowerAccounting.fullInputPower, MHDPowerAccounting.totalInputPower,
+      MHDOperatingCosts.auxiliaryPower, toyArgonFrequencySweep,
+      toyArgonSweepPoint245GHz, toyArgonSweepPoint28GHz,
+      toyArgonSweepPoint98GHz, toyLongitudinalAcousticArgonOperatingPoint,
+      toyLongitudinalArgonMHDPlant, toyLongitudinalMHDPowerAccounting,
+      toyConductiveArgonFlow, toyECR245GHzCosts, toyECR28GHzCosts,
+      toyECR98GHzCosts]
 
 noncomputable def toyClosedLoopArgonMHD : ClosedLoopArgonMHD :=
   { plant := toyArgonMHDPlant

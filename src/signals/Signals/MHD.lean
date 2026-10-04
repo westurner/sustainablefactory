@@ -1,10 +1,14 @@
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
+import Signals.Acoustics
+import Signals.Applications
 import Signals.Propagation
 import Signals.Units
 
 namespace Signals.MHD
 
+open Signals.Acoustics
+open Signals.Applications
 open Signals.Propagation
 open Signals.Units
 
@@ -253,6 +257,99 @@ structure ConductiveArgonFlow where
   conductivity : ElectricalConductivity
   conductivity_positive : 0 < conductivity.siemensPerMeter
 
+/-- Ionized Argon mass flow under the supplied bulk ionization fraction. -/
+noncomputable def ConductiveArgonFlow.ionizedMassFlow
+    (flow : ConductiveArgonFlow) : MassFlowRate :=
+  { kilogramsPerSecond :=
+      flow.massFlow.kilogramsPerSecond * flow.ionizationFraction.value }
+
+/-- Ionized Argon mass flow is nonnegative. -/
+lemma ConductiveArgonFlow.ionized_mass_flow_nonnegative
+    (flow : ConductiveArgonFlow) :
+    0 ≤ flow.ionizedMassFlow.kilogramsPerSecond := by
+  unfold ConductiveArgonFlow.ionizedMassFlow
+  exact mul_nonneg flow.massFlow_nonnegative flow.ionizationFraction.nonnegative
+
+/-- A classical electron-cyclotron-resonance drive for Argon ionization.
+
+The gyromagnetic ratio is an explicit calibration input so the model does not
+silently identify an acoustic frequency with an electron-cyclotron frequency. -/
+structure ElectronCyclotronResonance where
+  driveFrequency : Frequency
+  driveFrequency_pos : 0 < driveFrequency.hz
+  magneticFluxDensity : MagneticFluxDensity
+  magneticFluxDensity_pos : 0 < magneticFluxDensity.tesla
+  electronGyromagneticRatioHzPerTesla : ℝ
+  electronGyromagneticRatio_pos : 0 < electronGyromagneticRatioHzPerTesla
+  sourcePower : Power
+  sourcePower_nonnegative : 0 ≤ sourcePower.watts
+  resonanceLaw : driveFrequency.hz =
+    electronGyromagneticRatioHzPerTesla * magneticFluxDensity.tesla
+
+/-- The ECR magnetic field is fixed by the selected drive frequency and the
+supplied electron gyromagnetic ratio. -/
+lemma ElectronCyclotronResonance.magneticFluxDensity_eq_frequency_div_ratio
+    (drive : ElectronCyclotronResonance) :
+    drive.magneticFluxDensity.tesla =
+      drive.driveFrequency.hz / drive.electronGyromagneticRatioHzPerTesla := by
+  apply (eq_div_iff (ne_of_gt drive.electronGyromagneticRatio_pos)).2
+  calc
+    drive.magneticFluxDensity.tesla * drive.electronGyromagneticRatioHzPerTesla =
+        drive.electronGyromagneticRatioHzPerTesla *
+          drive.magneticFluxDensity.tesla := by ring
+    _ = drive.driveFrequency.hz := drive.resonanceLaw.symm
+
+/-- An ordinary longitudinal acoustic drive coupled through a measured passive
+transfer path. The dispersion law is the classical relation `f * λ = cₛ`; no
+massive-mode or nonclassical propagation assumption is included. -/
+structure LongitudinalAcousticDrive where
+  transfer : UltrasonicTransfer
+  wavelength : Length
+  wavelength_pos : 0 < wavelength.meters
+  dispersionLaw :
+    transfer.wave.frequencyHz * wavelength.meters = transfer.wave.medium.soundSpeed
+
+/-- The wavelength selected by an ordinary nondispersive longitudinal mode. -/
+lemma LongitudinalAcousticDrive.wavelength_eq_soundSpeed_div_frequency
+    (drive : LongitudinalAcousticDrive) :
+    drive.wavelength.meters =
+      drive.transfer.wave.medium.soundSpeed / drive.transfer.wave.frequencyHz := by
+  apply (eq_div_iff (ne_of_gt drive.transfer.wave.frequency_positive)).2
+  calc
+    drive.wavelength.meters * drive.transfer.wave.frequencyHz =
+        drive.transfer.wave.frequencyHz * drive.wavelength.meters := by ring
+    _ = drive.transfer.wave.medium.soundSpeed := drive.dispersionLaw
+
+/-- Acoustic power deposited after the declared passive transfer factors. -/
+noncomputable def LongitudinalAcousticDrive.depositedPower
+    (drive : LongitudinalAcousticDrive) : Power :=
+  { watts := drive.transfer.receivedPower }
+
+/-- Deposited longitudinal-wave power is nonnegative. -/
+lemma LongitudinalAcousticDrive.deposited_power_nonnegative
+    (drive : LongitudinalAcousticDrive) :
+    0 ≤ drive.depositedPower.watts := by
+  simpa [LongitudinalAcousticDrive.depositedPower] using
+    drive.transfer.receivedPower_nonnegative
+
+/-- Passive longitudinal-wave coupling cannot deposit more than source power. -/
+lemma LongitudinalAcousticDrive.deposited_power_le_source
+    (drive : LongitudinalAcousticDrive) :
+    drive.depositedPower.watts ≤ drive.transfer.link.sourcePower.watts := by
+  simpa [LongitudinalAcousticDrive.depositedPower] using
+    drive.transfer.receivedPower_le_sourcePower
+
+/-- Momentum-only axial thrust of an Argon exhaust stream. Pressure-thrust and
+nozzle-wall terms require separate measured inputs. -/
+noncomputable def argonJetThrust (flow : ConductiveArgonFlow) : Force :=
+  { newtons := flow.massFlow.kilogramsPerSecond * flow.velocity.metersPerSecond }
+
+/-- Momentum-only Argon jet thrust is nonnegative. -/
+lemma argonJetThrust_nonnegative (flow : ConductiveArgonFlow) :
+    0 ≤ (argonJetThrust flow).newtons := by
+  unfold argonJetThrust
+  exact mul_nonneg flow.massFlow_nonnegative flow.velocity_nonnegative
+
 /-- Classical kinetic power carried by a mass flow at a given speed. -/
 noncomputable def argonKineticPower (flow : ConductiveArgonFlow) : Power :=
   { watts := (1 / 2 : ℝ) * flow.massFlow.kilogramsPerSecond *
@@ -265,6 +362,13 @@ lemma argonKineticPower_nonnegative (flow : ConductiveArgonFlow) :
   exact mul_nonneg
     (mul_nonneg (by norm_num) flow.massFlow_nonnegative)
     (sq_nonneg _)
+
+/-- Classical momentum thrust and kinetic jet power obey `F * v = 2 * P`. -/
+lemma argonJetThrust_mul_velocity (flow : ConductiveArgonFlow) :
+    (argonJetThrust flow).newtons * flow.velocity.metersPerSecond =
+      2 * (argonKineticPower flow).watts := by
+  unfold argonJetThrust argonKineticPower
+  ring
 
 /-- A classical Argon MHD plant ties channel output to a full power balance.
 
@@ -280,6 +384,182 @@ structure ArgonMHDPlant where
     (argonKineticPower argon).watts
   motivePowerLaw : accounting.motivePower.watts = kineticInputPower.watts
   outputPowerLaw : accounting.electricalOutputPower.watts = channel.extractedPower.watts
+
+/-- A classical Argon MHD operating point with an ordinary longitudinal
+acoustic drive. Acoustic source power must be included in the declared control
+budget rather than treated as an unaccounted source of motive energy. -/
+structure LongitudinalAcousticArgonOperatingPoint where
+  plant : ArgonMHDPlant
+  drive : LongitudinalAcousticDrive
+  acousticSourceWithinControl :
+    drive.transfer.link.sourcePower.watts ≤ plant.accounting.controlPower.watts
+
+/-- Deposited acoustic power is bounded by the declared MHD control budget. -/
+lemma LongitudinalAcousticArgonOperatingPoint.deposited_power_le_control
+    (point : LongitudinalAcousticArgonOperatingPoint) :
+    point.drive.depositedPower.watts ≤ point.plant.accounting.controlPower.watts := by
+  exact le_trans point.drive.deposited_power_le_source point.acousticSourceWithinControl
+
+/-- A finite cellulose-strip resonator coupled through a measured solid-to-Argon
+interface. The MIMO source, strip conversion, interface loss, and downstream
+acoustic link are separate power boundaries. -/
+structure CelluloseStripArgonOperatingPoint where
+  argonPoint : LongitudinalAcousticArgonOperatingPoint
+  stripDrive : FireCannonCelluloseStripDrive
+  stripToArgonInterface : InterfaceResponse
+  transmittedAcousticPower : Power
+  transmittedAcousticPower_nonnegative : 0 ≤ transmittedAcousticPower.watts
+  transmittedPowerLaw : transmittedAcousticPower.watts =
+    stripDrive.resonator.acousticOutputPower.watts *
+      stripToArgonInterface.transmissionPower
+  acousticSourcePowerLaw :
+    argonPoint.drive.transfer.link.sourcePower.watts = transmittedAcousticPower.watts
+  frequencyMatch : argonPoint.drive.transfer.wave.frequencyHz =
+    stripDrive.resonator.secondHarmonicFrequency.hz
+  arraySource_positive : 0 < stripDrive.pump.array.sourcePower
+  arraySourceWithinControl :
+    stripDrive.pump.array.sourcePower ≤ argonPoint.plant.accounting.controlPower.watts
+
+/-- End-to-end acoustic source efficiency from MIMO array power to the Argon
+link boundary. -/
+noncomputable def CelluloseStripArgonOperatingPoint.sourceEfficiency
+    (point : CelluloseStripArgonOperatingPoint) : ℝ :=
+  point.argonPoint.drive.transfer.link.sourcePower.watts /
+    point.stripDrive.pump.array.sourcePower
+
+/-- Solid-to-Argon transmission cannot increase strip acoustic power. -/
+lemma CelluloseStripArgonOperatingPoint.source_power_le_strip_output
+    (point : CelluloseStripArgonOperatingPoint) :
+    point.argonPoint.drive.transfer.link.sourcePower.watts ≤
+      point.stripDrive.resonator.acousticOutputPower.watts := by
+  rw [point.acousticSourcePowerLaw, point.transmittedPowerLaw]
+  calc
+    point.stripDrive.resonator.acousticOutputPower.watts *
+          point.stripToArgonInterface.transmissionPower ≤
+        point.stripDrive.resonator.acousticOutputPower.watts * 1 :=
+      mul_le_mul_of_nonneg_left point.stripToArgonInterface.transmission_le_one
+        point.stripDrive.resonator.acoustic_output_nonnegative
+    _ = point.stripDrive.resonator.acousticOutputPower.watts := by ring
+
+/-- The complete passive strip-to-Argon acoustic source is bounded by the MIMO
+array source power. -/
+lemma CelluloseStripArgonOperatingPoint.source_power_le_array_source
+    (point : CelluloseStripArgonOperatingPoint) :
+    point.argonPoint.drive.transfer.link.sourcePower.watts ≤
+      point.stripDrive.pump.array.sourcePower := by
+  exact le_trans point.source_power_le_strip_output
+    point.stripDrive.acoustic_output_le_array_source
+
+/-- Strip-to-Argon source efficiency is nonnegative. -/
+lemma CelluloseStripArgonOperatingPoint.source_efficiency_nonnegative
+    (point : CelluloseStripArgonOperatingPoint) :
+    0 ≤ point.sourceEfficiency := by
+  unfold CelluloseStripArgonOperatingPoint.sourceEfficiency
+  exact div_nonneg point.argonPoint.drive.transfer.link.sourcePower_nonnegative
+    point.arraySource_positive.le
+
+/-- A passive strip and interface have source efficiency at most one. -/
+lemma CelluloseStripArgonOperatingPoint.source_efficiency_le_one
+    (point : CelluloseStripArgonOperatingPoint) :
+    point.sourceEfficiency ≤ 1 := by
+  unfold CelluloseStripArgonOperatingPoint.sourceEfficiency
+  exact (div_le_one point.arraySource_positive).2 point.source_power_le_array_source
+
+/-- The full array source, rather than only transmitted acoustic power, is
+included in the plant control budget. -/
+lemma CelluloseStripArgonOperatingPoint.source_power_le_control
+    (point : CelluloseStripArgonOperatingPoint) :
+    point.argonPoint.drive.transfer.link.sourcePower.watts ≤
+      point.argonPoint.plant.accounting.controlPower.watts := by
+  exact le_trans point.source_power_le_array_source point.arraySourceWithinControl
+
+/-- One calibrated candidate in a joint ECR and longitudinal-acoustic Argon
+frequency sweep. ECR source power is charged to the ionization budget, while
+the acoustic source remains inside the plant control budget. -/
+structure ArgonFrequencySweepPoint where
+  ecr : ElectronCyclotronResonance
+  operatingPoint : LongitudinalAcousticArgonOperatingPoint
+  operatingCosts : MHDOperatingCosts
+  ecrSourceWithinIonizationCost :
+    ecr.sourcePower.watts ≤ operatingCosts.ionizationPower.watts
+  ionizationPower_positive : 0 < operatingCosts.ionizationPower.watts
+  fullInput_positive :
+    0 < (operatingPoint.plant.accounting.fullInputPower operatingCosts).watts
+
+/-- Ionized Argon mass flow per ionization joule. This metric compares plasma
+production across frequencies without conflating it with MHD output power. -/
+noncomputable def ArgonFrequencySweepPoint.ionizationYield
+    (point : ArgonFrequencySweepPoint) : ℝ :=
+  point.operatingPoint.plant.argon.ionizedMassFlow.kilogramsPerSecond /
+    point.operatingCosts.ionizationPower.watts
+
+/-- Electrical output per total input power at one measured frequency point. -/
+noncomputable def ArgonFrequencySweepPoint.electricalYield
+    (point : ArgonFrequencySweepPoint) : ℝ :=
+  point.operatingPoint.plant.accounting.fullEfficiency point.operatingCosts
+
+/-- Momentum thrust per total input watt at one measured frequency point. -/
+noncomputable def ArgonFrequencySweepPoint.thrustPerInputPower
+    (point : ArgonFrequencySweepPoint) : ℝ :=
+  (argonJetThrust point.operatingPoint.plant.argon).newtons /
+    (point.operatingPoint.plant.accounting.fullInputPower point.operatingCosts).watts
+
+/-- A calibrated Argon sweep point has nonnegative electrical yield. -/
+lemma ArgonFrequencySweepPoint.electrical_yield_nonnegative
+    (point : ArgonFrequencySweepPoint) :
+    0 ≤ point.electricalYield := by
+  unfold ArgonFrequencySweepPoint.electricalYield MHDPowerAccounting.fullEfficiency
+  exact div_nonneg
+    point.operatingPoint.plant.accounting.electricalOutputPower_nonnegative
+    point.fullInput_positive.le
+
+/-- Ionized Argon mass flow per ionization joule is nonnegative. -/
+lemma ArgonFrequencySweepPoint.ionization_yield_nonnegative
+    (point : ArgonFrequencySweepPoint) :
+    0 ≤ point.ionizationYield := by
+  unfold ArgonFrequencySweepPoint.ionizationYield
+  exact div_nonneg point.operatingPoint.plant.argon.ionized_mass_flow_nonnegative
+    point.ionizationPower_positive.le
+
+/-- Passive electrical yield remains bounded by one at every sweep point. -/
+lemma ArgonFrequencySweepPoint.electrical_yield_le_one
+    (point : ArgonFrequencySweepPoint) :
+    point.electricalYield ≤ 1 := by
+  exact point.operatingPoint.plant.accounting.full_efficiency_le_one
+    point.operatingCosts point.fullInput_positive
+
+/-- Momentum thrust per total input watt is nonnegative. -/
+lemma ArgonFrequencySweepPoint.thrust_per_input_power_nonnegative
+    (point : ArgonFrequencySweepPoint) :
+    0 ≤ point.thrustPerInputPower := by
+  unfold ArgonFrequencySweepPoint.thrustPerInputPower
+  exact div_nonneg (argonJetThrust_nonnegative point.operatingPoint.plant.argon)
+    point.fullInput_positive.le
+
+/-- A finite family of measured Argon frequency candidates. -/
+structure ArgonFrequencySweep (count : ℕ) where
+  point : Fin count → ArgonFrequencySweepPoint
+
+/-- A candidate maximizes measured full electrical efficiency over the finite
+sweep. Equal-scoring candidates are all optimal. -/
+def ArgonFrequencySweep.IsElectricalYieldOptimal {count : ℕ}
+    (sweep : ArgonFrequencySweep count) (candidate : Fin count) : Prop :=
+  ∀ index, (sweep.point index).electricalYield ≤
+    (sweep.point candidate).electricalYield
+
+/-- A candidate maximizes ionized Argon mass flow per ionization joule over
+the finite sweep. -/
+def ArgonFrequencySweep.IsIonizationYieldOptimal {count : ℕ}
+    (sweep : ArgonFrequencySweep count) (candidate : Fin count) : Prop :=
+  ∀ index, (sweep.point index).ionizationYield ≤
+    (sweep.point candidate).ionizationYield
+
+/-- A candidate maximizes momentum thrust per total input watt over the finite
+sweep. This objective is distinct from electrical generation efficiency. -/
+def ArgonFrequencySweep.IsThrustPerPowerOptimal {count : ℕ}
+    (sweep : ArgonFrequencySweep count) (candidate : Fin count) : Prop :=
+  ∀ index, (sweep.point index).thrustPerInputPower ≤
+    (sweep.point candidate).thrustPerInputPower
 
 /-- The Argon MHD plant's motive input is its classical flow kinetic power. -/
 lemma ArgonMHDPlant.motive_power_eq_kinetic (plant : ArgonMHDPlant) :

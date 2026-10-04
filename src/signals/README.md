@@ -35,7 +35,13 @@ interpretation while keeping experimental premises explicit:
 - `Signals.MHD` models conductive Argon flow through a finite classical Faraday
    channel, its matched-load power-density law, kinetic input, passive total-
    input efficiency, auxiliary pump/ionization/field/cooling costs, and
-   closed-loop energy accounting. It does not claim a Proca field accelerates
+   closed-loop energy accounting. It also composes an ordinary longitudinal
+   acoustic transfer with `f * wavelength = sound speed`, accounts for its
+   source power, records classical ECR frequency/field matching, compares
+   finite frequency candidates by ionized mass per joule, electrical yield,
+   and thrust per total input watt, composes a finite cellulose-strip Bragg
+   resonator through an explicit lossy solid-to-Argon interface, and derives
+   momentum-only Argon jet thrust. It does not claim a Proca field accelerates
    neutral Argon or that a vacuum-powered plant exists.
 - `Signals.Acoustics` models classical ultrasonic transfer from pressure
    amplitude and acoustic impedance through aperture, transducer, link, and
@@ -941,13 +947,14 @@ namespace and build target:
 - `FiniteIQFT` records a normalized inverse-DFT-style finite transform law; it
    does not supply quantum operator semantics.
 - `ALSRank` bounds the configured CP/ALS rank to $2 \leq r \leq 10$, while
-   `ALSDecomposition` records factor matrices, reconstruction, residual and
-   iteration-limit metadata.
+   `ALSDecomposition` records factor matrices, reconstruction, a computed
+   finite Euclidean residual, tolerance, and iteration-limit metadata.
 - `HawkingRadiationDecoding` composes the prepared input, observed tensor,
    interactive/inverse GPE points, finite iQFT, Amplituhedron map, ALS
-   projection, and known-input comparison. It remains Pending and does not
-   establish Hawking radiation, SQG, cryptographic recovery, or physical
-   information decoding.
+   projection, and known-input comparison. Its `comparisonReady` predicate
+   aggregates only supplied numerical residual and iteration checks. It remains
+   Pending and does not establish Hawking radiation, SQG, cryptographic
+   recovery, or physical information decoding.
 - `ProcaMHDHypothesis` links a Proca channel to the classical MHD plant only as
    a conditional boundary. It separates optical/control power from motive
    input and keeps a control-only ratio distinct from total-input efficiency.
