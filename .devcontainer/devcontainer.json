@@ -42,8 +42,6 @@
         "ms-vscode.vscode-docker",
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
-        // Playwright CLI is provided by e2e/node_modules. Installing the VS Code
-        // extension starts a persistent test-server in this container.
         "ms-python.python",
         "ms-python.vscode-pylance",
         "tamasfe.even-better-toml",
@@ -53,7 +51,9 @@
         "stardog-union.stardog-sparql-grammar",
         "arkaitz.markdown-mermaid",
         "charliermarsh.ruff",
-        "leanprover.lean4"
+        "leanprover.lean4",
+        "chrisjsewell.myst-lsp",
+        "ExecutableBookProject.myst-highlight"
       ],
 	"settings": {
 		"python.defaultInterpreterPath": "/home/appuser/.venv/bin/python3"
