@@ -236,13 +236,107 @@ input, and that a closed loop with zero declared inputs has zero export.
 classical plant only as a conditional interface. Its control-only ratio is
 explicitly distinct from total-input efficiency.
 
+#### Ordinary Longitudinal-Wave Parameter Landscape
+
+The classical test path does not require a Proca hypothesis. The chat proposes
+an acoustic tuning ring around the reactor
+([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1365-L1371)) and derives
+a 400 GHz target from a supplied 20 nm wavelength and 8,000 m/s longitudinal
+sound speed in the *solid cellulose waveguide*, not in Argon plasma
+([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1538-L1560)). It then
+proposes 800 GHz acoustic generation by mixing two 400 GHz electromagnetic
+beams ([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1642-L1663)).
+These are proposal inputs. The arithmetic is reproducible, but neither the
+solid-to-plasma coupling nor a propagating 400/800 GHz Argon mode is measured.
+
+The corpus also supplies ordinary ECR candidates. A proposed benchtop source
+uses 2.45 GHz microwave ionization with a matched static magnetic field
+([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L14278-L14289)). A
+second chat states the approximate electron-cyclotron relation
+$f_{ce}\approx28\,B$ GHz/T and gives 98 GHz at 3.5 T, while assigning the heavy
+Argon-ion response to a separate 1--15 MHz ion-acoustic envelope
+([source](../data/chats/Review-Pop-III-GW-Remnants.md#L3733-L3753)). The latter
+source wraps these ordinary formulas in an unsupported Proca interpretation;
+only the classical frequency/field and ion-acoustic relations are retained.
+
+With the supplied 28 GHz/T calibration, useful ECR checkpoints are:
+
+| ECR carrier | Matched field | Role |
+| --- | ---: | --- |
+| 2.45 GHz | 0.0875 T | Common low-field microwave-plasma starting point in the proposal. |
+| 28 GHz | 1 T | Intermediate field/frequency calibration point. |
+| 98 GHz | 3.5 T | High-field candidate stated in the chat. |
+| 100 GHz | about 3.57 T | Rounded alternative to the 98 GHz point. |
+| 400 GHz | about 14.29 T | Do not conflate with the 400 GHz solid-acoustic proposal. |
+| 800 GHz | about 28.57 T | Do not conflate with the proposed acoustic sum frequency. |
+
+These field values establish resonance matching only. They do not predict
+ionization fraction, conductivity, stability, or net yield.
+
+The verified parameter landscape is therefore:
+
+| Surface | Classical relation or constraint | Optimization decision |
+| --- | --- | --- |
+| Electron cyclotron drive | $f_{ce}=\gamma_e B$ with measured $\gamma_e$ | Sweep matched $(f,B)$ pairs and compare ionized mass flow per ionization joule. |
+| Plasma production | $Y_{\mathrm{ion}}=\dot m x_i/P_{\mathrm{ion}}$ | Measure $x_i$, conductivity, density, temperature, and recombination at equal mass flow and pressure. |
+| Longitudinal mode | $f\lambda=c_s$ | Sweep measured $f$, $\lambda$, and phase speed; do not transfer the solid's $c_s$ to plasma. |
+| Acoustic injection | $I=p_{\mathrm{rms}}^2/(\rho c_s)$ with bounded link and transducer factors | Maximize measured deposited power per source watt while tracking attenuation and heating. |
+| Argon exhaust | $F=\dot m v$ and $P_{\mathrm{jet}}=\tfrac12\dot m v^2$ | At fixed jet power, $F=2P_{\mathrm{jet}}/v$; high exhaust velocity trades against thrust rather than providing both without added power. |
+| Faraday extraction | $P/V=\sigma v^2B^2K(1-K)$ | The verified electrical-load optimum is $K=1/2$; conductivity, field, velocity, and volume remain measured inputs. |
+| Plant power | $P_{\mathrm{out}}+P_{\mathrm{loss}}=P_{\mathrm{control}}+P_{\mathrm{motive}}$ | Count the acoustic source inside control power and include pump, ionization, field, and cooling loads. |
+
+`LongitudinalAcousticDrive` records the ordinary acoustic transfer and
+dispersion assumption. `argonJetThrust` and `argonJetThrust_mul_velocity`
+record the classical momentum and power tradeoff.
+`LongitudinalAcousticArgonOperatingPoint` requires acoustic source power to fit
+inside the declared MHD control budget. The 400 GHz, 20 nm test fixture checks
+the supplied arithmetic only; type checking does not validate the medium or
+transducer.
+
+`ElectronCyclotronResonance` keeps carrier frequency, static field, source
+power, and the measured Hz/T calibration together. `ArgonFrequencySweepPoint`
+then exposes three distinct objectives:
+
+1. Ionization yield: ionized Argon mass flow per ionization joule.
+2. Electrical yield: MHD electrical output divided by full plant input.
+3. Propulsion yield: momentum thrust divided by full plant input power.
+
+`ArgonFrequencySweep` compares a finite set of measured candidates for each
+objective. The tests include 2.45, 28, and 98 GHz ECR points. In the toy data,
+2.45 GHz is optimal only because all three points are assigned the same flow,
+ionization fraction, electrical output, and thrust while ionization cost rises
+with frequency. This is a test of the optimizer, not a reactor performance
+claim. Real measurements may select another point.
+
+The recommended search order is to hold Argon mass flow, inlet pressure, and
+geometry fixed; sweep matched ECR frequency and field; reject unstable or
+wall-heating points; rank the survivors by $Y_{\mathrm{ion}}$; then sweep the
+ordinary longitudinal drive independently at equal acoustic source power.
+Finally tune the Faraday load toward $K=1/2$ and compare full electrical yield
+or thrust per watt. Report both objectives or a Pareto frontier rather than
+collapsing generator and thruster performance into one score.
+
+The chat's proposed gridless “topological plasma thruster” and its claimed
+50,000--500,000+ second specific impulse and kilonewton thrust are not implied
+by ordinary longitudinal waves
+([source](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1373-L1406)). Under the
+classical model, helical or topological flow geometry may affect confinement,
+mixing, and nozzle efficiency, but it contributes no unaccounted momentum or
+energy. Those performance claims remain unsupported until a calibrated thrust
+stand closes mass flow, exhaust velocity, pressure thrust, input power, and
+thermal loss.
+
 The minimum closure experiment requires an ionization and conductivity map,
 mass-flow and velocity measurements, magnetic-field and channel geometry,
 load-voltage/current data, pump and plasma-sustainment power, field and cooling
 power, pressure drop, recombination and wall losses, and a full electrical
-power balance. No Proca or vacuum-gradient interpretation should be promoted
-unless it produces a reproducible incremental force or energy term that
-survives ordinary electromagnetic, fluid, thermal, and instrument controls.
+power balance. For the longitudinal-wave branch, also measure wavevector,
+pressure/density phase, frequency-dependent attenuation, deposited acoustic
+power, plasma temperature and density, and thrust against an equal-power
+electromagnetic or thermal control. No nonclassical interpretation should be
+promoted unless it produces a reproducible incremental force or energy term
+that survives ordinary electromagnetic, fluid, thermal, and instrument
+controls.
 
 ### Argon Availability Is Not Nominal Plant Power
 
@@ -276,15 +370,17 @@ The attached Hawking-radiation chat proposes a staged decoding story: a
 prepared modulation $X(t)$ is measured as a scattered homodyne signal $Y(t)$,
 then corrected with an inverse Gross-Pitaevskii step, phase-processed with an
 iQFT, and passed to an Amplituhedron-constrained CANDECOMP/PARAFAC ALS
-decomposition (source: `data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md`,
-lines 2451-2500). The same source describes homodyne phase sweeping for both
-quadratures and an inverse Fourier routine before tensor decomposition (source:
-`data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md`, lines
-2390-2440). A later widget specification exposes ALS rank as a 1--10 control
-and presents rank 2--3 or rank 2 near-zero reconstruction error as simulation
-behavior, not as an experimental result (source:
-`data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md`, lines
-2524-2540).
+decomposition ([source chat](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2451-L2500)).
+The same source describes homodyne phase sweeping for both quadratures and an
+inverse Fourier routine before tensor decomposition
+([source chat](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2390-L2440)).
+A later widget specification exposes ALS rank as a 1--10 control and presents
+rank 2--3 or rank 2 near-zero reconstruction error as simulation behavior, not
+as an experimental result
+([source chat](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2524-L2540)).
+The chat itself also states that no standard quantum-gravity precedent makes
+rank 10 universal
+([rank discussion](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2246-L2285)).
 
 The Pending implementation now records the finite boundaries of that proposal:
 
@@ -295,12 +391,17 @@ The Pending implementation now records the finite boundaries of that proposal:
   input/output law. It does not claim quantum operator semantics or a physical
   phase-unscrambling device.
 - `ALSRank` requires $2 \leq r \leq 10$. `ALSDecomposition` records three CP
-  factor matrices, the reconstruction law, residual/tolerance bounds, and an
-  iteration limit. A configured rank and a small residual are not evidence of
-  identifiability or successful decoding.
+  factor matrices and the reconstruction law. Its reported residual is now
+  required to equal the finite Euclidean tensor residual, rather than remaining
+  unconstrained metadata. The tolerance and iteration limit are still supplied
+  numerical acceptance criteria. A configured rank and a small residual are
+  not evidence of identifiability or successful decoding.
 - `HawkingRadiationDecoding` composes the `FractureWave`, interactive and
   inverse GPE records, observed tensor, iGPE residual, finite iQFT, existing
-  `AmplituhedronMap`, ALS projection, and known-input comparison.
+  `AmplituhedronMap`, ALS projection, and known-input comparison. The known-input
+  residual is likewise tied to a finite Euclidean trace residual, and
+  `comparisonReady` exposes the three residual bounds plus the ALS iteration
+  limit as one numerical predicate.
 
 These records remain in `Signals.Pending`: they are finite data contracts for a
 numerical or experimental adapter. They do not prove Hawking radiation,
@@ -308,6 +409,30 @@ superfluid quantum gravity, a physical inverse-GPE solver, an Amplituhedron
 description of scattering, cryptographic recovery, or a low-rank physical
 decoder. The rank-2 and rank-10 fixtures only verify the declared configuration
 range and composition laws.
+
+| Claim | Evidence status | Disposition |
+| --- | --- | --- |
+| CP decomposition represents a tensor as a sum of rank-one terms and ALS is a standard fitting method | Scholarly numerical method ([Kolda and Bader 2009](#kolda2009)) | Use a computed reconstruction residual and explicit stopping metadata. |
+| Density correlations can reveal analogue Hawking emission in a BEC sonic-horizon model | Scholarly numerical theory ([Carusotto et al. 2008](#carusotto2008)) | Relevant observable precedent; it does not validate the proposed decoder. |
+| Hawking/partner correlations and entanglement were reported in an atomic-BEC analogue black hole | Experimental claim ([Steinhauer 2016](#steinhauer2016)) | Analogue-gravity evidence only; it does not establish astrophysical decoding, iGPE inversion, iQFT hardware, or Amplituhedron constraints. |
+| iGPE + iQFT + Amplituhedron-constrained ALS gives exact or rank-2 recovery | Proposal with low confidence ([source chat](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2451-L2540)) | Keep Pending. Require a specified solver, raw calibrated data, held-out controls, uncertainty, rank selection, and reproducible residuals. |
+
+### Scholarly References
+
+<a id="kolda2009"></a> Kolda, T. G., and Bader, B. W. (2009).
+"Tensor Decompositions and Applications." *SIAM Review* 51(3), 455--500.
+[doi:10.1137/07070111X](https://doi.org/10.1137/07070111X).
+
+<a id="carusotto2008"></a> Carusotto, I., Fagnocchi, S., Recati, A.,
+Balbinot, R., and Fabbri, A. (2008). "Numerical observation of Hawking
+radiation from acoustic black holes in atomic Bose--Einstein condensates."
+*New Journal of Physics* 10, 103001.
+[doi:10.1088/1367-2630/10/10/103001](https://doi.org/10.1088/1367-2630/10/10/103001).
+
+<a id="steinhauer2016"></a> Steinhauer, J. (2016). "Observation of quantum
+Hawking radiation and its entanglement in an analogue black hole."
+*Nature Physics* 12, 959--965.
+[doi:10.1038/nphys3863](https://doi.org/10.1038/nphys3863).
 
 ### LVP Perovskite Solar and Imaging
 

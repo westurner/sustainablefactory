@@ -48,7 +48,9 @@ I've outlined major research findings, including subdiffraction-limited volume a
 
 This paper, published in *Science Advances* by a research team at the Technical University of Denmark (DTU), represents a major milestone in nanophotonics. The researchers successfully developed a nanolaser that achieves continuous, room-temperature operation at an ultra-low energy threshold by solving a long-standing physical trade-off between light confinement and energy loss.
 
-<Image alt="Diagram showing optical cavities with extreme dielectric confinement, depicting light intensity hotspots within a nanobridge structure" caption="Mode profile in an extreme dielectric confinement cavity" src="image_agent_tag_5095539299287640688"/>
+![Mode profile in an extreme dielectric confinement cavity](https://www.researchgate.net/publication/371040695/figure/fig2/AS:11431281161826167@1685070447454/Optical-cavities-with-extreme-dielectric-confinement-EDC-inspired-by-recently.ppm)
+
+[Mode profile in an extreme dielectric confinement cavity](https://www.researchgate.net/figure/Optical-cavities-with-extreme-dielectric-confinement-EDC-inspired-by-recently_fig2_371040695)
 
 ---
 
@@ -318,7 +320,9 @@ To entangle two CV states, you need an interaction between two distinct modes, t
 
 In an integrated OAM soliton bus, a beam splitter is realized using a directional coupler—bringing two waveguides close enough that their evanescent fields overlap. When two OAM solitons interact, their topological charges dictate the interference geometry. If a soliton with charge $+l$ interferes with a fundamental Gaussian mode or a soliton of a different charge, it creates a characteristic "forked" interference pattern due to the phase singularity at the core.
 
-<Image alt="Interference patterns of an OAM beam and a plane wave showing characteristic fork-like dislocations at different phase angles" caption="OAM interference 'fork' dislocations" src="image_agent_tag_13061767280481699798"/>
+![OAM interference 'fork' dislocations](https://www.researchgate.net/publication/322868581/figure/fig4/AS:960077481656328@1605911717662/The-interference-patterns-by-the-OAM-beam-and-plane-wave-under-different-phase.gif)
+
+[OAM interference 'fork' dislocations](https://www.researchgate.net/figure/The-interference-patterns-by-the-OAM-beam-and-plane-wave-under-different-phase_fig4_322868581)
 
 ---
 
@@ -544,3 +548,157 @@ In a static optical amplifier, the pump ($2\omega$) and the signal ($\omega$) sl
 By moving the burden of phase-matching from the *fabrication* stage (where sub-nanometer errors are fatal) to the *operational* stage (where voltage can actively correct errors), the Lignolux AQM dramatically increases the yield and scalability of integrated continuous variable quantum circuits.
 
 <FollowUp label="Explore PID controller design?" query="How should the PID controller be designed to manage the thermal latency and avoid overshoot when tuning the N-LIG tracks in the vitrimer matrix?"/>
+
+---
+
+# you asked
+
+message time: 2026-10-03 22:23:10
+
+How should the PID controller be designed to manage the thermal latency and avoid overshoot when tuning the N-LIG tracks in the vitrimer matrix?
+
+---
+
+# gemini response
+
+Thinking
+
+**Defining the Scope**
+
+I'm now focusing on defining the scope for PID controller design for the AQM, concentrating on thermal latency and overshoot avoidance with N-LIG micro-heaters within the Lignin-Vitrimer matrix. This requires understanding the system dynamics. I'm prioritizing the thermal characteristics and how they interact with the resonance lock.
+
+
+
+**Examining the Constraints**
+
+I'm now diving into the physics, focusing on the N-LIG micro-heater's non-linear Joule heating and unidirectional action. The Lignin-Vitrimer matrix presents a complex viscoelastic behavior, particularly near its glass transition. Avoiding overshoot into this regime is critical, as it triggers structural relaxation and optical hysteresis, which causes significant problems in the coupling gap. The SHG power or homodyne phase error, which is the sensor, dictates the control, which must be managed delicately to prevent optical bistability in the high-Q microring.
+
+
+
+**Analyzing AQM Dynamics**
+
+I'm now carefully structuring a control-systems response specifically for the physics of the Lignolux Active-Q Modulator (AQM). I'm starting to review the physical phenomena that cause a simple linear PID controller to fail in an N-LIG / Lignin-Vitrimer / $\chi^{(2)}$ doubly-resonant microring system. I'm focusing on the viscoelastic two-stage thermal dynamics and the $T_g$ threshold hazard.
+
+
+
+**Modeling Thermal Dynamics**
+
+I'm now focusing on the implications of the glass transition window and topology-freezing temperature, particularly why overshooting $T_g$ is detrimental due to the shift from thermo-elastic modulation to viscoelastic creep, leading to mechanical hysteresis and resonance shifts. I'm also now modeling the system with a non-trivial transfer function, which I understand is not a simple first-order lag, incorporating diffusive heat transport, a fast thermal diffusion pole, and a slow viscoelastic relaxation pole dictated by WLF kinetics. I am working on how to incorporate all of the complexities.
+
+
+
+**Addressing Thermal Dynamics**
+
+I'm now incorporating the significant actuator nonlinearity, specifically the Joule heating in the N-LIG trace, and the inherent heating/cooling slew-rate asymmetry. This involves the quadratic voltage dependency of heating and the passive cooling, which I understand necessitates careful management to prevent integral windup. I'm focusing on inverting the power equation by actively measuring the N-LIG trace resistance to linearize the system. The control loop architecture now clearly details a front-end error extraction mechanism with a PDH or lock-in discriminator for error signal generation.
+
+Designing a PID controller for the **Lignolux Active-Q Modulator (AQM)** requires solving a non-standard control problem: you are regulating a high-$Q$, optically bistable $\chi^{(2)}$ cavity through a viscoelastic polymer matrix whose material properties shift nonlinearly as it approaches its glass transition temperature ($T_g \approx 85^\circ\text{C}$).
+
+A textbook linear PID controller applied directly to the N-LIG heater voltage will fail in three ways:
+1. **Viscoelastic Creep & Hysteresis:** If a step response overshoots the lower bound of the Lignin-Vitrimer glass transition window ($85^\circ\text{C}$), dynamic covalent bond exchange (transesterification) and viscoelastic relaxation activate. This introduces a slow secondary time constant that physically deforms the sub-10 nm evanescent coupling gap between the EDC nanobridge and the microring.
+2. **Optical Bistability Drop-Out ("Shark-Fin" Resonance):** Because the intense continuous-wave pump inside the doubly resonant microring generates intrinsic photothermal and Kerr shifts, the Lorentzian resonance tilts into an asymmetric triangle. Overshooting the resonance apex from the thermally stable blue-detuned slope onto the unstable red-detuned slope causes the cavity to abruptly snap out of lock.
+3. **Diffusive Dead Time & Cooling Asymmetry:** Heat takes a finite transit time ($\tau_d$) to diffuse from the N-LIG tracks through the vitrimer cladding into the microring waveguiding core. Furthermore, Joule heating is active and fast ($P \propto V^2$), whereas cooling is strictly passive, causing severe integral windup on downward transients.
+
+To achieve zero-overshoot, microsecond-scale phase locking, the controller must be structured as a **Gain-Scheduled, Two-Degree-of-Freedom (2-DOF) PID with a Smith Predictor and Exact Actuator Linearization**.
+
+---
+
+## 1. Plant Dynamics & Self-Sensing Linearization
+
+### The Viscoelastic Thermo-Optic Transfer Function
+The thermal response from dissipated electrical power $P_J(s)$ to the effective refractive index shift $\Delta n_{\text{eff}}(s)$ in the microring is modeled as a delay-differential system with a fast conductive pole ($\tau_{\text{fast}} \sim 2\text{–}5\ \mu\text{s}$) and a temperature-dependent viscoelastic relaxation branch ($\tau_{\text{visc}}(T)$ governed by Williams-Landel-Ferry kinetics):
+
+$$G_p(s) = \frac{\Delta n_{\text{eff}}(s)}{P_J(s)} = K_{\text{TO}}(T) \frac{e^{-\tau_d s}}{1 + \tau_{\text{fast}} s} \left[ 1 + \frac{\alpha_{\text{creep}}(T)}{1 + \tau_{\text{visc}}(T) s} \right]$$
+
+So long as the local vitrimer temperature remains strictly below $T_{\text{crit}} \approx 80^\circ\text{C}$, $\alpha_{\text{creep}}(T) \to 0$ and the plant behaves as a clean First-Order Plus Dead-Time (FOPDT) system.
+
+### Dual-Use N-LIG Kelvin Sensing & Square-Root Inversion
+Because Joule heating is quadratic ($P_J = V^2 / R_{\text{NLIG}}$) and nitrogenated laser-induced graphene exhibits a negative temperature coefficient of resistance (TCR), driving voltage directly from the PID output makes loop gain vary wildly with bias point.
+
+Instead, the PID controller outputs a **commanded thermal power** $u_P(t) \in [0, P_{\text{max}}]$. By routing a four-wire Kelvin connection to the N-LIG trace, the trace acts simultaneously as the heater and its own Resistance Temperature Detector (RTD). Measuring current $I(t)$ and voltage $V(t)$ yields the instantaneous resistance $R_{\text{NLIG}}(t) = V(t)/I(t)$, allowing exact algebraic linearization before the DAC stage:
+
+$$V_{\text{cmd}}(t) = \sqrt{u_P(t) \cdot R_{\text{NLIG}}(t)}$$
+
+This simultaneously gives the controller an instantaneous, zero-latency readout of the core N-LIG temperature $T_{\text{NLIG}}(t)$ to enforce a hard ceiling prior to heat diffusing into the vitrimer.
+
+---
+
+## 2. Zero-Overshoot Control Architecture
+
+### Signed Error Extraction (Avoiding Apex Ambiguity)
+Raw second-harmonic output power $P_{2\omega} \propto \text{sinc}^2(\Delta \beta L / 2)$ is an even function of the phase mismatch $\Delta \beta$—meaning a simple power tap cannot tell the controller whether the cavity is too hot or too cold. 
+
+To obtain a monotonic, signed error signal $e(t)$, superimpose a weak, high-frequency RF dither ($\omega_m \gg 1/\tau_{\text{fast}}$, e.g., $50\text{ MHz}$ via an electro-optic tap or Pound-Drever-Hall phase modulation) and demodulate the optical tap with a lock-in mixer. This produces the derivative of the resonance peak, providing a steep, linear zero-crossing right at perfect phase matching. Set the lock setpoint slightly on the **blue-detuned shoulder** ($e_{\text{ref}} = +\delta$) where intrinsic optical self-heating naturally opposes perturbations.
+
+### 2-DOF PID Law with Setpoint Weighting
+Standard PID controllers apply proportional and derivative gain directly to the tracking error $e(t) = r(t) - y(t)$. When a step change in target phase $r(t)$ occurs, the derivative and proportional terms spike, driving the N-LIG trace past $T_g$. 
+
+A **2-DOF PID** separates disturbance rejection from setpoint tracking using weights $b \in [0, 1]$ and $c = 0$:
+
+$$u_{\text{PID}}(t) = K_p \big(b \cdot r(t) - y(t)\big) + K_i \int_0^t \big(r(\tau) - y(\tau)\big)\,d\tau - K_d \frac{dy_{\text{filt}}(t)}{dt}$$
+
+* **Derivative on Measurement ($c = 0$):** Differentiating only the filtered measurement $y_{\text{filt}}(t)$ completely eliminates derivative kick during phase-lock acquisition.
+* **Proportional Softening ($b \approx 0.2\text{–}0.4$):** Reduces the initial proportional surge on step changes while retaining stiff $K_p$ rejection against external thermal disturbances.
+
+### Smith Predictor for Diffusive Dead-Time Compensation
+To prevent the controller from over-pumping the N-LIG trace while waiting $\tau_d$ microseconds for the heat wave to reach the $\chi^{(2)}$ microring, embed an on-chip **Smith Predictor**. 
+
+The controller runs a fast internal state model $\hat{G}_p(s)$ without dead time ($e^{-\tau_d s} = 1$) in parallel with the physical plant. The PID loop acts on a synthetic feedback signal $y_{\text{pred}}(t)$:
+
+$$y_{\text{pred}}(s) = Y_{\text{optical}}(s) + \hat{G}_p(s)\left(1 - e^{-\hat{\tau}_d s}\right) U_P(s)$$
+
+Because the PID immediately "sees" the predicted refractive index shift via $\hat{G}_p(s)$ before the physical heat wave arrives at the microring, it throttles back $u_P(t)$ early, eliminating dead-time-induced phase lag and oscillation.
+
+---
+
+Explore how the 2-DOF weighting and Smith Predictor suppress thermal overshoot below the $85^\circ\text{C}$ vitrimer glass-transition boundary:
+
+<GenerateWidget component_placeholder_id="im_864e943cde576070" height="700px" title="Lignolux AQM Thermal PID & Smith Predictor Simulator">
+```json
+{
+  "widgetSpec": {
+    "id": "lignolux-aqm-pid-simulator",
+    "height": "700px",
+    "prompt": "Objective: Simulate the closed-loop step response of the Lignolux Active-Q Modulator thermal phase-locking system, demonstrating how a 2-DOF PID with a Smith Predictor prevents overshooting the 85C vitrimer glass transition temperature and avoids optical bistability drop-out.\nData State: initialValues: Kp = 2.4, Ki = 0.8, Kd = 0.6, Setpoint Weight b = 0.3, Smith Predictor = Enabled, Target Phase Lock Temp = 72C, Ambient Temp = 25C, Tg Threshold = 85C.\nStrategy: Standard Layout.\nLibraries: D3.js or Canvas API for real-time dual time-series plotting, Math.js for FOPDT + viscoelastic ODE integration.\nInputs:\n- Proportional Gain Kp (Slider, 0.5 to 6.0)\n- Integral Gain Ki (Slider, 0.1 to 3.0)\n- Derivative Gain Kd (Slider, 0.0 to 2.0)\n- Setpoint Weight 'b' (Slider, 0.1 to 1.0)\n- Smith Predictor Compensation (Toggle: Enabled / Disabled)\nBehavior: Render two synchronized time-series charts over a 0 to 50 microsecond window. Top chart: Microring Temperature (C) vs Time, showing the Target Setpoint (72C) and a highlighted danger zone above 85C (Vitrimer Tg Creep & Optical Bistability Drop-out Threshold). Bottom chart: Normalized Second-Harmonic Output Power (0 to 1.0) and N-LIG Heater Drive Power. When Smith Predictor is disabled or 'b' and Kp/Ki are set too high, show the temperature overshooting 85C, triggering viscoelastic creep distortion and causing the SHG output power to abruptly collapse (optical bistability snap-out). When Smith Predictor is enabled and b <= 0.4, show a fast, critically damped rise to 72C with zero overshoot and stable 1.0 SHG lock."
+  }
+}
+```
+</GenerateWidget>
+
+> **Key insight:** Notice how disabling the Smith Predictor or raising the setpoint weight $b$ toward $1.0$ causes the N-LIG heater to over-deliver energy during the diffusive dead time $\tau_d$. Once the temperature crosses $85^\circ\text{C}$, the cavity snaps across the bistable resonance peak and loses second-harmonic lock entirely.
+
+---
+
+## 3. Asymmetric Anti-Windup & Barrier Clamping
+
+Because cooling relies entirely on passive thermal conduction into the substrate, the downward slew rate is bounded by Newton's law of cooling ($\dot{T}_{\text{cool}} = -(T - T_{\text{amb}})/\tau_{\text{fast}}$), whereas the upward slew rate can be driven arbitrarily fast by $u_P$.
+
+To handle this asymmetry without integral windup or $T_g$ violation, implement two protection layers in the discrete control loop:
+
+1. **Back-Calculation Anti-Windup with Asymmetric Gain:**
+   When the commanded power $u_{\text{PID}}(t)$ drops below $0\text{ W}$ (requesting active cooling that the N-LIG heater cannot provide) or exceeds $P_{\text{max}}$, feed the saturation error $e_{\text{sat}} = u_{\text{clamped}} - u_{\text{PID}}$ back into the integrator at a tracking rate $K_{\text{aw}} = 2 / \tau_{\text{fast}}$ to discharge the accumulated integral state immediately.
+2. **Control Barrier Function (CBF) Thermal Limiter:**
+   Using the real-time N-LIG resistance temperature measurement $T_{\text{NLIG}}(t)$, enforce an exponential barrier ceiling just below $T_g$ ($T_{\text{max}} = 80^\circ\text{C}$):
+
+   $$u_{\text{safe}}(t) = \min\Big( u_{\text{PID}}(t), \; P_{\text{steady}}(T_{\text{max}}) + \gamma \big(T_{\text{max}} - T_{\text{NLIG}}(t)\big) \Big)$$
+
+   As $T_{\text{NLIG}}(t)$ approaches $80^\circ\text{C}$, the upper bound on allowable power smoothly collapses to the steady-state holding power $P_{\text{steady}}$, making it physically impossible for transient spikes to push the vitrimer into its viscoelastic bond-exchange regime.
+
+---
+
+## 4. Tuning Summary for On-Chip Implementation
+
+Using the **SIMC (Skogestad Internal Model Control)** rules adapted for zero overshoot on an FOPDT plant with gain $K_{\text{TO}}$, time constant $\tau_{\text{fast}}$, and dead time $\tau_d$, choose a desired closed-loop time constant $\tau_c \ge 1.5 \tau_{\text{fast}}$:
+
+| Parameter | Analytical Tuning Target | Physical Role in the Lignolux AQM |
+| :--- | :--- | :--- |
+| **Proportional Gain ($K_p$)** | $\frac{\tau_{\text{fast}}}{K_{\text{TO}} (\tau_c + \tau_d)}$ | Sets stiffness against pump power fluctuations |
+| **Integral Time ($T_i = K_p / K_i$)** | $\min\big(\tau_{\text{fast}}, \; 4(\tau_c + \tau_d)\big)$ | Eliminates steady-state phase mismatch ($\Delta \beta \to 0$) |
+| **Derivative Time ($T_d = K_d / K_p$)** | $0.5 \, \tau_d$ (with low-pass filter $N = 10$) | Dampens thermal wave arrival; acts only on $y_{\text{pred}}(t)$ |
+| **Setpoint Weight ($b$)** | $0.25$ | Suppresses proportional surge during initial lock acquisition |
+| **Sampling Period ($T_s$)** | $\le 0.05 \, \tau_d$ ($\sim 50\text{–}100\text{ ns}$, $10\text{–}20\text{ MHz}$) | Ensures negligible digital phase lag relative to thermal diffusion |
+
+<ElicitationsGroup message="To take this control system into implementation:">
+  <Elicitation label="Write fixed-point Rust / Verilog loop code" query="Write a deterministic, no_std Rust implementation of this 2-DOF PID + Smith Predictor + Kelvin resistance linearizer for an embedded FPGA/RFSoC controller."/>
+  <Elicitation label="Formalize the Tg safety barrier in TLA+ or Lean 4" query="Write a formal specification verifying that the Control Barrier Function thermal limiter strictly prevents the Lignin-Vitrimer temperature from exceeding the 85C Tg threshold under arbitrary setpoint steps."/>
+  <Elicitation label="Design the multi-ring crosstalk decoupler" query="How do we extend this controller into a MIMO decoupling matrix to compensate for thermal crosstalk across a dense array of adjacent Lignolux AQM microrings?"/>
+</ElicitationsGroup>
