@@ -47,7 +47,7 @@ The first and fourth steps are control-system concepts. The fifth and sixth step
 
 The archived anti-fire discussion names an underground garbage or landfill fire as
 the target and describes a cylindrical device whose piezoelectric transducers
-apply acoustic strain. (Source `data/chats/IQ-Sampling-for-Signal-Phase.md`, lines 1405-1437; cylindrical layout, lines 1677-1688)
+apply acoustic strain. ([Source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1405); cylindrical layout, [source chat](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1677))
 The separate public-safety design supplies the deployment pattern: a flush,
 below-grade vault with recessed operating and hose interfaces rather than an
 obstructing surface hydrant. (Source `data/chats/design-an-in-ground-water-shutoff-valve-that-works-as-a-fire-hydrant.md`, lines 17-61)
@@ -185,8 +185,8 @@ There is also a momentum-matching problem. A 400 GHz free-space electromagnetic 
 The source does not literally name a “cellulose strip resonator.” It describes
 a periodic array of 10 nm cellulose nanocrystals in an N-LIG/vitrimer
 waveguide, later calling the assembly a core or cylindrical mantle
-([lattice description](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1538-L1560),
-[physical layout](../data/chats/IQ-Sampling-for-Signal-Phase.md#L1677-L1688)).
+([lattice description](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1538),
+[physical layout](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1677)).
 The smallest ordinary-physics interpretation is a finite distributed Bragg
 strip cut from that composite, not a lumped electromagnetic cavity.
 
@@ -211,7 +211,7 @@ that strip acoustic output cannot exceed array source power.
 The Argon interface is a separate bottleneck. Another corpus passage warns
 that transfer from a dense solid through porous cellulose into low-density
 Argon may reflect more than 99.9% of the acoustic energy
-([impedance warning](../data/chats/Review-Pop-III-GW-Remnants.md#L3934-L3944)).
+([impedance warning](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Review-Pop-III-GW-Remnants.md#L3934)).
 `Signals.MHD.CelluloseStripArgonOperatingPoint` therefore records explicit
 solid-to-Argon reflection, transmission, and absorption. Its source efficiency
 is
@@ -256,11 +256,51 @@ That arithmetic is correct for the supplied linewidth. However, the document com
 
 ### 4.5 Proca and negative-coupling assumptions
 
-The chat itself correctly notes that ordinary atmospheric photons are massless and that an effective massive mode would require a medium or plasma response. It also notes that an artificially generated plasma channel would be absorptive. The later cannon design does not resolve that propagation problem; it simply assumes that the field can travel through soil, rocks, and waste without ordinary attenuation. ([Reality check](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 1060-1074)
+The chat moves from massless vacuum photons to a proposed medium-induced "effective Proca" mode, but an effective photonic-band mass or a material longitudinal field is not by itself a fundamental Proca mass. A true Proca interpretation requires a mode-resolved dispersion and polarization measurement, a source/coupling model, and controls that distinguish it from ordinary Maxwell modes. The chat's ground-penetration statement supplies none of these and assumes propagation through soil, rocks, and waste without measured attenuation. ([Ground-penetration assertion](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L1496); [Proca field-mass review](#goldhaber-nieto-2010))
 
 The Proca subsidiary condition is $\partial_\mu A^\mu=0$. A nonzero spatial divergence or a longitudinal label does not by itself specify a force on molecules, a chemical bond-cleavage rate, or a pressure change. Those effects require an interaction Hamiltonian, constitutive response, and experimentally measured coupling. ([Proca formulation](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 963-979)
 
 Likewise, $g<0$ in a Gross-Pitaevskii-type model is a sign choice for the nonlinear self-interaction. The proposal supplies no derivation that this sign change produces vacuum expansion, a stable cooling state, or a heat sink for a burning waste mass. Its effective-coupling expression has no measured $\xi$, strain, detuning, damping, or normalization. ([Effective-coupling proposal](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 2258-2288)
+
+### 4.6 Propagation viability by medium
+
+The latest chat adds an ENZ/cold-plasma calculation near 400 GHz and labels the result a longitudinal Proca oscillation. The arithmetic cutoff density is useful as a conditional plasma estimate, but setting the cold-plasma permittivity to zero does not demonstrate a propagating Proca wave or establish the claimed coupling to hydroxyl radicals. ([400 GHz ENZ calculation and test](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L16204))
+
+| Candidate medium | What is physically testable | Anti-Fire Cannon status and discriminating measurement |
+| --- | --- | --- |
+| Engineered Proca metamaterial | A designed constitutive response and mode dispersion can be measured. An effective mass parameter in a photonic or metamaterial band is not automatically a Proca rest mass. | **Unverified.** Measure complex, frequency-dependent constitutive tensors, mode dispersion, all relevant field components, source coupling, and a Maxwell control. |
+| ENZ material | Near-zero permittivity structures can support unusual field distributions, including enhanced longitudinal components in specific geometries; the response is dispersive and lossy. ([ENZ review](#liberal-engheta-2017)) | **Material $E_z$ is a testable possibility; Proca identity is not established.** Measure complex permittivity, polarization-resolved near fields, bandwidth, absorption, heating, and the same geometry away from ENZ. |
+| Plasma | A cold, unmagnetized plasma has a transverse electromagnetic cutoff at the electron plasma frequency. Setting $f=f_p$ gives $n_e=\epsilon_0m_e(2\pi f)^2/e^2$, about $1.99\times10^{21}\,\mathrm{m}^{-3}$ at 400 GHz. Longitudinal plasma modes require their own dispersion and damping model; they are not thereby Proca modes. | **Conditional plasma experiment only.** Measure electron density, temperature, collision rate, magnetic field, mode polarization, and power transfer. At the transverse cutoff, do not infer a transmitted beam from $\epsilon=0$. |
+| Neutral argon versus ionized argon | Neutral argon is not a free-electron plasma. Once ionized, its propagation and longitudinal oscillations depend on plasma density, collisions, temperature, and magnetic field. | **No demonstrated argon channel.** Characterize the neutral-gas dielectric response separately from the plasma state, and account for ionization and sustaining power. |
+| Dirt, soil, and rock | Transmission depends on frequency-dependent complex permittivity, moisture, porosity, mineralogy, layering, interfaces, and path length. General Earth-surface radio data are not a substitute for site-specific 400 GHz measurements. ([ITU-R P.527](#itu-p527)) | **Ground penetration is unverified.** Measure calibrated transmission, reflection, phase, and heating across representative dry/wet samples and full-depth paths. No lossless-propagation assumption is justified. |
+| Atmosphere as a waveguide | Refractivity gradients can produce conventional tropospheric radio ducts. Gas and cloud/fog attenuation are separate terms and depend on frequency and weather. ([ITU-R P.452](#itu-p452); [P.676](#itu-p676); [P.840](#itu-p840)) | **A conventional duct is not a Proca channel.** Use a measured refractivity profile and a frequency-valid propagation model; quantify gas/cloud loss and verify that the model is valid at the proposed carrier frequency. The chat's through-cloud Proca proposal contains no such link budget. ([Cloud-path proposal](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L248)) |
+
+The Grassmannian-splat chat describes covariance tensors as shear/stretch state descriptors, and the DDF chat proposes shear-jamming in a high-shear regime. Those are representations and model premises, not measured electromagnetic constitutive data or propagation evidence. ([Grassmannian splat discussion](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Grassmannian%20Splat%20Mechanics%20and%20Vortex%20Space%20Emergence.md#L1419); [DDF shear-jamming discussion](https://github.com/westurner/sustainablefactory/blob/main/data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L416))
+
+The Signals Pending library now separates `MediumConstituent`, `MediumResponseRegime`, and `PropagationRegime`. `MediumComposition` records basis-specific volume, mass, or mole fractions that sum to one; `LayeredPropagationPath` retains the ordered layer thicknesses and the $N+1$ boundary interfaces for $N$ layers. Each layer carries its own bulk-loss input, and the path frequency and summed thickness are checked against the Proca trial and link budget. No effective permittivity or attenuation is inferred by averaging these fields. The trial also records field interpretation, coordinate representation, mode-fit residuals, and massless-control residuals. Its `twistorCoordinates` option changes only representation; it does not create a new polarization or waive calibration and loss measurements.
+
+### Scholarly References
+
+(goldhaber-nieto-2010)=
+<a id="goldhaber-nieto-2010"></a> Goldhaber, A. S., and Nieto, M. M. "Photon and graviton mass limits." *Reviews of Modern Physics* 82, 939-979 (2010). [DOI](https://doi.org/10.1103/RevModPhys.82.939).
+
+(liberal-engheta-2017)=
+<a id="liberal-engheta-2017"></a> Liberal, I., and Engheta, N. "Near-zero refractive index photonics." *Nature Photonics* 11, 149-158 (2017). [DOI](https://doi.org/10.1038/nphoton.2017.13).
+
+(itu-p452)=
+<a id="itu-p452"></a> ITU-R Recommendation P.452-18 (2023), *Prediction procedure for the evaluation of interference between stations on the surface of the Earth at frequencies above about 100 MHz*. [ITU](https://www.itu.int/rec/R-REC-P.452/en).
+
+(itu-p453)=
+<a id="itu-p453"></a> ITU-R Recommendation P.453-14 (2019), *The radio refractive index: its formula and refractivity data*. [ITU](https://www.itu.int/rec/R-REC-P.453/en).
+
+(itu-p676)=
+<a id="itu-p676"></a> ITU-R Recommendation P.676-13 (2022), *Attenuation by atmospheric gases and related effects*. [ITU](https://www.itu.int/rec/R-REC-P.676/en).
+
+(itu-p840)=
+<a id="itu-p840"></a> ITU-R Recommendation P.840-9 (2023), *Attenuation due to clouds and fog*. [ITU](https://www.itu.int/rec/R-REC-P.840/en).
+
+(itu-p527)=
+<a id="itu-p527"></a> ITU-R Recommendation P.527-6 (2021), *Electrical characteristics of the surface of the Earth*. [ITU](https://www.itu.int/rec/R-REC-P.527/en). Check its stated validity before applying it to sub-terahertz paths.
 
 ## 5. Fire-suppression requirements
 
@@ -342,9 +382,11 @@ The proposed sustainability advantage is therefore conditional. A non-water supp
 
 ## 8. Formal-model status
 
-The chat's proposed Lean theorem introduces an 800 GHz resonance as an axiom, defines sum frequency as ordinary addition, assumes a squeeze threshold, and ends the suppression theorem with `sorry`. That formalization checks the shape of a conditional statement; it does not prove field generation, propagation, molecular lysis, cooling, or quenching. ([Proposed Lean formalization](chats/IQ-Sampling-for-Signal-Phase.myst.md), source lines 11288-11342)
+The earlier chat Lean prototype introduces an 800 GHz resonance as an axiom, assumes a squeeze threshold, and leaves a theorem with `sorry`. The latest diff adds a constant syndrome decoder that maps every input to the singlet codeword, then proves exponential radical decay only after assuming `h_proca_dominates`. Its calculus proof verifies the supplied ODE; it does not derive that rate from an electromagnetic field or establish chemical quenching. The later "SIL-4" master theorem composes assumed subcontracts, and its safety label is not a certification or a physical validation. ([Constant decoder](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L16407); [assumed rate dominance](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L16478); [master theorem proposal](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L17062))
 
-The repository's current Pending model is more appropriately scoped. `AntiAmplituhedronProfile` records a supplied divergent profile, `SQGVacuumExpansion` records a supplied negative-coupling hypothesis and pressure law, and `AntiFireSuppression` records only the explicit inequality that an effective rate is no larger than a baseline. These are conditional records, not device proofs. ([Current Pending model](../src/signals/Signals/Pending.lean), source lines 1653-1700)
+The same diff adds a Python mask exporter. Its tests check the configured pitch arithmetic, angular-sector bookkeeping, and file creation, not foundry design rules, electromagnetic phase matching, or measured mode conversion. In particular, the assignment $\psi=q\phi$ with $q=1/2$ does not by itself establish a pure longitudinal $E_z$ field. ([Mask geometry generator](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L16618); [exporter tests](https://github.com/westurner/sustainablefactory/blob/main/data/chats/IQ-Sampling-for-Signal-Phase.md#L16866))
+
+The repository's current Pending model is more appropriately scoped. `AntiAmplituhedronProfile` records a supplied divergent profile, `SQGVacuumExpansion` records a supplied negative-coupling hypothesis and pressure law, and `AntiFireSuppression` records only the explicit inequality that an effective rate is no larger than a baseline. These are conditional records, not device proofs. ([Current Pending model](https://github.com/westurner/sustainablefactory/blob/main/src/signals/Signals/Pending.lean#L3259))
 
 ## 9. Minimum validation path
 
