@@ -2,9 +2,7 @@
 
 This page documents the finite transport and operator contracts in
 `Signals.SolitonBus`. The source chats describe a proposed N-LIG/Lignolux
-architecture. They are design evidence, not evidence that a room-temperature
-quantum processor, single-photon Kerr gate, or nondestructive parity detector
-has been realized.
+architecture.
 
 ## Chat-Derived Design
 
@@ -151,6 +149,173 @@ against a different mathlib context from Signals, so the public bus module uses
 a self-contained finite-matrix layer instead of making QECLean a hard
 dependency. The QECLean source remains available for future adapter work after
 toolchain alignment.
+
+## Soliton-Bus Quantum Error-Coding Plan
+
+### Recovered design choices
+
+The chat corpus search was case-insensitive literal `soliton` over
+`data/chats/*.md` only. `rg` was unavailable in the active terminal, so the
+equivalent `grep -i` search was used; it found 22 Markdown files. Detailed
+review focused on the processor/soliton and hardware-architecture chats cited
+below. These chats recover proposals, not experimental validation.
+
+These choices belong to separate axes: a design chooses how signals are
+addressed, how each code block encodes a state, and how checks are measured.
+They should not be collapsed into one meaning for “multiplexing.”
+
+1. **Hierarchical optical addressing.** The proposal uses WDM as a coarse
+	depth/layer selector, OAM or MDM as a finer channel selector, and a
+	thermo-optic switch as an active route into an ancilla or memory layer. The
+	chats also propose TDM to reuse a waveguide at different pulse times
+	([depth and OAM routing](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L256),
+	[time-bin reuse](../data/chats/_Quantum%20Computing%20Hardware%20Architectures%20Review%20%20.md#L1477)).
+	**Use in v1:** represent these as address/scheduling coordinates only.
+	Address separation does not prove low crosstalk or independent quantum
+	channels.
+2. **Port graph with an ancilla hub.** The proposed star has data leaves
+	reached through a central ancilla, with bus operations intended to support
+	stabilizer measurements ([star and bus-connected checks](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L3172),
+	[paper architecture](paper.myst.md#L60)). **Use in v1:** call each
+	physical endpoint a `BusPort`; represent possible interactions with an
+	explicit coupling relation. A port is not itself a code qubit or a
+	stabilizer. The measurement order, ancilla reuse, fault propagation, and
+	photonic resource/measurement primitive still need specification.
+3. **Multiplexed OAM qudit.** An alternative is to use a finite OAM basis as
+	the data state, so mode shifts, phases, leakage, and mode mixing are data
+	errors rather than just routing errors. The existing OAM-100 record is
+	readiness metadata: the review explicitly says it lacks an OAM encoding
+	map, syndrome readout, and recovery, and requires mode-dependent loss and
+	crosstalk characterization ([OAM boundary and next measurements](paper-model-review.md#L1077),
+	[QEC readiness fields](paper-model-review.md#L1137)). **Defer as a separate
+	qudit-code project.** A coherent superposition over OAM modes is one
+	qudit state, not a collection of independent addressed channels.
+4. **Propagating GKP/CV state.** A grid state with homodyne syndrome
+	measurements is a distinct continuous-variable encoding path. The paper
+	review describes the cited optical work as a logical-state precursor, not
+	completed fault-tolerant computation, and the qutrit/ququart break-even
+	experiment is not an OAM experiment ([optical-state boundary](paper-model-review.md#L1071),
+	[qudit experiment boundary](paper-model-review.md#L1098)). **Keep outside
+	the first qubit/erasure API.**
+5. **Layer-code geometry.** Layer codes are a CSS-to-3D topological-code
+	construction: their layers and 1D junctions come from Tanner incidences.
+	They are not optical wavelength layers or OAM channels. The paper’s
+	construction supplies mathematical code properties, not a photonic
+	decoder, threshold, or hardware benchmark ([Layer-code review](paper-model-review.md#L916)).
+	**Treat this as a later code-family contribution**, independent of the
+	optical address scheme.
+
+### First implementation decision
+
+For the first implementation, WDM, MDM, OAM, polarization, and TDM are
+**transport/address dimensions**. QEC is defined over an abstract finite set
+of qubit blocks, independently of which optical degree of freedom eventually
+encodes each block. This matches the existing `LaneAddress`/`LaneSelector`
+boundary and lets QECLean prove qubit-code facts without making claims about
+N-LIG, OAM devices, or a quantum bus. OAM-as-data remains an explicit
+alternative encoding, never an implicit interpretation of `oamCharge`.
+
+Use **port** for the hardware endpoint and **address** for the multiplex
+selector:
+
+- `BusPort` identifies a coupler, interface, detector, or check-measurement
+  endpoint. It is distinct from `LaneAddress`; multiple addresses may be
+  routed through one port at different times.
+- `PortCoupling` (or a finite port graph) records which endpoints can interact
+  and with what calibrated coupling/crosstalk. Do not define physical
+  adjacency as consecutive `Fin` indices or infer it from OAM charge.
+- `CodeBlockPlacement` maps each abstract code-block ID to its required port
+  and lane address(es). Require injectivity where resources must be distinct;
+  model time-shared resources with an explicit schedule rather than pretending
+  they are separate hardware.
+- An `EncodingChoice` states whether the eventual data encoding is an abstract
+  qubit, a specified qubit encoding, an OAM qudit of dimension `d`, or a CV/GKP
+  mode. The v1 Signals contract records the choice and its evidence status;
+  it does not prove that a proposed encoding is physically realized.
+
+### Signals work
+
+Add a focused `Signals/SolitonQEC.lean` module under `Signals.Pending`, reusing
+`Signals.SolitonBus.LaneAddress`, `BusNetwork`, and the existing unit and
+bounded-factor wrappers. Keep it out of the verified classical transport API
+until its fields describe calibrated observations or purely mathematical
+invariants.
+
+The deployment/noise contract should make these inputs explicit:
+
+- finite code-block and port indices, address-to-port placement, and the
+  selected encoding interpretation;
+- a measured or assumed port-coupling graph, including which nearby signals
+  can produce correlated faults;
+- mode-resolved loss with a distinction between **flagged erasure** and
+  **unflagged loss**, plus detector efficiency and false/missed-flag rates;
+- mode crosstalk, phase/timing error, check-readout error, and correlated error
+  support, each with units or normalization, uncertainty, calibration status,
+  and provenance where available;
+- a syndrome-extraction/readout contract that says which check is measured,
+  by what photonic primitive, with what outcome and disturbance bounds.
+
+Add focused examples for unique and colliding addresses, two addresses routed
+through one scheduled port, a flagged versus unflagged loss, and a correlated
+neighbor fault. These tests validate record laws and reject missing
+assumptions; they do not establish QEC performance. In particular, the
+existing XPM phase law is not a QND parity measurement, and the proposed
+room-temperature/no-dispersion, 10 GHz, and entropy-siphoning statements in
+`paper.myst.md` remain design claims, not fields to promote to verified facts
+([paper architecture and claims](paper.myst.md#L60),
+[paper-model-review evidence boundary](paper-model-review.md#L1)).
+
+### QECLean contribution
+
+Add a dependency-free, qubit-stabilizer erasure API in a new logical-framework
+module such as
+`QEC/Stabilizer/Framework/Core/Logical/ErasureCorrection.lean`, exported
+through the existing `Core.Logical` and `Core` umbrellas. Its public input is
+a known erased support `E : Finset (Fin n)`; define erasure correctability by
+the absence of a nontrivial logical Pauli supported entirely inside `E`,
+including the project’s phase-equivalence convention.
+
+Prove the two useful interfaces:
+
+1. The stabilizer-code erasure criterion: the Pauli error set supported in
+	`E` is jointly correctable exactly when no nontrivial logical operator is
+	supported in `E`.
+2. The distance corollary: for a code of distance `d`, every known erasure
+	set with `E.card < d` is correctable. This is the erasure bound; do not
+	replace it with the unknown-error bound `2t < d`.
+
+Use the existing Pauli support, logical-operator, and code-distance
+abstractions. Add a small checked example with the existing `[[5,1,3]]` code
+showing correction of a single known erased qubit, plus a boundary example
+where an erased set contains a logical support. This theorem is a code
+property, not an erasure decoder, channel model, or hardware threshold. Keep
+the work independent of `Signals` and `Physlib`; QECLean’s Lake configuration
+already uses mathlib and its own Lean tooling, and this contribution needs no
+new dependency. The existing [Layer scaffold](../src/QECLean/QEC/Stabilizer/Codes/Layer.lean#L274)
+can use the API later, but deriving its defect stabilizers is a separate task.
+
+### Cross-project handoff and gates
+
+Do not import either Lean library into the other. For the first cross-check,
+maintain one tiny documented fixture containing only the finite block IDs,
+address/port placement, X/Z check data, erased-block set, and code parameters.
+Signals checks placement and declared calibration/noise fields; QECLean checks
+the code and erasure theorem. Keep physical observations and units on the
+Signals side, not in QECLean.
+
+The implementation sequence is:
+
+1. Add and test the Signals Pending deployment/noise contract.
+2. Add the generic QECLean erasure criterion and distance corollary; test the
+	`[[5,1,3]]` one-erasure case.
+3. Instantiate one finite fixture on both sides without a package dependency.
+4. Only after detector and channel calibration, add a measured noise model and
+	assess a concrete syndrome circuit/decoder. Keep OAM-qudit codes, CV/GKP
+	codes, a full Layer-code lift, room-temperature operation, threshold,
+	scalable throughput, and thermodynamic cooling claims outside v1.
+
+For docs-only changes, build the Sphinx docs and run `git diff --check`. When
+code is added, also run the Signals build and QECLean’s focused Lean build.
 
 ## Validation
 
