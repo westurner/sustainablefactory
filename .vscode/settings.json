@@ -3,5 +3,7 @@
         "command": true,
         "docindex": true,
         "make": true
-    }
+    },
+    "git.autoRepositoryDetection": "subFolders",
+    "git.repositoryScanMaxDepth": 3
 }
