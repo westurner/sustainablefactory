@@ -153,6 +153,12 @@ RUN --mount=type=cache,target=/var/lib/apt/lists,id=apt-cache-lists \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
+# Install PDF inspection tooling outside the project and system Python envs.
+RUN python3 -m venv /opt/pdf-tools && \
+    /opt/pdf-tools/bin/pip install --no-cache-dir pymupdf==1.28.2
+
+ENV PATH="/opt/pdf-tools/bin:${PATH}"
+
 # Install Node.js and npm
 RUN curl -fsSL https://deb.nodesource.com/setup_$NODE_VERSION | bash - && \
     apt-get install -y nodejs && \
