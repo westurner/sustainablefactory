@@ -661,4 +661,26 @@ lemma WeightedAcyclicNetwork.subdivision_boundary (weight factor : ℝ≥0) (non
     factor * (weight * factor⁻¹) = weight * (factor * factor⁻¹) := by ac_rfl
     _ = weight := by rw [mul_inv_cancel₀ nonzero, mul_one]
 
+/-- One source feeding two sinks with independent nonnegative edge weights. -/
+def WeightedAcyclicNetwork.fork (firstWeight secondWeight : ℝ≥0) : WeightedAcyclicNetwork 3 1 :=
+  { level := fun vertex => if vertex = 0 then 0 else 1
+    weight := ![![0, firstWeight, secondWeight], ![0, 0, 0], ![0, 0, 0]]
+    ascending := by
+      intro first second nonzero
+      fin_cases first <;> fin_cases second <;> norm_num at * }
+
+/-- The fork's two boundary entries are derived from its finite weighted-path sum. -/
+lemma WeightedAcyclicNetwork.fork_boundary (firstWeight secondWeight : ℝ≥0) :
+    (fork firstWeight secondWeight).boundaryMeasurement (fun _ : Fin 1 => 0) Fin.succ =
+      (![![firstWeight, secondWeight]] : Matrix (Fin 1) (Fin 2) ℝ≥0) := by
+  apply Matrix.ext
+  intro source sink
+  fin_cases source
+  fin_cases sink
+  all_goals
+    simp only [boundaryMeasurement, transfer, Finset.sum_range_succ,
+      Finset.range_zero, Finset.sum_empty, zero_add, Matrix.add_apply,
+      pow_zero, pow_one, Matrix.one_apply]
+    simp [fork]
+
 end Signals.Plabic

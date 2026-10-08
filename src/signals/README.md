@@ -277,6 +277,12 @@ interpretation while keeping experimental premises explicit:
    orientation reversal need not. Nonsingular ratio invariance and a normalized
    positive interval cell are proved without constructing a quotient or
    identifying a weighted network cell.
+   An actual one-source/two-sink fork boundary row now yields positive
+   representatives from two positive edges, or full-rank nonnegative
+   representatives from at least one active edge. Controls preserve a zero
+   minor and reject an all-zero rank-one representative. These are algebraic
+   boundaries, not limits on complex diffraction or destructive interference;
+   no optical-amplitude/minor identification is assumed.
 - `Signals.CanonicalForms` provides fixed-oriented affine interval, triangle,
    and square alternating forms, normalization, punctured-limit boundary
    residues, area-preserving triangle pullbacks, and shared-diagonal pole
@@ -325,7 +331,8 @@ interpretation while keeping experimental premises explicit:
    Ranked nonnegative weighted networks derive long-path vanishing,
    nilpotency, cutoff-stable finite transfer, and selected boundary entries.
    A guarded one-edge subdivision preserves the one-source/one-sink boundary
-   matrix, with zero-factor and wrong-split rejection controls. Ordered-minor
+   matrix, with zero-factor and wrong-split rejection controls. A fork derives
+   its two boundary entries from independent edge weights. General ordered-minor
    positivity, embedding correspondence and general embedded-network moves
    are not inferred from these finite path sums.
 - `Signals.Fabrication` models voxel fields, active phase masks, calibration

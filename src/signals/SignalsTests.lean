@@ -1825,6 +1825,49 @@ example : ¬((Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath 2 6).transfer 0 
     Signals.Plabic.WeightedAcyclicNetwork.oneEdgePath_transfer]
   norm_num
 
+example : Signals.Geometry.GrassmannianMatrix.pluckerCoordinate
+  (Signals.Geometry.forkPositive 2 3 (by norm_num) (by norm_num)).toGrassmannianMatrix
+  (Signals.Geometry.OrderedColumns.single 1) = 3 := by
+  change Signals.Geometry.selectedMinor (Signals.Geometry.forkRepresentative 2 3).mat
+    (Signals.Geometry.OrderedColumns.single 1) = 3
+  rw [Signals.Geometry.forkRepresentative_mat, Signals.Geometry.selectedMinor, Matrix.det_fin_one]
+  norm_num [Signals.Geometry.OrderedColumns.single]
+
+example : Signals.Geometry.GrassmannianMatrix.pluckerCoordinate
+  (Signals.Geometry.forkNonnegative 2 0 (Or.inl (by norm_num))).toGrassmannianMatrix
+  (Signals.Geometry.OrderedColumns.single 1) = 0 := by
+  change Signals.Geometry.selectedMinor (Signals.Geometry.forkRepresentative 2 0).mat
+    (Signals.Geometry.OrderedColumns.single 1) = 0
+  rw [Signals.Geometry.forkRepresentative_mat, Signals.Geometry.selectedMinor, Matrix.det_fin_one]
+  norm_num [Signals.Geometry.OrderedColumns.single]
+
+example : Signals.Geometry.GrassmannianMatrix.pluckerCoordinate
+  (Signals.Geometry.forkNonnegative 0 3 (Or.inr (by norm_num))).toGrassmannianMatrix
+  (Signals.Geometry.OrderedColumns.single 1) = 3 := by
+  change Signals.Geometry.selectedMinor (Signals.Geometry.forkRepresentative 0 3).mat
+    (Signals.Geometry.OrderedColumns.single 1) = 3
+  rw [Signals.Geometry.forkRepresentative_mat, Signals.Geometry.selectedMinor, Matrix.det_fin_one]
+  norm_num [Signals.Geometry.OrderedColumns.single]
+
+example : ¬(Signals.Geometry.forkRepresentative 0 3).hasPositiveOrderedMinors := by
+  intro positive
+  have impossible := positive (Signals.Geometry.OrderedColumns.single 0)
+  rw [Signals.Geometry.GrassmannianMatrix.pluckerCoordinate, Signals.Geometry.selectedMinor,
+    Signals.Geometry.forkRepresentative_mat, Matrix.det_fin_one] at impossible
+  norm_num [Signals.Geometry.OrderedColumns.single] at impossible
+
+example : ¬∃ representative : Signals.Geometry.NonnegativeGrassmannian 1 2,
+    representative.mat = (Signals.Geometry.forkRepresentative 0 0).mat := by
+  rintro ⟨representative, same⟩
+  obtain ⟨columns, nonzero⟩ := representative.nonzero_minor
+  change Signals.Geometry.selectedMinor representative.mat columns ≠ 0 at nonzero
+  rw [same] at nonzero
+  apply nonzero
+  rw [Signals.Geometry.forkRepresentative_mat, Signals.Geometry.selectedMinor, Matrix.det_fin_one]
+  change (!![0, 0] : Matrix (Fin 1) (Fin 2) ℝ) 0 (columns.index 0) = 0
+  generalize columns.index 0 = column
+  fin_cases column <;> rfl
+
 def toyCalibration : Calibration :=
   { expected := 10
     measured := 10.1

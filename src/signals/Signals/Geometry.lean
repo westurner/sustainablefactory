@@ -1,4 +1,5 @@
 import Mathlib.Basic.Complex.Basic
+import Signals.Plabic
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Tactic
 
@@ -41,6 +42,15 @@ underlying linear-algebra data.
 structure OrderedColumns (k n : ℕ) where
   index : Fin k → Fin n
   strictlyIncreasing : StrictMono index
+
+/-- A single column is an ordered selection without a vacuous rank assertion. -/
+def OrderedColumns.single {n : ℕ} (column : Fin n) : OrderedColumns 1 n :=
+  { index := fun _ => column
+    strictlyIncreasing := by
+      intro first second before
+      have equal : first = second := Subsingleton.elim _ _
+      subst second
+      exact False.elim ((lt_irrefl first) before) }
 
 /-- A finite matrix representing a point before any positivity restriction. -/
 structure GrassmannianMatrix (k n : ℕ) where
@@ -211,6 +221,66 @@ def PositiveGrassmannian.intervalCell (coordinate : ℝ) (lower : 0 < coordinate
       fin_cases column
       · simpa using lower
       · simpa using sub_pos.mpr upper }
+
+open scoped NNReal
+
+/-- The actual fork boundary row, converted from nonnegative weights to a real representative. -/
+noncomputable def forkRepresentative (firstWeight secondWeight : ℝ≥0) : GrassmannianMatrix 1 2 :=
+  { mat := fun row column =>
+      ((Signals.Plabic.WeightedAcyclicNetwork.fork firstWeight secondWeight).boundaryMeasurement
+        (fun _ : Fin 1 => 0) Fin.succ row column : ℝ) }
+
+/-- Both fork columns are derived from finite boundary measurements rather than supplied minors. -/
+lemma forkRepresentative_mat (firstWeight secondWeight : ℝ≥0) :
+    (forkRepresentative firstWeight secondWeight).mat = !![(firstWeight : ℝ), (secondWeight : ℝ)] := by
+  unfold forkRepresentative
+  rw [Signals.Plabic.WeightedAcyclicNetwork.fork_boundary]
+  apply Matrix.ext
+  intro row column
+  fin_cases row
+  fin_cases column <;> rfl
+
+/-- Two positive fork weights yield a positive one-row representative. -/
+noncomputable def forkPositive (firstWeight secondWeight : ℝ≥0)
+    (firstPositive : 0 < firstWeight) (secondPositive : 0 < secondWeight) : PositiveGrassmannian 1 2 :=
+  { toGrassmannianMatrix := forkRepresentative firstWeight secondWeight
+    strictly_positive := by
+      intro columns
+      rw [GrassmannianMatrix.pluckerCoordinate, selectedMinor, forkRepresentative_mat,
+        Matrix.det_fin_one]
+      change 0 < (!![(firstWeight : ℝ), (secondWeight : ℝ)] : Matrix (Fin 1) (Fin 2) ℝ)
+        0 (columns.index 0)
+      generalize columns.index 0 = column
+      fin_cases column
+      · exact_mod_cast firstPositive
+      · exact_mod_cast secondPositive }
+
+/-- A nonzero branch supplies the nonzero-minor witness for a nonnegative fork representative. -/
+noncomputable def forkNonnegative (firstWeight secondWeight : ℝ≥0)
+    (active : firstWeight ≠ 0 ∨ secondWeight ≠ 0) : NonnegativeGrassmannian 1 2 :=
+  { toGrassmannianMatrix := forkRepresentative firstWeight secondWeight
+    nonnegative := by
+      intro columns
+      rw [GrassmannianMatrix.pluckerCoordinate, selectedMinor, forkRepresentative_mat,
+        Matrix.det_fin_one]
+      change 0 ≤ (!![(firstWeight : ℝ), (secondWeight : ℝ)] : Matrix (Fin 1) (Fin 2) ℝ)
+        0 (columns.index 0)
+      generalize columns.index 0 = column
+      fin_cases column
+      · exact firstWeight.property
+      · exact secondWeight.property
+    nonzero_minor := by
+      rcases active with firstActive | secondActive
+      · refine ⟨OrderedColumns.single 0, ?_⟩
+        rw [GrassmannianMatrix.pluckerCoordinate, selectedMinor, forkRepresentative_mat,
+          Matrix.det_fin_one]
+        change (firstWeight : ℝ) ≠ 0
+        exact_mod_cast firstActive
+      · refine ⟨OrderedColumns.single 1, ?_⟩
+        rw [GrassmannianMatrix.pluckerCoordinate, selectedMinor, forkRepresentative_mat,
+          Matrix.det_fin_one]
+        change (secondWeight : ℝ) ≠ 0
+        exact_mod_cast secondActive }
 
 /-! ## Massive spinor-helicity bookkeeping
 
