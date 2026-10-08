@@ -1,4 +1,5 @@
 import Mathlib.Tactic
+import Mathlib.Logic.Equiv.Fin.Rotate
 import Signals
 
 namespace SignalsTests
@@ -913,6 +914,250 @@ example : unitMassMomentum.energy ^ 2 - unitMassMomentum.px ^ 2 -
 example : unitMassMomentum.bispinor =
     massiveSpinorProduct unitMassFactorization.left unitMassFactorization.right := by
   exact unitMassFactorization.factorization
+
+/-- A twistor incident at a supplied coordinate matrix. -/
+def incidentTwistor (lambda : WeylSpinor) (position : SpacetimeMatrix) : Twistor :=
+  { lambda := lambda
+    mu := WeylSpinor.ofComponents ((-Complex.I) • position.mulVec lambda.component) }
+
+example (lambda : WeylSpinor) (position offset : SpacetimeMatrix) :
+    ((incidentTwistor lambda position).translate offset).incident (position + offset) := by
+  apply Twistor.translate_incident
+  exact WeylSpinor.component_ofComponents _
+
+example (twistor : Twistor) (offset : SpacetimeMatrix) :
+    (twistor.translate offset).translate (-offset) = twistor :=
+  twistor.translate_neg offset
+
+example (twistor : Twistor) (position offset : SpacetimeMatrix) :
+    (twistor.translate offset).incident (position + offset) ↔ twistor.incident position :=
+  twistor.translate_incident_iff position offset
+
+example : ((incidentTwistor ⟨1, 0⟩ 0).translate !![1, 2; 3, 4]).mu.component 1 =
+    -3 * Complex.I := by
+  norm_num [incidentTwistor, Twistor.translate, WeylSpinor.ofComponents,
+    WeylSpinor.component, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+  ring
+
+example : orbitalBivector ![1, 0, 0, 0] ![0, 1, 0, 0] 0 1 = 1 := by
+  norm_num [orbitalBivector]
+
+example (state : AngularMomentumState) (offset : Signals.Geometry.FourVector) (row column : Fin 4) :
+    (state.translate offset).angularMomentum row column =
+      -(state.translate offset).angularMomentum column row :=
+  (state.translate offset).antisymmetric row column
+
+example (matrix : Matrix2x4) (columns : OrderedColumns 2 4) :
+    pluckerAlternating columns matrix = selectedMinor matrix columns := rfl
+
+example (matrix : Matrix2x4) (columns : OrderedColumns 2 4) :
+    selectedMinor (matrix ∘ Equiv.swap 0 1) columns = -selectedMinor matrix columns :=
+  selectedMinor_swap_rows matrix columns (by decide)
+
+example (matrix : Matrix2x4) (columns : OrderedColumns 2 4)
+    (equal : matrix 0 = matrix 1) : selectedMinor matrix columns = 0 :=
+  selectedMinor_eq_zero_of_rows_eq matrix columns equal (by decide)
+
+/-- Select a single column; strict monotonicity is vacuous for one row. -/
+def singletonColumns {columnCount : ℕ} (column : Fin columnCount) : OrderedColumns 1 columnCount :=
+  { index := fun _ => column
+    strictlyIncreasing := by
+      intro left right less
+      fin_cases left
+      fin_cases right
+      simp at less }
+
+/-- A nonnegative full-rank boundary representative with one zero maximal minor. -/
+def boundaryGrassmannian : NonnegativeGrassmannian 1 2 :=
+  { mat := !![1, 0]
+    nonnegative := by
+      intro columns
+      rw [GrassmannianMatrix.pluckerCoordinate, selectedMinor, Matrix.det_fin_one]
+      change 0 ≤ (!![1, 0] : Matrix (Fin 1) (Fin 2) ℝ) 0 (columns.index 0)
+      generalize columns.index 0 = column
+      fin_cases column <;> norm_num
+    nonzero_minor := ⟨singletonColumns 0, by
+      norm_num [GrassmannianMatrix.pluckerCoordinate, selectedMinor, singletonColumns,
+        Matrix.det_fin_one, Matrix.submatrix]⟩ }
+
+example : boundaryGrassmannian.pluckerCoordinate (singletonColumns 1) = 0 := by
+  norm_num [GrassmannianMatrix.pluckerCoordinate, selectedMinor, boundaryGrassmannian,
+    singletonColumns, Matrix.det_fin_one, Matrix.submatrix]
+
+example : ¬boundaryGrassmannian.toGrassmannianMatrix.hasPositiveOrderedMinors := by
+  intro positive
+  have zero_positive := positive (singletonColumns 1)
+  norm_num [GrassmannianMatrix.pluckerCoordinate, selectedMinor, boundaryGrassmannian,
+    singletonColumns, Matrix.det_fin_one, Matrix.submatrix] at zero_positive
+
+example : ¬negativeMinorMatrix.hasNonnegativeOrderedMinors := by
+  intro nonnegative
+  have negative_nonnegative := nonnegative identityColumns
+  norm_num [GrassmannianMatrix.pluckerCoordinate, selectedMinor, negativeMinorMatrix,
+    identityColumns, Matrix.det_fin_two, Matrix.submatrix] at negative_nonnegative
+
+example : ¬(⟨0⟩ : GrassmannianMatrix 1 1).hasPositiveOrderedMinors := by
+  intro positive
+  have zero_positive := positive positiveIdentityColumns
+  norm_num [GrassmannianMatrix.pluckerCoordinate, selectedMinor,
+    Matrix.det_fin_one, Matrix.submatrix] at zero_positive
+
+example : Signals.Huygens.intensity ((1 : ℂ) + 1) = 4 := by
+  norm_num [Signals.Huygens.intensity, Complex.normSq]
+
+example : Signals.Huygens.intensity ((1 : ℂ) + -1) = 0 := by
+  norm_num [Signals.Huygens.intensity, Complex.normSq]
+
+example : Signals.Huygens.intensity ((1 : ℂ) + Complex.I) = 2 := by
+  norm_num [Signals.Huygens.intensity, Complex.normSq]
+
+example : Signals.Huygens.distance ![0, 0, 0] ![0, 0, 2] = 2 := by
+  norm_num [Signals.Huygens.distance, Signals.Huygens.squaredDistance, Fin.sum_univ_succ]
+
+/-- Distinct symmetric point-slit samples in a three-dimensional scalar model. -/
+def symmetricSlits : Signals.Huygens.DoubleSlit 1 1 :=
+  { wave := { wavelength := ⟨1⟩, wavelength_positive := by norm_num }
+    source := ![0, 0, -1]
+    first := { point := fun _ => ![-1, 0, 0], weight := fun _ => 1 }
+    second := { point := fun _ => ![1, 0, 0], weight := fun _ => 1 }
+    firstOpen := true
+    secondOpen := true }
+
+example : symmetricSlits.first.regularAt symmetricSlits.source ![0, 0, 1] := by
+  intro sample
+  constructor <;> intro equal
+  · have impossible := congrFun equal 0
+    norm_num [symmetricSlits] at impossible
+  · have impossible := congrFun equal 0
+    norm_num [symmetricSlits] at impossible
+
+/-- Symmetric path lengths give identical complex aperture contributions. -/
+lemma symmetricSlits_equal_amplitudes :
+    symmetricSlits.first.amplitude symmetricSlits.wave symmetricSlits.source ![0, 0, 1] =
+      symmetricSlits.second.amplitude symmetricSlits.wave symmetricSlits.source ![0, 0, 1] := by
+  norm_num [symmetricSlits, Signals.Huygens.Aperture.amplitude,
+    Signals.Huygens.MonochromaticWave.kernel, Signals.Huygens.distance,
+    Signals.Huygens.squaredDistance, Fin.sum_univ_succ]
+
+example : symmetricSlits.intensity ![0, 0, 1] =
+    4 * Signals.Huygens.intensity
+      (symmetricSlits.first.amplitude symmetricSlits.wave symmetricSlits.source ![0, 0, 1]) := by
+  rw [Signals.Huygens.DoubleSlit.intensity,
+    symmetricSlits.amplitude_both_open _ rfl rfl, ← symmetricSlits_equal_amplitudes]
+  exact Signals.Huygens.intensity_constructive _
+
+example : ({ symmetricSlits with secondOpen := false }).amplitude ![0, 0, 1] =
+    symmetricSlits.first.amplitude symmetricSlits.wave symmetricSlits.source ![0, 0, 1] := by
+  exact Signals.Huygens.DoubleSlit.amplitude_first_only _ _ rfl rfl
+
+example : ({ symmetricSlits with firstOpen := false, secondOpen := false }).intensity
+    ![0, 0, 1] = 0 := by
+  exact Signals.Huygens.DoubleSlit.intensity_closed _ _ rfl rfl
+
+example (action : Fin 2 → ℝ) (first second : Fin 2 → ℂ) (hbar : ℝ) :
+    Signals.Huygens.finiteHistoryAmplitude action (first + second) hbar =
+      Signals.Huygens.finiteHistoryAmplitude action first hbar +
+        Signals.Huygens.finiteHistoryAmplitude action second hbar :=
+  Signals.Huygens.finiteHistoryAmplitude_add action first second hbar
+
+/-- A three-spoke graph with three boundary vertices and one internal vertex. -/
+def plabicStarGraph : SimpleGraph (Signals.Plabic.Vertex 3 1) where
+  Adj left right := match left, right with
+    | Sum.inl _, Sum.inr _ => True
+    | Sum.inr _, Sum.inl _ => True
+    | _, _ => False
+  symm := by
+    constructor
+    intro left right adjacent
+    cases left <;> cases right <;> exact adjacent
+  loopless := by
+    constructor
+    intro vertex
+    cases vertex <;> exact id
+
+/-- The central neighbors are exactly the three boundary labels. -/
+def plabicStarNeighbors (internal : Fin 1) :
+    plabicStarGraph.neighborSet (Sum.inr internal) ≃ Fin 3 where
+  toFun neighbor := by
+    rcases neighbor with ⟨vertex, adjacent⟩
+    cases vertex with
+    | inl index => exact index
+    | inr _ => exact False.elim adjacent
+  invFun index := ⟨Sum.inl index, trivial⟩
+  left_inv := by
+    rintro ⟨vertex, adjacent⟩
+    cases vertex with
+    | inl index => rfl
+    | inr _ => exact False.elim adjacent
+  right_inv _ := rfl
+
+/-- A genuine single-cycle central rotation with a selectable node color. -/
+def plabicStar (color : Signals.Plabic.NodeColor) : Signals.Plabic.RotationSystem 3 1 :=
+  { graph := plabicStarGraph
+    color := fun _ => color
+    rotation := fun vertex => match vertex with
+      | Sum.inl _ => Equiv.refl _
+      | Sum.inr internal =>
+          ((plabicStarNeighbors internal).trans (finRotate 3)).trans
+            (plabicStarNeighbors internal).symm
+    singleOrbit := by
+      intro internal first second
+      rcases first with ⟨first, first_adjacent⟩
+      rcases second with ⟨second, second_adjacent⟩
+      cases first with
+      | inr _ => exact False.elim first_adjacent
+      | inl first =>
+          cases second with
+          | inr _ => exact False.elim second_adjacent
+          | inl second =>
+              fin_cases first <;> fin_cases second
+              all_goals first | exact ⟨0, rfl⟩ | exact ⟨1, rfl⟩ | exact ⟨2, rfl⟩
+    boundaryNeighbor := fun _ => Sum.inr 0
+    boundaryAdjacent := fun _ => trivial
+    boundaryUnique := by
+      intro index vertex adjacent
+      cases vertex with
+      | inl _ => exact False.elim adjacent
+      | inr internal =>
+          congr 1
+          exact Fin.eq_zero internal }
+
+/-- Each central-star strand exits after one turn, with a checked boundary permutation. -/
+def plabicStarRouting (color : Signals.Plabic.NodeColor) :
+    Signals.Plabic.BoundaryRouting (plabicStar color) :=
+  { perm := match color with
+      | .black => finRotate 3
+      | .white => (finRotate 3).symm
+    steps := fun _ => 1
+    exits := by
+      intro index
+      cases color <;> rfl
+    fixedColor := fun _ _ => color }
+
+example : ((plabicStar .black).route 1 ((plabicStar .black).start 0)).dst =
+    Sum.inl 1 := rfl
+
+example : ((plabicStar .white).route 1 ((plabicStar .white).start 0)).dst =
+    Sum.inl 2 := rfl
+
+example : ((plabicStar .black).route 4 ((plabicStar .black).start 0)).dst =
+    Sum.inl 1 := rfl
+
+example : (plabicStarRouting .black).decorated.perm 0 = 1 := rfl
+
+example : (plabicStarRouting .white).decorated.perm 0 = 2 := rfl
+
+example : Function.Bijective (plabicStarRouting .black).decorated.perm :=
+  (plabicStarRouting .black).perm_bijective
+
+example : (Signals.Plabic.DecoratedPermutation.identityWhite 1).fixedColor 0 rfl =
+    Signals.Plabic.NodeColor.white := rfl
+
+example : ¬(∀ first second : Fin 3, ∃ steps : ℕ,
+    (Equiv.refl (Fin 3))^[steps] first = second) := by
+  intro singleOrbit
+  obtain ⟨steps, impossible⟩ := singleOrbit 0 1
+  simp at impossible
 
 def toyCalibration : Calibration :=
   { expected := 10

@@ -1,4 +1,4 @@
-import Mathlib.Data.Complex.Basic
+import Mathlib.Basic.Complex.Basic
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Tactic
 
@@ -74,6 +74,63 @@ lemma PositiveGrassmannian.pluckerCoordinate_pos
     0 < grassmannian.toGrassmannianMatrix.pluckerCoordinate columns :=
   grassmannian.strictly_positive columns
 
+/-- The linear projection selecting the ordered columns of a row vector. -/
+def OrderedColumns.projection {k n : ℕ} (columns : OrderedColumns k n) :
+    (Fin n → ℝ) →ₗ[ℝ] (Fin k → ℝ) where
+  toFun row := row ∘ columns.index
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+/-- The selected determinant as an alternating map on the matrix rows. -/
+def pluckerAlternating {k n : ℕ} (columns : OrderedColumns k n) :
+    AlternatingMap ℝ (Fin n → ℝ) ℝ (Fin k) :=
+  Matrix.detRowAlternating.compLinearMap columns.projection
+
+/-- The alternating-map construction agrees with the existing maximal minor. -/
+lemma pluckerAlternating_eq_selectedMinor {k n : ℕ}
+    (columns : OrderedColumns k n) (matrix : Matrix (Fin k) (Fin n) ℝ) :
+    pluckerAlternating columns matrix = selectedMinor matrix columns := rfl
+
+/-- Exchanging distinct rows negates the selected Pluecker coordinate. -/
+lemma selectedMinor_swap_rows {k n : ℕ}
+    (matrix : Matrix (Fin k) (Fin n) ℝ) (columns : OrderedColumns k n)
+    {left right : Fin k} (distinct : left ≠ right) :
+    selectedMinor (matrix ∘ Equiv.swap left right) columns =
+      -selectedMinor matrix columns :=
+  (pluckerAlternating columns).map_swap matrix distinct
+
+/-- Equal distinct rows force every maximal minor to vanish. -/
+lemma selectedMinor_eq_zero_of_rows_eq {k n : ℕ}
+    (matrix : Matrix (Fin k) (Fin n) ℝ) (columns : OrderedColumns k n)
+    {left right : Fin k} (equal : matrix left = matrix right) (distinct : left ≠ right) :
+    selectedMinor matrix columns = 0 :=
+  (pluckerAlternating columns).map_eq_zero_of_eq matrix equal distinct
+
+/-- All ordered maximal minors are nonnegative, including boundary zeros. -/
+def GrassmannianMatrix.hasNonnegativeOrderedMinors {k n : ℕ}
+    (grassmannian : GrassmannianMatrix k n) : Prop :=
+  ∀ columns : OrderedColumns k n, 0 ≤ grassmannian.pluckerCoordinate columns
+
+/-- A full-rank nonnegative representative, not a quotient by change of basis. -/
+structure NonnegativeGrassmannian (k n : ℕ) extends GrassmannianMatrix k n where
+  nonnegative : toGrassmannianMatrix.hasNonnegativeOrderedMinors
+  nonzero_minor : ∃ columns : OrderedColumns k n,
+    toGrassmannianMatrix.pluckerCoordinate columns ≠ 0
+
+/-- Nonnegative representatives allow a minor to vanish on a boundary. -/
+lemma NonnegativeGrassmannian.pluckerCoordinate_nonnegative {k n : ℕ}
+    (grassmannian : NonnegativeGrassmannian k n) (columns : OrderedColumns k n) :
+    0 ≤ grassmannian.toGrassmannianMatrix.pluckerCoordinate columns :=
+  grassmannian.nonnegative columns
+
+/-- An available ordered minor makes a positive representative nonnegative and full-rank. -/
+def PositiveGrassmannian.toNonnegative {k n : ℕ}
+    (grassmannian : PositiveGrassmannian k n) (columns : OrderedColumns k n) :
+    NonnegativeGrassmannian k n :=
+  { toGrassmannianMatrix := grassmannian.toGrassmannianMatrix
+    nonnegative := fun selection => le_of_lt (grassmannian.strictly_positive selection)
+    nonzero_minor := ⟨columns, ne_of_gt (grassmannian.strictly_positive columns)⟩ }
+
 /-! ## Massive spinor-helicity bookkeeping
 
 The records below expose the massive replacement for the massless
@@ -109,6 +166,96 @@ def FourMomentum.bispinor (momentum : FourMomentum) :
 /-- The two-component coordinate function used in a spinor outer product. -/
 def WeylSpinor.component (spinor : WeylSpinor) (index : Fin 2) : ℂ :=
   if index = 0 then spinor.first else spinor.second
+
+/-- Construct a Weyl spinor from its two complex components. -/
+def WeylSpinor.ofComponents (components : Fin 2 → ℂ) : WeylSpinor :=
+  ⟨components 0, components 1⟩
+
+/-- Converting components to a spinor and back preserves the vector. -/
+lemma WeylSpinor.component_ofComponents (components : Fin 2 → ℂ) :
+    (WeylSpinor.ofComponents components).component = components := by
+  funext index
+  fin_cases index <;> simp [WeylSpinor.ofComponents, WeylSpinor.component]
+
+/-- Equality of the two components determines a spinor. -/
+lemma WeylSpinor.component_injective : Function.Injective WeylSpinor.component := by
+  intro left right components
+  cases left
+  cases right
+  congr 1
+  · simpa [WeylSpinor.component] using congrFun components (0 : Fin 2)
+  · simpa [WeylSpinor.component] using congrFun components (1 : Fin 2)
+
+/-- Equality of lambda and of the mu components determines a twistor. -/
+lemma Twistor.ext_components {left right : Twistor}
+    (lambda_equal : left.lambda = right.lambda)
+    (mu_equal : left.mu.component = right.mu.component) : left = right := by
+  have mu_equal := WeylSpinor.component_injective mu_equal
+  cases left
+  cases right
+  cases lambda_equal
+  cases mu_equal
+  rfl
+
+/-- A complex coordinate matrix; no Hermiticity or spacetime metric is assumed. -/
+abbrev SpacetimeMatrix := Matrix (Fin 2) (Fin 2) ℂ
+
+/-- Incidence in the convention `mu = -i x lambda`. -/
+def Twistor.incident (twistor : Twistor) (position : SpacetimeMatrix) : Prop :=
+  twistor.mu.component = (-Complex.I) • position.mulVec twistor.lambda.component
+
+/-- The algebraic shear induced by translating the coordinate matrix. -/
+def Twistor.translate (twistor : Twistor) (offset : SpacetimeMatrix) : Twistor :=
+  { lambda := twistor.lambda
+    mu := WeylSpinor.ofComponents
+      (twistor.mu.component - Complex.I • offset.mulVec twistor.lambda.component) }
+
+/-- Translation leaves the first spinor unchanged. -/
+lemma Twistor.translate_lambda (twistor : Twistor) (offset : SpacetimeMatrix) :
+    (twistor.translate offset).lambda = twistor.lambda := rfl
+
+/-- The second spinor changes by the prescribed matrix shear. -/
+lemma Twistor.translate_mu (twistor : Twistor) (offset : SpacetimeMatrix) :
+    (twistor.translate offset).mu.component =
+      twistor.mu.component - Complex.I • offset.mulVec twistor.lambda.component :=
+  WeylSpinor.component_ofComponents _
+
+/-- The shear preserves incidence at the translated coordinate matrix. -/
+lemma Twistor.translate_incident (twistor : Twistor) (position offset : SpacetimeMatrix)
+    (incidence : twistor.incident position) :
+    (twistor.translate offset).incident (position + offset) := by
+  unfold Twistor.incident at incidence ⊢
+  rw [Twistor.translate_mu, Twistor.translate_lambda, incidence, Matrix.add_mulVec]
+  simp [smul_add, neg_smul, sub_eq_add_neg]
+
+/-- A zero coordinate translation is the identity shear. -/
+lemma Twistor.translate_zero (twistor : Twistor) : twistor.translate 0 = twistor := by
+  apply Twistor.ext_components
+  · rfl
+  simp [Twistor.translate_mu]
+
+/-- Successive coordinate translations add their offsets. -/
+lemma Twistor.translate_add (twistor : Twistor) (first second : SpacetimeMatrix) :
+    (twistor.translate first).translate second = twistor.translate (first + second) := by
+  apply Twistor.ext_components
+  · rfl
+  simp only [Twistor.translate_mu, Twistor.translate_lambda, Matrix.add_mulVec, smul_add]
+  abel
+
+/-- The negative offset undoes a translation. -/
+lemma Twistor.translate_neg (twistor : Twistor) (offset : SpacetimeMatrix) :
+    (twistor.translate offset).translate (-offset) = twistor := by
+  rw [Twistor.translate_add, add_neg_cancel, Twistor.translate_zero]
+
+/-- Incidence is equivalent before and after applying the same coordinate translation. -/
+lemma Twistor.translate_incident_iff (twistor : Twistor) (position offset : SpacetimeMatrix) :
+    (twistor.translate offset).incident (position + offset) ↔ twistor.incident position := by
+  constructor
+  · intro translated
+    have restored := (twistor.translate offset).translate_incident
+      (position + offset) (-offset) translated
+    simpa [Twistor.translate_neg] using restored
+  · exact twistor.translate_incident position offset
 
 /-- A finite sum of two rank-one spinor products. -/
 def massiveSpinorProduct
@@ -155,5 +302,59 @@ lemma pluecker_relation (matrix : Matrix2x4) :
       minor matrix 0 3 * minor matrix 1 2 = 0 := by
   simp [minor]
   ring
+
+/-! ## Orbital angular-momentum translations
+
+These are real coordinate identities for a four-index bivector, not an
+identification of the bivector with a two-by-two commutator or a Casimir.
+-/
+
+/-- Four real coordinates in a fixed common index convention. -/
+abbrev FourVector := Fin 4 → ℝ
+
+/-- The orbital bivector `position wedge momentum`. -/
+def orbitalBivector (position momentum : FourVector) : Matrix (Fin 4) (Fin 4) ℝ :=
+  fun row column => position row * momentum column - position column * momentum row
+
+/-- The orbital tensor is antisymmetric. -/
+lemma orbitalBivector_antisymmetric (position momentum : FourVector) (row column : Fin 4) :
+    orbitalBivector position momentum row column =
+      -orbitalBivector position momentum column row := by
+  simp [orbitalBivector]
+
+/-- Translating the position adds the offset's orbital bivector. -/
+lemma orbitalBivector_translate (position offset momentum : FourVector) :
+    orbitalBivector (position + offset) momentum =
+      orbitalBivector position momentum + orbitalBivector offset momentum := by
+  funext row column
+  simp [orbitalBivector]
+  ring
+
+/-- Momentum and an antisymmetric angular-momentum tensor as algebraic data. -/
+structure AngularMomentumState where
+  momentum : FourVector
+  angularMomentum : Matrix (Fin 4) (Fin 4) ℝ
+  antisymmetric : ∀ row column, angularMomentum row column = -angularMomentum column row
+
+/-- Coordinate translation adds `offset wedge momentum` while preserving momentum. -/
+def AngularMomentumState.translate (state : AngularMomentumState) (offset : FourVector) :
+    AngularMomentumState :=
+  { momentum := state.momentum
+    angularMomentum := state.angularMomentum + orbitalBivector offset state.momentum
+    antisymmetric := by
+      intro row column
+      simp only [Matrix.add_apply]
+      rw [state.antisymmetric row column,
+        orbitalBivector_antisymmetric offset state.momentum row column]
+      ring }
+
+/-- Coordinate translation does not change the supplied momentum. -/
+lemma AngularMomentumState.translate_momentum (state : AngularMomentumState)
+    (offset : FourVector) : (state.translate offset).momentum = state.momentum := rfl
+
+/-- The angular-momentum shift exposes the full four-index wedge tensor. -/
+lemma AngularMomentumState.translate_angularMomentum (state : AngularMomentumState)
+    (offset : FourVector) : (state.translate offset).angularMomentum =
+      state.angularMomentum + orbitalBivector offset state.momentum := rfl
 
 end Signals.Geometry

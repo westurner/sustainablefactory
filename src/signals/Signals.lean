@@ -6,6 +6,7 @@ import Signals.Applications
 import Signals.Fabrication
 import Signals.Geometry
 import Signals.Homodyne
+import Signals.Huygens
 import Signals.IQ
 import Signals.DirectionalBroadbandAntenna
 import Signals.Lasers
@@ -14,6 +15,7 @@ import Signals.MHD
 import Signals.NonDestructive
 import Signals.OAM
 import Signals.Physlib
+import Signals.Plabic
 import Signals.Proca
 import Signals.Propagation
 import Signals.RadioBasics

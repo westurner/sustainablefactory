@@ -15,6 +15,7 @@ import Signals.LaserReferences
 import Signals.Geometry
 import Signals.DirectionalBroadbandAntenna
 import Signals.Homodyne
+import Signals.Huygens
 import Signals.LayerCodes
 import Signals.QECReferences
 import Signals.Maxwell
@@ -1236,6 +1237,53 @@ lemma AmplituhedronScatteringHypothesis.measured_amplitude_eq
     {k n m : ℕ} (hypothesis : AmplituhedronScatteringHypothesis k n m) :
     hypothesis.measuredAmplitude = hypothesis.chart.weight :=
   hypothesis.measuredAmplitudeLaw
+
+/-- A proposed finite Grassmannian labeling of two scalar slit contributions.
+
+The complex functions and their matches to classical aperture amplitudes are
+supplied hypotheses. They are not constructed canonical forms, contour
+integrals, residues, or a derivation of diffraction from positive geometry.
+-/
+structure GrassmannianDoubleSlitHypothesis (firstCount secondCount k n m : ℕ) where
+  slits : Signals.Huygens.DoubleSlit firstCount secondCount
+  geometry : AmplituhedronMap k n m
+  source_nonnegative : geometry.source.hasNonnegativeOrderedMinors
+  source_full_rank : ∃ columns : OrderedColumns k n,
+    geometry.source.pluckerCoordinate columns ≠ 0
+  firstColumns : OrderedColumns k n
+  secondColumns : OrderedColumns k n
+  distinct_labels : firstColumns.index ≠ secondColumns.index
+  contribution : Fin 2 → Signals.Huygens.Point3 → ℂ
+  firstMatch : ∀ detector, contribution 0 detector =
+    slits.first.amplitude slits.wave slits.source detector
+  secondMatch : ∀ detector, contribution 1 detector =
+    slits.second.amplitude slits.wave slits.source detector
+
+/-- The candidate contributions reproduce the open-slit amplitude only under their matches. -/
+lemma GrassmannianDoubleSlitHypothesis.amplitude_eq
+    {firstCount secondCount k n m : ℕ}
+    (hypothesis : GrassmannianDoubleSlitHypothesis firstCount secondCount k n m)
+    (detector : Signals.Huygens.Point3)
+    (first_open : hypothesis.slits.firstOpen = true)
+    (second_open : hypothesis.slits.secondOpen = true) :
+    hypothesis.slits.amplitude detector =
+      hypothesis.contribution 0 detector + hypothesis.contribution 1 detector := by
+  rw [hypothesis.slits.amplitude_both_open detector first_open second_open,
+    hypothesis.firstMatch detector, hypothesis.secondMatch detector]
+
+/-- The proposed contributions obey the classical cross-term identity under the supplied match. -/
+lemma GrassmannianDoubleSlitHypothesis.intensity_eq
+    {firstCount secondCount k n m : ℕ}
+    (hypothesis : GrassmannianDoubleSlitHypothesis firstCount secondCount k n m)
+    (detector : Signals.Huygens.Point3)
+    (first_open : hypothesis.slits.firstOpen = true)
+    (second_open : hypothesis.slits.secondOpen = true) :
+    hypothesis.slits.intensity detector =
+      Signals.Huygens.intensity (hypothesis.contribution 0 detector) +
+      Signals.Huygens.intensity (hypothesis.contribution 1 detector) +
+      2 * (hypothesis.contribution 0 detector * star (hypothesis.contribution 1 detector)).re := by
+  rw [Signals.Huygens.DoubleSlit.intensity, hypothesis.amplitude_eq detector first_open second_open]
+  exact Signals.Huygens.intensity_superposition _ _
 
 /-- A finite Amplituhedron-inspired phase profile used by pending models. -/
 structure AmplituhedronProfile where

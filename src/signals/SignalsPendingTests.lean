@@ -4333,4 +4333,67 @@ noncomputable def toyMadelungGPGrid : MadelungGPGrid 2 :=
 example : 0 < 2 := by
   exact toyMadelungGPGrid.sample_count_pos
 
+/-- Ordered labels for the two columns in the finite slit-hypothesis fixture. -/
+def slitColumnLabel (column : Fin 2) : OrderedColumns 1 2 :=
+  { index := fun _ => column
+    strictlyIncreasing := by
+      intro left right less
+      fin_cases left
+      fin_cases right
+      simp at less }
+
+/-- A full-rank nonnegative map with two distinct column labels. -/
+def slitGeometryMap : AmplituhedronMap 1 2 1 :=
+  { source := { mat := !![1, 0] }
+    externalData := !![1; 0]
+    image := !![1]
+    imageLaw := by
+      ext row column
+      fin_cases row
+      fin_cases column
+      norm_num [Matrix.mul_apply, Fin.sum_univ_two] }
+
+/-- Empty classical apertures make a checkable zero-amplitude Pending fixture.
+
+This fixture supplies the matching functions; it does not compute residues
+from the Grassmannian map or establish a physical amplituhedron interpretation.
+-/
+noncomputable def emptySlitHypothesis : GrassmannianDoubleSlitHypothesis 0 0 1 2 1 :=
+  { slits :=
+      { wave := { wavelength := ⟨1⟩, wavelength_positive := by norm_num }
+        source := 0
+        first := { point := Fin.elim0, weight := Fin.elim0 }
+        second := { point := Fin.elim0, weight := Fin.elim0 }
+        firstOpen := true
+        secondOpen := true }
+    geometry := slitGeometryMap
+    source_nonnegative := by
+      intro columns
+      rw [GrassmannianMatrix.pluckerCoordinate, selectedMinor, Matrix.det_fin_one]
+      change 0 ≤ (!![1, 0] : Matrix (Fin 1) (Fin 2) ℝ) 0 (columns.index 0)
+      generalize columns.index 0 = column
+      fin_cases column <;> norm_num
+    source_full_rank := ⟨slitColumnLabel 0, by
+      norm_num [slitGeometryMap, GrassmannianMatrix.pluckerCoordinate, selectedMinor,
+        Matrix.det_fin_one, Matrix.submatrix, slitColumnLabel]⟩
+    firstColumns := slitColumnLabel 0
+    secondColumns := slitColumnLabel 1
+    distinct_labels := by
+      intro equal
+      have impossible := congrFun equal 0
+      norm_num [slitColumnLabel] at impossible
+    contribution := fun _ _ => 0
+    firstMatch := by intro detector; simp [Signals.Huygens.Aperture.amplitude]
+    secondMatch := by intro detector; simp [Signals.Huygens.Aperture.amplitude] }
+
+example (detector : Signals.Huygens.Point3) :
+    emptySlitHypothesis.slits.amplitude detector =
+      emptySlitHypothesis.contribution 0 detector + emptySlitHypothesis.contribution 1 detector :=
+  emptySlitHypothesis.amplitude_eq detector rfl rfl
+
+example (detector : Signals.Huygens.Point3) :
+    emptySlitHypothesis.slits.intensity detector = 0 := by
+  rw [emptySlitHypothesis.intensity_eq detector rfl rfl]
+  norm_num [emptySlitHypothesis, Signals.Huygens.intensity, Complex.normSq]
+
 end SignalsPendingTests

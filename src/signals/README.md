@@ -268,7 +268,17 @@ interpretation while keeping experimental premises explicit:
    the finite $2 \times 4$ Pluecker relation. It also provides unrestricted
    finite Grassmannian matrices, ordered maximal minors, an optional positive
    Grassmannian condition, and massive four-momentum/spinor-helicity records.
-   Negative minors remain valid in the unrestricted matrix layer.
+   Negative minors remain valid in the unrestricted matrix layer. Twistor
+   incidence and additive shear translations, alternating-map maximal minors,
+   full-rank nonnegative representatives, and four-index orbital
+   angular-momentum shifts extend this algebraic layer.
+- `Signals.Huygens` provides finite scalar aperture quadrature in three spatial
+   dimensions, independent slit masks, coherent intensity cross terms, and
+   finite action-phase sums. It does not define a continuum path integral.
+- `Signals.Plabic` provides colored finite rotation systems, single-orbit
+   cyclic-order requirements, bounded strand routing, and decorated boundary
+   permutations extracted from checked exit certificates. A rotation system
+   does not itself certify a planar disk embedding or a positroid cell.
 - `Signals.Fabrication` models voxel fields, active phase masks, calibration
    tolerances, height-map bounds, and thermal budgets as data with accessor
    lemmas.
@@ -276,6 +286,74 @@ interpretation while keeping experimental premises explicit:
    edge cases. `SignalsPendingTests` separately compiles examples of the pending
    hypotheses and their conditional consequences. `make signals_build` builds
    all four targets.
+
+## Huygens, Twistor Translation, and Plabic Routing
+
+The [Grassmannian-Huygens chat](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L9)
+motivates this local implementation. Library placement remains undecided;
+all new APIs stay in Signals rather than modifying Mathlib or Physlib.
+
+The [twistor specification](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L199)
+is implemented using the existing `WeylSpinor` and `Twistor` records, with
+`mu = -i x lambda`. `Twistor.translate_incident_iff`, `translate_add`,
+`translate_zero`, and `translate_neg` prove incidence covariance and the
+additive translation laws. `SpacetimeMatrix` is general complex matrix data;
+Hermiticity, a Minkowski metric, nonzero projective representatives, and
+physical wave propagation are not implicit in this record.
+
+The [proposed angular-momentum shift](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L227)
+is represented instead by `orbitalBivector` and `AngularMomentumState` on four
+real coordinates. The proved shift is $M' = M + a \wedge p$, with unchanged
+momentum and preserved antisymmetry. A two-by-two commutator is not substituted
+for this tensor. The existing `Signals.Coherence.ParallelAxis` remains the
+separate scalar Huygens-Steiner model; no Casimir-to-inertia identity is claimed.
+
+For the [double-slit superposition proposal](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L112),
+`Signals.Huygens.Aperture.amplitude` sums finite source-to-aperture-to-detector
+contributions using the outgoing scalar kernel $\exp(i k r)/r$.
+Coordinates and wavelength are in metres; weights supply quadrature,
+transmission, and obliquity factors. `regularAt` excludes coincident sample
+points: Lean's totalized division at zero is not the singular Green function's
+physical value. `DoubleSlit` proves open-slit amplitude addition, the coherent
+cross term, single-slit masking, and zero intensity when both slits are closed.
+Intensity is squared complex amplitude, not calibrated irradiance or a
+normalized probability density. `finiteHistoryAmplitude` is a finite weighted
+action-phase sum, not a continuum Feynman integral.
+
+The [strand-routing blueprint](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L357)
+is implemented with boundary/internal identifiers, one color per internal
+vertex, unique boundary neighbors, and single-orbit internal rotations.
+Black uses the supplied counterclockwise rotation; white uses its inverse.
+`BoundaryRouting` checks supplied finite step counts against a supplied
+bijective boundary map before exporting `DecoratedPermutation`. It does not
+prove arbitrary termination, disk planarity, reducedness, graph-move
+equivalence, a cell's rank, or correspondence with Grassmannian minors.
+
+The [alternating-map construction](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L483)
+is `pluckerAlternating`, built from `Matrix.detRowAlternating.compLinearMap`.
+Its value equals the existing `selectedMinor`; swapping distinct rows negates
+it, and equal distinct rows force zero. `NonnegativeGrassmannian` permits zero
+boundary minors but requires a nonzero maximal minor to exclude rank-deficient
+and vacuous representatives. These are matrix representatives, not a quotient
+Grassmannian. The general quadratic Pluecker relations are not newly proved;
+the existing $2 \times 4$ identity remains available.
+
+The [two-residue interpretation](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L104)
+stays in `Signals.Pending.GrassmannianDoubleSlitHypothesis`. Its geometry map,
+nonnegative/full-rank source, distinct column labels, complex contribution
+functions, and matches to slit amplitudes are explicit supplied data.
+The resulting amplitude and intensity laws are conditional on those matches.
+No canonical differential form, contour integration, geometric-union rule,
+Hodges-determinant identity, fermion interpretation of row exchange, or
+absence of spurious poles follows from these finite models.
+
+`SignalsTests` checks translation signs and reversal, alternating minors,
+negative-minor rejection, a nonnegative zero-minor boundary, constructive and
+destructive interference, symmetric distinct slit samples in 3D, slit masks,
+and opposite black/white exits on a three-spoke graph. `SignalsPendingTests`
+checks a supplied zero-aperture hypothesis, not a geometry-derived residue.
+
+
 
 The source chat's extracted Lean corpus is available at
 `../../data/chats/IQ-Sampling-for-Signal-Phase.lean` from this project directory.
@@ -434,8 +512,8 @@ emission. Those distinctions are represented by `CWApplicationRequirements`,
 
 ## Build
 
-The project currently selects Lean `v4.34.0-rc2`; the sibling Physlib checkout
-must remain on a compatible revision.
+The project currently selects Lean `v4.35.0-rc3`; the sibling Mathlib and
+Physlib checkouts must remain on compatible revisions.
 From the repository root:
 
 ```text
@@ -460,11 +538,10 @@ compiling it while the Docker image is built. It mounts the named volume
 available when the container is recreated. The first workspace build can still
 take time; subsequent builds are incremental.
 
-The Lake file uses the sibling checkouts at `../mathlib4` and `../physlib`.
-Those checkouts must target compatible revisions. At the time this project was
-started, the local mathlib checkout reported `v4.34.0-rc2` while Physlib
-reported `v4.33.0`; do not mix their build artifacts. A clean CI checkout pins
-the matching dependency revisions before running Lean.
+The Lake file uses the sibling Physlib source at `../physlib` and pins Mathlib
+`v4.35.0-rc3` directly. The sibling `../mathlib4` checkout is independent and
+is not used by this package. Keep the Signals `.lake` artifacts aligned with
+these project pins.
 
 The local toolchain is available in the dev container, and the same build is
 used as the local and CI check.
