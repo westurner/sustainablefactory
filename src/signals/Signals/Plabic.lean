@@ -1,5 +1,6 @@
 import Mathlib.Combinatorics.SimpleGraph.Basic
 import Mathlib.Data.Matrix.Basic
+import Mathlib.Dynamics.PeriodicPts.Lemmas
 import Mathlib.GroupTheory.Perm.Basic
 import Mathlib.Tactic
 
@@ -59,6 +60,75 @@ structure DirectedEdge {boundaryCount internalCount : ℕ}
   dst : Vertex boundaryCount internalCount
   adjacent : system.graph.Adj src dst
 
+/-- Directed edges are equivalent to a vertex paired with one of its outgoing neighbors. -/
+def DirectedEdge.outgoingEquiv {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) :
+    DirectedEdge system ≃ Σ vertex, system.graph.neighborSet vertex where
+  toFun edge := ⟨edge.src, ⟨edge.dst, edge.adjacent⟩⟩
+  invFun outgoing := ⟨outgoing.1, outgoing.2.val, outgoing.2.property⟩
+  left_inv edge := by cases edge; rfl
+  right_inv outgoing := by rcases outgoing with ⟨vertex, neighbor, adjacent⟩; rfl
+
+/-- Finite vertex and neighbor sets give a finite directed-edge carrier without extra graph data. -/
+instance {boundaryCount internalCount : ℕ} (system : RotationSystem boundaryCount internalCount) :
+    Finite (DirectedEdge system) :=
+  Finite.of_equiv (Σ vertex, system.graph.neighborSet vertex) (DirectedEdge.outgoingEquiv system).symm
+
+/-- Directed edges agree once their source and destination agree; adjacency proofs are irrelevant. -/
+@[ext] lemma DirectedEdge.ext {boundaryCount internalCount : ℕ}
+    {system : RotationSystem boundaryCount internalCount} (first second : DirectedEdge system)
+    (sources : first.src = second.src) (destinations : first.dst = second.dst) : first = second := by
+  cases first
+  cases second
+  cases sources
+  cases destinations
+  rfl
+
+/-- Reverse each directed edge; graph symmetry makes this an involutive permutation. -/
+def DirectedEdge.reverse {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) : Equiv.Perm (DirectedEdge system) where
+  toFun edge := ⟨edge.dst, edge.src, edge.adjacent.symm⟩
+  invFun edge := ⟨edge.dst, edge.src, edge.adjacent.symm⟩
+  left_inv _ := rfl
+  right_inv _ := rfl
+
+/-- Neighbor turns use the chosen color internally and the unique boundary edge externally. -/
+def RotationSystem.turnRotation {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (vertex : Vertex boundaryCount internalCount) :
+    Equiv.Perm (system.graph.neighborSet vertex) :=
+  match vertex with
+  | Sum.inl _ => Equiv.refl _
+  | Sum.inr internal => match system.color internal with
+      | .black => system.rotation (Sum.inr internal)
+      | .white => (system.rotation (Sum.inr internal)).symm
+
+/-- Continue strands through boundaries to obtain a derived permutation on all directed edges. -/
+def RotationSystem.dartTurn {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) : Equiv.Perm (DirectedEdge system) :=
+  (DirectedEdge.reverse system).trans
+    (((DirectedEdge.outgoingEquiv system).trans
+      (Equiv.sigmaCongrRight system.turnRotation)).trans (DirectedEdge.outgoingEquiv system).symm)
+
+/-- Each continuing turn leaves from the previous directed edge's destination. -/
+lemma RotationSystem.dartTurn_source {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (edge : DirectedEdge system) :
+    (system.dartTurn edge).src = edge.dst := rfl
+
+/-- Every dart returns in a positive number of turns bounded by the finite dart count. -/
+lemma RotationSystem.dartTurn_period {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (edge : DirectedEdge system) :
+    ∃ period > 0, period ≤ Nat.card (DirectedEdge system) ∧
+      (system.dartTurn : DirectedEdge system → DirectedEdge system)^[period] edge = edge := by
+  classical
+  let _ : Fintype (DirectedEdge system) := Fintype.ofFinite _
+  let turn : DirectedEdge system → DirectedEdge system := system.dartTurn
+  have periodic := system.dartTurn.injective.mem_periodicPts edge
+  refine ⟨Function.minimalPeriod turn edge,
+    Function.minimalPeriod_pos_of_mem_periodicPts periodic, ?_,
+    (Function.isPeriodicPt_minimalPeriod turn edge).eq⟩
+  simpa only [Nat.card_eq_fintype_card] using
+    (Function.minimalPeriod_le_card (f := turn) (x := edge))
+
 /-- The unique outgoing edge at a boundary vertex initializes its strand. -/
 def RotationSystem.start {boundaryCount internalCount : ℕ}
     (system : RotationSystem boundaryCount internalCount) (index : Fin boundaryCount) :
@@ -88,6 +158,32 @@ lemma RotationSystem.step_boundary {boundaryCount internalCount : ℕ}
     (index : Fin boundaryCount) (terminal : edge.dst = Sum.inl index) :
     system.step edge = edge := by
   simp [RotationSystem.step, terminal]
+
+/-- At an internal destination the continuing dart turn agrees with the original strand step. -/
+lemma RotationSystem.dartTurn_internal {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (edge : DirectedEdge system)
+    (internal : Fin internalCount) (destination : edge.dst = Sum.inr internal) :
+    system.dartTurn edge = system.step edge := by
+  cases edge with
+  | mk source target adjacent =>
+      dsimp at destination
+      subst target
+      cases color : system.color internal <;>
+        simp [dartTurn, DirectedEdge.reverse, DirectedEdge.outgoingEquiv,
+          Equiv.sigmaCongrRight, turnRotation, step, color]
+
+/-- A boundary arrival continues through its unique incident edge to the corresponding start. -/
+lemma RotationSystem.dartTurn_boundary {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (edge : DirectedEdge system)
+    (index : Fin boundaryCount) (destination : edge.dst = Sum.inl index) :
+    system.dartTurn edge = system.start index := by
+  cases edge with
+  | mk source target adjacent =>
+      dsimp at destination
+      subst target
+      apply DirectedEdge.ext
+      · rfl
+      · exact system.boundaryUnique index source adjacent.symm
 
 /-- Evaluate a strand for a bounded number of steps, retaining a valid directed edge. -/
 def RotationSystem.route {boundaryCount internalCount : ℕ}

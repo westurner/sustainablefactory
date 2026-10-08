@@ -314,6 +314,9 @@ interpretation while keeping experimental premises explicit:
    checked exit certificates; general termination and bijection are not yet
    derived. A rotation system
    does not itself certify a planar disk embedding or a positroid cell.
+   Continuing dart turns form a derived finite permutation, agree with
+   internal strand steps, and have positive periods bounded by dart count;
+   converting that bound into boundary-search termination remains separate.
    Ranked nonnegative weighted networks derive long-path vanishing,
    nilpotency, cutoff-stable finite transfer, and selected boundary entries.
    Ordered-minor positivity, embedding correspondence and network moves are

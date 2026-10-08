@@ -727,6 +727,24 @@ positivity, the general minor/disjoint-path identity, positroid-cell
 correspondence, or network-move invariance. Cyclic networks and optical
 phase/units remain outside this finite nonnegative-weight model.
 
+### Iteration 10: Continuing Dart Permutation
+
+[Plabic.lean](../src/signals/Signals/Plabic.lean) constructs `dartTurn`
+by composing edge reversal with the existing color-dependent neighbor
+permutations. A boundary turn continues through its unique incident edge;
+the original absorbing `step` and `route` remain unchanged. The continuing
+turn agrees with `step` at internal destinations, and a boundary arrival
+turns into the corresponding boundary start edge.
+
+The directed-edge carrier is finite. Mathlib's finite-permutation periodicity
+theorems give every dart a positive return period no larger than the dart
+count. This is a derived bound on continuing dynamics, not yet a theorem
+that the absorbing search reaches a boundary within that bound.
+Star controls check both colors, boundary continuation, a six-turn return,
+and rejection of confusing continuing turns with absorbing boundary steps.
+Planarity, reducedness, decorations, and a boundary-return permutation are
+not inferred from this intermediate construction.
+
 ### Remaining Acceptance Obligations
 
 | Phase | Verified checkpoint | Still required |
@@ -734,7 +752,7 @@ phase/units remain outside this finite nonnegative-weight model.
 | 0 | Regularity/positive-scale guards, nonempty finite-extent slit samples, arbitrary-wavelength analytic reference, phase/mask/off-axis controls, fixed-tolerance rejection. | Finite-area slit geometry and refinement belong to the continuum/quadrature track; fixtures are not measurements. |
 | 1 | Selected fixed-field planar area integral, guarded integrability, disjoint-mask addition. | Boundary approximation accuracy, incident/boundary data, dimensioned field normalization, and a justified Green representation or approximation bound. |
 | 2 | Actual measured-cell weights, derived Lipschitz/mesh/area error rate, refinement convergence, uniform-domain comparison and finite-aperture correspondence. | Prove uniform optical-kernel regularity from separation and a wavelength interval; construct a rectangular area mesh and prove the Fraunhofer limit. |
-| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded first-exit search laws; ranked acyclic weighted transfer, nilpotency, cutoff stability and boundary measurements. | General termination bound and derived boundary bijection; minor/disjoint-path identities and ordered-minor positivity, embedding/cell correspondence, network moves, general Pluecker relations, and any quotient construction. |
+| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded first-exit laws; continuing finite dart permutation and cardinality-bounded periods; ranked acyclic weighted transfer and boundary measurements. | General boundary-search termination bound and derived boundary bijection; minor/disjoint-path identities and ordered-minor positivity, embedding/cell correspondence, network moves, general Pluecker relations, and any quotient construction. |
 | 4 | Affine alternating interval/triangle/square forms, oriented boundary limits, normalization, pullbacks, and diagonal cancellation/continuation. | General projective canonical-form existence/uniqueness, arbitrary-chart invariance and higher-dimensional amplituhedron forms. |
 | 5 | A literal unphased form-evaluation candidate is falsified without fitting. | Derive a dimensioned oscillatory complex evaluator and its invariances independently of the optical answer. |
 | 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds and separate error-budget composition. | A genuine geometric/classical equality or held-out uniform error theorem after both tracks meet their gates. |

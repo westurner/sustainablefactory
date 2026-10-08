@@ -1608,6 +1608,31 @@ example : ((plabicStar .black).route 4 ((plabicStar .black).start 0)).dst =
 
 example : (plabicStar .black).firstExit 0 ((plabicStar .black).start 0) = none := rfl
 
+example (color : Signals.Plabic.NodeColor) (index : Fin 3) :
+    (plabicStar color).dartTurn ((plabicStar color).start index) =
+      (plabicStar color).step ((plabicStar color).start index) :=
+  (plabicStar color).dartTurn_internal _ 0 rfl
+
+example : (plabicStar .black).dartTurn
+    ((plabicStar .black).route 1 ((plabicStar .black).start 0)) =
+      (plabicStar .black).start 1 := rfl
+
+example : (plabicStar .white).dartTurn
+    ((plabicStar .white).route 1 ((plabicStar .white).start 0)) =
+      (plabicStar .white).start 2 := rfl
+
+example : ((plabicStar .black).dartTurn :
+    Signals.Plabic.DirectedEdge (plabicStar .black) → _)^[6]
+      ((plabicStar .black).start 0) = (plabicStar .black).start 0 := rfl
+
+example : ¬((plabicStar .black).dartTurn
+    ((plabicStar .black).route 1 ((plabicStar .black).start 0)) =
+      (plabicStar .black).route 2 ((plabicStar .black).start 0)) := by
+  intro impossible
+  have destination := congrArg Signals.Plabic.DirectedEdge.dst impossible
+  change Sum.inr (0 : Fin 1) = Sum.inl (1 : Fin 3) at destination
+  cases destination
+
 example : (plabicStar .black).firstExit 1 ((plabicStar .black).start 0) =
   some (1, 1) := rfl
 
