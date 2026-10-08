@@ -283,6 +283,12 @@ interpretation while keeping experimental premises explicit:
    minor and reject an all-zero rank-one representative. These are algebraic
    boundaries, not limits on complex diffraction or destructive interference;
    no optical-amplitude/minor identification is assumed.
+   A measured two-source/two-sink matrix has a derived signed determinant and
+   exact product-dominance positivity criterion. Strictly positive edge entries
+   can still give a negative ordered minor or a singular nonzero matrix, with
+   explicit rejection controls. This raw transfer selection is not an embedded
+   signed planar boundary-measurement construction or a general disjoint-path
+   theorem.
 - `Signals.CanonicalForms` provides fixed-oriented affine interval, triangle,
    and square alternating forms, normalization, punctured-limit boundary
    residues, area-preserving triangle pullbacks, and shared-diagonal pole
@@ -332,7 +338,8 @@ interpretation while keeping experimental premises explicit:
    nilpotency, cutoff-stable finite transfer, and selected boundary entries.
    A guarded one-edge subdivision preserves the one-source/one-sink boundary
    matrix, with zero-factor and wrong-split rejection controls. A fork derives
-   its two boundary entries from independent edge weights. General ordered-minor
+   its two boundary entries from independent edge weights; a two-channel
+   network derives its complete two-by-two matrix. General ordered-minor
    positivity, embedding correspondence and general embedded-network moves
    are not inferred from these finite path sums.
 - `Signals.Fabrication` models voxel fields, active phase masks, calibration

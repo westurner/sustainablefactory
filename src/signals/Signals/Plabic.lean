@@ -683,4 +683,29 @@ lemma WeightedAcyclicNetwork.fork_boundary (firstWeight secondWeight : ℝ≥0) 
       pow_zero, pow_one, Matrix.one_apply]
     simp [fork]
 
+/-- Two sources at level zero feed two sinks at level one with independent edge weights. -/
+def WeightedAcyclicNetwork.twoChannel (firstFirst firstSecond secondFirst secondSecond : ℝ≥0) :
+    WeightedAcyclicNetwork 4 1 :=
+  { level := fun vertex => if vertex.val < 2 then 0 else 1
+    weight := ![![0, 0, firstFirst, firstSecond], ![0, 0, secondFirst, secondSecond],
+      ![0, 0, 0, 0], ![0, 0, 0, 0]]
+    ascending := by
+      intro first second nonzero
+      fin_cases first <;> fin_cases second <;> norm_num at * }
+
+/-- The complete two-channel boundary matrix is derived from the finite weighted path sum. -/
+lemma WeightedAcyclicNetwork.twoChannel_boundary
+    (firstFirst firstSecond secondFirst secondSecond : ℝ≥0) :
+    (twoChannel firstFirst firstSecond secondFirst secondSecond).boundaryMeasurement
+      (Fin.castAdd 2) (Fin.natAdd 2) =
+      (!![firstFirst, firstSecond; secondFirst, secondSecond] : Matrix (Fin 2) (Fin 2) ℝ≥0) := by
+  apply Matrix.ext
+  intro source sink
+  fin_cases source <;> fin_cases sink
+  all_goals
+    simp only [boundaryMeasurement, transfer, Finset.sum_range_succ,
+      Finset.range_zero, Finset.sum_empty, zero_add, Matrix.add_apply,
+      pow_zero, pow_one, Matrix.one_apply]
+    simp [twoChannel]
+
 end Signals.Plabic

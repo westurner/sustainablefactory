@@ -282,6 +282,38 @@ noncomputable def forkNonnegative (firstWeight secondWeight : ℝ≥0)
         change (secondWeight : ℝ) ≠ 0
         exact_mod_cast secondActive }
 
+/-- The actual two-channel boundary matrix with nonnegative entries converted to real scalars. -/
+noncomputable def twoChannelRepresentative
+    (firstFirst firstSecond secondFirst secondSecond : ℝ≥0) : GrassmannianMatrix 2 2 :=
+  { mat := fun row column =>
+      ((Signals.Plabic.WeightedAcyclicNetwork.twoChannel
+        firstFirst firstSecond secondFirst secondSecond).boundaryMeasurement
+        (Fin.castAdd 2) (Fin.natAdd 2) row column : ℝ) }
+
+/-- The real representative retains all four entries of the measured two-channel boundary matrix. -/
+lemma twoChannelRepresentative_mat (firstFirst firstSecond secondFirst secondSecond : ℝ≥0) :
+    (twoChannelRepresentative firstFirst firstSecond secondFirst secondSecond).mat =
+      !![(firstFirst : ℝ), (firstSecond : ℝ); (secondFirst : ℝ), (secondSecond : ℝ)] := by
+  unfold twoChannelRepresentative
+  rw [Signals.Plabic.WeightedAcyclicNetwork.twoChannel_boundary]
+  apply Matrix.ext
+  intro row column
+  fin_cases row <;> fin_cases column <;> rfl
+
+/-- The two-channel determinant is the signed difference of the two source/sink pair products. -/
+lemma twoChannelRepresentative_det (firstFirst firstSecond secondFirst secondSecond : ℝ≥0) :
+    (twoChannelRepresentative firstFirst firstSecond secondFirst secondSecond).mat.det =
+      (firstFirst : ℝ) * (secondSecond : ℝ) - (firstSecond : ℝ) * (secondFirst : ℝ) := by
+  rw [twoChannelRepresentative_mat, Matrix.det_fin_two]
+  rfl
+
+/-- Positive measured determinant requires ordered-product dominance, not just positive entries. -/
+lemma twoChannelRepresentative_det_pos_iff
+    (firstFirst firstSecond secondFirst secondSecond : ℝ≥0) :
+    0 < (twoChannelRepresentative firstFirst firstSecond secondFirst secondSecond).mat.det ↔
+      (firstSecond : ℝ) * (secondFirst : ℝ) < (firstFirst : ℝ) * (secondSecond : ℝ) := by
+  rw [twoChannelRepresentative_det, sub_pos]
+
 /-! ## Massive spinor-helicity bookkeeping
 
 The records below expose the massive replacement for the massless

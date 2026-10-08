@@ -834,6 +834,33 @@ nonnegative network weights or ordered minors with optical amplitudes or
 intensities. Boundary-approximation accuracy and a justified optical/geometric
 evaluator remain independent gates.
 
+### Iteration 15: Measured Two-Channel Ordered Minor
+
+`WeightedAcyclicNetwork.twoChannel` constructs a ranked four-vertex network
+with two sources, two sinks and four independent nonnegative edge weights.
+`twoChannel_boundary` derives the complete measured matrix from the actual
+finite transfer sum. `twoChannelRepresentative` converts that measured matrix
+to real entries, and `twoChannelRepresentative_det` proves
+
+$$
+\det\begin{pmatrix}a&b\\c&d\end{pmatrix}=ad-bc.
+$$
+
+`twoChannelRepresentative_det_pos_iff` gives the exact criterion $bc<ad$.
+Controls recover a positive diagonal minor and a negative crossed-channel
+minor, and exercise the positive-product-dominance criterion. They also reject
+nonnegative ordered-minor status for the all-positive matrix $[1,2;3,4]$,
+whose determinant is $-2$. The all-positive matrix $[1,2;2,4]$ is proved
+nonzero but singular; no full-rank nonnegative record can retain that matrix.
+
+Thus active or even strictly positive edges, and acyclicity, do not by
+themselves imply rank or ordered-minor positivity for a raw source/sink
+transfer selection. This is not a counterexample to positivity results for
+correctly embedded planar networks with their required boundary order and
+signed measurement conventions: those structures have not been constructed
+here. The signed two-pair product law is not a general disjoint-path theorem,
+positroid correspondence, Grassmannian quotient, or optical phase evaluator.
+
 ### Remaining Acceptance Obligations
 
 | Phase | Verified checkpoint | Still required |
@@ -841,7 +868,7 @@ evaluator remain independent gates.
 | 0 | Regularity/positive-scale guards, nonempty finite-extent slit samples, arbitrary-wavelength analytic reference, phase/mask/off-axis controls, fixed-tolerance rejection. | Finite-area slit geometry and refinement belong to the continuum/quadrature track; fixtures are not measurements. |
 | 1 | Selected fixed-field planar area integral, guarded integrability, disjoint-mask addition. | Boundary approximation accuracy, incident/boundary data, dimensioned field normalization, and a justified Green representation or approximation bound. |
 | 2 | Actual measured-cell weights, derived Lipschitz/mesh/area error rate, refinement convergence, uniform-domain comparison and finite-aperture correspondence. | Prove uniform optical-kernel regularity from separation and a wavelength interval; construct a rectangular area mesh and prove the Fraunhofer limit. |
-| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision invariance and measured fork rank/positivity. | Decoration rules; general minor/disjoint-path identities and ordered-minor positivity, embedding/cell correspondence, general embedded-network moves, general Pluecker relations, and any quotient construction. |
+| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision invariance, measured fork rank/positivity and the two-channel signed determinant/positivity criterion with rank-loss controls. | Decoration rules; general minor/disjoint-path identities and ordered-minor positivity, embedded signed boundary measurements/cell correspondence, general embedded-network moves, general Pluecker relations, and any quotient construction. |
 | 4 | Affine alternating interval/triangle/square forms, oriented boundary limits, normalization, pullbacks, and diagonal cancellation/continuation. | General projective canonical-form existence/uniqueness, arbitrary-chart invariance and higher-dimensional amplituhedron forms. |
 | 5 | A literal unphased form-evaluation candidate is falsified without fitting. | Derive a dimensioned oscillatory complex evaluator and its invariances independently of the optical answer. |
 | 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds and separate error-budget composition. | A genuine geometric/classical equality or held-out uniform error theorem after both tracks meet their gates. |
@@ -857,8 +884,8 @@ the independent boundary, quadrature and network proof tracks remain available.
 The latest completed iteration gates passed: `SignalsTests` at 3,577 jobs,
 `make signals_build` at 3,593 jobs, all four concatenated report Lean fences,
 Sphinx HTML, correct Lake source setup, and scoped whitespace checks. The
-incremental Sphinx gate reported 13 warnings; an earlier full run reported 66.
-This is build
+observed Sphinx refreshes reported 66 warnings, while incremental rebuilds
+reported 13. This is build
 verification, not a runtime optical experiment or a projective existence proof.
 
 The following records the original review baseline, before the implementation

@@ -1868,6 +1868,58 @@ example : ¬∃ representative : Signals.Geometry.NonnegativeGrassmannian 1 2,
   generalize columns.index 0 = column
   fin_cases column <;> rfl
 
+example : (twoChannelRepresentative 2 0 0 3).pluckerCoordinate identityColumns = 6 := by
+  change (twoChannelRepresentative 2 0 0 3).mat.det = 6
+  rw [twoChannelRepresentative_det]
+  norm_num
+
+example : (twoChannelRepresentative 0 2 3 0).pluckerCoordinate identityColumns = -6 := by
+  change (twoChannelRepresentative 0 2 3 0).mat.det = -6
+  rw [twoChannelRepresentative_det]
+  norm_num
+
+example : 0 < (twoChannelRepresentative 3 1 1 2).mat.det := by
+  rw [twoChannelRepresentative_det_pos_iff]
+  norm_num
+
+example : (twoChannelRepresentative 1 2 3 4).pluckerCoordinate identityColumns = -2 := by
+  change (twoChannelRepresentative 1 2 3 4).mat.det = -2
+  rw [twoChannelRepresentative_det]
+  norm_num
+
+example : ¬(twoChannelRepresentative 1 2 3 4).hasNonnegativeOrderedMinors := by
+  intro nonnegative
+  have impossible := nonnegative identityColumns
+  change 0 ≤ (twoChannelRepresentative 1 2 3 4).mat.det at impossible
+  rw [twoChannelRepresentative_det] at impossible
+  norm_num at impossible
+
+example : (twoChannelRepresentative 1 2 2 4).pluckerCoordinate identityColumns = 0 := by
+  change (twoChannelRepresentative 1 2 2 4).mat.det = 0
+  rw [twoChannelRepresentative_det]
+  norm_num
+
+example : (twoChannelRepresentative 1 2 2 4).mat ≠ 0 := by
+  intro zeroMatrix
+  have entry := congrArg (fun matrix : Matrix (Fin 2) (Fin 2) ℝ => matrix 0 0) zeroMatrix
+  rw [twoChannelRepresentative_mat] at entry
+  norm_num at entry
+
+example : ¬∃ representative : NonnegativeGrassmannian 2 2,
+    representative.mat = (twoChannelRepresentative 1 2 2 4).mat := by
+  rintro ⟨representative, same⟩
+  obtain ⟨columns, nonzero⟩ := representative.nonzero_minor
+  have ordered : columns.index 0 < columns.index 1 := columns.strictlyIncreasing (by decide)
+  have first : columns.index 0 = 0 := by
+    apply Fin.ext
+    omega
+  have second : columns.index 1 = 1 := by
+    apply Fin.ext
+    omega
+  change selectedMinor representative.mat columns ≠ 0 at nonzero
+  rw [same, twoChannelRepresentative_mat, selectedMinor, Matrix.det_fin_two] at nonzero
+  norm_num [Matrix.submatrix, first, second] at nonzero
+
 def toyCalibration : Calibration :=
   { expected := 10
     measured := 10.1
