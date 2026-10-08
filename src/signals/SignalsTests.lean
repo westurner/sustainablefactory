@@ -1049,6 +1049,84 @@ example : (intervalThirdCell.toGrassmannianMatrix.changeBasis !![-2]).pluckerCoo
   intervalThirdCell.toGrassmannianMatrix.pluckerRatio_basisChange !![-2]
     (by norm_num [Matrix.det_fin_one]) _ _
 
+example : Signals.CanonicalForms.intervalForm (1 / 3) (!![2] : Matrix (Fin 1) (Fin 1) ℝ) = 9 := by
+  norm_num [Signals.CanonicalForms.intervalForm_apply, Signals.CanonicalForms.intervalCoefficient]
+
+example : Signals.CanonicalForms.triangleForm ![1 / 3, 1 / 3] !![1, 0; 0, 1] = 27 := by
+  norm_num [Signals.CanonicalForms.triangleForm_apply, Signals.CanonicalForms.triangleCoefficient]
+
+example : Signals.CanonicalForms.triangleForm ![1 / 3, 1 / 3] !![0, 1; 1, 0] = -27 := by
+  norm_num [Signals.CanonicalForms.triangleForm_apply, Signals.CanonicalForms.triangleCoefficient]
+
+example : Signals.CanonicalForms.triangleForm ![1 / 3, 1 / 3] !![1, 2; 1, 2] = 0 := by
+  norm_num [Signals.CanonicalForms.triangleForm_apply, Signals.CanonicalForms.triangleCoefficient]
+
+open scoped Topology in
+example : ¬Filter.Tendsto (fun coordinate =>
+    (coordinate - 1) * Signals.CanonicalForms.intervalCoefficient coordinate)
+    (𝓝[≠] (1 : ℝ)) (𝓝 1) := by
+  intro wrongSign
+  have impossible : (-1 : ℝ) = 1 :=
+    tendsto_nhds_unique Signals.CanonicalForms.interval_residue_one wrongSign
+  norm_num at impossible
+
+open scoped Topology in
+example : Filter.Tendsto (fun normal => normal *
+    Signals.CanonicalForms.triangleForm ![normal, 1 / 2] !![1, 0; 0, 1])
+    (𝓝[≠] (0 : ℝ)) (𝓝 4) := by
+  convert Signals.CanonicalForms.triangle_residue_x (1 / 2)
+    (by norm_num) (by norm_num) using 1
+  norm_num [Signals.CanonicalForms.intervalCoefficient]
+
+open scoped Topology in
+example : Filter.Tendsto (fun normal => normal *
+    Signals.CanonicalForms.triangleForm ![1 / 2, normal] !![0, 1; 1, 0])
+    (𝓝[≠] (0 : ℝ)) (𝓝 (-4)) := by
+  convert Signals.CanonicalForms.triangle_residue_y (1 / 2)
+    (by norm_num) (by norm_num) using 1
+  norm_num [Signals.CanonicalForms.intervalCoefficient]
+
+open scoped Topology in
+example : Filter.Tendsto (fun normal => normal *
+    Signals.CanonicalForms.triangleForm ![1 / 2, 1 / 2 - normal] !![0, -1; 1, -1])
+    (𝓝[≠] (0 : ℝ)) (𝓝 4) := by
+  convert Signals.CanonicalForms.triangle_residue_diagonal (1 / 2)
+    (by norm_num) (by norm_num) using 1 <;> norm_num [Signals.CanonicalForms.intervalCoefficient]
+
+example : Signals.CanonicalForms.lowerTriangleCoefficient ![3 / 4, 1 / 4] +
+    Signals.CanonicalForms.upperTriangleCoefficient ![3 / 4, 1 / 4] =
+    Signals.CanonicalForms.squareCoefficient ![3 / 4, 1 / 4] :=
+  Signals.CanonicalForms.square_triangulation _ (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+
+example : Signals.CanonicalForms.squareCoefficient ![1 / 2, 1 / 2] = 16 := by
+  norm_num [Signals.CanonicalForms.squareCoefficient]
+
+example : ContinuousAt Signals.CanonicalForms.squareCoefficient ![1 / 2, 1 / 2] :=
+  Signals.CanonicalForms.squareCoefficient_continuousAt _ (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num)
+
+example : Signals.CanonicalForms.lowerTriangleCoefficient ![1 / 2, 1 / 2] +
+    Signals.CanonicalForms.upperTriangleCoefficient ![1 / 2, 1 / 2] ≠
+    Signals.CanonicalForms.squareCoefficient ![1 / 2, 1 / 2] := by
+  norm_num [Signals.CanonicalForms.lowerTriangleCoefficient,
+    Signals.CanonicalForms.upperTriangleCoefficient, Signals.CanonicalForms.triangleCoefficient,
+    Signals.CanonicalForms.squareCoefficient]
+
+open scoped Topology in
+example : Filter.Tendsto (fun normal => normal *
+    (-Signals.CanonicalForms.squareCoefficient ![1 / 2, normal]))
+    (𝓝[≠] (0 : ℝ)) (𝓝 (-4)) := by
+  convert Signals.CanonicalForms.square_residue_y_zero (1 / 2) using 1
+  norm_num [Signals.CanonicalForms.intervalCoefficient]
+
+open scoped Topology in
+example : Filter.Tendsto (fun normal => (normal - 1) *
+    (-Signals.CanonicalForms.squareCoefficient ![1 / 2, normal]))
+    (𝓝[≠] (1 : ℝ)) (𝓝 4) := by
+  convert Signals.CanonicalForms.square_residue_y_one (1 / 2) using 1
+  norm_num [Signals.CanonicalForms.intervalCoefficient]
+
 example : Signals.Huygens.intensity ((1 : ℂ) + 1) = 4 := by
   norm_num [Signals.Huygens.intensity, Complex.normSq]
 

@@ -277,6 +277,12 @@ interpretation while keeping experimental premises explicit:
    orientation reversal need not. Nonsingular ratio invariance and a normalized
    positive interval cell are proved without constructing a quotient or
    identifying a weighted network cell.
+- `Signals.CanonicalForms` provides fixed-oriented affine interval, triangle,
+   and square alternating forms, normalization, punctured-limit boundary
+   residues, area-preserving triangle pullbacks, and shared-diagonal pole
+   cancellation with a continuous square extension. Totalized singular
+   values must not be used as the continuation. These examples do not prove
+   general projective canonical-form existence or define an optical evaluator.
 - `Signals.Huygens` provides finite scalar aperture quadrature in three spatial
    dimensions, independent slit masks, coherent intensity cross terms, and
    finite action-phase sums. `RegularSlitEvaluation` gates a compatible

@@ -596,6 +596,37 @@ This is a positive representative, not a Grassmannian quotient or a weighted
 network/cell correspondence. Constructive strand exits, weighted measurements,
 network moves, and general Pluecker relations remain phase-3 obligations.
 
+### Iteration 5: Affine Alternating Forms and Residues
+
+[CanonicalForms.lean](../src/signals/Signals/CanonicalForms.lean) represents
+the interval, triangle, and unit-square examples as position-dependent
+alternating covectors. The one-form acts on a one-dimensional tangent vector;
+the two-forms evaluate the determinant of two tangent vectors. This adds
+degree and orientation beyond the report's original scalar contract.
+
+The interval endpoint residues are genuine punctured-neighbourhood limits,
+$+1$ at zero and $-1$ at one. All three triangle boundary limits are proved
+with explicit normal/tangent arrays: the x-face gives $+dt/[t(1-t)]$, the
+y-face gives its negative in the dx convention, and the diagonal face gives
+the positive interval coefficient in the chosen z,x coordinates. The unit
+square's four coefficient limits have the corresponding orientation signs;
+interpret them as simple boundary residues with the other coordinate interior.
+Normalization and continuity away from the stated affine boundary factors
+are proved.
+
+Both triangle coordinate pullbacks preserve oriented area. Their rational
+extensions sum to the square coefficient and form away from the shared
+diagonal; the square continuation is continuous on that diagonal. Tests
+explicitly reject adding Lean's totalized singular values there: the naive
+sum is zero, whereas the continued square coefficient is 16 at the centre.
+Other tests check nonzero form values, orientation reversal, duplicate tangent
+vectors, and rejection of a wrong endpoint residue sign.
+
+These fulfill the affine example portion of phase 4, not general projective
+existence/uniqueness, arbitrary-chart invariance, or amplituhedron canonical
+forms. The finite affine proofs supply no oscillatory optical phase,
+dimensioned physical embedding, or complex geometric evaluator for phase 5.
+
 ## Validation and Status
 
 For this review, all seven indexed Lean source files typechecked against the

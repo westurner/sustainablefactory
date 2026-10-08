@@ -1,4 +1,5 @@
 import Signals.Acoustics
+import Signals.CanonicalForms
 import Signals.Coherence
 import Signals.Contracts
 import Signals.DDF
