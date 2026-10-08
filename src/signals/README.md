@@ -277,8 +277,11 @@ interpretation while keeping experimental premises explicit:
    finite action-phase sums. `RegularSlitEvaluation` gates a compatible
    evaluator, `ApertureSeparation` supplies positive denominator bounds, and
    `ActionScale` rejects zero or negative action scales. The original raw
-   algebraic evaluators remain available. It does not define a continuum path
-   integral.
+   algebraic evaluators remain available. An analytic two-segment path
+   reference, complex transmission scaling, and `AmplitudeComparison` support
+   nonempty fixed-domain comparisons that reject wrong phases at fixed
+   tolerances. These are classical finite-model controls, not an amplituhedron
+   evaluator or a continuum path integral.
 - `Signals.Plabic` provides colored finite rotation systems, single-orbit
    cyclic-order requirements, bounded strand routing, and decorated boundary
    permutations extracted from checked exit certificates. A rotation system

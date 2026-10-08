@@ -1,4 +1,5 @@
 import Mathlib.Analysis.Complex.Exponential
+import Mathlib.Analysis.Complex.Trigonometric
 import Mathlib.Analysis.SpecialFunctions.Sqrt
 import Mathlib.Tactic
 import Signals.Units
@@ -65,6 +66,31 @@ noncomputable def MonochromaticWave.kernel (wave : MonochromaticWave)
   Complex.exp (Complex.I * ((wave.wavenumber * distance source detector : ℝ) : ℂ)) /
     (distance source detector : ℂ)
 
+/-- An analytic two-segment path reference, independent of aperture summation. -/
+noncomputable def MonochromaticWave.pathAmplitude (wave : MonochromaticWave)
+    (firstDistance secondDistance : ℝ) : ℂ :=
+  Complex.exp (Complex.I * ((wave.wavenumber * (firstDistance + secondDistance) : ℝ) : ℂ)) /
+    ((firstDistance * secondDistance : ℝ) : ℂ)
+
+/-- Multiplying the two propagation kernels agrees with the analytic path reference. -/
+lemma MonochromaticWave.kernel_product (wave : MonochromaticWave)
+    (source sample detector : Point3) :
+    wave.kernel source sample * wave.kernel sample detector =
+      wave.pathAmplitude (distance source sample) (distance sample detector) := by
+  unfold kernel pathAmplitude
+  rw [div_mul_div_comm, ← Complex.exp_add]
+  push_cast
+  congr 1
+  ring
+
+/-- Positive path lengths give a nonzero analytic reference with known absolute magnitude. -/
+lemma MonochromaticWave.pathAmplitude_norm (wave : MonochromaticWave)
+    (firstDistance secondDistance : ℝ) (firstPositive : 0 < firstDistance)
+    (secondPositive : 0 < secondDistance) :
+    ‖wave.pathAmplitude firstDistance secondDistance‖ = 1 / (firstDistance * secondDistance) := by
+  rw [pathAmplitude, norm_div, Complex.norm_exp_I_mul_ofReal]
+  simp only [Complex.norm_real, Real.norm_eq_abs, abs_of_pos (mul_pos firstPositive secondPositive)]
+
 /-- Finite aperture samples with supplied complex quadrature coefficients. -/
 structure Aperture (sampleCount : ℕ) where
   point : Fin sampleCount → Point3
@@ -86,6 +112,18 @@ lemma Aperture.amplitude_empty (aperture : Aperture 0)
     (wave : MonochromaticWave) (source detector : Point3) :
     aperture.amplitude wave source detector = 0 := by
   simp [Aperture.amplitude]
+
+/-- Apply a uniform complex transmission factor without changing aperture geometry. -/
+def Aperture.scale {sampleCount : ℕ} (aperture : Aperture sampleCount) (factor : ℂ) :
+    Aperture sampleCount :=
+  { aperture with weight := fun sample => factor * aperture.weight sample }
+
+/-- Uniform transmission acts linearly on the finite complex amplitude. -/
+lemma Aperture.amplitude_scale {sampleCount : ℕ} (aperture : Aperture sampleCount)
+    (factor : ℂ) (wave : MonochromaticWave) (source detector : Point3) :
+    (aperture.scale factor).amplitude wave source detector =
+      factor * aperture.amplitude wave source detector := by
+  simp [amplitude, scale, mul_assoc, Finset.mul_sum]
 
 /-- Coincidence with a source sample is rejected by the regularity predicate. -/
 lemma Aperture.not_regularAt_source {sampleCount : ℕ} (aperture : Aperture sampleCount)
@@ -159,6 +197,27 @@ lemma intensity_constructive (amplitude : ℂ) :
 lemma intensity_destructive (amplitude : ℂ) : intensity (amplitude + -amplitude) = 0 := by
   simp [intensity]
 
+/-- Equal contributions with a quarter-turn relative phase have twice the individual intensity. -/
+lemma intensity_quadrature (amplitude : ℂ) :
+    intensity (amplitude + Complex.I * amplitude) = 2 * intensity amplitude := by
+  simp [intensity, Complex.normSq, Complex.mul_re, Complex.mul_im]
+  ring
+
+/-- A comparison certifies already fixed functions on a nonempty domain at a fixed tolerance. -/
+structure AmplitudeComparison {Detector : Type*} (candidate classical : Detector → ℂ)
+    (domain : Set Detector) (tolerance : ℝ) : Prop where
+  domain_nonempty : domain.Nonempty
+  tolerance_nonnegative : 0 ≤ tolerance
+  amplitudeError : ∀ detector ∈ domain, ‖candidate detector - classical detector‖ ≤ tolerance
+
+/-- A single held-out disagreement larger than the fixed tolerance rejects a comparison. -/
+lemma AmplitudeComparison.reject {Detector : Type*} (candidate classical : Detector → ℂ)
+    (domain : Set Detector) (tolerance : ℝ) (detector : Detector) (member : detector ∈ domain)
+    (disagreement : tolerance < ‖candidate detector - classical detector‖) :
+    ¬AmplitudeComparison candidate classical domain tolerance := by
+  intro comparison
+  exact (not_le_of_gt disagreement) (comparison.amplitudeError detector member)
+
 /-- Two finite slit apertures with independent open/closed boundary masks. -/
 structure DoubleSlit (firstCount secondCount : ℕ) where
   wave : MonochromaticWave
@@ -223,6 +282,13 @@ lemma DoubleSlit.amplitude_first_only {firstCount secondCount : ℕ}
     (first_open : slits.firstOpen = true) (second_closed : slits.secondOpen = false) :
     slits.amplitude detector = slits.first.amplitude slits.wave slits.source detector := by
   simp [DoubleSlit.amplitude, first_open, second_closed]
+
+/-- Closing the first slit leaves only the second finite aperture contribution. -/
+lemma DoubleSlit.amplitude_second_only {firstCount secondCount : ℕ}
+    (slits : DoubleSlit firstCount secondCount) (detector : Point3)
+    (firstClosed : slits.firstOpen = false) (secondOpen : slits.secondOpen = true) :
+    slits.amplitude detector = slits.second.amplitude slits.wave slits.source detector := by
+  simp [DoubleSlit.amplitude, firstClosed, secondOpen]
 
 /-- Closing both slits gives zero scalar intensity. -/
 lemma DoubleSlit.intensity_closed {firstCount secondCount : ℕ}

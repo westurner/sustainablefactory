@@ -1119,6 +1119,124 @@ example : (⟨1, by norm_num⟩ : Signals.Huygens.ActionScale).amplitude
     (fun _ : Fin 2 => 0) (fun _ => 1) = 2 := by
   norm_num [Signals.Huygens.ActionScale.amplitude, Signals.Huygens.finiteHistoryAmplitude]
 
+/-- Two vertically separated rows in a slit at the supplied horizontal coordinate. -/
+def finiteSlitPoint (side : ℝ) (row : Fin 2) : Signals.Huygens.Point3 :=
+  ![side, if row = 0 then -1 else 1, 0]
+
+/-- Nonempty finite-width quadratures with an independently selectable relative transmission phase. -/
+noncomputable def finiteWidthSlits (wave : Signals.Huygens.MonochromaticWave) (phase : ℂ) :
+    Signals.Huygens.DoubleSlit 2 2 :=
+  { wave := wave
+    source := ![0, 0, -1]
+    first := { point := finiteSlitPoint (-1), weight := fun _ => 1 / 2 }
+    second := { point := finiteSlitPoint 1, weight := fun _ => phase / 2 }
+    firstOpen := true
+    secondOpen := true }
+
+/-- A fixed four-path analytic reference that does not call any aperture or slit evaluator. -/
+noncomputable def fourPathReference (wave : Signals.Huygens.MonochromaticWave)
+    (phase : ℂ) (detector : Signals.Huygens.Point3) : ℂ :=
+  (wave.pathAmplitude (Real.sqrt 3) (Signals.Huygens.distance ![-1, -1, 0] detector) +
+    wave.pathAmplitude (Real.sqrt 3) (Signals.Huygens.distance ![-1, 1, 0] detector)) / 2 +
+  phase * (wave.pathAmplitude (Real.sqrt 3) (Signals.Huygens.distance ![1, -1, 0] detector) +
+    wave.pathAmplitude (Real.sqrt 3) (Signals.Huygens.distance ![1, 1, 0] detector)) / 2
+
+/-- All four sampled kernel products agree with the independent analytic reference. -/
+lemma finiteWidthSlits_reference (wave : Signals.Huygens.MonochromaticWave) (phase : ℂ)
+    (detector : Signals.Huygens.Point3) :
+    (finiteWidthSlits wave phase).amplitude detector = fourPathReference wave phase detector := by
+  simp only [finiteWidthSlits, Signals.Huygens.DoubleSlit.amplitude,
+    ite_true, Signals.Huygens.Aperture.amplitude]
+  simp_rw [mul_assoc, Signals.Huygens.MonochromaticWave.kernel_product]
+  norm_num [fourPathReference, finiteSlitPoint, Signals.Huygens.distance,
+    Signals.Huygens.squaredDistance, Fin.sum_univ_succ]
+  ring
+
+/-- The whole detector plane is regular, including off-axis positions and every phase. -/
+lemma finiteWidthSlits_regular (wave : Signals.Huygens.MonochromaticWave) (phase : ℂ)
+    (detector : Signals.Huygens.Point3) (height : detector 2 = 1) :
+    Signals.Huygens.RegularSlitEvaluation (finiteWidthSlits wave phase) detector := by
+  constructor <;> intro sample <;> constructor <;> intro equal
+  all_goals
+    have impossible := congrFun equal 2
+    norm_num [finiteWidthSlits, finiteSlitPoint, height] at impossible
+
+/-- A fixed zero-tolerance comparison over a nonempty, nonsymmetric detector domain. -/
+lemma fourPathComparison (wave : Signals.Huygens.MonochromaticWave) (phase : ℂ) :
+    Signals.Huygens.AmplitudeComparison (fourPathReference wave phase)
+      (finiteWidthSlits wave phase).amplitude {detector | detector 2 = 1} 0 :=
+  { domain_nonempty := ⟨![0, 0, 1], rfl⟩
+    tolerance_nonnegative := le_rfl
+    amplitudeError := by
+      intro detector _
+      rw [finiteWidthSlits_reference]
+      simp }
+
+/-- At the central detector the four equally long paths reduce to one reference phase. -/
+lemma fourPathReference_center (wave : Signals.Huygens.MonochromaticWave) (phase : ℂ) :
+    fourPathReference wave phase ![0, 0, 1] =
+      (1 + phase) * wave.pathAmplitude (Real.sqrt 3) (Real.sqrt 3) := by
+  norm_num [fourPathReference, Signals.Huygens.distance,
+    Signals.Huygens.squaredDistance, Fin.sum_univ_succ]
+  ring
+
+/-- The central single-slit reference is nonzero at every positive wavelength. -/
+lemma centralPath_norm (wave : Signals.Huygens.MonochromaticWave) :
+    ‖wave.pathAmplitude (Real.sqrt 3) (Real.sqrt 3)‖ = 1 / 3 := by
+  rw [wave.pathAmplitude_norm _ _ (by positivity) (by positivity)]
+  norm_num
+
+example (wave : Signals.Huygens.MonochromaticWave) :
+    Signals.Huygens.intensity ((finiteWidthSlits wave 1).amplitude ![0, 0, 1]) =
+      4 * Signals.Huygens.intensity (wave.pathAmplitude (Real.sqrt 3) (Real.sqrt 3)) := by
+  rw [finiteWidthSlits_reference, fourPathReference_center]
+  simpa only [add_mul, one_mul] using Signals.Huygens.intensity_constructive
+    (wave.pathAmplitude (Real.sqrt 3) (Real.sqrt 3))
+
+example (wave : Signals.Huygens.MonochromaticWave) :
+    (finiteWidthSlits wave (-1)).amplitude ![0, 0, 1] = 0 := by
+  rw [finiteWidthSlits_reference, fourPathReference_center]
+  simp
+
+example (wave : Signals.Huygens.MonochromaticWave) :
+    Signals.Huygens.intensity ((finiteWidthSlits wave Complex.I).amplitude ![0, 0, 1]) =
+      2 * Signals.Huygens.intensity (wave.pathAmplitude (Real.sqrt 3) (Real.sqrt 3)) := by
+  rw [finiteWidthSlits_reference, fourPathReference_center, add_mul, one_mul]
+  exact Signals.Huygens.intensity_quadrature _
+
+example (wave : Signals.Huygens.MonochromaticWave) (detector : Signals.Huygens.Point3) :
+    ({ finiteWidthSlits wave 1 with secondOpen := false }).amplitude detector =
+      (finiteWidthSlits wave 1).first.amplitude wave ![0, 0, -1] detector :=
+  Signals.Huygens.DoubleSlit.amplitude_first_only _ _ rfl rfl
+
+example (wave : Signals.Huygens.MonochromaticWave) (detector : Signals.Huygens.Point3) :
+    ({ finiteWidthSlits wave 1 with firstOpen := false }).amplitude detector =
+      (finiteWidthSlits wave 1).second.amplitude wave ![0, 0, -1] detector :=
+  Signals.Huygens.DoubleSlit.amplitude_second_only _ _ rfl rfl
+
+example : Signals.Huygens.RegularSlitEvaluation (finiteWidthSlits symmetricSlits.wave 1)
+    ![1, 2, 1] := finiteWidthSlits_regular _ _ _ rfl
+
+example : Signals.Huygens.RegularSlitEvaluation
+    (finiteWidthSlits { wavelength := ⟨2⟩, wavelength_positive := by norm_num } Complex.I)
+    ![-2, 1, 1] := finiteWidthSlits_regular _ _ _ rfl
+
+/-- A wrong relative phase fails a tolerance chosen in advance, with no detector-specific fitting. -/
+lemma wrongPhase_rejected (wave : Signals.Huygens.MonochromaticWave) :
+    ¬Signals.Huygens.AmplitudeComparison (fourPathReference wave (-1))
+      (finiteWidthSlits wave 1).amplitude {detector | detector 2 = 1} (1 / 4) := by
+  apply Signals.Huygens.AmplitudeComparison.reject _ _
+    {detector : Signals.Huygens.Point3 | detector 2 = 1} _ ![0, 0, 1] (by rfl)
+  rw [finiteWidthSlits_reference, fourPathReference_center, fourPathReference_center]
+  simp only [add_neg_cancel, zero_mul, zero_sub, norm_neg]
+  rw [norm_mul, centralPath_norm]
+  norm_num
+
+example : ¬Signals.Huygens.AmplitudeComparison (fourPathReference symmetricSlits.wave 1)
+    (finiteWidthSlits symmetricSlits.wave 1).amplitude (∅ : Set Signals.Huygens.Point3) 0 := by
+  intro comparison
+  simpa using comparison.domain_nonempty
+
 /-- A three-spoke graph with three boundary vertices and one internal vertex. -/
 def plabicStarGraph : SimpleGraph (Signals.Plabic.Vertex 3 1) where
   Adj left right := match left, right with

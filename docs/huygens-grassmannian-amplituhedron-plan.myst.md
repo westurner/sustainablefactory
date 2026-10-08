@@ -529,6 +529,29 @@ nonzero finite-history amplitude. This completes the domain-guard portion of
 phase 0, not its independent candidate/phase-sweep comparison requirements.
 It does not prove a continuum Green-function or boundary-value theorem.
 
+### Iteration 2: Fixed Phase Comparisons
+
+`MonochromaticWave.pathAmplitude` evaluates a two-segment path analytically;
+`kernel_product` proves agreement with the existing two-kernel convention.
+`Aperture.scale` preserves complex transmission linearity. The missing
+second-only slit-mask law and quarter-turn coherent intensity law are proved.
+`AmplitudeComparison` binds fixed functions, a nonempty domain, and a fixed
+nonnegative tolerance; its rejection lemma uses a held-out disagreement.
+
+The test fixture has two separated samples per slit. Its four-path analytic
+reference contains no aperture/slit evaluation call. Agreement is proved for
+arbitrary detectors, phases, and positive wavelengths; regularity is proved
+on the whole detector plane. Tests cover constructive, destructive, and
+quarter-turn phases, both single-slit masks, off-axis points at two wavelengths,
+and rejection of an empty comparison domain. A deliberately wrong relative
+phase has amplitude error $2/3$ at the centre and fails the prescribed $1/4$
+tolerance at every positive wavelength.
+
+This completes the finite phase-0 guard/comparison controls. The analytic
+reference is another evaluation of the same classical discrete propagation
+model, not a geometric evaluator, continuum boundary solution, calibrated
+measurement, or amplituhedron bridge. No geometric Pending match is promoted.
+
 ## Validation and Status
 
 For this review, all seven indexed Lean source files typechecked against the
