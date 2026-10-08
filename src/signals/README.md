@@ -296,7 +296,12 @@ interpretation while keeping experimental premises explicit:
    A generic finite two-step matrix-product determinant expands into signed
    intermediate-vertex pairs, with repeated-intermediate terms cancelling.
    Empty, one-vertex and independent two-vertex controls preserve both signs;
-   ordered pair grouping and arbitrary-length disjoint paths remain open.
+   pairing the two index orders gives twice the determinant as a sum of
+   incoming/outgoing minor products. Compatible nonnegative contributions
+   derive determinant nonnegativity; a positive pair witness derives strict
+   positivity. Three-intermediate controls check the factor two and reject
+   incompatible all-positive entry matrices. Embedding-derived compatibility
+   and arbitrary-length disjoint paths remain open.
 - `Signals.CanonicalForms` provides fixed-oriented affine interval, triangle,
    and square alternating forms, normalization, punctured-limit boundary
    residues, area-preserving triangle pullbacks, and shared-diagonal pole

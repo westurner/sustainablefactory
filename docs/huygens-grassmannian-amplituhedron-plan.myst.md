@@ -911,6 +911,38 @@ of ordered minors, prove their positivity, enumerate arbitrary-length paths,
 or construct embedded signed planar boundary measurements. It supplies no
 optical phase, units, calibrated data, or geometric/classical evaluator.
 
+### Iteration 18: Paired-Minor Identity and Conditional Positivity
+
+`twoStepMinorPair` is the signed product of the incoming and outgoing
+two-by-two minors for a pair of intermediate vertices. Reversing both index
+orders reverses both minor signs. `twoStep_minorPairs_sum` derives
+
+$$
+D_{ij}=(A_{0i}A_{1j}-A_{0j}A_{1i})
+  (B_{i0}B_{j1}-B_{i1}B_{j0}),\qquad
+\sum_i\sum_j D_{ij}=2\det(AB).
+$$
+
+The factor two counts both orders of each distinct intermediate pair; diagonal
+pairs contribute zero. `twoStep_det_nonnegative` proves a nonnegative output
+determinant when all input minor-pair contributions are nonnegative.
+`twoStep_det_positive` proves strict positivity when a positive pair witness
+is additionally supplied. These hypotheses constrain algebraic input
+contributions, not an assumed output determinant or desired optical result.
+
+An independent three-intermediate fixture has determinant $241$ and ordered
+pair sum $482$, with compatible contributions and a positive witness. A pair
+with two negative factor minors still contributes positively. The single-hub
+control permits a nonnegative determinant but rejects any strict pair witness.
+Strictly positive entry matrices with incompatible minor signs instead yield
+determinant $-68$, so edge-entry positivity cannot replace compatibility.
+
+This establishes the finite two-step two-channel minor identity and its
+conditional sign consequences. It does not derive compatibility from a planar
+embedding, enumerate arbitrary-length vertex-disjoint paths, certify an
+embedded signed boundary measurement, or construct a Grassmannian quotient.
+No complex optical evaluator or experimental claim is introduced.
+
 ### Remaining Acceptance Obligations
 
 | Phase | Verified checkpoint | Still required |
@@ -918,7 +950,7 @@ optical phase, units, calibrated data, or geometric/classical evaluator.
 | 0 | Regularity/positive-scale guards, nonempty finite-extent slit samples, arbitrary-wavelength analytic reference, phase/mask/off-axis controls, fixed-tolerance rejection. | Finite-area slit geometry and refinement belong to the continuum/quadrature track; fixtures are not measurements. |
 | 1 | Selected fixed-field planar area integral, guarded integrability, disjoint-mask addition. | Boundary approximation accuracy, incident/boundary data, dimensioned field normalization, and a justified Green representation or approximation bound. |
 | 2 | Actual measured-cell weights, derived Lipschitz/mesh/area error rate, refinement convergence, uniform-domain comparison and finite-aperture correspondence. | Prove uniform optical-kernel regularity from separation and a wavelength interval; construct a rectangular area mesh and prove the Fraunhofer limit. |
-| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision invariance, measured fork rank/positivity, the two-channel signed determinant/positivity criterion with rank-loss controls, shared-hub cancellation and generic finite two-step pair expansion. | Decoration rules; general minor/disjoint-path identities and ordered-minor positivity, embedded signed boundary measurements/cell correspondence, general embedded-network moves, general Pluecker relations, and any quotient construction. |
+| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision invariance, measured fork rank/positivity, two-channel determinant/rank controls, shared-hub cancellation and general finite two-step pair/minor identities with conditional positivity. | Decoration rules; higher-rank/arbitrary-length minor/disjoint-path identities and embedding-derived ordered-minor positivity, embedded signed boundary measurements/cell correspondence, general embedded-network moves, general Pluecker relations, and any quotient construction. |
 | 4 | Affine alternating interval/triangle/square forms, oriented boundary limits, normalization, pullbacks, and diagonal cancellation/continuation. | General projective canonical-form existence/uniqueness, arbitrary-chart invariance and higher-dimensional amplituhedron forms. |
 | 5 | A literal unphased form-evaluation candidate is falsified without fitting. | Derive a dimensioned oscillatory complex evaluator and its invariances independently of the optical answer. |
 | 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds and separate error-budget composition. | A genuine geometric/classical equality or held-out uniform error theorem after both tracks meet their gates. |

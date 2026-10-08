@@ -365,6 +365,71 @@ lemma twoStep_sameMiddle_term {middleCount : ℕ}
       (outgoing middle 0 * outgoing middle 1 - outgoing middle 1 * outgoing middle 0) = 0 := by
   ring
 
+/-- The signed product of incoming and outgoing two-by-two minors for one intermediate pair. -/
+def twoStepMinorPair {middleCount : ℕ}
+    (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
+    (outgoing : Matrix (Fin middleCount) (Fin 2) ℝ) (first second : Fin middleCount) : ℝ :=
+  (incoming 0 first * incoming 1 second - incoming 0 second * incoming 1 first) *
+    (outgoing first 0 * outgoing second 1 - outgoing first 1 * outgoing second 0)
+
+/-- Pairing both intermediate orders gives products of two-by-two minors, counted twice. -/
+lemma twoStep_minorPairs_sum {middleCount : ℕ}
+    (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
+    (outgoing : Matrix (Fin middleCount) (Fin 2) ℝ) :
+    (∑ first, ∑ second, twoStepMinorPair incoming outgoing first second) =
+      2 * (incoming * outgoing).det := by
+  unfold twoStepMinorPair
+  have swapped : (∑ first, ∑ second, incoming 0 second * incoming 1 first *
+      (outgoing first 0 * outgoing second 1 - outgoing first 1 * outgoing second 0)) =
+      -(incoming * outgoing).det := by
+    rw [Finset.sum_comm, twoStep_det_pathPairs]
+    simp only [← Finset.sum_neg_distrib]
+    apply Finset.sum_congr rfl
+    intro first _
+    apply Finset.sum_congr rfl
+    intro second _
+    ring
+  calc
+    _ = (∑ first, ∑ second, incoming 0 first * incoming 1 second *
+          (outgoing first 0 * outgoing second 1 - outgoing first 1 * outgoing second 0)) -
+        ∑ first, ∑ second, incoming 0 second * incoming 1 first *
+          (outgoing first 0 * outgoing second 1 - outgoing first 1 * outgoing second 0) := by
+      simp only [sub_mul, Finset.sum_sub_distrib]
+    _ = (incoming * outgoing).det - -(incoming * outgoing).det := by
+      rw [← twoStep_det_pathPairs, swapped]
+    _ = 2 * (incoming * outgoing).det := by ring
+
+/-- Compatible nonnegative minor-pair contributions derive a nonnegative two-step determinant. -/
+lemma twoStep_det_nonnegative {middleCount : ℕ}
+    (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
+    (outgoing : Matrix (Fin middleCount) (Fin 2) ℝ)
+    (compatible : ∀ first second, 0 ≤ twoStepMinorPair incoming outgoing first second) :
+    0 ≤ (incoming * outgoing).det := by
+  have nonnegativeSum : 0 ≤ ∑ first, ∑ second, twoStepMinorPair incoming outgoing first second := by
+    apply Finset.sum_nonneg
+    intro first _
+    exact Finset.sum_nonneg (fun second _ => compatible first second)
+  rw [twoStep_minorPairs_sum] at nonnegativeSum
+  linarith
+
+/-- One positive minor-pair witness among compatible contributions derives strict determinant positivity. -/
+lemma twoStep_det_positive {middleCount : ℕ}
+    (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
+    (outgoing : Matrix (Fin middleCount) (Fin 2) ℝ)
+    (compatible : ∀ first second, 0 ≤ twoStepMinorPair incoming outgoing first second)
+    (first second : Fin middleCount)
+    (active : 0 < twoStepMinorPair incoming outgoing first second) :
+    0 < (incoming * outgoing).det := by
+  have rowBound : twoStepMinorPair incoming outgoing first second ≤
+      ∑ middle, twoStepMinorPair incoming outgoing first middle :=
+    Finset.single_le_sum (fun middle _ => compatible first middle) (Finset.mem_univ second)
+  have totalBound : (∑ middle, twoStepMinorPair incoming outgoing first middle) ≤
+      ∑ row, ∑ middle, twoStepMinorPair incoming outgoing row middle :=
+    Finset.single_le_sum
+      (fun row _ => Finset.sum_nonneg (fun middle _ => compatible row middle)) (Finset.mem_univ first)
+  rw [twoStep_minorPairs_sum] at totalBound
+  linarith
+
 /-! ## Massive spinor-helicity bookkeeping
 
 The records below expose the massive replacement for the massless

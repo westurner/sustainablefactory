@@ -1992,6 +1992,65 @@ example : (singleHubRepresentative 2 3 5 7).mat =
   intro row column
   fin_cases row <;> fin_cases column <;> norm_num [Matrix.mul_apply, Fin.sum_univ_succ]
 
+/-- Independent incoming weights for three intermediate vertices. -/
+def threeMiddleIncoming : Matrix (Fin 2) (Fin 3) ℝ := !![2, 0, 1; 0, 3, 1]
+
+/-- Independent outgoing weights for the same three intermediate vertices. -/
+def threeMiddleOutgoing : Matrix (Fin 3) (Fin 2) ℝ := !![5, 0; 0, 7; 1, 1]
+
+/-- All ordered-pair contributions of the three-vertex fixture have compatible signs. -/
+lemma threeMiddle_compatible : ∀ first second,
+    0 ≤ twoStepMinorPair threeMiddleIncoming threeMiddleOutgoing first second := by
+  intro first second
+  fin_cases first <;> fin_cases second <;>
+    norm_num [twoStepMinorPair, threeMiddleIncoming, threeMiddleOutgoing]
+
+example : (threeMiddleIncoming * threeMiddleOutgoing).det = 241 := by
+  rw [twoStep_det_pathPairs]
+  norm_num [threeMiddleIncoming, threeMiddleOutgoing, Fin.sum_univ_succ]
+
+example : 0 ≤ (threeMiddleIncoming * threeMiddleOutgoing).det :=
+  twoStep_det_nonnegative _ _ threeMiddle_compatible
+
+example : 0 < (threeMiddleIncoming * threeMiddleOutgoing).det := by
+  refine twoStep_det_positive _ _ threeMiddle_compatible 0 1 ?_
+  norm_num [twoStepMinorPair, threeMiddleIncoming, threeMiddleOutgoing]
+
+example : (∑ first, ∑ second,
+    twoStepMinorPair threeMiddleIncoming threeMiddleOutgoing first second) = 482 := by
+  norm_num [twoStepMinorPair, threeMiddleIncoming, threeMiddleOutgoing, Fin.sum_univ_succ]
+
+example : twoStepMinorPair threeMiddleIncoming threeMiddleOutgoing 1 2 = 21 := by
+  norm_num [twoStepMinorPair, threeMiddleIncoming, threeMiddleOutgoing]
+
+example : 0 ≤ ((!![2; 3] : Matrix (Fin 2) (Fin 1) ℝ) *
+    (!![5, 7] : Matrix (Fin 1) (Fin 2) ℝ)).det := by
+  apply twoStep_det_nonnegative
+  intro first second
+  fin_cases first
+  fin_cases second
+  norm_num [twoStepMinorPair]
+
+example : ¬∃ first second : Fin 1,
+    0 < twoStepMinorPair (!![2; 3] : Matrix (Fin 2) (Fin 1) ℝ)
+      (!![5, 7] : Matrix (Fin 1) (Fin 2) ℝ) first second := by
+  rintro ⟨first, second, active⟩
+  fin_cases first
+  fin_cases second
+  norm_num [twoStepMinorPair] at active
+
+example : ¬(∀ first second : Fin 2,
+    0 ≤ twoStepMinorPair (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ)
+      (!![5, 1; 1, 7] : Matrix (Fin 2) (Fin 2) ℝ) first second) := by
+  intro compatible
+  have impossible := compatible 0 1
+  norm_num [twoStepMinorPair] at impossible
+
+example : ((!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ) *
+    (!![5, 1; 1, 7] : Matrix (Fin 2) (Fin 2) ℝ)).det = -68 := by
+  rw [twoStep_det_pathPairs]
+  norm_num [Fin.sum_univ_succ]
+
 def toyCalibration : Calibration :=
   { expected := 10
     measured := 10.1
