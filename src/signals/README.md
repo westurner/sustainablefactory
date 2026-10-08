@@ -293,6 +293,10 @@ interpretation while keeping experimental premises explicit:
    identically zero determinant. Positive measured entries do not remove this
    two-channel rank obstruction; generic full-rank record rejection is checked.
    This signed path-pair cancellation is not optical destructive interference.
+   A generic finite two-step matrix-product determinant expands into signed
+   intermediate-vertex pairs, with repeated-intermediate terms cancelling.
+   Empty, one-vertex and independent two-vertex controls preserve both signs;
+   ordered pair grouping and arbitrary-length disjoint paths remain open.
 - `Signals.CanonicalForms` provides fixed-oriented affine interval, triangle,
    and square alternating forms, normalization, punctured-limit boundary
    residues, area-preserving triangle pullbacks, and shared-diagonal pole

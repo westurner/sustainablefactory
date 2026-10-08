@@ -1959,6 +1959,39 @@ example (firstIn secondIn firstOut secondOut : NNReal) :
   rw [selection, singleHubRepresentative_det] at nonzero
   exact nonzero rfl
 
+example : ((0 : Matrix (Fin 2) (Fin 0) ℝ) *
+    (0 : Matrix (Fin 0) (Fin 2) ℝ)).det = 0 := by
+  rw [twoStep_det_pathPairs]
+  simp
+
+example : ((!![2; 3] : Matrix (Fin 2) (Fin 1) ℝ) *
+    (!![5, 7] : Matrix (Fin 1) (Fin 2) ℝ)).det = 0 := by
+  rw [twoStep_det_pathPairs]
+  norm_num [Fin.sum_univ_succ]
+
+example : ((!![2, 0; 0, 3] : Matrix (Fin 2) (Fin 2) ℝ) *
+    (!![5, 0; 0, 7] : Matrix (Fin 2) (Fin 2) ℝ)).det = 210 := by
+  rw [twoStep_det_pathPairs]
+  norm_num [Fin.sum_univ_succ]
+
+example : ((!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ) *
+    (!![5, 0; 0, 7] : Matrix (Fin 2) (Fin 2) ℝ)).det = -70 := by
+  rw [twoStep_det_pathPairs]
+  norm_num [Fin.sum_univ_succ]
+
+example : ¬0 ≤ ((!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ) *
+    (!![5, 0; 0, 7] : Matrix (Fin 2) (Fin 2) ℝ)).det := by
+  rw [twoStep_det_pathPairs]
+  norm_num [Fin.sum_univ_succ]
+
+example : (singleHubRepresentative 2 3 5 7).mat =
+    ( !![2; 3] : Matrix (Fin 2) (Fin 1) ℝ) *
+      (!![5, 7] : Matrix (Fin 1) (Fin 2) ℝ) := by
+  rw [singleHubRepresentative_mat]
+  apply Matrix.ext
+  intro row column
+  fin_cases row <;> fin_cases column <;> norm_num [Matrix.mul_apply, Fin.sum_univ_succ]
+
 def toyCalibration : Calibration :=
   { expected := 10
     measured := 10.1

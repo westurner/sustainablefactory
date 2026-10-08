@@ -340,6 +340,31 @@ lemma singleHubRepresentative_det (firstIn secondIn firstOut secondOut : ℝ≥0
   dsimp
   ring
 
+/-- A two-step two-channel determinant expands as signed pairs of intermediate-vertex terms. -/
+lemma twoStep_det_pathPairs {middleCount : ℕ}
+    (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
+    (outgoing : Matrix (Fin middleCount) (Fin 2) ℝ) :
+    (incoming * outgoing).det =
+      ∑ first, ∑ second, incoming 0 first * incoming 1 second *
+        (outgoing first 0 * outgoing second 1 - outgoing first 1 * outgoing second 0) := by
+  rw [Matrix.det_fin_two]
+  simp only [Matrix.mul_apply]
+  rw [Finset.sum_mul_sum, Finset.sum_mul_sum, ← Finset.sum_sub_distrib]
+  apply Finset.sum_congr rfl
+  intro first _
+  rw [← Finset.sum_sub_distrib]
+  apply Finset.sum_congr rfl
+  intro second _
+  ring
+
+/-- A repeated intermediate vertex contributes zero to the signed path-pair expansion. -/
+lemma twoStep_sameMiddle_term {middleCount : ℕ}
+    (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
+    (outgoing : Matrix (Fin middleCount) (Fin 2) ℝ) (middle : Fin middleCount) :
+    incoming 0 middle * incoming 1 middle *
+      (outgoing middle 0 * outgoing middle 1 - outgoing middle 1 * outgoing middle 0) = 0 := by
+  ring
+
 /-! ## Massive spinor-helicity bookkeeping
 
 The records below expose the massive replacement for the massless
