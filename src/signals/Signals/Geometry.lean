@@ -459,6 +459,70 @@ lemma twoStep_selectedMinor_pairs {middleCount sinkCount : ℕ}
   rw [twoStep_selectedMinor]
   exact twoStep_minorPairs_sum incoming (outgoing.submatrix id columns.index)
 
+/-- The unrestricted two-row representative computed by the finite two-step product. -/
+def twoStepRepresentative {middleCount sinkCount : ℕ}
+    (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
+    (outgoing : Matrix (Fin middleCount) (Fin sinkCount) ℝ) : GrassmannianMatrix 2 sinkCount :=
+  ⟨incoming * outgoing⟩
+
+/-- Compatible selected input minor pairs derive nonnegativity of one ordered output minor. -/
+lemma twoStep_selectedMinor_nonnegative {middleCount sinkCount : ℕ}
+    (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
+    (outgoing : Matrix (Fin middleCount) (Fin sinkCount) ℝ)
+    (columns : OrderedColumns 2 sinkCount)
+    (compatible : ∀ first second,
+      0 ≤ twoStepMinorPair incoming (outgoing.submatrix id columns.index) first second) :
+    0 ≤ selectedMinor (incoming * outgoing) columns := by
+  rw [twoStep_selectedMinor]
+  exact twoStep_det_nonnegative incoming (outgoing.submatrix id columns.index) compatible
+
+/-- A positive selected input pair among compatible pairs derives positivity of one output minor. -/
+lemma twoStep_selectedMinor_positive {middleCount sinkCount : ℕ}
+    (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
+    (outgoing : Matrix (Fin middleCount) (Fin sinkCount) ℝ)
+    (columns : OrderedColumns 2 sinkCount)
+    (compatible : ∀ first second,
+      0 ≤ twoStepMinorPair incoming (outgoing.submatrix id columns.index) first second)
+    (first second : Fin middleCount)
+    (active : 0 < twoStepMinorPair incoming (outgoing.submatrix id columns.index) first second) :
+    0 < selectedMinor (incoming * outgoing) columns := by
+  rw [twoStep_selectedMinor]
+  exact twoStep_det_positive incoming (outgoing.submatrix id columns.index) compatible first second active
+
+/-- Compatible input pairs and a positive witness for each ordered selection derive the positive condition. -/
+def twoStepPositive {middleCount sinkCount : ℕ}
+    (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
+    (outgoing : Matrix (Fin middleCount) (Fin sinkCount) ℝ)
+    (compatible : ∀ columns : OrderedColumns 2 sinkCount, ∀ first second,
+      0 ≤ twoStepMinorPair incoming (outgoing.submatrix id columns.index) first second)
+    (active : ∀ columns : OrderedColumns 2 sinkCount, ∃ first second,
+      0 < twoStepMinorPair incoming (outgoing.submatrix id columns.index) first second) :
+    PositiveGrassmannian 2 sinkCount :=
+  { toGrassmannianMatrix := twoStepRepresentative incoming outgoing
+    strictly_positive := by
+      intro columns
+      obtain ⟨first, second, positive⟩ := active columns
+      exact twoStep_selectedMinor_positive incoming outgoing columns (compatible columns)
+        first second positive }
+
+/-- One active selected input pair supplies a nonzero output minor for a nonnegative full-rank record. -/
+def twoStepNonnegative {middleCount sinkCount : ℕ}
+    (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
+    (outgoing : Matrix (Fin middleCount) (Fin sinkCount) ℝ)
+    (compatible : ∀ columns : OrderedColumns 2 sinkCount, ∀ first second,
+      0 ≤ twoStepMinorPair incoming (outgoing.submatrix id columns.index) first second)
+    (active : ∃ columns : OrderedColumns 2 sinkCount, ∃ first second,
+      0 < twoStepMinorPair incoming (outgoing.submatrix id columns.index) first second) :
+    NonnegativeGrassmannian 2 sinkCount :=
+  { toGrassmannianMatrix := twoStepRepresentative incoming outgoing
+    nonnegative := fun columns =>
+      twoStep_selectedMinor_nonnegative incoming outgoing columns (compatible columns)
+    nonzero_minor := by
+      obtain ⟨columns, first, second, positive⟩ := active
+      refine ⟨columns, ne_of_gt ?_⟩
+      exact twoStep_selectedMinor_positive incoming outgoing columns (compatible columns)
+        first second positive }
+
 /-! ## Massive spinor-helicity bookkeeping
 
 The records below expose the massive replacement for the massless

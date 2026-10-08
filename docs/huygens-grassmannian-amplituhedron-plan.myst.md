@@ -966,6 +966,31 @@ positive/full-rank representative construction still needs compatible input
 pairs and explicit active witnesses. It does not certify a planar embedding,
 arbitrary-length disjoint paths, a quotient or an optical evaluator.
 
+### Iteration 20: Derived Two-Step Grassmannian Records
+
+`twoStepRepresentative` retains the actual two-row matrix product.
+`twoStep_selectedMinor_nonnegative` and `twoStep_selectedMinor_positive`
+derive each output minor's sign from its selected input pairs.
+`twoStepPositive` constructs the existing positive condition when every
+ordered sink selection has compatible pairs and a positive pair witness.
+`twoStepNonnegative` constructs the full-rank nonnegative record with
+compatible pairs for every selection and one available selection containing
+a positive pair. The nonzero output minor is proved, not supplied as a field.
+
+The positive-condition constructor follows the existing API: promotion to a
+full-rank nonnegative record also requires an available ordered selection.
+Controls derive the three-sink positive record from independent input data,
+preserve its actual product matrix and minor $22$, and exercise that rank
+promotion. A separate boundary product has repeated columns: it retains a
+zero ordered minor, has another minor equal to $6$, and rejects the strictly
+positive condition while satisfying the full-rank nonnegative constructor.
+
+Thus positivity and rank are now derived for arbitrary-sink two-step
+representatives under explicit input-pair hypotheses. Those hypotheses are
+not a planar embedding, a proof of arbitrary-length path compatibility, a
+quotient/cell correspondence, or optical calibration. General embedding and
+path obligations and an independently justified complex evaluator remain open.
+
 ### Remaining Acceptance Obligations
 
 | Phase | Verified checkpoint | Still required |
@@ -973,7 +998,7 @@ arbitrary-length disjoint paths, a quotient or an optical evaluator.
 | 0 | Regularity/positive-scale guards, nonempty finite-extent slit samples, arbitrary-wavelength analytic reference, phase/mask/off-axis controls, fixed-tolerance rejection. | Finite-area slit geometry and refinement belong to the continuum/quadrature track; fixtures are not measurements. |
 | 1 | Selected fixed-field planar area integral, guarded integrability, disjoint-mask addition. | Boundary approximation accuracy, incident/boundary data, dimensioned field normalization, and a justified Green representation or approximation bound. |
 | 2 | Actual measured-cell weights, derived Lipschitz/mesh/area error rate, refinement convergence, uniform-domain comparison and finite-aperture correspondence. | Prove uniform optical-kernel regularity from separation and a wavelength interval; construct a rectangular area mesh and prove the Fraunhofer limit. |
-| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision invariance, measured fork rank/positivity, two-channel determinant/rank controls, shared-hub cancellation and general finite two-step pair/minor identities with conditional positivity and arbitrary ordered sink selections. | Decoration rules; higher-rank/arbitrary-length minor/disjoint-path identities and embedding-derived ordered-minor positivity, embedded signed boundary measurements/cell correspondence, general embedded-network moves, general Pluecker relations, and any quotient construction. |
+| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision invariance, measured fork rank/positivity, two-channel determinant/rank controls, shared-hub cancellation and general finite two-step pair/minor identities with arbitrary ordered sink selections and derived positive/full-rank nonnegative records. | Decoration rules; higher-rank/arbitrary-length minor/disjoint-path identities and embedding-derived ordered-minor positivity, embedded signed boundary measurements/cell correspondence, general embedded-network moves, general Pluecker relations, and any quotient construction. |
 | 4 | Affine alternating interval/triangle/square forms, oriented boundary limits, normalization, pullbacks, and diagonal cancellation/continuation. | General projective canonical-form existence/uniqueness, arbitrary-chart invariance and higher-dimensional amplituhedron forms. |
 | 5 | A literal unphased form-evaluation candidate is falsified without fitting. | Derive a dimensioned oscillatory complex evaluator and its invariances independently of the optical answer. |
 | 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds and separate error-budget composition. | A genuine geometric/classical equality or held-out uniform error theorem after both tracks meet their gates. |

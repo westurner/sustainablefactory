@@ -2091,6 +2091,92 @@ example : ¬selectedMinor (threeMiddleIncoming * threeSinkOutgoing)
   norm_num [threeMiddleIncoming, threeSinkOutgoing, OrderedColumns.pair,
     Matrix.submatrix, Matrix.mul_apply, Fin.sum_univ_succ]
 
+/-- Every selected input minor pair of the three-sink fixture has a compatible sign. -/
+lemma threeSink_compatible : ∀ columns : OrderedColumns 2 3, ∀ first second,
+    0 ≤ twoStepMinorPair threeMiddleIncoming
+      (threeSinkOutgoing.submatrix id columns.index) first second := by
+  intro columns first second
+  have ordered : columns.index 0 < columns.index 1 := columns.strictlyIncreasing (by decide)
+  simp only [twoStepMinorPair, Matrix.submatrix]
+  generalize lowerEq : columns.index 0 = lower at ordered
+  generalize upperEq : columns.index 1 = upper at ordered
+  fin_cases lower <;> fin_cases upper <;> norm_num at ordered
+  all_goals
+    fin_cases first <;> fin_cases second <;>
+      norm_num [threeMiddleIncoming, threeSinkOutgoing, lowerEq, upperEq]
+
+/-- Every ordered sink selection has a positive independently computed input pair. -/
+lemma threeSink_active : ∀ columns : OrderedColumns 2 3, ∃ first second,
+    0 < twoStepMinorPair threeMiddleIncoming
+      (threeSinkOutgoing.submatrix id columns.index) first second := by
+  intro columns
+  refine ⟨0, 1, ?_⟩
+  have ordered : columns.index 0 < columns.index 1 := columns.strictlyIncreasing (by decide)
+  simp only [twoStepMinorPair, Matrix.submatrix]
+  generalize lowerEq : columns.index 0 = lower at ordered
+  generalize upperEq : columns.index 1 = upper at ordered
+  fin_cases lower <;> fin_cases upper <;> norm_num at ordered
+  all_goals norm_num [threeMiddleIncoming, threeSinkOutgoing, lowerEq, upperEq]
+
+/-- The three-sink positive record is derived from input-pair compatibility and active witnesses. -/
+def threeSinkPositive : PositiveGrassmannian 2 3 :=
+  twoStepPositive threeMiddleIncoming threeSinkOutgoing threeSink_compatible threeSink_active
+
+example (columns : OrderedColumns 2 3) :
+    0 < threeSinkPositive.toGrassmannianMatrix.pluckerCoordinate columns :=
+  threeSinkPositive.pluckerCoordinate_pos columns
+
+example : threeSinkPositive.toGrassmannianMatrix.mat =
+    threeMiddleIncoming * threeSinkOutgoing := rfl
+
+example : threeSinkPositive.toGrassmannianMatrix.pluckerCoordinate
+    (OrderedColumns.pair 0 2 (by decide)) = 22 := by
+  change selectedMinor (threeMiddleIncoming * threeSinkOutgoing) _ = 22
+  rw [twoStep_selectedMinor, Matrix.det_fin_two]
+  norm_num [threeMiddleIncoming, threeSinkOutgoing, OrderedColumns.pair,
+    Matrix.submatrix, Matrix.mul_apply, Fin.sum_univ_succ]
+
+example : ∃ columns : OrderedColumns 2 3,
+    GrassmannianMatrix.pluckerCoordinate
+      (threeSinkPositive.toNonnegative (OrderedColumns.pair 0 1 (by decide))).toGrassmannianMatrix
+      columns ≠ 0 := by
+  exact (threeSinkPositive.toNonnegative (OrderedColumns.pair 0 1 (by decide))).nonzero_minor
+
+/-- A derived full-rank nonnegative product retains its repeated-column zero minor. -/
+def boundaryTwoStep : NonnegativeGrassmannian 2 3 :=
+  twoStepNonnegative (!![2, 0; 0, 3] : Matrix (Fin 2) (Fin 2) ℝ)
+    (!![1, 1, 1; 0, 0, 1] : Matrix (Fin 2) (Fin 3) ℝ)
+    (by
+      intro columns first second
+      have ordered : columns.index 0 < columns.index 1 := columns.strictlyIncreasing (by decide)
+      simp only [twoStepMinorPair, Matrix.submatrix]
+      generalize lowerEq : columns.index 0 = lower at ordered
+      generalize upperEq : columns.index 1 = upper at ordered
+      fin_cases lower <;> fin_cases upper <;> norm_num at ordered
+      all_goals fin_cases first <;> fin_cases second <;> norm_num [lowerEq, upperEq])
+    (by
+      refine ⟨OrderedColumns.pair 0 2 (by decide), 0, 1, ?_⟩
+      norm_num [twoStepMinorPair, OrderedColumns.pair, Matrix.submatrix])
+
+example : boundaryTwoStep.toGrassmannianMatrix.pluckerCoordinate
+    (OrderedColumns.pair 0 1 (by decide)) = 0 := by
+  norm_num [boundaryTwoStep, twoStepNonnegative, twoStepRepresentative,
+    GrassmannianMatrix.pluckerCoordinate, selectedMinor, OrderedColumns.pair,
+    Matrix.det_fin_two, Matrix.submatrix, Matrix.mul_apply, Fin.sum_univ_succ]
+
+example : boundaryTwoStep.toGrassmannianMatrix.pluckerCoordinate
+    (OrderedColumns.pair 0 2 (by decide)) = 6 := by
+  norm_num [boundaryTwoStep, twoStepNonnegative, twoStepRepresentative,
+    GrassmannianMatrix.pluckerCoordinate, selectedMinor, OrderedColumns.pair,
+    Matrix.det_fin_two, Matrix.submatrix, Matrix.mul_apply, Fin.sum_univ_succ]
+
+example : ¬boundaryTwoStep.toGrassmannianMatrix.hasPositiveOrderedMinors := by
+  intro positive
+  have impossible := positive (OrderedColumns.pair 0 1 (by decide))
+  norm_num [boundaryTwoStep, twoStepNonnegative, twoStepRepresentative,
+    GrassmannianMatrix.pluckerCoordinate, selectedMinor, OrderedColumns.pair,
+    Matrix.det_fin_two, Matrix.submatrix, Matrix.mul_apply, Fin.sum_univ_succ] at impossible
+
 def toyCalibration : Calibration :=
   { expected := 10
     measured := 10.1

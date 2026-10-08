@@ -306,6 +306,11 @@ interpretation while keeping experimental premises explicit:
    product, so the paired-minor identity now applies to every ordered output
    maximal minor. Three-sink controls check all selections and reject a fixed
    incorrect minor without assuming its value.
+   Compatible selected input pairs now derive positive-condition records when
+   every ordered selection has a positive witness, and full-rank nonnegative
+   records when one available selection has a positive witness. Product entries
+   and boundary zero minors are retained; rank promotion uses an available
+   ordered selection rather than silently assuming one exists.
 - `Signals.CanonicalForms` provides fixed-oriented affine interval, triangle,
    and square alternating forms, normalization, punctured-limit boundary
    residues, area-preserving triangle pullbacks, and shared-diagonal pole
