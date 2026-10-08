@@ -627,9 +627,53 @@ existence/uniqueness, arbitrary-chart invariance, or amplituhedron canonical
 forms. The finite affine proofs supply no oscillatory optical phase,
 dimensioned physical embedding, or complex geometric evaluator for phase 5.
 
+### Iteration 6: Reject a Literal Geometric Identification
+
+The negative-control candidate evaluates the interval one-form at $t=1/2$
+on the unit tangent and casts its value into $\mathbb C$. Its magnitude is
+4; the constructive four-path classical fixture has magnitude $2/3$ for
+every positive wavelength. The reverse triangle inequality gives amplitude
+disagreement at least $10/3$, so this independently fixed candidate cannot
+satisfy the prescribed $1/4$ comparison tolerance on the detector plane.
+The candidate contains no optical evaluator, detector fitting, or supplied
+match. This is a raw-number counterexample to a literal identification, not
+a dimensioned physical comparison or an impossibility theorem for every
+possible geometric embedding.
+
+The geometric track still supplies no derived oscillatory phase, field-unit
+conversion, or physical normalization. This reaches the roadmap's phase-5
+stop condition. The implementation loop stops at that interpretation boundary;
+it does not fill the gap with an assumed match or declare phases 5--7 complete.
+`GrassmannianDoubleSlitHypothesis` and its compatibility fixtures are unchanged.
+
+### Remaining Acceptance Obligations
+
+| Phase | Verified checkpoint | Still required |
+|---|---|---|
+| 0 | Regularity/positive-scale guards, nonempty finite-extent slit samples, arbitrary-wavelength analytic reference, phase/mask/off-axis controls, fixed-tolerance rejection. | Finite-area slit geometry and refinement belong to the continuum/quadrature track; fixtures are not measurements. |
+| 1 | Selected fixed-field planar area integral, guarded integrability, disjoint-mask addition. | Boundary approximation accuracy, incident/boundary data, dimensioned field normalization, and a justified Green representation or approximation bound. |
+| 2 | Finite-measure density-to-integral residual bound. | Derive the residual from actual mesh weights, smoothness, separation and wavelength; prove uniform convergence/rate and the rectangular Fraunhofer limit. |
+| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative. | Weighted acyclic network measurements, constructive first-return exits, embedding/cell correspondence, network moves, general Pluecker relations, and any quotient construction. |
+| 4 | Affine alternating interval/triangle/square forms, oriented boundary limits, normalization, pullbacks, and diagonal cancellation/continuation. | General projective canonical-form existence/uniqueness, arbitrary-chart invariance and higher-dimensional amplituhedron forms. |
+| 5 | A literal unphased form-evaluation candidate is falsified without fitting. | Derive a dimensioned oscillatory complex evaluator and its invariances independently of the optical answer. |
+| 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds and separate error-budget composition. | A genuine geometric/classical equality or held-out uniform error theorem after both tracks meet their gates. |
+| 7 | No experimental claim introduced. | Calibrated raw optical data, uncertainty, backgrounds, drift and model-regime controls. |
+
+No theorem here promotes a supplied Pending match, a checked fixture, or a
+canonical-form identity into optical or hardware validation. The next bridge
+iteration needs a justified evaluator rather than another match assumption;
+the independent boundary, quadrature and network proof tracks remain available.
+
 ## Validation and Status
 
-For this review, all seven indexed Lean source files typechecked against the
+The implementation loop's final gates passed: `SignalsTests` at 3,576 jobs,
+`make signals_build` at 3,592 jobs, all four concatenated report Lean fences,
+Sphinx HTML, and scoped whitespace checks. Sphinx reported 66 warnings, with
+none attributed to this report by the focused warning filter. This is build
+verification, not a runtime optical experiment or a projective existence proof.
+
+The following records the original review baseline, before the implementation
+checkpoints above. All seven then-indexed Lean source files typechecked against the
 current project import artifacts. The four concatenated Lean blocks in this
 report also typechecked, including the nonempty detector-domain guard. The
 HTML build succeeded; unrelated documentation warnings remain. Neither the

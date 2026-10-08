@@ -1248,7 +1248,7 @@ example : (⟨1, by norm_num⟩ : Signals.Huygens.ActionScale).amplitude
 def finiteSlitPoint (side : ℝ) (row : Fin 2) : Signals.Huygens.Point3 :=
   ![side, if row = 0 then -1 else 1, 0]
 
-/-- Nonempty finite-width quadratures with an independently selectable relative transmission phase. -/
+/-- Nonempty finite-extent quadratures with an independently selectable relative transmission phase. -/
 noncomputable def finiteWidthSlits (wave : Signals.Huygens.MonochromaticWave) (phase : ℂ) :
     Signals.Huygens.DoubleSlit 2 2 :=
   { wave := wave
@@ -1356,6 +1356,27 @@ lemma wrongPhase_rejected (wave : Signals.Huygens.MonochromaticWave) :
   simp only [add_neg_cancel, zero_mul, zero_sub, norm_neg]
   rw [norm_mul, centralPath_norm]
   norm_num
+
+/-- A literal unit-tangent interval-form evaluation with no fitted phase or physical embedding. -/
+noncomputable def unphasedIntervalCandidate (_detector : Signals.Huygens.Point3) : ℂ :=
+  (Signals.CanonicalForms.intervalForm (1 / 2) (!![1] : Matrix (Fin 1) (Fin 1) ℝ) : ℝ)
+
+/-- The literal geometric scalar cannot satisfy this raw-number optical comparison at the fixed tolerance. -/
+lemma unphasedIntervalCandidate_rejected (wave : Signals.Huygens.MonochromaticWave) :
+    ¬Signals.Huygens.AmplitudeComparison unphasedIntervalCandidate
+      (finiteWidthSlits wave 1).amplitude {detector | detector 2 = 1} (1 / 4) := by
+  apply Signals.Huygens.AmplitudeComparison.reject _ _
+    {detector : Signals.Huygens.Point3 | detector 2 = 1} _ ![0, 0, 1] (by rfl)
+  have candidateNorm : ‖unphasedIntervalCandidate ![0, 0, 1]‖ = 4 := by
+    norm_num [unphasedIntervalCandidate, Signals.CanonicalForms.intervalForm_apply,
+      Signals.CanonicalForms.intervalCoefficient]
+  have referenceNorm : ‖(finiteWidthSlits wave 1).amplitude ![0, 0, 1]‖ = 2 / 3 := by
+    rw [finiteWidthSlits_reference, fourPathReference_center, norm_mul, centralPath_norm]
+    norm_num
+  have lower := norm_sub_norm_le (unphasedIntervalCandidate ![0, 0, 1])
+    ((finiteWidthSlits wave 1).amplitude ![0, 0, 1])
+  rw [candidateNorm, referenceNorm] at lower
+  linarith
 
 example : ¬Signals.Huygens.AmplitudeComparison (fourPathReference symmetricSlits.wave 1)
     (finiteWidthSlits symmetricSlits.wave 1).amplitude (∅ : Set Signals.Huygens.Point3) 0 := by

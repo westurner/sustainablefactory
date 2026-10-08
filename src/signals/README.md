@@ -283,6 +283,9 @@ interpretation while keeping experimental premises explicit:
    cancellation with a continuous square extension. Totalized singular
    values must not be used as the continuation. These examples do not prove
    general projective canonical-form existence or define an optical evaluator.
+   A literal unphased unit-tangent interval evaluation is rejected by the
+   fixed-tolerance slit comparison; a physical phase/normalization embedding
+   remains a research obligation, not an assumed match.
 - `Signals.Huygens` provides finite scalar aperture quadrature in three spatial
    dimensions, independent slit masks, coherent intensity cross terms, and
    finite action-phase sums. `RegularSlitEvaluation` gates a compatible
