@@ -314,6 +314,32 @@ lemma twoChannelRepresentative_det_pos_iff
       (firstSecond : ℝ) * (secondFirst : ℝ) < (firstFirst : ℝ) * (secondSecond : ℝ) := by
   rw [twoChannelRepresentative_det, sub_pos]
 
+/-- The actual shared-hub boundary matrix converted from nonnegative weights to real entries. -/
+noncomputable def singleHubRepresentative (firstIn secondIn firstOut secondOut : ℝ≥0) :
+    GrassmannianMatrix 2 2 :=
+  { mat := fun row column =>
+      ((Signals.Plabic.WeightedAcyclicNetwork.singleHub
+        firstIn secondIn firstOut secondOut).boundaryMeasurement
+        (Fin.castAdd 3) (Fin.natAdd 3) row column : ℝ) }
+
+/-- The shared hub produces an incoming/outgoing product matrix from its finite path sums. -/
+lemma singleHubRepresentative_mat (firstIn secondIn firstOut secondOut : ℝ≥0) :
+    (singleHubRepresentative firstIn secondIn firstOut secondOut).mat =
+      !![(firstIn : ℝ) * (firstOut : ℝ), (firstIn : ℝ) * (secondOut : ℝ);
+        (secondIn : ℝ) * (firstOut : ℝ), (secondIn : ℝ) * (secondOut : ℝ)] := by
+  unfold singleHubRepresentative
+  rw [Signals.Plabic.WeightedAcyclicNetwork.singleHub_boundary]
+  apply Matrix.ext
+  intro row column
+  fin_cases row <;> fin_cases column <;> rfl
+
+/-- The two signed path-pair products through the shared hub cancel for every choice of edge weights. -/
+lemma singleHubRepresentative_det (firstIn secondIn firstOut secondOut : ℝ≥0) :
+    (singleHubRepresentative firstIn secondIn firstOut secondOut).mat.det = 0 := by
+  rw [singleHubRepresentative_mat, Matrix.det_fin_two]
+  dsimp
+  ring
+
 /-! ## Massive spinor-helicity bookkeeping
 
 The records below expose the massive replacement for the massless

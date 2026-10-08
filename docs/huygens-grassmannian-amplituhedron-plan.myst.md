@@ -861,6 +861,32 @@ signed measurement conventions: those structures have not been constructed
 here. The signed two-pair product law is not a general disjoint-path theorem,
 positroid correspondence, Grassmannian quotient, or optical phase evaluator.
 
+### Iteration 16: Shared-Vertex Path-Pair Cancellation
+
+`WeightedAcyclicNetwork.singleHub` constructs two sources feeding two sinks
+through one shared intermediate vertex. `singleHub_boundary` derives its
+boundary entries from actual two-edge path products. For incoming weights
+$u,x$ and outgoing weights $v,w$, `singleHubRepresentative_mat` gives the
+real measured matrix $[uv,uw;xv,xw]$. `singleHubRepresentative_det` proves
+that its two signed path-pair products cancel for arbitrary edge weights:
+
+$$
+(uv)(xw)-(uw)(xv)=0.
+$$
+
+Controls recover the independent fixture $[10,14;15,21]$, prove all its
+entries positive, and check the vanishing ordered maximal minor and failure
+of strict positivity. A parametrized rejection proves that no full-rank
+nonnegative record can retain a shared-hub matrix for any choice of weights.
+The obstruction is not absence of active edges: the shared intermediate
+vertex prevents two vertex-disjoint source/sink paths in this topology.
+
+This is a concrete shared-vertex cancellation case, not a general
+Lindstroem-Gessel-Viennot theorem or a certified planar embedding. The zero
+determinant does not make the individual measured entries zero. Its signed
+algebraic cancellation must not be identified with complex optical
+destructive interference without a separately justified evaluator.
+
 ### Remaining Acceptance Obligations
 
 | Phase | Verified checkpoint | Still required |
@@ -868,7 +894,7 @@ positroid correspondence, Grassmannian quotient, or optical phase evaluator.
 | 0 | Regularity/positive-scale guards, nonempty finite-extent slit samples, arbitrary-wavelength analytic reference, phase/mask/off-axis controls, fixed-tolerance rejection. | Finite-area slit geometry and refinement belong to the continuum/quadrature track; fixtures are not measurements. |
 | 1 | Selected fixed-field planar area integral, guarded integrability, disjoint-mask addition. | Boundary approximation accuracy, incident/boundary data, dimensioned field normalization, and a justified Green representation or approximation bound. |
 | 2 | Actual measured-cell weights, derived Lipschitz/mesh/area error rate, refinement convergence, uniform-domain comparison and finite-aperture correspondence. | Prove uniform optical-kernel regularity from separation and a wavelength interval; construct a rectangular area mesh and prove the Fraunhofer limit. |
-| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision invariance, measured fork rank/positivity and the two-channel signed determinant/positivity criterion with rank-loss controls. | Decoration rules; general minor/disjoint-path identities and ordered-minor positivity, embedded signed boundary measurements/cell correspondence, general embedded-network moves, general Pluecker relations, and any quotient construction. |
+| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision invariance, measured fork rank/positivity, the two-channel signed determinant/positivity criterion with rank-loss controls and shared-hub path-pair cancellation. | Decoration rules; general minor/disjoint-path identities and ordered-minor positivity, embedded signed boundary measurements/cell correspondence, general embedded-network moves, general Pluecker relations, and any quotient construction. |
 | 4 | Affine alternating interval/triangle/square forms, oriented boundary limits, normalization, pullbacks, and diagonal cancellation/continuation. | General projective canonical-form existence/uniqueness, arbitrary-chart invariance and higher-dimensional amplituhedron forms. |
 | 5 | A literal unphased form-evaluation candidate is falsified without fitting. | Derive a dimensioned oscillatory complex evaluator and its invariances independently of the optical answer. |
 | 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds and separate error-budget composition. | A genuine geometric/classical equality or held-out uniform error theorem after both tracks meet their gates. |

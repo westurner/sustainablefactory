@@ -1920,6 +1920,45 @@ example : ¬∃ representative : NonnegativeGrassmannian 2 2,
   rw [same, twoChannelRepresentative_mat, selectedMinor, Matrix.det_fin_two] at nonzero
   norm_num [Matrix.submatrix, first, second] at nonzero
 
+example : (singleHubRepresentative 2 3 5 7).mat = !![10, 14; 15, 21] := by
+  rw [singleHubRepresentative_mat]
+  norm_num
+
+example (row column : Fin 2) : 0 < (singleHubRepresentative 2 3 5 7).mat row column := by
+  rw [singleHubRepresentative_mat]
+  fin_cases row <;> fin_cases column <;> norm_num
+
+example : (singleHubRepresentative 2 3 5 7).pluckerCoordinate identityColumns = 0 := by
+  change (singleHubRepresentative 2 3 5 7).mat.det = 0
+  exact singleHubRepresentative_det 2 3 5 7
+
+example : ¬(singleHubRepresentative 2 3 5 7).hasPositiveOrderedMinors := by
+  intro positive
+  have impossible := positive identityColumns
+  change 0 < (singleHubRepresentative 2 3 5 7).mat.det at impossible
+  rw [singleHubRepresentative_det] at impossible
+  exact lt_irrefl 0 impossible
+
+example (firstIn secondIn firstOut secondOut : NNReal) :
+    ¬∃ representative : NonnegativeGrassmannian 2 2,
+      representative.mat = (singleHubRepresentative firstIn secondIn firstOut secondOut).mat := by
+  rintro ⟨representative, same⟩
+  obtain ⟨columns, nonzero⟩ := representative.nonzero_minor
+  have ordered : columns.index 0 < columns.index 1 := columns.strictlyIncreasing (by decide)
+  have first : columns.index 0 = 0 := by
+    apply Fin.ext
+    omega
+  have second : columns.index 1 = 1 := by
+    apply Fin.ext
+    omega
+  change selectedMinor representative.mat columns ≠ 0 at nonzero
+  have selection : selectedMinor representative.mat columns =
+      (singleHubRepresentative firstIn secondIn firstOut secondOut).mat.det := by
+    rw [same, selectedMinor, Matrix.det_fin_two, Matrix.det_fin_two]
+    simp [Matrix.submatrix, first, second]
+  rw [selection, singleHubRepresentative_det] at nonzero
+  exact nonzero rfl
+
 def toyCalibration : Calibration :=
   { expected := 10
     measured := 10.1

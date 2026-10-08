@@ -289,6 +289,10 @@ interpretation while keeping experimental premises explicit:
    explicit rejection controls. This raw transfer selection is not an embedded
    signed planar boundary-measurement construction or a general disjoint-path
    theorem.
+   A shared-hub network derives an incoming/outgoing product matrix with an
+   identically zero determinant. Positive measured entries do not remove this
+   two-channel rank obstruction; generic full-rank record rejection is checked.
+   This signed path-pair cancellation is not optical destructive interference.
 - `Signals.CanonicalForms` provides fixed-oriented affine interval, triangle,
    and square alternating forms, normalization, punctured-limit boundary
    residues, area-preserving triangle pullbacks, and shared-diagonal pole
@@ -339,7 +343,8 @@ interpretation while keeping experimental premises explicit:
    A guarded one-edge subdivision preserves the one-source/one-sink boundary
    matrix, with zero-factor and wrong-split rejection controls. A fork derives
    its two boundary entries from independent edge weights; a two-channel
-   network derives its complete two-by-two matrix. General ordered-minor
+   network derives its complete two-by-two matrix, and a shared hub derives
+   two-edge product entries. General ordered-minor
    positivity, embedding correspondence and general embedded-network moves
    are not inferred from these finite path sums.
 - `Signals.Fabrication` models voxel fields, active phase masks, calibration

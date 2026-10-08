@@ -708,4 +708,30 @@ lemma WeightedAcyclicNetwork.twoChannel_boundary
       pow_zero, pow_one, Matrix.one_apply]
     simp [twoChannel]
 
+/-- Two sources feed two sinks through one shared intermediate vertex. -/
+def WeightedAcyclicNetwork.singleHub (firstIn secondIn firstOut secondOut : ℝ≥0) :
+    WeightedAcyclicNetwork 5 2 :=
+  { level := fun vertex => if vertex.val < 2 then 0 else if vertex.val = 2 then 1 else 2
+    weight := ![![0, 0, firstIn, 0, 0], ![0, 0, secondIn, 0, 0],
+      ![0, 0, 0, firstOut, secondOut], ![0, 0, 0, 0, 0], ![0, 0, 0, 0, 0]]
+    ascending := by
+      intro first second nonzero
+      fin_cases first <;> fin_cases second <;> norm_num at * }
+
+/-- Each measured hub entry is the product of its independently supplied incoming and outgoing edge. -/
+lemma WeightedAcyclicNetwork.singleHub_boundary
+    (firstIn secondIn firstOut secondOut : ℝ≥0) :
+    (singleHub firstIn secondIn firstOut secondOut).boundaryMeasurement
+      (Fin.castAdd 3) (Fin.natAdd 3) =
+      (!![firstIn * firstOut, firstIn * secondOut; secondIn * firstOut, secondIn * secondOut] :
+        Matrix (Fin 2) (Fin 2) ℝ≥0) := by
+  apply Matrix.ext
+  intro source sink
+  fin_cases source <;> fin_cases sink
+  all_goals
+    simp only [boundaryMeasurement, transfer, Finset.sum_range_succ,
+      Finset.range_zero, Finset.sum_empty, zero_add, Matrix.add_apply,
+      pow_zero, pow_one, pow_two, Matrix.one_apply, Matrix.mul_apply]
+    simp [singleHub, Fin.sum_univ_succ]
+
 end Signals.Plabic
