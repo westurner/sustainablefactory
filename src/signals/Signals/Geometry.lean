@@ -52,6 +52,14 @@ def OrderedColumns.single {n : ℕ} (column : Fin n) : OrderedColumns 1 n :=
       subst second
       exact False.elim ((lt_irrefl first) before) }
 
+/-- Select two distinct columns in the supplied increasing order. -/
+def OrderedColumns.pair {n : ℕ} (first second : Fin n) (ordered : first < second) :
+    OrderedColumns 2 n :=
+  { index := ![first, second]
+    strictlyIncreasing := by
+      intro left right before
+      fin_cases left <;> fin_cases right <;> simp_all }
+
 /-- A finite matrix representing a point before any positivity restriction. -/
 structure GrassmannianMatrix (k n : ℕ) where
   mat : Matrix (Fin k) (Fin n) ℝ
@@ -429,6 +437,27 @@ lemma twoStep_det_positive {middleCount : ℕ}
       (fun row _ => Finset.sum_nonneg (fun middle _ => compatible row middle)) (Finset.mem_univ first)
   rw [twoStep_minorPairs_sum] at totalBound
   linarith
+
+/-- Selecting output columns commutes with finite two-step matrix multiplication. -/
+lemma twoStep_selectedMinor {middleCount sinkCount : ℕ}
+    (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
+    (outgoing : Matrix (Fin middleCount) (Fin sinkCount) ℝ)
+    (columns : OrderedColumns 2 sinkCount) :
+    selectedMinor (incoming * outgoing) columns =
+      (incoming * outgoing.submatrix id columns.index).det := by
+  unfold selectedMinor
+  rfl
+
+/-- Every ordered output maximal minor has the derived finite input minor-pair expansion. -/
+lemma twoStep_selectedMinor_pairs {middleCount sinkCount : ℕ}
+    (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
+    (outgoing : Matrix (Fin middleCount) (Fin sinkCount) ℝ)
+    (columns : OrderedColumns 2 sinkCount) :
+    (∑ first, ∑ second,
+      twoStepMinorPair incoming (outgoing.submatrix id columns.index) first second) =
+      2 * selectedMinor (incoming * outgoing) columns := by
+  rw [twoStep_selectedMinor]
+  exact twoStep_minorPairs_sum incoming (outgoing.submatrix id columns.index)
 
 /-! ## Massive spinor-helicity bookkeeping
 

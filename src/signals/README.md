@@ -302,6 +302,10 @@ interpretation while keeping experimental premises explicit:
    positivity. Three-intermediate controls check the factor two and reject
    incompatible all-positive entry matrices. Embedding-derived compatibility
    and arbitrary-length disjoint paths remain open.
+   Selecting arbitrary ordered sink-column pairs commutes with the two-step
+   product, so the paired-minor identity now applies to every ordered output
+   maximal minor. Three-sink controls check all selections and reject a fixed
+   incorrect minor without assuming its value.
 - `Signals.CanonicalForms` provides fixed-oriented affine interval, triangle,
    and square alternating forms, normalization, punctured-limit boundary
    residues, area-preserving triangle pullbacks, and shared-diagonal pole

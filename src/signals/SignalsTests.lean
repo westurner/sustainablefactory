@@ -2051,6 +2051,46 @@ example : ((!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ) *
   rw [twoStep_det_pathPairs]
   norm_num [Fin.sum_univ_succ]
 
+/-- Independent outgoing weights to three ordered sinks. -/
+def threeSinkOutgoing : Matrix (Fin 3) (Fin 3) ℝ := !![1, 1, 1; 0, 1, 2; 1, 2, 3]
+
+example : threeMiddleIncoming * threeSinkOutgoing = !![3, 4, 5; 1, 5, 9] := by
+  apply Matrix.ext
+  intro row column
+  fin_cases row <;> fin_cases column <;>
+    norm_num [threeMiddleIncoming, threeSinkOutgoing, Matrix.mul_apply, Fin.sum_univ_succ]
+
+example : selectedMinor (threeMiddleIncoming * threeSinkOutgoing)
+    (OrderedColumns.pair 0 1 (by decide)) = 11 := by
+  rw [twoStep_selectedMinor, Matrix.det_fin_two]
+  norm_num [threeMiddleIncoming, threeSinkOutgoing, OrderedColumns.pair,
+    Matrix.submatrix, Matrix.mul_apply, Fin.sum_univ_succ]
+
+example : selectedMinor (threeMiddleIncoming * threeSinkOutgoing)
+    (OrderedColumns.pair 0 2 (by decide)) = 22 := by
+  rw [twoStep_selectedMinor, Matrix.det_fin_two]
+  norm_num [threeMiddleIncoming, threeSinkOutgoing, OrderedColumns.pair,
+    Matrix.submatrix, Matrix.mul_apply, Fin.sum_univ_succ]
+
+example : selectedMinor (threeMiddleIncoming * threeSinkOutgoing)
+    (OrderedColumns.pair 1 2 (by decide)) = 11 := by
+  rw [twoStep_selectedMinor, Matrix.det_fin_two]
+  norm_num [threeMiddleIncoming, threeSinkOutgoing, OrderedColumns.pair,
+    Matrix.submatrix, Matrix.mul_apply, Fin.sum_univ_succ]
+
+example : (∑ first, ∑ second, twoStepMinorPair threeMiddleIncoming
+    (threeSinkOutgoing.submatrix id (OrderedColumns.pair 0 2 (by decide)).index)
+      first second) = 44 := by
+  rw [twoStep_selectedMinor_pairs, twoStep_selectedMinor, Matrix.det_fin_two]
+  norm_num [threeMiddleIncoming, threeSinkOutgoing, OrderedColumns.pair,
+    Matrix.submatrix, Matrix.mul_apply, Fin.sum_univ_succ]
+
+example : ¬selectedMinor (threeMiddleIncoming * threeSinkOutgoing)
+    (OrderedColumns.pair 0 2 (by decide)) = 11 := by
+  rw [twoStep_selectedMinor, Matrix.det_fin_two]
+  norm_num [threeMiddleIncoming, threeSinkOutgoing, OrderedColumns.pair,
+    Matrix.submatrix, Matrix.mul_apply, Fin.sum_univ_succ]
+
 def toyCalibration : Calibration :=
   { expected := 10
     measured := 10.1
