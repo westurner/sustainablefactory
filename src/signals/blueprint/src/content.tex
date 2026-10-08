@@ -1,0 +1,18 @@
+\chapter{Signals Lean library}
+
+This blueprint indexes selected definitions and results in the Signals Lean
+library. The library is organized into modules covering mathematical and
+physical models, signal propagation, measurement, and applications.
+
+Only Lean declarations marked with LeanArchitect's \texttt{@[blueprint]}
+attribute are emitted as formal nodes. The extracted module index is generated
+from the Lean sources before each blueprint build.
+
+\section{Lean declarations}
+
+\input{../../.lake/build/blueprint/library/Signals.tex}
+\input{../../.lake/build/blueprint/library/SignalsTests.tex}
+\input{../../.lake/build/blueprint/library/SignalsPending.tex}
+\input{../../.lake/build/blueprint/library/SignalsPendingTests.tex}
+\inputleanmodule{SignalsPending}
+\inputleanmodule{Signals.Propagation}

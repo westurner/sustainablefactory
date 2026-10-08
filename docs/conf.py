@@ -1,4 +1,7 @@
 # Configuration file for the Sphinx documentation builder.
+import os
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -196,6 +199,40 @@ def _regenerate_glossary(app):
         logging.getLogger(__name__).info("glossary.md regenerated from glossary.yaml")
 
 
+def _build_signals_blueprint(app):
+    if app.builder.format != "html":
+        return
+
+    repo_root = Path(__file__).resolve().parents[1]
+    tmp_dir = repo_root / ".tmp"
+    if not tmp_dir.exists():
+        tmp_dir.mkdir(mode=0o1777)
+        tmp_dir.chmod(0o1777)
+
+    env = os.environ.copy()
+    env["TMPDIR"] = str(tmp_dir)
+    subprocess.run(
+        ["make", "-C", str(repo_root / "src" / "signals"), "blueprint"],
+        cwd=repo_root,
+        env=env,
+        check=True,
+    )
+
+
+def _copy_signals_blueprint(app, exception):
+    if exception is not None or app.builder.format != "html":
+        return
+
+    repo_root = Path(__file__).resolve().parents[1]
+    source = repo_root / "src" / "signals" / "blueprint" / "web"
+    destination = Path(app.outdir) / "signals-blueprint"
+    if destination.exists():
+        shutil.rmtree(destination)
+    shutil.copytree(source, destination)
+
+
 def setup(app):
     # Regenerate glossary.md from glossary.yaml at build start
     app.connect("builder-inited", lambda app: _regenerate_glossary(app))
+    app.connect("builder-inited", _build_signals_blueprint)
+    app.connect("build-finished", _copy_signals_blueprint)

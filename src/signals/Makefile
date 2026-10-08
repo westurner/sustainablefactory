@@ -1,7 +1,7 @@
 LEAN ?= lake
-LEAN_TOOLCHAIN ?= leanprover/lean4:v4.33.0
+LEAN_TOOLCHAIN ?= leanprover/lean4:v4.35.0-rc3
 
-.PHONY: default help lean-cache lean-build lean-clean install-elan
+.PHONY: default help lean-cache lean-build blueprint blueprint-pdf lean-clean install-elan
 
 default: lean-build
 
@@ -9,6 +9,8 @@ help:
 	@printf '%s\n' \
 		'lean-cache  # Download Mathlib/Physlib build artifacts when available' \
 		'lean-build  # Build the Signals library' \
+		'blueprint  # Extract Lean nodes and build the HTML blueprint' \
+		'blueprint-pdf  # Build the printable blueprint (requires TeX)' \
 		'lean-clean  # Remove Lake build artifacts'
 
 lean-cache:
@@ -21,6 +23,13 @@ lean-cache:
 
 lean-build:
 	$(LEAN) build Signals SignalsTests SignalsPending SignalsPendingTests
+
+blueprint:
+	$(LEAN) build :blueprint
+	cd blueprint/src && plastex --kpsewhich ./resolve-tex-input.sh -c plastex.cfg web.tex
+
+blueprint-pdf: blueprint
+	cd blueprint/src && latexmk -output-directory=../print
 
 lean-clean:
 	$(LEAN) clean

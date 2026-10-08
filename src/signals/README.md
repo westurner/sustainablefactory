@@ -546,6 +546,22 @@ these project pins.
 The local toolchain is available in the dev container, and the same build is
 used as the local and CI check.
 
+## Blueprint
+
+The blueprint sources are in `blueprint/src`. Install the blueprint tools in the
+active Python environment and build the Lean extraction and web version with:
+
+```text
+python -m pip install -r requirements-blueprint.txt
+make blueprint
+```
+
+`make blueprint-pdf` also builds the printable version and requires `latexmk`
+and a TeX installation. Lean declarations appear as formal blueprint nodes only
+when tagged with LeanArchitect's `@[blueprint]` attribute. Since Signals is
+nested inside the repository, the target invokes plasTeX directly rather than
+the convenience CLI, which assumes the Lake project is at the Git root.
+
 ## Development Plan
 
 The plan is executed as a short agent loop. Each iteration selects one
