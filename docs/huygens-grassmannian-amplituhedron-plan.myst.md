@@ -641,10 +641,49 @@ a dimensioned physical comparison or an impossibility theorem for every
 possible geometric embedding.
 
 The geometric track still supplies no derived oscillatory phase, field-unit
-conversion, or physical normalization. This reaches the roadmap's phase-5
-stop condition. The implementation loop stops at that interpretation boundary;
-it does not fill the gap with an assumed match or declare phases 5--7 complete.
+conversion, or physical normalization. The initial implementation loop paused
+the bridge at this phase-5 stop condition. Later iterations can continue the
+independent mathematical tracks without filling the gap with an assumed match
+or declaring phases 5--7 complete.
 `GrassmannianDoubleSlitHypothesis` and its compatibility fixtures are unchanged.
+
+### Iteration 7: Measured-Cell Quadrature and Refinement
+
+[Quadrature.lean](../src/signals/Signals/Quadrature.lean) introduces a finite
+measurable disjoint cell partition with one sample per cell. Its weights are
+the actual restricted measure masses, not fitted amplitude coefficients.
+The cell measures decompose the original measure, their weights sum to its
+finite total area, and the continuum integral decomposes over those cells.
+
+The finite weighted sum obeys the derived error bound
+
+$$
+\left|Q_h(f)-\int f\,d\mu\right|
+\leq K h\,\mu(X),
+$$
+
+from an explicit cellwise Lipschitz inequality and almost-everywhere sample
+distance bound. Global Lipschitz regularity discharges the density inequality.
+As the mesh bound tends to zero with one fixed $K$, the amplitude error tends
+to zero. A nonempty fixed detector/wavelength domain with uniform $K$ produces
+an `AmplitudeComparison` using this derived budget. The theorem does not need
+compactness, but compactness alone does not discharge its regularity premises.
+
+`toAperture_amplitude` proves that measured planar cell weights, fixed
+transmission and normalization give exactly the existing finite aperture sum.
+Atomic numerical controls check weight conservation, a coarse sample's nonzero
+error, exact refinement, and rejection of an invalid zero-radius mesh claim.
+Those atomic controls are not physical aperture-area data.
+
+Phase 2 now has an actual weighted quadrature rate and refinement theorem
+under explicit regularity hypotheses. A uniform Lipschitz estimate for the
+separated optical kernel over a wavelength interval, a rectangular area-mesh
+construction, and the stated far-field benchmark remain open. No boundary
+solution accuracy or geometric bridge is inferred from this quadrature result.
+
+Validation: `Signals.Quadrature` passed at 3,399 jobs, `SignalsTests` at 3,577,
+and `make signals_build` at 3,593. All four report Lean blocks typechecked;
+HTML generation passed with 66 warnings, and `git diff --check` passed.
 
 ### Remaining Acceptance Obligations
 
@@ -652,7 +691,7 @@ it does not fill the gap with an assumed match or declare phases 5--7 complete.
 |---|---|---|
 | 0 | Regularity/positive-scale guards, nonempty finite-extent slit samples, arbitrary-wavelength analytic reference, phase/mask/off-axis controls, fixed-tolerance rejection. | Finite-area slit geometry and refinement belong to the continuum/quadrature track; fixtures are not measurements. |
 | 1 | Selected fixed-field planar area integral, guarded integrability, disjoint-mask addition. | Boundary approximation accuracy, incident/boundary data, dimensioned field normalization, and a justified Green representation or approximation bound. |
-| 2 | Finite-measure density-to-integral residual bound. | Derive the residual from actual mesh weights, smoothness, separation and wavelength; prove uniform convergence/rate and the rectangular Fraunhofer limit. |
+| 2 | Actual measured-cell weights, derived Lipschitz/mesh/area error rate, refinement convergence, uniform-domain comparison and finite-aperture correspondence. | Prove uniform optical-kernel regularity from separation and a wavelength interval; construct a rectangular area mesh and prove the Fraunhofer limit. |
 | 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative. | Weighted acyclic network measurements, constructive first-return exits, embedding/cell correspondence, network moves, general Pluecker relations, and any quotient construction. |
 | 4 | Affine alternating interval/triangle/square forms, oriented boundary limits, normalization, pullbacks, and diagonal cancellation/continuation. | General projective canonical-form existence/uniqueness, arbitrary-chart invariance and higher-dimensional amplituhedron forms. |
 | 5 | A literal unphased form-evaluation candidate is falsified without fitting. | Derive a dimensioned oscillatory complex evaluator and its invariances independently of the optical answer. |

@@ -18,6 +18,7 @@ import Signals.OAM
 import Signals.Physlib
 import Signals.Plabic
 import Signals.Proca
+import Signals.Quadrature
 import Signals.Propagation
 import Signals.RadioBasics
 import Signals.Sampling

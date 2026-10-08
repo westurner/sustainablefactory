@@ -1439,6 +1439,90 @@ example (measure : MeasureTheory.Measure (ℝ × ℝ)) [MeasureTheory.IsProbabil
     (Filter.Eventually.of_forall (fun _ => by simp))
   exact bound.trans_eq (by simp)
 
+/-- Two atomic masses are a numerical quadrature control, not physical aperture-area data. -/
+noncomputable def quadratureControlMeasure : MeasureTheory.Measure ℝ :=
+  MeasureTheory.Measure.dirac 0 + MeasureTheory.Measure.dirac 1
+
+instance : MeasureTheory.IsFiniteMeasure quadratureControlMeasure := by
+  unfold quadratureControlMeasure
+  infer_instance
+
+/-- The finite control integrates the nonconstant linear density. -/
+lemma quadratureControl_integrable :
+    MeasureTheory.Integrable (fun point : ℝ => (point : ℂ)) quadratureControlMeasure := by
+  simp only [quadratureControlMeasure, MeasureTheory.integrable_add_measure]
+  constructor <;> exact MeasureTheory.integrable_dirac (by finiteness)
+
+/-- The independently integrated control density has unit total value. -/
+lemma quadratureControl_integral : (∫ point : ℝ, (point : ℂ) ∂quadratureControlMeasure) = 1 := by
+  rw [quadratureControlMeasure, MeasureTheory.integral_add_measure
+    (MeasureTheory.integrable_dirac (by finiteness)) (MeasureTheory.integrable_dirac (by finiteness))]
+  simp
+
+/-- A deliberately coarse one-cell sample misses the mass at one. -/
+def coarseQuadrature : Signals.Quadrature.CellQuadrature quadratureControlMeasure 1 :=
+  { cell := fun _ => Set.univ
+    measurable := fun _ => MeasurableSet.univ
+    disjoint := by
+      intro first second distinct
+      exact False.elim (distinct (Subsingleton.elim _ _))
+    cover := by
+      ext point
+      constructor
+      · intro _
+        trivial
+      · intro _
+        exact Set.mem_iUnion.mpr ⟨0, trivial⟩
+    sample := fun _ => 0 }
+
+/-- Two disjoint cells refine the same measured domain without fitting their weights. -/
+def refinedQuadrature : Signals.Quadrature.CellQuadrature quadratureControlMeasure 2 :=
+  { cell := fun index => if index = 0 then {0} else ({0} : Set ℝ)ᶜ
+    measurable := by intro index; fin_cases index <;> simp
+    disjoint := by
+      intro first second distinct
+      fin_cases first <;> fin_cases second <;> simp_all
+    cover := by
+      ext point
+      simpa [Fin.exists_fin_succ] using Classical.em (point = 0)
+    sample := fun index => if index = 0 then 0 else 1 }
+
+example : ∑ index, refinedQuadrature.weight index = 2 := by
+  rw [refinedQuadrature.weight_sum]
+  norm_num [quadratureControlMeasure, MeasureTheory.measureReal_def]
+
+example : (∫ point : ℝ, (point : ℂ) ∂quadratureControlMeasure) = 1 := quadratureControl_integral
+
+example : coarseQuadrature.amplitude (fun point : ℝ => (point : ℂ)) = 0 := by
+  simp [Signals.Quadrature.CellQuadrature.amplitude, coarseQuadrature]
+
+example : refinedQuadrature.amplitude (fun point : ℝ => (point : ℂ)) = 1 := by
+  norm_num [Signals.Quadrature.CellQuadrature.amplitude, Signals.Quadrature.CellQuadrature.weight,
+    refinedQuadrature, quadratureControlMeasure, Fin.sum_univ_succ,
+    MeasureTheory.measureReal_def, MeasureTheory.Measure.restrict_apply]
+
+example : ‖coarseQuadrature.amplitude (fun point : ℝ => (point : ℂ)) -
+    ∫ point : ℝ, (point : ℂ) ∂quadratureControlMeasure‖ = 1 := by
+  rw [quadratureControl_integral]
+  simp [Signals.Quadrature.CellQuadrature.amplitude, coarseQuadrature]
+
+open scoped NNReal in
+example : ¬(∀ index, ∀ᵐ point ∂quadratureControlMeasure.restrict (coarseQuadrature.cell index),
+    dist (coarseQuadrature.sample index) point ≤ (0 : ℝ)) := by
+  intro impossibleMesh
+  have lipschitz : LipschitzWith 1 (fun point : ℝ => (point : ℂ)) :=
+    LipschitzWith.of_dist_le_mul (by intro first second; simp [dist_eq_norm, ← Complex.ofReal_sub])
+  have impossible := coarseQuadrature.amplitude_error_le_of_lipschitz
+    (fun point : ℝ => (point : ℂ)) quadratureControl_integrable 1 0 lipschitz impossibleMesh
+  rw [quadratureControl_integral] at impossible
+  norm_num [Signals.Quadrature.CellQuadrature.amplitude, coarseQuadrature] at impossible
+
+example {measure : MeasureTheory.Measure (ℝ × ℝ)} {count : ℕ}
+    (quadrature : Signals.Quadrature.CellQuadrature measure count) :
+    (quadrature.toAperture toyPlanarField).amplitude toyPlanarField.wave toyPlanarField.source
+      ![1, 2, 1] = quadrature.amplitude (toyPlanarField.density ![1, 2, 1]) :=
+  quadrature.toAperture_amplitude _ _
+
 /-- A three-spoke graph with three boundary vertices and one internal vertex. -/
 def plabicStarGraph : SimpleGraph (Signals.Plabic.Vertex 3 1) where
   Adj left right := match left, right with

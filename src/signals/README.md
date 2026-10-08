@@ -301,6 +301,12 @@ interpretation while keeping experimental premises explicit:
    intensity-error and additive amplitude-error laws preserve dark-fringe
    and separate-budget controls. No boundary-solution accuracy theorem or
    mesh convergence rate is asserted.
+- `Signals.Quadrature` derives a finite measured-cell quadrature error bound
+   from Lipschitz regularity and mesh distances, preserves total cell weight,
+   proves refinement-error convergence, and connects the weighted sum to the
+   finite aperture API. Uniform detector/wavelength comparisons require one
+   prescribed regularity constant; optical-kernel estimates and a rectangular
+   far-field limit remain separate obligations.
 - `Signals.Plabic` provides colored finite rotation systems, single-orbit
    cyclic-order requirements, bounded strand routing, and decorated boundary
    permutations extracted from checked exit certificates. A rotation system
