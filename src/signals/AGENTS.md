@@ -16,9 +16,10 @@ Here we're working toward a more complete model; starting from an exploratory re
 
 ## Dependencies
 
-- Use the sibling `../mathlib4` checkout for general mathematics.
+- Use the Mathlib revision pinned in `lakefile.toml` for general mathematics.
 - Use the sibling `../physlib` checkout for physics definitions and results.
-- Keep the Lean toolchain aligned with Physlib's declared baseline.
+- Keep Lean and Mathlib aligned through the Signals project pins, and validate
+  the selected Physlib sources against that toolchain.
 - Do not modify either dependency checkout from this project.
 
 ## Code Style
@@ -56,6 +57,13 @@ make -C src/signals install-elan
 
 GitHub Actions runs the same `make signals_build` build after checking out
 compatible mathlib and Physlib revisions.
+
+For long Lean builds, report the final Lake job total and first failing module
+after the command exits instead of polling or emitting per-job progress. The
+QECLean Layer target completed successfully on 2026-10-04 at 3,147/3,147 jobs;
+an earlier run failed at 3,141/3,147 in `Codespace.lean` and
+`LogicalGateGroup.lean`. This is a shared workspace build-graph observation,
+not a Signals build result or a build-time benchmark.
 
 ## Container Workflow
 

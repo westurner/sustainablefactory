@@ -26,11 +26,33 @@ jobs:
           python-version: "3.12"
           cache: pip
 
+      - name: Check out compatible Physlib
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: westurner/physlib
+          ref: f6d7fe3d32f1849a153147f2868d6db2d9daf40a
+          path: src/physlib
+          persist-credentials: false
+
+      - name: Set up Lean
+        uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1.5.0
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          lake-package-directory: src/signals
+
+      - name: Download Lean dependency artifacts
+        working-directory: src/signals
+        run: make lean-cache
+
       - name: Install documentation dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install --editable ./src/wrd-sphinx-theme
           python -m pip install --editable .
+          python -m pip install -r src/signals/requirements-blueprint.txt
 
       - name: Build documentation
         working-directory: docs
