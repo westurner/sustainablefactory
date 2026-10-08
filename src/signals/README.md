@@ -311,12 +311,14 @@ interpretation while keeping experimental premises explicit:
    cyclic-order requirements, bounded strand routing, and a first-exit search
    with derived minimality, bounded completeness, fuel-failure and
    budget-uniqueness laws. Decorated boundary permutations still come from
-   checked exit certificates; general termination and bijection are not yet
+   checked exit certificates; a boundary bijection is not yet
    derived. A rotation system
    does not itself certify a planar disk embedding or a positroid cell.
    Continuing dart turns form a derived finite permutation, agree with
-   internal strand steps, and have positive periods bounded by dart count;
-   converting that bound into boundary-search termination remains separate.
+   internal strand steps, and have positive periods bounded by dart count.
+   Boundary searches now terminate at dart-count fuel, yielding derived
+   earliest-exit data without a supplied exit certificate. The getter uses
+   abstract cardinality rather than an enumerated dart table.
    Ranked nonnegative weighted networks derive long-path vanishing,
    nilpotency, cutoff-stable finite transfer, and selected boundary entries.
    Ordered-minor positivity, embedding correspondence and network moves are

@@ -315,6 +315,87 @@ lemma RotationSystem.firstExit_none_iff {boundaryCount internalCount : ℕ}
         exact destination
       exact False.elim (absent index extended)
 
+/-- Before any boundary arrival, the absorbing route agrees with continuing dart iteration. -/
+lemma RotationSystem.route_eq_dartIterate {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (steps : ℕ) (edge : DirectedEdge system)
+    (noBoundary : ∀ earlier < steps, ∀ index, (system.route earlier edge).dst ≠ Sum.inl index) :
+    system.route steps edge = (system.dartTurn : DirectedEdge system → DirectedEdge system)^[steps] edge := by
+  revert noBoundary
+  induction steps with
+  | zero => intro _; rfl
+  | succ steps induction_hypothesis =>
+      intro noBoundary
+      have previous := induction_hypothesis (fun earlier before index =>
+        noBoundary earlier (by omega) index)
+      cases destination : (system.route steps edge).dst with
+      | inl index => exact False.elim (noBoundary steps (by omega) index destination)
+      | inr internal =>
+          rw [route, ← system.dartTurn_internal (system.route steps edge) internal destination,
+            previous, Function.iterate_succ_apply']
+
+/-- An exhausted search budget also excludes all boundary arrivals at earlier steps. -/
+lemma RotationSystem.firstExit_none_earlier {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (fuel : ℕ) (edge : DirectedEdge system)
+    (result : system.firstExit fuel edge = none) (earlier : ℕ) (bound : earlier ≤ fuel)
+    (index : Fin boundaryCount) : (system.route earlier edge).dst ≠ Sum.inl index := by
+  intro destination
+  have terminal : (system.route fuel edge).dst = Sum.inl index := by
+    rw [← Nat.add_sub_of_le bound, route_add,
+      system.route_boundary (system.route earlier edge) index destination (fuel - earlier)]
+    exact destination
+  exact ((system.firstExit_none_iff fuel edge).mp result index) terminal
+
+/-- Every boundary start has an exit found using at most the finite dart count as search fuel. -/
+lemma RotationSystem.boundary_firstExit_exists {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (index : Fin boundaryCount) :
+    ∃ steps destination, system.firstExit (Nat.card (DirectedEdge system)) (system.start index) =
+      some (steps, destination) := by
+  cases result : system.firstExit (Nat.card (DirectedEdge system)) (system.start index) with
+  | some exit =>
+      rcases exit with ⟨steps, destination⟩
+      exact ⟨steps, destination, rfl⟩
+  | none =>
+      obtain ⟨period, positive, bound, returns⟩ := system.dartTurn_period (system.start index)
+      cases period with
+      | zero => omega
+      | succ previous =>
+          have noBoundary : ∀ earlier < previous, ∀ other,
+              (system.route earlier (system.start index)).dst ≠ Sum.inl other := by
+            intro earlier before other
+            exact system.firstExit_none_earlier _ _ result earlier (by omega) other
+          have agreement := system.route_eq_dartIterate previous (system.start index) noBoundary
+          have sources := congrArg DirectedEdge.src returns
+          rw [Function.iterate_succ_apply', system.dartTurn_source, ← agreement] at sources
+          exact False.elim
+            (system.firstExit_none_earlier _ _ result previous (by omega) index sources)
+
+/-- Extract the guaranteed first exit from the computed dart-count search, not a supplied match. -/
+noncomputable def RotationSystem.boundaryExitData {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (index : Fin boundaryCount) :
+    ℕ × Fin boundaryCount :=
+  (system.firstExit (Nat.card (DirectedEdge system)) (system.start index)).get (by
+    obtain ⟨steps, destination, result⟩ := system.boundary_firstExit_exists index
+    rw [result]
+    rfl)
+
+/-- The derived boundary data are exactly the successful finite search result. -/
+lemma RotationSystem.boundaryExitData_found {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (index : Fin boundaryCount) :
+    system.firstExit (Nat.card (DirectedEdge system)) (system.start index) =
+      some (system.boundaryExitData index) := by
+  unfold boundaryExitData
+  exact (Option.some_get _).symm
+
+/-- Derived boundary data retain the dart-count bound, route endpoint and earliest-exit condition. -/
+lemma RotationSystem.boundaryExitData_spec {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (index : Fin boundaryCount) :
+    (system.boundaryExitData index).1 ≤ Nat.card (DirectedEdge system) ∧
+      (system.route (system.boundaryExitData index).1 (system.start index)).dst =
+        Sum.inl (system.boundaryExitData index).2 ∧
+      ∀ earlier < (system.boundaryExitData index).1, ∀ other,
+        (system.route earlier (system.start index)).dst ≠ Sum.inl other :=
+  system.firstExit_spec _ _ _ _ (system.boundaryExitData_found index)
+
 /-- Any two successful fuel budgets return the same earliest step count and boundary label. -/
 lemma RotationSystem.firstExit_unique {boundaryCount internalCount : ℕ}
     (system : RotationSystem boundaryCount internalCount) (fuel otherFuel : ℕ)

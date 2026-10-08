@@ -1662,6 +1662,51 @@ example (color : Signals.Plabic.NodeColor) (index : Fin 3) :
   (plabicStar color).firstExit_exists 1 ((plabicStar color).start index)
   ((plabicStarRouting color).perm index) ((plabicStarRouting color).exits index)
 
+/-- The derived search recovers all star exits without a supplied first-exit count. -/
+lemma plabicStar_exitData (color : Signals.Plabic.NodeColor) (index : Fin 3) :
+    (plabicStar color).boundaryExitData index = (1, (plabicStarRouting color).perm index) := by
+  have first : (plabicStar color).firstExit 1 ((plabicStar color).start index) =
+      some (1, (plabicStarRouting color).perm index) := by cases color <;> rfl
+  have same := (plabicStar color).firstExit_unique 1 _ ((plabicStar color).start index)
+    1 ((plabicStar color).boundaryExitData index).1 ((plabicStarRouting color).perm index)
+    ((plabicStar color).boundaryExitData index).2 first
+    ((plabicStar color).boundaryExitData_found index)
+  exact Prod.ext same.1.symm same.2.symm
+
+example : (plabicStar .black).boundaryExitData 0 = (1, 1) := plabicStar_exitData _ _
+
+example : (plabicStar .white).boundaryExitData 0 = (1, 2) := plabicStar_exitData _ _
+
+example : ¬((plabicStar .black).boundaryExitData 0 = (2, 1)) := by
+  intro delayed
+  have count := congrArg Prod.fst delayed
+  rw [plabicStar_exitData] at count
+  norm_num at count
+
+/-- Two directly adjacent boundaries test zero-step exits with no internal vertices. -/
+def plabicBoundaryPair : Signals.Plabic.RotationSystem 2 0 :=
+  { graph := ⊤
+    color := fun internal => Fin.elim0 internal
+    rotation := fun _ => Equiv.refl _
+    singleOrbit := by intro internal; exact Fin.elim0 internal
+    boundaryNeighbor := fun index => if index = 0 then Sum.inl 1 else Sum.inl 0
+    boundaryAdjacent := by intro index; fin_cases index <;> decide
+    boundaryUnique := by
+      intro index vertex adjacent
+      cases vertex with
+      | inr internal => exact Fin.elim0 internal
+      | inl other =>
+          change Sum.inl index ≠ (Sum.inl other : Signals.Plabic.Vertex 2 0) at adjacent
+          fin_cases index <;> fin_cases other <;> simp_all }
+
+example : plabicBoundaryPair.firstExit 0 (plabicBoundaryPair.start 0) = some (0, 1) := rfl
+
+example : plabicBoundaryPair.boundaryExitData 0 = (0, 1) := by
+  have same := plabicBoundaryPair.firstExit_unique 0 _ (plabicBoundaryPair.start 0)
+    0 (plabicBoundaryPair.boundaryExitData 0).1 1 (plabicBoundaryPair.boundaryExitData 0).2
+    rfl (plabicBoundaryPair.boundaryExitData_found 0)
+  exact Prod.ext same.1.symm same.2.symm
+
 example : (plabicStarRouting .black).decorated.perm 0 = 1 := rfl
 
 example : (plabicStarRouting .white).decorated.perm 0 = 2 := rfl
