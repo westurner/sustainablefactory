@@ -1606,6 +1606,37 @@ example : ((plabicStar .white).route 1 ((plabicStar .white).start 0)).dst =
 example : ((plabicStar .black).route 4 ((plabicStar .black).start 0)).dst =
     Sum.inl 1 := rfl
 
+example : (plabicStar .black).firstExit 0 ((plabicStar .black).start 0) = none := rfl
+
+example : (plabicStar .black).firstExit 1 ((plabicStar .black).start 0) =
+  some (1, 1) := rfl
+
+example : (plabicStar .white).firstExit 1 ((plabicStar .white).start 0) =
+  some (1, 2) := rfl
+
+example : (plabicStar .black).firstExit 4 ((plabicStar .black).start 0) =
+  some (1, 1) := rfl
+
+example : (plabicStar .black).firstExit 0
+  ((plabicStar .black).route 1 ((plabicStar .black).start 0)) = some (0, 1) := rfl
+
+example : ¬((plabicStar .black).firstExit 4 ((plabicStar .black).start 0) =
+  some (2, 1)) := by decide
+
+example : ∀ earlier < 1, ∀ index,
+  ((plabicStar .black).route earlier ((plabicStar .black).start 0)).dst ≠ Sum.inl index :=
+  ((plabicStar .black).firstExit_spec 4 ((plabicStar .black).start 0) 1 1 rfl).2.2
+
+example : ∀ index, ((plabicStar .black).route 0 ((plabicStar .black).start 0)).dst ≠
+  Sum.inl index :=
+  ((plabicStar .black).firstExit_none_iff 0 ((plabicStar .black).start 0)).mp rfl
+
+example (color : Signals.Plabic.NodeColor) (index : Fin 3) :
+  ∃ steps ≤ 1, (plabicStar color).firstExit 1 ((plabicStar color).start index) =
+    some (steps, (plabicStarRouting color).perm index) :=
+  (plabicStar color).firstExit_exists 1 ((plabicStar color).start index)
+  ((plabicStarRouting color).perm index) ((plabicStarRouting color).exits index)
+
 example : (plabicStarRouting .black).decorated.perm 0 = 1 := rfl
 
 example : (plabicStarRouting .white).decorated.perm 0 = 2 := rfl

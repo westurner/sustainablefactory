@@ -685,6 +685,27 @@ Validation: `Signals.Quadrature` passed at 3,399 jobs, `SignalsTests` at 3,577,
 and `make signals_build` at 3,593. All four report Lean blocks typechecked;
 HTML generation passed with 66 warnings, and `git diff --check` passed.
 
+### Iteration 8: Derived Bounded First-Exit Routing
+
+[Plabic.lean](../src/signals/Signals/Plabic.lean) now computes `firstExit`
+from a directed edge and fuel, returning an earliest step count and boundary
+label or an explicit fuel failure. Successful results satisfy the route
+equation, stay within the budget, and exclude every earlier boundary exit.
+Conversely, a boundary reached by the bounded route guarantees a successful
+search. Fuel failure is equivalent to the route still being internal at that
+budget. Any two successful budgets give the same count and boundary label.
+
+The existing star controls exercise black/white turns, insufficient fuel,
+already-terminal edges, extra-fuel stability, and rejection of a falsely
+delayed exit. Existing checked boundary routing provides a sufficient budget
+without prescribing the search's returned first-exit count.
+
+This is constructive bounded routing, not a proof that every arbitrary
+rotation system terminates at a globally derived bound. A general termination
+bound and boundary-map bijection, weighted acyclic measurements, embedding
+and cell correspondence, network moves and general Pluecker laws remain open.
+Fixed-point colors remain supplied data; no planarity or reducedness is inferred.
+
 ### Remaining Acceptance Obligations
 
 | Phase | Verified checkpoint | Still required |
@@ -692,7 +713,7 @@ HTML generation passed with 66 warnings, and `git diff --check` passed.
 | 0 | Regularity/positive-scale guards, nonempty finite-extent slit samples, arbitrary-wavelength analytic reference, phase/mask/off-axis controls, fixed-tolerance rejection. | Finite-area slit geometry and refinement belong to the continuum/quadrature track; fixtures are not measurements. |
 | 1 | Selected fixed-field planar area integral, guarded integrability, disjoint-mask addition. | Boundary approximation accuracy, incident/boundary data, dimensioned field normalization, and a justified Green representation or approximation bound. |
 | 2 | Actual measured-cell weights, derived Lipschitz/mesh/area error rate, refinement convergence, uniform-domain comparison and finite-aperture correspondence. | Prove uniform optical-kernel regularity from separation and a wavelength interval; construct a rectangular area mesh and prove the Fraunhofer limit. |
-| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative. | Weighted acyclic network measurements, constructive first-return exits, embedding/cell correspondence, network moves, general Pluecker relations, and any quotient construction. |
+| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded first-exit search with minimality, completeness, fuel-failure and budget-uniqueness laws. | General termination bound and derived boundary bijection, weighted acyclic network measurements, embedding/cell correspondence, network moves, general Pluecker relations, and any quotient construction. |
 | 4 | Affine alternating interval/triangle/square forms, oriented boundary limits, normalization, pullbacks, and diagonal cancellation/continuation. | General projective canonical-form existence/uniqueness, arbitrary-chart invariance and higher-dimensional amplituhedron forms. |
 | 5 | A literal unphased form-evaluation candidate is falsified without fitting. | Derive a dimensioned oscillatory complex evaluator and its invariances independently of the optical answer. |
 | 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds and separate error-budget composition. | A genuine geometric/classical equality or held-out uniform error theorem after both tracks meet their gates. |
@@ -705,8 +726,8 @@ the independent boundary, quadrature and network proof tracks remain available.
 
 ## Validation and Status
 
-The implementation loop's final gates passed: `SignalsTests` at 3,576 jobs,
-`make signals_build` at 3,592 jobs, all four concatenated report Lean fences,
+The latest completed iteration gates passed: `SignalsTests` at 3,577 jobs,
+`make signals_build` at 3,593 jobs, all four concatenated report Lean fences,
 Sphinx HTML, and scoped whitespace checks. Sphinx reported 66 warnings, with
 none attributed to this report by the focused warning filter. This is build
 verification, not a runtime optical experiment or a projective existence proof.

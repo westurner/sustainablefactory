@@ -308,8 +308,11 @@ interpretation while keeping experimental premises explicit:
    prescribed regularity constant; optical-kernel estimates and a rectangular
    far-field limit remain separate obligations.
 - `Signals.Plabic` provides colored finite rotation systems, single-orbit
-   cyclic-order requirements, bounded strand routing, and decorated boundary
-   permutations extracted from checked exit certificates. A rotation system
+   cyclic-order requirements, bounded strand routing, and a first-exit search
+   with derived minimality, bounded completeness, fuel-failure and
+   budget-uniqueness laws. Decorated boundary permutations still come from
+   checked exit certificates; general termination and bijection are not yet
+   derived. A rotation system
    does not itself certify a planar disk embedding or a positroid cell.
 - `Signals.Fabrication` models voxel fields, active phase masks, calibration
    tolerances, height-map bounds, and thermal budgets as data with accessor

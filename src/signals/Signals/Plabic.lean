@@ -104,11 +104,142 @@ lemma RotationSystem.route_boundary {boundaryCount internalCount : ℕ}
       rw [RotationSystem.route, induction_hypothesis]
       exact system.step_boundary edge index terminal
 
-/-- A checked finite exit certificate and bijective boundary labeling.
+/-- Moving the first step outside a bounded route leaves the same strand endpoint. -/
+lemma RotationSystem.route_succ_start {boundaryCount internalCount : ℕ}
+  (system : RotationSystem boundaryCount internalCount) (steps : ℕ) (edge : DirectedEdge system) :
+  system.route (steps + 1) edge = system.route steps (system.step edge) := by
+  induction steps with
+  | zero => rfl
+  | succ steps induction_hypothesis =>
+      exact congrArg system.step induction_hypothesis
 
-The permutation and finite step counts are supplied and checked against the
-route evaluator, not derived from unproved termination or planarity premises.
--/
+/-- Splitting a route into two consecutive bounded evaluations preserves its endpoint. -/
+lemma RotationSystem.route_add {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (steps extra : ℕ)
+    (edge : DirectedEdge system) :
+    system.route (steps + extra) edge = system.route extra (system.route steps edge) := by
+  induction extra with
+  | zero => rfl
+  | succ extra induction_hypothesis => exact congrArg system.step induction_hypothesis
+
+/-- Search for the first boundary exit, returning its step count or an explicit fuel failure. -/
+def RotationSystem.firstExit {boundaryCount internalCount : ℕ}
+  (system : RotationSystem boundaryCount internalCount) : ℕ → DirectedEdge system →
+    Option (ℕ × Fin boundaryCount)
+  | 0, edge => match edge.dst with
+    | Sum.inl index => some (0, index)
+    | Sum.inr _ => none
+  | fuel + 1, edge => match edge.dst with
+    | Sum.inl index => some (0, index)
+    | Sum.inr _ => (system.firstExit fuel (system.step edge)).map
+      (fun exit => (exit.1 + 1, exit.2))
+
+  /-- A successful search reaches the reported boundary within fuel, with no earlier boundary exit. -/
+  lemma RotationSystem.firstExit_spec {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (fuel : ℕ) (edge : DirectedEdge system)
+    (steps : ℕ) (index : Fin boundaryCount)
+    (result : system.firstExit fuel edge = some (steps, index)) :
+    steps ≤ fuel ∧ (system.route steps edge).dst = Sum.inl index ∧
+      ∀ earlier < steps, ∀ other, (system.route earlier edge).dst ≠ Sum.inl other := by
+    induction fuel generalizing edge steps index with
+    | zero =>
+      cases terminal : edge.dst with
+      | inl found =>
+        simp only [firstExit, terminal, Option.some.injEq, Prod.mk.injEq] at result
+        rcases result with ⟨rfl, rfl⟩
+        exact ⟨Nat.le_refl _, terminal, by intro earlier before; omega⟩
+      | inr _ => simp [firstExit, terminal] at result
+    | succ fuel induction_hypothesis =>
+      cases terminal : edge.dst with
+      | inl found =>
+        simp only [firstExit, terminal, Option.some.injEq, Prod.mk.injEq] at result
+        rcases result with ⟨rfl, rfl⟩
+        exact ⟨Nat.zero_le _, terminal, by intro earlier before; omega⟩
+      | inr _ =>
+        cases previous : system.firstExit fuel (system.step edge) with
+        | none => simp [firstExit, terminal, previous] at result
+        | some exit =>
+          rcases exit with ⟨previousSteps, previousIndex⟩
+          simp only [firstExit, terminal, previous, Option.map_some,
+          Option.some.injEq, Prod.mk.injEq] at result
+          rcases result with ⟨rfl, rfl⟩
+          obtain ⟨bound, destination, minimal⟩ :=
+          induction_hypothesis (system.step edge) previousSteps previousIndex previous
+          refine ⟨Nat.succ_le_succ bound, ?_, ?_⟩
+          · simpa only [route_succ_start] using destination
+          · intro earlier before other
+            cases earlier with
+            | zero => simp [route, terminal]
+            | succ earlier =>
+              have earlierBound : earlier < previousSteps := by omega
+              simpa only [route_succ_start] using minimal earlier earlierBound other
+
+  /-- Any boundary reached by the fuel-limited route is found by the first-exit search. -/
+  lemma RotationSystem.firstExit_exists {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (fuel : ℕ) (edge : DirectedEdge system)
+    (index : Fin boundaryCount) (terminal : (system.route fuel edge).dst = Sum.inl index) :
+    ∃ steps ≤ fuel, system.firstExit fuel edge = some (steps, index) := by
+    induction fuel generalizing edge with
+    | zero =>
+      exact ⟨0, Nat.le_refl _, by simp [firstExit, show edge.dst = Sum.inl index from terminal]⟩
+    | succ fuel induction_hypothesis =>
+      cases destination : edge.dst with
+      | inl found =>
+        have sameIndex : found = index := Sum.inl.inj (by
+          simpa only [system.route_boundary edge found destination (fuel + 1), destination]
+            using terminal)
+        exact ⟨0, Nat.zero_le _, by simp [firstExit, destination, sameIndex]⟩
+      | inr _ =>
+        rw [route_succ_start] at terminal
+        obtain ⟨steps, bound, result⟩ := induction_hypothesis (system.step edge) terminal
+        exact ⟨steps + 1, Nat.succ_le_succ bound, by simp [firstExit, destination, result]⟩
+
+/-- Fuel exhaustion is equivalent to reaching no boundary by the bounded route endpoint. -/
+lemma RotationSystem.firstExit_none_iff {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (fuel : ℕ) (edge : DirectedEdge system) :
+    system.firstExit fuel edge = none ↔
+      ∀ index, (system.route fuel edge).dst ≠ Sum.inl index := by
+  constructor
+  · intro result index terminal
+    obtain ⟨steps, _, found⟩ := system.firstExit_exists fuel edge index terminal
+    rw [result] at found
+    contradiction
+  · intro absent
+    cases result : system.firstExit fuel edge with
+    | none => rfl
+    | some exit =>
+      rcases exit with ⟨steps, index⟩
+      obtain ⟨bound, destination, _⟩ := system.firstExit_spec fuel edge steps index result
+      have extended : (system.route fuel edge).dst = Sum.inl index := by
+        rw [← Nat.add_sub_of_le bound, route_add,
+          system.route_boundary (system.route steps edge) index destination (fuel - steps)]
+        exact destination
+      exact False.elim (absent index extended)
+
+/-- Any two successful fuel budgets return the same earliest step count and boundary label. -/
+lemma RotationSystem.firstExit_unique {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (fuel otherFuel : ℕ)
+    (edge : DirectedEdge system) (steps otherSteps : ℕ) (index otherIndex : Fin boundaryCount)
+    (result : system.firstExit fuel edge = some (steps, index))
+    (otherResult : system.firstExit otherFuel edge = some (otherSteps, otherIndex)) :
+    steps = otherSteps ∧ index = otherIndex := by
+  obtain ⟨_, destination, minimal⟩ := system.firstExit_spec fuel edge steps index result
+  obtain ⟨_, otherDestination, otherMinimal⟩ :=
+    system.firstExit_spec otherFuel edge otherSteps otherIndex otherResult
+  have sameSteps : steps = otherSteps := by
+    apply le_antisymm
+    · by_contra! more
+      exact minimal otherSteps more otherIndex otherDestination
+    · by_contra! more
+      exact otherMinimal steps more index destination
+  refine ⟨sameSteps, Sum.inl.inj (destination.symm.trans ?_)⟩
+  simpa only [sameSteps] using otherDestination
+
+  /-- A checked finite exit certificate and bijective boundary labeling.
+
+  The permutation and finite step counts are supplied and checked against the
+  route evaluator, not derived from unproved termination or planarity premises.
+  -/
 structure BoundaryRouting {boundaryCount internalCount : ℕ}
     (system : RotationSystem boundaryCount internalCount) where
   perm : Equiv.Perm (Fin boundaryCount)
