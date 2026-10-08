@@ -1761,18 +1761,14 @@ example : ¬(∀ first second : Fin 3, ∃ steps : ℕ,
 open scoped NNReal in
 /-- A ranked two-edge chain is a nonconstant weighted-path control, not an optical phase model. -/
 def weightedChain : Signals.Plabic.WeightedAcyclicNetwork 3 2 :=
-  { level := fun vertex => vertex
-    weight := ![![0, 2, 0], ![0, 0, 3], ![0, 0, 0]]
-    ascending := by
-      intro first second nonzero
-      fin_cases first <;> fin_cases second <;> norm_num at * }
+  Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath 2 3
 
 /-- The independently specified two edge weights multiply in the finite boundary path sum. -/
 lemma weightedChain_transfer : weightedChain.transfer 0 2 = 6 := by
   simp only [Signals.Plabic.WeightedAcyclicNetwork.transfer, Finset.sum_range_succ,
     Finset.range_zero, Finset.sum_empty, zero_add, Matrix.add_apply,
     pow_zero, pow_one, pow_two, Matrix.one_apply, Matrix.mul_apply]
-  norm_num [weightedChain, Fin.sum_univ_succ]
+  norm_num [weightedChain, Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath, Fin.sum_univ_succ]
 
 example : weightedChain.boundaryMeasurement (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 2) 0 0 = 6 :=
   weightedChain_transfer
@@ -1781,7 +1777,7 @@ example : weightedChain.transfer 2 0 = 0 := by
   simp only [Signals.Plabic.WeightedAcyclicNetwork.transfer, Finset.sum_range_succ,
     Finset.range_zero, Finset.sum_empty, zero_add, Matrix.add_apply,
     pow_zero, pow_one, pow_two, Matrix.one_apply, Matrix.mul_apply]
-  norm_num [weightedChain, Fin.sum_univ_succ]
+  norm_num [weightedChain, Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath, Fin.sum_univ_succ]
 
 example : weightedChain.weight ^ 3 = 0 := weightedChain.nilpotent
 
@@ -1797,7 +1793,37 @@ example (network : Signals.Plabic.WeightedAcyclicNetwork 3 2)
   by_contra nonzero
   have impossible := network.ascending 2 0 nonzero
   rw [levels] at impossible
-  norm_num [weightedChain] at impossible
+  norm_num [weightedChain, Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath] at impossible
+
+example : (Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath 2 (6 / 2)).boundaryMeasurement
+    (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 2) =
+    (Signals.Plabic.WeightedAcyclicNetwork.oneEdgePath 6).boundaryMeasurement
+      (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 1) :=
+  Signals.Plabic.WeightedAcyclicNetwork.subdivision_boundary 6 2 (by norm_num)
+
+example : (Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath 2 (0 / 2)).boundaryMeasurement
+    (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 2) =
+    (Signals.Plabic.WeightedAcyclicNetwork.oneEdgePath 0).boundaryMeasurement
+      (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 1) :=
+  Signals.Plabic.WeightedAcyclicNetwork.subdivision_boundary 0 2 (by norm_num)
+
+example : ¬((Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath 0 (6 / 0)).boundaryMeasurement
+    (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 2) =
+    (Signals.Plabic.WeightedAcyclicNetwork.oneEdgePath 6).boundaryMeasurement
+      (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 1)) := by
+  intro invalidMove
+  have entry := congrArg (fun measurement : Matrix (Fin 1) (Fin 1) _ => measurement 0 0) invalidMove
+  change (Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath 0 (6 / 0)).transfer 0 2 =
+    (Signals.Plabic.WeightedAcyclicNetwork.oneEdgePath 6).transfer 0 1 at entry
+  rw [Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath_transfer,
+    Signals.Plabic.WeightedAcyclicNetwork.oneEdgePath_transfer] at entry
+  norm_num at entry
+
+example : ¬((Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath 2 6).transfer 0 2 =
+    (Signals.Plabic.WeightedAcyclicNetwork.oneEdgePath 6).transfer 0 1) := by
+  rw [Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath_transfer,
+    Signals.Plabic.WeightedAcyclicNetwork.oneEdgePath_transfer]
+  norm_num
 
 def toyCalibration : Calibration :=
   { expected := 10

@@ -324,8 +324,10 @@ interpretation while keeping experimental premises explicit:
    the same dart-count bound; direct boundary edges retain zero-step exits.
    Ranked nonnegative weighted networks derive long-path vanishing,
    nilpotency, cutoff-stable finite transfer, and selected boundary entries.
-   Ordered-minor positivity, embedding correspondence and network moves are
-   not inferred from these finite path sums.
+   A guarded one-edge subdivision preserves the one-source/one-sink boundary
+   matrix, with zero-factor and wrong-split rejection controls. Ordered-minor
+   positivity, embedding correspondence and general embedded-network moves
+   are not inferred from these finite path sums.
 - `Signals.Fabrication` models voxel fields, active phase masks, calibration
    tolerances, height-map bounds, and thermal budgets as data with accessor
    lemmas.

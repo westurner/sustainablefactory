@@ -617,4 +617,48 @@ noncomputable def WeightedAcyclicNetwork.boundaryMeasurement {vertexCount height
     Matrix (Fin sourceCount) (Fin sinkCount) ℝ≥0 :=
   fun source sink => network.transfer (sources source) (sinks sink)
 
+/-- A single weighted directed edge with source zero and sink one. -/
+def WeightedAcyclicNetwork.oneEdgePath (weight : ℝ≥0) : WeightedAcyclicNetwork 2 1 :=
+  { level := fun vertex => vertex
+    weight := ![![0, weight], ![0, 0]]
+    ascending := by
+      intro first second nonzero
+      fin_cases first <;> fin_cases second <;> norm_num at * }
+
+/-- A subdivided directed edge with an intermediate vertex and two independently supplied weights. -/
+def WeightedAcyclicNetwork.twoEdgePath (firstWeight secondWeight : ℝ≥0) :
+    WeightedAcyclicNetwork 3 2 :=
+  { level := fun vertex => vertex
+    weight := ![![0, firstWeight, 0], ![0, 0, secondWeight], ![0, 0, 0]]
+    ascending := by
+      intro first second nonzero
+      fin_cases first <;> fin_cases second <;> norm_num at * }
+
+/-- A single edge's actual finite path sum recovers its supplied edge weight. -/
+lemma WeightedAcyclicNetwork.oneEdgePath_transfer (weight : ℝ≥0) :
+    (oneEdgePath weight).transfer 0 1 = weight := by
+  simp only [transfer, Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
+    zero_add, Matrix.add_apply, pow_zero, pow_one, Matrix.one_apply]
+  simp [oneEdgePath]
+
+/-- A two-edge path's actual finite sum multiplies its two edge weights. -/
+lemma WeightedAcyclicNetwork.twoEdgePath_transfer (firstWeight secondWeight : ℝ≥0) :
+    (twoEdgePath firstWeight secondWeight).transfer 0 2 = firstWeight * secondWeight := by
+  simp only [transfer, Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
+    zero_add, Matrix.add_apply, pow_zero, pow_one, pow_two, Matrix.one_apply, Matrix.mul_apply]
+  simp [twoEdgePath, Fin.sum_univ_succ]
+
+/-- Subdivision by a nonzero factor preserves the complete one-source/one-sink boundary matrix. -/
+lemma WeightedAcyclicNetwork.subdivision_boundary (weight factor : ℝ≥0) (nonzero : factor ≠ 0) :
+    (twoEdgePath factor (weight / factor)).boundaryMeasurement
+      (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 2) =
+    (oneEdgePath weight).boundaryMeasurement (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 1) := by
+  apply Matrix.ext
+  intro source sink
+  change (twoEdgePath factor (weight / factor)).transfer 0 2 = (oneEdgePath weight).transfer 0 1
+  rw [twoEdgePath_transfer, oneEdgePath_transfer, div_eq_mul_inv]
+  calc
+    factor * (weight * factor⁻¹) = weight * (factor * factor⁻¹) := by ac_rfl
+    _ = weight := by rw [mul_inv_cancel₀ nonzero, mul_one]
+
 end Signals.Plabic
