@@ -271,7 +271,12 @@ interpretation while keeping experimental premises explicit:
    Negative minors remain valid in the unrestricted matrix layer. Twistor
    incidence and additive shear translations, alternating-map maximal minors,
    full-rank nonnegative representatives, and four-index orbital
-   angular-momentum shifts extend this algebraic layer.
+   angular-momentum shifts extend this algebraic layer. The general row
+   basis-change law scales minors by the determinant; positive determinant
+   changes preserve positive and full-rank nonnegative representatives, while
+   orientation reversal need not. Nonsingular ratio invariance and a normalized
+   positive interval cell are proved without constructing a quotient or
+   identifying a weighted network cell.
 - `Signals.Huygens` provides finite scalar aperture quadrature in three spatial
    dimensions, independent slit masks, coherent intensity cross terms, and
    finite action-phase sums. `RegularSlitEvaluation` gates a compatible

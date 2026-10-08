@@ -577,6 +577,25 @@ boundary-approximation accuracy theorem is absent. Phase 2 remains open:
 finite weights, mesh size, wavelength resolution, uniform convergence, and
 the rectangular-slit Fraunhofer limit have not been connected to this integral.
 
+### Iteration 4: Grassmannian Basis and a Positive Cell
+
+[Geometry.lean](../src/signals/Signals/Geometry.lean) proves
+`selectedMinor_basisChange` for arbitrary finite row/column sizes. Every
+ordered maximal minor acquires the same determinant factor. Nonsingular
+basis changes preserve totalized ratios; use a nonzero denominator for a
+chart interpretation. Positive determinant changes preserve both positive
+representatives and the full-rank nonnegative boundary record. A supplied
+ordered-column witness allows the negative-determinant rejection theorem to
+exclude vacuous positivity.
+
+`PositiveGrassmannian.intervalCell` constructs the normalized representative
+$[t,1-t]$ from $0<t<1$, rather than postulating its positive minors. Tests
+check $t=1/3$, positive row rescaling, a retained boundary zero, negative
+orientation rejection, and ratio invariance under orientation reversal.
+This is a positive representative, not a Grassmannian quotient or a weighted
+network/cell correspondence. Constructive strand exits, weighted measurements,
+network moves, and general Pluecker relations remain phase-3 obligations.
+
 ## Validation and Status
 
 For this review, all seven indexed Lean source files typechecked against the

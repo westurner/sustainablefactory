@@ -57,6 +57,40 @@ def GrassmannianMatrix.pluckerCoordinate
     (columns : OrderedColumns k n) : ℝ :=
   selectedMinor grassmannian.mat columns
 
+/-- Left multiplication by a row basis matrix scales every maximal minor by its determinant. -/
+lemma selectedMinor_basisChange {k n : ℕ} (basis : Matrix (Fin k) (Fin k) ℝ)
+    (matrix : Matrix (Fin k) (Fin n) ℝ) (columns : OrderedColumns k n) :
+    selectedMinor (basis * matrix) columns = basis.det * selectedMinor matrix columns := by
+  have selection : (basis * matrix).submatrix id columns.index =
+      basis * matrix.submatrix id columns.index := by
+    ext row column
+    simp [Matrix.mul_apply, Matrix.submatrix]
+  rw [selectedMinor, selection, Matrix.det_mul]
+  rfl
+
+/-- Change the row representative without quotienting by the basis action. -/
+def GrassmannianMatrix.changeBasis {k n : ℕ} (grassmannian : GrassmannianMatrix k n)
+    (basis : Matrix (Fin k) (Fin k) ℝ) : GrassmannianMatrix k n :=
+  ⟨basis * grassmannian.mat⟩
+
+/-- Every Pluecker coordinate transforms by the same determinant factor. -/
+lemma GrassmannianMatrix.pluckerCoordinate_basisChange {k n : ℕ}
+    (grassmannian : GrassmannianMatrix k n) (basis : Matrix (Fin k) (Fin k) ℝ)
+    (columns : OrderedColumns k n) :
+    (grassmannian.changeBasis basis).pluckerCoordinate columns =
+      basis.det * grassmannian.pluckerCoordinate columns :=
+  selectedMinor_basisChange basis grassmannian.mat columns
+
+/-- Pluecker ratios are invariant under any nonsingular row basis change, including orientation reversal. -/
+lemma GrassmannianMatrix.pluckerRatio_basisChange {k n : ℕ}
+    (grassmannian : GrassmannianMatrix k n) (basis : Matrix (Fin k) (Fin k) ℝ)
+    (nonsingular : basis.det ≠ 0) (first second : OrderedColumns k n) :
+    (grassmannian.changeBasis basis).pluckerCoordinate first /
+        (grassmannian.changeBasis basis).pluckerCoordinate second =
+      grassmannian.pluckerCoordinate first / grassmannian.pluckerCoordinate second := by
+  rw [grassmannian.pluckerCoordinate_basisChange, grassmannian.pluckerCoordinate_basisChange]
+  exact mul_div_mul_left _ _ nonsingular
+
 /-- Every ordered maximal minor is strictly positive. -/
 def GrassmannianMatrix.hasPositiveOrderedMinors
     {k n : ℕ} (grassmannian : GrassmannianMatrix k n) : Prop :=
@@ -130,6 +164,53 @@ def PositiveGrassmannian.toNonnegative {k n : ℕ}
   { toGrassmannianMatrix := grassmannian.toGrassmannianMatrix
     nonnegative := fun selection => le_of_lt (grassmannian.strictly_positive selection)
     nonzero_minor := ⟨columns, ne_of_gt (grassmannian.strictly_positive columns)⟩ }
+
+/-- Orientation-preserving basis changes preserve positive representatives. -/
+def PositiveGrassmannian.changeBasis {k n : ℕ} (grassmannian : PositiveGrassmannian k n)
+    (basis : Matrix (Fin k) (Fin k) ℝ) (orientation : 0 < basis.det) : PositiveGrassmannian k n :=
+  { toGrassmannianMatrix := grassmannian.toGrassmannianMatrix.changeBasis basis
+    strictly_positive := by
+      intro columns
+      rw [GrassmannianMatrix.pluckerCoordinate_basisChange]
+      exact mul_pos orientation (grassmannian.strictly_positive columns) }
+
+/-- Orientation-preserving changes also preserve boundary zeros and a full-rank witness. -/
+def NonnegativeGrassmannian.changeBasis {k n : ℕ} (grassmannian : NonnegativeGrassmannian k n)
+    (basis : Matrix (Fin k) (Fin k) ℝ) (orientation : 0 < basis.det) : NonnegativeGrassmannian k n :=
+  { toGrassmannianMatrix := grassmannian.toGrassmannianMatrix.changeBasis basis
+    nonnegative := by
+      intro columns
+      rw [GrassmannianMatrix.pluckerCoordinate_basisChange]
+      exact mul_nonneg (le_of_lt orientation) (grassmannian.nonnegative columns)
+    nonzero_minor := by
+      obtain ⟨columns, nonzero⟩ := grassmannian.nonzero_minor
+      refine ⟨columns, ?_⟩
+      rw [GrassmannianMatrix.pluckerCoordinate_basisChange]
+      exact mul_ne_zero (ne_of_gt orientation) nonzero }
+
+/-- A negative determinant reverses every positive minor, so positivity is not invariant under GL(k). -/
+lemma PositiveGrassmannian.not_positive_of_det_neg {k n : ℕ}
+    (grassmannian : PositiveGrassmannian k n) (basis : Matrix (Fin k) (Fin k) ℝ)
+    (orientation : basis.det < 0) (columns : OrderedColumns k n) :
+    ¬(grassmannian.toGrassmannianMatrix.changeBasis basis).hasPositiveOrderedMinors := by
+  intro positive
+  have alleged := positive columns
+  rw [GrassmannianMatrix.pluckerCoordinate_basisChange] at alleged
+  exact (not_lt_of_gt (mul_neg_of_neg_of_pos orientation (grassmannian.strictly_positive columns)))
+    alleged
+
+/-- A normalized one-dimensional positive cell with representative [t, 1-t]. -/
+def PositiveGrassmannian.intervalCell (coordinate : ℝ) (lower : 0 < coordinate)
+    (upper : coordinate < 1) : PositiveGrassmannian 1 2 :=
+  { mat := !![coordinate, 1 - coordinate]
+    strictly_positive := by
+      intro columns
+      rw [GrassmannianMatrix.pluckerCoordinate, selectedMinor, Matrix.det_fin_one]
+      change 0 < (!![coordinate, 1 - coordinate] : Matrix (Fin 1) (Fin 2) ℝ) 0 (columns.index 0)
+      generalize columns.index 0 = column
+      fin_cases column
+      · simpa using lower
+      · simpa using sub_pos.mpr upper }
 
 /-! ## Massive spinor-helicity bookkeeping
 

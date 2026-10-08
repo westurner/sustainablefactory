@@ -1002,6 +1002,53 @@ example : ¬(⟨0⟩ : GrassmannianMatrix 1 1).hasPositiveOrderedMinors := by
   norm_num [GrassmannianMatrix.pluckerCoordinate, selectedMinor,
     Matrix.det_fin_one, Matrix.submatrix] at zero_positive
 
+/-- A nonzero interior representative with a normalized interval parameter. -/
+noncomputable def intervalThirdCell : PositiveGrassmannian 1 2 :=
+  PositiveGrassmannian.intervalCell (1 / 3) (by norm_num) (by norm_num)
+
+example (basis : Matrix (Fin 2) (Fin 2) ℝ) (matrix : Matrix2x4)
+    (columns : OrderedColumns 2 4) :
+    selectedMinor (basis * matrix) columns = basis.det * selectedMinor matrix columns :=
+  selectedMinor_basisChange _ _ _
+
+example : intervalThirdCell.pluckerCoordinate (singletonColumns 0) = 1 / 3 := by
+  norm_num [intervalThirdCell, PositiveGrassmannian.intervalCell,
+    GrassmannianMatrix.pluckerCoordinate, selectedMinor, singletonColumns,
+    Matrix.det_fin_one, Matrix.submatrix]
+
+example : intervalThirdCell.pluckerCoordinate (singletonColumns 1) = 2 / 3 := by
+  norm_num [intervalThirdCell, PositiveGrassmannian.intervalCell,
+    GrassmannianMatrix.pluckerCoordinate, selectedMinor, singletonColumns,
+    Matrix.det_fin_one, Matrix.submatrix]
+
+example : (intervalThirdCell.changeBasis !![3] (by norm_num [Matrix.det_fin_one])).pluckerCoordinate
+    (singletonColumns 0) = 1 := by
+  norm_num [PositiveGrassmannian.changeBasis, GrassmannianMatrix.changeBasis,
+    intervalThirdCell, PositiveGrassmannian.intervalCell,
+    GrassmannianMatrix.pluckerCoordinate, selectedMinor, singletonColumns,
+    Matrix.det_fin_one, Matrix.submatrix, Matrix.mul_apply, Fin.sum_univ_one]
+
+example : (boundaryGrassmannian.changeBasis !![3] (by norm_num [Matrix.det_fin_one])).pluckerCoordinate
+    (singletonColumns 1) = 0 := by
+  change (boundaryGrassmannian.toGrassmannianMatrix.changeBasis !![3]).pluckerCoordinate
+    (singletonColumns 1) = 0
+  rw [GrassmannianMatrix.pluckerCoordinate_basisChange]
+  norm_num [GrassmannianMatrix.pluckerCoordinate, selectedMinor,
+    boundaryGrassmannian, singletonColumns, Matrix.det_fin_one, Matrix.submatrix]
+
+example : ¬(intervalThirdCell.toGrassmannianMatrix.changeBasis !![-2]).hasPositiveOrderedMinors :=
+  intervalThirdCell.not_positive_of_det_neg !![-2] (by norm_num [Matrix.det_fin_one])
+    (singletonColumns 0)
+
+example : (intervalThirdCell.toGrassmannianMatrix.changeBasis !![-2]).pluckerCoordinate
+      (singletonColumns 0) /
+    (intervalThirdCell.toGrassmannianMatrix.changeBasis !![-2]).pluckerCoordinate
+      (singletonColumns 1) =
+    intervalThirdCell.pluckerCoordinate (singletonColumns 0) /
+      intervalThirdCell.pluckerCoordinate (singletonColumns 1) :=
+  intervalThirdCell.toGrassmannianMatrix.pluckerRatio_basisChange !![-2]
+    (by norm_num [Matrix.det_fin_one]) _ _
+
 example : Signals.Huygens.intensity ((1 : ℂ) + 1) = 4 := by
   norm_num [Signals.Huygens.intensity, Complex.normSq]
 
