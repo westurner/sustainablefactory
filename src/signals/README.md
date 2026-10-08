@@ -281,7 +281,12 @@ interpretation while keeping experimental premises explicit:
    reference, complex transmission scaling, and `AmplitudeComparison` support
    nonempty fixed-domain comparisons that reject wrong phases at fixed
    tolerances. These are classical finite-model controls, not an amplituhedron
-   evaluator or a continuum path integral.
+   evaluator or a continuum path integral. `FixedPlanarField` integrates an
+   explicitly approximate fixed scalar density against planar area, with
+   regularity/integrability guards and disjoint-mask addition. Absolute
+   intensity-error and additive amplitude-error laws preserve dark-fringe
+   and separate-budget controls. No boundary-solution accuracy theorem or
+   mesh convergence rate is asserted.
 - `Signals.Plabic` provides colored finite rotation systems, single-orbit
    cyclic-order requirements, bounded strand routing, and decorated boundary
    permutations extracted from checked exit certificates. A rotation system

@@ -1237,6 +1237,62 @@ example : ¬Signals.Huygens.AmplitudeComparison (fourPathReference symmetricSlit
   intro comparison
   simpa using comparison.domain_nonempty
 
+/-- Unit-amplitude error against a dark reference saturates the absolute intensity bound. -/
+example : |Signals.Huygens.intensity (1 : ℂ) - Signals.Huygens.intensity 0| =
+    ‖(1 : ℂ) - 0‖ * (‖(1 : ℂ)‖ + ‖(0 : ℂ)‖) := by
+  norm_num [Signals.Huygens.intensity, Complex.normSq]
+
+example (candidate classical : Signals.Huygens.Point3 → ℂ)
+    (comparison : Signals.Huygens.AmplitudeComparison candidate classical
+      {detector | detector 2 = 1} (1 / 4)) :
+    |Signals.Huygens.intensity (candidate ![1, 2, 1]) -
+      Signals.Huygens.intensity (classical ![1, 2, 1])| ≤
+    (1 / 4) * (‖candidate ![1, 2, 1]‖ + ‖classical ![1, 2, 1]‖) :=
+  comparison.intensityError _ rfl
+
+example (first intermediate classical : Signals.Huygens.Point3 → ℂ)
+    (firstComparison : Signals.Huygens.AmplitudeComparison first intermediate Set.univ (1 / 4))
+    (secondComparison : Signals.Huygens.AmplitudeComparison intermediate classical Set.univ (1 / 2)) :
+    Signals.Huygens.AmplitudeComparison first classical Set.univ (3 / 4) := by
+  have sum : (1 / 4 : ℝ) + 1 / 2 = 3 / 4 := by norm_num
+  exact sum ▸ firstComparison.compose secondComparison
+
+/-- A fixed planar scalar field with an explicit unit normalization, not an exact boundary solution. -/
+def toyPlanarField : Signals.Huygens.FixedPlanarField :=
+  { wave := symmetricSlits.wave
+    source := ![0, 0, -1]
+    height := 0
+    transmission := fun _ => 1
+    normalization := 1 }
+
+example (coordinate : ℝ × ℝ) :
+    toyPlanarField.point coordinate ≠ toyPlanarField.source ∧
+      toyPlanarField.point coordinate ≠ ![1, 2, 1] := by
+  constructor <;> intro equal
+  all_goals
+    have impossible := congrFun equal 2
+    norm_num [toyPlanarField, Signals.Huygens.FixedPlanarField.point] at impossible
+
+example : ¬Signals.Huygens.IntegrablePlanarEvaluation toyPlanarField {(0, 0)} ![0, 0, 0] := by
+  intro evaluation
+  have distinct := (evaluation.regular (0, 0) (Set.mem_singleton _)).2
+  exact distinct rfl
+
+example (first second : Set (ℝ × ℝ)) (disjoint : Disjoint first second)
+    (secondMeasurable : MeasurableSet second)
+    (firstEvaluation : Signals.Huygens.IntegrablePlanarEvaluation toyPlanarField first ![1, 2, 1])
+    (secondEvaluation : Signals.Huygens.IntegrablePlanarEvaluation toyPlanarField second ![1, 2, 1]) :
+    toyPlanarField.amplitude (first ∪ second) ![1, 2, 1] =
+      toyPlanarField.amplitude first ![1, 2, 1] + toyPlanarField.amplitude second ![1, 2, 1] :=
+  toyPlanarField.amplitude_union _ _ _ disjoint secondMeasurable firstEvaluation secondEvaluation
+
+example (measure : MeasureTheory.Measure (ℝ × ℝ)) [MeasureTheory.IsProbabilityMeasure measure] :
+    ‖(∫ _, (1 : ℂ) ∂measure) - (∫ _, (0 : ℂ) ∂measure)‖ ≤ 1 := by
+  have bound := Signals.Huygens.integral_error_le measure (fun _ => (1 : ℂ)) (fun _ => 0)
+    (MeasureTheory.integrable_const _) (MeasureTheory.integrable_const _) 1
+    (Filter.Eventually.of_forall (fun _ => by simp))
+  exact bound.trans_eq (by simp)
+
 /-- A three-spoke graph with three boundary vertices and one internal vertex. -/
 def plabicStarGraph : SimpleGraph (Signals.Plabic.Vertex 3 1) where
   Adj left right := match left, right with

@@ -1,6 +1,8 @@
 import Mathlib.Analysis.Complex.Exponential
 import Mathlib.Analysis.Complex.Trigonometric
 import Mathlib.Analysis.SpecialFunctions.Sqrt
+import Mathlib.MeasureTheory.Integral.Bochner.Set
+import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 import Mathlib.Tactic
 import Signals.Units
 
@@ -217,6 +219,108 @@ lemma AmplitudeComparison.reject {Detector : Type*} (candidate classical : Detec
     ¬AmplitudeComparison candidate classical domain tolerance := by
   intro comparison
   exact (not_le_of_gt disagreement) (comparison.amplitudeError detector member)
+
+/-- Absolute intensity error stays controlled even when the reference intensity vanishes. -/
+lemma intensity_error_le (candidate classical : ℂ) :
+    |intensity candidate - intensity classical| ≤
+      ‖candidate - classical‖ * (‖candidate‖ + ‖classical‖) := by
+  have factor : ‖candidate‖ ^ 2 - ‖classical‖ ^ 2 =
+      (‖candidate‖ - ‖classical‖) * (‖candidate‖ + ‖classical‖) := by ring
+  rw [intensity, intensity, Complex.normSq_eq_norm_sq, Complex.normSq_eq_norm_sq,
+    factor, abs_mul, abs_of_nonneg (add_nonneg (norm_nonneg _) (norm_nonneg _))]
+  exact mul_le_mul_of_nonneg_right (abs_norm_sub_norm_le candidate classical) (by positivity)
+
+/-- A certified amplitude comparison yields an absolute, not relative, intensity error. -/
+lemma AmplitudeComparison.intensityError {Detector : Type*} {candidate classical : Detector → ℂ}
+    {domain : Set Detector} {tolerance : ℝ}
+    (comparison : AmplitudeComparison candidate classical domain tolerance)
+    (detector : Detector) (member : detector ∈ domain) :
+    |intensity (candidate detector) - intensity (classical detector)| ≤
+      tolerance * (‖candidate detector‖ + ‖classical detector‖) :=
+  (intensity_error_le _ _).trans
+    (mul_le_mul_of_nonneg_right (comparison.amplitudeError detector member) (by positivity))
+
+/-- Composition keeps two independently certified amplitude-error budgets separate and additive. -/
+lemma AmplitudeComparison.compose {Detector : Type*} {candidate intermediate classical : Detector → ℂ}
+    {domain : Set Detector} {firstTolerance secondTolerance : ℝ}
+    (first : AmplitudeComparison candidate intermediate domain firstTolerance)
+    (second : AmplitudeComparison intermediate classical domain secondTolerance) :
+    AmplitudeComparison candidate classical domain (firstTolerance + secondTolerance) := by
+  refine ⟨first.domain_nonempty, add_nonneg first.tolerance_nonnegative
+    second.tolerance_nonnegative, ?_⟩
+  intro detector member
+  calc
+    ‖candidate detector - classical detector‖ =
+        ‖(candidate detector - intermediate detector) +
+          (intermediate detector - classical detector)‖ := by congr 1; ring
+    _ ≤ ‖candidate detector - intermediate detector‖ +
+        ‖intermediate detector - classical detector‖ := norm_add_le _ _
+    _ ≤ firstTolerance + secondTolerance :=
+      add_le_add (first.amplitudeError detector member) (second.amplitudeError detector member)
+
+/-- Fixed scalar two-kernel planar-aperture data, not an exact Helmholtz boundary solution.
+
+Coordinates use metres and integration uses planar Lebesgue area. Transmission
+and normalization include the chosen source, quadrature, and obliquity convention;
+they do not supply an irradiance calibration or change when the aperture mask changes.
+-/
+structure FixedPlanarField where
+  wave : MonochromaticWave
+  source : Point3
+  height : ℝ
+  transmission : ℝ × ℝ → ℂ
+  normalization : ℂ
+
+/-- Embed aperture coordinates in the fixed plane. -/
+def FixedPlanarField.point (field : FixedPlanarField) (coordinate : ℝ × ℝ) : Point3 :=
+  ![coordinate.1, coordinate.2, field.height]
+
+/-- The fixed-field approximation density under the explicitly supplied normalization. -/
+noncomputable def FixedPlanarField.density (field : FixedPlanarField) (detector : Point3)
+    (coordinate : ℝ × ℝ) : ℂ :=
+  field.normalization * field.transmission coordinate *
+    field.wave.kernel field.source (field.point coordinate) *
+    field.wave.kernel (field.point coordinate) detector
+
+/-- Integrate the fixed scalar field against area in the aperture's two-dimensional coordinates. -/
+noncomputable def FixedPlanarField.amplitude (field : FixedPlanarField)
+    (region : Set (ℝ × ℝ)) (detector : Point3) : ℂ :=
+  ∫ coordinate in region, field.density detector coordinate
+
+/-- Evaluation requires regular propagation and integrability rather than totalized bad integrals. -/
+structure IntegrablePlanarEvaluation (field : FixedPlanarField) (region : Set (ℝ × ℝ))
+    (detector : Point3) : Prop where
+  regular : ∀ coordinate ∈ region,
+    field.point coordinate ≠ field.source ∧ field.point coordinate ≠ detector
+  integrable : MeasureTheory.IntegrableOn (field.density detector) region
+
+/-- A proof-gated continuum amplitude for the selected fixed-field approximation. -/
+noncomputable def FixedPlanarField.regularAmplitude (field : FixedPlanarField)
+    (region : Set (ℝ × ℝ)) (detector : Point3)
+    (_evaluation : IntegrablePlanarEvaluation field region detector) : ℂ :=
+  field.amplitude region detector
+
+/-- Disjoint-mask addition uses the same incident field and propagation convention on both regions. -/
+lemma FixedPlanarField.amplitude_union (field : FixedPlanarField) (first second : Set (ℝ × ℝ))
+    (detector : Point3) (disjoint : Disjoint first second) (secondMeasurable : MeasurableSet second)
+    (firstEvaluation : IntegrablePlanarEvaluation field first detector)
+    (secondEvaluation : IntegrablePlanarEvaluation field second detector) :
+    field.amplitude (first ∪ second) detector =
+      field.amplitude first detector + field.amplitude second detector :=
+  MeasureTheory.setIntegral_union disjoint secondMeasurable
+    firstEvaluation.integrable secondEvaluation.integrable
+
+/-- A finite-area pointwise density error controls the integral error; it is not a quadrature rate. -/
+lemma integral_error_le {Coordinate : Type*} [MeasurableSpace Coordinate]
+    (measure : MeasureTheory.Measure Coordinate) [MeasureTheory.IsFiniteMeasure measure]
+    (candidate classical : Coordinate → ℂ)
+    (candidateIntegrable : MeasureTheory.Integrable candidate measure)
+    (classicalIntegrable : MeasureTheory.Integrable classical measure) (error : ℝ)
+    (densityError : ∀ᵐ coordinate ∂measure, ‖candidate coordinate - classical coordinate‖ ≤ error) :
+    ‖(∫ coordinate, candidate coordinate ∂measure) -
+      (∫ coordinate, classical coordinate ∂measure)‖ ≤ error * measure.real Set.univ := by
+  rw [← MeasureTheory.integral_sub candidateIntegrable classicalIntegrable]
+  exact MeasureTheory.norm_integral_le_of_norm_le_const densityError
 
 /-- Two finite slit apertures with independent open/closed boundary masks. -/
 structure DoubleSlit (firstCount secondCount : ℕ) where

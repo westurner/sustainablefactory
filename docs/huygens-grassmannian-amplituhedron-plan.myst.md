@@ -552,6 +552,31 @@ reference is another evaluation of the same classical discrete propagation
 model, not a geometric evaluator, continuum boundary solution, calibrated
 measurement, or amplituhedron bridge. No geometric Pending match is promoted.
 
+### Iteration 3: Fixed-Field Continuum and Absolute Error
+
+`FixedPlanarField` chooses the explicitly approximate scalar two-kernel model,
+with fixed transmission and normalization. It embeds metre-valued aperture
+coordinates in a plane and integrates the density against Lebesgue area on
+$\mathbb R^2$. `IntegrablePlanarEvaluation` requires both integrability and
+absence of source/sample or detector/sample coincidence. Disjoint-mask
+addition is proved for the same field, not for separately solved boundary
+conditions. No assertion of an exact Helmholtz or Maxwell representation is
+introduced.
+
+`intensity_error_le` proves the absolute amplitude-to-intensity inequality above,
+including a zero-intensity reference. Comparison composition adds independent
+error budgets without conflating them. `integral_error_le` derives an integral
+error from an almost-everywhere density bound and a finite measure. It does
+not derive that density bound from the existing sample mesh.
+
+Tests cover a dark reference, off-axis comparison error, separate $1/4$ and
+$1/2$ budgets, regular planar propagation, singular-domain rejection,
+fixed-field union addition under explicit integrability, and nonzero constant
+integration error on a probability measure. Phase 1 remains partial: the
+boundary-approximation accuracy theorem is absent. Phase 2 remains open:
+finite weights, mesh size, wavelength resolution, uniform convergence, and
+the rectangular-slit Fraunhofer limit have not been connected to this integral.
+
 ## Validation and Status
 
 For this review, all seven indexed Lean source files typechecked against the
