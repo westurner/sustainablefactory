@@ -274,7 +274,11 @@ interpretation while keeping experimental premises explicit:
    angular-momentum shifts extend this algebraic layer.
 - `Signals.Huygens` provides finite scalar aperture quadrature in three spatial
    dimensions, independent slit masks, coherent intensity cross terms, and
-   finite action-phase sums. It does not define a continuum path integral.
+   finite action-phase sums. `RegularSlitEvaluation` gates a compatible
+   evaluator, `ApertureSeparation` supplies positive denominator bounds, and
+   `ActionScale` rejects zero or negative action scales. The original raw
+   algebraic evaluators remain available. It does not define a continuum path
+   integral.
 - `Signals.Plabic` provides colored finite rotation systems, single-orbit
    cyclic-order requirements, bounded strand routing, and decorated boundary
    permutations extracted from checked exit certificates. A rotation system

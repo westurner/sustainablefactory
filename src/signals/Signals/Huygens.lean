@@ -29,6 +29,23 @@ noncomputable def distance (source detector : Point3) : ℝ :=
 lemma distance_self (point : Point3) : distance point point = 0 := by
   simp [distance, squaredDistance]
 
+/-- Squared Euclidean separation is nonnegative. -/
+lemma squaredDistance_nonnegative (source detector : Point3) :
+    0 ≤ squaredDistance source detector :=
+  Finset.sum_nonneg (fun coordinate _ => sq_nonneg (detector coordinate - source coordinate))
+
+/-- Distinct points have strictly positive separation. -/
+lemma distance_pos_of_ne (source detector : Point3) (distinct : source ≠ detector) :
+    0 < distance source detector := by
+  obtain ⟨coordinate, unequal⟩ := Function.ne_iff.mp distinct
+  have positive : 0 < (detector coordinate - source coordinate) ^ 2 :=
+    sq_pos_of_ne_zero (sub_ne_zero.mpr unequal.symm)
+  have lowerBound : (detector coordinate - source coordinate) ^ 2 ≤
+      squaredDistance source detector :=
+    Finset.single_le_sum (fun index _ => sq_nonneg (detector index - source index))
+      (Finset.mem_univ coordinate)
+  exact Real.sqrt_pos.mpr (lt_of_lt_of_le positive lowerBound)
+
 /-- A scalar monochromatic wavelength with an explicit positive length. -/
 structure MonochromaticWave where
   wavelength : Signals.Units.Length
@@ -69,6 +86,55 @@ lemma Aperture.amplitude_empty (aperture : Aperture 0)
     (wave : MonochromaticWave) (source detector : Point3) :
     aperture.amplitude wave source detector = 0 := by
   simp [Aperture.amplitude]
+
+/-- Coincidence with a source sample is rejected by the regularity predicate. -/
+lemma Aperture.not_regularAt_source {sampleCount : ℕ} (aperture : Aperture sampleCount)
+    (source detector : Point3) (sample : Fin sampleCount)
+    (coincident : aperture.point sample = source) : ¬aperture.regularAt source detector := by
+  intro regular
+  exact (regular sample).1 coincident
+
+/-- Coincidence with a detector sample is rejected by the regularity predicate. -/
+lemma Aperture.not_regularAt_detector {sampleCount : ℕ} (aperture : Aperture sampleCount)
+    (source detector : Point3) (sample : Fin sampleCount)
+    (coincident : aperture.point sample = detector) : ¬aperture.regularAt source detector := by
+  intro regular
+  exact (regular sample).2 coincident
+
+/-- Regular source-to-sample propagation has a positive denominator distance. -/
+lemma Aperture.source_distance_pos {sampleCount : ℕ} (aperture : Aperture sampleCount)
+    (source detector : Point3) (regular : aperture.regularAt source detector)
+    (sample : Fin sampleCount) : 0 < distance source (aperture.point sample) :=
+  distance_pos_of_ne _ _ (regular sample).1.symm
+
+/-- Regular sample-to-detector propagation has a positive denominator distance. -/
+lemma Aperture.detector_distance_pos {sampleCount : ℕ} (aperture : Aperture sampleCount)
+    (source detector : Point3) (regular : aperture.regularAt source detector)
+    (sample : Fin sampleCount) : 0 < distance (aperture.point sample) detector :=
+  distance_pos_of_ne _ _ (regular sample).2
+
+/-- A supplied positive lower bound on all finite source and detector separations. -/
+structure ApertureSeparation {sampleCount : ℕ} (aperture : Aperture sampleCount)
+    (source detector : Point3) where
+  minimum : Signals.Units.Length
+  minimum_positive : 0 < minimum.meters
+  sourceBound : ∀ sample, minimum.meters ≤ distance source (aperture.point sample)
+  detectorBound : ∀ sample, minimum.meters ≤ distance (aperture.point sample) detector
+
+/-- A positive separation certificate implies regularity without totalized singular values. -/
+lemma ApertureSeparation.regular {sampleCount : ℕ} {aperture : Aperture sampleCount}
+    {source detector : Point3} (separation : ApertureSeparation aperture source detector) :
+    aperture.regularAt source detector := by
+  intro sample
+  constructor
+  · intro coincident
+    have bound := separation.sourceBound sample
+    rw [coincident, distance_self] at bound
+    exact (not_le_of_gt separation.minimum_positive) bound
+  · intro coincident
+    have bound := separation.detectorBound sample
+    rw [coincident, distance_self] at bound
+    exact (not_le_of_gt separation.minimum_positive) bound
 
 /-- Squared complex amplitude, without detector or power calibration. -/
 def intensity (amplitude : ℂ) : ℝ := Complex.normSq amplitude
@@ -112,6 +178,24 @@ noncomputable def DoubleSlit.amplitude {firstCount secondCount : ℕ}
 noncomputable def DoubleSlit.intensity {firstCount secondCount : ℕ}
     (slits : DoubleSlit firstCount secondCount) (detector : Point3) : ℝ :=
   Signals.Huygens.intensity (slits.amplitude detector)
+
+/-- Conservative regularity requires both apertures to avoid coincident points, even if masked. -/
+structure RegularSlitEvaluation {firstCount secondCount : ℕ}
+    (slits : DoubleSlit firstCount secondCount) (detector : Point3) : Prop where
+  firstRegular : slits.first.regularAt slits.source detector
+  secondRegular : slits.second.regularAt slits.source detector
+
+/-- Evaluate only after a caller supplies regularity for both finite apertures. -/
+noncomputable def DoubleSlit.regularAmplitude {firstCount secondCount : ℕ}
+    (slits : DoubleSlit firstCount secondCount) (detector : Point3)
+    (_regular : RegularSlitEvaluation slits detector) : ℂ :=
+  slits.amplitude detector
+
+/-- The guarded evaluator preserves the original algebraic amplitude on regular inputs. -/
+lemma DoubleSlit.regularAmplitude_eq {firstCount secondCount : ℕ}
+    (slits : DoubleSlit firstCount secondCount) (detector : Point3)
+    (regular : RegularSlitEvaluation slits detector) :
+    slits.regularAmplitude detector regular = slits.amplitude detector := rfl
 
 /-- Opening both slits gives the sum of the two complex contributions. -/
 lemma DoubleSlit.amplitude_both_open {firstCount secondCount : ℕ}
@@ -165,5 +249,26 @@ lemma finiteHistoryAmplitude_add {historyCount : ℕ} (action : Fin historyCount
     finiteHistoryAmplitude action (first + second) hbar =
       finiteHistoryAmplitude action first hbar + finiteHistoryAmplitude action second hbar := by
   simp [finiteHistoryAmplitude, add_mul, Finset.sum_add_distrib]
+
+/-- A positive action scale in the same units as each supplied action (joule seconds in SI). -/
+structure ActionScale where
+  hbar : ℝ
+  positive : 0 < hbar
+
+/-- The positive action scale cannot be the totalized zero divisor. -/
+lemma ActionScale.nonzero (scale : ActionScale) : scale.hbar ≠ 0 :=
+  ne_of_gt scale.positive
+
+/-- A finite history amplitude whose action scale is required to be positive. -/
+noncomputable def ActionScale.amplitude {historyCount : ℕ} (scale : ActionScale)
+    (action : Fin historyCount → ℝ) (coefficient : Fin historyCount → ℂ) : ℂ :=
+  finiteHistoryAmplitude action coefficient scale.hbar
+
+/-- The positive-scale wrapper preserves finite coefficient linearity. -/
+lemma ActionScale.amplitude_add {historyCount : ℕ} (scale : ActionScale)
+    (action : Fin historyCount → ℝ) (first second : Fin historyCount → ℂ) :
+    scale.amplitude action (first + second) =
+      scale.amplitude action first + scale.amplitude action second :=
+  finiteHistoryAmplitude_add action first second scale.hbar
 
 end Signals.Huygens

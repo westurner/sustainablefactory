@@ -1060,6 +1060,65 @@ example (action : Fin 2 → ℝ) (first second : Fin 2 → ℂ) (hbar : ℝ) :
         Signals.Huygens.finiteHistoryAmplitude action second hbar :=
   Signals.Huygens.finiteHistoryAmplitude_add action first second hbar
 
+/-- Both distinct symmetric samples have regular propagation to the central detector. -/
+lemma symmetricSlitsRegular : Signals.Huygens.RegularSlitEvaluation symmetricSlits ![0, 0, 1] := by
+  constructor <;> intro sample <;> constructor <;> intro equal
+  all_goals
+    have impossible := congrFun equal 0
+    norm_num [symmetricSlits] at impossible
+
+example : symmetricSlits.regularAmplitude ![0, 0, 1] symmetricSlitsRegular =
+    symmetricSlits.amplitude ![0, 0, 1] := rfl
+
+example : 0 < Signals.Huygens.distance symmetricSlits.source (symmetricSlits.first.point 0) :=
+  symmetricSlits.first.source_distance_pos _ _ symmetricSlitsRegular.firstRegular 0
+
+example : 0 < Signals.Huygens.distance (symmetricSlits.second.point 0) ![0, 0, 1] :=
+  symmetricSlits.second.detector_distance_pos _ _ symmetricSlitsRegular.secondRegular 0
+
+example : ¬symmetricSlits.first.regularAt (symmetricSlits.first.point 0) ![0, 0, 1] :=
+  symmetricSlits.first.not_regularAt_source _ _ 0 rfl
+
+example : ¬Signals.Huygens.RegularSlitEvaluation symmetricSlits (symmetricSlits.first.point 0) := by
+  intro regular
+  exact symmetricSlits.first.not_regularAt_detector _ _ 0 rfl regular.firstRegular
+
+example : ¬Signals.Huygens.RegularSlitEvaluation symmetricSlits (symmetricSlits.second.point 0) := by
+  intro regular
+  exact symmetricSlits.second.not_regularAt_detector _ _ 0 rfl regular.secondRegular
+
+/-- A one-metre separation certificate for the first symmetric sample. -/
+noncomputable def symmetricFirstSeparation : Signals.Huygens.ApertureSeparation
+    symmetricSlits.first symmetricSlits.source ![0, 0, 1] :=
+  { minimum := ⟨1⟩
+    minimum_positive := by norm_num
+    sourceBound := by
+      intro sample
+      norm_num [symmetricSlits, Signals.Huygens.distance,
+        Signals.Huygens.squaredDistance, Fin.sum_univ_succ]
+    detectorBound := by
+      intro sample
+      norm_num [symmetricSlits, Signals.Huygens.distance,
+        Signals.Huygens.squaredDistance, Fin.sum_univ_succ]
+  }
+
+example : symmetricSlits.first.regularAt symmetricSlits.source ![0, 0, 1] :=
+  symmetricFirstSeparation.regular
+
+example : ¬∃ scale : Signals.Huygens.ActionScale, scale.hbar = 0 := by
+  rintro ⟨scale, zero⟩
+  exact scale.nonzero zero
+
+example : ¬∃ scale : Signals.Huygens.ActionScale, scale.hbar = -1 := by
+  rintro ⟨scale, negative⟩
+  have positive := scale.positive
+  rw [negative] at positive
+  norm_num at positive
+
+example : (⟨1, by norm_num⟩ : Signals.Huygens.ActionScale).amplitude
+    (fun _ : Fin 2 => 0) (fun _ => 1) = 2 := by
+  norm_num [Signals.Huygens.ActionScale.amplitude, Signals.Huygens.finiteHistoryAmplitude]
+
 /-- A three-spoke graph with three boundary vertices and one internal vertex. -/
 def plabicStarGraph : SimpleGraph (Signals.Plabic.Vertex 3 1) where
   Adj left right := match left, right with

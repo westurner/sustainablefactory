@@ -512,6 +512,23 @@ record. Test a deliberately incorrect relative phase with a fixed error
 tolerance. This first change can disconfirm the comparison contract without
 requiring a completed differential-form library.
 
+## Implementation Checkpoints
+
+### Iteration 1: Regular Evaluation and Action Scale
+
+Implemented in [Huygens.lean](../src/signals/Signals/Huygens.lean):
+`distance_pos_of_ne`, source/detector coincidence rejection, positive regular
+propagation distances, `ApertureSeparation.regular`, `RegularSlitEvaluation`,
+`DoubleSlit.regularAmplitude`, and the positive `ActionScale` wrapper.
+The guarded evaluator conservatively requires both apertures to be regular,
+even if one is masked. Raw algebraic evaluators are retained for compatibility.
+
+The existing test file checks both apertures, both coincidence directions,
+a positive separation certificate, zero/negative scale rejection, and a
+nonzero finite-history amplitude. This completes the domain-guard portion of
+phase 0, not its independent candidate/phase-sweep comparison requirements.
+It does not prove a continuum Green-function or boundary-value theorem.
+
 ## Validation and Status
 
 For this review, all seven indexed Lean source files typechecked against the
@@ -528,8 +545,10 @@ validation results separately.
 Required gates for subsequent model changes:
 
 ```bash
-lake -d src/signals build Signals.Geometry Signals.Huygens Signals.Plabic
-lake -d src/signals build SignalsTests SignalsPendingTests
+pushd src/signals
+lake build Signals.Geometry Signals.Huygens Signals.Plabic
+lake build SignalsTests SignalsPendingTests
+popd
 make signals_build
 make -C docs html
 git diff --check
