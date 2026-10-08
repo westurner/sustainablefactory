@@ -314,6 +314,10 @@ interpretation while keeping experimental premises explicit:
    checked exit certificates; general termination and bijection are not yet
    derived. A rotation system
    does not itself certify a planar disk embedding or a positroid cell.
+   Ranked nonnegative weighted networks derive long-path vanishing,
+   nilpotency, cutoff-stable finite transfer, and selected boundary entries.
+   Ordered-minor positivity, embedding correspondence and network moves are
+   not inferred from these finite path sums.
 - `Signals.Fabrication` models voxel fields, active phase masks, calibration
    tolerances, height-map bounds, and thermal budgets as data with accessor
    lemmas.

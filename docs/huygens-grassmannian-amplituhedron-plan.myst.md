@@ -706,6 +706,27 @@ bound and boundary-map bijection, weighted acyclic measurements, embedding
 and cell correspondence, network moves and general Pluecker laws remain open.
 Fixed-point colors remain supplied data; no planarity or reducedness is inferred.
 
+### Iteration 9: Finite Weighted Acyclic Measurements
+
+`WeightedAcyclicNetwork` in [Plabic.lean](../src/signals/Signals/Plabic.lean)
+uses nonnegative edge weights and a checked strictly increasing level on every
+nonzero edge. Mathlib matrix powers compute successive weighted compositions.
+A path longer than the available level difference has zero weight; the
+height bound therefore derives nilpotency rather than assuming it.
+
+The transfer matrix sums all permitted path lengths, including the length-zero
+identity contribution. Extending the cutoff adds only zero terms, and the
+finite sum satisfies $T=I+AT$. Boundary measurements select its source/sink
+entries without fitted output coefficients or a cyclic-series convergence
+assumption. A three-node control checks $2\times3=6$, zero reverse transfer,
+nilpotency, cutoff stability, and rejection of a wrong product or backward edge.
+
+The supplied ranking is a checked acyclicity certificate, not a constructed
+planar embedding. Nonnegative entries do not establish ordered-minor
+positivity, the general minor/disjoint-path identity, positroid-cell
+correspondence, or network-move invariance. Cyclic networks and optical
+phase/units remain outside this finite nonnegative-weight model.
+
 ### Remaining Acceptance Obligations
 
 | Phase | Verified checkpoint | Still required |
@@ -713,7 +734,7 @@ Fixed-point colors remain supplied data; no planarity or reducedness is inferred
 | 0 | Regularity/positive-scale guards, nonempty finite-extent slit samples, arbitrary-wavelength analytic reference, phase/mask/off-axis controls, fixed-tolerance rejection. | Finite-area slit geometry and refinement belong to the continuum/quadrature track; fixtures are not measurements. |
 | 1 | Selected fixed-field planar area integral, guarded integrability, disjoint-mask addition. | Boundary approximation accuracy, incident/boundary data, dimensioned field normalization, and a justified Green representation or approximation bound. |
 | 2 | Actual measured-cell weights, derived Lipschitz/mesh/area error rate, refinement convergence, uniform-domain comparison and finite-aperture correspondence. | Prove uniform optical-kernel regularity from separation and a wavelength interval; construct a rectangular area mesh and prove the Fraunhofer limit. |
-| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded first-exit search with minimality, completeness, fuel-failure and budget-uniqueness laws. | General termination bound and derived boundary bijection, weighted acyclic network measurements, embedding/cell correspondence, network moves, general Pluecker relations, and any quotient construction. |
+| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded first-exit search laws; ranked acyclic weighted transfer, nilpotency, cutoff stability and boundary measurements. | General termination bound and derived boundary bijection; minor/disjoint-path identities and ordered-minor positivity, embedding/cell correspondence, network moves, general Pluecker relations, and any quotient construction. |
 | 4 | Affine alternating interval/triangle/square forms, oriented boundary limits, normalization, pullbacks, and diagonal cancellation/continuation. | General projective canonical-form existence/uniqueness, arbitrary-chart invariance and higher-dimensional amplituhedron forms. |
 | 5 | A literal unphased form-evaluation candidate is falsified without fitting. | Derive a dimensioned oscillatory complex evaluator and its invariances independently of the optical answer. |
 | 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds and separate error-budget composition. | A genuine geometric/classical equality or held-out uniform error theorem after both tracks meet their gates. |

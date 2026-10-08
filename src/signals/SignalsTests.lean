@@ -1653,6 +1653,47 @@ example : ¬(∀ first second : Fin 3, ∃ steps : ℕ,
   obtain ⟨steps, impossible⟩ := singleOrbit 0 1
   simp at impossible
 
+open scoped NNReal in
+/-- A ranked two-edge chain is a nonconstant weighted-path control, not an optical phase model. -/
+def weightedChain : Signals.Plabic.WeightedAcyclicNetwork 3 2 :=
+  { level := fun vertex => vertex
+    weight := ![![0, 2, 0], ![0, 0, 3], ![0, 0, 0]]
+    ascending := by
+      intro first second nonzero
+      fin_cases first <;> fin_cases second <;> norm_num at * }
+
+/-- The independently specified two edge weights multiply in the finite boundary path sum. -/
+lemma weightedChain_transfer : weightedChain.transfer 0 2 = 6 := by
+  simp only [Signals.Plabic.WeightedAcyclicNetwork.transfer, Finset.sum_range_succ,
+    Finset.range_zero, Finset.sum_empty, zero_add, Matrix.add_apply,
+    pow_zero, pow_one, pow_two, Matrix.one_apply, Matrix.mul_apply]
+  norm_num [weightedChain, Fin.sum_univ_succ]
+
+example : weightedChain.boundaryMeasurement (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 2) 0 0 = 6 :=
+  weightedChain_transfer
+
+example : weightedChain.transfer 2 0 = 0 := by
+  simp only [Signals.Plabic.WeightedAcyclicNetwork.transfer, Finset.sum_range_succ,
+    Finset.range_zero, Finset.sum_empty, zero_add, Matrix.add_apply,
+    pow_zero, pow_one, pow_two, Matrix.one_apply, Matrix.mul_apply]
+  norm_num [weightedChain, Fin.sum_univ_succ]
+
+example : weightedChain.weight ^ 3 = 0 := weightedChain.nilpotent
+
+example : (∑ length ∈ Finset.range 8, weightedChain.weight ^ length) = weightedChain.transfer :=
+  weightedChain.transfer_stable 5
+
+example : ¬(weightedChain.transfer 0 2 = 5) := by
+  rw [weightedChain_transfer]
+  norm_num
+
+example (network : Signals.Plabic.WeightedAcyclicNetwork 3 2)
+    (levels : network.level = weightedChain.level) : network.weight 2 0 = 0 := by
+  by_contra nonzero
+  have impossible := network.ascending 2 0 nonzero
+  rw [levels] at impossible
+  norm_num [weightedChain] at impossible
+
 def toyCalibration : Calibration :=
   { expected := 10
     measured := 10.1

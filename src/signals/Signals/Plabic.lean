@@ -1,8 +1,11 @@
 import Mathlib.Combinatorics.SimpleGraph.Basic
+import Mathlib.Data.Matrix.Basic
 import Mathlib.GroupTheory.Perm.Basic
 import Mathlib.Tactic
 
 namespace Signals.Plabic
+
+open scoped NNReal
 
 /-! Finite bicolored strand routing with explicit rotation and exit data.
 
@@ -267,5 +270,90 @@ lemma BoundaryRouting.perm_bijective {boundaryCount internalCount : ℕ}
     {system : RotationSystem boundaryCount internalCount} (routing : BoundaryRouting system) :
     Function.Bijective routing.decorated.perm :=
   routing.perm.bijective
+
+/-- Nonnegative edge weights with a checked strict level increase on every nonzero edge. -/
+structure WeightedAcyclicNetwork (vertexCount height : ℕ) where
+  level : Fin vertexCount → Fin (height + 1)
+  weight : Matrix (Fin vertexCount) (Fin vertexCount) ℝ≥0
+  ascending : ∀ first second, weight first second ≠ 0 →
+    (level first).val < (level second).val
+
+/-- Matrix-power path weights vanish when their length exceeds the available level difference. -/
+lemma WeightedAcyclicNetwork.pathWeight_zero {vertexCount height : ℕ}
+    (network : WeightedAcyclicNetwork vertexCount height) (length : ℕ)
+    (first second : Fin vertexCount)
+    (tooLong : (network.level second).val < (network.level first).val + length) :
+    (network.weight ^ length) first second = 0 := by
+  induction length generalizing first second with
+  | zero =>
+    by_cases same : first = second
+    · subst second
+      omega
+    · simp [same]
+  | succ length induction_hypothesis =>
+    rw [pow_succ, Matrix.mul_apply]
+    apply Finset.sum_eq_zero
+    intro middle _
+    by_cases left : (network.level middle).val < (network.level first).val + length
+    · rw [induction_hypothesis first middle left, zero_mul]
+    · have right : network.weight middle second = 0 := by
+        by_contra nonzero
+        have increasing := network.ascending middle second nonzero
+        omega
+      rw [right, mul_zero]
+
+/-- The checked level bound derives nilpotency; no cyclic-series convergence is assumed. -/
+lemma WeightedAcyclicNetwork.nilpotent {vertexCount height : ℕ}
+    (network : WeightedAcyclicNetwork vertexCount height) : network.weight ^ (height + 1) = 0 := by
+  apply Matrix.ext
+  intro first second
+  change (network.weight ^ (height + 1)) first second = 0
+  apply network.pathWeight_zero
+  have bounded := (network.level second).isLt
+  omega
+
+/-- Sum all weighted path lengths allowed by the certified acyclic height, including length zero. -/
+noncomputable def WeightedAcyclicNetwork.transfer {vertexCount height : ℕ}
+    (network : WeightedAcyclicNetwork vertexCount height) :
+    Matrix (Fin vertexCount) (Fin vertexCount) ℝ≥0 :=
+  ∑ length ∈ Finset.range (height + 1), network.weight ^ length
+
+/-- Increasing the finite path cutoff adds only zero terms, rather than a convergence assumption. -/
+lemma WeightedAcyclicNetwork.transfer_stable {vertexCount height : ℕ}
+    (network : WeightedAcyclicNetwork vertexCount height) (extra : ℕ) :
+    (∑ length ∈ Finset.range (height + 1 + extra), network.weight ^ length) = network.transfer := by
+  rw [Finset.sum_range_add]
+  have tailZero : (∑ length ∈ Finset.range extra, network.weight ^ (height + 1 + length)) = 0 := by
+    apply Finset.sum_eq_zero
+    intro length _
+    rw [pow_add, network.nilpotent, zero_mul]
+  rw [tailZero, add_zero]
+  rfl
+
+/-- The finite path sum satisfies the exact identity-plus-one-edge continuation equation. -/
+lemma WeightedAcyclicNetwork.transfer_equation {vertexCount height : ℕ}
+    (network : WeightedAcyclicNetwork vertexCount height) :
+    network.transfer = 1 + network.weight * network.transfer := by
+  calc
+    network.transfer = ∑ length ∈ Finset.range (height + 1 + 1), network.weight ^ length := by
+      rw [Finset.sum_range_succ, network.nilpotent, add_zero]
+      rfl
+    _ = 1 + ∑ length ∈ Finset.range (height + 1), network.weight ^ (length + 1) := by
+      rw [Finset.sum_range_succ']
+      simp only [pow_zero]
+      exact add_comm _ _
+    _ = 1 + network.weight * network.transfer := by
+      rw [transfer, Finset.mul_sum]
+      congr 1
+      apply Finset.sum_congr rfl
+      intro length _
+      exact pow_succ' network.weight length
+
+/-- Boundary measurements select source/sink entries of the derived finite weighted path sum. -/
+noncomputable def WeightedAcyclicNetwork.boundaryMeasurement {vertexCount height : ℕ}
+    (network : WeightedAcyclicNetwork vertexCount height) {sourceCount sinkCount : ℕ}
+    (sources : Fin sourceCount → Fin vertexCount) (sinks : Fin sinkCount → Fin vertexCount) :
+    Matrix (Fin sourceCount) (Fin sinkCount) ℝ≥0 :=
+  fun source sink => network.transfer (sources source) (sinks sink)
 
 end Signals.Plabic
