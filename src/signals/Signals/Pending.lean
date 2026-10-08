@@ -3222,6 +3222,126 @@ def NSDDFBridge.comparisonReady (bridge : NSDDFBridge) : Prop :=
      | DDFFlowRegime.shearJammed =>
        bridge.shearJammingCrossed = true)
 
+/-! ## DDF shear-jamming comparison for ultrasonic power transfer
+
+Ordinary acoustic transfer is modeled in `Signals.Acoustics`. The DDF
+extension below is a Pending, matched-condition experiment: DDF shear-jamming
+is a candidate constitutive state whose effect on acoustic transfer must be
+measured. It is not identified with brittle fracture, cavitation, or an energy
+source. -/
+
+/-- Provenance status for a layered ultrasonic power-transfer run. -/
+inductive UPTEvidenceStatus
+  | proposal
+  | simulation
+  | calibratedMeasurement
+  deriving DecidableEq, Repr
+
+/-- A matched baseline-versus-shear-jammed UPT comparison.
+
+Both runs carry complete layered acoustic power ledgers. A resolved difference
+is only a candidate DDF-associated effect after calibration, matched controls,
+and replication; construction does not prove that DDF caused the difference. -/
+structure DDFUltrasonicTransferComparison where
+  baselineDDFState : NSDDFBridge
+  shearJammedDDFState : NSDDFBridge
+  baselineTransfer : Signals.Acoustics.LayeredUltrasonicTransfer
+  shearJammedTransfer : Signals.Acoustics.LayeredUltrasonicTransfer
+  baselineMeasurement : Signals.Acoustics.TransferMeasurement
+  shearJammedMeasurement : Signals.Acoustics.TransferMeasurement
+  baselineMeasurementPrediction : baselineMeasurement.predictedPower =
+    baselineTransfer.deliveredElectricalPower.watts
+  shearJammedMeasurementPrediction : shearJammedMeasurement.predictedPower =
+    shearJammedTransfer.deliveredElectricalPower.watts
+  baselineMeasurementConsistent : baselineMeasurement.consistent
+  shearJammedMeasurementConsistent : shearJammedMeasurement.consistent
+  evidenceStatus : UPTEvidenceStatus
+  sameDDFSubstrate : baselineDDFState.substrate = shearJammedDDFState.substrate
+  baselineNotShearJammed : baselineDDFState.regime ≠ DDFFlowRegime.shearJammed
+  baselineBelowJammingThreshold :
+    baselineDDFState.shearRate < baselineDDFState.shearJammingThreshold
+  shearJammedRegime : shearJammedDDFState.regime = DDFFlowRegime.shearJammed
+  shearThresholdExceeded :
+    shearJammedDDFState.shearJammingThreshold ≤ shearJammedDDFState.shearRate
+  shearJammingFlag : shearJammedDDFState.shearJammingCrossed = true
+  baselineDDFReady : NSDDFBridge.comparisonReady baselineDDFState
+  shearJammedDDFReady : NSDDFBridge.comparisonReady shearJammedDDFState
+  sameFrequency :
+    baselineTransfer.path.frequency.hz = shearJammedTransfer.path.frequency.hz
+  sameElectricalInput : baselineTransfer.electricalInputPower.watts =
+    shearJammedTransfer.electricalInputPower.watts
+  sameAuxiliaryPathInput : baselineTransfer.auxiliaryPathInputPower.watts =
+    shearJammedTransfer.auxiliaryPathInputPower.watts
+  sameOrderedStack : Signals.Acoustics.LayeredAcousticPath.sameStackGeometry
+    baselineTransfer.path shearJammedTransfer.path
+  sameTransmitterEfficiency : baselineTransfer.transmitterEfficiency.value =
+    shearJammedTransfer.transmitterEfficiency.value
+  sameReceiverEfficiency : baselineTransfer.receiverEfficiency.value =
+    shearJammedTransfer.receiverEfficiency.value
+  thermalControlPassed : Prop
+  thermalControlPassed_hypothesis : thermalControlPassed
+  shamControlPassed : Prop
+  shamControlPassed_hypothesis : shamControlPassed
+  detectorCalibration : Prop
+  detectorCalibration_hypothesis : detectorCalibration
+  transferDifferenceWatts : ℝ
+  transferDifferenceLaw : transferDifferenceWatts =
+    shearJammedMeasurement.observedPower - baselineMeasurement.observedPower
+  transferDifferenceUncertaintyWatts : ℝ
+  transferDifferenceUncertainty_nonnegative : 0 ≤ transferDifferenceUncertaintyWatts
+  replicationCount : ℕ
+  replicationCount_min : 2 ≤ replicationCount
+  artifactReference : String
+
+/-- The DDF-UPT comparison is ready only for a calibrated, replicated,
+energy-closed pair of matched runs with a resolved transfer difference. -/
+def DDFUltrasonicTransferComparison.comparisonReady
+    (comparison : DDFUltrasonicTransferComparison) : Prop :=
+  comparison.artifactReference ≠ "" ∧
+    comparison.evidenceStatus = UPTEvidenceStatus.calibratedMeasurement ∧
+    NSDDFBridge.comparisonReady comparison.baselineDDFState ∧
+    NSDDFBridge.comparisonReady comparison.shearJammedDDFState ∧
+    comparison.baselineMeasurement.consistent ∧
+    comparison.shearJammedMeasurement.consistent ∧
+    comparison.baselineTransfer.path.calibrationResidual ≤
+      comparison.baselineTransfer.path.calibrationTolerance ∧
+    comparison.shearJammedTransfer.path.calibrationResidual ≤
+      comparison.shearJammedTransfer.path.calibrationTolerance ∧
+    comparison.baselineDDFState.substrate = comparison.shearJammedDDFState.substrate ∧
+    comparison.baselineDDFState.regime ≠ DDFFlowRegime.shearJammed ∧
+    comparison.baselineDDFState.shearRate <
+      comparison.baselineDDFState.shearJammingThreshold ∧
+    comparison.shearJammedDDFState.regime = DDFFlowRegime.shearJammed ∧
+    comparison.shearJammedDDFState.shearJammingThreshold ≤
+      comparison.shearJammedDDFState.shearRate ∧
+    comparison.shearJammedDDFState.shearJammingCrossed = true ∧
+    comparison.baselineTransfer.path.frequency.hz =
+      comparison.shearJammedTransfer.path.frequency.hz ∧
+    comparison.baselineTransfer.electricalInputPower.watts =
+      comparison.shearJammedTransfer.electricalInputPower.watts ∧
+    comparison.baselineTransfer.auxiliaryPathInputPower.watts =
+      comparison.shearJammedTransfer.auxiliaryPathInputPower.watts ∧
+    Signals.Acoustics.LayeredAcousticPath.sameStackGeometry
+      comparison.baselineTransfer.path comparison.shearJammedTransfer.path ∧
+    comparison.baselineTransfer.transmitterEfficiency.value =
+      comparison.shearJammedTransfer.transmitterEfficiency.value ∧
+    comparison.baselineTransfer.receiverEfficiency.value =
+      comparison.shearJammedTransfer.receiverEfficiency.value ∧
+    comparison.thermalControlPassed ∧
+    comparison.shamControlPassed ∧
+    comparison.detectorCalibration ∧
+    2 ≤ comparison.replicationCount ∧
+    comparison.transferDifferenceUncertaintyWatts <
+      |comparison.transferDifferenceWatts|
+
+/-- Simulated or proposed UPT data cannot pass the calibrated-measurement gate. -/
+lemma DDFUltrasonicTransferComparison.not_ready_without_calibrated_measurement
+    (comparison : DDFUltrasonicTransferComparison)
+    (notMeasured : comparison.evidenceStatus ≠ UPTEvidenceStatus.calibratedMeasurement) :
+    ¬comparison.comparisonReady := by
+  intro ready
+  exact notMeasured ready.2.1
+
 /-- Observable layers for an EHT compact-object image. -/
 inductive EHTObservableLayer
   | complexVisibilities

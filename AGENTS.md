@@ -31,6 +31,13 @@ small falsifiable change, run the focused check, then run `make signals_build`
 from the repository root.
 If documentation changed, also run `make -C docs html` and `git diff --check`.
 
+For long Lean builds, report the final Lake job total and first failing module
+after the command exits instead of polling or emitting per-job progress. On
+2026-10-04, `lake build QEC.Stabilizer.Codes.Layer` completed successfully
+at 3,147/3,147 jobs. An earlier run failed at 3,141/3,147 in `Codespace.lean`
+and `LogicalGateGroup.lean`. This is an observed build-graph size, not a
+build-time benchmark.
+
 ## GPE Terminology
 
 The Signals Pending model uses distinct records for the three meanings that

@@ -219,6 +219,17 @@ are speculative and are not promoted by this plan
 Use `FractureMediatedUltrasonicTransfer` as the finite candidate boundary
 ([Pending.lean](../src/signals/Signals/Pending.lean#L1728-L1785)).
 
+Piezoelectric UPT has experimental baselines: a spherical acoustic source to a
+loaded piezoelectric receiver and guided Lamb-wave transfer in plates
+([Shahab et al. 2015](https://doi.org/10.1063/1.4914130),
+[Tseng et al. 2020](https://doi.org/10.1109/TUFFC.2019.2949467)). These validate
+acoustic/piezoelectric methods only in their tested geometries, not the proposed
+rail-tie stack or DDF coupling. DDF shear-jamming is a separate constitutive
+hypothesis; it should enter an UPT model if measured shear state changes
+acoustic velocity, modulus, or attenuation. The polyCBD 5G/mmWave conference
+paper is a material lead, not validation of the chat's 400-800 GHz values or
+Proca mode; see the [focused evidence report](longitudinal-wave-polycbd-upt-dff-evidence.myst.md).
+
 The attached bibliography supports the classical and materials portions of the
 plan: LIG synthesis and applications ([Wan et al. 2018](#wan2018), [Ye et al.
 2024](#ye2024), [Claro et al. 2022](#claro2022), [You et al. 2020](#you2020)),

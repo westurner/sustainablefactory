@@ -98,6 +98,36 @@ appropriate.
 | LBGPC thermal-fluid apparel and cooling | Lignin-PEG phase-change pads, LBGP fluidics, MHD pumps, and hydrophobic layers are proposed [thermal apparel](../data/chats/_Algae%20Textiles,%20Bio-TPU,%20Insulation,%20Lignin-PEG-Graphene,%20.md#L395) | Process/material catalog candidate; requires viscosity, conductivity, phase-change, toxicity, and pressure data. |
 | Hydrogen and carbon recovery products | Plasma gasification proposes H2 fuel and VACNT/rGO feedstock [recovery outputs](../data/chats/_Induction%20Welding,%20Rail,%20Rolllercoasters%20.md#L949) | RDF/process inventory; do not encode purity or closed-loop yield as Lean theorems without measurements. |
 
+### PolyCBD waveguides, UPT, and DDF shear-jamming
+
+The IQ-sampling chat proposes polyCBD carbonate as a low-loss 400 GHz
+Proca/cannon waveguide material and gives 400/800 GHz loss values
+([material proposal](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15106),
+[waveguide claim](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15155),
+[widget values](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15179)). A 2026
+IEEE conference-paper record exists for hemp-based polycarbonate 5G/mmWave
+substrates, but its full methods and data were not accessible in this review.
+Do not transfer its title or nominal mmWave scope to the chat's 400/800 GHz
+values or infer a Proca mode; keep this `calibration-required` until the paper
+and frequency-specific measurements are checked.
+
+The rail-tie chat uses an engineered acoustic-impedance discontinuity as a
+"fracture plane" and proposes piezoelectric UPT through a layered path
+([impedance analogy](../data/chats/_Engineer-sustainable-alternatives-to-creosote-treated-wooden-ties.md#L1713),
+[UPT design](../data/chats/_Engineer-sustainable-alternatives-to-creosote-treated-wooden-ties.md#L1754)).
+This remains a proposal; its 1 MHz and 68% figures are not reported measurements
+([claimed transfer](../data/chats/_Engineer-sustainable-alternatives-to-creosote-treated-wooden-ties.md#L2189)).
+Reuse `Signals.Acoustics.UltrasonicTransfer` for the passive baseline and require
+measured layer, interface, transducer, receiver-load, and loss data. Experimental
+piezoelectric UPT literature exists, but does not validate this tie architecture
+([evidence report](longitudinal-wave-polycbd-upt-dff-evidence.myst.md)).
+
+DDF shear-jamming is a theoretical high-shear constitutive proposal in the DDF
+chat ([source](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L416)).
+It is not brittle crack propagation and is not a generic UPT model. Keep solid
+fracture, granular jamming, and acoustic power transfer as separate evidence
+classes; see the [focused review](longitudinal-wave-polycbd-upt-dff-evidence.myst.md).
+
 ## Exclusions
 
 The following chat claims should not be promoted into verified Signals:
@@ -106,7 +136,9 @@ The following chat claims should not be promoted into verified Signals:
 - SQG as a plasma coupling medium;
 - “entropy siphoning” as a heat-extraction mechanism;
 - 10 nm LIFT placement and lossless OAM/QPU routing;
-- room-temperature quantum advantage from an unmeasured N-LIG platform.
+- room-temperature quantum advantage from an unmeasured N-LIG platform;
+- polyCBD Proca/400-800 GHz conversion and chat-estimated UPT transfer efficiency;
+- DDF shear-jamming promoted as measured brittle-fracture or UPT physics.
 
 The safe representation is a Pending hypothesis with explicit input power,
 loss, calibration, conservation, and experimental-status fields. Existing

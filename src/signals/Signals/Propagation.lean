@@ -1,3 +1,4 @@
+import Architect
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
@@ -159,6 +160,8 @@ lemma LinkBudget.transferFactor_nonnegative (link : LinkBudget) :
     link.attenuationFactor_nonnegative
 
 /-- A link transfer factor cannot exceed one. -/
+@[blueprint "thm:link-transfer-factor-le-one"
+  (statement := /-- For each modeled link budget, the transfer factor is at most one. -/)]
 lemma LinkBudget.transferFactor_le_one (link : LinkBudget) :
     link.transferFactor ≤ 1 := by
   unfold LinkBudget.transferFactor
@@ -183,6 +186,8 @@ lemma LinkBudget.receivedPower_nonnegative (link : LinkBudget) :
   exact mul_nonneg link.sourcePower_nonnegative link.transferFactor_nonnegative
 
 /-- Explicit loss factors guarantee received power does not exceed source power. -/
+@[blueprint "thm:link-received-power-bound"
+  (statement := /-- For each modeled link budget, received power is at most source power. -/)]
 lemma LinkBudget.receivedPower_le_sourcePower (link : LinkBudget) :
   link.receivedPower ≤ link.sourcePower.watts := by
   unfold LinkBudget.receivedPower

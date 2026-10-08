@@ -830,6 +830,124 @@ noncomputable def toyAcousticEvidence : AcousticFractureEvidence :=
 example : toyUltrasonicTransfer.receivedPower ≤ toyUltrasonicTransfer.incidentPower := by
   exact toyUltrasonicTransfer.receivedPower_le_incidentPower
 
+noncomputable def toyAcousticPathLayer : AcousticPathLayer :=
+  { materialReference := "toy acoustic material"
+    materialReference_nonempty := by decide
+    medium := toyAcousticMedium
+    thickness := { meters := 1 }
+    thickness_positive := by norm_num
+    transferMatrix := AcousticTransferMatrix.identity
+    transferResidual := 0
+    transferResidual_nonnegative := by norm_num
+    transferTolerance := 1 / 10
+    transferTolerance_nonnegative := by norm_num
+    transferWithinTolerance := by norm_num }
+
+noncomputable def toyAcousticPathInterface : AcousticPathInterface :=
+  { interfaceReference := "toy acoustic interface"
+    interfaceReference_nonempty := by decide
+    response := toyPendingLink.interface
+    transferMatrix := AcousticTransferMatrix.identity
+    transferResidual := 0
+    transferResidual_nonnegative := by norm_num
+    transferTolerance := 1 / 10
+    transferTolerance_nonnegative := by norm_num
+    transferWithinTolerance := by norm_num }
+
+noncomputable def toyLayeredAcousticPath : LayeredAcousticPath :=
+  { frequency := { hz := 1000000 }
+    frequency_positive := by norm_num
+    sourceImpedance := 1
+    sourceImpedance_positive := by norm_num
+    loadImpedance := 1
+    loadImpedance_positive := by norm_num
+    layers := [toyAcousticPathLayer]
+    layers_nonempty := by simp
+    interfaces := [toyAcousticPathInterface, toyAcousticPathInterface]
+    interface_count := by norm_num
+    transferMatrix := AcousticTransferMatrix.identity
+    transferMatrixLaw := by
+      simp [AcousticTransferMatrix.orderedCascade, AcousticTransferMatrix.identity,
+        AcousticTransferMatrix.cascade, toyAcousticPathLayer, toyAcousticPathInterface]
+    transferDenominator_nonzero := by
+      norm_num [AcousticTransferMatrix.transmissionDenominator,
+        AcousticTransferMatrix.identity]
+    powerTransmission := { value := 1, nonnegative := by norm_num, le_one := by norm_num }
+    powerTransmissionLaw := by
+      norm_num [AcousticTransferMatrix.powerTransmission,
+        AcousticTransferMatrix.transmissionDenominator, AcousticTransferMatrix.identity]
+    phaseDelay := { seconds := 1 / 1000000 }
+    phaseDelay_nonnegative := by norm_num
+    calibrationResidual := 0
+    calibrationResidual_nonnegative := by norm_num
+    calibrationTolerance := 1 / 10
+    calibrationTolerance_nonnegative := by norm_num
+    calibrationWithinTolerance := by norm_num
+    artifactReference := "synthetic matched-port layer-stack fixture" }
+
+noncomputable def toyLayeredUltrasonicTransfer : LayeredUltrasonicTransfer :=
+  { path := toyLayeredAcousticPath
+    electricalInputPower := { watts := 100 }
+    electricalInput_nonnegative := by norm_num
+    transmitterEfficiency := { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    acousticLaunchPower := { watts := 50 }
+    acousticLaunchPower_nonnegative := by norm_num
+    transmitterLossPower := { watts := 50 }
+    transmitterLossPower_nonnegative := by norm_num
+    transmitterConversionLaw := by norm_num
+    transmitterEnergyBalance := by norm_num
+    auxiliaryPathInputPower := { watts := 0 }
+    auxiliaryPathInputPower_nonnegative := by norm_num
+    acousticReceivedPower := { watts := 50 }
+    acousticReceivedPower_nonnegative := by norm_num
+    reflectedPower := { watts := 0 }
+    reflectedPower_nonnegative := by norm_num
+    absorbedPower := { watts := 0 }
+    absorbedPower_nonnegative := by norm_num
+    distributedLossPower := { watts := 0 }
+    distributedLossPower_nonnegative := by norm_num
+    pathTransmissionLaw := by norm_num [toyLayeredAcousticPath]
+    pathEnergyBalance := by norm_num
+    receiverEfficiency := { value := 1 / 2, nonnegative := by norm_num, le_one := by norm_num }
+    deliveredElectricalPower := { watts := 25 }
+    deliveredElectricalPower_nonnegative := by norm_num
+    receiverLossPower := { watts := 25 }
+    receiverLossPower_nonnegative := by norm_num
+    receiverConversionLaw := by norm_num
+    receiverEnergyBalance := by norm_num }
+
+example : toyLayeredAcousticPath.totalThickness = 1 := by
+  norm_num [LayeredAcousticPath.totalThickness, toyLayeredAcousticPath,
+    toyAcousticPathLayer]
+
+example : toyLayeredAcousticPath.powerTransmission.value = 1 := by
+  rfl
+
+example : toyLayeredUltrasonicTransfer.electricalInputPower.watts +
+  toyLayeredUltrasonicTransfer.auxiliaryPathInputPower.watts =
+    toyLayeredUltrasonicTransfer.deliveredElectricalPower.watts +
+      toyLayeredUltrasonicTransfer.transmitterLossPower.watts +
+      toyLayeredUltrasonicTransfer.reflectedPower.watts +
+      toyLayeredUltrasonicTransfer.absorbedPower.watts +
+      toyLayeredUltrasonicTransfer.distributedLossPower.watts +
+      toyLayeredUltrasonicTransfer.receiverLossPower.watts := by
+  exact toyLayeredUltrasonicTransfer.energy_balance
+
+example : toyLayeredUltrasonicTransfer.deliveredElectricalPower.watts ≤
+    toyLayeredUltrasonicTransfer.electricalInputPower.watts +
+      toyLayeredUltrasonicTransfer.auxiliaryPathInputPower.watts := by
+  exact toyLayeredUltrasonicTransfer.deliveredPower_le_totalInput
+
+noncomputable def toyMatrixA : AcousticTransferMatrix :=
+  { a := 1, b := 1, c := 0, d := 1 }
+
+noncomputable def toyMatrixB : AcousticTransferMatrix :=
+  { a := 1, b := 0, c := 1, d := 1 }
+
+example : (AcousticTransferMatrix.cascade toyMatrixA toyMatrixB).a ≠
+  (AcousticTransferMatrix.cascade toyMatrixB toyMatrixA).a := by
+  norm_num [AcousticTransferMatrix.cascade, toyMatrixA, toyMatrixB]
+
 example : toyAcousticEvidence.supportsFractureHypothesis := by
   exact toyAcousticEvidence.outsideClassicalTolerance
 
@@ -1098,6 +1216,90 @@ example : NSDDFBridge.comparisonReady toyNSDDFBridge := by
   simp [NSDDFBridge.comparisonReady, NSDDFBridge.lowMachEffectiveIncompressible,
     toyNSDDFBridge, toyDDFSubstrate]
   norm_num
+
+noncomputable def toyShearJammedDDFBridge : NSDDFBridge :=
+  { toyNSDDFBridge with
+    regime := DDFFlowRegime.shearJammed
+    effectiveViscosity := 2
+    effectiveViscosity_nonnegative := by norm_num
+    viscosityFloorLaw := by norm_num [toyNSDDFBridge]
+    shearRate := 2
+    shearRate_nonnegative := by norm_num
+    shearJammingCrossed := true }
+
+example : NSDDFBridge.comparisonReady toyShearJammedDDFBridge := by
+  simp [NSDDFBridge.comparisonReady, toyShearJammedDDFBridge,
+    toyNSDDFBridge, toyDDFSubstrate]
+  norm_num
+
+noncomputable def toyDDFUltrasonicTransferComparison :
+    DDFUltrasonicTransferComparison :=
+  { baselineDDFState := toyNSDDFBridge
+    shearJammedDDFState := toyShearJammedDDFBridge
+    baselineTransfer := toyLayeredUltrasonicTransfer
+    shearJammedTransfer := toyLayeredUltrasonicTransfer
+    baselineMeasurement :=
+      { predictedPower := 25
+        observedPower := 25
+        tolerance := 1
+        tolerance_nonnegative := by norm_num
+        residual := 0
+        residualLaw := by norm_num }
+    shearJammedMeasurement :=
+      { predictedPower := 25
+        observedPower := 25
+        tolerance := 1
+        tolerance_nonnegative := by norm_num
+        residual := 0
+        residualLaw := by norm_num }
+    baselineMeasurementPrediction := by rfl
+    shearJammedMeasurementPrediction := by rfl
+    baselineMeasurementConsistent := by
+      norm_num [Signals.Acoustics.TransferMeasurement.consistent]
+    shearJammedMeasurementConsistent := by
+      norm_num [Signals.Acoustics.TransferMeasurement.consistent]
+    evidenceStatus := UPTEvidenceStatus.simulation
+    sameDDFSubstrate := by simp [toyShearJammedDDFBridge]
+    baselineNotShearJammed := by decide
+    baselineBelowJammingThreshold := by norm_num [toyNSDDFBridge]
+    shearJammedRegime := by simp [toyShearJammedDDFBridge]
+    shearThresholdExceeded := by norm_num [toyShearJammedDDFBridge,
+      toyNSDDFBridge]
+    shearJammingFlag := by simp [toyShearJammedDDFBridge]
+    baselineDDFReady := by
+      simp [NSDDFBridge.comparisonReady,
+        NSDDFBridge.lowMachEffectiveIncompressible,
+        toyNSDDFBridge, toyDDFSubstrate]
+      norm_num
+    shearJammedDDFReady := by
+      simp [NSDDFBridge.comparisonReady, toyShearJammedDDFBridge,
+        toyNSDDFBridge, toyDDFSubstrate]
+      norm_num
+    sameFrequency := by rfl
+    sameElectricalInput := by rfl
+    sameAuxiliaryPathInput := by rfl
+    sameOrderedStack := by
+      simp [Signals.Acoustics.LayeredAcousticPath.sameStackGeometry,
+        toyLayeredUltrasonicTransfer]
+    sameTransmitterEfficiency := by rfl
+    sameReceiverEfficiency := by rfl
+    thermalControlPassed := True
+    thermalControlPassed_hypothesis := True.intro
+    shamControlPassed := True
+    shamControlPassed_hypothesis := True.intro
+    detectorCalibration := True
+    detectorCalibration_hypothesis := True.intro
+    transferDifferenceWatts := 0
+    transferDifferenceLaw := by norm_num
+    transferDifferenceUncertaintyWatts := 1
+    transferDifferenceUncertainty_nonnegative := by norm_num
+    replicationCount := 2
+    replicationCount_min := by norm_num
+    artifactReference := "synthetic DDF-UPT comparison fixture" }
+
+example : ¬ toyDDFUltrasonicTransferComparison.comparisonReady := by
+  apply toyDDFUltrasonicTransferComparison.not_ready_without_calibrated_measurement
+  decide
 
 noncomputable def toyEHTShadowRingObservation : EHTShadowRingObservation :=
   { sourceLabel := "synthetic EHT-like compact-object ring"
