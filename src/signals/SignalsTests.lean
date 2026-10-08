@@ -1701,11 +1701,46 @@ def plabicBoundaryPair : Signals.Plabic.RotationSystem 2 0 :=
 
 example : plabicBoundaryPair.firstExit 0 (plabicBoundaryPair.start 0) = some (0, 1) := rfl
 
-example : plabicBoundaryPair.boundaryExitData 0 = (0, 1) := by
-  have same := plabicBoundaryPair.firstExit_unique 0 _ (plabicBoundaryPair.start 0)
-    0 (plabicBoundaryPair.boundaryExitData 0).1 1 (plabicBoundaryPair.boundaryExitData 0).2
-    rfl (plabicBoundaryPair.boundaryExitData_found 0)
+/-- Both direct-boundary exits recover the independently specified transposition. -/
+lemma plabicBoundaryPair_exitData (index : Fin 2) :
+    plabicBoundaryPair.boundaryExitData index = (0, if index = 0 then 1 else 0) := by
+  have first : plabicBoundaryPair.firstExit 0 (plabicBoundaryPair.start index) =
+      some (0, if index = 0 then 1 else 0) := by fin_cases index <;> rfl
+  have same := plabicBoundaryPair.firstExit_unique 0 _ (plabicBoundaryPair.start index)
+    0 (plabicBoundaryPair.boundaryExitData index).1 (if index = 0 then 1 else 0)
+    (plabicBoundaryPair.boundaryExitData index).2 first (plabicBoundaryPair.boundaryExitData_found index)
   exact Prod.ext same.1.symm same.2.symm
+
+example : plabicBoundaryPair.boundaryExitData 0 = (0, 1) := plabicBoundaryPair_exitData _
+
+/-- The constructed star boundary permutation matches the independent clockwise/counterclockwise control. -/
+lemma plabicStar_boundaryPerm (color : Signals.Plabic.NodeColor) :
+    (plabicStar color).boundaryPerm = (plabicStarRouting color).perm := by
+  apply Equiv.ext
+  intro index
+  exact congrArg Prod.snd (plabicStar_exitData color index)
+
+example : (plabicStar .black).boundaryPerm 0 = 1 := by rw [plabicStar_boundaryPerm]; rfl
+
+example : (plabicStar .white).boundaryPerm 0 = 2 := by rw [plabicStar_boundaryPerm]; rfl
+
+example : (plabicStar .black).boundaryPerm.symm 0 = 2 := by rw [plabicStar_boundaryPerm]; rfl
+
+example : ¬((plabicStar .black).boundaryPerm 0 = 2) := by rw [plabicStar_boundaryPerm]; decide
+
+example : plabicBoundaryPair.boundaryPerm = finRotate 2 := by
+  apply Equiv.ext
+  intro index
+  have labels := congrArg Prod.snd (plabicBoundaryPair_exitData index)
+  fin_cases index <;> exact labels
+
+example (system : Signals.Plabic.RotationSystem 3 1) : Function.Bijective system.boundaryPerm :=
+  system.boundaryPerm.bijective
+
+example : ((plabicStar .black).derivedRouting (fun _ _ => .black)).decorated.perm 0 = 1 := by
+  change (plabicStar .black).boundaryPerm 0 = 1
+  rw [plabicStar_boundaryPerm]
+  rfl
 
 example : (plabicStarRouting .black).decorated.perm 0 = 1 := rfl
 

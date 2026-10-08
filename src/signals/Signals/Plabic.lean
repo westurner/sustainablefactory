@@ -396,6 +396,81 @@ lemma RotationSystem.boundaryExitData_spec {boundaryCount internalCount : ℕ}
         (system.route earlier (system.start index)).dst ≠ Sum.inl other :=
   system.firstExit_spec _ _ _ _ (system.boundaryExitData_found index)
 
+/-- One turn after the earliest boundary arrival reaches the derived destination's start edge. -/
+lemma RotationSystem.boundary_return_eq {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (index : Fin boundaryCount) :
+    (system.dartTurn : DirectedEdge system → DirectedEdge system)^[
+      (system.boundaryExitData index).1 + 1] (system.start index) =
+        system.start (system.boundaryExitData index).2 := by
+  rw [Function.iterate_succ_apply', ← system.route_eq_dartIterate
+    (system.boundaryExitData index).1 (system.start index) (system.boundaryExitData_spec index).2.2]
+  exact system.dartTurn_boundary _ _ (system.boundaryExitData_spec index).2.1
+
+/-- No positive iterate reaches any boundary start before the derived first-return time. -/
+lemma RotationSystem.boundary_no_early_start {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (first other : Fin boundaryCount)
+    (turns : ℕ) (bound : turns ≤ (system.boundaryExitData first).1)
+    (returns : (system.dartTurn : DirectedEdge system → DirectedEdge system)^[turns]
+      (system.start first) = system.start other) : turns = 0 ∧ first = other := by
+  cases turns with
+  | zero => exact ⟨rfl, Sum.inl.inj (congrArg DirectedEdge.src returns)⟩
+  | succ previous =>
+      have minimal := (system.boundaryExitData_spec first).2.2
+      have agreement := system.route_eq_dartIterate previous (system.start first)
+        (fun earlier before index => minimal earlier (by omega) index)
+      have sources := congrArg DirectedEdge.src returns
+      rw [Function.iterate_succ_apply', system.dartTurn_source, ← agreement] at sources
+      exact False.elim (minimal previous (by omega) other sources)
+
+/-- The positive boundary first-return time is bounded by the finite dart count. -/
+lemma RotationSystem.boundary_return_bound {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (index : Fin boundaryCount) :
+    (system.boundaryExitData index).1 + 1 ≤ Nat.card (DirectedEdge system) := by
+  obtain ⟨period, positive, bound, returns⟩ := system.dartTurn_period (system.start index)
+  have sooner : (system.boundaryExitData index).1 < period := by
+    by_contra! earlier
+    have impossible := (system.boundary_no_early_start index index period earlier returns).1
+    omega
+  omega
+
+/-- Invertible dart dynamics and first-return minimality prevent two starts sharing an exit. -/
+lemma RotationSystem.boundaryExit_injective {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) :
+    Function.Injective (fun index => (system.boundaryExitData index).2) := by
+  have ordered_case : ∀ first second : Fin boundaryCount,
+      (system.boundaryExitData first).1 ≤ (system.boundaryExitData second).1 →
+      (system.boundaryExitData first).2 = (system.boundaryExitData second).2 → first = second := by
+    intro first second ordered matched
+    let gap := (system.boundaryExitData second).1 - (system.boundaryExitData first).1
+    let turn : DirectedEdge system → DirectedEdge system := system.dartTurn
+    have total : (system.boundaryExitData first).1 + 1 + gap =
+        (system.boundaryExitData second).1 + 1 := by dsimp [gap]; omega
+    have sameReturn : turn^[(system.boundaryExitData first).1 + 1] (system.start first) =
+        turn^[(system.boundaryExitData first).1 + 1] (turn^[gap] (system.start second)) := by
+      rw [← Function.iterate_add_apply, total]
+      dsimp only [turn]
+      rw [system.boundary_return_eq first, system.boundary_return_eq second, matched]
+    have meet := (system.dartTurn.injective.iterate _) sameReturn
+    have earliest := system.boundary_no_early_start second first gap
+      (Nat.sub_le _ _) meet.symm
+    exact earliest.2.symm
+  intro first second matched
+  rcases le_total (system.boundaryExitData first).1 (system.boundaryExitData second).1 with
+    ordered | ordered
+  · exact ordered_case first second ordered matched
+  · exact (ordered_case second first ordered matched.symm).symm
+
+/-- Construct the boundary permutation from guaranteed earliest exits, without a supplied permutation. -/
+noncomputable def RotationSystem.boundaryPerm {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) : Equiv.Perm (Fin boundaryCount) :=
+  Equiv.ofBijective (fun index => (system.boundaryExitData index).2)
+    ⟨system.boundaryExit_injective, Finite.injective_iff_surjective.mp system.boundaryExit_injective⟩
+
+/-- The constructed boundary permutation is exactly the label returned by the first-exit search. -/
+lemma RotationSystem.boundaryPerm_apply {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount) (index : Fin boundaryCount) :
+    system.boundaryPerm index = (system.boundaryExitData index).2 := rfl
+
 /-- Any two successful fuel budgets return the same earliest step count and boundary label. -/
 lemma RotationSystem.firstExit_unique {boundaryCount internalCount : ℕ}
     (system : RotationSystem boundaryCount internalCount) (fuel otherFuel : ℕ)
@@ -447,6 +522,15 @@ lemma BoundaryRouting.perm_bijective {boundaryCount internalCount : ℕ}
     {system : RotationSystem boundaryCount internalCount} (routing : BoundaryRouting system) :
     Function.Bijective routing.decorated.perm :=
   routing.perm.bijective
+
+/-- Populate the compatibility certificate from derived exits; fixed-point decorations remain explicit. -/
+noncomputable def RotationSystem.derivedRouting {boundaryCount internalCount : ℕ}
+    (system : RotationSystem boundaryCount internalCount)
+    (fixedColor : ∀ index, system.boundaryPerm index = index → NodeColor) : BoundaryRouting system :=
+  { perm := system.boundaryPerm
+    steps := fun index => (system.boundaryExitData index).1
+    exits := fun index => (system.boundaryExitData_spec index).2.1
+    fixedColor := fixedColor }
 
 /-- Nonnegative edge weights with a checked strict level increase on every nonzero edge. -/
 structure WeightedAcyclicNetwork (vertexCount height : ℕ) where
