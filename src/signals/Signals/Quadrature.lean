@@ -141,8 +141,8 @@ lemma CellQuadrature.amplitude_error_le_of_lipschitz {Coordinate : Type*}
 /-- Uniform regularity over a fixed detector/wavelength domain derives a comparison, not an assumed match. -/
 @[blueprint "lem:signals-uniform-quadrature-comparison"
   (title := "Derived uniform amplitude comparison")
-  (statement := /-- On a fixed nonempty detector domain, uniform integrability and one common
-    Lipschitz constant, together with a nonnegative mesh bound, derive a comparison tolerance
+  (statement := /-- On a fixed nonempty detector domain, integrability at every detector and
+    one common Lipschitz constant, together with a nonnegative mesh bound, derive a comparison tolerance
     $Lh\mu(X)$ between the actual quadrature and integral. -/)
   (proof := /-- Global Lipschitz regularity supplies the cellwise density bound at each detector;
     apply the derived quadrature error estimate. -/)

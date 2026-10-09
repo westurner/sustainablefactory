@@ -20,8 +20,12 @@ from the Lean terms unless a specific additional dependency is needed.
 Include each annotated module using `\inputleanmodule` in the existing blueprint
 chapter. Extraction alone does not add its nodes to the rendered document.
 From the Signals package directory, `lake build :blueprint` extracts LaTeX,
-`lake build :blueprintJson` exports metadata, and `make blueprint` extracts and
-renders the standalone HTML blueprint. The documentation build embeds that HTML.
+`lake build :blueprintJson` exports metadata, and `make lean-api` generates
+doc-gen API pages and the declaration finder in `.lake/build/doc`.
+`make blueprint` builds that API reference, extracts the nodes, and renders the
+standalone HTML blueprint with a relative `signals-api/` link to the API tree.
+The documentation build copies both into its embedded blueprint output, so
+declaration links work under the same URL prefix when served locally or published.
 
 JSON preserves raw annotation configuration. Check inferred dependency links
 and `leanok` readiness markers in the generated LaTeX and rendered HTML.
@@ -30,6 +34,7 @@ with their declarations so they are not consumed by a preceding tactic proof.
 
 ```{raw} html
 <p><a href="signals-blueprint/index.html">Open the standalone blueprint</a></p>
+<p><a href="signals-blueprint/signals-api/index.html">Open the Lean API reference</a></p>
 <iframe
   src="signals-blueprint/index.html"
   title="Signals Lean Blueprint"
