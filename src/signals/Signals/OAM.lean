@@ -1,5 +1,5 @@
 import Mathlib.Data.Fintype.BigOperators
-import Mathlib.Data.Complex.Basic
+import Mathlib.Basic.Complex.Basic
 import Mathlib.Tactic
 
 namespace Signals.OAM

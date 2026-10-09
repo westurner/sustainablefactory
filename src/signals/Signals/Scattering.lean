@@ -1,5 +1,5 @@
-import Mathlib.Data.Complex.Basic
-import Mathlib.Data.Real.Basic
+import Mathlib.Basic.Complex.Basic
+import Mathlib.Basic.Real.Basic
 import Mathlib.Tactic
 import Signals.Contracts
 import Signals.IQ

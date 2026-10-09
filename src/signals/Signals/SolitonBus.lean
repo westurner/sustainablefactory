@@ -1,4 +1,4 @@
-import Mathlib.Data.Complex.Basic
+import Mathlib.Basic.Complex.Basic
 import Mathlib.Data.Fin.Basic
 import Mathlib.LinearAlgebra.Matrix.Notation
 import Mathlib.Tactic

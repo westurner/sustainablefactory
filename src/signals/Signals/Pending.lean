@@ -1,6 +1,6 @@
 import Mathlib.Analysis.SpecialFunctions.Exp
-import Mathlib.Data.Complex.Basic
-import Mathlib.Data.Real.Basic
+import Mathlib.Basic.Complex.Basic
+import Mathlib.Basic.Real.Basic
 import Mathlib.Tactic
 import Signals.Acoustics
 import Signals.Applications

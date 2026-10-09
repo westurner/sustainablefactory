@@ -16,7 +16,7 @@ Based on the principle that erasing information entangled with an observer (nega
 
 -/
 
-import Mathlib.Data.Real.Basic
+import Mathlib.Basic.Real.Basic
 
 namespace Signals.QuantumCooling
 
