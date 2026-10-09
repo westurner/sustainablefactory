@@ -1,3 +1,4 @@
+import Architect
 import Mathlib.Combinatorics.SimpleGraph.Basic
 import Mathlib.Data.Matrix.Basic
 import Mathlib.Dynamics.PeriodicPts.Lemmas
@@ -23,6 +24,10 @@ inductive NodeColor where
   deriving DecidableEq, Repr
 
 /-- A permutation with a color supplied exactly where a fixed point needs decoration. -/
+@[blueprint "def:signals-decorated-permutation"
+  (title := "Explicit fixed-point decorations")
+  (statement := /-- A decorated boundary permutation is a finite permutation with an explicitly
+    supplied black or white color for each fixed point. The colors are not inferred from routing. -/)]
 structure DecoratedPermutation (boundaryCount : ℕ) where
   perm : Equiv.Perm (Fin boundaryCount)
   fixedColor : ∀ index, perm index = index → NodeColor
@@ -42,6 +47,11 @@ abbrev Vertex (boundaryCount internalCount : ℕ) := Fin boundaryCount ⊕ Fin i
 inverse. `singleOrbit` rules out a purported cyclic order consisting of several
 cycles. A genus-zero disk embedding and reducedness are not supplied here.
 -/
+@[blueprint "def:signals-rotation-system"
+  (title := "Finite colored rotation systems")
+  (statement := /-- A finite graph carries degree-one boundary vertices, internal colors and
+    single-orbit cyclic neighbor rotations. Black turns use the rotation, white turns its inverse.
+    A planar disk embedding and reducedness are not included. -/)]
 structure RotationSystem (boundaryCount internalCount : ℕ) where
   graph : SimpleGraph (Vertex boundaryCount internalCount)
   color : Fin internalCount → NodeColor
@@ -103,6 +113,10 @@ def RotationSystem.turnRotation {boundaryCount internalCount : ℕ}
       | .white => (system.rotation (Sum.inr internal)).symm
 
 /-- Continue strands through boundaries to obtain a derived permutation on all directed edges. -/
+@[blueprint "def:signals-dart-permutation"
+  (title := "Continuing dart permutation")
+  (statement := /-- Reverse each directed edge and apply its destination's invertible neighbor
+    turn. The resulting continuing dynamics form a permutation of the finite dart carrier. -/)]
 def RotationSystem.dartTurn {boundaryCount internalCount : ℕ}
     (system : RotationSystem boundaryCount internalCount) : Equiv.Perm (DirectedEdge system) :=
   (DirectedEdge.reverse system).trans
@@ -115,6 +129,12 @@ lemma RotationSystem.dartTurn_source {boundaryCount internalCount : ℕ}
     (system.dartTurn edge).src = edge.dst := rfl
 
 /-- Every dart returns in a positive number of turns bounded by the finite dart count. -/
+@[blueprint "lem:signals-dart-period"
+  (title := "Dart-count period bound")
+  (statement := /-- Each dart returns after a positive number of continuing turns at most
+    the cardinality of the directed-edge carrier. -/)
+  (proof := /-- A finite permutation has periodic points; bound the minimal period by the carrier size. -/)
+  (latexEnv := "lemma")]
 lemma RotationSystem.dartTurn_period {boundaryCount internalCount : ℕ}
     (system : RotationSystem boundaryCount internalCount) (edge : DirectedEdge system) :
     ∃ period > 0, period ≤ Nat.card (DirectedEdge system) ∧
@@ -222,6 +242,10 @@ lemma RotationSystem.route_add {boundaryCount internalCount : ℕ}
   | succ extra induction_hypothesis => exact congrArg system.step induction_hypothesis
 
 /-- Search for the first boundary exit, returning its step count or an explicit fuel failure. -/
+@[blueprint "def:signals-first-exit"
+  (title := "Executable bounded exit search")
+  (statement := /-- A fuel-bounded strand evaluator returns the earliest exit's step count
+    and boundary label, or an explicit failure if the budget is exhausted internally. -/)]
 def RotationSystem.firstExit {boundaryCount internalCount : ℕ}
   (system : RotationSystem boundaryCount internalCount) : ℕ → DirectedEdge system →
     Option (ℕ × Fin boundaryCount)
@@ -346,6 +370,13 @@ lemma RotationSystem.firstExit_none_earlier {boundaryCount internalCount : ℕ}
   exact ((system.firstExit_none_iff fuel edge).mp result index) terminal
 
 /-- Every boundary start has an exit found using at most the finite dart count as search fuel. -/
+@[blueprint "lem:signals-boundary-exit-exists"
+  (title := "Derived finite boundary termination")
+  (statement := /-- Starting at a boundary, first-exit search succeeds with the finite dart
+    count as fuel. Termination is derived, not supplied as a certificate field. -/)
+  (proof := /-- Until an exit, stopped routing agrees with continuing dart dynamics.
+    A bounded positive dart period forces a boundary arrival. -/)
+  (latexEnv := "lemma")]
 lemma RotationSystem.boundary_firstExit_exists {boundaryCount internalCount : ℕ}
     (system : RotationSystem boundaryCount internalCount) (index : Fin boundaryCount) :
     ∃ steps destination, system.firstExit (Nat.card (DirectedEdge system)) (system.start index) =
@@ -423,6 +454,12 @@ lemma RotationSystem.boundary_no_early_start {boundaryCount internalCount : ℕ}
       exact False.elim (minimal previous (by omega) other sources)
 
 /-- The positive boundary first-return time is bounded by the finite dart count. -/
+@[blueprint "lem:signals-boundary-return-bound"
+  (title := "Positive first-return bound")
+  (statement := /-- The earliest boundary arrival plus one continuing turn reaches the
+    destination's start edge, with positive return time at most the dart count. -/)
+  (proof := /-- First-return minimality places the earliest exit before the bounded dart period. -/)
+  (latexEnv := "lemma")]
 lemma RotationSystem.boundary_return_bound {boundaryCount internalCount : ℕ}
     (system : RotationSystem boundaryCount internalCount) (index : Fin boundaryCount) :
     (system.boundaryExitData index).1 + 1 ≤ Nat.card (DirectedEdge system) := by
@@ -434,6 +471,12 @@ lemma RotationSystem.boundary_return_bound {boundaryCount internalCount : ℕ}
   omega
 
 /-- Invertible dart dynamics and first-return minimality prevent two starts sharing an exit. -/
+@[blueprint "lem:signals-boundary-exit-injective"
+  (title := "First-exit injectivity")
+  (statement := /-- Distinct boundary starts have distinct derived first-exit labels. -/)
+  (proof := /-- Cancel common invertible dart iterates. A shared exit would force an earlier
+    boundary return, contradicting first-return minimality. -/)
+  (latexEnv := "lemma")]
 lemma RotationSystem.boundaryExit_injective {boundaryCount internalCount : ℕ}
     (system : RotationSystem boundaryCount internalCount) :
     Function.Injective (fun index => (system.boundaryExitData index).2) := by
@@ -461,6 +504,10 @@ lemma RotationSystem.boundaryExit_injective {boundaryCount internalCount : ℕ}
   · exact (ordered_case second first ordered matched.symm).symm
 
 /-- Construct the boundary permutation from guaranteed earliest exits, without a supplied permutation. -/
+@[blueprint "def:signals-derived-boundary-permutation"
+  (title := "Derived boundary permutation")
+  (statement := /-- Derived earliest-exit labels construct a boundary permutation: injectivity
+    implies surjectivity on the finite boundary set. Fixed-point colors remain separate input data. -/)]
 noncomputable def RotationSystem.boundaryPerm {boundaryCount internalCount : ℕ}
     (system : RotationSystem boundaryCount internalCount) : Equiv.Perm (Fin boundaryCount) :=
   Equiv.ofBijective (fun index => (system.boundaryExitData index).2)
@@ -490,11 +537,11 @@ lemma RotationSystem.firstExit_unique {boundaryCount internalCount : ℕ}
   refine ⟨sameSteps, Sum.inl.inj (destination.symm.trans ?_)⟩
   simpa only [sameSteps] using otherDestination
 
-  /-- A checked finite exit certificate and bijective boundary labeling.
+/-- A checked finite exit certificate and bijective boundary labeling.
 
-  The permutation and finite step counts are supplied and checked against the
-  route evaluator, not derived from unproved termination or planarity premises.
-  -/
+The permutation and finite step counts are supplied and checked against the
+route evaluator, not derived from unproved termination or planarity premises.
+-/
 structure BoundaryRouting {boundaryCount internalCount : ℕ}
     (system : RotationSystem boundaryCount internalCount) where
   perm : Equiv.Perm (Fin boundaryCount)
@@ -533,6 +580,10 @@ noncomputable def RotationSystem.derivedRouting {boundaryCount internalCount : �
     fixedColor := fixedColor }
 
 /-- Nonnegative edge weights with a checked strict level increase on every nonzero edge. -/
+@[blueprint "def:signals-weighted-acyclic-network"
+  (title := "Level-certified weighted networks")
+  (statement := /-- A finite nonnegative weight matrix $W$ has vertex levels in
+    $\{0,\ldots,h\}$, strictly increasing along each nonzero edge. No planar embedding is supplied. -/)]
 structure WeightedAcyclicNetwork (vertexCount height : ℕ) where
   level : Fin vertexCount → Fin (height + 1)
   weight : Matrix (Fin vertexCount) (Fin vertexCount) ℝ≥0
@@ -564,6 +615,11 @@ lemma WeightedAcyclicNetwork.pathWeight_zero {vertexCount height : ℕ}
       rw [right, mul_zero]
 
 /-- The checked level bound derives nilpotency; no cyclic-series convergence is assumed. -/
+@[blueprint "lem:signals-weight-nilpotency"
+  (title := "Derived weight nilpotency")
+  (statement := /-- For a level-certified network of height $h$, $W^{h+1}=0$. -/)
+  (proof := /-- Induct on path length to show entries vanish beyond the available level difference. -/)
+  (latexEnv := "lemma")]
 lemma WeightedAcyclicNetwork.nilpotent {vertexCount height : ℕ}
     (network : WeightedAcyclicNetwork vertexCount height) : network.weight ^ (height + 1) = 0 := by
   apply Matrix.ext
@@ -574,6 +630,10 @@ lemma WeightedAcyclicNetwork.nilpotent {vertexCount height : ℕ}
   omega
 
 /-- Sum all weighted path lengths allowed by the certified acyclic height, including length zero. -/
+@[blueprint "def:signals-finite-transfer"
+  (title := "Finite weighted-path transfer")
+  (statement := /-- Define the actual transfer matrix $T=\sum_{\ell=0}^{h}W^\ell$,
+    including the identity term. Nilpotency makes larger cutoffs add only zero terms. -/)]
 noncomputable def WeightedAcyclicNetwork.transfer {vertexCount height : ℕ}
     (network : WeightedAcyclicNetwork vertexCount height) :
     Matrix (Fin vertexCount) (Fin vertexCount) ℝ≥0 :=
@@ -592,6 +652,11 @@ lemma WeightedAcyclicNetwork.transfer_stable {vertexCount height : ℕ}
   rfl
 
 /-- The finite path sum satisfies the exact identity-plus-one-edge continuation equation. -/
+@[blueprint "lem:signals-transfer-equation"
+  (title := "Finite continuation identity")
+  (statement := /-- The derived finite transfer satisfies $T=I+WT$ exactly. -/)
+  (proof := /-- Shift the finite power sum; the final power vanishes by the level-derived nilpotency. -/)
+  (latexEnv := "lemma")]
 lemma WeightedAcyclicNetwork.transfer_equation {vertexCount height : ℕ}
     (network : WeightedAcyclicNetwork vertexCount height) :
     network.transfer = 1 + network.weight * network.transfer := by
@@ -611,6 +676,10 @@ lemma WeightedAcyclicNetwork.transfer_equation {vertexCount height : ℕ}
       exact pow_succ' network.weight length
 
 /-- Boundary measurements select source/sink entries of the derived finite weighted path sum. -/
+@[blueprint "def:signals-boundary-measurement"
+  (title := "Actual source-sink measurements")
+  (statement := /-- Chosen source and sink maps select entries of the derived transfer
+    matrix. These nonnegative measurements do not by themselves establish signed-minor positivity. -/)]
 noncomputable def WeightedAcyclicNetwork.boundaryMeasurement {vertexCount height : ℕ}
     (network : WeightedAcyclicNetwork vertexCount height) {sourceCount sinkCount : ℕ}
     (sources : Fin sourceCount → Fin vertexCount) (sinks : Fin sinkCount → Fin vertexCount) :
@@ -649,6 +718,12 @@ lemma WeightedAcyclicNetwork.twoEdgePath_transfer (firstWeight secondWeight : �
   simp [twoEdgePath, Fin.sum_univ_succ]
 
 /-- Subdivision by a nonzero factor preserves the complete one-source/one-sink boundary matrix. -/
+@[blueprint "lem:signals-guarded-subdivision"
+  (title := "Guarded edge subdivision")
+  (statement := /-- For a nonzero split factor $s$, subdividing a single weight $w$ into
+    $s$ and $w/s$ preserves the actual source-sink boundary measurement. -/)
+  (proof := /-- Compute the one-edge and two-edge transfers and cancel the nonzero split factor. -/)
+  (latexEnv := "lemma")]
 lemma WeightedAcyclicNetwork.subdivision_boundary (weight factor : ℝ≥0) (nonzero : factor ≠ 0) :
     (twoEdgePath factor (weight / factor)).boundaryMeasurement
       (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 2) =

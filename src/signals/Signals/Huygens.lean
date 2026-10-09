@@ -1,3 +1,4 @@
+import Architect
 import Mathlib.Analysis.Complex.Exponential
 import Mathlib.Analysis.Complex.Trigonometric
 import Mathlib.Analysis.SpecialFunctions.Sqrt
@@ -8,13 +9,13 @@ import Signals.Units
 
 namespace Signals.Huygens
 
-/-! Finite scalar Huygens-Fresnel quadrature in three spatial dimensions.
+/-! Finite scalar Huygens-Fresnel sums and a guarded planar approximation.
 
 Coordinates and wavelengths are in metres. Aperture weights include the supplied
 quadrature, transmission, and obliquity factors. Intensity is an uncalibrated
 squared complex amplitude, not irradiance or a normalized probability density.
-No continuum integral, vector boundary-value problem, or quantum path measure
-is asserted by these definitions.
+Planar integrals require explicit regularity and integrability. Neither layer
+asserts an exact vector boundary-value solution or a quantum path measure.
 -/
 
 /-- Three Cartesian spatial coordinates measured in metres. -/
@@ -50,6 +51,10 @@ lemma distance_pos_of_ne (source detector : Point3) (distinct : source ≠ detec
   exact Real.sqrt_pos.mpr (lt_of_lt_of_le positive lowerBound)
 
 /-- A scalar monochromatic wavelength with an explicit positive length. -/
+@[blueprint "def:signals-monochromatic-wave"
+  (title := "Positive scalar wavelength")
+  (statement := /-- A monochromatic scalar reference supplies a positive wavelength in metres,
+    giving angular wavenumber $k=2\pi/\lambda$. -/)]
 structure MonochromaticWave where
   wavelength : Signals.Units.Length
   wavelength_positive : 0 < wavelength.meters
@@ -63,6 +68,10 @@ noncomputable def MonochromaticWave.wavenumber (wave : MonochromaticWave) : ℝ 
 Lean's division makes its value zero at coincident points. That totalized value
 is not a physical Green-function value at the singularity; use `regularAt`.
 -/
+@[blueprint "def:signals-scalar-kernel"
+  (title := "Outgoing scalar reference kernel")
+  (statement := /-- The scalar reference kernel is $\exp(ikr)/r$, with a common normalization
+    omitted. Its totalized coincident-point value is not a physical singular Green-function value. -/)]
 noncomputable def MonochromaticWave.kernel (wave : MonochromaticWave)
     (source detector : Point3) : ℂ :=
   Complex.exp (Complex.I * ((wave.wavenumber * distance source detector : ℝ) : ℂ)) /
@@ -99,11 +108,20 @@ structure Aperture (sampleCount : ℕ) where
   weight : Fin sampleCount → ℂ
 
 /-- The sampled propagation avoids coincident source, aperture, and detector points. -/
+@[blueprint "def:signals-aperture-regularity"
+  (title := "Finite propagation regularity")
+  (statement := /-- Each sampled aperture point must differ from both the source and detector.
+    This regularity predicate excludes the totalized zero-distance singularities. -/)]
 def Aperture.regularAt {sampleCount : ℕ} (aperture : Aperture sampleCount)
     (source detector : Point3) : Prop :=
   ∀ sample, aperture.point sample ≠ source ∧ aperture.point sample ≠ detector
 
 /-- A finite source-to-aperture-to-detector Huygens-Fresnel sum. -/
+@[blueprint "def:signals-finite-aperture-amplitude"
+  (title := "Finite complex aperture sum")
+  (statement := /-- Sum the supplied complex aperture coefficients times the source-to-sample
+    and sample-to-detector scalar kernels. This finite algebraic evaluator is total;
+    regularity is required separately for physical use. -/)]
 noncomputable def Aperture.amplitude {sampleCount : ℕ} (aperture : Aperture sampleCount)
     (wave : MonochromaticWave) (source detector : Point3) : ℂ :=
   ∑ sample, aperture.weight sample * wave.kernel source (aperture.point sample) *
@@ -162,6 +180,12 @@ structure ApertureSeparation {sampleCount : ℕ} (aperture : Aperture sampleCoun
   detectorBound : ∀ sample, minimum.meters ≤ distance (aperture.point sample) detector
 
 /-- A positive separation certificate implies regularity without totalized singular values. -/
+@[blueprint "lem:signals-separation-regularity"
+  (title := "Positive separation implies regularity")
+  (statement := /-- A positive lower bound on every source-sample and sample-detector
+    separation implies finite aperture regularity. -/)
+  (proof := /-- Coincident points have distance zero, contradicting the positive lower bound. -/)
+  (latexEnv := "lemma")]
 lemma ApertureSeparation.regular {sampleCount : ℕ} {aperture : Aperture sampleCount}
     {source detector : Point3} (separation : ApertureSeparation aperture source detector) :
     aperture.regularAt source detector := by
@@ -177,6 +201,10 @@ lemma ApertureSeparation.regular {sampleCount : ℕ} {aperture : Aperture sample
     exact (not_le_of_gt separation.minimum_positive) bound
 
 /-- Squared complex amplitude, without detector or power calibration. -/
+@[blueprint "def:signals-scalar-intensity"
+  (title := "Uncalibrated scalar intensity")
+  (statement := /-- Define $I(a)=|a|^2$ for a complex amplitude $a$. Detector calibration,
+    irradiance normalization and a probability interpretation are not supplied. -/)]
 def intensity (amplitude : ℂ) : ℝ := Complex.normSq amplitude
 
 /-- Squared complex amplitudes are nonnegative. -/
@@ -184,6 +212,12 @@ lemma intensity_nonnegative (amplitude : ℂ) : 0 ≤ intensity amplitude :=
   Complex.normSq_nonneg amplitude
 
 /-- Superposition includes the coherent cross term, not just the sum of intensities. -/
+@[blueprint "lem:signals-coherent-cross-term"
+  (title := "Coherent superposition law")
+  (statement := /-- $I(a+b)=I(a)+I(b)+2\operatorname{Re}(a\overline b)$.
+    Complex phases cannot be replaced by nonnegative path weights without a separate bridge. -/)
+  (proof := /-- Apply the squared complex norm addition identity. -/)
+  (latexEnv := "lemma")]
 lemma intensity_superposition (first second : ℂ) :
     intensity (first + second) = intensity first + intensity second +
       2 * (first * star second).re :=
@@ -196,6 +230,12 @@ lemma intensity_constructive (amplitude : ℂ) :
   ring
 
 /-- Opposite coherent contributions cancel exactly. -/
+@[blueprint "lem:signals-destructive-interference"
+  (title := "Nonzero-path cancellation control")
+  (statement := /-- For any complex amplitude $a$, $I(a+(-a))=0$; this also permits
+    nonzero individual contributions. A dark fringe need not mean either path vanishes. -/)
+  (proof := /-- The opposite amplitudes sum to zero, whose squared norm is zero. -/)
+  (latexEnv := "lemma")]
 lemma intensity_destructive (amplitude : ℂ) : intensity (amplitude + -amplitude) = 0 := by
   simp [intensity]
 
@@ -206,6 +246,11 @@ lemma intensity_quadrature (amplitude : ℂ) :
   ring
 
 /-- A comparison certifies already fixed functions on a nonempty domain at a fixed tolerance. -/
+@[blueprint "def:signals-amplitude-comparison"
+  (title := "Fixed nonvacuous amplitude comparisons")
+  (statement := /-- Two fixed complex-valued functions on a nonempty detector domain
+    satisfy a supplied nonnegative uniform absolute-error tolerance. This record is a
+    conditional certificate, not evidence that independently evaluated models agree. -/)]
 structure AmplitudeComparison {Detector : Type*} (candidate classical : Detector → ℂ)
     (domain : Set Detector) (tolerance : ℝ) : Prop where
   domain_nonempty : domain.Nonempty
@@ -213,6 +258,12 @@ structure AmplitudeComparison {Detector : Type*} (candidate classical : Detector
   amplitudeError : ∀ detector ∈ domain, ‖candidate detector - classical detector‖ ≤ tolerance
 
 /-- A single held-out disagreement larger than the fixed tolerance rejects a comparison. -/
+@[blueprint "lem:signals-comparison-rejection"
+  (title := "Held-out disagreement rejection")
+  (statement := /-- One detector in the fixed domain whose amplitude disagreement exceeds
+    the fixed tolerance rules out the comparison certificate. -/)
+  (proof := /-- The observed strict inequality contradicts the certificate's pointwise upper bound. -/)
+  (latexEnv := "lemma")]
 lemma AmplitudeComparison.reject {Detector : Type*} (candidate classical : Detector → ℂ)
     (domain : Set Detector) (tolerance : ℝ) (detector : Detector) (member : detector ∈ domain)
     (disagreement : tolerance < ‖candidate detector - classical detector‖) :
@@ -221,6 +272,12 @@ lemma AmplitudeComparison.reject {Detector : Type*} (candidate classical : Detec
   exact (not_le_of_gt disagreement) (comparison.amplitudeError detector member)
 
 /-- Absolute intensity error stays controlled even when the reference intensity vanishes. -/
+@[blueprint "lem:signals-absolute-intensity-error"
+  (title := "Dark-fringe-safe intensity error")
+  (statement := /-- $|I(a)-I(b)|\le |a-b|(|a|+|b|)$, including at zero reference intensity.
+    No relative-error division is used. -/)
+  (proof := /-- Factor the difference of squared norms and use the reverse triangle inequality. -/)
+  (latexEnv := "lemma")]
 lemma intensity_error_le (candidate classical : ℂ) :
     |intensity candidate - intensity classical| ≤
       ‖candidate - classical‖ * (‖candidate‖ + ‖classical‖) := by
@@ -241,6 +298,12 @@ lemma AmplitudeComparison.intensityError {Detector : Type*} {candidate classical
     (mul_le_mul_of_nonneg_right (comparison.amplitudeError detector member) (by positivity))
 
 /-- Composition keeps two independently certified amplitude-error budgets separate and additive. -/
+@[blueprint "lem:signals-comparison-composition"
+  (title := "Additive comparison budgets")
+  (statement := /-- Two certified comparisons on the same domain compose with the sum of
+    their fixed absolute-error tolerances. -/)
+  (proof := /-- Split the difference through the intermediate function and apply the triangle inequality. -/)
+  (latexEnv := "lemma")]
 lemma AmplitudeComparison.compose {Detector : Type*} {candidate intermediate classical : Detector → ℂ}
     {domain : Set Detector} {firstTolerance secondTolerance : ℝ}
     (first : AmplitudeComparison candidate intermediate domain firstTolerance)
@@ -264,6 +327,11 @@ Coordinates use metres and integration uses planar Lebesgue area. Transmission
 and normalization include the chosen source, quadrature, and obliquity convention;
 they do not supply an irradiance calibration or change when the aperture mask changes.
 -/
+@[blueprint "def:signals-fixed-planar-field"
+  (title := "Fixed planar scalar approximation")
+  (statement := /-- Fix the wave, source, aperture plane, complex transmission and normalization.
+    The resulting two-kernel density is integrated against planar area; it is not an exact
+    Helmholtz boundary solution or a calibrated irradiance model. -/)]
 structure FixedPlanarField where
   wave : MonochromaticWave
   source : Point3
@@ -288,6 +356,10 @@ noncomputable def FixedPlanarField.amplitude (field : FixedPlanarField)
   ∫ coordinate in region, field.density detector coordinate
 
 /-- Evaluation requires regular propagation and integrability rather than totalized bad integrals. -/
+@[blueprint "def:signals-planar-evaluation-guard"
+  (title := "Planar evaluation assumptions")
+  (statement := /-- On the selected region, every planar propagation point avoids the source
+    and detector, and the fixed density is integrable. Both conditions are explicit assumptions. -/)]
 structure IntegrablePlanarEvaluation (field : FixedPlanarField) (region : Set (ℝ × ℝ))
     (detector : Point3) : Prop where
   regular : ∀ coordinate ∈ region,
@@ -301,6 +373,12 @@ noncomputable def FixedPlanarField.regularAmplitude (field : FixedPlanarField)
   field.amplitude region detector
 
 /-- Disjoint-mask addition uses the same incident field and propagation convention on both regions. -/
+@[blueprint "lem:signals-disjoint-planar-masks"
+  (title := "Fixed-field mask addition")
+  (statement := /-- For disjoint aperture masks, a measurable second mask and guarded
+    integrable evaluations, the union's fixed-field amplitude is the sum of the two amplitudes. -/)
+  (proof := /-- Apply disjoint set-integral addition to the same density on both masks. -/)
+  (latexEnv := "lemma")]
 lemma FixedPlanarField.amplitude_union (field : FixedPlanarField) (first second : Set (ℝ × ℝ))
     (detector : Point3) (disjoint : Disjoint first second) (secondMeasurable : MeasurableSet second)
     (firstEvaluation : IntegrablePlanarEvaluation field first detector)
@@ -311,6 +389,13 @@ lemma FixedPlanarField.amplitude_union (field : FixedPlanarField) (first second 
     firstEvaluation.integrable secondEvaluation.integrable
 
 /-- A finite-area pointwise density error controls the integral error; it is not a quadrature rate. -/
+@[blueprint "lem:signals-integrated-density-error"
+  (title := "Finite-measure integral error")
+  (statement := /-- For integrable complex densities on a finite measure space, an almost-everywhere
+    bound $|f-g|\le\varepsilon$ gives $|\int f-\int g|\le\varepsilon\mu(X)$.
+    This alone is not a mesh-dependent quadrature rate. -/)
+  (proof := /-- Integrate the difference and apply the constant norm bound on its integral. -/)
+  (latexEnv := "lemma")]
 lemma integral_error_le {Coordinate : Type*} [MeasurableSpace Coordinate]
     (measure : MeasureTheory.Measure Coordinate) [MeasureTheory.IsFiniteMeasure measure]
     (candidate classical : Coordinate → ℂ)
@@ -349,6 +434,10 @@ structure RegularSlitEvaluation {firstCount secondCount : ℕ}
   secondRegular : slits.second.regularAt slits.source detector
 
 /-- Evaluate only after a caller supplies regularity for both finite apertures. -/
+@[blueprint "def:signals-guarded-slit-amplitude"
+  (title := "Guarded masked slit evaluator")
+  (statement := /-- Independent Boolean masks select the two finite aperture contributions.
+    The guarded evaluator requires regularity for both apertures even when a mask is closed. -/)]
 noncomputable def DoubleSlit.regularAmplitude {firstCount secondCount : ℕ}
     (slits : DoubleSlit firstCount secondCount) (detector : Point3)
     (_regular : RegularSlitEvaluation slits detector) : ℂ :=
@@ -369,6 +458,12 @@ lemma DoubleSlit.amplitude_both_open {firstCount secondCount : ℕ}
   simp [DoubleSlit.amplitude, first_open, second_open]
 
 /-- The two-open-slit profile contains the phase-sensitive interference term. -/
+@[blueprint "lem:signals-open-slit-interference"
+  (title := "Two-open-slit coherent intensity")
+  (statement := /-- When both slit masks are open, the intensity includes the coherent cross
+    term of their complex aperture amplitudes, rather than only the sum of individual intensities. -/)
+  (proof := /-- Derive the masked amplitude sum and apply the coherent superposition law. -/)
+  (latexEnv := "lemma")]
 lemma DoubleSlit.intensity_both_open {firstCount secondCount : ℕ}
     (slits : DoubleSlit firstCount secondCount) (detector : Point3)
     (first_open : slits.firstOpen = true) (second_open : slits.secondOpen = true) :
@@ -421,6 +516,11 @@ lemma finiteHistoryAmplitude_add {historyCount : ℕ} (action : Fin historyCount
   simp [finiteHistoryAmplitude, add_mul, Finset.sum_add_distrib]
 
 /-- A positive action scale in the same units as each supplied action (joule seconds in SI). -/
+@[blueprint "def:signals-positive-action-scale"
+  (title := "Positive finite-history action scale")
+  (statement := /-- A positive action scale permits finite weighted history phases
+    $\exp(iS/\hbar)$ with actions in the same units. This supplies neither a continuum
+    quantum path measure nor a justified physical history discretization. -/)]
 structure ActionScale where
   hbar : ℝ
   positive : 0 < hbar

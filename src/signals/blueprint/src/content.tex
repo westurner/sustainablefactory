@@ -8,11 +8,63 @@ Only Lean declarations marked with LeanArchitect's \texttt{@[blueprint]}
 attribute are emitted as formal nodes. The extracted module index is generated
 from the Lean sources before each blueprint build.
 
-\section{Lean declarations}
+Declaration docstrings document the Lean API. Blueprint statements, titles and
+proof summaries are supplied explicitly in the attributes; ordinary declaration
+docstrings do not populate the blueprint statement. Statement and proof
+dependencies are inferred from the corresponding Lean terms.
+
+Readiness markers report sorry-free formal declarations, not experimental
+validation, calibrated data or the realization of a physical model.
 
 \input{../../.lake/build/blueprint/library/Signals.tex}
 \input{../../.lake/build/blueprint/library/SignalsTests.tex}
 \input{../../.lake/build/blueprint/library/SignalsPending.tex}
 \input{../../.lake/build/blueprint/library/SignalsPendingTests.tex}
+
+\section{Finite routing and weighted measurements}
+
+The rotation-system and weighted-network layers are distinct. Neither supplies
+a planar disk embedding, reducedness or a general disjoint-path positivity
+theorem. Fixed-point decorations and signed-pair compatibility remain explicit.
+
+\inputleanmodule{Signals.Plabic}
+
+\section{Ordered minors and geometric representatives}
+
+These nodes describe finite real matrix representatives, not a Grassmannian
+quotient. Positive-condition records need an available ordered selection for
+rank promotion; nonnegative full-rank records retain a nonzero-minor witness.
+Two-step identities do not identify path weights with complex optical amplitudes.
+
+\inputleanmodule{Signals.Geometry}
+
+\section{Scalar propagation and amplitude controls}
+
+Finite sums and planar integrals use the chosen scalar approximation.
+Regularity and integrability guards exclude totalized singular inputs;
+intensity remains uncalibrated. Comparison records do not prove independently
+evaluated models agree or solve an exact diffraction boundary problem.
+
+\inputleanmodule{Signals.Huygens}
+
+\section{Measure-derived quadrature and refinement}
+
+Error rates require the stated measure, integrability, Lipschitz and mesh
+hypotheses. The nodes do not construct a rectangular mesh or establish
+kernel-specific regularity, a Fraunhofer limit or measured convergence.
+
+\inputleanmodule{Signals.Quadrature}
+
+\section{Affine forms and oriented residues}
+
+These are fixed-chart interval, triangle and square examples. Residues are
+punctured limits; diagonal continuation is separate from off-diagonal
+triangulation equality. General projective canonical forms, amplituhedron
+forms and an optical evaluator remain outside this layer.
+
+\inputleanmodule{Signals.CanonicalForms}
+
+\section{Existing model and propagation nodes}
+
 \inputleanmodule{SignalsPending}
 \inputleanmodule{Signals.Propagation}

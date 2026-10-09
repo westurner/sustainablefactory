@@ -1,7 +1,17 @@
+import Architect
 import Mathlib.Basic.Complex.Basic
 import Signals.Plabic
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Tactic
+
+/-!
+# Finite geometric representatives
+
+Ordered minors, orientation laws and finite two-step products are checked algebra.
+Positive conditions require their stated input hypotheses; full-rank promotion
+requires an available nonzero minor. No quotient, planar embedding or optical
+interpretation is constructed here.
+-/
 
 namespace Signals.Geometry
 
@@ -27,6 +37,10 @@ lemma angleBracket_self (spinor : WeylSpinor) :
   ring
 
 /-- Twistor data represented by a pair of Weyl spinors. -/
+@[blueprint "def:signals-twistor-data"
+  (title := "Finite twistor data")
+  (statement := /-- A twistor record consists of two complex two-component Weyl spinors.
+    Incidence and coordinate conventions are supplied separately. -/)]
 structure Twistor where
   lambda : WeylSpinor
   mu : WeylSpinor
@@ -39,6 +53,10 @@ underlying linear-algebra data.
 -/
 
 /-- A strictly ordered selection of `k` columns from `n` columns. -/
+@[blueprint "def:signals-ordered-columns"
+  (title := "Ordered column selections")
+  (statement := /-- An ordered selection of $k$ columns among $n$ is a strictly increasing map
+    $\operatorname{Fin}(k)\to\operatorname{Fin}(n)$. -/)]
 structure OrderedColumns (k n : ℕ) where
   index : Fin k → Fin n
   strictlyIncreasing : StrictMono index
@@ -61,10 +79,18 @@ def OrderedColumns.pair {n : ℕ} (first second : Fin n) (ordered : first < seco
       fin_cases left <;> fin_cases right <;> simp_all }
 
 /-- A finite matrix representing a point before any positivity restriction. -/
+@[blueprint "def:signals-grassmannian-matrix"
+  (title := "Unrestricted finite representatives")
+  (statement := /-- A representative is a real $k\times n$ matrix. This record alone imposes
+    neither full rank nor positivity and does not construct a Grassmannian quotient. -/)]
 structure GrassmannianMatrix (k n : ℕ) where
   mat : Matrix (Fin k) (Fin n) ℝ
 
 /-- The maximal minor selected by an ordered list of columns. -/
+@[blueprint "def:signals-selected-minor"
+  (title := "Ordered maximal minors")
+  (statement := /-- For an ordered column selection $J$, define $\Delta_J(M)=\det(M_J)$,
+    where $M_J$ retains every row and the selected columns in their supplied order. -/)]
 def selectedMinor {k n : ℕ}
     (matrix : Matrix (Fin k) (Fin n) ℝ) (columns : OrderedColumns k n) : ℝ :=
   (matrix.submatrix id columns.index).det
@@ -76,6 +102,12 @@ def GrassmannianMatrix.pluckerCoordinate
   selectedMinor grassmannian.mat columns
 
 /-- Left multiplication by a row basis matrix scales every maximal minor by its determinant. -/
+@[blueprint "lem:signals-minor-basis-change"
+  (title := "Determinant basis-change law")
+  (statement := /-- Every ordered maximal minor obeys
+    $\Delta_J(BM)=\det(B)\Delta_J(M)$ for a square row-basis matrix $B$. -/)
+  (proof := /-- Column selection commutes with left multiplication; apply determinant multiplicativity. -/)
+  (latexEnv := "lemma")]
 lemma selectedMinor_basisChange {k n : ℕ} (basis : Matrix (Fin k) (Fin k) ℝ)
     (matrix : Matrix (Fin k) (Fin n) ℝ) (columns : OrderedColumns k n) :
     selectedMinor (basis * matrix) columns = basis.det * selectedMinor matrix columns := by
@@ -116,10 +148,21 @@ def GrassmannianMatrix.hasPositiveOrderedMinors
     0 < grassmannian.pluckerCoordinate columns
 
 /-- The positive Grassmannian condition, isolated from unrestricted matrices. -/
+@[blueprint "def:signals-positive-condition"
+  (title := "Positive ordered-minor condition")
+  (statement := /-- A positive-condition representative has $\Delta_J(M)>0$ for every
+    available ordered selection $J$. An available selection is still required for full-rank promotion. -/)]
 structure PositiveGrassmannian (k n : ℕ)
     extends GrassmannianMatrix k n where
   strictly_positive : toGrassmannianMatrix.hasPositiveOrderedMinors
 
+/-- The positive-condition record supplies positivity of each available ordered maximal minor. -/
+@[blueprint "lem:signals-positive-coordinate"
+  (title := "Positive ordered coordinates")
+  (statement := /-- Every available ordered maximal minor of a positive-condition
+    representative is strictly positive. -/)
+  (proof := /-- Apply the record's explicit ordered-minor positivity hypothesis. -/)
+  (latexEnv := "lemma")]
 lemma PositiveGrassmannian.pluckerCoordinate_pos
     {k n : ℕ} (grassmannian : PositiveGrassmannian k n)
     (columns : OrderedColumns k n) :
@@ -164,6 +207,10 @@ def GrassmannianMatrix.hasNonnegativeOrderedMinors {k n : ℕ}
   ∀ columns : OrderedColumns k n, 0 ≤ grassmannian.pluckerCoordinate columns
 
 /-- A full-rank nonnegative representative, not a quotient by change of basis. -/
+@[blueprint "def:signals-nonnegative-representative"
+  (title := "Full-rank nonnegative representatives")
+  (statement := /-- A nonnegative representative has every ordered maximal minor nonnegative
+    and an explicit nonzero ordered minor. This is matrix data, not a quotient. -/)]
 structure NonnegativeGrassmannian (k n : ℕ) extends GrassmannianMatrix k n where
   nonnegative : toGrassmannianMatrix.hasNonnegativeOrderedMinors
   nonzero_minor : ∃ columns : OrderedColumns k n,
@@ -176,6 +223,10 @@ lemma NonnegativeGrassmannian.pluckerCoordinate_nonnegative {k n : ℕ}
   grassmannian.nonnegative columns
 
 /-- An available ordered minor makes a positive representative nonnegative and full-rank. -/
+@[blueprint "def:signals-positive-rank-promotion"
+  (title := "Promotion with an available minor")
+  (statement := /-- A positive-condition representative and an available ordered selection
+    construct a full-rank nonnegative representative using that positive minor. -/)]
 def PositiveGrassmannian.toNonnegative {k n : ℕ}
     (grassmannian : PositiveGrassmannian k n) (columns : OrderedColumns k n) :
     NonnegativeGrassmannian k n :=
@@ -207,6 +258,12 @@ def NonnegativeGrassmannian.changeBasis {k n : ℕ} (grassmannian : NonnegativeG
       exact mul_ne_zero (ne_of_gt orientation) nonzero }
 
 /-- A negative determinant reverses every positive minor, so positivity is not invariant under GL(k). -/
+@[blueprint "lem:signals-orientation-rejection"
+  (title := "Orientation reversal rejects positivity")
+  (statement := /-- A row basis change with negative determinant reverses every positive
+    ordered minor. Given an available selection, the transformed representative is not positive. -/)
+  (proof := /-- Apply the basis-change law and the sign of the determinant factor. -/)
+  (latexEnv := "lemma")]
 lemma PositiveGrassmannian.not_positive_of_det_neg {k n : ℕ}
     (grassmannian : PositiveGrassmannian k n) (basis : Matrix (Fin k) (Fin k) ℝ)
     (orientation : basis.det < 0) (columns : OrderedColumns k n) :
@@ -218,6 +275,10 @@ lemma PositiveGrassmannian.not_positive_of_det_neg {k n : ℕ}
     alleged
 
 /-- A normalized one-dimensional positive cell with representative [t, 1-t]. -/
+@[blueprint "def:signals-positive-interval"
+  (title := "Normalized positive interval")
+  (statement := /-- For $0<t<1$, the row $[t,1-t]$ has positive ordered maximal minors.
+    This constructs a representative, not a quotient or weighted-cell correspondence. -/)]
 def PositiveGrassmannian.intervalCell (coordinate : ℝ) (lower : 0 < coordinate)
     (upper : coordinate < 1) : PositiveGrassmannian 1 2 :=
   { mat := !![coordinate, 1 - coordinate]
@@ -249,6 +310,10 @@ lemma forkRepresentative_mat (firstWeight secondWeight : ℝ≥0) :
   fin_cases column <;> rfl
 
 /-- Two positive fork weights yield a positive one-row representative. -/
+@[blueprint "def:signals-positive-fork"
+  (title := "Positive measured fork")
+  (statement := /-- The actual fork boundary row with two positive edge weights constructs
+    a positive one-row representative after conversion to real entries. -/)]
 noncomputable def forkPositive (firstWeight secondWeight : ℝ≥0)
     (firstPositive : 0 < firstWeight) (secondPositive : 0 < secondWeight) : PositiveGrassmannian 1 2 :=
   { toGrassmannianMatrix := forkRepresentative firstWeight secondWeight
@@ -264,6 +329,10 @@ noncomputable def forkPositive (firstWeight secondWeight : ℝ≥0)
       · exact_mod_cast secondPositive }
 
 /-- A nonzero branch supplies the nonzero-minor witness for a nonnegative fork representative. -/
+@[blueprint "def:signals-nonnegative-fork"
+  (title := "Active-branch fork rank")
+  (statement := /-- A nonnegative fork with at least one nonzero edge constructs a full-rank
+    nonnegative row. One zero branch is allowed; the all-zero row is excluded by the active hypothesis. -/)]
 noncomputable def forkNonnegative (firstWeight secondWeight : ℝ≥0)
     (active : firstWeight ≠ 0 ∨ secondWeight ≠ 0) : NonnegativeGrassmannian 1 2 :=
   { toGrassmannianMatrix := forkRepresentative firstWeight secondWeight
@@ -309,6 +378,12 @@ lemma twoChannelRepresentative_mat (firstFirst firstSecond secondFirst secondSec
   fin_cases row <;> fin_cases column <;> rfl
 
 /-- The two-channel determinant is the signed difference of the two source/sink pair products. -/
+@[blueprint "lem:signals-two-channel-determinant"
+  (title := "Measured two-channel determinant")
+  (statement := /-- The real two-channel boundary matrix has determinant $ad-bc$.
+    Nonnegative entries alone do not establish a nonnegative ordered minor. -/)
+  (proof := /-- Substitute the derived boundary matrix and expand its two-by-two determinant. -/)
+  (latexEnv := "lemma")]
 lemma twoChannelRepresentative_det (firstFirst firstSecond secondFirst secondSecond : ℝ≥0) :
     (twoChannelRepresentative firstFirst firstSecond secondFirst secondSecond).mat.det =
       (firstFirst : ℝ) * (secondSecond : ℝ) - (firstSecond : ℝ) * (secondFirst : ℝ) := by
@@ -342,6 +417,12 @@ lemma singleHubRepresentative_mat (firstIn secondIn firstOut secondOut : ℝ≥0
   fin_cases row <;> fin_cases column <;> rfl
 
 /-- The two signed path-pair products through the shared hub cancel for every choice of edge weights. -/
+@[blueprint "lem:signals-hub-cancellation"
+  (title := "Shared-hub determinant cancellation")
+  (statement := /-- For any incoming and outgoing hub weights, the measured product matrix
+    $[uv,uw;xv,xw]$ has determinant zero. Positive entries do not remove this rank obstruction. -/)
+  (proof := /-- Derive the two-edge measured entries, then cancel the two signed pair products. -/)
+  (latexEnv := "lemma")]
 lemma singleHubRepresentative_det (firstIn secondIn firstOut secondOut : ℝ≥0) :
     (singleHubRepresentative firstIn secondIn firstOut secondOut).mat.det = 0 := by
   rw [singleHubRepresentative_mat, Matrix.det_fin_two]
@@ -349,6 +430,12 @@ lemma singleHubRepresentative_det (firstIn secondIn firstOut secondOut : ℝ≥0
   ring
 
 /-- A two-step two-channel determinant expands as signed pairs of intermediate-vertex terms. -/
+@[blueprint "lem:signals-two-step-path-pairs"
+  (title := "Finite two-step pair expansion")
+  (statement := /-- For real matrices $A$ of size $2\times m$ and $B$ of size $m\times2$,
+    $\det(AB)=\sum_i\sum_j A_{0i}A_{1j}(B_{i0}B_{j1}-B_{i1}B_{j0})$. -/)
+  (proof := /-- Expand the determinant and matrix products, distribute the finite sums, and factor each term. -/)
+  (latexEnv := "lemma")]
 lemma twoStep_det_pathPairs {middleCount : ℕ}
     (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
     (outgoing : Matrix (Fin middleCount) (Fin 2) ℝ) :
@@ -374,6 +461,10 @@ lemma twoStep_sameMiddle_term {middleCount : ℕ}
   ring
 
 /-- The signed product of incoming and outgoing two-by-two minors for one intermediate pair. -/
+@[blueprint "def:signals-two-step-minor-pair"
+  (title := "Signed input minor pairs")
+  (statement := /-- Define $D_{ij}=(A_{0i}A_{1j}-A_{0j}A_{1i})
+    (B_{i0}B_{j1}-B_{i1}B_{j0})$. These are algebraic input contributions, not optical amplitudes. -/)]
 def twoStepMinorPair {middleCount : ℕ}
     (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
     (outgoing : Matrix (Fin middleCount) (Fin 2) ℝ) (first second : Fin middleCount) : ℝ :=
@@ -381,6 +472,12 @@ def twoStepMinorPair {middleCount : ℕ}
     (outgoing first 0 * outgoing second 1 - outgoing first 1 * outgoing second 0)
 
 /-- Pairing both intermediate orders gives products of two-by-two minors, counted twice. -/
+@[blueprint "lem:signals-two-step-paired-minors"
+  (title := "Paired-minor counting identity")
+  (statement := /-- Summing all ordered intermediate pairs gives
+    $\sum_i\sum_j D_{ij}=2\det(AB)$. The factor two counts both index orders. -/)
+  (proof := /-- Exchange the two summation indices in the reversed contribution and apply the signed pair expansion. -/)
+  (latexEnv := "lemma")]
 lemma twoStep_minorPairs_sum {middleCount : ℕ}
     (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
     (outgoing : Matrix (Fin middleCount) (Fin 2) ℝ) :
@@ -408,6 +505,12 @@ lemma twoStep_minorPairs_sum {middleCount : ℕ}
     _ = 2 * (incoming * outgoing).det := by ring
 
 /-- Compatible nonnegative minor-pair contributions derive a nonnegative two-step determinant. -/
+@[blueprint "lem:signals-two-step-nonnegative"
+  (title := "Compatible-pair nonnegativity")
+  (statement := /-- If every input contribution $D_{ij}$ is nonnegative, then $\det(AB)\ge0$.
+    Compatibility is an explicit hypothesis, not a consequence of positive entries or an embedding. -/)
+  (proof := /-- The finite contribution sum is nonnegative; use the paired-minor identity. -/)
+  (latexEnv := "lemma")]
 lemma twoStep_det_nonnegative {middleCount : ℕ}
     (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
     (outgoing : Matrix (Fin middleCount) (Fin 2) ℝ)
@@ -421,6 +524,12 @@ lemma twoStep_det_nonnegative {middleCount : ℕ}
   linarith
 
 /-- One positive minor-pair witness among compatible contributions derives strict determinant positivity. -/
+@[blueprint "lem:signals-two-step-positive"
+  (title := "Active compatible-pair positivity")
+  (statement := /-- Nonnegative input contributions and one strictly positive pair imply
+    $\det(AB)>0$. The strict pair witness cannot be omitted at a rank boundary. -/)
+  (proof := /-- Bound the positive contribution by its row sum and the total sum, then use the counting identity. -/)
+  (latexEnv := "lemma")]
 lemma twoStep_det_positive {middleCount : ℕ}
     (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
     (outgoing : Matrix (Fin middleCount) (Fin 2) ℝ)
@@ -449,6 +558,12 @@ lemma twoStep_selectedMinor {middleCount sinkCount : ℕ}
   rfl
 
 /-- Every ordered output maximal minor has the derived finite input minor-pair expansion. -/
+@[blueprint "lem:signals-selected-paired-minors"
+  (title := "Arbitrary ordered output minors")
+  (statement := /-- For any ordered pair of sink columns $J$,
+    $\sum_i\sum_j D_{ij}(A,B_J)=2\Delta_J(AB)$, with any finite intermediate and sink counts. -/)
+  (proof := /-- Column selection commutes with the product; apply the two-channel paired-minor identity. -/)
+  (latexEnv := "lemma")]
 lemma twoStep_selectedMinor_pairs {middleCount sinkCount : ℕ}
     (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
     (outgoing : Matrix (Fin middleCount) (Fin sinkCount) ℝ)
@@ -490,6 +605,10 @@ lemma twoStep_selectedMinor_positive {middleCount sinkCount : ℕ}
   exact twoStep_det_positive incoming (outgoing.submatrix id columns.index) compatible first second active
 
 /-- Compatible input pairs and a positive witness for each ordered selection derive the positive condition. -/
+@[blueprint "def:signals-two-step-positive-record"
+  (title := "Derived positive-condition records")
+  (statement := /-- Compatible input pairs and a positive pair for every ordered sink selection
+    construct the positive-condition record for the actual product matrix. Rank promotion still needs an available selection. -/)]
 def twoStepPositive {middleCount sinkCount : ℕ}
     (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
     (outgoing : Matrix (Fin middleCount) (Fin sinkCount) ℝ)
@@ -506,6 +625,10 @@ def twoStepPositive {middleCount sinkCount : ℕ}
         first second positive }
 
 /-- One active selected input pair supplies a nonzero output minor for a nonnegative full-rank record. -/
+@[blueprint "def:signals-two-step-nonnegative-record"
+  (title := "Derived nonnegative full-rank records")
+  (statement := /-- Compatible pairs for every ordered sink selection and one available selection
+    with a positive pair construct a full-rank nonnegative product representative, retaining boundary zero minors. -/)]
 def twoStepNonnegative {middleCount sinkCount : ℕ}
     (incoming : Matrix (Fin 2) (Fin middleCount) ℝ)
     (outgoing : Matrix (Fin middleCount) (Fin sinkCount) ℝ)
@@ -532,6 +655,11 @@ described by this representation.
 -/
 
 /-- A real four-momentum in the mostly-minus metric convention. -/
+@[blueprint "def:signals-four-momentum-data"
+  (title := "Supplied mass-shell data")
+  (statement := /-- Real energy and momentum components carry a nonnegative mass and an
+    explicit supplied equation $E^2-p_x^2-p_y^2-p_z^2=m^2$ in the mostly-minus convention.
+    This record does not derive or experimentally establish the mass-shell premise. -/)]
 structure FourMomentum where
   energy : ℝ
   px : ℝ
@@ -593,10 +721,18 @@ lemma Twistor.ext_components {left right : Twistor}
 abbrev SpacetimeMatrix := Matrix (Fin 2) (Fin 2) ℂ
 
 /-- Incidence in the convention `mu = -i x lambda`. -/
+@[blueprint "def:signals-twistor-incidence"
+  (title := "Fixed complex incidence convention")
+  (statement := /-- Incidence is the coordinate equation $\mu=-iX\lambda$ for a complex
+    two-by-two coordinate matrix $X$. Hermiticity and a spacetime metric are not imposed. -/)]
 def Twistor.incident (twistor : Twistor) (position : SpacetimeMatrix) : Prop :=
   twistor.mu.component = (-Complex.I) • position.mulVec twistor.lambda.component
 
 /-- The algebraic shear induced by translating the coordinate matrix. -/
+@[blueprint "def:signals-twistor-translation"
+  (title := "Algebraic coordinate shear")
+  (statement := /-- Translation by $H$ leaves $\lambda$ fixed and sends
+    $\mu$ to $\mu-iH\lambda$. This is a finite coordinate operation, not an optical evolution law. -/)]
 def Twistor.translate (twistor : Twistor) (offset : SpacetimeMatrix) : Twistor :=
   { lambda := twistor.lambda
     mu := WeylSpinor.ofComponents
@@ -627,6 +763,12 @@ lemma Twistor.translate_zero (twistor : Twistor) : twistor.translate 0 = twistor
   simp [Twistor.translate_mu]
 
 /-- Successive coordinate translations add their offsets. -/
+@[blueprint "lem:signals-twistor-additive-translation"
+  (title := "Additive coordinate translation")
+  (statement := /-- Two successive twistor coordinate shears equal the shear by the sum
+    of their coordinate offsets. -/)
+  (proof := /-- Compare the two spinor components and use matrix-vector linearity. -/)
+  (latexEnv := "lemma")]
 lemma Twistor.translate_add (twistor : Twistor) (first second : SpacetimeMatrix) :
     (twistor.translate first).translate second = twistor.translate (first + second) := by
   apply Twistor.ext_components
@@ -640,6 +782,12 @@ lemma Twistor.translate_neg (twistor : Twistor) (offset : SpacetimeMatrix) :
   rw [Twistor.translate_add, add_neg_cancel, Twistor.translate_zero]
 
 /-- Incidence is equivalent before and after applying the same coordinate translation. -/
+@[blueprint "lem:signals-incidence-translation-equivalence"
+  (title := "Incidence under translation")
+  (statement := /-- Incidence at $X$ is equivalent to incidence of the translated twistor
+    at $X+H$, using the fixed shear convention. -/)
+  (proof := /-- Matrix-vector linearity proves forward preservation; the negative offset reverses the shear. -/)
+  (latexEnv := "lemma")]
 lemma Twistor.translate_incident_iff (twistor : Twistor) (position offset : SpacetimeMatrix) :
     (twistor.translate offset).incident (position + offset) ↔ twistor.incident position := by
   constructor
@@ -657,11 +805,16 @@ def massiveSpinorProduct
       (left label).component row * (right label).component column
 
 /-- A massive momentum together with its supplied spinor-helicity factorization. -/
+@[blueprint "def:signals-supplied-spinor-factorization"
+  (title := "Supplied two-label spinor factorization")
+  (statement := /-- The momentum bispinor is explicitly supplied as a sum of two spinor
+    outer products. The record does not derive factorization existence or require strictly positive mass. -/)]
 structure MassiveSpinorHelicity (momentum : FourMomentum) where
   left : Fin 2 → WeylSpinor
   right : Fin 2 → WeylSpinor
   factorization : momentum.bispinor = massiveSpinorProduct left right
 
+/-- Expose the supplied mostly-minus mass-shell equation; this does not derive its physical premise. -/
 lemma FourMomentum.mass_shell_holds (momentum : FourMomentum) :
     momentum.energy ^ 2 - momentum.px ^ 2 - momentum.py ^ 2 - momentum.pz ^ 2 =
       momentum.mass ^ 2 :=
@@ -688,6 +841,13 @@ lemma minor_self (matrix : Matrix2x4) (column : Fin 4) :
 
 This is a finite determinant identity; it does not assert an Amplituhedron
 volume or any physical interpretation of the matrix. -/
+@[blueprint "lem:signals-finite-pluecker-relation"
+  (title := "Finite quadratic Pluecker relation")
+  (statement := /-- Every real two-row, four-column matrix obeys
+    $\Delta_{01}\Delta_{23}-\Delta_{02}\Delta_{13}+\Delta_{03}\Delta_{12}=0$.
+    No positivity, amplituhedron volume or optical interpretation follows from this identity alone. -/)
+  (proof := /-- Expand the six two-column determinants and cancel the polynomial terms. -/)
+  (latexEnv := "lemma")]
 lemma pluecker_relation (matrix : Matrix2x4) :
     minor matrix 0 1 * minor matrix 2 3 -
       minor matrix 0 2 * minor matrix 1 3 +
@@ -705,6 +865,10 @@ identification of the bivector with a two-by-two commutator or a Casimir.
 abbrev FourVector := Fin 4 → ℝ
 
 /-- The orbital bivector `position wedge momentum`. -/
+@[blueprint "def:signals-orbital-bivector"
+  (title := "Four-index orbital bivector")
+  (statement := /-- In fixed real coordinates, the orbital bivector has entries
+    $L_{ab}=x_a p_b-x_b p_a$. This is algebraic tensor data. -/)]
 def orbitalBivector (position momentum : FourVector) : Matrix (Fin 4) (Fin 4) ℝ :=
   fun row column => position row * momentum column - position column * momentum row
 
@@ -715,6 +879,12 @@ lemma orbitalBivector_antisymmetric (position momentum : FourVector) (row column
   simp [orbitalBivector]
 
 /-- Translating the position adds the offset's orbital bivector. -/
+@[blueprint "lem:signals-orbital-translation"
+  (title := "Orbital tensor translation law")
+  (statement := /-- Translating position by $h$ sends $x\wedge p$ to
+    $x\wedge p+h\wedge p$, without changing the supplied momentum. -/)
+  (proof := /-- Expand each tensor entry and distribute the coordinate sum. -/)
+  (latexEnv := "lemma")]
 lemma orbitalBivector_translate (position offset momentum : FourVector) :
     orbitalBivector (position + offset) momentum =
       orbitalBivector position momentum + orbitalBivector offset momentum := by

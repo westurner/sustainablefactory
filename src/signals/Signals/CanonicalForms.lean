@@ -1,3 +1,4 @@
+import Architect
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Topology.Instances.Real.Lemmas
 import Mathlib.Tactic
@@ -19,6 +20,10 @@ noncomputable def intervalCoefficient (coordinate : ℝ) : ℝ :=
   1 / (coordinate * (1 - coordinate))
 
 /-- The interval one-form acts on a one-dimensional tangent vector by its coefficient. -/
+@[blueprint "def:signals-affine-interval-form"
+  (title := "Oriented affine interval form")
+  (statement := /-- In the fixed affine coordinate, the interval alternating one-form has
+    coefficient $1/(t(1-t))$. Its regular geometric domain is $0<t<1$. -/)]
 noncomputable def intervalForm (coordinate : ℝ) :
     AlternatingMap ℝ (Fin 1 → ℝ) ℝ (Fin 1) :=
   intervalCoefficient coordinate • Matrix.detRowAlternating
@@ -36,6 +41,13 @@ lemma intervalCoefficient_normalization (coordinate : ℝ) (lower : 0 < coordina
   exact one_div_mul_cancel (mul_ne_zero (ne_of_gt lower) (ne_of_gt (sub_pos.mpr upper)))
 
 /-- A continuous regularization determines the simple-pole residue as a genuine limit. -/
+@[blueprint "lem:signals-punctured-residue-limit"
+  (title := "Continuous regularization gives a residue")
+  (statement := /-- If $(t-b)f(t)=g(t)$ away from $b$ and $g$ is continuous at $b$,
+    then $(t-b)f(t)$ tends to $g(b)$ along the punctured neighborhood of $b$. -/)
+  (proof := /-- The regularized expressions agree eventually on the punctured filter;
+    transfer the limit from the continuous function. -/)
+  (latexEnv := "lemma")]
 lemma residue_limit {coefficient regularized : ℝ → ℝ} {boundary : ℝ}
     (continuous : ContinuousAt regularized boundary)
     (regularization : ∀ coordinate, coordinate ≠ boundary →
@@ -59,6 +71,12 @@ lemma interval_left_regularization (coordinate : ℝ) (distinct : coordinate ≠
     field_simp [distinct, other]
 
 /-- The residue at the left endpoint is +1 in the dt convention. -/
+@[blueprint "lem:signals-interval-left-residue"
+  (title := "Positive left interval residue")
+  (statement := /-- The punctured limit of $t/(t(1-t))$ at $t=0$ is $+1$ in the
+    supplied interval-coordinate convention. -/)
+  (proof := /-- Cancel the left pole and take the continuous limit of $1/(1-t)$. -/)
+  (latexEnv := "lemma")]
 lemma interval_residue_zero :
     Filter.Tendsto (fun coordinate => coordinate * intervalCoefficient coordinate)
       (𝓝[≠] (0 : ℝ)) (𝓝 1) := by
@@ -79,6 +97,12 @@ lemma interval_right_regularization (coordinate : ℝ) (distinct : coordinate �
     ring
 
 /-- The residue at the right endpoint is -1 in the dt convention. -/
+@[blueprint "lem:signals-interval-right-residue"
+  (title := "Negative right interval residue")
+  (statement := /-- The punctured limit of $(t-1)/(t(1-t))$ at $t=1$ is $-1$
+    in the same interval-coordinate convention. -/)
+  (proof := /-- The right-pole regularization is $-1/t$, whose continuous limit is $-1$. -/)
+  (latexEnv := "lemma")]
 lemma interval_residue_one :
     Filter.Tendsto (fun coordinate => (coordinate - 1) * intervalCoefficient coordinate)
       (𝓝[≠] (1 : ℝ)) (𝓝 (-1)) := by
@@ -100,6 +124,11 @@ noncomputable def triangleCoefficient (point : Plane) : ℝ :=
   1 / (point 0 * point 1 * (1 - point 0 - point 1))
 
 /-- A genuine alternating two-form in the standard oriented affine coordinates. -/
+@[blueprint "def:signals-affine-triangle-form"
+  (title := "Oriented affine triangle form")
+  (statement := /-- The alternating area form has coefficient $1/(xy(1-x-y))$
+    in the fixed orientation, with regular triangle domain $x>0$, $y>0$, $x+y<1$.
+    This is not a general projective existence theorem. -/)]
 noncomputable def triangleForm (point : Plane) : AlternatingMap ℝ Plane ℝ (Fin 2) :=
   triangleCoefficient point • Matrix.detRowAlternating
 
@@ -164,6 +193,12 @@ lemma triangle_diagonal_regularization (coordinate normal : ℝ) (distinct : nor
     cancel_pole_factor normal (coordinate * (1 - coordinate - normal)) distinct
 
 /-- The x-boundary residue is the interval form's coefficient on the surviving coordinate. -/
+@[blueprint "lem:signals-triangle-x-residue"
+  (title := "Triangle x-boundary residue")
+  (statement := /-- For a surviving coordinate $0<t<1$, the triangle's regularized
+    x-normal contraction tends to the positive interval coefficient $1/(t(1-t))$. -/)
+  (proof := /-- Compute the oriented normal contraction and apply the continuous regularization limit. -/)
+  (latexEnv := "lemma")]
 lemma triangle_residue_x (coordinate : ℝ) (lower : 0 < coordinate) (upper : coordinate < 1) :
     Filter.Tendsto (fun normal => normal * triangleForm ![normal, coordinate] !![1, 0; 0, 1])
       (𝓝[≠] (0 : ℝ)) (𝓝 (intervalCoefficient coordinate)) := by
@@ -173,6 +208,12 @@ lemma triangle_residue_x (coordinate : ℝ) (lower : 0 < coordinate) (upper : co
     simpa using triangle_x_regularization coordinate normal distinct)
 
 /-- The y-boundary residue is the negative interval coefficient in the dx convention. -/
+@[blueprint "lem:signals-triangle-y-residue"
+  (title := "Triangle y-boundary orientation")
+  (statement := /-- For $0<t<1$, the supplied y-normal contraction has residue
+    $-1/(t(1-t))$. Exchanging normal and tangent reverses the alternating-form sign. -/)
+  (proof := /-- Evaluate the negative oriented contraction and take its punctured regularization limit. -/)
+  (latexEnv := "lemma")]
 lemma triangle_residue_y (coordinate : ℝ) (lower : 0 < coordinate) (upper : coordinate < 1) :
     Filter.Tendsto (fun normal => normal * triangleForm ![coordinate, normal] !![0, 1; 1, 0])
       (𝓝[≠] (0 : ℝ)) (𝓝 (-intervalCoefficient coordinate)) := by
@@ -182,6 +223,12 @@ lemma triangle_residue_y (coordinate : ℝ) (lower : 0 < coordinate) (upper : co
     simpa using triangle_y_regularization coordinate normal distinct)
 
 /-- The diagonal-boundary residue is the positive interval coefficient in the chosen z,x coordinates. -/
+@[blueprint "lem:signals-triangle-diagonal-residue"
+  (title := "Triangle diagonal residue")
+  (statement := /-- With normal coordinate $z=1-x-y$ and the supplied tangent convention,
+    the diagonal residue for $0<x<1$ is the positive interval coefficient. -/)
+  (proof := /-- Cancel the diagonal normal factor in the oriented contraction and use continuity. -/)
+  (latexEnv := "lemma")]
 lemma triangle_residue_diagonal (coordinate : ℝ) (lower : 0 < coordinate) (upper : coordinate < 1) :
     Filter.Tendsto (fun normal => normal *
       triangleForm ![coordinate, 1 - coordinate - normal] !![0, -1; 1, -1])
@@ -196,6 +243,10 @@ noncomputable def squareCoefficient (point : Plane) : ℝ :=
   1 / (point 0 * point 1 * (1 - point 0) * (1 - point 1))
 
 /-- The square two-form in the same orientation as both constituent triangles. -/
+@[blueprint "def:signals-affine-square-form"
+  (title := "Oriented affine square form")
+  (statement := /-- In the fixed affine orientation, the square alternating two-form has
+    coefficient $1/(xy(1-x)(1-y))$. Its regular interior is $0<x,y<1$. -/)]
 noncomputable def squareForm (point : Plane) : AlternatingMap ℝ Plane ℝ (Fin 2) :=
   squareCoefficient point • Matrix.detRowAlternating
 
@@ -240,6 +291,13 @@ lemma square_triangulation (point : Plane) (first : point 0 ≠ 0) (second : poi
   ring
 
 /-- Triangulation equality holds at the level of alternating forms, not only coefficients. -/
+@[blueprint "lem:signals-square-form-triangulation"
+  (title := "Oriented square triangulation")
+  (statement := /-- Away from the four boundary lines and $x=y$, the two affine triangle
+    pullback coefficients multiplying the oriented area form sum to the square form.
+    The equality does not assert equality of totalized triangle values on the diagonal. -/)
+  (proof := /-- Combine the alternating-form scalar factors and apply rational coefficient cancellation. -/)
+  (latexEnv := "lemma")]
 lemma squareForm_triangulation (point : Plane) (first : point 0 ≠ 0) (second : point 1 ≠ 0)
     (firstUpper : point 0 ≠ 1) (secondUpper : point 1 ≠ 1) (diagonal : point 0 ≠ point 1) :
     lowerTriangleCoefficient point • Matrix.detRowAlternating +
@@ -248,6 +306,12 @@ lemma squareForm_triangulation (point : Plane) (first : point 0 ≠ 0) (second :
   rfl
 
 /-- The summed square continuation is continuous even on the former interior diagonal. -/
+@[blueprint "lem:signals-square-diagonal-continuation"
+  (title := "Continuous square continuation")
+  (statement := /-- Away from $x,y=0,1$, the square coefficient is continuous, including
+    on $x=y$. This supplies the diagonal continuation separately from the off-diagonal triangulation identity. -/)
+  (proof := /-- Its denominator is nonzero away from the four boundary lines; use continuity of reciprocals. -/)
+  (latexEnv := "lemma")]
 lemma squareCoefficient_continuousAt (point : Plane) (first : point 0 ≠ 0) (second : point 1 ≠ 0)
     (firstUpper : point 0 ≠ 1) (secondUpper : point 1 ≠ 1) :
     ContinuousAt squareCoefficient point := by
@@ -262,6 +326,11 @@ lemma squareCoefficient_factorization (first second : ℝ) :
   ring
 
 /-- At x=0 the oriented coefficient residue is the interval coefficient in y. -/
+@[blueprint "lem:signals-square-x-zero-residue"
+  (title := "Square left-edge residue")
+  (statement := /-- The regularized x-coefficient limit at $x=0$ is the interval coefficient in $y$. -/)
+  (proof := /-- Factor the square coefficient into interval coefficients and apply the left interval limit. -/)
+  (latexEnv := "lemma")]
 lemma square_residue_x_zero (coordinate : ℝ) :
     Filter.Tendsto (fun normal => normal * squareCoefficient ![normal, coordinate])
       (𝓝[≠] (0 : ℝ)) (𝓝 (intervalCoefficient coordinate)) := by
@@ -269,6 +338,11 @@ lemma square_residue_x_zero (coordinate : ℝ) :
   simpa only [one_mul, squareCoefficient_factorization, mul_assoc] using limit
 
 /-- At x=1 the residue has the negative interval coefficient in y. -/
+@[blueprint "lem:signals-square-x-one-residue"
+  (title := "Square right-edge residue")
+  (statement := /-- The regularized x-coefficient limit at $x=1$ is the negative interval coefficient in $y$. -/)
+  (proof := /-- Apply the negative right interval limit to the product coefficient. -/)
+  (latexEnv := "lemma")]
 lemma square_residue_x_one (coordinate : ℝ) :
     Filter.Tendsto (fun normal => (normal - 1) * squareCoefficient ![normal, coordinate])
       (𝓝[≠] (1 : ℝ)) (𝓝 (-intervalCoefficient coordinate)) := by
@@ -276,6 +350,12 @@ lemma square_residue_x_one (coordinate : ℝ) :
   simpa only [neg_one_mul, squareCoefficient_factorization, mul_assoc] using limit
 
 /-- Contracting with the y-normal gives a negative residue at y=0. -/
+@[blueprint "lem:signals-square-y-zero-residue"
+  (title := "Square lower-edge orientation")
+  (statement := /-- In the supplied y-normal orientation, the residue at $y=0$ is the
+    negative interval coefficient in $x$. -/)
+  (proof := /-- The alternating contraction supplies a negative sign; apply the left interval limit. -/)
+  (latexEnv := "lemma")]
 lemma square_residue_y_zero (coordinate : ℝ) :
     Filter.Tendsto (fun normal => normal * (-squareCoefficient ![coordinate, normal]))
       (𝓝[≠] (0 : ℝ)) (𝓝 (-intervalCoefficient coordinate)) := by
@@ -290,6 +370,12 @@ lemma square_residue_y_zero (coordinate : ℝ) :
   simpa using limit
 
 /-- The y-normal orientation gives a positive residue at y=1. -/
+@[blueprint "lem:signals-square-y-one-residue"
+  (title := "Square upper-edge orientation")
+  (statement := /-- In the same y-normal orientation, the residue at $y=1$ is the
+    positive interval coefficient in $x$. -/)
+  (proof := /-- Combine the contraction sign with the negative right interval residue. -/)
+  (latexEnv := "lemma")]
 lemma square_residue_y_one (coordinate : ℝ) :
     Filter.Tendsto (fun normal => (normal - 1) * (-squareCoefficient ![coordinate, normal]))
       (𝓝[≠] (1 : ℝ)) (𝓝 (intervalCoefficient coordinate)) := by

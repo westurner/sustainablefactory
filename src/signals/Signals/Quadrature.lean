@@ -1,5 +1,14 @@
+import Architect
 import Signals.Huygens
 import Mathlib.Topology.MetricSpace.Lipschitz
+
+/-!
+# Measure-derived finite quadrature
+
+Finite measurable partitions derive cell weights and explicit error rates under
+integrability, Lipschitz and mesh-distance hypotheses. Refinement convergence
+does not construct a rectangular aperture mesh or prove scalar-kernel regularity.
+-/
 
 namespace Signals.Quadrature
 
@@ -10,7 +19,13 @@ open scoped NNReal Topology
 
 The measure may be area restricted to a finite aperture. The partition covers
 the coordinate space; zero-measure exterior cells contribute no weight.
+Sample membership is not a field; error estimates use supplied mesh-distance bounds.
 -/
+@[blueprint "def:signals-cell-quadrature"
+  (title := "Finite measurable quadrature partitions")
+  (statement := /-- A finite measurable, pairwise disjoint partition covers the coordinate
+    space and has one supplied sample per indexed cell. Cell membership of samples is not assumed;
+    error estimates instead require explicit almost-everywhere mesh-distance bounds. -/)]
 structure CellQuadrature {Coordinate : Type*} [MeasurableSpace Coordinate]
     (measure : Measure Coordinate) (cellCount : ℕ) where
   cell : Fin cellCount → Set Coordinate
@@ -38,12 +53,22 @@ lemma CellQuadrature.integral_sum {Coordinate Value : Type*} [MeasurableSpace Co
   exact integral_finsetSum_measure (fun index _ => integrable.restrict)
 
 /-- Cell weights are measured areas or masses, rather than fitted amplitude coefficients. -/
+@[blueprint "def:signals-cell-weights"
+  (title := "Measure-derived cell weights")
+  (statement := /-- Real cell weights are obtained from restricted cell measures. For finite
+    measures they represent the actual cell masses, not fitted complex coefficients or experimental readings. -/)]
 noncomputable def CellQuadrature.weight {Coordinate : Type*} [MeasurableSpace Coordinate]
     {measure : Measure Coordinate} {cellCount : ℕ} (quadrature : CellQuadrature measure cellCount)
     (index : Fin cellCount) : ℝ :=
   (measure.restrict (quadrature.cell index)).real Set.univ
 
 /-- A finite partition preserves the total finite measured area in its quadrature weights. -/
+@[blueprint "lem:signals-cell-weight-sum"
+  (title := "Finite mass preservation")
+  (statement := /-- On a finite measure space, the measure-derived weights satisfy
+    $\sum_j w_j=\mu(X)$. -/)
+  (proof := /-- Integrate the constant one function and use the finite partition's integral decomposition. -/)
+  (latexEnv := "lemma")]
 lemma CellQuadrature.weight_sum {Coordinate : Type*} [MeasurableSpace Coordinate]
     {measure : Measure Coordinate} [IsFiniteMeasure measure] {cellCount : ℕ}
     (quadrature : CellQuadrature measure cellCount) :
@@ -51,13 +76,21 @@ lemma CellQuadrature.weight_sum {Coordinate : Type*} [MeasurableSpace Coordinate
   have equality := quadrature.integral_sum (fun _ => (1 : ℝ)) (integrable_const 1)
   simpa [weight, integral_const] using equality.symm
 
-/-- The actual finite weighted sum obtained by sampling once in each measurable cell. -/
+/-- The actual finite weighted sum using one supplied sample per indexed measurable cell. -/
 noncomputable def CellQuadrature.amplitude {Coordinate : Type*} [MeasurableSpace Coordinate]
     {measure : Measure Coordinate} {cellCount : ℕ} (quadrature : CellQuadrature measure cellCount)
     (density : Coordinate → ℂ) : ℂ :=
   ∑ index, quadrature.weight index • density (quadrature.sample index)
 
 /-- A cellwise Lipschitz and mesh-distance bound yields an explicit finite quadrature error rate. -/
+@[blueprint "lem:signals-cellwise-quadrature-error"
+  (title := "Derived cellwise quadrature rate")
+  (statement := /-- For an integrable complex density on a finite measure space, cellwise
+    density variation bounded by $L$ times distance and almost-everywhere sample distance at most $h$
+    imply $|Q(f)-\int f|\le Lh\mu(X)$. -/)
+  (proof := /-- Decompose the integral over cells, bound each constant-sample density error,
+    and sum using mass preservation. -/)
+  (latexEnv := "lemma")]
 lemma CellQuadrature.amplitude_error_le {Coordinate : Type*} [MeasurableSpace Coordinate]
     [PseudoMetricSpace Coordinate] {measure : Measure Coordinate} [IsFiniteMeasure measure]
     {cellCount : ℕ} (quadrature : CellQuadrature measure cellCount) (density : Coordinate → ℂ)
@@ -106,6 +139,14 @@ lemma CellQuadrature.amplitude_error_le_of_lipschitz {Coordinate : Type*}
     simpa only [dist_eq_norm] using lipschitz.dist_le_mul (quadrature.sample index) point)
 
 /-- Uniform regularity over a fixed detector/wavelength domain derives a comparison, not an assumed match. -/
+@[blueprint "lem:signals-uniform-quadrature-comparison"
+  (title := "Derived uniform amplitude comparison")
+  (statement := /-- On a fixed nonempty detector domain, uniform integrability and one common
+    Lipschitz constant, together with a nonnegative mesh bound, derive a comparison tolerance
+    $Lh\mu(X)$ between the actual quadrature and integral. -/)
+  (proof := /-- Global Lipschitz regularity supplies the cellwise density bound at each detector;
+    apply the derived quadrature error estimate. -/)
+  (latexEnv := "lemma")]
 lemma CellQuadrature.uniformComparison {Coordinate Detector : Type*} [MeasurableSpace Coordinate]
     [PseudoMetricSpace Coordinate] {measure : Measure Coordinate} [IsFiniteMeasure measure]
     {cellCount : ℕ} (quadrature : CellQuadrature measure cellCount)
@@ -125,6 +166,13 @@ lemma CellQuadrature.uniformComparison {Coordinate Detector : Type*} [Measurable
       (lipschitz detector member) meshBound }
 
 /-- Vanishing mesh size implies quadrature-error convergence under one fixed Lipschitz constant. -/
+@[blueprint "lem:signals-mesh-refinement-convergence"
+  (title := "Conditional mesh-refinement convergence")
+  (statement := /-- For a fixed finite measure and integrable Lipschitz density, a sequence of
+    finite partitions with mesh bounds tending to zero has absolute quadrature error tending to zero.
+    This does not construct the partitions or prove kernel-specific Lipschitz regularity. -/)
+  (proof := /-- Squeeze the nonnegative error between zero and the vanishing bound $Lh\mu(X)$. -/)
+  (latexEnv := "lemma")]
 lemma mesh_refinement_error_tendsto_zero {Coordinate : Type*} [MeasurableSpace Coordinate]
     [PseudoMetricSpace Coordinate] {measure : Measure Coordinate} [IsFiniteMeasure measure]
     (cellCount : ℕ → ℕ) (quadrature : ∀ refinement, CellQuadrature measure (cellCount refinement))
@@ -155,6 +203,13 @@ noncomputable def CellQuadrature.toAperture {measure : Measure (ℝ × ℝ)} {ce
       field.transmission (quadrature.sample index) }
 
 /-- The actual finite aperture sum is exactly the measured-cell quadrature of the fixed density. -/
+@[blueprint "lem:signals-quadrature-aperture-correspondence"
+  (title := "Finite aperture correspondence")
+  (statement := /-- Embedding the planar samples and using measure-derived weights with the
+    fixed field's normalization and transmission makes the finite aperture sum exactly the cell quadrature
+    of that density. No independent geometric or physical evaluator is identified here. -/)
+  (proof := /-- Expand both finite sums and regroup their complex scalar factors. -/)
+  (latexEnv := "lemma")]
 lemma CellQuadrature.toAperture_amplitude {measure : Measure (ℝ × ℝ)} {cellCount : ℕ}
     (quadrature : CellQuadrature measure cellCount) (field : Signals.Huygens.FixedPlanarField)
     (detector : Signals.Huygens.Point3) :
