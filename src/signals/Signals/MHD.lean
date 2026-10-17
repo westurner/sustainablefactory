@@ -1,4 +1,14 @@
+import Architect
+import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 import Mathlib.Basic.Real.Basic
+import Mathlib.LinearAlgebra.CrossProduct
+import Mathlib.LinearAlgebra.Matrix.DotProduct
+import Mathlib.LinearAlgebra.Matrix.Notation
+import Mathlib.MeasureTheory.Integral.Bochner.Basic
+import Mathlib.MeasureTheory.Integral.Bochner.Set
+import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
 import Mathlib.Tactic
 import Signals.Acoustics
 import Signals.Applications
@@ -7,6 +17,8 @@ import Signals.Units
 
 namespace Signals.MHD
 
+open MeasureTheory Interval Matrix
+open scoped Matrix
 open Signals.Acoustics
 open Signals.Applications
 open Signals.Propagation
@@ -624,5 +636,665 @@ lemma controlOnlyRatio_gt_iff
       threshold * controlPower.watts < outputPower.watts := by
   unfold controlOnlyRatio
   rw [gt_iff_lt, (lt_div_iff₀ controlPower_positive)]
+
+/-! ## Classical Ponderomotive Cycle-Averaging, Aerodynamic Moments, Halbach Deflection,
+Centrifugal Cooling, Langmuir Dispersion, Landau Resonance, and Beltrami States
+
+The definitions and lemmas below formalize the classical mathematical identities
+from the wakefield/MHD analysis (`Twistors-and-Positive-Grassmannian-Interference.md`):
+1. Ponderomotive potential, downward intensity-gradient force, RF cycle cancellation of
+   first-order quiver motion, and pulsed duty-cycle average-force bounds.
+2. Classical Bernoulli dynamic pressure, differential surface normal force, and
+   torque orthogonality to both the lever arm and normal force.
+3. Halbach transverse magnetic Lorentz deflection and work-free orthogonality
+   (`F ⬝ᵥ v = 0`), showing why electrical power extraction requires an opposing
+   Faraday load electric field (`FaradayChannel`) rather than magnetic turning alone.
+4. Radial centrifugal pump head integration, closed-loop thermosyphon buoyancy head
+   (vanishing for isothermal loops), and 3D rigid-body gyroscopic precession torque.
+5. Bohm-Gross warm Langmuir dispersion, the `v_φ * v_g = 3 * v_th²` invariant, and
+   the Dawson wave-breaking electrostatic energy-density bound.
+6. Linear Vlasov-Poisson Landau growth/damping rate, bump-on-tail amplification,
+   thermal damping, quasilinear plateau saturation, and wave-particle power balance.
+7. Force-free Woltjer-Taylor Beltrami currents (`J ⨯₃ B = 0`), active cooling margin
+   against Ohmic heating, and discrete 4-cycle 1-cocycle gauge invariance.
+-/
+
+/-- Three-component real spatial vector representation (`Fin 3 → ℝ`). -/
+@[blueprint "def:signals-mhd-vec3"
+  (title := "Three-dimensional spatial vector representation")
+  (statement := /-- A three-dimensional spatial vector is represented by a function
+    $\operatorname{Fin}(3)\to\mathbb R$, supporting componentwise dot and cross products. -/)]
+abbrev Vec3 := Fin 3 → ℝ
+
+/-- Squared Euclidean norm `‖v‖² = v ⬝ᵥ v` on `Vec3`. -/
+@[blueprint "def:signals-mhd-norm-sq"
+  (title := "Squared Euclidean norm on Vec3")
+  (statement := /-- For $\mathbf v\in\mathbb R^3$, define
+    $\lVert\mathbf v\rVert^2=\mathbf v\cdot\mathbf v$. -/)]
+def normSqVec3 (v : Vec3) : ℝ := v ⬝ᵥ v
+
+/-- The squared Euclidean norm on `Vec3` is nonnegative. -/
+@[blueprint "lem:signals-mhd-norm-sq-nonneg"
+  (title := "Nonnegativity of squared Euclidean norm")
+  (statement := /-- For every $\mathbf v\in\mathbb R^3$, $\lVert\mathbf v\rVert^2\ge 0$. -/)
+  (proof := /-- Expand the three coordinate squares and sum nonnegativities. -/)
+  (latexEnv := "lemma")]
+lemma normSqVec3_nonneg (v : Vec3) : 0 ≤ normSqVec3 v := by
+  simp only [normSqVec3, dotProduct, Fin.sum_univ_three]
+  nlinarith [sq_nonneg (v 0), sq_nonneg (v 1), sq_nonneg (v 2)]
+
+/-- High-frequency oscillating electric field `E(x, t) = cos(ωt) • E0(x)`. -/
+@[blueprint "def:signals-oscillating-electric-field"
+  (title := "Harmonic electric-field envelope")
+  (statement := /-- A harmonic electric field with spatial amplitude $\mathbf E_0(\mathbf x)$
+    and carrier frequency $\omega$ evaluates to $\cos(\omega t)\,\mathbf E_0(\mathbf x)$. -/)]
+noncomputable def oscillatingElectricField (ω : ℝ) (E0 : Vec3 → Vec3) (x : Vec3) (t : ℝ) : Vec3 :=
+  (Real.cos (ω * t)) • E0 x
+
+/-- Classical ponderomotive potential `U_p(x) = (e² / (4 m_e ω²)) ‖E0(x)‖²`. -/
+@[blueprint "def:signals-ponderomotive-potential"
+  (title := "Classical ponderomotive potential")
+  (statement := /-- The cycle-averaged ponderomotive potential of a carrier wave of frequency
+    $\omega$ acting on charge $e$ and mass $m_e$ is
+    $U_p(\mathbf x)=\frac{e^2}{4 m_e\omega^2}\lVert\mathbf E_0(\mathbf x)\rVert^2$. -/)]
+noncomputable def ponderomotivePotential (m_e e ω : ℝ) (E0 : Vec3 → Vec3) (x : Vec3) : ℝ :=
+  (e ^ 2 / (4 * m_e * ω ^ 2)) * normSqVec3 (E0 x)
+
+/-- The ponderomotive potential is nonnegative for nonnegative mass. -/
+@[blueprint "lem:signals-ponderomotive-potential-nonneg"
+  (title := "Nonnegativity of ponderomotive potential")
+  (statement := /-- When $m_e\ge 0$, the ponderomotive potential satisfies $U_p(\mathbf x)\ge 0$. -/)
+  (proof := /-- Combine the nonnegative prefactor $e^2/(4 m_e\omega^2)$ with $\lVert\mathbf E_0(\mathbf x)\rVert^2\ge 0$. -/)
+  (latexEnv := "lemma")]
+lemma ponderomotivePotential_nonneg (m_e e ω : ℝ) (E0 : Vec3 → Vec3) (x : Vec3)
+    (hm : 0 ≤ m_e) :
+    0 ≤ ponderomotivePotential m_e e ω E0 x := by
+  unfold ponderomotivePotential
+  have h_coeff : 0 ≤ e ^ 2 / (4 * m_e * ω ^ 2) := by positivity
+  exact mul_nonneg h_coeff (normSqVec3_nonneg (E0 x))
+
+/-- Secular ponderomotive drift force `F_p(x) = -(e² / (4 m_e ω²)) • ∇(‖E0(x)‖²)`. -/
+@[blueprint "def:signals-ponderomotive-force"
+  (title := "Secular ponderomotive drift force")
+  (statement := /-- Given the spatial intensity gradient $\mathbf g(\mathbf x)=\nabla(\lVert\mathbf E_0(\mathbf x)\rVert^2)$,
+    the secular ponderomotive force is
+    $\mathbf F_p(\mathbf x)=-\frac{e^2}{4 m_e\omega^2}\mathbf g(\mathbf x)$. -/)]
+noncomputable def ponderomotiveForce (m_e e ω : ℝ) (grad_E0_sq : Vec3 → Vec3) (x : Vec3) : Vec3 :=
+  (- (e ^ 2 / (4 * m_e * ω ^ 2))) • grad_E0_sq x
+
+/-- The ponderomotive force acts opposite to the electric-field intensity gradient. -/
+@[blueprint "lem:signals-ponderomotive-down-gradient"
+  (title := "Ponderomotive drift opposes intensity gradient")
+  (statement := /-- For $m_e\ge 0$, $\mathbf F_p(\mathbf x)\cdot\nabla(\lVert\mathbf E_0(\mathbf x)\rVert^2)\le 0$,
+    expelling charged particles from high-intensity field regions. -/)
+  (proof := /-- Factor out the nonpositive scalar $-\frac{e^2}{4 m_e\omega^2}$ from the squared gradient norm. -/)
+  (latexEnv := "lemma")]
+lemma ponderomotiveForce_down_gradient (m_e e ω : ℝ) (grad_E0_sq : Vec3 → Vec3) (x : Vec3)
+    (hm : 0 ≤ m_e) :
+    (ponderomotiveForce m_e e ω grad_E0_sq x) ⬝ᵥ (grad_E0_sq x) ≤ 0 := by
+  unfold ponderomotiveForce
+  rw [smul_dotProduct, smul_eq_mul]
+  have h_coeff : 0 ≤ e ^ 2 / (4 * m_e * ω ^ 2) := by positivity
+  have h_norm : 0 ≤ normSqVec3 (grad_E0_sq x) := normSqVec3_nonneg (grad_E0_sq x)
+  change (- (e ^ 2 / (4 * m_e * ω ^ 2))) * normSqVec3 (grad_E0_sq x) ≤ 0
+  nlinarith
+
+/-- The linear oscillatory quiver factor `cos(ωt)` integrates to zero over one RF period `T = 2π/ω`. -/
+@[blueprint "lem:signals-oscillatory-lorentz-cancels"
+  (title := "First-order quiver oscillation cancels over one RF period")
+  (statement := /-- For $\omega\ne 0$ and period $T=2\pi/\omega$,
+    $\int_0^T \cos(\omega t)\,dt=0$. -/)
+  (proof := /-- Substitute $u=\omega t$ over $[0,2\pi]$ and evaluate $\sin(2\pi)-\sin(0)=0$. -/)
+  (latexEnv := "lemma")]
+lemma oscillatory_lorentz_cancels (ω : ℝ) (h_ω : ω ≠ 0) (T : ℝ) (hT : T = 2 * Real.pi / ω) :
+    ∫ t in (0 : ℝ)..T, Real.cos (ω * t) = 0 := by
+  subst hT
+  rw [intervalIntegral.integral_comp_mul_left (fun x => Real.cos x) h_ω]
+  have h_upper : ω * (2 * Real.pi / ω) = 2 * Real.pi := mul_div_cancel₀ (2 * Real.pi) h_ω
+  rw [mul_zero, h_upper, integral_cos, Real.sin_two_pi, Real.sin_zero, sub_self, smul_zero]
+
+/-- Cycle-averaging the decomposed Lorentz force (secular ponderomotive drift plus
+first-order oscillatory quiver term `F_osc * cos(ωt)`) over `T = 2π/ω` recovers the
+exact secular ponderomotive force along each coordinate axis. -/
+@[blueprint "thm:signals-ponderomotive-cycle-average"
+  (title := "Cycle-averaged Lorentz force isolates secular ponderomotive drift")
+  (statement := /-- Averaging $\mathbf F_{\mathrm{inst}}(t)=\mathbf F_p(\mathbf x)+\mathbf F_{\mathrm{osc}}(\mathbf x)\cos(\omega t)$
+    over one full RF cycle $T=2\pi/\omega$ ($\omega\ne 0$) yields $\mathbf F_p(\mathbf x)$ componentwise. -/)
+  (proof := /-- Split the interval integral by linearity, integrate the constant drift term over $[0,T]$,
+    and cancel the oscillatory quiver integral using \texttt{oscillatory\_lorentz\_cancels}. -/)]
+theorem ponderomotive_cycle_average
+    (m_e e ω : ℝ) (h_ω : ω ≠ 0)
+    (grad_E0_sq F_osc : Vec3 → Vec3)
+    (x : Vec3) (T : ℝ) (hT : T = 2 * Real.pi / ω) (i : Fin 3) :
+    let F_inst (t : ℝ) : ℝ :=
+      ponderomotiveForce m_e e ω grad_E0_sq x i + F_osc x i * Real.cos (ω * t)
+    (1 / T) * (∫ t in (0 : ℝ)..T, F_inst t) =
+      ponderomotiveForce m_e e ω grad_E0_sq x i := by
+  intro F_inst
+  have hT_ne : T ≠ 0 := by
+    rw [hT]
+    exact div_ne_zero (mul_ne_zero two_ne_zero Real.pi_ne_zero) h_ω
+  have h_int_const :
+      IntervalIntegrable (fun _ : ℝ => ponderomotiveForce m_e e ω grad_E0_sq x i) volume 0 T :=
+    continuous_const.intervalIntegrable 0 T
+  have h_int_cos : IntervalIntegrable (fun t => F_osc x i * Real.cos (ω * t)) volume 0 T :=
+    (continuous_const.mul
+      (Real.continuous_cos.comp (continuous_const.mul continuous_id))).intervalIntegrable 0 T
+  change (1 / T) * (∫ t in (0 : ℝ)..T,
+    (ponderomotiveForce m_e e ω grad_E0_sq x i + F_osc x i * Real.cos (ω * t))) = _
+  rw [intervalIntegral.integral_add h_int_const h_int_cos]
+  rw [intervalIntegral.integral_const, intervalIntegral.integral_const_mul]
+  rw [oscillatory_lorentz_cancels ω h_ω T hT]
+  simp [smul_eq_mul, hT_ne]
+
+/-- Time-averaged force of a pulsed electromagnetic or ponderomotive drive with
+bounded duty cycle `dutyCycle ∈ [0, 1]`. -/
+@[blueprint "def:signals-pulsed-average-force"
+  (title := "Duty-cycle-weighted pulsed average force")
+  (statement := /-- A pulsed thruster with peak force $F_{\mathrm{peak}}$ and duty cycle
+    $d\in[0,1]$ delivers time-averaged force $F_{\mathrm{avg}}=d\,F_{\mathrm{peak}}$. -/)]
+def pulsedAverageForce (peakForce : Force) (dutyCycle : BoundedFactor) : Force :=
+  { newtons := peakForce.newtons * dutyCycle.value }
+
+/-- A passive pulsed drive with nonnegative peak force has time-averaged force
+bounded above by its peak pulse force; high peak pulse power does not bypass
+duty-cycle scaling of average momentum transfer. -/
+@[blueprint "lem:signals-pulsed-average-force-le-peak"
+  (title := "Pulsed time-averaged force bound")
+  (statement := /-- For $F_{\mathrm{peak}}\ge 0$ and duty cycle $d\in[0,1]$,
+    $F_{\mathrm{avg}}=d\,F_{\mathrm{peak}}\le F_{\mathrm{peak}}$. -/)
+  (proof := /-- Multiply $d\le 1$ by the nonnegative peak force $F_{\mathrm{peak}}$. -/)
+  (latexEnv := "lemma")]
+lemma pulsedAverageForce_le_peak (peakForce : Force) (h_peak : 0 ≤ peakForce.newtons)
+    (dutyCycle : BoundedFactor) :
+    (pulsedAverageForce peakForce dutyCycle).newtons ≤ peakForce.newtons := by
+  unfold pulsedAverageForce
+  calc
+    peakForce.newtons * dutyCycle.value ≤ peakForce.newtons * 1 :=
+      mul_le_mul_of_nonneg_left dutyCycle.le_one h_peak
+    _ = peakForce.newtons := by ring
+
+/-- Classical Bernoulli dynamic pressure `q(x) = (1/2) ρ ‖V(x)‖²`. -/
+@[blueprint "def:signals-bernoulli-dynamic-pressure"
+  (title := "Bernoulli dynamic pressure field")
+  (statement := /-- For fluid density $\rho$ and wake velocity field $\mathbf V(\mathbf x)$,
+    the classical dynamic pressure is $q(\mathbf x)=\tfrac12\rho\lVert\mathbf V(\mathbf x)\rVert^2$. -/)]
+noncomputable def dynamicPressure (ρ_fluid : ℝ) (V_wake : Vec3 → Vec3) (x : Vec3) : ℝ :=
+  0.5 * ρ_fluid * normSqVec3 (V_wake x)
+
+/-- Dynamic pressure is nonnegative for nonnegative fluid density. -/
+@[blueprint "lem:signals-dynamic-pressure-nonneg"
+  (title := "Nonnegativity of Bernoulli dynamic pressure")
+  (statement := /-- When $\rho\ge 0$, dynamic pressure satisfies $q(\mathbf x)\ge 0$ everywhere. -/)
+  (proof := /-- Combine $\rho\ge 0$ with nonnegativity of the squared velocity norm. -/)
+  (latexEnv := "lemma")]
+lemma dynamicPressure_nonneg (ρ_fluid : ℝ) (V_wake : Vec3 → Vec3)
+    (h_ρ : 0 ≤ ρ_fluid) (x : Vec3) :
+    0 ≤ dynamicPressure ρ_fluid V_wake x := by
+  unfold dynamicPressure
+  have h_norm := normSqVec3_nonneg (V_wake x)
+  nlinarith
+
+/-- Differential normal surface pressure force `dF(x) = -q(x) • n(x)`. -/
+@[blueprint "def:signals-differential-pressure-force"
+  (title := "Differential surface pressure force")
+  (statement := /-- At hull point $\mathbf x$ with outward normal $\mathbf n(\mathbf x)$,
+    the differential pressure force vector is $-q(\mathbf x)\,\mathbf n(\mathbf x)$. -/)]
+noncomputable def differentialPressureForce
+    (ρ_fluid : ℝ) (V_wake n : Vec3 → Vec3) (x : Vec3) : Vec3 :=
+  (- dynamicPressure ρ_fluid V_wake x) • (n x)
+
+/-- Differential aerodynamic torque vector `dτ(x) = (x - CM) ⨯₃ dF(x)` relative to `CM`. -/
+@[blueprint "def:signals-differential-aerodynamic-moment"
+  (title := "Differential aerodynamic moment vector")
+  (statement := /-- Relative to center of mass $\mathbf x_{\mathrm{CM}}$, the differential
+    aerodynamic torque is $(\mathbf x-\mathbf x_{\mathrm{CM}})\times d\mathbf F(\mathbf x)$. -/)]
+noncomputable def differentialAerodynamicMoment
+    (ρ_fluid : ℝ) (V_wake n : Vec3 → Vec3) (CM x : Vec3) : Vec3 :=
+  (x - CM) ⨯₃ (differentialPressureForce ρ_fluid V_wake n x)
+
+/-- Total aerodynamic torque vector integrated over a surface `hullSurface` with
+respect to an explicit surface-area measure `μ`. -/
+@[blueprint "def:signals-total-aerodynamic-moment"
+  (title := "Surface-integrated aerodynamic moment")
+  (statement := /-- Integrating the differential aerodynamic torque componentwise over a hull
+    surface with respect to surface measure $\mu$ yields the total aerodynamic moment vector. -/)]
+noncomputable def totalAerodynamicMoment
+    (ρ_fluid : ℝ) (V_wake n : Vec3 → Vec3) (hullSurface : Set Vec3) (CM : Vec3)
+    [MeasurableSpace Vec3] (μ : Measure Vec3) : Vec3 :=
+  fun i => ∫ x in hullSurface, differentialAerodynamicMoment ρ_fluid V_wake n CM x i ∂μ
+
+/-- The differential aerodynamic torque vector at any hull point `x` is orthogonal
+to the lever arm `x - CM`. -/
+@[blueprint "lem:signals-aerodynamic-moment-orthogonal-lever"
+  (title := "Aerodynamic torque is orthogonal to lever arm")
+  (statement := /-- At every hull point $\mathbf x$,
+    $((\mathbf x-\mathbf x_{\mathrm{CM}})\times d\mathbf F(\mathbf x))\cdot(\mathbf x-\mathbf x_{\mathrm{CM}})=0$. -/)
+  (proof := /-- Apply cross-product self-orthogonality \texttt{dot\_self\_cross}. -/)
+  (latexEnv := "lemma")]
+lemma differentialAerodynamicMoment_orthogonal_lever_arm
+    (ρ_fluid : ℝ) (V_wake n : Vec3 → Vec3) (CM x : Vec3) :
+    (differentialAerodynamicMoment ρ_fluid V_wake n CM x) ⬝ᵥ (x - CM) = 0 := by
+  simp only [differentialAerodynamicMoment, dotProduct_comm, dot_self_cross]
+
+/-- The differential aerodynamic torque vector at any hull point `x` is orthogonal
+to the local normal pressure force. -/
+@[blueprint "lem:signals-aerodynamic-moment-orthogonal-force"
+  (title := "Aerodynamic torque is orthogonal to surface pressure force")
+  (statement := /-- At every hull point $\mathbf x$,
+    $((\mathbf x-\mathbf x_{\mathrm{CM}})\times d\mathbf F(\mathbf x))\cdot d\mathbf F(\mathbf x)=0$. -/)
+  (proof := /-- Apply cross-product orthogonality \texttt{dot\_cross\_self}. -/)
+  (latexEnv := "lemma")]
+lemma differentialAerodynamicMoment_orthogonal_force
+    (ρ_fluid : ℝ) (V_wake n : Vec3 → Vec3) (CM x : Vec3) :
+    (differentialAerodynamicMoment ρ_fluid V_wake n CM x) ⬝ᵥ
+      (differentialPressureForce ρ_fluid V_wake n x) = 0 := by
+  simp only [differentialAerodynamicMoment, dotProduct_comm, dot_cross_self]
+
+/-- Purely longitudinal particle velocity `(0, 0, vz)`. -/
+@[blueprint "def:signals-longitudinal-velocity"
+  (title := "Longitudinal axial velocity vector")
+  (statement := /-- A purely axial velocity along the $z$-axis is $(0,0,v_z)$. -/)]
+def longitudinalVelocity (vz : ℝ) : Vec3 :=
+  ![0, 0, vz]
+
+/-- Static transverse Halbach magnetic field `(0, By, 0)`. -/
+@[blueprint "def:signals-transverse-halbach-field"
+  (title := "Transverse Halbach magnetic field vector")
+  (statement := /-- A static transverse Halbach magnetic field along the $y$-axis is $(0,B_y,0)$. -/)]
+def transverseHalbachField (By : ℝ) : Vec3 :=
+  ![0, By, 0]
+
+/-- Classical magnetic Lorentz force `F = q • (v ⨯₃ B)`. -/
+@[blueprint "def:signals-magnetic-lorentz-force"
+  (title := "Magnetic Lorentz force")
+  (statement := /-- A particle of charge $q$ moving at velocity $\mathbf v$ in magnetic field
+    $\mathbf B$ experiences magnetic Lorentz force $\mathbf F=q(\mathbf v\times\mathbf B)$. -/)]
+def magneticLorentzForce (q : ℝ) (v B : Vec3) : Vec3 :=
+  q • (v ⨯₃ B)
+
+/-- A purely longitudinal velocity `(0, 0, vz)` entering a purely Y-axis magnetic
+field `(0, By, 0)` experiences a purely X-axis magnetic Lorentz force `(-q * vz * By, 0, 0)`. -/
+@[blueprint "thm:signals-halbach-transverse-conversion"
+  (title := "Halbach transverse Lorentz deflection")
+  (statement := /-- A longitudinal velocity $(0,0,v_z)$ crossing a transverse magnetic field
+    $(0,B_y,0)$ experiences the orthogonal force $(-q v_z B_y,0,0)$ along the $x$-axis. -/)
+  (proof := /-- Evaluate the cross product across all three $\operatorname{Fin}(3)$ indices and simplify by ring algebra. -/)]
+theorem halbach_transverse_conversion (q vz By : ℝ) :
+    magneticLorentzForce q (longitudinalVelocity vz) (transverseHalbachField By) =
+      ![-q * vz * By, 0, 0] := by
+  ext i
+  fin_cases i
+  · simp [magneticLorentzForce, longitudinalVelocity, transverseHalbachField, cross_apply]
+    ring
+  · simp [magneticLorentzForce, longitudinalVelocity, transverseHalbachField, cross_apply]
+  · simp [magneticLorentzForce, longitudinalVelocity, transverseHalbachField, cross_apply]
+
+/-- Pure magnetic Lorentz deflection is strictly orthogonal to velocity (`F ⬝ᵥ v = 0`)
+and therefore performs zero mechanical work; net electrical extraction requires an
+opposing transverse load electric field as modeled in `FaradayChannel`. -/
+@[blueprint "thm:signals-magnetic-lorentz-work-free"
+  (title := "Pure magnetic deflection is work-free")
+  (statement := /-- For any charge $q$, velocity $\mathbf v$, and magnetic field $\mathbf B$,
+    $q(\mathbf v\times\mathbf B)\cdot\mathbf v=0$; harvesting electrical power therefore requires
+    an opposing Faraday load electric field rather than magnetic deflection alone. -/)
+  (proof := /-- Pull out the scalar $q$ and apply \texttt{dot\_self\_cross}. -/)]
+theorem magneticLorentzForce_work_free (q : ℝ) (v B : Vec3) :
+    (magneticLorentzForce q v B) ⬝ᵥ v = 0 := by
+  rw [magneticLorentzForce, smul_dotProduct, dotProduct_comm, dot_self_cross, smul_zero]
+
+/-- The magnetic Lorentz force is also orthogonal to the magnetic field (`F ⬝ᵥ B = 0`). -/
+@[blueprint "lem:signals-magnetic-lorentz-orthogonal-field"
+  (title := "Magnetic Lorentz force is orthogonal to magnetic field")
+  (statement := /-- For any charge $q$, velocity $\mathbf v$, and magnetic field $\mathbf B$,
+    $q(\mathbf v\times\mathbf B)\cdot\mathbf B=0$. -/)
+  (proof := /-- Pull out the scalar $q$ and apply \texttt{dot\_cross\_self}. -/)
+  (latexEnv := "lemma")]
+lemma magneticLorentzForce_orthogonal_field (q : ℝ) (v B : Vec3) :
+    (magneticLorentzForce q v B) ⬝ᵥ B = 0 := by
+  rw [magneticLorentzForce, smul_dotProduct, dotProduct_comm, dot_cross_self, smul_zero]
+
+/-- Radial centrifugal pressure gradient `dP/dr = ρ * ω² * r` in a rotating fluid leg. -/
+@[blueprint "def:signals-centrifugal-pressure-gradient"
+  (title := "Radial centrifugal pressure gradient")
+  (statement := /-- A fluid of density $\rho$ rotating at angular speed $\omega$ experiences
+    radial pressure gradient $\frac{dP}{dr}=\rho\omega^2 r$. -/)]
+noncomputable def centrifugalPressureGradient (ρ ω r : ℝ) : ℝ :=
+  (ρ * ω ^ 2) * r
+
+/-- Integrating the radial centrifugal pressure gradient from `r_inner` to `r_outer`
+yields `(1 / 2) * ρ * ω² * (r_outer² - r_inner²)`. -/
+@[blueprint "thm:signals-centrifugal-pump-head"
+  (title := "Integrated radial centrifugal pressure head")
+  (statement := /-- Integrating $\rho\omega^2 r$ from inner hub radius $r_{\mathrm{in}}$ to outer rim
+    radius $r_{\mathrm{out}}$ yields $\Delta P=\tfrac12\rho\omega^2(r_{\mathrm{out}}^2-r_{\mathrm{in}}^2)$. -/)
+  (proof := /-- Factor out $\rho\omega^2$ and apply the fundamental theorem of calculus for $\int r\,dr$. -/)]
+theorem centrifugal_pump_head (ρ ω r_inner r_outer : ℝ) :
+    ∫ r in r_inner..r_outer, centrifugalPressureGradient ρ ω r =
+      (1 / 2) * ρ * ω ^ 2 * (r_outer ^ 2 - r_inner ^ 2) := by
+  unfold centrifugalPressureGradient
+  rw [intervalIntegral.integral_const_mul, integral_id]
+  ring
+
+/-- The radial centrifugal pressure head is nonnegative when `0 ≤ ρ` and `0 ≤ r_inner ≤ r_outer`. -/
+@[blueprint "lem:signals-centrifugal-pump-head-nonneg"
+  (title := "Nonnegativity of outward centrifugal pressure head")
+  (statement := /-- When $\rho\ge 0$ and $0\le r_{\mathrm{in}}\le r_{\mathrm{out}}$,
+    the radial centrifugal pressure head is nonnegative. -/)
+  (proof := /-- Factor $r_{\mathrm{out}}^2-r_{\mathrm{in}}^2=(r_{\mathrm{out}}-r_{\mathrm{in}})(r_{\mathrm{out}}+r_{\mathrm{in}})\ge 0$. -/)
+  (latexEnv := "lemma")]
+lemma centrifugal_pump_head_nonneg (ρ ω r_inner r_outer : ℝ)
+    (h_ρ : 0 ≤ ρ) (h_inner : 0 ≤ r_inner) (h_radii : r_inner ≤ r_outer) :
+    0 ≤ ∫ r in r_inner..r_outer, centrifugalPressureGradient ρ ω r := by
+  rw [centrifugal_pump_head]
+  have h_diff : 0 ≤ r_outer - r_inner := sub_nonneg.mpr h_radii
+  have h_sum : 0 ≤ r_outer + r_inner := by linarith
+  have h_sq : 0 ≤ r_outer ^ 2 - r_inner ^ 2 := by
+    calc
+      0 ≤ (r_outer - r_inner) * (r_outer + r_inner) := mul_nonneg h_diff h_sum
+      _ = r_outer ^ 2 - r_inner ^ 2 := by ring
+  have h_factor : 0 ≤ (1 / 2 : ℝ) * ρ * ω ^ 2 := by positivity
+  exact mul_nonneg h_factor h_sq
+
+/-- In a closed rotating cooling loop, the net driving pressure head between an
+outward cold leg (`ρ_cold`) and an inward hot return leg (`ρ_hot`) is governed by
+the thermosyphon density differential `(1/2) * (ρ_cold - ρ_hot) * ω² * (r_outer² - r_inner²)`. -/
+@[blueprint "thm:signals-centrifugal-thermosyphon-head"
+  (title := "Closed-loop centrifugal thermosyphon driving head")
+  (statement := /-- The net circulation head between an outward cold leg of density $\rho_{\mathrm{cold}}$
+    and an inward hot leg of density $\rho_{\mathrm{hot}}$ in a rotating spool is
+    $\Delta P_{\mathrm{loop}}=\tfrac12(\rho_{\mathrm{cold}}-\rho_{\mathrm{hot}})\omega^2(r_{\mathrm{out}}^2-r_{\mathrm{in}}^2)$. -/)
+  (proof := /-- Evaluate both radial leg integrals via \texttt{centrifugal\_pump\_head} and subtract. -/)]
+theorem centrifugal_thermosyphon_net_head (ρ_cold ρ_hot ω r_inner r_outer : ℝ) :
+    (∫ r in r_inner..r_outer, centrifugalPressureGradient ρ_cold ω r) -
+      (∫ r in r_inner..r_outer, centrifugalPressureGradient ρ_hot ω r) =
+      (1 / 2) * (ρ_cold - ρ_hot) * ω ^ 2 * (r_outer ^ 2 - r_inner ^ 2) := by
+  rw [centrifugal_pump_head, centrifugal_pump_head]
+  ring
+
+/-- An isothermal closed rotating loop (`ρ_cold = ρ_hot`) has zero net centrifugal
+circulation head because the outward and inward radial pressure heads cancel. -/
+@[blueprint "lem:signals-centrifugal-isothermal-zero"
+  (title := "Isothermal closed rotating loop has zero net pumping head")
+  (statement := /-- When $\rho_{\mathrm{cold}}=\rho_{\mathrm{hot}}$, the outward and inward
+    centrifugal pressure heads cancel identically ($\Delta P_{\mathrm{loop}}=0$). -/)
+  (proof := /-- Specialize \texttt{centrifugal\_thermosyphon\_net\_head} to equal leg densities. -/)
+  (latexEnv := "lemma")]
+lemma centrifugal_closed_loop_isothermal_zero (ρ ω r_inner r_outer : ℝ) :
+    (∫ r in r_inner..r_outer, centrifugalPressureGradient ρ ω r) -
+      (∫ r in r_inner..r_outer, centrifugalPressureGradient ρ ω r) = 0 := by
+  rw [centrifugal_thermosyphon_net_head]
+  ring
+
+/-- Angular velocity vector `(0, 0, ω_z)` of a rotor spinning about the Z axis. -/
+@[blueprint "def:signals-spool-angular-velocity"
+  (title := "Spool axial angular velocity vector")
+  (statement := /-- A spool spinning about the $z$-axis has angular velocity vector $(0,0,\omega_z)$. -/)]
+def spoolAngularVelocity (ω_z : ℝ) : Vec3 :=
+  ![0, 0, ω_z]
+
+/-- Axial angular momentum vector `L = I_spool • (0, 0, ω_z)`. -/
+@[blueprint "def:signals-spool-angular-momentum"
+  (title := "Spool axial angular momentum vector")
+  (statement := /-- For axial moment of inertia $I_{\mathrm{spool}}$, the spool angular momentum is
+    $\mathbf L=(0,0,I_{\mathrm{spool}}\omega_z)$. -/)]
+def spoolAngularMomentum (I_spool ω_z : ℝ) : Vec3 :=
+  I_spool • (spoolAngularVelocity ω_z)
+
+/-- Gyroscopic torque vector `τ = Ω ⨯₃ L` required to precess the rotor at rate `Ω`. -/
+@[blueprint "def:signals-gyroscopic-torque"
+  (title := "Gyroscopic precession torque vector")
+  (statement := /-- Precessing the spool at angular rate $\boldsymbol\Omega$ requires gyroscopic
+    torque $\boldsymbol\tau=\boldsymbol\Omega\times\mathbf L$. -/)]
+def gyroscopicTorque (I_spool : ℝ) (Ω : Vec3) (ω_z : ℝ) : Vec3 :=
+  Ω ⨯₃ (spoolAngularMomentum I_spool ω_z)
+
+/-- Precessing a Z-axis rotor purely about the X axis (pitch) induces a pure Y-axis
+(yaw) gyroscopic torque `(0, -Ω_x * I_spool * ω_z, 0)`. -/
+@[blueprint "thm:signals-pitch-induces-yaw-torque"
+  (title := "Pitch precession induces orthogonal yaw gyroscopic torque")
+  (statement := /-- Precessing a $z$-axis spool at pitch rate $\boldsymbol\Omega=(\Omega_x,0,0)$
+    produces the orthogonal $y$-axis yaw torque $(0,-\Omega_x I_{\mathrm{spool}}\omega_z,0)$. -/)
+  (proof := /-- Expand the three components of $\boldsymbol\Omega\times\mathbf L$ and simplify by ring algebra. -/)]
+theorem pitch_induces_yaw_torque (I_spool Ω_x ω_z : ℝ) :
+    let Ω_pitch : Vec3 := ![Ω_x, 0, 0]
+    gyroscopicTorque I_spool Ω_pitch ω_z = ![0, -Ω_x * I_spool * ω_z, 0] := by
+  intro Ω_pitch
+  ext i
+  fin_cases i
+  · simp [Ω_pitch, gyroscopicTorque, spoolAngularMomentum, spoolAngularVelocity, cross_apply]
+  · simp [Ω_pitch, gyroscopicTorque, spoolAngularMomentum, spoolAngularVelocity, cross_apply]
+    ring
+  · simp [Ω_pitch, gyroscopicTorque, spoolAngularMomentum, spoolAngularVelocity, cross_apply]
+
+/-- Gyroscopic torque is orthogonal to the precession angular velocity `Ω`. -/
+@[blueprint "lem:signals-gyroscopic-torque-orthogonal-precession"
+  (title := "Gyroscopic torque is orthogonal to precession rate")
+  (statement := /-- For any precession vector $\boldsymbol\Omega$,
+    $(\boldsymbol\Omega\times\mathbf L)\cdot\boldsymbol\Omega=0$. -/)
+  (proof := /-- Apply \texttt{dot\_self\_cross}. -/)
+  (latexEnv := "lemma")]
+lemma gyroscopicTorque_orthogonal_precession (I_spool : ℝ) (Ω : Vec3) (ω_z : ℝ) :
+    (gyroscopicTorque I_spool Ω ω_z) ⬝ᵥ Ω = 0 := by
+  simp only [gyroscopicTorque, dotProduct_comm, dot_self_cross]
+
+/-- Gyroscopic torque is orthogonal to the rotor angular momentum `L`. -/
+@[blueprint "lem:signals-gyroscopic-torque-orthogonal-momentum"
+  (title := "Gyroscopic torque is orthogonal to angular momentum")
+  (statement := /-- For any precession vector $\boldsymbol\Omega$,
+    $(\boldsymbol\Omega\times\mathbf L)\cdot\mathbf L=0$. -/)
+  (proof := /-- Apply \texttt{dot\_cross\_self}. -/)
+  (latexEnv := "lemma")]
+lemma gyroscopicTorque_orthogonal_angularMomentum (I_spool : ℝ) (Ω : Vec3) (ω_z : ℝ) :
+    (gyroscopicTorque I_spool Ω ω_z) ⬝ᵥ (spoolAngularMomentum I_spool ω_z) = 0 := by
+  simp only [gyroscopicTorque, dotProduct_comm, dot_cross_self]
+
+/-- Squared Bohm-Gross frequency for warm electrostatic Langmuir oscillations:
+`ω²(k) = ω_p² + 3 * k² * v_th²`. -/
+@[blueprint "def:signals-bohm-gross-omega-sq"
+  (title := "Bohm-Gross warm Langmuir dispersion relation")
+  (statement := /-- For plasma frequency $\omega_p$, wavenumber $k$, and electron thermal speed
+    $v_{\mathrm{th}}$, the squared Bohm-Gross frequency is $\omega^2(k)=\omega_p^2+3k^2 v_{\mathrm{th}}^2$. -/)]
+def bohmGrossOmegaSq (ω_p k v_th : ℝ) : ℝ :=
+  ω_p ^ 2 + 3 * k ^ 2 * v_th ^ 2
+
+/-- Electrostatic wave phase velocity `v_φ = ω / k`. -/
+@[blueprint "def:signals-langmuir-phase-velocity"
+  (title := "Langmuir wave phase velocity")
+  (statement := /-- For angular frequency $\omega$ and wavenumber $k$, the phase velocity is $v_\phi=\omega/k$. -/)]
+noncomputable def langmuirPhaseVelocity (ω k : ℝ) : ℝ :=
+  ω / k
+
+/-- Bohm-Gross group velocity `v_g = ∂ω/∂k = (3 * k * v_th²) / ω`. -/
+@[blueprint "def:signals-bohm-gross-group-velocity"
+  (title := "Bohm-Gross wave group velocity")
+  (statement := /-- Differentiating $\omega^2=\omega_p^2+3k^2 v_{\mathrm{th}}^2$ gives the group velocity
+    $v_g=\frac{\partial\omega}{\partial k}=\frac{3 k v_{\mathrm{th}}^2}{\omega}$. -/)]
+noncomputable def bohmGrossGroupVelocity (ω k v_th : ℝ) : ℝ :=
+  (3 * k * v_th ^ 2) / ω
+
+/-- Bohm-Gross velocity coupling invariant: for any nonzero wavenumber `k` and
+frequency `ω`, `v_φ * v_g = 3 * v_th²`. -/
+@[blueprint "thm:signals-bohm-gross-velocity-product"
+  (title := "Bohm-Gross phase-group velocity invariant")
+  (statement := /-- For any $k\ne 0$ and $\omega\ne 0$, the product of phase and group velocity
+    satisfies $v_\phi v_g = 3 v_{\mathrm{th}}^2$. -/)
+  (proof := /-- Clear denominators with $k\ne 0$ and $\omega\ne 0$. -/)]
+theorem bohm_gross_phase_group_product (ω k v_th : ℝ) (h_k : k ≠ 0) (h_ω : ω ≠ 0) :
+    langmuirPhaseVelocity ω k * bohmGrossGroupVelocity ω k v_th = 3 * v_th ^ 2 := by
+  unfold langmuirPhaseVelocity bohmGrossGroupVelocity
+  field_simp [h_k, h_ω]
+
+/-- Under the Bohm-Gross dispersion relation `ω² = ω_p² + 3 * k² * v_th²` with `k ≠ 0`,
+the squared phase velocity satisfies `3 * v_th² ≤ v_φ²`. -/
+@[blueprint "thm:signals-bohm-gross-phase-velocity-bound"
+  (title := "Bohm-Gross phase velocity lower bound")
+  (statement := /-- Whenever $\omega^2=\omega_p^2+3k^2 v_{\mathrm{th}}^2$ and $k\ne 0$,
+    the squared phase velocity satisfies $3 v_{\mathrm{th}}^2\le v_\phi^2$. -/)
+  (proof := /-- Divide the dispersion relation by $k^2>0$ and use $\omega_p^2/k^2\ge 0$. -/)]
+theorem bohm_gross_phase_velocity_sq_ge_three_vth_sq
+    (ω ω_p k v_th : ℝ) (h_k : k ≠ 0) (h_disp : ω ^ 2 = bohmGrossOmegaSq ω_p k v_th) :
+    3 * v_th ^ 2 ≤ (langmuirPhaseVelocity ω k) ^ 2 := by
+  unfold langmuirPhaseVelocity bohmGrossOmegaSq at *
+  have hk2 : 0 < k ^ 2 := sq_pos_of_ne_zero h_k
+  rw [div_pow, h_disp]
+  have h_split : (ω_p ^ 2 + 3 * k ^ 2 * v_th ^ 2) / k ^ 2 = ω_p ^ 2 / k ^ 2 + 3 * v_th ^ 2 := by
+    field_simp [h_k]
+  rw [h_split]
+  have h_pos : 0 ≤ ω_p ^ 2 / k ^ 2 := div_nonneg (sq_nonneg ω_p) (le_of_lt hk2)
+  linarith
+
+/-- Electrostatic wave energy density `u_E = (1 / 2) * ε0 * E_z²`. -/
+@[blueprint "def:signals-electrostatic-wave-energy-density"
+  (title := "Electrostatic wave energy density")
+  (statement := /-- For permittivity $\varepsilon_0$ and axial field amplitude $E_z$,
+    the electrostatic energy density is $u_E=\tfrac12\varepsilon_0 E_z^2$. -/)]
+noncomputable def electrostaticWaveEnergyDensity (ε0 E_z : ℝ) : ℝ :=
+  0.5 * ε0 * E_z ^ 2
+
+/-- Dawson wave-breaking energy-density bound: when `0 ≤ ε0` and `0 ≤ E_z ≤ E_dawson`,
+the electrostatic energy density cannot exceed the Dawson saturation limit. -/
+@[blueprint "thm:signals-dawson-energy-density-bound"
+  (title := "Dawson wave-breaking energy-density ceiling")
+  (statement := /-- For $\varepsilon_0\ge 0$ and $0\le E_z\le E_{\mathrm{Dawson}}$,
+    $u_E(\varepsilon_0,E_z)\le u_E(\varepsilon_0,E_{\mathrm{Dawson}})$. -/)
+  (proof := /-- Factor $E_{\mathrm{Dawson}}^2-E_z^2=(E_{\mathrm{Dawson}}-E_z)(E_{\mathrm{Dawson}}+E_z)\ge 0$
+    and scale by $\tfrac12\varepsilon_0\ge 0$. -/)]
+theorem dawson_energy_density_bound (ε0 E_z E_dawson : ℝ)
+    (h_ε0 : 0 ≤ ε0) (h_Ez : 0 ≤ E_z) (h_dawson : E_z ≤ E_dawson) :
+    electrostaticWaveEnergyDensity ε0 E_z ≤ electrostaticWaveEnergyDensity ε0 E_dawson := by
+  unfold electrostaticWaveEnergyDensity
+  have h_diff : 0 ≤ E_dawson - E_z := sub_nonneg.mpr h_dawson
+  have h_sum : 0 ≤ E_dawson + E_z := by linarith
+  have h_sq_diff : 0 ≤ E_dawson ^ 2 - E_z ^ 2 := by
+    calc
+      0 ≤ (E_dawson - E_z) * (E_dawson + E_z) := mul_nonneg h_diff h_sum
+      _ = E_dawson ^ 2 - E_z ^ 2 := by ring
+  nlinarith
+
+/-- Linear Vlasov-Poisson Landau growth/damping rate
+`γ = (π * ω_p³ / (2 * k² * n_0)) * (∂f₀/∂v)|_{v = ω/k}`. -/
+@[blueprint "def:signals-landau-growth-rate"
+  (title := "Linear Vlasov-Poisson Landau growth/damping rate")
+  (statement := /-- Given plasma frequency $\omega_p$, wavenumber $k$, background density $n_0$,
+    and resonant distribution slope $\partial_v f_0$, the linear Landau rate is
+    $\gamma=\frac{\pi\omega_p^3}{2k^2 n_0}\,\partial_v f_0$. -/)]
+noncomputable def landauGrowthRate (ω_p k n_0 df_dv : ℝ) : ℝ :=
+  (Real.pi * ω_p ^ 3 / (2 * k ^ 2 * n_0)) * df_dv
+
+/-- A positive velocity-distribution slope (`df_dv > 0`, bump-on-tail instability)
+at the resonant phase velocity yields a strictly positive linear growth rate (`0 < γ`). -/
+@[blueprint "thm:signals-inverse-landau-growth-pos"
+  (title := "Bump-on-tail positive slope drives inverse Landau amplification")
+  (statement := /-- When $\omega_p>0$, $k\ne 0$, $n_0>0$, and $\partial_v f_0>0$,
+    the linear growth rate satisfies $\gamma>0$. -/)
+  (proof := /-- Apply positivity to the quotient $\pi\omega_p^3/(2k^2 n_0)>0$ and $\partial_v f_0>0$. -/)]
+theorem inverse_landau_growth_pos (ω_p k n_0 df_dv : ℝ)
+    (h_ωp : 0 < ω_p) (h_k : k ≠ 0) (h_n0 : 0 < n_0) (h_bump : 0 < df_dv) :
+    0 < landauGrowthRate ω_p k n_0 df_dv := by
+  unfold landauGrowthRate
+  have hk2 : 0 < k ^ 2 := sq_pos_of_ne_zero h_k
+  positivity
+
+/-- A negative velocity-distribution slope (`df_dv < 0`, thermal Maxwellian tail)
+at the resonant phase velocity yields linear Landau damping (`γ < 0`). -/
+@[blueprint "thm:signals-thermal-landau-damping-neg"
+  (title := "Negative thermal slope induces Landau damping")
+  (statement := /-- When $\omega_p>0$, $k\ne 0$, $n_0>0$, and $\partial_v f_0<0$,
+    the linear Landau rate is strictly negative ($\gamma<0$). -/)
+  (proof := /-- Multiply the positive prefactor $\pi\omega_p^3/(2k^2 n_0)>0$ by $\partial_v f_0<0$. -/)]
+theorem thermal_landau_damping_neg (ω_p k n_0 df_dv : ℝ)
+    (h_ωp : 0 < ω_p) (h_k : k ≠ 0) (h_n0 : 0 < n_0) (h_thermal : df_dv < 0) :
+    landauGrowthRate ω_p k n_0 df_dv < 0 := by
+  unfold landauGrowthRate
+  have hk2 : 0 < k ^ 2 := sq_pos_of_ne_zero h_k
+  have h_prefactor : 0 < Real.pi * ω_p ^ 3 / (2 * k ^ 2 * n_0) := by positivity
+  exact mul_neg_of_pos_of_neg h_prefactor h_thermal
+
+/-- Quasilinear plateau saturation: when resonant trapping flattens the distribution
+slope (`df_dv = 0`), the linear Landau growth rate vanishes (`γ = 0`). -/
+@[blueprint "lem:signals-quasilinear-plateau-saturation"
+  (title := "Quasilinear plateau saturation")
+  (statement := /-- When wave-particle trapping flattens the distribution slope ($\partial_v f_0=0$),
+    the linear Landau growth rate vanishes ($\gamma=0$). -/)
+  (proof := /-- Ring simplification with zero slope factor. -/)
+  (latexEnv := "lemma")]
+lemma quasilinear_plateau_saturation (ω_p k n_0 : ℝ) :
+    landauGrowthRate ω_p k n_0 0 = 0 := by
+  unfold landauGrowthRate
+  ring
+
+/-- Resonant wave-particle power conservation: the electrostatic energy growth rate
+`2 * γ * U_wave` plus the resonant beam kinetic-energy loss rate `-(2 * γ * U_wave)` sums to zero. -/
+@[blueprint "thm:signals-resonant-energy-conservation"
+  (title := "Resonant wave-particle power balance")
+  (statement := /-- The cavity wave-energy growth rate $2\gamma U_{\mathrm{wave}}$ and the resonant
+    beam kinetic-power loss rate $-2\gamma U_{\mathrm{wave}}$ sum identically to zero. -/)
+  (proof := /-- Additive cancellation in $\mathbb R$. -/)]
+theorem resonant_energy_transfer_conservation (γ U_wave : ℝ) :
+    let dU_wave_dt := 2 * γ * U_wave
+    let dK_beam_dt := - (2 * γ * U_wave)
+    dU_wave_dt + dK_beam_dt = 0 := by
+  intro dU_wave_dt dK_beam_dt
+  ring
+
+/-- Woltjer-Taylor Beltrami current `J = α • B` collinear with the magnetic field. -/
+@[blueprint "def:signals-taylor-beltrami-current"
+  (title := "Woltjer-Taylor Beltrami current")
+  (statement := /-- In a relaxed constant-$\alpha$ Taylor state, the current density is collinear
+    with the magnetic field: $\mathbf J=\alpha\mathbf B$. -/)]
+def taylorBeltramiCurrent (α : ℝ) (B : Vec3) : Vec3 :=
+  α • B
+
+/-- In a relaxed Beltrami/Taylor state `J = α • B`, the internal magnetic Lorentz
+force density `J ⨯₃ B` vanishes identically across all three spatial axes.
+Note: By the MHD virial theorem, global confinement still requires external boundary
+coils or wall pressure because a force-free interior exerts zero radial pinch gradient. -/
+@[blueprint "thm:signals-taylor-state-force-free"
+  (title := "Beltrami/Taylor state has zero internal magnetic Lorentz force")
+  (statement := /-- When $\mathbf J=\alpha\mathbf B$, the internal Lorentz force density satisfies
+    $\mathbf J\times\mathbf B=\mathbf 0$ componentwise. -/)
+  (proof := /-- Expand all three components of $(\alpha\mathbf B)\times\mathbf B$ and cancel. -/)]
+theorem taylor_state_force_free (α : ℝ) (B : Vec3) :
+    (taylorBeltramiCurrent α B) ⨯₃ B = ![0, 0, 0] := by
+  ext i
+  fin_cases i <;> simp [taylorBeltramiCurrent]
+
+/-- Radial magnetic pinch pressure margin under active thermal extraction:
+if `P_thermal_init ≤ P_mag` and active cooling removes thermal pressure faster
+than Ohmic dissipation adds it (`ΔP_ohm < ΔP_cool`), the net radial confinement
+margin `P_mag - P_thermal_eff` remains strictly positive. -/
+@[blueprint "thm:signals-active-cooling-stabilizes-pinch"
+  (title := "Active cooling preserves radial magnetic pinch margin")
+  (statement := /-- If $P_{\mathrm{th,0}}\le P_{\mathrm{mag}}$ and active thermal extraction exceeds
+    Ohmic heating ($\Delta P_{\mathrm{ohm}}<\Delta P_{\mathrm{cool}}$), then
+    $P_{\mathrm{mag}}-(P_{\mathrm{th,0}}+\Delta P_{\mathrm{ohm}}-\Delta P_{\mathrm{cool}})>0$. -/)
+  (proof := /-- Linear arithmetic from the initial pressure balance and cooling dominance. -/)]
+theorem active_cooling_stabilizes_pinch
+    (P_mag P_thermal_init ΔP_ohm ΔP_cool : ℝ)
+    (h_init_bal : P_thermal_init ≤ P_mag)
+    (h_cool_dom : ΔP_ohm < ΔP_cool) :
+    let P_thermal_eff := P_thermal_init + ΔP_ohm - ΔP_cool
+    0 < P_mag - P_thermal_eff := by
+  intro P_thermal_eff
+  dsimp [P_thermal_eff]
+  linarith
+
+/-- Discrete 1-cocycle gauge invariance on a 4-link closed magnetic loop:
+under any discrete scalar gauge transformation `A_{ij} ↦ A_{ij} + (χ_j - χ_i)`,
+the vertex potentials `χ_i` telescope to zero around the cycle. -/
+@[blueprint "thm:signals-discrete-four-cycle-gauge-invariance"
+  (title := "Discrete 4-cycle 1-cocycle gauge invariance")
+  (statement := /-- Adding vertex coboundary differences $\chi_j-\chi_i$ to each directed link
+    $A_{ij}$ around a closed 4-cycle leaves the loop holonomy sum invariant. -/)
+  (proof := /-- Telescope the vertex scalar potentials around the 4-cycle by ring algebra. -/)]
+theorem discrete_four_cycle_gauge_invariance (A01 A12 A23 A30 χ0 χ1 χ2 χ3 : ℝ) :
+    let A'_01 := A01 + (χ1 - χ0)
+    let A'_12 := A12 + (χ2 - χ1)
+    let A'_23 := A23 + (χ3 - χ2)
+    let A'_30 := A30 + (χ0 - χ3)
+    A'_01 + A'_12 + A'_23 + A'_30 = A01 + A12 + A23 + A30 := by
+  intro A'_01 A'_12 A'_23 A'_30
+  ring
 
 end Signals.MHD

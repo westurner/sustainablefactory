@@ -41,8 +41,18 @@ interpretation while keeping experimental premises explicit:
    finite frequency candidates by ionized mass per joule, electrical yield,
    and thrust per total input watt, composes a finite cellulose-strip Bragg
    resonator through an explicit lossy solid-to-Argon interface, and derives
-   momentum-only Argon jet thrust. It does not claim a Proca field accelerates
-   neutral Argon or that a vacuum-powered plant exists.
+   momentum-only Argon jet thrust. It further formalizes cycle-averaged
+   ponderomotive potentials and drift forces, pulsed duty-cycle average-force
+   bounds, Bernoulli surface pressure and torque orthogonality, Halbach
+   transverse magnetic Lorentz deflection (and its work-free identity
+   `F ⬝ᵥ v = 0`), radial centrifugal pump head and closed-loop thermosyphon
+   buoyancy head, 3D gyroscopic precession torque, warm Langmuir Bohm-Gross
+   dispersion (`v_φ * v_g = 3 * v_th²`) and Dawson wave-breaking energy-density
+   bounds, linear Vlasov-Poisson Landau growth/damping and quasilinear plateau
+   saturation, force-free Woltjer-Taylor Beltrami currents (`J ⨯₃ B = 0`),
+   active cooling pinch margins, and discrete 4-cycle 1-cocycle gauge
+   invariance. It does not claim a Proca field accelerates neutral Argon or
+   that a vacuum-powered plant exists.
 - `Signals.Acoustics` models classical ultrasonic transfer from pressure
    amplitude and acoustic impedance through aperture, transducer, link, and
    receiver efficiencies. It proves passive received power is bounded by
@@ -264,6 +274,13 @@ interpretation while keeping experimental premises explicit:
    observations, direct-conversion X-ray calibration, and a separate Proca
    phase-contrast imaging hypothesis. These records do not establish material,
    device, or clinical performance.
+   Its wakefield/propulsion boundary (`TwistorMomentumSinkHypothesis`,
+   `PulsedWakefieldHalbachHypothesis`, `DDFPhaseSlipHullStressHypothesis`, and
+   `CryogenicSpoolAMBHypothesis`) preserves dual-polygon momentum conservation,
+   Dawson cavity energy ceilings, pulsed duty-cycle thrust bounds, regularized
+   hull-boundary density floors, external drive-power accounting above the
+   Landau critical velocity, and `He-3` supercritical/solidification phase
+   constraints at `39 K`.
 - `Signals.Geometry` contains Weyl spinors, twistors, antisymmetric minors, and
    the finite $2 \times 4$ Pluecker relation. It also provides unrestricted
    finite Grassmannian matrices, ordered maximal minors, an optional positive

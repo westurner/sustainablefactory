@@ -1,3 +1,4 @@
+import Architect
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Basic.Complex.Basic
 import Mathlib.Basic.Real.Basic
@@ -2471,304 +2472,304 @@ def PopIIIGWCutoffComparison.characterizationReady
   comparison.tenHz.redshiftLowerBound90 < comparison.fiveHz.redshiftLowerBound90 ∧
     comparison.fiveHz.spinConstraint = SpinConstraintStatus.modest
 
-  /-! ## Finite multi-beam holography and trilateration
+/-! ## Finite multi-beam holography and trilateration
 
-  The following records extract the reusable bookkeeping from the holography
-  chat proposals. They preserve measured mask-state transfer, target-field
-  residuals, and independent position estimates. They do not assert that an
-  rGO-vitrimer mask is an activated metamaterial, that Gerchberg-Saxton found a
-  global optimum, or that a successful reconstruction is Proca evidence. -/
+The following records extract the reusable bookkeeping from the holography
+chat proposals. They preserve measured mask-state transfer, target-field
+residuals, and independent position estimates. They do not assert that an
+rGO-vitrimer mask is an activated metamaterial, that Gerchberg-Saxton found a
+global optimum, or that a successful reconstruction is Proca evidence. -/
 
-  /-- The four preregistered mask states used for a holography ablation. -/
-  inductive HolographyMaskState
-    | noMask
-    | passiveMask
-    | activatedMask
-    | shamActivation
-    deriving DecidableEq, Repr
+/-- The four preregistered mask states used for a holography ablation. -/
+inductive HolographyMaskState
+  | noMask
+  | passiveMask
+  | activatedMask
+  | shamActivation
+  deriving DecidableEq, Repr
 
-  /-- Measured transfer data for one holography mask state. -/
-  structure HolographyMaskTransfer where
-    state : HolographyMaskState
-    amplitudeTransmission : ℝ
-    amplitudeTransmission_nonnegative : 0 ≤ amplitudeTransmission
-    phaseDelay : ℝ
-    phaseDelay_uncertainty : ℝ
-    phaseDelay_uncertainty_nonnegative : 0 ≤ phaseDelay_uncertainty
-    polarizationConversion : ℝ
-    polarizationConversion_nonnegative : 0 ≤ polarizationConversion
-    insertionLoss : ℝ
-    insertionLoss_nonnegative : 0 ≤ insertionLoss
-    temperature : Temperature
-    temperature_nonnegative : 0 ≤ temperature.kelvin
-    controlLabel : String
-    calibrationReference : String
+/-- Measured transfer data for one holography mask state. -/
+structure HolographyMaskTransfer where
+  state : HolographyMaskState
+  amplitudeTransmission : ℝ
+  amplitudeTransmission_nonnegative : 0 ≤ amplitudeTransmission
+  phaseDelay : ℝ
+  phaseDelay_uncertainty : ℝ
+  phaseDelay_uncertainty_nonnegative : 0 ≤ phaseDelay_uncertainty
+  polarizationConversion : ℝ
+  polarizationConversion_nonnegative : 0 ≤ polarizationConversion
+  insertionLoss : ℝ
+  insertionLoss_nonnegative : 0 ≤ insertionLoss
+  temperature : Temperature
+  temperature_nonnegative : 0 ≤ temperature.kelvin
+  controlLabel : String
+  calibrationReference : String
 
-  /-- A finite target-field result from a multi-beam holography reconstruction. -/
-  structure MultiBeamHolographyResult where
-    beamCount : ℕ
-    beamCount_min : 4 ≤ beamCount
-    maskTransfer : HolographyMaskTransfer
-    solverName : String
-    solverIterations : ℕ
-    solverIterations_pos : 0 < solverIterations
-    targetFieldRMSE : ℝ
-    targetFieldRMSE_nonnegative : 0 ≤ targetFieldRMSE
-    intensityUniformityError : ℝ
-    intensityUniformityError_nonnegative : 0 ≤ intensityUniformityError
-    sideLobeRatio : ℝ
-    sideLobeRatio_nonnegative : 0 ≤ sideLobeRatio
-    crosstalkError : ℝ
-    crosstalkError_nonnegative : 0 ≤ crosstalkError
-    deliveredPower : Power
-    deliveredPower_nonnegative : 0 ≤ deliveredPower.watts
-    absorbedPower : Power
-    absorbedPower_nonnegative : 0 ≤ absorbedPower.watts
-    calibrationResidual : ℝ
-    calibrationResidual_nonnegative : 0 ≤ calibrationResidual
-    heldOutPattern : Prop
-    heldOutPattern_hypothesis : heldOutPattern
+/-- A finite target-field result from a multi-beam holography reconstruction. -/
+structure MultiBeamHolographyResult where
+  beamCount : ℕ
+  beamCount_min : 4 ≤ beamCount
+  maskTransfer : HolographyMaskTransfer
+  solverName : String
+  solverIterations : ℕ
+  solverIterations_pos : 0 < solverIterations
+  targetFieldRMSE : ℝ
+  targetFieldRMSE_nonnegative : 0 ≤ targetFieldRMSE
+  intensityUniformityError : ℝ
+  intensityUniformityError_nonnegative : 0 ≤ intensityUniformityError
+  sideLobeRatio : ℝ
+  sideLobeRatio_nonnegative : 0 ≤ sideLobeRatio
+  crosstalkError : ℝ
+  crosstalkError_nonnegative : 0 ≤ crosstalkError
+  deliveredPower : Power
+  deliveredPower_nonnegative : 0 ≤ deliveredPower.watts
+  absorbedPower : Power
+  absorbedPower_nonnegative : 0 ≤ absorbedPower.watts
+  calibrationResidual : ℝ
+  calibrationResidual_nonnegative : 0 ≤ calibrationResidual
+  heldOutPattern : Prop
+  heldOutPattern_hypothesis : heldOutPattern
 
-  /-- A multi-beam target result is numerically acceptable below all tolerances. -/
-  def MultiBeamHolographyResult.withinTolerances
-      (result : MultiBeamHolographyResult)
-      (fieldTolerance uniformityTolerance sideLobeTolerance crosstalkTolerance
-        calibrationTolerance : ℝ) : Prop :=
-    0 ≤ fieldTolerance ∧
-      0 ≤ uniformityTolerance ∧
-      0 ≤ sideLobeTolerance ∧
-      0 ≤ crosstalkTolerance ∧
-      0 ≤ calibrationTolerance ∧
-      result.targetFieldRMSE ≤ fieldTolerance ∧
-      result.intensityUniformityError ≤ uniformityTolerance ∧
-      result.sideLobeRatio ≤ sideLobeTolerance ∧
-      result.crosstalkError ≤ crosstalkTolerance ∧
-      result.calibrationResidual ≤ calibrationTolerance
+/-- A multi-beam target result is numerically acceptable below all tolerances. -/
+def MultiBeamHolographyResult.withinTolerances
+    (result : MultiBeamHolographyResult)
+    (fieldTolerance uniformityTolerance sideLobeTolerance crosstalkTolerance
+      calibrationTolerance : ℝ) : Prop :=
+  0 ≤ fieldTolerance ∧
+    0 ≤ uniformityTolerance ∧
+    0 ≤ sideLobeTolerance ∧
+    0 ≤ crosstalkTolerance ∧
+    0 ≤ calibrationTolerance ∧
+    result.targetFieldRMSE ≤ fieldTolerance ∧
+    result.intensityUniformityError ≤ uniformityTolerance ∧
+    result.sideLobeRatio ≤ sideLobeTolerance ∧
+    result.crosstalkError ≤ crosstalkTolerance ∧
+    result.calibrationResidual ≤ calibrationTolerance
 
-  /-- An independently sensed range for one beam used in trilateration. -/
-  structure TrilaterationRange where
-    beamIndex : ℕ
-    rangeMeters : ℝ
-    range_nonnegative : 0 ≤ rangeMeters
-    uncertaintyMeters : ℝ
-    uncertainty_nonnegative : 0 ≤ uncertaintyMeters
-    sensorLabel : String
+/-- An independently sensed range for one beam used in trilateration. -/
+structure TrilaterationRange where
+  beamIndex : ℕ
+  rangeMeters : ℝ
+  range_nonnegative : 0 ≤ rangeMeters
+  uncertaintyMeters : ℝ
+  uncertainty_nonnegative : 0 ≤ uncertaintyMeters
+  sensorLabel : String
 
-  /-- A four-or-more-beam independent trilateration result. -/
-  structure MultiBeamTrilateration where
-    beamCount : ℕ
-    beamCount_min : 4 ≤ beamCount
-    ranges : List TrilaterationRange
-    rangeCountLaw : ranges.length = beamCount
-    targetX : ℝ
-    targetY : ℝ
-    targetZ : ℝ
-    sharedDelayBias : ℝ
-    positionErrorMeters : ℝ
-    positionError_nonnegative : 0 ≤ positionErrorMeters
-    covarianceTrace : ℝ
-    covarianceTrace_nonnegative : 0 ≤ covarianceTrace
-    independentSensorLabel : String
-    calibrationResidual : ℝ
-    calibrationResidual_nonnegative : 0 ≤ calibrationResidual
+/-- A four-or-more-beam independent trilateration result. -/
+structure MultiBeamTrilateration where
+  beamCount : ℕ
+  beamCount_min : 4 ≤ beamCount
+  ranges : List TrilaterationRange
+  rangeCountLaw : ranges.length = beamCount
+  targetX : ℝ
+  targetY : ℝ
+  targetZ : ℝ
+  sharedDelayBias : ℝ
+  positionErrorMeters : ℝ
+  positionError_nonnegative : 0 ≤ positionErrorMeters
+  covarianceTrace : ℝ
+  covarianceTrace_nonnegative : 0 ≤ covarianceTrace
+  independentSensorLabel : String
+  calibrationResidual : ℝ
+  calibrationResidual_nonnegative : 0 ≤ calibrationResidual
 
-  /-- The recorded trilateration result has the declared number of beam ranges. -/
-  lemma MultiBeamTrilateration.range_count_holds
-      (result : MultiBeamTrilateration) :
-      result.ranges.length = result.beamCount :=
-    result.rangeCountLaw
+/-- The recorded trilateration result has the declared number of beam ranges. -/
+lemma MultiBeamTrilateration.range_count_holds
+    (result : MultiBeamTrilateration) :
+    result.ranges.length = result.beamCount :=
+  result.rangeCountLaw
 
-  /-- A trilateration result is independently sensed when it has a label and
-  nonnegative finite error bookkeeping. -/
-  def MultiBeamTrilateration.independentlySensed
-      (result : MultiBeamTrilateration) : Prop :=
-    result.independentSensorLabel ≠ "" ∧
-      0 ≤ result.positionErrorMeters ∧
-      0 ≤ result.covarianceTrace ∧
-      0 ≤ result.calibrationResidual
+/-- A trilateration result is independently sensed when it has a label and
+nonnegative finite error bookkeeping. -/
+def MultiBeamTrilateration.independentlySensed
+    (result : MultiBeamTrilateration) : Prop :=
+  result.independentSensorLabel ≠ "" ∧
+    0 ≤ result.positionErrorMeters ∧
+    0 ≤ result.covarianceTrace ∧
+    0 ≤ result.calibrationResidual
 
-  /-- Classical helical/vector-beam apparatus bookkeeping.
+/-- Classical helical/vector-beam apparatus bookkeeping.
 
-  The apparatus may use a q-plate, spatial light modulator, geometric-phase
-  optic, or equivalent polarization/phase element. OAM charge and a longitudinal
-  near-field component are measured optical quantities here; neither one asserts
-  Proca propagation or a massive photon. -/
-  structure HelicalBeamApparatus where
-    beamCount : ℕ
-    beamCount_min : 1 ≤ beamCount
-    wavelength : Length
-    wavelength_pos : 0 < wavelength.meters
-    sourcePower : Power
-    sourcePower_nonnegative : 0 ≤ sourcePower.watts
-    beamPower : Power
-    beamPower_nonnegative : 0 ≤ beamPower.watts
-    beamPowerLaw : beamPower.watts ≤ sourcePower.watts
-    oamCharge : ℤ
-    polarizationLabel : String
-    polarizationPurity : ℝ
-    polarizationPurity_nonnegative : 0 ≤ polarizationPurity
-    polarizationPurity_le_one : polarizationPurity ≤ 1
-    phaseResidual : ℝ
-    phaseResidual_nonnegative : 0 ≤ phaseResidual
-    topologicalChargeFidelity : ℝ
-    topologicalChargeFidelity_nonnegative : 0 ≤ topologicalChargeFidelity
-    topologicalChargeFidelity_le_one : topologicalChargeFidelity ≤ 1
-    longitudinalNearFieldFraction : ℝ
-    longitudinalNearFieldFraction_nonnegative :
-      0 ≤ longitudinalNearFieldFraction
-    longitudinalNearFieldFraction_le_one : longitudinalNearFieldFraction ≤ 1
-    alignmentError : ℝ
-    alignmentError_nonnegative : 0 ≤ alignmentError
-    sourceCalibration : Prop
-    sourceCalibration_hypothesis : sourceCalibration
-    polarizationCalibration : Prop
-    polarizationCalibration_hypothesis : polarizationCalibration
-    modeCalibration : Prop
-    modeCalibration_hypothesis : modeCalibration
-    apparatusLabel : String
+The apparatus may use a q-plate, spatial light modulator, geometric-phase
+optic, or equivalent polarization/phase element. OAM charge and a longitudinal
+near-field component are measured optical quantities here; neither one asserts
+Proca propagation or a massive photon. -/
+structure HelicalBeamApparatus where
+  beamCount : ℕ
+  beamCount_min : 1 ≤ beamCount
+  wavelength : Length
+  wavelength_pos : 0 < wavelength.meters
+  sourcePower : Power
+  sourcePower_nonnegative : 0 ≤ sourcePower.watts
+  beamPower : Power
+  beamPower_nonnegative : 0 ≤ beamPower.watts
+  beamPowerLaw : beamPower.watts ≤ sourcePower.watts
+  oamCharge : ℤ
+  polarizationLabel : String
+  polarizationPurity : ℝ
+  polarizationPurity_nonnegative : 0 ≤ polarizationPurity
+  polarizationPurity_le_one : polarizationPurity ≤ 1
+  phaseResidual : ℝ
+  phaseResidual_nonnegative : 0 ≤ phaseResidual
+  topologicalChargeFidelity : ℝ
+  topologicalChargeFidelity_nonnegative : 0 ≤ topologicalChargeFidelity
+  topologicalChargeFidelity_le_one : topologicalChargeFidelity ≤ 1
+  longitudinalNearFieldFraction : ℝ
+  longitudinalNearFieldFraction_nonnegative :
+    0 ≤ longitudinalNearFieldFraction
+  longitudinalNearFieldFraction_le_one : longitudinalNearFieldFraction ≤ 1
+  alignmentError : ℝ
+  alignmentError_nonnegative : 0 ≤ alignmentError
+  sourceCalibration : Prop
+  sourceCalibration_hypothesis : sourceCalibration
+  polarizationCalibration : Prop
+  polarizationCalibration_hypothesis : polarizationCalibration
+  modeCalibration : Prop
+  modeCalibration_hypothesis : modeCalibration
+  apparatusLabel : String
 
-  /-- The helical apparatus has enough independent beams for spatial convergence. -/
-  def HelicalBeamApparatus.isMultiBeam
-      (apparatus : HelicalBeamApparatus) : Prop :=
-    4 ≤ apparatus.beamCount
+/-- The helical apparatus has enough independent beams for spatial convergence. -/
+def HelicalBeamApparatus.isMultiBeam
+    (apparatus : HelicalBeamApparatus) : Prop :=
+  4 ≤ apparatus.beamCount
 
-  /-- A classical helical apparatus is ready for a bounded precision experiment. -/
-  def HelicalBeamApparatus.calibrated
-      (apparatus : HelicalBeamApparatus) : Prop :=
-    apparatus.apparatusLabel ≠ "" ∧
-      apparatus.polarizationLabel ≠ "" ∧
-      apparatus.sourceCalibration ∧
-      apparatus.polarizationCalibration ∧
-      apparatus.modeCalibration ∧
-      apparatus.phaseResidual ≥ 0 ∧
-      apparatus.alignmentError ≥ 0
+/-- A classical helical apparatus is ready for a bounded precision experiment. -/
+def HelicalBeamApparatus.calibrated
+    (apparatus : HelicalBeamApparatus) : Prop :=
+  apparatus.apparatusLabel ≠ "" ∧
+    apparatus.polarizationLabel ≠ "" ∧
+    apparatus.sourceCalibration ∧
+    apparatus.polarizationCalibration ∧
+    apparatus.modeCalibration ∧
+    apparatus.phaseResidual ≥ 0 ∧
+    apparatus.alignmentError ≥ 0
 
-  /-- Beam power is bounded by source power in the recorded apparatus. -/
-  lemma HelicalBeamApparatus.beam_power_le_source
-      (apparatus : HelicalBeamApparatus) :
-      apparatus.beamPower.watts ≤ apparatus.sourcePower.watts :=
-    apparatus.beamPowerLaw
+/-- Beam power is bounded by source power in the recorded apparatus. -/
+lemma HelicalBeamApparatus.beam_power_le_source
+    (apparatus : HelicalBeamApparatus) :
+    apparatus.beamPower.watts ≤ apparatus.sourcePower.watts :=
+  apparatus.beamPowerLaw
 
-  /-! ## High-value longitudinal-beam application boundary
+/-! ## High-value longitudinal-beam application boundary
 
-  This record turns the most valuable near-term target into a finite classical
-  experiment: a calibrated vector beam with a measurable longitudinal field,
-  aperture-matched imaging data, causal communications bookkeeping, and a
-  fixed-power process outcome. These observables do not establish a Proca mode,
-  zero diffraction, or faster-than-light information transfer. -/
+This record turns the most valuable near-term target into a finite classical
+experiment: a calibrated vector beam with a measurable longitudinal field,
+aperture-matched imaging data, causal communications bookkeeping, and a
+fixed-power process outcome. These observables do not establish a Proca mode,
+zero diffraction, or faster-than-light information transfer. -/
 
-  /-- The application outcome being evaluated for one longitudinal-beam run. -/
-  inductive LongitudinalBeamApplication
-    | imaging
-    | nanolithography
-    | communications
-    | plasmaYield
-    deriving DecidableEq, Repr
+/-- The application outcome being evaluated for one longitudinal-beam run. -/
+inductive LongitudinalBeamApplication
+  | imaging
+  | nanolithography
+  | communications
+  | plasmaYield
+  deriving DecidableEq, Repr
 
-  /-- A finite longitudinal-beam application evidence record. -/
-  structure LongitudinalBeamApplicationEvidence where
-    application : LongitudinalBeamApplication
-    sourceLabel : String
-    artifactReference : String
-    wavelength : Length
-    wavelength_pos : 0 < wavelength.meters
-    sourcePower : Power
-    sourcePower_nonnegative : 0 ≤ sourcePower.watts
-    absorbedPower : Power
-    absorbedPower_nonnegative : 0 ≤ absorbedPower.watts
-    absorbedPower_le_source : absorbedPower.watts ≤ sourcePower.watts
-    longitudinalFraction : BoundedFactor
-    transverseFraction : BoundedFactor
-    longitudinalToTransverseRatio : ℝ
-    ratioLaw : longitudinalToTransverseRatio =
-      longitudinalFraction.value / transverseFraction.value
-    longitudinalProbeCalibration : Prop
-    longitudinalProbeCalibration_hypothesis : longitudinalProbeCalibration
-    apertureMatchedControl : Prop
-    apertureMatchedControl_hypothesis : apertureMatchedControl
-    longitudinalSuppressionControl : Prop
-    longitudinalSuppressionControl_hypothesis : longitudinalSuppressionControl
-    detectorCalibration : Prop
-    detectorCalibration_hypothesis : detectorCalibration
-    psfResidual : ℝ
-    psfResidual_nonnegative : 0 ≤ psfResidual
-    psfTolerance : ℝ
-    psfTolerance_nonnegative : 0 ≤ psfTolerance
-    psfWithinTolerance : psfResidual ≤ psfTolerance
-    mtfResidual : ℝ
-    mtfResidual_nonnegative : 0 ≤ mtfResidual
-    mtfTolerance : ℝ
-    mtfTolerance_nonnegative : 0 ≤ mtfTolerance
-    mtfWithinTolerance : mtfResidual ≤ mtfTolerance
-    sideLobeEnergyFraction : BoundedFactor
-    propagationBroadening : Length
-    propagationBroadening_nonnegative : 0 ≤ propagationBroadening.meters
-    propagationBroadeningTolerance : Length
-    propagationBroadeningTolerance_nonnegative :
-      0 ≤ propagationBroadeningTolerance.meters
-    broadeningWithinTolerance :
-      propagationBroadening.meters ≤ propagationBroadeningTolerance.meters
-    groupSpeed : Speed
-    groupSpeed_pos : 0 < groupSpeed.metersPerSecond
-    groupSpeed_causal : groupSpeed.metersPerSecond ≤ vacuumSpeedOfLight
-    informationSpeed : Speed
-    informationSpeed_pos : 0 < informationSpeed.metersPerSecond
-    informationSpeed_causal : informationSpeed.metersPerSecond ≤ vacuumSpeedOfLight
-    communicationResidual : ℝ
-    communicationResidual_nonnegative : 0 ≤ communicationResidual
-    communicationTolerance : ℝ
-    communicationTolerance_nonnegative : 0 ≤ communicationTolerance
-    communicationWithinTolerance : communicationResidual ≤ communicationTolerance
-    yieldMetric : ℝ
-    yieldMetric_nonnegative : 0 ≤ yieldMetric
-    classicalControlYieldMetric : ℝ
-    classicalControlYieldMetric_nonnegative : 0 ≤ classicalControlYieldMetric
-    yieldImprovement : ℝ
-    yieldImprovementLaw : yieldImprovement =
-      yieldMetric - classicalControlYieldMetric
-    thermalLoad : Temperature
-    thermalLoad_nonnegative : 0 ≤ thermalLoad.kelvin
-    replicationCount : ℕ
-    replicationCount_min : 2 ≤ replicationCount
-    modeCalibration : Prop
-    modeCalibration_hypothesis : modeCalibration
+/-- A finite longitudinal-beam application evidence record. -/
+structure LongitudinalBeamApplicationEvidence where
+  application : LongitudinalBeamApplication
+  sourceLabel : String
+  artifactReference : String
+  wavelength : Length
+  wavelength_pos : 0 < wavelength.meters
+  sourcePower : Power
+  sourcePower_nonnegative : 0 ≤ sourcePower.watts
+  absorbedPower : Power
+  absorbedPower_nonnegative : 0 ≤ absorbedPower.watts
+  absorbedPower_le_source : absorbedPower.watts ≤ sourcePower.watts
+  longitudinalFraction : BoundedFactor
+  transverseFraction : BoundedFactor
+  longitudinalToTransverseRatio : ℝ
+  ratioLaw : longitudinalToTransverseRatio =
+    longitudinalFraction.value / transverseFraction.value
+  longitudinalProbeCalibration : Prop
+  longitudinalProbeCalibration_hypothesis : longitudinalProbeCalibration
+  apertureMatchedControl : Prop
+  apertureMatchedControl_hypothesis : apertureMatchedControl
+  longitudinalSuppressionControl : Prop
+  longitudinalSuppressionControl_hypothesis : longitudinalSuppressionControl
+  detectorCalibration : Prop
+  detectorCalibration_hypothesis : detectorCalibration
+  psfResidual : ℝ
+  psfResidual_nonnegative : 0 ≤ psfResidual
+  psfTolerance : ℝ
+  psfTolerance_nonnegative : 0 ≤ psfTolerance
+  psfWithinTolerance : psfResidual ≤ psfTolerance
+  mtfResidual : ℝ
+  mtfResidual_nonnegative : 0 ≤ mtfResidual
+  mtfTolerance : ℝ
+  mtfTolerance_nonnegative : 0 ≤ mtfTolerance
+  mtfWithinTolerance : mtfResidual ≤ mtfTolerance
+  sideLobeEnergyFraction : BoundedFactor
+  propagationBroadening : Length
+  propagationBroadening_nonnegative : 0 ≤ propagationBroadening.meters
+  propagationBroadeningTolerance : Length
+  propagationBroadeningTolerance_nonnegative :
+    0 ≤ propagationBroadeningTolerance.meters
+  broadeningWithinTolerance :
+    propagationBroadening.meters ≤ propagationBroadeningTolerance.meters
+  groupSpeed : Speed
+  groupSpeed_pos : 0 < groupSpeed.metersPerSecond
+  groupSpeed_causal : groupSpeed.metersPerSecond ≤ vacuumSpeedOfLight
+  informationSpeed : Speed
+  informationSpeed_pos : 0 < informationSpeed.metersPerSecond
+  informationSpeed_causal : informationSpeed.metersPerSecond ≤ vacuumSpeedOfLight
+  communicationResidual : ℝ
+  communicationResidual_nonnegative : 0 ≤ communicationResidual
+  communicationTolerance : ℝ
+  communicationTolerance_nonnegative : 0 ≤ communicationTolerance
+  communicationWithinTolerance : communicationResidual ≤ communicationTolerance
+  yieldMetric : ℝ
+  yieldMetric_nonnegative : 0 ≤ yieldMetric
+  classicalControlYieldMetric : ℝ
+  classicalControlYieldMetric_nonnegative : 0 ≤ classicalControlYieldMetric
+  yieldImprovement : ℝ
+  yieldImprovementLaw : yieldImprovement =
+    yieldMetric - classicalControlYieldMetric
+  thermalLoad : Temperature
+  thermalLoad_nonnegative : 0 ≤ thermalLoad.kelvin
+  replicationCount : ℕ
+  replicationCount_min : 2 ≤ replicationCount
+  modeCalibration : Prop
+  modeCalibration_hypothesis : modeCalibration
 
-  /-- The longitudinal field ratio is positive when both supplied fractions are
-  positive. -/
-  lemma LongitudinalBeamApplicationEvidence.ratio_pos
-      (evidence : LongitudinalBeamApplicationEvidence)
-      (longitudinal_pos : 0 < evidence.longitudinalFraction.value)
-      (transverse_pos : 0 < evidence.transverseFraction.value) :
-      0 < evidence.longitudinalToTransverseRatio := by
-    rw [evidence.ratioLaw]
-    exact div_pos longitudinal_pos transverse_pos
+/-- The longitudinal field ratio is positive when both supplied fractions are
+positive. -/
+lemma LongitudinalBeamApplicationEvidence.ratio_pos
+    (evidence : LongitudinalBeamApplicationEvidence)
+    (longitudinal_pos : 0 < evidence.longitudinalFraction.value)
+    (transverse_pos : 0 < evidence.transverseFraction.value) :
+    0 < evidence.longitudinalToTransverseRatio := by
+  rw [evidence.ratioLaw]
+  exact div_pos longitudinal_pos transverse_pos
 
-  /-- A calibrated classical result is ready for application comparison. -/
-  def LongitudinalBeamApplicationEvidence.comparisonReady
-      (evidence : LongitudinalBeamApplicationEvidence) : Prop :=
-    evidence.sourceLabel ≠ "" ∧
-      evidence.artifactReference ≠ "" ∧
-      evidence.longitudinalProbeCalibration ∧
-      evidence.apertureMatchedControl ∧
-      evidence.longitudinalSuppressionControl ∧
-      evidence.detectorCalibration ∧
-      evidence.modeCalibration ∧
-      evidence.psfResidual ≤ evidence.psfTolerance ∧
-      evidence.mtfResidual ≤ evidence.mtfTolerance ∧
-      evidence.propagationBroadening.meters ≤
-        evidence.propagationBroadeningTolerance.meters ∧
-      evidence.groupSpeed.metersPerSecond ≤ vacuumSpeedOfLight ∧
-      evidence.informationSpeed.metersPerSecond ≤ vacuumSpeedOfLight ∧
-      evidence.communicationResidual ≤ evidence.communicationTolerance ∧
-      2 ≤ evidence.replicationCount
+/-- A calibrated classical result is ready for application comparison. -/
+def LongitudinalBeamApplicationEvidence.comparisonReady
+    (evidence : LongitudinalBeamApplicationEvidence) : Prop :=
+  evidence.sourceLabel ≠ "" ∧
+    evidence.artifactReference ≠ "" ∧
+    evidence.longitudinalProbeCalibration ∧
+    evidence.apertureMatchedControl ∧
+    evidence.longitudinalSuppressionControl ∧
+    evidence.detectorCalibration ∧
+    evidence.modeCalibration ∧
+    evidence.psfResidual ≤ evidence.psfTolerance ∧
+    evidence.mtfResidual ≤ evidence.mtfTolerance ∧
+    evidence.propagationBroadening.meters ≤
+      evidence.propagationBroadeningTolerance.meters ∧
+    evidence.groupSpeed.metersPerSecond ≤ vacuumSpeedOfLight ∧
+    evidence.informationSpeed.metersPerSecond ≤ vacuumSpeedOfLight ∧
+    evidence.communicationResidual ≤ evidence.communicationTolerance ∧
+    2 ≤ evidence.replicationCount
 
-  /-- The yield comparison is a supplied classical process metric, not an
-  energy-creation claim. -/
-  lemma LongitudinalBeamApplicationEvidence.yield_improvement_holds
-      (evidence : LongitudinalBeamApplicationEvidence) :
-      evidence.yieldImprovement =
-        evidence.yieldMetric - evidence.classicalControlYieldMetric :=
-    evidence.yieldImprovementLaw
+/-- The yield comparison is a supplied classical process metric, not an
+energy-creation claim. -/
+lemma LongitudinalBeamApplicationEvidence.yield_improvement_holds
+    (evidence : LongitudinalBeamApplicationEvidence) :
+    evidence.yieldImprovement =
+      evidence.yieldMetric - evidence.classicalControlYieldMetric :=
+  evidence.yieldImprovementLaw
 
 /-! ## DDF fracture-communication evidence boundary
 
@@ -4404,5 +4405,336 @@ lemma CompressibleFlowDataset.raw_boundary_holds
     (index : Fin sampleCount) :
     dataset.rawBoundary index = (dataset.samples index).boundary.boundary :=
   dataset.rawBoundaryLaw index
+
+/-! ## Wakefield, Bi-Twistor Momentum Sink, DDF Hull Stress, and Cryogenic AMB Spool Hypotheses
+
+The records below formalize the conditional and unvalidated premises from
+`Twistors-and-Positive-Grassmannian-Interference.md`:
+1. `TwistorMomentumSinkHypothesis` records the unclosed dual-spacetime polygon
+   residual `ΔP_wake = x_n - x_1` and `n + 2` Grassmannian bi-twistor sink while
+   enforcing exact classical momentum conservation `ΔP_craft + ΔP_wake = 0`.
+2. `PulsedWakefieldHalbachHypothesis` bounds extracted pulse energy by the
+   Dawson-limited electrostatic energy stored in the cavity volume and bounds
+   time-averaged thrust by the duty-cycle-scaled peak pulse force.
+3. `DDFPhaseSlipHullStressHypothesis` requires a strictly positive density floor
+   (`0 < ρ_floor ≤ ρ`) at the hull boundary and requires external drive power
+   to cover the mechanical thrust power (`F_thrust * v ≤ P_drive`), ruling out
+   unpowered reactionless propulsion above the Landau critical velocity.
+4. `CryogenicSpoolAMBHypothesis` records the `He-3` critical temperature (`3.32 K`),
+   minimum solidification pressure (`3.4 MPa`), `MgB₂` critical temperature (`39 K`),
+   thermosyphon density ordering, and 5-axis AMB air-gap clearance, distinguishing
+   supercritical gas operation at `39 K` from liquid or solid `He-3`.
+-/
+
+/-- A Pending bi-twistor momentum-sink hypothesis for wakefield momentum transfer.
+
+When a localized wave or particle system exchanges momentum `wakefieldMomentum`
+with a macroscopic plasma or vortex bath, the dual polygon fails to close by
+`dualPolygonEnd - dualPolygonStart`, and the net vehicle momentum change must
+balance the momentum absorbed by the sink. -/
+@[blueprint "def:signals-twistor-momentum-sink"
+  (title := "Bi-twistor wakefield momentum-sink contract")
+  (statement := /-- An unclosed dual-spacetime polygon with endpoint residual
+    $\Delta\mathbf P_{\mathrm{wake}}=\mathbf x_n-\mathbf x_1$ and expanded Grassmannian column
+    count $n+2$ enforces exact momentum conservation
+    $\Delta\mathbf P_{\mathrm{craft}}+\Delta\mathbf P_{\mathrm{wake}}=\mathbf 0$. -/)]
+structure TwistorMomentumSinkHypothesis where
+  particleCount : ℕ
+  expandedGrassmannianColumns : ℕ
+  expandedColumnsLaw : expandedGrassmannianColumns = particleCount + 2
+  dualPolygonStart : Vector3
+  dualPolygonEnd : Vector3
+  wakefieldMomentum : Vector3
+  polygonClosureResidualLaw : wakefieldMomentum = dualPolygonEnd - dualPolygonStart
+  craftMomentumChange : Vector3
+  momentumBalanceLaw : craftMomentumChange + wakefieldMomentum = 0
+
+/-- The vehicle momentum change is equal and opposite to the momentum absorbed by
+the wakefield sink. -/
+@[blueprint "lem:signals-craft-momentum-opposite-wake"
+  (title := "Vehicle impulse opposes wakefield sink momentum")
+  (statement := /-- In any \texttt{TwistorMomentumSinkHypothesis},
+    $\Delta\mathbf P_{\mathrm{craft}}=-\Delta\mathbf P_{\mathrm{wake}}$. -/)
+  (proof := /-- Solve $\Delta\mathbf P_{\mathrm{craft}}+\Delta\mathbf P_{\mathrm{wake}}=\mathbf 0$
+    for $\Delta\mathbf P_{\mathrm{craft}}$. -/)
+  (latexEnv := "lemma")]
+lemma TwistorMomentumSinkHypothesis.craft_momentum_opposite_wake
+    (hypothesis : TwistorMomentumSinkHypothesis) :
+    hypothesis.craftMomentumChange = -hypothesis.wakefieldMomentum := by
+  exact eq_neg_of_add_eq_zero_left hypothesis.momentumBalanceLaw
+
+/-- If the dual polygon closes (`dualPolygonEnd = dualPolygonStart`), zero
+momentum is transferred to the wakefield and the vehicle receives zero net impulse. -/
+@[blueprint "lem:signals-closed-polygon-zero-thrust"
+  (title := "Closed dual polygon yields zero net impulse")
+  (statement := /-- If $\mathbf x_n=\mathbf x_1$, then $\Delta\mathbf P_{\mathrm{wake}}=\mathbf 0$
+    and $\Delta\mathbf P_{\mathrm{craft}}=\mathbf 0$. -/)
+  (proof := /-- Rewrite the closure residual with $\mathbf x_n=\mathbf x_1$ and apply
+    \texttt{craft\_momentum\_opposite\_wake}. -/)
+  (latexEnv := "lemma")]
+lemma TwistorMomentumSinkHypothesis.closed_polygon_zero_thrust
+    (hypothesis : TwistorMomentumSinkHypothesis)
+    (closed : hypothesis.dualPolygonEnd = hypothesis.dualPolygonStart) :
+    hypothesis.craftMomentumChange = 0 := by
+  have hwake : hypothesis.wakefieldMomentum = 0 := by
+    rw [hypothesis.polygonClosureResidualLaw, closed, sub_self]
+  rw [hypothesis.craft_momentum_opposite_wake, hwake, neg_zero]
+
+/-- A Pending pulsed Langmuir/Proca wakefield cavity with Halbach Faraday
+extraction and UHV solid-state transformer buffering.
+
+Stored cavity wave energy is bounded by the Dawson wave-breaking ceiling over
+the finite cavity volume, and time-averaged thrust obeys duty-cycle scaling. -/
+@[blueprint "def:signals-pulsed-wakefield-halbach"
+  (title := "Pulsed wakefield cavity and Halbach extraction contract")
+  (statement := /-- A finite wakefield cavity of volume $V_{\mathrm{cav}}$ with axial field
+    $0\le E_z\le E_{\mathrm{Dawson}}$ stores electrostatic energy
+    $U_{\mathrm{wave}}=u_E(\varepsilon_0,E_z)\,V_{\mathrm{cav}}$, bounds extracted pulse energy
+    by $U_{\mathrm{extracted}}\le U_{\mathrm{wave}}$, and scales average thrust by duty cycle $d\in[0,1]$. -/)]
+structure PulsedWakefieldHalbachHypothesis where
+  permittivity : ℝ
+  permittivity_nonneg : 0 ≤ permittivity
+  fieldAmplitude : ElectricFieldAmplitude
+  fieldAmplitude_nonneg : 0 ≤ fieldAmplitude.voltsPerMeter
+  dawsonFieldCeiling : ElectricFieldAmplitude
+  fieldBoundedByDawson :
+    fieldAmplitude.voltsPerMeter ≤ dawsonFieldCeiling.voltsPerMeter
+  cavityVolume : Volume
+  cavityVolume_nonneg : 0 ≤ cavityVolume.cubicMeters
+  storedWaveEnergy : Energy
+  storedEnergyLaw :
+    storedWaveEnergy.joules =
+      Signals.MHD.electrostaticWaveEnergyDensity permittivity
+        fieldAmplitude.voltsPerMeter * cavityVolume.cubicMeters
+  extractedPulseEnergy : Energy
+  extractedEnergy_nonneg : 0 ≤ extractedPulseEnergy.joules
+  extractedEnergyBounded : extractedPulseEnergy.joules ≤ storedWaveEnergy.joules
+  peakThrust : Force
+  peakThrust_nonneg : 0 ≤ peakThrust.newtons
+  dutyCycle : BoundedFactor
+  averageThrust : Force
+  averageThrustLaw :
+    averageThrust = Signals.MHD.pulsedAverageForce peakThrust dutyCycle
+  transmissionVoltage : Voltage
+  transmissionVoltage_pos : 0 < transmissionVoltage.volts
+  calibrated : Prop
+  calibrated_hypothesis : calibrated
+
+/-- Extracted electrical energy per pulse cannot exceed the Dawson saturation
+energy stored in the finite cavity volume. -/
+@[blueprint "lem:signals-extracted-pulse-energy-le-dawson"
+  (title := "Extracted pulse energy bounded by Dawson cavity ceiling")
+  (statement := /-- In any \texttt{PulsedWakefieldHalbachHypothesis},
+    $U_{\mathrm{extracted}}\le u_E(\varepsilon_0,E_{\mathrm{Dawson}})\,V_{\mathrm{cav}}$. -/)
+  (proof := /-- Combine $U_{\mathrm{extracted}}\le U_{\mathrm{wave}}$ with
+    \texttt{dawson\_energy\_density\_bound} scaled by $V_{\mathrm{cav}}\ge 0$. -/)
+  (latexEnv := "lemma")]
+lemma PulsedWakefieldHalbachHypothesis.extracted_pulse_energy_le_dawson_ceiling
+    (hypothesis : PulsedWakefieldHalbachHypothesis) :
+    hypothesis.extractedPulseEnergy.joules ≤
+      Signals.MHD.electrostaticWaveEnergyDensity hypothesis.permittivity
+        hypothesis.dawsonFieldCeiling.voltsPerMeter *
+        hypothesis.cavityVolume.cubicMeters := by
+  have h_dens :=
+    Signals.MHD.dawson_energy_density_bound hypothesis.permittivity
+      hypothesis.fieldAmplitude.voltsPerMeter
+      hypothesis.dawsonFieldCeiling.voltsPerMeter
+      hypothesis.permittivity_nonneg hypothesis.fieldAmplitude_nonneg
+      hypothesis.fieldBoundedByDawson
+  have h_vol :=
+    mul_le_mul_of_nonneg_right h_dens hypothesis.cavityVolume_nonneg
+  linarith [hypothesis.extractedEnergyBounded, hypothesis.storedEnergyLaw]
+
+/-- Time-averaged pulsed thrust cannot exceed the peak pulse force. -/
+@[blueprint "lem:signals-pulsed-wakefield-avg-thrust-le-peak"
+  (title := "Pulsed wakefield average thrust bounded by peak force")
+  (statement := /-- In any \texttt{PulsedWakefieldHalbachHypothesis},
+    $F_{\mathrm{avg}}\le F_{\mathrm{peak}}$. -/)
+  (proof := /-- Apply \texttt{pulsedAverageForce\_le\_peak} to the duty-cycle thrust law. -/)
+  (latexEnv := "lemma")]
+lemma PulsedWakefieldHalbachHypothesis.average_thrust_le_peak
+    (hypothesis : PulsedWakefieldHalbachHypothesis) :
+    hypothesis.averageThrust.newtons ≤ hypothesis.peakThrust.newtons := by
+  rw [hypothesis.averageThrustLaw]
+  exact Signals.MHD.pulsedAverageForce_le_peak
+    hypothesis.peakThrust hypothesis.peakThrust_nonneg hypothesis.dutyCycle
+
+/-- A Pending DDF phase-slip hull-stress hypothesis with explicit core-density
+regularization and external drive-power accounting.
+
+Supercritical vortex shedding (`criticalVelocity < flowVelocity`) is dissipative
+unless driven by an external power source `externalDrivePower` satisfying
+`inferredThrust * flowVelocity ≤ externalDrivePower`. -/
+@[blueprint "def:signals-ddf-phase-slip-hull-stress"
+  (title := "DDF phase-slip hull-stress and power-balance contract")
+  (statement := /-- A supercritical DDF phase-slip boundary record requires a positive density
+    floor $0<\rho_{\mathrm{floor}}\le\rho_{\mathrm{hull}}$ and external drive power covering
+    mechanical propulsion power ($F_{\mathrm{thrust}} v\le P_{\mathrm{drive}}$). -/)]
+structure DDFPhaseSlipHullStressHypothesis where
+  substrate : Signals.DDF.DDFSubstrate
+  hbar : ℝ
+  hbar_pos : 0 < hbar
+  winding : ℤ
+  winding_nonzero : winding ≠ 0
+  densityFloor : ℝ
+  densityFloor_pos : 0 < densityFloor
+  boundaryDensity : ℝ
+  densityAboveFloor : densityFloor ≤ boundaryDensity
+  flowVelocity : Speed
+  flowVelocity_pos : 0 < flowVelocity.metersPerSecond
+  criticalVelocity : Speed
+  criticalVelocity_pos : 0 < criticalVelocity.metersPerSecond
+  supercriticalFlow :
+    criticalVelocity.metersPerSecond < flowVelocity.metersPerSecond
+  hullArea : Area
+  hullArea_pos : 0 < hullArea.squareMeters
+  quantumStressPressure : Pressure
+  quantumStressPressure_nonneg : 0 ≤ quantumStressPressure.pascals
+  inferredThrust : Force
+  inferredThrust_nonneg : 0 ≤ inferredThrust.newtons
+  thrustLaw :
+    inferredThrust.newtons =
+      quantumStressPressure.pascals * hullArea.squareMeters
+  mechanicalThrustPower : Power
+  mechanicalPowerLaw :
+    mechanicalThrustPower.watts =
+      inferredThrust.newtons * flowVelocity.metersPerSecond
+  externalDrivePower : Power
+  externalDrivePower_nonneg : 0 ≤ externalDrivePower.watts
+  drivePowerCoversThrust :
+    mechanicalThrustPower.watts ≤ externalDrivePower.watts
+
+/-- Regularized hull-boundary density is strictly positive, preventing division
+by zero in the Bohm quantum potential at the hull interface. -/
+@[blueprint "lem:signals-ddf-hull-boundary-density-pos"
+  (title := "Regularized hull-boundary density is strictly positive")
+  (statement := /-- In any \texttt{DDFPhaseSlipHullStressHypothesis}, $\rho_{\mathrm{hull}}>0$. -/)
+  (proof := /-- Chain $0<\rho_{\mathrm{floor}}\le\rho_{\mathrm{hull}}$. -/)
+  (latexEnv := "lemma")]
+lemma DDFPhaseSlipHullStressHypothesis.boundary_density_pos
+    (hypothesis : DDFPhaseSlipHullStressHypothesis) :
+    0 < hypothesis.boundaryDensity :=
+  lt_of_lt_of_le hypothesis.densityFloor_pos hypothesis.densityAboveFloor
+
+/-- Without external drive power (`externalDrivePower = 0`), positive-speed
+supercritical flow cannot produce positive forward thrust. -/
+@[blueprint "lem:signals-ddf-zero-drive-zero-thrust"
+  (title := "Zero external drive power forces zero net phase-slip thrust")
+  (statement := /-- If $P_{\mathrm{drive}}=0$ and $v>0$ in \texttt{DDFPhaseSlipHullStressHypothesis},
+    then $F_{\mathrm{thrust}}=0$. -/)
+  (proof := /-- From $0\le F_{\mathrm{thrust}} v\le P_{\mathrm{drive}}=0$ and $v>0$, conclude $F_{\mathrm{thrust}}=0$. -/)
+  (latexEnv := "lemma")]
+lemma DDFPhaseSlipHullStressHypothesis.zero_drive_zero_thrust
+    (hypothesis : DDFPhaseSlipHullStressHypothesis)
+    (zero_drive : hypothesis.externalDrivePower.watts = 0) :
+    hypothesis.inferredThrust.newtons = 0 := by
+  have h_mech_le : hypothesis.mechanicalThrustPower.watts ≤ 0 := by
+    linarith [hypothesis.drivePowerCoversThrust, zero_drive]
+  rw [hypothesis.mechanicalPowerLaw] at h_mech_le
+  have h_mech_nonneg :
+      0 ≤ hypothesis.inferredThrust.newtons * hypothesis.flowVelocity.metersPerSecond :=
+    mul_nonneg hypothesis.inferredThrust_nonneg hypothesis.flowVelocity_pos.le
+  have h_prod_zero :
+      hypothesis.inferredThrust.newtons * hypothesis.flowVelocity.metersPerSecond = 0 :=
+    le_antisymm h_mech_le h_mech_nonneg
+  cases mul_eq_zero.mp h_prod_zero with
+  | inl h_thrust => exact h_thrust
+  | inr h_vel => linarith [hypothesis.flowVelocity_pos]
+
+/-- A Pending cryogenic centrifugal cooling spool and 5-axis active magnetic
+bearing (AMB) contract with explicit `He-3` phase boundaries.
+
+At the `39 K` operating temperature of `MgB₂` superconductors, `He-3` is above
+its `3.32 K` critical point (a supercritical gas rather than a liquid) and
+cannot solidify below `3.4 MPa`. -/
+@[blueprint "def:signals-cryogenic-spool-amb"
+  (title := "Cryogenic He-3 centrifugal spool and 5-axis AMB contract")
+  (statement := /-- Records the $\mathrm{He\text{-}3}$ critical temperature ($3.32\text{ K}$),
+    minimum solidification pressure ($3.4\text{ MPa}$), $\mathrm{MgB}_2$ critical temperature
+    ($39\text{ K}$), thermosyphon density ordering $\rho_{\mathrm{hot}}\le\rho_{\mathrm{cold}}$,
+    and 5-axis AMB clearance margin. -/)]
+structure CryogenicSpoolAMBHypothesis where
+  operatingTemperature : Temperature
+  operatingTemperature_pos : 0 < operatingTemperature.kelvin
+  he3CriticalTemperature : Temperature
+  he3CriticalLaw : he3CriticalTemperature.kelvin = 3.32
+  mgb2CriticalTemperature : Temperature
+  mgb2CriticalLaw : mgb2CriticalTemperature.kelvin = 39
+  superconductingMargin :
+    operatingTemperature.kelvin ≤ mgb2CriticalTemperature.kelvin
+  operatingPressure : Pressure
+  operatingPressure_nonneg : 0 ≤ operatingPressure.pascals
+  he3MinimumSolidificationPressure : Pressure
+  he3SolidPressureLaw : he3MinimumSolidificationPressure.pascals = 3400000
+  coldLegDensity : MassDensity
+  coldLegDensity_pos : 0 < coldLegDensity.kilogramsPerCubicMeter
+  hotLegDensity : MassDensity
+  hotLegDensity_pos : 0 < hotLegDensity.kilogramsPerCubicMeter
+  thermosyphonDensityOrder :
+    hotLegDensity.kilogramsPerCubicMeter ≤ coldLegDensity.kilogramsPerCubicMeter
+  innerRadius : Length
+  innerRadius_nonneg : 0 ≤ innerRadius.meters
+  outerRadius : Length
+  radiusOrder : innerRadius.meters < outerRadius.meters
+  angularSpeed : ℝ
+  spoolInertia : ℝ
+  spoolInertia_pos : 0 < spoolInertia
+  airGapClearance : Length
+  airGapClearance_pos : 0 < airGapClearance.meters
+  peakGyroscopicDisplacement : Length
+  peakGyroscopicDisplacement_nonneg : 0 ≤ peakGyroscopicDisplacement.meters
+  gapClearanceMaintained :
+    peakGyroscopicDisplacement.meters < airGapClearance.meters
+
+/-- The coolant is in the supercritical gas regime when operating above the
+`He-3` critical temperature (`3.32 K`). -/
+@[blueprint "def:signals-he3-supercritical-gas"
+  (title := "He-3 supercritical gas regime predicate")
+  (statement := /-- $\mathrm{He\text{-}3}$ is in the supercritical gas regime when
+    $T_{\mathrm{op}}>T_{c,\mathrm{He\text{-}3}}=3.32\text{ K}$. -/)]
+def CryogenicSpoolAMBHypothesis.isSupercriticalGas
+    (hypothesis : CryogenicSpoolAMBHypothesis) : Prop :=
+  hypothesis.he3CriticalTemperature.kelvin < hypothesis.operatingTemperature.kelvin
+
+/-- Solid `He-3` formation requires at least the minimum solidification pressure
+(`3.4 MPa`), even at millikelvin temperatures. -/
+@[blueprint "def:signals-he3-can-solidify"
+  (title := "He-3 minimum solidification pressure predicate")
+  (statement := /-- Solidifying $\mathrm{He\text{-}3}$ requires operating pressure
+    $P_{\mathrm{op}}\ge 3.4\text{ MPa}$. -/)]
+def CryogenicSpoolAMBHypothesis.canSolidifyHe3
+    (hypothesis : CryogenicSpoolAMBHypothesis) : Prop :=
+  hypothesis.he3MinimumSolidificationPressure.pascals ≤
+    hypothesis.operatingPressure.pascals
+
+/-- Operating at `39 K` places `He-3` strictly in the supercritical gas regime. -/
+@[blueprint "lem:signals-he3-supercritical-at-39k"
+  (title := "He-3 is a supercritical gas at the 39 K MgB2 temperature")
+  (statement := /-- At $T_{\mathrm{op}}=39\text{ K}$, $T_{c,\mathrm{He\text{-}3}}=3.32\text{ K}<39\text{ K}$,
+    so $\mathrm{He\text{-}3}$ is a supercritical gas rather than a cryogenic liquid. -/)
+  (proof := /-- Substitute $T_{c,\mathrm{He\text{-}3}}=3.32$ and $T_{\mathrm{op}}=39$ and compare numerically. -/)
+  (latexEnv := "lemma")]
+lemma CryogenicSpoolAMBHypothesis.supercritical_at_39K
+    (hypothesis : CryogenicSpoolAMBHypothesis)
+    (h_temp : hypothesis.operatingTemperature.kelvin = 39) :
+    hypothesis.isSupercriticalGas := by
+  unfold CryogenicSpoolAMBHypothesis.isSupercriticalGas
+  rw [hypothesis.he3CriticalLaw, h_temp]
+  norm_num
+
+/-- Below `3.4 MPa`, a solid `He-3` labyrinth wall cannot form. -/
+@[blueprint "lem:signals-he3-no-solid-seal-below-3-4-mpa"
+  (title := "Solid He-3 labyrinth seal impossible below 3.4 MPa")
+  (statement := /-- When $P_{\mathrm{op}}<3.4\text{ MPa}$, $\mathrm{He\text{-}3}$ cannot solidify
+    into a solid labyrinth seal wall. -/)
+  (proof := /-- Substitute $P_{\mathrm{solid}}=3.4\times 10^6\text{ Pa}$ and apply linear arithmetic. -/)
+  (latexEnv := "lemma")]
+lemma CryogenicSpoolAMBHypothesis.no_solid_seal_below_3_4_MPa
+    (hypothesis : CryogenicSpoolAMBHypothesis)
+    (h_press : hypothesis.operatingPressure.pascals < 3400000) :
+    ¬hypothesis.canSolidifyHe3 := by
+  unfold CryogenicSpoolAMBHypothesis.canSolidifyHe3
+  rw [hypothesis.he3SolidPressureLaw]
+  linarith
 
 end Signals.Pending

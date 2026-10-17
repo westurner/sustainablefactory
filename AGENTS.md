@@ -205,6 +205,17 @@ mathematical framework of the Dilatant Dark Fluid (Fedi, 2026, SSRN 7406660):
   ($\eta_{\text{act}}^\gamma = 1$) and DDF ($\eta_{\text{act}}^\gamma = 0$), proving that
   the mutual gravitational deflection of non-co-propagating laser beams vanishes
   identically in DDF.
+- `quantized_vortex_circulation`, `plaquette_coboundary_zero`, `plaquette_phase_slip_syndrome`,
+  `bogoliubov_phase_velocity_sq_ge_cs_sq`, `subcritical_no_dissipation`, and
+  `supercritical_excitation_onset` formalize continuous Madelung circulation quantization,
+  discrete 2D plaquette coboundaries, and the Bogoliubov Landau critical velocity threshold.
+  The corresponding wakefield, Halbach, centrifugal thermosyphon, Bohm-Gross, and Landau
+  growth/damping identities live in [`src/signals/Signals/MHD.lean`](src/signals/Signals/MHD.lean),
+  while `TwistorMomentumSinkHypothesis`, `PulsedWakefieldHalbachHypothesis`,
+  `DDFPhaseSlipHullStressHypothesis`, and `CryogenicSpoolAMBHypothesis` in
+  [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean) enforce momentum
+  conservation, Dawson cavity energy ceilings, external drive-power accounting, and
+  `He-3` supercritical/solidification phase boundaries.
 
 Do not describe DDF as an experimental proof of a material ether or a disproof of general
 relativity. The library checks the internal consistency of the quantum-hydrodynamic

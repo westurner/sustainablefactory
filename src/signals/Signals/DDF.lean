@@ -1,9 +1,16 @@
+import Architect
+import Mathlib.Analysis.Complex.Basic
+import Mathlib.Analysis.SpecialFunctions.Complex.Arg
+import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
 import Mathlib.Analysis.Real.Sqrt
 import Mathlib.Basic.Real.Basic
+import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
 import Mathlib.Tactic
 
 namespace Signals.DDF
+
+open MeasureTheory Interval Complex
 
 /-! # Dilatant Dark Fluid (DDF) Quantum-Hydrodynamic Model
 
@@ -330,5 +337,214 @@ theorem gr_photon_deflection_active (G c beamEnergy impactParameter kernel : ℝ
       kernel * G * beamEnergy / (c ^ 4 * impactParameter) := by
   dsimp [mutualPhotonDeflection, ActiveRadiationSourcing.eta]
   ring
+
+/-! ## Madelung Quantum Hydrodynamics, Quantized Vortex Circulation, & Plaquette Holonomy
+
+Formalizes the Madelung amplitude-phase decomposition of a complex superfluid
+order parameter `ψ : (Fin 3 → ℝ) → ℂ`, the regularized Bohm quantum potential,
+continuous circulation quantization around a vortex of integer winding `n : ℤ`,
+and discrete 2D lattice plaquette coboundary and branch-cut syndrome identities.
+
+Note: These theorems check the mathematical consequences of the Madelung
+decomposition and circulation integral; they do not establish that a physical
+spacecraft can generate propellantless thrust from vacuum phase slips.
+-/
+
+/-- Three-component real spatial coordinate vector (`Fin 3 → ℝ`). -/
+@[blueprint "def:signals-ddf-vec3"
+  (title := "DDF three-dimensional coordinate vector")
+  (statement := /-- A spatial coordinate in the DDF substrate is represented by $\operatorname{Fin}(3)\to\mathbb R$. -/)]
+abbrev DDFVec3 := Fin 3 → ℝ
+
+/-- Madelung number/probability density `ρ(x) = |ψ(x)|²` of the complex wavefunction. -/
+@[blueprint "def:signals-madelung-density"
+  (title := "Madelung condensate density")
+  (statement := /-- For a complex order parameter $\psi:\mathbb R^3\to\mathbb C$, the Madelung
+    density is $\rho(\mathbf x)=|\psi(\mathbf x)|^2$. -/)]
+noncomputable def madelungDensity (ψ : DDFVec3 → ℂ) (x : DDFVec3) : ℝ :=
+  Complex.normSq (ψ x)
+
+/-- Madelung density is everywhere nonnegative. -/
+@[blueprint "lem:signals-madelung-density-nonneg"
+  (title := "Nonnegativity of Madelung density")
+  (statement := /-- For every point $\mathbf x$, $\rho(\mathbf x)=|\psi(\mathbf x)|^2\ge 0$. -/)
+  (proof := /-- Apply \texttt{Complex.normSq\_nonneg}. -/)
+  (latexEnv := "lemma")]
+lemma madelungDensity_nonneg (ψ : DDFVec3 → ℂ) (x : DDFVec3) :
+    0 ≤ madelungDensity ψ x :=
+  Complex.normSq_nonneg (ψ x)
+
+/-- Square-root amplitude `√ρ(x) = √(|ψ(x)|²)` of the Madelung wavefunction. -/
+@[blueprint "def:signals-madelung-amplitude"
+  (title := "Madelung square-root amplitude")
+  (statement := /-- The real amplitude of the condensate wavefunction is
+    $\sqrt{\rho(\mathbf x)}=\sqrt{|\psi(\mathbf x)|^2}$. -/)]
+noncomputable def madelungAmplitude (ψ : DDFVec3 → ℂ) (x : DDFVec3) : ℝ :=
+  Real.sqrt (madelungDensity ψ x)
+
+/-- Principal quantum phase `S(x) = arg(ψ(x))`. -/
+@[blueprint "def:signals-madelung-phase"
+  (title := "Principal Madelung quantum phase")
+  (statement := /-- The principal quantum phase of $\psi$ is $S(\mathbf x)=\arg(\psi(\mathbf x))$. -/)]
+noncomputable def madelungPhase (ψ : DDFVec3 → ℂ) (x : DDFVec3) : ℝ :=
+  Complex.arg (ψ x)
+
+/-- Regularized Bohm quantum potential `Q(x) = -(ℏ² / (2 m)) * (∇²√ρ(x) / √ρ(x))`,
+parameterized by the supplied spatial Laplacian `laplacian_sqrt_rho` at non-core points. -/
+@[blueprint "def:signals-bohm-quantum-potential"
+  (title := "Regularized Bohm quantum potential")
+  (statement := /-- Outside vortex cores ($\rho(\mathbf x)>0$), given the spatial Laplacian
+    $\Delta\sqrt{\rho}(\mathbf x)$, the Bohm quantum potential is
+    $Q(\mathbf x)=-\frac{\hbar^2}{2m}\frac{\Delta\sqrt{\rho}(\mathbf x)}{\sqrt{\rho(\mathbf x)}}$. -/)]
+noncomputable def bohmQuantumPotential
+    (m_DDF hbar : ℝ) (ψ : DDFVec3 → ℂ) (laplacian_sqrt_rho : DDFVec3 → ℝ) (x : DDFVec3) : ℝ :=
+  - (hbar ^ 2 / (2 * m_DDF)) * (laplacian_sqrt_rho x) / (madelungAmplitude ψ x)
+
+/-- Superfluid velocity field `v(x) = (ℏ / m) • ∇S(x)` outside vortex cores. -/
+@[blueprint "def:signals-superfluid-velocity"
+  (title := "Madelung superfluid velocity field")
+  (statement := /-- Given the phase gradient $\nabla S(\mathbf x)$, the superfluid velocity is
+    $\mathbf v(\mathbf x)=\frac{\hbar}{m}\nabla S(\mathbf x)$. -/)]
+noncomputable def superfluidVelocity
+    (m_DDF hbar : ℝ) (grad_S : DDFVec3 → DDFVec3) (x : DDFVec3) : DDFVec3 :=
+  (hbar / m_DDF) • (grad_S x)
+
+/-- Azimuthal superfluid velocity `v_θ = (ℏ / m) * (n / R)` along a circular contour
+of radius `R` enclosing a vortex defect of integer winding number `n : ℤ`. -/
+@[blueprint "def:signals-vortex-tangential-velocity"
+  (title := "Azimuthal vortex tangential velocity")
+  (statement := /-- Along a circle of radius $R$ enclosing a vortex of integer winding number
+    $n\in\mathbb Z$, the tangential superfluid velocity is $v_\theta=\frac{\hbar}{m}\frac{n}{R}$. -/)]
+noncomputable def vortexTangentialVelocity (m_DDF hbar : ℝ) (n : ℤ) (R : ℝ) (_θ : ℝ) : ℝ :=
+  (hbar / m_DDF) * ((n : ℝ) / R)
+
+/-- Continuous circulation quantization: integrating `v_θ(θ) * R` around `θ ∈ [0, 2π]`
+for any non-zero radius `R ≠ 0` yields `n * (2π ℏ / m_DDF)`. -/
+@[blueprint "thm:signals-quantized-vortex-circulation"
+  (title := "Quantized superfluid circulation around a phase-slip vortex")
+  (statement := /-- For any $R\ne 0$ and winding number $n\in\mathbb Z$, integrating
+    $v_\theta(\theta)\,R$ over $\theta\in[0,2\pi]$ yields the quantized circulation
+    $n\,\frac{2\pi\hbar}{m}$. -/)
+  (proof := /-- Integrate the constant azimuthal integrand over $[0,2\pi]$ and cancel $R\ne 0$. -/)]
+theorem quantized_vortex_circulation (m_DDF hbar R : ℝ) (hR : R ≠ 0) (n : ℤ) :
+    ∫ θ in (0 : ℝ)..(2 * Real.pi), (vortexTangentialVelocity m_DDF hbar n R θ * R) =
+      (n : ℝ) * (2 * Real.pi * hbar / m_DDF) := by
+  unfold vortexTangentialVelocity
+  rw [intervalIntegral.integral_const]
+  simp only [sub_zero, smul_eq_mul]
+  field_simp [hR]
+
+/-- For a `DDFSubstrate`, the circular contour integral around a vortex of winding `n`
+equals `(n : ℝ) * sub.circulationQuantum hbar`. -/
+@[blueprint "thm:signals-ddf-substrate-circulation-eq"
+  (title := "DDF substrate circulation quantum match")
+  (statement := /-- Around a $\phi$-condensate vortex of winding $n$, the contour circulation equals
+    $n\,\kappa_\phi=n\,\frac{2\pi\hbar}{m_\phi}$. -/)
+  (proof := /-- Specialize \texttt{quantized\_vortex\_circulation} to $m_\phi$. -/)]
+theorem DDFSubstrate.quantized_vortex_circulation_eq
+    (sub : DDFSubstrate) (hbar R : ℝ) (hR : R ≠ 0) (n : ℤ) :
+    ∫ θ in (0 : ℝ)..(2 * Real.pi), (vortexTangentialVelocity sub.m_phi hbar n R θ * R) =
+      (n : ℝ) * sub.circulationQuantum hbar := by
+  rw [quantized_vortex_circulation sub.m_phi hbar R hR n]
+  rfl
+
+/-- Discrete 2D plaquette coboundary identity (`δ¹ ∘ δ⁰ = 0`): for single-valued
+lattice site phases `S00, S10, S11, S01`, the oriented sum of link phase differences
+around the closed unit plaquette vanishes identically. -/
+@[blueprint "thm:signals-plaquette-coboundary-zero"
+  (title := "Discrete plaquette coboundary vanishes without branch cuts")
+  (statement := /-- For single-valued lattice phases $S_{00},S_{10},S_{11},S_{01}$, the oriented
+    plaquette sum $(S_{10}-S_{00})+(S_{11}-S_{10})+(S_{01}-S_{11})+(S_{00}-S_{01})=0$. -/)
+  (proof := /-- Telescope the four oriented link differences by ring algebra. -/)]
+theorem plaquette_coboundary_zero (S00 S10 S11 S01 : ℝ) :
+    let e_bottom := S10 - S00
+    let e_right  := S11 - S10
+    let e_top    := S01 - S11
+    let e_left   := S00 - S01
+    e_bottom + e_right + e_top + e_left = 0 := by
+  intro e_bottom e_right e_top e_left
+  ring
+
+/-- Discrete plaquette phase-slip syndrome: when a `2π * n` branch cut crosses
+one link of the plaquette, the oriented loop sum extracts the exact quantized
+vortex charge `(n : ℝ) * (2 * π)`. -/
+@[blueprint "thm:signals-plaquette-phase-slip-syndrome"
+  (title := "Discrete plaquette syndrome extracts 2πn branch jump")
+  (statement := /-- When a branch jump $2\pi n$ crosses one link of a plaquette, the oriented
+    loop coboundary sum equals $2\pi n$. -/)
+  (proof := /-- Telescope the site phases and retain the $2\pi n$ branch term. -/)]
+theorem plaquette_phase_slip_syndrome (S00 S10 S11 S01 : ℝ) (n : ℤ) :
+    let e_bottom := S10 - S00
+    let e_right  := S11 - S10
+    let e_top    := (S01 - S11) + (n : ℝ) * (2 * Real.pi)
+    let e_left   := S00 - S01
+    e_bottom + e_right + e_top + e_left = (n : ℝ) * (2 * Real.pi) := by
+  intro e_bottom e_right e_top e_left
+  ring
+
+/-! ## Bogoliubov Quasiparticle Spectrum & Landau Critical Velocity
+
+Models the Bogoliubov dispersion relation `(ε(p)/p)² = c_s² + (p/(2m))²` and
+the Galilean moving-frame excitation energy `ΔE = ε(p) - p * v`.
+- Below the Landau critical velocity (`v < v_c = c_s`), every excitation with
+  `ε(p) ≥ v_c * p` and `p > 0` has strictly positive moving-frame energy (`ΔE > 0`),
+  forbidding spontaneous dissipative excitation.
+- Above `v_c` (`v > v_c`), acoustic excitations at `ε(p) = v_c * p` have negative
+  moving-frame energy (`ΔE < 0`), marking the onset of superfluid drag and vortex
+  nucleation. Producing net forward propulsion requires external work input.
+-/
+
+/-- Squared Bogoliubov excitation phase velocity `(ε(p) / p)² = c_s² + (p / (2m))²`. -/
+@[blueprint "def:signals-bogoliubov-phase-vel-sq"
+  (title := "Squared Bogoliubov excitation phase velocity")
+  (statement := /-- For sound speed $c_s$, boson mass $m$, and momentum $p$, the squared
+    quasiparticle phase velocity is $(\epsilon(p)/p)^2=c_s^2+(p/(2m))^2$. -/)]
+noncomputable def bogoliubovPhaseVelSq (c_s m p : ℝ) : ℝ :=
+  c_s ^ 2 + (p / (2 * m)) ^ 2
+
+/-- Galilean moving-frame excitation energy `ΔE = ε(p) - p * v`. -/
+@[blueprint "def:signals-moving-frame-excitation-energy"
+  (title := "Galilean moving-frame excitation energy")
+  (statement := /-- An excitation of energy $\epsilon_p$ and momentum $p$ in a fluid moving at
+    speed $v$ has moving-frame energy $\Delta E=\epsilon_p-p v$. -/)]
+def movingFrameExcitationEnergy (ε_p p v : ℝ) : ℝ :=
+  ε_p - p * v
+
+/-- Landau critical velocity bound: for any momentum `p`, the squared Bogoliubov
+phase velocity is bounded below by the squared Bogoliubov sound speed `c_s²`. -/
+@[blueprint "thm:signals-bogoliubov-landau-bound"
+  (title := "Landau critical velocity bound for Bogoliubov excitations")
+  (statement := /-- For all $c_s,m,p\in\mathbb R$, $c_s^2\le c_s^2+(p/(2m))^2$, so the minimum
+    excitation phase speed occurs at the acoustic limit $v_c=c_s$. -/)
+  (proof := /-- Add the nonnegative square $(p/(2m))^2\ge 0$ to $c_s^2$. -/)]
+theorem bogoliubov_phase_velocity_sq_ge_cs_sq (c_s m p : ℝ) :
+    c_s ^ 2 ≤ bogoliubovPhaseVelSq c_s m p := by
+  unfold bogoliubovPhaseVelSq
+  linarith [sq_nonneg (p / (2 * m))]
+
+/-- Subcritical superfluidity (zero spontaneous dissipation): when `v < v_c` and
+`v_c * p ≤ ε_p` for `0 < p`, the moving-frame excitation energy is strictly positive. -/
+@[blueprint "thm:signals-subcritical-no-dissipation"
+  (title := "Subcritical superflow forbids spontaneous excitation")
+  (statement := /-- If $p>0$, $v<v_c$, and $\epsilon_p\ge v_c p$, then $\Delta E=\epsilon_p-p v>0$. -/)
+  (proof := /-- From $v<v_c$ and $p>0$, $p v<v_c p\le\epsilon_p$. -/)]
+theorem subcritical_no_dissipation (v v_c p ε_p : ℝ)
+    (hp : 0 < p) (h_sub : v < v_c) (h_spectrum : v_c * p ≤ ε_p) :
+    0 < movingFrameExcitationEnergy ε_p p v := by
+  unfold movingFrameExcitationEnergy
+  nlinarith
+
+/-- Supercritical excitation onset: when `v_c < v` and `ε_p = v_c * p` for `0 < p`,
+the moving-frame excitation energy becomes strictly negative (`ΔE < 0`). -/
+@[blueprint "thm:signals-supercritical-excitation-onset"
+  (title := "Supercritical flow triggers negative-energy acoustic excitations")
+  (statement := /-- If $p>0$, $v_c<v$, and $\epsilon_p=v_c p$, then $\Delta E=\epsilon_p-p v<0$,
+    marking the onset of vortex nucleation and superfluid drag. -/)
+  (proof := /-- Substitute $\epsilon_p=v_c p$ and factor $p(v_c-v)<0$. -/)]
+theorem supercritical_excitation_onset (v v_c p ε_p : ℝ)
+    (hp : 0 < p) (h_super : v_c < v) (h_acoustic : ε_p = v_c * p) :
+    movingFrameExcitationEnergy ε_p p v < 0 := by
+  unfold movingFrameExcitationEnergy
+  nlinarith
 
 end Signals.DDF

@@ -64,7 +64,47 @@ forms and an optical evaluator remain outside this layer.
 
 \inputleanmodule{Signals.CanonicalForms}
 
-\section{Existing model and propagation nodes}
+\section{Wakefield, Halbach MHD, centrifugal cooling, and Langmuir--Landau dynamics}
+
+These nodes formalize the classical electrodynamic, fluid, and plasma identities
+used to analyze the electricity plants and thrusters in
+\texttt{Twistors-and-Positive-Grassmannian-Interference.md}:
+cycle-averaged ponderomotive potentials and drift forces, pulsed duty-cycle
+average-force bounds, Bernoulli surface pressure and torque orthogonality,
+Halbach transverse Lorentz deflection and its work-free identity
+$(\mathbf v\times\mathbf B)\cdot\mathbf v=0$ (establishing why net electrical
+harvesting requires an opposing Faraday load electric field), radial centrifugal
+pumping head and closed-loop thermosyphon buoyancy head, 3D gyroscopic
+precession torque, warm Langmuir Bohm--Gross dispersion
+($v_\phi v_g=3v_{\mathrm{th}}^2$), Dawson wave-breaking energy-density ceilings,
+linear Vlasov--Poisson Landau growth/damping and quasilinear plateau saturation,
+force-free Woltjer--Taylor Beltrami currents ($\mathbf J\times\mathbf B=\mathbf 0$),
+active cooling pinch margins, and discrete 4-cycle 1-cocycle gauge invariance.
+
+\inputleanmodule{Signals.MHD}
+
+\section{Dilatant Dark Fluid, Madelung circulation, and Bogoliubov critical velocity}
+
+These nodes formalize the two-component Dilatant Dark Fluid (DDF) constitutive
+substrate, Madelung amplitude--phase decomposition, regularized Bohm quantum
+potential, continuous quantized vortex circulation
+$\oint \mathbf v\cdot d\boldsymbol\ell = n(2\pi\hbar/m)$, discrete 2D lattice
+plaquette coboundaries and branch-cut syndromes, and the Bogoliubov quasiparticle
+Landau critical velocity threshold separating subcritical frictionless flow
+($\Delta E>0$) from supercritical vortex-shedding onset ($\Delta E<0$).
+
+\inputleanmodule{Signals.DDF}
+
+\section{Existing model, Pending wakefield/propulsion, and propagation nodes}
+
+The Pending nodes enforce momentum conservation across unclosed dual-spacetime
+polygons ($\Delta\mathbf P_{\mathrm{craft}}=-\Delta\mathbf P_{\mathrm{wake}}$),
+bound extracted pulse energy by the Dawson wave-breaking ceiling over a finite
+cavity volume, require positive hull-boundary density floors and external drive
+power ($F_{\mathrm{thrust}} v\le P_{\mathrm{drive}}$) for supercritical DDF
+phase-slip thrust, and record $\mathrm{He\text{-}3}$ supercritical/solidification
+phase constraints ($T_c=3.32\text{ K}$, $P_{\mathrm{solid}}\ge 3.4\text{ MPa}$)
+for the $39\text{ K}$ $\mathrm{MgB}_2$ 5-axis active magnetic bearing spool.
 
 \inputleanmodule{SignalsPending}
 \inputleanmodule{Signals.Propagation}

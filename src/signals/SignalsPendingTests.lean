@@ -4598,4 +4598,176 @@ example (detector : Signals.Huygens.Point3) :
   rw [emptySlitHypothesis.intensity_eq detector rfl rfl]
   norm_num [emptySlitHypothesis, Signals.Huygens.intensity, Complex.normSq]
 
+/-- Toy fixture for an unclosed dual-spacetime polygon transferring momentum to a bi-twistor wakefield sink. -/
+def toyTwistorMomentumSink : TwistorMomentumSinkHypothesis :=
+  { particleCount := 4
+    expandedGrassmannianColumns := 6
+    expandedColumnsLaw := by norm_num
+    dualPolygonStart := ![0, 0, 0]
+    dualPolygonEnd := ![0, 0, -5]
+    wakefieldMomentum := ![0, 0, -5]
+    polygonClosureResidualLaw := by
+      ext i
+      fin_cases i <;> norm_num
+    craftMomentumChange := ![0, 0, 5]
+    momentumBalanceLaw := by
+      ext i
+      fin_cases i <;> norm_num }
+
+/-- Vehicle momentum change is equal and opposite to the wakefield sink momentum. -/
+example :
+    toyTwistorMomentumSink.craftMomentumChange =
+      -toyTwistorMomentumSink.wakefieldMomentum := by
+  exact toyTwistorMomentumSink.craft_momentum_opposite_wake
+
+/-- Toy fixture for a closed dual-spacetime polygon with zero wakefield momentum transfer. -/
+def toyClosedTwistorPolygon : TwistorMomentumSinkHypothesis :=
+  { particleCount := 4
+    expandedGrassmannianColumns := 6
+    expandedColumnsLaw := by norm_num
+    dualPolygonStart := ![1, 2, 3]
+    dualPolygonEnd := ![1, 2, 3]
+    wakefieldMomentum := 0
+    polygonClosureResidualLaw := by
+      ext i
+      fin_cases i <;> norm_num
+    craftMomentumChange := 0
+    momentumBalanceLaw := by
+      ext i
+      fin_cases i <;> norm_num }
+
+/-- A closed dual polygon transfers zero net impulse to the craft. -/
+example : toyClosedTwistorPolygon.craftMomentumChange = 0 := by
+  exact toyClosedTwistorPolygon.closed_polygon_zero_thrust rfl
+
+/-- Toy fixture for a pulsed wakefield cavity and Halbach Faraday extraction contract. -/
+noncomputable def toyPulsedWakefieldHalbach : PulsedWakefieldHalbachHypothesis :=
+  { permittivity := 2
+    permittivity_nonneg := by norm_num
+    fieldAmplitude := { voltsPerMeter := 3 }
+    fieldAmplitude_nonneg := by norm_num
+    dawsonFieldCeiling := { voltsPerMeter := 5 }
+    fieldBoundedByDawson := by norm_num
+    cavityVolume := { cubicMeters := 4 }
+    cavityVolume_nonneg := by norm_num
+    storedWaveEnergy := { joules := 36 }
+    storedEnergyLaw := by
+      norm_num [Signals.MHD.electrostaticWaveEnergyDensity]
+    extractedPulseEnergy := { joules := 10 }
+    extractedEnergy_nonneg := by norm_num
+    extractedEnergyBounded := by norm_num
+    peakThrust := { newtons := 100 }
+    peakThrust_nonneg := by norm_num
+    dutyCycle := { value := 1 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    averageThrust := { newtons := 10 }
+    averageThrustLaw := by
+      unfold Signals.MHD.pulsedAverageForce
+      congr 1
+      norm_num
+    transmissionVoltage := { volts := 1200000 }
+    transmissionVoltage_pos := by norm_num
+    calibrated := True
+    calibrated_hypothesis := trivial }
+
+/-- Extracted pulse energy is bounded by the Dawson wave-breaking ceiling over the cavity volume. -/
+example :
+    toyPulsedWakefieldHalbach.extractedPulseEnergy.joules ≤
+      Signals.MHD.electrostaticWaveEnergyDensity
+        toyPulsedWakefieldHalbach.permittivity
+        toyPulsedWakefieldHalbach.dawsonFieldCeiling.voltsPerMeter *
+        toyPulsedWakefieldHalbach.cavityVolume.cubicMeters := by
+  exact toyPulsedWakefieldHalbach.extracted_pulse_energy_le_dawson_ceiling
+
+/-- Time-averaged pulsed thrust is bounded above by the peak pulse thrust. -/
+example :
+    toyPulsedWakefieldHalbach.averageThrust.newtons ≤
+      toyPulsedWakefieldHalbach.peakThrust.newtons := by
+  exact toyPulsedWakefieldHalbach.average_thrust_le_peak
+
+/-- Toy fixture for an unpowered supercritical DDF phase-slip hull-stress hypothesis. -/
+noncomputable def toyDDFHullStressUnpowered : DDFPhaseSlipHullStressHypothesis :=
+  { substrate :=
+      { m_phi := 1
+        m_phi_pos := by norm_num
+        m_varphi := 10
+        m_varphi_pos := by norm_num
+        rho_phi_0 := 1
+        rho_phi_0_pos := by norm_num
+        rho_max_varphi := 1
+        rho_max_varphi_pos := by norm_num
+        j_min_varphi := 1 / 4
+        j_min_varphi_pos := by norm_num }
+    hbar := 1
+    hbar_pos := by norm_num
+    winding := 1
+    winding_nonzero := by decide
+    densityFloor := 1 / 10
+    densityFloor_pos := by norm_num
+    boundaryDensity := 1
+    densityAboveFloor := by norm_num
+    flowVelocity := { metersPerSecond := 5 }
+    flowVelocity_pos := by norm_num
+    criticalVelocity := { metersPerSecond := 2 }
+    criticalVelocity_pos := by norm_num
+    supercriticalFlow := by norm_num
+    hullArea := { squareMeters := 2 }
+    hullArea_pos := by norm_num
+    quantumStressPressure := { pascals := 0 }
+    quantumStressPressure_nonneg := by norm_num
+    inferredThrust := { newtons := 0 }
+    inferredThrust_nonneg := by norm_num
+    thrustLaw := by norm_num
+    mechanicalThrustPower := { watts := 0 }
+    mechanicalPowerLaw := by norm_num
+    externalDrivePower := { watts := 0 }
+    externalDrivePower_nonneg := by norm_num
+    drivePowerCoversThrust := by norm_num }
+
+/-- Regularized hull-boundary density is strictly positive. -/
+example : 0 < toyDDFHullStressUnpowered.boundaryDensity := by
+  exact toyDDFHullStressUnpowered.boundary_density_pos
+
+/-- Zero external drive power forces zero net forward thrust in supercritical flow. -/
+example : toyDDFHullStressUnpowered.inferredThrust.newtons = 0 := by
+  exact toyDDFHullStressUnpowered.zero_drive_zero_thrust rfl
+
+/-- Toy fixture for a cryogenic He-3 centrifugal spool and 5-axis AMB operating at 39 K. -/
+noncomputable def toyCryogenicSpoolAMB : CryogenicSpoolAMBHypothesis :=
+  { operatingTemperature := { kelvin := 39 }
+    operatingTemperature_pos := by norm_num
+    he3CriticalTemperature := { kelvin := 3.32 }
+    he3CriticalLaw := rfl
+    mgb2CriticalTemperature := { kelvin := 39 }
+    mgb2CriticalLaw := rfl
+    superconductingMargin := by norm_num
+    operatingPressure := { pascals := 500000 }
+    operatingPressure_nonneg := by norm_num
+    he3MinimumSolidificationPressure := { pascals := 3400000 }
+    he3SolidPressureLaw := rfl
+    coldLegDensity := { kilogramsPerCubicMeter := 60 }
+    coldLegDensity_pos := by norm_num
+    hotLegDensity := { kilogramsPerCubicMeter := 40 }
+    hotLegDensity_pos := by norm_num
+    thermosyphonDensityOrder := by norm_num
+    innerRadius := { meters := 1 / 2 }
+    innerRadius_nonneg := by norm_num
+    outerRadius := { meters := 2 }
+    radiusOrder := by norm_num
+    angularSpeed := 100
+    spoolInertia := 50
+    spoolInertia_pos := by norm_num
+    airGapClearance := { meters := 2 / 1000 }
+    airGapClearance_pos := by norm_num
+    peakGyroscopicDisplacement := { meters := 1 / 1000 }
+    peakGyroscopicDisplacement_nonneg := by norm_num
+    gapClearanceMaintained := by norm_num }
+
+/-- At 39 K, He-3 is in the supercritical gas regime above its 3.32 K critical temperature. -/
+example : toyCryogenicSpoolAMB.isSupercriticalGas := by
+  exact toyCryogenicSpoolAMB.supercritical_at_39K rfl
+
+/-- At 0.5 MPa (below 3.4 MPa), He-3 cannot solidify into a labyrinth seal wall. -/
+example : ¬toyCryogenicSpoolAMB.canSolidifyHe3 := by
+  exact toyCryogenicSpoolAMB.no_solid_seal_below_3_4_MPa (by norm_num [toyCryogenicSpoolAMB])
+
 end SignalsPendingTests

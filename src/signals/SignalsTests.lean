@@ -3598,4 +3598,148 @@ example : toyHuygensSteinerMapping.polarizationSquared +
         K * G * E / (c ^ 4 * b) := by
     exact gr_photon_deflection_active G c E b K
 
+/-! ## Madelung circulation, plaquette holonomy, Bogoliubov & Wakefield/MHD tests -/
+
+/-- Circular contour integral of azimuthal vortex velocity matches quantized DDF circulation. -/
+example (hbar R : ℝ) (hR : R ≠ 0) (n : ℤ) :
+    ∫ θ in (0 : ℝ)..(2 * Real.pi),
+      (vortexTangentialVelocity toyDDFSubstrate.m_phi hbar n R θ * R) =
+      (n : ℝ) * toyDDFSubstrate.circulationQuantum hbar := by
+  exact toyDDFSubstrate.quantized_vortex_circulation_eq hbar R hR n
+
+/-- Single-valued lattice site phases around a unit plaquette have zero coboundary sum. -/
+example :
+    let e_bottom := (2 : ℝ) - 1
+    let e_right := (5 : ℝ) - 2
+    let e_top := (3 : ℝ) - 5
+    let e_left := (1 : ℝ) - 3
+    e_bottom + e_right + e_top + e_left = 0 := by
+  exact plaquette_coboundary_zero 1 2 5 3
+
+/-- A 2πn branch jump on one plaquette link yields the exact 2πn vortex syndrome. -/
+example :
+    let e_bottom := (2 : ℝ) - 1
+    let e_right := (5 : ℝ) - 2
+    let e_top := ((3 : ℝ) - 5) + ((2 : ℤ) : ℝ) * (2 * Real.pi)
+    let e_left := (1 : ℝ) - 3
+    e_bottom + e_right + e_top + e_left = ((2 : ℤ) : ℝ) * (2 * Real.pi) := by
+  exact plaquette_phase_slip_syndrome 1 2 5 3 2
+
+/-- Bogoliubov excitation phase velocity squared is bounded below by the sound speed squared. -/
+example (c_s m p : ℝ) :
+    c_s ^ 2 ≤ bogoliubovPhaseVelSq c_s m p := by
+  exact bogoliubov_phase_velocity_sq_ge_cs_sq c_s m p
+
+/-- Subcritical superflow has strictly positive moving-frame excitation energy. -/
+example : 0 < movingFrameExcitationEnergy 10 2 3 := by
+  exact subcritical_no_dissipation 3 4 2 10 (by norm_num) (by norm_num) (by norm_num)
+
+/-- Supercritical flow produces negative moving-frame excitation energy at the acoustic pole. -/
+example : movingFrameExcitationEnergy 8 2 5 < 0 := by
+  exact supercritical_excitation_onset 5 4 2 8 (by norm_num) (by norm_num) (by norm_num)
+
+/-- Ponderomotive potential is nonnegative for positive particle mass. -/
+example (E0 : Vec3 → Vec3) (x : Vec3) :
+    0 ≤ ponderomotivePotential 1 2 3 E0 x := by
+  exact ponderomotivePotential_nonneg 1 2 3 E0 x (by norm_num)
+
+/-- Secular ponderomotive drift force points down the electric-field intensity gradient. -/
+example (grad_E0_sq : Vec3 → Vec3) (x : Vec3) :
+    (ponderomotiveForce 1 2 3 grad_E0_sq x) ⬝ᵥ (grad_E0_sq x) ≤ 0 := by
+  exact ponderomotiveForce_down_gradient 1 2 3 grad_E0_sq x (by norm_num)
+
+/-- Averaging the instantaneous Lorentz force over one RF period isolates the secular ponderomotive force. -/
+example (grad_E0_sq F_osc : Vec3 → Vec3) (x : Vec3) (i : Fin 3) :
+    let T := 2 * Real.pi / 2
+    let F_inst (t : ℝ) : ℝ :=
+      ponderomotiveForce 1 1 2 grad_E0_sq x i + F_osc x i * Real.cos (2 * t)
+    (1 / T) * (∫ t in (0 : ℝ)..T, F_inst t) =
+      ponderomotiveForce 1 1 2 grad_E0_sq x i := by
+  exact ponderomotive_cycle_average 1 1 2 (by norm_num) grad_E0_sq F_osc x
+    (2 * Real.pi / 2) rfl i
+
+/-- Differential aerodynamic torque is orthogonal to the lever arm from the center of mass. -/
+example (V_wake n : Vec3 → Vec3) (CM x : Vec3) :
+    (differentialAerodynamicMoment 1.2 V_wake n CM x) ⬝ᵥ (x - CM) = 0 := by
+  exact differentialAerodynamicMoment_orthogonal_lever_arm 1.2 V_wake n CM x
+
+/-- Differential aerodynamic torque is orthogonal to the normal surface pressure force. -/
+example (V_wake n : Vec3 → Vec3) (CM x : Vec3) :
+    (differentialAerodynamicMoment 1.2 V_wake n CM x) ⬝ᵥ
+      (differentialPressureForce 1.2 V_wake n x) = 0 := by
+  exact differentialAerodynamicMoment_orthogonal_force 1.2 V_wake n CM x
+
+/-- Halbach transverse magnetic field deflects longitudinal electron velocity into the x-axis. -/
+example :
+    magneticLorentzForce (-1) (longitudinalVelocity 4) (transverseHalbachField 3) =
+      ![12, 0, 0] := by
+  rw [halbach_transverse_conversion]
+  ext i
+  fin_cases i <;> norm_num
+
+/-- Pure magnetic Lorentz deflection is orthogonal to velocity and performs zero work. -/
+example (v B : Vec3) :
+    (magneticLorentzForce (-1) v B) ⬝ᵥ v = 0 := by
+  exact magneticLorentzForce_work_free (-1) v B
+
+/-- Radial centrifugal pressure head from hub r = 1 to rim r = 3 evaluates to 200. -/
+example :
+    ∫ r in (1 : ℝ)..3, centrifugalPressureGradient 2 5 r = 200 := by
+  rw [centrifugal_pump_head]
+  norm_num
+
+/-- Isothermal closed rotating loop has zero net centrifugal circulation head. -/
+example :
+    (∫ r in (1 : ℝ)..3, centrifugalPressureGradient 4 5 r) -
+      (∫ r in (1 : ℝ)..3, centrifugalPressureGradient 4 5 r) = 0 := by
+  exact centrifugal_closed_loop_isothermal_zero 4 5 1 3
+
+/-- Pitch precession about the X axis induces a pure Y-axis yaw gyroscopic torque. -/
+example :
+    gyroscopicTorque 2 ![3, 0, 0] 5 = ![0, -30, 0] := by
+  have h := pitch_induces_yaw_torque 2 3 5
+  dsimp at h
+  rw [h]
+  ext i
+  fin_cases i <;> norm_num
+
+/-- Bohm-Gross phase and group velocities multiply to 3 * v_th² = 27. -/
+example :
+    langmuirPhaseVelocity 10 2 * bohmGrossGroupVelocity 10 2 3 = 27 := by
+  rw [bohm_gross_phase_group_product 10 2 3 (by norm_num) (by norm_num)]
+  norm_num
+
+/-- Electrostatic wave energy density is bounded by the Dawson saturation ceiling. -/
+example :
+    electrostaticWaveEnergyDensity 2 3 ≤ electrostaticWaveEnergyDensity 2 5 := by
+  exact dawson_energy_density_bound 2 3 5 (by norm_num) (by norm_num) (by norm_num)
+
+/-- Positive bump-on-tail distribution slope yields strictly positive inverse Landau growth. -/
+example : 0 < landauGrowthRate 2 3 4 1 := by
+  exact inverse_landau_growth_pos 2 3 4 1 (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
+/-- Negative thermal Maxwellian slope yields strictly negative Landau damping. -/
+example : landauGrowthRate 2 3 4 (-1) < 0 := by
+  exact thermal_landau_damping_neg 2 3 4 (-1) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
+/-- Zero quasilinear plateau slope saturates linear Landau growth at zero. -/
+example : landauGrowthRate 2 3 4 0 = 0 := by
+  exact quasilinear_plateau_saturation 2 3 4
+
+/-- Woltjer-Taylor Beltrami current J = α • B experiences zero internal magnetic Lorentz force. -/
+example (B : Vec3) :
+    crossProduct (taylorBeltramiCurrent 3 B) B = ![0, 0, 0] := by
+  exact taylor_state_force_free 3 B
+
+/-- Active thermal extraction exceeding Ohmic heating preserves a positive magnetic pinch margin. -/
+example :
+    0 < (10 : ℝ) - (8 + 1 - 3) := by
+  exact active_cooling_stabilizes_pinch 10 8 1 3 (by norm_num) (by norm_num)
+
+/-- Discrete 4-cycle 1-cocycle circulation sum is invariant under vertex gauge shifts. -/
+example :
+    ((1 : ℝ) + (10 - 20)) + (2 + (30 - 10)) + (3 + (40 - 30)) + (4 + (20 - 40)) =
+      1 + 2 + 3 + 4 := by
+  exact discrete_four_cycle_gauge_invariance 1 2 3 4 20 10 30 40
+
 end SignalsTests
