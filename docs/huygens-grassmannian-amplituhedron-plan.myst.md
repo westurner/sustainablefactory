@@ -991,14 +991,87 @@ not a planar embedding, a proof of arbitrary-length path compatibility, a
 quotient/cell correspondence, or optical calibration. General embedding and
 path obligations and an independently justified complex evaluator remain open.
 
+### Iteration 21: General $2 \times n$ Four-Column Pluecker Relations
+
+`twoRowMinor` in [Geometry.lean](../src/signals/Signals/Geometry.lean) evaluates
+arbitrary two-column determinants of any real $2 \times n$ matrix and agrees
+with `selectedMinor` on every strictly ordered column pair
+(`twoRowMinor_eq_selectedMinor`). `twoRowMinor_pluecker` proves the three-term
+quadratic Pluecker identity for any four column indices in $\operatorname{Fin}(n)$.
+`selectedMinor_pluecker_four` and `selectedMinor_crossing_product_eq_sum`
+specialize this identity to any ordered four-column selection
+$c_0 < c_1 < c_2 < c_3$:
+
+$$
+\Delta_{c_0 c_2}\Delta_{c_1 c_3}
+=\Delta_{c_0 c_1}\Delta_{c_2 c_3}+\Delta_{c_0 c_3}\Delta_{c_1 c_2}.
+$$
+
+Controls verify a four-of-five column selection $(0,1,3,4)$ on an explicit
+$2 \times 5$ matrix and evaluate its crossing product $15$. A separate
+negative control (`negatedPlueckerMatrix`) shows that because the quadratic
+Pluecker relation is homogeneous of degree two, strictly positive uncrossed
+and crossing minor products ($\Delta_{01}\Delta_{23}=1$,
+$\Delta_{03}\Delta_{12}=3$, $\Delta_{02}\Delta_{13}=4$) remain compatible
+with all-negative ordered minors and do not imply `hasNonnegativeOrderedMinors`
+without an odd-degree sign anchor. Higher-rank ($k \ge 3$) Pluecker relations
+and quotient constructions remain open.
+
+### Iteration 22: Parallel Two-Edge Path Reduction
+
+`WeightedAcyclicNetwork.diamond` in
+[Plabic.lean](../src/signals/Signals/Plabic.lean) models one source at level
+zero feeding two parallel intermediate vertices at level one, which both feed
+one sink at level two. `diamond_transfer` derives its actual finite transfer
+sum as the sum of the two parallel two-edge path products:
+
+$$
+T_{0,3}=a_1 b_1 + a_2 b_2.
+$$
+
+`parallel_reduction_boundary` proves that replacing the two parallel two-edge
+paths by `oneEdgePath (a_1 b_1 + a_2 b_2)` preserves the complete
+one-source/one-sink boundary measurement matrix. Controls check
+$2\times 3 + 4\times 5 = 26$, zero-branch specialization to a single path
+product, boundary-matrix agreement, and rejection of naive four-edge addition
+$a_1 + a_2 + b_1 + b_2$. General embedded plabic network moves and arbitrary
+series-parallel graph reductions remain open.
+
+### Iteration 23: Analytic Fraunhofer Rectangular Double-Slit Benchmark
+
+`unnormalizedSinc` and `fraunhoferRectangularDoubleSlit` in
+[Huygens.lean](../src/signals/Signals/Huygens.lean) formalize the analytic
+paraxial/Fraunhofer benchmark stated above:
+
+$$
+I_{\mathrm{F}}(x,y)=4I_0\,
+\operatorname{sinc}^2\!\left(\frac{\pi a x}{\lambda L}\right)
+\operatorname{sinc}^2\!\left(\frac{\pi b y}{\lambda L}\right)
+\cos^2\!\left(\frac{\pi d x}{\lambda L}\right).
+$$
+
+`unnormalizedSinc_int_mul_pi` proves $\operatorname{sinc}(n\pi)=0$ for every
+nonzero integer $n \in \mathbb Z$. `fraunhoferRectangularDoubleSlit_nonnegative`,
+`fraunhoferRectangularDoubleSlit_onAxis`, and `fraunhoferRectangularDoubleSlit_even`
+establish nonnegativity for $I_0 \ge 0$, the constructive $4I_0$ on-axis
+maximum at $(0,0)$, and planar inversion symmetry $(x,y)\mapsto(-x,-y)$.
+`fraunhoferRectangularDoubleSlit_dark_fringe` proves exact destructive
+interference zeros at the half-period fringe $x = \lambda L/(2d)$, and
+`fraunhoferRectangularDoubleSlit_diffraction_null` proves exact single-slit
+envelope nulls at $x = n\lambda L/a$ for $n \in \mathbb Z \setminus \{0\}$.
+Controls check the on-axis value $12$ for $I_0=3$, both classes of exact
+zeros, and rejection of a positive-intensity claim at the half-period dark
+fringe. Connecting the finite aperture integral to this far-field benchmark
+via an explicit paraxial error bound remains a Phase 2 obligation.
+
 ### Remaining Acceptance Obligations
 
 | Phase | Verified checkpoint | Still required |
 |---|---|---|
 | 0 | Regularity/positive-scale guards, nonempty finite-extent slit samples, arbitrary-wavelength analytic reference, phase/mask/off-axis controls, fixed-tolerance rejection. | Finite-area slit geometry and refinement belong to the continuum/quadrature track; fixtures are not measurements. |
 | 1 | Selected fixed-field planar area integral, guarded integrability, disjoint-mask addition. | Boundary approximation accuracy, incident/boundary data, dimensioned field normalization, and a justified Green representation or approximation bound. |
-| 2 | Actual measured-cell weights, derived Lipschitz/mesh/area error rate, refinement convergence, uniform-domain comparison and finite-aperture correspondence. | Prove uniform optical-kernel regularity from separation and a wavelength interval; construct a rectangular area mesh and prove the Fraunhofer limit. |
-| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision invariance, measured fork rank/positivity, two-channel determinant/rank controls, shared-hub cancellation and general finite two-step pair/minor identities with arbitrary ordered sink selections and derived positive/full-rank nonnegative records. | Decoration rules; higher-rank/arbitrary-length minor/disjoint-path identities and embedding-derived ordered-minor positivity, embedded signed boundary measurements/cell correspondence, general embedded-network moves, general Pluecker relations, and any quotient construction. |
+| 2 | Actual measured-cell weights, derived Lipschitz/mesh/area error rate, refinement convergence, uniform-domain comparison, finite-aperture correspondence, and the analytic Fraunhofer rectangular double-slit benchmark with proved on-axis maximum, symmetry, interference dark fringes, and diffraction envelope nulls. | Prove uniform optical-kernel regularity from separation and a wavelength interval; construct a rectangular area mesh and prove convergence of the planar aperture integral to the Fraunhofer limit in the far-field regime. |
+| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision and parallel two-edge diamond reduction invariance, measured fork rank/positivity, two-channel determinant/rank controls, shared-hub cancellation, general finite two-step pair/minor identities with arbitrary ordered sink selections and derived positive/full-rank nonnegative records, and general $2\times n$ ordered four-column Pluecker relations with sign-flip controls. | Decoration rules; higher-rank ($k\ge 3$) Pluecker relations and arbitrary-length minor/disjoint-path identities, embedding-derived ordered-minor positivity, embedded signed boundary measurements/cell correspondence, general embedded-network moves, and any quotient construction. |
 | 4 | Affine alternating interval/triangle/square forms, oriented boundary limits, normalization, pullbacks, and diagonal cancellation/continuation. | General projective canonical-form existence/uniqueness, arbitrary-chart invariance and higher-dimensional amplituhedron forms. |
 | 5 | A literal unphased form-evaluation candidate is falsified without fitting. | Derive a dimensioned oscillatory complex evaluator and its invariances independently of the optical answer. |
 | 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds and separate error-budget composition. | A genuine geometric/classical equality or held-out uniform error theorem after both tracks meet their gates. |
@@ -1011,11 +1084,10 @@ the independent boundary, quadrature and network proof tracks remain available.
 
 ## Validation and Status
 
-The latest completed iteration gates passed: `SignalsTests` at 3,577 jobs,
-`make signals_build` at 3,593 jobs, all four concatenated report Lean fences,
-Sphinx HTML, correct Lake source setup, and scoped whitespace checks. The
-observed Sphinx refreshes reported 66 warnings, while incremental rebuilds
-reported 13. This is build
+The latest completed iteration gates passed: `SignalsTests`,
+`make signals_build` at 3,618 jobs (and `:blueprint` extraction at 3,675 jobs),
+all four concatenated report Lean fences,
+Sphinx HTML, correct Lake source setup, and scoped whitespace checks. This is build
 verification, not a runtime optical experiment or a projective existence proof.
 
 The following records the original review baseline, before the implementation

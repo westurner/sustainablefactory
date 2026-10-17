@@ -541,4 +541,157 @@ lemma ActionScale.amplitude_add {historyCount : ℕ} (scale : ActionScale)
       scale.amplitude action first + scale.amplitude action second :=
   finiteHistoryAmplitude_add action first second scale.hbar
 
+/-! ## Analytic Fraunhofer rectangular double-slit benchmark
+
+The benchmark below implements the paraxial/Fraunhofer far-field formula for two
+equal uniformly illuminated rectangular slits of width `a`, height `b`, and
+center-to-center separation `d` on a screen at distance `L`:
+`I(x, y) = 4 I_0 sinc²(π a x / (λ L)) sinc²(π b y / (λ L)) cos²(π d x / (λ L))`.
+This is an explicit analytic reference for far-field comparisons; it is not a
+theorem about near-field discrete aperture sums.
+-/
+
+/-- The unnormalized cardinal sine `sinc(z) = sin(z) / z` with `sinc(0) = 1`. -/
+@[blueprint "def:signals-unnormalized-sinc"
+  (title := "Unnormalized cardinal sine")
+  (statement := /-- Define $\operatorname{sinc}(z)=\sin(z)/z$ for $z\ne 0$ and
+    $\operatorname{sinc}(0)=1$. -/)]
+noncomputable def unnormalizedSinc (z : ℝ) : ℝ :=
+  if z = 0 then 1 else Real.sin z / z
+
+/-- At zero argument, `unnormalizedSinc` evaluates to one. -/
+@[simp]
+lemma unnormalizedSinc_zero : unnormalizedSinc 0 = 1 := by
+  simp [unnormalizedSinc]
+
+/-- `unnormalizedSinc` is an even function. -/
+lemma unnormalizedSinc_even (z : ℝ) : unnormalizedSinc (-z) = unnormalizedSinc z := by
+  by_cases hz : z = 0
+  · subst hz
+    simp
+  · have hneg : -z ≠ 0 := neg_ne_zero.mpr hz
+    simp [unnormalizedSinc, hz, hneg, Real.sin_neg, neg_div_neg_eq]
+
+/-- `unnormalizedSinc` vanishes at every nonzero integer multiple of `π`. -/
+@[blueprint "lem:signals-sinc-int-pi-zero"
+  (title := "Cardinal sine zeros at nonzero integer multiples of π")
+  (statement := /-- For every nonzero integer $n\in\mathbb Z$,
+    $\operatorname{sinc}(n\pi)=0$. -/)
+  (proof := /-- Since $n\ne 0$ and $\pi\ne 0$, $n\pi\ne 0$ and $\sin(n\pi)=0$. -/)
+  (latexEnv := "lemma")]
+lemma unnormalizedSinc_int_mul_pi (n : ℤ) (nonzero : n ≠ 0) :
+    unnormalizedSinc ((n : ℝ) * Real.pi) = 0 := by
+  have h_arg : (n : ℝ) * Real.pi ≠ 0 :=
+    mul_ne_zero (Int.cast_ne_zero.mpr nonzero) Real.pi_ne_zero
+  simp [unnormalizedSinc, h_arg, Real.sin_int_mul_pi]
+
+/-- Analytic Fraunhofer far-field intensity benchmark for two equal rectangular slits. -/
+@[blueprint "def:signals-fraunhofer-double-slit-benchmark"
+  (title := "Fraunhofer rectangular double-slit intensity benchmark")
+  (statement := /-- For single-slit on-axis scale $I_0$, slit width $a$, height $b$,
+    center separation $d$, wavelength $\lambda$, and screen distance $L$, define
+    $I_{\mathrm{F}}(x,y)=4I_0\operatorname{sinc}^2(\pi a x/(\lambda L))
+    \operatorname{sinc}^2(\pi b y/(\lambda L))\cos^2(\pi d x/(\lambda L))$. -/)]
+noncomputable def fraunhoferRectangularDoubleSlit
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y : ℝ) : ℝ :=
+  4 * singleSlitScale *
+    (unnormalizedSinc (Real.pi * slitWidth * x / (wavelength * screenDistance))) ^ 2 *
+    (unnormalizedSinc (Real.pi * slitHeight * y / (wavelength * screenDistance))) ^ 2 *
+    (Real.cos (Real.pi * separation * x / (wavelength * screenDistance))) ^ 2
+
+/-- The Fraunhofer benchmark is nonnegative when the single-slit scale `I_0` is nonnegative. -/
+@[blueprint "lem:signals-fraunhofer-nonnegative"
+  (title := "Nonnegativity of the Fraunhofer double-slit benchmark")
+  (statement := /-- When $I_0\ge 0$, $I_{\mathrm{F}}(x,y)\ge 0$ for all $(x,y)$. -/)
+  (proof := /-- Product of $4I_0\ge 0$ and three squared real factors. -/)
+  (latexEnv := "lemma")]
+lemma fraunhoferRectangularDoubleSlit_nonnegative
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y : ℝ)
+    (scale_nonneg : 0 ≤ singleSlitScale) :
+    0 ≤ fraunhoferRectangularDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y := by
+  unfold fraunhoferRectangularDoubleSlit
+  positivity
+
+/-- On the optical axis `(x, y) = (0, 0)`, the Fraunhofer benchmark equals `4 * I_0`. -/
+@[blueprint "lem:signals-fraunhofer-on-axis"
+  (title := "On-axis constructive Fraunhofer maximum")
+  (statement := /-- At $(x,y)=(0,0)$, $I_{\mathrm{F}}(0,0)=4I_0$. -/)
+  (proof := /-- Both $\operatorname{sinc}(0)$ factors and $\cos(0)$ equal $1$. -/)
+  (latexEnv := "lemma")]
+lemma fraunhoferRectangularDoubleSlit_onAxis
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance : ℝ) :
+    fraunhoferRectangularDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance 0 0 =
+      4 * singleSlitScale := by
+  simp [fraunhoferRectangularDoubleSlit]
+
+/-- The Fraunhofer benchmark is symmetric under planar inversion `(x, y) ↦ (-x, -y)`. -/
+@[blueprint "lem:signals-fraunhofer-even-symmetry"
+  (title := "Planar inversion symmetry of the Fraunhofer benchmark")
+  (statement := /-- For all $(x,y)$, $I_{\mathrm{F}}(-x,-y)=I_{\mathrm{F}}(x,y)$. -/)
+  (proof := /-- Use evenness of $\operatorname{sinc}$ and $\cos$. -/)
+  (latexEnv := "lemma")]
+lemma fraunhoferRectangularDoubleSlit_even
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y : ℝ) :
+    fraunhoferRectangularDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance (-x) (-y) =
+    fraunhoferRectangularDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y := by
+  unfold fraunhoferRectangularDoubleSlit
+  have hx : Real.pi * slitWidth * (-x) / (wavelength * screenDistance) =
+      -(Real.pi * slitWidth * x / (wavelength * screenDistance)) := by ring
+  have hy : Real.pi * slitHeight * (-y) / (wavelength * screenDistance) =
+      -(Real.pi * slitHeight * y / (wavelength * screenDistance)) := by ring
+  have hd : Real.pi * separation * (-x) / (wavelength * screenDistance) =
+      -(Real.pi * separation * x / (wavelength * screenDistance)) := by ring
+  rw [hx, hy, hd, unnormalizedSinc_even, unnormalizedSinc_even, Real.cos_neg]
+
+/-- At the first half-period interference minimum `x = λ L / (2 d)`, the Fraunhofer
+double-slit intensity vanishes identically. -/
+@[blueprint "lem:signals-fraunhofer-dark-fringe"
+  (title := "First Fraunhofer destructive interference minimum")
+  (statement := /-- For $d\ne 0$, $\lambda\ne 0$, and $L\ne 0$, at $x=\lambda L/(2d)$
+    the interference factor $\cos(\pi/2)=0$ forces $I_{\mathrm{F}}(\lambda L/(2d),y)=0$. -/)
+  (proof := /-- Simplify the cosine argument to $\pi/2$ and apply $\cos(\pi/2)=0$. -/)
+  (latexEnv := "lemma")]
+lemma fraunhoferRectangularDoubleSlit_dark_fringe
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance y : ℝ)
+    (h_sep : separation ≠ 0) (h_wave : wavelength ≠ 0) (h_dist : screenDistance ≠ 0) :
+    fraunhoferRectangularDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      (wavelength * screenDistance / (2 * separation)) y = 0 := by
+  unfold fraunhoferRectangularDoubleSlit
+  have h_arg :
+      Real.pi * separation * (wavelength * screenDistance / (2 * separation)) /
+        (wavelength * screenDistance) = Real.pi / 2 := by
+    field_simp [h_sep, h_wave, h_dist]
+  rw [h_arg, Real.cos_pi_div_two]
+  ring
+
+/-- At any nonzero integer single-slit diffraction minimum `x = n λ L / a`, the
+Fraunhofer intensity vanishes identically. -/
+@[blueprint "lem:signals-fraunhofer-diffraction-null"
+  (title := "Single-slit Fraunhofer diffraction envelope nulls")
+  (statement := /-- For $n\in\mathbb Z\setminus\{0\}$, $a\ne 0$, $\lambda\ne 0$, and $L\ne 0$,
+    at $x=n\lambda L/a$ the horizontal envelope $\operatorname{sinc}(n\pi)=0$ forces
+    $I_{\mathrm{F}}(n\lambda L/a,y)=0$. -/)
+  (proof := /-- Simplify the horizontal sinc argument to $n\pi$ and apply
+    \texttt{unnormalizedSinc\_int\_mul\_pi}. -/)
+  (latexEnv := "lemma")]
+lemma fraunhoferRectangularDoubleSlit_diffraction_null
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance y : ℝ)
+    (n : ℤ) (h_n : n ≠ 0)
+    (h_width : slitWidth ≠ 0) (h_wave : wavelength ≠ 0) (h_dist : screenDistance ≠ 0) :
+    fraunhoferRectangularDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      ((n : ℝ) * wavelength * screenDistance / slitWidth) y = 0 := by
+  unfold fraunhoferRectangularDoubleSlit
+  have h_arg :
+      Real.pi * slitWidth * ((n : ℝ) * wavelength * screenDistance / slitWidth) /
+        (wavelength * screenDistance) = (n : ℝ) * Real.pi := by
+    field_simp [h_width, h_wave, h_dist]
+  rw [h_arg, unnormalizedSinc_int_mul_pi n h_n]
+  ring
+
 end Signals.Huygens

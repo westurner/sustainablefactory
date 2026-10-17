@@ -855,6 +855,119 @@ lemma pluecker_relation (matrix : Matrix2x4) :
   simp [minor]
   ring
 
+/-- The two-column determinant of a `2 × n` matrix for arbitrary column indices. -/
+@[blueprint "def:signals-two-row-minor"
+  (title := "Two-row arbitrary-column minor")
+  (statement := /-- For a real $2\times n$ matrix $M$ and column indices $a,b\in\operatorname{Fin}(n)$,
+    define $\Delta_{ab}(M)=M_{0a}M_{1b}-M_{0b}M_{1a}$. -/)]
+def twoRowMinor {columnCount : ℕ}
+    (matrix : Matrix (Fin 2) (Fin columnCount) ℝ) (left right : Fin columnCount) : ℝ :=
+  matrix 0 left * matrix 1 right - matrix 0 right * matrix 1 left
+
+/-- Swapping the two column indices negates `twoRowMinor`. -/
+lemma twoRowMinor_swap {columnCount : ℕ}
+    (matrix : Matrix (Fin 2) (Fin columnCount) ℝ) (left right : Fin columnCount) :
+    twoRowMinor matrix left right = -twoRowMinor matrix right left := by
+  simp [twoRowMinor]
+
+/-- Repeating a column index gives a zero `twoRowMinor`. -/
+lemma twoRowMinor_self {columnCount : ℕ}
+    (matrix : Matrix (Fin 2) (Fin columnCount) ℝ) (column : Fin columnCount) :
+    twoRowMinor matrix column column = 0 := by
+  simp [twoRowMinor]
+
+/-- For strictly ordered column indices, `twoRowMinor` agrees with `selectedMinor`. -/
+lemma twoRowMinor_eq_selectedMinor {columnCount : ℕ}
+    (matrix : Matrix (Fin 2) (Fin columnCount) ℝ)
+    (left right : Fin columnCount) (ordered : left < right) :
+    twoRowMinor matrix left right =
+      selectedMinor matrix (OrderedColumns.pair left right ordered) := by
+  simp [twoRowMinor, selectedMinor, OrderedColumns.pair, Matrix.det_fin_two, Matrix.submatrix]
+
+/-- The three-term quadratic Pluecker relation holds for any four column indices of any `2 × n` matrix. -/
+@[blueprint "lem:signals-general-two-row-pluecker"
+  (title := "General 2×n three-term Pluecker identity")
+  (statement := /-- For any real $2\times n$ matrix $M$ and any four column indices
+    $a,b,c,d\in\operatorname{Fin}(n)$,
+    $\Delta_{ab}(M)\Delta_{cd}(M)-\Delta_{ac}(M)\Delta_{bd}(M)+\Delta_{ad}(M)\Delta_{bc}(M)=0$. -/)
+  (proof := /-- Expand the six $2\times 2$ determinants and cancel polynomial terms by ring algebra. -/)
+  (latexEnv := "lemma")]
+lemma twoRowMinor_pluecker {columnCount : ℕ}
+    (matrix : Matrix (Fin 2) (Fin columnCount) ℝ)
+    (first second third fourth : Fin columnCount) :
+    twoRowMinor matrix first second * twoRowMinor matrix third fourth -
+      twoRowMinor matrix first third * twoRowMinor matrix second fourth +
+      twoRowMinor matrix first fourth * twoRowMinor matrix second third = 0 := by
+  simp only [twoRowMinor]
+  ring
+
+/-- For any ordered four-column selection in `Fin n`, the six induced ordered-pair
+`selectedMinor` coordinates satisfy the quadratic Pluecker relation. -/
+@[blueprint "lem:signals-ordered-four-column-pluecker"
+  (title := "Ordered four-column Pluecker relation")
+  (statement := /-- For any ordered four-column selection $c_0<c_1<c_2<c_3$ in $\operatorname{Fin}(n)$,
+    the ordered maximal minors of any $2\times n$ matrix obey
+    $\Delta_{c_0 c_1}\Delta_{c_2 c_3}-\Delta_{c_0 c_2}\Delta_{c_1 c_3}+\Delta_{c_0 c_3}\Delta_{c_1 c_2}=0$. -/)
+  (proof := /-- Rewrite each ordered pair minor as \texttt{twoRowMinor} and apply \texttt{twoRowMinor\_pluecker}. -/)
+  (latexEnv := "lemma")]
+lemma selectedMinor_pluecker_four {columnCount : ℕ}
+    (matrix : Matrix (Fin 2) (Fin columnCount) ℝ)
+    (columns : OrderedColumns 4 columnCount) :
+    selectedMinor matrix
+        (OrderedColumns.pair (columns.index 0) (columns.index 1)
+          (columns.strictlyIncreasing (by decide))) *
+      selectedMinor matrix
+        (OrderedColumns.pair (columns.index 2) (columns.index 3)
+          (columns.strictlyIncreasing (by decide))) -
+    selectedMinor matrix
+        (OrderedColumns.pair (columns.index 0) (columns.index 2)
+          (columns.strictlyIncreasing (by decide))) *
+      selectedMinor matrix
+        (OrderedColumns.pair (columns.index 1) (columns.index 3)
+          (columns.strictlyIncreasing (by decide))) +
+    selectedMinor matrix
+        (OrderedColumns.pair (columns.index 0) (columns.index 3)
+          (columns.strictlyIncreasing (by decide))) *
+      selectedMinor matrix
+        (OrderedColumns.pair (columns.index 1) (columns.index 2)
+          (columns.strictlyIncreasing (by decide))) = 0 := by
+  simp only [← twoRowMinor_eq_selectedMinor]
+  exact twoRowMinor_pluecker matrix
+    (columns.index 0) (columns.index 1) (columns.index 2) (columns.index 3)
+
+/-- The product of the two crossing minors equals the sum of the two uncrossed boundary minor products. -/
+@[blueprint "lem:signals-ordered-pluecker-crossing-sum"
+  (title := "Crossing minor product equals sum of uncrossed products")
+  (statement := /-- For any ordered four-column selection $c_0<c_1<c_2<c_3$,
+    $\Delta_{c_0 c_2}\Delta_{c_1 c_3}=\Delta_{c_0 c_1}\Delta_{c_2 c_3}+\Delta_{c_0 c_3}\Delta_{c_1 c_2}$.
+    Positive uncrossed products force the crossing product to be positive, though both crossing minors
+    may still share a negative sign unless one is separately constrained. -/)
+  (proof := /-- Rearrange the three-term Pluecker identity \texttt{selectedMinor\_pluecker\_four}. -/)
+  (latexEnv := "lemma")]
+lemma selectedMinor_crossing_product_eq_sum {columnCount : ℕ}
+    (matrix : Matrix (Fin 2) (Fin columnCount) ℝ)
+    (columns : OrderedColumns 4 columnCount) :
+    selectedMinor matrix
+        (OrderedColumns.pair (columns.index 0) (columns.index 2)
+          (columns.strictlyIncreasing (by decide))) *
+      selectedMinor matrix
+        (OrderedColumns.pair (columns.index 1) (columns.index 3)
+          (columns.strictlyIncreasing (by decide))) =
+    selectedMinor matrix
+        (OrderedColumns.pair (columns.index 0) (columns.index 1)
+          (columns.strictlyIncreasing (by decide))) *
+      selectedMinor matrix
+        (OrderedColumns.pair (columns.index 2) (columns.index 3)
+          (columns.strictlyIncreasing (by decide))) +
+    selectedMinor matrix
+        (OrderedColumns.pair (columns.index 0) (columns.index 3)
+          (columns.strictlyIncreasing (by decide))) *
+      selectedMinor matrix
+        (OrderedColumns.pair (columns.index 1) (columns.index 2)
+          (columns.strictlyIncreasing (by decide))) := by
+  have h := selectedMinor_pluecker_four matrix columns
+  linarith
+
 /-! ## Orbital angular-momentum translations
 
 These are real coordinate identities for a four-index bivector, not an

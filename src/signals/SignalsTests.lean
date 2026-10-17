@@ -3742,4 +3742,121 @@ example :
       1 + 2 + 3 + 4 := by
   exact discrete_four_cycle_gauge_invariance 1 2 3 4 20 10 30 40
 
+/-! ## Iterations 21–23: General 2×n Pluecker relations, parallel-path reduction, and Fraunhofer benchmark -/
+
+/-- A 2×5 real matrix used to test arbitrary four-column Pluecker selections. -/
+def fiveColumnPlueckerMatrix : Matrix (Fin 2) (Fin 5) ℝ :=
+  !![1, 0, -1, -2, -3; 0, 1, 2, 5, 9]
+
+/-- Strictly increasing selection of four columns (0, 1, 3, 4) from five columns. -/
+def fourOfFiveColumns : OrderedColumns 4 5 :=
+  { index := ![0, 1, 3, 4]
+    strictlyIncreasing := by
+      intro left right before
+      fin_cases left <;> fin_cases right <;> simp_all }
+
+/-- The ordered four-column selection (0, 1, 3, 4) obeys the three-term Pluecker identity. -/
+example :
+    selectedMinor fiveColumnPlueckerMatrix
+        (OrderedColumns.pair (fourOfFiveColumns.index 0) (fourOfFiveColumns.index 1)
+          (fourOfFiveColumns.strictlyIncreasing (by decide))) *
+      selectedMinor fiveColumnPlueckerMatrix
+        (OrderedColumns.pair (fourOfFiveColumns.index 2) (fourOfFiveColumns.index 3)
+          (fourOfFiveColumns.strictlyIncreasing (by decide))) -
+    selectedMinor fiveColumnPlueckerMatrix
+        (OrderedColumns.pair (fourOfFiveColumns.index 0) (fourOfFiveColumns.index 2)
+          (fourOfFiveColumns.strictlyIncreasing (by decide))) *
+      selectedMinor fiveColumnPlueckerMatrix
+        (OrderedColumns.pair (fourOfFiveColumns.index 1) (fourOfFiveColumns.index 3)
+          (fourOfFiveColumns.strictlyIncreasing (by decide))) +
+    selectedMinor fiveColumnPlueckerMatrix
+        (OrderedColumns.pair (fourOfFiveColumns.index 0) (fourOfFiveColumns.index 3)
+          (fourOfFiveColumns.strictlyIncreasing (by decide))) *
+      selectedMinor fiveColumnPlueckerMatrix
+        (OrderedColumns.pair (fourOfFiveColumns.index 1) (fourOfFiveColumns.index 2)
+          (fourOfFiveColumns.strictlyIncreasing (by decide))) = 0 :=
+  selectedMinor_pluecker_four fiveColumnPlueckerMatrix fourOfFiveColumns
+
+/-- The crossing minor product on columns (0, 1, 3, 4) equals the sum of uncrossed minor products. -/
+example :
+    selectedMinor fiveColumnPlueckerMatrix
+        (OrderedColumns.pair (fourOfFiveColumns.index 0) (fourOfFiveColumns.index 2)
+          (fourOfFiveColumns.strictlyIncreasing (by decide))) *
+      selectedMinor fiveColumnPlueckerMatrix
+        (OrderedColumns.pair (fourOfFiveColumns.index 1) (fourOfFiveColumns.index 3)
+          (fourOfFiveColumns.strictlyIncreasing (by decide))) = 15 := by
+  rw [selectedMinor_crossing_product_eq_sum]
+  simp only [ ← twoRowMinor_eq_selectedMinor]
+  norm_num [twoRowMinor, fiveColumnPlueckerMatrix, fourOfFiveColumns]
+
+/-- A 2×4 matrix with all-negative ordered minors whose quadratic Pluecker minor products are all positive. -/
+def negatedPlueckerMatrix : Matrix (Fin 2) (Fin 4) ℝ :=
+  !![1, 1, 1, 1; -1, -2, -3, -4]
+
+/-- Both uncrossed minor products and the crossing minor product of `negatedPlueckerMatrix` are positive. -/
+example :
+    0 < twoRowMinor negatedPlueckerMatrix 0 1 * twoRowMinor negatedPlueckerMatrix 2 3 ∧
+      0 < twoRowMinor negatedPlueckerMatrix 0 3 * twoRowMinor negatedPlueckerMatrix 1 2 ∧
+      twoRowMinor negatedPlueckerMatrix 0 2 * twoRowMinor negatedPlueckerMatrix 1 3 = 4 := by
+  norm_num [twoRowMinor, negatedPlueckerMatrix]
+
+/-- Positive quadratic Pluecker products do not imply nonnegative ordered minors without a sign anchor. -/
+example : ¬(GrassmannianMatrix.mk negatedPlueckerMatrix).hasNonnegativeOrderedMinors := by
+  intro nonnegative
+  have h01 := nonnegative (OrderedColumns.pair 0 1 (by decide))
+  change 0 ≤ selectedMinor negatedPlueckerMatrix (OrderedColumns.pair 0 1 (by decide)) at h01
+  rw [← twoRowMinor_eq_selectedMinor] at h01
+  norm_num [twoRowMinor, negatedPlueckerMatrix] at h01
+
+/-- The diamond network sums the two parallel two-edge path products: 2 * 3 + 4 * 5 = 26. -/
+example : (Signals.Plabic.WeightedAcyclicNetwork.diamond 2 4 3 5).transfer 0 3 = 26 := by
+  rw [Signals.Plabic.WeightedAcyclicNetwork.diamond_transfer]
+  norm_num
+
+/-- A zero weight on the second parallel branch reduces the diamond transfer to the first path product. -/
+example : (Signals.Plabic.WeightedAcyclicNetwork.diamond 2 0 3 5).transfer 0 3 = 6 := by
+  rw [Signals.Plabic.WeightedAcyclicNetwork.diamond_transfer]
+  norm_num
+
+/-- Parallel two-edge path reduction preserves the one-source/one-sink boundary measurement matrix. -/
+example :
+    (Signals.Plabic.WeightedAcyclicNetwork.diamond 2 4 3 5).boundaryMeasurement
+      (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 3) =
+    (Signals.Plabic.WeightedAcyclicNetwork.oneEdgePath 26).boundaryMeasurement
+      (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 1) := by
+  have h : (2 : NNReal) * 3 + 4 * 5 = 26 := by norm_num
+  rw [← h]
+  exact Signals.Plabic.WeightedAcyclicNetwork.parallel_reduction_boundary 2 4 3 5
+
+/-- Negative control: parallel two-edge paths multiply along series legs rather than summing all four edge weights. -/
+example :
+    (Signals.Plabic.WeightedAcyclicNetwork.diamond 2 4 3 5).transfer 0 3 ≠ 2 + 4 + 3 + 5 := by
+  rw [Signals.Plabic.WeightedAcyclicNetwork.diamond_transfer]
+  norm_num
+
+/-- On-axis Fraunhofer double-slit intensity equals four times the single-slit scale. -/
+example :
+    Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 0 0 = 12 := by
+  rw [Signals.Huygens.fraunhoferRectangularDoubleSlit_onAxis]
+  norm_num
+
+/-- The Fraunhofer double-slit benchmark vanishes at the first half-period destructive fringe x = λL/(2d). -/
+example :
+    Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 (1 * 5 / (2 * 6)) 1 = 0 :=
+  Signals.Huygens.fraunhoferRectangularDoubleSlit_dark_fringe 3 2 4 6 1 5 1
+    (by norm_num) (by norm_num) (by norm_num)
+
+/-- The Fraunhofer double-slit benchmark vanishes at the first single-slit diffraction minimum x = λL/a. -/
+example :
+    Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 (((1 : ℤ) : ℝ) * 1 * 5 / 2) 1 = 0 :=
+  Signals.Huygens.fraunhoferRectangularDoubleSlit_diffraction_null 3 2 4 6 1 5 1 1
+    (by decide) (by norm_num) (by norm_num) (by norm_num)
+
+/-- Negative control: a positive-intensity claim fails at the half-period Fraunhofer dark fringe. -/
+example :
+    ¬(0 < Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 (1 * 5 / (2 * 6)) 0) := by
+  rw [Signals.Huygens.fraunhoferRectangularDoubleSlit_dark_fringe 3 2 4 6 1 5 0
+    (by norm_num) (by norm_num) (by norm_num)]
+  norm_num
+
 end SignalsTests

@@ -328,6 +328,13 @@ interpretation while keeping experimental premises explicit:
    records when one available selection has a positive witness. Product entries
    and boundary zero minors are retained; rank promotion uses an available
    ordered selection rather than silently assuming one exists.
+   `twoRowMinor_pluecker`, `selectedMinor_pluecker_four`, and
+   `selectedMinor_crossing_product_eq_sum` extend the three-term quadratic
+   Pluecker identity to arbitrary four-column selections of any $2 \times n$
+   real matrix. Controls verify a five-column selection and show that positive
+   quadratic minor products alone remain invariant under simultaneous sign
+   flips of all minors and do not imply nonnegative ordered minors without a
+   sign anchor.
 - `Signals.CanonicalForms` provides fixed-oriented affine interval, triangle,
    and square alternating forms, normalization, punctured-limit boundary
    residues, area-preserving triangle pullbacks, and shared-diagonal pole
@@ -350,7 +357,12 @@ interpretation while keeping experimental premises explicit:
    explicitly approximate fixed scalar density against planar area, with
    regularity/integrability guards and disjoint-mask addition. Absolute
    intensity-error and additive amplitude-error laws preserve dark-fringe
-   and separate-budget controls. No boundary-solution accuracy theorem or
+   and separate-budget controls. `unnormalizedSinc` and
+   `fraunhoferRectangularDoubleSlit` formalize the analytic far-field
+   rectangular double-slit benchmark, proving nonnegativity, the $4 I_0$
+   on-axis constructive maximum, planar inversion symmetry, half-period
+   destructive interference fringes, and integer single-slit diffraction
+   envelope nulls. No boundary-solution accuracy theorem or
    mesh convergence rate is asserted.
 - `Signals.Quadrature` derives a finite measured-cell quadrature error bound
    from Lipschitz regularity and mesh distances, preserves total cell weight,
@@ -376,7 +388,10 @@ interpretation while keeping experimental premises explicit:
    Ranked nonnegative weighted networks derive long-path vanishing,
    nilpotency, cutoff-stable finite transfer, and selected boundary entries.
    A guarded one-edge subdivision preserves the one-source/one-sink boundary
-   matrix, with zero-factor and wrong-split rejection controls. A fork derives
+   matrix, with zero-factor and wrong-split rejection controls. A diamond
+   network with two parallel intermediate vertices derives its summed path-product
+   transfer $a_1 b_1 + a_2 b_2$ and proves one-source/one-sink boundary
+   reduction to a single edge, while rejecting naive four-edge addition. A fork derives
    its two boundary entries from independent edge weights; a two-channel
    network derives its complete two-by-two matrix, and a shared hub derives
    two-edge product entries. General ordered-minor

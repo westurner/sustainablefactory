@@ -809,4 +809,44 @@ lemma WeightedAcyclicNetwork.singleHub_boundary
       pow_zero, pow_one, pow_two, Matrix.one_apply, Matrix.mul_apply]
     simp [singleHub, Fin.sum_univ_succ]
 
+/-- One source at level zero feeds two parallel intermediate vertices at level one,
+which both feed one sink at level two. -/
+def WeightedAcyclicNetwork.diamond (firstIn secondIn firstOut secondOut : ℝ≥0) :
+    WeightedAcyclicNetwork 4 2 :=
+  { level := fun vertex => if vertex = 0 then 0 else if vertex.val < 3 then 1 else 2
+    weight := ![![0, firstIn, secondIn, 0], ![0, 0, 0, firstOut],
+      ![0, 0, 0, secondOut], ![0, 0, 0, 0]]
+    ascending := by
+      intro first second nonzero
+      fin_cases first <;> fin_cases second <;> norm_num at * }
+
+/-- The diamond network's source-to-sink transfer sums the two parallel two-edge path products. -/
+lemma WeightedAcyclicNetwork.diamond_transfer (firstIn secondIn firstOut secondOut : ℝ≥0) :
+    (diamond firstIn secondIn firstOut secondOut).transfer 0 3 =
+      firstIn * firstOut + secondIn * secondOut := by
+  simp only [transfer, Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
+    zero_add, Matrix.add_apply, pow_zero, pow_one, pow_two, Matrix.one_apply, Matrix.mul_apply]
+  simp [diamond, Fin.sum_univ_succ]
+
+/-- Reducing two parallel two-edge paths into a single edge with summed path-product weight
+preserves the complete one-source/one-sink boundary measurement matrix. -/
+@[blueprint "lem:signals-parallel-path-reduction"
+  (title := "Parallel two-edge path reduction")
+  (statement := /-- Replacing two parallel two-edge paths of weights $(a_1,b_1)$ and $(a_2,b_2)$
+    between one source and one sink by a single edge of weight $a_1 b_1+a_2 b_2$ preserves
+    the actual source-sink boundary measurement matrix. -/)
+  (proof := /-- Compute the diamond transfer sum and compare with \texttt{oneEdgePath\_transfer}. -/)
+  (latexEnv := "lemma")]
+lemma WeightedAcyclicNetwork.parallel_reduction_boundary
+    (firstIn secondIn firstOut secondOut : ℝ≥0) :
+    (diamond firstIn secondIn firstOut secondOut).boundaryMeasurement
+      (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 3) =
+    (oneEdgePath (firstIn * firstOut + secondIn * secondOut)).boundaryMeasurement
+      (fun _ : Fin 1 => 0) (fun _ : Fin 1 => 1) := by
+  apply Matrix.ext
+  intro source sink
+  change (diamond firstIn secondIn firstOut secondOut).transfer 0 3 =
+    (oneEdgePath (firstIn * firstOut + secondIn * secondOut)).transfer 0 1
+  rw [diamond_transfer, oneEdgePath_transfer]
+
 end Signals.Plabic
