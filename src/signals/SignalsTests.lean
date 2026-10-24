@@ -4660,4 +4660,22 @@ example (θ ϖ x y : ℝ) :
   have h_orb := toyMercuryOrbit.gr24TensorSplat_identities 1 (-1) 3 2 (by norm_num) (by norm_num) ϖ
   exact ⟨h_prop.2.2.2.1, h_prop.2.2.2.2.2, h_ddf.2.1, h_ddf.2.2, h_orb.1, h_orb.2.2⟩
 
+/-- Complex Gr_C(2,4) twistor wavepacket representation on a NormedTensorGaussianSplat2D
+and core repulsive Bohm quantum potential scaling Q_core^DDF ∝ γ_φ(v)² + 1. -/
+example (M_C : Matrix (Fin 2) (Fin 4) ℂ) (θ x y : ℝ) :
+    let splat_ddf := toyMovingSheath.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
+    splat_ddf.complexTwistorIntensity M_C x y =
+      splat_ddf.eval x y *
+        Complex.normSq
+          (Signals.Geometry.complexTwoRowMinor M_C 0 2 *
+            Signals.Geometry.complexTwoRowMinor M_C 1 3) ∧
+    0 < splat_ddf.coreBohmPotential 1 1 ∧
+    splat_ddf.coreBohmPotential 1 1 =
+      (1 ^ 2 / (4 * 1 * 2 ^ 2)) * (toyMovingSheath.jammingFactor ^ 2 + 1) := by
+  intro splat_ddf
+  have h_tw := splat_ddf.complexTwistor_representation_identities M_C x y
+  have h_bohm := NormedTensorGaussianSplat2D.coreBohmPotential_identities
+    toyMovingSheath splat_ddf 0 0 5 2 1 1 θ (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_tw.2.1, h_bohm.1, h_bohm.2.2⟩
+
 end SignalsTests

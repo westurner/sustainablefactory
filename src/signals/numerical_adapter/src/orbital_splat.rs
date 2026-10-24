@@ -495,6 +495,44 @@ impl NormedTensorGaussianSplat2D {
         self.weight * self.norm_factor() * (-0.5 * self.mahalanobis_sq(x, y)).exp()
     }
 
+    /// Evaluate the complex $Gr_{\mathbb{C}}(2, 4)$ twistor wavepacket
+    /// $\Psi_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = \sqrt{G(x, y)}\,(w_A^{\mathbb{C}}(M_{\mathbb{C}}) + w_B^{\mathbb{C}}(M_{\mathbb{C}}))$,
+    /// matching `Signals.DDF.NormedTensorGaussianSplat2D.complexTwistorWavepacket`.
+    pub fn complex_twistor_wavepacket(
+        &self,
+        m_c: &[[Complex64; 4]; 2],
+        x: f64,
+        y: f64,
+    ) -> Complex64 {
+        let g = self.eval(x, y).max(0.0).sqrt();
+        let w_a = two_row_minor_complex(m_c, 0, 1).mul(two_row_minor_complex(m_c, 2, 3));
+        let w_b = two_row_minor_complex(m_c, 0, 3).mul(two_row_minor_complex(m_c, 1, 2));
+        let sum = w_a.add(w_b);
+        Complex64::new(g * sum.re, g * sum.im)
+    }
+
+    /// Evaluate the Madelung intensity $I_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = |\Psi_{\mathrm{splat}}|^2$
+    /// of a complex $Gr_{\mathbb{C}}(2, 4)$ twistor Gaussian splat, matching
+    /// `Signals.DDF.NormedTensorGaussianSplat2D.complexTwistorIntensity`.
+    pub fn complex_twistor_intensity(
+        &self,
+        m_c: &[[Complex64; 4]; 2],
+        x: f64,
+        y: f64,
+    ) -> f64 {
+        self.complex_twistor_wavepacket(m_c, x, y).norm_sq()
+    }
+
+    /// Repulsive core Bohm quantum potential
+    /// $Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2}{4m}(\sigma_1^{-2} + \sigma_2^{-2}) = \frac{\hbar^2 \operatorname{Tr}\Sigma}{4m \det\Sigma}$,
+    /// matching `Signals.DDF.NormedTensorGaussianSplat2D.coreBohmPotential`.
+    #[inline]
+    pub fn core_bohm_potential(&self, m_boson: f64, hbar: f64) -> f64 {
+        let s1_sq = self.sigma1 * self.sigma1;
+        let s2_sq = self.sigma2 * self.sigma2;
+        ((hbar * hbar) / (4.0 * m_boson)) * (1.0 / s1_sq + 1.0 / s2_sq)
+    }
+
     /// Pack into the two `vec4` (`[f32; 4]`) uniform slots expected by `orbital_splat.frag.glsl`.
     pub fn to_glsl_uniform_pair(&self) -> ([f32; 4], [f32; 4]) {
         (
@@ -842,6 +880,25 @@ mod tests {
                 .abs()
                 < 1e-12
         );
+
+        // Verify core Bohm quantum potential Q_core = (hbar^2 / (4 m sigma0^2)) * (gamma_phi^2 + 1)
+        let q_core = ddf_splat.core_bohm_potential(1.0, 1.0);
+        let expected_q = (1.0 / (4.0 * 1.0 * sigma0 * sigma0))
+            * (expected_jamming * expected_jamming + 1.0);
+        assert!((q_core - expected_q).abs() < 1e-12);
+
+        // Verify complex Gr_C(2,4) twistor splat intensity matches G(x,y) * |Delta_02^C Delta_13^C|^2
+        let m_c = orbit.gr24_precession_matrix(Some(0.42));
+        let crossing =
+            two_row_minor_complex(&m_c, 0, 2).mul(two_row_minor_complex(&m_c, 1, 3));
+        let i_tw = gr24_splat.complex_twistor_intensity(&m_c, 0.25, -0.15);
+        assert!((i_tw - gr24_splat.eval(0.25, -0.15) * crossing.norm_sq()).abs() < 1e-12);
+        // Dark-fringe twistor configuration (z1 = 1, z2 = -1 => w_A + w_B = 0) gives zero splat intensity
+        let m_dark = complex_gr24_channel_matrix(
+            Complex64::new(1.0, 0.0),
+            Complex64::new(-1.0, 0.0),
+        );
+        assert!(gr24_splat.complex_twistor_intensity(&m_dark, 0.0, 0.0).abs() < 1e-12);
     }
 
     #[test]

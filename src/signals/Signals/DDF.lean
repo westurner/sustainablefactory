@@ -2716,4 +2716,186 @@ theorem PlanetaryOrbit.gr24TensorSplat_identities
   refine ⟨h_tr, h_det1, ?_⟩
   rw [h_det1, h_slr]
 
+/-- **Complex $Gr_{\mathbb{C}}(2,4)$ Twistor Wavepacket on a Normed Tensor Gaussian Splat**:
+Given a spatial Gaussian envelope `splat : NormedTensorGaussianSplat2D` and a
+complex $2 \times 4$ Grassmannian twistor matrix $M_{\mathbb{C}} \in \mathbb{C}^{2 \times 4}$,
+the coherent twistor wavepacket weights the square-root Gaussian amplitude
+$\sqrt{G(x, y)}$ by the sum of the two uncrossed complex Plücker channel amplitudes
+$w_A^{\mathbb{C}}(M_{\mathbb{C}}) + w_B^{\mathbb{C}}(M_{\mathbb{C}})$. -/
+@[blueprint "def:signals-ddf-splat2d-complex-twistor-wavepacket"
+  (title := "Complex Gr_C(2,4) twistor wavepacket on a NormedTensorGaussianSplat2D")
+  (statement := /-- For \texttt{splat : NormedTensorGaussianSplat2D} and
+    $M_{\mathbb C}\in\mathbb C^{2\times 4}$, define
+    $\Psi_{\mathrm{splat}}(M_{\mathbb C};x,y) = \sqrt{G(x,y)}\,\bigl(w_A^{\mathbb C}(M_{\mathbb C})+w_B^{\mathbb C}(M_{\mathbb C})\bigr)$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.complexTwistorWavepacket
+    (splat : NormedTensorGaussianSplat2D) (M_C : Matrix (Fin 2) (Fin 4) ℂ)
+    (x y : ℝ) : ℂ :=
+  ↑(Real.sqrt (splat.eval x y)) *
+    (complexPluckerSinkAmplitudeA M_C + complexPluckerSinkAmplitudeB M_C)
+
+/-- **Madelung Intensity of a Complex $Gr_{\mathbb{C}}(2,4)$ Twistor Gaussian Splat**:
+$I_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = \bigl|\Psi_{\mathrm{splat}}(M_{\mathbb{C}}; x, y)\bigr|^2$. -/
+@[blueprint "def:signals-ddf-splat2d-complex-twistor-intensity"
+  (title := "Madelung intensity of a complex Gr_C(2,4) twistor Gaussian splat")
+  (statement := /-- Define $I_{\mathrm{splat}}(M_{\mathbb C};x,y) =
+    \operatorname{normSq}\bigl(\Psi_{\mathrm{splat}}(M_{\mathbb C};x,y)\bigr)$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.complexTwistorIntensity
+    (splat : NormedTensorGaussianSplat2D) (M_C : Matrix (Fin 2) (Fin 4) ℂ)
+    (x y : ℝ) : ℝ :=
+  Complex.normSq (splat.complexTwistorWavepacket M_C x y)
+
+/-- **How Normed Tensor Gaussian Splatters Represent $Gr_{\mathbb{C}}(2,4)$ Twistors (Coherent Plücker Factorization & Interference Expansion)**:
+For any `splat : NormedTensorGaussianSplat2D` and any $M_{\mathbb{C}} \in \mathbb{C}^{2 \times 4}$:
+1. By the 3-term complex Plücker relation, the twistor wavepacket factors through the
+   crossing Plücker minor product:
+   $\Psi_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = \sqrt{G(x,y)}\,\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}})$,
+2. Its Madelung intensity equals the normed Gaussian envelope $G(x,y)$ times the
+   squared modulus of the crossing Plücker product, and expands into the two channel
+   densities $|w_A^{\mathbb{C}}|^2 + |w_B^{\mathbb{C}}|^2$ plus the coherent twistor
+   phase cross-term $2\operatorname{Re}(w_A^{\mathbb{C}} \overline{w_B^{\mathbb{C}}})$, and
+3. At any destructive twistor phase configuration where $\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = 0$
+   (i.e. $w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = 0$), the splat intensity vanishes
+   identically ($I_{\mathrm{splat}} = 0$), resolving the limitation of purely real
+   positive Gaussian splats. -/
+@[blueprint "thm:signals-ddf-splat2d-complex-twistor-representation"
+  (title := "Complex Gr_C(2,4) twistor representation theorem for NormedTensorGaussianSplat2D")
+  (statement := /-- For any \texttt{splat : NormedTensorGaussianSplat2D} and $M_{\mathbb C}\in\mathbb C^{2\times 4}$:
+    (1) $\Psi_{\mathrm{splat}}(M_{\mathbb C};x,y) = \sqrt{G(x,y)}\,\Delta_{02}^{\mathbb C}(M_{\mathbb C})\Delta_{13}^{\mathbb C}(M_{\mathbb C})$,
+    (2) $I_{\mathrm{splat}}(M_{\mathbb C};x,y) = G(x,y)\,\bigl|\Delta_{02}^{\mathbb C}(M_{\mathbb C})\Delta_{13}^{\mathbb C}(M_{\mathbb C})\bigr|^2
+    = G(x,y)\,\bigl(|w_A^{\mathbb C}|^2 + |w_B^{\mathbb C}|^2 + 2\operatorname{Re}(w_A^{\mathbb C}\,\overline{w_B^{\mathbb C}})\bigr)$, and
+    (3) if $w_A^{\mathbb C}(M_{\mathbb C})+w_B^{\mathbb C}(M_{\mathbb C})=0$, then $I_{\mathrm{splat}}(M_{\mathbb C};x,y)=0$. -/)
+  (proof := /-- Apply \texttt{complexGr24\_crossing\_eq\_channel\_sum}, factor
+    $\operatorname{normSq}(\uparrow\sqrt{G(x,y)})=G(x,y)$ using $G(x,y)\ge 0$ from
+    \texttt{eval\_properties}, and expand $\operatorname{normSq}(w_A^{\mathbb C}+w_B^{\mathbb C})$. -/)]
+theorem NormedTensorGaussianSplat2D.complexTwistor_representation_identities
+    (splat : NormedTensorGaussianSplat2D) (M_C : Matrix (Fin 2) (Fin 4) ℂ)
+    (x y : ℝ) :
+    splat.complexTwistorWavepacket M_C x y =
+      ↑(Real.sqrt (splat.eval x y)) *
+        (complexTwoRowMinor M_C 0 2 * complexTwoRowMinor M_C 1 3) ∧
+    splat.complexTwistorIntensity M_C x y =
+      splat.eval x y *
+        Complex.normSq (complexTwoRowMinor M_C 0 2 * complexTwoRowMinor M_C 1 3) ∧
+    splat.complexTwistorIntensity M_C x y =
+      splat.eval x y *
+        (Complex.normSq (complexPluckerSinkAmplitudeA M_C) +
+          Complex.normSq (complexPluckerSinkAmplitudeB M_C) +
+          2 * ((complexPluckerSinkAmplitudeA M_C).re *
+                (complexPluckerSinkAmplitudeB M_C).re +
+              (complexPluckerSinkAmplitudeA M_C).im *
+                (complexPluckerSinkAmplitudeB M_C).im)) ∧
+    (complexPluckerSinkAmplitudeA M_C + complexPluckerSinkAmplitudeB M_C = 0 →
+      splat.complexTwistorIntensity M_C x y = 0) := by
+  have h_eval_nonneg : 0 ≤ splat.eval x y := (splat.eval_properties x y).2.2.2.1
+  have h_plucker :
+      complexPluckerSinkAmplitudeA M_C + complexPluckerSinkAmplitudeB M_C =
+        complexTwoRowMinor M_C 0 2 * complexTwoRowMinor M_C 1 3 := by
+    unfold complexPluckerSinkAmplitudeA complexPluckerSinkAmplitudeB
+    exact (complexGr24_crossing_eq_channel_sum M_C).symm
+  have h_wp :
+      splat.complexTwistorWavepacket M_C x y =
+        ↑(Real.sqrt (splat.eval x y)) *
+          (complexTwoRowMinor M_C 0 2 * complexTwoRowMinor M_C 1 3) := by
+    unfold NormedTensorGaussianSplat2D.complexTwistorWavepacket
+    rw [h_plucker]
+  have h_norm_sqrt :
+      Complex.normSq (↑(Real.sqrt (splat.eval x y)) : ℂ) = splat.eval x y := by
+    rw [Complex.normSq_ofReal, ← sq, Real.sq_sqrt h_eval_nonneg]
+  have h_int1 :
+      splat.complexTwistorIntensity M_C x y =
+        splat.eval x y *
+          Complex.normSq (complexTwoRowMinor M_C 0 2 * complexTwoRowMinor M_C 1 3) := by
+    unfold NormedTensorGaussianSplat2D.complexTwistorIntensity
+    rw [h_wp, Complex.normSq_mul, h_norm_sqrt]
+  have h_int2 :
+      splat.complexTwistorIntensity M_C x y =
+        splat.eval x y *
+          (Complex.normSq (complexPluckerSinkAmplitudeA M_C) +
+            Complex.normSq (complexPluckerSinkAmplitudeB M_C) +
+            2 * ((complexPluckerSinkAmplitudeA M_C).re *
+                  (complexPluckerSinkAmplitudeB M_C).re +
+                (complexPluckerSinkAmplitudeA M_C).im *
+                  (complexPluckerSinkAmplitudeB M_C).im)) := by
+    unfold NormedTensorGaussianSplat2D.complexTwistorIntensity
+      NormedTensorGaussianSplat2D.complexTwistorWavepacket
+    rw [Complex.normSq_mul, h_norm_sqrt]
+    congr 1
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im]
+    ring
+  refine ⟨h_wp, h_int1, h_int2, ?_⟩
+  intro h_zero
+  unfold NormedTensorGaussianSplat2D.complexTwistorIntensity
+    NormedTensorGaussianSplat2D.complexTwistorWavepacket
+  rw [h_zero, mul_zero, Complex.normSq_zero]
+
+/-- **Repulsive Core Bohm Quantum Potential of a Normed 2D Tensor Gaussian Splat**:
+At the center $(x_0, y_0)$ of a 2D anisotropic Gaussian splat with principal widths
+$\sigma_1, \sigma_2 > 0$, the normalized Laplacian of $\sqrt{G(x,y)}$ is
+$\frac{\nabla^2 \sqrt{G}}{\sqrt{G}}\big|_{(x_0,y_0)} = -\frac{1}{2}(\sigma_1^{-2} + \sigma_2^{-2})$,
+so the regularized Bohm quantum potential is finite and strictly repulsive:
+$Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2}{4m}\left(\frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2}\right) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4m\,\det\Sigma}$. -/
+@[blueprint "def:signals-ddf-splat2d-core-bohm-potential"
+  (title := "Core repulsive Bohm quantum potential Q_core(Σ) of a 2D Tensor Gaussian Splat")
+  (statement := /-- For \texttt{splat : NormedTensorGaussianSplat2D}, boson mass $m$, and $\hbar$,
+    define $Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2}{4m}\left(\frac{1}{\sigma_1^2}+\frac{1}{\sigma_2^2}\right)$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.coreBohmPotential
+    (splat : NormedTensorGaussianSplat2D) (m_boson hbar : ℝ) : ℝ :=
+  (hbar ^ 2 / (4 * m_boson)) * (1 / splat.sigma1 ^ 2 + 1 / splat.sigma2 ^ 2)
+
+/-- **Core Bohm Quantum Potential Identities & DDF Jamming Scaling**:
+1. For any `splat : NormedTensorGaussianSplat2D`, $m > 0$, and $\hbar \neq 0$,
+   $Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4m\,\det\Sigma} > 0$
+   (regularizing point-core singularities), and
+2. For a DDF moving sheath `s.ddfTensorSplat`, $Q_{\mathrm{core}}$ scales with the
+   squared constitutive jamming factor as
+   $Q_{\mathrm{core}}^{\mathrm{DDF}}(s) = \frac{\hbar^2}{4 m \sigma_0^2}\bigl(\gamma_\varphi(v)^2 + 1\bigr)$. -/
+@[blueprint "thm:signals-ddf-splat2d-core-bohm-identities"
+  (title := "Core Bohm quantum potential trace/determinant identity and DDF γ_φ(v)² + 1 scaling")
+  (statement := /-- For \texttt{splat : NormedTensorGaussianSplat2D} with $m>0$ and $\hbar\ne 0$:
+    (1) $0 < Q_{\mathrm{core}}(\Sigma)$,
+    (2) $Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4m\,\det\Sigma}$, and
+    (3) for \texttt{s.ddfTensorSplat},
+    $Q_{\mathrm{core}}^{\mathrm{DDF}}(s) = \frac{\hbar^2}{4m\sigma_0^2}\bigl(\gamma_\varphi(v)^2 + 1\bigr)$. -/)
+  (proof := /-- Combine $\frac{1}{\sigma_1^2}+\frac{1}{\sigma_2^2}=\frac{\sigma_1^2+\sigma_2^2}{\sigma_1^2\sigma_2^2}$
+    and substitute $\sigma_1=\sigma_0\,\mathcal{V}(s)=\sigma_0\,\gamma_\varphi(v)^{-1}$. -/)]
+theorem NormedTensorGaussianSplat2D.coreBohmPotential_identities
+    {sub : DDFSubstrate} (s : MovingSheath sub)
+    (splat : NormedTensorGaussianSplat2D)
+    (centerX centerY weight sigma0 m_boson hbar orientationAngle : ℝ)
+    (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0)
+    (hm : 0 < m_boson) (h_hbar : hbar ≠ 0) :
+    let splat_ddf := s.ddfTensorSplat centerX centerY weight sigma0 hw h_sigma0 orientationAngle
+    0 < splat.coreBohmPotential m_boson hbar ∧
+      splat.coreBohmPotential m_boson hbar =
+        hbar ^ 2 * splat.covTrace / (4 * m_boson * splat.covDet) ∧
+      splat_ddf.coreBohmPotential m_boson hbar =
+        (hbar ^ 2 / (4 * m_boson * sigma0 ^ 2)) * (s.jammingFactor ^ 2 + 1) := by
+  intro splat_ddf
+  have hs1 : 0 < splat.sigma1 := splat.sigma1_pos
+  have hs2 : 0 < splat.sigma2 := splat.sigma2_pos
+  have hs1_ne : splat.sigma1 ^ 2 ≠ 0 := pow_ne_zero 2 (ne_of_gt hs1)
+  have hs2_ne : splat.sigma2 ^ 2 ≠ 0 := pow_ne_zero 2 (ne_of_gt hs2)
+  have hm_ne : m_boson ≠ 0 := ne_of_gt hm
+  have h_hbar_sq : 0 < hbar ^ 2 := sq_pos_of_ne_zero h_hbar
+  have h_pos : 0 < splat.coreBohmPotential m_boson hbar := by
+    unfold NormedTensorGaussianSplat2D.coreBohmPotential
+    positivity
+  have h_tr_det :
+      splat.coreBohmPotential m_boson hbar =
+        hbar ^ 2 * splat.covTrace / (4 * m_boson * splat.covDet) := by
+    unfold NormedTensorGaussianSplat2D.coreBohmPotential
+      NormedTensorGaussianSplat2D.covTrace NormedTensorGaussianSplat2D.covDet
+    field_simp [hs1_ne, hs2_ne, hm_ne]
+    ring
+  have h_ddf_q :
+      splat_ddf.coreBohmPotential m_boson hbar =
+        (hbar ^ 2 / (4 * m_boson * sigma0 ^ 2)) * (s.jammingFactor ^ 2 + 1) := by
+    dsimp [splat_ddf, MovingSheath.ddfTensorSplat,
+      NormedTensorGaussianSplat2D.coreBohmPotential]
+    rw [(s.visibility_jamming_duality).1]
+    have hs0_ne : sigma0 ≠ 0 := ne_of_gt h_sigma0
+    have hjam_ne : s.jammingFactor ≠ 0 := ne_of_gt s.jammingFactor_pos
+    field_simp [hs0_ne, hjam_ne, hm_ne]
+  exact ⟨h_pos, h_tr_det, h_ddf_q⟩
+
 end Signals.DDF
