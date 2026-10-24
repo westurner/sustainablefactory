@@ -1337,8 +1337,37 @@ Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
   core Bohm relaxation theorems (`MovingSheath.ddfThermalTransport_and_splat_identities`,
   `NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay`).
 
+### Iteration 30: Polaritons (Hopfield Bogoliubov Mixing, Vacuum Rabi Anticrossing, Lyddane--Sachs--Teller Reststrahlen Bands) and Surface Plasmon Polaritons (SPPs) With and Without Tensor Gaussian Splats
+
+Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
+[DDF.lean](../src/signals/Signals/DDF.lean), and
+`src/signals/numerical_adapter/src/polariton_spp.rs`, and documented in
+[grassmannian-polariton-spp-mechanics-paper.myst.md](grassmannian-polariton-spp-mechanics-paper.myst.md):
+
+- **Polariton Hopfield--Rabi Anticrossing, $Gr_{\mathbb{C}}(2,4)$ Hybridization Complementarity, & Lyddane--Sachs--Teller Reststrahlen Theorem (`polariton_hopfield_rabi_and_lst_identities`)**:
+  Proved trace conservation $\omega_{\mathrm{UP}} + \omega_{\mathrm{LP}} = \omega_{\mathrm{ph}} + \omega_{\mathrm{ex}}$,
+  avoided crossing $\omega_{\mathrm{UP}} - \omega_{\mathrm{LP}} = \sqrt{\Delta_{\mathrm{pol}}^2 + 4g^2} \ge 2g > 0$,
+  exact inverse Rabi coupling recovery $\operatorname{reconstructPolaritonRabiCouplingSq}(\omega_{\mathrm{ph}}, \omega_{\mathrm{ex}}, \omega_{\mathrm{UP}}, \omega_{\mathrm{LP}}) = g^2$,
+  Hopfield photon/matter normalization $|C|^2 + |X|^2 = 1$ with Pythagorean $Gr_{\mathbb{C}}(2,4)$
+  complementarity $4|C|^2|X|^2 = 1 - d_{\mathrm{Hopfield}}^2 = \frac{4g^2}{\Delta_{\mathrm{pol}}^2 + 4g^2} > 0$,
+  and the Lyddane--Sachs--Teller static limit $\varepsilon_{\mathrm{pol}}(0) = \varepsilon_\infty \omega_{\mathrm{LO}}^2/\omega_{\mathrm{TO}}^2$,
+  ENZ bulk longitudinal polariton cutoff $\varepsilon_{\mathrm{pol}}(\omega_{\mathrm{LO}}) = 0$,
+  and Reststrahlen surface-polariton stop-band $\varepsilon_{\mathrm{pol}}(\omega) < 0$ for $\omega \in (\omega_{\mathrm{TO}}, \omega_{\mathrm{LO}})$.
+- **Surface Plasmon Polaritons (SPPs) Without and With Normed Tensor Gaussian Splats (`MovingSheath.sppContinuum_gr24_and_semigroup_identities`, `MovingSheath.sppTensorSplat_and_thermal_identities`)**:
+  Proved **without splats** that $n_{\mathrm{SPP}}^2 - \varepsilon_d = \frac{\varepsilon_d^2}{|\varepsilon_m| - \varepsilon_d} > 0$
+  (momentum outside the dielectric light cone), $\frac{n_{\mathrm{SPP}}^2 - \varepsilon_d}{n_{\mathrm{SPP}}^2 + |\varepsilon_m|} = \frac{\varepsilon_d^2}{|\varepsilon_m|^2}$,
+  the $Gr_{\mathbb{C}}(2,4)$ Pluecker skin-depth ratio $\frac{|w_A^{\mathbb{C}}(M_{\mathrm{SPP}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{SPP}})|^2} = \frac{1 + \chi_{\mathrm{SPP}}}{1 - \chi_{\mathrm{SPP}}} = \frac{|\varepsilon_m|}{\varepsilon_d} = \frac{\delta_d}{\delta_m} > 1$,
+  spatial propagation semigroup identity/additivity (`evolveContinuumSppPropagation`),
+  and conductor-side evanescent Bohm amplification $Q_{\mathrm{cont}}(m, \hbar, \kappa_m) = (|\varepsilon_m|/\varepsilon_d)^2 Q_{\mathrm{cont}}(m, \hbar, \kappa_d)$;
+  and proved **with normed Tensor Gaussian Splats** (`sppHotspotTensorSplat`) that
+  sub-wavelength confinement ($\sigma_1 = \lambda_0 / n_{\mathrm{SPP}}$, $\sigma_2 = \lambda_0 / (n_{\mathrm{SPP}}\kappa_{\mathrm{ratio}})$)
+  compresses $\det\Sigma_{\mathrm{SPP}} = \frac{\lambda_0^4}{n_{\mathrm{SPP}}^4 \kappa_{\mathrm{ratio}}^2}$,
+  amplifies the core Bohm quantum potential $Q_{\mathrm{core}}(\Sigma_{\mathrm{SPP}}) = \frac{\hbar^2 n_{\mathrm{SPP}}^2(1 + \kappa_{\mathrm{ratio}}^2)}{4 m \lambda_0^2} \ge \frac{\hbar^2}{2 m \lambda_0^2}$,
+  enforces normal-to-longitudinal quantum stress anisotropy $\Pi_{22}^{\mathrm{SPP}} = \kappa_{\mathrm{ratio}}^2 \Pi_{11}^{\mathrm{SPP}}$,
+  and obeys Ohmic-thermal semigroup identity/additivity and monotonic Bohm relaxation.
+
 ```lean
--- Iteration 25-29 verification: Inverse Compton, Raman inversion, and Splat-Free Continuum vs. Tensor Splat DDF Heat Transport & Semigroup/Bohm Relaxation
+-- Iteration 25-30 verification: Inverse Compton, Raman, Polaritons, SPPs, and Splat-Free Continuum vs. Tensor Splat DDF Heat Transport & Semigroup/Bohm Relaxation
 example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
     (m_cv : Signals.DDF.CattaneoVernotteHeatModel)
     (splat : Signals.DDF.NormedTensorGaussianSplat2D)
@@ -1350,12 +1379,22 @@ example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
     let splat_evol := splat.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)
     let splat_evol2 := splat_evol.evolveThermal 1 2 4 (by norm_num) (by norm_num) (by norm_num)
     let splat_sum := splat.evolveThermal 1 2 (3 + 4) (by norm_num) (by norm_num) (by norm_num)
+    let ω_UP := Signals.Scattering.upperPolaritonFreq 7 4 2
+    let ω_LP := Signals.Scattering.lowerPolaritonFreq 7 4 2
+    let M_spp := Signals.DDF.sppGr24Matrix (Signals.DDF.sppPermittivityContrast 2 6) θ
+    let splat_spp := Signals.DDF.sppHotspotTensorSplat 0 0 5 1 10 3
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) θ
     Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_sheath) /
         Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_sheath) =
       Signals.Scattering.inverseComptonDopplerRatio s.beta ∧
     Signals.Scattering.reconstructSpectralDiff
       (Signals.Scattering.ramanAntiStokesFreq 10 2)
       (Signals.Scattering.ramanStokesFreq 10 2) = 10 ∧
+    Signals.Scattering.reconstructPolaritonRabiCouplingSq 7 4 ω_UP ω_LP = 2 ^ 2 ∧
+    Signals.Scattering.lyddaneSachsTellerPermittivity 3 4 6 5 < 0 ∧
+    Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_spp) /
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_spp) = 6 / 2 ∧
+    1 ^ 2 / (2 * 1 * 1 ^ 2) ≤ splat_spp.coreBohmPotential 1 1 ∧
     s.ddfSecondSoundSpeed c_th0 ≤ sub.c ∧
     s.ddfLongitudinalDiffusivity c_th0 m_cv.relaxationTime /
         (c_th0 ^ 2 * m_cv.relaxationTime) =
@@ -1373,10 +1412,18 @@ example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
     splat_evol.covTrace = splat.covTrace + 2 * (1 + 2) * 3 ∧
     splat_evol2 = splat_sum ∧
     splat_evol.coreBohmPotential 1 1 ≤ splat.coreBohmPotential 1 1 := by
-  intro M_sheath M_th kappa1 splat_ddf splat_evol splat_evol2 splat_sum
+  intro M_sheath M_th kappa1 splat_ddf splat_evol splat_evol2 splat_sum ω_UP ω_LP M_spp splat_spp
   have h_ics := s.inverseCompton_gr24_identities 6 1 5 2 0 0
   have h_ram := Signals.Scattering.raman_stokes_antiStokes_gr24_identities
     10 2 (1 / 2) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_pol := Signals.Scattering.polariton_hopfield_rabi_and_lst_identities
+    7 4 2 3 4 6 5 (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_spp_cont := s.sppContinuum_gr24_and_semigroup_identities
+    2 6 (1 / 2) 3 4 10 5 1 1 θ (by norm_num) (by norm_num)
+  have h_spp_splat := s.sppTensorSplat_and_thermal_identities
+    0 0 5 1 10 3 1 2 3 4 1 1 θ 0 0
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   have h_cont := s.ddfThermalTransport_continuum_identities
     c_th0 m_cv.relaxationTime 6 1 5 0 0 4 2 (-1) (3 / 5) θ 2
     hc_pos hc_le m_cv.relaxationTime_pos (by norm_num) (by norm_num)
@@ -1393,7 +1440,9 @@ example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
   have h_semi := Signals.DDF.NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay
     splat 1 2 3 4 1 1
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
-  exact ⟨h_ics.1, h_ram.1, h_cont.2.1, h_cont.2.2.1, h_cont.2.2.2.2.2.1,
+  exact ⟨h_ics.1, h_ram.1, h_pol.2.2.2.1, h_pol.2.2.2.2.2.2.2.2.2.2.2.2,
+    h_spp_cont.2.2.2.2.2.1.trans h_spp_cont.2.2.2.2.2.2.1, h_spp_splat.2.2.2.1,
+    h_cont.2.1, h_cont.2.2.1, h_cont.2.2.2.2.2.1,
     h_cont_semi.2.2.2.2.2.1, h_cont_semi.2.2.2.2.2.2.2.2.1,
     h_th.2.2.2.1, h_th.2.2.2.2.2, h_semi.2.1, h_semi.2.2.2⟩
 

@@ -62,10 +62,16 @@ antisymmetry and Pauli-exclusion vanishing, and their integration with
 \texttt{Signals.Scattering} inverse parameter recovery, unitary two-body flux
 partition, calibrated Baxter $TQ$ residual metrology, relativistic Inverse
 Compton Thomson upshift and Klein--Nishina recoil suppression and inversion
-($\beta=(D-1)/(D+1)$, $\epsilon_{\mathrm{rec}}=D/R_{\mathrm{KN}}-1$), and
+($\beta=(D-1)/(D+1)$, $\epsilon_{\mathrm{rec}}=D/R_{\mathrm{KN}}-1$),
 Stokes/anti-Stokes Raman $Gr_{\mathbb C}(2,4)$ channel inversion, Bose--Einstein
 phonon occupancy ratio $\bar{n}_{\mathrm{BE}}/(\bar{n}_{\mathrm{BE}}+1)=\exp(-\xi)$,
-and exact Boltzmann exponent and absolute temperature $T=\Theta_v/\xi$ inversion.
+and exact Boltzmann exponent and absolute temperature $T=\Theta_v/\xi$ inversion,
+and Polariton Hopfield--Rabi anticrossing ($\omega_{\mathrm{UP}}-\omega_{\mathrm{LP}}=\sqrt{\Delta^2+4g^2}\ge 2g$),
+inverse Rabi coupling recovery ($g^2=\omega_{\mathrm{ph}}\omega_{\mathrm{ex}}-\omega_{\mathrm{UP}}\omega_{\mathrm{LP}}$),
+Pythagorean Hopfield--Pluecker hybridization complementarity
+($4|C|^2|X|^2=1-d_{\mathrm{Hopfield}}^2=4g^2/(\Delta^2+4g^2)$), and
+Lyddane--Sachs--Teller (LST) static, ENZ longitudinal ($\omega=\omega_{\mathrm{LO}}$),
+and Reststrahlen stop-band ($\varepsilon_{\mathrm{pol}}(\omega)<0$) laws.
 
 \inputleanmodule{Signals.QISM}
 \inputleanmodule{Signals.Scattering}
@@ -175,7 +181,14 @@ flux-limiter, continuum Chapman--Kolmogorov mode/flux semigroup, and continuum
 Bohm potential relaxation laws, and $L^1$-conserving thermal splat evolution
 with Chapman--Kolmogorov splat semigroup additivity, monotonic core Bohm
 potential relaxation, and Second-Law covariance determinant growth
-$\det\Sigma(t+\Delta t)>\det\Sigma(t)$) theorems.
+$\det\Sigma(t+\Delta t)>\det\Sigma(t)$, and Surface Plasmon Polariton (SPP)
+dispersion $n_{\mathrm{SPP}}^2=\varepsilon_d|\varepsilon_m|/(|\varepsilon_m|-\varepsilon_d)>\varepsilon_d$,
+$Gr_{\mathbb C}(2,4)$ Pluecker evanescent skin-depth duality
+$|w_A^{\mathbb C}|^2/|w_B^{\mathbb C}|^2=(1+\chi_{\mathrm{SPP}})/(1-\chi_{\mathrm{SPP}})=|\varepsilon_m|/\varepsilon_d$,
+continuum SPP propagation-length semigroup, and sub-wavelength SPP hotspot
+\texttt{NormedTensorGaussianSplat2D} compression and Bohm quantum pressure
+enhancement $Q_{\mathrm{core}}(\Sigma_{\mathrm{SPP}})=\frac{\hbar^2 n_{\mathrm{SPP}}^2(1+\kappa_{\mathrm{ratio}}^2)}{4m\lambda_0^2}$
+both with and without splats) theorems.
 
 \inputleanmodule{Signals.DDF}
 

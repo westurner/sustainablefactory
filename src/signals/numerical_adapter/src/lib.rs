@@ -6,6 +6,7 @@ use std::fmt;
 
 pub mod double_slit;
 pub mod orbital_splat;
+pub mod polariton_spp;
 pub mod thermal_inelastic;
 
 #[cfg(feature = "cylinder")]

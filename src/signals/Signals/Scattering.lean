@@ -1018,4 +1018,208 @@ theorem inelastic_compton_and_raman_temperature_inversion
     exact htol
   exact ⟨h_beta_inv, h_rec_inv, h_T_inv, h_cons⟩
 
+/-! ## Polaritons: Hopfield Bogoliubov Mixing, Vacuum Rabi Anticrossing, $Gr_{\mathbb{C}}(2,4)$ Complementarity, and Lyddane–Sachs–Teller Dispersion -/
+
+/-- Effective polariton Rabi splitting
+$\Omega_{\mathrm{eff}}(\Delta_{\mathrm{pol}}, g_{\mathrm{Rabi}}) = \sqrt{\Delta_{\mathrm{pol}}^2 + 4 g_{\mathrm{Rabi}}^2}$
+for photon–matter detuning $\Delta_{\mathrm{pol}} = \omega_{\mathrm{ph}} - \omega_{\mathrm{ex}}$
+and vacuum Rabi coupling rate $g_{\mathrm{Rabi}}$. -/
+@[blueprint "def:signals-scattering-polariton-rabi-splitting"
+  (title := "Effective polariton Rabi splitting Ω_eff = √(Δ² + 4g²)")
+  (statement := /-- Define $\operatorname{polaritonEffectiveRabiSplitting}(\Delta, g) = \sqrt{\Delta^2 + 4 g^2}$. -/)]
+noncomputable def polaritonEffectiveRabiSplitting (detuning rabiCoupling : ℝ) : ℝ :=
+  Real.sqrt (detuning ^ 2 + 4 * rabiCoupling ^ 2)
+
+/-- Upper polariton (UP) eigenfrequency
+$\omega_{\mathrm{UP}}(\omega_{\mathrm{ph}}, \omega_{\mathrm{ex}}, g_{\mathrm{Rabi}}) = \frac{\omega_{\mathrm{ph}} + \omega_{\mathrm{ex}} + \Omega_{\mathrm{eff}}(\omega_{\mathrm{ph}} - \omega_{\mathrm{ex}}, g_{\mathrm{Rabi}})}{2}$. -/
+@[blueprint "def:signals-scattering-upper-polariton-freq"
+  (title := "Upper polariton eigenfrequency ω_UP")
+  (statement := /-- Define $\operatorname{upperPolaritonFreq}(\omega_{\mathrm{ph}},\omega_{\mathrm{ex}},g)
+    = \frac{1}{2}(\omega_{\mathrm{ph}} + \omega_{\mathrm{ex}} + \operatorname{polaritonEffectiveRabiSplitting}(\omega_{\mathrm{ph}}-\omega_{\mathrm{ex}}, g))$. -/)]
+noncomputable def upperPolaritonFreq (ω_ph ω_ex rabiCoupling : ℝ) : ℝ :=
+  (ω_ph + ω_ex + polaritonEffectiveRabiSplitting (ω_ph - ω_ex) rabiCoupling) / 2
+
+/-- Lower polariton (LP) eigenfrequency
+$\omega_{\mathrm{LP}}(\omega_{\mathrm{ph}}, \omega_{\mathrm{ex}}, g_{\mathrm{Rabi}}) = \frac{\omega_{\mathrm{ph}} + \omega_{\mathrm{ex}} - \Omega_{\mathrm{eff}}(\omega_{\mathrm{ph}} - \omega_{\mathrm{ex}}, g_{\mathrm{Rabi}})}{2}$. -/
+@[blueprint "def:signals-scattering-lower-polariton-freq"
+  (title := "Lower polariton eigenfrequency ω_LP")
+  (statement := /-- Define $\operatorname{lowerPolaritonFreq}(\omega_{\mathrm{ph}},\omega_{\mathrm{ex}},g)
+    = \frac{1}{2}(\omega_{\mathrm{ph}} + \omega_{\mathrm{ex}} - \operatorname{polaritonEffectiveRabiSplitting}(\omega_{\mathrm{ph}}-\omega_{\mathrm{ex}}, g))$. -/)]
+noncomputable def lowerPolaritonFreq (ω_ph ω_ex rabiCoupling : ℝ) : ℝ :=
+  (ω_ph + ω_ex - polaritonEffectiveRabiSplitting (ω_ph - ω_ex) rabiCoupling) / 2
+
+/-- Inverse polariton spectroscopy: reconstructs the squared vacuum Rabi coupling
+$g_{\mathrm{Rabi}}^2 = \omega_{\mathrm{ph}}\,\omega_{\mathrm{ex}} - \omega_{\mathrm{UP}}\,\omega_{\mathrm{LP}}$
+from the bare photon/matter frequencies $(\omega_{\mathrm{ph}}, \omega_{\mathrm{ex}})$ and
+measured upper/lower polariton eigenfrequencies $(\omega_{\mathrm{UP}}, \omega_{\mathrm{LP}})$. -/
+@[blueprint "def:signals-scattering-reconstruct-polariton-rabi-sq"
+  (title := "Inverse polariton reconstruction of squared Rabi coupling g²")
+  (statement := /-- Define $\operatorname{reconstructPolaritonRabiCouplingSq}(\omega_{\mathrm{ph}},\omega_{\mathrm{ex}},\omega_{\mathrm{UP}},\omega_{\mathrm{LP}})
+    = \omega_{\mathrm{ph}}\omega_{\mathrm{ex}} - \omega_{\mathrm{UP}}\omega_{\mathrm{LP}}$. -/)]
+def reconstructPolaritonRabiCouplingSq (ω_ph ω_ex ω_UP ω_LP : ℝ) : ℝ :=
+  ω_ph * ω_ex - ω_UP * ω_LP
+
+/-- Normalized Hopfield barycentric photon–matter asymmetry
+$d_{\mathrm{Hopfield}}(\Delta_{\mathrm{pol}}, g_{\mathrm{Rabi}}) = \frac{\Delta_{\mathrm{pol}}}{\sqrt{\Delta_{\mathrm{pol}}^2 + 4 g_{\mathrm{Rabi}}^2}} \in (-1, 1)$. -/
+@[blueprint "def:signals-scattering-hopfield-barycentric-shift"
+  (title := "Normalized Hopfield barycentric photon-matter asymmetry d_Hopfield")
+  (statement := /-- Define $\operatorname{hopfieldBarycentricShift}(\Delta,g)
+    = \Delta / \operatorname{polaritonEffectiveRabiSplitting}(\Delta,g)$. -/)]
+noncomputable def hopfieldBarycentricShift (detuning rabiCoupling : ℝ) : ℝ :=
+  detuning / polaritonEffectiveRabiSplitting detuning rabiCoupling
+
+/-- Upper-branch Hopfield photon weight $|C|^2 = \frac{1 + d_{\mathrm{Hopfield}}}{2}$. -/
+@[blueprint "def:signals-scattering-hopfield-photon-weight"
+  (title := "Hopfield photon fraction |C|² = (1 + d_Hopfield) / 2")
+  (statement := /-- Define $\operatorname{hopfieldPhotonWeight}(d_{\mathrm{hop}}) = (1 + d_{\mathrm{hop}})/2$. -/)]
+noncomputable def hopfieldPhotonWeight (d_hop : ℝ) : ℝ :=
+  (1 + d_hop) / 2
+
+/-- Upper-branch Hopfield matter (exciton/phonon) weight $|X|^2 = \frac{1 - d_{\mathrm{Hopfield}}}{2}$. -/
+@[blueprint "def:signals-scattering-hopfield-matter-weight"
+  (title := "Hopfield matter fraction |X|² = (1 - d_Hopfield) / 2")
+  (statement := /-- Define $\operatorname{hopfieldMatterWeight}(d_{\mathrm{hop}}) = (1 - d_{\mathrm{hop}})/2$. -/)]
+noncomputable def hopfieldMatterWeight (d_hop : ℝ) : ℝ :=
+  (1 - d_hop) / 2
+
+/-- Lyddane–Sachs–Teller (LST) polariton dielectric function
+$\varepsilon_{\mathrm{pol}}(\omega) = \varepsilon_\infty\,\frac{\omega^2 - \omega_{\mathrm{LO}}^2}{\omega^2 - \omega_{\mathrm{TO}}^2}$
+near a transverse optical ($\omega_{\mathrm{TO}}$) and longitudinal optical ($\omega_{\mathrm{LO}}$)
+phonon or exciton resonance. -/
+@[blueprint "def:signals-scattering-lst-permittivity"
+  (title := "Lyddane-Sachs-Teller polariton dielectric function ε_pol(ω)")
+  (statement := /-- Define $\operatorname{lyddaneSachsTellerPermittivity}(\varepsilon_\infty,\omega_{\mathrm{TO}},\omega_{\mathrm{LO}},\omega)
+    = \varepsilon_\infty (\omega^2 - \omega_{\mathrm{LO}}^2) / (\omega^2 - \omega_{\mathrm{TO}}^2)$. -/)]
+noncomputable def lyddaneSachsTellerPermittivity
+    (eps_inf ω_TO ω_LO ω : ℝ) : ℝ :=
+  eps_inf * (ω ^ 2 - ω_LO ^ 2) / (ω ^ 2 - ω_TO ^ 2)
+
+/-- **Polariton Hopfield–Rabi Anticrossing, Inverse Coupling Recovery, & Lyddane–Sachs–Teller Reststrahlen Theorem**:
+For bare frequencies $\omega_{\mathrm{ph}}, \omega_{\mathrm{ex}} \in \mathbb{R}$, vacuum Rabi coupling
+$g_{\mathrm{Rabi}} > 0$, and LST parameters $\varepsilon_\infty > 0$, $0 < \omega_{\mathrm{TO}} < \omega < \omega_{\mathrm{LO}}$:
+1. **Strict Vacuum Rabi Anticrossing**:
+   $\omega_{\mathrm{UP}} + \omega_{\mathrm{LP}} = \omega_{\mathrm{ph}} + \omega_{\mathrm{ex}}$ and
+   $\omega_{\mathrm{UP}} - \omega_{\mathrm{LP}} = \Omega_{\mathrm{eff}}(\omega_{\mathrm{ph}} - \omega_{\mathrm{ex}}, g_{\mathrm{Rabi}}) \ge 2 g_{\mathrm{Rabi}} > 0$,
+   with exact resonance splitting $\omega_{\mathrm{UP}}(\omega_0, \omega_0, g_{\mathrm{Rabi}}) - \omega_{\mathrm{LP}}(\omega_0, \omega_0, g_{\mathrm{Rabi}}) = 2 g_{\mathrm{Rabi}}$,
+2. **Determinant Invariance & Exact Inverse Rabi Spectroscopy**:
+   $\omega_{\mathrm{UP}}\,\omega_{\mathrm{LP}} = \omega_{\mathrm{ph}}\,\omega_{\mathrm{ex}} - g_{\mathrm{Rabi}}^2$, so
+   `reconstructPolaritonRabiCouplingSq` recovers $g_{\mathrm{Rabi}}^2$ identically,
+3. **Hopfield Normalization & Pythagorean Hybridization Complementarity**:
+   $-1 < d_{\mathrm{Hopfield}} < 1$, $|C|^2 + |X|^2 = 1$, $|C|^2 - |X|^2 = d_{\mathrm{Hopfield}}$, and
+   $$4\,|C|^2\,|X|^2 = 1 - d_{\mathrm{Hopfield}}^2 = \frac{4 g_{\mathrm{Rabi}}^2}{(\omega_{\mathrm{ph}} - \omega_{\mathrm{ex}})^2 + 4 g_{\mathrm{Rabi}}^2} > 0,$$
+4. **Lyddane–Sachs–Teller Static Limit, ENZ Bulk Longitudinal Cutoff, & Reststrahlen Surface-Polariton Window**:
+   - Static limit ($\omega = 0$): $\varepsilon_{\mathrm{pol}}(0) = \varepsilon_\infty \frac{\omega_{\mathrm{LO}}^2}{\omega_{\mathrm{TO}}^2}$,
+   - Epsilon-Near-Zero (ENZ) longitudinal polariton mode ($\omega = \omega_{\mathrm{LO}}$): $\varepsilon_{\mathrm{pol}}(\omega_{\mathrm{LO}}) = 0$,
+   - Reststrahlen stop-band ($\omega_{\mathrm{TO}} < \omega < \omega_{\mathrm{LO}}$): $\varepsilon_{\mathrm{pol}}(\omega) < 0$ (surface-polariton active regime). -/
+@[blueprint "thm:signals-scattering-polariton-hopfield-lst"
+  (title := "Polariton Hopfield-Rabi anticrossing, inverse spectroscopy, and Lyddane-Sachs-Teller Reststrahlen theorem")
+  (statement := /-- For $\omega_{\mathrm{ph}},\omega_{\mathrm{ex}}\in\mathbb R$, $g>0$, $\varepsilon_\infty>0$, and $0<\omega_{\mathrm{TO}}<\omega<\omega_{\mathrm{LO}}$:
+    (1) $\omega_{\mathrm{UP}}+\omega_{\mathrm{LP}}=\omega_{\mathrm{ph}}+\omega_{\mathrm{ex}}$ and $2g \le \omega_{\mathrm{UP}}-\omega_{\mathrm{LP}}$,
+    (2) $\operatorname{reconstructPolaritonRabiCouplingSq}(\omega_{\mathrm{ph}},\omega_{\mathrm{ex}},\omega_{\mathrm{UP}},\omega_{\mathrm{LP}}) = g^2$,
+    (3) $|C|^2+|X|^2=1$ and $4|C|^2|X|^2 = 1 - d_{\mathrm{Hopfield}}^2 = \frac{4g^2}{(\omega_{\mathrm{ph}}-\omega_{\mathrm{ex}})^2+4g^2} > 0$, and
+    (4) $\varepsilon_{\mathrm{pol}}(0) = \varepsilon_\infty\omega_{\mathrm{LO}}^2/\omega_{\mathrm{TO}}^2$, $\varepsilon_{\mathrm{pol}}(\omega_{\mathrm{LO}}) = 0$, and $\varepsilon_{\mathrm{pol}}(\omega) < 0$ for $\omega\in(\omega_{\mathrm{TO}},\omega_{\mathrm{LO}})$. -/)
+  (proof := /-- Expand $\Omega_{\mathrm{eff}}^2 = (\omega_{\mathrm{ph}}-\omega_{\mathrm{ex}})^2 + 4g^2$, clear denominators for
+    $d_{\mathrm{Hopfield}}$, and analyze the signs of $\omega^2-\omega_{\mathrm{LO}}^2<0$ and $\omega^2-\omega_{\mathrm{TO}}^2>0$ in the Reststrahlen band. -/)]
+theorem polariton_hopfield_rabi_and_lst_identities
+    (ω_ph ω_ex g eps_inf ω_TO ω_LO ω : ℝ)
+    (hg_pos : 0 < g) (heps_pos : 0 < eps_inf)
+    (hTO_pos : 0 < ω_TO) (h_gt_TO : ω_TO < ω) (h_lt_LO : ω < ω_LO) :
+    let Δ := ω_ph - ω_ex
+    let ω_UP := upperPolaritonFreq ω_ph ω_ex g
+    let ω_LP := lowerPolaritonFreq ω_ph ω_ex g
+    let d_hop := hopfieldBarycentricShift Δ g
+    let w_ph := hopfieldPhotonWeight d_hop
+    let w_ex := hopfieldMatterWeight d_hop
+    ω_UP + ω_LP = ω_ph + ω_ex ∧
+      ω_UP - ω_LP = polaritonEffectiveRabiSplitting Δ g ∧
+      2 * g ≤ ω_UP - ω_LP ∧
+      reconstructPolaritonRabiCouplingSq ω_ph ω_ex ω_UP ω_LP = g ^ 2 ∧
+      -1 < d_hop ∧
+      d_hop < 1 ∧
+      w_ph + w_ex = 1 ∧
+      w_ph - w_ex = d_hop ∧
+      4 * w_ph * w_ex = 1 - d_hop ^ 2 ∧
+      1 - d_hop ^ 2 = (4 * g ^ 2) / (Δ ^ 2 + 4 * g ^ 2) ∧
+      lyddaneSachsTellerPermittivity eps_inf ω_TO ω_LO 0 =
+        eps_inf * (ω_LO ^ 2 / ω_TO ^ 2) ∧
+      lyddaneSachsTellerPermittivity eps_inf ω_TO ω_LO ω_LO = 0 ∧
+      lyddaneSachsTellerPermittivity eps_inf ω_TO ω_LO ω < 0 := by
+  intro Δ ω_UP ω_LP d_hop w_ph w_ex
+  have h_rad_pos : 0 < Δ ^ 2 + 4 * g ^ 2 := by positivity
+  have h_rad_nonneg : 0 ≤ Δ ^ 2 + 4 * g ^ 2 := le_of_lt h_rad_pos
+  have h_omega_pos : 0 < polaritonEffectiveRabiSplitting Δ g :=
+    Real.sqrt_pos.mpr h_rad_pos
+  have h_omega_ne : polaritonEffectiveRabiSplitting Δ g ≠ 0 := ne_of_gt h_omega_pos
+  have h_omega_sq : (polaritonEffectiveRabiSplitting Δ g) ^ 2 = Δ ^ 2 + 4 * g ^ 2 :=
+    Real.sq_sqrt h_rad_nonneg
+  have h_sum : ω_UP + ω_LP = ω_ph + ω_ex := by
+    dsimp [ω_UP, ω_LP, upperPolaritonFreq, lowerPolaritonFreq]
+    ring
+  have h_diff : ω_UP - ω_LP = polaritonEffectiveRabiSplitting Δ g := by
+    dsimp [ω_UP, ω_LP, upperPolaritonFreq, lowerPolaritonFreq, Δ]
+    ring
+  have h_anticross : 2 * g ≤ ω_UP - ω_LP := by
+    rw [h_diff]
+    unfold polaritonEffectiveRabiSplitting
+    apply Real.le_sqrt_of_sq_le
+    have : 0 ≤ Δ ^ 2 := sq_nonneg Δ
+    linarith
+  have h_rabi_inv : reconstructPolaritonRabiCouplingSq ω_ph ω_ex ω_UP ω_LP = g ^ 2 := by
+    dsimp [reconstructPolaritonRabiCouplingSq, ω_UP, ω_LP, upperPolaritonFreq, lowerPolaritonFreq]
+    have h_prod :
+        (ω_ph + ω_ex + polaritonEffectiveRabiSplitting Δ g) / 2 *
+          ((ω_ph + ω_ex - polaritonEffectiveRabiSplitting Δ g) / 2) =
+        ((ω_ph + ω_ex) ^ 2 - (polaritonEffectiveRabiSplitting Δ g) ^ 2) / 4 := by ring
+    change ω_ph * ω_ex -
+      (ω_ph + ω_ex + polaritonEffectiveRabiSplitting Δ g) / 2 *
+        ((ω_ph + ω_ex - polaritonEffectiveRabiSplitting Δ g) / 2) = g ^ 2
+    rw [h_prod, h_omega_sq]
+    dsimp [Δ]
+    ring
+  have h_dhop_sq_lt : d_hop ^ 2 < 1 := by
+    dsimp [d_hop, hopfieldBarycentricShift]
+    rw [div_pow, h_omega_sq, div_lt_iff₀ h_rad_pos]
+    have : 0 < 4 * g ^ 2 := by positivity
+    linarith
+  have h_dhop_gt : -1 < d_hop := by nlinarith
+  have h_dhop_lt : d_hop < 1 := by nlinarith
+  have h_w_sum : w_ph + w_ex = 1 := by
+    dsimp [w_ph, w_ex, hopfieldPhotonWeight, hopfieldMatterWeight]
+    ring
+  have h_w_diff : w_ph - w_ex = d_hop := by
+    dsimp [w_ph, w_ex, hopfieldPhotonWeight, hopfieldMatterWeight]
+    ring
+  have h_w_prod : 4 * w_ph * w_ex = 1 - d_hop ^ 2 := by
+    dsimp [w_ph, w_ex, hopfieldPhotonWeight, hopfieldMatterWeight]
+    ring
+  have h_comp : 1 - d_hop ^ 2 = (4 * g ^ 2) / (Δ ^ 2 + 4 * g ^ 2) := by
+    dsimp [d_hop, hopfieldBarycentricShift]
+    rw [div_pow, h_omega_sq]
+    have h_ne : Δ ^ 2 + 4 * g ^ 2 ≠ 0 := ne_of_gt h_rad_pos
+    field_simp [h_ne]
+    ring
+  have hTO_sq_ne : ω_TO ^ 2 ≠ 0 := ne_of_gt (sq_pos_of_pos hTO_pos)
+  have h_lst_zero :
+      lyddaneSachsTellerPermittivity eps_inf ω_TO ω_LO 0 =
+        eps_inf * (ω_LO ^ 2 / ω_TO ^ 2) := by
+    unfold lyddaneSachsTellerPermittivity
+    field_simp [hTO_sq_ne]
+    ring
+  have h_lst_lo :
+      lyddaneSachsTellerPermittivity eps_inf ω_TO ω_LO ω_LO = 0 := by
+    unfold lyddaneSachsTellerPermittivity
+    simp
+  have h_lst_rest :
+      lyddaneSachsTellerPermittivity eps_inf ω_TO ω_LO ω < 0 := by
+    unfold lyddaneSachsTellerPermittivity
+    have h_omega_pos' : 0 < ω := lt_trans hTO_pos h_gt_TO
+    have h_LO_pos : 0 < ω_LO := lt_trans h_omega_pos' h_lt_LO
+    have h_num_neg : ω ^ 2 - ω_LO ^ 2 < 0 := by nlinarith
+    have h_den_pos : 0 < ω ^ 2 - ω_TO ^ 2 := by nlinarith
+    have h_prod_neg : eps_inf * (ω ^ 2 - ω_LO ^ 2) < 0 :=
+      mul_neg_of_pos_of_neg heps_pos h_num_neg
+    exact div_neg_of_neg_of_pos h_prod_neg h_den_pos
+  exact ⟨h_sum, h_diff, h_anticross, h_rabi_inv, h_dhop_gt, h_dhop_lt,
+    h_w_sum, h_w_diff, h_w_prod, h_comp, h_lst_zero, h_lst_lo, h_lst_rest⟩
+
 end Signals.Scattering

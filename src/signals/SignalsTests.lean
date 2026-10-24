@@ -4885,4 +4885,71 @@ example (θ : ℝ) :
     h_cont_semi.2.2.2.2.2.2.2.1, h_cont_semi.2.2.2.2.2.2.2.2.1,
     h_cont_semi.2.2.2.2.2.2.2.2.2.1, h_cont_semi.2.2.2.2.2.2.2.2.2.2⟩
 
+/-- Polariton Hopfield-Rabi anticrossing, inverse Rabi spectroscopy,
+Lyddane-Sachs-Teller Reststrahlen stop-band, and Surface Plasmon Polariton (SPP)
+dispersion, Gr_C(2,4) Plücker skin-depth duality, propagation semigroup, and
+sub-wavelength Bohm pressure enhancement both with and without Tensor Gaussian Splats. -/
+example (θ x y : ℝ) :
+    let ω_UP := Signals.Scattering.upperPolaritonFreq 7 4 2
+    let ω_LP := Signals.Scattering.lowerPolaritonFreq 7 4 2
+    let d_hop := Signals.Scattering.hopfieldBarycentricShift (7 - 4) 2
+    let w_ph := Signals.Scattering.hopfieldPhotonWeight d_hop
+    let w_ex := Signals.Scattering.hopfieldMatterWeight d_hop
+    -- Without Splats (Continuum SPP Dispersion, Gr_C(2,4) Plücker Skin-Depth Ratio, and Propagation Semigroup):
+    let n_spp_sq := Signals.DDF.sppEffectiveIndexSq 2 6
+    let chi_spp := Signals.DDF.sppPermittivityContrast 2 6
+    let M_spp := Signals.DDF.sppGr24Matrix chi_spp θ
+    let I_step1 := Signals.DDF.evolveContinuumSppPropagation (1 / 2) 3 10
+    -- With Tensor Gaussian Splats (Sub-Wavelength SPP Hotspot Confinement & Ohmic-Thermal Semigroup):
+    let splat_spp := Signals.DDF.sppHotspotTensorSplat 0 0 5 1 10 3
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) θ
+    let spp_step0 := splat_spp.evolveThermal 1 2 0 (by norm_num) (by norm_num) le_rfl
+    let spp_step1 := splat_spp.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)
+    let spp_step12 := spp_step1.evolveThermal 1 2 4 (by norm_num) (by norm_num) (by norm_num)
+    let spp_step_sum := splat_spp.evolveThermal 1 2 (3 + 4) (by norm_num) (by norm_num) (by norm_num)
+    ω_UP + ω_LP = 7 + 4 ∧
+    2 * 2 ≤ ω_UP - ω_LP ∧
+    Signals.Scattering.reconstructPolaritonRabiCouplingSq 7 4 ω_UP ω_LP = 2 ^ 2 ∧
+    w_ph + w_ex = 1 ∧
+    4 * w_ph * w_ex = 1 - d_hop ^ 2 ∧
+    Signals.Scattering.lyddaneSachsTellerPermittivity 3 4 6 6 = 0 ∧
+    Signals.Scattering.lyddaneSachsTellerPermittivity 3 4 6 5 < 0 ∧
+    2 < n_spp_sq ∧
+    (n_spp_sq - 2) / (n_spp_sq + 6) = 2 ^ 2 / 6 ^ 2 ∧
+    Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_spp) /
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_spp) =
+      Signals.DDF.reconstructSppPermittivityRatio chi_spp ∧
+    Signals.DDF.reconstructSppPermittivityRatio chi_spp = 6 / 2 ∧
+    Signals.DDF.evolveContinuumSppPropagation (1 / 2) 0 10 = 10 ∧
+    Signals.DDF.evolveContinuumSppPropagation (1 / 2) 4 I_step1 =
+      Signals.DDF.evolveContinuumSppPropagation (1 / 2) (3 + 4) 10 ∧
+    Signals.DDF.continuumBohmPotentialMode 1 1 ((6 / 2) * 5) =
+      (6 / 2) ^ 2 * Signals.DDF.continuumBohmPotentialMode 1 1 5 ∧
+    splat_spp.covDet = 1 ^ 4 / (10 ^ 4 * 3 ^ 2) ∧
+    1 ^ 2 / (2 * 1 * 1 ^ 2) ≤ splat_spp.coreBohmPotential 1 1 ∧
+    splat_spp.quantumPressurePrincipal2 1 1 x y =
+      3 ^ 2 * splat_spp.quantumPressurePrincipal1 1 1 x y ∧
+    spp_step0 = splat_spp ∧
+    spp_step12 = spp_step_sum ∧
+    spp_step1.coreBohmPotential 1 1 ≤ splat_spp.coreBohmPotential 1 1 := by
+  intro ω_UP ω_LP d_hop w_ph w_ex n_spp_sq chi_spp M_spp I_step1
+    splat_spp spp_step0 spp_step1 spp_step12 spp_step_sum
+  have h_pol := Signals.Scattering.polariton_hopfield_rabi_and_lst_identities
+    7 4 2 3 4 6 5 (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_spp_cont := toyMovingSheath.sppContinuum_gr24_and_semigroup_identities
+    2 6 (1 / 2) 3 4 10 5 1 1 θ (by norm_num) (by norm_num)
+  have h_spp_splat := toyMovingSheath.sppTensorSplat_and_thermal_identities
+    0 0 5 1 10 3 1 2 3 4 1 1 θ x y
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_pol.1, h_pol.2.2.1, h_pol.2.2.2.1, h_pol.2.2.2.2.2.2.1,
+    h_pol.2.2.2.2.2.2.2.2.1, h_pol.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_pol.2.2.2.2.2.2.2.2.2.2.2.2,
+    h_spp_cont.2.1, h_spp_cont.2.2.1, h_spp_cont.2.2.2.2.2.1,
+    h_spp_cont.2.2.2.2.2.2.1, h_spp_cont.2.2.2.2.2.2.2.2.1,
+    h_spp_cont.2.2.2.2.2.2.2.2.2.1, h_spp_cont.2.2.2.2.2.2.2.2.2.2,
+    h_spp_splat.1, h_spp_splat.2.2.2.1, h_spp_splat.2.2.2.2.1,
+    h_spp_splat.2.2.2.2.2.1, h_spp_splat.2.2.2.2.2.2.1,
+    h_spp_splat.2.2.2.2.2.2.2⟩
+
 end SignalsTests

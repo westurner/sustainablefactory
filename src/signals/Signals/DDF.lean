@@ -4071,4 +4071,336 @@ theorem MovingSheath.ddfContinuum_semigroup_and_bohm_decay
   exact ⟨h_qmax_pos, h_qmax_le, h_q_sq, h_mode_id, h_flux_id,
     h_mode_semi, h_flux_semi, h_bohm_eq, h_bohm_le, h_plucker_diff, h_plucker_le⟩
 
+/-! ## Surface Plasmon Polaritons (SPPs) & Polariton $Gr_{\mathbb{C}}(2,4)$–DDF Mechanics (With and Without Splats) -/
+
+/-- Effective Surface Plasmon Polariton (SPP) refractive index squared
+$n_{\mathrm{SPP}}^2(\varepsilon_d, |\varepsilon_m|) = \frac{\varepsilon_d\,|\varepsilon_m|}{|\varepsilon_m| - \varepsilon_d}$
+at a planar interface between a dielectric ($\varepsilon_d > 0$) and a conductor with
+negative real permittivity $\varepsilon_m = -|\varepsilon_m| < -\varepsilon_d < 0$. -/
+@[blueprint "def:signals-ddf-spp-effective-index-sq"
+  (title := "SPP effective refractive index squared n_SPP² = ε_d |ε_m| / (|ε_m| - ε_d)")
+  (statement := /-- Define $\operatorname{sppEffectiveIndexSq}(\varepsilon_d, |\varepsilon_m|)
+    = \varepsilon_d |\varepsilon_m| / (|\varepsilon_m| - \varepsilon_d)$. -/)]
+noncomputable def sppEffectiveIndexSq (eps_d abs_eps_m : ℝ) : ℝ :=
+  (eps_d * abs_eps_m) / (abs_eps_m - eps_d)
+
+/-- Dimensionless SPP permittivity contrast (barycentric metal–dielectric asymmetry)
+$\chi_{\mathrm{SPP}}(\varepsilon_d, |\varepsilon_m|) = \frac{|\varepsilon_m| - \varepsilon_d}{|\varepsilon_m| + \varepsilon_d} \in (0, 1)$
+for $0 < \varepsilon_d < |\varepsilon_m|$. -/
+@[blueprint "def:signals-ddf-spp-permittivity-contrast"
+  (title := "Dimensionless SPP permittivity contrast χ_SPP = (|ε_m| - ε_d) / (|ε_m| + ε_d)")
+  (statement := /-- Define $\operatorname{sppPermittivityContrast}(\varepsilon_d, |\varepsilon_m|)
+    = (|\varepsilon_m| - \varepsilon_d) / (|\varepsilon_m| + \varepsilon_d)$. -/)]
+noncomputable def sppPermittivityContrast (eps_d abs_eps_m : ℝ) : ℝ :=
+  (abs_eps_m - eps_d) / (abs_eps_m + eps_d)
+
+/-- Inverse SPP permittivity-ratio & evanescent skin-depth-ratio reconstruction:
+given the dimensionless SPP contrast $\chi_{\mathrm{SPP}}$, reconstructs
+$\frac{|\varepsilon_m|}{\varepsilon_d} = \frac{\delta_d}{\delta_m} = \frac{1 + \chi_{\mathrm{SPP}}}{1 - \chi_{\mathrm{SPP}}}$. -/
+@[blueprint "def:signals-ddf-reconstruct-spp-permittivity-ratio"
+  (title := "Inverse SPP reconstruction of |ε_m| / ε_d = (1 + χ_SPP) / (1 - χ_SPP)")
+  (statement := /-- Define $\operatorname{reconstructSppPermittivityRatio}(\chi_{\mathrm{SPP}})
+    = (1 + \chi_{\mathrm{SPP}}) / (1 - \chi_{\mathrm{SPP}})$. -/)]
+noncomputable def reconstructSppPermittivityRatio (chi_spp : ℝ) : ℝ :=
+  (1 + chi_spp) / (1 - chi_spp)
+
+/-- Splat-free complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ matrix representing a
+Surface Plasmon Polariton interface state with contrast $\chi_{\mathrm{SPP}} \in (-1, 1)$
+and phase $\theta$:
+$M_{\mathrm{SPP}}(\chi_{\mathrm{SPP}}, \theta) = \operatorname{ddfThermalGr24Matrix}(\chi_{\mathrm{SPP}}, \theta)$. -/
+@[blueprint "def:signals-ddf-spp-gr24-matrix"
+  (title := "Splat-free complex Gr_C(2,4) Surface Plasmon Polariton matrix")
+  (statement := /-- Define $\operatorname{sppGr24Matrix}(\chi_{\mathrm{SPP}},\theta)
+    = \operatorname{ddfThermalGr24Matrix}(\chi_{\mathrm{SPP}},\theta)$. -/)]
+noncomputable def sppGr24Matrix (chi_spp θ : ℝ) : Matrix (Fin 2) (Fin 4) ℂ :=
+  ddfThermalGr24Matrix chi_spp θ
+
+/-- Splat-free continuum SPP propagation-length attenuation along the interface ($x \ge 0$)
+with Ohmic damping constant $\gamma_{\mathrm{SPP}} = 2\operatorname{Im}(k_{\mathrm{SPP}}) \ge 0$:
+$I_{\mathrm{SPP}}(x + L) = I_0\,\exp(-\gamma_{\mathrm{SPP}}\,L)$. -/
+@[blueprint "def:signals-ddf-continuum-spp-propagation"
+  (title := "Splat-free continuum SPP propagation-length attenuation I_0 * exp(-γ_SPP L)")
+  (statement := /-- Define $\operatorname{evolveContinuumSppPropagation}(\gamma_{\mathrm{SPP}}, L, I_0)
+    = I_0\,\exp(-\gamma_{\mathrm{SPP}} L)$. -/)]
+noncomputable def evolveContinuumSppPropagation (gamma_spp L I0 : ℝ) : ℝ :=
+  I0 * Real.exp (-gamma_spp * L)
+
+/-- Normed 2D Anisotropic Tensor Gaussian Splat representing a sub-wavelength
+Surface Plasmon Polariton (SPP) hotspot at a metal–dielectric or N-LIG graphene–vitrimer
+interface, with longitudinal confinement width $\sigma_1 = \lambda_0 / n_{\mathrm{SPP}} > 0$
+and normal evanescent skin-depth width $\sigma_2 = \lambda_0 / (n_{\mathrm{SPP}} \kappa_{\mathrm{ratio}}) > 0$. -/
+@[blueprint "def:signals-ddf-spp-hotspot-tensor-splat"
+  (title := "Sub-wavelength SPP hotspot NormedTensorGaussianSplat2D")
+  (statement := /-- Construct a \texttt{NormedTensorGaussianSplat2D} for an SPP hotspot with
+    $\sigma_1 = \lambda_0 / n_{\mathrm{SPP}}$ and $\sigma_2 = \lambda_0 / (n_{\mathrm{SPP}}\kappa_{\mathrm{ratio}})$. -/)]
+noncomputable def sppHotspotTensorSplat
+    (cx cy weight lam0 n_spp kappa_ratio : ℝ)
+    (hw : 0 ≤ weight) (hlam : 0 < lam0) (hn : 0 < n_spp) (hκ : 0 < kappa_ratio)
+    (θ : ℝ) : NormedTensorGaussianSplat2D :=
+  { centerX := cx
+    centerY := cy
+    weight := weight
+    weight_nonneg := hw
+    sigma1 := lam0 / n_spp
+    sigma1_pos := div_pos hlam hn
+    sigma2 := lam0 / (n_spp * kappa_ratio)
+    sigma2_pos := div_pos hlam (mul_pos hn hκ)
+    orientationAngle := θ }
+
+/-- **Splat-Free Continuum Surface Plasmon Polariton (SPP) Dispersion, $Gr_{\mathbb{C}}(2,4)$ Plücker Skin-Depth Duality, & Spatial Semigroup Theorem**:
+Establishes the **splat-free continuum** mechanics of Surface Plasmon Polaritons at a
+planar dielectric–conductor interface ($0 < \varepsilon_d < |\varepsilon_m|$):
+1. **Strict Sub-Wavelength Momentum Enhancement Outside the Light Cone**:
+   $$n_{\mathrm{SPP}}^2(\varepsilon_d, |\varepsilon_m|) - \varepsilon_d = \frac{\varepsilon_d^2}{|\varepsilon_m| - \varepsilon_d} > 0 \implies \varepsilon_d < n_{\mathrm{SPP}}^2(\varepsilon_d, |\varepsilon_m|),$$
+   proving that the SPP wavevector $k_{\mathrm{SPP}} = k_0 n_{\mathrm{SPP}} > k_0\sqrt{\varepsilon_d}$
+   cannot be excited on a flat interface without a prism, grating, or near-field momentum boost,
+2. **Exact Normal Evanescent Decay Ratio**:
+   $$\frac{n_{\mathrm{SPP}}^2 - \varepsilon_d}{n_{\mathrm{SPP}}^2 + |\varepsilon_m|} = \frac{\varepsilon_d^2}{|\varepsilon_m|^2},$$
+   showing that the normal evanescent decay constants $\kappa_d, \kappa_m$ satisfy
+   $\kappa_d / \kappa_m = \varepsilon_d / |\varepsilon_m| < 1$ (so the dielectric skin depth
+   $\delta_d = 1/\kappa_d$ exceeds the metal skin depth $\delta_m = 1/\kappa_m$ by $|\varepsilon_m|/\varepsilon_d > 1$),
+3. **Splat-Free $Gr_{\mathbb{C}}(2,4)$ Plücker Channel Ratio & Inverse Permittivity-Ratio Recovery**:
+   For $\chi_{\mathrm{SPP}} = \operatorname{sppPermittivityContrast}(\varepsilon_d, |\varepsilon_m|) \in (0, 1)$
+   and $M_{\mathrm{SPP}} = \operatorname{sppGr24Matrix}(\chi_{\mathrm{SPP}}, \theta)$,
+   $$0 < \chi_{\mathrm{SPP}} < 1, \qquad
+   \frac{|w_A^{\mathbb{C}}(M_{\mathrm{SPP}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{SPP}})|^2}
+   = \operatorname{reconstructSppPermittivityRatio}(\chi_{\mathrm{SPP}})
+   = \frac{|\varepsilon_m|}{\varepsilon_d} > 1,$$
+   $$|w_A^{\mathbb{C}}(M_{\mathrm{SPP}})|^2\,|w_B^{\mathbb{C}}(M_{\mathrm{SPP}})|^2
+   = 1 - \chi_{\mathrm{SPP}}^2
+   = \frac{4\,\varepsilon_d\,|\varepsilon_m|}{(|\varepsilon_m| + \varepsilon_d)^2} > 0,$$
+4. **Splat-Free Continuum SPP Propagation Semigroup Identity & Additivity**:
+   $$\operatorname{evolveContinuumSppPropagation}(\gamma_{\mathrm{SPP}}, 0, I_0) = I_0,$$
+   $$\operatorname{evolveContinuumSppPropagation}\bigl(\gamma_{\mathrm{SPP}}, L_2, \operatorname{evolveContinuumSppPropagation}(\gamma_{\mathrm{SPP}}, L_1, I_0)\bigr)
+   = \operatorname{evolveContinuumSppPropagation}(\gamma_{\mathrm{SPP}}, L_1 + L_2, I_0),$$
+5. **Splat-Free Evanescent Bohm Quantum-Potential Enhancement in the Conductor**:
+   For normal decay scale $\kappa_m = (|\varepsilon_m| / \varepsilon_d)\,\kappa_d$ with $\kappa_d > 0$ and $m > 0$,
+   $$Q_{\mathrm{cont}}(m, \hbar, \kappa_m) = \left(\frac{|\varepsilon_m|}{\varepsilon_d}\right)^2 Q_{\mathrm{cont}}(m, \hbar, \kappa_d) \ge Q_{\mathrm{cont}}(m, \hbar, \kappa_d).$$ -/
+@[blueprint "thm:signals-ddf-spp-continuum-gr24-semigroup"
+  (title := "Splat-free continuum SPP dispersion, Gr_C(2,4) Pluecker skin-depth duality, and spatial semigroup theorem")
+  (statement := /-- For $0 < \varepsilon_d < |\varepsilon_m|$, $\kappa_d > 0$, $m > 0$, and $\theta \in \mathbb R$:
+    (1) $n_{\mathrm{SPP}}^2 - \varepsilon_d = \varepsilon_d^2 / (|\varepsilon_m| - \varepsilon_d) > 0$,
+    (2) $(n_{\mathrm{SPP}}^2 - \varepsilon_d)/(n_{\mathrm{SPP}}^2 + |\varepsilon_m|) = \varepsilon_d^2 / |\varepsilon_m|^2$,
+    (3) $0 < \chi_{\mathrm{SPP}} < 1$, $|w_A^{\mathbb C}(M_{\mathrm{SPP}})|^2 / |w_B^{\mathbb C}(M_{\mathrm{SPP}})|^2 = \operatorname{reconstructSppPermittivityRatio}(\chi_{\mathrm{SPP}}) = |\varepsilon_m|/\varepsilon_d$, and $|w_A^{\mathbb C}|^2|w_B^{\mathbb C}|^2 = 4\varepsilon_d|\varepsilon_m|/(|\varepsilon_m|+\varepsilon_d)^2$,
+    (4) $\operatorname{evolveContinuumSppPropagation}$ satisfies identity at $L=0$ and semigroup additivity over $L_1+L_2$, and
+    (5) $\operatorname{continuumBohmPotentialMode}(m,\hbar,(|\varepsilon_m|/\varepsilon_d)\kappa_d) = (|\varepsilon_m|/\varepsilon_d)^2 \operatorname{continuumBohmPotentialMode}(m,\hbar,\kappa_d)$. -/)
+  (proof := /-- Clear $|\varepsilon_m|-\varepsilon_d>0$ and $|\varepsilon_m|+\varepsilon_d>0$ by field simplification,
+    use `complexGr24ChannelMatrix_minors` for $M_{\mathrm{SPP}}$, and apply $\exp(a)\exp(b)=\exp(a+b)$
+    for the spatial propagation semigroup. -/)]
+theorem MovingSheath.sppContinuum_gr24_and_semigroup_identities
+    {sub : DDFSubstrate} (_s : MovingSheath sub)
+    (eps_d abs_eps_m gamma_spp L1 L2 I0 kappa_d m_boson hbar θ : ℝ)
+    (heps_d : 0 < eps_d) (h_lt_m : eps_d < abs_eps_m) :
+    let n_sq := sppEffectiveIndexSq eps_d abs_eps_m
+    let chi := sppPermittivityContrast eps_d abs_eps_m
+    let M_spp := sppGr24Matrix chi θ
+    let kappa_m := (abs_eps_m / eps_d) * kappa_d
+    n_sq - eps_d = eps_d ^ 2 / (abs_eps_m - eps_d) ∧
+      eps_d < n_sq ∧
+      (n_sq - eps_d) / (n_sq + abs_eps_m) = eps_d ^ 2 / abs_eps_m ^ 2 ∧
+      0 < chi ∧
+      chi < 1 ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M_spp) /
+          Complex.normSq (complexPluckerSinkAmplitudeB M_spp) =
+        reconstructSppPermittivityRatio chi ∧
+      reconstructSppPermittivityRatio chi = abs_eps_m / eps_d ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M_spp) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_spp) =
+        (4 * eps_d * abs_eps_m) / (abs_eps_m + eps_d) ^ 2 ∧
+      evolveContinuumSppPropagation gamma_spp 0 I0 = I0 ∧
+      evolveContinuumSppPropagation gamma_spp L2
+          (evolveContinuumSppPropagation gamma_spp L1 I0) =
+        evolveContinuumSppPropagation gamma_spp (L1 + L2) I0 ∧
+      continuumBohmPotentialMode m_boson hbar kappa_m =
+        (abs_eps_m / eps_d) ^ 2 * continuumBohmPotentialMode m_boson hbar kappa_d := by
+  intro n_sq chi M_spp kappa_m
+  have h_m_pos : 0 < abs_eps_m := lt_trans heps_d h_lt_m
+  have h_diff_pos : 0 < abs_eps_m - eps_d := sub_pos.mpr h_lt_m
+  have h_diff_ne : abs_eps_m - eps_d ≠ 0 := ne_of_gt h_diff_pos
+  have h_sum_pos : 0 < abs_eps_m + eps_d := add_pos h_m_pos heps_d
+  have h_sum_ne : abs_eps_m + eps_d ≠ 0 := ne_of_gt h_sum_pos
+  have h_d_ne : eps_d ≠ 0 := ne_of_gt heps_d
+  have h_m_ne : abs_eps_m ≠ 0 := ne_of_gt h_m_pos
+  have h_nsq_sub : n_sq - eps_d = eps_d ^ 2 / (abs_eps_m - eps_d) := by
+    dsimp [n_sq, sppEffectiveIndexSq]
+    field_simp [h_diff_ne]
+    ring
+  have h_nsq_gt : eps_d < n_sq := by
+    have h_pos : 0 < eps_d ^ 2 / (abs_eps_m - eps_d) :=
+      div_pos (sq_pos_of_pos heps_d) h_diff_pos
+    linarith [h_nsq_sub]
+  have h_evan_ratio :
+      (n_sq - eps_d) / (n_sq + abs_eps_m) = eps_d ^ 2 / abs_eps_m ^ 2 := by
+    dsimp [n_sq, sppEffectiveIndexSq]
+    field_simp [h_diff_ne, h_m_ne]
+    ring
+  have h_chi_pos : 0 < chi := by
+    dsimp [chi, sppPermittivityContrast]
+    exact div_pos h_diff_pos h_sum_pos
+  have h_chi_lt_one : chi < 1 := by
+    dsimp [chi, sppPermittivityContrast]
+    rw [div_lt_iff₀ h_sum_pos]
+    linarith
+  have h1p : 0 ≤ 1 + chi := by linarith
+  have h1m : 0 ≤ 1 - chi := by linarith
+  have h_minors := complexGr24ChannelMatrix_minors
+    (↑(Real.sqrt (1 + chi) * Real.cos θ) + Complex.I * ↑(Real.sqrt (1 + chi) * Real.sin θ))
+    (↑(Real.sqrt (1 - chi) * Real.cos θ) - Complex.I * ↑(Real.sqrt (1 - chi) * Real.sin θ))
+  have h_wA :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_spp) = 1 + chi := by
+    dsimp [M_spp, sppGr24Matrix, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeA]
+    rw [h_minors.1]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 + chi)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 + chi := by rw [Real.sq_sqrt h1p, Real.cos_sq_add_sin_sq, mul_one]
+  have h_wB :
+      Complex.normSq (complexPluckerSinkAmplitudeB M_spp) = 1 - chi := by
+    dsimp [M_spp, sppGr24Matrix, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeB]
+    rw [h_minors.2.1]
+    simp only [Complex.normSq_apply, Complex.sub_re, Complex.sub_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 - chi)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 - chi := by rw [Real.sq_sqrt h1m, Real.cos_sq_add_sin_sq, mul_one]
+  have h_plucker_ratio :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_spp) /
+          Complex.normSq (complexPluckerSinkAmplitudeB M_spp) =
+        reconstructSppPermittivityRatio chi := by
+    rw [h_wA, h_wB]
+    rfl
+  have h_rec_ratio : reconstructSppPermittivityRatio chi = abs_eps_m / eps_d := by
+    dsimp [reconstructSppPermittivityRatio, chi, sppPermittivityContrast]
+    field_simp [h_sum_ne, h_d_ne]
+    ring
+  have h_plucker_prod :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_spp) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_spp) =
+        (4 * eps_d * abs_eps_m) / (abs_eps_m + eps_d) ^ 2 := by
+    rw [h_wA, h_wB]
+    dsimp [chi, sppPermittivityContrast]
+    field_simp [h_sum_ne]
+    ring
+  have h_prop_id : evolveContinuumSppPropagation gamma_spp 0 I0 = I0 := by
+    unfold evolveContinuumSppPropagation
+    simp
+  have h_prop_semi :
+      evolveContinuumSppPropagation gamma_spp L2
+          (evolveContinuumSppPropagation gamma_spp L1 I0) =
+        evolveContinuumSppPropagation gamma_spp (L1 + L2) I0 := by
+    unfold evolveContinuumSppPropagation
+    rw [mul_assoc, ← Real.exp_add]
+    congr 2
+    ring
+  have h_bohm_scale :
+      continuumBohmPotentialMode m_boson hbar kappa_m =
+        (abs_eps_m / eps_d) ^ 2 * continuumBohmPotentialMode m_boson hbar kappa_d := by
+    dsimp [kappa_m, continuumBohmPotentialMode]
+    ring
+  exact ⟨h_nsq_sub, h_nsq_gt, h_evan_ratio, h_chi_pos, h_chi_lt_one,
+    h_plucker_ratio, h_rec_ratio, h_plucker_prod, h_prop_id, h_prop_semi, h_bohm_scale⟩
+
+/-- **With Normed Tensor Gaussian Splats: Sub-Wavelength SPP Hotspot Confinement, Bohm Quantum Pressure Enhancement, & Ohmic-Thermal Splat Semigroup**:
+For an SPP hotspot `splat_spp = sppHotspotTensorSplat cx cy weight lam0 n_spp kappa_ratio hw hlam hn hκ θ`
+with $n_{\mathrm{SPP}} \ge 1$ and $\kappa_{\mathrm{ratio}} = |\varepsilon_m|/\varepsilon_d \ge 1$:
+1. **Exact Sub-Wavelength Covariance Determinant Compression**:
+   $$\det\Sigma_{\mathrm{SPP}} = \frac{\lambda_0^4}{n_{\mathrm{SPP}}^4\,\kappa_{\mathrm{ratio}}^2} \le \lambda_0^4,$$
+2. **Exact Plasmonic Hotspot Peak Normalization Enhancement**:
+   $$\mathcal{N}(\Sigma_{\mathrm{SPP}}) = \frac{n_{\mathrm{SPP}}^2\,\kappa_{\mathrm{ratio}}}{2\pi\,\lambda_0^2},$$
+3. **Exact Hotspot Core Bohm Quantum Potential & Sub-Wavelength Amplification**:
+   $$Q_{\mathrm{core}}(\Sigma_{\mathrm{SPP}}) = \frac{\hbar^2\,n_{\mathrm{SPP}}^2\,(1 + \kappa_{\mathrm{ratio}}^2)}{4 m\,\lambda_0^2} \ge \frac{\hbar^2}{2 m\,\lambda_0^2},$$
+4. **Normal-to-Longitudinal Madelung Quantum Pressure Anisotropy**:
+   $$\Pi_{22}^{\mathrm{SPP}}(x,y) = \kappa_{\mathrm{ratio}}^2\,\Pi_{11}^{\mathrm{SPP}}(x,y),$$
+5. **Ohmic-Thermal Splat Evolution Semigroup Identity, Additivity, & Monotonic Bohm Relaxation**:
+   Under Ohmic-thermal diffusion $\mathcal{E}(\alpha_1, \alpha_2, \Delta t)$ with $\alpha_1, \alpha_2, \Delta t_1, \Delta t_2 \ge 0$,
+   $\mathcal{E}(0)(\Sigma_{\mathrm{SPP}}) = \Sigma_{\mathrm{SPP}}$,
+   $\mathcal{E}(\Delta t_2)\bigl(\mathcal{E}(\Delta t_1)(\Sigma_{\mathrm{SPP}})\bigr) = \mathcal{E}(\Delta t_1 + \Delta t_2)(\Sigma_{\mathrm{SPP}})$,
+   and $Q_{\mathrm{core}}\bigl(\mathcal{E}(\Delta t_1)(\Sigma_{\mathrm{SPP}})\bigr) \le Q_{\mathrm{core}}(\Sigma_{\mathrm{SPP}})$. -/
+@[blueprint "thm:signals-ddf-spp-tensor-splat-identities"
+  (title := "Sub-wavelength SPP hotspot NormedTensorGaussianSplat2D confinement, Bohm pressure enhancement, and Ohmic-thermal semigroup theorem")
+  (statement := /-- For \texttt{splat\_spp = sppHotspotTensorSplat cx cy weight lam0 n\_spp kappa\_ratio hw hlam hn hκ θ}
+    with $n_{\mathrm{SPP}}\ge 1$, $\kappa_{\mathrm{ratio}}\ge 1$, $m>0$, and $\alpha_1,\alpha_2,\Delta t_1,\Delta t_2\ge 0$:
+    (1) $\operatorname{splat\_spp}.\mathrm{covDet} = \lambda_0^4 / (n_{\mathrm{SPP}}^4 \kappa_{\mathrm{ratio}}^2)$,
+    (2) $\operatorname{splat\_spp}.\mathrm{normFactor} = n_{\mathrm{SPP}}^2 \kappa_{\mathrm{ratio}} / (2\pi\lambda_0^2)$,
+    (3) $\operatorname{splat\_spp}.\operatorname{coreBohmPotential}\;m\;\hbar = \frac{\hbar^2 n_{\mathrm{SPP}}^2(1+\kappa_{\mathrm{ratio}}^2)}{4m\lambda_0^2} \ge \frac{\hbar^2}{2m\lambda_0^2}$,
+    (4) $\operatorname{splat\_spp}.\operatorname{quantumPressurePrincipal2}\;m\;\hbar\;x\;y = \kappa_{\mathrm{ratio}}^2\,\operatorname{splat\_spp}.\operatorname{quantumPressurePrincipal1}\;m\;\hbar\;x\;y$, and
+    (5) $\operatorname{splat\_spp}.\operatorname{evolveThermal}$ obeys identity at $\Delta t=0$, semigroup additivity over $\Delta t_1+\Delta t_2$, and monotonic core Bohm potential relaxation. -/)
+  (proof := /-- Expand $\sigma_1=\lambda_0/n_{\mathrm{SPP}}$ and $\sigma_2=\lambda_0/(n_{\mathrm{SPP}}\kappa_{\mathrm{ratio}})$,
+    use $n_{\mathrm{SPP}}^2\ge 1$ and $1+\kappa_{\mathrm{ratio}}^2\ge 2$, and apply \texttt{evolveThermal\_semigroup\_and\_bohm\_decay}. -/)]
+theorem MovingSheath.sppTensorSplat_and_thermal_identities
+    {sub : DDFSubstrate} (_s : MovingSheath sub)
+    (cx cy weight lam0 n_spp kappa_ratio alpha1 alpha2 dt1 dt2 m_boson hbar θ x y : ℝ)
+    (hw : 0 ≤ weight) (hlam : 0 < lam0) (hn_ge : 1 ≤ n_spp) (hκ_ge : 1 ≤ kappa_ratio)
+    (h_a1 : 0 ≤ alpha1) (h_a2 : 0 ≤ alpha2)
+    (h_dt1 : 0 ≤ dt1) (h_dt2 : 0 ≤ dt2) (hm : 0 < m_boson) :
+    let hn : 0 < n_spp := lt_of_lt_of_le zero_lt_one hn_ge
+    let hκ : 0 < kappa_ratio := lt_of_lt_of_le zero_lt_one hκ_ge
+    let splat_spp := sppHotspotTensorSplat cx cy weight lam0 n_spp kappa_ratio hw hlam hn hκ θ
+    let step0 := splat_spp.evolveThermal alpha1 alpha2 0 h_a1 h_a2 le_rfl
+    let step1 := splat_spp.evolveThermal alpha1 alpha2 dt1 h_a1 h_a2 h_dt1
+    let step12 := step1.evolveThermal alpha1 alpha2 dt2 h_a1 h_a2 h_dt2
+    let step_sum := splat_spp.evolveThermal alpha1 alpha2 (dt1 + dt2) h_a1 h_a2 (add_nonneg h_dt1 h_dt2)
+    splat_spp.covDet = lam0 ^ 4 / (n_spp ^ 4 * kappa_ratio ^ 2) ∧
+      splat_spp.normFactor = (n_spp ^ 2 * kappa_ratio) / (2 * Real.pi * lam0 ^ 2) ∧
+      splat_spp.coreBohmPotential m_boson hbar =
+        (hbar ^ 2 * n_spp ^ 2 * (1 + kappa_ratio ^ 2)) / (4 * m_boson * lam0 ^ 2) ∧
+      hbar ^ 2 / (2 * m_boson * lam0 ^ 2) ≤ splat_spp.coreBohmPotential m_boson hbar ∧
+      splat_spp.quantumPressurePrincipal2 m_boson hbar x y =
+        kappa_ratio ^ 2 * splat_spp.quantumPressurePrincipal1 m_boson hbar x y ∧
+      step0 = splat_spp ∧
+      step12 = step_sum ∧
+      step1.coreBohmPotential m_boson hbar ≤ splat_spp.coreBohmPotential m_boson hbar := by
+  intro hn hκ splat_spp step0 step1 step12 step_sum
+  have hlam_ne : lam0 ≠ 0 := ne_of_gt hlam
+  have hn_ne : n_spp ≠ 0 := ne_of_gt hn
+  have hκ_ne : kappa_ratio ≠ 0 := ne_of_gt hκ
+  have hpi_ne : Real.pi ≠ 0 := ne_of_gt Real.pi_pos
+  have hm_ne : m_boson ≠ 0 := ne_of_gt hm
+  have h_det : splat_spp.covDet = lam0 ^ 4 / (n_spp ^ 4 * kappa_ratio ^ 2) := by
+    dsimp [splat_spp, sppHotspotTensorSplat, NormedTensorGaussianSplat2D.covDet]
+    field_simp [hlam_ne, hn_ne, hκ_ne]
+  have h_norm : splat_spp.normFactor = (n_spp ^ 2 * kappa_ratio) / (2 * Real.pi * lam0 ^ 2) := by
+    dsimp [splat_spp, sppHotspotTensorSplat, NormedTensorGaussianSplat2D.normFactor]
+    field_simp [hlam_ne, hn_ne, hκ_ne, hpi_ne]
+  have h_bohm :
+      splat_spp.coreBohmPotential m_boson hbar =
+        (hbar ^ 2 * n_spp ^ 2 * (1 + kappa_ratio ^ 2)) / (4 * m_boson * lam0 ^ 2) := by
+    dsimp [splat_spp, sppHotspotTensorSplat, NormedTensorGaussianSplat2D.coreBohmPotential]
+    field_simp [hlam_ne, hn_ne, hκ_ne, hm_ne]
+  have h_bohm_ge :
+      hbar ^ 2 / (2 * m_boson * lam0 ^ 2) ≤ splat_spp.coreBohmPotential m_boson hbar := by
+    rw [h_bohm]
+    have hn_sq_ge : 1 ≤ n_spp ^ 2 := by nlinarith
+    have hκ_sq_ge : 1 ≤ kappa_ratio ^ 2 := by nlinarith
+    have h_prod_ge : 2 ≤ n_spp ^ 2 * (1 + kappa_ratio ^ 2) := by nlinarith
+    have h_num_le :
+        2 * hbar ^ 2 ≤ hbar ^ 2 * (n_spp ^ 2 * (1 + kappa_ratio ^ 2)) := by
+      have h_hbar_sq : 0 ≤ hbar ^ 2 := sq_nonneg hbar
+      nlinarith
+    have h_lhs :
+        hbar ^ 2 / (2 * m_boson * lam0 ^ 2) =
+          (2 * hbar ^ 2) / (4 * m_boson * lam0 ^ 2) := by
+      field_simp [hm_ne, hlam_ne]
+      ring
+    rw [h_lhs]
+    have h_rhs :
+        (hbar ^ 2 * n_spp ^ 2 * (1 + kappa_ratio ^ 2)) / (4 * m_boson * lam0 ^ 2) =
+          (hbar ^ 2 * (n_spp ^ 2 * (1 + kappa_ratio ^ 2))) / (4 * m_boson * lam0 ^ 2) := by
+      ring
+    rw [h_rhs]
+    exact div_le_div_of_nonneg_right h_num_le (by positivity)
+  have h_qp_ratio :
+      splat_spp.quantumPressurePrincipal2 m_boson hbar x y =
+        kappa_ratio ^ 2 * splat_spp.quantumPressurePrincipal1 m_boson hbar x y := by
+    dsimp [splat_spp, sppHotspotTensorSplat,
+      NormedTensorGaussianSplat2D.quantumPressurePrincipal1,
+      NormedTensorGaussianSplat2D.quantumPressurePrincipal2]
+    field_simp [hlam_ne, hn_ne, hκ_ne, hm_ne]
+  have h_semi :=
+    NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay
+      splat_spp alpha1 alpha2 dt1 dt2 m_boson hbar h_a1 h_a2 h_dt1 h_dt2 hm
+  exact ⟨h_det, h_norm, h_bohm, h_bohm_ge, h_qp_ratio,
+    h_semi.1, h_semi.2.1, h_semi.2.2.2⟩
+
 end Signals.DDF
