@@ -4786,4 +4786,35 @@ example (θ : ℝ) :
   exact ⟨h_cont.1, h_cont.2.1, h_cont.2.2.1, h_cont.2.2.2.2.1,
     h_cont.2.2.2.2.2.1, h_cont.2.2.2.2.2.2.2⟩
 
+/-- Bose-Einstein spontaneous/stimulated Raman occupancy ratio n_BE / (n_BE + 1) = exp(-ξ),
+exact Raman thermometer inversion, physical DDF heat-flux bound, and Second-Law
+covariance determinant growth det Σ(t + Δt) > det Σ(t). -/
+example (θ : ℝ) :
+    let splat_ddf := toyMovingSheath.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
+    let splat_evol := splat_ddf.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)
+    Signals.Scattering.boseEinsteinOccupancy (1 / 2) /
+        (Signals.Scattering.boseEinsteinOccupancy (1 / 2) + 1) =
+      Real.exp (-(1 / 2 : ℝ)) ∧
+    Signals.Scattering.reconstructRamanBoltzmannExponent 10 2
+        (Signals.Scattering.ramanAntiStokesToStokesThermalRatio 10 2 (1 / 2)) = 1 / 2 ∧
+    splat_ddf.covDet < splat_evol.covDet := by
+  intro splat_ddf splat_evol
+  have h_be := Signals.Scattering.raman_boseEinstein_and_thermometer_inversion
+    10 2 (1 / 2) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_c_ge : (1 : ℝ) ≤ toyDDFSubstrate.c := by
+    dsimp [toyDDFSubstrate, Signals.DDF.DDFSubstrate.c]
+    norm_num
+  have h_qmax_pos : 0 < toyMovingSheath.ddfMaxCausalHeatFlux 2 1 10 := by
+    unfold Signals.DDF.MovingSheath.ddfMaxCausalHeatFlux
+      Signals.DDF.MovingSheath.ddfSecondSoundSpeed
+    have h_vis : 0 < toyMovingSheath.coherenceVisibility :=
+      Real.sqrt_pos.mpr toyMovingSheath.one_sub_betaSq_pos
+    positivity
+  have h_ent := toyMovingSheath.ddfThermal_fluxLimiter_and_entropy_growth
+    splat_ddf 2 1 10 0 1 2 3
+    (by norm_num) (by norm_num) h_c_ge (by norm_num)
+    (by rw [zero_div]; norm_num) (by rw [zero_div]; norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_be.2.1, h_be.2.2.2, h_ent.2.2.2.2.2 ⟨by norm_num, by norm_num⟩⟩
+
 end SignalsTests

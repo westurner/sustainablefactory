@@ -804,4 +804,100 @@ theorem raman_stokes_antiStokes_gr24_identities
     exact mul_lt_of_lt_one_right h_rat_pos h_exp_lt
   exact ⟨h_rec_pump, h_rec_vib, h_prod, h_ratio, h_therm⟩
 
+/-- Bose–Einstein thermal phonon occupation number
+$\bar{n}_{\mathrm{BE}}(\xi) = \frac{1}{\exp(\xi) - 1}$ for dimensionless Boltzmann
+exponent $\xi = \frac{\hbar\Omega_v}{k_B T} > 0$. -/
+@[blueprint "def:signals-scattering-bose-einstein-occupancy"
+  (title := "Bose-Einstein thermal phonon occupation number n_BE(ξ) = 1 / (exp(ξ) - 1)")
+  (statement := /-- For dimensionless Boltzmann exponent $\xi = \hbar\Omega_v/(k_B T)$, define
+    $\bar{n}_{\mathrm{BE}}(\xi) = 1 / (\exp(\xi) - 1)$. -/)]
+noncomputable def boseEinsteinOccupancy (ξ : ℝ) : ℝ :=
+  1 / (Real.exp ξ - 1)
+
+/-- Inverse Raman Boltzmann thermometer: reconstructs the dimensionless Boltzmann
+exponent $\xi = \frac{\hbar\Omega_v}{k_B T}$ from pump frequency $\omega_L$,
+vibrational shift $\Omega_v$, and measured anti-Stokes-to-Stokes intensity ratio $R_{AS/S}$:
+$\xi = 4\ln\!\left(\frac{\omega_L + \Omega_v}{\omega_L - \Omega_v}\right) - \ln(R_{AS/S})$. -/
+@[blueprint "def:signals-scattering-reconstruct-raman-boltzmann"
+  (title := "Inverse Raman thermometer reconstruction of Boltzmann exponent ξ")
+  (statement := /-- Define $\operatorname{reconstructRamanBoltzmannExponent}(\omega_L,\Omega_v,R)
+    = 4\ln(\omega_{AS}/\omega_S) - \ln R$. -/)]
+noncomputable def reconstructRamanBoltzmannExponent
+    (ω_pump Ω_vib measuredRatio : ℝ) : ℝ :=
+  4 * Real.log (ramanAntiStokesFreq ω_pump Ω_vib / ramanStokesFreq ω_pump Ω_vib) -
+    Real.log measuredRatio
+
+/-- **Bose–Einstein Vacuum-Fluctuation Asymmetry ($\frac{\bar{n}}{\bar{n}+1} = e^{-\xi}$) & Exact Raman Thermometer Inversion**:
+For $\omega_L > 0$, $0 \le \Omega_v < \omega_L$, and $\xi = \frac{\hbar\Omega_v}{k_B T} > 0$:
+1. The Bose–Einstein phonon occupancy is strictly positive ($0 < \bar{n}_{\mathrm{BE}}(\xi)$),
+2. The ratio of anti-Stokes phonon absorption ($\bar{n}_{\mathrm{BE}}(\xi)$) to Stokes
+   phonon creation including the $+1$ vacuum zero-point fluctuation ($\bar{n}_{\mathrm{BE}}(\xi) + 1$)
+   equals the Boltzmann factor $\exp(-\xi)$:
+   $$\frac{\bar{n}_{\mathrm{BE}}(\xi)}{\bar{n}_{\mathrm{BE}}(\xi) + 1} = \exp(-\xi),$$
+3. Consequently, `ramanAntiStokesToStokesThermalRatio` factors into the fourth power of the
+   coherent $Gr_{\mathbb{C}}(2,4)$ Plücker frequency ratio times the Bose–Einstein
+   occupancy ratio $\frac{\bar{n}_{\mathrm{BE}}(\xi)}{\bar{n}_{\mathrm{BE}}(\xi) + 1}$, and
+4. `reconstructRamanBoltzmannExponent` recovers $\xi$ identically from
+   `ramanAntiStokesToStokesThermalRatio ω_pump Ω_vib ξ`. -/
+@[blueprint "thm:signals-scattering-raman-bose-einstein-inversion"
+  (title := "Bose-Einstein spontaneous/stimulated Raman ratio and exact thermometer inversion theorem")
+  (statement := /-- For $\omega_L>0$, $0\le\Omega_v<\omega_L$, and $\xi>0$:
+    (1) $0 < \operatorname{boseEinsteinOccupancy}(\xi)$,
+    (2) $\frac{\operatorname{boseEinsteinOccupancy}(\xi)}{\operatorname{boseEinsteinOccupancy}(\xi)+1} = \exp(-\xi)$,
+    (3) $\operatorname{ramanAntiStokesToStokesThermalRatio}(\omega_L,\Omega_v,\xi) =
+    (\omega_{AS}/\omega_S)^4\,\frac{\operatorname{boseEinsteinOccupancy}(\xi)}{\operatorname{boseEinsteinOccupancy}(\xi)+1}$, and
+    (4) $\operatorname{reconstructRamanBoltzmannExponent}\bigl(\omega_L,\Omega_v,\operatorname{ramanAntiStokesToStokesThermalRatio}(\omega_L,\Omega_v,\xi)\bigr) = \xi$. -/)
+  (proof := /-- Clear $\exp(\xi)-1>0$ using $\exp(\xi)\exp(-\xi)=1$, and invert $\ln(r^4 e^{-\xi}) = 4\ln r - \xi$
+    using positivity of $r = \omega_{AS}/\omega_S$. -/)]
+theorem raman_boseEinstein_and_thermometer_inversion
+    (ω_pump Ω_vib ξ : ℝ) (hω_pos : 0 < ω_pump)
+    (hΩ_nonneg : 0 ≤ Ω_vib) (hΩ_lt : Ω_vib < ω_pump) (hξ_pos : 0 < ξ) :
+    0 < boseEinsteinOccupancy ξ ∧
+      boseEinsteinOccupancy ξ / (boseEinsteinOccupancy ξ + 1) = Real.exp (-ξ) ∧
+      ramanAntiStokesToStokesThermalRatio ω_pump Ω_vib ξ =
+        (ramanAntiStokesFreq ω_pump Ω_vib / ramanStokesFreq ω_pump Ω_vib) ^ 4 *
+          (boseEinsteinOccupancy ξ / (boseEinsteinOccupancy ξ + 1)) ∧
+      reconstructRamanBoltzmannExponent ω_pump Ω_vib
+          (ramanAntiStokesToStokesThermalRatio ω_pump Ω_vib ξ) = ξ := by
+  have h_exp_gt_one : 1 < Real.exp ξ := Real.one_lt_exp_iff.mpr hξ_pos
+  have h_denom_pos : 0 < Real.exp ξ - 1 := sub_pos.mpr h_exp_gt_one
+  have h_denom_ne : Real.exp ξ - 1 ≠ 0 := ne_of_gt h_denom_pos
+  have h_exp_ne : Real.exp ξ ≠ 0 := Real.exp_ne_zero ξ
+  have h_be_pos : 0 < boseEinsteinOccupancy ξ :=
+    div_pos zero_lt_one h_denom_pos
+  have h_be_ratio :
+      boseEinsteinOccupancy ξ / (boseEinsteinOccupancy ξ + 1) = Real.exp (-ξ) := by
+    unfold boseEinsteinOccupancy
+    rw [Real.exp_neg]
+    have h_sum : 1 / (Real.exp ξ - 1) + 1 = Real.exp ξ / (Real.exp ξ - 1) := by
+      field_simp [h_denom_ne]
+      ring
+    rw [h_sum, div_div_div_cancel_right₀ h_denom_ne, one_div]
+  have h_therm_be :
+      ramanAntiStokesToStokesThermalRatio ω_pump Ω_vib ξ =
+        (ramanAntiStokesFreq ω_pump Ω_vib / ramanStokesFreq ω_pump Ω_vib) ^ 4 *
+          (boseEinsteinOccupancy ξ / (boseEinsteinOccupancy ξ + 1)) := by
+    unfold ramanAntiStokesToStokesThermalRatio
+    rw [h_be_ratio]
+  have h_stokes_pos : 0 < ramanStokesFreq ω_pump Ω_vib := by
+    unfold ramanStokesFreq
+    linarith
+  have h_antistokes_pos : 0 < ramanAntiStokesFreq ω_pump Ω_vib := by
+    unfold ramanAntiStokesFreq
+    linarith
+  have h_rat_pos : 0 < ramanAntiStokesFreq ω_pump Ω_vib / ramanStokesFreq ω_pump Ω_vib :=
+    div_pos h_antistokes_pos h_stokes_pos
+  have h_rat_ne : ramanAntiStokesFreq ω_pump Ω_vib / ramanStokesFreq ω_pump Ω_vib ≠ 0 :=
+    ne_of_gt h_rat_pos
+  have h_rat4_ne : (ramanAntiStokesFreq ω_pump Ω_vib / ramanStokesFreq ω_pump Ω_vib) ^ 4 ≠ 0 :=
+    pow_ne_zero 4 h_rat_ne
+  have h_exp_neg_ne : Real.exp (-ξ) ≠ 0 := Real.exp_ne_zero (-ξ)
+  have h_inv :
+      reconstructRamanBoltzmannExponent ω_pump Ω_vib
+          (ramanAntiStokesToStokesThermalRatio ω_pump Ω_vib ξ) = ξ := by
+    unfold reconstructRamanBoltzmannExponent ramanAntiStokesToStokesThermalRatio
+    rw [Real.log_mul h_rat4_ne h_exp_neg_ne, Real.log_pow, Real.log_exp]
+    ring
+  exact ⟨h_be_pos, h_be_ratio, h_therm_be, h_inv⟩
+
 end Signals.Scattering

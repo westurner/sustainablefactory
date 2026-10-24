@@ -157,6 +157,14 @@ impl RamanChannelModel {
         (1.0 + d) / (1.0 - d)
     }
 
+    /// Bose–Einstein thermal phonon occupation number
+    /// $\bar{n}_{\mathrm{BE}}(\xi) = \frac{1}{\exp(\xi) - 1}$, matching
+    /// `Signals.Scattering.boseEinsteinOccupancy`.
+    #[inline]
+    pub fn bose_einstein_occupancy(boltzmann_exponent_xi: f64) -> f64 {
+        1.0 / (boltzmann_exponent_xi.exp() - 1.0)
+    }
+
     /// Thermal Anti-Stokes to Stokes Raman intensity ratio
     /// $R_{AS/S}(\xi) = \left(\frac{\omega_{AS}}{\omega_S}\right)^4 \exp(-\xi)$ for
     /// Boltzmann exponent $\xi = \frac{\hbar\Omega_v}{k_B T} > 0$,
@@ -601,6 +609,10 @@ mod tests {
             .norm_sq();
         assert!(((ch_a / ch_b) - (w_as / w_s)).abs() < 1e-12);
 
+        let n_be = RamanChannelModel::bose_einstein_occupancy(xi);
+        assert!(n_be > 0.0);
+        assert!(((n_be / (n_be + 1.0)) - (-xi).exp()).abs() < 1e-12);
+
         let r_therm = model.anti_stokes_to_stokes_thermal_ratio(xi);
         assert!(r_therm < model.gr24_plucker_ratio().powi(4));
         let rec_xi = model.reconstruct_boltzmann_exponent(r_therm);
@@ -671,9 +683,18 @@ mod tests {
         let dt = 3.0;
         let splat_evol = ddf_th.evolve_ddf_thermal_splat(&splat_ddf, dt);
         assert!((splat_evol.weight - splat_ddf.weight).abs() < 1e-12);
-        let expected_trace = splat_ddf.cov_trace()
-            + 2.0 * (ddf_th.ddf_longitudinal_diffusivity() + ddf_th.rest_diffusivity()) * dt;
+        let a1 = ddf_th.ddf_longitudinal_diffusivity();
+        let a2 = ddf_th.rest_diffusivity();
+        let expected_trace = splat_ddf.cov_trace() + 2.0 * (a1 + a2) * dt;
         assert!((splat_evol.cov_trace() - expected_trace).abs() < 1e-12);
+        let expected_det = splat_ddf.cov_det()
+            + 2.0
+                * (a1 * splat_ddf.sigma2 * splat_ddf.sigma2
+                    + a2 * splat_ddf.sigma1 * splat_ddf.sigma1)
+                * dt
+            + 4.0 * a1 * a2 * dt * dt;
+        assert!((splat_evol.cov_det() - expected_det).abs() < 1e-12);
+        assert!(splat_evol.cov_det() > splat_ddf.cov_det());
 
         // Verify 1D periodic Fourier and Cattaneo-Vernotte PDE steppers conserve total thermal energy
         let init_temp = vec![1.0, 2.0, 5.0, 2.0, 1.0, 0.5];

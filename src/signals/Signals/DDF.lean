@@ -3604,4 +3604,112 @@ theorem MovingSheath.ddfThermalTransport_and_splat_identities
     ring
   exact ⟨h_cs_pos, h_cs_le_c, h_diff_jam, h_bridge, h_wt, h_tr⟩
 
+/-- **Physical Splat-Free Heat-Flux Bound & Second-Law Thermal Splat Covariance Determinant Growth**:
+1. For any `s : MovingSheath sub`, volumetric heat capacity $C_v > 0$, reference
+   temperature $T_0 > 0$, and rest-frame second-sound speed $0 < c_{\mathrm{th},0} \le sub.c$,
+   the maximum causal ballistic heat flux satisfies:
+   $$0 < q_{\max}^{\mathrm{DDF}}(s) = C_v\,c_{\mathrm{th}}^{\mathrm{DDF}}(s)\,T_0 \le C_v\,sub.c\,T_0,$$
+2. Whenever the reduced heat flux $j_q = q / q_{\max}^{\mathrm{DDF}}(s) \in (-1, 1)$
+   satisfies the $Gr_{\mathbb{C}}(2,4)$ Plücker characteristic condition, the physical
+   heat flux is strictly bounded by the relativistic causal ceiling:
+   $$q^2 < \bigl(q_{\max}^{\mathrm{DDF}}(s)\bigr)^2,$$
+3. Under `splat.evolveThermal alpha1 alpha2 dt`, the covariance determinant expands as:
+   $$\det\Sigma(t + \Delta t) = \det\Sigma(t) + 2\bigl(\alpha_1\,\sigma_2^2 + \alpha_2\,\sigma_1^2\bigr)\,\Delta t + 4\,\alpha_1\,\alpha_2\,(\Delta t)^2,$$
+4. Consequently, $\det\Sigma(t) \le \det\Sigma(t + \Delta t)$ for all $\alpha_1, \alpha_2, \Delta t \ge 0$
+   (and $\det\Sigma(t) < \det\Sigma(t + \Delta t)$ whenever $0 < \alpha_1$ and $0 < \Delta t$),
+   establishing irreversible Second-Law phase-space expansion in contrast to symplectic
+   Anosov invariance ($\det\Sigma = \text{const}$). -/
+@[blueprint "thm:signals-ddf-thermal-flux-limiter-and-entropy"
+  (title := "Physical DDF ballistic heat-flux bound and Second-Law covariance determinant growth theorem")
+  (statement := /-- For \texttt{s : MovingSheath sub} with $C_v>0$, $T_0>0$, and $0<c_{\mathrm{th},0}\le sub.c$:
+    (1) $0 < s.\mathrm{ddfMaxCausalHeatFlux}\;C_v\;c_{\mathrm{th},0}\;T_0 \le C_v\,sub.c\,T_0$,
+    (2) if $-1 < q / (s.\mathrm{ddfMaxCausalHeatFlux}\;C_v\;c_{\mathrm{th},0}\;T_0) < 1$, then
+    $q^2 < (s.\mathrm{ddfMaxCausalHeatFlux}\;C_v\;c_{\mathrm{th},0}\;T_0)^2$,
+    (3) $\det\Sigma(t+\Delta t) = \det\Sigma(t) + 2(\alpha_1\sigma_2^2 + \alpha_2\sigma_1^2)\Delta t + 4\alpha_1\alpha_2(\Delta t)^2$, and
+    (4) $\det\Sigma(t) \le \det\Sigma(t+\Delta t)$ (with strict inequality when $0<\alpha_1$ and $0<\Delta t$). -/)
+  (proof := /-- Combine $0 < c_{\mathrm{th}}^{\mathrm{DDF}}(s) \le sub.c$, clear $q_{\max}^{\mathrm{DDF}}(s)>0$ in
+    $1 - (q/q_{\max})^2 > 0$, and expand $(\sigma_1^2 + 2\alpha_1\Delta t)(\sigma_2^2 + 2\alpha_2\Delta t)$. -/)]
+theorem MovingSheath.ddfThermal_fluxLimiter_and_entropy_growth
+    {sub : DDFSubstrate} (s : MovingSheath sub)
+    (splat : NormedTensorGaussianSplat2D)
+    (volHeatCap c_th0 T0 q alpha1 alpha2 dt : ℝ)
+    (hCv : 0 < volHeatCap) (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c)
+    (hT0 : 0 < T0)
+    (hjq_gt : -1 < q / s.ddfMaxCausalHeatFlux volHeatCap c_th0 T0)
+    (hjq_lt : q / s.ddfMaxCausalHeatFlux volHeatCap c_th0 T0 < 1)
+    (h_a1 : 0 ≤ alpha1) (h_a2 : 0 ≤ alpha2) (h_dt : 0 ≤ dt) :
+    let q_max := s.ddfMaxCausalHeatFlux volHeatCap c_th0 T0
+    let splat_evol := splat.evolveThermal alpha1 alpha2 dt h_a1 h_a2 h_dt
+    0 < q_max ∧
+      q_max ≤ volHeatCap * sub.c * T0 ∧
+      q ^ 2 < q_max ^ 2 ∧
+      splat_evol.covDet =
+        splat.covDet +
+          2 * (alpha1 * splat.sigma2 ^ 2 + alpha2 * splat.sigma1 ^ 2) * dt +
+          4 * alpha1 * alpha2 * dt ^ 2 ∧
+      splat.covDet ≤ splat_evol.covDet ∧
+      (0 < alpha1 ∧ 0 < dt → splat.covDet < splat_evol.covDet) := by
+  intro q_max splat_evol
+  have h_vis_pos : 0 < s.coherenceVisibility :=
+    Real.sqrt_pos.mpr s.one_sub_betaSq_pos
+  have h_beta_sq_nonneg : 0 ≤ s.betaSq := by
+    unfold MovingSheath.betaSq
+    positivity
+  have h_vis_le_one : s.coherenceVisibility ≤ 1 := by
+    unfold MovingSheath.coherenceVisibility
+    exact Real.sqrt_le_one.mpr (by linarith)
+  have h_cs_pos : 0 < s.ddfSecondSoundSpeed c_th0 :=
+    mul_pos hc_pos h_vis_pos
+  have h_cs_le_c0 : s.ddfSecondSoundSpeed c_th0 ≤ c_th0 := by
+    unfold MovingSheath.ddfSecondSoundSpeed
+    exact mul_le_of_le_one_right (le_of_lt hc_pos) h_vis_le_one
+  have h_cs_le_c : s.ddfSecondSoundSpeed c_th0 ≤ sub.c :=
+    le_trans h_cs_le_c0 hc_le
+  have h_qmax_pos : 0 < q_max := by
+    dsimp [q_max, MovingSheath.ddfMaxCausalHeatFlux]
+    positivity
+  have h_qmax_le : q_max ≤ volHeatCap * sub.c * T0 := by
+    dsimp [q_max, MovingSheath.ddfMaxCausalHeatFlux]
+    have h1 : volHeatCap * s.ddfSecondSoundSpeed c_th0 ≤ volHeatCap * sub.c :=
+      mul_le_mul_of_nonneg_left h_cs_le_c (le_of_lt hCv)
+    exact mul_le_mul_of_nonneg_right h1 (le_of_lt hT0)
+  have h_q_sq : q ^ 2 < q_max ^ 2 := by
+    have h_gt' : (-1 : ℝ) < q / q_max := hjq_gt
+    have h_lt' : q / q_max < (1 : ℝ) := hjq_lt
+    have h_gt : (-1 : ℝ) * q_max < q := (lt_div_iff₀ h_qmax_pos).mp h_gt'
+    have h_lt : q < (1 : ℝ) * q_max := (div_lt_iff₀ h_qmax_pos).mp h_lt'
+    nlinarith
+  have h_det_exp :
+      splat_evol.covDet =
+        splat.covDet +
+          2 * (alpha1 * splat.sigma2 ^ 2 + alpha2 * splat.sigma1 ^ 2) * dt +
+          4 * alpha1 * alpha2 * dt ^ 2 := by
+    dsimp [splat_evol, NormedTensorGaussianSplat2D.evolveThermal,
+      NormedTensorGaussianSplat2D.covDet]
+    have hs1_nonneg : 0 ≤ splat.sigma1 ^ 2 + 2 * alpha1 * dt := by
+      have : 0 ≤ splat.sigma1 ^ 2 := sq_nonneg _
+      have : 0 ≤ 2 * alpha1 * dt := by positivity
+      linarith
+    have hs2_nonneg : 0 ≤ splat.sigma2 ^ 2 + 2 * alpha2 * dt := by
+      have : 0 ≤ splat.sigma2 ^ 2 := sq_nonneg _
+      have : 0 ≤ 2 * alpha2 * dt := by positivity
+      linarith
+    rw [Real.sq_sqrt hs1_nonneg, Real.sq_sqrt hs2_nonneg]
+    ring
+  have h_det_le : splat.covDet ≤ splat_evol.covDet := by
+    rw [h_det_exp]
+    have h_t1 : 0 ≤ 2 * (alpha1 * splat.sigma2 ^ 2 + alpha2 * splat.sigma1 ^ 2) * dt := by
+      positivity
+    have h_t2 : 0 ≤ 4 * alpha1 * alpha2 * dt ^ 2 := by positivity
+    linarith
+  have h_det_lt : 0 < alpha1 ∧ 0 < dt → splat.covDet < splat_evol.covDet := by
+    rintro ⟨ha1_pos, hdt_pos⟩
+    rw [h_det_exp]
+    have hs2_pos : 0 < splat.sigma2 ^ 2 := sq_pos_of_pos splat.sigma2_pos
+    have h_pos1 : 0 < 2 * (alpha1 * splat.sigma2 ^ 2) * dt := by positivity
+    have h_nonneg2 : 0 ≤ 2 * (alpha2 * splat.sigma1 ^ 2) * dt := by positivity
+    have h_nonneg3 : 0 ≤ 4 * alpha1 * alpha2 * dt ^ 2 := by positivity
+    linarith
+  exact ⟨h_qmax_pos, h_qmax_le, h_q_sq, h_det_exp, h_det_le, h_det_lt⟩
+
 end Signals.DDF
