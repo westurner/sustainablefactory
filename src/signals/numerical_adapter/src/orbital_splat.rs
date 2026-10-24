@@ -473,6 +473,19 @@ impl NormedTensorGaussianSplat2D {
         [[s_xx, s_xy], [s_xy, s_yy]]
     }
 
+    /// Symmetric $2 \times 2$ precision matrix (inverse covariance)
+    /// $\Sigma^{-1} = R(\theta)\operatorname{diag}(\sigma_1^{-2}, \sigma_2^{-2})R(\theta)^T = -\nabla\nabla \ln G(x, y)$.
+    pub fn precision_matrix_2x2(&self) -> [[f64; 2]; 2] {
+        let c = self.orientation_angle.cos();
+        let s = self.orientation_angle.sin();
+        let p1 = 1.0 / (self.sigma1 * self.sigma1);
+        let p2 = 1.0 / (self.sigma2 * self.sigma2);
+        let p_xx = p1 * c * c + p2 * s * s;
+        let p_xy = (p1 - p2) * c * s;
+        let p_yy = p1 * s * s + p2 * c * c;
+        [[p_xx, p_xy], [p_xy, p_yy]]
+    }
+
     /// Rotated Mahalanobis distance squared $Q_\Sigma(x, y) = (u_1/\sigma_1)^2 + (u_2/\sigma_2)^2$,
     /// matching `Signals.DDF.NormedTensorGaussianSplat2D.mahalanobisSq`.
     #[inline]
@@ -531,6 +544,57 @@ impl NormedTensorGaussianSplat2D {
         let s1_sq = self.sigma1 * self.sigma1;
         let s2_sq = self.sigma2 * self.sigma2;
         ((hbar * hbar) / (4.0 * m_boson)) * (1.0 / s1_sq + 1.0 / s2_sq)
+    }
+
+    /// Principal longitudinal component $\Pi_{11}(x, y) = \frac{\hbar^2}{4m^2 \sigma_1^2} G(x, y)$
+    /// of the Madelung quantum pressure tensor, matching
+    /// `Signals.DDF.NormedTensorGaussianSplat2D.quantumPressurePrincipal1`.
+    #[inline]
+    pub fn quantum_pressure_principal1(&self, m_boson: f64, hbar: f64, x: f64, y: f64) -> f64 {
+        let pref = (hbar * hbar) / (4.0 * m_boson * m_boson * self.sigma1 * self.sigma1);
+        pref * self.eval(x, y)
+    }
+
+    /// Principal transverse component $\Pi_{22}(x, y) = \frac{\hbar^2}{4m^2 \sigma_2^2} G(x, y)$
+    /// of the Madelung quantum pressure tensor, matching
+    /// `Signals.DDF.NormedTensorGaussianSplat2D.quantumPressurePrincipal2`.
+    #[inline]
+    pub fn quantum_pressure_principal2(&self, m_boson: f64, hbar: f64, x: f64, y: f64) -> f64 {
+        let pref = (hbar * hbar) / (4.0 * m_boson * m_boson * self.sigma2 * self.sigma2);
+        pref * self.eval(x, y)
+    }
+
+    /// Full $2 \times 2$ Madelung quantum pressure tensor
+    /// $\Pi_{ij}(x, y) = -\frac{\hbar^2}{4m^2} G(x, y) \partial_i \partial_j \ln G(x, y) = \frac{\hbar^2}{4m^2} G(x, y) (\Sigma^{-1})_{ij}$.
+    pub fn quantum_pressure_tensor_2x2(
+        &self,
+        m_boson: f64,
+        hbar: f64,
+        x: f64,
+        y: f64,
+    ) -> [[f64; 2]; 2] {
+        let scale = ((hbar * hbar) / (4.0 * m_boson * m_boson)) * self.eval(x, y);
+        let prec = self.precision_matrix_2x2();
+        [
+            [scale * prec[0][0], scale * prec[0][1]],
+            [scale * prec[1][0], scale * prec[1][1]],
+        ]
+    }
+
+    /// Trace $\operatorname{Tr}\Pi(x, y) = \Pi_{11}(x, y) + \Pi_{22}(x, y) = \frac{1}{m} Q_{\mathrm{core}}(\Sigma) G(x, y)$,
+    /// matching `Signals.DDF.NormedTensorGaussianSplat2D.quantumPressureTrace`.
+    #[inline]
+    pub fn quantum_pressure_trace(&self, m_boson: f64, hbar: f64, x: f64, y: f64) -> f64 {
+        self.quantum_pressure_principal1(m_boson, hbar, x, y)
+            + self.quantum_pressure_principal2(m_boson, hbar, x, y)
+    }
+
+    /// Determinant $\det\Pi(x, y) = \Pi_{11}(x, y)\Pi_{22}(x, y) = (\frac{\hbar^2}{4m^2})^2 \frac{G(x, y)^2}{\det\Sigma}$,
+    /// matching `Signals.DDF.NormedTensorGaussianSplat2D.quantumPressureDet`.
+    #[inline]
+    pub fn quantum_pressure_det(&self, m_boson: f64, hbar: f64, x: f64, y: f64) -> f64 {
+        self.quantum_pressure_principal1(m_boson, hbar, x, y)
+            * self.quantum_pressure_principal2(m_boson, hbar, x, y)
     }
 
     /// Pack into the two `vec4` (`[f32; 4]`) uniform slots expected by `orbital_splat.frag.glsl`.
@@ -899,6 +963,26 @@ mod tests {
             Complex64::new(-1.0, 0.0),
         );
         assert!(gr24_splat.complex_twistor_intensity(&m_dark, 0.0, 0.0).abs() < 1e-12);
+
+        // Verify precision matrix Sigma * Sigma^{-1} = I_2 and Madelung Quantum Pressure Tensor identities
+        let cov = ddf_splat.covariance_matrix_2x2();
+        let prec = ddf_splat.precision_matrix_2x2();
+        let prod_00 = cov[0][0] * prec[0][0] + cov[0][1] * prec[1][0];
+        let prod_01 = cov[0][0] * prec[0][1] + cov[0][1] * prec[1][1];
+        let prod_11 = cov[1][0] * prec[0][1] + cov[1][1] * prec[1][1];
+        assert!((prod_00 - 1.0).abs() < 1e-12);
+        assert!(prod_01.abs() < 1e-12);
+        assert!((prod_11 - 1.0).abs() < 1e-12);
+
+        let qp_tr = ddf_splat.quantum_pressure_trace(1.0, 1.0, 0.3, -0.2);
+        let qp_det = ddf_splat.quantum_pressure_det(1.0, 1.0, 0.3, -0.2);
+        let g_xy = ddf_splat.eval(0.3, -0.2);
+        assert!((qp_tr - q_core * g_xy).abs() < 1e-12);
+        let expected_qp_det = (0.25_f64).powi(2) * (g_xy * g_xy / ddf_splat.cov_det());
+        assert!((qp_det - expected_qp_det).abs() < 1e-12);
+        let pi_11 = ddf_splat.quantum_pressure_principal1(1.0, 1.0, 0.3, -0.2);
+        let pi_22 = ddf_splat.quantum_pressure_principal2(1.0, 1.0, 0.3, -0.2);
+        assert!((pi_11 - expected_jamming * expected_jamming * pi_22).abs() < 1e-12);
     }
 
     #[test]

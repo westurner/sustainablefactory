@@ -29,6 +29,7 @@ uniform bool u_show_gr24_field;
 uniform bool u_show_ddf_sheath_field;
 uniform bool u_show_sink_potential;
 uniform bool u_show_orbit_curve;
+uniform bool u_enable_twistor_phase_fringe;
 
 // Evaluate a single L1-normed 2D anisotropic Tensor Gaussian Splat:
 // G(x, y) = w * N(Sigma) * exp(-0.5 * ((u1 / sigma1)^2 + (u2 / sigma2)^2))
@@ -47,6 +48,25 @@ float evaluate_normed_tensor_splat(vec2 xy, vec4 center_weight_role, vec4 sigma_
 
     float q_mahalanobis = (u1 * u1) / (sigma1 * sigma1) + (u2 * u2) / (sigma2 * sigma2);
     return weight * norm_factor * exp(-0.5 * q_mahalanobis);
+}
+
+// Evaluate dual-layer Gr_C(2,4) twistor splat intensity:
+// I_splat(x, y) = G(x, y) * |Delta_02^C Delta_13^C|^2
+//               = G(x, y) * (|w_A^C|^2 + |w_B^C|^2 + 2 |w_A^C||w_B^C| cos(Delta_phi))
+// where |w_A^C||w_B^C| / (0.5*(|w_A^C|^2 + |w_B^C|^2)) = 2*sigma1*sigma2 / (sigma1^2 + sigma2^2) = V.
+float evaluate_twistor_modulated_splat(vec2 xy, vec4 center_weight_role, vec4 sigma_angle_norm) {
+    float g = evaluate_normed_tensor_splat(xy, center_weight_role, sigma_angle_norm);
+    if (!u_enable_twistor_phase_fringe) {
+        return g;
+    }
+    vec2 d = xy - center_weight_role.xy;
+    float sigma1 = max(sigma_angle_norm.x, 1e-6);
+    float sigma2 = max(sigma_angle_norm.y, 1e-6);
+    float theta = sigma_angle_norm.z;
+    float u1 = d.x * cos(theta) + d.y * sin(theta);
+    float vis = (2.0 * sigma1 * sigma2) / (sigma1 * sigma1 + sigma2 * sigma2);
+    float delta_phi = 2.0 * PI * u1 / max(0.5 * (sigma1 + sigma2), 1e-4);
+    return g * (1.0 + vis * cos(delta_phi));
 }
 
 // Evaluate N-body superfluid Bernoulli sink/source enthalpy field
@@ -91,7 +111,7 @@ void main() {
     for (int i = 0; i < MAX_SPLATS; ++i) {
         if (i >= n_splats) break;
         int role = int(round(u_splat_center_weight_role[i].w));
-        float val = evaluate_normed_tensor_splat(
+        float val = evaluate_twistor_modulated_splat(
             xy,
             u_splat_center_weight_role[i],
             u_splat_sigma_angle_norm[i]

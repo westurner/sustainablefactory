@@ -2898,4 +2898,126 @@ theorem NormedTensorGaussianSplat2D.coreBohmPotential_identities
     field_simp [hs0_ne, hjam_ne, hm_ne]
   exact ⟨h_pos, h_tr_det, h_ddf_q⟩
 
+/-- **Principal Longitudinal Component $\Pi_{11}(x, y)$ of the Madelung Quantum Pressure Tensor**:
+Because $\ln G(x, y) = \ln(w\,\mathcal{N}(\Sigma)) - \frac{1}{2}(\mathbf{x}-\mathbf{x}_0)^T \Sigma^{-1}(\mathbf{x}-\mathbf{x}_0)$,
+the negative Hessian of the log-density is spatially constant and equals the precision
+matrix $\Sigma^{-1} = R(\theta)\operatorname{diag}(\sigma_1^{-2}, \sigma_2^{-2})R(\theta)^T$.
+Consequently, the Madelung quantum pressure tensor
+$\Pi_{ij}(x, y) = -\frac{\hbar^2}{4m^2} G(x, y) \partial_i \partial_j \ln G(x, y)$
+has principal eigenvalues $\Pi_{11}(x, y) = \frac{\hbar^2}{4m^2 \sigma_1^2} G(x, y)$
+and $\Pi_{22}(x, y) = \frac{\hbar^2}{4m^2 \sigma_2^2} G(x, y)$. -/
+@[blueprint "def:signals-ddf-splat2d-quantum-pressure-principal1"
+  (title := "Principal longitudinal quantum pressure Π_11(x,y) of a 2D Tensor Gaussian Splat")
+  (statement := /-- For \texttt{splat : NormedTensorGaussianSplat2D}, define
+    $\Pi_{11}(x,y) = \frac{\hbar^2}{4m^2\sigma_1^2}\,G(x,y)$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.quantumPressurePrincipal1
+    (splat : NormedTensorGaussianSplat2D) (m_boson hbar x y : ℝ) : ℝ :=
+  (hbar ^ 2 / (4 * m_boson ^ 2 * splat.sigma1 ^ 2)) * splat.eval x y
+
+/-- **Principal Transverse Component $\Pi_{22}(x, y)$ of the Madelung Quantum Pressure Tensor**:
+$\Pi_{22}(x, y) = \frac{\hbar^2}{4m^2 \sigma_2^2} G(x, y)$. -/
+@[blueprint "def:signals-ddf-splat2d-quantum-pressure-principal2"
+  (title := "Principal transverse quantum pressure Π_22(x,y) of a 2D Tensor Gaussian Splat")
+  (statement := /-- For \texttt{splat : NormedTensorGaussianSplat2D}, define
+    $\Pi_{22}(x,y) = \frac{\hbar^2}{4m^2\sigma_2^2}\,G(x,y)$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.quantumPressurePrincipal2
+    (splat : NormedTensorGaussianSplat2D) (m_boson hbar x y : ℝ) : ℝ :=
+  (hbar ^ 2 / (4 * m_boson ^ 2 * splat.sigma2 ^ 2)) * splat.eval x y
+
+/-- **Trace $\operatorname{Tr}\Pi(x, y) = \Pi_{11}(x, y) + \Pi_{22}(x, y)$ of the Madelung Quantum Pressure Tensor**. -/
+@[blueprint "def:signals-ddf-splat2d-quantum-pressure-trace"
+  (title := "Trace Tr Π(x,y) of the Madelung quantum pressure tensor of a 2D Tensor Gaussian Splat")
+  (statement := /-- Define $\operatorname{Tr}\Pi(x,y) = \Pi_{11}(x,y) + \Pi_{22}(x,y)$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.quantumPressureTrace
+    (splat : NormedTensorGaussianSplat2D) (m_boson hbar x y : ℝ) : ℝ :=
+  splat.quantumPressurePrincipal1 m_boson hbar x y +
+    splat.quantumPressurePrincipal2 m_boson hbar x y
+
+/-- **Determinant $\det\Pi(x, y) = \Pi_{11}(x, y)\,\Pi_{22}(x, y)$ of the Madelung Quantum Pressure Tensor**. -/
+@[blueprint "def:signals-ddf-splat2d-quantum-pressure-det"
+  (title := "Determinant det Π(x,y) of the Madelung quantum pressure tensor of a 2D Tensor Gaussian Splat")
+  (statement := /-- Define $\det\Pi(x,y) = \Pi_{11}(x,y)\,\Pi_{22}(x,y)$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.quantumPressureDet
+    (splat : NormedTensorGaussianSplat2D) (m_boson hbar x y : ℝ) : ℝ :=
+  splat.quantumPressurePrincipal1 m_boson hbar x y *
+    splat.quantumPressurePrincipal2 m_boson hbar x y
+
+/-- **Madelung Quantum Pressure Tensor Precision-Matrix Identities & DDF Anisotropy Theorem**:
+For any `splat : NormedTensorGaussianSplat2D` and $m > 0$:
+1. The trace of the quantum pressure tensor equals $\frac{\hbar^2\,\operatorname{Tr}\Sigma}{4m^2\,\det\Sigma}\,G(x, y)
+   = \frac{1}{m}\,Q_{\mathrm{core}}(\Sigma)\,G(x, y)$,
+2. Its determinant equals $\left(\frac{\hbar^2}{4m^2}\right)^2 \frac{G(x, y)^2}{\det\Sigma}$, and
+3. For a DDF moving sheath `s.ddfTensorSplat`, the longitudinal principal quantum stress
+   exceeds the transverse quantum stress by the squared Lorentz jamming factor:
+   $\Pi_{11}^{\mathrm{DDF}}(x, y) = \gamma_\varphi(v)^2\,\Pi_{22}^{\mathrm{DDF}}(x, y)$. -/
+@[blueprint "thm:signals-ddf-splat2d-quantum-pressure-identities"
+  (title := "Madelung quantum pressure tensor Π_ij precision-matrix and DDF jamming anisotropy theorem")
+  (statement := /-- For \texttt{splat : NormedTensorGaussianSplat2D} and $m>0$:
+    (1) $\operatorname{Tr}\Pi(x,y) = \frac{1}{m}\,Q_{\mathrm{core}}(\Sigma)\,G(x,y)
+    = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4m^2\,\det\Sigma}\,G(x,y)$,
+    (2) $\det\Pi(x,y) = \left(\frac{\hbar^2}{4m^2}\right)^2\frac{G(x,y)^2}{\det\Sigma}$, and
+    (3) for \texttt{s.ddfTensorSplat},
+    $\Pi_{11}^{\mathrm{DDF}}(x,y) = \gamma_\varphi(v)^2\,\Pi_{22}^{\mathrm{DDF}}(x,y)$. -/)
+  (proof := /-- Expand $\Pi_{11}+\Pi_{22}$ and $\Pi_{11}\Pi_{22}$ over $\sigma_1^2,\sigma_2^2>0$,
+    and substitute $\sigma_1=\sigma_0\,\mathcal{V}(s)=\sigma_0\,\gamma_\varphi(v)^{-1}$. -/)]
+theorem NormedTensorGaussianSplat2D.quantumPressureTensor_identities
+    {sub : DDFSubstrate} (s : MovingSheath sub)
+    (splat : NormedTensorGaussianSplat2D)
+    (centerX centerY weight sigma0 m_boson hbar orientationAngle x y : ℝ)
+    (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0) (hm : 0 < m_boson) :
+    let splat_ddf := s.ddfTensorSplat centerX centerY weight sigma0 hw h_sigma0 orientationAngle
+    splat.quantumPressureTrace m_boson hbar x y =
+      (splat.coreBohmPotential m_boson hbar / m_boson) * splat.eval x y ∧
+    splat.quantumPressureTrace m_boson hbar x y =
+      (hbar ^ 2 * splat.covTrace / (4 * m_boson ^ 2 * splat.covDet)) * splat.eval x y ∧
+    splat.quantumPressureDet m_boson hbar x y =
+      (hbar ^ 2 / (4 * m_boson ^ 2)) ^ 2 * (splat.eval x y ^ 2 / splat.covDet) ∧
+    splat_ddf.quantumPressurePrincipal1 m_boson hbar x y =
+      s.jammingFactor ^ 2 * splat_ddf.quantumPressurePrincipal2 m_boson hbar x y := by
+  intro splat_ddf
+  have hs1 : 0 < splat.sigma1 := splat.sigma1_pos
+  have hs2 : 0 < splat.sigma2 := splat.sigma2_pos
+  have hs1_ne : splat.sigma1 ^ 2 ≠ 0 := pow_ne_zero 2 (ne_of_gt hs1)
+  have hs2_ne : splat.sigma2 ^ 2 ≠ 0 := pow_ne_zero 2 (ne_of_gt hs2)
+  have hm_ne : m_boson ≠ 0 := ne_of_gt hm
+  have h_tr_q :
+      splat.quantumPressureTrace m_boson hbar x y =
+        (splat.coreBohmPotential m_boson hbar / m_boson) * splat.eval x y := by
+    unfold NormedTensorGaussianSplat2D.quantumPressureTrace
+      NormedTensorGaussianSplat2D.quantumPressurePrincipal1
+      NormedTensorGaussianSplat2D.quantumPressurePrincipal2
+      NormedTensorGaussianSplat2D.coreBohmPotential
+    field_simp [hs1_ne, hs2_ne, hm_ne]
+  have h_tr_cov :
+      splat.quantumPressureTrace m_boson hbar x y =
+        (hbar ^ 2 * splat.covTrace / (4 * m_boson ^ 2 * splat.covDet)) * splat.eval x y := by
+    unfold NormedTensorGaussianSplat2D.quantumPressureTrace
+      NormedTensorGaussianSplat2D.quantumPressurePrincipal1
+      NormedTensorGaussianSplat2D.quantumPressurePrincipal2
+      NormedTensorGaussianSplat2D.covTrace NormedTensorGaussianSplat2D.covDet
+    field_simp [hs1_ne, hs2_ne, hm_ne]
+    ring
+  have h_det :
+      splat.quantumPressureDet m_boson hbar x y =
+        (hbar ^ 2 / (4 * m_boson ^ 2)) ^ 2 * (splat.eval x y ^ 2 / splat.covDet) := by
+    unfold NormedTensorGaussianSplat2D.quantumPressureDet
+      NormedTensorGaussianSplat2D.quantumPressurePrincipal1
+      NormedTensorGaussianSplat2D.quantumPressurePrincipal2
+      NormedTensorGaussianSplat2D.covDet
+    field_simp [hs1_ne, hs2_ne, hm_ne]
+  have h_aniso :
+      splat_ddf.quantumPressurePrincipal1 m_boson hbar x y =
+        s.jammingFactor ^ 2 * splat_ddf.quantumPressurePrincipal2 m_boson hbar x y := by
+    unfold NormedTensorGaussianSplat2D.quantumPressurePrincipal1
+      NormedTensorGaussianSplat2D.quantumPressurePrincipal2
+    have h_s1 : splat_ddf.sigma1 = sigma0 * s.jammingFactor⁻¹ := by
+      dsimp [splat_ddf, MovingSheath.ddfTensorSplat]
+      rw [(s.visibility_jamming_duality).1]
+    have h_s2 : splat_ddf.sigma2 = sigma0 := rfl
+    rw [h_s1, h_s2]
+    have hs0_ne : sigma0 ≠ 0 := ne_of_gt h_sigma0
+    have hjam_ne : s.jammingFactor ≠ 0 := ne_of_gt s.jammingFactor_pos
+    field_simp [hs0_ne, hjam_ne, hm_ne]
+  exact ⟨h_tr_q, h_tr_cov, h_det, h_aniso⟩
+
 end Signals.DDF

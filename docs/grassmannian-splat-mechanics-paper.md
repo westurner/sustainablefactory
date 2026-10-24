@@ -6,14 +6,18 @@ description: "An arXiv-ready formal verification and systems architecture paper 
 (grassmannian-splat-mechanics-paper)=
 # Normed Tensor Gaussian Splat Mechanics for Complex $Gr_{\mathbb{C}}(2,4)$ Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4
 
-**Authors:** Wes Turner
-**Subjects:** Mathematical Physics (`math-ph`); Computational Physics (`physics.comp-ph`); Quantum Physics (`quant-ph`); General Relativity and Quantum Cosmology (`gr-qc`); Logic in Computer Science (`cs.LO`)
-**Formal Verification & Simulation Artifact:** `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`) & `signals-numerical-adapter` Rust/WASM/GLSL Crate
-**Companion Papers:**
-1. [Huygens–Steiner Barycentric Coherence, Complex $Gr_{\mathbb{C}}(2,4)$ Plücker Channels, and Multi-Model Double-Slit & OAM Relative Predictive Error in Lean 4](grassmannian-huygens-double-slit-oam-paper.md)
-2. [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.myst.md)
-3. [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.myst.md)
-4. [Grassmannian Gravity from QED & Gauge Scattering Amplitudes: Complex $Gr_{\mathbb{C}}(2,4)$ Orbital Precession, Mercury's Perihelion, $N$-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4](grassmannian-gravity-from-qed-scattering-paper.md)
+- **Authors:** Wes Turner
+- **Subjects:**
+  - Mathematical Physics (`math-ph`); Computational Physics (`physics.comp-ph`); Quantum Physics (`quant-ph`); General Relativity and Quantum Cosmology (`gr-qc`); Logic in Computer Science (`cs.LO`)
+- **Formal Verification & Simulation Artifacts:**
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`)
+  - `signals-numerical-adapter` Rust/WASM/GLSL Crate
+
+- **Companion Papers:**
+  1. [Huygens–Steiner Barycentric Coherence, Complex $Gr_{\mathbb{C}}(2,4)$ Plücker Channels, and Multi-Model Double-Slit & OAM Relative Predictive Error in Lean 4](grassmannian-huygens-double-slit-oam-paper.md)
+  2. [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.myst.md)
+  3. [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.myst.md)
+  4. [Grassmannian Gravity from QED & Gauge Scattering Amplitudes: Complex $Gr_{\mathbb{C}}(2,4)$ Orbital Precession, Mercury's Perihelion, $N$-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4](grassmannian-gravity-from-qed-scattering-paper.md)
 
 ---
 
@@ -25,9 +29,9 @@ How can a finite set of **normed anisotropic Tensor Gaussian Splatters** (`Norme
    A complex 2-plane in twistor space $M_{\mathbb{C}} \in Gr_{\mathbb{C}}(2,4)$ spanned by two twistors $Z_1, Z_2 \in \mathbb{C}^4$ (with Penrose incidence $\mu^{\dot{\alpha}} = -i x^{\alpha\dot{\alpha}}\lambda_\alpha$) is represented by a **dual-layer phase-coherent Tensor Gaussian Splat**:
    - **Layer 1 (Anisotropic Covariance Tensor $\Sigma$)**: The moduli of the two uncrossed Plücker channel amplitudes $w_A^{\mathbb{C}} = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}$ and $w_B^{\mathbb{C}} = \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}$ set the principal variances $\sigma_1^2 = \sigma_0^2 |w_A^{\mathbb{C}}|^2$ and $\sigma_2^2 = \sigma_0^2 |w_B^{\mathbb{C}}|^2$, so that $\frac{\operatorname{Tr}\Sigma}{\sigma_0^2} = |w_A^{\mathbb{C}}|^2 + |w_B^{\mathbb{C}}|^2$ (total Madelung weight), $\frac{\sigma_1^2 - \sigma_2^2}{2\sigma_0^2} = d_{\mathrm{bary}}$ (barycentric parallel-axis shift / DDF reduced speed $\beta = v/c$ / orbital eccentricity $e$), and $\frac{\det\Sigma}{\sigma_0^4} = \mathcal{V}^2 = \gamma_\varphi(v)^{-2} = 1 - e^2 = \frac{p}{a}$.
    - **Layer 2 (Complex Twistor Wavepacket $\Psi_{\mathrm{splat}}$)**: Attaching the complex Plücker sum $w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}$ to the square-root Gaussian amplitude $\sqrt{G(x,y)}$ yields $\Psi_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = \sqrt{G(x,y)}\,\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}})$, whose Madelung intensity $I_{\mathrm{splat}} = G(x,y)\,\bigl|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}\bigr|^2$ reproduces exact constructive and destructive interference (vanishing at dark fringes where $w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = 0$) while preserving the $L^1(\mathbb{R}^2)$ normalization of $G(x,y)$.
-2. **Core Bohm Quantum Potential Regularization (`coreBohmPotential_identities`)**:
-   Because Gaussian splats are $C^\infty$ smooth with $\det\Sigma > 0$, the regularized Bohm quantum potential at the splat center is finite and strictly repulsive:
-   $$Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4 m\,\det\Sigma} = \frac{\hbar^2}{4m}\left(\frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2}\right) > 0, \qquad Q_{\mathrm{core}}^{\mathrm{DDF}}(s) = \frac{\hbar^2}{4 m \sigma_0^2}\bigl(\gamma_\varphi(v)^2 + 1\bigr),$$
+2. **Core Bohm Quantum Potential & Madelung Quantum Pressure Tensor (`coreBohmPotential_identities`, `quantumPressureTensor_identities`)**:
+   Because Gaussian splats are $C^\infty$ smooth with $\det\Sigma > 0$ and have a spatially constant negative log-density Hessian $-\partial_i\partial_j \ln G(x,y) = (\Sigma^{-1})_{ij}$, both the core Bohm quantum potential and the full Madelung quantum pressure tensor $\Pi_{ij}(x,y) = -\frac{\hbar^2}{4m^2} G(x,y) \partial_i\partial_j \ln G(x,y)$ reduce to pure $2 \times 2$ precision-matrix algebra:
+   $$Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4 m\,\det\Sigma} > 0, \qquad \Pi_{ij}(x, y) = \frac{\hbar^2}{4m^2}\,G(x, y)\,(\Sigma^{-1})_{ij}, \qquad \frac{\Pi_{11}^{\mathrm{DDF}}(x,y)}{\Pi_{22}^{\mathrm{DDF}}(x,y)} = \gamma_\varphi(v)^2,$$
    preventing $1/r \to \infty$ point-core singularities in both vortex reconnection and relativistic horizon compression.
 3. **Justification, Advantages, and Limitations Across All Four Companion Papers**:
    We provide a domain-by-domain audit of where normed tensor Gaussian splatters are exact, where they serve as an $O(N_{\mathrm{splats}})$ Lagrangian/Madelung discretization, and where hybrid analytic kernels (such as $\operatorname{sinc}^2$ aperture diffraction or long-range $1/r$ Ewald/Newtonian tails) are required.
@@ -132,40 +136,66 @@ The table below synthesizes the mathematical justification, computational advant
 | **3. Dilatant Dark Fluid (DDF) Moving Sheaths & Anosov Flows** ([grassmannian-ddf-moving-sheath-paper.myst.md](grassmannian-ddf-moving-sheath-paper.myst.md)) | `MovingSheath.ddfTensorSplat` ($\sigma_1 = \sigma_0/\gamma_\varphi(v)$, $\sigma_2 = \sigma_0$) and `NormedTensorGaussianSplat2D.coreBohmPotential` | • **Built-in Continuity**: $L^1$ normalization $w\,\mathcal{N}(\Sigma)$ conserves mass/energy analytically without Poisson pressure solvers<br>• **Lorentz Jamming**: $\det\Sigma_{\mathrm{DDF}} = \sigma_0^4\gamma_\varphi(v)^{-2}$ and $\mathcal{N}_{\mathrm{DDF}} = \frac{\gamma_\varphi(v)}{2\pi\sigma_0^2}$<br>• **Core Singularity Regularization**: Repulsive Bohm quantum potential $Q_{\mathrm{core}}^{\mathrm{DDF}} = \frac{\hbar^2}{4m\sigma_0^2}(\gamma_\varphi(v)^2 + 1) > 0$ prevents cavitation/horizon blow-up<br>• **Symplectic Anosov Invariance**: $\operatorname{diag}(e^{\lambda t}, e^{-\lambda t})$ preserves $\det\Sigma$ | • **Limitation 1**: Under long-time chaotic Anosov stretching ($\lambda t \gg 1$), a single Gaussian splat becomes arbitrarily thin and elongated, requiring dynamic splat splitting/remeshing to resolve curved streamlines<br>• **Limitation 2**: Hard shock discontinuities (e.g. Sod shock tube in `FlowFieldDataset`) are smoothed over the scale $\sigma_1$ |
 | **4. QED Scattering Gravity, Mercury's Perihelion, & $N$-Body Orbits** ([grassmannian-gravity-from-qed-scattering-paper.md](grassmannian-gravity-from-qed-scattering-paper.md)) | `PlanetaryOrbit.gr24TensorSplat` ($\sigma_{1,2} = \sigma_0\sqrt{1\pm e}$) and multi-layer `OrbitalSplatScene` | • Encodes the precessing Keplerian orbit in one $2 \times 2$ tensor with $\operatorname{Tr}\Sigma = 2\sigma_0^2$, $\det\Sigma = \sigma_0^4(1-e^2) = \sigma_0^4(p/a)$, and orientation $\varpi(t)$<br>• Softens $1/r \to \infty$ close-encounter singularities in $N$-body sink-flow interactions | • **Limitation 1**: A single Gaussian decays exponentially ($\exp(-r^2/(2\sigma^2))$), whereas Newtonian/Bernoulli gravity $\Phi_\phi(r) = -G_\phi M / r$ is long-ranged ($1/r$). Long-range orbital forces require either a multi-scale Gaussian sum ($\frac{1}{r} = \frac{2}{\sqrt{\pi}}\int_0^\infty e^{-u^2 r^2}du$) or hybridizing exact $1/r$ sink potentials with Gaussian field/core splats (as in `orbital_splat.frag.glsl`) |
 
-### 2.1 Machine-Checked Core Bohm Quantum Potential Regularization (`coreBohmPotential_identities`)
+### 2.1 Machine-Checked Core Bohm Quantum Potential & Madelung Quantum Pressure Tensor (`coreBohmPotential_identities`, `quantumPressureTensor_identities`)
 
-In [Provenance Chat Log: Grassmannian Splat Mechanics (2026)](#splat-chat2026) (lines 1414–1435), a central physical justification for normed tensor Gaussian splatters is that their $C^\infty$ smoothness regularizes the Bohm quantum potential $Q = -\frac{\hbar^2}{2m}\frac{\nabla^2 \sqrt{\rho}}{\sqrt{\rho}}$ at vortex and sink cores. In [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L2842-L2905), `NormedTensorGaussianSplat2D.coreBohmPotential` and `NormedTensorGaussianSplat2D.coreBohmPotential_identities` prove that at the splat center $(x_0, y_0)$:
-
-$$
-Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2}{4m}\left(\frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2}\right) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4m\,\det\Sigma} > 0,
-$$
-
-and for a DDF moving sheath (`s.ddfTensorSplat` with $\sigma_1 = \sigma_0 \gamma_\varphi(v)^{-1}$ and $\sigma_2 = \sigma_0$):
+In [Provenance Chat Log: Grassmannian Splat Mechanics (2026)](#splat-chat2026) (lines 658–691 and 1414–1435), a central physical justification for normed tensor Gaussian splatters is that their $C^\infty$ smoothness regularizes both the scalar Bohm quantum potential $Q = -\frac{\hbar^2}{2m}\frac{\nabla^2 \sqrt{\rho}}{\sqrt{\rho}}$ and the **Madelung Quantum Pressure Tensor**:
 
 $$
-Q_{\mathrm{core}}^{\mathrm{DDF}}(s) = \frac{\hbar^2}{4 m \sigma_0^2}\bigl(\gamma_\varphi(v)^2 + 1\bigr).
+\Pi_{ij}(x, y) = -\frac{\hbar^2}{4m^2}\,\rho(x, y)\,\partial_i \partial_j \ln \rho(x, y).
 $$
 
-As $v \to c$, $\gamma_\varphi(v) \to \infty$ and $Q_{\mathrm{core}}^{\mathrm{DDF}}(s)$ grows quadratically with $\gamma_\varphi(v)$, providing the exact quantum-hydrodynamic counter-pressure that prevents singular horizon collapse.
+For a normed Tensor Gaussian Splat $\rho(x, y) = G(x, y) = w\,\mathcal{N}(\Sigma)\,\exp\!\left(-\frac{1}{2}(\mathbf{x}-\mathbf{x}_0)^T \Sigma^{-1} (\mathbf{x}-\mathbf{x}_0)\right)$, the negative Hessian of the log-density is **spatially constant everywhere** and equals the $2 \times 2$ precision matrix $\Sigma^{-1} = R(\theta)\operatorname{diag}(\sigma_1^{-2}, \sigma_2^{-2})R(\theta)^T$:
+
+$$
+-\partial_i \partial_j \ln G(x, y) = (\Sigma^{-1})_{ij}
+\quad \Longrightarrow \quad
+\Pi_{ij}(x, y) = \frac{\hbar^2}{4m^2}\,G(x, y)\,(\Sigma^{-1})_{ij}.
+$$
+
+In [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L2842-L3025), `NormedTensorGaussianSplat2D.coreBohmPotential_identities` and `NormedTensorGaussianSplat2D.quantumPressureTensor_identities` prove:
+
+$$
+Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2}{4m}\left(\frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2}\right) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4m\,\det\Sigma} > 0, \qquad
+Q_{\mathrm{core}}^{\mathrm{DDF}}(s) = \frac{\hbar^2}{4 m \sigma_0^2}\bigl(\gamma_\varphi(v)^2 + 1\bigr),
+$$
+
+$$
+\operatorname{Tr}\Pi(x, y) = \frac{1}{m}\,Q_{\mathrm{core}}(\Sigma)\,G(x, y) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4m^2\,\det\Sigma}\,G(x, y), \qquad
+\det\Pi(x, y) = \left(\frac{\hbar^2}{4m^2}\right)^2 \frac{G(x, y)^2}{\det\Sigma},
+$$
+
+and for a DDF moving sheath (`s.ddfTensorSplat`), the longitudinal principal quantum stress exceeds the transverse quantum stress by $\gamma_\varphi(v)^2$:
+
+$$
+\Pi_{11}^{\mathrm{DDF}}(x, y) = \gamma_\varphi(v)^2\,\Pi_{22}^{\mathrm{DDF}}(x, y).
+$$
+
+As $v \to c$, $\gamma_\varphi(v) \to \infty$ and both $Q_{\mathrm{core}}^{\mathrm{DDF}}(s)$ and $\Pi_{11}^{\mathrm{DDF}}(x, y)$ grow quadratically with $\gamma_\varphi(v)$, providing the exact quantum-hydrodynamic counter-pressure that prevents singular horizon or vortex-core collapse.
 
 ```lean
--- 2. DDF MovingSheath and Gr_C(2,4) PlanetaryOrbit tensor splat covariance & core Bohm potential laws
+-- 2. DDF MovingSheath and Gr_C(2,4) PlanetaryOrbit tensor splat covariance, core Bohm potential, and Quantum Pressure Tensor Π_ij laws
 example {sub : DDFSubstrate} (s : MovingSheath sub) (orb : PlanetaryOrbit)
-    (θ ϖ : ℝ) :
+    (θ ϖ x y : ℝ) :
     let splat_ddf := s.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
     let splat_orb := orb.gr24TensorSplat 0 0 3 2 (by norm_num) (by norm_num) ϖ
     splat_ddf.covDet = 2 ^ 4 * (s.jammingFactor ^ 2)⁻¹ ∧
     splat_ddf.normFactor = s.jammingFactor / (2 * Real.pi * 2 ^ 2) ∧
     splat_ddf.coreBohmPotential 1 1 =
       (1 ^ 2 / (4 * 1 * 2 ^ 2)) * (s.jammingFactor ^ 2 + 1) ∧
+    splat_ddf.quantumPressureTrace 1 1 x y =
+      (splat_ddf.coreBohmPotential 1 1 / 1) * splat_ddf.eval x y ∧
+    splat_ddf.quantumPressurePrincipal1 1 1 x y =
+      s.jammingFactor ^ 2 * splat_ddf.quantumPressurePrincipal2 1 1 x y ∧
     splat_orb.covTrace = 2 * 2 ^ 2 ∧
     splat_orb.covDet = 2 ^ 4 * (orb.semiLatusRectum / orb.semiMajorAxis) := by
   intro splat_ddf splat_orb
   have h_ddf := s.ddfTensorSplat_identities 0 0 5 2 (by norm_num) (by norm_num) θ
   have h_bohm := NormedTensorGaussianSplat2D.coreBohmPotential_identities
     s splat_ddf 0 0 5 2 1 1 θ (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_qp := NormedTensorGaussianSplat2D.quantumPressureTensor_identities
+    s splat_ddf 0 0 5 2 1 1 θ x y (by norm_num) (by norm_num) (by norm_num)
   have h_orb := orb.gr24TensorSplat_identities 0 0 3 2 (by norm_num) (by norm_num) ϖ
-  exact ⟨h_ddf.2.1, h_ddf.2.2, h_bohm.2.2, h_orb.1, h_orb.2.2⟩
+  exact ⟨h_ddf.2.1, h_ddf.2.2, h_bohm.2.2, h_qp.1, h_qp.2.2.2, h_orb.1, h_orb.2.2⟩
 
 end ArxivSplatMechanicsPaperVerification
 ```

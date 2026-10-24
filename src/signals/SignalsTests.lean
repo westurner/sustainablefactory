@@ -4678,4 +4678,19 @@ example (M_C : Matrix (Fin 2) (Fin 4) ℂ) (θ x y : ℝ) :
     toyMovingSheath splat_ddf 0 0 5 2 1 1 θ (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   exact ⟨h_tw.2.1, h_bohm.1, h_bohm.2.2⟩
 
+/-- Madelung Quantum Pressure Tensor Π_ij precision-matrix trace/determinant identities
+and DDF longitudinal-to-transverse quantum stress ratio Π_11^DDF = γ_φ(v)² Π_22^DDF. -/
+example (θ x y : ℝ) :
+    let splat_ddf := toyMovingSheath.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
+    splat_ddf.quantumPressureTrace 1 1 x y =
+      (splat_ddf.coreBohmPotential 1 1 / 1) * splat_ddf.eval x y ∧
+    splat_ddf.quantumPressureDet 1 1 x y =
+      (1 ^ 2 / (4 * 1 ^ 2)) ^ 2 * (splat_ddf.eval x y ^ 2 / splat_ddf.covDet) ∧
+    splat_ddf.quantumPressurePrincipal1 1 1 x y =
+      toyMovingSheath.jammingFactor ^ 2 * splat_ddf.quantumPressurePrincipal2 1 1 x y := by
+  intro splat_ddf
+  have h_qp := NormedTensorGaussianSplat2D.quantumPressureTensor_identities
+    toyMovingSheath splat_ddf 0 0 5 2 1 1 θ x y (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_qp.1, h_qp.2.2.1, h_qp.2.2.2⟩
+
 end SignalsTests
