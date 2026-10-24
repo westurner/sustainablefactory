@@ -109,10 +109,10 @@ In `Signals.Scattering` ([src/signals/Signals/Scattering.lean](../src/signals/Si
    $$\operatorname{reconstructSpectralDiff}(\omega_{AS}, \omega_S) = \frac{\omega_{AS} + \omega_S}{2} = \omega_L, \qquad \operatorname{reconstructYangCoupling}(\omega_{AS}, \omega_S) = \frac{\omega_{AS} - \omega_S}{2} = \Omega_v.$$
 2. **Coherent $Gr_{\mathbb{C}}(2,4)$ Plücker Ratio and Determinant Product**:
    $$\frac{\omega_{AS}}{\omega_S} = \frac{1 + \delta_R}{1 - \delta_R} = \frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2}, \qquad \omega_S\,\omega_{AS} = \omega_L^2(1 - \delta_R^2) = \omega_L^2\,\frac{\det\Sigma}{\sigma_0^4}.$$
-3. **Thermal Anti-Stokes / Stokes Boltzmann Asymmetry, Bose–Einstein Vacuum Fluctuations, & Exact Thermometer Inversion (`ramanAntiStokesToStokesThermalRatio`, `raman_boseEinstein_and_thermometer_inversion`)**:
-   In a medium at temperature $T > 0$ with dimensionless Boltzmann exponent $\xi = \frac{\hbar\Omega_v}{k_B T} > 0$ and Bose–Einstein thermal phonon occupancy $\bar{n}_{\mathrm{BE}}(\xi) = \frac{1}{\exp(\xi) - 1} > 0$, anti-Stokes phonon absorption is proportional to $\bar{n}_{\mathrm{BE}}(\xi)$ whereas Stokes phonon creation includes the $+1$ zero-point vacuum fluctuation ($\bar{n}_{\mathrm{BE}}(\xi) + 1$), satisfying:
+3. **Thermal Anti-Stokes / Stokes Boltzmann Asymmetry, Bose–Einstein Vacuum Fluctuations, & Complete Thermometer Inversion (`raman_boseEinstein_and_thermometer_inversion`, `inelastic_compton_and_raman_temperature_inversion`)**:
+   In a medium at temperature $T > 0$ with characteristic vibrational temperature $\Theta_v = \frac{\hbar\Omega_v}{k_B} > 0$, dimensionless Boltzmann exponent $\xi = \frac{\Theta_v}{T} > 0$, and Bose–Einstein thermal phonon occupancy $\bar{n}_{\mathrm{BE}}(\xi) = \frac{1}{\exp(\xi) - 1} > 0$, anti-Stokes phonon absorption is proportional to $\bar{n}_{\mathrm{BE}}(\xi)$ whereas Stokes phonon creation includes the $+1$ zero-point vacuum fluctuation ($\bar{n}_{\mathrm{BE}}(\xi) + 1$), satisfying:
    $$\frac{\bar{n}_{\mathrm{BE}}(\xi)}{\bar{n}_{\mathrm{BE}}(\xi) + 1} = \exp(-\xi), \qquad R_{AS/S}(\xi) = \left(\frac{\omega_L + \Omega_v}{\omega_L - \Omega_v}\right)^4 \frac{\bar{n}_{\mathrm{BE}}(\xi)}{\bar{n}_{\mathrm{BE}}(\xi) + 1} = \left(\frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2}\right)^4 \exp(-\xi) < \left(\frac{\omega_{AS}}{\omega_S}\right)^4,$$
-   with exact closed-form thermometer inversion $\operatorname{reconstructRamanBoltzmannExponent}(\omega_L, \Omega_v, R_{AS/S}(\xi)) = 4\ln(\omega_{AS}/\omega_S) - \ln(R_{AS/S}(\xi)) = \xi$.
+   with exact closed-form inversion for the Boltzmann exponent $\xi = 4\ln(\omega_{AS}/\omega_S) - \ln(R_{AS/S}(\xi))$ (`reconstructRamanBoltzmannExponent`), physical absolute temperature $T = \frac{\Theta_v}{\xi}$ (`reconstructRamanTemperature`), Inverse Compton reduced speed $\beta = \frac{D - 1}{D + 1}$ (`reconstructInverseComptonBeta`), and Klein–Nishina recoil $\epsilon_{\mathrm{rec}} = \frac{D}{R_{\mathrm{KN}}} - 1$ (`reconstructKleinNishinaRecoil`).
 
 ```lean
 import Signals
@@ -124,32 +124,35 @@ open Signals.Geometry
 open Signals.Scattering
 open Signals.DDF
 
--- 1. Relativistic Inverse Compton Gr_C(2,4) Plücker ratio, Klein-Nishina recoil suppression, and Stokes/anti-Stokes Raman Bose-Einstein inversion
+-- 1. Relativistic Inverse Compton Gr_C(2,4) Plücker ratio, Klein-Nishina recoil inversion, and Stokes/anti-Stokes Raman temperature inversion
 example {sub : DDFSubstrate} (s : MovingSheath sub)
     (d wavelength L : ℝ) (Δℓ : ℤ) (φ x : ℝ) :
     let M_C := s.gr24TwistorMatrix d wavelength L Δℓ φ x
+    let D := inverseComptonDopplerRatio (3 / 5)
+    let R_KN := inverseComptonKleinNishinaRatio (3 / 5) (1 / 4)
+    let R_Raman := ramanAntiStokesToStokesThermalRatio 10 2 (150 / 300)
     Complex.normSq (complexPluckerSinkAmplitudeA M_C) /
         Complex.normSq (complexPluckerSinkAmplitudeB M_C) =
       inverseComptonDopplerRatio s.beta ∧
-    inverseComptonDopplerRatio s.beta =
-      s.jammingFactor ^ 2 * (1 + s.beta) ^ 2 ∧
-    inverseComptonKleinNishinaRatio (3 / 5) (1 / 10) <
-      inverseComptonDopplerRatio (3 / 5) ∧
+    reconstructInverseComptonBeta D = 3 / 5 ∧
+    reconstructKleinNishinaRecoil D R_KN = 1 / 4 ∧
     reconstructSpectralDiff (ramanAntiStokesFreq 10 2) (ramanStokesFreq 10 2) = 10 ∧
     reconstructYangCoupling (ramanAntiStokesFreq 10 2) (ramanStokesFreq 10 2) = 2 ∧
     boseEinsteinOccupancy (1 / 2) / (boseEinsteinOccupancy (1 / 2) + 1) =
       Real.exp (-(1 / 2 : ℝ)) ∧
-    reconstructRamanBoltzmannExponent 10 2
-        (ramanAntiStokesToStokesThermalRatio 10 2 (1 / 2)) = 1 / 2 := by
-  intro M_C
+    reconstructRamanTemperature 10 2 150 R_Raman = 300 := by
+  intro M_C D R_KN R_Raman
   have h_ics_ddf := s.inverseCompton_gr24_identities d wavelength L Δℓ φ x
-  have h_ics := inverseCompton_thomson_and_recoil_identities
-    (3 / 5) (1 / 10) (by norm_num) (by norm_num) (by norm_num)
   have h_ram := raman_stokes_antiStokes_gr24_identities
     10 2 (1 / 2) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   have h_be := raman_boseEinstein_and_thermometer_inversion
     10 2 (1 / 2) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
-  exact ⟨h_ics_ddf.1, h_ics_ddf.2.1, h_ics.2.2.2, h_ram.1, h_ram.2.1, h_be.2.1, h_be.2.2.2⟩
+  have h_inv := inelastic_compton_and_raman_temperature_inversion
+    (3 / 5) (1 / 4) 10 2 150 300 (1 / 10)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_ics_ddf.1, h_inv.1, h_inv.2.1, h_ram.1, h_ram.2.1, h_be.2.1, h_inv.2.2.1⟩
 ```
 
 ---
@@ -196,14 +199,14 @@ Our unified method resolves the limitations of both classical Fourier diffusion 
    $$|w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 + j_q, \qquad |w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q, \qquad \frac{|w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2 - |w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2}{2} = j_q,$$
    $$0 < |w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2\,|w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q^2 \iff |q| < q_{\max}^{\mathrm{DDF}}(s) = \rho c_v c_{\mathrm{th}}^{\mathrm{DDF}}(s) T_0 \le \rho c_v c T_0,$$
    enforcing the relativistic Cattaneo flux limiter and guaranteeing non-negative temperatures in transient thermal shock waves without any Gaussian splat discretization (`step_1d_continuum_periodic` in `thermal_inelastic.rs`).
-3. **Optional Lagrangian Layer: Anisotropic Normed Tensor Gaussian Splat Thermal Evolution & Second-Law Determinant Growth (`MovingSheath.ddfThermalTransport_and_splat_identities`, `MovingSheath.ddfThermal_fluxLimiter_and_entropy_growth`)**:
+3. **Optional Lagrangian Layer: Anisotropic Normed Tensor Gaussian Splat Thermal Evolution, Chapman–Kolmogorov Semigroup Additivity, & Second-Law Determinant Growth (`MovingSheath.ddfThermalTransport_and_splat_identities`, `MovingSheath.ddfThermal_fluxLimiter_and_entropy_growth`, `NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay`)**:
    When a Lagrangian/WebGL2 representation is desired, each thermal packet is represented by a normed 2D anisotropic Tensor Gaussian Splat $G(x,y;t)$ whose covariance determinant satisfies $\frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4} = \frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{\alpha_0} = \gamma_\varphi(v)^{-2}$ and whose principal widths evolve over $\Delta t \ge 0$ by:
    $$\sigma_1(t + \Delta t) = \sqrt{\sigma_1(t)^2 + 2\alpha_\parallel^{\mathrm{DDF}}(s)\,\Delta t}, \qquad \sigma_2(t + \Delta t) = \sqrt{\sigma_2(t)^2 + 2\alpha_0\,\Delta t},$$
-   conserving total thermal energy $\int_{\mathbb{R}^2} G(x,y;t)\,dx\,dy = w$ **identically** at every step, growing the covariance trace linearly as $\operatorname{Tr}\Sigma(t+\Delta t) = \operatorname{Tr}\Sigma(t) + 2\bigl(\alpha_\parallel^{\mathrm{DDF}}(s) + \alpha_0\bigr)\Delta t$, and expanding the covariance determinant monotonically (`ddfThermal_fluxLimiter_and_entropy_growth`):
+   conserving total thermal energy $\int_{\mathbb{R}^2} G(x,y;t)\,dx\,dy = w$ **identically** at every step, obeying the exact Chapman–Kolmogorov semigroup composition law $\mathcal{E}(\Delta t_2)\circ\mathcal{E}(\Delta t_1) = \mathcal{E}(\Delta t_1 + \Delta t_2)$, relaxing the core Bohm potential monotonically $Q_{\mathrm{core}}(\Sigma(t+\Delta t)) \le Q_{\mathrm{core}}(\Sigma(t))$, and expanding the covariance determinant monotonically (`ddfThermal_fluxLimiter_and_entropy_growth`):
    $$\det\Sigma(t + \Delta t) = \det\Sigma(t) + 2\bigl(\alpha_1\sigma_2^2 + \alpha_2\sigma_1^2\bigr)\Delta t + 4\alpha_1\alpha_2(\Delta t)^2 > \det\Sigma(t) \quad (\alpha_1, \Delta t > 0).$$
 
 ```lean
--- 2. Fourier acausal blow-up, Cattaneo-Vernotte second sound, Splat-Free Continuum Grassmannian-DDF thermal transport, and Second-Law Tensor Splat evolution
+-- 2. Fourier acausal blow-up, Cattaneo-Vernotte second sound, Splat-Free Continuum Grassmannian-DDF thermal transport, and Semigroup / Second-Law Tensor Splat evolution
 example {sub : DDFSubstrate} (s : MovingSheath sub)
     (m_cv : CattaneoVernotteHeatModel) (splat : NormedTensorGaussianSplat2D)
     (c_th0 : ℝ) (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c) (θ : ℝ) :
@@ -213,6 +216,8 @@ example {sub : DDFSubstrate} (s : MovingSheath sub)
     let M_th := ddfThermalGr24Matrix (3 / 5) θ
     let splat_ddf := s.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
     let splat_evol := splat.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)
+    let splat_evol2 := splat_evol.evolveThermal 1 2 4 (by norm_num) (by norm_num) (by norm_num)
+    let splat_sum := splat.evolveThermal 1 2 (3 + 4) (by norm_num) (by norm_num) (by norm_num)
     -- (A) Classical Fourier diffusion exceeds the speed of light c at high frequency ω_star:
     sub.c ^ 2 < m_f.highFreqPhaseSpeedSq ω_star ∧
     -- (B) Cattaneo-Vernotte has positive second-sound speed and reduces to Fourier at dq/dt = 0:
@@ -233,14 +238,16 @@ example {sub : DDFSubstrate} (s : MovingSheath sub)
         Complex.normSq (complexPluckerSinkAmplitudeB M_th)) / 2 = 3 / 5 ∧
     0 < Complex.normSq (complexPluckerSinkAmplitudeA M_th) *
         Complex.normSq (complexPluckerSinkAmplitudeB M_th) ∧
-    -- (D) Normed Tensor Gaussian Splat covariance bridge, L1 conservation, and Second-Law determinant growth:
+    -- (D) Normed Tensor Gaussian Splat covariance bridge, L1 conservation, Second-Law determinant growth, semigroup additivity, and Bohm potential relaxation:
     s.ddfLongitudinalDiffusivity c_th0 m_cv.relaxationTime /
         (c_th0 ^ 2 * m_cv.relaxationTime) =
       splat_ddf.covDet / 2 ^ 4 ∧
     splat_evol.weight = splat.weight ∧
     splat_evol.covTrace = splat.covTrace + 2 * (1 + 2) * 3 ∧
-    splat.covDet < splat_evol.covDet := by
-  intro m_f ω_star M_sheath M_th splat_ddf splat_evol
+    splat.covDet < splat_evol.covDet ∧
+    splat_evol2 = splat_sum ∧
+    splat_evol.coreBohmPotential 1 1 ≤ splat.coreBohmPotential 1 1 := by
+  intro m_f ω_star M_sheath M_th splat_ddf splat_evol splat_evol2 splat_sum
   have h_f := m_f.diffusivity_pos_and_acausal_speed sub.c
   have h_cv := m_cv.identities 7 (-2) 0 0 0
   have h_cont := s.ddfThermalTransport_continuum_identities
@@ -255,10 +262,13 @@ example {sub : DDFSubstrate} (s : MovingSheath sub)
     (by norm_num) hc_pos hc_le (by norm_num)
     (by rw [zero_div]; norm_num) (by rw [zero_div]; norm_num)
     (by norm_num) (by norm_num) (by norm_num)
+  have h_semi := NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay
+    splat 1 2 3 4 1 1
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   exact ⟨h_f.2.2, h_cv.2.1, h_cv.2.2.2.2, h_cont.1, h_cont.2.1,
     h_cont.2.2.1, h_cont.2.2.2.2.1, h_cont.2.2.2.2.2.1, h_cont.2.2.2.2.2.2.2,
     h_ddf.2.2.2.1, h_ddf.2.2.2.2.1, h_ddf.2.2.2.2.2,
-    h_ent.2.2.2.2.2 ⟨by norm_num, by norm_num⟩⟩
+    h_ent.2.2.2.2.2 ⟨by norm_num, by norm_num⟩, h_semi.1, h_semi.2.2⟩
 
 end ArxivThermalComptonRamanVerification
 ```

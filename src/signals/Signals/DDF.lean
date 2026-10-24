@@ -3712,4 +3712,104 @@ theorem MovingSheath.ddfThermal_fluxLimiter_and_entropy_growth
     linarith
   exact ⟨h_qmax_pos, h_qmax_le, h_q_sq, h_det_exp, h_det_le, h_det_lt⟩
 
+/-- **Chapman–Kolmogorov Thermal Semigroup Composition & Monotonic Core Bohm Quantum-Potential Relaxation**:
+For any `splat : NormedTensorGaussianSplat2D`, principal diffusivities $\alpha_1, \alpha_2 \ge 0$,
+time increments $\Delta t_1, \Delta t_2 \ge 0$, boson mass $m > 0$, and $\hbar \in \mathbb{R}$:
+1. **Exact Chapman–Kolmogorov Semigroup Composition**:
+   Evolving by $\Delta t_1$ and then by $\Delta t_2$ produces the exact same
+   `NormedTensorGaussianSplat2D` as evolving in a single step by $\Delta t_1 + \Delta t_2$,
+2. **Monotonic Peak Normalization Relaxation**:
+   $\mathcal{N}\bigl(\Sigma(t + \Delta t_1)\bigr) \le \mathcal{N}\bigl(\Sigma(t)\bigr)$, and
+3. **Monotonic Core Bohm Quantum-Potential Relaxation**:
+   $Q_{\mathrm{core}}\bigl(\Sigma(t + \Delta t_1)\bigr) \le Q_{\mathrm{core}}\bigl(\Sigma(t)\bigr)$,
+   showing that thermal diffusion monotonically relaxes quantum-pressure gradients. -/
+@[blueprint "thm:signals-ddf-splat2d-thermal-semigroup-bohm-decay"
+  (title := "Chapman-Kolmogorov thermal splat semigroup composition and monotonic core Bohm potential relaxation")
+  (statement := /-- For \texttt{splat : NormedTensorGaussianSplat2D}, $\alpha_1,\alpha_2,\Delta t_1,\Delta t_2\ge 0$,
+    and $m>0$:
+    (1) $(\operatorname{splat.evolveThermal}\;\alpha_1\;\alpha_2\;\Delta t_1).\operatorname{evolveThermal}\;\alpha_1\;\alpha_2\;\Delta t_2
+    = \operatorname{splat.evolveThermal}\;\alpha_1\;\alpha_2\;(\Delta t_1+\Delta t_2)$,
+    (2) $(\operatorname{splat.evolveThermal}\;\alpha_1\;\alpha_2\;\Delta t_1).\mathrm{normFactor} \le \operatorname{splat}.\mathrm{normFactor}$, and
+    (3) $(\operatorname{splat.evolveThermal}\;\alpha_1\;\alpha_2\;\Delta t_1).\operatorname{coreBohmPotential}\;m\;\hbar \le
+    \operatorname{splat}.\operatorname{coreBohmPotential}\;m\;\hbar$. -/)
+  (proof := /-- Use $\sqrt{\sigma_i^2 + 2\alpha_i\Delta t_1}^2 + 2\alpha_i\Delta t_2 = \sigma_i^2 + 2\alpha_i(\Delta t_1+\Delta t_2)$
+    for semigroup additivity, and monotonicity of $\sigma_i \le \sqrt{\sigma_i^2 + 2\alpha_i\Delta t_1}$
+    for $\mathcal{N}(\Sigma)$ and $Q_{\mathrm{core}}(\Sigma)$. -/)]
+theorem NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay
+    (splat : NormedTensorGaussianSplat2D)
+    (alpha1 alpha2 dt1 dt2 m_boson hbar : ℝ)
+    (h_a1 : 0 ≤ alpha1) (h_a2 : 0 ≤ alpha2)
+    (h_dt1 : 0 ≤ dt1) (h_dt2 : 0 ≤ dt2)
+    (hm : 0 < m_boson) :
+    let step1 := splat.evolveThermal alpha1 alpha2 dt1 h_a1 h_a2 h_dt1
+    let step12 := step1.evolveThermal alpha1 alpha2 dt2 h_a1 h_a2 h_dt2
+    let step_sum := splat.evolveThermal alpha1 alpha2 (dt1 + dt2) h_a1 h_a2 (add_nonneg h_dt1 h_dt2)
+    step12 = step_sum ∧
+      step1.normFactor ≤ splat.normFactor ∧
+      step1.coreBohmPotential m_boson hbar ≤ splat.coreBohmPotential m_boson hbar := by
+  intro step1 step12 step_sum
+  have hs1_pos : 0 < splat.sigma1 := splat.sigma1_pos
+  have hs2_pos : 0 < splat.sigma2 := splat.sigma2_pos
+  have hs1_sq_pos : 0 < splat.sigma1 ^ 2 := sq_pos_of_pos hs1_pos
+  have hs2_sq_pos : 0 < splat.sigma2 ^ 2 := sq_pos_of_pos hs2_pos
+  have h1_nonneg : 0 ≤ splat.sigma1 ^ 2 + 2 * alpha1 * dt1 := by
+    have : 0 ≤ 2 * alpha1 * dt1 := by positivity
+    linarith
+  have h2_nonneg : 0 ≤ splat.sigma2 ^ 2 + 2 * alpha2 * dt1 := by
+    have : 0 ≤ 2 * alpha2 * dt1 := by positivity
+    linarith
+  have h_semi : step12 = step_sum := by
+    dsimp [step12, step1, step_sum, NormedTensorGaussianSplat2D.evolveThermal]
+    congr 1
+    · rw [Real.sq_sqrt h1_nonneg]
+      ring_nf
+    · rw [Real.sq_sqrt h2_nonneg]
+      ring_nf
+  have h_s1_le : splat.sigma1 ≤ step1.sigma1 := by
+    dsimp [step1, NormedTensorGaussianSplat2D.evolveThermal]
+    apply Real.le_sqrt_of_sq_le
+    have : 0 ≤ 2 * alpha1 * dt1 := by positivity
+    linarith
+  have h_s2_le : splat.sigma2 ≤ step1.sigma2 := by
+    dsimp [step1, NormedTensorGaussianSplat2D.evolveThermal]
+    apply Real.le_sqrt_of_sq_le
+    have : 0 ≤ 2 * alpha2 * dt1 := by positivity
+    linarith
+  have h_norm_le : step1.normFactor ≤ splat.normFactor := by
+    unfold NormedTensorGaussianSplat2D.normFactor
+    have h_denom_pos : 0 < 2 * Real.pi * splat.sigma1 * splat.sigma2 := by positivity
+    have h_prod_le :
+        2 * Real.pi * splat.sigma1 * splat.sigma2 ≤
+          2 * Real.pi * step1.sigma1 * step1.sigma2 := by
+      have h_pi_pos : 0 ≤ 2 * Real.pi := by positivity
+      have h_step1_s1_nonneg : 0 ≤ step1.sigma1 := le_of_lt step1.sigma1_pos
+      have h_part1 : 2 * Real.pi * splat.sigma1 ≤ 2 * Real.pi * step1.sigma1 :=
+        mul_le_mul_of_nonneg_left h_s1_le h_pi_pos
+      have h_part2 :
+          (2 * Real.pi * splat.sigma1) * splat.sigma2 ≤
+            (2 * Real.pi * step1.sigma1) * step1.sigma2 :=
+        mul_le_mul h_part1 h_s2_le (le_of_lt hs2_pos) (by positivity)
+      exact h_part2
+    exact one_div_le_one_div_of_le h_denom_pos h_prod_le
+  have h_bohm_le :
+      step1.coreBohmPotential m_boson hbar ≤ splat.coreBohmPotential m_boson hbar := by
+    unfold NormedTensorGaussianSplat2D.coreBohmPotential
+    have h_pref_nonneg : 0 ≤ hbar ^ 2 / (4 * m_boson) := by positivity
+    have h_s1_sq_le : splat.sigma1 ^ 2 ≤ step1.sigma1 ^ 2 := by
+      dsimp [step1, NormedTensorGaussianSplat2D.evolveThermal]
+      rw [Real.sq_sqrt h1_nonneg]
+      have : 0 ≤ 2 * alpha1 * dt1 := by positivity
+      linarith
+    have h_s2_sq_le : splat.sigma2 ^ 2 ≤ step1.sigma2 ^ 2 := by
+      dsimp [step1, NormedTensorGaussianSplat2D.evolveThermal]
+      rw [Real.sq_sqrt h2_nonneg]
+      have : 0 ≤ 2 * alpha2 * dt1 := by positivity
+      linarith
+    have h_inv1 : 1 / step1.sigma1 ^ 2 ≤ 1 / splat.sigma1 ^ 2 :=
+      one_div_le_one_div_of_le hs1_sq_pos h_s1_sq_le
+    have h_inv2 : 1 / step1.sigma2 ^ 2 ≤ 1 / splat.sigma2 ^ 2 :=
+      one_div_le_one_div_of_le hs2_sq_pos h_s2_sq_le
+    exact mul_le_mul_of_nonneg_left (add_le_add h_inv1 h_inv2) h_pref_nonneg
+  exact ⟨h_semi, h_norm_le, h_bohm_le⟩
+
 end Signals.DDF

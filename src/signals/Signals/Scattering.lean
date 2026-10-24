@@ -862,7 +862,6 @@ theorem raman_boseEinstein_and_thermometer_inversion
   have h_exp_gt_one : 1 < Real.exp ξ := Real.one_lt_exp_iff.mpr hξ_pos
   have h_denom_pos : 0 < Real.exp ξ - 1 := sub_pos.mpr h_exp_gt_one
   have h_denom_ne : Real.exp ξ - 1 ≠ 0 := ne_of_gt h_denom_pos
-  have h_exp_ne : Real.exp ξ ≠ 0 := Real.exp_ne_zero ξ
   have h_be_pos : 0 < boseEinsteinOccupancy ξ :=
     div_pos zero_lt_one h_denom_pos
   have h_be_ratio :
@@ -899,5 +898,124 @@ theorem raman_boseEinstein_and_thermometer_inversion
     rw [Real.log_mul h_rat4_ne h_exp_neg_ne, Real.log_pow, Real.log_exp]
     ring
   exact ⟨h_be_pos, h_be_ratio, h_therm_be, h_inv⟩
+
+/-- Inverse reconstruction of the reduced velocity $\beta = \frac{D - 1}{D + 1}$
+from the head-on Thomson Inverse Compton Doppler ratio $D = \frac{1 + \beta}{1 - \beta}$. -/
+@[blueprint "def:signals-scattering-reconstruct-ics-beta"
+  (title := "Inverse reconstruction of reduced velocity β from Inverse Compton Doppler ratio")
+  (statement := /-- Given head-on Thomson Doppler ratio $D$, reconstruct $\beta = (D-1)/(D+1)$. -/)]
+noncomputable def reconstructInverseComptonBeta (dopplerRatio : ℝ) : ℝ :=
+  (dopplerRatio - 1) / (dopplerRatio + 1)
+
+/-- Inverse reconstruction of the dimensionless Klein–Nishina quantum recoil
+parameter $\epsilon_{\mathrm{rec}} = \frac{D}{R_{\mathrm{KN}}} - 1$ from the Thomson
+Doppler ratio $D$ and measured Klein–Nishina upshift ratio $R_{\mathrm{KN}}$. -/
+@[blueprint "def:signals-scattering-reconstruct-kn-recoil"
+  (title := "Inverse reconstruction of Klein-Nishina quantum recoil parameter ε_rec")
+  (statement := /-- Given Thomson Doppler ratio $D$ and recoil-corrected ratio $R_{\mathrm{KN}}$,
+    reconstruct $\epsilon_{\mathrm{rec}} = D / R_{\mathrm{KN}} - 1$. -/)]
+noncomputable def reconstructKleinNishinaRecoil
+    (dopplerRatio knRatio : ℝ) : ℝ :=
+  dopplerRatio / knRatio - 1
+
+/-- Reconstruct physical absolute temperature $T = \frac{\hbar\Omega_v}{k_B\,\xi}$
+from pump frequency $\omega_L$, vibrational shift $\Omega_v$, thermal energy scale
+$\hbar\Omega_v / k_B$ (`charTemp = hbar * Ω_vib / k_B`), and measured anti-Stokes-to-Stokes
+intensity ratio $R_{AS/S}$. -/
+@[blueprint "def:signals-scattering-reconstruct-raman-temperature"
+  (title := "Inverse Raman thermometer reconstruction of absolute temperature T")
+  (statement := /-- Given characteristic phonon temperature $\Theta_v = \hbar\Omega_v/k_B$ and
+    measured ratio $R_{AS/S}$, reconstruct $T = \Theta_v / \operatorname{reconstructRamanBoltzmannExponent}(\omega_L,\Omega_v,R_{AS/S})$. -/)]
+noncomputable def reconstructRamanTemperature
+    (ω_pump Ω_vib charTemp measuredRatio : ℝ) : ℝ :=
+  charTemp / reconstructRamanBoltzmannExponent ω_pump Ω_vib measuredRatio
+
+/-- Calibrated `ResidualMeasurement` for Raman anti-Stokes/Stokes thermometry,
+comparing an observed temperature $T_{\mathrm{obs}}$ against a predicted temperature $T_{\mathrm{pred}}$. -/
+@[blueprint "def:signals-scattering-raman-temperature-residual"
+  (title := "Calibrated Raman thermometry residual measurement")
+  (statement := /-- Packages predicted temperature $T_{\mathrm{pred}}$ and reconstructed
+    temperature $T_{\mathrm{obs}}$ into a \texttt{ResidualMeasurement}. -/)]
+def ramanTemperatureResidualMeasurement
+    (T_pred T_obs tolerance : ℝ) (tolerance_nonnegative : 0 ≤ tolerance) :
+    ResidualMeasurement :=
+  { predicted := T_pred
+    observed := T_obs
+    residual := T_obs - T_pred
+    tolerance := tolerance
+    tolerance_nonnegative := tolerance_nonnegative
+    residualLaw := rfl }
+
+/-- **Exact Inverse Recovery of $\beta$, Klein–Nishina Recoil $\epsilon_{\mathrm{rec}}$, and Absolute Raman Temperature $T$**:
+For subluminal $\beta \in [0, 1)$, quantum recoil $\epsilon_{\mathrm{rec}} \ge 0$,
+pump frequency $\omega_L > 0$, vibrational shift $0 \le \Omega_v < \omega_L$,
+characteristic phonon temperature $\Theta_v = \hbar\Omega_v / k_B > 0$, and
+absolute temperature $T > 0$:
+1. `reconstructInverseComptonBeta` recovers $\beta$ identically from
+   `inverseComptonDopplerRatio β`,
+2. `reconstructKleinNishinaRecoil` recovers $\epsilon_{\mathrm{rec}}$ identically from
+   `inverseComptonDopplerRatio β` and `inverseComptonKleinNishinaRatio β ε_rec`,
+3. `reconstructRamanTemperature` recovers $T$ identically from
+   `ramanAntiStokesToStokesThermalRatio ω_pump Ω_vib (Θ_v / T)`, and
+4. The resulting `ramanTemperatureResidualMeasurement` is `.consistent` for every
+   nonnegative tolerance $\tau \ge 0$. -/
+@[blueprint "thm:signals-scattering-inelastic-complete-inversion"
+  (title := "Complete inverse recovery of Inverse Compton β, Klein-Nishina recoil ε_rec, and Raman temperature T")
+  (statement := /-- For $0\le\beta<1$, $\epsilon_{\mathrm{rec}}\ge 0$, $\omega_L>0$, $0\le\Omega_v<\omega_L$,
+    $\Theta_v>0$, and $T>0$:
+    (1) $\operatorname{reconstructInverseComptonBeta}(\operatorname{inverseComptonDopplerRatio}(\beta)) = \beta$,
+    (2) $\operatorname{reconstructKleinNishinaRecoil}(\operatorname{inverseComptonDopplerRatio}(\beta), \operatorname{inverseComptonKleinNishinaRatio}(\beta,\epsilon_{\mathrm{rec}})) = \epsilon_{\mathrm{rec}}$,
+    (3) $\operatorname{reconstructRamanTemperature}\bigl(\omega_L,\Omega_v,\Theta_v,\operatorname{ramanAntiStokesToStokesThermalRatio}(\omega_L,\Omega_v,\Theta_v/T)\bigr) = T$, and
+    (4) the corresponding \texttt{ramanTemperatureResidualMeasurement} is \texttt{.consistent} for all $\tau\ge 0$. -/)
+  (proof := /-- Clear $1-\beta>0$ and $1+\epsilon_{\mathrm{rec}}>0$ by field simplification, apply
+    \texttt{raman\_boseEinstein\_and\_thermometer\_inversion} to $\xi=\Theta_v/T>0$, and simplify $\Theta_v/(\Theta_v/T)=T$. -/)]
+theorem inelastic_compton_and_raman_temperature_inversion
+    (β ε_rec ω_pump Ω_vib Θ_v T tolerance : ℝ)
+    (hβ_nonneg : 0 ≤ β) (hβ_lt : β < 1) (hε_nonneg : 0 ≤ ε_rec)
+    (hω_pos : 0 < ω_pump) (hΩ_nonneg : 0 ≤ Ω_vib) (hΩ_lt : Ω_vib < ω_pump)
+    (hΘ_pos : 0 < Θ_v) (hT_pos : 0 < T) (htol : 0 ≤ tolerance) :
+    let D := inverseComptonDopplerRatio β
+    let R_KN := inverseComptonKleinNishinaRatio β ε_rec
+    let R_Raman := ramanAntiStokesToStokesThermalRatio ω_pump Ω_vib (Θ_v / T)
+    let T_rec := reconstructRamanTemperature ω_pump Ω_vib Θ_v R_Raman
+    reconstructInverseComptonBeta D = β ∧
+      reconstructKleinNishinaRecoil D R_KN = ε_rec ∧
+      T_rec = T ∧
+      (ramanTemperatureResidualMeasurement T T_rec tolerance htol).consistent := by
+  intro D R_KN R_Raman T_rec
+  have h1m : 0 < 1 - β := by linarith
+  have h1p : 0 < 1 + β := by linarith
+  have h1m_ne : 1 - β ≠ 0 := ne_of_gt h1m
+  have h1p_ne : 1 + β ≠ 0 := ne_of_gt h1p
+  have hD_pos : 0 < D := div_pos h1p h1m
+  have hD_ne : D ≠ 0 := ne_of_gt hD_pos
+  have hD_plus_one_ne : D + 1 ≠ 0 := by linarith
+  have h1e_pos : 0 < 1 + ε_rec := by linarith
+  have h1e_ne : 1 + ε_rec ≠ 0 := ne_of_gt h1e_pos
+  have h_beta_inv : reconstructInverseComptonBeta D = β := by
+    dsimp [D, reconstructInverseComptonBeta, inverseComptonDopplerRatio]
+    field_simp [h1m_ne]
+    ring
+  have h_rec_inv : reconstructKleinNishinaRecoil D R_KN = ε_rec := by
+    dsimp [R_KN, reconstructKleinNishinaRecoil, inverseComptonKleinNishinaRatio]
+    change D / (D / (1 + ε_rec)) - 1 = ε_rec
+    field_simp [hD_ne, h1e_ne]
+    ring
+  have hξ_pos : 0 < Θ_v / T := div_pos hΘ_pos hT_pos
+  have h_xi_inv :=
+    (raman_boseEinstein_and_thermometer_inversion ω_pump Ω_vib (Θ_v / T)
+      hω_pos hΩ_nonneg hΩ_lt hξ_pos).2.2.2
+  have hΘ_ne : Θ_v ≠ 0 := ne_of_gt hΘ_pos
+  have hT_ne : T ≠ 0 := ne_of_gt hT_pos
+  have h_T_inv : T_rec = T := by
+    dsimp [T_rec, R_Raman, reconstructRamanTemperature]
+    rw [h_xi_inv]
+    field_simp [hΘ_ne, hT_ne]
+  have h_cons : (ramanTemperatureResidualMeasurement T T_rec tolerance htol).consistent := by
+    rw [ResidualMeasurement.consistent_iff]
+    change |T_rec - T| ≤ tolerance
+    rw [h_T_inv, sub_self, abs_zero]
+    exact htol
+  exact ⟨h_beta_inv, h_rec_inv, h_T_inv, h_cons⟩
 
 end Signals.Scattering

@@ -50,6 +50,22 @@ pub fn inverse_compton_angle_averaged_power_boost(beta: f64) -> f64 {
     (4.0 / 3.0) * (gamma_sq - 1.0)
 }
 
+/// Inverse reconstruction of reduced velocity $\beta = \frac{D - 1}{D + 1}$ from the
+/// head-on Thomson Inverse Compton Doppler ratio $D = \frac{1 + \beta}{1 - \beta}$,
+/// matching `Signals.Scattering.reconstructInverseComptonBeta`.
+#[inline]
+pub fn reconstruct_inverse_compton_beta(doppler_ratio: f64) -> f64 {
+    (doppler_ratio - 1.0) / (doppler_ratio + 1.0)
+}
+
+/// Inverse reconstruction of the dimensionless Klein–Nishina quantum recoil parameter
+/// $\epsilon_{\mathrm{rec}} = \frac{D}{R_{\mathrm{KN}}} - 1$, matching
+/// `Signals.Scattering.reconstructKleinNishinaRecoil`.
+#[inline]
+pub fn reconstruct_klein_nishina_recoil(doppler_ratio: f64, kn_ratio: f64) -> f64 {
+    (doppler_ratio / kn_ratio) - 1.0
+}
+
 /// Evaluate the forward ($|w_A^{\mathbb{C}}|^2 = 1 + \beta$), backward ($|w_B^{\mathbb{C}}|^2 = 1 - \beta$),
 /// and ratio ($|w_A^{\mathbb{C}}|^2 / |w_B^{\mathbb{C}}|^2 = (1 + \beta)/(1 - \beta)$) invariants
 /// directly from the DDF moving-sheath $Gr_{\mathbb{C}}(2,4)$ twistor matrix.
@@ -180,6 +196,19 @@ impl RamanChannelModel {
     #[inline]
     pub fn reconstruct_boltzmann_exponent(&self, measured_ratio: f64) -> f64 {
         4.0 * self.gr24_plucker_ratio().ln() - measured_ratio.ln()
+    }
+
+    /// Reconstruct physical absolute temperature $T = \frac{\Theta_v}{\xi}$ (in Kelvin)
+    /// from characteristic vibrational temperature $\Theta_v = \frac{\hbar\Omega_v}{k_B}$
+    /// and measured Anti-Stokes/Stokes intensity ratio $R_{AS/S} > 0$, matching
+    /// `Signals.Scattering.reconstructRamanTemperature`.
+    #[inline]
+    pub fn reconstruct_temperature_kelvin(
+        &self,
+        char_temp_theta_v: f64,
+        measured_ratio: f64,
+    ) -> f64 {
+        char_temp_theta_v / self.reconstruct_boltzmann_exponent(measured_ratio)
     }
 }
 
@@ -575,6 +604,8 @@ mod tests {
         assert!((norm_a - (1.0 + beta)).abs() < 1e-12);
         assert!((norm_b - (1.0 - beta)).abs() < 1e-12);
         assert!((gr24_ratio - thomson).abs() < 1e-12);
+        assert!((reconstruct_inverse_compton_beta(thomson) - beta).abs() < 1e-12);
+        assert!((reconstruct_klein_nishina_recoil(thomson, kn) - epsilon_rec).abs() < 1e-12);
     }
 
     #[rstest]
@@ -615,6 +646,10 @@ mod tests {
 
         let r_therm = model.anti_stokes_to_stokes_thermal_ratio(xi);
         assert!(r_therm < model.gr24_plucker_ratio().powi(4));
+        let theta_v = 2280.0; // e.g. CNT G-band characteristic temperature ~ 2280 K
+        let temp_k = theta_v / xi;
+        let rec_temp_k = model.reconstruct_temperature_kelvin(theta_v, r_therm);
+        assert!((rec_temp_k - temp_k).abs() < 1e-9);
         let rec_xi = model.reconstruct_boltzmann_exponent(r_therm);
         assert!((rec_xi - xi).abs() < 1e-12);
     }
@@ -695,6 +730,14 @@ mod tests {
             + 4.0 * a1 * a2 * dt * dt;
         assert!((splat_evol.cov_det() - expected_det).abs() < 1e-12);
         assert!(splat_evol.cov_det() > splat_ddf.cov_det());
+        assert!(splat_evol.norm_factor() <= splat_ddf.norm_factor());
+        assert!(splat_evol.core_bohm_potential(1.0, 1.0) <= splat_ddf.core_bohm_potential(1.0, 1.0));
+
+        // Verify Chapman-Kolmogorov thermal semigroup additivity: evolve(dt1) then evolve(dt2) == evolve(dt1 + dt2)
+        let step12 = ddf_th.evolve_ddf_thermal_splat(&splat_evol, 4.0);
+        let step_sum = ddf_th.evolve_ddf_thermal_splat(&splat_ddf, dt + 4.0);
+        assert!((step12.sigma1 - step_sum.sigma1).abs() < 1e-12);
+        assert!((step12.sigma2 - step_sum.sigma2).abs() < 1e-12);
 
         // Verify 1D periodic Fourier and Cattaneo-Vernotte PDE steppers conserve total thermal energy
         let init_temp = vec![1.0, 2.0, 5.0, 2.0, 1.0, 0.5];

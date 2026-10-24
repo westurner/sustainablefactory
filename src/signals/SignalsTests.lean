@@ -4817,4 +4817,31 @@ example (θ : ℝ) :
     (by norm_num) (by norm_num) (by norm_num)
   exact ⟨h_be.2.1, h_be.2.2.2, h_ent.2.2.2.2.2 ⟨by norm_num, by norm_num⟩⟩
 
+/-- Complete inverse recovery of Inverse Compton β, Klein-Nishina recoil ε_rec,
+and absolute Raman temperature T, together with Chapman-Kolmogorov thermal
+splat semigroup additivity and monotonic core Bohm potential relaxation. -/
+example (θ : ℝ) :
+    let D := Signals.Scattering.inverseComptonDopplerRatio (3 / 5)
+    let R_KN := Signals.Scattering.inverseComptonKleinNishinaRatio (3 / 5) (1 / 4)
+    let R_Raman := Signals.Scattering.ramanAntiStokesToStokesThermalRatio 10 2 (150 / 300)
+    let splat_ddf := toyMovingSheath.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
+    let step1 := splat_ddf.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)
+    let step12 := step1.evolveThermal 1 2 4 (by norm_num) (by norm_num) (by norm_num)
+    let step_sum := splat_ddf.evolveThermal 1 2 (3 + 4) (by norm_num) (by norm_num) (by norm_num)
+    Signals.Scattering.reconstructInverseComptonBeta D = 3 / 5 ∧
+    Signals.Scattering.reconstructKleinNishinaRecoil D R_KN = 1 / 4 ∧
+    Signals.Scattering.reconstructRamanTemperature 10 2 150 R_Raman = 300 ∧
+    step12 = step_sum ∧
+    step1.coreBohmPotential 1 1 ≤ splat_ddf.coreBohmPotential 1 1 := by
+  intro D R_KN R_Raman splat_ddf step1 step12 step_sum
+  have h_inv := Signals.Scattering.inelastic_compton_and_raman_temperature_inversion
+    (3 / 5) (1 / 4) 10 2 150 300 (1 / 10)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  have h_semi := Signals.DDF.NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay
+    splat_ddf 1 2 3 4 1 1
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_inv.1, h_inv.2.1, h_inv.2.2.1, h_semi.1, h_semi.2.2⟩
+
 end SignalsTests
