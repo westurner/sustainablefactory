@@ -10,8 +10,8 @@ description: "An arXiv-ready formal verification paper uniting Qian–Izadi Huyg
 **Subjects:** Optics (`physics.optics`); Quantum Physics (`quant-ph`); Mathematical Physics (`math-ph`); Logic in Computer Science (`cs.LO`)
 **Formal Verification Artifact:** `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, Mathlib `v4.35.0-rc3`)
 **Companion Papers:**
-- [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.myst.md)
-- [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.myst.md)
+- [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.md)
+- [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.md)
 - [Grassmannian Gravity from QED & Gauge Scattering Amplitudes: Complex $Gr_{\mathbb{C}}(2,4)$ Orbital Precession, Mercury's Perihelion, $N$-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4](grassmannian-gravity-from-qed-scattering-paper.md)
 - [Normed Tensor Gaussian Splat Mechanics for Complex $Gr_{\mathbb{C}}(2,4)$ Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4](grassmannian-splat-mechanics-paper.md)
 - [Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4](grassmannian-thermal-compton-raman-paper.md)
@@ -42,7 +42,7 @@ We prove that while an unphased crossing-minor proxy restricted to the real posi
 
 Evaluating multi-aperture wave superposition across classical optics, positive geometry ([Postnikov 2006](#postnikov2006); [Arkani-Hamed and Trnka 2014](#arkani-hamed-trnka2014); [Arkani-Hamed et al. 2017](#arkani-hamed-bai-lam2017)), quantum coherence theory ([Qian and Izadi 2023](#qian-izadi2023)), Bohmian hydrodynamics, and Wigner phase-space tomography raises a precise quantitative question: **what is the exact pointwise and dark-fringe relative predictive error between these formulations, and what geometric data are required for a Grassmannian minor evaluator to match coherent interferometry without ad-hoc fitting?**
 
-*(Note: The companion application of the same verified $2 \times n$ Grassmannian Plücker kernel `Signals.Geometry.twoRowMinor_pluecker` to Baxter's $QQ$-system, $TQ$ Wronskians, and the Quantum Inverse Scattering Method is presented in the companion paper [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.myst.md).)*
+*(Note: The companion application of the same verified $2 \times n$ Grassmannian Plücker kernel `Signals.Geometry.twoRowMinor_pluecker` to Baxter's $QQ$-system, $TQ$ Wronskians, and the Quantum Inverse Scattering Method is presented in the companion paper [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.md).)*
 
 All theorems in this paper are machine-checked in Lean 4 without `sorry` or custom axioms, under a three-tier epistemic boundary:
 1. **Checked Algebra & Analysis**: Exact polynomial, determinant, trigonometric, and measure-theoretic theorems proved in Lean (`Signals.Geometry`, `Signals.Coherence`, `Signals.Huygens`, `Signals.DDF`, `Signals.OAM`).
@@ -243,7 +243,7 @@ example (γ_oam : ℝ) (h_dec : 0 ≤ γ_oam) (Δℓ : ℤ) (φ x y : ℝ) (z0 z
 
 ## 5. Hydrodynamic Sink-Flux Superposition, DDF Shear-Jamming Duality, Anosov Symplectic Invariance, & Formal Critique
 
-*(For the complete treatment of the $Gr_{\mathbb{C}}(2,4)$ and $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ unification with `DDFSubstrate` and `MovingSheath`, see the companion paper [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.myst.md).)*
+*(For the complete treatment of the $Gr_{\mathbb{C}}(2,4)$ and $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ unification with `DDFSubstrate` and `MovingSheath`, see the companion paper [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.md).)*
 
 In [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L648-L960), we formalize and critically audit the four-part correspondence proposed in [Provenance Chat Log: Plücker Channel Weights, Fluid Sinks, and DDF (2026)](#chat-plucker-sinks-ddf) (lines 6–228) connecting $Gr(2,4)$ Plücker channel weights to emergent hydrodynamic sink-flow models ([Partanen and Tulkki 2025](#partanen-tulkki2025)) and the Dilatant Dark Fluid (DDF) substrate ([Fedi 2026](#fedi2026)):
 

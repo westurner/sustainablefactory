@@ -120,13 +120,13 @@ This remains a proposal; its 1 MHz and 68% figures are not reported measurements
 Reuse `Signals.Acoustics.UltrasonicTransfer` for the passive baseline and require
 measured layer, interface, transducer, receiver-load, and loss data. Experimental
 piezoelectric UPT literature exists, but does not validate this tie architecture
-([evidence report](longitudinal-wave-polycbd-upt-dff-evidence.myst.md)).
+([evidence report](longitudinal-wave-polycbd-upt-dff-evidence.md)).
 
 DDF shear-jamming is a theoretical high-shear constitutive proposal in the DDF
 chat ([source](../data/chats/Navier-Stokes-Breakthrough,-FTLE,-and-SQG.md#L416)).
 It is not brittle crack propagation and is not a generic UPT model. Keep solid
 fracture, granular jamming, and acoustic power transfer as separate evidence
-classes; see the [focused review](longitudinal-wave-polycbd-upt-dff-evidence.myst.md).
+classes; see the [focused review](longitudinal-wave-polycbd-upt-dff-evidence.md).
 
 ## Exclusions
 

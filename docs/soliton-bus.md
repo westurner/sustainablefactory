@@ -129,7 +129,7 @@ In [src/signals/Signals/SolitonBus.lean](../src/signals/Signals/SolitonBus.lean)
 `SolitonMultiLaneCoupler` connects the $N$-lane soliton-bus architecture to the
 multi-model interferometric and Quantum Inverse Scattering frameworks developed
 in [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md)
-and [grassmannian-qism-bethe-ansatz-paper.myst.md](grassmannian-qism-bethe-ansatz-paper.myst.md):
+and [grassmannian-qism-bethe-ansatz-paper.md](grassmannian-qism-bethe-ansatz-paper.md):
 
 1. **$N$-Lane ($N > 0$) Grating Coupler & Barycentric Power Imbalance (`SolitonMultiLaneCoupler`)**:
    Parameterized by lane count `numLanes > 0`, lane aperture width $a > 0$,
@@ -218,7 +218,7 @@ They should not be collapsed into one meaning for “multiplexing.”
 2. **Port graph with an ancilla hub.** The proposed star has data leaves
 	reached through a central ancilla, with bus operations intended to support
 	stabilizer measurements ([star and bus-connected checks](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L3172),
-	[paper architecture](paper.myst.md#L60)). **Use in v1:** call each
+	[paper architecture](paper.md#L60)). **Use in v1:** call each
 	physical endpoint a `BusPort`; represent possible interactions with an
 	explicit coupling relation. A port is not itself a code qubit or a
 	stabilizer. The measurement order, ancilla reuse, fault propagation, and
@@ -303,8 +303,8 @@ neighbor fault. These tests validate record laws and reject missing
 assumptions; they do not establish QEC performance. In particular, the
 existing XPM phase law is not a QND parity measurement, and the proposed
 room-temperature/no-dispersion, 10 GHz, and entropy-siphoning statements in
-`paper.myst.md` remain design claims, not fields to promote to verified facts
-([paper architecture and claims](paper.myst.md#L60),
+`paper.md` remain design claims, not fields to promote to verified facts
+([paper architecture and claims](paper.md#L60),
 [paper-model-review evidence boundary](paper-model-review.md#L1)).
 
 ### QECLean contribution

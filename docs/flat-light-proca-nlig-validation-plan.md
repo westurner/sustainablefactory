@@ -107,7 +107,7 @@ result, not Proca or Flat Light evidence.
 The local scholarly overview describes a CW master oscillator, an N-LIG
 cellulose waveguide, a high-effective-mass non-diffracting state, an rGO mask,
 and phase-slip resist cleavage as **pending speculative mechanisms**
-([existing Flat Light overview](flat-light-nanolithography-scholarly.myst.md#L9-L30)).
+([existing Flat Light overview](flat-light-nanolithography-scholarly.md#L9-L30)).
 The primary chat provenance includes a request to use longitudinally polarized
 Proca waves and explicitly discusses an effective mass and a third polarization
 state ([IQ-Sampling chat](../data/chats/IQ-Sampling-for-Signal-Phase.json#L104-L120)),
@@ -228,7 +228,7 @@ rail-tie stack or DDF coupling. DDF shear-jamming is a separate constitutive
 hypothesis; it should enter an UPT model if measured shear state changes
 acoustic velocity, modulus, or attenuation. The polyCBD 5G/mmWave conference
 paper is a material lead, not validation of the chat's 400-800 GHz values or
-Proca mode; see the [focused evidence report](longitudinal-wave-polycbd-upt-dff-evidence.myst.md).
+Proca mode; see the [focused evidence report](longitudinal-wave-polycbd-upt-dff-evidence.md).
 
 The attached bibliography supports the classical and materials portions of the
 plan: LIG synthesis and applications ([Wan et al. 2018](#wan2018), [Ye et al.

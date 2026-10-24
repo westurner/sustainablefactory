@@ -4407,7 +4407,7 @@ theorem MovingSheath.sppTensorSplat_and_thermal_identities
 
 /-- Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ **"Anti-Amplituhedron" destructive phase-cancellation matrix**
 with opposite-phase channel amplitudes $z_1 = +A$ and $z_2 = -A$ outside the positive
-Grassmannian $Gr_{\ge 0}(2,4)$ (`docs/anti-fire-cannon-review.myst.md`):
+Grassmannian $Gr_{\ge 0}(2,4)$ (`docs/anti-fire-cannon-review.md`):
 while each individual uncrossed channel carries positive energy $|w_A^{\mathbb{C}}|^2 = A^2$
 and $|w_B^{\mathbb{C}}|^2 = A^2$, their coherent crossing sum vanishes identically:
 $w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = \Delta_{02}^{\mathbb{C}}\,\Delta_{13}^{\mathbb{C}} = 0$. -/

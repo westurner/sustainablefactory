@@ -225,7 +225,7 @@ def main() -> None:
         help="Directory containing input .md and .json files",
     )
     parser.add_argument(
-        "--output", default="docs/tables_and_figures.myst.md", help="Output file path"
+        "--output", default="docs/tables_and_figures.md", help="Output file path"
     )
     parser.add_argument(
         "-v", "--verbose", action="store_true", help="Increase output verbosity"

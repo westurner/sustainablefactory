@@ -1,6 +1,6 @@
 
 ## transform_md
-transform_md parses industrial process descriptions (like [paper.myst.md](paper.myst.md)) and converts them into a structured graph linked data representation
+transform_md parses industrial process descriptions (like [paper.md](paper.md)) and converts them into a structured graph linked data representation
 using the **Industrial Ontologies Foundry (IOF)** and sustainablefactory process schema.
 [ [schema](schema.md) ]
 

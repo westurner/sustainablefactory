@@ -1220,7 +1220,7 @@ Implemented across [QISM.lean](../src/signals/Signals/QISM.lean),
 [Huygens.lean](../src/signals/Signals/Huygens.lean),
 [SolitonBus.lean](../src/signals/Signals/SolitonBus.lean), and the Rust/WASM/GLSL
 crate (`src/signals/numerical_adapter/src/double_slit.rs`), and documented in
-[grassmannian-qism-bethe-ansatz-paper.myst.md](grassmannian-qism-bethe-ansatz-paper.myst.md)
+[grassmannian-qism-bethe-ansatz-paper.md](grassmannian-qism-bethe-ansatz-paper.md)
 and [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md):
 
 - **Yang's Rational $R$-Matrix & Full $8 \times 8$ Matrix Quantum Yang--Baxter Equation**:
@@ -1246,7 +1246,7 @@ and [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-
 Implemented in [DDF.lean](../src/signals/Signals/DDF.lean),
 [Geometry.lean](../src/signals/Signals/Geometry.lean), and
 [Huygens.lean](../src/signals/Signals/Huygens.lean), and documented in
-[grassmannian-ddf-moving-sheath-paper.myst.md](grassmannian-ddf-moving-sheath-paper.myst.md):
+[grassmannian-ddf-moving-sheath-paper.md](grassmannian-ddf-moving-sheath-paper.md):
 
 - **Reciprocal Visibility--Jamming Duality & Critique Resolutions**:
   Identified $|d_{\mathrm{bary}}|$ with the reduced sheath speed $\beta = v/c \in [0, 1)$
@@ -1342,7 +1342,7 @@ Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
 Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
 [DDF.lean](../src/signals/Signals/DDF.lean), and
 `src/signals/numerical_adapter/src/polariton_spp.rs`, and documented in
-[grassmannian-polariton-spp-mechanics-paper.myst.md](grassmannian-polariton-spp-mechanics-paper.myst.md):
+[grassmannian-polariton-spp-mechanics-paper.md](grassmannian-polariton-spp-mechanics-paper.md):
 
 - **Polariton Hopfield--Rabi Anticrossing, $Gr_{\mathbb{C}}(2,4)$ Hybridization Complementarity, & Lyddane--Sachs--Teller Reststrahlen Theorem (`polariton_hopfield_rabi_and_lst_identities`)**:
   Proved trace conservation $\omega_{\mathrm{UP}} + \omega_{\mathrm{LP}} = \omega_{\mathrm{ph}} + \omega_{\mathrm{ex}}$,
@@ -1371,9 +1371,9 @@ Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
 Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
 [DDF.lean](../src/signals/Signals/DDF.lean), and
 `src/signals/numerical_adapter/src/polariton_spp.rs`, and documented in
-[grassmannian-polariton-spp-mechanics-paper.myst.md](grassmannian-polariton-spp-mechanics-paper.myst.md),
+[grassmannian-polariton-spp-mechanics-paper.md](grassmannian-polariton-spp-mechanics-paper.md),
 [grassmannian-holographic-principle-paper.md](grassmannian-holographic-principle-paper.md),
-and [anti-fire-cannon-review.myst.md](anti-fire-cannon-review.myst.md):
+and [anti-fire-cannon-review.md](anti-fire-cannon-review.md):
 
 - **CSR-SPP Superradiant Bunching, Cavity QED Cooperativity, Cherenkov Phase Matching, & 1-Step Grover Carving (`csr_spp_cherenkov_cavity_and_grover_identities`)**:
   Proved $I_{\mathrm{CSR}}(N_e, f_{\mathrm{bunch}}, I_1) = (N_e + N_e(N_e - 1)f_{\mathrm{bunch}}^2)I_1 \in [N_e I_1, N_e^2 I_1]$,

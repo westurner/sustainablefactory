@@ -21,7 +21,7 @@ search
 ## `sustainablefactory` Software
 This project uses MyST Markdown and JSON to capture and model sustainable process and product information and generates RDF linked data.
 
-This system parses industrial process descriptions (like [paper.myst.md](paper.myst.md)) and converts them into a structured graph linked data representation
+This system parses industrial process descriptions (like [paper.md](paper.md)) and converts them into a structured graph linked data representation
 using the **Industrial Ontologies Foundry (IOF)** and sustainablefactory process schema.
 [ [schema](schema.md) ]
 
@@ -44,7 +44,7 @@ using the **Industrial Ontologies Foundry (IOF)** and sustainablefactory process
   - Sustainable manufacturing
   - Sustainable computing
   - Quantum computing
-    - [Sustainable Quantum architecture](paper.myst.md)
+    - [Sustainable Quantum architecture](paper.md)
     - [Soliton bus model](soliton-bus.md): finite multiplexing, routing, and
       operator contracts with chat-derived evidence boundaries.
 - [Chat physics catalog](chat-physics-catalog.md): applications, processes,

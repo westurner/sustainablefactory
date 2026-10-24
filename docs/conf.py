@@ -44,7 +44,7 @@ exclude_patterns = [
 ]
 
 docindex_html_exclude_patterns = [
-    "tables_and_figures.myst.html",
+    "tables_and_figures.html",
     "chats/*.html",
 ]
 

@@ -199,7 +199,7 @@ def main():
         help="Directory containing input .md and .json files",
     )
     agg_parser.add_argument(
-        "--output", default="docs/tables_and_figures.myst.md", help="Output file path"
+        "--output", default="docs/tables_and_figures.md", help="Output file path"
     )
 
     agg_alias_parser = subparsers.add_parser(
@@ -214,7 +214,7 @@ def main():
     )
     agg_alias_parser.add_argument(
         "--output",
-        default="docs/tables_and_figures.myst.md",
+        default="docs/tables_and_figures.md",
         help="Output file path",
     )
 
@@ -230,7 +230,7 @@ def main():
     )
     agg_data_parser.add_argument(
         "--output",
-        default="docs/tables_and_figures.myst.md",
+        default="docs/tables_and_figures.md",
         help="Output file path",
     )
 
@@ -246,7 +246,7 @@ def main():
     )
     agg_data_alias_parser.add_argument(
         "--output",
-        default="docs/tables_and_figures.myst.md",
+        default="docs/tables_and_figures.md",
         help="Output file path",
     )
 

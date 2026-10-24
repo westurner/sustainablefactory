@@ -119,7 +119,7 @@ one-off conversions.
    rebuilds and make `-j auto` an opt-in after checking extension safety.
 3. Register generated chat pages only through the TOC or an explicit generated
    subtree; do not make Sphinx discover every artifact in `docs/chats/`.
-4. Keep large aggregate documents such as `tables_and_figures.myst` as an
+4. Keep large aggregate documents such as `tables_and_figures` as an
    explicit project choice. If their build cost dominates, split them into
    stable topic documents and include those in `_toc.yml`.
 5. Ensure extensions invalidate only the documents they actually affect. The

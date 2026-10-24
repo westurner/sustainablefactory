@@ -7,7 +7,7 @@ The `sfcli` tool allows you to interact with the factory process data.
 ### `parse`
 Parses a MyST markdown file and prints discovered processes.
 ```bash
-sfcli parse paper.myst.md
+sfcli parse paper.md
 ```
 
 ### `batch-export`
