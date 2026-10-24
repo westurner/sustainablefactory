@@ -223,24 +223,79 @@ example (γ_oam : ℝ) (h_dec : 0 ≤ γ_oam) (Δℓ : ℤ) (φ x y : ℝ) :
     wignerOAM_onAxis_relative_error 3 2 4 6 1 5 γ_oam Δℓ (by norm_num) h_dec,
     huygensSteinerMultiSlit_one_slit 3 2 4 6 1 5 (4 / 5) Δℓ φ x y,
     huygensSteinerMultiSlit_two_slits_eq_huygensSteinerOAM 3 2 4 6 1 5 (4 / 5) Δℓ φ x y⟩
+```
+
+---
+
+## 5. Hydrodynamic Sink-Flux Superposition, DDF Shear-Jamming Duality, Anosov Symplectic Invariance, & Formal Critique
+
+In [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L648-L960), we formalize and critically audit the four-part correspondence proposed in [Provenance Chat Log: Plücker Channel Weights, Fluid Sinks, and DDF (2026)](#chat-plucker-sinks-ddf) (lines 6–228) connecting $Gr(2,4)$ Plücker channel weights to emergent hydrodynamic sink-flow models ([Partanen and Tulkki 2025](#partanen-tulkki2025)) and the Dilatant Dark Fluid (DDF) substrate ([Fedi 2026](#fedi2026)):
+
+| Component | Grassmannian & Coherence Formulation | Emergent Fluid / Sink-Flow Limit | Fedi's Dilatant Dark Fluid (`Signals.DDF`) | Lean 4 Verification & Critique Nodes |
+|---|---|---|---|---|
+| **Channel States & Flux Sum** | Uncrossed weights $w_A = \Delta_{01}\Delta_{23}$, $w_B = \Delta_{03}\Delta_{12}$; sum $w_A + w_B = \Delta_{02}\Delta_{13}$ | Localized sink fluxes $Q_A, Q_B$; total drain $Q_A + Q_B = \Delta_{02}\Delta_{13}$; shear imbalance $(Q_A - Q_B)/2 = d_{\mathrm{bary}}$ | Coupled $(\phi, \varphi)$ bosonic sector densities across the interaction canvas | `pluckerSinkFluxA`, `pluckerSinkFluxB`, `pluckerSinkFlux_conservation_and_asymmetry` |
+| **Symmetric Coordinate ($d_{\mathrm{bary}}=0$)** | Balanced channels $Q_A = Q_B = 1$, $\mathcal{V} = 1$, zero phased error ($\varepsilon_{\mathrm{rel}} = 0$) | Irrotational potential balance ($\Delta\ell = 0 \implies \Delta\Gamma = 0$, $\omega = 0$) | Zero relative shear ($v = 0$): no jamming ($\gamma_\varphi(0) = 1$, $K_D(0) = 0$) | `MovingSheath.zero_shear_no_jamming`, `ddf_symmetric_zero_shear_vs_unphased_critique` |
+| **Asymmetric Shear & Power-Law Error** | Barycentric shift $d_{\mathrm{bary}} \in [-1,1]$, visibility $\mathcal{V} = \sqrt{1 - d_{\mathrm{bary}}^2}$ | Differential vortex circulation $\Delta\Gamma = (\ell_2 - \ell_1)\kappa_\phi$ & gravitomagnetic swirl | Reciprocal jamming duality $\mathcal{V} = \gamma_\varphi(v)^{-1}$; error $\varepsilon = \frac{\gamma_\varphi - 1}{2\gamma_\varphi} = \frac{K_D(v)}{2 E_\varphi(v)}$ | `MovingSheath.visibility_jamming_duality`, `ddf_sheath_relative_error_eq_jamming`, `ddf_relative_error_power_law_and_inversion`, `MovingSheath.inverse_recovery_from_relative_error` |
+| **Anosov Tangent Stretching** | $2 \times 2$ basis transformation $M \mapsto A_{\mathrm{Anosov}}(\lambda,t) M$ | Hyperbolic stretching $\operatorname{diag}(e^{\lambda t}, e^{-\lambda t})$ on the unit tangent bundle | Symplectic area preservation ($\det = 1$) vs. non-symplectic compressive jamming ($\lambda_1 + \lambda_2 \neq 0$) | `anosovHyperbolicMatrix_det_one`, `anosov_plucker_invariance`, `nonSymplectic_jamming_barycentricShift_scaling` |
+
+### 5.1 Exact DDF Jamming–Visibility Duality, Quadratic Power-Law Bounds, and Parameter Inversion
+
+Identifying the reduced sheath speed $\beta = v/c \in [0, 1)$ of a `MovingSheath` with the Plücker barycentric shift magnitude $|d_{\mathrm{bary}}|$ establishes:
+1. **Reciprocal Visibility–Jamming Duality (`MovingSheath.visibility_jamming_duality`)**:
+   $$\mathcal{V}(s) = \sqrt{1 - \beta^2} = \frac{1}{\gamma_\varphi(v)}, \qquad \beta^2 + \mathcal{V}(s)^2 = 1.$$
+2. **Kinetic-Energy Ratio for On-Axis Relative Error (`ddf_sheath_relative_error_eq_jamming`)**:
+   $$\varepsilon_{\mathrm{rel}}(0,0) = \frac{1 - \gamma_\varphi(v)^{-1}}{2} = \frac{\gamma_\varphi(v) - 1}{2\,\gamma_\varphi(v)} = \frac{K_D(v)}{2\,\gamma_\varphi(v) m c^2}.$$
+3. **Quadratic Power-Law Sandwich & Exact Parameter Inversion (`ddf_relative_error_power_law_and_inversion`, `MovingSheath.inverse_recovery_from_relative_error`)**:
+   Answering the power-law and inverse-recovery question in [Provenance Chat Log (2026), lines 226–228](#chat-plucker-sinks-ddf), for every $d_{\mathrm{bary}} \in [-1, 1]$ the on-axis relative error $\varepsilon = (1 - \mathcal{V})/2$ satisfies:
+   $$\frac{d_{\mathrm{bary}}^2}{4} \le \varepsilon \le \frac{d_{\mathrm{bary}}^2}{2}, \qquad \mathcal{V} = 1 - 2\varepsilon, \qquad \gamma_\varphi = \frac{1}{1 - 2\varepsilon}, \qquad \beta^2 = d_{\mathrm{bary}}^2 = 4\varepsilon(1 - \varepsilon).$$
+
+### 5.2 Formal Critique & Corrections of the Chat Claims
+
+1. **Critique 1 — Unphased Sum $w_A + w_B = \Delta_{02}\Delta_{13}$ vs. Coherent Fraunhofer Matching at the Symmetric Point (`ddf_symmetric_zero_shear_vs_unphased_critique`)**:
+   The chat prompt and response ([lines 12–30, 140–154](#chat-plucker-sinks-ddf)) state that the identity $w_A + w_B = \Delta_{02}\Delta_{13}$ yields zero relative predictive error against the Fraunhofer reference at the symmetric point $w_A = w_B = 1$. Lean theorem `ddf_symmetric_zero_shear_vs_unphased_critique` proves that while the **phased** Plücker / complex $Gr_{\mathbb{C}}(2,4)$ evaluator has $\varepsilon_{\mathrm{rel}} = 0$ everywhere, the **unphased** real crossing-minor sum $w_A + w_B = \Delta_{02}\Delta_{13} = 2$ gives $2 I_0$ instead of $4 I_0$ on-axis, incurring a mandatory **$50\%$ ($1/2$) relative predictive error**. Zero error requires either the coherent cross-term $2\sqrt{w_A w_B}\cos(2\theta)$ or lifting to $Gr_{\mathbb{C}}(2,4)$.
+2. **Critique 2 — Symplectic vs. Non-Symplectic Anosov Stretching (`anosov_plucker_invariance`, `nonSymplectic_jamming_barycentricShift_scaling`)**:
+   The chat asserts ([lines 130–139, 205–214](#chat-plucker-sinks-ddf)) that the quadratic Plücker relation stabilizes arbitrary shear-thickening Anosov instabilities. Theorem `anosov_plucker_invariance` proves that a *symplectic* (area-preserving) hyperbolic stretch $A_{\mathrm{Anosov}}(\lambda, t) = \operatorname{diag}(e^{\lambda t}, e^{-\lambda t})$ ($\det = 1$) preserves every $2 \times 2$ minor $\Delta_{jk}$ and $d_{\mathrm{bary}}(M)$ identically. However, `nonSymplectic_jamming_barycentricShift_scaling` proves that a *non-symplectic* compressive jamming deformation $\operatorname{diag}(e^{\lambda_1 t}, e^{\lambda_2 t})$ ($\lambda_1 + \lambda_2 \neq 0$) scales $d_{\mathrm{bary}}(BM) = e^{2(\lambda_1 + \lambda_2)t} d_{\mathrm{bary}}(M)$, so normalized sink-flux conservation requires $\lambda_1 + \lambda_2 = 0$ or explicit projective renormalization.
+3. **Critique 3 — Optical Coherence Inversion vs. Cosmological Dark-Substrate Identification**:
+   While `MovingSheath.inverse_recovery_from_relative_error` proves the exact algebraic inversion $\beta^2 = 4\varepsilon(1 - \varepsilon)$ and $\gamma_\varphi = (1 - 2\varepsilon)^{-1}$, an optical double-slit experiment measures optical path coherence and slit-weight asymmetry $d_{\mathrm{bary}}$. Identifying that optical asymmetry with cosmological dark-fluid density $\varrho_{\max}^\varphi$ or gravitomagnetic frame dragging requires independent physical discriminators such as `Signals.DDF.mutualPhotonDeflection`.
+
+```lean
+open Signals.DDF
+
+-- 5. Plücker sink-flux conservation, symmetric zero-shear critique, power-law inversion, and Anosov invariance
+example (M : Matrix (Fin 2) (Fin 4) ℝ) (d_bary lyapunovRate t : ℝ)
+    (h_low : -1 ≤ d_bary) (h_high : d_bary ≤ 1) :
+    (pluckerSinkFluxA M + pluckerSinkFluxB M = twoRowMinor M 0 2 * twoRowMinor M 1 3 ∧
+      (pluckerSinkFluxA M - pluckerSinkFluxB M) / 2 = gr24BarycentricShift M) ∧
+    (let V := Real.sqrt (1 - d_bary ^ 2)
+     let ε := (1 - V) / 2
+     d_bary ^ 2 / 4 ≤ ε ∧ ε ≤ d_bary ^ 2 / 2 ∧ d_bary ^ 2 = 4 * ε * (1 - ε)) ∧
+    gr24BarycentricShift (anosovHyperbolicMatrix lyapunovRate t * M) = gr24BarycentricShift M :=
+  ⟨pluckerSinkFlux_conservation_and_asymmetry M,
+    ddf_relative_error_power_law_and_inversion d_bary h_low h_high,
+    (anosov_plucker_invariance M lyapunovRate t 0 1).2⟩
 
 end ArxivDoubleSlitPaperVerification
 ```
 
 ---
 
-## 5. Conclusion & Reproducibility
+## 6. Conclusion & Reproducibility
 
-By formalizing five-model double-slit and OAM superposition (`Signals.Geometry`, `Signals.Coherence`, `Signals.Huygens`, `Signals.DDF`, `Signals.OAM`) in Lean 4, we have demonstrated that:
-1. The 3-term Plücker identity on $Gr(2,4)$ induces the universal Pythagorean Plücker–Steiner identity $d_{\mathrm{bary}}(M)^2 + \mathcal{V}_{Gr(2,4)}(M)^2 = (\Delta_{02}\Delta_{13}/2)^2$, directly connecting Grassmannian boundary channel weights to the barycentric parallel-axis coherence theorem of [Qian and Izadi (2023)](#qian-izadi2023).
-2. Lifting from the real positive Grassmannian $Gr_{\ge 0}(2,4)$ to the complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ (carrying $\mathbb{C}^4$ twistor phases) eliminates the $50\%$ unphased crossing-minor error completely and matches the partially coherent Huygens–Steiner profile $I_{\mathrm{HS}}(x,y;\sqrt{1 - d_{\mathrm{bary}}^2})$ identically across the entire screen for all $d_{\mathrm{bary}} \in [-1, 1]$.
+By formalizing five-model double-slit and OAM superposition (`Signals.Geometry`, `Signals.Coherence`, `Signals.Huygens`, `Signals.DDF`, `Signals.OAM`, `Signals.SolitonBus`) in Lean 4 and implementing all $N$-slit ($N > 0$) models in Rust, WebAssembly (`wasm32-unknown-unknown`), and WebGL2 GLSL (`src/signals/numerical_adapter/`), we have demonstrated that:
+1. The 3-term Plücker identity on $Gr(2,4)$ induces the universal Pythagorean Plücker–Steiner identity $d_{\mathrm{bary}}(M)^2 + \mathcal{V}_{Gr(2,4)}(M)^2 = (\Delta_{02}\Delta_{13}/2)^2$, directly connecting Grassmannian boundary channel weights and hydrodynamic sink fluxes to the barycentric parallel-axis coherence theorem of [Qian and Izadi (2023)](#qian-izadi2023).
+2. Lifting from the real positive Grassmannian $Gr_{\ge 0}(2,4)$ to the complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ (carrying $\mathbb{C}^4$ twistor phases) eliminates the $50\%$ unphased crossing-minor error completely and matches the partially coherent Huygens–Steiner profile $I_{\mathrm{HS}}(x,y;\sqrt{1 - d_{\mathrm{bary}}^2})$ (and its helical OAM generalization) identically across the entire screen for all $d_{\mathrm{bary}} \in [-1, 1]$.
+3. Identifying $|d_{\mathrm{bary}}|$ with the reduced DDF shear speed $\beta = v/c$ yields the exact reciprocal duality $\mathcal{V} = \gamma_\varphi(v)^{-1}$, the tight quadratic error bounds $d_{\mathrm{bary}}^2 / 4 \le \varepsilon \le d_{\mathrm{bary}}^2 / 2$, the exact inversion $d_{\mathrm{bary}}^2 = 4\varepsilon(1 - \varepsilon)$, and symplectic Anosov hyperbolic invariance of all $2 \times 2$ Plücker minors.
 
-To reproduce all Lean proofs and blueprint artifacts from the repository root:
+To reproduce all Lean proofs, blueprint artifacts, and Rust/WASM builds from the repository root:
 
 ```bash
 make signals_build
 pushd src/signals
 lake build :blueprint :blueprintJson
+pushd numerical_adapter
+cargo test
+cargo build --lib --target wasm32-unknown-unknown --release
+popd
 popd
 ```
 
@@ -260,8 +315,17 @@ popd
 <a id="arkani-hamed-bai-lam2017"></a>
 4. Arkani-Hamed, N., Bai, Y., and Lam, T. (2017). *Positive Geometries and Canonical Forms*. Journal of High Energy Physics 2017(11), 039. [DOI: 10.1007/JHEP11(2017)039](https://doi.org/10.1007/JHEP11%282017%29039); [arXiv:1703.04541](https://arxiv.org/abs/1703.04541).
 
+<a id="partanen-tulkki2025"></a>
+5. Partanen, M., and Tulkki, J. (2025). *Gravity Generated by Four One-Dimensional Unitary Gauge Symmetries and the Standard Model*. Reports on Progress in Physics 88, 057802; [arXiv:2506.14447](https://arxiv.org/abs/2506.14447).
+
+<a id="fedi2026"></a>
+6. Fedi, M. (2026). *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. SSRN Preprint 7406660.
+
 <a id="chat-grassmannian-huygens"></a>
-5. Provenance Chat Log (2026). *Grassmannian Huygens Principle and Amplituhedron*. ({download}`data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md, lines 9-520 <../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md>`).
+7. Provenance Chat Log (2026). *Grassmannian Huygens Principle and Amplituhedron*. ({download}`data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md, lines 9-520 <../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md>`).
+
+<a id="chat-plucker-sinks-ddf"></a>
+8. Provenance Chat Log (2026). *Plücker Channel Weights, Hydrodynamic Sinks, Anosov Flows, and Dilatant Dark Fluid*. ({download}`data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md, lines 6-228 <../data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md>`).
 
 ---
 
@@ -297,6 +361,14 @@ popd
   howpublished = {AI chat log},
   note         = {Source: data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md, lines 9-520}
 }
+
+@misc{chat_plucker_sinks_ddf_2026,
+  author       = {{Unknown}},
+  title        = {Pl{\"u}cker Channel Weights, Hydrodynamic Sinks, {A}nosov Flows, and {D}ilatant {D}ark {F}luid},
+  year         = {2026},
+  howpublished = {AI chat log},
+  note         = {Source: data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md, lines 6-228}
+}
 ```
 
 ### Schema.org Metadata (JSON-LD)
@@ -316,6 +388,8 @@ popd
     "Grassmannian Geometry",
     "Double-Slit Interference",
     "Orbital Angular Momentum",
+    "Dilatant Dark Fluid",
+    "Anosov Flows",
     "Pilot-Wave Theory",
     "Wigner Function",
     "Lean 4 Formal Verification"
@@ -323,11 +397,13 @@ popd
   "isBasedOn": [
     "data/papers/PhysRevResearch.5.033110.pdf",
     "data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md",
+    "data/chats/Google-Search_I've-discovered-a-remarkable-identity-the-sum-of-two-slit-channel-weights,-$w_A-+-w_B$,-precisely-equals-a-specific-Plü_20261024-0322.md",
     "src/signals/Signals/Geometry.lean",
     "src/signals/Signals/Coherence.lean",
     "src/signals/Signals/Huygens.lean",
     "src/signals/Signals/OAM.lean",
-    "src/signals/Signals/DDF.lean"
+    "src/signals/Signals/DDF.lean",
+    "src/signals/Signals/SolitonBus.lean"
   ]
 }
 ```

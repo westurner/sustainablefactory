@@ -6,6 +6,9 @@ rust-version = "1.95"
 license = "Apache-2.0"
 description = "Native numerical boundary for Signals Pending diagnostics"
 
+[lib]
+crate-type = ["cdylib", "rlib"]
+
 [features]
 default = []
 cylinder = ["dep:memmap2", "dep:rayon"]

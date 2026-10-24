@@ -4361,4 +4361,107 @@ example (Δℓ : ℤ) (φ x y : ℝ) :
   ⟨Signals.Huygens.huygensSteinerMultiSlit_one_slit 3 2 4 6 1 5 (4 / 5) Δℓ φ x y,
     Signals.Huygens.huygensSteinerMultiSlit_two_slits_eq_huygensSteinerOAM 3 2 4 6 1 5 (4 / 5) Δℓ φ x y⟩
 
+/-- Dual-lane OAM SolitonMultiLaneCoupler with barycentric shift d_bary = 3/5 matches
+Huygens-Steiner OAM double-slit and Complex Gr_C(2,4) crossing-minor evaluator. -/
+noncomputable def toyDualLaneSolitonCoupler : Signals.SolitonBus.SolitonMultiLaneCoupler :=
+  { numLanes := 2
+    numLanes_pos := by norm_num
+    singleLaneScale := 3
+    singleLaneScale_pos := by norm_num
+    laneWidth := 2
+    laneWidth_pos := by norm_num
+    laneHeight := 4
+    laneHeight_pos := by norm_num
+    laneSeparation := 6
+    laneSeparation_pos := by norm_num
+    wavelength := 1
+    wavelength_pos := by norm_num
+    couplerLength := 5
+    couplerLength_pos := by norm_num
+    barycentricShift := 3 / 5
+    barycentricShift_lower := by norm_num
+    barycentricShift_upper := by norm_num
+    visibility := 4 / 5
+    visibility_nonneg := by norm_num
+    visibility_le_one := by norm_num
+    nonEquilibriumResidual := 0
+    decoherenceRate := 0
+    decoherenceRate_nonneg := by norm_num
+    oamDecoherenceRate := 0
+    oamDecoherenceRate_nonneg := by norm_num
+    deltaOAM := 1 }
+
+example (φ x y : ℝ) :
+    toyDualLaneSolitonCoupler.huygensSteinerIntensity φ x y =
+      Signals.Huygens.huygensSteinerOAMDoubleSlit 3 2 4 6 1 5 (4 / 5) 1 φ x y ∧
+    Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff 7 4) 2 *
+        Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff 7 1) 2 *
+        Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff 4 1) 2 =
+      Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff 4 1) 2 *
+        Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff 7 1) 2 *
+        Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff 7 4) 2 :=
+  ⟨toyDualLaneSolitonCoupler.dualLane_intensity_eq_huygensSteinerOAM rfl φ x y,
+    (Signals.SolitonBus.solitonThreeWaveguide_yang_baxter_consistency 7 4 1 2
+      (fun u => u ^ 2 - 1) (fun u => u + 2)).1⟩
+
+/-! ## Plücker Sink-Flux Superposition, DDF Shear-Jamming Duality, & Anosov Symplectic Invariance tests -/
+
+/-- Plücker sink-flux conservation Q_A + Q_B = Δ_02 Δ_13 = 2 and barycentric asymmetry
+(Q_A - Q_B)/2 = d_bary = 3/5 on `asymmetricGr24DoubleSlitMatrix`. -/
+example :
+    Signals.DDF.pluckerSinkFluxA asymmetricGr24DoubleSlitMatrix +
+        Signals.DDF.pluckerSinkFluxB asymmetricGr24DoubleSlitMatrix = 2 ∧
+      (Signals.DDF.pluckerSinkFluxA asymmetricGr24DoubleSlitMatrix -
+        Signals.DDF.pluckerSinkFluxB asymmetricGr24DoubleSlitMatrix) / 2 = 3 / 5 := by
+  have h := Signals.DDF.pluckerSinkFlux_conservation_and_asymmetry asymmetricGr24DoubleSlitMatrix
+  rw [h.1, h.2]
+  norm_num [asymmetricGr24DoubleSlitMatrix, Signals.Geometry.twoRowMinor,
+    Signals.Geometry.gr24BarycentricShift]
+
+/-- Critique 1 verification: at the balanced symmetric point (Q_A = Q_B = 1, d_bary = 0),
+the phased Gr(2,4) model has 0% relative error everywhere, whereas the unphased sum
+w_A + w_B = Δ_02 Δ_13 = 2 has 50% (1/2) on-axis relative error. -/
+example (x y : ℝ) :
+    Signals.Geometry.gr24BarycentricShift balancedGr24DoubleSlitMatrix = 0 ∧
+      Signals.Huygens.relativePredictiveError
+        (Signals.Huygens.gr24PluckerDoubleSlit balancedGr24DoubleSlitMatrix 3 2 4 6 1 5 x y)
+        (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 x y) = 0 ∧
+      Signals.Huygens.relativePredictiveError
+        (Signals.Huygens.gr24UnphasedDoubleSlit balancedGr24DoubleSlitMatrix 3 2 4 1 5 0 0)
+        (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 0 0) = 1 / 2 :=
+  Signals.DDF.ddf_symmetric_zero_shear_vs_unphased_critique
+    balancedGr24DoubleSlitMatrix 3 2 4 6 1 5 x y (by norm_num)
+    (by norm_num [Signals.DDF.pluckerSinkFluxA, balancedGr24DoubleSlitMatrix, Signals.Geometry.twoRowMinor])
+    (by norm_num [Signals.DDF.pluckerSinkFluxB, balancedGr24DoubleSlitMatrix, Signals.Geometry.twoRowMinor])
+
+/-- Quadratic power-law bounds d_bary²/4 ≤ ε ≤ d_bary²/2 and exact inversion
+d_bary² = 4ε(1 - ε) at d_bary = 3/5 (where V = 4/5 and ε = 1/10). -/
+example :
+    let d_bary : ℝ := 3 / 5
+    let V := Real.sqrt (1 - d_bary ^ 2)
+    let ε := (1 - V) / 2
+    d_bary ^ 2 / 4 ≤ ε ∧ ε ≤ d_bary ^ 2 / 2 ∧ d_bary ^ 2 = 4 * ε * (1 - ε) :=
+  Signals.DDF.ddf_relative_error_power_law_and_inversion (3 / 5) (by norm_num) (by norm_num)
+
+/-- Symplectic 2D Anosov hyperbolic stretch preserves every Plücker minor and d_bary,
+whereas a non-symplectic jamming deformation scales d_bary by exp(2(λ_1 + λ_2)t). -/
+example (lyapunovRate t : ℝ) :
+    Signals.Geometry.gr24BarycentricShift
+        (Signals.DDF.anosovHyperbolicMatrix lyapunovRate t * asymmetricGr24DoubleSlitMatrix) =
+      Signals.Geometry.gr24BarycentricShift asymmetricGr24DoubleSlitMatrix ∧
+    (Signals.DDF.anosovHyperbolicMatrix lyapunovRate t).det = 1 :=
+  ⟨(Signals.DDF.anosov_plucker_invariance asymmetricGr24DoubleSlitMatrix lyapunovRate t 0 1).2,
+    Signals.DDF.anosovHyperbolicMatrix_det_one lyapunovRate t⟩
+
+/-- Differential DDF vortex circulation vanishes at the symmetric irrotational point (ℓ_1 = ℓ_2 = 3),
+yielding zero Wigner rotational relative predictive error. -/
+example :
+    toyDDFSubstrate.differentialVortexCirculation 1 3 3 = 0 ∧
+      Signals.Huygens.relativePredictiveError
+        (Signals.Huygens.wignerOAMDoubleSlit 3 2 4 6 1 5 2 (3 - 3) 0 0 0)
+        (Signals.Huygens.fraunhoferOAMDoubleSlit 3 2 4 6 1 5 (3 - 3) 0 0 0) = 0 := by
+  have h := toyDDFSubstrate.vortex_circulation_wigner_error 1 (by norm_num) 3 3
+    3 2 4 6 1 5 2 (by norm_num) (by norm_num)
+  exact ⟨h.2.1, h.2.2⟩
+
 end SignalsTests

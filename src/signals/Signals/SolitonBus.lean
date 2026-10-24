@@ -1,16 +1,25 @@
+import Architect
 import Mathlib.Basic.Complex.Basic
 import Mathlib.Data.Fin.Basic
 import Mathlib.LinearAlgebra.Matrix.Notation
 import Mathlib.Tactic
+import Signals.Coherence
+import Signals.Geometry
+import Signals.Huygens
 import Signals.Lasers
 import Signals.OAM
 import Signals.Propagation
+import Signals.QISM
 import Signals.Units
 
 namespace Signals.SolitonBus
 
+open Signals.Coherence
+open Signals.Geometry
+open Signals.Huygens
 open Signals.Lasers
 open Signals.Propagation
+open Signals.QISM
 open Signals.Units
 
 /-! # Soliton-bus transport and operator contracts
@@ -443,7 +452,7 @@ lemma yGate_unitary : isUnitaryMatrix yGate := by
   unfold isUnitaryMatrix yGate yMatrix
   ext row column
   fin_cases row <;> fin_cases column <;>
-    simp [Matrix.mul_apply, Complex.ext_iff]
+    simp [Matrix.mul_apply]
 
 lemma zGate_unitary : isUnitaryMatrix zGate := by
   unfold isUnitaryMatrix zGate zMatrix
@@ -642,5 +651,198 @@ structure NondestructiveParityContract where
   primaryPayloadPreserved : Prop
   primaryPayloadPreserved_hypothesis : primaryPayloadPreserved
   evidenceStatus : LaserEvidenceStatus
+
+/-! ## Multi-lane ($N > 0$) soliton-bus interferometric coupler, $Gr_{\mathbb{C}}(2,4)$ twistor channels, and QISM collision invariants -/
+
+/-- A multi-lane ($N > 0$) soliton-bus interferometric coupler and OAM grating
+demultiplexer parameterized by lane count `numLanes > 0`, lane aperture width
+`laneWidth`, lane height `laneHeight`, center-to-center waveguide pitch
+`laneSeparation`, wavelength, coupler propagation distance, Qian--Izadi /
+Pluecker barycentric power-imbalance shift `barycentricShift`, visibility,
+non-equilibrium Pilot-Wave residual, Wigner spatial/rotational decoherence rates,
+and differential OAM topological charge step `deltaOAM`. -/
+@[blueprint "def:signals-soliton-multi-lane-coupler"
+  (title := "Multi-lane (N > 0) soliton-bus interferometric coupler and OAM demultiplexer")
+  (statement := /-- A multi-lane ($N>0$) soliton-bus coupler record storing lane count $N>0$,
+    lane width $a>0$, lane height $b>0$, waveguide pitch $d>0$, wavelength $\lambda>0$,
+    coupler distance $L>0$, barycentric lane-imbalance shift $d_{\mathrm{bary}}\in[-1,1]$,
+    visibility $\mathcal{V}\in[0,1]$, Pilot-Wave residual $\delta_{\mathrm{neq}}$,
+    Wigner decoherence rates $\gamma_{\mathrm{dec}},\gamma_{\mathrm{OAM}}\ge 0$, and
+    differential OAM charge $\Delta\ell\in\mathbb Z$. -/)]
+structure SolitonMultiLaneCoupler where
+  numLanes : ℕ
+  numLanes_pos : 0 < numLanes
+  singleLaneScale : ℝ
+  singleLaneScale_pos : 0 < singleLaneScale
+  laneWidth : ℝ
+  laneWidth_pos : 0 < laneWidth
+  laneHeight : ℝ
+  laneHeight_pos : 0 < laneHeight
+  laneSeparation : ℝ
+  laneSeparation_pos : 0 < laneSeparation
+  wavelength : ℝ
+  wavelength_pos : 0 < wavelength
+  couplerLength : ℝ
+  couplerLength_pos : 0 < couplerLength
+  barycentricShift : ℝ
+  barycentricShift_lower : -1 ≤ barycentricShift
+  barycentricShift_upper : barycentricShift ≤ 1
+  visibility : ℝ
+  visibility_nonneg : 0 ≤ visibility
+  visibility_le_one : visibility ≤ 1
+  nonEquilibriumResidual : ℝ
+  decoherenceRate : ℝ
+  decoherenceRate_nonneg : 0 ≤ decoherenceRate
+  oamDecoherenceRate : ℝ
+  oamDecoherenceRate_nonneg : 0 ≤ oamDecoherenceRate
+  deltaOAM : ℤ
+
+/-- Coherent $N$-lane Fraunhofer coupler output intensity at $(x, y, \phi)$. -/
+@[blueprint "def:signals-soliton-coupler-fraunhofer-intensity"
+  (title := "Coherent N-lane Fraunhofer soliton-coupler output intensity")
+  (statement := /-- Evaluate the coherent $N$-lane Fraunhofer intensity
+    \texttt{fraunhoferMultiSlit} for a \texttt{SolitonMultiLaneCoupler}. -/)]
+noncomputable def SolitonMultiLaneCoupler.fraunhoferIntensity
+    (coupler : SolitonMultiLaneCoupler) (azimuthPhi x y : ℝ) : ℝ :=
+  fraunhoferMultiSlit coupler.numLanes
+    coupler.singleLaneScale coupler.laneWidth coupler.laneHeight
+    coupler.laneSeparation coupler.wavelength coupler.couplerLength
+    coupler.deltaOAM azimuthPhi x y
+
+/-- Partially coherent $N$-lane Huygens--Steiner / Qian--Izadi coupler output intensity. -/
+@[blueprint "def:signals-soliton-coupler-huygens-steiner-intensity"
+  (title := "Huygens--Steiner N-lane soliton-coupler output intensity")
+  (statement := /-- Evaluate the $N$-lane Huygens--Steiner intensity
+    \texttt{huygensSteinerMultiSlit} with visibility $\mathcal{V}$ for a
+    \texttt{SolitonMultiLaneCoupler}. -/)]
+noncomputable def SolitonMultiLaneCoupler.huygensSteinerIntensity
+    (coupler : SolitonMultiLaneCoupler) (azimuthPhi x y : ℝ) : ℝ :=
+  huygensSteinerMultiSlit coupler.numLanes
+    coupler.singleLaneScale coupler.laneWidth coupler.laneHeight
+    coupler.laneSeparation coupler.wavelength coupler.couplerLength
+    coupler.visibility coupler.deltaOAM azimuthPhi x y
+
+/-- Single-lane ($N = 1$) soliton-bus coupler output reduces identically to the
+single-waveguide diffraction envelope $I_0 E_{\mathrm{slit}}(x, y)$. -/
+@[blueprint "lem:signals-soliton-coupler-single-lane"
+  (title := "Single-lane (N = 1) soliton-coupler envelope reduction")
+  (statement := /-- When \texttt{coupler.numLanes = 1},
+    \texttt{coupler.huygensSteinerIntensity} equals $I_0 E_{\mathrm{slit}}(x,y)$. -/)
+  (proof := /-- Substitute \texttt{h\_one} and apply \texttt{huygensSteinerMultiSlit\_one\_slit}. -/)
+  (latexEnv := "lemma")]
+lemma SolitonMultiLaneCoupler.singleLane_intensity
+    (coupler : SolitonMultiLaneCoupler) (h_one : coupler.numLanes = 1)
+    (azimuthPhi x y : ℝ) :
+    coupler.huygensSteinerIntensity azimuthPhi x y =
+      coupler.singleLaneScale *
+        rectangularSlitEnvelope coupler.laneWidth coupler.laneHeight
+          coupler.wavelength coupler.couplerLength x y := by
+  unfold SolitonMultiLaneCoupler.huygensSteinerIntensity
+  rw [h_one]
+  exact huygensSteinerMultiSlit_one_slit
+    coupler.singleLaneScale coupler.laneWidth coupler.laneHeight
+    coupler.laneSeparation coupler.wavelength coupler.couplerLength
+    coupler.visibility coupler.deltaOAM azimuthPhi x y
+
+/-- Dual-lane ($N = 2$) soliton-bus coupler output coincides identically with
+`huygensSteinerOAMDoubleSlit`. -/
+@[blueprint "thm:signals-soliton-coupler-dual-lane"
+  (title := "Dual-lane (N = 2) soliton-coupler equivalence to Huygens--Steiner OAM double-slit")
+  (statement := /-- When \texttt{coupler.numLanes = 2},
+    \texttt{coupler.huygensSteinerIntensity} equals \texttt{huygensSteinerOAMDoubleSlit}. -/)
+  (proof := /-- Substitute \texttt{h\_two} and apply
+    \texttt{huygensSteinerMultiSlit\_two\_slits\_eq\_huygensSteinerOAM}. -/)]
+theorem SolitonMultiLaneCoupler.dualLane_intensity_eq_huygensSteinerOAM
+    (coupler : SolitonMultiLaneCoupler) (h_two : coupler.numLanes = 2)
+    (azimuthPhi x y : ℝ) :
+    coupler.huygensSteinerIntensity azimuthPhi x y =
+      huygensSteinerOAMDoubleSlit
+        coupler.singleLaneScale coupler.laneWidth coupler.laneHeight
+        coupler.laneSeparation coupler.wavelength coupler.couplerLength
+        coupler.visibility coupler.deltaOAM azimuthPhi x y := by
+  unfold SolitonMultiLaneCoupler.huygensSteinerIntensity
+  rw [h_two]
+  exact huygensSteinerMultiSlit_two_slits_eq_huygensSteinerOAM
+    coupler.singleLaneScale coupler.laneWidth coupler.laneHeight
+    coupler.laneSeparation coupler.wavelength coupler.couplerLength
+    coupler.visibility coupler.deltaOAM azimuthPhi x y
+
+/-- **Complex $Gr_{\mathbb{C}}(2, 4)$ Twistor Representation of a Dual-Lane OAM Soliton Coupler**:
+For any dual-lane soliton coupler with barycentric lane-imbalance shift
+$d_{\mathrm{bary}} = \text{coupler.barycentricShift} \in [-1, 1]$, encoding the
+two OAM lane amplitudes in `complexGr24ChannelMatrix z1 z2` with
+$z_{1,2} = \sqrt{1 \pm d_{\mathrm{bary}}}\,e^{\pm i(\theta + \Delta\ell\,\phi/2)}$
+reproduces the Huygens--Steiner OAM coupler output with visibility
+$\mathcal{V} = \sqrt{1 - d_{\mathrm{bary}}^2}$ identically across all $(x, y, \phi)$,
+with zero relative predictive error. -/
+@[blueprint "thm:signals-soliton-coupler-complex-gr24"
+  (title := "Complex Gr_C(2,4) twistor crossing-minor equivalence for dual-lane OAM soliton couplers")
+  (statement := /-- For any \texttt{SolitonMultiLaneCoupler}, encoding the dual-rail OAM
+    amplitudes $z_{1,2}=\sqrt{1\pm d_{\mathrm{bary}}}(\cos\theta_{\mathrm{OAM}}\pm i\sin\theta_{\mathrm{OAM}})$
+    in $M_{\mathbb C}(z_1,z_2)$ reproduces
+    $I_{\mathrm{HS,OAM}}\bigl(x,y,\phi;\Delta\ell,\sqrt{1-d_{\mathrm{bary}}^2}\bigr)$ with zero
+    relative predictive error everywhere. -/)
+  (proof := /-- Apply \texttt{complexGr24CrossingDoubleSlit\_oam\_barycentric\_eq\_huygensSteinerOAM}
+    with \texttt{coupler.barycentricShift\_lower} and \texttt{coupler.barycentricShift\_upper}. -/)]
+theorem SolitonMultiLaneCoupler.dualLane_complexGr24_eq_huygensSteinerOAM
+    (coupler : SolitonMultiLaneCoupler) (azimuthPhi x y : ℝ) :
+    let θ := Real.pi * coupler.laneSeparation * x /
+        (coupler.wavelength * coupler.couplerLength) +
+      (coupler.deltaOAM : ℝ) * azimuthPhi / 2
+    let a := Real.sqrt (1 + coupler.barycentricShift)
+    let b := Real.sqrt (1 - coupler.barycentricShift)
+    let z1 : ℂ := ↑(a * Real.cos θ) + Complex.I * ↑(a * Real.sin θ)
+    let z2 : ℂ := ↑(b * Real.cos θ) - Complex.I * ↑(b * Real.sin θ)
+    complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2)
+        coupler.singleLaneScale coupler.laneWidth coupler.laneHeight
+        coupler.wavelength coupler.couplerLength x y =
+      huygensSteinerOAMDoubleSlit
+        coupler.singleLaneScale coupler.laneWidth coupler.laneHeight
+        coupler.laneSeparation coupler.wavelength coupler.couplerLength
+        (Real.sqrt (1 - coupler.barycentricShift ^ 2))
+        coupler.deltaOAM azimuthPhi x y ∧
+    relativePredictiveError
+      (complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2)
+        coupler.singleLaneScale coupler.laneWidth coupler.laneHeight
+        coupler.wavelength coupler.couplerLength x y)
+      (huygensSteinerOAMDoubleSlit
+        coupler.singleLaneScale coupler.laneWidth coupler.laneHeight
+        coupler.laneSeparation coupler.wavelength coupler.couplerLength
+        (Real.sqrt (1 - coupler.barycentricShift ^ 2))
+        coupler.deltaOAM azimuthPhi x y) = 0 :=
+  complexGr24CrossingDoubleSlit_oam_barycentric_eq_huygensSteinerOAM
+    coupler.singleLaneScale coupler.laneWidth coupler.laneHeight
+    coupler.laneSeparation coupler.wavelength coupler.couplerLength
+    coupler.barycentricShift coupler.deltaOAM azimuthPhi x y
+    coupler.barycentricShift_lower coupler.barycentricShift_upper
+
+/-- **Three-Soliton Collision Order Independence & Baxter $TQ$ Invariance on the Bus**:
+When three soliton lanes with spectral rapidities $(u, v, w)$ and coupling $\eta$
+collide pairwise in an integrable NLSE / Yangian interaction zone, the $8 \times 8$
+three-mode scattering product satisfies the Quantum Yang--Baxter Equation
+$R_{12}(u-v;\eta)\,R_{13}(u-w;\eta)\,R_{23}(v-w;\eta) =
+R_{23}(v-w;\eta)\,R_{13}(u-w;\eta)\,R_{12}(u-v;\eta)$ and the three-point
+Casorati Wronskians on $Gr(2,4)$ satisfy Baxter's $TQ$ difference equation identically. -/
+@[blueprint "thm:signals-soliton-three-waveguide-yang-baxter"
+  (title := "Three-soliton Yang--Baxter collision order independence and Gr(2,4) Baxter TQ invariance")
+  (statement := /-- For any soliton rapidities $u,v,w\in\mathbb R$, coupling $\eta\in\mathbb R$,
+    and Baxter pair $(Q_+,Q_-)$, the $8\times 8$ three-mode scattering matrices satisfy
+    $R_{12}(u-v)R_{13}(u-w)R_{23}(v-w)=R_{23}(v-w)R_{13}(u-w)R_{12}(u-v)$ and the
+    three-point Casorati Wronskian $TQ$ residual vanishes identically. -/)
+  (proof := /-- Combine \texttt{Signals.QISM.yang\_baxter\_equation\_matrix8} and
+    \texttt{Signals.QISM.baxterTQResidual\_wronskian\_zero}. -/)]
+theorem solitonThreeWaveguide_yang_baxter_consistency
+    (u v w η : ℝ) (Q_plus Q_minus : ℝ → ℝ) :
+    yangR12_8 (spectralDiff u v) η * yangR13_8 (spectralDiff u w) η *
+        yangR23_8 (spectralDiff v w) η =
+      yangR23_8 (spectralDiff v w) η * yangR13_8 (spectralDiff u w) η *
+        yangR12_8 (spectralDiff u v) η ∧
+    baxterTQResidual
+      (casoratiWronskian Q_plus Q_minus (u - η) (u + η))
+      (casoratiWronskian Q_plus Q_minus u (u + η))
+      (casoratiWronskian Q_plus Q_minus (u - η) u)
+      (Q_plus u) (Q_plus (u - η)) (Q_plus (u + η)) = 0 :=
+  ⟨yang_baxter_equation_matrix8 u v w η,
+    baxterTQResidual_wronskian_zero Q_plus Q_minus u η⟩
 
 end Signals.SolitonBus

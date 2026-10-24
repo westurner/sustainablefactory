@@ -123,6 +123,48 @@ not demonstrate soliton propagation or N-LIG fabrication.
 | `busInterface` | resonant dispersive-wave generation, parity measurement | Requires a spectral or measurement boundary; not a transparent bus primitive by default. |
 | `offBus` | homodyne readout | A detector/local oscillator path outside the transported signal mode. |
 
+## Multi-Lane ($N > 0$) Interferometric Couplers, $Gr_{\mathbb{C}}(2,4)$ Twistor Channels, and Yang–Baxter Soliton Collisions
+
+In [src/signals/Signals/SolitonBus.lean](../src/signals/Signals/SolitonBus.lean),
+`SolitonMultiLaneCoupler` connects the $N$-lane soliton-bus architecture to the
+multi-model interferometric and Quantum Inverse Scattering frameworks developed
+in [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md)
+and [grassmannian-qism-bethe-ansatz-paper.myst.md](grassmannian-qism-bethe-ansatz-paper.myst.md):
+
+1. **$N$-Lane ($N > 0$) Grating Coupler & Barycentric Power Imbalance (`SolitonMultiLaneCoupler`)**:
+   Parameterized by lane count `numLanes > 0`, lane aperture width $a > 0$,
+   lane height $b > 0$, center-to-center waveguide pitch $d > 0$, wavelength $\lambda > 0$,
+   coupler distance $L > 0$, barycentric lane-imbalance shift $d_{\mathrm{bary}} \in [-1, 1]$,
+   visibility $\mathcal{V} \in [0, 1]$, and differential OAM topological charge $\Delta\ell \in \mathbb{Z}$:
+   - For $N = 1$ lane (`SolitonMultiLaneCoupler.singleLane_intensity`), the coupler
+     output reduces identically to the single-waveguide envelope $I_0 E_{\mathrm{slit}}(x, y)$.
+   - For $N = 2$ lanes (`SolitonMultiLaneCoupler.dualLane_intensity_eq_huygensSteinerOAM`),
+     the output matches `huygensSteinerOAMDoubleSlit` identically.
+2. **Complex $Gr_{\mathbb{C}}(2,4)$ Twistor Coupler Representation (`SolitonMultiLaneCoupler.dualLane_complexGr24_eq_huygensSteinerOAM`)**:
+   Encoding a dual-rail OAM soliton coupler in the complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
+   with $\mathbb{C}^4$-projected twistor entries
+   $$z_{1,2} = \sqrt{1 \pm d_{\mathrm{bary}}}\,e^{\pm i\left(\frac{\pi d x}{\lambda L} + \frac{\Delta\ell\,\phi}{2}\right)}$$
+   reproduces the partially coherent Huygens–Steiner OAM coupler output with
+   visibility $\mathcal{V} = \sqrt{1 - d_{\mathrm{bary}}^2}$ identically across all
+   $(x, y, \phi)$ with **zero relative predictive error**, eliminating the $50\%$
+   error of unphased $Gr_{\ge 0}(2,4)$ crossing-minor proxies.
+3. **Three-Soliton Yang–Baxter Collision Order Independence (`solitonThreeWaveguide_yang_baxter_consistency`)**:
+   When three soliton lanes with spectral rapidities $(u, v, w)$ and coupling $\eta$
+   interact pairwise in an integrable NLSE / Yangian zone, `solitonThreeWaveguide_yang_baxter_consistency`
+   combines `Signals.QISM.yang_baxter_equation_matrix8` and `Signals.QISM.baxterTQResidual_wronskian_zero`
+   to certify that the $8 \times 8$ three-mode scattering product satisfies
+   $$R_{12}(u-v;\eta)\,R_{13}(u-w;\eta)\,R_{23}(v-w;\eta) = R_{23}(v-w;\eta)\,R_{13}(u-w;\eta)\,R_{12}(u-v;\eta)$$
+   and the three-point Casorati Wronskians on $Gr(2,4)$ satisfy Baxter's $TQ$ difference equation identically.
+4. **Rust + WebAssembly (`wasm32-unknown-unknown`) + WebGL2 GLSL Implementation**:
+   All seven multi-slit / multi-lane ($N > 0$) models (`Fraunhofer`, `HuygensSteiner`,
+   `Gr24RealPlucker`, `Gr24ComplexTwistor`, `PilotWave`, `Wigner`, `Gr24Unphased`)
+   are implemented in [src/signals/numerical_adapter/src/double_slit.rs](../src/signals/numerical_adapter/src/double_slit.rs)
+   with WebGL2 (`#version 300 es`) shaders in
+   [double_slit.vert.glsl](../src/signals/numerical_adapter/src/shaders/double_slit.vert.glsl)
+   and [double_slit.frag.glsl](../src/signals/numerical_adapter/src/shaders/double_slit.frag.glsl),
+   parameterized by `num_slits > 0`, `slit_width`, `slit_separation`, `barycentric_shift`,
+   `delta_oam`, and `azimuth_phi`.
+
 ### Scholarly References
 
 <a id="travers2019"></a> Travers, J. C., Grigorova, T. F., Brahms, C., and Belli, F. (2019), [High-energy pulse self-compression and ultraviolet generation through soliton dynamics in hollow capillary fibres](https://doi.org/10.1038/s41566-019-0416-4). Experimental hollow-capillary self-compression and UV dispersive-wave generation.

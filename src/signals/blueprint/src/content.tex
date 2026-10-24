@@ -87,6 +87,7 @@ multi-aperture grating generalization.
 \inputleanmodule{Signals.Coherence}
 \inputleanmodule{Signals.OAM}
 \inputleanmodule{Signals.Huygens}
+\inputleanmodule{Signals.SolitonBus}
 
 \section{Measure-derived quadrature and refinement}
 
@@ -132,9 +133,15 @@ These nodes formalize the two-component Dilatant Dark Fluid (DDF) constitutive
 substrate, Madelung amplitude--phase decomposition, regularized Bohm quantum
 potential, continuous quantized vortex circulation
 $\oint \mathbf v\cdot d\boldsymbol\ell = n(2\pi\hbar/m)$, discrete 2D lattice
-plaquette coboundaries and branch-cut syndromes, and the Bogoliubov quasiparticle
+plaquette coboundaries and branch-cut syndromes, the Bogoliubov quasiparticle
 Landau critical velocity threshold separating subcritical frictionless flow
-($\Delta E>0$) from supercritical vortex-shedding onset ($\Delta E<0$).
+($\Delta E>0$) from supercritical vortex-shedding onset ($\Delta E<0$), and the
+Pluecker sink-flux / DDF shear-jamming / Anosov symplectic invariance bridge
+($Q_A+Q_B=\Delta_{02}\Delta_{13}$, $\mathcal{V}=\gamma_\varphi(v)^{-1}$,
+$\varepsilon_{\mathrm{rel}}=(\gamma_\varphi-1)/(2\gamma_\varphi)=K_D/(2E_\varphi)$,
+$d_{\mathrm{bary}}^2/4\le\varepsilon\le d_{\mathrm{bary}}^2/2$,
+$d_{\mathrm{bary}}^2=4\varepsilon(1-\varepsilon)$, and exact Pluecker minor
+invariance under $\operatorname{diag}(e^{\lambda t},e^{-\lambda t})$).
 
 \inputleanmodule{Signals.DDF}
 

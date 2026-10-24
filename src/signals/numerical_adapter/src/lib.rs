@@ -4,6 +4,8 @@
 
 use std::fmt;
 
+pub mod double_slit;
+
 #[cfg(feature = "cylinder")]
 pub mod cylinder;
 
@@ -858,7 +860,7 @@ impl fmt::Display for ValidationError {
 
 impl std::error::Error for ValidationError {}
 
-fn require_finite(name: &'static str, value: f64) -> Result<(), ValidationError> {
+pub(crate) fn require_finite(name: &'static str, value: f64) -> Result<(), ValidationError> {
     if value.is_finite() {
         Ok(())
     } else {
@@ -866,7 +868,7 @@ fn require_finite(name: &'static str, value: f64) -> Result<(), ValidationError>
     }
 }
 
-fn require_positive(name: &'static str, value: f64) -> Result<(), ValidationError> {
+pub(crate) fn require_positive(name: &'static str, value: f64) -> Result<(), ValidationError> {
     require_finite(name, value)?;
     if value > 0.0 {
         Ok(())
@@ -875,7 +877,7 @@ fn require_positive(name: &'static str, value: f64) -> Result<(), ValidationErro
     }
 }
 
-fn require_nonnegative(name: &'static str, value: f64) -> Result<(), ValidationError> {
+pub(crate) fn require_nonnegative(name: &'static str, value: f64) -> Result<(), ValidationError> {
     require_finite(name, value)?;
     if value >= 0.0 {
         Ok(())
