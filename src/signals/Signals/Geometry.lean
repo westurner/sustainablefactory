@@ -1057,6 +1057,162 @@ lemma complexGr24_crossing_eq_channel_sum (matrix : Matrix (Fin 2) (Fin 4) ℂ) 
   have h := complexTwoRowMinor_pluecker matrix 0 1 2 3
   linear_combination -h
 
+/-- Left-multiplying any real $2 \times n$ matrix $M$ by a $2 \times 2$ basis-change
+matrix $B \in \mathbb{R}^{2 \times 2}$ scales every two-row minor $\Delta_{ab}(B M)$
+by $\det B$. -/
+@[blueprint "lem:signals-two-row-minor-basis-change"
+  (title := "Real 2×n two-row minor GL(2,ℝ) basis-change law")
+  (statement := /-- For any $B\in\mathbb R^{2\times 2}$, $M\in\mathbb R^{2\times n}$, and
+    $a,b\in\operatorname{Fin}(n)$, $\Delta_{ab}(BM)=(\det B)\,\Delta_{ab}(M)$. -/)
+  (proof := /-- Expand $\det B$ and $\Delta_{ab}(BM)$ by $2\times 2$ matrix multiplication and close by ring algebra. -/)
+  (latexEnv := "lemma")]
+lemma twoRowMinor_basisChange {columnCount : ℕ}
+    (basis : Matrix (Fin 2) (Fin 2) ℝ)
+    (matrix : Matrix (Fin 2) (Fin columnCount) ℝ)
+    (left right : Fin columnCount) :
+    twoRowMinor (basis * matrix) left right =
+      basis.det * twoRowMinor matrix left right := by
+  unfold twoRowMinor
+  rw [Matrix.det_fin_two]
+  simp only [Matrix.mul_apply, Fin.sum_univ_two, Fin.isValue]
+  ring
+
+/-- Left-multiplying any complex $2 \times n$ matrix $M_{\mathbb{C}}$ by a complex
+$2 \times 2$ basis-change matrix $B_{\mathbb{C}} \in \mathbb{C}^{2 \times 2}$ scales
+every complex two-row minor $\Delta_{ab}^{\mathbb{C}}(B_{\mathbb{C}} M_{\mathbb{C}})$
+by $\det B_{\mathbb{C}}$. -/
+@[blueprint "lem:signals-complex-two-row-minor-basis-change"
+  (title := "Complex 2×n two-row minor GL(2,ℂ) basis-change law")
+  (statement := /-- For any $B_{\mathbb C}\in\mathbb C^{2\times 2}$, $M_{\mathbb C}\in\mathbb C^{2\times n}$,
+    and $a,b\in\operatorname{Fin}(n)$,
+    $\Delta_{ab}^{\mathbb C}(B_{\mathbb C}M_{\mathbb C})=(\det B_{\mathbb C})\,\Delta_{ab}^{\mathbb C}(M_{\mathbb C})$. -/)
+  (proof := /-- Expand $\det B_{\mathbb C}$ and $\Delta_{ab}^{\mathbb C}(B_{\mathbb C}M_{\mathbb C})$ in $\mathbb C$ and close by ring algebra. -/)
+  (latexEnv := "lemma")]
+lemma complexTwoRowMinor_basisChange {columnCount : ℕ}
+    (basis : Matrix (Fin 2) (Fin 2) ℂ)
+    (matrix : Matrix (Fin 2) (Fin columnCount) ℂ)
+    (left right : Fin columnCount) :
+    complexTwoRowMinor (basis * matrix) left right =
+      basis.det * complexTwoRowMinor matrix left right := by
+  unfold complexTwoRowMinor
+  rw [Matrix.det_fin_two]
+  simp only [Matrix.mul_apply, Fin.sum_univ_two, Fin.isValue]
+  ring
+
+/-- **Projectively Normalized Pluecker Barycentric Shift on $Gr(2, 4)$**:
+Dividing the channel-imbalance difference by the crossing Pluecker product yields the
+scale-invariant projective barycentric shift
+$\widehat{d}_{\mathrm{bary}}(M) = \frac{\Delta_{01}(M)\Delta_{23}(M) - \Delta_{03}(M)\Delta_{12}(M)}{\Delta_{02}(M)\Delta_{13}(M)}$. -/
+@[blueprint "def:signals-gr24-projective-barycentric-shift"
+  (title := "Projectively normalized Gr(2,4) Pluecker barycentric shift")
+  (statement := /-- For $M\in\mathbb R^{2\times 4}$, define the projectively normalized
+    barycentric shift
+    $\widehat{d}_{\mathrm{bary}}(M)=\frac{\Delta_{01}(M)\Delta_{23}(M)-\Delta_{03}(M)\Delta_{12}(M)}{\Delta_{02}(M)\Delta_{13}(M)}$. -/)]
+noncomputable def gr24ProjectiveBarycentricShift (matrix : Matrix (Fin 2) (Fin 4) ℝ) : ℝ :=
+  (twoRowMinor matrix 0 1 * twoRowMinor matrix 2 3 -
+    twoRowMinor matrix 0 3 * twoRowMinor matrix 1 2) /
+    (twoRowMinor matrix 0 2 * twoRowMinor matrix 1 3)
+
+/-- **Projectively Normalized Pluecker Visibility Squared on $Gr(2, 4)$**:
+$\widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = \frac{4\,\Delta_{01}(M)\Delta_{23}(M)\,\Delta_{03}(M)\Delta_{12}(M)}{(\Delta_{02}(M)\Delta_{13}(M))^2}$. -/
+@[blueprint "def:signals-gr24-projective-visibility-sq"
+  (title := "Projectively normalized Gr(2,4) Pluecker squared visibility")
+  (statement := /-- For $M\in\mathbb R^{2\times 4}$, define
+    $\widehat{\mathcal{V}}_{Gr(2,4)}(M)^2=
+    \frac{4\,\Delta_{01}(M)\Delta_{23}(M)\,\Delta_{03}(M)\Delta_{12}(M)}{(\Delta_{02}(M)\Delta_{13}(M))^2}$. -/)]
+noncomputable def gr24ProjectiveVisibilitySq (matrix : Matrix (Fin 2) (Fin 4) ℝ) : ℝ :=
+  4 * (twoRowMinor matrix 0 1 * twoRowMinor matrix 2 3) *
+    (twoRowMinor matrix 0 3 * twoRowMinor matrix 1 2) /
+    (twoRowMinor matrix 0 2 * twoRowMinor matrix 1 3) ^ 2
+
+/-- **Universal Projective Pythagorean Pluecker--Steiner Complementarity**:
+For *any* real $2 \times 4$ matrix $M$ with nonvanishing crossing product
+$\Delta_{02}(M)\Delta_{13}(M) \neq 0$ (without requiring $\Delta_{02}\Delta_{13} = 2$),
+the projectively normalized barycentric shift and visibility satisfy
+$\widehat{d}_{\mathrm{bary}}(M)^2 + \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = 1$. -/
+@[blueprint "thm:signals-gr24-projective-pythagorean-complementarity"
+  (title := "Universal projective Pythagorean Pluecker--Steiner complementarity on Gr(2,4)")
+  (statement := /-- For any $M\in\mathbb R^{2\times 4}$ with $\Delta_{02}(M)\Delta_{13}(M)\ne 0$,
+    $\widehat{d}_{\mathrm{bary}}(M)^2 + \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = 1$. -/)
+  (proof := /-- Expand $\Delta_{02}\Delta_{13}=\Delta_{01}\Delta_{23}+\Delta_{03}\Delta_{12}$
+    via \texttt{twoRowMinor\_pluecker} and clear the nonzero denominator $(\Delta_{02}\Delta_{13})^2$. -/)]
+theorem gr24_projective_pythagorean_complementarity
+    (matrix : Matrix (Fin 2) (Fin 4) ℝ)
+    (h_cross : twoRowMinor matrix 0 2 * twoRowMinor matrix 1 3 ≠ 0) :
+    (gr24ProjectiveBarycentricShift matrix) ^ 2 +
+      gr24ProjectiveVisibilitySq matrix = 1 := by
+  have h_sum :
+      twoRowMinor matrix 0 2 * twoRowMinor matrix 1 3 =
+        twoRowMinor matrix 0 1 * twoRowMinor matrix 2 3 +
+          twoRowMinor matrix 0 3 * twoRowMinor matrix 1 2 := by
+    have h := twoRowMinor_pluecker matrix 0 1 2 3
+    linarith
+  unfold gr24ProjectiveBarycentricShift gr24ProjectiveVisibilitySq
+  have h_num :
+      (twoRowMinor matrix 0 1 * twoRowMinor matrix 2 3 -
+        twoRowMinor matrix 0 3 * twoRowMinor matrix 1 2) ^ 2 +
+      4 * (twoRowMinor matrix 0 1 * twoRowMinor matrix 2 3) *
+        (twoRowMinor matrix 0 3 * twoRowMinor matrix 1 2) =
+      (twoRowMinor matrix 0 2 * twoRowMinor matrix 1 3) ^ 2 := by
+    rw [h_sum]
+    ring
+  rw [div_pow, ← add_div, h_num, div_self (pow_ne_zero 2 h_cross)]
+
+/-- **Exact $GL(2, \mathbb{R})$ Basis-Change Invariance of Projective Pluecker Shift & Visibility**:
+Under *any* nonsingular $2 \times 2$ transformation $B \in GL(2, \mathbb{R})$ ($\det B \neq 0$),
+both $\widehat{d}_{\mathrm{bary}}(B M) = \widehat{d}_{\mathrm{bary}}(M)$ and
+$\widehat{\mathcal{V}}_{Gr(2,4)}(B M)^2 = \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2$
+are strictly invariant because the $(\det B)^2$ scaling factors cancel identically. -/
+@[blueprint "thm:signals-gr24-projective-basis-change-invariant"
+  (title := "Exact GL(2,ℝ) invariance of projectively normalized Pluecker barycentric shift and visibility")
+  (statement := /-- For any $B\in\mathbb R^{2\times 2}$ with $\det B\ne 0$ and any
+    $M\in\mathbb R^{2\times 4}$,
+    $\widehat{d}_{\mathrm{bary}}(BM)=\widehat{d}_{\mathrm{bary}}(M)$ and
+    $\widehat{\mathcal{V}}_{Gr(2,4)}(BM)^2=\widehat{\mathcal{V}}_{Gr(2,4)}(M)^2$. -/)
+  (proof := /-- Rewrite every minor via \texttt{twoRowMinor\_basisChange} and cancel $(\det B)^2\ne 0$
+    and $(\det B)^4\ne 0$. -/)]
+theorem gr24Projective_basisChange_invariant
+    (basis : Matrix (Fin 2) (Fin 2) ℝ)
+    (matrix : Matrix (Fin 2) (Fin 4) ℝ)
+    (h_det : basis.det ≠ 0) :
+    gr24ProjectiveBarycentricShift (basis * matrix) =
+      gr24ProjectiveBarycentricShift matrix ∧
+    gr24ProjectiveVisibilitySq (basis * matrix) =
+      gr24ProjectiveVisibilitySq matrix := by
+  have h_sq_ne : basis.det ^ 2 ≠ 0 := pow_ne_zero 2 h_det
+  have h_fourth_ne : (basis.det ^ 2) ^ 2 ≠ 0 := pow_ne_zero 2 h_sq_ne
+  refine ⟨?_, ?_⟩
+  · unfold gr24ProjectiveBarycentricShift
+    simp only [twoRowMinor_basisChange]
+    calc
+      (basis.det * twoRowMinor matrix 0 1 * (basis.det * twoRowMinor matrix 2 3) -
+          basis.det * twoRowMinor matrix 0 3 * (basis.det * twoRowMinor matrix 1 2)) /
+          (basis.det * twoRowMinor matrix 0 2 * (basis.det * twoRowMinor matrix 1 3)) =
+        (basis.det ^ 2 *
+          (twoRowMinor matrix 0 1 * twoRowMinor matrix 2 3 -
+            twoRowMinor matrix 0 3 * twoRowMinor matrix 1 2)) /
+        (basis.det ^ 2 *
+          (twoRowMinor matrix 0 2 * twoRowMinor matrix 1 3)) := by ring
+      _ = (twoRowMinor matrix 0 1 * twoRowMinor matrix 2 3 -
+            twoRowMinor matrix 0 3 * twoRowMinor matrix 1 2) /
+          (twoRowMinor matrix 0 2 * twoRowMinor matrix 1 3) :=
+        mul_div_mul_left _ _ h_sq_ne
+  · unfold gr24ProjectiveVisibilitySq
+    simp only [twoRowMinor_basisChange]
+    calc
+      4 * (basis.det * twoRowMinor matrix 0 1 * (basis.det * twoRowMinor matrix 2 3)) *
+          (basis.det * twoRowMinor matrix 0 3 * (basis.det * twoRowMinor matrix 1 2)) /
+          (basis.det * twoRowMinor matrix 0 2 * (basis.det * twoRowMinor matrix 1 3)) ^ 2 =
+        ((basis.det ^ 2) ^ 2 *
+          (4 * (twoRowMinor matrix 0 1 * twoRowMinor matrix 2 3) *
+            (twoRowMinor matrix 0 3 * twoRowMinor matrix 1 2))) /
+        ((basis.det ^ 2) ^ 2 *
+          (twoRowMinor matrix 0 2 * twoRowMinor matrix 1 3) ^ 2) := by ring
+      _ = 4 * (twoRowMinor matrix 0 1 * twoRowMinor matrix 2 3) *
+            (twoRowMinor matrix 0 3 * twoRowMinor matrix 1 2) /
+          (twoRowMinor matrix 0 2 * twoRowMinor matrix 1 3) ^ 2 :=
+        mul_div_mul_left _ _ h_fourth_ne
+
 /-! ## Orbital angular-momentum translations
 
 These are real coordinate identities for a four-index bivector, not an

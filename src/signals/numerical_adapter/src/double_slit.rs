@@ -314,6 +314,87 @@ pub fn gr24_pythagorean_residual(matrix: &[[f64; 4]; 2]) -> f64 {
     (d_bary * d_bary + w_a * w_b) - (w_cross_half * w_cross_half)
 }
 
+/// Projectively normalized Plücker barycentric shift
+/// $\widehat{d}_{\mathrm{bary}}(M) = (\Delta_{01}\Delta_{23} - \Delta_{03}\Delta_{12}) / (\Delta_{02}\Delta_{13})$,
+/// matching `Signals.Geometry.gr24ProjectiveBarycentricShift` (invariant under arbitrary $GL(2, \mathbb{R})$
+/// and non-symplectic compressive jamming).
+#[inline]
+pub fn gr24_projective_barycentric_shift(matrix: &[[f64; 4]; 2]) -> f64 {
+    let w_a = two_row_minor_real(matrix, 0, 1) * two_row_minor_real(matrix, 2, 3);
+    let w_b = two_row_minor_real(matrix, 0, 3) * two_row_minor_real(matrix, 1, 2);
+    let w_cross = two_row_minor_real(matrix, 0, 2) * two_row_minor_real(matrix, 1, 3);
+    (w_a - w_b) / w_cross
+}
+
+/// Projectively normalized Plücker visibility squared
+/// $\widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = 4 \Delta_{01}\Delta_{23}\Delta_{03}\Delta_{12} / (\Delta_{02}\Delta_{13})^2$,
+/// matching `Signals.Geometry.gr24ProjectiveVisibilitySq`.
+#[inline]
+pub fn gr24_projective_visibility_sq(matrix: &[[f64; 4]; 2]) -> f64 {
+    let w_a = two_row_minor_real(matrix, 0, 1) * two_row_minor_real(matrix, 2, 3);
+    let w_b = two_row_minor_real(matrix, 0, 3) * two_row_minor_real(matrix, 1, 2);
+    let w_cross = two_row_minor_real(matrix, 0, 2) * two_row_minor_real(matrix, 1, 3);
+    (4.0 * w_a * w_b) / (w_cross * w_cross)
+}
+
+/// Inverse DDF moving-sheath parameter recovery from the on-axis optical relative
+/// predictive error $\varepsilon = (1 - \mathcal{V})/2 \in [0, 1/2)$, matching
+/// `Signals.DDF.MovingSheath.inverse_recovery_from_relative_error` and
+/// `Signals.DDF.MovingSheath.ddf_critique3_solved_substrate_parameter_recovery`.
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct DdfSheathRecovery {
+    pub relative_error: f64,
+    pub visibility: f64,
+    pub jamming_factor: f64,
+    pub beta_sq: f64,
+}
+
+impl DdfSheathRecovery {
+    /// Recover $(\mathcal{V}, \gamma_\varphi, \beta^2)$ from $\varepsilon \in [0, 0.5)$.
+    pub fn from_relative_error(eps: f64) -> Option<Self> {
+        if !eps.is_finite() || !(0.0..0.5).contains(&eps) {
+            return None;
+        }
+        let visibility = 1.0 - 2.0 * eps;
+        let jamming_factor = 1.0 / visibility;
+        let beta_sq = 4.0 * eps * (1.0 - eps);
+        Some(Self {
+            relative_error: eps,
+            visibility,
+            jamming_factor,
+            beta_sq,
+        })
+    }
+
+    /// Recover the DDF dispersed-phase compressibility-density product
+    /// $\varrho_{\max}^\varphi j_{\min}^\varphi = 4\varepsilon(1 - \varepsilon) / v^2$
+    /// for a known nonzero sheath velocity $v \neq 0$.
+    pub fn recover_substrate_product(&self, velocity: f64) -> Option<f64> {
+        if !velocity.is_finite() || velocity == 0.0 {
+            return None;
+        }
+        Some(self.beta_sq / (velocity * velocity))
+    }
+}
+
+/// Construct the canonical $Gr_{\mathbb{C}}(2, 4)$–DDF sheath and vortex twistor matrix
+/// $M_{\mathbb{C}}^{\mathrm{DDF}}(s)$ from reduced sheath speed $\beta = v/c \in [0, 1)$
+/// and optical/OAM parameters, matching `Signals.DDF.MovingSheath.gr24TwistorMatrix`.
+pub fn ddf_gr24_twistor_matrix(
+    beta: f64,
+    params: &MultiSlitParams,
+    x: f64,
+) -> [[Complex64; 4]; 2] {
+    let clamped_beta = beta.clamp(-1.0, 1.0);
+    let theta = params.phase_half_step(x);
+    let a = (1.0 + clamped_beta).max(0.0).sqrt();
+    let b = (1.0 - clamped_beta).max(0.0).sqrt();
+    let z1 = Complex64::from_polar(a, theta);
+    let z2 = Complex64::from_polar(b, -theta);
+    complex_gr24_channel_matrix(z1, z2)
+}
+
 /// Canonical $2 \times 4$ complex Grassmannian channel matrix
 /// $M_{\mathbb{C}}(z_1, z_2) = \begin{pmatrix} 1 & 1 & 0 & -1 \\ 0 & z_1 & 1 & z_2 \end{pmatrix}$,
 /// matching `Signals.Huygens.complexGr24ChannelMatrix`.
@@ -841,5 +922,52 @@ mod tests {
         assert!(GLSL_DOUBLE_SLIT_FRAGMENT_SHADER.contains("uniform float u_slit_width;"));
         assert!(GLSL_DOUBLE_SLIT_FRAGMENT_SHADER.contains("uniform float u_slit_separation;"));
         assert!(GLSL_DOUBLE_SLIT_FRAGMENT_SHADER.contains("complex_gr24_crossing_factor"));
+    }
+
+    #[test]
+    fn ddf_gr24_unification_and_projective_jamming_invariance_match_lean() {
+        let asym_mat = [[1.0, 1.0, 0.0, -1.0], [0.0, 1.6, 1.0, 0.4]];
+        // Critique 2 solution: projective barycentric shift & visibility are invariant under non-symplectic jamming
+        let s1 = 0.7_f64.exp();
+        let s2 = (-0.2_f64).exp();
+        let jammed_mat = [
+            [
+                s1 * asym_mat[0][0],
+                s1 * asym_mat[0][1],
+                s1 * asym_mat[0][2],
+                s1 * asym_mat[0][3],
+            ],
+            [
+                s2 * asym_mat[1][0],
+                s2 * asym_mat[1][1],
+                s2 * asym_mat[1][2],
+                s2 * asym_mat[1][3],
+            ],
+        ];
+        let d_proj = gr24_projective_barycentric_shift(&asym_mat);
+        let v_proj_sq = gr24_projective_visibility_sq(&asym_mat);
+        assert!((d_proj - 0.6).abs() < 1e-12);
+        assert!((v_proj_sq - 0.64).abs() < 1e-12);
+        assert!((d_proj * d_proj + v_proj_sq - 1.0).abs() < 1e-12);
+        assert!((gr24_projective_barycentric_shift(&jammed_mat) - d_proj).abs() < 1e-12);
+        assert!((gr24_projective_visibility_sq(&jammed_mat) - v_proj_sq).abs() < 1e-12);
+
+        // Critique 3 solution: DdfSheathRecovery at beta = 3/5 (eps = 0.1, V = 0.8, gamma_varphi = 1.25)
+        let rec = DdfSheathRecovery::from_relative_error(0.1).unwrap();
+        assert!((rec.visibility - 0.8).abs() < 1e-12);
+        assert!((rec.jamming_factor - 1.25).abs() < 1e-12);
+        assert!((rec.beta_sq - 0.36).abs() < 1e-12);
+        assert!((rec.recover_substrate_product(1.2).unwrap() - 0.25).abs() < 1e-12);
+
+        // Gr_C(2,4)-DDF unification: ddf_gr24_twistor_matrix matches Huygens-Steiner with V = 1 / gamma_varphi
+        let mut params = MultiSlitParams::canonical_double_slit().with_barycentric_shift(0.6);
+        params.delta_oam = 2;
+        params.azimuth_phi = 0.45;
+        for &(x, y) in &[(0.0, 0.0), (0.17, -0.22), (0.41, 0.09)] {
+            let m_ddf = ddf_gr24_twistor_matrix(0.6, &params, x);
+            let i_ddf = complex_gr24_crossing_double_slit(&m_ddf, &params, x, y);
+            let i_hs = evaluate_multi_slit_model(SlitModelKind::HuygensSteiner, &params, x, y);
+            assert!((i_ddf - i_hs).abs() < 1e-12);
+        }
     }
 }

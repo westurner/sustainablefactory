@@ -4464,4 +4464,80 @@ example :
     3 2 4 6 1 5 2 (by norm_num) (by norm_num)
   exact ⟨h.2.1, h.2.2⟩
 
+/-- Solution to Critique 1: at the symmetric point (Q_A = Q_B = 1), the squared real
+crossing product (Δ_02 Δ_13)² = (1 + 1)² = 4 has 0% relative error at (0, 0), and
+complex Gr_C(2,4) sink amplitudes w_A^ℂ + w_B^ℂ = Δ_02^ℂ Δ_13^ℂ have 0% error everywhere. -/
+example (M_C : Matrix (Fin 2) (Fin 4) ℂ) (x y : ℝ) :
+    Signals.DDF.gr24SquaredCrossingDoubleSlit balancedGr24DoubleSlitMatrix 3 2 4 1 5 0 0 =
+      Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 0 0 ∧
+    Signals.Huygens.relativePredictiveError
+      (Signals.DDF.gr24SquaredCrossingDoubleSlit balancedGr24DoubleSlitMatrix 3 2 4 1 5 0 0)
+      (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 0 0) = 0 ∧
+    Signals.DDF.complexPluckerSinkAmplitudeA M_C +
+      Signals.DDF.complexPluckerSinkAmplitudeB M_C =
+      Signals.Geometry.complexTwoRowMinor M_C 0 2 *
+        Signals.Geometry.complexTwoRowMinor M_C 1 3 := by
+  have h := Signals.DDF.ddf_critique1_solved_squared_crossing_and_complex_gr24
+    balancedGr24DoubleSlitMatrix M_C 3 2 4 6 1 5 x y
+    (by norm_num [Signals.DDF.pluckerSinkFluxA, balancedGr24DoubleSlitMatrix, Signals.Geometry.twoRowMinor])
+    (by norm_num [Signals.DDF.pluckerSinkFluxB, balancedGr24DoubleSlitMatrix, Signals.Geometry.twoRowMinor])
+  exact ⟨h.1, h.2.1, h.2.2.1⟩
+
+/-- Solution to Critique 2: projectively normalized Plücker barycentric shift d̂_bary and
+visibility V̂² obey d̂_bary² + V̂² = 1 and are invariant under arbitrary non-symplectic
+compressive jamming diag(exp(rate1 * t), exp(rate2 * t)). -/
+example (rate1 rate2 t : ℝ) :
+    let B : Matrix (Fin 2) (Fin 2) ℝ :=
+      !![Real.exp (rate1 * t), 0; 0, Real.exp (rate2 * t)]
+    (Signals.Geometry.gr24ProjectiveBarycentricShift asymmetricGr24DoubleSlitMatrix) ^ 2 +
+      Signals.Geometry.gr24ProjectiveVisibilitySq asymmetricGr24DoubleSlitMatrix = 1 ∧
+    Signals.Geometry.gr24ProjectiveBarycentricShift (B * asymmetricGr24DoubleSlitMatrix) =
+      Signals.Geometry.gr24ProjectiveBarycentricShift asymmetricGr24DoubleSlitMatrix ∧
+    Signals.Geometry.gr24ProjectiveVisibilitySq (B * asymmetricGr24DoubleSlitMatrix) =
+      Signals.Geometry.gr24ProjectiveVisibilitySq asymmetricGr24DoubleSlitMatrix :=
+  ⟨Signals.Geometry.gr24_projective_pythagorean_complementarity asymmetricGr24DoubleSlitMatrix
+      (by norm_num [asymmetricGr24DoubleSlitMatrix, Signals.Geometry.twoRowMinor]),
+    (Signals.DDF.ddf_critique2_solved_projective_and_trace_renormalized_jamming
+      asymmetricGr24DoubleSlitMatrix rate1 rate2 t).1,
+    (Signals.DDF.ddf_critique2_solved_projective_and_trace_renormalized_jamming
+      asymmetricGr24DoubleSlitMatrix rate1 rate2 t).2.1⟩
+
+/-- Solution to Critique 3: recovery of DDF substrate product ϱ_max^φ * j_min^φ = 1/4
+and velocity squared v² = 1 from `toyMovingSheath` optical error ε, and quantized
+vortex frame-dragging swirl velocity on `toyRiverExterior`. -/
+example (hbar r : ℝ) (ℓ₁ ℓ₂ : ℤ) :
+    let ε := (1 - toyMovingSheath.coherenceVisibility) / 2
+    toyDDFSubstrate.rho_max_varphi * toyDDFSubstrate.j_min_varphi *
+        toyMovingSheath.velocity ^ 2 = 4 * ε * (1 - ε) ∧
+    toyRiverExterior.swirlVelocity (((ℓ₂ - ℓ₁ : ℤ) : ℝ) * hbar) r =
+      (toyRiverExterior.G_phi * toyDDFSubstrate.m_phi *
+        (toyDDFSubstrate.rho_max_varphi * toyDDFSubstrate.j_min_varphi) /
+        (Real.pi * r ^ 2)) *
+        toyDDFSubstrate.differentialVortexCirculation hbar ℓ₁ ℓ₂ ∧
+    toyRiverExterior.swirlVelocity (((ℓ₁ - ℓ₁ : ℤ) : ℝ) * hbar) r = 0 :=
+  ⟨(toyMovingSheath.ddf_critique3_solved_substrate_parameter_recovery).1,
+    (toyRiverExterior.quantized_vortex_swirl_from_circulation hbar r ℓ₁ ℓ₂).1,
+    (toyRiverExterior.quantized_vortex_swirl_from_circulation hbar r ℓ₁ ℓ₂).2⟩
+
+/-- Master Gr_C(2,4)-DDF Unification: `toyMovingSheath.gr24TwistorMatrix` has Madelung
+sink densities 1 + β and 1 - β multiplying to γ_φ(v)⁻², and its pure crossing-minor
+intensity matches `huygensSteinerOAMDoubleSlit` with visibility γ_φ(v)⁻¹ and 0% error everywhere. -/
+example (Δℓ : ℤ) (φ x y : ℝ) :
+    let M_C := toyMovingSheath.gr24TwistorMatrix 6 1 5 Δℓ φ x
+    Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_C) *
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_C) =
+      (toyMovingSheath.jammingFactor ^ 2)⁻¹ ∧
+    Signals.Huygens.complexGr24CrossingDoubleSlit M_C 3 2 4 1 5 x y =
+      Signals.Huygens.huygensSteinerOAMDoubleSlit
+        3 2 4 6 1 5 (toyMovingSheath.jammingFactor)⁻¹ Δℓ φ x y ∧
+    Signals.Huygens.relativePredictiveError
+      (Signals.Huygens.complexGr24CrossingDoubleSlit M_C 3 2 4 1 5 x y)
+      (Signals.Huygens.huygensSteinerOAMDoubleSlit
+        3 2 4 6 1 5 (toyMovingSheath.jammingFactor)⁻¹ Δℓ φ x y) = 0 := by
+  intro M_C
+  have h_mad := toyMovingSheath.gr24TwistorMatrix_madelung_sector_identities 6 1 5 Δℓ φ x
+  have h_cross := toyMovingSheath.gr24TwistorMatrix_crossing_eq_ddf_oam_intensity
+    3 2 4 6 1 5 Δℓ φ x y
+  exact ⟨h_mad.2.2.2.2.1.trans h_mad.2.2.2.2.2, h_cross.1, h_cross.2⟩
+
 end SignalsTests

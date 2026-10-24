@@ -1054,4 +1054,536 @@ theorem DDFSubstrate.vortex_circulation_wigner_error
       oamDecoherenceRate (ℓ₁ - ℓ₁) h_scale h_dec]
     simp
 
+/-! ## Constructive Solutions to Critiques 1–3 & Unified $Gr_{\mathbb{C}}(2, 4)$–DDF Integration
+
+This section resolves all three critique issues constructively and integrates
+the complex Grassmannian $Gr_{\mathbb{C}}(2, 4)$ directly with `DDFSubstrate`,
+`MovingSheath`, Madelung condensate densities, and `RiverExterior` frame-dragging:
+
+1. **Resolution of Critique 1 (`ddf_critique1_solved_squared_crossing_and_complex_gr24`)**:
+   - In real $Gr(2,4)$, interpreting the channel weights $Q_A, Q_B$ as coherent
+     field amplitudes makes the on-axis intensity proportional to the **squared**
+     crossing product $(\Delta_{02}\Delta_{13})^2 = (Q_A + Q_B)^2 = 4$, achieving
+     **exact zero relative error** ($\varepsilon_{\mathrm{rel}} = 0$) at the
+     symmetric point $(0, 0)$.
+   - Across the entire detector plane $(x, y) \in \mathbb{R}^2$, lifting to complex
+     sink amplitudes $w_A^{\mathbb{C}}(M_{\mathbb{C}}) = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}$
+     and $w_B^{\mathbb{C}}(M_{\mathbb{C}}) = \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}$
+     on $Gr_{\mathbb{C}}(2,4)$ satisfies $w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}$,
+     so $|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}|^2 = |w_A^{\mathbb{C}} + w_B^{\mathbb{C}}|^2$
+     achieves **zero relative predictive error everywhere**.
+2. **Resolution of Critique 2 (`ddf_critique2_solved_projective_and_trace_renormalized_jamming`)**:
+   - Projectively normalizing by the crossing product via `gr24ProjectiveBarycentricShift`
+     ($\widehat{d}_{\mathrm{bary}} = (Q_A - Q_B)/(Q_A + Q_B)$) and `gr24ProjectiveVisibilitySq`
+     cancels the $e^{2(\lambda_1 + \lambda_2)t}$ dilation factor identically, making
+     $\widehat{d}_{\mathrm{bary}}$ and $\widehat{\mathcal{V}}_{Gr(2,4)}^2$ **exact invariants
+     under arbitrary non-symplectic compressive jamming** $\operatorname{diag}(e^{\lambda_1 t}, e^{\lambda_2 t})$.
+   - Factoring out the isotropic trace dilation $e^{-(\lambda_1 + \lambda_2)t / 2}$ reduces
+     any diagonal jamming matrix to the symplectic Anosov matrix
+     $A_{\mathrm{Anosov}}((\lambda_1 - \lambda_2)/2, t)$, which preserves even the
+     unnormalized Plücker minors.
+3. **Resolution of Critique 3 (`MovingSheath.ddf_critique3_solved_substrate_parameter_recovery` & `RiverExterior.quantized_vortex_swirl_from_circulation`)**:
+   - Connects the optical relative error $\varepsilon = (1 - \mathcal{V}(s))/2$ directly to
+     the dimensionful DDF substrate parameters $\varrho_{\max}^\varphi j_{\min}^\varphi = c^{-2}$
+     and physical sheath speed $v$:
+     $\varrho_{\max}^\varphi j_{\min}^\varphi v^2 = 4\varepsilon(1 - \varepsilon)$,
+     $v^2 = 4\varepsilon(1 - \varepsilon) / (\varrho_{\max}^\varphi j_{\min}^\varphi)$, and
+     $\varrho_{\max}^\varphi j_{\min}^\varphi = 4\varepsilon(1 - \varepsilon) / v^2$ (for $v \neq 0$).
+   - Connects the differential OAM vortex circulation $\Delta\Gamma(\ell_1, \ell_2)$ to the
+     Kerr/Lense--Thirring gravitomagnetic swirl velocity in `RiverExterior`:
+     $v_{\phi,\mathrm{swirl}}((\ell_2 - \ell_1)\hbar, r) = \frac{G_\phi m_\phi \varrho_{\max}^\varphi j_{\min}^\varphi}{\pi r^2}\,\Delta\Gamma(\ell_1, \ell_2)$.
+4. **Unified $Gr_{\mathbb{C}}(2, 4)$–DDF Sheath Twistor Formalism (`MovingSheath.gr24TwistorMatrix`)**:
+   - Embeds any subluminal `MovingSheath` $s$ and differential OAM vortex charge $\Delta\ell$
+     into $Gr_{\mathbb{C}}(2,4)$, proving that its Madelung channel densities are
+     $|w_A^{\mathbb{C}}|^2 = 1 + v/c$ and $|w_B^{\mathbb{C}}|^2 = 1 - v/c$, their product is
+     $\gamma_\varphi(v)^{-2}$, its crossing minor reproduces the DDF shear-jammed OAM
+     intensity $I_{\mathrm{HS,OAM}}(x,y,\phi;\Delta\ell,\gamma_\varphi(v)^{-1})$ with zero
+     relative error everywhere, and $SL(2, \mathbb{C})$ / complex Anosov transformations
+     preserve the crossing-minor intensity identically.
+-/
+
+/-- Real squared-crossing Plücker double-slit intensity:
+when $Q_A(M) = \Delta_{01}\Delta_{23}$ and $Q_B(M) = \Delta_{03}\Delta_{12}$ represent
+coherent field amplitudes at zero phase difference, the squared crossing product
+$(\Delta_{02}(M)\Delta_{13}(M))^2 = (Q_A(M) + Q_B(M))^2$ scales the single-slit envelope. -/
+@[blueprint "def:signals-ddf-gr24-squared-crossing-double-slit"
+  (title := "Squared Plücker crossing-product double-slit intensity")
+  (statement := /-- For $M\in\mathbb R^{2\times 4}$, define
+    $I_{Gr(2,4)}^{\mathrm{sq}}(M;x,y)=I_0 E_{\mathrm{slit}}(x,y)\,(\Delta_{02}(M)\Delta_{13}(M))^2$. -/)]
+noncomputable def gr24SquaredCrossingDoubleSlit
+    (M : Matrix (Fin 2) (Fin 4) ℝ)
+    (singleSlitScale slitWidth slitHeight wavelength screenDistance x y : ℝ) : ℝ :=
+  singleSlitScale *
+    rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance x y *
+    (twoRowMinor M 0 2 * twoRowMinor M 1 3) ^ 2
+
+/-- First complex Plücker sink amplitude $w_A^{\mathbb{C}}(M_{\mathbb{C}}) = \Delta_{01}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{23}^{\mathbb{C}}(M_{\mathbb{C}})$
+on $Gr_{\mathbb{C}}(2, 4)$. -/
+@[blueprint "def:signals-ddf-complex-plucker-sink-a"
+  (title := "First complex Gr_C(2,4) Plücker sink amplitude w_A^ℂ")
+  (statement := /-- For $M_{\mathbb C}\in\mathbb C^{2\times 4}$, define
+    $w_A^{\mathbb C}(M_{\mathbb C})=\Delta_{01}^{\mathbb C}(M_{\mathbb C})\,\Delta_{23}^{\mathbb C}(M_{\mathbb C})$. -/)]
+def complexPluckerSinkAmplitudeA (M : Matrix (Fin 2) (Fin 4) ℂ) : ℂ :=
+  complexTwoRowMinor M 0 1 * complexTwoRowMinor M 2 3
+
+/-- Second complex Plücker sink amplitude $w_B^{\mathbb{C}}(M_{\mathbb{C}}) = \Delta_{03}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{12}^{\mathbb{C}}(M_{\mathbb{C}})$
+on $Gr_{\mathbb{C}}(2, 4)$. -/
+@[blueprint "def:signals-ddf-complex-plucker-sink-b"
+  (title := "Second complex Gr_C(2,4) Plücker sink amplitude w_B^ℂ")
+  (statement := /-- For $M_{\mathbb C}\in\mathbb C^{2\times 4}$, define
+    $w_B^{\mathbb C}(M_{\mathbb C})=\Delta_{03}^{\mathbb C}(M_{\mathbb C})\,\Delta_{12}^{\mathbb C}(M_{\mathbb C})$. -/)]
+def complexPluckerSinkAmplitudeB (M : Matrix (Fin 2) (Fin 4) ℂ) : ℂ :=
+  complexTwoRowMinor M 0 3 * complexTwoRowMinor M 1 2
+
+/-- **Constructive Solution to Critique 1 (Symmetric Zero-Shear Point & Off-Axis $Gr_{\mathbb{C}}(2,4)$ Exactness)**:
+1. At the symmetric point ($Q_A(M) = 1, Q_B(M) = 1$, $x = 0, y = 0$), squaring the
+   amplitude-level crossing product in `gr24SquaredCrossingDoubleSlit` yields
+   $(Q_A + Q_B)^2 = 4$, matching `fraunhoferRectangularDoubleSlit` at $(0, 0)$ with
+   **exact zero relative predictive error** ($\varepsilon_{\mathrm{rel}} = 0$).
+2. Across the entire detector plane $(x, y) \in \mathbb{R}^2$, the complex sink
+   amplitudes on $Gr_{\mathbb{C}}(2,4)$ satisfy
+   $w_A^{\mathbb{C}}(M_{\mathbb{C}}) + w_B^{\mathbb{C}}(M_{\mathbb{C}}) = \Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}})$,
+   and with $z_{1,2} = e^{\pm i\theta}$ the squared crossing minor in
+   `complexGr24CrossingDoubleSlit` matches `fraunhoferRectangularDoubleSlit` with
+   **zero relative predictive error everywhere**. -/
+@[blueprint "thm:signals-ddf-critique1-solved"
+  (title := "Solution to Critique 1: squared crossing product at origin and complex Gr_C(2,4) sink amplitudes everywhere give 0% error")
+  (statement := /-- If $Q_A(M)=1$ and $Q_B(M)=1$, then at $(0,0)$
+    $\varepsilon_{\mathrm{rel}}\bigl(I_{Gr(2,4)}^{\mathrm{sq}}(M;0,0),I_{\mathrm{F}}(0,0)\bigr)=0$.
+    Moreover, for every $M_{\mathbb C}\in\mathbb C^{2\times 4}$,
+    $w_A^{\mathbb C}(M_{\mathbb C})+w_B^{\mathbb C}(M_{\mathbb C})=\Delta_{02}^{\mathbb C}(M_{\mathbb C})\Delta_{13}^{\mathbb C}(M_{\mathbb C})$,
+    and for $z_{1,2}=\cos\theta\pm i\sin\theta$,
+    $\varepsilon_{\mathrm{rel}}\bigl(I_{Gr_{\mathbb C}(2,4)}^{\times}(M_{\mathbb C}(z_1,z_2);x,y),I_{\mathrm{F}}(x,y)\bigr)=0$
+    for all $(x,y)\in\mathbb R^2$. -/)
+  (proof := /-- Use $\Delta_{02}\Delta_{13}=Q_A+Q_B=2$ at $(0,0)$ so $2^2=4$, apply
+    \texttt{complexGr24\_crossing\_eq\_channel\_sum} for complex sink conservation, and
+    apply \texttt{complexGr24CrossingDoubleSlit\_zero\_error}. -/)]
+theorem ddf_critique1_solved_squared_crossing_and_complex_gr24
+    (M : Matrix (Fin 2) (Fin 4) ℝ)
+    (M_C : Matrix (Fin 2) (Fin 4) ℂ)
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y : ℝ)
+    (h_A : pluckerSinkFluxA M = 1)
+    (h_B : pluckerSinkFluxB M = 1) :
+    gr24SquaredCrossingDoubleSlit M singleSlitScale slitWidth slitHeight
+        wavelength screenDistance 0 0 =
+      fraunhoferRectangularDoubleSlit singleSlitScale slitWidth slitHeight
+        separation wavelength screenDistance 0 0 ∧
+    relativePredictiveError
+      (gr24SquaredCrossingDoubleSlit M singleSlitScale slitWidth slitHeight
+        wavelength screenDistance 0 0)
+      (fraunhoferRectangularDoubleSlit singleSlitScale slitWidth slitHeight
+        separation wavelength screenDistance 0 0) = 0 ∧
+    complexPluckerSinkAmplitudeA M_C + complexPluckerSinkAmplitudeB M_C =
+      complexTwoRowMinor M_C 0 2 * complexTwoRowMinor M_C 1 3 ∧
+    (let θ := Real.pi * separation * x / (wavelength * screenDistance)
+     let z1 : ℂ := ↑(Real.cos θ) + Complex.I * ↑(Real.sin θ)
+     let z2 : ℂ := ↑(Real.cos θ) - Complex.I * ↑(Real.sin θ)
+     relativePredictiveError
+       (complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2)
+         singleSlitScale slitWidth slitHeight wavelength screenDistance x y)
+       (fraunhoferRectangularDoubleSlit singleSlitScale slitWidth slitHeight
+         separation wavelength screenDistance x y) = 0) := by
+  have h_cross : twoRowMinor M 0 2 * twoRowMinor M 1 3 = 2 := by
+    rw [← (pluckerSinkFlux_conservation_and_asymmetry M).1, h_A, h_B]
+    norm_num
+  have h_sq_eq :
+      gr24SquaredCrossingDoubleSlit M singleSlitScale slitWidth slitHeight
+        wavelength screenDistance 0 0 =
+      fraunhoferRectangularDoubleSlit singleSlitScale slitWidth slitHeight
+        separation wavelength screenDistance 0 0 := by
+    unfold gr24SquaredCrossingDoubleSlit rectangularSlitEnvelope unnormalizedSinc
+    rw [h_cross, fraunhoferRectangularDoubleSlit_onAxis]
+    simp
+    ring
+  refine ⟨h_sq_eq, ?_, (complexGr24_crossing_eq_channel_sum M_C).symm, ?_⟩
+  · rw [h_sq_eq]
+    simp [relativePredictiveError]
+  · exact (complexGr24CrossingDoubleSlit_zero_error
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y).2
+
+/-- **Constructive Solution to Critique 2 (Non-Symplectic Compressive Jamming Invariance)**:
+For *any* non-symplectic compressive jamming deformation
+$B(\lambda_1, \lambda_2, t) = \operatorname{diag}(e^{\lambda_1 t}, e^{\lambda_2 t})$
+with arbitrary exponents $\lambda_1, \lambda_2, t \in \mathbb{R}$:
+1. The projectively normalized Plücker barycentric shift and squared visibility are
+   **strictly invariant**:
+   $\widehat{d}_{\mathrm{bary}}(B M) = \widehat{d}_{\mathrm{bary}}(M)$ and
+   $\widehat{\mathcal{V}}_{Gr(2,4)}(B M)^2 = \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2$, and
+2. Rescaling $B(\lambda_1, \lambda_2, t)$ by the inverse square-root determinant
+   $e^{-(\lambda_1 + \lambda_2)t / 2}$ yields the exact symplectic Anosov hyperbolic
+   matrix $A_{\mathrm{Anosov}}((\lambda_1 - \lambda_2)/2, t)$, which preserves even the
+   unnormalized Plücker minors and $d_{\mathrm{bary}}(M)$ identically. -/
+@[blueprint "thm:signals-ddf-critique2-solved"
+  (title := "Solution to Critique 2: projective Plücker invariance and trace-renormalized symplectic Anosov reduction under arbitrary jamming")
+  (statement := /-- For any $M\in\mathbb R^{2\times 4}$ and $\lambda_1,\lambda_2,t\in\mathbb R$,
+    let $B=\operatorname{diag}(e^{\lambda_1 t},e^{\lambda_2 t})$. Then
+    $\widehat{d}_{\mathrm{bary}}(BM)=\widehat{d}_{\mathrm{bary}}(M)$,
+    $\widehat{\mathcal{V}}_{Gr(2,4)}(BM)^2=\widehat{\mathcal{V}}_{Gr(2,4)}(M)^2$,
+    $e^{-(\lambda_1+\lambda_2)t/2}\cdot B = A_{\mathrm{Anosov}}((\lambda_1-\lambda_2)/2,t)$, and
+    $d_{\mathrm{bary}}\bigl((e^{-(\lambda_1+\lambda_2)t/2}\cdot B)M\bigr)=d_{\mathrm{bary}}(M)$. -/)
+  (proof := /-- Apply \texttt{gr24Projective\_basisChange\_invariant} using
+    $\det B = e^{\lambda_1 t}e^{\lambda_2 t}>0$, verify the matrix identity entrywise via
+    \texttt{Real.exp\_add}, and apply \texttt{anosov\_plucker\_invariance}. -/)]
+theorem ddf_critique2_solved_projective_and_trace_renormalized_jamming
+    (M : Matrix (Fin 2) (Fin 4) ℝ) (rate1 rate2 time : ℝ) :
+    let B : Matrix (Fin 2) (Fin 2) ℝ :=
+      !![Real.exp (rate1 * time), 0; 0, Real.exp (rate2 * time)]
+    let scale := Real.exp (-((rate1 + rate2) / 2 * time))
+    gr24ProjectiveBarycentricShift (B * M) = gr24ProjectiveBarycentricShift M ∧
+      gr24ProjectiveVisibilitySq (B * M) = gr24ProjectiveVisibilitySq M ∧
+      scale • B = anosovHyperbolicMatrix ((rate1 - rate2) / 2) time ∧
+      gr24BarycentricShift ((scale • B) * M) = gr24BarycentricShift M := by
+  intro B scale
+  have h_det_pos : 0 < B.det := by
+    dsimp [B]
+    rw [Matrix.det_fin_two]
+    simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
+      Matrix.cons_val_one, Matrix.cons_val_fin_one, mul_zero, sub_zero]
+    exact mul_pos (Real.exp_pos _) (Real.exp_pos _)
+  have h_proj := gr24Projective_basisChange_invariant B M (ne_of_gt h_det_pos)
+  have h_mat : scale • B = anosovHyperbolicMatrix ((rate1 - rate2) / 2) time := by
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [B, scale, anosovHyperbolicMatrix, ← Real.exp_add] <;>
+      ring_nf
+  refine ⟨h_proj.1, h_proj.2, h_mat, ?_⟩
+  rw [h_mat]
+  exact (anosov_plucker_invariance M ((rate1 - rate2) / 2) time 0 1).2
+
+/-- **Constructive Solution to Critique 3A (Constitutive DDF Substrate Parameter Recovery)**:
+For any subluminal `MovingSheath` $s$ on `sub : DDFSubstrate`, let
+$\varepsilon = (1 - \mathcal{V}(s))/2$ be the on-axis relative predictive error. Then:
+1. The constitutive DDF jamming invariant $\varrho_{\max}^\varphi j_{\min}^\varphi v^2$
+   equals $4\varepsilon(1 - \varepsilon)$,
+2. The squared physical sheath velocity equals
+   $v^2 = 4\varepsilon(1 - \varepsilon) / (\varrho_{\max}^\varphi j_{\min}^\varphi)$, and
+3. Whenever $v \neq 0$, the DDF dispersed-phase compressibility-density product is
+   uniquely recovered by $\varrho_{\max}^\varphi j_{\min}^\varphi = 4\varepsilon(1 - \varepsilon) / v^2$. -/
+@[blueprint "thm:signals-ddf-critique3-substrate-recovery"
+  (title := "Solution to Critique 3A: recovery of DDF substrate product ϱ_max^φ j_min^φ and velocity v² from optical error ε")
+  (statement := /-- For a subluminal sheath $s$ on \texttt{sub : DDFSubstrate} with
+    $\varepsilon=(1-\mathcal{V}(s))/2$,
+    $\varrho_{\max}^\varphi j_{\min}^\varphi v^2 = 4\varepsilon(1-\varepsilon)$,
+    $v^2 = \frac{4\varepsilon(1-\varepsilon)}{\varrho_{\max}^\varphi j_{\min}^\varphi}$, and if $v\ne 0$,
+    $\varrho_{\max}^\varphi j_{\min}^\varphi = \frac{4\varepsilon(1-\varepsilon)}{v^2}$. -/)
+  (proof := /-- Combine \texttt{MovingSheath.inverse\_recovery\_from\_relative\_error}
+    ($\beta^2=4\varepsilon(1-\varepsilon)$) with \texttt{DDFSubstrate.c\_sq}
+    ($c^2=(\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1}$). -/)]
+theorem MovingSheath.ddf_critique3_solved_substrate_parameter_recovery
+    {sub : DDFSubstrate} (s : MovingSheath sub) :
+    let ε := (1 - s.coherenceVisibility) / 2
+    sub.rho_max_varphi * sub.j_min_varphi * s.velocity ^ 2 = 4 * ε * (1 - ε) ∧
+      s.velocity ^ 2 = (4 * ε * (1 - ε)) / (sub.rho_max_varphi * sub.j_min_varphi) ∧
+      (s.velocity ≠ 0 →
+        sub.rho_max_varphi * sub.j_min_varphi = (4 * ε * (1 - ε)) / s.velocity ^ 2) := by
+  intro ε
+  have h_inv := (s.inverse_recovery_from_relative_error).2.2.2.2
+  have h_csq := sub.c_sq
+  have h_prod_pos := sub.product_pos
+  have h_prod_ne : sub.rho_max_varphi * sub.j_min_varphi ≠ 0 := ne_of_gt h_prod_pos
+  have h_beta_def : s.betaSq = sub.rho_max_varphi * sub.j_min_varphi * s.velocity ^ 2 := by
+    unfold MovingSheath.betaSq
+    rw [h_csq, div_inv_eq_mul, mul_comm]
+  have h_first : sub.rho_max_varphi * sub.j_min_varphi * s.velocity ^ 2 = 4 * ε * (1 - ε) := by
+    rw [← h_beta_def]
+    exact h_inv
+  refine ⟨h_first, ?_, ?_⟩
+  · rw [← h_first, mul_div_cancel_left₀ _ h_prod_ne]
+  · intro hv
+    have hv2 : s.velocity ^ 2 ≠ 0 := pow_ne_zero 2 hv
+    rw [← h_first, mul_div_cancel_right₀ _ hv2]
+
+/-- **Constructive Solution to Critique 3B (Gravitomagnetic Frame-Dragging Swirl from Quantized Vortex Circulation)**:
+In a `RiverExterior` flow around mass $M$, when two sinks carry quantized $\phi$-superfluid
+vortex charges $\ell_1, \ell_2 \in \mathbb{Z}$ with differential angular momentum
+$J = (\ell_2 - \ell_1)\hbar$, the Kerr/Lense--Thirring frame-dragging swirl velocity
+`re.swirlVelocity J r` is directly proportional to the differential vortex circulation
+$\Delta\Gamma(\ell_1, \ell_2)$ and the DDF substrate product $\varrho_{\max}^\varphi j_{\min}^\varphi$:
+$v_{\phi,\mathrm{swirl}}((\ell_2 - \ell_1)\hbar, r) = \frac{G_\phi m_\phi \varrho_{\max}^\varphi j_{\min}^\varphi}{\pi r^2}\,\Delta\Gamma(\ell_1, \ell_2)$,
+and vanishes identically at the symmetric irrotational point $\ell_1 = \ell_2$. -/
+@[blueprint "thm:signals-ddf-critique3-vortex-swirl"
+  (title := "Solution to Critique 3B: Kerr/Lense-Thirring swirl velocity from differential DDF vortex circulation")
+  (statement := /-- For \texttt{re : RiverExterior sub} and vortex charges $\ell_1,\ell_2\in\mathbb Z$,
+    $v_{\phi,\mathrm{swirl}}\bigl((\ell_2-\ell_1)\hbar,r\bigr)
+    = \frac{G_\phi m_\phi \varrho_{\max}^\varphi j_{\min}^\varphi}{\pi r^2}\,\Delta\Gamma(\ell_1,\ell_2)$,
+    and $v_{\phi,\mathrm{swirl}}\bigl((\ell_1-\ell_1)\hbar,r\bigr)=0$. -/)
+  (proof := /-- Expand \texttt{swirlVelocity}, \texttt{differentialVortexCirculation}, and
+    \texttt{circulationQuantum}, substitute \texttt{sub.c\_sq}, and cancel $2\pi\ne 0$ and $m_\phi\ne 0$. -/)]
+theorem RiverExterior.quantized_vortex_swirl_from_circulation
+    {sub : DDFSubstrate} (re : RiverExterior sub) (hbar r : ℝ) (ℓ₁ ℓ₂ : ℤ) :
+    re.swirlVelocity (((ℓ₂ - ℓ₁ : ℤ) : ℝ) * hbar) r =
+      (re.G_phi * sub.m_phi * (sub.rho_max_varphi * sub.j_min_varphi) /
+        (Real.pi * r ^ 2)) *
+        sub.differentialVortexCirculation hbar ℓ₁ ℓ₂ ∧
+    re.swirlVelocity (((ℓ₁ - ℓ₁ : ℤ) : ℝ) * hbar) r = 0 := by
+  have h_m_ne : sub.m_phi ≠ 0 := ne_of_gt sub.m_phi_pos
+  have h_pi_ne : Real.pi ≠ 0 := Real.pi_ne_zero
+  refine ⟨?_, ?_⟩
+  · unfold RiverExterior.swirlVelocity DDFSubstrate.differentialVortexCirculation
+      DDFSubstrate.circulationQuantum
+    rw [sub.c_sq]
+    field_simp [h_m_ne, h_pi_ne]
+  · unfold RiverExterior.swirlVelocity
+    simp
+
+/-! ### Direct Integration of Complex $Gr_{\mathbb{C}}(2, 4)$ with `MovingSheath` and `DDFSubstrate` -/
+
+/-- Dimensionless reduced shear speed $\beta(s) = v / c \in [0, 1)$ of a subluminal
+`MovingSheath`. -/
+@[blueprint "def:signals-ddf-sheath-beta"
+  (title := "Dimensionless DDF sheath speed ratio β = v / c")
+  (statement := /-- For a subluminal sheath $s$, define $\beta(s)=s.\mathrm{velocity}/\mathrm{sub}.c$. -/)]
+noncomputable def MovingSheath.beta {sub : DDFSubstrate} (s : MovingSheath sub) : ℝ :=
+  s.velocity / sub.c
+
+/-- For any subluminal `MovingSheath`, $\beta(s) \in [0, 1]$, $\beta(s) \in [-1, 1]$,
+and $\beta(s)^2 = s.\mathrm{betaSq}$. -/
+@[blueprint "lem:signals-ddf-sheath-beta-bounds"
+  (title := "Bounds and square identity for DDF sheath speed ratio β = v / c")
+  (statement := /-- For any subluminal sheath $s$, $0\le\beta(s)$, $\beta(s)\le 1$,
+    $-1\le\beta(s)$, and $\beta(s)^2=s.\mathrm{betaSq}$. -/)
+  (proof := /-- Use $0\le v<c$ and $c>0$ from \texttt{MovingSheath} and \texttt{DDFSubstrate.c\_pos}. -/)
+  (latexEnv := "lemma")]
+lemma MovingSheath.beta_bounds {sub : DDFSubstrate} (s : MovingSheath sub) :
+    0 ≤ s.beta ∧ s.beta ≤ 1 ∧ -1 ≤ s.beta ∧ s.beta ^ 2 = s.betaSq := by
+  have hc := sub.c_pos
+  have h_nonneg : 0 ≤ s.beta := div_nonneg s.velocity_nonneg (le_of_lt hc)
+  have h_le_one : s.beta ≤ 1 := le_of_lt ((div_lt_one hc).mpr s.subluminal)
+  have h_sq : s.beta ^ 2 = s.betaSq := by
+    unfold MovingSheath.beta MovingSheath.betaSq
+    exact div_pow s.velocity sub.c 2
+  exact ⟨h_nonneg, h_le_one, by linarith, h_sq⟩
+
+/-- Forward-sheared $(\phi + \varphi)$ complex twistor channel amplitude
+$z_+(s, \theta) = \sqrt{1 + v/c}(\cos\theta + i\sin\theta)$ on $Gr_{\mathbb{C}}(2, 4)$. -/
+@[blueprint "def:signals-ddf-gr24-twistor-entry-plus"
+  (title := "Forward-sheared DDF complex twistor channel entry z_+(s, θ)")
+  (statement := /-- For a subluminal sheath $s$ and phase $\theta\in\mathbb R$, define
+    $z_+(s,\theta)=\sqrt{1+\beta(s)}(\cos\theta+i\sin\theta)\in\mathbb C$. -/)]
+noncomputable def MovingSheath.gr24TwistorEntryPlus {sub : DDFSubstrate}
+    (s : MovingSheath sub) (θ : ℝ) : ℂ :=
+  let a := Real.sqrt (1 + s.beta)
+  ↑(a * Real.cos θ) + Complex.I * ↑(a * Real.sin θ)
+
+/-- Reverse-sheared $(\phi - \varphi)$ complex twistor channel amplitude
+$z_-(s, \theta) = \sqrt{1 - v/c}(\cos\theta - i\sin\theta)$ on $Gr_{\mathbb{C}}(2, 4)$. -/
+@[blueprint "def:signals-ddf-gr24-twistor-entry-minus"
+  (title := "Reverse-sheared DDF complex twistor channel entry z_-(s, θ)")
+  (statement := /-- For a subluminal sheath $s$ and phase $\theta\in\mathbb R$, define
+    $z_-(s,\theta)=\sqrt{1-\beta(s)}(\cos\theta-i\sin\theta)\in\mathbb C$. -/)]
+noncomputable def MovingSheath.gr24TwistorEntryMinus {sub : DDFSubstrate}
+    (s : MovingSheath sub) (θ : ℝ) : ℂ :=
+  let b := Real.sqrt (1 - s.beta)
+  ↑(b * Real.cos θ) - Complex.I * ↑(b * Real.sin θ)
+
+/-- **Canonical $Gr_{\mathbb{C}}(2, 4)$–DDF Sheath & Vortex Twistor Matrix**:
+Embeds a subluminal DDF `MovingSheath` $s$, spatial wave geometry $(d, \lambda, L, x)$,
+and quantized OAM vortex winding difference $\Delta\ell \in \mathbb{Z}$ at azimuth $\phi$
+directly into a $2 \times 4$ complex Grassmannian matrix $M_{\mathbb{C}}^{\mathrm{DDF}} \in \mathbb{C}^{2 \times 4}$. -/
+@[blueprint "def:signals-ddf-gr24-twistor-matrix"
+  (title := "Canonical Gr_C(2,4)-DDF sheath and vortex twistor matrix")
+  (statement := /-- For a subluminal sheath $s$, OAM charge difference $\Delta\ell\in\mathbb Z$,
+    azimuth $\phi$, and optical phase $\theta=\frac{\pi d x}{\lambda L}+\frac{\Delta\ell\,\phi}{2}$,
+    define $M_{\mathbb C}^{\mathrm{DDF}}(s)=M_{\mathbb C}\bigl(z_+(s,\theta),z_-(s,\theta)\bigr)\in\mathbb C^{2\times 4}$. -/)]
+noncomputable def MovingSheath.gr24TwistorMatrix {sub : DDFSubstrate}
+    (s : MovingSheath sub)
+    (separation wavelength screenDistance : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x : ℝ) : Matrix (Fin 2) (Fin 4) ℂ :=
+  let θ := Real.pi * separation * x / (wavelength * screenDistance) +
+    (deltaOAM : ℝ) * azimuthPhi / 2
+  complexGr24ChannelMatrix (s.gr24TwistorEntryPlus θ) (s.gr24TwistorEntryMinus θ)
+
+/-- **Madelung Condensate Densities & Jamming Product of $M_{\mathbb{C}}^{\mathrm{DDF}}$ on $Gr_{\mathbb{C}}(2, 4)$**:
+For any subluminal `MovingSheath` $s$, the complex uncrossed Plücker sink amplitudes
+$w_A^{\mathbb{C}}$ and $w_B^{\mathbb{C}}$ of $M_{\mathbb{C}}^{\mathrm{DDF}}(s)$ satisfy:
+1. $|w_A^{\mathbb{C}}|^2 = 1 + v/c$ and $|w_B^{\mathbb{C}}|^2 = 1 - v/c$,
+2. Total Madelung sink density $|w_A^{\mathbb{C}}|^2 + |w_B^{\mathbb{C}}|^2 = 2$,
+3. Normalized Madelung density asymmetry $(|w_A^{\mathbb{C}}|^2 - |w_B^{\mathbb{C}}|^2)/2 = v/c = \beta(s)$, and
+4. Product of Madelung sink densities $|w_A^{\mathbb{C}}|^2 |w_B^{\mathbb{C}}|^2 = 1 - (v/c)^2 = \mathcal{V}(s)^2 = \gamma_\varphi(v)^{-2}$. -/
+@[blueprint "thm:signals-ddf-gr24-twistor-madelung-identities"
+  (title := "Madelung sink densities and reciprocal jamming product of the Gr_C(2,4)-DDF twistor matrix")
+  (statement := /-- For $M_{\mathbb C}^{\mathrm{DDF}}=s.\mathrm{gr24TwistorMatrix}(d,\lambda,L,\Delta\ell,\phi,x)$,
+    $|w_A^{\mathbb C}(M_{\mathbb C}^{\mathrm{DDF}})|^2 = 1+\beta(s)$,
+    $|w_B^{\mathbb C}(M_{\mathbb C}^{\mathrm{DDF}})|^2 = 1-\beta(s)$,
+    $|w_A^{\mathbb C}|^2+|w_B^{\mathbb C}|^2=2$,
+    $(|w_A^{\mathbb C}|^2-|w_B^{\mathbb C}|^2)/2=\beta(s)$, and
+    $|w_A^{\mathbb C}|^2\,|w_B^{\mathbb C}|^2 = \mathcal{V}(s)^2 = s.\mathrm{jammingFactor}^{-2}$. -/)
+  (proof := /-- Evaluate \texttt{complexGr24ChannelMatrix\_minors}, compute \texttt{Complex.normSq}
+    using $\cos^2\theta+\sin^2\theta=1$ and \texttt{Real.sq\_sqrt}, and apply
+    \texttt{visibility\_jamming\_duality}. -/)]
+theorem MovingSheath.gr24TwistorMatrix_madelung_sector_identities {sub : DDFSubstrate}
+    (s : MovingSheath sub)
+    (separation wavelength screenDistance : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x : ℝ) :
+    let M_C := s.gr24TwistorMatrix separation wavelength screenDistance deltaOAM azimuthPhi x
+    Complex.normSq (complexPluckerSinkAmplitudeA M_C) = 1 + s.beta ∧
+      Complex.normSq (complexPluckerSinkAmplitudeB M_C) = 1 - s.beta ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M_C) +
+        Complex.normSq (complexPluckerSinkAmplitudeB M_C) = 2 ∧
+      (Complex.normSq (complexPluckerSinkAmplitudeA M_C) -
+        Complex.normSq (complexPluckerSinkAmplitudeB M_C)) / 2 = s.beta ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M_C) *
+        Complex.normSq (complexPluckerSinkAmplitudeB M_C) = s.coherenceVisibility ^ 2 ∧
+      s.coherenceVisibility ^ 2 = (s.jammingFactor ^ 2)⁻¹ := by
+  intro M_C
+  have hb := s.beta_bounds
+  have ha_nonneg : 0 ≤ 1 + s.beta := by linarith [hb.1]
+  have hb_nonneg : 0 ≤ 1 - s.beta := by linarith [hb.2.1]
+  let θ := Real.pi * separation * x / (wavelength * screenDistance) +
+    (deltaOAM : ℝ) * azimuthPhi / 2
+  have h_minors := complexGr24ChannelMatrix_minors
+    (s.gr24TwistorEntryPlus θ) (s.gr24TwistorEntryMinus θ)
+  have h_wA : complexPluckerSinkAmplitudeA M_C = s.gr24TwistorEntryPlus θ := h_minors.1
+  have h_wB : complexPluckerSinkAmplitudeB M_C = s.gr24TwistorEntryMinus θ := h_minors.2.1
+  have h_trig : (Real.cos θ) ^ 2 + (Real.sin θ) ^ 2 = 1 := Real.cos_sq_add_sin_sq θ
+  have h_normA : Complex.normSq (complexPluckerSinkAmplitudeA M_C) = 1 + s.beta := by
+    rw [h_wA]
+    unfold MovingSheath.gr24TwistorEntryPlus
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 + s.beta)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 + s.beta := by rw [Real.sq_sqrt ha_nonneg, h_trig, mul_one]
+  have h_normB : Complex.normSq (complexPluckerSinkAmplitudeB M_C) = 1 - s.beta := by
+    rw [h_wB]
+    unfold MovingSheath.gr24TwistorEntryMinus
+    simp only [Complex.normSq_apply, Complex.sub_re, Complex.sub_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 - s.beta)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 - s.beta := by rw [Real.sq_sqrt hb_nonneg, h_trig, mul_one]
+  have h_vis_sq : s.coherenceVisibility ^ 2 = 1 - s.beta ^ 2 := by
+    unfold MovingSheath.coherenceVisibility
+    rw [Real.sq_sqrt (le_of_lt s.one_sub_betaSq_pos), ← hb.2.2.2]
+  have h_jam_inv : s.coherenceVisibility ^ 2 = (s.jammingFactor ^ 2)⁻¹ := by
+    rw [(s.visibility_jamming_duality).1, inv_pow]
+  refine ⟨h_normA, h_normB, by linarith, by linarith, ?_, h_jam_inv⟩
+  rw [h_normA, h_normB, h_vis_sq]
+  ring
+
+/-- **Master $Gr_{\mathbb{C}}(2, 4)$–DDF Unification Theorem**:
+Evaluating the pure complex crossing-minor intensity `complexGr24CrossingDoubleSlit`
+on `s.gr24TwistorMatrix` reproduces the DDF shear-jammed OAM interference intensity
+`huygensSteinerOAMDoubleSlit` with reciprocal jamming visibility
+$\mathcal{V}(s) = \gamma_\varphi(v)^{-1}$ **identically at every $(x, y, \phi) \in \mathbb{R}^3$**,
+with zero relative predictive error everywhere. -/
+@[blueprint "thm:signals-ddf-gr24-twistor-crossing-eq-jammed-oam"
+  (title := "Master Gr_C(2,4)-DDF unification: crossing-minor intensity equals DDF shear-jammed OAM intensity with visibility γ_φ(v)⁻¹")
+  (statement := /-- For any subluminal sheath $s$, OAM charge difference $\Delta\ell\in\mathbb Z$,
+    and $(x,y,\phi)\in\mathbb R^3$,
+    $I_{Gr_{\mathbb C}(2,4)}^{\times}\!\bigl(M_{\mathbb C}^{\mathrm{DDF}}(s);x,y\bigr)
+    = I_{\mathrm{HS,OAM}}\bigl(x,y,\phi;\Delta\ell,s.\mathrm{jammingFactor}^{-1}\bigr)$
+    with zero relative predictive error everywhere. -/)
+  (proof := /-- Apply \texttt{complexGr24CrossingDoubleSlit\_oam\_barycentric\_eq\_huygensSteinerOAM}
+    with $d_{\mathrm{bary}}=\beta(s)\in[-1,1]$ and rewrite
+    $\sqrt{1-\beta(s)^2}=\mathcal{V}(s)=s.\mathrm{jammingFactor}^{-1}$. -/)]
+theorem MovingSheath.gr24TwistorMatrix_crossing_eq_ddf_oam_intensity {sub : DDFSubstrate}
+    (s : MovingSheath sub)
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ) :
+    let M_C := s.gr24TwistorMatrix separation wavelength screenDistance deltaOAM azimuthPhi x
+    complexGr24CrossingDoubleSlit M_C
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y =
+      huygensSteinerOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        (s.jammingFactor)⁻¹ deltaOAM azimuthPhi x y ∧
+    relativePredictiveError
+      (complexGr24CrossingDoubleSlit M_C
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y)
+      (huygensSteinerOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        (s.jammingFactor)⁻¹ deltaOAM azimuthPhi x y) = 0 := by
+  intro M_C
+  have hb := s.beta_bounds
+  have h_vis_eq : Real.sqrt (1 - s.beta ^ 2) = (s.jammingFactor)⁻¹ := by
+    rw [hb.2.2.2]
+    exact (s.visibility_jamming_duality).1
+  have h_base := complexGr24CrossingDoubleSlit_oam_barycentric_eq_huygensSteinerOAM
+    singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+    s.beta deltaOAM azimuthPhi x y hb.2.2.1 hb.2.1
+  dsimp [M_C, MovingSheath.gr24TwistorMatrix, MovingSheath.gr24TwistorEntryPlus,
+    MovingSheath.gr24TwistorEntryMinus] at *
+  rw [← h_vis_eq]
+  exact h_base
+
+/-- **Zero-Shear $Gr_{\mathbb{C}}(2, 4)$–DDF Limit**:
+When the DDF sheath has zero relative shear velocity ($v = 0 \implies \gamma_\varphi(0) = 1$),
+the complex crossing-minor evaluator on $M_{\mathbb{C}}^{\mathrm{DDF}}(s)$ reproduces
+`fraunhoferOAMDoubleSlit` identically across all $(x, y, \phi) \in \mathbb{R}^3$ with
+zero relative predictive error. -/
+@[blueprint "thm:signals-ddf-gr24-twistor-zero-shear-eq-fraunhofer"
+  (title := "Zero-shear Gr_C(2,4)-DDF twistor matrix matches Fraunhofer OAM intensity with zero error everywhere")
+  (statement := /-- If $s.\mathrm{velocity}=0$, then for all $(x,y,\phi)\in\mathbb R^3$ and
+    $\Delta\ell\in\mathbb Z$,
+    $I_{Gr_{\mathbb C}(2,4)}^{\times}\!\bigl(M_{\mathbb C}^{\mathrm{DDF}}(s);x,y\bigr)
+    = I_{\mathrm{F,OAM}}(x,y,\phi;\Delta\ell)$ and
+    $\varepsilon_{\mathrm{rel}}\bigl(I_{Gr_{\mathbb C}(2,4)}^{\times}(M_{\mathbb C}^{\mathrm{DDF}}(s);x,y),
+    I_{\mathrm{F,OAM}}(x,y,\phi;\Delta\ell)\bigr)=0$. -/)
+  (proof := /-- Combine \texttt{gr24TwistorMatrix\_crossing\_eq\_ddf\_oam\_intensity},
+    \texttt{zero\_shear\_no\_jamming} ($\gamma_\varphi(0)=1$), and
+    \texttt{huygensSteinerOAMDoubleSlit\_unit\_visibility\_eq\_fraunhoferOAM}. -/)]
+theorem MovingSheath.gr24TwistorMatrix_zero_shear_eq_fraunhoferOAM {sub : DDFSubstrate}
+    (s : MovingSheath sub) (h_zero : s.velocity = 0)
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ) :
+    let M_C := s.gr24TwistorMatrix separation wavelength screenDistance deltaOAM azimuthPhi x
+    complexGr24CrossingDoubleSlit M_C
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y =
+      fraunhoferOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        deltaOAM azimuthPhi x y ∧
+    relativePredictiveError
+      (complexGr24CrossingDoubleSlit M_C
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y)
+      (fraunhoferOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        deltaOAM azimuthPhi x y) = 0 := by
+  intro M_C
+  have h_jam_one : s.jammingFactor = 1 := (s.zero_shear_no_jamming h_zero 1).2.1
+  have h_main := (s.gr24TwistorMatrix_crossing_eq_ddf_oam_intensity
+    singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+    deltaOAM azimuthPhi x y).1
+  have h_eq :
+      complexGr24CrossingDoubleSlit M_C
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y =
+      fraunhoferOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        deltaOAM azimuthPhi x y := by
+    rw [h_main, h_jam_one, inv_one,
+      huygensSteinerOAMDoubleSlit_unit_visibility_eq_fraunhoferOAM]
+  refine ⟨h_eq, ?_⟩
+  rw [h_eq]
+  simp [relativePredictiveError]
+
+/-- **$SL(2, \mathbb{C})$ & Complex Anosov Gauge Invariance on $Gr_{\mathbb{C}}(2, 4)$**:
+For any complex $2 \times 2$ transformation $B_{\mathbb{C}} \in \mathbb{C}^{2 \times 2}$
+whose determinant has unit complex norm squared ($\operatorname{normSq}(\det B_{\mathbb{C}}) = 1$,
+including all $SL(2, \mathbb{C})$ Lorentz/Anosov transformations and $U(1)$ phase rotations),
+the pure crossing-minor intensity `complexGr24CrossingDoubleSlit` is strictly invariant:
+$I_{Gr_{\mathbb{C}}(2,4)}^{\times}(B_{\mathbb{C}} M_{\mathbb{C}}; x, y) = I_{Gr_{\mathbb{C}}(2,4)}^{\times}(M_{\mathbb{C}}; x, y)$. -/
+@[blueprint "thm:signals-ddf-complex-gr24-sl2c-invariant"
+  (title := "Exact SL(2,ℂ) and complex Anosov invariance of Gr_C(2,4) crossing-minor intensity")
+  (statement := /-- For any $B_{\mathbb C}\in\mathbb C^{2\times 2}$ with
+    $\operatorname{normSq}(\det B_{\mathbb C})=1$ and any $M_{\mathbb C}\in\mathbb C^{2\times 4}$,
+    $I_{Gr_{\mathbb C}(2,4)}^{\times}(B_{\mathbb C}M_{\mathbb C};x,y)
+    = I_{Gr_{\mathbb C}(2,4)}^{\times}(M_{\mathbb C};x,y)$. -/)
+  (proof := /-- Apply \texttt{complexTwoRowMinor\_basisChange}, factor $(\det B_{\mathbb C})^2$
+    inside \texttt{Complex.normSq}, and use $\operatorname{normSq}(\det B_{\mathbb C})=1$. -/)]
+theorem complexGr24_sl2c_crossing_intensity_invariant
+    (B_C : Matrix (Fin 2) (Fin 2) ℂ)
+    (M_C : Matrix (Fin 2) (Fin 4) ℂ)
+    (singleSlitScale slitWidth slitHeight wavelength screenDistance x y : ℝ)
+    (h_unit_det : Complex.normSq B_C.det = 1) :
+    complexGr24CrossingDoubleSlit (B_C * M_C)
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y =
+      complexGr24CrossingDoubleSlit M_C
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y := by
+  unfold complexGr24CrossingDoubleSlit intensity
+  rw [complexTwoRowMinor_basisChange, complexTwoRowMinor_basisChange]
+  have h_prod :
+      B_C.det * complexTwoRowMinor M_C 0 2 * (B_C.det * complexTwoRowMinor M_C 1 3) =
+        B_C.det * (B_C.det * (complexTwoRowMinor M_C 0 2 * complexTwoRowMinor M_C 1 3)) := by
+    ring
+  rw [h_prod, Complex.normSq_mul, Complex.normSq_mul, h_unit_det, one_mul, one_mul]
+
 end Signals.DDF
