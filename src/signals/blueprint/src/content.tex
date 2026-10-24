@@ -31,14 +31,19 @@ theorem. Fixed-point decorations and signed-pair compatibility remain explicit.
 
 \section{Ordered minors and geometric representatives}
 
-These nodes describe finite real matrix representatives, not a Grassmannian
-quotient. Positive-condition records need an available ordered selection for
-rank promotion; nonnegative full-rank records retain a nonzero-minor witness.
-Two-step identities do not identify path weights with complex optical amplitudes.
+These nodes describe finite real and complex matrix representatives, not a
+Grassmannian quotient. Positive-condition records need an available ordered
+selection for rank promotion; nonnegative full-rank records retain a
+nonzero-minor witness. General $2\times n$ three-term Pluecker identities are
+proved over both $\mathbb R$ and $\mathbb C$, together with the Pluecker
+barycentric parallel-axis shift
+$d_{\mathrm{bary}}(M)=(\Delta_{01}\Delta_{23}-\Delta_{03}\Delta_{12})/2$ and
+its universal Pythagorean identity
+$d_{\mathrm{bary}}(M)^2+\Delta_{01}\Delta_{23}\Delta_{03}\Delta_{12}=(\Delta_{02}\Delta_{13}/2)^2$.
 
 \inputleanmodule{Signals.Geometry}
 
-\section{Quantum inverse scattering and Grassmannian Bethe ansatz}
+\section{Quantum inverse scattering, Grassmannian Bethe ansatz, and scattering metrology}
 
 These nodes formalize the $4\times 4$ permutation operator $P$ and Yang's
 rational $R$-matrix $R(u)=uI_4+\eta P$ (including $u=0$ regularity,
@@ -49,25 +54,34 @@ quantum determinants and their $RTT$ exchange balance, the $Gr(2,4)$ Pluecker
 representation of Baxter's $QQ$-system with $GL(2)$ basis-change covariance,
 the three-point Casorati Wronskian solution of Baxter's $TQ$ difference
 equation, the Mukhin--Tarasov--Varchenko Wronskian nondegeneracy guard against
-spurious Bethe roots, the polynomial and rational Bethe Ansatz Equations, and
+spurious Bethe roots, the polynomial and rational Bethe Ansatz Equations,
 $2\times 2$ Slavnov/Gaudin determinant compression with rapidity-swap
-antisymmetry and Pauli-exclusion vanishing.
+antisymmetry and Pauli-exclusion vanishing, and their integration with
+\texttt{Signals.Scattering} inverse parameter recovery, unitary two-body flux
+partition, and calibrated Baxter $TQ$ residual metrology.
 
 \inputleanmodule{Signals.QISM}
 \inputleanmodule{Signals.Scattering}
 
-\section{Scalar propagation, Huygens--Steiner coherence, and four-model double-slit error controls}
+\section{Scalar propagation, Huygens--Steiner coherence, and five-model double-slit \& OAM error controls}
 
 Finite sums and planar integrals use the chosen scalar approximation.
 Regularity and integrability guards exclude totalized singular inputs;
 intensity remains uncalibrated. Comparison records do not prove independently
 evaluated models agree or solve an exact diffraction boundary problem.
-The four-model far-field section compares the Fraunhofer benchmark, the
-Huygens--Steiner parallel-axis coherence model, de Broglie--Bohm pilot-wave
-intensity, and the Wigner phase-space marginal across both pointwise and
-dark-fringe-safe peak-normalized relative predictive error metrics.
+The five-model far-field section connects the Qian--Izadi ($N$-dimensional and
+binary $N=2$) Huygens--Steiner parallel-axis coherence spectrum
+($P_N^2+K_N^2=1$, $P_N^2=I_O-I_M=d_{\mathrm{bary}}^2$) and finite OAM qudit
+state spaces to the Fraunhofer benchmark, the real $Gr_{\ge 0}(2,4)$ and
+complex $Gr_{\mathbb C}(2,4)$ Pluecker channel models (proving that lifting to
+$Gr_{\mathbb C}(2,4)$ with $\mathbb C^4$ twistor phases eliminates the $50\%$
+unphased crossing-minor error and reproduces $I_{\mathrm{HS}}(x,y;\sqrt{1-d_{\mathrm{bary}}^2})$
+identically for all $d_{\mathrm{bary}}\in[-1,1]$), de Broglie--Bohm pilot-wave
+intensity, Wigner phase-space marginals, and helical OAM vortex-null and
+$(\Delta\ell)^2$ rotational decoherence laws.
 
 \inputleanmodule{Signals.Coherence}
+\inputleanmodule{Signals.OAM}
 \inputleanmodule{Signals.Huygens}
 
 \section{Measure-derived quadrature and refinement}

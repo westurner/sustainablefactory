@@ -43,3 +43,5 @@ chapters:
 - file: lean-blueprint-rust-port-plan
 - file: flat-light-proca-nlig-validation-plan
 - file: huygens-grassmannian-amplituhedron-plan.myst
+- file: grassmannian-huygens-double-slit-oam-paper
+- file: grassmannian-qism-bethe-ansatz-paper.myst
