@@ -345,10 +345,13 @@ interpretation while keeping experimental premises explicit:
    `twoRowMinor_pluecker`, `selectedMinor_pluecker_four`, and
    `selectedMinor_crossing_product_eq_sum` extend the three-term quadratic
    Pluecker identity to arbitrary four-column selections of any $2 \times n$
-   real matrix. Controls verify a five-column selection and show that positive
-   quadratic minor products alone remain invariant under simultaneous sign
-   flips of all minors and do not imply nonnegative ordered minors without a
-   sign anchor.
+   real matrix, while `complexTwoRowMinor_pluecker` and
+   `complexGr24_crossing_eq_channel_sum` extend it to complex $2 \times n$
+   Grassmannian matrices $M_{\mathbb{C}} \in \mathbb{C}^{2 \times n}$ carrying
+   $\mathbb{C}^4$ twistor phase factors. Controls verify a five-column
+   selection and show that positive quadratic minor products alone remain
+   invariant under simultaneous sign flips of all minors and do not imply
+   nonnegative ordered minors without a sign anchor.
 - `Signals.QISM` formalizes the algebraic core of the Quantum Inverse
    Scattering Method (QISM) and its Grassmannian reformulation: the explicit
    $4 \times 4$ permutation matrix $P$ (`swapMatrix4`), Yang's rational
@@ -397,19 +400,24 @@ interpretation while keeping experimental premises explicit:
    on-axis constructive maximum, planar inversion symmetry, half-period
    destructive interference fringes, and integer single-slit diffraction
    envelope nulls. `huygensSteinerDoubleSlit`, `gr24PluckerDoubleSlit`,
-   `gr24UnphasedDoubleSlit`, `pilotWaveDoubleSlit`, `wignerDoubleSlit`,
+   `gr24UnphasedDoubleSlit`, `complexGr24CrossingDoubleSlit`,
+   `pilotWaveDoubleSlit`, `wignerDoubleSlit`,
    `fraunhoferOAMDoubleSlit`, `huygensSteinerOAMDoubleSlit`,
    `wignerOAMDoubleSlit`, `relativePredictiveError`, and
    `peakNormalizedRelativeError` compare double-slit superposition (both
    standard and OAM-carrying) across the Huygens-Steiner parallel-axis
    coherence model (Qian & Izadi, *Phys. Rev. Research* 5, 033110 (2023)),
-   the $Gr(2,4)$ Pluecker channel model, the Fraunhofer reference,
-   de Broglie-Bohm pilot-wave theory, and the Wigner phase-space marginal,
-   proving zero relative predictive error in the coherent/balanced/equilibrium
-   limit, the $(1 - \mathcal{V})/2 = d_{\mathrm{bary}}^2 / (2(1 + \mathcal{V})) = P_N^2 / (2(1 + K_N))$
+   the real $Gr(2,4)$ and complex $Gr_{\mathbb{C}}(2,4)$ Pluecker channel
+   models, the Fraunhofer reference, de Broglie-Bohm pilot-wave theory, and
+   the Wigner phase-space marginal, proving zero relative predictive error in
+   the coherent/balanced/equilibrium limit, the
+   $(1 - \mathcal{V})/2 = d_{\mathrm{bary}}^2 / (2(1 + \mathcal{V})) = P_N^2 / (2(1 + K_N))$
    on-axis relative error law from `Signals.Coherence`, the $50\%$ on-axis
-   error of the unphased $Gr(2,4)$ proxy, the OAM vortex dark-core null and
-   $(\Delta\ell)^2$ Wigner rotational decoherence scaling, and dark-fringe
+   error of the real unphased $Gr_{\ge 0}(2,4)$ proxy and its exact elimination
+   ($0\%$ error everywhere) when lifted to $Gr_{\mathbb{C}}(2,4)$ with
+   conjugate $\mathbb{C}^4$ twistor phase entries
+   (`complexGr24CrossingDoubleSlit_zero_error`), the OAM vortex dark-core null
+   and $(\Delta\ell)^2$ Wigner rotational decoherence scaling, and dark-fringe
    peak-normalized error where $I_{\mathrm{F}} = 0$. No
    boundary-solution accuracy theorem or mesh convergence rate is asserted.
 - `Signals.Quadrature` derives a finite measured-cell quadrature error bound

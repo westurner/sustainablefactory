@@ -1108,6 +1108,21 @@ $$
   For $N = 2$ with normalized slit weights $m_0 + m_1 = 1$, Lean proves the
   exact identities $P_2^2 = (m_0 - m_1)^2 = d_{\mathrm{bary}}^2$ and
   $K_2^2 = 4 m_0 m_1 = \mathcal{V}^2$.
+- **Pythagorean Pluecker--Steiner Identity on $Gr(2,4)$ (`gr24_plucker_pythagorean_identity`, `gr24_barycentric_complementarity`)**:
+  For any real $2 \times 4$ matrix $M$, defining the Pluecker barycentric
+  parallel-axis shift between the two uncrossed slit channels as
+  $$d_{\mathrm{bary}}(M) = \frac{\Delta_{01}(M)\Delta_{23}(M) - \Delta_{03}(M)\Delta_{12}(M)}{2},$$
+  the 3-term Pluecker identity $\Delta_{01}\Delta_{23} + \Delta_{03}\Delta_{12} = \Delta_{02}\Delta_{13}$
+  implies the universal Pythagorean relation:
+  $$d_{\mathrm{bary}}(M)^2 + \underbrace{\Delta_{01}(M)\Delta_{23}(M)\,\Delta_{03}(M)\Delta_{12}(M)}_{\mathcal{V}_{Gr(2,4)}(M)^2} = \left(\frac{\Delta_{02}(M)\Delta_{13}(M)}{2}\right)^2.$$
+  When $\Delta_{02}(M)\Delta_{13}(M) = 2$, this becomes $d_{\mathrm{bary}}(M)^2 + \mathcal{V}_{Gr(2,4)}(M)^2 = 1$.
+  Furthermore, lifting to the complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ with
+  $z_1 = \sqrt{1 + d_{\mathrm{bary}}}\,e^{i\theta}$ and $z_2 = \sqrt{1 - d_{\mathrm{bary}}}\,e^{-i\theta}$
+  (`complexGr24CrossingDoubleSlit_barycentric_eq_huygensSteiner`) proves that the
+  pure crossing-minor intensity $I_{Gr_{\mathbb{C}}(2,4)}^{\times} = I_0 E_{\mathrm{slit}} |\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}|^2$
+  reproduces the partially coherent Huygens--Steiner profile
+  $I_{\mathrm{HS}}(x,y;\sqrt{1 - d_{\mathrm{bary}}^2})$ **identically at every $(x,y)$**
+  for all $d_{\mathrm{bary}} \in [-1, 1]$.
 
 #### B. Five-Model Double-Slit Superposition & Relative Predictive Error Table
 
@@ -1115,7 +1130,7 @@ $$
 |---|---|---|---|
 | **1. Fraunhofer Reference** | `fraunhoferRectangularDoubleSlit`, `fraunhoferRectangularDoubleSlit_onAxis`, `fraunhoferRectangularDoubleSlit_dark_fringe` | $I_{\mathrm{F}}(x,y) = 4 I_0 E_{\mathrm{slit}}(x,y) \cos^2\!\left(\frac{\pi d x}{\lambda L}\right)$ | $0$ (reference baseline; vanishes at half-period dark fringes $x_{\mathrm{dark}} = \frac{\lambda L}{2d}$) |
 | **2. Huygens–Steiner Parallel-Axis Coherence** ([Qian & Izadi 2023](#scholarly-qian-izadi)) | `huygensSteinerDoubleSlit`, `HuygensSteinerMapping`, `CoherenceComplementarity`, `huygensSteiner_onAxis_relative_error`, `huygensSteiner_relative_error_eq_offset_sq_div`, `huygensSteiner_relative_error_from_coherenceComplementarity` | $I_{\mathrm{HS}}(x,y;\mathcal{V}) = 2 I_0 E_{\mathrm{slit}}(x,y)\bigl(1 + \mathcal{V}\cos\frac{2\pi d x}{\lambda L}\bigr)$, where $d_{\mathrm{bary}}^2 = I_O - I_M = P_N^2$ and $d_{\mathrm{bary}}^2 + \mathcal{V}^2 = 1$ | **Coherent ($d_{\mathrm{bary}}=0, \mathcal{V}=1$)**: $0$ everywhere<br>**On-axis**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1-\mathcal{V}}{2} = \frac{d_{\mathrm{bary}}^2}{2(1+\mathcal{V})} = \frac{P_N^2}{2(1+K_N)}$<br>**Dark fringe**: $\varepsilon_{\mathrm{peak}}(x_{\mathrm{dark}},0) = \frac{1-\mathcal{V}}{2}\operatorname{sinc}^2\!\left(\frac{\pi a}{2d}\right)$ |
-| **3. $Gr(2,4)$ Pluecker Channel Model** | `gr24PluckerDoubleSlit`, `gr24UnphasedDoubleSlit`, `gr24_channel_sum_eq_crossing`, `gr24PluckerDoubleSlit_eq_huygensSteiner`, `gr24PluckerDoubleSlit_balanced_eq_fraunhofer`, `gr24UnphasedDoubleSlit_onAxis_relative_error_half` | $I_{Gr(2,4)}(M;x,y) = I_0 E_{\mathrm{slit}}(x,y)\bigl(\Delta_{02}\Delta_{13} + 2\sqrt{w_A w_B}\cos\frac{2\pi d x}{\lambda L}\bigr)$, with Pluecker channel weights $w_A = \Delta_{01}\Delta_{23}$, $w_B = \Delta_{03}\Delta_{12}$, and $w_A + w_B = \Delta_{02}\Delta_{13}$ | **Balanced phased ($w_A=w_B=1, \Delta_{02}\Delta_{13}=2$)**: $0$ everywhere (`gr24PluckerDoubleSlit_balanced_eq_fraunhofer`)<br>**Asymmetric ($\Delta_{02}\Delta_{13}=2$)**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1 - \sqrt{w_A w_B}}{2}$<br>**Unphased proxy ($\Delta_{02}\Delta_{13}=2$)**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1}{2}$ ($50\%$) |
+| **3. $Gr(2,4)$ & $Gr_{\mathbb{C}}(2,4)$ Pluecker Channel Models** | `gr24PluckerDoubleSlit`, `gr24UnphasedDoubleSlit`, `gr24_channel_sum_eq_crossing`, `gr24PluckerDoubleSlit_balanced_eq_fraunhofer`, `gr24UnphasedDoubleSlit_onAxis_relative_error_half`, `complexGr24CrossingDoubleSlit`, `complexGr24_crossing_intensity_eq_superposition`, `complexGr24CrossingDoubleSlit_zero_error` | **Real $Gr_{\ge 0}(2,4)$**: $I_{Gr(2,4)} = I_0 E_{\mathrm{slit}}(x,y)\bigl(\Delta_{02}\Delta_{13} + 2\sqrt{w_A w_B}\cos\frac{2\pi d x}{\lambda L}\bigr)$<br>**Complex $Gr_{\mathbb{C}}(2,4)$ ($\mathbb{C}^4$ twistors)**: $I_{Gr_{\mathbb{C}}(2,4)}^{\times} = I_0 E_{\mathrm{slit}}(x,y)\bigl|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}\bigr|^2 = I_0 E_{\mathrm{slit}}|\mathcal{A}_1 + \mathcal{A}_2|^2$ | **Real unphased proxy ($\Delta_{02}\Delta_{13}=2 \in Gr_{\ge 0}$)**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1}{2}$ ($50\%$), dark fringe $100\%$<br>**Complex $Gr_{\mathbb{C}}(2,4)$ crossing minor ($z_{1,2} = e^{\pm i\theta}$)**: **Eliminates the $50\%$ unphased error ($\varepsilon_{\mathrm{rel}} = 0$ everywhere)** via `complexGr24CrossingDoubleSlit_zero_error`<br>**Asymmetric ($\Delta_{02}\Delta_{13}=2$)**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1 - \sqrt{w_A w_B}}{2}$ |
 | **4. Pilot-Wave Theory (De Broglie–Bohm)** | `pilotWaveDoubleSlit`, `pilotWaveDoubleSlit_equilibrium_eq_fraunhofer`, `pilotWave_onAxis_relative_error` | $I_{\mathrm{PW}}(x,y;\delta_{\mathrm{neq}}) = I_{\mathrm{F}}(x,y) + \delta_{\mathrm{neq}}$ (equivariant guidance $\mathbf{v} = \frac{\hbar}{m}\nabla S$ + Bohm potential $Q$) | **Quantum equilibrium ($\delta_{\mathrm{neq}}=0$)**: $0$ everywhere<br>**Non-equilibrium ($\delta_{\mathrm{neq}} \neq 0$)**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{|\delta_{\mathrm{neq}}|}{4 I_0}$ |
 | **5. Wigner Phase-Space Marginal** | `wignerDoubleSlit`, `wignerDoubleSlit_eq_huygensSteiner`, `wignerDoubleSlit_pure_eq_fraunhofer`, `wigner_onAxis_relative_error` | $I_{\mathrm{Wigner}}(x,y;\gamma_{\mathrm{dec}}) = 2 I_0 E_{\mathrm{slit}}(x,y)\bigl(1 + e^{-\gamma_{\mathrm{dec}}}\cos\frac{2\pi d x}{\lambda L}\bigr)$ | **Pure state ($\gamma_{\mathrm{dec}}=0$)**: $0$ everywhere<br>**Decohered ($\gamma_{\mathrm{dec}} > 0$)**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1 - e^{-\gamma_{\mathrm{dec}}}}{2}$ (exact duality $\mathcal{V} = e^{-\gamma_{\mathrm{dec}}}$) |
 
@@ -1164,6 +1179,37 @@ example :
         (Signals.Huygens.fraunhoferOAMDoubleSlit 3 2 4 6 1 5 1 Real.pi 0 0)
         (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 0 0) = 1 :=
   Signals.Huygens.fraunhoferOAMDoubleSlit_vortex_null_at_pi 3 2 4 6 1 5 (by norm_num)
+
+example (x y : ℝ) :
+    let θ := Real.pi * 6 * x / (1 * 5)
+    let z1 : ℂ := ↑(Real.cos θ) + Complex.I * ↑(Real.sin θ)
+    let z2 : ℂ := ↑(Real.cos θ) - Complex.I * ↑(Real.sin θ)
+    Signals.Huygens.complexGr24CrossingDoubleSlit
+        (Signals.Huygens.complexGr24ChannelMatrix z1 z2) 3 2 4 1 5 x y =
+      Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 x y ∧
+    Signals.Huygens.relativePredictiveError
+      (Signals.Huygens.complexGr24CrossingDoubleSlit
+        (Signals.Huygens.complexGr24ChannelMatrix z1 z2) 3 2 4 1 5 x y)
+      (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 x y) = 0 :=
+  Signals.Huygens.complexGr24CrossingDoubleSlit_zero_error 3 2 4 6 1 5 x y
+
+example (x y : ℝ) :
+    let θ := Real.pi * 6 * x / (1 * 5)
+    let a := Real.sqrt (1 + (3 / 5 : ℝ))
+    let b := Real.sqrt (1 - (3 / 5 : ℝ))
+    let z1 : ℂ := ↑(a * Real.cos θ) + Complex.I * ↑(a * Real.sin θ)
+    let z2 : ℂ := ↑(b * Real.cos θ) - Complex.I * ↑(b * Real.sin θ)
+    Signals.Huygens.complexGr24CrossingDoubleSlit
+        (Signals.Huygens.complexGr24ChannelMatrix z1 z2) 3 2 4 1 5 x y =
+      Signals.Huygens.huygensSteinerDoubleSlit
+        3 2 4 6 1 5 (Real.sqrt (1 - (3 / 5 : ℝ) ^ 2)) x y ∧
+    Signals.Huygens.relativePredictiveError
+      (Signals.Huygens.complexGr24CrossingDoubleSlit
+        (Signals.Huygens.complexGr24ChannelMatrix z1 z2) 3 2 4 1 5 x y)
+      (Signals.Huygens.huygensSteinerDoubleSlit
+        3 2 4 6 1 5 (Real.sqrt (1 - (3 / 5 : ℝ) ^ 2)) x y) = 0 :=
+  Signals.Huygens.complexGr24CrossingDoubleSlit_barycentric_eq_huygensSteiner
+    3 2 4 6 1 5 (3 / 5) x y (by norm_num) (by norm_num)
 
 end HuygensGeometryRoadmap
 ```

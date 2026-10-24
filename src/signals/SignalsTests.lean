@@ -4253,4 +4253,73 @@ example :
   rw [Signals.Huygens.wignerOAM_onAxis_relative_error 3 2 4 6 1 5 2 0 (by norm_num) (by norm_num)]
   simp
 
+/-- Lifting from the positive real Grassmannian Gr_>=0(2, 4) to the complex Grassmannian
+Gr_C(2, 4) with C^4 twistor phase entries z_1 = cos θ + i sin θ and z_2 = cos θ - i sin θ
+reduces the pure crossing-minor relative predictive error from 1/2 (50%) to 0 everywhere. -/
+example (x y : ℝ) :
+    let θ := Real.pi * 6 * x / (1 * 5)
+    let z1 : ℂ := ↑(Real.cos θ) + Complex.I * ↑(Real.sin θ)
+    let z2 : ℂ := ↑(Real.cos θ) - Complex.I * ↑(Real.sin θ)
+    Signals.Huygens.complexGr24CrossingDoubleSlit
+        (Signals.Huygens.complexGr24ChannelMatrix z1 z2) 3 2 4 1 5 x y =
+      Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 x y ∧
+    Signals.Huygens.relativePredictiveError
+      (Signals.Huygens.complexGr24CrossingDoubleSlit
+        (Signals.Huygens.complexGr24ChannelMatrix z1 z2) 3 2 4 1 5 x y)
+      (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 x y) = 0 :=
+  Signals.Huygens.complexGr24CrossingDoubleSlit_zero_error 3 2 4 6 1 5 x y
+
+/-- Outside the positive Grassmannian (z_1 = 1, z_2 = -1), two nonzero uncrossed slit
+channels cancel in the crossing Pluecker product Δ_02 Δ_13 = 1 + (-1) = 0 to produce
+an exact dark fringe. -/
+example :
+    Signals.Geometry.complexTwoRowMinor (Signals.Huygens.complexGr24ChannelMatrix 1 (-1)) 0 1 *
+        Signals.Geometry.complexTwoRowMinor (Signals.Huygens.complexGr24ChannelMatrix 1 (-1)) 2 3 = 1 ∧
+      Signals.Geometry.complexTwoRowMinor (Signals.Huygens.complexGr24ChannelMatrix 1 (-1)) 0 3 *
+        Signals.Geometry.complexTwoRowMinor (Signals.Huygens.complexGr24ChannelMatrix 1 (-1)) 1 2 = -1 ∧
+      Signals.Geometry.complexTwoRowMinor (Signals.Huygens.complexGr24ChannelMatrix 1 (-1)) 0 2 *
+        Signals.Geometry.complexTwoRowMinor (Signals.Huygens.complexGr24ChannelMatrix 1 (-1)) 1 3 = 0 := by
+  have h := Signals.Huygens.complexGr24ChannelMatrix_minors 1 (-1)
+  simpa using h
+
+/-- An asymmetric Gr(2, 4) matrix with uncrossed channel weights w_A = 8/5 and w_B = 2/5
+(summing to Δ_02 Δ_13 = 2) has Pluecker barycentric shift d_bary = (8/5 - 2/5)/2 = 3/5
+and satisfies the Pythagorean Pluecker-Steiner complementarity law d_bary² + w_A w_B = (3/5)² + (4/5)² = 1. -/
+noncomputable def asymmetricGr24DoubleSlitMatrix : Matrix (Fin 2) (Fin 4) ℝ :=
+  !![1, 1, 0, -1;
+     0, 8 / 5, 1, 2 / 5]
+
+example :
+    Signals.Geometry.gr24BarycentricShift asymmetricGr24DoubleSlitMatrix = 3 / 5 ∧
+      (Signals.Geometry.gr24BarycentricShift asymmetricGr24DoubleSlitMatrix) ^ 2 +
+        (Signals.Geometry.twoRowMinor asymmetricGr24DoubleSlitMatrix 0 1 *
+          Signals.Geometry.twoRowMinor asymmetricGr24DoubleSlitMatrix 2 3) *
+        (Signals.Geometry.twoRowMinor asymmetricGr24DoubleSlitMatrix 0 3 *
+          Signals.Geometry.twoRowMinor asymmetricGr24DoubleSlitMatrix 1 2) = 1 := by
+  refine ⟨?_, Signals.Huygens.gr24_barycentric_complementarity asymmetricGr24DoubleSlitMatrix ?_⟩
+  · norm_num [asymmetricGr24DoubleSlitMatrix, Signals.Geometry.gr24BarycentricShift,
+      Signals.Geometry.twoRowMinor]
+  · norm_num [asymmetricGr24DoubleSlitMatrix, Signals.Geometry.twoRowMinor]
+
+/-- For a nonzero barycentric parallel-axis shift d_bary = 3/5 (visibility V = √(1 - (3/5)²) = 4/5),
+the pure complex Gr_C(2, 4) crossing-minor evaluator matches the partially coherent
+Huygens-Steiner intensity identically across the entire screen, with zero relative error. -/
+example (x y : ℝ) :
+    let θ := Real.pi * 6 * x / (1 * 5)
+    let a := Real.sqrt (1 + (3 / 5 : ℝ))
+    let b := Real.sqrt (1 - (3 / 5 : ℝ))
+    let z1 : ℂ := ↑(a * Real.cos θ) + Complex.I * ↑(a * Real.sin θ)
+    let z2 : ℂ := ↑(b * Real.cos θ) - Complex.I * ↑(b * Real.sin θ)
+    Signals.Huygens.complexGr24CrossingDoubleSlit
+        (Signals.Huygens.complexGr24ChannelMatrix z1 z2) 3 2 4 1 5 x y =
+      Signals.Huygens.huygensSteinerDoubleSlit
+        3 2 4 6 1 5 (Real.sqrt (1 - (3 / 5 : ℝ) ^ 2)) x y ∧
+    Signals.Huygens.relativePredictiveError
+      (Signals.Huygens.complexGr24CrossingDoubleSlit
+        (Signals.Huygens.complexGr24ChannelMatrix z1 z2) 3 2 4 1 5 x y)
+      (Signals.Huygens.huygensSteinerDoubleSlit
+        3 2 4 6 1 5 (Real.sqrt (1 - (3 / 5 : ℝ) ^ 2)) x y) = 0 :=
+  Signals.Huygens.complexGr24CrossingDoubleSlit_barycentric_eq_huygensSteiner
+    3 2 4 6 1 5 (3 / 5) x y (by norm_num) (by norm_num)
+
 end SignalsTests

@@ -1299,6 +1299,263 @@ theorem gr24UnphasedDoubleSlit_onAxis_relative_error_half
   field_simp [h_ne]
   ring
 
+/-- Canonical complex $2 \times 4$ Grassmannian representative $M_{\mathbb{C}}(z_1, z_2) \in \mathbb{C}^{2 \times 4}$
+(lifting out of the real positive Grassmannian $Gr_{\ge 0}(2, 4)$ by allowing $\mathbb{C}^4$
+twistor spinor/phase entries $z_1, z_2 \in \mathbb{C}$), whose uncrossed Pluecker channel
+products equal $z_1$ and $z_2$ and whose crossing product equals $z_1 + z_2$. -/
+@[blueprint "def:signals-complex-gr24-channel-matrix"
+  (title := "Complex Gr_C(2,4) two-channel twistor-phase matrix")
+  (statement := /-- For complex channel amplitudes $z_1,z_2\in\mathbb C$, define
+    $M_{\mathbb C}(z_1,z_2)=\begin{pmatrix}1 & 1 & 0 & -1\\ 0 & z_1 & 1 & z_2\end{pmatrix}\in\mathbb C^{2\times 4}$. -/)]
+def complexGr24ChannelMatrix (z1 z2 : ℂ) : Matrix (Fin 2) (Fin 4) ℂ :=
+  !![1, 1, 0, -1;
+     0, z1, 1, z2]
+
+/-- In `complexGr24ChannelMatrix z1 z2`, the two uncrossed Pluecker channel products
+evaluate to $z_1$ and $z_2$, and the crossing Pluecker product evaluates to $z_1 + z_2$. -/
+@[blueprint "lem:signals-complex-gr24-channel-minors"
+  (title := "Pluecker channel products of the complex Gr_C(2,4) matrix")
+  (statement := /-- For $M=M_{\mathbb C}(z_1,z_2)$,
+    $\Delta_{01}^{\mathbb C}(M)\Delta_{23}^{\mathbb C}(M)=z_1$,
+    $\Delta_{03}^{\mathbb C}(M)\Delta_{12}^{\mathbb C}(M)=z_2$, and
+    $\Delta_{02}^{\mathbb C}(M)\Delta_{13}^{\mathbb C}(M)=z_1+z_2$. -/)
+  (proof := /-- Unfold \texttt{complexGr24ChannelMatrix} and \texttt{complexTwoRowMinor} and simplify in $\mathbb C$. -/)
+  (latexEnv := "lemma")]
+lemma complexGr24ChannelMatrix_minors (z1 z2 : ℂ) :
+    Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 0 1 *
+        Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 2 3 = z1 ∧
+      Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 0 3 *
+        Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 1 2 = z2 ∧
+      Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 0 2 *
+        Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 1 3 = z1 + z2 := by
+  refine ⟨?_, ?_, ?_⟩
+  · simp [complexGr24ChannelMatrix, Signals.Geometry.complexTwoRowMinor]
+  · simp [complexGr24ChannelMatrix, Signals.Geometry.complexTwoRowMinor]
+  · simp [complexGr24ChannelMatrix, Signals.Geometry.complexTwoRowMinor]
+    ring
+
+/-- **Pure Crossing-Minor Double-Slit Evaluator on $Gr_{\mathbb{C}}(2, 4)$**:
+Evaluates the screen intensity directly from the squared complex modulus of the
+crossing Pluecker minor product $|\Delta_{02}^{\mathbb{C}}(M)\Delta_{13}^{\mathbb{C}}(M)|^2$
+without adding any external $\cos(2\pi d x / (\lambda L))$ term by hand:
+$I_{Gr_{\mathbb{C}}(2,4)}^{\times}(M; x, y) = I_0 E_{\mathrm{slit}}(x, y)\,|\Delta_{02}^{\mathbb{C}}(M)\Delta_{13}^{\mathbb{C}}(M)|^2$. -/
+@[blueprint "def:signals-complex-gr24-crossing-double-slit"
+  (title := "Complex Gr_C(2,4) pure crossing-minor double-slit intensity")
+  (statement := /-- For $M\in\mathbb C^{2\times 4}$, define the pure crossing-minor intensity
+    $I_{Gr_{\mathbb C}(2,4)}^{\times}(M;x,y)=I_0 E_{\mathrm{slit}}(x,y)\,
+    \bigl|\Delta_{02}^{\mathbb C}(M)\Delta_{13}^{\mathbb C}(M)\bigr|^2$. -/)]
+noncomputable def complexGr24CrossingDoubleSlit
+    (M : Matrix (Fin 2) (Fin 4) ℂ)
+    (singleSlitScale slitWidth slitHeight wavelength screenDistance x y : ℝ) : ℝ :=
+  singleSlitScale *
+    rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance x y *
+    intensity (Signals.Geometry.complexTwoRowMinor M 0 2 *
+      Signals.Geometry.complexTwoRowMinor M 1 3)
+
+/-- **Complex Pluecker Interference Theorem**:
+On $Gr_{\mathbb{C}}(2, 4)$, the squared modulus of the crossing Pluecker product
+$|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}|^2$ automatically expands via the
+3-term complex Pluecker relation into the sum of the two uncrossed channel intensities
+plus their coherent interference cross-term $2\operatorname{Re}(\mathcal{A}_1 \overline{\mathcal{A}_2})$. -/
+@[blueprint "thm:signals-complex-gr24-crossing-superposition"
+  (title := "Complex Gr_C(2,4) crossing minor automatically generates the coherent cross-term")
+  (statement := /-- For any $M\in\mathbb C^{2\times 4}$ with uncrossed channel products
+    $\mathcal A_1=\Delta_{01}^{\mathbb C}\Delta_{23}^{\mathbb C}$ and
+    $\mathcal A_2=\Delta_{03}^{\mathbb C}\Delta_{12}^{\mathbb C}$,
+    $|\Delta_{02}^{\mathbb C}\Delta_{13}^{\mathbb C}|^2 = |\mathcal A_1|^2 + |\mathcal A_2|^2 + 2\operatorname{Re}(\mathcal A_1\overline{\mathcal A_2})$. -/)
+  (proof := /-- Rewrite $\Delta_{02}^{\mathbb C}\Delta_{13}^{\mathbb C}=\mathcal A_1+\mathcal A_2$ via
+    \texttt{complexGr24\_crossing\_eq\_channel\_sum} and apply \texttt{intensity\_superposition}. -/)]
+theorem complexGr24_crossing_intensity_eq_superposition (M : Matrix (Fin 2) (Fin 4) ℂ) :
+    intensity (Signals.Geometry.complexTwoRowMinor M 0 2 *
+        Signals.Geometry.complexTwoRowMinor M 1 3) =
+      intensity (Signals.Geometry.complexTwoRowMinor M 0 1 *
+          Signals.Geometry.complexTwoRowMinor M 2 3) +
+        intensity (Signals.Geometry.complexTwoRowMinor M 0 3 *
+          Signals.Geometry.complexTwoRowMinor M 1 2) +
+        2 * ((Signals.Geometry.complexTwoRowMinor M 0 1 *
+            Signals.Geometry.complexTwoRowMinor M 2 3) *
+          star (Signals.Geometry.complexTwoRowMinor M 0 3 *
+            Signals.Geometry.complexTwoRowMinor M 1 2)).re := by
+  rw [Signals.Geometry.complexGr24_crossing_eq_channel_sum]
+  exact intensity_superposition _ _
+
+/-- **Elimination of the 50% Unphased Proxy Error in $Gr_{\mathbb{C}}(2, 4)$**:
+By lifting from the real positive Grassmannian $Gr_{\ge 0}(2, 4)$ to the complex
+Grassmannian $Gr_{\mathbb{C}}(2, 4)$ with conjugate $\mathbb{C}^4$ twistor phase
+entries $z_1 = \cos\theta + i\sin\theta$ and $z_2 = \cos\theta - i\sin\theta$
+(where $\theta = \pi d x / (\lambda L)$), the pure crossing-minor evaluator
+`complexGr24CrossingDoubleSlit` matches `fraunhoferRectangularDoubleSlit`
+identically at every $(x, y)$, reducing the $50\%$ unphased proxy error to $0$. -/
+@[blueprint "thm:signals-complex-gr24-eliminates-unphased-error"
+  (title := "Lifting to complex Gr_C(2,4) eliminates the 50% unphased crossing-minor error")
+  (statement := /-- For $\theta=\pi d x/(\lambda L)$, $z_1=\cos\theta+i\sin\theta$, and
+    $z_2=\cos\theta-i\sin\theta$, the pure crossing-minor intensity satisfies
+    $I_{Gr_{\mathbb C}(2,4)}^{\times}(M_{\mathbb C}(z_1,z_2);x,y)=I_{\mathrm F}(x,y)$ and
+    $\varepsilon_{\mathrm{rel}}\bigl(I_{Gr_{\mathbb C}(2,4)}^{\times}(M_{\mathbb C}(z_1,z_2);x,y),I_{\mathrm F}(x,y)\bigr)=0$. -/)
+  (proof := /-- By \texttt{complexGr24ChannelMatrix\_minors}, $\Delta_{02}^{\mathbb C}\Delta_{13}^{\mathbb C}=z_1+z_2=2\cos\theta$,
+    whose squared complex modulus is $4\cos^2\theta$. -/)]
+theorem complexGr24CrossingDoubleSlit_zero_error
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y : ℝ) :
+    let θ := Real.pi * separation * x / (wavelength * screenDistance)
+    let z1 : ℂ := ↑(Real.cos θ) + Complex.I * ↑(Real.sin θ)
+    let z2 : ℂ := ↑(Real.cos θ) - Complex.I * ↑(Real.sin θ)
+    complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2)
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y =
+      fraunhoferRectangularDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y ∧
+    relativePredictiveError
+      (complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2)
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y)
+      (fraunhoferRectangularDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y) = 0 := by
+  intro θ z1 z2
+  have h_sum : z1 + z2 = ((2 * Real.cos θ : ℝ) : ℂ) := by
+    dsimp [z1, z2]
+    push_cast
+    ring
+  have h_cross :
+      Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 0 2 *
+        Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 1 3 =
+      ((2 * Real.cos θ : ℝ) : ℂ) := by
+    rw [(complexGr24ChannelMatrix_minors z1 z2).2.2, h_sum]
+  have h_int :
+      intensity (Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 0 2 *
+        Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 1 3) =
+      4 * (Real.cos θ) ^ 2 := by
+    rw [h_cross]
+    unfold intensity
+    rw [Complex.normSq_ofReal]
+    ring
+  have h_eq :
+      complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2)
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y =
+      fraunhoferRectangularDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y := by
+    unfold complexGr24CrossingDoubleSlit fraunhoferRectangularDoubleSlit rectangularSlitEnvelope
+    rw [h_int]
+    dsimp [θ]
+    ring
+  refine ⟨h_eq, ?_⟩
+  rw [h_eq]
+  simp [relativePredictiveError]
+
+/-- **Normalized $Gr(2, 4)$ Barycentric Parallel-Axis Complementarity**:
+When the crossing Pluecker product is normalized to $\Delta_{02}(M)\Delta_{13}(M) = 2$,
+the squared Pluecker barycentric shift $d_{\mathrm{bary}}(M)^2$ and the squared
+Pluecker visibility $\mathcal{V}_{Gr(2,4)}(M)^2 = (\Delta_{01}\Delta_{23})(\Delta_{03}\Delta_{12})$
+satisfy the exact Qian--Izadi / Huygens--Steiner complementarity law
+$d_{\mathrm{bary}}(M)^2 + \mathcal{V}_{Gr(2,4)}(M)^2 = 1$, and the on-axis
+asymmetric relative error against the symmetric Fraunhofer reference is
+$\frac{d_{\mathrm{bary}}(M)^2}{2(1 + \mathcal{V}_{Gr(2,4)}(M))}$. -/
+@[blueprint "thm:signals-gr24-barycentric-complementarity"
+  (title := "Gr(2,4) Pluecker barycentric shift and visibility complementarity")
+  (statement := /-- When $\Delta_{02}(M)\Delta_{13}(M)=2$,
+    $d_{\mathrm{bary}}(M)^2 + \Delta_{01}(M)\Delta_{23}(M)\,\Delta_{03}(M)\Delta_{12}(M) = 1$. -/)
+  (proof := /-- Substitute $\Delta_{02}(M)\Delta_{13}(M)=2$ into
+    \texttt{Signals.Geometry.gr24\_plucker\_pythagorean\_identity}. -/)]
+theorem gr24_barycentric_complementarity
+    (M : Matrix (Fin 2) (Fin 4) ℝ)
+    (h_norm : Signals.Geometry.twoRowMinor M 0 2 * Signals.Geometry.twoRowMinor M 1 3 = 2) :
+    (Signals.Geometry.gr24BarycentricShift M) ^ 2 +
+      (Signals.Geometry.twoRowMinor M 0 1 * Signals.Geometry.twoRowMinor M 2 3) *
+        (Signals.Geometry.twoRowMinor M 0 3 * Signals.Geometry.twoRowMinor M 1 2) = 1 := by
+  have h := Signals.Geometry.gr24_plucker_pythagorean_identity M
+  rw [h_norm] at h
+  linarith
+
+/-- **General Barycentric Parallel-Axis Equivalence in Complex $Gr_{\mathbb{C}}(2, 4)$**:
+For *any* barycentric parallel-axis shift $d_{\mathrm{bary}} \in [-1, 1]$, encoding
+the asymmetric slit amplitudes as complex $\mathbb{C}^4$-projected channel entries
+$z_1 = \sqrt{1 + d_{\mathrm{bary}}}(\cos\theta + i\sin\theta)$ and
+$z_2 = \sqrt{1 - d_{\mathrm{bary}}}(\cos\theta - i\sin\theta)$ in $M_{\mathbb{C}}(z_1, z_2)$
+causes the pure crossing-minor evaluator `complexGr24CrossingDoubleSlit` to
+reproduce the partially coherent Huygens--Steiner / Qian--Izadi intensity
+`huygensSteinerDoubleSlit` with visibility $\mathcal{V} = \sqrt{1 - d_{\mathrm{bary}}^2}$
+**identically at every $(x, y)$**, with zero relative predictive error against $I_{\mathrm{HS}}$. -/
+@[blueprint "thm:signals-complex-gr24-barycentric-eq-huygens-steiner"
+  (title := "Complex Gr_C(2,4) crossing minor with barycentric shift d_bary matches Huygens--Steiner identically")
+  (statement := /-- For any $d_{\mathrm{bary}}\in[-1,1]$ and $\theta=\pi d x/(\lambda L)$, setting
+    $z_1=\sqrt{1+d_{\mathrm{bary}}}(\cos\theta+i\sin\theta)$ and
+    $z_2=\sqrt{1-d_{\mathrm{bary}}}(\cos\theta-i\sin\theta)$ yields
+    $I_{Gr_{\mathbb C}(2,4)}^{\times}(M_{\mathbb C}(z_1,z_2);x,y) =
+    I_{\mathrm{HS}}\bigl(x,y;\sqrt{1-d_{\mathrm{bary}}^2}\bigr)$ and zero relative error against $I_{\mathrm{HS}}$. -/)
+  (proof := /-- Expand $|\Delta_{02}^{\mathbb C}\Delta_{13}^{\mathbb C}|^2 = |z_1+z_2|^2
+    = (\sqrt{1+d_{\mathrm{bary}}}+\sqrt{1-d_{\mathrm{bary}}})^2\cos^2\theta
+    + (\sqrt{1+d_{\mathrm{bary}}}-\sqrt{1-d_{\mathrm{bary}}})^2\sin^2\theta
+    = 2\bigl(1+\sqrt{1-d_{\mathrm{bary}}^2}\cos(2\theta)\bigr)$. -/)]
+theorem complexGr24CrossingDoubleSlit_barycentric_eq_huygensSteiner
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      d_bary x y : ℝ)
+    (h_lower : -1 ≤ d_bary) (h_upper : d_bary ≤ 1) :
+    let θ := Real.pi * separation * x / (wavelength * screenDistance)
+    let a := Real.sqrt (1 + d_bary)
+    let b := Real.sqrt (1 - d_bary)
+    let z1 : ℂ := ↑(a * Real.cos θ) + Complex.I * ↑(a * Real.sin θ)
+    let z2 : ℂ := ↑(b * Real.cos θ) - Complex.I * ↑(b * Real.sin θ)
+    complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2)
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y =
+      huygensSteinerDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        (Real.sqrt (1 - d_bary ^ 2)) x y ∧
+    relativePredictiveError
+      (complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2)
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y)
+      (huygensSteinerDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        (Real.sqrt (1 - d_bary ^ 2)) x y) = 0 := by
+  intro θ a b z1 z2
+  have ha_nonneg : 0 ≤ 1 + d_bary := by linarith
+  have hb_nonneg : 0 ≤ 1 - d_bary := by linarith
+  have ha2 : a ^ 2 = 1 + d_bary := Real.sq_sqrt ha_nonneg
+  have hb2 : b ^ 2 = 1 - d_bary := Real.sq_sqrt hb_nonneg
+  have hab : a * b = Real.sqrt (1 - d_bary ^ 2) := by
+    dsimp [a, b]
+    rw [← Real.sqrt_mul ha_nonneg]
+    congr 1
+    ring
+  have h_cross :
+      Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 0 2 *
+        Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 1 3 =
+      z1 + z2 :=
+    (complexGr24ChannelMatrix_minors z1 z2).2.2
+  have h_normSq :
+      intensity (z1 + z2) =
+        ((a + b) * Real.cos θ) ^ 2 + ((a - b) * Real.sin θ) ^ 2 := by
+    dsimp [z1, z2]
+    simp only [intensity, Complex.normSq_apply, Complex.add_re, Complex.add_im,
+      Complex.sub_re, Complex.sub_im, Complex.mul_re, Complex.mul_im,
+      Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    ring
+  have h_trig : (Real.cos θ) ^ 2 + (Real.sin θ) ^ 2 = 1 := Real.cos_sq_add_sin_sq θ
+  have h_cos2 : Real.cos (2 * θ) = 2 * (Real.cos θ) ^ 2 - 1 := Real.cos_two_mul θ
+  have h_alg :
+      ((a + b) * Real.cos θ) ^ 2 + ((a - b) * Real.sin θ) ^ 2 =
+        2 * (1 + Real.sqrt (1 - d_bary ^ 2) * Real.cos (2 * θ)) := by
+    calc
+      ((a + b) * Real.cos θ) ^ 2 + ((a - b) * Real.sin θ) ^ 2 =
+          (a ^ 2 + b ^ 2) * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) +
+            2 * (a * b) * (2 * (Real.cos θ) ^ 2 - ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2)) := by
+        ring
+      _ = (1 + d_bary + (1 - d_bary)) * 1 +
+            2 * Real.sqrt (1 - d_bary ^ 2) * (2 * (Real.cos θ) ^ 2 - 1) := by
+        rw [ha2, hb2, h_trig, hab]
+      _ = 2 * (1 + Real.sqrt (1 - d_bary ^ 2) * Real.cos (2 * θ)) := by
+        rw [← h_cos2]
+        ring
+  have h_eq :
+      complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2)
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y =
+      huygensSteinerDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        (Real.sqrt (1 - d_bary ^ 2)) x y := by
+    unfold complexGr24CrossingDoubleSlit huygensSteinerDoubleSlit
+    rw [h_cross, h_normSq, h_alg]
+    dsimp [θ]
+    ring
+  refine ⟨h_eq, ?_⟩
+  rw [h_eq]
+  simp [relativePredictiveError]
+
 /-! ## 6. Orbital Angular Momentum (OAM) Double-Slit Superposition Across Methods
 
 When the two slits carry helical OAM phase factors $e^{i \ell_1 \phi}$ and

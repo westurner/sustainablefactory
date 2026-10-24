@@ -968,6 +968,95 @@ lemma selectedMinor_crossing_product_eq_sum {columnCount : ℕ}
   have h := selectedMinor_pluecker_four matrix columns
   linarith
 
+/-- Barycentric Pluecker channel-imbalance offset
+$d_{\mathrm{bary}}(M) = \frac{\Delta_{01}(M)\Delta_{23}(M) - \Delta_{03}(M)\Delta_{12}(M)}{2}$
+between the two uncrossed double-slit channels of a $2 \times 4$ matrix $M$. -/
+@[blueprint "def:signals-gr24-barycentric-shift"
+  (title := "Gr(2,4) Pluecker barycentric parallel-axis shift")
+  (statement := /-- For $M\in\mathbb R^{2\times 4}$, define the barycentric channel-imbalance
+    shift $d_{\mathrm{bary}}(M)=\frac{\Delta_{01}(M)\Delta_{23}(M)-\Delta_{03}(M)\Delta_{12}(M)}{2}$. -/)]
+noncomputable def gr24BarycentricShift (matrix : Matrix (Fin 2) (Fin 4) ℝ) : ℝ :=
+  (twoRowMinor matrix 0 1 * twoRowMinor matrix 2 3 -
+    twoRowMinor matrix 0 3 * twoRowMinor matrix 1 2) / 2
+
+/-- **Pythagorean Pluecker--Steiner Identity on $Gr(2, 4)$**:
+For every real $2 \times 4$ matrix $M$, the squared Pluecker barycentric shift
+$d_{\mathrm{bary}}(M)^2$ plus the product of the two uncrossed channel weights
+$(\Delta_{01}\Delta_{23})(\Delta_{03}\Delta_{12})$ equals the squared half-crossing
+product $(\Delta_{02}\Delta_{13} / 2)^2$. -/
+@[blueprint "thm:signals-gr24-plucker-pythagorean"
+  (title := "Pythagorean Pluecker--Steiner identity on Gr(2,4)")
+  (statement := /-- For any $M\in\mathbb R^{2\times 4}$,
+    $d_{\mathrm{bary}}(M)^2 + \Delta_{01}(M)\Delta_{23}(M)\,\Delta_{03}(M)\Delta_{12}(M)
+    = \left(\frac{\Delta_{02}(M)\Delta_{13}(M)}{2}\right)^2$. -/)
+  (proof := /-- Apply \texttt{twoRowMinor\_pluecker} to rewrite $\Delta_{02}\Delta_{13}=\Delta_{01}\Delta_{23}+\Delta_{03}\Delta_{12}$
+    and close by ring algebra. -/)]
+theorem gr24_plucker_pythagorean_identity (matrix : Matrix (Fin 2) (Fin 4) ℝ) :
+    (gr24BarycentricShift matrix) ^ 2 +
+      (twoRowMinor matrix 0 1 * twoRowMinor matrix 2 3) *
+        (twoRowMinor matrix 0 3 * twoRowMinor matrix 1 2) =
+    (twoRowMinor matrix 0 2 * twoRowMinor matrix 1 3 / 2) ^ 2 := by
+  have h_cross :
+      twoRowMinor matrix 0 2 * twoRowMinor matrix 1 3 =
+        twoRowMinor matrix 0 1 * twoRowMinor matrix 2 3 +
+          twoRowMinor matrix 0 3 * twoRowMinor matrix 1 2 := by
+    have h := twoRowMinor_pluecker matrix 0 1 2 3
+    linarith
+  rw [h_cross]
+  unfold gr24BarycentricShift
+  ring
+
+/-- Complex two-column determinant $\Delta_{ab}^{\mathbb{C}}(M) = M_{0a} M_{1b} - M_{0b} M_{1a}$
+for a $2 \times n$ complex Grassmannian representative $M \in \mathbb{C}^{2 \times n}$
+(induced by projecting $\mathbb{C}^4$ twistors carrying complex incidence phases). -/
+@[blueprint "def:signals-complex-two-row-minor"
+  (title := "Complex 2×n two-row Pluecker minor")
+  (statement := /-- For a complex matrix $M\in\mathbb C^{2\times n}$ and column indices
+    $a,b\in\operatorname{Fin}(n)$, define
+    $\Delta_{ab}^{\mathbb C}(M)=M_{0a}M_{1b}-M_{0b}M_{1a}$. -/)]
+def complexTwoRowMinor {columnCount : ℕ}
+    (matrix : Matrix (Fin 2) (Fin columnCount) ℂ) (left right : Fin columnCount) : ℂ :=
+  matrix 0 left * matrix 1 right - matrix 0 right * matrix 1 left
+
+/-- The 3-term quadratic Pluecker identity holds over $\mathbb{C}$ for any four
+column indices of any complex $2 \times n$ matrix $M \in \mathbb{C}^{2 \times n}$. -/
+@[blueprint "lem:signals-complex-two-row-pluecker"
+  (title := "Complex 2×n three-term Pluecker identity")
+  (statement := /-- For any $M\in\mathbb C^{2\times n}$ and column indices
+    $a,b,c,d\in\operatorname{Fin}(n)$,
+    $\Delta_{ab}^{\mathbb C}(M)\Delta_{cd}^{\mathbb C}(M)-
+    \Delta_{ac}^{\mathbb C}(M)\Delta_{bd}^{\mathbb C}(M)+
+    \Delta_{ad}^{\mathbb C}(M)\Delta_{bc}^{\mathbb C}(M)=0$. -/)
+  (proof := /-- Expand the six complex $2\times 2$ determinants and close by commutative ring algebra in $\mathbb C$. -/)
+  (latexEnv := "lemma")]
+lemma complexTwoRowMinor_pluecker {columnCount : ℕ}
+    (matrix : Matrix (Fin 2) (Fin columnCount) ℂ)
+    (first second third fourth : Fin columnCount) :
+    complexTwoRowMinor matrix first second * complexTwoRowMinor matrix third fourth -
+      complexTwoRowMinor matrix first third * complexTwoRowMinor matrix second fourth +
+      complexTwoRowMinor matrix first fourth * complexTwoRowMinor matrix second third = 0 := by
+  simp only [complexTwoRowMinor]
+  ring
+
+/-- In any complex $2 \times 4$ Grassmannian matrix $M \in \mathbb{C}^{2 \times 4}$,
+the crossing Pluecker product $\Delta_{02}^{\mathbb{C}}(M)\Delta_{13}^{\mathbb{C}}(M)$
+equals the coherent complex sum of the two uncrossed channel products
+$\Delta_{01}^{\mathbb{C}}(M)\Delta_{23}^{\mathbb{C}}(M) + \Delta_{03}^{\mathbb{C}}(M)\Delta_{12}^{\mathbb{C}}(M)$. -/
+@[blueprint "lem:signals-complex-gr24-crossing-sum"
+  (title := "Complex Gr_C(2,4) crossing minor product equals coherent sum of uncrossed channels")
+  (statement := /-- For any $M\in\mathbb C^{2\times 4}$,
+    $\Delta_{02}^{\mathbb C}(M)\Delta_{13}^{\mathbb C}(M)=
+    \Delta_{01}^{\mathbb C}(M)\Delta_{23}^{\mathbb C}(M)+
+    \Delta_{03}^{\mathbb C}(M)\Delta_{12}^{\mathbb C}(M)$. -/)
+  (proof := /-- Rearrange \texttt{complexTwoRowMinor\_pluecker} over $\mathbb C$. -/)
+  (latexEnv := "lemma")]
+lemma complexGr24_crossing_eq_channel_sum (matrix : Matrix (Fin 2) (Fin 4) ℂ) :
+    complexTwoRowMinor matrix 0 2 * complexTwoRowMinor matrix 1 3 =
+      complexTwoRowMinor matrix 0 1 * complexTwoRowMinor matrix 2 3 +
+        complexTwoRowMinor matrix 0 3 * complexTwoRowMinor matrix 1 2 := by
+  have h := complexTwoRowMinor_pluecker matrix 0 1 2 3
+  linear_combination -h
+
 /-! ## Orbital angular-momentum translations
 
 These are real coordinate identities for a four-index bivector, not an
