@@ -216,6 +216,25 @@ Theorem `PlanetaryOrbit.gr24PrecessionMatrix_orbital_identities` ([DDF.lean](../
 5. **Crossing Plücker Minor Encodes Precession Cosine & Minor-to-Major Axis Ratio**:
    $$\bigl|\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\bigr|^2 = 2\left(1 + \sqrt{1 - e^2}\cos\Delta\varpi\right).$$
 
+### 3.2 Normed Anisotropic Tensor Gaussian Splatting for $Gr_{\mathbb{C}}(2,4)$ and DDF Orbital Fields (`NormedTensorGaussianSplat2D`)
+
+As proposed in [Provenance Chat Log: Grassmannian Splat Mechanics (2026)](#grav-chat-splat) (lines 1395–1558), discretizing gravitational sink fields, precessing orbital ellipses, and DDF shear-jammed sheaths as **normed anisotropic Tensor Gaussian Splats** (`NormedTensorGaussianSplat2D` in [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L2445-L2630)) enforces mass and energy conservation directly in the representation:
+
+$$
+G(x, y; x_0, y_0, w, \sigma_1, \sigma_2, \theta) = w\,\mathcal{N}(\Sigma)\,\exp\!\left(-\frac{1}{2} Q_\Sigma(x, y)\right), \qquad
+\mathcal{N}(\Sigma) = \frac{1}{2\pi \sigma_1 \sigma_2}.
+$$
+
+We prove in [DDF.lean](../src/signals/Signals/DDF.lean#L2485-L2630):
+1. **Positivity, Peak Value, and Global Upper Bound (`NormedTensorGaussianSplat2D.eval_properties`)**:
+   $\det \Sigma = \sigma_1^2 \sigma_2^2 > 0$, $\mathcal{N}(\Sigma) > 0$, $0 \le G(x, y) \le G(x_0, y_0) = w\,\mathcal{N}(\Sigma)$.
+2. **DDF Moving-Sheath Tensor Splat (`MovingSheath.ddfTensorSplat`, `MovingSheath.ddfTensorSplat_identities`)**:
+   With longitudinal Lorentz/jamming contraction $\sigma_1 = \sigma_0 \mathcal{V}(s) = \sigma_0 \gamma_\varphi(v)^{-1}$ and transverse width $\sigma_2 = \sigma_0$, the covariance determinant and peak normalization factor obey:
+   $$\det \Sigma_{\mathrm{DDF}}(s) = \sigma_0^4(1 - \beta^2) = \frac{\sigma_0^4}{\gamma_\varphi(v)^2}, \qquad \mathcal{N}_{\mathrm{DDF}}(s) = \frac{\gamma_\varphi(v)}{2\pi \sigma_0^2}.$$
+3. **Complex $Gr_{\mathbb{C}}(2,4)$ Planetary Orbit Tensor Splat (`PlanetaryOrbit.gr24TensorSplat`, `PlanetaryOrbit.gr24TensorSplat_identities`)**:
+   With principal variances weighted by the two $Gr_{\mathbb{C}}(2,4)$ Madelung channel densities $\sigma_1^2 = \sigma_0^2 |w_A^{\mathbb{C}}|^2 = \sigma_0^2(1 + e)$ and $\sigma_2^2 = \sigma_0^2 |w_B^{\mathbb{C}}|^2 = \sigma_0^2(1 - e)$ oriented along the precessing perihelion angle $\varpi$:
+   $$\operatorname{Tr} \Sigma_{Gr_{\mathbb{C}}(2,4)} = 2\sigma_0^2, \qquad \det \Sigma_{Gr_{\mathbb{C}}(2,4)} = \sigma_0^4(1 - e^2) = \sigma_0^4\,\frac{p}{a}.$$
+
 ---
 
 ## 4. $N$-Body Sink Superposition on $Gr_{\mathbb{C}}(2, N+2)$ & Conservative Action vs. Stokes-Drag Critique
@@ -232,25 +251,36 @@ $$
 
 A critical distinction highlighted in the chat corpus ({download}`data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md, lines 70-220 <../data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md>`) separates **dissipative classical Stokes drag** from **conservative 1-loop EFT / DDF sheath mechanics**:
 - If a planet of speed $v > 0$ experienced a literal non-conservative viscous drag force $F_{\mathrm{drag}} = 6\pi \eta r v > 0$ opposing its orbital velocity, its mechanical energy would decay at the strictly negative rate $\frac{dE}{dt} = -F_{\mathrm{drag}} v < 0$, causing rapid secular inspiral of the inner planets incompatible with 4.5 billion years of solar-system stability and radar/laser ranging.
-- In contrast, in conservative 1-loop QFT scattering ([Partanen and Tulkki 2025](#grav-partanen2025)) and conservative DDF sheath action ([Fedi 2026](#grav-fedi2026)), the reversible sheath energy $K_D(v) = m c^2(\gamma_\varphi(v) - 1)$ and conservative radial potential $V_{\mathrm{eff}}(r)$ have **zero tangential dissipation** ($F_{\mathrm{drag}} = 0 \implies \frac{dE}{dt} = 0$) while still producing the strictly positive anomalous perihelion advance $\Delta\varpi = \frac{3\pi r_H}{a(1 - e^2)} > 0$. This contrast is formally proved in `ddf_conservative_action_vs_stokes_drag_critique` ([DDF.lean](../src/signals/Signals/DDF.lean#L2254-L2276)).
+- In contrast, in conservative 1-loop QFT scattering ([Partanen and Tulkki 2025](#grav-partanen2025)) and conservative DDF sheath action ([Fedi 2026](#grav-fedi2026)), the reversible sheath energy $K_D(v) = m c^2(\gamma_\varphi(v) - 1)$ and conservative radial potential $V_{\mathrm{eff}}(r)$ have **zero tangential dissipation** ($F_{\mathrm{drag}} = 0 \implies \frac{dE}{dt} = 0$) while still producing the strictly positive anomalous perihelion advance $\Delta\varpi = \frac{3\pi r_H}{a(1 - e^2)} > 0$. This contrast is formally proved in `ddf_conservative_action_vs_stokes_drag_critique` ([DDF.lean](../src/signals/Signals/DDF.lean#L2254-L2276)), alongside the exact $\pi$-free arcsecond conversion `RiverExterior.perihelionPrecessionArcsecPerOrbit_eq` ($\Delta\varpi_{\mathrm{arcsec}} = \frac{1944000\,r_H}{p}$) and the machine-checked numerical bounds `mercury_perihelion_precession_arcsec_per_century_bounds` ($42.98''/\text{cy} < \dot{\varpi}_{\mathrm{rel}} < 42.99''/\text{cy}$ and $574.61''/\text{cy} < \dot{\varpi}_{\mathrm{tot}} < 574.62''/\text{cy}$).
 
 ```lean
--- 3. Gr_C(2,4) planetary orbital precession bridge, N-body Gr_C(2, N+2) sink potential, and Stokes-drag critique
-example {sub : DDFSubstrate} (re : RiverExterior sub) (orb : PlanetaryOrbit)
-    (Δϖ F_drag v : ℝ) (hF : 0 < F_drag) (hv : 0 < v) :
+-- 3. Gr_C(2,4) orbital precession bridge, Mercury numerical bounds, normed Tensor Gaussian Splatting, and Stokes-drag critique
+example {sub : DDFSubstrate} (re : RiverExterior sub) (s : MovingSheath sub) (orb : PlanetaryOrbit)
+    (Δϖ F_drag v θ ϖ : ℝ) (hF : 0 < F_drag) (hv : 0 < v) :
     let M_C := orb.gr24PrecessionMatrix Δϖ
+    let splat_ddf := s.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
+    let splat_orb := orb.gr24TensorSplat 0 0 3 2 (by norm_num) (by norm_num) ϖ
     Complex.normSq (complexPluckerSinkAmplitudeA M_C) = orb.aphelionRadius / orb.semiMajorAxis ∧
     Complex.normSq (complexPluckerSinkAmplitudeB M_C) = orb.perihelionRadius / orb.semiMajorAxis ∧
     Complex.normSq (complexPluckerSinkAmplitudeA M_C) *
       Complex.normSq (complexPluckerSinkAmplitudeB M_C) =
       orb.semiLatusRectum / orb.semiMajorAxis ∧
-    Complex.normSq (complexTwoRowMinor M_C 0 2 * complexTwoRowMinor M_C 1 3) =
-      2 * (1 + Real.sqrt (1 - orb.eccentricity ^ 2) * Real.cos Δϖ) ∧
+    re.perihelionPrecessionArcsecPerOrbit orb =
+      1944000 * re.horizonRadius / orb.semiLatusRectum ∧
+    4298 / 100 < (1944000 * (295325 / 100000 : ℝ) / 55460529) * (4152026 / 10000) ∧
+    (1944000 * (295325 / 100000 : ℝ) / 55460529) * (4152026 / 10000) < 4299 / 100 ∧
+    splat_ddf.covDet = 2 ^ 4 * (s.jammingFactor ^ 2)⁻¹ ∧
+    splat_orb.covDet = 2 ^ 4 * (orb.semiLatusRectum / orb.semiMajorAxis) ∧
     (- F_drag * v < 0 ∧ (- (0 : ℝ) * v = 0 ∧ 0 < re.perihelionPrecessionRad orb)) := by
-  intro M_C
+  intro M_C splat_ddf splat_orb
   have h_orb := orb.gr24PrecessionMatrix_orbital_identities Δϖ
+  have h_arc := (re.perihelionPrecessionArcsecPerOrbit_eq orb).1
+  have h_merc := mercury_perihelion_precession_arcsec_per_century_bounds
+  have h_sddf := s.ddfTensorSplat_identities 0 0 5 2 (by norm_num) (by norm_num) θ
+  have h_sorb := orb.gr24TensorSplat_identities 0 0 3 2 (by norm_num) (by norm_num) ϖ
   have h_crit := ddf_conservative_action_vs_stokes_drag_critique re orb F_drag v hF hv
-  exact ⟨h_orb.1, h_orb.2.1, h_orb.2.2.2.1, h_orb.2.2.2.2, h_crit⟩
+  exact ⟨h_orb.1, h_orb.2.1, h_orb.2.2.2.1, h_arc, h_merc.1, h_merc.2.1,
+    h_sddf.2.1, h_sorb.2.2, h_crit⟩
 
 end ArxivGravityFromQEDPaperVerification
 ```
@@ -295,6 +325,9 @@ popd
 
 <a id="grav-chat-sr-fluid"></a>
 8. Provenance Chat Log (2026). *Special Relativity: Geometry vs. Fluid*. ({download}`data/chats/_Special-Relativity-Geometry-vs.-Fluid.md, lines 130-520 <../data/chats/_Special-Relativity-Geometry-vs.-Fluid.md>`).
+
+<a id="grav-chat-splat"></a>
+9. Provenance Chat Log (2026). *Grassmannian Splat Mechanics and Vortex Space Emergence*. ({download}`data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md, lines 1395-1558 <../data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md>`).
 
 ---
 

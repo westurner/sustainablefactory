@@ -4627,4 +4627,37 @@ example (Δϖ : ℝ) :
   have h := toyMercuryOrbit.gr24PrecessionMatrix_orbital_identities Δϖ
   exact ⟨h.1, h.2.1, h.2.2.2.1⟩
 
+/-- Precessing conic trajectory turning points (perihelion at φ = 0, aphelion at φ = π/(1 - η)),
+exact π-free arcsecond precession formula, and Mercury's 42.98''/cy and 574.61''/cy bounds. -/
+example :
+    1 / toyMercuryOrbit.perihelionRadius + 1 / toyMercuryOrbit.aphelionRadius =
+      2 / toyMercuryOrbit.semiLatusRectum ∧
+    toyMercuryOrbit.precessingRadius (1 / 1000) 0 = toyMercuryOrbit.perihelionRadius ∧
+    toyMercuryOrbit.precessingRadius (1 / 1000) (Real.pi / (1 - 1 / 1000)) =
+      toyMercuryOrbit.aphelionRadius ∧
+    toyRiverExterior.perihelionPrecessionArcsecPerOrbit toyMercuryOrbit =
+      1944000 * toyRiverExterior.horizonRadius / toyMercuryOrbit.semiLatusRectum ∧
+    4298 / 100 < (1944000 * (295325 / 100000 : ℝ) / 55460529) * (4152026 / 10000) ∧
+    (1944000 * (295325 / 100000 : ℝ) / 55460529) * (4152026 / 10000) < 4299 / 100 := by
+  have h_tp := toyMercuryOrbit.precessingRadius_perihelion_and_aphelion (1 / 1000) (by norm_num)
+  have h_arc := (toyRiverExterior.perihelionPrecessionArcsecPerOrbit_eq toyMercuryOrbit).1
+  have h_merc := Signals.DDF.mercury_perihelion_precession_arcsec_per_century_bounds
+  exact ⟨toyMercuryOrbit.harmonic_mean_semiLatusRectum, h_tp.1, h_tp.2, h_arc, h_merc.1, h_merc.2.1⟩
+
+/-- Normed 2D Anisotropic Tensor Gaussian Splatting for DDF MovingSheath and Gr_C(2,4) PlanetaryOrbit. -/
+example (θ ϖ x y : ℝ) :
+    let splat_ddf := toyMovingSheath.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
+    let splat_orb := toyMercuryOrbit.gr24TensorSplat 1 (-1) 3 2 (by norm_num) (by norm_num) ϖ
+    0 ≤ splat_ddf.eval x y ∧
+    splat_ddf.eval x y ≤ splat_ddf.eval 0 0 ∧
+    splat_ddf.covDet = 2 ^ 4 * (toyMovingSheath.jammingFactor ^ 2)⁻¹ ∧
+    splat_ddf.normFactor = toyMovingSheath.jammingFactor / (2 * Real.pi * 2 ^ 2) ∧
+    splat_orb.covTrace = 2 * 2 ^ 2 ∧
+    splat_orb.covDet = 2 ^ 4 * (toyMercuryOrbit.semiLatusRectum / toyMercuryOrbit.semiMajorAxis) := by
+  intro splat_ddf splat_orb
+  have h_prop := splat_ddf.eval_properties x y
+  have h_ddf := toyMovingSheath.ddfTensorSplat_identities 0 0 5 2 (by norm_num) (by norm_num) θ
+  have h_orb := toyMercuryOrbit.gr24TensorSplat_identities 1 (-1) 3 2 (by norm_num) (by norm_num) ϖ
+  exact ⟨h_prop.2.2.2.1, h_prop.2.2.2.2.2, h_ddf.2.1, h_ddf.2.2, h_orb.1, h_orb.2.2⟩
+
 end SignalsTests

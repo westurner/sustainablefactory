@@ -2309,4 +2309,411 @@ theorem ddf_conservative_action_vs_stokes_drag_critique
       (- (0 : ℝ) * v = 0 ∧ 0 < re.perihelionPrecessionRad orb) :=
   ⟨by nlinarith, ⟨by ring, (re.perihelionPrecession_eq_horizon_and_substrate orb).1⟩⟩
 
+/-! ### Precessing Conic Trajectory, Exact $\pi$-Free Arcsecond Conversion, Mercury Numerical Bounds, & Normed Tensor Gaussian Splatting -/
+
+/-- **Harmonic-Mean Identity of Perihelion and Aphelion Radii**:
+For any bound `PlanetaryOrbit`, the reciprocal of the semi-latus rectum $p = a(1 - e^2)$
+is the arithmetic mean of the reciprocal perihelion and aphelion radii:
+$\frac{1}{r_{\min}} + \frac{1}{r_{\max}} = \frac{2}{p}$. -/
+@[blueprint "lem:signals-ddf-planetary-harmonic-mean"
+  (title := "Harmonic-mean identity 1/r_min + 1/r_max = 2/p for planetary orbits")
+  (statement := /-- For any \texttt{orb : PlanetaryOrbit},
+    $\frac{1}{r_{\min}}+\frac{1}{r_{\max}}=\frac{2}{p}$. -/)
+  (proof := /-- Use $r_{\min}+r_{\max}=2a$ and $r_{\min}r_{\max}=a p$ from
+    \texttt{orb.radii\_identities}, then clear nonzero denominators. -/)
+  (latexEnv := "lemma")]
+lemma PlanetaryOrbit.harmonic_mean_semiLatusRectum (orb : PlanetaryOrbit) :
+    1 / orb.perihelionRadius + 1 / orb.aphelionRadius =
+      2 / orb.semiLatusRectum := by
+  have he0 := orb.eccentricity_nonneg
+  have he1 := orb.eccentricity_lt_one
+  have h1me : 1 - orb.eccentricity ≠ 0 := by linarith
+  have h1pe : 1 + orb.eccentricity ≠ 0 := by linarith
+  have h1e2 : 1 - orb.eccentricity ^ 2 ≠ 0 := ne_of_gt (orb.radii_identities).1
+  have ha : orb.semiMajorAxis ≠ 0 := ne_of_gt orb.semiMajorAxis_pos
+  unfold PlanetaryOrbit.perihelionRadius PlanetaryOrbit.aphelionRadius
+    PlanetaryOrbit.semiLatusRectum
+  field_simp [h1me, h1pe, h1e2, ha]
+  ring
+
+/-- **Precessing Polar Conic Trajectory $r(\varphi; \eta_{\mathrm{prec}})$**:
+Solution of the perturbed Binet orbit equation
+$r(\varphi; \eta_{\mathrm{prec}}) = \frac{p}{1 + e\cos((1 - \eta_{\mathrm{prec}})\varphi)}$
+with dimensionless precession rate parameter $\eta_{\mathrm{prec}} = \frac{3 G_\phi M}{c^2 p} = \frac{\Delta\varpi}{2\pi}$. -/
+@[blueprint "def:signals-ddf-precessing-conic-radius"
+  (title := "Precessing polar conic orbital radius r(φ; η_prec)")
+  (statement := /-- For \texttt{orb : PlanetaryOrbit}, precession parameter $\eta_{\mathrm{prec}}$,
+    and azimuth $\varphi$, define
+    $r(\varphi;\eta_{\mathrm{prec}}) = \frac{p}{1 + e\cos\bigl((1-\eta_{\mathrm{prec}})\varphi\bigr)}$. -/)]
+noncomputable def PlanetaryOrbit.precessingRadius
+    (orb : PlanetaryOrbit) (etaPrecession φ : ℝ) : ℝ :=
+  orb.semiLatusRectum /
+    (1 + orb.eccentricity * Real.cos ((1 - etaPrecession) * φ))
+
+/-- **Exact Perihelion and Aphelion Turning Points of the Precessing Trajectory**:
+At $\varphi = 0$ (initial perihelion), $r(0; \eta_{\mathrm{prec}}) = r_{\min} = a(1 - e)$,
+and for $1 - \eta_{\mathrm{prec}} \neq 0$, at the precessed aphelion angle
+$\varphi_{\mathrm{aph}} = \frac{\pi}{1 - \eta_{\mathrm{prec}}}$,
+$r(\varphi_{\mathrm{aph}}; \eta_{\mathrm{prec}}) = r_{\max} = a(1 + e)$. -/
+@[blueprint "thm:signals-ddf-precessing-conic-turning-points"
+  (title := "Exact perihelion and aphelion turning-point radii of the precessing conic orbit")
+  (statement := /-- For any \texttt{orb : PlanetaryOrbit} and $1-\eta_{\mathrm{prec}}\ne 0$,
+    $r(0;\eta_{\mathrm{prec}})=r_{\min}$ and
+    $r\bigl(\frac{\pi}{1-\eta_{\mathrm{prec}}};\eta_{\mathrm{prec}}\bigr)=r_{\max}$. -/)
+  (proof := /-- Evaluate $\cos(0)=1$ and $\cos(\pi)=-1$, factor $1-e^2=(1-e)(1+e)$, and
+    cancel $1+e\ne 0$ and $1-e\ne 0$. -/)]
+theorem PlanetaryOrbit.precessingRadius_perihelion_and_aphelion
+    (orb : PlanetaryOrbit) (etaPrecession : ℝ)
+    (h_eta : 1 - etaPrecession ≠ 0) :
+    orb.precessingRadius etaPrecession 0 = orb.perihelionRadius ∧
+      orb.precessingRadius etaPrecession (Real.pi / (1 - etaPrecession)) =
+        orb.aphelionRadius := by
+  have he0 := orb.eccentricity_nonneg
+  have he1 := orb.eccentricity_lt_one
+  have h1pe : 1 + orb.eccentricity ≠ 0 := by linarith
+  have h1me : 1 - orb.eccentricity ≠ 0 := by linarith
+  refine ⟨?_, ?_⟩
+  · unfold PlanetaryOrbit.precessingRadius PlanetaryOrbit.semiLatusRectum
+      PlanetaryOrbit.perihelionRadius
+    simp only [mul_zero, Real.cos_zero, mul_one]
+    have h_fac :
+        orb.semiMajorAxis * (1 - orb.eccentricity ^ 2) =
+          orb.semiMajorAxis * (1 - orb.eccentricity) * (1 + orb.eccentricity) := by ring
+    rw [h_fac, mul_div_cancel_right₀ _ h1pe]
+  · unfold PlanetaryOrbit.precessingRadius PlanetaryOrbit.semiLatusRectum
+      PlanetaryOrbit.aphelionRadius
+    have h_angle : (1 - etaPrecession) * (Real.pi / (1 - etaPrecession)) = Real.pi :=
+      mul_div_cancel₀ Real.pi h_eta
+    rw [h_angle, Real.cos_pi]
+    have h_denom : 1 + orb.eccentricity * (-1) = 1 - orb.eccentricity := by ring
+    have h_fac :
+        orb.semiMajorAxis * (1 - orb.eccentricity ^ 2) =
+          orb.semiMajorAxis * (1 + orb.eccentricity) * (1 - orb.eccentricity) := by ring
+    rw [h_denom, h_fac, mul_div_cancel_right₀ _ h1me]
+
+/-- **Anomalous Perihelion Precession in Arcseconds per Orbit**:
+Converts `perihelionPrecessionRad` from radians to arcseconds via the factor
+$\frac{180 \times 3600}{\pi} = \frac{648000}{\pi}$. -/
+@[blueprint "def:signals-ddf-perihelion-precession-arcsec"
+  (title := "Anomalous perihelion precession in arcseconds per orbit")
+  (statement := /-- Define $\Delta\varpi_{\mathrm{arcsec}} = \Delta\varpi\cdot\frac{648000}{\pi}$. -/)]
+noncomputable def RiverExterior.perihelionPrecessionArcsecPerOrbit
+    {sub : DDFSubstrate} (re : RiverExterior sub) (orb : PlanetaryOrbit) : ℝ :=
+  re.perihelionPrecessionRad orb * (648000 / Real.pi)
+
+/-- **Exact $\pi$-Cancellation in Arcsecond Perihelion Precession**:
+When converting $\Delta\varpi = \frac{6\pi G_\phi M}{c^2 p} = \frac{3\pi r_H}{p}$
+from radians to arcseconds per orbit, $\pi$ cancels identically, leaving the purely
+rational formula $\Delta\varpi_{\mathrm{arcsec}} = \frac{1944000\,r_H}{p} = \frac{3888000\,G_\phi M}{c^2 p}$. -/
+@[blueprint "thm:signals-ddf-perihelion-precession-arcsec-rational"
+  (title := "Exact π-cancellation in arcsecond perihelion precession Δϖ_arcsec = 1944000 r_H / p")
+  (statement := /-- For any \texttt{re : RiverExterior sub} and \texttt{orb : PlanetaryOrbit},
+    $\Delta\varpi_{\mathrm{arcsec}} = \frac{1944000\,r_H}{p} = \frac{3888000\,G_\phi M}{c^2 p}$. -/)
+  (proof := /-- Substitute \texttt{perihelionPrecession\_eq\_horizon\_and\_substrate} and cancel $\pi\ne 0$. -/)]
+theorem RiverExterior.perihelionPrecessionArcsecPerOrbit_eq
+    {sub : DDFSubstrate} (re : RiverExterior sub) (orb : PlanetaryOrbit) :
+    re.perihelionPrecessionArcsecPerOrbit orb =
+      1944000 * re.horizonRadius / orb.semiLatusRectum ∧
+    re.perihelionPrecessionArcsecPerOrbit orb =
+      3888000 * re.G_phi * re.sourceMass / (sub.c ^ 2 * orb.semiLatusRectum) := by
+  have hpi : Real.pi ≠ 0 := Real.pi_ne_zero
+  unfold RiverExterior.perihelionPrecessionArcsecPerOrbit
+  refine ⟨?_, ?_⟩
+  · rw [(re.perihelionPrecession_eq_horizon_and_substrate orb).2.1]
+    field_simp [hpi]
+    ring
+  · unfold RiverExterior.perihelionPrecessionRad
+    field_simp [hpi]
+    ring
+
+/-- **Machine-Checked Numerical Verification of Mercury's $42.98''/\text{century}$ Relativistic Precession and $574.61''/\text{century}$ Total Advance**:
+For solar acoustic horizon $r_{H,\odot} = 2.95325\text{ km}$, Mercury semi-latus rectum
+$p_{\text{Mercury}} = 55460529\text{ km}$, and $415.2026$ revolutions per Julian century:
+1. The relativistic / 1-loop QFT / DDF precession per century lies strictly in
+   $(42.98, 42.99)$ arcseconds/century, and
+2. Adding the $531.63''/\text{century}$ Newtonian $N$-body planetary perturbation places
+   Mercury's total inertial perihelion advance strictly in $(574.61, 574.62)$ arcseconds/century. -/
+@[blueprint "thm:signals-ddf-mercury-precession-numerical-bounds"
+  (title := "Machine-checked numerical bounds 42.98 < Δϖ_Mercury < 42.99 and 574.61 < Δϖ_tot < 574.62 arcsec/century")
+  (statement := /-- For $r_{H,\odot}=2.95325\text{ km}$, $p_{\mathrm{Merc}}=55460529\text{ km}$,
+    and $N_{\mathrm{cent}}=415.2026$, let
+    $\dot{\varpi}_{\mathrm{rel}} = \frac{1944000\,r_{H,\odot}}{p_{\mathrm{Merc}}}\cdot N_{\mathrm{cent}}$.
+    Then $42.98 < \dot{\varpi}_{\mathrm{rel}} < 42.99$ and
+    $574.61 < \dot{\varpi}_{\mathrm{rel}} + 531.63 < 574.62$. -/)
+  (proof := /-- Evaluate the rational inequalities directly by \texttt{norm\_num}. -/)]
+theorem mercury_perihelion_precession_arcsec_per_century_bounds :
+    let r_H_sun : ℝ := 295325 / 100000
+    let p_mercury : ℝ := 55460529
+    let orbits_per_century : ℝ := 4152026 / 10000
+    let rel_arcsec_per_century := (1944000 * r_H_sun / p_mercury) * orbits_per_century
+    let newtonian_nbody_arcsec_per_century : ℝ := 53163 / 100
+    4298 / 100 < rel_arcsec_per_century ∧
+      rel_arcsec_per_century < 4299 / 100 ∧
+      57461 / 100 < rel_arcsec_per_century + newtonian_nbody_arcsec_per_century ∧
+      rel_arcsec_per_century + newtonian_nbody_arcsec_per_century < 57462 / 100 := by
+  norm_num
+
+/-! ### Normed 2D Anisotropic Tensor Gaussian Splatting for $Gr_{\mathbb{C}}(2,4)$ and DDF Orbital/Sheath Fields -/
+
+/-- A normed 2D anisotropic Tensor Gaussian Splat primitive for visualizing and
+discretizing $Gr_{\mathbb{C}}(2,4)$ channel fields, DDF shear-jammed sheaths, and
+gravitational sink/source potentials while preserving $L^1$ mass/energy normalization. -/
+@[blueprint "def:signals-ddf-normed-tensor-gaussian-splat2d"
+  (title := "Normed 2D anisotropic Tensor Gaussian Splat primitive")
+  (statement := /-- A 2D anisotropic Gaussian splat with center $(x_0,y_0)$, conserved weight
+    $w\ge 0$, positive principal widths $\sigma_1>0,\sigma_2>0$, and orientation angle $\theta\in\mathbb R$. -/)]
+structure NormedTensorGaussianSplat2D where
+  centerX : ℝ
+  centerY : ℝ
+  weight : ℝ
+  weight_nonneg : 0 ≤ weight
+  sigma1 : ℝ
+  sigma1_pos : 0 < sigma1
+  sigma2 : ℝ
+  sigma2_pos : 0 < sigma2
+  orientationAngle : ℝ
+
+/-- Determinant of the $2 \times 2$ covariance matrix $\Sigma = R(\theta)\operatorname{diag}(\sigma_1^2, \sigma_2^2)R(\theta)^T$:
+$\det \Sigma = \sigma_1^2 \sigma_2^2$. -/
+@[blueprint "def:signals-ddf-splat2d-cov-det"
+  (title := "Covariance determinant det Σ = σ₁² σ₂² of a 2D Tensor Gaussian Splat")
+  (statement := /-- Define $\det\Sigma = \sigma_1^2\sigma_2^2$. -/)]
+def NormedTensorGaussianSplat2D.covDet (splat : NormedTensorGaussianSplat2D) : ℝ :=
+  splat.sigma1 ^ 2 * splat.sigma2 ^ 2
+
+/-- Trace of the $2 \times 2$ covariance matrix $\Sigma$:
+$\operatorname{Tr} \Sigma = \sigma_1^2 + \sigma_2^2$. -/
+@[blueprint "def:signals-ddf-splat2d-cov-trace"
+  (title := "Covariance trace Tr Σ = σ₁² + σ₂² of a 2D Tensor Gaussian Splat")
+  (statement := /-- Define $\operatorname{Tr}\Sigma = \sigma_1^2+\sigma_2^2$. -/)]
+def NormedTensorGaussianSplat2D.covTrace (splat : NormedTensorGaussianSplat2D) : ℝ :=
+  splat.sigma1 ^ 2 + splat.sigma2 ^ 2
+
+/-- Exact 2D $L^1(\mathbb{R}^2)$ Gaussian normalization factor
+$\mathcal{N}(\Sigma) = \frac{1}{2\pi \sigma_1 \sigma_2}$. -/
+@[blueprint "def:signals-ddf-splat2d-norm-factor"
+  (title := "2D L¹ Gaussian normalization factor N(Σ) = 1 / (2π σ₁ σ₂)")
+  (statement := /-- Define $\mathcal{N}(\Sigma) = \frac{1}{2\pi\sigma_1\sigma_2}$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.normFactor
+    (splat : NormedTensorGaussianSplat2D) : ℝ :=
+  1 / (2 * Real.pi * splat.sigma1 * splat.sigma2)
+
+/-- Squared Mahalanobis distance $Q_\Sigma(x, y) = \frac{u_1^2}{\sigma_1^2} + \frac{u_2^2}{\sigma_2^2}$
+in the rotated principal-axis frame of the splat. -/
+@[blueprint "def:signals-ddf-splat2d-mahalanobis"
+  (title := "Rotated Mahalanobis quadratic form Q_Σ(x, y)")
+  (statement := /-- For displacement $(\Delta x,\Delta y)=(x-x_0,y-y_0)$ rotated by $\theta$ into
+    $(u_1,u_2)$, define $Q_\Sigma(x,y) = \frac{u_1^2}{\sigma_1^2} + \frac{u_2^2}{\sigma_2^2}$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.mahalanobisSq
+    (splat : NormedTensorGaussianSplat2D) (x y : ℝ) : ℝ :=
+  let dx := x - splat.centerX
+  let dy := y - splat.centerY
+  let u1 := dx * Real.cos splat.orientationAngle + dy * Real.sin splat.orientationAngle
+  let u2 := -dx * Real.sin splat.orientationAngle + dy * Real.cos splat.orientationAngle
+  (u1 / splat.sigma1) ^ 2 + (u2 / splat.sigma2) ^ 2
+
+/-- Pointwise evaluation of the normed 2D Tensor Gaussian Splat:
+$G(x, y) = w\,\mathcal{N}(\Sigma)\,\exp\bigl(-\frac{1}{2} Q_\Sigma(x, y)\bigr)$. -/
+@[blueprint "def:signals-ddf-splat2d-eval"
+  (title := "Pointwise evaluation of a normed 2D Tensor Gaussian Splat")
+  (statement := /-- Define $G(x,y) = w\,\mathcal{N}(\Sigma)\,\exp\bigl(-\frac{1}{2}Q_\Sigma(x,y)\bigr)$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.eval
+    (splat : NormedTensorGaussianSplat2D) (x y : ℝ) : ℝ :=
+  splat.weight * splat.normFactor * Real.exp (- (splat.mahalanobisSq x y / 2))
+
+/-- **Positivity, Peak Normalization, and Upper Bound of `NormedTensorGaussianSplat2D`**:
+For every `splat : NormedTensorGaussianSplat2D` and $(x, y) \in \mathbb{R}^2$:
+1. $\det \Sigma > 0$ and $\mathcal{N}(\Sigma) > 0$,
+2. $Q_\Sigma(x, y) \ge 0$ and $Q_\Sigma(x_0, y_0) = 0$,
+3. $0 \le G(x, y)$, $G(x_0, y_0) = w\,\mathcal{N}(\Sigma)$, and $G(x, y) \le G(x_0, y_0)$. -/
+@[blueprint "thm:signals-ddf-splat2d-properties"
+  (title := "Positivity, center peak value, and global upper bound of NormedTensorGaussianSplat2D")
+  (statement := /-- For any \texttt{splat : NormedTensorGaussianSplat2D} and $(x,y)\in\mathbb R^2$:
+    $\det\Sigma>0$, $\mathcal{N}(\Sigma)>0$, $0\le Q_\Sigma(x,y)$, $0\le G(x,y)$,
+    $G(x_0,y_0)=w\,\mathcal{N}(\Sigma)$, and $G(x,y)\le G(x_0,y_0)$. -/)
+  (proof := /-- Use positivity of $\sigma_1,\sigma_2,\pi$, sum-of-squares nonnegativity of
+    $Q_\Sigma$, and monotonicity of $\exp$ on $(-\infty,0]$. -/)]
+theorem NormedTensorGaussianSplat2D.eval_properties
+    (splat : NormedTensorGaussianSplat2D) (x y : ℝ) :
+    0 < splat.covDet ∧
+      0 < splat.normFactor ∧
+      0 ≤ splat.mahalanobisSq x y ∧
+      0 ≤ splat.eval x y ∧
+      splat.eval splat.centerX splat.centerY = splat.weight * splat.normFactor ∧
+      splat.eval x y ≤ splat.eval splat.centerX splat.centerY := by
+  have hs1 := splat.sigma1_pos
+  have hs2 := splat.sigma2_pos
+  have hpi := Real.pi_pos
+  have hw := splat.weight_nonneg
+  have h_det : 0 < splat.covDet := by
+    unfold NormedTensorGaussianSplat2D.covDet
+    positivity
+  have h_norm : 0 < splat.normFactor := by
+    unfold NormedTensorGaussianSplat2D.normFactor
+    positivity
+  have h_mah : 0 ≤ splat.mahalanobisSq x y := by
+    unfold NormedTensorGaussianSplat2D.mahalanobisSq
+    positivity
+  have h_eval_nonneg : 0 ≤ splat.eval x y := by
+    unfold NormedTensorGaussianSplat2D.eval
+    positivity
+  have h_center_mah : splat.mahalanobisSq splat.centerX splat.centerY = 0 := by
+    unfold NormedTensorGaussianSplat2D.mahalanobisSq
+    simp
+  have h_center_eval :
+      splat.eval splat.centerX splat.centerY = splat.weight * splat.normFactor := by
+    unfold NormedTensorGaussianSplat2D.eval
+    rw [h_center_mah]
+    simp
+  have h_le : splat.eval x y ≤ splat.eval splat.centerX splat.centerY := by
+    rw [h_center_eval]
+    unfold NormedTensorGaussianSplat2D.eval
+    have h_exp_le : Real.exp (- (splat.mahalanobisSq x y / 2)) ≤ 1 :=
+      Real.exp_le_one_iff.mpr (by linarith)
+    have h_wn_nonneg : 0 ≤ splat.weight * splat.normFactor :=
+      mul_nonneg hw (le_of_lt h_norm)
+    calc
+      splat.weight * splat.normFactor * Real.exp (- (splat.mahalanobisSq x y / 2)) ≤
+          splat.weight * splat.normFactor * 1 :=
+        mul_le_mul_of_nonneg_left h_exp_le h_wn_nonneg
+      _ = splat.weight * splat.normFactor := mul_one _
+  exact ⟨h_det, h_norm, h_mah, h_eval_nonneg, h_center_eval, h_le⟩
+
+/-- **DDF Moving-Sheath Normed Tensor Gaussian Splat**:
+Constructs a `NormedTensorGaussianSplat2D` for a subluminal `MovingSheath` $s$ with
+longitudinal Lorentz/jamming contraction $\sigma_1 = \sigma_0 \mathcal{V}(s) = \sigma_0 \gamma_\varphi(v)^{-1}$
+and transverse width $\sigma_2 = \sigma_0$ ($0 < \sigma_0$). -/
+@[blueprint "def:signals-ddf-sheath-tensor-splat"
+  (title := "DDF MovingSheath normed Tensor Gaussian Splat with longitudinal jamming contraction")
+  (statement := /-- For a subluminal sheath $s$, base width $\sigma_0>0$, and weight $w\ge 0$,
+    construct a 2D tensor Gaussian splat with longitudinal width
+    $\sigma_1=\sigma_0\,\mathcal{V}(s)=\sigma_0\,\gamma_\varphi(v)^{-1}$ and transverse width $\sigma_2=\sigma_0$. -/)]
+noncomputable def MovingSheath.ddfTensorSplat {sub : DDFSubstrate}
+    (s : MovingSheath sub) (centerX centerY weight sigma0 : ℝ)
+    (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0) (orientationAngle : ℝ) :
+    NormedTensorGaussianSplat2D :=
+  { centerX := centerX
+    centerY := centerY
+    weight := weight
+    weight_nonneg := hw
+    sigma1 := sigma0 * s.coherenceVisibility
+    sigma1_pos := mul_pos h_sigma0 (Real.sqrt_pos.mpr s.one_sub_betaSq_pos)
+    sigma2 := sigma0
+    sigma2_pos := h_sigma0
+    orientationAngle := orientationAngle }
+
+/-- **DDF Moving-Sheath Tensor Splat Covariance & Jamming Amplification Identities**:
+For any subluminal `MovingSheath` $s$, the DDF tensor splat satisfies:
+1. $\det \Sigma_{\mathrm{DDF}}(s) = \sigma_0^4 (1 - \beta^2) = \sigma_0^4 \gamma_\varphi(v)^{-2}$, and
+2. The $L^1$ peak normalization factor scales directly with the DDF jamming factor:
+   $\mathcal{N}_{\mathrm{DDF}}(s) = \frac{\gamma_\varphi(v)}{2\pi \sigma_0^2}$. -/
+@[blueprint "thm:signals-ddf-sheath-tensor-splat-identities"
+  (title := "DDF MovingSheath tensor splat covariance determinant σ₀⁴ γ_φ⁻² and peak amplification γ_φ / (2π σ₀²)")
+  (statement := /-- For \texttt{splat = s.ddfTensorSplat(x₀,y₀,w,σ₀,hw,hσ₀,θ)},
+    $\det\Sigma_{\mathrm{DDF}} = \sigma_0^4(1-\beta^2) = \sigma_0^4\,\gamma_\varphi(v)^{-2}$ and
+    $\mathcal{N}_{\mathrm{DDF}} = \frac{\gamma_\varphi(v)}{2\pi\sigma_0^2}$. -/)
+  (proof := /-- Unfold \texttt{ddfTensorSplat}, apply \texttt{visibility\_jamming\_duality}
+    ($\mathcal{V}(s)=\gamma_\varphi(v)^{-1}$ and $\mathcal{V}(s)^2=1-\beta^2$), and simplify. -/)]
+theorem MovingSheath.ddfTensorSplat_identities {sub : DDFSubstrate}
+    (s : MovingSheath sub) (centerX centerY weight sigma0 : ℝ)
+    (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0) (orientationAngle : ℝ) :
+    let splat := s.ddfTensorSplat centerX centerY weight sigma0 hw h_sigma0 orientationAngle
+    splat.covDet = sigma0 ^ 4 * (1 - s.betaSq) ∧
+      splat.covDet = sigma0 ^ 4 * (s.jammingFactor ^ 2)⁻¹ ∧
+      splat.normFactor = s.jammingFactor / (2 * Real.pi * sigma0 ^ 2) := by
+  intro splat
+  have h_pos := s.one_sub_betaSq_pos
+  have h_vis_sq : s.coherenceVisibility ^ 2 = 1 - s.betaSq := by
+    unfold MovingSheath.coherenceVisibility
+    exact Real.sq_sqrt (le_of_lt h_pos)
+  have h_vis_inv : s.coherenceVisibility = (s.jammingFactor)⁻¹ :=
+    (s.visibility_jamming_duality).1
+  have h_det1 : splat.covDet = sigma0 ^ 4 * (1 - s.betaSq) := by
+    dsimp [splat, MovingSheath.ddfTensorSplat, NormedTensorGaussianSplat2D.covDet]
+    calc
+      (sigma0 * s.coherenceVisibility) ^ 2 * sigma0 ^ 2 =
+          sigma0 ^ 4 * s.coherenceVisibility ^ 2 := by ring
+      _ = sigma0 ^ 4 * (1 - s.betaSq) := by rw [h_vis_sq]
+  have h_det2 : splat.covDet = sigma0 ^ 4 * (s.jammingFactor ^ 2)⁻¹ := by
+    dsimp [splat, MovingSheath.ddfTensorSplat, NormedTensorGaussianSplat2D.covDet]
+    rw [h_vis_inv]
+    ring
+  have h_norm : splat.normFactor = s.jammingFactor / (2 * Real.pi * sigma0 ^ 2) := by
+    dsimp [splat, MovingSheath.ddfTensorSplat, NormedTensorGaussianSplat2D.normFactor]
+    rw [h_vis_inv]
+    have h_s0_ne : sigma0 ≠ 0 := ne_of_gt h_sigma0
+    have h_pi_ne : Real.pi ≠ 0 := Real.pi_ne_zero
+    have h_jam_ne : s.jammingFactor ≠ 0 := ne_of_gt s.jammingFactor_pos
+    field_simp [h_s0_ne, h_pi_ne, h_jam_ne]
+  exact ⟨h_det1, h_det2, h_norm⟩
+
+/-- **Complex $Gr_{\mathbb{C}}(2,4)$ Planetary Orbit Normed Tensor Gaussian Splat**:
+Constructs a `NormedTensorGaussianSplat2D` whose principal variances are weighted by
+the two $Gr_{\mathbb{C}}(2,4)$ Madelung channel densities $|w_A^{\mathbb{C}}|^2 = 1 + e = r_{\max}/a$
+and $|w_B^{\mathbb{C}}|^2 = 1 - e = r_{\min}/a$:
+$\sigma_1 = \sigma_0 \sqrt{1 + e}$ and $\sigma_2 = \sigma_0 \sqrt{1 - e}$. -/
+@[blueprint "def:signals-ddf-planetary-gr24-tensor-splat"
+  (title := "Complex Gr_C(2,4) planetary orbit normed Tensor Gaussian Splat")
+  (statement := /-- For \texttt{orb : PlanetaryOrbit}, base width $\sigma_0>0$, and weight $w\ge 0$,
+    construct a 2D tensor Gaussian splat with principal widths
+    $\sigma_1=\sigma_0\sqrt{1+e}$ and $\sigma_2=\sigma_0\sqrt{1-e}$. -/)]
+noncomputable def PlanetaryOrbit.gr24TensorSplat
+    (orb : PlanetaryOrbit) (centerX centerY weight sigma0 : ℝ)
+    (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0) (varpiAngle : ℝ) :
+    NormedTensorGaussianSplat2D :=
+  { centerX := centerX
+    centerY := centerY
+    weight := weight
+    weight_nonneg := hw
+    sigma1 := sigma0 * Real.sqrt (1 + orb.eccentricity)
+    sigma1_pos := mul_pos h_sigma0 (Real.sqrt_pos.mpr (by
+      have := orb.eccentricity_nonneg; linarith))
+    sigma2 := sigma0 * Real.sqrt (1 - orb.eccentricity)
+    sigma2_pos := mul_pos h_sigma0 (Real.sqrt_pos.mpr (by
+      have := orb.eccentricity_lt_one; linarith))
+    orientationAngle := varpiAngle }
+
+/-- **$Gr_{\mathbb{C}}(2,4)$ Planetary Orbit Tensor Splat Covariance Trace & Determinant Laws**:
+For any `PlanetaryOrbit` `orb`, the $Gr_{\mathbb{C}}(2,4)$ tensor splat satisfies:
+1. $\operatorname{Tr} \Sigma_{Gr_{\mathbb{C}}(2,4)} = 2 \sigma_0^2$, and
+2. $\det \Sigma_{Gr_{\mathbb{C}}(2,4)} = \sigma_0^4 (1 - e^2) = \sigma_0^4 \frac{p}{a}$. -/
+@[blueprint "thm:signals-ddf-planetary-gr24-tensor-splat-identities"
+  (title := "Gr_C(2,4) planetary orbit tensor splat covariance trace 2σ₀² and determinant σ₀⁴ (p / a)")
+  (statement := /-- For \texttt{splat = orb.gr24TensorSplat(x₀,y₀,w,σ₀,hw,hσ₀,ϖ)},
+    $\operatorname{Tr}\Sigma_{Gr_{\mathbb C}(2,4)} = 2\sigma_0^2$,
+    $\det\Sigma_{Gr_{\mathbb C}(2,4)} = \sigma_0^4(1-e^2)$, and
+    $\det\Sigma_{Gr_{\mathbb C}(2,4)} = \sigma_0^4\,\frac{p}{a}$. -/)
+  (proof := /-- Unfold \texttt{gr24TensorSplat}, apply \texttt{Real.sq\_sqrt} to $1\pm e\ge 0$,
+    and relate $1-e^2$ to $p/a$. -/)]
+theorem PlanetaryOrbit.gr24TensorSplat_identities
+    (orb : PlanetaryOrbit) (centerX centerY weight sigma0 : ℝ)
+    (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0) (varpiAngle : ℝ) :
+    let splat := orb.gr24TensorSplat centerX centerY weight sigma0 hw h_sigma0 varpiAngle
+    splat.covTrace = 2 * sigma0 ^ 2 ∧
+      splat.covDet = sigma0 ^ 4 * (1 - orb.eccentricity ^ 2) ∧
+      splat.covDet = sigma0 ^ 4 * (orb.semiLatusRectum / orb.semiMajorAxis) := by
+  intro splat
+  have ha_ne : orb.semiMajorAxis ≠ 0 := ne_of_gt orb.semiMajorAxis_pos
+  have he0 := orb.eccentricity_nonneg
+  have he1 := orb.eccentricity_lt_one
+  have h1pe : 0 ≤ 1 + orb.eccentricity := by linarith
+  have h1me : 0 ≤ 1 - orb.eccentricity := by linarith
+  have h_sq1 : (Real.sqrt (1 + orb.eccentricity)) ^ 2 = 1 + orb.eccentricity :=
+    Real.sq_sqrt h1pe
+  have h_sq2 : (Real.sqrt (1 - orb.eccentricity)) ^ 2 = 1 - orb.eccentricity :=
+    Real.sq_sqrt h1me
+  have h_tr : splat.covTrace = 2 * sigma0 ^ 2 := by
+    dsimp [splat, PlanetaryOrbit.gr24TensorSplat, NormedTensorGaussianSplat2D.covTrace]
+    rw [mul_pow, mul_pow, h_sq1, h_sq2]
+    ring
+  have h_det1 : splat.covDet = sigma0 ^ 4 * (1 - orb.eccentricity ^ 2) := by
+    dsimp [splat, PlanetaryOrbit.gr24TensorSplat, NormedTensorGaussianSplat2D.covDet]
+    rw [mul_pow, mul_pow, h_sq1, h_sq2]
+    ring
+  have h_slr : orb.semiLatusRectum / orb.semiMajorAxis = 1 - orb.eccentricity ^ 2 := by
+    unfold PlanetaryOrbit.semiLatusRectum
+    exact mul_div_cancel_left₀ (1 - orb.eccentricity ^ 2) ha_ne
+  refine ⟨h_tr, h_det1, ?_⟩
+  rw [h_det1, h_slr]
+
 end Signals.DDF
