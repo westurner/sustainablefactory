@@ -1222,4 +1222,342 @@ theorem polariton_hopfield_rabi_and_lst_identities
   exact ⟨h_sum, h_diff, h_anticross, h_rabi_inv, h_dhop_gt, h_dhop_lt,
     h_w_sum, h_w_diff, h_w_prod, h_comp, h_lst_zero, h_lst_lo, h_lst_rest⟩
 
+/-! ## Coherent Synchrotron Radiation (CSR) on Cylindrical SPP Microtubes/CNTs, Cavity QED Cooperativity, Cherenkov–Proca Phase Matching, & Grover State Carving -/
+
+/-- Coherent Synchrotron Radiation (CSR) intensity from $N_e$ surface electrons
+bunched by a cylindrical Surface Plasmon Polariton (SPP) mode with bunching
+form factor $f_{\mathrm{bunch}} \in [0, 1]$ and single-electron intensity $I_{\mathrm{single}}$
+(Lei et al., 2025, `10.1103/cnym-16hc`, `arXiv:2507.04561`):
+$I_{\mathrm{CSR}}(N_e, f_{\mathrm{bunch}}, I_{\mathrm{single}}) = \bigl(N_e + N_e(N_e - 1) f_{\mathrm{bunch}}^2\bigr)\,I_{\mathrm{single}}$. -/
+@[blueprint "def:signals-scattering-csr-bunching-intensity"
+  (title := "CSR bunching intensity I_CSR = (N_e + N_e(N_e - 1) f_bunch²) I_single")
+  (statement := /-- Define $\operatorname{csrBunchingIntensity}(N_e, f_{\mathrm{bunch}}, I_{\mathrm{single}})
+    = (N_e + N_e(N_e - 1) f_{\mathrm{bunch}}^2)\,I_{\mathrm{single}}$. -/)]
+def csrBunchingIntensity (N_e f_bunch I_single : ℝ) : ℝ :=
+  (N_e + N_e * (N_e - 1) * f_bunch ^ 2) * I_single
+
+/-- Relativistic synchrotron critical frequency $\omega_c^{\mathrm{CSR}} = \frac{3}{2}\,\omega_{\mathrm{rot}}\,\gamma_e^3$
+for surface electrons spiraling at angular frequency $\omega_{\mathrm{rot}}$ with
+Lorentz factor $\gamma_e \ge 1$ on a near-critical microtube or carbon nanotube (CNT). -/
+@[blueprint "def:signals-scattering-csr-critical-freq"
+  (title := "Relativistic CSR critical X-ray frequency ω_c = (3/2) ω_rot γ_e³")
+  (statement := /-- Define $\operatorname{csrCriticalFrequency}(\omega_{\mathrm{rot}}, \gamma_e)
+    = \frac{3}{2}\,\omega_{\mathrm{rot}}\,\gamma_e^3$. -/)]
+noncomputable def csrCriticalFrequency (ω_rot γ_e : ℝ) : ℝ :=
+  (3 / 2) * ω_rot * γ_e ^ 3
+
+/-- Single-emitter Cavity QED cooperativity $C_1 = \frac{4 g_0^2}{\kappa_{\mathrm{cav}}\,\gamma_{\mathrm{emit}}}$
+for single-photon coupling $g_0$, cavity decay rate $\kappa_{\mathrm{cav}}$, and emitter
+decay rate $\gamma_{\mathrm{emit}}$ (distinguishing closed-cavity Jaynes–Cummings QED from
+open-boundary $N_e^2$ travelling-wave CSR-SPP emission and $N_e$-collective van der Waals
+cavity electrodynamics; Kipp et al., 2024, `arXiv:2403.19745`). -/
+@[blueprint "def:signals-scattering-cavity-qed-cooperativity"
+  (title := "Single-emitter Cavity QED cooperativity C_1 = 4 g_0² / (κ_cav γ_emit)")
+  (statement := /-- Define $\operatorname{cavityQEDCooperativity}(g_0, \kappa_{\mathrm{cav}}, \gamma_{\mathrm{emit}})
+    = 4 g_0^2 / (\kappa_{\mathrm{cav}}\gamma_{\mathrm{emit}})$. -/)]
+noncomputable def cavityQEDCooperativity (g_single κ_cav γ_emit : ℝ) : ℝ :=
+  (4 * g_single ^ 2) / (κ_cav * γ_emit)
+
+/-- Squared phase velocity of a transverse electromagnetic wave in an unmagnetized plasma
+with plasma frequency $\omega_p$ ($\omega > \omega_p > 0$):
+$v_{\mathrm{ph},\perp}^2 = \frac{c^2\,\omega^2}{\omega^2 - \omega_p^2} > c^2$
+(superluminal phase velocity forbids subluminal transverse Cherenkov radiation). -/
+@[blueprint "def:signals-scattering-transverse-plasma-phase-vel-sq"
+  (title := "Superluminal transverse plasma phase velocity squared v_{ph,⊥}² = c² ω² / (ω² - ω_p²)")
+  (statement := /-- Define $\operatorname{transversePlasmaPhaseVelSq}(c, \omega, \omega_p)
+    = c^2 \omega^2 / (\omega^2 - \omega_p^2)$. -/)]
+noncomputable def transversePlasmaPhaseVelSq (c ω ω_p : ℝ) : ℝ :=
+  (c ^ 2 * ω ^ 2) / (ω ^ 2 - ω_p ^ 2)
+
+/-- Squared phase velocity of a longitudinal Bohm–Gross / effective-mass plasma wave
+($\omega^2 = \omega_p^2 + 3 v_{\mathrm{th}}^2 k^2$, where $m_{\mathrm{eff}} = \hbar\omega_p / c^2$):
+$v_{\mathrm{ph},\parallel}^2 = \frac{\omega_p^2}{k^2} + 3 v_{\mathrm{th}}^2$, which becomes
+strictly subluminal ($v_{\mathrm{ph},\parallel} < c$) at large wavenumber $k$, enabling
+direct Cherenkov / Landau synchronous wakefield excitation. -/
+@[blueprint "def:signals-scattering-longitudinal-plasma-phase-vel-sq"
+  (title := "Subluminal longitudinal plasma phase velocity squared v_{ph,∥}² = ω_p² / k² + 3 v_th²")
+  (statement := /-- Define $\operatorname{longitudinalPlasmaPhaseVelSq}(v_{\mathrm{th}}, \omega_p, k)
+    = \omega_p^2 / k^2 + 3 v_{\mathrm{th}}^2$. -/)]
+noncomputable def longitudinalPlasmaPhaseVelSq (v_th ω_p k : ℝ) : ℝ :=
+  (ω_p ^ 2 / k ^ 2) + 3 * v_th ^ 2
+
+/-- Cherenkov / Smith–Purcell phase-matching cosine $\cos\theta_C = \frac{v_{\mathrm{ph}}}{v_e}$
+for wave phase speed $v_{\mathrm{ph}}$ and electron speed $v_e > v_{\mathrm{ph}} > 0$. -/
+@[blueprint "def:signals-scattering-cherenkov-cosine"
+  (title := "Cherenkov phase-matching cosine cos θ_C = v_ph / v_e")
+  (statement := /-- Define $\operatorname{cherenkovCosine}(v_{\mathrm{ph}}, v_e) = v_{\mathrm{ph}} / v_e$. -/)]
+noncomputable def cherenkovCosine (v_phase v_electron : ℝ) : ℝ :=
+  v_phase / v_electron
+
+/-- Normalized 2D Dirac graphene plasmon squared frequency $\omega_{\mathrm{GPP}}^2(E_F, q) = E_F\,q$
+as a function of gate-tuned Fermi energy $E_F$ (in eV) and plasmon wavenumber $q$,
+governing how THz/eV graphene circuit gating shifts free-electron SPP amplification
+(Zhang et al., 2022, `10.1038/s41586-022-05239-2`). -/
+@[blueprint "def:signals-scattering-graphene-dirac-plasmon-freq-sq"
+  (title := "Normalized 2D Dirac graphene plasmon squared frequency ω_GPP² = E_F q")
+  (statement := /-- Define $\operatorname{grapheneDiracPlasmonFreqSq}(E_F, q) = E_F\,q$. -/)]
+def grapheneDiracPlasmonFreqSq (e_fermi q_wave : ℝ) : ℝ :=
+  e_fermi * q_wave
+
+/-- Single-step Grover quantum state-carving amplitude $\sin(3\theta) = \sin\theta\,(3 - 4\sin^2\theta)$
+from initial target overlap $\sin\theta = 1/\sqrt{N}$ (`10.1103/s3vs-xz7w`). -/
+@[blueprint "def:signals-scattering-grover-success-amplitude"
+  (title := "Single-step Grover quantum state-carving amplitude sin(3θ) = sin θ (3 - 4 sin²θ)")
+  (statement := /-- Define $\operatorname{groverSuccessAmplitude}(s) = s\,(3 - 4 s^2)$. -/)]
+def groverSuccessAmplitude (sin_theta : ℝ) : ℝ :=
+  sin_theta * (3 - 4 * sin_theta ^ 2)
+
+/-- **CSR-SPP Superradiant Bunching, Cavity QED vs. CSR Distinction, Cherenkov–Proca Longitudinal Phase Matching, Graphene THz-eV Scaling, & Grover State Carving Theorem**:
+1. **CSR-SPP Incoherent ($N_e$) to Superradiant ($N_e^2$) Interpolation (Lei et al. 2025)**:
+   For $N_e \ge 1$, $0 \le f_{\mathrm{bunch}} \le 1$, and $I_1 \ge 0$:
+   - $\operatorname{csrBunchingIntensity}(N_e, 0, I_1) = N_e\,I_1$ (incoherent synchrotron limit),
+   - $\operatorname{csrBunchingIntensity}(N_e, 1, I_1) = N_e^2\,I_1$ (ideal SPP microbunched superradiant limit),
+   - $N_e\,I_1 \le \operatorname{csrBunchingIntensity}(N_e, f_{\mathrm{bunch}}, I_1) \le N_e^2\,I_1$, and
+   - For $\omega_{\mathrm{rot}} > 0$ and $\gamma_e \ge 1$, $\frac{3}{2}\omega_{\mathrm{rot}} \le \operatorname{csrCriticalFrequency}(\omega_{\mathrm{rot}}, \gamma_e)$,
+2. **Collective vs. Single-Photon Cavity QED Cooperativity (Kipp et al. 2024 vs. Single-Atom QED)**:
+   $\operatorname{cavityQEDCooperativity}(\sqrt{N_e}\,g_0, \kappa_{\mathrm{cav}}, \gamma_{\mathrm{emit}}) = N_e\,\operatorname{cavityQEDCooperativity}(g_0, \kappa_{\mathrm{cav}}, \gamma_{\mathrm{emit}})$,
+3. **Transverse Superluminal Prohibition vs. Longitudinal Effective-Mass Cherenkov Cone**:
+   - For any propagating transverse plasma wave ($\omega > \omega_p > 0$, $c > 0$),
+     $c^2 < \operatorname{transversePlasmaPhaseVelSq}(c, \omega, \omega_p)$, forbidding subluminal transverse Cherenkov emission,
+   - Whenever $0 < v_{\mathrm{ph}} < v_e$, the Cherenkov cosine $\chi_C = \operatorname{cherenkovCosine}(v_{\mathrm{ph}}, v_e)$
+     satisfies $0 < \chi_C < 1$ and $0 < 1 - \chi_C^2 = \frac{v_e^2 - v_{\mathrm{ph}}^2}{v_e^2} < 1$ (non-degenerate Cherenkov Mach cone),
+4. **Graphene THz-eV Gate Tuning of Free-Electron SPP Amplification (Zhang et al. 2022)**:
+   Scaling the graphene Fermi energy by $\lambda_E > 0$ scales $\operatorname{grapheneDiracPlasmonFreqSq}(\lambda_E E_F, q) = \lambda_E \operatorname{grapheneDiracPlasmonFreqSq}(E_F, q)$,
+5. **Deterministic 4-State Grover Quantum State Carving (`10.1103/s3vs-xz7w`)**:
+   At $\sin\theta = 1/\sqrt{4} = 1/2$, a single Grover reflection step achieves unit target amplitude:
+   $\operatorname{groverSuccessAmplitude}(1/2) = 1$. -/
+@[blueprint "thm:signals-scattering-csr-spp-cherenkov-cavity-grover"
+  (title := "CSR-SPP superradiance, Cavity QED cooperativity, Cherenkov-Proca phase matching, Graphene THz-eV scaling, and Grover state carving theorem")
+  (statement := /-- For $N_e\ge 1$, $0\le f_{\mathrm{bunch}}\le 1$, $I_1\ge 0$, $\omega_{\mathrm{rot}}>0$, $\gamma_e\ge 1$,
+    $c>0$, $0<\omega_p<\omega$, and $0<v_{\mathrm{ph}}<v_e$:
+    (1) $\operatorname{csrBunchingIntensity}(N_e,0,I_1)=N_e I_1$, $\operatorname{csrBunchingIntensity}(N_e,1,I_1)=N_e^2 I_1$,
+    and $N_e I_1 \le \operatorname{csrBunchingIntensity}(N_e,f_{\mathrm{bunch}},I_1) \le N_e^2 I_1$,
+    (2) $\frac{3}{2}\omega_{\mathrm{rot}} \le \operatorname{csrCriticalFrequency}(\omega_{\mathrm{rot}},\gamma_e)$,
+    (3) $\operatorname{cavityQEDCooperativity}(\sqrt{N_e}g_0,\kappa,\gamma) = N_e\operatorname{cavityQEDCooperativity}(g_0,\kappa,\gamma)$,
+    (4) $c^2 < \operatorname{transversePlasmaPhaseVelSq}(c,\omega,\omega_p)$ and $0 < 1 - \operatorname{cherenkovCosine}(v_{\mathrm{ph}},v_e)^2 < 1$,
+    (5) $\operatorname{grapheneDiracPlasmonFreqSq}(\lambda_E E_F, q) = \lambda_E \operatorname{grapheneDiracPlasmonFreqSq}(E_F, q)$, and
+    (6) $\operatorname{groverSuccessAmplitude}(1/2) = 1$. -/)
+  (proof := /-- Expand `csrBunchingIntensity` at $f_{\mathrm{bunch}}\in\{0,1\}$ and use $0\le f_{\mathrm{bunch}}^2\le 1$,
+    clear $\omega^2-\omega_p^2>0$ for transverse superluminality, clear $v_e^2>0$ for the Cherenkov Mach sine,
+    and evaluate `groverSuccessAmplitude (1/2)` by `norm_num`. -/)]
+theorem csr_spp_cherenkov_cavity_and_grover_identities
+    (N_e f_bunch I_single ω_rot γ_e g0 κ_cav γ_emit c ω ω_p v_th k_long v_ph v_e scale_E e_fermi q_wave : ℝ)
+    (hN : 1 ≤ N_e) (hf_nonneg : 0 ≤ f_bunch) (hf_le : f_bunch ≤ 1)
+    (hI : 0 ≤ I_single) (hω_rot : 0 < ω_rot) (hγ_e : 1 ≤ γ_e)
+    (hc : 0 < c) (hωp_pos : 0 < ω_p) (hω_gt : ω_p < ω)
+    (hk_pos : 0 < k_long) (h_sub_long : ω_p ^ 2 + 3 * v_th ^ 2 * k_long ^ 2 < c ^ 2 * k_long ^ 2)
+    (hv_ph : 0 < v_ph) (hv_lt : v_ph < v_e) :
+    let chi_c := cherenkovCosine v_ph v_e
+    csrBunchingIntensity N_e 0 I_single = N_e * I_single ∧
+      csrBunchingIntensity N_e 1 I_single = N_e ^ 2 * I_single ∧
+      N_e * I_single ≤ csrBunchingIntensity N_e f_bunch I_single ∧
+      csrBunchingIntensity N_e f_bunch I_single ≤ N_e ^ 2 * I_single ∧
+      (3 / 2) * ω_rot ≤ csrCriticalFrequency ω_rot γ_e ∧
+      cavityQEDCooperativity (Real.sqrt N_e * g0) κ_cav γ_emit =
+        N_e * cavityQEDCooperativity g0 κ_cav γ_emit ∧
+      c ^ 2 < transversePlasmaPhaseVelSq c ω ω_p ∧
+      longitudinalPlasmaPhaseVelSq v_th ω_p k_long < c ^ 2 ∧
+      0 < chi_c ∧
+      chi_c < 1 ∧
+      1 - chi_c ^ 2 = (v_e ^ 2 - v_ph ^ 2) / v_e ^ 2 ∧
+      0 < 1 - chi_c ^ 2 ∧
+      grapheneDiracPlasmonFreqSq (scale_E * e_fermi) q_wave =
+        scale_E * grapheneDiracPlasmonFreqSq e_fermi q_wave ∧
+      groverSuccessAmplitude (1 / 2) = 1 := by
+  intro chi_c
+  have hN_nonneg : 0 ≤ N_e := le_trans zero_le_one hN
+  have hN_sub_nonneg : 0 ≤ N_e - 1 := sub_nonneg.mpr hN
+  have hf_sq_le_one : f_bunch ^ 2 ≤ 1 := by nlinarith
+  have h_csr0 : csrBunchingIntensity N_e 0 I_single = N_e * I_single := by
+    unfold csrBunchingIntensity
+    ring
+  have h_csr1 : csrBunchingIntensity N_e 1 I_single = N_e ^ 2 * I_single := by
+    unfold csrBunchingIntensity
+    ring
+  have h_csr_ge : N_e * I_single ≤ csrBunchingIntensity N_e f_bunch I_single := by
+    unfold csrBunchingIntensity
+    have h_term : 0 ≤ N_e * (N_e - 1) * f_bunch ^ 2 := by positivity
+    nlinarith
+  have h_csr_le : csrBunchingIntensity N_e f_bunch I_single ≤ N_e ^ 2 * I_single := by
+    unfold csrBunchingIntensity
+    have h_prod_nonneg : 0 ≤ N_e * (N_e - 1) := mul_nonneg hN_nonneg hN_sub_nonneg
+    have h_term_le : N_e * (N_e - 1) * f_bunch ^ 2 ≤ N_e * (N_e - 1) :=
+      mul_le_of_le_one_right h_prod_nonneg hf_sq_le_one
+    have h_sum_le : N_e + N_e * (N_e - 1) * f_bunch ^ 2 ≤ N_e ^ 2 := by nlinarith
+    exact mul_le_mul_of_nonneg_right h_sum_le hI
+  have h_crit : (3 / 2) * ω_rot ≤ csrCriticalFrequency ω_rot γ_e := by
+    unfold csrCriticalFrequency
+    have h_pow : 1 ≤ γ_e ^ 3 := one_le_pow₀ hγ_e
+    have h_pref : 0 ≤ (3 / 2 : ℝ) * ω_rot := by positivity
+    nlinarith
+  have h_coop :
+      cavityQEDCooperativity (Real.sqrt N_e * g0) κ_cav γ_emit =
+        N_e * cavityQEDCooperativity g0 κ_cav γ_emit := by
+    unfold cavityQEDCooperativity
+    rw [mul_pow, Real.sq_sqrt hN_nonneg]
+    ring
+  have h_trans_super : c ^ 2 < transversePlasmaPhaseVelSq c ω ω_p := by
+    unfold transversePlasmaPhaseVelSq
+    have h_diff_pos : 0 < ω ^ 2 - ω_p ^ 2 := by nlinarith
+    rw [lt_div_iff₀ h_diff_pos]
+    have h_c_sq : 0 < c ^ 2 := sq_pos_of_pos hc
+    have h_wp_sq : 0 < ω_p ^ 2 := sq_pos_of_pos hωp_pos
+    nlinarith
+  have h_long_sub : longitudinalPlasmaPhaseVelSq v_th ω_p k_long < c ^ 2 := by
+    unfold longitudinalPlasmaPhaseVelSq
+    have hk_sq_pos : 0 < k_long ^ 2 := sq_pos_of_pos hk_pos
+    have h_div_lt : ω_p ^ 2 / k_long ^ 2 < c ^ 2 - 3 * v_th ^ 2 := by
+      rw [div_lt_iff₀ hk_sq_pos]
+      linarith
+    linarith
+  have hv_e_pos : 0 < v_e := lt_trans hv_ph hv_lt
+  have hv_e_ne : v_e ≠ 0 := ne_of_gt hv_e_pos
+  have h_chi_pos : 0 < chi_c := div_pos hv_ph hv_e_pos
+  have h_chi_lt : chi_c < 1 := (div_lt_one hv_e_pos).mpr hv_lt
+  have h_mach_eq : 1 - chi_c ^ 2 = (v_e ^ 2 - v_ph ^ 2) / v_e ^ 2 := by
+    dsimp [chi_c, cherenkovCosine]
+    field_simp [hv_e_ne]
+  have h_mach_pos : 0 < 1 - chi_c ^ 2 := by nlinarith
+  have h_gpp :
+      grapheneDiracPlasmonFreqSq (scale_E * e_fermi) q_wave =
+        scale_E * grapheneDiracPlasmonFreqSq e_fermi q_wave := by
+    unfold grapheneDiracPlasmonFreqSq
+    ring
+  have h_grover : groverSuccessAmplitude (1 / 2) = 1 := by
+    unfold groverSuccessAmplitude
+    norm_num
+  exact ⟨h_csr0, h_csr1, h_csr_ge, h_csr_le, h_crit, h_coop,
+    h_trans_super, h_long_sub, h_chi_pos, h_chi_lt, h_mach_eq, h_mach_pos, h_gpp, h_grover⟩
+
+/-! ## Low-Power Integrated Optical Amplification Through Second-Harmonic ($\chi^{(2)}$) Resonance (Dean et al., 2025, `10.1038/s41586-025-09959-z`) -/
+
+/-- Second-order nonlinear polarization $P^{(2)} = \chi^{(2)}\,E^2$: under spatial
+inversion $E \mapsto -E$, a centrosymmetric medium satisfies $\chi^{(2)} = -\chi^{(2)}$,
+forcing $\chi^{(2)} = 0$ and $P^{(2)} = 0$. -/
+@[blueprint "def:signals-scattering-second-order-polarization"
+  (title := "Second-order nonlinear polarization P^(2) = χ^(2) E²")
+  (statement := /-- Define $\operatorname{secondOrderPolarization}(\chi_2, E) = \chi_2\,E^2$. -/)]
+def secondOrderPolarization (chi2 electricField : ℝ) : ℝ :=
+  chi2 * electricField ^ 2
+
+/-- Intracavity recirculated second-harmonic ($2\omega_0$) pump power
+$P_{2\omega}^{\mathrm{intracav}} = F_{\mathrm{SH}}\,P_{2\omega}^{\mathrm{single}}$
+for cavity buildup / finesse enhancement factor $F_{\mathrm{SH}} \ge 1$
+(Dean et al., 2025, *Nature*, `10.1038/s41586-025-09959-z`). -/
+@[blueprint "def:signals-scattering-shg-intracavity-power"
+  (title := "Recirculated second-harmonic intracavity power P_{2ω}^intracav = F_SH P_{2ω}^single")
+  (statement := /-- Define $\operatorname{shgResonantIntracavityPower}(F_{\mathrm{SH}}, P_{2\omega})
+    = F_{\mathrm{SH}}\,P_{2\omega}$. -/)]
+def shgResonantIntracavityPower (finesseBuildup singlePassSHPower : ℝ) : ℝ :=
+  finesseBuildup * singlePassSHPower
+
+/-- Phase-mismatched Optical Parametric Amplification (OPA) net squared gain rate
+$g_{\mathrm{net}}^2(g_{\mathrm{OPA}}, \Delta k) = g_{\mathrm{OPA}}^2 - (\Delta k / 2)^2$,
+governing piezoelectric / electro-optic phase-matching gate control. -/
+@[blueprint "def:signals-scattering-opa-net-gain-sq"
+  (title := "Phase-mismatched OPA net squared gain rate g_net² = g_OPA² - (Δk/2)²")
+  (statement := /-- Define $\operatorname{opaNetGainSq}(g_{\mathrm{OPA}}, \Delta k)
+    = g_{\mathrm{OPA}}^2 - (\Delta k / 2)^2$. -/)]
+noncomputable def opaNetGainSq (g_opa delta_k : ℝ) : ℝ :=
+  g_opa ^ 2 - (delta_k / 2) ^ 2
+
+/-- Phase-sensitive degenerate Optical Parametric Amplifier (OPA) amplified
+in-phase quadrature variance $G_+(r_{\mathrm{sq}}) = \exp(2 r_{\mathrm{sq}})$ for
+parametric squeeze factor $r_{\mathrm{sq}} = g_{\mathrm{eff}} L \ge 0$. -/
+@[blueprint "def:signals-scattering-opa-amplified-quadrature"
+  (title := "Phase-sensitive OPA amplified quadrature gain exp(2 r_sq)")
+  (statement := /-- Define $\operatorname{opaAmplifiedQuadratureGain}(r_{\mathrm{sq}}) = \exp(2 r_{\mathrm{sq}})$. -/)]
+noncomputable def opaAmplifiedQuadratureGain (r_sq : ℝ) : ℝ :=
+  Real.exp (2 * r_sq)
+
+/-- Phase-sensitive degenerate Optical Parametric Amplifier (OPA) squeezed
+anti-phase quadrature variance $G_-(r_{\mathrm{sq}}) = \exp(-2 r_{\mathrm{sq}})$. -/
+@[blueprint "def:signals-scattering-opa-squeezed-quadrature"
+  (title := "Phase-sensitive OPA squeezed quadrature factor exp(-2 r_sq)")
+  (statement := /-- Define $\operatorname{opaSqueezedQuadratureGain}(r_{\mathrm{sq}}) = \exp(-2 r_{\mathrm{sq}})$. -/)]
+noncomputable def opaSqueezedQuadratureGain (r_sq : ℝ) : ℝ :=
+  Real.exp (-2 * r_sq)
+
+/-- **Low-Power Second-Harmonic Resonant Optical Parametric Amplification (OPA), Centrosymmetry Selection Rule, & Phase-Matching Gate Theorem**:
+1. **Centrosymmetric Inversion Selection Rule ($\chi^{(2)} = 0$)**:
+   If spatial inversion invariance forces $\chi_2 = -\chi_2$ (as in centrosymmetric pristine
+   graphene or amorphous polymers), then $\chi_2 = 0$ and $\operatorname{secondOrderPolarization}(\chi_2, E) = 0$
+   for all $E$, proving that $\chi^{(2)}$ SHG/OPA requires non-centrosymmetric crystals
+   (e.g., $\text{LiNbO}_3$, $\alpha$-quartz, or aligned chiral Cellulose Nanocrystals),
+2. **Second-Harmonic Resonant Recirculation Enhancement (Dean et al. 2025, `10.1038/s41586-025-09959-z`)**:
+   For cavity buildup $F_{\mathrm{SH}} \ge 1$ and $P_{2\omega} \ge 0$,
+   $P_{2\omega} \le \operatorname{shgResonantIntracavityPower}(F_{\mathrm{SH}}, P_{2\omega})$,
+   and achieving a target intracavity threshold $P_{\mathrm{thresh}}$ requires only
+   $P_{2\omega} = P_{\mathrm{thresh}} / F_{\mathrm{SH}} \le P_{\mathrm{thresh}}$,
+3. **Phase-Matching Detuning Gate**:
+   $\operatorname{opaNetGainSq}(g_{\mathrm{OPA}}, 0) = g_{\mathrm{OPA}}^2$ (maximum gain at $\Delta k = 0$),
+   $\operatorname{opaNetGainSq}(g_{\mathrm{OPA}}, \Delta k) \le g_{\mathrm{OPA}}^2$ for all $\Delta k$, and
+   $\operatorname{opaNetGainSq}(g_{\mathrm{OPA}}, 2 g_{\mathrm{OPA}}) = 0$ (complete parametric gate shutoff at $\Delta k = 2 g_{\mathrm{OPA}}$),
+4. **Symplectic Phase-Sensitive Quadrature Product & Trace Growth**:
+   For $r_{\mathrm{sq}} \ge 0$,
+   $$1 \le \operatorname{opaAmplifiedQuadratureGain}(r_{\mathrm{sq}}), \qquad
+   \operatorname{opaSqueezedQuadratureGain}(r_{\mathrm{sq}}) \le 1,$$
+   $$\operatorname{opaAmplifiedQuadratureGain}(r_{\mathrm{sq}})\,\operatorname{opaSqueezedQuadratureGain}(r_{\mathrm{sq}}) = 1.$$ -/
+@[blueprint "thm:signals-scattering-second-harmonic-opa"
+  (title := "Second-harmonic resonant OPA buildup, centrosymmetry selection rule, phase-matching gate, and symplectic squeezing theorem")
+  (statement := /-- For $\chi_2 = -\chi_2$, $F_{\mathrm{SH}}\ge 1$, $P_{2\omega}\ge 0$, and $r_{\mathrm{sq}}\ge 0$:
+    (1) $\chi_2 = 0$ and $\operatorname{secondOrderPolarization}(\chi_2, E) = 0$,
+    (2) $P_{2\omega} \le \operatorname{shgResonantIntracavityPower}(F_{\mathrm{SH}}, P_{2\omega})$ and
+    $\operatorname{shgResonantIntracavityPower}(F_{\mathrm{SH}}, P_{\mathrm{thresh}}/F_{\mathrm{SH}}) = P_{\mathrm{thresh}}$,
+    (3) $\operatorname{opaNetGainSq}(g,0) = g^2$, $\operatorname{opaNetGainSq}(g,\Delta k) \le g^2$, and $\operatorname{opaNetGainSq}(g,2g) = 0$, and
+    (4) $1 \le \operatorname{opaAmplifiedQuadratureGain}(r_{\mathrm{sq}})$, $\operatorname{opaSqueezedQuadratureGain}(r_{\mathrm{sq}}) \le 1$,
+    and $\operatorname{opaAmplifiedQuadratureGain}(r_{\mathrm{sq}})\,\operatorname{opaSqueezedQuadratureGain}(r_{\mathrm{sq}}) = 1$. -/)
+  (proof := /-- Solve $\chi_2 = -\chi_2 \implies \chi_2 = 0$ by `linarith`, clear $F_{\mathrm{SH}} > 0$,
+    expand $(\Delta k/2)^2 \ge 0$, and use $\exp(2r)\exp(-2r) = \exp(0) = 1$. -/)]
+theorem second_harmonic_opa_and_centrosymmetry_identities
+    (chi2 E F_sh P_2w P_thresh g_opa delta_k r_sq : ℝ)
+    (h_centro : chi2 = -chi2) (hF_ge : 1 ≤ F_sh) (hP : 0 ≤ P_2w)
+    (hr_sq : 0 ≤ r_sq) :
+    chi2 = 0 ∧
+      secondOrderPolarization chi2 E = 0 ∧
+      P_2w ≤ shgResonantIntracavityPower F_sh P_2w ∧
+      shgResonantIntracavityPower F_sh (P_thresh / F_sh) = P_thresh ∧
+      opaNetGainSq g_opa 0 = g_opa ^ 2 ∧
+      opaNetGainSq g_opa delta_k ≤ g_opa ^ 2 ∧
+      opaNetGainSq g_opa (2 * g_opa) = 0 ∧
+      1 ≤ opaAmplifiedQuadratureGain r_sq ∧
+      opaSqueezedQuadratureGain r_sq ≤ 1 ∧
+      opaAmplifiedQuadratureGain r_sq * opaSqueezedQuadratureGain r_sq = 1 := by
+  have h_chi_zero : chi2 = 0 := by linarith
+  have h_pol_zero : secondOrderPolarization chi2 E = 0 := by
+    unfold secondOrderPolarization
+    rw [h_chi_zero, zero_mul]
+  have h_buildup_le : P_2w ≤ shgResonantIntracavityPower F_sh P_2w := by
+    unfold shgResonantIntracavityPower
+    nlinarith
+  have hF_pos : 0 < F_sh := lt_of_lt_of_le zero_lt_one hF_ge
+  have hF_ne : F_sh ≠ 0 := ne_of_gt hF_pos
+  have h_thresh : shgResonantIntracavityPower F_sh (P_thresh / F_sh) = P_thresh := by
+    unfold shgResonantIntracavityPower
+    exact mul_div_cancel₀ P_thresh hF_ne
+  have h_gain0 : opaNetGainSq g_opa 0 = g_opa ^ 2 := by
+    unfold opaNetGainSq
+    ring
+  have h_gain_le : opaNetGainSq g_opa delta_k ≤ g_opa ^ 2 := by
+    unfold opaNetGainSq
+    have : 0 ≤ (delta_k / 2) ^ 2 := sq_nonneg (delta_k / 2)
+    linarith
+  have h_gain_cutoff : opaNetGainSq g_opa (2 * g_opa) = 0 := by
+    unfold opaNetGainSq
+    ring
+  have h_amp_ge : 1 ≤ opaAmplifiedQuadratureGain r_sq := by
+    unfold opaAmplifiedQuadratureGain
+    exact Real.one_le_exp (by linarith)
+  have h_sq_le : opaSqueezedQuadratureGain r_sq ≤ 1 := by
+    unfold opaSqueezedQuadratureGain
+    exact Real.exp_le_one_iff.mpr (by linarith)
+  have h_symp_prod :
+      opaAmplifiedQuadratureGain r_sq * opaSqueezedQuadratureGain r_sq = 1 := by
+    unfold opaAmplifiedQuadratureGain opaSqueezedQuadratureGain
+    rw [← Real.exp_add]
+    have h_zero : 2 * r_sq + -2 * r_sq = 0 := by ring
+    rw [h_zero, Real.exp_zero]
+  exact ⟨h_chi_zero, h_pol_zero, h_buildup_le, h_thresh,
+    h_gain0, h_gain_le, h_gain_cutoff, h_amp_ge, h_sq_le, h_symp_prod⟩
+
 end Signals.Scattering

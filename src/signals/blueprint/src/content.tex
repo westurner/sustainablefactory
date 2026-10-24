@@ -69,9 +69,22 @@ and exact Boltzmann exponent and absolute temperature $T=\Theta_v/\xi$ inversion
 and Polariton Hopfield--Rabi anticrossing ($\omega_{\mathrm{UP}}-\omega_{\mathrm{LP}}=\sqrt{\Delta^2+4g^2}\ge 2g$),
 inverse Rabi coupling recovery ($g^2=\omega_{\mathrm{ph}}\omega_{\mathrm{ex}}-\omega_{\mathrm{UP}}\omega_{\mathrm{LP}}$),
 Pythagorean Hopfield--Pluecker hybridization complementarity
-($4|C|^2|X|^2=1-d_{\mathrm{Hopfield}}^2=4g^2/(\Delta^2+4g^2)$), and
+($4|C|^2|X|^2=1-d_{\mathrm{Hopfield}}^2=4g^2/(\Delta^2+4g^2)$),
 Lyddane--Sachs--Teller (LST) static, ENZ longitudinal ($\omega=\omega_{\mathrm{LO}}$),
-and Reststrahlen stop-band ($\varepsilon_{\mathrm{pol}}(\omega)<0$) laws.
+and Reststrahlen stop-band ($\varepsilon_{\mathrm{pol}}(\omega)<0$) laws,
+Coherent Synchrotron Radiation (CSR) cylindrical SPP bunching superradiance
+$I_{\mathrm{CSR}}=(N_e+N_e(N_e-1)f_{\mathrm{bunch}}^2)I_1\in[N_e I_1,N_e^2 I_1]$
+and $\gamma_e^3$ critical frequency, collective vs.\ single-emitter Cavity QED
+cooperativity $C_{N_e}=N_e C_1$, superluminal transverse plasma phase velocity
+($v_{\mathrm{ph},\perp}^2>c^2$) vs.\ subluminal longitudinal Cherenkov Mach
+cone ($0<1-\cos^2\theta_C<1$), 2D Dirac graphene THz-eV plasmon scaling
+$\omega_{\mathrm{GPP}}^2=E_F q$, 1-step deterministic 4-state Grover
+quantum state carving $\operatorname{groverSuccessAmplitude}(1/2)=1$, and
+second-harmonic ($\chi^{(2)}$) resonant Optical Parametric Amplification (OPA)
+centrosymmetry selection rules ($\chi_2=-\chi_2\implies\chi_2=0$), intracavity
+second-harmonic buildup $P_{2\omega}^{\mathrm{intracav}}=F_{\mathrm{SH}}P_{2\omega}$,
+phase-matching detuning gate $g_{\mathrm{net}}^2=g_{\mathrm{OPA}}^2-(\Delta k/2)^2$,
+and symplectic quadrature squeezing $\exp(2r_{\mathrm{sq}})\exp(-2r_{\mathrm{sq}})=1$.
 
 \inputleanmodule{Signals.QISM}
 \inputleanmodule{Signals.Scattering}
@@ -188,6 +201,18 @@ $|w_A^{\mathbb C}|^2/|w_B^{\mathbb C}|^2=(1+\chi_{\mathrm{SPP}})/(1-\chi_{\mathr
 continuum SPP propagation-length semigroup, and sub-wavelength SPP hotspot
 \texttt{NormedTensorGaussianSplat2D} compression and Bohm quantum pressure
 enhancement $Q_{\mathrm{core}}(\Sigma_{\mathrm{SPP}})=\frac{\hbar^2 n_{\mathrm{SPP}}^2(1+\kappa_{\mathrm{ratio}}^2)}{4m\lambda_0^2}$
+both with and without splats, together with the 't Hooft--Susskind--Bekenstein--Hawking
+holographic horizon entropy $S_{\mathrm{BH}}=k_B A_H/(4\ell_P^2)=\pi k_B r_H^2/\ell_P^2$,
+Gauss--Smarr 2D-to-3D bulk mass recovery $\kappa_H A_H/(4\pi G_\phi)=M$,
+splat-free $Gr_{\mathbb C}(2,4)$ Painlev\'e--Gullstrand redshift lapse
+$|w_A^{\mathbb C}|^2|w_B^{\mathbb C}|^2=1-r_H/r$, Planck-splat UV Bohm cutoff
+$Q_{\mathrm{core}}(\Sigma_{\mathrm{Planck}})=\hbar^2/(2m\ell_P^2)$,
+low-symmetry shear polariton coupling $\varepsilon_{xy}$,
+$Gr_{\mathbb C}(2,4)$ Anti-Amplituhedron destructive phase cancellation
+$\Delta_{02}^{\mathbb C}\Delta_{13}^{\mathbb C}=0$, and symplectic second-harmonic
+OPA squeezed \texttt{NormedTensorGaussianSplat2D} ($\det\Sigma_{\mathrm{OPA}}=\sigma_0^4$)
+and Bohm quantum-potential barrier amplification
+$Q_{\mathrm{core}}(\Sigma_{\mathrm{OPA}})=\frac{\hbar^2(\exp(2r_{\mathrm{sq}})+\exp(-2r_{\mathrm{sq}}))}{4m\sigma_0^2}\ge\frac{\hbar^2}{2m\sigma_0^2}$
 both with and without splats) theorems.
 
 \inputleanmodule{Signals.DDF}

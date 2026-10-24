@@ -4952,4 +4952,89 @@ example (θ x y : ℝ) :
     h_spp_splat.2.2.2.2.2.1, h_spp_splat.2.2.2.2.2.2.1,
     h_spp_splat.2.2.2.2.2.2.2⟩
 
+/-- Coherent Synchrotron Radiation (CSR) on cylindrical SPP microtubes/CNTs,
+Cavity QED cooperativity, Cherenkov-Proca longitudinal phase matching,
+Graphene THz-eV Dirac plasmon scaling, 4-state Grover quantum state carving,
+Anti-Amplituhedron destructive cancellation, low-symmetry shear polaritons, and
+'t Hooft-Susskind-DDF Holographic Principle (with and without splats). -/
+example (θ φ : ℝ) :
+    let M_anti := Signals.DDF.antiAmplituhedronGr24Matrix 5
+    let M_holo := Signals.DDF.ddfThermalGr24Matrix (toyRiverExterior.inflowBeta 4) θ
+    let splat_p := Signals.DDF.holographicPlanckSplat 0 0 1 (1 / 2)
+      (by norm_num) (by norm_num) θ
+    Signals.Scattering.csrBunchingIntensity 10 0 3 = 10 * 3 ∧
+    Signals.Scattering.csrBunchingIntensity 10 1 3 = 10 ^ 2 * 3 ∧
+    10 * 3 ≤ Signals.Scattering.csrBunchingIntensity 10 (1 / 2) 3 ∧
+    Signals.Scattering.csrBunchingIntensity 10 (1 / 2) 3 ≤ 10 ^ 2 * 3 ∧
+    Signals.Scattering.cavityQEDCooperativity (Real.sqrt 10 * 2) 3 5 =
+      10 * Signals.Scattering.cavityQEDCooperativity 2 3 5 ∧
+    (2 : ℝ) ^ 2 < Signals.Scattering.transversePlasmaPhaseVelSq 2 5 3 ∧
+    Signals.Scattering.longitudinalPlasmaPhaseVelSq (1 / 2) 3 2 < 2 ^ 2 ∧
+    0 < 1 - (Signals.Scattering.cherenkovCosine 3 5) ^ 2 ∧
+    Signals.Scattering.grapheneDiracPlasmonFreqSq (4 * 2) 7 =
+      4 * Signals.Scattering.grapheneDiracPlasmonFreqSq 2 7 ∧
+    Signals.Scattering.groverSuccessAmplitude (1 / 2) = 1 ∧
+    Signals.Geometry.complexTwoRowMinor M_anti 0 2 *
+        Signals.Geometry.complexTwoRowMinor M_anti 1 3 = 0 ∧
+    Signals.DDF.lowSymmetryShearCoupling 4 4 φ = 0 ∧
+    (toyRiverExterior.horizonSurfaceGravity * toyRiverExterior.horizonArea) /
+        (4 * Real.pi * toyRiverExterior.G_phi) = toyRiverExterior.sourceMass ∧
+    Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_holo) *
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_holo) =
+      1 - toyRiverExterior.horizonRadius / 4 ∧
+    splat_p.covDet = (1 / 2) ^ 4 ∧
+    splat_p.coreBohmPotential 1 1 = 1 ^ 2 / (2 * 1 * (1 / 2) ^ 2) := by
+  intro M_anti M_holo splat_p
+  have h_csr := Signals.Scattering.csr_spp_cherenkov_cavity_and_grover_identities
+    10 (1 / 2) 3 2 5 2 3 5 2 5 3 (1 / 2) 2 3 5 4 2 7
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have hrH_lt : toyRiverExterior.horizonRadius < 4 := by
+    have hc : toyDDFSubstrate.c = 2 := by
+      dsimp [Signals.DDF.DDFSubstrate.c, toyDDFSubstrate]
+      norm_num
+    dsimp [Signals.DDF.RiverExterior.horizonRadius, toyRiverExterior]
+    rw [hc]
+    norm_num
+  have h_holo := toyRiverExterior.holographic_gr24_ddf_and_antiAmplituhedron_identities
+    5 4 2 φ 4 1 (1 / 2) 0 0 1 1 1 θ hrH_lt
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_csr.1, h_csr.2.1, h_csr.2.2.1, h_csr.2.2.2.1, h_csr.2.2.2.2.2.1,
+    h_csr.2.2.2.2.2.2.1, h_csr.2.2.2.2.2.2.2.1, h_csr.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_csr.2.2.2.2.2.2.2.2.2.2.2.2.1, h_csr.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    h_holo.2.2.1, h_holo.2.2.2.1, h_holo.2.2.2.2.2.2.2.1,
+    h_holo.2.2.2.2.2.2.2.2.1, h_holo.2.2.2.2.2.2.2.2.2.2.1,
+    h_holo.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
+/-- Low-power integrated optical amplification through second-harmonic (χ^(2))
+resonance (Dean et al. 2025, Nature s41586-025-09959-z): centrosymmetry selection
+rule, SHG intracavity buildup, phase-matching detuning gate, and symplectic OPA
+squeezing & Bohm quantum-potential barrier both with and without Tensor Gaussian Splats. -/
+example (θ x y : ℝ) :
+    let splat_opa := Signals.DDF.opaSqueezedTensorSplat 0 0 5 2 3
+      (by norm_num) (by norm_num) θ
+    Signals.Scattering.secondOrderPolarization 0 10 = 0 ∧
+    (20 : ℝ) ≤ Signals.Scattering.shgResonantIntracavityPower 15 20 ∧
+    Signals.Scattering.shgResonantIntracavityPower 15 (300 / 15) = 300 ∧
+    Signals.Scattering.opaNetGainSq 4 0 = 4 ^ 2 ∧
+    Signals.Scattering.opaNetGainSq 4 (2 * 4) = 0 ∧
+    Signals.Scattering.opaAmplifiedQuadratureGain 3 *
+      Signals.Scattering.opaSqueezedQuadratureGain 3 = 1 ∧
+    Signals.DDF.continuumBohmPotentialMode 1 1 5 ≤
+      Signals.DDF.continuumBohmPotentialMode 1 1 (5 * Real.exp 3) ∧
+    splat_opa.covDet = 2 ^ 4 ∧
+    splat_opa.normFactor = 1 / (2 * Real.pi * 2 ^ 2) ∧
+    1 ^ 2 / (2 * 1 * 2 ^ 2) ≤ splat_opa.coreBohmPotential 1 1 ∧
+    splat_opa.quantumPressurePrincipal2 1 1 x y =
+      Real.exp (4 * 3) * splat_opa.quantumPressurePrincipal1 1 1 x y := by
+  intro splat_opa
+  have h_opa := Signals.Scattering.second_harmonic_opa_and_centrosymmetry_identities
+    0 10 15 20 300 4 2 3 (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_splat := Signals.DDF.opaSqueezed_splat_and_continuum_identities
+    0 0 5 2 3 5 1 1 θ x y (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_opa.2.1, h_opa.2.2.1, h_opa.2.2.2.1, h_opa.2.2.2.2.1,
+    h_opa.2.2.2.2.2.2.1, h_opa.2.2.2.2.2.2.2.2.2,
+    h_splat.2.1, h_splat.2.2.1, h_splat.2.2.2.1, h_splat.2.2.2.2.2.1,
+    h_splat.2.2.2.2.2.2⟩
+
 end SignalsTests

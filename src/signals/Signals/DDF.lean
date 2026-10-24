@@ -4403,4 +4403,429 @@ theorem MovingSheath.sppTensorSplat_and_thermal_identities
   exact ⟨h_det, h_norm, h_bohm, h_bohm_ge, h_qp_ratio,
     h_semi.1, h_semi.2.1, h_semi.2.2.2⟩
 
+/-! ## Anti-Amplituhedron Destructive Cancellation, Low-Symmetry Shear Polaritons, & 't Hooft–Susskind–DDF Holographic Principle (With and Without Splats) -/
+
+/-- Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ **"Anti-Amplituhedron" destructive phase-cancellation matrix**
+with opposite-phase channel amplitudes $z_1 = +A$ and $z_2 = -A$ outside the positive
+Grassmannian $Gr_{\ge 0}(2,4)$ (`docs/anti-fire-cannon-review.myst.md`):
+while each individual uncrossed channel carries positive energy $|w_A^{\mathbb{C}}|^2 = A^2$
+and $|w_B^{\mathbb{C}}|^2 = A^2$, their coherent crossing sum vanishes identically:
+$w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = \Delta_{02}^{\mathbb{C}}\,\Delta_{13}^{\mathbb{C}} = 0$. -/
+@[blueprint "def:signals-ddf-anti-amplituhedron-gr24-matrix"
+  (title := "Complex Gr_C(2,4) Anti-Amplituhedron destructive phase-cancellation matrix")
+  (statement := /-- Define $\operatorname{antiAmplituhedronGr24Matrix}(A)
+    = \operatorname{complexGr24ChannelMatrix}(A, -A)$. -/)]
+def antiAmplituhedronGr24Matrix (amplitude : ℝ) : Matrix (Fin 2) (Fin 4) ℂ :=
+  complexGr24ChannelMatrix (↑amplitude) (-↑amplitude)
+
+/-- Off-diagonal dielectric shear-polariton coupling
+$\varepsilon_{xy}(\varepsilon_1, \varepsilon_2, \phi) = (\varepsilon_1 - \varepsilon_2)\,\sin\phi\,\cos\phi$
+in a low-symmetry monoclinic/trigonal phonon-polaritonic crystal (e.g., $\alpha$-quartz or
+$\beta\text{-Ga}_2\text{O}_3$; Galiffi et al., 2023, `arXiv:2312.06805`). -/
+@[blueprint "def:signals-ddf-low-symmetry-shear-coupling"
+  (title := "Low-symmetry phonon-polariton dielectric shear coupling ε_xy = (ε_1 - ε_2) sin φ cos φ")
+  (statement := /-- Define $\operatorname{lowSymmetryShearCoupling}(\varepsilon_1,\varepsilon_2,\phi)
+    = (\varepsilon_1 - \varepsilon_2)\,\sin\phi\,\cos\phi$. -/)]
+noncomputable def lowSymmetryShearCoupling (eps1 eps2 shearAngle : ℝ) : ℝ :=
+  (eps1 - eps2) * Real.sin shearAngle * Real.cos shearAngle
+
+/-- 2D holographic screen area $A_H = 4\pi r_H^2$ of a DDF `RiverExterior` acoustic
+event horizon $r_H = \frac{2 G_\phi M}{c^2}$. -/
+@[blueprint "def:signals-ddf-horizon-area"
+  (title := "DDF acoustic horizon 2D holographic screen area A_H = 4π r_H²")
+  (statement := /-- Define $re.\mathrm{horizonArea} = 4\pi\,re.\mathrm{horizonRadius}^2$. -/)]
+noncomputable def RiverExterior.horizonArea {sub : DDFSubstrate}
+    (re : RiverExterior sub) : ℝ :=
+  4 * Real.pi * re.horizonRadius ^ 2
+
+/-- 't Hooft (1993) / Susskind (1995) / Bekenstein–Hawking holographic horizon entropy
+$S_{\mathrm{BH}} = \frac{k_B\,A_H}{4\,\ell_P^2} = \frac{\pi\,k_B\,r_H^2}{\ell_P^2}$
+on a DDF `RiverExterior` acoustic horizon for Planck length $\ell_P > 0$. -/
+@[blueprint "def:signals-ddf-bekenstein-hawking-entropy"
+  (title := "'t Hooft-Susskind-Bekenstein-Hawking holographic horizon entropy S_BH = k_B A_H / (4 ℓ_P²)")
+  (statement := /-- Define $re.\mathrm{bekensteinHawkingEntropy}\;k_B\;\ell_P
+    = k_B \cdot re.\mathrm{horizonArea} / (4\ell_P^2)$. -/)]
+noncomputable def RiverExterior.bekensteinHawkingEntropy {sub : DDFSubstrate}
+    (re : RiverExterior sub) (k_B l_planck : ℝ) : ℝ :=
+  k_B * re.horizonArea / (4 * l_planck ^ 2)
+
+/-- Acoustic horizon surface gravity $\kappa_H = \frac{c^2}{2\,r_H} = \frac{G_\phi M}{r_H^2}$
+of a DDF `RiverExterior` flow. -/
+@[blueprint "def:signals-ddf-horizon-surface-gravity"
+  (title := "DDF acoustic horizon surface gravity κ_H = c² / (2 r_H)")
+  (statement := /-- Define $re.\mathrm{horizonSurfaceGravity} = sub.c^2 / (2\cdot re.\mathrm{horizonRadius})$. -/)]
+noncomputable def RiverExterior.horizonSurfaceGravity {sub : DDFSubstrate}
+    (re : RiverExterior sub) : ℝ :=
+  sub.c ^ 2 / (2 * re.horizonRadius)
+
+/-- Dimensionless radial river inflow speed ratio $\beta_\phi(r) = \sqrt{r_H / r}$
+for $r \ge r_H$ in a DDF `RiverExterior` geometry. -/
+@[blueprint "def:signals-ddf-river-inflow-beta"
+  (title := "Dimensionless DDF radial river inflow speed ratio β_ϕ(r) = √(r_H / r)")
+  (statement := /-- Define $re.\mathrm{inflowBeta}(r) = \sqrt{re.\mathrm{horizonRadius} / r}$. -/)]
+noncomputable def RiverExterior.inflowBeta {sub : DDFSubstrate}
+    (re : RiverExterior sub) (r : ℝ) : ℝ :=
+  Real.sqrt (re.horizonRadius / r)
+
+/-- Isotropic Planck-pixelated `NormedTensorGaussianSplat2D` tile on the 2D holographic
+horizon screen with principal widths $\sigma_1 = \sigma_2 = \ell_P > 0$. -/
+@[blueprint "def:signals-ddf-holographic-planck-splat"
+  (title := "Planck-scale holographic screen NormedTensorGaussianSplat2D tile")
+  (statement := /-- Construct a Planck-scale \texttt{NormedTensorGaussianSplat2D} with
+    $\sigma_1 = \sigma_2 = \ell_P > 0$. -/)]
+noncomputable def holographicPlanckSplat
+    (cx cy weight l_planck : ℝ) (hw : 0 ≤ weight) (hlp : 0 < l_planck) (θ : ℝ) :
+    NormedTensorGaussianSplat2D :=
+  { centerX := cx
+    centerY := cy
+    weight := weight
+    weight_nonneg := hw
+    sigma1 := l_planck
+    sigma1_pos := hlp
+    sigma2 := l_planck
+    sigma2_pos := hlp
+    orientationAngle := θ }
+
+/-- **Anti-Amplituhedron Destructive Cancellation, Low-Symmetry Shear Polaritons, & 't Hooft–Susskind–DDF Holographic Principle Theorem (With and Without Splats)**:
+1. **Anti-Amplituhedron Destructive Phase Cancellation on $Gr_{\mathbb{C}}(2,4)$**:
+   For $M_{\mathrm{anti}} = \operatorname{antiAmplituhedronGr24Matrix}(A)$,
+   $$w_A^{\mathbb{C}}(M_{\mathrm{anti}}) = A, \quad w_B^{\mathbb{C}}(M_{\mathrm{anti}}) = -A, \quad
+   \Delta_{02}^{\mathbb{C}}(M_{\mathrm{anti}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathrm{anti}}) = w_A^{\mathbb{C}}(M_{\mathrm{anti}}) + w_B^{\mathbb{C}}(M_{\mathrm{anti}}) = 0,$$
+2. **Low-Symmetry Shear-Polariton Symmetry Breaking**:
+   $\operatorname{lowSymmetryShearCoupling}(\varepsilon, \varepsilon, \phi) = 0$ and
+   $\operatorname{lowSymmetryShearCoupling}(\varepsilon_1, \varepsilon_2, 0) = 0$,
+3. **'t Hooft–Susskind Holographic Area-Entropy Law & Gauss–Smarr Bulk Mass Recovery**:
+   For `re : RiverExterior sub` with $k_B > 0$ and $\ell_P > 0$,
+   $$re.\mathrm{bekensteinHawkingEntropy}\;k_B\;\ell_P = \frac{\pi\,k_B\,re.\mathrm{horizonRadius}^2}{\ell_P^2} > 0,$$
+   $$\frac{re.\mathrm{horizonSurfaceGravity} \cdot re.\mathrm{horizonArea}}{4\pi\,re.G_\phi} = re.\mathrm{sourceMass},$$
+   proving that the 2D boundary integral of $\kappa_H$ over the holographic horizon screen $A_H$
+   recovers the exact 3D bulk gravitating mass $M$,
+4. **Splat-Free Continuum $Gr_{\mathbb{C}}(2,4)$ Holographic Redshift / Lapse Duality**:
+   For any exterior radius $r > r_H$, let $\beta_r = re.\mathrm{inflowBeta}(r) \in (0, 1)$ and
+   $M_{\mathrm{holo}}(r) = \operatorname{ddfThermalGr24Matrix}(\beta_r, \theta)$. Then the uncrossed
+   $Gr_{\mathbb{C}}(2,4)$ Plücker channel product equals the exact Painlevé–Gullstrand / Schwarzschild
+   gravitational redshift lapse factor $g_{00}(r) = 1 - r_H / r$:
+   $$|w_A^{\mathbb{C}}(M_{\mathrm{holo}}(r))|^2\,|w_B^{\mathbb{C}}(M_{\mathrm{holo}}(r))|^2 = 1 - \frac{re.\mathrm{horizonRadius}}{r} > 0,$$
+5. **With Normed Tensor Gaussian Splats: Planck-Pixelated Holographic Screen & UV Bohm Cutoff**:
+   For `splat_p = holographicPlanckSplat cx cy weight l_planck hw hlp θ` with $m > 0$,
+   $$\det\Sigma_{\mathrm{Planck}} = \ell_P^4, \qquad
+   Q_{\mathrm{core}}(\Sigma_{\mathrm{Planck}}) = \frac{\hbar^2}{2 m\,\ell_P^2}, \qquad
+   re.\mathrm{horizonArea} = 4\,\ell_P^2\,\frac{re.\mathrm{bekensteinHawkingEntropy}\;k_B\;\ell_P}{k_B}.$$ -/
+@[blueprint "thm:signals-ddf-holographic-gr24-and-anti-amplituhedron"
+  (title := "'t Hooft-Susskind-DDF holographic horizon duality, Gr_C(2,4) lapse law, and Anti-Amplituhedron cancellation theorem (with and without splats)")
+  (statement := /-- For \texttt{re : RiverExterior sub}, $r > re.\mathrm{horizonRadius}$, $k_B>0$, $\ell_P>0$, $m>0$, and $\theta\in\mathbb R$:
+    (1) $w_A^{\mathbb C}(\operatorname{antiAmplituhedronGr24Matrix}(A)) + w_B^{\mathbb C}(\operatorname{antiAmplituhedronGr24Matrix}(A)) = 0$ and $\Delta_{02}^{\mathbb C}\Delta_{13}^{\mathbb C} = 0$,
+    (2) $\operatorname{lowSymmetryShearCoupling}(\varepsilon,\varepsilon,\phi) = 0$,
+    (3) $re.\mathrm{bekensteinHawkingEntropy}\;k_B\;\ell_P = \pi k_B\,re.\mathrm{horizonRadius}^2/\ell_P^2 > 0$ and $(re.\mathrm{horizonSurfaceGravity}\cdot re.\mathrm{horizonArea})/(4\pi\,re.G_\phi) = re.\mathrm{sourceMass}$,
+    (4) $|w_A^{\mathbb C}(M_{\mathrm{holo}}(r))|^2\,|w_B^{\mathbb C}(M_{\mathrm{holo}}(r))|^2 = 1 - re.\mathrm{horizonRadius}/r > 0$, and
+    (5) $\operatorname{splat\_p}.\mathrm{covDet} = \ell_P^4$, $\operatorname{splat\_p}.\operatorname{coreBohmPotential}\;m\;\hbar = \hbar^2/(2m\ell_P^2)$, and $re.\mathrm{horizonArea} = 4\ell_P^2(re.\mathrm{bekensteinHawkingEntropy}\;k_B\;\ell_P / k_B)$. -/)
+  (proof := /-- Use `complexGr24ChannelMatrix_minors` for `antiAmplituhedronGr24Matrix` and `M_holo(r)`,
+    clear $r_H = 2 G_\phi M / c^2 > 0$ for the Gauss-Smarr identity, and expand `holographicPlanckSplat`. -/)]
+theorem RiverExterior.holographic_gr24_ddf_and_antiAmplituhedron_identities
+    {sub : DDFSubstrate} (re : RiverExterior sub)
+    (A eps1 eps2 φ r k_B l_planck cx cy weight m_boson hbar θ : ℝ)
+    (hr_gt : re.horizonRadius < r) (hkB : 0 < k_B) (hlp : 0 < l_planck)
+    (hw : 0 ≤ weight) (hm : 0 < m_boson) :
+    let M_anti := antiAmplituhedronGr24Matrix A
+    let beta_r := re.inflowBeta r
+    let M_holo := ddfThermalGr24Matrix beta_r θ
+    let splat_p := holographicPlanckSplat cx cy weight l_planck hw hlp θ
+    complexPluckerSinkAmplitudeA M_anti = (↑A : ℂ) ∧
+      complexPluckerSinkAmplitudeB M_anti = -(↑A : ℂ) ∧
+      Signals.Geometry.complexTwoRowMinor M_anti 0 2 *
+          Signals.Geometry.complexTwoRowMinor M_anti 1 3 = 0 ∧
+      lowSymmetryShearCoupling eps1 eps1 φ = 0 ∧
+      lowSymmetryShearCoupling eps1 eps2 0 = 0 ∧
+      re.bekensteinHawkingEntropy k_B l_planck =
+        Real.pi * k_B * re.horizonRadius ^ 2 / l_planck ^ 2 ∧
+      0 < re.bekensteinHawkingEntropy k_B l_planck ∧
+      (re.horizonSurfaceGravity * re.horizonArea) / (4 * Real.pi * re.G_phi) =
+        re.sourceMass ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M_holo) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_holo) =
+        1 - re.horizonRadius / r ∧
+      0 < Complex.normSq (complexPluckerSinkAmplitudeA M_holo) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_holo) ∧
+      splat_p.covDet = l_planck ^ 4 ∧
+      splat_p.coreBohmPotential m_boson hbar =
+        hbar ^ 2 / (2 * m_boson * l_planck ^ 2) ∧
+      re.horizonArea =
+        4 * l_planck ^ 2 * (re.bekensteinHawkingEntropy k_B l_planck / k_B) := by
+  intro M_anti beta_r M_holo splat_p
+  have h_anti_minors := complexGr24ChannelMatrix_minors (↑A : ℂ) (-(↑A : ℂ))
+  have h_anti_A : complexPluckerSinkAmplitudeA M_anti = (↑A : ℂ) := by
+    dsimp [M_anti, antiAmplituhedronGr24Matrix, complexPluckerSinkAmplitudeA]
+    exact h_anti_minors.1
+  have h_anti_B : complexPluckerSinkAmplitudeB M_anti = -(↑A : ℂ) := by
+    dsimp [M_anti, antiAmplituhedronGr24Matrix, complexPluckerSinkAmplitudeB]
+    exact h_anti_minors.2.1
+  have h_anti_cross :
+      Signals.Geometry.complexTwoRowMinor M_anti 0 2 *
+          Signals.Geometry.complexTwoRowMinor M_anti 1 3 = 0 := by
+    dsimp [M_anti, antiAmplituhedronGr24Matrix]
+    rw [h_anti_minors.2.2]
+    ring
+  have h_shear_iso : lowSymmetryShearCoupling eps1 eps1 φ = 0 := by
+    unfold lowSymmetryShearCoupling
+    ring
+  have h_shear_zero : lowSymmetryShearCoupling eps1 eps2 0 = 0 := by
+    unfold lowSymmetryShearCoupling
+    simp
+  have hrH_pos : 0 < re.horizonRadius := re.horizonRadius_pos
+  have hrH_ne : re.horizonRadius ≠ 0 := ne_of_gt hrH_pos
+  have hr_pos : 0 < r := lt_trans hrH_pos hr_gt
+  have hr_ne : r ≠ 0 := ne_of_gt hr_pos
+  have hlp_ne : l_planck ≠ 0 := ne_of_gt hlp
+  have hkB_ne : k_B ≠ 0 := ne_of_gt hkB
+  have hpi_pos : 0 < Real.pi := Real.pi_pos
+  have hpi_ne : Real.pi ≠ 0 := ne_of_gt hpi_pos
+  have hG_pos : 0 < re.G_phi := re.G_phi_pos
+  have hG_ne : re.G_phi ≠ 0 := ne_of_gt hG_pos
+  have hc_pos : 0 < sub.c := sub.c_pos
+  have hc_ne : sub.c ≠ 0 := ne_of_gt hc_pos
+  have hm_ne : m_boson ≠ 0 := ne_of_gt hm
+  have h_bh_eq :
+      re.bekensteinHawkingEntropy k_B l_planck =
+        Real.pi * k_B * re.horizonRadius ^ 2 / l_planck ^ 2 := by
+    unfold RiverExterior.bekensteinHawkingEntropy RiverExterior.horizonArea
+    field_simp [hlp_ne]
+  have h_bh_pos : 0 < re.bekensteinHawkingEntropy k_B l_planck := by
+    rw [h_bh_eq]
+    positivity
+  have h_smarr :
+      (re.horizonSurfaceGravity * re.horizonArea) / (4 * Real.pi * re.G_phi) =
+        re.sourceMass := by
+    unfold RiverExterior.horizonSurfaceGravity RiverExterior.horizonArea
+      RiverExterior.horizonRadius
+    field_simp [hc_ne, hpi_ne, hG_ne]
+  have h_ratio_pos : 0 < re.horizonRadius / r := div_pos hrH_pos hr_pos
+  have h_ratio_lt_one : re.horizonRadius / r < 1 := (div_lt_one hr_pos).mpr hr_gt
+  have h_beta_pos : 0 < beta_r := Real.sqrt_pos.mpr h_ratio_pos
+  have h_beta_sq : beta_r ^ 2 = re.horizonRadius / r :=
+    Real.sq_sqrt (le_of_lt h_ratio_pos)
+  have h_beta_lt_one : beta_r < 1 := by nlinarith
+  have h1p : 0 ≤ 1 + beta_r := by linarith
+  have h1m : 0 ≤ 1 - beta_r := by linarith
+  have h_holo_minors := complexGr24ChannelMatrix_minors
+    (↑(Real.sqrt (1 + beta_r) * Real.cos θ) + Complex.I * ↑(Real.sqrt (1 + beta_r) * Real.sin θ))
+    (↑(Real.sqrt (1 - beta_r) * Real.cos θ) - Complex.I * ↑(Real.sqrt (1 - beta_r) * Real.sin θ))
+  have h_wA : Complex.normSq (complexPluckerSinkAmplitudeA M_holo) = 1 + beta_r := by
+    dsimp [M_holo, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeA]
+    rw [h_holo_minors.1]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 + beta_r)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 + beta_r := by rw [Real.sq_sqrt h1p, Real.cos_sq_add_sin_sq, mul_one]
+  have h_wB : Complex.normSq (complexPluckerSinkAmplitudeB M_holo) = 1 - beta_r := by
+    dsimp [M_holo, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeB]
+    rw [h_holo_minors.2.1]
+    simp only [Complex.normSq_apply, Complex.sub_re, Complex.sub_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 - beta_r)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 - beta_r := by rw [Real.sq_sqrt h1m, Real.cos_sq_add_sin_sq, mul_one]
+  have h_lapse :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_holo) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_holo) =
+        1 - re.horizonRadius / r := by
+    rw [h_wA, h_wB]
+    calc
+      (1 + beta_r) * (1 - beta_r) = 1 - beta_r ^ 2 := by ring
+      _ = 1 - re.horizonRadius / r := by rw [h_beta_sq]
+  have h_lapse_pos :
+      0 < Complex.normSq (complexPluckerSinkAmplitudeA M_holo) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_holo) := by
+    rw [h_lapse]
+    linarith
+  have h_p_det : splat_p.covDet = l_planck ^ 4 := by
+    dsimp [splat_p, holographicPlanckSplat, NormedTensorGaussianSplat2D.covDet]
+    ring
+  have h_p_bohm :
+      splat_p.coreBohmPotential m_boson hbar =
+        hbar ^ 2 / (2 * m_boson * l_planck ^ 2) := by
+    dsimp [splat_p, holographicPlanckSplat, NormedTensorGaussianSplat2D.coreBohmPotential]
+    field_simp [hlp_ne, hm_ne]
+    ring
+  have h_area_splats :
+      re.horizonArea =
+        4 * l_planck ^ 2 * (re.bekensteinHawkingEntropy k_B l_planck / k_B) := by
+    unfold RiverExterior.bekensteinHawkingEntropy
+    field_simp [hlp_ne, hkB_ne]
+  exact ⟨h_anti_A, h_anti_B, h_anti_cross, h_shear_iso, h_shear_zero,
+    h_bh_eq, h_bh_pos, h_smarr, h_lapse, h_lapse_pos,
+    h_p_det, h_p_bohm, h_area_splats⟩
+
+/-- Symplectic Second-Harmonic OPA Squeezed `NormedTensorGaussianSplat2D`
+with amplified principal width $\sigma_1 = \sigma_0\,\exp(r_{\mathrm{sq}})$ and
+squeezed principal width $\sigma_2 = \sigma_0\,\exp(-r_{\mathrm{sq}})$
+(modeling the phase-sensitive SHG resonant ring OPA of Dean et al., 2025,
+`10.1038/s41586-025-09959-z`, and the SQG parametric optical gate). -/
+@[blueprint "def:signals-ddf-opa-squeezed-tensor-splat"
+  (title := "Second-harmonic OPA squeezed NormedTensorGaussianSplat2D")
+  (statement := /-- Construct a \texttt{NormedTensorGaussianSplat2D} with
+    $\sigma_1 = \sigma_0\exp(r_{\mathrm{sq}})$ and $\sigma_2 = \sigma_0\exp(-r_{\mathrm{sq}})$. -/)]
+noncomputable def opaSqueezedTensorSplat
+    (cx cy weight sigma0 r_sq : ℝ) (hw : 0 ≤ weight) (hs0 : 0 < sigma0) (θ : ℝ) :
+    NormedTensorGaussianSplat2D :=
+  { centerX := cx
+    centerY := cy
+    weight := weight
+    weight_nonneg := hw
+    sigma1 := sigma0 * Real.exp r_sq
+    sigma1_pos := mul_pos hs0 (Real.exp_pos r_sq)
+    sigma2 := sigma0 * Real.exp (-r_sq)
+    sigma2_pos := mul_pos hs0 (Real.exp_pos (-r_sq))
+    orientationAngle := θ }
+
+/-- **Second-Harmonic OPA Symplectic Squeezing & Bohm Quantum-Potential Barrier Theorem (With and Without Splats)**:
+For base width $\sigma_0 > 0$, squeeze factor $r_{\mathrm{sq}} \ge 0$, and boson mass $m > 0$:
+1. **Without Splats (Continuum Squeezed Mode Bohm Amplification)**:
+   $$Q_{\mathrm{cont}}\bigl(m, \hbar, \kappa_0\,\exp(r_{\mathrm{sq}})\bigr) = \exp(2 r_{\mathrm{sq}})\,Q_{\mathrm{cont}}(m, \hbar, \kappa_0) \ge Q_{\mathrm{cont}}(m, \hbar, \kappa_0),$$
+2. **With Normed Tensor Gaussian Splats (`opaSqueezedTensorSplat`) — Symplectic Determinant & Peak Invariance**:
+   $$\det\Sigma_{\mathrm{OPA}} = \sigma_0^4, \qquad \mathcal{N}(\Sigma_{\mathrm{OPA}}) = \frac{1}{2\pi\,\sigma_0^2},$$
+   showing that degenerate $\chi^{(2)}$ OPA squeezing is an exact symplectic Anosov
+   transformation (`anosovHyperbolicMatrix`) that preserves phase-space area,
+3. **With Normed Tensor Gaussian Splats — Parametric Bohm Quantum-Potential Barrier Enhancement**:
+   $$Q_{\mathrm{core}}(\Sigma_{\mathrm{OPA}}) = \frac{\hbar^2\,\bigl(\exp(2 r_{\mathrm{sq}}) + \exp(-2 r_{\mathrm{sq}})\bigr)}{4 m\,\sigma_0^2} \ge \frac{\hbar^2}{2 m\,\sigma_0^2},$$
+   proving that second-harmonic parametric squeezing amplifies the repulsive core Bohm
+   quantum potential $Q_{\mathrm{core}}$ while keeping $\det\Sigma_{\mathrm{OPA}} = \sigma_0^4$ constant. -/
+@[blueprint "thm:signals-ddf-opa-squeezed-splat-and-continuum"
+  (title := "Second-harmonic OPA symplectic squeezing and Bohm quantum-potential barrier theorem (with and without splats)")
+  (statement := /-- For $\sigma_0>0$, $r_{\mathrm{sq}}\ge 0$, and $m>0$:
+    (1) $\operatorname{continuumBohmPotentialMode}(m,\hbar,\kappa_0\exp(r_{\mathrm{sq}})) = \exp(2r_{\mathrm{sq}})\operatorname{continuumBohmPotentialMode}(m,\hbar,\kappa_0) \ge \operatorname{continuumBohmPotentialMode}(m,\hbar,\kappa_0)$,
+    (2) $\operatorname{splat\_opa}.\mathrm{covDet} = \sigma_0^4$ and $\operatorname{splat\_opa}.\mathrm{normFactor} = 1/(2\pi\sigma_0^2)$, and
+    (3) $\operatorname{splat\_opa}.\operatorname{coreBohmPotential}\;m\;\hbar = \frac{\hbar^2(\exp(2r_{\mathrm{sq}})+\exp(-2r_{\mathrm{sq}}))}{4m\sigma_0^2} \ge \frac{\hbar^2}{2m\sigma_0^2}$. -/)
+  (proof := /-- Use $\exp(r)\exp(-r)=1$ for $\det\Sigma_{\mathrm{OPA}}$ and $\mathcal{N}(\Sigma_{\mathrm{OPA}})$,
+    and $(\exp(r)-\exp(-r))^2 \ge 0 \implies \exp(2r)+\exp(-2r) \ge 2$ for the core Bohm potential bound. -/)]
+theorem opaSqueezed_splat_and_continuum_identities
+    (cx cy weight sigma0 r_sq kappa0 m_boson hbar θ x y : ℝ)
+    (hw : 0 ≤ weight) (hs0 : 0 < sigma0) (hr_sq : 0 ≤ r_sq) (hm : 0 < m_boson) :
+    let splat_opa := opaSqueezedTensorSplat cx cy weight sigma0 r_sq hw hs0 θ
+    continuumBohmPotentialMode m_boson hbar (kappa0 * Real.exp r_sq) =
+      Real.exp (2 * r_sq) * continuumBohmPotentialMode m_boson hbar kappa0 ∧
+      continuumBohmPotentialMode m_boson hbar kappa0 ≤
+        continuumBohmPotentialMode m_boson hbar (kappa0 * Real.exp r_sq) ∧
+      splat_opa.covDet = sigma0 ^ 4 ∧
+      splat_opa.normFactor = 1 / (2 * Real.pi * sigma0 ^ 2) ∧
+      splat_opa.coreBohmPotential m_boson hbar =
+        (hbar ^ 2 * (Real.exp (2 * r_sq) + Real.exp (-2 * r_sq))) /
+          (4 * m_boson * sigma0 ^ 2) ∧
+      hbar ^ 2 / (2 * m_boson * sigma0 ^ 2) ≤ splat_opa.coreBohmPotential m_boson hbar ∧
+      splat_opa.quantumPressurePrincipal2 m_boson hbar x y =
+        Real.exp (4 * r_sq) * splat_opa.quantumPressurePrincipal1 m_boson hbar x y := by
+  intro splat_opa
+  have hs0_ne : sigma0 ≠ 0 := ne_of_gt hs0
+  have hm_ne : m_boson ≠ 0 := ne_of_gt hm
+  have h_exp_prod : Real.exp r_sq * Real.exp (-r_sq) = 1 := by
+    rw [← Real.exp_add, add_neg_cancel, Real.exp_zero]
+  have h_exp_pos_sq : (Real.exp r_sq) ^ 2 = Real.exp (2 * r_sq) := by
+    rw [sq, ← Real.exp_add]
+    congr 1
+    ring
+  have h_exp_neg_sq : (Real.exp (-r_sq)) ^ 2 = Real.exp (-2 * r_sq) := by
+    rw [sq, ← Real.exp_add]
+    congr 1
+    ring
+  have h_cont_eq :
+      continuumBohmPotentialMode m_boson hbar (kappa0 * Real.exp r_sq) =
+        Real.exp (2 * r_sq) * continuumBohmPotentialMode m_boson hbar kappa0 := by
+    unfold continuumBohmPotentialMode
+    calc
+      hbar ^ 2 * (kappa0 * Real.exp r_sq) ^ 2 / (2 * m_boson) =
+          (Real.exp r_sq) ^ 2 * (hbar ^ 2 * kappa0 ^ 2 / (2 * m_boson)) := by ring
+      _ = Real.exp (2 * r_sq) * (hbar ^ 2 * kappa0 ^ 2 / (2 * m_boson)) := by
+          rw [h_exp_pos_sq]
+  have h_cont_ge :
+      continuumBohmPotentialMode m_boson hbar kappa0 ≤
+        continuumBohmPotentialMode m_boson hbar (kappa0 * Real.exp r_sq) := by
+    rw [h_cont_eq]
+    have h_exp_ge_one : 1 ≤ Real.exp (2 * r_sq) := Real.one_le_exp (by linarith)
+    have h_q_nonneg : 0 ≤ continuumBohmPotentialMode m_boson hbar kappa0 := by
+      unfold continuumBohmPotentialMode
+      positivity
+    nlinarith
+  have h_det : splat_opa.covDet = sigma0 ^ 4 := by
+    dsimp [splat_opa, opaSqueezedTensorSplat, NormedTensorGaussianSplat2D.covDet]
+    calc
+      (sigma0 * Real.exp r_sq) ^ 2 * (sigma0 * Real.exp (-r_sq)) ^ 2 =
+          sigma0 ^ 4 * (Real.exp r_sq * Real.exp (-r_sq)) ^ 2 := by ring
+      _ = sigma0 ^ 4 := by rw [h_exp_prod, one_pow, mul_one]
+  have h_norm : splat_opa.normFactor = 1 / (2 * Real.pi * sigma0 ^ 2) := by
+    dsimp [splat_opa, opaSqueezedTensorSplat, NormedTensorGaussianSplat2D.normFactor]
+    have h_prod :
+        2 * Real.pi * (sigma0 * Real.exp r_sq) * (sigma0 * Real.exp (-r_sq)) =
+          2 * Real.pi * sigma0 ^ 2 * (Real.exp r_sq * Real.exp (-r_sq)) := by ring
+    rw [h_prod, h_exp_prod, mul_one]
+  have h_bohm_eq :
+      splat_opa.coreBohmPotential m_boson hbar =
+        (hbar ^ 2 * (Real.exp (2 * r_sq) + Real.exp (-2 * r_sq))) /
+          (4 * m_boson * sigma0 ^ 2) := by
+    dsimp [splat_opa, opaSqueezedTensorSplat, NormedTensorGaussianSplat2D.coreBohmPotential]
+    have h1 :
+        1 / (sigma0 * Real.exp r_sq) ^ 2 =
+          (Real.exp (-r_sq)) ^ 2 / sigma0 ^ 2 := by
+      have h_ne1 : sigma0 * Real.exp r_sq ≠ 0 := mul_ne_zero hs0_ne (Real.exp_ne_zero r_sq)
+      field_simp [h_ne1, hs0_ne]
+      calc
+        (1 : ℝ) = (Real.exp r_sq * Real.exp (-r_sq)) ^ 2 := by
+          rw [h_exp_prod, one_pow]
+        _ = (Real.exp r_sq) ^ 2 * (Real.exp (-r_sq)) ^ 2 := by ring
+    have h2 :
+        1 / (sigma0 * Real.exp (-r_sq)) ^ 2 =
+          (Real.exp r_sq) ^ 2 / sigma0 ^ 2 := by
+      have h_ne2 : sigma0 * Real.exp (-r_sq) ≠ 0 :=
+        mul_ne_zero hs0_ne (Real.exp_ne_zero (-r_sq))
+      field_simp [h_ne2, hs0_ne]
+      calc
+        (1 : ℝ) = (Real.exp r_sq * Real.exp (-r_sq)) ^ 2 := by
+          rw [h_exp_prod, one_pow]
+        _ = (Real.exp (-r_sq)) ^ 2 * (Real.exp r_sq) ^ 2 := by ring
+    rw [h1, h2, h_exp_pos_sq, h_exp_neg_sq]
+    ring
+  have h_bohm_ge :
+      hbar ^ 2 / (2 * m_boson * sigma0 ^ 2) ≤ splat_opa.coreBohmPotential m_boson hbar := by
+    rw [h_bohm_eq]
+    have h_cosh_ge_two : 2 ≤ Real.exp (2 * r_sq) + Real.exp (-2 * r_sq) := by
+      have h_sq_nonneg : 0 ≤ (Real.exp r_sq - Real.exp (-r_sq)) ^ 2 := sq_nonneg _
+      have h_expand :
+          (Real.exp r_sq - Real.exp (-r_sq)) ^ 2 =
+            Real.exp (2 * r_sq) + Real.exp (-2 * r_sq) -
+              2 * (Real.exp r_sq * Real.exp (-r_sq)) := by
+        rw [ ← h_exp_pos_sq, ← h_exp_neg_sq]
+        ring
+      rw [h_exp_prod] at h_expand
+      linarith
+    have h_num_le :
+        2 * hbar ^ 2 ≤ hbar ^ 2 * (Real.exp (2 * r_sq) + Real.exp (-2 * r_sq)) := by
+      have : 0 ≤ hbar ^ 2 := sq_nonneg hbar
+      nlinarith
+    have h_lhs :
+        hbar ^ 2 / (2 * m_boson * sigma0 ^ 2) =
+          (2 * hbar ^ 2) / (4 * m_boson * sigma0 ^ 2) := by
+      field_simp [hm_ne, hs0_ne]
+      ring
+    rw [h_lhs]
+    exact div_le_div_of_nonneg_right h_num_le (by positivity)
+  have h_qp_ratio :
+      splat_opa.quantumPressurePrincipal2 m_boson hbar x y =
+        Real.exp (4 * r_sq) * splat_opa.quantumPressurePrincipal1 m_boson hbar x y := by
+    unfold NormedTensorGaussianSplat2D.quantumPressurePrincipal1
+      NormedTensorGaussianSplat2D.quantumPressurePrincipal2
+    have h_s1 : splat_opa.sigma1 = sigma0 * Real.exp r_sq := rfl
+    have h_s2 : splat_opa.sigma2 = sigma0 * Real.exp (-r_sq) := rfl
+    rw [h_s1, h_s2]
+    have h_ne1 : sigma0 * Real.exp r_sq ≠ 0 := mul_ne_zero hs0_ne (Real.exp_ne_zero r_sq)
+    have h_ne2 : sigma0 * Real.exp (-r_sq) ≠ 0 :=
+      mul_ne_zero hs0_ne (Real.exp_ne_zero (-r_sq))
+    have h_exp4 :
+        (Real.exp r_sq) ^ 2 = Real.exp (4 * r_sq) * (Real.exp (-r_sq)) ^ 2 := by
+      rw [h_exp_neg_sq, h_exp_pos_sq, ← Real.exp_add]
+      congr 1
+      ring
+    field_simp [h_ne1, h_ne2, hm_ne, hs0_ne]
+    rw [h_exp4]
+    ring
+  exact ⟨h_cont_eq, h_cont_ge, h_det, h_norm, h_bohm_eq, h_bohm_ge, h_qp_ratio⟩
+
 end Signals.DDF
