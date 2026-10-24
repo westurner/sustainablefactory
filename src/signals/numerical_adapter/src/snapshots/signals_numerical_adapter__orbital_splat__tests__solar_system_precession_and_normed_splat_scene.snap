@@ -1,0 +1,14 @@
+---
+source: src/orbital_splat.rs
+expression: "(summary, scene_summary)"
+---
+(
+    [
+        "Mercury: p=0.370731 AU, Gr24(p/a)=0.957716, rel=42.98''/cy, tot=574.61''/cy",
+        "Venus: p=0.723299 AU, Gr24(p/a)=0.999954, rel=8.62''/cy, tot=8.62''/cy",
+        "Earth: p=0.999721 AU, Gr24(p/a)=0.999721, rel=3.84''/cy, tot=3.84''/cy",
+        "Mars: p=1.510367 AU, Gr24(p/a)=0.991274, rel=1.35''/cy, tot=1.35''/cy",
+        "Icarus: p=0.341049 AU, Gr24(p/a)=0.316402, rel=10.05''/cy, tot=10.05''/cy",
+    ],
+    "splats=8, total_weight=21.70, origin_sink=248.6796, origin_gr24=7.7180, merc_ddf=82.8932",
+)

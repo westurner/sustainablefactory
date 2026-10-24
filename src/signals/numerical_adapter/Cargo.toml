@@ -24,6 +24,10 @@ sha2 = { version = "0.10.9", optional = true }
 tokio = { version = "1.47.1", features = ["macros", "rt-multi-thread"], optional = true }
 vortex = { version = "0.86.1", default-features = false, features = ["files", "zstd"], optional = true }
 
+[dev-dependencies]
+insta = "1.43.1"
+rstest = "0.25.0"
+
 [[bin]]
 name = "signals-numerical-adapter"
 path = "src/main.rs"

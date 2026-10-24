@@ -287,14 +287,34 @@ end ArxivGravityFromQEDPaperVerification
 
 ---
 
-## 5. Conclusion & Reproducibility
+## 5. Rust + WebAssembly (`wasm32-unknown-unknown`) + WebGL2 GLSL Simulation & Normed Tensor Gaussian Splatting
 
-By formalizing the BCJ Plücker double copy on $Gr_{\mathbb{C}}(2,4)$, the 1-loop QFT / DDF effective orbital potential $V_{\mathrm{eff}}(r)$, the anomalous perihelion precession $\Delta\varpi = \frac{3\pi r_H}{a(1 - e^2)}$, the $Gr_{\mathbb{C}}(2,4)$ planetary orbital precession matrix `PlanetaryOrbit.gr24PrecessionMatrix`, and the $N$-body sink potential on $Gr_{\mathbb{C}}(2, N+2)$ in Lean 4, we have established a machine-checked bridge from flat-space scattering amplitudes and positive/complex Grassmannian geometry to planetary orbital mechanics and Dilatant Dark Fluid hydrodynamics.
+In [src/signals/numerical_adapter/src/orbital_splat.rs](../src/signals/numerical_adapter/src/orbital_splat.rs) and the WebGL2 (`#version 300 es`) shaders [orbital_splat.vert.glsl](../src/signals/numerical_adapter/src/shaders/orbital_splat.vert.glsl) and [orbital_splat.frag.glsl](../src/signals/numerical_adapter/src/shaders/orbital_splat.frag.glsl), we implement the complete orbital mechanics and multi-layer normed Tensor Gaussian Splatting pipeline:
+
+1. **Planetary Precession & Symplectic Velocity-Verlet $N$-Body Simulation (`PlanetaryOrbitParams`, `RelativisticOrbitState`)**:
+   - Evaluates the $\pi$-free arcsecond precession $\Delta\varpi_{\mathrm{arcsec}} = \frac{1,944,000\,r_H}{p}$, the precessing polar conic $r(\varphi; \eta_{\mathrm{prec}}) = \frac{p}{1 + e\cos((1 - \eta_{\mathrm{prec}})\varphi)}$, the $Gr_{\mathbb{C}}(2,4)$ orbital precession matrix `gr24_precession_matrix`, the $N$-body $Gr_{\mathbb{C}}(2, N+2)$ Madelung sink sum `nbody_bernoulli_potential_gr2n`, and the symplectic Velocity-Verlet integrator `step_velocity_verlet` for $V_{\mathrm{eff}}(r)$.
+2. **Multi-Layer Normed 2D Anisotropic Tensor Gaussian Splatting (`NormedTensorGaussianSplat2D`, `SplatRole`, `OrbitalSplatScene`)**:
+   - **`SplatRole::BodySinkSource (0)`**: Gravitating bodies, attractors, superfluid sinks ($\Phi_\phi < 0$), and sources.
+   - **`SplatRole::Gr24OrbitalField (1)`**: Complex $Gr_{\mathbb{C}}(2,4)$ orbital field splats with $\sigma_1 = \sigma_0\sqrt{1+e} = \sigma_0|w_A^{\mathbb{C}}|$, $\sigma_2 = \sigma_0\sqrt{1-e} = \sigma_0|w_B^{\mathbb{C}}|$, $\operatorname{Tr}\Sigma = 2\sigma_0^2$, and $\det\Sigma = \sigma_0^4(1-e^2) = \sigma_0^4(p/a)$.
+   - **`SplatRole::DdfMovingSheathField (2)`**: DDF moving-sheath splats with longitudinal Lorentz/jamming contraction $\sigma_1 = \sigma_0/\gamma_\varphi(v)$ along the velocity vector and transverse width $\sigma_2 = \sigma_0$, so $\det\Sigma_{\mathrm{DDF}} = \sigma_0^4\gamma_\varphi(v)^{-2}$ and $\mathcal{N}_{\mathrm{DDF}} = \frac{\gamma_\varphi(v)}{2\pi\sigma_0^2}$.
+   - **`SplatRole::VortexSwirlField (3)`**: Gravitomagnetic / Kerr–Lense–Thirring vortex swirl splats.
+3. **Parametric `rstest` Fixtures & `insta` (`cargo-insta`) Snapshot Verification**:
+   - Verified across all five solar-system benchmarks (`Mercury`, `Venus`, `Earth`, `Mars`, `Icarus`) with `#[rstest]` and locked in [signals_numerical_adapter__orbital_splat__tests__solar_system_precession_and_normed_splat_scene.snap](../src/signals/numerical_adapter/src/snapshots/signals_numerical_adapter__orbital_splat__tests__solar_system_precession_and_normed_splat_scene.snap).
+
+---
+
+## 6. Conclusion & Reproducibility
+
+By formalizing the BCJ Plücker double copy on $Gr_{\mathbb{C}}(2,4)$, the 1-loop QFT / DDF effective orbital potential $V_{\mathrm{eff}}(r)$, the anomalous perihelion precession $\Delta\varpi = \frac{3\pi r_H}{a(1 - e^2)}$, the $Gr_{\mathbb{C}}(2,4)$ planetary orbital precession matrix `PlanetaryOrbit.gr24PrecessionMatrix`, the $N$-body sink potential on $Gr_{\mathbb{C}}(2, N+2)$, and `NormedTensorGaussianSplat2D` in Lean 4 and Rust/WASM/GLSL, we have established a machine-checked bridge from flat-space scattering amplitudes and positive/complex Grassmannian geometry to planetary orbital mechanics and Dilatant Dark Fluid hydrodynamics.
 
 ```bash
 make signals_build
 pushd src/signals
 lake build :blueprint :blueprintJson
+pushd numerical_adapter
+cargo test
+cargo build --lib --target wasm32-unknown-unknown --release
+popd
 popd
 ```
 

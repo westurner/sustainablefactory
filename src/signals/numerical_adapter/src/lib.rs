@@ -5,6 +5,7 @@
 use std::fmt;
 
 pub mod double_slit;
+pub mod orbital_splat;
 
 #[cfg(feature = "cylinder")]
 pub mod cylinder;
