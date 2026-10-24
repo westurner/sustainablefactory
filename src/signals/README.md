@@ -185,8 +185,18 @@ interpretation while keeping experimental premises explicit:
    cross-section inversion, SNR, and residual-based anomaly candidates. It also
    records finite grid observations, passive complex material transfer laws,
    frequency-dependent attenuation, speckle covariance metadata, and per-sample
-   residual tolerances. These remain finite metrology contracts, not a
-   continuous inverse-scattering solver.
+   residual tolerances, and integrates with `Signals.QISM` via inverse recovery
+   of spectral rapidity differences and Yang coupling from triplet/singlet
+   $R$-matrix eigenvalues (`reconstruct_yang_parameters`), unitary two-body
+   transmission-plus-reflection probability conservation
+   (`yang_scattering_probability_conservation`), monodromy entry and
+   off-diagonal product recovery from transfer traces and Grassmannian minors
+   (`reconstruct_monodromy_from_trace_and_minor`), and calibrated Baxter $TQ$
+   residual metrology (`baxterTQResidualMeasurement`,
+   `baxterTQResidualMeasurement_wronskian_consistent`, and
+   `baxterTQResidualMeasurement_offShell_anomaly`). These remain finite
+   metrology and algebraic inverse-scattering contracts, not a continuous PDE
+   inverse-scattering solver.
 - `Signals.NonDestructive` separates nondestructive inspection methods,
    phase-fingerprint observations, dispersive probe readout, raw-data-preserving
    calibration, reversible operations, in-situ remediation, and continuous

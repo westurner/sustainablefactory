@@ -4074,4 +4074,55 @@ example (K : ℝ → ℝ → ℝ) :
       - Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K 1 2 3 4) :=
   Signals.QISM.slavnovDet2_swap_bethe K 1 2 3 4
 
+/-- Inverse scattering parameter recovery: triplet and singlet Yang R-matrix eigenvalues
+reconstruct the exact spectral rapidity difference δ(u, v) = u - v and coupling η. -/
+example :
+    Signals.Scattering.reconstructSpectralDiff
+        (Signals.QISM.yangSymmetricWeight 9 4 3)
+        (Signals.QISM.yangAntisymmetricWeight 9 4 3) =
+      Signals.QISM.spectralDiff 9 4 ∧
+      Signals.Scattering.reconstructYangCoupling
+        (Signals.QISM.yangSymmetricWeight 9 4 3)
+        (Signals.QISM.yangAntisymmetricWeight 9 4 3) = 3 :=
+  Signals.Scattering.reconstruct_yang_parameters 9 4 3
+
+/-- Unitary two-body scattering probability conservation for Yang's rational R-matrix:
+(3/5)² + (4/5)² = 9/25 + 16/25 = 1. -/
+example :
+    0 ≤ Signals.Scattering.yangTransmissionProb 5 2 4 ∧
+      0 ≤ Signals.Scattering.yangReflectionProb 5 2 4 ∧
+      Signals.Scattering.yangTransmissionProb 5 2 4 +
+        Signals.Scattering.yangReflectionProb 5 2 4 = 1 :=
+  Signals.Scattering.yang_scattering_probability_conservation 5 2 4
+    (by norm_num [Signals.QISM.spectralDiff])
+
+/-- Inverse monodromy recovery of D(u) = t(u) - A(u) and B(u) * C(u) = A(u) * D(u) - Δ_01(T). -/
+example :
+    let T : Signals.QISM.MonodromyMatrix2 := { A := 5, B := 2, C := 3, D := 4 }
+    T.transferTrace - T.A = T.D ∧
+      T.A * T.D - Signals.Geometry.twoRowMinor T.toMatrix 0 1 = T.B * T.C := by
+  intro T
+  exact Signals.Scattering.reconstruct_monodromy_from_trace_and_minor T
+
+/-- A three-point Casorati Wronskian Baxter TQ solution produces a metrologically consistent
+Scattering.ResidualMeasurement for any nonnegative tolerance. -/
+example :
+    (Signals.Scattering.baxterTQResidualMeasurement
+      (Signals.QISM.casoratiWronskian (fun u => u ^ 2 - 1) (fun u => u + 2) (3 - 1) (3 + 1))
+      (Signals.QISM.casoratiWronskian (fun u => u ^ 2 - 1) (fun u => u + 2) 3 (3 + 1))
+      (Signals.QISM.casoratiWronskian (fun u => u ^ 2 - 1) (fun u => u + 2) (3 - 1) 3)
+      ((fun u : ℝ => u ^ 2 - 1) 3)
+      ((fun u : ℝ => u ^ 2 - 1) (3 - 1))
+      ((fun u : ℝ => u ^ 2 - 1) (3 + 1))
+      (1 / 10) (by norm_num)).consistent :=
+  Signals.Scattering.baxterTQResidualMeasurement_wronskian_consistent
+    (fun u => u ^ 2 - 1) (fun u => u + 2) 3 1 (1 / 10) (by norm_num)
+
+/-- An off-shell Bethe root with |a Q(u_m - η) + d Q(u_m + η)| > tolerance is flagged as
+an anomalyCandidate in Signals.Scattering. -/
+example :
+    (Signals.Scattering.baxterTQResidualMeasurement 10 3 2 0 1 1 (1 / 2) (by norm_num)).anomalyCandidate :=
+  Signals.Scattering.baxterTQResidualMeasurement_offShell_anomaly 10 3 2 1 1 (1 / 2)
+    (by norm_num) (by norm_num)
+
 end SignalsTests

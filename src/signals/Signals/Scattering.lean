@@ -1,18 +1,26 @@
+import Architect
 import Mathlib.Basic.Complex.Basic
 import Mathlib.Basic.Real.Basic
 import Mathlib.Tactic
 import Signals.Contracts
 import Signals.IQ
 import Signals.Propagation
+import Signals.QISM
 
 namespace Signals.Scattering
 
 open Signals.IQ
 open Signals.Contracts
+open Signals.Geometry
 open Signals.Propagation
+open Signals.QISM
 open Signals.Units
 
 /-- A coherent incident/return observation represented by I/Q samples. -/
+@[blueprint "def:signals-scattering-observation"
+  (title := "Coherent incident and scattered I/Q observation")
+  (statement := /-- An observation pairs an incident I/Q sample of positive squared norm
+    $\lVert\psi_{\mathrm{in}}\rVert^2>0$ with a scattered I/Q sample $\psi_{\mathrm{out}}$. -/)]
 structure Observation where
   incident : Sample
   incidentNormSq : ℝ
@@ -21,6 +29,12 @@ structure Observation where
   scattered : Sample
 
 /-- A positive incident norm excludes a zero incident complex field. -/
+@[blueprint "lem:signals-scattering-incident-ne-zero"
+  (title := "Positive incident norm excludes zero incident field")
+  (statement := /-- In any \texttt{Observation}, $\psi_{\mathrm{in}}\ne 0$. -/)
+  (proof := /-- A zero incident field would force $\lVert\psi_{\mathrm{in}}\rVert^2=0$,
+    contradicting $\lVert\psi_{\mathrm{in}}\rVert^2>0$. -/)
+  (latexEnv := "lemma")]
 lemma Observation.incident_ne_zero (observation : Observation) :
     observation.incident.asComplex ≠ 0 := by
   intro incident_zero
@@ -30,20 +44,37 @@ lemma Observation.incident_ne_zero (observation : Observation) :
   linarith [observation.incidentNormSq_pos]
 
 /-- The complex coherent scattering-amplitude ratio. -/
+@[blueprint "def:signals-scattering-amplitude-ratio"
+  (title := "Complex coherent scattering-amplitude ratio")
+  (statement := /-- For an observation, define the complex scattering ratio
+    $S=\psi_{\mathrm{out}}/\psi_{\mathrm{in}}$. -/)]
 noncomputable def Observation.amplitudeRatio (observation : Observation) : ℂ :=
   observation.scattered.asComplex / observation.incident.asComplex
 
 /-- The measured scattered-to-incident power ratio. -/
+@[blueprint "def:signals-scattering-power-ratio"
+  (title := "Scattered-to-incident power ratio")
+  (statement := /-- Define the scattered power ratio
+    $\lVert\psi_{\mathrm{out}}\rVert^2/\lVert\psi_{\mathrm{in}}\rVert^2$. -/)]
 noncomputable def Observation.powerRatio (observation : Observation) : ℝ :=
   Complex.normSq observation.scattered.asComplex / observation.incidentNormSq
 
 /-- Scattered power ratio is nonnegative. -/
+@[blueprint "lem:signals-scattering-power-ratio-nonneg"
+  (title := "Nonnegativity of scattered power ratio")
+  (statement := /-- Every \texttt{Observation} has nonnegative scattered-to-incident power ratio. -/)
+  (proof := /-- Divide $\lVert\psi_{\mathrm{out}}\rVert^2\ge 0$ by $\lVert\psi_{\mathrm{in}}\rVert^2>0$. -/)
+  (latexEnv := "lemma")]
 lemma Observation.powerRatio_nonnegative (observation : Observation) :
     0 ≤ observation.powerRatio := by
   unfold Observation.powerRatio
   exact div_nonneg (Complex.normSq_nonneg _) observation.incidentNormSq_pos.le
 
 /-- A round-trip phase model with an explicit reference phase and unwrapped phase. -/
+@[blueprint "def:signals-scattering-height-model"
+  (title := "Round-trip scattering phase height model")
+  (statement := /-- Associates wavenumber $k\ne 0$, reference phase $\phi_0$, height $h$,
+    and unwrapped phase $\phi=\phi_0+2kh$. -/)]
 structure HeightModel where
   waveNumber : ℝ
   waveNumber_ne_zero : waveNumber ≠ 0
@@ -53,10 +84,18 @@ structure HeightModel where
   roundTripLaw : unwrappedPhase = referencePhase + 2 * waveNumber * height
 
 /-- Recover height from a reference-subtracted unwrapped scattering phase. -/
+@[blueprint "def:signals-scattering-reconstruct-height"
+  (title := "Inverse height reconstruction from unwrapped scattering phase")
+  (statement := /-- Reconstruct target height as $(\phi-\phi_0)/(2k)$. -/)]
 noncomputable def HeightModel.reconstructHeight (model : HeightModel) : ℝ :=
   (model.unwrappedPhase - model.referencePhase) / (2 * model.waveNumber)
 
 /-- The height reconstruction is exact under the round-trip phase model. -/
+@[blueprint "lem:signals-scattering-reconstruct-height-eq"
+  (title := "Exact round-trip phase-height inversion")
+  (statement := /-- Under $\phi=\phi_0+2kh$ with $k\ne 0$, $(\phi-\phi_0)/(2k)=h$. -/)
+  (proof := /-- Substitute the round-trip phase law and clear $2k\ne 0$. -/)
+  (latexEnv := "lemma")]
 lemma HeightModel.reconstructHeight_eq_height (model : HeightModel) :
     model.reconstructHeight = model.height := by
   unfold HeightModel.reconstructHeight
@@ -65,6 +104,10 @@ lemma HeightModel.reconstructHeight_eq_height (model : HeightModel) :
   ring
 
 /-- A scattered-power measurement with a calibrated incident flux. -/
+@[blueprint "def:signals-scattering-cross-section-measurement"
+  (title := "Calibrated scattering cross-section measurement")
+  (statement := /-- Relates positive incident flux $\Phi_{\mathrm{in}}>0$, scattered power
+    $P_{\mathrm{scat}}\ge 0$, and cross section $\sigma\ge 0$ via $P_{\mathrm{scat}}=\Phi_{\mathrm{in}}\sigma$. -/)]
 structure CrossSectionMeasurement where
   incidentFlux : ℝ
   incidentFlux_pos : 0 < incidentFlux
@@ -75,6 +118,11 @@ structure CrossSectionMeasurement where
   powerLaw : scatteredPower = incidentFlux * crossSection
 
 /-- Cross section is determined by scattered power and incident flux. -/
+@[blueprint "lem:signals-scattering-cross-section-ratio"
+  (title := "Scattering cross-section inversion from scattered power and flux")
+  (statement := /-- In any \texttt{CrossSectionMeasurement}, $\sigma=P_{\mathrm{scat}}/\Phi_{\mathrm{in}}$. -/)
+  (proof := /-- Substitute $P_{\mathrm{scat}}=\Phi_{\mathrm{in}}\sigma$ and divide by $\Phi_{\mathrm{in}}>0$. -/)
+  (latexEnv := "lemma")]
 lemma CrossSectionMeasurement.crossSection_eq_ratio
     (measurement : CrossSectionMeasurement) :
     measurement.crossSection = measurement.scatteredPower / measurement.incidentFlux := by
@@ -82,6 +130,10 @@ lemma CrossSectionMeasurement.crossSection_eq_ratio
   field_simp [measurement.incidentFlux_pos.ne']
 
 /-- A measured quantity with an explicit residual and tolerance. -/
+@[blueprint "def:signals-scattering-residual-measurement"
+  (title := "Scattering residual measurement record")
+  (statement := /-- Records predicted value, observed value, nonnegative tolerance, and
+    residual $r=\mathrm{observed}-\mathrm{predicted}$. -/)]
 structure ResidualMeasurement where
   predicted : ℝ
   observed : ℝ
@@ -91,23 +143,44 @@ structure ResidualMeasurement where
   residualLaw : residual = observed - predicted
 
 /-- A residual is within the calibrated uncertainty. -/
+@[blueprint "def:signals-scattering-residual-consistent"
+  (title := "Residual consistency within calibrated tolerance")
+  (statement := /-- A residual measurement is consistent when $|r|\le\tau$. -/)]
 def ResidualMeasurement.consistent (measurement : ResidualMeasurement) : Prop :=
   |measurement.residual| ≤ measurement.tolerance
 
 /-- An out-of-tolerance residual is an anomaly candidate, not a diagnosis. -/
+@[blueprint "def:signals-scattering-anomaly-candidate"
+  (title := "Out-of-tolerance residual anomaly candidate")
+  (statement := /-- Marks a residual measurement with $|r|>\tau$ as an anomaly candidate. -/)]
 def ResidualMeasurement.anomalyCandidate (measurement : ResidualMeasurement) : Prop :=
   ¬measurement.consistent
 
 /-- The residual and anomaly predicates expose their intended inequalities. -/
+@[blueprint "lem:signals-scattering-consistent-iff"
+  (title := "Characterization of residual consistency")
+  (statement := /-- Consistency holds if and only if $|r|\le\tau$. -/)
+  (proof := /-- Definitional equivalence. -/)
+  (latexEnv := "lemma")]
 lemma ResidualMeasurement.consistent_iff (measurement : ResidualMeasurement) :
     measurement.consistent ↔ |measurement.residual| ≤ measurement.tolerance := by
   rfl
 
+/-- Characterization of an out-of-tolerance scattering residual anomaly candidate. -/
+@[blueprint "lem:signals-scattering-anomaly-iff"
+  (title := "Characterization of residual anomaly candidate")
+  (statement := /-- An anomaly candidate occurs if and only if $\neg(|r|\le\tau)$. -/)
+  (proof := /-- Definitional equivalence. -/)
+  (latexEnv := "lemma")]
 lemma ResidualMeasurement.anomalyCandidate_iff (measurement : ResidualMeasurement) :
     measurement.anomalyCandidate ↔ ¬|measurement.residual| ≤ measurement.tolerance := by
   rfl
 
 /-- Adapt a scattering residual to the shared measurement contract. -/
+@[blueprint "def:signals-scattering-to-residual-contract"
+  (title := "Promotion of a consistent scattering residual to ResidualContract")
+  (statement := /-- Packages a consistent \texttt{ResidualMeasurement} as a verified
+    \texttt{Signals.Contracts.ResidualContract}. -/)]
 def ResidualMeasurement.toResidualContract (measurement : ResidualMeasurement)
   (consistent : measurement.consistent) :
     ResidualContract ℝ ℝ ℝ :=
@@ -124,6 +197,9 @@ def ResidualMeasurement.toResidualContract (measurement : ResidualMeasurement)
       exact measurement.consistent_iff.mp consistent }
 
 /-- A nonnegative signal and positive noise power define a linear SNR model. -/
+@[blueprint "def:signals-scattering-snr"
+  (title := "Linear scattering signal-to-noise record")
+  (statement := /-- Pairs nonnegative signal power $P_s\ge 0$ with positive noise power $P_n>0$. -/)]
 structure SignalToNoise where
   signalPower : ℝ
   signalPower_nonnegative : 0 ≤ signalPower
@@ -131,10 +207,18 @@ structure SignalToNoise where
   noisePower_pos : 0 < noisePower
 
 /-- Signal-to-noise ratio as a dimensionless power ratio. -/
+@[blueprint "def:signals-scattering-snr-ratio"
+  (title := "Dimensionless scattering signal-to-noise ratio")
+  (statement := /-- Defines $\mathrm{SNR}=P_s/P_n$. -/)]
 noncomputable def SignalToNoise.ratio (measurement : SignalToNoise) : ℝ :=
   measurement.signalPower / measurement.noisePower
 
 /-- Signal-to-noise ratio is nonnegative. -/
+@[blueprint "lem:signals-scattering-snr-nonneg"
+  (title := "Nonnegativity of signal-to-noise ratio")
+  (statement := /-- For any \texttt{SignalToNoise} record, $\mathrm{SNR}\ge 0$. -/)
+  (proof := /-- Divide $P_s\ge 0$ by $P_n>0$. -/)
+  (latexEnv := "lemma")]
 lemma SignalToNoise.ratio_nonnegative (measurement : SignalToNoise) :
     0 ≤ measurement.ratio := by
   unfold SignalToNoise.ratio
@@ -142,21 +226,37 @@ lemma SignalToNoise.ratio_nonnegative (measurement : SignalToNoise) :
 
 /-- A scattering-metrology record joins coherent data, height reconstruction,
 and an independent residual measurement. -/
+@[blueprint "def:signals-scattering-metrology-record"
+  (title := "Combined scattering metrology record")
+  (statement := /-- Combines an I/Q \texttt{Observation}, a phase \texttt{HeightModel}, and a
+    \texttt{ResidualMeasurement}. -/)]
 structure MetrologyRecord where
   observation : Observation
   heightModel : HeightModel
   residual : ResidualMeasurement
 
 /-- A metrology record is accepted only when its residual is consistent. -/
+@[blueprint "def:signals-scattering-metrology-accepted"
+  (title := "Metrology record acceptance predicate")
+  (statement := /-- A metrology record is accepted when its residual measurement is within tolerance. -/)]
 def MetrologyRecord.accepted (record : MetrologyRecord) : Prop :=
   record.residual.consistent
 
 /-- Acceptance is exactly the residual tolerance condition. -/
+@[blueprint "lem:signals-scattering-metrology-accepted-iff"
+  (title := "Characterization of metrology record acceptance")
+  (statement := /-- Acceptance holds if and only if $|r|\le\tau$. -/)
+  (proof := /-- Definitional equivalence. -/)
+  (latexEnv := "lemma")]
 lemma MetrologyRecord.accepted_iff (record : MetrologyRecord) :
     record.accepted ↔ |record.residual.residual| ≤ record.residual.tolerance := by
   rfl
 
 /-- A passive complex material response at one measured frequency. -/
+@[blueprint "def:signals-scattering-material-transfer"
+  (title := "Passive complex material transfer function")
+  (statement := /-- Records a complex transfer amplitude $H(\omega)$ at frequency $f>0$ with
+    transmitted power ratio $0\le |H(\omega)|^2\le 1$. -/)]
 structure MaterialTransferFunction where
   frequency : Frequency
   frequency_pos : 0 < frequency.hz
@@ -167,12 +267,21 @@ structure MaterialTransferFunction where
   powerLaw : transmittedPowerRatio = Complex.normSq transfer
 
 /-- The material transfer function exposes its complex power law. -/
+@[blueprint "lem:signals-scattering-material-power-law"
+  (title := "Material transmitted power equals squared transfer modulus")
+  (statement := /-- For any \texttt{MaterialTransferFunction}, the transmitted power ratio
+    equals $|H(\omega)|^2$. -/)
+  (proof := /-- Apply \texttt{powerLaw}. -/)
+  (latexEnv := "lemma")]
 lemma MaterialTransferFunction.power_holds
     (response : MaterialTransferFunction) :
     response.transmittedPowerRatio = Complex.normSq response.transfer :=
   response.powerLaw
 
 /-- Frequency-dependent bulk attenuation with an explicit exponential law. -/
+@[blueprint "def:signals-scattering-frequency-attenuation"
+  (title := "Frequency-dependent exponential bulk attenuation")
+  (statement := /-- Models power attenuation $\exp(-2\alpha d)$ for $\alpha\ge 0$ and distance $d\ge 0$. -/)]
 structure FrequencyDependentAttenuation where
   frequency : Frequency
   frequency_pos : 0 < frequency.hz
@@ -185,6 +294,11 @@ structure FrequencyDependentAttenuation where
     Real.exp (-2 * attenuationPerLength * distance.meters)
 
 /-- Frequency-dependent attenuation is nonnegative. -/
+@[blueprint "lem:signals-scattering-attenuation-nonneg"
+  (title := "Nonnegativity of exponential bulk attenuation")
+  (statement := /-- Every \texttt{FrequencyDependentAttenuation} factor satisfies $\mathrm{factor}\ge 0$. -/)
+  (proof := /-- Exponential of any real argument is positive. -/)
+  (latexEnv := "lemma")]
 lemma FrequencyDependentAttenuation.factor_nonnegative
     (attenuation : FrequencyDependentAttenuation) :
     0 ≤ attenuation.factor := by
@@ -192,6 +306,11 @@ lemma FrequencyDependentAttenuation.factor_nonnegative
   exact (Real.exp_pos _).le
 
 /-- Nonnegative frequency-dependent attenuation cannot amplify power. -/
+@[blueprint "lem:signals-scattering-attenuation-le-one"
+  (title := "Passive upper bound on exponential bulk attenuation")
+  (statement := /-- For $\alpha\ge 0$ and $d\ge 0$, $\exp(-2\alpha d)\le 1$. -/)
+  (proof := /-- Since $-2\alpha d\le 0$, $\exp(-2\alpha d)\le\exp(0)=1$. -/)
+  (latexEnv := "lemma")]
 lemma FrequencyDependentAttenuation.factor_le_one
     (attenuation : FrequencyDependentAttenuation) :
     attenuation.factor ≤ 1 := by
@@ -200,6 +319,9 @@ lemma FrequencyDependentAttenuation.factor_le_one
     attenuation.distance_nonnegative]
 
 /-- Finite speckle covariance metadata for a grid of observations. -/
+@[blueprint "def:signals-scattering-speckle-covariance"
+  (title := "Finite speckle covariance matrix record")
+  (statement := /-- A symmetric $N\times N$ covariance matrix ($N>0$) with nonnegative diagonal variances. -/)]
 structure SpeckleCovariance (sampleCount : ℕ) where
   sampleCount_positive : 0 < sampleCount
   covariance : Matrix (Fin sampleCount) (Fin sampleCount) ℝ
@@ -209,6 +331,11 @@ structure SpeckleCovariance (sampleCount : ℕ) where
     0 ≤ covariance index index
 
 /-- A speckle covariance record exposes its symmetry law. -/
+@[blueprint "lem:signals-scattering-speckle-symmetric"
+  (title := "Symmetry of speckle covariance matrix")
+  (statement := /-- For all indices $i,j$, $C_{ij}=C_{ji}$. -/)
+  (proof := /-- Apply \texttt{covariance\_symmetric}. -/)
+  (latexEnv := "lemma")]
 lemma SpeckleCovariance.symmetric
     {sampleCount : ℕ} (covariance : SpeckleCovariance sampleCount)
     (row column : Fin sampleCount) :
@@ -216,6 +343,11 @@ lemma SpeckleCovariance.symmetric
   covariance.covariance_symmetric row column
 
 /-- A speckle covariance record exposes nonnegative diagonal variance. -/
+@[blueprint "lem:signals-scattering-speckle-diag-nonneg"
+  (title := "Nonnegativity of diagonal speckle variances")
+  (statement := /-- For every sample index $i$, $C_{ii}\ge 0$. -/)
+  (proof := /-- Apply \texttt{covariance\_diagonal\_nonnegative}. -/)
+  (latexEnv := "lemma")]
 lemma SpeckleCovariance.diagonal_nonnegative
     {sampleCount : ℕ} (covariance : SpeckleCovariance sampleCount)
     (index : Fin sampleCount) :
@@ -223,6 +355,10 @@ lemma SpeckleCovariance.diagonal_nonnegative
   covariance.covariance_diagonal_nonnegative index
 
 /-- A finite scattering grid with residual uncertainty and speckle metadata. -/
+@[blueprint "def:signals-scattering-grid-metrology"
+  (title := "Two-dimensional scattering grid metrology record")
+  (statement := /-- Joins an $M\times N$ grid of observations and residual measurements with
+    an $(MN)\times(MN)$ speckle covariance matrix. -/)]
 structure GridMetrologyRecord (width height : ℕ) where
   width_positive : 0 < width
   height_positive : 0 < height
@@ -231,17 +367,30 @@ structure GridMetrologyRecord (width height : ℕ) where
   covariance : SpeckleCovariance (width * height)
 
 /-- A finite grid contains at least one observation in each dimension. -/
+@[blueprint "lem:signals-scattering-grid-dims-pos"
+  (title := "Positivity of scattering grid dimensions")
+  (statement := /-- Every \texttt{GridMetrologyRecord} has positive width and height. -/)
+  (proof := /-- Pair \texttt{width\_positive} and \texttt{height\_positive}. -/)
+  (latexEnv := "lemma")]
 lemma GridMetrologyRecord.dimensions_positive
     {width height : ℕ} (record : GridMetrologyRecord width height) :
     0 < width ∧ 0 < height :=
   ⟨record.width_positive, record.height_positive⟩
 
 /-- Every grid residual retains its calibrated uncertainty predicate. -/
+@[blueprint "def:signals-scattering-grid-consistent"
+  (title := "Gridwise scattering residual consistency")
+  (statement := /-- A grid record is consistent when every cell residual satisfies $|r_{ij}|\le\tau_{ij}$. -/)]
 def GridMetrologyRecord.consistent
     {width height : ℕ} (record : GridMetrologyRecord width height) : Prop :=
   ∀ row column, (record.residuals row column).consistent
 
 /-- A grid is consistent when each retained residual is within tolerance. -/
+@[blueprint "lem:signals-scattering-grid-consistent-iff"
+  (title := "Characterization of gridwise residual consistency")
+  (statement := /-- Grid consistency holds if and only if every cell satisfies $|r_{ij}|\le\tau_{ij}$. -/)
+  (proof := /-- Unfold cellwise \texttt{consistent\_iff}. -/)
+  (latexEnv := "lemma")]
 lemma GridMetrologyRecord.consistent_iff
     {width height : ℕ} (record : GridMetrologyRecord width height) :
     record.consistent ↔ ∀ row column,
@@ -254,5 +403,186 @@ lemma GridMetrologyRecord.consistent_iff
   · intro consistent row column
     exact (record.residuals row column).consistent_iff.mpr
       (consistent row column)
+
+/-! ## Quantum Inverse Scattering (QISM) Integration & Inverse Reconstruction
+
+Integrates the algebraic QISM and Grassmannian Bethe ansatz structures from
+`Signals.QISM` with the scattering metrology and inverse-reconstruction
+contracts in `Signals.Scattering`:
+1. Exact inverse reconstruction of the spectral rapidity difference $\delta(u,v) = u - v$
+   and Yang coupling constant $\eta$ from the symmetric (triplet) and antisymmetric
+   (singlet) $R$-matrix channel eigenvalues.
+2. Unitary two-body scattering probability conservation
+   $T_{\mathrm{prob}}(u,v;\eta) + R_{\mathrm{prob}}(u,v;\eta) = 1$ for Yang's
+   rational $R$-matrix.
+3. Inverse monodromy reconstruction of the complementary diagonal entry
+   $D(u) = t(u) - A(u)$ and off-diagonal magnon creation/annihilation product
+   $B(u) C(u) = A(u) D(u) - \Delta_{01}(T(u))$ from the transfer trace and
+   $2 \times 2$ Grassmannian minor.
+4. Embedding Baxter's $TQ$ difference-equation residual (`baxterTQResidual`) into
+   `ResidualMeasurement`, proving that three-point Casorati Wronskian solutions
+   on $Gr(2,4)$ are automatically `.consistent` for all tolerances $\tau \ge 0$,
+   while off-shell Bethe-root violations beyond $\tau$ trigger `.anomalyCandidate`.
+-/
+
+/-- Reconstruct the QISM spectral rapidity difference $\delta(u, v) = u - v$ from the
+symmetric (triplet) and antisymmetric (singlet) Yang $R$-matrix channel weights. -/
+@[blueprint "def:signals-scattering-reconstruct-spectral-diff"
+  (title := "Inverse reconstruction of spectral rapidity difference from R-matrix channels")
+  (statement := /-- Given triplet weight $w_{\mathrm{sym}}$ and singlet weight $w_{\mathrm{anti}}$,
+    reconstruct the spectral difference as $(w_{\mathrm{sym}}+w_{\mathrm{anti}})/2$. -/)]
+noncomputable def reconstructSpectralDiff (w_sym w_anti : ℝ) : ℝ :=
+  (w_sym + w_anti) / 2
+
+/-- Reconstruct the QISM coupling constant $\eta$ from the symmetric (triplet) and
+antisymmetric (singlet) Yang $R$-matrix channel weights. -/
+@[blueprint "def:signals-scattering-reconstruct-yang-coupling"
+  (title := "Inverse reconstruction of Yang coupling constant from R-matrix channels")
+  (statement := /-- Given triplet weight $w_{\mathrm{sym}}$ and singlet weight $w_{\mathrm{anti}}$,
+    reconstruct the coupling constant as $(w_{\mathrm{sym}}-w_{\mathrm{anti}})/2$. -/)]
+noncomputable def reconstructYangCoupling (w_sym w_anti : ℝ) : ℝ :=
+  (w_sym - w_anti) / 2
+
+/-- Inverse spectral reconstruction recovers the exact rapidity difference
+`spectralDiff u v = u - v` and coupling `η` from `yangSymmetricWeight` and
+`yangAntisymmetricWeight`. -/
+@[blueprint "thm:signals-scattering-reconstruct-yang-parameters"
+  (title := "Exact inverse recovery of spectral difference and coupling from R-matrix eigenvalues")
+  (statement := /-- For any rapidities $u,v$ and coupling $\eta$,
+    $\operatorname{reconstructSpectralDiff}(w_{\mathrm{sym}},w_{\mathrm{anti}})=\delta(u,v)$ and
+    $\operatorname{reconstructYangCoupling}(w_{\mathrm{sym}},w_{\mathrm{anti}})=\eta$. -/)
+  (proof := /-- Unfold the channel weights and simplify linear combinations. -/)]
+theorem reconstruct_yang_parameters (u v η : ℝ) :
+    reconstructSpectralDiff (yangSymmetricWeight u v η) (yangAntisymmetricWeight u v η) =
+        spectralDiff u v ∧
+      reconstructYangCoupling (yangSymmetricWeight u v η) (yangAntisymmetricWeight u v η) = η := by
+  constructor
+  · unfold reconstructSpectralDiff yangSymmetricWeight yangAntisymmetricWeight
+    ring
+  · unfold reconstructYangCoupling yangSymmetricWeight yangAntisymmetricWeight
+    ring
+
+/-- Rational $R$-matrix transmission probability
+$T_{\mathrm{prob}}(u, v; \eta) = (u - v)^2 / ((u - v)^2 + \eta^2)$. -/
+@[blueprint "def:signals-scattering-yang-transmission-prob"
+  (title := "Yang rational R-matrix transmission probability")
+  (statement := /-- For rapidities $u,v$ and coupling $\eta$, the two-body transmission
+    probability is $T_{\mathrm{prob}}=\delta(u,v)^2/(\delta(u,v)^2+\eta^2)$. -/)]
+noncomputable def yangTransmissionProb (u v η : ℝ) : ℝ :=
+  (spectralDiff u v) ^ 2 / ((spectralDiff u v) ^ 2 + η ^ 2)
+
+/-- Rational $R$-matrix reflection probability
+$R_{\mathrm{prob}}(u, v; \eta) = \eta^2 / ((u - v)^2 + \eta^2)$. -/
+@[blueprint "def:signals-scattering-yang-reflection-prob"
+  (title := "Yang rational R-matrix reflection probability")
+  (statement := /-- For rapidities $u,v$ and coupling $\eta$, the two-body reflection
+    probability is $R_{\mathrm{prob}}=\eta^2/(\delta(u,v)^2+\eta^2)$. -/)]
+noncomputable def yangReflectionProb (u v η : ℝ) : ℝ :=
+  η ^ 2 / ((spectralDiff u v) ^ 2 + η ^ 2)
+
+/-- **Unitary Two-Body Scattering Flux Conservation**:
+Whenever $(u - v)^2 + \eta^2 \neq 0$, the Yang $R$-matrix transmission and reflection
+probabilities are nonnegative and sum identically to $1$. -/
+@[blueprint "thm:signals-scattering-yang-unitary-partition"
+  (title := "Unitary transmission-plus-reflection probability conservation for Yang's R-matrix")
+  (statement := /-- When $\delta(u,v)^2+\eta^2\ne 0$, $0\le T_{\mathrm{prob}}$,
+    $0\le R_{\mathrm{prob}}$, and $T_{\mathrm{prob}}(u,v;\eta)+R_{\mathrm{prob}}(u,v;\eta)=1$. -/)
+  (proof := /-- Nonnegativity follows from squared numerators and denominators; the sum clears
+    $\delta(u,v)^2+\eta^2\ne 0$. -/)]
+theorem yang_scattering_probability_conservation
+    (u v η : ℝ) (h_denom : (spectralDiff u v) ^ 2 + η ^ 2 ≠ 0) :
+    0 ≤ yangTransmissionProb u v η ∧
+      0 ≤ yangReflectionProb u v η ∧
+      yangTransmissionProb u v η + yangReflectionProb u v η = 1 := by
+  have h_pos_denom : 0 ≤ (spectralDiff u v) ^ 2 + η ^ 2 :=
+    add_nonneg (sq_nonneg _) (sq_nonneg _)
+  refine ⟨div_nonneg (sq_nonneg _) h_pos_denom, div_nonneg (sq_nonneg _) h_pos_denom, ?_⟩
+  unfold yangTransmissionProb yangReflectionProb
+  rw [← add_div, div_self h_denom]
+
+/-- Reconstruct the complementary diagonal monodromy entry $D(u) = t(u) - A(u)$
+from the auxiliary transfer trace $t(u)$ and forward vacuum entry $A(u)$, and
+recover the off-diagonal magnon creation/annihilation product
+$B(u) C(u) = A(u) D(u) - \Delta_{01}(T(u))$ from the $2 \times 2$ Grassmannian minor. -/
+@[blueprint "thm:signals-scattering-monodromy-inversion"
+  (title := "Inverse monodromy entry and off-diagonal product recovery from trace and Pluecker minor")
+  (statement := /-- For any $2\times 2$ monodromy matrix $T=\begin{pmatrix} A & B \\ C & D \end{pmatrix}$,
+    $D = T.\mathrm{transferTrace} - A$ and $B C = A D - \Delta_{01}(T)$. -/)
+  (proof := /-- Unfold \texttt{transferTrace}, \texttt{classicalDet\_eq\_twoRowMinor}, and close by ring algebra. -/)]
+theorem reconstruct_monodromy_from_trace_and_minor (T : MonodromyMatrix2) :
+    T.transferTrace - T.A = T.D ∧
+      T.A * T.D - twoRowMinor T.toMatrix 0 1 = T.B * T.C := by
+  rw [← T.classicalDet_eq_twoRowMinor]
+  unfold MonodromyMatrix2.transferTrace MonodromyMatrix2.classicalDet
+  constructor <;> ring
+
+/-- Package Baxter's $TQ$ difference-equation residual into a calibrated
+`Scattering.ResidualMeasurement`, where `observed = T * Q_u` and
+`predicted = a * Q_minus_eta + d * Q_plus_eta`. -/
+@[blueprint "def:signals-scattering-baxter-tq-measurement"
+  (title := "Calibrated scattering residual measurement for Baxter's TQ equation")
+  (statement := /-- Packages observed transfer action $T\,Q(u)$ and predicted shifted sum
+    $a\,Q(u-\eta)+d\,Q(u+\eta)$ into a \texttt{ResidualMeasurement} whose residual is
+    \texttt{baxterTQResidual}. -/)]
+def baxterTQResidualMeasurement
+    (T a d Q_u Q_minus_eta Q_plus_eta tolerance : ℝ)
+    (tolerance_nonnegative : 0 ≤ tolerance) : ResidualMeasurement :=
+  { predicted := a * Q_minus_eta + d * Q_plus_eta
+    observed := T * Q_u
+    residual := baxterTQResidual T a d Q_u Q_minus_eta Q_plus_eta
+    tolerance := tolerance
+    tolerance_nonnegative := tolerance_nonnegative
+    residualLaw := rfl }
+
+/-- Any three-point Casorati Wronskian solution on $Gr(2,4)$ yields a strictly
+consistent `ResidualMeasurement` (`|residual| ≤ tolerance`) for every nonnegative
+tolerance. -/
+@[blueprint "thm:signals-scattering-wronskian-tq-consistent"
+  (title := "Grassmannian Casorati Wronskian TQ solution is metrologically consistent")
+  (statement := /-- For any Baxter pair $(Q_+,Q_-)$, rapidity $u$, shift $\eta$, and tolerance
+    $\tau\ge 0$, the Wronskian-parameterized \texttt{baxterTQResidualMeasurement} is consistent. -/)
+  (proof := /-- Rewrite the residual to $0$ using \texttt{baxterTQResidual\_wronskian\_zero}
+    and use $0\le\tau$. -/)]
+theorem baxterTQResidualMeasurement_wronskian_consistent
+    (Q_plus Q_minus : ℝ → ℝ) (u η tolerance : ℝ)
+    (tolerance_nonnegative : 0 ≤ tolerance) :
+    (baxterTQResidualMeasurement
+      (casoratiWronskian Q_plus Q_minus (u - η) (u + η))
+      (casoratiWronskian Q_plus Q_minus u (u + η))
+      (casoratiWronskian Q_plus Q_minus (u - η) u)
+      (Q_plus u) (Q_plus (u - η)) (Q_plus (u + η))
+      tolerance tolerance_nonnegative).consistent := by
+  rw [ResidualMeasurement.consistent_iff]
+  change |baxterTQResidual
+      (casoratiWronskian Q_plus Q_minus (u - η) (u + η))
+      (casoratiWronskian Q_plus Q_minus u (u + η))
+      (casoratiWronskian Q_plus Q_minus (u - η) u)
+      (Q_plus u) (Q_plus (u - η)) (Q_plus (u + η))| ≤ tolerance
+  rw [baxterTQResidual_wronskian_zero, abs_zero]
+  exact tolerance_nonnegative
+
+/-- At a candidate Bethe root ($Q(u_m) = 0$), if the Bethe Ansatz Equation residual
+$|a Q(u_m - \eta) + d Q(u_m + \eta)|$ exceeds `tolerance`, then
+`baxterTQResidualMeasurement` flags an off-shell `.anomalyCandidate`. -/
+@[blueprint "thm:signals-scattering-offshell-bethe-anomaly"
+  (title := "Off-shell Bethe-root residual exceeding tolerance flags an anomaly candidate")
+  (statement := /-- If $Q(u_m)=0$ and $|a\,Q(u_m-\eta)+d\,Q(u_m+\eta)|>\tau$, then
+    \texttt{baxterTQResidualMeasurement} is an \texttt{anomalyCandidate}. -/)
+  (proof := /-- At $Q(u_m)=0$, $|r|=|-(a\,Q(u_m-\eta)+d\,Q(u_m+\eta))|=|a\,Q(u_m-\eta)+d\,Q(u_m+\eta)|>\tau$. -/)]
+theorem baxterTQResidualMeasurement_offShell_anomaly
+    (T a d Q_minus_eta Q_plus_eta tolerance : ℝ)
+    (tolerance_nonnegative : 0 ≤ tolerance)
+    (h_off_shell : tolerance < |a * Q_minus_eta + d * Q_plus_eta|) :
+    (baxterTQResidualMeasurement T a d 0 Q_minus_eta Q_plus_eta
+      tolerance tolerance_nonnegative).anomalyCandidate := by
+  rw [ResidualMeasurement.anomalyCandidate_iff, not_le]
+  change tolerance < |baxterTQResidual T a d 0 Q_minus_eta Q_plus_eta|
+  have h_res :
+      baxterTQResidual T a d 0 Q_minus_eta Q_plus_eta =
+        - (a * Q_minus_eta + d * Q_plus_eta) := by
+    unfold baxterTQResidual
+    ring
+  rw [h_res, abs_neg]
+  exact h_off_shell
 
 end Signals.Scattering
