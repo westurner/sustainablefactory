@@ -1329,21 +1329,27 @@ Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
   Proved Fourier's acausal high-frequency phase-speed divergence
   (`FourierHeatModel.diffusivity_pos_and_acausal_speed`), Cattaneo--Vernotte
   hyperbolic second-sound factorization (`CattaneoVernotteHeatModel.identities`),
-  the **splat-free continuum** Grassmannian--DDF thermal transport and Pluecker
-  flux-limiter theorem (`MovingSheath.ddfThermalTransport_continuum_identities`),
-  and the $L^1$-conserving anisotropic thermal splat evolution theorem
-  (`MovingSheath.ddfThermalTransport_and_splat_identities`).
+  the **splat-free continuum** Grassmannian--DDF thermal transport, Pluecker
+  flux-limiter, Chapman--Kolmogorov mode/flux semigroup, and continuum Bohm
+  relaxation theorems (`MovingSheath.ddfThermalTransport_continuum_identities`,
+  `MovingSheath.ddfContinuum_semigroup_and_bohm_decay`), and the $L^1$-conserving
+  anisotropic thermal splat evolution, Chapman--Kolmogorov splat semigroup, and
+  core Bohm relaxation theorems (`MovingSheath.ddfThermalTransport_and_splat_identities`,
+  `NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay`).
 
 ```lean
--- Iteration 25-29 verification: Inverse Compton, Raman inversion, Splat-Free Continuum DDF Heat Transport, and Tensor Splat Evolution
+-- Iteration 25-29 verification: Inverse Compton, Raman inversion, and Splat-Free Continuum vs. Tensor Splat DDF Heat Transport & Semigroup/Bohm Relaxation
 example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
     (m_cv : Signals.DDF.CattaneoVernotteHeatModel)
     (splat : Signals.DDF.NormedTensorGaussianSplat2D)
     (c_th0 : ℝ) (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c) (θ : ℝ) :
     let M_sheath := s.gr24TwistorMatrix 6 1 5 2 0 0
     let M_th := Signals.DDF.ddfThermalGr24Matrix (3 / 5) θ
+    let kappa1 := Signals.DDF.evolveContinuumThermalMode 2 1 3 5
     let splat_ddf := s.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
     let splat_evol := splat.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)
+    let splat_evol2 := splat_evol.evolveThermal 1 2 4 (by norm_num) (by norm_num) (by norm_num)
+    let splat_sum := splat.evolveThermal 1 2 (3 + 4) (by norm_num) (by norm_num) (by norm_num)
     Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_sheath) /
         Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_sheath) =
       Signals.Scattering.inverseComptonDopplerRatio s.beta ∧
@@ -1357,23 +1363,39 @@ example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
         Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_sheath) ∧
     (Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_th) -
         Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_th)) / 2 = 3 / 5 ∧
+    Signals.DDF.evolveContinuumThermalMode 2 1 4 kappa1 =
+      Signals.DDF.evolveContinuumThermalMode 2 1 (3 + 4) 5 ∧
+    Signals.DDF.continuumBohmPotentialMode 1 1 kappa1 ≤
+      Signals.DDF.continuumBohmPotentialMode 1 1 5 ∧
     s.ddfLongitudinalDiffusivity c_th0 m_cv.relaxationTime /
         (c_th0 ^ 2 * m_cv.relaxationTime) =
       splat_ddf.covDet / 2 ^ 4 ∧
-    splat_evol.covTrace = splat.covTrace + 2 * (1 + 2) * 3 := by
-  intro M_sheath M_th splat_ddf splat_evol
+    splat_evol.covTrace = splat.covTrace + 2 * (1 + 2) * 3 ∧
+    splat_evol2 = splat_sum ∧
+    splat_evol.coreBohmPotential 1 1 ≤ splat.coreBohmPotential 1 1 := by
+  intro M_sheath M_th kappa1 splat_ddf splat_evol splat_evol2 splat_sum
   have h_ics := s.inverseCompton_gr24_identities 6 1 5 2 0 0
   have h_ram := Signals.Scattering.raman_stokes_antiStokes_gr24_identities
     10 2 (1 / 2) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   have h_cont := s.ddfThermalTransport_continuum_identities
     c_th0 m_cv.relaxationTime 6 1 5 0 0 4 2 (-1) (3 / 5) θ 2
     hc_pos hc_le m_cv.relaxationTime_pos (by norm_num) (by norm_num)
+  have h_cont_semi := s.ddfContinuum_semigroup_and_bohm_decay
+    2 c_th0 10 0 m_cv.relaxationTime 2 1 3 4 5 5 (3 / 5) 1 1 θ
+    (by norm_num) hc_pos hc_le (by norm_num)
+    (by rw [zero_div]; norm_num) (by rw [zero_div]; norm_num)
+    m_cv.relaxationTime_pos (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   have h_th := s.ddfThermalTransport_and_splat_identities
     splat 0 0 5 2 c_th0 m_cv.relaxationTime 1 2 3 θ
     (by norm_num) (by norm_num) hc_pos hc_le m_cv.relaxationTime_pos
     (by norm_num) (by norm_num) (by norm_num)
+  have h_semi := Signals.DDF.NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay
+    splat 1 2 3 4 1 1
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   exact ⟨h_ics.1, h_ram.1, h_cont.2.1, h_cont.2.2.1, h_cont.2.2.2.2.2.1,
-    h_th.2.2.2.1, h_th.2.2.2.2.2⟩
+    h_cont_semi.2.2.2.2.2.1, h_cont_semi.2.2.2.2.2.2.2.2.1,
+    h_th.2.2.2.1, h_th.2.2.2.2.2, h_semi.2.1, h_semi.2.2.2⟩
 
 end HuygensGeometryRoadmap
 ```

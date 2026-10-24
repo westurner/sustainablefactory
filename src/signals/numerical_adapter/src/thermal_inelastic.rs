@@ -460,6 +460,31 @@ impl DdfGrassmannianThermalTransport {
         (w_a, w_b, 0.5 * (w_a - w_b), w_a * w_b)
     }
 
+    /// Splat-free continuum thermal mode evolution
+    /// $\mathcal{S}_{\mathrm{mode}}(\alpha_\parallel^{\mathrm{DDF}}(s), k, \Delta t)(A) = A\,\exp(-\alpha_\parallel^{\mathrm{DDF}}(s) k^2 \Delta t)$,
+    /// matching `Signals.DDF.evolveContinuumThermalMode`.
+    #[inline]
+    pub fn evolve_continuum_thermal_mode(&self, wavenumber: f64, dt: f64, amplitude: f64) -> f64 {
+        let alpha = self.ddf_longitudinal_diffusivity();
+        amplitude * (-alpha * wavenumber * wavenumber * dt).exp()
+    }
+
+    /// Splat-free continuum Cattaneo–Vernotte / DDF reduced heat-flux relaxation
+    /// $j_q(t + \Delta t) = j_q\,\exp(-\Delta t / \tau_r)$,
+    /// matching `Signals.DDF.evolveContinuumReducedHeatFlux`.
+    #[inline]
+    pub fn evolve_continuum_reduced_heat_flux(&self, dt: f64, reduced_heat_flux_jq: f64) -> f64 {
+        reduced_heat_flux_jq * (-dt / self.relaxation_time).exp()
+    }
+
+    /// Splat-free continuum Bohm quantum potential scale
+    /// $Q_{\mathrm{cont}}(m, \hbar, \kappa) = \frac{\hbar^2 \kappa^2}{2m}$,
+    /// matching `Signals.DDF.continuumBohmPotentialMode`.
+    #[inline]
+    pub fn continuum_bohm_potential_mode(m_boson: f64, hbar: f64, kappa: f64) -> f64 {
+        (hbar * hbar * kappa * kappa) / (2.0 * m_boson)
+    }
+
     /// Splat-free 1D continuum hyperbolic Grassmannian–DDF step on a periodic ring
     /// of spacing `dx`, enforcing the $Gr_{\mathbb{C}}(2,4)$ Plücker characteristic flux limiter
     /// $|q| \le q_{\max}^{\mathrm{DDF}}(s)$ (`1 - j_q^2 >= 0`) and conserving total thermal energy $\sum_i T_i$.
@@ -733,7 +758,10 @@ mod tests {
         assert!(splat_evol.norm_factor() <= splat_ddf.norm_factor());
         assert!(splat_evol.core_bohm_potential(1.0, 1.0) <= splat_ddf.core_bohm_potential(1.0, 1.0));
 
-        // Verify Chapman-Kolmogorov thermal semigroup additivity: evolve(dt1) then evolve(dt2) == evolve(dt1 + dt2)
+        // Verify Chapman-Kolmogorov thermal semigroup identity (dt = 0) and additivity: evolve(dt1) then evolve(dt2) == evolve(dt1 + dt2)
+        let step0 = ddf_th.evolve_ddf_thermal_splat(&splat_ddf, 0.0);
+        assert!((step0.sigma1 - splat_ddf.sigma1).abs() < 1e-12);
+        assert!((step0.sigma2 - splat_ddf.sigma2).abs() < 1e-12);
         let step12 = ddf_th.evolve_ddf_thermal_splat(&splat_evol, 4.0);
         let step_sum = ddf_th.evolve_ddf_thermal_splat(&splat_ddf, dt + 4.0);
         assert!((step12.sigma1 - step_sum.sigma1).abs() < 1e-12);
@@ -771,6 +799,33 @@ mod tests {
         assert!((jq_rec - jq).abs() < 1e-12);
         assert!((prod_th - (1.0 - jq * jq)).abs() < 1e-12);
         assert!(prod_th > 0.0);
+
+        // Verify splat-free continuum Chapman-Kolmogorov thermal mode & heat-flux semigroup identity (dt = 0) & additivity,
+        // exact splat-free continuum Bohm potential attenuation, and exact Gr_C(2,4) Plucker Second-Law increment
+        let kappa0 = 5.0;
+        let k_wave = 1.2;
+        assert!((ddf_th.evolve_continuum_thermal_mode(k_wave, 0.0, kappa0) - kappa0).abs() < 1e-12);
+        let kappa1 = ddf_th.evolve_continuum_thermal_mode(k_wave, dt, kappa0);
+        let kappa12 = ddf_th.evolve_continuum_thermal_mode(k_wave, 4.0, kappa1);
+        let kappa_sum = ddf_th.evolve_continuum_thermal_mode(k_wave, dt + 4.0, kappa0);
+        assert!((kappa12 - kappa_sum).abs() < 1e-12);
+        let q_bohm0 = DdfGrassmannianThermalTransport::continuum_bohm_potential_mode(1.0, 1.0, kappa0);
+        let q_bohm1 = DdfGrassmannianThermalTransport::continuum_bohm_potential_mode(1.0, 1.0, kappa1);
+        let expected_bohm1 =
+            q_bohm0 * (-2.0 * ddf_th.ddf_longitudinal_diffusivity() * k_wave * k_wave * dt).exp();
+        assert!((q_bohm1 - expected_bohm1).abs() < 1e-12);
+        assert!(q_bohm1 <= q_bohm0);
+
+        assert!((ddf_th.evolve_continuum_reduced_heat_flux(0.0, jq) - jq).abs() < 1e-12);
+        let jq1 = ddf_th.evolve_continuum_reduced_heat_flux(dt, jq);
+        let jq12 = ddf_th.evolve_continuum_reduced_heat_flux(4.0, jq1);
+        let jq_sum = ddf_th.evolve_continuum_reduced_heat_flux(dt + 4.0, jq);
+        assert!((jq12 - jq_sum).abs() < 1e-12);
+        let (_, _, _, prod_th_1) =
+            DdfGrassmannianThermalTransport::gr24_characteristic_invariants(jq1, 0.35);
+        let expected_plucker_inc = jq * jq * (1.0 - (-2.0 * dt / ddf_th.relaxation_time).exp());
+        assert!(((prod_th_1 - prod_th) - expected_plucker_inc).abs() < 1e-12);
+        assert!(prod_th <= prod_th_1 + 1e-12);
 
         let (next_ddf_t, next_ddf_q) =
             ddf_th.step_1d_continuum_periodic(2.0, 10.0, &init_temp, &init_flux, 1.0, 0.05);

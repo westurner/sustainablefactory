@@ -194,19 +194,22 @@ Our unified method resolves the limitations of both classical Fourier diffusion 
    $$\frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{c_{\mathrm{th},0}^2\,\tau_r} = \bigl|w_A^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2 = \bigl(\gamma_\varphi(v)^2\bigr)^{-1},$$
    where $M_{\mathrm{sheath}} = s.\mathrm{gr24TwistorMatrix}\;d\;\lambda\;L\;\Delta\ell\;\varphi\;x \in Gr_{\mathbb{C}}(2,4)$ is the pure complex twistor matrix of the sheath (requiring **no Gaussian splat**). Dividing the continuum DDF telegrapher residual $\mathcal{R}_{\mathrm{tele}}^{\mathrm{DDF}}(s; T_{tt}, T_t, T_{xx}) = \tau_r T_{tt} + T_t - \alpha_\parallel^{\mathrm{DDF}}(s) T_{xx}$ by $\alpha_\parallel^{\mathrm{DDF}}(s)$ yields the exact Lorentz-jammed continuum wave operator:
    $$\frac{\mathcal{R}_{\mathrm{tele}}^{\mathrm{DDF}}(s; T_{tt}, T_t, T_{xx})}{\alpha_\parallel^{\mathrm{DDF}}(s)} = \frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2}\,T_{tt} + \frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2\,\tau_r}\,T_t - T_{xx}.$$
-2. **Splat-Free $Gr_{\mathbb{C}}(2,4)$ Plücker Characteristic Split & Automatic Hyperbolic Flux Limiter (`ddfThermalGr24Matrix`)**:
+2. **Splat-Free $Gr_{\mathbb{C}}(2,4)$ Plücker Characteristic Split, Continuum Semigroup Additivity, & Continuum Bohm Potential Relaxation (`ddfThermalGr24Matrix`, `MovingSheath.ddfContinuum_semigroup_and_bohm_decay`)**:
    Decomposing a 1D continuum hyperbolic Cattaneo–Vernotte / DDF state $(T(x,t), q(x,t))$ into right-moving ($A$) and left-moving ($B$) second-sound Riemann invariants on $Gr_{\mathbb{C}}(2,4)$ with dimensionless reduced heat flux $j_q = \frac{q}{q_{\max}^{\mathrm{DDF}}(s)} = \frac{q}{\rho c_v c_{\mathrm{th}}^{\mathrm{DDF}}(s) T_0} \in (-1, 1)$ defines the splat-free complex Grassmannian matrix $M_{\mathrm{th}} = \operatorname{ddfThermalGr24Matrix}(j_q, \theta) \in \mathbb{C}^{2 \times 4}$, whose Plücker channel amplitudes satisfy:
    $$|w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 + j_q, \qquad |w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q, \qquad \frac{|w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2 - |w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2}{2} = j_q,$$
-   $$0 < |w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2\,|w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q^2 \iff |q| < q_{\max}^{\mathrm{DDF}}(s) = \rho c_v c_{\mathrm{th}}^{\mathrm{DDF}}(s) T_0 \le \rho c_v c T_0,$$
-   enforcing the relativistic Cattaneo flux limiter and guaranteeing non-negative temperatures in transient thermal shock waves without any Gaussian splat discretization (`step_1d_continuum_periodic` in `thermal_inelastic.rs`).
+   $$0 < |w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2\,|w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q^2 \iff |q| < q_{\max}^{\mathrm{DDF}}(s) = \rho c_v c_{\mathrm{th}}^{\mathrm{DDF}}(s) T_0 \le \rho c_v c T_0.$$
+   Furthermore, in `MovingSheath.ddfContinuum_semigroup_and_bohm_decay`, we prove (with **zero splats**):
+   - **Splat-Free Chapman–Kolmogorov Semigroup Identity & Additivity**: Both the continuum thermal mode evolution $\operatorname{evolveContinuumThermalMode}(\alpha, k, \Delta t, A) = A\exp(-\alpha k^2 \Delta t)$ and the Cattaneo heat-flux relaxation $\operatorname{evolveContinuumReducedHeatFlux}(\tau_r, \Delta t, j_q) = j_q\exp(-\Delta t / \tau_r)$ satisfy the identity law at $\Delta t = 0$ and exact semigroup composition over $\Delta t_1 + \Delta t_2$,
+   - **Splat-Free Continuum Bohm Quantum-Potential Relaxation**: $Q_{\mathrm{cont}}\bigl(m, \hbar, \operatorname{evolveContinuumThermalMode}(\alpha, k, \Delta t_1, \kappa_0)\bigr) = Q_{\mathrm{cont}}(m, \hbar, \kappa_0)\exp(-2\alpha k^2 \Delta t_1) \le Q_{\mathrm{cont}}(m, \hbar, \kappa_0)$, and
+   - **Splat-Free $Gr_{\mathbb{C}}(2,4)$ Plücker Second-Law Relaxation**: Under Cattaneo heat-flux relaxation $j_q \mapsto j_q\exp(-\Delta t_1/\tau_r)$, the uncrossed Plücker channel product increases monotonically by $|w_A^{\mathbb{C}}(M_1)|^2\,|w_B^{\mathbb{C}}(M_1)|^2 - |w_A^{\mathbb{C}}(M_0)|^2\,|w_B^{\mathbb{C}}(M_0)|^2 = j_q^2(1 - \exp(-2\Delta t_1/\tau_r)) \ge 0$.
 3. **Optional Lagrangian Layer: Anisotropic Normed Tensor Gaussian Splat Thermal Evolution, Chapman–Kolmogorov Semigroup Additivity, & Second-Law Determinant Growth (`MovingSheath.ddfThermalTransport_and_splat_identities`, `MovingSheath.ddfThermal_fluxLimiter_and_entropy_growth`, `NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay`)**:
    When a Lagrangian/WebGL2 representation is desired, each thermal packet is represented by a normed 2D anisotropic Tensor Gaussian Splat $G(x,y;t)$ whose covariance determinant satisfies $\frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4} = \frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{\alpha_0} = \gamma_\varphi(v)^{-2}$ and whose principal widths evolve over $\Delta t \ge 0$ by:
    $$\sigma_1(t + \Delta t) = \sqrt{\sigma_1(t)^2 + 2\alpha_\parallel^{\mathrm{DDF}}(s)\,\Delta t}, \qquad \sigma_2(t + \Delta t) = \sqrt{\sigma_2(t)^2 + 2\alpha_0\,\Delta t},$$
-   conserving total thermal energy $\int_{\mathbb{R}^2} G(x,y;t)\,dx\,dy = w$ **identically** at every step, obeying the exact Chapman–Kolmogorov semigroup composition law $\mathcal{E}(\Delta t_2)\circ\mathcal{E}(\Delta t_1) = \mathcal{E}(\Delta t_1 + \Delta t_2)$, relaxing the core Bohm potential monotonically $Q_{\mathrm{core}}(\Sigma(t+\Delta t)) \le Q_{\mathrm{core}}(\Sigma(t))$, and expanding the covariance determinant monotonically (`ddfThermal_fluxLimiter_and_entropy_growth`):
+   conserving total thermal energy $\int_{\mathbb{R}^2} G(x,y;t)\,dx\,dy = w$ **identically** at every step, obeying the exact Chapman–Kolmogorov semigroup identity $\mathcal{E}(0) = \mathrm{id}$ and composition law $\mathcal{E}(\Delta t_2)\circ\mathcal{E}(\Delta t_1) = \mathcal{E}(\Delta t_1 + \Delta t_2)$, relaxing the core Bohm potential monotonically $Q_{\mathrm{core}}(\Sigma(t+\Delta t)) \le Q_{\mathrm{core}}(\Sigma(t))$, and expanding the covariance determinant monotonically (`ddfThermal_fluxLimiter_and_entropy_growth`):
    $$\det\Sigma(t + \Delta t) = \det\Sigma(t) + 2\bigl(\alpha_1\sigma_2^2 + \alpha_2\sigma_1^2\bigr)\Delta t + 4\alpha_1\alpha_2(\Delta t)^2 > \det\Sigma(t) \quad (\alpha_1, \Delta t > 0).$$
 
 ```lean
--- 2. Fourier acausal blow-up, Cattaneo-Vernotte second sound, Splat-Free Continuum Grassmannian-DDF thermal transport, and Semigroup / Second-Law Tensor Splat evolution
+-- 2. Fourier acausal blow-up, Cattaneo-Vernotte second sound, Splat-Free Continuum vs. Tensor Splat Semigroup & Bohm Relaxation
 example {sub : DDFSubstrate} (s : MovingSheath sub)
     (m_cv : CattaneoVernotteHeatModel) (splat : NormedTensorGaussianSplat2D)
     (c_th0 : ℝ) (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c) (θ : ℝ) :
@@ -214,6 +217,9 @@ example {sub : DDFSubstrate} (s : MovingSheath sub)
     let ω_star := sub.c ^ 2 / (2 * m_f.diffusivity) + 1
     let M_sheath := s.gr24TwistorMatrix 6 1 5 2 0 0
     let M_th := ddfThermalGr24Matrix (3 / 5) θ
+    let kappa1 := evolveContinuumThermalMode 2 1 3 5
+    let jq1 := evolveContinuumReducedHeatFlux m_cv.relaxationTime 3 (3 / 5)
+    let M_th1 := ddfThermalGr24Matrix jq1 θ
     let splat_ddf := s.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
     let splat_evol := splat.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)
     let splat_evol2 := splat_evol.evolveThermal 1 2 4 (by norm_num) (by norm_num) (by norm_num)
@@ -223,7 +229,7 @@ example {sub : DDFSubstrate} (s : MovingSheath sub)
     -- (B) Cattaneo-Vernotte has positive second-sound speed and reduces to Fourier at dq/dt = 0:
     0 < m_cv.secondSoundSpeed ∧
     m_cv.cattaneoFluxResidual 7 0 (-2) = 7 - m_f.fourierFlux (-2) ∧
-    -- (C) Splat-Free Continuum Grassmannian-DDF second sound, Plücker product bridge, telegrapher wave operator, and flux limiter:
+    -- (C) Splat-Free Continuum Grassmannian-DDF second sound, Plücker product bridge, telegrapher wave operator, semigroup additivity, Bohm decay, and Plücker Second Law:
     0 < s.ddfSecondSoundSpeed c_th0 ∧
     s.ddfSecondSoundSpeed c_th0 ≤ sub.c ∧
     s.ddfLongitudinalDiffusivity c_th0 m_cv.relaxationTime /
@@ -236,8 +242,14 @@ example {sub : DDFSubstrate} (s : MovingSheath sub)
         (s.jammingFactor ^ 2 / (c_th0 ^ 2 * m_cv.relaxationTime)) * 2 - (-1) ∧
     (Complex.normSq (complexPluckerSinkAmplitudeA M_th) -
         Complex.normSq (complexPluckerSinkAmplitudeB M_th)) / 2 = 3 / 5 ∧
-    0 < Complex.normSq (complexPluckerSinkAmplitudeA M_th) *
-        Complex.normSq (complexPluckerSinkAmplitudeB M_th) ∧
+    evolveContinuumThermalMode 2 1 4 kappa1 =
+      evolveContinuumThermalMode 2 1 (3 + 4) 5 ∧
+    continuumBohmPotentialMode 1 1 kappa1 ≤
+      continuumBohmPotentialMode 1 1 5 ∧
+    Complex.normSq (complexPluckerSinkAmplitudeA M_th) *
+        Complex.normSq (complexPluckerSinkAmplitudeB M_th) ≤
+      Complex.normSq (complexPluckerSinkAmplitudeA M_th1) *
+        Complex.normSq (complexPluckerSinkAmplitudeB M_th1) ∧
     -- (D) Normed Tensor Gaussian Splat covariance bridge, L1 conservation, Second-Law determinant growth, semigroup additivity, and Bohm potential relaxation:
     s.ddfLongitudinalDiffusivity c_th0 m_cv.relaxationTime /
         (c_th0 ^ 2 * m_cv.relaxationTime) =
@@ -247,12 +259,18 @@ example {sub : DDFSubstrate} (s : MovingSheath sub)
     splat.covDet < splat_evol.covDet ∧
     splat_evol2 = splat_sum ∧
     splat_evol.coreBohmPotential 1 1 ≤ splat.coreBohmPotential 1 1 := by
-  intro m_f ω_star M_sheath M_th splat_ddf splat_evol splat_evol2 splat_sum
+  intro m_f ω_star M_sheath M_th kappa1 jq1 M_th1 splat_ddf splat_evol splat_evol2 splat_sum
   have h_f := m_f.diffusivity_pos_and_acausal_speed sub.c
   have h_cv := m_cv.identities 7 (-2) 0 0 0
   have h_cont := s.ddfThermalTransport_continuum_identities
     c_th0 m_cv.relaxationTime 6 1 5 0 0 4 2 (-1) (3 / 5) θ 2
     hc_pos hc_le m_cv.relaxationTime_pos (by norm_num) (by norm_num)
+  have h_cont_semi := s.ddfContinuum_semigroup_and_bohm_decay
+    2 c_th0 10 0 m_cv.relaxationTime 2 1 3 4 5 5 (3 / 5) 1 1 θ
+    (by norm_num) hc_pos hc_le (by norm_num)
+    (by rw [zero_div]; norm_num) (by rw [zero_div]; norm_num)
+    m_cv.relaxationTime_pos (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   have h_ddf := s.ddfThermalTransport_and_splat_identities
     splat 0 0 5 2 c_th0 m_cv.relaxationTime 1 2 3 θ
     (by norm_num) (by norm_num) hc_pos hc_le m_cv.relaxationTime_pos
@@ -266,9 +284,10 @@ example {sub : DDFSubstrate} (s : MovingSheath sub)
     splat 1 2 3 4 1 1
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   exact ⟨h_f.2.2, h_cv.2.1, h_cv.2.2.2.2, h_cont.1, h_cont.2.1,
-    h_cont.2.2.1, h_cont.2.2.2.2.1, h_cont.2.2.2.2.2.1, h_cont.2.2.2.2.2.2.2,
+    h_cont.2.2.1, h_cont.2.2.2.2.1, h_cont.2.2.2.2.2.1,
+    h_cont_semi.2.2.2.2.2.1, h_cont_semi.2.2.2.2.2.2.2.2.1, h_cont_semi.2.2.2.2.2.2.2.2.2.2,
     h_ddf.2.2.2.1, h_ddf.2.2.2.2.1, h_ddf.2.2.2.2.2,
-    h_ent.2.2.2.2.2 ⟨by norm_num, by norm_num⟩, h_semi.1, h_semi.2.2⟩
+    h_ent.2.2.2.2.2 ⟨by norm_num, by norm_num⟩, h_semi.2.1, h_semi.2.2.2⟩
 
 end ArxivThermalComptonRamanVerification
 ```

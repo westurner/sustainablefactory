@@ -3724,15 +3724,17 @@ time increments $\Delta t_1, \Delta t_2 \ge 0$, boson mass $m > 0$, and $\hbar \
    $Q_{\mathrm{core}}\bigl(\Sigma(t + \Delta t_1)\bigr) \le Q_{\mathrm{core}}\bigl(\Sigma(t)\bigr)$,
    showing that thermal diffusion monotonically relaxes quantum-pressure gradients. -/
 @[blueprint "thm:signals-ddf-splat2d-thermal-semigroup-bohm-decay"
-  (title := "Chapman-Kolmogorov thermal splat semigroup composition and monotonic core Bohm potential relaxation")
+  (title := "Chapman-Kolmogorov thermal splat semigroup identity/composition and monotonic core Bohm potential relaxation")
   (statement := /-- For \texttt{splat : NormedTensorGaussianSplat2D}, $\alpha_1,\alpha_2,\Delta t_1,\Delta t_2\ge 0$,
     and $m>0$:
-    (1) $(\operatorname{splat.evolveThermal}\;\alpha_1\;\alpha_2\;\Delta t_1).\operatorname{evolveThermal}\;\alpha_1\;\alpha_2\;\Delta t_2
+    (1) $\operatorname{splat.evolveThermal}\;\alpha_1\;\alpha_2\;0 = \operatorname{splat}$,
+    (2) $(\operatorname{splat.evolveThermal}\;\alpha_1\;\alpha_2\;\Delta t_1).\operatorname{evolveThermal}\;\alpha_1\;\alpha_2\;\Delta t_2
     = \operatorname{splat.evolveThermal}\;\alpha_1\;\alpha_2\;(\Delta t_1+\Delta t_2)$,
-    (2) $(\operatorname{splat.evolveThermal}\;\alpha_1\;\alpha_2\;\Delta t_1).\mathrm{normFactor} \le \operatorname{splat}.\mathrm{normFactor}$, and
-    (3) $(\operatorname{splat.evolveThermal}\;\alpha_1\;\alpha_2\;\Delta t_1).\operatorname{coreBohmPotential}\;m\;\hbar \le
+    (3) $(\operatorname{splat.evolveThermal}\;\alpha_1\;\alpha_2\;\Delta t_1).\mathrm{normFactor} \le \operatorname{splat}.\mathrm{normFactor}$, and
+    (4) $(\operatorname{splat.evolveThermal}\;\alpha_1\;\alpha_2\;\Delta t_1).\operatorname{coreBohmPotential}\;m\;\hbar \le
     \operatorname{splat}.\operatorname{coreBohmPotential}\;m\;\hbar$. -/)
-  (proof := /-- Use $\sqrt{\sigma_i^2 + 2\alpha_i\Delta t_1}^2 + 2\alpha_i\Delta t_2 = \sigma_i^2 + 2\alpha_i(\Delta t_1+\Delta t_2)$
+  (proof := /-- Use $\sqrt{\sigma_i^2}=\sigma_i$ at $\Delta t=0$,
+    $\sqrt{\sigma_i^2 + 2\alpha_i\Delta t_1}^2 + 2\alpha_i\Delta t_2 = \sigma_i^2 + 2\alpha_i(\Delta t_1+\Delta t_2)$
     for semigroup additivity, and monotonicity of $\sigma_i \le \sqrt{\sigma_i^2 + 2\alpha_i\Delta t_1}$
     for $\mathcal{N}(\Sigma)$ and $Q_{\mathrm{core}}(\Sigma)$. -/)]
 theorem NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay
@@ -3741,17 +3743,26 @@ theorem NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay
     (h_a1 : 0 ≤ alpha1) (h_a2 : 0 ≤ alpha2)
     (h_dt1 : 0 ≤ dt1) (h_dt2 : 0 ≤ dt2)
     (hm : 0 < m_boson) :
+    let step0 := splat.evolveThermal alpha1 alpha2 0 h_a1 h_a2 le_rfl
     let step1 := splat.evolveThermal alpha1 alpha2 dt1 h_a1 h_a2 h_dt1
     let step12 := step1.evolveThermal alpha1 alpha2 dt2 h_a1 h_a2 h_dt2
     let step_sum := splat.evolveThermal alpha1 alpha2 (dt1 + dt2) h_a1 h_a2 (add_nonneg h_dt1 h_dt2)
-    step12 = step_sum ∧
+    step0 = splat ∧
+      step12 = step_sum ∧
       step1.normFactor ≤ splat.normFactor ∧
       step1.coreBohmPotential m_boson hbar ≤ splat.coreBohmPotential m_boson hbar := by
-  intro step1 step12 step_sum
+  intro step0 step1 step12 step_sum
   have hs1_pos : 0 < splat.sigma1 := splat.sigma1_pos
   have hs2_pos : 0 < splat.sigma2 := splat.sigma2_pos
   have hs1_sq_pos : 0 < splat.sigma1 ^ 2 := sq_pos_of_pos hs1_pos
   have hs2_sq_pos : 0 < splat.sigma2 ^ 2 := sq_pos_of_pos hs2_pos
+  have h_id : step0 = splat := by
+    cases splat with
+    | mk cx cy w hw s1 hs1 s2 hs2 θ =>
+      dsimp [step0, NormedTensorGaussianSplat2D.evolveThermal]
+      congr 1
+      · simp [Real.sqrt_sq (le_of_lt hs1)]
+      · simp [Real.sqrt_sq (le_of_lt hs2)]
   have h1_nonneg : 0 ≤ splat.sigma1 ^ 2 + 2 * alpha1 * dt1 := by
     have : 0 ≤ 2 * alpha1 * dt1 := by positivity
     linarith
@@ -3810,6 +3821,254 @@ theorem NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay
     have h_inv2 : 1 / step1.sigma2 ^ 2 ≤ 1 / splat.sigma2 ^ 2 :=
       one_div_le_one_div_of_le hs2_sq_pos h_s2_sq_le
     exact mul_le_mul_of_nonneg_left (add_le_add h_inv1 h_inv2) h_pref_nonneg
-  exact ⟨h_semi, h_norm_le, h_bohm_le⟩
+  exact ⟨h_id, h_semi, h_norm_le, h_bohm_le⟩
+
+/-- **Splat-Free Continuum Thermal Mode Evolution**:
+Evolves a continuum spatial Fourier/DDF thermal mode amplitude $A$ at wavenumber $k$
+and thermal diffusivity $\alpha$ over elapsed time $\Delta t$:
+$\mathcal{S}_{\mathrm{mode}}(\alpha, k, \Delta t)(A) = A\,\exp(-\alpha\,k^2\,\Delta t)$. -/
+@[blueprint "def:signals-ddf-continuum-thermal-mode-evolve"
+  (title := "Splat-free continuum thermal mode evolution A * exp(-α k² Δt)")
+  (statement := /-- Define $\operatorname{evolveContinuumThermalMode}(\alpha,k,\Delta t,A) = A\,\exp(-\alpha k^2\Delta t)$. -/)]
+noncomputable def evolveContinuumThermalMode
+    (diffusivity wavenumber dt amplitude : ℝ) : ℝ :=
+  amplitude * Real.exp (-diffusivity * wavenumber ^ 2 * dt)
+
+/-- **Splat-Free Continuum Cattaneo–Vernotte / DDF Reduced Heat-Flux Relaxation**:
+Evolves a dimensionless reduced heat flux $j_q = q / q_{\max}^{\mathrm{DDF}}(s)$ over
+elapsed time $\Delta t$ with thermal relaxation time $\tau_r$:
+$j_q(t + \Delta t) = j_q\,\exp(-\Delta t / \tau_r)$. -/
+@[blueprint "def:signals-ddf-continuum-heat-flux-evolve"
+  (title := "Splat-free continuum Cattaneo/DDF reduced heat-flux relaxation j_q * exp(-Δt / τ_r)")
+  (statement := /-- Define $\operatorname{evolveContinuumReducedHeatFlux}(\tau_r,\Delta t,j_q) = j_q\,\exp(-\Delta t/\tau_r)$. -/)]
+noncomputable def evolveContinuumReducedHeatFlux
+    (tau_r dt j_q : ℝ) : ℝ :=
+  j_q * Real.exp (-dt / tau_r)
+
+/-- **Splat-Free Continuum Bohm Quantum Potential Scale**:
+For a continuum Madelung density modulation with effective inverse length / gradient
+scale $\kappa$, the Bohm quantum potential scale is
+$Q_{\mathrm{cont}}(m, \hbar, \kappa) = \frac{\hbar^2\,\kappa^2}{2 m}$. -/
+@[blueprint "def:signals-ddf-continuum-bohm-potential-mode"
+  (title := "Splat-free continuum Bohm quantum potential scale Q_cont = ℏ² κ² / (2m)")
+  (statement := /-- Define $\operatorname{continuumBohmPotentialMode}(m,\hbar,\kappa) = \frac{\hbar^2\kappa^2}{2m}$. -/)]
+noncomputable def continuumBohmPotentialMode
+    (m_boson hbar kappa : ℝ) : ℝ :=
+  (hbar ^ 2 * kappa ^ 2) / (2 * m_boson)
+
+/-- **Splat-Free Continuum Chapman–Kolmogorov Thermal Semigroup, Bohm Potential Relaxation, & $Gr_{\mathbb{C}}(2,4)$ Plücker Second-Law Theorem**:
+Establishes the **splat-free continuum** counterpart of `evolveThermal_semigroup_and_bohm_decay`
+and `ddfThermal_fluxLimiter_and_entropy_growth` without any `NormedTensorGaussianSplat2D`:
+1. **Splat-Free Physical Heat-Flux Bound**:
+   $0 < q_{\max}^{\mathrm{DDF}}(s) \le C_v\,sub.c\,T_0$ and $q^2 < \bigl(q_{\max}^{\mathrm{DDF}}(s)\bigr)^2$
+   whenever $-1 < q / q_{\max}^{\mathrm{DDF}}(s) < 1$,
+2. **Splat-Free Chapman–Kolmogorov Continuum Mode Semigroup Additivity**:
+   $$\operatorname{evolveContinuumThermalMode}\bigl(\alpha, k, \Delta t_2, \operatorname{evolveContinuumThermalMode}(\alpha, k, \Delta t_1, A)\bigr)
+   = \operatorname{evolveContinuumThermalMode}(\alpha, k, \Delta t_1 + \Delta t_2, A),$$
+3. **Splat-Free Chapman–Kolmogorov Heat-Flux Relaxation Semigroup Additivity**:
+   $$\operatorname{evolveContinuumReducedHeatFlux}\bigl(\tau_r, \Delta t_2, \operatorname{evolveContinuumReducedHeatFlux}(\tau_r, \Delta t_1, j_q)\bigr)
+   = \operatorname{evolveContinuumReducedHeatFlux}(\tau_r, \Delta t_1 + \Delta t_2, j_q),$$
+4. **Splat-Free Monotonic Continuum Bohm Quantum-Potential Relaxation**:
+   For $\alpha \ge 0$, $\Delta t_1 \ge 0$, $\kappa_0 \ge 0$, and $m > 0$,
+   $$Q_{\mathrm{cont}}\bigl(m, \hbar, \operatorname{evolveContinuumThermalMode}(\alpha, k, \Delta t_1, \kappa_0)\bigr)
+   \le Q_{\mathrm{cont}}(m, \hbar, \kappa_0),$$
+5. **Splat-Free $Gr_{\mathbb{C}}(2,4)$ Plücker Characteristic Second-Law Relaxation**:
+   For $j_q \in (-1, 1)$, $\tau_r > 0$, and $\Delta t_1 \ge 0$, let $M_0 = \operatorname{ddfThermalGr24Matrix}(j_q, \theta)$
+   and $M_1 = \operatorname{ddfThermalGr24Matrix}(\operatorname{evolveContinuumReducedHeatFlux}(\tau_r, \Delta t_1, j_q), \theta)$.
+   Then the uncrossed Plücker channel product increases monotonically toward equilibrium:
+   $$|w_A^{\mathbb{C}}(M_0)|^2\,|w_B^{\mathbb{C}}(M_0)|^2 \le |w_A^{\mathbb{C}}(M_1)|^2\,|w_B^{\mathbb{C}}(M_1)|^2.$$ -/
+@[blueprint "thm:signals-ddf-continuum-thermal-semigroup-bohm-decay"
+  (title := "Splat-free continuum Chapman-Kolmogorov thermal semigroup, Bohm relaxation, and Gr_C(2,4) Second-Law theorem")
+  (statement := /-- For \texttt{s : MovingSheath sub} with $C_v>0$, $T_0>0$, $0<c_{\mathrm{th},0}\le sub.c$,
+    $\tau_r>0$, $\alpha\ge 0$, $\Delta t_1,\Delta t_2\ge 0$, $\kappa_0\ge 0$, $m>0$, and $j_q\in(-1,1)$:
+    (1) $0 < q_{\max}^{\mathrm{DDF}}(s) \le C_v\,sub.c\,T_0$ and $q^2 < (q_{\max}^{\mathrm{DDF}}(s))^2$,
+    (2) $\operatorname{evolveContinuumThermalMode}(\alpha,k,\Delta t_2,\operatorname{evolveContinuumThermalMode}(\alpha,k,\Delta t_1,A)) = \operatorname{evolveContinuumThermalMode}(\alpha,k,\Delta t_1+\Delta t_2,A)$,
+    (3) $\operatorname{evolveContinuumReducedHeatFlux}(\tau_r,\Delta t_2,\operatorname{evolveContinuumReducedHeatFlux}(\tau_r,\Delta t_1,j_q)) = \operatorname{evolveContinuumReducedHeatFlux}(\tau_r,\Delta t_1+\Delta t_2,j_q)$,
+    (4) $\operatorname{continuumBohmPotentialMode}(m,\hbar,\operatorname{evolveContinuumThermalMode}(\alpha,k,\Delta t_1,\kappa_0)) \le \operatorname{continuumBohmPotentialMode}(m,\hbar,\kappa_0)$, and
+    (5) $|w_A^{\mathbb C}(M_0)|^2\,|w_B^{\mathbb C}(M_0)|^2 \le |w_A^{\mathbb C}(M_1)|^2\,|w_B^{\mathbb C}(M_1)|^2$. -/)
+  (proof := /-- Use $\exp(a)\exp(b)=\exp(a+b)$ for the two semigroup laws,
+    $0<\exp(-\alpha k^2\Delta t_1)\le 1$ for Bohm potential monotonicity, and
+    $(j_q e^{-\Delta t_1/\tau_r})^2 \le j_q^2$ for the $Gr_{\mathbb C}(2,4)$ Pluecker product growth. -/)]
+theorem MovingSheath.ddfContinuum_semigroup_and_bohm_decay
+    {sub : DDFSubstrate} (s : MovingSheath sub)
+    (volHeatCap c_th0 T0 q tau_r alpha k dt1 dt2 A kappa0 j_q m_boson hbar θ : ℝ)
+    (hCv : 0 < volHeatCap) (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c)
+    (hT0 : 0 < T0)
+    (hjq_flux_gt : -1 < q / s.ddfMaxCausalHeatFlux volHeatCap c_th0 T0)
+    (hjq_flux_lt : q / s.ddfMaxCausalHeatFlux volHeatCap c_th0 T0 < 1)
+    (htau_pos : 0 < tau_r) (h_alpha : 0 ≤ alpha)
+    (h_dt1 : 0 ≤ dt1)
+    (h_kappa0 : 0 ≤ kappa0) (hm : 0 < m_boson)
+    (hjq_gt : -1 < j_q) (hjq_lt : j_q < 1) :
+    let q_max := s.ddfMaxCausalHeatFlux volHeatCap c_th0 T0
+    let kappa1 := evolveContinuumThermalMode alpha k dt1 kappa0
+    let jq1 := evolveContinuumReducedHeatFlux tau_r dt1 j_q
+    let M0 := ddfThermalGr24Matrix j_q θ
+    let M1 := ddfThermalGr24Matrix jq1 θ
+    0 < q_max ∧
+      q_max ≤ volHeatCap * sub.c * T0 ∧
+      q ^ 2 < q_max ^ 2 ∧
+      evolveContinuumThermalMode alpha k 0 A = A ∧
+      evolveContinuumReducedHeatFlux tau_r 0 j_q = j_q ∧
+      evolveContinuumThermalMode alpha k dt2
+          (evolveContinuumThermalMode alpha k dt1 A) =
+        evolveContinuumThermalMode alpha k (dt1 + dt2) A ∧
+      evolveContinuumReducedHeatFlux tau_r dt2
+          (evolveContinuumReducedHeatFlux tau_r dt1 j_q) =
+        evolveContinuumReducedHeatFlux tau_r (dt1 + dt2) j_q ∧
+      continuumBohmPotentialMode m_boson hbar kappa1 =
+        continuumBohmPotentialMode m_boson hbar kappa0 *
+          Real.exp (-2 * alpha * k ^ 2 * dt1) ∧
+      continuumBohmPotentialMode m_boson hbar kappa1 ≤
+        continuumBohmPotentialMode m_boson hbar kappa0 ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M1) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M1) -
+        Complex.normSq (complexPluckerSinkAmplitudeA M0) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M0) =
+        j_q ^ 2 * (1 - Real.exp (-2 * dt1 / tau_r)) ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M0) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M0) ≤
+        Complex.normSq (complexPluckerSinkAmplitudeA M1) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M1) := by
+  intro q_max kappa1 jq1 M0 M1
+  have h_vis_pos : 0 < s.coherenceVisibility :=
+    Real.sqrt_pos.mpr s.one_sub_betaSq_pos
+  have h_beta_sq_nonneg : 0 ≤ s.betaSq := by
+    unfold MovingSheath.betaSq
+    positivity
+  have h_vis_le_one : s.coherenceVisibility ≤ 1 := by
+    unfold MovingSheath.coherenceVisibility
+    exact Real.sqrt_le_one.mpr (by linarith)
+  have h_cs_pos : 0 < s.ddfSecondSoundSpeed c_th0 :=
+    mul_pos hc_pos h_vis_pos
+  have h_cs_le_c0 : s.ddfSecondSoundSpeed c_th0 ≤ c_th0 := by
+    unfold MovingSheath.ddfSecondSoundSpeed
+    exact mul_le_of_le_one_right (le_of_lt hc_pos) h_vis_le_one
+  have h_cs_le_c : s.ddfSecondSoundSpeed c_th0 ≤ sub.c :=
+    le_trans h_cs_le_c0 hc_le
+  have h_qmax_pos : 0 < q_max := by
+    dsimp [q_max, MovingSheath.ddfMaxCausalHeatFlux]
+    positivity
+  have h_qmax_le : q_max ≤ volHeatCap * sub.c * T0 := by
+    dsimp [q_max, MovingSheath.ddfMaxCausalHeatFlux]
+    have h1 : volHeatCap * s.ddfSecondSoundSpeed c_th0 ≤ volHeatCap * sub.c :=
+      mul_le_mul_of_nonneg_left h_cs_le_c (le_of_lt hCv)
+    exact mul_le_mul_of_nonneg_right h1 (le_of_lt hT0)
+  have h_q_sq : q ^ 2 < q_max ^ 2 := by
+    have h_gt' : (-1 : ℝ) < q / q_max := hjq_flux_gt
+    have h_lt' : q / q_max < (1 : ℝ) := hjq_flux_lt
+    have h_gt : (-1 : ℝ) * q_max < q := (lt_div_iff₀ h_qmax_pos).mp h_gt'
+    have h_lt : q < (1 : ℝ) * q_max := (div_lt_iff₀ h_qmax_pos).mp h_lt'
+    nlinarith
+  have h_mode_id : evolveContinuumThermalMode alpha k 0 A = A := by
+    unfold evolveContinuumThermalMode
+    simp
+  have h_flux_id : evolveContinuumReducedHeatFlux tau_r 0 j_q = j_q := by
+    unfold evolveContinuumReducedHeatFlux
+    simp
+  have h_mode_semi :
+      evolveContinuumThermalMode alpha k dt2
+          (evolveContinuumThermalMode alpha k dt1 A) =
+        evolveContinuumThermalMode alpha k (dt1 + dt2) A := by
+    unfold evolveContinuumThermalMode
+    rw [mul_assoc, ← Real.exp_add]
+    congr 2
+    ring
+  have h_flux_semi :
+      evolveContinuumReducedHeatFlux tau_r dt2
+          (evolveContinuumReducedHeatFlux tau_r dt1 j_q) =
+        evolveContinuumReducedHeatFlux tau_r (dt1 + dt2) j_q := by
+    unfold evolveContinuumReducedHeatFlux
+    rw [mul_assoc, ← Real.exp_add]
+    congr 2
+    ring
+  have h_bohm_eq :
+      continuumBohmPotentialMode m_boson hbar kappa1 =
+        continuumBohmPotentialMode m_boson hbar kappa0 *
+          Real.exp (-2 * alpha * k ^ 2 * dt1) := by
+    dsimp [kappa1, evolveContinuumThermalMode, continuumBohmPotentialMode]
+    have h_exp_sq :
+        (Real.exp (-alpha * k ^ 2 * dt1)) ^ 2 =
+          Real.exp (-2 * alpha * k ^ 2 * dt1) := by
+      rw [sq, ← Real.exp_add]
+      congr 1
+      ring
+    calc
+      hbar ^ 2 * (kappa0 * Real.exp (-alpha * k ^ 2 * dt1)) ^ 2 / (2 * m_boson) =
+          (hbar ^ 2 * kappa0 ^ 2 / (2 * m_boson)) *
+            (Real.exp (-alpha * k ^ 2 * dt1)) ^ 2 := by ring
+      _ = (hbar ^ 2 * kappa0 ^ 2 / (2 * m_boson)) *
+            Real.exp (-2 * alpha * k ^ 2 * dt1) := by rw [h_exp_sq]
+  have h_exp_mode_le_one : Real.exp (-alpha * k ^ 2 * dt1) ≤ 1 := by
+    apply Real.exp_le_one_iff.mpr
+    have : 0 ≤ alpha * k ^ 2 * dt1 := by positivity
+    linarith
+  have h_exp_mode_nonneg : 0 ≤ Real.exp (-alpha * k ^ 2 * dt1) :=
+    le_of_lt (Real.exp_pos _)
+  have h_kappa1_nonneg : 0 ≤ kappa1 := by
+    dsimp [kappa1, evolveContinuumThermalMode]
+    positivity
+  have h_kappa1_le : kappa1 ≤ kappa0 := by
+    dsimp [kappa1, evolveContinuumThermalMode]
+    exact mul_le_of_le_one_right h_kappa0 h_exp_mode_le_one
+  have h_bohm_le :
+      continuumBohmPotentialMode m_boson hbar kappa1 ≤
+        continuumBohmPotentialMode m_boson hbar kappa0 := by
+    unfold continuumBohmPotentialMode
+    have h_sq_le : kappa1 ^ 2 ≤ kappa0 ^ 2 := by
+      nlinarith [h_kappa1_nonneg, h_kappa0, h_kappa1_le]
+    have h_num_le : hbar ^ 2 * kappa1 ^ 2 ≤ hbar ^ 2 * kappa0 ^ 2 :=
+      mul_le_mul_of_nonneg_left h_sq_le (sq_nonneg hbar)
+    exact div_le_div_of_nonneg_right h_num_le (by positivity)
+  have h_exp_tau_le_one : Real.exp (-dt1 / tau_r) ≤ 1 := by
+    apply Real.exp_le_one_iff.mpr
+    rw [neg_div]
+    have h_div_nonneg : 0 ≤ dt1 / tau_r := div_nonneg h_dt1 (le_of_lt htau_pos)
+    linarith
+  have h_exp_tau_pos : 0 < Real.exp (-dt1 / tau_r) := Real.exp_pos _
+  have h_jq1_sq_le : jq1 ^ 2 ≤ j_q ^ 2 := by
+    dsimp [jq1, evolveContinuumReducedHeatFlux]
+    rw [mul_pow]
+    have h_exp_sq_le_one : (Real.exp (-dt1 / tau_r)) ^ 2 ≤ 1 := by
+      nlinarith [h_exp_tau_pos, h_exp_tau_le_one]
+    exact mul_le_of_le_one_right (sq_nonneg j_q) h_exp_sq_le_one
+  have h_jq_sq_lt_one : j_q ^ 2 < 1 := by nlinarith
+  have h_jq1_sq_lt_one : jq1 ^ 2 < 1 := lt_of_le_of_lt h_jq1_sq_le h_jq_sq_lt_one
+  have h_jq1_gt : -1 < jq1 := by nlinarith
+  have h_jq1_lt : jq1 < 1 := by nlinarith
+  have h_M0 :=
+    (s.ddfThermalTransport_continuum_identities c_th0 tau_r 1 1 1 0 0 0 0 0 j_q θ 0
+      hc_pos hc_le htau_pos hjq_gt hjq_lt).2.2.2.2.2.2.1
+  have h_M1 :=
+    (s.ddfThermalTransport_continuum_identities c_th0 tau_r 1 1 1 0 0 0 0 0 jq1 θ 0
+      hc_pos hc_le htau_pos h_jq1_gt h_jq1_lt).2.2.2.2.2.2.1
+  have h_plucker_diff :
+      Complex.normSq (complexPluckerSinkAmplitudeA M1) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M1) -
+        Complex.normSq (complexPluckerSinkAmplitudeA M0) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M0) =
+        j_q ^ 2 * (1 - Real.exp (-2 * dt1 / tau_r)) := by
+    dsimp [M0, M1]
+    rw [h_M0, h_M1]
+    dsimp [jq1, evolveContinuumReducedHeatFlux]
+    have h_exp_tau_sq :
+        (Real.exp (-dt1 / tau_r)) ^ 2 = Real.exp (-2 * dt1 / tau_r) := by
+      rw [sq, ← Real.exp_add]
+      congr 1
+      ring
+    calc
+      1 - (j_q * Real.exp (-dt1 / tau_r)) ^ 2 - (1 - j_q ^ 2) =
+          j_q ^ 2 * (1 - (Real.exp (-dt1 / tau_r)) ^ 2) := by ring
+      _ = j_q ^ 2 * (1 - Real.exp (-2 * dt1 / tau_r)) := by rw [h_exp_tau_sq]
+  have h_plucker_le :
+      Complex.normSq (complexPluckerSinkAmplitudeA M0) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M0) ≤
+        Complex.normSq (complexPluckerSinkAmplitudeA M1) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M1) := by
+    dsimp [M0, M1]
+    rw [h_M0, h_M1]
+    linarith
+  exact ⟨h_qmax_pos, h_qmax_le, h_q_sq, h_mode_id, h_flux_id,
+    h_mode_semi, h_flux_semi, h_bohm_eq, h_bohm_le, h_plucker_diff, h_plucker_le⟩
 
 end Signals.DDF

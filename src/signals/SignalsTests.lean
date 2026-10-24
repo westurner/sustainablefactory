@@ -4819,21 +4819,49 @@ example (θ : ℝ) :
 
 /-- Complete inverse recovery of Inverse Compton β, Klein-Nishina recoil ε_rec,
 and absolute Raman temperature T, together with Chapman-Kolmogorov thermal
-splat semigroup additivity and monotonic core Bohm potential relaxation. -/
+semigroup identity/additivity and monotonic Bohm potential relaxation both with
+and without Tensor Gaussian Splats. -/
 example (θ : ℝ) :
     let D := Signals.Scattering.inverseComptonDopplerRatio (3 / 5)
     let R_KN := Signals.Scattering.inverseComptonKleinNishinaRatio (3 / 5) (1 / 4)
     let R_Raman := Signals.Scattering.ramanAntiStokesToStokesThermalRatio 10 2 (150 / 300)
+    -- With Tensor Gaussian Splats:
     let splat_ddf := toyMovingSheath.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
+    let step0 := splat_ddf.evolveThermal 1 2 0 (by norm_num) (by norm_num) le_rfl
     let step1 := splat_ddf.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)
     let step12 := step1.evolveThermal 1 2 4 (by norm_num) (by norm_num) (by norm_num)
     let step_sum := splat_ddf.evolveThermal 1 2 (3 + 4) (by norm_num) (by norm_num) (by norm_num)
+    -- Without Splats (Continuum Modes, Cattaneo Heat-Flux Relaxation, and Gr_C(2,4) Plücker Second Law):
+    let kappa1 := Signals.DDF.evolveContinuumThermalMode 2 1 3 5
+    let jq1 := Signals.DDF.evolveContinuumReducedHeatFlux (1 / 2) 3 (3 / 5)
+    let M0 := Signals.DDF.ddfThermalGr24Matrix (3 / 5) θ
+    let M1 := Signals.DDF.ddfThermalGr24Matrix jq1 θ
     Signals.Scattering.reconstructInverseComptonBeta D = 3 / 5 ∧
     Signals.Scattering.reconstructKleinNishinaRecoil D R_KN = 1 / 4 ∧
     Signals.Scattering.reconstructRamanTemperature 10 2 150 R_Raman = 300 ∧
+    step0 = splat_ddf ∧
     step12 = step_sum ∧
-    step1.coreBohmPotential 1 1 ≤ splat_ddf.coreBohmPotential 1 1 := by
-  intro D R_KN R_Raman splat_ddf step1 step12 step_sum
+    step1.coreBohmPotential 1 1 ≤ splat_ddf.coreBohmPotential 1 1 ∧
+    Signals.DDF.evolveContinuumThermalMode 2 1 0 5 = 5 ∧
+    Signals.DDF.evolveContinuumReducedHeatFlux (1 / 2) 0 (3 / 5) = 3 / 5 ∧
+    Signals.DDF.evolveContinuumThermalMode 2 1 4 kappa1 =
+      Signals.DDF.evolveContinuumThermalMode 2 1 (3 + 4) 5 ∧
+    Signals.DDF.evolveContinuumReducedHeatFlux (1 / 2) 4 jq1 =
+      Signals.DDF.evolveContinuumReducedHeatFlux (1 / 2) (3 + 4) (3 / 5) ∧
+    Signals.DDF.continuumBohmPotentialMode 1 1 kappa1 =
+      Signals.DDF.continuumBohmPotentialMode 1 1 5 * Real.exp (-2 * 2 * 1 ^ 2 * 3) ∧
+    Signals.DDF.continuumBohmPotentialMode 1 1 kappa1 ≤
+      Signals.DDF.continuumBohmPotentialMode 1 1 5 ∧
+    Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M1) *
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M1) -
+      Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M0) *
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M0) =
+      (3 / 5) ^ 2 * (1 - Real.exp (-2 * 3 / (1 / 2))) ∧
+    Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M0) *
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M0) ≤
+      Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M1) *
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M1) := by
+  intro D R_KN R_Raman splat_ddf step0 step1 step12 step_sum kappa1 jq1 M0 M1
   have h_inv := Signals.Scattering.inelastic_compton_and_raman_temperature_inversion
     (3 / 5) (1 / 4) 10 2 150 300 (1 / 10)
     (by norm_num) (by norm_num) (by norm_num)
@@ -4842,6 +4870,19 @@ example (θ : ℝ) :
   have h_semi := Signals.DDF.NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay
     splat_ddf 1 2 3 4 1 1
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
-  exact ⟨h_inv.1, h_inv.2.1, h_inv.2.2.1, h_semi.1, h_semi.2.2⟩
+  have h_c_ge : (1 : ℝ) ≤ toyDDFSubstrate.c := by
+    dsimp [toyDDFSubstrate, Signals.DDF.DDFSubstrate.c]
+    norm_num
+  have h_cont_semi := toyMovingSheath.ddfContinuum_semigroup_and_bohm_decay
+    2 1 10 0 (1 / 2) 2 1 3 4 5 5 (3 / 5) 1 1 θ
+    (by norm_num) (by norm_num) h_c_ge (by norm_num)
+    (by rw [zero_div]; norm_num) (by rw [zero_div]; norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_inv.1, h_inv.2.1, h_inv.2.2.1, h_semi.1, h_semi.2.1, h_semi.2.2.2,
+    h_cont_semi.2.2.2.1, h_cont_semi.2.2.2.2.1,
+    h_cont_semi.2.2.2.2.2.1, h_cont_semi.2.2.2.2.2.2.1,
+    h_cont_semi.2.2.2.2.2.2.2.1, h_cont_semi.2.2.2.2.2.2.2.2.1,
+    h_cont_semi.2.2.2.2.2.2.2.2.2.1, h_cont_semi.2.2.2.2.2.2.2.2.2.2⟩
 
 end SignalsTests
