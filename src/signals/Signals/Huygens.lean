@@ -6,6 +6,7 @@ import Mathlib.MeasureTheory.Integral.Bochner.Set
 import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 import Mathlib.Tactic
 import Signals.Coherence
+import Signals.Geometry
 import Signals.Units
 
 namespace Signals.Huygens
@@ -1112,5 +1113,388 @@ theorem huygensSteiner_dark_fringe_peak_relative_error
   have h_ne : singleSlitScale ≠ 0 := ne_of_gt h_scale
   field_simp [h_ne]
   ring
+
+/-- **Qian--Izadi ($N$-Dimensional Coherence Spectrum) Relative Predictive Error Law**:
+For any $N \ge 2$ and any `Signals.Coherence.CoherenceComplementarity N` record
+(`PhysRevResearch.5.033110`) with visibility $\mathcal{V} = K_N = \text{profile.entanglement}$
+($1 + K_N \neq 0$), the on-axis relative predictive error $(1 - K_N) / 2$ equals
+the $N$-dimensional squared degree of polarization divided by $2(1 + K_N)$:
+$\frac{1 - K_N}{2} = \frac{P_N^2}{2(1 + K_N)} = \frac{\frac{N}{N-1}\sum_i m_i^2 - \frac{1}{N-1}}{2(1 + K_N)}$. -/
+@[blueprint "thm:signals-qian-izadi-spectrum-relative-error"
+  (title := "Qian--Izadi N-dimensional coherence spectrum law for double-slit relative error")
+  (statement := /-- For any $N\ge 2$ and \texttt{CoherenceComplementarity} record with
+    $1+K_N\ne 0$, the on-axis relative error satisfies
+    $\frac{1-K_N}{2}=\frac{P_N^2}{2(1+K_N)}$. -/)
+  (proof := /-- Use $P_N^2+K_N^2=1$ from \texttt{CoherenceComplementarity.complementarity\_identity}
+    to rewrite $1-K_N^2=(1-K_N)(1+K_N)=P_N^2$. -/)]
+theorem huygensSteiner_relative_error_from_coherenceComplementarity
+    {dimension : ℕ} (profile : Signals.Coherence.CoherenceComplementarity dimension)
+    (dimension_at_least_two : 2 ≤ dimension)
+    (h_denom : 1 + profile.entanglement ≠ 0) :
+    (1 - profile.entanglement) / 2 =
+      profile.spectrum.polarizationSquared / (2 * (1 + profile.entanglement)) := by
+  have h_comp := profile.complementarity_identity dimension_at_least_two
+  have h_pol := profile.polarization_squared_law
+  have h_diff :
+      (1 - profile.entanglement) * (1 + profile.entanglement) =
+        profile.spectrum.polarizationSquared := by
+    calc
+      (1 - profile.entanglement) * (1 + profile.entanglement) =
+          1 - profile.entanglement ^ 2 := by ring
+      _ = profile.polarization ^ 2 := by linarith [h_comp]
+      _ = profile.spectrum.polarizationSquared := h_pol
+  rw [div_eq_div_iff (by norm_num) (mul_ne_zero two_ne_zero h_denom)]
+  linarith
+
+/-! ## 5. Gr(2, 4) Pluecker Double-Slit Superposition Model
+
+In a four-terminal $2 \times 4$ Grassmannian setup
+$M \in \mathbb{R}^{2 \times 4}$ with columns $(0 = \text{Source}, 1 = \text{Slit } A,
+2 = \text{Slit } B, 3 = \text{Detector})$, the two uncrossed boundary channel products
+are $w_A(M) = \Delta_{01}(M)\Delta_{23}(M)$ and $w_B(M) = \Delta_{03}(M)\Delta_{12}(M)$,
+and their sum equals the crossing minor product $w_\times(M) = \Delta_{02}(M)\Delta_{13}(M)$
+by the 3-term Pluecker identity (`Signals.Geometry.twoRowMinor_pluecker`).
+-/
+
+/-- In any $2 \times 4$ matrix $M$, the sum of the two uncrossed slit-channel
+Pluecker products $\Delta_{01}(M)\Delta_{23}(M) + \Delta_{03}(M)\Delta_{12}(M)$
+equals the crossing minor product $\Delta_{02}(M)\Delta_{13}(M)$. -/
+@[blueprint "lem:signals-gr24-channel-sum-eq-crossing"
+  (title := "Gr(2,4) double-slit channel sum equals crossing minor product")
+  (statement := /-- For any $M\in\mathbb R^{2\times 4}$,
+    $\Delta_{01}(M)\Delta_{23}(M)+\Delta_{03}(M)\Delta_{12}(M)=\Delta_{02}(M)\Delta_{13}(M)$. -/)
+  (proof := /-- Rearrange \texttt{Signals.Geometry.twoRowMinor\_pluecker}. -/)
+  (latexEnv := "lemma")]
+lemma gr24_channel_sum_eq_crossing (M : Matrix (Fin 2) (Fin 4) ℝ) :
+    Signals.Geometry.twoRowMinor M 0 1 * Signals.Geometry.twoRowMinor M 2 3 +
+      Signals.Geometry.twoRowMinor M 0 3 * Signals.Geometry.twoRowMinor M 1 2 =
+    Signals.Geometry.twoRowMinor M 0 2 * Signals.Geometry.twoRowMinor M 1 3 := by
+  have h := Signals.Geometry.twoRowMinor_pluecker M 0 1 2 3
+  linarith
+
+/-- **Unphased $Gr(2, 4)$ Crossing-Minor Double-Slit Proxy**:
+Evaluates the incoherent sum of the two Pluecker slit channels via the crossing
+minor product $\Delta_{02}(M)\Delta_{13}(M)$ without an oscillatory optical phase:
+$I_{Gr(2,4)}^{\mathrm{unphased}}(M; x, y) = I_0 E_{\mathrm{slit}}(x, y)\,\Delta_{02}(M)\Delta_{13}(M)$. -/
+@[blueprint "def:signals-gr24-unphased-double-slit"
+  (title := "Unphased Gr(2,4) crossing-minor double-slit proxy")
+  (statement := /-- For $M\in\mathbb R^{2\times 4}$, define the unphased crossing-minor
+    intensity proxy
+    $I_{Gr(2,4)}^{\mathrm{unphased}}(M;x,y)=I_0 E_{\mathrm{slit}}(x,y)\,\Delta_{02}(M)\Delta_{13}(M)$. -/)]
+noncomputable def gr24UnphasedDoubleSlit
+    (M : Matrix (Fin 2) (Fin 4) ℝ)
+    (singleSlitScale slitWidth slitHeight wavelength screenDistance x y : ℝ) : ℝ :=
+  singleSlitScale *
+    rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance x y *
+    (Signals.Geometry.twoRowMinor M 0 2 * Signals.Geometry.twoRowMinor M 1 3)
+
+/-- **Phased $Gr(2, 4)$ Pluecker Double-Slit Intensity**:
+Weights the two slit channels by their uncrossed Pluecker products
+$w_A = \Delta_{01}(M)\Delta_{23}(M)$ and $w_B = \Delta_{03}(M)\Delta_{12}(M)$
+(whose sum is the crossing product $\Delta_{02}(M)\Delta_{13}(M)$) together with
+their coherent interference cross-term $2\sqrt{w_A w_B}\cos(2\pi d x / (\lambda L))$. -/
+@[blueprint "def:signals-gr24-plucker-double-slit"
+  (title := "Phased Gr(2,4) Pluecker double-slit intensity")
+  (statement := /-- For $M\in\mathbb R^{2\times 4}$, define
+    $I_{Gr(2,4)}(M;x,y)=I_0 E_{\mathrm{slit}}(x,y)\bigl(\Delta_{02}(M)\Delta_{13}(M)+
+    2\sqrt{\Delta_{01}(M)\Delta_{23}(M)\,\Delta_{03}(M)\Delta_{12}(M)}\,
+    \cos(2\pi d x/(\lambda L))\bigr)$. -/)]
+noncomputable def gr24PluckerDoubleSlit
+    (M : Matrix (Fin 2) (Fin 4) ℝ)
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y : ℝ) : ℝ :=
+  singleSlitScale *
+    rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance x y *
+    (Signals.Geometry.twoRowMinor M 0 2 * Signals.Geometry.twoRowMinor M 1 3 +
+      2 * Real.sqrt
+        ((Signals.Geometry.twoRowMinor M 0 1 * Signals.Geometry.twoRowMinor M 2 3) *
+          (Signals.Geometry.twoRowMinor M 0 3 * Signals.Geometry.twoRowMinor M 1 2)) *
+        Real.cos (2 * (Real.pi * separation * x / (wavelength * screenDistance))))
+
+/-- When the crossing Pluecker product is normalized to $\Delta_{02}(M)\Delta_{13}(M) = 2$,
+`gr24PluckerDoubleSlit` equals `huygensSteinerDoubleSlit` with Pluecker visibility
+$\mathcal{V}_{Gr(2,4)}(M) = \sqrt{\Delta_{01}(M)\Delta_{23}(M)\,\Delta_{03}(M)\Delta_{12}(M)}$. -/
+@[blueprint "thm:signals-gr24-eq-huygens-steiner"
+  (title := "Normalized Gr(2,4) Pluecker double-slit intensity reduces to Huygens--Steiner model")
+  (statement := /-- Whenever $\Delta_{02}(M)\Delta_{13}(M)=2$,
+    $I_{Gr(2,4)}(M;x,y)=I_{\mathrm{HS}}\bigl(x,y;
+    \sqrt{\Delta_{01}(M)\Delta_{23}(M)\,\Delta_{03}(M)\Delta_{12}(M)}\bigr)$. -/)
+  (proof := /-- Substitute $\Delta_{02}(M)\Delta_{13}(M)=2$ into \texttt{gr24PluckerDoubleSlit}
+    and factor out $2I_0$. -/)]
+theorem gr24PluckerDoubleSlit_eq_huygensSteiner
+    (M : Matrix (Fin 2) (Fin 4) ℝ)
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y : ℝ)
+    (h_norm : Signals.Geometry.twoRowMinor M 0 2 * Signals.Geometry.twoRowMinor M 1 3 = 2) :
+    gr24PluckerDoubleSlit
+      M singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y =
+    huygensSteinerDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      (Real.sqrt
+        ((Signals.Geometry.twoRowMinor M 0 1 * Signals.Geometry.twoRowMinor M 2 3) *
+          (Signals.Geometry.twoRowMinor M 0 3 * Signals.Geometry.twoRowMinor M 1 2)))
+      x y := by
+  unfold gr24PluckerDoubleSlit huygensSteinerDoubleSlit
+  rw [h_norm]
+  ring
+
+/-- At a balanced $Gr_{\ge 0}(2, 4)$ representative where both uncrossed Pluecker
+channel weights equal $1$ ($\Delta_{01}\Delta_{23} = 1$ and $\Delta_{03}\Delta_{12} = 1$,
+so $\Delta_{02}\Delta_{13} = 2$ by the Pluecker identity), `gr24PluckerDoubleSlit`
+matches the Fraunhofer reference `fraunhoferRectangularDoubleSlit` identically at
+every $(x, y)$. -/
+@[blueprint "thm:signals-gr24-balanced-eq-fraunhofer"
+  (title := "Balanced Gr(2,4) Pluecker double-slit matches Fraunhofer reference identically")
+  (statement := /-- If $\Delta_{01}(M)\Delta_{23}(M)=1$ and $\Delta_{03}(M)\Delta_{12}(M)=1$,
+    then $\Delta_{02}(M)\Delta_{13}(M)=2$ by the Pluecker relation and
+    $I_{Gr(2,4)}(M;x,y)=I_{\mathrm{F}}(x,y)$ for all $(x,y)$. -/)
+  (proof := /-- Derive $\Delta_{02}\Delta_{13}=2$ via \texttt{gr24\_channel\_sum\_eq\_crossing},
+    reduce to \texttt{huygensSteinerDoubleSlit} with $\mathcal{V}=\sqrt{1}=1$, and apply
+    \texttt{huygensSteinerDoubleSlit\_unit\_visibility\_eq\_fraunhofer}. -/)]
+theorem gr24PluckerDoubleSlit_balanced_eq_fraunhofer
+    (M : Matrix (Fin 2) (Fin 4) ℝ)
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y : ℝ)
+    (h_ch1 : Signals.Geometry.twoRowMinor M 0 1 * Signals.Geometry.twoRowMinor M 2 3 = 1)
+    (h_ch2 : Signals.Geometry.twoRowMinor M 0 3 * Signals.Geometry.twoRowMinor M 1 2 = 1) :
+    gr24PluckerDoubleSlit
+      M singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y =
+    fraunhoferRectangularDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y := by
+  have h_cross : Signals.Geometry.twoRowMinor M 0 2 * Signals.Geometry.twoRowMinor M 1 3 = 2 := by
+    have h_pl := gr24_channel_sum_eq_crossing M
+    linarith
+  rw [gr24PluckerDoubleSlit_eq_huygensSteiner M singleSlitScale slitWidth slitHeight
+    separation wavelength screenDistance x y h_cross]
+  rw [h_ch1, h_ch2, mul_one, Real.sqrt_one]
+  exact huygensSteinerDoubleSlit_unit_visibility_eq_fraunhofer
+    singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y
+
+/-- Even when the crossing Pluecker weight is normalized ($\Delta_{02}(M)\Delta_{13}(M) = 2$),
+the *unphased* $Gr(2, 4)$ crossing-minor proxy `gr24UnphasedDoubleSlit` has a fixed
+$1 / 2$ ($50\%$) on-axis relative predictive error against the Fraunhofer peak $4 I_0$
+because it omits the coherent cross-term. -/
+@[blueprint "thm:signals-gr24-unphased-on-axis-error-half"
+  (title := "Unphased Gr(2,4) crossing-minor proxy has 50% on-axis relative predictive error")
+  (statement := /-- When $I_0>0$ and $\Delta_{02}(M)\Delta_{13}(M)=2$,
+    $\varepsilon_{\mathrm{rel}}\bigl(I_{Gr(2,4)}^{\mathrm{unphased}}(M;0,0),I_{\mathrm{F}}(0,0)\bigr) = \frac12$. -/)
+  (proof := /-- Evaluate $I_{Gr(2,4)}^{\mathrm{unphased}}(M;0,0)=2I_0$ and $I_{\mathrm{F}}(0,0)=4I_0$,
+    then simplify $|2I_0-4I_0|/(4I_0)=1/2$. -/)]
+theorem gr24UnphasedDoubleSlit_onAxis_relative_error_half
+    (M : Matrix (Fin 2) (Fin 4) ℝ)
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance : ℝ)
+    (h_scale : 0 < singleSlitScale)
+    (h_norm : Signals.Geometry.twoRowMinor M 0 2 * Signals.Geometry.twoRowMinor M 1 3 = 2) :
+    relativePredictiveError
+      (gr24UnphasedDoubleSlit M singleSlitScale slitWidth slitHeight wavelength screenDistance 0 0)
+      (fraunhoferRectangularDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance 0 0) =
+    1 / 2 := by
+  unfold relativePredictiveError gr24UnphasedDoubleSlit
+  rw [h_norm, fraunhoferRectangularDoubleSlit_onAxis]
+  have h_env : rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance 0 0 = 1 := by
+    simp [rectangularSlitEnvelope]
+  rw [h_env, mul_one]
+  have h_sub : singleSlitScale * 2 - 4 * singleSlitScale = - (2 * singleSlitScale) := by ring
+  rw [h_sub, abs_neg, abs_of_pos (by linarith : 0 < 2 * singleSlitScale),
+    abs_of_pos (by linarith : 0 < 4 * singleSlitScale)]
+  have h_ne : singleSlitScale ≠ 0 := ne_of_gt h_scale
+  field_simp [h_ne]
+  ring
+
+/-! ## 6. Orbital Angular Momentum (OAM) Double-Slit Superposition Across Methods
+
+When the two slits carry helical OAM phase factors $e^{i \ell_1 \phi}$ and
+$e^{i \ell_2 \phi}$ with differential topological charge
+$\Delta \ell = \ell_2 - \ell_1 \in \mathbb{Z}$ and azimuthal angle $\phi \in \mathbb{R}$,
+the two-slit interference phase shifts by $\Delta \ell \cdot \phi$, twisting the
+fringes into a forked optical vortex and creating an on-axis dark core at
+$\phi = \pi$ when $\Delta \ell = 1$.
+-/
+
+/-- Analytic Fraunhofer OAM double-slit intensity with differential topological
+charge `deltaOAM : ℤ` and azimuthal angle `azimuthPhi : ℝ`:
+$I_{\mathrm{F,OAM}}(x, y, \phi; \Delta\ell) = 4 I_0 E_{\mathrm{slit}}(x, y) \cos^2(\pi d x / (\lambda L) + \Delta\ell\,\phi / 2)$. -/
+@[blueprint "def:signals-fraunhofer-oam-double-slit"
+  (title := "Fraunhofer OAM double-slit intensity with helical topological charge")
+  (statement := /-- For differential OAM charge $\Delta\ell\in\mathbb Z$ and azimuthal angle
+    $\phi\in\mathbb R$, define
+    $I_{\mathrm{F,OAM}}(x,y,\phi;\Delta\ell)=4I_0 E_{\mathrm{slit}}(x,y)
+    \cos^2\!\left(\frac{\pi d x}{\lambda L}+\frac{\Delta\ell\,\phi}{2}\right)$. -/)]
+noncomputable def fraunhoferOAMDoubleSlit
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ) : ℝ :=
+  4 * singleSlitScale *
+    rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance x y *
+    (Real.cos (Real.pi * separation * x / (wavelength * screenDistance) +
+      (deltaOAM : ℝ) * azimuthPhi / 2)) ^ 2
+
+/-- Huygens--Steiner / Qian--Izadi OAM double-slit intensity with visibility `visibility`,
+differential OAM charge `deltaOAM : ℤ`, and azimuthal angle `azimuthPhi : ℝ`:
+$I_{\mathrm{HS,OAM}}(x, y, \phi; \Delta\ell, \mathcal{V}) = 2 I_0 E_{\mathrm{slit}}(x, y) (1 + \mathcal{V} \cos(2\pi d x / (\lambda L) + \Delta\ell\,\phi))$. -/
+@[blueprint "def:signals-huygens-steiner-oam-double-slit"
+  (title := "Huygens--Steiner OAM double-slit intensity")
+  (statement := /-- Define the coherence-weighted OAM double-slit intensity
+    $I_{\mathrm{HS,OAM}}(x,y,\phi;\Delta\ell,\mathcal{V})=2I_0 E_{\mathrm{slit}}(x,y)
+    \bigl(1+\mathcal{V}\cos(2\pi d x/(\lambda L)+\Delta\ell\,\phi)\bigr)$. -/)]
+noncomputable def huygensSteinerOAMDoubleSlit
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      visibility : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ) : ℝ :=
+  2 * singleSlitScale *
+    rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance x y *
+    (1 + visibility * Real.cos
+      (2 * (Real.pi * separation * x / (wavelength * screenDistance)) +
+        (deltaOAM : ℝ) * azimuthPhi))
+
+/-- Wigner angle--OAM phase-space marginal intensity with rotational decoherence
+rate `oamDecoherenceRate` scaling quadratically with the OAM charge difference
+$(\Delta\ell)^2$:
+$I_{\mathrm{Wigner,OAM}}(x, y, \phi; \Delta\ell, \gamma_{\mathrm{OAM}}) = 2 I_0 E_{\mathrm{slit}}(x, y) (1 + e^{-\gamma_{\mathrm{OAM}} (\Delta\ell)^2} \cos(2\pi d x / (\lambda L) + \Delta\ell\,\phi))$. -/
+@[blueprint "def:signals-wigner-oam-double-slit"
+  (title := "Wigner angle--OAM phase-space marginal double-slit intensity")
+  (statement := /-- With rotational phase-space diffusion $\gamma_{\mathrm{OAM}}(\Delta\ell)^2$,
+    define $I_{\mathrm{Wigner,OAM}}(x,y,\phi;\Delta\ell,\gamma_{\mathrm{OAM}})=
+    2I_0 E_{\mathrm{slit}}(x,y)\bigl(1+e^{-\gamma_{\mathrm{OAM}}(\Delta\ell)^2}
+    \cos(2\pi d x/(\lambda L)+\Delta\ell\,\phi)\bigr)$. -/)]
+noncomputable def wignerOAMDoubleSlit
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      oamDecoherenceRate : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ) : ℝ :=
+  huygensSteinerOAMDoubleSlit
+    singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+    (Real.exp (- oamDecoherenceRate * (deltaOAM : ℝ) ^ 2))
+    deltaOAM azimuthPhi x y
+
+/-- At unit visibility ($\mathcal{V} = 1$), `huygensSteinerOAMDoubleSlit` matches
+`fraunhoferOAMDoubleSlit` identically for all $(x, y, \phi)$ and $\Delta\ell \in \mathbb{Z}$. -/
+@[blueprint "thm:signals-huygens-steiner-oam-unit-eq-fraunhofer"
+  (title := "Unit-visibility Huygens--Steiner OAM intensity matches Fraunhofer OAM benchmark")
+  (statement := /-- When $\mathcal{V}=1$,
+    $I_{\mathrm{HS,OAM}}(x,y,\phi;\Delta\ell,1)=I_{\mathrm{F,OAM}}(x,y,\phi;\Delta\ell)$. -/)
+  (proof := /-- Apply the double-angle identity $\cos(2\theta)=2\cos^2(\theta)-1$ to
+    $\theta=\pi d x/(\lambda L)+\Delta\ell\,\phi/2$. -/)]
+theorem huygensSteinerOAMDoubleSlit_unit_visibility_eq_fraunhoferOAM
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ) :
+    huygensSteinerOAMDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance 1
+      deltaOAM azimuthPhi x y =
+    fraunhoferOAMDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      deltaOAM azimuthPhi x y := by
+  unfold huygensSteinerOAMDoubleSlit fraunhoferOAMDoubleSlit
+  have h_angle :
+      2 * (Real.pi * separation * x / (wavelength * screenDistance)) +
+        (deltaOAM : ℝ) * azimuthPhi =
+      2 * (Real.pi * separation * x / (wavelength * screenDistance) +
+        (deltaOAM : ℝ) * azimuthPhi / 2) := by
+    ring
+  rw [one_mul, h_angle, Real.cos_two_mul]
+  ring
+
+/-- When both slits carry the same OAM charge ($\Delta\ell = 0$), `fraunhoferOAMDoubleSlit`
+reduces identically to the standard planar `fraunhoferRectangularDoubleSlit` for every
+azimuthal angle $\phi$. -/
+@[blueprint "lem:signals-fraunhofer-oam-zero-charge"
+  (title := "Equal-charge OAM double-slit reduces to standard Fraunhofer intensity")
+  (statement := /-- When $\Delta\ell=0$,
+    $I_{\mathrm{F,OAM}}(x,y,\phi;0)=I_{\mathrm{F}}(x,y)$ for all $\phi$. -/)
+  (proof := /-- Substitute $\Delta\ell=0$ and unfold \texttt{rectangularSlitEnvelope}. -/)
+  (latexEnv := "lemma")]
+lemma fraunhoferOAMDoubleSlit_zero_charge_eq_standard
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      azimuthPhi x y : ℝ) :
+    fraunhoferOAMDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance 0
+      azimuthPhi x y =
+    fraunhoferRectangularDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y := by
+  unfold fraunhoferOAMDoubleSlit fraunhoferRectangularDoubleSlit rectangularSlitEnvelope
+  simp only [Int.cast_zero, zero_mul, zero_div, add_zero]
+  ring
+
+/-- **OAM Fork Vortex Singularity at $\Delta\ell = 1, \phi = \pi$**:
+When $\Delta\ell = 1$, at $(x, y) = (0, 0)$ and $\phi = \pi$, the azimuthal helical
+phase shift $\Delta\ell\,\phi / 2 = \pi / 2$ causes exact destructive cancellation
+on the optical axis ($I_{\mathrm{F,OAM}}(0, 0, \pi; 1) = 0$), so an unphased /
+non-OAM Fraunhofer reference ($I_{\mathrm{F}}(0, 0) = 4 I_0$) incurs a $100\%$ ($1$)
+on-axis relative error. -/
+@[blueprint "thm:signals-fraunhofer-oam-vortex-null-pi"
+  (title := "On-axis OAM vortex phase-singularity null and 100% non-OAM relative error at φ = π")
+  (statement := /-- For $\Delta\ell=1$ and $\phi=\pi$, $I_{\mathrm{F,OAM}}(0,0,\pi;1)=0$,
+    and for $I_0>0$, $\varepsilon_{\mathrm{rel}}\bigl(I_{\mathrm{F,OAM}}(0,0,\pi;1),
+    I_{\mathrm{F}}(0,0)\bigr)=1$. -/)
+  (proof := /-- Evaluate $\cos(\pi/2)=0$ at $(0,0,\pi)$, then compute $|0-4I_0|/(4I_0)=1$. -/)]
+theorem fraunhoferOAMDoubleSlit_vortex_null_at_pi
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance : ℝ)
+    (h_scale : 0 < singleSlitScale) :
+    fraunhoferOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        1 Real.pi 0 0 = 0 ∧
+      relativePredictiveError
+        (fraunhoferOAMDoubleSlit
+          singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+          1 Real.pi 0 0)
+        (fraunhoferRectangularDoubleSlit
+          singleSlitScale slitWidth slitHeight separation wavelength screenDistance 0 0) = 1 := by
+  have h_zero :
+      fraunhoferOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        1 Real.pi 0 0 = 0 := by
+    unfold fraunhoferOAMDoubleSlit
+    simp [Real.cos_pi_div_two]
+  refine ⟨h_zero, ?_⟩
+  rw [h_zero, fraunhoferRectangularDoubleSlit_onAxis]
+  unfold relativePredictiveError
+  rw [zero_sub, abs_neg, abs_of_pos (by linarith : 0 < 4 * singleSlitScale),
+    div_self (by linarith : 4 * singleSlitScale ≠ 0)]
+
+/-- **Wigner Angle--OAM Phase-Space Relative Predictive Error Law**:
+For $I_0 > 0$ and $\gamma_{\mathrm{OAM}} \ge 0$, at $(x, y, \phi) = (0, 0, 0)$ the
+relative predictive error between `wignerOAMDoubleSlit` and `fraunhoferOAMDoubleSlit`
+equals $\frac{1 - e^{-\gamma_{\mathrm{OAM}} (\Delta\ell)^2}}{2}$, which vanishes when
+$\Delta\ell = 0$ and increases with $|\Delta\ell|$. -/
+@[blueprint "thm:signals-wigner-oam-on-axis-relative-error"
+  (title := "Quadratic OAM charge-difference scaling of Wigner phase-space relative error")
+  (statement := /-- For $I_0>0$ and $\gamma_{\mathrm{OAM}}\ge 0$, at $(x,y,\phi)=(0,0,0)$,
+    $\varepsilon_{\mathrm{rel}}\bigl(I_{\mathrm{Wigner,OAM}}(0,0,0;\Delta\ell,\gamma_{\mathrm{OAM}}),
+    I_{\mathrm{F,OAM}}(0,0,0;\Delta\ell)\bigr)
+    = \frac{1-e^{-\gamma_{\mathrm{OAM}}(\Delta\ell)^2}}{2}$. -/)
+  (proof := /-- Reduce at $\phi=0$ to \texttt{wigner\_onAxis\_relative\_error} with effective
+    decoherence rate $\gamma_{\mathrm{OAM}}(\Delta\ell)^2\ge 0$. -/)]
+theorem wignerOAM_onAxis_relative_error
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      oamDecoherenceRate : ℝ)
+    (deltaOAM : ℤ)
+    (h_scale : 0 < singleSlitScale) (h_dec : 0 ≤ oamDecoherenceRate) :
+    relativePredictiveError
+      (wignerOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        oamDecoherenceRate deltaOAM 0 0 0)
+      (fraunhoferOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        deltaOAM 0 0 0) =
+    (1 - Real.exp (- (oamDecoherenceRate * (deltaOAM : ℝ) ^ 2))) / 2 := by
+  have h_wigner :
+      wignerOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        oamDecoherenceRate deltaOAM 0 0 0 =
+      wignerDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        (oamDecoherenceRate * (deltaOAM : ℝ) ^ 2) 0 0 := by
+    unfold wignerOAMDoubleSlit wignerDoubleSlit huygensSteinerOAMDoubleSlit
+    simp
+  have h_fraun :
+      fraunhoferOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        deltaOAM 0 0 0 =
+      fraunhoferRectangularDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance 0 0 := by
+    unfold fraunhoferOAMDoubleSlit fraunhoferRectangularDoubleSlit rectangularSlitEnvelope
+    simp
+  rw [h_wigner, h_fraun]
+  have h_rate_nonneg : 0 ≤ oamDecoherenceRate * (deltaOAM : ℝ) ^ 2 :=
+    mul_nonneg h_dec (sq_nonneg _)
+  exact wigner_onAxis_relative_error
+    singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+    (oamDecoherenceRate * (deltaOAM : ℝ) ^ 2) h_scale h_rate_nonneg
 
 end Signals.Huygens

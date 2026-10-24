@@ -235,4 +235,36 @@ lemma HuygensSteinerMapping.polarization_eq_offset_squared
     ParallelAxis.parallel_axis, mapping.normalizedMass]
   ring
 
+/-- For a binary ($N = 2$) coherence spectrum (`CoherenceSpectrum 2`, e.g. two slits
+with normalized weights $m_0 + m_1 = 1$ in Qian & Izadi, *Phys. Rev. Research* 5,
+033110 (2023)), the squared degree of polarization equals the squared weight
+imbalance $(m_0 - m_1)^2$ and the squared Schmidt entanglement/visibility equals
+$4 m_0 m_1$. -/
+@[blueprint "thm:signals-coherence-binary-spectrum-weights"
+  (title := "Binary N=2 Qian--Izadi coherence spectrum imbalance and visibility laws")
+  (statement := /-- For any $N=2$ \texttt{CoherenceSpectrum} with $m_0+m_1=1$,
+    $P_2^2=(m_0-m_1)^2$ and $K_2^2=4 m_0 m_1$. -/)
+  (proof := /-- Expand $\sum_{i\in\operatorname{Fin}(2)} m_i = m_0+m_1=1$ and
+    $\sum_{i\in\operatorname{Fin}(2)} m_i^2 = m_0^2+m_1^2$, then close by ring algebra. -/)]
+theorem CoherenceSpectrum.binary_polarization_and_entanglement
+    (spectrum : CoherenceSpectrum 2) :
+    spectrum.polarizationSquared = (spectrum.weight 0 - spectrum.weight 1) ^ 2 ∧
+      spectrum.entanglementSquared = 4 * spectrum.weight 0 * spectrum.weight 1 := by
+  have h_norm : spectrum.weight 0 + spectrum.weight 1 = 1 := by
+    simpa [Fin.sum_univ_two] using spectrum.normalized
+  have h_w1 : spectrum.weight 1 = 1 - spectrum.weight 0 := by linarith [h_norm]
+  have h_sum_sq :
+      (∑ index : Fin 2, (spectrum.weight index) ^ 2) =
+        (spectrum.weight 0) ^ 2 + (spectrum.weight 1) ^ 2 := by
+    simp [Fin.sum_univ_two]
+  constructor
+  · unfold CoherenceSpectrum.polarizationSquared
+    rw [h_sum_sq, h_w1]
+    norm_num
+    ring
+  · unfold CoherenceSpectrum.entanglementSquared
+    rw [h_sum_sq, h_w1]
+    norm_num
+    ring
+
 end Signals.Coherence

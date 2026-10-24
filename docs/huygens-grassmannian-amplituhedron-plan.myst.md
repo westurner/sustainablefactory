@@ -1064,60 +1064,109 @@ zeros, and rejection of a positive-intensity claim at the half-period dark
 fringe. Connecting the finite aperture integral to this far-field benchmark
 via an explicit paraxial error bound remains a Phase 2 obligation.
 
-### Iteration 24: Relative Predictive Error Across Four Double-Slit Superposition Models
+### Iteration 24: Five-Model Double-Slit Superposition, $Gr(2,4)$ Pluecker Channels, Qian--Izadi Parallel-Axis Coherence, and OAM Relative Predictive Error
 
-[Huygens.lean](../src/signals/Signals/Huygens.lean) and
-[Coherence.lean](../src/signals/Signals/Coherence.lean) formalize and compare
-the predicted screen intensity and relative predictive error across four
-double-slit superposition models:
+[Huygens.lean](../src/signals/Signals/Huygens.lean),
+[Coherence.lean](../src/signals/Signals/Coherence.lean),
+[Geometry.lean](../src/signals/Signals/Geometry.lean),
+[DDF.lean](../src/signals/Signals/DDF.lean), and
+[OAM.lean](../src/signals/Signals/OAM.lean) formalize and compare double-slit
+superposition and its relative predictive error across five mathematical
+frameworks, both for standard planar wavefronts and for beams carrying
+**Orbital Angular Momentum (OAM)**:
 
-1. **Fraunhofer Reference ($I_{\mathrm{F}}(x,y)$)**:
-   `fraunhoferRectangularDoubleSlit`.
-2. **Huygens--Steiner Parallel-Axis Coherence Model ($I_{\mathrm{HS}}(x,y;\mathcal{V})$)**:
-   `huygensSteinerDoubleSlit` connects the Qian--Izadi barycentric parallel-axis
-   mapping (`Signals.Coherence.HuygensSteinerMapping`, where
-   $P^2 = I_{\mathrm{origin}} - I_{\mathrm{cm}} = d_{\mathrm{bary}}^2$ and
-   $P^2 + K^2 = 1$) to two-slit interference visibility $\mathcal{V} = K$.
-   `huygensSteinerDoubleSlit_unit_visibility_eq_fraunhofer` proves exact
-   pointwise equality $I_{\mathrm{HS}}(x,y;1) = I_{\mathrm{F}}(x,y)$ at zero
-   parallel-axis offset, and `huygensSteinerDoubleSlit_sub_fraunhofer` derives
-   the exact pointwise discrepancy
-   $-2I_0(1-\mathcal{V})E_{\mathrm{slit}}(x,y)\cos(2\pi d x/(\lambda L))$.
-3. **Pilot-Wave / De Broglie--Bohm Model ($I_{\mathrm{PW}}(x,y;\delta_{\mathrm{neq}})$)**:
-   `pilotWaveDoubleSlit` models the equivariant Born-rule Fraunhofer intensity
-   plus a sub-quantum non-equilibrium or trajectory-discretization residual
-   $\delta_{\mathrm{neq}}$, proving exact agreement
-   `pilotWaveDoubleSlit_equilibrium_eq_fraunhofer` at $\delta_{\mathrm{neq}} = 0$.
-4. **Wigner Phase-Space Marginal ($I_{\mathrm{Wigner}}(x,y;\gamma_{\mathrm{dec}})$)**:
-   `wignerDoubleSlit` models the transverse-position marginal of the two-slit
-   Wigner function with phase-space decoherence rate $\gamma_{\mathrm{dec}}$,
-   proving exact duality `wignerDoubleSlit_eq_huygensSteiner` with visibility
-   $\mathcal{V} = e^{-\gamma_{\mathrm{dec}}}$ and pure-state exactness
-   `wignerDoubleSlit_pure_eq_fraunhofer` at $\gamma_{\mathrm{dec}} = 0$.
+#### A. Connection to Qian & Izadi (2023) ([PhysRevResearch.5.033110](#scholarly-qian-izadi))
 
-For relative error metrics (`relativePredictiveError` and dark-fringe-safe
-`peakNormalizedRelativeError`), `doubleSlit_four_model_zero_relative_error`
-proves zero relative predictive error across all four models in the coherent /
-quantum-equilibrium / pure-state limit ($\mathcal{V}=1$, $\delta_{\mathrm{neq}}=0$,
-$\gamma_{\mathrm{dec}}=0$). At the constructive on-axis peak $(0,0)$,
-`huygensSteiner_onAxis_relative_error`,
-`huygensSteiner_relative_error_eq_offset_sq_div`, `wigner_onAxis_relative_error`,
-and `pilotWave_onAxis_relative_error` prove:
+In [Qian & Izadi (2023)](#scholarly-qian-izadi)
+({download}`PhysRevResearch.5.033110.pdf, pp. 1-6 <../data/papers/PhysRevResearch.5.033110.pdf>`),
+an $N$-dimensional optical coherence matrix with normalized eigenvalues
+$m_i \ge 0$ ($\sum_{i=1}^N m_i = 1$, formalized in `Signals.Coherence.CoherenceSpectrum`)
+has squared degree of polarization and squared Schmidt-weight entanglement/visibility:
 
 $$
-\varepsilon_{\mathrm{rel}}^{\mathrm{HS}}(0,0)
-=\frac{1-\mathcal{V}}{2}
-=\frac{d_{\mathrm{bary}}^2}{2(1+\mathcal{V})},\qquad
-\varepsilon_{\mathrm{rel}}^{\mathrm{Wigner}}(0,0)
-=\frac{1-e^{-\gamma_{\mathrm{dec}}}}{2},\qquad
-\varepsilon_{\mathrm{rel}}^{\mathrm{PW}}(0,0)
-=\frac{|\delta_{\mathrm{neq}}|}{4I_0}.
+P_N^2 = \frac{N}{N-1}\sum_{i=1}^N m_i^2 - \frac{1}{N-1},\qquad
+K_N^2 = \frac{N}{N-1}\left(1 - \sum_{i=1}^N m_i^2\right),\qquad
+P_N^2 + K_N^2 = 1.
 $$
 
-At the half-period destructive dark fringe $x_{\mathrm{dark}} = \lambda L/(2d)$
-where $I_{\mathrm{F}}(x_{\mathrm{dark}},0) = 0$,
-`huygensSteiner_dark_fringe_peak_relative_error` proves that the peak-normalized
-relative error equals $\frac{1-\mathcal{V}}{2}\operatorname{sinc}^2(\pi a/(2d))$.
+Placing the eigenvalues $m_i$ as point masses at the vertices of a regular
+simplex ($m_{\mathrm{tot}} = 1$) maps the optical complementarity relation via
+the **Huygens--Steiner parallel-axis theorem** $I_O = I_M + m_{\mathrm{tot}} d_{\mathrm{bary}}^2$
+(`Signals.Coherence.HuygensSteinerMapping`) to:
+
+$$
+P_N^2 = I_O - I_M = d_{\mathrm{bary}}^2,\qquad
+K_N^2 = 1 - (I_O - I_M) = 1 - d_{\mathrm{bary}}^2 = \mathcal{V}^2.
+$$
+
+- **Arbitrary-$N$ Spectrum Relative Error (`huygensSteiner_relative_error_from_coherenceComplementarity`)**:
+  For any $N \ge 2$ and any `CoherenceComplementarity N` record with visibility
+  $\mathcal{V} = K_N$, the on-axis double-slit relative predictive error against
+  the coherent Fraunhofer peak is governed directly by the eigenvalue spectrum:
+  $$\varepsilon_{\mathrm{rel}}^{\mathrm{HS}}(0,0) = \frac{1 - K_N}{2} = \frac{P_N^2}{2(1 + K_N)} = \frac{d_{\mathrm{bary}}^2}{2(1 + \mathcal{V})}.$$
+- **Binary ($N=2$) Two-Slit Weight Imbalance (`CoherenceSpectrum.binary_polarization_and_entanglement`)**:
+  For $N = 2$ with normalized slit weights $m_0 + m_1 = 1$, Lean proves the
+  exact identities $P_2^2 = (m_0 - m_1)^2 = d_{\mathrm{bary}}^2$ and
+  $K_2^2 = 4 m_0 m_1 = \mathcal{V}^2$.
+
+#### B. Five-Model Double-Slit Superposition & Relative Predictive Error Table
+
+| Double-Slit Formulation | Lean Definitions & Theorems | Intensity Law $I(x,y)$ | Relative Predictive Error vs. Fraunhofer ($I_{\mathrm{F}}$) |
+|---|---|---|---|
+| **1. Fraunhofer Reference** | `fraunhoferRectangularDoubleSlit`, `fraunhoferRectangularDoubleSlit_onAxis`, `fraunhoferRectangularDoubleSlit_dark_fringe` | $I_{\mathrm{F}}(x,y) = 4 I_0 E_{\mathrm{slit}}(x,y) \cos^2\!\left(\frac{\pi d x}{\lambda L}\right)$ | $0$ (reference baseline; vanishes at half-period dark fringes $x_{\mathrm{dark}} = \frac{\lambda L}{2d}$) |
+| **2. Huygens–Steiner Parallel-Axis Coherence** ([Qian & Izadi 2023](#scholarly-qian-izadi)) | `huygensSteinerDoubleSlit`, `HuygensSteinerMapping`, `CoherenceComplementarity`, `huygensSteiner_onAxis_relative_error`, `huygensSteiner_relative_error_eq_offset_sq_div`, `huygensSteiner_relative_error_from_coherenceComplementarity` | $I_{\mathrm{HS}}(x,y;\mathcal{V}) = 2 I_0 E_{\mathrm{slit}}(x,y)\bigl(1 + \mathcal{V}\cos\frac{2\pi d x}{\lambda L}\bigr)$, where $d_{\mathrm{bary}}^2 = I_O - I_M = P_N^2$ and $d_{\mathrm{bary}}^2 + \mathcal{V}^2 = 1$ | **Coherent ($d_{\mathrm{bary}}=0, \mathcal{V}=1$)**: $0$ everywhere<br>**On-axis**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1-\mathcal{V}}{2} = \frac{d_{\mathrm{bary}}^2}{2(1+\mathcal{V})} = \frac{P_N^2}{2(1+K_N)}$<br>**Dark fringe**: $\varepsilon_{\mathrm{peak}}(x_{\mathrm{dark}},0) = \frac{1-\mathcal{V}}{2}\operatorname{sinc}^2\!\left(\frac{\pi a}{2d}\right)$ |
+| **3. $Gr(2,4)$ Pluecker Channel Model** | `gr24PluckerDoubleSlit`, `gr24UnphasedDoubleSlit`, `gr24_channel_sum_eq_crossing`, `gr24PluckerDoubleSlit_eq_huygensSteiner`, `gr24PluckerDoubleSlit_balanced_eq_fraunhofer`, `gr24UnphasedDoubleSlit_onAxis_relative_error_half` | $I_{Gr(2,4)}(M;x,y) = I_0 E_{\mathrm{slit}}(x,y)\bigl(\Delta_{02}\Delta_{13} + 2\sqrt{w_A w_B}\cos\frac{2\pi d x}{\lambda L}\bigr)$, with Pluecker channel weights $w_A = \Delta_{01}\Delta_{23}$, $w_B = \Delta_{03}\Delta_{12}$, and $w_A + w_B = \Delta_{02}\Delta_{13}$ | **Balanced phased ($w_A=w_B=1, \Delta_{02}\Delta_{13}=2$)**: $0$ everywhere (`gr24PluckerDoubleSlit_balanced_eq_fraunhofer`)<br>**Asymmetric ($\Delta_{02}\Delta_{13}=2$)**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1 - \sqrt{w_A w_B}}{2}$<br>**Unphased proxy ($\Delta_{02}\Delta_{13}=2$)**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1}{2}$ ($50\%$) |
+| **4. Pilot-Wave Theory (De Broglie–Bohm)** | `pilotWaveDoubleSlit`, `pilotWaveDoubleSlit_equilibrium_eq_fraunhofer`, `pilotWave_onAxis_relative_error` | $I_{\mathrm{PW}}(x,y;\delta_{\mathrm{neq}}) = I_{\mathrm{F}}(x,y) + \delta_{\mathrm{neq}}$ (equivariant guidance $\mathbf{v} = \frac{\hbar}{m}\nabla S$ + Bohm potential $Q$) | **Quantum equilibrium ($\delta_{\mathrm{neq}}=0$)**: $0$ everywhere<br>**Non-equilibrium ($\delta_{\mathrm{neq}} \neq 0$)**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{|\delta_{\mathrm{neq}}|}{4 I_0}$ |
+| **5. Wigner Phase-Space Marginal** | `wignerDoubleSlit`, `wignerDoubleSlit_eq_huygensSteiner`, `wignerDoubleSlit_pure_eq_fraunhofer`, `wigner_onAxis_relative_error` | $I_{\mathrm{Wigner}}(x,y;\gamma_{\mathrm{dec}}) = 2 I_0 E_{\mathrm{slit}}(x,y)\bigl(1 + e^{-\gamma_{\mathrm{dec}}}\cos\frac{2\pi d x}{\lambda L}\bigr)$ | **Pure state ($\gamma_{\mathrm{dec}}=0$)**: $0$ everywhere<br>**Decohered ($\gamma_{\mathrm{dec}} > 0$)**: $\varepsilon_{\mathrm{rel}}(0,0) = \frac{1 - e^{-\gamma_{\mathrm{dec}}}}{2}$ (exact duality $\mathcal{V} = e^{-\gamma_{\mathrm{dec}}}$) |
+
+#### C. Orbital Angular Momentum (OAM) Double-Slit Superposition Across Methods
+
+When Slit $A$ and Slit $B$ carry helical OAM topological charges $\ell_1, \ell_2 \in \mathbb{Z}$
+($e^{i\ell_j\phi}$ with differential charge $\Delta\ell = \ell_2 - \ell_1 \in \mathbb{Z}$
+and azimuthal angle $\phi \in \mathbb{R}$), the interference fringes acquire an
+azimuthal phase twist $\Delta\ell\,\phi$ (`fraunhoferOAMDoubleSlit`,
+`huygensSteinerOAMDoubleSlit`, `wignerOAMDoubleSlit`):
+
+| Method | OAM Representation & Lean Nodes | OAM Superposition Intensity Law $I_{\mathrm{OAM}}(x,y,\phi;\Delta\ell)$ | OAM Phase-Singularity & Relative Predictive Error Behavior |
+|---|---|---|---|
+| **1. Fraunhofer OAM Reference** | `fraunhoferOAMDoubleSlit`, `fraunhoferOAMDoubleSlit_zero_charge_eq_standard`, `fraunhoferOAMDoubleSlit_vortex_null_at_pi` | $I_{\mathrm{F,OAM}}(x,y,\phi;\Delta\ell) = 4 I_0 E_{\mathrm{slit}}(x,y)\cos^2\!\left(\frac{\pi d x}{\lambda L} + \frac{\Delta\ell\,\phi}{2}\right)$ | Reduces to $I_{\mathrm{F}}(x,y)$ when $\Delta\ell = 0$. At $\Delta\ell = 1, \phi = \pi$, forms an on-axis optical vortex dark core $I_{\mathrm{F,OAM}}(0,0,\pi;1) = 0$; omitting OAM gives $\varepsilon_{\mathrm{rel}} = 1$ ($100\%$). |
+| **2. Huygens–Steiner Parallel-Axis & Barycentric OAM** | `huygensSteinerOAMDoubleSlit`, `huygensSteinerOAMDoubleSlit_unit_visibility_eq_fraunhoferOAM`, `Signals.OAM.Qudit`, `Signals.Geometry.orbitalBivector_translate` | $I_{\mathrm{HS,OAM}}(x,y,\phi;\Delta\ell,\mathcal{V}) = 2 I_0 E_{\mathrm{slit}}(x,y)\bigl(1 + \mathcal{V}\cos(\frac{2\pi d x}{\lambda L} + \Delta\ell\,\phi)\bigr)$; mechanical shift $L_{ab} \mapsto L_{ab} + (a \wedge p)_{ab}$ | Matches $I_{\mathrm{F,OAM}}$ at $\mathcal{V} = 1$. For partially overlapping $D$-mode OAM qudits (`Signals.OAM.Qudit D`), $\varepsilon_{\mathrm{rel}}(0,0,0) = \frac{1-\mathcal{V}}{2} = \frac{P_N^2}{2(1+K_N)}$; orthogonal azimuth-integrated modes ($\mathcal{V}=0$) have $\varepsilon_{\mathrm{rel}} = 1/2$. |
+| **3. $Gr(2,4)$ Pluecker & Twistor OAM Shear** | `gr24PluckerDoubleSlit`, `Signals.Geometry.AngularMomentumState.translate_angularMomentum` | Pluecker channel weights $w_A = \Delta_{01}\Delta_{23}$, $w_B = \Delta_{03}\Delta_{12}$ ($w_A+w_B = \Delta_{02}\Delta_{13}$) modulate the helical interference $\cos(\frac{2\pi d x}{\lambda L} + \Delta\ell\,\phi)$ | Zero relative error at balanced $Gr_{\ge 0}(2,4)$ points ($w_A = w_B = 1$) with helical phase; $\varepsilon_{\mathrm{rel}} = 1/2$ if Pluecker channel sums omit the helical OAM phase. |
+| **4. Pilot-Wave / Madelung Vortex Hydrodynamics** | `pilotWaveDoubleSlit`, `Signals.DDF.vortexTangentialVelocity`, `Signals.DDF.quantized_vortex_circulation`, `Signals.DDF.plaquette_phase_slip_syndrome` | $I_{\mathrm{PW,OAM}} = I_{\mathrm{F,OAM}}(x,y,\phi;\Delta\ell) + \delta_{\mathrm{neq}}$, with azimuthal guiding velocity $v_\theta = \frac{\hbar \ell}{m R}$ and quantized circulation $\oint \mathbf{v}\cdot d\boldsymbol{\ell} = \ell\frac{2\pi\hbar}{m}$ | Exact ($\varepsilon_{\mathrm{rel}} = 0$) in quantum equilibrium ($\delta_{\mathrm{neq}} = 0$); Bohmian trajectories spiral around the $2\pi\Delta\ell$ plaquette phase-slip singularities, with $\varepsilon_{\mathrm{rel}}(0,0,0) = \frac{|\delta_{\mathrm{neq}}|}{4I_0}$. |
+| **5. Wigner Angle–OAM Phase-Space Marginal** | `wignerOAMDoubleSlit`, `wignerOAM_onAxis_relative_error` | $I_{\mathrm{Wigner,OAM}}(x,y,\phi;\Delta\ell,\gamma_{\mathrm{OAM}}) = 2 I_0 E_{\mathrm{slit}}(x,y)\bigl(1 + e^{-\gamma_{\mathrm{OAM}}(\Delta\ell)^2}\cos(\frac{2\pi d x}{\lambda L} + \Delta\ell\,\phi)\bigr)$ | Rotational phase-space diffusion scales quadratically with $(\Delta\ell)^2$: $\varepsilon_{\mathrm{rel}}(0,0,0;\Delta\ell) = \frac{1 - e^{-\gamma_{\mathrm{OAM}}(\Delta\ell)^2}}{2}$, which vanishes for $\Delta\ell = 0$ or $\gamma_{\mathrm{OAM}} = 0$. |
+
+```lean
+namespace HuygensGeometryRoadmap
+
+def reportBalancedGr24 : Matrix (Fin 2) (Fin 4) ℝ :=
+  !![1, 1, 0, -1;
+     0, 1, 1, 1]
+
+example (x y : ℝ) :
+    Signals.Huygens.gr24PluckerDoubleSlit reportBalancedGr24 3 2 4 6 1 5 x y =
+      Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 x y :=
+  Signals.Huygens.gr24PluckerDoubleSlit_balanced_eq_fraunhofer
+    reportBalancedGr24 3 2 4 6 1 5 x y
+    (by norm_num [reportBalancedGr24, Signals.Geometry.twoRowMinor])
+    (by norm_num [reportBalancedGr24, Signals.Geometry.twoRowMinor])
+
+example :
+    Signals.Huygens.relativePredictiveError
+      (Signals.Huygens.gr24UnphasedDoubleSlit reportBalancedGr24 3 2 4 1 5 0 0)
+      (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 0 0) = 1 / 2 :=
+  Signals.Huygens.gr24UnphasedDoubleSlit_onAxis_relative_error_half
+    reportBalancedGr24 3 2 4 6 1 5 (by norm_num)
+    (by norm_num [reportBalancedGr24, Signals.Geometry.twoRowMinor])
+
+example :
+    Signals.Huygens.fraunhoferOAMDoubleSlit 3 2 4 6 1 5 1 Real.pi 0 0 = 0 ∧
+      Signals.Huygens.relativePredictiveError
+        (Signals.Huygens.fraunhoferOAMDoubleSlit 3 2 4 6 1 5 1 Real.pi 0 0)
+        (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 0 0) = 1 :=
+  Signals.Huygens.fraunhoferOAMDoubleSlit_vortex_null_at_pi 3 2 4 6 1 5 (by norm_num)
+
+end HuygensGeometryRoadmap
+```
 
 ### Remaining Acceptance Obligations
 
@@ -1203,3 +1252,14 @@ Postnikov, A. (2006). *Total positivity, Grassmannians, and networks*.
 [DOI: 10.48550/arXiv.math/0609764](https://doi.org/10.48550/arXiv.math/0609764).
 Source type: mathematical preprint on nonnegative Grassmannian cells and
 weighted planar networks, not an optical-device validation.
+
+(scholarly-qian-izadi)=
+<a id="qian-izadi2023"></a>
+Qian, X.-F., and Izadi, M. (2023). *Bridging coherence optics and classical
+mechanics: A generic light polarization-entanglement complementary relation*.
+Physical Review Research 5(3), 033110.
+[DOI: 10.1103/PhysRevResearch.5.033110](https://doi.org/10.1103/PhysRevResearch.5.033110).
+Source type: peer-reviewed theoretical and mathematical model connecting
+$N$-dimensional optical coherence spectra ($P_N^2 + K_N^2 = 1$) to barycentric
+simplex point masses and the Huygens--Steiner parallel-axis theorem
+($I_O = I_M + m_{\mathrm{tot}} d^2$).

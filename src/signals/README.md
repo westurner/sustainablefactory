@@ -65,8 +65,10 @@ interpretation while keeping experimental premises explicit:
    band-limited Fourier theorem.
 - `Signals.Coherence` records the polarization/entanglement complementarity
    identity, derives the paper's arbitrary-dimensional $P_N^2+K_N^2=1$ law
-   from a normalized finite coherence spectrum, and connects the squared
-   quantities to an explicit unit-mass Huygens-Steiner parallel-axis mapping.
+   from a normalized finite coherence spectrum (including the binary $N=2$
+   imbalance and visibility laws $P_2^2 = (m_0 - m_1)^2$ and $K_2^2 = 4 m_0 m_1$),
+   and connects the squared quantities to an explicit unit-mass Huygens-Steiner
+   parallel-axis mapping.
    These are finite coherence and mechanics identities, not claims about
    quantum state collapse, QND behavior, or Amplituhedron physics.
 - `Signals.OAM` represents a finite normalized OAM qudit and computes its basis
@@ -394,17 +396,21 @@ interpretation while keeping experimental premises explicit:
    rectangular double-slit benchmark, proving nonnegativity, the $4 I_0$
    on-axis constructive maximum, planar inversion symmetry, half-period
    destructive interference fringes, and integer single-slit diffraction
-   envelope nulls. `huygensSteinerDoubleSlit`, `pilotWaveDoubleSlit`,
-   `wignerDoubleSlit`, `relativePredictiveError`, and
-   `peakNormalizedRelativeError` compare double-slit superposition across the
-   Huygens-Steiner parallel-axis coherence model, Fraunhofer reference,
-   de Broglie-Bohm pilot-wave theory, and Wigner phase-space marginal,
-   proving zero relative predictive error in the coherent/equilibrium limit,
-   the $(1 - \mathcal{V})/2 = d_{\mathrm{bary}}^2 / (2(1 + \mathcal{V}))$
-   on-axis relative error law from `Signals.Coherence.HuygensSteinerMapping`,
-   the $(1 - e^{-\gamma_{\mathrm{dec}}})/2$ Wigner decoherence error law, the
-   $|\delta_{\mathrm{neq}}|/(4 I_0)$ non-equilibrium pilot-wave error law, and
-   dark-fringe peak-normalized error where $I_{\mathrm{F}} = 0$. No
+   envelope nulls. `huygensSteinerDoubleSlit`, `gr24PluckerDoubleSlit`,
+   `gr24UnphasedDoubleSlit`, `pilotWaveDoubleSlit`, `wignerDoubleSlit`,
+   `fraunhoferOAMDoubleSlit`, `huygensSteinerOAMDoubleSlit`,
+   `wignerOAMDoubleSlit`, `relativePredictiveError`, and
+   `peakNormalizedRelativeError` compare double-slit superposition (both
+   standard and OAM-carrying) across the Huygens-Steiner parallel-axis
+   coherence model (Qian & Izadi, *Phys. Rev. Research* 5, 033110 (2023)),
+   the $Gr(2,4)$ Pluecker channel model, the Fraunhofer reference,
+   de Broglie-Bohm pilot-wave theory, and the Wigner phase-space marginal,
+   proving zero relative predictive error in the coherent/balanced/equilibrium
+   limit, the $(1 - \mathcal{V})/2 = d_{\mathrm{bary}}^2 / (2(1 + \mathcal{V})) = P_N^2 / (2(1 + K_N))$
+   on-axis relative error law from `Signals.Coherence`, the $50\%$ on-axis
+   error of the unphased $Gr(2,4)$ proxy, the OAM vortex dark-core null and
+   $(\Delta\ell)^2$ Wigner rotational decoherence scaling, and dark-fringe
+   peak-normalized error where $I_{\mathrm{F}} = 0$. No
    boundary-solution accuracy theorem or mesh convergence rate is asserted.
 - `Signals.Quadrature` derives a finite measured-cell quadrature error bound
    from Lipschitz regularity and mesh distances, preserves total cell weight,

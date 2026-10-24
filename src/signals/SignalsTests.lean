@@ -4194,4 +4194,63 @@ example :
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)]
   ring
 
+/-- Binary N = 2 Qian-Izadi coherence spectrum with slit weights m_0 = 4/5 and m_1 = 1/5
+yields squared polarization P_2² = (m_0 - m_1)² = 9/25 and squared visibility K_2² = 4 m_0 m_1 = 16/25. -/
+noncomputable def toyBinaryQianIzadiSpectrum : Signals.Coherence.CoherenceSpectrum 2 :=
+  { weight := ![4 / 5, 1 / 5]
+    weight_nonnegative := by
+      intro idx
+      fin_cases idx <;> norm_num
+    normalized := by
+      simp [Fin.sum_univ_two]
+      norm_num }
+
+example :
+    toyBinaryQianIzadiSpectrum.polarizationSquared = (4 / 5 - 1 / 5 : ℝ) ^ 2 ∧
+      toyBinaryQianIzadiSpectrum.entanglementSquared = 4 * (4 / 5 : ℝ) * (1 / 5) :=
+  toyBinaryQianIzadiSpectrum.binary_polarization_and_entanglement
+
+/-- A balanced positive Gr(2, 4) matrix with uncrossed Pluecker channel products
+Δ_01 Δ_23 = 1 * 1 = 1 and Δ_03 Δ_12 = 1 * 1 = 1, and crossing product Δ_02 Δ_13 = 1 * 2 = 2. -/
+def balancedGr24DoubleSlitMatrix : Matrix (Fin 2) (Fin 4) ℝ :=
+  !![1, 1, 0, -1;
+     0, 1, 1, 1]
+
+/-- At the balanced Gr(2, 4) representative, the phased Pluecker double-slit intensity
+equals the Fraunhofer reference identically across the entire screen. -/
+example (x y : ℝ) :
+    Signals.Huygens.gr24PluckerDoubleSlit balancedGr24DoubleSlitMatrix 3 2 4 6 1 5 x y =
+      Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 x y :=
+  Signals.Huygens.gr24PluckerDoubleSlit_balanced_eq_fraunhofer
+    balancedGr24DoubleSlitMatrix 3 2 4 6 1 5 x y
+    (by norm_num [balancedGr24DoubleSlitMatrix, Signals.Geometry.twoRowMinor])
+    (by norm_num [balancedGr24DoubleSlitMatrix, Signals.Geometry.twoRowMinor])
+
+/-- Even at the balanced Gr(2, 4) representative (where Δ_02 Δ_13 = 2), the unphased
+crossing-minor proxy incurs a 50% (1/2) on-axis relative predictive error. -/
+example :
+    Signals.Huygens.relativePredictiveError
+      (Signals.Huygens.gr24UnphasedDoubleSlit balancedGr24DoubleSlitMatrix 3 2 4 1 5 0 0)
+      (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 0 0) = 1 / 2 :=
+  Signals.Huygens.gr24UnphasedDoubleSlit_onAxis_relative_error_half
+    balancedGr24DoubleSlitMatrix 3 2 4 6 1 5 (by norm_num)
+    (by norm_num [balancedGr24DoubleSlitMatrix, Signals.Geometry.twoRowMinor])
+
+/-- OAM fork vortex singularity: when Δℓ = 1 and φ = π, the on-axis OAM double-slit
+intensity vanishes identically, and a non-OAM Fraunhofer reference has 100% (1) relative error. -/
+example :
+    Signals.Huygens.fraunhoferOAMDoubleSlit 3 2 4 6 1 5 1 Real.pi 0 0 = 0 ∧
+      Signals.Huygens.relativePredictiveError
+        (Signals.Huygens.fraunhoferOAMDoubleSlit 3 2 4 6 1 5 1 Real.pi 0 0)
+        (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 0 0) = 1 :=
+  Signals.Huygens.fraunhoferOAMDoubleSlit_vortex_null_at_pi 3 2 4 6 1 5 (by norm_num)
+
+/-- Equal-charge OAM beams (Δℓ = 0) experience zero Wigner rotational phase-space relative error. -/
+example :
+    Signals.Huygens.relativePredictiveError
+      (Signals.Huygens.wignerOAMDoubleSlit 3 2 4 6 1 5 2 0 0 0 0)
+      (Signals.Huygens.fraunhoferOAMDoubleSlit 3 2 4 6 1 5 0 0 0 0) = 0 := by
+  rw [Signals.Huygens.wignerOAM_onAxis_relative_error 3 2 4 6 1 5 2 0 (by norm_num) (by norm_num)]
+  simp
+
 end SignalsTests
