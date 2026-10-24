@@ -2005,4 +2005,220 @@ theorem huygensSteinerMultiSlit_two_slits_eq_huygensSteinerOAM
   rw [h_angle]
   ring
 
+/-- **Triple-Slit ($N = 3$) Grating Interference Factor**:
+For $N = 3$ slits, `multiSlitInterferenceFactor 3 visibility β` expands into the
+sum of the two adjacent-pair cosines ($|k - j| = 1$, contributing $2\cos(2\beta)$)
+and the outer-pair cosine ($|k - j| = 2$, contributing $\cos(4\beta)$):
+$\mathcal{G}_3(\mathcal{V}, \beta) = 3 + 2\mathcal{V}\bigl(2\cos(2\beta) + \cos(4\beta)\bigr)$. -/
+@[blueprint "lem:signals-multi-slit-three-slits-factor"
+  (title := "Triple-slit (N = 3) expansion of the multi-slit interference factor")
+  (statement := /-- For $N=3$,
+    $\mathcal{G}_3(\mathcal{V},\beta)=3+2\mathcal{V}\bigl(2\cos(2\beta)+\cos(4\beta)\bigr)$. -/)
+  (proof := /-- Expand the $N=3$ range sum over $j\in\{0,1,2\}$ and $k\in\operatorname{Ico}(j+1)\,3$. -/)
+  (latexEnv := "lemma")]
+lemma multiSlitInterferenceFactor_three (visibility phaseHalfStep : ℝ) :
+    multiSlitInterferenceFactor 3 visibility phaseHalfStep =
+      3 + 2 * visibility *
+        (2 * Real.cos (2 * phaseHalfStep) + Real.cos (4 * phaseHalfStep)) := by
+  unfold multiSlitInterferenceFactor
+  rw [Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_one]
+  have h0 : Finset.Ico 1 3 = ({1, 2} : Finset ℕ) := by decide
+  have h1 : Finset.Ico 2 3 = ({2} : Finset ℕ) := by decide
+  have h2 : Finset.Ico 3 3 = (∅ : Finset ℕ) := by decide
+  rw [h0, h1, h2]
+  simp only [Finset.sum_insert (by decide : (1 : ℕ) ∉ ({2} : Finset ℕ)),
+    Finset.sum_singleton, Finset.sum_empty, add_zero, Nat.cast_zero, Nat.cast_one,
+    Nat.cast_ofNat]
+  have h_arg1 : 2 * ((1 - 0 : ℝ) * phaseHalfStep) = 2 * phaseHalfStep := by ring
+  have h_arg2 : 2 * ((2 - 0 : ℝ) * phaseHalfStep) = 4 * phaseHalfStep := by ring
+  have h_arg3 : 2 * ((2 - 1 : ℝ) * phaseHalfStep) = 2 * phaseHalfStep := by ring
+  rw [h_arg1, h_arg2, h_arg3]
+  ring
+
+/-- **Coherent Triple-Slit ($N = 3$) Principal Peak and Secondary-Minimum Null**:
+1. At $\beta = 0$ (principal maximum), $\mathcal{G}_3(\mathcal{V}, 0) = 3 + 6\mathcal{V}$,
+   which equals $3^2 = 9$ in the coherent limit $\mathcal{V} = 1$.
+2. At $\beta = \pi / 3$ ($2\beta = 2\pi / 3$), where $\cos(2\pi/3) = -1/2$ and
+   $\cos(4\pi/3) = -1/2$, the coherent ($\mathcal{V} = 1$) triple-slit interference
+   factor vanishes identically: $\mathcal{G}_3(1, \pi/3) = 0$. -/
+@[blueprint "thm:signals-triple-slit-peak-and-null"
+  (title := "Triple-slit (N = 3) principal peak 3 + 6V and coherent secondary-minimum null at β = π/3")
+  (statement := /-- For $N=3$, $\mathcal{G}_3(\mathcal{V},0)=3+6\mathcal{V}$,
+    $\mathcal{G}_3(1,0)=9$, and $\mathcal{G}_3(1,\pi/3)=0$. -/)
+  (proof := /-- Apply \texttt{multiSlitInterferenceFactor\_three} and evaluate $\cos(0)=1$,
+    $\cos(2\pi/3)=-1/2$, and $\cos(4\pi/3)=-1/2$. -/)]
+theorem tripleSlit_peak_and_secondary_null (visibility : ℝ) :
+    multiSlitInterferenceFactor 3 visibility 0 = 3 + 6 * visibility ∧
+      multiSlitInterferenceFactor 3 1 0 = 9 ∧
+      multiSlitInterferenceFactor 3 1 (Real.pi / 3) = 0 := by
+  have h_zero : multiSlitInterferenceFactor 3 visibility 0 = 3 + 6 * visibility := by
+    rw [multiSlitInterferenceFactor_three]
+    simp
+    ring
+  have h_one : multiSlitInterferenceFactor 3 1 0 = 9 := by
+    rw [multiSlitInterferenceFactor_three]
+    simp
+    ring
+  have h_cos2 : Real.cos (2 * (Real.pi / 3)) = - (1 / 2) := by
+    have h_eq : 2 * (Real.pi / 3) = Real.pi - Real.pi / 3 := by ring
+    rw [h_eq, Real.cos_pi_sub, Real.cos_pi_div_three]
+  have h_cos4 : Real.cos (4 * (Real.pi / 3)) = - (1 / 2) := by
+    have h_eq : 4 * (Real.pi / 3) = Real.pi / 3 + Real.pi := by ring
+    rw [h_eq, Real.cos_add_pi, Real.cos_pi_div_three]
+  have h_null : multiSlitInterferenceFactor 3 1 (Real.pi / 3) = 0 := by
+    rw [multiSlitInterferenceFactor_three, h_cos2, h_cos4]
+    ring
+  exact ⟨h_zero, h_one, h_null⟩
+
+/-- **Triple-Slit ($N = 3$) On-Axis Relative Predictive Error Law**:
+For $I_0 > 0$ and $\mathcal{V} \le 1$, at $(x, y, \phi) = (0, 0, 0)$ the relative
+predictive error of the partially coherent triple-slit intensity
+`huygensSteinerMultiSlit 3` against the coherent Fraunhofer triple-slit peak
+`fraunhoferMultiSlit 3` ($9 I_0$) equals $\frac{2}{3}(1 - \mathcal{V})$
+(matching the general $N$-slit law $\frac{N - 1}{N}(1 - \mathcal{V})$ at $N = 3$). -/
+@[blueprint "thm:signals-triple-slit-on-axis-relative-error"
+  (title := "Triple-slit (N = 3) on-axis relative predictive error law (2/3)(1 - V)")
+  (statement := /-- For $I_0>0$ and $\mathcal{V}\le 1$, at $(x,y,\phi)=(0,0,0)$,
+    $\varepsilon_{\mathrm{rel}}\bigl(I_{\mathrm{HS}}^{(3)}(3,0,0,0;\Delta\ell,\mathcal{V}),
+    I_{\mathrm{F}}^{(3)}(3,0,0,0;\Delta\ell)\bigr)=\frac{2}{3}(1-\mathcal{V})$. -/)
+  (proof := /-- Evaluate \texttt{huygensSteinerMultiSlit 3} and \texttt{fraunhoferMultiSlit 3}
+    at $(0,0,0)$ via \texttt{tripleSlit\_peak\_and\_secondary\_null} and simplify $|3+6\mathcal{V}-9|/9$. -/)]
+theorem tripleSlit_onAxis_relative_error
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      visibility : ℝ)
+    (deltaOAM : ℤ)
+    (h_scale : 0 < singleSlitScale) (h_vis : visibility ≤ 1) :
+    relativePredictiveError
+      (huygensSteinerMultiSlit 3
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        visibility deltaOAM 0 0 0)
+      (fraunhoferMultiSlit 3
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        deltaOAM 0 0 0) =
+    (2 / 3) * (1 - visibility) := by
+  have h_env : rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance 0 0 = 1 := by
+    unfold rectangularSlitEnvelope unnormalizedSinc
+    simp
+  have h_hs :
+      huygensSteinerMultiSlit 3
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        visibility deltaOAM 0 0 0 =
+      singleSlitScale * (3 + 6 * visibility) := by
+    unfold huygensSteinerMultiSlit
+    simp only [mul_zero, zero_div, add_zero]
+    rw [h_env, (tripleSlit_peak_and_secondary_null visibility).1]
+    ring
+  have h_fr :
+      fraunhoferMultiSlit 3
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        deltaOAM 0 0 0 =
+      9 * singleSlitScale := by
+    unfold fraunhoferMultiSlit huygensSteinerMultiSlit
+    simp only [mul_zero, zero_div, add_zero]
+    rw [h_env, (tripleSlit_peak_and_secondary_null 1).2.1]
+    ring
+  rw [h_hs, h_fr]
+  unfold relativePredictiveError
+  have h_diff :
+      singleSlitScale * (3 + 6 * visibility) - 9 * singleSlitScale =
+        -(6 * singleSlitScale * (1 - visibility)) := by ring
+  have h_nonneg : 0 ≤ 6 * singleSlitScale * (1 - visibility) :=
+    mul_nonneg (by linarith) (by linarith)
+  have h_pos_ref : 0 < 9 * singleSlitScale := by linarith
+  rw [h_diff, abs_neg, abs_of_nonneg h_nonneg, abs_of_pos h_pos_ref]
+  have h_ne : singleSlitScale ≠ 0 := ne_of_gt h_scale
+  field_simp [h_ne]
+  ring
+
+/-- **$N$-ary Complex Grassmannian Collector Evaluator on $Gr_{\mathbb{C}}(2, N+2)$**:
+Evaluates the multi-slit intensity from the collector Plücker minor
+$\Delta_{0,1}^{\mathbb{C}}(M_{\mathbb{C}})$ of a $2 \times (N + 2)$ complex
+Grassmannian matrix $M_{\mathbb{C}} \in \mathbb{C}^{2 \times (N + 2)}$. -/
+@[blueprint "def:signals-complex-gr2n-collector-multi-slit"
+  (title := "N-ary complex Gr_C(2, N+2) collector Plücker minor intensity evaluator")
+  (statement := /-- For $M_{\mathbb C}\in\mathbb C^{2\times(N+2)}$, define
+    $I_{Gr_{\mathbb C}(2,N+2)}(M_{\mathbb C};x,y)=
+    I_0 E_{\mathrm{slit}}(x,y)\,\bigl|\Delta_{0,1}^{\mathbb C}(M_{\mathbb C})\bigr|^2$. -/)]
+noncomputable def complexGr2NCollectorMultiSlit
+    (numSlits : ℕ) (M_C : Matrix (Fin 2) (Fin (numSlits + 2)) ℂ)
+    (singleSlitScale slitWidth slitHeight wavelength screenDistance x y : ℝ) : ℝ :=
+  singleSlitScale *
+    rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance x y *
+    intensity (Signals.Geometry.complexTwoRowMinor M_C
+      (Signals.Geometry.narySourceCol numSlits)
+      (Signals.Geometry.naryCollectorCol numSlits))
+
+/-- **Coherent Triple-Slit ($N = 3$) Exact Equivalence on $Gr_{\mathbb{C}}(2, 5)$**:
+Encoding the three slit channel amplitudes in $Gr_{\mathbb{C}}(2, 5)$ as
+$z_0 = e^{2i\beta}$, $z_1 = 1$, $z_2 = e^{-2i\beta}$ where
+$\beta = \frac{\pi d x}{\lambda L} + \frac{\Delta\ell\,\phi}{2}$ causes the
+$Gr_{\mathbb{C}}(2, 5)$ collector Plücker minor evaluator
+`complexGr2NCollectorMultiSlit 3` to reproduce `fraunhoferMultiSlit 3`
+**identically at every $(x, y, \phi) \in \mathbb{R}^3$**, with zero relative
+predictive error everywhere. -/
+@[blueprint "thm:signals-complex-gr25-triple-slit-eq-fraunhofer"
+  (title := "Complex Gr_C(2,5) collector Plücker minor matches coherent triple-slit Fraunhofer intensity with zero error everywhere")
+  (statement := /-- For $\beta=\frac{\pi d x}{\lambda L}+\frac{\Delta\ell\,\phi}{2}$ and
+    $z=(e^{2i\beta},1,e^{-2i\beta})\in\mathbb C^3$,
+    $I_{Gr_{\mathbb C}(2,5)}\!\bigl(M_{\mathbb C}^{(3)}(z);x,y\bigr)
+    = I_{\mathrm{F}}^{(3)}(3,x,y,\phi;\Delta\ell)$ with zero relative predictive error everywhere. -/)
+  (proof := /-- Use \texttt{complexGr2NChannelMatrix\_minors} to evaluate
+    $\Delta_{0,1}^{\mathbb C}=z_0+z_1+z_2=1+2\cos(2\beta)$, expand
+    $(1+2\cos(2\beta))^2=3+2(2\cos(2\beta)+\cos(4\beta))$, and match
+    \texttt{multiSlitInterferenceFactor\_three}. -/)]
+theorem complexGr25CollectorTripleSlit_eq_fraunhoferMultiSlit
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ) :
+    let β := Real.pi * separation * x / (wavelength * screenDistance) +
+      (deltaOAM : ℝ) * azimuthPhi / 2
+    let z0 : ℂ := ↑(Real.cos (2 * β)) + Complex.I * ↑(Real.sin (2 * β))
+    let z1 : ℂ := 1
+    let z2 : ℂ := ↑(Real.cos (2 * β)) - Complex.I * ↑(Real.sin (2 * β))
+    let M_C := Signals.Geometry.complexGr2NChannelMatrix 3 ![z0, z1, z2]
+    complexGr2NCollectorMultiSlit 3 M_C
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y =
+      fraunhoferMultiSlit 3
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        deltaOAM azimuthPhi x y ∧
+    relativePredictiveError
+      (complexGr2NCollectorMultiSlit 3 M_C
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y)
+      (fraunhoferMultiSlit 3
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        deltaOAM azimuthPhi x y) = 0 := by
+  intro β z0 z1 z2 M_C
+  have h_col := (Signals.Geometry.complexGr2NChannelMatrix_minors 3 ![z0, z1, z2]).2.2.1
+  have h_sum : (∑ j : Fin 3, (![z0, z1, z2] : Fin 3 → ℂ) j) = z0 + z1 + z2 := by
+    rw [Fin.sum_univ_three]
+    rfl
+  have h_norm :
+      intensity (z0 + z1 + z2) =
+        (1 + 2 * Real.cos (2 * β)) ^ 2 := by
+    dsimp [z0, z1, z2]
+    simp only [intensity, Complex.normSq_apply, Complex.add_re, Complex.add_im,
+      Complex.sub_re, Complex.sub_im, Complex.mul_re, Complex.mul_im,
+      Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im,
+      Complex.one_re, Complex.one_im]
+    ring
+  have h_cos4 : Real.cos (4 * β) = 2 * (Real.cos (2 * β)) ^ 2 - 1 := by
+    have h4 : 4 * β = 2 * (2 * β) := by ring
+    rw [h4, Real.cos_two_mul]
+  have h_factor :
+      (1 + 2 * Real.cos (2 * β)) ^ 2 =
+        multiSlitInterferenceFactor 3 1 β := by
+    rw [multiSlitInterferenceFactor_three, h_cos4]
+    ring
+  have h_eq :
+      complexGr2NCollectorMultiSlit 3 M_C
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y =
+      fraunhoferMultiSlit 3
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        deltaOAM azimuthPhi x y := by
+    unfold complexGr2NCollectorMultiSlit fraunhoferMultiSlit huygensSteinerMultiSlit
+    dsimp [M_C]
+    rw [h_col, h_sum, h_norm, h_factor]
+  refine ⟨h_eq, ?_⟩
+  rw [h_eq]
+  simp [relativePredictiveError]
+
 end Signals.Huygens

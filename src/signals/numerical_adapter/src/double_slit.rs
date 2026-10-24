@@ -395,6 +395,85 @@ pub fn ddf_gr24_twistor_matrix(
     complex_gr24_channel_matrix(z1, z2)
 }
 
+/// Construct the $2 \times (N + 2)$ complex Grassmannian channel matrix
+/// $M_{\mathbb{C}}^{(N)}(z) \in \mathbb{C}^{2 \times (N + 2)}$ for $N$ slit amplitudes `z`,
+/// matching `Signals.Geometry.complexGr2NChannelMatrix`.
+pub fn complex_gr2n_channel_matrix(z: &[Complex64]) -> [Vec<Complex64>; 2] {
+    let total_cols = z.len() + 2;
+    let row0 = vec![Complex64::new(1.0, 0.0); total_cols];
+    let mut sum = Complex64::new(0.0, 0.0);
+    for &amp in z {
+        sum = sum.add(amp);
+    }
+    let mut row1 = Vec::with_capacity(total_cols);
+    row1.push(Complex64::new(0.0, 0.0));
+    row1.push(sum);
+    row1.extend_from_slice(z);
+    [row0, row1]
+}
+
+/// $2 \times 2$ complex Plücker minor $\Delta_{c_0 c_1}^{\mathbb{C}}$ of a $2 \times (N + 2)$
+/// complex Grassmannian matrix.
+#[inline]
+pub fn two_row_minor_complex_slice(matrix: &[Vec<Complex64>; 2], c0: usize, c1: usize) -> Complex64 {
+    matrix[0][c0]
+        .mul(matrix[1][c1])
+        .sub(matrix[0][c1].mul(matrix[1][c0]))
+}
+
+/// Evaluate the $N$-ary complex Grassmannian collector Plücker minor intensity
+/// $I_{Gr_{\mathbb{C}}(2, N+2)}(M_{\mathbb{C}}; x, y) = I_0 E_{\mathrm{slit}}(x, y) |\Delta_{0,1}^{\mathbb{C}}(M_{\mathbb{C}})|^2$,
+/// matching `Signals.Huygens.complexGr2NCollectorMultiSlit`.
+pub fn complex_gr2n_collector_multi_slit(
+    matrix: &[Vec<Complex64>; 2],
+    params: &MultiSlitParams,
+    x: f64,
+    y: f64,
+) -> f64 {
+    let env = rectangular_slit_envelope(
+        params.slit_width,
+        params.slit_height,
+        params.wavelength,
+        params.screen_distance,
+        x,
+        y,
+    );
+    let collector_minor = two_row_minor_complex_slice(matrix, 0, 1);
+    params.single_slit_scale * env * collector_minor.norm_sq()
+}
+
+/// Sorkin third-order quantum interference parameter $\kappa_3(z_0, z_1, z_2)$ for a
+/// triple-slit ($N = 3$) amplitude configuration, matching
+/// `Signals.Geometry.sorkinTripleSlitParameter` (identically $0$ by `sorkinTripleSlitParameter_zero`).
+#[inline]
+pub fn sorkin_triple_slit_parameter(z0: Complex64, z1: Complex64, z2: Complex64) -> f64 {
+    let i012 = z0.add(z1).add(z2).norm_sq();
+    let i01 = z0.add(z1).norm_sq();
+    let i02 = z0.add(z2).norm_sq();
+    let i12 = z1.add(z2).norm_sq();
+    let i0 = z0.norm_sq();
+    let i1 = z1.norm_sq();
+    let i2 = z2.norm_sq();
+    i012 - (i01 + i02 + i12) + (i0 + i1 + i2)
+}
+
+/// Construct the triple-slit ($N = 3$) $Gr_{\mathbb{C}}(2, 5)$–DDF sheath twistor matrix,
+/// matching `Signals.DDF.MovingSheath.gr25TripleSlitTwistorMatrix`.
+pub fn ddf_gr25_triple_slit_twistor_matrix(
+    beta: f64,
+    params: &MultiSlitParams,
+    x: f64,
+) -> [Vec<Complex64>; 2] {
+    let clamped_beta = beta.clamp(-1.0, 1.0);
+    let beta_opt = params.phase_half_step(x);
+    let a = (1.0 + clamped_beta).max(0.0).sqrt();
+    let b = (1.0 - clamped_beta).max(0.0).sqrt();
+    let z0 = Complex64::from_polar(a, 2.0 * beta_opt);
+    let z1 = Complex64::new(1.0, 0.0);
+    let z2 = Complex64::from_polar(b, -2.0 * beta_opt);
+    complex_gr2n_channel_matrix(&[z0, z1, z2])
+}
+
 /// Canonical $2 \times 4$ complex Grassmannian channel matrix
 /// $M_{\mathbb{C}}(z_1, z_2) = \begin{pmatrix} 1 & 1 & 0 & -1 \\ 0 & z_1 & 1 & z_2 \end{pmatrix}$,
 /// matching `Signals.Huygens.complexGr24ChannelMatrix`.
@@ -968,6 +1047,26 @@ mod tests {
             let i_ddf = complex_gr24_crossing_double_slit(&m_ddf, &params, x, y);
             let i_hs = evaluate_multi_slit_model(SlitModelKind::HuygensSteiner, &params, x, y);
             assert!((i_ddf - i_hs).abs() < 1e-12);
+        }
+
+        // Triple-slit (N = 3) Gr_C(2,5)-DDF Madelung sector densities, Sorkin kappa_3 = 0, and zero-shear match
+        let p3 = MultiSlitParams::canonical_double_slit().with_geometry(3, 2.0, 6.0);
+        assert!((multi_slit_interference_factor(3, 1.0, 0.0) - 9.0).abs() < 1e-12);
+        assert!(multi_slit_interference_factor(3, 1.0, PI / 3.0).abs() < 1e-12);
+        let m5_sheared = ddf_gr25_triple_slit_twistor_matrix(0.6, &p3, 0.23);
+        let a0 = two_row_minor_complex_slice(&m5_sheared, 0, 2);
+        let a1 = two_row_minor_complex_slice(&m5_sheared, 0, 3);
+        let a2 = two_row_minor_complex_slice(&m5_sheared, 0, 4);
+        assert!((a0.norm_sq() + a1.norm_sq() + a2.norm_sq() - 3.0).abs() < 1e-12);
+        assert!((0.5 * (a0.norm_sq() - a2.norm_sq()) - 0.6).abs() < 1e-12);
+        assert!((a0.norm_sq() * a1.norm_sq() * a2.norm_sq() - 0.64).abs() < 1e-12);
+        assert!(sorkin_triple_slit_parameter(a0, a1, a2).abs() < 1e-12);
+
+        for &(x, y) in &[(0.0, 0.0), (0.19, -0.14), (5.0 / 18.0, 0.0)] {
+            let m5_zero = ddf_gr25_triple_slit_twistor_matrix(0.0, &p3, x);
+            let i_gr25 = complex_gr2n_collector_multi_slit(&m5_zero, &p3, x, y);
+            let i_f3 = evaluate_multi_slit_model(SlitModelKind::Fraunhofer, &p3, x, y);
+            assert!((i_gr25 - i_f3).abs() < 1e-12);
         }
     }
 }

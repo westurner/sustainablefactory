@@ -9,7 +9,10 @@ description: "An arXiv-ready formal verification paper uniting Qian–Izadi Huyg
 **Authors:** Wes Turner
 **Subjects:** Optics (`physics.optics`); Quantum Physics (`quant-ph`); Mathematical Physics (`math-ph`); Logic in Computer Science (`cs.LO`)
 **Formal Verification Artifact:** `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, Mathlib `v4.35.0-rc3`)
-**Companion Paper:** [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.myst.md)
+**Companion Papers:**
+- [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.myst.md)
+- [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.myst.md)
+- [Grassmannian Gravity from QED & Gauge Scattering Amplitudes: Complex $Gr_{\mathbb{C}}(2,4)$ Orbital Precession, Mercury's Perihelion, $N$-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4](grassmannian-gravity-from-qed-scattering-paper.md)
 
 ---
 
@@ -193,7 +196,7 @@ When Slit $A$ and Slit $B$ carry helical OAM modes $e^{i\ell_1\phi}$ and $e^{i\e
 | **4. Pilot-Wave / Madelung Vortex Hydrodynamics** | `pilotWaveOAMDoubleSlit`, `pilotWaveOAMDoubleSlit_equilibrium_eq_fraunhoferOAM`, `Signals.DDF.vortexTangentialVelocity`, `Signals.DDF.quantized_vortex_circulation`, `Signals.DDF.plaquette_phase_slip_syndrome` | $I_{\mathrm{PW,OAM}} = I_{\mathrm{F,OAM}}(x,y,\phi;\Delta\ell) + \delta_{\mathrm{neq}}$, with azimuthal guiding velocity $v_\theta = \frac{\hbar \ell}{m R}$ and quantized circulation $\oint \mathbf{v}\cdot d\boldsymbol{\ell} = \ell\frac{2\pi\hbar}{m}$ | Exact ($\varepsilon_{\mathrm{rel}} = 0$) in quantum equilibrium ($\delta_{\mathrm{neq}} = 0$); Bohmian trajectories spiral around the $2\pi\Delta\ell$ plaquette phase-slip singularities, with $\varepsilon_{\mathrm{rel}}(0,0,0) = \frac{|\delta_{\mathrm{neq}}|}{4I_0}$. |
 | **5. Wigner Angle–OAM Phase-Space Marginal** | `wignerOAMDoubleSlit`, `wignerOAM_onAxis_relative_error` | $I_{\mathrm{Wigner,OAM}}(x,y,\phi;\Delta\ell,\gamma_{\mathrm{OAM}}) = 2 I_0 E_{\mathrm{slit}}(x,y)\bigl(1 + e^{-\gamma_{\mathrm{OAM}}(\Delta\ell)^2}\cos(\frac{2\pi d x}{\lambda L} + \Delta\ell\,\phi)\bigr)$ | Rotational phase-space diffusion scales quadratically with $(\Delta\ell)^2$: $\varepsilon_{\mathrm{rel}}(0,0,0;\Delta\ell) = \frac{1 - e^{-\gamma_{\mathrm{OAM}}(\Delta\ell)^2}}{2}$, which vanishes for $\Delta\ell = 0$ or $\gamma_{\mathrm{OAM}} = 0$. |
 
-### 4.1 Multi-Slit ($N > 0$) Grating Generalization (`huygensSteinerMultiSlit`, `fraunhoferMultiSlit`)
+### 4.1 Multi-Slit ($N > 0$) & Triple-Slit ($N = 3$) Grating Generalization (`huygensSteinerMultiSlit`, `fraunhoferMultiSlit`, `complexGr2NCollectorMultiSlit`)
 
 For an arbitrary positive number of slits $N > 0$ (`numSlits : ℕ`) with slit width $a$, height $b$, center-to-center pitch $d$, and adjacent-slit phase half-step $\beta = \frac{\pi d x}{\lambda L} + \frac{\Delta\ell\,\phi}{2}$, `multiSlitInterferenceFactor` and `huygensSteinerMultiSlit` sum the $N$ diagonal self-intensities and the $\binom{N}{2}$ off-diagonal pairwise interference cosines weighted by $\mathcal{V} = K_N = \sqrt{1 - d_{\mathrm{bary}}^2}$:
 
@@ -201,11 +204,13 @@ $$
 I_{\mathrm{HS}}^{(N)}(N, x, y, \phi; \Delta\ell, \mathcal{V}) = I_0 E_{\mathrm{slit}}(x,y)\left( N + 2\mathcal{V}\sum_{j=0}^{N-1}\sum_{k=j+1}^{N-1}\cos\bigl(2(k - j)\beta\bigr)\right).
 $$
 
-Theorem `huygensSteinerMultiSlit_one_slit` proves the exact single-slit reduction $I_{\mathrm{HS}}^{(1)} = I_0 E_{\mathrm{slit}}(x,y)$ for $N = 1$, and `huygensSteinerMultiSlit_two_slits_eq_huygensSteinerOAM` proves exact agreement with `huygensSteinerOAMDoubleSlit` for $N = 2$.
+- **Single-Slit ($N = 1$) & Double-Slit ($N = 2$) Reductions**: Theorem `huygensSteinerMultiSlit_one_slit` proves $I_{\mathrm{HS}}^{(1)} = I_0 E_{\mathrm{slit}}(x,y)$, and `huygensSteinerMultiSlit_two_slits_eq_huygensSteinerOAM` proves exact agreement with `huygensSteinerOAMDoubleSlit` for $N = 2$.
+- **Triple-Slit ($N = 3$) Expansion, Secondary Null, Relative Error, and $Gr_{\mathbb{C}}(2,5)$ Collector Equivalence (`multiSlitInterferenceFactor_three`, `tripleSlit_peak_and_secondary_null`, `tripleSlit_onAxis_relative_error`, `complexGr25CollectorTripleSlit_eq_fraunhoferMultiSlit`)**:
+  For $N = 3$ slits, $\mathcal{G}_3(\mathcal{V}, \beta) = 3 + 2\mathcal{V}(2\cos(2\beta) + \cos(4\beta))$ has coherent peak $\mathcal{G}_3(1, 0) = 9$, secondary-minimum null $\mathcal{G}_3(1, \pi/3) = 0$, on-axis relative predictive error $\varepsilon_{\mathrm{rel}}(0,0) = \frac{2}{3}(1 - \mathcal{V})$, and is reproduced with **zero relative error everywhere** by the collector Plücker minor $\Delta_{0,1}^{\mathbb{C}}$ of `complexGr2NChannelMatrix 3` in $Gr_{\mathbb{C}}(2,5)$, with vanishing Sorkin third-order parameter $\kappa_3 = 0$ (`sorkinTripleSlitParameter_zero`).
 
 ```lean
--- 4. OAM vortex null at (Δℓ = 1, φ = π), quadratic (Δℓ)² Wigner error, and N-slit (N = 1, 2) reductions
-example (γ_oam : ℝ) (h_dec : 0 ≤ γ_oam) (Δℓ : ℤ) (φ x y : ℝ) :
+-- 4. OAM vortex null at (Δℓ = 1, φ = π), quadratic (Δℓ)² Wigner error, and N-slit (N = 1, 2, 3) & Sorkin κ₃ = 0 laws
+example (γ_oam : ℝ) (h_dec : 0 ≤ γ_oam) (Δℓ : ℤ) (φ x y : ℝ) (z0 z1 z2 : ℂ) :
     fraunhoferOAMDoubleSlit 3 2 4 6 1 5 1 Real.pi 0 0 = 0 ∧
     relativePredictiveError
       (fraunhoferOAMDoubleSlit 3 2 4 6 1 5 1 Real.pi 0 0)
@@ -217,17 +222,26 @@ example (γ_oam : ℝ) (h_dec : 0 ≤ γ_oam) (Δℓ : ℤ) (φ x y : ℝ) :
     huygensSteinerMultiSlit 1 3 2 4 6 1 5 (4 / 5) Δℓ φ x y =
       3 * rectangularSlitEnvelope 2 4 1 5 x y ∧
     huygensSteinerMultiSlit 2 3 2 4 6 1 5 (4 / 5) Δℓ φ x y =
-      huygensSteinerOAMDoubleSlit 3 2 4 6 1 5 (4 / 5) Δℓ φ x y :=
+      huygensSteinerOAMDoubleSlit 3 2 4 6 1 5 (4 / 5) Δℓ φ x y ∧
+    relativePredictiveError
+      (huygensSteinerMultiSlit 3 3 2 4 6 1 5 (4 / 5) Δℓ 0 0 0)
+      (fraunhoferMultiSlit 3 3 2 4 6 1 5 Δℓ 0 0 0) =
+      (2 / 3) * (1 - 4 / 5) ∧
+    sorkinTripleSlitParameter z0 z1 z2 = 0 :=
   ⟨(fraunhoferOAMDoubleSlit_vortex_null_at_pi 3 2 4 6 1 5 (by norm_num)).1,
     (fraunhoferOAMDoubleSlit_vortex_null_at_pi 3 2 4 6 1 5 (by norm_num)).2,
     wignerOAM_onAxis_relative_error 3 2 4 6 1 5 γ_oam Δℓ (by norm_num) h_dec,
     huygensSteinerMultiSlit_one_slit 3 2 4 6 1 5 (4 / 5) Δℓ φ x y,
-    huygensSteinerMultiSlit_two_slits_eq_huygensSteinerOAM 3 2 4 6 1 5 (4 / 5) Δℓ φ x y⟩
+    huygensSteinerMultiSlit_two_slits_eq_huygensSteinerOAM 3 2 4 6 1 5 (4 / 5) Δℓ φ x y,
+    tripleSlit_onAxis_relative_error 3 2 4 6 1 5 (4 / 5) Δℓ (by norm_num) (by norm_num),
+    sorkinTripleSlitParameter_zero z0 z1 z2⟩
 ```
 
 ---
 
 ## 5. Hydrodynamic Sink-Flux Superposition, DDF Shear-Jamming Duality, Anosov Symplectic Invariance, & Formal Critique
+
+*(For the complete treatment of the $Gr_{\mathbb{C}}(2,4)$ and $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ unification with `DDFSubstrate` and `MovingSheath`, see the companion paper [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.myst.md).)*
 
 In [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L648-L960), we formalize and critically audit the four-part correspondence proposed in [Provenance Chat Log: Plücker Channel Weights, Fluid Sinks, and DDF (2026)](#chat-plucker-sinks-ddf) (lines 6–228) connecting $Gr(2,4)$ Plücker channel weights to emergent hydrodynamic sink-flow models ([Partanen and Tulkki 2025](#partanen-tulkki2025)) and the Dilatant Dark Fluid (DDF) substrate ([Fedi 2026](#fedi2026)):
 

@@ -4540,4 +4540,91 @@ example (Δℓ : ℤ) (φ x y : ℝ) :
     3 2 4 6 1 5 Δℓ φ x y
   exact ⟨h_mad.2.2.2.2.1.trans h_mad.2.2.2.2.2, h_cross.1, h_cross.2⟩
 
+/-- Triple-slit (N = 3) principal peak 9, secondary-minimum null at β = π/3,
+on-axis relative error (2/3)(1 - V) = 2/15 at V = 4/5, and exact Gr_C(2,5) collector match. -/
+example (Δℓ : ℤ) (φ x y : ℝ) :
+    Signals.Huygens.multiSlitInterferenceFactor 3 1 0 = 9 ∧
+    Signals.Huygens.multiSlitInterferenceFactor 3 1 (Real.pi / 3) = 0 ∧
+    Signals.Huygens.relativePredictiveError
+      (Signals.Huygens.huygensSteinerMultiSlit 3 3 2 4 6 1 5 (4 / 5) Δℓ 0 0 0)
+      (Signals.Huygens.fraunhoferMultiSlit 3 3 2 4 6 1 5 Δℓ 0 0 0) = 2 / 15 ∧
+    (let β := Real.pi * 6 * x / (1 * 5) + (Δℓ : ℝ) * φ / 2
+     let z0 : ℂ := ↑(Real.cos (2 * β)) + Complex.I * ↑(Real.sin (2 * β))
+     let z1 : ℂ := 1
+     let z2 : ℂ := ↑(Real.cos (2 * β)) - Complex.I * ↑(Real.sin (2 * β))
+     let M_C := Signals.Geometry.complexGr2NChannelMatrix 3 ![z0, z1, z2]
+     Signals.Huygens.relativePredictiveError
+       (Signals.Huygens.complexGr2NCollectorMultiSlit 3 M_C 3 2 4 1 5 x y)
+       (Signals.Huygens.fraunhoferMultiSlit 3 3 2 4 6 1 5 Δℓ φ x y) = 0) := by
+  have h_pn := Signals.Huygens.tripleSlit_peak_and_secondary_null 1
+  have h_err := Signals.Huygens.tripleSlit_onAxis_relative_error
+    3 2 4 6 1 5 (4 / 5) Δℓ (by norm_num) (by norm_num)
+  have h_gr25 := (Signals.Huygens.complexGr25CollectorTripleSlit_eq_fraunhoferMultiSlit
+    3 2 4 6 1 5 Δℓ φ x y).2
+  refine ⟨h_pn.2.1, h_pn.2.2, ?_, h_gr25⟩
+  rw [h_err]
+  norm_num
+
+/-- Triple-slit (N = 3) Gr_C(2,5)-DDF sheath twistor matrix Madelung sector densities
+sum to 3, multiply to γ_φ(v)⁻², and have vanishing Sorkin third-order parameter κ₃ = 0. -/
+example (Δℓ : ℤ) (φ x : ℝ) :
+    let M_5 := toyMovingSheath.gr25TripleSlitTwistorMatrix 6 1 5 Δℓ φ x
+    let A0 := Signals.Geometry.complexTwoRowMinor M_5
+      (Signals.Geometry.narySourceCol 3) (Signals.Geometry.narySlitCol 0)
+    let A1 := Signals.Geometry.complexTwoRowMinor M_5
+      (Signals.Geometry.narySourceCol 3) (Signals.Geometry.narySlitCol 1)
+    let A2 := Signals.Geometry.complexTwoRowMinor M_5
+      (Signals.Geometry.narySourceCol 3) (Signals.Geometry.narySlitCol 2)
+    Complex.normSq A0 + Complex.normSq A1 + Complex.normSq A2 = 3 ∧
+      Complex.normSq A0 * Complex.normSq A1 * Complex.normSq A2 =
+        (toyMovingSheath.jammingFactor ^ 2)⁻¹ ∧
+      Signals.Geometry.sorkinTripleSlitParameter A0 A1 A2 = 0 := by
+  have h := toyMovingSheath.gr25TripleSlitTwistorMatrix_madelung_sector_identities 6 1 5 Δℓ φ x
+  exact ⟨h.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2⟩
+
+/-- Mercury-like eccentric orbit (a = 387/1000 AU, e = 2056/10000) and Earth-like orbit (a = 1 AU, e = 167/10000). -/
+noncomputable def toyMercuryOrbit : Signals.DDF.PlanetaryOrbit :=
+  { semiMajorAxis := 387 / 1000
+    semiMajorAxis_pos := by norm_num
+    eccentricity := 2056 / 10000
+    eccentricity_nonneg := by norm_num
+    eccentricity_lt_one := by norm_num }
+
+noncomputable def toyEarthOrbit : Signals.DDF.PlanetaryOrbit :=
+  { semiMajorAxis := 1
+    semiMajorAxis_pos := by norm_num
+    eccentricity := 167 / 10000
+    eccentricity_nonneg := by norm_num
+    eccentricity_lt_one := by norm_num }
+
+/-- Kepler's Third Law, acoustic-horizon / DDF substrate perihelion precession, and
+universal planetary semi-latus rectum ratio across Mercury and Earth. -/
+example :
+    toyRiverExterior.keplerPeriodSq toyMercuryOrbit / toyMercuryOrbit.semiMajorAxis ^ 3 =
+      toyRiverExterior.keplerPeriodSq toyEarthOrbit / toyEarthOrbit.semiMajorAxis ^ 3 ∧
+    toyRiverExterior.perihelionPrecessionRad toyMercuryOrbit =
+      3 * Real.pi * toyRiverExterior.horizonRadius / toyMercuryOrbit.semiLatusRectum ∧
+    toyRiverExterior.perihelionPrecessionRad toyMercuryOrbit /
+        toyRiverExterior.perihelionPrecessionRad toyEarthOrbit =
+      toyEarthOrbit.semiLatusRectum / toyMercuryOrbit.semiLatusRectum := by
+  rw [toyRiverExterior.kepler_third_law toyMercuryOrbit,
+    toyRiverExterior.kepler_third_law toyEarthOrbit]
+  exact ⟨rfl,
+    (toyRiverExterior.perihelionPrecession_eq_horizon_and_substrate toyMercuryOrbit).2.1,
+    toyRiverExterior.perihelionPrecession_ratio toyMercuryOrbit toyEarthOrbit⟩
+
+/-- Gr_C(2,4) planetary orbital precession twistor matrix encodes aphelion/perihelion
+ratios, eccentricity, semi-latus rectum ratio p/a = 1 - e², and Δϖ cosine. -/
+example (Δϖ : ℝ) :
+    let M_C := toyMercuryOrbit.gr24PrecessionMatrix Δϖ
+    Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_C) =
+        toyMercuryOrbit.aphelionRadius / toyMercuryOrbit.semiMajorAxis ∧
+      Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_C) =
+        toyMercuryOrbit.perihelionRadius / toyMercuryOrbit.semiMajorAxis ∧
+      Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_C) *
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_C) =
+        toyMercuryOrbit.semiLatusRectum / toyMercuryOrbit.semiMajorAxis := by
+  have h := toyMercuryOrbit.gr24PrecessionMatrix_orbital_identities Δϖ
+  exact ⟨h.1, h.2.1, h.2.2.2.1⟩
+
 end SignalsTests

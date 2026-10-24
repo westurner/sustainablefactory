@@ -19,3 +19,5 @@ Chaotic n-body gravitational trajectories map to chaotic streamlines of an Anoso
 
 Vorticity (ω=∇×v): Gravitomagnetic fields (frame dragging) are equivalent to fluid vorticity. Orbital angular momentum corresponds to circulation Γ=∮v⋅dl
 
+See the full formal verification paper: [Grassmannian Gravity from QED & Gauge Scattering Amplitudes: Complex $Gr_{\mathbb{C}}(2,4)$ Orbital Precession, Mercury's Perihelion, $N$-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4](grassmannian-gravity-from-qed-scattering-paper.md).
+

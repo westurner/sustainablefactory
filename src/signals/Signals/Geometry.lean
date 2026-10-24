@@ -1213,6 +1213,144 @@ theorem gr24Projective_basisChange_invariant
           (twoRowMinor matrix 0 2 * twoRowMinor matrix 1 3) ^ 2 :=
         mul_div_mul_left _ _ h_fourth_ne
 
+/-! ## $N$-ary ($N \ge 1$) Complex Grassmannian $Gr_{\mathbb{C}}(2, N+2)$ Channel Matrices & Sorkin Triple-Slit Invariance
+
+Generalizes the $N = 2$ double-slit Grassmannian channel matrix in $Gr_{\mathbb{C}}(2, 4)$
+to an arbitrary $N$-slit ($N$-ary, including triple-slit $N = 3$, quadruple-slit $N = 4$,
+and general $N \ge 1$) complex Grassmannian representative in $Gr_{\mathbb{C}}(2, N + 2)$:
+- Column $0$ (`narySourceCol N`): Source reference $\begin{pmatrix} 1 \\ 0 \end{pmatrix}$,
+- Column $1$ (`naryCollectorCol N`): Coherent collector $\begin{pmatrix} 1 \\ \sum_{j=0}^{N-1} z_j \end{pmatrix}$,
+- Column $j + 2$ (`narySlitCol j` for $j \in \operatorname{Fin} N$): Individual slit channel $\begin{pmatrix} 1 \\ z_j \end{pmatrix}$.
+-/
+
+/-- Source reference column index $0 \in \operatorname{Fin}(N + 2)$ in $Gr_{\mathbb{C}}(2, N + 2)$. -/
+@[blueprint "def:signals-nary-source-col"
+  (title := "Source reference column index 0 in Gr_C(2, N+2)")
+  (statement := /-- Define the source reference column index
+    $c_{\mathrm{src}}=0\in\operatorname{Fin}(N+2)$. -/)]
+def narySourceCol (numSlits : ℕ) : Fin (numSlits + 2) := ⟨0, by omega⟩
+
+/-- Collector terminal column index $1 \in \operatorname{Fin}(N + 2)$ in $Gr_{\mathbb{C}}(2, N + 2)$. -/
+@[blueprint "def:signals-nary-collector-col"
+  (title := "Collector column index 1 in Gr_C(2, N+2)")
+  (statement := /-- Define the coherent collector column index
+    $c_{\mathrm{col}}=1\in\operatorname{Fin}(N+2)$. -/)]
+def naryCollectorCol (numSlits : ℕ) : Fin (numSlits + 2) := ⟨1, by omega⟩
+
+/-- Slit-$j$ column index $j + 2 \in \operatorname{Fin}(N + 2)$ for $j \in \operatorname{Fin}(N)$
+in $Gr_{\mathbb{C}}(2, N + 2)$. -/
+@[blueprint "def:signals-nary-slit-col"
+  (title := "Slit-j column index j + 2 in Gr_C(2, N+2)")
+  (statement := /-- For $j\in\operatorname{Fin}(N)$, define the slit column index
+    $c_{\mathrm{slit}}(j)=j+2\in\operatorname{Fin}(N+2)$. -/)]
+def narySlitCol {numSlits : ℕ} (j : Fin numSlits) : Fin (numSlits + 2) :=
+  ⟨j.val + 2, by omega⟩
+
+/-- Canonical $2 \times (N + 2)$ complex Grassmannian channel matrix
+$M_{\mathbb{C}}^{(N)}(z) \in \mathbb{C}^{2 \times (N + 2)}$ encoding $N$ complex slit
+channel amplitudes $z : \operatorname{Fin} N \to \mathbb{C}$ alongside the source
+reference column $0$ and collector column $1$. -/
+@[blueprint "def:signals-complex-gr2n-channel-matrix"
+  (title := "Canonical 2×(N+2) complex Grassmannian N-slit channel matrix")
+  (statement := /-- For $z:\operatorname{Fin}(N)\to\mathbb C$, define
+    $M_{\mathbb C}^{(N)}(z)\in\mathbb C^{2\times(N+2)}$ with column $0=\binom{1}{0}$,
+    column $1=\binom{1}{\sum_{j=0}^{N-1}z_j}$, and column $j+2=\binom{1}{z_j}$. -/)]
+def complexGr2NChannelMatrix (numSlits : ℕ) (z : Fin numSlits → ℂ) :
+    Matrix (Fin 2) (Fin (numSlits + 2)) ℂ :=
+  fun row col =>
+    if row = 0 then 1
+    else if h0 : col.val = 0 then 0
+    else if h1 : col.val = 1 then ∑ j : Fin numSlits, z j
+    else z ⟨col.val - 2, by omega⟩
+
+/-- ** Exact Pluecker Minor Laws of the $N$-ary Complex Grassmannian Matrix $M_{\mathbb{C}}^{(N)}(z)$**:
+For any number of slits $N \in \mathbb{N}$ and complex channel amplitudes $z : \operatorname{Fin} N \to \mathbb{C}$:
+1. Each individual slit Pluecker minor equals its channel amplitude:
+   $\Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}(z)\bigr) = z_j$,
+2. Each pairwise slit-to-slit Pluecker minor equals the amplitude difference:
+   $\Delta_{j+2, k+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}(z)\bigr) = z_k - z_j$, and
+3. The collector Pluecker minor $\Delta_{0, 1}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}(z)\bigr)$
+   equals the coherent sum of all $N$ individual slit Pluecker minors:
+   $\Delta_{0, 1}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}(z)\bigr) = \sum_{j=0}^{N-1} z_j = \sum_{j=0}^{N-1} \Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}(z)\bigr)$. -/
+@[blueprint "thm:signals-complex-gr2n-channel-matrix-minors"
+  (title := "Pluecker minor laws for the N-ary complex Grassmannian matrix in Gr_C(2, N+2)")
+  (statement := /-- For any $N\in\mathbb N$, $z:\operatorname{Fin}(N)\to\mathbb C$, and
+    $j,k\in\operatorname{Fin}(N)$:
+    (1) $\Delta_{0,j+2}^{\mathbb C}(M_{\mathbb C}^{(N)}(z))=z_j$,
+    (2) $\Delta_{j+2,k+2}^{\mathbb C}(M_{\mathbb C}^{(N)}(z))=z_k-z_j$, and
+    (3) $\Delta_{0,1}^{\mathbb C}(M_{\mathbb C}^{(N)}(z))=\sum_{m=0}^{N-1}z_m
+    =\sum_{m=0}^{N-1}\Delta_{0,m+2}^{\mathbb C}(M_{\mathbb C}^{(N)}(z))$. -/)
+  (proof := /-- Unfold \texttt{complexTwoRowMinor} and \texttt{complexGr2NChannelMatrix}
+    at \texttt{narySourceCol}, \texttt{naryCollectorCol}, and \texttt{narySlitCol}. -/)]
+theorem complexGr2NChannelMatrix_minors (numSlits : ℕ) (z : Fin numSlits → ℂ) :
+    (∀ j : Fin numSlits,
+      complexTwoRowMinor (complexGr2NChannelMatrix numSlits z)
+        (narySourceCol numSlits) (narySlitCol j) = z j) ∧
+    (∀ j k : Fin numSlits,
+      complexTwoRowMinor (complexGr2NChannelMatrix numSlits z)
+        (narySlitCol j) (narySlitCol k) = z k - z j) ∧
+    complexTwoRowMinor (complexGr2NChannelMatrix numSlits z)
+      (narySourceCol numSlits) (naryCollectorCol numSlits) =
+      ∑ j : Fin numSlits, z j ∧
+    complexTwoRowMinor (complexGr2NChannelMatrix numSlits z)
+      (narySourceCol numSlits) (naryCollectorCol numSlits) =
+      ∑ j : Fin numSlits,
+        complexTwoRowMinor (complexGr2NChannelMatrix numSlits z)
+          (narySourceCol numSlits) (narySlitCol j) := by
+  have h_slit : ∀ j : Fin numSlits,
+      complexTwoRowMinor (complexGr2NChannelMatrix numSlits z)
+        (narySourceCol numSlits) (narySlitCol j) = z j := by
+    intro j
+    have hj1 : j.val + 2 ≠ 1 := by omega
+    unfold complexTwoRowMinor complexGr2NChannelMatrix narySourceCol narySlitCol
+    simp [hj1]
+  have h_pair : ∀ j k : Fin numSlits,
+      complexTwoRowMinor (complexGr2NChannelMatrix numSlits z)
+        (narySlitCol j) (narySlitCol k) = z k - z j := by
+    intro j k
+    have hj1 : j.val + 2 ≠ 1 := by omega
+    have hk1 : k.val + 2 ≠ 1 := by omega
+    unfold complexTwoRowMinor complexGr2NChannelMatrix narySlitCol
+    simp [hj1, hk1]
+  have h_col :
+      complexTwoRowMinor (complexGr2NChannelMatrix numSlits z)
+        (narySourceCol numSlits) (naryCollectorCol numSlits) =
+      ∑ j : Fin numSlits, z j := by
+    unfold complexTwoRowMinor complexGr2NChannelMatrix narySourceCol naryCollectorCol
+    simp
+  refine ⟨h_slit, h_pair, h_col, ?_⟩
+  rw [h_col]
+  refine Finset.sum_congr rfl (fun j _ => (h_slit j).symm)
+
+/-- Sorkin third-order quantum interference functional
+$\kappa_3(z_0, z_1, z_2) = |z_0 + z_1 + z_2|^2 - (|z_0 + z_1|^2 + |z_0 + z_2|^2 + |z_1 + z_2|^2) + (|z_0|^2 + |z_1|^2 + |z_2|^2)$
+for a triple-slit ($N = 3$) amplitude configuration $(z_0, z_1, z_2) \in \mathbb{C}^3$. -/
+@[blueprint "def:signals-sorkin-triple-slit-parameter"
+  (title := "Sorkin third-order triple-slit interference parameter κ₃")
+  (statement := /-- For complex triple-slit amplitudes $z_0,z_1,z_2\in\mathbb C$, define
+    $\kappa_3(z_0,z_1,z_2)=|z_0+z_1+z_2|^2
+    -\bigl(|z_0+z_1|^2+|z_0+z_2|^2+|z_1+z_2|^2\bigr)
+    +\bigl(|z_0|^2+|z_1|^2+|z_2|^2\bigr)$. -/)]
+noncomputable def sorkinTripleSlitParameter (z0 z1 z2 : ℂ) : ℝ :=
+  Complex.normSq (z0 + z1 + z2) -
+    (Complex.normSq (z0 + z1) + Complex.normSq (z0 + z2) + Complex.normSq (z1 + z2)) +
+    (Complex.normSq z0 + Complex.normSq z1 + Complex.normSq z2)
+
+/-- **Vanishing of the Sorkin Third-Order Interference Parameter on $Gr_{\mathbb{C}}(2, 5)$**:
+For any three complex slit amplitudes $z_0, z_1, z_2 \in \mathbb{C}$ in a triple-slit
+system, the Sorkin third-order interference parameter $\kappa_3(z_0, z_1, z_2) = 0$
+vanishes identically because pairwise interference terms cancel between the three-slit
+and two-slit sub-experiments. -/
+@[blueprint "thm:signals-sorkin-triple-slit-zero"
+  (title := "Identical vanishing of the Sorkin third-order triple-slit interference parameter κ₃ = 0")
+  (statement := /-- For all $z_0,z_1,z_2\in\mathbb C$, $\kappa_3(z_0,z_1,z_2)=0$. -/)
+  (proof := /-- Expand \texttt{Complex.normSq} into real and imaginary components and close by ring algebra. -/)]
+theorem sorkinTripleSlitParameter_zero (z0 z1 z2 : ℂ) :
+    sorkinTripleSlitParameter z0 z1 z2 = 0 := by
+  unfold sorkinTripleSlitParameter
+  simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im]
+  ring
+
 /-! ## Orbital angular-momentum translations
 
 These are real coordinate identities for a four-index bivector, not an
