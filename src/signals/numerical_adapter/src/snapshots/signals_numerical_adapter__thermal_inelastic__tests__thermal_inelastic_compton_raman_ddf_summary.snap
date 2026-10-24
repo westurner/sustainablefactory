@@ -1,0 +1,9 @@
+---
+source: src/thermal_inelastic.rs
+expression: summary
+---
+(
+    "ICS(beta=0.6): thomson_ratio=4.0000, kn_ratio(eps=0.25)=3.2000, power_boost=0.7500",
+    "Raman_CNT_Gband: stokes=515.50THz, antistokes=610.50THz, gr24_ratio=1.184287, R_AS_S(xi=0.8)=0.883878",
+    "Heat: fourier_alpha=2.0000, cv_second_sound=2.0000, ddf_second_sound=0.4000, ddf_alpha_par=0.0800, splat_trace_0=6.5600, splat_trace_evol=7.3800",
+)

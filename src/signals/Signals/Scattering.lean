@@ -585,4 +585,223 @@ theorem baxterTQResidualMeasurement_offShell_anomaly
   rw [h_res, abs_neg]
   exact h_off_shell
 
+/-! ## Inelastic Scattering: Inverse Compton, Stokes/Anti-Stokes Raman, and $Gr_{\mathbb{C}}(2,4)$ Boundaries
+
+Formalizes the algebraic and metrological laws of two fundamental inelastic
+scattering processes and their exact relation to $Gr_{\mathbb{C}}(2,4)$ Plücker
+channel invariants:
+1. **Inverse Compton Scattering (ICS)**:
+   - Collinear relativistic Thomson upshift factor
+     $\frac{\omega_{\max}^{\mathrm{ICS}}}{\omega_0} = \frac{1 + \beta}{1 - \beta} = \frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2}$,
+   - Klein–Nishina quantum recoil suppression
+     $\frac{\omega_{\mathrm{KN}}^{\mathrm{ICS}}}{\omega_0} = \frac{(1 + \beta)/(1 - \beta)}{1 + \epsilon_{\mathrm{rec}}} < \frac{1 + \beta}{1 - \beta}$
+     for $\epsilon_{\mathrm{rec}} = \frac{2\gamma\hbar\omega_0}{m_e c^2}(1 + \beta) > 0$,
+     identifying the explicit rest-mass recoil scale that lies beyond scale-free
+     projective $Gr_{\mathbb{C}}(2,4)$.
+2. **Stokes & Anti-Stokes Raman Scattering**:
+   - Stokes ($\omega_S = \omega_L - \Omega_v$) and anti-Stokes ($\omega_{AS} = \omega_L + \Omega_v$)
+     sidebands with normalized shift $\delta_R = \Omega_v / \omega_L$,
+   - Exact inverse recovery of pump frequency $\omega_L = (\omega_{AS} + \omega_S)/2$
+     and vibrational phonon frequency $\Omega_v = (\omega_{AS} - \omega_S)/2$,
+   - Plücker channel ratio $\frac{\omega_{AS}}{\omega_S} = \frac{1 + \delta_R}{1 - \delta_R}$
+     and covariance determinant product $\omega_S \omega_{AS} = \omega_L^2(1 - \delta_R^2)$,
+   - Thermal Bose–Einstein anti-Stokes/Stokes intensity ratio
+     $\frac{I_{AS}}{I_S} = \left(\frac{\omega_L + \Omega_v}{\omega_L - \Omega_v}\right)^4 \exp\!\left(-\frac{\hbar\Omega_v}{k_B T}\right)$,
+     identifying spontaneous vacuum fluctuations and irreversible thermal bath
+     populations as the open-system boundary beyond unitary $Gr_{\mathbb{C}}(2,4)$.
+-/
+
+/-- Head-on relativistic Inverse Compton frequency upshift ratio in the Thomson
+(negligible-recoil) regime:
+$\frac{\omega_{\max}^{\mathrm{ICS}}}{\omega_0} = \frac{1 + \beta}{1 - \beta}$. -/
+@[blueprint "def:signals-scattering-inverse-compton-doppler"
+  (title := "Relativistic Inverse Compton Thomson frequency upshift ratio")
+  (statement := /-- For reduced velocity $\beta = v/c$, define the head-on Thomson
+    Inverse Compton frequency upshift ratio $\frac{1+\beta}{1-\beta}$. -/)]
+noncomputable def inverseComptonDopplerRatio (β : ℝ) : ℝ :=
+  (1 + β) / (1 - β)
+
+/-- Relativistic Inverse Compton frequency upshift ratio with dimensionless
+Klein–Nishina quantum recoil parameter $\epsilon_{\mathrm{rec}} \ge 0$:
+$\frac{\omega_{\mathrm{KN}}^{\mathrm{ICS}}}{\omega_0} = \frac{(1 + \beta)/(1 - \beta)}{1 + \epsilon_{\mathrm{rec}}}$. -/
+@[blueprint "def:signals-scattering-inverse-compton-klein-nishina"
+  (title := "Klein-Nishina recoil-corrected Inverse Compton frequency ratio")
+  (statement := /-- For reduced velocity $\beta$ and dimensionless quantum recoil parameter
+    $\epsilon_{\mathrm{rec}}$, define $\frac{(1+\beta)/(1-\beta)}{1+\epsilon_{\mathrm{rec}}}$. -/)]
+noncomputable def inverseComptonKleinNishinaRatio (β ε_rec : ℝ) : ℝ :=
+  inverseComptonDopplerRatio β / (1 + ε_rec)
+
+/-- **Inverse Compton Thomson Upshift, Plücker Channel Ratio, and Klein–Nishina Recoil Suppression**:
+For subluminal $\beta \in [0, 1)$ and quantum recoil parameter $\epsilon_{\mathrm{rec}} > 0$:
+1. The Thomson upshift ratio satisfies $1 \le \frac{1+\beta}{1-\beta}$,
+2. Clearing the Lorentz denominator $(1 - \beta^2)$ gives
+   $(1 - \beta^2)\,\operatorname{inverseComptonDopplerRatio}(\beta) = (1 + \beta)^2$
+   (i.e. $\omega_{\max}^{\mathrm{ICS}}/\omega_0 = \gamma^2(1+\beta)^2$),
+3. At zero recoil ($\epsilon_{\mathrm{rec}} = 0$), the Klein–Nishina ratio reduces
+   identically to the scale-free $Gr_{\mathbb{C}}(2,4)$ Plücker channel ratio
+   $\frac{1+\beta}{1-\beta}$, and
+4. For any positive quantum recoil $\epsilon_{\mathrm{rec}} > 0$ (which introduces the
+   electron rest-mass scale $m_e c^2$ outside projective $Gr_{\mathbb{C}}(2,4)$),
+   the recoil-corrected upshift is strictly smaller than the Thomson ratio. -/
+@[blueprint "thm:signals-scattering-inverse-compton-identities"
+  (title := "Inverse Compton Thomson upshift and Klein-Nishina recoil suppression theorem")
+  (statement := /-- For $0\le\beta<1$ and $\epsilon_{\mathrm{rec}}>0$:
+    (1) $1\le\operatorname{inverseComptonDopplerRatio}(\beta)$,
+    (2) $(1-\beta^2)\operatorname{inverseComptonDopplerRatio}(\beta)=(1+\beta)^2$,
+    (3) $\operatorname{inverseComptonKleinNishinaRatio}(\beta,0)=\operatorname{inverseComptonDopplerRatio}(\beta)$, and
+    (4) $\operatorname{inverseComptonKleinNishinaRatio}(\beta,\epsilon_{\mathrm{rec}}) <
+    \operatorname{inverseComptonDopplerRatio}(\beta)$. -/)
+  (proof := /-- Clear $1-\beta>0$ and $1+\epsilon_{\mathrm{rec}}>1$ by field simplification and linear arithmetic. -/)]
+theorem inverseCompton_thomson_and_recoil_identities
+    (β ε_rec : ℝ) (hβ_nonneg : 0 ≤ β) (hβ_lt : β < 1) (hε_pos : 0 < ε_rec) :
+    1 ≤ inverseComptonDopplerRatio β ∧
+      (1 - β ^ 2) * inverseComptonDopplerRatio β = (1 + β) ^ 2 ∧
+      inverseComptonKleinNishinaRatio β 0 = inverseComptonDopplerRatio β ∧
+      inverseComptonKleinNishinaRatio β ε_rec < inverseComptonDopplerRatio β := by
+  have h1m : 0 < 1 - β := by linarith
+  have h1p : 0 < 1 + β := by linarith
+  have h_dop_pos : 0 < inverseComptonDopplerRatio β := by
+    unfold inverseComptonDopplerRatio
+    exact div_pos h1p h1m
+  have h_ge_one : 1 ≤ inverseComptonDopplerRatio β := by
+    unfold inverseComptonDopplerRatio
+    rw [le_div_iff₀ h1m]
+    linarith
+  have h_lorentz : (1 - β ^ 2) * inverseComptonDopplerRatio β = (1 + β) ^ 2 := by
+    unfold inverseComptonDopplerRatio
+    have h1m_ne : 1 - β ≠ 0 := ne_of_gt h1m
+    field_simp [h1m_ne]
+    ring
+  have h_zero_rec : inverseComptonKleinNishinaRatio β 0 = inverseComptonDopplerRatio β := by
+    unfold inverseComptonKleinNishinaRatio
+    ring
+  have h_rec_lt : inverseComptonKleinNishinaRatio β ε_rec < inverseComptonDopplerRatio β := by
+    unfold inverseComptonKleinNishinaRatio
+    exact div_lt_self h_dop_pos (by linarith)
+  exact ⟨h_ge_one, h_lorentz, h_zero_rec, h_rec_lt⟩
+
+/-- Stokes Raman scattered frequency $\omega_S = \omega_L - \Omega_v$ (phonon creation). -/
+@[blueprint "def:signals-scattering-raman-stokes-freq"
+  (title := "Stokes Raman scattered frequency")
+  (statement := /-- For pump frequency $\omega_L$ and vibrational frequency $\Omega_v$,
+    define $\omega_S = \omega_L - \Omega_v$. -/)]
+def ramanStokesFreq (ω_pump Ω_vib : ℝ) : ℝ :=
+  ω_pump - Ω_vib
+
+/-- Anti-Stokes Raman scattered frequency $\omega_{AS} = \omega_L + \Omega_v$ (phonon absorption). -/
+@[blueprint "def:signals-scattering-raman-antistokes-freq"
+  (title := "Anti-Stokes Raman scattered frequency")
+  (statement := /-- For pump frequency $\omega_L$ and vibrational frequency $\Omega_v$,
+    define $\omega_{AS} = \omega_L + \Omega_v$. -/)]
+def ramanAntiStokesFreq (ω_pump Ω_vib : ℝ) : ℝ :=
+  ω_pump + Ω_vib
+
+/-- Normalized Raman shift $\delta_R = \Omega_v / \omega_L$, acting as the barycentric
+parallel-axis shift $d_{\mathrm{bary}}$ between the anti-Stokes and Stokes Plücker channels. -/
+@[blueprint "def:signals-scattering-raman-normalized-shift"
+  (title := "Normalized Raman shift δ_R = Ω_v / ω_L")
+  (statement := /-- Define $\delta_R = \Omega_v / \omega_L$. -/)]
+noncomputable def ramanNormalizedShift (ω_pump Ω_vib : ℝ) : ℝ :=
+  Ω_vib / ω_pump
+
+/-- Thermal Anti-Stokes to Stokes Raman intensity ratio:
+$\frac{I_{AS}}{I_S} = \left(\frac{\omega_L + \Omega_v}{\omega_L - \Omega_v}\right)^4 \exp(-\xi)$,
+where $\xi = \frac{\hbar\Omega_v}{k_B T} > 0$ is the dimensionless Boltzmann phonon exponent. -/
+@[blueprint "def:signals-scattering-raman-thermal-ratio"
+  (title := "Thermal anti-Stokes to Stokes Raman intensity ratio")
+  (statement := /-- For pump frequency $\omega_L$, vibrational frequency $\Omega_v$, and
+    Boltzmann exponent $\xi = \hbar\Omega_v/(k_B T)$, define
+    $R_{AS/S} = \left(\frac{\omega_L+\Omega_v}{\omega_L-\Omega_v}\right)^4 e^{-\xi}$. -/)]
+noncomputable def ramanAntiStokesToStokesThermalRatio
+    (ω_pump Ω_vib boltzmannExponent : ℝ) : ℝ :=
+  (ramanAntiStokesFreq ω_pump Ω_vib / ramanStokesFreq ω_pump Ω_vib) ^ 4 *
+    Real.exp (-boltzmannExponent)
+
+/-- **Stokes/Anti-Stokes Raman $Gr_{\mathbb{C}}(2,4)$ Channel Identities & Thermal Boltzmann Asymmetry**:
+For pump frequency $\omega_L > 0$, vibrational frequency $0 \le \Omega_v < \omega_L$,
+and positive Boltzmann exponent $\xi = \hbar\Omega_v / (k_B T) > 0$:
+1. Exact inverse recovery of $\omega_L$ and $\Omega_v$ from $\omega_{AS}$ and $\omega_S$
+   via `reconstructSpectralDiff` and `reconstructYangCoupling`,
+2. Plücker determinant product identity:
+   $\omega_S\,\omega_{AS} = \omega_L^2\bigl(1 - \delta_R^2\bigr)$,
+3. Plücker channel ratio identity:
+   $\frac{\omega_{AS}}{\omega_S} = \frac{1 + \delta_R}{1 - \delta_R}$, and
+4. Thermal Boltzmann suppression: because spontaneous Stokes emission includes vacuum
+   fluctuations ($\bar{n} + 1$) whereas anti-Stokes requires thermal phonons ($\bar{n}$),
+   $0 < \exp(-\xi) < 1$, so the thermal ratio is strictly smaller than the fourth power
+   of the coherent Plücker frequency ratio. -/
+@[blueprint "thm:signals-scattering-raman-gr24-identities"
+  (title := "Stokes/anti-Stokes Raman Gr_C(2,4) channel inversion and thermal asymmetry theorem")
+  (statement := /-- For $\omega_L>0$, $0\le\Omega_v<\omega_L$, and $\xi>0$:
+    (1) $\operatorname{reconstructSpectralDiff}(\omega_{AS},\omega_S)=\omega_L$ and
+    $\operatorname{reconstructYangCoupling}(\omega_{AS},\omega_S)=\Omega_v$,
+    (2) $\omega_S\omega_{AS}=\omega_L^2(1-\delta_R^2)$,
+    (3) $\frac{\omega_{AS}}{\omega_S}=\frac{1+\delta_R}{1-\delta_R}$, and
+    (4) $\operatorname{ramanAntiStokesToStokesThermalRatio}(\omega_L,\Omega_v,\xi) <
+    (\omega_{AS}/\omega_S)^4$. -/)
+  (proof := /-- Apply ring and field simplification with $\omega_L>0$ and $\omega_L-\Omega_v>0$,
+    and use $\exp(-\xi)<\exp(0)=1$ for $\xi>0$. -/)]
+theorem raman_stokes_antiStokes_gr24_identities
+    (ω_pump Ω_vib ξ : ℝ) (hω_pos : 0 < ω_pump)
+    (hΩ_nonneg : 0 ≤ Ω_vib) (hΩ_lt : Ω_vib < ω_pump) (hξ_pos : 0 < ξ) :
+    let δ_R := ramanNormalizedShift ω_pump Ω_vib
+    reconstructSpectralDiff (ramanAntiStokesFreq ω_pump Ω_vib) (ramanStokesFreq ω_pump Ω_vib) =
+        ω_pump ∧
+      reconstructYangCoupling (ramanAntiStokesFreq ω_pump Ω_vib) (ramanStokesFreq ω_pump Ω_vib) =
+        Ω_vib ∧
+      ramanStokesFreq ω_pump Ω_vib * ramanAntiStokesFreq ω_pump Ω_vib =
+        ω_pump ^ 2 * (1 - δ_R ^ 2) ∧
+      ramanAntiStokesFreq ω_pump Ω_vib / ramanStokesFreq ω_pump Ω_vib =
+        (1 + δ_R) / (1 - δ_R) ∧
+      ramanAntiStokesToStokesThermalRatio ω_pump Ω_vib ξ <
+        (ramanAntiStokesFreq ω_pump Ω_vib / ramanStokesFreq ω_pump Ω_vib) ^ 4 := by
+  intro δ_R
+  have hω_ne : ω_pump ≠ 0 := ne_of_gt hω_pos
+  have h_stokes_pos : 0 < ramanStokesFreq ω_pump Ω_vib := by
+    unfold ramanStokesFreq
+    linarith
+  have h_stokes_ne : ramanStokesFreq ω_pump Ω_vib ≠ 0 := ne_of_gt h_stokes_pos
+  have h1m_ne : 1 - δ_R ≠ 0 := by
+    dsimp [δ_R, ramanNormalizedShift]
+    intro h_eq
+    have h_mul : ω_pump * (1 - Ω_vib / ω_pump) = 0 := by rw [h_eq, mul_zero]
+    have h_expand : ω_pump * (1 - Ω_vib / ω_pump) = ω_pump - Ω_vib := by
+      field_simp [hω_ne]
+    linarith
+  have h_rec_pump :
+      reconstructSpectralDiff (ramanAntiStokesFreq ω_pump Ω_vib) (ramanStokesFreq ω_pump Ω_vib) =
+        ω_pump := by
+    unfold reconstructSpectralDiff ramanAntiStokesFreq ramanStokesFreq
+    ring
+  have h_rec_vib :
+      reconstructYangCoupling (ramanAntiStokesFreq ω_pump Ω_vib) (ramanStokesFreq ω_pump Ω_vib) =
+        Ω_vib := by
+    unfold reconstructYangCoupling ramanAntiStokesFreq ramanStokesFreq
+    ring
+  have h_prod :
+      ramanStokesFreq ω_pump Ω_vib * ramanAntiStokesFreq ω_pump Ω_vib =
+        ω_pump ^ 2 * (1 - δ_R ^ 2) := by
+    dsimp [δ_R, ramanNormalizedShift, ramanStokesFreq, ramanAntiStokesFreq]
+    field_simp [hω_ne]
+    ring
+  have h_ratio :
+      ramanAntiStokesFreq ω_pump Ω_vib / ramanStokesFreq ω_pump Ω_vib =
+        (1 + δ_R) / (1 - δ_R) := by
+    dsimp [δ_R, ramanNormalizedShift, ramanStokesFreq, ramanAntiStokesFreq]
+    field_simp [hω_ne, h_stokes_ne, h1m_ne]
+  have h_therm :
+      ramanAntiStokesToStokesThermalRatio ω_pump Ω_vib ξ <
+        (ramanAntiStokesFreq ω_pump Ω_vib / ramanStokesFreq ω_pump Ω_vib) ^ 4 := by
+    unfold ramanAntiStokesToStokesThermalRatio
+    have h_antistokes_pos : 0 < ramanAntiStokesFreq ω_pump Ω_vib := by
+      unfold ramanAntiStokesFreq
+      linarith
+    have h_rat_pos : 0 < (ramanAntiStokesFreq ω_pump Ω_vib / ramanStokesFreq ω_pump Ω_vib) ^ 4 :=
+      pow_pos (div_pos h_antistokes_pos h_stokes_pos) 4
+    have h_exp_lt : Real.exp (-ξ) < 1 := by
+      rw [← Real.exp_zero, Real.exp_lt_exp]
+      linarith
+    exact mul_lt_of_lt_one_right h_rat_pos h_exp_lt
+  exact ⟨h_rec_pump, h_rec_vib, h_prod, h_ratio, h_therm⟩
+
 end Signals.Scattering

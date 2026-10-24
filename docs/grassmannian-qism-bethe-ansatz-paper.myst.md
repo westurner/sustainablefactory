@@ -14,6 +14,7 @@ description: "An arXiv-ready formal verification paper formalizing Yang's ration
 - [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.myst.md)
 - [Grassmannian Gravity from QED & Gauge Scattering Amplitudes: Complex $Gr_{\mathbb{C}}(2,4)$ Orbital Precession, Mercury's Perihelion, $N$-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4](grassmannian-gravity-from-qed-scattering-paper.md)
 - [Normed Tensor Gaussian Splat Mechanics for Complex $Gr_{\mathbb{C}}(2,4)$ Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4](grassmannian-splat-mechanics-paper.md)
+- [Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4](grassmannian-thermal-compton-raman-paper.md)
 
 ---
 
@@ -170,9 +171,10 @@ In [src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean#
 2. **Unitary Two-Body Scattering Flux Partition (`yang_scattering_probability_conservation`)**: Whenever $\delta(u,v)^2 + \eta^2 \neq 0$, the transmission probability $T_{\mathrm{prob}} = \delta(u,v)^2 / (\delta(u,v)^2 + \eta^2)$ and reflection probability $R_{\mathrm{prob}} = \eta^2 / (\delta(u,v)^2 + \eta^2)$ are nonnegative and sum to $1$.
 3. **Inverse Monodromy Reconstruction (`reconstruct_monodromy_from_trace_and_minor`)**: Recovers $D(u) = t(u) - A(u)$ and the off-diagonal magnon product $B(u)C(u) = A(u)D(u) - \Delta_{01}(T(u))$.
 4. **Calibrated Baxter $TQ$ Residual Metrology (`baxterTQResidualMeasurement_wronskian_consistent`, `baxterTQResidualMeasurement_offShell_anomaly`)**: Three-point Casorati Wronskian solutions on $Gr(2,4)$ are `.consistent` for every tolerance $\tau \ge 0$, whereas off-shell Bethe-root violations exceeding $\tau$ trigger `.anomalyCandidate`.
+5. **Inelastic Stokes/Anti-Stokes Raman & Relativistic Inverse Compton Channel Inversion (`raman_stokes_antiStokes_gr24_identities`, `inverseCompton_thomson_and_recoil_identities`)**: The same QISM channel inversion operators `reconstructSpectralDiff` and `reconstructYangCoupling` recover the optical pump frequency $\omega_L = (\omega_{AS} + \omega_S)/2$ and vibrational phonon frequency $\Omega_v = (\omega_{AS} - \omega_S)/2$ from the anti-Stokes and Stokes Raman sidebands $\omega_{AS}, \omega_S$, while the $Gr_{\mathbb{C}}(2,4)$ Plücker channel ratio $\frac{1+\delta_R}{1-\delta_R}$ (Raman) and $\frac{1+\beta}{1-\beta}$ (Inverse Compton) connects directly to thermal and relativistic scattering metrology (see [grassmannian-thermal-compton-raman-paper.md](grassmannian-thermal-compton-raman-paper.md)).
 
 ```lean
--- 3. Slavnov Pauli exclusion and calibrated Scattering metrology integration
+-- 3. Slavnov Pauli exclusion, calibrated Scattering metrology, and Raman/Inverse Compton channel inversion
 example (K : ℝ → ℝ → ℝ) (v0 v1 u : ℝ) (Q_plus Q_minus : ℝ → ℝ) (η : ℝ) :
     slavnovDet2 (slavnovKernelMatrix2 K v0 v1 u u) = 0 ∧
     slavnovDet2 (slavnovKernelMatrix2 K u u v0 v1) = 0 ∧
@@ -181,10 +183,20 @@ example (K : ℝ → ℝ → ℝ) (v0 v1 u : ℝ) (Q_plus Q_minus : ℝ → ℝ)
       (casoratiWronskian Q_plus Q_minus u (u + η))
       (casoratiWronskian Q_plus Q_minus (u - η) u)
       (Q_plus u) (Q_plus (u - η)) (Q_plus (u + η))
-      (1 / 10) (by norm_num)).consistent :=
+      (1 / 10) (by norm_num)).consistent ∧
+    reconstructSpectralDiff (ramanAntiStokesFreq 10 2) (ramanStokesFreq 10 2) = 10 ∧
+    reconstructYangCoupling (ramanAntiStokesFreq 10 2) (ramanStokesFreq 10 2) = 2 ∧
+    inverseComptonKleinNishinaRatio (3 / 5) (1 / 10) <
+      inverseComptonDopplerRatio (3 / 5) :=
   ⟨slavnovDet2_pauli_exclusion K v0 v1 u,
     slavnovDet2_dual_pauli_exclusion K u v0 v1,
-    baxterTQResidualMeasurement_wronskian_consistent Q_plus Q_minus u η (1 / 10) (by norm_num)⟩
+    baxterTQResidualMeasurement_wronskian_consistent Q_plus Q_minus u η (1 / 10) (by norm_num),
+    (raman_stokes_antiStokes_gr24_identities 10 2 (1 / 2)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)).1,
+    (raman_stokes_antiStokes_gr24_identities 10 2 (1 / 2)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)).2.1,
+    (inverseCompton_thomson_and_recoil_identities (3 / 5) (1 / 10)
+      (by norm_num) (by norm_num) (by norm_num)).2.2.2⟩
 
 end ArxivQISMPaperVerification
 ```

@@ -4693,4 +4693,97 @@ example (θ x y : ℝ) :
     toyMovingSheath splat_ddf 0 0 5 2 1 1 θ x y (by norm_num) (by norm_num) (by norm_num)
   exact ⟨h_qp.1, h_qp.2.2.1, h_qp.2.2.2⟩
 
+/-- Inverse Compton Thomson Doppler upshift, Klein-Nishina quantum recoil suppression,
+and Stokes/anti-Stokes Raman Gr_C(2,4) channel inversion & thermal Boltzmann asymmetry. -/
+example (Δℓ : ℤ) (φ x : ℝ) :
+    let M_C := toyMovingSheath.gr24TwistorMatrix 6 1 5 Δℓ φ x
+    Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_C) /
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_C) =
+      Signals.Scattering.inverseComptonDopplerRatio toyMovingSheath.beta ∧
+    Signals.Scattering.inverseComptonKleinNishinaRatio (3 / 5) (1 / 10) <
+      Signals.Scattering.inverseComptonDopplerRatio (3 / 5) ∧
+    Signals.Scattering.reconstructSpectralDiff
+      (Signals.Scattering.ramanAntiStokesFreq 10 2)
+      (Signals.Scattering.ramanStokesFreq 10 2) = 10 ∧
+    Signals.Scattering.reconstructYangCoupling
+      (Signals.Scattering.ramanAntiStokesFreq 10 2)
+      (Signals.Scattering.ramanStokesFreq 10 2) = 2 ∧
+    Signals.Scattering.ramanAntiStokesToStokesThermalRatio 10 2 (1 / 2) <
+      (Signals.Scattering.ramanAntiStokesFreq 10 2 /
+        Signals.Scattering.ramanStokesFreq 10 2) ^ 4 := by
+  intro M_C
+  have h_ics_ddf := toyMovingSheath.inverseCompton_gr24_identities 6 1 5 Δℓ φ x
+  have h_ics := Signals.Scattering.inverseCompton_thomson_and_recoil_identities
+    (3 / 5) (1 / 10) (by norm_num) (by norm_num) (by norm_num)
+  have h_ram := Signals.Scattering.raman_stokes_antiStokes_gr24_identities
+    10 2 (1 / 2) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_ics_ddf.1, h_ics.2.2.2, h_ram.1, h_ram.2.1, h_ram.2.2.2.2⟩
+
+/-- Fourier acausal phase-speed blow-up, Cattaneo-Vernotte hyperbolic second-sound
+factorization, and unified Grassmannian-DDF subluminal thermal transport & splat evolution. -/
+noncomputable def toyCattaneoVernotteModel : Signals.DDF.CattaneoVernotteHeatModel :=
+  { thermalConductivity := 4
+    thermalConductivity_pos := by norm_num
+    volumetricHeatCapacity := 2
+    volumetricHeatCapacity_pos := by norm_num
+    relaxationTime := 1 / 2
+    relaxationTime_pos := by norm_num }
+
+example (θ : ℝ) :
+    let m_f := toyCattaneoVernotteModel.toFourierHeatModel
+    let ω_star := (10 : ℝ) ^ 2 / (2 * m_f.diffusivity) + 1
+    let splat_ddf := toyMovingSheath.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
+    let splat_evol := splat_ddf.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)
+    (10 : ℝ) ^ 2 < m_f.highFreqPhaseSpeedSq ω_star ∧
+    0 < toyCattaneoVernotteModel.secondSoundSpeed ∧
+    toyCattaneoVernotteModel.cattaneoFluxResidual 7 0 (-2) =
+      7 - m_f.fourierFlux (-2) ∧
+    0 < toyMovingSheath.ddfSecondSoundSpeed 1 ∧
+    toyMovingSheath.ddfSecondSoundSpeed 1 ≤ toyDDFSubstrate.c ∧
+    toyMovingSheath.ddfLongitudinalDiffusivity 1 (1 / 2) / (1 ^ 2 * (1 / 2)) =
+      splat_ddf.covDet / 2 ^ 4 ∧
+    splat_evol.weight = splat_ddf.weight ∧
+    splat_evol.covTrace = splat_ddf.covTrace + 2 * (1 + 2) * 3 := by
+  intro m_f ω_star splat_ddf splat_evol
+  have h_f := m_f.diffusivity_pos_and_acausal_speed 10
+  have h_cv := toyCattaneoVernotteModel.identities 7 (-2) 0 0 0
+  have h_c_ge : (1 : ℝ) ≤ toyDDFSubstrate.c := by
+    dsimp [toyDDFSubstrate, Signals.DDF.DDFSubstrate.c]
+    norm_num
+  have h_ddf_th := toyMovingSheath.ddfThermalTransport_and_splat_identities
+    splat_ddf 0 0 5 2 1 (1 / 2) 1 2 3 θ
+    (by norm_num) (by norm_num) (by norm_num) h_c_ge (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_f.2.2, h_cv.2.1, h_cv.2.2.2.2, h_ddf_th.1, h_ddf_th.2.1,
+    h_ddf_th.2.2.2.1, h_ddf_th.2.2.2.2.1, h_ddf_th.2.2.2.2.2⟩
+
+/-- Splat-free continuum Grassmannian Gr_C(2,4)-DDF thermal transport:
+subluminal second sound, Plücker channel product bridge for jammed diffusivity,
+telegrapher wave-operator factorization, and Gr_C(2,4) Riemann-invariant flux limiter. -/
+example (θ : ℝ) :
+    let M_sheath := toyMovingSheath.gr24TwistorMatrix 6 1 5 2 0 0
+    let M_th := Signals.DDF.ddfThermalGr24Matrix (3 / 5) θ
+    0 < toyMovingSheath.ddfSecondSoundSpeed 1 ∧
+    toyMovingSheath.ddfSecondSoundSpeed 1 ≤ toyDDFSubstrate.c ∧
+    toyMovingSheath.ddfLongitudinalDiffusivity 1 (1 / 2) / (1 ^ 2 * (1 / 2)) =
+      Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_sheath) *
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_sheath) ∧
+    toyMovingSheath.ddfTelegrapherResidual 1 (1 / 2) 4 2 (-1) /
+        toyMovingSheath.ddfLongitudinalDiffusivity 1 (1 / 2) =
+      (toyMovingSheath.jammingFactor ^ 2 / 1 ^ 2) * 4 +
+        (toyMovingSheath.jammingFactor ^ 2 / (1 ^ 2 * (1 / 2))) * 2 - (-1) ∧
+    (Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_th) -
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_th)) / 2 = 3 / 5 ∧
+    0 < Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_th) *
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_th) := by
+  intro M_sheath M_th
+  have h_c_ge : (1 : ℝ) ≤ toyDDFSubstrate.c := by
+    dsimp [toyDDFSubstrate, Signals.DDF.DDFSubstrate.c]
+    norm_num
+  have h_cont := toyMovingSheath.ddfThermalTransport_continuum_identities
+    1 (1 / 2) 6 1 5 0 0 4 2 (-1) (3 / 5) θ 2
+    (by norm_num) h_c_ge (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_cont.1, h_cont.2.1, h_cont.2.2.1, h_cont.2.2.2.2.1,
+    h_cont.2.2.2.2.2.1, h_cont.2.2.2.2.2.2.2⟩
+
 end SignalsTests

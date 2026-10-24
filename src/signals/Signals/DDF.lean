@@ -9,10 +9,11 @@ import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
 import Mathlib.Tactic
 import Signals.Geometry
 import Signals.Huygens
+import Signals.Scattering
 
 namespace Signals.DDF
 
-open MeasureTheory Interval Complex Signals.Geometry Signals.Huygens
+open MeasureTheory Interval Complex Signals.Geometry Signals.Huygens Signals.Scattering
 
 /-! # Dilatant Dark Fluid (DDF) Quantum-Hydrodynamic Model
 
@@ -3019,5 +3020,588 @@ theorem NormedTensorGaussianSplat2D.quantumPressureTensor_identities
     have hjam_ne : s.jammingFactor ≠ 0 := ne_of_gt s.jammingFactor_pos
     field_simp [hs0_ne, hjam_ne, hm_ne]
   exact ⟨h_tr_q, h_tr_cov, h_det, h_aniso⟩
+
+/-! ## Inelastic Scattering (Inverse Compton & Raman) and the Heat Problem (Fourier, Cattaneo–Vernotte, and Unified Grassmannian–DDF Thermal Transport)
+
+Unifies relativistic Inverse Compton scattering, Stokes/anti-Stokes Raman scattering,
+and the three tiers of thermal transport (parabolic Fourier diffusion, hyperbolic
+Cattaneo–Vernotte telegrapher waves, and Grassmannian $Gr_{\mathbb{C}}(2,4)$–DDF
+second-sound & normed Tensor Gaussian Splat thermal evolution):
+1. **DDF Moving-Sheath Inverse Compton $Gr_{\mathbb{C}}(2,4)$ Plücker Identity (`MovingSheath.inverseCompton_gr24_identities`)**:
+   For `M_C := s.gr24TwistorMatrix d λ L Δℓ φ x`, the ratio of the forward-to-backward
+   complex Plücker channel densities equals the exact relativistic head-on Inverse
+   Compton Thomson upshift factor:
+   $$\frac{|w_A^{\mathbb{C}}(M_{\mathbb{C}})|^2}{|w_B^{\mathbb{C}}(M_{\mathbb{C}})|^2} = \frac{1 + \beta}{1 - \beta} = \gamma_\varphi(v)^2\,(1 + \beta)^2,$$
+   and the angle-averaged Inverse Compton power boost satisfies
+   $\frac{4}{3}(\gamma_\varphi(v)^2 - 1) = \frac{4}{3}\,\gamma_\varphi(v)^2\,\beta^2$.
+2. **Parabolic Fourier Conduction & the Acausal Infinite-Speed Paradox (`FourierHeatModel`)**:
+   Establishes $\alpha = k_{\mathrm{th}} / (\rho c_v) > 0$ and proves that for any speed
+   ceiling $V \ge 0$ (including $c$), high-frequency plane-wave modes $\omega > V^2/(2\alpha)$
+   have squared phase velocity $v_{\mathrm{phase}}^2(\omega) = 2\alpha\omega > V^2$.
+3. **Hyperbolic Cattaneo–Vernotte Telegrapher Heat Conduction (`CattaneoVernotteHeatModel`)**:
+   Introduces relaxation time $\tau_r > 0$, finite second-sound speed
+   $c_{\mathrm{CV}} = \sqrt{\alpha / \tau_r} > 0$, wave-operator factorization
+   $\frac{1}{c_{\mathrm{CV}}^2}\partial_t^2 T + \frac{1}{\alpha}\partial_t T - \partial_x^2 T$,
+   and exact reduction to Fourier's law at $\partial_t q = 0$ (or $\tau_r \to 0$).
+4. **Unified Grassmannian $Gr_{\mathbb{C}}(2,4)$–DDF Second-Sound & Tensor Splat Thermal Method (`MovingSheath.ddfThermalTransport_and_splat_identities`)**:
+   - Subluminal causal second-sound speed $c_{\mathrm{th}}^{\mathrm{DDF}}(s) = c_{\mathrm{th},0}\,\mathcal{V}(s) = c_{\mathrm{th},0}/\gamma_\varphi(v) \le c_{\mathrm{th},0} \le c$,
+   - Lorentz-jammed longitudinal diffusivity $\alpha_\parallel^{\mathrm{DDF}}(s) = \alpha_0\,\gamma_\varphi(v)^{-2}$ whose ratio to $\alpha_0 = c_{\mathrm{th},0}^2 \tau_r$ equals the normalized DDF tensor splat covariance determinant $\frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4}$,
+   - Exact $L^1$-conserving anisotropic Tensor Gaussian Splat thermal evolution (`NormedTensorGaussianSplat2D.evolveThermal`) with linear covariance trace growth $\operatorname{Tr}\Sigma(t + \Delta t) = \operatorname{Tr}\Sigma(t) + 2(\alpha_1 + \alpha_2)\Delta t$.
+-/
+
+/-- **DDF Moving-Sheath Inverse Compton $Gr_{\mathbb{C}}(2,4)$ Plücker Channel Identities**:
+For any `s : MovingSheath sub` and its complex twistor matrix
+`M_C := s.gr24TwistorMatrix d λ L Δℓ φ x`:
+1. The ratio of the forward-to-backward complex Plücker channel densities equals the
+   relativistic head-on Inverse Compton Doppler upshift ratio:
+   $\frac{|w_A^{\mathbb{C}}(M_{\mathbb{C}})|^2}{|w_B^{\mathbb{C}}(M_{\mathbb{C}})|^2} = \operatorname{inverseComptonDopplerRatio}(s.\mathrm{reducedVelocity}) = \frac{1+\beta}{1-\beta}$,
+2. In terms of the DDF Lorentz jamming factor $\gamma_\varphi(v)$,
+   $\operatorname{inverseComptonDopplerRatio}(s.\mathrm{reducedVelocity}) = \gamma_\varphi(v)^2\,(1 + \beta)^2$, and
+3. The angle-averaged Inverse Compton power boost factor satisfies
+   $\frac{4}{3}\bigl(\gamma_\varphi(v)^2 - 1\bigr) = \frac{4}{3}\,\gamma_\varphi(v)^2\,\beta^2$. -/
+@[blueprint "thm:signals-ddf-sheath-inverse-compton-gr24"
+  (title := "DDF MovingSheath Gr_C(2,4) Pluecker ratio equals relativistic Inverse Compton upshift")
+  (statement := /-- For \texttt{s : MovingSheath sub} and $M_{\mathbb C} = s.\mathrm{gr24TwistorMatrix}\;d\;\lambda_{\mathrm{opt}}\;L\;\Delta\ell\;\varphi\;x$:
+    (1) $\frac{|w_A^{\mathbb C}(M_{\mathbb C})|^2}{|w_B^{\mathbb C}(M_{\mathbb C})|^2} = \operatorname{inverseComptonDopplerRatio}(s.\mathrm{beta})$,
+    (2) $\operatorname{inverseComptonDopplerRatio}(s.\mathrm{beta}) = s.\mathrm{jammingFactor}^2\,(1+s.\mathrm{beta})^2$, and
+    (3) $\frac{4}{3}(s.\mathrm{jammingFactor}^2 - 1) = \frac{4}{3}\,s.\mathrm{jammingFactor}^2\,s.\mathrm{beta}^2$. -/)
+  (proof := /-- Rewrite $|w_A^{\mathbb C}|^2 = 1+\beta$ and $|w_B^{\mathbb C}|^2 = 1-\beta$ via
+    \texttt{gr24TwistorMatrix\_madelung\_sector\_identities}, and use $\gamma_\varphi(v)^2 = (1-\beta^2)^{-1}$. -/)]
+theorem MovingSheath.inverseCompton_gr24_identities
+    {sub : DDFSubstrate} (s : MovingSheath sub)
+    (d wavelength L : ℝ) (Δℓ : ℤ) (φ x : ℝ) :
+    let M_C := s.gr24TwistorMatrix d wavelength L Δℓ φ x
+    Complex.normSq (complexPluckerSinkAmplitudeA M_C) /
+        Complex.normSq (complexPluckerSinkAmplitudeB M_C) =
+      inverseComptonDopplerRatio s.beta ∧
+    inverseComptonDopplerRatio s.beta =
+      s.jammingFactor ^ 2 * (1 + s.beta) ^ 2 ∧
+    (4 / 3 : ℝ) * (s.jammingFactor ^ 2 - 1) =
+      (4 / 3 : ℝ) * s.jammingFactor ^ 2 * s.beta ^ 2 := by
+  intro M_C
+  have h_mad := s.gr24TwistorMatrix_madelung_sector_identities d wavelength L Δℓ φ x
+  have h_ratio :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_C) /
+          Complex.normSq (complexPluckerSinkAmplitudeB M_C) =
+        inverseComptonDopplerRatio s.beta := by
+    dsimp [M_C]
+    rw [h_mad.1, h_mad.2.1]
+    rfl
+  have hc := sub.c_pos
+  have h_beta_lt : s.beta < 1 := (div_lt_one hc).mpr s.subluminal
+  have h_beta_sq_eq : s.beta ^ 2 = s.betaSq := (s.beta_bounds).2.2.2
+  have h_pos := s.one_sub_betaSq_pos
+  have h1m_ne : 1 - s.beta ≠ 0 := by linarith
+  have h1m_sq_ne : 1 - s.beta ^ 2 ≠ 0 := by linarith
+  have h_jam_sq : s.jammingFactor ^ 2 = (1 - s.beta ^ 2)⁻¹ := by
+    unfold MovingSheath.jammingFactor
+    rw [div_pow, one_pow, Real.sq_sqrt (le_of_lt h_pos), h_beta_sq_eq, one_div]
+  have h_dop_jam :
+      inverseComptonDopplerRatio s.beta =
+        s.jammingFactor ^ 2 * (1 + s.beta) ^ 2 := by
+    unfold inverseComptonDopplerRatio
+    rw [h_jam_sq]
+    field_simp [h1m_ne, h1m_sq_ne]
+    ring
+  have h_pow_boost :
+      (4 / 3 : ℝ) * (s.jammingFactor ^ 2 - 1) =
+        (4 / 3 : ℝ) * s.jammingFactor ^ 2 * s.beta ^ 2 := by
+    rw [h_jam_sq]
+    field_simp [h1m_sq_ne]
+    ring
+  exact ⟨h_ratio, h_dop_jam, h_pow_boost⟩
+
+/-- **Classical Parabolic Fourier Heat Conduction Model**:
+Models Fourier's constitutive law $q = -k_{\mathrm{th}} \partial_x T$ and parabolic
+diffusivity $\alpha = k_{\mathrm{th}} / (\rho c_v) > 0$. -/
+@[blueprint "def:signals-ddf-fourier-heat-model"
+  (title := "Classical parabolic Fourier heat conduction model")
+  (statement := /-- Records positive thermal conductivity $k_{\mathrm{th}}>0$ and positive
+    volumetric heat capacity $\rho c_v>0$. -/)]
+structure FourierHeatModel where
+  thermalConductivity : ℝ
+  thermalConductivity_pos : 0 < thermalConductivity
+  volumetricHeatCapacity : ℝ
+  volumetricHeatCapacity_pos : 0 < volumetricHeatCapacity
+
+/-- Thermal diffusivity $\alpha = k_{\mathrm{th}} / (\rho c_v)$. -/
+@[blueprint "def:signals-ddf-fourier-diffusivity"
+  (title := "Thermal diffusivity α = k_th / (ρ c_v)")
+  (statement := /-- Define $\alpha = k_{\mathrm{th}} / (\rho c_v)$. -/)]
+noncomputable def FourierHeatModel.diffusivity (m : FourierHeatModel) : ℝ :=
+  m.thermalConductivity / m.volumetricHeatCapacity
+
+/-- Classical Fourier heat flux $q_{\mathrm{Fourier}} = -k_{\mathrm{th}}\,\nabla T$. -/
+@[blueprint "def:signals-ddf-fourier-flux"
+  (title := "Classical Fourier heat flux q = -k_th ∇T")
+  (statement := /-- Define $q_{\mathrm{Fourier}}(\nabla T) = -k_{\mathrm{th}}\,\nabla T$. -/)]
+def FourierHeatModel.fourierFlux (m : FourierHeatModel) (gradT : ℝ) : ℝ :=
+  -m.thermalConductivity * gradT
+
+/-- Squared phase velocity $v_{\mathrm{phase}}^2(\omega) = 2\alpha\omega$ of a
+harmonic thermal wave at angular frequency $\omega$ in parabolic Fourier diffusion. -/
+@[blueprint "def:signals-ddf-fourier-phase-speed-sq"
+  (title := "Parabolic Fourier harmonic phase velocity squared v_phase²(ω) = 2 α ω")
+  (statement := /-- Define $v_{\mathrm{phase}}^2(\omega) = 2\alpha\omega$. -/)]
+noncomputable def FourierHeatModel.highFreqPhaseSpeedSq
+    (m : FourierHeatModel) (ω : ℝ) : ℝ :=
+  2 * m.diffusivity * ω
+
+/-- **Fourier Positivity & the Acausal Infinite-Speed Paradox**:
+For any `m : FourierHeatModel`:
+1. The thermal diffusivity $\alpha$ is strictly positive ($0 < \alpha$), and
+2. For any finite speed ceiling $V \ge 0$ (such as the speed of light $c$), the
+   frequency $\omega_* = \frac{V^2}{2\alpha} + 1 > 0$ produces a Fourier phase speed
+   strictly exceeding $V$ ($V^2 < v_{\mathrm{phase}}^2(\omega_*)$), formally proving
+   the acausal high-frequency divergence of classical parabolic heat conduction. -/
+@[blueprint "thm:signals-ddf-fourier-acausal-speed"
+  (title := "Parabolic Fourier diffusivity positivity and acausal high-frequency phase speed theorem")
+  (statement := /-- For any \texttt{m : FourierHeatModel} and speed ceiling $V\ge 0$:
+    (1) $0 < m.\mathrm{diffusivity}$, and
+    (2) at $\omega_* = V^2/(2 m.\mathrm{diffusivity}) + 1$, $0 < \omega_*$ and
+    $V^2 < m.\mathrm{highFreqPhaseSpeedSq}(\omega_*)$. -/)
+  (proof := /-- Positivity follows from $k_{\mathrm{th}}>0$ and $\rho c_v>0$; substituting $\omega_*$
+    gives $v_{\mathrm{phase}}^2(\omega_*) = V^2 + 2\alpha > V^2$. -/)]
+theorem FourierHeatModel.diffusivity_pos_and_acausal_speed
+    (m : FourierHeatModel) (V : ℝ) :
+    let ω_star := V ^ 2 / (2 * m.diffusivity) + 1
+    0 < m.diffusivity ∧
+      0 < ω_star ∧
+      V ^ 2 < m.highFreqPhaseSpeedSq ω_star := by
+  intro ω_star
+  have h_alpha : 0 < m.diffusivity :=
+    div_pos m.thermalConductivity_pos m.volumetricHeatCapacity_pos
+  have h_alpha_ne : m.diffusivity ≠ 0 := ne_of_gt h_alpha
+  have h_omega_pos : 0 < ω_star := by
+    dsimp [ω_star]
+    positivity
+  have h_exceed : V ^ 2 < m.highFreqPhaseSpeedSq ω_star := by
+    dsimp [ω_star, FourierHeatModel.highFreqPhaseSpeedSq]
+    have h_expand : 2 * m.diffusivity * (V ^ 2 / (2 * m.diffusivity) + 1) =
+        V ^ 2 + 2 * m.diffusivity := by
+      field_simp [h_alpha_ne]
+    linarith
+  exact ⟨h_alpha, h_omega_pos, h_exceed⟩
+
+/-- **Hyperbolic Cattaneo–Vernotte Heat Conduction Model**:
+Extends `FourierHeatModel` with a positive thermal relaxation time $\tau_r > 0$,
+resolving the Fourier paradox via the hyperbolic telegrapher's equation
+$\tau_r \partial_t^2 T + \partial_t T = \alpha \partial_x^2 T$ with finite second-sound
+speed $c_{\mathrm{CV}} = \sqrt{\alpha / \tau_r}$. -/
+@[blueprint "def:signals-ddf-cattaneo-vernotte-model"
+  (title := "Hyperbolic Cattaneo-Vernotte heat conduction model")
+  (statement := /-- Extends \texttt{FourierHeatModel} with positive thermal relaxation time $\tau_r>0$. -/)]
+structure CattaneoVernotteHeatModel extends FourierHeatModel where
+  relaxationTime : ℝ
+  relaxationTime_pos : 0 < relaxationTime
+
+/-- Squared Cattaneo–Vernotte thermal wave ("second sound") propagation speed
+$c_{\mathrm{CV}}^2 = \alpha / \tau_r$. -/
+@[blueprint "def:signals-ddf-cattaneo-second-sound-sq"
+  (title := "Cattaneo-Vernotte second-sound speed squared c_CV² = α / τ_r")
+  (statement := /-- Define $c_{\mathrm{CV}}^2 = \alpha / \tau_r$. -/)]
+noncomputable def CattaneoVernotteHeatModel.secondSoundSpeedSq
+    (m : CattaneoVernotteHeatModel) : ℝ :=
+  m.toFourierHeatModel.diffusivity / m.relaxationTime
+
+/-- Cattaneo–Vernotte thermal wave ("second sound") propagation speed
+$c_{\mathrm{CV}} = \sqrt{\alpha / \tau_r}$. -/
+@[blueprint "def:signals-ddf-cattaneo-second-sound"
+  (title := "Cattaneo-Vernotte second-sound speed c_CV = √(α / τ_r)")
+  (statement := /-- Define $c_{\mathrm{CV}} = \sqrt{c_{\mathrm{CV}}^2}$. -/)]
+noncomputable def CattaneoVernotteHeatModel.secondSoundSpeed
+    (m : CattaneoVernotteHeatModel) : ℝ :=
+  Real.sqrt m.secondSoundSpeedSq
+
+/-- Cattaneo–Vernotte constitutive heat-flux residual
+$\tau_r \partial_t q + q - q_{\mathrm{Fourier}}(\nabla T) = \tau_r \partial_t q + q + k_{\mathrm{th}} \nabla T$. -/
+@[blueprint "def:signals-ddf-cattaneo-flux-residual"
+  (title := "Cattaneo-Vernotte constitutive heat-flux residual")
+  (statement := /-- Define $\tau_r\,\partial_t q + q - q_{\mathrm{Fourier}}(\nabla T)$. -/)]
+def CattaneoVernotteHeatModel.cattaneoFluxResidual
+    (m : CattaneoVernotteHeatModel) (q dq_dt gradT : ℝ) : ℝ :=
+  m.relaxationTime * dq_dt + q - m.toFourierHeatModel.fourierFlux gradT
+
+/-- Hyperbolic telegrapher temperature PDE residual
+$\tau_r \partial_t^2 T + \partial_t T - \alpha \partial_x^2 T$. -/
+@[blueprint "def:signals-ddf-cattaneo-telegrapher-residual"
+  (title := "Cattaneo-Vernotte hyperbolic telegrapher PDE residual")
+  (statement := /-- Define $\tau_r\,\partial_t^2 T + \partial_t T - \alpha\,\partial_x^2 T$. -/)]
+noncomputable def CattaneoVernotteHeatModel.telegrapherResidual
+    (m : CattaneoVernotteHeatModel) (d2T_dt2 dT_dt d2T_dx2 : ℝ) : ℝ :=
+  m.relaxationTime * d2T_dt2 + dT_dt - m.toFourierHeatModel.diffusivity * d2T_dx2
+
+/-- **Cattaneo–Vernotte Second-Sound Wave Factorization & Steady Fourier Reduction**:
+For any `m : CattaneoVernotteHeatModel`:
+1. $0 < c_{\mathrm{CV}}^2$ and $0 < c_{\mathrm{CV}}$,
+2. $\alpha = c_{\mathrm{CV}}^2\,\tau_r$ and $c_{\mathrm{CV}}^2 = (c_{\mathrm{CV}})^2$,
+3. Dividing the telegrapher residual by $\alpha$ exhibits the damped hyperbolic wave operator
+   $\frac{1}{c_{\mathrm{CV}}^2}\partial_t^2 T + \frac{1}{\alpha}\partial_t T - \partial_x^2 T$, and
+4. When $\partial_t q = 0$ (steady state or zero-relaxation limit), the Cattaneo–Vernotte
+   flux residual reduces identically to the classical Fourier residual $q - q_{\mathrm{Fourier}}(\nabla T)$. -/
+@[blueprint "thm:signals-ddf-cattaneo-vernotte-identities"
+  (title := "Cattaneo-Vernotte second-sound factorization, telegrapher operator, and Fourier reduction")
+  (statement := /-- For any \texttt{m : CattaneoVernotteHeatModel}:
+    (1) $0 < m.\mathrm{secondSoundSpeedSq}$ and $0 < m.\mathrm{secondSoundSpeed}$,
+    (2) $m.\mathrm{diffusivity} = m.\mathrm{secondSoundSpeedSq}\cdot m.\mathrm{relaxationTime}$,
+    (3) $m.\mathrm{telegrapherResidual}(T_{tt},T_t,T_{xx})/m.\mathrm{diffusivity} =
+    T_{tt}/m.\mathrm{secondSoundSpeedSq} + T_t/m.\mathrm{diffusivity} - T_{xx}$, and
+    (4) $m.\mathrm{cattaneoFluxResidual}(q,0,\nabla T) = q - m.\mathrm{fourierFlux}(\nabla T)$. -/)
+  (proof := /-- Unfold \texttt{secondSoundSpeedSq}, \texttt{telegrapherResidual}, and
+    \texttt{cattaneoFluxResidual}, and simplify over $\alpha>0$ and $\tau_r>0$. -/)]
+theorem CattaneoVernotteHeatModel.identities
+    (m : CattaneoVernotteHeatModel) (q gradT d2T_dt2 dT_dt d2T_dx2 : ℝ) :
+    0 < m.secondSoundSpeedSq ∧
+      0 < m.secondSoundSpeed ∧
+      m.toFourierHeatModel.diffusivity = m.secondSoundSpeedSq * m.relaxationTime ∧
+      m.telegrapherResidual d2T_dt2 dT_dt d2T_dx2 / m.toFourierHeatModel.diffusivity =
+        d2T_dt2 / m.secondSoundSpeedSq + dT_dt / m.toFourierHeatModel.diffusivity - d2T_dx2 ∧
+      m.cattaneoFluxResidual q 0 gradT = q - m.toFourierHeatModel.fourierFlux gradT := by
+  have h_alpha : 0 < m.toFourierHeatModel.diffusivity :=
+    div_pos m.thermalConductivity_pos m.volumetricHeatCapacity_pos
+  have h_tau : 0 < m.relaxationTime := m.relaxationTime_pos
+  have h_alpha_ne : m.toFourierHeatModel.diffusivity ≠ 0 := ne_of_gt h_alpha
+  have h_tau_ne : m.relaxationTime ≠ 0 := ne_of_gt h_tau
+  have h_cs_sq_pos : 0 < m.secondSoundSpeedSq := div_pos h_alpha h_tau
+  have h_cs_pos : 0 < m.secondSoundSpeed := Real.sqrt_pos.mpr h_cs_sq_pos
+  have h_fact : m.toFourierHeatModel.diffusivity = m.secondSoundSpeedSq * m.relaxationTime := by
+    unfold CattaneoVernotteHeatModel.secondSoundSpeedSq
+    exact (div_mul_cancel₀ _ h_tau_ne).symm
+  have h_wave :
+      m.telegrapherResidual d2T_dt2 dT_dt d2T_dx2 / m.toFourierHeatModel.diffusivity =
+        d2T_dt2 / m.secondSoundSpeedSq + dT_dt / m.toFourierHeatModel.diffusivity - d2T_dx2 := by
+    unfold CattaneoVernotteHeatModel.telegrapherResidual
+      CattaneoVernotteHeatModel.secondSoundSpeedSq
+    field_simp [h_alpha_ne, h_tau_ne]
+  have h_red :
+      m.cattaneoFluxResidual q 0 gradT = q - m.toFourierHeatModel.fourierFlux gradT := by
+    unfold CattaneoVernotteHeatModel.cattaneoFluxResidual
+    ring
+  exact ⟨h_cs_sq_pos, h_cs_pos, h_fact, h_wave, h_red⟩
+
+/-- **Unified Grassmannian–DDF Second-Sound Speed on a Moving Sheath**:
+In a DDF moving sheath `s : MovingSheath sub`, a rest-frame thermal wave speed
+$c_{\mathrm{th},0}$ contracts along the sheath axis by the coherence visibility
+$\mathcal{V}(s) = \gamma_\varphi(v)^{-1} = \sqrt{1 - v^2/c^2}$:
+$c_{\mathrm{th}}^{\mathrm{DDF}}(s) = c_{\mathrm{th},0}\,\mathcal{V}(s)$. -/
+@[blueprint "def:signals-ddf-sheath-second-sound-speed"
+  (title := "DDF MovingSheath longitudinal second-sound speed c_th^DDF(s) = c_th0 * V(s)")
+  (statement := /-- For \texttt{s : MovingSheath sub} and rest-frame thermal wave speed
+    $c_{\mathrm{th},0}$, define $c_{\mathrm{th}}^{\mathrm{DDF}}(s) = c_{\mathrm{th},0}\,s.\mathrm{coherenceVisibility}$. -/)]
+noncomputable def MovingSheath.ddfSecondSoundSpeed
+    {sub : DDFSubstrate} (s : MovingSheath sub) (c_th0 : ℝ) : ℝ :=
+  c_th0 * s.coherenceVisibility
+
+/-- **Unified Grassmannian–DDF Longitudinal Thermal Diffusivity**:
+$\alpha_\parallel^{\mathrm{DDF}}(s) = \bigl(c_{\mathrm{th}}^{\mathrm{DDF}}(s)\bigr)^2\,\tau_r = (c_{\mathrm{th},0}^2 \tau_r)\,\gamma_\varphi(v)^{-2}$. -/
+@[blueprint "def:signals-ddf-sheath-longitudinal-diffusivity"
+  (title := "DDF MovingSheath longitudinal thermal diffusivity α_∥^DDF(s)")
+  (statement := /-- Define $\alpha_\parallel^{\mathrm{DDF}}(s) = (s.\mathrm{ddfSecondSoundSpeed}\;c_{\mathrm{th},0})^2\,\tau_r$. -/)]
+noncomputable def MovingSheath.ddfLongitudinalDiffusivity
+    {sub : DDFSubstrate} (s : MovingSheath sub) (c_th0 tau_r : ℝ) : ℝ :=
+  (s.ddfSecondSoundSpeed c_th0) ^ 2 * tau_r
+
+/-- **Splat-Free Continuum DDF Hyperbolic Telegrapher PDE Residual**:
+$\mathcal{R}_{\mathrm{tele}}^{\mathrm{DDF}}(s; T_{tt}, T_t, T_{xx}) = \tau_r\,\partial_t^2 T + \partial_t T - \alpha_\parallel^{\mathrm{DDF}}(s)\,\partial_x^2 T$. -/
+@[blueprint "def:signals-ddf-sheath-telegrapher-residual"
+  (title := "Splat-free continuum DDF hyperbolic telegrapher PDE residual")
+  (statement := /-- For \texttt{s : MovingSheath sub}, define
+    $\mathcal{R}_{\mathrm{tele}}^{\mathrm{DDF}} = \tau_r\,T_{tt} + T_t - s.\mathrm{ddfLongitudinalDiffusivity}(c_{\mathrm{th},0},\tau_r)\,T_{xx}$. -/)]
+noncomputable def MovingSheath.ddfTelegrapherResidual
+    {sub : DDFSubstrate} (s : MovingSheath sub)
+    (c_th0 tau_r d2T_dt2 dT_dt d2T_dx2 : ℝ) : ℝ :=
+  tau_r * d2T_dt2 + dT_dt - s.ddfLongitudinalDiffusivity c_th0 tau_r * d2T_dx2
+
+/-- **Maximum Causal Ballistic Heat Flux in a DDF Moving Sheath (Splat-Free)**:
+$q_{\max}^{\mathrm{DDF}}(s) = \rho c_v\,c_{\mathrm{th}}^{\mathrm{DDF}}(s)\,T_0$. -/
+@[blueprint "def:signals-ddf-sheath-max-causal-heat-flux"
+  (title := "Maximum causal ballistic heat flux q_max^DDF(s) = ρ c_v c_th^DDF(s) T_0")
+  (statement := /-- Define $q_{\max}^{\mathrm{DDF}}(s) = C_v\,(s.\mathrm{ddfSecondSoundSpeed}\;c_{\mathrm{th},0})\,T_0$. -/)]
+noncomputable def MovingSheath.ddfMaxCausalHeatFlux
+    {sub : DDFSubstrate} (s : MovingSheath sub) (volHeatCap c_th0 T0 : ℝ) : ℝ :=
+  volHeatCap * s.ddfSecondSoundSpeed c_th0 * T0
+
+/-- **Splat-Free Complex $Gr_{\mathbb{C}}(2,4)$ Thermal Characteristic (Riemann-Invariant) Matrix**:
+Given a dimensionless reduced heat flux $j_q = q / q_{\max}^{\mathrm{DDF}}(s) \in [-1, 1]$ and
+characteristic phase $\theta \in \mathbb{R}$, embeds the right-moving ($1 + j_q$) and
+left-moving ($1 - j_q$) hyperbolic second-sound waves directly into a $2 \times 4$
+complex Grassmannian matrix $M_{\mathbb{C}}^{\mathrm{th}}(j_q, \theta) \in \mathbb{C}^{2 \times 4}$
+without any Gaussian splat discretization. -/
+@[blueprint "def:signals-ddf-thermal-gr24-matrix"
+  (title := "Splat-free complex Gr_C(2,4) hyperbolic thermal characteristic matrix")
+  (statement := /-- For reduced heat flux $j_q\in[-1,1]$ and phase $\theta\in\mathbb R$, define
+    $M_{\mathbb C}^{\mathrm{th}}(j_q,\theta) = \operatorname{complexGr24ChannelMatrix}\bigl(\sqrt{1+j_q}\,e^{i\theta},\sqrt{1-j_q}\,e^{-i\theta}\bigr)$. -/)]
+noncomputable def ddfThermalGr24Matrix (j_q θ : ℝ) : Matrix (Fin 2) (Fin 4) ℂ :=
+  let a := Real.sqrt (1 + j_q)
+  let b := Real.sqrt (1 - j_q)
+  let z_plus : ℂ := ↑(a * Real.cos θ) + Complex.I * ↑(a * Real.sin θ)
+  let z_minus : ℂ := ↑(b * Real.cos θ) - Complex.I * ↑(b * Real.sin θ)
+  complexGr24ChannelMatrix z_plus z_minus
+
+/-- **Unified Splat-Free Grassmannian $Gr_{\mathbb{C}}(2,4)$–DDF Continuum Thermal Transport Theorem**:
+Establishes the complete continuum Grassmannian–DDF thermal transport laws **without**
+normed Tensor Gaussian Splatters:
+1. **Strict Subluminal Second-Sound Causality**:
+   $0 < c_{\mathrm{th}}^{\mathrm{DDF}}(s) \le c_{\mathrm{th},0} \le c$,
+2. **Pure $Gr_{\mathbb{C}}(2,4)$ Plücker Product Bridge for Jammed Diffusivity**:
+   For `M_sheath := s.gr24TwistorMatrix d wavelength L Δℓ φ x`, the ratio of the
+   Lorentz-jammed longitudinal diffusivity $\alpha_\parallel^{\mathrm{DDF}}(s)$ to the
+   rest-frame diffusivity $\alpha_0 = c_{\mathrm{th},0}^2 \tau_r$ equals the product of the
+   two uncrossed complex Plücker channel densities:
+   $$\frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{c_{\mathrm{th},0}^2 \tau_r} = \bigl|w_A^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2 = \bigl(\gamma_\varphi(v)^2\bigr)^{-1},$$
+3. **Continuum DDF Telegrapher Wave-Operator Factorization**:
+   $$\frac{\mathcal{R}_{\mathrm{tele}}^{\mathrm{DDF}}(s; T_{tt}, T_t, T_{xx})}{\alpha_\parallel^{\mathrm{DDF}}(s)} = \frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2}\,T_{tt} + \frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2 \tau_r}\,T_t - T_{xx},$$
+4. **Splat-Free $Gr_{\mathbb{C}}(2,4)$ Riemann-Invariant Characteristic Split & Relativistic Cattaneo Flux Limiter**:
+   For any reduced heat flux $j_q \in (-1, 1)$ and `M_th := ddfThermalGr24Matrix j_q θ`,
+   $$|w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 + j_q, \qquad |w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q,$$
+   $$\frac{|w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2 - |w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2}{2} = j_q, \qquad 0 < |w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2\,|w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q^2.$$ -/
+@[blueprint "thm:signals-ddf-thermal-transport-continuum"
+  (title := "Splat-free unified Grassmannian Gr_C(2,4)-DDF continuum thermal transport and Pluecker flux-limiter theorem")
+  (statement := /-- For \texttt{s : MovingSheath sub} with $0 < c_{\mathrm{th},0}\le sub.c$, $\tau_r>0$,
+    and reduced heat flux $j_q\in(-1,1)$:
+    (1) $0 < s.\mathrm{ddfSecondSoundSpeed}\;c_{\mathrm{th},0} \le sub.c$,
+    (2) $\frac{s.\mathrm{ddfLongitudinalDiffusivity}\;c_{\mathrm{th},0}\;\tau_r}{c_{\mathrm{th},0}^2\tau_r} =
+    |w_A^{\mathbb C}(M_{\mathrm{sheath}})|^2\,|w_B^{\mathbb C}(M_{\mathrm{sheath}})|^2 = (s.\mathrm{jammingFactor}^2)^{-1}$,
+    (3) $\frac{s.\mathrm{ddfTelegrapherResidual}\;c_{\mathrm{th},0}\;\tau_r\;T_{tt}\;T_t\;T_{xx}}{s.\mathrm{ddfLongitudinalDiffusivity}\;c_{\mathrm{th},0}\;\tau_r}
+    = \frac{s.\mathrm{jammingFactor}^2}{c_{\mathrm{th},0}^2}\,T_{tt} + \frac{s.\mathrm{jammingFactor}^2}{c_{\mathrm{th},0}^2\tau_r}\,T_t - T_{xx}$, and
+    (4) for $M_{\mathrm{th}} = \operatorname{ddfThermalGr24Matrix}\;j_q\;\theta$,
+    $\frac{|w_A^{\mathbb C}(M_{\mathrm{th}})|^2 - |w_B^{\mathbb C}(M_{\mathrm{th}})|^2}{2} = j_q$ and
+    $0 < |w_A^{\mathbb C}(M_{\mathrm{th}})|^2\,|w_B^{\mathbb C}(M_{\mathrm{th}})|^2 = 1 - j_q^2$. -/)
+  (proof := /-- Combine \texttt{visibility\_jamming\_duality}, \texttt{gr24TwistorMatrix\_madelung\_sector\_identities},
+    field simplification of \texttt{ddfTelegrapherResidual}, and \texttt{complexGr24ChannelMatrix\_minors}. -/)]
+theorem MovingSheath.ddfThermalTransport_continuum_identities
+    {sub : DDFSubstrate} (s : MovingSheath sub)
+    (c_th0 tau_r d wavelength L φ x d2T_dt2 dT_dt d2T_dx2 j_q θ : ℝ)
+    (Δℓ : ℤ)
+    (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c)
+    (htau_pos : 0 < tau_r)
+    (hjq_gt : -1 < j_q) (hjq_lt : j_q < 1) :
+    let M_sheath := s.gr24TwistorMatrix d wavelength L Δℓ φ x
+    let M_th := ddfThermalGr24Matrix j_q θ
+    0 < s.ddfSecondSoundSpeed c_th0 ∧
+      s.ddfSecondSoundSpeed c_th0 ≤ sub.c ∧
+      s.ddfLongitudinalDiffusivity c_th0 tau_r / (c_th0 ^ 2 * tau_r) =
+        Complex.normSq (complexPluckerSinkAmplitudeA M_sheath) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_sheath) ∧
+      s.ddfLongitudinalDiffusivity c_th0 tau_r / (c_th0 ^ 2 * tau_r) =
+        (s.jammingFactor ^ 2)⁻¹ ∧
+      s.ddfTelegrapherResidual c_th0 tau_r d2T_dt2 dT_dt d2T_dx2 /
+          s.ddfLongitudinalDiffusivity c_th0 tau_r =
+        (s.jammingFactor ^ 2 / c_th0 ^ 2) * d2T_dt2 +
+          (s.jammingFactor ^ 2 / (c_th0 ^ 2 * tau_r)) * dT_dt - d2T_dx2 ∧
+      (Complex.normSq (complexPluckerSinkAmplitudeA M_th) -
+          Complex.normSq (complexPluckerSinkAmplitudeB M_th)) / 2 = j_q ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M_th) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_th) = 1 - j_q ^ 2 ∧
+      0 < Complex.normSq (complexPluckerSinkAmplitudeA M_th) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_th) := by
+  intro M_sheath M_th
+  have h_vis_pos : 0 < s.coherenceVisibility :=
+    Real.sqrt_pos.mpr s.one_sub_betaSq_pos
+  have h_beta_sq_nonneg : 0 ≤ s.betaSq := by
+    unfold MovingSheath.betaSq
+    positivity
+  have h_vis_le_one : s.coherenceVisibility ≤ 1 := by
+    unfold MovingSheath.coherenceVisibility
+    exact Real.sqrt_le_one.mpr (by linarith)
+  have h_cs_pos : 0 < s.ddfSecondSoundSpeed c_th0 :=
+    mul_pos hc_pos h_vis_pos
+  have h_cs_le_c0 : s.ddfSecondSoundSpeed c_th0 ≤ c_th0 := by
+    unfold MovingSheath.ddfSecondSoundSpeed
+    exact mul_le_of_le_one_right (le_of_lt hc_pos) h_vis_le_one
+  have h_cs_le_c : s.ddfSecondSoundSpeed c_th0 ≤ sub.c :=
+    le_trans h_cs_le_c0 hc_le
+  have h_diff_jam :
+      s.ddfLongitudinalDiffusivity c_th0 tau_r =
+        (c_th0 ^ 2 * tau_r) * (s.jammingFactor ^ 2)⁻¹ := by
+    unfold MovingSheath.ddfLongitudinalDiffusivity MovingSheath.ddfSecondSoundSpeed
+    rw [(s.visibility_jamming_duality).1]
+    ring
+  have hc0_ne : c_th0 ≠ 0 := ne_of_gt hc_pos
+  have htau_ne : tau_r ≠ 0 := ne_of_gt htau_pos
+  have hjam_ne : s.jammingFactor ≠ 0 := ne_of_gt s.jammingFactor_pos
+  have h_ratio_jam :
+      s.ddfLongitudinalDiffusivity c_th0 tau_r / (c_th0 ^ 2 * tau_r) =
+        (s.jammingFactor ^ 2)⁻¹ := by
+    have hc0_tau_ne : c_th0 ^ 2 * tau_r ≠ 0 := by positivity
+    rw [h_diff_jam, mul_div_cancel_left₀ _ hc0_tau_ne]
+  have h_mad := s.gr24TwistorMatrix_madelung_sector_identities d wavelength L Δℓ φ x
+  have h_sheath_prod :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_sheath) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_sheath) =
+        (s.jammingFactor ^ 2)⁻¹ :=
+    h_mad.2.2.2.2.1.trans h_mad.2.2.2.2.2
+  have h_ratio_plucker :
+      s.ddfLongitudinalDiffusivity c_th0 tau_r / (c_th0 ^ 2 * tau_r) =
+        Complex.normSq (complexPluckerSinkAmplitudeA M_sheath) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_sheath) :=
+    h_ratio_jam.trans h_sheath_prod.symm
+  have h_tele :
+      s.ddfTelegrapherResidual c_th0 tau_r d2T_dt2 dT_dt d2T_dx2 /
+          s.ddfLongitudinalDiffusivity c_th0 tau_r =
+        (s.jammingFactor ^ 2 / c_th0 ^ 2) * d2T_dt2 +
+          (s.jammingFactor ^ 2 / (c_th0 ^ 2 * tau_r)) * dT_dt - d2T_dx2 := by
+    unfold MovingSheath.ddfTelegrapherResidual
+    rw [h_diff_jam]
+    field_simp [hc0_ne, htau_ne, hjam_ne]
+  have h1p : 0 ≤ 1 + j_q := by linarith
+  have h1m : 0 ≤ 1 - j_q := by linarith
+  have h_minors := complexGr24ChannelMatrix_minors
+    (↑(Real.sqrt (1 + j_q) * Real.cos θ) + Complex.I * ↑(Real.sqrt (1 + j_q) * Real.sin θ))
+    (↑(Real.sqrt (1 - j_q) * Real.cos θ) - Complex.I * ↑(Real.sqrt (1 - j_q) * Real.sin θ))
+  have h_wA :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_th) = 1 + j_q := by
+    dsimp [M_th, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeA]
+    rw [h_minors.1]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 + j_q)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 + j_q := by rw [Real.sq_sqrt h1p, Real.cos_sq_add_sin_sq, mul_one]
+  have h_wB :
+      Complex.normSq (complexPluckerSinkAmplitudeB M_th) = 1 - j_q := by
+    dsimp [M_th, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeB]
+    rw [h_minors.2.1]
+    simp only [Complex.normSq_apply, Complex.sub_re, Complex.sub_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 - j_q)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 - j_q := by rw [Real.sq_sqrt h1m, Real.cos_sq_add_sin_sq, mul_one]
+  have h_jq_rec :
+      (Complex.normSq (complexPluckerSinkAmplitudeA M_th) -
+          Complex.normSq (complexPluckerSinkAmplitudeB M_th)) / 2 = j_q := by
+    rw [h_wA, h_wB]
+    ring
+  have h_th_prod :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_th) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_th) = 1 - j_q ^ 2 := by
+    rw [h_wA, h_wB]
+    ring
+  have h_th_pos :
+      0 < Complex.normSq (complexPluckerSinkAmplitudeA M_th) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_th) := by
+    rw [h_th_prod]
+    nlinarith
+  exact ⟨h_cs_pos, h_cs_le_c, h_ratio_plucker, h_ratio_jam, h_tele,
+    h_jq_rec, h_th_prod, h_th_pos⟩
+
+/-- **Exact $L^1$-Conserving Anisotropic Thermal Evolution of a Normed 2D Tensor Gaussian Splat**:
+Under anisotropic thermal diffusivities $(\alpha_1, \alpha_2) \ge 0$ over elapsed time
+$\Delta t \ge 0$, the principal variances evolve by the exact Green's-function convolution
+law $\sigma_1(t + \Delta t) = \sqrt{\sigma_1^2 + 2\alpha_1 \Delta t}$ and
+$\sigma_2(t + \Delta t) = \sqrt{\sigma_2^2 + 2\alpha_2 \Delta t}$, preserving total
+thermal weight $w$ identically. -/
+@[blueprint "def:signals-ddf-splat2d-evolve-thermal"
+  (title := "Anisotropic thermal diffusion evolution of a NormedTensorGaussianSplat2D")
+  (statement := /-- Evolve \texttt{splat : NormedTensorGaussianSplat2D} over $\Delta t\ge 0$
+    with principal diffusivities $\alpha_1,\alpha_2\ge 0$ via
+    $\sigma_i \mapsto \sqrt{\sigma_i^2 + 2\alpha_i\Delta t}$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.evolveThermal
+    (splat : NormedTensorGaussianSplat2D) (alpha1 alpha2 dt : ℝ)
+    (h_a1 : 0 ≤ alpha1) (h_a2 : 0 ≤ alpha2) (h_dt : 0 ≤ dt) :
+    NormedTensorGaussianSplat2D :=
+  { centerX := splat.centerX
+    centerY := splat.centerY
+    weight := splat.weight
+    weight_nonneg := splat.weight_nonneg
+    sigma1 := Real.sqrt (splat.sigma1 ^ 2 + 2 * alpha1 * dt)
+    sigma1_pos := by
+      apply Real.sqrt_pos.mpr
+      have hs1 : 0 < splat.sigma1 ^ 2 := sq_pos_of_pos splat.sigma1_pos
+      have h_add : 0 ≤ 2 * alpha1 * dt := by positivity
+      linarith
+    sigma2 := Real.sqrt (splat.sigma2 ^ 2 + 2 * alpha2 * dt)
+    sigma2_pos := by
+      apply Real.sqrt_pos.mpr
+      have hs2 : 0 < splat.sigma2 ^ 2 := sq_pos_of_pos splat.sigma2_pos
+      have h_add : 0 ≤ 2 * alpha2 * dt := by positivity
+      linarith
+    orientationAngle := splat.orientationAngle }
+
+/-- **Unified Grassmannian $Gr_{\mathbb{C}}(2,4)$–DDF Thermal Transport & Tensor Splat Evolution Theorem**:
+For any `s : MovingSheath sub`, rest-frame second-sound speed $0 < c_{\mathrm{th},0} \le c$,
+relaxation time $\tau_r > 0$, and `splat : NormedTensorGaussianSplat2D`:
+1. **Strict Subluminal Causality**: $0 < c_{\mathrm{th}}^{\mathrm{DDF}}(s) \le c_{\mathrm{th},0} \le c$,
+2. **Lorentz-Jammed Longitudinal Diffusivity**:
+   $\alpha_\parallel^{\mathrm{DDF}}(s) = (c_{\mathrm{th},0}^2 \tau_r)\,\bigl(\gamma_\varphi(v)^2\bigr)^{-1}$,
+3. **Exact Tensor Splat Covariance Determinant Bridge**:
+   For `splat_ddf := s.ddfTensorSplat ...`,
+   $\frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{c_{\mathrm{th},0}^2 \tau_r} = \frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4} = \bigl(\gamma_\varphi(v)^2\bigr)^{-1}$, and
+4. **Exact $L^1$ Thermal Energy Conservation & Linear Covariance Trace Growth**:
+   `(splat.evolveThermal alpha1 alpha2 dt ...).weight = splat.weight` and
+   `(splat.evolveThermal alpha1 alpha2 dt ...).covTrace = splat.covTrace + 2 * (alpha1 + alpha2) * dt`. -/
+@[blueprint "thm:signals-ddf-thermal-transport-and-splat"
+  (title := "Unified Grassmannian-DDF subluminal second sound, jammed diffusivity, and thermal splat evolution theorem")
+  (statement := /-- For \texttt{s : MovingSheath sub} with $0 < c_{\mathrm{th},0}\le c$ and $\tau_r>0$:
+    (1) $0 < s.\mathrm{ddfSecondSoundSpeed}\;c_{\mathrm{th},0} \le sub.c$,
+    (2) $s.\mathrm{ddfLongitudinalDiffusivity}\;c_{\mathrm{th},0}\;\tau_r = (c_{\mathrm{th},0}^2\tau_r)\,(s.\mathrm{jammingFactor}^2)^{-1}$,
+    (3) $\frac{s.\mathrm{ddfLongitudinalDiffusivity}\;c_{\mathrm{th},0}\;\tau_r}{c_{\mathrm{th},0}^2\tau_r} = \frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4}$, and
+    (4) \texttt{splat.evolveThermal} preserves \texttt{weight} and satisfies
+    $\operatorname{Tr}\Sigma(t+\Delta t) = \operatorname{Tr}\Sigma(t) + 2(\alpha_1+\alpha_2)\Delta t$. -/)
+  (proof := /-- Combine $0 < \mathcal{V}(s) \le 1$, $\mathcal{V}(s) = \gamma_\varphi(v)^{-1}$,
+    \texttt{ddfTensorSplat\_identities}, and $\sqrt{\sigma_i^2 + 2\alpha_i\Delta t}^2 = \sigma_i^2 + 2\alpha_i\Delta t$. -/)]
+theorem MovingSheath.ddfThermalTransport_and_splat_identities
+    {sub : DDFSubstrate} (s : MovingSheath sub)
+    (splat : NormedTensorGaussianSplat2D)
+    (centerX centerY weight sigma0 c_th0 tau_r alpha1 alpha2 dt orientationAngle : ℝ)
+    (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0)
+    (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c)
+    (htau_pos : 0 < tau_r)
+    (h_a1 : 0 ≤ alpha1) (h_a2 : 0 ≤ alpha2) (h_dt : 0 ≤ dt) :
+    let splat_ddf := s.ddfTensorSplat centerX centerY weight sigma0 hw h_sigma0 orientationAngle
+    let splat_evol := splat.evolveThermal alpha1 alpha2 dt h_a1 h_a2 h_dt
+    0 < s.ddfSecondSoundSpeed c_th0 ∧
+      s.ddfSecondSoundSpeed c_th0 ≤ sub.c ∧
+      s.ddfLongitudinalDiffusivity c_th0 tau_r =
+        (c_th0 ^ 2 * tau_r) * (s.jammingFactor ^ 2)⁻¹ ∧
+      s.ddfLongitudinalDiffusivity c_th0 tau_r / (c_th0 ^ 2 * tau_r) =
+        splat_ddf.covDet / sigma0 ^ 4 ∧
+      splat_evol.weight = splat.weight ∧
+      splat_evol.covTrace = splat.covTrace + 2 * (alpha1 + alpha2) * dt := by
+  intro splat_ddf splat_evol
+  have h_vis_pos : 0 < s.coherenceVisibility :=
+    Real.sqrt_pos.mpr s.one_sub_betaSq_pos
+  have h_beta_sq_nonneg : 0 ≤ s.betaSq := by
+    unfold MovingSheath.betaSq
+    positivity
+  have h_vis_le_one : s.coherenceVisibility ≤ 1 := by
+    unfold MovingSheath.coherenceVisibility
+    exact Real.sqrt_le_one.mpr (by linarith)
+  have h_cs_pos : 0 < s.ddfSecondSoundSpeed c_th0 :=
+    mul_pos hc_pos h_vis_pos
+  have h_cs_le_c0 : s.ddfSecondSoundSpeed c_th0 ≤ c_th0 := by
+    unfold MovingSheath.ddfSecondSoundSpeed
+    exact mul_le_of_le_one_right (le_of_lt hc_pos) h_vis_le_one
+  have h_cs_le_c : s.ddfSecondSoundSpeed c_th0 ≤ sub.c :=
+    le_trans h_cs_le_c0 hc_le
+  have h_diff_jam :
+      s.ddfLongitudinalDiffusivity c_th0 tau_r =
+        (c_th0 ^ 2 * tau_r) * (s.jammingFactor ^ 2)⁻¹ := by
+    unfold MovingSheath.ddfLongitudinalDiffusivity MovingSheath.ddfSecondSoundSpeed
+    rw [(s.visibility_jamming_duality).1]
+    ring
+  have h_bridge :
+      s.ddfLongitudinalDiffusivity c_th0 tau_r / (c_th0 ^ 2 * tau_r) =
+        splat_ddf.covDet / sigma0 ^ 4 := by
+    have h_ddf_id := s.ddfTensorSplat_identities centerX centerY weight sigma0 hw h_sigma0 orientationAngle
+    have h_det : splat_ddf.covDet = sigma0 ^ 4 * (s.jammingFactor ^ 2)⁻¹ := h_ddf_id.2.1
+    have hc0_ne : c_th0 ^ 2 * tau_r ≠ 0 := by positivity
+    have hs0_ne : sigma0 ^ 4 ≠ 0 := by positivity
+    rw [h_diff_jam, h_det, mul_div_cancel_left₀ _ hc0_ne, mul_div_cancel_left₀ _ hs0_ne]
+  have h_wt : splat_evol.weight = splat.weight := rfl
+  have h_tr : splat_evol.covTrace = splat.covTrace + 2 * (alpha1 + alpha2) * dt := by
+    dsimp [splat_evol, NormedTensorGaussianSplat2D.evolveThermal,
+      NormedTensorGaussianSplat2D.covTrace]
+    have hs1_nonneg : 0 ≤ splat.sigma1 ^ 2 + 2 * alpha1 * dt := by
+      have : 0 ≤ splat.sigma1 ^ 2 := sq_nonneg _
+      have : 0 ≤ 2 * alpha1 * dt := by positivity
+      linarith
+    have hs2_nonneg : 0 ≤ splat.sigma2 ^ 2 + 2 * alpha2 * dt := by
+      have : 0 ≤ splat.sigma2 ^ 2 := sq_nonneg _
+      have : 0 ≤ 2 * alpha2 * dt := by positivity
+      linarith
+    rw [Real.sq_sqrt hs1_nonneg, Real.sq_sqrt hs2_nonneg]
+    ring
+  exact ⟨h_cs_pos, h_cs_le_c, h_diff_jam, h_bridge, h_wt, h_tr⟩
 
 end Signals.DDF

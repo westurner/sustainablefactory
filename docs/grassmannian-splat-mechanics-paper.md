@@ -18,6 +18,7 @@ description: "An arXiv-ready formal verification and systems architecture paper 
   2. [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.myst.md)
   3. [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.myst.md)
   4. [Grassmannian Gravity from QED & Gauge Scattering Amplitudes: Complex $Gr_{\mathbb{C}}(2,4)$ Orbital Precession, Mercury's Perihelion, $N$-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4](grassmannian-gravity-from-qed-scattering-paper.md)
+  5. [Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4](grassmannian-thermal-compton-raman-paper.md)
 
 ---
 
@@ -80,13 +81,13 @@ To represent $M_{\mathbb{C}} \in Gr_{\mathbb{C}}(2,4)$ faithfully without losing
                                    │
          ┌─────────────────────────┴─────────────────────────┐
          ▼                                                   ▼
-┌─────────────────────────────────────────┐ ┌─────────────────────────────────────────┐
-│ LAYER 1: Anisotropic Covariance Tensor  │ │ LAYER 2: Coherent Twistor Wavepacket    │
-│  σ₁² = σ₀² |w_A^C|², σ₂² = σ₀² |w_B^C|² │ │  Ψ_splat = √G(x,y) · (w_A^C + w_B^C)    │
-│  • Tr Σ / σ₀² = |w_A^C|² + |w_B^C|²     │ │          = √G(x,y) · Δ_02^C Δ_13^C      │
-│  • (σ₁² - σ₂²)/(2σ₀²) = d_bary = β = e  │ │  • I_splat = G(x,y) |Δ_02^C Δ_13^C|²    │
+┌─────────────────────────────────────────┐ ┌──────────────────────────────────────────┐
+│ LAYER 1: Anisotropic Covariance Tensor  │ │ LAYER 2: Coherent Twistor Wavepacket     │
+│  σ₁² = σ₀² |w_A^C|², σ₂² = σ₀² |w_B^C|² │ │  Ψ_splat = √G(x,y) · (w_A^C + w_B^C)     │
+│  • Tr Σ / σ₀² = |w_A^C|² + |w_B^C|²     │ │          = √G(x,y) · Δ_02^C Δ_13^C       │
+│  • (σ₁² - σ₂²)/(2σ₀²) = d_bary = β = e  │ │  • I_splat = G(x,y) |Δ_02^C Δ_13^C|²     │
 │  • det Σ / σ₀⁴ = V² = γ_φ⁻² = p/a       │ │  • Exact dark-fringe null at w_A^C=-w_B^C│
-└─────────────────────────────────────────┘ └─────────────────────────────────────────┘
+└─────────────────────────────────────────┘ └──────────────────────────────────────────┘
 ```
 
 1. **Layer 1 — Covariance Tensor Dictionary (`MovingSheath.ddfTensorSplat_identities`, `PlanetaryOrbit.gr24TensorSplat_identities`)**:
@@ -107,6 +108,7 @@ namespace ArxivSplatMechanicsPaperVerification
 open Signals.Geometry
 open Signals.Coherence
 open Signals.Huygens
+open Signals.Scattering
 open Signals.DDF
 
 -- 1. Dual-layer Gr_C(2,4) twistor splat representation: crossing factorization, interference expansion, and dark-fringe null
@@ -123,11 +125,20 @@ example (splat : NormedTensorGaussianSplat2D) (M_C : Matrix (Fin 2) (Fin 4) ℂ)
   exact ⟨h.1, h.2.1, h.2.2.2⟩
 ```
 
+### 1.4 What Doesn't $Gr_{\mathbb{C}}(2,4)$ Cover in This Domain?
+
+While a complex 2-plane $M_{\mathbb{C}} \in Gr_{\mathbb{C}}(2,4)$ completely parameterizes **scale-free, unitary, two-channel phase and barycentric coherence**, four physical features lie strictly **outside** bare projective $Gr_{\mathbb{C}}(2,4)$ and are supplied by the paired `NormedTensorGaussianSplat2D`, `Signals.Scattering`, and `Signals.DDF` layers (detailed in [grassmannian-thermal-compton-raman-paper.md](grassmannian-thermal-compton-raman-paper.md)):
+
+1. **Absolute Rest-Mass & Klein–Nishina Recoil Scale ($m_e c^2$)**: Homogeneous projective $Gr_{\mathbb{C}}(2,4)$ is conformally scale-free ($M_{\mathbb{C}} \sim g M_{\mathbb{C}}$) and encodes the massless Thomson Inverse Compton Doppler upshift $\frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2} = \frac{1+\beta}{1-\beta}$, but not the electron rest-mass recoil denominator $1 + \epsilon_{\mathrm{rec}}$ (`inverseCompton_thomson_and_recoil_identities`), which requires an infinity twistor $I_{\alpha\beta}$ or DDF cutoff $(\varrho_{\max}^\varphi, j_{\min}^\varphi)$.
+2. **Spontaneous Vacuum Fluctuations & Open-System Thermal Asymmetry**: Unitary $Gr_{\mathbb{C}}(2,4)$ captures coherent 4-wave mixing (CARS/SRS) and the Stokes/anti-Stokes ratio $\frac{\omega_{AS}}{\omega_S} = \frac{1+\delta_R}{1-\delta_R}$, whereas the spontaneous thermal Boltzmann factor $\exp(-\hbar\Omega_v/(k_B T)) < 1$ (`raman_stokes_antiStokes_gr24_identities`) requires coupling to a Bose–Einstein phonon bath.
+3. **$N \ge 3$ Multi-Phonon & Multi-Aperture Cascades**: A single $Gr_{\mathbb{C}}(2,4)$ element has $\binom{4}{2} = 6$ Plücker coordinates for a binary 2-channel split; $N \ge 3$ slits or multi-phonon Raman overtones require lifting to $Gr_{\mathbb{C}}(2, N+2)$.
+4. **Irreversible Entropy Production & Thermal Variance Growth**: Symplectic Anosov flows preserve $\det\Sigma$, whereas diffusive entropy production requires positive thermal relaxation ($\tau_r > 0$) and semigroup variance evolution $\sigma_i^2(t+\Delta t) = \sigma_i^2(t) + 2\alpha_i\Delta t$ (`NormedTensorGaussianSplat2D.evolveThermal`).
+
 ---
 
-## 2. Advantages, Limitations, and Justification Across All Four `grassmannian-*-paper` Domains
+## 2. Advantages, Limitations, and Justification Across All Five `grassmannian-*-paper` Domains
 
-The table below synthesizes the mathematical justification, computational advantages, and physical/numerical limitations of normed Tensor Gaussian Splatters across each of the four companion papers:
+The table below synthesizes the mathematical justification, computational advantages, and physical/numerical limitations of normed Tensor Gaussian Splatters across each of the five companion papers:
 
 | Companion Paper & Domain | How Normed Tensor Gaussian Splats Enter the Mechanics | Key Mathematical & Computational Advantages | Explicit Limitations & Required Hybrid Controls |
 |---|---|---|---|
@@ -135,6 +146,7 @@ The table below synthesizes the mathematical justification, computational advant
 | **2. QISM, Algebraic Bethe Ansatz, & Soliton Bus** ([grassmannian-qism-bethe-ansatz-paper.myst.md](grassmannian-qism-bethe-ansatz-paper.myst.md)) | Solitonic wavepackets in `Signals.SolitonBus`, $2 \times 2$ Lax/monodromy covariance transport, and $GL(2)$ basis-change updates | • $GL(2)$ basis changes $M \mapsto B M$ (`twoRowMinor_basisChange`) act as affine matrix updates $\Sigma \mapsto B \Sigma B^T$ instead of $2^N$ Hilbert-space matrix multiplications<br>• Non-singular covariance ($\det\Sigma > 0$) mirrors MTV Casorati Wronskian nondegeneracy (`mtv_wronskian_nondegenerate_of_root`) | • **Limitation 1**: Exact discrete spin-chain Bethe roots ($Q_+(u_m) = 0$) and $2 \times 2$ Slavnov Pauli-exclusion zeros (`slavnovDet2_pauli_exclusion`) are exact polynomial/determinant identities; Gaussian splats model continuum NLSE soliton envelopes or Husimi phase-space projections, not discrete spin-chain combinatorics |
 | **3. Dilatant Dark Fluid (DDF) Moving Sheaths & Anosov Flows** ([grassmannian-ddf-moving-sheath-paper.myst.md](grassmannian-ddf-moving-sheath-paper.myst.md)) | `MovingSheath.ddfTensorSplat` ($\sigma_1 = \sigma_0/\gamma_\varphi(v)$, $\sigma_2 = \sigma_0$) and `NormedTensorGaussianSplat2D.coreBohmPotential` | • **Built-in Continuity**: $L^1$ normalization $w\,\mathcal{N}(\Sigma)$ conserves mass/energy analytically without Poisson pressure solvers<br>• **Lorentz Jamming**: $\det\Sigma_{\mathrm{DDF}} = \sigma_0^4\gamma_\varphi(v)^{-2}$ and $\mathcal{N}_{\mathrm{DDF}} = \frac{\gamma_\varphi(v)}{2\pi\sigma_0^2}$<br>• **Core Singularity Regularization**: Repulsive Bohm quantum potential $Q_{\mathrm{core}}^{\mathrm{DDF}} = \frac{\hbar^2}{4m\sigma_0^2}(\gamma_\varphi(v)^2 + 1) > 0$ prevents cavitation/horizon blow-up<br>• **Symplectic Anosov Invariance**: $\operatorname{diag}(e^{\lambda t}, e^{-\lambda t})$ preserves $\det\Sigma$ | • **Limitation 1**: Under long-time chaotic Anosov stretching ($\lambda t \gg 1$), a single Gaussian splat becomes arbitrarily thin and elongated, requiring dynamic splat splitting/remeshing to resolve curved streamlines<br>• **Limitation 2**: Hard shock discontinuities (e.g. Sod shock tube in `FlowFieldDataset`) are smoothed over the scale $\sigma_1$ |
 | **4. QED Scattering Gravity, Mercury's Perihelion, & $N$-Body Orbits** ([grassmannian-gravity-from-qed-scattering-paper.md](grassmannian-gravity-from-qed-scattering-paper.md)) | `PlanetaryOrbit.gr24TensorSplat` ($\sigma_{1,2} = \sigma_0\sqrt{1\pm e}$) and multi-layer `OrbitalSplatScene` | • Encodes the precessing Keplerian orbit in one $2 \times 2$ tensor with $\operatorname{Tr}\Sigma = 2\sigma_0^2$, $\det\Sigma = \sigma_0^4(1-e^2) = \sigma_0^4(p/a)$, and orientation $\varpi(t)$<br>• Softens $1/r \to \infty$ close-encounter singularities in $N$-body sink-flow interactions | • **Limitation 1**: A single Gaussian decays exponentially ($\exp(-r^2/(2\sigma^2))$), whereas Newtonian/Bernoulli gravity $\Phi_\phi(r) = -G_\phi M / r$ is long-ranged ($1/r$). Long-range orbital forces require either a multi-scale Gaussian sum ($\frac{1}{r} = \frac{2}{\sqrt{\pi}}\int_0^\infty e^{-u^2 r^2}du$) or hybridizing exact $1/r$ sink potentials with Gaussian field/core splats (as in `orbital_splat.frag.glsl`) |
+| **5. Inverse Compton, Stokes/Anti-Stokes Raman, & Unified Grassmannian–DDF Heat Transport** ([grassmannian-thermal-compton-raman-paper.md](grassmannian-thermal-compton-raman-paper.md)) | `MovingSheath.inverseCompton_gr24_identities`, `raman_stokes_antiStokes_gr24_identities`, and `NormedTensorGaussianSplat2D.evolveThermal` | • Forward/backward Plücker ratio $\frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2} = \frac{\sigma_1^2}{\sigma_2^2} = \frac{1+\beta}{1-\beta}$ gives exact Thomson Inverse Compton upshift & Raman $\frac{\omega_{AS}}{\omega_S} = \frac{1+\delta_R}{1-\delta_R}$<br>• Subluminal DDF second-sound diffusivity $\frac{\alpha_\parallel^{\mathrm{DDF}}}{\alpha_0} = \frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4} = \gamma_\varphi(v)^{-2}$<br>• Exact $L^1$-conserving thermal splat variance update $\sigma_i^2 \mapsto \sigma_i^2 + 2\alpha_i\Delta t$ | • **Limitation 1**: Parabolic Gaussian diffusion has acausal phase speed $\sqrt{2\alpha\omega} \to \infty$ unless regularized by Cattaneo–Vernotte relaxation $\tau_r > 0$ and DDF second-sound bound $c_{\mathrm{th}}^{\mathrm{DDF}} \le c$<br>• **Limitation 2**: Klein–Nishina recoil ($1 + \epsilon_{\mathrm{rec}}$) and spontaneous Raman Boltzmann factors ($e^{-\hbar\Omega_v/(k_B T)}$) require explicit mass/thermal bath parameters outside projective $Gr_{\mathbb{C}}(2,4)$ |
 
 ### 2.1 Machine-Checked Core Bohm Quantum Potential & Madelung Quantum Pressure Tensor (`coreBohmPotential_identities`, `quantumPressureTensor_identities`)
 
@@ -196,6 +208,41 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (orb : PlanetaryOrbit)
     s splat_ddf 0 0 5 2 1 1 θ x y (by norm_num) (by norm_num) (by norm_num)
   have h_orb := orb.gr24TensorSplat_identities 0 0 3 2 (by norm_num) (by norm_num) ϖ
   exact ⟨h_ddf.2.1, h_ddf.2.2, h_bohm.2.2, h_qp.1, h_qp.2.2.2, h_orb.1, h_orb.2.2⟩
+
+-- 3. Relativistic Inverse Compton Gr_C(2,4) Plücker ratio, Raman channel inversion, and Splat-Free Continuum vs. Tensor Splat DDF thermal evolution
+example {sub : DDFSubstrate} (s : MovingSheath sub)
+    (splat : NormedTensorGaussianSplat2D) (c_th0 : ℝ)
+    (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c) (θ : ℝ) :
+    let M_C := s.gr24TwistorMatrix 6 1 5 2 0 0
+    let M_th := ddfThermalGr24Matrix (3 / 5) θ
+    let splat_ddf := s.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
+    let splat_evol := splat.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)
+    Complex.normSq (complexPluckerSinkAmplitudeA M_C) /
+        Complex.normSq (complexPluckerSinkAmplitudeB M_C) =
+      inverseComptonDopplerRatio s.beta ∧
+    reconstructSpectralDiff (ramanAntiStokesFreq 10 2) (ramanStokesFreq 10 2) = 10 ∧
+    s.ddfSecondSoundSpeed c_th0 ≤ sub.c ∧
+    s.ddfLongitudinalDiffusivity c_th0 (1 / 2) / (c_th0 ^ 2 * (1 / 2)) =
+      Complex.normSq (complexPluckerSinkAmplitudeA M_C) *
+        Complex.normSq (complexPluckerSinkAmplitudeB M_C) ∧
+    (Complex.normSq (complexPluckerSinkAmplitudeA M_th) -
+        Complex.normSq (complexPluckerSinkAmplitudeB M_th)) / 2 = 3 / 5 ∧
+    s.ddfLongitudinalDiffusivity c_th0 (1 / 2) / (c_th0 ^ 2 * (1 / 2)) =
+      splat_ddf.covDet / 2 ^ 4 ∧
+    splat_evol.covTrace = splat.covTrace + 2 * (1 + 2) * 3 := by
+  intro M_C M_th splat_ddf splat_evol
+  have h_ics := s.inverseCompton_gr24_identities 6 1 5 2 0 0
+  have h_ram := raman_stokes_antiStokes_gr24_identities
+    10 2 (1 / 2) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_cont := s.ddfThermalTransport_continuum_identities
+    c_th0 (1 / 2) 6 1 5 0 0 4 2 (-1) (3 / 5) θ 2
+    hc_pos hc_le (by norm_num) (by norm_num) (by norm_num)
+  have h_th := s.ddfThermalTransport_and_splat_identities
+    splat 0 0 5 2 c_th0 (1 / 2) 1 2 3 θ
+    (by norm_num) (by norm_num) hc_pos hc_le (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_ics.1, h_ram.1, h_cont.2.1, h_cont.2.2.1, h_cont.2.2.2.2.2.1,
+    h_th.2.2.2.1, h_th.2.2.2.2.2⟩
 
 end ArxivSplatMechanicsPaperVerification
 ```

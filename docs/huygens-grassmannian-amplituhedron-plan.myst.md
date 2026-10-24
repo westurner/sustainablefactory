@@ -1210,6 +1210,170 @@ example (x y : ℝ) :
         3 2 4 6 1 5 (Real.sqrt (1 - (3 / 5 : ℝ) ^ 2)) x y) = 0 :=
   Signals.Huygens.complexGr24CrossingDoubleSlit_barycentric_eq_huygensSteiner
     3 2 4 6 1 5 (3 / 5) x y (by norm_num) (by norm_num)
+```
+
+### Iteration 25: Quantum Inverse Scattering Method (QISM), $8 \times 8$ Matrix Quantum Yang--Baxter Equation, $Gr(2,4)$ Baxter $QQ/TQ$ Wronskians, and $N$-Slit ($N > 0$) Generalization
+
+Implemented across [QISM.lean](../src/signals/Signals/QISM.lean),
+[Scattering.lean](../src/signals/Signals/Scattering.lean),
+[OAM.lean](../src/signals/Signals/OAM.lean),
+[Huygens.lean](../src/signals/Signals/Huygens.lean),
+[SolitonBus.lean](../src/signals/Signals/SolitonBus.lean), and the Rust/WASM/GLSL
+crate (`src/signals/numerical_adapter/src/double_slit.rs`), and documented in
+[grassmannian-qism-bethe-ansatz-paper.myst.md](grassmannian-qism-bethe-ansatz-paper.myst.md)
+and [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md):
+
+- **Yang's Rational $R$-Matrix & Full $8 \times 8$ Matrix Quantum Yang--Baxter Equation**:
+  Proved regularity $R(0;\eta) = \eta P$, quantum unitarity, the three-site scalar
+  braid identity, and the full $8 \times 8$ matrix Quantum Yang--Baxter Equation
+  (`yangRMatrix8_quantum_yang_baxter`) on $(\mathbb{R}^2)^{\otimes 3}$.
+- **$Gr(2,4)$ Baxter $QQ/TQ$ System, MTV Nondegeneracy, and Slavnov Determinants**:
+  Proved that a 2-plane $W = \operatorname{span}\{Q_+, Q_-\}$ evaluated at four
+  spectral points satisfies Baxter's $QQ$-system via the 3-term Pluecker relation,
+  solves Baxter's $TQ$ equation via 3-point Casorati Wronskians (`baxterTQResidual_wronskian_zero`),
+  excludes spurious $0/0$ Bethe roots under Mukhin--Tarasov--Varchenko nondegeneracy
+  (`mtv_wronskian_nondegenerate_of_root`), and compresses two-magnon scalar products
+  into $2 \times 2$ Slavnov minors (`slavnovDet2_pauli_exclusion`).
+- **OAM $Gr_{\mathbb{C}}(2,4)$ Barycentric Equivalence & $N$-Slit ($N > 0$) Grating**:
+  Proved `complexGr24CrossingOAMDoubleSlit_barycentric_eq_huygensSteinerOAM` and
+  generalized all five double-slit models to $N > 0$ slits (`fraunhoferMultiSlit`,
+  `huygensSteinerMultiSlit`, `gr24PluckerMultiSlit`, `pilotWaveMultiSlit`,
+  `wignerMultiSlit`) with exact $N=1$ and $N=2$ reductions and a verified
+  `SolitonBus.Gr24MultiSlitOAMCoupler`.
+
+### Iteration 26: Pluecker Sink-Flux Hydrodynamics, Dilatant Dark Fluid (DDF) Moving Sheaths, Anosov Symplectic Invariance, and $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Sorkin Triple-Slit Unification
+
+Implemented in [DDF.lean](../src/signals/Signals/DDF.lean),
+[Geometry.lean](../src/signals/Signals/Geometry.lean), and
+[Huygens.lean](../src/signals/Signals/Huygens.lean), and documented in
+[grassmannian-ddf-moving-sheath-paper.myst.md](grassmannian-ddf-moving-sheath-paper.myst.md):
+
+- **Reciprocal Visibility--Jamming Duality & Critique Resolutions**:
+  Identified $|d_{\mathrm{bary}}|$ with the reduced sheath speed $\beta = v/c \in [0, 1)$
+  of a subluminal `MovingSheath`, proving $\mathcal{V}(s) = \gamma_\varphi(v)^{-1}$,
+  $\varepsilon_{\mathrm{rel}}(0,0) = \frac{\gamma_\varphi(v)-1}{2\gamma_\varphi(v)} = \frac{K_D(v)}{2 E_\varphi(v)}$,
+  tight quadratic bounds $\beta^2/4 \le \varepsilon_{\mathrm{rel}} \le \beta^2/2$,
+  exact Anosov symplectic Pluecker invariance (`anosov_plucker_invariance`), projective
+  $GL(2,\mathbb{R})$ jamming invariance (`normalizedBarycentricShift_basisChange_invariant`),
+  and constitutive DDF substrate recovery $\varrho_{\max}^\varphi j_{\min}^\varphi = 4\varepsilon(1-\varepsilon)/v^2$.
+- **Master $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ ($N \ge 3$) Unification**:
+  Constructed `MovingSheath.gr24TwistorMatrix` and `complexGr2NChannelMatrix`, proving
+  `gr24TwistorMatrix_crossing_eq_ddf_oam_intensity`, `complexGr2N_collector_eq_channel_sum`,
+  `tripleSlit_peak_and_secondary_null` (peak $9$, secondary null at $\beta = \pi/3$), and
+  vanishing Sorkin third-order quantum interference parameter $\kappa_3 = 0$
+  (`gr25TripleSlitTwistorMatrix_madelung_sector_identities`).
+
+### Iteration 27: Grassmannian Gravity from QED/Gauge Scattering Amplitudes, BCJ Double Copy on $Gr_{\mathbb{C}}(2,4)$, Precessing Polar Conics, and Mercury's $42.98''/\text{cy}$ Perihelion Precession
+
+Implemented in [DDF.lean](../src/signals/Signals/DDF.lean) and
+`src/signals/numerical_adapter/src/orbital_splat.rs`, and documented in
+[grassmannian-gravity-from-qed-scattering-paper.md](grassmannian-gravity-from-qed-scattering-paper.md):
+
+- **BCJ Color--Kinematics Duality & Double Copy on $Gr_{\mathbb{C}}(2,4)$ (`bcj_plucker_jacobi_and_double_copy`)**:
+  Proved that the Pluecker channel products $(n_s, n_t, n_u) = (\Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}, -\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}, \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}})$
+  satisfy the kinematic Jacobi identity $n_s + n_t + n_u = 0$ and the graviton double-copy
+  square $n_t^2 = n_s^2 + 2 n_s n_u + n_u^2$.
+- **Planetary Orbits, Precessing Conic Turning Points, & Mercury's Perihelion Precession**:
+  Formalized `PlanetaryOrbit`, proved Kepler's Third Law (`kepler_third_law`),
+  precessing polar conic turning points $r(\varphi) = p / (1 + e\cos((1-\eta)(\varphi-\varpi)))$
+  (`precessingRadius_perihelion_and_aphelion`), the exact $\pi$-free arcsecond law
+  $\Delta\varpi_{\mathrm{arcsec}} = 1944000\,r_H / p$ (`perihelionPrecessionArcsecPerOrbit_eq`),
+  and machine-checked rational bounds for Mercury's anomalous $42.98''/\text{century}$
+  and total $574.61''/\text{century}$ precession (`mercury_perihelion_precession_arcsec_per_century_bounds`),
+  together with the $N$-body $Gr_{\mathbb{C}}(2, N+2)$ sink potential (`nBodyBernoulliPotential_eq_gr2NCollector`).
+
+### Iteration 28: Normed 2D Anisotropic Tensor Gaussian Splat Mechanics, Dual-Layer $Gr_{\mathbb{C}}(2,4)$ Twistor Wavepackets, Core Bohm Potential, and Madelung Quantum Pressure Tensor $\Pi_{ij}$
+
+Implemented in [DDF.lean](../src/signals/Signals/DDF.lean) and
+`src/signals/numerical_adapter/src/orbital_splat.rs` (with WebGL2 `#version 300 es`
+shaders `orbital_splat.vert.glsl` and `orbital_splat.frag.glsl`), and documented in
+[grassmannian-splat-mechanics-paper.md](grassmannian-splat-mechanics-paper.md):
+
+- **Dual-Layer $Gr_{\mathbb{C}}(2,4)$ Twistor Splat Representation (`complexTwistor_representation_identities`)**:
+  Resolved the limitation that a purely real Gaussian density $G(x,y) \ge 0$ omits the
+  Penrose twistor phase by pairing Layer 1 covariance ($\det\Sigma_{\mathrm{DDF}} = \sigma_0^4\gamma_\varphi(v)^{-2}$,
+  $\det\Sigma_{Gr_{\mathbb{C}}(2,4)} = \sigma_0^4(p/a)$) with Layer 2 coherent wavepacket
+  $\Psi_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = \sqrt{G(x,y)}\,\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}})$,
+  proving exact dark-fringe cancellation at $w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = 0$.
+- **Core Bohm Quantum Potential & Madelung Quantum Pressure Tensor (`coreBohmPotential_identities`, `quantumPressureTensor_identities`)**:
+  Proved that $-\partial_i\partial_j \ln G(x,y) = (\Sigma^{-1})_{ij}$ reduces the
+  Madelung quantum pressure tensor to precision-matrix algebra:
+  $$Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4 m\,\det\Sigma} > 0, \qquad
+  \operatorname{Tr}\Pi(x,y) = \frac{1}{m}\,Q_{\mathrm{core}}(\Sigma)\,G(x,y), \qquad
+  \Pi_{11}^{\mathrm{DDF}}(x,y) = \gamma_\varphi(v)^2\,\Pi_{22}^{\mathrm{DDF}}(x,y).$$
+
+### Iteration 29: Inelastic Scattering (Inverse Compton & Stokes/Anti-Stokes Raman), What $Gr_{\mathbb{C}}(2,4)$ Does Not Cover, and the Heat Problem (Fourier, Cattaneo--Vernotte, Splat-Free Continuum $Gr_{\mathbb{C}}(2,4)$--DDF, and Thermal Splat Evolution)
+
+Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
+[DDF.lean](../src/signals/Signals/DDF.lean), and
+`src/signals/numerical_adapter/src/thermal_inelastic.rs`, and documented in
+[grassmannian-thermal-compton-raman-paper.md](grassmannian-thermal-compton-raman-paper.md):
+
+- **Relativistic Inverse Compton & Stokes/Anti-Stokes Raman on $Gr_{\mathbb{C}}(2,4)$**:
+  Proved `MovingSheath.inverseCompton_gr24_identities`
+  ($\frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2} = \frac{1+\beta}{1-\beta} = \gamma_\varphi(v)^2(1+\beta)^2$),
+  `inverseCompton_thomson_and_recoil_identities` (Klein--Nishina recoil suppression
+  for $\epsilon_{\mathrm{rec}} > 0$), and `raman_stokes_antiStokes_gr24_identities`
+  (exact recovery of $\omega_L, \Omega_v$ via `reconstructSpectralDiff` and
+  `reconstructYangCoupling`, Pluecker ratio $\frac{\omega_{AS}}{\omega_S} = \frac{1+\delta_R}{1-\delta_R}$,
+  and Boltzmann thermal suppression $R_{AS/S}(\xi) < (\omega_{AS}/\omega_S)^4$).
+- **Explicit Domain Boundaries — What Bare Projective $Gr_{\mathbb{C}}(2,4)$ Does Not Cover**:
+  Cataloged and proved the four structural boundaries requiring data beyond
+  scale-free unitary $Gr_{\mathbb{C}}(2,4)$: (1) absolute mass/recoil scales ($m_e c^2$,
+  infinity twistor $I_{\alpha\beta}$, DDF cutoff $\varrho_{\max}^\varphi j_{\min}^\varphi$),
+  (2) spontaneous vacuum fluctuations ($\bar{n}+1$ vs. $\bar{n}$) and thermal bath
+  factors $e^{-\hbar\Omega_v/(k_B T)}$, (3) $N \ge 3$ multi-channel overtones/cascades
+  (requiring $Gr_{\mathbb{C}}(2, N+2)$), and (4) irreversible entropy production and
+  thermal relaxation ($\tau_r > 0$).
+- **The Heat Problem — Fourier, Cattaneo--Vernotte, Splat-Free Continuum $Gr_{\mathbb{C}}(2,4)$--DDF, and Tensor Splat Evolution**:
+  Proved Fourier's acausal high-frequency phase-speed divergence
+  (`FourierHeatModel.diffusivity_pos_and_acausal_speed`), Cattaneo--Vernotte
+  hyperbolic second-sound factorization (`CattaneoVernotteHeatModel.identities`),
+  the **splat-free continuum** Grassmannian--DDF thermal transport and Pluecker
+  flux-limiter theorem (`MovingSheath.ddfThermalTransport_continuum_identities`),
+  and the $L^1$-conserving anisotropic thermal splat evolution theorem
+  (`MovingSheath.ddfThermalTransport_and_splat_identities`).
+
+```lean
+-- Iteration 25-29 verification: Inverse Compton, Raman inversion, Splat-Free Continuum DDF Heat Transport, and Tensor Splat Evolution
+example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
+    (m_cv : Signals.DDF.CattaneoVernotteHeatModel)
+    (splat : Signals.DDF.NormedTensorGaussianSplat2D)
+    (c_th0 : ℝ) (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c) (θ : ℝ) :
+    let M_sheath := s.gr24TwistorMatrix 6 1 5 2 0 0
+    let M_th := Signals.DDF.ddfThermalGr24Matrix (3 / 5) θ
+    let splat_ddf := s.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
+    let splat_evol := splat.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)
+    Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_sheath) /
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_sheath) =
+      Signals.Scattering.inverseComptonDopplerRatio s.beta ∧
+    Signals.Scattering.reconstructSpectralDiff
+      (Signals.Scattering.ramanAntiStokesFreq 10 2)
+      (Signals.Scattering.ramanStokesFreq 10 2) = 10 ∧
+    s.ddfSecondSoundSpeed c_th0 ≤ sub.c ∧
+    s.ddfLongitudinalDiffusivity c_th0 m_cv.relaxationTime /
+        (c_th0 ^ 2 * m_cv.relaxationTime) =
+      Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_sheath) *
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_sheath) ∧
+    (Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_th) -
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_th)) / 2 = 3 / 5 ∧
+    s.ddfLongitudinalDiffusivity c_th0 m_cv.relaxationTime /
+        (c_th0 ^ 2 * m_cv.relaxationTime) =
+      splat_ddf.covDet / 2 ^ 4 ∧
+    splat_evol.covTrace = splat.covTrace + 2 * (1 + 2) * 3 := by
+  intro M_sheath M_th splat_ddf splat_evol
+  have h_ics := s.inverseCompton_gr24_identities 6 1 5 2 0 0
+  have h_ram := Signals.Scattering.raman_stokes_antiStokes_gr24_identities
+    10 2 (1 / 2) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_cont := s.ddfThermalTransport_continuum_identities
+    c_th0 m_cv.relaxationTime 6 1 5 0 0 4 2 (-1) (3 / 5) θ 2
+    hc_pos hc_le m_cv.relaxationTime_pos (by norm_num) (by norm_num)
+  have h_th := s.ddfThermalTransport_and_splat_identities
+    splat 0 0 5 2 c_th0 m_cv.relaxationTime 1 2 3 θ
+    (by norm_num) (by norm_num) hc_pos hc_le m_cv.relaxationTime_pos
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_ics.1, h_ram.1, h_cont.2.1, h_cont.2.2.1, h_cont.2.2.2.2.2.1,
+    h_th.2.2.2.1, h_th.2.2.2.2.2⟩
 
 end HuygensGeometryRoadmap
 ```
@@ -1223,9 +1387,9 @@ end HuygensGeometryRoadmap
 | 2 | Actual measured-cell weights, derived Lipschitz/mesh/area error rate, refinement convergence, uniform-domain comparison, finite-aperture correspondence, and the analytic Fraunhofer rectangular double-slit benchmark with proved on-axis maximum, symmetry, interference dark fringes, and diffraction envelope nulls. | Prove uniform optical-kernel regularity from separation and a wavelength interval; construct a rectangular area mesh and prove convergence of the planar aperture integral to the Fraunhofer limit in the far-field regime. |
 | 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision and parallel two-edge diamond reduction invariance, measured fork rank/positivity, two-channel determinant/rank controls, shared-hub cancellation, general finite two-step pair/minor identities with arbitrary ordered sink selections and derived positive/full-rank nonnegative records, and general $2\times n$ ordered four-column Pluecker relations with sign-flip controls. | Decoration rules; higher-rank ($k\ge 3$) Pluecker relations and arbitrary-length minor/disjoint-path identities, embedding-derived ordered-minor positivity, embedded signed boundary measurements/cell correspondence, general embedded-network moves, and any quotient construction. |
 | 4 | Affine alternating interval/triangle/square forms, oriented boundary limits, normalization, pullbacks, and diagonal cancellation/continuation. | General projective canonical-form existence/uniqueness, arbitrary-chart invariance and higher-dimensional amplituhedron forms. |
-| 5 | A literal unphased form-evaluation candidate is falsified without fitting. | Derive a dimensioned oscillatory complex evaluator and its invariances independently of the optical answer. |
-| 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds and separate error-budget composition. | A genuine geometric/classical equality or held-out uniform error theorem after both tracks meet their gates. |
-| 7 | No experimental claim introduced. | Calibrated raw optical data, uncertainty, backgrounds, drift and model-regime controls. |
+| 5 | A literal unphased form-evaluation candidate is falsified without fitting; complex $Gr_{\mathbb{C}}(2,4)$ and $Gr_{\mathbb{C}}(2,N+2)$ twistor channel evaluators (`complexGr24CrossingDoubleSlit`, `MovingSheath.gr24TwistorMatrix`, `NormedTensorGaussianSplat2D.complexTwistorWavepacket`) eliminate the $50\%$ unphased error and reproduce Fraunhofer, Huygens--Steiner, OAM, and DDF moving-sheath interference identically. | Derive a first-principles Helmholtz boundary integral pushforward without prescribing the paraxial phase argument $\theta(x,y,\phi)$. |
+| 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds, separate error-budget composition, five-model double-slit & $N$-slit ($N>0$) error laws, QISM $8\times 8$ Yang--Baxter / $Gr(2,4)$ Wronskian / Slavnov identities, DDF sheath jamming / Anosov invariance, BCJ double-copy planetary precession ($42.98''/\text{cy}$), normed Tensor Gaussian Splatting ($Q_{\mathrm{core}}, \Pi_{ij}$), Inverse Compton, Stokes/anti-Stokes Raman, and Fourier / Cattaneo--Vernotte / Grassmannian--DDF heat transport (both splat-free continuum and tensor-splat). | Connect the 2D planar aperture integral to the 3D paraxial Fraunhofer limit via an explicit Fresnel remainder bound. |
+| 7 | No experimental claim introduced; Rust/WASM (`wasm32-unknown-unknown`) and WebGL2 GLSL (`#version 300 es`) numerical adapters (`double_slit.rs`, `orbital_splat.rs`, `thermal_inelastic.rs`) verified with 35 parametric `rstest` and `insta` snapshot tests. | Calibrated raw optical, interferometric, Raman, and thermal-wave laboratory data, uncertainty, backgrounds, drift, and model-regime controls. |
 
 No theorem here promotes a supplied Pending match, a checked fixture, or a
 canonical-form identity into optical or hardware validation. The next bridge
@@ -1235,8 +1399,10 @@ the independent boundary, quadrature and network proof tracks remain available.
 ## Validation and Status
 
 The latest completed iteration gates passed: `SignalsTests`,
-`make signals_build` at 3,618 jobs (and `:blueprint` extraction at 3,675 jobs),
-all four concatenated report Lean fences,
+`make signals_build` (and `:blueprint` / `:blueprintJson` extraction at 3,715 Lake jobs),
+all four concatenated report Lean fences, all six companion `grassmannian-*-paper`
+Lean proof blocks, 35 Rust unit/parametric/`insta` snapshot tests (`cargo test`),
+`wasm32-unknown-unknown` release compilation,
 Sphinx HTML, correct Lake source setup, and scoped whitespace checks. This is build
 verification, not a runtime optical experiment or a projective existence proof.
 

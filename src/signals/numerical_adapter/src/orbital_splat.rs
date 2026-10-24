@@ -597,6 +597,25 @@ impl NormedTensorGaussianSplat2D {
             * self.quantum_pressure_principal2(m_boson, hbar, x, y)
     }
 
+    /// Exact $L^1$-conserving anisotropic thermal evolution over elapsed time `dt >= 0`
+    /// with principal diffusivities `alpha1 >= 0` and `alpha2 >= 0`:
+    /// $\sigma_i(t + \Delta t) = \sqrt{\sigma_i(t)^2 + 2\alpha_i \Delta t}$,
+    /// matching `Signals.DDF.NormedTensorGaussianSplat2D.evolveThermal`.
+    pub fn evolve_thermal(&self, alpha1: f64, alpha2: f64, dt: f64) -> Self {
+        let a1 = alpha1.max(0.0);
+        let a2 = alpha2.max(0.0);
+        let step_dt = dt.max(0.0);
+        Self {
+            center_x: self.center_x,
+            center_y: self.center_y,
+            weight: self.weight,
+            sigma1: (self.sigma1 * self.sigma1 + 2.0 * a1 * step_dt).sqrt(),
+            sigma2: (self.sigma2 * self.sigma2 + 2.0 * a2 * step_dt).sqrt(),
+            orientation_angle: self.orientation_angle,
+            role: self.role,
+        }
+    }
+
     /// Pack into the two `vec4` (`[f32; 4]`) uniform slots expected by `orbital_splat.frag.glsl`.
     pub fn to_glsl_uniform_pair(&self) -> ([f32; 4], [f32; 4]) {
         (
