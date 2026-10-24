@@ -63,8 +63,9 @@ We prove in [QISM.lean](../src/signals/Signals/QISM.lean#L52-L162):
    $$w_{\mathrm{sym}}(u,v;\eta) = \delta(u,v) + \eta, \qquad w_{\mathrm{anti}}(u,v;\eta) = \delta(u,v) - \eta, \qquad R(u-v;\eta)_{00} = w_{\mathrm{sym}}(u,v;\eta).$$
 4. **Quantum Unitarity (`yangRMatrix4_unitarity`)**:
    $$R(u - v; \eta)\,R(v - u; \eta) = \bigl(\eta^2 - (u - v)^2\bigr) I_4 = - w_{\mathrm{sym}}(u,v;\eta)\,w_{\mathrm{anti}}(u,v;\eta)\,I_4.$$
-5. **Three-Site Rational Braid Identity (`yang_baxter_rational_braid`)**: From the spectral cocycle $\delta(u,v) + \delta(v,w) = \delta(u,w)$ (`spectralDiff_add`),
-   $$\eta\,\delta(u,w)\,\eta = \eta\,\delta(u,v)\,\eta + \eta^2\,\delta(v,w).$$
+5. **Three-Site Rational Braid Identity & Full $8 \times 8$ Matrix Quantum Yang–Baxter Equation (`yang_baxter_rational_braid`, `yang_baxter_equation_matrix8`)**:
+   From the spectral cocycle $\delta(u,v) + \delta(v,w) = \delta(u,w)$ (`spectralDiff_add`) and the symmetric-group representation `permMatrix8` on $(\mathbb{R}^2)^{\otimes 3} \cong \mathbb{R}^8$ (`swap12Perm8`, `swap13Perm8`, `swap23Perm8`), the embedded $8 \times 8$ rational $R$-matrices `yangR12_8`, `yangR13_8`, `yangR23_8` satisfy the exact operator identity:
+   $$R_{12}(u - v; \eta)\,R_{13}(u - w; \eta)\,R_{23}(v - w; \eta) = R_{23}(v - w; \eta)\,R_{13}(u - w; \eta)\,R_{12}(u - v; \eta).$$
 
 ```lean
 import Signals
@@ -76,14 +77,19 @@ open Signals.Geometry
 open Signals.QISM
 open Signals.Scattering
 
--- 1. Swap involution, R-matrix regularity at u = 0, and quantum unitarity
-example (u v η : ℝ) :
+-- 1. Swap involution, R-matrix regularity, quantum unitarity, and full 8×8 Quantum Yang-Baxter Equation
+example (u v w η : ℝ) :
     swapMatrix4 * swapMatrix4 = (1 : Matrix (Fin 4) (Fin 4) ℝ) ∧
     yangRMatrix4 0 η = η • swapMatrix4 ∧
     yangRMatrix4 (spectralDiff u v) η * yangRMatrix4 (spectralDiff v u) η =
       (- (yangSymmetricWeight u v η * yangAntisymmetricWeight u v η)) •
-        (1 : Matrix (Fin 4) (Fin 4) ℝ) :=
-  ⟨swapMatrix4_mul_self, yangRMatrix4_zero η, yangRMatrix4_unitarity u v η⟩
+        (1 : Matrix (Fin 4) (Fin 4) ℝ) ∧
+    yangR12_8 (spectralDiff u v) η * yangR13_8 (spectralDiff u w) η *
+        yangR23_8 (spectralDiff v w) η =
+      yangR23_8 (spectralDiff v w) η * yangR13_8 (spectralDiff u w) η *
+        yangR12_8 (spectralDiff u v) η :=
+  ⟨swapMatrix4_mul_self, yangRMatrix4_zero η, yangRMatrix4_unitarity u v η,
+    yang_baxter_equation_matrix8 u v w η⟩
 ```
 
 ---

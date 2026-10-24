@@ -1754,4 +1754,255 @@ theorem wignerOAM_onAxis_relative_error
     singleSlitScale slitWidth slitHeight separation wavelength screenDistance
     (oamDecoherenceRate * (deltaOAM : ℝ) ^ 2) h_scale h_rate_nonneg
 
+/-- Pilot-Wave (De Broglie--Bohm / Madelung vortex) OAM double-slit intensity:
+$I_{\mathrm{PW,OAM}}(x, y, \phi; \Delta\ell, \delta_{\mathrm{neq}}) = I_{\mathrm{F,OAM}}(x, y, \phi; \Delta\ell) + \delta_{\mathrm{neq}}$. -/
+@[blueprint "def:signals-pilot-wave-oam-double-slit"
+  (title := "Pilot-Wave (De Broglie--Bohm) OAM double-slit intensity")
+  (statement := /-- Define the Pilot-Wave OAM double-slit intensity
+    $I_{\mathrm{PW,OAM}}(x,y,\phi;\Delta\ell,\delta_{\mathrm{neq}})=
+    I_{\mathrm{F,OAM}}(x,y,\phi;\Delta\ell)+\delta_{\mathrm{neq}}$. -/)]
+noncomputable def pilotWaveOAMDoubleSlit
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      nonEquilibriumResidual : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ) : ℝ :=
+  fraunhoferOAMDoubleSlit
+    singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+    deltaOAM azimuthPhi x y + nonEquilibriumResidual
+
+/-- In quantum equilibrium ($\delta_{\mathrm{neq}} = 0$), `pilotWaveOAMDoubleSlit`
+reproduces `fraunhoferOAMDoubleSlit` identically for all $(x, y, \phi)$ and $\Delta\ell \in \mathbb{Z}$. -/
+@[blueprint "lem:signals-pilot-wave-oam-equilibrium"
+  (title := "Pilot-Wave OAM quantum-equilibrium equivalence to Fraunhofer OAM")
+  (statement := /-- At $\delta_{\mathrm{neq}}=0$,
+    $I_{\mathrm{PW,OAM}}(x,y,\phi;\Delta\ell,0)=I_{\mathrm{F,OAM}}(x,y,\phi;\Delta\ell)$. -/)
+  (proof := /-- Unfold \texttt{pilotWaveOAMDoubleSlit} and simplify $+0$. -/)
+  (latexEnv := "lemma")]
+lemma pilotWaveOAMDoubleSlit_equilibrium_eq_fraunhoferOAM
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ) :
+    pilotWaveOAMDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance 0
+      deltaOAM azimuthPhi x y =
+    fraunhoferOAMDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      deltaOAM azimuthPhi x y := by
+  simp [pilotWaveOAMDoubleSlit]
+
+/-- **Complex $Gr_{\mathbb{C}}(2, 4)$ Crossing-Minor OAM Equivalence with Barycentric Shift**:
+For any barycentric parallel-axis shift $d_{\mathrm{bary}} \in [-1, 1]$, differential
+OAM charge $\Delta\ell \in \mathbb{Z}$, and azimuthal angle $\phi \in \mathbb{R}$,
+encoding the helical channel amplitudes as
+$z_{1,2} = \sqrt{1 \pm d_{\mathrm{bary}}}\bigl(\cos(\theta + \Delta\ell\,\phi/2) \pm i\sin(\theta + \Delta\ell\,\phi/2)\bigr)$
+in `complexGr24ChannelMatrix z1 z2` causes `complexGr24CrossingDoubleSlit` to match
+`huygensSteinerOAMDoubleSlit` with visibility $\mathcal{V} = \sqrt{1 - d_{\mathrm{bary}}^2}$
+**identically at every $(x, y, \phi)$**, with zero relative predictive error. -/
+@[blueprint "thm:signals-complex-gr24-oam-barycentric-eq-huygens-steiner"
+  (title := "Complex Gr_C(2,4) crossing minor with helical OAM phase and d_bary matches Huygens--Steiner OAM identically")
+  (statement := /-- For any $d_{\mathrm{bary}}\in[-1,1]$, $\Delta\ell\in\mathbb Z$, and
+    $\theta_{\mathrm{OAM}}=\pi d x/(\lambda L)+\Delta\ell\,\phi/2$, setting
+    $z_{1,2}=\sqrt{1\pm d_{\mathrm{bary}}}(\cos\theta_{\mathrm{OAM}}\pm i\sin\theta_{\mathrm{OAM}})$
+    yields $I_{Gr_{\mathbb C}(2,4)}^{\times}(M_{\mathbb C}(z_1,z_2);x,y)=
+    I_{\mathrm{HS,OAM}}\bigl(x,y,\phi;\Delta\ell,\sqrt{1-d_{\mathrm{bary}}^2}\bigr)$ and zero
+    relative error against $I_{\mathrm{HS,OAM}}$. -/)
+  (proof := /-- Expand $|\Delta_{02}^{\mathbb C}\Delta_{13}^{\mathbb C}|^2=|z_1+z_2|^2
+    =2\bigl(1+\sqrt{1-d_{\mathrm{bary}}^2}\cos(2\theta_{\mathrm{OAM}})\bigr)$. -/)]
+theorem complexGr24CrossingDoubleSlit_oam_barycentric_eq_huygensSteinerOAM
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      d_bary : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ)
+    (h_lower : -1 ≤ d_bary) (h_upper : d_bary ≤ 1) :
+    let θ := Real.pi * separation * x / (wavelength * screenDistance) +
+      (deltaOAM : ℝ) * azimuthPhi / 2
+    let a := Real.sqrt (1 + d_bary)
+    let b := Real.sqrt (1 - d_bary)
+    let z1 : ℂ := ↑(a * Real.cos θ) + Complex.I * ↑(a * Real.sin θ)
+    let z2 : ℂ := ↑(b * Real.cos θ) - Complex.I * ↑(b * Real.sin θ)
+    complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2)
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y =
+      huygensSteinerOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        (Real.sqrt (1 - d_bary ^ 2)) deltaOAM azimuthPhi x y ∧
+    relativePredictiveError
+      (complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2)
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y)
+      (huygensSteinerOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        (Real.sqrt (1 - d_bary ^ 2)) deltaOAM azimuthPhi x y) = 0 := by
+  intro θ a b z1 z2
+  have ha_nonneg : 0 ≤ 1 + d_bary := by linarith
+  have hb_nonneg : 0 ≤ 1 - d_bary := by linarith
+  have ha2 : a ^ 2 = 1 + d_bary := Real.sq_sqrt ha_nonneg
+  have hb2 : b ^ 2 = 1 - d_bary := Real.sq_sqrt hb_nonneg
+  have hab : a * b = Real.sqrt (1 - d_bary ^ 2) := by
+    dsimp [a, b]
+    rw [← Real.sqrt_mul ha_nonneg]
+    congr 1
+    ring
+  have h_cross :
+      Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 0 2 *
+        Signals.Geometry.complexTwoRowMinor (complexGr24ChannelMatrix z1 z2) 1 3 =
+      z1 + z2 :=
+    (complexGr24ChannelMatrix_minors z1 z2).2.2
+  have h_normSq :
+      intensity (z1 + z2) =
+        ((a + b) * Real.cos θ) ^ 2 + ((a - b) * Real.sin θ) ^ 2 := by
+    dsimp [z1, z2]
+    simp only [intensity, Complex.normSq_apply, Complex.add_re, Complex.add_im,
+      Complex.sub_re, Complex.sub_im, Complex.mul_re, Complex.mul_im,
+      Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    ring
+  have h_trig : (Real.cos θ) ^ 2 + (Real.sin θ) ^ 2 = 1 := Real.cos_sq_add_sin_sq θ
+  have h_cos2 : Real.cos (2 * θ) = 2 * (Real.cos θ) ^ 2 - 1 := Real.cos_two_mul θ
+  have h_alg :
+      ((a + b) * Real.cos θ) ^ 2 + ((a - b) * Real.sin θ) ^ 2 =
+        2 * (1 + Real.sqrt (1 - d_bary ^ 2) * Real.cos (2 * θ)) := by
+    calc
+      ((a + b) * Real.cos θ) ^ 2 + ((a - b) * Real.sin θ) ^ 2 =
+          (a ^ 2 + b ^ 2) * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) +
+            2 * (a * b) * (2 * (Real.cos θ) ^ 2 - ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2)) := by
+        ring
+      _ = (1 + d_bary + (1 - d_bary)) * 1 +
+            2 * Real.sqrt (1 - d_bary ^ 2) * (2 * (Real.cos θ) ^ 2 - 1) := by
+        rw [ha2, hb2, h_trig, hab]
+      _ = 2 * (1 + Real.sqrt (1 - d_bary ^ 2) * Real.cos (2 * θ)) := by
+        rw [← h_cos2]
+        ring
+  have h_angle :
+      2 * (Real.pi * separation * x / (wavelength * screenDistance)) +
+        (deltaOAM : ℝ) * azimuthPhi = 2 * θ := by
+    dsimp [θ]
+    ring
+  have h_eq :
+      complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2)
+        singleSlitScale slitWidth slitHeight wavelength screenDistance x y =
+      huygensSteinerOAMDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        (Real.sqrt (1 - d_bary ^ 2)) deltaOAM azimuthPhi x y := by
+    unfold complexGr24CrossingDoubleSlit huygensSteinerOAMDoubleSlit
+    rw [h_cross, h_normSq, h_alg, h_angle]
+    ring
+  refine ⟨h_eq, ?_⟩
+  rw [h_eq]
+  simp [relativePredictiveError]
+
+/-! ## 7. Multi-Slit ($N > 0$) Grating Superposition Across All Five Models
+
+Generalizing from $N = 2$ slits to an arbitrary positive number of slits
+`numSlits : ℕ` ($N > 0$) with slit width $a$, slit height $b$, center-to-center
+slit separation $d$, and inter-slit phase half-step
+$\beta = \frac{\pi d x}{\lambda L} + \frac{\Delta\ell\,\phi}{2}$, the coherence-weighted
+multi-slit interference factor sums the $N$ diagonal self-intensities and the
+$\binom{N}{2}$ off-diagonal pairwise interference cosines weighted by visibility
+$\mathcal{V} = K_N = \sqrt{1 - d_{\mathrm{bary}}^2}$:
+
+$$
+\mathcal{G}_N(\mathcal{V}, \beta) = N + 2\mathcal{V} \sum_{j=0}^{N-1} \sum_{k=j+1}^{N-1}
+  \cos\bigl(2(k - j)\beta\bigr).
+$$
+-/
+
+/-- Multi-slit ($N$-aperture) interference grating factor with pairwise coherence
+visibility `visibility` and adjacent-slit phase half-step `phaseHalfStep`:
+$\mathcal{G}_N(\mathcal{V}, \beta) = N + 2\mathcal{V}\sum_{0 \le j < k < N}\cos(2(k-j)\beta)$. -/
+@[blueprint "def:signals-multi-slit-interference-factor"
+  (title := "N-slit pairwise coherence interference factor")
+  (statement := /-- For $N\in\mathbb N$, visibility $\mathcal{V}\in\mathbb R$, and adjacent-slit
+    phase half-step $\beta\in\mathbb R$, define
+    $\mathcal{G}_N(\mathcal{V},\beta)=N+2\mathcal{V}\sum_{j=0}^{N-1}\sum_{k=j+1}^{N-1}
+    \cos\bigl(2(k-j)\beta\bigr)$. -/)]
+noncomputable def multiSlitInterferenceFactor
+    (numSlits : ℕ) (visibility phaseHalfStep : ℝ) : ℝ :=
+  (numSlits : ℝ) +
+    2 * visibility *
+      ∑ j ∈ Finset.range numSlits,
+        ∑ k ∈ Finset.Ico (j + 1) numSlits,
+          Real.cos (2 * (((k : ℝ) - (j : ℝ)) * phaseHalfStep))
+
+/-- Huygens--Steiner / Qian--Izadi $N$-slit ($N > 0$) OAM intensity parameterized by
+`numSlits`, `slitWidth`, `slitHeight`, `separation` (distance between slits),
+`wavelength`, `screenDistance`, `visibility`, `deltaOAM`, and `azimuthPhi`. -/
+@[blueprint "def:signals-huygens-steiner-multi-slit"
+  (title := "Huygens--Steiner N-slit OAM intensity")
+  (statement := /-- For $N$ slits of width $a$, height $b$, pitch $d$, and visibility $\mathcal{V}$,
+    define $I_{\mathrm{HS}}^{(N)}(N,x,y,\phi;\Delta\ell,\mathcal{V})=
+    I_0 E_{\mathrm{slit}}(x,y)\,\mathcal{G}_N\bigl(\mathcal{V},\frac{\pi d x}{\lambda L}+\frac{\Delta\ell\,\phi}{2}\bigr)$. -/)]
+noncomputable def huygensSteinerMultiSlit
+    (numSlits : ℕ)
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      visibility : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ) : ℝ :=
+  singleSlitScale *
+    rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance x y *
+    multiSlitInterferenceFactor numSlits visibility
+      (Real.pi * separation * x / (wavelength * screenDistance) +
+        (deltaOAM : ℝ) * azimuthPhi / 2)
+
+/-- Coherent Fraunhofer $N$-slit ($N > 0$) OAM intensity ($\mathcal{V} = 1$). -/
+@[blueprint "def:signals-fraunhofer-multi-slit"
+  (title := "Fraunhofer N-slit OAM intensity")
+  (statement := /-- Define the coherent $N$-slit Fraunhofer intensity as
+    $I_{\mathrm{F}}^{(N)}(N,x,y,\phi;\Delta\ell)=I_{\mathrm{HS}}^{(N)}(N,x,y,\phi;\Delta\ell,1)$. -/)]
+noncomputable def fraunhoferMultiSlit
+    (numSlits : ℕ)
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ) : ℝ :=
+  huygensSteinerMultiSlit numSlits
+    singleSlitScale slitWidth slitHeight separation wavelength screenDistance 1
+    deltaOAM azimuthPhi x y
+
+/-- For a single slit ($N = 1$), `huygensSteinerMultiSlit` reduces identically to the
+single-slit diffraction envelope $I_0 E_{\mathrm{slit}}(x, y)$, independent of slit
+separation $d$, visibility $\mathcal{V}$, and OAM shift. -/
+@[blueprint "lem:signals-multi-slit-one-slit"
+  (title := "Single-slit (N = 1) reduction of the multi-slit intensity")
+  (statement := /-- For $N=1$, $I_{\mathrm{HS}}^{(1)}(1,x,y,\phi;\Delta\ell,\mathcal{V})
+    = I_0 E_{\mathrm{slit}}(x,y)$. -/)
+  (proof := /-- Unfold \texttt{multiSlitInterferenceFactor} at $N=1$, where $\operatorname{Ico} 1\,1=\emptyset$. -/)
+  (latexEnv := "lemma")]
+lemma huygensSteinerMultiSlit_one_slit
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      visibility : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ) :
+    huygensSteinerMultiSlit 1
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      visibility deltaOAM azimuthPhi x y =
+    singleSlitScale *
+      rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance x y := by
+  unfold huygensSteinerMultiSlit multiSlitInterferenceFactor
+  simp
+
+/-- For two slits ($N = 2$), `huygensSteinerMultiSlit` coincides identically with
+`huygensSteinerOAMDoubleSlit` across all $(x, y, \phi)$, visibilities $\mathcal{V}$,
+and OAM charges $\Delta\ell$. -/
+@[blueprint "thm:signals-multi-slit-two-slits-eq-double-slit"
+  (title := "Two-slit (N = 2) multi-slit intensity equals Huygens--Steiner OAM double-slit")
+  (statement := /-- For $N=2$,
+    $I_{\mathrm{HS}}^{(2)}(2,x,y,\phi;\Delta\ell,\mathcal{V}) =
+    I_{\mathrm{HS,OAM}}(x,y,\phi;\Delta\ell,\mathcal{V})$. -/)
+  (proof := /-- Expand the $N=2$ range sum over $j\in\{0,1\}$ and $k\in\operatorname{Ico}(j+1)\,2$,
+    leaving the single pair $(j,k)=(0,1)$. -/)]
+theorem huygensSteinerMultiSlit_two_slits_eq_huygensSteinerOAM
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      visibility : ℝ)
+    (deltaOAM : ℤ) (azimuthPhi x y : ℝ) :
+    huygensSteinerMultiSlit 2
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      visibility deltaOAM azimuthPhi x y =
+    huygensSteinerOAMDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      visibility deltaOAM azimuthPhi x y := by
+  unfold huygensSteinerMultiSlit huygensSteinerOAMDoubleSlit multiSlitInterferenceFactor
+  rw [Finset.sum_range_succ, Finset.sum_range_one]
+  simp only [Nat.reduceAdd, Finset.Ico_self, Finset.sum_empty, add_zero,
+    Nat.Ico_succ_singleton, Finset.sum_singleton, Nat.cast_one, Nat.cast_zero,
+    sub_zero, one_mul, Nat.cast_ofNat]
+  have h_angle :
+      2 * (Real.pi * separation * x / (wavelength * screenDistance) +
+        (deltaOAM : ℝ) * azimuthPhi / 2) =
+      2 * (Real.pi * separation * x / (wavelength * screenDistance)) +
+        (deltaOAM : ℝ) * azimuthPhi := by
+    ring
+  rw [h_angle]
+  ring
+
 end Signals.Huygens

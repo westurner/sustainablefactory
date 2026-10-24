@@ -4322,4 +4322,43 @@ example (x y : ℝ) :
   Signals.Huygens.complexGr24CrossingDoubleSlit_barycentric_eq_huygensSteiner
     3 2 4 6 1 5 (3 / 5) x y (by norm_num) (by norm_num)
 
+/-- Full 8×8 matrix Quantum Yang-Baxter Equation on (ℝ²)⊗³ for rapidities (7, 4, 1) and η = 2. -/
+example :
+    Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff 7 4) 2 *
+        Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff 7 1) 2 *
+        Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff 4 1) 2 =
+      Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff 4 1) 2 *
+        Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff 7 1) 2 *
+        Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff 7 4) 2 :=
+  Signals.QISM.yang_baxter_equation_matrix8 7 4 1 2
+
+/-- Complex Gr_C(2, 4) crossing minor with helical OAM twist Δℓ = 2 and barycentric shift d_bary = 3/5
+matches Huygens-Steiner OAM intensity identically across all (x, y, φ) with zero relative error. -/
+example (φ x y : ℝ) :
+    let θ := Real.pi * 6 * x / (1 * 5) + ((2 : ℤ) : ℝ) * φ / 2
+    let a := Real.sqrt (1 + (3 / 5 : ℝ))
+    let b := Real.sqrt (1 - (3 / 5 : ℝ))
+    let z1 : ℂ := ↑(a * Real.cos θ) + Complex.I * ↑(a * Real.sin θ)
+    let z2 : ℂ := ↑(b * Real.cos θ) - Complex.I * ↑(b * Real.sin θ)
+    Signals.Huygens.complexGr24CrossingDoubleSlit
+        (Signals.Huygens.complexGr24ChannelMatrix z1 z2) 3 2 4 1 5 x y =
+      Signals.Huygens.huygensSteinerOAMDoubleSlit
+        3 2 4 6 1 5 (Real.sqrt (1 - (3 / 5 : ℝ) ^ 2)) 2 φ x y ∧
+    Signals.Huygens.relativePredictiveError
+      (Signals.Huygens.complexGr24CrossingDoubleSlit
+        (Signals.Huygens.complexGr24ChannelMatrix z1 z2) 3 2 4 1 5 x y)
+      (Signals.Huygens.huygensSteinerOAMDoubleSlit
+        3 2 4 6 1 5 (Real.sqrt (1 - (3 / 5 : ℝ) ^ 2)) 2 φ x y) = 0 :=
+  Signals.Huygens.complexGr24CrossingDoubleSlit_oam_barycentric_eq_huygensSteinerOAM
+    3 2 4 6 1 5 (3 / 5) 2 φ x y (by norm_num) (by norm_num)
+
+/-- Multi-slit (N > 0) single-slit (N = 1) and double-slit (N = 2) reductions. -/
+example (Δℓ : ℤ) (φ x y : ℝ) :
+    Signals.Huygens.huygensSteinerMultiSlit 1 3 2 4 6 1 5 (4 / 5) Δℓ φ x y =
+      3 * Signals.Huygens.rectangularSlitEnvelope 2 4 1 5 x y ∧
+    Signals.Huygens.huygensSteinerMultiSlit 2 3 2 4 6 1 5 (4 / 5) Δℓ φ x y =
+      Signals.Huygens.huygensSteinerOAMDoubleSlit 3 2 4 6 1 5 (4 / 5) Δℓ φ x y :=
+  ⟨Signals.Huygens.huygensSteinerMultiSlit_one_slit 3 2 4 6 1 5 (4 / 5) Δℓ φ x y,
+    Signals.Huygens.huygensSteinerMultiSlit_two_slits_eq_huygensSteinerOAM 3 2 4 6 1 5 (4 / 5) Δℓ φ x y⟩
+
 end SignalsTests

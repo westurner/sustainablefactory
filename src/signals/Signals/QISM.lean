@@ -180,6 +180,116 @@ theorem yang_baxter_rational_braid (u v w η : ℝ) :
   rw [← spectralDiff_add u v w]
   ring
 
+/-- The $8 \times 8$ real permutation matrix on $(\mathbb{R}^2)^{\otimes 3} \cong \mathbb{R}^8$
+associated to a basis permutation $\sigma \in \operatorname{Perm}(\operatorname{Fin} 8)$. -/
+@[blueprint "def:signals-qism-perm-matrix8"
+  (title := "8×8 three-site permutation matrix on (ℝ²)⊗³")
+  (statement := /-- For $\sigma\in\operatorname{Perm}(\operatorname{Fin} 8)$, define the $8\times 8$
+    permutation matrix $(P_\sigma)_{ij} = \delta_{\sigma(i),j}$. -/)]
+def permMatrix8 (σ : Equiv.Perm (Fin 8)) : Matrix (Fin 8) (Fin 8) ℝ :=
+  fun i j => if σ i = j then 1 else 0
+
+/-- Multiplying two $8 \times 8$ permutation matrices composes their permutations:
+$P_\sigma P_\tau = P_{\sigma.\mathrm{trans}\,\tau}$. -/
+@[blueprint "lem:signals-qism-perm-matrix8-mul"
+  (title := "Composition law for 8×8 permutation matrices")
+  (statement := /-- For any $\sigma,\tau\in\operatorname{Perm}(\operatorname{Fin} 8)$,
+    $P_\sigma P_\tau = P_{\sigma.\mathrm{trans}\,\tau}$. -/)
+  (proof := /-- Expand matrix multiplication and collapse the Kronecker delta sum at $k=\sigma(i)$. -/)
+  (latexEnv := "lemma")]
+lemma permMatrix8_mul (σ τ : Equiv.Perm (Fin 8)) :
+    permMatrix8 σ * permMatrix8 τ = permMatrix8 (σ.trans τ) := by
+  ext i j
+  rw [Matrix.mul_apply]
+  simp only [permMatrix8, boole_mul, Finset.sum_ite_eq, Finset.mem_univ, ↓reduceIte,
+    Equiv.trans_apply]
+  rfl
+
+/-- Three-qubit transposition $\sigma_{12} \in \operatorname{Perm}(\operatorname{Fin} 8)$
+swapping tensor factors $V_1 \leftrightarrow V_2$ in the binary basis $|b_1 b_2 b_3\rangle$
+($2 \leftrightarrow 4$, $3 \leftrightarrow 5$). -/
+@[blueprint "def:signals-qism-swap12-perm8"
+  (title := "Three-site permutation σ₁₂ on Fin 8")
+  (statement := /-- Define $\sigma_{12}=(2\ 4)(3\ 5)\in\operatorname{Perm}(\operatorname{Fin} 8)$
+    swapping the first and second tensor factors of $(\mathbb R^2)^{\otimes 3}$. -/)]
+def swap12Perm8 : Equiv.Perm (Fin 8) := Equiv.swap 2 4 * Equiv.swap 3 5
+
+/-- Three-qubit transposition $\sigma_{13} \in \operatorname{Perm}(\operatorname{Fin} 8)$
+swapping tensor factors $V_1 \leftrightarrow V_3$ in the binary basis $|b_1 b_2 b_3\rangle$
+($1 \leftrightarrow 4$, $3 \leftrightarrow 6$). -/
+@[blueprint "def:signals-qism-swap13-perm8"
+  (title := "Three-site permutation σ₁₃ on Fin 8")
+  (statement := /-- Define $\sigma_{13}=(1\ 4)(3\ 6)\in\operatorname{Perm}(\operatorname{Fin} 8)$
+    swapping the first and third tensor factors of $(\mathbb R^2)^{\otimes 3}$. -/)]
+def swap13Perm8 : Equiv.Perm (Fin 8) := Equiv.swap 1 4 * Equiv.swap 3 6
+
+/-- Three-qubit transposition $\sigma_{23} \in \operatorname{Perm}(\operatorname{Fin} 8)$
+swapping tensor factors $V_2 \leftrightarrow V_3$ in the binary basis $|b_1 b_2 b_3\rangle$
+($1 \leftrightarrow 2$, $5 \leftrightarrow 6$). -/
+@[blueprint "def:signals-qism-swap23-perm8"
+  (title := "Three-site permutation σ₂₃ on Fin 8")
+  (statement := /-- Define $\sigma_{23}=(1\ 2)(5\ 6)\in\operatorname{Perm}(\operatorname{Fin} 8)$
+    swapping the second and third tensor factors of $(\mathbb R^2)^{\otimes 3}$. -/)]
+def swap23Perm8 : Equiv.Perm (Fin 8) := Equiv.swap 1 2 * Equiv.swap 5 6
+
+/-- Embedded $8 \times 8$ Yang rational $R$-matrix $R_{12}(u; \eta) = u I_8 + \eta P_{12}$
+acting on $V_1 \otimes V_2 \subset V_1 \otimes V_2 \otimes V_3$. -/
+@[blueprint "def:signals-qism-yang-r12-8"
+  (title := "Embedded 8×8 Yang R-matrix R₁₂(u; η)")
+  (statement := /-- Define $R_{12}(u;\eta)=u I_8+\eta P_{\sigma_{12}}$ on $(\mathbb R^2)^{\otimes 3}$. -/)]
+def yangR12_8 (u η : ℝ) : Matrix (Fin 8) (Fin 8) ℝ :=
+  u • (1 : Matrix (Fin 8) (Fin 8) ℝ) + η • permMatrix8 swap12Perm8
+
+/-- Embedded $8 \times 8$ Yang rational $R$-matrix $R_{13}(u; \eta) = u I_8 + \eta P_{13}$
+acting on $V_1 \otimes V_3 \subset V_1 \otimes V_2 \otimes V_3$. -/
+@[blueprint "def:signals-qism-yang-r13-8"
+  (title := "Embedded 8×8 Yang R-matrix R₁₃(u; η)")
+  (statement := /-- Define $R_{13}(u;\eta)=u I_8+\eta P_{\sigma_{13}}$ on $(\mathbb R^2)^{\otimes 3}$. -/)]
+def yangR13_8 (u η : ℝ) : Matrix (Fin 8) (Fin 8) ℝ :=
+  u • (1 : Matrix (Fin 8) (Fin 8) ℝ) + η • permMatrix8 swap13Perm8
+
+/-- Embedded $8 \times 8$ Yang rational $R$-matrix $R_{23}(u; \eta) = u I_8 + \eta P_{23}$
+acting on $V_2 \otimes V_3 \subset V_1 \otimes V_2 \otimes V_3$. -/
+@[blueprint "def:signals-qism-yang-r23-8"
+  (title := "Embedded 8×8 Yang R-matrix R₂₃(u; η)")
+  (statement := /-- Define $R_{23}(u;\eta)=u I_8+\eta P_{\sigma_{23}}$ on $(\mathbb R^2)^{\otimes 3}$. -/)]
+def yangR23_8 (u η : ℝ) : Matrix (Fin 8) (Fin 8) ℝ :=
+  u • (1 : Matrix (Fin 8) (Fin 8) ℝ) + η • permMatrix8 swap23Perm8
+
+/-- **Full $8 \times 8$ Matrix Quantum Yang--Baxter Equation (QYBE)**:
+On the three-fold tensor product $(\mathbb{R}^2)^{\otimes 3} \cong \mathbb{R}^8$,
+Yang's rational $R$-matrices satisfy the operator identity
+$R_{12}(u - v; \eta)\,R_{13}(u - w; \eta)\,R_{23}(v - w; \eta) =
+R_{23}(v - w; \eta)\,R_{13}(u - w; \eta)\,R_{12}(u - v; \eta)$
+for all spectral rapidities $u, v, w \in \mathbb{R}$ and coupling $\eta \in \mathbb{R}$. -/
+@[blueprint "thm:signals-qism-yang-baxter-matrix8"
+  (title := "Full 8×8 matrix Quantum Yang--Baxter Equation on (ℝ²)⊗³")
+  (statement := /-- For all $u,v,w,\eta\in\mathbb R$,
+    $R_{12}(u-v;\eta)\,R_{13}(u-w;\eta)\,R_{23}(v-w;\eta) =
+    R_{23}(v-w;\eta)\,R_{13}(u-w;\eta)\,R_{12}(u-v;\eta)$ in $\operatorname{Mat}_{8\times 8}(\mathbb R)$. -/)
+  (proof := /-- Expand both $8\times 8$ matrix products via \texttt{permMatrix8\_mul}, apply the
+    symmetric-group cycle relations on $\operatorname{Perm}(\operatorname{Fin} 8)$, and combine the
+    $\eta^2$ 3-cycle coefficients using $\delta(u,v)+\delta(v,w)=\delta(u,w)$. -/)]
+theorem yang_baxter_equation_matrix8 (u v w η : ℝ) :
+    yangR12_8 (spectralDiff u v) η * yangR13_8 (spectralDiff u w) η *
+        yangR23_8 (spectralDiff v w) η =
+      yangR23_8 (spectralDiff v w) η * yangR13_8 (spectralDiff u w) η *
+        yangR12_8 (spectralDiff u v) η := by
+  have h12_13 : swap12Perm8.trans swap13Perm8 = swap23Perm8.trans swap12Perm8 := by decide
+  have h13_23 : swap13Perm8.trans swap23Perm8 = swap23Perm8.trans swap12Perm8 := by decide
+  have h23_13 : swap23Perm8.trans swap13Perm8 = swap12Perm8.trans swap23Perm8 := by decide
+  have h13_12 : swap13Perm8.trans swap12Perm8 = swap12Perm8.trans swap23Perm8 := by decide
+  have h_braid :
+      (swap23Perm8.trans swap12Perm8).trans swap23Perm8 =
+        (swap12Perm8.trans swap23Perm8).trans swap12Perm8 := by decide
+  unfold yangR12_8 yangR13_8 yangR23_8
+  simp only [add_mul, mul_add, smul_mul_assoc, mul_smul_comm, one_mul, mul_one,
+    smul_add, smul_smul, permMatrix8_mul]
+  rw [h12_13, h13_23, h23_13, h13_12, h_braid, ← spectralDiff_add u v w]
+  ext i j
+  simp only [Matrix.add_apply, Matrix.smul_apply, smul_eq_mul]
+  ring
+
 /-! ## 2. Lax / Monodromy Matrices & Commuting Transfer Traces -/
 
 /-- A $2 \times 2$ auxiliary monodromy (or Lax) matrix representative
