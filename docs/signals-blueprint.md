@@ -4,10 +4,11 @@ The generated blueprint covers the Signals Lean package and links formal nodes
 to their Lean declarations.
 
 The selected roadmap nodes cover finite routing and weighted measurements,
-ordered minors and geometric representatives, scalar propagation and amplitude
-controls, measure-derived quadrature, and affine forms with oriented residues.
-Readiness markers mean that formal declarations are checked, not that physical
-models or experiments are validated.
+ordered minors and geometric representatives, quantum inverse scattering and
+Grassmannian Bethe ansatz nodes (`Signals.QISM`), scalar propagation and
+amplitude controls, measure-derived quadrature, and affine forms with oriented
+residues. Readiness markers mean that formal declarations are checked, not that
+physical models or experiments are validated.
 
 ## Annotation Workflow
 

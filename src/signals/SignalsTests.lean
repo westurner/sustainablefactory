@@ -3930,4 +3930,148 @@ example :
     (by norm_num) (by norm_num) (by norm_num)]
   norm_num
 
+/-! ## Quantum Inverse Scattering Method (QISM) and Grassmannian Bethe Ansatz tests -/
+
+/-- Spectral differences across three rapidities (5, 3, 1) satisfy the additive cocycle law. -/
+example : Signals.QISM.spectralDiff 5 3 + Signals.QISM.spectralDiff 3 1 = Signals.QISM.spectralDiff 5 1 :=
+  Signals.QISM.spectralDiff_add 5 3 1
+
+/-- The 4×4 two-qubit permutation matrix P is involutive: P² = I_4. -/
+example : Signals.QISM.swapMatrix4 * Signals.QISM.swapMatrix4 = 1 :=
+  Signals.QISM.swapMatrix4_mul_self
+
+/-- At u = 0, Yang's 4×4 rational R-matrix reduces to η • P (regularity condition). -/
+example : Signals.QISM.yangRMatrix4 0 3 = (3 : ℝ) • Signals.QISM.swapMatrix4 :=
+  Signals.QISM.yangRMatrix4_zero 3
+
+/-- The (0, 0) triplet entry of Yang's 4×4 R-matrix equals the symmetric-channel weight (u - v) + η. -/
+example : Signals.QISM.yangRMatrix4 (Signals.QISM.spectralDiff 7 2) 3 0 0 = 8 := by
+  rw [Signals.QISM.yangRMatrix4_triplet_entry]
+  norm_num [Signals.QISM.yangSymmetricWeight, Signals.QISM.spectralDiff]
+
+/-- Quantum unitarity of Yang's 4×4 R-matrix: R(u - v) * R(v - u) = (η² - (u - v)²) • I_4. -/
+example :
+    Signals.QISM.yangRMatrix4 (Signals.QISM.spectralDiff 5 2) 4 *
+      Signals.QISM.yangRMatrix4 (Signals.QISM.spectralDiff 2 5) 4 =
+      (7 : ℝ) • (1 : Matrix (Fin 4) (Fin 4) ℝ) := by
+  rw [Signals.QISM.yangRMatrix4_unitarity]
+  congr 1
+  norm_num [Signals.QISM.yangSymmetricWeight, Signals.QISM.yangAntisymmetricWeight,
+    Signals.QISM.spectralDiff]
+
+/-- Rational Yang-Baxter braid interference identity on concrete spectral parameters. -/
+example :
+    (2 : ℝ) * Signals.QISM.spectralDiff 7 1 * 2 =
+      2 * Signals.QISM.spectralDiff 7 4 * 2 + 2 ^ 2 * Signals.QISM.spectralDiff 4 1 :=
+  Signals.QISM.yang_baxter_rational_braid 7 4 1 2
+
+/-- Cyclic invariance of the composed 2×2 QISM transfer trace: Tr(L2 * L1) = Tr(L1 * L2). -/
+example :
+    let L1 : Signals.QISM.MonodromyMatrix2 := { A := 1, B := 2, C := 3, D := 4 }
+    let L2 : Signals.QISM.MonodromyMatrix2 := { A := 2, B := 5, C := 7, D := 1 }
+    (L2.comp L1).transferTrace = (L1.comp L2).transferTrace := by
+  intro L1 L2
+  exact Signals.QISM.MonodromyMatrix2.transferTrace_comp_comm L2 L1
+
+/-- Composing two 2×2 Lax matrices multiplies their classical determinants: (-2) * (-2) = 4. -/
+example :
+    let L1 : Signals.QISM.MonodromyMatrix2 := { A := 1, B := 2, C := 3, D := 4 }
+    let L2 : Signals.QISM.MonodromyMatrix2 := { A := 2, B := 1, C := 4, D := 1 }
+    (L2.comp L1).classicalDet = 4 := by
+  intro L1 L2
+  rw [Signals.QISM.MonodromyMatrix2.classicalDet_comp]
+  norm_num [L1, L2, Signals.QISM.MonodromyMatrix2.classicalDet]
+
+/-- Baxter pair Q_+(u) = u and Q_-(u) = 1 has constant unit Casorati Wronskian W(u, v) = u - v,
+and its four-point evaluations obey the 3-term Gr(2, 4) Pluecker QQ-system identity. -/
+example :
+    let Q_plus := fun u : ℝ => u
+    let Q_minus := fun _ : ℝ => (1 : ℝ)
+    Signals.QISM.casoratiWronskian Q_plus Q_minus 1 2 *
+        Signals.QISM.casoratiWronskian Q_plus Q_minus 3 4 -
+      Signals.QISM.casoratiWronskian Q_plus Q_minus 1 3 *
+        Signals.QISM.casoratiWronskian Q_plus Q_minus 2 4 +
+      Signals.QISM.casoratiWronskian Q_plus Q_minus 1 4 *
+        Signals.QISM.casoratiWronskian Q_plus Q_minus 2 3 = 0 :=
+  Signals.QISM.baxter_qq_pluecker_identity (fun u => u) (fun _ => 1) 1 2 3 4
+
+/-- Three-point Casorati Wronskians solve Baxter's TQ difference equation identically. -/
+example :
+    let Q_plus := fun u : ℝ => u ^ 2 - 1
+    let Q_minus := fun u : ℝ => u + 2
+    Signals.QISM.baxterTQResidual
+      (Signals.QISM.casoratiWronskian Q_plus Q_minus (3 - 1) (3 + 1))
+      (Signals.QISM.casoratiWronskian Q_plus Q_minus 3 (3 + 1))
+      (Signals.QISM.casoratiWronskian Q_plus Q_minus (3 - 1) 3)
+      (Q_plus 3) (Q_plus (3 - 1)) (Q_plus (3 + 1)) = 0 :=
+  Signals.QISM.baxterTQResidual_wronskian_zero (fun u => u ^ 2 - 1) (fun u => u + 2) 3 1
+
+/-- Evaluating a satisfied Baxter TQ relation at a Bethe root Q(u_m) = 0 enforces a * Q_- + d * Q_+ = 0. -/
+example : (3 : ℝ) * 4 + (-6) * 2 = 0 :=
+  Signals.QISM.bethe_ansatz_eq_of_tq_root 99 3 (-6) 0 4 2 (by norm_num [Signals.QISM.baxterTQResidual]) rfl
+
+/-- Critique regression: a spurious triple-zero Bethe root Q(u_m) = Q(u_m - η) = Q(u_m + η) = 0
+leaves the transfer eigenvalue T unconstrained (both T = 10 and T = -77 give zero residual). -/
+example :
+    Signals.QISM.baxterTQResidual 10 3 5 0 0 0 = 0 ∧
+      Signals.QISM.baxterTQResidual (-77) 3 5 0 0 0 = 0 :=
+  ⟨Signals.QISM.baxterTQResidual_spurious_zero 10 3 5,
+    Signals.QISM.baxterTQResidual_spurious_zero (-77) 3 5⟩
+
+/-- MTV Wronskian nondegeneracy: when Q_+(u) = u - 2 and Q_-(u) = 1, the root u_m = 2 has
+nonvanishing Casorati Wronskian W(2, 1) = 1 ≠ 0, forcing Q_+(1) ≠ 0 and Q_-(2) ≠ 0. -/
+example :
+    (fun u : ℝ => u - 2) 1 ≠ 0 ∧ (fun _ : ℝ => (1 : ℝ)) 2 ≠ 0 :=
+  Signals.QISM.mtv_wronskian_nondegenerate_of_root
+    (fun u => u - 2) (fun _ => 1) 2 1 (by norm_num)
+    (by norm_num [Signals.QISM.casoratiWronskian])
+
+/-- Nonvanishing Casorati Wronskian certifies an explicit nonzero Pluecker minor for the 2×4 Baxter matrix. -/
+example :
+    ∃ columns : OrderedColumns 2 4,
+      (GrassmannianMatrix.mk
+        (Signals.QISM.baxterGrassmannianMatrix (fun u => u - 2) (fun _ => 1) 2 1 3 4)).pluckerCoordinate
+          columns ≠ 0 :=
+  Signals.QISM.baxterGrassmannianMatrix_nonzero_minor
+    (fun u => u - 2) (fun _ => 1) 2 1 3 4 (by norm_num [Signals.QISM.casoratiWronskian])
+
+/-- Under nondegeneracy, the Bethe Ansatz Equation recovers the exact rational phase-shift ratio a / d = -Q_+ / Q_-. -/
+example : (6 : ℝ) / (-3) = - 8 / 4 :=
+  Signals.QISM.bethe_ansatz_ratio_of_tq_root 42 6 (-3) 0 4 8
+    (by norm_num [Signals.QISM.baxterTQResidual]) rfl (by norm_num) (by norm_num)
+
+/-- Left and right Yangian quantum determinants coincide when the RTT exchange balance holds. -/
+example :
+    let T_u : Signals.QISM.MonodromyMatrix2 := { A := 5, B := 2, C := 3, D := 4 }
+    let T_shift : Signals.QISM.MonodromyMatrix2 := { A := 2, B := 1, C := 5, D := 3 }
+    Signals.QISM.quantumDetLeft T_u T_shift = Signals.QISM.quantumDetRight T_u T_shift := by
+  intro T_u T_shift
+  exact (Signals.QISM.quantumDet_left_eq_right_iff T_u T_shift).mpr (by norm_num [T_u, T_shift])
+
+/-- Negative control: without the RTT exchange balance, left and right shifted determinants differ. -/
+example :
+    let T_u : Signals.QISM.MonodromyMatrix2 := { A := 5, B := 2, C := 3, D := 4 }
+    let T_shift : Signals.QISM.MonodromyMatrix2 := { A := 2, B := 1, C := 1, D := 3 }
+    Signals.QISM.quantumDetLeft T_u T_shift ≠ Signals.QISM.quantumDetRight T_u T_shift := by
+  intro T_u T_shift
+  norm_num [T_u, T_shift, Signals.QISM.quantumDetLeft, Signals.QISM.quantumDetRight]
+
+/-- Two-magnon Slavnov / Gaudin determinant matches the 2×2 Grassmannian minor: 5 * 7 - 2 * 3 = 29. -/
+example : Signals.QISM.slavnovDet2 !![5, 2; 3, 7] = 29 := by
+  norm_num [Signals.QISM.slavnovDet2, Signals.Geometry.twoRowMinor]
+
+/-- Pauli exclusion control: when two Bethe rapidities collide (u_0 = u_1 = 3) or two
+dual rapidities collide (v_0 = v_1 = 2), the 2×2 Slavnov determinant vanishes identically. -/
+example (K : ℝ → ℝ → ℝ) :
+    Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K 1 2 3 3) = 0 ∧
+      Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K 2 2 1 4) = 0 :=
+  ⟨Signals.QISM.slavnovDet2_pauli_exclusion K 1 2 3,
+    Signals.QISM.slavnovDet2_dual_pauli_exclusion K 2 1 4⟩
+
+/-- Swapping the two Bethe rapidities negates the 2×2 Slavnov determinant. -/
+example (K : ℝ → ℝ → ℝ) :
+    Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K 1 2 4 3) =
+      - Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K 1 2 3 4) :=
+  Signals.QISM.slavnovDet2_swap_bethe K 1 2 3 4
+
 end SignalsTests

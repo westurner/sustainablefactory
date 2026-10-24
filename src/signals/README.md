@@ -337,6 +337,26 @@ interpretation while keeping experimental premises explicit:
    quadratic minor products alone remain invariant under simultaneous sign
    flips of all minors and do not imply nonnegative ordered minors without a
    sign anchor.
+- `Signals.QISM` formalizes the algebraic core of the Quantum Inverse
+   Scattering Method (QISM) and its Grassmannian reformulation: the explicit
+   $4 \times 4$ permutation matrix $P$ (`swapMatrix4`), Yang's rational
+   $R$-matrix $R(u) = u I_4 + \eta P$ (`yangRMatrix4`), regularity $R(0) = \eta P$,
+   quantum unitarity (`yangRMatrix4_unitarity`), and the three-site braid
+   identity (`yang_baxter_rational_braid`); $2 \times 2$ monodromy composition,
+   cyclic transfer-trace invariance (`transferTrace_comp_comm`), Cauchy-Binet
+   path-pair expansion, and left/right shifted Yangian quantum determinants
+   (`quantumDetLeft`, `quantumDetRight`) with their $RTT$ exchange balance;
+   the $2 \times 4$ Grassmannian Baxter evaluation matrix
+   (`baxterGrassmannianMatrix`), its $GL(2)$ basis-change covariance
+   (`baxterGrassmannianMatrix_basisChange`), and the Pluecker $QQ$-system
+   (`baxter_qq_pluecker_identity`); the three-point Casorati Wronskian solution
+   of Baxter's $TQ$ equation (`baxterTQResidual_wronskian_zero`), the
+   Mukhin-Tarasov-Varchenko Wronskian nondegeneracy guard against spurious
+   triple-zero Bethe roots (`mtv_wronskian_nondegenerate_of_root`), and
+   polynomial/rational Bethe Ansatz Equations; and $2 \times 2$ Slavnov/Gaudin
+   determinant compression with rapidity-swap antisymmetry and Pauli-exclusion
+   vanishing at colliding Bethe or dual rapidities (`slavnovDet2_pauli_exclusion`,
+   `slavnovDet2_dual_pauli_exclusion`).
 - `Signals.CanonicalForms` provides fixed-oriented affine interval, triangle,
    and square alternating forms, normalization, punctured-limit boundary
    residues, area-preserving triangle pullbacks, and shared-diagonal pole
