@@ -3669,6 +3669,47 @@ example (V_wake n : Vec3 → Vec3) (CM x : Vec3) :
       (differentialPressureForce 1.2 V_wake n x) = 0 := by
   exact differentialAerodynamicMoment_orthogonal_force 1.2 V_wake n CM x
 
+/-- At a stagnation point (V = 0), static Bernoulli pressure recovers p_0 = 101325 Pa and C_p = 1,
+whereas dynamic pressure vanishes. -/
+example (x : Vec3) :
+    pressureCoefficient 100 (fun _ => 0) x = 1 ∧
+      bernoulliStaticPressure 101325 1.2 (fun _ => 0) x = 101325 ∧
+      dynamicPressure 1.2 (fun _ => 0) x = 0 :=
+  bernoulliStaticPressure_at_stagnation 101325 1.2 100 (fun _ => 0) x rfl
+
+/-- Static Bernoulli surface traction at a stagnation point equals (-p_0) • n(x), whereas the
+dynamic-pressure load proxy vanishes. -/
+example (x : Vec3) :
+    bernoulliSurfaceTraction 100 1.2 (fun _ => 0) (fun _ => ![0, 0, 1]) x = ![0, 0, -100] ∧
+      differentialPressureForce 1.2 (fun _ => 0) (fun _ => ![0, 0, 1]) x = 0 := by
+  refine ⟨?_, differentialPressureForce_at_stagnation 1.2 (fun _ => 0) (fun _ => ![0, 0, 1]) x rfl⟩
+  rw [bernoulliSurfaceTraction_at_stagnation 100 1.2 (fun _ => 0) (fun _ => ![0, 0, 1]) x rfl]
+  ext i
+  fin_cases i <;> norm_num
+
+/-- Static pressure reconstructed from freestream p_inf + q_inf * C_p matches p_0 - q(x). -/
+example (V_flow : Vec3 → Vec3) (x : Vec3) :
+    bernoulliStaticPressure 160 2 V_flow x =
+      bernoulliStaticPressureFromFreestream 100 2 60 V_flow x :=
+  bernoulliStaticPressure_eq_freestream 160 100 2 60 V_flow x (by norm_num) (by norm_num)
+
+/-- Static Bernoulli pressure decreases when flow speed increases from |V| = 3 to |V| = 5. -/
+example (x : Vec3) :
+    bernoulliStaticPressure 100 2 (fun _ => ![3, 4, 0]) x <
+      bernoulliStaticPressure 100 2 (fun _ => ![3, 0, 0]) x := by
+  norm_num [bernoulliStaticPressure, dynamicPressure, normSqVec3, dotProduct, Fin.sum_univ_three]
+
+/-- Differential static-Bernoulli aerodynamic torque is orthogonal to the lever arm. -/
+example (V_flow n : Vec3 → Vec3) (CM x : Vec3) :
+    (bernoulliAerodynamicMoment 101325 1.2 V_flow n CM x) ⬝ᵥ (x - CM) = 0 :=
+  bernoulliAerodynamicMoment_orthogonal_lever_arm 101325 1.2 V_flow n CM x
+
+/-- Differential static-Bernoulli aerodynamic torque is orthogonal to the static surface traction. -/
+example (V_flow n : Vec3 → Vec3) (CM x : Vec3) :
+    (bernoulliAerodynamicMoment 101325 1.2 V_flow n CM x) ⬝ᵥ
+      (bernoulliSurfaceTraction 101325 1.2 V_flow n x) = 0 :=
+  bernoulliAerodynamicMoment_orthogonal_force 101325 1.2 V_flow n CM x
+
 /-- Halbach transverse magnetic field deflects longitudinal electron velocity into the x-axis. -/
 example :
     magneticLorentzForce (-1) (longitudinalVelocity 4) (transverseHalbachField 3) =
@@ -3714,13 +3755,43 @@ example :
     electrostaticWaveEnergyDensity 2 3 ≤ electrostaticWaveEnergyDensity 2 5 := by
   exact dawson_energy_density_bound 2 3 5 (by norm_num) (by norm_num) (by norm_num)
 
-/-- Positive bump-on-tail distribution slope yields strictly positive inverse Landau growth. -/
+/-- Positive bump-on-tail distribution slope yields strictly positive inverse Landau growth for k > 0. -/
 example : 0 < landauGrowthRate 2 3 4 1 := by
   exact inverse_landau_growth_pos 2 3 4 1 (by norm_num) (by norm_num) (by norm_num) (by norm_num)
 
-/-- Negative thermal Maxwellian slope yields strictly negative Landau damping. -/
+/-- Negative thermal Maxwellian slope yields strictly negative Landau damping for k > 0. -/
 example : landauGrowthRate 2 3 4 (-1) < 0 := by
   exact thermal_landau_damping_neg 2 3 4 (-1) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
+/-- Checked Gaussian Maxwellian derivative at v = 1 is negative: -exp(-1/2). -/
+example : HasDerivAt (fun velocity : ℝ => Real.exp (-(velocity ^ 2) / 2))
+    (-Real.exp (-(1 / 2 : ℝ))) 1 := by
+  convert (Real.hasDerivAt_exp (- ((1 : ℝ) ^ 2) / 2)).comp 1
+    (((hasDerivAt_id (1 : ℝ)).pow 2).neg.div_const 2) using 1 <;>
+    norm_num [Function.comp_def]
+
+/-- Checked Gaussian Maxwellian derivative at v = -1 is positive: +exp(-1/2). -/
+example : HasDerivAt (fun velocity : ℝ => Real.exp (-(velocity ^ 2) / 2))
+    (Real.exp (-(1 / 2 : ℝ))) (-1) := by
+  convert (Real.hasDerivAt_exp (- ((-1 : ℝ) ^ 2) / 2)).comp (-1)
+    (((hasDerivAt_id (-1 : ℝ)).pow 2).neg.div_const 2) using 1 <;>
+    norm_num [Function.comp_def]
+
+/-- Forward wave (k = 1) in a Gaussian thermal Maxwellian damps (γ < 0). -/
+example : landauGrowthRate 1 1 1 (-Real.exp (-(1 / 2 : ℝ))) < 0 :=
+  thermal_landau_damping_neg 1 1 1 _
+    (by norm_num) (by norm_num) (by norm_num) (neg_neg_of_pos (Real.exp_pos _))
+
+/-- Backward wave (k = -1) in a Gaussian thermal Maxwellian (where ∂f₀/∂v(-1) = +exp(-1/2) > 0)
+also damps (γ < 0) rather than growing. -/
+example : landauGrowthRate 1 (-1) 1 (Real.exp (-(1 / 2 : ℝ))) < 0 :=
+  backward_thermal_landau_damping_neg 1 (-1) 1 _
+    (by norm_num) (by norm_num) (by norm_num) (Real.exp_pos _)
+
+/-- Regression guard: a backward wave (k = -1) with positive thermal slope at v = -1 cannot grow. -/
+example : ¬(0 < landauGrowthRate 1 (-1) 1 (Real.exp (-(1 / 2 : ℝ)))) :=
+  not_lt_of_gt (backward_thermal_landau_damping_neg 1 (-1) 1 _
+    (by norm_num) (by norm_num) (by norm_num) (Real.exp_pos _))
 
 /-- Zero quasilinear plateau slope saturates linear Landau growth at zero. -/
 example : landauGrowthRate 2 3 4 0 = 0 := by

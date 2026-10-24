@@ -835,30 +835,50 @@ lemma dynamicPressure_nonneg (ρ_fluid : ℝ) (V_wake : Vec3 → Vec3)
   have h_norm := normSqVec3_nonneg (V_wake x)
   nlinarith
 
-/-- Differential normal surface pressure force `dF(x) = -q(x) • n(x)`. -/
+/-- Uncalibrated dynamic-pressure surface load proxy `dF_proxy(x) = -q(x) • n(x)`.
+
+This retains the source chat's literal `-½ρ‖V‖² n` expression as a dynamic-pressure
+load proxy. It is not the static Bernoulli surface traction: at a stagnation point
+(`V(x) = 0`) this proxy vanishes whereas static Bernoulli pressure reaches its
+stagnation maximum `p_0`. Use `bernoulliSurfaceTraction` for static-pressure loading. -/
 @[blueprint "def:signals-differential-pressure-force"
-  (title := "Differential surface pressure force")
+  (title := "Uncalibrated dynamic-pressure surface load proxy")
   (statement := /-- At hull point $\mathbf x$ with outward normal $\mathbf n(\mathbf x)$,
-    the differential pressure force vector is $-q(\mathbf x)\,\mathbf n(\mathbf x)$. -/)]
+    the dynamic-pressure load proxy is $-q(\mathbf x)\,\mathbf n(\mathbf x)$. Because $q(\mathbf x)$
+    vanishes at stagnation ($\mathbf V(\mathbf x)=\mathbf 0$), this is a dynamic-pressure proxy
+    rather than static Bernoulli traction; see \texttt{bernoulliSurfaceTraction}. -/)]
 noncomputable def differentialPressureForce
     (ρ_fluid : ℝ) (V_wake n : Vec3 → Vec3) (x : Vec3) : Vec3 :=
   (- dynamicPressure ρ_fluid V_wake x) • (n x)
 
-/-- Differential aerodynamic torque vector `dτ(x) = (x - CM) ⨯₃ dF(x)` relative to `CM`. -/
+/-- At a stagnation point (`V_wake x = 0`), the dynamic-pressure load proxy vanishes. -/
+@[blueprint "lem:signals-pressure-force-proxy-at-stagnation"
+  (title := "Dynamic-pressure load proxy vanishes at stagnation")
+  (statement := /-- At a stagnation point $\mathbf V(\mathbf x)=\mathbf 0$, the dynamic-pressure
+    load proxy satisfies $-q(\mathbf x)\,\mathbf n(\mathbf x)=\mathbf 0$. -/)
+  (proof := /-- Substitute $\mathbf V(\mathbf x)=\mathbf 0$ into $q(\mathbf x)$. -/)
+  (latexEnv := "lemma")]
+lemma differentialPressureForce_at_stagnation
+    (ρ_fluid : ℝ) (V_wake n : Vec3 → Vec3) (x : Vec3) (h_stag : V_wake x = 0) :
+    differentialPressureForce ρ_fluid V_wake n x = 0 := by
+  simp [differentialPressureForce, dynamicPressure, normSqVec3, h_stag]
+
+/-- Differential aerodynamic torque proxy `dτ_proxy(x) = (x - CM) ⨯₃ dF_proxy(x)` relative to `CM`. -/
 @[blueprint "def:signals-differential-aerodynamic-moment"
-  (title := "Differential aerodynamic moment vector")
+  (title := "Differential dynamic-pressure moment proxy")
   (statement := /-- Relative to center of mass $\mathbf x_{\mathrm{CM}}$, the differential
-    aerodynamic torque is $(\mathbf x-\mathbf x_{\mathrm{CM}})\times d\mathbf F(\mathbf x)$. -/)]
+    moment of the dynamic-pressure load proxy is
+    $(\mathbf x-\mathbf x_{\mathrm{CM}})\times (-q(\mathbf x)\,\mathbf n(\mathbf x))$. -/)]
 noncomputable def differentialAerodynamicMoment
     (ρ_fluid : ℝ) (V_wake n : Vec3 → Vec3) (CM x : Vec3) : Vec3 :=
   (x - CM) ⨯₃ (differentialPressureForce ρ_fluid V_wake n x)
 
-/-- Total aerodynamic torque vector integrated over a surface `hullSurface` with
-respect to an explicit surface-area measure `μ`. -/
+/-- Total dynamic-pressure moment proxy integrated over `hullSurface` with respect to
+surface-area measure `μ`. -/
 @[blueprint "def:signals-total-aerodynamic-moment"
-  (title := "Surface-integrated aerodynamic moment")
-  (statement := /-- Integrating the differential aerodynamic torque componentwise over a hull
-    surface with respect to surface measure $\mu$ yields the total aerodynamic moment vector. -/)]
+  (title := "Surface-integrated dynamic-pressure moment proxy")
+  (statement := /-- Integrating the differential dynamic-pressure moment proxy componentwise over a hull
+    surface with respect to surface measure $\mu$ yields the total moment proxy vector. -/)]
 noncomputable def totalAerodynamicMoment
     (ρ_fluid : ℝ) (V_wake n : Vec3 → Vec3) (hullSurface : Set Vec3) (CM : Vec3)
     [MeasurableSpace Vec3] (μ : Measure Vec3) : Vec3 :=
@@ -890,6 +910,158 @@ lemma differentialAerodynamicMoment_orthogonal_force
     (differentialAerodynamicMoment ρ_fluid V_wake n CM x) ⬝ᵥ
       (differentialPressureForce ρ_fluid V_wake n x) = 0 := by
   simp only [differentialAerodynamicMoment, dotProduct_comm, dot_cross_self]
+
+/-- Incompressible inviscid Bernoulli static pressure `p(x) = p_0 - (1/2) ρ ‖V(x)‖²`
+from stagnation (total) pressure `p_0`. -/
+@[blueprint "def:signals-bernoulli-static-pressure"
+  (title := "Bernoulli static pressure from stagnation pressure")
+  (statement := /-- Along an incompressible inviscid streamline with stagnation pressure $p_0$,
+    the local static pressure is $p(\mathbf x)=p_0-q(\mathbf x)=p_0-\tfrac12\rho\lVert\mathbf V(\mathbf x)\rVert^2$. -/)]
+noncomputable def bernoulliStaticPressure
+    (p_stagnation ρ_fluid : ℝ) (V_flow : Vec3 → Vec3) (x : Vec3) : ℝ :=
+  p_stagnation - dynamicPressure ρ_fluid V_flow x
+
+/-- Dimensionless aerodynamic pressure coefficient `C_p(x) = 1 - ‖V(x)‖² / V_ref²`. -/
+@[blueprint "def:signals-pressure-coefficient"
+  (title := "Incompressible aerodynamic pressure coefficient")
+  (statement := /-- Relative to squared reference speed $V_{\mathrm{ref}}^2$, the incompressible
+    pressure coefficient is $C_p(\mathbf x)=1-\lVert\mathbf V(\mathbf x)\rVert^2/V_{\mathrm{ref}}^2$. -/)]
+noncomputable def pressureCoefficient (V_ref_sq : ℝ) (V_flow : Vec3 → Vec3) (x : Vec3) : ℝ :=
+  1 - normSqVec3 (V_flow x) / V_ref_sq
+
+/-- Static pressure reconstructed from freestream static pressure `p_inf`, density `ρ_fluid`,
+and squared freestream speed `V_inf_sq`: `p(x) = p_inf + q_inf * C_p(x)`. -/
+@[blueprint "def:signals-bernoulli-freestream-pressure"
+  (title := "Freestream pressure-coefficient static pressure reconstruction")
+  (statement := /-- From freestream static pressure $p_\infty$, density $\rho$, and squared reference
+    speed $V_\infty^2$, reconstruct static pressure as
+    $p_{\mathrm{fs}}(\mathbf x)=p_\infty+\tfrac12\rho V_\infty^2\,C_p(\mathbf x)$. -/)]
+noncomputable def bernoulliStaticPressureFromFreestream
+    (p_inf ρ_fluid V_inf_sq : ℝ) (V_flow : Vec3 → Vec3) (x : Vec3) : ℝ :=
+  p_inf + (0.5 * ρ_fluid * V_inf_sq) * pressureCoefficient V_inf_sq V_flow x
+
+/-- Reconstructing static pressure from `p_inf + q_inf * C_p(x)` agrees identically with
+`p_0 - q(x)` when `p_0 = p_inf + (1/2) ρ V_inf²` and `V_inf² ≠ 0`. -/
+@[blueprint "thm:signals-bernoulli-static-eq-freestream"
+  (title := "Bernoulli static pressure matches pressure-coefficient reconstruction")
+  (statement := /-- When $V_\infty^2\ne 0$ and $p_0=p_\infty+\tfrac12\rho V_\infty^2$,
+    $p_0-q(\mathbf x)=p_\infty+q_\infty C_p(\mathbf x)$. -/)
+  (proof := /-- Unfold \texttt{pressureCoefficient} and clear $V_\infty^2\ne 0$. -/)]
+theorem bernoulliStaticPressure_eq_freestream
+    (p_0 p_inf ρ_fluid V_inf_sq : ℝ) (V_flow : Vec3 → Vec3) (x : Vec3)
+    (h_Vref : V_inf_sq ≠ 0) (h_p0 : p_0 = p_inf + 0.5 * ρ_fluid * V_inf_sq) :
+    bernoulliStaticPressure p_0 ρ_fluid V_flow x =
+      bernoulliStaticPressureFromFreestream p_inf ρ_fluid V_inf_sq V_flow x := by
+  unfold bernoulliStaticPressure bernoulliStaticPressureFromFreestream
+    dynamicPressure pressureCoefficient
+  rw [h_p0]
+  field_simp [h_Vref]
+  ring
+
+/-- At a stagnation point (`V_flow x = 0`), the pressure coefficient is `+1` and static
+Bernoulli pressure attains its stagnation maximum `p_0`. -/
+@[blueprint "thm:signals-bernoulli-stagnation-recovery"
+  (title := "Stagnation point recovers full total pressure and unit pressure coefficient")
+  (statement := /-- If $\mathbf V(\mathbf x)=\mathbf 0$, then $C_p(\mathbf x)=1$ and
+    $p(\mathbf x)=p_0$, whereas $q(\mathbf x)=0$. -/)
+  (proof := /-- Substitute $\mathbf V(\mathbf x)=\mathbf 0$ into $q(\mathbf x)$, $C_p(\mathbf x)$, and $p(\mathbf x)$. -/)]
+theorem bernoulliStaticPressure_at_stagnation
+    (p_0 ρ_fluid V_ref_sq : ℝ) (V_flow : Vec3 → Vec3) (x : Vec3)
+    (h_stag : V_flow x = 0) :
+    pressureCoefficient V_ref_sq V_flow x = 1 ∧
+      bernoulliStaticPressure p_0 ρ_fluid V_flow x = p_0 ∧
+      dynamicPressure ρ_fluid V_flow x = 0 := by
+  refine ⟨?_, ?_, ?_⟩
+  · simp [pressureCoefficient, normSqVec3, h_stag]
+  · simp [bernoulliStaticPressure, dynamicPressure, normSqVec3, h_stag]
+  · simp [dynamicPressure, normSqVec3, h_stag]
+
+/-- Higher local flow speed lowers the static Bernoulli pressure (`∂p/∂(|V|²) ≤ 0`). -/
+@[blueprint "lem:signals-bernoulli-static-decreases-with-speed"
+  (title := "Static Bernoulli pressure decreases with flow speed")
+  (statement := /-- For $\rho\ge 0$ and $\lVert\mathbf V_1(\mathbf x)\rVert^2\le\lVert\mathbf V_2(\mathbf x)\rVert^2$,
+    $p_0-\tfrac12\rho\lVert\mathbf V_2(\mathbf x)\rVert^2\le p_0-\tfrac12\rho\lVert\mathbf V_1(\mathbf x)\rVert^2$. -/)
+  (proof := /-- Scale the squared-speed inequality by $-\tfrac12\rho\le 0$. -/)
+  (latexEnv := "lemma")]
+lemma bernoulliStaticPressure_decreases_with_speed
+    (p_0 ρ_fluid : ℝ) (V_1 V_2 : Vec3 → Vec3) (x : Vec3)
+    (h_ρ : 0 ≤ ρ_fluid) (h_speed : normSqVec3 (V_1 x) ≤ normSqVec3 (V_2 x)) :
+    bernoulliStaticPressure p_0 ρ_fluid V_2 x ≤
+      bernoulliStaticPressure p_0 ρ_fluid V_1 x := by
+  unfold bernoulliStaticPressure dynamicPressure
+  nlinarith
+
+/-- Physical normal surface pressure traction `dF_static(x) = -p(x) • n(x)` using
+Bernoulli static pressure `p(x) = p_0 - (1/2) ρ ‖V(x)‖²`. -/
+@[blueprint "def:signals-bernoulli-surface-traction"
+  (title := "Static Bernoulli normal surface traction")
+  (statement := /-- At hull point $\mathbf x$ with outward normal $\mathbf n(\mathbf x)$,
+    the static pressure traction is $-p(\mathbf x)\,\mathbf n(\mathbf x)=-(p_0-q(\mathbf x))\,\mathbf n(\mathbf x)$. -/)]
+noncomputable def bernoulliSurfaceTraction
+    (p_stagnation ρ_fluid : ℝ) (V_flow n : Vec3 → Vec3) (x : Vec3) : Vec3 :=
+  (- bernoulliStaticPressure p_stagnation ρ_fluid V_flow x) • (n x)
+
+/-- At a stagnation point (`V_flow x = 0`), the static Bernoulli surface traction equals
+`(-p_0) • n(x)` rather than zero. -/
+@[blueprint "lem:signals-bernoulli-traction-at-stagnation"
+  (title := "Nonvanishing static Bernoulli traction at stagnation")
+  (statement := /-- At a stagnation point $\mathbf V(\mathbf x)=\mathbf 0$,
+    the static Bernoulli surface traction is $-p_0\,\mathbf n(\mathbf x)$. -/)
+  (proof := /-- Apply \texttt{bernoulliStaticPressure\_at\_stagnation}. -/)
+  (latexEnv := "lemma")]
+lemma bernoulliSurfaceTraction_at_stagnation
+    (p_0 ρ_fluid : ℝ) (V_flow n : Vec3 → Vec3) (x : Vec3)
+    (h_stag : V_flow x = 0) :
+    bernoulliSurfaceTraction p_0 ρ_fluid V_flow n x = (- p_0) • (n x) := by
+  have h := (bernoulliStaticPressure_at_stagnation p_0 ρ_fluid 1 V_flow x h_stag).2.1
+  simp [bernoulliSurfaceTraction, h]
+
+/-- Differential aerodynamic moment `dτ(x) = (x - CM) ⨯₃ (-p(x) • n(x))` from static
+Bernoulli surface traction. -/
+@[blueprint "def:signals-bernoulli-aerodynamic-moment"
+  (title := "Differential static-Bernoulli aerodynamic moment")
+  (statement := /-- The differential torque from static Bernoulli surface traction is
+    $(\mathbf x-\mathbf x_{\mathrm{CM}})\times(-p(\mathbf x)\,\mathbf n(\mathbf x))$. -/)]
+noncomputable def bernoulliAerodynamicMoment
+    (p_stagnation ρ_fluid : ℝ) (V_flow n : Vec3 → Vec3) (CM x : Vec3) : Vec3 :=
+  (x - CM) ⨯₃ (bernoulliSurfaceTraction p_stagnation ρ_fluid V_flow n x)
+
+/-- Total aerodynamic moment integrated over `hullSurface` using static Bernoulli traction. -/
+@[blueprint "def:signals-total-bernoulli-aerodynamic-moment"
+  (title := "Surface-integrated static-Bernoulli aerodynamic moment")
+  (statement := /-- Integrating the static-Bernoulli differential moment componentwise over a hull
+    surface with respect to surface measure $\mu$ yields the total static-Bernoulli aerodynamic moment. -/)]
+noncomputable def totalBernoulliAerodynamicMoment
+    (p_stagnation ρ_fluid : ℝ) (V_flow n : Vec3 → Vec3) (hullSurface : Set Vec3) (CM : Vec3)
+    [MeasurableSpace Vec3] (μ : Measure Vec3) : Vec3 :=
+  fun i => ∫ x in hullSurface, bernoulliAerodynamicMoment p_stagnation ρ_fluid V_flow n CM x i ∂μ
+
+/-- The differential static-Bernoulli aerodynamic moment at any hull point `x` is
+orthogonal to the lever arm `x - CM`. -/
+@[blueprint "lem:signals-bernoulli-moment-orthogonal-lever"
+  (title := "Static-Bernoulli aerodynamic moment is orthogonal to lever arm")
+  (statement := /-- At every hull point $\mathbf x$,
+    $((\mathbf x-\mathbf x_{\mathrm{CM}})\times(-p(\mathbf x)\,\mathbf n(\mathbf x)))\cdot(\mathbf x-\mathbf x_{\mathrm{CM}})=0$. -/)
+  (proof := /-- Apply cross-product self-orthogonality \texttt{dot\_self\_cross}. -/)
+  (latexEnv := "lemma")]
+lemma bernoulliAerodynamicMoment_orthogonal_lever_arm
+    (p_stagnation ρ_fluid : ℝ) (V_flow n : Vec3 → Vec3) (CM x : Vec3) :
+    (bernoulliAerodynamicMoment p_stagnation ρ_fluid V_flow n CM x) ⬝ᵥ (x - CM) = 0 := by
+  simp only [bernoulliAerodynamicMoment, dotProduct_comm, dot_self_cross]
+
+/-- The differential static-Bernoulli aerodynamic moment at any hull point `x` is
+orthogonal to the local static-Bernoulli normal surface traction. -/
+@[blueprint "lem:signals-bernoulli-moment-orthogonal-force"
+  (title := "Static-Bernoulli aerodynamic moment is orthogonal to surface traction")
+  (statement := /-- At every hull point $\mathbf x$,
+    $((\mathbf x-\mathbf x_{\mathrm{CM}})\times(-p(\mathbf x)\,\mathbf n(\mathbf x)))\cdot(-p(\mathbf x)\,\mathbf n(\mathbf x))=0$. -/)
+  (proof := /-- Apply cross-product orthogonality \texttt{dot\_cross\_self}. -/)
+  (latexEnv := "lemma")]
+lemma bernoulliAerodynamicMoment_orthogonal_force
+    (p_stagnation ρ_fluid : ℝ) (V_flow n : Vec3 → Vec3) (CM x : Vec3) :
+    (bernoulliAerodynamicMoment p_stagnation ρ_fluid V_flow n CM x) ⬝ᵥ
+      (bernoulliSurfaceTraction p_stagnation ρ_fluid V_flow n x) = 0 := by
+  simp only [bernoulliAerodynamicMoment, dotProduct_comm, dot_cross_self]
 
 /-- Purely longitudinal particle velocity `(0, 0, vz)`. -/
 @[blueprint "def:signals-longitudinal-velocity"
@@ -1172,44 +1344,91 @@ theorem dawson_energy_density_bound (ε0 E_z E_dawson : ℝ)
       _ = E_dawson ^ 2 - E_z ^ 2 := by ring
   nlinarith
 
-/-- Linear Vlasov-Poisson Landau growth/damping rate
-`γ = (π * ω_p³ / (2 * k² * n_0)) * (∂f₀/∂v)|_{v = ω/k}`. -/
+/-- Linear Vlasov-Poisson Landau growth/damping rate with signed wavenumber convention
+`γ = (π * ω_p³ / (2 * k * |k| * n_0)) * (∂f₀/∂v)|_{v = ω/k}`.
+
+The signed factor `k * |k|` (from the Plemelj residue of `1 / (k * v - ω)` for `ω > 0`)
+ensures that a thermal Maxwellian damps (`γ < 0`) both forward waves (`k > 0`, `v_φ > 0`,
+`∂f₀/∂v < 0`) and backward waves (`k < 0`, `v_φ < 0`, `∂f₀/∂v > 0`). -/
 @[blueprint "def:signals-landau-growth-rate"
   (title := "Linear Vlasov-Poisson Landau growth/damping rate")
-  (statement := /-- Given plasma frequency $\omega_p$, wavenumber $k$, background density $n_0$,
+  (statement := /-- Given plasma frequency $\omega_p$, signed wavenumber $k$, background density $n_0$,
     and resonant distribution slope $\partial_v f_0$, the linear Landau rate is
-    $\gamma=\frac{\pi\omega_p^3}{2k^2 n_0}\,\partial_v f_0$. -/)]
+    $\gamma=\frac{\pi\omega_p^3}{2k|k| n_0}\,\partial_v f_0$. -/)]
 noncomputable def landauGrowthRate (ω_p k n_0 df_dv : ℝ) : ℝ :=
-  (Real.pi * ω_p ^ 3 / (2 * k ^ 2 * n_0)) * df_dv
+  (Real.pi * ω_p ^ 3 / (2 * k * |k| * n_0)) * df_dv
 
-/-- A positive velocity-distribution slope (`df_dv > 0`, bump-on-tail instability)
-at the resonant phase velocity yields a strictly positive linear growth rate (`0 < γ`). -/
-@[blueprint "thm:signals-inverse-landau-growth-pos"
-  (title := "Bump-on-tail positive slope drives inverse Landau amplification")
-  (statement := /-- When $\omega_p>0$, $k\ne 0$, $n_0>0$, and $\partial_v f_0>0$,
-    the linear growth rate satisfies $\gamma>0$. -/)
-  (proof := /-- Apply positivity to the quotient $\pi\omega_p^3/(2k^2 n_0)>0$ and $\partial_v f_0>0$. -/)]
-theorem inverse_landau_growth_pos (ω_p k n_0 df_dv : ℝ)
-    (h_ωp : 0 < ω_p) (h_k : k ≠ 0) (h_n0 : 0 < n_0) (h_bump : 0 < df_dv) :
-    0 < landauGrowthRate ω_p k n_0 df_dv := by
+/-- For a forward-propagating wave (`0 < k`), `k * |k| = k²`. -/
+@[blueprint "lem:signals-landau-growth-rate-pos-k"
+  (title := "Forward-wave reduction of signed Landau rate")
+  (statement := /-- When $k>0$, $k|k|=k^2$ and
+    $\gamma=\frac{\pi\omega_p^3}{2k^2 n_0}\,\partial_v f_0$. -/)
+  (proof := /-- Rewrite $|k|=k$ for $k>0$ and simplify by ring algebra. -/)
+  (latexEnv := "lemma")]
+lemma landauGrowthRate_pos_k (ω_p k n_0 df_dv : ℝ) (h_k : 0 < k) :
+    landauGrowthRate ω_p k n_0 df_dv =
+      (Real.pi * ω_p ^ 3 / (2 * k ^ 2 * n_0)) * df_dv := by
   unfold landauGrowthRate
-  have hk2 : 0 < k ^ 2 := sq_pos_of_ne_zero h_k
+  rw [abs_of_pos h_k]
+  ring
+
+/-- For a backward-propagating wave (`k < 0`), `k * |k| = -k²`. -/
+@[blueprint "lem:signals-landau-growth-rate-neg-k"
+  (title := "Backward-wave reduction of signed Landau rate")
+  (statement := /-- When $k<0$, $k|k|=-k^2$ and
+    $\gamma=-\frac{\pi\omega_p^3}{2k^2 n_0}\,\partial_v f_0$. -/)
+  (proof := /-- Rewrite $|k|=-k$ for $k<0$ and simplify by ring algebra. -/)
+  (latexEnv := "lemma")]
+lemma landauGrowthRate_neg_k (ω_p k n_0 df_dv : ℝ) (h_k : k < 0) :
+    landauGrowthRate ω_p k n_0 df_dv =
+      - ((Real.pi * ω_p ^ 3 / (2 * k ^ 2 * n_0)) * df_dv) := by
+  unfold landauGrowthRate
+  rw [abs_of_neg h_k]
+  ring
+
+/-- For a forward wave (`0 < k`), a positive velocity-distribution slope (`df_dv > 0`,
+bump-on-tail instability) at the resonant phase velocity yields a strictly positive
+linear growth rate (`0 < γ`). -/
+@[blueprint "thm:signals-inverse-landau-growth-pos"
+  (title := "Forward bump-on-tail positive slope drives inverse Landau amplification")
+  (statement := /-- When $\omega_p>0$, $k>0$, $n_0>0$, and $\partial_v f_0>0$,
+    the linear growth rate satisfies $\gamma>0$. -/)
+  (proof := /-- Rewrite $k|k|=k^2$ for $k>0$ and apply positivity to $\pi\omega_p^3/(2k^2 n_0)>0$ and $\partial_v f_0>0$. -/)]
+theorem inverse_landau_growth_pos (ω_p k n_0 df_dv : ℝ)
+    (h_ωp : 0 < ω_p) (h_k : 0 < k) (h_n0 : 0 < n_0) (h_bump : 0 < df_dv) :
+    0 < landauGrowthRate ω_p k n_0 df_dv := by
+  rw [landauGrowthRate_pos_k ω_p k n_0 df_dv h_k]
   positivity
 
-/-- A negative velocity-distribution slope (`df_dv < 0`, thermal Maxwellian tail)
-at the resonant phase velocity yields linear Landau damping (`γ < 0`). -/
+/-- For a forward wave (`0 < k`), a negative velocity-distribution slope (`df_dv < 0`,
+thermal Maxwellian tail at `v_φ = ω/k > 0`) yields linear Landau damping (`γ < 0`). -/
 @[blueprint "thm:signals-thermal-landau-damping-neg"
-  (title := "Negative thermal slope induces Landau damping")
-  (statement := /-- When $\omega_p>0$, $k\ne 0$, $n_0>0$, and $\partial_v f_0<0$,
+  (title := "Forward thermal Maxwellian slope induces Landau damping")
+  (statement := /-- When $\omega_p>0$, $k>0$, $n_0>0$, and $\partial_v f_0<0$,
     the linear Landau rate is strictly negative ($\gamma<0$). -/)
-  (proof := /-- Multiply the positive prefactor $\pi\omega_p^3/(2k^2 n_0)>0$ by $\partial_v f_0<0$. -/)]
+  (proof := /-- Rewrite $k|k|=k^2$ for $k>0$ and multiply the positive prefactor $\pi\omega_p^3/(2k^2 n_0)>0$ by $\partial_v f_0<0$. -/)]
 theorem thermal_landau_damping_neg (ω_p k n_0 df_dv : ℝ)
-    (h_ωp : 0 < ω_p) (h_k : k ≠ 0) (h_n0 : 0 < n_0) (h_thermal : df_dv < 0) :
+    (h_ωp : 0 < ω_p) (h_k : 0 < k) (h_n0 : 0 < n_0) (h_thermal : df_dv < 0) :
     landauGrowthRate ω_p k n_0 df_dv < 0 := by
-  unfold landauGrowthRate
-  have hk2 : 0 < k ^ 2 := sq_pos_of_ne_zero h_k
+  rw [landauGrowthRate_pos_k ω_p k n_0 df_dv h_k]
   have h_prefactor : 0 < Real.pi * ω_p ^ 3 / (2 * k ^ 2 * n_0) := by positivity
   exact mul_neg_of_pos_of_neg h_prefactor h_thermal
+
+/-- For a backward wave (`k < 0`), a positive velocity-distribution slope (`0 < df_dv`,
+as in a symmetric thermal Maxwellian evaluated at negative phase velocity `v_φ = ω/k < 0`)
+also yields linear Landau damping (`γ < 0`). -/
+@[blueprint "thm:signals-backward-thermal-landau-damping"
+  (title := "Backward wave in a thermal Maxwellian also undergoes Landau damping")
+  (statement := /-- When $\omega_p>0$, $k<0$, $n_0>0$, and $\partial_v f_0>0$ at $v_\phi=\omega/k<0$,
+    the signed-wavenumber Landau rate satisfies $\gamma<0$. -/)
+  (proof := /-- Rewrite $k|k|=-k^2$ for $k<0$ and negate the positive product $(\pi\omega_p^3/(2k^2 n_0))\partial_v f_0>0$. -/)]
+theorem backward_thermal_landau_damping_neg (ω_p k n_0 df_dv : ℝ)
+    (h_ωp : 0 < ω_p) (h_k : k < 0) (h_n0 : 0 < n_0) (h_thermal_back : 0 < df_dv) :
+    landauGrowthRate ω_p k n_0 df_dv < 0 := by
+  rw [landauGrowthRate_neg_k ω_p k n_0 df_dv h_k]
+  have hk2 : 0 < k ^ 2 := sq_pos_of_ne_zero (ne_of_lt h_k)
+  have h_pos : 0 < (Real.pi * ω_p ^ 3 / (2 * k ^ 2 * n_0)) * df_dv := by positivity
+  linarith
 
 /-- Quasilinear plateau saturation: when resonant trapping flattens the distribution
 slope (`df_dv = 0`), the linear Landau growth rate vanishes (`γ = 0`). -/

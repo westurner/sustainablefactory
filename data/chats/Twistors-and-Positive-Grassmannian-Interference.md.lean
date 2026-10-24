@@ -189,27 +189,65 @@ lemma dynamic_pressure_nonneg (h_ρ : 0 ≤ ρ_plasma) (x : Vec3) :
   have h_norm := normSqVec3_nonneg (V_wake x)
   nlinarith
 
-/-- The differential aerodynamic force vector at a point x on the surface. -/
+/-- Uncalibrated dynamic-pressure surface load proxy `dF_proxy(x) = -q(x) • n(x)`.
+    Note: At a stagnation point (`V_wake x = 0`) this proxy vanishes whereas static
+    Bernoulli pressure attains `p_0`; see `BernoulliSurfaceTraction` below. -/
 @[blueprint "def:wakefield-differential-force"
-  (title := "Differential aerodynamic surface force")
-  (statement := /-- The inward normal pressure force element is $-q(\mathbf x)\,\mathbf n(\mathbf x)$. -/)]
+  (title := "Uncalibrated dynamic-pressure surface load proxy")
+  (statement := /-- The dynamic-pressure load proxy is $-q(\mathbf x)\,\mathbf n(\mathbf x)$. -/)]
 noncomputable def DifferentialForce (x : Vec3) : Vec3 :=
   (- DynamicPressure ρ_plasma V_wake x) • (n x)
 
-/-- The differential Torque (Moment vector) at a point x relative to the Center of Mass. -/
+/-- Incompressible Bernoulli static pressure `p(x) = p_0 - q(x)` from stagnation pressure `p_0`. -/
+@[blueprint "def:wakefield-bernoulli-static-pressure"
+  (title := "Bernoulli static pressure")
+  (statement := /-- Static pressure is $p(\mathbf x)=p_0-\tfrac12\rho\lVert\mathbf V_{\mathrm{wake}}(\mathbf x)\rVert^2$. -/)]
+noncomputable def BernoulliStaticPressure (p_0 : ℝ) (x : Vec3) : ℝ :=
+  p_0 - DynamicPressure ρ_plasma V_wake x
+
+/-- Physical normal surface pressure traction `dF_static(x) = -p(x) • n(x)`. -/
+@[blueprint "def:wakefield-bernoulli-surface-traction"
+  (title := "Static Bernoulli surface traction")
+  (statement := /-- Static Bernoulli traction is $-p(\mathbf x)\,\mathbf n(\mathbf x)=-(p_0-q(\mathbf x))\,\mathbf n(\mathbf x)$. -/)]
+noncomputable def BernoulliSurfaceTraction (p_0 : ℝ) (x : Vec3) : Vec3 :=
+  (- BernoulliStaticPressure ρ_plasma V_wake p_0 x) • (n x)
+
+/-- At a stagnation point (`V_wake x = 0`), static Bernoulli traction equals `(-p_0) • n(x)`
+    whereas the dynamic-pressure proxy vanishes. -/
+@[blueprint "thm:wakefield-bernoulli-stagnation-traction"
+  (title := "Stagnation point recovers static pressure traction")
+  (statement := /-- When $\mathbf V_{\mathrm{wake}}(\mathbf x)=\mathbf 0$,
+    $-p(\mathbf x)\,\mathbf n(\mathbf x)=-p_0\,\mathbf n(\mathbf x)$ while $-q(\mathbf x)\,\mathbf n(\mathbf x)=\mathbf 0$. -/)
+  (proof := /-- Substitute $\mathbf V_{\mathrm{wake}}(\mathbf x)=\mathbf 0$ into $q(\mathbf x)$ and $p(\mathbf x)$. -/)]
+theorem bernoulli_stagnation_traction (p_0 : ℝ) (x : Vec3) (h_stag : V_wake x = 0) :
+    BernoulliSurfaceTraction ρ_plasma V_wake n p_0 x = (- p_0) • (n x) ∧
+      DifferentialForce ρ_plasma V_wake n x = 0 := by
+  constructor
+  · simp [BernoulliSurfaceTraction, BernoulliStaticPressure, DynamicPressure, normSqVec3, h_stag]
+  · simp [DifferentialForce, DynamicPressure, normSqVec3, h_stag]
+
+/-- Differential aerodynamic torque proxy at a point `x` relative to the Center of Mass. -/
 @[blueprint "def:wakefield-differential-moment"
-  (title := "Differential aerodynamic moment vector")
-  (statement := /-- The differential torque relative to $\mathbf x_{\mathrm{CM}}$ is
-    $(\mathbf x-\mathbf x_{\mathrm{CM}})\times d\mathbf F(\mathbf x)$. -/)]
+  (title := "Differential dynamic-pressure moment proxy")
+  (statement := /-- The differential moment of the dynamic-pressure load proxy relative to $\mathbf x_{\mathrm{CM}}$ is
+    $(\mathbf x-\mathbf x_{\mathrm{CM}})\times (-q(\mathbf x)\,\mathbf n(\mathbf x))$. -/)]
 noncomputable def DifferentialMoment (x : Vec3) : Vec3 :=
   (x - CM) ⨯₃ (DifferentialForce ρ_plasma V_wake n x)
 
-/-- The total aerodynamic Moment Vector (Torque) integrated over the Airfoil Hull
+/-- Differential aerodynamic moment from static Bernoulli surface traction. -/
+@[blueprint "def:wakefield-bernoulli-differential-moment"
+  (title := "Differential static-Bernoulli aerodynamic moment")
+  (statement := /-- The differential torque from static Bernoulli surface traction is
+    $(\mathbf x-\mathbf x_{\mathrm{CM}})\times (-p(\mathbf x)\,\mathbf n(\mathbf x))$. -/)]
+noncomputable def BernoulliDifferentialMoment (p_0 : ℝ) (x : Vec3) : Vec3 :=
+  (x - CM) ⨯₃ (BernoulliSurfaceTraction ρ_plasma V_wake n p_0 x)
+
+/-- The total dynamic-pressure moment proxy integrated over the Airfoil Hull
     with respect to surface area measure `μ`. -/
 @[blueprint "def:wakefield-total-aerodynamic-moment"
-  (title := "Surface-integrated aerodynamic moment")
-  (statement := /-- Integrating the differential moment over the hull surface with respect to
-    surface measure $\mu$ yields the total aerodynamic moment vector. -/)]
+  (title := "Surface-integrated dynamic-pressure moment proxy")
+  (statement := /-- Integrating the differential dynamic-pressure moment proxy over the hull surface with respect to
+    surface measure $\mu$ yields the total moment proxy vector. -/)]
 noncomputable def total_aerodynamic_moment [MeasurableSpace Vec3] (μ : Measure Vec3) : Vec3 :=
   fun i => ∫ x in AirfoilSurface, DifferentialMoment ρ_plasma V_wake n CM x i ∂μ
 
@@ -597,39 +635,56 @@ energy exchange is conservative.
 -/
 namespace InverseLandauResonance
 
-/-- Linear Landau growth/damping rate γ = (π * ω_p³ / (2 * k² * n_0)) * (∂f₀/∂v)|_{v = ω/k}. -/
+/-- Linear Landau growth/damping rate with signed wavenumber convention:
+    `γ = (π * ω_p³ / (2 * k * |k| * n_0)) * (∂f₀/∂v)|_{v = ω/k}`. -/
 @[blueprint "def:wakefield-landau-growth-rate"
   (title := "Linear Vlasov-Poisson Landau growth rate")
-  (statement := /-- $\gamma=\frac{\pi\omega_p^3}{2k^2 n_0}\,\partial_v f_0$. -/)]
+  (statement := /-- $\gamma=\frac{\pi\omega_p^3}{2k|k| n_0}\,\partial_v f_0$. -/)]
 noncomputable def LandauGrowthRate (ω_p k n_0 df_dv : ℝ) : ℝ :=
-  (Real.pi * ω_p^3 / (2 * k^2 * n_0)) * df_dv
+  (Real.pi * ω_p^3 / (2 * k * |k| * n_0)) * df_dv
 
-/-- Theorem: Bump-on-Tail Positive Slope Triggers Inverse Landau Amplification
-    When the injected electron beam creates a positive distribution gradient `df_dv > 0`
-    at `v = ω/k`, the growth rate `γ` is strictly positive. -/
+/-- Theorem: Forward Bump-on-Tail Positive Slope Triggers Inverse Landau Amplification
+    When `0 < k` and `0 < df_dv` at `v = ω/k`, the growth rate `γ` is strictly positive. -/
 @[blueprint "thm:wakefield-inverse-landau-growth-pos"
-  (title := "Positive bump-on-tail slope drives inverse Landau growth")
-  (statement := /-- When $\omega_p>0$, $k\ne 0$, $n_0>0$, and $\partial_v f_0>0$, $\gamma>0$. -/)
-  (proof := /-- Apply positivity to the prefactor and positive slope. -/)]
+  (title := "Forward positive bump-on-tail slope drives inverse Landau growth")
+  (statement := /-- When $\omega_p>0$, $k>0$, $n_0>0$, and $\partial_v f_0>0$, $\gamma>0$. -/)
+  (proof := /-- Rewrite $|k|=k$ for $k>0$ and apply positivity. -/)]
 theorem inverse_landau_growth_pos (ω_p k n_0 df_dv : ℝ)
-    (h_ωp : 0 < ω_p) (h_k : k ≠ 0) (h_n0 : 0 < n_0) (h_bump : 0 < df_dv) :
+    (h_ωp : 0 < ω_p) (h_k : 0 < k) (h_n0 : 0 < n_0) (h_bump : 0 < df_dv) :
     0 < LandauGrowthRate ω_p k n_0 df_dv := by
   unfold LandauGrowthRate
-  have hk2 : 0 < k^2 := sq_pos_of_ne_zero h_k
+  rw [abs_of_pos h_k]
   positivity
 
-/-- Theorem: Negative Slope (Thermal Maxwellian) Induces Standard Landau Damping. -/
+/-- Theorem: Forward Negative Slope (Thermal Maxwellian) Induces Standard Landau Damping. -/
 @[blueprint "thm:wakefield-thermal-landau-damping-neg"
-  (title := "Negative thermal slope induces Landau damping")
-  (statement := /-- When $\omega_p>0$, $k\ne 0$, $n_0>0$, and $\partial_v f_0<0$, $\gamma<0$. -/)
-  (proof := /-- Multiply the positive prefactor by $\partial_v f_0<0$. -/)]
+  (title := "Forward negative thermal slope induces Landau damping")
+  (statement := /-- When $\omega_p>0$, $k>0$, $n_0>0$, and $\partial_v f_0<0$, $\gamma<0$. -/)
+  (proof := /-- Rewrite $|k|=k$ for $k>0$ and multiply the positive prefactor by $\partial_v f_0<0$. -/)]
 theorem thermal_landau_damping_neg (ω_p k n_0 df_dv : ℝ)
-    (h_ωp : 0 < ω_p) (h_k : k ≠ 0) (h_n0 : 0 < n_0) (h_thermal : df_dv < 0) :
+    (h_ωp : 0 < ω_p) (h_k : 0 < k) (h_n0 : 0 < n_0) (h_thermal : df_dv < 0) :
     LandauGrowthRate ω_p k n_0 df_dv < 0 := by
   unfold LandauGrowthRate
-  have hk2 : 0 < k^2 := sq_pos_of_ne_zero h_k
-  have h_prefactor : 0 < Real.pi * ω_p^3 / (2 * k^2 * n_0) := by positivity
+  rw [abs_of_pos h_k]
+  have h_prefactor : 0 < Real.pi * ω_p^3 / (2 * k * k * n_0) := by positivity
   exact mul_neg_of_pos_of_neg h_prefactor h_thermal
+
+/-- Theorem: Backward Wave (`k < 0`) in a Thermal Maxwellian (`0 < df_dv` at `v_φ < 0`)
+    Also Undergoes Landau Damping (`γ < 0`). -/
+@[blueprint "thm:wakefield-backward-thermal-landau-damping"
+  (title := "Backward wave in a thermal Maxwellian also undergoes Landau damping")
+  (statement := /-- When $\omega_p>0$, $k<0$, $n_0>0$, and $\partial_v f_0>0$ at $v_\phi=\omega/k<0$, $\gamma<0$. -/)
+  (proof := /-- Rewrite $|k|=-k$ for $k<0$ and negate the positive product. -/)]
+theorem backward_thermal_landau_damping_neg (ω_p k n_0 df_dv : ℝ)
+    (h_ωp : 0 < ω_p) (h_k : k < 0) (h_n0 : 0 < n_0) (h_thermal_back : 0 < df_dv) :
+    LandauGrowthRate ω_p k n_0 df_dv < 0 := by
+  unfold LandauGrowthRate
+  rw [abs_of_neg h_k]
+  have hk_neg : 0 < -k := neg_pos.mpr h_k
+  have h_pos : 0 < (Real.pi * ω_p^3 / (2 * (-k) * (-k) * n_0)) * df_dv := by positivity
+  have h_eq : (Real.pi * ω_p^3 / (2 * k * -k * n_0)) * df_dv =
+      - ((Real.pi * ω_p^3 / (2 * (-k) * (-k) * n_0)) * df_dv) := by ring
+  linarith
 
 /-- Theorem: Quasilinear Plateau Saturation
     When wave-particle trapping flattens the distribution slope (`df_dv = 0`),

@@ -38,7 +38,7 @@ This blueprint maps every electricity plant, cooling loop, and propulsion
 architecture discussed in
 {download}`Twistors-and-Positive-Grassmannian-Interference.md, lines 279-4019 <../data/chats/Twistors-and-Positive-Grassmannian-Interference.md>`
 and formalized in
-{download}`Twistors-and-Positive-Grassmannian-Interference.md.lean, lines 1-698 <../data/chats/Twistors-and-Positive-Grassmannian-Interference.md.lean>`
+{download}`Twistors-and-Positive-Grassmannian-Interference.md.lean, lines 1-851 <../data/chats/Twistors-and-Positive-Grassmannian-Interference.md.lean>`
 to its verified mathematical nodes in [MHD.lean](../src/signals/Signals/MHD.lean)
 and [DDF.lean](../src/signals/Signals/DDF.lean) and its conditional boundary
 contracts in [Pending.lean](../src/signals/Signals/Pending.lean) and
@@ -86,7 +86,7 @@ The plant traps longitudinal electrostatic plasma waves inside a Fabry-Pérot
 cavity ($L = n\lambda/2$, {download}`lines 2046-2065 <../data/chats/Twistors-and-Positive-Grassmannian-Interference.md>`)
 governed by the warm **Bohm-Gross dispersion relation**
 ({download}`lines 3590-3637 <../data/chats/Twistors-and-Positive-Grassmannian-Interference.md>`,
-{download}`Twistors-and-Positive-Grassmannian-Interference.md.lean, lines 441-519 <../data/chats/Twistors-and-Positive-Grassmannian-Interference.md.lean>`):
+{download}`Twistors-and-Positive-Grassmannian-Interference.md.lean, lines 539-626 <../data/chats/Twistors-and-Positive-Grassmannian-Interference.md.lean>`):
 
 $$
 \omega^2(k) = \omega_p^2 + 3 k^2 v_{\mathrm{th}}^2,
@@ -100,20 +100,24 @@ $$
   `def:signals-langmuir-phase-velocity`, `def:signals-bohm-gross-group-velocity`,
   `thm:signals-bohm-gross-velocity-product` ($v_\phi v_g = 3 v_{\mathrm{th}}^2$),
   and `thm:signals-bohm-gross-phase-velocity-bound` ($3 v_{\mathrm{th}}^2 \le v_\phi^2$).
-- **Bump-on-tail Inverse Landau pump**: Injecting a fast electron beam with
-  positive velocity-distribution slope $\partial_v f_0|_{v=\omega/k} > 0$
+- **Bump-on-tail Inverse Landau pump**: With the signed-wavenumber Plemelj
+  residue convention $2 k |k| n_0$ (`def:signals-landau-growth-rate`,
+  `lem:signals-landau-growth-rate-pos-k`, `lem:signals-landau-growth-rate-neg-k`),
+  injecting a fast forward electron beam ($k > 0$) with positive
+  velocity-distribution slope $\partial_v f_0|_{v=\omega/k} > 0$
   ({download}`lines 2067-2081 <../data/chats/Twistors-and-Positive-Grassmannian-Interference.md>`,
   {download}`lines 3640-3680 <../data/chats/Twistors-and-Positive-Grassmannian-Interference.md>`)
   yields linear growth rate
 
 $$
-\gamma = \frac{\pi \omega_p^3}{2 k^2 n_0}\left.\frac{\partial f_0}{\partial v}\right|_{v=\omega/k} > 0
+\gamma = \frac{\pi \omega_p^3}{2 k |k| n_0}\left.\frac{\partial f_0}{\partial v}\right|_{v=\omega/k} > 0
 \quad (\text{\texttt{thm:signals-inverse-landau-growth-pos}}),
 $$
 
-  whereas a thermal Maxwellian tail ($\partial_v f_0 < 0$) damps the wave
-  (`thm:signals-thermal-landau-damping-neg`) and quasilinear plateau formation
-  ($\partial_v f_0 = 0$) saturates growth at $\gamma = 0$
+  whereas a thermal Maxwellian damps both forward waves ($k > 0$, $\partial_v f_0 < 0$,
+  `thm:signals-thermal-landau-damping-neg`) and backward waves ($k < 0$, $\partial_v f_0 > 0$
+  at $v_\phi = \omega/k < 0$, `thm:signals-backward-thermal-landau-damping`), and
+  quasilinear plateau formation ($\partial_v f_0 = 0$) saturates growth at $\gamma = 0$
   (`lem:signals-quasilinear-plateau-saturation`). Resonant wave-particle power
   exchange is conservative:
   $\frac{dU_{\mathrm{wave}}}{dt} + \frac{dK_{\mathrm{beam}}}{dt} = 2\gamma U_{\mathrm{wave}} - 2\gamma U_{\mathrm{wave}} = 0$
@@ -136,7 +140,7 @@ B-LIG electrode capture ({download}`lines 2354-2378 <../data/chats/Twistors-and-
 2. **Work-Free Identity & Faraday Load Requirement (`thm:signals-magnetic-lorentz-work-free`)**:
    Because $q(\mathbf v\times\mathbf B)\cdot\mathbf v = 0$, the static magnetic
    field alone does zero work and cannot extract energy without an opposing
-   transverse load electric field $E_x$ (`FaradayChannel` in [MHD.lean](../src/signals/Signals/MHD.lean#L86)),
+   transverse load electric field $E_x$ (`FaradayChannel` in [MHD.lean](../src/signals/Signals/MHD.lean#L111)),
    whose matched-load power density is bounded by $\frac{1}{4}\sigma v^2 B^2$
    (`FaradayChannel.power_density_le_quarter_base`) and whose plant efficiency
    cannot exceed unity (`MHDPowerAccounting.full_efficiency_le_one`,
@@ -172,9 +176,19 @@ When operated as an Earth-to-orbit or high-G thruster
   Dumping hull supercapacitors in nanosecond pulses raises instantaneous peak
   force $F_{\mathrm{peak}}$, but time-averaged thrust remains bounded by duty
   cycle $d\in[0,1]$: $F_{\mathrm{avg}} = d\,F_{\mathrm{peak}} \le F_{\mathrm{peak}}$.
-- **Classical Aerodynamic Hull Torque (`def:signals-bernoulli-dynamic-pressure`, `def:signals-differential-aerodynamic-moment`, `def:signals-total-aerodynamic-moment`, `lem:signals-aerodynamic-moment-orthogonal-lever`, `lem:signals-aerodynamic-moment-orthogonal-force`)**:
-  Integrating Bernoulli dynamic pressure $q(\mathbf x) = \frac{1}{2}\rho\lVert\mathbf V_{\mathrm{wake}}(\mathbf x)\rVert^2$
-  with respect to an explicit 2D surface-area measure $\mu$ (fixing the chat's
+- **Classical Aerodynamic Hull Traction & Moments (`def:signals-bernoulli-dynamic-pressure`, `def:signals-bernoulli-static-pressure`, `def:signals-pressure-coefficient`, `def:signals-bernoulli-freestream-pressure`, `thm:signals-bernoulli-static-eq-freestream`, `thm:signals-bernoulli-stagnation-recovery`, `def:signals-bernoulli-surface-traction`, `lem:signals-bernoulli-traction-at-stagnation`, `def:signals-bernoulli-aerodynamic-moment`, `def:signals-total-bernoulli-aerodynamic-moment`, `lem:signals-bernoulli-moment-orthogonal-lever`, `lem:signals-bernoulli-moment-orthogonal-force`)**:
+  The chat's raw formula $-q(\mathbf x)\,\mathbf n(\mathbf x)$
+  (`def:signals-differential-pressure-force`) substitutes dynamic pressure
+  $q(\mathbf x) = \frac{1}{2}\rho\lVert\mathbf V(\mathbf x)\rVert^2$ for static
+  pressure and vanishes at a stagnation point ($\mathbf V(\mathbf x)=\mathbf 0$,
+  `lem:signals-pressure-force-proxy-at-stagnation`).
+  `bernoulliStaticPressure` and `bernoulliSurfaceTraction` model true static
+  Bernoulli pressure $p(\mathbf x) = p_0 - q(\mathbf x) = p_\infty + q_\infty C_p(\mathbf x)$
+  (`thm:signals-bernoulli-static-eq-freestream`), recovering full stagnation
+  pressure $p_0$ and $C_p = 1$ at $\mathbf V(\mathbf x)=\mathbf 0$
+  (`thm:signals-bernoulli-stagnation-recovery`) and decreasing monotonically
+  with local flow speed (`lem:signals-bernoulli-static-decreases-with-speed`).
+  Integrating over an explicit 2D surface-area measure $\mu$ (fixing the chat's
   3D Lebesgue `volume` measure bug) yields differential moments orthogonal to
   both the lever arm $\mathbf x - \mathbf x_{\mathrm{CM}}$ and normal force.
 - **Bi-Twistor Momentum Sink (`def:signals-twistor-momentum-sink`, `lem:signals-craft-momentum-opposite-wake`, `lem:signals-closed-polygon-zero-thrust`)**:

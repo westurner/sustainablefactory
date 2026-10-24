@@ -43,16 +43,18 @@ interpretation while keeping experimental premises explicit:
    resonator through an explicit lossy solid-to-Argon interface, and derives
    momentum-only Argon jet thrust. It further formalizes cycle-averaged
    ponderomotive potentials and drift forces, pulsed duty-cycle average-force
-   bounds, Bernoulli surface pressure and torque orthogonality, Halbach
-   transverse magnetic Lorentz deflection (and its work-free identity
-   `F ⬝ᵥ v = 0`), radial centrifugal pump head and closed-loop thermosyphon
-   buoyancy head, 3D gyroscopic precession torque, warm Langmuir Bohm-Gross
-   dispersion (`v_φ * v_g = 3 * v_th²`) and Dawson wave-breaking energy-density
-   bounds, linear Vlasov-Poisson Landau growth/damping and quasilinear plateau
-   saturation, force-free Woltjer-Taylor Beltrami currents (`J ⨯₃ B = 0`),
-   active cooling pinch margins, and discrete 4-cycle 1-cocycle gauge
-   invariance. It does not claim a Proca field accelerates neutral Argon or
-   that a vacuum-powered plant exists.
+   bounds, static Bernoulli pressure and pressure-coefficient surface traction
+   (alongside the source chat's dynamic-pressure load proxy and torque
+   orthogonality), Halbach transverse magnetic Lorentz deflection (and its
+   work-free identity `F ⬝ᵥ v = 0`), radial centrifugal pump head and
+   closed-loop thermosyphon buoyancy head, 3D gyroscopic precession torque,
+   warm Langmuir Bohm-Gross dispersion (`v_φ * v_g = 3 * v_th²`) and Dawson
+   wave-breaking energy-density bounds, signed-wavenumber linear Vlasov-Poisson
+   Landau growth/damping (including backward-wave thermal damping) and
+   quasilinear plateau saturation, force-free Woltjer-Taylor Beltrami currents
+   (`J ⨯₃ B = 0`), active cooling pinch margins, and discrete 4-cycle 1-cocycle
+   gauge invariance. It does not claim a Proca field accelerates neutral Argon
+   or that a vacuum-powered plant exists.
 - `Signals.Acoustics` models classical ultrasonic transfer from pressure
    amplitude and acoustic impedance through aperture, transducer, link, and
    receiver efficiencies. It proves passive received power is bounded by

@@ -23,6 +23,7 @@ name = "SignalsTests"
 
 [[lean_lib]]
 name = "SignalsPending"
+globs = ["SignalsPending", "Signals.Pending"]
 
 [[lean_lib]]
 name = "SignalsPendingTests"
