@@ -5037,4 +5037,105 @@ example (θ x y : ℝ) :
     h_splat.2.1, h_splat.2.2.1, h_splat.2.2.2.1, h_splat.2.2.2.2.2.1,
     h_splat.2.2.2.2.2.2⟩
 
+/-- AdS/CFT dictionary (Maldacena 1998, GKPW 1998, KSS 2005, Ryu-Takayanagi 2006),
+Planar Integrability (Beisert et al. 2012, arXiv:1012.3982), Secret Symmetries
+(de Leeuw et al. 2012, arXiv:1204.2366), and Grassmannian Gr_C(2,4)-DDF unification
+(with and without Tensor Gaussian Splats). -/
+example (p p1 p2 B0 θ : ℝ) :
+    let Δ_p := Signals.Scattering.adsCftScalingDimensionPlus 4 5
+    let Δ_m := Signals.Scattering.adsCftScalingDimensionMinus 4 5
+    let C_p := Signals.Scattering.psl22BraidedCentralChargeC p
+    let CDag_p := Signals.Scattering.psl22BraidedCentralChargeCDag p
+    let C_1 := Signals.Scattering.psl22BraidedCentralChargeC p1
+    let C_2 := Signals.Scattering.psl22BraidedCentralChargeC p2
+    let W_sec := Signals.DDF.psl22SecretAutomorphismGr24Matrix 2 1 1 1
+    let M_ads5 := Signals.DDF.ddfThermalGr24Matrix ((1 / 2 : ℝ) ^ 2) θ
+    let splat_uv := Signals.DDF.adsHolographicRGSplat 0 0 1 (1 / 2)
+      (by norm_num) (by norm_num) θ
+    let splat_ir := Signals.DDF.adsHolographicRGSplat 0 0 1 (2 * (1 / 2))
+      (by norm_num) (by norm_num) θ
+    Δ_p + Δ_m = 4 ∧
+    Δ_p * Δ_m = -5 ∧
+    Δ_p * (Δ_p - 4) = 5 ∧
+    Signals.Scattering.adsCftScalingDimensionPlus 4
+      (Signals.Scattering.adsBreitenlohnerFreedmanBound 4) = 4 / 2 ∧
+    Signals.Scattering.adsCftScalingDimensionPlus 4 0 = 4 ∧
+    Signals.Scattering.adsCftScalingDimensionMinus 4 0 = 0 ∧
+    Signals.Scattering.ryuTakayanagiEntanglementEntropyAdS3 6 3 10 2 =
+      (Signals.Scattering.brownHenneauxCentralCharge 6 3 / 3) * Real.log (10 / 2) ∧
+    0 < Signals.Scattering.kssShearViscosityEntropyBound 1 1 ∧
+    Signals.Scattering.adsCouplingFromStringTension (Real.sqrt 16 / (2 * Real.pi)) = 16 ∧
+    Signals.Scattering.adsMagnonDispersion 2 16 0 = 2 ∧
+    Signals.Scattering.adsMagnonDispersionSq 2
+      (Signals.Scattering.adsCouplingFromStringTension 3) Real.pi = 2 ^ 2 + 4 * 3 ^ 2 ∧
+    (2 : ℝ) ^ 2 ≤ Signals.Scattering.adsMagnonDispersionSq 2 16 p ∧
+    2 * Signals.Scattering.betheOneLoopMagnonEnergy 16 (1 / (2 * Real.sqrt 3)) =
+      Signals.Scattering.konishiOneLoopAnomalousDim 16 ∧
+    Signals.Scattering.konishiOneLoopAnomalousDim 16 =
+      (3 / 2) * Signals.Scattering.cuspAnomalousDimOneLoop 16 ∧
+    Signals.Scattering.cuspAnomalousDimWeak3Loop 0 = 0 ∧
+    C_p * CDag_p + C_p + CDag_p = 0 ∧
+    (1 + C_1) * (1 + C_2) = 1 + Signals.Scattering.psl22BraidedCoproductC C_1 C_2 ∧
+    Signals.Scattering.gl22LongRepDim 0 0 = 16 ∧
+    Signals.Scattering.psl22ShortBoundStateDim 1 = 4 ∧
+    Signals.Scattering.psl22ShortBoundStateDim 2 <
+      Signals.Scattering.gl22LongRepDim (2 / 2) 0 ∧
+    Matrix.trace (Signals.Scattering.secretSymmetryMatrix B0) = 0 ∧
+    Signals.Scattering.supertrace22 (Signals.Scattering.secretSymmetryMatrix B0) = 4 * B0 ∧
+    Signals.Scattering.qDeformedHubbardCartanDA.transpose =
+      Signals.Scattering.qDeformedHubbardCartanDA ∧
+    Matrix.mulVec Signals.Scattering.qDeformedHubbardCartanDA ![1, 1, 1, 1] = 0 ∧
+    Matrix.trace Signals.Scattering.qDeformedHubbardCartanDA = 0 ∧
+    Matrix.det Signals.Scattering.qDeformedHubbardCartanDA = 0 ∧
+    Signals.Geometry.complexTwoRowMinor W_sec 0 1 = 1 ∧
+    Signals.Geometry.complexTwoRowMinor W_sec 0 3 = 3 ∧
+    (Signals.Geometry.complexTwoRowMinor W_sec 0 3) ^ 2 +
+        Signals.Geometry.complexTwoRowMinor W_sec 0 2 *
+          Signals.Geometry.complexTwoRowMinor W_sec 1 3 =
+      Signals.Geometry.complexTwoRowMinor W_sec 0 1 *
+        Signals.Geometry.complexTwoRowMinor W_sec 2 3 ∧
+    Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_ads5) *
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_ads5) =
+      Signals.DDF.adsPlanarBlackBraneEmblackening 1 2 4 ∧
+    Signals.DDF.continuumBohmPotentialMode 1 1 ((1 / (1 / 2)) / 2) =
+      (1 / 2 ^ 2) * Signals.DDF.continuumBohmPotentialMode 1 1 (1 / (1 / 2)) ∧
+    splat_ir.covDet = 2 ^ 4 * splat_uv.covDet ∧
+    splat_ir.coreBohmPotential 1 1 = (1 / 2 ^ 2) * splat_uv.coreBohmPotential 1 1 := by
+  intro Δ_p Δ_m C_p CDag_p C_1 C_2 W_sec M_ads5 splat_uv splat_ir
+  have hu_K : (1 / (2 * Real.sqrt 3 : ℝ)) ^ 2 = 1 / 12 := by
+    have h3 : (Real.sqrt 3) ^ 2 = 3 := Real.sq_sqrt (by norm_num)
+    calc
+      (1 / (2 * Real.sqrt 3 : ℝ)) ^ 2 = 1 / (4 * (Real.sqrt 3) ^ 2) := by ring
+      _ = 1 / 12 := by rw [h3]; norm_num
+  have h_ads := Signals.Scattering.ads_cft_integrability_and_secret_symmetry_identities
+    4 5 1 1 6 3 10 2 2 16 3 p (1 / (2 * Real.sqrt 3)) p1 p2 B0
+    (by norm_num) (by norm_num [Signals.Scattering.adsBreitenlohnerFreedmanBound])
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) hu_K
+  have hrH_lt : toyRiverExterior.horizonRadius < 4 := by
+    have hc : toyDDFSubstrate.c = 2 := by
+      dsimp [Signals.DDF.DDFSubstrate.c, toyDDFSubstrate]
+      norm_num
+    dsimp [Signals.DDF.RiverExterior.horizonRadius, toyRiverExterior]
+    rw [hc]
+    norm_num
+  have h_unif := toyRiverExterior.grassmannian_ads_cft_ddf_and_secret_symmetry_unification
+    2 1 1 1 1 2 4 0 0 1 (1 / 2) 2 1 1 θ
+    (by norm_num) (by norm_num) (by norm_num) hrH_lt
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_w01 : Signals.Geometry.complexTwoRowMinor W_sec 0 1 = 1 := by
+    rw [h_unif.1]
+    norm_num
+  have h_w03 : Signals.Geometry.complexTwoRowMinor W_sec 0 3 = 3 := by
+    rw [h_unif.2.2.1]
+    norm_num
+  rcases h_ads with ⟨ha1, ha2, ha3, ha4, ha5, ha6, ha7, ha8, ha9, ha10,
+    ha11, ha12, ha13, ha14, ha15, ha16, _ha17, ha18, ha19, ha20, ha21,
+    ha22, ha23, ha24, ha25, ha26, ha27⟩
+  rcases h_unif with ⟨_hu1, _hu2, _hu3, _hu4, _hu5, _hu6, _hu7, hu8,
+    hu9, _hu10, _hu11, hu12, hu13, _hu14, hu15, _hu16⟩
+  exact ⟨ha1, ha2, ha3, ha4, ha5, ha6, ha7, ha8, ha9, ha10,
+    ha11, ha12, ha13, ha14, ha15, ha16, ha18, ha19, ha20, ha21,
+    ha22, ha23, ha24, ha25, ha26, ha27,
+    h_w01, h_w03, hu8, hu9, hu12, hu13, hu15⟩
+
 end SignalsTests

@@ -20,6 +20,7 @@ description: "An arXiv-ready formal verification and numerical simulation paper 
   5. [Normed Tensor Gaussian Splat Mechanics for Complex $Gr_{\mathbb{C}}(2,4)$ Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4](grassmannian-splat-mechanics-paper.md)
   6. [Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4](grassmannian-thermal-compton-raman-paper.md)
   7. [Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, $Gr_{\mathbb{C}}(2,4)$ Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4](grassmannian-polariton-spp-mechanics-paper.myst.md)
+  8. [AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and $\mathfrak{psl}(2|2)_c$ Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4](grassmannian-ads-cft-ddf-paper.md)
 
 ---
 
@@ -57,7 +58,7 @@ $$
 
 Building on this area law, **Gerard 't Hooft (1993)** (*Dimensional Reduction in Quantum Gravity*, [`gr-qc/9310026`](#holo-thooft1993)) proposed that at the Planck scale, quantum gravity in $3+1$ dimensions reduces to a $(2+1)$-dimensional theory of Boolean/cellular degrees of freedom living on a 2D boundary surface, with information density bounded by $\frac{1}{4\ell_P^2}$ nats per unit area. In 1995, **Leonard Susskind** (*The World as a Hologram*, *J. Math. Phys.* 36, 6377, [`hep-th/9409089`](#holo-susskind1995)) elevated 't Hooft's dimensional reduction into the **Holographic Principle**, demonstrating via relativistic light-front / light-sheet focusing (later generalized covariantly by [Bousso 2002](#holo-bousso2002)) that any bulk configuration exceeding $S_{\mathrm{BH}}$ inside an enclosing area $A_H$ must collapse into a horizon of area at least $A_H$.
 
-In 1997, Juan Maldacena ([Maldacena 1998](#holo-maldacena1998)) realized the Holographic Principle in string theory via the **AdS/CFT correspondence**, and [Ryu and Takayanagi (2006)](#holo-ryu2006) showed that boundary entanglement entropy equals the minimal bulk surface area $S_A = \frac{\operatorname{Area}(\gamma_A)}{4 G_N}$.
+In 1997, Juan Maldacena ([Maldacena 1998](#holo-maldacena1998)) realized the Holographic Principle in string theory via the **AdS/CFT correspondence** (formalized with the Gubser–Klebanov–Polyakov–Witten mass–dimension dictionary $\Delta_\pm = d/2 \pm \sqrt{(d/2)^2 + m^2 R_{\mathrm{AdS}}^2}$, the Kovtun–Son–Starinets viscosity bound $\eta/s = \hbar/(4\pi k_B)$, planar $\mathcal{N}=4$ SYM integrability [Beisert et al. 2012, `arXiv:1012.3982`](#holo-beisert2012), and $\mathfrak{psl}(2|2)_c$ secret symmetries [de Leeuw et al. 2012, `arXiv:1204.2366`](#holo-deleeuw2012) in our companion paper [AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and DDF Mechanics](grassmannian-ads-cft-ddf-paper.md)), and [Ryu and Takayanagi (2006)](#holo-ryu2006) showed that boundary entanglement entropy equals the minimal bulk surface area $S_A = \frac{\operatorname{Area}(\gamma_A)}{4 G_N}$.
 
 ### 1.2 How Does the Holographic Principle Connect to $Gr_{\mathbb{C}}(2,4)$ and the Dilatant Dark Fluid (DDF)?
 
@@ -222,6 +223,12 @@ popd
 
 <a id="holo-chat-fracture2026"></a>
 10. Provenance Chat Log (2026). *Review Pop III GW Remnants (Dilatant Superfluid Fracture Phases & Singularity Regularization)*. ({download}`data/chats/Review-Pop-III-GW-Remnants.md, lines 1070-1135 <../data/chats/Review-Pop-III-GW-Remnants.md>`).
+
+<a id="holo-beisert2012"></a>
+11. Beisert, N., Ahn, C., Alday, L. F., Bajnok, Z., Drummond, J. M., et al. (2012). *Review of AdS/CFT Integrability: An Overview*. Letters in Mathematical Physics 99(1–3), 3–32. [DOI: 10.1007/s11005-011-0529-2](https://doi.org/10.1007/s11005-011-0529-2); [arXiv:1012.3982](https://arxiv.org/abs/1012.3982).
+
+<a id="holo-deleeuw2012"></a>
+12. de Leeuw, M., Matsumoto, T., Moriyama, S., Regelskis, V., and Torrielli, A. (2012). *Secret Symmetries in AdS/CFT*. Physica Scripta 86(2), 028502. [DOI: 10.1088/0031-8949/86/02/028502](https://doi.org/10.1088/0031-8949/86/02/028502); [arXiv:1204.2366](https://arxiv.org/abs/1204.2366).
 
 ---
 

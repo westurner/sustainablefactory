@@ -1366,9 +1366,78 @@ Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
   enforces normal-to-longitudinal quantum stress anisotropy $\Pi_{22}^{\mathrm{SPP}} = \kappa_{\mathrm{ratio}}^2 \Pi_{11}^{\mathrm{SPP}}$,
   and obeys Ohmic-thermal semigroup identity/additivity and monotonic Bohm relaxation.
 
+### Iteration 31: Coherent Synchrotron Radiation (CSR) on Cylindrical SPP Microtubes/CNTs, Cavity QED vs. Cherenkov Phase Matching, 't Hooft--Susskind Holography, and Second-Harmonic ($\chi^{(2)}$) Resonant OPA (With and Without Splats)
+
+Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
+[DDF.lean](../src/signals/Signals/DDF.lean), and
+`src/signals/numerical_adapter/src/polariton_spp.rs`, and documented in
+[grassmannian-polariton-spp-mechanics-paper.myst.md](grassmannian-polariton-spp-mechanics-paper.myst.md),
+[grassmannian-holographic-principle-paper.md](grassmannian-holographic-principle-paper.md),
+and [anti-fire-cannon-review.myst.md](anti-fire-cannon-review.myst.md):
+
+- **CSR-SPP Superradiant Bunching, Cavity QED Cooperativity, Cherenkov Phase Matching, & 1-Step Grover Carving (`csr_spp_cherenkov_cavity_and_grover_identities`)**:
+  Proved $I_{\mathrm{CSR}}(N_e, f_{\mathrm{bunch}}, I_1) = (N_e + N_e(N_e - 1)f_{\mathrm{bunch}}^2)I_1 \in [N_e I_1, N_e^2 I_1]$,
+  single-photon vs. collective Cavity QED cooperativity $C_1 = 4g_0^2/(\kappa\gamma)$,
+  superluminal unmagnetized transverse plasma phase velocity $v_{\mathrm{ph},\perp}^2 > c^2$
+  vs. subluminal longitudinal Bohm--Gross phase velocity $v_{\mathrm{ph},\parallel}^2 = \omega_p^2/k^2 + 3v_{\mathrm{th}}^2 < c^2$,
+  subluminal Cherenkov Mach cone $0 < 1 - \cos^2\theta_C < 1$, 2D Dirac graphene THz-eV
+  plasmon scaling $\omega_{\mathrm{GPP}}^2 = E_F q$, and 1-step deterministic 4-state
+  Grover state carving $\operatorname{groverSuccessAmplitude}(1/2) = 1$.
+- **'t Hooft--Susskind--Bekenstein--Hawking Holography & Anti-Amplituhedron Cancellation (`RiverExterior.holographic_gr24_ddf_and_antiAmplituhedron_identities`)**:
+  Proved Bekenstein--Hawking horizon entropy $S_{\mathrm{BH}} = \pi k_B r_H^2 / \ell_P^2 > 0$,
+  Gauss--Smarr 2D-to-3D bulk mass recovery $\frac{\kappa_H A_H}{4\pi G_\phi} = M$,
+  splat-free $Gr_{\mathbb{C}}(2,4)$ Painlevé--Gullstrand redshift lapse
+  $|w_A^{\mathbb{C}}(M_{\mathrm{holo}})|^2|w_B^{\mathbb{C}}(M_{\mathrm{holo}})|^2 = 1 - r_H / r$,
+  Planck-splat UV Bohm cutoff $Q_{\mathrm{core}}(\Sigma_{\mathrm{Planck}}) = \frac{\hbar^2}{2 m \ell_P^2}$,
+  and Anti-Amplituhedron destructive phase cancellation $\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = 0$.
+- **Low-Power Second-Harmonic ($\chi^{(2)}$) Resonant OPA (`second_harmonic_opa_and_centrosymmetry_identities`, `opaSqueezed_splat_and_continuum_identities`)**:
+  Proved centrosymmetric inversion $\chi_2 = -\chi_2 \implies \chi_2 = 0$, intracavity
+  second-harmonic buildup $P_{2\omega}^{\mathrm{intracav}} = F_{\mathrm{SH}} P_{2\omega}$,
+  symplectic quadrature squeezing $\exp(2r_{\mathrm{sq}})\exp(-2r_{\mathrm{sq}}) = 1$,
+  splat-free continuum Bohm amplification, symplectic splat determinant preservation
+  $\det\Sigma_{\mathrm{OPA}} = \sigma_0^4$, core Bohm barrier enhancement
+  $Q_{\mathrm{core}}(\Sigma_{\mathrm{OPA}}) = \frac{\hbar^2(e^{2r_{\mathrm{sq}}}+e^{-2r_{\mathrm{sq}}})}{4m\sigma_0^2} \ge \frac{\hbar^2}{2m\sigma_0^2}$,
+  and Madelung quantum pressure squeezing anisotropy $\Pi_{22}^{\mathrm{OPA}} = e^{4r_{\mathrm{sq}}}\Pi_{11}^{\mathrm{OPA}}$.
+
+### Iteration 32: Maldacena/GKPW AdS/CFT Correspondence, Planar Integrability (`arXiv:1012.3982`), Secret Symmetries (`arXiv:1204.2366`), and Complex $Gr_{\mathbb{C}}(2,4)$ / DDF Holographic RG Unification (With and Without Splats)
+
+Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
+[DDF.lean](../src/signals/Signals/DDF.lean), and
+`src/signals/numerical_adapter/src/polariton_spp.rs`, and documented in
+[grassmannian-ads-cft-ddf-paper.md](grassmannian-ads-cft-ddf-paper.md):
+
+- **Maldacena/GKPW Dictionary, Ryu--Takayanagi Entanglement, KSS Bound, Planar Integrability (`arXiv:1012.3982`), & Secret Symmetries (`arXiv:1204.2366`) (`ads_cft_integrability_and_secret_symmetry_identities`)**:
+  Proved $\Delta_+ + \Delta_- = d$, $\Delta_+\Delta_- = -m^2 R_{\mathrm{AdS}}^2$,
+  $\Delta_+(\Delta_+ - d) = m^2 R_{\mathrm{AdS}}^2$, and $\Delta_+(d, -d^2/4) = d/2$
+  above the Breitenlohner--Freedman bound $m_{\mathrm{BF}}^2 R_{\mathrm{AdS}}^2 = -d^2/4$;
+  Ryu--Takayanagi entanglement entropy $S_{\mathrm{EE}} = \frac{c_{\mathrm{BH}}}{3}\ln(\ell/\epsilon_{\mathrm{UV}})$;
+  positivity of the KSS viscosity bound $(\eta/s)_{\mathrm{KSS}} = \frac{\hbar}{4\pi k_B} > 0$;
+  the coupling--tension inversion $\lambda = 4\pi^2 T_{\mathrm{str}}^2$;
+  all-loop bound-state magnon dispersion $E^2(M, \lambda, p) = M^2 + \frac{\lambda}{\pi^2}\sin^2(p/2)$;
+  the exact Konishi ($L=4, M=2$, $u_{\mathrm{K}}^2 = 1/12$) one-loop check figure
+  $2\delta D_1(\lambda, u_{\mathrm{K}}) = \frac{3\lambda}{4\pi^2} = \frac{3}{2} D_{\mathrm{cusp}}^{(1)}(\lambda)$;
+  the $\mathfrak{psl}(2|2)_c$ braided central-charge identity $\mathbb{C}(p)\mathbb{C}^\dagger(p) + \mathbb{C}(p) + \mathbb{C}^\dagger(p) = 0$;
+  short vs. long multiplet compression $4M < 16(M+1)$; the indented Yangian secret
+  generator supertrace $\operatorname{STr}(\widehat{\mathbb{B}}) = 4 B_0$ with $\operatorname{Tr}(\widehat{\mathbb{B}}) = 0$;
+  and the symmetry, null vector $DA(1,1,1,1)^T = 0$, and degeneracy $\operatorname{Tr}(DA) = \det(DA) = 0$
+  of the $q$-deformed Hubbard affine Cartan matrix $DA$.
+- **Unified $Gr_{\mathbb{C}}(2,4)$, $\mathfrak{psl}(2|2)_c$ Outer Automorphism, & $\text{AdS}_5$/DDF Holographic RG Theorem (`RiverExterior.grassmannian_ads_cft_ddf_and_secret_symmetry_unification`)**:
+  Proved **without splats** that embedding the Beisert--Torrielli $\mathfrak{psl}(2|2)_c$
+  outer-automorphism parameters $(a,b,c,d)$ (`arXiv:1204.2366`, Eq. (2.11)) into
+  $Gr_{\mathbb{C}}(2,4)$ via `psl22SecretAutomorphismGr24Matrix` identifies the 3-term
+  quadratic Pluecker identity on $Gr_{\mathbb{C}}(2,4)$ with the central-charge
+  dispersion invariant $(\Delta_{03}^{\mathbb{C}})^2 + \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = (ad+bc)^2 - 4(ab)(cd) = (ad-bc)^2 = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}} = 1$,
+  while $|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2$ reproduces both the $\text{AdS}_5$
+  planar black-brane emblackening factor $1 - (z/z_H)^4$ and the DDF acoustic horizon
+  lapse $1 - r_H/r$; and proved **with normed Tensor Gaussian Splats** (`adsHolographicRGSplat`)
+  that bulk radial RG coarse-graining $z_{\mathrm{UV}} \mapsto \lambda_{\mathrm{rg}} z_{\mathrm{UV}}$
+  ($\lambda_{\mathrm{rg}} > 1$) scales $\det\Sigma_{\mathrm{IR}} = \lambda_{\mathrm{rg}}^4\det\Sigma_{\mathrm{UV}} > \det\Sigma_{\mathrm{UV}}$
+  and relaxes both the continuum and splat core Bohm potentials by $\lambda_{\mathrm{rg}}^{-2}$.
+
 ```lean
--- Iteration 25-30 verification: Inverse Compton, Raman, Polaritons, SPPs, and Splat-Free Continuum vs. Tensor Splat DDF Heat Transport & Semigroup/Bohm Relaxation
+-- Iteration 25-32 verification: Inverse Compton, Raman, Polaritons, SPPs, AdS/CFT, Secret Symmetries, and Splat-Free Continuum vs. Tensor Splat DDF Mechanics
 example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
+    (re : Signals.DDF.RiverExterior sub) (hr : re.horizonRadius < 4)
     (m_cv : Signals.DDF.CattaneoVernotteHeatModel)
     (splat : Signals.DDF.NormedTensorGaussianSplat2D)
     (c_th0 : ℝ) (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c) (θ : ℝ) :
@@ -1384,6 +1453,8 @@ example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
     let M_spp := Signals.DDF.sppGr24Matrix (Signals.DDF.sppPermittivityContrast 2 6) θ
     let splat_spp := Signals.DDF.sppHotspotTensorSplat 0 0 5 1 10 3
       (by norm_num) (by norm_num) (by norm_num) (by norm_num) θ
+    let W_sec := Signals.DDF.psl22SecretAutomorphismGr24Matrix 2 1 1 1
+    let M_ads5 := Signals.DDF.ddfThermalGr24Matrix ((1 / 2 : ℝ) ^ 2) θ
     Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_sheath) /
         Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_sheath) =
       Signals.Scattering.inverseComptonDopplerRatio s.beta ∧
@@ -1395,6 +1466,17 @@ example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
     Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_spp) /
         Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_spp) = 6 / 2 ∧
     1 ^ 2 / (2 * 1 * 1 ^ 2) ≤ splat_spp.coreBohmPotential 1 1 ∧
+    Signals.Scattering.adsCftScalingDimensionPlus 4 5 +
+      Signals.Scattering.adsCftScalingDimensionMinus 4 5 = 4 ∧
+    Signals.Scattering.supertrace22 (Signals.Scattering.secretSymmetryMatrix 3) = 4 * 3 ∧
+    (Signals.Geometry.complexTwoRowMinor W_sec 0 3) ^ 2 +
+        Signals.Geometry.complexTwoRowMinor W_sec 0 2 *
+          Signals.Geometry.complexTwoRowMinor W_sec 1 3 =
+      Signals.Geometry.complexTwoRowMinor W_sec 0 1 *
+        Signals.Geometry.complexTwoRowMinor W_sec 2 3 ∧
+    Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_ads5) *
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_ads5) =
+      Signals.DDF.adsPlanarBlackBraneEmblackening 1 2 4 ∧
     s.ddfSecondSoundSpeed c_th0 ≤ sub.c ∧
     s.ddfLongitudinalDiffusivity c_th0 m_cv.relaxationTime /
         (c_th0 ^ 2 * m_cv.relaxationTime) =
@@ -1412,7 +1494,7 @@ example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
     splat_evol.covTrace = splat.covTrace + 2 * (1 + 2) * 3 ∧
     splat_evol2 = splat_sum ∧
     splat_evol.coreBohmPotential 1 1 ≤ splat.coreBohmPotential 1 1 := by
-  intro M_sheath M_th kappa1 splat_ddf splat_evol splat_evol2 splat_sum ω_UP ω_LP M_spp splat_spp
+  intro M_sheath M_th kappa1 splat_ddf splat_evol splat_evol2 splat_sum ω_UP ω_LP M_spp splat_spp W_sec M_ads5
   have h_ics := s.inverseCompton_gr24_identities 6 1 5 2 0 0
   have h_ram := Signals.Scattering.raman_stokes_antiStokes_gr24_identities
     10 2 (1 / 2) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
@@ -1424,6 +1506,19 @@ example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
     0 0 5 1 10 3 1 2 3 4 1 1 θ 0 0
     (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have hu_K : (1 / (2 * Real.sqrt 3 : ℝ)) ^ 2 = 1 / 12 := by
+    have h3 : (Real.sqrt 3) ^ 2 = 3 := Real.sq_sqrt (by norm_num)
+    calc
+      (1 / (2 * Real.sqrt 3 : ℝ)) ^ 2 = 1 / (4 * (Real.sqrt 3) ^ 2) := by ring
+      _ = 1 / 12 := by rw [h3]; norm_num
+  have h_ads := Signals.Scattering.ads_cft_integrability_and_secret_symmetry_identities
+    4 5 1 1 6 3 10 2 2 16 3 0 (1 / (2 * Real.sqrt 3)) 0 0 3
+    (by norm_num) (by norm_num [Signals.Scattering.adsBreitenlohnerFreedmanBound])
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) hu_K
+  have h_unif := re.grassmannian_ads_cft_ddf_and_secret_symmetry_unification
+    2 1 1 1 1 2 4 0 0 1 (1 / 2) 2 1 1 θ
+    (by norm_num) (by norm_num) (by norm_num) hr
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   have h_cont := s.ddfThermalTransport_continuum_identities
     c_th0 m_cv.relaxationTime 6 1 5 0 0 4 2 (-1) (3 / 5) θ 2
     hc_pos hc_le m_cv.relaxationTime_pos (by norm_num) (by norm_num)
@@ -1440,8 +1535,14 @@ example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
   have h_semi := Signals.DDF.NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay
     splat 1 2 3 4 1 1
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  rcases h_ads with ⟨ha1, _ha2, _ha3, _ha4, _ha5, _ha6, _ha7, _ha8, _ha9, _ha10,
+    _ha11, _ha12, _ha13, _ha14, _ha15, _ha16, _ha17, _ha18, _ha19, _ha20, _ha21,
+    _ha22, ha23, _ha24, _ha25, _ha26, _ha27⟩
+  rcases h_unif with ⟨_hu1, _hu2, _hu3, _hu4, _hu5, _hu6, _hu7, hu8,
+    hu9, _hu10, _hu11, _hu12, _hu13, _hu14, _hu15, _hu16⟩
   exact ⟨h_ics.1, h_ram.1, h_pol.2.2.2.1, h_pol.2.2.2.2.2.2.2.2.2.2.2.2,
     h_spp_cont.2.2.2.2.2.1.trans h_spp_cont.2.2.2.2.2.2.1, h_spp_splat.2.2.2.1,
+    ha1, ha23, hu8, hu9,
     h_cont.2.1, h_cont.2.2.1, h_cont.2.2.2.2.2.1,
     h_cont_semi.2.2.2.2.2.1, h_cont_semi.2.2.2.2.2.2.2.2.1,
     h_th.2.2.2.1, h_th.2.2.2.2.2, h_semi.2.1, h_semi.2.2.2⟩
@@ -1459,8 +1560,8 @@ end HuygensGeometryRoadmap
 | 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision and parallel two-edge diamond reduction invariance, measured fork rank/positivity, two-channel determinant/rank controls, shared-hub cancellation, general finite two-step pair/minor identities with arbitrary ordered sink selections and derived positive/full-rank nonnegative records, and general $2\times n$ ordered four-column Pluecker relations with sign-flip controls. | Decoration rules; higher-rank ($k\ge 3$) Pluecker relations and arbitrary-length minor/disjoint-path identities, embedding-derived ordered-minor positivity, embedded signed boundary measurements/cell correspondence, general embedded-network moves, and any quotient construction. |
 | 4 | Affine alternating interval/triangle/square forms, oriented boundary limits, normalization, pullbacks, and diagonal cancellation/continuation. | General projective canonical-form existence/uniqueness, arbitrary-chart invariance and higher-dimensional amplituhedron forms. |
 | 5 | A literal unphased form-evaluation candidate is falsified without fitting; complex $Gr_{\mathbb{C}}(2,4)$ and $Gr_{\mathbb{C}}(2,N+2)$ twistor channel evaluators (`complexGr24CrossingDoubleSlit`, `MovingSheath.gr24TwistorMatrix`, `NormedTensorGaussianSplat2D.complexTwistorWavepacket`) eliminate the $50\%$ unphased error and reproduce Fraunhofer, Huygens--Steiner, OAM, and DDF moving-sheath interference identically. | Derive a first-principles Helmholtz boundary integral pushforward without prescribing the paraxial phase argument $\theta(x,y,\phi)$. |
-| 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds, separate error-budget composition, five-model double-slit & $N$-slit ($N>0$) error laws, QISM $8\times 8$ Yang--Baxter / $Gr(2,4)$ Wronskian / Slavnov identities, DDF sheath jamming / Anosov invariance, BCJ double-copy planetary precession ($42.98''/\text{cy}$), normed Tensor Gaussian Splatting ($Q_{\mathrm{core}}, \Pi_{ij}$), Inverse Compton, Stokes/anti-Stokes Raman, and Fourier / Cattaneo--Vernotte / Grassmannian--DDF heat transport (both splat-free continuum and tensor-splat). | Connect the 2D planar aperture integral to the 3D paraxial Fraunhofer limit via an explicit Fresnel remainder bound. |
-| 7 | No experimental claim introduced; Rust/WASM (`wasm32-unknown-unknown`) and WebGL2 GLSL (`#version 300 es`) numerical adapters (`double_slit.rs`, `orbital_splat.rs`, `thermal_inelastic.rs`) verified with 35 parametric `rstest` and `insta` snapshot tests. | Calibrated raw optical, interferometric, Raman, and thermal-wave laboratory data, uncertainty, backgrounds, drift, and model-regime controls. |
+| 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds, separate error-budget composition, five-model double-slit & $N$-slit ($N>0$) error laws, QISM $8\times 8$ Yang--Baxter / $Gr(2,4)$ Wronskian / Slavnov identities, DDF sheath jamming / Anosov invariance, BCJ double-copy planetary precession ($42.98''/\text{cy}$), normed Tensor Gaussian Splatting ($Q_{\mathrm{core}}, \Pi_{ij}$), Inverse Compton, Stokes/anti-Stokes Raman, Fourier / Cattaneo--Vernotte / Grassmannian--DDF heat transport, Polaritons / SPPs, CSR-SPP superradiance, 't Hooft--Susskind holography, $\chi^{(2)}$ SHG-OPA squeezing, and Maldacena/GKPW AdS/CFT, planar integrability (`arXiv:1012.3982`), and $\mathfrak{psl}(2|2)_c$ secret symmetries (`arXiv:1204.2366`) (both splat-free continuum and tensor-splat). | Connect the 2D planar aperture integral to the 3D paraxial Fraunhofer limit via an explicit Fresnel remainder bound. |
+| 7 | No experimental claim introduced; Rust/WASM (`wasm32-unknown-unknown`) and WebGL2 GLSL (`#version 300 es`) numerical adapters (`double_slit.rs`, `orbital_splat.rs`, `thermal_inelastic.rs`, `polariton_spp.rs`) verified with 48 parametric `rstest` and `insta` snapshot tests. | Calibrated raw optical, interferometric, Raman, and thermal-wave laboratory data, uncertainty, backgrounds, drift, and model-regime controls. |
 
 No theorem here promotes a supplied Pending match, a checked fixture, or a
 canonical-form identity into optical or hardware validation. The next bridge
@@ -1471,8 +1572,8 @@ the independent boundary, quadrature and network proof tracks remain available.
 
 The latest completed iteration gates passed: `SignalsTests`,
 `make signals_build` (and `:blueprint` / `:blueprintJson` extraction at 3,715 Lake jobs),
-all four concatenated report Lean fences, all six companion `grassmannian-*-paper`
-Lean proof blocks, 35 Rust unit/parametric/`insta` snapshot tests (`cargo test`),
+all six concatenated report Lean fences, all nine companion `grassmannian-*-paper`
+Lean proof blocks, 48 Rust unit/parametric/`insta` snapshot tests (`cargo test`),
 `wasm32-unknown-unknown` release compilation,
 Sphinx HTML, correct Lake source setup, and scoped whitespace checks. This is build
 verification, not a runtime optical experiment or a projective existence proof.

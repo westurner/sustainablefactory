@@ -4828,4 +4828,235 @@ theorem opaSqueezed_splat_and_continuum_identities
     ring
   exact ⟨h_cont_eq, h_cont_ge, h_det, h_norm, h_bohm_eq, h_bohm_ge, h_qp_ratio⟩
 
+/-! ## Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$, AdS/CFT, $\mathfrak{psl}(2|2)_c$ Secret-Symmetry Outer Automorphism, and DDF Holographic Unification (With and Without Splats) -/
+
+/-- Complex $Gr_{\mathbb{C}}(2,4)$ embedding of the Beisert–Torrielli $\mathfrak{psl}(2|2)_c$
+short-representation outer-automorphism parameters $(a, b, c, d)$ (`arXiv:1204.2366`, Eq. (2.11)):
+$$W_{\mathrm{sec}}(a, b, c, d) = \begin{pmatrix} a & b & a & -b \\ c & d & -c & d \end{pmatrix} \in \mathbb{C}^{2 \times 4},$$
+whose 6 Plücker minors directly encode the bound-state number $M = ad - bc$, the central
+Hamiltonian $\mathbb{H} = ad + bc$, and the braided central-charge product
+$-4\mathbb{C}\mathbb{C}^\dagger = -4(ab)(cd)$. -/
+@[blueprint "def:signals-ddf-psl22-secret-automorphism-gr24"
+  (title := "Complex Gr_C(2,4) embedding of the psl(2|2)_c secret-symmetry outer automorphism (a, b, c, d)")
+  (statement := /-- Define $\operatorname{psl22SecretAutomorphismGr24Matrix}(a, b, c, d)
+    = \begin{pmatrix} a & b & a & -b \\ c & d & -c & d \end{pmatrix}$. -/)]
+def psl22SecretAutomorphismGr24Matrix (a b c d : ℂ) : Matrix (Fin 2) (Fin 4) ℂ :=
+  !![a, b, a, -b;
+     c, d, -c, d]
+
+/-- Poincaré $\text{AdS}_{d+1}$ planar black-brane redshift / emblackening factor
+$f_{\text{AdS}}(z, z_H, d) = 1 - (z / z_H)^d$ at bulk radial depth $z \in (0, z_H)$. -/
+@[blueprint "def:signals-ddf-ads-planar-black-brane-emblackening"
+  (title := "Poincaré AdS_{d+1} planar black-brane emblackening factor 1 - (z / z_H)^d")
+  (statement := /-- Define $\operatorname{adsPlanarBlackBraneEmblackening}(z, z_H, d)
+    = 1 - (z / z_H)^d$. -/)]
+noncomputable def adsPlanarBlackBraneEmblackening (z z_H : ℝ) (d : ℕ) : ℝ :=
+  1 - (z / z_H) ^ d
+
+/-- Holographic Renormalization Group (RG) `NormedTensorGaussianSplat2D` wavepacket
+with isotropic coarse-graining width $\sigma_1 = \sigma_2 = z_{\mathrm{rg}} > 0$
+corresponding to bulk Poincaré $\text{AdS}$ radial depth $z_{\mathrm{rg}}$. -/
+@[blueprint "def:signals-ddf-ads-holographic-rg-splat"
+  (title := "Holographic RG NormedTensorGaussianSplat2D with width σ_1 = σ_2 = z_rg")
+  (statement := /-- Construct a \texttt{NormedTensorGaussianSplat2D} with $\sigma_1 = \sigma_2 = z_{\mathrm{rg}}$. -/)]
+def adsHolographicRGSplat
+    (cx cy weight z_rg : ℝ) (hw : 0 ≤ weight) (hz : 0 < z_rg) (θ : ℝ) :
+    NormedTensorGaussianSplat2D :=
+  { centerX := cx
+    centerY := cy
+    weight := weight
+    weight_nonneg := hw
+    sigma1 := z_rg
+    sigma1_pos := hz
+    sigma2 := z_rg
+    sigma2_pos := hz
+    orientationAngle := θ }
+
+/-- **Unified Grassmannian $Gr_{\mathbb{C}}(2,4)$, AdS/CFT, $\mathfrak{psl}(2|2)_c$ Secret Symmetry (`arXiv:1204.2366`), & DDF Holographic Theorem (With and Without Splats)**:
+1. **3-Term Plücker Identity on $Gr_{\mathbb{C}}(2,4)$ Equals the $\mathfrak{psl}(2|2)_c$ Outer-Automorphism Central-Charge Dispersion Law (`arXiv:1204.2366`, Sec. 2.1 & Eq. (2.11))**:
+   For $W_{\mathrm{sec}} = \operatorname{psl22SecretAutomorphismGr24Matrix}(a, b, c, d)$,
+   the 6 complex Plücker minors satisfy:
+   $$\Delta_{01}^{\mathbb{C}}(W_{\mathrm{sec}}) = \Delta_{23}^{\mathbb{C}}(W_{\mathrm{sec}}) = a d - b c, \qquad
+   \Delta_{03}^{\mathbb{C}}(W_{\mathrm{sec}}) = -\Delta_{12}^{\mathbb{C}}(W_{\mathrm{sec}}) = a d + b c,$$
+   $$\Delta_{02}^{\mathbb{C}}(W_{\mathrm{sec}})\,\Delta_{13}^{\mathbb{C}}(W_{\mathrm{sec}}) = -4 (a b)(c d),$$
+   and the 3-term quadratic Plücker identity $\Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}} - \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} + \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}} = 0$
+   reduces identically to the central-charge invariant norm:
+   $$(a d + b c)^2 - 4(a b)(c d) = (a d - b c)^2 = \Delta_{01}^{\mathbb{C}}(W_{\mathrm{sec}})\,\Delta_{23}^{\mathbb{C}}(W_{\mathrm{sec}}),$$
+   which for unimodular fundamental parameters $a d - b c = 1$ (`Eq. (2.11)`) yields $(a d + b c)^2 - 4(a b)(c d) = 1$,
+2. **Without Splats: Universal $Gr_{\mathbb{C}}(2,4)$ Plücker Redshift Product Across $\text{AdS}_5$ Planar Black Branes ($d=4$) and DDF Acoustic Horizons**:
+   For $0 < z < z_H$, setting $\beta_{\text{AdS}_5} = (z / z_H)^2$ and $M_{\text{AdS}_5} = \operatorname{ddfThermalGr24Matrix}(\beta_{\text{AdS}_5}, \theta)$ gives:
+   $$\bigl|w_A^{\mathbb{C}}(M_{\text{AdS}_5})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\text{AdS}_5})\bigr|^2 = 1 - \left(\frac{z}{z_H}\right)^4 = \operatorname{adsPlanarBlackBraneEmblackening}(z, z_H, 4) > 0,$$
+   while for $r > r_H$ in DDF `RiverExterior`, $M_{\mathrm{DDF}} = \operatorname{ddfThermalGr24Matrix}(re.\mathrm{inflowBeta}(r), \theta)$ satisfies:
+   $$\bigl|w_A^{\mathbb{C}}(M_{\mathrm{DDF}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{DDF}})\bigr|^2 = 1 - \frac{r_H}{r} > 0,$$
+3. **With Normed Tensor Gaussian Splats: Holographic RG Scale-Radius Flow (`adsHolographicRGSplat`)**:
+   Under an $\text{AdS}$ bulk radial RG coarse-graining $z_{\mathrm{UV}} \mapsto \lambda_{\mathrm{rg}}\,z_{\mathrm{UV}}$ ($\lambda_{\mathrm{rg}} > 1$, $z_{\mathrm{UV}} > 0$, $m > 0$):
+   $$\det\Sigma_{\mathrm{RG}}(\lambda_{\mathrm{rg}} z_{\mathrm{UV}}) = \lambda_{\mathrm{rg}}^4\,\det\Sigma_{\mathrm{RG}}(z_{\mathrm{UV}}) > \det\Sigma_{\mathrm{RG}}(z_{\mathrm{UV}}),$$
+   $$Q_{\mathrm{core}}(\Sigma_{\mathrm{RG}}(\lambda_{\mathrm{rg}} z_{\mathrm{UV}})) = \frac{1}{\lambda_{\mathrm{rg}}^2}\,Q_{\mathrm{core}}(\Sigma_{\mathrm{RG}}(z_{\mathrm{UV}})) \le Q_{\mathrm{core}}(\Sigma_{\mathrm{RG}}(z_{\mathrm{UV}})).$$ -/
+@[blueprint "thm:signals-ddf-grassmannian-ads-cft-ddf-secret-unification"
+  (title := "Unified Gr_C(2,4), AdS/CFT, psl(2|2)_c secret-symmetry outer automorphism, and DDF holographic theorem (with and without splats)")
+  (statement := /-- For $a,b,c,d\in\mathbb C$ with $ad - bc = 1$, $0 < z < z_H$, $r > r_H$, $z_{\mathrm{UV}} > 0$, $\lambda_{\mathrm{rg}} > 1$, and $m > 0$:
+    (1) $W_{\mathrm{sec}} = \operatorname{psl22SecretAutomorphismGr24Matrix}(a,b,c,d)$ satisfies $\Delta_{01}^{\mathbb C}(W_{\mathrm{sec}}) = \Delta_{23}^{\mathbb C}(W_{\mathrm{sec}}) = ad - bc$,
+    $\Delta_{03}^{\mathbb C}(W_{\mathrm{sec}}) = -\Delta_{12}^{\mathbb C}(W_{\mathrm{sec}}) = ad + bc$, $\Delta_{02}^{\mathbb C}(W_{\mathrm{sec}})\Delta_{13}^{\mathbb C}(W_{\mathrm{sec}}) = -4(ab)(cd)$,
+    and $(ad + bc)^2 - 4(ab)(cd) = (ad - bc)^2 = 1$,
+    (2) $|w_A^{\mathbb C}(M_{\text{AdS}_5})|^2 |w_B^{\mathbb C}(M_{\text{AdS}_5})|^2 = 1 - (z/z_H)^4 > 0$ and $|w_A^{\mathbb C}(M_{\mathrm{DDF}})|^2 |w_B^{\mathbb C}(M_{\mathrm{DDF}})|^2 = 1 - r_H/r > 0$, and
+    (3) $\operatorname{splat\_ir}.\mathrm{covDet} = \lambda_{\mathrm{rg}}^4\,\operatorname{splat\_uv}.\mathrm{covDet} > \operatorname{splat\_uv}.\mathrm{covDet}$ and
+    $\operatorname{splat\_ir}.\operatorname{coreBohmPotential}(m,\hbar) = \lambda_{\mathrm{rg}}^{-2}\,\operatorname{splat\_uv}.\operatorname{coreBohmPotential}(m,\hbar) \le \operatorname{splat\_uv}.\operatorname{coreBohmPotential}(m,\hbar)$. -/)
+  (proof := /-- Expand the $2\times 2$ minors of $W_{\mathrm{sec}}$ by ring, use `complexGr24ChannelMatrix_minors` for $M_{\text{AdS}_5}$ and $M_{\mathrm{DDF}}$,
+    and clear denominators in `adsHolographicRGSplat`. -/)]
+theorem RiverExterior.grassmannian_ads_cft_ddf_and_secret_symmetry_unification
+    {sub : DDFSubstrate} (re : RiverExterior sub)
+    (a b c d : ℂ) (z z_H r cx cy weight z_uv lam_rg m_boson hbar θ : ℝ)
+    (h_unimod : a * d - b * c = 1)
+    (hz_pos : 0 < z) (hz_lt : z < z_H) (hr_gt : re.horizonRadius < r)
+    (hw : 0 ≤ weight) (hz_uv : 0 < z_uv) (hlam_gt : 1 < lam_rg) (hm_pos : 0 < m_boson) :
+    let W_sec := psl22SecretAutomorphismGr24Matrix a b c d
+    let beta_ads5 := (z / z_H) ^ 2
+    let M_ads5 := ddfThermalGr24Matrix beta_ads5 θ
+    let M_ddf := ddfThermalGr24Matrix (re.inflowBeta r) θ
+    let hlam_pos : 0 < lam_rg := lt_trans zero_lt_one hlam_gt
+    let splat_uv := adsHolographicRGSplat cx cy weight z_uv hw hz_uv θ
+    let splat_ir := adsHolographicRGSplat cx cy weight (lam_rg * z_uv) hw (mul_pos hlam_pos hz_uv) θ
+    complexTwoRowMinor W_sec 0 1 = a * d - b * c ∧
+      complexTwoRowMinor W_sec 2 3 = a * d - b * c ∧
+      complexTwoRowMinor W_sec 0 3 = a * d + b * c ∧
+      complexTwoRowMinor W_sec 1 2 = -(a * d + b * c) ∧
+      complexTwoRowMinor W_sec 0 2 * complexTwoRowMinor W_sec 1 3 =
+        -4 * (a * b) * (c * d) ∧
+      (a * d + b * c) ^ 2 - 4 * (a * b) * (c * d) = (a * d - b * c) ^ 2 ∧
+      (a * d + b * c) ^ 2 - 4 * (a * b) * (c * d) = 1 ∧
+      (complexTwoRowMinor W_sec 0 3) ^ 2 +
+          complexTwoRowMinor W_sec 0 2 * complexTwoRowMinor W_sec 1 3 =
+        complexTwoRowMinor W_sec 0 1 * complexTwoRowMinor W_sec 2 3 ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M_ads5) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_ads5) =
+        adsPlanarBlackBraneEmblackening z z_H 4 ∧
+      0 < adsPlanarBlackBraneEmblackening z z_H 4 ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M_ddf) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_ddf) =
+        1 - re.horizonRadius / r ∧
+      continuumBohmPotentialMode m_boson hbar ((1 / z_uv) / lam_rg) =
+        (1 / lam_rg ^ 2) * continuumBohmPotentialMode m_boson hbar (1 / z_uv) ∧
+      splat_ir.covDet = lam_rg ^ 4 * splat_uv.covDet ∧
+      splat_uv.covDet < splat_ir.covDet ∧
+      splat_ir.coreBohmPotential m_boson hbar =
+        (1 / lam_rg ^ 2) * splat_uv.coreBohmPotential m_boson hbar ∧
+      splat_ir.coreBohmPotential m_boson hbar ≤ splat_uv.coreBohmPotential m_boson hbar := by
+  intro W_sec beta_ads5 M_ads5 M_ddf hlam_pos splat_uv splat_ir
+  have h_m01 : complexTwoRowMinor W_sec 0 1 = a * d - b * c := by
+    dsimp [W_sec, psl22SecretAutomorphismGr24Matrix, complexTwoRowMinor]
+  have h_m23 : complexTwoRowMinor W_sec 2 3 = a * d - b * c := by
+    dsimp [W_sec, psl22SecretAutomorphismGr24Matrix, complexTwoRowMinor]
+    ring
+  have h_m03 : complexTwoRowMinor W_sec 0 3 = a * d + b * c := by
+    dsimp [W_sec, psl22SecretAutomorphismGr24Matrix, complexTwoRowMinor]
+    ring
+  have h_m12 : complexTwoRowMinor W_sec 1 2 = -(a * d + b * c) := by
+    dsimp [W_sec, psl22SecretAutomorphismGr24Matrix, complexTwoRowMinor]
+    ring
+  have h_m02_13 :
+      complexTwoRowMinor W_sec 0 2 * complexTwoRowMinor W_sec 1 3 =
+        -4 * (a * b) * (c * d) := by
+    dsimp [W_sec, psl22SecretAutomorphismGr24Matrix, complexTwoRowMinor]
+    ring
+  have h_casimir_sq :
+      (a * d + b * c) ^ 2 - 4 * (a * b) * (c * d) = (a * d - b * c) ^ 2 := by
+    ring
+  have h_casimir_one :
+      (a * d + b * c) ^ 2 - 4 * (a * b) * (c * d) = 1 := by
+    rw [h_casimir_sq, h_unimod, one_pow]
+  have h_plucker_casimir :
+      (complexTwoRowMinor W_sec 0 3) ^ 2 +
+          complexTwoRowMinor W_sec 0 2 * complexTwoRowMinor W_sec 1 3 =
+        complexTwoRowMinor W_sec 0 1 * complexTwoRowMinor W_sec 2 3 := by
+    rw [h_m03, h_m02_13, h_m01, h_m23]
+    ring
+  have hzH_pos : 0 < z_H := lt_trans hz_pos hz_lt
+  have h_ratio_pos : 0 < z / z_H := div_pos hz_pos hzH_pos
+  have h_ratio_lt_one : z / z_H < 1 := (div_lt_one hzH_pos).mpr hz_lt
+  have h_beta_pos : 0 < beta_ads5 := by
+    dsimp [beta_ads5]
+    exact sq_pos_of_pos h_ratio_pos
+  have h_beta_lt_one : beta_ads5 < 1 := by
+    dsimp [beta_ads5]
+    nlinarith
+  have h1p_ads : 0 ≤ 1 + beta_ads5 := by linarith
+  have h1m_ads : 0 ≤ 1 - beta_ads5 := by linarith
+  have h_ads_minors := complexGr24ChannelMatrix_minors
+    (↑(Real.sqrt (1 + beta_ads5) * Real.cos θ) + Complex.I * ↑(Real.sqrt (1 + beta_ads5) * Real.sin θ))
+    (↑(Real.sqrt (1 - beta_ads5) * Real.cos θ) - Complex.I * ↑(Real.sqrt (1 - beta_ads5) * Real.sin θ))
+  have h_wA_ads : Complex.normSq (complexPluckerSinkAmplitudeA M_ads5) = 1 + beta_ads5 := by
+    dsimp [M_ads5, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeA]
+    rw [h_ads_minors.1]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 + beta_ads5)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 + beta_ads5 := by rw [Real.sq_sqrt h1p_ads, Real.cos_sq_add_sin_sq, mul_one]
+  have h_wB_ads : Complex.normSq (complexPluckerSinkAmplitudeB M_ads5) = 1 - beta_ads5 := by
+    dsimp [M_ads5, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeB]
+    rw [h_ads_minors.2.1]
+    simp only [Complex.normSq_apply, Complex.sub_re, Complex.sub_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 - beta_ads5)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 - beta_ads5 := by rw [Real.sq_sqrt h1m_ads, Real.cos_sq_add_sin_sq, mul_one]
+  have h_ads_lapse :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_ads5) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_ads5) =
+        adsPlanarBlackBraneEmblackening z z_H 4 := by
+    rw [h_wA_ads, h_wB_ads]
+    dsimp [beta_ads5, adsPlanarBlackBraneEmblackening]
+    ring
+  have h_ads_pos : 0 < adsPlanarBlackBraneEmblackening z z_H 4 := by
+    have : 1 - beta_ads5 ^ 2 = adsPlanarBlackBraneEmblackening z z_H 4 := by
+      dsimp [beta_ads5, adsPlanarBlackBraneEmblackening]
+      ring
+    rw [← this]
+    nlinarith
+  have h_holo := re.holographic_gr24_ddf_and_antiAmplituhedron_identities
+    1 1 1 0 r 1 1 cx cy weight m_boson hbar θ hr_gt
+    (by norm_num) (by norm_num) hw hm_pos
+  have h_ddf_lapse :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_ddf) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_ddf) =
+        1 - re.horizonRadius / r := h_holo.2.2.2.2.2.2.2.2.1
+  have h_rg_det : splat_ir.covDet = lam_rg ^ 4 * splat_uv.covDet := by
+    dsimp [splat_ir, splat_uv, adsHolographicRGSplat, NormedTensorGaussianSplat2D.covDet]
+    ring
+  have h_rg_det_lt : splat_uv.covDet < splat_ir.covDet := by
+    rw [h_rg_det]
+    have huv_pos : 0 < splat_uv.covDet := by
+      dsimp [splat_uv, adsHolographicRGSplat, NormedTensorGaussianSplat2D.covDet]
+      positivity
+    have hlam2_gt : 1 < lam_rg ^ 2 := by nlinarith
+    have hlam4_gt : 1 < lam_rg ^ 4 := by nlinarith
+    nlinarith
+  have hz_uv_ne : z_uv ≠ 0 := ne_of_gt hz_uv
+  have hlam_ne : lam_rg ≠ 0 := ne_of_gt hlam_pos
+  have hm_ne : m_boson ≠ 0 := ne_of_gt hm_pos
+  have h_cont_rg :
+      continuumBohmPotentialMode m_boson hbar ((1 / z_uv) / lam_rg) =
+        (1 / lam_rg ^ 2) * continuumBohmPotentialMode m_boson hbar (1 / z_uv) := by
+    unfold continuumBohmPotentialMode
+    field_simp [hz_uv_ne, hlam_ne, hm_ne]
+  have h_rg_bohm :
+      splat_ir.coreBohmPotential m_boson hbar =
+        (1 / lam_rg ^ 2) * splat_uv.coreBohmPotential m_boson hbar := by
+    dsimp [splat_ir, splat_uv, adsHolographicRGSplat, NormedTensorGaussianSplat2D.coreBohmPotential]
+    field_simp [hz_uv_ne, hlam_ne, hm_ne]
+  have h_rg_bohm_le :
+      splat_ir.coreBohmPotential m_boson hbar ≤ splat_uv.coreBohmPotential m_boson hbar := by
+    rw [h_rg_bohm]
+    have h_uv_nonneg : 0 ≤ splat_uv.coreBohmPotential m_boson hbar := by
+      dsimp [splat_uv, adsHolographicRGSplat, NormedTensorGaussianSplat2D.coreBohmPotential]
+      positivity
+    have h_inv_le_one : 1 / lam_rg ^ 2 ≤ 1 := by
+      have hlam_sq_pos : 0 < lam_rg ^ 2 := sq_pos_of_pos hlam_pos
+      rw [div_le_one hlam_sq_pos]
+      nlinarith
+    nlinarith
+  exact ⟨h_m01, h_m23, h_m03, h_m12, h_m02_13, h_casimir_sq, h_casimir_one,
+    h_plucker_casimir, h_ads_lapse, h_ads_pos, h_ddf_lapse,
+    h_cont_rg, h_rg_det, h_rg_det_lt, h_rg_bohm, h_rg_bohm_le⟩
+
 end Signals.DDF

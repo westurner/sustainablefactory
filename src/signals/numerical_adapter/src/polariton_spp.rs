@@ -629,6 +629,238 @@ pub extern "C" fn wasm_shg_opa_squeezed_bohm_potential(
     splat.core_bohm_potential(m_boson, hbar)
 }
 
+/// AdS/CFT Correspondence (Maldacena 1998, GKPW 1998, KSS 2005, Ryu–Takayanagi 2006),
+/// Planar Integrability (Beisert et al. 2012, `arXiv:1012.3982`), Secret Symmetries
+/// (de Leeuw, Matsumoto, Moriyama, Regelskis & Torrielli 2012, `arXiv:1204.2366`),
+/// and Complex $Gr_{\mathbb{C}}(2,4)$ / DDF Holographic Unification (With and Without Splats).
+/// Matches `ads_cft_integrability_and_secret_symmetry_identities` in `Signals.Scattering`
+/// and `RiverExterior.grassmannian_ads_cft_ddf_and_secret_symmetry_unification` in `Signals.DDF`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct AdsCftIntegrabilitySecretModel {
+    pub d_boundary: f64,
+    pub m_sq_r_sq: f64,
+    pub r_ads: f64,
+    pub g_n3: f64,
+    pub lam_thooft: f64,
+    pub m_bound: f64,
+}
+
+impl AdsCftIntegrabilitySecretModel {
+    pub fn validate(&self) -> Result<(), ValidationError> {
+        require_positive("d_boundary", self.d_boundary)?;
+        require_positive("r_ads", self.r_ads)?;
+        require_positive("g_n3", self.g_n3)?;
+        require_nonnegative("lam_thooft", self.lam_thooft)?;
+        require_positive("m_bound", self.m_bound)?;
+        if self.m_sq_r_sq < Self::breitenlohner_freedman_bound(self.d_boundary) {
+            return Err(ValidationError::NonPositive("m_sq_r_sq - m_BF^2"));
+        }
+        Ok(())
+    }
+
+    /// Planar 't Hooft coupling $\lambda = g_{\mathrm{YM}}^2 N_c$, matching `adsTftHooftCoupling`.
+    pub fn thooft_coupling(g_ym: f64, n_c: f64) -> f64 {
+        g_ym * g_ym * n_c
+    }
+
+    /// AdS/CFT coupling–tension dictionary $\lambda = 4\pi^2 T_{\mathrm{str}}^2$,
+    /// matching `adsCouplingFromStringTension` (`arXiv:1012.3982`).
+    pub fn coupling_from_string_tension(t_str: f64) -> f64 {
+        4.0 * std::f64::consts::PI * std::f64::consts::PI * t_str * t_str
+    }
+
+    /// Breitenlohner–Freedman stability bound $m_{\mathrm{BF}}^2 R_{\mathrm{AdS}}^2 = -d^2 / 4$,
+    /// matching `adsBreitenlohnerFreedmanBound`.
+    pub fn breitenlohner_freedman_bound(d: f64) -> f64 {
+        -0.25 * d * d
+    }
+
+    /// GKPW normalizable scaling dimension $\Delta_+ = d/2 + \sqrt{(d/2)^2 + m^2 R_{\mathrm{AdS}}^2}$,
+    /// matching `adsCftScalingDimensionPlus`.
+    pub fn scaling_dimension_plus(&self) -> f64 {
+        0.5 * self.d_boundary + (0.25 * self.d_boundary * self.d_boundary + self.m_sq_r_sq).sqrt()
+    }
+
+    /// GKPW shadow scaling dimension $\Delta_- = d/2 - \sqrt{(d/2)^2 + m^2 R_{\mathrm{AdS}}^2}$,
+    /// matching `adsCftScalingDimensionMinus`.
+    pub fn scaling_dimension_minus(&self) -> f64 {
+        0.5 * self.d_boundary - (0.25 * self.d_boundary * self.d_boundary + self.m_sq_r_sq).sqrt()
+    }
+
+    /// Kovtun–Son–Starinets (KSS) holographic viscosity bound $(\eta/s)_{\mathrm{KSS}} = \hbar / (4\pi k_B)$,
+    /// matching `kssShearViscosityEntropyBound`.
+    pub fn kss_viscosity_entropy_bound(hbar: f64, k_b: f64) -> f64 {
+        hbar / (4.0 * std::f64::consts::PI * k_b)
+    }
+
+    /// Brown–Henneaux $\text{AdS}_3/\text{CFT}_2$ central charge $c_{\mathrm{BH}} = 3 R_{\mathrm{AdS}} / (2 G_N^{(3)})$,
+    /// matching `brownHenneauxCentralCharge`.
+    pub fn brown_henneaux_central_charge(&self) -> f64 {
+        (3.0 * self.r_ads) / (2.0 * self.g_n3)
+    }
+
+    /// Ryu–Takayanagi $\text{AdS}_3/\text{CFT}_2$ entanglement entropy
+    /// $S_{\mathrm{EE}}(\ell, \epsilon_{\mathrm{UV}}) = \frac{R_{\mathrm{AdS}}}{2 G_N^{(3)}}\ln(\ell / \epsilon_{\mathrm{UV}})$,
+    /// matching `ryuTakayanagiEntanglementEntropyAdS3`.
+    pub fn ryu_takayanagi_ee_ads3(&self, l_interval: f64, eps_uv: f64) -> f64 {
+        (self.r_ads / (2.0 * self.g_n3)) * (l_interval / eps_uv).ln()
+    }
+
+    /// All-loop $\mathfrak{psu}(2|2)^2 \ltimes \mathbb{R}^3$ bound-state magnon squared dispersion
+    /// $E^2(M, \lambda, p) = M^2 + (\lambda / \pi^2)\sin^2(p/2)$, matching `adsMagnonDispersionSq`.
+    pub fn magnon_dispersion_sq(&self, p: f64) -> f64 {
+        let sin_half = (0.5 * p).sin();
+        self.m_bound * self.m_bound
+            + (self.lam_thooft / (std::f64::consts::PI * std::f64::consts::PI))
+                * sin_half
+                * sin_half
+    }
+
+    /// All-loop bound-state magnon energy $E(M, \lambda, p)$, matching `adsMagnonDispersion`.
+    pub fn magnon_dispersion(&self, p: f64) -> f64 {
+        self.magnon_dispersion_sq(p).sqrt()
+    }
+
+    /// One-loop planar Bethe magnon anomalous dimension $\delta D_1(\lambda, u) = \frac{\lambda}{8\pi^2(u^2 + 1/4)}$,
+    /// matching `betheOneLoopMagnonEnergy`.
+    pub fn bethe_one_loop_magnon_energy(&self, u: f64) -> f64 {
+        (self.lam_thooft / (8.0 * std::f64::consts::PI * std::f64::consts::PI))
+            / (u * u + 0.25)
+    }
+
+    /// Konishi one-loop anomalous dimension $\delta D_{\mathrm{Konishi}}^{(1)}(\lambda) = \frac{3\lambda}{4\pi^2}$,
+    /// matching `konishiOneLoopAnomalousDim`.
+    pub fn konishi_one_loop_anomalous_dim(&self) -> f64 {
+        (3.0 * self.lam_thooft) / (4.0 * std::f64::consts::PI * std::f64::consts::PI)
+    }
+
+    /// Three-loop weak-coupling cusp anomalous dimension check figure (`arXiv:1012.3982`, Sec. III.4):
+    /// $D_{\mathrm{cusp}}^{\mathrm{weak}}(\lambda) = \frac{\lambda}{2\pi^2} - \frac{\lambda^2}{96\pi^2} + \frac{11\lambda^3}{23040\pi^2}$.
+    pub fn cusp_anomalous_dim_weak_3loop(&self) -> f64 {
+        let pi2 = std::f64::consts::PI * std::f64::consts::PI;
+        let l = self.lam_thooft;
+        l / (2.0 * pi2) - (l * l) / (96.0 * pi2) + (11.0 * l * l * l) / (23040.0 * pi2)
+    }
+
+    /// Strong-coupling cusp anomalous dimension check figure (`arXiv:1012.3982`, Sec. III.4):
+    /// $D_{\mathrm{cusp}}^{\mathrm{strong}}(\lambda) = \frac{\sqrt{\lambda}}{\pi} - \frac{3\ln 2}{\pi}$.
+    pub fn cusp_anomalous_dim_strong_leading(&self) -> f64 {
+        (self.lam_thooft.sqrt() - 3.0 * 2.0_f64.ln()) / std::f64::consts::PI
+    }
+
+    /// Braided central charge $\mathbb{C}(p) = e^{ip} - 1$ of $\mathfrak{psl}(2|2)_c$,
+    /// matching `psl22BraidedCentralChargeC` (`arXiv:1204.2366`, Eq. (2.4)).
+    pub fn psl22_braided_central_charge_c(p: f64) -> Complex64 {
+        Complex64::new(p.cos() - 1.0, p.sin())
+    }
+
+    /// Conjugate braided central charge $\mathbb{C}^\dagger(p) = e^{-ip} - 1$,
+    /// matching `psl22BraidedCentralChargeCDag` (`arXiv:1204.2366`, Eq. (2.4)).
+    pub fn psl22_braided_central_charge_cdag(p: f64) -> Complex64 {
+        Complex64::new(p.cos() - 1.0, -p.sin())
+    }
+
+    /// Quasi-cocommutative braided coproduct $\Delta(\mathbb{C})(C_1, C_2) = C_1 + C_2 + C_1 C_2$,
+    /// matching `psl22BraidedCoproductC` (`arXiv:1204.2366`, Eq. (2.5)).
+    pub fn psl22_braided_coproduct_c(c1: Complex64, c2: Complex64) -> Complex64 {
+        c1.add(c2).add(c1.mul(c2))
+    }
+
+    /// Typical (long) $\mathfrak{gl}(2|2)$ representation dimension $16(2 j_1 + 1)(2 j_2 + 1)$,
+    /// matching `gl22LongRepDim` (`arXiv:1204.2366`, Sec. 2.3).
+    pub fn gl22_long_rep_dim(j1: f64, j2: f64) -> f64 {
+        16.0 * (2.0 * j1 + 1.0) * (2.0 * j2 + 1.0)
+    }
+
+    /// Atypical (short) $\mathfrak{psl}(2|2)_c$ bound-state representation dimension $4 M$,
+    /// matching `psl22ShortBoundStateDim` (`arXiv:1204.2366`, Sec. 2.3).
+    pub fn psl22_short_bound_state_dim(m_bound: f64) -> f64 {
+        4.0 * m_bound
+    }
+
+    /// Ordinary trace ($0$) and $(2|2)$-graded supertrace ($4 B_0$) of the indented Yangian
+    /// secret symmetry generator $\widehat{\mathbb{B}} = B_0 \operatorname{diag}(1, 1, -1, -1)$
+    /// (`arXiv:1204.2366`, Eq. (3.2) & Sec. 3.4).
+    pub fn secret_symmetry_trace_and_supertrace(b0: f64) -> (f64, f64) {
+        (0.0, 4.0 * b0)
+    }
+
+    /// Complex $Gr_{\mathbb{C}}(2,4)$ embedding of the $\mathfrak{psl}(2|2)_c$ secret-symmetry
+    /// outer automorphism (`psl22SecretAutomorphismGr24Matrix` in `Signals.DDF`):
+    /// returns $(\Delta_{01}^{\mathbb{C}}, \Delta_{23}^{\mathbb{C}}, \Delta_{03}^{\mathbb{C}}, \Delta_{12}^{\mathbb{C}}, \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}})$.
+    pub fn psl22_secret_automorphism_gr24_minors(
+        a: Complex64,
+        b: Complex64,
+        c: Complex64,
+        d: Complex64,
+    ) -> (Complex64, Complex64, Complex64, Complex64, Complex64) {
+        let neg = |z: Complex64| Complex64::new(-z.re, -z.im);
+        let m = [[a, b, a, neg(b)], [c, d, neg(c), d]];
+        let d01 = two_row_minor_complex(&m, 0, 1);
+        let d23 = two_row_minor_complex(&m, 2, 3);
+        let d03 = two_row_minor_complex(&m, 0, 3);
+        let d12 = two_row_minor_complex(&m, 1, 2);
+        let d02_13 = two_row_minor_complex(&m, 0, 2).mul(two_row_minor_complex(&m, 1, 3));
+        (d01, d23, d03, d12, d02_13)
+    }
+
+    /// Poincaré $\text{AdS}_{d+1}$ planar black-brane emblackening factor $1 - (z / z_H)^d$,
+    /// matching `adsPlanarBlackBraneEmblackening` in `Signals.DDF`.
+    pub fn ads_planar_black_brane_emblackening(z: f64, z_h: f64, d: i32) -> f64 {
+        1.0 - (z / z_h).powi(d)
+    }
+
+    /// Splat-free $Gr_{\mathbb{C}}(2,4)$ Plücker channel invariants for an $\text{AdS}_5$ ($d=4$)
+    /// planar black brane at bulk depth $z \in (0, z_H)$:
+    /// returns $(|w_A^{\mathbb{C}}|^2, |w_B^{\mathbb{C}}|^2, |w_A^{\mathbb{C}}|^2 |w_B^{\mathbb{C}}|^2 = 1 - (z/z_H)^4)$.
+    pub fn gr24_ads5_black_brane_invariants(z: f64, z_h: f64, theta: f64) -> (f64, f64, f64) {
+        let beta_ads5 = (z / z_h).powi(2);
+        let (wa_sq, wb_sq, _, prod) =
+            DdfGrassmannianThermalTransport::gr24_characteristic_invariants(beta_ads5, theta);
+        (wa_sq, wb_sq, prod)
+    }
+
+    /// Holographic RG `NormedTensorGaussianSplat2D` wavepacket with coarse-graining width
+    /// $\sigma_1 = \sigma_2 = z_{\mathrm{rg}}$, matching `adsHolographicRGSplat` in `Signals.DDF`.
+    pub fn ads_holographic_rg_splat(
+        cx: f64,
+        cy: f64,
+        weight: f64,
+        z_rg: f64,
+        orientation_angle: f64,
+    ) -> NormedTensorGaussianSplat2D {
+        NormedTensorGaussianSplat2D {
+            center_x: cx,
+            center_y: cy,
+            weight,
+            sigma1: z_rg,
+            sigma2: z_rg,
+            orientation_angle,
+            role: SplatRole::BodySinkSource,
+        }
+    }
+}
+
+/// WebAssembly C-ABI export: GKPW normalizable scaling dimension $\Delta_+(d, m^2 R_{\mathrm{AdS}}^2)$.
+#[unsafe(no_mangle)]
+pub extern "C" fn wasm_ads_cft_scaling_dimension_plus(d: f64, m_sq_r_sq: f64) -> f64 {
+    0.5 * d + (0.25 * d * d + m_sq_r_sq).sqrt()
+}
+
+/// WebAssembly C-ABI export: All-loop AdS/CFT bound-state magnon dispersion $E(M, \lambda, p)$.
+#[unsafe(no_mangle)]
+pub extern "C" fn wasm_ads_magnon_dispersion(m_bound: f64, lam_thooft: f64, p: f64) -> f64 {
+    let model = AdsCftIntegrabilitySecretModel {
+        d_boundary: 4.0,
+        m_sq_r_sq: 0.0,
+        r_ads: 1.0,
+        g_n3: 1.0,
+        lam_thooft,
+        m_bound,
+    };
+    model.magnon_dispersion(p)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -903,6 +1135,149 @@ mod tests {
         let qp1 = splat_opa.quantum_pressure_principal1(1.0, 1.0, 0.1, -0.1);
         let qp2 = splat_opa.quantum_pressure_principal2(1.0, 1.0, 0.1, -0.1);
         assert!((qp2 - (4.0 * r_sq).exp() * qp1).abs() < 1e-10);
+    }
+
+    #[rstest]
+    #[case(4.0, 5.0, 6.0, 3.0, 16.0, 2.0, 0.7, 0.5, 2.0)]
+    #[case(4.0, 0.0, 10.0, 2.5, 4.0 * std::f64::consts::PI * std::f64::consts::PI, 1.0, 1.2, 0.25, 3.0)]
+    fn parametric_ads_cft_integrability_secret_symmetries_and_gr24_ddf_unification(
+        #[case] d: f64,
+        #[case] m_sq_r_sq: f64,
+        #[case] r_ads: f64,
+        #[case] g_n3: f64,
+        #[case] lam: f64,
+        #[case] m_bound: f64,
+        #[case] p_mag: f64,
+        #[case] z_uv: f64,
+        #[case] lam_rg: f64,
+    ) {
+        let model = AdsCftIntegrabilitySecretModel {
+            d_boundary: d,
+            m_sq_r_sq,
+            r_ads,
+            g_n3,
+            lam_thooft: lam,
+            m_bound,
+        };
+        model.validate().unwrap();
+
+        // 1. GKPW Mass-Dimension Dictionary & Breitenlohner-Freedman Bound
+        let dp = model.scaling_dimension_plus();
+        let dm = model.scaling_dimension_minus();
+        assert!(((dp + dm) - d).abs() < 1e-12);
+        assert!(((dp * dm) - (-m_sq_r_sq)).abs() < 1e-12);
+        assert!(((dp * (dp - d)) - m_sq_r_sq).abs() < 1e-12);
+
+        let bf = AdsCftIntegrabilitySecretModel::breitenlohner_freedman_bound(d);
+        let dp_bf = wasm_ads_cft_scaling_dimension_plus(d, bf);
+        assert!((dp_bf - 0.5 * d).abs() < 1e-12);
+
+        // 2. Ryu-Takayanagi AdS_3/CFT_2 Entanglement Entropy & KSS Bound
+        let c_bh = model.brown_henneaux_central_charge();
+        let s_ee = model.ryu_takayanagi_ee_ads3(10.0, 2.0);
+        assert!((s_ee - (c_bh / 3.0) * (10.0_f64 / 2.0).ln()).abs() < 1e-12);
+        assert!(AdsCftIntegrabilitySecretModel::kss_viscosity_entropy_bound(1.0, 1.0) > 0.0);
+
+        // 3. All-Loop Magnon Dispersion, Coupling-Tension Dictionary, Konishi & Cusp Check Figures
+        assert!(
+            (AdsCftIntegrabilitySecretModel::thooft_coupling(0.5, 64.0) - 16.0).abs() < 1e-12
+        );
+        let t_str = lam.sqrt() / (2.0 * std::f64::consts::PI);
+        assert!(
+            (AdsCftIntegrabilitySecretModel::coupling_from_string_tension(t_str) - lam).abs()
+                < 1e-11
+        );
+        assert!((model.magnon_dispersion(0.0) - m_bound).abs() < 1e-12);
+        assert!(
+            (wasm_ads_magnon_dispersion(m_bound, lam, std::f64::consts::PI).powi(2)
+                - (m_bound * m_bound + 4.0 * t_str * t_str))
+            .abs()
+                < 1e-10
+        );
+        assert!(model.magnon_dispersion_sq(p_mag) >= m_bound * m_bound - 1e-12);
+        let u_konishi = 1.0 / (2.0 * 3.0_f64.sqrt());
+        assert!(
+            (2.0 * model.bethe_one_loop_magnon_energy(u_konishi)
+                - model.konishi_one_loop_anomalous_dim())
+            .abs()
+                < 1e-12
+        );
+        assert!(model.cusp_anomalous_dim_weak_3loop().is_finite());
+        assert!(model.cusp_anomalous_dim_strong_leading().is_finite());
+
+        // 4. Secret Symmetries in AdS/CFT (arXiv:1204.2366)
+        let c_p = AdsCftIntegrabilitySecretModel::psl22_braided_central_charge_c(p_mag);
+        let cdag_p = AdsCftIntegrabilitySecretModel::psl22_braided_central_charge_cdag(p_mag);
+        let braid_rel = c_p.mul(cdag_p).add(c_p).add(cdag_p);
+        assert!(braid_rel.norm_sq() < 1e-24);
+
+        let c_1 = AdsCftIntegrabilitySecretModel::psl22_braided_central_charge_c(0.4);
+        let c_2 = AdsCftIntegrabilitySecretModel::psl22_braided_central_charge_c(0.9);
+        let coprod_12 = AdsCftIntegrabilitySecretModel::psl22_braided_coproduct_c(c_1, c_2);
+        let coprod_21 = AdsCftIntegrabilitySecretModel::psl22_braided_coproduct_c(c_2, c_1);
+        assert!((coprod_12.re - coprod_21.re).abs() < 1e-12);
+        assert!((coprod_12.im - coprod_21.im).abs() < 1e-12);
+
+        assert!((AdsCftIntegrabilitySecretModel::gl22_long_rep_dim(0.0, 0.0) - 16.0).abs() < 1e-12);
+        assert!(
+            (AdsCftIntegrabilitySecretModel::psl22_short_bound_state_dim(1.0) - 4.0).abs() < 1e-12
+        );
+        assert!(
+            AdsCftIntegrabilitySecretModel::psl22_short_bound_state_dim(m_bound)
+                < AdsCftIntegrabilitySecretModel::gl22_long_rep_dim(0.5 * m_bound, 0.0)
+        );
+        let (tr_sec, str_sec) =
+            AdsCftIntegrabilitySecretModel::secret_symmetry_trace_and_supertrace(2.5);
+        assert!(tr_sec.abs() < 1e-12);
+        assert!((str_sec - 10.0).abs() < 1e-12);
+
+        // 5. Gr_C(2,4) Realization of psl(2|2)_c Secret Automorphism & AdS_5/DDF Unification
+        let a = Complex64::new(2.0, 0.0);
+        let b = Complex64::new(1.0, 0.0);
+        let c = Complex64::new(1.0, 0.0);
+        let d_param = Complex64::new(1.0, 0.0);
+        let (d01, d23, d03, d12, d02_13) =
+            AdsCftIntegrabilitySecretModel::psl22_secret_automorphism_gr24_minors(
+                a, b, c, d_param,
+            );
+        assert!((d01.re - 1.0).abs() < 1e-12 && (d23.re - 1.0).abs() < 1e-12);
+        assert!((d03.re - 3.0).abs() < 1e-12 && (d12.re - (-3.0)).abs() < 1e-12);
+        assert!((d02_13.re - (-8.0)).abs() < 1e-12);
+        assert!(((d03.re * d03.re + d02_13.re) - d01.re * d23.re).abs() < 1e-12);
+
+        let (_, _, prod_ads5) =
+            AdsCftIntegrabilitySecretModel::gr24_ads5_black_brane_invariants(1.0, 2.0, 0.3);
+        let expected_f =
+            AdsCftIntegrabilitySecretModel::ads_planar_black_brane_emblackening(1.0, 2.0, 4);
+        assert!((prod_ads5 - expected_f).abs() < 1e-12);
+        assert!(prod_ads5 > 0.0);
+
+        let q_cont_uv =
+            DdfGrassmannianThermalTransport::continuum_bohm_potential_mode(1.0, 1.0, 1.0 / z_uv);
+        let q_cont_ir = DdfGrassmannianThermalTransport::continuum_bohm_potential_mode(
+            1.0,
+            1.0,
+            (1.0 / z_uv) / lam_rg,
+        );
+        assert!((q_cont_ir - (1.0 / (lam_rg * lam_rg)) * q_cont_uv).abs() < 1e-12);
+
+        let splat_uv =
+            AdsCftIntegrabilitySecretModel::ads_holographic_rg_splat(0.0, 0.0, 1.0, z_uv, 0.0);
+        let splat_ir = AdsCftIntegrabilitySecretModel::ads_holographic_rg_splat(
+            0.0,
+            0.0,
+            1.0,
+            lam_rg * z_uv,
+            0.0,
+        );
+        assert!((splat_ir.cov_det() - lam_rg.powi(4) * splat_uv.cov_det()).abs() < 1e-12);
+        assert!(splat_ir.cov_det() > splat_uv.cov_det());
+        assert!(
+            (splat_ir.core_bohm_potential(1.0, 1.0)
+                - (1.0 / (lam_rg * lam_rg)) * splat_uv.core_bohm_potential(1.0, 1.0))
+            .abs()
+                < 1e-12
+        );
     }
 
     #[test]

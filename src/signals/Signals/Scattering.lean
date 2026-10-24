@@ -1560,4 +1560,434 @@ theorem second_harmonic_opa_and_centrosymmetry_identities
   exact ⟨h_chi_zero, h_pol_zero, h_buildup_le, h_thresh,
     h_gain0, h_gain_le, h_gain_cutoff, h_amp_ge, h_sq_le, h_symp_prod⟩
 
+/-! ## AdS/CFT Correspondence (Maldacena 1998, GKPW 1998, KSS 2005, Ryu–Takayanagi 2006), AdS/CFT Integrability (Beisert et al. 2012, `arXiv:1012.3982`), and Secret Symmetries (`arXiv:1204.2366`) -/
+
+/-- Planar 't Hooft coupling $\lambda = g_{\mathrm{YM}}^2 N_c$ in $SU(N_c)$ $\mathcal{N}=4$
+Super Yang–Mills theory (Maldacena 1998, `arXiv:hep-th/9711200`; 't Hooft 1974). -/
+@[blueprint "def:signals-scattering-ads-thooft-coupling"
+  (title := "Planar 't Hooft coupling λ = g_YM² N_c")
+  (statement := /-- Define $\operatorname{adsTftHooftCoupling}(g_{\mathrm{YM}}, N_c) = g_{\mathrm{YM}}^2 N_c$. -/)]
+def adsTftHooftCoupling (g_YM N_c : ℝ) : ℝ :=
+  g_YM ^ 2 * N_c
+
+/-- AdS/CFT coupling–tension dictionary $\lambda = 4\pi^2 T_{\mathrm{str}}^2$, relating
+the planar 't Hooft coupling $\lambda$ to the effective $\text{AdS}_5 \times S^5$ string
+tension $T_{\mathrm{str}} = R_{\mathrm{AdS}}^2 / (2\pi\alpha')$
+(Beisert et al., 2012, *Review of AdS/CFT Integrability*, `arXiv:1012.3982`). -/
+@[blueprint "def:signals-scattering-ads-coupling-from-tension"
+  (title := "AdS/CFT coupling-tension dictionary λ = 4π² T_str²")
+  (statement := /-- Define $\operatorname{adsCouplingFromStringTension}(T_{\mathrm{str}})
+    = 4\pi^2 T_{\mathrm{str}}^2$. -/)]
+noncomputable def adsCouplingFromStringTension (T_str : ℝ) : ℝ :=
+  4 * Real.pi ^ 2 * T_str ^ 2
+
+/-- Breitenlohner–Freedman (BF) tachyon stability bound $m_{\mathrm{BF}}^2 R_{\mathrm{AdS}}^2 = -d^2 / 4$
+for a scalar field in $\text{AdS}_{d+1}$ (Breitenlohner & Freedman, 1982). -/
+@[blueprint "def:signals-scattering-ads-bf-bound"
+  (title := "Breitenlohner-Freedman stability bound m_BF² R_AdS² = -d² / 4")
+  (statement := /-- Define $\operatorname{adsBreitenlohnerFreedmanBound}(d) = -d^2 / 4$. -/)]
+noncomputable def adsBreitenlohnerFreedmanBound (d : ℝ) : ℝ :=
+  -(d ^ 2) / 4
+
+/-- Gubser–Klebanov–Polyakov–Witten (GKPW) normalizable CFT operator scaling dimension
+$\Delta_+(d, m^2 R_{\mathrm{AdS}}^2) = \frac{d}{2} + \sqrt{(d/2)^2 + m^2 R_{\mathrm{AdS}}^2}$
+(Gubser, Klebanov & Polyakov 1998, `arXiv:hep-th/9802109`; Witten 1998, `arXiv:hep-th/9802150`). -/
+@[blueprint "def:signals-scattering-ads-cft-scaling-dim-plus"
+  (title := "GKPW normalizable scaling dimension Δ_+ = d/2 + √((d/2)² + m² R_AdS²)")
+  (statement := /-- Define $\operatorname{adsCftScalingDimensionPlus}(d, m_{\mathrm{eff}}^2)
+    = d/2 + \sqrt{(d/2)^2 + m_{\mathrm{eff}}^2}$. -/)]
+noncomputable def adsCftScalingDimensionPlus (d m_sq_R_sq : ℝ) : ℝ :=
+  d / 2 + Real.sqrt ((d / 2) ^ 2 + m_sq_R_sq)
+
+/-- GKPW conjugate (source/shadow) scaling dimension
+$\Delta_-(d, m^2 R_{\mathrm{AdS}}^2) = \frac{d}{2} - \sqrt{(d/2)^2 + m^2 R_{\mathrm{AdS}}^2}$. -/
+@[blueprint "def:signals-scattering-ads-cft-scaling-dim-minus"
+  (title := "GKPW shadow scaling dimension Δ_- = d/2 - √((d/2)² + m² R_AdS²)")
+  (statement := /-- Define $\operatorname{adsCftScalingDimensionMinus}(d, m_{\mathrm{eff}}^2)
+    = d/2 - \sqrt{(d/2)^2 + m_{\mathrm{eff}}^2}$. -/)]
+noncomputable def adsCftScalingDimensionMinus (d m_sq_R_sq : ℝ) : ℝ :=
+  d / 2 - Real.sqrt ((d / 2) ^ 2 + m_sq_R_sq)
+
+/-- Kovtun–Son–Starinets (KSS) holographic shear-viscosity-to-entropy-density bound
+$(\eta / s)_{\mathrm{KSS}} = \frac{\hbar}{4\pi k_B}$ (Kovtun, Son & Starinets, 2005,
+`arXiv:hep-th/0405231`). -/
+@[blueprint "def:signals-scattering-kss-viscosity-bound"
+  (title := "Kovtun-Son-Starinets holographic viscosity bound η/s = ℏ / (4π k_B)")
+  (statement := /-- Define $\operatorname{kssShearViscosityEntropyBound}(\hbar, k_B)
+    = \hbar / (4\pi k_B)$. -/)]
+noncomputable def kssShearViscosityEntropyBound (hbar k_B : ℝ) : ℝ :=
+  hbar / (4 * Real.pi * k_B)
+
+/-- Brown–Henneaux $\text{AdS}_3/\text{CFT}_2$ central charge
+$c_{\mathrm{BH}} = \frac{3 R_{\mathrm{AdS}}}{2 G_N^{(3)}}$ (Brown & Henneaux, 1986). -/
+@[blueprint "def:signals-scattering-brown-henneaux-central-charge"
+  (title := "Brown-Henneaux AdS_3/CFT_2 central charge c_BH = 3 R_AdS / (2 G_N^(3))")
+  (statement := /-- Define $\operatorname{brownHenneauxCentralCharge}(R_{\mathrm{AdS}}, G_N)
+    = 3 R_{\mathrm{AdS}} / (2 G_N)$. -/)]
+noncomputable def brownHenneauxCentralCharge (R_ads G_N3 : ℝ) : ℝ :=
+  (3 * R_ads) / (2 * G_N3)
+
+/-- Ryu–Takayanagi $\text{AdS}_3/\text{CFT}_2$ holographic entanglement entropy
+$S_{\mathrm{EE}}(\ell, \epsilon_{\mathrm{UV}}) = \frac{R_{\mathrm{AdS}}}{2 G_N^{(3)}}\ln(\ell / \epsilon_{\mathrm{UV}}) = \frac{c_{\mathrm{BH}}}{3}\ln(\ell / \epsilon_{\mathrm{UV}})$
+(Ryu & Takayanagi, 2006, `arXiv:hep-th/0603001`). -/
+@[blueprint "def:signals-scattering-ryu-takayanagi-ee-ads3"
+  (title := "Ryu-Takayanagi AdS_3/CFT_2 entanglement entropy S_EE = (R_AdS / (2 G_N)) ln(ℓ / ε_UV)")
+  (statement := /-- Define $\operatorname{ryuTakayanagiEntanglementEntropyAdS3}(R_{\mathrm{AdS}}, G_N, \ell, \epsilon_{\mathrm{UV}})
+    = (R_{\mathrm{AdS}} / (2 G_N))\ln(\ell / \epsilon_{\mathrm{UV}})$. -/)]
+noncomputable def ryuTakayanagiEntanglementEntropyAdS3
+    (R_ads G_N3 l_interval eps_uv : ℝ) : ℝ :=
+  (R_ads / (2 * G_N3)) * Real.log (l_interval / eps_uv)
+
+/-- All-loop $\mathfrak{psu}(2|2)^2 \ltimes \mathbb{R}^3$ bound-state magnon squared
+dispersion relation $E_{\mathrm{mag}}^2(M, \lambda, p) = M^2 + \frac{\lambda}{\pi^2}\sin^2(p/2)$
+(Beisert 2005, `arXiv:hep-th/0511082`; Beisert et al. 2012, `arXiv:1012.3982`, Sec. III.2). -/
+@[blueprint "def:signals-scattering-ads-magnon-dispersion-sq"
+  (title := "All-loop AdS/CFT bound-state magnon dispersion squared E² = M² + (λ/π²) sin²(p/2)")
+  (statement := /-- Define $\operatorname{adsMagnonDispersionSq}(M, \lambda, p)
+    = M^2 + (\lambda / \pi^2)\sin^2(p/2)$. -/)]
+noncomputable def adsMagnonDispersionSq (M_bound lam p : ℝ) : ℝ :=
+  M_bound ^ 2 + (lam / Real.pi ^ 2) * (Real.sin (p / 2)) ^ 2
+
+/-- All-loop AdS/CFT bound-state magnon energy
+$E_{\mathrm{mag}}(M, \lambda, p) = \sqrt{M^2 + \frac{\lambda}{\pi^2}\sin^2(p/2)}$. -/
+@[blueprint "def:signals-scattering-ads-magnon-dispersion"
+  (title := "All-loop AdS/CFT bound-state magnon energy E = √(M² + (λ/π²) sin²(p/2))")
+  (statement := /-- Define $\operatorname{adsMagnonDispersion}(M, \lambda, p)
+    = \sqrt{\operatorname{adsMagnonDispersionSq}(M, \lambda, p)}$. -/)]
+noncomputable def adsMagnonDispersion (M_bound lam p : ℝ) : ℝ :=
+  Real.sqrt (adsMagnonDispersionSq M_bound lam p)
+
+/-- Single-magnon one-loop planar Bethe energy contribution
+$\delta D_1(\lambda, u) = \frac{\lambda}{8\pi^2}\,\frac{1}{u^2 + 1/4}$
+for Bethe rapidity $u$ (Minahan & Zarembo 2003, `arXiv:hep-th/0212208`;
+Beisert et al. 2012, `arXiv:1012.3982`, Sec. I.1). -/
+@[blueprint "def:signals-scattering-bethe-one-loop-magnon-energy"
+  (title := "One-loop planar Bethe magnon anomalous dimension δD_1(λ, u) = (λ / 8π²) / (u² + 1/4)")
+  (statement := /-- Define $\operatorname{betheOneLoopMagnonEnergy}(\lambda, u)
+    = (\lambda / (8\pi^2)) / (u^2 + 1/4)$. -/)]
+noncomputable def betheOneLoopMagnonEnergy (lam u : ℝ) : ℝ :=
+  (lam / (8 * Real.pi ^ 2)) / (u ^ 2 + 1 / 4)
+
+/-- Planar one-loop anomalous dimension of the Konishi operator ($L=4, M=2$, Bethe roots
+$u_1 = -u_2 = \frac{1}{2\sqrt{3}}$, $u_k^2 = 1/12$):
+$\delta D_{\mathrm{Konishi}}^{(1)}(\lambda) = \frac{3\lambda}{4\pi^2}$
+(Beisert et al. 2012, `arXiv:1012.3982`, Sec. I.2). -/
+@[blueprint "def:signals-scattering-konishi-one-loop"
+  (title := "Konishi one-loop anomalous dimension δD_Konishi^(1) = 3λ / (4π²)")
+  (statement := /-- Define $\operatorname{konishiOneLoopAnomalousDim}(\lambda)
+    = 3\lambda / (4\pi^2)$. -/)]
+noncomputable def konishiOneLoopAnomalousDim (lam : ℝ) : ℝ :=
+  (3 * lam) / (4 * Real.pi ^ 2)
+
+/-- One-loop planar cusp anomalous dimension
+$D_{\mathrm{cusp}}^{(1)}(\lambda) = \frac{\lambda}{2\pi^2}$
+(Beisert et al. 2012, `arXiv:1012.3982`, Sec. III.4). -/
+@[blueprint "def:signals-scattering-cusp-one-loop"
+  (title := "One-loop cusp anomalous dimension D_cusp^(1) = λ / (2π²)")
+  (statement := /-- Define $\operatorname{cuspAnomalousDimOneLoop}(\lambda)
+    = \lambda / (2\pi^2)$. -/)]
+noncomputable def cuspAnomalousDimOneLoop (lam : ℝ) : ℝ :=
+  lam / (2 * Real.pi ^ 2)
+
+/-- Three-loop weak-coupling planar cusp anomalous dimension expansion
+$D_{\mathrm{cusp}}^{\mathrm{weak},3}(\lambda) = \frac{\lambda}{2\pi^2} - \frac{\lambda^2}{96\pi^2} + \frac{11\lambda^3}{23040\pi^2}$
+(Beisert, Eden & Staudacher 2007; Beisert et al. 2012, `arXiv:1012.3982`, Sec. III.4). -/
+@[blueprint "def:signals-scattering-cusp-weak-3loop"
+  (title := "Three-loop weak-coupling cusp anomalous dimension expansion")
+  (statement := /-- Define $\operatorname{cuspAnomalousDimWeak3Loop}(\lambda)
+    = \frac{\lambda}{2\pi^2} - \frac{\lambda^2}{96\pi^2} + \frac{11\lambda^3}{23040\pi^2}$. -/)]
+noncomputable def cuspAnomalousDimWeak3Loop (lam : ℝ) : ℝ :=
+  lam / (2 * Real.pi ^ 2) - lam ^ 2 / (96 * Real.pi ^ 2) +
+    (11 * lam ^ 3) / (23040 * Real.pi ^ 2)
+
+/-- Braided central charge $\mathbb{C}(p) = e^{ip} - 1$ of the centrally extended
+Hopf superalgebra $\mathfrak{psl}(2|2)_c = D(2,1;-1)$
+(de Leeuw, Matsumoto, Moriyama, Regelskis & Torrielli, 2012, *Secret Symmetries in AdS/CFT*,
+`arXiv:1204.2366`, Eq. (2.4)). -/
+@[blueprint "def:signals-scattering-psl22-braided-c"
+  (title := "Centrally extended psl(2|2)_c braided central charge C(p) = e^{ip} - 1")
+  (statement := /-- Define $\operatorname{psl22BraidedCentralChargeC}(p) = \exp(ip) - 1$. -/)]
+noncomputable def psl22BraidedCentralChargeC (p : ℝ) : ℂ :=
+  Complex.exp (Complex.I * ↑p) - 1
+
+/-- Conjugate braided central charge $\mathbb{C}^\dagger(p) = e^{-ip} - 1$ of $\mathfrak{psl}(2|2)_c$
+(`arXiv:1204.2366`, Eq. (2.4)). -/
+@[blueprint "def:signals-scattering-psl22-braided-cdag"
+  (title := "Conjugate braided central charge C†(p) = e^{-ip} - 1")
+  (statement := /-- Define $\operatorname{psl22BraidedCentralChargeCDag}(p) = \exp(-ip) - 1$. -/)]
+noncomputable def psl22BraidedCentralChargeCDag (p : ℝ) : ℂ :=
+  Complex.exp (-Complex.I * ↑p) - 1
+
+/-- Quasi-cocommutative two-site braided coproduct eigenvalue
+$\Delta(\mathbb{C})(C_1, C_2) = C_1 + C_2 + C_1 C_2$ (`arXiv:1204.2366`, Eq. (2.5)). -/
+@[blueprint "def:signals-scattering-psl22-braided-coproduct-c"
+  (title := "Quasi-cocommutative braided coproduct Δ(C) = C_1 + C_2 + C_1 C_2")
+  (statement := /-- Define $\operatorname{psl22BraidedCoproductC}(C_1, C_2) = C_1 + C_2 + C_1 C_2$. -/)]
+def psl22BraidedCoproductC (C1 C2 : ℂ) : ℂ :=
+  C1 + C2 + C1 * C2
+
+/-- Typical (long) representation dimension $\dim V_{\mathrm{long}}(j_1, j_2) = 16(2 j_1 + 1)(2 j_2 + 1)$
+of $\mathfrak{gl}(2|2)$ (`arXiv:1204.2366`, Sec. 2.3). -/
+@[blueprint "def:signals-scattering-gl22-long-rep-dim"
+  (title := "Typical (long) gl(2|2) representation dimension 16(2j_1 + 1)(2j_2 + 1)")
+  (statement := /-- Define $\operatorname{gl22LongRepDim}(j_1, j_2) = 16(2j_1 + 1)(2j_2 + 1)$. -/)]
+def gl22LongRepDim (j1 j2 : ℝ) : ℝ :=
+  16 * (2 * j1 + 1) * (2 * j2 + 1)
+
+/-- Atypical (short / bound-state) representation dimension $\dim V_{\mathrm{short}}(M) = 4 M$
+of $\mathfrak{psl}(2|2)_c$ (`arXiv:1204.2366`, Sec. 2.3). -/
+@[blueprint "def:signals-scattering-psl22-short-bound-dim"
+  (title := "Atypical (short) psl(2|2)_c bound-state dimension 4M")
+  (statement := /-- Define $\operatorname{psl22ShortBoundStateDim}(M) = 4 M$. -/)]
+def psl22ShortBoundStateDim (M_bound : ℝ) : ℝ :=
+  4 * M_bound
+
+/-- Supertrace $\operatorname{STr}(M) = (M_{00} + M_{11}) - (M_{22} + M_{33})$ on a $(2|2)$-graded
+matrix $M \in \mathbb{R}^{4 \times 4}$ (`arXiv:1204.2366`, Sec. 2.3 & Sec. 3.4). -/
+@[blueprint "def:signals-scattering-supertrace22"
+  (title := "(2|2)-graded matrix supertrace STr(M) = M_00 + M_11 - M_22 - M_33")
+  (statement := /-- Define $\operatorname{supertrace22}(M) = M_{00} + M_{11} - M_{22} - M_{33}$. -/)]
+def supertrace22 (M : Matrix (Fin 4) (Fin 4) ℝ) : ℝ :=
+  M 0 0 + M 1 1 - M 2 2 - M 3 3
+
+/-- Indented Yangian secret/bonus symmetry generator
+$\widehat{\mathbb{B}}(B_0) = B_0\,\operatorname{diag}(1, 1, -1, -1)$ in the $4$-dimensional
+fundamental representation of $\mathfrak{psl}(2|2)_c$
+(Matsumoto, Moriyama & Torrielli 2007, `arXiv:0708.1285`; de Leeuw et al. 2012, `arXiv:1204.2366`, Eq. (3.2)). -/
+@[blueprint "def:signals-scattering-secret-symmetry-matrix"
+  (title := "Indented Yangian secret symmetry matrix B̂ = B_0 diag(1, 1, -1, -1)")
+  (statement := /-- Define $\operatorname{secretSymmetryMatrix}(B_0) = \operatorname{diag}(B_0, B_0, -B_0, -B_0)$. -/)]
+def secretSymmetryMatrix (B0 : ℝ) : Matrix (Fin 4) (Fin 4) ℝ :=
+  !![B0, 0, 0, 0;
+     0, B0, 0, 0;
+     0, 0, -B0, 0;
+     0, 0, 0, -B0]
+
+/-- Symmetric Cartan matrix $DA$ of the quantum-deformed Hubbard / AdS–CFT affine algebra
+$\widehat{Q} = U_q(\widehat{\mathfrak{sl}}(2|2))_c$ (`arXiv:1204.2366`, Eq. (3.15)). -/
+@[blueprint "def:signals-scattering-q-deformed-hubbard-cartan-da"
+  (title := "Quantum-deformed Hubbard/AdS-CFT symmetric Cartan matrix DA")
+  (statement := /-- Define the $4\times 4$ symmetric Cartan matrix $DA$ of `arXiv:1204.2366` Eq. (3.15). -/)]
+def qDeformedHubbardCartanDA : Matrix (Fin 4) (Fin 4) ℝ :=
+  !![2, -1, 0, -1;
+     -1, 0, 1, 0;
+     0, 1, -2, 1;
+     -1, 0, 1, 0]
+
+/-- **AdS/CFT Dictionary (Maldacena 1998, GKPW 1998, KSS 2005, Ryu–Takayanagi 2006), Planar Integrability (`arXiv:1012.3982`), & Secret Symmetries (`arXiv:1204.2366`) Theorem**:
+1. **GKPW Mass–Dimension Dictionary & Breitenlohner–Freedman Stability Bound**:
+   For $d > 0$ and $m^2 R_{\mathrm{AdS}}^2 \ge \operatorname{adsBreitenlohnerFreedmanBound}(d) = -d^2 / 4$:
+   - $\Delta_+(d, m^2 R_{\mathrm{AdS}}^2) + \Delta_-(d, m^2 R_{\mathrm{AdS}}^2) = d$,
+   - $\Delta_+(d, m^2 R_{\mathrm{AdS}}^2)\,\Delta_-(d, m^2 R_{\mathrm{AdS}}^2) = -m^2 R_{\mathrm{AdS}}^2$,
+   - $\Delta_+(d, m^2 R_{\mathrm{AdS}}^2)\bigl(\Delta_+(d, m^2 R_{\mathrm{AdS}}^2) - d\bigr) = m^2 R_{\mathrm{AdS}}^2$,
+   - At the Breitenlohner–Freedman bound: $\Delta_+(d, -d^2 / 4) = d / 2$,
+   - For a massless bulk scalar ($m^2 R_{\mathrm{AdS}}^2 = 0$): $\Delta_+(d, 0) = d$ and $\Delta_-(d, 0) = 0$,
+2. **Ryu–Takayanagi $\text{AdS}_3/\text{CFT}_2$ Entanglement Entropy & KSS Viscosity Bound**:
+   - $S_{\mathrm{EE}}(\ell, \epsilon_{\mathrm{UV}}) = \frac{c_{\mathrm{BH}}}{3}\ln(\ell / \epsilon_{\mathrm{UV}})$,
+   - $0 < \operatorname{kssShearViscosityEntropyBound}(\hbar, k_B)$ for $\hbar > 0, k_B > 0$,
+3. **Planar Integrability (`arXiv:1012.3982`): BPS Ground State, All-Loop Magnon Dispersion, & Konishi One-Loop Check Figure**:
+   - $\operatorname{adsMagnonDispersion}(M, \lambda, 0) = M$ for $M > 0$ (zero-momentum BPS protection),
+   - $M^2 \le \operatorname{adsMagnonDispersionSq}(M, \lambda, p)$ for $\lambda \ge 0$,
+   - At the Konishi Bethe root $u_{\mathrm{K}}^2 = 1 / 12$, the two-magnon one-loop anomalous dimension satisfies
+     $$2 \cdot \operatorname{betheOneLoopMagnonEnergy}(\lambda, u_{\mathrm{K}}) = \operatorname{konishiOneLoopAnomalousDim}(\lambda) = \frac{3\lambda}{4\pi^2},$$
+4. **Secret Symmetries in AdS/CFT (`arXiv:1204.2366`)**:
+   - **Braided Central-Charge Quadratic Constraint (`Eq. (2.5)`)**:
+     $$\mathbb{C}(p)\,\mathbb{C}^\dagger(p) + \mathbb{C}(p) + \mathbb{C}^\dagger(p) = 0,$$
+   - **Quasi-Cocommutativity & Two-Magnon Braided Phase Factorization (`Eq. (2.4)–(2.5)`)**:
+     $$\operatorname{psl22BraidedCoproductC}(C_1, C_2) = \operatorname{psl22BraidedCoproductC}(C_2, C_1),$$
+     $$(1 + \mathbb{C}(p_1))(1 + \mathbb{C}(p_2)) = 1 + \operatorname{psl22BraidedCoproductC}(\mathbb{C}(p_1), \mathbb{C}(p_2)),$$
+   - **Short vs. Long Representation Dimension Compression (`Sec. 2.3`)**:
+     $\operatorname{gl22LongRepDim}(0, 0) = 16$, $\operatorname{psl22ShortBoundStateDim}(1) = 4$, and
+     $\operatorname{psl22ShortBoundStateDim}(M) < \operatorname{gl22LongRepDim}(M / 2, 0)$ for $M > 0$,
+   - **Indented Yangian Secret Generator Supertrace (`Eq. (3.2)` & `Sec. 3.4`)**:
+     $\operatorname{Matrix.trace}(\operatorname{secretSymmetryMatrix} B_0) = 0$ and
+     $\operatorname{supertrace22}(\operatorname{secretSymmetryMatrix} B_0) = 4 B_0$,
+   - **$q$-Deformed Hubbard Affine Cartan Degeneracy (`Eq. (3.15)`)**:
+     $\operatorname{Matrix.trace}(\operatorname{qDeformedHubbardCartanDA}) = 0$ and
+     $\operatorname{Matrix.det}(\operatorname{qDeformedHubbardCartanDA}) = 0$. -/
+@[blueprint "thm:signals-scattering-ads-cft-integrability-secret-symmetry"
+  (title := "AdS/CFT GKPW dictionary, Ryu-Takayanagi entropy, KSS bound, Konishi Bethe check figure, and psl(2|2)_c secret symmetry theorem")
+  (statement := /-- For $d > 0$, $m_{\mathrm{eff}}^2 \ge -d^2/4$, $\hbar > 0$, $k_B > 0$, $G_N > 0$, $M > 0$, $\lambda \ge 0$, and $u_{\mathrm{K}}^2 = 1/12$:
+    (1) $\Delta_+ + \Delta_- = d$, $\Delta_+\Delta_- = -m_{\mathrm{eff}}^2$, $\Delta_+(\Delta_+ - d) = m_{\mathrm{eff}}^2$, $\Delta_+(d, -d^2/4) = d/2$, and $\Delta_+(d, 0) = d$,
+    (2) $S_{\mathrm{EE}} = (c_{\mathrm{BH}}/3)\ln(\ell/\epsilon_{\mathrm{UV}})$ and $0 < (\eta/s)_{\mathrm{KSS}}$,
+    (3) $E_{\mathrm{mag}}(M, \lambda, 0) = M$, $M^2 \le E_{\mathrm{mag}}^2(M, \lambda, p)$, and $2\delta D_1(\lambda, u_{\mathrm{K}}) = \delta D_{\mathrm{Konishi}}^{(1)}(\lambda) = 3\lambda/(4\pi^2)$, and
+    (4) $\mathbb{C}(p)\mathbb{C}^\dagger(p) + \mathbb{C}(p) + \mathbb{C}^\dagger(p) = 0$, $(1+\mathbb{C}(p_1))(1+\mathbb{C}(p_2)) = 1 + \Delta(\mathbb{C})(\mathbb{C}(p_1),\mathbb{C}(p_2))$,
+    $\operatorname{STr}(\widehat{\mathbb{B}}(B_0)) = 4 B_0$, and $\det(DA) = 0$. -/)
+  (proof := /-- Use `Real.sq_sqrt` above the Breitenlohner-Freedman bound, `Complex.exp_add` for the braided central charges,
+    and finite matrix evaluation for $\widehat{\mathbb{B}}$ and $DA$. -/)]
+theorem ads_cft_integrability_and_secret_symmetry_identities
+    (d m_sq_R_sq hbar k_B R_ads G_N3 l_int eps_uv M_bound lam T_str p u_K p1 p2 B0 : ℝ)
+    (hd_pos : 0 < d) (h_bf : adsBreitenlohnerFreedmanBound d ≤ m_sq_R_sq)
+    (hhbar : 0 < hbar) (hkB : 0 < k_B) (hGN : 0 < G_N3)
+    (hM_pos : 0 < M_bound) (hlam_nonneg : 0 ≤ lam)
+    (hu_K : u_K ^ 2 = 1 / 12) :
+    let Δ_p := adsCftScalingDimensionPlus d m_sq_R_sq
+    let Δ_m := adsCftScalingDimensionMinus d m_sq_R_sq
+    let C_p := psl22BraidedCentralChargeC p
+    let CDag_p := psl22BraidedCentralChargeCDag p
+    let C_1 := psl22BraidedCentralChargeC p1
+    let C_2 := psl22BraidedCentralChargeC p2
+    Δ_p + Δ_m = d ∧
+      Δ_p * Δ_m = -m_sq_R_sq ∧
+      Δ_p * (Δ_p - d) = m_sq_R_sq ∧
+      adsCftScalingDimensionPlus d (adsBreitenlohnerFreedmanBound d) = d / 2 ∧
+      adsCftScalingDimensionPlus d 0 = d ∧
+      adsCftScalingDimensionMinus d 0 = 0 ∧
+      ryuTakayanagiEntanglementEntropyAdS3 R_ads G_N3 l_int eps_uv =
+        (brownHenneauxCentralCharge R_ads G_N3 / 3) * Real.log (l_int / eps_uv) ∧
+      0 < kssShearViscosityEntropyBound hbar k_B ∧
+      adsCouplingFromStringTension (Real.sqrt lam / (2 * Real.pi)) = lam ∧
+      adsMagnonDispersion M_bound lam 0 = M_bound ∧
+      adsMagnonDispersionSq M_bound (adsCouplingFromStringTension T_str) Real.pi =
+        M_bound ^ 2 + 4 * T_str ^ 2 ∧
+      M_bound ^ 2 ≤ adsMagnonDispersionSq M_bound lam p ∧
+      2 * betheOneLoopMagnonEnergy lam u_K = konishiOneLoopAnomalousDim lam ∧
+      konishiOneLoopAnomalousDim lam = (3 / 2) * cuspAnomalousDimOneLoop lam ∧
+      cuspAnomalousDimWeak3Loop 0 = 0 ∧
+      C_p * CDag_p + C_p + CDag_p = 0 ∧
+      psl22BraidedCoproductC C_1 C_2 = psl22BraidedCoproductC C_2 C_1 ∧
+      (1 + C_1) * (1 + C_2) = 1 + psl22BraidedCoproductC C_1 C_2 ∧
+      gl22LongRepDim 0 0 = 16 ∧
+      psl22ShortBoundStateDim 1 = 4 ∧
+      psl22ShortBoundStateDim M_bound < gl22LongRepDim (M_bound / 2) 0 ∧
+      Matrix.trace (secretSymmetryMatrix B0) = 0 ∧
+      supertrace22 (secretSymmetryMatrix B0) = 4 * B0 ∧
+      qDeformedHubbardCartanDA.transpose = qDeformedHubbardCartanDA ∧
+      Matrix.mulVec qDeformedHubbardCartanDA ![1, 1, 1, 1] = 0 ∧
+      Matrix.trace qDeformedHubbardCartanDA = 0 ∧
+      Matrix.det qDeformedHubbardCartanDA = 0 := by
+  intro Δ_p Δ_m C_p CDag_p C_1 C_2
+  have h_disc_nonneg : 0 ≤ (d / 2) ^ 2 + m_sq_R_sq := by
+    unfold adsBreitenlohnerFreedmanBound at h_bf
+    linarith
+  have h_sqrt_sq : (Real.sqrt ((d / 2) ^ 2 + m_sq_R_sq)) ^ 2 = (d / 2) ^ 2 + m_sq_R_sq :=
+    Real.sq_sqrt h_disc_nonneg
+  have h_sum : Δ_p + Δ_m = d := by
+    dsimp [Δ_p, Δ_m, adsCftScalingDimensionPlus, adsCftScalingDimensionMinus]
+    ring
+  have h_prod : Δ_p * Δ_m = -m_sq_R_sq := by
+    dsimp [Δ_p, Δ_m, adsCftScalingDimensionPlus, adsCftScalingDimensionMinus]
+    calc
+      (d / 2 + Real.sqrt ((d / 2) ^ 2 + m_sq_R_sq)) *
+          (d / 2 - Real.sqrt ((d / 2) ^ 2 + m_sq_R_sq)) =
+        (d / 2) ^ 2 - (Real.sqrt ((d / 2) ^ 2 + m_sq_R_sq)) ^ 2 := by ring
+      _ = (d / 2) ^ 2 - ((d / 2) ^ 2 + m_sq_R_sq) := by rw [h_sqrt_sq]
+      _ = -m_sq_R_sq := by ring
+  have h_quad : Δ_p * (Δ_p - d) = m_sq_R_sq := by
+    have h_sub : Δ_p - d = -Δ_m := by linarith [h_sum]
+    rw [h_sub]
+    calc
+      Δ_p * (-Δ_m) = -(Δ_p * Δ_m) := by ring
+      _ = -(-m_sq_R_sq) := by rw [h_prod]
+      _ = m_sq_R_sq := by ring
+  have h_at_bf : adsCftScalingDimensionPlus d (adsBreitenlohnerFreedmanBound d) = d / 2 := by
+    unfold adsCftScalingDimensionPlus adsBreitenlohnerFreedmanBound
+    have h_zero : (d / 2) ^ 2 + -(d ^ 2) / 4 = 0 := by ring
+    rw [h_zero, Real.sqrt_zero, add_zero]
+  have hd2_nonneg : 0 ≤ d / 2 := by linarith
+  have h_massless_p : adsCftScalingDimensionPlus d 0 = d := by
+    unfold adsCftScalingDimensionPlus
+    rw [add_zero, Real.sqrt_sq hd2_nonneg]
+    ring
+  have h_massless_m : adsCftScalingDimensionMinus d 0 = 0 := by
+    unfold adsCftScalingDimensionMinus
+    rw [add_zero, Real.sqrt_sq hd2_nonneg]
+    ring
+  have hGN_ne : G_N3 ≠ 0 := ne_of_gt hGN
+  have h_rt :
+      ryuTakayanagiEntanglementEntropyAdS3 R_ads G_N3 l_int eps_uv =
+        (brownHenneauxCentralCharge R_ads G_N3 / 3) * Real.log (l_int / eps_uv) := by
+    unfold ryuTakayanagiEntanglementEntropyAdS3 brownHenneauxCentralCharge
+    field_simp [hGN_ne]
+  have h_kss : 0 < kssShearViscosityEntropyBound hbar k_B := by
+    unfold kssShearViscosityEntropyBound
+    positivity
+  have hpi_ne : Real.pi ≠ 0 := Real.pi_ne_zero
+  have h_tension_inv :
+      adsCouplingFromStringTension (Real.sqrt lam / (2 * Real.pi)) = lam := by
+    unfold adsCouplingFromStringTension
+    rw [div_pow, Real.sq_sqrt hlam_nonneg]
+    field_simp [hpi_ne]
+    ring
+  have h_mag0 : adsMagnonDispersion M_bound lam 0 = M_bound := by
+    unfold adsMagnonDispersion adsMagnonDispersionSq
+    simp [Real.sqrt_sq (le_of_lt hM_pos)]
+  have h_mag_pi :
+      adsMagnonDispersionSq M_bound (adsCouplingFromStringTension T_str) Real.pi =
+        M_bound ^ 2 + 4 * T_str ^ 2 := by
+    unfold adsMagnonDispersionSq adsCouplingFromStringTension
+    rw [Real.sin_pi_div_two]
+    field_simp [hpi_ne]
+  have h_mag_ge : M_bound ^ 2 ≤ adsMagnonDispersionSq M_bound lam p := by
+    unfold adsMagnonDispersionSq
+    have h_term_nonneg : 0 ≤ (lam / Real.pi ^ 2) * (Real.sin (p / 2)) ^ 2 := by positivity
+    linarith
+  have h_konishi :
+      2 * betheOneLoopMagnonEnergy lam u_K = konishiOneLoopAnomalousDim lam := by
+    unfold betheOneLoopMagnonEnergy konishiOneLoopAnomalousDim
+    rw [hu_K]
+    field_simp [hpi_ne]
+    ring
+  have h_konishi_cusp :
+      konishiOneLoopAnomalousDim lam = (3 / 2) * cuspAnomalousDimOneLoop lam := by
+    unfold konishiOneLoopAnomalousDim cuspAnomalousDimOneLoop
+    ring
+  have h_cusp0 : cuspAnomalousDimWeak3Loop 0 = 0 := by
+    unfold cuspAnomalousDimWeak3Loop
+    ring
+  have h_exp_cancel :
+      Complex.exp (Complex.I * ↑p) * Complex.exp (-Complex.I * ↑p) = 1 := by
+    rw [← Complex.exp_add]
+    have h_zero : Complex.I * (p : ℂ) + -Complex.I * (p : ℂ) = 0 := by ring
+    rw [h_zero, Complex.exp_zero]
+  have h_braid_rel : C_p * CDag_p + C_p + CDag_p = 0 := by
+    dsimp [C_p, CDag_p, psl22BraidedCentralChargeC, psl22BraidedCentralChargeCDag]
+    calc
+      (Complex.exp (Complex.I * ↑p) - 1) * (Complex.exp (-Complex.I * ↑p) - 1) +
+          (Complex.exp (Complex.I * ↑p) - 1) + (Complex.exp (-Complex.I * ↑p) - 1) =
+        Complex.exp (Complex.I * ↑p) * Complex.exp (-Complex.I * ↑p) - 1 := by ring
+      _ = 1 - 1 := by rw [h_exp_cancel]
+      _ = 0 := sub_self 1
+  have h_coprod_comm : psl22BraidedCoproductC C_1 C_2 = psl22BraidedCoproductC C_2 C_1 := by
+    unfold psl22BraidedCoproductC
+    ring
+  have h_coprod_fact : (1 + C_1) * (1 + C_2) = 1 + psl22BraidedCoproductC C_1 C_2 := by
+    unfold psl22BraidedCoproductC
+    ring
+  have h_long16 : gl22LongRepDim 0 0 = 16 := by
+    unfold gl22LongRepDim
+    norm_num
+  have h_short4 : psl22ShortBoundStateDim 1 = 4 := by
+    unfold psl22ShortBoundStateDim
+    norm_num
+  have h_short_lt_long :
+      psl22ShortBoundStateDim M_bound < gl22LongRepDim (M_bound / 2) 0 := by
+    unfold psl22ShortBoundStateDim gl22LongRepDim
+    linarith
+  have h_sec_tr : Matrix.trace (secretSymmetryMatrix B0) = 0 := by
+    simp [Matrix.trace, Fin.sum_univ_four, secretSymmetryMatrix]
+  have h_sec_str : supertrace22 (secretSymmetryMatrix B0) = 4 * B0 := by
+    simp [supertrace22, secretSymmetryMatrix]
+    ring
+  have h_da_symm : qDeformedHubbardCartanDA.transpose = qDeformedHubbardCartanDA := by
+    ext i j
+    fin_cases i <;> fin_cases j <;> rfl
+  have h_da_null : Matrix.mulVec qDeformedHubbardCartanDA ![1, 1, 1, 1] = 0 := by
+    ext i
+    fin_cases i <;>
+      simp [Matrix.mulVec, dotProduct, Fin.sum_univ_four, qDeformedHubbardCartanDA] <;>
+      norm_num
+  have h_da_tr : Matrix.trace qDeformedHubbardCartanDA = 0 := by
+    simp [Matrix.trace, Fin.sum_univ_four, qDeformedHubbardCartanDA]
+  have h_da_det : Matrix.det qDeformedHubbardCartanDA = 0 := by
+    rw [Matrix.det_succ_row_zero]
+    simp [Fin.sum_univ_four, qDeformedHubbardCartanDA, Matrix.det_fin_three,
+      Matrix.submatrix, Fin.succAbove]
+  exact ⟨h_sum, h_prod, h_quad, h_at_bf, h_massless_p, h_massless_m,
+    h_rt, h_kss, h_tension_inv, h_mag0, h_mag_pi, h_mag_ge, h_konishi,
+    h_konishi_cusp, h_cusp0,
+    h_braid_rel, h_coprod_comm, h_coprod_fact,
+    h_long16, h_short4, h_short_lt_long,
+    h_sec_tr, h_sec_str, h_da_symm, h_da_null, h_da_tr, h_da_det⟩
+
 end Signals.Scattering
