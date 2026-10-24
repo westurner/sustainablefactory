@@ -4125,4 +4125,73 @@ example :
   Signals.Scattering.baxterTQResidualMeasurement_offShell_anomaly 10 3 2 1 1 (1 / 2)
     (by norm_num) (by norm_num)
 
+/-! ## Four-Model Double-Slit Relative Predictive Error tests -/
+
+/-- In the coherent / quantum-equilibrium / pure-state limit (V = 1, δ_neq = 0, γ_dec = 0),
+all four double-slit superposition models (Huygens-Steiner, Pilot-Wave, Wigner, and Fraunhofer)
+have zero pointwise relative predictive error across the entire detector plane. -/
+example (x y : ℝ) :
+    Signals.Huygens.relativePredictiveError
+        (Signals.Huygens.huygensSteinerDoubleSlit 3 2 4 6 1 5 1 x y)
+        (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 x y) = 0 ∧
+      Signals.Huygens.relativePredictiveError
+        (Signals.Huygens.pilotWaveDoubleSlit 3 2 4 6 1 5 0 x y)
+        (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 x y) = 0 ∧
+      Signals.Huygens.relativePredictiveError
+        (Signals.Huygens.wignerDoubleSlit 3 2 4 6 1 5 0 x y)
+        (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 x y) = 0 :=
+  Signals.Huygens.doubleSlit_four_model_zero_relative_error 3 2 4 6 1 5 x y
+
+/-- At visibility V = 4/5 (from a Huygens-Steiner parallel-axis offset d_bary = 3/5),
+the on-axis relative predictive error against the Fraunhofer peak is (1 - 4/5) / 2 = 1/10. -/
+example :
+    Signals.Huygens.relativePredictiveError
+      (Signals.Huygens.huygensSteinerDoubleSlit 3 2 4 6 1 5 (4 / 5) 0 0)
+      (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 0 0) = 1 / 10 := by
+  rw [Signals.Huygens.huygensSteiner_onAxis_relative_error 3 2 4 6 1 5 (4 / 5)
+    (by norm_num) (by norm_num)]
+  norm_num
+
+/-- A concrete Pythagorean Huygens-Steiner mapping with parallel-axis offset d_bary = 3/5
+and visibility V = K = 4/5 derives the exact on-axis relative error d_bary² / (2 * (1 + V)) = 1/10. -/
+noncomputable def toyDoubleSlitSteinerMapping : Signals.Coherence.HuygensSteinerMapping :=
+  { axis := { centerInertia := 2, mass := 1, offset := 3 / 5 }
+    originInertia := 59 / 25
+    originInertiaLaw := by norm_num [Signals.Coherence.ParallelAxis.inertia]
+    normalizedMass := rfl
+    polarizationSquared := 9 / 25
+    entanglementSquared := 16 / 25
+    polarizationSquared_nonnegative := by norm_num
+    entanglementSquared_nonnegative := by norm_num
+    polarizationLaw := by norm_num
+    entanglementLaw := by norm_num }
+
+example :
+    (1 - (4 / 5 : ℝ)) / 2 =
+      toyDoubleSlitSteinerMapping.axis.offset ^ 2 / (2 * (1 + 4 / 5)) :=
+  Signals.Huygens.huygensSteiner_relative_error_eq_offset_sq_div
+    toyDoubleSlitSteinerMapping (4 / 5)
+    (by norm_num [toyDoubleSlitSteinerMapping]) (by norm_num)
+
+/-- A non-equilibrium Pilot-Wave residual δ_neq = 3 at single-slit scale I_0 = 5
+yields on-axis relative predictive error 3 / (4 * 5) = 3/20. -/
+example :
+    Signals.Huygens.relativePredictiveError
+      (Signals.Huygens.pilotWaveDoubleSlit 5 2 4 6 1 5 3 0 0)
+      (Signals.Huygens.fraunhoferRectangularDoubleSlit 5 2 4 6 1 5 0 0) = 3 / 20 := by
+  rw [Signals.Huygens.pilotWave_onAxis_relative_error 5 2 4 6 1 5 3 (by norm_num)]
+  norm_num
+
+/-- At the half-period dark fringe x = λL/(2d) where I_F = 0, the peak-normalized relative
+predictive error of the Huygens-Steiner model (V = 3/5) equals (1/5) * sinc²(πa/(2d)). -/
+example :
+    Signals.Huygens.peakNormalizedRelativeError
+      (Signals.Huygens.huygensSteinerDoubleSlit 5 2 4 6 1 5 (3 / 5) (1 * 5 / (2 * 6)) 0)
+      (Signals.Huygens.fraunhoferRectangularDoubleSlit 5 2 4 6 1 5 (1 * 5 / (2 * 6)) 0)
+      5 =
+    (1 / 5 : ℝ) * (Signals.Huygens.unnormalizedSinc (Real.pi * 2 / (2 * 6))) ^ 2 := by
+  rw [Signals.Huygens.huygensSteiner_dark_fringe_peak_relative_error 5 2 4 6 1 5 (3 / 5)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)]
+  ring
+
 end SignalsTests

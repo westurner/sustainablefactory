@@ -394,8 +394,18 @@ interpretation while keeping experimental premises explicit:
    rectangular double-slit benchmark, proving nonnegativity, the $4 I_0$
    on-axis constructive maximum, planar inversion symmetry, half-period
    destructive interference fringes, and integer single-slit diffraction
-   envelope nulls. No boundary-solution accuracy theorem or
-   mesh convergence rate is asserted.
+   envelope nulls. `huygensSteinerDoubleSlit`, `pilotWaveDoubleSlit`,
+   `wignerDoubleSlit`, `relativePredictiveError`, and
+   `peakNormalizedRelativeError` compare double-slit superposition across the
+   Huygens-Steiner parallel-axis coherence model, Fraunhofer reference,
+   de Broglie-Bohm pilot-wave theory, and Wigner phase-space marginal,
+   proving zero relative predictive error in the coherent/equilibrium limit,
+   the $(1 - \mathcal{V})/2 = d_{\mathrm{bary}}^2 / (2(1 + \mathcal{V}))$
+   on-axis relative error law from `Signals.Coherence.HuygensSteinerMapping`,
+   the $(1 - e^{-\gamma_{\mathrm{dec}}})/2$ Wigner decoherence error law, the
+   $|\delta_{\mathrm{neq}}|/(4 I_0)$ non-equilibrium pilot-wave error law, and
+   dark-fringe peak-normalized error where $I_{\mathrm{F}} = 0$. No
+   boundary-solution accuracy theorem or mesh convergence rate is asserted.
 - `Signals.Quadrature` derives a finite measured-cell quadrature error bound
    from Lipschitz regularity and mesh distances, preserves total cell weight,
    proves refinement-error convergence, and connects the weighted sum to the

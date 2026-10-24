@@ -1064,6 +1064,61 @@ zeros, and rejection of a positive-intensity claim at the half-period dark
 fringe. Connecting the finite aperture integral to this far-field benchmark
 via an explicit paraxial error bound remains a Phase 2 obligation.
 
+### Iteration 24: Relative Predictive Error Across Four Double-Slit Superposition Models
+
+[Huygens.lean](../src/signals/Signals/Huygens.lean) and
+[Coherence.lean](../src/signals/Signals/Coherence.lean) formalize and compare
+the predicted screen intensity and relative predictive error across four
+double-slit superposition models:
+
+1. **Fraunhofer Reference ($I_{\mathrm{F}}(x,y)$)**:
+   `fraunhoferRectangularDoubleSlit`.
+2. **Huygens--Steiner Parallel-Axis Coherence Model ($I_{\mathrm{HS}}(x,y;\mathcal{V})$)**:
+   `huygensSteinerDoubleSlit` connects the Qian--Izadi barycentric parallel-axis
+   mapping (`Signals.Coherence.HuygensSteinerMapping`, where
+   $P^2 = I_{\mathrm{origin}} - I_{\mathrm{cm}} = d_{\mathrm{bary}}^2$ and
+   $P^2 + K^2 = 1$) to two-slit interference visibility $\mathcal{V} = K$.
+   `huygensSteinerDoubleSlit_unit_visibility_eq_fraunhofer` proves exact
+   pointwise equality $I_{\mathrm{HS}}(x,y;1) = I_{\mathrm{F}}(x,y)$ at zero
+   parallel-axis offset, and `huygensSteinerDoubleSlit_sub_fraunhofer` derives
+   the exact pointwise discrepancy
+   $-2I_0(1-\mathcal{V})E_{\mathrm{slit}}(x,y)\cos(2\pi d x/(\lambda L))$.
+3. **Pilot-Wave / De Broglie--Bohm Model ($I_{\mathrm{PW}}(x,y;\delta_{\mathrm{neq}})$)**:
+   `pilotWaveDoubleSlit` models the equivariant Born-rule Fraunhofer intensity
+   plus a sub-quantum non-equilibrium or trajectory-discretization residual
+   $\delta_{\mathrm{neq}}$, proving exact agreement
+   `pilotWaveDoubleSlit_equilibrium_eq_fraunhofer` at $\delta_{\mathrm{neq}} = 0$.
+4. **Wigner Phase-Space Marginal ($I_{\mathrm{Wigner}}(x,y;\gamma_{\mathrm{dec}})$)**:
+   `wignerDoubleSlit` models the transverse-position marginal of the two-slit
+   Wigner function with phase-space decoherence rate $\gamma_{\mathrm{dec}}$,
+   proving exact duality `wignerDoubleSlit_eq_huygensSteiner` with visibility
+   $\mathcal{V} = e^{-\gamma_{\mathrm{dec}}}$ and pure-state exactness
+   `wignerDoubleSlit_pure_eq_fraunhofer` at $\gamma_{\mathrm{dec}} = 0$.
+
+For relative error metrics (`relativePredictiveError` and dark-fringe-safe
+`peakNormalizedRelativeError`), `doubleSlit_four_model_zero_relative_error`
+proves zero relative predictive error across all four models in the coherent /
+quantum-equilibrium / pure-state limit ($\mathcal{V}=1$, $\delta_{\mathrm{neq}}=0$,
+$\gamma_{\mathrm{dec}}=0$). At the constructive on-axis peak $(0,0)$,
+`huygensSteiner_onAxis_relative_error`,
+`huygensSteiner_relative_error_eq_offset_sq_div`, `wigner_onAxis_relative_error`,
+and `pilotWave_onAxis_relative_error` prove:
+
+$$
+\varepsilon_{\mathrm{rel}}^{\mathrm{HS}}(0,0)
+=\frac{1-\mathcal{V}}{2}
+=\frac{d_{\mathrm{bary}}^2}{2(1+\mathcal{V})},\qquad
+\varepsilon_{\mathrm{rel}}^{\mathrm{Wigner}}(0,0)
+=\frac{1-e^{-\gamma_{\mathrm{dec}}}}{2},\qquad
+\varepsilon_{\mathrm{rel}}^{\mathrm{PW}}(0,0)
+=\frac{|\delta_{\mathrm{neq}}|}{4I_0}.
+$$
+
+At the half-period destructive dark fringe $x_{\mathrm{dark}} = \lambda L/(2d)$
+where $I_{\mathrm{F}}(x_{\mathrm{dark}},0) = 0$,
+`huygensSteiner_dark_fringe_peak_relative_error` proves that the peak-normalized
+relative error equals $\frac{1-\mathcal{V}}{2}\operatorname{sinc}^2(\pi a/(2d))$.
+
 ### Remaining Acceptance Obligations
 
 | Phase | Verified checkpoint | Still required |

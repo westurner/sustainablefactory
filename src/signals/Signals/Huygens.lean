@@ -5,6 +5,7 @@ import Mathlib.Analysis.SpecialFunctions.Sqrt
 import Mathlib.MeasureTheory.Integral.Bochner.Set
 import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 import Mathlib.Tactic
+import Signals.Coherence
 import Signals.Units
 
 namespace Signals.Huygens
@@ -692,6 +693,424 @@ lemma fraunhoferRectangularDoubleSlit_diffraction_null
         (wavelength * screenDistance) = (n : ℝ) * Real.pi := by
     field_simp [h_width, h_wave, h_dist]
   rw [h_arg, unnormalizedSinc_int_mul_pi n h_n]
+  ring
+
+/-! ## Relative Predictive Error Across Four Double-Slit Superposition Formulations
+
+Compares the predicted screen intensity and relative predictive error across four
+models of two-slit superposition:
+1. **Fraunhofer Reference ($I_{\mathrm{F}}(x, y)$)**:
+   `fraunhoferRectangularDoubleSlit` above.
+2. **Huygens--Steiner Parallel-Axis Coherence Model ($I_{\mathrm{HS}}(x, y; \mathcal{V})$)**:
+   Under the Qian--Izadi barycentric Huygens--Steiner mapping
+   (`Signals.Coherence.HuygensSteinerMapping`), a parallel-axis shift
+   $\Delta I_{\mathrm{Steiner}} = d_{\mathrm{bary}}^2 = P^2$ reduces the two-slit
+   interference visibility to $\mathcal{V} = K = \sqrt{1 - d_{\mathrm{bary}}^2}$, yielding
+   $I_{\mathrm{HS}}(x, y; \mathcal{V}) = 2 I_0 \operatorname{sinc}^2(\pi a x / (\lambda L))
+   \operatorname{sinc}^2(\pi b y / (\lambda L)) (1 + \mathcal{V} \cos(2\pi d x / (\lambda L)))$.
+3. **Pilot-Wave / De Broglie--Bohm Model ($I_{\mathrm{PW}}(x, y; \delta_{\mathrm{neq}})$)**:
+   Under Bohmian guidance $\mathbf{v} = (\hbar / m) \nabla S$ and quantum potential
+   $Q = -(\hbar^2 / (2 m)) \Delta \sqrt{\rho} / \sqrt{\rho}$, an initial quantum-equilibrium
+   ensemble ($\delta_{\mathrm{neq}} = 0$) reproduces the Born-rule / Fraunhofer intensity
+   identically ($I_{\mathrm{PW}}(x, y; 0) = I_{\mathrm{F}}(x, y)$), while a sub-quantum
+   non-equilibrium or trajectory-discretization residual $\delta_{\mathrm{neq}}$ shifts the
+   predicted intensity by $\delta_{\mathrm{neq}}$.
+4. **Wigner Phase-Space Quasi-Probability Marginal ($I_{\mathrm{Wigner}}(x, y; \gamma_{\mathrm{dec}})$)**:
+   Integrating the two-slit Wigner function over transverse position yields the two
+   positive single-slit marginals plus the oscillatory Wigner cross-term attenuated by
+   phase-space decoherence $e^{-\gamma_{\mathrm{dec}}}$.
+-/
+
+/-- Single-slit rectangular diffraction envelope
+$E_{\mathrm{slit}}(x, y) = \operatorname{sinc}^2(\pi a x / (\lambda L)) \operatorname{sinc}^2(\pi b y / (\lambda L))$. -/
+@[blueprint "def:signals-single-slit-diffraction-envelope"
+  (title := "Two-dimensional rectangular single-slit diffraction envelope")
+  (statement := /-- Define the dimensionless rectangular single-slit envelope
+    $E_{\mathrm{slit}}(x,y)=\operatorname{sinc}^2(\pi a x/(\lambda L))
+    \operatorname{sinc}^2(\pi b y/(\lambda L))$. -/)]
+noncomputable def rectangularSlitEnvelope
+    (slitWidth slitHeight wavelength screenDistance x y : ℝ) : ℝ :=
+  (unnormalizedSinc (Real.pi * slitWidth * x / (wavelength * screenDistance))) ^ 2 *
+    (unnormalizedSinc (Real.pi * slitHeight * y / (wavelength * screenDistance))) ^ 2
+
+/-- Huygens--Steiner parallel-axis double-slit intensity with coherence visibility
+$\mathcal{V}$ (where $\mathcal{V}^2 = 1 - d_{\mathrm{bary}}^2$ under the barycentric
+parallel-axis inertia shift $d_{\mathrm{bary}}^2 = I_{\mathrm{origin}} - I_{\mathrm{cm}}$):
+$I_{\mathrm{HS}}(x, y; \mathcal{V}) = 2 I_0 E_{\mathrm{slit}}(x, y) (1 + \mathcal{V} \cos(2\pi d x / (\lambda L)))$. -/
+@[blueprint "def:signals-huygens-steiner-double-slit"
+  (title := "Huygens--Steiner parallel-axis double-slit intensity")
+  (statement := /-- For single-slit scale $I_0$, envelope $E_{\mathrm{slit}}(x,y)$, slit
+    separation $d$, and Huygens--Steiner coherence visibility $\mathcal{V}$, define
+    $I_{\mathrm{HS}}(x,y;\mathcal{V})=2I_0 E_{\mathrm{slit}}(x,y)
+    \bigl(1+\mathcal{V}\cos(2\pi d x/(\lambda L))\bigr)$. -/)]
+noncomputable def huygensSteinerDoubleSlit
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      visibility x y : ℝ) : ℝ :=
+  2 * singleSlitScale *
+    rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance x y *
+    (1 + visibility * Real.cos (2 * (Real.pi * separation * x / (wavelength * screenDistance))))
+
+/-- At unit visibility ($\mathcal{V} = 1$, corresponding to zero Huygens--Steiner
+barycentric parallel-axis shift $d_{\mathrm{bary}} = 0$), `huygensSteinerDoubleSlit`
+agrees identically with the Fraunhofer reference `fraunhoferRectangularDoubleSlit`
+at every screen point $(x, y)$. -/
+@[blueprint "thm:signals-huygens-steiner-unit-visibility-eq-fraunhofer"
+  (title := "Zero parallel-axis offset (unit visibility) matches Fraunhofer reference identically")
+  (statement := /-- When $\mathcal{V}=1$, $I_{\mathrm{HS}}(x,y;1)=I_{\mathrm{F}}(x,y)$ for all $(x,y)$. -/)
+  (proof := /-- Apply the double-angle identity $\cos(2\theta)=2\cos^2(\theta)-1$ so
+    $2I_0(1+\cos(2\theta))=4I_0\cos^2(\theta)$. -/)]
+theorem huygensSteinerDoubleSlit_unit_visibility_eq_fraunhofer
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y : ℝ) :
+    huygensSteinerDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance 1 x y =
+    fraunhoferRectangularDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y := by
+  unfold huygensSteinerDoubleSlit fraunhoferRectangularDoubleSlit rectangularSlitEnvelope
+  rw [one_mul, Real.cos_two_mul]
+  ring
+
+/-- Pointwise intensity discrepancy between the Huygens--Steiner parallel-axis model
+and the Fraunhofer reference:
+$I_{\mathrm{HS}}(x, y; \mathcal{V}) - I_{\mathrm{F}}(x, y) = - 2 I_0 (1 - \mathcal{V}) E_{\mathrm{slit}}(x, y) \cos(2\pi d x / (\lambda L))$. -/
+@[blueprint "thm:signals-huygens-steiner-sub-fraunhofer"
+  (title := "Exact pointwise discrepancy between Huygens--Steiner and Fraunhofer models")
+  (statement := /-- For any visibility $\mathcal{V}$ and screen coordinate $(x,y)$,
+    $I_{\mathrm{HS}}(x,y;\mathcal{V})-I_{\mathrm{F}}(x,y) =
+    -2I_0(1-\mathcal{V})E_{\mathrm{slit}}(x,y)\cos(2\pi d x/(\lambda L))$. -/)
+  (proof := /-- Rewrite $I_{\mathrm{F}}(x,y)=I_{\mathrm{HS}}(x,y;1)$ and factor $(1-\mathcal{V})$. -/)]
+theorem huygensSteinerDoubleSlit_sub_fraunhofer
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      visibility x y : ℝ) :
+    huygensSteinerDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      visibility x y -
+    fraunhoferRectangularDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y =
+    - 2 * singleSlitScale * (1 - visibility) *
+      rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance x y *
+      Real.cos (2 * (Real.pi * separation * x / (wavelength * screenDistance))) := by
+  rw [← huygensSteinerDoubleSlit_unit_visibility_eq_fraunhofer]
+  unfold huygensSteinerDoubleSlit
+  ring
+
+/-- De Broglie--Bohm / Madelung pilot-wave double-slit intensity with sub-quantum
+non-equilibrium or trajectory-discretization residual `nonEquilibriumResidual`:
+$I_{\mathrm{PW}}(x, y; \delta_{\mathrm{neq}}) = I_{\mathrm{F}}(x, y) + \delta_{\mathrm{neq}}$. -/
+@[blueprint "def:signals-pilot-wave-double-slit"
+  (title := "Pilot-wave double-slit intensity with non-equilibrium residual")
+  (statement := /-- In de Broglie--Bohm pilot-wave theory, the screen intensity is the
+    equivariant Born-rule Fraunhofer profile plus any sub-quantum non-equilibrium
+    residual $\delta_{\mathrm{neq}}$:
+    $I_{\mathrm{PW}}(x,y;\delta_{\mathrm{neq}})=I_{\mathrm{F}}(x,y)+\delta_{\mathrm{neq}}$. -/)]
+noncomputable def pilotWaveDoubleSlit
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      nonEquilibriumResidual x y : ℝ) : ℝ :=
+  fraunhoferRectangularDoubleSlit
+    singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y +
+    nonEquilibriumResidual
+
+/-- **Bohmian Equivariance / Quantum Equilibrium Exactness**:
+In quantum equilibrium ($\delta_{\mathrm{neq}} = 0$), the pilot-wave double-slit
+intensity equals the Fraunhofer reference identically. -/
+@[blueprint "lem:signals-pilot-wave-equilibrium-eq-fraunhofer"
+  (title := "Quantum-equilibrium pilot-wave intensity matches Fraunhofer identically")
+  (statement := /-- When $\delta_{\mathrm{neq}}=0$,
+    $I_{\mathrm{PW}}(x,y;0)=I_{\mathrm{F}}(x,y)$. -/)
+  (proof := /-- Unfold \texttt{pilotWaveDoubleSlit} and simplify $+0$. -/)
+  (latexEnv := "lemma")]
+lemma pilotWaveDoubleSlit_equilibrium_eq_fraunhofer
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y : ℝ) :
+    pilotWaveDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance 0 x y =
+    fraunhoferRectangularDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y := by
+  simp [pilotWaveDoubleSlit]
+
+/-- Wigner phase-space quasi-probability marginal intensity with phase-space
+decoherence / Husimi smoothing rate $\gamma_{\mathrm{dec}}$:
+$I_{\mathrm{Wigner}}(x, y; \gamma_{\mathrm{dec}}) = 2 I_0 E_{\mathrm{slit}}(x, y) (1 + e^{-\gamma_{\mathrm{dec}}} \cos(2\pi d x / (\lambda L)))$. -/
+@[blueprint "def:signals-wigner-double-slit"
+  (title := "Wigner phase-space marginal double-slit intensity")
+  (statement := /-- Integrating the two-slit Wigner function over transverse position with
+    phase-space decoherence rate $\gamma_{\mathrm{dec}}$ yields
+    $I_{\mathrm{Wigner}}(x,y;\gamma_{\mathrm{dec}})=2I_0 E_{\mathrm{slit}}(x,y)
+    \bigl(1+e^{-\gamma_{\mathrm{dec}}}\cos(2\pi d x/(\lambda L))\bigr)$. -/)]
+noncomputable def wignerDoubleSlit
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      decoherenceRate x y : ℝ) : ℝ :=
+  2 * singleSlitScale *
+    rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance x y *
+    (1 + Real.exp (-decoherenceRate) *
+      Real.cos (2 * (Real.pi * separation * x / (wavelength * screenDistance))))
+
+/-- **Wigner--Steiner Duality**:
+The Wigner phase-space marginal with decoherence rate $\gamma_{\mathrm{dec}}$ equals
+the Huygens--Steiner parallel-axis intensity with visibility
+$\mathcal{V} = e^{-\gamma_{\mathrm{dec}}}$. -/
+@[blueprint "lem:signals-wigner-eq-huygens-steiner"
+  (title := "Duality between Wigner phase-space decoherence and Huygens--Steiner visibility")
+  (statement := /-- For any decoherence rate $\gamma_{\mathrm{dec}}$,
+    $I_{\mathrm{Wigner}}(x,y;\gamma_{\mathrm{dec}})=I_{\mathrm{HS}}(x,y;e^{-\gamma_{\mathrm{dec}}})$. -/)
+  (proof := /-- Definitional equality of both intensity expressions. -/)
+  (latexEnv := "lemma")]
+lemma wignerDoubleSlit_eq_huygensSteiner
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      decoherenceRate x y : ℝ) :
+    wignerDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      decoherenceRate x y =
+    huygensSteinerDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      (Real.exp (-decoherenceRate)) x y :=
+  rfl
+
+/-- At zero phase-space decoherence ($\gamma_{\mathrm{dec}} = 0$), the pure-state
+Wigner marginal retains the full negative phase-space cross-term and matches the
+Fraunhofer reference identically. -/
+@[blueprint "thm:signals-wigner-pure-eq-fraunhofer"
+  (title := "Pure-state Wigner marginal matches Fraunhofer reference identically")
+  (statement := /-- When $\gamma_{\mathrm{dec}}=0$,
+    $I_{\mathrm{Wigner}}(x,y;0)=I_{\mathrm{F}}(x,y)$ for all $(x,y)$. -/)
+  (proof := /-- Rewrite via \texttt{wignerDoubleSlit\_eq\_huygensSteiner}, simplify $e^0=1$,
+    and apply \texttt{huygensSteinerDoubleSlit\_unit\_visibility\_eq\_fraunhofer}. -/)]
+theorem wignerDoubleSlit_pure_eq_fraunhofer
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y : ℝ) :
+    wignerDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance 0 x y =
+    fraunhoferRectangularDoubleSlit
+      singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y := by
+  rw [wignerDoubleSlit_eq_huygensSteiner, neg_zero, Real.exp_zero,
+    huygensSteinerDoubleSlit_unit_visibility_eq_fraunhofer]
+
+/-- Pointwise relative predictive error $|I_{\mathrm{pred}} - I_{\mathrm{ref}}| / |I_{\mathrm{ref}}|$
+at any non-null reference point ($I_{\mathrm{ref}} \neq 0$). -/
+@[blueprint "def:signals-relative-predictive-error"
+  (title := "Pointwise relative predictive error")
+  (statement := /-- For predicted intensity $I_{\mathrm{pred}}$ and reference intensity
+    $I_{\mathrm{ref}}$, define $\varepsilon_{\mathrm{rel}}=|I_{\mathrm{pred}}-I_{\mathrm{ref}}|/|I_{\mathrm{ref}}|$. -/)]
+noncomputable def relativePredictiveError (predicted reference : ℝ) : ℝ :=
+  |predicted - reference| / |reference|
+
+/-- Peak-normalized relative predictive error $|I_{\mathrm{pred}} - I_{\mathrm{ref}}| / (4 I_0)$
+normalized by the constructive on-axis Fraunhofer peak $I_{\mathrm{F}}(0, 0) = 4 I_0$,
+which remains well-defined and finite at dark fringes where $I_{\mathrm{F}}(x, y) = 0$. -/
+@[blueprint "def:signals-peak-normalized-relative-error"
+  (title := "Dark-fringe-safe peak-normalized relative predictive error")
+  (statement := /-- Relative to the constructive on-axis peak $4I_0$, define
+    $\varepsilon_{\mathrm{peak}}=|I_{\mathrm{pred}}-I_{\mathrm{ref}}|/(4I_0)$. -/)]
+noncomputable def peakNormalizedRelativeError
+    (predicted reference singleSlitScale : ℝ) : ℝ :=
+  |predicted - reference| / (4 * singleSlitScale)
+
+/-- **Four-Way Coherent / Equilibrium Unification**:
+At zero Huygens--Steiner parallel-axis shift ($\mathcal{V} = 1$), pilot-wave
+quantum equilibrium ($\delta_{\mathrm{neq}} = 0$), and pure Wigner phase space
+($\gamma_{\mathrm{dec}} = 0$), all three models have zero pointwise relative
+predictive error against the Fraunhofer reference at every $(x, y)$. -/
+@[blueprint "thm:signals-four-model-zero-relative-error"
+  (title := "Zero relative predictive error across all four double-slit models in the coherent/equilibrium limit")
+  (statement := /-- For all $(x,y)$, when $\mathcal{V}=1$, $\delta_{\mathrm{neq}}=0$, and
+    $\gamma_{\mathrm{dec}}=0$, the pointwise relative predictive errors of
+    $I_{\mathrm{HS}}$, $I_{\mathrm{PW}}$, and $I_{\mathrm{Wigner}}$ against $I_{\mathrm{F}}$
+    all vanish identically. -/)
+  (proof := /-- Apply the three exact equivalence theorems and simplify $|I_{\mathrm{F}}-I_{\mathrm{F}}|=0$. -/)]
+theorem doubleSlit_four_model_zero_relative_error
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y : ℝ) :
+    relativePredictiveError
+        (huygensSteinerDoubleSlit singleSlitScale slitWidth slitHeight separation wavelength screenDistance 1 x y)
+        (fraunhoferRectangularDoubleSlit singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y) = 0 ∧
+      relativePredictiveError
+        (pilotWaveDoubleSlit singleSlitScale slitWidth slitHeight separation wavelength screenDistance 0 x y)
+        (fraunhoferRectangularDoubleSlit singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y) = 0 ∧
+      relativePredictiveError
+        (wignerDoubleSlit singleSlitScale slitWidth slitHeight separation wavelength screenDistance 0 x y)
+        (fraunhoferRectangularDoubleSlit singleSlitScale slitWidth slitHeight separation wavelength screenDistance x y) = 0 := by
+  refine ⟨?_, ?_, ?_⟩
+  · rw [huygensSteinerDoubleSlit_unit_visibility_eq_fraunhofer]
+    simp [relativePredictiveError]
+  · rw [pilotWaveDoubleSlit_equilibrium_eq_fraunhofer]
+    simp [relativePredictiveError]
+  · rw [wignerDoubleSlit_pure_eq_fraunhofer]
+    simp [relativePredictiveError]
+
+/-- **On-Axis Relative Predictive Error of the Huygens--Steiner Model**:
+For $I_0 > 0$ and $\mathcal{V} \le 1$, at the central constructive peak $(0, 0)$
+the pointwise relative predictive error between `huygensSteinerDoubleSlit` and
+`fraunhoferRectangularDoubleSlit` equals $(1 - \mathcal{V}) / 2$. -/
+@[blueprint "thm:signals-huygens-steiner-on-axis-relative-error"
+  (title := "On-axis relative predictive error of the Huygens--Steiner model")
+  (statement := /-- For $I_0>0$ and $\mathcal{V}\le 1$, at $(x,y)=(0,0)$,
+    $\varepsilon_{\mathrm{rel}}\bigl(I_{\mathrm{HS}}(0,0;\mathcal{V}),I_{\mathrm{F}}(0,0)\bigr) = \frac{1-\mathcal{V}}{2}$. -/)
+  (proof := /-- Evaluate $I_{\mathrm{HS}}(0,0;\mathcal{V})=2I_0(1+\mathcal{V})$ and
+    $I_{\mathrm{F}}(0,0)=4I_0$, then simplify $|-2I_0(1-\mathcal{V})|/(4I_0)=(1-\mathcal{V})/2$. -/)]
+theorem huygensSteiner_onAxis_relative_error
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance visibility : ℝ)
+    (h_scale : 0 < singleSlitScale) (h_vis : visibility ≤ 1) :
+    relativePredictiveError
+      (huygensSteinerDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance visibility 0 0)
+      (fraunhoferRectangularDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance 0 0) =
+    (1 - visibility) / 2 := by
+  unfold relativePredictiveError
+  rw [huygensSteinerDoubleSlit_sub_fraunhofer, fraunhoferRectangularDoubleSlit_onAxis]
+  have h_env : rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance 0 0 = 1 := by
+    simp [rectangularSlitEnvelope]
+  have h_cos : Real.cos (2 * (Real.pi * separation * 0 / (wavelength * screenDistance))) = 1 := by
+    simp
+  rw [h_env, h_cos, mul_one, mul_one]
+  have h_nonpos : - 2 * singleSlitScale * (1 - visibility) ≤ 0 := by
+    nlinarith
+  have h_pos4 : 0 < 4 * singleSlitScale := by linarith
+  rw [abs_of_nonpos h_nonpos, abs_of_pos h_pos4]
+  have h_ne : singleSlitScale ≠ 0 := ne_of_gt h_scale
+  field_simp [h_ne]
+  ring
+
+/-- **Huygens--Steiner Parallel-Axis Inertia Shift Law for Relative Predictive Error**:
+Given a `Signals.Coherence.HuygensSteinerMapping` with visibility $\mathcal{V}$
+($\mathcal{V}^2 = K^2 = \text{mapping.entanglementSquared}$ and $1 + \mathcal{V} \neq 0$),
+the on-axis relative predictive error $(1 - \mathcal{V}) / 2$ equals the squared
+parallel-axis displacement divided by $2(1 + \mathcal{V})$:
+$\frac{1 - \mathcal{V}}{2} = \frac{d_{\mathrm{bary}}^2}{2(1 + \mathcal{V})}$. -/
+@[blueprint "thm:signals-huygens-steiner-error-from-offset"
+  (title := "Double-slit relative predictive error from Huygens--Steiner parallel-axis offset")
+  (statement := /-- For any \texttt{HuygensSteinerMapping} and visibility $\mathcal{V}$ with
+    $\mathcal{V}^2=K^2$ and $1+\mathcal{V}\ne 0$,
+    $\frac{1-\mathcal{V}}{2}=\frac{d_{\mathrm{bary}}^2}{2(1+\mathcal{V})}$. -/)
+  (proof := /-- Use $P^2+K^2=1$ and $P^2=d_{\mathrm{bary}}^2$ from
+    \texttt{HuygensSteinerMapping} to factor $1-\mathcal{V}^2=(1-\mathcal{V})(1+\mathcal{V})=d_{\mathrm{bary}}^2$. -/)]
+theorem huygensSteiner_relative_error_eq_offset_sq_div
+    (mapping : Signals.Coherence.HuygensSteinerMapping) (visibility : ℝ)
+    (h_vis_sq : visibility ^ 2 = mapping.entanglementSquared)
+    (h_denom : 1 + visibility ≠ 0) :
+    (1 - visibility) / 2 = mapping.axis.offset ^ 2 / (2 * (1 + visibility)) := by
+  have h_comp := mapping.complementarity_identity
+  have h_pol := mapping.polarization_eq_offset_squared
+  have h_diff : (1 - visibility) * (1 + visibility) = mapping.axis.offset ^ 2 := by
+    calc
+      (1 - visibility) * (1 + visibility) = 1 - visibility ^ 2 := by ring
+      _ = 1 - mapping.entanglementSquared := by rw [h_vis_sq]
+      _ = mapping.polarizationSquared := by linarith [h_comp]
+      _ = mapping.axis.offset ^ 2 := h_pol
+  rw [div_eq_div_iff (by norm_num) (mul_ne_zero two_ne_zero h_denom)]
+  linarith
+
+/-- **On-Axis Relative Predictive Error of the Wigner Phase-Space Model**:
+For $I_0 > 0$ and $\gamma_{\mathrm{dec}} \ge 0$, at $(0, 0)$ the pointwise relative
+predictive error between `wignerDoubleSlit` and `fraunhoferRectangularDoubleSlit`
+equals $(1 - e^{-\gamma_{\mathrm{dec}}}) / 2$. -/
+@[blueprint "thm:signals-wigner-on-axis-relative-error"
+  (title := "On-axis relative predictive error of the Wigner phase-space marginal")
+  (statement := /-- For $I_0>0$ and $\gamma_{\mathrm{dec}}\ge 0$, at $(x,y)=(0,0)$,
+    $\varepsilon_{\mathrm{rel}}\bigl(I_{\mathrm{Wigner}}(0,0;\gamma_{\mathrm{dec}}),I_{\mathrm{F}}(0,0)\bigr)
+    = \frac{1-e^{-\gamma_{\mathrm{dec}}}}{2}$. -/)
+  (proof := /-- Rewrite via \texttt{wignerDoubleSlit\_eq\_huygensSteiner} and apply
+    \texttt{huygensSteiner\_onAxis\_relative\_error} with $e^{-\gamma_{\mathrm{dec}}}\le 1$. -/)]
+theorem wigner_onAxis_relative_error
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      decoherenceRate : ℝ)
+    (h_scale : 0 < singleSlitScale) (h_dec : 0 ≤ decoherenceRate) :
+    relativePredictiveError
+      (wignerDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance decoherenceRate 0 0)
+      (fraunhoferRectangularDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance 0 0) =
+    (1 - Real.exp (-decoherenceRate)) / 2 := by
+  rw [wignerDoubleSlit_eq_huygensSteiner]
+  have h_exp_le : Real.exp (-decoherenceRate) ≤ 1 := by
+    rw [← Real.exp_zero, Real.exp_le_exp]
+    linarith
+  exact huygensSteiner_onAxis_relative_error
+    singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+    (Real.exp (-decoherenceRate)) h_scale h_exp_le
+
+/-- **On-Axis Relative Predictive Error of the Pilot-Wave Model**:
+For $I_0 > 0$, a sub-quantum non-equilibrium perturbation $\delta_{\mathrm{neq}}$
+at $(0, 0)$ yields relative predictive error $|\delta_{\mathrm{neq}}| / (4 I_0)$. -/
+@[blueprint "thm:signals-pilot-wave-on-axis-relative-error"
+  (title := "On-axis relative predictive error of a non-equilibrium pilot-wave ensemble")
+  (statement := /-- For $I_0>0$ and non-equilibrium residual $\delta_{\mathrm{neq}}$,
+    $\varepsilon_{\mathrm{rel}}\bigl(I_{\mathrm{PW}}(0,0;\delta_{\mathrm{neq}}),I_{\mathrm{F}}(0,0)\bigr)
+    = \frac{|\delta_{\mathrm{neq}}|}{4I_0}$. -/)
+  (proof := /-- Unfold \texttt{pilotWaveDoubleSlit} and \texttt{relativePredictiveError} and
+    use $I_{\mathrm{F}}(0,0)=4I_0>0$. -/)]
+theorem pilotWave_onAxis_relative_error
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+      nonEquilibriumResidual : ℝ)
+    (h_scale : 0 < singleSlitScale) :
+    relativePredictiveError
+      (pilotWaveDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        nonEquilibriumResidual 0 0)
+      (fraunhoferRectangularDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance 0 0) =
+    |nonEquilibriumResidual| / (4 * singleSlitScale) := by
+  unfold relativePredictiveError pilotWaveDoubleSlit
+  rw [add_sub_cancel_left, fraunhoferRectangularDoubleSlit_onAxis,
+    abs_of_pos (by linarith : 0 < 4 * singleSlitScale)]
+
+/-- **Dark-Fringe Peak-Normalized Relative Predictive Error**:
+At the first half-period destructive fringe $x_{\mathrm{dark}} = \lambda L / (2 d)$
+(with $y = 0$), where the Fraunhofer denominator vanishes ($I_{\mathrm{F}} = 0$),
+the peak-normalized relative error of the Huygens--Steiner model ($I_0 > 0$,
+$\mathcal{V} \le 1$) equals $\frac{1 - \mathcal{V}}{2} \operatorname{sinc}^2(\pi a / (2 d))$. -/
+@[blueprint "thm:signals-huygens-steiner-dark-fringe-peak-error"
+  (title := "Dark-fringe peak-normalized relative error of the Huygens--Steiner model")
+  (statement := /-- For $I_0>0$, $\mathcal{V}\le 1$, $d\ne 0$, $\lambda\ne 0$, and $L\ne 0$,
+    at the dark fringe $x_{\mathrm{dark}}=\lambda L/(2d)$ and $y=0$,
+    $\varepsilon_{\mathrm{peak}}\bigl(I_{\mathrm{HS}}(x_{\mathrm{dark}},0;\mathcal{V}),
+    I_{\mathrm{F}}(x_{\mathrm{dark}},0)\bigr)
+    = \frac{1-\mathcal{V}}{2}\,\operatorname{sinc}^2\!\left(\frac{\pi a}{2d}\right)$. -/)
+  (proof := /-- Use $\cos(\pi)=-1$ and $I_{\mathrm{F}}(x_{\mathrm{dark}},0)=0$, then divide
+    $2I_0(1-\mathcal{V})\operatorname{sinc}^2(\pi a/(2d))$ by $4I_0$. -/)]
+theorem huygensSteiner_dark_fringe_peak_relative_error
+    (singleSlitScale slitWidth slitHeight separation wavelength screenDistance visibility : ℝ)
+    (h_scale : 0 < singleSlitScale) (h_vis : visibility ≤ 1)
+    (h_sep : separation ≠ 0) (h_wave : wavelength ≠ 0) (h_dist : screenDistance ≠ 0) :
+    peakNormalizedRelativeError
+      (huygensSteinerDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance visibility
+        (wavelength * screenDistance / (2 * separation)) 0)
+      (fraunhoferRectangularDoubleSlit
+        singleSlitScale slitWidth slitHeight separation wavelength screenDistance
+        (wavelength * screenDistance / (2 * separation)) 0)
+      singleSlitScale =
+    ((1 - visibility) / 2) *
+      (unnormalizedSinc (Real.pi * slitWidth / (2 * separation))) ^ 2 := by
+  unfold peakNormalizedRelativeError
+  rw [huygensSteinerDoubleSlit_sub_fraunhofer]
+  have h_cos_arg :
+      2 * (Real.pi * separation * (wavelength * screenDistance / (2 * separation)) /
+        (wavelength * screenDistance)) = Real.pi := by
+    field_simp [h_sep, h_wave, h_dist]
+  have h_sinc_arg :
+      Real.pi * slitWidth * (wavelength * screenDistance / (2 * separation)) /
+        (wavelength * screenDistance) = Real.pi * slitWidth / (2 * separation) := by
+    field_simp [h_sep, h_wave, h_dist]
+  have h_env :
+      rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance
+        (wavelength * screenDistance / (2 * separation)) 0 =
+      (unnormalizedSinc (Real.pi * slitWidth / (2 * separation))) ^ 2 := by
+    unfold rectangularSlitEnvelope
+    rw [h_sinc_arg]
+    simp
+  rw [h_cos_arg, Real.cos_pi, h_env]
+  have h_prod :
+      - 2 * singleSlitScale * (1 - visibility) *
+        (unnormalizedSinc (Real.pi * slitWidth / (2 * separation))) ^ 2 * (-1) =
+      2 * singleSlitScale * (1 - visibility) *
+        (unnormalizedSinc (Real.pi * slitWidth / (2 * separation))) ^ 2 := by
+    ring
+  rw [h_prod]
+  have h_nonneg :
+      0 ≤ 2 * singleSlitScale * (1 - visibility) *
+        (unnormalizedSinc (Real.pi * slitWidth / (2 * separation))) ^ 2 := by
+    have h1 : 0 ≤ 1 - visibility := sub_nonneg.mpr h_vis
+    positivity
+  rw [abs_of_nonneg h_nonneg]
+  have h_ne : singleSlitScale ≠ 0 := ne_of_gt h_scale
+  field_simp [h_ne]
   ring
 
 end Signals.Huygens
