@@ -4737,4 +4737,107 @@ lemma CryogenicSpoolAMBHypothesis.no_solid_seal_below_3_4_MPa
   rw [hypothesis.he3SolidPressureLaw]
   linarith
 
+/-! ## 3-Zone $400 \to 800\text{ GHz}$ `rGO-polyCBD-SS-Lignin` Hyperbolic SFG Cannon & Hydroxyl Quenching Boundary
+
+The record below scopes the chat's 3-zone `rGO-polyCBD-SS-Lignin` $400 \to 800\text{ GHz}$
+Sum-Frequency Generation (SFG) lens, Denisov mode-conversion coupler, and
+hydroxyl ($\cdot\mathrm{OH}$) spin-singlet radical-quenching narrative
+(`data/chats/IQ-Sampling-for-Signal-Phase.md`, lines 15855–17335):
+1. It enforces exact Zone 1 ($400\text{ GHz}$) and Zone 3 ($800\text{ GHz}$) ENZ fill
+   fractions ($141/5641$ and $141/1516$, rather than the detuned $9.88\%$ table entry).
+2. It records the hydroxyl spectroscopic frequency gap between the true
+   $X^2\Pi_{3/2}$ $\Lambda$-doubling hyperfine maser transition ($\approx 1.667\text{ GHz}$),
+   the proposed $800\text{ GHz}$ SFG beam, and the fundamental rotational transition
+   ($\approx 1.83\text{ THz}$).
+3. It requires explicit accounting for the exothermic heat released by
+   $\cdot\mathrm{OH} + \mathrm{H}\cdot + M \to \mathrm{H}_2\mathrm{O} + M$
+   ($\Delta H_{\mathrm{rec}} \approx 499\text{ kJ/mol} > 0$) and enforces a
+   unit-consistent joule-level thermal balance requiring an external heat sink
+   (`removedHeatJoules`) to bring the treated volume below `reignitionThresholdJoules`. -/
+
+/-- A Pending 3-zone `rGO-polyCBD-SS-Lignin` $400 \to 800\text{ GHz}$ hyperbolic SFG
+anti-fire lens and combustion-heat-balance contract. -/
+@[blueprint "def:signals-three-zone-hyperbolic-sfg-cannon"
+  (title := "3-Zone 400->800 GHz rGO-polyCBD-SS-Lignin hyperbolic SFG cannon and thermal-balance contract")
+  (statement := /-- Records the 3-zone \texttt{rGO-polyCBD-SS-Lignin} $400\to 800\text{ GHz}$ SFG lens
+    fill fractions, bounded Denisov and SFG efficiencies, $\cdot\mathrm{OH}$ $\Lambda$-doubling
+    ($1.667\text{ GHz}$) vs.\ $800\text{ GHz}$ vs.\ rotational ($1830\text{ GHz}$) frequency separation,
+    exothermic radical-recombination heat $Q_{\mathrm{rec}}\ge 0$, and unit-consistent post-treatment
+    stored-heat bound $Q_{\mathrm{initial}} + Q_{\mathrm{rec}} + Q_{\mathrm{absorbedRF}} - Q_{\mathrm{sink}} \le Q_{\mathrm{reignite}}$. -/)]
+structure ThreeZoneHyperbolicSFGCannonHypothesis where
+  zone1EnzFill400 : ℝ
+  zone1EnzFillLaw :
+    zone1EnzFill400 = Signals.DDF.emtCriticalEnzFillFraction (282 / 100) 110
+  zone2HyperbolicFill : ℝ
+  zone2HyperbolicFillLaw : zone2HyperbolicFill = 32 / 1000
+  zone3EnzFill800 : ℝ
+  zone3EnzFillLaw :
+    zone3EnzFill800 = Signals.DDF.emtCriticalEnzFillFraction (282 / 100) (55 / 2)
+  denisovEfficiency : BoundedFactor
+  sfgConversionEfficiency : BoundedFactor
+  soilTransmissionFactor : BoundedFactor
+  ohLambdaDoublingFreqGHz : ℝ
+  ohLambdaDoublingLaw : ohLambdaDoublingFreqGHz = 1.667
+  sfgCarrierFreqGHz : ℝ
+  sfgCarrierLaw : sfgCarrierFreqGHz = 800
+  ohFundamentalRotationalFreqGHz : ℝ
+  ohRotationalLaw : ohFundamentalRotationalFreqGHz = 1830
+  initialFireStoredHeat : Energy
+  initialFireStoredHeat_nonneg : 0 ≤ initialFireStoredHeat.joules
+  exothermicRecombinationHeat : Energy
+  exothermicRecombinationHeat_nonneg : 0 ≤ exothermicRecombinationHeat.joules
+  absorbedSubTHzHeating : Energy
+  absorbedSubTHzHeating_nonneg : 0 ≤ absorbedSubTHzHeating.joules
+  heatRemovedBySink : Energy
+  heatRemovedBySink_nonneg : 0 ≤ heatRemovedBySink.joules
+  reignitionThresholdHeat : Energy
+  reignitionThresholdHeat_nonneg : 0 ≤ reignitionThresholdHeat.joules
+  postTreatmentBelowReignition :
+    initialFireStoredHeat.joules + exothermicRecombinationHeat.joules +
+      absorbedSubTHzHeating.joules - heatRemovedBySink.joules ≤
+      reignitionThresholdHeat.joules
+  subTHzEllipsometryCalibrated : Prop
+  subTHzEllipsometryCalibrated_hypothesis : subTHzEllipsometryCalibrated
+  calorimetricQuenchVerified : Prop
+  calorimetricQuenchVerified_hypothesis : calorimetricQuenchVerified
+
+/-- The $800\text{ GHz}$ SFG frequency lies strictly between the $1.667\text{ GHz}$
+$\cdot\mathrm{OH}$ $\Lambda$-doubling hyperfine maser line and the $1830\text{ GHz}$
+($1.83\text{ THz}$) fundamental rotational transition, so it matches neither
+transition without an explicit Stark/Zeeman or multi-photon mechanism. -/
+@[blueprint "lem:signals-oh-frequency-mismatch-bounds"
+  (title := "800 GHz SFG carrier sits strictly between 1.667 GHz Λ-doubling and 1.83 THz rotational lines")
+  (statement := /-- In any \texttt{ThreeZoneHyperbolicSFGCannonHypothesis},
+    $f_{\Lambda\text{-doubling}} = 1.667\text{ GHz} < 800\text{ GHz} < 1830\text{ GHz} = f_{\mathrm{rot}}$. -/)
+  (proof := /-- Substitute the three frequency laws and compare numerically. -/)
+  (latexEnv := "lemma")]
+lemma ThreeZoneHyperbolicSFGCannonHypothesis.oh_frequency_mismatch_bounds
+    (hypothesis : ThreeZoneHyperbolicSFGCannonHypothesis) :
+    hypothesis.ohLambdaDoublingFreqGHz < hypothesis.sfgCarrierFreqGHz ∧
+      hypothesis.sfgCarrierFreqGHz < hypothesis.ohFundamentalRotationalFreqGHz := by
+  rw [hypothesis.ohLambdaDoublingLaw, hypothesis.sfgCarrierLaw, hypothesis.ohRotationalLaw]
+  norm_num
+
+/-- If the initial fire mass is above its reignition heat threshold, cooling the
+target below reignition requires a strictly positive external heat sink
+(`0 < heatRemovedBySink.joules`), because radical recombination and RF absorption
+add nonnegative heat rather than removing it. -/
+@[blueprint "lem:signals-fire-quench-requires-positive-heat-sink"
+  (title := "Cooling an above-reignition fire requires a positive external heat sink")
+  (statement := /-- If $Q_{\mathrm{reignite}} < Q_{\mathrm{initial}}$ in
+    \texttt{ThreeZoneHyperbolicSFGCannonHypothesis}, then $0 < Q_{\mathrm{sink}}$. -/)
+  (proof := /-- Combine $Q_{\mathrm{initial}} + Q_{\mathrm{rec}} + Q_{\mathrm{RF}} - Q_{\mathrm{sink}} \le Q_{\mathrm{reignite}}$
+    with $Q_{\mathrm{rec}} \ge 0$, $Q_{\mathrm{RF}} \ge 0$, and $Q_{\mathrm{reignite}} < Q_{\mathrm{initial}}$. -/)
+  (latexEnv := "lemma")]
+lemma ThreeZoneHyperbolicSFGCannonHypothesis.positive_heat_sink_required
+    (hypothesis : ThreeZoneHyperbolicSFGCannonHypothesis)
+    (above_reignition :
+      hypothesis.reignitionThresholdHeat.joules <
+        hypothesis.initialFireStoredHeat.joules) :
+    0 < hypothesis.heatRemovedBySink.joules := by
+  linarith [hypothesis.postTreatmentBelowReignition,
+    hypothesis.exothermicRecombinationHeat_nonneg,
+    hypothesis.absorbedSubTHzHeating_nonneg,
+    above_reignition]
+
 end Signals.Pending

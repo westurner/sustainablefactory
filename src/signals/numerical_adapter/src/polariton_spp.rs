@@ -1020,6 +1020,38 @@ impl RgoPolyCbdHyperbolicMetamaterial {
             cap_bus_farads,
         )
     }
+
+    /// Audit the 3-zone $400 \to 800\text{ GHz}$ `rGO-polyCBD-SS-Lignin` hyperbolic SFG lens
+    /// (`Signals.DDF.three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities`):
+    /// returns $(f_{\mathrm{ENZ,400}},\; \varepsilon_{\perp,400}(0.032),\; \varepsilon_{\perp,800}(0.032),\; f_{\mathrm{ENZ,800}},\; \Gamma_{\mathrm{ENZ,reg}}(f_{\mathrm{ENZ,800}}),\; \Gamma_{\mathrm{ENZ,reg}}(0.0988))$.
+    #[inline]
+    pub fn three_zone_sfg_and_enz_audit_summary() -> [f64; 6] {
+        let hmm_400 = Self {
+            eps_d: 2.82,
+            abs_eps_m: 110.0,
+        };
+        let hmm_800 = Self {
+            eps_d: 2.82,
+            abs_eps_m: 27.5,
+        };
+        let f_enz_400 = hmm_400.critical_enz_fill_fraction();
+        let eps_perp_400 = hmm_400.epsilon_perp(0.032);
+        let eps_perp_800 = hmm_800.epsilon_perp(0.032);
+        let f_enz_800 = hmm_800.critical_enz_fill_fraction();
+        let eps_i_800 = 0.048_f64;
+        let gamma_exact_800 = 2.82_f64.powi(2) / (0.0_f64.powi(2) + eps_i_800.powi(2));
+        let eps_par_detuned = hmm_800.epsilon_parallel(0.0988);
+        let gamma_detuned_800 =
+            2.82_f64.powi(2) / (eps_par_detuned.powi(2) + eps_i_800.powi(2));
+        [
+            f_enz_400,
+            eps_perp_400,
+            eps_perp_800,
+            f_enz_800,
+            gamma_exact_800,
+            gamma_detuned_800,
+        ]
+    }
 }
 
 #[cfg(test)]
@@ -1490,6 +1522,14 @@ mod tests {
         assert!((mdot_sco2 - 182.4).abs() < 1e-12);
         assert!((qe_sco2 - 2.7892).abs() < 1e-12 && qe_sco2 > qe_enz);
         assert!(cap_bus > 12.91 && cap_bus < 12.93);
+
+        // 7. 3-Zone 400->800 GHz SFG & Zone 3 ENZ Detuning Audit
+        let audit = RgoPolyCbdHyperbolicMetamaterial::three_zone_sfg_and_enz_audit_summary();
+        assert!((audit[0] - (141.0 / 5641.0)).abs() < 1e-12);
+        assert!(audit[1] < audit[2]); // eps_perp(400 GHz) < eps_perp(800 GHz) at f = 3.2%
+        assert!((audit[3] - (141.0 / 1516.0)).abs() < 1e-12); // ~9.3008%, not 9.88%
+        assert!((audit[4].sqrt() - 58.75).abs() < 1e-12);
+        assert!(audit[5] < audit[4]); // 9.88% table fill fraction detunes ENZ enhancement
     }
 
     #[test]

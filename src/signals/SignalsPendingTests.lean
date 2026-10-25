@@ -4770,4 +4770,50 @@ example : toyCryogenicSpoolAMB.isSupercriticalGas := by
 example : ¬toyCryogenicSpoolAMB.canSolidifyHe3 := by
   exact toyCryogenicSpoolAMB.no_solid_seal_below_3_4_MPa (by norm_num [toyCryogenicSpoolAMB])
 
+/-- Toy fixture for the 3-zone 400->800 GHz rGO-polyCBD-SS-Lignin hyperbolic SFG cannon hypothesis. -/
+noncomputable def toyThreeZoneHyperbolicSFGCannon : ThreeZoneHyperbolicSFGCannonHypothesis :=
+  { zone1EnzFill400 := 141 / 5641
+    zone1EnzFillLaw := by unfold Signals.DDF.emtCriticalEnzFillFraction; norm_num
+    zone2HyperbolicFill := 32 / 1000
+    zone2HyperbolicFillLaw := rfl
+    zone3EnzFill800 := 141 / 1516
+    zone3EnzFillLaw := by unfold Signals.DDF.emtCriticalEnzFillFraction; norm_num
+    denisovEfficiency := { value := 9 / 10, nonnegative := by norm_num, le_one := by norm_num }
+    sfgConversionEfficiency := { value := 1 / 20, nonnegative := by norm_num, le_one := by norm_num }
+    soilTransmissionFactor := { value := 1 / 100, nonnegative := by norm_num, le_one := by norm_num }
+    ohLambdaDoublingFreqGHz := 1.667
+    ohLambdaDoublingLaw := rfl
+    sfgCarrierFreqGHz := 800
+    sfgCarrierLaw := rfl
+    ohFundamentalRotationalFreqGHz := 1830
+    ohRotationalLaw := rfl
+    initialFireStoredHeat := { joules := 500000 }
+    initialFireStoredHeat_nonneg := by norm_num
+    exothermicRecombinationHeat := { joules := 25000 }
+    exothermicRecombinationHeat_nonneg := by norm_num
+    absorbedSubTHzHeating := { joules := 10000 }
+    absorbedSubTHzHeating_nonneg := by norm_num
+    heatRemovedBySink := { joules := 350000 }
+    heatRemovedBySink_nonneg := by norm_num
+    reignitionThresholdHeat := { joules := 200000 }
+    reignitionThresholdHeat_nonneg := by norm_num
+    postTreatmentBelowReignition := by norm_num
+    subTHzEllipsometryCalibrated := True
+    subTHzEllipsometryCalibrated_hypothesis := trivial
+    calorimetricQuenchVerified := True
+    calorimetricQuenchVerified_hypothesis := trivial }
+
+/-- The 800 GHz SFG carrier sits strictly between the 1.667 GHz OH Λ-doubling line and the 1830 GHz rotational line. -/
+example :
+    toyThreeZoneHyperbolicSFGCannon.ohLambdaDoublingFreqGHz <
+      toyThreeZoneHyperbolicSFGCannon.sfgCarrierFreqGHz ∧
+    toyThreeZoneHyperbolicSFGCannon.sfgCarrierFreqGHz <
+      toyThreeZoneHyperbolicSFGCannon.ohFundamentalRotationalFreqGHz := by
+  exact toyThreeZoneHyperbolicSFGCannon.oh_frequency_mismatch_bounds
+
+/-- Cooling an above-reignition fire requires a strictly positive external heat sink. -/
+example : 0 < toyThreeZoneHyperbolicSFGCannon.heatRemovedBySink.joules := by
+  exact toyThreeZoneHyperbolicSFGCannon.positive_heat_sink_required
+    (by norm_num [toyThreeZoneHyperbolicSFGCannon])
+
 end SignalsPendingTests

@@ -5435,4 +5435,25 @@ example (φ1 φ2 φ3 : ℝ) :
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
+example :
+    Signals.DDF.emtCriticalEnzFillFraction (282 / 100) 110 = 141 / 5641 ∧
+    Signals.DDF.emtEpsilonPerp (32 / 1000) (-110) (282 / 100) <
+      Signals.DDF.emtEpsilonPerp (32 / 1000) (-55 / 2) (282 / 100) ∧
+    Signals.DDF.emtCriticalEnzFillFraction (282 / 100) (55 / 2) = 141 / 1516 ∧
+    Signals.DDF.regularizedEnzEnhancement (282 / 100) (-2744 / 15625) (48 / 1000) <
+      Signals.DDF.regularizedEnzEnhancement (282 / 100) 0 (48 / 1000) ∧
+    Signals.DDF.denisovForwardGratingPitch 750 (37 / 100) =
+      2 * Signals.DDF.chatDenisovBraggPitch 750 (37 / 100) ∧
+    100 < Signals.DDF.semenovRadicalConcentration 100 1800 400 0 (1 / 1000) ∧
+    Signals.DDF.semenovRadicalConcentration 100 1800 400 2000 (1 / 1000) < 100 ∧
+    0 < Signals.DDF.exothermicRecombinationHeatPower 5 499 2 := by
+  have h := Signals.DDF.three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities
+    750 (37 / 100) 100 1800 400 2000 (1 / 1000) 5 499 2
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

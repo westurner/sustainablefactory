@@ -105,7 +105,26 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L7005-L7075) (Blueprint nod
 | **AP-15** | **10 Hz Bus Capacitance Upper Bound ($< 12.93\text{ F}$)** | $C_{\mathrm{bus}} < \frac{1293}{100}$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2` |
 
 ---
+### 2.3 The 18 Simultaneous 3-Zone $400 \to 800\text{ GHz}$ `rGO-polyCBD-SS-Lignin` SFG Audit, Zone 3 ENZ Detuning Fix, Denisov Grating Pitch, & Semenov–Hinshelwood Kinetics Laws (`three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities`)
 
+Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L7597-L7677) (Blueprint node `thm:signals-ddf-three-zone-sfg-and-hydroxyl-audit`) and paired with [`Signals.Pending.ThreeZoneHyperbolicSFGCannonHypothesis`](../Signals/Pending.lean#L4759-L4836) (`def:signals-three-zone-hyperbolic-sfg-cannon`):
+
+| # | 3-Zone SFG / ENZ / Kinetics Audit Law | Mathematical Identity | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L7604-L7626) |
+|---|---|---|---|
+| **ZA-1** | **Zone 1 ($400\text{ GHz}$) Exact Critical ENZ Fill Fraction** | $f_{\mathrm{ENZ}}(400\text{ GHz}) = \operatorname{emtCriticalEnzFillFraction}(2.82, 110) = \frac{141}{5641} \approx 2.4996\%$ | `h.1` |
+| **ZA-2** | **Zone 1 ($400\text{ GHz}$) Exact In-Plane ENZ Zero-Crossing** | $\varepsilon_\parallel\!\left(\frac{141}{5641}, -110, 2.82\right) = 0$ | `h.2.1` |
+| **ZA-3** | **Zone 2 ($f = 3.20\%$) $400\text{ GHz}$ In-Plane Permittivity** | $\varepsilon_{\parallel,400}(0.032) = -\frac{9878}{12500} = -0.79024 < 0$ | `h.2.2.1` & `h.2.2.2.1` |
+| **ZA-4** | **Zone 2 ($f = 3.20\%$) $400\text{ GHz}$ Out-of-Plane Permittivity** | $\varepsilon_{\perp,400}(0.032) = \frac{969375}{332468} \approx +2.91569 > 0$ | `h.2.2.2.2.1` |
+| **ZA-5** | **Zone 2 ($f = 3.20\%$) $800\text{ GHz}$ In-Plane Permittivity** | $\varepsilon_{\parallel,800}(0.032) = \frac{23122}{12500} = +1.84976 > 0$ | `h.2.2.2.2.2.1` & `h.2.2.2.2.2.2.1` |
+| **ZA-6** | **Zone 2 ($f = 3.20\%$) $800\text{ GHz}$ Out-of-Plane Permittivity & Ordering** | $\varepsilon_{\perp,800}(0.032) = \frac{969375}{331622} \approx +2.92313 > \varepsilon_{\perp,400}(0.032)$ (fixing the chat's table value $2.85$) | `h.2.2.2.2.2.2.2.1` & `h.2.2.2.2.2.2.2.2.1` |
+| **ZA-7** | **Zone 3 ($800\text{ GHz}$) Exact Critical ENZ Fill Fraction ($9.301\%$ vs. $9.88\%$)** | $f_{\mathrm{ENZ}}(800\text{ GHz}) = \frac{141}{1516} \approx 9.3008\%$ and $\varepsilon_\parallel\!\left(\frac{141}{1516}, -27.5, 2.82\right) = 0$ | `h.2.2.2.2.2.2.2.2.2.1` & `h.2.2.2.2.2.2.2.2.2.2.1` |
+| **ZA-8** | **Zone 3 Detuning at Chat's $f = 9.88\%$ Table Value** | $\varepsilon_\parallel(0.0988, -27.5, 2.82) = -\frac{2744}{15625} = -0.175616 \ne 0$ | `h.2.2.2.2.2.2.2.2.2.2.2.1` |
+| **ZA-9** | **Peak vs. Detuned Zone 3 Loss-Regularized ENZ Intensity Enhancement** | $\Gamma_{\mathrm{ENZ,reg}}(2.82, -\frac{2744}{15625}, 0.048) < \Gamma_{\mathrm{ENZ,reg}}(2.82, 0, 0.048) = \left(\frac{235}{4}\right)^2$ ($58.75\times$ field ratio) | `h.2.2.2.2.2.2.2.2.2.2.2.2.1` & `.2.1` |
+| **ZA-10** | **Forward Surface-Launch vs. Bragg Back-Reflection Denisov Grating Pitch** | $\Lambda_{\mathrm{forward}}(\lambda_0, \sin\theta) = 2\,\Lambda_{\mathrm{Bragg}}(\lambda_0, \sin\theta)$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
+| **ZA-11** | **Semenov–Hinshelwood Explosion ($k_{\mathrm{quench}}=0$) vs. Quenching Dichotomy** | $n_0 < n_{\mathrm{unquenched}}(t)$ and $n_{\mathrm{quenched}}(t) < n_0$ ($\forall t > 0$) | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` & `.2.1` |
+| **ZA-12** | **Strict Positivity of Exothermic Radical-Recombination Heat Release** | $0 < \operatorname{exothermicRecombinationHeatPower}(R_{\mathrm{rec}}, \Delta H_{\mathrm{rec}}, V)$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2` |
+
+---
 ## 2. Self-Contained Machine-Checked Lean 4 Proof Block
 
 ```lean
