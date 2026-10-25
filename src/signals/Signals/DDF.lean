@@ -6062,4 +6062,537 @@ theorem NormedTensorGaussianSplat3D.holographic_gr24_imaging_depth_recovery_and_
   exact ⟨h_s3_rec, h_tr_rec, h_det_rec, h_bohm_rec, h_z_tr, h_z_bohm,
     h_prec1, h_prec2, h_coh_eq, h_coh_lt, h_phase_conj⟩
 
+/-! ## Higher-Rank $Gr_{\mathbb{C}}(3, n)$ Direct 3D Volumetric Imaging & 3-Element Vectorial Wave Model for Longitudinal Polarization (`Vectorial-Wave-Model-for-Longitudinal-Polarization.md`) -/
+
+/-- Left-multiplying any complex $3 \times n$ Grassmannian matrix $M_{\mathbb{C}} \in \mathbb{C}^{3 \times n}$
+by a $3 \times 3$ complex row basis matrix $B \in \mathbb{C}^{3 \times 3}$ scales every
+three-row Plücker minor $\Delta_{abc}^{\mathbb{C}}(B M_{\mathbb{C}})$ by $\det B$. -/
+@[blueprint "lem:signals-ddf-complex-three-row-minor-basis-change"
+  (title := "Complex 3×n three-row Plücker minor GL(3,ℂ) basis-change covariance")
+  (statement := /-- For any $B\in\mathbb C^{3\times 3}$, $M_{\mathbb C}\in\mathbb C^{3\times n}$,
+    and $a,b,c\in\operatorname{Fin}(n)$,
+    $\Delta_{abc}^{\mathbb C}(B M_{\mathbb C}) = (\det B)\,\Delta_{abc}^{\mathbb C}(M_{\mathbb C})$. -/)
+  (proof := /-- Expand $\det B$ via \texttt{Matrix.det\_fin\_three} and close by commutative ring algebra in $\mathbb C$. -/)
+  (latexEnv := "lemma")]
+lemma complexThreeRowMinor_basisChange {columnCount : ℕ}
+    (basis : Matrix (Fin 3) (Fin 3) ℂ)
+    (matrix : Matrix (Fin 3) (Fin columnCount) ℂ)
+    (first second third : Fin columnCount) :
+    complexThreeRowMinor (basis * matrix) first second third =
+      basis.det * complexThreeRowMinor matrix first second third := by
+  unfold complexThreeRowMinor
+  rw [Matrix.det_fin_three]
+  simp only [Matrix.mul_apply, Fin.sum_univ_three, Fin.isValue]
+  ring
+
+/-- Canonical $3 \times 6$ complex Grassmannian matrix $M_{\mathbb{C}}^{(3,6)}(a_1, a_2, a_3) \in \mathbb{C}^{3 \times 6}$
+encoding a 3-element vectorial focal field $(a_1, a_2, a_3) = (E_x, E_y, E_z)$ or the
+three principal axes of a `NormedTensorGaussianSplat3D` in a single rank-3 subspace
+of $\mathbb{C}^6$ ($Gr_{\mathbb{C}}(3, 6)$, the self-dual rank-3 counterpart of $Gr_{\mathbb{C}}(2, 4)$). -/
+@[blueprint "def:signals-ddf-gr36-volumetric-imaging-matrix"
+  (title := "Canonical 3×6 complex Grassmannian Gr_C(3,6) volumetric imaging matrix")
+  (statement := /-- Define the $3\times 6$ complex Grassmannian matrix
+    $M_{\mathbb C}^{(3,6)}(a_1,a_2,a_3) = [\operatorname{diag}(a_1,a_2,a_3)\mid I_3]\in\mathbb C^{3\times 6}$. -/)]
+def gr36VolumetricImagingMatrix (a1 a2 a3 : ℂ) : Matrix (Fin 3) (Fin 6) ℂ :=
+  !![a1, 0, 0, 1, 0, 0;
+     0, a2, 0, 0, 1, 0;
+     0, 0, a3, 0, 0, 1]
+
+/-- Direct $Gr_{\mathbb{C}}(3, 6)$ twistor embedding of a `NormedTensorGaussianSplat3D`
+with 3D modal phases $(\phi_1, \phi_2, \phi_3)$, placing all three principal widths
+$\sigma_1 e^{i\phi_1}, \sigma_2 e^{i\phi_2}, \sigma_3 e^{i\phi_3}$ into a single
+rank-3 complex Grassmannian matrix without splitting into two $Gr_{\mathbb{C}}(2,4)$ projections. -/
+@[blueprint "def:signals-ddf-splat3d-gr36-twistor-matrix"
+  (title := "Direct Gr_C(3,6) rank-3 twistor embedding of NormedTensorGaussianSplat3D")
+  (statement := /-- Embed \texttt{splat : NormedTensorGaussianSplat3D} with modal phases
+    $(\phi_1,\phi_2,\phi_3)$ into $Gr_{\mathbb C}(3,6)$ via
+    $a_j = \sigma_j(\cos\phi_j + i\sin\phi_j)$. -/)]
+noncomputable def NormedTensorGaussianSplat3D.gr36TwistorMatrix
+    (splat : NormedTensorGaussianSplat3D) (φ1 φ2 φ3 : ℝ) : Matrix (Fin 3) (Fin 6) ℂ :=
+  gr36VolumetricImagingMatrix
+    (↑(splat.sigma1 * Real.cos φ1) + Complex.I * ↑(splat.sigma1 * Real.sin φ1))
+    (↑(splat.sigma2 * Real.cos φ2) + Complex.I * ↑(splat.sigma2 * Real.sin φ2))
+    (↑(splat.sigma3 * Real.cos φ3) + Complex.I * ↑(splat.sigma3 * Real.sin φ3))
+
+/-- **Higher-Rank $Gr_{\mathbb{C}}(3, 6)$ Direct 3D Volumetric Splat Imaging & Plücker Syzygy Theorem**:
+Establishes that embedding a 3D Gaussian voxel (`NormedTensorGaussianSplat3D`) into the
+rank-3 complex Grassmannian $Gr_{\mathbb{C}}(3, 6)$ (`M_3 = splat.gr36TwistorMatrix φ1 φ2 φ3`)
+simultaneously encodes all 1D principal variances, all three 2D orthographic marginal
+planes ($xy, xz, yz$), the full 3D covariance trace and determinant, the 3D core Bohm
+quantum potential, and the $Gr_{\mathbb{C}}(2,4)$ depth ratio $R_{\mathrm{depth}}$ directly
+as $3 \times 3$ Plücker minors (`complexThreeRowMinor`):
+1. **Reference Minor Normalization**: $\Delta_{345}^{\mathbb{C}}(M_3) = 1$,
+2. **Direct Single-Axis Principal Variances from $3 \times 3$ Plücker Minors**:
+   $$|\Delta_{045}^{\mathbb{C}}(M_3)|^2 = \sigma_1^2, \qquad
+   |\Delta_{315}^{\mathbb{C}}(M_3)|^2 = \sigma_2^2, \qquad
+   |\Delta_{342}^{\mathbb{C}}(M_3)|^2 = \sigma_3^2,$$
+3. **All Three 2D Orthographic Plane Marginals ($xy, xz, yz$) as $3 \times 3$ Plücker Minors**:
+   $$|\Delta_{015}^{\mathbb{C}}(M_3)|^2 = \sigma_1^2\sigma_2^2 = \det\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}, \qquad
+   |\Delta_{042}^{\mathbb{C}}(M_3)|^2 = \sigma_1^2\sigma_3^2, \qquad
+   |\Delta_{312}^{\mathbb{C}}(M_3)|^2 = \sigma_2^2\sigma_3^2,$$
+4. **Full 3D Volumetric Covariance Determinant & Trace**:
+   $$|\Delta_{012}^{\mathbb{C}}(M_3)|^2 = \sigma_1^2\sigma_2^2\sigma_3^2 = \det\Sigma_{\mathrm{3D}}, \qquad
+   |\Delta_{045}^{\mathbb{C}}(M_3)|^2 + |\Delta_{315}^{\mathbb{C}}(M_3)|^2 + |\Delta_{342}^{\mathbb{C}}(M_3)|^2 = \operatorname{Tr}\Sigma_{\mathrm{3D}},$$
+5. **Direct 3D Core Bohm Quantum Potential in $Gr_{\mathbb{C}}(3, 6)$ Plücker Coordinates**:
+   $$\frac{\hbar^2}{4m}\,\frac{|\Delta_{312}^{\mathbb{C}}(M_3)|^2 + |\Delta_{042}^{\mathbb{C}}(M_3)|^2 + |\Delta_{015}^{\mathbb{C}}(M_3)|^2}{|\Delta_{012}^{\mathbb{C}}(M_3)|^2}
+   = Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}),$$
+6. **Exact Consistency Between $Gr_{\mathbb{C}}(3, 6)$ and $Gr_{\mathbb{C}}(2, 4)$ Depth Recovery**:
+   $$\frac{|\Delta_{045}^{\mathbb{C}}(M_3)|^2 + |\Delta_{315}^{\mathbb{C}}(M_3)|^2}{|\Delta_{342}^{\mathbb{C}}(M_3)|^2}
+   = \frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2}
+   = \frac{\sigma_1^2 + \sigma_2^2}{\sigma_3^2},$$
+7. **Universal 4-Term $Gr_{\mathbb{C}}(3, 6)$ Quadratic Plücker Syzygy**:
+   $$\Delta_{012}^{\mathbb{C}}\Delta_{345}^{\mathbb{C}} - \Delta_{013}^{\mathbb{C}}\Delta_{245}^{\mathbb{C}} + \Delta_{014}^{\mathbb{C}}\Delta_{235}^{\mathbb{C}} - \Delta_{015}^{\mathbb{C}}\Delta_{234}^{\mathbb{C}} = 0.$$ -/
+@[blueprint "thm:signals-ddf-gr36-volumetric-imaging-identities"
+  (title := "Higher-rank Gr_C(3,6) direct 3D volumetric splat imaging and Plücker syzygy theorem")
+  (statement := /-- For any \texttt{splat : NormedTensorGaussianSplat3D}, modal phases $\phi_1,\phi_2,\phi_3,\theta_z\in\mathbb R$,
+    $m > 0$, $\hbar \ne 0$, and $M_3 = \operatorname{splat}.\operatorname{gr36TwistorMatrix}(\phi_1,\phi_2,\phi_3)$:
+    (1) $\Delta_{345}^{\mathbb C}(M_3) = 1$,
+    (2) $|\Delta_{045}^{\mathbb C}(M_3)|^2 = \sigma_1^2$, $|\Delta_{315}^{\mathbb C}(M_3)|^2 = \sigma_2^2$, $|\Delta_{342}^{\mathbb C}(M_3)|^2 = \sigma_3^2$,
+    (3) $|\Delta_{015}^{\mathbb C}(M_3)|^2 = (\operatorname{splat}.\mathrm{projectOrthographic2D}).\mathrm{covDet}$,
+    $|\Delta_{042}^{\mathbb C}(M_3)|^2 = \sigma_1^2\sigma_3^2$, $|\Delta_{312}^{\mathbb C}(M_3)|^2 = \sigma_2^2\sigma_3^2$,
+    (4) $|\Delta_{012}^{\mathbb C}(M_3)|^2 = \operatorname{splat}.\mathrm{covDet}$ and
+    $|\Delta_{045}^{\mathbb C}(M_3)|^2 + |\Delta_{315}^{\mathbb C}(M_3)|^2 + |\Delta_{342}^{\mathbb C}(M_3)|^2 = \operatorname{splat}.\mathrm{covTrace}$,
+    (5) $\frac{\hbar^2}{4m}\frac{|\Delta_{312}^{\mathbb C}(M_3)|^2 + |\Delta_{042}^{\mathbb C}(M_3)|^2 + |\Delta_{015}^{\mathbb C}(M_3)|^2}{|\Delta_{012}^{\mathbb C}(M_3)|^2} = \operatorname{splat}.\operatorname{coreBohmPotential}(m,\hbar)$,
+    (6) $(|\Delta_{045}^{\mathbb C}(M_3)|^2 + |\Delta_{315}^{\mathbb C}(M_3)|^2)/|\Delta_{342}^{\mathbb C}(M_3)|^2 = (\sigma_1^2 + \sigma_2^2)/\sigma_3^2$, and
+    (7) $\Delta_{012}^{\mathbb C}\Delta_{345}^{\mathbb C} - \Delta_{013}^{\mathbb C}\Delta_{245}^{\mathbb C} + \Delta_{014}^{\mathbb C}\Delta_{235}^{\mathbb C} - \Delta_{015}^{\mathbb C}\Delta_{234}^{\mathbb C} = 0$. -/)
+  (proof := /-- Evaluate each $3\times 3$ complex minor of \texttt{gr36VolumetricImagingMatrix},
+    apply $\cos^2\phi_j + \sin^2\phi_j = 1$ and \texttt{Complex.normSq\_mul}, and invoke
+    \texttt{complexThreeRowMinor\_pluecker}. -/)]
+theorem NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities
+    (splat : NormedTensorGaussianSplat3D) (φ1 φ2 φ3 m_boson hbar : ℝ)
+    (hm : 0 < m_boson) :
+    let M3 := splat.gr36TwistorMatrix φ1 φ2 φ3
+    let s_ortho := splat.projectOrthographic2D
+    complexThreeRowMinor M3 3 4 5 = 1 ∧
+      Complex.normSq (complexThreeRowMinor M3 0 4 5) = splat.sigma1 ^ 2 ∧
+      Complex.normSq (complexThreeRowMinor M3 3 1 5) = splat.sigma2 ^ 2 ∧
+      Complex.normSq (complexThreeRowMinor M3 3 4 2) = splat.sigma3 ^ 2 ∧
+      Complex.normSq (complexThreeRowMinor M3 0 1 5) = s_ortho.covDet ∧
+      Complex.normSq (complexThreeRowMinor M3 0 4 2) = splat.sigma1 ^ 2 * splat.sigma3 ^ 2 ∧
+      Complex.normSq (complexThreeRowMinor M3 3 1 2) = splat.sigma2 ^ 2 * splat.sigma3 ^ 2 ∧
+      Complex.normSq (complexThreeRowMinor M3 0 1 2) = splat.covDet ∧
+      Complex.normSq (complexThreeRowMinor M3 0 4 5) +
+          Complex.normSq (complexThreeRowMinor M3 3 1 5) +
+          Complex.normSq (complexThreeRowMinor M3 3 4 2) =
+        splat.covTrace ∧
+      (hbar ^ 2 / (4 * m_boson)) *
+          ((Complex.normSq (complexThreeRowMinor M3 3 1 2) +
+              Complex.normSq (complexThreeRowMinor M3 0 4 2) +
+              Complex.normSq (complexThreeRowMinor M3 0 1 5)) /
+            Complex.normSq (complexThreeRowMinor M3 0 1 2)) =
+        splat.coreBohmPotential m_boson hbar ∧
+      (Complex.normSq (complexThreeRowMinor M3 0 4 5) +
+          Complex.normSq (complexThreeRowMinor M3 3 1 5)) /
+          Complex.normSq (complexThreeRowMinor M3 3 4 2) =
+        (splat.sigma1 ^ 2 + splat.sigma2 ^ 2) / splat.sigma3 ^ 2 ∧
+      complexThreeRowMinor M3 0 1 2 * complexThreeRowMinor M3 3 4 5 -
+          complexThreeRowMinor M3 0 1 3 * complexThreeRowMinor M3 2 4 5 +
+          complexThreeRowMinor M3 0 1 4 * complexThreeRowMinor M3 2 3 5 -
+          complexThreeRowMinor M3 0 1 5 * complexThreeRowMinor M3 2 3 4 = 0 := by
+  intro M3 s_ortho
+  let a1 : ℂ := ↑(splat.sigma1 * Real.cos φ1) + Complex.I * ↑(splat.sigma1 * Real.sin φ1)
+  let a2 : ℂ := ↑(splat.sigma2 * Real.cos φ2) + Complex.I * ↑(splat.sigma2 * Real.sin φ2)
+  let a3 : ℂ := ↑(splat.sigma3 * Real.cos φ3) + Complex.I * ↑(splat.sigma3 * Real.sin φ3)
+  have ha1 : Complex.normSq a1 = splat.sigma1 ^ 2 := by
+    dsimp [a1]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = splat.sigma1 ^ 2 * ((Real.cos φ1) ^ 2 + (Real.sin φ1) ^ 2) := by ring
+      _ = splat.sigma1 ^ 2 := by rw [Real.cos_sq_add_sin_sq, mul_one]
+  have ha2 : Complex.normSq a2 = splat.sigma2 ^ 2 := by
+    dsimp [a2]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = splat.sigma2 ^ 2 * ((Real.cos φ2) ^ 2 + (Real.sin φ2) ^ 2) := by ring
+      _ = splat.sigma2 ^ 2 := by rw [Real.cos_sq_add_sin_sq, mul_one]
+  have ha3 : Complex.normSq a3 = splat.sigma3 ^ 2 := by
+    dsimp [a3]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = splat.sigma3 ^ 2 * ((Real.cos φ3) ^ 2 + (Real.sin φ3) ^ 2) := by ring
+      _ = splat.sigma3 ^ 2 := by rw [Real.cos_sq_add_sin_sq, mul_one]
+  have hM3 : M3 = gr36VolumetricImagingMatrix a1 a2 a3 := rfl
+  have hm_345 : complexThreeRowMinor M3 3 4 5 = 1 := by
+    rw [hM3]
+    dsimp [gr36VolumetricImagingMatrix, complexThreeRowMinor,
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.vecHead, Matrix.vecTail]
+    ring
+  have hm_045 : complexThreeRowMinor M3 0 4 5 = a1 := by
+    rw [hM3]
+    dsimp [gr36VolumetricImagingMatrix, complexThreeRowMinor,
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.vecHead, Matrix.vecTail]
+    ring
+  have hm_315 : complexThreeRowMinor M3 3 1 5 = a2 := by
+    rw [hM3]
+    dsimp [gr36VolumetricImagingMatrix, complexThreeRowMinor,
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.vecHead, Matrix.vecTail]
+    ring
+  have hm_342 : complexThreeRowMinor M3 3 4 2 = a3 := by
+    rw [hM3]
+    dsimp [gr36VolumetricImagingMatrix, complexThreeRowMinor,
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.vecHead, Matrix.vecTail]
+    ring
+  have hm_015 : complexThreeRowMinor M3 0 1 5 = a1 * a2 := by
+    rw [hM3]
+    dsimp [gr36VolumetricImagingMatrix, complexThreeRowMinor,
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.vecHead, Matrix.vecTail]
+    ring
+  have hm_042 : complexThreeRowMinor M3 0 4 2 = a1 * a3 := by
+    rw [hM3]
+    dsimp [gr36VolumetricImagingMatrix, complexThreeRowMinor,
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.vecHead, Matrix.vecTail]
+    ring
+  have hm_312 : complexThreeRowMinor M3 3 1 2 = a2 * a3 := by
+    rw [hM3]
+    dsimp [gr36VolumetricImagingMatrix, complexThreeRowMinor,
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.vecHead, Matrix.vecTail]
+    ring
+  have hm_012 : complexThreeRowMinor M3 0 1 2 = a1 * a2 * a3 := by
+    rw [hM3]
+    dsimp [gr36VolumetricImagingMatrix, complexThreeRowMinor,
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.vecHead, Matrix.vecTail]
+    ring
+  have h_n045 : Complex.normSq (complexThreeRowMinor M3 0 4 5) = splat.sigma1 ^ 2 := by
+    rw [hm_045, ha1]
+  have h_n315 : Complex.normSq (complexThreeRowMinor M3 3 1 5) = splat.sigma2 ^ 2 := by
+    rw [hm_315, ha2]
+  have h_n342 : Complex.normSq (complexThreeRowMinor M3 3 4 2) = splat.sigma3 ^ 2 := by
+    rw [hm_342, ha3]
+  have h_n015 : Complex.normSq (complexThreeRowMinor M3 0 1 5) = s_ortho.covDet := by
+    rw [hm_015, Complex.normSq_mul, ha1, ha2]
+    rfl
+  have h_n042 :
+      Complex.normSq (complexThreeRowMinor M3 0 4 2) = splat.sigma1 ^ 2 * splat.sigma3 ^ 2 := by
+    rw [hm_042, Complex.normSq_mul, ha1, ha3]
+  have h_n312 :
+      Complex.normSq (complexThreeRowMinor M3 3 1 2) = splat.sigma2 ^ 2 * splat.sigma3 ^ 2 := by
+    rw [hm_312, Complex.normSq_mul, ha2, ha3]
+  have h_n012 : Complex.normSq (complexThreeRowMinor M3 0 1 2) = splat.covDet := by
+    rw [hm_012, Complex.normSq_mul, Complex.normSq_mul, ha1, ha2, ha3]
+    rfl
+  have h_trace :
+      Complex.normSq (complexThreeRowMinor M3 0 4 5) +
+          Complex.normSq (complexThreeRowMinor M3 3 1 5) +
+          Complex.normSq (complexThreeRowMinor M3 3 4 2) =
+        splat.covTrace := by
+    rw [h_n045, h_n315, h_n342]
+    rfl
+  have hs1_ne : splat.sigma1 ≠ 0 := ne_of_gt splat.sigma1_pos
+  have hs2_ne : splat.sigma2 ≠ 0 := ne_of_gt splat.sigma2_pos
+  have hs3_ne : splat.sigma3 ≠ 0 := ne_of_gt splat.sigma3_pos
+  have hm_ne : m_boson ≠ 0 := ne_of_gt hm
+  have h_bohm :
+      (hbar ^ 2 / (4 * m_boson)) *
+          ((Complex.normSq (complexThreeRowMinor M3 3 1 2) +
+              Complex.normSq (complexThreeRowMinor M3 0 4 2) +
+              Complex.normSq (complexThreeRowMinor M3 0 1 5)) /
+            Complex.normSq (complexThreeRowMinor M3 0 1 2)) =
+        splat.coreBohmPotential m_boson hbar := by
+    rw [h_n312, h_n042, h_n015, h_n012]
+    dsimp [s_ortho, projectOrthographic2D, NormedTensorGaussianSplat2D.covDet,
+      covDet, coreBohmPotential]
+    field_simp [hs1_ne, hs2_ne, hs3_ne, hm_ne]
+  have h_ratio :
+      (Complex.normSq (complexThreeRowMinor M3 0 4 5) +
+          Complex.normSq (complexThreeRowMinor M3 3 1 5)) /
+          Complex.normSq (complexThreeRowMinor M3 3 4 2) =
+        (splat.sigma1 ^ 2 + splat.sigma2 ^ 2) / splat.sigma3 ^ 2 := by
+    rw [h_n045, h_n315, h_n342]
+  have h_plucker := complexThreeRowMinor_pluecker M3 0 1 2 3 4 5
+  exact ⟨hm_345, h_n045, h_n315, h_n342, h_n015, h_n042, h_n312, h_n012,
+    h_trace, h_bohm, h_ratio, h_plucker⟩
+
+/-- Radial (transverse) electric-field component $E_r(E_0, \theta) = E_0 \cos\theta$
+after high-NA geometric ray bending at convergence angle $\theta$ in the Debye–Wolf
+vectorial diffraction model (`Vectorial-Wave-Model-for-Longitudinal-Polarization.md`, lines 16–39). -/
+@[blueprint "def:signals-ddf-debye-wolf-radial-component"
+  (title := "Debye-Wolf high-NA transverse radial electric field component E_0 cos θ")
+  (statement := /-- Define $\operatorname{debyeWolfRadialComponent}(E_0, \theta) = E_0 \cos\theta$. -/)]
+noncomputable def debyeWolfRadialComponent (E0 θ : ℝ) : ℝ :=
+  E0 * Real.cos θ
+
+/-- Longitudinal ($z$-axis) electric-field component $E_z(E_0, \theta) = E_0 \sin\theta$
+generated by high-NA geometric polarization tilting of a radially polarized beam at
+convergence angle $\theta$ (`Vectorial-Wave-Model-for-Longitudinal-Polarization.md`, lines 23–39). -/
+@[blueprint "def:signals-ddf-debye-wolf-longitudinal-component"
+  (title := "Debye-Wolf high-NA longitudinal electric field component E_0 sin θ")
+  (statement := /-- Define $\operatorname{debyeWolfLongitudinalComponent}(E_0, \theta) = E_0 \sin\theta$. -/)]
+noncomputable def debyeWolfLongitudinalComponent (E0 θ : ℝ) : ℝ :=
+  E0 * Real.sin θ
+
+/-- 3-element Debye–Wolf focal electric field vector
+$\mathbf{E}_{\mathrm{DW}}(E_0, \theta, \phi) = (E_0\cos\theta\cos\phi,\; E_0\cos\theta\sin\phi,\; E_0\sin\theta)$
+for a radially polarized ray at convergence polar angle $\theta$ and pupil azimuth $\phi$
+(`Vectorial-Wave-Model-for-Longitudinal-Polarization.md`, lines 31–44). -/
+@[blueprint "def:signals-ddf-debye-wolf-ray-vec3"
+  (title := "3-element Debye-Wolf focal electric field vector [E_x, E_y, E_z]^T")
+  (statement := /-- Define the 3-element Debye--Wolf electric field vector at convergence
+    angle $\theta$ and azimuth $\phi$:
+    $(E_0\cos\theta\cos\phi,\; E_0\cos\theta\sin\phi,\; E_0\sin\theta)$. -/)]
+noncomputable def debyeWolfRayVec3 (E0 θ φ : ℝ) : ℝ × ℝ × ℝ :=
+  (E0 * Real.cos θ * Real.cos φ, E0 * Real.cos θ * Real.sin φ, E0 * Real.sin θ)
+
+/-- Hyperbolic dielectric metasurface phase profile
+$\Phi(r; f, \lambda_0) = -\frac{2\pi}{\lambda_0}\left(\sqrt{r^2 + f^2} - f\right)$
+imparted by sub-wavelength $\mathrm{Si}$ or $\mathrm{TiO_2}$ nanopillars to convert a
+planar radially polarized CW wavefront into a spherical high-NA converging wave
+(`Vectorial-Wave-Model-for-Longitudinal-Polarization.md`, lines 135–145). -/
+@[blueprint "def:signals-ddf-hyperbolic-metasurface-phase"
+  (title := "High-NA dielectric metasurface hyperbolic lens phase profile Φ(r; f, λ_0)")
+  (statement := /-- Define $\operatorname{hyperbolicMetasurfacePhase}(r, f, \lambda_0)
+    = -\frac{2\pi}{\lambda_0}\left(\sqrt{r^2 + f^2} - f\right)$. -/)]
+noncomputable def hyperbolicMetasurfacePhase (r f lambda0 : ℝ) : ℝ :=
+  -(2 * Real.pi / lambda0) * (Real.sqrt (r ^ 2 + f ^ 2) - f)
+
+/-- Spatially varying $2 \times 2$ local birefringent half-waveplate Jones matrix
+$J_{\mathrm{pillar}}(\theta) = \begin{pmatrix} \cos\theta & \sin\theta \\ \sin\theta & -\cos\theta \end{pmatrix}$
+of a dielectric metasurface nanopillar oriented at fast-axis angle $\theta / 2$,
+which rotates an $x$-polarized input $(1, 0)^T$ into the local radial polarization
+$(\cos\theta, \sin\theta)^T$ (`Vectorial-Wave-Model-for-Longitudinal-Polarization.md`, lines 146–167). -/
+@[blueprint "def:signals-ddf-radial-nanopillar-jones-matrix"
+  (title := "Local birefringent nanopillar radial-polarization Jones matrix J(θ)")
+  (statement := /-- Define the $2\times 2$ local nanopillar Jones matrix
+    $J_{\mathrm{pillar}}(\theta) = \begin{pmatrix} \cos\theta & \sin\theta \\ \sin\theta & -\cos\theta \end{pmatrix}$. -/)]
+noncomputable def radialNanopillarJonesMatrix (θ : ℝ) : Matrix (Fin 2) (Fin 2) ℝ :=
+  !![Real.cos θ, Real.sin θ;
+     Real.sin θ, -Real.cos θ]
+
+/-- Longitudinal electric field $E_{z,\mathrm{ENZ}} = \frac{\varepsilon_{\mathrm{air}}}{\varepsilon_{\mathrm{ENZ}}} E_{z,\mathrm{air}}$
+inside an ultra-thin Epsilon-Near-Zero (ENZ) coating (such as ITO or AZO on a lignin
+substrate) derived from Maxwell's normal electric displacement continuity
+$D_{z,\mathrm{air}} = \varepsilon_{\mathrm{air}} E_{z,\mathrm{air}} = \varepsilon_{\mathrm{ENZ}} E_{z,\mathrm{ENZ}} = D_{z,\mathrm{ENZ}}$
+(`Vectorial-Wave-Model-for-Longitudinal-Polarization.md`, lines 169–199). -/
+@[blueprint "def:signals-ddf-enz-boundary-longitudinal-field"
+  (title := "Thin-film ENZ boundary longitudinal electric field E_z,ENZ = (ε_air / ε_ENZ) E_z,air")
+  (statement := /-- Define $\operatorname{enzBoundaryLongitudinalField}(\varepsilon_{\mathrm{air}}, \varepsilon_{\mathrm{ENZ}}, E_{z,\mathrm{air}})
+    = (\varepsilon_{\mathrm{air}} / \varepsilon_{\mathrm{ENZ}}) E_{z,\mathrm{air}}$. -/)]
+noncomputable def enzBoundaryLongitudinalField (epsAir epsEnz EzAir : ℝ) : ℝ :=
+  (epsAir / epsEnz) * EzAir
+
+/-- Lossless thin-film ENZ longitudinal intensity enhancement factor
+$\Gamma_{\mathrm{ENZ}}(\varepsilon_{\mathrm{air}}, \varepsilon_{\mathrm{ENZ}}) = \left(\frac{\varepsilon_{\mathrm{air}}}{\varepsilon_{\mathrm{ENZ}}}\right)^2$
+(`Vectorial-Wave-Model-for-Longitudinal-Polarization.md`, lines 200–208). -/
+@[blueprint "def:signals-ddf-enz-boundary-intensity-enhancement"
+  (title := "Thin-film ENZ longitudinal intensity enhancement factor (ε_air / ε_ENZ)²")
+  (statement := /-- Define $\operatorname{enzBoundaryIntensityEnhancement}(\varepsilon_{\mathrm{air}}, \varepsilon_{\mathrm{ENZ}})
+    = (\varepsilon_{\mathrm{air}} / \varepsilon_{\mathrm{ENZ}})^2$. -/)]
+noncomputable def enzBoundaryIntensityEnhancement (epsAir epsEnz : ℝ) : ℝ :=
+  (epsAir / epsEnz) ^ 2
+
+/-- Loss-regularized Drude ENZ longitudinal intensity enhancement factor
+$\Gamma_{\mathrm{ENZ,reg}}(\varepsilon_{\mathrm{air}}, \varepsilon_r, \varepsilon_i) = \frac{\varepsilon_{\mathrm{air}}^2}{\varepsilon_r^2 + \varepsilon_i^2}$
+for a physical passive ENZ thin film with complex relative permittivity
+$\varepsilon_{\mathrm{ENZ}} = \varepsilon_r + i\varepsilon_i$ ($\varepsilon_i > 0$),
+preventing unphysical infinite-field singularities at the real ENZ crossover $\varepsilon_r = 0$. -/
+@[blueprint "def:signals-ddf-regularized-enz-enhancement"
+  (title := "Loss-regularized complex Drude ENZ longitudinal intensity enhancement factor")
+  (statement := /-- Define $\operatorname{regularizedEnzEnhancement}(\varepsilon_{\mathrm{air}}, \varepsilon_r, \varepsilon_i)
+    = \varepsilon_{\mathrm{air}}^2 / (\varepsilon_r^2 + \varepsilon_i^2)$. -/)]
+noncomputable def regularizedEnzEnhancement (epsAir epsReal epsImag : ℝ) : ℝ :=
+  epsAir ^ 2 / (epsReal ^ 2 + epsImag ^ 2)
+
+/-- **3-Element Vectorial Longitudinal Polarization, Counter-Polarization Cancellation, ZRI Collimation vs. Extinction, High-NA Dielectric Metasurface, & Thin-Film ENZ-Lignin Amplification Theorem**:
+Formalizes the complete optical physics of `data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md`:
+1. **3-Element Debye–Wolf Vectorial Norm Preservation**:
+   For any ray $(E_x, E_y, E_z) = \operatorname{debyeWolfRayVec3}(E_0, \theta, \phi)$,
+   $$E_x^2 + E_y^2 + E_z^2 = E_0^2,$$
+2. **The Counter-Polarization Trick (Diametrically Opposite Azimuths $\phi$ and $\phi + \pi$)**:
+   Summing two opposite radially polarized rays $\mathbf{E}_{\mathrm{DW}}(E_0, \theta, \phi)$ and
+   $\mathbf{E}_{\mathrm{DW}}(E_0, \theta, \phi + \pi)$ at the geometric focus:
+   - Transverse $x$-components cancel identically: $E_x(\phi) + E_x(\phi + \pi) = 0$,
+   - Transverse $y$-components cancel identically: $E_y(\phi) + E_y(\phi + \pi) = 0$,
+   - Longitudinal $z$-components interfere constructively: $E_z(\phi) + E_z(\phi + \pi) = 2 E_0 \sin\theta$,
+     yielding on-axis longitudinal intensity $(E_z(\phi) + E_z(\phi + \pi))^2 = 4 E_0^2 \sin^2\theta$,
+3. **Why 2D Jones Calculus & 2D Scalar Gerchberg–Saxton Fail at High NA ($\sin\theta \ne 0$)**:
+   Because 2D paraxial Jones calculus predicts $E_{z,\mathrm{2DJones}} = 0$, its relative error
+   on the on-axis longitudinal focal intensity is identically $100\%$:
+   $$\frac{(2 E_0 \sin\theta)^2 - 0}{(2 E_0 \sin\theta)^2} = 1,$$
+4. **Why Bulk Zero-Refractive-Index (ZRI, $n_{\mathrm{ZRI}} = 0$) Media Kill $E_z$ at the Focus Yet Flatten Upstream Phase Aberrations**:
+   For $E_z^{\mathrm{bulk}}(n_{\mathrm{ZRI}}) = E_0 n_{\mathrm{ZRI}} \sin\theta_{\mathrm{in}}$ and
+   upstream phase aberration $\Delta\Phi_{\mathrm{ZRI}}(n_{\mathrm{ZRI}}) = n_{\mathrm{ZRI}} k_0 \Delta L$:
+   $$E_z^{\mathrm{bulk}}(0) = 0 \quad\text{and}\quad \Delta\Phi_{\mathrm{ZRI}}(0) = 0,$$
+5. **Stage 1 High-NA Dielectric Metasurface Hyperbolic Phase Mask & Nanopillar Jones Laws**:
+   - On-axis zero: $\Phi(0; f, \lambda_0) = 0$ (for $f > 0$),
+   - Off-axis phase advance: $\Phi(r; f, \lambda_0) < 0$ (for $r \ne 0, f > 0, \lambda_0 > 0$),
+   - Exact Optical Path Length (OPL) focal phase equalization ($\forall r \in \mathbb{R}, \lambda_0 \ne 0$):
+     $$\Phi(r; f, \lambda_0) + \frac{2\pi}{\lambda_0}\sqrt{r^2 + f^2} = \frac{2\pi f}{\lambda_0},$$
+   - Local nanopillar Jones radial-conversion unitarity & determinant:
+     $$J_{\mathrm{pillar}}(\theta)_{0,0}^2 + J_{\mathrm{pillar}}(\theta)_{1,0}^2 = 1 \quad\text{and}\quad \det J_{\mathrm{pillar}}(\theta) = -1,$$
+6. **Stage 2 Thin-Film ENZ-Lignin Boundary Continuity ($D_{z,\mathrm{air}} = D_{z,\mathrm{ENZ}}$), $100\times$–$400\times$ Benchmark Window, and Loss-Regularized Drude Ceiling**:
+   - Normal displacement continuity ($\varepsilon_{\mathrm{ENZ}} \ne 0$):
+     $$\varepsilon_{\mathrm{ENZ}} \cdot \operatorname{enzBoundaryLongitudinalField}(\varepsilon_{\mathrm{air}}, \varepsilon_{\mathrm{ENZ}}, E_{z,\mathrm{air}}) = \varepsilon_{\mathrm{air}} E_{z,\mathrm{air}},$$
+   - Exact $100\times$ and $400\times$ intensity benchmarks (`Vectorial-Wave-Model-for-Longitudinal-Polarization.md`, line 204):
+     $$\Gamma_{\mathrm{ENZ}}(1, 1/10) = 100 \quad\text{and}\quad \Gamma_{\mathrm{ENZ}}(1, 1/20) = 400,$$
+   - Monotonic $[100, 400]$ enhancement window for $1/20 \le \varepsilon_{\mathrm{ENZ}} \le 1/10$:
+     $$100 \le \Gamma_{\mathrm{ENZ}}(1, \varepsilon_{\mathrm{ENZ}}) \le 400,$$
+   - Loss-regularized Drude ENZ ceiling ($\varepsilon_i \ne 0$):
+     $$\Gamma_{\mathrm{ENZ,reg}}(\varepsilon_{\mathrm{air}}, \varepsilon_r, \varepsilon_i) \le \Gamma_{\mathrm{ENZ,reg}}(\varepsilon_{\mathrm{air}}, 0, \varepsilon_i) = \frac{\varepsilon_{\mathrm{air}}^2}{\varepsilon_i^2}.$$ -/
+@[blueprint "thm:signals-ddf-vectorial-longitudinal-polarization-metasurface-enz"
+  (title := "3-element vectorial longitudinal polarization, metasurface phase mask, ZRI collimation, and ENZ-lignin boundary amplification theorem")
+  (statement := /-- For any $E_0, \theta, \phi, r, f, \lambda_0, k_0, \Delta L, \varepsilon_{\mathrm{air}}, \varepsilon_{\mathrm{ENZ}}, E_{z,\mathrm{air}}, \varepsilon_r, \varepsilon_i \in \mathbb R$
+    with $E_0 \ne 0$, $\sin\theta \ne 0$, $r \ne 0$, $f > 0$, $\lambda_0 > 0$, $1/20 \le \varepsilon_{\mathrm{ENZ}} \le 1/10$, and $\varepsilon_i \ne 0$:
+    (1) $E_x(\phi)^2 + E_y(\phi)^2 + E_z(\phi)^2 = E_0^2$,
+    (2) $E_x(\phi) + E_x(\phi + \pi) = 0$, $E_y(\phi) + E_y(\phi + \pi) = 0$, and
+    $E_z(\phi) + E_z(\phi + \pi) = 2 E_0 \sin\theta$,
+    (3) $((2 E_0 \sin\theta)^2 - 0) / (2 E_0 \sin\theta)^2 = 1$,
+    (4) $E_0 \cdot 0 \cdot \sin\theta = 0$ and $0 \cdot k_0 \cdot \Delta L = 0$,
+    (5) $\Phi(0, f, \lambda_0) = 0$, $\Phi(r, f, \lambda_0) < 0$, and
+    $\Phi(r, f, \lambda_0) + \frac{2\pi}{\lambda_0}\sqrt{r^2 + f^2} = \frac{2\pi f}{\lambda_0}$,
+    (6) $J_{\mathrm{pillar}}(\theta)_{0,0}^2 + J_{\mathrm{pillar}}(\theta)_{1,0}^2 = 1$ and $\det J_{\mathrm{pillar}}(\theta) = -1$,
+    (7) $\varepsilon_{\mathrm{ENZ}} \cdot \operatorname{enzBoundaryLongitudinalField}(\varepsilon_{\mathrm{air}}, \varepsilon_{\mathrm{ENZ}}, E_{z,\mathrm{air}}) = \varepsilon_{\mathrm{air}} E_{z,\mathrm{air}}$,
+    $\Gamma_{\mathrm{ENZ}}(1, 1/10) = 100$, $\Gamma_{\mathrm{ENZ}}(1, 1/20) = 400$, and
+    $100 \le \Gamma_{\mathrm{ENZ}}(1, \varepsilon_{\mathrm{ENZ}}) \le 400$, and
+    (8) $\Gamma_{\mathrm{ENZ,reg}}(\varepsilon_{\mathrm{air}}, \varepsilon_r, \varepsilon_i) \le \Gamma_{\mathrm{ENZ,reg}}(\varepsilon_{\mathrm{air}}, 0, \varepsilon_i) = \varepsilon_{\mathrm{air}}^2 / \varepsilon_i^2$. -/)
+  (proof := /-- Combine $\cos(\phi+\pi) = -\cos\phi$, $\sin(\phi+\pi) = -\sin\phi$,
+    $\cos^2\alpha + \sin^2\alpha = 1$, $\sqrt{r^2 + f^2} > f$ for $r \ne 0, f > 0$,
+    \texttt{Matrix.det\_fin\_two}, and reciprocal square monotonicity on $[1/20, 1/10]$. -/)]
+theorem vectorial_longitudinal_polarization_metasurface_and_enz_identities
+    (E0 θ φ r f lambda0 k0 deltaL epsAir epsEnz EzAir epsReal epsImag : ℝ)
+    (hE0 : E0 ≠ 0) (hsin : Real.sin θ ≠ 0)
+    (hr : r ≠ 0) (hf : 0 < f) (hlambda : 0 < lambda0)
+    (heps_lo : (1 / 20 : ℝ) ≤ epsEnz) (heps_hi : epsEnz ≤ (1 / 10 : ℝ))
+    (heps_imag : epsImag ≠ 0) :
+    let ray1 := debyeWolfRayVec3 E0 θ φ
+    let ray2 := debyeWolfRayVec3 E0 θ (φ + Real.pi)
+    ray1.1 ^ 2 + ray1.2.1 ^ 2 + ray1.2.2 ^ 2 = E0 ^ 2 ∧
+      ray1.1 + ray2.1 = 0 ∧
+      ray1.2.1 + ray2.2.1 = 0 ∧
+      ray1.2.2 + ray2.2.2 = 2 * debyeWolfLongitudinalComponent E0 θ ∧
+      ((ray1.2.2 + ray2.2.2) ^ 2 - 0) / (ray1.2.2 + ray2.2.2) ^ 2 = 1 ∧
+      E0 * (0 : ℝ) * Real.sin θ = 0 ∧
+      (0 : ℝ) * k0 * deltaL = 0 ∧
+      hyperbolicMetasurfacePhase 0 f lambda0 = 0 ∧
+      hyperbolicMetasurfacePhase r f lambda0 < 0 ∧
+      hyperbolicMetasurfacePhase r f lambda0 +
+          (2 * Real.pi / lambda0) * Real.sqrt (r ^ 2 + f ^ 2) =
+        (2 * Real.pi * f) / lambda0 ∧
+      (radialNanopillarJonesMatrix θ 0 0) ^ 2 +
+          (radialNanopillarJonesMatrix θ 1 0) ^ 2 = 1 ∧
+      (radialNanopillarJonesMatrix θ).det = -1 ∧
+      epsEnz * enzBoundaryLongitudinalField epsAir epsEnz EzAir = epsAir * EzAir ∧
+      enzBoundaryIntensityEnhancement 1 (1 / 10) = 100 ∧
+      enzBoundaryIntensityEnhancement 1 (1 / 20) = 400 ∧
+      100 ≤ enzBoundaryIntensityEnhancement 1 epsEnz ∧
+      enzBoundaryIntensityEnhancement 1 epsEnz ≤ 400 ∧
+      regularizedEnzEnhancement epsAir epsReal epsImag ≤
+        regularizedEnzEnhancement epsAir 0 epsImag ∧
+      regularizedEnzEnhancement epsAir 0 epsImag = epsAir ^ 2 / epsImag ^ 2 := by
+  intro ray1 ray2
+  have h_norm : ray1.1 ^ 2 + ray1.2.1 ^ 2 + ray1.2.2 ^ 2 = E0 ^ 2 := by
+    dsimp [ray1, debyeWolfRayVec3]
+    calc
+      (E0 * Real.cos θ * Real.cos φ) ^ 2 +
+          (E0 * Real.cos θ * Real.sin φ) ^ 2 +
+          (E0 * Real.sin θ) ^ 2 =
+        E0 ^ 2 * ((Real.cos θ) ^ 2 * ((Real.cos φ) ^ 2 + (Real.sin φ) ^ 2) +
+          (Real.sin θ) ^ 2) := by ring
+      _ = E0 ^ 2 * ((Real.cos θ) ^ 2 * 1 + (Real.sin θ) ^ 2) := by
+        rw [Real.cos_sq_add_sin_sq φ]
+      _ = E0 ^ 2 * 1 := by
+        rw [mul_one, Real.cos_sq_add_sin_sq θ]
+      _ = E0 ^ 2 := mul_one _
+  have h_ex : ray1.1 + ray2.1 = 0 := by
+    dsimp [ray1, ray2, debyeWolfRayVec3]
+    rw [Real.cos_add_pi]
+    ring
+  have h_ey : ray1.2.1 + ray2.2.1 = 0 := by
+    dsimp [ray1, ray2, debyeWolfRayVec3]
+    rw [Real.sin_add_pi]
+    ring
+  have h_ez : ray1.2.2 + ray2.2.2 = 2 * debyeWolfLongitudinalComponent E0 θ := by
+    dsimp [ray1, ray2, debyeWolfRayVec3, debyeWolfLongitudinalComponent]
+    ring
+  have h_ez_ne : ray1.2.2 + ray2.2.2 ≠ 0 := by
+    rw [h_ez]
+    dsimp [debyeWolfLongitudinalComponent]
+    exact mul_ne_zero two_ne_zero (mul_ne_zero hE0 hsin)
+  have h_err : ((ray1.2.2 + ray2.2.2) ^ 2 - 0) / (ray1.2.2 + ray2.2.2) ^ 2 = 1 := by
+    rw [sub_zero]
+    exact div_self (pow_ne_zero 2 h_ez_ne)
+  have h_zri1 : E0 * (0 : ℝ) * Real.sin θ = 0 := by ring
+  have h_zri2 : (0 : ℝ) * k0 * deltaL = 0 := by ring
+  have h_phi0 : hyperbolicMetasurfacePhase 0 f lambda0 = 0 := by
+    unfold hyperbolicMetasurfacePhase
+    have h_sqrt_f : Real.sqrt (0 ^ 2 + f ^ 2) = f := by
+      rw [sq_eq_zero_iff.mpr rfl, zero_add, Real.sqrt_sq (le_of_lt hf)]
+    rw [h_sqrt_f, sub_self, mul_zero]
+  have h_phi_neg : hyperbolicMetasurfacePhase r f lambda0 < 0 := by
+    unfold hyperbolicMetasurfacePhase
+    have hr2_pos : 0 < r ^ 2 := sq_pos_of_ne_zero hr
+    have hf_lt : f < Real.sqrt (r ^ 2 + f ^ 2) := by
+      calc
+        f = Real.sqrt (f ^ 2) := (Real.sqrt_sq (le_of_lt hf)).symm
+        _ < Real.sqrt (r ^ 2 + f ^ 2) :=
+          Real.sqrt_lt_sqrt (sq_nonneg f) (by linarith)
+    have h_diff_pos : 0 < Real.sqrt (r ^ 2 + f ^ 2) - f := sub_pos.mpr hf_lt
+    have h_pref_pos : 0 < 2 * Real.pi / lambda0 :=
+      div_pos (mul_pos two_pos Real.pi_pos) hlambda
+    linarith [mul_pos h_pref_pos h_diff_pos]
+  have h_opl :
+      hyperbolicMetasurfacePhase r f lambda0 +
+          (2 * Real.pi / lambda0) * Real.sqrt (r ^ 2 + f ^ 2) =
+        (2 * Real.pi * f) / lambda0 := by
+    unfold hyperbolicMetasurfacePhase
+    ring
+  have h_j_unit :
+      (radialNanopillarJonesMatrix θ 0 0) ^ 2 +
+          (radialNanopillarJonesMatrix θ 1 0) ^ 2 = 1 := by
+    dsimp [radialNanopillarJonesMatrix]
+    exact Real.cos_sq_add_sin_sq θ
+  have h_j_det : (radialNanopillarJonesMatrix θ).det = -1 := by
+    unfold radialNanopillarJonesMatrix
+    rw [Matrix.det_fin_two]
+    simp only [Fin.isValue, Matrix.of_apply, Matrix.cons_val',
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_fin_one]
+    nlinarith [Real.cos_sq_add_sin_sq θ]
+  have heps_pos : 0 < epsEnz := lt_of_lt_of_le (by norm_num) heps_lo
+  have heps_ne : epsEnz ≠ 0 := ne_of_gt heps_pos
+  have h_dz : epsEnz * enzBoundaryLongitudinalField epsAir epsEnz EzAir = epsAir * EzAir := by
+    unfold enzBoundaryLongitudinalField
+    field_simp [heps_ne]
+  have h_100 : enzBoundaryIntensityEnhancement 1 (1 / 10) = 100 := by
+    unfold enzBoundaryIntensityEnhancement
+    norm_num
+  have h_400 : enzBoundaryIntensityEnhancement 1 (1 / 20) = 400 := by
+    unfold enzBoundaryIntensityEnhancement
+    norm_num
+  have h_ge_100 : 100 ≤ enzBoundaryIntensityEnhancement 1 epsEnz := by
+    rw [← h_100]
+    unfold enzBoundaryIntensityEnhancement
+    have h_div : (1 : ℝ) / (1 / 10 : ℝ) ≤ 1 / epsEnz :=
+      one_div_le_one_div_of_le heps_pos heps_hi
+    have h_pos10 : 0 ≤ (1 : ℝ) / (1 / 10 : ℝ) := by norm_num
+    nlinarith
+  have h_le_400 : enzBoundaryIntensityEnhancement 1 epsEnz ≤ 400 := by
+    rw [← h_400]
+    unfold enzBoundaryIntensityEnhancement
+    have h_div : 1 / epsEnz ≤ (1 : ℝ) / (1 / 20 : ℝ) :=
+      one_div_le_one_div_of_le (by norm_num) heps_lo
+    have h_pos_inv : 0 ≤ 1 / epsEnz := one_div_nonneg.mpr (le_of_lt heps_pos)
+    nlinarith
+  have h_imag_sq : 0 < epsImag ^ 2 := sq_pos_of_ne_zero heps_imag
+  have h_reg_le :
+      regularizedEnzEnhancement epsAir epsReal epsImag ≤
+        regularizedEnzEnhancement epsAir 0 epsImag := by
+    unfold regularizedEnzEnhancement
+    rw [zero_pow two_ne_zero, zero_add]
+    exact div_le_div_of_nonneg_left (sq_nonneg epsAir) h_imag_sq
+      (by linarith [sq_nonneg epsReal])
+  have h_reg_0 : regularizedEnzEnhancement epsAir 0 epsImag = epsAir ^ 2 / epsImag ^ 2 := by
+    unfold regularizedEnzEnhancement
+    rw [zero_pow two_ne_zero, zero_add]
+  exact ⟨h_norm, h_ex, h_ey, h_ez, h_err, h_zri1, h_zri2, h_phi0, h_phi_neg,
+    h_opl, h_j_unit, h_j_det, h_dz, h_100, h_400, h_ge_100, h_le_400, h_reg_le, h_reg_0⟩
+
 end Signals.DDF

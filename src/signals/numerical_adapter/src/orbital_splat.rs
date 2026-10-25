@@ -887,6 +887,43 @@ impl NormedTensorGaussianSplat3D {
             .norm_sq();
         (delta_d, wa_sq, wb_sq, wa_sq / wb_sq)
     }
+
+    /// Direct higher-rank $Gr_{\mathbb{C}}(3, 6)$ $3 \times 3$ Plücker minor invariants
+    /// (`Signals.DDF.NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities`):
+    /// returns $(|\Delta_{045}^{\mathbb{C}}|^2, |\Delta_{315}^{\mathbb{C}}|^2, |\Delta_{342}^{\mathbb{C}}|^2, |\Delta_{015}^{\mathbb{C}}|^2, |\Delta_{042}^{\mathbb{C}}|^2, |\Delta_{312}^{\mathbb{C}}|^2, |\Delta_{012}^{\mathbb{C}}|^2)$.
+    pub fn gr36_volumetric_invariants(&self, phi1: f64, phi2: f64, phi3: f64) -> [f64; 7] {
+        let a1 = Complex64::from_polar(self.sigma1, phi1);
+        let a2 = Complex64::from_polar(self.sigma2, phi2);
+        let a3 = Complex64::from_polar(self.sigma3, phi3);
+        let d045 = a1.norm_sq();
+        let d315 = a2.norm_sq();
+        let d342 = a3.norm_sq();
+        let d015 = a1.mul(a2).norm_sq();
+        let d042 = a1.mul(a3).norm_sq();
+        let d312 = a2.mul(a3).norm_sq();
+        let d012 = a1.mul(a2).mul(a3).norm_sq();
+        [d045, d315, d342, d015, d042, d312, d012]
+    }
+}
+
+/// Evaluate the 3-element Debye–Wolf counter-polarization longitudinal focal intensity,
+/// hyperbolic metasurface phase $\Phi(r; f, \lambda_0)$, and thin-film ENZ-lignin
+/// boundary intensity enhancement (`Signals.DDF.vectorial_longitudinal_polarization_metasurface_and_enz_identities`).
+#[inline]
+pub fn debye_wolf_enz_longitudinal_summary(
+    e0: f64,
+    theta: f64,
+    r: f64,
+    f: f64,
+    lambda0: f64,
+    eps_air: f64,
+    eps_enz: f64,
+) -> (f64, f64, f64, f64) {
+    let ez_pair = 2.0 * e0 * theta.sin();
+    let iz_focus = ez_pair * ez_pair;
+    let phi_meta = -(2.0 * PI / lambda0) * ((r * r + f * f).sqrt() - f);
+    let enz_enhancement = (eps_air / eps_enz).powi(2);
+    (ez_pair, iz_focus, phi_meta, enz_enhancement)
 }
 
 /// Inversion-free 3D Schur-complement volume $\det(\Sigma_{\mathrm{3D}}) = \frac{(1 - \tau^2)^2}{1 + \tau^2}$
@@ -1385,6 +1422,26 @@ mod tests {
         assert!((pl_vort - 1.0).abs() < 1e-12 && (schur_vort - 1.0).abs() < 1e-12);
         assert!((pl_str - 0.64).abs() < 1e-12);
         assert!(schur_str < schur_vort);
+
+        // Verify Gr_C(3,6) direct 3D volumetric invariants & Debye-Wolf / ENZ boundary laws
+        let gr36 = splat3d.gr36_volumetric_invariants(0.2, -0.5, 1.1);
+        assert!((gr36[0] - splat3d.sigma1.powi(2)).abs() < 1e-11);
+        assert!((gr36[1] - splat3d.sigma2.powi(2)).abs() < 1e-11);
+        assert!((gr36[2] - splat3d.sigma3.powi(2)).abs() < 1e-11);
+        assert!((gr36[3] - ortho2d.cov_det()).abs() < 1e-10);
+        assert!((gr36[6] - splat3d.cov_det()).abs() < 1e-9);
+        let bohm3d_from_gr36 = 0.25 * ((gr36[5] + gr36[4] + gr36[3]) / gr36[6]);
+        assert!((bohm3d_from_gr36 - splat3d.core_bohm_potential(1.0, 1.0)).abs() < 1e-12);
+
+        let (ez_pair, iz_focus, phi_meta, enz_100) =
+            debye_wolf_enz_longitudinal_summary(2.0, PI / 2.0, 3.0, 4.0, 1.0, 1.0, 0.1);
+        assert!((ez_pair - 4.0).abs() < 1e-12);
+        assert!((iz_focus - 16.0).abs() < 1e-12);
+        assert!((phi_meta - (-2.0 * PI)).abs() < 1e-12);
+        assert!((enz_100 - 100.0).abs() < 1e-11);
+        let (_, _, _, enz_400) =
+            debye_wolf_enz_longitudinal_summary(2.0, PI / 2.0, 3.0, 4.0, 1.0, 1.0, 0.05);
+        assert!((enz_400 - 400.0).abs() < 1e-10);
     }
 
     #[test]

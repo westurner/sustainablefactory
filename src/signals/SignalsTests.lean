@@ -5289,4 +5289,58 @@ example (θ_z φ_err : ℝ) :
   exact ⟨h_img.1, h_img.2.1, h_img.2.2.1, h_img.2.2.2.2.1,
     h_img.2.2.2.2.2.2.2.1, h_img.2.2.2.2.2.2.2.2.2.1, h_img.2.2.2.2.2.2.2.2.2.2⟩
 
+example (φ1 φ2 φ3 : ℝ) :
+    let M3 := toySplat3D.gr36TwistorMatrix φ1 φ2 φ3
+    Signals.Geometry.complexThreeRowMinor M3 3 4 5 = 1 ∧
+    Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 0 4 5) = toySplat3D.sigma1 ^ 2 ∧
+    Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 3 1 5) = toySplat3D.sigma2 ^ 2 ∧
+    Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 3 4 2) = toySplat3D.sigma3 ^ 2 ∧
+    Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 0 1 2) = toySplat3D.covDet ∧
+    (1 ^ 2 / (4 * (1 : ℝ))) *
+        ((Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 3 1 2) +
+            Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 0 4 2) +
+            Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 0 1 5)) /
+          Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 0 1 2)) =
+      toySplat3D.coreBohmPotential 1 1 ∧
+    Signals.Geometry.complexThreeRowMinor M3 0 1 2 * Signals.Geometry.complexThreeRowMinor M3 3 4 5 -
+        Signals.Geometry.complexThreeRowMinor M3 0 1 3 * Signals.Geometry.complexThreeRowMinor M3 2 4 5 +
+        Signals.Geometry.complexThreeRowMinor M3 0 1 4 * Signals.Geometry.complexThreeRowMinor M3 2 3 5 -
+        Signals.Geometry.complexThreeRowMinor M3 0 1 5 * Signals.Geometry.complexThreeRowMinor M3 2 3 4 = 0 := by
+  intro M3
+  have h := toySplat3D.gr36_volumetric_imaging_and_plucker_identities φ1 φ2 φ3 1 1 (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2⟩
+
+example (φ : ℝ) :
+    let ray1 := Signals.DDF.debyeWolfRayVec3 2 (Real.pi / 2) φ
+    let ray2 := Signals.DDF.debyeWolfRayVec3 2 (Real.pi / 2) (φ + Real.pi)
+    ray1.1 ^ 2 + ray1.2.1 ^ 2 + ray1.2.2 ^ 2 = (2 : ℝ) ^ 2 ∧
+    ray1.1 + ray2.1 = 0 ∧
+    ray1.2.1 + ray2.2.1 = 0 ∧
+    ray1.2.2 + ray2.2.2 = 2 * Signals.DDF.debyeWolfLongitudinalComponent 2 (Real.pi / 2) ∧
+    Signals.DDF.hyperbolicMetasurfacePhase 0 5 1 = 0 ∧
+    Signals.DDF.hyperbolicMetasurfacePhase 3 5 1 < 0 ∧
+    (Signals.DDF.radialNanopillarJonesMatrix (Real.pi / 2) 0 0) ^ 2 +
+        (Signals.DDF.radialNanopillarJonesMatrix (Real.pi / 2) 1 0) ^ 2 = 1 ∧
+    (Signals.DDF.radialNanopillarJonesMatrix (Real.pi / 2)).det = -1 ∧
+    Signals.DDF.enzBoundaryIntensityEnhancement 1 (1 / 10) = 100 ∧
+    Signals.DDF.enzBoundaryIntensityEnhancement 1 (1 / 20) = 400 ∧
+    100 ≤ Signals.DDF.enzBoundaryIntensityEnhancement 1 (1 / 15) ∧
+    Signals.DDF.enzBoundaryIntensityEnhancement 1 (1 / 15) ≤ 400 ∧
+    Signals.DDF.regularizedEnzEnhancement 1 2 (1 / 10) ≤
+      Signals.DDF.regularizedEnzEnhancement 1 0 (1 / 10) := by
+  intro ray1 ray2
+  have hsin_pi2 : Real.sin (Real.pi / 2) ≠ 0 := by
+    rw [Real.sin_pi_div_two]
+    norm_num
+  have h := Signals.DDF.vectorial_longitudinal_polarization_metasurface_and_enz_identities
+    2 (Real.pi / 2) φ 3 5 1 10 1 1 (1 / 15) 3 2 (1 / 10)
+    (by norm_num) hsin_pi2 (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
 end SignalsTests
