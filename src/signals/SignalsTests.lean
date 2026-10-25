@@ -5212,4 +5212,55 @@ example (x y B1 B2 B0 A_B B_B D_F E_F G_BF L_BF θ : ℝ)
     h_r16.1, h_r16.2.2.1, h_r16.2.2.2.1, h_r16.2.2.2.2.1, h_r16.2.2.2.2.2,
     h_spl.1, h_spl.2.2.2.1, h_spl.2.2.2.2.2.2.2.2⟩
 
+/-- 3D NormedTensorGaussianSplat3D adaptive splitting, holographic Gr_C(2,4) affine
+projection trick, and inversion-free Schur-Plücker vs. 4×4 Jacobian determinant identity. -/
+noncomputable def toySplat3D : Signals.DDF.NormedTensorGaussianSplat3D :=
+  { centerX := 1
+    centerY := -2
+    centerZ := 4
+    weight := 6
+    weight_nonneg := by norm_num
+    sigma1 := 8
+    sigma1_pos := by norm_num
+    sigma2 := 2
+    sigma2_pos := by norm_num
+    sigma3 := 1
+    sigma3_pos := by norm_num
+    orientationAngle := 0
+    pitchAngle := 0 }
+
+example (θ_z : ℝ) :
+    let c3_plus := toySplat3D.splitMajorPlus
+    let c3_minus := toySplat3D.splitMajorMinus
+    let s_ortho := toySplat3D.projectOrthographic2D
+    let s_persp := toySplat3D.projectPerspective2D 2 (by norm_num) (by norm_num [toySplat3D])
+    let M_depth := Signals.DDF.ddfThermalGr24Matrix toySplat3D.holographicDepthAnisotropy θ_z
+    let J := Signals.DDF.impellerShear4x4 2 (3 / 5)
+    let Sigma4 := J * J.transpose
+    c3_plus.weight + c3_minus.weight = toySplat3D.weight ∧
+    (c3_plus.centerX - toySplat3D.centerX) ^ 2 +
+        (c3_plus.centerY - toySplat3D.centerY) ^ 2 +
+        (c3_plus.centerZ - toySplat3D.centerZ) ^ 2 + c3_plus.sigma1 ^ 2 =
+      toySplat3D.sigma1 ^ 2 ∧
+    c3_plus.covDet = (1 / 4) * toySplat3D.covDet ∧
+    toySplat3D.coreBohmPotential 1 1 < c3_plus.coreBohmPotential 1 1 ∧
+    s_persp.coreBohmPotential 1 1 =
+      (toySplat3D.centerZ / 2) ^ 2 * s_ortho.coreBohmPotential 1 1 ∧
+    c3_plus.projectOrthographic2D = s_ortho.splitMajorPlus ∧
+    Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_depth) /
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_depth) =
+      (toySplat3D.sigma1 ^ 2 + toySplat3D.sigma2 ^ 2) / toySplat3D.sigma3 ^ 2 ∧
+    Sigma4.det = Sigma4 3 3 * Signals.DDF.schurComplement3DVolume (3 / 5) ∧
+    (Signals.DDF.correctedTwistorShearMatrix 2 (3 / 5)).det = 1 - (3 / 5 : ℝ) ^ 2 ∧
+    Signals.DDF.schurComplement3DVolume (3 / 5) < Signals.DDF.schurComplement3DVolume 0 := by
+  intro c3_plus c3_minus s_ortho s_persp M_depth J Sigma4
+  have h3d := toySplat3D.splitMajor3D_and_holographic_gr24_projection_identities
+    2 1 1 θ_z (by norm_num) (by norm_num [toySplat3D]) (by norm_num) (by norm_num)
+  have h_schur := Signals.DDF.schur_plucker_inversion_free_and_twistor_vane_identities
+    2 (3 / 5) θ_z (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h3d.1, h3d.2.2.2.2.1, h3d.2.2.2.2.2.1, h3d.2.2.2.2.2.2.2.1,
+    h3d.2.2.2.2.2.2.2.2.2.2.1, h3d.2.2.2.2.2.2.2.2.2.2.2.2.1 rfl,
+    h3d.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    h_schur.2.2.2.1, h_schur.2.2.2.2.2.2.1, h_schur.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

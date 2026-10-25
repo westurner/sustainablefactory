@@ -710,6 +710,206 @@ impl NormedTensorGaussianSplat2D {
     }
 }
 
+/// Normed 3D anisotropic Tensor Gaussian Splat primitive in $\mathbb{R}^3$, matching
+/// `Signals.DDF.NormedTensorGaussianSplat3D`.
+#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct NormedTensorGaussianSplat3D {
+    pub center_x: f64,
+    pub center_y: f64,
+    pub center_z: f64,
+    pub weight: f64,
+    pub sigma1: f64,
+    pub sigma2: f64,
+    pub sigma3: f64,
+    pub orientation_angle: f64,
+    pub pitch_angle: f64,
+    pub role: SplatRole,
+}
+
+impl NormedTensorGaussianSplat3D {
+    pub fn validate(&self) -> Result<(), ValidationError> {
+        require_finite("center_x", self.center_x)?;
+        require_finite("center_y", self.center_y)?;
+        require_finite("center_z", self.center_z)?;
+        require_nonnegative("weight", self.weight)?;
+        require_positive("sigma1", self.sigma1)?;
+        require_positive("sigma2", self.sigma2)?;
+        require_positive("sigma3", self.sigma3)?;
+        require_finite("orientation_angle", self.orientation_angle)?;
+        require_finite("pitch_angle", self.pitch_angle)?;
+        Ok(())
+    }
+
+    /// 3D covariance determinant $\det\Sigma_{\mathrm{3D}} = \sigma_1^2 \sigma_2^2 \sigma_3^2$
+    /// (`NormedTensorGaussianSplat3D.covDet`).
+    #[inline]
+    pub fn cov_det(&self) -> f64 {
+        (self.sigma1 * self.sigma1) * (self.sigma2 * self.sigma2) * (self.sigma3 * self.sigma3)
+    }
+
+    /// 3D covariance trace $\operatorname{Tr}\Sigma_{\mathrm{3D}} = \sigma_1^2 + \sigma_2^2 + \sigma_3^2$
+    /// (`NormedTensorGaussianSplat3D.covTrace`).
+    #[inline]
+    pub fn cov_trace(&self) -> f64 {
+        self.sigma1 * self.sigma1 + self.sigma2 * self.sigma2 + self.sigma3 * self.sigma3
+    }
+
+    /// Exact 3D $L^1(\mathbb{R}^3)$ normalization factor
+    /// $\mathcal{N}_{\mathrm{3D}}(\Sigma_{\mathrm{3D}}) = \frac{1}{(2\pi)^{3/2}\sigma_1\sigma_2\sigma_3}$
+    /// (`NormedTensorGaussianSplat3D.normFactor`).
+    #[inline]
+    pub fn norm_factor(&self) -> f64 {
+        1.0 / (2.0 * PI * (2.0 * PI).sqrt() * self.sigma1 * self.sigma2 * self.sigma3)
+    }
+
+    /// 3D repulsive core Bohm quantum potential
+    /// $Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = \frac{\hbar^2}{4m}(\sigma_1^{-2} + \sigma_2^{-2} + \sigma_3^{-2})$
+    /// (`NormedTensorGaussianSplat3D.coreBohmPotential`).
+    #[inline]
+    pub fn core_bohm_potential(&self, m_boson: f64, hbar: f64) -> f64 {
+        let s1_sq = self.sigma1 * self.sigma1;
+        let s2_sq = self.sigma2 * self.sigma2;
+        let s3_sq = self.sigma3 * self.sigma3;
+        ((hbar * hbar) / (4.0 * m_boson)) * (1.0 / s1_sq + 1.0 / s2_sq + 1.0 / s3_sq)
+    }
+
+    /// 3D aspect ratio $\max(\sigma_1, \sigma_2, \sigma_3) / \min(\sigma_1, \sigma_2, \sigma_3) \ge 1$.
+    #[inline]
+    pub fn aspect_ratio(&self) -> f64 {
+        let hi = self.sigma1.max(self.sigma2).max(self.sigma3);
+        let lo = self.sigma1.min(self.sigma2).min(self.sigma3).max(1e-12);
+        hi / lo
+    }
+
+    /// Adaptive $L^1(\mathbb{R}^3)$-conserving two-child 3D Gaussian splat splitting along
+    /// the major principal axis $\mathbf{u}_1 = (\cos\psi\cos\theta, \cos\psi\sin\theta, \sin\psi)$
+    /// when `self.aspect_ratio() > max_aspect_ratio`, matching
+    /// `NormedTensorGaussianSplat3D.splitMajorPlus` and `splitMajorMinus` in `Signals.DDF`.
+    pub fn split_if_anisotropic(&self, max_aspect_ratio: f64) -> Vec<Self> {
+        if self.aspect_ratio() <= max_aspect_ratio.max(1.0) {
+            return vec![*self];
+        }
+        let half_w = 0.5 * self.weight;
+        let sqrt3_half = 0.5 * 3.0_f64.sqrt();
+        let delta = sqrt3_half * self.sigma1;
+        let new_sigma1 = 0.5 * self.sigma1;
+        let cp = self.pitch_angle.cos();
+        let sp = self.pitch_angle.sin();
+        let ct = self.orientation_angle.cos();
+        let st = self.orientation_angle.sin();
+        let dx = delta * cp * ct;
+        let dy = delta * cp * st;
+        let dz = delta * sp;
+        vec![
+            Self {
+                center_x: self.center_x - dx,
+                center_y: self.center_y - dy,
+                center_z: self.center_z - dz,
+                weight: half_w,
+                sigma1: new_sigma1,
+                sigma2: self.sigma2,
+                sigma3: self.sigma3,
+                orientation_angle: self.orientation_angle,
+                pitch_angle: self.pitch_angle,
+                role: self.role,
+            },
+            Self {
+                center_x: self.center_x + dx,
+                center_y: self.center_y + dy,
+                center_z: self.center_z + dz,
+                weight: half_w,
+                sigma1: new_sigma1,
+                sigma2: self.sigma2,
+                sigma3: self.sigma3,
+                orientation_angle: self.orientation_angle,
+                pitch_angle: self.pitch_angle,
+                role: self.role,
+            },
+        ]
+    }
+
+    /// Orthographic 3D-to-2D marginal projection onto the $(x, y)$ plane, matching
+    /// `NormedTensorGaussianSplat3D.projectOrthographic2D`.
+    #[inline]
+    pub fn project_orthographic_2d(&self) -> NormedTensorGaussianSplat2D {
+        NormedTensorGaussianSplat2D {
+            center_x: self.center_x,
+            center_y: self.center_y,
+            weight: self.weight,
+            sigma1: self.sigma1,
+            sigma2: self.sigma2,
+            orientation_angle: self.orientation_angle,
+            role: self.role,
+        }
+    }
+
+    /// Holographic / EWA perspective affine 3D-to-2D projection with scale $s = f / z_c$,
+    /// matching `NormedTensorGaussianSplat3D.projectPerspective2D`.
+    #[inline]
+    pub fn project_perspective_2d(&self, focal_scale: f64) -> NormedTensorGaussianSplat2D {
+        let s = focal_scale / self.center_z.max(1e-9);
+        NormedTensorGaussianSplat2D {
+            center_x: s * self.center_x,
+            center_y: s * self.center_y,
+            weight: self.weight,
+            sigma1: s * self.sigma1,
+            sigma2: s * self.sigma2,
+            orientation_angle: self.orientation_angle,
+            role: self.role,
+        }
+    }
+
+    /// Holographic lateral-to-normal depth anisotropy
+    /// $\delta_{\mathrm{depth}} = \frac{(\sigma_1^2 + \sigma_2^2) - \sigma_3^2}{(\sigma_1^2 + \sigma_2^2) + \sigma_3^2} \in (-1, 1)$,
+    /// matching `NormedTensorGaussianSplat3D.holographicDepthAnisotropy`.
+    #[inline]
+    pub fn holographic_depth_anisotropy(&self) -> f64 {
+        let lat = self.sigma1 * self.sigma1 + self.sigma2 * self.sigma2;
+        let norm = self.sigma3 * self.sigma3;
+        (lat - norm) / (lat + norm)
+    }
+
+    /// Holographic $Gr_{\mathbb{C}}(2,4)$ Plücker channel invariants for the 3rd principal
+    /// variance $\sigma_3^2$: returns $(\delta_{\mathrm{depth}}, |w_A^{\mathbb{C}}|^2, |w_B^{\mathbb{C}}|^2, |w_A^{\mathbb{C}}|^2 / |w_B^{\mathbb{C}}|^2 = (\sigma_1^2 + \sigma_2^2)/\sigma_3^2)$.
+    pub fn holographic_gr24_depth_invariants(&self, theta_z: f64) -> (f64, f64, f64, f64) {
+        let delta_d = self.holographic_depth_anisotropy();
+        let a = (1.0 + delta_d).max(0.0).sqrt();
+        let b = (1.0 - delta_d).max(0.0).sqrt();
+        let z1 = Complex64::from_polar(a, theta_z);
+        let z2 = Complex64::from_polar(b, -theta_z);
+        let m = complex_gr24_channel_matrix(z1, z2);
+        let wa_sq = two_row_minor_complex(&m, 0, 1)
+            .mul(two_row_minor_complex(&m, 2, 3))
+            .norm_sq();
+        let wb_sq = two_row_minor_complex(&m, 0, 3)
+            .mul(two_row_minor_complex(&m, 1, 2))
+            .norm_sq();
+        (delta_d, wa_sq, wb_sq, wa_sq / wb_sq)
+    }
+}
+
+/// Inversion-free 3D Schur-complement volume $\det(\Sigma_{\mathrm{3D}}) = \frac{(1 - \tau^2)^2}{1 + \tau^2}$
+/// and $Gr_{\mathbb{C}}(2,4)$ Plücker channel product $1 - \tau^2$, matching
+/// `Signals.DDF.schurComplement3DVolume` and `schur_plucker_inversion_free_and_twistor_vane_identities`.
+#[inline]
+pub fn schur_plucker_inversion_free_volume(turbulence: f64, theta: f64) -> (f64, f64) {
+    let a = (1.0 + turbulence).max(0.0).sqrt();
+    let b = (1.0 - turbulence).max(0.0).sqrt();
+    let z1 = Complex64::from_polar(a, theta);
+    let z2 = Complex64::from_polar(b, -theta);
+    let m = complex_gr24_channel_matrix(z1, z2);
+    let wa_sq = two_row_minor_complex(&m, 0, 1)
+        .mul(two_row_minor_complex(&m, 2, 3))
+        .norm_sq();
+    let wb_sq = two_row_minor_complex(&m, 0, 3)
+        .mul(two_row_minor_complex(&m, 1, 2))
+        .norm_sq();
+    let plucker_prod = wa_sq * wb_sq;
+    let schur_vol = (plucker_prod * plucker_prod) / (1.0 + turbulence * turbulence);
+    (plucker_prod, schur_vol)
+}
+
 /// A multi-layer orbital and field visualization scene combining gravitating
 /// bodies/attractors/sinks/sources, $Gr_{\mathbb{C}}(2, 4)$ orbital field splats,
 /// and DDF moving-sheath splats.
@@ -1141,6 +1341,50 @@ mod tests {
         let delta_sq = dx * dx + dy * dy;
         let total_major_var = children[0].sigma1 * children[0].sigma1 + delta_sq;
         assert!((total_major_var - elongated.sigma1 * elongated.sigma1).abs() < 1e-11);
+
+        // Verify 3D splat splitting, holographic Gr_C(2,4) affine projection, and Schur-Plucker volume
+        let splat3d = NormedTensorGaussianSplat3D {
+            center_x: 1.0,
+            center_y: -2.0,
+            center_z: 4.0,
+            weight: 6.0,
+            sigma1: 8.0,
+            sigma2: 2.0,
+            sigma3: 1.0,
+            orientation_angle: 0.3,
+            pitch_angle: 0.5,
+            role: SplatRole::Gr24OrbitalField,
+        };
+        splat3d.validate().unwrap();
+        let children3d = splat3d.split_if_anisotropic(3.0);
+        assert_eq!(children3d.len(), 2);
+        assert!(((children3d[0].weight + children3d[1].weight) - splat3d.weight).abs() < 1e-12);
+        let dx3 = children3d[1].center_x - splat3d.center_x;
+        let dy3 = children3d[1].center_y - splat3d.center_y;
+        let dz3 = children3d[1].center_z - splat3d.center_z;
+        let total_var3 = children3d[0].sigma1 * children3d[0].sigma1 + dx3 * dx3 + dy3 * dy3 + dz3 * dz3;
+        assert!((total_var3 - splat3d.sigma1 * splat3d.sigma1).abs() < 1e-11);
+        assert!((children3d[0].cov_det() - 0.25 * splat3d.cov_det()).abs() < 1e-10);
+
+        let ortho2d = splat3d.project_orthographic_2d();
+        let persp2d = splat3d.project_perspective_2d(2.0);
+        assert!((persp2d.cov_det() - (2.0_f64 / 4.0).powi(4) * ortho2d.cov_det()).abs() < 1e-12);
+        assert!(
+            (persp2d.core_bohm_potential(1.0, 1.0)
+                - (4.0_f64 / 2.0).powi(2) * ortho2d.core_bohm_potential(1.0, 1.0))
+            .abs()
+                < 1e-12
+        );
+        let (delta_d, _, _, depth_ratio) = splat3d.holographic_gr24_depth_invariants(0.4);
+        assert!(delta_d > -1.0 && delta_d < 1.0);
+        let expected_depth_ratio = (splat3d.sigma1.powi(2) + splat3d.sigma2.powi(2)) / splat3d.sigma3.powi(2);
+        assert!((depth_ratio - expected_depth_ratio).abs() < 1e-11);
+
+        let (pl_vort, schur_vort) = schur_plucker_inversion_free_volume(0.0, 0.25);
+        let (pl_str, schur_str) = schur_plucker_inversion_free_volume(0.6, 0.25);
+        assert!((pl_vort - 1.0).abs() < 1e-12 && (schur_vort - 1.0).abs() < 1e-12);
+        assert!((pl_str - 0.64).abs() < 1e-12);
+        assert!(schur_str < schur_vort);
     }
 
     #[test]

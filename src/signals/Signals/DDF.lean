@@ -5210,4 +5210,653 @@ theorem NormedTensorGaussianSplat2D.splitMajor_conservation_identities
     linarith [h_bohm_diff]
   exact ⟨h_w, h_cx, h_cy, h_var1, h_var2, h_aspect, h_det, h_bohm_diff, h_bohm_lt⟩
 
+/-! ## 3D Normed Anisotropic Tensor Gaussian Splatting (`NormedTensorGaussianSplat3D`), 3D Splat Splitting, and the Holographic $Gr_{\mathbb{C}}(2,4)$ Affine Projection Trick -/
+
+/-- Normed 3D anisotropic Tensor Gaussian Splat primitive in $\mathbb{R}^3$ with center
+$(x_c, y_c, z_c)$, $L^1(\mathbb{R}^3)$ weight $w \ge 0$, positive principal widths
+$\sigma_1, \sigma_2, \sigma_3 > 0$, in-plane azimuth $\theta = \mathrm{orientationAngle}$,
+and out-of-plane pitch angle $\psi = \mathrm{pitchAngle}$ defining the unit major axis
+$\mathbf{u}_1 = (\cos\psi\cos\theta, \cos\psi\sin\theta, \sin\psi) \in S^2$. -/
+@[blueprint "def:signals-ddf-normed-tensor-gaussian-splat3d"
+  (title := "Normed 3D anisotropic Tensor Gaussian Splat primitive")
+  (statement := /-- A \texttt{NormedTensorGaussianSplat3D} carries center $(x_c,y_c,z_c)\in\mathbb R^3$,
+    weight $w\ge 0$, positive principal widths $\sigma_1,\sigma_2,\sigma_3 > 0$, azimuth $\theta$,
+    and pitch angle $\psi$. -/)]
+structure NormedTensorGaussianSplat3D where
+  centerX : ℝ
+  centerY : ℝ
+  centerZ : ℝ
+  weight : ℝ
+  weight_nonneg : 0 ≤ weight
+  sigma1 : ℝ
+  sigma1_pos : 0 < sigma1
+  sigma2 : ℝ
+  sigma2_pos : 0 < sigma2
+  sigma3 : ℝ
+  sigma3_pos : 0 < sigma3
+  orientationAngle : ℝ
+  pitchAngle : ℝ
+
+/-- 3D covariance determinant $\det\Sigma_{\mathrm{3D}} = \sigma_1^2\,\sigma_2^2\,\sigma_3^2$. -/
+@[blueprint "def:signals-ddf-splat3d-cov-det"
+  (title := "3D covariance determinant det Σ_3D = σ_1² σ_2² σ_3²")
+  (statement := /-- Define $\operatorname{splat3d}.\mathrm{covDet} = \sigma_1^2\,\sigma_2^2\,\sigma_3^2$. -/)]
+def NormedTensorGaussianSplat3D.covDet (splat : NormedTensorGaussianSplat3D) : ℝ :=
+  splat.sigma1 ^ 2 * splat.sigma2 ^ 2 * splat.sigma3 ^ 2
+
+/-- 3D covariance trace $\operatorname{Tr}\Sigma_{\mathrm{3D}} = \sigma_1^2 + \sigma_2^2 + \sigma_3^2$. -/
+@[blueprint "def:signals-ddf-splat3d-cov-trace"
+  (title := "3D covariance trace Tr Σ_3D = σ_1² + σ_2² + σ_3²")
+  (statement := /-- Define $\operatorname{splat3d}.\mathrm{covTrace} = \sigma_1^2 + \sigma_2^2 + \sigma_3^2$. -/)]
+def NormedTensorGaussianSplat3D.covTrace (splat : NormedTensorGaussianSplat3D) : ℝ :=
+  splat.sigma1 ^ 2 + splat.sigma2 ^ 2 + splat.sigma3 ^ 2
+
+/-- Exact 3D $L^1(\mathbb{R}^3)$ Gaussian normalization factor
+$\mathcal{N}_{\mathrm{3D}}(\Sigma_{\mathrm{3D}}) = \frac{1}{2\pi\sqrt{2\pi}\,\sigma_1\sigma_2\sigma_3}$. -/
+@[blueprint "def:signals-ddf-splat3d-norm-factor"
+  (title := "3D L¹(ℝ³) Gaussian normalization factor 1 / ((2π)^{3/2} σ_1 σ_2 σ_3)")
+  (statement := /-- Define $\operatorname{splat3d}.\mathrm{normFactor}
+    = \frac{1}{2\pi\sqrt{2\pi}\,\sigma_1\sigma_2\sigma_3}$. -/)]
+noncomputable def NormedTensorGaussianSplat3D.normFactor
+    (splat : NormedTensorGaussianSplat3D) : ℝ :=
+  1 / (2 * Real.pi * Real.sqrt (2 * Real.pi) * splat.sigma1 * splat.sigma2 * splat.sigma3)
+
+/-- 3D repulsive core Bohm quantum potential
+$Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = \frac{\hbar^2}{4m}\left(\frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2} + \frac{1}{\sigma_3^2}\right)$. -/
+@[blueprint "def:signals-ddf-splat3d-core-bohm-potential"
+  (title := "3D core repulsive Bohm quantum potential Q_core,3D(Σ_3D)")
+  (statement := /-- Define $\operatorname{splat3d}.\operatorname{coreBohmPotential}(m,\hbar)
+    = \frac{\hbar^2}{4m}\left(\frac{1}{\sigma_1^2}+\frac{1}{\sigma_2^2}+\frac{1}{\sigma_3^2}\right)$. -/)]
+noncomputable def NormedTensorGaussianSplat3D.coreBohmPotential
+    (splat : NormedTensorGaussianSplat3D) (m_boson hbar : ℝ) : ℝ :=
+  (hbar ^ 2 / (4 * m_boson)) *
+    (1 / splat.sigma1 ^ 2 + 1 / splat.sigma2 ^ 2 + 1 / splat.sigma3 ^ 2)
+
+/-- 3D major-axis child displacement $\delta_1 = \frac{\sqrt{3}}{2}\,\sigma_1$. -/
+@[blueprint "def:signals-ddf-splat3d-split-major-offset"
+  (title := "3D variance-preserving major-axis child displacement δ_1 = (√3 / 2) σ_1")
+  (statement := /-- Define $\operatorname{splat3d}.\mathrm{splitMajorOffset} = \frac{\sqrt{3}}{2}\sigma_1$. -/)]
+noncomputable def NormedTensorGaussianSplat3D.splitMajorOffset
+    (splat : NormedTensorGaussianSplat3D) : ℝ :=
+  (Real.sqrt 3 / 2) * splat.sigma1
+
+/-- Forward ($+\delta_1$) 3D child splat displaced along the 3D unit major axis
+$\mathbf{u}_1 = (\cos\psi\cos\theta, \cos\psi\sin\theta, \sin\psi)$ with half weight
+$w / 2$ and halved major width $\sigma_1 / 2$. -/
+@[blueprint "def:signals-ddf-splat3d-split-major-plus"
+  (title := "Forward (+δ_1) 3D child NormedTensorGaussianSplat3D")
+  (statement := /-- Construct the $+\delta_1$ 3D child splat along
+    $\mathbf{u}_1 = (\cos\psi\cos\theta, \cos\psi\sin\theta, \sin\psi)$. -/)]
+noncomputable def NormedTensorGaussianSplat3D.splitMajorPlus
+    (splat : NormedTensorGaussianSplat3D) : NormedTensorGaussianSplat3D :=
+  { centerX := splat.centerX +
+      splat.splitMajorOffset * Real.cos splat.pitchAngle * Real.cos splat.orientationAngle
+    centerY := splat.centerY +
+      splat.splitMajorOffset * Real.cos splat.pitchAngle * Real.sin splat.orientationAngle
+    centerZ := splat.centerZ +
+      splat.splitMajorOffset * Real.sin splat.pitchAngle
+    weight := splat.weight / 2
+    weight_nonneg := div_nonneg splat.weight_nonneg (by norm_num)
+    sigma1 := splat.sigma1 / 2
+    sigma1_pos := div_pos splat.sigma1_pos (by norm_num)
+    sigma2 := splat.sigma2
+    sigma2_pos := splat.sigma2_pos
+    sigma3 := splat.sigma3
+    sigma3_pos := splat.sigma3_pos
+    orientationAngle := splat.orientationAngle
+    pitchAngle := splat.pitchAngle }
+
+/-- Backward ($-\delta_1$) 3D child splat displaced along the 3D unit major axis
+$\mathbf{u}_1 = (\cos\psi\cos\theta, \cos\psi\sin\theta, \sin\psi)$ with half weight
+$w / 2$ and halved major width $\sigma_1 / 2$. -/
+@[blueprint "def:signals-ddf-splat3d-split-major-minus"
+  (title := "Backward (-δ_1) 3D child NormedTensorGaussianSplat3D")
+  (statement := /-- Construct the $-\delta_1$ 3D child splat along
+    $\mathbf{u}_1 = (\cos\psi\cos\theta, \cos\psi\sin\theta, \sin\psi)$. -/)]
+noncomputable def NormedTensorGaussianSplat3D.splitMajorMinus
+    (splat : NormedTensorGaussianSplat3D) : NormedTensorGaussianSplat3D :=
+  { centerX := splat.centerX -
+      splat.splitMajorOffset * Real.cos splat.pitchAngle * Real.cos splat.orientationAngle
+    centerY := splat.centerY -
+      splat.splitMajorOffset * Real.cos splat.pitchAngle * Real.sin splat.orientationAngle
+    centerZ := splat.centerZ -
+      splat.splitMajorOffset * Real.sin splat.pitchAngle
+    weight := splat.weight / 2
+    weight_nonneg := div_nonneg splat.weight_nonneg (by norm_num)
+    sigma1 := splat.sigma1 / 2
+    sigma1_pos := div_pos splat.sigma1_pos (by norm_num)
+    sigma2 := splat.sigma2
+    sigma2_pos := splat.sigma2_pos
+    sigma3 := splat.sigma3
+    sigma3_pos := splat.sigma3_pos
+    orientationAngle := splat.orientationAngle
+    pitchAngle := splat.pitchAngle }
+
+/-- Orthographic X-ray / Radon marginal projection of a `NormedTensorGaussianSplat3D`
+onto the 2D $(x, y)$ screen (`NormedTensorGaussianSplat2D`), integrating out the
+normal $z$-direction ($\int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}\sigma_3}e^{-(z-z_c)^2/(2\sigma_3^2)}dz = 1$). -/
+@[blueprint "def:signals-ddf-splat3d-project-orthographic2d"
+  (title := "Orthographic 3D-to-2D marginal projection of NormedTensorGaussianSplat3D")
+  (statement := /-- Project a \texttt{NormedTensorGaussianSplat3D} orthographically onto the
+    $(x,y)$ plane as a \texttt{NormedTensorGaussianSplat2D}. -/)]
+def NormedTensorGaussianSplat3D.projectOrthographic2D
+    (splat : NormedTensorGaussianSplat3D) : NormedTensorGaussianSplat2D :=
+  { centerX := splat.centerX
+    centerY := splat.centerY
+    weight := splat.weight
+    weight_nonneg := splat.weight_nonneg
+    sigma1 := splat.sigma1
+    sigma1_pos := splat.sigma1_pos
+    sigma2 := splat.sigma2
+    sigma2_pos := splat.sigma2_pos
+    orientationAngle := splat.orientationAngle }
+
+/-- Holographic / EWA perspective affine projection of a `NormedTensorGaussianSplat3D`
+at bulk depth $z_c > 0$ with focal / AdS curvature scale $f > 0$ onto the 2D boundary
+screen (`NormedTensorGaussianSplat2D`) with Jacobian scale $s_{\mathrm{persp}} = f / z_c > 0$
+(Zwicker et al. 2001 EWA Splatting; Kerbl et al. 2023 3DGS; Poincaré AdS bulk-to-boundary map). -/
+@[blueprint "def:signals-ddf-splat3d-project-perspective2d"
+  (title := "Holographic / EWA perspective affine 3D-to-2D projection of NormedTensorGaussianSplat3D")
+  (statement := /-- For focal/AdS scale $f > 0$ and bulk depth $z_c > 0$, project
+    \texttt{splat : NormedTensorGaussianSplat3D} onto the 2D screen with scale $s = f / z_c$. -/)]
+noncomputable def NormedTensorGaussianSplat3D.projectPerspective2D
+    (splat : NormedTensorGaussianSplat3D) (focalScale : ℝ)
+    (hf : 0 < focalScale) (hz : 0 < splat.centerZ) : NormedTensorGaussianSplat2D :=
+  let s := focalScale / splat.centerZ
+  have hs : 0 < s := div_pos hf hz
+  { centerX := s * splat.centerX
+    centerY := s * splat.centerY
+    weight := splat.weight
+    weight_nonneg := splat.weight_nonneg
+    sigma1 := s * splat.sigma1
+    sigma1_pos := mul_pos hs splat.sigma1_pos
+    sigma2 := s * splat.sigma2
+    sigma2_pos := mul_pos hs splat.sigma2_pos
+    orientationAngle := splat.orientationAngle }
+
+/-- Lateral-to-normal depth anisotropy parameter
+$\delta_{\mathrm{depth}}(\Sigma_{\mathrm{3D}}) = \frac{(\sigma_1^2 + \sigma_2^2) - \sigma_3^2}{(\sigma_1^2 + \sigma_2^2) + \sigma_3^2} \in (-1, 1)$
+used by the holographic $Gr_{\mathbb{C}}(2,4)$ projection trick to encode the 3rd
+principal variance $\sigma_3^2$ into a second $Gr_{\mathbb{C}}(2,4)$ twistor matrix
+$M_{\mathrm{depth}} = \operatorname{ddfThermalGr24Matrix}(\delta_{\mathrm{depth}}, \theta_z)$. -/
+@[blueprint "def:signals-ddf-splat3d-holographic-depth-anisotropy"
+  (title := "Holographic Gr_C(2,4) lateral-to-normal depth anisotropy δ_depth")
+  (statement := /-- Define $\operatorname{splat3d}.\mathrm{holographicDepthAnisotropy}
+    = \frac{(\sigma_1^2 + \sigma_2^2) - \sigma_3^2}{(\sigma_1^2 + \sigma_2^2) + \sigma_3^2}$. -/)]
+noncomputable def NormedTensorGaussianSplat3D.holographicDepthAnisotropy
+    (splat : NormedTensorGaussianSplat3D) : ℝ :=
+  ((splat.sigma1 ^ 2 + splat.sigma2 ^ 2) - splat.sigma3 ^ 2) /
+    ((splat.sigma1 ^ 2 + splat.sigma2 ^ 2) + splat.sigma3 ^ 2)
+
+/-- **3D Adaptive Splat Splitting Conservation & Holographic $Gr_{\mathbb{C}}(2,4)$ Affine Projection Trick Theorem**:
+Establishes both the 3D two-child splitting conservation laws and the holographic
+$Gr_{\mathbb{C}}(2,4)$ affine projection trick reducing 3D splat evaluation to 2D
+screen splats (`NormedTensorGaussianSplat2D`):
+1. **3D Adaptive Two-Child Splitting Conservation (Arbitrary 3D Yaw $\theta$ & Pitch $\psi$)**:
+   For `c_plus = splat.splitMajorPlus` and `c_minus = splat.splitMajorMinus`:
+   - $w_+ + w_- = w$,
+   - $\frac{x_+ + x_-}{2} = x_c$, $\frac{y_+ + y_-}{2} = y_c$, $\frac{z_+ + z_-}{2} = z_c$,
+   - $(x_+ - x_c)^2 + (y_+ - y_c)^2 + (z_+ - z_c)^2 + \tilde{\sigma}_1^2 = \sigma_1^2$,
+   - $\det\Sigma_{\mathrm{3D},+} = \frac{1}{4}\det\Sigma_{\mathrm{3D}}$, and
+   - $Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D},+}) - Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = \frac{3\hbar^2}{4m\sigma_1^2} > 0$
+     (the **exact same Bohm refinement increment** as in 2D, because $\sigma_2^{-2} + \sigma_3^{-2}$ cancels),
+2. **Holographic 3D-to-2D Core Bohm Additive Split & Perspective RG Scaling**:
+   For `splat_ortho = splat.projectOrthographic2D` and `splat_persp = splat.projectPerspective2D f hf hz`:
+   $$Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}) + \operatorname{continuumBohmPotentialMode}\!\left(m, \hbar, \frac{1}{\sqrt{2}\sigma_3}\right),$$
+   $$\det\Sigma_{\mathrm{2D}}^{\mathrm{persp}} = \left(\frac{f}{z_c}\right)^4 \frac{\det\Sigma_{\mathrm{3D}}}{\sigma_3^2}, \qquad
+   Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{persp}}) = \left(\frac{z_c}{f}\right)^2 Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}),$$
+3. **Depth-Invariance of the Projective $Gr_{\mathbb{C}}(2,4)$ Lateral Anisotropy**:
+   Under perspective projection at arbitrary depth $z_c > 0$ and focal scale $f > 0$,
+   the normalized lateral barycentric shift is strictly depth-invariant:
+   $$\frac{\sigma_{1,\mathrm{persp}}^2 - \sigma_{2,\mathrm{persp}}^2}{\sigma_{1,\mathrm{persp}}^2 + \sigma_{2,\mathrm{persp}}^2}
+   = \frac{\sigma_1^2 - \sigma_2^2}{\sigma_1^2 + \sigma_2^2},$$
+4. **Exact Commutativity of In-Plane ($\psi = 0$) 3D Splat Splitting and 2D Perspective Projection**:
+   When `splat.pitchAngle = 0`, splitting in 3D and projecting to 2D equals projecting
+   to 2D first and splitting in 2D:
+   $$(splat.\mathrm{splitMajorPlus}).\operatorname{projectPerspective2D}\;f\;hf\;hz_{\mathrm{plus}}
+     = (splat.\operatorname{projectPerspective2D}\;f\;hf\;hz).\mathrm{splitMajorPlus},$$
+5. **Holographic $Gr_{\mathbb{C}}(2,4)$ Twistor Recovery of the 3rd Principal Variance $\sigma_3^2$**:
+   For $\delta_{\mathrm{depth}} = splat.\mathrm{holographicDepthAnisotropy} \in (-1, 1)$ and
+   $M_{\mathrm{depth}} = \operatorname{ddfThermalGr24Matrix}(\delta_{\mathrm{depth}}, \theta_z)$,
+   the uncrossed $Gr_{\mathbb{C}}(2,4)$ Plücker channel ratio recovers the exact
+   lateral-to-normal variance ratio:
+   $$\frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2}
+   = \frac{\sigma_1^2 + \sigma_2^2}{\sigma_3^2}.$$ -/
+@[blueprint "thm:signals-ddf-splat3d-and-holographic-gr24-projection-trick"
+  (title := "3D Tensor Gaussian Splat splitting conservation and holographic Gr_C(2,4) affine projection trick theorem")
+  (statement := /-- For any \texttt{splat : NormedTensorGaussianSplat3D} with $z_c > 0$, focal scale $f > 0$, $m > 0$, and $\hbar \ne 0$:
+    (1) $w_+ + w_- = w$, $(x_+ + x_-)/2 = x_c$, $(y_+ + y_-)/2 = y_c$, $(z_+ + z_-)/2 = z_c$,
+    $(x_+ - x_c)^2 + (y_+ - y_c)^2 + (z_+ - z_c)^2 + \tilde{\sigma}_1^2 = \sigma_1^2$,
+    $\det\Sigma_{\mathrm{3D},+} = \frac{1}{4}\det\Sigma_{\mathrm{3D}}$, and
+    $Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D},+}) - Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = \frac{3\hbar^2}{4m\sigma_1^2} > 0$,
+    (2) $Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}) + \operatorname{continuumBohmPotentialMode}(m,\hbar,1/(\sqrt{2}\sigma_3))$,
+    $\det\Sigma_{\mathrm{2D}}^{\mathrm{persp}} = (f/z_c)^4 (\det\Sigma_{\mathrm{3D}} / \sigma_3^2)$, and
+    $Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{persp}}) = (z_c/f)^2 Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}})$,
+    (3) $(\sigma_{1,\mathrm{persp}}^2 - \sigma_{2,\mathrm{persp}}^2)/(\sigma_{1,\mathrm{persp}}^2 + \sigma_{2,\mathrm{persp}}^2) = (\sigma_1^2 - \sigma_2^2)/(\sigma_1^2 + \sigma_2^2)$,
+    (4) if $\psi = 0$, then $(splat.\mathrm{splitMajorPlus}).\operatorname{projectOrthographic2D} = (splat.\operatorname{projectOrthographic2D}).\mathrm{splitMajorPlus}$, and
+    (5) $-1 < \delta_{\mathrm{depth}} < 1$ and $|w_A^{\mathbb C}(M_{\mathrm{depth}})|^2 / |w_B^{\mathbb C}(M_{\mathrm{depth}})|^2 = (\sigma_1^2 + \sigma_2^2)/\sigma_3^2$. -/)
+  (proof := /-- Use $\cos^2\psi(\cos^2\theta+\sin^2\theta)+\sin^2\psi=1$ and $(\sqrt{3})^2=3$ for 3D variance conservation,
+    $(\sqrt{2})^2=2$ for the normal Bohm mode, cancel $(f/z_c)^2\ne 0$ for depth-invariant lateral anisotropy,
+    and apply \texttt{complexGr24ChannelMatrix\_minors} to $M_{\mathrm{depth}}$. -/)]
+theorem NormedTensorGaussianSplat3D.splitMajor3D_and_holographic_gr24_projection_identities
+    (splat : NormedTensorGaussianSplat3D) (focalScale m_boson hbar θ_z : ℝ)
+    (hf : 0 < focalScale) (hz : 0 < splat.centerZ)
+    (hm : 0 < m_boson) (hhbar : hbar ≠ 0) :
+    let c_plus := splat.splitMajorPlus
+    let c_minus := splat.splitMajorMinus
+    let s_ortho := splat.projectOrthographic2D
+    let s_persp := splat.projectPerspective2D focalScale hf hz
+    let δ_d := splat.holographicDepthAnisotropy
+    let M_depth := ddfThermalGr24Matrix δ_d θ_z
+    c_plus.weight + c_minus.weight = splat.weight ∧
+      (c_plus.centerX + c_minus.centerX) / 2 = splat.centerX ∧
+      (c_plus.centerY + c_minus.centerY) / 2 = splat.centerY ∧
+      (c_plus.centerZ + c_minus.centerZ) / 2 = splat.centerZ ∧
+      (c_plus.centerX - splat.centerX) ^ 2 +
+          (c_plus.centerY - splat.centerY) ^ 2 +
+          (c_plus.centerZ - splat.centerZ) ^ 2 + c_plus.sigma1 ^ 2 =
+        splat.sigma1 ^ 2 ∧
+      c_plus.covDet = (1 / 4) * splat.covDet ∧
+      c_plus.coreBohmPotential m_boson hbar - splat.coreBohmPotential m_boson hbar =
+        (3 * hbar ^ 2) / (4 * m_boson * splat.sigma1 ^ 2) ∧
+      splat.coreBohmPotential m_boson hbar < c_plus.coreBohmPotential m_boson hbar ∧
+      splat.coreBohmPotential m_boson hbar =
+        s_ortho.coreBohmPotential m_boson hbar +
+          continuumBohmPotentialMode m_boson hbar (1 / (Real.sqrt 2 * splat.sigma3)) ∧
+      s_persp.covDet = (focalScale / splat.centerZ) ^ 4 * (splat.covDet / splat.sigma3 ^ 2) ∧
+      s_persp.coreBohmPotential m_boson hbar =
+        (splat.centerZ / focalScale) ^ 2 * s_ortho.coreBohmPotential m_boson hbar ∧
+      (s_persp.sigma1 ^ 2 - s_persp.sigma2 ^ 2) /
+          (s_persp.sigma1 ^ 2 + s_persp.sigma2 ^ 2) =
+        (splat.sigma1 ^ 2 - splat.sigma2 ^ 2) /
+          (splat.sigma1 ^ 2 + splat.sigma2 ^ 2) ∧
+      (splat.pitchAngle = 0 →
+        c_plus.projectOrthographic2D = s_ortho.splitMajorPlus) ∧
+      -1 < δ_d ∧
+      δ_d < 1 ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M_depth) /
+          Complex.normSq (complexPluckerSinkAmplitudeB M_depth) =
+        (splat.sigma1 ^ 2 + splat.sigma2 ^ 2) / splat.sigma3 ^ 2 := by
+  intro c_plus c_minus s_ortho s_persp δ_d M_depth
+  have h_w : c_plus.weight + c_minus.weight = splat.weight := by
+    dsimp [c_plus, c_minus, splitMajorPlus, splitMajorMinus]
+    ring
+  have h_cx : (c_plus.centerX + c_minus.centerX) / 2 = splat.centerX := by
+    dsimp [c_plus, c_minus, splitMajorPlus, splitMajorMinus]
+    ring
+  have h_cy : (c_plus.centerY + c_minus.centerY) / 2 = splat.centerY := by
+    dsimp [c_plus, c_minus, splitMajorPlus, splitMajorMinus]
+    ring
+  have h_cz : (c_plus.centerZ + c_minus.centerZ) / 2 = splat.centerZ := by
+    dsimp [c_plus, c_minus, splitMajorPlus, splitMajorMinus]
+    ring
+  have h3 : (Real.sqrt 3) ^ 2 = 3 := Real.sq_sqrt (by norm_num)
+  have h2 : (Real.sqrt 2) ^ 2 = 2 := Real.sq_sqrt (by norm_num)
+  have h_var3d :
+      (c_plus.centerX - splat.centerX) ^ 2 +
+          (c_plus.centerY - splat.centerY) ^ 2 +
+          (c_plus.centerZ - splat.centerZ) ^ 2 + c_plus.sigma1 ^ 2 =
+        splat.sigma1 ^ 2 := by
+    have h_trig_theta :
+        (Real.cos splat.orientationAngle) ^ 2 + (Real.sin splat.orientationAngle) ^ 2 = 1 :=
+      Real.cos_sq_add_sin_sq splat.orientationAngle
+    have h_trig_psi :
+        (Real.cos splat.pitchAngle) ^ 2 + (Real.sin splat.pitchAngle) ^ 2 = 1 :=
+      Real.cos_sq_add_sin_sq splat.pitchAngle
+    have h_disp :
+        (c_plus.centerX - splat.centerX) ^ 2 +
+            (c_plus.centerY - splat.centerY) ^ 2 +
+            (c_plus.centerZ - splat.centerZ) ^ 2 =
+          splat.splitMajorOffset ^ 2 := by
+      dsimp [c_plus, splitMajorPlus]
+      calc
+        (splat.centerX + splat.splitMajorOffset * Real.cos splat.pitchAngle * Real.cos splat.orientationAngle - splat.centerX) ^ 2 +
+            (splat.centerY + splat.splitMajorOffset * Real.cos splat.pitchAngle * Real.sin splat.orientationAngle - splat.centerY) ^ 2 +
+            (splat.centerZ + splat.splitMajorOffset * Real.sin splat.pitchAngle - splat.centerZ) ^ 2 =
+          splat.splitMajorOffset ^ 2 *
+            ((Real.cos splat.pitchAngle) ^ 2 *
+              ((Real.cos splat.orientationAngle) ^ 2 + (Real.sin splat.orientationAngle) ^ 2) +
+              (Real.sin splat.pitchAngle) ^ 2) := by ring
+        _ = splat.splitMajorOffset ^ 2 *
+            ((Real.cos splat.pitchAngle) ^ 2 * 1 + (Real.sin splat.pitchAngle) ^ 2) := by
+          rw [h_trig_theta]
+        _ = splat.splitMajorOffset ^ 2 * 1 := by
+          rw [mul_one, h_trig_psi]
+        _ = splat.splitMajorOffset ^ 2 := mul_one _
+    rw [h_disp]
+    dsimp [c_plus, splitMajorPlus, splitMajorOffset]
+    calc
+      (Real.sqrt 3 / 2 * splat.sigma1) ^ 2 + (splat.sigma1 / 2) ^ 2 =
+          (((Real.sqrt 3) ^ 2 + 1) / 4) * splat.sigma1 ^ 2 := by ring
+      _ = splat.sigma1 ^ 2 := by rw [h3]; ring
+  have h_det : c_plus.covDet = (1 / 4) * splat.covDet := by
+    dsimp [c_plus, splitMajorPlus, covDet]
+    ring
+  have hs1_ne : splat.sigma1 ≠ 0 := ne_of_gt splat.sigma1_pos
+  have hs2_ne : splat.sigma2 ≠ 0 := ne_of_gt splat.sigma2_pos
+  have hs3_ne : splat.sigma3 ≠ 0 := ne_of_gt splat.sigma3_pos
+  have hm_ne : m_boson ≠ 0 := ne_of_gt hm
+  have hf_ne : focalScale ≠ 0 := ne_of_gt hf
+  have hz_ne : splat.centerZ ≠ 0 := ne_of_gt hz
+  have h_bohm_diff :
+      c_plus.coreBohmPotential m_boson hbar - splat.coreBohmPotential m_boson hbar =
+        (3 * hbar ^ 2) / (4 * m_boson * splat.sigma1 ^ 2) := by
+    dsimp [c_plus, splitMajorPlus, coreBohmPotential]
+    field_simp [hs1_ne, hs2_ne, hs3_ne, hm_ne]
+    ring
+  have h_bohm_lt :
+      splat.coreBohmPotential m_boson hbar < c_plus.coreBohmPotential m_boson hbar := by
+    have h_pos : 0 < (3 * hbar ^ 2) / (4 * m_boson * splat.sigma1 ^ 2) := by
+      have hh2 : 0 < hbar ^ 2 := sq_pos_of_ne_zero hhbar
+      have hs1_sq : 0 < splat.sigma1 ^ 2 := sq_pos_of_pos splat.sigma1_pos
+      positivity
+    linarith [h_bohm_diff]
+  have h_sqrt2_ne : Real.sqrt 2 ≠ 0 := ne_of_gt (Real.sqrt_pos.mpr (by norm_num))
+  have h_bohm_split :
+      splat.coreBohmPotential m_boson hbar =
+        s_ortho.coreBohmPotential m_boson hbar +
+          continuumBohmPotentialMode m_boson hbar (1 / (Real.sqrt 2 * splat.sigma3)) := by
+    dsimp [s_ortho, projectOrthographic2D, coreBohmPotential,
+      NormedTensorGaussianSplat2D.coreBohmPotential, continuumBohmPotentialMode]
+    have h_sq_prod : (Real.sqrt 2 * splat.sigma3) ^ 2 = 2 * splat.sigma3 ^ 2 := by
+      calc
+        (Real.sqrt 2 * splat.sigma3) ^ 2 = (Real.sqrt 2) ^ 2 * splat.sigma3 ^ 2 := by ring
+        _ = 2 * splat.sigma3 ^ 2 := by rw [h2]
+    rw [one_div_pow, h_sq_prod]
+    field_simp [hs1_ne, hs2_ne, hs3_ne, hm_ne]
+    ring
+  have h_persp_det :
+      s_persp.covDet = (focalScale / splat.centerZ) ^ 4 * (splat.covDet / splat.sigma3 ^ 2) := by
+    dsimp [s_persp, projectPerspective2D, NormedTensorGaussianSplat2D.covDet, covDet]
+    field_simp [hz_ne, hs3_ne]
+  have h_persp_bohm :
+      s_persp.coreBohmPotential m_boson hbar =
+        (splat.centerZ / focalScale) ^ 2 * s_ortho.coreBohmPotential m_boson hbar := by
+    dsimp [s_persp, s_ortho, projectPerspective2D, projectOrthographic2D,
+      NormedTensorGaussianSplat2D.coreBohmPotential]
+    field_simp [hf_ne, hz_ne, hs1_ne, hs2_ne, hm_ne]
+  have h_lat_pos : 0 < splat.sigma1 ^ 2 + splat.sigma2 ^ 2 := by
+    have : 0 < splat.sigma1 ^ 2 := sq_pos_of_pos splat.sigma1_pos
+    have : 0 < splat.sigma2 ^ 2 := sq_pos_of_pos splat.sigma2_pos
+    linarith
+  have h_lat_ne : splat.sigma1 ^ 2 + splat.sigma2 ^ 2 ≠ 0 := ne_of_gt h_lat_pos
+  have h_depth_inv :
+      (s_persp.sigma1 ^ 2 - s_persp.sigma2 ^ 2) /
+          (s_persp.sigma1 ^ 2 + s_persp.sigma2 ^ 2) =
+        (splat.sigma1 ^ 2 - splat.sigma2 ^ 2) /
+          (splat.sigma1 ^ 2 + splat.sigma2 ^ 2) := by
+    dsimp [s_persp, projectPerspective2D]
+    have hs_sq_ne : (focalScale / splat.centerZ) ^ 2 ≠ 0 :=
+      pow_ne_zero 2 (div_ne_zero hf_ne hz_ne)
+    calc
+      ((focalScale / splat.centerZ * splat.sigma1) ^ 2 -
+          (focalScale / splat.centerZ * splat.sigma2) ^ 2) /
+        ((focalScale / splat.centerZ * splat.sigma1) ^ 2 +
+          (focalScale / splat.centerZ * splat.sigma2) ^ 2) =
+        ((focalScale / splat.centerZ) ^ 2 * (splat.sigma1 ^ 2 - splat.sigma2 ^ 2)) /
+        ((focalScale / splat.centerZ) ^ 2 * (splat.sigma1 ^ 2 + splat.sigma2 ^ 2)) := by ring
+      _ = (splat.sigma1 ^ 2 - splat.sigma2 ^ 2) / (splat.sigma1 ^ 2 + splat.sigma2 ^ 2) :=
+        mul_div_mul_left _ _ hs_sq_ne
+  have h_comm :
+      splat.pitchAngle = 0 →
+        c_plus.projectOrthographic2D = s_ortho.splitMajorPlus := by
+    intro h_pitch
+    dsimp [c_plus, s_ortho, splitMajorPlus, projectOrthographic2D,
+      NormedTensorGaussianSplat2D.splitMajorPlus, splitMajorOffset,
+      NormedTensorGaussianSplat2D.splitMajorOffset]
+    rw [h_pitch, Real.cos_zero, mul_one]
+  have hs3_sq_pos : 0 < splat.sigma3 ^ 2 := sq_pos_of_pos splat.sigma3_pos
+  have h_tot_pos : 0 < (splat.sigma1 ^ 2 + splat.sigma2 ^ 2) + splat.sigma3 ^ 2 :=
+    add_pos h_lat_pos hs3_sq_pos
+  have h_tot_ne : (splat.sigma1 ^ 2 + splat.sigma2 ^ 2) + splat.sigma3 ^ 2 ≠ 0 :=
+    ne_of_gt h_tot_pos
+  have h_δ_gt : -1 < δ_d := by
+    dsimp [δ_d, holographicDepthAnisotropy]
+    rw [lt_div_iff₀ h_tot_pos]
+    linarith
+  have h_δ_lt : δ_d < 1 := by
+    dsimp [δ_d, holographicDepthAnisotropy]
+    rw [div_lt_iff₀ h_tot_pos]
+    linarith
+  have h1p_d : 0 ≤ 1 + δ_d := by linarith
+  have h1m_d : 0 ≤ 1 - δ_d := by linarith
+  have h_d_minors := complexGr24ChannelMatrix_minors
+    (↑(Real.sqrt (1 + δ_d) * Real.cos θ_z) + Complex.I * ↑(Real.sqrt (1 + δ_d) * Real.sin θ_z))
+    (↑(Real.sqrt (1 - δ_d) * Real.cos θ_z) - Complex.I * ↑(Real.sqrt (1 - δ_d) * Real.sin θ_z))
+  have h_wA_d : Complex.normSq (complexPluckerSinkAmplitudeA M_depth) = 1 + δ_d := by
+    dsimp [M_depth, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeA]
+    rw [h_d_minors.1]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 + δ_d)) ^ 2 * ((Real.cos θ_z) ^ 2 + (Real.sin θ_z) ^ 2) := by ring
+      _ = 1 + δ_d := by rw [Real.sq_sqrt h1p_d, Real.cos_sq_add_sin_sq, mul_one]
+  have h_wB_d : Complex.normSq (complexPluckerSinkAmplitudeB M_depth) = 1 - δ_d := by
+    dsimp [M_depth, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeB]
+    rw [h_d_minors.2.1]
+    simp only [Complex.normSq_apply, Complex.sub_re, Complex.sub_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 - δ_d)) ^ 2 * ((Real.cos θ_z) ^ 2 + (Real.sin θ_z) ^ 2) := by ring
+      _ = 1 - δ_d := by rw [Real.sq_sqrt h1m_d, Real.cos_sq_add_sin_sq, mul_one]
+  have h_depth_ratio :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_depth) /
+          Complex.normSq (complexPluckerSinkAmplitudeB M_depth) =
+        (splat.sigma1 ^ 2 + splat.sigma2 ^ 2) / splat.sigma3 ^ 2 := by
+    rw [h_wA_d, h_wB_d]
+    dsimp [δ_d, holographicDepthAnisotropy]
+    field_simp [h_tot_ne, hs3_ne]
+    ring
+  exact ⟨h_w, h_cx, h_cy, h_cz, h_var3d, h_det, h_bohm_diff, h_bohm_lt,
+    h_bohm_split, h_persp_det, h_persp_bohm, h_depth_inv, h_comm,
+    h_δ_gt, h_δ_lt, h_depth_ratio⟩
+
+/-! ## Inversion-Free Plücker / Twistor Bracket vs. $4 \times 4$ Jacobian & Schur-Complement Tensor CFD (`LBGPC-Fluid-Datacenter-Energy-Savings.myst.md`, Prompts 16–18) -/
+
+/-- The $4 \times 4$ impeller shear Jacobian matrix $J(s, \tau)$ from `TensorCFDSolver`
+(`docs/chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md`, lines 2327–2332) with
+in-plane shear `stress = s` and cross-dimensional pressure/turbulence coupling `turbulence = τ`. -/
+@[blueprint "def:signals-ddf-impeller-shear-4x4"
+  (title := "4×4 impeller shear Jacobian matrix J(s, τ) from TensorCFDSolver")
+  (statement := /-- Define the $4\times 4$ impeller shear Jacobian
+    $J(s,\tau) = \begin{pmatrix} 1 & s & 0 & \tau \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ \tau & 0 & 0 & 1 \end{pmatrix}$. -/)]
+def impellerShear4x4 (stress turbulence : ℝ) : Matrix (Fin 4) (Fin 4) ℝ :=
+  !![1, stress, 0, turbulence;
+     0, 1, 0, 0;
+     0, 0, 1, 0;
+     turbulence, 0, 0, 1]
+
+/-- Closed-form 3D Schur-complement determinant $\det(\Sigma_{\mathrm{3D}}) = \frac{(1 - \tau^2)^2}{1 + \tau^2}$
+of the $4 \times 4$ sheared covariance $\Sigma_{4\times 4}(s, \tau) = J(s, \tau)\,J(s, \tau)^T$,
+computed directly from the 4-bracket minor $1 - \tau^2$ without constructing $A - B D^{-1} C$
+or invoking a matrix pseudo-inverse. -/
+@[blueprint "def:signals-ddf-schur-complement-3d-volume"
+  (title := "Inversion-free closed-form 3D Schur-complement volume (1 - τ²)² / (1 + τ²)")
+  (statement := /-- Define $\operatorname{schurComplement3DVolume}(\tau) = \frac{(1 - \tau^2)^2}{1 + \tau^2}$. -/)]
+noncomputable def schurComplement3DVolume (turbulence : ℝ) : ℝ :=
+  (1 - turbulence ^ 2) ^ 2 / (1 + turbulence ^ 2)
+
+/-- The raw $4 \times 4$ momentum-twistor matrix $[Z_1, Z_2, Z_3, Z_4]$ from the chat's
+`AmplituhedronFluidSplat` (`LBGPC-Fluid-Datacenter-Energy-Savings.myst.md`, lines 2425–2442 & 2500–2518)
+with additive shift $Z_2 \mapsto e_2 + (s, s\tau, 0, 0)^T$ and $Z_3 \mapsto e_3 - \frac{\tau}{2}(s, s\tau, 0, 0)^T$. -/
+@[blueprint "def:signals-ddf-chat-amplituhedron-twistor-matrix"
+  (title := "Chat AmplituhedronFluidSplat 4×4 momentum-twistor matrix")
+  (statement := /-- Define the $4\times 4$ twistor matrix from `AmplituhedronFluidSplat` with
+    columns $Z_1=e_1$, $Z_2=(s,1+s\tau,0,0)^T$, $Z_3=(-\frac{\tau}{2}s,-\frac{\tau^2}{2}s,1,0)^T$, $Z_4=e_4$. -/)]
+noncomputable def chatAmplituhedronTwistorMatrix (stress turbulence : ℝ) :
+    Matrix (Fin 4) (Fin 4) ℝ :=
+  !![1, stress, -(turbulence / 2) * stress, 0;
+     0, 1 + stress * turbulence, -(turbulence / 2) * (stress * turbulence), 0;
+     0, 0, 1, 0;
+     0, 0, 0, 1]
+
+/-- Corrected symplectic/compressive $4 \times 4$ momentum-twistor matrix whose 4-bracket
+$\langle 1 2 3 4 \rangle = \det Z = 1 - \tau^2$ matches the exact Jacobian determinant
+$\det J(s, \tau) = 1 - \tau^2$ and the $Gr_{\mathbb{C}}(2,4)$ Plücker channel product
+$|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2 = 1 - \tau^2$. -/
+@[blueprint "def:signals-ddf-corrected-twistor-shear-matrix"
+  (title := "Corrected 4×4 momentum-twistor shear matrix with ⟨1 2 3 4⟩ = 1 - τ²")
+  (statement := /-- Define the corrected $4\times 4$ twistor matrix with determinant
+    $\langle 1\,2\,3\,4\rangle = 1 - \tau^2$. -/)]
+def correctedTwistorShearMatrix (stress turbulence : ℝ) : Matrix (Fin 4) (Fin 4) ℝ :=
+  !![1, stress, 0, turbulence;
+     0, 1, 0, 0;
+     0, 0, 1, 0;
+     turbulence, stress * turbulence, 0, 1]
+
+/-- **Inversion-Free Schur–Plücker Determinant Identity & Critique/Resolution of `AmplituhedronFluidSplat`**:
+1. **Exact $4 \times 4$ Jacobian Determinant & Schur-Complement Factorization (Why `pinv(D)` Is Unnecessary)**:
+   For the $4 \times 4$ impeller shear Jacobian $J(s, \tau) = \operatorname{impellerShear4x4}(s, \tau)$
+   and $\Sigma_{4\times 4} = J(s, \tau)\,J(s, \tau)^T$:
+   $$\det J(s, \tau) = 1 - \tau^2, \qquad
+   \det \Sigma_{4\times 4} = (1 - \tau^2)^2, \qquad
+   (\Sigma_{4\times 4})_{3,3} = 1 + \tau^2 > 0,$$
+   $$\det \Sigma_{4\times 4} = (\Sigma_{4\times 4})_{3,3} \cdot \operatorname{schurComplement3DVolume}(\tau),$$
+   proving that the 3D Schur-complement volume $\det(A - B D^{-1} C) = \frac{(1 - \tau^2)^2}{1 + \tau^2}$
+   is independent of the laminar in-plane shear $s$ (an Anosov $\det = 1$ shear!) and is
+   evaluated in $O(1)$ arithmetic with **zero matrix inversions**,
+2. **Critique of the Chat's `AmplituhedronFluidSplat` Sign & Triangularity Bug**:
+   The chat's upper-triangular matrix `chatAmplituhedronTwistorMatrix s τ` has determinant
+   $\langle 1 2 3 4 \rangle = 1 + s\tau$, which is independent of $Z_3$'s shift and for
+   $s > 0, \tau > 0$ satisfies $1 = \det(\text{vortical}, \tau=0) < 1 + s\tau = \det(\text{straight}, \tau>0)$,
+   reversing the intended stall ordering,
+3. **Constructive Resolution via `correctedTwistorShearMatrix` and $Gr_{\mathbb{C}}(2,4)$ Plücker Channels**:
+   For $0 < \tau < 1$ (turbulent straight vanes) vs. $\tau = 0$ (laminar vortical vanes)
+   and $M_\tau = \operatorname{ddfThermalGr24Matrix}(\tau, \theta)$:
+   $$\det(\operatorname{correctedTwistorShearMatrix}(s, \tau))
+     = |w_A^{\mathbb{C}}(M_\tau)|^2\,|w_B^{\mathbb{C}}(M_\tau)|^2
+     = 1 - \tau^2 \in (0, 1),$$
+   $$\operatorname{schurComplement3DVolume}(\tau)
+     = \frac{\bigl(|w_A^{\mathbb{C}}(M_\tau)|^2\,|w_B^{\mathbb{C}}(M_\tau)|^2\bigr)^2}{1 + \tau^2}
+     < 1 = \operatorname{schurComplement3DVolume}(0).$$ -/
+@[blueprint "thm:signals-ddf-schur-plucker-inversion-free-identities"
+  (title := "Inversion-free Schur-Plücker determinant identity and momentum-twistor vane shear theorem")
+  (statement := /-- For any $s,\theta\in\mathbb R$ and $0 < \tau < 1$:
+    (1) $\det(\operatorname{impellerShear4x4}(s,\tau)) = 1 - \tau^2$ and
+    $\det(\operatorname{impellerShear4x4}(s,\tau)\,\operatorname{impellerShear4x4}(s,\tau)^T)
+    = (1 + \tau^2)\,\operatorname{schurComplement3DVolume}(\tau) = (1 - \tau^2)^2$,
+    (2) $\det(\operatorname{chatAmplituhedronTwistorMatrix}(s,\tau)) = 1 + s\tau$, so for $s > 0$,
+    $\det(\operatorname{chatAmplituhedronTwistorMatrix}(s,0)) < \det(\operatorname{chatAmplituhedronTwistorMatrix}(s,\tau))$, and
+    (3) $\det(\operatorname{correctedTwistorShearMatrix}(s,\tau)) = |w_A^{\mathbb C}(M_\tau)|^2 |w_B^{\mathbb C}(M_\tau)|^2 = 1 - \tau^2$
+    and $\operatorname{schurComplement3DVolume}(\tau) < \operatorname{schurComplement3DVolume}(0) = 1$. -/)
+  (proof := /-- Expand $4\times 4$ determinants via \texttt{Matrix.det\_succ\_row\_zero} and
+    \texttt{Matrix.det\_fin\_three}, and apply \texttt{complexGr24ChannelMatrix\_minors} to $M_\tau$. -/)]
+theorem schur_plucker_inversion_free_and_twistor_vane_identities
+    (stress turbulence θ : ℝ) (hs_pos : 0 < stress)
+    (hτ_pos : 0 < turbulence) (hτ_lt : turbulence < 1) :
+    let J := impellerShear4x4 stress turbulence
+    let Sigma4 := J * J.transpose
+    let M_τ := ddfThermalGr24Matrix turbulence θ
+    J.det = 1 - turbulence ^ 2 ∧
+      Sigma4.det = (1 - turbulence ^ 2) ^ 2 ∧
+      Sigma4 3 3 = 1 + turbulence ^ 2 ∧
+      Sigma4.det = Sigma4 3 3 * schurComplement3DVolume turbulence ∧
+      (chatAmplituhedronTwistorMatrix stress turbulence).det = 1 + stress * turbulence ∧
+      (chatAmplituhedronTwistorMatrix stress 0).det <
+        (chatAmplituhedronTwistorMatrix stress turbulence).det ∧
+      (correctedTwistorShearMatrix stress turbulence).det = 1 - turbulence ^ 2 ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M_τ) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_τ) =
+        1 - turbulence ^ 2 ∧
+      schurComplement3DVolume turbulence =
+        (Complex.normSq (complexPluckerSinkAmplitudeA M_τ) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_τ)) ^ 2 / (1 + turbulence ^ 2) ∧
+      schurComplement3DVolume 0 = 1 ∧
+      schurComplement3DVolume turbulence < schurComplement3DVolume 0 := by
+  intro J Sigma4 M_τ
+  have hJ_det : J.det = 1 - turbulence ^ 2 := by
+    dsimp [J]
+    unfold impellerShear4x4
+    rw [Matrix.det_succ_row_zero]
+    simp only [Fin.sum_univ_four, Fin.isValue, Matrix.det_fin_three,
+      Matrix.submatrix_apply, Fin.succAbove]
+    dsimp [Fin.succAbove, Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.cons_val_two, Matrix.cons_val_three, Matrix.vecHead, Matrix.vecTail]
+    ring
+  have hSigma_det : Sigma4.det = (1 - turbulence ^ 2) ^ 2 := by
+    dsimp [Sigma4]
+    rw [Matrix.det_mul, Matrix.det_transpose, hJ_det]
+    ring
+  have hSigma33 : Sigma4 3 3 = 1 + turbulence ^ 2 := by
+    dsimp [Sigma4, J, impellerShear4x4]
+    simp only [Matrix.mul_apply, Matrix.transpose_apply, Fin.sum_univ_four, Fin.isValue]
+    dsimp [Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.cons_val_two, Matrix.cons_val_three, Matrix.vecHead, Matrix.vecTail]
+    ring
+  have h1_tau_ne : 1 + turbulence ^ 2 ≠ 0 := by positivity
+  have h_schur_fact : Sigma4.det = Sigma4 3 3 * schurComplement3DVolume turbulence := by
+    rw [hSigma_det, hSigma33]
+    unfold schurComplement3DVolume
+    exact (mul_div_cancel₀ _ h1_tau_ne).symm
+  have h_chat_det : ∀ τ : ℝ,
+      (chatAmplituhedronTwistorMatrix stress τ).det = 1 + stress * τ := by
+    intro τ
+    unfold chatAmplituhedronTwistorMatrix
+    rw [Matrix.det_succ_row_zero]
+    simp only [Fin.sum_univ_four, Fin.isValue, Matrix.det_fin_three,
+      Matrix.submatrix_apply, Fin.succAbove]
+    dsimp [Fin.succAbove, Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.cons_val_two, Matrix.cons_val_three, Matrix.vecHead, Matrix.vecTail]
+    ring
+  have h_chat_lt :
+      (chatAmplituhedronTwistorMatrix stress 0).det <
+        (chatAmplituhedronTwistorMatrix stress turbulence).det := by
+    rw [h_chat_det 0, h_chat_det turbulence]
+    have : 0 < stress * turbulence := mul_pos hs_pos hτ_pos
+    linarith
+  have h_corr_det :
+      (correctedTwistorShearMatrix stress turbulence).det = 1 - turbulence ^ 2 := by
+    unfold correctedTwistorShearMatrix
+    rw [Matrix.det_succ_row_zero]
+    simp only [Fin.sum_univ_four, Fin.isValue, Matrix.det_fin_three,
+      Matrix.submatrix_apply, Fin.succAbove]
+    dsimp [Fin.succAbove, Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.cons_val_two, Matrix.cons_val_three, Matrix.vecHead, Matrix.vecTail]
+    ring
+  have h1p : 0 ≤ 1 + turbulence := by linarith
+  have h1m : 0 ≤ 1 - turbulence := by linarith
+  have h_minors := complexGr24ChannelMatrix_minors
+    (↑(Real.sqrt (1 + turbulence) * Real.cos θ) + Complex.I * ↑(Real.sqrt (1 + turbulence) * Real.sin θ))
+    (↑(Real.sqrt (1 - turbulence) * Real.cos θ) - Complex.I * ↑(Real.sqrt (1 - turbulence) * Real.sin θ))
+  have h_wA : Complex.normSq (complexPluckerSinkAmplitudeA M_τ) = 1 + turbulence := by
+    dsimp [M_τ, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeA]
+    rw [h_minors.1]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 + turbulence)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 + turbulence := by rw [Real.sq_sqrt h1p, Real.cos_sq_add_sin_sq, mul_one]
+  have h_wB : Complex.normSq (complexPluckerSinkAmplitudeB M_τ) = 1 - turbulence := by
+    dsimp [M_τ, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeB]
+    rw [h_minors.2.1]
+    simp only [Complex.normSq_apply, Complex.sub_re, Complex.sub_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 - turbulence)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 - turbulence := by rw [Real.sq_sqrt h1m, Real.cos_sq_add_sin_sq, mul_one]
+  have h_pl_prod :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_τ) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_τ) =
+        1 - turbulence ^ 2 := by
+    rw [h_wA, h_wB]
+    ring
+  have h_schur_pl :
+      schurComplement3DVolume turbulence =
+        (Complex.normSq (complexPluckerSinkAmplitudeA M_τ) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_τ)) ^ 2 / (1 + turbulence ^ 2) := by
+    rw [h_pl_prod]
+    rfl
+  have h_schur0 : schurComplement3DVolume 0 = 1 := by
+    unfold schurComplement3DVolume
+    norm_num
+  have h_schur_lt : schurComplement3DVolume turbulence < schurComplement3DVolume 0 := by
+    rw [h_schur0]
+    unfold schurComplement3DVolume
+    rw [div_lt_iff₀ (by positivity)]
+    have hτ2_pos : 0 < turbulence ^ 2 := sq_pos_of_pos hτ_pos
+    have hτ2_lt : turbulence ^ 2 < 1 := by nlinarith
+    nlinarith
+  exact ⟨hJ_det, hSigma_det, hSigma33, h_schur_fact, h_chat_det turbulence, h_chat_lt,
+    h_corr_det, h_pl_prod, h_schur_pl, h_schur0, h_schur_lt⟩
+
 end Signals.DDF
