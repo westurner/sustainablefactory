@@ -5456,4 +5456,21 @@ example :
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+example :
+    Signals.DDF.netChainArrestHeatSavings 1 104 499 = -395 ∧
+    Signals.DDF.netChainArrestHeatSavings 1 104 499 < 0 ∧
+    Signals.DDF.netChainArrestHeatSavings 10 104 499 = 541 ∧
+    0 < Signals.DDF.netChainArrestHeatSavings 10 104 499 ∧
+    100 < Signals.DDF.nozzleRecombinationThrustVelSq 100 (4 / 5) 2 499 1 ∧
+    Signals.DDF.acousticDisplacementAmplitude 1 400000000000 <
+      Signals.DDF.acousticDisplacementAmplitude 1 50 ∧
+    Signals.DDF.acousticDisplacementAmplitude 1 50 /
+        Signals.DDF.acousticDisplacementAmplitude 1 400000000000 =
+      8000000000 := by
+  have h := Signals.DDF.exothermic_recombination_tradeoff_and_multiband_suppression_identities
+    100 (4 / 5) 2 499 1 1 50 400000000000
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2⟩
+
 end SignalsTests

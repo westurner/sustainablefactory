@@ -33,6 +33,10 @@ name = "signals-numerical-adapter"
 path = "src/main.rs"
 
 [[bin]]
+name = "cannon-mask-cad"
+path = "src/bin/cannon_mask_cad.rs"
+
+[[bin]]
 name = "cylinder-ftle"
 path = "src/bin/cylinder_ftle.rs"
 required-features = ["cylinder"]
