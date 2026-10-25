@@ -904,6 +904,57 @@ impl NormedTensorGaussianSplat3D {
         let d012 = a1.mul(a2).mul(a3).norm_sq();
         [d045, d315, d342, d015, d042, d312, d012]
     }
+
+    /// Holographic perspective $Gr_{\mathbb{C}}(3, 6)$ $3 \times 3$ Plücker minor invariants
+    /// (`Signals.DDF.NormedTensorGaussianSplat3D.gr36PerspectiveTwistorMatrix`):
+    /// scales the lateral widths by $s = f / z_c$ while retaining $\sigma_3$.
+    pub fn gr36_perspective_invariants(
+        &self,
+        focal_scale: f64,
+        phi1: f64,
+        phi2: f64,
+        phi3: f64,
+    ) -> [f64; 7] {
+        let s = focal_scale / self.center_z;
+        let persp3d = Self {
+            center_x: s * self.center_x,
+            center_y: s * self.center_y,
+            center_z: self.center_z,
+            weight: self.weight,
+            sigma1: s * self.sigma1,
+            sigma2: s * self.sigma2,
+            sigma3: self.sigma3,
+            orientation_angle: self.orientation_angle,
+            pitch_angle: self.pitch_angle,
+            role: self.role,
+        };
+        persp3d.gr36_volumetric_invariants(phi1, phi2, phi3)
+    }
+}
+
+/// Canonical $Gr_{\mathbb{C}}(3, 6)$ Schur–Plücker $3 \times 3$ minor invariants
+/// (`Signals.DDF.gr36SchurShearMatrix` and `gr36_simultaneous_conservation_holographic_projection_and_schur_identities`):
+/// returns $(|\Delta_{045}^{\mathbb{C}}|^2 = 1+\tau,\; |\Delta_{315}^{\mathbb{C}}|^2 = 1-\tau,\; |\Delta_{015}^{\mathbb{C}}|^2 = 1-\tau^2 = \det J,\; |\Delta_{342}^{\mathbb{C}}|^2 = \frac{(1-\tau^2)^2}{1+\tau^2} = \det\Sigma_{\mathrm{3D}},\; |\Delta_{012}^{\mathbb{C}}|^2)$.
+#[inline]
+pub fn gr36_schur_shear_invariants(
+    turbulence: f64,
+    phi1: f64,
+    phi2: f64,
+    phi3: f64,
+) -> [f64; 5] {
+    let r1 = (1.0 + turbulence).max(0.0).sqrt();
+    let r2 = (1.0 - turbulence).max(0.0).sqrt();
+    let r3 = (1.0 - turbulence * turbulence) / (1.0 + turbulence * turbulence).sqrt();
+    let a1 = Complex64::from_polar(r1, phi1);
+    let a2 = Complex64::from_polar(r2, phi2);
+    let a3 = Complex64::from_polar(r3, phi3);
+    [
+        a1.norm_sq(),
+        a2.norm_sq(),
+        a1.mul(a2).norm_sq(),
+        a3.norm_sq(),
+        a1.mul(a2).mul(a3).norm_sq(),
+    ]
 }
 
 /// Evaluate the 3-element Debye–Wolf counter-polarization longitudinal focal intensity,
@@ -1432,6 +1483,33 @@ mod tests {
         assert!((gr36[6] - splat3d.cov_det()).abs() < 1e-9);
         let bohm3d_from_gr36 = 0.25 * ((gr36[5] + gr36[4] + gr36[3]) / gr36[6]);
         assert!((bohm3d_from_gr36 - splat3d.core_bohm_potential(1.0, 1.0)).abs() < 1e-12);
+
+        // Verify extended Gr_C(3,6) simultaneous splitting conservation, perspective projection, and Schur-Plucker laws
+        let gr36_minus = children3d[0].gr36_volumetric_invariants(0.2, -0.5, 1.1);
+        let gr36_plus = children3d[1].gr36_volumetric_invariants(0.2, -0.5, 1.1);
+        assert!((gr36_plus[0] - gr36_minus[0]).abs() < 1e-12);
+        assert!((gr36_plus[0] - 0.25 * gr36[0]).abs() < 1e-11);
+        assert!((dx3 * dx3 + dy3 * dy3 + dz3 * dz3 + gr36_plus[0] - gr36[0]).abs() < 1e-11);
+        assert!((gr36_plus[1] - gr36[1]).abs() < 1e-12);
+        assert!((gr36_plus[2] - gr36[2]).abs() < 1e-12);
+        assert!((gr36_plus[5] - gr36[5]).abs() < 1e-12);
+        assert!((gr36_plus[3] - 0.25 * gr36[3]).abs() < 1e-10);
+        assert!((gr36_plus[6] - 0.25 * gr36[6]).abs() < 1e-9);
+
+        let gr36_persp = splat3d.gr36_perspective_invariants(2.0, 0.2, -0.5, 1.1);
+        assert!((gr36_persp[3] - persp2d.cov_det()).abs() < 1e-11);
+        assert!((gr36_persp[6] - gr36_persp[3] * gr36[2]).abs() < 1e-10);
+        let anis_persp = (gr36_persp[0] - gr36_persp[1]) / (gr36_persp[0] + gr36_persp[1]);
+        let anis_3d = (gr36[0] - gr36[1]) / (gr36[0] + gr36[1]);
+        assert!((anis_persp - anis_3d).abs() < 1e-12);
+        let z_sq_rec = 4.0 * ((gr36[0] + gr36[1]) / (gr36_persp[0] + gr36_persp[1]));
+        assert!((z_sq_rec - splat3d.center_z.powi(2)).abs() < 1e-11);
+
+        let gr36_schur = gr36_schur_shear_invariants(0.6, 0.2, -0.5, 1.1);
+        assert!((gr36_schur[0] - 1.6).abs() < 1e-12);
+        assert!((gr36_schur[1] - 0.4).abs() < 1e-12);
+        assert!((gr36_schur[2] - pl_str).abs() < 1e-12);
+        assert!((gr36_schur[3] - schur_str).abs() < 1e-12);
 
         let (ez_pair, iz_focus, phi_meta, enz_100) =
             debye_wolf_enz_longitudinal_summary(2.0, PI / 2.0, 3.0, 4.0, 1.0, 1.0, 0.1);

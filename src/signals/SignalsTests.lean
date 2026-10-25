@@ -5392,4 +5392,47 @@ example (θ : ℝ) :
     h_tnsa.1, h_tnsa.2.2.2.2.2.2.1, h_tnsa.2.2.2.2.2.2.2.2.1,
     h_tnsa.2.2.2.2.2.2.2.2.2.2.1, h_tnsa.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
+example (φ1 φ2 φ3 : ℝ) :
+    let c_plus := toySplat3D.splitMajorPlus
+    let c_minus := toySplat3D.splitMajorMinus
+    let s_persp := toySplat3D.projectPerspective2D 2 (by norm_num) (by norm_num [toySplat3D])
+    let M3 := toySplat3D.gr36TwistorMatrix φ1 φ2 φ3
+    let M3_plus := c_plus.gr36TwistorMatrix φ1 φ2 φ3
+    let M3_minus := c_minus.gr36TwistorMatrix φ1 φ2 φ3
+    let M3_persp := toySplat3D.gr36PerspectiveTwistorMatrix 2 φ1 φ2 φ3
+    let M3_schur := Signals.DDF.gr36SchurShearMatrix (3 / 5) φ1 φ2 φ3
+    let J := Signals.DDF.impellerShear4x4 2 (3 / 5)
+    let Sigma4 := J * J.transpose
+    Complex.normSq (Signals.Geometry.complexThreeRowMinor M3_plus 0 4 5) =
+      Complex.normSq (Signals.Geometry.complexThreeRowMinor M3_minus 0 4 5) ∧
+    Complex.normSq (Signals.Geometry.complexThreeRowMinor M3_plus 0 4 5) =
+      (1 / 4) * Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 0 4 5) ∧
+    (c_plus.centerX - toySplat3D.centerX) ^ 2 +
+        (c_plus.centerY - toySplat3D.centerY) ^ 2 +
+        (c_plus.centerZ - toySplat3D.centerZ) ^ 2 +
+        Complex.normSq (Signals.Geometry.complexThreeRowMinor M3_plus 0 4 5) =
+      Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 0 4 5) ∧
+    Complex.normSq (Signals.Geometry.complexThreeRowMinor M3_plus 0 1 2) =
+      (1 / 4) * Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 0 1 2) ∧
+    Complex.normSq (Signals.Geometry.complexThreeRowMinor M3_persp 0 1 5) = s_persp.covDet ∧
+    Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 0 1 2) /
+        Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 0 1 5) =
+      Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 3 4 2) ∧
+    Complex.normSq (Signals.Geometry.complexThreeRowMinor M3_schur 0 1 5) = J.det ∧
+    Complex.normSq (Signals.Geometry.complexThreeRowMinor M3_schur 3 4 2) =
+      Signals.DDF.schurComplement3DVolume (3 / 5) ∧
+    Sigma4.det =
+      Sigma4 3 3 * Complex.normSq (Signals.Geometry.complexThreeRowMinor M3_schur 3 4 2) := by
+  intro c_plus c_minus s_persp M3 M3_plus M3_minus M3_persp M3_schur J Sigma4
+  have h :=
+    toySplat3D.gr36_simultaneous_conservation_holographic_projection_and_schur_identities
+      2 1 1 φ1 φ2 φ3 2 (3 / 5)
+      (by norm_num) (by norm_num [toySplat3D]) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
 end SignalsTests

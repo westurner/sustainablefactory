@@ -7076,4 +7076,370 @@ theorem argon_ion_acoustic_tnsa_enz_polycbd_and_sco2_ledger_identities
   unfold tnsaEngineeringGain coolantMassFlowRate pulsedBusRequiredCapacitance
   norm_num
 
+/-! ## Unified $Gr_{\mathbb{C}}(3, 6)$ Simultaneous Splitting Conservation, Holographic Perspective Projection, and Inversion-Free Schur–Plücker Laws -/
+
+/-- Holographic / EWA perspective $Gr_{\mathbb{C}}(3, 6)$ twistor matrix of a
+`NormedTensorGaussianSplat3D` at focal scale $f$ and bulk depth $z_c$, scaling the
+two lateral principal axes by $s = f / z_c$ while retaining the 3rd axial depth
+width $\sigma_3$ in the third row/column. -/
+@[blueprint "def:signals-ddf-splat3d-gr36-perspective-twistor-matrix"
+  (title := "Holographic perspective Gr_C(3,6) rank-3 twistor matrix of NormedTensorGaussianSplat3D")
+  (statement := /-- Define $\operatorname{splat}.\operatorname{gr36PerspectiveTwistorMatrix}(f, \phi_1, \phi_2, \phi_3) \in Gr_{\mathbb C}(3,6)$
+    with lateral entries $s \sigma_1 e^{i\phi_1}, s \sigma_2 e^{i\phi_2}$ ($s = f / z_c$) and axial entry $\sigma_3 e^{i\phi_3}$. -/)]
+noncomputable def NormedTensorGaussianSplat3D.gr36PerspectiveTwistorMatrix
+    (splat : NormedTensorGaussianSplat3D) (focalScale φ1 φ2 φ3 : ℝ) :
+    Matrix (Fin 3) (Fin 6) ℂ :=
+  let s := focalScale / splat.centerZ
+  gr36VolumetricImagingMatrix
+    (↑(s * splat.sigma1 * Real.cos φ1) + Complex.I * ↑(s * splat.sigma1 * Real.sin φ1))
+    (↑(s * splat.sigma2 * Real.cos φ2) + Complex.I * ↑(s * splat.sigma2 * Real.sin φ2))
+    (↑(splat.sigma3 * Real.cos φ3) + Complex.I * ↑(splat.sigma3 * Real.sin φ3))
+
+/-- Canonical $Gr_{\mathbb{C}}(3, 6)$ Schur–Plücker shear matrix encoding the forward
+shear channel $\sqrt{1 + \tau}\,e^{i\phi_1}$, the backward shear channel
+$\sqrt{1 - \tau}\,e^{i\phi_2}$, and the inversion-free 3D Schur-complement volume
+amplitude $\frac{1 - \tau^2}{\sqrt{1 + \tau^2}}\,e^{i\phi_3}$ in a single rank-3
+complex Grassmannian matrix. -/
+@[blueprint "def:signals-ddf-gr36-schur-shear-matrix"
+  (title := "Canonical Gr_C(3,6) Schur-Plücker 3D shear matrix")
+  (statement := /-- Define $\operatorname{gr36SchurShearMatrix}(\tau, \phi_1, \phi_2, \phi_3) \in Gr_{\mathbb C}(3,6)$
+    with entries $a_1 = \sqrt{1+\tau}e^{i\phi_1}$, $a_2 = \sqrt{1-\tau}e^{i\phi_2}$, and
+    $a_3 = \frac{1-\tau^2}{\sqrt{1+\tau^2}}e^{i\phi_3}$. -/)]
+noncomputable def gr36SchurShearMatrix (turbulence φ1 φ2 φ3 : ℝ) :
+    Matrix (Fin 3) (Fin 6) ℂ :=
+  let r1 := Real.sqrt (1 + turbulence)
+  let r2 := Real.sqrt (1 - turbulence)
+  let r3 := (1 - turbulence ^ 2) / Real.sqrt (1 + turbulence ^ 2)
+  gr36VolumetricImagingMatrix
+    (↑(r1 * Real.cos φ1) + Complex.I * ↑(r1 * Real.sin φ1))
+    (↑(r2 * Real.cos φ2) + Complex.I * ↑(r2 * Real.sin φ2))
+    (↑(r3 * Real.cos φ3) + Complex.I * ↑(r3 * Real.sin φ3))
+
+/-- **Unified $Gr_{\mathbb{C}}(3, 6)$ Simultaneous Splitting Conservation, Holographic Perspective Projection, and Inversion-Free Schur–Plücker Theorem**:
+Extends the full suite of simultaneous conservation, holographic projection, and
+Schur–Plücker laws from $Gr_{\mathbb{C}}(2, 4)$ to higher-rank **$Gr_{\mathbb{C}}(3, 6)$**:
+1. **$Gr_{\mathbb{C}}(3, 6)$ Adaptive 3D Splat-Splitting Conservation Laws (`M3_plus = c_plus.gr36TwistorMatrix φ1 φ2 φ3`)**:
+   - **G3-SC1**: $|\Delta_{045}^{\mathbb{C}}(M_{3,+})|^2 = |\Delta_{045}^{\mathbb{C}}(M_{3,-})|^2 = \frac{1}{4}|\Delta_{045}^{\mathbb{C}}(M_3)|^2$,
+   - **G3-SC2**: $(x_+ - x_c)^2 + (y_+ - y_c)^2 + (z_+ - z_c)^2 + |\Delta_{045}^{\mathbb{C}}(M_{3,+})|^2 = |\Delta_{045}^{\mathbb{C}}(M_3)|^2 = \sigma_1^2$,
+   - **G3-SC3**: $|\Delta_{315}^{\mathbb{C}}(M_{3,+})|^2 = |\Delta_{315}^{\mathbb{C}}(M_3)|^2$, $|\Delta_{342}^{\mathbb{C}}(M_{3,+})|^2 = |\Delta_{342}^{\mathbb{C}}(M_3)|^2$, and $|\Delta_{312}^{\mathbb{C}}(M_{3,+})|^2 = |\Delta_{312}^{\mathbb{C}}(M_3)|^2$,
+   - **G3-SC4**: $|\Delta_{015}^{\mathbb{C}}(M_{3,+})|^2 = \frac{1}{4}|\Delta_{015}^{\mathbb{C}}(M_3)|^2$ and $|\Delta_{042}^{\mathbb{C}}(M_{3,+})|^2 = \frac{1}{4}|\Delta_{042}^{\mathbb{C}}(M_3)|^2$,
+   - **G3-SC5**: $|\Delta_{012}^{\mathbb{C}}(M_{3,+})|^2 = \frac{1}{4}|\Delta_{012}^{\mathbb{C}}(M_3)|^2 = c_+.\mathrm{covDet}$,
+   - **G3-SC6**: $c_+.\operatorname{coreBohmPotential}(m, \hbar) - \mathrm{splat}.\operatorname{coreBohmPotential}(m, \hbar) = \frac{3\hbar^2}{4m\,|\Delta_{045}^{\mathbb{C}}(M_3)|^2}$,
+2. **$Gr_{\mathbb{C}}(3, 6)$ Holographic Perspective Projection & Tomographic Depth Recovery (`M3_persp = splat.gr36PerspectiveTwistorMatrix f φ1 φ2 φ3`)**:
+   - **G3-HP1**: $|\Delta_{015}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2 = s_{\mathrm{persp}}.\mathrm{covDet} = (f/z_c)^4 |\Delta_{015}^{\mathbb{C}}(M_3)|^2$,
+   - **G3-HP2**: $|\Delta_{012}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2 = |\Delta_{015}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2 \, |\Delta_{342}^{\mathbb{C}}(M_3)|^2 = (f/z_c)^4 |\Delta_{012}^{\mathbb{C}}(M_3)|^2$,
+   - **G3-HP3**: $\frac{|\Delta_{045}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2 - |\Delta_{315}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2}{|\Delta_{045}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2 + |\Delta_{315}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2} = \frac{|\Delta_{045}^{\mathbb{C}}(M_3)|^2 - |\Delta_{315}^{\mathbb{C}}(M_3)|^2}{|\Delta_{045}^{\mathbb{C}}(M_3)|^2 + |\Delta_{315}^{\mathbb{C}}(M_3)|^2}$,
+   - **G3-HP4**: $\frac{|\Delta_{012}^{\mathbb{C}}(M_3)|^2}{|\Delta_{015}^{\mathbb{C}}(M_3)|^2} = |\Delta_{342}^{\mathbb{C}}(M_3)|^2 = \sigma_3^2$,
+   - **G3-HP5**: $f^2 \, \frac{|\Delta_{045}^{\mathbb{C}}(M_3)|^2 + |\Delta_{315}^{\mathbb{C}}(M_3)|^2}{|\Delta_{045}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2 + |\Delta_{315}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2} = z_c^2$,
+3. **$Gr_{\mathbb{C}}(3, 6)$ Inversion-Free Schur–Plücker Determinant Calculus (`M3_schur = gr36SchurShearMatrix τ φ1 φ2 φ3`)**:
+   - **G3-SP1**: $|\Delta_{045}^{\mathbb{C}}(M_{3,\tau})|^2 = 1 + \tau$ and $|\Delta_{315}^{\mathbb{C}}(M_{3,\tau})|^2 = 1 - \tau$,
+   - **G3-SP2**: $|\Delta_{015}^{\mathbb{C}}(M_{3,\tau})|^2 = 1 - \tau^2 = \det(\operatorname{impellerShear4x4}(s, \tau))$,
+   - **G3-SP3**: $|\Delta_{342}^{\mathbb{C}}(M_{3,\tau})|^2 = \operatorname{schurComplement3DVolume}(\tau) = \frac{\bigl(|\Delta_{015}^{\mathbb{C}}(M_{3,\tau})|^2\bigr)^2}{1 + \tau^2}$,
+   - **G3-SP4**: $\det\Sigma_{4\times 4} = (\Sigma_{4\times 4})_{3,3} \cdot |\Delta_{342}^{\mathbb{C}}(M_{3,\tau})|^2$,
+   - **G3-SP5**: $\Delta_{012}^{\mathbb{C}}(M_{3,\tau})\Delta_{345}^{\mathbb{C}}(M_{3,\tau}) - \Delta_{013}^{\mathbb{C}}(M_{3,\tau})\Delta_{245}^{\mathbb{C}}(M_{3,\tau}) + \Delta_{014}^{\mathbb{C}}(M_{3,\tau})\Delta_{235}^{\mathbb{C}}(M_{3,\tau}) - \Delta_{015}^{\mathbb{C}}(M_{3,\tau})\Delta_{234}^{\mathbb{C}}(M_{3,\tau}) = 0$. -/
+@[blueprint "thm:signals-ddf-gr36-simultaneous-conservation-projection-schur"
+  (title := "Unified Gr_C(3,6) simultaneous splitting conservation, holographic projection, and Schur-Plücker theorem")
+  (statement := /-- For any \texttt{splat : NormedTensorGaussianSplat3D}, $f > 0$, $z_c > 0$, $m > 0$, $\hbar \ne 0$,
+    $s > 0$, $0 < \tau < 1$, and $\phi_1, \phi_2, \phi_3 \in \mathbb R$:
+    (1) $|\Delta_{045}^{\mathbb C}(M_{3,+})|^2 = |\Delta_{045}^{\mathbb C}(M_{3,-})|^2 = \frac{1}{4}|\Delta_{045}^{\mathbb C}(M_3)|^2$,
+    $(x_+ - x_c)^2 + (y_+ - y_c)^2 + (z_+ - z_c)^2 + |\Delta_{045}^{\mathbb C}(M_{3,+})|^2 = |\Delta_{045}^{\mathbb C}(M_3)|^2$,
+    $|\Delta_{312}^{\mathbb C}(M_{3,+})|^2 = |\Delta_{312}^{\mathbb C}(M_3)|^2$,
+    $|\Delta_{015}^{\mathbb C}(M_{3,+})|^2 = \frac{1}{4}|\Delta_{015}^{\mathbb C}(M_3)|^2$,
+    $|\Delta_{012}^{\mathbb C}(M_{3,+})|^2 = \frac{1}{4}|\Delta_{012}^{\mathbb C}(M_3)|^2 = c_+.\mathrm{covDet}$, and
+    $c_+.\operatorname{coreBohmPotential}(m,\hbar) - \operatorname{splat}.\operatorname{coreBohmPotential}(m,\hbar) = \frac{3\hbar^2}{4m|\Delta_{045}^{\mathbb C}(M_3)|^2}$,
+    (2) $|\Delta_{015}^{\mathbb C}(M_3^{\mathrm{persp}})|^2 = s_{\mathrm{persp}}.\mathrm{covDet} = (f/z_c)^4 |\Delta_{015}^{\mathbb C}(M_3)|^2$,
+    $|\Delta_{012}^{\mathbb C}(M_3^{\mathrm{persp}})|^2 = |\Delta_{015}^{\mathbb C}(M_3^{\mathrm{persp}})|^2 |\Delta_{342}^{\mathbb C}(M_3)|^2$,
+    $(|\Delta_{045}^{\mathbb C}(M_3^{\mathrm{persp}})|^2 - |\Delta_{315}^{\mathbb C}(M_3^{\mathrm{persp}})|^2)/(|\Delta_{045}^{\mathbb C}(M_3^{\mathrm{persp}})|^2 + |\Delta_{315}^{\mathbb C}(M_3^{\mathrm{persp}})|^2) = (|\Delta_{045}^{\mathbb C}(M_3)|^2 - |\Delta_{315}^{\mathbb C}(M_3)|^2)/(|\Delta_{045}^{\mathbb C}(M_3)|^2 + |\Delta_{315}^{\mathbb C}(M_3)|^2)$,
+    $|\Delta_{012}^{\mathbb C}(M_3)|^2 / |\Delta_{015}^{\mathbb C}(M_3)|^2 = |\Delta_{342}^{\mathbb C}(M_3)|^2 = \sigma_3^2$, and
+    $f^2 (|\Delta_{045}^{\mathbb C}(M_3)|^2 + |\Delta_{315}^{\mathbb C}(M_3)|^2) / (|\Delta_{045}^{\mathbb C}(M_3^{\mathrm{persp}})|^2 + |\Delta_{315}^{\mathbb C}(M_3^{\mathrm{persp}})|^2) = z_c^2$, and
+    (3) $|\Delta_{045}^{\mathbb C}(M_{3,\tau})|^2 = 1 + \tau$, $|\Delta_{315}^{\mathbb C}(M_{3,\tau})|^2 = 1 - \tau$,
+    $|\Delta_{015}^{\mathbb C}(M_{3,\tau})|^2 = 1 - \tau^2 = \det J(s,\tau)$,
+    $|\Delta_{342}^{\mathbb C}(M_{3,\tau})|^2 = \operatorname{schurComplement3DVolume}(\tau)$,
+    $\det\Sigma_{4\times 4} = (\Sigma_{4\times 4})_{3,3} |\Delta_{342}^{\mathbb C}(M_{3,\tau})|^2$, and
+    $\Delta_{012}^{\mathbb C}(M_{3,\tau})\Delta_{345}^{\mathbb C}(M_{3,\tau}) - \Delta_{013}^{\mathbb C}(M_{3,\tau})\Delta_{245}^{\mathbb C}(M_{3,\tau}) + \Delta_{014}^{\mathbb C}(M_{3,\tau})\Delta_{235}^{\mathbb C}(M_{3,\tau}) - \Delta_{015}^{\mathbb C}(M_{3,\tau})\Delta_{234}^{\mathbb C}(M_{3,\tau}) = 0$. -/)
+  (proof := /-- Combine \texttt{gr36\_volumetric\_imaging\_and\_plucker\_identities} on
+    \texttt{splat}, \texttt{c\_plus}, and \texttt{c\_minus} with
+    \texttt{splitMajor3D\_and\_holographic\_gr24\_projection\_identities} and
+    \texttt{schur\_plucker\_inversion\_free\_and\_twistor\_vane\_identities}. -/)]
+theorem NormedTensorGaussianSplat3D.gr36_simultaneous_conservation_holographic_projection_and_schur_identities
+    (splat : NormedTensorGaussianSplat3D)
+    (focalScale m_boson hbar φ1 φ2 φ3 stress turbulence : ℝ)
+    (hf : 0 < focalScale) (hz : 0 < splat.centerZ)
+    (hm : 0 < m_boson) (hhbar : hbar ≠ 0)
+    (hs_pos : 0 < stress) (hτ_pos : 0 < turbulence) (hτ_lt : turbulence < 1) :
+    let c_plus := splat.splitMajorPlus
+    let c_minus := splat.splitMajorMinus
+    let s_persp := splat.projectPerspective2D focalScale hf hz
+    let M3 := splat.gr36TwistorMatrix φ1 φ2 φ3
+    let M3_plus := c_plus.gr36TwistorMatrix φ1 φ2 φ3
+    let M3_minus := c_minus.gr36TwistorMatrix φ1 φ2 φ3
+    let M3_persp := splat.gr36PerspectiveTwistorMatrix focalScale φ1 φ2 φ3
+    let M3_schur := gr36SchurShearMatrix turbulence φ1 φ2 φ3
+    let J := impellerShear4x4 stress turbulence
+    let Sigma4 := J * J.transpose
+    Complex.normSq (complexThreeRowMinor M3_plus 0 4 5) =
+        Complex.normSq (complexThreeRowMinor M3_minus 0 4 5) ∧
+      Complex.normSq (complexThreeRowMinor M3_plus 0 4 5) =
+        (1 / 4) * Complex.normSq (complexThreeRowMinor M3 0 4 5) ∧
+      (c_plus.centerX - splat.centerX) ^ 2 +
+          (c_plus.centerY - splat.centerY) ^ 2 +
+          (c_plus.centerZ - splat.centerZ) ^ 2 +
+          Complex.normSq (complexThreeRowMinor M3_plus 0 4 5) =
+        Complex.normSq (complexThreeRowMinor M3 0 4 5) ∧
+      Complex.normSq (complexThreeRowMinor M3_plus 3 1 5) =
+        Complex.normSq (complexThreeRowMinor M3 3 1 5) ∧
+      Complex.normSq (complexThreeRowMinor M3_plus 3 4 2) =
+        Complex.normSq (complexThreeRowMinor M3 3 4 2) ∧
+      Complex.normSq (complexThreeRowMinor M3_plus 3 1 2) =
+        Complex.normSq (complexThreeRowMinor M3 3 1 2) ∧
+      Complex.normSq (complexThreeRowMinor M3_plus 0 1 5) =
+        (1 / 4) * Complex.normSq (complexThreeRowMinor M3 0 1 5) ∧
+      Complex.normSq (complexThreeRowMinor M3_plus 0 4 2) =
+        (1 / 4) * Complex.normSq (complexThreeRowMinor M3 0 4 2) ∧
+      Complex.normSq (complexThreeRowMinor M3_plus 0 1 2) =
+        (1 / 4) * Complex.normSq (complexThreeRowMinor M3 0 1 2) ∧
+      Complex.normSq (complexThreeRowMinor M3_plus 0 1 2) = c_plus.covDet ∧
+      c_plus.coreBohmPotential m_boson hbar - splat.coreBohmPotential m_boson hbar =
+        (3 * hbar ^ 2) / (4 * m_boson * Complex.normSq (complexThreeRowMinor M3 0 4 5)) ∧
+      Complex.normSq (complexThreeRowMinor M3_persp 0 1 5) = s_persp.covDet ∧
+      Complex.normSq (complexThreeRowMinor M3_persp 0 1 5) =
+        (focalScale / splat.centerZ) ^ 4 *
+          Complex.normSq (complexThreeRowMinor M3 0 1 5) ∧
+      Complex.normSq (complexThreeRowMinor M3_persp 0 1 2) =
+        Complex.normSq (complexThreeRowMinor M3_persp 0 1 5) *
+          Complex.normSq (complexThreeRowMinor M3 3 4 2) ∧
+      (Complex.normSq (complexThreeRowMinor M3_persp 0 4 5) -
+          Complex.normSq (complexThreeRowMinor M3_persp 3 1 5)) /
+          (Complex.normSq (complexThreeRowMinor M3_persp 0 4 5) +
+            Complex.normSq (complexThreeRowMinor M3_persp 3 1 5)) =
+        (Complex.normSq (complexThreeRowMinor M3 0 4 5) -
+            Complex.normSq (complexThreeRowMinor M3 3 1 5)) /
+          (Complex.normSq (complexThreeRowMinor M3 0 4 5) +
+            Complex.normSq (complexThreeRowMinor M3 3 1 5)) ∧
+      Complex.normSq (complexThreeRowMinor M3 0 1 2) /
+          Complex.normSq (complexThreeRowMinor M3 0 1 5) =
+        Complex.normSq (complexThreeRowMinor M3 3 4 2) ∧
+      focalScale ^ 2 *
+          ((Complex.normSq (complexThreeRowMinor M3 0 4 5) +
+              Complex.normSq (complexThreeRowMinor M3 3 1 5)) /
+            (Complex.normSq (complexThreeRowMinor M3_persp 0 4 5) +
+              Complex.normSq (complexThreeRowMinor M3_persp 3 1 5))) =
+        splat.centerZ ^ 2 ∧
+      Complex.normSq (complexThreeRowMinor M3_schur 0 4 5) = 1 + turbulence ∧
+      Complex.normSq (complexThreeRowMinor M3_schur 3 1 5) = 1 - turbulence ∧
+      Complex.normSq (complexThreeRowMinor M3_schur 0 1 5) = 1 - turbulence ^ 2 ∧
+      Complex.normSq (complexThreeRowMinor M3_schur 0 1 5) = J.det ∧
+      Complex.normSq (complexThreeRowMinor M3_schur 3 4 2) =
+        schurComplement3DVolume turbulence ∧
+      Sigma4.det =
+        Sigma4 3 3 * Complex.normSq (complexThreeRowMinor M3_schur 3 4 2) ∧
+      complexThreeRowMinor M3_schur 0 1 2 * complexThreeRowMinor M3_schur 3 4 5 -
+          complexThreeRowMinor M3_schur 0 1 3 * complexThreeRowMinor M3_schur 2 4 5 +
+          complexThreeRowMinor M3_schur 0 1 4 * complexThreeRowMinor M3_schur 2 3 5 -
+          complexThreeRowMinor M3_schur 0 1 5 * complexThreeRowMinor M3_schur 2 3 4 = 0 := by
+  intro c_plus c_minus s_persp M3 M3_plus M3_minus M3_persp M3_schur J Sigma4
+  have h_parent := splat.gr36_volumetric_imaging_and_plucker_identities φ1 φ2 φ3 m_boson hbar hm
+  have h_plus := c_plus.gr36_volumetric_imaging_and_plucker_identities φ1 φ2 φ3 m_boson hbar hm
+  have h_minus := c_minus.gr36_volumetric_imaging_and_plucker_identities φ1 φ2 φ3 m_boson hbar hm
+  have h_split := splat.splitMajor3D_and_holographic_gr24_projection_identities
+    focalScale m_boson hbar 0 hf hz hm hhbar
+  have h_schur_base := schur_plucker_inversion_free_and_twistor_vane_identities
+    stress turbulence 0 hs_pos hτ_pos hτ_lt
+  have h_plus_s1 : c_plus.sigma1 = splat.sigma1 / 2 := rfl
+  have h_minus_s1 : c_minus.sigma1 = splat.sigma1 / 2 := rfl
+  have h_plus_s2 : c_plus.sigma2 = splat.sigma2 := rfl
+  have h_plus_s3 : c_plus.sigma3 = splat.sigma3 := rfl
+  have h_sc1a :
+      Complex.normSq (complexThreeRowMinor M3_plus 0 4 5) =
+        Complex.normSq (complexThreeRowMinor M3_minus 0 4 5) := by
+    rw [h_plus.2.1, h_minus.2.1, h_plus_s1, h_minus_s1]
+  have h_sc1b :
+      Complex.normSq (complexThreeRowMinor M3_plus 0 4 5) =
+        (1 / 4) * Complex.normSq (complexThreeRowMinor M3 0 4 5) := by
+    rw [h_plus.2.1, h_parent.2.1, h_plus_s1]
+    ring
+  have h_sc2 :
+      (c_plus.centerX - splat.centerX) ^ 2 +
+          (c_plus.centerY - splat.centerY) ^ 2 +
+          (c_plus.centerZ - splat.centerZ) ^ 2 +
+          Complex.normSq (complexThreeRowMinor M3_plus 0 4 5) =
+        Complex.normSq (complexThreeRowMinor M3 0 4 5) := by
+    rw [h_plus.2.1, h_parent.2.1]
+    exact h_split.2.2.2.2.1
+  have h_sc3a :
+      Complex.normSq (complexThreeRowMinor M3_plus 3 1 5) =
+        Complex.normSq (complexThreeRowMinor M3 3 1 5) := by
+    rw [h_plus.2.2.1, h_parent.2.2.1, h_plus_s2]
+  have h_sc3b :
+      Complex.normSq (complexThreeRowMinor M3_plus 3 4 2) =
+        Complex.normSq (complexThreeRowMinor M3 3 4 2) := by
+    rw [h_plus.2.2.2.1, h_parent.2.2.2.1, h_plus_s3]
+  have h_sc3c :
+      Complex.normSq (complexThreeRowMinor M3_plus 3 1 2) =
+        Complex.normSq (complexThreeRowMinor M3 3 1 2) := by
+    rw [h_plus.2.2.2.2.2.2.1, h_parent.2.2.2.2.2.2.1, h_plus_s2, h_plus_s3]
+  have h_sc4a :
+      Complex.normSq (complexThreeRowMinor M3_plus 0 1 5) =
+        (1 / 4) * Complex.normSq (complexThreeRowMinor M3 0 1 5) := by
+    rw [h_plus.2.2.2.2.1, h_parent.2.2.2.2.1]
+    dsimp [c_plus, splitMajorPlus, projectOrthographic2D, NormedTensorGaussianSplat2D.covDet]
+    ring
+  have h_sc4b :
+      Complex.normSq (complexThreeRowMinor M3_plus 0 4 2) =
+        (1 / 4) * Complex.normSq (complexThreeRowMinor M3 0 4 2) := by
+    rw [h_plus.2.2.2.2.2.1, h_parent.2.2.2.2.2.1, h_plus_s1, h_plus_s3]
+    ring
+  have h_sc5a :
+      Complex.normSq (complexThreeRowMinor M3_plus 0 1 2) =
+        (1 / 4) * Complex.normSq (complexThreeRowMinor M3 0 1 2) := by
+    rw [h_plus.2.2.2.2.2.2.2.1, h_parent.2.2.2.2.2.2.2.1]
+    exact h_split.2.2.2.2.2.1
+  have h_sc5b : Complex.normSq (complexThreeRowMinor M3_plus 0 1 2) = c_plus.covDet :=
+    h_plus.2.2.2.2.2.2.2.1
+  have h_sc6 :
+      c_plus.coreBohmPotential m_boson hbar - splat.coreBohmPotential m_boson hbar =
+        (3 * hbar ^ 2) / (4 * m_boson * Complex.normSq (complexThreeRowMinor M3 0 4 5)) := by
+    rw [h_parent.2.1]
+    exact h_split.2.2.2.2.2.2.1
+  -- Perspective splat in 3D with scaled lateral axes
+  let splat_persp3d : NormedTensorGaussianSplat3D :=
+    { centerX := (focalScale / splat.centerZ) * splat.centerX
+      centerY := (focalScale / splat.centerZ) * splat.centerY
+      centerZ := splat.centerZ
+      weight := splat.weight
+      weight_nonneg := splat.weight_nonneg
+      sigma1 := (focalScale / splat.centerZ) * splat.sigma1
+      sigma1_pos := mul_pos (div_pos hf hz) splat.sigma1_pos
+      sigma2 := (focalScale / splat.centerZ) * splat.sigma2
+      sigma2_pos := mul_pos (div_pos hf hz) splat.sigma2_pos
+      sigma3 := splat.sigma3
+      sigma3_pos := splat.sigma3_pos
+      orientationAngle := splat.orientationAngle
+      pitchAngle := splat.pitchAngle }
+  have hM3_persp_eq : M3_persp = splat_persp3d.gr36TwistorMatrix φ1 φ2 φ3 := rfl
+  have h_persp3d :=
+    splat_persp3d.gr36_volumetric_imaging_and_plucker_identities φ1 φ2 φ3 m_boson hbar hm
+  have h_p045 :
+      Complex.normSq (complexThreeRowMinor M3_persp 0 4 5) =
+        ((focalScale / splat.centerZ) * splat.sigma1) ^ 2 := by
+    rw [hM3_persp_eq]
+    exact h_persp3d.2.1
+  have h_p315 :
+      Complex.normSq (complexThreeRowMinor M3_persp 3 1 5) =
+        ((focalScale / splat.centerZ) * splat.sigma2) ^ 2 := by
+    rw [hM3_persp_eq]
+    exact h_persp3d.2.2.1
+  have h_p015 :
+      Complex.normSq (complexThreeRowMinor M3_persp 0 1 5) = s_persp.covDet := by
+    rw [hM3_persp_eq]
+    exact h_persp3d.2.2.2.2.1
+  have h_p015_scale :
+      Complex.normSq (complexThreeRowMinor M3_persp 0 1 5) =
+        (focalScale / splat.centerZ) ^ 4 *
+          Complex.normSq (complexThreeRowMinor M3 0 1 5) := by
+    rw [h_p015, h_parent.2.2.2.2.1]
+    dsimp [s_persp, projectPerspective2D, projectOrthographic2D,
+      NormedTensorGaussianSplat2D.covDet]
+    ring
+  have h_p012 :
+      Complex.normSq (complexThreeRowMinor M3_persp 0 1 2) =
+        Complex.normSq (complexThreeRowMinor M3_persp 0 1 5) *
+          Complex.normSq (complexThreeRowMinor M3 3 4 2) := by
+    rw [hM3_persp_eq, h_persp3d.2.2.2.2.2.2.2.1, h_persp3d.2.2.2.2.1, h_parent.2.2.2.1]
+    dsimp [splat_persp3d, projectOrthographic2D, NormedTensorGaussianSplat2D.covDet, covDet]
+  have h_hp3 :
+      (Complex.normSq (complexThreeRowMinor M3_persp 0 4 5) -
+          Complex.normSq (complexThreeRowMinor M3_persp 3 1 5)) /
+          (Complex.normSq (complexThreeRowMinor M3_persp 0 4 5) +
+            Complex.normSq (complexThreeRowMinor M3_persp 3 1 5)) =
+        (Complex.normSq (complexThreeRowMinor M3 0 4 5) -
+            Complex.normSq (complexThreeRowMinor M3 3 1 5)) /
+          (Complex.normSq (complexThreeRowMinor M3 0 4 5) +
+            Complex.normSq (complexThreeRowMinor M3 3 1 5)) := by
+    rw [h_p045, h_p315, h_parent.2.1, h_parent.2.2.1]
+    exact h_split.2.2.2.2.2.2.2.2.2.2.2.1
+  have hs1_ne : splat.sigma1 ≠ 0 := ne_of_gt splat.sigma1_pos
+  have hs2_ne : splat.sigma2 ≠ 0 := ne_of_gt splat.sigma2_pos
+  have hf_ne : focalScale ≠ 0 := ne_of_gt hf
+  have hz_ne : splat.centerZ ≠ 0 := ne_of_gt hz
+  have h_hp4 :
+      Complex.normSq (complexThreeRowMinor M3 0 1 2) /
+          Complex.normSq (complexThreeRowMinor M3 0 1 5) =
+        Complex.normSq (complexThreeRowMinor M3 3 4 2) := by
+    rw [h_parent.2.2.2.2.2.2.2.1, h_parent.2.2.2.2.1, h_parent.2.2.2.1]
+    dsimp [projectOrthographic2D, NormedTensorGaussianSplat2D.covDet, covDet]
+    field_simp [hs1_ne, hs2_ne]
+  have h_lat_pos : 0 < splat.sigma1 ^ 2 + splat.sigma2 ^ 2 := by
+    have : 0 < splat.sigma1 ^ 2 := sq_pos_of_pos splat.sigma1_pos
+    have : 0 < splat.sigma2 ^ 2 := sq_pos_of_pos splat.sigma2_pos
+    linarith
+  have h_lat_ne : splat.sigma1 ^ 2 + splat.sigma2 ^ 2 ≠ 0 := ne_of_gt h_lat_pos
+  have h_hp5 :
+      focalScale ^ 2 *
+          ((Complex.normSq (complexThreeRowMinor M3 0 4 5) +
+              Complex.normSq (complexThreeRowMinor M3 3 1 5)) /
+            (Complex.normSq (complexThreeRowMinor M3_persp 0 4 5) +
+              Complex.normSq (complexThreeRowMinor M3_persp 3 1 5))) =
+        splat.centerZ ^ 2 := by
+    rw [h_parent.2.1, h_parent.2.2.1, h_p045, h_p315]
+    have h_sum_p :
+        ((focalScale / splat.centerZ) * splat.sigma1) ^ 2 +
+            ((focalScale / splat.centerZ) * splat.sigma2) ^ 2 =
+          (focalScale / splat.centerZ) ^ 2 * (splat.sigma1 ^ 2 + splat.sigma2 ^ 2) := by
+      ring
+    rw [h_sum_p]
+    field_simp [hf_ne, hz_ne, h_lat_ne]
+  -- Schur-Plucker Gr_C(3,6) matrix via a 3D splat with sigma1 = sqrt(1+τ), sigma2 = sqrt(1-τ), sigma3 = (1-τ²)/sqrt(1+τ²)
+  have h1p_pos : 0 < 1 + turbulence := by linarith
+  have h1m_pos : 0 < 1 - turbulence := by linarith
+  have h1t2_pos : 0 < 1 + turbulence ^ 2 := by positivity
+  have h_1m_t2_pos : 0 < 1 - turbulence ^ 2 := by nlinarith
+  let splat_schur3d : NormedTensorGaussianSplat3D :=
+    { centerX := 0
+      centerY := 0
+      centerZ := 1
+      weight := 1
+      weight_nonneg := by norm_num
+      sigma1 := Real.sqrt (1 + turbulence)
+      sigma1_pos := Real.sqrt_pos.mpr h1p_pos
+      sigma2 := Real.sqrt (1 - turbulence)
+      sigma2_pos := Real.sqrt_pos.mpr h1m_pos
+      sigma3 := (1 - turbulence ^ 2) / Real.sqrt (1 + turbulence ^ 2)
+      sigma3_pos := div_pos h_1m_t2_pos (Real.sqrt_pos.mpr h1t2_pos)
+      orientationAngle := 0
+      pitchAngle := 0 }
+  have hM3_schur_eq : M3_schur = splat_schur3d.gr36TwistorMatrix φ1 φ2 φ3 := rfl
+  have h_schur3d :=
+    splat_schur3d.gr36_volumetric_imaging_and_plucker_identities φ1 φ2 φ3 m_boson hbar hm
+  have h_sp1a : Complex.normSq (complexThreeRowMinor M3_schur 0 4 5) = 1 + turbulence := by
+    rw [hM3_schur_eq, h_schur3d.2.1]
+    dsimp [splat_schur3d]
+    exact Real.sq_sqrt (le_of_lt h1p_pos)
+  have h_sp1b : Complex.normSq (complexThreeRowMinor M3_schur 3 1 5) = 1 - turbulence := by
+    rw [hM3_schur_eq, h_schur3d.2.2.1]
+    dsimp [splat_schur3d]
+    exact Real.sq_sqrt (le_of_lt h1m_pos)
+  have h_sp2a : Complex.normSq (complexThreeRowMinor M3_schur 0 1 5) = 1 - turbulence ^ 2 := by
+    rw [hM3_schur_eq, h_schur3d.2.2.2.2.1]
+    dsimp [splat_schur3d, projectOrthographic2D, NormedTensorGaussianSplat2D.covDet]
+    rw [Real.sq_sqrt (le_of_lt h1p_pos), Real.sq_sqrt (le_of_lt h1m_pos)]
+    ring
+  have h_sp2b : Complex.normSq (complexThreeRowMinor M3_schur 0 1 5) = J.det := by
+    rw [h_sp2a, h_schur_base.1]
+  have h_sp3 :
+      Complex.normSq (complexThreeRowMinor M3_schur 3 4 2) =
+        schurComplement3DVolume turbulence := by
+    rw [hM3_schur_eq, h_schur3d.2.2.2.1]
+    dsimp [splat_schur3d, schurComplement3DVolume]
+    rw [div_pow, Real.sq_sqrt (le_of_lt h1t2_pos)]
+  have h_sp4 :
+      Sigma4.det =
+        Sigma4 3 3 * Complex.normSq (complexThreeRowMinor M3_schur 3 4 2) := by
+    rw [h_sp3]
+    exact h_schur_base.2.2.2.1
+  have h_sp5 := complexThreeRowMinor_pluecker M3_schur 0 1 2 3 4 5
+  exact ⟨h_sc1a, h_sc1b, h_sc2, h_sc3a, h_sc3b, h_sc3c, h_sc4a, h_sc4b,
+    h_sc5a, h_sc5b, h_sc6, h_p015, h_p015_scale, h_p012, h_hp3, h_hp4, h_hp5,
+    h_sp1a, h_sp1b, h_sp2a, h_sp2b, h_sp3, h_sp4, h_sp5⟩
+
 end Signals.DDF

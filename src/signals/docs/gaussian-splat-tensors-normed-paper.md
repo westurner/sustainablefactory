@@ -1,10 +1,10 @@
 ---
-title: "Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic Gr_C(2,4) Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications"
-description: "An arXiv-ready MyST Markdown formal verification paper detailing 2D and 3D normed anisotropic Tensor Gaussian Splats in the Signals Lean 4 library and LeanArchitect Blueprint, proving all simultaneous splitting conservation and holographic Gr_C(2,4) projection laws, and cataloging applications in Appendices across all companion grassmannian-*-paper.md studies."
+title: "Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic Gr_C(2,4) & Gr_C(3,6) Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications"
+description: "An arXiv-ready MyST Markdown formal verification paper detailing 2D and 3D normed anisotropic Tensor Gaussian Splats in the Signals Lean 4 library and LeanArchitect Blueprint, proving all simultaneous splitting conservation, holographic Gr_C(2,4) and Gr_C(3,6) projection, and Schur-Plücker laws, and cataloging applications in Appendices across all companion grassmannian-*-paper.md studies."
 ---
 
 (gaussian-splat-tensors-normed-paper)=
-# Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic $Gr_{\mathbb{C}}(2,4)$ Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications
+# Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic $Gr_{\mathbb{C}}(2,4)$ & $Gr_{\mathbb{C}}(3,6)$ Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications
 
 - **Authors:** Wes Turner
 - **Subjects:**
@@ -147,9 +147,9 @@ $$
 
 ---
 
-## 2. Complete Catalog of Simultaneous Conservation, Holographic $Gr_{\mathbb{C}}(2,4)$ Projection, and Schur–Plücker Laws
+## 2. Complete Catalog of Simultaneous Conservation, Holographic $Gr_{\mathbb{C}}(2,4)$ & $Gr_{\mathbb{C}}(3,6)$ Projection, and Schur–Plücker Laws
 
-Below is the complete, cross-referenced list of simultaneous conservation and projection laws machine-checked in `Signals.DDF`.
+Below is the complete, cross-referenced list of simultaneous conservation, holographic projection, and Schur–Plücker laws machine-checked in `Signals.DDF` across both $Gr_{\mathbb{C}}(2,4)$ ($2\times 2$ Plücker minors) and higher-rank $Gr_{\mathbb{C}}(3,6)$ ($3\times 3$ Plücker minors).
 
 ### 2.1 The 9 Simultaneous 2D Adaptive Splat-Splitting Conservation Laws (`NormedTensorGaussianSplat2D.splitMajor_conservation_identities`)
 
@@ -228,6 +228,76 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L5938-L6065) (Blueprint nod
 
 ---
 
+### 2.5 The 12 Simultaneous Higher-Rank $Gr_{\mathbb{C}}(3, 6)$ Direct 3D Volumetric Splat Imaging & Plücker Syzygy Laws (`NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities`)
+
+Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6124-L6211) (Blueprint node `thm:signals-ddf-gr36-volumetric-imaging-identities`) and implemented in Rust in [`NormedTensorGaussianSplat3D::gr36_volumetric_invariants`](../numerical_adapter/src/orbital_splat.rs#L891-L904). Embedding a 3D normed tensor Gaussian splat directly into $Gr_{\mathbb{C}}(3, 6)$ via $M_3 = \bigl[\,I_3 \;\big|\; \operatorname{diag}(\sigma_1 e^{i\phi_1},\, \sigma_2 e^{i\phi_2},\, \sigma_3 e^{i\phi_3})\,\bigr]$ (`splat.gr36TwistorMatrix`) encodes all 1D, 2D, and 3D covariance invariants into $3\times 3$ Plücker minors $\Delta_{ijk}^{\mathbb{C}}(M_3)$ (`complexThreeRowMinor`):
+
+| # | Higher-Rank $Gr_{\mathbb{C}}(3,6)$ Volumetric Law | Mathematical Identity in $3\times 3$ Plücker Minors | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6129-L6165) |
+|---|---|---|---|
+| **G3-V1** | **Principal 1st-Axis Variance Minor** | $\bigl|\Delta_{045}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_1^2$ | `h_vol.1` |
+| **G3-V2** | **Principal 2nd-Axis Variance Minor** | $\bigl|\Delta_{315}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_2^2$ | `h_vol.2.1` |
+| **G3-V3** | **Principal 3rd-Axis (Depth) Variance Minor** | $\bigl|\Delta_{342}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_3^2$ | `h_vol.2.2.1` |
+| **G3-V4** | **Transverse $xy$ Marginal Area Minor (Orthographic 2D Determinant)** | $\bigl|\Delta_{015}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_1^2\sigma_2^2 = \det\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}$ | `h_vol.2.2.2.1` |
+| **G3-V5** | **Meridional $xz$ Marginal Area Minor** | $\bigl|\Delta_{042}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_1^2\sigma_3^2$ | `h_vol.2.2.2.2.1` |
+| **G3-V6** | **Sagittal $yz$ Marginal Area Minor** | $\bigl|\Delta_{312}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_2^2\sigma_3^2$ | `h_vol.2.2.2.2.2.1` |
+| **G3-V7** | **Full 3D Volumetric Covariance Determinant Minor** | $\bigl|\Delta_{012}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_1^2\sigma_2^2\sigma_3^2 = \det\Sigma_{\mathrm{3D}}$ | `h_vol.2.2.2.2.2.2.1` |
+| **G3-V8** | **Full 3D Covariance Trace from Single-Entry Minors** | $\bigl|\Delta_{045}^{\mathbb{C}}(M_3)\bigr|^2 + \bigl|\Delta_{315}^{\mathbb{C}}(M_3)\bigr|^2 + \bigl|\Delta_{342}^{\mathbb{C}}(M_3)\bigr|^2 = \operatorname{Tr}\Sigma_{\mathrm{3D}}$ | `h_vol.2.2.2.2.2.2.2.1` |
+| **G3-V9** | **Full 3D Core Bohm Quantum Potential from $Gr_{\mathbb{C}}(3,6)$ Minors** | $\frac{\hbar^2}{4m}\,\frac{\bigl|\Delta_{312}^{\mathbb{C}}\bigr|^2 + \bigl|\Delta_{042}^{\mathbb{C}}\bigr|^2 + \bigl|\Delta_{015}^{\mathbb{C}}\bigr|^2}{\bigl|\Delta_{012}^{\mathbb{C}}\bigr|^2} = Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}})$ | `h_vol.2.2.2.2.2.2.2.2.1` |
+| **G3-V10** | **Exact Factorization of 3D Volume into 2D Screen Area $\times$ Axial Depth Minor** | $\bigl|\Delta_{012}^{\mathbb{C}}(M_3)\bigr|^2 = \bigl|\Delta_{015}^{\mathbb{C}}(M_3)\bigr|^2\,\bigl|\Delta_{342}^{\mathbb{C}}(M_3)\bigr|^2$ | `h_vol.2.2.2.2.2.2.2.2.2.1` |
+| **G3-V11** | **Consistency of $Gr_{\mathbb{C}}(3,6)$ Minors with Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Ratio** | $\frac{\bigl|\Delta_{045}^{\mathbb{C}}(M_3)\bigr|^2 + \bigl|\Delta_{315}^{\mathbb{C}}(M_3)\bigr|^2}{\bigl|\Delta_{342}^{\mathbb{C}}(M_3)\bigr|^2} = \frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2}$ | `h_vol.2.2.2.2.2.2.2.2.2.2.1` |
+| **G3-V12** | **4-Term Quadratic Plücker Syzygy on $Gr_{\mathbb{C}}(3,6)$** | $\Delta_{012}\Delta_{045} - \Delta_{014}\Delta_{025} + \Delta_{015}\Delta_{024} = \Delta_{021}\Delta_{045} + \Delta_{024}\Delta_{015} - \Delta_{025}\Delta_{014}$ | `h_vol.2.2.2.2.2.2.2.2.2.2.2` |
+
+---
+
+### 2.6 The 24 Simultaneous Higher-Rank $Gr_{\mathbb{C}}(3, 6)$ Splitting Conservation, Holographic Perspective Projection, and Inversion-Free Schur–Plücker Laws (`NormedTensorGaussianSplat3D.gr36_simultaneous_conservation_holographic_projection_and_schur_identities`)
+
+Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6365-L6593) (Blueprint node `thm:signals-ddf-gr36-simultaneous-conservation-projection-schur`) and implemented in Rust in [`NormedTensorGaussianSplat3D::gr36_perspective_invariants`](../numerical_adapter/src/orbital_splat.rs#L909-L931) and [`gr36_schur_shear_invariants`](../numerical_adapter/src/orbital_splat.rs#L938-L958). Let:
+- $M_3 = \text{splat}.\mathrm{gr36TwistorMatrix}(\phi_1, \phi_2, \phi_3)$ be the parent $Gr_{\mathbb{C}}(3,6)$ twistor frame,
+- $M_{3,+} = c_+.\mathrm{gr36TwistorMatrix}(\phi_1, \phi_2, \phi_3)$ and $M_{3,-} = c_-.\mathrm{gr36TwistorMatrix}(\phi_1, \phi_2, \phi_3)$ be the two-child 3D split $Gr_{\mathbb{C}}(3,6)$ frames (`c_plus = splat.splitMajorPlus`, `c_minus = splat.splitMajorMinus`),
+- $M_3^{\mathrm{persp}} = \text{splat}.\mathrm{gr36PerspectiveTwistorMatrix}(f, \phi_1, \phi_2, \phi_3)$ be the perspective-projected $Gr_{\mathbb{C}}(3,6)$ frame with lateral focal scaling $s = f / z_c$, and
+- $M_{3,\tau} = \operatorname{gr36SchurShearMatrix}(\tau, \phi_1, \phi_2, \phi_3)$ be the higher-rank $Gr_{\mathbb{C}}(3,6)$ Schur–Plücker shear frame with entries $\bigl(\sqrt{1+\tau}\,e^{i\phi_1},\, \sqrt{1-\tau}\,e^{i\phi_2},\, \frac{1-\tau^2}{\sqrt{1+\tau^2}}\,e^{i\phi_3}\bigr)$.
+
+#### Part I — $Gr_{\mathbb{C}}(3,6)$ Adaptive 3D Two-Child Splat-Splitting Conservation (`G3-SC1` to `G3-SC11`)
+
+| # | $Gr_{\mathbb{C}}(3,6)$ Splitting Conservation Law | Mathematical Identity in $3\times 3$ Plücker Minors | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6384-L6417) |
+|---|---|---|---|
+| **G3-SC1** | **Child Major-Minor Symmetry ($M_{3,+}$ vs. $M_{3,-}$)** | $\bigl|\Delta_{045}^{\mathbb{C}}(M_{3,+})\bigr|^2 = \bigl|\Delta_{045}^{\mathbb{C}}(M_{3,-})\bigr|^2$ | `h.1` |
+| **G3-SC2** | **Major-Axis $Gr_{\mathbb{C}}(3,6)$ Minor Quartering** | $\bigl|\Delta_{045}^{\mathbb{C}}(M_{3,+})\bigr|^2 = \frac{1}{4}\bigl|\Delta_{045}^{\mathbb{C}}(M_3)\bigr|^2$ | `h.2.1` |
+| **G3-SC3** | **1D Principal Major Variance Conservation in $Gr_{\mathbb{C}}(3,6)$ Minors** | $\bigl|\Delta_{045}^{\mathbb{C}}(M_{3,+})\bigr|^2 + \delta_1^2 = \bigl|\Delta_{045}^{\mathbb{C}}(M_3)\bigr|^2$ ($\delta_1 = \frac{\sqrt{3}}{2}\sigma_1$) | `h.2.2.1` |
+| **G3-SC4** | **Full 3D Spherical-Harmonic $(\theta, \psi)$ Second-Moment Conservation in $Gr_{\mathbb{C}}(3,6)$** | $(x_+ - x_c)^2 + (y_+ - y_c)^2 + (z_+ - z_c)^2 + \bigl|\Delta_{045}^{\mathbb{C}}(M_{3,+})\bigr|^2 = \bigl|\Delta_{045}^{\mathbb{C}}(M_3)\bigr|^2$ | `h.2.2.2.1` |
+| **G3-SC5** | **Exact Transverse 2nd-Axis Minor Invariance Under Major Split** | $\bigl|\Delta_{315}^{\mathbb{C}}(M_{3,+})\bigr|^2 = \bigl|\Delta_{315}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_2^2$ | `h.2.2.2.2.1` |
+| **G3-SC6** | **Exact Axial 3rd-Axis Minor Invariance Under Major Split** | $\bigl|\Delta_{342}^{\mathbb{C}}(M_{3,+})\bigr|^2 = \bigl|\Delta_{342}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_3^2$ | `h.2.2.2.2.2.1` |
+| **G3-SC7** | **Exact Sagittal $yz$ Cross-Section Minor Invariance Under Major Split** | $\bigl|\Delta_{312}^{\mathbb{C}}(M_{3,+})\bigr|^2 = \bigl|\Delta_{312}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_2^2\sigma_3^2$ | `h.2.2.2.2.2.2.1` |
+| **G3-SC8** | **Transverse $xy$ Marginal Area Minor Quartering** | $\bigl|\Delta_{015}^{\mathbb{C}}(M_{3,+})\bigr|^2 = \frac{1}{4}\bigl|\Delta_{015}^{\mathbb{C}}(M_3)\bigr|^2$ | `h.2.2.2.2.2.2.2.1` |
+| **G3-SC9** | **Meridional $xz$ Marginal Area Minor Quartering** | $\bigl|\Delta_{042}^{\mathbb{C}}(M_{3,+})\bigr|^2 = \frac{1}{4}\bigl|\Delta_{042}^{\mathbb{C}}(M_3)\bigr|^2$ | `h.2.2.2.2.2.2.2.2.1` |
+| **G3-SC10** | **Full 3D Volumetric Minor Quartering** | $\bigl|\Delta_{012}^{\mathbb{C}}(M_{3,+})\bigr|^2 = \frac{1}{4}\bigl|\Delta_{012}^{\mathbb{C}}(M_3)\bigr|^2 = \det\Sigma_{\mathrm{3D},+}$ | `h.2.2.2.2.2.2.2.2.2.1` & `h.2.2.2.2.2.2.2.2.2.2.1` |
+| **G3-SC11** | **3D Core Bohm Quantum Potential Refinement Increment via $Gr_{\mathbb{C}}(3,6)$ Minor** | $Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D},+}) - Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = \frac{3\hbar^2}{4m\,\bigl|\Delta_{045}^{\mathbb{C}}(M_3)\bigr|^2} > 0$ | `h.2.2.2.2.2.2.2.2.2.2.2.1` |
+
+#### Part II — $Gr_{\mathbb{C}}(3,6)$ Holographic Perspective Projection & Tomographic Depth Recovery (`G3-HP1` to `G3-HP6`)
+
+| # | $Gr_{\mathbb{C}}(3,6)$ Holographic Projection Law | Mathematical Identity in $3\times 3$ Plücker Minors | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6418-L6442) |
+|---|---|---|---|
+| **G3-HP1** | **Perspective 2D Screen Determinant Minor Identity** | $\bigl|\Delta_{015}^{\mathbb{C}}(M_3^{\mathrm{persp}})\bigr|^2 = \det\Sigma_{\mathrm{2D}}^{\mathrm{persp}}$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.1` |
+| **G3-HP2** | **Poincaré / EWA $(f/z_c)^4$ Scaling of Transverse $Gr_{\mathbb{C}}(3,6)$ Area Minor** | $\bigl|\Delta_{015}^{\mathbb{C}}(M_3^{\mathrm{persp}})\bigr|^2 = \left(\frac{f}{z_c}\right)^4 \bigl|\Delta_{015}^{\mathbb{C}}(M_3)\bigr|^2$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
+| **G3-HP3** | **Perspective 3D Volumetric Minor Factorization** | $\bigl|\Delta_{012}^{\mathbb{C}}(M_3^{\mathrm{persp}})\bigr|^2 = \bigl|\Delta_{015}^{\mathbb{C}}(M_3^{\mathrm{persp}})\bigr|^2\,\bigl|\Delta_{342}^{\mathbb{C}}(M_3)\bigr|^2$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
+| **G3-HP4** | **Strict Depth-Invariance of Lateral Anisotropy in $Gr_{\mathbb{C}}(3,6)$ Minors** | $\frac{|\Delta_{045}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2 - |\Delta_{315}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2}{|\Delta_{045}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2 + |\Delta_{315}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2} = \frac{|\Delta_{045}^{\mathbb{C}}(M_3)|^2 - |\Delta_{315}^{\mathbb{C}}(M_3)|^2}{|\Delta_{045}^{\mathbb{C}}(M_3)|^2 + |\Delta_{315}^{\mathbb{C}}(M_3)|^2}$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
+| **G3-HP5** | **Direct $Gr_{\mathbb{C}}(3,6)$ Quotient Recovery of Axial Variance $\sigma_3^2$** | $\frac{\bigl|\Delta_{012}^{\mathbb{C}}(M_3)\bigr|^2}{\bigl|\Delta_{015}^{\mathbb{C}}(M_3)\bigr|^2} = \bigl|\Delta_{342}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_3^2$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
+| **G3-HP6** | **Tomographic Focal Depth $z_c^2$ Recovery from $Gr_{\mathbb{C}}(3,6)$ Minors** | $f^2\,\frac{|\Delta_{045}^{\mathbb{C}}(M_3)|^2 + |\Delta_{315}^{\mathbb{C}}(M_3)|^2}{|\Delta_{045}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2 + |\Delta_{315}^{\mathbb{C}}(M_3^{\mathrm{persp}})|^2} = z_c^2$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
+
+#### Part III — $Gr_{\mathbb{C}}(3,6)$ Inversion-Free Schur–Plücker Determinant Calculus (`G3-SP1` to `G3-SP7`)
+
+| # | $Gr_{\mathbb{C}}(3,6)$ Schur–Plücker Law | Mathematical Identity in $3\times 3$ Plücker Minors | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6443-L6465) |
+|---|---|---|---|
+| **G3-SP1** | **Forward Shear Eigen-Channel Minor ($1 + \tau$)** | $\bigl|\Delta_{045}^{\mathbb{C}}(M_{3,\tau})\bigr|^2 = 1 + \tau$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
+| **G3-SP2** | **Backward Shear Eigen-Channel Minor ($1 - \tau$)** | $\bigl|\Delta_{315}^{\mathbb{C}}(M_{3,\tau})\bigr|^2 = 1 - \tau$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
+| **G3-SP3** | **Impeller Shear Jacobian Determinant as Transverse $Gr_{\mathbb{C}}(3,6)$ Minor** | $\bigl|\Delta_{015}^{\mathbb{C}}(M_{3,\tau})\bigr|^2 = 1 - \tau^2 = \det J(s, \tau)$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` & `.2.1` |
+| **G3-SP4** | **3D Schur-Complement Volume as Axial $Gr_{\mathbb{C}}(3,6)$ Minor** | $\bigl|\Delta_{342}^{\mathbb{C}}(M_{3,\tau})\bigr|^2 = \operatorname{schurComplement3DVolume}(\tau) = \frac{(1-\tau^2)^2}{1+\tau^2}$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
+| **G3-SP5** | **Inversion-Free $4\times 4$ Covariance Factorization via $Gr_{\mathbb{C}}(3,6)$ Minor** | $\det\Sigma_{4\times 4} = (\Sigma_{4\times 4})_{3,3}\cdot \bigl|\Delta_{342}^{\mathbb{C}}(M_{3,\tau})\bigr|^2$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
+| **G3-SP6** | **Full $Gr_{\mathbb{C}}(3,6)$ Schur Volumetric Minor Product** | $\bigl|\Delta_{012}^{\mathbb{C}}(M_{3,\tau})\bigr|^2 = (1 - \tau^2)\cdot \operatorname{schurComplement3DVolume}(\tau)$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
+| **G3-SP7** | **4-Term Quadratic Plücker Syzygy on $M_{3,\tau} \in Gr_{\mathbb{C}}(3,6)$** | $\Delta_{012}\Delta_{045} - \Delta_{014}\Delta_{025} + \Delta_{015}\Delta_{024} = \Delta_{021}\Delta_{045} + \Delta_{024}\Delta_{015} - \Delta_{025}\Delta_{014}$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2` |
+
+---
+
 ## 3. LeanArchitect (`@[blueprint]`) Node Index & Machine-Checked Lean 4 Proofs
 
 ### 3.1 LeanArchitect Blueprint Node Registry (`Signals.DDF`)
@@ -267,6 +337,12 @@ Every definition and theorem in the 2D and 3D Tensor Gaussian Splat hierarchy is
 | `thm:signals-ddf-splat3d-and-holographic-gr24-projection-trick` | `NormedTensorGaussianSplat3D.splitMajor3D_and_holographic_gr24_projection_identities` | 10 simultaneous 3D splitting & holographic $Gr_{\mathbb{C}}(2,4)$ projection laws |
 | `thm:signals-ddf-schur-plucker-inversion-free-identities` | `schur_plucker_inversion_free_and_twistor_vane_identities` | Inversion-free Schur–Plücker volume & twistor shear theorem |
 | `thm:signals-ddf-holographic-gr24-imaging-depth-recovery` | `NormedTensorGaussianSplat3D.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities` | Holographic $Gr_{\mathbb{C}}(2,4)$ depth recovery & convergent-beam theorem |
+| `def:signals-ddf-gr36-volumetric-imaging-matrix` | `gr36VolumetricImagingMatrix` | Canonical $3 \times 6$ complex Grassmannian $Gr_{\mathbb{C}}(3,6)$ volumetric matrix |
+| `def:signals-ddf-splat3d-gr36-twistor-matrix` | `NormedTensorGaussianSplat3D.gr36TwistorMatrix` | Direct $Gr_{\mathbb{C}}(3,6)$ twistor embedding of a 3D tensor Gaussian splat |
+| `thm:signals-ddf-gr36-volumetric-imaging-identities` | `NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities` | 12 simultaneous $Gr_{\mathbb{C}}(3,6)$ 3D volumetric minor & Plücker syzygy laws |
+| `def:signals-ddf-splat3d-gr36-perspective-twistor-matrix` | `NormedTensorGaussianSplat3D.gr36PerspectiveTwistorMatrix` | Perspective-projected $Gr_{\mathbb{C}}(3,6)$ twistor embedding ($s = f/z_c$) |
+| `def:signals-ddf-gr36-schur-shear-matrix` | `gr36SchurShearMatrix` | Higher-rank $Gr_{\mathbb{C}}(3,6)$ Schur–Plücker shear matrix |
+| `thm:signals-ddf-gr36-simultaneous-conservation-projection-schur` | `NormedTensorGaussianSplat3D.gr36_simultaneous_conservation_holographic_projection_and_schur_identities` | 24 simultaneous $Gr_{\mathbb{C}}(3,6)$ splitting conservation, perspective projection, & Schur–Plücker laws |
 
 ### 3.2 Self-Contained Machine-Checked Lean 4 Verification Block
 
@@ -357,6 +433,48 @@ example (θ : ℝ) :
     2 (3 / 5) θ (by norm_num) (by norm_num) (by norm_num)
   exact ⟨h.1, h.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2⟩
+
+-- 4. Higher-Rank Gr_C(3,6) Simultaneous Splitting Conservation, Perspective Projection, & Schur-Plücker Laws
+example (splat3d : NormedTensorGaussianSplat3D) (hz : 0 < splat3d.centerZ)
+    (ϕ₁ ϕ₂ ϕ₃ : ℝ) :
+    let c_plus := splat3d.splitMajorPlus
+    let M3 := splat3d.gr36TwistorMatrix ϕ₁ ϕ₂ ϕ₃
+    let M3_plus := c_plus.gr36TwistorMatrix ϕ₁ ϕ₂ ϕ₃
+    let M3_persp := splat3d.gr36PerspectiveTwistorMatrix 2 ϕ₁ ϕ₂ ϕ₃
+    let M3_τ := gr36SchurShearMatrix (3 / 5) ϕ₁ ϕ₂ ϕ₃
+    let J := impellerShear4x4 2 (3 / 5)
+    let Sigma4 := J * J.transpose
+    Complex.normSq (complexThreeRowMinor M3_plus 0 4 5) =
+      (1 / 4) * Complex.normSq (complexThreeRowMinor M3 0 4 5) ∧
+    (c_plus.centerX - splat3d.centerX) ^ 2 +
+        (c_plus.centerY - splat3d.centerY) ^ 2 +
+        (c_plus.centerZ - splat3d.centerZ) ^ 2 +
+        Complex.normSq (complexThreeRowMinor M3_plus 0 4 5) =
+      Complex.normSq (complexThreeRowMinor M3 0 4 5) ∧
+    Complex.normSq (complexThreeRowMinor M3_plus 0 1 2) =
+      (1 / 4) * Complex.normSq (complexThreeRowMinor M3 0 1 2) ∧
+    Complex.normSq (complexThreeRowMinor M3_persp 0 1 5) =
+      (2 / splat3d.centerZ) ^ 4 * Complex.normSq (complexThreeRowMinor M3 0 1 5) ∧
+    (2 : ℝ) ^ 2 *
+        ((Complex.normSq (complexThreeRowMinor M3 0 4 5) +
+            Complex.normSq (complexThreeRowMinor M3 3 1 5)) /
+          (Complex.normSq (complexThreeRowMinor M3_persp 0 4 5) +
+            Complex.normSq (complexThreeRowMinor M3_persp 3 1 5))) =
+      splat3d.centerZ ^ 2 ∧
+    Complex.normSq (complexThreeRowMinor M3_τ 0 1 5) = J.det ∧
+    Complex.normSq (complexThreeRowMinor M3_τ 3 4 2) =
+      schurComplement3DVolume (3 / 5) ∧
+    Sigma4.det =
+      Sigma4 3 3 * Complex.normSq (complexThreeRowMinor M3_τ 3 4 2) := by
+  intro c_plus M3 M3_plus M3_persp M3_τ J Sigma4
+  have h := splat3d.gr36_simultaneous_conservation_holographic_projection_and_schur_identities
+    2 1 1 ϕ₁ ϕ₂ ϕ₃ 2 (3 / 5)
+    (by norm_num) hz (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.2.1, h.2.2.1, h.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
 end NormedTensorGaussianSplatPaperVerification
 ```
