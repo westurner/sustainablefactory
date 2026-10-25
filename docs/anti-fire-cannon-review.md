@@ -279,6 +279,75 @@ The Grassmannian-splat chat describes covariance tensors as shear/stretch state 
 
 The Signals Pending library now separates `MediumConstituent`, `MediumResponseRegime`, and `PropagationRegime`. `MediumComposition` records basis-specific volume, mass, or mole fractions that sum to one; `LayeredPropagationPath` retains the ordered layer thicknesses and the $N+1$ boundary interfaces for $N$ layers. Each layer carries its own bulk-loss input, and the path frequency and summed thickness are checked against the Proca trial and link budget. No effective permittivity or attenuation is inferred by averaging these fields. The trial also records field interpretation, coordinate representation, mode-fit residuals, and massless-control residuals. Its `twistorCoordinates` option changes only representation; it does not create a new polarization or waive calibration and loss measurements.
 
+### 4.7 The Three Metamaterial Regimes of `rGO-polyCBD-SS-Lignin` and the 3-Zone $400 \to 800\text{ GHz}$ Hyperbolic SFG Lens with Denisov Linear Mode Conversion
+
+In the later iterations of the chat ([`rGO-polyCBD-SS-Lignin` metamaterial proposal](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15764-L15818); [3-zone $400 \to 800\text{ GHz}$ hyperbolic SFG lens](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15855-L15925)), the design replaces the unrefined Kraft lignin-vitrimer host ($\tan\delta \approx 0.065$ at $400\text{ GHz}$ and $0.110$ at $800\text{ GHz}$, which causes severe dielectric heating and thermal blooming; [dielectric comparison](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15226-L15255)) with a hybrid segmented copolymer nanolaminate: **`rGO-polyCBD-SS-Lignin`**. This architecture combines:
+- **2D reduced Graphene Oxide (rGO)** nanosheets as the plasmonic negative-permittivity component ($\varepsilon_{\mathrm{rGO}}(\omega) = \varepsilon_\infty - \frac{\omega_{p,\mathrm{rGO}}^2}{\omega(\omega + i\gamma)}$, modeled at $400\text{ GHz}$ as $\varepsilon_m \approx -110 + 4.5i$),
+- **Hemp-derived poly(cannabidiol) carbonate (`polyCBD`)** ([Xu et al. 2026](#xu-ieee-2026); [Davis et al. 2026](#davis-chem-2026)) as the low-loss positive-permittivity dielectric host ($\varepsilon_d \approx 2.82$, with assumed sub-THz $\tan\delta \approx 0.0052$ at $400\text{ GHz}$ and $0.0078$ at $800\text{ GHz}$), and
+- **Aromatic disulfide-linked lignin (`SS-Lignin`)** crosslinkers with a topology-freezing transition temperature $T_v \approx 110\text{–}115^\circ\text{C}$, enabling electro-thermal orientation and vitrification locking of the embedded rGO flakes.
+
+#### 4.7.1 Effective Medium Theory and the Three Operating Regimes of `rGO-polyCBD-SS-Lignin`
+
+For a sub-wavelength nanolaminate with unit-cell period $\Lambda = d_m + d_d \ll \lambda$ and rGO volume fill fraction $f = \frac{d_m}{d_m + d_d} \in (0, 1)$, Maxwell–Garnett / Effective Medium Theory (EMT) gives the uniaxial permittivity tensor $\bar{\bar{\varepsilon}} = \operatorname{diag}(\varepsilon_\parallel, \varepsilon_\parallel, \varepsilon_\perp)$ ([EMT equations](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15777-L15785)):
+
+$$
+\varepsilon_\parallel(\omega, f) = f\,\varepsilon_{\mathrm{rGO}}(\omega) + (1 - f)\,\varepsilon_{\mathrm{polyCBD}},
+\qquad
+\varepsilon_\perp(\omega, f) = \frac{\varepsilon_{\mathrm{rGO}}(\omega)\,\varepsilon_{\mathrm{polyCBD}}}{(1 - f)\,\varepsilon_{\mathrm{rGO}}(\omega) + f\,\varepsilon_{\mathrm{polyCBD}}}.
+$$
+
+In the lossless baseline ($\varepsilon_m = -|\varepsilon_m| < 0$ and $0 < \varepsilon_d < |\varepsilon_m|$), the in-plane zero-crossing fill fraction $f_{\mathrm{ENZ}}$ and out-of-plane resonance pole fill fraction $f_{\perp,\mathrm{pole}}$ form an exact partition of unity:
+
+$$
+f_{\mathrm{ENZ}} = \frac{\varepsilon_d}{\varepsilon_d + |\varepsilon_m|} \in \left(0, \frac{1}{2}\right),
+\qquad
+f_{\perp,\mathrm{pole}} = \frac{|\varepsilon_m|}{\varepsilon_d + |\varepsilon_m|} = 1 - f_{\mathrm{ENZ}} \in \left(\frac{1}{2}, 1\right).
+$$
+
+By tuning the rGO fill fraction $f$ and the disulfide-locked flake orientation angle $\theta_{\mathrm{flake}}$, the chat defines **three metamaterial operating regimes** in the same `rGO-polyCBD-SS-Lignin` copolymer ([three-regime table](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15785-L15791)):
+
+| Metamaterial Regime | Tensor Condition | `rGO-polyCBD-SS-Lignin` Configuration | Proposed Function & Review Finding |
+| --- | --- | --- | --- |
+| **1. Epsilon-Near-Zero (ENZ) Mode** | $\operatorname{Re}(\varepsilon_\parallel) = 0$,<br>$\operatorname{Re}(\varepsilon_\perp) = \frac{|\varepsilon_m|\varepsilon_d(\varepsilon_d + |\varepsilon_m|)}{|\varepsilon_m|^2 - \varepsilon_d^2} > 0$ | Set rGO fill fraction to the critical threshold $f = f_{\mathrm{ENZ}} \approx 2.495\%$ at $400\text{ GHz}$ (for $\varepsilon_d = 2.82, |\varepsilon_m| = 110$). | **Internal $E_z$ boundary enhancement.** Normal displacement continuity ($\varepsilon_1 E_{1z} = \varepsilon_{\mathrm{ENZ}} E_{2z}$) amplifies the longitudinal field *inside* the ENZ layer by $\lvert\varepsilon_1 / \varepsilon_{\mathrm{ENZ}}\rvert$, bounded by $\varepsilon_1 / \operatorname{Im}(\varepsilon_{\mathrm{ENZ}})$. It does not create a lossless free-space Proca beam outside the slab. |
+| **2. Type-II Hyperbolic Metamaterial (Layered rGO)** | $\operatorname{Re}(\varepsilon_\parallel) < 0$,<br>$\operatorname{Re}(\varepsilon_\perp) > 0$,<br>$\operatorname{Re}(\varepsilon_\parallel)\operatorname{Re}(\varepsilon_\perp) < 0$ | Align rGO sheets parallel to the web ($\theta_{\mathrm{flake}} = 0^\circ$) via slot-die shear and uniaxial draw in the window $f_{\mathrm{ENZ}} < f < f_{\perp,\mathrm{pole}}$ (e.g. $f = 3.20\%$). | **High-$k$ hyperboloid & non-collinear SFG phase matching.** Supports open two-sheeted hyperboloid dispersion $k_z^2(k_x) = \varepsilon_\perp\bigl((\omega/c)^2 + k_x^2 / |\varepsilon_\parallel|\bigr) > \varepsilon_\perp(\omega/c)^2$, enabling axial wavevector matching inside the lens core. |
+| **3. Type-I Dielectric-to-Hyperbolic Voxel Switch** | $\operatorname{Re}(\varepsilon_\parallel^{(90^\circ)}) > 0$,<br>$\operatorname{Re}(\varepsilon_\perp^{(90^\circ)}) < 0$,<br>$\operatorname{Re}(\varepsilon_\parallel^{(90^\circ)})\operatorname{Re}(\varepsilon_\perp^{(90^\circ)}) < 0$ | Heat selected pixel above $T_v \approx 115^\circ\text{C}$ to soften disulfide bonds, apply vertical $E_z$ to rotate rGO flakes to $\theta_{\mathrm{flake}} = 90^\circ$, and cool below $T_v$. | **Reconfigurable SLM & $z$-axis needle.** Swapping $(\varepsilon_\parallel, \varepsilon_\perp) \mapsto (\varepsilon_\perp, \varepsilon_\parallel)$ converts a Type-II reflector into a Type-I sub-wavelength transmission channel. Requires experimental demonstration of uniform $90^\circ$ flake torque in a viscous melt without aggregation. |
+
+#### 4.7.2 The 3-Zone $400 \to 800\text{ GHz}$ Hyperbolic SFG Lens Architecture & Denisov Mode Conversion
+
+To address the momentum-matching and mode-conversion gaps noted in [Section 4.2](#42-the-frequency-chain-is-ambiguous), the chat designs a flat **$4.20\text{ mm}$** three-zone nanolaminate lens with unit-cell period $\Lambda = d_m + d_d = 10.0\text{ }\mu\text{m}$ ($\lambda_{800\text{ GHz}} / 37.5$, well inside the sub-wavelength EMT regime) and $420$ total bilayers ([3-zone stack table](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15862-L15876)):
+
+| Lens Zone | Axial Depth ($z$) | Bilayers ($N$) | rGO Fill Fraction ($f = d_m / \Lambda$) | Layer Thicknesses ($d_m$ / $d_d$) | Local Tensor Regime | Electromagnetic Function |
+| --- | --- | ---: | --- | --- | --- | --- |
+| **Zone 1: Denisov Input Coupler** | $0.0\text{ to }1.20\text{ mm}$ | $120$ | Graded $0.50\% \to 2.495\%$ | $50\text{ nm} \to 249.5\text{ nm}$ rGO / $9.95 \to 9.75\text{ }\mu\text{m}$ `polyCBD` | Graded Dielectric $\to$ **$400\text{ GHz}$ ENZ** ($\operatorname{Re}(\varepsilon_{\parallel,400}) = 0$) | Converts obliquely incident transverse TM ($p$-polarized) $400\text{ GHz}$ waves into longitudinal $E_z$ volume plasmon polaritons via **Denisov Linear Mode Conversion** at $\theta_{\mathrm{Denisov}} \approx 21.74^\circ$. |
+| **Zone 2: Hyperbolic SFG Core** | $1.20\text{ to }3.70\text{ mm}$ | $250$ | Constant $f = 3.20\%$ | $320\text{ nm}$ rGO / $9.68\text{ }\mu\text{m}$ strained `polyCBD-CNC` | **Type-II Hyperbolic** at $400\text{ GHz}$ ($\varepsilon_{\parallel,1} = -0.79, \varepsilon_{\perp,1} = +2.92$); **Elliptical** at $800\text{ GHz}$ ($\varepsilon_{\parallel,2} = +1.84, \varepsilon_{\perp,2} = +2.85$) | Intersects two counter-tilted $400\text{ GHz}$ hyperbolic cones ($\pm k_{x,1}$) at internal cone angle $\theta_{\mathrm{PM}} = 28.62^\circ$ ($\Lambda_r = 612\text{ }\mu\text{m}$ Bragg grating) so transverse momenta cancel ($k_{x,1} + (-k_{x,1}) = 0$) and axial momenta match ($2k_{z,1} = k_{z,2}$). |
+| **Zone 3: $800\text{ GHz}$ ENZ Out-Coupler** | $3.70\text{ to }4.20\text{ mm}$ | $50$ | Stepped $f = 9.88\%$ + $q = 1/2$ Bragg plate | $988\text{ nm}$ rGO / $9.012\text{ }\mu\text{m}$ `polyCBD` ($\theta_{\mathrm{flake}} = 90^\circ$) | **$800\text{ GHz}$ ENZ Horizon** ($\varepsilon_{800} \approx 0.002 + 0.048i$) | Amplifies the internal longitudinal $800\text{ GHz}$ electric field by $\lvert\varepsilon_d / \varepsilon_{\mathrm{ENZ}}\rvert \approx 58.7\times$ and couples to an azimuthal $q = 1/2$ radial vector vortex aperture. |
+
+The mathematical chain across the three zones operates as follows ([Denisov & hyperbolic phase-matching equations](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15878-L15916)):
+
+1. **Zone 1 — Denisov Linear Mode Conversion ($\theta_{\mathrm{Denisov}} \approx 21.74^\circ$)**:
+   Across a linearly graded permittivity profile $\varepsilon_\parallel(z) \approx -(z - z_{\mathrm{ENZ}})/L_n$ with scale length $L_n = 1.20\text{ mm}$ ($k_0 L_n \approx 10.06$ at $f_1 = 400\text{ GHz}$, $k_0 = 83.83\text{ cm}^{-1}$), an obliquely incident TM wave's transverse magnetic field $H_y$ tunnels to the $\varepsilon_\parallel = 0$ horizon and drives a resonant longitudinal electric field $E_z = -(\sin\theta_{\mathrm{in}} / \varepsilon_\parallel(z)) H_y$ ([Denisov 1957](#denisov-1957); [Poddubny et al. 2013](#poddubny-2013)):
+   $$
+   \tau_D = (k_0 L_n)^{1/3}\sin\theta_{\mathrm{in}},
+   \qquad
+   \eta_{\mathrm{Denisov}}(\tau_D) = 2\pi\tau_D^2\bigl[\operatorname{Ai}(\tau_D^2 - \tau_0)\bigr]^2.
+   $$
+   At normal incidence ($\theta_{\mathrm{in}} = 0^\circ$), $\tau_D = 0$ and mode conversion vanishes identically. Peak conversion occurs at $\tau_{\mathrm{opt}} \approx 0.80$, giving $\theta_{\mathrm{Denisov}} = \arcsin\bigl(0.80 / (10.06)^{1/3}\bigr) \approx 21.74^\circ$.
+2. **Zone 2 — Non-Collinear Type-II Hyperbolic Sum-Frequency Generation ($\Delta\mathbf{k} = 0$)**:
+   At $400\text{ GHz}$ ($\omega_1$), $f = 3.20\%$ rGO places the stack in the Type-II hyperbolic regime ($\varepsilon_{\parallel,1} = -0.790 < 0, \varepsilon_{\perp,1} = +2.918 > 0$), while at $800\text{ GHz}$ ($\omega_2 = 2\omega_1$) the Drude term drops by $(\omega_1/\omega_2)^2 = 1/4$ so the stack is elliptical dielectric ($\varepsilon_{\parallel,2} = +1.84, \varepsilon_{\perp,2} = +2.85$). Launching two symmetric $400\text{ GHz}$ pump cones with opposite transverse wavevectors $+k_{x,1}$ and $-k_{x,1}$ (assisted by the concentric azimuthal `polyCBD-CNC` Bragg grating pitch $\Lambda_r = 612.0\text{ }\mu\text{m}$) satisfies both:
+   $$
+   k_{x,2} = (+k_{x,1}) + (-k_{x,1}) = 0,
+   \qquad
+   2\,k_{z,1}(k_{x,1}) = 2\sqrt{\varepsilon_{\perp,1}\left(\frac{\omega_1^2}{c^2} + \frac{k_{x,1}^2}{|\varepsilon_{\parallel,1}|}\right)} = k_{z,2} = \frac{2\omega_1}{c}\sqrt{\varepsilon_{\perp,2}},
+   $$
+   eliminating transverse walk-off and matching the axial phase velocity inside the $2.50\text{ mm}$ core.
+3. **Zone 3 — $800\text{ GHz}$ ENZ Boundary Amplification & Review Boundaries**:
+   Stepping the rGO fill fraction to $f = 9.88\%$ shifts the ENZ crossing to $800\text{ GHz}$, where $\lvert\varepsilon_d / \varepsilon_{\mathrm{ENZ}}\rvert = 2.82 / \sqrt{0.002^2 + 0.048^2} \approx 58.7\times$.
+   - *Critical Review Finding*: While this 3-zone design closes the internal wavevector and polarization bookkeeping that was missing in the earlier $10\text{ nm}$ cellulose-strip narrative, **four physical boundaries remain unverified**:
+     1. **Extrapolated Sub-THz Loss Tangent**: The low loss of hemp `polyCBD` carbonate is experimentally demonstrated at $5\text{G/mmWave}$ frequencies ([Xu et al. 2026](#xu-ieee-2026)); its $400\text{–}800\text{ GHz}$ permittivity and loss tangent ($\tan\delta = 0.0052\text{–}0.0078$) are extrapolations that require THz time-domain spectroscopy (THz-TDS).
+     2. **Drude Damping at the ENZ Horizon**: Real rGO sheets at sub-THz frequencies exhibit carrier scattering ($\operatorname{Im}(\varepsilon_{\mathrm{rGO}})$) that caps the ENZ enhancement at $\Gamma_{\mathrm{ENZ,reg}} \le \varepsilon_d^2 / \varepsilon_i^2$ and converts absorbed TM power into Ohmic heating inside Zones 1 and 3.
+     3. **Unmeasured Bulk $\chi^{(2)}_{zzz} \approx 48\text{ pm/V}$**: Achieving lithium-niobate-class second-order susceptibility in uniaxially drawn `polyCBD-CNC` is a material hypothesis requiring calibrated SFG efficiency measurements.
+     4. **Internal ENZ Spike vs. External Soil Propagation**: Normal displacement continuity $\varepsilon_{\mathrm{ENZ}} E_{z,\mathrm{ENZ}} = \varepsilon_{\mathrm{air}} E_{z,\mathrm{air}}$ amplifies $E_z$ **inside** the thin ENZ film; upon exiting into air or moist soil, the boundary factor inverts, and any focal $E_z$ component generated by the $q = 1/2$ radial vector vortex aperture (`debyeWolfLongitudinalComponent`) remains subject to diffraction and exponential soil skin-depth attenuation (`evolveContinuumSppPropagation`).
+
 ### Scholarly References
 
 (goldhaber-nieto-2010)=
@@ -286,6 +355,18 @@ The Signals Pending library now separates `MediumConstituent`, `MediumResponseRe
 
 (liberal-engheta-2017)=
 <a id="liberal-engheta-2017"></a> Liberal, I., and Engheta, N. "Near-zero refractive index photonics." *Nature Photonics* 11, 149-158 (2017). [DOI](https://doi.org/10.1038/nphoton.2017.13).
+
+(poddubny-2013)=
+<a id="poddubny-2013"></a> Poddubny, A., Iorsh, I., Belov, P., and Kivshar, Y. "Hyperbolic metamaterials." *Nature Photonics* 7, 948-957 (2013). [DOI](https://doi.org/10.1038/nphoton.2013.243).
+
+(denisov-1957)=
+<a id="denisov-1957"></a> Denisov, N. G. "On a singularity of the field of an electromagnetic wave propagating in an inhomogeneous plasma." *Soviet Physics JETP* 4, 544-553 (1957).
+
+(xu-ieee-2026)=
+<a id="xu-ieee-2026"></a> Xu, Y., Liu, X., Davis, B., Sotzing, G., and Cakmak, M. "Sustainable Hemp-based Polycarbonate Substrates Enabling Low-Loss 5G and mmWave Electronic Systems." *2026 IEEE MTT-S Radio Frequency Systems and Applications Symposium*. [IEEE Xplore](https://ieeexplore.ieee.org/abstract/document/11624319).
+
+(davis-chem-2026)=
+<a id="davis-chem-2026"></a> Davis, B., Sotzing, G., and Cakmak, M. "High-molecular-weight hemp-derived polycannabidiol carbonate thermoplastic with PET-like heat resistance, strength, and processability." *Chem Circularity* (2026).
 
 (itu-p452)=
 <a id="itu-p452"></a> ITU-R Recommendation P.452-18 (2023), *Prediction procedure for the evaluation of interference between stations on the surface of the Earth at frequencies above about 100 MHz*. [ITU](https://www.itu.int/rec/R-REC-P.452/en).
@@ -411,7 +492,15 @@ In `Signals.Scattering` ([src/signals/Signals/Scattering.lean](../src/signals/Si
    - In `csr_spp_cherenkov_cavity_and_grover_identities`, we prove that transverse electromagnetic waves in a plasma ($\omega > \omega_p$) have superluminal phase velocity $v_{\mathrm{ph},\perp}^2 = c^2\omega^2/(\omega^2 - \omega_p^2) > c^2$, whereas longitudinal Bohm–Gross modes (`longitudinalPlasmaPhaseVelSq`) and Surface Plasmon Polaritons (`sppEffectiveIndexSq`) slow the phase velocity below $c$, enabling subluminal Cherenkov/Landau phase matching ($\cos\theta_C = v_{\mathrm{ph}}/v_e \in (0, 1)$).
    - In lossy soil or moist overburden with attenuation coefficient $\gamma_{\mathrm{soil}} > 0$, `evolveContinuumSppPropagation γ_soil (L1 + L2) I0` proves exact exponential attenuation $I(L_1 + L_2) = I_0 e^{-\gamma_{\mathrm{soil}}(L_1 + L_2)}$, demonstrating why $400\text{–}800\text{ GHz}$ waves cannot penetrate meters of wet soil from the surface without the mechanical **ground-driven anti-fire shaft array** described in [Proposed ground-driven variant](#proposed-ground-driven-variant).
 
-For the full machine-checked Lean 4 and Rust/WASM formalizations of these theorems, see the companion papers [Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics](grassmannian-polariton-spp-mechanics-paper.md) and [The Holographic Principle in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-holographic-principle-paper.md).
+4. **`rGO-polyCBD-SS-Lignin` ENZ & Hyperbolic Metamaterial Regimes, 3-Zone $400 \to 800\text{ GHz}$ Hyperbolic SFG Phase Matching, and Denisov Linear Mode Conversion (`rgo_polycbd_enz_hyperbolic_and_plasma_metamaterial_identities`, `vectorial_longitudinal_polarization_metasurface_and_enz_identities`)**:
+   - In `Signals.DDF` ([src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L6389-L6945), Blueprint nodes `thm:signals-ddf-vectorial-longitudinal-metasurface-enz` and `thm:signals-ddf-enz-hyperbolic-metamaterial-regimes`) and the Rust/WASM numerical adapter ([src/signals/numerical_adapter/src/polariton_spp.rs](../src/signals/numerical_adapter/src/polariton_spp.rs#L945-L1035)), we have machine-checked the 22 simultaneous laws governing the `rGO-polyCBD-SS-Lignin` metamaterial and the 3-zone $400 \to 800\text{ GHz}$ SFG lens reviewed in [Section 4.7](#47-the-three-metamaterial-regimes-of-rgo-polycbd-ss-lignin-and-the-3-zone-400--800-ghz-hyperbolic-sfg-lens-with-denisov-linear-mode-conversion):
+     1. **Critical Fill-Fraction Partition of Unity**: $f_{\mathrm{ENZ}} + f_{\perp,\mathrm{pole}} = \frac{\varepsilon_d}{\varepsilon_d + |\varepsilon_m|} + \frac{|\varepsilon_m|}{\varepsilon_d + |\varepsilon_m|} = 1$ with $0 < f_{\mathrm{ENZ}} < \frac{1}{2} < f_{\perp,\mathrm{pole}} < 1$ whenever $0 < \varepsilon_d < |\varepsilon_m|$ (`emtCriticalEnzFillFraction`, `emtPerpendicularPoleFillFraction`).
+     2. **Regime 1 (Exact In-Plane ENZ Zero-Crossing & Loss-Regularized Ceiling)**: At $f = f_{\mathrm{ENZ}}$, $\varepsilon_\parallel(f_{\mathrm{ENZ}}, -|\varepsilon_m|, \varepsilon_d) = 0$ and $\varepsilon_\perp(f_{\mathrm{ENZ}}, -|\varepsilon_m|, \varepsilon_d) = \frac{|\varepsilon_m|\varepsilon_d(\varepsilon_d + |\varepsilon_m|)}{|\varepsilon_m|^2 - \varepsilon_d^2} > 0$, while `enzRegularizedEnhancement` proves the Drude-loss-bounded ceiling $\Gamma_{\mathrm{ENZ,reg}}(\varepsilon_d, \varepsilon_r, \varepsilon_i) = \frac{\varepsilon_d^2}{\varepsilon_r^2 + \varepsilon_i^2} \le \frac{\varepsilon_d^2}{\varepsilon_i^2}$.
+     3. **Regime 2 (Type-II Hyperbolic SFG Core & Non-Collinear Momentum Cancellation)**: On $f_{\mathrm{ENZ}} < f < f_{\perp,\mathrm{pole}}$ (e.g. Zone 2 at $f = 3.20\%$ rGO), $\varepsilon_\parallel(f) < 0$, $\varepsilon_\perp(f) > 0$, and $\varepsilon_\parallel(f)\varepsilon_\perp(f) < 0$; for any $k_x \ne 0$, `typeIIHyperbolicKzSq` satisfies $k_z^2(k_x) > \varepsilon_\perp\omega_c^2$, $k_z^2(-k_x) = k_z^2(k_x)$, and $k_x + (-k_x) = 0$.
+     4. **Regime 3 ($90^\circ$ Disulfide Flake-Rotation Switch)**: `rotated90MetamaterialTensor` swaps $(\varepsilon_\parallel, \varepsilon_\perp) \mapsto (\varepsilon_\perp, \varepsilon_\parallel)$, proving $\varepsilon_\parallel^{(90^\circ)} > 0$, $\varepsilon_\perp^{(90^\circ)} < 0$, and $\varepsilon_\parallel^{(90^\circ)}\varepsilon_\perp^{(90^\circ)} < 0$ (Type-I hyperbolic transmission needle).
+     5. **Denisov Oblique-Incidence Gate & $Gr_{\mathbb{C}}(2,4)$ Plücker Permittivity Duality**: `denisovModeConversionParam k0 Ln 0 = 0` proves that normal incidence ($\theta_{\mathrm{in}} = 0^\circ$) yields zero TM-to-longitudinal mode conversion, while embedding the hyperbolic anisotropy $\chi_{\mathrm{HMM}} = \frac{|\varepsilon_m| - \varepsilon_d}{|\varepsilon_m| + \varepsilon_d} \in (-1, 1)$ into $M_{\mathrm{HMM}} \in Gr_{\mathbb{C}}(2,4)$ recovers the exact dielectric-to-metallic ratio $\frac{|w_A^{\mathbb{C}}(M_{\mathrm{HMM}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{HMM}})|^2} = \frac{|\varepsilon_m|}{\varepsilon_d}$.
+
+For the full machine-checked Lean 4 and Rust/WASM formalizations of these theorems, see the companion papers [Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics](grassmannian-polariton-spp-mechanics-paper.md), [The Holographic Principle in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-holographic-principle-paper.md), [3D Vectorial Wave Model for Longitudinal Polarization ($E_z$) and Higher-Rank $Gr_{\mathbb{C}}(3,n)$ Volumetric Imaging](grassmannian-vectorial-longitudinal-polarization-paper.md), and [Epsilon-Near-Zero (ENZ) and Hyperbolic Metamaterials in Unified Grassmannian–DDF Mechanics](grassmannian-enz-hyperbolic-metamaterials-paper.md).
 
 (dean-nature-2025)=
 <a id="dean-nature-2025"></a> Dean, et al. "Low-power integrated optical amplification through second-harmonic resonance." *Nature* (2025/2026). [DOI: 10.1038/s41586-025-09959-z](https://doi.org/10.1038/s41586-025-09959-z).
