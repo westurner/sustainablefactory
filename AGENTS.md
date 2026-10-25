@@ -424,6 +424,49 @@ make aggregate_data
 
 ---
 
+### 7. **KiCad EDA, `kicad-happy` Skills, & RISC-V Holographic Nanolithography Agent**
+**Purpose**: Perform AI-powered KiCad schematic/PCB/Gerber/EMC/SPICE design reviews using [`kicad-happy`](src/kicad-happy/README.md) skills and generate/verify 2D & 3D lithography masks (`.kicad_mod`, `.gds`, `.kicad_vol`, and IOF/PROV-O `_CBOM.yaml-ld`) for metamaterial lenses and carbon-based RISC-V cores (`CVA6`, `CHERI-CVA6`, `Ibex`) at $405\text{ nm}$ and $532\text{ nm}$.
+
+**Installed `kicad-happy` Skills** (cloned in [`src/kicad-happy/skills/`](src/kicad-happy/skills/) and symlinked into [`.agents/skills/`](.agents/skills/), `~/.claude/skills/`, and `~/.codex/skills/`):
+
+| Skill | Skill Path | What It Does & How to Use It |
+|-------|------------|------------------------------|
+| **`kicad`** | [`.agents/skills/kicad/SKILL.md`](.agents/skills/kicad/SKILL.md) | Parse and analyze `.kicad_sch`, `.kicad_pcb`, `.kicad_pro`, `.kicad_mod`, Gerbers, and PDF reference schematics. Run `python3 .agents/skills/kicad/scripts/analyze_schematic.py <file.kicad_sch>`, `analyze_pcb.py --full <file.kicad_pcb>`, `cross_analysis.py`, `analyze_thermal.py`, and `analyze_gerbers.py`. |
+| **`spice`** | [`.agents/skills/spice/SKILL.md`](.agents/skills/spice/SKILL.md) | Generate and run SPICE testbenches (`ngspice`, `ltspice`, `xyce`) for detected RC/LC filters, voltage dividers, op-amp stages, feedback loops, and Monte Carlo tolerance sweeps. |
+| **`emc`** | [`.agents/skills/emc/SKILL.md`](.agents/skills/emc/SKILL.md) | Run 44 geometric and analytical EMC pre-compliance checks (ground plane voids, PDN impedance, differential-pair skew, switching harmonics, ESD paths) against FCC Class B, CISPR 32/25, and MIL-STD-461G. |
+| **`datasheets`** | [`.agents/skills/datasheets/SKILL.md`](.agents/skills/datasheets/SKILL.md) | Sync and extract structured JSON specifications (pinouts, abs max ratings, Vref, thermal resistance) from component PDF datasheets into `<project>/datasheets/extracted/`. |
+| **`bom`** | [`.agents/skills/bom/SKILL.md`](.agents/skills/bom/SKILL.md) | Manage BOM lifecycle: audit MPN coverage, detect lifecycle/obsolescence risks, and export per-supplier order CSVs. |
+| **`digikey`** | [`.agents/skills/digikey/SKILL.md`](.agents/skills/digikey/SKILL.md) | Search DigiKey inventory, pricing, and datasheets for prototype sourcing. |
+| **`mouser`** | [`.agents/skills/mouser/SKILL.md`](.agents/skills/mouser/SKILL.md) | Search Mouser catalog and fetch component datasheets. |
+| **`lcsc`** | [`.agents/skills/lcsc/SKILL.md`](.agents/skills/lcsc/SKILL.md) | Search LCSC catalog and JLCPCB basic/extended SMT parts library. |
+| **`element14`** | [`.agents/skills/element14/SKILL.md`](.agents/skills/element14/SKILL.md) | Search Newark / Farnell / element14 storefronts for international component sourcing. |
+| **`jlcpcb`** | [`.agents/skills/jlcpcb/SKILL.md`](.agents/skills/jlcpcb/SKILL.md) | Validate JLCPCB DFM design rules and export formatted BOM + CPL placement files. |
+| **`pcbway`** | [`.agents/skills/pcbway/SKILL.md`](.agents/skills/pcbway/SKILL.md) | Validate PCBWay DFM constraints and turnkey assembly packages. |
+
+**How to Use `kicad-happy` Skills in Agent Workflows**:
+1. **Read the Skill First**: Before reviewing any KiCad file or PDF schematic, read [`.agents/skills/kicad/SKILL.md`](.agents/skills/kicad/SKILL.md) (and `references/report-generation.md` for full reviews).
+2. **Inspect Output Schema**: Run `python3 .agents/skills/kicad/scripts/analyze_schematic.py --schema` or `analyze_pcb.py --schema` to inspect exact JSON keys before querying analyzer output.
+3. **Follow the Design Review Contract**: Always run `analyze_schematic.py`, `analyze_pcb.py --full`, `cross_analysis.py`, `analyze_emc.py`, `analyze_thermal.py`, and `spice` (when a simulator is installed), and state explicitly if `datasheets/` is missing (`DS-001` / `DS-002`).
+
+**Cloned RISC-V Core Repositories & $405\text{ nm} / 532\text{ nm}$ Carbon Nanolithography Workflow**:
+- [`src/core-v-cores/`](src/core-v-cores/README.md) (`openhwfoundation/core-v-cores`): OpenHW CORE-V family index (`CVA6`, `CVW`, `CVE4`, `CVE2`, `CVA5`).
+- [`src/cheri-cva6/`](src/cheri-cva6/README.md) (`Capabilities-Limited/cheri-cva6`) & [`src/cva6-cheri/`](src/cva6-cheri/README.md) (`lowRISC/cva6-cheri`): **6-stage Linux-capable RV64GC application processor** (`PC_GEN`, `IF`, `ID`, `ISSUE`, `EX`, `COMMIT` with Sv39 MMU `core/cva6_mmu/cva6_tlb.sv`, hardware PTW `cva6_ptw.sv`, and RVY CHERI v0.9.3 capability unit `core/cheri_unit.sv`).
+- [`src/ibex/`](src/ibex/README.md) (`lowRISC/ibex`): **2/3-stage RV32IMCB + CHERIoT embedded core** (`rtl/ibex_core.sv`, `rtl/ibex_cheriot_ex.sv`, `rtl/ibex_trvk.sv`, and `rtl/ibex_lockstep.sv` 1oo2 redundant lockstep comparator for SIL-4 safety).
+- [`src/signals/numerical_adapter/src/cannon_mask_cad.rs`](src/signals/numerical_adapter/src/cannon_mask_cad.rs): Pure-Rust / WASM generator and binary parser for KiCAD v8 (`.kicad_mod`), GDSII v6.0 (`.gds`), 3D `.kicad_vol` splines (`n_lig`, `s_lig`, `sp3_diamond`, `o_cnt`, `polycbd_bragg`), Metric Interference DRC, and IOF/EMMO/PROV-O/QUDT `_CBOM.yaml-ld` files, backed by `Signals.DDF.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities` in [`src/signals/Signals/DDF.lean`](src/signals/Signals/DDF.lean).
+
+**Key Commands**:
+```bash
+# Export 400->800 GHz Cannon Lens + CVA6 (6-stage Linux), CHERI-CVA6, and Ibex (.kicad_mod, .gds, .kicad_vol, _CBOM.yaml-ld)
+cargo run --manifest-path src/signals/numerical_adapter/Cargo.toml \
+  --bin cannon-mask-cad -- --out-dir .tmp/cad_out --forward-pitch --export-riscv-all
+
+# Run kicad-happy schema inspection or PCB/schematic analyzers
+python3 .agents/skills/kicad/scripts/analyze_schematic.py --schema
+python3 .agents/skills/kicad/scripts/analyze_pcb.py --schema
+```
+
+---
+
 ## Cross-Agent Workflows
 
 ### Full Build Pipeline

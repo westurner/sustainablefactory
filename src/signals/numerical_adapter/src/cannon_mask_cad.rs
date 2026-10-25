@@ -854,6 +854,595 @@ pub extern "C" fn wasm_proca_cannon_mask_polygon_count(
     generate_mask_polygons(&spec).len() as u32
 }
 
+// =========================================================================
+// PART 2: 3D HOLOGRAPHIC CARBON NANOLITHOGRAPHY (405 nm + 532 nm),
+//         `.kicad_vol` VOLUMETRIC EDA, & 6-STAGE LINUX RISC-V (CVA6 / IBEX)
+// =========================================================================
+
+/// Synthesized carbon / polymer material phases in 3D holographic longitudinal
+/// nanolithography (`data/chats/IQ-Sampling-for-Signal-Phase.md`, lines 9875–9965).
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum CarbonMaterial {
+    /// $n$-type Nitrogen-doped Laser-Induced Graphene (`n_lig`, $sp^2$ conductor, Layer 10).
+    NLigSp2,
+    /// $p$-type Sulfur-doped Laser-Induced Graphene (`s_lig`, complementary logic gate, Layer 11).
+    SLigPType,
+    /// Wide-bandgap ($5.5\text{ eV}$) $sp^3$ diamond ballistic phonon router & tunneling armor (`sp3_diamond`, Layer 12).
+    Sp3DiamondPhononBus,
+    /// High-$k$ Oxygen-Functionalized Carbon Nanotube (`o_cnt`) crosstalk shield & Sendust-analogue core (Layer 13).
+    OCntHighKShield,
+    /// Strained `polyCBD-CNC` chiral Bragg reflector / waveguide ($405\text{ nm}$ / $532\text{ nm}$, Layer 14).
+    PolyCbdBraggGrating,
+}
+
+impl CarbonMaterial {
+    pub fn as_kicad_vol_token(&self) -> &'static str {
+        match self {
+            Self::NLigSp2 => "n_lig",
+            Self::SLigPType => "s_lig",
+            Self::Sp3DiamondPhononBus => "sp3_diamond",
+            Self::OCntHighKShield => "o_cnt",
+            Self::PolyCbdBraggGrating => "polycbd_bragg",
+        }
+    }
+
+    pub fn gds_layer(&self) -> i16 {
+        match self {
+            Self::NLigSp2 => 10,
+            Self::SLigPType => 11,
+            Self::Sp3DiamondPhononBus => 12,
+            Self::OCntHighKShield => 13,
+            Self::PolyCbdBraggGrating => 14,
+        }
+    }
+
+    pub fn emmo_class(&self) -> &'static str {
+        match self {
+            Self::NLigSp2 => "emmo:NitrogenDopedGrapheneSp2",
+            Self::SLigPType => "emmo:SulfurDopedGrapheneSp2",
+            Self::Sp3DiamondPhononBus => "emmo:CrystallineDiamondSp3",
+            Self::OCntHighKShield => "emmo:OxygenFunctionalizedCNT",
+            Self::PolyCbdBraggGrating => "emmo:ChiralPolyCBDCarbonate",
+        }
+    }
+}
+
+/// Open-source RISC-V core architectures cloned in `src/` and targeted for
+/// $405\text{ nm} / 532\text{ nm}$ carbon-based holographic nanolithography.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum RiscVCorePreset {
+    /// OpenHW CORE-V `CVA6` (`CV64A60AX` / Ariane, `src/core-v-cores` & `src/cva6-cheri`):
+    /// 6-stage (`PC_GEN`, `IF`, `ID`, `ISSUE`, `EX`, `COMMIT`), RV64GC, M/S/U privilege modes,
+    /// hardware PTW + ITLB/DTLB (Sv39 MMU) capable of running Linux.
+    Cva6Linux6StageRv64gc,
+    /// Capabilities-Limited / lowRISC `CHERI-CVA6` (`src/cheri-cva6` & `src/cva6-cheri`):
+    /// 6-stage Linux-capable RV64GC + RVY CHERI v0.9.3 (128-bit capability bounds + tag bit
+    /// in `core/cheri_unit.sv` for hardware compartmentalization of `ansiblers` / `LayerVirt`).
+    CheriCva6Linux6StageRvy,
+    /// lowRISC `Ibex` (`src/ibex`): 3-stage (`IF`, `ID_EX`, `WB_LOCKSTEP`) RV32IMCB + CHERIoT
+    /// (`rtl/ibex_cheriot_ex.sv`, `rtl/ibex_trvk.sv`) + 1oo2 redundant lockstep comparator
+    /// (`rtl/ibex_lockstep.sv`) for the $150\text{ }\mu\text{s}$ SIL-4 MHD switchover controller.
+    IbexCheriotLockstep3StageRv32imcb,
+}
+
+/// Dual-wavelength $405\text{ nm}$ (longitudinal $E_z$ excitation) + $532\text{ nm}$
+/// (helical doughnut $\sigma\cdot\ell = +1$ depletion, Laser Compression Shock, and
+/// fiducial alignment) holographic nanolithography specification.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct HolographicLaserLithoSpec {
+    /// Primary longitudinal $E_z$ writing wavelength ($\text{nm}$), nominal $405.0\text{ nm}$.
+    pub write_wavelength_nm: f64,
+    /// Secondary helical doughnut ($\sigma\cdot\ell = +1$) depletion & LCS wavelength ($\text{nm}$), nominal $532.0\text{ nm}$.
+    pub depletion_wavelength_nm: f64,
+    /// Immersion objective numerical aperture ($\mathrm{NA}$), nominal $1.4$.
+    pub numerical_aperture: f64,
+    /// Depletion saturation ratio $\zeta_{532} = I_{532} / I_{\mathrm{sat}} \ge 0$, nominal $63.0$.
+    pub sted_saturation_ratio: f64,
+    /// Mean refractive index $\bar{n}$ of `polyCBD-SS-Lignin` at $532\text{ nm}$, nominal $1.59$.
+    pub polycbd_mean_index: f64,
+    /// Normalized metric-squeeze threshold $A_{sp3}$ above which constructive interference
+    /// accidentally synthesizes insulating $sp^3$ diamond (`IQ-Sampling-for-Signal-Phase.md`, line 9883).
+    pub sp3_diamond_squeeze_threshold: f64,
+    /// Maximum orthogonal holographic flashes per block, nominal $12$.
+    pub max_orthogonal_flashes: u8,
+}
+
+impl Default for HolographicLaserLithoSpec {
+    fn default() -> Self {
+        Self {
+            write_wavelength_nm: 405.0,
+            depletion_wavelength_nm: 532.0,
+            numerical_aperture: 1.4,
+            sted_saturation_ratio: 63.0,
+            polycbd_mean_index: 1.59,
+            sp3_diamond_squeeze_threshold: 2.0,
+            max_orthogonal_flashes: 12,
+        }
+    }
+}
+
+impl HolographicLaserLithoSpec {
+    /// Unconstrained Abbe diffraction spot width $w_0 = \frac{\lambda_{405}}{2\,\mathrm{NA}}$ ($\text{nm}$).
+    #[inline]
+    pub fn abbe_diffraction_linewidth_nm(&self) -> f64 {
+        self.write_wavelength_nm / (2.0 * self.numerical_aperture)
+    }
+
+    /// Dual-beam $405\text{ nm} + 532\text{ nm}$ STED-depleted feature linewidth
+    /// $w_{\mathrm{STED}} = \frac{\lambda_{405}}{2\,\mathrm{NA}\sqrt{1 + \zeta_{532}}}$ ($\text{nm}$),
+    /// matching `Signals.DDF.stedDepletedLinewidthSq`.
+    #[inline]
+    pub fn sted_depleted_linewidth_nm(&self) -> f64 {
+        self.abbe_diffraction_linewidth_nm() / (1.0 + self.sted_saturation_ratio).sqrt()
+    }
+
+    /// $532\text{ nm}$ Laser Compression Shock (LCS) Bragg grating period
+    /// $d_{\mathrm{Bragg,532}} = \frac{\lambda_{532}}{2\,\bar{n}}$ ($\text{nm}$).
+    #[inline]
+    pub fn lcs_green_bragg_pitch_nm(&self) -> f64 {
+        self.depletion_wavelength_nm / (2.0 * self.polycbd_mean_index)
+    }
+}
+
+/// A 3D topological spline in `.kicad_vol` format (`IQ-Sampling-for-Signal-Phase.md`, line 9875).
+#[derive(Clone, Debug, PartialEq)]
+pub struct VolumetricSpline3D {
+    pub id: String,
+    pub stage_name: String,
+    pub rtl_source: String,
+    pub material: CarbonMaterial,
+    pub flash_index: u8,
+    pub wave_amplitude: f64,
+    pub width_nm: f64,
+    pub points_um: Vec<(f64, f64, f64)>,
+}
+
+/// Volumetric Metric Interference DRC report for a 3D `.kicad_vol` module.
+#[derive(Clone, Debug, PartialEq)]
+pub struct VolumetricDrcReport {
+    pub module_name: String,
+    pub pipeline_stages: usize,
+    pub total_splines_3d: usize,
+    pub total_floorplan_polygons_2d: usize,
+    pub abbe_linewidth_nm: f64,
+    pub sted_linewidth_nm: f64,
+    pub lcs_532_bragg_pitch_nm: f64,
+    pub single_flash_over_squeeze_hazards: usize,
+    pub orthogonal_multi_flash_hazards: usize,
+    pub orthogonal_flashes_used: u8,
+}
+
+/// Synthesize the 2D GDSII/KiCAD floorplan polygons and 3D `.kicad_vol` splines for
+/// `CVA6` (6-stage Linux RV64GC), `CHERI-CVA6` (6-stage Linux + 128-bit CHERI RVY),
+/// or `Ibex` (3-stage CHERIoT + 1oo2 SIL-4 Lockstep).
+pub fn generate_riscv_holographic_module(
+    preset: RiscVCorePreset,
+    litho: &HolographicLaserLithoSpec,
+) -> (String, Vec<PolygonFeature>, Vec<VolumetricSpline3D>) {
+    let (module_name, stages): (&str, Vec<(&str, &str, f64)>) = match preset {
+        RiscVCorePreset::Cva6Linux6StageRv64gc => (
+            "CVA6_RV64GC_Linux_6Stage_Carbon_SoC",
+            vec![
+                ("1_PC_GEN", "core/frontend/bht.sv + btb.sv + ras.sv + instr_realign.sv", 120.0),
+                ("2_IF_ITLB_PTW", "core/cache_subsystem + core/cva6_mmu/cva6_tlb.sv + cva6_ptw.sv", 180.0),
+                ("3_ID_DECODE", "core/id_stage.sv + decoder.sv + compressed_decoder.sv", 110.0),
+                ("4_ISSUE_SCOREBOARD", "core/issue_stage.sv + scoreboard.sv + ariane_regfile_ff.sv", 150.0),
+                ("5_EX_ALU_FPU_LSU", "core/ex_stage.sv + alu.sv + mult.sv + cvfpu + load_store_unit.sv", 220.0),
+                ("6_COMMIT_CSR_PMP", "core/commit_stage.sv + csr_regfile.sv + store_buffer.sv + pmp/", 140.0),
+            ],
+        ),
+        RiscVCorePreset::CheriCva6Linux6StageRvy => (
+            "CHERI_CVA6_RV64GC_RVY_Purecap_6Stage_Carbon_SoC",
+            vec![
+                ("1_PC_GEN_PCC", "core/frontend/instr_realign.sv (128-bit PCC capability fetch)", 130.0),
+                ("2_IF_ITLB_CAP_MMU", "core/cva6_mmu/cva6_tlb.sv + cva6_ptw.sv (Sv39 + Cap Tag bits)", 190.0),
+                ("3_ID_CHERI_DECODE", "core/id_stage.sv + decoder.sv + macro_decoder.sv", 120.0),
+                ("4_ISSUE_CAP_REGFILE", "core/issue_stage.sv + scoreboard.sv + 32x129-bit Cap Regfile", 170.0),
+                ("5_EX_CHERI_ALU_LSU", "core/ex_stage.sv + cheri_unit.sv + load_store_unit.sv + cvfpu", 250.0),
+                ("6_COMMIT_CAP_CSR_PMP", "core/commit_stage.sv + csr_regfile.sv + amo_buffer.sv + pmp/", 150.0),
+            ],
+        ),
+        RiscVCorePreset::IbexCheriotLockstep3StageRv32imcb => (
+            "Ibex_RV32IMCB_CHERIoT_1oo2_Lockstep_SIL4_SoC",
+            vec![
+                ("1_IF_PREFETCH_ICACHE", "rtl/ibex_if_stage.sv + ibex_prefetch_buffer.sv + ibex_icache.sv", 90.0),
+                ("2_ID_EX_CHERIOT_TRVK", "rtl/ibex_id_stage.sv + ibex_ex_block.sv + ibex_cheriot_ex.sv + ibex_trvk.sv", 130.0),
+                ("3_WB_CSR_1OO2_LOCKSTEP", "rtl/ibex_wb_stage.sv + ibex_cs_registers.sv + ibex_pmp.sv + ibex_lockstep.sv", 110.0),
+            ],
+        ),
+    };
+
+    let mut polygons = Vec::new();
+    let mut splines = Vec::new();
+    let linewidth_nm = litho.sted_depleted_linewidth_nm();
+
+    let mut x_cursor_um = 0.0_f64;
+    let stage_height_um = 160.0_f64;
+    let stage_gap_um = 18.0_f64;
+
+    for (idx, (stage_label, rtl_ref, width_um)) in stages.iter().enumerate() {
+        let x0 = x_cursor_um;
+        let x1 = x0 + *width_um;
+        let y0 = 0.0;
+        let y1 = stage_height_um;
+
+        // 1. N-LIG logic block boundary (Layer 10)
+        polygons.push(PolygonFeature {
+            layer: CarbonMaterial::NLigSp2.gds_layer(),
+            datatype: idx as i16,
+            points_um: vec![(x0, y0), (x1, y0), (x1, y1), (x0, y1)],
+            tag: format!("STAGE_{stage_label}_NLIG"),
+            local_director_rad: 0.0,
+        });
+
+        // 2. S-LIG complementary p-type active well inside the stage (Layer 11)
+        polygons.push(PolygonFeature {
+            layer: CarbonMaterial::SLigPType.gds_layer(),
+            datatype: idx as i16,
+            points_um: vec![
+                (x0 + 10.0, y0 + 20.0),
+                (x1 - 10.0, y0 + 20.0),
+                (x1 - 10.0, y0 + 70.0),
+                (x0 + 10.0, y0 + 70.0),
+            ],
+            tag: format!("STAGE_{stage_label}_SLIG"),
+            local_director_rad: 0.0,
+        });
+
+        // 3. sp3 Diamond fractal heat-siphon trunk under the stage (Layer 12)
+        polygons.push(PolygonFeature {
+            layer: CarbonMaterial::Sp3DiamondPhononBus.gds_layer(),
+            datatype: idx as i16,
+            points_um: vec![
+                (x0 + 5.0, y0 - 15.0),
+                (x1 - 5.0, y0 - 15.0),
+                (x1 - 5.0, y0 - 5.0),
+                (x0 + 5.0, y0 - 5.0),
+            ],
+            tag: format!("STAGE_{stage_label}_DIAMOND_SIPHON"),
+            local_director_rad: 0.0,
+        });
+
+        // 4. O-CNT high-k crosstalk isolation trench between stages (Layer 13)
+        polygons.push(PolygonFeature {
+            layer: CarbonMaterial::OCntHighKShield.gds_layer(),
+            datatype: idx as i16,
+            points_um: vec![
+                (x1 + 2.0, y0 - 10.0),
+                (x1 + stage_gap_um - 2.0, y0 - 10.0),
+                (x1 + stage_gap_um - 2.0, y1 + 10.0),
+                (x1 + 2.0, y1 + 10.0),
+            ],
+            tag: format!("STAGE_{stage_label}_OCNT_SHIELD"),
+            local_director_rad: 0.0,
+        });
+
+        // 5. 532 nm LCS polyCBD Bragg optical clock-distribution mirror (Layer 14)
+        polygons.push(PolygonFeature {
+            layer: CarbonMaterial::PolyCbdBraggGrating.gds_layer(),
+            datatype: idx as i16,
+            points_um: vec![
+                (x0 + 15.0, y1 + 6.0),
+                (x1 - 15.0, y1 + 6.0),
+                (x1 - 15.0, y1 + 16.0),
+                (x0 + 15.0, y1 + 16.0),
+            ],
+            tag: format!("STAGE_{stage_label}_BRAGG_532NM"),
+            local_director_rad: 0.0,
+        });
+
+        // 3D `.kicad_vol` splines with Orthogonal Volume Decomposition flash assignment:
+        // Alternate odd/even pipeline stages across Flash 1 and Flash 2 so adjacent stage
+        // interconnects never constructively interfere above the sp3 diamond threshold!
+        let flash_nlig = if idx % 2 == 0 { 1 } else { 2 };
+        let z_base_um = 10.0 + (idx as f64) * 2.5;
+
+        splines.push(VolumetricSpline3D {
+            id: format!("spline_{stage_label}_nlig_bus"),
+            stage_name: (*stage_label).to_string(),
+            rtl_source: (*rtl_ref).to_string(),
+            material: CarbonMaterial::NLigSp2,
+            flash_index: flash_nlig,
+            wave_amplitude: 0.80,
+            width_nm: linewidth_nm,
+            points_um: vec![
+                (x0, 0.5 * stage_height_um, z_base_um),
+                (0.5 * (x0 + x1), 0.5 * stage_height_um, z_base_um + 4.0),
+                (x1 + stage_gap_um, 0.5 * stage_height_um, z_base_um),
+            ],
+        });
+
+        splines.push(VolumetricSpline3D {
+            id: format!("spline_{stage_label}_slig_pn_gate"),
+            stage_name: (*stage_label).to_string(),
+            rtl_source: (*rtl_ref).to_string(),
+            material: CarbonMaterial::SLigPType,
+            flash_index: flash_nlig + 2,
+            wave_amplitude: 0.78,
+            width_nm: linewidth_nm,
+            points_um: vec![
+                (x0 + 10.0, 45.0, z_base_um + 1.4),
+                (x1 - 10.0, 45.0, z_base_um + 1.4),
+            ],
+        });
+
+        splines.push(VolumetricSpline3D {
+            id: format!("spline_{stage_label}_sp3_diamond_tree"),
+            stage_name: (*stage_label).to_string(),
+            rtl_source: (*rtl_ref).to_string(),
+            material: CarbonMaterial::Sp3DiamondPhononBus,
+            flash_index: 5,
+            wave_amplitude: 1.55,
+            width_nm: 45.0,
+            points_um: vec![
+                (0.5 * (x0 + x1), 0.5 * stage_height_um, z_base_um - 2.0),
+                (0.5 * (x0 + x1), -10.0, 2.0),
+                (0.5 * (x0 + x1), -25.0, 0.0),
+            ],
+        });
+
+        splines.push(VolumetricSpline3D {
+            id: format!("spline_{stage_label}_ocnt_isolation"),
+            stage_name: (*stage_label).to_string(),
+            rtl_source: (*rtl_ref).to_string(),
+            material: CarbonMaterial::OCntHighKShield,
+            flash_index: 6,
+            wave_amplitude: 0.65,
+            width_nm: 30.0,
+            points_um: vec![
+                (x1 + 0.5 * stage_gap_um, 0.0, z_base_um - 3.0),
+                (x1 + 0.5 * stage_gap_um, stage_height_um, z_base_um + 5.0),
+            ],
+        });
+
+        x_cursor_um = x1 + stage_gap_um;
+    }
+
+    // Add 8 perimeter N-LIG solderless topological docking pads on Layer 3
+    for pad_idx in 0..8 {
+        let px = (pad_idx as f64) * (x_cursor_um / 8.0) + 20.0;
+        let py = -45.0;
+        polygons.push(PolygonFeature {
+            layer: 3,
+            datatype: 0,
+            points_um: vec![
+                (px - 15.0, py - 15.0),
+                (px + 15.0, py - 15.0),
+                (px + 15.0, py + 15.0),
+                (px - 15.0, py + 15.0),
+            ],
+            tag: format!("RISCV_IO_PAD_{}", pad_idx + 1),
+            local_director_rad: 0.0,
+        });
+    }
+
+    (module_name.to_string(), polygons, splines)
+}
+
+/// Run the `kicad-volumetric` Metric Interference DRC (`IQ-Sampling-for-Signal-Phase.md`,
+/// lines 9880–9976), comparing single-flash constructive wave overlap $(A_1 + A_2)^2$
+/// against orthogonal multi-flash decomposition across `splines`.
+pub fn verify_volumetric_metric_interference_drc(
+    module_name: &str,
+    pipeline_stages: usize,
+    polygons: &[PolygonFeature],
+    splines: &[VolumetricSpline3D],
+    litho: &HolographicLaserLithoSpec,
+) -> VolumetricDrcReport {
+    let nlig_splines: Vec<&VolumetricSpline3D> = splines
+        .iter()
+        .filter(|s| s.material == CarbonMaterial::NLigSp2)
+        .collect();
+
+    let mut single_flash_hazards = 0usize;
+    let mut multi_flash_hazards = 0usize;
+
+    for i in 0..nlig_splines.len() {
+        for j in (i + 1)..nlig_splines.len() {
+            let s1 = nlig_splines[i];
+            let s2 = nlig_splines[j];
+            // Check if consecutive stage splines meet at the stage boundary
+            if j == i + 1 {
+                let constructive_peak = (s1.wave_amplitude + s2.wave_amplitude).powi(2);
+                if constructive_peak >= litho.sp3_diamond_squeeze_threshold {
+                    single_flash_hazards += 1;
+                    if s1.flash_index == s2.flash_index {
+                        multi_flash_hazards += 1;
+                    }
+                }
+            }
+        }
+    }
+
+    let max_flash = splines.iter().map(|s| s.flash_index).max().unwrap_or(1);
+
+    VolumetricDrcReport {
+        module_name: module_name.to_string(),
+        pipeline_stages,
+        total_splines_3d: splines.len(),
+        total_floorplan_polygons_2d: polygons.len(),
+        abbe_linewidth_nm: litho.abbe_diffraction_linewidth_nm(),
+        sted_linewidth_nm: litho.sted_depleted_linewidth_nm(),
+        lcs_532_bragg_pitch_nm: litho.lcs_green_bragg_pitch_nm(),
+        single_flash_over_squeeze_hazards: single_flash_hazards,
+        orthogonal_multi_flash_hazards: multi_flash_hazards,
+        orthogonal_flashes_used: max_flash,
+    }
+}
+
+/// Export a 3D `.kicad_vol` S-expression file (`IQ-Sampling-for-Signal-Phase.md`, line 9875)
+/// encoding the dual-beam $405\text{ nm} / 532\text{ nm}$ optical recipe, orthogonal flash
+/// schedule, and 3D topological splines.
+pub fn export_kicad_volumetric_str(
+    module_name: &str,
+    litho: &HolographicLaserLithoSpec,
+    splines: &[VolumetricSpline3D],
+) -> String {
+    let mut out = String::with_capacity(splines.len() * 220 + 512);
+    let _ = writeln!(
+        out,
+        "(kicad_vol (version 20261025) (generator \"signals_kicad_volumetric_rs\")"
+    );
+    let _ = writeln!(out, "  (module \"{module_name}\")");
+    let _ = writeln!(
+        out,
+        "  (laser_recipe (write_uv_nm {:.1}) (depletion_green_nm {:.1}) (na {:.2}) (sted_sat_ratio {:.1}) (sted_linewidth_nm {:.2}) (lcs_bragg_pitch_nm {:.2}))",
+        litho.write_wavelength_nm,
+        litho.depletion_wavelength_nm,
+        litho.numerical_aperture,
+        litho.sted_saturation_ratio,
+        litho.sted_depleted_linewidth_nm(),
+        litho.lcs_green_bragg_pitch_nm(),
+    );
+    for s in splines {
+        let _ = write!(
+            out,
+            "  (spline (id \"{}\") (stage \"{}\") (material {}) (flash {}) (width_nm {:.2}) (rtl \"{}\") (points",
+            s.id,
+            s.stage_name,
+            s.material.as_kicad_vol_token(),
+            s.flash_index,
+            s.width_nm,
+            s.rtl_source,
+        );
+        for (x, y, z) in &s.points_um {
+            let _ = write!(out, " (xyz {:.3} {:.3} {:.3})", x, y, z);
+        }
+        let _ = writeln!(out, "))");
+    }
+    let _ = writeln!(out, ")");
+    out
+}
+
+/// Export an arbitrary polygon list (`&[PolygonFeature]`) into a binary GDSII v6.0 stream.
+pub fn export_polygons_to_gdsii_bytes(lib_name: &str, features: &[PolygonFeature]) -> Vec<u8> {
+    let mut stream = Vec::with_capacity(features.len() * 64 + 256);
+    push_gds_record(
+        &mut stream,
+        gds_record_type::HEADER,
+        gds_data_type::INT2,
+        &600i16.to_be_bytes(),
+    );
+    let ts_vals: [i16; 12] = [2026, 10, 25, 6, 0, 0, 2026, 10, 25, 6, 0, 0];
+    let mut ts_bytes = Vec::with_capacity(24);
+    for v in ts_vals {
+        ts_bytes.extend_from_slice(&v.to_be_bytes());
+    }
+    push_gds_record(
+        &mut stream,
+        gds_record_type::BGNLIB,
+        gds_data_type::INT2,
+        &ts_bytes,
+    );
+    push_gds_record(
+        &mut stream,
+        gds_record_type::LIBNAME,
+        gds_data_type::ASCII,
+        &gds_ascii_padded(lib_name),
+    );
+    let mut units_payload = Vec::with_capacity(16);
+    units_payload.extend_from_slice(&encode_gds_real8(1.0e-3));
+    units_payload.extend_from_slice(&encode_gds_real8(1.0e-9));
+    push_gds_record(
+        &mut stream,
+        gds_record_type::UNITS,
+        gds_data_type::REAL8,
+        &units_payload,
+    );
+    push_gds_record(
+        &mut stream,
+        gds_record_type::BGNSTR,
+        gds_data_type::INT2,
+        &ts_bytes,
+    );
+    push_gds_record(
+        &mut stream,
+        gds_record_type::STRNAME,
+        gds_data_type::ASCII,
+        &gds_ascii_padded(lib_name),
+    );
+
+    for feat in features {
+        let mut xy_bytes = Vec::with_capacity((feat.points_um.len() + 1) * 8);
+        for (x_um, y_um) in feat.points_um.iter().chain(feat.points_um.first()) {
+            let x_nm = (x_um * 1000.0).round() as i32;
+            let y_nm = (y_um * 1000.0).round() as i32;
+            xy_bytes.extend_from_slice(&x_nm.to_be_bytes());
+            xy_bytes.extend_from_slice(&y_nm.to_be_bytes());
+        }
+        push_gds_record(&mut stream, gds_record_type::BOUNDARY, gds_data_type::NO_DATA, &[]);
+        push_gds_record(
+            &mut stream,
+            gds_record_type::LAYER,
+            gds_data_type::INT2,
+            &feat.layer.to_be_bytes(),
+        );
+        push_gds_record(
+            &mut stream,
+            gds_record_type::DATATYPE,
+            gds_data_type::INT2,
+            &feat.datatype.to_be_bytes(),
+        );
+        push_gds_record(&mut stream, gds_record_type::XY, gds_data_type::INT4, &xy_bytes);
+        push_gds_record(&mut stream, gds_record_type::ENDEL, gds_data_type::NO_DATA, &[]);
+    }
+
+    push_gds_record(&mut stream, gds_record_type::ENDSTR, gds_data_type::NO_DATA, &[]);
+    push_gds_record(&mut stream, gds_record_type::ENDLIB, gds_data_type::NO_DATA, &[]);
+    stream
+}
+
+/// Export an IOF / EMMO / W3C PROV-O / QUDT Cryptographic Bill of Materials (CBOM)
+/// in YAML-LD format (`IQ-Sampling-for-Signal-Phase.md`, lines 12048–12115).
+pub fn export_iof_prov_cbom_yaml_ld(
+    module_name: &str,
+    litho: &HolographicLaserLithoSpec,
+    splines: &[VolumetricSpline3D],
+) -> String {
+    let mut out = String::with_capacity(1024);
+    let _ = writeln!(out, "# {module_name}_CBOM.yaml-ld");
+    let _ = writeln!(out, "\"@context\":");
+    let _ = writeln!(
+        out,
+        "  iof: \"https://spec.industrialontologies.org/ontology/core/Core/\""
+    );
+    let _ = writeln!(out, "  emmo: \"http://emmo.info/emmo#\"");
+    let _ = writeln!(out, "  prov: \"http://www.w3.org/ns/prov#\"");
+    let _ = writeln!(out, "  qudt: \"http://qudt.org/schema/qudt/\"");
+    let _ = writeln!(out, "  ligno: \"https://lignolux.github.io/schema#\"");
+    let _ = writeln!(out, "\"@id\": \"ligno:{module_name}\"");
+    let _ = writeln!(out, "\"@type\": [\"iof:MaterialArtifact\", \"prov:Entity\"]");
+    let _ = writeln!(
+        out,
+        "prov:wasInformedBy: \"Signals.DDF.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities\""
+    );
+    let _ = writeln!(out, "ligno:opticalRecipe:");
+    let _ = writeln!(out, "  writeWavelengthNm: {:.1}", litho.write_wavelength_nm);
+    let _ = writeln!(
+        out,
+        "  depletionWavelengthNm: {:.1}",
+        litho.depletion_wavelength_nm
+    );
+    let _ = writeln!(
+        out,
+        "  stedDepletedLinewidthNm: {:.2}",
+        litho.sted_depleted_linewidth_nm()
+    );
+    let _ = writeln!(out, "  cooling_delay_ms: 15.0");
+    let _ = writeln!(out, "iof:hasProcessFunction:");
+    for s in splines.iter().take(6) {
+        let _ = writeln!(out, "  - \"@id\": \"ligno:{}\"", s.id);
+        let _ = writeln!(
+            out,
+            "    \"@type\": [\"iof:ManufacturingOperation\", \"prov:Activity\"]"
+        );
+        let _ = writeln!(out, "    ligno:flashIndex: {}", s.flash_index);
+        let _ = writeln!(out, "    ligno:stage: \"{}\"", s.stage_name);
+        let _ = writeln!(out, "    iof:yields: \"{}\"", s.material.emmo_class());
+    }
+    out
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -938,6 +1527,48 @@ mod tests {
             let (p_bytes, p_count) = export_gdsii_bytes(&p_spec);
             let p_parsed = parse_gdsii_bytes(&p_bytes).expect("preset GDSII valid");
             assert_eq!(p_parsed.boundaries.len(), p_count);
+        }
+    }
+
+    #[test]
+    fn riscv_cva6_cheri_and_ibex_holographic_405_532_workflow() {
+        let litho = HolographicLaserLithoSpec::default();
+        assert!((litho.abbe_diffraction_linewidth_nm() - (2025.0 / 14.0)).abs() < 1e-11);
+        assert!((litho.sted_depleted_linewidth_nm() - (2025.0 / 112.0)).abs() < 1e-11);
+        assert!(litho.sted_depleted_linewidth_nm() < 20.0);
+        assert!(litho.lcs_green_bragg_pitch_nm() > 165.0 && litho.lcs_green_bragg_pitch_nm() < 170.0);
+
+        for (preset, expected_stages) in [
+            (RiscVCorePreset::Cva6Linux6StageRv64gc, 6usize),
+            (RiscVCorePreset::CheriCva6Linux6StageRvy, 6usize),
+            (RiscVCorePreset::IbexCheriotLockstep3StageRv32imcb, 3usize),
+        ] {
+            let (mod_name, polys, splines) = generate_riscv_holographic_module(preset, &litho);
+            let drc = verify_volumetric_metric_interference_drc(
+                &mod_name,
+                expected_stages,
+                &polys,
+                &splines,
+                &litho,
+            );
+            assert_eq!(drc.pipeline_stages, expected_stages);
+            // Single-flash exposure of adjacent stages triggers sp3 diamond over-squeeze hazards:
+            assert_eq!(drc.single_flash_over_squeeze_hazards, expected_stages - 1);
+            // Orthogonal multi-flash decomposition eliminates all over-squeeze hazards:
+            assert_eq!(drc.orthogonal_multi_flash_hazards, 0);
+
+            let gds_bytes = export_polygons_to_gdsii_bytes(&mod_name, &polys);
+            let parsed = parse_gdsii_bytes(&gds_bytes).expect("valid RISC-V GDSII");
+            assert_eq!(parsed.boundaries.len(), polys.len());
+
+            let kicad_vol = export_kicad_volumetric_str(&mod_name, &litho, &splines);
+            assert!(kicad_vol.contains("(kicad_vol (version 20261025)"));
+            assert!(kicad_vol.contains("(write_uv_nm 405.0) (depletion_green_nm 532.0)"));
+            assert!(kicad_vol.contains("(material sp3_diamond)"));
+
+            let cbom = export_iof_prov_cbom_yaml_ld(&mod_name, &litho, &splines);
+            assert!(cbom.contains("iof:ManufacturingOperation"));
+            assert!(cbom.contains("cooling_delay_ms: 15.0"));
         }
     }
 }

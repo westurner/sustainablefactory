@@ -5473,4 +5473,17 @@ example :
     (by norm_num) (by norm_num) (by norm_num)
   exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2⟩
 
+example :
+    Signals.DDF.stedDepletedLinewidthSq 405 (7 / 5) 0 = (2025 / 14) ^ 2 ∧
+    Signals.DDF.stedDepletedLinewidthSq 405 (7 / 5) 63 = (2025 / 112) ^ 2 ∧
+    Signals.DDF.stedDepletedLinewidthSq 405 (7 / 5) 63 < (20 : ℝ) ^ 2 ∧
+    ((4 / 5 : ℝ) ^ 2 < 2 ∧ 2 < Signals.DDF.twoTraceConstructiveSqueezePeak (4 / 5) (4 / 5)) ∧
+    Signals.DDF.riscvPipelineStagePeriod 6 6 < Signals.DDF.riscvPipelineStagePeriod 6 3 ∧
+    Signals.DDF.riscvPipelineStagePeriod 6 3 < Signals.DDF.riscvPipelineStagePeriod 6 2 := by
+  have h :=
+    Signals.DDF.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities
+      405 (7 / 5) 63 (4 / 5) (4 / 5) 6
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests
