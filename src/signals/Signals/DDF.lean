@@ -6595,4 +6595,485 @@ theorem vectorial_longitudinal_polarization_metasurface_and_enz_identities
   exact ⟨h_norm, h_ex, h_ey, h_ez, h_err, h_zri1, h_zri2, h_phi0, h_phi_neg,
     h_opl, h_j_unit, h_j_det, h_dz, h_100, h_400, h_ge_100, h_le_400, h_reg_le, h_reg_0⟩
 
+/-! ## Epsilon-Near-Zero (ENZ) & Hyperbolic Metamaterials (`rGO-polyCBD-SS-Lignin`, Argon/Ionosphere Trivelpiece–Gould Plasma, Denisov Mode Conversion, and TNSA-$p\text{-}^{11}\text{B}$ / $s\text{CO}_2$ Energy Ledger) -/
+
+/-- Effective Medium Theory (EMT) in-plane permittivity
+$\varepsilon_\parallel(f, \varepsilon_m, \varepsilon_d) = f\,\varepsilon_m + (1 - f)\,\varepsilon_d$
+for a sub-wavelength nanolaminate stack (`IQ-Sampling-for-Signal-Phase.md`, lines 15754 & 15779). -/
+@[blueprint "def:signals-ddf-emt-epsilon-parallel"
+  (title := "Effective Medium Theory in-plane permittivity ε_∥(f) = f ε_m + (1 - f) ε_d")
+  (statement := /-- Define $\operatorname{emtEpsilonParallel}(f, \varepsilon_m, \varepsilon_d)
+    = f\,\varepsilon_m + (1 - f)\,\varepsilon_d$. -/)]
+def emtEpsilonParallel (f epsM epsD : ℝ) : ℝ :=
+  f * epsM + (1 - f) * epsD
+
+/-- Effective Medium Theory (EMT) out-of-plane permittivity
+$\varepsilon_\perp(f, \varepsilon_m, \varepsilon_d) = \frac{\varepsilon_m\,\varepsilon_d}{(1 - f)\,\varepsilon_m + f\,\varepsilon_d}$
+for a sub-wavelength nanolaminate stack (`IQ-Sampling-for-Signal-Phase.md`, lines 15754 & 15781). -/
+@[blueprint "def:signals-ddf-emt-epsilon-perp"
+  (title := "Effective Medium Theory out-of-plane permittivity ε_⊥(f)")
+  (statement := /-- Define $\operatorname{emtEpsilonPerp}(f, \varepsilon_m, \varepsilon_d)
+    = (\varepsilon_m\,\varepsilon_d) / ((1 - f)\,\varepsilon_m + f\,\varepsilon_d)$. -/)]
+noncomputable def emtEpsilonPerp (f epsM epsD : ℝ) : ℝ :=
+  (epsM * epsD) / ((1 - f) * epsM + f * epsD)
+
+/-- Critical volume fill fraction
+$f_{\mathrm{ENZ}}(\varepsilon_d, |\varepsilon_m|) = \frac{\varepsilon_d}{\varepsilon_d + |\varepsilon_m|}$
+at which the in-plane permittivity $\varepsilon_\parallel(f_{\mathrm{ENZ}}, -|\varepsilon_m|, \varepsilon_d)$
+crosses zero (`IQ-Sampling-for-Signal-Phase.md`, line 15787). -/
+@[blueprint "def:signals-ddf-emt-critical-enz-fill-fraction"
+  (title := "Critical ENZ volume fill fraction f_ENZ = ε_d / (ε_d + |ε_m|)")
+  (statement := /-- Define $\operatorname{emtCriticalEnzFillFraction}(\varepsilon_d, |\varepsilon_m|)
+    = \varepsilon_d / (\varepsilon_d + |\varepsilon_m|)$. -/)]
+noncomputable def emtCriticalEnzFillFraction (epsD absEpsM : ℝ) : ℝ :=
+  epsD / (epsD + absEpsM)
+
+/-- Out-of-plane resonance pole fill fraction
+$f_{\perp,\mathrm{pole}}(\varepsilon_d, |\varepsilon_m|) = \frac{|\varepsilon_m|}{\varepsilon_d + |\varepsilon_m|} = 1 - f_{\mathrm{ENZ}}$
+separating the Type-II Hyperbolic window ($f_{\mathrm{ENZ}} < f < f_{\perp,\mathrm{pole}}$)
+from the high-fill regime (`IQ-Sampling-for-Signal-Phase.md`, lines 15787–15789). -/
+@[blueprint "def:signals-ddf-emt-perp-pole-fill-fraction"
+  (title := "Out-of-plane pole fill fraction f_⊥,pole = |ε_m| / (ε_d + |ε_m|)")
+  (statement := /-- Define $\operatorname{emtPerpendicularPoleFillFraction}(\varepsilon_d, |\varepsilon_m|)
+    = |\varepsilon_m| / (\varepsilon_d + |\varepsilon_m|)$. -/)]
+noncomputable def emtPerpendicularPoleFillFraction (epsD absEpsM : ℝ) : ℝ :=
+  absEpsM / (epsD + absEpsM)
+
+/-- Disulfide electro-thermal $90^\circ$ flake-rotation switch above $T_v = 115^\circ\text{C}$
+(`IQ-Sampling-for-Signal-Phase.md`, line 15789), swapping the in-plane and out-of-plane
+principal permittivities $(\varepsilon_\parallel, \varepsilon_\perp) \mapsto (\varepsilon_\perp, \varepsilon_\parallel)$
+to convert a Type-II hyperbolic reflector ($\varepsilon_\parallel < 0, \varepsilon_\perp > 0$)
+into a Type-I sub-wavelength transmission needle ($\varepsilon_\parallel^{(90^\circ)} > 0, \varepsilon_\perp^{(90^\circ)} < 0$). -/
+@[blueprint "def:signals-ddf-rotated90-metamaterial-tensor"
+  (title := "90°-rotated rGO-polyCBD-SS-Lignin disulfide voxel switch (ε_∥, ε_⊥) ↦ (ε_⊥, ε_∥)")
+  (statement := /-- Define $\operatorname{rotated90MetamaterialTensor}(\varepsilon_\parallel, \varepsilon_\perp)
+    = (\varepsilon_\perp, \varepsilon_\parallel)$. -/)]
+def rotated90MetamaterialTensor (epsPar epsPerp : ℝ) : ℝ × ℝ :=
+  (epsPerp, epsPar)
+
+/-- Squared axial wavevector $k_z^2(k_x) = \varepsilon_\perp\left((\omega/c)^2 + \frac{k_x^2}{|\varepsilon_\parallel|}\right)$
+on the open Type-II hyperboloid $\frac{k_x^2}{-|\varepsilon_\parallel|} + \frac{k_z^2}{\varepsilon_\perp} = \left(\frac{\omega}{c}\right)^2$
+inside Zone 2 of the `rGO-polyCBD-SS-Lignin` hyperbolic SFG lens
+(`IQ-Sampling-for-Signal-Phase.md`, lines 15892–15904). -/
+@[blueprint "def:signals-ddf-type2-hyperbolic-kz-sq"
+  (title := "Type-II hyperbolic metamaterial squared axial wavevector k_z²(k_x)")
+  (statement := /-- Define $\operatorname{typeIIHyperbolicKzSq}(\omega_c, \varepsilon_\perp, |\varepsilon_\parallel|, k_x)
+    = \varepsilon_\perp (\omega_c^2 + k_x^2 / |\varepsilon_\parallel|)$. -/)]
+noncomputable def typeIIHyperbolicKzSq (omega_c epsPerp absEpsPar kx : ℝ) : ℝ :=
+  epsPerp * (omega_c ^ 2 + kx ^ 2 / absEpsPar)
+
+/-- Normalized hyperbolic metamaterial anisotropy parameter
+$\chi_{\mathrm{HMM}}(|\varepsilon_\parallel|, \varepsilon_\perp) = \frac{|\varepsilon_\parallel| - \varepsilon_\perp}{|\varepsilon_\parallel| + \varepsilon_\perp} \in (-1, 1)$
+for embedding the anisotropic permittivity tensor into $Gr_{\mathbb{C}}(2,4)$. -/
+@[blueprint "def:signals-ddf-hmm-anisotropy-param"
+  (title := "Hyperbolic metamaterial Gr_C(2,4) anisotropy parameter χ_HMM")
+  (statement := /-- Define $\operatorname{hmmAnisotropyParam}(|\varepsilon_\parallel|, \varepsilon_\perp)
+    = (|\varepsilon_\parallel| - \varepsilon_\perp) / (|\varepsilon_\parallel| + \varepsilon_\perp)$. -/)]
+noncomputable def hmmAnisotropyParam (absEpsPar epsPerp : ℝ) : ℝ :=
+  (absEpsPar - epsPerp) / (absEpsPar + epsPerp)
+
+/-- Cold-plasma parallel relative permittivity $\varepsilon_\parallel(\omega, \omega_{pe}) = 1 - (\omega_{pe} / \omega)^2$
+along the magnetic field axis $B_z$ (`IQ-Sampling-for-Signal-Phase.md`, lines 15729 & 15736). -/
+@[blueprint "def:signals-ddf-cold-plasma-epsilon-parallel"
+  (title := "Magnetized cold-plasma parallel permittivity ε_∥(ω) = 1 - (ω_pe / ω)²")
+  (statement := /-- Define $\operatorname{coldPlasmaEpsilonParallel}(\omega, \omega_{pe})
+    = 1 - (\omega_{pe} / \omega)^2$. -/)]
+noncomputable def coldPlasmaEpsilonParallel (omega omega_pe : ℝ) : ℝ :=
+  1 - (omega_pe / omega) ^ 2
+
+/-- Cold-plasma perpendicular relative permittivity
+$\varepsilon_\perp(\omega, \omega_{pe}, \omega_{ce}) = 1 - \frac{\omega_{pe}^2}{\omega^2 - \omega_{ce}^2}$
+transverse to the magnetic field axis $B_z$ (`IQ-Sampling-for-Signal-Phase.md`, lines 15736–15737). -/
+@[blueprint "def:signals-ddf-cold-plasma-epsilon-perp"
+  (title := "Magnetized cold-plasma perpendicular permittivity ε_⊥(ω) = 1 - ω_pe² / (ω² - ω_ce²)")
+  (statement := /-- Define $\operatorname{coldPlasmaEpsilonPerp}(\omega, \omega_{pe}, \omega_{ce})
+    = 1 - \omega_{pe}^2 / (\omega^2 - \omega_{ce}^2)$. -/)]
+noncomputable def coldPlasmaEpsilonPerp (omega omega_pe omega_ce : ℝ) : ℝ :=
+  1 - omega_pe ^ 2 / (omega ^ 2 - omega_ce ^ 2)
+
+/-- Dimensionless Denisov linear mode-conversion parameter
+$\tau_D(k_0, L_n, \theta_{\mathrm{in}}) = (k_0 L_n)^{1/3} \sin\theta_{\mathrm{in}}$
+governing transverse-to-longitudinal ($E_z$) mode conversion at a graded ENZ horizon
+(`IQ-Sampling-for-Signal-Phase.md`, lines 15880–15891). -/
+@[blueprint "def:signals-ddf-denisov-mode-conversion-param"
+  (title := "Denisov linear mode-conversion parameter τ_D = (k_0 L_n)^{1/3} sin θ_in")
+  (statement := /-- Define $\operatorname{denisovModeConversionParam}(k_0, L_n, \theta_{\mathrm{in}})
+    = (k_0 L_n)^{1/3} \sin\theta_{\mathrm{in}}$. -/)]
+noncomputable def denisovModeConversionParam (k0 Ln θ_in : ℝ) : ℝ :=
+  (k0 * Ln) ^ (1 / 3 : ℝ) * Real.sin θ_in
+
+/-- **`rGO-polyCBD-SS-Lignin` ENZ & Hyperbolic Metamaterial Regimes, Magnetized Argon/Ionosphere Trivelpiece–Gould Dispersion, Denisov Mode Conversion, & $Gr_{\mathbb{C}}(2,4)$ Plücker Duality Theorem**:
+Formalizes the three metamaterial regimes of `rGO-polyCBD-SS-Lignin`, the 400-to-800 GHz
+hyperbolic SFG phase-matching laws, and magnetized Argon/ionospheric cold-plasma
+hyperbolicity (`data/chats/IQ-Sampling-for-Signal-Phase.md`, lines 15715–15916):
+1. **Partition of Unity of Critical Fill Fractions**:
+   $$f_{\mathrm{ENZ}}(\varepsilon_d, |\varepsilon_m|) + f_{\perp,\mathrm{pole}}(\varepsilon_d, |\varepsilon_m|) = 1,$$
+   and for $0 < \varepsilon_d < |\varepsilon_m|$, $0 < f_{\mathrm{ENZ}} < 1/2 < f_{\perp,\mathrm{pole}} < 1$,
+2. **Regime 1 — Exact Epsilon-Near-Zero (ENZ) Mode ($f = f_{\mathrm{ENZ}}$)**:
+   $$\varepsilon_\parallel(f_{\mathrm{ENZ}}, -|\varepsilon_m|, \varepsilon_d) = 0, \qquad
+   \varepsilon_\perp(f_{\mathrm{ENZ}}, -|\varepsilon_m|, \varepsilon_d) = \frac{|\varepsilon_m|\,\varepsilon_d\,(\varepsilon_d + |\varepsilon_m|)}{|\varepsilon_m|^2 - \varepsilon_d^2} > 0,$$
+3. **Regime 2 — Type-II Hyperbolic Metamaterial Window ($f_{\mathrm{ENZ}} < f < f_{\perp,\mathrm{pole}}$)**:
+   $$\varepsilon_\parallel(f, -|\varepsilon_m|, \varepsilon_d) < 0, \qquad
+   \varepsilon_\perp(f, -|\varepsilon_m|, \varepsilon_d) > 0, \qquad
+   \varepsilon_\parallel(f, -|\varepsilon_m|, \varepsilon_d) \cdot \varepsilon_\perp(f, -|\varepsilon_m|, \varepsilon_d) < 0,$$
+4. **Regime 3 — Disulfide $90^\circ$ Flake-Rotation Switch (Type-II Reflector $\to$ Type-I Needle)**:
+   For $(\varepsilon_\parallel^{(90^\circ)}, \varepsilon_\perp^{(90^\circ)}) = \operatorname{rotated90MetamaterialTensor}(\varepsilon_\parallel, \varepsilon_\perp)$:
+   $$\varepsilon_\parallel^{(90^\circ)} > 0, \qquad \varepsilon_\perp^{(90^\circ)} < 0, \qquad
+   \varepsilon_\parallel^{(90^\circ)} \cdot \varepsilon_\perp^{(90^\circ)} = \varepsilon_\parallel \cdot \varepsilon_\perp < 0,$$
+5. **Type-II Hyperboloid High-$k$ Sub-Diffraction Growth & Symmetric SFG Momentum Cancellation**:
+   For $k_x \ne 0$,
+   $$\varepsilon_\perp \omega_c^2 < \operatorname{typeIIHyperbolicKzSq}(\omega_c, \varepsilon_\perp, |\varepsilon_\parallel|, k_x),$$
+   $$\operatorname{typeIIHyperbolicKzSq}(\omega_c, \varepsilon_\perp, |\varepsilon_\parallel|, -k_x) = \operatorname{typeIIHyperbolicKzSq}(\omega_c, \varepsilon_\perp, |\varepsilon_\parallel|, k_x), \qquad k_x + (-k_x) = 0,$$
+6. **Magnetized Argon / Ionospheric Cold-Plasma ENZ Cutoff, Trivelpiece–Gould / Whistler Type-I Hyperbolicity, & Denisov Oblique Incidence Requirement**:
+   - At $\omega = \omega_{pe} > 0$: $\operatorname{coldPlasmaEpsilonParallel}(\omega_{pe}, \omega_{pe}) = 0$,
+   - For $0 < \omega < \omega_{pe}$ and $\omega < \omega_{ce}$:
+     $$\operatorname{coldPlasmaEpsilonParallel}(\omega, \omega_{pe}) < 0, \qquad
+     1 < \operatorname{coldPlasmaEpsilonPerp}(\omega, \omega_{pe}, \omega_{ce}),$$
+     $$\operatorname{coldPlasmaEpsilonParallel}(\omega, \omega_{pe}) \cdot \operatorname{coldPlasmaEpsilonPerp}(\omega, \omega_{pe}, \omega_{ce}) < 0,$$
+   - Normal-incidence Denisov null: $\operatorname{denisovModeConversionParam}(k_0, L_n, 0) = 0$,
+7. **$Gr_{\mathbb{C}}(2,4)$ Plücker Channel Ratio of the Anisotropic Metamaterial Tensor**:
+   For $\chi_{\mathrm{HMM}} = \operatorname{hmmAnisotropyParam}(|\varepsilon_\parallel|, \varepsilon_\perp) \in (-1, 1)$
+   and $M_{\mathrm{HMM}} = \operatorname{ddfThermalGr24Matrix}(\chi_{\mathrm{HMM}}, \theta)$:
+   $$\frac{|w_A^{\mathbb{C}}(M_{\mathrm{HMM}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{HMM}})|^2} = \frac{|\varepsilon_\parallel|}{\varepsilon_\perp}.$$ -/
+@[blueprint "thm:signals-ddf-enz-hyperbolic-metamaterial-regimes"
+  (title := "rGO-polyCBD-SS-Lignin ENZ and hyperbolic metamaterial regimes, Trivelpiece-Gould plasma, and Gr_C(2,4) duality theorem")
+  (statement := /-- For any $\varepsilon_d, |\varepsilon_m|, f, \omega_c, k_x, \omega, \omega_{pe}, \omega_{ce}, k_0, L_n, \theta \in \mathbb R$
+    with $0 < \varepsilon_d < |\varepsilon_m|$, $f_{\mathrm{ENZ}} < f < f_{\perp,\mathrm{pole}}$, $k_x \ne 0$,
+    $0 < \omega < \omega_{pe}$, and $\omega < \omega_{ce}$:
+    (1) $f_{\mathrm{ENZ}} + f_{\perp,\mathrm{pole}} = 1$ and $0 < f_{\mathrm{ENZ}} < 1/2 < f_{\perp,\mathrm{pole}} < 1$,
+    (2) $\operatorname{emtEpsilonParallel}(f_{\mathrm{ENZ}}, -|\varepsilon_m|, \varepsilon_d) = 0$ and
+    $\operatorname{emtEpsilonPerp}(f_{\mathrm{ENZ}}, -|\varepsilon_m|, \varepsilon_d) = |\varepsilon_m|\varepsilon_d(\varepsilon_d + |\varepsilon_m|)/(|\varepsilon_m|^2 - \varepsilon_d^2) > 0$,
+    (3) $\operatorname{emtEpsilonParallel}(f, -|\varepsilon_m|, \varepsilon_d) < 0$,
+    $\operatorname{emtEpsilonPerp}(f, -|\varepsilon_m|, \varepsilon_d) > 0$, and their product is $< 0$,
+    (4) for $(\varepsilon_\parallel^{(90^\circ)}, \varepsilon_\perp^{(90^\circ)}) = \operatorname{rotated90MetamaterialTensor}(\varepsilon_\parallel(f), \varepsilon_\perp(f))$,
+    $\varepsilon_\parallel^{(90^\circ)} > 0$, $\varepsilon_\perp^{(90^\circ)} < 0$, and $\varepsilon_\parallel^{(90^\circ)}\varepsilon_\perp^{(90^\circ)} < 0$,
+    (5) $\varepsilon_\perp(f) \omega_c^2 < \operatorname{typeIIHyperbolicKzSq}(\omega_c, \varepsilon_\perp(f), |\varepsilon_m|, k_x)$,
+    (6) $\operatorname{coldPlasmaEpsilonParallel}(\omega_{pe}, \omega_{pe}) = 0$,
+    $\operatorname{coldPlasmaEpsilonParallel}(\omega, \omega_{pe}) < 0$,
+    $1 < \operatorname{coldPlasmaEpsilonPerp}(\omega, \omega_{pe}, \omega_{ce})$, and
+    $\operatorname{denisovModeConversionParam}(k_0, L_n, 0) = 0$, and
+    (7) $|w_A^{\mathbb C}(M_{\mathrm{HMM}})|^2 / |w_B^{\mathbb C}(M_{\mathrm{HMM}})|^2 = |\varepsilon_m| / \varepsilon_d$. -/)
+  (proof := /-- Unfold the EMT parallel/perpendicular formulas, clear positive/negative denominators
+    on $(f_{\mathrm{ENZ}}, f_{\perp,\mathrm{pole}})$, apply \texttt{div\_pos\_of\_neg\_of\_neg},
+    evaluate cold-plasma signs on $\omega < \min(\omega_{pe},\omega_{ce})$, and invoke
+    \texttt{complexGr24ChannelMatrix\_minors}. -/)]
+theorem rgo_polycbd_enz_hyperbolic_and_plasma_metamaterial_identities
+    (epsD absEpsM f omega_c kx omega omega_pe omega_ce k0 Ln θ : ℝ)
+    (hepsD_pos : 0 < epsD) (hepsM_gt : epsD < absEpsM)
+    (hf_gt : emtCriticalEnzFillFraction epsD absEpsM < f)
+    (hf_lt : f < emtPerpendicularPoleFillFraction epsD absEpsM)
+    (hkx_ne : kx ≠ 0)
+    (homega_pos : 0 < omega) (homega_lt_pe : omega < omega_pe)
+    (homega_lt_ce : omega < omega_ce) :
+    let f_enz := emtCriticalEnzFillFraction epsD absEpsM
+    let f_pole := emtPerpendicularPoleFillFraction epsD absEpsM
+    let eps_par := emtEpsilonParallel f (-absEpsM) epsD
+    let eps_perp := emtEpsilonPerp f (-absEpsM) epsD
+    let rot90 := rotated90MetamaterialTensor eps_par eps_perp
+    let χ_hmm := hmmAnisotropyParam absEpsM epsD
+    let M_hmm := ddfThermalGr24Matrix χ_hmm θ
+    f_enz + f_pole = 1 ∧
+      0 < f_enz ∧
+      f_enz < 1 / 2 ∧
+      1 / 2 < f_pole ∧
+      f_pole < 1 ∧
+      emtEpsilonParallel f_enz (-absEpsM) epsD = 0 ∧
+      emtEpsilonPerp f_enz (-absEpsM) epsD =
+        (absEpsM * epsD * (epsD + absEpsM)) / (absEpsM ^ 2 - epsD ^ 2) ∧
+      0 < emtEpsilonPerp f_enz (-absEpsM) epsD ∧
+      eps_par < 0 ∧
+      0 < eps_perp ∧
+      eps_par * eps_perp < 0 ∧
+      0 < rot90.1 ∧
+      rot90.2 < 0 ∧
+      rot90.1 * rot90.2 < 0 ∧
+      eps_perp * omega_c ^ 2 < typeIIHyperbolicKzSq omega_c eps_perp absEpsM kx ∧
+      typeIIHyperbolicKzSq omega_c eps_perp absEpsM (-kx) =
+        typeIIHyperbolicKzSq omega_c eps_perp absEpsM kx ∧
+      coldPlasmaEpsilonParallel omega_pe omega_pe = 0 ∧
+      coldPlasmaEpsilonParallel omega omega_pe < 0 ∧
+      1 < coldPlasmaEpsilonPerp omega omega_pe omega_ce ∧
+      coldPlasmaEpsilonParallel omega omega_pe *
+        coldPlasmaEpsilonPerp omega omega_pe omega_ce < 0 ∧
+      denisovModeConversionParam k0 Ln 0 = 0 ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M_hmm) /
+          Complex.normSq (complexPluckerSinkAmplitudeB M_hmm) =
+        absEpsM / epsD := by
+  intro f_enz f_pole eps_par eps_perp rot90 χ_hmm M_hmm
+  have hepsM_pos : 0 < absEpsM := lt_trans hepsD_pos hepsM_gt
+  have h_sum_pos : 0 < epsD + absEpsM := add_pos hepsD_pos hepsM_pos
+  have h_sum_ne : epsD + absEpsM ≠ 0 := ne_of_gt h_sum_pos
+  have h_part : f_enz + f_pole = 1 := by
+    dsimp [f_enz, f_pole, emtCriticalEnzFillFraction, emtPerpendicularPoleFillFraction]
+    field_simp [h_sum_ne]
+  have hf_enz_pos : 0 < f_enz := div_pos hepsD_pos h_sum_pos
+  have hf_enz_half : f_enz < 1 / 2 := by
+    dsimp [f_enz, emtCriticalEnzFillFraction]
+    rw [div_lt_iff₀ h_sum_pos]
+    linarith
+  have hf_pole_half : 1 / 2 < f_pole := by linarith
+  have hf_pole_lt1 : f_pole < 1 := by linarith
+  have h_enz_zero : emtEpsilonParallel f_enz (-absEpsM) epsD = 0 := by
+    dsimp [f_enz, emtCriticalEnzFillFraction, emtEpsilonParallel]
+    field_simp [h_sum_ne]
+    ring
+  have h_diff_pos : 0 < absEpsM ^ 2 - epsD ^ 2 := by
+    have : epsD ^ 2 < absEpsM ^ 2 :=
+      sq_lt_sq.mpr (by rw [abs_of_pos hepsD_pos, abs_of_pos hepsM_pos]; exact hepsM_gt)
+    linarith
+  have h_diff_ne : absEpsM ^ 2 - epsD ^ 2 ≠ 0 := ne_of_gt h_diff_pos
+  have h_den_eq :
+      (1 - f_enz) * (-absEpsM) + f_enz * epsD =
+        -(absEpsM ^ 2 - epsD ^ 2) / (epsD + absEpsM) := by
+    dsimp [f_enz, emtCriticalEnzFillFraction]
+    field_simp [h_sum_ne]
+    ring
+  have h_enz_perp_eq :
+      emtEpsilonPerp f_enz (-absEpsM) epsD =
+        (absEpsM * epsD * (epsD + absEpsM)) / (absEpsM ^ 2 - epsD ^ 2) := by
+    unfold emtEpsilonPerp
+    rw [h_den_eq]
+    field_simp [h_sum_ne, h_diff_ne]
+  have h_enz_perp_pos : 0 < emtEpsilonPerp f_enz (-absEpsM) epsD := by
+    rw [h_enz_perp_eq]
+    positivity
+  have h_eps_par_neg : eps_par < 0 := by
+    dsimp [eps_par, emtEpsilonParallel]
+    have h1 : epsD < f * (epsD + absEpsM) := (div_lt_iff₀ h_sum_pos).mp hf_gt
+    linarith
+  have h_eps_perp_pos : 0 < eps_perp := by
+    dsimp [eps_perp, emtEpsilonPerp]
+    have h_num_neg : (-absEpsM) * epsD < 0 := by nlinarith
+    have h2 : f * (epsD + absEpsM) < absEpsM := (lt_div_iff₀ h_sum_pos).mp hf_lt
+    have h_den_neg : (1 - f) * (-absEpsM) + f * epsD < 0 := by linarith
+    exact div_pos_of_neg_of_neg h_num_neg h_den_neg
+  have h_prod_neg : eps_par * eps_perp < 0 :=
+    mul_neg_of_neg_of_pos h_eps_par_neg h_eps_perp_pos
+  have h_rot1 : 0 < rot90.1 := h_eps_perp_pos
+  have h_rot2 : rot90.2 < 0 := h_eps_par_neg
+  have h_rot_prod : rot90.1 * rot90.2 < 0 :=
+    mul_neg_of_pos_of_neg h_rot1 h_rot2
+  have h_kz_gt :
+      eps_perp * omega_c ^ 2 < typeIIHyperbolicKzSq omega_c eps_perp absEpsM kx := by
+    unfold typeIIHyperbolicKzSq
+    have hkx2 : 0 < kx ^ 2 := sq_pos_of_ne_zero hkx_ne
+    have h_term : 0 < eps_perp * (kx ^ 2 / absEpsM) :=
+      mul_pos h_eps_perp_pos (div_pos hkx2 hepsM_pos)
+    linarith
+  have h_kz_symm :
+      typeIIHyperbolicKzSq omega_c eps_perp absEpsM (-kx) =
+        typeIIHyperbolicKzSq omega_c eps_perp absEpsM kx := by
+    unfold typeIIHyperbolicKzSq
+    ring
+  have hpe_pos : 0 < omega_pe := lt_trans homega_pos homega_lt_pe
+  have hpe_ne : omega_pe ≠ 0 := ne_of_gt hpe_pos
+  have h_cp_enz : coldPlasmaEpsilonParallel omega_pe omega_pe = 0 := by
+    unfold coldPlasmaEpsilonParallel
+    rw [div_self hpe_ne, one_pow, sub_self]
+  have h_cp_par_neg : coldPlasmaEpsilonParallel omega omega_pe < 0 := by
+    unfold coldPlasmaEpsilonParallel
+    have h_gt1 : 1 < omega_pe / omega := (one_lt_div homega_pos).mpr homega_lt_pe
+    have h_pos1 : 0 ≤ (1 : ℝ) := by norm_num
+    nlinarith
+  have h_cp_perp_gt1 : 1 < coldPlasmaEpsilonPerp omega omega_pe omega_ce := by
+    unfold coldPlasmaEpsilonPerp
+    have hce_pos : 0 < omega_ce := lt_trans homega_pos homega_lt_ce
+    have h_sq_lt : omega ^ 2 < omega_ce ^ 2 :=
+      sq_lt_sq.mpr (by rw [abs_of_pos homega_pos, abs_of_pos hce_pos]; exact homega_lt_ce)
+    have h_den_neg : omega ^ 2 - omega_ce ^ 2 < 0 := sub_neg.mpr h_sq_lt
+    have h_quot_neg : omega_pe ^ 2 / (omega ^ 2 - omega_ce ^ 2) < 0 :=
+      div_neg_of_pos_of_neg (sq_pos_of_pos hpe_pos) h_den_neg
+    linarith
+  have h_cp_prod_neg :
+      coldPlasmaEpsilonParallel omega omega_pe *
+        coldPlasmaEpsilonPerp omega omega_pe omega_ce < 0 :=
+    mul_neg_of_neg_of_pos h_cp_par_neg (lt_trans zero_lt_one h_cp_perp_gt1)
+  have h_denisov0 : denisovModeConversionParam k0 Ln 0 = 0 := by
+    unfold denisovModeConversionParam
+    rw [Real.sin_zero, mul_zero]
+  have h_sum_md_pos : 0 < absEpsM + epsD := add_pos hepsM_pos hepsD_pos
+  have h_sum_md_ne : absEpsM + epsD ≠ 0 := ne_of_gt h_sum_md_pos
+  have h_chi_gt : -1 < χ_hmm := by
+    dsimp [χ_hmm, hmmAnisotropyParam]
+    rw [lt_div_iff₀ h_sum_md_pos]
+    linarith
+  have h_chi_lt : χ_hmm < 1 := by
+    dsimp [χ_hmm, hmmAnisotropyParam]
+    rw [div_lt_iff₀ h_sum_md_pos]
+    linarith
+  have h1p : 0 ≤ 1 + χ_hmm := by linarith
+  have h1m : 0 ≤ 1 - χ_hmm := by linarith
+  have h_minors := complexGr24ChannelMatrix_minors
+    (↑(Real.sqrt (1 + χ_hmm) * Real.cos θ) + Complex.I * ↑(Real.sqrt (1 + χ_hmm) * Real.sin θ))
+    (↑(Real.sqrt (1 - χ_hmm) * Real.cos θ) - Complex.I * ↑(Real.sqrt (1 - χ_hmm) * Real.sin θ))
+  have h_wA : Complex.normSq (complexPluckerSinkAmplitudeA M_hmm) = 1 + χ_hmm := by
+    dsimp [M_hmm, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeA]
+    rw [h_minors.1]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 + χ_hmm)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 + χ_hmm := by rw [Real.sq_sqrt h1p, Real.cos_sq_add_sin_sq, mul_one]
+  have h_wB : Complex.normSq (complexPluckerSinkAmplitudeB M_hmm) = 1 - χ_hmm := by
+    dsimp [M_hmm, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeB]
+    rw [h_minors.2.1]
+    simp only [Complex.normSq_apply, Complex.sub_re, Complex.sub_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 - χ_hmm)) ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+      _ = 1 - χ_hmm := by rw [Real.sq_sqrt h1m, Real.cos_sq_add_sin_sq, mul_one]
+  have hepsD_ne : epsD ≠ 0 := ne_of_gt hepsD_pos
+  have h_gr24_ratio :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_hmm) /
+          Complex.normSq (complexPluckerSinkAmplitudeB M_hmm) =
+        absEpsM / epsD := by
+    rw [h_wA, h_wB]
+    dsimp [χ_hmm, hmmAnisotropyParam]
+    field_simp [h_sum_md_ne, hepsD_ne]
+    ring
+  exact ⟨h_part, hf_enz_pos, hf_enz_half, hf_pole_half, hf_pole_lt1,
+    h_enz_zero, h_enz_perp_eq, h_enz_perp_pos, h_eps_par_neg, h_eps_perp_pos,
+    h_prod_neg, h_rot1, h_rot2, h_rot_prod, h_kz_gt, h_kz_symm,
+    h_cp_enz, h_cp_par_neg, h_cp_perp_gt1, h_cp_prod_neg, h_denisov0, h_gr24_ratio⟩
+
+/-- Squared ion-acoustic wave speed $v_s^2 = \frac{\gamma k_B T_e}{M_i}$ in a plasma of ion mass $M_i$
+(`data/chats/Argon-Plasma-Wave-Energy.md`, lines 18–25). -/
+@[blueprint "def:signals-ddf-ion-acoustic-speed-sq"
+  (title := "Ion-acoustic longitudinal wave speed squared v_s² = γ k_B T_e / M_i")
+  (statement := /-- Define $\operatorname{ionAcousticSpeedSq}(\gamma_{\mathrm{isen}}, k_B T_e, M_i)
+    = (\gamma_{\mathrm{isen}} \cdot k_B T_e) / M_i$. -/)]
+noncomputable def ionAcousticSpeedSq (gamma_isen kB_Te M_ion : ℝ) : ℝ :=
+  (gamma_isen * kB_Te) / M_ion
+
+/-- Optimal ENZ front-surface skin-depth layer thickness
+$d_{\mathrm{opt}}(\lambda_{\mathrm{laser}}, \varepsilon_i) = \frac{\lambda_{\mathrm{laser}}}{4\pi\sqrt{\varepsilon_i}}$
+for locking a CPA laser pulse into a Target Normal Sheath Acceleration (TNSA) target
+(`data/chats/Argon-Plasma-Wave-Energy.md`, lines 960–970). -/
+@[blueprint "def:signals-ddf-enz-optimal-skin-thickness"
+  (title := "Optimal ENZ TNSA skin-depth layer thickness d_opt = λ_laser / (4π √ε_i)")
+  (statement := /-- Define $\operatorname{enzOptimalSkinThickness}(\lambda_{\mathrm{laser}}, \varepsilon_i)
+    = \lambda_{\mathrm{laser}} / (4\pi\sqrt{\varepsilon_i})$. -/)]
+noncomputable def enzOptimalSkinThickness (lambda_laser epsImag : ℝ) : ℝ :=
+  lambda_laser / (4 * Real.pi * Real.sqrt epsImag)
+
+/-- Grid-level Engineering Gain
+$Q_E(\eta_{\mathrm{laser}}, \eta_{\mathrm{coupling}}, Q_{\mathrm{sci}}, \eta_{\mathrm{harvest}}) = \eta_{\mathrm{laser}} \cdot \eta_{\mathrm{coupling}} \cdot Q_{\mathrm{sci}} \cdot \eta_{\mathrm{harvest}}$
+for a pulsed CPA-TNSA $p\text{-}^{11}\text{B}$ direct-conversion reactor
+(`data/chats/Argon-Plasma-Wave-Energy.md`, lines 985–1025). -/
+@[blueprint "def:signals-ddf-tnsa-engineering-gain"
+  (title := "CPA-TNSA p-11B direct-conversion engineering gain Q_E = η_laser η_coupling Q_sci η_harvest")
+  (statement := /-- Define $\operatorname{tnsaEngineeringGain}(\eta_{\mathrm{laser}}, \eta_{\mathrm{coupling}}, Q_{\mathrm{sci}}, \eta_{\mathrm{harvest}})
+    = \eta_{\mathrm{laser}} \cdot \eta_{\mathrm{coupling}} \cdot Q_{\mathrm{sci}} \cdot \eta_{\mathrm{harvest}}$. -/)]
+def tnsaEngineeringGain (eta_laser eta_coupling Q_sci eta_harvest : ℝ) : ℝ :=
+  eta_laser * eta_coupling * Q_sci * eta_harvest
+
+/-- Required coolant mass flow rate $\dot{m}(P_{\mathrm{waste}}, C_p, \Delta T) = \frac{P_{\mathrm{waste}}}{C_p\,\Delta T}$
+to remove waste thermal power $P_{\mathrm{waste}}$ across temperature rise $\Delta T$
+(`data/chats/Argon-Plasma-Wave-Energy.md`, lines 1055–1085 & 1200–1215). -/
+@[blueprint "def:signals-ddf-coolant-mass-flow-rate"
+  (title := "Particle-dump coolant mass flow rate m_dot = P_waste / (C_p ΔT)")
+  (statement := /-- Define $\operatorname{coolantMassFlowRate}(P_{\mathrm{waste}}, C_p, \Delta T)
+    = P_{\mathrm{waste}} / (C_p \cdot \Delta T)$. -/)]
+noncomputable def coolantMassFlowRate (P_waste Cp deltaT : ℝ) : ℝ :=
+  P_waste / (Cp * deltaT)
+
+/-- Required intermediate DC bus supercapacitor capacitance
+$C_{\mathrm{bus}}(P_{\mathrm{avg}}, T, \tau, V_{\max}, V_{\min}) = \frac{2\,P_{\mathrm{avg}}\,(T - \tau)}{V_{\max}^2 - V_{\min}^2}$
+to buffer a pulsed repetition period $T$ with pulse width $\tau$ between bus voltages
+$V_{\min}$ and $V_{\max}$ (`data/chats/Argon-Plasma-Wave-Energy.md`, lines 1265–1318). -/
+@[blueprint "def:signals-ddf-pulsed-bus-required-capacitance"
+  (title := "Pulsed 10 Hz intermediate DC bus supercapacitor capacitance C = 2 P_avg (T - τ) / (V_max² - V_min²)")
+  (statement := /-- Define $\operatorname{pulsedBusRequiredCapacitance}(P_{\mathrm{avg}}, T, \tau, V_{\max}, V_{\min})
+    = (2 P_{\mathrm{avg}} (T - \tau)) / (V_{\max}^2 - V_{\min}^2)$. -/)]
+noncomputable def pulsedBusRequiredCapacitance
+    (P_avg T_period tau_pulse V_max V_min : ℝ) : ℝ :=
+  (2 * P_avg * (T_period - tau_pulse)) / (V_max ^ 2 - V_min ^ 2)
+
+/-- **Argon vs. Helium/Hydrogen Ion-Acoustic Wave Speeds, ENZ + `polyCBD` TNSA $p\text{-}^{11}\text{B}$ Engineering Gain $Q_E$, $s\text{CO}_2$ Brayton Recovery, & 10 Hz Supercapacitor Bus Theorem**:
+Formalizes all quantitative physics and power-plant ledgers from
+`data/chats/Argon-Plasma-Wave-Energy.md`:
+1. **Ion Mass Controls Wave Speed, Not Thermal Energy Scale (`Argon-Plasma-Wave-Energy.md`, lines 11–57)**:
+   For $M_{\mathrm{H}} = 1, M_{\mathrm{He}} = 4, M_{\mathrm{Ar}} = 40$ and $\gamma k_B T_e > 0$:
+   $$v_{s,\mathrm{Ar}}^2 < v_{s,\mathrm{He}}^2 < v_{s,\mathrm{H}}^2 \quad\text{and}\quad
+   40\,v_{s,\mathrm{Ar}}^2 = 4\,v_{s,\mathrm{He}}^2 = 1\,v_{s,\mathrm{H}}^2 = \gamma k_B T_e,$$
+2. **Optimal ENZ Skin-Depth Layer Thickness Positivity (`Argon-Plasma-Wave-Energy.md`, lines 960–970)**:
+   For $\lambda_{\mathrm{laser}} > 0$ and $\varepsilon_i > 0$, $\operatorname{enzOptimalSkinThickness}(\lambda_{\mathrm{laser}}, \varepsilon_i) > 0$,
+3. **Progression of Engineering Gain $Q_E$ Across Target Architectures (`Argon-Plasma-Wave-Energy.md`, lines 660–1025)**:
+   - Flat-foil TNSA ($\eta_L = 1/5, \eta_c = 1/10, Q_{\mathrm{sci}} = 30, \eta_h = 17/20$):
+     $$Q_E^{\mathrm{flat}} = \frac{51}{100} < 1 \quad (\text{net grid drain}),$$
+   - Micro-cone + quantum-degenerate $^{11}\text{B}$ ($\eta_L = 1/5, \eta_c = 3/10, Q_{\mathrm{sci}} = 45, \eta_h = 17/20$):
+     $$Q_E^{\mathrm{cone}} = \frac{459}{200} = 2.295 > 2,$$
+   - $150\text{ nm}$ ENZ metasurface + $1,600\%$-stretch `polyCBD` ribbon ($\eta_L = 1/5, \eta_c = 38/100, Q_{\mathrm{sci}} = 40, \eta_h = 17/20$):
+     $$Q_E^{\mathrm{ENZ+polyCBD}} = \frac{646}{250} = 2.584 > Q_E^{\mathrm{cone}} > 2,$$
+4. **Halbach Dump Waste-Heat Ledger, $s\text{CO}_2$ Mass Flow Rate, & Reclaimed Power (`Argon-Plasma-Wave-Energy.md`, lines 1045–1225)**:
+   - Core power $304\text{ MW} = 258.4\text{ MW (85\% Halbach AC)} + 45.6\text{ MW (15\% waste heat)}$,
+   - $s\text{CO}_2$ mass flow rate at $C_p = 1.25\text{ kJ/(kg}\cdot\text{K)}, \Delta T = 200\text{ K}$:
+     $$\operatorname{coolantMassFlowRate}(45600, 5/4, 200) = \frac{912}{5} = 182.4\text{ kg/s},$$
+   - Reclaimed $s\text{CO}_2$ Brayton power ($45\%$ efficiency): $45.6 \times 0.45 = 20.52\text{ MW}$, raising total plant gain to:
+     $$\frac{258.4 + 20.52}{100} = \frac{6973}{2500} = 2.7892 > Q_E^{\mathrm{ENZ+polyCBD}},$$
+   - Three-stage hybrid alpha harvesting ($85\%$ Halbach AC $+ 8\%$ Diamond/BZO Alphavoltaics $+ 4\%$ thermal $= 97\%$):
+     $$304 \times (85/100 + 8/100 + 4/100) = \frac{7372}{25} = 294.88\text{ MW},$$
+5. **10 Hz Intermediate DC Bus Supercapacitor Energy & Capacitance (`Argon-Plasma-Wave-Energy.md`, lines 1265–1318)**:
+   For $P_{\mathrm{avg}} = 258.4\text{ MW}$, $T = 0.1\text{ s}$, $\tau = 0.001\text{ s}$, $V_{\max} = 10,000\text{ V}$, $V_{\min} = 9,800\text{ V}$:
+   $$\Delta E = 258400000 \times (1/10 - 1/1000) = 25581600\text{ J},$$
+   $$\operatorname{pulsedBusRequiredCapacitance}(258400000, 1/10, 1/1000, 10000, 9800) = \frac{14212}{1100} \in \left(\frac{1291}{100}, \frac{1293}{100}\right).$$ -/
+@[blueprint "thm:signals-ddf-argon-ion-acoustic-tnsa-enz-sco2-ledger"
+  (title := "Argon ion-acoustic wave speed, ENZ-polyCBD TNSA p-11B gain Q_E, sCO2 Brayton recovery, and 10 Hz supercapacitor bus theorem")
+  (statement := /-- For any $\gamma_{\mathrm{isen}}, k_B T_e, \lambda_{\mathrm{laser}}, \varepsilon_i > 0$:
+    (1) $\operatorname{ionAcousticSpeedSq}(\gamma_{\mathrm{isen}}, k_B T_e, 40) < \operatorname{ionAcousticSpeedSq}(\gamma_{\mathrm{isen}}, k_B T_e, 4) < \operatorname{ionAcousticSpeedSq}(\gamma_{\mathrm{isen}}, k_B T_e, 1)$
+    and $40 \cdot v_{s,\mathrm{Ar}}^2 = 4 \cdot v_{s,\mathrm{He}}^2 = 1 \cdot v_{s,\mathrm{H}}^2 = \gamma_{\mathrm{isen}} k_B T_e$,
+    (2) $0 < \operatorname{enzOptimalSkinThickness}(\lambda_{\mathrm{laser}}, \varepsilon_i)$,
+    (3) $\operatorname{tnsaEngineeringGain}(1/5, 1/10, 30, 17/20) = 51/100 < 1$,
+    $\operatorname{tnsaEngineeringGain}(1/5, 3/10, 45, 17/20) = 459/200$, and
+    $\operatorname{tnsaEngineeringGain}(1/5, 38/100, 40, 17/20) = 646/250 > 459/200 > 2$,
+    (4) $\operatorname{coolantMassFlowRate}(45600, 5/4, 200) = 912/5$ and $(258.4 + 45.6 \cdot 0.45)/100 = 6973/2500$, and
+    (5) $\operatorname{pulsedBusRequiredCapacitance}(258400000, 1/10, 1/1000, 10000, 9800) = 14212/1100 \in (1291/100, 1293/100)$. -/)
+  (proof := /-- Combine division monotonicity on $1 < 4 < 40$ with positivity of $\sqrt{\varepsilon_i}$
+    and exact rational arithmetic (`norm_num`). -/)]
+theorem argon_ion_acoustic_tnsa_enz_polycbd_and_sco2_ledger_identities
+    (gamma_isen kB_Te lambda_laser epsImag : ℝ)
+    (hgamma : 0 < gamma_isen) (hkT : 0 < kB_Te)
+    (hlambda : 0 < lambda_laser) (heps : 0 < epsImag) :
+    ionAcousticSpeedSq gamma_isen kB_Te 40 < ionAcousticSpeedSq gamma_isen kB_Te 4 ∧
+      ionAcousticSpeedSq gamma_isen kB_Te 4 < ionAcousticSpeedSq gamma_isen kB_Te 1 ∧
+      40 * ionAcousticSpeedSq gamma_isen kB_Te 40 = gamma_isen * kB_Te ∧
+      4 * ionAcousticSpeedSq gamma_isen kB_Te 4 = gamma_isen * kB_Te ∧
+      0 < enzOptimalSkinThickness lambda_laser epsImag ∧
+      tnsaEngineeringGain (1 / 5) (1 / 10) 30 (17 / 20) = 51 / 100 ∧
+      tnsaEngineeringGain (1 / 5) (1 / 10) 30 (17 / 20) < 1 ∧
+      tnsaEngineeringGain (1 / 5) (3 / 10) 45 (17 / 20) = 459 / 200 ∧
+      tnsaEngineeringGain (1 / 5) (38 / 100) 40 (17 / 20) = 646 / 250 ∧
+      tnsaEngineeringGain (1 / 5) (3 / 10) 45 (17 / 20) <
+        tnsaEngineeringGain (1 / 5) (38 / 100) 40 (17 / 20) ∧
+      coolantMassFlowRate 45600 (5 / 4) 200 = 912 / 5 ∧
+      (2584 / 10 + (456 / 10) * (45 / 100)) / 100 = (6973 / 2500 : ℝ) ∧
+      pulsedBusRequiredCapacitance 258400000 (1 / 10) (1 / 1000) 10000 9800 =
+        14212 / 1100 ∧
+      (1291 / 100 : ℝ) <
+        pulsedBusRequiredCapacitance 258400000 (1 / 10) (1 / 1000) 10000 9800 ∧
+      pulsedBusRequiredCapacitance 258400000 (1 / 10) (1 / 1000) 10000 9800 <
+        (1293 / 100 : ℝ) := by
+  have h_prod : 0 < gamma_isen * kB_Te := mul_pos hgamma hkT
+  have h_ar_he :
+      ionAcousticSpeedSq gamma_isen kB_Te 40 < ionAcousticSpeedSq gamma_isen kB_Te 4 := by
+    unfold ionAcousticSpeedSq
+    exact div_lt_div_of_pos_left h_prod (by norm_num) (by norm_num)
+  have h_he_h :
+      ionAcousticSpeedSq gamma_isen kB_Te 4 < ionAcousticSpeedSq gamma_isen kB_Te 1 := by
+    unfold ionAcousticSpeedSq
+    exact div_lt_div_of_pos_left h_prod (by norm_num) (by norm_num)
+  have h_ar_eq : 40 * ionAcousticSpeedSq gamma_isen kB_Te 40 = gamma_isen * kB_Te := by
+    unfold ionAcousticSpeedSq
+    ring
+  have h_he_eq : 4 * ionAcousticSpeedSq gamma_isen kB_Te 4 = gamma_isen * kB_Te := by
+    unfold ionAcousticSpeedSq
+    ring
+  have h_skin : 0 < enzOptimalSkinThickness lambda_laser epsImag := by
+    unfold enzOptimalSkinThickness
+    have h_sqrt : 0 < Real.sqrt epsImag := Real.sqrt_pos.mpr heps
+    positivity
+  refine ⟨h_ar_he, h_he_h, h_ar_eq, h_he_eq, h_skin, ?_⟩
+  unfold tnsaEngineeringGain coolantMassFlowRate pulsedBusRequiredCapacitance
+  norm_num
+
 end Signals.DDF

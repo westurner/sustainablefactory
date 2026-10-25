@@ -937,6 +937,91 @@ pub extern "C" fn wasm_ads_magnon_dispersion(m_bound: f64, lam_thooft: f64, p: f
     model.magnon_dispersion(p)
 }
 
+/// Effective Medium Theory (EMT) & Cold-Plasma evaluator for `rGO-polyCBD-SS-Lignin`
+/// ENZ and Hyperbolic Metamaterials, Magnetized Argon/Ionosphere Trivelpiece–Gould modes,
+/// Denisov mode conversion, and CPA-TNSA $p\text{-}^{11}\text{B}$ / $s\text{CO}_2$ power ledgers
+/// (`Signals.DDF.rgo_polycbd_enz_hyperbolic_and_plasma_metamaterial_identities` and
+/// `Signals.DDF.argon_ion_acoustic_tnsa_enz_polycbd_and_sco2_ledger_identities`).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct RgoPolyCbdHyperbolicMetamaterial {
+    pub eps_d: f64,
+    pub abs_eps_m: f64,
+}
+
+impl RgoPolyCbdHyperbolicMetamaterial {
+    /// Critical ENZ volume fill fraction $f_{\mathrm{ENZ}} = \varepsilon_d / (\varepsilon_d + |\varepsilon_m|)$.
+    #[inline]
+    pub fn critical_enz_fill_fraction(&self) -> f64 {
+        self.eps_d / (self.eps_d + self.abs_eps_m)
+    }
+
+    /// Out-of-plane pole fill fraction $f_{\perp,\mathrm{pole}} = |\varepsilon_m| / (\varepsilon_d + |\varepsilon_m|)$.
+    #[inline]
+    pub fn perpendicular_pole_fill_fraction(&self) -> f64 {
+        self.abs_eps_m / (self.eps_d + self.abs_eps_m)
+    }
+
+    /// In-plane EMT permittivity $\varepsilon_\parallel(f) = -f|\varepsilon_m| + (1 - f)\varepsilon_d$.
+    #[inline]
+    pub fn epsilon_parallel(&self, f: f64) -> f64 {
+        -f * self.abs_eps_m + (1.0 - f) * self.eps_d
+    }
+
+    /// Out-of-plane EMT permittivity $\varepsilon_\perp(f) = \frac{-|\varepsilon_m|\varepsilon_d}{-(1 - f)|\varepsilon_m| + f\varepsilon_d}$.
+    #[inline]
+    pub fn epsilon_perp(&self, f: f64) -> f64 {
+        (-self.abs_eps_m * self.eps_d) / (-(1.0 - f) * self.abs_eps_m + f * self.eps_d)
+    }
+
+    /// Disulfide $90^\circ$ flake-rotation switch $(\varepsilon_\parallel, \varepsilon_\perp) \mapsto (\varepsilon_\perp, \varepsilon_\parallel)$.
+    #[inline]
+    pub fn rotated90_tensor(&self, f: f64) -> (f64, f64) {
+        (self.epsilon_perp(f), self.epsilon_parallel(f))
+    }
+
+    /// Squared axial wavevector $k_z^2(k_x) = \varepsilon_\perp(\omega_c^2 + k_x^2 / |\varepsilon_\parallel|)$
+    /// in the Type-II hyperbolic regime.
+    #[inline]
+    pub fn type2_hyperbolic_kz_sq(omega_c: f64, eps_perp: f64, abs_eps_par: f64, kx: f64) -> f64 {
+        eps_perp * (omega_c * omega_c + (kx * kx) / abs_eps_par)
+    }
+
+    /// Magnetized cold-plasma dielectric tensor $(\varepsilon_\parallel(\omega), \varepsilon_\perp(\omega))$.
+    #[inline]
+    pub fn cold_plasma_tensor(omega: f64, omega_pe: f64, omega_ce: f64) -> (f64, f64) {
+        let eps_par = 1.0 - (omega_pe / omega).powi(2);
+        let eps_perp = 1.0 - (omega_pe * omega_pe) / (omega * omega - omega_ce * omega_ce);
+        (eps_par, eps_perp)
+    }
+
+    /// Denisov linear mode-conversion parameter $\tau_D = (k_0 L_n)^{1/3} \sin\theta_{\mathrm{in}}$.
+    #[inline]
+    pub fn denisov_param(k0: f64, l_n: f64, theta_in_rad: f64) -> f64 {
+        (k0 * l_n).cbrt() * theta_in_rad.sin()
+    }
+
+    /// Evaluate the CPA-TNSA $p\text{-}^{11}\text{B}$ engineering gain $Q_E$, $s\text{CO}_2$
+    /// mass flow rate, and 10 Hz intermediate DC bus supercapacitor capacitance.
+    #[inline]
+    pub fn tnsa_enz_polycbd_and_sco2_summary() -> (f64, f64, f64, f64, f64, f64) {
+        let qe_flat = 0.20 * 0.10 * 30.0 * 0.85;
+        let qe_cone = 0.20 * 0.30 * 45.0 * 0.85;
+        let qe_enz_polycbd = 0.20 * 0.38 * 40.0 * 0.85;
+        let mdot_sco2 = 45600.0 / (1.25 * 200.0);
+        let qe_with_sco2 = (258.4 + 45.6 * 0.45) / 100.0;
+        let cap_bus_farads =
+            (2.0 * 258_400_000.0 * (0.1 - 0.001)) / (10_000.0_f64.powi(2) - 9_800.0_f64.powi(2));
+        (
+            qe_flat,
+            qe_cone,
+            qe_enz_polycbd,
+            mdot_sco2,
+            qe_with_sco2,
+            cap_bus_farads,
+        )
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1365,6 +1450,46 @@ mod tests {
             .abs()
                 < 1e-12
         );
+
+        // 6. rGO-polyCBD-SS-Lignin ENZ & Hyperbolic Metamaterial Regimes + TNSA/sCO2 Ledger
+        let hmm = RgoPolyCbdHyperbolicMetamaterial {
+            eps_d: 2.82,
+            abs_eps_m: 110.0,
+        };
+        let f_enz = hmm.critical_enz_fill_fraction();
+        let f_pole = hmm.perpendicular_pole_fill_fraction();
+        assert!(((f_enz + f_pole) - 1.0).abs() < 1e-12);
+        assert!(f_enz > 0.02 && f_enz < 0.03); // ~2.4995% inZone 1 ENZ horizon
+        assert!(hmm.epsilon_parallel(f_enz).abs() < 1e-12);
+        assert!(hmm.epsilon_perp(f_enz) > 0.0);
+
+        let f_zone2 = 0.032; // 3.20% rGO in Zone 2 Type-II Hyperbolic SFG Core
+        let eps_par_z2 = hmm.epsilon_parallel(f_zone2);
+        let eps_perp_z2 = hmm.epsilon_perp(f_zone2);
+        assert!(eps_par_z2 < 0.0 && eps_perp_z2 > 0.0 && eps_par_z2 * eps_perp_z2 < 0.0);
+        let (rot_par, rot_perp) = hmm.rotated90_tensor(f_zone2);
+        assert!(rot_par > 0.0 && rot_perp < 0.0 && rot_par * rot_perp < 0.0);
+        let kz_sq = RgoPolyCbdHyperbolicMetamaterial::type2_hyperbolic_kz_sq(
+            2.0,
+            eps_perp_z2,
+            eps_par_z2.abs(),
+            5.0,
+        );
+        assert!(kz_sq > eps_perp_z2 * 4.0);
+
+        let (cp_par, cp_perp) =
+            RgoPolyCbdHyperbolicMetamaterial::cold_plasma_tensor(200.0, 400.0, 300.0);
+        assert!(cp_par < 0.0 && cp_perp > 1.0 && cp_par * cp_perp < 0.0);
+        assert!(RgoPolyCbdHyperbolicMetamaterial::denisov_param(10.0, 1.0, 0.0).abs() < 1e-12);
+
+        let (qe_flat, qe_cone, qe_enz, mdot_sco2, qe_sco2, cap_bus) =
+            RgoPolyCbdHyperbolicMetamaterial::tnsa_enz_polycbd_and_sco2_summary();
+        assert!((qe_flat - 0.51).abs() < 1e-12 && qe_flat < 1.0);
+        assert!((qe_cone - 2.295).abs() < 1e-12);
+        assert!((qe_enz - 2.584).abs() < 1e-12 && qe_enz > qe_cone);
+        assert!((mdot_sco2 - 182.4).abs() < 1e-12);
+        assert!((qe_sco2 - 2.7892).abs() < 1e-12 && qe_sco2 > qe_enz);
+        assert!(cap_bus > 12.91 && cap_bus < 12.93);
     }
 
     #[test]

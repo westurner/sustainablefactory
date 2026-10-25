@@ -5343,4 +5343,53 @@ example (φ : ℝ) :
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
+example (θ : ℝ) :
+    let f_enz := Signals.DDF.emtCriticalEnzFillFraction (282 / 100) 110
+    let f_pole := Signals.DDF.emtPerpendicularPoleFillFraction (282 / 100) 110
+    let eps_par := Signals.DDF.emtEpsilonParallel (32 / 1000) (-110) (282 / 100)
+    let eps_perp := Signals.DDF.emtEpsilonPerp (32 / 1000) (-110) (282 / 100)
+    let rot90 := Signals.DDF.rotated90MetamaterialTensor eps_par eps_perp
+    let M_hmm := Signals.DDF.ddfThermalGr24Matrix (Signals.DDF.hmmAnisotropyParam 110 (282 / 100)) θ
+    f_enz + f_pole = 1 ∧
+    Signals.DDF.emtEpsilonParallel f_enz (-110) (282 / 100) = 0 ∧
+    0 < Signals.DDF.emtEpsilonPerp f_enz (-110) (282 / 100) ∧
+    eps_par < 0 ∧
+    0 < eps_perp ∧
+    eps_par * eps_perp < 0 ∧
+    0 < rot90.1 ∧
+    rot90.2 < 0 ∧
+    eps_perp * (2 : ℝ) ^ 2 < Signals.DDF.typeIIHyperbolicKzSq 2 eps_perp 110 5 ∧
+    Signals.DDF.coldPlasmaEpsilonParallel 400 400 = 0 ∧
+    Signals.DDF.coldPlasmaEpsilonParallel 200 400 *
+      Signals.DDF.coldPlasmaEpsilonPerp 200 400 300 < 0 ∧
+    Signals.DDF.denisovModeConversionParam 10 1 0 = 0 ∧
+    Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_hmm) /
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_hmm) =
+      110 / (282 / 100) ∧
+    Signals.DDF.ionAcousticSpeedSq (5 / 3) 10 40 <
+      Signals.DDF.ionAcousticSpeedSq (5 / 3) 10 4 ∧
+    Signals.DDF.tnsaEngineeringGain (1 / 5) (1 / 10) 30 (17 / 20) < 1 ∧
+    Signals.DDF.tnsaEngineeringGain (1 / 5) (38 / 100) 40 (17 / 20) = 646 / 250 ∧
+    Signals.DDF.coolantMassFlowRate 45600 (5 / 4) 200 = 912 / 5 ∧
+    Signals.DDF.pulsedBusRequiredCapacitance 258400000 (1 / 10) (1 / 1000) 10000 9800 =
+      14212 / 1100 := by
+  intro f_enz f_pole eps_par eps_perp rot90 M_hmm
+  have h_hmm := Signals.DDF.rgo_polycbd_enz_hyperbolic_and_plasma_metamaterial_identities
+    (282 / 100) 110 (32 / 1000) 2 5 200 400 300 10 1 θ
+    (by norm_num) (by norm_num)
+    (by unfold Signals.DDF.emtCriticalEnzFillFraction; norm_num)
+    (by unfold Signals.DDF.emtPerpendicularPoleFillFraction; norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_tnsa := Signals.DDF.argon_ion_acoustic_tnsa_enz_polycbd_and_sco2_ledger_identities
+    (5 / 3) 10 800 (1 / 10) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_hmm.1, h_hmm.2.2.2.2.2.1, h_hmm.2.2.2.2.2.2.2.1,
+    h_hmm.2.2.2.2.2.2.2.2.1, h_hmm.2.2.2.2.2.2.2.2.2.1, h_hmm.2.2.2.2.2.2.2.2.2.2.1,
+    h_hmm.2.2.2.2.2.2.2.2.2.2.2.1, h_hmm.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_hmm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h_hmm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_hmm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_hmm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_hmm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    h_tnsa.1, h_tnsa.2.2.2.2.2.2.1, h_tnsa.2.2.2.2.2.2.2.2.1,
+    h_tnsa.2.2.2.2.2.2.2.2.2.2.1, h_tnsa.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
 end SignalsTests
