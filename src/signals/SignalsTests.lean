@@ -5263,4 +5263,30 @@ example (θ_z : ℝ) :
     h3d.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
     h_schur.2.2.2.1, h_schur.2.2.2.2.2.2.1, h_schur.2.2.2.2.2.2.2.2.2.2⟩
 
+example (θ_z φ_err : ℝ) :
+    let s_ortho := toySplat3D.projectOrthographic2D
+    let s_persp := toySplat3D.projectPerspective2D 2 (by norm_num) (by norm_num [toySplat3D])
+    let M_depth := Signals.DDF.ddfThermalGr24Matrix toySplat3D.holographicDepthAnisotropy θ_z
+    let R_depth :=
+      Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_depth) /
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_depth)
+    let sigma3_sq_rec := Signals.DDF.recoverDepthVarianceSq s_ortho.covTrace R_depth
+    sigma3_sq_rec = toySplat3D.sigma3 ^ 2 ∧
+    s_ortho.covTrace + sigma3_sq_rec = toySplat3D.covTrace ∧
+    s_ortho.covDet * sigma3_sq_rec = toySplat3D.covDet ∧
+    Signals.DDF.recoverFocalDepthSq 2 s_ortho.covTrace s_persp.covTrace =
+      toySplat3D.centerZ ^ 2 ∧
+    2 / (4 : ℝ) ^ 2 < Signals.DDF.convergentCrossedAxialPrecision 1 4 ∧
+    (4 : ℝ) * (3 : ℝ) ^ 2 < (4 * (3 : ℝ)) ^ 2 ∧
+    Signals.DDF.ddfThermalGr24Matrix toySplat3D.holographicDepthAnisotropy (θ_z + φ_err - φ_err) =
+      M_depth := by
+  intro s_ortho s_persp M_depth R_depth sigma3_sq_rec
+  have h_img :=
+    toySplat3D.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities
+      2 1 1 θ_z φ_err 1 4 4 3
+      (by norm_num) (by norm_num [toySplat3D]) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_img.1, h_img.2.1, h_img.2.2.1, h_img.2.2.2.2.1,
+    h_img.2.2.2.2.2.2.2.1, h_img.2.2.2.2.2.2.2.2.2.1, h_img.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

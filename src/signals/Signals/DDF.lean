@@ -5859,4 +5859,207 @@ theorem schur_plucker_inversion_free_and_twistor_vane_identities
   exact ⟨hJ_det, hSigma_det, hSigma33, h_schur_fact, h_chat_det turbulence, h_chat_lt,
     h_corr_det, h_pl_prod, h_schur_pl, h_schur0, h_schur_lt⟩
 
+/-! ## Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery in Imaging & Convergent Multi-Beam Volumetric Holography -/
+
+/-- Exact inversion of the unseen 3rd principal variance $\sigma_3^2$ of a 3D Gaussian
+splat from its 2D screen trace $\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} = \sigma_1^2 + \sigma_2^2$
+and its measured $Gr_{\mathbb{C}}(2,4)$ Plücker depth-channel ratio
+$R_{\mathrm{depth}} = |w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2 / |w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2$. -/
+@[blueprint "def:signals-ddf-recover-depth-variance-sq"
+  (title := "Holographic Gr_C(2,4) inversion of 3rd principal variance σ_3² from 2D screen trace")
+  (statement := /-- Define $\operatorname{recoverDepthVarianceSq}(\operatorname{trace2D}, R_{\mathrm{depth}})
+    = \operatorname{trace2D} / R_{\mathrm{depth}}$. -/)]
+noncomputable def recoverDepthVarianceSq (trace2D pluckerDepthRatio : ℝ) : ℝ :=
+  trace2D / pluckerDepthRatio
+
+/-- Exact tomographic recovery of the squared focal depth $z_c^2$ from the focal length
+$f$, the intrinsic 2D orthographic trace $\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}$,
+and the observed perspective screen trace $\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{persp}}$. -/
+@[blueprint "def:signals-ddf-recover-focal-depth-sq"
+  (title := "Perspective focal-depth squared recovery z_c² = f² (Tr Σ_ortho / Tr Σ_persp)")
+  (statement := /-- Define $\operatorname{recoverFocalDepthSq}(f, \operatorname{traceOrtho}, \operatorname{tracePersp})
+    = f^2 \cdot (\operatorname{traceOrtho} / \operatorname{tracePersp})$. -/)]
+noncomputable def recoverFocalDepthSq (focalScale traceOrtho tracePersp : ℝ) : ℝ :=
+  focalScale ^ 2 * (traceOrtho / tracePersp)
+
+/-- Combined axial inverse variance (precision) $\tau_{z,\mathrm{conv}} = \sigma_\parallel^{-2} + \sigma_\perp^{-2}$
+at the intersection of two orthogonal convergent Gaussian beams with transverse waist
+$\sigma_\perp > 0$ and elongated axial Rayleigh length $\sigma_\parallel > \sigma_\perp$. -/
+@[blueprint "def:signals-ddf-convergent-crossed-axial-precision"
+  (title := "Crossed convergent-beam axial precision τ_z,conv = 1/σ_∥² + 1/σ_⊥²")
+  (statement := /-- Define $\operatorname{convergentCrossedAxialPrecision}(\sigma_\perp, \sigma_\parallel)
+    = 1 / \sigma_\parallel^2 + 1 / \sigma_\perp^2$. -/)]
+noncomputable def convergentCrossedAxialPrecision (sigmaPerp sigmaParallel : ℝ) : ℝ :=
+  1 / sigmaParallel ^ 2 + 1 / sigmaPerp ^ 2
+
+/-- **Holographic $Gr_{\mathbb{C}}(2,4)$ Imaging Depth Recovery & Convergent Multi-Beam Volumetric Holography Theorem**:
+Formalizes how the holographic $Gr_{\mathbb{C}}(2,4)$ depth-anisotropy channel and
+convergent multi-beam holography (`docs/chats/IQ-Sampling-for-Signal-Phase.myst.md`,
+Prompts 93–102; `docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md`, Step 4)
+solve the 2D-to-3D volumetric imaging and synthesis problem:
+1. **Exact 3D Depth Variance, 3D Trace, 3D Determinant, and 3D Core Bohm Recovery from 2D Screen Data**:
+   Let `s_ortho = splat.projectOrthographic2D`, $\delta_d = splat.\mathrm{holographicDepthAnisotropy}$,
+   $M_{\mathrm{depth}} = \operatorname{ddfThermalGr24Matrix}(\delta_d, \theta_z)$, and
+   $R_{\mathrm{depth}} = |w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2 / |w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2$.
+   Then:
+   - $\operatorname{recoverDepthVarianceSq}(s_{\mathrm{ortho}}.\mathrm{covTrace}, R_{\mathrm{depth}}) = \sigma_3^2$,
+   - $s_{\mathrm{ortho}}.\mathrm{covTrace} + \operatorname{recoverDepthVarianceSq}(s_{\mathrm{ortho}}.\mathrm{covTrace}, R_{\mathrm{depth}}) = \operatorname{Tr}\Sigma_{\mathrm{3D}}$,
+   - $s_{\mathrm{ortho}}.\mathrm{covDet} \cdot \operatorname{recoverDepthVarianceSq}(s_{\mathrm{ortho}}.\mathrm{covTrace}, R_{\mathrm{depth}}) = \det\Sigma_{\mathrm{3D}}$,
+   - $s_{\mathrm{ortho}}.\operatorname{coreBohmPotential}(m, \hbar) + \frac{\hbar^2}{4m}\frac{R_{\mathrm{depth}}}{s_{\mathrm{ortho}}.\mathrm{covTrace}} = Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}})$,
+2. **Exact Perspective Focal-Range ($z_c^2$) Tomography**:
+   For `s_persp = splat.projectPerspective2D f hf hz`:
+   $$\operatorname{recoverFocalDepthSq}(f, s_{\mathrm{ortho}}.\mathrm{covTrace}, s_{\mathrm{persp}}.\mathrm{covTrace}) = z_c^2,$$
+   $$f^2 \cdot \frac{s_{\mathrm{persp}}.\operatorname{coreBohmPotential}(m, \hbar)}{s_{\mathrm{ortho}}.\operatorname{coreBohmPotential}(m, \hbar)} = z_c^2,$$
+3. **Convergent Crossed-Beam Confocal Axial Precision Compression & Synchronous $N$-Beam Coherent Gain**:
+   For $0 < \sigma_\perp < \sigma_\parallel$, crossing two orthogonal beams boosts axial
+   precision strictly above both the single-beam axial precision $1/\sigma_\parallel^2$
+   and the collinear two-beam axial precision $2/\sigma_\parallel^2$:
+   $$\frac{1}{\sigma_\parallel^2} < \frac{2}{\sigma_\parallel^2} < \operatorname{convergentCrossedAxialPrecision}(\sigma_\perp, \sigma_\parallel),$$
+   and for $N_{\mathrm{beam}} > 1$ synchronous phase-locked beams with per-beam amplitude $A_0 > 0$,
+   coherent focal intensity $(N_{\mathrm{beam}} A_0)^2$ exceeds incoherent intensity $N_{\mathrm{beam}} A_0^2$
+   by the factor $N_{\mathrm{beam}}$:
+   $$(N_{\mathrm{beam}} A_0)^2 = N_{\mathrm{beam}} \cdot (N_{\mathrm{beam}} A_0^2) \quad\text{and}\quad N_{\mathrm{beam}} A_0^2 < (N_{\mathrm{beam}} A_0)^2,$$
+4. **Self-Calibrating Pilot-Tone Phase-Conjugation Identity**:
+   Applying the conjugate phase correction $-\phi_{\mathrm{err}}$ to an aberrated twistor
+   phase $\theta_z + \phi_{\mathrm{err}}$ restores the exact unaberrated $Gr_{\mathbb{C}}(2,4)$
+   twistor matrix $\operatorname{ddfThermalGr24Matrix}(\delta_d, \theta_z + \phi_{\mathrm{err}} - \phi_{\mathrm{err}}) = M_{\mathrm{depth}}$. -/
+@[blueprint "thm:signals-ddf-holographic-gr24-imaging-depth-recovery"
+  (title := "Holographic Gr_C(2,4) imaging depth recovery and convergent multi-beam confocal theorem")
+  (statement := /-- For any \texttt{splat : NormedTensorGaussianSplat3D} with $z_c > 0$, focal scale $f > 0$,
+    $m > 0$, $\hbar \ne 0$, $0 < \sigma_\perp < \sigma_\parallel$, $N_{\mathrm{beam}} > 1$, and $A_0 > 0$:
+    (1) $\operatorname{recoverDepthVarianceSq}(s_{\mathrm{ortho}}.\mathrm{covTrace}, R_{\mathrm{depth}}) = \sigma_3^2$,
+    $s_{\mathrm{ortho}}.\mathrm{covTrace} + \operatorname{recoverDepthVarianceSq}(s_{\mathrm{ortho}}.\mathrm{covTrace}, R_{\mathrm{depth}}) = \operatorname{splat}.\mathrm{covTrace}$,
+    $s_{\mathrm{ortho}}.\mathrm{covDet} \cdot \operatorname{recoverDepthVarianceSq}(s_{\mathrm{ortho}}.\mathrm{covTrace}, R_{\mathrm{depth}}) = \operatorname{splat}.\mathrm{covDet}$, and
+    $s_{\mathrm{ortho}}.\operatorname{coreBohmPotential}(m,\hbar) + \frac{\hbar^2}{4m}\frac{R_{\mathrm{depth}}}{s_{\mathrm{ortho}}.\mathrm{covTrace}} = \operatorname{splat}.\operatorname{coreBohmPotential}(m,\hbar)$,
+    (2) $\operatorname{recoverFocalDepthSq}(f, s_{\mathrm{ortho}}.\mathrm{covTrace}, s_{\mathrm{persp}}.\mathrm{covTrace}) = z_c^2$ and
+    $f^2 (s_{\mathrm{persp}}.\operatorname{coreBohmPotential}(m,\hbar) / s_{\mathrm{ortho}}.\operatorname{coreBohmPotential}(m,\hbar)) = z_c^2$,
+    (3) $1/\sigma_\parallel^2 < 2/\sigma_\parallel^2 < \operatorname{convergentCrossedAxialPrecision}(\sigma_\perp, \sigma_\parallel)$ and
+    $N_{\mathrm{beam}} A_0^2 < (N_{\mathrm{beam}} A_0)^2 = N_{\mathrm{beam}} (N_{\mathrm{beam}} A_0^2)$, and
+    (4) $\operatorname{ddfThermalGr24Matrix}(\delta_d, \theta_z + \phi_{\mathrm{err}} - \phi_{\mathrm{err}}) = M_{\mathrm{depth}}$. -/)
+  (proof := /-- Combine the depth-channel ratio $R_{\mathrm{depth}} = (\sigma_1^2 + \sigma_2^2)/\sigma_3^2$
+    from \texttt{splitMajor3D\_and\_holographic\_gr24\_projection\_identities} with field simplification on
+    positive variances and traces. -/)]
+theorem NormedTensorGaussianSplat3D.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities
+    (splat : NormedTensorGaussianSplat3D)
+    (focalScale m_boson hbar θ_z φ_err sigmaPerp sigmaParallel N_beam A0 : ℝ)
+    (hf : 0 < focalScale) (hz : 0 < splat.centerZ)
+    (hm : 0 < m_boson) (hhbar : hbar ≠ 0)
+    (h_perp_pos : 0 < sigmaPerp) (h_perp_lt : sigmaPerp < sigmaParallel)
+    (hN_gt : 1 < N_beam) (hA0_pos : 0 < A0) :
+    let s_ortho := splat.projectOrthographic2D
+    let s_persp := splat.projectPerspective2D focalScale hf hz
+    let δ_d := splat.holographicDepthAnisotropy
+    let M_depth := ddfThermalGr24Matrix δ_d θ_z
+    let R_depth :=
+      Complex.normSq (complexPluckerSinkAmplitudeA M_depth) /
+        Complex.normSq (complexPluckerSinkAmplitudeB M_depth)
+    let sigma3_sq_rec := recoverDepthVarianceSq s_ortho.covTrace R_depth
+    sigma3_sq_rec = splat.sigma3 ^ 2 ∧
+      s_ortho.covTrace + sigma3_sq_rec = splat.covTrace ∧
+      s_ortho.covDet * sigma3_sq_rec = splat.covDet ∧
+      s_ortho.coreBohmPotential m_boson hbar +
+          (hbar ^ 2 / (4 * m_boson)) * (R_depth / s_ortho.covTrace) =
+        splat.coreBohmPotential m_boson hbar ∧
+      recoverFocalDepthSq focalScale s_ortho.covTrace s_persp.covTrace =
+        splat.centerZ ^ 2 ∧
+      focalScale ^ 2 *
+          (s_persp.coreBohmPotential m_boson hbar /
+            s_ortho.coreBohmPotential m_boson hbar) =
+        splat.centerZ ^ 2 ∧
+      1 / sigmaParallel ^ 2 < 2 / sigmaParallel ^ 2 ∧
+      2 / sigmaParallel ^ 2 <
+        convergentCrossedAxialPrecision sigmaPerp sigmaParallel ∧
+      (N_beam * A0) ^ 2 = N_beam * (N_beam * A0 ^ 2) ∧
+      N_beam * A0 ^ 2 < (N_beam * A0) ^ 2 ∧
+      ddfThermalGr24Matrix δ_d (θ_z + φ_err - φ_err) = M_depth := by
+  intro s_ortho s_persp δ_d M_depth R_depth sigma3_sq_rec
+  have h_base :=
+    splat.splitMajor3D_and_holographic_gr24_projection_identities
+      focalScale m_boson hbar θ_z hf hz hm hhbar
+  have h_R : R_depth = (splat.sigma1 ^ 2 + splat.sigma2 ^ 2) / splat.sigma3 ^ 2 :=
+    h_base.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2
+  have hs1_ne : splat.sigma1 ≠ 0 := ne_of_gt splat.sigma1_pos
+  have hs2_ne : splat.sigma2 ≠ 0 := ne_of_gt splat.sigma2_pos
+  have hs3_ne : splat.sigma3 ≠ 0 := ne_of_gt splat.sigma3_pos
+  have hm_ne : m_boson ≠ 0 := ne_of_gt hm
+  have hf_ne : focalScale ≠ 0 := ne_of_gt hf
+  have hz_ne : splat.centerZ ≠ 0 := ne_of_gt hz
+  have h_lat_pos : 0 < splat.sigma1 ^ 2 + splat.sigma2 ^ 2 := by
+    have : 0 < splat.sigma1 ^ 2 := sq_pos_of_pos splat.sigma1_pos
+    have : 0 < splat.sigma2 ^ 2 := sq_pos_of_pos splat.sigma2_pos
+    linarith
+  have h_lat_ne : splat.sigma1 ^ 2 + splat.sigma2 ^ 2 ≠ 0 := ne_of_gt h_lat_pos
+  have h_s3_rec : sigma3_sq_rec = splat.sigma3 ^ 2 := by
+    dsimp [sigma3_sq_rec, recoverDepthVarianceSq, s_ortho,
+      projectOrthographic2D, NormedTensorGaussianSplat2D.covTrace]
+    rw [h_R]
+    field_simp [h_lat_ne, hs3_ne]
+  have h_tr_rec : s_ortho.covTrace + sigma3_sq_rec = splat.covTrace := by
+    rw [h_s3_rec]
+    dsimp [s_ortho, projectOrthographic2D, NormedTensorGaussianSplat2D.covTrace, covTrace]
+  have h_det_rec : s_ortho.covDet * sigma3_sq_rec = splat.covDet := by
+    rw [h_s3_rec]
+    dsimp [s_ortho, projectOrthographic2D, NormedTensorGaussianSplat2D.covDet, covDet]
+  have h_bohm_rec :
+      s_ortho.coreBohmPotential m_boson hbar +
+          (hbar ^ 2 / (4 * m_boson)) * (R_depth / s_ortho.covTrace) =
+        splat.coreBohmPotential m_boson hbar := by
+    rw [h_R]
+    dsimp [s_ortho, projectOrthographic2D, NormedTensorGaussianSplat2D.covTrace,
+      NormedTensorGaussianSplat2D.coreBohmPotential, coreBohmPotential]
+    field_simp [h_lat_ne, hs1_ne, hs2_ne, hs3_ne, hm_ne]
+  have h_z_tr :
+      recoverFocalDepthSq focalScale s_ortho.covTrace s_persp.covTrace =
+        splat.centerZ ^ 2 := by
+    dsimp [recoverFocalDepthSq, s_ortho, s_persp, projectOrthographic2D,
+      projectPerspective2D, NormedTensorGaussianSplat2D.covTrace]
+    have h_persp_tr :
+        (focalScale / splat.centerZ * splat.sigma1) ^ 2 +
+            (focalScale / splat.centerZ * splat.sigma2) ^ 2 =
+          (focalScale / splat.centerZ) ^ 2 * (splat.sigma1 ^ 2 + splat.sigma2 ^ 2) := by
+      ring
+    rw [h_persp_tr]
+    field_simp [hf_ne, hz_ne, h_lat_ne]
+  have h_inv_lat_pos : 0 < 1 / splat.sigma1 ^ 2 + 1 / splat.sigma2 ^ 2 := by
+    have : 0 < 1 / splat.sigma1 ^ 2 := one_div_pos.mpr (sq_pos_of_pos splat.sigma1_pos)
+    have : 0 < 1 / splat.sigma2 ^ 2 := one_div_pos.mpr (sq_pos_of_pos splat.sigma2_pos)
+    linarith
+  have h_bohm_ortho_ne : s_ortho.coreBohmPotential m_boson hbar ≠ 0 := by
+    dsimp [s_ortho, projectOrthographic2D, NormedTensorGaussianSplat2D.coreBohmPotential]
+    have hh2 : 0 < hbar ^ 2 := sq_pos_of_ne_zero hhbar
+    exact ne_of_gt (mul_pos (by positivity) h_inv_lat_pos)
+  have h_persp_bohm := h_base.2.2.2.2.2.2.2.2.2.2.1
+  have h_z_bohm :
+      focalScale ^ 2 *
+          (s_persp.coreBohmPotential m_boson hbar /
+            s_ortho.coreBohmPotential m_boson hbar) =
+        splat.centerZ ^ 2 := by
+    rw [h_persp_bohm, mul_div_cancel_right₀ _ h_bohm_ortho_ne]
+    field_simp [hf_ne]
+  have h_par_pos : 0 < sigmaParallel := lt_trans h_perp_pos h_perp_lt
+  have h_par_sq_pos : 0 < sigmaParallel ^ 2 := sq_pos_of_pos h_par_pos
+  have h_prec1 : 1 / sigmaParallel ^ 2 < 2 / sigmaParallel ^ 2 := by
+    exact div_lt_div_of_pos_right (by norm_num) h_par_sq_pos
+  have h_prec2 :
+      2 / sigmaParallel ^ 2 <
+        convergentCrossedAxialPrecision sigmaPerp sigmaParallel := by
+    unfold convergentCrossedAxialPrecision
+    have h_sq_lt : sigmaPerp ^ 2 < sigmaParallel ^ 2 :=
+      sq_lt_sq.mpr (by rw [abs_of_pos h_perp_pos, abs_of_pos h_par_pos]; exact h_perp_lt)
+    have h_inv_lt : 1 / sigmaParallel ^ 2 < 1 / sigmaPerp ^ 2 :=
+      one_div_lt_one_div_of_lt (sq_pos_of_pos h_perp_pos) h_sq_lt
+    have h_two : 2 / sigmaParallel ^ 2 = 1 / sigmaParallel ^ 2 + 1 / sigmaParallel ^ 2 := by ring
+    linarith
+  have h_coh_eq : (N_beam * A0) ^ 2 = N_beam * (N_beam * A0 ^ 2) := by ring
+  have h_coh_lt : N_beam * A0 ^ 2 < (N_beam * A0) ^ 2 := by
+    rw [h_coh_eq]
+    have hN_pos : 0 < N_beam := lt_trans zero_lt_one hN_gt
+    have hNA2_pos : 0 < N_beam * A0 ^ 2 := mul_pos hN_pos (sq_pos_of_pos hA0_pos)
+    nlinarith
+  have h_phase_conj : ddfThermalGr24Matrix δ_d (θ_z + φ_err - φ_err) = M_depth := by
+    dsimp [M_depth]
+    rw [add_sub_cancel_right]
+  exact ⟨h_s3_rec, h_tr_rec, h_det_rec, h_bohm_rec, h_z_tr, h_z_bohm,
+    h_prec1, h_prec2, h_coh_eq, h_coh_lt, h_phase_conj⟩
+
 end Signals.DDF
