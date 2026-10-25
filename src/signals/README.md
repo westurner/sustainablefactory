@@ -196,9 +196,52 @@ interpretation while keeping experimental premises explicit:
    (`reconstruct_monodromy_from_trace_and_minor`), and calibrated Baxter $TQ$
    residual metrology (`baxterTQResidualMeasurement`,
    `baxterTQResidualMeasurement_wronskian_consistent`, and
-   `baxterTQResidualMeasurement_offShell_anomaly`). These remain finite
-   metrology and algebraic inverse-scattering contracts, not a continuous PDE
-   inverse-scattering solver.
+   `baxterTQResidualMeasurement_offShell_anomaly`). It further formalizes:
+   - Relativistic Inverse Compton Thomson Doppler upshift and Klein-Nishina
+     quantum recoil suppression and parameter inversion
+     (`inverseCompton_thomson_and_recoil_identities`,
+     `reconstructInverseComptonBeta`, `reconstructKleinNishinaRecoil`),
+   - Stokes and anti-Stokes Raman $Gr_{\mathbb{C}}(2,4)$ channel inversion,
+     Bose-Einstein zero-point/thermal occupancy ratio
+     $\bar{n}_{\mathrm{BE}}/(\bar{n}_{\mathrm{BE}}+1) = \exp(-\xi)$, and
+     closed-form Raman Boltzmann exponent and absolute temperature inversion
+     (`raman_stokes_antiStokes_gr24_identities`,
+     `raman_boseEinstein_and_thermometer_inversion`,
+     `inelastic_compton_and_raman_temperature_inversion`),
+   - Polariton Hopfield-Rabi anticrossing
+     ($\omega_{\mathrm{UP}} - \omega_{\mathrm{LP}} = \sqrt{\Delta^2 + 4g^2} \ge 2g$),
+     inverse Rabi coupling recovery (`reconstructPolaritonRabiCouplingSq`),
+     Pythagorean $Gr_{\mathbb{C}}(2,4)$ Hopfield complementarity, and
+     Lyddane-Sachs-Teller (LST) static, ENZ longitudinal ($\omega = \omega_{\mathrm{LO}}$),
+     and Reststrahlen surface-polariton stop-band ($\varepsilon_{\mathrm{pol}}(\omega) < 0$)
+     identities (`polariton_hopfield_rabi_and_lst_identities`),
+   - Coherent Synchrotron Radiation (CSR) on cylindrical SPP microtubes/CNTs
+     ($I_{\mathrm{CSR}} = (N_e + N_e(N_e-1)f_{\mathrm{bunch}}^2)I_1 \in [N_e I_1, N_e^2 I_1]$),
+     single-photon vs. collective Cavity QED cooperativity, superluminal
+     unmagnetized transverse plasma phase velocity ($v_{\mathrm{ph},\perp}^2 > c^2$)
+     vs. subluminal longitudinal Bohm-Gross Cherenkov phase matching
+     ($v_{\mathrm{ph},\parallel}^2 = \omega_p^2/k^2 + 3v_{\mathrm{th}}^2 < c^2$),
+     2D Dirac graphene THz-eV plasmon scaling, and 1-step deterministic 4-state
+     Grover quantum state carving (`csr_spp_cherenkov_cavity_and_grover_identities`),
+   - Low-power integrated optical amplification through second-harmonic
+     ($\chi^{(2)}$) resonance (`second_harmonic_opa_and_centrosymmetry_identities`;
+     Dean et al., 2025, *Nature*, `10.1038/s41586-025-09959-z`), and
+   - Maldacena's AdS/CFT correspondence, the Gubser-Klebanov-Polyakov-Witten
+     (GKPW) mass-dimension dictionary ($\Delta_+ + \Delta_- = d$,
+     $\Delta_+\Delta_- = -m^2 R_{\mathrm{AdS}}^2$) above the
+     Breitenlohner-Freedman bound $m_{\mathrm{BF}}^2 R_{\mathrm{AdS}}^2 = -d^2/4$,
+     Ryu-Takayanagi $\text{AdS}_3/\text{CFT}_2$ entanglement entropy, the
+     Kovtun-Son-Starinets (KSS) viscosity bound $\eta/s = \hbar/(4\pi k_B)$,
+     planar AdS/CFT integrability (`arXiv:1012.3982`: all-loop magnon
+     dispersion, Konishi $L=4, M=2$ one-loop anomalous dimension
+     $\delta D_{\mathrm{Konishi}}^{(1)} = 3\lambda/(4\pi^2)$, and cusp
+     anomalous dimension), and centrally extended $\mathfrak{psl}(2|2)_c$
+     braided central charges ($\mathbb{C}\mathbb{C}^\dagger + \mathbb{C} + \mathbb{C}^\dagger = 0$),
+     indented Yangian secret symmetry supertrace $\operatorname{STr}(\widehat{\mathbb{B}}) = 4B_0$,
+     and $q$-deformed Hubbard affine Cartan degeneracy (`ads_cft_integrability_and_secret_symmetry_identities`;
+     `arXiv:1204.2366`).
+   These remain finite metrology and algebraic inverse-scattering contracts,
+   not a continuous PDE inverse-scattering solver.
 - `Signals.NonDestructive` separates nondestructive inspection methods,
    phase-fingerprint observations, dispersive probe readout, raw-data-preserving
    calibration, reversible operations, in-situ remediation, and continuous
@@ -1996,6 +2039,30 @@ longitudinal-Proca interpretation as outside the present DDF model.
   - Superfluid Bernoulli gravity and river spacetime (`RiverExterior`, Bernoulli potential theorem, acoustic event horizon, and swirl velocity)
   - Galactic isothermal dynamics (`IsothermalGalacticRegime`, asymptotic flat velocity theorem)
   - Active radiation sourcing discriminator (`ActiveRadiationSourcing`, beam deflection formula, and DDF null theorem)
+  - Continuous Madelung circulation quantization (`quantized_vortex_circulation_eq`), discrete 2D plaquette coboundaries (`plaquette_phase_slip_syndrome`), and Bogoliubov Landau critical velocity (`subcritical_no_dissipation`, `supercritical_excitation_onset`)
+  - Plücker sink-flux conservation, reciprocal DDF jamming-visibility duality ($\mathcal{V} = \gamma_\varphi(v)^{-1}$), Anosov symplectic invariance (`anosov_plucker_invariance`), and complex $Gr_{\mathbb{C}}(2,4)$ / $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ ($N \ge 3$) moving-sheath twistor unification with vanishing Sorkin parameter $\kappa_3 = 0$
+  - BCJ color-kinematics double copy on $Gr_{\mathbb{C}}(2,4)$, precessing polar conics (`PlanetaryOrbit`), and Mercury's $42.98''/\text{century}$ and $574.61''/\text{century}$ perihelion precession (`mercury_perihelion_precession_arcsec_per_century_bounds`)
+  - Normed 2D anisotropic Tensor Gaussian Splatting (`NormedTensorGaussianSplat2D`), dual-layer $Gr_{\mathbb{C}}(2,4)$ twistor wavepackets (`complexTwistor_representation_identities`), core Bohm quantum potential $Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\operatorname{Tr}\Sigma}{4m\det\Sigma}$, and Madelung quantum pressure tensor $\Pi_{ij} = \frac{\hbar^2}{4m^2} G (\Sigma^{-1})_{ij}$
+  - Parabolic Fourier acausal phase speed vs. hyperbolic Cattaneo-Vernotte second sound, and unified Grassmannian-DDF subluminal thermal transport, $Gr_{\mathbb{C}}(2,4)$ Plücker flux limiter, Chapman-Kolmogorov semigroups, and Bohm relaxation both without and with splats
+  - Surface Plasmon Polariton (SPP) dispersion ($n_{\mathrm{SPP}}^2 > \varepsilon_d$), $Gr_{\mathbb{C}}(2,4)$ Plücker skin-depth ratio ($|\varepsilon_m|/\varepsilon_d = \delta_d/\delta_m$), sub-wavelength `sppHotspotTensorSplat` Bohm amplification, and symplectic $\chi^{(2)}$ SHG-OPA squeezed splats (`opaSqueezed_splat_and_continuum_identities`)
+  - 't Hooft-Susskind-Bekenstein-Hawking horizon entropy ($S_{\mathrm{BH}} = k_B A_H/(4\ell_P^2)$), Gauss-Smarr 2D-to-3D bulk mass recovery, splat-free $Gr_{\mathbb{C}}(2,4)$ Painlevé-Gullstrand redshift lapse ($1 - r_H/r$), Planck-splat UV Bohm cutoff (`holographicPlanckSplat`), and Anti-Amplituhedron destructive cancellation (`antiAmplituhedronGr24Matrix`)
+  - Unified $Gr_{\mathbb{C}}(2,4)$ Plücker realization of the $\mathfrak{psl}(2|2)_c$ secret-symmetry outer automorphism (`psl22SecretAutomorphismGr24Matrix`, $(ad+bc)^2 - 4(ab)(cd) = (ad-bc)^2 = 1$), $\text{AdS}_5$ planar black-brane emblackening ($1 - (z/z_H)^4$), and holographic RG scale-radius splat flow (`adsHolographicRGSplat`)
+- **Native Rust / WebAssembly (`wasm32-unknown-unknown`) / WebGL2 GLSL Modules (`src/signals/numerical_adapter/src/`)**:
+  - `double_slit.rs` + `shaders/double_slit.{vert,frag}.glsl`: Seven multi-slit ($N > 0$) and OAM interferometry models (`Fraunhofer`, `HuygensSteiner`, `Gr24RealPlucker`, `Gr24ComplexTwistor`, `PilotWave`, `Wigner`, `Gr24Unphased`).
+  - `orbital_splat.rs` + `shaders/orbital_splat.{vert,frag}.glsl`: Symplectic Velocity-Verlet relativistic orbits, $Gr_{\mathbb{C}}(2,4)$ and $Gr_{\mathbb{C}}(2,N+2)$ Plücker invariants, and `NormedTensorGaussianSplat2D` Bohm/pressure-tensor evaluation.
+  - `thermal_inelastic.rs`: Relativistic Inverse Compton, Stokes/anti-Stokes Raman thermometry, and 1D/2D Cattaneo-Vernotte / Grassmannian-DDF second-sound thermal solvers (with and without splats).
+  - `polariton_spp.rs`: Polariton Hopfield/LST dispersion, SPP continuum and hotspot splats, CSR-SPP bunching, 't Hooft-Susskind holography, $\chi^{(2)}$ SHG-OPA squeezing, and AdS/CFT integrability & secret symmetries (48 unit/parametric/`insta` tests passing).
+- **Companion Papers (`docs/`)**:
+  1. [`docs/grassmannian-huygens-double-slit-oam-paper.md`](../../docs/grassmannian-huygens-double-slit-oam-paper.md)
+  2. [`docs/grassmannian-qism-bethe-ansatz-paper.md`](../../docs/grassmannian-qism-bethe-ansatz-paper.md)
+  3. [`docs/grassmannian-ddf-moving-sheath-paper.md`](../../docs/grassmannian-ddf-moving-sheath-paper.md)
+  4. [`docs/grassmannian-gravity-from-qed-scattering-paper.md`](../../docs/grassmannian-gravity-from-qed-scattering-paper.md)
+  5. [`docs/grassmannian-splat-mechanics-paper.md`](../../docs/grassmannian-splat-mechanics-paper.md)
+  6. [`docs/grassmannian-thermal-compton-raman-paper.md`](../../docs/grassmannian-thermal-compton-raman-paper.md)
+  7. [`docs/grassmannian-polariton-spp-mechanics-paper.md`](../../docs/grassmannian-polariton-spp-mechanics-paper.md)
+  8. [`docs/grassmannian-holographic-principle-paper.md`](../../docs/grassmannian-holographic-principle-paper.md)
+  9. [`docs/grassmannian-ads-cft-ddf-paper.md`](../../docs/grassmannian-ads-cft-ddf-paper.md)
+  10. [`docs/grassmannian-unification-applications-roadmap-paper.md`](../../docs/grassmannian-unification-applications-roadmap-paper.md)
 - **Integration**:
   - Export in `Signals.lean` and `SignalsPending.lean`
   - Compile-time test cases in `SignalsTests.lean` and `SignalsPendingTests.lean`

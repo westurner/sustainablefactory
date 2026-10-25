@@ -19,7 +19,10 @@ The relevant formal boundary is [`Signals/DDF.lean`](Signals/DDF.lean):
 
 The finite trace and acoustic boundaries remain in
 [`Signals/Pending.lean`](Signals/Pending.lean), and the numerical handoff is
-specified in [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md).
+specified in [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md)
+(see also the cross-domain synthesis in
+[`docs/grassmannian-unification-applications-roadmap-paper.md`](../../docs/grassmannian-unification-applications-roadmap-paper.md)
+and [`docs/plan-index.md`](../../docs/plan-index.md)).
 
 The Lean Pending boundary now includes `DDFCommunicationMode` and
 `DDFFractureCommunicationEvidence`. Its support predicate requires an

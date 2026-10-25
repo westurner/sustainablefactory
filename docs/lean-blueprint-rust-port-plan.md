@@ -7,12 +7,14 @@ work; it does not restart the Rust port of Sphinx.
 
 - Signals uses Lean `v4.35.0-rc3` and pins Mathlib to the matching release. Its
   `blueprint` target runs LeanArchitect's package-wide facet for all four
-  Signals libraries, then renders the HTML with plasTeX. The package-wide
-  facet passes, and the blueprint currently contains two tagged propagation
-  theorems and their dependency edge. See
-  `src/signals/Makefile:2,27-32`,
-  `src/signals/lakefile.toml:5-15`, and
-  `src/signals/Signals/Propagation.lean:162-197`.
+  Signals libraries (`:blueprint` and `:blueprintJson`, completing at 3,715
+  Lake jobs across `Signals.Plabic`, `Signals.Geometry`, `Signals.QISM`,
+  `Signals.Scattering`, `Signals.Coherence`, `Signals.OAM`, `Signals.Huygens`,
+  `Signals.SolitonBus`, `Signals.Quadrature`, `Signals.CanonicalForms`,
+  `Signals.MHD`, `Signals.DDF`, `Signals.Pending`, and `Signals.Propagation`),
+  then renders the HTML with plasTeX. See `src/signals/Makefile:2,27-32`,
+  `src/signals/lakefile.toml:5-15`, `src/signals/blueprint/src/content.tex`,
+  and [`plan-index.md`](plan-index.md).
 - The Sphinx HTML build runs that target, copies its output under
   `signals-blueprint/`, and exposes it through the documentation TOC. The PDF
   target still uses `latexmk` and TeX Live. See `docs/conf.py:202-238`,

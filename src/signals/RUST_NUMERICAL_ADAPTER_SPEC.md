@@ -52,7 +52,12 @@ The native core is implemented in `numerical_adapter/` with no required
 third-party numerical dependency. It currently provides metadata validation,
 weak trace/jump residuals, covariance positive-semidefinite checks, diagonal
 affine FTLE fixtures, a deterministic simulated affine-flow dataset, a
-self-check CLI, and unit tests.
+self-check CLI, unit tests, and four zero-dependency `wasm32-unknown-unknown`
+/ WebGL2 (`#version 300 es`) physics modules (`double_slit.rs`,
+`orbital_splat.rs`, `thermal_inelastic.rs`, `polariton_spp.rs`) with 48
+passing unit, parametric `rstest`, and `insta` snapshot tests (documented in
+[`docs/grassmannian-unification-applications-roadmap-paper.md`](../../docs/grassmannian-unification-applications-roadmap-paper.md)
+and [`docs/plan-index.md`](../../docs/plan-index.md)).
 
 The optional Vortex round-trip uses Vortex `0.86.1` and the documented session,
 in-memory write, and read APIs. The development Dockerfiles install

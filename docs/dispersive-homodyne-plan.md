@@ -25,6 +25,11 @@ to be quoted as one argument, so the executable form is
 The current Signals coverage is **substantially implemented but still partial**.
 It now models a finite classical balanced homodyne detector, calibrated
 detector observations, dual traces, spatial grids, Pending CV/QND bookkeeping,
+symplectic $\chi^{(2)}$ second-harmonic resonant OPA squeezing
+(`second_harmonic_opa_and_centrosymmetry_identities` in `Signals.Scattering`
+and `opaSqueezed_splat_and_continuum_identities` in `Signals.DDF`; see
+[grassmannian-polariton-spp-mechanics-paper.md](grassmannian-polariton-spp-mechanics-paper.md)
+and [grassmannian-unification-applications-roadmap-paper.md](grassmannian-unification-applications-roadmap-paper.md)),
 and a typed runtime trace boundary. It does not establish measured hardware
 performance, quantum operator behavior, or a complete Rust/WASM runtime.
 

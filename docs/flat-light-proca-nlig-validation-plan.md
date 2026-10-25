@@ -39,10 +39,19 @@ The proposal combines three different claims that must be separated:
 
 A classical effective photon mass, plasma cutoff, photonic-crystal band edge,
 slow-light mode, plasmon-polariton, or anisotropic dielectric response is not
-by itself a fundamental Proca photon mass. A finite-aperture Bessel or Airy
-beam is not zero diffraction. A phase-dependent chemical response is not a
-phase-slip cleavage mechanism until absorbed energy, temperature, carrier
-excitation, and ordinary photochemistry are matched.
+by itself a fundamental Proca photon mass. (In `Signals.Scattering` and
+`Signals.DDF`, `csr_spp_cherenkov_cavity_and_grover_identities`,
+`sppContinuum_gr24_and_semigroup_identities`, and
+`sppTensorSplat_and_thermal_identities` explicitly prove why unmagnetized
+transverse plasma modes have superluminal phase velocity $v_{\mathrm{ph},\perp}^2 > c^2$
+whereas longitudinal Bohm–Gross modes and N-LIG Surface Plasmon Polaritons have
+subluminal phase velocity $v_{\mathrm{ph}} < c$; see
+[grassmannian-polariton-spp-mechanics-paper.md](grassmannian-polariton-spp-mechanics-paper.md)
+and [grassmannian-unification-applications-roadmap-paper.md](grassmannian-unification-applications-roadmap-paper.md).)
+A finite-aperture Bessel or Airy beam is not zero diffraction. A
+phase-dependent chemical response is not a phase-slip cleavage mechanism until
+absorbed energy, temperature, carrier excitation, and ordinary photochemistry
+are matched.
 
 For this application, the first engineering success should be the least
 extraordinary one: reproducible graphene-on-lignin processing with a lower-power

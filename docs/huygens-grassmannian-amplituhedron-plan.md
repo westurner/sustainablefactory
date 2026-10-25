@@ -1550,6 +1550,136 @@ example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
 end HuygensGeometryRoadmap
 ```
 
+### Synthesis: Implications of the Nine-Paper Unification, Concrete Applications, and Next Steps for Research
+
+*(See also the standalone capstone paper [Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-unification-applications-roadmap-paper.md).)*
+
+#### 1. Theoretical & Structural Implications of the Unification
+
+Across Iterations 24–32 and the nine companion papers, a single machine-checked
+algebraic structure—the **complex Grassmannian $Gr_{\mathbb{C}}(2,4)$** (and its
+$N$-ary generalization $Gr_{\mathbb{C}}(2, N+2)$) with uncrossed Pluecker channel
+amplitudes $w_A^{\mathbb{C}} = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}$,
+$w_B^{\mathbb{C}} = \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}$, and
+crossing collector $w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}$—unifies
+nine physical and mathematical domains that are conventionally treated with
+disjoint formalisms:
+
+| # | Companion Paper & Domain | Meaning of Barycentric Shift $d_{\mathrm{bary}}$ | Meaning of Uncrossed Product $\|w_A^{\mathbb{C}}\|^2\|w_B^{\mathbb{C}}\|^2 = 1 - d_{\mathrm{bary}}^2$ | Meaning of 3-Term Pluecker Identity $\Delta_{01}\Delta_{23} - \Delta_{02}\Delta_{13} + \Delta_{03}\Delta_{12} = 0$ |
+|---|---|---|---|---|
+| **1** | [Double-Slit, $N$-Slit, & OAM Interferometry](grassmannian-huygens-double-slit-oam-paper.md) | Qian--Izadi parallel-axis shift $\pm\sqrt{I_O - I_M} = \pm P_N$ | Squared fringe visibility $\mathcal{V}^2 = K_N^2 = 1 - P_N^2$ | Coherent two-slit / multi-slit wave amplitude superposition ($\varepsilon_{\mathrm{rel}} = 0$ on $Gr_{\mathbb{C}}(2,4)$) |
+| **2** | [QISM & Algebraic Bethe Ansatz](grassmannian-qism-bethe-ansatz-paper.md) | Normalized spectral coupling $\eta / (u - v)$ | Unitarity factor $1 - \eta^2/(u-v)^2$ | Baxter's functional $QQ$-system, Hirota bilinear equation, and $TQ$ Casorati Wronskian identity |
+| **3** | [DDF Moving Sheaths & Anosov Flows](grassmannian-ddf-moving-sheath-paper.md) | Reduced sheath speed $\beta = v / c \in [0, 1)$ | Inverse squared Lorentz jamming factor $\gamma_\varphi(v)^{-2} = 1 - v^2/c^2$ | Madelung two-sector density conservation and operational Minkowski interval $c^2 d\tau_D^2 = c^2 dt^2 - dx^2$ |
+| **4** | [QED Scattering Gravity & Planetary Orbits](grassmannian-gravity-from-qed-scattering-paper.md) | Orbital eccentricity $e \in [0, 1)$ | Semi-latus rectum ratio $p / a = 1 - e^2$ | Bern--Carrasco--Johansson (BCJ) color--kinematics Jacobi identity $n_s + n_t + n_u = 0$ & graviton double copy |
+| **5** | [Normed Tensor Gaussian Splat Mechanics](grassmannian-splat-mechanics-paper.md) | Principal variance asymmetry $(\sigma_1^2 - \sigma_2^2)/(2\sigma_0^2)$ | Normalized covariance determinant $\det\Sigma / \sigma_0^4$ | Dual-layer twistor wavepacket $\Psi_{\mathrm{splat}} = \sqrt{G}(w_A^{\mathbb{C}} + w_B^{\mathbb{C}})$ & Bohm precision-matrix regularization |
+| **6** | [Inverse Compton, Raman, & Second-Sound Heat](grassmannian-thermal-compton-raman-paper.md) | Velocity $\beta$, Raman shift $\Omega_v/\omega_L$, or reduced heat flux $j_q = q / q_{\max}^{\mathrm{DDF}}$ | Relativistic Cattaneo flux-limiter margin $1 - j_q^2 > 0$ & jammed diffusivity ratio $\alpha_\parallel^{\mathrm{DDF}}/\alpha_0$ | Forward/backward Doppler & Stokes/anti-Stokes splitting; Second-LawPluecker product growth under relaxation |
+| **7** | [Polaritons, SPPs, CSR, & $\chi^{(2)}$ SHG-OPA](grassmannian-polariton-spp-mechanics-paper.md) | Hopfield shift $d_{\mathrm{Hopfield}}$, SPP contrast $\chi_{\mathrm{SPP}}$, or Cherenkov $\cos\theta_C$ | Hybridization $4\|C\|^2\|X\|^2$, SPP resonance proximity, or Mach-cone $\sin^2\theta_C$ | Hopfield trace conservation, Anti-Amplituhedron destructive null ($w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = 0$), & symplectic OPA squeezing |
+| **8** | ['t Hooft--Susskind Holographic Principle](grassmannian-holographic-principle-paper.md) | Radial river inflow ratio $\beta_\phi(r) = \sqrt{r_H / r}$ | Schwarzschild / Painlevé--Gullstrand gravitational redshift lapse $g_{00}(r) = 1 - r_H / r$ | Acoustic light-cone splitting ($1 \pm \sqrt{r_H/r}$) & Planck-splat horizon tiling $A_H = 4\ell_P^2(S_{\mathrm{BH}}/k_B)$ |
+| **9** | [AdS/CFT, Integrability, & Secret Symmetries](grassmannian-ads-cft-ddf-paper.md) | Poincaré $\text{AdS}_5$ radial ratio $(z/z_H)^2$ | $\text{AdS}_5$ planar black-brane emblackening factor $f_{\text{AdS}_5}(z) = 1 - (z/z_H)^4$ | $\mathfrak{psl}(2|2)_c$ secret-symmetry outer-automorphism central-charge dispersion law $\mathbb{H}^2 - 4\mathbb{C}\mathbb{C}^\dagger = (ad-bc)^2 = M^2$ |
+
+Four overarching theoretical implications follow from these machine-checked theorems:
+1. **Complex Twistor Phase Resolves the Positivity Obstruction**: Restricting to
+   the real positive Grassmannian $Gr_{\ge 0}(2,4)$ (or positive real Gaussian
+   densities $G \ge 0$) forces a $50\%$ on-axis relative predictive error and
+   forbids dark-fringe cancellation. Lifting to $Gr_{\mathbb{C}}(2,4)$ with
+   Penrose twistor phases eliminates this error completely while preserving
+   exact Pluecker algebra.
+2. **The 3-Term Pluecker Identity Is a Master Conservation & Dispersion Law**:
+   In optical interferometry it is coherent amplitude addition; in gauge/gravity
+   scattering it is the BCJ kinematic Jacobi identity; in QISM it is Baxter's
+   $QQ$-system; and in AdS/CFT integrability (`arXiv:1204.2366`) it is the
+   $\mathfrak{psl}(2|2)_c$ central-charge dispersion relation
+   $\mathbb{H}^2 - 4\mathbb{C}\mathbb{C}^\dagger = M^2$.
+3. **Both Splat-Free Continuum and Tensor-Splat Discretizations Share the Same Invariants**:
+   Every physical law in `Signals.DDF` and `Signals.Scattering` is proved both
+   **without splats** (for continuum modes, PDEs, and Pluecker matrices) and
+   **with `NormedTensorGaussianSplat2D`**, where $-\partial_i\partial_j \ln G = (\Sigma^{-1})_{ij}$
+   reduces the Madelung quantum pressure tensor $\Pi_{ij}$ and core Bohm
+   potential $Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\operatorname{Tr}\Sigma}{4m\det\Sigma}$
+   to nonsingular $2\times 2$ precision-matrix algebra.
+4. **Sharp Physical Boundaries Separate Mathematical Duality from Material Realization**:
+   The formalization explicitly separates what homogeneous projective
+   $Gr_{\mathbb{C}}(2,4)$ covers (scale-free 2-channel coherence, Doppler/Raman/SPP
+   ratios, and symplectic squeezing) from what requires external dimensional or
+   thermodynamic data (Klein--Nishina rest-mass recoil $\epsilon_{\mathrm{rec}}$,
+   Bose--Einstein vacuum fluctuations $\bar{n}_{\mathrm{BE}}+1$, Cattaneo
+   relaxation time $\tau_r$, and active pump power budgets), and distinguishes
+   5D $\text{AdS}_5/\text{CFT}_4$ ($\Lambda < 0$, $\eta_{\mathrm{act}}^\gamma = 1$)
+   from 4D asymptotically flat DDF river mechanics ($\eta_{\mathrm{act}}^\gamma = 0$,
+   Mercury $42.98''/\text{cy}$).
+
+#### 2. Concrete Engineering & Scientific Applications
+
+1. **Photonic, Plasmonic, & Soliton-Bus Interconnect Design (`Signals.SolitonBus`, `polariton_spp.rs`)**:
+   - Design and verification of dual-rail and $N$-lane ($N > 0$) OAM soliton
+     couplers (`SolitonMultiLaneCoupler`), sub-wavelength N-LIG graphene SPP
+     waveguides ($n_{\mathrm{SPP}} \sim 50\text{--}100$), and low-power
+     ($<200\text{ mW}$) integrated $\chi^{(2)}$ second-harmonic resonant optical
+     parametric amplifiers (`SecondHarmonicResonantOpaModel`, [Dean et al. 2025](https://doi.org/10.1038/s41586-025-09959-z))
+     with piezoelectric/electro-optic phase-matching gates (`opaNetGainSq`).
+2. **Non-Destructive Inverse Spectroscopy, Thermometry, & Anomaly Detection (`Signals.Scattering`, `thermal_inelastic.rs`)**:
+   - Closed-form parameter inversion for inline Stokes/anti-Stokes Raman
+     thermometry (`reconstructRamanTemperature`) in CNT/lignin-vitrimer
+     manufacturing and distributed fiber sensing, relativistic electron-beam
+     Doppler/recoil metrology (`reconstructInverseComptonBeta`,
+     `reconstructKleinNishinaRecoil`), microcavity polariton Rabi spectroscopy
+     (`reconstructPolaritonRabiCouplingSq`), SPP permittivity-contrast sensing
+     (`reconstructSppPermittivityRatio`), and calibrated Baxter $TQ$ spin-chain
+     residual auditing (`baxterTQResidualMeasurement`).
+3. **Causal Ultrafast & Cryogenic Thermal Management (`CattaneoVernotteHeatModel`, `MovingSheath.ddfThermalTransport_*`)**:
+   - Flux-limited hyperbolic heat-wave modeling ($|q| < q_{\max}^{\mathrm{DDF}}$)
+     for femtosecond/CW laser material processing (`Signals.LaserProcesses`),
+     plasmonic hotspot Ohmic relaxation (`sppTensorSplat_and_thermal_identities`),
+     and $39\text{ K}$ $\text{MgB}_2$ / $\text{He-3}$ cryogenic bearing assemblies,
+     eliminating the infinite propagation speed of parabolic Fourier diffusion.
+4. **Universal Browser-Based Scientific Visualization (`signals-numerical-adapter` WASM + WebGL2)**:
+   - Real-time ($60\text{--}120\text{ FPS}$) interactive simulation of
+     multi-model double-slit/OAM diffraction (`double_slit.rs`), relativistic
+     planetary precession and DDF moving sheaths (`orbital_splat.rs`), causal
+     second-sound thermal waves (`thermal_inelastic.rs`), and polariton/SPP/OPA/AdS-CFT
+     invariants (`polariton_spp.rs`) using `f64` Rust/WASM cores paired with
+     WebGL2 (`#version 300 es`) fragment shaders.
+
+#### 3. Prioritized Next Steps for Research
+
+1. **Mathematical & Lean 4 Formalization Track**:
+   - **Fresnel-to-Fraunhofer Remainder Bound (Phase 2 & Phase 6)**: Connect the
+     2D planar Bochner aperture integral `FixedPlanarField` to
+     `fraunhoferRectangularDoubleSlit` via an explicit paraxial Fresnel phase
+     remainder bound.
+   - **Higher-Rank Grassmannians $Gr_{\mathbb{C}}(k, n)$ ($k \ge 3$) & Disjoint-Path Positivity (Phase 3 & Phase 4)**:
+     Extend the $2 \times n$ Pluecker relations to arbitrary rank $k \ge 3$,
+     prove the Lindström--Gessel--Viennot vertex-disjoint path theorem for
+     planar acyclic networks, and formalize projective canonical differential
+     forms beyond fixed affine charts.
+   - **Full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ Worldsheet $R$-Matrix & Secret Coproduct Intertwining**:
+     Extend `secretSymmetryMatrix` and `psl22BraidedCoproductC` in
+     `Signals.Scattering` to the full $16 \times 16$ fundamental Beisert
+     $R$-matrix and machine-check the matrix intertwining identity
+     $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}})\,R = R\,\Delta(\widehat{\mathbb{B}})$
+     (`arXiv:1204.2366`, Eq. (3.1)) together with the BES dressing-phase
+     crossing relation.
+2. **Numerical & Rust/WASM/WebGL2 Engineering Track**:
+   - **Adaptive Splat Splitting & Remeshing**: Implement dynamic splitting of
+     elongated `NormedTensorGaussianSplat2D` wavepackets when Anosov stretching
+     ($\lambda t \gg 1$) or $\chi^{(2)}$ OPA squeezing ($r_{\mathrm{sq}} \gg 1$)
+     exceeds aspect-ratio thresholds along curved streamlines.
+   - **Coupled Electro-Thermal-Optical Waveguide Solver**: Couple the 1D/2D
+     Cattaneo--Vernotte / DDF telegrapher solver (`thermal_inelastic.rs`) with
+     SPP Ohmic damping and $\chi^{(2)}$ SHG-OPA phase-matching detuning
+     $\Delta k(T)$ (`polariton_spp.rs`).
+3. **Experimental & Dataset Validation Track**:
+   - **Calibrated Laboratory & Open-Dataset Ingestion**: Populate
+     `ControlledMeasurement` and `FlowBoundaryEvidence` with measured
+     double-slit/OAM interferograms, calibrated Stokes/anti-Stokes Raman
+     spectra, and multi-frame JHTDB/PIV vortex-reconnection cutouts.
+   - **Experimental Discriminator Tests**: Preregister and execute (a) CW vs.
+     pulsed N-LIG Raman/XPS/HAZ material controls ([flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md))
+     and (b) high-finesse crossed-laser-beam deflection interferometry to test
+     the decisive DDF ($\eta_{\mathrm{act}}^\gamma = 0$) vs. General Relativity
+     ($\eta_{\mathrm{act}}^\gamma = 1$) active radiation sourcing prediction
+     (`ddf_photon_deflection_null` vs. `gr_photon_deflection_active`).
+
 ### Remaining Acceptance Obligations
 
 | Phase | Verified checkpoint | Still required |

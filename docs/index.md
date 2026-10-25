@@ -47,6 +47,8 @@ using the **Industrial Ontologies Foundry (IOF)** and sustainablefactory process
     - [Sustainable Quantum architecture](paper.md)
     - [Soliton bus model](soliton-bus.md): finite multiplexing, routing, and
       operator contracts with chat-derived evidence boundaries.
+    - [Unification, Applications, & Roadmap of Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and DDF Mechanics](grassmannian-unification-applications-roadmap-paper.md)
+    - [Plan Index: Research, Validation, and Implementation Roadmaps](plan-index.md)
 - [Chat physics catalog](chat-physics-catalog.md): applications, processes,
   products, evidence status, and prioritized Signals-model update candidates.
 
