@@ -5059,4 +5059,155 @@ theorem RiverExterior.grassmannian_ads_cft_ddf_and_secret_symmetry_unification
     h_plucker_casimir, h_ads_lapse, h_ads_pos, h_ddf_lapse,
     h_cont_rg, h_rg_det, h_rg_det_lt, h_rg_bohm, h_rg_bohm_le⟩
 
+/-! ## Adaptive Two-Child Tensor Gaussian Splat Splitting ($L^1$ Mass, Center-of-Mass, & Second-Moment Variance Conservation) -/
+
+/-- Major-axis child displacement $\delta_1 = \frac{\sqrt{3}}{2}\,\sigma_1$ used in
+adaptive two-child Gaussian splat remeshing so that child width $\tilde{\sigma}_1 = \sigma_1 / 2$
+and displacement $\delta_1$ preserve the total second-moment variance
+$\tilde{\sigma}_1^2 + \delta_1^2 = \frac{1}{4}\sigma_1^2 + \frac{3}{4}\sigma_1^2 = \sigma_1^2$. -/
+@[blueprint "def:signals-ddf-splat-split-major-offset"
+  (title := "Variance-preserving major-axis child displacement δ_1 = (√3 / 2) σ_1")
+  (statement := /-- Define $\operatorname{splat}.\mathrm{splitMajorOffset} = \frac{\sqrt{3}}{2}\,\sigma_1$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.splitMajorOffset
+    (splat : NormedTensorGaussianSplat2D) : ℝ :=
+  (Real.sqrt 3 / 2) * splat.sigma1
+
+/-- Forward ($+\delta_1$) child `NormedTensorGaussianSplat2D` produced by adaptive
+splitting along the first principal axis $(\cos\theta, \sin\theta)$ with half weight
+$w / 2$ and halved major width $\sigma_1 / 2$. -/
+@[blueprint "def:signals-ddf-splat-split-major-plus"
+  (title := "Forward (+δ_1) child NormedTensorGaussianSplat2D from major-axis splitting")
+  (statement := /-- Construct the $+\delta_1$ child splat with weight $w/2$, width $\sigma_1/2$,
+    and center $(x_c + \delta_1\cos\theta, y_c + \delta_1\sin\theta)$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.splitMajorPlus
+    (splat : NormedTensorGaussianSplat2D) : NormedTensorGaussianSplat2D :=
+  { centerX := splat.centerX + splat.splitMajorOffset * Real.cos splat.orientationAngle
+    centerY := splat.centerY + splat.splitMajorOffset * Real.sin splat.orientationAngle
+    weight := splat.weight / 2
+    weight_nonneg := div_nonneg splat.weight_nonneg (by norm_num)
+    sigma1 := splat.sigma1 / 2
+    sigma1_pos := div_pos splat.sigma1_pos (by norm_num)
+    sigma2 := splat.sigma2
+    sigma2_pos := splat.sigma2_pos
+    orientationAngle := splat.orientationAngle }
+
+/-- Backward ($-\delta_1$) child `NormedTensorGaussianSplat2D` produced by adaptive
+splitting along the first principal axis $(\cos\theta, \sin\theta)$ with half weight
+$w / 2$ and halved major width $\sigma_1 / 2$. -/
+@[blueprint "def:signals-ddf-splat-split-major-minus"
+  (title := "Backward (-δ_1) child NormedTensorGaussianSplat2D from major-axis splitting")
+  (statement := /-- Construct the $-\delta_1$ child splat with weight $w/2$, width $\sigma_1/2$,
+    and center $(x_c - \delta_1\cos\theta, y_c - \delta_1\sin\theta)$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.splitMajorMinus
+    (splat : NormedTensorGaussianSplat2D) : NormedTensorGaussianSplat2D :=
+  { centerX := splat.centerX - splat.splitMajorOffset * Real.cos splat.orientationAngle
+    centerY := splat.centerY - splat.splitMajorOffset * Real.sin splat.orientationAngle
+    weight := splat.weight / 2
+    weight_nonneg := div_nonneg splat.weight_nonneg (by norm_num)
+    sigma1 := splat.sigma1 / 2
+    sigma1_pos := div_pos splat.sigma1_pos (by norm_num)
+    sigma2 := splat.sigma2
+    sigma2_pos := splat.sigma2_pos
+    orientationAngle := splat.orientationAngle }
+
+/-- **Adaptive Two-Child Splat Splitting Conservation & Bohm Resolution Theorem**:
+For any `splat : NormedTensorGaussianSplat2D` and $m > 0, \hbar \neq 0$:
+1. **Exact $L^1(\mathbb{R}^2)$ Mass/Weight Conservation**:
+   $$w_+ + w_- = w,$$
+2. **Exact Center-of-Mass Preservation**:
+   $$\frac{x_+ + x_-}{2} = x_c, \qquad \frac{y_+ + y_-}{2} = y_c,$$
+3. **Exact Major-Axis Second-Moment Variance Conservation**:
+   $$\tilde{\sigma}_1^2 + \delta_1^2 = \left(\frac{\sigma_1}{2}\right)^2 + \left(\frac{\sqrt{3}}{2}\sigma_1\right)^2 = \sigma_1^2,$$
+   $$(x_+ - x_c)^2 + (y_+ - y_c)^2 + \tilde{\sigma}_1^2 = \sigma_1^2,$$
+4. **Aspect-Ratio Halving & Covariance Determinant Reduction**:
+   $$\frac{\tilde{\sigma}_1}{\tilde{\sigma}_2} = \frac{1}{2}\,\frac{\sigma_1}{\sigma_2}, \qquad
+   \det\Sigma_+ = \frac{1}{4}\,\det\Sigma,$$
+5. **Repulsive Core Bohm Quantum-Potential Refinement**:
+   $$Q_{\mathrm{core}}(\Sigma_+) - Q_{\mathrm{core}}(\Sigma) = \frac{3\hbar^2}{4 m\,\sigma_1^2} > 0.$$ -/
+@[blueprint "thm:signals-ddf-splat-split-major-conservation"
+  (title := "Adaptive two-child Tensor Gaussian Splat splitting conservation and Bohm refinement theorem")
+  (statement := /-- For any \texttt{splat : NormedTensorGaussianSplat2D}, $m > 0$, and $\hbar \ne 0$:
+    (1) $w_+ + w_- = w$,
+    (2) $(x_+ + x_-)/2 = x_c$ and $(y_+ + y_-)/2 = y_c$,
+    (3) $\tilde{\sigma}_1^2 + \delta_1^2 = \sigma_1^2$ and $(x_+ - x_c)^2 + (y_+ - y_c)^2 + \tilde{\sigma}_1^2 = \sigma_1^2$,
+    (4) $\tilde{\sigma}_1 / \tilde{\sigma}_2 = \frac{1}{2}(\sigma_1 / \sigma_2)$ and $\det\Sigma_+ = \frac{1}{4}\det\Sigma$, and
+    (5) $Q_{\mathrm{core}}(\Sigma_+) - Q_{\mathrm{core}}(\Sigma) = \frac{3\hbar^2}{4m\sigma_1^2} > 0$. -/)
+  (proof := /-- Use $(\sqrt{3})^2 = 3$, $\cos^2\theta + \sin^2\theta = 1$, and clear $\sigma_1 \ne 0$
+    in `coreBohmPotential`. -/)]
+theorem NormedTensorGaussianSplat2D.splitMajor_conservation_identities
+    (splat : NormedTensorGaussianSplat2D) (m_boson hbar : ℝ)
+    (hm : 0 < m_boson) (hhbar : hbar ≠ 0) :
+    let c_plus := splat.splitMajorPlus
+    let c_minus := splat.splitMajorMinus
+    c_plus.weight + c_minus.weight = splat.weight ∧
+      (c_plus.centerX + c_minus.centerX) / 2 = splat.centerX ∧
+      (c_plus.centerY + c_minus.centerY) / 2 = splat.centerY ∧
+      c_plus.sigma1 ^ 2 + splat.splitMajorOffset ^ 2 = splat.sigma1 ^ 2 ∧
+      (c_plus.centerX - splat.centerX) ^ 2 +
+          (c_plus.centerY - splat.centerY) ^ 2 + c_plus.sigma1 ^ 2 =
+        splat.sigma1 ^ 2 ∧
+      c_plus.sigma1 / c_plus.sigma2 = (1 / 2) * (splat.sigma1 / splat.sigma2) ∧
+      c_plus.covDet = (1 / 4) * splat.covDet ∧
+      c_plus.coreBohmPotential m_boson hbar - splat.coreBohmPotential m_boson hbar =
+        (3 * hbar ^ 2) / (4 * m_boson * splat.sigma1 ^ 2) ∧
+      splat.coreBohmPotential m_boson hbar < c_plus.coreBohmPotential m_boson hbar := by
+  intro c_plus c_minus
+  have h_w : c_plus.weight + c_minus.weight = splat.weight := by
+    dsimp [c_plus, c_minus, splitMajorPlus, splitMajorMinus]
+    ring
+  have h_cx : (c_plus.centerX + c_minus.centerX) / 2 = splat.centerX := by
+    dsimp [c_plus, c_minus, splitMajorPlus, splitMajorMinus]
+    ring
+  have h_cy : (c_plus.centerY + c_minus.centerY) / 2 = splat.centerY := by
+    dsimp [c_plus, c_minus, splitMajorPlus, splitMajorMinus]
+    ring
+  have h3 : (Real.sqrt 3) ^ 2 = 3 := Real.sq_sqrt (by norm_num)
+  have h_var1 : c_plus.sigma1 ^ 2 + splat.splitMajorOffset ^ 2 = splat.sigma1 ^ 2 := by
+    dsimp [c_plus, splitMajorPlus, splitMajorOffset]
+    calc
+      (splat.sigma1 / 2) ^ 2 + (Real.sqrt 3 / 2 * splat.sigma1) ^ 2 =
+          ((1 + (Real.sqrt 3) ^ 2) / 4) * splat.sigma1 ^ 2 := by ring
+      _ = splat.sigma1 ^ 2 := by rw [h3]; ring
+  have h_var2 :
+      (c_plus.centerX - splat.centerX) ^ 2 +
+          (c_plus.centerY - splat.centerY) ^ 2 + c_plus.sigma1 ^ 2 =
+        splat.sigma1 ^ 2 := by
+    have h_disp :
+        (c_plus.centerX - splat.centerX) ^ 2 +
+            (c_plus.centerY - splat.centerY) ^ 2 =
+          splat.splitMajorOffset ^ 2 := by
+      dsimp [c_plus, splitMajorPlus]
+      calc
+        (splat.centerX + splat.splitMajorOffset * Real.cos splat.orientationAngle - splat.centerX) ^ 2 +
+            (splat.centerY + splat.splitMajorOffset * Real.sin splat.orientationAngle - splat.centerY) ^ 2 =
+          splat.splitMajorOffset ^ 2 *
+            ((Real.cos splat.orientationAngle) ^ 2 + (Real.sin splat.orientationAngle) ^ 2) := by ring
+        _ = splat.splitMajorOffset ^ 2 := by rw [Real.cos_sq_add_sin_sq, mul_one]
+    rw [h_disp]
+    linarith [h_var1]
+  have h_aspect :
+      c_plus.sigma1 / c_plus.sigma2 = (1 / 2) * (splat.sigma1 / splat.sigma2) := by
+    dsimp [c_plus, splitMajorPlus]
+    ring
+  have h_det : c_plus.covDet = (1 / 4) * splat.covDet := by
+    dsimp [c_plus, splitMajorPlus, covDet]
+    ring
+  have hs1_ne : splat.sigma1 ≠ 0 := ne_of_gt splat.sigma1_pos
+  have hs2_ne : splat.sigma2 ≠ 0 := ne_of_gt splat.sigma2_pos
+  have hm_ne : m_boson ≠ 0 := ne_of_gt hm
+  have h_bohm_diff :
+      c_plus.coreBohmPotential m_boson hbar - splat.coreBohmPotential m_boson hbar =
+        (3 * hbar ^ 2) / (4 * m_boson * splat.sigma1 ^ 2) := by
+    dsimp [c_plus, splitMajorPlus, coreBohmPotential]
+    field_simp [hs1_ne, hs2_ne, hm_ne]
+    ring
+  have h_bohm_lt :
+      splat.coreBohmPotential m_boson hbar < c_plus.coreBohmPotential m_boson hbar := by
+    have h_pos : 0 < (3 * hbar ^ 2) / (4 * m_boson * splat.sigma1 ^ 2) := by
+      have hh2 : 0 < hbar ^ 2 := sq_pos_of_ne_zero hhbar
+      have hs1_sq : 0 < splat.sigma1 ^ 2 := sq_pos_of_pos splat.sigma1_pos
+      positivity
+    linarith [h_bohm_diff]
+  exact ⟨h_w, h_cx, h_cy, h_var1, h_var2, h_aspect, h_det, h_bohm_diff, h_bohm_lt⟩
+
 end Signals.DDF

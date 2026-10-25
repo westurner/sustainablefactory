@@ -267,8 +267,28 @@ example {sub : DDFSubstrate} (s : MovingSheath sub)
     h_cont_semi.2.2.2.2.2.1, h_cont_semi.2.2.2.2.2.2.2.2.1,
     h_th.2.2.2.1, h_th.2.2.2.2.2, h_semi.2.1, h_semi.2.2.2⟩
 
+-- 3. Adaptive two-child Tensor Gaussian Splat splitting conservation & Bohm refinement
+example (splat : NormedTensorGaussianSplat2D) :
+    splat.splitMajorPlus.weight + splat.splitMajorMinus.weight = splat.weight ∧
+    (splat.splitMajorPlus.centerX + splat.splitMajorMinus.centerX) / 2 = splat.centerX ∧
+    (splat.splitMajorPlus.centerY + splat.splitMajorMinus.centerY) / 2 = splat.centerY ∧
+    splat.splitMajorPlus.sigma1 ^ 2 + splat.splitMajorOffset ^ 2 = splat.sigma1 ^ 2 ∧
+    splat.splitMajorPlus.covDet = (1 / 4) * splat.covDet ∧
+    splat.coreBohmPotential 1 1 < splat.splitMajorPlus.coreBohmPotential 1 1 := by
+  have h := splat.splitMajor_conservation_identities 1 1 (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2⟩
+
 end ArxivSplatMechanicsPaperVerification
 ```
+
+### 2.5 Adaptive Two-Child Splat Splitting Conservation (`splitMajor_conservation_identities`)
+
+When Anosov hyperbolic stretching ($\lambda t \gg 1$) or $\chi^{(2)}$ OPA squeezing ($r_{\mathrm{sq}} \gg 1$) elongates a `NormedTensorGaussianSplat2D` beyond a prescribed aspect-ratio threshold, `NormedTensorGaussianSplat2D.splitMajorPlus` and `splitMajorMinus` (paired with `NormedTensorGaussianSplat2D::split_if_anisotropic` and `OrbitalSplatScene::adaptive_remesh` in [orbital_splat.rs](../src/signals/numerical_adapter/src/orbital_splat.rs)) split the parent splat along its major axis $(\cos\theta, \sin\theta)$ into two child splats with weights $w_\pm = w/2$, halved major width $\tilde{\sigma}_1 = \sigma_1/2$, and displacements $\pm\delta_1 = \pm\frac{\sqrt{3}}{2}\sigma_1$. Theorem `NormedTensorGaussianSplat2D.splitMajor_conservation_identities` proves:
+1. **Exact $L^1(\mathbb{R}^2)$ Mass Conservation**: $w_+ + w_- = w$,
+2. **Exact Center-of-Mass Preservation**: $\frac{1}{2}(x_+ + x_-) = x_c$ and $\frac{1}{2}(y_+ + y_-) = y_c$,
+3. **Exact Major-Axis Second-Moment Variance Conservation**: $\tilde{\sigma}_1^2 + \delta_1^2 = (\sigma_1/2)^2 + (\frac{\sqrt{3}}{2}\sigma_1)^2 = \sigma_1^2$,
+4. **Aspect-Ratio Halving & Covariance Determinant Reduction**: $\tilde{\sigma}_1/\tilde{\sigma}_2 = \frac{1}{2}(\sigma_1/\sigma_2)$ and $\det\Sigma_+ = \frac{1}{4}\det\Sigma$,
+5. **Repulsive Core Bohm Potential Refinement**: $Q_{\mathrm{core}}(\Sigma_+) - Q_{\mathrm{core}}(\Sigma) = \frac{3\hbar^2}{4m\sigma_1^2} > 0$.
 
 ---
 

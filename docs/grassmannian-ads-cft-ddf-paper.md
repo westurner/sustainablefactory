@@ -180,7 +180,11 @@ satisfies $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}})\,R = R\,\Delta(\widehat{\m
   $$\widehat{\mathbb{Q}}_\alpha^a = [\widehat{\mathbb{B}}, \mathbb{Q}_\alpha^a] + i(1 + e^{-ip})\epsilon^{ab}\epsilon_{\alpha\beta}\mathbb{G}_b^\beta, \qquad [\widehat{\mathfrak{B}}, \mathfrak{Q}^{\alpha b}] = +\widehat{\mathfrak{Q}}^{\alpha b}.$$
 
 Across the five sectors reviewed in [de Leeuw et al. (2012, `arXiv:1204.2366`)](#adscft-deleeuw2012), the secret symmetry manifests as:
-1. **Worldsheet $S$-Matrix / Spectral Problem** (Sec. 3.1): $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}}) R = R \Delta(\widehat{\mathbb{B}})$ for all bound-state representations $4 M$.
+1. **Worldsheet $S$-Matrix / Spectral Problem** (Sec. 3.1): $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}}) R = R \Delta(\widehat{\mathbb{B}})$ for all bound-state representations $4 M$. In `Signals.Scattering`, we formalize the full $16 \times 16$ $\mathbb{Z}_2$-graded permutation matrix $\Pi_{16}$ (`psl22GradedSwap16`), the 6-parameter $16 \times 16$ worldsheet $R$-matrix $R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})$ (`psl22WorldsheetRMatrix16`), the diagonal secret coproduct $\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2)$ (`psl22SecretCoproductDiag16`), and the antisymmetric off-diagonal Yangian tail $\Delta_{\mathrm{tail}}\bigl((B_1 - B_2)L_{BF}\bigr)$ (`psl22YangianTail16`), proving (`psl22_rmatrix16_secret_coproduct_intertwining`):
+   - $\Pi_{16}^2 = I_{16}$ and $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2)\,\Pi_{16} = \Pi_{16}\,\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2)$,
+   - When $B_1 \neq B_2$ and $L_{BF} \neq 0$, the diagonal secret coproduct alone leaves a mixed boson–fermion diagonal residual $2(B_2 - B_1)L_{BF}$ at $|\phi^1 \otimes \psi^1\rangle$,
+   - Adding the off-diagonal Yangian tail $\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF}) = G_{BF}\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2) + \Delta_{\mathrm{tail}}\bigl((B_1 - B_2)L_{BF}\bigr)$ (`psl22SecretCoproductFull16`) cancels this residual identically across all $16 \times 16$ entries:
+     $$\Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})\,R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF}) = R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})\,\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF}).$$
 2. **Open-String Boundary $K$-Matrices** (Sec. 3.2): Twisted secret charges $\widetilde{\mathbb{Q}}_{\alpha,\pm 1}^2, \widetilde{\mathbb{G}}_{2,\pm 1}^\alpha$ for $Y=0$ maximal giant gravitons ($D3$-branes) and horizontal/vertical $D5$-branes.
 3. **Planar $n$-Point Scattering Amplitudes & Grassmannian Integral** (Sec. 3.3; [Beisert & Schwab 2011](#adscft-beisert2011)): The bonus level-$1$ generator $\widehat{\mathfrak{B}}$ leaves the Grassmannian integral formula ([Arkani-Hamed et al. 2010](#adscft-arkani2010)) invariant and satisfies the length-changing anomaly equation $\widehat{\mathfrak{B}}\mathcal{A}_n + \widehat{\mathfrak{B}}^+\mathcal{A}_{n-1} = 0$.
 4. **Pure-Spinor Worldsheet Sigma Model** (Sec. 3.4; [Berkovits & Mikhailov 2011](#adscft-berkovits2011)): Lifting $T(z) \in PSU(2,2|4)$ to $SU(2,2|4)$ and supertracing with the hypercharge matrix $s = \operatorname{diag}(\mathbb{1}_4, -\mathbb{1}_4)$ generates BRST-closed nonlocal bonus charges $\operatorname{STr}(s\log T(z))$ at **odd levels only**.
@@ -288,12 +292,13 @@ To enable rapid verification and cross-checking across analytical, numerical (Ru
 | **16** | This Work (`Signals.DDF`) | Splat-free $Gr_{\mathbb{C}}(2,4)$ Plücker product for DDF acoustic horizon ($r_H=1, r=4$) | $|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2 = 1 - r_H / r$ | $1 - \frac{1}{4} = \frac{3}{4} = 0.75$ | `RiverExterior.inflowBeta` |
 | **17** | This Work (`Signals.DDF`) | Holographic RG Tensor Gaussian Splat flow ($z_{\mathrm{UV}}=1/2, \lambda_{\mathrm{rg}}=2$) | $\det\Sigma_{\mathrm{IR}} / \det\Sigma_{\mathrm{UV}} = \lambda_{\mathrm{rg}}^4$, $Q_{\mathrm{core}}^{\mathrm{IR}} / Q_{\mathrm{core}}^{\mathrm{UV}} = \lambda_{\mathrm{rg}}^{-2}$ | $\det\Sigma_{\mathrm{IR}} / \det\Sigma_{\mathrm{UV}} = 16$, $Q_{\mathrm{core}}^{\mathrm{IR}} / Q_{\mathrm{core}}^{\mathrm{UV}} = \frac{1}{4} = 0.25$ | `adsHolographicRGSplat` |
 | **18** | Companion Paper 4 (`Signals.DDF`) | 1PN Mercury perihelion precession in $Gr_{\mathbb{C}}(2,4)$/DDF (`RiverExterior`) | $\Delta\varpi_{\mathrm{cy}} = \frac{1944000\,r_{H,\odot}}{a(1-e^2)} \cdot N_{\mathrm{orbits/cy}}$ | $42.98''/\text{century}$ ($42.98 < \Delta\varpi_{\mathrm{cy}} < 42.99$) | `mercury_perihelion_precession_arcsec_per_century_bounds` |
+| **19** | de Leeuw et al. (`arXiv:1204.2366`, Eq. (3.1)–(3.3)) | Full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ worldsheet $R$-matrix & Yangian tail secret intertwining | $\Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})\,R_{16} - R_{16}\,\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})$ | $0_{16 \times 16}$ (for all $B_1, B_2, A_B, B_B, D_F, E_F, G_{BF}, L_{BF}$) | `psl22_rmatrix16_secret_coproduct_intertwining` |
 
 ---
 
 ## 6. Machine-Checked Lean 4 Verification (`Signals.Scattering` & `Signals.DDF`)
 
-The following self-contained Lean 4 proof block typechecks directly against `Signals` and verifies the GKPW mass–dimension dictionary, Breitenlohner–Freedman bound, Ryu–Takayanagi entanglement entropy, KSS viscosity bound, all-loop magnon dispersion, Konishi one-loop check figure, $\mathfrak{psl}(2|2)_c$ braided central charges, indented Yangian secret supertrace, $q$-deformed Hubbard Cartan degeneracy, and the $Gr_{\mathbb{C}}(2,4)$/DDF unification theorems both with and without splats:
+The following self-contained Lean 4 proof block typechecks directly against `Signals` and verifies the GKPW mass–dimension dictionary, Breitenlohner–Freedman bound, Ryu–Takayanagi entanglement entropy, KSS viscosity bound, all-loop magnon dispersion, Konishi one-loop check figure, $\mathfrak{psl}(2|2)_c$ braided central charges, indented Yangian secret supertrace, $q$-deformed Hubbard Cartan degeneracy, full $16 \times 16$ worldsheet $R$-matrix secret coproduct intertwining with the Yangian tail, and the $Gr_{\mathbb{C}}(2,4)$/DDF unification theorems both with and without splats:
 
 ```lean
 import Signals
@@ -308,7 +313,7 @@ open Signals.DDF
 -- Planar Integrability (Beisert et al. 2012, arXiv:1012.3982), Secret Symmetries (de Leeuw et al. 2012, arXiv:1204.2366),
 -- and Complex Gr_C(2,4) & DDF Mechanics (with and without Normed Tensor Gaussian Splats)
 example {sub : DDFSubstrate} (re : RiverExterior sub)
-    (hr : re.horizonRadius < 4) (p p1 p2 B0 θ : ℝ) :
+    (hr : re.horizonRadius < 4) (p p1 p2 B0 B1 B2 θ : ℝ) :
     let Δ_p := adsCftScalingDimensionPlus 4 5
     let Δ_m := adsCftScalingDimensionMinus 4 5
     let C_p := psl22BraidedCentralChargeC p
@@ -337,7 +342,7 @@ example {sub : DDFSubstrate} (re : RiverExterior sub)
     2 * betheOneLoopMagnonEnergy 16 (1 / (2 * Real.sqrt 3)) =
       konishiOneLoopAnomalousDim 16 ∧
     konishiOneLoopAnomalousDim 16 = (3 / 2) * cuspAnomalousDimOneLoop 16 ∧
-    -- (3) Secret Symmetries in AdS/CFT (arXiv:1204.2366): braided central charges, supertrace, & Cartan DA:
+    -- (3) Secret Symmetries in AdS/CFT (arXiv:1204.2366): braided central charges, supertrace, Cartan DA, & 16x16 R-matrix:
     C_p * CDag_p + C_p + CDag_p = 0 ∧
     (1 + C_1) * (1 + C_2) = 1 + psl22BraidedCoproductC C_1 C_2 ∧
     gl22LongRepDim 0 0 = 16 ∧
@@ -346,6 +351,8 @@ example {sub : DDFSubstrate} (re : RiverExterior sub)
     supertrace22 (secretSymmetryMatrix B0) = 4 * B0 ∧
     Matrix.mulVec qDeformedHubbardCartanDA ![1, 1, 1, 1] = 0 ∧
     Matrix.det qDeformedHubbardCartanDA = 0 ∧
+    psl22SecretCoproductFullOp16 B1 B2 7 8 * psl22WorldsheetRMatrix16 3 4 5 6 7 8 =
+      psl22WorldsheetRMatrix16 3 4 5 6 7 8 * psl22SecretCoproductFull16 B1 B2 7 8 ∧
     -- (4) Without Splats: Gr_C(2,4) Plücker realization of psl(2|2)_c secret outer automorphism & AdS_5/DDF lapse:
     complexTwoRowMinor W_sec 0 1 = 1 ∧
     complexTwoRowMinor W_sec 0 3 = 3 ∧
@@ -373,6 +380,7 @@ example {sub : DDFSubstrate} (re : RiverExterior sub)
     4 5 1 1 6 3 10 2 2 16 3 p (1 / (2 * Real.sqrt 3)) p1 p2 B0
     (by norm_num) (by norm_num [adsBreitenlohnerFreedmanBound])
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) hu_K
+  have h_r16 := (psl22_rmatrix16_secret_coproduct_intertwining B1 B2 B0 3 4 5 6 7 8).2.2.2.2.2
   have h_unif := re.grassmannian_ads_cft_ddf_and_secret_symmetry_unification
     2 1 1 1 1 2 4 0 0 1 (1 / 2) 2 1 1 θ
     (by norm_num) (by norm_num) (by norm_num) hr
@@ -386,7 +394,7 @@ example {sub : DDFSubstrate} (re : RiverExterior sub)
     hu9, _hu10, hu11, hu12, hu13, _hu14, hu15, _hu16⟩
   exact ⟨ha1, ha2, ha3, ha4, ha5, ha7, ha8, ha9,
     ha10, ha11, ha12, ha13, ha14,
-    ha16, ha18, ha19, ha20, ha22, ha23, ha25, ha27,
+    ha16, ha18, ha19, ha20, ha22, ha23, ha25, ha27, h_r16,
     h_w01, h_w03, hu8, hu9, hu11, hu12, hu13, hu15⟩
 
 end ArxivGrassmannianAdsCftDdfVerification

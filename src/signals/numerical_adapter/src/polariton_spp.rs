@@ -801,6 +801,66 @@ impl AdsCftIntegrabilitySecretModel {
         (0.0, 4.0 * b0)
     }
 
+    /// Maximum entrywise residual of the $16 \times 16$ $\mathfrak{psl}(2|2)_c$ worldsheet
+    /// $R$-matrix and full Yangian secret coproduct intertwining equation
+    /// $\Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})\,R_{16} - R_{16}\,\Delta_{\mathrm{full}}(\widehat{\mathbb{B}}) = 0$
+    /// (`arXiv:1204.2366`, Eq. (3.1)–(3.3); `psl22_rmatrix16_secret_coproduct_intertwining` in `Signals.Scattering`).
+    pub fn psl22_rmatrix16_full_secret_intertwining_max_residual(
+        b1: f64,
+        b2: f64,
+        a_b: f64,
+        b_b: f64,
+        d_f: f64,
+        e_f: f64,
+        g_bf: f64,
+        l_bf: f64,
+    ) -> f64 {
+        let parity = |idx: usize| if idx < 2 { 1.0 } else { -1.0 };
+        let tau = (b1 - b2) * l_bf;
+        let mut r_mat = [[0.0_f64; 16]; 16];
+        let mut d_full = [[0.0_f64; 16]; 16];
+        let mut d_op = [[0.0_f64; 16]; 16];
+
+        for i in 0..16 {
+            let a = i / 4;
+            let b = i % 4;
+            let swap_i = 4 * b + a;
+            let p_a = parity(a);
+            let p_b = parity(b);
+
+            d_full[i][i] = g_bf * (b1 * p_a + b2 * p_b);
+            d_op[i][i] = g_bf * (b2 * p_a + b1 * p_b);
+            let tail = tau * 0.5 * (p_a - p_b);
+            d_full[i][swap_i] += tail;
+            d_op[i][swap_i] += tail;
+
+            if a < 2 && b < 2 {
+                r_mat[i][i] += a_b;
+                r_mat[i][swap_i] += b_b;
+            } else if a >= 2 && b >= 2 {
+                r_mat[i][i] += d_f;
+                r_mat[i][swap_i] += e_f;
+            } else {
+                r_mat[i][i] += l_bf;
+                r_mat[i][swap_i] += g_bf;
+            }
+        }
+
+        let mut max_res = 0.0_f64;
+        for i in 0..16 {
+            for j in 0..16 {
+                let mut lhs = 0.0;
+                let mut rhs = 0.0;
+                for k in 0..16 {
+                    lhs += d_op[i][k] * r_mat[k][j];
+                    rhs += r_mat[i][k] * d_full[k][j];
+                }
+                max_res = max_res.max((lhs - rhs).abs());
+            }
+        }
+        max_res
+    }
+
     /// Complex $Gr_{\mathbb{C}}(2,4)$ embedding of the $\mathfrak{psl}(2|2)_c$ secret-symmetry
     /// outer automorphism (`psl22SecretAutomorphismGr24Matrix` in `Signals.DDF`):
     /// returns $(\Delta_{01}^{\mathbb{C}}, \Delta_{23}^{\mathbb{C}}, \Delta_{03}^{\mathbb{C}}, \Delta_{12}^{\mathbb{C}}, \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}})$.
@@ -1251,6 +1311,12 @@ mod tests {
             AdsCftIntegrabilitySecretModel::secret_symmetry_trace_and_supertrace(2.5);
         assert!(tr_sec.abs() < 1e-12);
         assert!((str_sec - 10.0).abs() < 1e-12);
+
+        let max_r16_res =
+            AdsCftIntegrabilitySecretModel::psl22_rmatrix16_full_secret_intertwining_max_residual(
+                1.7, -0.8, 3.0, 4.0, 5.0, 6.0, 2.5, 1.3,
+            );
+        assert!(max_r16_res < 1e-12);
 
         // 5. Gr_C(2,4) Realization of psl(2|2)_c Secret Automorphism & AdS_5/DDF Unification
         let a = Complex64::new(2.0, 0.0);

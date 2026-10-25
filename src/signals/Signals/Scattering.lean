@@ -2041,6 +2041,18 @@ lemma psl22PairIndex_swap_involutive (I : Fin 16) :
         psl22FirstFactor I := by
   fin_cases I <;> decide
 
+/-- The factor-swap relation $J = \operatorname{swap}(I)$ is equivalent to $\operatorname{swap}(J) = I$. -/
+lemma psl22PairIndex_swap_comm (I J : Fin 16) :
+    (J = psl22PairIndex (psl22SecondFactor I) (psl22FirstFactor I)) ↔
+      (psl22PairIndex (psl22SecondFactor J) (psl22FirstFactor J) = I) := by
+  constructor
+  · intro hJ
+    subst hJ
+    exact (psl22PairIndex_swap_involutive I).1
+  · intro hI
+    subst hI
+    exact (psl22PairIndex_swap_involutive J).1.symm
+
 /-- $16 \times 16$ two-site diagonal secret symmetry coproduct matrix
 $\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2) = \widehat{\mathbb{B}}(B_1) \otimes 1 + 1 \otimes \widehat{\mathbb{B}}(B_2)$
 acting on $V(p_1) \otimes V(p_2) \cong \mathbb{R}^{16}$ (`arXiv:1204.2366`, Eq. (3.2)–(3.3)). -/
@@ -2087,6 +2099,48 @@ def psl22WorldsheetRMatrix16 (A_B B_B D_F E_F G_BF L_BF : ℝ) : Matrix (Fin 16)
     else
       (if I = J then L_BF else 0) + (if J = psl22PairIndex b a then G_BF else 0)
 
+/-- $16 \times 16$ antisymmetric off-diagonal Yangian tail matrix
+$\Delta_{\mathrm{tail}}(\widehat{\mathbb{B}})(\tau)$ (`arXiv:1204.2366`, Eq. (3.2),
+corresponding to the bi-local level-0 Casimir tail $\frac{i}{2}\mathbb{J}_a^b \otimes \mathbb{J}_b^a$
+acting on the mixed boson–fermion permutation channel $|a \otimes b\rangle \leftrightarrow |b \otimes a\rangle$):
+$$\Delta_{\mathrm{tail}}(\tau)_{IJ} = \delta_{J,\,\operatorname{swap}(I)}\,\tau\,\frac{(-1)^{|a|} - (-1)^{|b|}}{2}.$$ -/
+@[blueprint "def:signals-scattering-psl22-yangian-tail16"
+  (title := "16×16 off-diagonal Yangian secret coproduct tail Δ_tail(τ)")
+  (statement := /-- Define $\operatorname{psl22YangianTail16}(\tau)_{IJ} =
+    \delta_{J,\operatorname{swap}(I)}\,\tau\,\frac{\operatorname{psl22ParitySign}(a) - \operatorname{psl22ParitySign}(b)}{2}$
+    for $I = (a,b) \in \operatorname{Fin}(16)$. -/)]
+noncomputable def psl22YangianTail16 (tau : ℝ) : Matrix (Fin 16) (Fin 16) ℝ :=
+  fun I J =>
+    let a := psl22FirstFactor I
+    let b := psl22SecondFactor I
+    if J = psl22PairIndex b a then
+      tau * ((psl22ParitySign a - psl22ParitySign b) / 2)
+    else 0
+
+/-- Full $16 \times 16$ Yangian secret symmetry coproduct matrix (scaled by $G_{BF}$ to avoid
+division) $\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})
+= G_{BF}\,\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2) + \Delta_{\mathrm{tail}}\bigl((B_1 - B_2)\,L_{BF}\bigr)$
+(`arXiv:1204.2366`, Eq. (3.2)–(3.3)). -/
+@[blueprint "def:signals-scattering-psl22-secret-coproduct-full16"
+  (title := "Full 16×16 Yangian secret symmetry coproduct Δ_full(B̂)(B_1, B_2, G_BF, L_BF)")
+  (statement := /-- Define $\operatorname{psl22SecretCoproductFull16}(B_1,B_2,G_{BF},L_{BF})
+    = G_{BF}\bullet\operatorname{psl22SecretCoproductDiag16}(B_1,B_2)
+    + \operatorname{psl22YangianTail16}((B_1 - B_2)L_{BF})$. -/)]
+noncomputable def psl22SecretCoproductFull16 (B1 B2 G_BF L_BF : ℝ) : Matrix (Fin 16) (Fin 16) ℝ :=
+  G_BF • psl22SecretCoproductDiag16 B1 B2 + psl22YangianTail16 ((B1 - B2) * L_BF)
+
+/-- Opposite full $16 \times 16$ Yangian secret symmetry coproduct matrix
+$\Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})
+= G_{BF}\,\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2) + \Delta_{\mathrm{tail}}\bigl((B_1 - B_2)\,L_{BF}\bigr)$
+(`arXiv:1204.2366`, Eq. (3.1)–(3.3)). -/
+@[blueprint "def:signals-scattering-psl22-secret-coproduct-full-op16"
+  (title := "Opposite full 16×16 Yangian secret symmetry coproduct Δ_full^op(B̂)(B_1, B_2, G_BF, L_BF)")
+  (statement := /-- Define $\operatorname{psl22SecretCoproductFullOp16}(B_1,B_2,G_{BF},L_{BF})
+    = G_{BF}\bullet\operatorname{psl22SecretCoproductOp16}(B_1,B_2)
+    + \operatorname{psl22YangianTail16}((B_1 - B_2)L_{BF})$. -/)]
+noncomputable def psl22SecretCoproductFullOp16 (B1 B2 G_BF L_BF : ℝ) : Matrix (Fin 16) (Fin 16) ℝ :=
+  G_BF • psl22SecretCoproductOp16 B1 B2 + psl22YangianTail16 ((B1 - B2) * L_BF)
+
 /-- **Full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ Worldsheet $R$-Matrix & Secret Coproduct Intertwining Theorem (`arXiv:1204.2366`, Eq. (3.1)–(3.3))**:
 1. **Graded Permutation Involution**:
    $\Pi_{16}^2 = I_{16}$ on $(\mathbb{R}^{2|2})^{\otimes 2} \cong \mathbb{R}^{16}$,
@@ -2106,11 +2160,17 @@ def psl22WorldsheetRMatrix16 (A_B B_B D_F E_F G_BF L_BF : ℝ) : Matrix (Fin 16)
    When $B_1 = B_2 = B_0$, $\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_0, B_0)$ commutes with the
    full 6-parameter $R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})$ for arbitrary $L_{BF}$;
    whereas for $B_1 \neq B_2$ and $L_{BF} \neq 0$, the mixed boson–fermion diagonal residual
-   at $I = (0, 2)$ equals $2(B_2 - B_1)L_{BF} \neq 0$ (which in the full Beisert $R$-matrix
-   is cancelled precisely by the off-diagonal Yangian tail $\frac{i}{2}\mathbb{J}_a^b \otimes \mathbb{J}_b^a$
-   coupled to the fermion-pair creation/annihilation amplitudes $C, F$, `arXiv:1204.2366`, Eq. (3.2)–(3.3)). -/
+   at $I = (0, 2)$ equals $2(B_2 - B_1)L_{BF} \neq 0$,
+5. **Exact Full $16 \times 16$ Yangian Tail Restoration for Arbitrary $B_1 \neq B_2$ and $L_{BF} \neq 0$ (`arXiv:1204.2366`, Eq. (3.1)–(3.3))**:
+   Including the off-diagonal Yangian tail $\Delta_{\mathrm{tail}}\bigl((B_1 - B_2)L_{BF}\bigr)$
+   cancels the mixed boson–fermion diagonal residual identically across all $16 \times 16$
+   entries for *all* $B_1, B_2, A_B, B_B, D_F, E_F, G_{BF}, L_{BF} \in \mathbb{R}$:
+   $$\Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})\,
+       R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})
+     = R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})\,
+       \Delta_{\mathrm{full}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF}).$$ -/
 @[blueprint "thm:signals-scattering-psl22-rmatrix16-secret-intertwining"
-  (title := "16×16 psl(2|2)_c worldsheet R-matrix secret coproduct intertwining theorem (arXiv:1204.2366 Eq. (3.1))")
+  (title := "16×16 psl(2|2)_c worldsheet R-matrix secret coproduct intertwining theorem (arXiv:1204.2366 Eq. (3.1)–(3.3))")
   (statement := /-- For any $B_1, B_2, B_0, A_B, B_B, D_F, E_F, G_{BF}, L_{BF} \in \mathbb R$:
     (1) $\Pi_{16} * \Pi_{16} = I_{16}$,
     (2) $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb B})(B_1,B_2)\,\Pi_{16}
@@ -2118,11 +2178,13 @@ def psl22WorldsheetRMatrix16 (A_B B_B D_F E_F G_BF L_BF : ℝ) : Matrix (Fin 16)
     (3) $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb B})(B_1,B_2)\,R_{16}(A_B,B_B,D_F,E_F,G_{BF},0)
     = R_{16}(A_B,B_B,D_F,E_F,G_{BF},0)\,\Delta_{\mathrm{diag}}(\widehat{\mathbb B})(B_1,B_2)$,
     (4) $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb B})(B_0,B_0)\,R_{16}(A_B,B_B,D_F,E_F,G_{BF},L_{BF})
-    = R_{16}(A_B,B_B,D_F,E_F,G_{BF},L_{BF})\,\Delta_{\mathrm{diag}}(\widehat{\mathbb B})(B_0,B_0)$, and
+    = R_{16}(A_B,B_B,D_F,E_F,G_{BF},L_{BF})\,\Delta_{\mathrm{diag}}(\widehat{\mathbb B})(B_0,B_0)$,
     (5) at $I = J = 2$ (state $|0 \otimes 2\rangle = |\phi^1 \otimes \psi^1\rangle$), the diagonal commutator residual
-    equals $2(B_2 - B_1)L_{BF}$. -/)
-  (proof := /-- Collapse the graded permutation sum via \texttt{psl22PairIndex\_swap\_involutive}
-    and check the $16$ diagonal/swapped cases in $\operatorname{Fin}(16)$. -/)]
+    equals $2(B_2 - B_1)L_{BF}$, and
+    (6) $\Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb B})(B_1,B_2,G_{BF},L_{BF})\,R_{16}(A_B,B_B,D_F,E_F,G_{BF},L_{BF})
+    = R_{16}(A_B,B_B,D_F,E_F,G_{BF},L_{BF})\,\Delta_{\mathrm{full}}(\widehat{\mathbb B})(B_1,B_2,G_{BF},L_{BF})$. -/)
+  (proof := /-- Collapse the graded permutation and Yangian tail sums via \texttt{psl22PairIndex\_swap\_involutive}
+    and check the diagonal and swapped cases in $\operatorname{Fin}(16)$. -/)]
 theorem psl22_rmatrix16_secret_coproduct_intertwining
     (B1 B2 B0 A_B B_B D_F E_F G_BF L_BF : ℝ) :
     psl22GradedSwap16 * psl22GradedSwap16 = (1 : Matrix (Fin 16) (Fin 16) ℝ) ∧
@@ -2140,7 +2202,11 @@ theorem psl22_rmatrix16_secret_coproduct_intertwining
           psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF -
         psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF *
           psl22SecretCoproductDiag16 B1 B2) 2 2 =
-        2 * (B2 - B1) * L_BF := by
+        2 * (B2 - B1) * L_BF ∧
+      psl22SecretCoproductFullOp16 B1 B2 G_BF L_BF *
+          psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF =
+        psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF *
+          psl22SecretCoproductFull16 B1 B2 G_BF L_BF := by
   have h_swap_sq : psl22GradedSwap16 * psl22GradedSwap16 = (1 : Matrix (Fin 16) (Fin 16) ℝ) := by
     ext I J
     rw [Matrix.mul_apply, Matrix.one_apply]
@@ -2263,6 +2329,31 @@ theorem psl22_rmatrix16_secret_coproduct_intertwining
     simp [psl22WorldsheetRMatrix16, psl22ParitySign, psl22FirstFactor, psl22SecondFactor,
       psl22PairIndex]
     ring
-  exact ⟨h_swap_sq, h_swap_intertwine, h_rmat_intertwine, h_rmat_equal, h_res22⟩
+  have h_full_intertwine :
+      psl22SecretCoproductFullOp16 B1 B2 G_BF L_BF *
+          psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF =
+        psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF *
+          psl22SecretCoproductFull16 B1 B2 G_BF L_BF := by
+    ext I J
+    rw [psl22SecretCoproductFullOp16, psl22SecretCoproductFull16,
+      Matrix.add_mul, Matrix.mul_add, Matrix.smul_mul, Matrix.mul_smul,
+      Matrix.add_apply, Matrix.add_apply, Matrix.smul_apply, Matrix.smul_apply,
+      psl22SecretCoproductOp16, psl22SecretCoproductDiag16, psl22SecretCoproductDiag16,
+      Matrix.diagonal_mul, Matrix.mul_diagonal,
+      Matrix.mul_apply, Matrix.mul_apply]
+    simp only [psl22YangianTail16, ite_mul, zero_mul, mul_ite, mul_zero]
+    rw [Finset.sum_ite_eq']
+    simp only [psl22PairIndex_swap_comm _ J, Finset.sum_ite_eq, Finset.mem_univ, ↓reduceIte,
+      smul_eq_mul]
+    rcases psl22PairIndex_swap_involutive I with ⟨h_invI, h_f1I, h_f2I⟩
+    rcases psl22PairIndex_swap_involutive J with ⟨h_invJ, h_f1J, h_f2J⟩
+    unfold psl22WorldsheetRMatrix16
+    dsimp only
+    rw [h_invI, h_f1I, h_f2I, h_f1J, h_f2J]
+    fin_cases I <;> fin_cases J <;>
+      dsimp [psl22ParitySign, psl22FirstFactor, psl22SecondFactor, psl22PairIndex] <;>
+      ring
+  exact ⟨h_swap_sq, h_swap_intertwine, h_rmat_intertwine, h_rmat_equal, h_res22,
+    h_full_intertwine⟩
 
 end Signals.Scattering

@@ -1469,18 +1469,27 @@ Implemented in [Huygens.lean](../src/signals/Signals/Huygens.lean),
 - **Full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ Worldsheet $R$-Matrix & Secret Coproduct Intertwining (`psl22_rmatrix16_secret_coproduct_intertwining`)**:
   Formalized the $16 \times 16$ $\mathbb{Z}_2$-graded permutation matrix $\Pi_{16}$, the
   two-site diagonal secret symmetry coproducts $\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2)$
-  and $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2)$, and the 6-parameter
-  $16 \times 16$ worldsheet $R$-matrix $R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})$, proving
-  $\Pi_{16}^2 = I_{16}$, $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}})\Pi_{16} = \Pi_{16}\Delta(\widehat{\mathbb{B}})$,
-  exact $16 \times 16$ intertwining $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2)\,R_{16}(A_B, B_B, D_F, E_F, G_{BF}, 0) = R_{16}(A_B, B_B, D_F, E_F, G_{BF}, 0)\,\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2)$,
-  universal equal-charge ($B_1 = B_2 = B_0$) commutation, and the mixed boson–fermion
-  commutator residual $2(B_2 - B_1)L_{BF}$ at state $|\phi^1 \otimes \psi^1\rangle$.
-- **Adaptive Splat Remeshing & Coupled Electro-Thermal-Optical OPA Gain in Rust/WASM**:
-  Added `NormedTensorGaussianSplat2D::split_if_anisotropic` and `OrbitalSplatScene::adaptive_remesh`
-  (preserving $L^1$ weight, center of mass, and major-axis second-moment variance
-  $\tilde{\sigma}_{\mathrm{maj}}^2 + \delta^2 = \sigma_{\mathrm{maj}}^2$),
-  `SecondHarmonicResonantOpaModel::coupled_electro_thermal_net_gain_sq`, and
-  Fresnel/rank-3 Plücker evaluators in `double_slit.rs`.
+  and $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2)$, the antisymmetric
+  off-diagonal Yangian tail $\Delta_{\mathrm{tail}}\bigl((B_1 - B_2)L_{BF}\bigr)$
+  (`psl22YangianTail16`), the full secret coproducts $\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})$
+  (`psl22SecretCoproductFull16`) and $\Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})$
+  (`psl22SecretCoproductFullOp16`), and the 6-parameter $16 \times 16$ worldsheet $R$-matrix
+  $R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})$, proving $\Pi_{16}^2 = I_{16}$,
+  $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}})\Pi_{16} = \Pi_{16}\Delta(\widehat{\mathbb{B}})$,
+  the mixed boson–fermion diagonal commutator residual $2(B_2 - B_1)L_{BF}$ at state
+  $|\phi^1 \otimes \psi^1\rangle$, and exact full $16 \times 16$ intertwining with the Yangian tail
+  $$\Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})\,R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF}) = R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})\,\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})$$
+  for arbitrary $B_1, B_2, A_B, B_B, D_F, E_F, G_{BF}, L_{BF} \in \mathbb{R}$.
+- **Adaptive Two-Child Splat Splitting Conservation (`NormedTensorGaussianSplat2D.splitMajor_conservation_identities`) & Coupled Electro-Thermal-Optical OPA Gain**:
+  Formalized `splitMajorOffset`, `splitMajorPlus`, `splitMajorMinus`, and
+  `splitMajor_conservation_identities` in [DDF.lean](../src/signals/Signals/DDF.lean)
+  (and `NormedTensorGaussianSplat2D::split_if_anisotropic` / `OrbitalSplatScene::adaptive_remesh`
+  in `orbital_splat.rs`), proving exact $L^1$ weight conservation ($w_+ + w_- = w$),
+  center-of-mass preservation, major-axis second-moment variance conservation
+  ($\tilde{\sigma}_1^2 + \delta_1^2 = \sigma_1^2$), aspect-ratio halving, and core Bohm
+  refinement ($Q_{\mathrm{core}}(\Sigma) < Q_{\mathrm{core}}(\Sigma_+)$), together with
+  `SecondHarmonicResonantOpaModel::coupled_electro_thermal_net_gain_sq` in `polariton_spp.rs`
+  and Fresnel/rank-3 Plücker evaluators in `double_slit.rs`.
 
 ```lean
 -- Iteration 25-32 verification: Inverse Compton, Raman, Polaritons, SPPs, AdS/CFT, Secret Symmetries, and Splat-Free Continuum vs. Tensor Splat DDF Mechanics
@@ -1541,7 +1550,12 @@ example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
       splat_ddf.covDet / 2 ^ 4 ∧
     splat_evol.covTrace = splat.covTrace + 2 * (1 + 2) * 3 ∧
     splat_evol2 = splat_sum ∧
-    splat_evol.coreBohmPotential 1 1 ≤ splat.coreBohmPotential 1 1 := by
+    splat_evol.coreBohmPotential 1 1 ≤ splat.coreBohmPotential 1 1 ∧
+    splat.splitMajorPlus.sigma1 ^ 2 + splat.splitMajorOffset ^ 2 = splat.sigma1 ^ 2 ∧
+    Signals.Scattering.psl22SecretCoproductFullOp16 2 (-1) 7 8 *
+        Signals.Scattering.psl22WorldsheetRMatrix16 3 4 5 6 7 8 =
+      Signals.Scattering.psl22WorldsheetRMatrix16 3 4 5 6 7 8 *
+        Signals.Scattering.psl22SecretCoproductFull16 2 (-1) 7 8 := by
   intro M_sheath M_th kappa1 splat_ddf splat_evol splat_evol2 splat_sum ω_UP ω_LP M_spp splat_spp W_sec M_ads5
   have h_ics := s.inverseCompton_gr24_identities 6 1 5 2 0 0
   have h_ram := Signals.Scattering.raman_stokes_antiStokes_gr24_identities
@@ -1583,6 +1597,9 @@ example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
   have h_semi := Signals.DDF.NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay
     splat 1 2 3 4 1 1
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_spl := (splat.splitMajor_conservation_identities 1 1 (by norm_num) (by norm_num)).2.2.2.1
+  have h_r16 := (Signals.Scattering.psl22_rmatrix16_secret_coproduct_intertwining
+    2 (-1) 0 3 4 5 6 7 8).2.2.2.2.2
   rcases h_ads with ⟨ha1, _ha2, _ha3, _ha4, _ha5, _ha6, _ha7, _ha8, _ha9, _ha10,
     _ha11, _ha12, _ha13, _ha14, _ha15, _ha16, _ha17, _ha18, _ha19, _ha20, _ha21,
     _ha22, ha23, _ha24, _ha25, _ha26, _ha27⟩
@@ -1593,7 +1610,7 @@ example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
     ha1, ha23, hu8, hu9,
     h_cont.2.1, h_cont.2.2.1, h_cont.2.2.2.2.2.1,
     h_cont_semi.2.2.2.2.2.1, h_cont_semi.2.2.2.2.2.2.2.2.1,
-    h_th.2.2.2.1, h_th.2.2.2.2.2, h_semi.2.1, h_semi.2.2.2⟩
+    h_th.2.2.2.1, h_th.2.2.2.2.2, h_semi.2.1, h_semi.2.2.2, h_spl, h_r16⟩
 
 end HuygensGeometryRoadmap
 ```
@@ -1690,32 +1707,31 @@ Four overarching theoretical implications follow from these machine-checked theo
 
 #### 3. Prioritized Next Steps for Research
 
+With Iteration 33 completing the paraxial Fresnel-to-Fraunhofer remainder bound (`fresnel_to_fraunhofer_remainder_bound`, `CellQuadrature.fresnelFraunhoferComparison`), higher-rank $Gr(3,n)$ / $Gr_{\mathbb{C}}(3,n)$ four-term Plücker relations (`threeRowMinor_pluecker`), multi-layer and three-channel ($k=3$) LGV disjoint-path positivity (`lgv_multiLayer_det_positive`, `planar_threeChannel_lgv_and_bottleneck_identities`), full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ worldsheet $R$-matrix and Yangian-tail secret coproduct intertwining (`psl22_rmatrix16_secret_coproduct_intertwining`), and adaptive two-child splat splitting conservation (`splitMajor_conservation_identities`, `split_if_anisotropic`), the remaining priorities are:
+
 1. **Mathematical & Lean 4 Formalization Track**:
-   - **Fresnel-to-Fraunhofer Remainder Bound (Phase 2 & Phase 6)**: Connect the
-     2D planar Bochner aperture integral `FixedPlanarField` to
-     `fraunhoferRectangularDoubleSlit` via an explicit paraxial Fresnel phase
-     remainder bound.
-   - **Higher-Rank Grassmannians $Gr_{\mathbb{C}}(k, n)$ ($k \ge 3$) & Disjoint-Path Positivity (Phase 3 & Phase 4)**:
-     Extend the $2 \times n$ Pluecker relations to arbitrary rank $k \ge 3$,
-     prove the Lindström--Gessel--Viennot vertex-disjoint path theorem for
-     planar acyclic networks, and formalize projective canonical differential
-     forms beyond fixed affine charts.
-   - **Full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ Worldsheet $R$-Matrix & Secret Coproduct Intertwining**:
-     Extend `secretSymmetryMatrix` and `psl22BraidedCoproductC` in
-     `Signals.Scattering` to the full $16 \times 16$ fundamental Beisert
-     $R$-matrix and machine-check the matrix intertwining identity
-     $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}})\,R = R\,\Delta(\widehat{\mathbb{B}})$
-     (`arXiv:1204.2366`, Eq. (3.1)) together with the BES dressing-phase
-     crossing relation.
+   - **Non-Paraxial 3D Rayleigh–Sommerfeld Vector Boundary Remainder (Phase 2 & Phase 6)**:
+     Extend `fresnel_to_fraunhofer_remainder_bound` to a non-paraxial 3D Helmholtz /
+     Rayleigh–Sommerfeld vector boundary-integral remainder bound and derive the
+     uniform optical-kernel Lipschitz constant directly from separation and wavelength intervals.
+   - **Arbitrary-Rank Grassmannians $Gr_{\mathbb{C}}(k, n)$ ($k \ge 4$) & Non-Layered Planar Embeddings (Phase 3 & Phase 4)**:
+     Extend the rank-2 and rank-3 Plücker syzygies to arbitrary rank $k \ge 4$,
+     formalize non-layered planar disk embeddings and square moves, and construct
+     projective canonical differential forms beyond fixed affine charts.
+   - **BES Dressing-Phase Crossing Equation & Fermion-Pair Creation Block**:
+     Extend `psl22WorldsheetRMatrix16` in `Signals.Scattering` with the
+     $\mathfrak{su}(2)\oplus\mathfrak{su}(2)$-breaking $|\phi^1\phi^2\rangle \leftrightarrow |\psi^1\psi^2\rangle$
+     amplitudes $(C, F)$ and the all-loop BES dressing-phase crossing relation.
 2. **Numerical & Rust/WASM/WebGL2 Engineering Track**:
-   - **Adaptive Splat Splitting & Remeshing**: Implement dynamic splitting of
-     elongated `NormedTensorGaussianSplat2D` wavepackets when Anosov stretching
-     ($\lambda t \gg 1$) or $\chi^{(2)}$ OPA squeezing ($r_{\mathrm{sq}} \gg 1$)
-     exceeds aspect-ratio thresholds along curved streamlines.
-   - **Coupled Electro-Thermal-Optical Waveguide Solver**: Couple the 1D/2D
-     Cattaneo--Vernotte / DDF telegrapher solver (`thermal_inelastic.rs`) with
-     SPP Ohmic damping and $\chi^{(2)}$ SHG-OPA phase-matching detuning
-     $\Delta k(T)$ (`polariton_spp.rs`).
+   - **Curved-Streamline Multi-Generation Splat Remeshing & Vortex Benchmarks**:
+     Extend `NormedTensorGaussianSplat2D::split_if_anisotropic` and
+     `OrbitalSplatScene::adaptive_remesh` to recursive multi-generation remeshing
+     along curved streamlines, and benchmark Vortex `0.86.1` vs. Arrow/Parquet on
+     large 3D JHTDB cutouts.
+   - **Time-Domain Coupled Electro-Thermal-Optical Waveguide Stepping**:
+     Couple the 1D/2D Cattaneo–Vernotte / DDF telegrapher solver (`thermal_inelastic.rs`)
+     with `SecondHarmonicResonantOpaModel::coupled_electro_thermal_net_gain_sq`
+     (`polariton_spp.rs`) across multi-step time-domain waveguide transients.
 3. **Experimental & Dataset Validation Track**:
    - **Calibrated Laboratory & Open-Dataset Ingestion**: Populate
      `ControlledMeasurement` and `FlowBoundaryEvidence` with measured

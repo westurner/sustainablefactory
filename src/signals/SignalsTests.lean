@@ -5140,19 +5140,22 @@ example (p p1 p2 B0 θ : ℝ) :
 
 /-- Paraxial Fresnel-to-Fraunhofer quadratic phase remainder bound, higher-rank
 Gr(3, 6) four-term quadratic Plücker relation, three-channel (k = 3) LGV
-vertex-disjoint path positivity vs. 2-vertex bottleneck cancellation, and
-full 16×16 psl(2|2)_c worldsheet R-matrix secret coproduct intertwining. -/
+vertex-disjoint path positivity vs. 2-vertex bottleneck cancellation,
+full 16×16 psl(2|2)_c worldsheet R-matrix secret coproduct intertwining
+(including the Yangian tail for arbitrary B1 ≠ B2 and L_BF ≠ 0), and
+adaptive two-child Tensor Gaussian Splat splitting conservation. -/
 def toyRank3GrassmannianMatrix : Matrix (Fin 3) (Fin 6) ℝ :=
   !![1, 2, -1, 3, 0, 4;
      0, 1, 2, -2, 1, -1;
      2, -1, 1, 0, 3, 2]
 
-example (x y B1 B2 B0 A_B B_B D_F E_F G_BF L_BF : ℝ)
+example (x y B1 B2 B0 A_B B_B D_F E_F G_BF L_BF θ : ℝ)
     (A32 : Matrix (Fin 3) (Fin 2) ℝ) (B23 : Matrix (Fin 2) (Fin 3) ℝ) :
     let φ_fraun := Signals.Huygens.fraunhoferLinearPhase x y (3 / 10) (4 / 10) (1 / 2) 10
     let Δφ := Signals.Huygens.fresnelPhaseRemainder (3 / 10) (4 / 10) (1 / 2) 10
     let φ_fres := Signals.Huygens.fresnelParaxialPhase x y (3 / 10) (4 / 10) (1 / 2) 10
     let N_F := Signals.Huygens.fresnelNumber 1 (1 / 2) 10
+    let splat_ddf := toyMovingSheath.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
     φ_fres - φ_fraun = Δφ ∧
     0 ≤ Δφ ∧
     Δφ ≤ Real.pi * N_F ∧
@@ -5185,8 +5188,16 @@ example (x y B1 B2 B0 A_B B_B D_F E_F G_BF L_BF : ℝ)
         Signals.Scattering.psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF -
       Signals.Scattering.psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF *
         Signals.Scattering.psl22SecretCoproductDiag16 B1 B2) 2 2 =
-      2 * (B2 - B1) * L_BF := by
-  intro φ_fraun Δφ φ_fres N_F
+      2 * (B2 - B1) * L_BF ∧
+    Signals.Scattering.psl22SecretCoproductFullOp16 B1 B2 G_BF L_BF *
+        Signals.Scattering.psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF =
+      Signals.Scattering.psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF *
+        Signals.Scattering.psl22SecretCoproductFull16 B1 B2 G_BF L_BF ∧
+    splat_ddf.splitMajorPlus.weight + splat_ddf.splitMajorMinus.weight = splat_ddf.weight ∧
+    splat_ddf.splitMajorPlus.sigma1 ^ 2 + splat_ddf.splitMajorOffset ^ 2 =
+      splat_ddf.sigma1 ^ 2 ∧
+    splat_ddf.coreBohmPotential 1 1 < splat_ddf.splitMajorPlus.coreBohmPotential 1 1 := by
+  intro φ_fraun Δφ φ_fres N_F splat_ddf
   have h_fres := Signals.Huygens.fresnel_to_fraunhofer_remainder_bound
     x y (3 / 10) (4 / 10) 1 (1 / 2) 10 (by norm_num) (by norm_num) (by norm_num)
   have h_pl3 := Signals.Geometry.threeRowMinor_pluecker
@@ -5195,8 +5206,10 @@ example (x y B1 B2 B0 A_B B_B D_F E_F G_BF L_BF : ℝ)
     2 3 4 6 8 5 7 (by norm_num) (by norm_num) (by norm_num) A32 B23
   have h_r16 := Signals.Scattering.psl22_rmatrix16_secret_coproduct_intertwining
     B1 B2 B0 A_B B_B D_F E_F G_BF L_BF
+  have h_spl := splat_ddf.splitMajor_conservation_identities 1 1 (by norm_num) (by norm_num)
   exact ⟨h_fres.1, h_fres.2.1, h_fres.2.2.1, h_fres.2.2.2.2.2,
     h_pl3, h_lgv3.2.2.1, h_lgv3.2.2.2.1, h_lgv3.2.2.2.2,
-    h_r16.1, h_r16.2.2.1, h_r16.2.2.2.1, h_r16.2.2.2.2⟩
+    h_r16.1, h_r16.2.2.1, h_r16.2.2.2.1, h_r16.2.2.2.2.1, h_r16.2.2.2.2.2,
+    h_spl.1, h_spl.2.2.2.1, h_spl.2.2.2.2.2.2.2.2⟩
 
 end SignalsTests

@@ -136,12 +136,12 @@ To keep the repository modular, auditable, and free of duplicated maintenance, e
 
 | Content / Capability from This Unification | Primary Owning Document(s) | Target Plan Document(s) & Actionable Placement |
 |---|---|---|
-| **9-Domain $Gr_{\mathbb{C}}(2,4)$ Plücker Dictionary & Master Synthesis** | **This Paper** ([grassmannian-unification-applications-roadmap-paper.md](grassmannian-unification-applications-roadmap-paper.md)), [README.md](../README.md), [src/signals/README.md](../src/signals/README.md) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) (Iterations 24–32 & Synthesis section) |
-| **3D Fresnel-to-Fraunhofer Remainder, Higher-Rank $Gr_{\mathbb{C}}(k,n)$ ($k \ge 3$), & Disjoint-Path Positivity** | [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md), [src/signals/Signals/Geometry.lean](../src/signals/Signals/Geometry.lean), [src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) (Phase 2, Phase 3, and Phase 6 Remaining Acceptance Obligations) |
+| **9-Domain $Gr_{\mathbb{C}}(2,4)$ Plücker Dictionary & Master Synthesis** | **This Paper** ([grassmannian-unification-applications-roadmap-paper.md](grassmannian-unification-applications-roadmap-paper.md)), [README.md](../README.md), [src/signals/README.md](../src/signals/README.md) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) (Iterations 24–33 & Synthesis section) |
+| **3D Fresnel-to-Fraunhofer Remainder, Higher-Rank $Gr_{\mathbb{C}}(k,n)$ ($k \ge 3$), & Disjoint-Path Positivity** | [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md), [src/signals/Signals/Geometry.lean](../src/signals/Signals/Geometry.lean), [src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) (Iteration 33 & Phase 2, Phase 3, and Phase 6 Acceptance Obligations) |
 | **$\chi^{(2)}$ SHG-OPA Squeezing (`opaSqueezedTensorSplat`), Dispersive QND Readout, & Soliton-Bus QEC** | [grassmannian-polariton-spp-mechanics-paper.md](grassmannian-polariton-spp-mechanics-paper.md), [soliton-bus.md](soliton-bus.md), [anti-fire-cannon-review.md](anti-fire-cannon-review.md) | [dispersive-homodyne-plan.md](dispersive-homodyne-plan.md) (CV Homodyne/Quadratures, Dispersive QND Readout, and M-Gate / OPA Squeezing sections) |
 | **N-LIG Graphene SPP Waveguides, Transverse vs. Longitudinal Cherenkov/Proca Cutoff, & CW Laser Controls** | [grassmannian-polariton-spp-mechanics-paper.md](grassmannian-polariton-spp-mechanics-paper.md), [flat-light-nanolithography-scholarly.md](flat-light-nanolithography-scholarly.md), [chat-physics-catalog.md](chat-physics-catalog.md) | [flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md) (Guided-Mode Claim, CW vs. Pulsed Laser Precedents, and Longitudinal-Beam Gates) |
 | **DDF Active-Radiation Null ($\eta_{\mathrm{act}}^\gamma = 0$), Vortex Circulation, & JHTDB/PIV Cutouts** | [grassmannian-ddf-moving-sheath-paper.md](grassmannian-ddf-moving-sheath-paper.md), [grassmannian-holographic-principle-paper.md](grassmannian-holographic-principle-paper.md), [src/signals/OPEN_FLOW_DATASETS.md](../src/signals/OPEN_FLOW_DATASETS.md) | [src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md](../src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md) (`HDDF-active-null` crossed-laser-beam discriminator & Magnus control) and [src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md](../src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md) |
-| **AdS/CFT Dictionary, Planar Integrability (`arXiv:1012.3982`), & $\mathfrak{psl}(2|2)_c$ Secret Symmetries (`arXiv:1204.2366`)** | [grassmannian-ads-cft-ddf-paper.md](grassmannian-ads-cft-ddf-paper.md), [grassmannian-qism-bethe-ansatz-paper.md](grassmannian-qism-bethe-ansatz-paper.md), [src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) (Iteration 32) and [lean-blueprint-rust-port-plan.md](lean-blueprint-rust-port-plan.md) (`:blueprint` / `:blueprintJson` export) |
+| **AdS/CFT Dictionary, Planar Integrability (`arXiv:1012.3982`), & $\mathfrak{psl}(2|2)_c$ Secret Symmetries (`arXiv:1204.2366`)** | [grassmannian-ads-cft-ddf-paper.md](grassmannian-ads-cft-ddf-paper.md), [grassmannian-qism-bethe-ansatz-paper.md](grassmannian-qism-bethe-ansatz-paper.md), [src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) (Iterations 32–33) and [lean-blueprint-rust-port-plan.md](lean-blueprint-rust-port-plan.md) (`:blueprint` / `:blueprintJson` export) |
 
 ### 3.2 Concise Summary of All Nine Project Plan Documents
 
@@ -161,13 +161,15 @@ To keep the repository modular, auditable, and free of duplicated maintenance, e
 
 ## 4. Prioritized Next Steps for Research
 
+With the paraxial Fresnel-to-Fraunhofer remainder bound (`fresnel_to_fraunhofer_remainder_bound`, `CellQuadrature.fresnelFraunhoferComparison`), higher-rank $Gr(3,n)$ / $Gr_{\mathbb{C}}(3,n)$ four-term Plücker relations (`threeRowMinor_pluecker`, `complexThreeRowMinor_pluecker`), multi-layer and three-channel ($k=3$) LGV disjoint-path positivity (`lgv_multiLayer_det_positive`, `planar_threeChannel_lgv_and_bottleneck_identities`), full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ worldsheet $R$-matrix and Yangian-tail secret coproduct intertwining (`psl22_rmatrix16_secret_coproduct_intertwining`), and adaptive two-child splat splitting conservation (`splitMajor_conservation_identities`, `split_if_anisotropic`) now formalized and verified in Iteration 33, the remaining frontier priorities are:
+
 1. **Mathematical & Lean 4 Formalization Track**:
-   - **3D Fresnel-to-Fraunhofer Remainder Bound**: Prove a quantitative paraxial Fresnel phase remainder bound connecting the 2D planar Bochner aperture integral `FixedPlanarField` in [src/signals/Signals/Huygens.lean](../src/signals/Signals/Huygens.lean) to `fraunhoferRectangularDoubleSlit`.
-   - **Higher-Rank Grassmannians $Gr_{\mathbb{C}}(k, n)$ ($k \ge 3$) & Disjoint-Path Positivity**: Extend the $2 \times n$ Plücker relations in [src/signals/Signals/Geometry.lean](../src/signals/Signals/Geometry.lean) to arbitrary rank $k \ge 3$, prove the Lindström–Gessel–Viennot vertex-disjoint path theorem for planar acyclic networks in [src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean), and formalize projective canonical differential forms beyond fixed affine charts.
-   - **Full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ Worldsheet $R$-Matrix & Secret Coproduct Intertwining**: Extend `secretSymmetryMatrix` and `psl22BraidedCoproductC` in [src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean#L1705-L1785) to the full $16 \times 16$ fundamental Beisert $R$-matrix and machine-check the matrix intertwining identity $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}})\,R = R\,\Delta(\widehat{\mathbb{B}})$ (`arXiv:1204.2366`, Eq. (3.1)) and BES dressing-phase crossing equation.
+   - **Non-Paraxial 3D Rayleigh–Sommerfeld Vector Boundary Remainder**: Extend `fresnel_to_fraunhofer_remainder_bound` in [src/signals/Signals/Huygens.lean](../src/signals/Signals/Huygens.lean) to a non-paraxial 3D Helmholtz / Rayleigh–Sommerfeld vector boundary-integral remainder bound and derive the uniform optical-kernel Lipschitz constant directly from separation and wavelength intervals.
+   - **Arbitrary-Rank Grassmannians $Gr_{\mathbb{C}}(k, n)$ ($k \ge 4$) & Non-Layered Planar Embeddings**: Extend the rank-2 (`twoRowMinor_pluecker`) and rank-3 (`threeRowMinor_pluecker`) Plücker syzygies in [src/signals/Signals/Geometry.lean](../src/signals/Signals/Geometry.lean) to arbitrary rank $k \ge 4$, formalize non-layered planar disk embeddings and square moves in [src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean), and construct projective canonical differential forms beyond fixed affine charts.
+   - **Beisert–Eden–Staudacher (BES) Dressing-Phase Crossing Equation & Fermion-Pair Creation Block**: Extend `psl22WorldsheetRMatrix16` in [src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean) with the $\mathfrak{su}(2)\oplus\mathfrak{su}(2)$-breaking $|\phi^1\phi^2\rangle \leftrightarrow |\psi^1\psi^2\rangle$ amplitudes $(C, F)$ and the all-loop BES dressing-phase crossing relation (`arXiv:1012.3982`, Sec. III.4; `arXiv:1204.2366`, Eq. (3.2)).
 2. **Numerical & Rust/WASM/WebGL2 Engineering Track**:
-   - **Adaptive Splat Splitting & Remeshing**: Implement dynamic splitting of elongated `NormedTensorGaussianSplat2D` wavepackets when Anosov hyperbolic stretching ($\lambda t \gg 1$) or $\chi^{(2)}$ OPA squeezing ($r_{\mathrm{sq}} \gg 1$) exceeds aspect-ratio thresholds along curved streamlines.
-   - **Coupled Electro-Thermal-Optical Waveguide Solver**: Couple the 1D/2D hyperbolic Cattaneo–Vernotte / DDF telegrapher solver ([thermal_inelastic.rs](../src/signals/numerical_adapter/src/thermal_inelastic.rs)) with SPP Ohmic heating and temperature-dependent $\chi^{(2)}$ SHG-OPA phase-matching detuning $\Delta k(T)$ ([polariton_spp.rs](../src/signals/numerical_adapter/src/polariton_spp.rs)).
+   - **Curved-Streamline Multi-Generation Splat Remeshing & Vortex Benchmarks**: Extend the two-child variance-preserving split (`NormedTensorGaussianSplat2D::split_if_anisotropic` and `OrbitalSplatScene::adaptive_remesh` in [orbital_splat.rs](../src/signals/numerical_adapter/src/orbital_splat.rs)) to recursive multi-generation remeshing along curved streamlines, and benchmark Vortex `0.86.1` vs. Arrow/Parquet on large 3D JHTDB cutouts.
+   - **Time-Domain Coupled Electro-Thermal-Optical PDE Stepping**: Couple the 1D/2D hyperbolic Cattaneo–Vernotte / DDF telegrapher solver ([thermal_inelastic.rs](../src/signals/numerical_adapter/src/thermal_inelastic.rs)) with `SecondHarmonicResonantOpaModel::coupled_electro_thermal_net_gain_sq` ([polariton_spp.rs](../src/signals/numerical_adapter/src/polariton_spp.rs)) across multi-step time-domain waveguide transients.
 3. **Experimental & Dataset Validation Track**:
    - **Calibrated Open-Dataset & Laboratory Ingestion**: Populate `ControlledMeasurement` and `FlowBoundaryEvidence` in [src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean) with measured double-slit/OAM interferograms, calibrated Stokes/anti-Stokes Raman spectra, and multi-frame JHTDB/PIV vortex-reconnection cutouts.
    - **Experimental Discriminator Tests**: Execute (a) the preregistered CW vs. pulsed N-LIG Raman/XPS/HAZ material controls in [flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md) and (b) high-sensitivity non-co-propagating crossed-laser-beam deflection interferometry to test the decisive DDF ($\eta_{\mathrm{act}}^\gamma = 0$, `ddf_photon_deflection_null`) vs. General Relativity ($\eta_{\mathrm{act}}^\gamma = 1$, `gr_photon_deflection_active`) active radiation sourcing prediction.
@@ -264,7 +266,7 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     Complex.normSq (complexPluckerSinkAmplitudeA M_ads5) *
         Complex.normSq (complexPluckerSinkAmplitudeB M_ads5) =
       adsPlanarBlackBraneEmblackening 1 2 4 ∧
-    -- (10) Iteration 33 (Fresnel Remainder, Gr(3,6) Plücker, 3-Channel LGV, & 16x16 R-Matrix Intertwining):
+    -- (10) Iteration 33 (Fresnel Remainder, Gr(3,6) Plücker, 3-Channel LGV, Splat Splitting, & 16x16 R-Matrix Intertwining):
     intensity (unitPhasor φ_fres - unitPhasor φ_fraun) ≤ (Real.pi * N_F) ^ 2 ∧
     threeRowMinor capstoneRank3Matrix 0 1 2 * threeRowMinor capstoneRank3Matrix 3 4 5 -
       threeRowMinor capstoneRank3Matrix 0 1 3 * threeRowMinor capstoneRank3Matrix 2 4 5 +
@@ -272,8 +274,10 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
       threeRowMinor capstoneRank3Matrix 0 1 5 * threeRowMinor capstoneRank3Matrix 2 3 4 = 0 ∧
     0 < (planarThreeChannelLowerStep 1 1 1 5 7 *
       planarThreeChannelUpperStep 2 3 4 6 8).det ∧
-    psl22SecretCoproductOp16 B1 B2 * psl22WorldsheetRMatrix16 3 4 5 6 7 0 =
-      psl22WorldsheetRMatrix16 3 4 5 6 7 0 * psl22SecretCoproductDiag16 B1 B2 := by
+    splat_ddf.splitMajorPlus.sigma1 ^ 2 + splat_ddf.splitMajorOffset ^ 2 =
+      splat_ddf.sigma1 ^ 2 ∧
+    psl22SecretCoproductFullOp16 B1 B2 7 8 * psl22WorldsheetRMatrix16 3 4 5 6 7 8 =
+      psl22WorldsheetRMatrix16 3 4 5 6 7 8 * psl22SecretCoproductFull16 B1 B2 7 8 := by
   intro z1 z2 M_sheath splat_ddf splat_opa M_spp M_holo W_sec M_ads5 φ_fraun φ_fres N_F
   have h1 := (complexGr24CrossingDoubleSlit_zero_error 3 2 4 6 1 5 x y).2
   have h2 := yang_baxter_equation_matrix8 7 4 1 2
@@ -320,7 +324,8 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
   have h10_pl3 := threeRowMinor_pluecker capstoneRank3Matrix 0 1 2 3 4 5
   have h10_lgv3 := (planar_threeChannel_lgv_and_bottleneck_identities
     2 3 4 6 8 5 7 (by norm_num) (by norm_num) (by norm_num) 0 0).2.2.2.1
-  have h10_r16 := (psl22_rmatrix16_secret_coproduct_intertwining B1 B2 0 3 4 5 6 7 0).2.2.1
+  have h10_spl := (splat_ddf.splitMajor_conservation_identities 1 1 (by norm_num) (by norm_num)).2.2.2.1
+  have h10_r16 := (psl22_rmatrix16_secret_coproduct_intertwining B1 B2 0 3 4 5 6 7 8).2.2.2.2.2
   rcases h9_ads with ⟨ha1, _ha2, _ha3, _ha4, _ha5, _ha6, _ha7, _ha8, _ha9, _ha10,
     _ha11, _ha12, ha13, _ha14, _ha15, _ha16, _ha17, _ha18, _ha19, _ha20, _ha21,
     _ha22, ha23, _ha24, _ha25, _ha26, _ha27⟩
@@ -331,7 +336,7 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     h7_spp.2.2.2.2.2.1.trans h7_spp.2.2.2.2.2.2.1, h7_opa.2.2.1, h7_opa.2.2.2.2.2.2,
     h8.2.2.2.2.2.2.2.1, h8.2.2.2.2.2.2.2.2.1,
     ha1, ha13, ha23, hu8, hu9,
-    h10_fres, h10_pl3, h10_lgv3, h10_r16⟩
+    h10_fres, h10_pl3, h10_lgv3, h10_spl, h10_r16⟩
 
 end ArxivCapstoneNinePaperUnificationVerification
 ```

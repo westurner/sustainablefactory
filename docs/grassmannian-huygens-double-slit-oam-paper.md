@@ -333,8 +333,45 @@ example {sub : DDFSubstrate} (s : MovingSheath sub)
   exact ⟨pluckerSinkFlux_conservation_and_asymmetry M, h_jam.1, h_jam.2.1,
     h_mad.2.2.2.2.1.trans h_mad.2.2.2.2.2, h_unif.1, h_unif.2⟩
 
+-- 6. Paraxial Fresnel-to-Fraunhofer Remainder, Higher-Rank Gr(3,6) Plücker, and 3-Channel LGV Positivity
+def paperRank3Matrix : Matrix (Fin 3) (Fin 6) ℝ :=
+  !![1, 2, -1, 3, 0, 4;
+     0, 1, 2, -2, 1, -1;
+     2, -1, 1, 0, 3, 2]
+
+example (x y : ℝ) (A32 : Matrix (Fin 3) (Fin 2) ℝ) (B23 : Matrix (Fin 2) (Fin 3) ℝ) :
+    let φ_fraun := fraunhoferLinearPhase x y (3 / 10) (4 / 10) (1 / 2) 10
+    let φ_fres := fresnelParaxialPhase x y (3 / 10) (4 / 10) (1 / 2) 10
+    let N_F := fresnelNumber 1 (1 / 2) 10
+    intensity (unitPhasor φ_fres - unitPhasor φ_fraun) ≤ (Real.pi * N_F) ^ 2 ∧
+    threeRowMinor paperRank3Matrix 0 1 2 * threeRowMinor paperRank3Matrix 3 4 5 -
+      threeRowMinor paperRank3Matrix 0 1 3 * threeRowMinor paperRank3Matrix 2 4 5 +
+      threeRowMinor paperRank3Matrix 0 1 4 * threeRowMinor paperRank3Matrix 2 3 5 -
+      threeRowMinor paperRank3Matrix 0 1 5 * threeRowMinor paperRank3Matrix 2 3 4 = 0 ∧
+    0 < (Signals.Plabic.planarThreeChannelLowerStep 1 1 1 5 7 *
+      Signals.Plabic.planarThreeChannelUpperStep 2 3 4 6 8).det ∧
+    (A32 * B23).det = 0 := by
+  intro φ_fraun φ_fres N_F
+  have h_fres := (fresnel_to_fraunhofer_remainder_bound
+    x y (3 / 10) (4 / 10) 1 (1 / 2) 10 (by norm_num) (by norm_num) (by norm_num)).2.2.2.2.2
+  have h_pl3 := threeRowMinor_pluecker paperRank3Matrix 0 1 2 3 4 5
+  have h_lgv3 := Signals.Plabic.planar_threeChannel_lgv_and_bottleneck_identities
+    2 3 4 6 8 5 7 (by norm_num) (by norm_num) (by norm_num) A32 B23
+  exact ⟨h_fres, h_pl3, h_lgv3.2.2.2.1, h_lgv3.2.2.2.2⟩
+
 end ArxivDoubleSlitPaperVerification
 ```
+
+### 5.4 Paraxial Fresnel-to-Fraunhofer Remainder Bound, Higher-Rank $Gr(3,n)$ / $Gr_{\mathbb{C}}(3,n)$ Plücker Relations, and Three-Channel ($k=3$) LGV Positivity
+
+1. **Paraxial Fresnel-to-Fraunhofer Quadratic Phase Remainder (`fresnel_to_fraunhofer_remainder_bound`, `CellQuadrature.fresnelFraunhoferComparison`)**:
+   For an aperture of radius $\rho_{\max} \ge 0$ ($\xi^2 + \eta^2 \le \rho_{\max}^2$) at wavelength $\lambda > 0$ and screen distance $L > 0$, the quadratic Fresnel phase remainder $\Delta\phi_{\mathrm{Fresnel}}(\xi,\eta) = \frac{\pi(\xi^2+\eta^2)}{\lambda L}$ is bounded by $\pi N_{\mathrm{F}}(\rho_{\max},\lambda,L) = \frac{\pi\rho_{\max}^2}{\lambda L}$, and the unit-phasor chord error satisfies
+   $$|e^{i\phi_{\mathrm{Fresnel}}} - e^{i\phi_{\mathrm{Fraun}}}|^2 = 4\sin^2(\Delta\phi_{\mathrm{Fresnel}}/2) \le (\Delta\phi_{\mathrm{Fresnel}})^2 \le (\pi N_{\mathrm{F}})^2.$$
+   Combining this with `CellQuadrature.uniformComparison` via `AmplitudeComparison.compose` yields the unified discrete-to-Fraunhofer comparison `CellQuadrature.fresnelFraunhoferComparison` with error tolerance $\bigl(L_{\mathrm{Lip}}\,h + \pi N_{\mathrm{F}}(\rho_{\max},\lambda,L)\bigr)\mu(X)$.
+2. **Higher-Rank $Gr(3,n)$ and $Gr_{\mathbb{C}}(3,n)$ Four-Term Plücker Relations (`threeRowMinor_pluecker`, `complexThreeRowMinor_pluecker`, `selectedMinor_pluecker_rank3_five`)**:
+   For any $3 \times n$ matrix over $\mathbb{R}$ or $\mathbb{C}$ and any column indices $(i_1, i_2, j_0, j_1, j_2, j_3)$, the $3 \times 3$ Plücker minors satisfy the 4-term quadratic Plücker syzygy $\Delta_{i_1 i_2 j_0}\Delta_{j_1 j_2 j_3} - \Delta_{i_1 i_2 j_1}\Delta_{j_0 j_2 j_3} + \Delta_{i_1 i_2 j_2}\Delta_{j_0 j_1 j_3} - \Delta_{i_1 i_2 j_3}\Delta_{j_0 j_1 j_2} = 0$.
+3. **Multi-Layer & Three-Channel ($k=3$) Lindström–Gessel–Viennot Disjoint-Path Positivity (`lgv_multiLayer_det_positive`, `planar_threeChannel_lgv_and_bottleneck_identities`)**:
+   Any finite cascade of $k \times k$ planar transfer matrices with positive determinants preserves strict $k$-channel positivity ($\det(\prod_r M_r) > 0$), planar 3-channel bidiagonal steps have vertex-disjoint determinant $d_0 d_1 d_2 > 0$, and any 2-vertex bottleneck annihilates the 3-channel determinant ($\det(AB) = 0$).
 
 ---
 

@@ -240,9 +240,9 @@ interpretation while keeping experimental premises explicit:
      indented Yangian secret symmetry supertrace $\operatorname{STr}(\widehat{\mathbb{B}}) = 4B_0$,
      $q$-deformed Hubbard affine Cartan degeneracy (`ads_cft_integrability_and_secret_symmetry_identities`;
      `arXiv:1204.2366`), and the full $16 \times 16$ $\mathfrak{psl}(2|2)_c$
-     worldsheet $R$-matrix and secret coproduct intertwining theorem
-     ($\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})\,R_{16} = R_{16}\,\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})$,
-     `psl22_rmatrix16_secret_coproduct_intertwining`).
+     worldsheet $R$-matrix and Yangian-tail secret coproduct intertwining theorem
+     ($\Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})\,R_{16} = R_{16}\,\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})$,
+     `psl22_rmatrix16_secret_coproduct_intertwining`, `psl22SecretCoproductFull16`).
    These remain finite metrology and algebraic inverse-scattering contracts,
    not a continuous PDE inverse-scattering solver.
 - `Signals.NonDestructive` separates nondestructive inspection methods,
@@ -570,8 +570,10 @@ Its value equals the existing `selectedMinor`; swapping distinct rows negates
 it, and equal distinct rows force zero. `NonnegativeGrassmannian` permits zero
 boundary minors but requires a nonzero maximal minor to exclude rank-deficient
 and vacuous representatives. These are matrix representatives, not a quotient
-Grassmannian. The general quadratic Pluecker relations are not newly proved;
-the existing $2 \times 4$ identity remains available.
+Grassmannian. General $2 \times n$ (`twoRowMinor_pluecker`, `complexTwoRowMinor_pluecker`)
+and $3 \times n$ (`threeRowMinor_pluecker`, `complexThreeRowMinor_pluecker`,
+`selectedMinor_pluecker_rank3_five`) quadratic Pluecker relations are proved;
+arbitrary-rank ($k \ge 4$) Pluecker syzygies remain future work.
 
 The [two-residue interpretation](../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L104)
 stays in `Signals.Pending.GrassmannianDoubleSlitHypothesis`. Its geometry map,
@@ -883,9 +885,11 @@ model, or environmental error.
 7. [Implemented in Pending] Represent the finite $C \cdot Z$ image, a local
    reciprocal boundary chart, and measured-amplitude identification as
    explicit hypotheses without importing them into the verified library.
-8. Pending: formalize general Pluecker relations over arbitrary index sets,
-   positive Grassmannian cells, projective canonical forms, and residues only
-   after supplying precise finite-dimensional definitions and proofs.
+8. [Implemented for $k \in \{2, 3\}$ and affine charts; Pending for $k \ge 4$]
+   General $2 \times n$ and $3 \times n$ quadratic Pluecker relations, affine
+   canonical forms, and multi-layer LGV disjoint-path positivity are proved;
+   arbitrary-rank ($k \ge 4$) Pluecker syzygies and general projective
+   canonical forms remain future work.
 
 ### Phase 4: Atmospheric scavenging and panel models
 
@@ -2060,16 +2064,16 @@ longitudinal-Proca interpretation as outside the present DDF model.
   - Continuous Madelung circulation quantization (`quantized_vortex_circulation_eq`), discrete 2D plaquette coboundaries (`plaquette_phase_slip_syndrome`), and Bogoliubov Landau critical velocity (`subcritical_no_dissipation`, `supercritical_excitation_onset`)
   - Plücker sink-flux conservation, reciprocal DDF jamming-visibility duality ($\mathcal{V} = \gamma_\varphi(v)^{-1}$), Anosov symplectic invariance (`anosov_plucker_invariance`), and complex $Gr_{\mathbb{C}}(2,4)$ / $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ ($N \ge 3$) moving-sheath twistor unification with vanishing Sorkin parameter $\kappa_3 = 0$
   - BCJ color-kinematics double copy on $Gr_{\mathbb{C}}(2,4)$, precessing polar conics (`PlanetaryOrbit`), and Mercury's $42.98''/\text{century}$ and $574.61''/\text{century}$ perihelion precession (`mercury_perihelion_precession_arcsec_per_century_bounds`)
-  - Normed 2D anisotropic Tensor Gaussian Splatting (`NormedTensorGaussianSplat2D`), dual-layer $Gr_{\mathbb{C}}(2,4)$ twistor wavepackets (`complexTwistor_representation_identities`), core Bohm quantum potential $Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\operatorname{Tr}\Sigma}{4m\det\Sigma}$, and Madelung quantum pressure tensor $\Pi_{ij} = \frac{\hbar^2}{4m^2} G (\Sigma^{-1})_{ij}$
+  - Normed 2D anisotropic Tensor Gaussian Splatting (`NormedTensorGaussianSplat2D`), dual-layer $Gr_{\mathbb{C}}(2,4)$ twistor wavepackets (`complexTwistor_representation_identities`), core Bohm quantum potential $Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\operatorname{Tr}\Sigma}{4m\det\Sigma}$, Madelung quantum pressure tensor $\Pi_{ij} = \frac{\hbar^2}{4m^2} G (\Sigma^{-1})_{ij}$, and adaptive two-child splat splitting conservation (`splitMajor_conservation_identities`)
   - Parabolic Fourier acausal phase speed vs. hyperbolic Cattaneo-Vernotte second sound, and unified Grassmannian-DDF subluminal thermal transport, $Gr_{\mathbb{C}}(2,4)$ Plücker flux limiter, Chapman-Kolmogorov semigroups, and Bohm relaxation both without and with splats
   - Surface Plasmon Polariton (SPP) dispersion ($n_{\mathrm{SPP}}^2 > \varepsilon_d$), $Gr_{\mathbb{C}}(2,4)$ Plücker skin-depth ratio ($|\varepsilon_m|/\varepsilon_d = \delta_d/\delta_m$), sub-wavelength `sppHotspotTensorSplat` Bohm amplification, and symplectic $\chi^{(2)}$ SHG-OPA squeezed splats (`opaSqueezed_splat_and_continuum_identities`)
   - 't Hooft-Susskind-Bekenstein-Hawking horizon entropy ($S_{\mathrm{BH}} = k_B A_H/(4\ell_P^2)$), Gauss-Smarr 2D-to-3D bulk mass recovery, splat-free $Gr_{\mathbb{C}}(2,4)$ Painlevé-Gullstrand redshift lapse ($1 - r_H/r$), Planck-splat UV Bohm cutoff (`holographicPlanckSplat`), and Anti-Amplituhedron destructive cancellation (`antiAmplituhedronGr24Matrix`)
   - Unified $Gr_{\mathbb{C}}(2,4)$ Plücker realization of the $\mathfrak{psl}(2|2)_c$ secret-symmetry outer automorphism (`psl22SecretAutomorphismGr24Matrix`, $(ad+bc)^2 - 4(ab)(cd) = (ad-bc)^2 = 1$), $\text{AdS}_5$ planar black-brane emblackening ($1 - (z/z_H)^4$), and holographic RG scale-radius splat flow (`adsHolographicRGSplat`)
 - **Native Rust / WebAssembly (`wasm32-unknown-unknown`) / WebGL2 GLSL Modules (`src/signals/numerical_adapter/src/`)**:
-  - `double_slit.rs` + `shaders/double_slit.{vert,frag}.glsl`: Seven multi-slit ($N > 0$) and OAM interferometry models (`Fraunhofer`, `HuygensSteiner`, `Gr24RealPlucker`, `Gr24ComplexTwistor`, `PilotWave`, `Wigner`, `Gr24Unphased`).
-  - `orbital_splat.rs` + `shaders/orbital_splat.{vert,frag}.glsl`: Symplectic Velocity-Verlet relativistic orbits, $Gr_{\mathbb{C}}(2,4)$ and $Gr_{\mathbb{C}}(2,N+2)$ Plücker invariants, and `NormedTensorGaussianSplat2D` Bohm/pressure-tensor evaluation.
+  - `double_slit.rs` + `shaders/double_slit.{vert,frag}.glsl`: Seven multi-slit ($N > 0$) and OAM interferometry models (`Fraunhofer`, `HuygensSteiner`, `Gr24RealPlucker`, `Gr24ComplexTwistor`, `PilotWave`, `Wigner`, `Gr24Unphased`), plus paraxial Fresnel-to-Fraunhofer remainder and higher-rank $Gr(3,n)$ 4-term Plücker evaluators.
+  - `orbital_splat.rs` + `shaders/orbital_splat.{vert,frag}.glsl`: Symplectic Velocity-Verlet relativistic orbits, $Gr_{\mathbb{C}}(2,4)$ and $Gr_{\mathbb{C}}(2,N+2)$ Plücker invariants, `NormedTensorGaussianSplat2D` Bohm/pressure-tensor evaluation, and adaptive two-child splat splitting (`split_if_anisotropic`, `OrbitalSplatScene::adaptive_remesh`).
   - `thermal_inelastic.rs`: Relativistic Inverse Compton, Stokes/anti-Stokes Raman thermometry, and 1D/2D Cattaneo-Vernotte / Grassmannian-DDF second-sound thermal solvers (with and without splats).
-  - `polariton_spp.rs`: Polariton Hopfield/LST dispersion, SPP continuum and hotspot splats, CSR-SPP bunching, 't Hooft-Susskind holography, $\chi^{(2)}$ SHG-OPA squeezing, and AdS/CFT integrability & secret symmetries (48 unit/parametric/`insta` tests passing).
+  - `polariton_spp.rs`: Polariton Hopfield/LST dispersion, SPP continuum and hotspot splats, CSR-SPP bunching, 't Hooft-Susskind holography, $\chi^{(2)}$ SHG-OPA squeezing & coupled electro-thermal-optical gain, and AdS/CFT integrability & $16 \times 16$ $\mathfrak{psl}(2|2)_c$ secret symmetries (48 unit/parametric/`insta` tests passing).
 - **Companion Papers (`docs/`)**:
   1. [`docs/grassmannian-huygens-double-slit-oam-paper.md`](../../docs/grassmannian-huygens-double-slit-oam-paper.md)
   2. [`docs/grassmannian-qism-bethe-ansatz-paper.md`](../../docs/grassmannian-qism-bethe-ansatz-paper.md)
