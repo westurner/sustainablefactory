@@ -5138,4 +5138,65 @@ example (p p1 p2 B0 θ : ℝ) :
     ha22, ha23, ha24, ha25, ha26, ha27,
     h_w01, h_w03, hu8, hu9, hu12, hu13, hu15⟩
 
+/-- Paraxial Fresnel-to-Fraunhofer quadratic phase remainder bound, higher-rank
+Gr(3, 6) four-term quadratic Plücker relation, three-channel (k = 3) LGV
+vertex-disjoint path positivity vs. 2-vertex bottleneck cancellation, and
+full 16×16 psl(2|2)_c worldsheet R-matrix secret coproduct intertwining. -/
+def toyRank3GrassmannianMatrix : Matrix (Fin 3) (Fin 6) ℝ :=
+  !![1, 2, -1, 3, 0, 4;
+     0, 1, 2, -2, 1, -1;
+     2, -1, 1, 0, 3, 2]
+
+example (x y B1 B2 B0 A_B B_B D_F E_F G_BF L_BF : ℝ)
+    (A32 : Matrix (Fin 3) (Fin 2) ℝ) (B23 : Matrix (Fin 2) (Fin 3) ℝ) :
+    let φ_fraun := Signals.Huygens.fraunhoferLinearPhase x y (3 / 10) (4 / 10) (1 / 2) 10
+    let Δφ := Signals.Huygens.fresnelPhaseRemainder (3 / 10) (4 / 10) (1 / 2) 10
+    let φ_fres := Signals.Huygens.fresnelParaxialPhase x y (3 / 10) (4 / 10) (1 / 2) 10
+    let N_F := Signals.Huygens.fresnelNumber 1 (1 / 2) 10
+    φ_fres - φ_fraun = Δφ ∧
+    0 ≤ Δφ ∧
+    Δφ ≤ Real.pi * N_F ∧
+    Signals.Huygens.intensity (Signals.Huygens.unitPhasor φ_fres - Signals.Huygens.unitPhasor φ_fraun) ≤
+      (Real.pi * N_F) ^ 2 ∧
+    Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 0 1 2 *
+        Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 3 4 5 -
+      Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 0 1 3 *
+        Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 2 4 5 +
+      Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 0 1 4 *
+        Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 2 3 5 -
+      Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 0 1 5 *
+        Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 2 3 4 = 0 ∧
+    (Signals.Plabic.planarThreeChannelLowerStep 1 1 1 5 7 *
+      Signals.Plabic.planarThreeChannelUpperStep 2 3 4 6 8).det = 2 * 3 * 4 ∧
+    0 < (Signals.Plabic.planarThreeChannelLowerStep 1 1 1 5 7 *
+      Signals.Plabic.planarThreeChannelUpperStep 2 3 4 6 8).det ∧
+    (A32 * B23).det = 0 ∧
+    Signals.Scattering.psl22GradedSwap16 * Signals.Scattering.psl22GradedSwap16 =
+      (1 : Matrix (Fin 16) (Fin 16) ℝ) ∧
+    Signals.Scattering.psl22SecretCoproductOp16 B1 B2 *
+        Signals.Scattering.psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF 0 =
+      Signals.Scattering.psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF 0 *
+        Signals.Scattering.psl22SecretCoproductDiag16 B1 B2 ∧
+    Signals.Scattering.psl22SecretCoproductOp16 B0 B0 *
+        Signals.Scattering.psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF =
+      Signals.Scattering.psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF *
+        Signals.Scattering.psl22SecretCoproductDiag16 B0 B0 ∧
+    (Signals.Scattering.psl22SecretCoproductOp16 B1 B2 *
+        Signals.Scattering.psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF -
+      Signals.Scattering.psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF *
+        Signals.Scattering.psl22SecretCoproductDiag16 B1 B2) 2 2 =
+      2 * (B2 - B1) * L_BF := by
+  intro φ_fraun Δφ φ_fres N_F
+  have h_fres := Signals.Huygens.fresnel_to_fraunhofer_remainder_bound
+    x y (3 / 10) (4 / 10) 1 (1 / 2) 10 (by norm_num) (by norm_num) (by norm_num)
+  have h_pl3 := Signals.Geometry.threeRowMinor_pluecker
+    toyRank3GrassmannianMatrix 0 1 2 3 4 5
+  have h_lgv3 := Signals.Plabic.planar_threeChannel_lgv_and_bottleneck_identities
+    2 3 4 6 8 5 7 (by norm_num) (by norm_num) (by norm_num) A32 B23
+  have h_r16 := Signals.Scattering.psl22_rmatrix16_secret_coproduct_intertwining
+    B1 B2 B0 A_B B_B D_F E_F G_BF L_BF
+  exact ⟨h_fres.1, h_fres.2.1, h_fres.2.2.1, h_fres.2.2.2.2.2,
+    h_pl3, h_lgv3.2.2.1, h_lgv3.2.2.2.1, h_lgv3.2.2.2.2,
+    h_r16.1, h_r16.2.2.1, h_r16.2.2.2.1, h_r16.2.2.2.2⟩
+
 end SignalsTests

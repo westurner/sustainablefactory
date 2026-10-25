@@ -2,6 +2,7 @@ import Architect
 import Mathlib.Analysis.Complex.Exponential
 import Mathlib.Analysis.Complex.Trigonometric
 import Mathlib.Analysis.SpecialFunctions.Sqrt
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Bounds
 import Mathlib.MeasureTheory.Integral.Bochner.Set
 import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 import Mathlib.Tactic
@@ -2220,5 +2221,169 @@ theorem complexGr25CollectorTripleSlit_eq_fraunhoferMultiSlit
   refine ⟨h_eq, ?_⟩
   rw [h_eq]
   simp [relativePredictiveError]
+
+/-! ## 8. Paraxial Fresnel-to-Fraunhofer Quadratic Phase Remainder Bound
+
+Connects the 2D planar Fresnel aperture phase at finite screen distance $L > 0$
+to the far-field Fraunhofer linear phase via the Fresnel number
+$N_{\mathrm{F}}(\rho_{\max}, \lambda, L) = \frac{\rho_{\max}^2}{\lambda L}$ and the
+quadratic aperture phase remainder $\Delta\phi_{\mathrm{Fresnel}}(\xi, \eta) = \frac{\pi(\xi^2 + \eta^2)}{\lambda L}$.
+-/
+
+/-- Linear Fraunhofer aperture phase $\phi_{\mathrm{Fraun}}(x, y, \xi, \eta; \lambda, L) = -\frac{2\pi(x\xi + y\eta)}{\lambda L}$
+for detector position $(x, y)$ at distance $L$ and planar aperture coordinate $(\xi, \eta)$. -/
+@[blueprint "def:signals-fraunhofer-linear-phase"
+  (title := "Fraunhofer linear aperture phase -2π(xξ + yη)/(λ L)")
+  (statement := /-- Define $\operatorname{fraunhoferLinearPhase}(x,y,\xi,\eta,\lambda,L)
+    = -\frac{2\pi(x\xi + y\eta)}{\lambda L}$. -/)]
+noncomputable def fraunhoferLinearPhase (x y xi eta wavelength screenDistance : ℝ) : ℝ :=
+  -(2 * Real.pi * (x * xi + y * eta)) / (wavelength * screenDistance)
+
+/-- Quadratic Fresnel aperture phase remainder
+$\Delta\phi_{\mathrm{Fresnel}}(\xi, \eta; \lambda, L) = \frac{\pi(\xi^2 + \eta^2)}{\lambda L}$. -/
+@[blueprint "def:signals-fresnel-phase-remainder"
+  (title := "Fresnel quadratic aperture phase remainder π(ξ² + η²)/(λ L)")
+  (statement := /-- Define $\operatorname{fresnelPhaseRemainder}(\xi,\eta,\lambda,L)
+    = \frac{\pi(\xi^2 + \eta^2)}{\lambda L}$. -/)]
+noncomputable def fresnelPhaseRemainder (xi eta wavelength screenDistance : ℝ) : ℝ :=
+  (Real.pi * (xi ^ 2 + eta ^ 2)) / (wavelength * screenDistance)
+
+/-- Total paraxial Fresnel aperture phase
+$\phi_{\mathrm{Fresnel}}(x, y, \xi, \eta; \lambda, L) = \phi_{\mathrm{Fraun}}(x, y, \xi, \eta; \lambda, L) + \Delta\phi_{\mathrm{Fresnel}}(\xi, \eta; \lambda, L)$. -/
+@[blueprint "def:signals-fresnel-paraxial-phase"
+  (title := "Paraxial Fresnel aperture phase φ_Fraun + Δφ_Fresnel")
+  (statement := /-- Define $\operatorname{fresnelParaxialPhase}(x,y,\xi,\eta,\lambda,L)
+    = \operatorname{fraunhoferLinearPhase}(x,y,\xi,\eta,\lambda,L)
+    + \operatorname{fresnelPhaseRemainder}(\xi,\eta,\lambda,L)$. -/)]
+noncomputable def fresnelParaxialPhase (x y xi eta wavelength screenDistance : ℝ) : ℝ :=
+  fraunhoferLinearPhase x y xi eta wavelength screenDistance +
+    fresnelPhaseRemainder xi eta wavelength screenDistance
+
+/-- Dimensionless Fresnel number $N_{\mathrm{F}}(\rho_{\max}, \lambda, L) = \frac{\rho_{\max}^2}{\lambda L}$
+for maximum aperture radius $\rho_{\max}$, wavelength $\lambda$, and screen distance $L$. -/
+@[blueprint "def:signals-fresnel-number"
+  (title := "Dimensionless Fresnel number N_F = ρ_max² / (λ L)")
+  (statement := /-- Define $\operatorname{fresnelNumber}(\rho_{\max},\lambda,L)
+    = \frac{\rho_{\max}^2}{\lambda L}$. -/)]
+noncomputable def fresnelNumber (apertureRadius wavelength screenDistance : ℝ) : ℝ :=
+  apertureRadius ^ 2 / (wavelength * screenDistance)
+
+/-- Complex unit phasor $u(\theta) = \cos\theta + i\sin\theta \in \mathbb{C}$ on the unit circle. -/
+@[blueprint "def:signals-unit-phasor"
+  (title := "Unit complex phasor cos θ + i sin θ")
+  (statement := /-- Define $\operatorname{unitPhasor}(\theta) = \cos\theta + i\sin\theta$. -/)]
+noncomputable def unitPhasor (theta : ℝ) : ℂ :=
+  ↑(Real.cos theta) + Complex.I * ↑(Real.sin theta)
+
+/-- **Fresnel-to-Fraunhofer Quadratic Phase Remainder & Far-Field Chord Bound Theorem**:
+For any wavelength $\lambda > 0$, screen distance $L > 0$, maximum aperture radius
+$\rho_{\max} \ge 0$, and aperture point $(\xi, \eta)$ satisfying $\xi^2 + \eta^2 \le \rho_{\max}^2$:
+1. **Decomposition**:
+   $\operatorname{fresnelParaxialPhase}(x, y, \xi, \eta, \lambda, L) - \operatorname{fraunhoferLinearPhase}(x, y, \xi, \eta, \lambda, L) = \operatorname{fresnelPhaseRemainder}(\xi, \eta, \lambda, L)$,
+2. **Fresnel Number Bound on Quadratic Phase**:
+   $$0 \le \operatorname{fresnelPhaseRemainder}(\xi, \eta, \lambda, L) \le \pi\,\operatorname{fresnelNumber}(\rho_{\max}, \lambda, L) = \frac{\pi \rho_{\max}^2}{\lambda L},$$
+3. **Exact Unit-Phasor Chord Identity**:
+   $$\operatorname{intensity}\bigl(\operatorname{unitPhasor}(\phi + \delta) - \operatorname{unitPhasor}(\phi)\bigr) = 2(1 - \cos\delta) = 4\sin^2(\delta / 2),$$
+4. **Squared Chord Error Bound Between Fresnel and Fraunhofer Phasors**:
+   $$\operatorname{intensity}\bigl(\operatorname{unitPhasor}(\phi_{\mathrm{Fresnel}}) - \operatorname{unitPhasor}(\phi_{\mathrm{Fraun}})\bigr) \le \bigl(\operatorname{fresnelPhaseRemainder}(\xi, \eta, \lambda, L)\bigr)^2 \le \left(\pi\,\operatorname{fresnelNumber}(\rho_{\max}, \lambda, L)\right)^2.$$ -/
+@[blueprint "thm:signals-fresnel-to-fraunhofer-remainder-bound"
+  (title := "Paraxial Fresnel-to-Fraunhofer quadratic phase remainder and unit-phasor chord bound")
+  (statement := /-- For $\lambda > 0$, $L > 0$, $\rho_{\max} \ge 0$, and $\xi^2 + \eta^2 \le \rho_{\max}^2$:
+    (1) $\phi_{\mathrm{Fresnel}} - \phi_{\mathrm{Fraun}} = \Delta\phi_{\mathrm{Fresnel}}$,
+    (2) $0 \le \Delta\phi_{\mathrm{Fresnel}}(\xi,\eta,\lambda,L) \le \pi N_{\mathrm{F}}(\rho_{\max},\lambda,L)$,
+    (3) $|\operatorname{unitPhasor}(\phi+\delta) - \operatorname{unitPhasor}(\phi)|^2 = 4\sin^2(\delta/2) \le \delta^2$, and
+    (4) $|\operatorname{unitPhasor}(\phi_{\mathrm{Fresnel}}) - \operatorname{unitPhasor}(\phi_{\mathrm{Fraun}})|^2
+    \le (\Delta\phi_{\mathrm{Fresnel}})^2 \le (\pi N_{\mathrm{F}}(\rho_{\max},\lambda,L))^2$. -/)
+  (proof := /-- Expand trigonometric addition formulas to obtain $2(1-\cos\delta)=4\sin^2(\delta/2)$,
+    apply \texttt{Real.abs\_sin\_le\_abs}, and bound $\xi^2+\eta^2\le\rho_{\max}^2$. -/)]
+theorem fresnel_to_fraunhofer_remainder_bound
+    (x y xi eta apertureRadius wavelength screenDistance : ℝ)
+    (h_wave : 0 < wavelength) (h_dist : 0 < screenDistance)
+    (h_ap : xi ^ 2 + eta ^ 2 ≤ apertureRadius ^ 2) :
+    let φ_fraun := fraunhoferLinearPhase x y xi eta wavelength screenDistance
+    let Δφ := fresnelPhaseRemainder xi eta wavelength screenDistance
+    let φ_fres := fresnelParaxialPhase x y xi eta wavelength screenDistance
+    let N_F := fresnelNumber apertureRadius wavelength screenDistance
+    φ_fres - φ_fraun = Δφ ∧
+      0 ≤ Δφ ∧
+      Δφ ≤ Real.pi * N_F ∧
+      intensity (unitPhasor φ_fres - unitPhasor φ_fraun) =
+        4 * (Real.sin (Δφ / 2)) ^ 2 ∧
+      intensity (unitPhasor φ_fres - unitPhasor φ_fraun) ≤ Δφ ^ 2 ∧
+      intensity (unitPhasor φ_fres - unitPhasor φ_fraun) ≤ (Real.pi * N_F) ^ 2 := by
+  intro φ_fraun Δφ φ_fres N_F
+  have h_diff : φ_fres - φ_fraun = Δφ := by
+    dsimp [φ_fres, φ_fraun, Δφ, fresnelParaxialPhase]
+    ring
+  have h_denom_pos : 0 < wavelength * screenDistance := mul_pos h_wave h_dist
+  have h_sq_nonneg : 0 ≤ xi ^ 2 + eta ^ 2 := add_nonneg (sq_nonneg xi) (sq_nonneg eta)
+  have h_pi_pos : 0 < Real.pi := Real.pi_pos
+  have h_rem_nonneg : 0 ≤ Δφ := by
+    dsimp [Δφ, fresnelPhaseRemainder]
+    exact div_nonneg (mul_nonneg (le_of_lt h_pi_pos) h_sq_nonneg) (le_of_lt h_denom_pos)
+  have h_rem_le : Δφ ≤ Real.pi * N_F := by
+    dsimp [Δφ, N_F, fresnelPhaseRemainder, fresnelNumber]
+    rw [← mul_div_assoc]
+    exact div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_left h_ap (le_of_lt h_pi_pos)) (le_of_lt h_denom_pos)
+  have h_chord :
+      intensity (unitPhasor φ_fres - unitPhasor φ_fraun) =
+        4 * (Real.sin (Δφ / 2)) ^ 2 := by
+    have h_fres_eq : φ_fres = φ_fraun + Δφ := by linarith [h_diff]
+    have h_norm :
+        intensity (unitPhasor φ_fres - unitPhasor φ_fraun) =
+          (Real.cos (φ_fraun + Δφ) - Real.cos φ_fraun) ^ 2 +
+            (Real.sin (φ_fraun + Δφ) - Real.sin φ_fraun) ^ 2 := by
+      rw [h_fres_eq]
+      unfold intensity unitPhasor
+      simp only [Complex.normSq_apply, Complex.sub_re, Complex.sub_im, Complex.add_re,
+        Complex.add_im, Complex.mul_re, Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im,
+        Complex.I_re, Complex.I_im]
+      ring
+    have hc_add : Real.cos (φ_fraun + Δφ) =
+        Real.cos φ_fraun * Real.cos Δφ - Real.sin φ_fraun * Real.sin Δφ :=
+      Real.cos_add φ_fraun Δφ
+    have hs_add : Real.sin (φ_fraun + Δφ) =
+        Real.sin φ_fraun * Real.cos Δφ + Real.cos φ_fraun * Real.sin Δφ :=
+      Real.sin_add φ_fraun Δφ
+    have h_pyth1 : (Real.cos φ_fraun) ^ 2 + (Real.sin φ_fraun) ^ 2 = 1 :=
+      Real.cos_sq_add_sin_sq φ_fraun
+    have h_pyth2 : (Real.cos Δφ) ^ 2 + (Real.sin Δφ) ^ 2 = 1 :=
+      Real.cos_sq_add_sin_sq Δφ
+    have h_half : Real.cos Δφ = 1 - 2 * (Real.sin (Δφ / 2)) ^ 2 := by
+      have h2 : Δφ = 2 * (Δφ / 2) := by ring
+      conv_lhs => rw [h2, Real.cos_two_mul']
+      have h_p : (Real.cos (Δφ / 2)) ^ 2 + (Real.sin (Δφ / 2)) ^ 2 = 1 :=
+        Real.cos_sq_add_sin_sq (Δφ / 2)
+      linarith
+    calc
+      intensity (unitPhasor φ_fres - unitPhasor φ_fraun) =
+          (Real.cos (φ_fraun + Δφ) - Real.cos φ_fraun) ^ 2 +
+            (Real.sin (φ_fraun + Δφ) - Real.sin φ_fraun) ^ 2 := h_norm
+      _ = ((Real.cos φ_fraun) ^ 2 + (Real.sin φ_fraun) ^ 2) *
+            ((Real.cos Δφ) ^ 2 + (Real.sin Δφ) ^ 2 + 1 - 2 * Real.cos Δφ) := by
+        rw [hc_add, hs_add]
+        ring
+      _ = 1 * (1 + 1 - 2 * (1 - 2 * (Real.sin (Δφ / 2)) ^ 2)) := by
+        rw [h_pyth1, h_pyth2, h_half]
+      _ = 4 * (Real.sin (Δφ / 2)) ^ 2 := by ring
+  have h_sin_le : (Real.sin (Δφ / 2)) ^ 2 ≤ (Δφ / 2) ^ 2 := by
+    have h_abs : |Real.sin (Δφ / 2)| ≤ |Δφ / 2| := Real.abs_sin_le_abs
+    have h_sq := mul_self_le_mul_self (abs_nonneg _) h_abs
+    simpa [sq_abs, sq] using h_sq
+  have h_le_rem_sq :
+      intensity (unitPhasor φ_fres - unitPhasor φ_fraun) ≤ Δφ ^ 2 := by
+    rw [h_chord]
+    calc
+      4 * (Real.sin (Δφ / 2)) ^ 2 ≤ 4 * (Δφ / 2) ^ 2 :=
+        mul_le_mul_of_nonneg_left h_sin_le (by norm_num)
+      _ = Δφ ^ 2 := by ring
+  have h_le_nf_sq :
+      intensity (unitPhasor φ_fres - unitPhasor φ_fraun) ≤ (Real.pi * N_F) ^ 2 := by
+    have h_sq_mono : Δφ ^ 2 ≤ (Real.pi * N_F) ^ 2 := by
+      have h_mul := mul_self_le_mul_self h_rem_nonneg h_rem_le
+      simpa [sq] using h_mul
+    exact le_trans h_le_rem_sq h_sq_mono
+  exact ⟨h_diff, h_rem_nonneg, h_rem_le, h_chord, h_le_rem_sq, h_le_nf_sq⟩
 
 end Signals.Huygens

@@ -238,8 +238,11 @@ interpretation while keeping experimental premises explicit:
      anomalous dimension), and centrally extended $\mathfrak{psl}(2|2)_c$
      braided central charges ($\mathbb{C}\mathbb{C}^\dagger + \mathbb{C} + \mathbb{C}^\dagger = 0$),
      indented Yangian secret symmetry supertrace $\operatorname{STr}(\widehat{\mathbb{B}}) = 4B_0$,
-     and $q$-deformed Hubbard affine Cartan degeneracy (`ads_cft_integrability_and_secret_symmetry_identities`;
-     `arXiv:1204.2366`).
+     $q$-deformed Hubbard affine Cartan degeneracy (`ads_cft_integrability_and_secret_symmetry_identities`;
+     `arXiv:1204.2366`), and the full $16 \times 16$ $\mathfrak{psl}(2|2)_c$
+     worldsheet $R$-matrix and secret coproduct intertwining theorem
+     ($\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})\,R_{16} = R_{16}\,\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})$,
+     `psl22_rmatrix16_secret_coproduct_intertwining`).
    These remain finite metrology and algebraic inverse-scattering contracts,
    not a continuous PDE inverse-scattering solver.
 - `Signals.NonDestructive` separates nondestructive inspection methods,
@@ -391,7 +394,12 @@ interpretation while keeping experimental premises explicit:
    real matrix, while `complexTwoRowMinor_pluecker` and
    `complexGr24_crossing_eq_channel_sum` extend it to complex $2 \times n$
    Grassmannian matrices $M_{\mathbb{C}} \in \mathbb{C}^{2 \times n}$ carrying
-   $\mathbb{C}^4$ twistor phase factors. Controls verify a five-column
+   $\mathbb{C}^4$ twistor phase factors. Furthermore, `threeRowMinor_pluecker`,
+   `complexThreeRowMinor_pluecker`, `threeRowMinor_basisChange`, and
+   `selectedMinor_pluecker_rank3_five` extend the Pluecker syzygies to higher
+   rank $k = 3$ ($Gr(3,n)$ and $Gr_{\mathbb{C}}(3,n)$), proving the four-term
+   quadratic Pluecker identity for arbitrary six-tuples of columns and its
+   ordered five-column `selectedMinor` specialization. Controls verify a five-column
    selection and show that positive quadratic minor products alone remain
    invariant under simultaneous sign flips of all minors and do not imply
    nonnegative ordered minors without a sign anchor.
@@ -456,19 +464,18 @@ interpretation while keeping experimental premises explicit:
    the coherent/balanced/equilibrium limit, the
    $(1 - \mathcal{V})/2 = d_{\mathrm{bary}}^2 / (2(1 + \mathcal{V})) = P_N^2 / (2(1 + K_N))$
    on-axis relative error law from `Signals.Coherence`, the $50\%$ on-axis
-   error of the real unphased $Gr_{\ge 0}(2,4)$ proxy and its exact elimination
-   ($0\%$ error everywhere) when lifted to $Gr_{\mathbb{C}}(2,4)$ with
-   conjugate $\mathbb{C}^4$ twistor phase entries
-   (`complexGr24CrossingDoubleSlit_zero_error`), the OAM vortex dark-core null
-   and $(\Delta\ell)^2$ Wigner rotational decoherence scaling, and dark-fringe
-   peak-normalized error where $I_{\mathrm{F}} = 0$. No
-   boundary-solution accuracy theorem or mesh convergence rate is asserted.
+   error of the real unphased $Gr_{\ge 0}(2,4)$ proxyIn addition,
+   `fresnel_to_fraunhofer_remainder_bound` formalizes the paraxial Fresnel
+   quadratic phase remainder $\Delta\phi_{\mathrm{Fresnel}}(\xi,\eta) = \frac{\pi(\xi^2+\eta^2)}{\lambda L}$,
+   the dimensionless Fresnel number $N_{\mathrm{F}} = \frac{\rho_{\max}^2}{\lambda L}$,
+   and the exact unit-phasor chord bound
+   $|e^{i\phi_{\mathrm{Fresnel}}} - e^{i\phi_{\mathrm{Fraun}}}|^2 = 4\sin^2(\Delta\phi_{\mathrm{Fresnel}}/2) \le (\pi N_{\mathrm{F}})^2$.
 - `Signals.Quadrature` derives a finite measured-cell quadrature error bound
    from Lipschitz regularity and mesh distances, preserves total cell weight,
-   proves refinement-error convergence, and connects the weighted sum to the
-   finite aperture API. Uniform detector/wavelength comparisons require one
-   prescribed regularity constant; optical-kernel estimates and a rectangular
-   far-field limit remain separate obligations.
+   proves refinement-error convergence, connects the weighted sum to the
+   finite aperture API, and combines the cell-quadrature budget with the
+   Fresnel-to-Fraunhofer far-field remainder bound via
+   `CellQuadrature.fresnelFraunhoferComparison`.
 - `Signals.Plabic` provides colored finite rotation systems, single-orbit
    cyclic-order requirements, bounded strand routing, and a first-exit search
    with derived minimality, bounded completeness, fuel-failure and
@@ -491,6 +498,17 @@ interpretation while keeping experimental premises explicit:
    network with two parallel intermediate vertices derives its summed path-product
    transfer $a_1 b_1 + a_2 b_2$ and proves one-source/one-sink boundary
    reduction to a single edge, while rejecting naive four-edge addition. A fork derives
+   its two boundary entries from independent edge weights; a two-channel
+   network derives its complete two-by-two matrix, and a shared hub derives
+   two-edge product entries. Furthermore, `lgv_multiLayer_det_prod`,
+   `lgv_multiLayer_det_nonnegative`, `lgv_multiLayer_det_positive`, and
+   `planar_threeChannel_lgv_and_bottleneck_identities` prove multi-layer
+   Lindström-Gessel-Viennot determinant multiplicativity and strict positivity
+   across arbitrary-length cascades of $k \times k$ transfer steps, together
+   with three-channel ($k=3$) planar bidiagonal disjoint-path positivity
+   ($\det = d_0 d_1 d_2 > 0$) versus 2-vertex bottleneck cancellation
+   ($\det(AB) = 0$). General non-layered planar disk embedding correspondence
+   and square moves reduction to a single edge, while rejecting naive four-edge addition. A fork derives
    its two boundary entries from independent edge weights; a two-channel
    network derives its complete two-by-two matrix, and a shared hub derives
    two-edge product entries. General ordered-minor

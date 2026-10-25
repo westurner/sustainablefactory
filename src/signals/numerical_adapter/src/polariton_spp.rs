@@ -608,6 +608,22 @@ impl SecondHarmonicResonantOpaModel {
             role: SplatRole::Gr24OrbitalField,
         }
     }
+
+    /// Coupled electro-thermal-optical phase mismatch
+    /// $\Delta k(T, V) = \Delta k_0 + \kappa_{\mathrm{th}} \Delta T + \kappa_{\mathrm{eo}} V$
+    /// and net squared parametric gain $g_{\mathrm{net}}^2(T, V) = g_{\mathrm{OPA}}^2 - \frac{1}{4}\Delta k(T, V)^2$.
+    pub fn coupled_electro_thermal_net_gain_sq(
+        &self,
+        delta_k0: f64,
+        thermo_optic_coeff: f64,
+        delta_temp_k: f64,
+        electro_optic_coeff: f64,
+        gate_voltage_v: f64,
+    ) -> (f64, f64) {
+        let delta_k_eff =
+            delta_k0 + thermo_optic_coeff * delta_temp_k + electro_optic_coeff * gate_voltage_v;
+        (delta_k_eff, self.net_gain_sq(delta_k_eff))
+    }
 }
 
 /// WebAssembly C-ABI export: core Bohm quantum potential of a second-harmonic OPA-squeezed splat.
@@ -1135,6 +1151,11 @@ mod tests {
         let qp1 = splat_opa.quantum_pressure_principal1(1.0, 1.0, 0.1, -0.1);
         let qp2 = splat_opa.quantum_pressure_principal2(1.0, 1.0, 0.1, -0.1);
         assert!((qp2 - (4.0 * r_sq).exp() * qp1).abs() < 1e-10);
+
+        let (dk_comp, gain_comp) =
+            opa.coupled_electro_thermal_net_gain_sq(0.0, 0.5, 4.0, -1.0, 2.0);
+        assert!(dk_comp.abs() < 1e-12);
+        assert!((gain_comp - g_opa * g_opa).abs() < 1e-12);
     }
 
     #[rstest]

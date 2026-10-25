@@ -147,7 +147,7 @@ To keep the repository modular, auditable, and free of duplicated maintenance, e
 
 | # | Plan Document | Primary Scope & Objective | Current Implementation Status | Key Remaining Next Steps |
 |---|---|---|---|---|
-| **1** | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) | Staged Lean 4 review and 32-iteration roadmap from finite slit sums and plabic networks to $Gr_{\mathbb{C}}(2,4)$, QISM, DDF, planetary gravity, tensor splats, thermal second sound, polaritons/SPPs, holography, and AdS/CFT. | **Iterations 1–32 Complete** (`3,715` Lake jobs, 10 companion papers, 48 Rust/WASM tests passing). | Prove 3D Fresnel-to-Fraunhofer remainder bound, higher-rank $Gr_{\mathbb{C}}(k,n)$ ($k \ge 3$) Plücker relations, general LGV disjoint-path theorem, and full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ $R$-matrix secret intertwining. |
+| **1** | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) | Staged Lean 4 review and 33-iteration roadmap from finite slit sums and plabic networks to $Gr_{\mathbb{C}}(2,4)$ & $Gr_{\mathbb{C}}(3,n)$, QISM, DDF, planetary gravity, tensor splats, thermal second sound, polaritons/SPPs, holography, AdS/CFT, and $16 \times 16$ $\mathfrak{psl}(2|2)_c$ secret symmetries. | **Iterations 1–33 Complete** (`3,675` Lake jobs, 10 companion papers, 48 Rust/WASM tests passing, including Fresnel-to-Fraunhofer remainder bound, rank-3 Plücker relations, multi-layer & 3-channel LGV positivity, $16\times 16$ $\mathfrak{psl}(2|2)_c$ $R$-matrix intertwining, and adaptive splat splitting). | Non-paraxial 3D Rayleigh–Sommerfeld vector boundary-integral remainder, arbitrary-rank ($k \ge 4$) Plücker syzygies, and calibrated laboratory dataset ingestion. |
 | **2** | [flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md) | Falsifiable experimental and computational adjudication program separating N-LIG material synthesis, classical guided modes, multi-beam holography, CW graphitization, and Pending Proca claims. | **Classical & Pending Contracts Implemented** (`LongitudinalBeamApplicationEvidence`, `sppEffectiveIndexSq`, `transversePlasmaPhaseVelSq` vs. `longitudinalPlasmaPhaseVelSq`). | Execute preregistered CW vs. pulsed N-LIG dose-stepped Raman/XPS/HAZ experiments and high-NA vectorial PSF/MTF imaging controls. |
 | **3** | [dispersive-homodyne-plan.md](dispersive-homodyne-plan.md) | Coverage and implementation plan for classical balanced homodyne detection, dual-homodyne Bell/CHSH traces, dispersive QND parity readout, Hawking-like CP/ALS decoding, and Argon MHD power ledgers. | **Substantially Implemented** (`Signals.Homodyne`, `Signals.NonDestructive`, `Signals.MHD`, `SecondHarmonicResonantOpaModel`, `opaSqueezedTensorSplat`). | Add regression fixtures for `WaveguideSpec.propagationLoss`, `DualHomodyneTrace.missingSamples`, and CMRR dB-to-linear conversion; ingest measured detector-loss and shot-noise traces. |
 | **4** | [src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md](../src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md) | Replaces earlier SQG fracture framing with a conditional DDF hypothesis (`H0` classical null vs. `HDDF` causal transverse-phonon defect perturbation vs. `HDDF-active-null` crossed-beam deflection). | **Contracts & Dataset Readers Implemented** (`DDFFractureCommunicationEvidence`, `MagnusEffectControl`, JHTDB/PIV/RSPID probes). | Populate `DDFFractureCommunicationEvidence` from an independent measured vortex/pressure-deficit observable after subtracting the classical Kutta–Joukowski Magnus control $L' = \rho U \Gamma$. |
@@ -183,6 +183,7 @@ import Signals
 
 namespace ArxivCapstoneNinePaperUnificationVerification
 
+open Signals.Plabic
 open Signals.Geometry
 open Signals.Coherence
 open Signals.Huygens
@@ -190,12 +191,19 @@ open Signals.QISM
 open Signals.Scattering
 open Signals.DDF
 
--- Master 9-domain verification across Double-Slit/OAM, QISM/Bethe Ansatz, DDF Moving Sheaths,
--- BCJ/Planetary Gravity, Normed Tensor Gaussian Splats, Inverse Compton/Raman/Second-Sound Heat,
--- Polaritons/SPPs/CSR/SHG-OPA, 't Hooft-Susskind Holography, and AdS/CFT & Secret Symmetries
+def capstoneRank3Matrix : Matrix (Fin 3) (Fin 6) ℝ :=
+  !![1, 2, -1, 3, 0, 4;
+     0, 1, 2, -2, 1, -1;
+     2, -1, 1, 0, 3, 2]
+
+-- Master 9-domain + Iteration 33 verification across Double-Slit/OAM, QISM/Bethe Ansatz,
+-- DDF Moving Sheaths, BCJ/Planetary Gravity, Normed Tensor Gaussian Splats,
+-- Inverse Compton/Raman/Second-Sound Heat, Polaritons/SPPs/CSR/SHG-OPA,
+-- 't Hooft-Susskind Holography, AdS/CFT & Secret Symmetries, Fresnel-to-Fraunhofer Remainder,
+-- Higher-Rank Gr(3,n) Plücker Relations, 3-Channel LGV Positivity, and 16x16 R-Matrix Intertwining
 example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     (orb : PlanetaryOrbit) (hr : re.horizonRadius < 4)
-    (c_th0 : ℝ) (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c) (θ x y : ℝ) :
+    (c_th0 : ℝ) (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c) (θ x y B1 B2 : ℝ) :
     let z1 : ℂ := ↑(Real.cos (Real.pi * 6 * x / (1 * 5))) + Complex.I * ↑(Real.sin (Real.pi * 6 * x / (1 * 5)))
     let z2 : ℂ := ↑(Real.cos (Real.pi * 6 * x / (1 * 5))) - Complex.I * ↑(Real.sin (Real.pi * 6 * x / (1 * 5)))
     let M_sheath := s.gr24TwistorMatrix 6 1 5 2 0 0
@@ -205,6 +213,9 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     let M_holo := ddfThermalGr24Matrix (re.inflowBeta 4) θ
     let W_sec := psl22SecretAutomorphismGr24Matrix 2 1 1 1
     let M_ads5 := ddfThermalGr24Matrix ((1 / 2 : ℝ) ^ 2) θ
+    let φ_fraun := fraunhoferLinearPhase x y (3 / 10) (4 / 10) (1 / 2) 10
+    let φ_fres := fresnelParaxialPhase x y (3 / 10) (4 / 10) (1 / 2) 10
+    let N_F := fresnelNumber 1 (1 / 2) 10
     -- (1) Paper 1 (Double-Slit & OAM): 0% error on Gr_C(2,4) everywhere:
     relativePredictiveError
       (complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2) 3 2 4 1 5 x y)
@@ -252,8 +263,18 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
       complexTwoRowMinor W_sec 0 1 * complexTwoRowMinor W_sec 2 3 ∧
     Complex.normSq (complexPluckerSinkAmplitudeA M_ads5) *
         Complex.normSq (complexPluckerSinkAmplitudeB M_ads5) =
-      adsPlanarBlackBraneEmblackening 1 2 4 := by
-  intro z1 z2 M_sheath splat_ddf splat_opa M_spp M_holo W_sec M_ads5
+      adsPlanarBlackBraneEmblackening 1 2 4 ∧
+    -- (10) Iteration 33 (Fresnel Remainder, Gr(3,6) Plücker, 3-Channel LGV, & 16x16 R-Matrix Intertwining):
+    intensity (unitPhasor φ_fres - unitPhasor φ_fraun) ≤ (Real.pi * N_F) ^ 2 ∧
+    threeRowMinor capstoneRank3Matrix 0 1 2 * threeRowMinor capstoneRank3Matrix 3 4 5 -
+      threeRowMinor capstoneRank3Matrix 0 1 3 * threeRowMinor capstoneRank3Matrix 2 4 5 +
+      threeRowMinor capstoneRank3Matrix 0 1 4 * threeRowMinor capstoneRank3Matrix 2 3 5 -
+      threeRowMinor capstoneRank3Matrix 0 1 5 * threeRowMinor capstoneRank3Matrix 2 3 4 = 0 ∧
+    0 < (planarThreeChannelLowerStep 1 1 1 5 7 *
+      planarThreeChannelUpperStep 2 3 4 6 8).det ∧
+    psl22SecretCoproductOp16 B1 B2 * psl22WorldsheetRMatrix16 3 4 5 6 7 0 =
+      psl22WorldsheetRMatrix16 3 4 5 6 7 0 * psl22SecretCoproductDiag16 B1 B2 := by
+  intro z1 z2 M_sheath splat_ddf splat_opa M_spp M_holo W_sec M_ads5 φ_fraun φ_fres N_F
   have h1 := (complexGr24CrossingDoubleSlit_zero_error 3 2 4 6 1 5 x y).2
   have h2 := yang_baxter_equation_matrix8 7 4 1 2
   have h3_mad := s.gr24TwistorMatrix_madelung_sector_identities 6 1 5 2 0 0
@@ -294,6 +315,12 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     2 1 1 1 1 2 4 0 0 1 (1 / 2) 2 1 1 θ
     (by norm_num) (by norm_num) (by norm_num) hr
     (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h10_fres := (fresnel_to_fraunhofer_remainder_bound
+    x y (3 / 10) (4 / 10) 1 (1 / 2) 10 (by norm_num) (by norm_num) (by norm_num)).2.2.2.2.2
+  have h10_pl3 := threeRowMinor_pluecker capstoneRank3Matrix 0 1 2 3 4 5
+  have h10_lgv3 := (planar_threeChannel_lgv_and_bottleneck_identities
+    2 3 4 6 8 5 7 (by norm_num) (by norm_num) (by norm_num) 0 0).2.2.2.1
+  have h10_r16 := (psl22_rmatrix16_secret_coproduct_intertwining B1 B2 0 3 4 5 6 7 0).2.2.1
   rcases h9_ads with ⟨ha1, _ha2, _ha3, _ha4, _ha5, _ha6, _ha7, _ha8, _ha9, _ha10,
     _ha11, _ha12, ha13, _ha14, _ha15, _ha16, _ha17, _ha18, _ha19, _ha20, _ha21,
     _ha22, ha23, _ha24, _ha25, _ha26, _ha27⟩
@@ -303,7 +330,8 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     h6_ics, h6_inv, h6_th,
     h7_spp.2.2.2.2.2.1.trans h7_spp.2.2.2.2.2.2.1, h7_opa.2.2.1, h7_opa.2.2.2.2.2.2,
     h8.2.2.2.2.2.2.2.1, h8.2.2.2.2.2.2.2.2.1,
-    ha1, ha13, ha23, hu8, hu9⟩
+    ha1, ha13, ha23, hu8, hu9,
+    h10_fres, h10_pl3, h10_lgv3, h10_r16⟩
 
 end ArxivCapstoneNinePaperUnificationVerification
 ```

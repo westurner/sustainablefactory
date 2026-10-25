@@ -3,6 +3,7 @@ import Mathlib.Combinatorics.SimpleGraph.Basic
 import Mathlib.Data.Matrix.Basic
 import Mathlib.Dynamics.PeriodicPts.Lemmas
 import Mathlib.GroupTheory.Perm.Basic
+import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Tactic
 
 namespace Signals.Plabic
@@ -848,5 +849,159 @@ lemma WeightedAcyclicNetwork.parallel_reduction_boundary
   change (diamond firstIn secondIn firstOut secondOut).transfer 0 3 =
     (oneEdgePath (firstIn * firstOut + secondIn * secondOut)).transfer 0 1
   rw [diamond_transfer, oneEdgePath_transfer]
+
+/-! ## Multi-Layer Lindström–Gessel–Viennot (LGV) Disjoint-Path Composition & Three-Channel ($k = 3$) LGV Positivity -/
+
+/-- The determinant of a finite list of composable $k \times k$ layer transfer matrices
+$L = [M_1, M_2, \dots, M_m]$ equals the product of the individual layer determinants:
+$\det\bigl(\prod_{r=1}^m M_r\bigr) = \prod_{r=1}^m \det(M_r)$. -/
+@[blueprint "thm:signals-lgv-multilayer-det-prod"
+  (title := "Multi-layer Lindström–Gessel–Viennot transfer matrix determinant multiplicativity")
+  (statement := /-- For any rank $k\in\mathbb N$ and any finite list $L$ of $k\times k$ layer
+    transfer matrices, $\det(L.\mathrm{prod}) = (L.\mathrm{map}\,\det).\mathrm{prod}$. -/)
+  (proof := /-- Induct on the layer list $L$ using $\det(I_k)=1$ and $\det(AB)=\det(A)\det(B)$. -/)]
+theorem lgv_multiLayer_det_prod {k : ℕ} (layers : List (Matrix (Fin k) (Fin k) ℝ)) :
+    layers.prod.det = (layers.map Matrix.det).prod := by
+  induction layers with
+  | nil =>
+    simp [Matrix.det_one]
+  | cons head tail ih =>
+    simp [List.prod_cons, Matrix.det_mul, ih]
+
+/-- **Multi-Layer Lindström–Gessel–Viennot (LGV) Total Nonnegativity Preservation**:
+If every layer transfer matrix $M_r \in L$ in an arbitrary-length planar acyclic cascade
+has nonnegative $k$-channel determinant $\det(M_r) \ge 0$, then the composite multi-step
+transfer matrix $T = \prod_{r=1}^m M_r$ has $\det(T) \ge 0$. -/
+@[blueprint "thm:signals-lgv-multilayer-det-nonneg"
+  (title := "Multi-layer LGV nonnegativity preservation across arbitrary path length")
+  (statement := /-- For any list $L$ of $k\times k$ layer transfer matrices, if
+    $\forall M\in L,\,0\le\det M$, then $0\le\det(L.\mathrm{prod})$. -/)
+  (proof := /-- Induct on $L$ using \texttt{Matrix.det\_mul} and \texttt{mul\_nonneg}. -/)]
+theorem lgv_multiLayer_det_nonnegative {k : ℕ}
+    (layers : List (Matrix (Fin k) (Fin k) ℝ))
+    (h_nonneg : ∀ M ∈ layers, 0 ≤ M.det) :
+    0 ≤ layers.prod.det := by
+  induction layers with
+  | nil =>
+    simp [Matrix.det_one]
+  | cons head tail ih =>
+    rw [List.prod_cons, Matrix.det_mul]
+    exact mul_nonneg (h_nonneg head (by simp))
+      (ih (fun M hM => h_nonneg M (by simp [hM])))
+
+/-- **Multi-Layer Lindström–Gessel–Viennot (LGV) Strict Disjoint-Path Positivity**:
+If every layer transfer matrix $M_r \in L$ in an arbitrary-length planar acyclic cascade
+admits a strictly positive $k$-tuple of vertex-disjoint paths ($\det(M_r) > 0$), then
+the composite multi-step transfer matrix $T = \prod_{r=1}^m M_r$ has strictly positive
+determinant $\det(T) > 0$. -/
+@[blueprint "thm:signals-lgv-multilayer-det-pos"
+  (title := "Multi-layer LGV strict disjoint-path positivity across arbitrary path length")
+  (statement := /-- For any list $L$ of $k\times k$ layer transfer matrices, if
+    $\forall M\in L,\,0 < \det M$, then $0 < \det(L.\mathrm{prod})$. -/)
+  (proof := /-- Induct on $L$ using \texttt{Matrix.det\_mul} and \texttt{mul\_pos}. -/)]
+theorem lgv_multiLayer_det_positive {k : ℕ}
+    (layers : List (Matrix (Fin k) (Fin k) ℝ))
+    (h_pos : ∀ M ∈ layers, 0 < M.det) :
+    0 < layers.prod.det := by
+  induction layers with
+  | nil =>
+    simp [Matrix.det_one]
+  | cons head tail ih =>
+    rw [List.prod_cons, Matrix.det_mul]
+    exact mul_pos (h_pos head (by simp))
+      (ih (fun M hM => h_pos M (by simp [hM])))
+
+/-- Planar upper-bidiagonal elementary $3 \times 3$ step matrix
+$E_{\mathrm{upper}}^{(3)}(d_0, d_1, d_2, u_{01}, u_{12})$ with horizontal channel
+weights $d_0, d_1, d_2$ and non-crossing upward steps $0 \to 1$ ($u_{01}$) and $1 \to 2$ ($u_{12}$). -/
+@[blueprint "def:signals-planar-three-channel-upper-step"
+  (title := "Planar 3-channel upper-bidiagonal step matrix")
+  (statement := /-- Define the planar 3-channel upper-bidiagonal transfer step
+    $E_{\mathrm{upper}}^{(3)}(d_0,d_1,d_2,u_{01},u_{12}) =
+    \begin{pmatrix} d_0 & u_{01} & 0 \\ 0 & d_1 & u_{12} \\ 0 & 0 & d_2 \end{pmatrix}$. -/)]
+def planarThreeChannelUpperStep (d0 d1 d2 u01 u12 : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
+  !![d0, u01, 0;
+     0, d1, u12;
+     0, 0, d2]
+
+/-- Planar lower-bidiagonal elementary $3 \times 3$ step matrix
+$E_{\mathrm{lower}}^{(3)}(d_0, d_1, d_2, l_{10}, l_{21})$ with horizontal channel
+weights $d_0, d_1, d_2$ and non-crossing downward steps $1 \to 0$ ($l_{10}$) and $2 \to 1$ ($l_{21}$). -/
+@[blueprint "def:signals-planar-three-channel-lower-step"
+  (title := "Planar 3-channel lower-bidiagonal step matrix")
+  (statement := /-- Define the planar 3-channel lower-bidiagonal transfer step
+    $E_{\mathrm{lower}}^{(3)}(d_0,d_1,d_2,l_{10},l_{21}) =
+    \begin{pmatrix} d_0 & 0 & 0 \\ l_{10} & d_1 & 0 \\ 0 & l_{21} & d_2 \end{pmatrix}$. -/)]
+def planarThreeChannelLowerStep (d0 d1 d2 l10 l21 : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
+  !![d0, 0, 0;
+     l10, d1, 0;
+     0, l21, d2]
+
+/-- **Three-Channel ($k = 3$) Lindström–Gessel–Viennot Disjoint-Path Determinant & Shared-Vertex Obstruction Theorem**:
+1. For any planar upper-bidiagonal or lower-bidiagonal 3-channel step, every intersecting
+   path triple cancels or vanishes by planarity, leaving the unique vertex-disjoint
+   horizontal path-triple product:
+   $$\det E_{\mathrm{upper}}^{(3)}(d_0, d_1, d_2, u_{01}, u_{12}) = d_0 d_1 d_2, \qquad
+   \det E_{\mathrm{lower}}^{(3)}(d_0, d_1, d_2, l_{10}, l_{21}) = d_0 d_1 d_2,$$
+2. For their two-step planar composite $T^{(3)} = E_{\mathrm{lower}}^{(3)}(1, 1, 1, l_{10}, l_{21}) \, E_{\mathrm{upper}}^{(3)}(d_0, d_1, d_2, u_{01}, u_{12})$,
+   the 3-channel LGV determinant equals $\det T^{(3)} = d_0 d_1 d_2 > 0$ whenever $d_0, d_1, d_2 > 0$,
+3. Conversely, if three sources route through a two-vertex bottleneck (`A : Matrix (Fin 3) (Fin 2) ℝ`
+   composed with `B : Matrix (Fin 2) (Fin 3) ℝ`), the pigeonhole principle forces every
+   path triple to share an intermediate vertex and the $3 \times 3$ determinant vanishes
+   identically: $\det(A B) = 0$. -/
+@[blueprint "thm:signals-planar-three-channel-lgv-identities"
+  (title := "Three-channel (k = 3) LGV vertex-disjoint path positivity and 2-vertex bottleneck cancellation")
+  (statement := /-- For any $d_0,d_1,d_2,u_{01},u_{12},l_{10},l_{21}\in\mathbb R$,
+    $A\in\mathbb R^{3\times 2}$, and $B\in\mathbb R^{2\times 3}$:
+    (1) $\det E_{\mathrm{upper}}^{(3)}(d_0,d_1,d_2,u_{01},u_{12}) = d_0 d_1 d_2$,
+    (2) $\det E_{\mathrm{lower}}^{(3)}(d_0,d_1,d_2,l_{10},l_{21}) = d_0 d_1 d_2$,
+    (3) $\det\bigl(E_{\mathrm{lower}}^{(3)}(1,1,1,l_{10},l_{21})\,E_{\mathrm{upper}}^{(3)}(d_0,d_1,d_2,u_{01},u_{12})\bigr) = d_0 d_1 d_2$,
+    (4) if $0 < d_0, d_1, d_2$, then $0 < \det\bigl(E_{\mathrm{lower}}^{(3)}(1,1,1,l_{10},l_{21})\,E_{\mathrm{upper}}^{(3)}(d_0,d_1,d_2,u_{01},u_{12})\bigr)$, and
+    (5) $\det(AB) = 0$. -/)
+  (proof := /-- Expand $3\times 3$ determinants via \texttt{Matrix.det\_fin\_three} and close by ring algebra and \texttt{mul\_pos}. -/)]
+theorem planar_threeChannel_lgv_and_bottleneck_identities
+    (d0 d1 d2 u01 u12 l10 l21 : ℝ)
+    (hd0 : 0 < d0) (hd1 : 0 < d1) (hd2 : 0 < d2)
+    (A : Matrix (Fin 3) (Fin 2) ℝ) (B : Matrix (Fin 2) (Fin 3) ℝ) :
+    (planarThreeChannelUpperStep d0 d1 d2 u01 u12).det = d0 * d1 * d2 ∧
+      (planarThreeChannelLowerStep d0 d1 d2 l10 l21).det = d0 * d1 * d2 ∧
+      (planarThreeChannelLowerStep 1 1 1 l10 l21 *
+        planarThreeChannelUpperStep d0 d1 d2 u01 u12).det = d0 * d1 * d2 ∧
+      0 < (planarThreeChannelLowerStep 1 1 1 l10 l21 *
+        planarThreeChannelUpperStep d0 d1 d2 u01 u12).det ∧
+      (A * B).det = 0 := by
+  have h_up : (planarThreeChannelUpperStep d0 d1 d2 u01 u12).det = d0 * d1 * d2 := by
+    unfold planarThreeChannelUpperStep
+    rw [Matrix.det_fin_three]
+    dsimp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.vecHead, Matrix.vecTail]
+    ring
+  have h_low : (planarThreeChannelLowerStep d0 d1 d2 l10 l21).det = d0 * d1 * d2 := by
+    unfold planarThreeChannelLowerStep
+    rw [Matrix.det_fin_three]
+    dsimp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.vecHead, Matrix.vecTail]
+    ring
+  have h_comp :
+      (planarThreeChannelLowerStep 1 1 1 l10 l21 *
+        planarThreeChannelUpperStep d0 d1 d2 u01 u12).det = d0 * d1 * d2 := by
+    rw [Matrix.det_mul, h_up]
+    have h_low1 : (planarThreeChannelLowerStep 1 1 1 l10 l21).det = 1 := by
+      unfold planarThreeChannelLowerStep
+      rw [Matrix.det_fin_three]
+      dsimp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+        Matrix.vecHead, Matrix.vecTail]
+      ring
+    rw [h_low1, one_mul]
+  have h_pos :
+      0 < (planarThreeChannelLowerStep 1 1 1 l10 l21 *
+        planarThreeChannelUpperStep d0 d1 d2 u01 u12).det := by
+    rw [h_comp]
+    exact mul_pos (mul_pos hd0 hd1) hd2
+  have h_bottle : (A * B).det = 0 := by
+    rw [Matrix.det_fin_three]
+    simp only [Matrix.mul_apply, Fin.sum_univ_two, Fin.isValue]
+    ring
+  exact ⟨h_up, h_low, h_comp, h_pos, h_bottle⟩
 
 end Signals.Plabic

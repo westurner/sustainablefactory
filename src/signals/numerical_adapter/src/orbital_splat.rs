@@ -616,6 +616,81 @@ impl NormedTensorGaussianSplat2D {
         }
     }
 
+    /// Principal aspect ratio $\max(\sigma_1, \sigma_2) / \min(\sigma_1, \sigma_2) \ge 1$.
+    #[inline]
+    pub fn aspect_ratio(&self) -> f64 {
+        let hi = self.sigma1.max(self.sigma2);
+        let lo = self.sigma1.min(self.sigma2).max(1e-12);
+        hi / lo
+    }
+
+    /// Adaptive $L^1$-conserving two-child Gaussian splat splitting along the major
+    /// principal axis when `self.aspect_ratio() > max_aspect_ratio`.
+    /// Preserves total $L^1$ weight ($w_+ + w_- = w$), center of mass
+    /// ($\frac{1}{2}(\mathbf{c}_+ + \mathbf{c}_-) = \mathbf{c}$), and total second-moment
+    /// variance along the major axis ($\tilde{\sigma}_{\mathrm{maj}}^2 + \delta^2 = \sigma_{\mathrm{maj}}^2$
+    /// with $\tilde{\sigma}_{\mathrm{maj}} = \sigma_{\mathrm{maj}} / 2$ and $\delta = \frac{\sqrt{3}}{2}\sigma_{\mathrm{maj}}$).
+    pub fn split_if_anisotropic(&self, max_aspect_ratio: f64) -> Vec<Self> {
+        if self.aspect_ratio() <= max_aspect_ratio.max(1.0) {
+            return vec![*self];
+        }
+        let half_w = 0.5 * self.weight;
+        let sqrt3_half = 0.5 * 3.0_f64.sqrt();
+        let c = self.orientation_angle.cos();
+        let s = self.orientation_angle.sin();
+        if self.sigma1 >= self.sigma2 {
+            let delta = sqrt3_half * self.sigma1;
+            let new_sigma1 = 0.5 * self.sigma1;
+            let dx = delta * c;
+            let dy = delta * s;
+            vec![
+                Self {
+                    center_x: self.center_x - dx,
+                    center_y: self.center_y - dy,
+                    weight: half_w,
+                    sigma1: new_sigma1,
+                    sigma2: self.sigma2,
+                    orientation_angle: self.orientation_angle,
+                    role: self.role,
+                },
+                Self {
+                    center_x: self.center_x + dx,
+                    center_y: self.center_y + dy,
+                    weight: half_w,
+                    sigma1: new_sigma1,
+                    sigma2: self.sigma2,
+                    orientation_angle: self.orientation_angle,
+                    role: self.role,
+                },
+            ]
+        } else {
+            let delta = sqrt3_half * self.sigma2;
+            let new_sigma2 = 0.5 * self.sigma2;
+            let dx = -delta * s;
+            let dy = delta * c;
+            vec![
+                Self {
+                    center_x: self.center_x - dx,
+                    center_y: self.center_y - dy,
+                    weight: half_w,
+                    sigma1: self.sigma1,
+                    sigma2: new_sigma2,
+                    orientation_angle: self.orientation_angle,
+                    role: self.role,
+                },
+                Self {
+                    center_x: self.center_x + dx,
+                    center_y: self.center_y + dy,
+                    weight: half_w,
+                    sigma1: self.sigma1,
+                    sigma2: new_sigma2,
+                    orientation_angle: self.orientation_angle,
+                    role: self.role,
+                },
+            ]
+        }
+    }
+
     /// Pack into the two `vec4` (`[f32; 4]`) uniform slots expected by `orbital_splat.frag.glsl`.
     pub fn to_glsl_uniform_pair(&self) -> ([f32; 4], [f32; 4]) {
         (
@@ -725,6 +800,18 @@ impl OrbitalSplatScene {
     /// Evaluate the total summed field across all splat layers at $(x, y)$.
     pub fn evaluate_total_field(&self, x: f64, y: f64) -> f64 {
         self.splats.iter().map(|s| s.eval(x, y)).sum()
+    }
+
+    /// Adaptively remesh all splats in the scene whose aspect ratio exceeds
+    /// `max_aspect_ratio`, preserving total $L^1$ weight, center of mass, and
+    /// second-moment variance along elongated Anosov or OPA-squeezed axes.
+    pub fn adaptive_remesh(&self, max_aspect_ratio: f64) -> Self {
+        let remeshed = self
+            .splats
+            .iter()
+            .flat_map(|s| s.split_if_anisotropic(max_aspect_ratio))
+            .collect();
+        Self { splats: remeshed }
     }
 }
 
@@ -1029,6 +1116,31 @@ mod tests {
         let e1 = state.specific_mechanical_energy();
         assert!((h1 - h0).abs() < 1e-9);
         assert!((e1 - e0).abs() < 1e-6);
+
+        // Verify adaptive splat splitting preserves L^1 weight, center of mass, and major-axis variance
+        let elongated = NormedTensorGaussianSplat2D {
+            center_x: 1.0,
+            center_y: -2.0,
+            weight: 4.0,
+            sigma1: 8.0,
+            sigma2: 1.0,
+            orientation_angle: 0.4,
+            role: SplatRole::Gr24OrbitalField,
+        };
+        assert!((elongated.aspect_ratio() - 8.0).abs() < 1e-12);
+        let children = elongated.split_if_anisotropic(3.0);
+        assert_eq!(children.len(), 2);
+        let w_sum = children[0].weight + children[1].weight;
+        assert!((w_sum - elongated.weight).abs() < 1e-12);
+        let cx_mean = 0.5 * (children[0].center_x + children[1].center_x);
+        let cy_mean = 0.5 * (children[0].center_y + children[1].center_y);
+        assert!((cx_mean - elongated.center_x).abs() < 1e-12);
+        assert!((cy_mean - elongated.center_y).abs() < 1e-12);
+        let dx = children[1].center_x - elongated.center_x;
+        let dy = children[1].center_y - elongated.center_y;
+        let delta_sq = dx * dx + dy * dy;
+        let total_major_var = children[0].sigma1 * children[0].sigma1 + delta_sq;
+        assert!((total_major_var - elongated.sigma1 * elongated.sigma1).abs() < 1e-11);
     }
 
     #[test]

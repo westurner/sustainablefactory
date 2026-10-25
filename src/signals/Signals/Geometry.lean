@@ -78,6 +78,16 @@ def OrderedColumns.pair {n : ℕ} (first second : Fin n) (ordered : first < seco
       intro left right before
       fin_cases left <;> fin_cases right <;> simp_all }
 
+/-- Select three distinct columns in the supplied strictly increasing order. -/
+def OrderedColumns.triple {n : ℕ} (first second third : Fin n)
+    (ordered01 : first < second) (ordered12 : second < third) :
+    OrderedColumns 3 n :=
+  { index := ![first, second, third]
+    strictlyIncreasing := by
+      have ordered02 : first < third := lt_trans ordered01 ordered12
+      intro left right before
+      fin_cases left <;> fin_cases right <;> simp_all }
+
 /-- A finite matrix representing a point before any positivity restriction. -/
 @[blueprint "def:signals-grassmannian-matrix"
   (title := "Unrestricted finite representatives")
@@ -1414,5 +1424,168 @@ lemma AngularMomentumState.translate_momentum (state : AngularMomentumState)
 lemma AngularMomentumState.translate_angularMomentum (state : AngularMomentumState)
     (offset : FourVector) : (state.translate offset).angularMomentum =
       state.angularMomentum + orbitalBivector offset state.momentum := rfl
+
+/-! ## Higher-Rank $Gr(3, n)$ and $Gr_{\mathbb{C}}(3, n)$ Three-Row Minors, Four-Term Plücker Relations, and Three-Channel Cauchy–Binet / LGV Identities -/
+
+/-- Three-column determinant $\Delta_{abc}(M)$ of a real $3 \times n$ matrix
+$M \in \mathbb{R}^{3 \times n}$ for arbitrary column indices $a, b, c \in \operatorname{Fin}(n)$. -/
+@[blueprint "def:signals-three-row-minor"
+  (title := "Real 3×n three-row Plücker minor")
+  (statement := /-- For a real $3\times n$ matrix $M\in\mathbb R^{3\times n}$ and column indices
+    $a,b,c\in\operatorname{Fin}(n)$, define the $3\times 3$ Plücker minor $\Delta_{abc}(M)$. -/)]
+def threeRowMinor {columnCount : ℕ}
+    (matrix : Matrix (Fin 3) (Fin columnCount) ℝ)
+    (first second third : Fin columnCount) : ℝ :=
+  matrix 0 first * (matrix 1 second * matrix 2 third - matrix 1 third * matrix 2 second) -
+    matrix 0 second * (matrix 1 first * matrix 2 third - matrix 1 third * matrix 2 first) +
+    matrix 0 third * (matrix 1 first * matrix 2 second - matrix 1 second * matrix 2 first)
+
+/-- Complex three-column determinant $\Delta_{abc}^{\mathbb{C}}(M_{\mathbb{C}})$ of a complex
+$3 \times n$ matrix $M_{\mathbb{C}} \in \mathbb{C}^{3 \times n}$ for arbitrary column indices
+$a, b, c \in \operatorname{Fin}(n)$. -/
+@[blueprint "def:signals-complex-three-row-minor"
+  (title := "Complex 3×n three-row Plücker minor")
+  (statement := /-- For a complex $3\times n$ matrix $M_{\mathbb C}\in\mathbb C^{3\times n}$ and
+    $a,b,c\in\operatorname{Fin}(n)$, define the complex $3\times 3$ Plücker minor
+    $\Delta_{abc}^{\mathbb C}(M_{\mathbb C})$. -/)]
+def complexThreeRowMinor {columnCount : ℕ}
+    (matrix : Matrix (Fin 3) (Fin columnCount) ℂ)
+    (first second third : Fin columnCount) : ℂ :=
+  matrix 0 first * (matrix 1 second * matrix 2 third - matrix 1 third * matrix 2 second) -
+    matrix 0 second * (matrix 1 first * matrix 2 third - matrix 1 third * matrix 2 first) +
+    matrix 0 third * (matrix 1 first * matrix 2 second - matrix 1 second * matrix 2 first)
+
+/-- For strictly ordered column indices $a < b < c$, `threeRowMinor` agrees with `selectedMinor`. -/
+@[blueprint "lem:signals-three-row-minor-eq-selected-minor"
+  (title := "Three-row minor agrees with selectedMinor on ordered triples")
+  (statement := /-- For $a < b < c$ in $\operatorname{Fin}(n)$,
+    $\Delta_{abc}(M) = \operatorname{selectedMinor}(M, (a,b,c))$. -/)
+  (proof := /-- Expand \texttt{Matrix.det\_fin\_three} on the selected $3\times 3$ submatrix. -/)
+  (latexEnv := "lemma")]
+lemma threeRowMinor_eq_selectedMinor {columnCount : ℕ}
+    (matrix : Matrix (Fin 3) (Fin columnCount) ℝ)
+    (first second third : Fin columnCount)
+    (ordered01 : first < second) (ordered12 : second < third) :
+    threeRowMinor matrix first second third =
+      selectedMinor matrix (OrderedColumns.triple first second third ordered01 ordered12) := by
+  unfold threeRowMinor selectedMinor OrderedColumns.triple
+  rw [Matrix.det_fin_three]
+  simp only [Matrix.submatrix_apply, id_eq, Matrix.cons_val_zero, Matrix.cons_val_one,
+    Matrix.head_cons, Matrix.cons_val_two, Matrix.tail_cons]
+  ring
+
+/-- Left-multiplying any real $3 \times n$ matrix $M$ by a $3 \times 3$ row basis matrix
+$B \in \mathbb{R}^{3 \times 3}$ scales every three-row minor $\Delta_{abc}(B M)$ by $\det B$. -/
+@[blueprint "lem:signals-three-row-minor-basis-change"
+  (title := "Real 3×n three-row minor GL(3,ℝ) basis-change law")
+  (statement := /-- For any $B\in\mathbb R^{3\times 3}$, $M\in\mathbb R^{3\times n}$, and
+    $a,b,c\in\operatorname{Fin}(n)$, $\Delta_{abc}(BM)=(\det B)\,\Delta_{abc}(M)$. -/)
+  (proof := /-- Expand $\det B$ via \texttt{Matrix.det\_fin\_three} and close by ring algebra. -/)
+  (latexEnv := "lemma")]
+lemma threeRowMinor_basisChange {columnCount : ℕ}
+    (basis : Matrix (Fin 3) (Fin 3) ℝ)
+    (matrix : Matrix (Fin 3) (Fin columnCount) ℝ)
+    (first second third : Fin columnCount) :
+    threeRowMinor (basis * matrix) first second third =
+      basis.det * threeRowMinor matrix first second third := by
+  unfold threeRowMinor
+  rw [Matrix.det_fin_three]
+  simp only [Matrix.mul_apply, Fin.sum_univ_three, Fin.isValue]
+  ring
+
+/-- **Higher-Rank $Gr(3, n)$ Four-Term Quadratic Plücker Relation (Real)**:
+For any real $3 \times n$ matrix $M \in \mathbb{R}^{3 \times n}$, any two shared pivot columns
+$i_1, i_2 \in \operatorname{Fin}(n)$, and any four columns $j_0, j_1, j_2, j_3 \in \operatorname{Fin}(n)$,
+the four $3 \times 3$ Plücker minors satisfy the universal 4-term quadratic Plücker syzygy:
+$$\Delta_{i_1 i_2 j_0}(M)\,\Delta_{j_1 j_2 j_3}(M)
+  - \Delta_{i_1 i_2 j_1}(M)\,\Delta_{j_0 j_2 j_3}(M)
+  + \Delta_{i_1 i_2 j_2}(M)\,\Delta_{j_0 j_1 j_3}(M)
+  - \Delta_{i_1 i_2 j_3}(M)\,\Delta_{j_0 j_1 j_2}(M) = 0.$$ -/
+@[blueprint "thm:signals-three-row-minor-pluecker"
+  (title := "General 3×n four-term quadratic Plücker relation on Gr(3,n)")
+  (statement := /-- For any $M\in\mathbb R^{3\times n}$ and column indices
+    $i_1,i_2,j_0,j_1,j_2,j_3\in\operatorname{Fin}(n)$,
+    $\Delta_{i_1 i_2 j_0}\Delta_{j_1 j_2 j_3}
+    -\Delta_{i_1 i_2 j_1}\Delta_{j_0 j_2 j_3}
+    +\Delta_{i_1 i_2 j_2}\Delta_{j_0 j_1 j_3}
+    -\Delta_{i_1 i_2 j_3}\Delta_{j_0 j_1 j_2}=0$. -/)
+  (proof := /-- Expand all eight $3\times 3$ determinants via \texttt{threeRowMinor} and close by polynomial ring algebra. -/)]
+theorem threeRowMinor_pluecker {columnCount : ℕ}
+    (matrix : Matrix (Fin 3) (Fin columnCount) ℝ)
+    (i1 i2 j0 j1 j2 j3 : Fin columnCount) :
+    threeRowMinor matrix i1 i2 j0 * threeRowMinor matrix j1 j2 j3 -
+      threeRowMinor matrix i1 i2 j1 * threeRowMinor matrix j0 j2 j3 +
+      threeRowMinor matrix i1 i2 j2 * threeRowMinor matrix j0 j1 j3 -
+      threeRowMinor matrix i1 i2 j3 * threeRowMinor matrix j0 j1 j2 = 0 := by
+  simp only [threeRowMinor]
+  ring
+
+/-- **Higher-Rank $Gr_{\mathbb{C}}(3, n)$ Four-Term Quadratic Plücker Relation (Complex)**:
+For any complex $3 \times n$ matrix $M_{\mathbb{C}} \in \mathbb{C}^{3 \times n}$ and column
+indices $i_1, i_2, j_0, j_1, j_2, j_3 \in \operatorname{Fin}(n)$,
+$$\Delta_{i_1 i_2 j_0}^{\mathbb{C}}\,\Delta_{j_1 j_2 j_3}^{\mathbb{C}}
+  - \Delta_{i_1 i_2 j_1}^{\mathbb{C}}\,\Delta_{j_0 j_2 j_3}^{\mathbb{C}}
+  + \Delta_{i_1 i_2 j_2}^{\mathbb{C}}\,\Delta_{j_0 j_1 j_3}^{\mathbb{C}}
+  - \Delta_{i_1 i_2 j_3}^{\mathbb{C}}\,\Delta_{j_0 j_1 j_2}^{\mathbb{C}} = 0.$$ -/
+@[blueprint "thm:signals-complex-three-row-minor-pluecker"
+  (title := "Complex 3×n four-term quadratic Plücker relation on Gr_C(3,n)")
+  (statement := /-- For any $M_{\mathbb C}\in\mathbb C^{3\times n}$ and column indices
+    $i_1,i_2,j_0,j_1,j_2,j_3\in\operatorname{Fin}(n)$,
+    $\Delta_{i_1 i_2 j_0}^{\mathbb C}\Delta_{j_1 j_2 j_3}^{\mathbb C}
+    -\Delta_{i_1 i_2 j_1}^{\mathbb C}\Delta_{j_0 j_2 j_3}^{\mathbb C}
+    +\Delta_{i_1 i_2 j_2}^{\mathbb C}\Delta_{j_0 j_1 j_3}^{\mathbb C}
+    -\Delta_{i_1 i_2 j_3}^{\mathbb C}\Delta_{j_0 j_1 j_2}^{\mathbb C}=0$. -/)
+  (proof := /-- Expand all eight complex $3\times 3$ determinants and close by commutative ring algebra in $\mathbb C$. -/)]
+theorem complexThreeRowMinor_pluecker {columnCount : ℕ}
+    (matrix : Matrix (Fin 3) (Fin columnCount) ℂ)
+    (i1 i2 j0 j1 j2 j3 : Fin columnCount) :
+    complexThreeRowMinor matrix i1 i2 j0 * complexThreeRowMinor matrix j1 j2 j3 -
+      complexThreeRowMinor matrix i1 i2 j1 * complexThreeRowMinor matrix j0 j2 j3 +
+      complexThreeRowMinor matrix i1 i2 j2 * complexThreeRowMinor matrix j0 j1 j3 -
+      complexThreeRowMinor matrix i1 i2 j3 * complexThreeRowMinor matrix j0 j1 j2 = 0 := by
+  simp only [complexThreeRowMinor]
+  ring
+
+/-- **Ordered Five-Column $Gr(3, n)$ Plücker Identity (`selectedMinor` Form)**:
+For any ordered five-column selection $c_0 < c_1 < c_2 < c_3 < c_4$ in $\operatorname{Fin}(n)$,
+choosing the shared pivot pair $(c_0, c_1)$ and the four-tuple $(c_1, c_2, c_3, c_4)$
+causes the degenerate term $\Delta_{c_0 c_1 c_1}$ to vanish and yields the ordered
+three-term $Gr(3, 5)$ Plücker relation in `selectedMinor`:
+$$\Delta_{c_0 c_1 c_2}\Delta_{c_1 c_3 c_4}
+  - \Delta_{c_0 c_1 c_3}\Delta_{c_1 c_2 c_4}
+  + \Delta_{c_0 c_1 c_4}\Delta_{c_1 c_2 c_3} = 0.$$ -/
+@[blueprint "thm:signals-selected-minor-pluecker-rank3-five"
+  (title := "Ordered five-column rank-3 Plücker relation in selectedMinor")
+  (statement := /-- For any ordered five-column selection $c_0<c_1<c_2<c_3<c_4$ in $\operatorname{Fin}(n)$
+    and any $M\in\mathbb R^{3\times n}$,
+    $\Delta_{c_0 c_1 c_2}(M)\Delta_{c_1 c_3 c_4}(M)
+    -\Delta_{c_0 c_1 c_3}(M)\Delta_{c_1 c_2 c_4}(M)
+    +\Delta_{c_0 c_1 c_4}(M)\Delta_{c_1 c_2 c_3}(M)=0$. -/)
+  (proof := /-- Rewrite each ordered triple minor via \texttt{threeRowMinor\_eq\_selectedMinor}
+    and expand \texttt{threeRowMinor}. -/)]
+theorem selectedMinor_pluecker_rank3_five {columnCount : ℕ}
+    (matrix : Matrix (Fin 3) (Fin columnCount) ℝ)
+    (columns : OrderedColumns 5 columnCount) :
+    selectedMinor matrix
+        (OrderedColumns.triple (columns.index 0) (columns.index 1) (columns.index 2)
+          (columns.strictlyIncreasing (by decide)) (columns.strictlyIncreasing (by decide))) *
+      selectedMinor matrix
+        (OrderedColumns.triple (columns.index 1) (columns.index 3) (columns.index 4)
+          (columns.strictlyIncreasing (by decide)) (columns.strictlyIncreasing (by decide))) -
+    selectedMinor matrix
+        (OrderedColumns.triple (columns.index 0) (columns.index 1) (columns.index 3)
+          (columns.strictlyIncreasing (by decide)) (columns.strictlyIncreasing (by decide))) *
+      selectedMinor matrix
+        (OrderedColumns.triple (columns.index 1) (columns.index 2) (columns.index 4)
+          (columns.strictlyIncreasing (by decide)) (columns.strictlyIncreasing (by decide))) +
+    selectedMinor matrix
+        (OrderedColumns.triple (columns.index 0) (columns.index 1) (columns.index 4)
+          (columns.strictlyIncreasing (by decide)) (columns.strictlyIncreasing (by decide))) *
+      selectedMinor matrix
+        (OrderedColumns.triple (columns.index 1) (columns.index 2) (columns.index 3)
+          (columns.strictlyIncreasing (by decide)) (columns.strictlyIncreasing (by decide))) = 0 := by
+  simp only [← threeRowMinor_eq_selectedMinor]
+  simp only [threeRowMinor]
+  ring
 
 end Signals.Geometry

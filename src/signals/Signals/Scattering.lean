@@ -1990,4 +1990,279 @@ theorem ads_cft_integrability_and_secret_symmetry_identities
     h_long16, h_short4, h_short_lt_long,
     h_sec_tr, h_sec_str, h_da_symm, h_da_null, h_da_tr, h_da_det⟩
 
+/-! ## Full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ Worldsheet $R$-Matrix & Indented Yangian Secret Coproduct Intertwining (`arXiv:1204.2366`, Eq. (3.1)–(3.3)) -/
+
+/-- $\mathbb{Z}_2$ parity sign $(-1)^{|a|} = +1$ for bosonic basis indices $a \in \{0, 1\}$
+($|\phi^a| = 0$) and $-1$ for fermionic basis indices $a \in \{2, 3\}$ ($|\psi^\alpha| = 1$)
+in the $4$-dimensional fundamental $(2|2)$-graded module $V$ of $\mathfrak{psl}(2|2)_c$. -/
+@[blueprint "def:signals-scattering-psl22-parity-sign"
+  (title := "Z_2 parity sign (+1 on bosons {0,1}, -1 on fermions {2,3})")
+  (statement := /-- Define $\operatorname{psl22ParitySign}(a) = +1$ for $a < 2$ and $-1$ for $a \ge 2$
+    in $\operatorname{Fin}(4)$. -/)]
+def psl22ParitySign (idx : Fin 4) : ℝ :=
+  if idx.val < 2 then 1 else -1
+
+/-- First tensor-factor index $\lfloor I / 4 \rfloor \in \operatorname{Fin}(4)$ of a composite
+two-site index $I \in \operatorname{Fin}(16)$ in $V \otimes V \cong \mathbb{R}^{16}$. -/
+def psl22FirstFactor (I : Fin 16) : Fin 4 :=
+  ⟨I.val / 4, by omega⟩
+
+/-- Second tensor-factor index $(I \bmod 4) \in \operatorname{Fin}(4)$ of a composite
+two-site index $I \in \operatorname{Fin}(16)$ in $V \otimes V \cong \mathbb{R}^{16}$. -/
+def psl22SecondFactor (I : Fin 16) : Fin 4 :=
+  ⟨I.val % 4, by omega⟩
+
+/-- Composite two-site index $4 a + b \in \operatorname{Fin}(16)$ for $a, b \in \operatorname{Fin}(4)$. -/
+def psl22PairIndex (a b : Fin 4) : Fin 16 :=
+  ⟨4 * a.val + b.val, by omega⟩
+
+/-- $16 \times 16$ graded permutation matrix $\Pi_{16}$ on $V \otimes V \cong \mathbb{R}^{16}$:
+$\Pi_{16}|a \otimes b\rangle = (-1)^{|a||b|}|b \otimes a\rangle$, acquiring a $-1$ Koszul sign
+when two fermionic states ($a, b \in \{2, 3\}$) exchange. -/
+@[blueprint "def:signals-scattering-psl22-graded-swap16"
+  (title := "16×16 Z_2-graded permutation matrix Π_16 on V ⊗ V")
+  (statement := /-- Define the $16\times 16$ graded permutation matrix $\Pi_{16}$ on
+    $(\mathbb R^{2|2})^{\otimes 2}\cong\mathbb R^{16}$ sending $|a\otimes b\rangle \mapsto (-1)^{|a||b|}|b\otimes a\rangle$. -/)]
+def psl22GradedSwap16 : Matrix (Fin 16) (Fin 16) ℝ :=
+  fun I J =>
+    if J = psl22PairIndex (psl22SecondFactor I) (psl22FirstFactor I) then
+      if (psl22FirstFactor I).val ≥ 2 ∧ (psl22SecondFactor I).val ≥ 2 then -1 else 1
+    else 0
+
+/-- Applying the factor-swap map $(a, b) \mapsto (b, a)$ twice on $\operatorname{Fin}(16)$
+is the identity permutation and swaps the first and second factor indices. -/
+lemma psl22PairIndex_swap_involutive (I : Fin 16) :
+    psl22PairIndex
+        (psl22SecondFactor (psl22PairIndex (psl22SecondFactor I) (psl22FirstFactor I)))
+        (psl22FirstFactor (psl22PairIndex (psl22SecondFactor I) (psl22FirstFactor I))) = I ∧
+      psl22FirstFactor (psl22PairIndex (psl22SecondFactor I) (psl22FirstFactor I)) =
+        psl22SecondFactor I ∧
+      psl22SecondFactor (psl22PairIndex (psl22SecondFactor I) (psl22FirstFactor I)) =
+        psl22FirstFactor I := by
+  fin_cases I <;> decide
+
+/-- $16 \times 16$ two-site diagonal secret symmetry coproduct matrix
+$\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2) = \widehat{\mathbb{B}}(B_1) \otimes 1 + 1 \otimes \widehat{\mathbb{B}}(B_2)$
+acting on $V(p_1) \otimes V(p_2) \cong \mathbb{R}^{16}$ (`arXiv:1204.2366`, Eq. (3.2)–(3.3)). -/
+@[blueprint "def:signals-scattering-psl22-secret-coproduct-diag16"
+  (title := "16×16 two-site diagonal secret symmetry coproduct B̂(B_1) ⊗ 1 + 1 ⊗ B̂(B_2)")
+  (statement := /-- Define the $16\times 16$ two-site secret coproduct matrix
+    $\Delta_{\mathrm{diag}}(\widehat{\mathbb B})(B_1,B_2)_{IJ}
+    = \delta_{IJ}\bigl(B_1(-1)^{|a|} + B_2(-1)^{|b|}\bigr)$ for $I = (a,b) \in \operatorname{Fin}(16)$. -/)]
+def psl22SecretCoproductDiag16 (B1 B2 : ℝ) : Matrix (Fin 16) (Fin 16) ℝ :=
+  Matrix.diagonal (fun I =>
+    B1 * psl22ParitySign (psl22FirstFactor I) +
+      B2 * psl22ParitySign (psl22SecondFactor I))
+
+/-- $16 \times 16$ opposite two-site diagonal secret symmetry coproduct matrix
+$\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2) = \widehat{\mathbb{B}}(B_2) \otimes 1 + 1 \otimes \widehat{\mathbb{B}}(B_1)$
+after permutation of the two worldsheet excitations (`arXiv:1204.2366`, Eq. (3.1)). -/
+@[blueprint "def:signals-scattering-psl22-secret-coproduct-op16"
+  (title := "16×16 opposite two-site secret symmetry coproduct Δ^op(B̂)(B_1, B_2)")
+  (statement := /-- Define $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb B})(B_1,B_2)
+    = \operatorname{psl22SecretCoproductDiag16}(B_2, B_1)$. -/)]
+def psl22SecretCoproductOp16 (B1 B2 : ℝ) : Matrix (Fin 16) (Fin 16) ℝ :=
+  psl22SecretCoproductDiag16 B2 B1
+
+/-- $16 \times 16$ $\mathfrak{su}(2) \oplus \mathfrak{su}(2)$-invariant worldsheet $S$/$R$-matrix
+$R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})$ on $V(p_1) \otimes V(p_2) \cong \mathbb{R}^{16}$
+in the grading-preserving sector (where $A_B, B_B$ are the Beisert $\mathfrak{su}(2)$ bosonic
+scattering amplitudes, $D_F, E_F$ are the fermionic $\mathfrak{su}(2)$ amplitudes, and
+$G_{BF}, L_{BF}$ are the mixed boson–fermion transmission and reflection amplitudes of
+Beisert 2005 / `arXiv:1204.2366` Sec. 2.2 & Sec. 3.1). -/
+@[blueprint "def:signals-scattering-psl22-worldsheet-rmatrix16"
+  (title := "16×16 psl(2|2)_c worldsheet R-matrix in the grading-preserving sector")
+  (statement := /-- Define the $16\times 16$ worldsheet $R$-matrix
+    $R_{16}(A_B,B_B,D_F,E_F,G_{BF},L_{BF}) \in \mathbb R^{16\times 16}$ acting on
+    $(\mathbb R^{2|2})^{\otimes 2}$ with bosonic $(A_B,B_B)$, fermionic $(D_F,E_F)$, and
+    mixed boson–fermion $(G_{BF},L_{BF})$ blocks. -/)]
+def psl22WorldsheetRMatrix16 (A_B B_B D_F E_F G_BF L_BF : ℝ) : Matrix (Fin 16) (Fin 16) ℝ :=
+  fun I J =>
+    let a := psl22FirstFactor I
+    let b := psl22SecondFactor I
+    if a.val < 2 ∧ b.val < 2 then
+      (if I = J then A_B else 0) + (if J = psl22PairIndex b a then B_B else 0)
+    else if a.val ≥ 2 ∧ b.val ≥ 2 then
+      (if I = J then D_F else 0) + (if J = psl22PairIndex b a then E_F else 0)
+    else
+      (if I = J then L_BF else 0) + (if J = psl22PairIndex b a then G_BF else 0)
+
+/-- **Full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ Worldsheet $R$-Matrix & Secret Coproduct Intertwining Theorem (`arXiv:1204.2366`, Eq. (3.1)–(3.3))**:
+1. **Graded Permutation Involution**:
+   $\Pi_{16}^2 = I_{16}$ on $(\mathbb{R}^{2|2})^{\otimes 2} \cong \mathbb{R}^{16}$,
+2. **Exact Graded-Swap Intertwining Between $\Delta(\widehat{\mathbb{B}})$ and $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}})$**:
+   For arbitrary rapidity-dependent secret charges $B_1, B_2 \in \mathbb{R}$ (`arXiv:1204.2366`, Eq. (3.1)),
+   $$\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2)\,\Pi_{16}
+     = \Pi_{16}\,\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2),$$
+3. **Full $16 \times 16$ Worldsheet $R$-Matrix Secret Intertwining (Transmission Block $L_{BF} = 0$)**:
+   For any bosonic amplitudes $(A_B, B_B)$, fermionic amplitudes $(D_F, E_F)$, and
+   boson–fermion permutation amplitude $G_{BF}$ (with non-permuting mixed amplitude $L_{BF} = 0$),
+   the $16 \times 16$ matrix equation holds for *arbitrary* $B_1, B_2 \in \mathbb{R}$:
+   $$\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2)\,
+       R_{16}(A_B, B_B, D_F, E_F, G_{BF}, 0)
+     = R_{16}(A_B, B_B, D_F, E_F, G_{BF}, 0)\,
+       \Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2),$$
+4. **Equal-Charge ($B_1 = B_2 = B_0$) Universal $16 \times 16$ Commutation & Non-Equal Mixed Obstruction**:
+   When $B_1 = B_2 = B_0$, $\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_0, B_0)$ commutes with the
+   full 6-parameter $R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})$ for arbitrary $L_{BF}$;
+   whereas for $B_1 \neq B_2$ and $L_{BF} \neq 0$, the mixed boson–fermion diagonal residual
+   at $I = (0, 2)$ equals $2(B_2 - B_1)L_{BF} \neq 0$ (which in the full Beisert $R$-matrix
+   is cancelled precisely by the off-diagonal Yangian tail $\frac{i}{2}\mathbb{J}_a^b \otimes \mathbb{J}_b^a$
+   coupled to the fermion-pair creation/annihilation amplitudes $C, F$, `arXiv:1204.2366`, Eq. (3.2)–(3.3)). -/
+@[blueprint "thm:signals-scattering-psl22-rmatrix16-secret-intertwining"
+  (title := "16×16 psl(2|2)_c worldsheet R-matrix secret coproduct intertwining theorem (arXiv:1204.2366 Eq. (3.1))")
+  (statement := /-- For any $B_1, B_2, B_0, A_B, B_B, D_F, E_F, G_{BF}, L_{BF} \in \mathbb R$:
+    (1) $\Pi_{16} * \Pi_{16} = I_{16}$,
+    (2) $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb B})(B_1,B_2)\,\Pi_{16}
+    = \Pi_{16}\,\Delta_{\mathrm{diag}}(\widehat{\mathbb B})(B_1,B_2)$,
+    (3) $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb B})(B_1,B_2)\,R_{16}(A_B,B_B,D_F,E_F,G_{BF},0)
+    = R_{16}(A_B,B_B,D_F,E_F,G_{BF},0)\,\Delta_{\mathrm{diag}}(\widehat{\mathbb B})(B_1,B_2)$,
+    (4) $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb B})(B_0,B_0)\,R_{16}(A_B,B_B,D_F,E_F,G_{BF},L_{BF})
+    = R_{16}(A_B,B_B,D_F,E_F,G_{BF},L_{BF})\,\Delta_{\mathrm{diag}}(\widehat{\mathbb B})(B_0,B_0)$, and
+    (5) at $I = J = 2$ (state $|0 \otimes 2\rangle = |\phi^1 \otimes \psi^1\rangle$), the diagonal commutator residual
+    equals $2(B_2 - B_1)L_{BF}$. -/)
+  (proof := /-- Collapse the graded permutation sum via \texttt{psl22PairIndex\_swap\_involutive}
+    and check the $16$ diagonal/swapped cases in $\operatorname{Fin}(16)$. -/)]
+theorem psl22_rmatrix16_secret_coproduct_intertwining
+    (B1 B2 B0 A_B B_B D_F E_F G_BF L_BF : ℝ) :
+    psl22GradedSwap16 * psl22GradedSwap16 = (1 : Matrix (Fin 16) (Fin 16) ℝ) ∧
+      psl22SecretCoproductOp16 B1 B2 * psl22GradedSwap16 =
+        psl22GradedSwap16 * psl22SecretCoproductDiag16 B1 B2 ∧
+      psl22SecretCoproductOp16 B1 B2 *
+          psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF 0 =
+        psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF 0 *
+          psl22SecretCoproductDiag16 B1 B2 ∧
+      psl22SecretCoproductOp16 B0 B0 *
+          psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF =
+        psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF *
+          psl22SecretCoproductDiag16 B0 B0 ∧
+      (psl22SecretCoproductOp16 B1 B2 *
+          psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF -
+        psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF *
+          psl22SecretCoproductDiag16 B1 B2) 2 2 =
+        2 * (B2 - B1) * L_BF := by
+  have h_swap_sq : psl22GradedSwap16 * psl22GradedSwap16 = (1 : Matrix (Fin 16) (Fin 16) ℝ) := by
+    ext I J
+    rw [Matrix.mul_apply, Matrix.one_apply]
+    simp only [psl22GradedSwap16, ite_mul, zero_mul]
+    rw [Finset.sum_ite_eq']
+    simp only [Finset.mem_univ, ↓reduceIte]
+    rcases psl22PairIndex_swap_involutive I with ⟨h_inv, h_f1, h_f2⟩
+    rw [h_inv, h_f1, h_f2]
+    by_cases hIJ : J = I
+    · subst hIJ
+      simp only [↓reduceIte]
+      by_cases hf : (psl22FirstFactor J).val ≥ 2 ∧ (psl22SecondFactor J).val ≥ 2
+      · simp [hf]
+      · have hf' : ¬((psl22SecondFactor J).val ≥ 2 ∧ (psl22FirstFactor J).val ≥ 2) :=
+          fun h => hf ⟨h.2, h.1⟩
+        simp [hf, hf']
+    · have hJI : I ≠ J := Ne.symm hIJ
+      simp [hIJ, hJI]
+  have h_swap_intertwine :
+      psl22SecretCoproductOp16 B1 B2 * psl22GradedSwap16 =
+        psl22GradedSwap16 * psl22SecretCoproductDiag16 B1 B2 := by
+    ext I J
+    rw [psl22SecretCoproductOp16, psl22SecretCoproductDiag16, psl22SecretCoproductDiag16,
+      Matrix.diagonal_mul, Matrix.mul_diagonal]
+    unfold psl22GradedSwap16
+    by_cases hJ : J = psl22PairIndex (psl22SecondFactor I) (psl22FirstFactor I)
+    · subst hJ
+      rcases psl22PairIndex_swap_involutive I with ⟨_, h_f1, h_f2⟩
+      simp only [↓reduceIte, h_f1, h_f2]
+      ring
+    · simp [hJ]
+  have h_rmat_intertwine :
+      psl22SecretCoproductOp16 B1 B2 *
+          psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF 0 =
+        psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF 0 *
+          psl22SecretCoproductDiag16 B1 B2 := by
+    ext I J
+    rw [psl22SecretCoproductOp16, psl22SecretCoproductDiag16, psl22SecretCoproductDiag16,
+      Matrix.diagonal_mul, Matrix.mul_diagonal]
+    unfold psl22WorldsheetRMatrix16
+    dsimp only
+    split_ifs with h_bb h_IJ h_swap h_swap2 h_ff h_IJ2 h_swap3 h_swap4 h_IJ3 h_swap5 h_swap6
+    · subst h_IJ
+      have hp1 : psl22ParitySign (psl22FirstFactor I) = 1 := by
+        unfold psl22ParitySign; simp [h_bb.1]
+      have hp2 : psl22ParitySign (psl22SecondFactor I) = 1 := by
+        unfold psl22ParitySign; simp [h_bb.2]
+      rw [hp1, hp2]; ring
+    · subst h_IJ
+      have hp1 : psl22ParitySign (psl22FirstFactor I) = 1 := by
+        unfold psl22ParitySign; simp [h_bb.1]
+      have hp2 : psl22ParitySign (psl22SecondFactor I) = 1 := by
+        unfold psl22ParitySign; simp [h_bb.2]
+      rw [hp1, hp2]; ring
+    · subst h_swap2
+      rcases psl22PairIndex_swap_involutive I with ⟨_, h_f1, h_f2⟩
+      rw [h_f1, h_f2]; ring
+    · ring
+    · subst h_IJ2
+      have hp1 : psl22ParitySign (psl22FirstFactor I) = -1 := by
+        unfold psl22ParitySign; simp [not_lt.mpr h_ff.1]
+      have hp2 : psl22ParitySign (psl22SecondFactor I) = -1 := by
+        unfold psl22ParitySign; simp [not_lt.mpr h_ff.2]
+      rw [hp1, hp2]; ring
+    · subst h_IJ2
+      have hp1 : psl22ParitySign (psl22FirstFactor I) = -1 := by
+        unfold psl22ParitySign; simp [not_lt.mpr h_ff.1]
+      have hp2 : psl22ParitySign (psl22SecondFactor I) = -1 := by
+        unfold psl22ParitySign; simp [not_lt.mpr h_ff.2]
+      rw [hp1, hp2]; ring
+    · subst h_swap4
+      rcases psl22PairIndex_swap_involutive I with ⟨_, h_f1, h_f2⟩
+      rw [h_f1, h_f2]; ring
+    · ring
+    · subst h_swap5
+      rcases psl22PairIndex_swap_involutive I with ⟨_, h_f1, h_f2⟩
+      rw [h_f1, h_f2]; ring
+    · ring
+    · subst h_swap6
+      rcases psl22PairIndex_swap_involutive I with ⟨_, h_f1, h_f2⟩
+      rw [h_f1, h_f2]; ring
+    · ring
+  have h_rmat_equal :
+      psl22SecretCoproductOp16 B0 B0 *
+          psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF =
+        psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF *
+          psl22SecretCoproductDiag16 B0 B0 := by
+    ext I J
+    rw [psl22SecretCoproductOp16, psl22SecretCoproductDiag16,
+      Matrix.diagonal_mul, Matrix.mul_diagonal]
+    unfold psl22WorldsheetRMatrix16
+    dsimp only
+    split_ifs with h_bb h_IJ h_swap h_swap2 h_ff h_IJ2 h_swap3 h_swap4 h_IJ3 h_swap5 h_swap6
+    · subst h_IJ; ring
+    · subst h_IJ; ring
+    · subst h_swap2
+      rcases psl22PairIndex_swap_involutive I with ⟨_, h_f1, h_f2⟩
+      rw [h_f1, h_f2]; ring
+    · ring
+    · subst h_IJ2; ring
+    · subst h_IJ2; ring
+    · subst h_swap4
+      rcases psl22PairIndex_swap_involutive I with ⟨_, h_f1, h_f2⟩
+      rw [h_f1, h_f2]; ring
+    · ring
+    · subst h_IJ3; ring
+    · subst h_IJ3; ring
+    · subst h_swap6
+      rcases psl22PairIndex_swap_involutive I with ⟨_, h_f1, h_f2⟩
+      rw [h_f1, h_f2]; ring
+    · ring
+  have h_res22 :
+      (psl22SecretCoproductOp16 B1 B2 *
+          psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF -
+        psl22WorldsheetRMatrix16 A_B B_B D_F E_F G_BF L_BF *
+          psl22SecretCoproductDiag16 B1 B2) 2 2 =
+        2 * (B2 - B1) * L_BF := by
+    rw [Matrix.sub_apply, psl22SecretCoproductOp16, psl22SecretCoproductDiag16,
+      psl22SecretCoproductDiag16, Matrix.diagonal_mul, Matrix.mul_diagonal]
+    simp [psl22WorldsheetRMatrix16, psl22ParitySign, psl22FirstFactor, psl22SecondFactor,
+      psl22PairIndex]
+    ring
+  exact ⟨h_swap_sq, h_swap_intertwine, h_rmat_intertwine, h_rmat_equal, h_res22⟩
+
 end Signals.Scattering

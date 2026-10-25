@@ -457,6 +457,69 @@ pub fn sorkin_triple_slit_parameter(z0: Complex64, z1: Complex64, z2: Complex64)
     i012 - (i01 + i02 + i12) + (i0 + i1 + i2)
 }
 
+/// Dimensionless Fresnel number $N_{\mathrm{F}}(\rho_{\max}, \lambda, L) = \frac{\rho_{\max}^2}{\lambda L}$,
+/// matching `Signals.Huygens.fresnelNumber`.
+#[inline]
+pub fn fresnel_number(aperture_radius: f64, wavelength: f64, screen_distance: f64) -> f64 {
+    (aperture_radius * aperture_radius) / (wavelength * screen_distance)
+}
+
+/// Paraxial Fresnel quadratic aperture phase remainder
+/// $\Delta\phi_{\mathrm{Fresnel}}(\xi, \eta; \lambda, L) = \frac{\pi(\xi^2 + \eta^2)}{\lambda L}$,
+/// matching `Signals.Huygens.fresnelPhaseRemainder`.
+#[inline]
+pub fn fresnel_phase_remainder(xi: f64, eta: f64, wavelength: f64, screen_distance: f64) -> f64 {
+    (PI * (xi * xi + eta * eta)) / (wavelength * screen_distance)
+}
+
+/// Exact unit-phasor squared chord error
+/// $|e^{i(\phi + \Delta\phi)} - e^{i\phi}|^2 = 4\sin^2(\Delta\phi / 2) \le (\Delta\phi)^2 \le (\pi N_{\mathrm{F}})^2$,
+/// matching `Signals.Huygens.fresnel_to_fraunhofer_remainder_bound`.
+#[inline]
+pub fn fresnel_to_fraunhofer_chord_error_sq(
+    xi: f64,
+    eta: f64,
+    aperture_radius: f64,
+    wavelength: f64,
+    screen_distance: f64,
+) -> (f64, f64, f64) {
+    let delta_phi = fresnel_phase_remainder(xi, eta, wavelength, screen_distance);
+    let nf_bound = PI * fresnel_number(aperture_radius, wavelength, screen_distance);
+    let exact_chord_sq = 4.0 * (0.5 * delta_phi).sin().powi(2);
+    (exact_chord_sq, delta_phi * delta_phi, nf_bound * nf_bound)
+}
+
+/// Real $3 \times n$ three-row Plücker minor $\Delta_{c_0 c_1 c_2}(M)$,
+/// matching `Signals.Geometry.threeRowMinor`.
+pub fn three_row_minor_real<const N: usize>(
+    matrix: &[[f64; N]; 3],
+    c0: usize,
+    c1: usize,
+    c2: usize,
+) -> f64 {
+    matrix[0][c0] * (matrix[1][c1] * matrix[2][c2] - matrix[1][c2] * matrix[2][c1])
+        - matrix[0][c1] * (matrix[1][c0] * matrix[2][c2] - matrix[1][c2] * matrix[2][c0])
+        + matrix[0][c2] * (matrix[1][c0] * matrix[2][c1] - matrix[1][c1] * matrix[2][c0])
+}
+
+/// Four-term quadratic Plücker residual on $Gr(3, n)$ for shared pivot columns `(i1, i2)`
+/// and four columns `(j0, j1, j2, j3)`, matching `Signals.Geometry.threeRowMinor_pluecker`
+/// (identically $0$).
+pub fn gr3n_four_term_plucker_residual<const N: usize>(
+    matrix: &[[f64; N]; 3],
+    i1: usize,
+    i2: usize,
+    j0: usize,
+    j1: usize,
+    j2: usize,
+    j3: usize,
+) -> f64 {
+    three_row_minor_real(matrix, i1, i2, j0) * three_row_minor_real(matrix, j1, j2, j3)
+        - three_row_minor_real(matrix, i1, i2, j1) * three_row_minor_real(matrix, j0, j2, j3)
+        + three_row_minor_real(matrix, i1, i2, j2) * three_row_minor_real(matrix, j0, j1, j3)
+        - three_row_minor_real(matrix, i1, i2, j3) * three_row_minor_real(matrix, j0, j1, j2)
+}
+
 /// Construct the triple-slit ($N = 3$) $Gr_{\mathbb{C}}(2, 5)$–DDF sheath twistor matrix,
 /// matching `Signals.DDF.MovingSheath.gr25TripleSlitTwistorMatrix`.
 pub fn ddf_gr25_triple_slit_twistor_matrix(
@@ -1068,5 +1131,19 @@ mod tests {
             let i_f3 = evaluate_multi_slit_model(SlitModelKind::Fraunhofer, &p3, x, y);
             assert!((i_gr25 - i_f3).abs() < 1e-12);
         }
+
+        // Verify Fresnel-to-Fraunhofer quadratic phase remainder & chord bound
+        let (chord_sq, rem_sq, nf_sq) = fresnel_to_fraunhofer_chord_error_sq(0.3, 0.4, 1.0, 0.5, 10.0);
+        assert!(chord_sq <= rem_sq + 1e-15);
+        assert!(rem_sq <= nf_sq + 1e-15);
+
+        // Verify higher-rank Gr(3,6) 4-term quadratic Plucker relation
+        let m36 = [
+            [1.0, 2.0, -1.0, 3.0, 0.5, 4.0],
+            [0.0, 1.0, 2.5, -2.0, 1.5, -0.5],
+            [2.0, -1.0, 1.0, 0.5, 3.0, 2.0],
+        ];
+        assert!(gr3n_four_term_plucker_residual(&m36, 0, 1, 2, 3, 4, 5).abs() < 1e-12);
+        assert!(gr3n_four_term_plucker_residual(&m36, 0, 1, 1, 2, 3, 4).abs() < 1e-12);
     }
 }

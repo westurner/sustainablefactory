@@ -1434,6 +1434,54 @@ Implemented in [Scattering.lean](../src/signals/Signals/Scattering.lean),
   ($\lambda_{\mathrm{rg}} > 1$) scales $\det\Sigma_{\mathrm{IR}} = \lambda_{\mathrm{rg}}^4\det\Sigma_{\mathrm{UV}} > \det\Sigma_{\mathrm{UV}}$
   and relaxes both the continuum and splat core Bohm potentials by $\lambda_{\mathrm{rg}}^{-2}$.
 
+### Iteration 33: Paraxial Fresnel-to-Fraunhofer Remainder Bound, Higher-Rank $Gr(3,n)$ / $Gr_{\mathbb{C}}(3,n)$ Four-Term Plücker Relations, Multi-Layer & Three-Channel ($k=3$) LGV Disjoint-Path Positivity, and Full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ Worldsheet $R$-Matrix Secret Intertwining
+
+Implemented in [Huygens.lean](../src/signals/Signals/Huygens.lean),
+[Quadrature.lean](../src/signals/Signals/Quadrature.lean),
+[Geometry.lean](../src/signals/Signals/Geometry.lean),
+[Plabic.lean](../src/signals/Signals/Plabic.lean),
+[Scattering.lean](../src/signals/Signals/Scattering.lean), and the Rust/WASM crate
+(`double_slit.rs`, `orbital_splat.rs`, `polariton_spp.rs`):
+
+- **Paraxial Fresnel-to-Fraunhofer Quadratic Phase Remainder & Combined Quadrature Comparison (`fresnel_to_fraunhofer_remainder_bound`, `CellQuadrature.fresnelFraunhoferComparison`)**:
+  Formalized the linear Fraunhofer phase $\phi_{\mathrm{Fraun}}(x,y,\xi,\eta) = -\frac{2\pi(x\xi + y\eta)}{\lambda L}$,
+  quadratic Fresnel remainder $\Delta\phi_{\mathrm{Fresnel}}(\xi,\eta) = \frac{\pi(\xi^2 + \eta^2)}{\lambda L}$,
+  and Fresnel number $N_{\mathrm{F}}(\rho_{\max}, \lambda, L) = \frac{\rho_{\max}^2}{\lambda L}$.
+  Proved that for $\xi^2 + \eta^2 \le \rho_{\max}^2$, $0 \le \Delta\phi_{\mathrm{Fresnel}} \le \pi N_{\mathrm{F}}$
+  and the unit-phasor chord error satisfies
+  $$|e^{i\phi_{\mathrm{Fresnel}}} - e^{i\phi_{\mathrm{Fraun}}}|^2 = 4\sin^2(\Delta\phi_{\mathrm{Fresnel}}/2) \le (\Delta\phi_{\mathrm{Fresnel}})^2 \le (\pi N_{\mathrm{F}})^2.$$
+  Combined this in `CellQuadrature.fresnelFraunhoferComparison` with `CellQuadrature.uniformComparison`
+  via `AmplitudeComparison.compose` to obtain the unified discrete-to-Fraunhofer tolerance
+  $\bigl(L_{\mathrm{Lip}} h + \pi N_{\mathrm{F}}(\rho_{\max}, \lambda, L)\bigr)\mu(X)$.
+- **Higher-Rank $Gr(3, n)$ and $Gr_{\mathbb{C}}(3, n)$ Four-Term Plücker Relations (`threeRowMinor_pluecker`, `complexThreeRowMinor_pluecker`, `selectedMinor_pluecker_rank3_five`)**:
+  Extended the $2 \times n$ Plücker framework to rank $k = 3$ over both $\mathbb{R}$ and $\mathbb{C}$,
+  proving $GL(3, \mathbb{R})$ basis-change scaling (`threeRowMinor_basisChange`), equivalence
+  with `selectedMinor` on ordered triples (`threeRowMinor_eq_selectedMinor`), the general
+  4-term quadratic Plücker syzygy
+  $$\Delta_{i_1 i_2 j_0}\Delta_{j_1 j_2 j_3} - \Delta_{i_1 i_2 j_1}\Delta_{j_0 j_2 j_3} + \Delta_{i_1 i_2 j_2}\Delta_{j_0 j_1 j_3} - \Delta_{i_1 i_2 j_3}\Delta_{j_0 j_1 j_2} = 0,$$
+  and the ordered five-column `selectedMinor` specialization `selectedMinor_pluecker_rank3_five`.
+- **Multi-Layer & Three-Channel ($k = 3$) Lindström–Gessel–Viennot Disjoint-Path Positivity (`lgv_multiLayer_det_prod`, `lgv_multiLayer_det_positive`, `planar_threeChannel_lgv_and_bottleneck_identities`)**:
+  Proved arbitrary-length layer transfer determinant multiplicativity and strict positivity
+  for any finite list $L$ of $k \times k$ planar transfer steps, and proved for $k = 3$ channels
+  that planar upper/lower-bidiagonal steps have positive vertex-disjoint path determinant
+  $d_0 d_1 d_2 > 0$, whereas routing 3 channels through a 2-vertex bottleneck forces
+  $\det(AB) = 0$ for all $A \in \mathbb{R}^{3\times 2}, B \in \mathbb{R}^{2\times 3}$.
+- **Full $16 \times 16$ $\mathfrak{psl}(2|2)_c$ Worldsheet $R$-Matrix & Secret Coproduct Intertwining (`psl22_rmatrix16_secret_coproduct_intertwining`)**:
+  Formalized the $16 \times 16$ $\mathbb{Z}_2$-graded permutation matrix $\Pi_{16}$, the
+  two-site diagonal secret symmetry coproducts $\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2)$
+  and $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2)$, and the 6-parameter
+  $16 \times 16$ worldsheet $R$-matrix $R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})$, proving
+  $\Pi_{16}^2 = I_{16}$, $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}})\Pi_{16} = \Pi_{16}\Delta(\widehat{\mathbb{B}})$,
+  exact $16 \times 16$ intertwining $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2)\,R_{16}(A_B, B_B, D_F, E_F, G_{BF}, 0) = R_{16}(A_B, B_B, D_F, E_F, G_{BF}, 0)\,\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2)$,
+  universal equal-charge ($B_1 = B_2 = B_0$) commutation, and the mixed boson–fermion
+  commutator residual $2(B_2 - B_1)L_{BF}$ at state $|\phi^1 \otimes \psi^1\rangle$.
+- **Adaptive Splat Remeshing & Coupled Electro-Thermal-Optical OPA Gain in Rust/WASM**:
+  Added `NormedTensorGaussianSplat2D::split_if_anisotropic` and `OrbitalSplatScene::adaptive_remesh`
+  (preserving $L^1$ weight, center of mass, and major-axis second-moment variance
+  $\tilde{\sigma}_{\mathrm{maj}}^2 + \delta^2 = \sigma_{\mathrm{maj}}^2$),
+  `SecondHarmonicResonantOpaModel::coupled_electro_thermal_net_gain_sq`, and
+  Fresnel/rank-3 Plücker evaluators in `double_slit.rs`.
+
 ```lean
 -- Iteration 25-32 verification: Inverse Compton, Raman, Polaritons, SPPs, AdS/CFT, Secret Symmetries, and Splat-Free Continuum vs. Tensor Splat DDF Mechanics
 example {sub : Signals.DDF.DDFSubstrate} (s : Signals.DDF.MovingSheath sub)
@@ -1686,12 +1734,12 @@ Four overarching theoretical implications follow from these machine-checked theo
 |---|---|---|
 | 0 | Regularity/positive-scale guards, nonempty finite-extent slit samples, arbitrary-wavelength analytic reference, phase/mask/off-axis controls, fixed-tolerance rejection. | Finite-area slit geometry and refinement belong to the continuum/quadrature track; fixtures are not measurements. |
 | 1 | Selected fixed-field planar area integral, guarded integrability, disjoint-mask addition. | Boundary approximation accuracy, incident/boundary data, dimensioned field normalization, and a justified Green representation or approximation bound. |
-| 2 | Actual measured-cell weights, derived Lipschitz/mesh/area error rate, refinement convergence, uniform-domain comparison, finite-aperture correspondence, and the analytic Fraunhofer rectangular double-slit benchmark with proved on-axis maximum, symmetry, interference dark fringes, and diffraction envelope nulls. | Prove uniform optical-kernel regularity from separation and a wavelength interval; construct a rectangular area mesh and prove convergence of the planar aperture integral to the Fraunhofer limit in the far-field regime. |
-| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision and parallel two-edge diamond reduction invariance, measured fork rank/positivity, two-channel determinant/rank controls, shared-hub cancellation, general finite two-step pair/minor identities with arbitrary ordered sink selections and derived positive/full-rank nonnegative records, and general $2\times n$ ordered four-column Pluecker relations with sign-flip controls. | Decoration rules; higher-rank ($k\ge 3$) Pluecker relations and arbitrary-length minor/disjoint-path identities, embedding-derived ordered-minor positivity, embedded signed boundary measurements/cell correspondence, general embedded-network moves, and any quotient construction. |
+| 2 | Actual measured-cell weights, derived Lipschitz/mesh/area error rate, refinement convergence, uniform-domain comparison, finite-aperture correspondence, the analytic Fraunhofer rectangular double-slit benchmark with proved on-axis maximum, symmetry, interference dark fringes, and diffraction envelope nulls, and the paraxial Fresnel-to-Fraunhofer quadratic phase remainder & unit-phasor chord bound (`fresnel_to_fraunhofer_remainder_bound`, `CellQuadrature.fresnelFraunhoferComparison`). | Prove uniform optical-kernel Lipschitz regularity directly from separation and a wavelength interval, and construct an explicit 2D rectangular area mesh partition. |
+| 3 | General determinant basis law, orientation controls, ratio invariance, normalized positive interval representative; bounded earliest exits and derived boundary first-return permutation; ranked weighted transfer, boundary measurements, guarded one-edge subdivision and parallel two-edge diamond reduction invariance, measured fork rank/positivity, two-channel determinant/rank controls, shared-hub cancellation, general finite two-step pair/minor identities with arbitrary ordered sink selections and derived positive/full-rank nonnegative records, general $2\times n$ ordered four-column Pluecker relations with sign-flip controls, higher-rank $Gr(3,n)$ and $Gr_{\mathbb{C}}(3,n)$ four-term quadratic Pluecker relations (`threeRowMinor_pluecker`, `complexThreeRowMinor_pluecker`, `selectedMinor_pluecker_rank3_five`), and multi-layer & three-channel ($k=3$) Lindström–Gessel–Viennot disjoint-path positivity vs. 2-vertex bottleneck cancellation (`lgv_multiLayer_det_positive`, `planar_threeChannel_lgv_and_bottleneck_identities`). | Decoration rules; arbitrary-rank ($k \ge 4$) Pluecker syzygies, general non-layered planar disk embedding cell correspondence, general embedded-network square moves, and any quotient construction. |
 | 4 | Affine alternating interval/triangle/square forms, oriented boundary limits, normalization, pullbacks, and diagonal cancellation/continuation. | General projective canonical-form existence/uniqueness, arbitrary-chart invariance and higher-dimensional amplituhedron forms. |
 | 5 | A literal unphased form-evaluation candidate is falsified without fitting; complex $Gr_{\mathbb{C}}(2,4)$ and $Gr_{\mathbb{C}}(2,N+2)$ twistor channel evaluators (`complexGr24CrossingDoubleSlit`, `MovingSheath.gr24TwistorMatrix`, `NormedTensorGaussianSplat2D.complexTwistorWavepacket`) eliminate the $50\%$ unphased error and reproduce Fraunhofer, Huygens--Steiner, OAM, and DDF moving-sheath interference identically. | Derive a first-principles Helmholtz boundary integral pushforward without prescribing the paraxial phase argument $\theta(x,y,\phi)$. |
-| 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds, separate error-budget composition, five-model double-slit & $N$-slit ($N>0$) error laws, QISM $8\times 8$ Yang--Baxter / $Gr(2,4)$ Wronskian / Slavnov identities, DDF sheath jamming / Anosov invariance, BCJ double-copy planetary precession ($42.98''/\text{cy}$), normed Tensor Gaussian Splatting ($Q_{\mathrm{core}}, \Pi_{ij}$), Inverse Compton, Stokes/anti-Stokes Raman, Fourier / Cattaneo--Vernotte / Grassmannian--DDF heat transport, Polaritons / SPPs, CSR-SPP superradiance, 't Hooft--Susskind holography, $\chi^{(2)}$ SHG-OPA squeezing, and Maldacena/GKPW AdS/CFT, planar integrability (`arXiv:1012.3982`), and $\mathfrak{psl}(2|2)_c$ secret symmetries (`arXiv:1204.2366`) (both splat-free continuum and tensor-splat). | Connect the 2D planar aperture integral to the 3D paraxial Fraunhofer limit via an explicit Fresnel remainder bound. |
-| 7 | No experimental claim introduced; Rust/WASM (`wasm32-unknown-unknown`) and WebGL2 GLSL (`#version 300 es`) numerical adapters (`double_slit.rs`, `orbital_splat.rs`, `thermal_inelastic.rs`, `polariton_spp.rs`) verified with 48 parametric `rstest` and `insta` snapshot tests. | Calibrated raw optical, interferometric, Raman, and thermal-wave laboratory data, uncertainty, backgrounds, drift, and model-regime controls. |
+| 6 | Nonempty fixed-function comparisons, amplitude/intensity bounds, separate error-budget composition, paraxial Fresnel-to-Fraunhofer remainder bound (`fresnel_to_fraunhofer_remainder_bound`, `CellQuadrature.fresnelFraunhoferComparison`), five-model double-slit & $N$-slit ($N>0$) error laws, QISM $8\times 8$ Yang--Baxter / $Gr(2,4)$ Wronskian / Slavnov identities, DDF sheath jamming / Anosov invariance, BCJ double-copy planetary precession ($42.98''/\text{cy}$), normed Tensor Gaussian Splatting ($Q_{\mathrm{core}}, \Pi_{ij}$), Inverse Compton, Stokes/anti-Stokes Raman, Fourier / Cattaneo--Vernotte / Grassmannian--DDF heat transport, Polaritons / SPPs, CSR-SPP superradiance, 't Hooft--Susskind holography, $\chi^{(2)}$ SHG-OPA squeezing, Maldacena/GKPW AdS/CFT, planar integrability (`arXiv:1012.3982`), and $16 \times 16$ $\mathfrak{psl}(2|2)_c$ secret symmetries (`arXiv:1204.2366`, `psl22_rmatrix16_secret_coproduct_intertwining`) (both splat-free continuum and tensor-splat). | Full 3D non-paraxial Rayleigh–Sommerfeld vector boundary-integral remainder bound. |
+| 7 | No experimental claim introduced; Rust/WASM (`wasm32-unknown-unknown`) and WebGL2 GLSL (`#version 300 es`) numerical adapters (`double_slit.rs`, `orbital_splat.rs`, `thermal_inelastic.rs`, `polariton_spp.rs`) including adaptive splat remeshing (`split_if_anisotropic`) and coupled electro-thermal-optical OPA gain verified with 48 parametric `rstest` and `insta` snapshot tests. | Calibrated raw optical, interferometric, Raman, and thermal-wave laboratory data, uncertainty, backgrounds, drift, and model-regime controls. |
 
 No theorem here promotes a supplied Pending match, a checked fixture, or a
 canonical-form identity into optical or hardware validation. The next bridge

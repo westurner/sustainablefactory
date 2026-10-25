@@ -218,4 +218,73 @@ lemma CellQuadrature.toAperture_amplitude {measure : Measure (ℝ × ℝ)} {cell
   simp [Signals.Huygens.Aperture.amplitude, toAperture, amplitude,
     Signals.Huygens.FixedPlanarField.density, Complex.real_smul, mul_assoc]
 
+/-- **Combined Quadrature-and-Fresnel Far-Field Comparison Theorem**:
+Given a finite measurable aperture partition `quadrature`, a Fresnel continuum
+density `fresnelDensity`, and a far-field Fraunhofer density `fraunhoferDensity`
+whose pointwise Fresnel phase remainder is bounded almost everywhere by
+$\pi N_{\mathrm{F}}(\rho_{\max}, \lambda, L) = \frac{\pi \rho_{\max}^2}{\lambda L}$,
+triangle-inequality composition (`AmplitudeComparison.compose`) produces a single
+derived `AmplitudeComparison` between the discrete aperture quadrature sum and
+the continuum Fraunhofer integral with combined error budget
+$\bigl(L_{\mathrm{Lip}}\,h + \pi N_{\mathrm{F}}(\rho_{\max}, \lambda, L)\bigr)\mu(X)$. -/
+@[blueprint "thm:signals-quadrature-fresnel-fraunhofer-comparison"
+  (title := "Combined cell-quadrature and Fresnel-to-Fraunhofer far-field amplitude comparison")
+  (statement := /-- On a nonempty detector domain $\mathcal D$, if `fresnelDensity` is integrable and
+    $L_{\mathrm{Lip}}$-Lipschitz with mesh size $h \ge 0$, and `fraunhoferDensity` is integrable with
+    almost-everywhere Fresnel remainder bound $\|f_{\mathrm{Fresnel}} - f_{\mathrm{Fraun}}\| \le \pi N_{\mathrm{F}}(\rho_{\max},\lambda,L)$,
+    then the discrete quadrature amplitude and continuum Fraunhofer integral satisfy an
+    \texttt{AmplitudeComparison} with tolerance
+    $\bigl(L_{\mathrm{Lip}} h + \pi N_{\mathrm{F}}(\rho_{\max},\lambda,L)\bigr)\mu(X)$. -/)
+  (proof := /-- Combine \texttt{CellQuadrature.uniformComparison} with \texttt{Signals.Huygens.integral\_error\_le}
+    via \texttt{Signals.Huygens.AmplitudeComparison.compose}. -/)]
+lemma CellQuadrature.fresnelFraunhoferComparison {Coordinate Detector : Type*}
+    [MeasurableSpace Coordinate] [PseudoMetricSpace Coordinate]
+    {measure : Measure Coordinate} [IsFiniteMeasure measure]
+    {cellCount : ℕ} (quadrature : CellQuadrature measure cellCount)
+    (fresnelDensity fraunhoferDensity : Detector → Coordinate → ℂ)
+    (domain : Set Detector) (nonempty : domain.Nonempty)
+    (constant : ℝ≥0) (meshSize apertureRadius wavelength screenDistance : ℝ)
+    (meshNonnegative : 0 ≤ meshSize)
+    (h_wave : 0 < wavelength) (h_dist : 0 < screenDistance)
+    (fresnelIntegrable : ∀ detector ∈ domain, Integrable (fresnelDensity detector) measure)
+    (fraunhoferIntegrable : ∀ detector ∈ domain, Integrable (fraunhoferDensity detector) measure)
+    (lipschitz : ∀ detector ∈ domain, LipschitzWith constant (fresnelDensity detector))
+    (meshBound : ∀ index, ∀ᵐ point ∂measure.restrict (quadrature.cell index),
+      dist (quadrature.sample index) point ≤ meshSize)
+    (fresnelRemainderBound : ∀ detector ∈ domain, ∀ᵐ point ∂measure,
+      ‖fresnelDensity detector point - fraunhoferDensity detector point‖ ≤
+        Real.pi * Signals.Huygens.fresnelNumber apertureRadius wavelength screenDistance) :
+    Signals.Huygens.AmplitudeComparison
+      (fun detector => quadrature.amplitude (fresnelDensity detector))
+      (fun detector => ∫ point, fraunhoferDensity detector point ∂measure)
+      domain
+      ((constant : ℝ) * meshSize * measure.real Set.univ +
+        (Real.pi * Signals.Huygens.fresnelNumber apertureRadius wavelength screenDistance) *
+          measure.real Set.univ) := by
+  have h_quad := quadrature.uniformComparison fresnelDensity domain nonempty
+    constant meshSize meshNonnegative fresnelIntegrable lipschitz meshBound
+  have h_nf_nonneg :
+      0 ≤ Real.pi * Signals.Huygens.fresnelNumber apertureRadius wavelength screenDistance := by
+    unfold Signals.Huygens.fresnelNumber
+    have h_pi : 0 ≤ Real.pi := le_of_lt Real.pi_pos
+    have h_r2 : 0 ≤ apertureRadius ^ 2 := sq_nonneg apertureRadius
+    have h_wl : 0 < wavelength * screenDistance := mul_pos h_wave h_dist
+    exact mul_nonneg h_pi (div_nonneg h_r2 (le_of_lt h_wl))
+  have h_fres :
+      Signals.Huygens.AmplitudeComparison
+        (fun detector => ∫ point, fresnelDensity detector point ∂measure)
+        (fun detector => ∫ point, fraunhoferDensity detector point ∂measure)
+        domain
+        ((Real.pi * Signals.Huygens.fresnelNumber apertureRadius wavelength screenDistance) *
+          measure.real Set.univ) :=
+    { domain_nonempty := nonempty
+      tolerance_nonnegative := mul_nonneg h_nf_nonneg MeasureTheory.measureReal_nonneg
+      amplitudeError := fun detector member =>
+        Signals.Huygens.integral_error_le measure
+          (fresnelDensity detector) (fraunhoferDensity detector)
+          (fresnelIntegrable detector member) (fraunhoferIntegrable detector member)
+          (Real.pi * Signals.Huygens.fresnelNumber apertureRadius wavelength screenDistance)
+          (fresnelRemainderBound detector member) }
+  exact h_quad.compose h_fres
+
 end Signals.Quadrature
