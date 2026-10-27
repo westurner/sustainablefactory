@@ -107,7 +107,7 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L7005-L7075) (Blueprint nod
 ---
 ### 2.3 The 18 Simultaneous 3-Zone $400 \to 800\text{ GHz}$ `rGO-polyCBD-SS-Lignin` SFG Audit, Zone 3 ENZ Detuning Fix, Denisov Grating Pitch, & Semenov–Hinshelwood Kinetics Laws (`three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities`)
 
-Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L7597-L7677) (Blueprint node `thm:signals-ddf-three-zone-sfg-and-hydroxyl-audit`) and paired with [`Signals.Pending.ThreeZoneHyperbolicSFGCannonHypothesis`](../Signals/Pending.lean#L4759-L4836) (`def:signals-three-zone-hyperbolic-sfg-cannon`):
+Defined in [../Signals/DDF.lean](../Signals/AntiFireCannon.lean#L156-L246) (Blueprint node `thm:signals-ddf-three-zone-sfg-and-hydroxyl-audit`) and paired with [`Signals.Pending.ThreeZoneHyperbolicSFGCannonHypothesis`](../Signals/Pending.lean#L4759-L4836) (`def:signals-three-zone-hyperbolic-sfg-cannon`):
 
 | # | 3-Zone SFG / ENZ / Kinetics Audit Law | Mathematical Identity | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L7604-L7626) |
 |---|---|---|---|

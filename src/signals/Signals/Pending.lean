@@ -4767,12 +4767,12 @@ anti-fire lens and combustion-heat-balance contract. -/
 structure ThreeZoneHyperbolicSFGCannonHypothesis where
   zone1EnzFill400 : ℝ
   zone1EnzFillLaw :
-    zone1EnzFill400 = Signals.DDF.emtCriticalEnzFillFraction (282 / 100) 110
+    zone1EnzFill400 = Signals.emtCriticalEnzFillFraction (282 / 100) 110
   zone2HyperbolicFill : ℝ
   zone2HyperbolicFillLaw : zone2HyperbolicFill = 32 / 1000
   zone3EnzFill800 : ℝ
   zone3EnzFillLaw :
-    zone3EnzFill800 = Signals.DDF.emtCriticalEnzFillFraction (282 / 100) (55 / 2)
+    zone3EnzFill800 = Signals.emtCriticalEnzFillFraction (282 / 100) (55 / 2)
   denisovEfficiency : BoundedFactor
   sfgConversionEfficiency : BoundedFactor
   soilTransmissionFactor : BoundedFactor

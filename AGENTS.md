@@ -181,7 +181,7 @@ claims.
 
 ## Dilatant Dark Fluid (DDF) Modeling
 
-[src/signals/Signals/DDF.lean](src/signals/Signals/DDF.lean) formalizes the core
+[src/signals/Signals/Nanolithography.lean](src/signals/Signals/Nanolithography.lean) formalizes the core
 mathematical framework of the Dilatant Dark Fluid (Fedi, 2026, SSRN 7406660):
 - `DDFSubstrate` defines the two-component ultralight bosonic medium: a coherent
   $\phi$ superfluid condensate coupled to a heavier dispersed $\varphi$ phase
@@ -452,7 +452,7 @@ make aggregate_data
 - [`src/core-v-cores/`](src/core-v-cores/README.md) (`openhwfoundation/core-v-cores`): OpenHW CORE-V family index (`CVA6`, `CVW`, `CVE4`, `CVE2`, `CVA5`).
 - [`src/cheri-cva6/`](src/cheri-cva6/README.md) (`Capabilities-Limited/cheri-cva6`) & [`src/cva6-cheri/`](src/cva6-cheri/README.md) (`lowRISC/cva6-cheri`): **6-stage Linux-capable RV64GC application processor** (`PC_GEN`, `IF`, `ID`, `ISSUE`, `EX`, `COMMIT` with Sv39 MMU `core/cva6_mmu/cva6_tlb.sv`, hardware PTW `cva6_ptw.sv`, and RVY CHERI v0.9.3 capability unit `core/cheri_unit.sv`).
 - [`src/ibex/`](src/ibex/README.md) (`lowRISC/ibex`): **2/3-stage RV32IMCB + CHERIoT embedded core** (`rtl/ibex_core.sv`, `rtl/ibex_cheriot_ex.sv`, `rtl/ibex_trvk.sv`, and `rtl/ibex_lockstep.sv` 1oo2 redundant lockstep comparator for SIL-4 safety).
-- [`src/signals/numerical_adapter/src/cannon_mask_cad.rs`](src/signals/numerical_adapter/src/cannon_mask_cad.rs): Pure-Rust / WASM generator and binary parser for KiCAD v8 (`.kicad_mod`), GDSII v6.0 (`.gds`), 3D `.kicad_vol` splines (`n_lig`, `s_lig`, `sp3_diamond`, `o_cnt`, `polycbd_bragg`), Metric Interference DRC, and IOF/EMMO/PROV-O/QUDT `_CBOM.yaml-ld` files, backed by `Signals.DDF.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities` in [`src/signals/Signals/DDF.lean`](src/signals/Signals/DDF.lean).
+- [`src/signals/numerical_adapter/src/cannon_mask_cad.rs`](src/signals/numerical_adapter/src/cannon_mask_cad.rs): Pure-Rust / WASM generator and binary parser for KiCAD v8 (`.kicad_mod`), GDSII v6.0 (`.gds`), 3D `.kicad_vol` splines (`n_lig`, `s_lig`, `sp3_diamond`, `o_cnt`, `polycbd_bragg`), Metric Interference DRC, and IOF/EMMO/PROV-O/QUDT `_CBOM.yaml-ld` files, backed by `Signals.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities` in [`src/signals/Signals/Nanolithography.lean`](src/signals/Signals/Nanolithography.lean).
 
 **Key Commands**:
 ```bash

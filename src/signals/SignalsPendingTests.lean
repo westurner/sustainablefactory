@@ -4773,11 +4773,11 @@ example : ¬toyCryogenicSpoolAMB.canSolidifyHe3 := by
 /-- Toy fixture for the 3-zone 400->800 GHz rGO-polyCBD-SS-Lignin hyperbolic SFG cannon hypothesis. -/
 noncomputable def toyThreeZoneHyperbolicSFGCannon : ThreeZoneHyperbolicSFGCannonHypothesis :=
   { zone1EnzFill400 := 141 / 5641
-    zone1EnzFillLaw := by unfold Signals.DDF.emtCriticalEnzFillFraction; norm_num
+    zone1EnzFillLaw := by unfold Signals.emtCriticalEnzFillFraction; norm_num
     zone2HyperbolicFill := 32 / 1000
     zone2HyperbolicFillLaw := rfl
     zone3EnzFill800 := 141 / 1516
-    zone3EnzFillLaw := by unfold Signals.DDF.emtCriticalEnzFillFraction; norm_num
+    zone3EnzFillLaw := by unfold Signals.emtCriticalEnzFillFraction; norm_num
     denisovEfficiency := { value := 9 / 10, nonnegative := by norm_num, le_one := by norm_num }
     sfgConversionEfficiency := { value := 1 / 20, nonnegative := by norm_num, le_one := by norm_num }
     soilTransmissionFactor := { value := 1 / 100, nonnegative := by norm_num, le_one := by norm_num }

@@ -1022,7 +1022,7 @@ impl RgoPolyCbdHyperbolicMetamaterial {
     }
 
     /// Audit the 3-zone $400 \to 800\text{ GHz}$ `rGO-polyCBD-SS-Lignin` hyperbolic SFG lens
-    /// (`Signals.DDF.three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities`):
+    /// (`Signals.three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities`):
     /// returns $(f_{\mathrm{ENZ,400}},\; \varepsilon_{\perp,400}(0.032),\; \varepsilon_{\perp,800}(0.032),\; f_{\mathrm{ENZ,800}},\; \Gamma_{\mathrm{ENZ,reg}}(f_{\mathrm{ENZ,800}}),\; \Gamma_{\mathrm{ENZ,reg}}(0.0988))$.
     #[inline]
     pub fn three_zone_sfg_and_enz_audit_summary() -> [f64; 6] {

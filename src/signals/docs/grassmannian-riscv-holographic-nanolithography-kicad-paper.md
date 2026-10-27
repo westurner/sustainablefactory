@@ -105,7 +105,7 @@ We cloned and audited four industrial-grade open-source RISC-V repositories in `
 
 ### 2.2 Why the 6-Stage `CVA6` Pipeline Matches $18.08\text{ nm}$ Carbon Nanolithography
 
-As proved in [`Signals.DDF.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities`](../Signals/DDF.lean#L7839-L7909) (`h8` and `h9`), partitioning a total combinational path delay $T_{\mathrm{total}} > 0$ across $N = 6$ pipeline stages (`CVA6`) strictly reduces the per-stage critical-path period compared to $N = 3$ or $N = 2$ stages (`Ibex`):
+As proved in [`Signals.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities`](../Signals/Nanolithography.lean#L80-L122) (`h8` and `h9`), partitioning a total combinational path delay $T_{\mathrm{total}} > 0$ across $N = 6$ pipeline stages (`CVA6`) strictly reduces the per-stage critical-path period compared to $N = 3$ or $N = 2$ stages (`Ibex`):
 
 $$
 T_{\mathrm{stage}}(T_{\mathrm{total}}, 6) = \frac{T_{\mathrm{total}}}{6}
@@ -158,7 +158,7 @@ For $A_1 = A_2 = \frac{4}{5}$, $I_{\mathrm{single}}\!\left(\frac{4}{5}, \frac{4}
 
 ### 4.1 Six Mathematical & Physical Gaps Closed in the 3-Zone $400 \to 800\text{ GHz}$ SFG Lens
 
-In [`Signals.DDF.three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities`](../Signals/DDF.lean#L7597-L7677) and [`Signals.Pending.ThreeZoneHyperbolicSFGCannonHypothesis`](../Signals/Pending.lean#L4759-L4836), we audited and fixed six defects in the chat's late-stage derivation ([IQ-Sampling-for-Signal-Phase.md, lines 15855–17335](../../../data/chats/IQ-Sampling-for-Signal-Phase.md#L15855-L17335)):
+In [`Signals.three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities`](../Signals/AntiFireCannon.lean#L156-L246) and [`Signals.Pending.ThreeZoneHyperbolicSFGCannonHypothesis`](../Signals/Pending.lean#L4759-L4836), we audited and fixed six defects in the chat's late-stage derivation ([IQ-Sampling-for-Signal-Phase.md, lines 15855–17335](../../../data/chats/IQ-Sampling-for-Signal-Phase.md#L15855-L17335)):
 
 1. **Zone 2 EMT Out-of-Plane Dispersion Ordering ($\varepsilon_{\perp,400} < \varepsilon_{\perp,800}$)**: At $f = 3.20\%$ rGO, $\varepsilon_d = 2.82$, $|\varepsilon_m(400\text{ GHz})| = 110$, and $|\varepsilon_m(800\text{ GHz})| = 27.5$, exact EMT gives $\varepsilon_{\perp,400} = \frac{969375}{332468} \approx 2.9157 < \frac{969375}{331622} \approx 2.9231 = \varepsilon_{\perp,800}$ (correcting the chat's table value $\varepsilon_{\perp,2} = 2.85 < 2.92$, which would make $\varepsilon_{\perp,2}/\varepsilon_{\perp,1} - 1 < 0$).
 2. **Zone 3 $800\text{ GHz}$ ENZ Fill-Fraction Detuning Fix ($9.301\%$ vs. $9.88\%$)**: Exact $800\text{ GHz}$ ENZ occurs at $f_{\mathrm{ENZ}}(800\text{ GHz}) = \frac{141}{1516} \approx 9.3008\%$, where $\varepsilon_\parallel = 0$ and $\Gamma_{\mathrm{ENZ,reg}}(2.82, 0, 0.048) = \left(\frac{235}{4}\right)^2 = 3451.5625$ ($58.75\times$ field gain). At the chat's table value $f = 9.88\%$, $\varepsilon_\parallel = -\frac{2744}{15625} \approx -0.1756 \ne 0$, reducing $\Gamma_{\mathrm{ENZ,reg}}$ by $>14\times$.
@@ -169,7 +169,7 @@ In [`Signals.DDF.three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identiti
 
 ### 4.2 Detailed Catalog of Exothermic Radical-Recombination Applications & Multi-Band Fire-Suppression Sets
 
-Proved in [`Signals.DDF.exothermic_recombination_tradeoff_and_multiband_suppression_identities`](../Signals/DDF.lean#L7728-L7797):
+Proved in [`Signals.exothermic_recombination_tradeoff_and_multiband_suppression_identities`](../Signals/FireSuppression.lean#L80-L128):
 - **Single-step recombination penalty ($N_{\mathrm{chain}} = 1$)**: $\operatorname{netChainArrestHeatSavings}(1, 104, 499) = -395\text{ kJ/mol} < 0$.
 - **Multi-cycle chain-arrest savings ($N_{\mathrm{chain}} = 10 \ge 5$)**: $\operatorname{netChainArrestHeatSavings}(10, 104, 499) = +541\text{ kJ/mol} > 0$.
 - **Rocket / Scramjet Nozzle Frozen-Flow Enthalpy Recovery**: $v_0^2 < v_{\mathrm{exit}}^2 = v_0^2 + 2\,\eta_{\mathrm{nozzle}}\,\frac{n_{\mathrm{rad}}\,\Delta H_{\mathrm{rec}}}{\rho}$.
@@ -185,9 +185,9 @@ For the full 6-domain engineering catalog of exothermic radical recombination an
 
 | Theorem & Blueprint Label | Conjuncts | Core Verified Identities |
 |---|---|---|
-| [`three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities`](../Signals/DDF.lean#L7597-L7677)<br>(`thm:signals-ddf-three-zone-sfg-and-hydroxyl-audit`) | **18** | $f_{\mathrm{ENZ}}(400\text{ GHz}) = \frac{141}{5641}$, $\varepsilon_{\parallel,400}(0.032) = -\frac{9878}{12500} < 0$, $\varepsilon_{\perp,400}(0.032) = \frac{969375}{332468} < \frac{969375}{331622} = \varepsilon_{\perp,800}(0.032)$, $f_{\mathrm{ENZ}}(800\text{ GHz}) = \frac{141}{1516}$, $\Gamma_{\mathrm{ENZ,reg}}(f=0.0988) < \Gamma_{\mathrm{ENZ,reg}}(f=\frac{141}{1516}) = (\frac{235}{4})^2$, $\Lambda_{\mathrm{forward}} = 2\Lambda_{\mathrm{Bragg}}$, $n_0 < n_{\mathrm{unquenched}}(t)$, $n_{\mathrm{quenched}}(t) < n_0$, and $0 < P_{\mathrm{rec}}$. |
-| [`exothermic_recombination_tradeoff_and_multiband_suppression_identities`](../Signals/DDF.lean#L7728-L7797)<br>(`thm:signals-ddf-exothermic-recombination-and-multiband-fire-suppression`) | **7** | $\operatorname{netChainArrestHeatSavings}(1, 104, 499) = -395 < 0$, $\operatorname{netChainArrestHeatSavings}(10, 104, 499) = +541 > 0$, $v_0^2 < \operatorname{nozzleRecombinationThrustVelSq}$, $\xi_{\mathrm{ac}}(f_{\mathrm{hyp}}) < \xi_{\mathrm{ac}}(f_{\mathrm{bass}})$, and $\xi_{\mathrm{ac}}(50\text{ Hz}) / \xi_{\mathrm{ac}}(400\text{ GHz}) = 8 \times 10^9$. |
-| [`holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities`](../Signals/DDF.lean#L7839-L7909)<br>(`thm:signals-ddf-holographic-405-532-kicad-vol-and-cva6-pipeline`) | **9** | $w_0^2(405\text{ nm}, 1.4) = (\frac{2025}{14})^2 > 20^2$, $w_{\mathrm{STED}}^2(405\text{ nm}, 1.4, 63) = (\frac{2025}{112})^2 < 20^2$, $w_{\mathrm{STED}}^2(\zeta) < w_0^2$, $(4/5)^2 < 2 < (4/5 + 4/5)^2$, $A_1^2 + A_2^2 < (A_1 + A_2)^2$, and $T_{\mathrm{stage}}(6) < T_{\mathrm{stage}}(3) < T_{\mathrm{stage}}(2)$. |
+| [`three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities`](../Signals/AntiFireCannon.lean#L156-L246)<br>(`thm:signals-ddf-three-zone-sfg-and-hydroxyl-audit`) | **18** | $f_{\mathrm{ENZ}}(400\text{ GHz}) = \frac{141}{5641}$, $\varepsilon_{\parallel,400}(0.032) = -\frac{9878}{12500} < 0$, $\varepsilon_{\perp,400}(0.032) = \frac{969375}{332468} < \frac{969375}{331622} = \varepsilon_{\perp,800}(0.032)$, $f_{\mathrm{ENZ}}(800\text{ GHz}) = \frac{141}{1516}$, $\Gamma_{\mathrm{ENZ,reg}}(f=0.0988) < \Gamma_{\mathrm{ENZ,reg}}(f=\frac{141}{1516}) = (\frac{235}{4})^2$, $\Lambda_{\mathrm{forward}} = 2\Lambda_{\mathrm{Bragg}}$, $n_0 < n_{\mathrm{unquenched}}(t)$, $n_{\mathrm{quenched}}(t) < n_0$, and $0 < P_{\mathrm{rec}}$. |
+| [`exothermic_recombination_tradeoff_and_multiband_suppression_identities`](../Signals/FireSuppression.lean#L80-L128)<br>(`thm:signals-ddf-exothermic-recombination-and-multiband-fire-suppression`) | **7** | $\operatorname{netChainArrestHeatSavings}(1, 104, 499) = -395 < 0$, $\operatorname{netChainArrestHeatSavings}(10, 104, 499) = +541 > 0$, $v_0^2 < \operatorname{nozzleRecombinationThrustVelSq}$, $\xi_{\mathrm{ac}}(f_{\mathrm{hyp}}) < \xi_{\mathrm{ac}}(f_{\mathrm{bass}})$, and $\xi_{\mathrm{ac}}(50\text{ Hz}) / \xi_{\mathrm{ac}}(400\text{ GHz}) = 8 \times 10^9$. |
+| [`holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities`](../Signals/Nanolithography.lean#L80-L122)<br>(`thm:signals-ddf-holographic-405-532-kicad-vol-and-cva6-pipeline`) | **9** | $w_0^2(405\text{ nm}, 1.4) = (\frac{2025}{14})^2 > 20^2$, $w_{\mathrm{STED}}^2(405\text{ nm}, 1.4, 63) = (\frac{2025}{112})^2 < 20^2$, $w_{\mathrm{STED}}^2(\zeta) < w_0^2$, $(4/5)^2 < 2 < (4/5 + 4/5)^2$, $A_1^2 + A_2^2 < (A_1 + A_2)^2$, and $T_{\mathrm{stage}}(6) < T_{\mathrm{stage}}(3) < T_{\mathrm{stage}}(2)$. |
 
 ### 5.2 Self-Contained Machine-Checked Lean 4 Proof Block
 

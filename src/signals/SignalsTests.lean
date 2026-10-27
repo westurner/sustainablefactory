@@ -5327,8 +5327,8 @@ example (φ : ℝ) :
     Signals.DDF.enzBoundaryIntensityEnhancement 1 (1 / 20) = 400 ∧
     100 ≤ Signals.DDF.enzBoundaryIntensityEnhancement 1 (1 / 15) ∧
     Signals.DDF.enzBoundaryIntensityEnhancement 1 (1 / 15) ≤ 400 ∧
-    Signals.DDF.regularizedEnzEnhancement 1 2 (1 / 10) ≤
-      Signals.DDF.regularizedEnzEnhancement 1 0 (1 / 10) := by
+    Signals.regularizedEnzEnhancement 1 2 (1 / 10) ≤
+      Signals.regularizedEnzEnhancement 1 0 (1 / 10) := by
   intro ray1 ray2
   have hsin_pi2 : Real.sin (Real.pi / 2) ≠ 0 := by
     rw [Real.sin_pi_div_two]
@@ -5344,15 +5344,15 @@ example (φ : ℝ) :
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
 example (θ : ℝ) :
-    let f_enz := Signals.DDF.emtCriticalEnzFillFraction (282 / 100) 110
-    let f_pole := Signals.DDF.emtPerpendicularPoleFillFraction (282 / 100) 110
-    let eps_par := Signals.DDF.emtEpsilonParallel (32 / 1000) (-110) (282 / 100)
-    let eps_perp := Signals.DDF.emtEpsilonPerp (32 / 1000) (-110) (282 / 100)
+    let f_enz := Signals.emtCriticalEnzFillFraction (282 / 100) 110
+    let f_pole := Signals.emtPerpendicularPoleFillFraction (282 / 100) 110
+    let eps_par := Signals.emtEpsilonParallel (32 / 1000) (-110) (282 / 100)
+    let eps_perp := Signals.emtEpsilonPerp (32 / 1000) (-110) (282 / 100)
     let rot90 := Signals.DDF.rotated90MetamaterialTensor eps_par eps_perp
     let M_hmm := Signals.DDF.ddfThermalGr24Matrix (Signals.DDF.hmmAnisotropyParam 110 (282 / 100)) θ
     f_enz + f_pole = 1 ∧
-    Signals.DDF.emtEpsilonParallel f_enz (-110) (282 / 100) = 0 ∧
-    0 < Signals.DDF.emtEpsilonPerp f_enz (-110) (282 / 100) ∧
+    Signals.emtEpsilonParallel f_enz (-110) (282 / 100) = 0 ∧
+    0 < Signals.emtEpsilonPerp f_enz (-110) (282 / 100) ∧
     eps_par < 0 ∧
     0 < eps_perp ∧
     eps_par * eps_perp < 0 ∧
@@ -5377,8 +5377,8 @@ example (θ : ℝ) :
   have h_hmm := Signals.DDF.rgo_polycbd_enz_hyperbolic_and_plasma_metamaterial_identities
     (282 / 100) 110 (32 / 1000) 2 5 200 400 300 10 1 θ
     (by norm_num) (by norm_num)
-    (by unfold Signals.DDF.emtCriticalEnzFillFraction; norm_num)
-    (by unfold Signals.DDF.emtPerpendicularPoleFillFraction; norm_num)
+    (by unfold Signals.emtCriticalEnzFillFraction; norm_num)
+    (by unfold Signals.emtPerpendicularPoleFillFraction; norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   have h_tnsa := Signals.DDF.argon_ion_acoustic_tnsa_enz_polycbd_and_sco2_ledger_identities
     (5 / 3) 10 800 (1 / 10) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
@@ -5436,18 +5436,18 @@ example (φ1 φ2 φ3 : ℝ) :
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
 example :
-    Signals.DDF.emtCriticalEnzFillFraction (282 / 100) 110 = 141 / 5641 ∧
-    Signals.DDF.emtEpsilonPerp (32 / 1000) (-110) (282 / 100) <
-      Signals.DDF.emtEpsilonPerp (32 / 1000) (-55 / 2) (282 / 100) ∧
-    Signals.DDF.emtCriticalEnzFillFraction (282 / 100) (55 / 2) = 141 / 1516 ∧
-    Signals.DDF.regularizedEnzEnhancement (282 / 100) (-2744 / 15625) (48 / 1000) <
-      Signals.DDF.regularizedEnzEnhancement (282 / 100) 0 (48 / 1000) ∧
-    Signals.DDF.denisovForwardGratingPitch 750 (37 / 100) =
-      2 * Signals.DDF.chatDenisovBraggPitch 750 (37 / 100) ∧
-    100 < Signals.DDF.semenovRadicalConcentration 100 1800 400 0 (1 / 1000) ∧
-    Signals.DDF.semenovRadicalConcentration 100 1800 400 2000 (1 / 1000) < 100 ∧
-    0 < Signals.DDF.exothermicRecombinationHeatPower 5 499 2 := by
-  have h := Signals.DDF.three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities
+    Signals.emtCriticalEnzFillFraction (282 / 100) 110 = 141 / 5641 ∧
+    Signals.emtEpsilonPerp (32 / 1000) (-110) (282 / 100) <
+      Signals.emtEpsilonPerp (32 / 1000) (-55 / 2) (282 / 100) ∧
+    Signals.emtCriticalEnzFillFraction (282 / 100) (55 / 2) = 141 / 1516 ∧
+    Signals.regularizedEnzEnhancement (282 / 100) (-2744 / 15625) (48 / 1000) <
+      Signals.regularizedEnzEnhancement (282 / 100) 0 (48 / 1000) ∧
+    Signals.denisovForwardGratingPitch 750 (37 / 100) =
+      2 * Signals.chatDenisovBraggPitch 750 (37 / 100) ∧
+    100 < Signals.semenovRadicalConcentration 100 1800 400 0 (1 / 1000) ∧
+    Signals.semenovRadicalConcentration 100 1800 400 2000 (1 / 1000) < 100 ∧
+    0 < Signals.exothermicRecombinationHeatPower 5 499 2 := by
+  have h := Signals.three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities
     750 (37 / 100) 100 1800 400 2000 (1 / 1000) 5 499 2
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num)
@@ -5457,31 +5457,31 @@ example :
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
 example :
-    Signals.DDF.netChainArrestHeatSavings 1 104 499 = -395 ∧
-    Signals.DDF.netChainArrestHeatSavings 1 104 499 < 0 ∧
-    Signals.DDF.netChainArrestHeatSavings 10 104 499 = 541 ∧
-    0 < Signals.DDF.netChainArrestHeatSavings 10 104 499 ∧
-    100 < Signals.DDF.nozzleRecombinationThrustVelSq 100 (4 / 5) 2 499 1 ∧
-    Signals.DDF.acousticDisplacementAmplitude 1 400000000000 <
-      Signals.DDF.acousticDisplacementAmplitude 1 50 ∧
-    Signals.DDF.acousticDisplacementAmplitude 1 50 /
-        Signals.DDF.acousticDisplacementAmplitude 1 400000000000 =
+    Signals.netChainArrestHeatSavings 1 104 499 = -395 ∧
+    Signals.netChainArrestHeatSavings 1 104 499 < 0 ∧
+    Signals.netChainArrestHeatSavings 10 104 499 = 541 ∧
+    0 < Signals.netChainArrestHeatSavings 10 104 499 ∧
+    100 < Signals.nozzleRecombinationThrustVelSq 100 (4 / 5) 2 499 1 ∧
+    Signals.acousticDisplacementAmplitude 1 400000000000 <
+      Signals.acousticDisplacementAmplitude 1 50 ∧
+    Signals.acousticDisplacementAmplitude 1 50 /
+        Signals.acousticDisplacementAmplitude 1 400000000000 =
       8000000000 := by
-  have h := Signals.DDF.exothermic_recombination_tradeoff_and_multiband_suppression_identities
+  have h := Signals.exothermic_recombination_tradeoff_and_multiband_suppression_identities
     100 (4 / 5) 2 499 1 1 50 400000000000
     (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num)
   exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2⟩
 
 example :
-    Signals.DDF.stedDepletedLinewidthSq 405 (7 / 5) 0 = (2025 / 14) ^ 2 ∧
-    Signals.DDF.stedDepletedLinewidthSq 405 (7 / 5) 63 = (2025 / 112) ^ 2 ∧
-    Signals.DDF.stedDepletedLinewidthSq 405 (7 / 5) 63 < (20 : ℝ) ^ 2 ∧
-    ((4 / 5 : ℝ) ^ 2 < 2 ∧ 2 < Signals.DDF.twoTraceConstructiveSqueezePeak (4 / 5) (4 / 5)) ∧
-    Signals.DDF.riscvPipelineStagePeriod 6 6 < Signals.DDF.riscvPipelineStagePeriod 6 3 ∧
-    Signals.DDF.riscvPipelineStagePeriod 6 3 < Signals.DDF.riscvPipelineStagePeriod 6 2 := by
+    Signals.stedDepletedLinewidthSq 405 (7 / 5) 0 = (2025 / 14) ^ 2 ∧
+    Signals.stedDepletedLinewidthSq 405 (7 / 5) 63 = (2025 / 112) ^ 2 ∧
+    Signals.stedDepletedLinewidthSq 405 (7 / 5) 63 < (20 : ℝ) ^ 2 ∧
+    ((4 / 5 : ℝ) ^ 2 < 2 ∧ 2 < Signals.twoTraceConstructiveSqueezePeak (4 / 5) (4 / 5)) ∧
+    Signals.riscvPipelineStagePeriod 6 6 < Signals.riscvPipelineStagePeriod 6 3 ∧
+    Signals.riscvPipelineStagePeriod 6 3 < Signals.riscvPipelineStagePeriod 6 2 := by
   have h :=
-    Signals.DDF.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities
+    Signals.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities
       405 (7 / 5) 63 (4 / 5) (4 / 5) 6
       (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   exact ⟨h.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2⟩

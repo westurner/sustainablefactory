@@ -77,7 +77,7 @@ pub enum DenisovPitchMode {
     /// matching `ProcaCannonMaskSpec.denisov_electrode_pitch_um` in the chat script.
     BraggBackReflection,
     /// First-order forward surface-launch grating coupler pitch $\lambda_0 / \sin\theta$,
-    /// matching `Signals.DDF.denisovForwardGratingPitch`.
+    /// matching `Signals.denisovForwardGratingPitch`.
     ForwardFirstOrder,
 }
 
@@ -970,7 +970,7 @@ impl HolographicLaserLithoSpec {
 
     /// Dual-beam $405\text{ nm} + 532\text{ nm}$ STED-depleted feature linewidth
     /// $w_{\mathrm{STED}} = \frac{\lambda_{405}}{2\,\mathrm{NA}\sqrt{1 + \zeta_{532}}}$ ($\text{nm}$),
-    /// matching `Signals.DDF.stedDepletedLinewidthSq`.
+    /// matching `Signals.stedDepletedLinewidthSq`.
     #[inline]
     pub fn sted_depleted_linewidth_nm(&self) -> f64 {
         self.abbe_diffraction_linewidth_nm() / (1.0 + self.sted_saturation_ratio).sqrt()
@@ -1414,7 +1414,7 @@ pub fn export_iof_prov_cbom_yaml_ld(
     let _ = writeln!(out, "\"@type\": [\"iof:MaterialArtifact\", \"prov:Entity\"]");
     let _ = writeln!(
         out,
-        "prov:wasInformedBy: \"Signals.DDF.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities\""
+        "prov:wasInformedBy: \"Signals.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities\""
     );
     let _ = writeln!(out, "ligno:opticalRecipe:");
     let _ = writeln!(out, "  writeWavelengthNm: {:.1}", litho.write_wavelength_nm);
