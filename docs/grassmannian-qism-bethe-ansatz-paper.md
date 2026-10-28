@@ -255,14 +255,16 @@ popd
   number  = {5},
   pages   = {11--68},
   year    = {1979},
-  doi     = {10.1070/RM1979v034n05ABEH003909}
+  doi     = {10.1070/RM1979v034n05ABEH003909},
+  url     = {https://doi.org/10.1070/RM1979v034n05ABEH003909}
 }
 
 @article{sklyanin1992qism,
   author  = {Sklyanin, Evgeny K.},
   title   = {Quantum Inverse Scattering Method. {S}elected Topics},
   journal = {arXiv preprint hep-th/9211111},
-  year    = {1992}
+  year    = {1992},
+  url     = {https://arxiv.org/abs/hep-th/9211111}
 }
 
 @book{korepin1993qism,
@@ -270,7 +272,8 @@ popd
   title     = {Quantum Inverse Scattering Method and Correlation Functions},
   publisher = {Cambridge University Press},
   year      = {1993},
-  doi       = {10.1017/CBO9780511628832}
+  doi       = {10.1017/CBO9780511628832},
+  url     = {https://doi.org/10.1017/CBO9780511628832}
 }
 
 @article{mukhin2009schubert,
@@ -281,7 +284,8 @@ popd
   number  = {4},
   pages   = {909--940},
   year    = {2009},
-  doi     = {10.1090/S0894-0347-09-00640-7}
+  doi     = {10.1090/S0894-0347-09-00640-7},
+  url     = {https://arxiv.org/abs/0711.4079}
 }
 ```
 

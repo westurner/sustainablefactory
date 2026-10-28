@@ -42,7 +42,7 @@ In this paper, we formalize AdS/CFT, planar integrability, and secret symmetries
    $$W_{\mathrm{sec}}(a,b,c,d) = \begin{pmatrix} a & b & a & -b \\ c & d & -c & d \end{pmatrix} \in \mathbb{C}^{2 \times 4}$$
    proves that its 6 Plücker minors satisfy $\Delta_{01}^{\mathbb{C}} = \Delta_{23}^{\mathbb{C}} = ad - bc = M$, $\Delta_{03}^{\mathbb{C}} = -\Delta_{12}^{\mathbb{C}} = ad + bc = \mathbb{H}$, and $\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = -4(ab)(cd) = -4\mathbb{C}\mathbb{C}^\dagger$, so the **3-term quadratic Plücker identity on $Gr_{\mathbb{C}}(2,4)$ IS IDENTICALLY the $\mathfrak{psl}(2|2)_c$ central-charge dispersion relation**:
    $$\mathbb{H}^2 - 4\,\mathbb{C}\,\mathbb{C}^\dagger = (ad + bc)^2 - 4(ab)(cd) = (ad - bc)^2 = M^2 = 1 \quad (ad - bc = 1).$$
-   Simultaneously, the splat-free $Gr_{\mathbb{C}}(2,4)$ channel product $|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2 = 1 - \beta^2$ reproduces both the Poincaré $\text{AdS}_5$ planar black-brane emblackening factor $1 - (z/z_H)^4$ ($\beta = (z/z_H)^2$) and the 4D DDF Painlevé–Gullstrand lapse $1 - r_H/r$ ($\beta = \sqrt{r_H/r}$).
+   Simultaneously, the $Gr_{\mathbb{C}}(2,4)$ channel product $|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2 = 1 - \beta^2$ reproduces both the Poincaré $\text{AdS}_5$ planar black-brane emblackening factor $1 - (z/z_H)^4$ ($\beta = (z/z_H)^2$) and the 4D DDF Painlevé–Gullstrand lapse $1 - r_H/r$ ($\beta = \sqrt{r_H/r}$).
 4. **With Normed Tensor Gaussian Splats: Holographic RG Scale-Radius Flow (`adsHolographicRGSplat`)**:
    Identifying the bulk Poincaré $\text{AdS}$ radial coordinate $z_{\mathrm{rg}} > 0$ with the boundary CFT Tensor Gaussian Splat coarse-graining width $\sigma_1 = \sigma_2 = z_{\mathrm{rg}}$ proves that an UV-to-IR coarse-graining dilatation $z_{\mathrm{UV}} \mapsto \lambda_{\mathrm{rg}}\,z_{\mathrm{UV}}$ ($\lambda_{\mathrm{rg}} > 1$) scales the phase-space covariance determinant by $\det\Sigma_{\mathrm{IR}} = \lambda_{\mathrm{rg}}^4\det\Sigma_{\mathrm{UV}} > \det\Sigma_{\mathrm{UV}}$ and relaxes the repulsive Madelung core Bohm quantum potential by the exact conformal weight:
    $$Q_{\mathrm{core}}(\Sigma_{\mathrm{IR}}) = \frac{1}{\lambda_{\mathrm{rg}}^2}\,Q_{\mathrm{core}}(\Sigma_{\mathrm{UV}}) \le Q_{\mathrm{core}}(\Sigma_{\mathrm{UV}}).$$
@@ -474,7 +474,8 @@ end ArxivGrassmannianAdsCftDdfVerification
   pages   = {231--252},
   year    = {1998},
   doi     = {10.4310/ATMP.1998.v2.n2.a1},
-  eprint  = {hep-th/9711200}
+  eprint  = {hep-th/9711200},
+  url     = {https://doi.org/10.4310/ATMP.1998.v2.n2.a1}
 }
 
 @article{beisert2012review,
@@ -485,7 +486,8 @@ end ArxivGrassmannianAdsCftDdfVerification
   pages   = {3--32},
   year    = {2012},
   doi     = {10.1007/s11005-011-0529-2},
-  eprint  = {1012.3982}
+  eprint  = {1012.3982},
+  url     = {https://doi.org/10.1007/s11005-011-0529-2}
 }
 
 @article{deleeuw2012secret,
@@ -497,7 +499,8 @@ end ArxivGrassmannianAdsCftDdfVerification
   pages   = {028502},
   year    = {2012},
   doi     = {10.1088/0031-8949/86/02/028502},
-  eprint  = {1204.2366}
+  eprint  = {1204.2366},
+  url     = {https://doi.org/10.1088/0031-8949/86/02/028502}
 }
 
 @misc{chat_gravity_models_adscft_2026,
@@ -505,7 +508,8 @@ end ArxivGrassmannianAdsCftDdfVerification
   title        = {Gravity Models: Dilatant Fluid vs. GR},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md, lines 136-325}
+  note         = {Source: data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md, lines 136-325},
+  url          = {../data/chats/_Gravity-Models-Dilatant-Fluid-vs.-GR.md}
 }
 ```
 

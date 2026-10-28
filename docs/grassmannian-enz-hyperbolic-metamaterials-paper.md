@@ -151,7 +151,7 @@ Defined in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L70
 
 ### 2.3 The 18 Simultaneous 3-Zone $400 \to 800\text{ GHz}$ `rGO-polyCBD-SS-Lignin` SFG Audit, Zone 3 ENZ Detuning Fix, Denisov Grating Pitch, & Semenov–Hinshelwood Kinetics Laws (`three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities`)
 
-Defined in [../src/signals/Signals/DDF.lean](../src/signals/Signals/AntiFireCannon.lean#L156-L246) (Blueprint node `thm:signals-ddf-three-zone-sfg-and-hydroxyl-audit`) and paired with [`Signals.Pending.ThreeZoneHyperbolicSFGCannonHypothesis`](../src/signals/Signals/Pending.lean#L4759-L4836) (`def:signals-three-zone-hyperbolic-sfg-cannon`):
+Defined in [../src/signals/Signals/AntiFireCannon.lean](../src/signals/Signals/AntiFireCannon.lean#L156-L246) (Blueprint node `thm:signals-ddf-three-zone-sfg-and-hydroxyl-audit`) and paired with [`Signals.Pending.ThreeZoneHyperbolicSFGCannonHypothesis`](../src/signals/Signals/Pending.lean#L4759-L4836) (`def:signals-three-zone-hyperbolic-sfg-cannon`):
 
 | # | 3-Zone SFG / ENZ / Kinetics Audit Law | Mathematical Identity | Lean 4 Conjunct in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L7604-L7626) |
 |---|---|---|---|
@@ -251,13 +251,13 @@ end EnzAndHyperbolicMetamaterialsPaperVerification
 
 ### Scholarly References
 
-- <a id="podolskiy2005"></a> Podolskiy, V. A., & Narimanov, E. E. (2005). Strongly Anisotropic Media: The Hyperbolic Regime. *Physical Review B*, 71(20), 201101(R). DOI: `10.1103/PhysRevB.71.201101`.
-- <a id="poddubny2013"></a> Poddubny, A., Iorsh, I., Belov, P., & Kivshar, Y. (2013). Hyperbolic Metamaterials. *Nature Photonics*, 7(12), 948–957. DOI: `10.1038/nphoton.2013.243`.
-- <a id="liberal2017"></a> Liberal, I., & Engheta, N. (2017). Near-Zero Refractive Index Photonics. *Nature Photonics*, 11(3), 149–158. DOI: `10.1038/nphoton.2017.13`.
-- <a id="trivelpiece1959"></a> Trivelpiece, A. W., & Gould, R. W. (1959). Space Charge Waves in Cylindrical Plasma Columns. *Journal of Applied Physics*, 30(11), 1784–1793. DOI: `10.1063/1.1735056`.
+- <a id="podolskiy2005"></a> Podolskiy, V. A., & Narimanov, E. E. (2005). Strongly Anisotropic Media: The Hyperbolic Regime. *Physical Review B*, 71(20), 201101(R). DOI: `10.1103/PhysRevB.71.201101`. https://journals.aps.org/prb/abstract/10.1103/PhysRevB.71.201101
+- <a id="poddubny2013"></a> Poddubny, A., Iorsh, I., Belov, P., & Kivshar, Y. (2013). Hyperbolic Metamaterials. *Nature Photonics*, 7(12), 948–957. DOI: `10.1038/nphoton.2013.243`. https://www.nature.com/articles/nphoton.2013.243
+- <a id="liberal2017"></a> Liberal, I., & Engheta, N. (2017). Near-Zero Refractive Index Photonics. *Nature Photonics*, 11(3), 149–158. DOI: `10.1038/nphoton.2017.13`. https://www.nature.com/articles/nphoton.2013.243
+- <a id="trivelpiece1959"></a> Trivelpiece, A. W., & Gould, R. W. (1959). Space Charge Waves in Cylindrical Plasma Columns. *Journal of Applied Physics*, 30(11), 1784–1793. DOI: `10.1063/1.1735056`.  https://doi.org/10.1063/1.1735056
 - <a id="denisov1957"></a> Denisov, N. G. (1957). On a Singularity of the Field of an Electromagnetic Wave Propagating in an Inhomogeneous Plasma. *Soviet Physics JETP*, 4, 544–553.
-- <a id="xu2026"></a> Xu, Y., Liu, X., Davis, B., Sotzing, G., & Cakmak, M. (2026). Sustainable Hemp-based Polycarbonate Substrates Enabling Low-Loss 5G and mmWave Electronic Systems. *IEEE MTT-S Radio Frequency Systems and Applications Symposium*. DOI: `10.1109/imsrfsa70221.2026.11624319`.
-- <a id="davis2026"></a> Davis, B., Sotzing, G., & Cakmak, M. (2026). High-Molecular-Weight Hemp-Derived Polycannabidiol Carbonate Thermoplastic with PET-Like Heat Resistance, Strength, and Processability. *Chem Circularity* (2026).
+- <a id="xu2026"></a> Xu, Y., Liu, X., Davis, B., Sotzing, G., & Cakmak, M. (2026). Sustainable Hemp-based Polycarbonate Substrates Enabling Low-Loss 5G and mmWave Electronic Systems. *IEEE MTT-S Radio Frequency Systems and Applications Symposium*. DOI: `10.1109/imsrfsa70221.2026.11624319`. https://ieeexplore.ieee.org/abstract/document/11624319
+- <a id="davis2026"></a> Davis, B., Sotzing, G., & Cakmak, M. (2026). High-Molecular-Weight Hemp-Derived Polycannabidiol Carbonate Thermoplastic with PET-Like Heat Resistance, Strength, and Processability. *Chem Circularity* (2026). https://doi.org/10.1016/j.checir.2026.100018
 - <a id="iq-enz-chat2026"></a> Provenance Chat Log (2026). *IQ Sampling for Signal Phase (Argon Plasma Proca Modes, Earth ENZ/HMM Layers, and `rGO-polyCBD-SS-Lignin` 400-to-800 GHz Hyperbolic SFG Lens)*. Local corpus: [data/chats/IQ-Sampling-for-Signal-Phase.md, lines 15706–16280](../data/chats/IQ-Sampling-for-Signal-Phase.md#L15706-L16280).
 - <a id="argon-tnsa-chat2026"></a> Provenance Chat Log (2026). *Argon Plasma Wave Energy (Ion-Acoustic Wave Speeds, ENZ + `polyCBD` TNSA $p\text{-}^{11}\text{B}$ Fusion Gain, $s\text{CO}_2$ Brayton Loop, and 10 Hz Supercapacitor Bus)*. Local corpus: [data/chats/Argon-Plasma-Wave-Energy.md, lines 1–1325](../data/chats/Argon-Plasma-Wave-Energy.md#L1-L1325).
 
@@ -270,7 +270,8 @@ end EnzAndHyperbolicMetamaterialsPaperVerification
   number  = {12},
   pages   = {948--957},
   year    = {2013},
-  doi     = {10.1038/nphoton.2013.243}
+  doi     = {10.1038/nphoton.2013.243},
+  url     = {https://doi.org/10.1038/nphoton.2013.243}
 }
 
 @article{trivelpiece1959_tg,
@@ -281,7 +282,8 @@ end EnzAndHyperbolicMetamaterialsPaperVerification
   number  = {11},
   pages   = {1784--1793},
   year    = {1959},
-  doi     = {10.1063/1.1735056}
+  doi     = {10.1063/1.1735056},
+  url     = {https://doi.org/10.1063/1.1735056}
 }
 
 @misc{chat_iq_enz_hyperbolic_2026,
@@ -289,7 +291,8 @@ end EnzAndHyperbolicMetamaterialsPaperVerification
   title        = {IQ Sampling for Signal Phase: rGO-polyCBD-SS-Lignin ENZ and Hyperbolic Metamaterials},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: data/chats/IQ-Sampling-for-Signal-Phase.md, lines 15706-16280}
+  note         = {Source: data/chats/IQ-Sampling-for-Signal-Phase.md, lines 15706-16280},
+  url          = {../data/chats/IQ-Sampling-for-Signal-Phase.md}
 }
 
 @misc{chat_argon_plasma_wave_energy_2026,
@@ -297,7 +300,8 @@ end EnzAndHyperbolicMetamaterialsPaperVerification
   title        = {Argon Plasma Wave Energy: Ion-Acoustic Speeds, ENZ-polyCBD TNSA p-11B Fusion, and sCO2 Recovery},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: data/chats/Argon-Plasma-Wave-Energy.md, lines 1-1325}
+  note         = {Source: data/chats/Argon-Plasma-Wave-Energy.md, lines 1-1325},
+  url          = {../data/chats/Argon-Plasma-Wave-Energy.md}
 }
 ```
 

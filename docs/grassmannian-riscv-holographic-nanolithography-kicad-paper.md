@@ -279,7 +279,8 @@ end RiscVHolographicNanolithographyKicadPaperVerification
   number  = {11},
   pages   = {2629--2640},
   year    = {2019},
-  doi     = {10.1109/TVLSI.2019.2926114}
+  doi     = {10.1109/TVLSI.2019.2926114},
+  url     = {https://doi.org/10.1109/TVLSI.2019.2926114}
 }
 
 @misc{chat_iq_kicad_volumetric_2026,
@@ -287,7 +288,8 @@ end RiscVHolographicNanolithographyKicadPaperVerification
   title        = {IQ Sampling for Signal Phase: kicad-volumetric, Metric Interference DRC, and 400->800 GHz Hyperbolic SFG Lens},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: data/chats/IQ-Sampling-for-Signal-Phase.md, lines 9839-10250, 11962-12125, 15706-17335}
+  note         = {Source: data/chats/IQ-Sampling-for-Signal-Phase.md, lines 9839-10250, 11962-12125, 15706-17335},
+  url          = {../data/chats/IQ-Sampling-for-Signal-Phase.md}
 }
 
 @misc{chat_laser_engraving_lignin_405_532_2026,
@@ -295,7 +297,8 @@ end RiscVHolographicNanolithographyKicadPaperVerification
   title        = {Laser Engraving Circuits on Lignin: KiCad Workflows and 405nm/532nm Helical Doughnut Nanolithography},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 143-195, 854-952}
+  note         = {Source: data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 143-195, 854-952},
+  url          = {../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md}
 }
 
 @misc{chat_green_532nm_lcs_bragg_2026,
@@ -303,7 +306,8 @@ end RiscVHolographicNanolithographyKicadPaperVerification
   title        = {Green 532nm Laser Compression Shock Bragg Reflectors on Lignin-Vitrimer},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 316-535, 1395-1550}
+  note         = {Source: data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 316-535, 1395-1550},
+  url          = {../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md}
 }
 ```
 

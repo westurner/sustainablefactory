@@ -270,7 +270,8 @@ end VectorialLongitudinalPolarizationAndGr36PaperVerification
   number  = {1274},
   pages   = {358--379},
   year    = {1959},
-  doi     = {10.1098/rspa.1959.0200}
+  doi     = {10.1098/rspa.1959.0200},
+  url     = {https://doi.org/10.1098/rspa.1959.0200}
 }
 
 @article{dorn2003_radial,
@@ -281,7 +282,8 @@ end VectorialLongitudinalPolarizationAndGr36PaperVerification
   number  = {23},
   pages   = {233901},
   year    = {2003},
-  doi     = {10.1103/PhysRevLett.91.233901}
+  doi     = {10.1103/PhysRevLett.91.233901},
+  url     = {https://doi.org/10.1103/PhysRevLett.91.233901}
 }
 
 @article{liberal2017_zri,
@@ -292,7 +294,8 @@ end VectorialLongitudinalPolarizationAndGr36PaperVerification
   number  = {3},
   pages   = {149--158},
   year    = {2017},
-  doi     = {10.1038/nphoton.2017.13}
+  doi     = {10.1038/nphoton.2017.13},
+  url     = {https://doi.org/10.1038/nphoton.2017.13}
 }
 
 @article{campione2015_enz,
@@ -303,7 +306,8 @@ end VectorialLongitudinalPolarizationAndGr36PaperVerification
   number  = {12},
   pages   = {121408},
   year    = {2015},
-  doi     = {10.1103/PhysRevB.91.121408}
+  doi     = {10.1103/PhysRevB.91.121408},
+  url     = {https://doi.org/10.1103/PhysRevB.91.121408}
 }
 
 @misc{chat_vectorial_longitudinal_polarization_2026,
@@ -311,7 +315,8 @@ end VectorialLongitudinalPolarizationAndGr36PaperVerification
   title        = {Vectorial Wave Model for Longitudinal Polarization},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md, lines 1-215}
+  note         = {Source: data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md, lines 1-215},
+  url          = {../data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md}
 }
 ```
 

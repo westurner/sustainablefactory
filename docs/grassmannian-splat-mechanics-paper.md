@@ -387,7 +387,8 @@ popd
   number  = {3},
   pages   = {033110},
   year    = {2023},
-  doi     = {10.1103/PhysRevResearch.5.033110}
+  doi     = {10.1103/PhysRevResearch.5.033110},
+  url     = {https://doi.org/10.1103/PhysRevResearch.5.033110}
 }
 
 @article{fedi2026ddf,
@@ -395,7 +396,9 @@ popd
   title   = {Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of {L}orentz Invariance, Gravity, and Cosmological Phenomenology},
   journal = {SSRN Electronic Journal},
   year    = {2026},
-  note    = {SSRN Preprint 7406660}
+  note    = {SSRN Preprint 7406660},
+  url     = {https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660},
+  doi     = {10.2139/ssrn.7406660}
 }
 
 @misc{chat_grassmannian_splat_2026,
@@ -403,7 +406,8 @@ popd
   title        = {Grassmannian Splat Mechanics and Vortex Space Emergence},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md, lines 1395-1558}
+  note         = {Source: data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md, lines 1395-1558},
+  url          = {../data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md}
 }
 ```
 

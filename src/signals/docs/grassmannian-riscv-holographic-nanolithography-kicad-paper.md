@@ -10,7 +10,7 @@ description: "An arXiv-ready MyST Markdown formal verification and EDA engineeri
 - **Subjects:**
   - Hardware Architecture (`cs.AR`); Optics (`physics.optics`); Materials Science (`cond-mat.mtrl-sci`); Chemical Physics (`physics.chem-ph`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification, EDA, & RTL Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../Signals/DDF.lean](../Signals/DDF.lean#L7450-L7909), [../Signals/Pending.lean](../Signals/Pending.lean#L4735-L4838), [../SignalsTests.lean](../SignalsTests.lean#L5437-L5488), [../SignalsPendingTests.lean](../SignalsPendingTests.lean#L4771-L4815))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../Signals/Nanolithography.lean](../Signals/Nanolithography.lean#L80-L122), [../Signals/AntiFireCannon.lean](../Signals/AntiFireCannon.lean#L156-L246), [../Signals/FireSuppression.lean](../Signals/FireSuppression.lean#L80-L128), [../Signals/Pending.lean](../Signals/Pending.lean#L4735-L4838), [../SignalsTests.lean](../SignalsTests.lean#L5437-L5488), [../SignalsPendingTests.lean](../SignalsPendingTests.lean#L4771-L4815))
   - `Signals` LeanArchitect Blueprint ([../blueprint/src/content.tex](../blueprint/src/content.tex#L260-L295))
   - `signals-numerical-adapter` Rust/WASM KiCAD + GDSII + `.kicad_vol` Engine ([../numerical_adapter/src/cannon_mask_cad.rs](../numerical_adapter/src/cannon_mask_cad.rs), [../numerical_adapter/src/bin/cannon_mask_cad.rs](../numerical_adapter/src/bin/cannon_mask_cad.rs))
   - Cloned Open-Source RISC-V & KiCad EDA Repositories: [`src/core-v-cores`](../../core-v-cores/README.md), [`src/cheri-cva6`](../../cheri-cva6/README.md), [`src/cva6-cheri`](../../cva6-cheri/README.md), [`src/ibex`](../../ibex/README.md), [`src/kicad-happy`](../../kicad-happy/README.md)
@@ -35,7 +35,7 @@ description: "An arXiv-ready MyST Markdown formal verification and EDA engineeri
 
 ## Abstract
 
-We present a formal, end-to-end hardware-synthesis and verification framework that bridges **dual-wavelength ($405\text{ nm} / 532\text{ nm}$) holographic longitudinal carbon nanolithography**, **open-source 6-stage Linux-capable (`CVA6`, `CHERI-CVA6`) and 1oo2 lockstep (`Ibex`) RISC-V processor architectures**, **volumetric KiCAD/GDSII electronic design automation (`cannon_mask_cad.rs`, `kicad-happy`)**, and **rigorous thermodynamic/spectroscopic audits of the 3-zone $400 \to 800\text{ GHz}$ `rGO-polyCBD-SS-Lignin` Sum-Frequency Generation (SFG) lens**. Every mathematical identity is machine-checked without `sorry` in **Lean 4** ([../Signals/DDF.lean](../Signals/DDF.lean#L7450-L7909) and [../Signals/Pending.lean](../Signals/Pending.lean#L4735-L4838)) and backed by a zero-dependency **Rust/WASM** CAD and verification engine ([../numerical_adapter/src/cannon_mask_cad.rs](../numerical_adapter/src/cannon_mask_cad.rs)). Specifically:
+We present a formal, end-to-end hardware-synthesis and verification framework that bridges **dual-wavelength ($405\text{ nm} / 532\text{ nm}$) holographic longitudinal carbon nanolithography**, **open-source 6-stage Linux-capable (`CVA6`, `CHERI-CVA6`) and 1oo2 lockstep (`Ibex`) RISC-V processor architectures**, **volumetric KiCAD/GDSII electronic design automation (`cannon_mask_cad.rs`, `kicad-happy`)**, and **rigorous thermodynamic/spectroscopic audits of the 3-zone $400 \to 800\text{ GHz}$ `rGO-polyCBD-SS-Lignin` Sum-Frequency Generation (SFG) lens**. Every mathematical identity is machine-checked without `sorry` in **Lean 4** ([../Signals/Nanolithography.lean](../Signals/Nanolithography.lean#L80-L122), [../Signals/AntiFireCannon.lean](../Signals/AntiFireCannon.lean#L156-L246), [../Signals/FireSuppression.lean](../Signals/FireSuppression.lean#L80-L128), and [../Signals/Pending.lean](../Signals/Pending.lean#L4735-L4838)) and backed by a zero-dependency **Rust/WASM** CAD and verification engine ([../numerical_adapter/src/cannon_mask_cad.rs](../numerical_adapter/src/cannon_mask_cad.rs)). Specifically:
 
 1. **Sub-$20\text{ nm}$ Dual-Beam $405\text{ nm} / 532\text{ nm}$ Holographic Carbon Nanolithography (`holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities`)**:
    Combining a $405\text{ nm}$ radial vector vortex writing beam ($q = 1/2$, $\mathrm{NA} = 1.4$, longitudinal $E_z = 2 E_0 \sin\theta$ enhanced at the `rGO-polyCBD-SS-Lignin` ENZ horizon) with a coaxial $532\text{ nm}$ helical doughnut depletion ring ($\sigma\cdot\ell = +1$, $E_z = 0$ on axis, saturation ratio $\zeta_{532} = I_{532}/I_{\mathrm{sat}} = 63$) compresses the squared feature linewidth from the Abbe diffraction limit $w_0^2 = \left(\frac{2025}{14}\right)^2 \approx (144.64\text{ nm})^2 > 20^2$ to:
@@ -278,7 +278,8 @@ end RiscVHolographicNanolithographyKicadPaperVerification
   number  = {11},
   pages   = {2629--2640},
   year    = {2019},
-  doi     = {10.1109/TVLSI.2019.2926114}
+  doi     = {10.1109/TVLSI.2019.2926114},
+  url     = {https://doi.org/10.1109/TVLSI.2019.2926114}
 }
 
 @misc{chat_iq_kicad_volumetric_2026,
@@ -286,7 +287,8 @@ end RiscVHolographicNanolithographyKicadPaperVerification
   title        = {IQ Sampling for Signal Phase: kicad-volumetric, Metric Interference DRC, and 400->800 GHz Hyperbolic SFG Lens},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: data/chats/IQ-Sampling-for-Signal-Phase.md, lines 9839-10250, 11962-12125, 15706-17335}
+  note         = {Source: data/chats/IQ-Sampling-for-Signal-Phase.md, lines 9839-10250, 11962-12125, 15706-17335},
+  url          = {../../../data/chats/IQ-Sampling-for-Signal-Phase.md}
 }
 
 @misc{chat_laser_engraving_lignin_405_532_2026,
@@ -294,7 +296,8 @@ end RiscVHolographicNanolithographyKicadPaperVerification
   title        = {Laser Engraving Circuits on Lignin: KiCad Workflows and 405nm/532nm Helical Doughnut Nanolithography},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 143-195, 854-952}
+  note         = {Source: data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 143-195, 854-952},
+  url          = {../../../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md}
 }
 
 @misc{chat_green_532nm_lcs_bragg_2026,
@@ -302,7 +305,8 @@ end RiscVHolographicNanolithographyKicadPaperVerification
   title        = {Green 532nm Laser Compression Shock Bragg Reflectors on Lignin-Vitrimer},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 316-535, 1395-1550}
+  note         = {Source: data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 316-535, 1395-1550},
+  url          = {../../../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md}
 }
 ```
 

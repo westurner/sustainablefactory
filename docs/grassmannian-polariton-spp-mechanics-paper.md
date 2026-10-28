@@ -566,7 +566,8 @@ popd
   number  = {5},
   pages   = {1555--1567},
   year    = {1958},
-  doi     = {10.1103/PhysRev.112.1555}
+  doi     = {10.1103/PhysRev.112.1555},
+  url     = {https://doi.org/10.1103/PhysRev.112.1555}
 }
 
 @article{lyddane1941polar,
@@ -577,7 +578,8 @@ popd
   number  = {8},
   pages   = {673--676},
   year    = {1941},
-  doi     = {10.1103/PhysRev.59.673}
+  doi     = {10.1103/PhysRev.59.673},
+  url     = {https://doi.org/10.1103/PhysRev.59.673}
 }
 
 @article{barnes2003surface,
@@ -588,7 +590,8 @@ popd
   number  = {6950},
   pages   = {824--830},
   year    = {2003},
-  doi     = {10.1038/nature01937}
+  doi     = {10.1038/nature01937},
+  url     = {https://doi.org/10.1038/nature01937}
 }
 
 @book{maier2007plasmonics,
@@ -596,7 +599,8 @@ popd
   title     = {Plasmonics: Fundamentals and Applications},
   publisher = {Springer},
   year      = {2007},
-  doi       = {10.1007/0-387-37825-1}
+  doi       = {10.1007/0-387-37825-1},
+  url     = {https://doi.org/10.1007/0-387-37825-1}
 }
 ```
 

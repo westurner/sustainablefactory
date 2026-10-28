@@ -26,6 +26,8 @@ description: "A capstone arXiv-ready formal verification and systems synthesis p
   11. [Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plücker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4](grassmannian-holographic-imaging-depth-recovery-paper.md)
   12. [3D Vectorial Wave Model for Longitudinal Polarization ($E_z$) and Higher-Rank $Gr_{\mathbb{C}}(3,n)$ Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4](grassmannian-vectorial-longitudinal-polarization-paper.md)
   13. [Epsilon-Near-Zero (ENZ) and Hyperbolic Metamaterials in Unified Grassmannian–DDF Mechanics: `rGO-polyCBD-SS-Lignin` Nanolaminates, Argon/Ionospheric Trivelpiece–Gould Plasma, Denisov Mode Conversion, and CPA-TNSA $p\text{-}^{11}\text{B}$ / $s\text{CO}_2$ Power Ledgers in Lean 4](grassmannian-enz-hyperbolic-metamaterials-paper.md)
+  14. [Holographic $405\text{ nm} / 532\text{ nm}$ Longitudinal Carbon Nanolithography, 6-Stage Linux RISC-V (`CVA6`, `CHERI-CVA6`, & `Ibex`), Volumetric KiCAD/GDSII EDA, and Exothermic Radical-Recombination Physics in Lean 4 and Rust/WASM](grassmannian-riscv-holographic-nanolithography-kicad-paper.md)
+  15. [From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Mechanics](grassmannian-madelung-lagrangian-ddf-jamming-paper.md)
 - **Related Roadmaps & Specifications:**
   - [Plan Index](plan-index.md), [Huygens Diffraction, Grassmannians, and Positive Geometry Plan](huygens-grassmannian-amplituhedron-plan.md), [Flat Light, Proca, and N-LIG Waveguide Validation Plan](flat-light-proca-nlig-validation-plan.md), [Dispersive Homodyne Coverage and Implementation Plan](dispersive-homodyne-plan.md), [Signals Library README](../src/signals/README.md), and [Repository README](../README.md).
 
@@ -394,7 +396,8 @@ end ArxivCapstoneNinePaperUnificationVerification
   title   = {Low-Power Integrated Optical Amplification Through Second-Harmonic Resonance},
   journal = {Nature},
   year    = {2025},
-  doi     = {10.1038/s41586-025-09959-z}
+  doi     = {10.1038/s41586-025-09959-z},
+  url     = {https://doi.org/10.1038/s41586-025-09959-z}
 }
 
 @article{deleeuw2012secret_unif,
@@ -406,7 +409,8 @@ end ArxivCapstoneNinePaperUnificationVerification
   pages   = {028502},
   year    = {2012},
   doi     = {10.1088/0031-8949/86/02/028502},
-  eprint  = {1204.2366}
+  eprint  = {1204.2366},
+  url     = {https://doi.org/10.1088/0031-8949/86/02/028502}
 }
 ```
 

@@ -243,7 +243,8 @@ popd
   pages     = {284--296},
   year      = {1993},
   eprint    = {gr-qc/9310026},
-  archivePrefix = {arXiv}
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/gr-qc/9310026}
 }
 
 @article{susskind1995world,
@@ -255,7 +256,8 @@ popd
   pages   = {6377--6396},
   year    = {1995},
   doi     = {10.1063/1.531249},
-  eprint  = {hep-th/9409089}
+  eprint  = {hep-th/9409089},
+  url     = {https://doi.org/10.1063/1.531249}
 }
 
 @article{bousso2002holographic,
@@ -266,7 +268,8 @@ popd
   number  = {3},
   pages   = {825--874},
   year    = {2002},
-  doi     = {10.1103/RevModPhys.74.825}
+  doi     = {10.1103/RevModPhys.74.825},
+  url     = {https://doi.org/10.1103/RevModPhys.74.825}
 }
 
 @article{ryu2006holographic,
@@ -277,7 +280,8 @@ popd
   number  = {18},
   pages   = {181602},
   year    = {2006},
-  doi     = {10.1103/PhysRevLett.96.181602}
+  doi     = {10.1103/PhysRevLett.96.181602},
+  url     = {https://doi.org/10.1103/PhysRevLett.96.181602}
 }
 ```
 

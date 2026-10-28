@@ -10,7 +10,7 @@ description: "An arXiv-ready MyST Markdown formal verification and nanophotonics
 - **Subjects:**
   - Optics (`physics.optics`); Mesoscale and Nanoscale Physics (`cond-mat.mes-hall`); Medical Physics (`physics.med-ph`); Mathematical Physics (`math-ph`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../Signals/DDF.lean](../Signals/DDF.lean#L6067-L6588), [../Signals/Geometry.lean](../Signals/Geometry.lean#L1436-L1590), [../Signals/Scattering.lean](../Signals/Scattering.lean), [../SignalsTests.lean](../SignalsTests.lean#L5295-L5355))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../Signals/DDF.lean](../Signals/DDF.lean#L6071-L6580), [../Signals/EMT.lean](../Signals/EMT.lean#L1-L62), [../Signals/Geometry.lean](../Signals/Geometry.lean#L1436-L1590), [../Signals/Scattering.lean](../Signals/Scattering.lean), [../SignalsTests.lean](../SignalsTests.lean#L5295-L5355))
   - `Signals` LeanArchitect Blueprint ([../blueprint/src/content.tex](../blueprint/src/content.tex#L230-L255))
   - `signals-numerical-adapter` Rust/WASM/GLSL Crate ([../numerical_adapter/src/orbital_splat.rs](../numerical_adapter/src/orbital_splat.rs#L889-L925))
 
@@ -55,7 +55,7 @@ In this paper, we review, critically evaluate, and machine-check in **Lean 4** (
 
 The table below audits every physical and mathematical claim in [data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md](../../../data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md#L1-L215) against classical electrodynamics, scholarly literature, and its verified Lean 4 representation in `Signals.DDF`:
 
-| Chat Section & Line Range | Core Physical / Mathematical Claim | Verification Status & Scholarly Provenance | Lean 4 Declaration & `@[blueprint]` Node in [../Signals/DDF.lean](../Signals/DDF.lean#L6067-L6588) |
+| Chat Section & Line Range | Core Physical / Mathematical Claim | Verification Status & Scholarly Provenance | Lean 4 Declaration & `@[blueprint]` Node in [../Signals/DDF.lean](../Signals/DDF.lean#L6071-L6580) |
 |---|---|---|---|
 | **Prompt 1 & Response 1** ([lines 5–53](../../../data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md#L5-L53)) | 2D Jones calculus and 2D scalar GS assume paraxial transverse fields ($E_z = 0$); high-NA focusing of radially polarized light requires 3-element Debye–Wolf vectors $(E_x, E_y, E_z)^T$, where opposite rays cancel $E_x, E_y$ and double $E_z = 2 E_0 \sin\theta$ | **Verified Classical Vectorial Optics** ([Richards & Wolf 1959](#richards1959); [Dorn, Quabis, & Leuchs 2003](#dorn2003)): radially polarized high-NA focusing produces a sharper longitudinal $E_z$ spot below the scalar Airy limit | `debyeWolfRadialComponent`, `debyeWolfLongitudinalComponent`, `debyeWolfRayVec3`, and `vectorial_longitudinal_polarization_metasurface_and_enz_identities` (`thm:signals-ddf-vectorial-longitudinal-polarization-metasurface-enz`, Laws 1–5) |
 | **Prompt 2 & Response 2** ([lines 60–115](../../../data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md#L60-L115)) | Bulk zero-refractive-index (ZRI, $n \to 0$) media stretch $\lambda_{\mathrm{eff}} = \lambda_0/n \to \infty$ ($k = n k_0 \to 0$), flattening spatial phase gradients and killing $E_z$ at the focus, but work upstream to collimate/flatten wavefronts before the SLM | **Verified Classical Metamaterial Electrodynamics** ([Liberal & Engheta 2017](#liberal2017)): $n \to 0 \implies k \to 0$ enforces spatially uniform phase in bulk ZRI, preventing high-angle convergence inside the ZRI bulk while enabling upstream phase conditioning | `vectorial_longitudinal_polarization_metasurface_and_enz_identities` (`h_zri1`: $E_0 \cdot 0 \cdot \sin\theta = 0$ and `h_zri2`: $0 \cdot k_0 \cdot \Delta L = 0$, Law 6) |
@@ -70,7 +70,7 @@ The table below audits every physical and mathematical claim in [data/chats/Vect
 
 In paraxial wave optics, the electric field is a 2-component transverse Jones vector $(E_x, E_y)^T \in \mathbb{C}^2$, so a two-channel interferometer or 2D Gaussian splat (`NormedTensorGaussianSplat2D`) naturally lives in the rank-2 complex Grassmannian $Gr_{\mathbb{C}}(2, 4)$. To recover the 3rd axial variance $\sigma_3^2$ of a `NormedTensorGaussianSplat3D` using only $Gr_{\mathbb{C}}(2, 4)$, our companion paper [grassmannian-holographic-imaging-depth-recovery-paper.md](grassmannian-holographic-imaging-depth-recovery-paper.md) paired a lateral twistor matrix $M_{\mathrm{lat}} \in Gr_{\mathbb{C}}(2, 4)$ with a second depth twistor matrix $M_{\mathrm{depth}} \in Gr_{\mathbb{C}}(2, 4)$.
 
-By contrast, in **non-paraxial 3D Debye–Wolf vectorial optics** ($\mathbf{E} = (E_x, E_y, E_z)^T \in \mathbb{C}^3$) and **direct 3D volumetric splat imaging** (`NormedTensorGaussianSplat3D` with $(\sigma_1, \sigma_2, \sigma_3)$), the state has **three** independent complex orthogonal components. Embedding directly into the self-dual rank-3 complex Grassmannian **$Gr_{\mathbb{C}}(3, 6)$** (and more generally $Gr_{\mathbb{C}}(3, n)$ for $n$-beam vectorial holography) via `gr36VolumetricImagingMatrix` and `NormedTensorGaussianSplat3D.gr36TwistorMatrix` ([../Signals/DDF.lean](../Signals/DDF.lean#L6095-L6121)):
+By contrast, in **non-paraxial 3D Debye–Wolf vectorial optics** ($\mathbf{E} = (E_x, E_y, E_z)^T \in \mathbb{C}^3$) and **direct 3D volumetric splat imaging** (`NormedTensorGaussianSplat3D` with $(\sigma_1, \sigma_2, \sigma_3)$), the state has **three** independent complex orthogonal components. Embedding directly into the self-dual rank-3 complex Grassmannian **$Gr_{\mathbb{C}}(3, 6)$** (and more generally $Gr_{\mathbb{C}}(3, n)$ for $n$-beam vectorial holography) via `gr36VolumetricImagingMatrix` and `NormedTensorGaussianSplat3D.gr36TwistorMatrix` ([../Signals/DDF.lean](../Signals/DDF.lean#L6099-L6125)):
 
 $$
 M_{\mathbb{C}}^{(3,6)}(\sigma_1 e^{i\phi_1}, \sigma_2 e^{i\phi_2}, \sigma_3 e^{i\phi_3}) =
@@ -85,9 +85,9 @@ places all three spatial/polarization axes on an equal footing inside a **single
 
 ### 2.2 The 12 Simultaneous $Gr_{\mathbb{C}}(3, 6)$ / $Gr_{\mathbb{C}}(3, n)$ 3D Volumetric Imaging Laws (`NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities`)
 
-Proved in [../Signals/DDF.lean](../Signals/DDF.lean#L6165-L6308) (Blueprint node `thm:signals-ddf-gr36-volumetric-imaging-identities`, paired with `complexThreeRowMinor_basisChange` at `lem:signals-ddf-complex-three-row-minor-basis-change` and `complexThreeRowMinor_pluecker` at `thm:signals-complex-three-row-minor-pluecker`):
+Proved in [../Signals/DDF.lean](../Signals/DDF.lean#L6169-L6312) (Blueprint node `thm:signals-ddf-gr36-volumetric-imaging-identities`, paired with `complexThreeRowMinor_basisChange` at `lem:signals-ddf-complex-three-row-minor-basis-change` and `complexThreeRowMinor_pluecker` at `thm:signals-complex-three-row-minor-pluecker`):
 
-| # | $Gr_{\mathbb{C}}(3, 6)$ / $Gr_{\mathbb{C}}(3, n)$ Volumetric Imaging Law | Exact $3 \times 3$ Plücker Minor Identity (`complexThreeRowMinor`) | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6170-L6195) |
+| # | $Gr_{\mathbb{C}}(3, 6)$ / $Gr_{\mathbb{C}}(3, n)$ Volumetric Imaging Law | Exact $3 \times 3$ Plücker Minor Identity (`complexThreeRowMinor`) | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6174-L6199) |
 |---|---|---|---|
 | **G3-1** | **Reference $3 \times 3$ Plücker Minor Normalization** | $\Delta_{345}^{\mathbb{C}}(M_3) = 1$ | `h.1` |
 | **G3-2** | **Direct 1st Principal Variance / $x$-Intensity Extraction** | $\bigl|\Delta_{045}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_1^2$ | `h.2.1` |
@@ -104,7 +104,7 @@ Proved in [../Signals/DDF.lean](../Signals/DDF.lean#L6165-L6308) (Blueprint node
 
 ### 2.3 The 24 Simultaneous $Gr_{\mathbb{C}}(3, 6)$ Splitting Conservation, Holographic Perspective Projection, and Inversion-Free Schur–Plücker Laws (`NormedTensorGaussianSplat3D.gr36_simultaneous_conservation_holographic_projection_and_schur_identities`)
 
-Proved in [../Signals/DDF.lean](../Signals/DDF.lean#L6365-L6593) (Blueprint node `thm:signals-ddf-gr36-simultaneous-conservation-projection-schur`, with full tables also in Section 2.6 of [gaussian-splat-tensors-normed-paper.md](gaussian-splat-tensors-normed-paper.md)):
+Proved in [../Signals/DDF.lean](../Signals/DDF.lean#L6369-L6585) (Blueprint node `thm:signals-ddf-gr36-simultaneous-conservation-projection-schur`, with full tables also in Section 2.6 of [gaussian-splat-tensors-normed-paper.md](gaussian-splat-tensors-normed-paper.md)):
 
 | Sub-Catalog | Laws | $Gr_{\mathbb{C}}(3,6)$ $3\times 3$ Plücker Minor Identities |
 |---|---|---|
@@ -116,9 +116,9 @@ Proved in [../Signals/DDF.lean](../Signals/DDF.lean#L6365-L6593) (Blueprint node
 
 ## 3. Complete Catalog of the 15 Simultaneous Vectorial Longitudinal Polarization, Metasurface, ZRI, & ENZ Boundary Laws
 
-Proved in `vectorial_longitudinal_polarization_metasurface_and_enz_identities` ([../Signals/DDF.lean](../Signals/DDF.lean#L6445-L6588), Blueprint node `thm:signals-ddf-vectorial-longitudinal-polarization-metasurface-enz`):
+Proved in `vectorial_longitudinal_polarization_metasurface_and_enz_identities` ([../Signals/DDF.lean](../Signals/DDF.lean#L6452-L6580), Blueprint node `thm:signals-ddf-vectorial-longitudinal-polarization-metasurface-enz`); shared loss-regularized ENZ definitions are in [../Signals/EMT.lean](../Signals/EMT.lean#L1-L62):
 
-| # | Optical / Electrodynamic Law | Mathematical Identity | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6455-L6480) |
+| # | Optical / Electrodynamic Law | Mathematical Identity | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6452-L6472) |
 |---|---|---|---|
 | **VP-1** | **3-Element Debye–Wolf Single-Ray Vectorial Norm Conservation** | $E_x(\phi)^2 + E_y(\phi)^2 + E_z(\phi)^2 = (E_0\cos\theta\cos\phi)^2 + (E_0\cos\theta\sin\phi)^2 + (E_0\sin\theta)^2 = E_0^2$ | `h.1` |
 | **VP-2** | **Counter-Polarization Transverse $E_x$ Cancellation ($\phi$ vs. $\phi+\pi$)** | $E_x(\phi) + E_x(\phi + \pi) = 0$ | `h.2.1` |
@@ -242,7 +242,8 @@ end VectorialLongitudinalPolarizationAndGr36PaperVerification
   number  = {1274},
   pages   = {358--379},
   year    = {1959},
-  doi     = {10.1098/rspa.1959.0200}
+  doi     = {10.1098/rspa.1959.0200},
+  url     = {https://doi.org/10.1098/rspa.1959.0200}
 }
 
 @article{dorn2003_radial,
@@ -253,7 +254,8 @@ end VectorialLongitudinalPolarizationAndGr36PaperVerification
   number  = {23},
   pages   = {233901},
   year    = {2003},
-  doi     = {10.1103/PhysRevLett.91.233901}
+  doi     = {10.1103/PhysRevLett.91.233901},
+  url     = {https://doi.org/10.1103/PhysRevLett.91.233901}
 }
 
 @article{liberal2017_zri,
@@ -264,7 +266,8 @@ end VectorialLongitudinalPolarizationAndGr36PaperVerification
   number  = {3},
   pages   = {149--158},
   year    = {2017},
-  doi     = {10.1038/nphoton.2017.13}
+  doi     = {10.1038/nphoton.2017.13},
+  url     = {https://doi.org/10.1038/nphoton.2017.13}
 }
 
 @article{campione2015_enz,
@@ -275,7 +278,8 @@ end VectorialLongitudinalPolarizationAndGr36PaperVerification
   number  = {12},
   pages   = {121408},
   year    = {2015},
-  doi     = {10.1103/PhysRevB.91.121408}
+  doi     = {10.1103/PhysRevB.91.121408},
+  url     = {https://doi.org/10.1103/PhysRevB.91.121408}
 }
 
 @misc{chat_vectorial_longitudinal_polarization_2026,
@@ -283,7 +287,8 @@ end VectorialLongitudinalPolarizationAndGr36PaperVerification
   title        = {Vectorial Wave Model for Longitudinal Polarization},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md, lines 1-215}
+  note         = {Source: data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md, lines 1-215},
+  url          = {../../../data/chats/Vectorial-Wave-Model-for-Longitudinal-Polarization.md}
 }
 ```
 

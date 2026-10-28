@@ -422,7 +422,7 @@ In our **dual-beam $405\text{ nm} + 532\text{ nm}$ holographic carbon nanolithog
 2. **$532\text{ nm}$ Helical Doughnut Beam ($\sigma \cdot \ell = +1$, $E_z = 0$ on axis)**: Performs three complementary functions:
    - **Thermal-STED / RAPID Annular Depletion ($\zeta_{532} = I_{532}/I_{\mathrm{sat}} = 63$)**: Compresses the active synthesis core by $\sqrt{1 + \zeta_{532}} = 8\times$ down to:
      $$w_{\mathrm{STED}} = \frac{\lambda_{405}}{2\,\mathrm{NA}\sqrt{1 + \zeta_{532}}} = \frac{2025}{112}\text{ nm} \approx \mathbf{18.08\text{ nm}} < 20\text{ nm}$$
-     (proved in [`holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities`](../src/signals/Signals/Nanolithography.lean#L80-L122), matching the $22\text{ nm}$ FDSOI gate-length class of Zaruba & Benini's $1.7\text{ GHz}$ CVA6 baseline!).
+   (proved in [`holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities`](../src/signals/Signals/Nanolithography.lean#L80-L122), matching the $22\text{ nm}$ FDSOI gate-length class of Zaruba & Benini's $1.7\text{ GHz}$ CVA6 baseline!).
    - **Laser Compression Shock (LCS) Strain-Locking & $532\text{ nm}$ Bragg Mirrors**: Because lignin/polyCBD absorbs green $532\text{ nm}$ photons strongly, pulsed $532\text{ nm}$ interference patterns strain-lock CNT/GFET semiconducting bandgaps and imprint $d_{\mathrm{Bragg,532}} = \frac{532\text{ nm}}{2 \times 1.59} \approx 167.30\text{ nm}$ optical clock reflectors ([chat source](../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md#L520-L535)).
    - **Inter-Flash Fiducial Registration**: Tracks thermal expansion between the $12$ orthogonal flashes.
 

@@ -366,7 +366,8 @@ popd
   number  = {1},
   pages   = {41--73},
   year    = {1989},
-  doi     = {10.1103/RevModPhys.61.41}
+  doi     = {10.1103/RevModPhys.61.41},
+  url     = {https://doi.org/10.1103/RevModPhys.61.41}
 }
 
 @article{blumenthal1970compton,
@@ -377,7 +378,8 @@ popd
   number  = {2},
   pages   = {237--270},
   year    = {1970},
-  doi     = {10.1103/RevModPhys.42.237}
+  doi     = {10.1103/RevModPhys.42.237},
+  url     = {https://doi.org/10.1103/RevModPhys.42.237}
 }
 
 @article{fedi2026ddf,
@@ -385,7 +387,9 @@ popd
   title   = {Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of {L}orentz Invariance, Gravity, and Cosmological Phenomenology},
   journal = {SSRN Electronic Journal},
   year    = {2026},
-  note    = {SSRN Preprint 7406660}
+  note    = {SSRN Preprint 7406660},
+  url     = {https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660},
+  doi     = {10.2139/ssrn.7406660}
 }
 ```
 

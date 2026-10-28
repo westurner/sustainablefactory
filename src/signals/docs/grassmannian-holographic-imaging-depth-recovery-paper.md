@@ -34,7 +34,7 @@ description: "An arXiv-ready MyST Markdown formal verification and optical/tomog
 
 A fundamental bottleneck in 2D projection imaging—spanning off-axis digital holography ([Gabor 1948](#gabor1948); [Leith & Upatnieks 1962](#leith1962); [Bell Correlations Chat 2026](#bell-chat2026)), X-ray / phase-contrast radiography (`LVPDirectConversionImaging` in `Signals.Pending`), EWA / 3D Gaussian Splatting ([Zwicker et al. 2001](#zwicker2001); [Kerbl et al. 2023](#kerbl2023)), and convergent multi-beam volumetric synthesis ([IQ-Sampling Chat 2026](#iq-chat2026))—is the **loss of axial depth information**: integrating a 3D Gaussian voxel (`NormedTensorGaussianSplat3D`) along the optical axis $z$ projects out its 3rd principal variance $\sigma_3^2$ and entangles its intrinsic lateral widths $(\sigma_1, \sigma_2)$ with the perspective focal scale $s = f / z_c$.
 
-In this paper, we show how the **Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery Theorem** (`NormedTensorGaussianSplat3D.splitMajor3D_and_holographic_gr24_projection_identities` and `NormedTensorGaussianSplat3D.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities` in [../Signals/DDF.lean](../Signals/DDF.lean#L5441-L6065)) solves this problem in four complementary ways:
+In this paper, we show how the **Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery Theorem** (`NormedTensorGaussianSplat3D.splitMajor3D_and_holographic_gr24_projection_identities` and `NormedTensorGaussianSplat3D.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities` in [../Signals/DDF.lean](../Signals/DDF.lean#L5445-L6069)) solves this problem in four complementary ways:
 
 1. **Exact Plücker Inversion of the Unseen 3rd Principal Variance $\sigma_3^2$ (`recoverDepthVarianceSq`)**:
    By encoding the lateral-to-axial variance anisotropy $\delta_{\mathrm{depth}} = \frac{(\sigma_1^2 + \sigma_2^2) - \sigma_3^2}{(\sigma_1^2 + \sigma_2^2) + \sigma_3^2} \in (-1, 1)$ into a complex $Gr_{\mathbb{C}}(2,4)$ twistor matrix $M_{\mathrm{depth}} = \operatorname{ddfThermalGr24Matrix}(\delta_{\mathrm{depth}}, \theta_z)$ (measured experimentally via dual-plane defocus homodyne in `Signals.Homodyne`, off-axis digital holography quadratures, or dispersive phase-fingerprint channels in `Signals.NonDestructive`), the ratio of the two uncrossed $Gr_{\mathbb{C}}(2,4)$ Plücker channel intensities is $R_{\mathrm{depth}} = \frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2} = \frac{\sigma_1^2 + \sigma_2^2}{\sigma_3^2}$. Combining $R_{\mathrm{depth}}$ with the 2D screen trace $\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} = \sigma_1^2 + \sigma_2^2$ reconstructs in closed form:
@@ -54,7 +54,7 @@ In this paper, we show how the **Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recove
 
 ### 1.1 Why Standard 2D Projections Lose $\sigma_3^2$ and Entangle $z_c$
 
-Consider a 3D volumetric Gaussian feature `splat : NormedTensorGaussianSplat3D` ([../Signals/DDF.lean](../Signals/DDF.lean#L5225-L5240)) centered at $(x_c, y_c, z_c)$ with principal variances $(\sigma_1^2, \sigma_2^2, \sigma_3^2)$. When imaged onto a 2D detector plane $(x, y)$:
+Consider a 3D volumetric Gaussian feature `splat : NormedTensorGaussianSplat3D` ([../Signals/DDF.lean](../Signals/DDF.lean#L5229-L5244)) centered at $(x_c, y_c, z_c)$ with principal variances $(\sigma_1^2, \sigma_2^2, \sigma_3^2)$. When imaged onto a 2D detector plane $(x, y)$:
 
 1. **Orthographic X-Ray / Radon Marginal Projection (`projectOrthographic2D`)**:
    Integrating along the beam axis $z$ integrates the normalized axial Gaussian factor $\int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}\sigma_3}\exp\!\left(-\frac{(z-z_c)^2}{2\sigma_3^2}\right)dz = 1$ to unity. The resulting 2D screen splat retains `(centerX, centerY, weight, sigma1, sigma2, orientationAngle)` but **completely erases `centerZ` and `sigma3`**.
@@ -65,7 +65,7 @@ Consider a 3D volumetric Gaussian feature `splat : NormedTensorGaussianSplat3D` 
 
 ### 1.2 Dual-Twistor $Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)$ Encoding of a 3D Voxel
 
-The key insight of `NormedTensorGaussianSplat3D.splitMajor3D_and_holographic_gr24_projection_identities` ([../Signals/DDF.lean](../Signals/DDF.lean#L5441-L5656)) and `holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities` ([../Signals/DDF.lean](../Signals/DDF.lean#L5938-L6065)) is that a 3D anisotropic covariance tensor $(\sigma_1^2, \sigma_2^2, \sigma_3^2)$ is completely determined by the 2D lateral trace $\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} = \sigma_1^2 + \sigma_2^2$ together with **two** complex $Gr_{\mathbb{C}}(2,4)$ twistor matrices:
+The key insight of `NormedTensorGaussianSplat3D.splitMajor3D_and_holographic_gr24_projection_identities` ([../Signals/DDF.lean](../Signals/DDF.lean#L5445-L5660)) and `holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities` ([../Signals/DDF.lean](../Signals/DDF.lean#L5942-L6069)) is that a 3D anisotropic covariance tensor $(\sigma_1^2, \sigma_2^2, \sigma_3^2)$ is completely determined by the 2D lateral trace $\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} = \sigma_1^2 + \sigma_2^2$ together with **two** complex $Gr_{\mathbb{C}}(2,4)$ twistor matrices:
 
 ```{mermaid}
 flowchart LR
@@ -94,10 +94,10 @@ flowchart LR
 1. **Lateral $Gr_{\mathbb{C}}(2,4)$ Twistor Channel ($M_{\mathrm{lat}}$)**:
    Encodes the in-plane principal variance asymmetry:
    $$\delta_{\mathrm{lat}} = \frac{\sigma_1^2 - \sigma_2^2}{\sigma_1^2 + \sigma_2^2} = \frac{\sigma_{1,\mathrm{persp}}^2 - \sigma_{2,\mathrm{persp}}^2}{\sigma_{1,\mathrm{persp}}^2 + \sigma_{2,\mathrm{persp}}^2} \in (-1, 1).$$
-   Because $(f/z_c)^2$ cancels identically between numerator and denominator (`h_depth_inv` in [../Signals/DDF.lean](../Signals/DDF.lean#L5596-L5611)), $\delta_{\mathrm{lat}}$ is an **exact projective depth invariant**: a 2D sensor immediately reads out the intrinsic lateral eccentricity of the 3D feature at any unknown depth $z_c > 0$.
+   Because $(f/z_c)^2$ cancels identically between numerator and denominator (`h_depth_inv` in [../Signals/DDF.lean](../Signals/DDF.lean#L5600-L5615)), $\delta_{\mathrm{lat}}$ is an **exact projective depth invariant**: a 2D sensor immediately reads out the intrinsic lateral eccentricity of the 3D feature at any unknown depth $z_c > 0$.
 
 2. **Holographic Depth $Gr_{\mathbb{C}}(2,4)$ Twistor Channel ($M_{\mathrm{depth}}$)**:
-   Encodes the lateral-to-axial variance balance (`holographicDepthAnisotropy` in [../Signals/DDF.lean](../Signals/DDF.lean#L5386-L5391)):
+   Encodes the lateral-to-axial variance balance (`holographicDepthAnisotropy` in [../Signals/DDF.lean](../Signals/DDF.lean#L5390-L5395)):
    $$\delta_{\mathrm{depth}} = \frac{(\sigma_1^2 + \sigma_2^2) - \sigma_3^2}{(\sigma_1^2 + \sigma_2^2) + \sigma_3^2} \in (-1, 1), \qquad M_{\mathrm{depth}} = \operatorname{ddfThermalGr24Matrix}(\delta_{\mathrm{depth}}, \theta_z).$$
    Evaluating the two uncrossed $2 \times 2$ Plücker channel intensities $|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2 = 1 + \delta_{\mathrm{depth}}$ and $|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2 = 1 - \delta_{\mathrm{depth}}$ yields the **Plücker Depth Ratio**:
    $$R_{\mathrm{depth}} := \frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2} = \frac{1 + \delta_{\mathrm{depth}}}{1 - \delta_{\mathrm{depth}}} = \frac{\sigma_1^2 + \sigma_2^2}{\sigma_3^2}.$$
@@ -110,7 +110,7 @@ flowchart LR
 
 ### 1.3 Direct Higher-Rank $Gr_{\mathbb{C}}(3, 6)$ / $Gr_{\mathbb{C}}(3, n)$ Volumetric Splat Imaging (`NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities`)
 
-Rather than factoring a 3D voxel into two rank-2 $Gr_{\mathbb{C}}(2,4)$ projections ($M_{\mathrm{lat}}, M_{\mathrm{depth}}$), we can embed all three principal axes $(\sigma_1 e^{i\phi_1}, \sigma_2 e^{i\phi_2}, \sigma_3 e^{i\phi_3})$—or the 3-element Debye–Wolf focal electric field $(E_x, E_y, E_z)^T \in \mathbb{C}^3$—directly into the self-dual rank-3 complex Grassmannian **$Gr_{\mathbb{C}}(3, 6)$** (`NormedTensorGaussianSplat3D.gr36TwistorMatrix` in [../Signals/DDF.lean](../Signals/DDF.lean#L6095-L6308); see the full companion paper [grassmannian-vectorial-longitudinal-polarization-paper.md](grassmannian-vectorial-longitudinal-polarization-paper.md)). Theorem `NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities` (`@[blueprint "thm:signals-ddf-gr36-volumetric-imaging-identities"]`) proves that the $3 \times 3$ complex Plücker minors $\Delta_{abc}^{\mathbb{C}}(M_3)$ (`complexThreeRowMinor`) directly yield:
+Rather than factoring a 3D voxel into two rank-2 $Gr_{\mathbb{C}}(2,4)$ projections ($M_{\mathrm{lat}}, M_{\mathrm{depth}}$), we can embed all three principal axes $(\sigma_1 e^{i\phi_1}, \sigma_2 e^{i\phi_2}, \sigma_3 e^{i\phi_3})$—or the 3-element Debye–Wolf focal electric field $(E_x, E_y, E_z)^T \in \mathbb{C}^3$—directly into the self-dual rank-3 complex Grassmannian **$Gr_{\mathbb{C}}(3, 6)$** (`NormedTensorGaussianSplat3D.gr36TwistorMatrix` in [../Signals/DDF.lean](../Signals/DDF.lean#L6099-L6312); see the full companion paper [grassmannian-vectorial-longitudinal-polarization-paper.md](grassmannian-vectorial-longitudinal-polarization-paper.md)). Theorem `NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities` (`@[blueprint "thm:signals-ddf-gr36-volumetric-imaging-identities"]`) proves that the $3 \times 3$ complex Plücker minors $\Delta_{abc}^{\mathbb{C}}(M_3)$ (`complexThreeRowMinor`) directly yield:
 - **All three 1D principal variances**: $|\Delta_{045}^{\mathbb{C}}|^2 = \sigma_1^2$, $|\Delta_{315}^{\mathbb{C}}|^2 = \sigma_2^2$, $|\Delta_{342}^{\mathbb{C}}|^2 = \sigma_3^2$,
 - **All three 2D orthographic marginal determinants ($xy, xz, yz$)**: $|\Delta_{015}^{\mathbb{C}}|^2 = \sigma_1^2\sigma_2^2 = \det\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}$, $|\Delta_{042}^{\mathbb{C}}|^2 = \sigma_1^2\sigma_3^2$, $|\Delta_{312}^{\mathbb{C}}|^2 = \sigma_2^2\sigma_3^2$,
 - **The 3D volumetric determinant & trace**: $|\Delta_{012}^{\mathbb{C}}|^2 = \det\Sigma_{\mathrm{3D}}$ and $|\Delta_{045}^{\mathbb{C}}|^2 + |\Delta_{315}^{\mathbb{C}}|^2 + |\Delta_{342}^{\mathbb{C}}|^2 = \operatorname{Tr}\Sigma_{\mathrm{3D}}$,
@@ -125,11 +125,11 @@ Across the research chat corpus, convergent multi-beam holography was developed 
 
 | Convergent Holography Mechanism & Chat Source | Physical Problem Addressed | Verified `Signals.DDF` / `Signals.Antennas` Theorem or Structure | `Signals.Pending` Falsifiability & Calibration Guard |
 |---|---|---|---|
-| **1. Multi-Mask Volumetric Holographic Synthesis & Confocal Crossed Beams** ([IQ-Sampling-for-Signal-Phase.myst.md, lines 9073–9179](../../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L9073-L9179); [CNT Bandgap Creation with Lignin Vitrimer .myst.md, lines 1651 & 5320](../../../docs/chats/CNT%20Bandgap%20Creation%20with%20Lignin%20Vitrimer%20.myst.md#L5320)) | A single focused beam has an elongated axial Rayleigh zone ($\sigma_\parallel \gg \sigma_\perp$), causing depth blur and out-of-plane exposure | `convergentCrossedAxialPrecision` (`h_img.2.2.2.2.2.2.2.1` in [../Signals/DDF.lean](../Signals/DDF.lean#L5965-L5967)): crossing orthogonal beams sums their inverse variances $\tau_{z,\mathrm{conv}} = \sigma_\parallel^{-2} + \sigma_\perp^{-2} > 2\sigma_\parallel^{-2}$, compressing the axial voxel to transverse resolution | `MultiBeamHolographyResult.withinTolerances` ([../Signals/Pending.lean](../Signals/Pending.lean#L2509-L2555)): requires $N_{\mathrm{beam}} \ge 4$, explicit `targetFieldRMSE`, `sideLobeRatio`, `crosstalkError`, and held-out pattern validation |
-| **2. Self-Calibrating Pilot-Tone Phase Conjugation Across Opposite Masks** ([IQ-Sampling-for-Signal-Phase.myst.md, lines 9235–9285](../../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L9235-L9285)) | Nanometer thermal expansion or mechanical tilt $\phi_{\mathrm{err}}$ between independent masks blurs the 3D interference pattern | `h_phase_conj` (`h_img.2.2.2.2.2.2.2.2.2.2` in [../Signals/DDF.lean](../Signals/DDF.lean#L5970-L5971)): pre-distorting the twistor phase by $-\phi_{\mathrm{err}}$ restores $\operatorname{ddfThermalGr24Matrix}(\delta_d, \theta_z + \phi_{\mathrm{err}} - \phi_{\mathrm{err}}) = M_{\mathrm{depth}}$ identically | `MultiBeamTrilateration` & `HolographyMaskTransfer` ([../Signals/Pending.lean](../Signals/Pending.lean#L2492-L2580)): requires independent range sensors and 4-state ablation (`noMask`, `passiveMask`, `activatedMask`, `shamActivation`) |
-| **3. Synchronous "Orthogonal Multi-Flash" Firing & Inter-Flash Thermal Dissipation** ([IQ-Sampling-for-Signal-Phase.myst.md, lines 10793–10860](../../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L10793-L10860); [flat-light-proca-nlig-validation-plan.md, lines 635–638](../../../docs/flat-light-proca-nlig-validation-plan.md#L635-L638)) | Firing all $N_{\mathrm{beam}}$ heads synchronously is required for coherent interference, but sequential flashes accumulate phonon heat | Coherent focal gain $(N_{\mathrm{beam}}A_0)^2 = N_{\mathrm{beam}}(N_{\mathrm{beam}}A_0^2)$ (`h_img.2.2.2.2.2.2.2.2.1`) reduces per-beam entrance power by $1/N_{\mathrm{beam}}$, while `NormedTensorGaussianSplat2D.evolveThermal` ([../Signals/DDF.lean](../Signals/DDF.lean#L3499)) models inter-flash thermal diffusion | `CWApplicationReadiness` ([../Signals/DirectionalBroadbandAntenna.lean](../Signals/DirectionalBroadbandAntenna.lean#L267-L302)): enforces passive power conservation ($P_{\mathrm{out}} \le P_{\mathrm{in}}$) and causal information speed |
+| **1. Multi-Mask Volumetric Holographic Synthesis & Confocal Crossed Beams** ([IQ-Sampling-for-Signal-Phase.myst.md, lines 9073–9179](../../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L9073-L9179); [CNT Bandgap Creation with Lignin Vitrimer .myst.md, lines 1651 & 5320](../../../docs/chats/CNT%20Bandgap%20Creation%20with%20Lignin%20Vitrimer%20.myst.md#L5320)) | A single focused beam has an elongated axial Rayleigh zone ($\sigma_\parallel \gg \sigma_\perp$), causing depth blur and out-of-plane exposure | `convergentCrossedAxialPrecision` (`h_img.2.2.2.2.2.2.2.1` in [../Signals/DDF.lean](../Signals/DDF.lean#L5969-L5971)): crossing orthogonal beams sums their inverse variances $\tau_{z,\mathrm{conv}} = \sigma_\parallel^{-2} + \sigma_\perp^{-2} > 2\sigma_\parallel^{-2}$, compressing the axial voxel to transverse resolution | `MultiBeamHolographyResult.withinTolerances` ([../Signals/Pending.lean](../Signals/Pending.lean#L2509-L2555)): requires $N_{\mathrm{beam}} \ge 4$, explicit `targetFieldRMSE`, `sideLobeRatio`, `crosstalkError`, and held-out pattern validation |
+| **2. Self-Calibrating Pilot-Tone Phase Conjugation Across Opposite Masks** ([IQ-Sampling-for-Signal-Phase.myst.md, lines 9235–9285](../../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L9235-L9285)) | Nanometer thermal expansion or mechanical tilt $\phi_{\mathrm{err}}$ between independent masks blurs the 3D interference pattern | `h_phase_conj` (`h_img.2.2.2.2.2.2.2.2.2.2` in [../Signals/DDF.lean](../Signals/DDF.lean#L5974-L5975)): pre-distorting the twistor phase by $-\phi_{\mathrm{err}}$ restores $\operatorname{ddfThermalGr24Matrix}(\delta_d, \theta_z + \phi_{\mathrm{err}} - \phi_{\mathrm{err}}) = M_{\mathrm{depth}}$ identically | `MultiBeamTrilateration` & `HolographyMaskTransfer` ([../Signals/Pending.lean](../Signals/Pending.lean#L2492-L2580)): requires independent range sensors and 4-state ablation (`noMask`, `passiveMask`, `activatedMask`, `shamActivation`) |
+| **3. Synchronous "Orthogonal Multi-Flash" Firing & Inter-Flash Thermal Dissipation** ([IQ-Sampling-for-Signal-Phase.myst.md, lines 10793–10860](../../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L10793-L10860); [flat-light-proca-nlig-validation-plan.md, lines 635–638](../../../docs/flat-light-proca-nlig-validation-plan.md#L635-L638)) | Firing all $N_{\mathrm{beam}}$ heads synchronously is required for coherent interference, but sequential flashes accumulate phonon heat | Coherent focal gain $(N_{\mathrm{beam}}A_0)^2 = N_{\mathrm{beam}}(N_{\mathrm{beam}}A_0^2)$ (`h_img.2.2.2.2.2.2.2.2.1`) reduces per-beam entrance power by $1/N_{\mathrm{beam}}$, while `NormedTensorGaussianSplat2D.evolveThermal` ([../Signals/DDF.lean](../Signals/DDF.lean#L3503)) models inter-flash thermal diffusion | `CWApplicationReadiness` ([../Signals/DirectionalBroadbandAntenna.lean](../Signals/DirectionalBroadbandAntenna.lean#L267-L302)): enforces passive power conservation ($P_{\mathrm{out}} \le P_{\mathrm{in}}$) and causal information speed |
 | **4. Off-Axis Digital Holography of FTLE Phase-Fracture Ridges & Speckle Whitening** ([Bell-Correlations-in-Atomic-Momentum.myst.md, lines 1021–1025](../../../docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md#L1021-L1025); [Speckle, Metamaterials, and Fast Sensing .myst.md, lines 803–825 & 2435](../../../docs/chats/Speckle,%20Metamaterials,%20and%20Fast%20Sensing%20.myst.md#L803-L825)) | Reconstructing 3D superfluid / optical vortex cores and FTLE shear ridges from a 2D CCD hologram without singular $1/r$ blowup | `NormedTensorGaussianSplat2D.complexTwistorWavepacket` + `splitMajor3D_and_holographic_gr24_projection_identities`: adaptive splat splitting along FTLE ridges preserves $L^1$ mass and variance while regularizing the core Bohm potential $Q_{\mathrm{core,3D}}$ | `DDFFractureCommunicationEvidence` ([../DDF_FRACTURE_COMMUNICATION_PLAN.md](../DDF_FRACTURE_COMMUNICATION_PLAN.md)): separates classical Kerr/acoustic transfer (`H0`) from DDF phonon hypotheses (`HDDF`) |
-| **5. Direct-Conversion X-Ray & Phase-Contrast Tomographic Imaging** ([LVP Direct-Conversion & Proca Imaging in Pending.lean, lines 743–795 & 1838–1872](../Signals/Pending.lean#L743-L795)) | Minimizing patient/sample radiation dose while recovering 3D internal microstructure from 2D projections | `recoverDepthVarianceSq` & `recoverFocalDepthSq` ([../Signals/DDF.lean](../Signals/DDF.lean#L5867-L5972)): reconstructs $\sigma_3^2$, $\det\Sigma_{\mathrm{3D}}$, and $z_c^2$ from 2D projection traces and $Gr_{\mathbb{C}}(2,4)$ Plücker channel ratios | `LVPDirectConversionImaging` & `LVPProcaImagingHypothesis`: requires dark-current subtraction, linear dose calibration, phantom MTF/NPS validation, and massless Maxwell controls |
+| **5. Direct-Conversion X-Ray & Phase-Contrast Tomographic Imaging** ([LVP Direct-Conversion & Proca Imaging in Pending.lean, lines 743–795 & 1838–1872](../Signals/Pending.lean#L743-L795)) | Minimizing patient/sample radiation dose while recovering 3D internal microstructure from 2D projections | `recoverDepthVarianceSq` & `recoverFocalDepthSq` ([../Signals/DDF.lean](../Signals/DDF.lean#L5871-L5976)): reconstructs $\sigma_3^2$, $\det\Sigma_{\mathrm{3D}}$, and $z_c^2$ from 2D projection traces and $Gr_{\mathbb{C}}(2,4)$ Plücker channel ratios | `LVPDirectConversionImaging` & `LVPProcaImagingHypothesis`: requires dark-current subtraction, linear dose calibration, phantom MTF/NPS validation, and massless Maxwell controls |
 
 ---
 
@@ -137,7 +137,7 @@ Across the research chat corpus, convergent multi-beam holography was developed 
 
 ### 3.1 Summary of the 11 Laws in `NormedTensorGaussianSplat3D.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities`
 
-In [../Signals/DDF.lean](../Signals/DDF.lean#L5938-L6065) (Blueprint node `thm:signals-ddf-holographic-gr24-imaging-depth-recovery`), we prove for any `splat : NormedTensorGaussianSplat3D` with $z_c > 0$, focal scale $f > 0$, $m > 0$, $\hbar \ne 0$, transverse waist $0 < \sigma_\perp < \sigma_\parallel$, beam count $N_{\mathrm{beam}} > 1$, and per-beam amplitude $A_0 > 0$:
+In [../Signals/DDF.lean](../Signals/DDF.lean#L5942-L6069) (Blueprint node `thm:signals-ddf-holographic-gr24-imaging-depth-recovery`), we prove for any `splat : NormedTensorGaussianSplat3D` with $z_c > 0$, focal scale $f > 0$, $m > 0$, $\hbar \ne 0$, transverse waist $0 < \sigma_\perp < \sigma_\parallel$, beam count $N_{\mathrm{beam}} > 1$, and per-beam amplitude $A_0 > 0$:
 
 1. **Exact 3rd Principal Variance Inversion**:
    $$\operatorname{recoverDepthVarianceSq}\bigl(\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}},\, R_{\mathrm{depth}}\bigr) = \frac{\sigma_1^2 + \sigma_2^2}{\left(\frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2}\right)} = \sigma_3^2.$$
@@ -247,7 +247,8 @@ To apply Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery in real laboratory an
   number  = {4098},
   pages   = {777--778},
   year    = {1948},
-  doi     = {10.1038/161777a0}
+  doi     = {10.1038/161777a0},
+  url     = {https://doi.org/10.1038/161777a0}
 }
 
 @article{leith1962_offaxis,
@@ -258,7 +259,8 @@ To apply Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery in real laboratory an
   number  = {10},
   pages   = {1123--1130},
   year    = {1962},
-  doi     = {10.1364/JOSA.52.001123}
+  doi     = {10.1364/JOSA.52.001123},
+  url     = {https://doi.org/10.1364/JOSA.52.001123}
 }
 
 @misc{chat_iq_sampling_holography_2026,
@@ -266,7 +268,8 @@ To apply Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery in real laboratory an
   title        = {IQ Sampling for Signal Phase: Volumetric Holography and Self-Calibrating Grassmannians},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: docs/chats/IQ-Sampling-for-Signal-Phase.myst.md, lines 9073-9300 and 10793-10860}
+  note         = {Source: docs/chats/IQ-Sampling-for-Signal-Phase.myst.md, lines 9073-9300 and 10793-10860},
+  url          = {../../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md}
 }
 
 @misc{chat_bell_offaxis_holography_2026,
@@ -274,7 +277,8 @@ To apply Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery in real laboratory an
   title        = {Bell Correlations in Atomic Momentum: Off-Axis Digital Holography of FTLE Ridges},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md, lines 980-1025}
+  note         = {Source: docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md, lines 980-1025},
+  url          = {../../../docs/chats/Bell-Correlations-in-Atomic-Momentum.myst.md}
 }
 
 @misc{chat_cnt_convergence_optics_2026,
@@ -282,7 +286,8 @@ To apply Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery in real laboratory an
   title        = {CNT Bandgap Creation with Lignin Vitrimer: Convergence Optics and Holography},
   year         = {2026},
   howpublished = {AI chat log},
-  note         = {Source: docs/chats/CNT Bandgap Creation with Lignin Vitrimer .myst.md, lines 1651-1655 and 5320}
+  note         = {Source: docs/chats/CNT Bandgap Creation with Lignin Vitrimer .myst.md, lines 1651-1655 and 5320},
+  url          = {../../../docs/chats/CNT Bandgap Creation with Lignin Vitrimer .myst.md}
 }
 ```
 

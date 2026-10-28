@@ -10,7 +10,7 @@ description: "An arXiv-ready MyST Markdown formal verification and metamaterials
 - **Subjects:**
   - Optics (`physics.optics`); Plasma Physics (`physics.plasm-ph`); Materials Science (`cond-mat.mtrl-sci`); Mathematical Physics (`math-ph`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../Signals/DDF.lean](../Signals/DDF.lean#L6600-L7025), [../Signals/Scattering.lean](../Signals/Scattering.lean), [../SignalsTests.lean](../SignalsTests.lean#L5355-L5410))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../Signals/DDF.lean](../Signals/DDF.lean#L6710-L6916), [../Signals/DDF.lean](../Signals/DDF.lean#L6983-L7113), [../Signals/EMT.lean](../Signals/EMT.lean#L1-L62), [../Signals/AntiFireCannon.lean](../Signals/AntiFireCannon.lean#L156-L246), [../Signals/Scattering.lean](../Signals/Scattering.lean), [../SignalsTests.lean](../SignalsTests.lean#L5355-L5410))
   - `Signals` LeanArchitect Blueprint ([../blueprint/src/content.tex](../blueprint/src/content.tex#L230-L265))
   - `signals-numerical-adapter` Rust/WASM/GLSL Crate ([../numerical_adapter/src/polariton_spp.rs](../numerical_adapter/src/polariton_spp.rs#L945-L1035))
 
@@ -53,9 +53,9 @@ Across nanophotonics, plasma electrodynamics, terrestrial geophysics, and laser-
 
 ### 1.1 The 22 Simultaneous `rGO-polyCBD-SS-Lignin` ENZ, Hyperbolic, Cold-Plasma, Denisov, & $Gr_{\mathbb{C}}(2,4)$ Laws (`rgo_polycbd_enz_hyperbolic_and_plasma_metamaterial_identities`)
 
-Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6779-L6945) (Blueprint node `thm:signals-ddf-enz-hyperbolic-metamaterial-regimes`):
+Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6710-L6916) (Blueprint node `thm:signals-ddf-enz-hyperbolic-metamaterial-regimes`):
 
-| # | Metamaterial / Plasma Law | Mathematical Identity | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6795-L6825) |
+| # | Metamaterial / Plasma Law | Mathematical Identity | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6710-L6916) |
 |---|---|---|---|
 | **MM-1** | **Critical Fill-Fraction Partition of Unity** | $f_{\mathrm{ENZ}} + f_{\perp,\mathrm{pole}} = \frac{\varepsilon_d}{\varepsilon_d + |\varepsilon_m|} + \frac{|\varepsilon_m|}{\varepsilon_d + |\varepsilon_m|} = 1$ | `h.1` |
 | **MM-2** | **Strict Positivity of Critical ENZ Fill Fraction** | $0 < f_{\mathrm{ENZ}}$ | `h.2.1` |
@@ -84,9 +84,9 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6779-L6945) (Blueprint nod
 
 ### 1.2 The 15 Simultaneous Argon Ion-Acoustic, TNSA ENZ-`polyCBD` $p\text{-}^{11}\text{B}$ Gain, $s\text{CO}_2$ Brayton, & 10 Hz Bus Laws (`argon_ion_acoustic_tnsa_enz_polycbd_and_sco2_ledger_identities`)
 
-Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L7005-L7075) (Blueprint node `thm:signals-ddf-argon-ion-acoustic-tnsa-enz-sco2-ledger`):
+Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6983-L7113) (Blueprint node `thm:signals-ddf-argon-ion-acoustic-tnsa-enz-sco2-ledger`):
 
-| # | Plasma / Fusion / Power-Plant Law | Mathematical Identity | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L7010-L7035) |
+| # | Plasma / Fusion / Power-Plant Law | Mathematical Identity | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6983-L7113) |
 |---|---|---|---|
 | **AP-1** | **Argon ($M=40$) vs. Helium ($M=4$) Ion-Acoustic Speed Ordering** | $v_{s,\mathrm{Ar}}^2 < v_{s,\mathrm{He}}^2$ | `h.1` |
 | **AP-2** | **Helium ($M=4$) vs. Hydrogen ($M=1$) Ion-Acoustic Speed Ordering** | $v_{s,\mathrm{He}}^2 < v_{s,\mathrm{H}}^2$ | `h.2.1` |
@@ -107,9 +107,9 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L7005-L7075) (Blueprint nod
 ---
 ### 2.3 The 18 Simultaneous 3-Zone $400 \to 800\text{ GHz}$ `rGO-polyCBD-SS-Lignin` SFG Audit, Zone 3 ENZ Detuning Fix, Denisov Grating Pitch, & Semenov–Hinshelwood Kinetics Laws (`three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities`)
 
-Defined in [../Signals/DDF.lean](../Signals/AntiFireCannon.lean#L156-L246) (Blueprint node `thm:signals-ddf-three-zone-sfg-and-hydroxyl-audit`) and paired with [`Signals.Pending.ThreeZoneHyperbolicSFGCannonHypothesis`](../Signals/Pending.lean#L4759-L4836) (`def:signals-three-zone-hyperbolic-sfg-cannon`):
+Defined in [../Signals/AntiFireCannon.lean](../Signals/AntiFireCannon.lean#L156-L246) (Blueprint node `thm:signals-ddf-three-zone-sfg-and-hydroxyl-audit`) and paired with [`Signals.Pending.ThreeZoneHyperbolicSFGCannonHypothesis`](../Signals/Pending.lean#L4759-L4836) (`def:signals-three-zone-hyperbolic-sfg-cannon`):
 
-| # | 3-Zone SFG / ENZ / Kinetics Audit Law | Mathematical Identity | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L7604-L7626) |
+| # | 3-Zone SFG / ENZ / Kinetics Audit Law | Mathematical Identity | Lean 4 Conjunct in [../Signals/AntiFireCannon.lean](../Signals/AntiFireCannon.lean#L156-L246) |
 |---|---|---|---|
 | **ZA-1** | **Zone 1 ($400\text{ GHz}$) Exact Critical ENZ Fill Fraction** | $f_{\mathrm{ENZ}}(400\text{ GHz}) = \operatorname{emtCriticalEnzFillFraction}(2.82, 110) = \frac{141}{5641} \approx 2.4996\%$ | `h.1` |
 | **ZA-2** | **Zone 1 ($400\text{ GHz}$) Exact In-Plane ENZ Zero-Crossing** | $\varepsilon_\parallel\!\left(\frac{141}{5641}, -110, 2.82\right) = 0$ | `h.2.1` |
