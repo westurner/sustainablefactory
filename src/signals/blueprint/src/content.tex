@@ -271,8 +271,36 @@ holographic carbon nanolithography, \texttt{kicad-volumetric} orthogonal flash D
 and 6-stage \texttt{CVA6} vs.\ \texttt{Ibex} pipeline scaling
 (\texttt{three\_zone\_rgo\_polycbd\_sfg\_and\_hydroxyl\_kinetics\_audit\_identities},
 \texttt{exothermic\_recombination\_tradeoff\_and\_multiband\_suppression\_identities},
-\texttt{holographic\_405\_532\_nanolithography\_kicad\_vol\_and\_cva6\_pipeline\_identities})) theorems.
+\texttt{holographic\_405\_532\_nanolithography\_kicad\_vol\_and\_cva6\_pipeline\_identities}),
+and the superfluid Gross--Pitaevskii action, Madelung polar substitution
+$\psi = A e^{i S / \hbar}$, Euler--Lagrange continuity and Quantum Hamilton--Jacobi
+equations, positive-definite field Legendre Hamiltonian $\mathcal{H}_{\mathrm{Mad}}\ge 0$,
+QHJ-to-Euler momentum bridge, dilatant-phase ($\varphi$) variational jamming recovery
+$\Lambda_\parallel(v) = \gamma_\varphi(v)$, Legendre Hamiltonian
+$H_{\mathrm{DDF}} = \gamma_\varphi(v) m c^2$, unconditional action-derived
+Minkowski proper time $d\tau_D = dt / \gamma_\varphi(v)$, and $405\text{ nm}/532\text{ nm}$
+STED Bohm quantum-confinement amplification
+(\texttt{MovingSheath.madelung\_lagrangian\_variational\_and\_dilatant\_jamming\_identities},
+\texttt{madelung\_hamiltonian\_euler\_ads\_and\_nanolithography\_bridge\_identities}),
+together with quadrupole gravitational waves both without DDF (\texttt{Signals.QEDGravity}:
+spin-2 double-copy polarizations $F_+(\iota), F_\times(\iota)$, dynamic
+$Gr_{\mathbb C}(2,4)$ quadrupole wave matrix \texttt{gr24QuadrupoleWaveMatrix},
+2.5PN Peters--Mathews eccentricity factor $f_{\mathrm{PM}}(e)^2 = P_{\mathrm{PM}}(e)^2/(|w_A^{\mathbb C}|^2|w_B^{\mathbb C}|^2)^7$,
+and $N$-body resonant beat locking;
+\texttt{PlanetaryOrbit.qed\_gravitational\_wave\_without\_ddf\_identities})
+and with DDF (\texttt{Signals.DDF}: dispersed-phase $(\varrho_{\max}^\varphi j_{\min}^\varphi)$
+strain/luminosity decomposition, GPE vortex density-gradient secondary-wavelet
+scattering, strain-thickened Kelvin-wave tail damping, 4D Schur-complement
+temporal conditioning, and 3D \texttt{NormedTensorGaussianSplat3D} vs.\ 2D
+\texttt{NormedTensorGaussianSplat2D} orthographic projection;
+\texttt{RiverExterior.gravitational\_wave\_with\_ddf\_identities},
+\texttt{NormedTensorGaussianSplat3D.gravitational\_wave\_splat3d\_and\_projection\_identities})) theorems.
 
+\inputleanmodule{Signals.EMT}
+\inputleanmodule{Signals.AntiFireCannon}
+\inputleanmodule{Signals.FireSuppression}
+\inputleanmodule{Signals.Nanolithography}
+\inputleanmodule{Signals.QEDGravity}
 \inputleanmodule{Signals.DDF}
 
 \section{Existing model, Pending wakefield/propulsion, and propagation nodes}
@@ -285,10 +313,13 @@ power ($F_{\mathrm{thrust}} v\le P_{\mathrm{drive}}$) for supercritical DDF
 phase-slip thrust, record $\mathrm{He\text{-}3}$ supercritical/solidification
 phase constraints ($T_c=3.32\text{ K}$, $P_{\mathrm{solid}}\ge 3.4\text{ MPa}$)
 for the $39\text{ K}$ $\mathrm{MgB}_2$ 5-axis active magnetic bearing spool,
-and scope the 3-zone $400\to 800\text{ GHz}$ \texttt{rGO-polyCBD-SS-Lignin}
+scope the 3-zone $400\to 800\text{ GHz}$ \texttt{rGO-polyCBD-SS-Lignin}
 hyperbolic SFG anti-fire cannon, $\cdot\mathrm{OH}$ spectroscopic frequency
 separation ($1.667\text{ GHz}<800\text{ GHz}<1830\text{ GHz}$), and exothermic
-recombination heat-sink requirement (\texttt{ThreeZoneHyperbolicSFGCannonHypothesis}).
+recombination heat-sink requirement (\texttt{ThreeZoneHyperbolicSFGCannonHypothesis}),
+and record the calibration and crossed-beam discriminator controls for the
+Madelung variational action and dilatant-phase jamming coupling
+(\texttt{MadelungDilatantVariationalHypothesis}).
 
 \inputleanmodule{Signals.Pending}
 \inputleanmodule{SignalsPending}

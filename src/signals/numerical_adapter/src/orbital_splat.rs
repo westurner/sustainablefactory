@@ -196,7 +196,7 @@ impl PlanetaryOrbitParams {
 
     /// Canonical $Gr_{\mathbb{C}}(2, 4)$ planetary orbital precession twistor matrix
     /// $M_{\mathbb{C}}^{\mathrm{orb}}(\mathrm{orb}, \Delta\varpi)$, matching
-    /// `Signals.DDF.PlanetaryOrbit.gr24PrecessionMatrix`.
+    /// `Signals.QEDGravity.PlanetaryOrbit.gr24PrecessionMatrix`.
     pub fn gr24_precession_matrix(&self, delta_varpi_override: Option<f64>) -> [[Complex64; 4]; 2] {
         let dv = delta_varpi_override.unwrap_or_else(|| self.anomalous_precession_rad_per_orbit());
         let theta = 0.5 * dv;
@@ -205,6 +205,70 @@ impl PlanetaryOrbitParams {
         let z_aph = Complex64::from_polar(a, theta);
         let z_per = Complex64::from_polar(b, -theta);
         complex_gr24_channel_matrix(z_aph, z_per)
+    }
+
+    /// Dynamic $Gr_{\mathbb{C}}(2, 4)$ radiative quadrupole twistor matrix
+    /// $M_{\mathbb{C}}^{\mathrm{GW}}(\mathrm{orb}, \Phi_{\mathrm{orb}}, \Delta\varpi)$, matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.gr24QuadrupoleWaveMatrix`.
+    pub fn gr24_quadrupole_wave_matrix(
+        &self,
+        orbital_phase: f64,
+        delta_varpi_override: Option<f64>,
+    ) -> [[Complex64; 4]; 2] {
+        let dv = delta_varpi_override.unwrap_or_else(|| self.anomalous_precession_rad_per_orbit());
+        self.gr24_precession_matrix(Some(2.0 * orbital_phase + dv))
+    }
+
+    /// Peters–Mathews eccentricity polynomial $P_{\mathrm{PM}}(e) = 1 + \frac{73}{24}e^2 + \frac{37}{96}e^4$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.petersMathewsPolynomial`.
+    #[inline]
+    pub fn peters_mathews_polynomial(&self) -> f64 {
+        let e2 = self.eccentricity * self.eccentricity;
+        1.0 + (73.0 / 24.0) * e2 + (37.0 / 96.0) * e2 * e2
+    }
+
+    /// Peters–Mathews 2.5PN eccentricity enhancement factor
+    /// $f_{\mathrm{PM}}(e) = \frac{1 + \frac{73}{24}e^2 + \frac{37}{96}e^4}{(1 - e^2)^{7/2}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.petersMathewsFactor`.
+    #[inline]
+    pub fn peters_mathews_factor(&self) -> f64 {
+        let one_minus_e2 = (1.0 - self.eccentricity * self.eccentricity).max(1e-15);
+        self.peters_mathews_polynomial() / one_minus_e2.sqrt().powi(7)
+    }
+
+    /// Characteristic quadrupole gravitational-wave strain amplitude
+    /// $h_0 = \frac{r_{H,1}\,r_{H,2}}{R\,a}$, matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.quadrupoleStrainAmplitudePM` and
+    /// `Signals.DDF.RiverExterior.quadrupoleStrainAmplitude`.
+    #[inline]
+    pub fn quadrupole_strain_amplitude(
+        &self,
+        companion_horizon_radius_km: f64,
+        detector_distance_km: f64,
+    ) -> f64 {
+        let a_km = self.semi_major_axis_au * AU_KM;
+        (self.central_horizon_radius_km * companion_horizon_radius_km)
+            / (detector_distance_km * a_km)
+    }
+
+    /// Far-field plus and cross gravitational-wave strain waveforms $(h_+(t), h_\times(t))$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.gwStrainPlus` and `gwStrainCross`.
+    #[inline]
+    pub fn gw_strain_plus_cross(
+        &self,
+        companion_horizon_radius_km: f64,
+        detector_distance_km: f64,
+        inclination: f64,
+        orbital_phase: f64,
+        delta_varpi_override: Option<f64>,
+    ) -> (f64, f64) {
+        let dv = delta_varpi_override.unwrap_or_else(|| self.anomalous_precession_rad_per_orbit());
+        let h0 = self.quadrupole_strain_amplitude(companion_horizon_radius_km, detector_distance_km);
+        let cos_i = inclination.cos();
+        let f_plus = 0.5 * (1.0 + cos_i * cos_i);
+        let f_cross = cos_i;
+        let phase = 2.0 * orbital_phase + dv;
+        (-h0 * f_plus * phase.cos(), -h0 * f_cross * phase.sin())
     }
 }
 
@@ -930,6 +994,134 @@ impl NormedTensorGaussianSplat3D {
         };
         persp3d.gr36_volumetric_invariants(phi1, phi2, phi3)
     }
+
+    /// Construct a 3D transverse-traceless (TT) gravitational-wave splat (**Without DDF**),
+    /// matching `Signals.DDF.NormedTensorGaussianSplat3D.ttGravitationalWaveSplat3D`.
+    #[inline]
+    pub fn from_tt_gravitational_wave(
+        center_x: f64,
+        center_y: f64,
+        center_z: f64,
+        weight: f64,
+        sigma0: f64,
+        sigma_z0: f64,
+        h_plus: f64,
+        orientation_angle: f64,
+        pitch_angle: f64,
+    ) -> Self {
+        Self {
+            center_x,
+            center_y,
+            center_z,
+            weight,
+            sigma1: sigma0 * (0.5 * h_plus).exp(),
+            sigma2: sigma0 * (-0.5 * h_plus).exp(),
+            sigma3: sigma_z0,
+            orientation_angle,
+            pitch_angle,
+            role: SplatRole::Gr24OrbitalField,
+        }
+    }
+
+    /// Construct a 3D DDF shear-jammed gravitational-wave splat (**With DDF**),
+    /// matching `Signals.DDF.MovingSheath.ddfGravitationalWaveSplat3D`.
+    #[inline]
+    pub fn from_ddf_gravitational_wave(
+        center_x: f64,
+        center_y: f64,
+        center_z: f64,
+        weight: f64,
+        sigma0: f64,
+        sigma_z0: f64,
+        h_plus: f64,
+        beta: f64,
+        orientation_angle: f64,
+        pitch_angle: f64,
+    ) -> Self {
+        let vis = (1.0 - beta * beta).max(1e-12).sqrt();
+        Self {
+            center_x,
+            center_y,
+            center_z,
+            weight,
+            sigma1: sigma0 * (0.5 * h_plus).exp(),
+            sigma2: sigma0 * (-0.5 * h_plus).exp(),
+            sigma3: sigma_z0 * vis,
+            orientation_angle,
+            pitch_angle,
+            role: SplatRole::DdfMovingSheathField,
+        }
+    }
+
+    /// Construct a 3D $Gr_{\mathbb{C}}(3, 6)$ planetary orbit splat, matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.gr36TensorSplat3D`.
+    #[inline]
+    pub fn from_gr36_orbit(
+        orbit: &PlanetaryOrbitParams,
+        center_x: f64,
+        center_y: f64,
+        center_z: f64,
+        weight: f64,
+        sigma0: f64,
+        sigma_z0: f64,
+        varpi_angle: f64,
+        inclination_angle: f64,
+    ) -> Self {
+        Self {
+            center_x,
+            center_y,
+            center_z,
+            weight,
+            sigma1: sigma0 * (1.0 + orbit.eccentricity).max(1e-12).sqrt(),
+            sigma2: sigma0 * (1.0 - orbit.eccentricity).max(1e-12).sqrt(),
+            sigma3: sigma_z0,
+            orientation_angle: varpi_angle,
+            pitch_angle: inclination_angle,
+            role: SplatRole::Gr24OrbitalField,
+        }
+    }
+}
+
+/// Evaluate GPE superfluid vortex radial condensate density $\rho_{\mathrm{vortex}}(r) = \rho_0\frac{r^2}{r^2 + \xi^2}$
+/// and acoustic density-gradient scattering potential $V_{\mathrm{scat}}(r) = \frac{2\rho_0\xi^2 r}{(r^2 + \xi^2)^2}$,
+/// matching `Signals.DDF.gpeVortexDensityProfile` and `gpeVortexScatteringPotential`.
+#[inline]
+pub fn gpe_vortex_density_and_scattering_potential(rho0: f64, xi: f64, r: f64) -> (f64, f64) {
+    let r2 = r * r;
+    let xi2 = xi * xi;
+    let denom = r2 + xi2;
+    let rho = rho0 * (r2 / denom);
+    let v_scat = (2.0 * rho0 * xi2 * r) / (denom * denom);
+    (rho, v_scat)
+}
+
+/// Evaluate Newtonian acoustic damping $\Gamma_{\mathrm{Newton}} = \alpha k^2$ and
+/// strain-thickened DDF Kelvin-wave tail damping $\Gamma_{\mathrm{DDF}} = \alpha k^2(1 + \gamma_{\mathrm{dil}} k^2)$,
+/// matching `Signals.DDF.newtonianAcousticDampingRate` and `dilatantKelvinTailDampingRate`.
+#[inline]
+pub fn dilatant_kelvin_tail_damping(alpha: f64, gamma_dil: f64, k: f64) -> (f64, f64) {
+    let k2 = k * k;
+    let g_newton = alpha * k2;
+    let g_ddf = g_newton * (1.0 + gamma_dil * k2);
+    (g_newton, g_ddf)
+}
+
+/// Evaluate 1D Schur-complement conditioned spatial variance $\Sigma_{xx} - \nu \Sigma_{tt}^{-1} \Sigma_{xt}^2$
+/// for unstrained ($\nu = \mu_0$) vs. dilatant ($\nu = \mu_0(1 + \sigma^2)$) 4D spacetime tensor splats,
+/// matching `Signals.DDF.schurConditionedSpatialVariance1D` and `dilatantViscosityModifier`.
+#[inline]
+pub fn schur_conditioned_spatial_variance_1d(
+    sigma_xx: f64,
+    sigma_xt: f64,
+    inv_sigma_tt: f64,
+    mu0: f64,
+    strain: f64,
+) -> (f64, f64) {
+    let xt2 = sigma_xt * sigma_xt;
+    let unstrained = sigma_xx - mu0 * inv_sigma_tt * xt2;
+    let nu_ddf = mu0 * (1.0 + strain * strain);
+    let dilatant = sigma_xx - nu_ddf * inv_sigma_tt * xt2;
+    (unstrained, dilatant)
 }
 
 /// Canonical $Gr_{\mathbb{C}}(3, 6)$ Schur–Plücker $3 \times 3$ minor invariants
@@ -1565,5 +1757,85 @@ mod tests {
             "solar_system_precession_and_normed_splat_scene",
             (summary, scene_summary)
         );
+    }
+
+    #[test]
+    fn gravitational_waves_without_and_with_ddf_and_splat3d_invariants() {
+        let mercury = PlanetaryOrbitParams::from_solar_system_body(SolarSystemBody::Mercury);
+        let phi_orb = 0.65;
+        let dv = mercury.anomalous_precession_rad_per_orbit();
+        let m_gw = mercury.gr24_quadrupole_wave_matrix(phi_orb, Some(dv));
+        let w_a_sq = two_row_minor_complex(&m_gw, 0, 1)
+            .mul(two_row_minor_complex(&m_gw, 2, 3))
+            .norm_sq();
+        let w_b_sq = two_row_minor_complex(&m_gw, 0, 3)
+            .mul(two_row_minor_complex(&m_gw, 1, 2))
+            .norm_sq();
+        let cross_sq = two_row_minor_complex(&m_gw, 0, 2)
+            .mul(two_row_minor_complex(&m_gw, 1, 3))
+            .norm_sq();
+        let p_over_a = mercury.semi_latus_rectum_au() / mercury.semi_major_axis_au;
+        assert!((w_a_sq * w_b_sq - p_over_a).abs() < 1e-12);
+        let expected_cross = 2.0 * (1.0 + p_over_a.sqrt() * (2.0 * phi_orb + dv).cos());
+        assert!((cross_sq - expected_cross).abs() < 1e-12);
+
+        // Peters-Mathews factor squared matches P_PM(e)^2 / (|w_A|^2 |w_B|^2)^7
+        let pm_poly = mercury.peters_mathews_polynomial();
+        let pm_fac = mercury.peters_mathews_factor();
+        assert!(pm_poly >= 1.0 && pm_fac > 0.0);
+        assert!((pm_fac * pm_fac - (pm_poly * pm_poly) / (w_a_sq * w_b_sq).powi(7)).abs() < 1e-11);
+
+        // Plus/cross polarizations face-on (iota = 0) vs edge-on (iota = pi/2)
+        let h0 = mercury.quadrupole_strain_amplitude(1e-9, AU_KM);
+        assert!(h0 > 0.0);
+        let (hp_face, hx_face) = mercury.gw_strain_plus_cross(1e-9, AU_KM, 0.0, phi_orb, Some(dv));
+        assert!(((hp_face * hp_face + hx_face * hx_face) - h0 * h0).abs() < 1e-36);
+        let (_, hx_edge) = mercury.gw_strain_plus_cross(1e-9, AU_KM, 0.5 * PI, phi_orb, Some(dv));
+        assert!(hx_edge.abs() < 1e-30);
+
+        // 3D NormedTensorGaussianSplat3D TT vs DDF gravitational wave splat & 3D-to-2D projection
+        let sigma0 = 2.0;
+        let sigma_z0 = 3.0;
+        let weight = 5.0;
+        let h_plus = 0.25;
+        let beta = 0.6; // gamma_phi = 1.25
+        let tt3d = NormedTensorGaussianSplat3D::from_tt_gravitational_wave(
+            0.0, 0.0, 1.0, weight, sigma0, sigma_z0, h_plus, 0.3, 0.2,
+        );
+        let ddf3d = NormedTensorGaussianSplat3D::from_ddf_gravitational_wave(
+            0.0, 0.0, 1.0, weight, sigma0, sigma_z0, h_plus, beta, 0.3, 0.2,
+        );
+        let orb3d = NormedTensorGaussianSplat3D::from_gr36_orbit(
+            &mercury, 0.0, 0.0, 1.0, weight, sigma0, sigma_z0, 0.3, 0.2,
+        );
+        assert!((tt3d.cov_det() - sigma0.powi(4) * sigma_z0.powi(2)).abs() < 1e-11);
+        assert!(
+            (ddf3d.cov_det() - sigma0.powi(4) * sigma_z0.powi(2) * (1.0 - beta * beta)).abs()
+                < 1e-11
+        );
+        assert!(ddf3d.cov_det() < tt3d.cov_det());
+        assert!((tt3d.project_orthographic_2d().cov_det() - sigma0.powi(4)).abs() < 1e-11);
+        assert!(
+            (ddf3d.project_orthographic_2d().cov_det()
+                - tt3d.project_orthographic_2d().cov_det())
+            .abs()
+                < 1e-12
+        );
+        assert!((orb3d.cov_det() - sigma0.powi(4) * sigma_z0.powi(2) * p_over_a).abs() < 1e-11);
+        let bohm_diff = ddf3d.core_bohm_potential(1.0, 1.0) - tt3d.core_bohm_potential(1.0, 1.0);
+        let gamma_sq = 1.0 / (1.0 - beta * beta);
+        let expected_bohm_diff = (1.0 / (4.0 * sigma_z0 * sigma_z0)) * (gamma_sq - 1.0);
+        assert!((bohm_diff - expected_bohm_diff).abs() < 1e-12);
+
+        // GPE vortex scattering, Kelvin-wave tail damping, and 4D Schur conditioning
+        let (rho_0, v_scat_0) = gpe_vortex_density_and_scattering_potential(4.0, 2.0, 0.0);
+        let (rho_xi, v_scat_xi) = gpe_vortex_density_and_scattering_potential(4.0, 2.0, 2.0);
+        assert!(rho_0.abs() < 1e-15 && v_scat_0.abs() < 1e-15);
+        assert!((rho_xi - 2.0).abs() < 1e-12 && v_scat_xi > 0.0);
+        let (g_newton, g_ddf) = dilatant_kelvin_tail_damping(2.0, 0.5, 3.0);
+        assert!(((g_ddf - g_newton) - 2.0 * 0.5 * 3.0_f64.powi(4)).abs() < 1e-12);
+        let (var_unstrained, var_dilatant) =
+            schur_conditioned_spatial_variance_1d(10.0, 1.0, 2.0, 2.0, 0.6);
+        assert!(var_dilatant < var_unstrained && var_unstrained < 10.0);
     }
 }

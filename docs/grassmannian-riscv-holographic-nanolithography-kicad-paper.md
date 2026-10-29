@@ -10,9 +10,9 @@ description: "An arXiv-ready MyST Markdown formal verification and EDA engineeri
 - **Subjects:**
   - Hardware Architecture (`cs.AR`); Optics (`physics.optics`); Materials Science (`cond-mat.mtrl-sci`); Chemical Physics (`physics.chem-ph`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification, EDA, & RTL Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L7450-L7909), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L4735-L4838), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L5437-L5488), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L4771-L4815))
-  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex#L260-L295))
-  - `signals-numerical-adapter` Rust/WASM KiCAD + GDSII + `.kicad_vol` Engine ([../src/signals/numerical_adapter/src/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/cannon_mask_cad.rs), [../src/signals/numerical_adapter/src/bin/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/bin/cannon_mask_cad.rs))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/Nanolithography.lean](../src/signals/Signals/Nanolithography.lean#L80-L122), [../src/signals/Signals/AntiFireCannon.lean](../src/signals/Signals/AntiFireCannon.lean#L156-L246), [../src/signals/Signals/FireSuppression.lean](../src/signals/Signals/FireSuppression.lean#L80-L128), [../src/signals/Signals/EMT.lean](../src/signals/Signals/EMT.lean#L1-L62), [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L8008-L8145), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L4735-L4932), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L5437-L5565), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L4771-L4853))
+  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex#L260-L315))
+  - `signals-numerical-adapter` Rust/WASM KiCAD + GDSII + `.kicad_vol` Engine ([../src/signals/numerical_adapter/src/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/cannon_mask_cad.rs), [../src/signals/numerical_adapter/src/bin/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/bin/cannon_mask_cad.rs), [../src/signals/numerical_adapter/src/madelung_lagrangian.rs](../src/signals/numerical_adapter/src/madelung_lagrangian.rs))
   - Cloned Open-Source RISC-V & KiCad EDA Repositories: [`src/core-v-cores`](../src/core-v-cores/README.md), [`src/cheri-cva6`](../src/cheri-cva6/README.md), [`src/cva6-cheri`](../src/cva6-cheri/README.md), [`src/ibex`](../src/ibex/README.md), [`src/kicad-happy`](../src/kicad-happy/README.md)
   - Canonical `src/signals/docs/` Mirror: [../src/signals/docs/grassmannian-riscv-holographic-nanolithography-kicad-paper.md](../src/signals/docs/grassmannian-riscv-holographic-nanolithography-kicad-paper.md)
 
@@ -31,12 +31,13 @@ description: "An arXiv-ready MyST Markdown formal verification and EDA engineeri
   12. [Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plücker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4](grassmannian-holographic-imaging-depth-recovery-paper.md)
   13. [3D Vectorial Wave Model for Longitudinal Polarization ($E_z$) and Higher-Rank $Gr_{\mathbb{C}}(3,n)$ Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4](grassmannian-vectorial-longitudinal-polarization-paper.md)
   14. [Epsilon-Near-Zero (ENZ) and Hyperbolic Metamaterials in Unified Grassmannian–DDF Mechanics: `rGO-polyCBD-SS-Lignin` Nanolaminates, Argon/Ionospheric Trivelpiece–Gould Plasma, Denisov Mode Conversion, and CPA-TNSA $p\text{-}^{11}\text{B}$ / $s\text{CO}_2$ Power Ledgers in Lean 4](grassmannian-enz-hyperbolic-metamaterials-paper.md)
+  15. [From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Mechanics](grassmannian-madelung-lagrangian-ddf-jamming-paper.md)
 
 ---
 
 ## Abstract
 
-We present a formal, end-to-end hardware-synthesis and verification framework that bridges **dual-wavelength ($405\text{ nm} / 532\text{ nm}$) holographic longitudinal carbon nanolithography**, **open-source 6-stage Linux-capable (`CVA6`, `CHERI-CVA6`) and 1oo2 lockstep (`Ibex`) RISC-V processor architectures**, **volumetric KiCAD/GDSII electronic design automation (`cannon_mask_cad.rs`, `kicad-happy`)**, and **rigorous thermodynamic/spectroscopic audits of the 3-zone $400 \to 800\text{ GHz}$ `rGO-polyCBD-SS-Lignin` Sum-Frequency Generation (SFG) lens**. Every mathematical identity is machine-checked without `sorry` in **Lean 4** ([../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L7450-L7909) and [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L4735-L4838)) and backed by a zero-dependency **Rust/WASM** CAD and verification engine ([../src/signals/numerical_adapter/src/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/cannon_mask_cad.rs)). Specifically:
+We present a formal, end-to-end hardware-synthesis and verification framework that bridges **dual-wavelength ($405\text{ nm} / 532\text{ nm}$) holographic longitudinal carbon nanolithography**, **open-source 6-stage Linux-capable (`CVA6`, `CHERI-CVA6`) and 1oo2 lockstep (`Ibex`) RISC-V processor architectures**, **volumetric KiCAD/GDSII electronic design automation (`cannon_mask_cad.rs`, `kicad-happy`)**, and **rigorous thermodynamic/spectroscopic audits of the 3-zone $400 \to 800\text{ GHz}$ `rGO-polyCBD-SS-Lignin` Sum-Frequency Generation (SFG) lens**. Every mathematical identity is machine-checked without `sorry` in **Lean 4** ([../src/signals/Signals/Nanolithography.lean](../src/signals/Signals/Nanolithography.lean#L80-L122), [../src/signals/Signals/AntiFireCannon.lean](../src/signals/Signals/AntiFireCannon.lean#L156-L246), [../src/signals/Signals/FireSuppression.lean](../src/signals/Signals/FireSuppression.lean#L80-L128), [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L8008-L8145), and [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L4735-L4932)) and backed by a zero-dependency **Rust/WASM** CAD and verification engine ([../src/signals/numerical_adapter/src/cannon_mask_cad.rs](../src/signals/numerical_adapter/src/cannon_mask_cad.rs)). Specifically:
 
 1. **Sub-$20\text{ nm}$ Dual-Beam $405\text{ nm} / 532\text{ nm}$ Holographic Carbon Nanolithography (`holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities`)**:
    Combining a $405\text{ nm}$ radial vector vortex writing beam ($q = 1/2$, $\mathrm{NA} = 1.4$, longitudinal $E_z = 2 E_0 \sin\theta$ enhanced at the `rGO-polyCBD-SS-Lignin` ENZ horizon) with a coaxial $532\text{ nm}$ helical doughnut depletion ring ($\sigma\cdot\ell = +1$, $E_z = 0$ on axis, saturation ratio $\zeta_{532} = I_{532}/I_{\mathrm{sat}} = 63$) compresses the squared feature linewidth from the Abbe diffraction limit $w_0^2 = \left(\frac{2025}{14}\right)^2 \approx (144.64\text{ nm})^2 > 20^2$ to:
@@ -83,10 +84,10 @@ flowchart TD
 
 ### 1.2 Why Both $405\text{ nm}$ and $532\text{ nm}$ Are Required
 
-| Wavelength & Polarization Mode | Physical Interaction with `rGO-polyCBD-SS-Lignin` | Governing Mathematical Law in `Signals.DDF` | Role in Carbon RISC-V Fabrication |
+| Wavelength & Polarization Mode | Physical Interaction with `rGO-polyCBD-SS-Lignin` | Governing Mathematical Law in `Signals` / `Signals.DDF` | Role in Carbon RISC-V Fabrication |
 |---|---|---|---|
 | **$405\text{ nm}$ Radial Vector Vortex** ($q = 1/2$, $\mathrm{NA} = 1.4$) | Matches the absorption peak of $o$-nitrobenzyl (ONB) ester crosslinkers ([IQ-Sampling-for-Signal-Phase.md, lines 12650–12670](../data/chats/IQ-Sampling-for-Signal-Phase.md#L12650-L12670)) and drives multiphoton C–O/C–H cleavage into $sp^2$ `N-LIG` / `S-LIG` or $sp^3$ diamond. | $E_z(\phi) + E_z(\phi+\pi) = 2 E_0 \sin\theta$,<br>$w_0 = \frac{\lambda_{405}}{2\,\mathrm{NA}} = \frac{2025}{14}\text{ nm} \approx 144.64\text{ nm}$ | Primary lithographic write beam for `N-LIG` ($n$-type), `S-LIG` ($p$-type), and $sp^3$ diamond splines. |
-| **$532\text{ nm}$ Helical Doughnut Ring** ($\sigma = +1, \ell = +1 \implies \sigma\cdot\ell = +1$, $E_z = 0$ at center) | Forms a sub-wavelength dark central node surrounded by an intense green ring ([_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 854–952](../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md#L854-L952)) that quenches peripheral excited states / confines thermal diffusion (**Thermal-STED**). | $w_{\mathrm{STED}}^2 = \frac{w_0^2}{1 + \zeta_{532}} = \left(\frac{2025}{112}\right)^2 \approx (18.08\text{ nm})^2 < (20\text{ nm})^2$ at $\zeta_{532} = 63$ (`stedDepletedLinewidthSq`) | Shrinks `N-LIG`/`S-LIG` transistor gate lengths from $144.6\text{ nm}$ down to **$18.08\text{ nm}$** ($<20\text{ nm}$). |
+| **$532\text{ nm}$ Helical Doughnut Ring** ($\sigma = +1, \ell = +1 \implies \sigma\cdot\ell = +1$, $E_z = 0$ at center) | Forms a sub-wavelength dark central node surrounded by an intense green ring ([_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 854–952](../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md#L854-L952)) that quenches peripheral excited states / confines thermal diffusion (**Thermal-STED**). | $w_{\mathrm{STED}}^2 = \frac{w_0^2}{1 + \zeta_{532}} = \left(\frac{2025}{112}\right)^2 \approx (18.08\text{ nm})^2 < (20\text{ nm})^2$ at $\zeta_{532} = 63$ (`stedDepletedLinewidthSq`, `stedCoreBohmPotential`) | Shrinks `N-LIG`/`S-LIG` transistor gate lengths from $144.6\text{ nm}$ down to **$18.08\text{ nm}$** ($<20\text{ nm}$) and boosts focal Bohm quantum confinement $64\times$. |
 | **$532\text{ nm}$ Pulsed Laser Compression Shock (LCS)** | Aromatic lignin/polyCBD absorbs $532\text{ nm}$ ($2.33\text{ eV}$) strongly ([gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 520–535](../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md#L520-L535)), generating $>1\text{ GPa}$ acoustic shockwaves that strain-lock CNT/GFET bandgaps and compress cholesteric Bragg pitches. | $d_{\mathrm{Bragg,532}} = \frac{\lambda_{532}}{2\,\bar{n}} = \frac{532}{2 \times 1.59} \approx 167.30\text{ nm}$ (`lcs_green_bragg_pitch_nm`) | Imprints $R \approx 99.9\%$ $532\text{ nm}$ Distributed Bragg Reflector (DBR) optical clock mirrors and strain-locks transistor channels. |
 | **$532\text{ nm}$ Low-Power CW Homodyne Probe** | Non-cleaving Mach–Zehnder / homodyne readout between sequential flashes ([_Quantum Processor and Soliton Discussions  .md, line 6142](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L6142); [IQ-Sampling-for-Signal-Phase.md, lines 12525–12536](../data/chats/IQ-Sampling-for-Signal-Phase.md#L12525-L12536)). | Updates the $Gr_{\mathbb{C}}(2,4)$ / $Gr_{\mathbb{C}}(3,6)$ thermal offset tensor between Flashes $1 \dots 12$ | Guarantees sub-nanometer inter-flash registration across all $6$ pipeline stages. |
 
@@ -135,23 +136,23 @@ Searching the entire chat corpus (`rg -i kicad data/chats/*.md`) reveals a five-
 |---|---|---|---|
 | **Stage 1: 2D Laser-Ablated Lignin PCBs & Cylindrical Projection** | [_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 143–195](../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md#L143-L195); [detail-the-algolaser-laser-engraver-products.md, lines 143–195](../data/chats/detail-the-algolaser-laser-engraver-products.md#L143-L195) | Plots `F.Cu`, `F.Mask`, and `F.SilkS` from KiCad as 1:1 `.svg`/`.dxf` with "Negative Plot" enabled, then wraps flat boards of width $C = \pi d$ onto 3D cylinders in Blender/FreeCAD. | Audited via [`src/kicad-happy/skills/kicad`](../src/kicad-happy/skills/kicad/SKILL.md). |
 | **Stage 2: Open-Source RISC-V (`NEORV32`) + Yosys/nextpnr + KiCad** | [gemini_google-gemini_2026-01-25T19-40-26-0500.md, lines 273–315](../data/chats/gemini_google-gemini_2026-01-25T19-40-26-0500.md#L273-L315); [_Red-and-Blue-Laser-Beam-Mixing.md, lines 186–225](../data/chats/_Red-and-Blue-Laser-Beam-Mixing.md#L186-L225) | Combines KiCad board layout with Yosys/nextpnr synthesis and open RISC-V IP cores. | Expanded to `CVA6`, `CHERI-CVA6`, and `Ibex` in `src/`. |
-| **Stage 3: Volumetric Optical-Chip Schema Query** | [Review-Pop-III-GW-Remnants.md, line 3668](../data/chats/Review-Pop-III-GW-Remnants.md#L3668) | Poses the translation of verified Proca nanolithography parameters into a volumetric KiCAD schema. | Formalized in `Signals.DDF` and `cannon_mask_cad.rs`. |
+| **Stage 3: Volumetric Optical-Chip Schema Query** | [Review-Pop-III-GW-Remnants.md, line 3668](../data/chats/Review-Pop-III-GW-Remnants.md#L3668) | Poses the translation of verified Proca nanolithography parameters into a volumetric KiCAD schema. | Formalized in `Signals.Nanolithography` and `cannon_mask_cad.rs`. |
 | **Stage 4: `kicad-volumetric` (`.kicad_vol`), Metric Interference DRC, Orthogonal Flashes, & IOF/PROV-O CBOM** | [IQ-Sampling-for-Signal-Phase.md, lines 9839–10250](../data/chats/IQ-Sampling-for-Signal-Phase.md#L9839-L10250) & [lines 11962–12125](../data/chats/IQ-Sampling-for-Signal-Phase.md#L11962-L12125) | Replaces 2D layer stacks with 3D topological splines `(spline (points ...) (material n_lig \| s_lig \| sp3_diamond \| o_cnt))`, checks **Metric Interference DRC** against unintended $sp^3$ diamond over-squeezing, decomposes into orthogonal flashes, and emits an IOF/EMMO/PROV-O/QUDT YAML-LD CBOM. | Machine-checked in `holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities` and implemented in `export_kicad_volumetric_str` & `export_iof_prov_cbom_yaml_ld`. |
 | **Stage 5: Parametric `.kicad_mod` & Binary `.gds` Exporter for the $400 \to 800\text{ GHz}$ Lens** | [IQ-Sampling-for-Signal-Phase.md, lines 16539–16915](../data/chats/IQ-Sampling-for-Signal-Phase.md#L16539-L16915) | Exports Layer 1 azimuthal $q=1/2$ Bragg sectors, Layer 2 Denisov electrodes, and Layer 3 N-LIG pads to `.kicad_mod` and `.gds`. | Re-engineered in pure Rust/WASM in [`cannon_mask_cad.rs`](../src/signals/numerical_adapter/src/cannon_mask_cad.rs) with round-trip GDSII binary parsing and forward/Bragg Denisov pitch modes. |
 
-### 3.2 Mathematical Theory of `kicad-volumetric` Metric Interference DRC
+### 3.2 Mathematical Theory of `kicad-volumetric` Metric Interference DRC & Madelung Polar Superposition
 
 In 3D holographic lithography ([IQ-Sampling-for-Signal-Phase.md, lines 9880–9976](../data/chats/IQ-Sampling-for-Signal-Phase.md#L9880-L9976)), carbon phase selection is governed by local intensity / metric-squeeze thresholds:
 - $A_{\mathrm{NLIG}} \approx 0.60\text{–}0.85$ converts the precursor into conductive $sp^2$ `N-LIG` / `S-LIG`, whereas
 - $A_{sp3} = 2.0$ compresses the lattice into wide-bandgap ($5.5\text{ eV}$) insulating $sp^3$ diamond.
 
-When two adjacent `N-LIG` splines with individual wave amplitudes $A_1, A_2 > 0$ (e.g. $A_1 = A_2 = \frac{4}{5}$, so each individual spline has intensity $A_i^2 = \frac{16}{25} = 0.64 < A_{sp3}$) are flashed **simultaneously** in a single holographic exposure, their coherent constructive overlap reaches (`twoTraceConstructiveSqueezePeak`):
+When two adjacent `N-LIG` splines with individual wave amplitudes $A_1, A_2 > 0$ (e.g. $A_1 = A_2 = \frac{4}{5}$, so each individual spline has intensity $A_i^2 = \frac{16}{25} = 0.64 < A_{sp3}$) are flashed **simultaneously** in a single holographic exposure, their coherent constructive overlap reaches (`twoTraceConstructiveSqueezePeak`, connected to Madelung polar wavefunctions $\psi(A, \theta) = A e^{i\theta}$ in [`madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities`](grassmannian-madelung-lagrangian-ddf-jamming-paper.md)):
 
 $$
-I_{\mathrm{single}}(A_1, A_2) = (A_1 + A_2)^2 = A_1^2 + A_2^2 + 2 A_1 A_2 > A_1^2 + A_2^2.
+I_{\mathrm{single}}(A_1, A_2) = |\psi(A_1, \theta) + \psi(A_2, \theta)|^2 = (A_1 + A_2)^2 = A_1^2 + A_2^2 + 2 A_1 A_2 > A_1^2 + A_2^2 = |\psi(A_1, \theta) + \psi(A_2, \theta + \pi/2)|^2.
 $$
 
-For $A_1 = A_2 = \frac{4}{5}$, $I_{\mathrm{single}}\!\left(\frac{4}{5}, \frac{4}{5}\right) = \frac{64}{25} = 2.56 > 2 = A_{sp3}$, synthesizing an unintended insulating $sp^3$ diamond wall right across the circuit! By partitioning odd and even pipeline stages into **orthogonal sequential flashes** (`flash_index = 1` vs. `2` in `generate_riscv_holographic_module`), each flash's peak intensity remains strictly $\left(\frac{4}{5}\right)^2 = 0.64 < 2$, reducing the Metric Interference DRC hazard count from $5$ (in 6-stage `CVA6` / `CHERI-CVA6`) and $2$ (in 3-stage `Ibex`) down to **$0$**.
+For $A_1 = A_2 = \frac{4}{5}$, $I_{\mathrm{single}}\!\left(\frac{4}{5}, \frac{4}{5}\right) = \frac{64}{25} = 2.56 > 2 = A_{sp3}$, synthesizing an unintended insulating $sp^3$ diamond wall right across the circuit! By partitioning odd and even pipeline stages into **orthogonal sequential flashes** (`flash_index = 1` vs. `2` in `generate_riscv_holographic_module`), each flash's peak intensity remains strictly $\left(\frac{4}{5}\right)^2 = 0.64 < 2$, reducing the Metric Interference DRC hazard count from $5$ (in 6-stage `CVA6` / `CHERI-CVA6`) and $2$ (in 3-stage `Ibex`) down to **$0$**, while $532\text{ nm}$ STED depletion ($\zeta_{532} = 63$) amplifies the core Bohm quantum-confinement potential `stedCoreBohmPotential` by $1 + \zeta_{532} = 64\times$.
 
 ---
 
@@ -176,19 +177,20 @@ Proved in [`Signals.exothermic_recombination_tradeoff_and_multiband_suppression_
 - **Rocket / Scramjet Nozzle Frozen-Flow Enthalpy Recovery**: $v_0^2 < v_{\mathrm{exit}}^2 = v_0^2 + 2\,\eta_{\mathrm{nozzle}}\,\frac{n_{\mathrm{rad}}\,\Delta H_{\mathrm{rec}}}{\rho}$.
 - **Acoustic Boundary-Layer Displacement Scaling ($50\text{ Hz}$ DARPA Bass vs. $400\text{ GHz}$)**: $\frac{\xi_{\mathrm{ac}}(u_{\mathrm{ac}}, 50)}{\xi_{\mathrm{ac}}(u_{\mathrm{ac}}, 400 \times 10^9)} = 8 \times 10^9$.
 
-For the full 6-domain engineering catalog of exothermic radical recombination and the 4-band fire-suppression frequency comparison table, see Sections 4.7.4 and 4.7.5 of [anti-fire-cannon-review.md](anti-fire-cannon-review.md#L354-L395).
+For the full 6-domain engineering catalog of exothermic radical recombination and the 4-band fire-suppression frequency comparison table, see Sections 4.7.4 and 4.7.5 (lines 354–395) of [anti-fire-cannon-review.md](anti-fire-cannon-review.md).
 
 ---
 
 ## 5. Complete Catalog of Simultaneous Machine-Checked Laws & Lean 4 Verification Block
 
-### 5.1 Summary of the 34 Simultaneous Conjuncts Across the Three New Theorems in `Signals.DDF`
+### 5.1 Summary of the Simultaneous Conjuncts Across the Promoted `Signals` & `Signals.DDF` Theorems
 
 | Theorem & Blueprint Label | Conjuncts | Core Verified Identities |
 |---|---|---|
 | [`three_zone_rgo_polycbd_sfg_and_hydroxyl_kinetics_audit_identities`](../src/signals/Signals/AntiFireCannon.lean#L156-L246)<br>(`thm:signals-ddf-three-zone-sfg-and-hydroxyl-audit`) | **18** | $f_{\mathrm{ENZ}}(400\text{ GHz}) = \frac{141}{5641}$, $\varepsilon_{\parallel,400}(0.032) = -\frac{9878}{12500} < 0$, $\varepsilon_{\perp,400}(0.032) = \frac{969375}{332468} < \frac{969375}{331622} = \varepsilon_{\perp,800}(0.032)$, $f_{\mathrm{ENZ}}(800\text{ GHz}) = \frac{141}{1516}$, $\Gamma_{\mathrm{ENZ,reg}}(f=0.0988) < \Gamma_{\mathrm{ENZ,reg}}(f=\frac{141}{1516}) = (\frac{235}{4})^2$, $\Lambda_{\mathrm{forward}} = 2\Lambda_{\mathrm{Bragg}}$, $n_0 < n_{\mathrm{unquenched}}(t)$, $n_{\mathrm{quenched}}(t) < n_0$, and $0 < P_{\mathrm{rec}}$. |
 | [`exothermic_recombination_tradeoff_and_multiband_suppression_identities`](../src/signals/Signals/FireSuppression.lean#L80-L128)<br>(`thm:signals-ddf-exothermic-recombination-and-multiband-fire-suppression`) | **7** | $\operatorname{netChainArrestHeatSavings}(1, 104, 499) = -395 < 0$, $\operatorname{netChainArrestHeatSavings}(10, 104, 499) = +541 > 0$, $v_0^2 < \operatorname{nozzleRecombinationThrustVelSq}$, $\xi_{\mathrm{ac}}(f_{\mathrm{hyp}}) < \xi_{\mathrm{ac}}(f_{\mathrm{bass}})$, and $\xi_{\mathrm{ac}}(50\text{ Hz}) / \xi_{\mathrm{ac}}(400\text{ GHz}) = 8 \times 10^9$. |
 | [`holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities`](../src/signals/Signals/Nanolithography.lean#L80-L122)<br>(`thm:signals-ddf-holographic-405-532-kicad-vol-and-cva6-pipeline`) | **9** | $w_0^2(405\text{ nm}, 1.4) = (\frac{2025}{14})^2 > 20^2$, $w_{\mathrm{STED}}^2(405\text{ nm}, 1.4, 63) = (\frac{2025}{112})^2 < 20^2$, $w_{\mathrm{STED}}^2(\zeta) < w_0^2$, $(4/5)^2 < 2 < (4/5 + 4/5)^2$, $A_1^2 + A_2^2 < (A_1 + A_2)^2$, and $T_{\mathrm{stage}}(6) < T_{\mathrm{stage}}(3) < T_{\mathrm{stage}}(2)$. |
+| [`madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities`](../src/signals/Signals/DDF.lean#L8008-L8145)<br>(`thm:signals-ddf-madelung-hamiltonian-euler-ads-nanolithography-bridge`) | **11** | $\pi_S\partial_t S - \mathcal{L}_{\mathrm{Mad}} = \mathcal{H}_{\mathrm{Mad}} = \mathcal{H}_{\mathrm{Mad}}^\rho \ge 0$, QHJ gradient $\to$ $\mathcal{R}_{\mathrm{Euler}}$, $|w_A^{\mathbb{C}}(M_{\text{AdS}_5})|^2|w_B^{\mathbb{C}}(M_{\text{AdS}_5})|^2 = 1 - (z/z_H)^4$, $|\psi(A_1,\theta)+\psi(A_2,\theta)|^2 = (A_1+A_2)^2$, $|\psi(A_1,\theta)+\psi(A_2,\theta+\pi/2)|^2 = A_1^2 + A_2^2$, and $Q_{\mathrm{STED}}(\zeta_{532}=63) = 64\,Q_{\mathrm{STED}}(0)$. |
 
 ### 5.2 Self-Contained Machine-Checked Lean 4 Proof Block
 
@@ -200,6 +202,7 @@ import SignalsPending
 
 namespace RiscVHolographicNanolithographyKicadPaperVerification
 
+open Signals
 open Signals.DDF
 open Signals.Pending
 
@@ -251,6 +254,22 @@ example :
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
+-- 4. Madelung Polar Wave Superposition & 64x STED Bohm Quantum-Confinement Boost
+example (S_t grad_S dt_v v_phi grad_v grad_V grad_rho grad_Q θ : ℝ) :
+    Complex.normSq (madelungPolarWavefunction (4 / 5) θ + madelungPolarWavefunction (4 / 5) θ) =
+      twoTraceConstructiveSqueezePeak (4 / 5) (4 / 5) ∧
+    Complex.normSq (madelungPolarWavefunction (4 / 5) θ + madelungPolarWavefunction (4 / 5) (θ + Real.pi / 2)) =
+      (4 / 5 : ℝ) ^ 2 + (4 / 5 : ℝ) ^ 2 ∧
+    stedCoreBohmPotential 1 2 405 (7 / 5) 63 =
+      64 * stedCoreBohmPotential 1 2 405 (7 / 5) 0 := by
+  have hb := madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities
+    1 2 5 7 3 4 S_t grad_S dt_v v_phi grad_v grad_V grad_rho grad_Q
+    1 2 (4 / 5) (4 / 5) 405 (7 / 5) 63 θ
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨hb.2.2.2.2.2.2.1, hb.2.2.2.2.2.2.2.1, hb.2.2.2.2.2.2.2.2.2.2⟩
+
 end RiscVHolographicNanolithographyKicadPaperVerification
 ```
 
@@ -258,17 +277,49 @@ end RiscVHolographicNanolithographyKicadPaperVerification
 
 ### Scholarly References
 
-- <a id="zaruba2019"></a> Zaruba, F., & Benini, L. (2019). The Cost of Application-Class Processing: Energy and Performance Analysis of a Linux-Ready 1.7-GHz 64-Bit RISC-V Core in 22-nm FDSOI Technology. *IEEE Transactions on Very Large Scale Integration (VLSI) Systems*, 27(11), 2629–2640. DOI: `10.1109/TVLSI.2019.2926114`.
-- <a id="schiavone2017"></a> Schiavone, P. D., Conti, F., Rossi, D., Gautschi, M., Pullini, A., Flamand, E., & Benini, L. (2017). Slow and steady wins the race? A comparison of ultra-low-power RISC-V cores for Internet-of-Things applications. *27th International Symposium on Power and Timing Modeling, Optimization and Simulation (PATMOS)*. DOI: `10.1109/PATMOS.2017.8106976`.
-- <a id="watson2015"></a> Watson, R. N. M., Woodruff, J., Neumann, P. G., Moore, S. W., Anderson, J., Chisnall, D., Dave, N., Davis, B., Gudka, K., Laurie, B., Murdoch, S. J., Norton, R., Roe, M., Son, S., & Vadera, M. (2015). CHERI: A Hybrid Capability-System Architecture for Scalable Software Compartmentalization. *IEEE Symposium on Security and Privacy*, 20–37. DOI: `10.1109/SP.2015.9`.
-- <a id="amar2023"></a> Amar, S., Chisnall, D., Chen, T., Conceptual/lowRISC Team, & Microsoft Research (2023). CHERIoT: Complete Memory Safety for Embedded Systems. *32nd USENIX Security Symposium*, 6433–6450.
-- <a id="hell1994"></a> Hell, S. W., & Wichmann, J. (1994). Breaking the diffraction resolution limit by stimulated emission: stimulated-emission-depletion fluorescence microscopy. *Optics Letters*, 19(11), 780–782. DOI: `10.1364/OL.19.000780`.
-- <a id="xu2026"></a> Xu, Y., Liu, X., Davis, B., Sotzing, G., & Cakmak, M. (2026). Sustainable Hemp-based Polycarbonate Substrates Enabling Low-Loss 5G and mmWave Electronic Systems. *IEEE MTT-S Radio Frequency Systems and Applications Symposium*. DOI: `10.1109/imsrfsa70221.2026.11624319`.
-- <a id="davis2026"></a> Davis, B., Sotzing, G., & Cakmak, M. (2026). High-Molecular-Weight Hemp-Derived Polycannabidiol Carbonate Thermoplastic with PET-Like Heat Resistance, Strength, and Processability. *Chem Circularity* (2026).
-- <a id="denisov1957"></a> Denisov, N. G. (1957). On a Singularity of the Field of an Electromagnetic Wave Propagating in an Inhomogeneous Plasma. *Soviet Physics JETP*, 4, 544–553.
-- <a id="chat_iq_kicad_2026"></a> Provenance Chat Log (2026). *IQ Sampling for Signal Phase (`kicad-volumetric`, Metric Interference DRC, IOF/PROV-O CBOM, and 3-Zone $400\to 800\text{ GHz}$ Hyperbolic SFG Lens)*. Local corpus: [data/chats/IQ-Sampling-for-Signal-Phase.md, lines 9839–10250, 11962–12125, 15706–17335](../data/chats/IQ-Sampling-for-Signal-Phase.md#L9839-L10250).
-- <a id="chat_sted_lignin_2026"></a> Provenance Chat Log (2026). *Laser Engraving Circuits on Lignin and Other Materials (KiCad Negative Plot & $405\text{ nm} / 532\text{ nm}$ STED-Style Helical Doughnut Nanolithography)*. Local corpus: [data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 143–195, 854–952](../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md#L854-L952).
-- <a id="chat_green_bragg_2026"></a> Provenance Chat Log (2026). *Green $532\text{ nm}$ Laser Compression Shock (LCS) Bragg Reflectors & Lignin-Vitrimer Photonics*. Local corpus: [data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 316–535, 1395–1550](../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md#L316-L535).
+(zaruba2019)=
+<a id="zaruba2019"></a>
+1. Zaruba, F., & Benini, L. (2019). The Cost of Application-Class Processing: Energy and Performance Analysis of a Linux-Ready 1.7-GHz 64-Bit RISC-V Core in 22-nm FDSOI Technology. *IEEE Transactions on Very Large Scale Integration (VLSI) Systems*, 27(11), 2629–2640. DOI: `10.1109/TVLSI.2019.2926114`.
+
+(schiavone2017)=
+<a id="schiavone2017"></a>
+2. Schiavone, P. D., Conti, F., Rossi, D., Gautschi, M., Pullini, A., Flamand, E., & Benini, L. (2017). Slow and steady wins the race? A comparison of ultra-low-power RISC-V cores for Internet-of-Things applications. *27th International Symposium on Power and Timing Modeling, Optimization and Simulation (PATMOS)*. DOI: `10.1109/PATMOS.2017.8106976`.
+
+(watson2015)=
+<a id="watson2015"></a>
+3. Watson, R. N. M., Woodruff, J., Neumann, P. G., Moore, S. W., Anderson, J., Chisnall, D., Dave, N., Davis, B., Gudka, K., Laurie, B., Murdoch, S. J., Norton, R., Roe, M., Son, S., & Vadera, M. (2015). CHERI: A Hybrid Capability-System Architecture for Scalable Software Compartmentalization. *IEEE Symposium on Security and Privacy*, 20–37. DOI: `10.1109/SP.2015.9`.
+
+(amar2023)=
+<a id="amar2023"></a>
+4. Amar, S., Chisnall, D., Chen, T., Conceptual/lowRISC Team, & Microsoft Research (2023). CHERIoT: Complete Memory Safety for Embedded Systems. *32nd USENIX Security Symposium*, 6433–6450.
+
+(hell1994)=
+<a id="hell1994"></a>
+5. Hell, S. W., & Wichmann, J. (1994). Breaking the diffraction resolution limit by stimulated emission: stimulated-emission-depletion fluorescence microscopy. *Optics Letters*, 19(11), 780–782. DOI: `10.1364/OL.19.000780`.
+
+(xu2026)=
+<a id="xu2026"></a>
+6. Xu, Y., Liu, X., Davis, B., Sotzing, G., & Cakmak, M. (2026). Sustainable Hemp-based Polycarbonate Substrates Enabling Low-Loss 5G and mmWave Electronic Systems. *IEEE MTT-S Radio Frequency Systems and Applications Symposium*. DOI: `10.1109/imsrfsa70221.2026.11624319`.
+
+(davis2026)=
+<a id="davis2026"></a>
+7. Davis, B., Sotzing, G., & Cakmak, M. (2026). High-Molecular-Weight Hemp-Derived Polycannabidiol Carbonate Thermoplastic with PET-Like Heat Resistance, Strength, and Processability. *Chem Circularity* (2026).
+
+(denisov1957)=
+<a id="denisov1957"></a>
+8. Denisov, N. G. (1957). On a Singularity of the Field of an Electromagnetic Wave Propagating in an Inhomogeneous Plasma. *Soviet Physics JETP*, 4, 544–553.
+
+(chat_iq_kicad_2026)=
+<a id="chat_iq_kicad_2026"></a>
+9. Provenance Chat Log (2026). *IQ Sampling for Signal Phase (`kicad-volumetric`, Metric Interference DRC, IOF/PROV-O CBOM, and 3-Zone $400\to 800\text{ GHz}$ Hyperbolic SFG Lens)*. Local corpus: ({download}`data/chats/IQ-Sampling-for-Signal-Phase.md, lines 9839-10250, 11962-12125, 15706-17335 <../data/chats/IQ-Sampling-for-Signal-Phase.md>`).
+
+(chat_sted_lignin_2026)=
+<a id="chat_sted_lignin_2026"></a>
+10. Provenance Chat Log (2026). *Laser Engraving Circuits on Lignin and Other Materials (KiCad Negative Plot & $405\text{ nm} / 532\text{ nm}$ STED-Style Helical Doughnut Nanolithography)*. Local corpus: ({download}`data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md, lines 143-195, 854-952 <../data/chats/_Laser-Engraving-circuits-on-Lignin-and-other-materials.md>`).
+
+(chat_green_bragg_2026)=
+<a id="chat_green_bragg_2026"></a>
+11. Provenance Chat Log (2026). *Green $532\text{ nm}$ Laser Compression Shock (LCS) Bragg Reflectors & Lignin-Vitrimer Photonics*. Local corpus: ({download}`data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md, lines 316-535, 1395-1550 <../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md>`).
 
 ```bibtex
 @article{zaruba2019cost,

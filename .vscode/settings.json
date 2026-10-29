@@ -5,5 +5,6 @@
         "make": true
     },
     "git.autoRepositoryDetection": "subFolders",
-    "git.repositoryScanMaxDepth": 3
+    "git.repositoryScanMaxDepth": 3,
+    "diffEditor.maxComputationTime": 10000 // default: 5000 (5seconds)
 }

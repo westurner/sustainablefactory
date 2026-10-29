@@ -3,6 +3,7 @@ import Signals.EMT
 import Signals.AntiFireCannon
 import Signals.FireSuppression
 import Signals.Nanolithography
+import Signals.QEDGravity
 import Mathlib.Analysis.Complex.Basic
 import Mathlib.Analysis.SpecialFunctions.Complex.Arg
 import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
@@ -18,6 +19,23 @@ import Signals.Scattering
 namespace Signals.DDF
 
 open MeasureTheory Interval Complex Signals.Geometry Signals.Huygens Signals.Scattering
+  Signals.QEDGravity
+
+export Signals.QEDGravity (
+  complexPluckerSinkAmplitudeA
+  complexPluckerSinkAmplitudeB
+  bcj_plucker_jacobi_and_double_copy
+  PlanetaryOrbit
+  postMinkowskianEffectivePotential
+  complexGr2NTwistorEntry
+  complexGr2N_madelung_sector_identities
+  nBodyBernoulliPotential
+  nBodyBernoulliPotential_eq_neg_gr2N_madelung_sum
+  mercury_perihelion_precession_arcsec_per_century_bounds
+  gravitonPlusPolarizationFactor
+  gravitonCrossPolarizationFactor
+  orbitalResonanceQuadrupoleBeat
+)
 
 /-! # Dilatant Dark Fluid (DDF) Quantum-Hydrodynamic Model
 
@@ -1110,7 +1128,8 @@ the complex Grassmannian $Gr_{\mathbb{C}}(2, 4)$ directly with `DDFSubstrate`,
 /-- Real squared-crossing Plücker double-slit intensity:
 when $Q_A(M) = \Delta_{01}\Delta_{23}$ and $Q_B(M) = \Delta_{03}\Delta_{12}$ represent
 coherent field amplitudes at zero phase difference, the squared crossing product
-$(\Delta_{02}(M)\Delta_{13}(M))^2 = (Q_A(M) + Q_B(M))^2$ scales the single-slit envelope. -/
+$(\Delta_{02}(M)\Delta_{13}(M))^2 = (Q_A(M) + Q_B(M))^2$ scales the single-slit
+envelope. -/
 @[blueprint "def:signals-ddf-gr24-squared-crossing-double-slit"
   (title := "Squared Plücker crossing-product double-slit intensity")
   (statement := /-- For $M\in\mathbb R^{2\times 4}$, define
@@ -1121,24 +1140,6 @@ noncomputable def gr24SquaredCrossingDoubleSlit
   singleSlitScale *
     rectangularSlitEnvelope slitWidth slitHeight wavelength screenDistance x y *
     (twoRowMinor M 0 2 * twoRowMinor M 1 3) ^ 2
-
-/-- First complex Plücker sink amplitude $w_A^{\mathbb{C}}(M_{\mathbb{C}}) = \Delta_{01}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{23}^{\mathbb{C}}(M_{\mathbb{C}})$
-on $Gr_{\mathbb{C}}(2, 4)$. -/
-@[blueprint "def:signals-ddf-complex-plucker-sink-a"
-  (title := "First complex Gr_C(2,4) Plücker sink amplitude w_A^ℂ")
-  (statement := /-- For $M_{\mathbb C}\in\mathbb C^{2\times 4}$, define
-    $w_A^{\mathbb C}(M_{\mathbb C})=\Delta_{01}^{\mathbb C}(M_{\mathbb C})\,\Delta_{23}^{\mathbb C}(M_{\mathbb C})$. -/)]
-def complexPluckerSinkAmplitudeA (M : Matrix (Fin 2) (Fin 4) ℂ) : ℂ :=
-  complexTwoRowMinor M 0 1 * complexTwoRowMinor M 2 3
-
-/-- Second complex Plücker sink amplitude $w_B^{\mathbb{C}}(M_{\mathbb{C}}) = \Delta_{03}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{12}^{\mathbb{C}}(M_{\mathbb{C}})$
-on $Gr_{\mathbb{C}}(2, 4)$. -/
-@[blueprint "def:signals-ddf-complex-plucker-sink-b"
-  (title := "Second complex Gr_C(2,4) Plücker sink amplitude w_B^ℂ")
-  (statement := /-- For $M_{\mathbb C}\in\mathbb C^{2\times 4}$, define
-    $w_B^{\mathbb C}(M_{\mathbb C})=\Delta_{03}^{\mathbb C}(M_{\mathbb C})\,\Delta_{12}^{\mathbb C}(M_{\mathbb C})$. -/)]
-def complexPluckerSinkAmplitudeB (M : Matrix (Fin 2) (Fin 4) ℂ) : ℂ :=
-  complexTwoRowMinor M 0 3 * complexTwoRowMinor M 1 2
 
 /-- **Constructive Solution to Critique 1 (Symmetric Zero-Shear Point & Off-Axis $Gr_{\mathbb{C}}(2,4)$ Exactness)**:
 1. At the symmetric point ($Q_A(M) = 1, Q_B(M) = 1$, $x = 0, y = 0$), squaring the
@@ -1593,69 +1594,6 @@ theorem complexGr24_sl2c_crossing_intensity_invariant
 
 /-! ### $N$-ary ($N \ge 3$) and Triple-Slit $Gr_{\mathbb{C}}(2, N+2)$–DDF Madelung Sector Generalization -/
 
-/-- Complex twistor channel entry $z_j = \sqrt{w_j}(\cos\theta_j + i\sin\theta_j)$
-for sector $j \in \operatorname{Fin} N$ in $Gr_{\mathbb{C}}(2, N + 2)$. -/
-@[blueprint "def:signals-ddf-complex-gr2n-twistor-entry"
-  (title := "N-ary complex twistor channel entry z_j = √w_j (cos θ_j + i sin θ_j)")
-  (statement := /-- For weight $w_j\ge 0$ and phase $\theta_j\in\mathbb R$, define
-    $z_j(w_j,\theta_j)=\sqrt{w_j}(\cos\theta_j+i\sin\theta_j)\in\mathbb C$. -/)]
-noncomputable def complexGr2NTwistorEntry (weight phase : ℝ) : ℂ :=
-  let r := Real.sqrt weight
-  ↑(r * Real.cos phase) + Complex.I * ↑(r * Real.sin phase)
-
-/-- **General $N$-ary ($N \ge 1$) Madelung Sector Identities on $Gr_{\mathbb{C}}(2, N+2)$**:
-For any number of slits/sinks $N \in \mathbb{N}$ (including $N \ge 3$), non-negative
-sector weights $w : \operatorname{Fin} N \to \mathbb{R}$ ($0 \le w_j$), and phases
-$\theta : \operatorname{Fin} N \to \mathbb{R}$, let
-$z_j = \operatorname{complexGr2NTwistorEntry}(w_j, \theta_j)$ and
-$M_{\mathbb{C}}^{(N)} = \operatorname{complexGr2NChannelMatrix}\,N\,z \in \mathbb{C}^{2 \times (N+2)}$. Then:
-1. For every sector $j \in \operatorname{Fin} N$, the squared modulus of its Plücker
-   minor $\Delta_{0, j+2}^{\mathbb{C}}(M_{\mathbb{C}}^{(N)})$ equals the Madelung
-   condensate density $w_j$,
-2. The sum of all $N$ Madelung sector densities equals the total $N$-sink flux
-   $\sum_{j=0}^{N-1} w_j$, and
-3. The collector Plücker minor $\Delta_{0,1}^{\mathbb{C}}(M_{\mathbb{C}}^{(N)})$ equals
-   the coherent superposition $\sum_{j=0}^{N-1} \Delta_{0, j+2}^{\mathbb{C}}(M_{\mathbb{C}}^{(N)})$. -/
-@[blueprint "thm:signals-ddf-gr2n-madelung-sector-identities"
-  (title := "General N-ary (N ≥ 1) Madelung sector densities and flux conservation on Gr_C(2, N+2)")
-  (statement := /-- For any $N\in\mathbb N$, $w,\theta:\operatorname{Fin}(N)\to\mathbb R$ with
-    $\forall j,\,0\le w_j$, let $z_j=\sqrt{w_j}(\cos\theta_j+i\sin\theta_j)$ and
-    $M_{\mathbb C}^{(N)}=M_{\mathbb C}^{(N)}(z)\in\mathbb C^{2\times(N+2)}$. Then:
-    (1) $\forall j,\,\bigl|\Delta_{0,j+2}^{\mathbb C}(M_{\mathbb C}^{(N)})\bigr|^2=w_j$,
-    (2) $\sum_{j=0}^{N-1}\bigl|\Delta_{0,j+2}^{\mathbb C}(M_{\mathbb C}^{(N)})\bigr|^2=\sum_{j=0}^{N-1}w_j$, and
-    (3) $\Delta_{0,1}^{\mathbb C}(M_{\mathbb C}^{(N)})=\sum_{j=0}^{N-1}\Delta_{0,j+2}^{\mathbb C}(M_{\mathbb C}^{(N)})$. -/)
-  (proof := /-- Apply \texttt{complexGr2NChannelMatrix\_minors}, evaluate \texttt{Complex.normSq}
-    for each $j$ using $\cos^2\theta_j+\sin^2\theta_j=1$ and \texttt{Real.sq\_sqrt}, and sum over $\operatorname{Fin}(N)$. -/)]
-theorem complexGr2N_madelung_sector_identities
-    (numSlits : ℕ) (w θ : Fin numSlits → ℝ)
-    (hw : ∀ j : Fin numSlits, 0 ≤ w j) :
-    let z : Fin numSlits → ℂ := fun j => complexGr2NTwistorEntry (w j) (θ j)
-    let M_C := complexGr2NChannelMatrix numSlits z
-    (∀ j : Fin numSlits,
-      Complex.normSq (complexTwoRowMinor M_C (narySourceCol numSlits) (narySlitCol j)) = w j) ∧
-    (∑ j : Fin numSlits,
-      Complex.normSq (complexTwoRowMinor M_C (narySourceCol numSlits) (narySlitCol j))) =
-      (∑ j : Fin numSlits, w j) ∧
-    complexTwoRowMinor M_C (narySourceCol numSlits) (naryCollectorCol numSlits) =
-      ∑ j : Fin numSlits,
-        complexTwoRowMinor M_C (narySourceCol numSlits) (narySlitCol j) := by
-  intro z M_C
-  have h_minors := complexGr2NChannelMatrix_minors numSlits z
-  have h_each : ∀ j : Fin numSlits,
-      Complex.normSq (complexTwoRowMinor M_C (narySourceCol numSlits) (narySlitCol j)) = w j := by
-    intro j
-    rw [h_minors.1 j]
-    dsimp [z, complexGr2NTwistorEntry]
-    have h_trig : (Real.cos (θ j)) ^ 2 + (Real.sin (θ j)) ^ 2 = 1 :=
-      Real.cos_sq_add_sin_sq (θ j)
-    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
-      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
-    calc
-      _ = (Real.sqrt (w j)) ^ 2 * ((Real.cos (θ j)) ^ 2 + (Real.sin (θ j)) ^ 2) := by ring
-      _ = w j := by rw [Real.sq_sqrt (hw j), h_trig, mul_one]
-  refine ⟨h_each, ?_, h_minors.2.2.2⟩
-  refine Finset.sum_congr rfl (fun j _ => h_each j)
-
 /-- **Triple-Slit ($N = 3$) $Gr_{\mathbb{C}}(2, 5)$–DDF Sheath Twistor Matrix**:
 Embeds a subluminal DDF `MovingSheath` $s$ into the 3-slit complex Grassmannian
 $Gr_{\mathbb{C}}(2, 5)$ with forward-sheared outer channel
@@ -1858,73 +1796,10 @@ and Dilatant Dark Fluid (DDF) connections for planetary orbits (`docs/grassmanni
      (matching Mercury's $42.98'' + 531.63'' = 574.61''/\text{century}$), and proves
      that conservative DDF action preserves orbital energy ($\Delta E = 0$) whereas
      non-conservative Stokes drag causes secular orbital energy decay ($dE/dt = -F_d v < 0$).
+   (The DDF-independent QED/gauge BCJ double copy, `PlanetaryOrbit` geometry,
+   `gr24PrecessionMatrix`, and flat-space gravitational-wave theorems live in
+   `Signals.QEDGravity` and are re-exported in `Signals.DDF`.)
 -/
-
-/-- Keplerian planetary orbit parameters around a `RiverExterior` central mass:
-semi-major axis $a > 0$ and orbital eccentricity $e \in [0, 1)$. -/
-@[blueprint "def:signals-ddf-planetary-orbit"
-  (title := "Planetary orbit parameters (semi-major axis a > 0 and eccentricity e ∈ [0, 1))")
-  (statement := /-- A bound elliptical planetary orbit record with semi-major axis $a>0$
-    and eccentricity $0\le e<1$. -/)]
-structure PlanetaryOrbit where
-  semiMajorAxis : ℝ
-  semiMajorAxis_pos : 0 < semiMajorAxis
-  eccentricity : ℝ
-  eccentricity_nonneg : 0 ≤ eccentricity
-  eccentricity_lt_one : eccentricity < 1
-
-/-- Semi-latus rectum $p = a(1 - e^2)$ of a planetary orbit. -/
-@[blueprint "def:signals-ddf-semi-latus-rectum"
-  (title := "Planetary orbit semi-latus rectum p = a(1 - e²)")
-  (statement := /-- For an orbit with semi-major axis $a$ and eccentricity $e$, define
-    $p = a(1-e^2)$. -/)]
-def PlanetaryOrbit.semiLatusRectum (orb : PlanetaryOrbit) : ℝ :=
-  orb.semiMajorAxis * (1 - orb.eccentricity ^ 2)
-
-/-- Perihelion distance $r_{\min} = a(1 - e)$ of a planetary orbit. -/
-@[blueprint "def:signals-ddf-perihelion-radius"
-  (title := "Planetary perihelion radius r_min = a(1 - e)")
-  (statement := /-- Define the perihelion radius $r_{\min}=a(1-e)$. -/)]
-def PlanetaryOrbit.perihelionRadius (orb : PlanetaryOrbit) : ℝ :=
-  orb.semiMajorAxis * (1 - orb.eccentricity)
-
-/-- Aphelion distance $r_{\max} = a(1 + e)$ of a planetary orbit. -/
-@[blueprint "def:signals-ddf-aphelion-radius"
-  (title := "Planetary aphelion radius r_max = a(1 + e)")
-  (statement := /-- Define the aphelion radius $r_{\max}=a(1+e)$. -/)]
-def PlanetaryOrbit.aphelionRadius (orb : PlanetaryOrbit) : ℝ :=
-  orb.semiMajorAxis * (1 + orb.eccentricity)
-
-/-- For any bound `PlanetaryOrbit` ($a > 0$, $0 \le e < 1$), $1 - e^2 > 0$,
-$p > 0$, $r_{\min} > 0$, $r_{\max} > 0$, $r_{\min} + r_{\max} = 2a$, and
-$r_{\min} r_{\max} = a p$. -/
-@[blueprint "lem:signals-ddf-planetary-orbit-radii"
-  (title := "Positivity and harmonic/geometric relations of perihelion, aphelion, and semi-latus rectum")
-  (statement := /-- For any \texttt{orb : PlanetaryOrbit}, $0<1-e^2$, $0<p$,
-    $0<r_{\min}$, $0<r_{\max}$, $r_{\min}+r_{\max}=2a$, and $r_{\min}r_{\max}=a p$. -/)
-  (proof := /-- Use $0<a$ and $0\le e<1$ to establish positivity, and close the sum/product
-    identities by ring algebra. -/)
-  (latexEnv := "lemma")]
-lemma PlanetaryOrbit.radii_identities (orb : PlanetaryOrbit) :
-    0 < 1 - orb.eccentricity ^ 2 ∧
-      0 < orb.semiLatusRectum ∧
-      0 < orb.perihelionRadius ∧
-      0 < orb.aphelionRadius ∧
-      orb.perihelionRadius + orb.aphelionRadius = 2 * orb.semiMajorAxis ∧
-      orb.perihelionRadius * orb.aphelionRadius =
-        orb.semiMajorAxis * orb.semiLatusRectum := by
-  have ha := orb.semiMajorAxis_pos
-  have he0 := orb.eccentricity_nonneg
-  have he1 := orb.eccentricity_lt_one
-  have h1e : 0 < 1 - orb.eccentricity := by linarith
-  have h1pe : 0 < 1 + orb.eccentricity := by linarith
-  have h1e2 : 0 < 1 - orb.eccentricity ^ 2 := by nlinarith
-  refine ⟨h1e2, mul_pos ha h1e2, mul_pos ha h1e, mul_pos ha h1pe, ?_, ?_⟩
-  · unfold PlanetaryOrbit.perihelionRadius PlanetaryOrbit.aphelionRadius
-    ring
-  · unfold PlanetaryOrbit.perihelionRadius PlanetaryOrbit.aphelionRadius
-      PlanetaryOrbit.semiLatusRectum
-    ring
 
 /-- Squared Keplerian orbital period $T^2 = \frac{4\pi^2 a^3}{G_\phi M}$ around a
 `RiverExterior` central mass $M$. -/
@@ -2076,223 +1951,6 @@ theorem RiverExterior.perihelionPrecession_ratio
   unfold RiverExterior.perihelionPrecessionRad
   field_simp [hp1, hp2, hc, hG, hM, hpi]
 
-/-- **BCJ Color–Kinematics Duality & $Gr_{\mathbb{C}}(2,4)$ Plücker Double Copy**:
-For any complex $2 \times 4$ Grassmannian matrix $M_{\mathbb{C}} \in \mathbb{C}^{2 \times 4}$,
-let the three $s, t, u$-channel gauge kinematic numerators be the quadratic Plücker products
-$n_s = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}$,
-$n_t = -\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}$, and
-$n_u = \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}$.
-Then the BCJ kinematic Jacobi relation $n_s + n_t + n_u = 0$ holds identically by the
-3-term Plücker relation on $Gr_{\mathbb{C}}(2,4)$, and the crossing graviton double-copy
-square $n_t^2 = (\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}})^2$ expands into the
-symmetric fluid-stress tensor sum $(n_s + n_u)^2 = n_s^2 + 2 n_s n_u + n_u^2$. -/
-@[blueprint "thm:signals-ddf-bcj-plucker-double-copy"
-  (title := "BCJ kinematic Jacobi identity n_s + n_t + n_u = 0 and double-copy square from Gr_C(2,4) Plücker relations")
-  (statement := /-- For $M_{\mathbb C}\in\mathbb C^{2\times 4}$, let
-    $n_s=\Delta_{01}^{\mathbb C}\Delta_{23}^{\mathbb C}$,
-    $n_t=-\Delta_{02}^{\mathbb C}\Delta_{13}^{\mathbb C}$, and
-    $n_u=\Delta_{03}^{\mathbb C}\Delta_{12}^{\mathbb C}$. Then
-    $n_s+n_t+n_u=0$ and $n_t^2=(n_s+n_u)^2=n_s^2+2n_s n_u+n_u^2$. -/)
-  (proof := /-- Apply \texttt{complexTwoRowMinor\_pluecker} and close by ring algebra. -/)]
-theorem bcj_plucker_jacobi_and_double_copy (M_C : Matrix (Fin 2) (Fin 4) ℂ) :
-    let n_s := complexTwoRowMinor M_C 0 1 * complexTwoRowMinor M_C 2 3
-    let n_t := - (complexTwoRowMinor M_C 0 2 * complexTwoRowMinor M_C 1 3)
-    let n_u := complexTwoRowMinor M_C 0 3 * complexTwoRowMinor M_C 1 2
-    n_s + n_t + n_u = 0 ∧
-      n_t ^ 2 = n_s ^ 2 + 2 * n_s * n_u + n_u ^ 2 := by
-  intro n_s n_t n_u
-  have h_pl := complexTwoRowMinor_pluecker M_C 0 1 2 3
-  have h_jacobi : n_s + n_t + n_u = 0 := by
-    dsimp [n_s, n_t, n_u]
-    linear_combination h_pl
-  have h_nt : n_t = - (n_s + n_u) := by
-    linear_combination h_jacobi
-  refine ⟨h_jacobi, ?_⟩
-  rw [h_nt]
-  ring
-
-/-- **Canonical $Gr_{\mathbb{C}}(2,4)$ Planetary Orbital Precession Twistor Matrix**:
-Embeds a `PlanetaryOrbit` `orb` (with eccentricity $e \in [0, 1)$) and anomalous
-perihelion advance $\Delta\varpi$ into $Gr_{\mathbb{C}}(2,4)$ by encoding the normalized
-aphelion amplitude $z_{\mathrm{aph}} = \sqrt{1 + e}\,e^{i \Delta\varpi / 2}$ and
-normalized perihelion amplitude $z_{\mathrm{per}} = \sqrt{1 - e}\,e^{-i \Delta\varpi / 2}$. -/
-@[blueprint "def:signals-ddf-planetary-gr24-precession-matrix"
-  (title := "Canonical Gr_C(2,4) planetary orbital precession twistor matrix")
-  (statement := /-- For \texttt{orb : PlanetaryOrbit} and perihelion advance $\Delta\varpi$,
-    define $M_{\mathbb C}^{\mathrm{orb}}(\mathrm{orb},\Delta\varpi)
-    = M_{\mathbb C}\!\bigl(\sqrt{1+e}\,e^{i\Delta\varpi/2},\,\sqrt{1-e}\,e^{-i\Delta\varpi/2}\bigr)\in\mathbb C^{2\times 4}$. -/)]
-noncomputable def PlanetaryOrbit.gr24PrecessionMatrix
-    (orb : PlanetaryOrbit) (deltaVarpi : ℝ) : Matrix (Fin 2) (Fin 4) ℂ :=
-  let θ := deltaVarpi / 2
-  let a := Real.sqrt (1 + orb.eccentricity)
-  let b := Real.sqrt (1 - orb.eccentricity)
-  let z_aph : ℂ := ↑(a * Real.cos θ) + Complex.I * ↑(a * Real.sin θ)
-  let z_per : ℂ := ↑(b * Real.cos θ) - Complex.I * ↑(b * Real.sin θ)
-  complexGr24ChannelMatrix z_aph z_per
-
-/-- **Master $Gr_{\mathbb{C}}(2,4)$–DDF Planetary Orbit & Perihelion Precession Bridge**:
-For any `PlanetaryOrbit` `orb` and anomalous perihelion advance $\Delta\varpi$, let
-$M_{\mathbb{C}}^{\mathrm{orb}} = \mathrm{orb}.\mathrm{gr24PrecessionMatrix}\,\Delta\varpi$.
-Then:
-1. The first Madelung sink density equals the normalized aphelion distance:
-   $|w_A^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})|^2 = 1 + e = \frac{r_{\max}}{a}$,
-2. The second Madelung sink density equals the normalized perihelion distance:
-   $|w_B^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})|^2 = 1 - e = \frac{r_{\min}}{a}$,
-3. The half-difference of the Madelung densities equals the orbital eccentricity:
-   $\frac{|w_A^{\mathbb{C}}|^2 - |w_B^{\mathbb{C}}|^2}{2} = e$,
-4. The product of the Madelung densities equals the semi-latus rectum ratio
-   (which governs $\Delta\varpi = 3\pi r_H / p$):
-   $|w_A^{\mathbb{C}}|^2\,|w_B^{\mathbb{C}}|^2 = 1 - e^2 = \frac{p}{a}$, and
-5. The squared modulus of the crossing Plücker product encodes both $\sqrt{1 - e^2} = \sqrt{p/a}$
-   and the perihelion precession cosine $\cos(\Delta\varpi)$:
-   $|\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})|^2 = 2\bigl(1 + \sqrt{1 - e^2}\cos(\Delta\varpi)\bigr)$. -/
-@[blueprint "thm:signals-ddf-planetary-gr24-precession-bridge"
-  (title := "Master Gr_C(2,4)-DDF planetary orbit bridge: aphelion/perihelion Madelung densities, semi-latus rectum product, and Δϖ precession")
-  (statement := /-- For \texttt{orb : PlanetaryOrbit} and $M_{\mathbb C}^{\mathrm{orb}}=\mathrm{orb}.\mathrm{gr24PrecessionMatrix}(\Delta\varpi)$:
-    (1) $|w_A^{\mathbb C}|^2 = 1+e = r_{\max}/a$,
-    (2) $|w_B^{\mathbb C}|^2 = 1-e = r_{\min}/a$,
-    (3) $(|w_A^{\mathbb C}|^2 - |w_B^{\mathbb C}|^2)/2 = e$,
-    (4) $|w_A^{\mathbb C}|^2\,|w_B^{\mathbb C}|^2 = 1-e^2 = p/a$, and
-    (5) $|\Delta_{02}^{\mathbb C}\Delta_{13}^{\mathbb C}|^2 = 2\bigl(1+\sqrt{1-e^2}\cos(\Delta\varpi)\bigr)$. -/)
-  (proof := /-- Evaluate \texttt{complexGr24ChannelMatrix\_minors}, expand \texttt{Complex.normSq}
-    using $\cos^2(\Delta\varpi/2)+\sin^2(\Delta\varpi/2)=1$ and
-    $\cos(\Delta\varpi)=2\cos^2(\Delta\varpi/2)-1$, and relate $1\pm e$ and $1-e^2$ to
-    $r_{\max}/a$, $r_{\min}/a$, and $p/a$. -/)]
-theorem PlanetaryOrbit.gr24PrecessionMatrix_orbital_identities
-    (orb : PlanetaryOrbit) (deltaVarpi : ℝ) :
-    let M_C := orb.gr24PrecessionMatrix deltaVarpi
-    Complex.normSq (complexPluckerSinkAmplitudeA M_C) = orb.aphelionRadius / orb.semiMajorAxis ∧
-      Complex.normSq (complexPluckerSinkAmplitudeB M_C) = orb.perihelionRadius / orb.semiMajorAxis ∧
-      (Complex.normSq (complexPluckerSinkAmplitudeA M_C) -
-        Complex.normSq (complexPluckerSinkAmplitudeB M_C)) / 2 = orb.eccentricity ∧
-      Complex.normSq (complexPluckerSinkAmplitudeA M_C) *
-        Complex.normSq (complexPluckerSinkAmplitudeB M_C) =
-        orb.semiLatusRectum / orb.semiMajorAxis ∧
-      Complex.normSq
-        (complexTwoRowMinor M_C 0 2 * complexTwoRowMinor M_C 1 3) =
-        2 * (1 + Real.sqrt (1 - orb.eccentricity ^ 2) * Real.cos deltaVarpi) := by
-  intro M_C
-  have ha_pos := orb.semiMajorAxis_pos
-  have ha_ne : orb.semiMajorAxis ≠ 0 := ne_of_gt ha_pos
-  have he0 := orb.eccentricity_nonneg
-  have he1 := orb.eccentricity_lt_one
-  have h1pe : 0 ≤ 1 + orb.eccentricity := by linarith
-  have h1me : 0 ≤ 1 - orb.eccentricity := by linarith
-  let θ := deltaVarpi / 2
-  let a := Real.sqrt (1 + orb.eccentricity)
-  let b := Real.sqrt (1 - orb.eccentricity)
-  let z_aph : ℂ := ↑(a * Real.cos θ) + Complex.I * ↑(a * Real.sin θ)
-  let z_per : ℂ := ↑(b * Real.cos θ) - Complex.I * ↑(b * Real.sin θ)
-  have h_minors := complexGr24ChannelMatrix_minors z_aph z_per
-  have h_wA : complexPluckerSinkAmplitudeA M_C = z_aph := h_minors.1
-  have h_wB : complexPluckerSinkAmplitudeB M_C = z_per := h_minors.2.1
-  have h_cross :
-      complexTwoRowMinor M_C 0 2 * complexTwoRowMinor M_C 1 3 = z_aph + z_per :=
-    h_minors.2.2
-  have h_trig : (Real.cos θ) ^ 2 + (Real.sin θ) ^ 2 = 1 := Real.cos_sq_add_sin_sq θ
-  have ha2 : a ^ 2 = 1 + orb.eccentricity := Real.sq_sqrt h1pe
-  have hb2 : b ^ 2 = 1 - orb.eccentricity := Real.sq_sqrt h1me
-  have hab : a * b = Real.sqrt (1 - orb.eccentricity ^ 2) := by
-    dsimp [a, b]
-    rw [← Real.sqrt_mul h1pe]
-    congr 1
-    ring
-  have h_normA : Complex.normSq (complexPluckerSinkAmplitudeA M_C) = 1 + orb.eccentricity := by
-    rw [h_wA]
-    dsimp [z_aph]
-    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
-      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
-    calc
-      _ = a ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
-      _ = 1 + orb.eccentricity := by rw [ha2, h_trig, mul_one]
-  have h_normB : Complex.normSq (complexPluckerSinkAmplitudeB M_C) = 1 - orb.eccentricity := by
-    rw [h_wB]
-    dsimp [z_per]
-    simp only [Complex.normSq_apply, Complex.sub_re, Complex.sub_im, Complex.mul_re,
-      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
-    calc
-      _ = b ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
-      _ = 1 - orb.eccentricity := by rw [hb2, h_trig, mul_one]
-  have h_aph_div : orb.aphelionRadius / orb.semiMajorAxis = 1 + orb.eccentricity := by
-    unfold PlanetaryOrbit.aphelionRadius
-    exact mul_div_cancel_left₀ (1 + orb.eccentricity) ha_ne
-  have h_per_div : orb.perihelionRadius / orb.semiMajorAxis = 1 - orb.eccentricity := by
-    unfold PlanetaryOrbit.perihelionRadius
-    exact mul_div_cancel_left₀ (1 - orb.eccentricity) ha_ne
-  have h_slr_div : orb.semiLatusRectum / orb.semiMajorAxis = 1 - orb.eccentricity ^ 2 := by
-    unfold PlanetaryOrbit.semiLatusRectum
-    exact mul_div_cancel_left₀ (1 - orb.eccentricity ^ 2) ha_ne
-  have h_cos_dv : Real.cos deltaVarpi = 2 * (Real.cos θ) ^ 2 - 1 := by
-    have h2 : deltaVarpi = 2 * θ := by dsimp [θ]; ring
-    rw [h2, Real.cos_two_mul]
-  have h_cross_norm :
-      Complex.normSq (z_aph + z_per) =
-        2 * (1 + Real.sqrt (1 - orb.eccentricity ^ 2) * Real.cos deltaVarpi) := by
-    have h_expand :
-        Complex.normSq (z_aph + z_per) =
-          ((a + b) * Real.cos θ) ^ 2 + ((a - b) * Real.sin θ) ^ 2 := by
-      dsimp [z_aph, z_per]
-      simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im,
-        Complex.sub_re, Complex.sub_im, Complex.mul_re, Complex.mul_im,
-        Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
-      ring
-    rw [h_expand]
-    calc
-      ((a + b) * Real.cos θ) ^ 2 + ((a - b) * Real.sin θ) ^ 2 =
-          (a ^ 2 + b ^ 2) * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) +
-            2 * (a * b) * (2 * (Real.cos θ) ^ 2 - ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2)) := by
-        ring
-      _ = (1 + orb.eccentricity + (1 - orb.eccentricity)) * 1 +
-            2 * Real.sqrt (1 - orb.eccentricity ^ 2) * (2 * (Real.cos θ) ^ 2 - 1) := by
-        rw [ha2, hb2, h_trig, hab]
-      _ = 2 * (1 + Real.sqrt (1 - orb.eccentricity ^ 2) * Real.cos deltaVarpi) := by
-        rw [← h_cos_dv]
-        ring
-  refine ⟨by rw [h_normA, h_aph_div], by rw [h_normB, h_per_div],
-    by rw [h_normA, h_normB]; ring,
-    by rw [h_normA, h_normB, h_slr_div]; ring,
-    by rw [h_cross, h_cross_norm]⟩
-
-/-- **$N$-Body Superfluid Bernoulli Sink Potential**:
-For $N$ gravitating bodies (`numBodies : ℕ`) with masses $M_j$ and radial distances $r_j$,
-the total Newtonian/superfluid enthalpy deficit is $\Phi_\phi^{(N)} = -\sum_{j=0}^{N-1} \frac{G_\phi M_j}{r_j}$. -/
-@[blueprint "def:signals-ddf-nbody-bernoulli-potential"
-  (title := "N-body superfluid Bernoulli sink potential Φ_ϕ^(N)")
-  (statement := /-- For $N$ bodies with masses $M:\operatorname{Fin}(N)\to\mathbb R$ and
-    distances $r:\operatorname{Fin}(N)\to\mathbb R$, define
-    $\Phi_\phi^{(N)}=-\sum_{j=0}^{N-1}\frac{G_\phi M_j}{r_j}$. -/)]
-noncomputable def nBodyBernoulliPotential
-    (G_phi : ℝ) (numBodies : ℕ) (mass distance : Fin numBodies → ℝ) : ℝ :=
-  - ∑ j : Fin numBodies, (G_phi * mass j / distance j)
-
-/-- **Embedding $N$-Body Gravitational Sink Potentials in $Gr_{\mathbb{C}}(2, N+2)$**:
-For $N$ bodies with $G_\phi > 0$, $M_j \ge 0$, and $r_j > 0$, encoding the $N$ sink
-weights $w_j = G_\phi M_j / r_j \ge 0$ in `complexGr2NChannelMatrix` makes the total
-Madelung sink density $\sum_{j=0}^{N-1} |\Delta_{0, j+2}^{\mathbb{C}}|^2$ equal to
-$-\Phi_\phi^{(N)}$. -/
-@[blueprint "thm:signals-ddf-nbody-bernoulli-gr2n-embedding"
-  (title := "N-body gravitational sink potential equals negative total Madelung density on Gr_C(2, N+2)")
-  (statement := /-- For $G_\phi>0$, $M_j\ge 0$, and $r_j>0$, let $w_j=G_\phi M_j/r_j$ and
-    $M_{\mathbb C}^{(N)}=M_{\mathbb C}^{(N)}\bigl(\sqrt{w_j}e^{i\theta_j}\bigr)\in\mathbb C^{2\times(N+2)}$.
-    Then $\Phi_\phi^{(N)} = -\sum_{j=0}^{N-1}\bigl|\Delta_{0,j+2}^{\mathbb C}(M_{\mathbb C}^{(N)})\bigr|^2$. -/)
-  (proof := /-- Apply \texttt{complexGr2N\_madelung\_sector\_identities} to $w_j=G_\phi M_j/r_j\ge 0$. -/)]
-theorem nBodyBernoulliPotential_eq_neg_gr2N_madelung_sum
-    (G_phi : ℝ) (hG : 0 ≤ G_phi) (numBodies : ℕ)
-    (mass distance θ : Fin numBodies → ℝ)
-    (h_mass : ∀ j, 0 ≤ mass j) (h_dist : ∀ j, 0 < distance j) :
-    let w : Fin numBodies → ℝ := fun j => G_phi * mass j / distance j
-    let z : Fin numBodies → ℂ := fun j => complexGr2NTwistorEntry (w j) (θ j)
-    let M_C := complexGr2NChannelMatrix numBodies z
-    nBodyBernoulliPotential G_phi numBodies mass distance =
-      - ∑ j : Fin numBodies,
-          Complex.normSq (complexTwoRowMinor M_C (narySourceCol numBodies) (narySlitCol j)) := by
-  intro w z M_C
-  have hw : ∀ j : Fin numBodies, 0 ≤ w j := fun j =>
-    div_nonneg (mul_nonneg hG (h_mass j)) (le_of_lt (h_dist j))
-  have h_sum := (complexGr2N_madelung_sector_identities numBodies w θ hw).2.1
-  unfold nBodyBernoulliPotential
-  rw [h_sum]
-
 /-- **Critique & Resolution: Conservative DDF / 1-Loop EFT Action vs. Dissipative Stokes Drag**:
 In a classical Stokes-drag model with drag force $F_{\mathrm{drag}} > 0$ at orbital
 speed $v > 0$, the mechanical energy rate $\frac{dE}{dt} = - F_{\mathrm{drag}} v < 0$
@@ -2314,87 +1972,7 @@ theorem ddf_conservative_action_vs_stokes_drag_critique
       (- (0 : ℝ) * v = 0 ∧ 0 < re.perihelionPrecessionRad orb) :=
   ⟨by nlinarith, ⟨by ring, (re.perihelionPrecession_eq_horizon_and_substrate orb).1⟩⟩
 
-/-! ### Precessing Conic Trajectory, Exact $\pi$-Free Arcsecond Conversion, Mercury Numerical Bounds, & Normed Tensor Gaussian Splatting -/
-
-/-- **Harmonic-Mean Identity of Perihelion and Aphelion Radii**:
-For any bound `PlanetaryOrbit`, the reciprocal of the semi-latus rectum $p = a(1 - e^2)$
-is the arithmetic mean of the reciprocal perihelion and aphelion radii:
-$\frac{1}{r_{\min}} + \frac{1}{r_{\max}} = \frac{2}{p}$. -/
-@[blueprint "lem:signals-ddf-planetary-harmonic-mean"
-  (title := "Harmonic-mean identity 1/r_min + 1/r_max = 2/p for planetary orbits")
-  (statement := /-- For any \texttt{orb : PlanetaryOrbit},
-    $\frac{1}{r_{\min}}+\frac{1}{r_{\max}}=\frac{2}{p}$. -/)
-  (proof := /-- Use $r_{\min}+r_{\max}=2a$ and $r_{\min}r_{\max}=a p$ from
-    \texttt{orb.radii\_identities}, then clear nonzero denominators. -/)
-  (latexEnv := "lemma")]
-lemma PlanetaryOrbit.harmonic_mean_semiLatusRectum (orb : PlanetaryOrbit) :
-    1 / orb.perihelionRadius + 1 / orb.aphelionRadius =
-      2 / orb.semiLatusRectum := by
-  have he0 := orb.eccentricity_nonneg
-  have he1 := orb.eccentricity_lt_one
-  have h1me : 1 - orb.eccentricity ≠ 0 := by linarith
-  have h1pe : 1 + orb.eccentricity ≠ 0 := by linarith
-  have h1e2 : 1 - orb.eccentricity ^ 2 ≠ 0 := ne_of_gt (orb.radii_identities).1
-  have ha : orb.semiMajorAxis ≠ 0 := ne_of_gt orb.semiMajorAxis_pos
-  unfold PlanetaryOrbit.perihelionRadius PlanetaryOrbit.aphelionRadius
-    PlanetaryOrbit.semiLatusRectum
-  field_simp [h1me, h1pe, h1e2, ha]
-  ring
-
-/-- **Precessing Polar Conic Trajectory $r(\varphi; \eta_{\mathrm{prec}})$**:
-Solution of the perturbed Binet orbit equation
-$r(\varphi; \eta_{\mathrm{prec}}) = \frac{p}{1 + e\cos((1 - \eta_{\mathrm{prec}})\varphi)}$
-with dimensionless precession rate parameter $\eta_{\mathrm{prec}} = \frac{3 G_\phi M}{c^2 p} = \frac{\Delta\varpi}{2\pi}$. -/
-@[blueprint "def:signals-ddf-precessing-conic-radius"
-  (title := "Precessing polar conic orbital radius r(φ; η_prec)")
-  (statement := /-- For \texttt{orb : PlanetaryOrbit}, precession parameter $\eta_{\mathrm{prec}}$,
-    and azimuth $\varphi$, define
-    $r(\varphi;\eta_{\mathrm{prec}}) = \frac{p}{1 + e\cos\bigl((1-\eta_{\mathrm{prec}})\varphi\bigr)}$. -/)]
-noncomputable def PlanetaryOrbit.precessingRadius
-    (orb : PlanetaryOrbit) (etaPrecession φ : ℝ) : ℝ :=
-  orb.semiLatusRectum /
-    (1 + orb.eccentricity * Real.cos ((1 - etaPrecession) * φ))
-
-/-- **Exact Perihelion and Aphelion Turning Points of the Precessing Trajectory**:
-At $\varphi = 0$ (initial perihelion), $r(0; \eta_{\mathrm{prec}}) = r_{\min} = a(1 - e)$,
-and for $1 - \eta_{\mathrm{prec}} \neq 0$, at the precessed aphelion angle
-$\varphi_{\mathrm{aph}} = \frac{\pi}{1 - \eta_{\mathrm{prec}}}$,
-$r(\varphi_{\mathrm{aph}}; \eta_{\mathrm{prec}}) = r_{\max} = a(1 + e)$. -/
-@[blueprint "thm:signals-ddf-precessing-conic-turning-points"
-  (title := "Exact perihelion and aphelion turning-point radii of the precessing conic orbit")
-  (statement := /-- For any \texttt{orb : PlanetaryOrbit} and $1-\eta_{\mathrm{prec}}\ne 0$,
-    $r(0;\eta_{\mathrm{prec}})=r_{\min}$ and
-    $r\bigl(\frac{\pi}{1-\eta_{\mathrm{prec}}};\eta_{\mathrm{prec}}\bigr)=r_{\max}$. -/)
-  (proof := /-- Evaluate $\cos(0)=1$ and $\cos(\pi)=-1$, factor $1-e^2=(1-e)(1+e)$, and
-    cancel $1+e\ne 0$ and $1-e\ne 0$. -/)]
-theorem PlanetaryOrbit.precessingRadius_perihelion_and_aphelion
-    (orb : PlanetaryOrbit) (etaPrecession : ℝ)
-    (h_eta : 1 - etaPrecession ≠ 0) :
-    orb.precessingRadius etaPrecession 0 = orb.perihelionRadius ∧
-      orb.precessingRadius etaPrecession (Real.pi / (1 - etaPrecession)) =
-        orb.aphelionRadius := by
-  have he0 := orb.eccentricity_nonneg
-  have he1 := orb.eccentricity_lt_one
-  have h1pe : 1 + orb.eccentricity ≠ 0 := by linarith
-  have h1me : 1 - orb.eccentricity ≠ 0 := by linarith
-  refine ⟨?_, ?_⟩
-  · unfold PlanetaryOrbit.precessingRadius PlanetaryOrbit.semiLatusRectum
-      PlanetaryOrbit.perihelionRadius
-    simp only [mul_zero, Real.cos_zero, mul_one]
-    have h_fac :
-        orb.semiMajorAxis * (1 - orb.eccentricity ^ 2) =
-          orb.semiMajorAxis * (1 - orb.eccentricity) * (1 + orb.eccentricity) := by ring
-    rw [h_fac, mul_div_cancel_right₀ _ h1pe]
-  · unfold PlanetaryOrbit.precessingRadius PlanetaryOrbit.semiLatusRectum
-      PlanetaryOrbit.aphelionRadius
-    have h_angle : (1 - etaPrecession) * (Real.pi / (1 - etaPrecession)) = Real.pi :=
-      mul_div_cancel₀ Real.pi h_eta
-    rw [h_angle, Real.cos_pi]
-    have h_denom : 1 + orb.eccentricity * (-1) = 1 - orb.eccentricity := by ring
-    have h_fac :
-        orb.semiMajorAxis * (1 - orb.eccentricity ^ 2) =
-          orb.semiMajorAxis * (1 + orb.eccentricity) * (1 - orb.eccentricity) := by ring
-    rw [h_denom, h_fac, mul_div_cancel_right₀ _ h1me]
+/-! ### Exact $\pi$-Free Arcsecond Conversion & Normed Tensor Gaussian Splatting -/
 
 /-- **Anomalous Perihelion Precession in Arcseconds per Orbit**:
 Converts `perihelionPrecessionRad` from radians to arcseconds via the factor
@@ -2430,33 +2008,6 @@ theorem RiverExterior.perihelionPrecessionArcsecPerOrbit_eq
   · unfold RiverExterior.perihelionPrecessionRad
     field_simp [hpi]
     ring
-
-/-- **Machine-Checked Numerical Verification of Mercury's $42.98''/\text{century}$ Relativistic Precession and $574.61''/\text{century}$ Total Advance**:
-For solar acoustic horizon $r_{H,\odot} = 2.95325\text{ km}$, Mercury semi-latus rectum
-$p_{\text{Mercury}} = 55460529\text{ km}$, and $415.2026$ revolutions per Julian century:
-1. The relativistic / 1-loop QFT / DDF precession per century lies strictly in
-   $(42.98, 42.99)$ arcseconds/century, and
-2. Adding the $531.63''/\text{century}$ Newtonian $N$-body planetary perturbation places
-   Mercury's total inertial perihelion advance strictly in $(574.61, 574.62)$ arcseconds/century. -/
-@[blueprint "thm:signals-ddf-mercury-precession-numerical-bounds"
-  (title := "Machine-checked numerical bounds 42.98 < Δϖ_Mercury < 42.99 and 574.61 < Δϖ_tot < 574.62 arcsec/century")
-  (statement := /-- For $r_{H,\odot}=2.95325\text{ km}$, $p_{\mathrm{Merc}}=55460529\text{ km}$,
-    and $N_{\mathrm{cent}}=415.2026$, let
-    $\dot{\varpi}_{\mathrm{rel}} = \frac{1944000\,r_{H,\odot}}{p_{\mathrm{Merc}}}\cdot N_{\mathrm{cent}}$.
-    Then $42.98 < \dot{\varpi}_{\mathrm{rel}} < 42.99$ and
-    $574.61 < \dot{\varpi}_{\mathrm{rel}} + 531.63 < 574.62$. -/)
-  (proof := /-- Evaluate the rational inequalities directly by \texttt{norm\_num}. -/)]
-theorem mercury_perihelion_precession_arcsec_per_century_bounds :
-    let r_H_sun : ℝ := 295325 / 100000
-    let p_mercury : ℝ := 55460529
-    let orbits_per_century : ℝ := 4152026 / 10000
-    let rel_arcsec_per_century := (1944000 * r_H_sun / p_mercury) * orbits_per_century
-    let newtonian_nbody_arcsec_per_century : ℝ := 53163 / 100
-    4298 / 100 < rel_arcsec_per_century ∧
-      rel_arcsec_per_century < 4299 / 100 ∧
-      57461 / 100 < rel_arcsec_per_century + newtonian_nbody_arcsec_per_century ∧
-      rel_arcsec_per_century + newtonian_nbody_arcsec_per_century < 57462 / 100 := by
-  norm_num
 
 /-! ### Normed 2D Anisotropic Tensor Gaussian Splatting for $Gr_{\mathbb{C}}(2,4)$ and DDF Orbital/Sheath Fields -/
 
@@ -2662,7 +2213,7 @@ $\sigma_1 = \sigma_0 \sqrt{1 + e}$ and $\sigma_2 = \sigma_0 \sqrt{1 - e}$. -/
   (statement := /-- For \texttt{orb : PlanetaryOrbit}, base width $\sigma_0>0$, and weight $w\ge 0$,
     construct a 2D tensor Gaussian splat with principal widths
     $\sigma_1=\sigma_0\sqrt{1+e}$ and $\sigma_2=\sigma_0\sqrt{1-e}$. -/)]
-noncomputable def PlanetaryOrbit.gr24TensorSplat
+noncomputable def _root_.Signals.QEDGravity.PlanetaryOrbit.gr24TensorSplat
     (orb : PlanetaryOrbit) (centerX centerY weight sigma0 : ℝ)
     (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0) (varpiAngle : ℝ) :
     NormedTensorGaussianSplat2D :=
@@ -2678,6 +2229,9 @@ noncomputable def PlanetaryOrbit.gr24TensorSplat
       have := orb.eccentricity_lt_one; linarith))
     orientationAngle := varpiAngle }
 
+alias PlanetaryOrbit.gr24TensorSplat :=
+  _root_.Signals.QEDGravity.PlanetaryOrbit.gr24TensorSplat
+
 /-- **$Gr_{\mathbb{C}}(2,4)$ Planetary Orbit Tensor Splat Covariance Trace & Determinant Laws**:
 For any `PlanetaryOrbit` `orb`, the $Gr_{\mathbb{C}}(2,4)$ tensor splat satisfies:
 1. $\operatorname{Tr} \Sigma_{Gr_{\mathbb{C}}(2,4)} = 2 \sigma_0^2$, and
@@ -2690,7 +2244,7 @@ For any `PlanetaryOrbit` `orb`, the $Gr_{\mathbb{C}}(2,4)$ tensor splat satisfie
     $\det\Sigma_{Gr_{\mathbb C}(2,4)} = \sigma_0^4\,\frac{p}{a}$. -/)
   (proof := /-- Unfold \texttt{gr24TensorSplat}, apply \texttt{Real.sq\_sqrt} to $1\pm e\ge 0$,
     and relate $1-e^2$ to $p/a$. -/)]
-theorem PlanetaryOrbit.gr24TensorSplat_identities
+theorem _root_.Signals.QEDGravity.PlanetaryOrbit.gr24TensorSplat_identities
     (orb : PlanetaryOrbit) (centerX centerY weight sigma0 : ℝ)
     (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0) (varpiAngle : ℝ) :
     let splat := orb.gr24TensorSplat centerX centerY weight sigma0 hw h_sigma0 varpiAngle
@@ -2708,18 +2262,23 @@ theorem PlanetaryOrbit.gr24TensorSplat_identities
   have h_sq2 : (Real.sqrt (1 - orb.eccentricity)) ^ 2 = 1 - orb.eccentricity :=
     Real.sq_sqrt h1me
   have h_tr : splat.covTrace = 2 * sigma0 ^ 2 := by
-    dsimp [splat, PlanetaryOrbit.gr24TensorSplat, NormedTensorGaussianSplat2D.covTrace]
+    dsimp [splat, _root_.Signals.QEDGravity.PlanetaryOrbit.gr24TensorSplat,
+      NormedTensorGaussianSplat2D.covTrace]
     rw [mul_pow, mul_pow, h_sq1, h_sq2]
     ring
   have h_det1 : splat.covDet = sigma0 ^ 4 * (1 - orb.eccentricity ^ 2) := by
-    dsimp [splat, PlanetaryOrbit.gr24TensorSplat, NormedTensorGaussianSplat2D.covDet]
+    dsimp [splat, _root_.Signals.QEDGravity.PlanetaryOrbit.gr24TensorSplat,
+      NormedTensorGaussianSplat2D.covDet]
     rw [mul_pow, mul_pow, h_sq1, h_sq2]
     ring
   have h_slr : orb.semiLatusRectum / orb.semiMajorAxis = 1 - orb.eccentricity ^ 2 := by
-    unfold PlanetaryOrbit.semiLatusRectum
+    unfold Signals.QEDGravity.PlanetaryOrbit.semiLatusRectum
     exact mul_div_cancel_left₀ (1 - orb.eccentricity ^ 2) ha_ne
   refine ⟨h_tr, h_det1, ?_⟩
   rw [h_det1, h_slr]
+
+alias PlanetaryOrbit.gr24TensorSplat_identities :=
+  _root_.Signals.QEDGravity.PlanetaryOrbit.gr24TensorSplat_identities
 
 /-- **Complex $Gr_{\mathbb{C}}(2,4)$ Twistor Wavepacket on a Normed Tensor Gaussian Splat**:
 Given a spatial Gaussian envelope `splat : NormedTensorGaussianSplat2D` and a
@@ -7391,5 +6950,1390 @@ theorem NormedTensorGaussianSplat3D.gr36_simultaneous_conservation_holographic_p
   exact ⟨h_sc1a, h_sc1b, h_sc2, h_sc3a, h_sc3b, h_sc3c, h_sc4a, h_sc4b,
     h_sc5a, h_sc5b, h_sc6, h_p015, h_p015_scale, h_p012, h_hp3, h_hp4, h_hp5,
     h_sp1a, h_sp1b, h_sp2a, h_sp2b, h_sp3, h_sp4, h_sp5⟩
+
+/-! ## Superfluid Gross–Pitaevskii Action, Madelung Polar Substitution, Variational Continuity & Quantum Hamilton–Jacobi Equations, and Dilatant-Phase ($\varphi$) Jamming Recovery
+
+This section bridges the variable-level Madelung decomposition (`madelungDensity`,
+`madelungAmplitude`, `madelungPhase`, `bohmQuantumPotential`, `superfluidVelocity`)
+to an explicit **variational action principle** and **dilatant-phase ($\varphi$) coupling**:
+
+1. **Superfluid Gross–Pitaevskii / NLS Action & Madelung Polar Substitution ($\psi = A e^{i\theta} = \sqrt{\rho} e^{i S / \hbar}$)**:
+   Substituting the polar order parameter $\psi = A(\cos\theta + i\sin\theta)$ and its
+   chain-rule derivative $\partial_\mu\psi = (\partial_\mu A + i A\,\partial_\mu\theta)e^{i\theta}$
+   into the complex Gross–Pitaevskii Lagrangian density
+   $$\mathcal{L}_{\mathrm{GP}} = \frac{i\hbar}{2}\bigl(\psi^*\partial_t\psi - \psi\partial_t\psi^*\bigr) - \frac{\hbar^2}{2 m_\phi}|\nabla\psi|^2 - V_{\mathrm{ext}}|\psi|^2 - \frac{g_\phi}{2}|\psi|^4$$
+   identically transforms the temporal symplectic term into $-\hbar A^2 \dot{\theta} = -\rho\,\partial_t S$
+   and splits the spatial gradient norm squared into $|\nabla A|^2 + A^2|\nabla\theta|^2$,
+   yielding the real hydrodynamic Lagrangian density $\mathcal{L}_{\mathrm{Mad}}(\rho, \nabla\rho, \partial_t S, \nabla S)$.
+2. **Euler–Lagrange Variations Yield Continuity & Quantum Hamilton–Jacobi (QHJ) Equations**:
+   - Varying $\mathcal{L}_{\mathrm{Mad}}$ with respect to the action phase $S$ (where
+     $\pi_S = \partial\mathcal{L}_{\mathrm{Mad}} / \partial(\partial_t S) = -\rho$ and
+     $J_S = \partial\mathcal{L}_{\mathrm{Mad}} / \partial(\nabla S) = -\rho v_\phi$) yields the
+     exact compressible continuity equation $\partial_t\rho + \nabla\cdot(\rho v_\phi) = 0$.
+   - Varying $\mathcal{L}_{\mathrm{Mad}}$ with respect to the real amplitude $A = \sqrt{\rho}$
+     (or density $\rho = A^2$ via the Fisher-information identity) yields the exact
+     Quantum Hamilton–Jacobi (QHJ) equation
+     $$\partial_t S + \frac{1}{2}m_\phi v_\phi^2 + V_{\mathrm{ext}} + g_\phi\rho + Q(\rho) = 0, \qquad
+     Q(\rho) = -\frac{\hbar^2}{2 m_\phi}\frac{\Delta\sqrt{\rho}}{\sqrt{\rho}},$$
+     whose stationary coarse-grained limit ($\partial_t S = 0, g_\phi = 0, \Delta\sqrt{\rho} = 0$)
+     recovers the Painlevé–Gullstrand Bernoulli potential $\Phi_\phi(r) = -\frac{1}{2}v_\phi(r)^2 = -\frac{G_\phi M}{r}$
+     of `RiverExterior`.
+3. **Dilatant-Phase ($\varphi$) Coupling & Variational Recovery of DDF Jamming $\Lambda_\parallel(v) = \gamma_\varphi(v)$**:
+   Coupling a translating vortex sheath ($v < c$) to the dispersed dilatant $\varphi$-substrate
+   defines the sheath-compression Euler–Lagrange residual
+   $\mathcal{R}_{\mathrm{sheath}}(\Lambda_\parallel) = \Lambda_\parallel(1 - \beta^2) - \Lambda_\parallel^{-1}$
+   and convex variational excess $\Delta\mathcal{E}_{\mathrm{sheath}}(\Lambda_\parallel) = \frac{1}{2}m c^2(1 - \beta^2)(\Lambda_\parallel - \gamma_\varphi(v))^2 \ge 0$,
+   whose unique stationary minimum at $\Lambda_\parallel > 0$ is $\Lambda_\parallel = \gamma_\varphi(v) = (1 - v^2/c^2)^{-1/2}$.
+   Evaluating the worldline dilatant Lagrangian $L_{\mathrm{DDF}}(v) = -m c^2 / \gamma_\varphi(v)$
+   derives the clock proper-time law $d\tau_D = (-L_{\mathrm{DDF}}(v)/(m c^2))dt = dt / \gamma_\varphi(v)$
+   (discharging the `h_dtau` assumption of `material_minkowski_interval`), recovers
+   $H_{\mathrm{DDF}}(v) = \gamma_\varphi(v)m c^2 = m c^2 + K_D(v)$ via Legendre transformation,
+   and links $\bigl(L_{\mathrm{DDF}}(v)/(-m c^2)\bigr)^2 = 1 - v^2/c^2$ directly to the
+   $Gr_{\mathbb{C}}(2,4)$ uncrossed Plücker product $|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2$. -/
+
+/-- Polar complex order parameter $\psi(A, \theta) = A(\cos\theta + i\sin\theta) = A e^{i\theta}$
+for real amplitude $A = \sqrt{\rho}$ and phase angle $\theta = S / \hbar$. -/
+@[blueprint "def:signals-ddf-madelung-polar-wavefunction"
+  (title := "Madelung polar complex wavefunction ψ = A(cos θ + i sin θ)")
+  (statement := /-- Define $\operatorname{madelungPolarWavefunction}(A, \theta)
+    = A\cos\theta + i A\sin\theta \in \mathbb C$. -/)]
+noncomputable def madelungPolarWavefunction (A θ : ℝ) : ℂ :=
+  ↑(A * Real.cos θ) + Complex.I * ↑(A * Real.sin θ)
+
+/-- Chain-rule derivative $\partial_\mu\psi = (\partial_\mu A + i A\,\partial_\mu\theta)e^{i\theta}$
+of the polar order parameter $\psi = A e^{i\theta}$ with respect to time or space. -/
+@[blueprint "def:signals-ddf-madelung-polar-derivative"
+  (title := "Chain-rule derivative (dA + i A dθ)e^{iθ} of the Madelung polar wavefunction")
+  (statement := /-- Define $\operatorname{madelungPolarDerivative}(A, dA, \theta, d\theta)
+    = (dA\cos\theta - A\,d\theta\sin\theta) + i(dA\sin\theta + A\,d\theta\cos\theta) \in \mathbb C$. -/)]
+noncomputable def madelungPolarDerivative (A dA θ dθ : ℝ) : ℂ :=
+  ↑(dA * Real.cos θ - A * dθ * Real.sin θ) +
+    Complex.I * ↑(dA * Real.sin θ + A * dθ * Real.cos θ)
+
+/-- Real temporal symplectic term $\frac{i\hbar}{2}(\psi^*\dot{\psi} - \psi\dot{\psi}^*) = -\hbar\,\operatorname{Im}(\psi^*\dot{\psi})$
+of the Gross–Pitaevskii / nonlinear Schrödinger Lagrangian density. -/
+@[blueprint "def:signals-ddf-gp-temporal-symplectic-term"
+  (title := "Gross-Pitaevskii temporal symplectic Lagrangian term -ℏ Im(ψ* ∂_t ψ)")
+  (statement := /-- Define $\operatorname{grossPitaevskiiTemporalSymplecticTerm}(\hbar, \psi, \dot{\psi})
+    = -\hbar\,\operatorname{Im}(\psi^* \dot{\psi})$. -/)]
+noncomputable def grossPitaevskiiTemporalSymplecticTerm (hbar : ℝ) (ψ ψ_dot : ℂ) : ℝ :=
+  -hbar * (starRingEnd ℂ ψ * ψ_dot).im
+
+/-- Full Gross–Pitaevskii / nonlinear Schrödinger Lagrangian density evaluated on polar
+complex field values $\psi = A e^{i\theta}$, $\partial_t\psi$, and $\nabla\psi$:
+$$\mathcal{L}_{\mathrm{GP}} = -\hbar\,\operatorname{Im}(\psi^*\partial_t\psi) - \frac{\hbar^2}{2 m_\phi}|\nabla\psi|^2 - V_{\mathrm{ext}}|\psi|^2 - \frac{g_\phi}{2}|\psi|^4.$$ -/
+@[blueprint "def:signals-ddf-gp-polar-lagrangian-density"
+  (title := "Gross-Pitaevskii Lagrangian density on complex polar field values")
+  (statement := /-- Define $\operatorname{grossPitaevskiiPolarLagrangianDensity}(m_\phi, \hbar, g_\phi, V_{\mathrm{ext}}, \psi, \partial_t\psi, \nabla\psi)$
+    from complex norms and the symplectic time-derivative term. -/)]
+noncomputable def grossPitaevskiiPolarLagrangianDensity
+    (m_phi hbar g_phi V_ext : ℝ) (ψ ψ_t ψ_x : ℂ) : ℝ :=
+  grossPitaevskiiTemporalSymplecticTerm hbar ψ ψ_t -
+    (hbar ^ 2 / (2 * m_phi)) * Complex.normSq ψ_x -
+    V_ext * Complex.normSq ψ -
+    (g_phi / 2) * (Complex.normSq ψ) ^ 2
+
+/-- Madelung amplitude-phase Lagrangian density $\mathcal{L}_{\mathrm{Mad}}(A, \nabla A, \partial_t S, \nabla S)$
+obtained after substituting $\psi = A e^{i S / \hbar}$ ($A = \sqrt{\rho}$, $\theta = S / \hbar$):
+$$\mathcal{L}_{\mathrm{Mad}} = -A^2\left(\partial_t S + \frac{(\nabla S)^2}{2 m_\phi} + V_{\mathrm{ext}}\right) - \frac{g_\phi}{2}A^4 - \frac{\hbar^2}{2 m_\phi}(\nabla A)^2.$$ -/
+@[blueprint "def:signals-ddf-madelung-amplitude-lagrangian-density"
+  (title := "Madelung amplitude-phase Lagrangian density L_Mad(A, ∇A, ∂_t S, ∇S)")
+  (statement := /-- Define $\operatorname{madelungAmplitudeLagrangianDensity}(m_\phi, \hbar, g_\phi, V_{\mathrm{ext}}, A, \nabla A, \partial_t S, \nabla S)
+    = -A^2(\partial_t S + (\nabla S)^2/(2m_\phi) + V_{\mathrm{ext}}) - \frac{g_\phi}{2}A^4 - \frac{\hbar^2}{2m_\phi}(\nabla A)^2$. -/)]
+noncomputable def madelungAmplitudeLagrangianDensity
+    (m_phi hbar g_phi V_ext A grad_A S_t grad_S : ℝ) : ℝ :=
+  -(A ^ 2) * (S_t + grad_S ^ 2 / (2 * m_phi) + V_ext) -
+    (g_phi / 2) * A ^ 4 -
+    (hbar ^ 2 / (2 * m_phi)) * grad_A ^ 2
+
+/-- Madelung hydrodynamic density-phase Lagrangian density $\mathcal{L}_{\mathrm{Mad}}^\rho(\rho, \nabla\rho, \partial_t S, \nabla S)$:
+$$\mathcal{L}_{\mathrm{Mad}}^\rho = -\rho\left(\partial_t S + \frac{(\nabla S)^2}{2 m_\phi} + V_{\mathrm{ext}} + \frac{g_\phi}{2}\rho\right) - \frac{\hbar^2}{8 m_\phi}\frac{(\nabla\rho)^2}{\rho}.$$ -/
+@[blueprint "def:signals-ddf-madelung-hydrodynamic-lagrangian-density"
+  (title := "Madelung hydrodynamic density-phase Lagrangian density L_Mad^ρ(ρ, ∇ρ, ∂_t S, ∇S)")
+  (statement := /-- Define $\operatorname{madelungHydrodynamicLagrangianDensity}(m_\phi, \hbar, g_\phi, V_{\mathrm{ext}}, \rho, \nabla\rho, \partial_t S, \nabla S)
+    = -\rho(\partial_t S + (\nabla S)^2/(2m_\phi) + V_{\mathrm{ext}} + \frac{g_\phi}{2}\rho) - \frac{\hbar^2}{8m_\phi}\frac{(\nabla\rho)^2}{\rho}$. -/)]
+noncomputable def madelungHydrodynamicLagrangianDensity
+    (m_phi hbar g_phi V_ext rho grad_rho S_t grad_S : ℝ) : ℝ :=
+  -rho * (S_t + grad_S ^ 2 / (2 * m_phi) + V_ext + (g_phi / 2) * rho) -
+    (hbar ^ 2 / (8 * m_phi)) * (grad_rho ^ 2 / rho)
+
+/-- Canonical momentum $\pi_S = \frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial(\partial_t S)} = -\rho$
+conjugate to the Hamilton–Jacobi phase $S$. -/
+@[blueprint "def:signals-ddf-madelung-phase-canonical-momentum"
+  (title := "Canonical momentum π_S = ∂L_Mad / ∂(∂_t S) = -ρ conjugate to phase S")
+  (statement := /-- Define $\operatorname{madelungPhaseCanonicalMomentum}(\rho) = -\rho$. -/)]
+def madelungPhaseCanonicalMomentum (rho : ℝ) : ℝ :=
+  -rho
+
+/-- Spatial canonical flux $J_S = \frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial(\nabla S)} = -\rho\frac{\nabla S}{m_\phi} = -\rho v_\phi$
+conjugate to the phase gradient $\nabla S$. -/
+@[blueprint "def:signals-ddf-madelung-phase-spatial-flux"
+  (title := "Spatial canonical flux J_S = ∂L_Mad / ∂(∇S) = -ρ (∇S / m_ϕ)")
+  (statement := /-- Define $\operatorname{madelungPhaseSpatialFlux}(m_\phi, \rho, \nabla S)
+    = -\rho (\nabla S / m_\phi)$. -/)]
+noncomputable def madelungPhaseSpatialFlux (m_phi rho grad_S : ℝ) : ℝ :=
+  -rho * (grad_S / m_phi)
+
+/-- Euler–Lagrange residual $\mathcal{E}_S = \frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial S} - \partial_t\pi_S - \nabla\cdot J_S = -\partial_t\pi_S - \nabla\cdot J_S$
+for variation with respect to the phase $S$ (where $\partial\mathcal{L}_{\mathrm{Mad}} / \partial S = 0$ by global $U(1)$ phase invariance). -/
+@[blueprint "def:signals-ddf-madelung-phase-el-residual"
+  (title := "Euler-Lagrange phase residual E_S = -∂_t π_S - ∇·J_S")
+  (statement := /-- Define $\operatorname{madelungPhaseEulerLagrangeResidual}(\partial_t\pi_S, \nabla\cdot J_S)
+    = -\partial_t\pi_S - \nabla\cdot J_S$. -/)]
+def madelungPhaseEulerLagrangeResidual (dt_pi_S div_J_S : ℝ) : ℝ :=
+  -dt_pi_S - div_J_S
+
+/-- Compressible continuity equation residual $\partial_t\rho + \nabla\cdot(\rho v_\phi)$. -/
+@[blueprint "def:signals-ddf-madelung-continuity-residual"
+  (title := "Compressible Madelung continuity residual ∂_t ρ + ∇·(ρ v_ϕ)")
+  (statement := /-- Define $\operatorname{madelungContinuityResidual}(\partial_t\rho, \nabla\cdot(\rho v_\phi))
+    = \partial_t\rho + \nabla\cdot(\rho v_\phi)$. -/)]
+def madelungContinuityResidual (dt_rho div_rho_v : ℝ) : ℝ :=
+  dt_rho + div_rho_v
+
+/-- Partial derivative $\frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial A} = -2 A\bigl(\partial_t S + \frac{(\nabla S)^2}{2 m_\phi} + V_{\mathrm{ext}} + g_\phi A^2\bigr)$
+with respect to the Madelung square-root amplitude $A = \sqrt{\rho}$. -/
+@[blueprint "def:signals-ddf-madelung-amplitude-partial-l"
+  (title := "Partial derivative ∂L_Mad / ∂A with respect to amplitude A = √ρ")
+  (statement := /-- Define $\operatorname{madelungAmplitudePartialL}(m_\phi, g_\phi, V_{\mathrm{ext}}, A, \partial_t S, \nabla S)
+    = -2 A(\partial_t S + (\nabla S)^2/(2m_\phi) + V_{\mathrm{ext}} + g_\phi A^2)$. -/)]
+noncomputable def madelungAmplitudePartialL
+    (m_phi g_phi V_ext A S_t grad_S : ℝ) : ℝ :=
+  -2 * A * (S_t + grad_S ^ 2 / (2 * m_phi) + V_ext + g_phi * A ^ 2)
+
+/-- Divergence $\nabla\cdot\frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial(\nabla A)} = -\frac{\hbar^2}{m_\phi}\Delta A$
+of the canonical amplitude-gradient flux. -/
+@[blueprint "def:signals-ddf-madelung-amplitude-grad-flux-div"
+  (title := "Divergence ∇·(∂L_Mad / ∂(∇A)) = -(ℏ² / m_ϕ) ΔA")
+  (statement := /-- Define $\operatorname{madelungAmplitudeGradFluxDiv}(m_\phi, \hbar, \Delta A)
+    = -(\hbar^2 / m_\phi)\,\Delta A$. -/)]
+noncomputable def madelungAmplitudeGradFluxDiv (m_phi hbar laplacian_A : ℝ) : ℝ :=
+  -(hbar ^ 2 / m_phi) * laplacian_A
+
+/-- Euler–Lagrange residual $\mathcal{E}_A = \frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial A} - \nabla\cdot\frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial(\nabla A)}$
+for variation with respect to the amplitude $A = \sqrt{\rho}$. -/
+@[blueprint "def:signals-ddf-madelung-amplitude-el-residual"
+  (title := "Euler-Lagrange amplitude residual E_A = ∂L_Mad/∂A - ∇·(∂L_Mad/∂(∇A))")
+  (statement := /-- Define $\operatorname{madelungAmplitudeEulerLagrangeResidual}(m_\phi, \hbar, g_\phi, V_{\mathrm{ext}}, A, \Delta A, \partial_t S, \nabla S)
+    = \operatorname{madelungAmplitudePartialL}(m_\phi, g_\phi, V_{\mathrm{ext}}, A, \partial_t S, \nabla S)
+    - \operatorname{madelungAmplitudeGradFluxDiv}(m_\phi, \hbar, \Delta A)$. -/)]
+noncomputable def madelungAmplitudeEulerLagrangeResidual
+    (m_phi hbar g_phi V_ext A laplacian_A S_t grad_S : ℝ) : ℝ :=
+  madelungAmplitudePartialL m_phi g_phi V_ext A S_t grad_S -
+    madelungAmplitudeGradFluxDiv m_phi hbar laplacian_A
+
+/-- Quantum Hamilton–Jacobi (QHJ) / Madelung Bernoulli equation residual:
+$$\mathcal{R}_{\mathrm{QHJ}} = \partial_t S + \frac{1}{2}m_\phi v_\phi^2 + V_{\mathrm{ext}} + g_\phi A^2 - \frac{\hbar^2}{2 m_\phi}\frac{\Delta A}{A}.$$ -/
+@[blueprint "def:signals-ddf-quantum-hamilton-jacobi-residual"
+  (title := "Quantum Hamilton-Jacobi (QHJ) residual ∂_t S + ½ m_ϕ v_ϕ² + V_ext + g_ϕ ρ + Q(ρ)")
+  (statement := /-- Define $\operatorname{quantumHamiltonJacobiResidual}(m_\phi, \hbar, g_\phi, V_{\mathrm{ext}}, A, \Delta A, \partial_t S, v_\phi)
+    = \partial_t S + \frac{1}{2}m_\phi v_\phi^2 + V_{\mathrm{ext}} + g_\phi A^2 - \frac{\hbar^2}{2m_\phi}\frac{\Delta A}{A}$. -/)]
+noncomputable def quantumHamiltonJacobiResidual
+    (m_phi hbar g_phi V_ext A laplacian_A S_t v_phi : ℝ) : ℝ :=
+  S_t + (1 / 2) * m_phi * v_phi ^ 2 + V_ext + g_phi * A ^ 2 -
+    (hbar ^ 2 / (2 * m_phi)) * (laplacian_A / A)
+
+/-- Dilatant sheath-compression Euler–Lagrange stationary residual
+$\mathcal{R}_{\mathrm{sheath}}(\Lambda_\parallel) = \Lambda_\parallel(1 - \beta^2) - \Lambda_\parallel^{-1}$
+for a translating vortex sheath Coupled to the dispersed dilatant $\varphi$-phase. -/
+@[blueprint "def:signals-ddf-sheath-compression-residual"
+  (title := "Dilatant sheath-compression Euler-Lagrange residual Λ_∥(1 - β²) - 1/Λ_∥")
+  (statement := /-- For a \texttt{MovingSheath} $s$ and compression factor $\Lambda_\parallel$, define
+    $s.\operatorname{sheathCompressionResidual}(\Lambda_\parallel) = \Lambda_\parallel(1 - s.\mathrm{betaSq}) - 1/\Lambda_\parallel$. -/)]
+noncomputable def MovingSheath.sheathCompressionResidual
+    {sub : DDFSubstrate} (s : MovingSheath sub) (Lambda : ℝ) : ℝ :=
+  Lambda * (1 - s.betaSq) - 1 / Lambda
+
+/-- Convex variational excess energy
+$\Delta\mathcal{E}_{\mathrm{sheath}}(\Lambda_\parallel) = \frac{1}{2}m c^2(1 - \beta^2)\bigl(\Lambda_\parallel - \gamma_\varphi(v)\bigr)^2 \ge 0$
+of the coupled dilatant sheath above its stationary jamming minimum $\Lambda_\parallel = \gamma_\varphi(v)$. -/
+@[blueprint "def:signals-ddf-sheath-variational-excess"
+  (title := "Dilatant sheath convex variational excess energy ½ m c² (1 - β²)(Λ_∥ - γ_φ)²")
+  (statement := /-- Define $s.\operatorname{sheathVariationalExcess}(m, \Lambda_\parallel)
+    = \frac{1}{2}m\,c^2(1 - s.\mathrm{betaSq})(\Lambda_\parallel - s.\mathrm{jammingFactor})^2$. -/)]
+noncomputable def MovingSheath.sheathVariationalExcess
+    {sub : DDFSubstrate} (s : MovingSheath sub) (restMass Lambda : ℝ) : ℝ :=
+  (1 / 2) * restMass * sub.c ^ 2 * (1 - s.betaSq) * (Lambda - s.jammingFactor) ^ 2
+
+/-- Worldline dilatant Lagrangian $L_{\mathrm{DDF}}(v) = -\frac{m c^2}{\gamma_\varphi(v)} = -m c^2\sqrt{1 - v^2/c^2}$
+of a translating DDF vortex-sheath configuration. -/
+@[blueprint "def:signals-ddf-dilatant-lagrangian"
+  (title := "Worldline dilatant Lagrangian L_DDF(v) = -m c² / γ_φ(v)")
+  (statement := /-- Define $s.\operatorname{dilatantLagrangian}(m) = -m\,c^2 / s.\mathrm{jammingFactor}$. -/)]
+noncomputable def MovingSheath.dilatantLagrangian
+    {sub : DDFSubstrate} (s : MovingSheath sub) (restMass : ℝ) : ℝ :=
+  -(restMass * sub.c ^ 2) / s.jammingFactor
+
+/-- Relativistic canonical momentum $p_{\mathrm{DDF}}(v) = \frac{\partial L_{\mathrm{DDF}}}{\partial v} = \gamma_\varphi(v)\,m\,v$
+of a translating DDF vortex sheath. -/
+@[blueprint "def:signals-ddf-dilatant-canonical-momentum"
+  (title := "Dilatant canonical momentum p_DDF(v) = γ_φ(v) m v")
+  (statement := /-- Define $s.\operatorname{dilatantCanonicalMomentum}(m)
+    = s.\mathrm{jammingFactor}\cdot m\cdot s.\mathrm{velocity}$. -/)]
+noncomputable def MovingSheath.dilatantCanonicalMomentum
+    {sub : DDFSubstrate} (s : MovingSheath sub) (restMass : ℝ) : ℝ :=
+  s.jammingFactor * restMass * s.velocity
+
+/-- Legendre-transformed dilatant Hamiltonian $H_{\mathrm{DDF}}(v) = v\,p_{\mathrm{DDF}}(v) - L_{\mathrm{DDF}}(v)$
+of a translating DDF vortex sheath. -/
+@[blueprint "def:signals-ddf-dilatant-hamiltonian"
+  (title := "Legendre-transformed dilatant Hamiltonian H_DDF(v) = v p_DDF(v) - L_DDF(v)")
+  (statement := /-- Define $s.\operatorname{dilatantHamiltonian}(m)
+    = s.\mathrm{velocity}\cdot s.\operatorname{dilatantCanonicalMomentum}(m) - s.\operatorname{dilatantLagrangian}(m)$. -/)]
+noncomputable def MovingSheath.dilatantHamiltonian
+    {sub : DDFSubstrate} (s : MovingSheath sub) (restMass : ℝ) : ℝ :=
+  s.velocity * s.dilatantCanonicalMomentum restMass - s.dilatantLagrangian restMass
+
+/-- Action-derived clock proper-time increment
+$d\tau_D = \left(\frac{-L_{\mathrm{DDF}}(v)}{m c^2}\right)dt = \frac{dt}{\gamma_\varphi(v)}$
+obtained directly from the normalized worldline dilatant action $-dS_{\mathrm{DDF}}/(m c^2)$. -/
+@[blueprint "def:signals-ddf-action-proper-time"
+  (title := "Action-derived clock proper time dτ_D = (-L_DDF(v) / (m c²)) dt")
+  (statement := /-- Define $s.\operatorname{actionProperTime}(m, dt)
+    = (-s.\operatorname{dilatantLagrangian}(m) / (m\,c^2))\,dt$. -/)]
+noncomputable def MovingSheath.actionProperTime
+    {sub : DDFSubstrate} (s : MovingSheath sub) (restMass dt : ℝ) : ℝ :=
+  (-s.dilatantLagrangian restMass / (restMass * sub.c ^ 2)) * dt
+
+/-- Standard uncoupled superfluid Bogoliubov squared phase velocity
+$v_p^2(k) = \frac{\hbar^2 k^2}{4 m_\phi^2} + \frac{g_0 \rho_0}{m_\phi}$. -/
+@[blueprint "def:signals-ddf-standard-bogoliubov-vp-sq"
+  (title := "Standard superfluid Bogoliubov squared phase velocity (ℏ² k²)/(4 m_ϕ²) + g_0 ρ_0 / m_ϕ")
+  (statement := /-- Define $\operatorname{standardBogoliubovPhaseVelSq}(m_\phi, g_0, \rho_0, \hbar, k)
+    = (\hbar^2 k^2)/(4 m_\phi^2) + (g_0 \rho_0)/m_\phi$. -/)]
+noncomputable def standardBogoliubovPhaseVelSq (m_phi g0 rho0 hbar k : ℝ) : ℝ :=
+  (hbar ^ 2 * k ^ 2) / (4 * m_phi ^ 2) + (g0 * rho0) / m_phi
+
+/-- Strain-thickened dilatant Bogoliubov squared phase velocity
+$v_{p,\mathrm{DDF}}^2(k) = \frac{\hbar^2 k^2}{4 m_\phi^2} + \frac{g_0(1 + \gamma_{\mathrm{dil}} k^2)\rho_0}{m_\phi}$
+with dilatant strain-coupling coefficient $\gamma_{\mathrm{dil}} > 0$
+(`Review-Pop-III-GW-Remnants.md`, lines 621–660). -/
+@[blueprint "def:signals-ddf-dilatant-bogoliubov-vp-sq"
+  (title := "Strain-thickened dilatant Bogoliubov squared phase velocity with g(k) = g_0(1 + γ_dil k²)")
+  (statement := /-- Define $\operatorname{dilatantBogoliubovPhaseVelSq}(m_\phi, g_0, \rho_0, \gamma_{\mathrm{dil}}, \hbar, k)
+    = (\hbar^2 k^2)/(4 m_\phi^2) + (g_0 (1 + \gamma_{\mathrm{dil}} k^2) \rho_0)/m_\phi$. -/)]
+noncomputable def dilatantBogoliubovPhaseVelSq
+    (m_phi g0 rho0 gamma_dil hbar k : ℝ) : ℝ :=
+  (hbar ^ 2 * k ^ 2) / (4 * m_phi ^ 2) + (g0 * (1 + gamma_dil * k ^ 2) * rho0) / m_phi
+
+/-- **Madelung Variational Action, Continuity & Quantum Hamilton–Jacobi Euler–Lagrange Equations, and Dilatant-Phase ($\varphi$) Jamming Recovery Theorem**:
+Establishes the complete dynamics-level bridge from the superfluid Gross–Pitaevskii
+action and Madelung polar substitution $\psi = A e^{i S / \hbar}$ to the continuity
+equation, Quantum Hamilton–Jacobi (QHJ) equation, dilatant sheath jamming law
+$\Lambda_\parallel = \gamma_\varphi(v)$, action-derived Minkowski interval, and
+complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Plücker invariants:
+1. **Exact Polar Substitution in the Gross–Pitaevskii Lagrangian Density**:
+   For $\psi = \operatorname{madelungPolarWavefunction}(A, S/\hbar)$,
+   $\partial_t\psi = \operatorname{madelungPolarDerivative}(A, \dot{A}, S/\hbar, \partial_t S / \hbar)$,
+   and $\nabla\psi = \operatorname{madelungPolarDerivative}(A, \nabla A, S/\hbar, \nabla S / \hbar)$ ($\hbar \neq 0$):
+   - $|\psi|^2 = A^2$,
+   - $-\hbar\,\operatorname{Im}(\psi^*\partial_t\psi) = -A^2\,\partial_t S$ (independent of $\dot{A}$),
+   - $|\nabla\psi|^2 = (\nabla A)^2 + A^2(\nabla S / \hbar)^2$, and
+   - $\mathcal{L}_{\mathrm{GP}}(\psi, \partial_t\psi, \nabla\psi) = \mathcal{L}_{\mathrm{Mad}}(A, \nabla A, \partial_t S, \nabla S) = \mathcal{L}_{\mathrm{Mad}}^\rho(A^2, 2 A\nabla A, \partial_t S, \nabla S)$,
+2. **Euler–Lagrange Phase & Amplitude Variations Yield Continuity & QHJ Equations**:
+   - Varying $\mathcal{L}_{\mathrm{Mad}}$ with respect to $S$ yields
+     $\operatorname{madelungPhaseEulerLagrangeResidual}(-\partial_t\rho, -\nabla\cdot(\rho v_\phi)) = \operatorname{madelungContinuityResidual}(\partial_t\rho, \nabla\cdot(\rho v_\phi))$,
+   - Varying $\mathcal{L}_{\mathrm{Mad}}$ with respect to $A > 0$ yields
+     $\frac{\operatorname{madelungAmplitudeEulerLagrangeResidual}(m_\phi, \hbar, g_\phi, V_{\mathrm{ext}}, A, \Delta A, \partial_t S, \nabla S)}{-2 A} = \operatorname{quantumHamiltonJacobiResidual}(m_\phi, \hbar, g_\phi, V_{\mathrm{ext}}, A, \Delta A, \partial_t S, \nabla S / m_\phi)$,
+   - In the stationary coarse-grained `RiverExterior` limit ($\partial_t S = 0, g_\phi = 0, \Delta A = 0$),
+     $\operatorname{quantumHamiltonJacobiResidual}(m_\phi, \hbar, 0, m_\phi\cdot re.\mathrm{bernoulliPotential}(r), A, 0, 0, re.\mathrm{velocity}(r)) = 0$,
+3. **Dilatant-Phase ($\varphi$) Coupling Uniquely Recovers DDF Jamming $\Lambda_\parallel = \gamma_\varphi(v)$**:
+   - At $\Lambda_\parallel = s.\mathrm{jammingFactor}$, $s.\mathrm{sheathCompressionResidual}(\gamma_\varphi(v)) = 0$
+     and $s.\mathrm{sheathVariationalExcess}(m, \gamma_\varphi(v)) = 0$,
+   - For any $\Lambda_\parallel > 0$, $s.\mathrm{sheathCompressionResidual}(\Lambda_\parallel) = 0 \iff \Lambda_\parallel = s.\mathrm{jammingFactor}$,
+     and $0 \le s.\mathrm{sheathVariationalExcess}(m, \Lambda_\parallel)$,
+4. **Legendre Hamiltonian, Mass-Shell Invariant, Action-Derived Proper Time, & $Gr_{\mathbb{C}}(2,4)$ Plücker Duality**:
+   - $s.\mathrm{dilatantHamiltonian}(m) = \gamma_\varphi(v) m c^2 = m c^2 + s.\mathrm{kineticEnergy}(m)$,
+   - $(s.\mathrm{dilatantHamiltonian}(m))^2 - c^2(s.\mathrm{dilatantCanonicalMomentum}(m))^2 = (m c^2)^2$,
+   - $s.\mathrm{actionProperTime}(m, dt) = dt / \gamma_\varphi(v)$ and
+     $c^2\bigl(s.\mathrm{actionProperTime}(m, dt)\bigr)^2 = c^2 dt^2 - (v\,dt)^2$ (with no external `h_dtau` hypothesis),
+   - $\bigl(s.\mathrm{dilatantLagrangian}(m)/(-m c^2)\bigr)^2 = |w_A^{\mathbb{C}}(M_{\mathrm{sheath}})|^2\,|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})|^2 = 1 - s.\mathrm{betaSq}$, and
+   - $\operatorname{standardBogoliubovPhaseVelSq}(m_\phi, g_0, \rho_0, \hbar, k) < \operatorname{dilatantBogoliubovPhaseVelSq}(m_\phi, g_0, \rho_0, \gamma_{\mathrm{dil}}, \hbar, k)$. -/
+@[blueprint "thm:signals-ddf-madelung-lagrangian-variational-and-jamming-recovery"
+  (title := "Madelung variational action, continuity and QHJ Euler-Lagrange equations, and dilatant jamming recovery theorem")
+  (statement := /-- For any `DDFSubstrate` $sub$, `MovingSheath` $s$, `RiverExterior` $re$,
+    $m_\phi, \hbar, A, r, m, g_0, \rho_0, \gamma_{\mathrm{dil}}, k, \Lambda_\parallel > 0$, and $g_\phi, V_{\mathrm{ext}}, \dot{A}, \nabla A, \Delta A, S, \partial_t S, \nabla S, \partial_t\rho, \nabla\cdot(\rho v_\phi), dt \in \mathbb R$:
+    (1) the Madelung polar substitution $\psi = A e^{i S/\hbar}$ satisfies $|\psi|^2 = A^2$,
+    $-\hbar\operatorname{Im}(\psi^*\partial_t\psi) = -A^2\partial_t S$, and
+    $\mathcal{L}_{\mathrm{GP}}(\psi, \partial_t\psi, \nabla\psi) = \mathcal{L}_{\mathrm{Mad}}(A, \nabla A, \partial_t S, \nabla S) = \mathcal{L}_{\mathrm{Mad}}^\rho(A^2, 2A\nabla A, \partial_t S, \nabla S)$,
+    (2) the $S$- and $A$-Euler–Lagrange residuals equal the continuity and QHJ residuals, and the stationary `RiverExterior` flow satisfies QHJ identically,
+    (3) $s.\mathrm{sheathCompressionResidual}(\Lambda_\parallel) = 0 \iff \Lambda_\parallel = s.\mathrm{jammingFactor}$ with nonnegative convex excess $0 \le s.\mathrm{sheathVariationalExcess}(m, \Lambda_\parallel)$, and
+    (4) $s.\mathrm{dilatantHamiltonian}(m) = m c^2 + s.\mathrm{kineticEnergy}(m)$, $H_{\mathrm{DDF}}^2 - c^2 p_{\mathrm{DDF}}^2 = m^2 c^4$,
+    $c^2(s.\mathrm{actionProperTime}(m, dt))^2 = c^2 dt^2 - (v\,dt)^2$,
+    $(s.\mathrm{dilatantLagrangian}(m)/(-m c^2))^2 = |w_A^{\mathbb C}(M_{\mathrm{sheath}})|^2|w_B^{\mathbb C}(M_{\mathrm{sheath}})|^2 = 1 - s.\mathrm{betaSq}$,
+    and $v_p^2(k) < v_{p,\mathrm{DDF}}^2(k)$. -/)
+  (proof := /-- Expand the polar complex wavefunction and derivatives using $\cos^2\theta + \sin^2\theta = 1$,
+    clear denominators in the Euler–Lagrange and Legendre identities, apply `profile_closure_jamming_factor`
+    and `material_minkowski_interval`, and connect to `gr24TwistorMatrix_madelung_sector_identities`. -/)]
+theorem MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities
+    {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
+    (m_phi hbar g_phi V_ext A A_dot grad_A laplacian_A S S_t grad_S
+      dt_rho div_rho_v r restMass Lambda dt g0 rho0 gamma_dil k
+      d wavelength L : ℝ) (Δℓ : ℤ) (φ x : ℝ)
+    (hm_phi : 0 < m_phi) (hhbar : 0 < hbar) (hA : 0 < A) (_hr : 0 < r)
+    (hm : 0 < restMass) (hLambda : 0 < Lambda)
+    (hg0 : 0 < g0) (hrho0 : 0 < rho0) (hgamma_dil : 0 < gamma_dil) (hk : 0 < k)
+    (_hd : 0 < d) (_hwl : 0 < wavelength) (_hL : 0 < L) :
+    let θ := S / hbar
+    let ψ := madelungPolarWavefunction A θ
+    let ψ_t := madelungPolarDerivative A A_dot θ (S_t / hbar)
+    let ψ_x := madelungPolarDerivative A grad_A θ (grad_S / hbar)
+    let M_sheath := s.gr24TwistorMatrix d wavelength L Δℓ φ x
+    Complex.normSq ψ = A ^ 2 ∧
+      grossPitaevskiiTemporalSymplecticTerm hbar ψ ψ_t = -(A ^ 2) * S_t ∧
+      Complex.normSq ψ_x = grad_A ^ 2 + A ^ 2 * (grad_S / hbar) ^ 2 ∧
+      grossPitaevskiiPolarLagrangianDensity m_phi hbar g_phi V_ext ψ ψ_t ψ_x =
+        madelungAmplitudeLagrangianDensity m_phi hbar g_phi V_ext A grad_A S_t grad_S ∧
+      madelungHydrodynamicLagrangianDensity m_phi hbar g_phi V_ext (A ^ 2) (2 * A * grad_A) S_t grad_S =
+        madelungAmplitudeLagrangianDensity m_phi hbar g_phi V_ext A grad_A S_t grad_S ∧
+      madelungPhaseEulerLagrangeResidual (-dt_rho) (-div_rho_v) =
+        madelungContinuityResidual dt_rho div_rho_v ∧
+      madelungAmplitudeEulerLagrangeResidual m_phi hbar g_phi V_ext A laplacian_A S_t grad_S / (-2 * A) =
+        quantumHamiltonJacobiResidual m_phi hbar g_phi V_ext A laplacian_A S_t (grad_S / m_phi) ∧
+      quantumHamiltonJacobiResidual m_phi hbar 0 (m_phi * re.bernoulliPotential r) A 0 0 (re.velocity r) = 0 ∧
+      s.sheathCompressionResidual s.jammingFactor = 0 ∧
+      s.sheathVariationalExcess restMass s.jammingFactor = 0 ∧
+      0 ≤ s.sheathVariationalExcess restMass Lambda ∧
+      (s.sheathCompressionResidual Lambda = 0 ↔ Lambda = s.jammingFactor) ∧
+      s.dilatantHamiltonian restMass = s.jammingFactor * restMass * sub.c ^ 2 ∧
+      s.dilatantHamiltonian restMass = restMass * sub.c ^ 2 + s.kineticEnergy restMass ∧
+      (s.dilatantHamiltonian restMass) ^ 2 -
+          sub.c ^ 2 * (s.dilatantCanonicalMomentum restMass) ^ 2 =
+        (restMass * sub.c ^ 2) ^ 2 ∧
+      s.actionProperTime restMass dt = dt / s.jammingFactor ∧
+      sub.c ^ 2 * (s.actionProperTime restMass dt) ^ 2 =
+        sub.c ^ 2 * dt ^ 2 - (s.velocity * dt) ^ 2 ∧
+      (s.dilatantLagrangian restMass / (-(restMass * sub.c ^ 2))) ^ 2 =
+        Complex.normSq (complexPluckerSinkAmplitudeA M_sheath) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_sheath) ∧
+      (s.dilatantLagrangian restMass / (-(restMass * sub.c ^ 2))) ^ 2 = 1 - s.betaSq ∧
+      standardBogoliubovPhaseVelSq m_phi g0 rho0 hbar k <
+        dilatantBogoliubovPhaseVelSq m_phi g0 rho0 gamma_dil hbar k := by
+  intro θ ψ ψ_t ψ_x M_sheath
+  have hhbar_ne : hbar ≠ 0 := ne_of_gt hhbar
+  have hm_phi_ne : m_phi ≠ 0 := ne_of_gt hm_phi
+  have hA_ne : A ≠ 0 := ne_of_gt hA
+  have h_trig : Real.cos θ ^ 2 + Real.sin θ ^ 2 = 1 := Real.cos_sq_add_sin_sq θ
+  have h_norm_psi : Complex.normSq ψ = A ^ 2 := by
+    dsimp [ψ, madelungPolarWavefunction]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = A ^ 2 * (Real.cos θ ^ 2 + Real.sin θ ^ 2) := by ring
+      _ = A ^ 2 := by rw [h_trig, mul_one]
+  have h_symp : grossPitaevskiiTemporalSymplecticTerm hbar ψ ψ_t = -(A ^ 2) * S_t := by
+    dsimp [grossPitaevskiiTemporalSymplecticTerm, ψ, ψ_t,
+      madelungPolarWavefunction, madelungPolarDerivative]
+    simp only [Complex.conj_ofReal, map_add, map_mul, Complex.conj_I,
+      Complex.add_re, Complex.add_im,
+      Complex.mul_re, Complex.mul_im, Complex.neg_re, Complex.neg_im,
+      Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = -hbar * (A ^ 2 * (S_t / hbar) * (Real.cos θ ^ 2 + Real.sin θ ^ 2)) := by ring
+      _ = -hbar * (A ^ 2 * (S_t / hbar)) := by rw [h_trig, mul_one]
+      _ = -(A ^ 2) * S_t := by field_simp [hhbar_ne]
+  have h_norm_psix : Complex.normSq ψ_x = grad_A ^ 2 + A ^ 2 * (grad_S / hbar) ^ 2 := by
+    dsimp [ψ_x, madelungPolarDerivative]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (grad_A ^ 2 + A ^ 2 * (grad_S / hbar) ^ 2) * (Real.cos θ ^ 2 + Real.sin θ ^ 2) := by ring
+      _ = grad_A ^ 2 + A ^ 2 * (grad_S / hbar) ^ 2 := by rw [h_trig, mul_one]
+  have h_gp_eq_mad :
+      grossPitaevskiiPolarLagrangianDensity m_phi hbar g_phi V_ext ψ ψ_t ψ_x =
+        madelungAmplitudeLagrangianDensity m_phi hbar g_phi V_ext A grad_A S_t grad_S := by
+    unfold grossPitaevskiiPolarLagrangianDensity madelungAmplitudeLagrangianDensity
+    rw [h_symp, h_norm_psix, h_norm_psi]
+    field_simp [hhbar_ne, hm_phi_ne]
+    ring
+  have h_hydro_eq_amp :
+      madelungHydrodynamicLagrangianDensity m_phi hbar g_phi V_ext (A ^ 2) (2 * A * grad_A) S_t grad_S =
+        madelungAmplitudeLagrangianDensity m_phi hbar g_phi V_ext A grad_A S_t grad_S := by
+    unfold madelungHydrodynamicLagrangianDensity madelungAmplitudeLagrangianDensity
+    field_simp [hA_ne, hm_phi_ne]
+    ring
+  have h_cont :
+      madelungPhaseEulerLagrangeResidual (-dt_rho) (-div_rho_v) =
+        madelungContinuityResidual dt_rho div_rho_v := by
+    unfold madelungPhaseEulerLagrangeResidual madelungContinuityResidual
+    ring
+  have h_qhj :
+      madelungAmplitudeEulerLagrangeResidual m_phi hbar g_phi V_ext A laplacian_A S_t grad_S / (-2 * A) =
+        quantumHamiltonJacobiResidual m_phi hbar g_phi V_ext A laplacian_A S_t (grad_S / m_phi) := by
+    unfold madelungAmplitudeEulerLagrangeResidual madelungAmplitudePartialL
+      madelungAmplitudeGradFluxDiv quantumHamiltonJacobiResidual
+    field_simp [hA_ne, hm_phi_ne]
+    ring
+  have h_river_qhj :
+      quantumHamiltonJacobiResidual m_phi hbar 0 (m_phi * re.bernoulliPotential r) A 0 0 (re.velocity r) = 0 := by
+    unfold quantumHamiltonJacobiResidual RiverExterior.bernoulliPotential
+    ring
+  have h_one_sub_pos : 0 < 1 - s.betaSq := s.one_sub_betaSq_pos
+  have h_jam_pos : 0 < s.jammingFactor := s.jammingFactor_pos
+  have h_jam_ne : s.jammingFactor ≠ 0 := ne_of_gt h_jam_pos
+  have h_jam_sq : s.jammingFactor ^ 2 * (1 - s.betaSq) = 1 := by
+    dsimp [MovingSheath.jammingFactor]
+    rw [div_pow, one_pow, Real.sq_sqrt (le_of_lt h_one_sub_pos)]
+    exact div_mul_cancel₀ 1 (ne_of_gt h_one_sub_pos)
+  have h_res_jam : s.sheathCompressionResidual s.jammingFactor = 0 := by
+    unfold MovingSheath.sheathCompressionResidual
+    have h_div : s.jammingFactor * (1 - s.betaSq) = 1 / s.jammingFactor := by
+      rw [eq_div_iff h_jam_ne]
+      calc
+        s.jammingFactor * (1 - s.betaSq) * s.jammingFactor =
+          s.jammingFactor ^ 2 * (1 - s.betaSq) := by ring
+        _ = 1 := h_jam_sq
+    linarith
+  have h_exc_jam : s.sheathVariationalExcess restMass s.jammingFactor = 0 := by
+    unfold MovingSheath.sheathVariationalExcess
+    ring
+  have hc_pos : 0 < sub.c := sub.c_pos
+  have hc_ne : sub.c ≠ 0 := ne_of_gt hc_pos
+  have h_exc_nonneg : 0 ≤ s.sheathVariationalExcess restMass Lambda := by
+    unfold MovingSheath.sheathVariationalExcess
+    positivity
+  have hLambda_ne : Lambda ≠ 0 := ne_of_gt hLambda
+  have h_res_iff : s.sheathCompressionResidual Lambda = 0 ↔ Lambda = s.jammingFactor := by
+    constructor
+    · intro h_res
+      unfold MovingSheath.sheathCompressionResidual at h_res
+      have h_closure : Lambda ^ 2 * (1 - s.betaSq) = 1 := by
+        have h_eq : Lambda * (1 - s.betaSq) = 1 / Lambda := sub_eq_zero.mp h_res
+        have h_mul := congrArg (fun z => Lambda * z) h_eq
+        have h_rhs : Lambda * (1 / Lambda) = 1 := mul_one_div_cancel hLambda_ne
+        calc
+          Lambda ^ 2 * (1 - s.betaSq) = Lambda * (Lambda * (1 - s.betaSq)) := by ring
+          _ = Lambda * (1 / Lambda) := h_mul
+          _ = 1 := h_rhs
+      exact profile_closure_jamming_factor s Lambda hLambda h_closure
+    · intro h_eq
+      rw [h_eq]
+      exact h_res_jam
+  have h_ham_eq : s.dilatantHamiltonian restMass = s.jammingFactor * restMass * sub.c ^ 2 := by
+    unfold MovingSheath.dilatantHamiltonian MovingSheath.dilatantCanonicalMomentum
+      MovingSheath.dilatantLagrangian
+    have h_inv : 1 / s.jammingFactor = s.jammingFactor * (1 - s.betaSq) := by
+      rw [div_eq_iff h_jam_ne]
+      calc
+        1 = s.jammingFactor ^ 2 * (1 - s.betaSq) := h_jam_sq.symm
+        _ = s.jammingFactor * (1 - s.betaSq) * s.jammingFactor := by ring
+    calc
+      s.velocity * (s.jammingFactor * restMass * s.velocity) -
+          -(restMass * sub.c ^ 2) / s.jammingFactor
+        = s.jammingFactor * restMass * s.velocity ^ 2 +
+            restMass * sub.c ^ 2 * (1 / s.jammingFactor) := by ring
+      _ = s.jammingFactor * restMass * s.velocity ^ 2 +
+            restMass * sub.c ^ 2 * (s.jammingFactor * (1 - s.betaSq)) := by rw [h_inv]
+      _ = s.jammingFactor * restMass * sub.c ^ 2 *
+            (s.velocity ^ 2 / sub.c ^ 2 + (1 - s.betaSq)) := by
+            field_simp [hc_ne]
+      _ = s.jammingFactor * restMass * sub.c ^ 2 := by
+            dsimp [MovingSheath.betaSq]
+            ring
+  have h_ham_kin :
+      s.dilatantHamiltonian restMass = restMass * sub.c ^ 2 + s.kineticEnergy restMass := by
+    rw [h_ham_eq, (s.total_energy_eq restMass).symm]
+  have h_mass_shell :
+      (s.dilatantHamiltonian restMass) ^ 2 -
+          sub.c ^ 2 * (s.dilatantCanonicalMomentum restMass) ^ 2 =
+        (restMass * sub.c ^ 2) ^ 2 := by
+    rw [h_ham_eq]
+    unfold MovingSheath.dilatantCanonicalMomentum
+    calc
+      (s.jammingFactor * restMass * sub.c ^ 2) ^ 2 -
+          sub.c ^ 2 * (s.jammingFactor * restMass * s.velocity) ^ 2
+        = (restMass * sub.c ^ 2) ^ 2 *
+            (s.jammingFactor ^ 2 * (1 - s.velocity ^ 2 / sub.c ^ 2)) := by
+            field_simp [hc_ne]
+      _ = (restMass * sub.c ^ 2) ^ 2 * (s.jammingFactor ^ 2 * (1 - s.betaSq)) := by rfl
+      _ = (restMass * sub.c ^ 2) ^ 2 := by rw [h_jam_sq, mul_one]
+  have hm_ne : restMass ≠ 0 := ne_of_gt hm
+  have h_tau : s.actionProperTime restMass dt = dt / s.jammingFactor := by
+    unfold MovingSheath.actionProperTime MovingSheath.dilatantLagrangian
+    field_simp [hm_ne, hc_ne, h_jam_ne]
+  have h_mink :
+      sub.c ^ 2 * (s.actionProperTime restMass dt) ^ 2 =
+        sub.c ^ 2 * dt ^ 2 - (s.velocity * dt) ^ 2 :=
+    material_minkowski_interval s dt (s.actionProperTime restMass dt) h_tau
+  have h_lag_sq :
+      (s.dilatantLagrangian restMass / (-(restMass * sub.c ^ 2))) ^ 2 = 1 - s.betaSq := by
+    unfold MovingSheath.dilatantLagrangian
+    have h_mc_ne : -(restMass * sub.c ^ 2) ≠ 0 := neg_ne_zero.mpr (mul_ne_zero hm_ne (pow_ne_zero 2 hc_ne))
+    have h_quot : -(restMass * sub.c ^ 2) / s.jammingFactor / -(restMass * sub.c ^ 2) =
+        1 / s.jammingFactor := by
+      field_simp [h_mc_ne, h_jam_ne]
+    rw [h_quot, div_pow, one_pow]
+    dsimp [MovingSheath.jammingFactor]
+    rw [div_pow, one_pow, Real.sq_sqrt (le_of_lt h_one_sub_pos), one_div_one_div]
+  have h_mad := s.gr24TwistorMatrix_madelung_sector_identities d wavelength L Δℓ φ x
+  have h_lag_plucker :
+      (s.dilatantLagrangian restMass / (-(restMass * sub.c ^ 2))) ^ 2 =
+        Complex.normSq (complexPluckerSinkAmplitudeA M_sheath) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_sheath) := by
+    rw [h_lag_sq]
+    have h_prod :
+        Complex.normSq (complexPluckerSinkAmplitudeA M_sheath) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_sheath) =
+        1 - s.betaSq := by
+      dsimp [M_sheath]
+      rw [h_mad.1, h_mad.2.1]
+      dsimp [MovingSheath.beta, MovingSheath.betaSq]
+      ring
+    exact h_prod.symm
+  have h_bog_gt :
+      standardBogoliubovPhaseVelSq m_phi g0 rho0 hbar k <
+        dilatantBogoliubovPhaseVelSq m_phi g0 rho0 gamma_dil hbar k := by
+    unfold standardBogoliubovPhaseVelSq dilatantBogoliubovPhaseVelSq
+    have h_extra : 0 < (g0 * gamma_dil * k ^ 2 * rho0) / m_phi := by positivity
+    have h_split :
+        (g0 * (1 + gamma_dil * k ^ 2) * rho0) / m_phi =
+          (g0 * rho0) / m_phi + (g0 * gamma_dil * k ^ 2 * rho0) / m_phi := by
+      field_simp [hm_phi_ne]
+    linarith
+  exact ⟨h_norm_psi, h_symp, h_norm_psix, h_gp_eq_mad, h_hydro_eq_amp,
+    h_cont, h_qhj, h_river_qhj, h_res_jam, h_exc_jam, h_exc_nonneg,
+    h_res_iff, h_ham_eq, h_ham_kin, h_mass_shell, h_tau, h_mink,
+    h_lag_plucker, h_lag_sq, h_bog_gt⟩
+
+/-- Positive-definite Madelung amplitude-phase Hamiltonian density
+$$\mathcal{H}_{\mathrm{Mad}}(m_\phi, \hbar, g_\phi, V_{\mathrm{ext}}, A, \nabla A, \nabla S) = \pi_S\,\partial_t S - \mathcal{L}_{\mathrm{Mad}} = A^2\left(\frac{(\nabla S)^2}{2 m_\phi} + V_{\mathrm{ext}}\right) + \frac{g_\phi}{2}A^4 + \frac{\hbar^2}{2 m_\phi}(\nabla A)^2$$
+obtained by Legendre-transforming $\mathcal{L}_{\mathrm{Mad}}$ with respect to $\partial_t S$
+using $\pi_S = \partial\mathcal{L}_{\mathrm{Mad}}/\partial(\partial_t S) = -A^2 = -\rho$. -/
+@[blueprint "def:signals-ddf-madelung-amplitude-hamiltonian-density"
+  (title := "Madelung amplitude-phase Hamiltonian density H_Mad = π_S ∂_t S - L_Mad")
+  (statement := /-- Define $\operatorname{madelungAmplitudeHamiltonianDensity}(m_\phi, \hbar, g_\phi, V_{\mathrm{ext}}, A, \nabla A, \nabla S)
+    = A^2((\nabla S)^2/(2m_\phi) + V_{\mathrm{ext}}) + \frac{g_\phi}{2}A^4 + \frac{\hbar^2}{2m_\phi}(\nabla A)^2$. -/)]
+noncomputable def madelungAmplitudeHamiltonianDensity
+    (m_phi hbar g_phi V_ext A grad_A grad_S : ℝ) : ℝ :=
+  A ^ 2 * (grad_S ^ 2 / (2 * m_phi) + V_ext) +
+    (g_phi / 2) * A ^ 4 +
+    (hbar ^ 2 / (2 * m_phi)) * grad_A ^ 2
+
+/-- Hydrodynamic density-velocity Madelung Hamiltonian density
+$$\mathcal{H}_{\mathrm{Mad}}^\rho(m_\phi, \hbar, g_\phi, V_{\mathrm{ext}}, \rho, \nabla\rho, v_\phi) = \frac{1}{2}m_\phi\rho v_\phi^2 + V_{\mathrm{ext}}\rho + \frac{g_\phi}{2}\rho^2 + \frac{\hbar^2}{8 m_\phi}\frac{(\nabla\rho)^2}{\rho}.$$ -/
+@[blueprint "def:signals-ddf-madelung-hydrodynamic-hamiltonian-density"
+  (title := "Madelung hydrodynamic Hamiltonian density H_Mad^ρ(ρ, ∇ρ, v_ϕ)")
+  (statement := /-- Define $\operatorname{madelungHydrodynamicHamiltonianDensity}(m_\phi, \hbar, g_\phi, V_{\mathrm{ext}}, \rho, \nabla\rho, v_\phi)
+    = \frac{1}{2}m_\phi\rho v_\phi^2 + V_{\mathrm{ext}}\rho + \frac{g_\phi}{2}\rho^2 + \frac{\hbar^2}{8m_\phi}\frac{(\nabla\rho)^2}{\rho}$. -/)]
+noncomputable def madelungHydrodynamicHamiltonianDensity
+    (m_phi hbar g_phi V_ext rho grad_rho v_phi : ℝ) : ℝ :=
+  (1 / 2) * m_phi * rho * v_phi ^ 2 +
+    V_ext * rho +
+    (g_phi / 2) * rho ^ 2 +
+    (hbar ^ 2 / (8 * m_phi)) * (grad_rho ^ 2 / rho)
+
+/-- Compressible Madelung–Euler momentum equation residual
+$$\mathcal{R}_{\mathrm{Euler}} = \partial_t v_\phi + v_\phi\nabla v_\phi + \frac{1}{m_\phi}\bigl(\nabla V_{\mathrm{ext}} + g_\phi\nabla\rho + \nabla Q\bigr)$$
+obtained by taking the spatial gradient of the Quantum Hamilton–Jacobi (QHJ)
+equation and dividing by $m_\phi > 0$. -/
+@[blueprint "def:signals-ddf-madelung-euler-momentum-residual"
+  (title := "Compressible Madelung-Euler momentum residual ∂_t v_ϕ + v_ϕ ∇v_ϕ + (∇V_ext + g_ϕ ∇ρ + ∇Q)/m_ϕ")
+  (statement := /-- Define $\operatorname{madelungEulerMomentumResidual}(m_\phi, g_\phi, \partial_t v_\phi, v_\phi, \nabla v_\phi, \nabla V_{\mathrm{ext}}, \nabla\rho, \nabla Q)
+    = \partial_t v_\phi + v_\phi\nabla v_\phi + (\nabla V_{\mathrm{ext}} + g_\phi\nabla\rho + \nabla Q)/m_\phi$. -/)]
+noncomputable def madelungEulerMomentumResidual
+    (m_phi g_phi dt_v_phi v_phi grad_v_phi grad_V_ext grad_rho grad_Q : ℝ) : ℝ :=
+  dt_v_phi + v_phi * grad_v_phi + (grad_V_ext + g_phi * grad_rho + grad_Q) / m_phi
+
+/-- Core Bohm quantum-confinement potential
+$$Q_{\mathrm{STED}}(m_{\mathrm{carrier}}, \hbar, \lambda_{\mathrm{write}}, \mathrm{NA}, \zeta_{532}) = \frac{\hbar^2}{2 m_{\mathrm{carrier}}\,w_{\mathrm{STED}}^2(\lambda_{\mathrm{write}}, \mathrm{NA}, \zeta_{532})}$$
+of an isotropic 2D Gaussian nanolithography focal spot compressed by a $532\text{ nm}$
+helical doughnut STED depletion beam of saturation ratio $\zeta_{532} \ge 0$. -/
+@[blueprint "def:signals-ddf-sted-core-bohm-potential"
+  (title := "STED-depleted focal spot core Bohm quantum potential ℏ² / (2 m w_STED²)")
+  (statement := /-- Define $\operatorname{stedCoreBohmPotential}(m_{\mathrm{carrier}}, \hbar, \lambda_{\mathrm{write}}, \mathrm{NA}, \zeta_{532})
+    = \hbar^2 / (2 m_{\mathrm{carrier}}\,\operatorname{stedDepletedLinewidthSq}(\lambda_{\mathrm{write}}, \mathrm{NA}, \zeta_{532}))$. -/)]
+noncomputable def stedCoreBohmPotential
+    (m_carrier hbar lambda_write na sat_ratio : ℝ) : ℝ :=
+  hbar ^ 2 / (2 * m_carrier * stedDepletedLinewidthSq lambda_write na sat_ratio)
+
+/-- **Madelung Field Legendre Hamiltonian, QHJ-to-Euler Momentum Bridge, $\text{AdS}_5$/DDF Plücker Lapse, and $405\text{ nm}/532\text{ nm}$ STED Nanolithography Quantum-Confinement Theorem**:
+Resolves and connects four cross-domain structural bridges:
+1. **Field Legendre Transform & Positive-Definite Madelung Hamiltonian Density ($\mathcal{H}_{\mathrm{Mad}} \ge 0$)**:
+   - $\pi_S\,\partial_t S - \mathcal{L}_{\mathrm{Mad}}(A, \nabla A, \partial_t S, \nabla S) = \mathcal{H}_{\mathrm{Mad}}(A, \nabla A, \nabla S)$ (explaining why kinetic and potential terms appear with minus signs in $\mathcal{L}_{\mathrm{Mad}} = \pi_S\partial_t S - \mathcal{H}_{\mathrm{Mad}}$),
+   - $\mathcal{H}_{\mathrm{Mad}}^\rho(A^2, 2A\nabla A, \nabla S / m_\phi) = \mathcal{H}_{\mathrm{Mad}}(A, \nabla A, \nabla S)$, and
+   - $0 \le \mathcal{H}_{\mathrm{Mad}}(A, \nabla A, \nabla S)$ whenever $m_\phi > 0, V_{\mathrm{ext}} \ge 0, g_\phi \ge 0$,
+2. **Exact Gradient Bridge from Quantum Hamilton–Jacobi (QHJ) to Compressible Madelung–Euler Momentum**:
+   Dividing the spatial gradient of the QHJ equation by $m_\phi > 0$ (with $\nabla(\partial_t S) = m_\phi\partial_t v_\phi$ and $\nabla(\frac{1}{2}m_\phi v_\phi^2) = m_\phi v_\phi\nabla v_\phi$) yields $\operatorname{madelungEulerMomentumResidual}$ identically,
+3. **Unified Worldline Action, $Gr_{\mathbb{C}}(2,4)$ Plücker Product, and $\text{AdS}_5$ Planar Black-Brane Emblackening**:
+   For $0 < z < z_H$ and $\beta_{\text{AdS}_5} = (z / z_H)^2$, the uncrossed $Gr_{\mathbb{C}}(2,4)$ Plücker product of $M_{\text{AdS}_5} = \operatorname{ddfThermalGr24Matrix}(\beta_{\text{AdS}_5}, \theta)$ equals $1 - \beta_{\text{AdS}_5}^2 = \operatorname{adsPlanarBlackBraneEmblackening}(z, z_H, 4) > 0$, matching $(L_{\mathrm{DDF}}/(-mc^2))^2 = 1 - \beta_{\mathrm{DDF}}^2$ on $M_{\mathrm{sheath}}$,
+4. **Madelung Polar Wave Superposition & $532\text{ nm}$ STED Bohm Confinement in Carbon RISC-V Nanolithography**:
+   - In-phase two-spline Madelung density equals `twoTraceConstructiveSqueezePeak`:
+     $|\psi(A_1, \theta) + \psi(A_2, \theta)|^2 = (A_1 + A_2)^2 = \operatorname{twoTraceConstructiveSqueezePeak}(A_1, A_2)$,
+   - Quadrature ($\Delta\theta = \pi/2$) / orthogonal-flash Madelung density eliminates the $2 A_1 A_2$ interference cross-term:
+     $|\psi(A_1, \theta) + \psi(A_2, \theta + \pi/2)|^2 = A_1^2 + A_2^2 < \operatorname{twoTraceConstructiveSqueezePeak}(A_1, A_2)$, and
+   - $532\text{ nm}$ STED depletion ($\zeta_{532} > 0$) amplifies the core Bohm quantum potential of the focal write spot by $(1 + \zeta_{532})\times$ ($64\times$ at $\zeta_{532} = 63$). -/
+@[blueprint "thm:signals-ddf-madelung-hamiltonian-euler-ads-nanolithography-bridge"
+  (title := "Madelung Legendre Hamiltonian, QHJ-to-Euler momentum bridge, AdS_5 Plücker lapse, and STED nanolithography theorem")
+  (statement := /-- For $m_\phi, \hbar, A, A_1, A_2, \lambda_w, \mathrm{NA}, \zeta_{532} > 0$, $0 < z < z_H$, and $V_{\mathrm{ext}}, g_\phi \ge 0$:
+    (1) $\pi_S(A^2)\,\partial_t S - \mathcal{L}_{\mathrm{Mad}} = \mathcal{H}_{\mathrm{Mad}} = \mathcal{H}_{\mathrm{Mad}}^\rho(A^2, 2A\nabla A, \nabla S/m_\phi) \ge 0$,
+    (2) $((m_\phi\partial_t v_\phi) + (m_\phi v_\phi\nabla v_\phi) + \nabla V_{\mathrm{ext}} + g_\phi\nabla\rho + \nabla Q)/m_\phi = \operatorname{madelungEulerMomentumResidual}$,
+    (3) $|w_A^{\mathbb C}(M_{\text{AdS}_5})|^2 |w_B^{\mathbb C}(M_{\text{AdS}_5})|^2 = 1 - (z/z_H)^4 = \operatorname{adsPlanarBlackBraneEmblackening}(z, z_H, 4) > 0$, and
+    (4) $|\psi(A_1,\theta)+\psi(A_2,\theta)|^2 = \operatorname{twoTraceConstructiveSqueezePeak}(A_1, A_2)$,
+    $|\psi(A_1,\theta)+\psi(A_2,\theta+\pi/2)|^2 = A_1^2 + A_2^2 < \operatorname{twoTraceConstructiveSqueezePeak}(A_1, A_2)$, and
+    $\operatorname{stedCoreBohmPotential}(m_\phi, \hbar, \lambda_w, \mathrm{NA}, \zeta_{532}) = (1 + \zeta_{532})\operatorname{stedCoreBohmPotential}(m_\phi, \hbar, \lambda_w, \mathrm{NA}, 0)$. -/)
+  (proof := /-- Expand the Legendre transform and hydrodynamic density relations by `field_simp` and `ring`,
+    evaluate the $\pi/2$ phase-shifted polar wavefunction using $\cos(\theta+\pi/2)=-\sin\theta$ and $\sin(\theta+\pi/2)=\cos\theta$,
+    and simplify `stedCoreBohmPotential` over `stedDepletedLinewidthSq`. -/)]
+theorem madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities
+    (m_phi hbar g_phi V_ext A grad_A S_t grad_S
+      dt_v_phi v_phi grad_v_phi grad_V_ext grad_rho grad_Q
+      z z_H A1 A2 lambda_w na sat_ratio θ : ℝ)
+    (hm_phi : 0 < m_phi) (hhbar : 0 < hbar) (hA : 0 < A)
+    (hV_nonneg : 0 ≤ V_ext) (hg_nonneg : 0 ≤ g_phi)
+    (hz_pos : 0 < z) (hz_lt : z < z_H)
+    (hA1 : 0 < A1) (hA2 : 0 < A2)
+    (hlam : 0 < lambda_w) (hna : 0 < na) (hsat : 0 < sat_ratio) :
+    let M_ads5 := ddfThermalGr24Matrix ((z / z_H) ^ 2) θ
+    let ψ1 := madelungPolarWavefunction A1 θ
+    let ψ2_inPhase := madelungPolarWavefunction A2 θ
+    let ψ2_quad := madelungPolarWavefunction A2 (θ + Real.pi / 2)
+    madelungPhaseCanonicalMomentum (A ^ 2) * S_t -
+        madelungAmplitudeLagrangianDensity m_phi hbar g_phi V_ext A grad_A S_t grad_S =
+      madelungAmplitudeHamiltonianDensity m_phi hbar g_phi V_ext A grad_A grad_S ∧
+      madelungHydrodynamicHamiltonianDensity m_phi hbar g_phi V_ext (A ^ 2) (2 * A * grad_A) (grad_S / m_phi) =
+        madelungAmplitudeHamiltonianDensity m_phi hbar g_phi V_ext A grad_A grad_S ∧
+      0 ≤ madelungAmplitudeHamiltonianDensity m_phi hbar g_phi V_ext A grad_A grad_S ∧
+      ((m_phi * dt_v_phi) + (m_phi * v_phi * grad_v_phi) + grad_V_ext + g_phi * grad_rho + grad_Q) / m_phi =
+        madelungEulerMomentumResidual m_phi g_phi dt_v_phi v_phi grad_v_phi grad_V_ext grad_rho grad_Q ∧
+      Complex.normSq (complexPluckerSinkAmplitudeA M_ads5) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_ads5) =
+        adsPlanarBlackBraneEmblackening z z_H 4 ∧
+      0 < adsPlanarBlackBraneEmblackening z z_H 4 ∧
+      Complex.normSq (ψ1 + ψ2_inPhase) = twoTraceConstructiveSqueezePeak A1 A2 ∧
+      Complex.normSq (ψ1 + ψ2_quad) = A1 ^ 2 + A2 ^ 2 ∧
+      Complex.normSq (ψ1 + ψ2_quad) < Complex.normSq (ψ1 + ψ2_inPhase) ∧
+      stedCoreBohmPotential m_phi hbar lambda_w na sat_ratio =
+        (1 + sat_ratio) * stedCoreBohmPotential m_phi hbar lambda_w na 0 ∧
+      stedCoreBohmPotential m_phi hbar 405 (7 / 5) 63 =
+        64 * stedCoreBohmPotential m_phi hbar 405 (7 / 5) 0 := by
+  intro M_ads5 ψ1 ψ2_inPhase ψ2_quad
+  have hm_ne : m_phi ≠ 0 := ne_of_gt hm_phi
+  have hA_ne : A ≠ 0 := ne_of_gt hA
+  have h_leg :
+      madelungPhaseCanonicalMomentum (A ^ 2) * S_t -
+          madelungAmplitudeLagrangianDensity m_phi hbar g_phi V_ext A grad_A S_t grad_S =
+        madelungAmplitudeHamiltonianDensity m_phi hbar g_phi V_ext A grad_A grad_S := by
+    unfold madelungPhaseCanonicalMomentum madelungAmplitudeLagrangianDensity
+      madelungAmplitudeHamiltonianDensity
+    ring
+  have h_hydro_ham :
+      madelungHydrodynamicHamiltonianDensity m_phi hbar g_phi V_ext (A ^ 2) (2 * A * grad_A) (grad_S / m_phi) =
+        madelungAmplitudeHamiltonianDensity m_phi hbar g_phi V_ext A grad_A grad_S := by
+    unfold madelungHydrodynamicHamiltonianDensity madelungAmplitudeHamiltonianDensity
+    field_simp [hm_ne, hA_ne]
+    ring
+  have h_ham_nonneg :
+      0 ≤ madelungAmplitudeHamiltonianDensity m_phi hbar g_phi V_ext A grad_A grad_S := by
+    unfold madelungAmplitudeHamiltonianDensity
+    positivity
+  have h_euler :
+      ((m_phi * dt_v_phi) + (m_phi * v_phi * grad_v_phi) + grad_V_ext + g_phi * grad_rho + grad_Q) / m_phi =
+        madelungEulerMomentumResidual m_phi g_phi dt_v_phi v_phi grad_v_phi grad_V_ext grad_rho grad_Q := by
+    unfold madelungEulerMomentumResidual
+    field_simp [hm_ne]
+    ring
+  have hzH_pos : 0 < z_H := lt_trans hz_pos hz_lt
+  have h_ratio_pos : 0 < z / z_H := div_pos hz_pos hzH_pos
+  have h_ratio_lt1 : z / z_H < 1 := (div_lt_one hzH_pos).mpr hz_lt
+  have h_beta_ads_nonneg : 0 ≤ (z / z_H) ^ 2 := sq_nonneg (z / z_H)
+  have h_beta_ads_lt1 : (z / z_H) ^ 2 < 1 := by
+    nlinarith [h_ratio_pos, h_ratio_lt1]
+  have h1p : 0 ≤ 1 + (z / z_H) ^ 2 := by positivity
+  have h1m : 0 ≤ 1 - (z / z_H) ^ 2 := by linarith
+  have h_minors := complexGr24ChannelMatrix_minors
+    (↑(Real.sqrt (1 + (z / z_H) ^ 2) * Real.cos θ) +
+      Complex.I * ↑(Real.sqrt (1 + (z / z_H) ^ 2) * Real.sin θ))
+    (↑(Real.sqrt (1 - (z / z_H) ^ 2) * Real.cos θ) -
+      Complex.I * ↑(Real.sqrt (1 - (z / z_H) ^ 2) * Real.sin θ))
+  have h_wA : Complex.normSq (complexPluckerSinkAmplitudeA M_ads5) = 1 + (z / z_H) ^ 2 := by
+    dsimp [M_ads5, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeA]
+    rw [h_minors.1]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 + (z / z_H) ^ 2)) ^ 2 * (Real.cos θ ^ 2 + Real.sin θ ^ 2) := by ring
+      _ = 1 + (z / z_H) ^ 2 := by rw [Real.sq_sqrt h1p, Real.cos_sq_add_sin_sq, mul_one]
+  have h_wB : Complex.normSq (complexPluckerSinkAmplitudeB M_ads5) = 1 - (z / z_H) ^ 2 := by
+    dsimp [M_ads5, ddfThermalGr24Matrix, complexPluckerSinkAmplitudeB]
+    rw [h_minors.2.1]
+    simp only [Complex.normSq_apply, Complex.sub_re, Complex.sub_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (Real.sqrt (1 - (z / z_H) ^ 2)) ^ 2 * (Real.cos θ ^ 2 + Real.sin θ ^ 2) := by ring
+      _ = 1 - (z / z_H) ^ 2 := by rw [Real.sq_sqrt h1m, Real.cos_sq_add_sin_sq, mul_one]
+  have h_ads_lapse :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_ads5) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_ads5) =
+        adsPlanarBlackBraneEmblackening z z_H 4 := by
+    rw [h_wA, h_wB]
+    unfold adsPlanarBlackBraneEmblackening
+    ring
+  have h_ads_pos : 0 < adsPlanarBlackBraneEmblackening z z_H 4 := by
+    have h_prod_pos : 0 < (1 + (z / z_H) ^ 2) * (1 - (z / z_H) ^ 2) := by
+      apply mul_pos <;> linarith [h_beta_ads_nonneg, h_beta_ads_lt1]
+    unfold adsPlanarBlackBraneEmblackening
+    nlinarith
+  have h_trig : Real.cos θ ^ 2 + Real.sin θ ^ 2 = 1 := Real.cos_sq_add_sin_sq θ
+  have h_in_phase : Complex.normSq (ψ1 + ψ2_inPhase) = twoTraceConstructiveSqueezePeak A1 A2 := by
+    dsimp [ψ1, ψ2_inPhase, madelungPolarWavefunction, twoTraceConstructiveSqueezePeak]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (A1 + A2) ^ 2 * (Real.cos θ ^ 2 + Real.sin θ ^ 2) := by ring
+      _ = (A1 + A2) ^ 2 := by rw [h_trig, mul_one]
+  have h_quad : Complex.normSq (ψ1 + ψ2_quad) = A1 ^ 2 + A2 ^ 2 := by
+    dsimp [ψ1, ψ2_quad, madelungPolarWavefunction]
+    rw [Real.cos_add_pi_div_two, Real.sin_add_pi_div_two]
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+      Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    calc
+      _ = (A1 ^ 2 + A2 ^ 2) * (Real.cos θ ^ 2 + Real.sin θ ^ 2) := by ring
+      _ = A1 ^ 2 + A2 ^ 2 := by rw [h_trig, mul_one]
+  have h_quad_lt : Complex.normSq (ψ1 + ψ2_quad) < Complex.normSq (ψ1 + ψ2_inPhase) := by
+    rw [h_quad, h_in_phase]
+    unfold twoTraceConstructiveSqueezePeak
+    have h_cross : 0 < 2 * A1 * A2 := by positivity
+    nlinarith
+  have hlam_ne : lambda_w ≠ 0 := ne_of_gt hlam
+  have hna_ne : na ≠ 0 := ne_of_gt hna
+  have h1sat_ne : 1 + sat_ratio ≠ 0 := by linarith
+  have h_sted_bohm :
+      stedCoreBohmPotential m_phi hbar lambda_w na sat_ratio =
+        (1 + sat_ratio) * stedCoreBohmPotential m_phi hbar lambda_w na 0 := by
+    unfold stedCoreBohmPotential stedDepletedLinewidthSq
+    field_simp [hm_ne, hlam_ne, hna_ne, h1sat_ne]
+    ring
+  have h_sted_64 :
+      stedCoreBohmPotential m_phi hbar 405 (7 / 5) 63 =
+        64 * stedCoreBohmPotential m_phi hbar 405 (7 / 5) 0 := by
+    have h63 :=
+      stedCoreBohmPotential m_phi hbar 405 (7 / 5) 63
+    unfold stedCoreBohmPotential stedDepletedLinewidthSq
+    field_simp [hm_ne]
+    ring
+  exact ⟨h_leg, h_hydro_ham, h_ham_nonneg, h_euler, h_ads_lapse, h_ads_pos,
+    h_in_phase, h_quad, h_quad_lt, h_sted_bohm, h_sted_64⟩
+
+/-! ## Gravitational Waves With DDF: Dispersed-Phase ($\varphi$) Strain & Luminosity Decomposition, GPE Vortex Secondary Scattering, Kelvin-Wave Tail Damping, TT vs. Jammed Tensor Splats, and 4D Schur-Complement Conditioning
+
+Formalizes the quantum-hydrodynamic extensions of quadrupole gravitational-wave
+generation and propagation inside a `DDFSubstrate` (`data/chats/Review-Pop-III-GW-Remnants.md`,
+lines 389–855; `data/chats/SQGDDF-Explanation-of-Wave-Delays.md`, lines 1–115),
+contrasted directly against the flat-space QED/gauge double-copy model in `Signals.QEDGravity`:
+
+1. **DDF Acoustic-Horizon & Dispersed-Phase ($\varphi$) Strain and Luminosity Decomposition**:
+   Using $c^2 = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1}$ (`DDFSubstrate.c_sq`),
+   the quadrupole strain amplitude $h_0$ and 2.5PN Peters–Mathews luminosity $P_{\mathrm{GW}}$
+   decompose into powers of the dispersed-phase jamming density $\varrho_{\max}^\varphi$
+   and minimum compressibility $j_{\min}^\varphi$:
+   $$h_0^{\mathrm{DDF}} = \frac{r_{H,1}\,r_{H,2}}{R\,a} = \frac{4 G_\phi^2 M m_2 (\varrho_{\max}^\varphi j_{\min}^\varphi)^2}{R\,a}, \qquad
+   (P_{\mathrm{GW}}^{\mathrm{DDF}})^2 = \left(\frac{32}{5}\frac{G_\phi^4 M^2 m_2^2(M+m_2)}{a^5}\right)^2 (\varrho_{\max}^\varphi j_{\min}^\varphi)^5\,\frac{P_{\mathrm{PM}}(e)^2}{\bigl(|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2\bigr)^7}.$$
+2. **Breakdown of Huygens' Principle via GPE Vortex Density-Gradient Scattering**:
+   Around a quantized GPE vortex of healing length $\xi = \hbar / \sqrt{2 m_\phi g_0 \rho_0}$,
+   the radial condensate density $\rho_{\mathrm{vortex}}(r) = \rho_0 \frac{r^2}{r^2 + \xi^2}$
+   vanishes at the core ($r = 0$), reaches $\rho_0 / 2$ at $r = \xi$, and creates a
+   strictly positive acoustic refractive-index gradient $V_{\mathrm{scat}}(r) = \frac{2\rho_0\xi^2 r}{(r^2+\xi^2)^2} > 0$
+   for all $r > 0$, continuously generating secondary Huygens wavelets (gravitational tails).
+3. **Strain-Thickened Dilatant Kelvin-Wave Tail Damping**:
+   High-wavenumber modes experience enhanced damping $\Gamma_{\mathrm{DDF}}(k) = \alpha k^2(1 + \gamma_{\mathrm{dil}} k^2) > \alpha k^2 = \Gamma_{\mathrm{Newton}}(k)$
+   via the $+\alpha\gamma_{\mathrm{dil}} k^4 > 0$ shear-thickening term, filtering out
+   short-wavelength components and leaving low-$k$ modes as the late-time power-law tail.
+4. **2D Symplectic Transverse-Traceless (TT) Wave Splat vs. DDF Jamming Contraction & 4D Schur Conditioning**:
+   A pure TT wave ($\sigma_{1,2} = \sigma_0 e^{\pm h_+/2}$) preserves $\det\Sigma_{\mathrm{TT}} = \sigma_0^4$
+   and $\mathcal{N}(\Sigma_{\mathrm{TT}}) = (2\pi\sigma_0^2)^{-1}$, whereas DDF longitudinal
+   sheath jamming contracts $\det\Sigma_{\mathrm{DDF}} = \sigma_0^4\gamma_\varphi(v)^{-2} < \sigma_0^4$ ($v > 0$)
+   and 4D Schur-complement conditioning $\Sigma_{xx} - \Sigma_{xt}(\nu(\sigma)\Sigma_{tt}^{-1})\Sigma_{tx}$
+   with dilatant viscosity $\nu(\sigma) = \mu_0(1 + \sigma^2)$ strictly narrows the spatial slice variance.
+-/
+
+/-- Characteristic quadrupole gravitational-wave strain amplitude around `re : RiverExterior sub`
+for a companion mass $m_2$ on `orb : PlanetaryOrbit` at detector distance $R$:
+$h_0^{\mathrm{DDF}} = \frac{4 G_\phi^2 M m_2}{c^4 R a}$. -/
+@[blueprint "def:signals-ddf-gw-quadrupole-strain-amplitude"
+  (title := "DDF RiverExterior quadrupole GW strain amplitude h_0^DDF = 4 G_ϕ² M m₂ / (c⁴ R a)")
+  (statement := /-- For \texttt{re : RiverExterior sub}, \texttt{orb : PlanetaryOrbit},
+    companion mass $m_2$, and detector distance $R$, define
+    $h_0^{\mathrm{DDF}} = \mathrm{orb}.\mathrm{quadrupoleStrainAmplitudePM}(re.G_\phi,re.\mathrm{sourceMass},m_2,sub.c,R)$. -/)]
+noncomputable def RiverExterior.quadrupoleStrainAmplitude {sub : DDFSubstrate}
+    (re : RiverExterior sub) (orb : PlanetaryOrbit) (m2 R : ℝ) : ℝ :=
+  orb.quadrupoleStrainAmplitudePM re.G_phi re.sourceMass m2 sub.c R
+
+/-- Peters–Mathews 2.5PN gravitational-wave luminosity around `re : RiverExterior sub`
+for a companion mass $m_2$ on `orb : PlanetaryOrbit`. -/
+@[blueprint "def:signals-ddf-gw-peters-mathews-luminosity"
+  (title := "DDF RiverExterior 2.5PN Peters-Mathews GW luminosity P_GW^DDF")
+  (statement := /-- For \texttt{re : RiverExterior sub}, \texttt{orb : PlanetaryOrbit}, and
+    companion mass $m_2$, define
+    $P_{\mathrm{GW}}^{\mathrm{DDF}} = \mathrm{orb}.\mathrm{petersMathewsLuminosityPM}(re.G_\phi,re.\mathrm{sourceMass},m_2,sub.c)$. -/)]
+noncomputable def RiverExterior.petersMathewsLuminosity {sub : DDFSubstrate}
+    (re : RiverExterior sub) (orb : PlanetaryOrbit) (m2 : ℝ) : ℝ :=
+  orb.petersMathewsLuminosityPM re.G_phi re.sourceMass m2 sub.c
+
+/-- Gross–Pitaevskii (GPE) superfluid vortex healing length
+$\xi(\hbar, m_\phi, g_0, \rho_0) = \frac{\hbar}{\sqrt{2 m_\phi g_0 \rho_0}}$
+(`Review-Pop-III-GW-Remnants.md`, lines 730–736). -/
+@[blueprint "def:signals-ddf-gpe-vortex-healing-length"
+  (title := "GPE superfluid vortex healing length ξ = ℏ / √(2 m_ϕ g_0 ρ_0)")
+  (statement := /-- Define $\operatorname{gpeVortexHealingLength}(\hbar,m_\phi,g_0,\rho_0)
+    = \hbar / \sqrt{2 m_\phi g_0 \rho_0}$. -/)]
+noncomputable def gpeVortexHealingLength (hbar m_phi g0 rho0 : ℝ) : ℝ :=
+  hbar / Real.sqrt (2 * m_phi * g0 * rho0)
+
+/-- Radial condensate density profile
+$\rho_{\mathrm{vortex}}(\rho_0, \xi, r) = \rho_0\,\frac{r^2}{r^2 + \xi^2}$
+of a quantized GPE vortex core (`Review-Pop-III-GW-Remnants.md`, lines 738–743). -/
+@[blueprint "def:signals-ddf-gpe-vortex-density-profile"
+  (title := "GPE vortex radial condensate density profile ρ(r) = ρ_0 r² / (r² + ξ²)")
+  (statement := /-- Define $\operatorname{gpeVortexDensityProfile}(\rho_0,\xi,r)
+    = \rho_0\frac{r^2}{r^2+\xi^2}$. -/)]
+noncomputable def gpeVortexDensityProfile (rho0 xi r : ℝ) : ℝ :=
+  rho0 * (r ^ 2 / (r ^ 2 + xi ^ 2))
+
+/-- Acoustic refractive-index gradient scattering potential
+$V_{\mathrm{scat}}(\rho_0, \xi, r) = \frac{d\rho_{\mathrm{vortex}}}{dr} = \frac{2\rho_0\xi^2 r}{(r^2 + \xi^2)^2}$
+responsible for continuous secondary Huygens wavelet backscattering (gravitational tails)
+around a GPE vortex core (`Review-Pop-III-GW-Remnants.md`, lines 745–750). -/
+@[blueprint "def:signals-ddf-gpe-vortex-scattering-potential"
+  (title := "GPE vortex acoustic density-gradient scattering potential V_scat(r) = 2 ρ_0 ξ² r / (r² + ξ²)²")
+  (statement := /-- Define $\operatorname{gpeVortexScatteringPotential}(\rho_0,\xi,r)
+    = \frac{2\rho_0\xi^2 r}{(r^2+\xi^2)^2}$. -/)]
+noncomputable def gpeVortexScatteringPotential (rho0 xi r : ℝ) : ℝ :=
+  (2 * rho0 * xi ^ 2 * r) / ((r ^ 2 + xi ^ 2) ^ 2)
+
+/-- Standard Newtonian viscous acoustic damping rate $\Gamma_{\mathrm{Newton}}(\alpha, k) = \alpha k^2$. -/
+@[blueprint "def:signals-ddf-newtonian-acoustic-damping"
+  (title := "Standard Newtonian acoustic damping rate Γ_Newton(α, k) = α k²")
+  (statement := /-- Define $\operatorname{newtonianAcousticDampingRate}(\alpha,k) = \alpha k^2$. -/)]
+def newtonianAcousticDampingRate (alpha k : ℝ) : ℝ :=
+  alpha * k ^ 2
+
+/-- Strain-thickened dilatant Kelvin-wave / acoustic tail damping rate
+$\Gamma_{\mathrm{DDF}}(\alpha, \gamma_{\mathrm{dil}}, k) = \alpha k^2(1 + \gamma_{\mathrm{dil}} k^2)$
+(`Review-Pop-III-GW-Remnants.md`, lines 825–845). -/
+@[blueprint "def:signals-ddf-dilatant-kelvin-tail-damping"
+  (title := "Strain-thickened dilatant Kelvin-wave tail damping rate Γ_DDF = α k²(1 + γ_dil k²)")
+  (statement := /-- Define $\operatorname{dilatantKelvinTailDampingRate}(\alpha,\gamma_{\mathrm{dil}},k)
+    = \alpha k^2(1 + \gamma_{\mathrm{dil}} k^2)$. -/)]
+def dilatantKelvinTailDampingRate (alpha gamma_dil k : ℝ) : ℝ :=
+  alpha * k ^ 2 * (1 + gamma_dil * k ^ 2)
+
+/-- **2D Symplectic Transverse-Traceless (TT) Gravitational-Wave Tensor Gaussian Splat**:
+Under a pure transverse-traceless $+$-polarized strain $h_+ \in \mathbb{R}$ (without DDF
+compressive jamming), the two transverse principal widths deform symplectically as
+$\sigma_1 = \sigma_0 e^{h_+ / 2}$ and $\sigma_2 = \sigma_0 e^{-h_+ / 2}$. -/
+@[blueprint "def:signals-ddf-tt-gravitational-wave-splat"
+  (title := "Symplectic transverse-traceless (TT) gravitational-wave 2D Tensor Gaussian Splat")
+  (statement := /-- For base width $\sigma_0>0$, weight $w\ge 0$, and TT strain $h_+\in\mathbb R$,
+    construct a 2D tensor Gaussian splat with $\sigma_1=\sigma_0 e^{h_+/2}$ and
+    $\sigma_2=\sigma_0 e^{-h_+/2}$. -/)]
+noncomputable def NormedTensorGaussianSplat2D.ttGravitationalWaveSplat
+    (centerX centerY weight sigma0 hPlus : ℝ)
+    (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0) (orientationAngle : ℝ) :
+    NormedTensorGaussianSplat2D :=
+  { centerX := centerX
+    centerY := centerY
+    weight := weight
+    weight_nonneg := hw
+    sigma1 := sigma0 * Real.exp (hPlus / 2)
+    sigma1_pos := mul_pos h_sigma0 (Real.exp_pos _)
+    sigma2 := sigma0 * Real.exp (- (hPlus / 2))
+    sigma2_pos := mul_pos h_sigma0 (Real.exp_pos _)
+    orientationAngle := orientationAngle }
+
+/-- **3D Symplectic Transverse-Traceless (TT) Gravitational-Wave Tensor Gaussian Splat (`NormedTensorGaussianSplat3D`, Without DDF)**:
+Models a 3D gravitational-wave packet with two symplectically deformed transverse
+polarization axes ($\sigma_1 = \sigma_0 e^{h_+ / 2}$, $\sigma_2 = \sigma_0 e^{-h_+ / 2}$)
+and an uncontracted longitudinal wavepacket axis ($\sigma_3 = \sigma_{z,0} > 0$, since
+$h_{zz}^{\mathrm{TT}} = 0$). Its orthographic 2D projection onto the transverse
+interferometer plane is `NormedTensorGaussianSplat2D.ttGravitationalWaveSplat`. -/
+@[blueprint "def:signals-ddf-tt-gravitational-wave-splat3d"
+  (title := "3D symplectic transverse-traceless (TT) gravitational-wave NormedTensorGaussianSplat3D")
+  (statement := /-- For transverse base width $\sigma_0>0$, longitudinal width $\sigma_{z,0}>0$,
+    weight $w\ge 0$, and TT strain $h_+\in\mathbb R$, construct a 3D tensor Gaussian splat
+    with $\sigma_1=\sigma_0 e^{h_+/2}$, $\sigma_2=\sigma_0 e^{-h_+/2}$, and $\sigma_3=\sigma_{z,0}$. -/)]
+noncomputable def NormedTensorGaussianSplat3D.ttGravitationalWaveSplat3D
+    (centerX centerY centerZ weight sigma0 sigmaZ0 hPlus : ℝ)
+    (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0) (h_sigmaZ0 : 0 < sigmaZ0)
+    (orientationAngle pitchAngle : ℝ) :
+    NormedTensorGaussianSplat3D :=
+  { centerX := centerX
+    centerY := centerY
+    centerZ := centerZ
+    weight := weight
+    weight_nonneg := hw
+    sigma1 := sigma0 * Real.exp (hPlus / 2)
+    sigma1_pos := mul_pos h_sigma0 (Real.exp_pos _)
+    sigma2 := sigma0 * Real.exp (- (hPlus / 2))
+    sigma2_pos := mul_pos h_sigma0 (Real.exp_pos _)
+    sigma3 := sigmaZ0
+    sigma3_pos := h_sigmaZ0
+    orientationAngle := orientationAngle
+    pitchAngle := pitchAngle }
+
+/-- **3D DDF Shear-Jammed Gravitational-Wave Tensor Gaussian Splat (`NormedTensorGaussianSplat3D`, With DDF)**:
+Models a 3D gravitational-wave packet propagating through a DDF `MovingSheath` $s$,
+combining the two transverse TT polarization axes ($\sigma_1 = \sigma_0 e^{h_+ / 2}$,
+$\sigma_2 = \sigma_0 e^{-h_+ / 2}$) with longitudinal DDF jamming contraction along the
+3rd propagation axis ($\sigma_3 = \sigma_{z,0}\,\mathcal{V}(s) = \sigma_{z,0}\,\gamma_\varphi(v)^{-1}$). -/
+@[blueprint "def:signals-ddf-sheath-gravitational-wave-splat3d"
+  (title := "3D DDF shear-jammed gravitational-wave NormedTensorGaussianSplat3D")
+  (statement := /-- For a subluminal sheath $s$, transverse width $\sigma_0>0$, longitudinal width
+    $\sigma_{z,0}>0$, weight $w\ge 0$, and TT strain $h_+\in\mathbb R$, construct a 3D tensor
+    Gaussian splat with $\sigma_1=\sigma_0 e^{h_+/2}$, $\sigma_2=\sigma_0 e^{-h_+/2}$, and
+    $\sigma_3=\sigma_{z,0}\,\mathcal{V}(s)=\sigma_{z,0}\,\gamma_\varphi(v)^{-1}$. -/)]
+noncomputable def MovingSheath.ddfGravitationalWaveSplat3D {sub : DDFSubstrate}
+    (s : MovingSheath sub) (centerX centerY centerZ weight sigma0 sigmaZ0 hPlus : ℝ)
+    (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0) (h_sigmaZ0 : 0 < sigmaZ0)
+    (orientationAngle pitchAngle : ℝ) :
+    NormedTensorGaussianSplat3D :=
+  { centerX := centerX
+    centerY := centerY
+    centerZ := centerZ
+    weight := weight
+    weight_nonneg := hw
+    sigma1 := sigma0 * Real.exp (hPlus / 2)
+    sigma1_pos := mul_pos h_sigma0 (Real.exp_pos _)
+    sigma2 := sigma0 * Real.exp (- (hPlus / 2))
+    sigma2_pos := mul_pos h_sigma0 (Real.exp_pos _)
+    sigma3 := sigmaZ0 * s.coherenceVisibility
+    sigma3_pos := mul_pos h_sigmaZ0 (Real.sqrt_pos.mpr s.one_sub_betaSq_pos)
+    orientationAngle := orientationAngle
+    pitchAngle := pitchAngle }
+
+/-- **3D Complex $Gr_{\mathbb{C}}(3,6)$ Planetary Orbit Normed Tensor Gaussian Splat (`NormedTensorGaussianSplat3D`)**:
+Lifts `PlanetaryOrbit.gr24TensorSplat` into 3D space with in-plane aphelion/perihelion
+channel widths $\sigma_1 = \sigma_0\sqrt{1+e}$, $\sigma_2 = \sigma_0\sqrt{1-e}$,
+vertical thickness $\sigma_3 = \sigma_{z,0} > 0$, perihelion longitude `varpiAngle`,
+and orbital inclination `inclinationAngle`. -/
+@[blueprint "def:signals-ddf-planetary-gr36-tensor-splat3d"
+  (title := "3D Gr_C(3,6) planetary orbit NormedTensorGaussianSplat3D")
+  (statement := /-- For \texttt{orb : PlanetaryOrbit}, $\sigma_0>0$, $\sigma_{z,0}>0$, and $w\ge 0$,
+    construct a 3D tensor Gaussian splat with $\sigma_1=\sigma_0\sqrt{1+e}$,
+    $\sigma_2=\sigma_0\sqrt{1-e}$, and $\sigma_3=\sigma_{z,0}$. -/)]
+noncomputable def _root_.Signals.QEDGravity.PlanetaryOrbit.gr36TensorSplat3D
+    (orb : PlanetaryOrbit) (centerX centerY centerZ weight sigma0 sigmaZ0 : ℝ)
+    (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0) (h_sigmaZ0 : 0 < sigmaZ0)
+    (varpiAngle inclinationAngle : ℝ) :
+    NormedTensorGaussianSplat3D :=
+  { centerX := centerX
+    centerY := centerY
+    centerZ := centerZ
+    weight := weight
+    weight_nonneg := hw
+    sigma1 := sigma0 * Real.sqrt (1 + orb.eccentricity)
+    sigma1_pos := mul_pos h_sigma0 (Real.sqrt_pos.mpr (by
+      have := orb.eccentricity_nonneg; linarith))
+    sigma2 := sigma0 * Real.sqrt (1 - orb.eccentricity)
+    sigma2_pos := mul_pos h_sigma0 (Real.sqrt_pos.mpr (by
+      have := orb.eccentricity_lt_one; linarith))
+    sigma3 := sigmaZ0
+    sigma3_pos := h_sigmaZ0
+    orientationAngle := varpiAngle
+    pitchAngle := inclinationAngle }
+
+alias PlanetaryOrbit.gr36TensorSplat3D :=
+  _root_.Signals.QEDGravity.PlanetaryOrbit.gr36TensorSplat3D
+
+/-- Shear-thickening dilatant viscosity modifier
+$\nu(\mu_0, \sigma) = \mu_0(1 + \sigma^2)$ under local gravitational-wave shear strain $\sigma$
+(`Review-Pop-III-GW-Remnants.md`, lines 555–560). -/
+@[blueprint "def:signals-ddf-dilatant-viscosity-modifier"
+  (title := "Dilatant shear-thickening viscosity modifier ν(μ_0, σ) = μ_0(1 + σ²)")
+  (statement := /-- Define $\operatorname{dilatantViscosityModifier}(\mu_0,\sigma) = \mu_0(1+\sigma^2)$. -/)]
+def dilatantViscosityModifier (mu0 strain : ℝ) : ℝ :=
+  mu0 * (1 + strain ^ 2)
+
+/-- 1D / principal-axis Schur-complement conditioned spatial variance
+$\Sigma_{xx|t}(\Sigma_{xx}, \Sigma_{xt}, \Sigma_{tt}^{-1}, \nu) = \Sigma_{xx} - \nu\,\Sigma_{tt}^{-1}\,\Sigma_{xt}^2$
+for a 4D spacetime tensor Gaussian splat conditioned on a temporal twistor slice
+with dilatant viscosity modifier $\nu$ (`Review-Pop-III-GW-Remnants.md`, lines 569–583). -/
+@[blueprint "def:signals-ddf-schur-conditioned-spatial-variance1d"
+  (title := "Schur-complement conditioned spatial variance Σ_xx - ν Σ_tt⁻¹ Σ_xt²")
+  (statement := /-- Define $\operatorname{schurConditionedSpatialVariance1D}(\Sigma_{xx},\Sigma_{xt},\Sigma_{tt}^{-1},\nu)
+    = \Sigma_{xx} - \nu\,\Sigma_{tt}^{-1}\,\Sigma_{xt}^2$. -/)]
+def schurConditionedSpatialVariance1D (sigma_xx sigma_xt inv_sigma_tt nu : ℝ) : ℝ :=
+  sigma_xx - nu * inv_sigma_tt * sigma_xt ^ 2
+
+/-- 3D spatial covariance matrix of a 4D spacetime Gaussian wavepacket conditioned on
+a temporal twistor slice via the dilatant Schur complement
+$\Sigma_{xx|t}^{\mathrm{DDF}}(\nu) = \Sigma_{xx} - \Sigma_{xt}(\nu \cdot \Sigma_{tt}^{-1})\Sigma_{tx}$
+(`Review-Pop-III-GW-Remnants.md`, lines 569–583). -/
+@[blueprint "def:signals-ddf-schur-conditioned-twistor-slice3d"
+  (title := "3D Schur-complement conditioned temporal twistor slice Σ_xx - Σ_xt (ν Σ_tt⁻¹) Σ_tx")
+  (statement := /-- For $\Sigma_{xx}\in\mathbb R^{3\times 3}$, $\Sigma_{xt}\in\mathbb R^{3\times 1}$,
+    $\Sigma_{tx}\in\mathbb R^{1\times 3}$, $\Sigma_{tt}^{-1}\in\mathbb R^{1\times 1}$, and $\nu\in\mathbb R$,
+    define $\Sigma_{xx|t}^{\mathrm{DDF}}(\nu) = \Sigma_{xx} - \Sigma_{xt}(\nu\cdot\Sigma_{tt}^{-1})\Sigma_{tx}$. -/)]
+def schurConditionedTwistorSlice3D
+    (Sigma_xx : Matrix (Fin 3) (Fin 3) ℝ)
+    (Sigma_xt : Matrix (Fin 3) (Fin 1) ℝ)
+    (Sigma_tx : Matrix (Fin 1) (Fin 3) ℝ)
+    (inv_Sigma_tt : Matrix (Fin 1) (Fin 1) ℝ)
+    (nu : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
+  Sigma_xx - (Sigma_xt * (nu • inv_Sigma_tt) * Sigma_tx)
+
+/-- **Master Theorem for Gravitational Waves With DDF (Substrate Strain/Luminosity Decomposition, GPE Vortex Secondary Scattering, Kelvin-Wave Tail Damping, TT vs. Jammed Tensor Splats, & 4D Schur Conditioning)**:
+For any `sub : DDFSubstrate`, `re : RiverExterior sub`, `s : MovingSheath sub`, `orb : PlanetaryOrbit`,
+and positive parameters $m_2, R, \hbar, m_\phi, g_0, \rho_0, \xi, r, \alpha, \gamma_{\mathrm{dil}}, k, \sigma_0, \mu_0, \Sigma_{tt}^{-1} > 0$:
+1. **DDF Acoustic-Horizon & Dispersed-Phase $(\varrho_{\max}^\varphi j_{\min}^\varphi)$ Strain/Luminosity Laws**:
+   - $h_0^{\mathrm{DDF}} = \frac{r_{H,1}\,r_{H,2}}{R\,a} = \frac{4 G_\phi^2 M m_2 (\varrho_{\max}^\varphi j_{\min}^\varphi)^2}{R\,a}$,
+   - $(P_{\mathrm{GW}}^{\mathrm{DDF}})^2 = \left(\frac{32}{5}\frac{G_\phi^4 M^2 m_2^2(M+m_2)}{a^5}\right)^2 (\varrho_{\max}^\varphi j_{\min}^\varphi)^5\,\frac{P_{\mathrm{PM}}(e)^2}{\bigl(|w_A^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{GW}})|^2\,|w_B^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{GW}})|^2\bigr)^7}$,
+2. **GPE Vortex Core Depletion & Continuous Secondary-Wavelet Scattering (`Review-Pop-III-GW-Remnants.md`, lines 710–775)**:
+   - $0 < \operatorname{gpeVortexHealingLength}(\hbar, m_\phi, g_0, \rho_0)$,
+   - $\operatorname{gpeVortexDensityProfile}(\rho_0, \xi, 0) = 0$ and $\operatorname{gpeVortexDensityProfile}(\rho_0, \xi, \xi) = \rho_0 / 2$,
+   - $0 < \operatorname{gpeVortexDensityProfile}(\rho_0, \xi, r) < \rho_0$,
+   - $\operatorname{gpeVortexScatteringPotential}(\rho_0, \xi, 0) = 0$ and $0 < \operatorname{gpeVortexScatteringPotential}(\rho_0, \xi, r)$,
+3. **Strain-Thickened Dilatant Kelvin-Wave Tail Damping (`Review-Pop-III-GW-Remnants.md`, lines 780–855)**:
+   - $\operatorname{dilatantKelvinTailDampingRate}(\alpha, \gamma_{\mathrm{dil}}, k) - \operatorname{newtonianAcousticDampingRate}(\alpha, k) = \alpha \gamma_{\mathrm{dil}} k^4 > 0$,
+   - $\operatorname{newtonianAcousticDampingRate}(\alpha, k) < \operatorname{dilatantKelvinTailDampingRate}(\alpha, \gamma_{\mathrm{dil}}, k)$,
+4. **2D Symplectic Transverse-Traceless (TT) Wave Splat vs. DDF Jamming Contraction**:
+   - $\det\Sigma_{\mathrm{TT}}(h_+) = \sigma_0^4$ and $\mathcal{N}(\Sigma_{\mathrm{TT}}(h_+)) = \frac{1}{2\pi\sigma_0^2}$ for all $h_+ \in \mathbb{R}$,
+   - When $0 < s.\mathrm{velocity}$, $\det\Sigma_{\mathrm{DDF}}(s) < \det\Sigma_{\mathrm{TT}}(h_+)$, and
+5. **4D Spacetime Tensor Splat Schur-Complement Temporal Conditioning (`Review-Pop-III-GW-Remnants.md`, lines 535–605)**:
+   - At zero strain ($\sigma = 0$), $\operatorname{schurConditionedTwistorSlice3D}(\Sigma_{xx}, \Sigma_{xt}, \Sigma_{tx}, \Sigma_{tt}^{-1}, \nu(1, 0)) = \Sigma_{xx} - \Sigma_{xt}\Sigma_{tt}^{-1}\Sigma_{tx}$,
+   - For nonzero strain $\sigma \neq 0$ and cross-covariance $\Sigma_{xt,1} \neq 0$,
+     $$\operatorname{schurConditionedSpatialVariance1D}(\Sigma_{xx,1}, \Sigma_{xt,1}, \Sigma_{tt}^{-1}, \nu(\mu_0, \sigma))
+     < \operatorname{schurConditionedSpatialVariance1D}(\Sigma_{xx,1}, \Sigma_{xt,1}, \Sigma_{tt}^{-1}, \mu_0)
+     < \Sigma_{xx,1}.$$ -/
+@[blueprint "thm:signals-ddf-gw-with-ddf-master"
+  (title := "Master theorem for gravitational waves with DDF: substrate strain/luminosity decomposition, GPE vortex scattering, Kelvin-wave tail damping, TT vs. DDF splats, and 4D Schur conditioning")
+  (statement := /-- For \texttt{re : RiverExterior sub}, \texttt{s : MovingSheath sub}, \texttt{orb : PlanetaryOrbit},
+    and $m_2,R,\hbar,m_\phi,g_0,\rho_0,\xi,r,\alpha,\gamma_{\mathrm{dil}},k,\sigma_0,\mu_0,\Sigma_{tt}^{-1}>0$:
+    (1) $h_0^{\mathrm{DDF}} = \frac{r_{H,1} r_{H,2}}{R a} = \frac{4 G_\phi^2 M m_2(\varrho_{\max}^\varphi j_{\min}^\varphi)^2}{R a}$ and
+    $(P_{\mathrm{GW}}^{\mathrm{DDF}})^2 = \bigl(\frac{32}{5}\frac{G_\phi^4 M^2 m_2^2(M+m_2)}{a^5}\bigr)^2 (\varrho_{\max}^\varphi j_{\min}^\varphi)^5 \frac{P_{\mathrm{PM}}(e)^2}{(|w_A^{\mathbb C}|^2|w_B^{\mathbb C}|^2)^7}$;
+    (2) $0 < \xi$, $\rho_{\mathrm{vortex}}(0)=0$, $\rho_{\mathrm{vortex}}(\xi)=\rho_0/2$, $0<\rho_{\mathrm{vortex}}(r)<\rho_0$, $V_{\mathrm{scat}}(0)=0$, and $0<V_{\mathrm{scat}}(r)$;
+    (3) $\Gamma_{\mathrm{DDF}}-\Gamma_{\mathrm{Newton}}=\alpha\gamma_{\mathrm{dil}}k^4 > 0$;
+    (4) $\det\Sigma_{\mathrm{TT}}(h_+)=\sigma_0^4$, $\mathcal{N}(\Sigma_{\mathrm{TT}}(h_+))=\frac{1}{2\pi\sigma_0^2}$, and ($s.\mathrm{velocity}>0 \implies \det\Sigma_{\mathrm{DDF}}(s)<\det\Sigma_{\mathrm{TT}}(h_+)$);
+    (5) for $\sigma\ne 0$ and $\Sigma_{xt,1}\ne 0$, $\Sigma_{xx|t}^{\mathrm{DDF}}(\nu(\mu_0,\sigma)) < \Sigma_{xx|t}^{\mathrm{DDF}}(\mu_0) < \Sigma_{xx,1}$. -/)
+  (proof := /-- Combine \texttt{qed\_gravitational\_wave\_without\_ddf\_identities} with \texttt{sub.c\_sq},
+    evaluate the rational GPE vortex profile at $0,\xi,r>0$, expand $\exp(h_+/2)\exp(-h_+/2)=1$,
+    and use $\sigma^2>0,\Sigma_{xt,1}^2>0$ for the Schur complement inequalities. -/)]
+theorem RiverExterior.gravitational_wave_with_ddf_identities
+    {sub : DDFSubstrate} (re : RiverExterior sub) (s : MovingSheath sub) (orb : PlanetaryOrbit)
+    (orbitalPhase deltaVarpi inclination m2 R hbar m_phi g0 rho0 xi r
+      alpha gamma_dil k weight sigma0 hPlus theta mu0 strain
+      sigma_xx1 sigma_xt1 inv_sigma_tt : ℝ)
+    (hm2 : 0 < m2) (hR : 0 < R) (hhbar : 0 < hbar) (hm_phi : 0 < m_phi)
+    (hg0 : 0 < g0) (hrho0 : 0 < rho0) (hxi : 0 < xi) (hr : 0 < r)
+    (halpha : 0 < alpha) (hgamma_dil : 0 < gamma_dil) (hk : 0 < k)
+    (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0)
+    (hmu0 : 0 < mu0) (h_strain : strain ≠ 0)
+    (h_xt : sigma_xt1 ≠ 0) (h_inv_tt : 0 < inv_sigma_tt)
+    (Sigma_xx : Matrix (Fin 3) (Fin 3) ℝ)
+    (Sigma_xt : Matrix (Fin 3) (Fin 1) ℝ)
+    (Sigma_tx : Matrix (Fin 1) (Fin 3) ℝ)
+    (inv_Sigma_tt_mat : Matrix (Fin 1) (Fin 1) ℝ) :
+    let M_GW := orb.gr24QuadrupoleWaveMatrix orbitalPhase deltaVarpi
+    let r_H2 := 2 * re.G_phi * m2 / sub.c ^ 2
+    let splat_tt := NormedTensorGaussianSplat2D.ttGravitationalWaveSplat
+      0 0 weight sigma0 hPlus hw h_sigma0 theta
+    let splat_ddf := s.ddfTensorSplat 0 0 weight sigma0 hw h_sigma0 theta
+    let nu := dilatantViscosityModifier mu0 strain
+    re.quadrupoleStrainAmplitude orb m2 R =
+      (re.horizonRadius * r_H2) / (R * orb.semiMajorAxis) ∧
+      re.quadrupoleStrainAmplitude orb m2 R =
+        4 * re.G_phi ^ 2 * re.sourceMass * m2 *
+          (sub.rho_max_varphi * sub.j_min_varphi) ^ 2 / (R * orb.semiMajorAxis) ∧
+      (re.petersMathewsLuminosity orb m2) ^ 2 =
+        ((32 / 5 : ℝ) * re.G_phi ^ 4 * re.sourceMass ^ 2 * m2 ^ 2 *
+          (re.sourceMass + m2) / orb.semiMajorAxis ^ 5) ^ 2 *
+          (sub.rho_max_varphi * sub.j_min_varphi) ^ 5 *
+          (orb.petersMathewsPolynomial ^ 2 /
+            (Complex.normSq (complexPluckerSinkAmplitudeA M_GW) *
+              Complex.normSq (complexPluckerSinkAmplitudeB M_GW)) ^ 7) ∧
+      0 < gpeVortexHealingLength hbar m_phi g0 rho0 ∧
+      gpeVortexDensityProfile rho0 xi 0 = 0 ∧
+      gpeVortexDensityProfile rho0 xi xi = rho0 / 2 ∧
+      0 < gpeVortexDensityProfile rho0 xi r ∧
+      gpeVortexDensityProfile rho0 xi r < rho0 ∧
+      gpeVortexScatteringPotential rho0 xi 0 = 0 ∧
+      0 < gpeVortexScatteringPotential rho0 xi r ∧
+      dilatantKelvinTailDampingRate alpha gamma_dil k -
+        newtonianAcousticDampingRate alpha k = alpha * gamma_dil * k ^ 4 ∧
+      newtonianAcousticDampingRate alpha k <
+        dilatantKelvinTailDampingRate alpha gamma_dil k ∧
+      splat_tt.covDet = sigma0 ^ 4 ∧
+      splat_tt.normFactor = 1 / (2 * Real.pi * sigma0 ^ 2) ∧
+      (0 < s.velocity → splat_ddf.covDet < splat_tt.covDet) ∧
+      schurConditionedTwistorSlice3D Sigma_xx Sigma_xt Sigma_tx inv_Sigma_tt_mat
+        (dilatantViscosityModifier 1 0) =
+        Sigma_xx - (Sigma_xt * inv_Sigma_tt_mat * Sigma_tx) ∧
+      schurConditionedSpatialVariance1D sigma_xx1 sigma_xt1 inv_sigma_tt nu <
+        schurConditionedSpatialVariance1D sigma_xx1 sigma_xt1 inv_sigma_tt mu0 ∧
+      schurConditionedSpatialVariance1D sigma_xx1 sigma_xt1 inv_sigma_tt mu0 <
+        sigma_xx1 := by
+  intro M_GW r_H2 splat_tt splat_ddf nu
+  have hG := re.G_phi_pos
+  have hM := re.sourceMass_pos
+  have hc := sub.c_pos
+  have ha_pos := orb.semiMajorAxis_pos
+  have ha_ne : orb.semiMajorAxis ≠ 0 := ne_of_gt ha_pos
+  have hR_ne : R ≠ 0 := ne_of_gt hR
+  have hc_ne : sub.c ≠ 0 := ne_of_gt hc
+  have hc2_ne : sub.c ^ 2 ≠ 0 := pow_ne_zero 2 hc_ne
+  have h_qed := orb.qed_gravitational_wave_without_ddf_identities
+    orbitalPhase deltaVarpi inclination re.G_phi re.sourceMass m2 sub.c R
+    hG hM hm2 hc hR 1 1 1 1
+  have h_strain_hor :
+      re.quadrupoleStrainAmplitude orb m2 R =
+        (re.horizonRadius * r_H2) / (R * orb.semiMajorAxis) := by
+    unfold RiverExterior.quadrupoleStrainAmplitude RiverExterior.horizonRadius
+    exact h_qed.2.2.2.2.2.2.2.2.2.1
+  have h_strain_sub :
+      re.quadrupoleStrainAmplitude orb m2 R =
+        4 * re.G_phi ^ 2 * re.sourceMass * m2 *
+          (sub.rho_max_varphi * sub.j_min_varphi) ^ 2 / (R * orb.semiMajorAxis) := by
+    unfold RiverExterior.quadrupoleStrainAmplitude
+      Signals.QEDGravity.PlanetaryOrbit.quadrupoleStrainAmplitudePM
+    have h_div4 :
+        4 * re.G_phi ^ 2 * re.sourceMass * m2 / (sub.c ^ 4 * R * orb.semiMajorAxis) =
+          (4 * re.G_phi ^ 2 * re.sourceMass * m2 / (R * orb.semiMajorAxis)) / (sub.c ^ 2) ^ 2 := by
+      ring
+    rw [h_div4, sub.c_sq, inv_pow, div_inv_eq_mul]
+    ring
+  have h_lum_sq :
+      (re.petersMathewsLuminosity orb m2) ^ 2 =
+        ((32 / 5 : ℝ) * re.G_phi ^ 4 * re.sourceMass ^ 2 * m2 ^ 2 *
+          (re.sourceMass + m2) / orb.semiMajorAxis ^ 5) ^ 2 *
+          (sub.rho_max_varphi * sub.j_min_varphi) ^ 5 *
+          (orb.petersMathewsPolynomial ^ 2 /
+            (Complex.normSq (complexPluckerSinkAmplitudeA M_GW) *
+              Complex.normSq (complexPluckerSinkAmplitudeB M_GW)) ^ 7) := by
+    unfold RiverExterior.petersMathewsLuminosity
+      Signals.QEDGravity.PlanetaryOrbit.petersMathewsLuminosityPM
+    dsimp [M_GW]
+    rw [mul_pow, h_qed.2.2.2.2.2.2.2.2.2.2.2.2.1]
+    have h_div_sq :
+        ((32 / 5 : ℝ) * re.G_phi ^ 4 * re.sourceMass ^ 2 * m2 ^ 2 * (re.sourceMass + m2) /
+          (sub.c ^ 5 * orb.semiMajorAxis ^ 5)) ^ 2 =
+        ((32 / 5 : ℝ) * re.G_phi ^ 4 * re.sourceMass ^ 2 * m2 ^ 2 *
+          (re.sourceMass + m2) / orb.semiMajorAxis ^ 5) ^ 2 / (sub.c ^ 2) ^ 5 := by
+      ring
+    rw [h_div_sq, sub.c_sq, inv_pow, div_inv_eq_mul]
+  have h_xi_pos : 0 < gpeVortexHealingLength hbar m_phi g0 rho0 := by
+    unfold gpeVortexHealingLength
+    positivity
+  have h_rho_0 : gpeVortexDensityProfile rho0 xi 0 = 0 := by
+    unfold gpeVortexDensityProfile
+    simp
+  have h_rho_xi : gpeVortexDensityProfile rho0 xi xi = rho0 / 2 := by
+    unfold gpeVortexDensityProfile
+    have hxi2_ne : xi ^ 2 ≠ 0 := pow_ne_zero 2 (ne_of_gt hxi)
+    field_simp [hxi2_ne]
+    ring
+  have h_rho_pos : 0 < gpeVortexDensityProfile rho0 xi r := by
+    unfold gpeVortexDensityProfile
+    positivity
+  have h_rho_lt : gpeVortexDensityProfile rho0 xi r < rho0 := by
+    unfold gpeVortexDensityProfile
+    have h_denom_pos : 0 < r ^ 2 + xi ^ 2 := by positivity
+    have h_xi2_pos : 0 < xi ^ 2 := by positivity
+    have h_frac_lt : r ^ 2 / (r ^ 2 + xi ^ 2) < 1 :=
+      (div_lt_one h_denom_pos).mpr (by linarith)
+    nlinarith
+  have h_scat_0 : gpeVortexScatteringPotential rho0 xi 0 = 0 := by
+    unfold gpeVortexScatteringPotential
+    simp
+  have h_scat_pos : 0 < gpeVortexScatteringPotential rho0 xi r := by
+    unfold gpeVortexScatteringPotential
+    positivity
+  have h_damp_diff :
+      dilatantKelvinTailDampingRate alpha gamma_dil k -
+        newtonianAcousticDampingRate alpha k = alpha * gamma_dil * k ^ 4 := by
+    unfold dilatantKelvinTailDampingRate newtonianAcousticDampingRate
+    ring
+  have h_damp_lt :
+      newtonianAcousticDampingRate alpha k <
+        dilatantKelvinTailDampingRate alpha gamma_dil k := by
+    have h_extra : 0 < alpha * gamma_dil * k ^ 4 := by positivity
+    linarith [h_damp_diff]
+  have h_exp_prod : Real.exp (hPlus / 2) * Real.exp (- (hPlus / 2)) = 1 := by
+    rw [← Real.exp_add]
+    simp
+  have h_tt_det : splat_tt.covDet = sigma0 ^ 4 := by
+    dsimp [splat_tt, NormedTensorGaussianSplat2D.ttGravitationalWaveSplat,
+      NormedTensorGaussianSplat2D.covDet]
+    calc
+      (sigma0 * Real.exp (hPlus / 2)) ^ 2 * (sigma0 * Real.exp (- (hPlus / 2))) ^ 2 =
+          sigma0 ^ 4 * (Real.exp (hPlus / 2) * Real.exp (- (hPlus / 2))) ^ 2 := by ring
+      _ = sigma0 ^ 4 := by rw [h_exp_prod, one_pow, mul_one]
+  have h_tt_norm : splat_tt.normFactor = 1 / (2 * Real.pi * sigma0 ^ 2) := by
+    dsimp [splat_tt, NormedTensorGaussianSplat2D.ttGravitationalWaveSplat,
+      NormedTensorGaussianSplat2D.normFactor]
+    have h_prod_s :
+        2 * Real.pi * (sigma0 * Real.exp (hPlus / 2)) * (sigma0 * Real.exp (- (hPlus / 2))) =
+          2 * Real.pi * sigma0 ^ 2 * (Real.exp (hPlus / 2) * Real.exp (- (hPlus / 2))) := by ring
+    rw [h_prod_s, h_exp_prod, mul_one]
+  have h_ddf_lt_tt : 0 < s.velocity → splat_ddf.covDet < splat_tt.covDet := by
+    intro hv_pos
+    have h_sddf : splat_ddf.covDet = sigma0 ^ 4 * (1 - s.betaSq) :=
+      (s.ddfTensorSplat_identities 0 0 weight sigma0 hw h_sigma0 theta).1
+    rw [h_sddf, h_tt_det]
+    have h_beta_pos : 0 < s.betaSq := by
+      unfold MovingSheath.betaSq
+      exact div_pos (pow_pos hv_pos 2) (pow_pos hc 2)
+    have h_s04_pos : 0 < sigma0 ^ 4 := by positivity
+    exact mul_lt_of_lt_one_right h_s04_pos (by linarith)
+  have h_schur_3d :
+      schurConditionedTwistorSlice3D Sigma_xx Sigma_xt Sigma_tx inv_Sigma_tt_mat
+        (dilatantViscosityModifier 1 0) =
+        Sigma_xx - (Sigma_xt * inv_Sigma_tt_mat * Sigma_tx) := by
+    unfold schurConditionedTwistorSlice3D dilatantViscosityModifier
+    simp
+  have h_strain_sq : 0 < strain ^ 2 := sq_pos_of_ne_zero h_strain
+  have h_xt_sq : 0 < sigma_xt1 ^ 2 := sq_pos_of_ne_zero h_xt
+  have h_schur_lt1 :
+      schurConditionedSpatialVariance1D sigma_xx1 sigma_xt1 inv_sigma_tt nu <
+        schurConditionedSpatialVariance1D sigma_xx1 sigma_xt1 inv_sigma_tt mu0 := by
+    dsimp [nu, dilatantViscosityModifier, schurConditionedSpatialVariance1D]
+    have h_pen : 0 < mu0 * strain ^ 2 * inv_sigma_tt * sigma_xt1 ^ 2 := by positivity
+    linarith
+  have h_schur_lt2 :
+      schurConditionedSpatialVariance1D sigma_xx1 sigma_xt1 inv_sigma_tt mu0 <
+        sigma_xx1 := by
+    unfold schurConditionedSpatialVariance1D
+    have h_pen : 0 < mu0 * inv_sigma_tt * sigma_xt1 ^ 2 := by positivity
+    linarith
+  exact ⟨h_strain_hor, h_strain_sub, h_lum_sq, h_xi_pos, h_rho_0, h_rho_xi,
+    h_rho_pos, h_rho_lt, h_scat_0, h_scat_pos, h_damp_diff, h_damp_lt,
+    h_tt_det, h_tt_norm, h_ddf_lt_tt, h_schur_3d, h_schur_lt1, h_schur_lt2⟩
+
+/-- **3D `NormedTensorGaussianSplat3D` Gravitational-Wave & Orbital Volume, Bohm Potential, and 3D-to-2D Projection Theorem**:
+Establishes why 3D tensor Gaussian splatting (`NormedTensorGaussianSplat3D`) is the natural
+volumetric representation for propagating gravitational waves and inclined orbits, and how
+2D `NormedTensorGaussianSplat2D` arises as its exact orthographic projection:
+1. **Exact 3D-to-2D Orthographic Projections (`projectOrthographic2D`)**:
+   - Projecting `ttGravitationalWaveSplat3D` onto the transverse $(x, y)$ detector plane
+     recovers `NormedTensorGaussianSplat2D.ttGravitationalWaveSplat` identically,
+   - Projecting `ddfGravitationalWaveSplat3D` onto the transverse $(x, y)$ plane also
+     recovers `ttGravitationalWaveSplat` (since DDF longitudinal jamming contracts the
+     3rd propagation axis $\sigma_3 = \sigma_{z,0}\gamma_\varphi(v)^{-1}$ while preserving
+     the 2D transverse TT polarization ellipse),
+   - Projecting `orb.gr36TensorSplat3D` onto $(x, y)$ recovers `orb.gr24TensorSplat`,
+2. **3D Volumetric Covariance Determinants ($\det\Sigma_{\mathrm{3D}} = \sigma_1^2\sigma_2^2\sigma_3^2$)**:
+   - Without DDF (pure TT): $\det\Sigma_{\mathrm{3D}}^{\mathrm{TT}}(h_+) = \sigma_0^4 \sigma_{z,0}^2$ for all $h_+ \in \mathbb{R}$,
+   - With DDF (longitudinal sheath jamming):
+     $$\det\Sigma_{\mathrm{3D}}^{\mathrm{DDF}}(s, h_+) = \sigma_0^4 \sigma_{z,0}^2 (1 - \beta^2) = \sigma_0^4 \sigma_{z,0}^2 \gamma_\varphi(v)^{-2},$$
+     and $0 < s.\mathrm{velocity} \implies \det\Sigma_{\mathrm{3D}}^{\mathrm{DDF}}(s, h_+) < \det\Sigma_{\mathrm{3D}}^{\mathrm{TT}}(h_+)$,
+   - 3D Planetary Orbit: $\det\Sigma_{\mathrm{3D}}^{\mathrm{orb}} = \sigma_0^4 \sigma_{z,0}^2 (1 - e^2) = \sigma_0^4 \sigma_{z,0}^2 (p / a)$,
+3. **3D Core Bohm Quantum Potential Longitudinal Jamming Increment**:
+   $$Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}^{\mathrm{DDF}}) - Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}^{\mathrm{TT}})
+   = \frac{\hbar^2}{4 m \sigma_{z,0}^2}\bigl(\gamma_\varphi(v)^2 - 1\bigr)$$
+   (the transverse $\sigma_1^{-2} + \sigma_2^{-2} = \sigma_0^{-2}(e^{-h_+} + e^{h_+})$ terms cancel identically). -/
+@[blueprint "thm:signals-ddf-gw-splat3d-and-projection"
+  (title := "3D NormedTensorGaussianSplat3D gravitational-wave and orbital volume, Bohm potential, and 3D-to-2D projection theorem")
+  (statement := /-- For \texttt{s : MovingSheath sub}, \texttt{orb : PlanetaryOrbit},
+    $w\ge 0$, and $\sigma_0,\sigma_{z,0},m,\hbar>0$:
+    (1) $\mathrm{splat}_{\mathrm{TT,3D}}.\mathrm{projectOrthographic2D} = \mathrm{splat}_{\mathrm{TT,2D}}$,
+    $\mathrm{splat}_{\mathrm{DDF,3D}}.\mathrm{projectOrthographic2D} = \mathrm{splat}_{\mathrm{TT,2D}}$, and
+    $\mathrm{splat}_{\mathrm{orb,3D}}.\mathrm{projectOrthographic2D} = \mathrm{splat}_{\mathrm{orb,2D}}$;
+    (2) $\det\Sigma_{\mathrm{3D}}^{\mathrm{TT}} = \sigma_0^4\sigma_{z,0}^2$,
+    $\det\Sigma_{\mathrm{3D}}^{\mathrm{DDF}} = \sigma_0^4\sigma_{z,0}^2(1-\beta^2) = \sigma_0^4\sigma_{z,0}^2\gamma_\varphi(v)^{-2}$,
+    $(0 < s.\mathrm{velocity} \implies \det\Sigma_{\mathrm{3D}}^{\mathrm{DDF}} < \det\Sigma_{\mathrm{3D}}^{\mathrm{TT}})$, and
+    $\det\Sigma_{\mathrm{3D}}^{\mathrm{orb}} = \sigma_0^4\sigma_{z,0}^2(p/a)$;
+    (3) $Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}^{\mathrm{DDF}}) - Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}^{\mathrm{TT}})
+    = \frac{\hbar^2}{4m\sigma_{z,0}^2}(\gamma_\varphi(v)^2 - 1)$. -/)
+  (proof := /-- Unfold the 3D splat constructors and \texttt{projectOrthographic2D}, cancel
+    $\exp(h_+/2)\exp(-h_+/2)=1$, apply \texttt{visibility\_jamming\_duality}, and simplify
+    the 3D core Bohm potential difference. -/)]
+theorem NormedTensorGaussianSplat3D.gravitational_wave_splat3d_and_projection_identities
+    {sub : DDFSubstrate} (s : MovingSheath sub) (orb : PlanetaryOrbit)
+    (centerX centerY centerZ weight sigma0 sigmaZ0 hPlus theta psi m_boson hbar : ℝ)
+    (hw : 0 ≤ weight) (h_sigma0 : 0 < sigma0) (h_sigmaZ0 : 0 < sigmaZ0)
+    (hm : 0 < m_boson) (_hhbar : 0 < hbar) :
+    let splat_tt3d := NormedTensorGaussianSplat3D.ttGravitationalWaveSplat3D
+      centerX centerY centerZ weight sigma0 sigmaZ0 hPlus hw h_sigma0 h_sigmaZ0 theta psi
+    let splat_ddf3d := s.ddfGravitationalWaveSplat3D
+      centerX centerY centerZ weight sigma0 sigmaZ0 hPlus hw h_sigma0 h_sigmaZ0 theta psi
+    let splat_orb3d := orb.gr36TensorSplat3D
+      centerX centerY centerZ weight sigma0 sigmaZ0 hw h_sigma0 h_sigmaZ0 theta psi
+    let splat_tt2d := NormedTensorGaussianSplat2D.ttGravitationalWaveSplat
+      centerX centerY weight sigma0 hPlus hw h_sigma0 theta
+    let splat_orb2d := orb.gr24TensorSplat
+      centerX centerY weight sigma0 hw h_sigma0 theta
+    splat_tt3d.projectOrthographic2D = splat_tt2d ∧
+      splat_ddf3d.projectOrthographic2D = splat_tt2d ∧
+      splat_orb3d.projectOrthographic2D = splat_orb2d ∧
+      splat_tt3d.covDet = sigma0 ^ 4 * sigmaZ0 ^ 2 ∧
+      splat_ddf3d.covDet = sigma0 ^ 4 * sigmaZ0 ^ 2 * (1 - s.betaSq) ∧
+      splat_ddf3d.covDet = sigma0 ^ 4 * sigmaZ0 ^ 2 * (s.jammingFactor ^ 2)⁻¹ ∧
+      (0 < s.velocity → splat_ddf3d.covDet < splat_tt3d.covDet) ∧
+      splat_orb3d.covDet =
+        sigma0 ^ 4 * sigmaZ0 ^ 2 * (orb.semiLatusRectum / orb.semiMajorAxis) ∧
+      splat_ddf3d.coreBohmPotential m_boson hbar -
+        splat_tt3d.coreBohmPotential m_boson hbar =
+        (hbar ^ 2 / (4 * m_boson * sigmaZ0 ^ 2)) * (s.jammingFactor ^ 2 - 1) := by
+  intro splat_tt3d splat_ddf3d splat_orb3d splat_tt2d splat_orb2d
+  have h_exp_prod : Real.exp (hPlus / 2) * Real.exp (- (hPlus / 2)) = 1 := by
+    rw [← Real.exp_add]
+    simp
+  have h_pos := s.one_sub_betaSq_pos
+  have h_vis_sq : s.coherenceVisibility ^ 2 = 1 - s.betaSq := by
+    unfold MovingSheath.coherenceVisibility
+    exact Real.sq_sqrt (le_of_lt h_pos)
+  have h_vis_inv : s.coherenceVisibility = (s.jammingFactor)⁻¹ :=
+    (s.visibility_jamming_duality).1
+  have h_tt3d_det : splat_tt3d.covDet = sigma0 ^ 4 * sigmaZ0 ^ 2 := by
+    dsimp [splat_tt3d, NormedTensorGaussianSplat3D.ttGravitationalWaveSplat3D,
+      NormedTensorGaussianSplat3D.covDet]
+    calc
+      (sigma0 * Real.exp (hPlus / 2)) ^ 2 * (sigma0 * Real.exp (- (hPlus / 2))) ^ 2 * sigmaZ0 ^ 2 =
+          sigma0 ^ 4 * (Real.exp (hPlus / 2) * Real.exp (- (hPlus / 2))) ^ 2 * sigmaZ0 ^ 2 := by ring
+      _ = sigma0 ^ 4 * sigmaZ0 ^ 2 := by rw [h_exp_prod, one_pow, mul_one]
+  have h_ddf3d_det1 : splat_ddf3d.covDet = sigma0 ^ 4 * sigmaZ0 ^ 2 * (1 - s.betaSq) := by
+    dsimp [splat_ddf3d, MovingSheath.ddfGravitationalWaveSplat3D,
+      NormedTensorGaussianSplat3D.covDet]
+    calc
+      (sigma0 * Real.exp (hPlus / 2)) ^ 2 * (sigma0 * Real.exp (- (hPlus / 2))) ^ 2 *
+          (sigmaZ0 * s.coherenceVisibility) ^ 2 =
+          sigma0 ^ 4 * (Real.exp (hPlus / 2) * Real.exp (- (hPlus / 2))) ^ 2 *
+            sigmaZ0 ^ 2 * s.coherenceVisibility ^ 2 := by ring
+      _ = sigma0 ^ 4 * sigmaZ0 ^ 2 * (1 - s.betaSq) := by
+          rw [h_exp_prod, one_pow, mul_one, h_vis_sq]
+  have h_ddf3d_det2 :
+      splat_ddf3d.covDet = sigma0 ^ 4 * sigmaZ0 ^ 2 * (s.jammingFactor ^ 2)⁻¹ := by
+    dsimp [splat_ddf3d, MovingSheath.ddfGravitationalWaveSplat3D,
+      NormedTensorGaussianSplat3D.covDet]
+    calc
+      (sigma0 * Real.exp (hPlus / 2)) ^ 2 * (sigma0 * Real.exp (- (hPlus / 2))) ^ 2 *
+          (sigmaZ0 * s.coherenceVisibility) ^ 2 =
+          sigma0 ^ 4 * (Real.exp (hPlus / 2) * Real.exp (- (hPlus / 2))) ^ 2 *
+            sigmaZ0 ^ 2 * s.coherenceVisibility ^ 2 := by ring
+      _ = sigma0 ^ 4 * sigmaZ0 ^ 2 * (s.jammingFactor ^ 2)⁻¹ := by
+          rw [h_exp_prod, one_pow, mul_one, h_vis_inv]
+          ring
+  have h_ddf3d_lt : 0 < s.velocity → splat_ddf3d.covDet < splat_tt3d.covDet := by
+    intro hv_pos
+    rw [h_ddf3d_det1, h_tt3d_det]
+    have hc := sub.c_pos
+    have h_beta_pos : 0 < s.betaSq := by
+      unfold MovingSheath.betaSq
+      exact div_pos (pow_pos hv_pos 2) (pow_pos hc 2)
+    have h_vol_pos : 0 < sigma0 ^ 4 * sigmaZ0 ^ 2 := by positivity
+    exact mul_lt_of_lt_one_right h_vol_pos (by linarith)
+  have h_orb3d_det :
+      splat_orb3d.covDet =
+        sigma0 ^ 4 * sigmaZ0 ^ 2 * (orb.semiLatusRectum / orb.semiMajorAxis) := by
+    have h_orb2d := (orb.gr24TensorSplat_identities centerX centerY weight sigma0 hw h_sigma0 theta).2.2
+    have h_rel : splat_orb3d.covDet = splat_orb2d.covDet * sigmaZ0 ^ 2 := by
+      dsimp [splat_orb3d, splat_orb2d, _root_.Signals.QEDGravity.PlanetaryOrbit.gr36TensorSplat3D,
+        _root_.Signals.QEDGravity.PlanetaryOrbit.gr24TensorSplat,
+        NormedTensorGaussianSplat3D.covDet, NormedTensorGaussianSplat2D.covDet]
+    rw [h_rel, h_orb2d]
+    ring
+  have h_bohm_diff :
+      splat_ddf3d.coreBohmPotential m_boson hbar -
+        splat_tt3d.coreBohmPotential m_boson hbar =
+        (hbar ^ 2 / (4 * m_boson * sigmaZ0 ^ 2)) * (s.jammingFactor ^ 2 - 1) := by
+    dsimp [splat_ddf3d, splat_tt3d, MovingSheath.ddfGravitationalWaveSplat3D,
+      NormedTensorGaussianSplat3D.ttGravitationalWaveSplat3D,
+      NormedTensorGaussianSplat3D.coreBohmPotential]
+    rw [h_vis_inv]
+    have hm_ne : m_boson ≠ 0 := ne_of_gt hm
+    have hsz_ne : sigmaZ0 ≠ 0 := ne_of_gt h_sigmaZ0
+    have hjam_ne : s.jammingFactor ≠ 0 := ne_of_gt s.jammingFactor_pos
+    field_simp [hm_ne, hsz_ne, hjam_ne]
+    ring
+  exact ⟨rfl, rfl, rfl, h_tt3d_det, h_ddf3d_det1, h_ddf3d_det2,
+    h_ddf3d_lt, h_orb3d_det, h_bohm_diff⟩
 
 end Signals.DDF

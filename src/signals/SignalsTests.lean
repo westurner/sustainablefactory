@@ -5486,4 +5486,175 @@ example :
       (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   exact ⟨h.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2⟩
 
+example (S S_t grad_S A_dot laplacian_A dt_rho div_rho_v dt x : ℝ) :
+    let θ := S / 2
+    let ψ := madelungPolarWavefunction 3 θ
+    let ψ_t := madelungPolarDerivative 3 A_dot θ (S_t / 2)
+    let ψ_x := madelungPolarDerivative 3 4 θ (grad_S / 2)
+    let M_sheath := toyMovingSheath.gr24TwistorMatrix 6 1 5 2 0 x
+    Complex.normSq ψ = 3 ^ 2 ∧
+    grossPitaevskiiTemporalSymplecticTerm 2 ψ ψ_t = -(3 ^ 2) * S_t ∧
+    grossPitaevskiiPolarLagrangianDensity 1 2 5 7 ψ ψ_t ψ_x =
+      madelungAmplitudeLagrangianDensity 1 2 5 7 3 4 S_t grad_S ∧
+    madelungHydrodynamicLagrangianDensity 1 2 5 7 (3 ^ 2) (2 * 3 * 4) S_t grad_S =
+      madelungAmplitudeLagrangianDensity 1 2 5 7 3 4 S_t grad_S ∧
+    madelungPhaseEulerLagrangeResidual (-dt_rho) (-div_rho_v) =
+      madelungContinuityResidual dt_rho div_rho_v ∧
+    madelungAmplitudeEulerLagrangeResidual 1 2 5 7 3 laplacian_A S_t grad_S / (-2 * 3) =
+      quantumHamiltonJacobiResidual 1 2 5 7 3 laplacian_A S_t (grad_S / 1) ∧
+    quantumHamiltonJacobiResidual 1 2 0 (1 * toyRiverExterior.bernoulliPotential 4) 3 0 0
+      (toyRiverExterior.velocity 4) = 0 ∧
+    toyMovingSheath.sheathCompressionResidual toyMovingSheath.jammingFactor = 0 ∧
+    0 ≤ toyMovingSheath.sheathVariationalExcess 5 2 ∧
+    (toyMovingSheath.sheathCompressionResidual 2 = 0 ↔ 2 = toyMovingSheath.jammingFactor) ∧
+    toyMovingSheath.dilatantHamiltonian 5 =
+      5 * toyDDFSubstrate.c ^ 2 + toyMovingSheath.kineticEnergy 5 ∧
+    (toyMovingSheath.dilatantHamiltonian 5) ^ 2 -
+        toyDDFSubstrate.c ^ 2 * (toyMovingSheath.dilatantCanonicalMomentum 5) ^ 2 =
+      (5 * toyDDFSubstrate.c ^ 2) ^ 2 ∧
+    toyDDFSubstrate.c ^ 2 * (toyMovingSheath.actionProperTime 5 dt) ^ 2 =
+      toyDDFSubstrate.c ^ 2 * dt ^ 2 - (toyMovingSheath.velocity * dt) ^ 2 ∧
+    (toyMovingSheath.dilatantLagrangian 5 / (-(5 * toyDDFSubstrate.c ^ 2))) ^ 2 =
+      Complex.normSq (complexPluckerSinkAmplitudeA M_sheath) *
+        Complex.normSq (complexPluckerSinkAmplitudeB M_sheath) ∧
+    standardBogoliubovPhaseVelSq 1 2 3 2 4 <
+      dilatantBogoliubovPhaseVelSq 1 2 3 (1 / 2) 2 4 := by
+  intro θ ψ ψ_t ψ_x M_sheath
+  have h := toyMovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities
+    toyRiverExterior 1 2 5 7 3 A_dot 4 laplacian_A S S_t grad_S
+    dt_rho div_rho_v 4 5 2 dt 2 3 (1 / 2) 4 6 1 5 2 0 x
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+example (S_t grad_S dt_v v_phi grad_v grad_V grad_rho grad_Q θ : ℝ) :
+    let ψ1 := madelungPolarWavefunction (4 / 5) θ
+    let ψ2_inPhase := madelungPolarWavefunction (4 / 5) θ
+    let ψ2_quad := madelungPolarWavefunction (4 / 5) (θ + Real.pi / 2)
+    madelungPhaseCanonicalMomentum (3 ^ 2) * S_t -
+        madelungAmplitudeLagrangianDensity 1 2 5 7 3 4 S_t grad_S =
+      madelungAmplitudeHamiltonianDensity 1 2 5 7 3 4 grad_S ∧
+    0 ≤ madelungAmplitudeHamiltonianDensity 1 2 5 7 3 4 grad_S ∧
+    ((1 * dt_v) + (1 * v_phi * grad_v) + grad_V + 5 * grad_rho + grad_Q) / 1 =
+      madelungEulerMomentumResidual 1 5 dt_v v_phi grad_v grad_V grad_rho grad_Q ∧
+    Complex.normSq (ψ1 + ψ2_inPhase) = Signals.twoTraceConstructiveSqueezePeak (4 / 5) (4 / 5) ∧
+    Complex.normSq (ψ1 + ψ2_quad) = (4 / 5 : ℝ) ^ 2 + (4 / 5 : ℝ) ^ 2 ∧
+    Complex.normSq (ψ1 + ψ2_quad) < Complex.normSq (ψ1 + ψ2_inPhase) ∧
+    stedCoreBohmPotential 1 2 405 (7 / 5) 63 =
+      64 * stedCoreBohmPotential 1 2 405 (7 / 5) 0 := by
+  intro ψ1 ψ2_inPhase ψ2_quad
+  have h := madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities
+    1 2 5 7 3 4 S_t grad_S dt_v v_phi grad_v grad_V grad_rho grad_Q
+    1 2 (4 / 5) (4 / 5) 405 (7 / 5) 63 θ
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2⟩
+
+/-- QED/gauge double-copy gravitational waves without DDF (`Signals.QEDGravity`) and
+quantum-hydrodynamic gravitational waves with DDF (`Signals.DDF`). -/
+example (Φ_orb Δϖ ι hPlus θ : ℝ)
+    (Sigma_xx : Matrix (Fin 3) (Fin 3) ℝ)
+    (Sigma_xt : Matrix (Fin 3) (Fin 1) ℝ)
+    (Sigma_tx : Matrix (Fin 1) (Fin 3) ℝ)
+    (inv_Sigma_tt_mat : Matrix (Fin 1) (Fin 1) ℝ) :
+    let M_GW := toyMercuryOrbit.gr24QuadrupoleWaveMatrix Φ_orb Δϖ
+    let splat_tt := Signals.DDF.NormedTensorGaussianSplat2D.ttGravitationalWaveSplat
+      0 0 5 2 hPlus (by norm_num) (by norm_num) θ
+    let splat_ddf := toyMovingSheath.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
+    let nu := Signals.DDF.dilatantViscosityModifier 2 (3 / 5)
+    Signals.QEDGravity.gravitonPlusPolarizationFactor 0 = 1 ∧
+    Signals.QEDGravity.gravitonCrossPolarizationFactor (Real.pi / 2) = 0 ∧
+    1 / 2 ≤ Signals.QEDGravity.gravitonPlusPolarizationFactor ι ∧
+    Signals.QEDGravity.gravitonPlusPolarizationFactor ι ≤ 1 ∧
+    Complex.normSq (Signals.QEDGravity.complexPluckerSinkAmplitudeA M_GW) *
+        Complex.normSq (Signals.QEDGravity.complexPluckerSinkAmplitudeB M_GW) =
+      toyMercuryOrbit.semiLatusRectum / toyMercuryOrbit.semiMajorAxis ∧
+    0 < toyMercuryOrbit.petersMathewsFactor ∧
+    toyMercuryOrbit.petersMathewsFactor ^ 2 =
+      toyMercuryOrbit.petersMathewsPolynomial ^ 2 /
+        (Complex.normSq (Signals.QEDGravity.complexPluckerSinkAmplitudeA M_GW) *
+          Complex.normSq (Signals.QEDGravity.complexPluckerSinkAmplitudeB M_GW)) ^ 7 ∧
+    (Signals.QEDGravity.orbitalResonanceQuadrupoleBeat 3 2 2 3 = 0) ∧
+    toyRiverExterior.quadrupoleStrainAmplitude toyMercuryOrbit 2 10 =
+      4 * toyRiverExterior.G_phi ^ 2 * toyRiverExterior.sourceMass * 2 *
+        (toyDDFSubstrate.rho_max_varphi * toyDDFSubstrate.j_min_varphi) ^ 2 /
+        (10 * toyMercuryOrbit.semiMajorAxis) ∧
+    Signals.DDF.gpeVortexDensityProfile 4 2 0 = 0 ∧
+    Signals.DDF.gpeVortexDensityProfile 4 2 2 = 2 ∧
+    0 < Signals.DDF.gpeVortexScatteringPotential 4 2 3 ∧
+    Signals.DDF.newtonianAcousticDampingRate 2 3 <
+      Signals.DDF.dilatantKelvinTailDampingRate 2 (1 / 2) 3 ∧
+    splat_tt.covDet = 2 ^ 4 ∧
+    splat_ddf.covDet < splat_tt.covDet ∧
+    Signals.DDF.schurConditionedSpatialVariance1D 10 1 2 nu <
+      Signals.DDF.schurConditionedSpatialVariance1D 10 1 2 2 := by
+  intro M_GW splat_tt splat_ddf nu
+  have h_without := toyMercuryOrbit.qed_gravitational_wave_without_ddf_identities
+    Φ_orb Δϖ ι toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 10
+    toyRiverExterior.G_phi_pos toyRiverExterior.sourceMass_pos (by norm_num)
+    toyDDFSubstrate.c_pos (by norm_num) 3 2 2 3
+  have h_with := toyRiverExterior.gravitational_wave_with_ddf_identities
+    toyMovingSheath toyMercuryOrbit Φ_orb Δϖ ι 2 10 1 1 2 4 2 3 2 (1 / 2) 3 5 2 hPlus θ
+    2 (3 / 5) 10 1 2
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num)
+    Sigma_xx Sigma_xt Sigma_tx inv_Sigma_tt_mat
+  have hv_pos : 0 < toyMovingSheath.velocity := by
+    dsimp [toyMovingSheath]
+    norm_num
+  have h_res_zero : Signals.QEDGravity.orbitalResonanceQuadrupoleBeat 3 2 2 3 = 0 :=
+    h_without.2.2.2.2.2.2.2.2.2.2.2.2.2.2.mpr (by norm_num)
+  have h_rho2 : Signals.DDF.gpeVortexDensityProfile 4 2 2 = 2 := by
+    rw [h_with.2.2.2.2.2.1]
+    norm_num
+  exact ⟨h_without.1, h_without.2.2.2.1, h_without.2.2.2.2.1, h_without.2.2.2.2.2.1,
+    h_without.2.2.2.2.2.2.1, h_without.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_without.2.2.2.2.2.2.2.2.2.2.2.2.1, h_res_zero,
+    h_with.2.1, h_with.2.2.2.2.1, h_rho2, h_with.2.2.2.2.2.2.2.2.2.1,
+    h_with.2.2.2.2.2.2.2.2.2.2.2.1, h_with.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_with.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 hv_pos,
+    h_with.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
+/-- 3D NormedTensorGaussianSplat3D gravitational-wave and orbital volumetric splats,
+3D core Bohm potential jamming increment, and 3D-to-2D orthographic projections. -/
+example (hPlus θ ψ : ℝ) :
+    let splat_tt3d := Signals.DDF.NormedTensorGaussianSplat3D.ttGravitationalWaveSplat3D
+      0 0 1 5 2 3 hPlus (by norm_num) (by norm_num) (by norm_num) θ ψ
+    let splat_ddf3d := toyMovingSheath.ddfGravitationalWaveSplat3D
+      0 0 1 5 2 3 hPlus (by norm_num) (by norm_num) (by norm_num) θ ψ
+    let splat_orb3d := toyMercuryOrbit.gr36TensorSplat3D
+      0 0 1 5 2 3 (by norm_num) (by norm_num) (by norm_num) θ ψ
+    let splat_tt2d := Signals.DDF.NormedTensorGaussianSplat2D.ttGravitationalWaveSplat
+      0 0 5 2 hPlus (by norm_num) (by norm_num) θ
+    let splat_orb2d := toyMercuryOrbit.gr24TensorSplat
+      0 0 5 2 (by norm_num) (by norm_num) θ
+    splat_tt3d.projectOrthographic2D = splat_tt2d ∧
+    splat_ddf3d.projectOrthographic2D = splat_tt2d ∧
+    splat_orb3d.projectOrthographic2D = splat_orb2d ∧
+    splat_tt3d.covDet = 2 ^ 4 * 3 ^ 2 ∧
+    splat_ddf3d.covDet < splat_tt3d.covDet ∧
+    splat_orb3d.covDet =
+      2 ^ 4 * 3 ^ 2 * (toyMercuryOrbit.semiLatusRectum / toyMercuryOrbit.semiMajorAxis) ∧
+    splat_ddf3d.coreBohmPotential 1 1 - splat_tt3d.coreBohmPotential 1 1 =
+      (1 ^ 2 / (4 * 1 * 3 ^ 2)) * (toyMovingSheath.jammingFactor ^ 2 - 1) := by
+  intro splat_tt3d splat_ddf3d splat_orb3d splat_tt2d splat_orb2d
+  have h3d := Signals.DDF.NormedTensorGaussianSplat3D.gravitational_wave_splat3d_and_projection_identities
+    toyMovingSheath toyMercuryOrbit 0 0 1 5 2 3 hPlus θ ψ 1 1
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have hv_pos : 0 < toyMovingSheath.velocity := by
+    dsimp [toyMovingSheath]
+    norm_num
+  exact ⟨h3d.1, h3d.2.1, h3d.2.2.1, h3d.2.2.2.1,
+    h3d.2.2.2.2.2.2.1 hv_pos, h3d.2.2.2.2.2.2.2.1, h3d.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

@@ -1,8 +1,11 @@
 import Signals.Acoustics
+import Signals.AntiFireCannon
 import Signals.CanonicalForms
 import Signals.Coherence
 import Signals.Contracts
 import Signals.DDF
+import Signals.EMT
+import Signals.FireSuppression
 import Signals.Applications
 import Signals.Fabrication
 import Signals.Geometry
@@ -13,11 +16,13 @@ import Signals.DirectionalBroadbandAntenna
 import Signals.Lasers
 import Signals.Maxwell
 import Signals.MHD
+import Signals.Nanolithography
 import Signals.NonDestructive
 import Signals.OAM
 import Signals.Physlib
 import Signals.Plabic
 import Signals.Proca
+import Signals.QEDGravity
 import Signals.QISM
 import Signals.Quadrature
 import Signals.Propagation

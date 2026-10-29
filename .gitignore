@@ -262,3 +262,17 @@ schema/
 
 node_modules
 /.browser-profiles
+
+
+# kicad-happy skills
+.agents/skills/bom
+.agents/skills/datasheets
+.agents/skills/digikey
+.agents/skills/element14
+.agents/skills/emc
+.agents/skills/jlcpcb
+.agents/skills/kicad
+.agents/skills/lcsc
+.agents/skills/mouser
+.agents/skills/pcbway
+.agents/skills/spice

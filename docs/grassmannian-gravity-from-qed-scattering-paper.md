@@ -24,7 +24,7 @@ description: "An arXiv-ready formal verification paper deriving planetary orbits
 
 ## Abstract
 
-Can planetary orbital dynamics—including the anomalous $42.98''/\text{century}$ perihelion precession of Mercury and $N$-body gravitational perturbations—be derived and verified from flat-space gauge/QED scattering amplitudes, Grassmannian Plücker geometry, and quantum-hydrodynamic substrates without assuming fundamental spacetime curvature? We present a machine-checked formalization in the Lean 4 theorem prover (`Signals.DDF`, `Signals.Geometry`, and `Signals.Huygens`) uniting four frameworks:
+Can planetary orbital dynamics—including the anomalous $42.98''/\text{century}$ perihelion precession of Mercury, $N$-body gravitational perturbations, and quadrupole gravitational waves—be derived and verified from flat-space gauge/QED scattering amplitudes, Grassmannian Plücker geometry, and quantum-hydrodynamic substrates without assuming fundamental spacetime curvature? We present a machine-checked formalization in the Lean 4 theorem prover (`Signals.QEDGravity`, `Signals.DDF`, `Signals.Geometry`, and `Signals.Huygens`) uniting five frameworks:
 
 1. **BCJ Color–Kinematics Duality & Double Copy on $Gr_{\mathbb{C}}(2,4)$ (`bcj_plucker_jacobi_and_double_copy`)**:
    In 4-point gauge scattering ([Bern, Carrasco, and Johansson 2008](#grav-bcj2008); [Arkani-Hamed and Trnka 2014](#grav-arkani2014)), the kinematic numerators $(n_s, n_t, n_u)$ defined by the quadratic Plücker products $n_s = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}$, $n_t = -\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}$, and $n_u = \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}$ automatically satisfy the Jacobi identity $n_s + n_t + n_u = 0$ via the 3-term Plücker relation on $Gr_{\mathbb{C}}(2,4)$. Squaring the kinematic numerator ($\text{Gravity} = \text{Gauge}^2$) maps gauge-fluid vorticity ($\boldsymbol{\omega} = \nabla \times \mathbf{v}$) onto the symmetric graviton/fluid shear-stress tensor $n_t^2 = (n_s + n_u)^2 = n_s^2 + 2 n_s n_u + n_u^2$.
@@ -38,6 +38,8 @@ Can planetary orbital dynamics—including the anomalous $42.98''/\text{century}
    Encoding orbital eccentricity $e \in [0, 1)$ as the $Gr_{\mathbb{C}}(2,4)$ barycentric parallel-axis shift ($d_{\mathrm{bary}} = e$) and the anomalous perihelion phase $\Delta\varpi / 2$ in $M_{\mathbb{C}}^{\mathrm{orb}} \in Gr_{\mathbb{C}}(2,4)$ makes the Madelung channel densities equal the normalized aphelion and perihelion radii ($|w_A^{\mathbb{C}}|^2 = 1 + e = r_{\max}/a$, $|w_B^{\mathbb{C}}|^2 = 1 - e = r_{\min}/a$), while their product $|w_A^{\mathbb{C}}|^2 |w_B^{\mathbb{C}}|^2 = 1 - e^2 = p/a = \gamma_\varphi(e c)^{-2}$ is the exact semi-latus rectum ratio governing $\Delta\varpi = 3\pi r_H / p$.
 4. **$N$-Body Sink Superposition on $Gr_{\mathbb{C}}(2, N+2)$ & Conservative Action vs. Stokes-Drag Critique**:
    We embed the $N$-body Newtonian/superfluid sink potential $\Phi_\phi^{(N)} = -\sum_{j=0}^{N-1} \frac{G_\phi M_j}{r_j}$ into $Gr_{\mathbb{C}}(2, N+2)$ and prove (`ddf_conservative_action_vs_stokes_drag_critique`) that conservative 1-loop QFT / DDF sheath mechanics preserves orbital energy ($\frac{dE}{dt} = 0$) while generating $\Delta\varpi > 0$, whereas naive dissipative Stokes drag ($F_{\mathrm{drag}} > 0 \implies \frac{dE}{dt} = -F_{\mathrm{drag}} v < 0$) is ruled out by solar-system ephemerides.
+5. **Quadrupole Gravitational Waves Without DDF (`Signals.QEDGravity`) vs. With DDF (`Signals.DDF`) & 3D `NormedTensorGaussianSplat3D`**:
+   Promoting `gr24PrecessionMatrix` to the dynamic quadrupole wave matrix `PlanetaryOrbit.gr24QuadrupoleWaveMatrix` in [src/signals/Signals/QEDGravity.lean](../src/signals/Signals/QEDGravity.lean) proves (`PlanetaryOrbit.qed_gravitational_wave_without_ddf_identities`) that the crossing Plücker minor oscillates at $2\Phi_{\mathrm{orb}}(t) + \Delta\varpi$ and the 2.5PN Peters–Mathews eccentricity factor obeys $f_{\mathrm{PM}}(e)^2 = P_{\mathrm{PM}}(e)^2 / (|w_A^{\mathbb{C}}|^2 |w_B^{\mathbb{C}}|^2)^7$. In [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean), `RiverExterior.gravitational_wave_with_ddf_identities` and `NormedTensorGaussianSplat3D.gravitational_wave_splat3d_and_projection_identities` formalize the $(\varrho_{\max}^\varphi j_{\min}^\varphi)$ strain/luminosity decomposition, GPE vortex density-gradient secondary-wavelet scattering, strain-thickened Kelvin-wave tail damping, 4D Schur-complement temporal conditioning, and 3D `NormedTensorGaussianSplat3D` volumetric wavepackets (whose orthographic 2D projection `projectOrthographic2D` recovers `NormedTensorGaussianSplat2D`).
 
 ---
 
@@ -62,7 +64,7 @@ In both modern post-Minkowskian scattering-amplitude theory ([Bern et al. 2008](
 
 In 4-point tree-level gauge scattering, the amplitude decomposes over the $(s, t, u)$ channels with color factors $(c_s, c_t, c_u)$ and kinematic numerators $(n_s, n_t, n_u)$. Bern–Carrasco–Johansson (BCJ) color–kinematics duality ([Bern et al. 2008](#grav-bcj2008)) requires the kinematic numerators to obey the same Jacobi identity $n_s + n_t + n_u = 0$ as the Lie-algebra color factors.
 
-In [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L2044-L2074), theorem `bcj_plucker_jacobi_and_double_copy` proves that for **any** complex $2 \times 4$ Grassmannian matrix $M_{\mathbb{C}} \in \mathbb{C}^{2 \times 4}$, identifying the three channel numerators with the quadratic Plücker products:
+In [src/signals/Signals/QEDGravity.lean](../src/signals/Signals/QEDGravity.lean#L54-L85) (re-exported in [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean)), theorem `bcj_plucker_jacobi_and_double_copy` proves that for **any** complex $2 \times 4$ Grassmannian matrix $M_{\mathbb{C}} \in \mathbb{C}^{2 \times 4}$, identifying the three channel numerators with the quadratic Plücker products:
 
 $$
 n_s(M_{\mathbb{C}}) = \Delta_{01}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{23}^{\mathbb{C}}(M_{\mathbb{C}}), \qquad
@@ -287,6 +289,64 @@ example {sub : DDFSubstrate} (re : RiverExterior sub) (s : MovingSheath sub) (or
   have h_crit := ddf_conservative_action_vs_stokes_drag_critique re orb F_drag v hF hv
   exact ⟨h_orb.1, h_orb.2.1, h_orb.2.2.2.1, h_arc, h_merc.1, h_merc.2.1,
     h_sddf.2.1, h_sorb.2.2, h_crit⟩
+```
+
+### 4.3 Modeling Gravitational Waves: Without DDF (`Signals.QEDGravity`) vs. With DDF (`Signals.DDF`), and 3D `NormedTensorGaussianSplat3D` vs. 2D `NormedTensorGaussianSplat2D`
+
+To move from conservative off-shell potential exchange ($q^0 \ll |\mathbf{q}|$) to **on-shell gravitational radiation** ($k^2 = \omega_{\mathrm{GW}}^2 / c^2 - |\mathbf{k}|^2 = 0$), we factor the DDF-independent QED/gauge double-copy and post-Minkowskian theorems into [src/signals/Signals/QEDGravity.lean](../src/signals/Signals/QEDGravity.lean) and contrast them directly with the quantum-hydrodynamic DDF extensions in [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean) ({download}`data/chats/Review-Pop-III-GW-Remnants.md, lines 300-855 <../data/chats/Review-Pop-III-GW-Remnants.md>`; {download}`data/chats/SQGDDF-Explanation-of-Wave-Delays.md, lines 1-115 <../data/chats/SQGDDF-Explanation-of-Wave-Delays.md>`):
+
+| Modeling Dimension | **Without DDF** (`Signals.QEDGravity`: Flat-Space QED/Gauge Double Copy) | **With DDF** (`Signals.DDF`: Two-Phase $(\phi, \varphi)$ Superfluid & Jammed Sheath) |
+|---|---|---|
+| **Spin-2 Polarizations & Carrier** | Massless spin-2 double copy $\varepsilon_{\mu\nu}^{(\pm 2)} = \varepsilon_\mu^{(\pm 1)} \otimes \varepsilon_\nu^{(\pm 1)}$; $F_+(\iota) = \frac{1+\cos^2\iota}{2} \in [\frac{1}{2}, 1]$, $F_\times(\iota) = \cos\iota$ | Transverse $\varphi$-lattice shear phonon ($h_+, h_\times$) + compressible $\phi$-condensate breathing/vortex modes near $\dot{\gamma} > \dot{\gamma}_c$ |
+| **$Gr_{\mathbb{C}}(2,4)$ Quadrupole Wave Matrix** | `orb.gr24QuadrupoleWaveMatrix Φ_orb Δϖ`: $\|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}\|^2 = 2(1 + \sqrt{1-e^2}\cos(2\Phi_{\mathrm{orb}} + \Delta\varpi))$ | Same $Gr_{\mathbb{C}}(2,4)$ matrix, with $\|w_A^{\mathbb{C}}\|^2\|w_B^{\mathbb{C}}\|^2 = 1-e^2 = p/a$ as the product of normalized Madelung sink densities |
+| **Strain $h_0$ & 2.5PN Peters–Mathews Flux** | $h_0 = \frac{4 G^2 m_1 m_2}{c^4 R a} = \frac{r_{S,1} r_{S,2}}{R a}$, $f_{\mathrm{PM}}(e)^2 = \frac{(1 + \frac{73}{24}e^2 + \frac{37}{96}e^4)^2}{(\|w_A^{\mathbb{C}}\|^2\|w_B^{\mathbb{C}}\|^2)^7}$ | $c^{-2} = \varrho_{\max}^\varphi j_{\min}^\varphi \implies h_0^{\mathrm{DDF}} \propto (\varrho_{\max}^\varphi j_{\min}^\varphi)^2$ and $(P_{\mathrm{GW}}^{\mathrm{DDF}})^2 \propto (\varrho_{\max}^\varphi j_{\min}^\varphi)^5$ |
+| **Dispersion & Wave Tails** | Dispersionless $v_p(k) = c$; geometric Weyl backscattering (Price's law $t^{-7}$) | Strain-thickened $v_{p,\mathrm{DDF}}^2(k) > v_{p,\mathrm{std}}^2(k)$; GPE vortex gradient $V_{\mathrm{scat}}(r) = \frac{2\rho_0\xi^2 r}{(r^2+\xi^2)^2} > 0$ + Kelvin-wave damping $\Gamma_{\mathrm{DDF}} = \alpha k^2(1+\gamma_{\mathrm{dil}}k^2)$ |
+| **3D `NormedTensorGaussianSplat3D` vs. 2D Projection** | `ttGravitationalWaveSplat3D`: $\sigma_{1,2} = \sigma_0 e^{\pm h_+/2}, \sigma_3 = \sigma_{z,0} \implies \det\Sigma_{\mathrm{3D}}^{\mathrm{TT}} = \sigma_0^4\sigma_{z,0}^2$ | `ddfGravitationalWaveSplat3D`: longitudinal jamming $\sigma_3 = \sigma_{z,0}\gamma_\varphi^{-1} \implies \det\Sigma_{\mathrm{3D}}^{\mathrm{DDF}} = \sigma_0^4\sigma_{z,0}^2\gamma_\varphi^{-2} < \det\Sigma_{\mathrm{3D}}^{\mathrm{TT}}$, while both project orthographically (`projectOrthographic2D`) to `ttGravitationalWaveSplat` in 2D! |
+
+```lean
+-- 4. Gravitational waves without DDF (Signals.QEDGravity), with DDF (Signals.DDF), and 3D NormedTensorGaussianSplat3D volumetric projection
+example {sub : DDFSubstrate} (re : RiverExterior sub) (s : MovingSheath sub) (orb : PlanetaryOrbit)
+    (Φ_orb Δϖ ι hPlus θ ψ : ℝ) (hv : 0 < s.velocity) :
+    let M_GW := orb.gr24QuadrupoleWaveMatrix Φ_orb Δϖ
+    let splat_tt3d := NormedTensorGaussianSplat3D.ttGravitationalWaveSplat3D
+      0 0 1 5 2 3 hPlus (by norm_num) (by norm_num) (by norm_num) θ ψ
+    let splat_ddf3d := s.ddfGravitationalWaveSplat3D
+      0 0 1 5 2 3 hPlus (by norm_num) (by norm_num) (by norm_num) θ ψ
+    let splat_tt2d := NormedTensorGaussianSplat2D.ttGravitationalWaveSplat
+      0 0 5 2 hPlus (by norm_num) (by norm_num) θ
+    Complex.normSq (complexTwoRowMinor M_GW 0 2 * complexTwoRowMinor M_GW 1 3) =
+      2 * (1 + Real.sqrt (1 - orb.eccentricity ^ 2) * Real.cos (2 * Φ_orb + Δϖ)) ∧
+    orb.petersMathewsFactor ^ 2 =
+      orb.petersMathewsPolynomial ^ 2 /
+        (Complex.normSq (complexPluckerSinkAmplitudeA M_GW) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_GW)) ^ 7 ∧
+    re.quadrupoleStrainAmplitude orb 2 10 =
+      4 * re.G_phi ^ 2 * re.sourceMass * 2 *
+        (sub.rho_max_varphi * sub.j_min_varphi) ^ 2 / (10 * orb.semiMajorAxis) ∧
+    0 < gpeVortexScatteringPotential 4 2 3 ∧
+    newtonianAcousticDampingRate 2 3 < dilatantKelvinTailDampingRate 2 (1 / 2) 3 ∧
+    splat_tt3d.projectOrthographic2D = splat_tt2d ∧
+    splat_ddf3d.projectOrthographic2D = splat_tt2d ∧
+    splat_ddf3d.covDet < splat_tt3d.covDet ∧
+    splat_ddf3d.coreBohmPotential 1 1 - splat_tt3d.coreBohmPotential 1 1 =
+      (1 ^ 2 / (4 * 1 * 3 ^ 2)) * (s.jammingFactor ^ 2 - 1) := by
+  intro M_GW splat_tt3d splat_ddf3d splat_tt2d
+  have h_no_ddf := orb.qed_gravitational_wave_without_ddf_identities
+    Φ_orb Δϖ ι re.G_phi re.sourceMass 2 sub.c 10
+    re.G_phi_pos re.sourceMass_pos (by norm_num) sub.c_pos (by norm_num) 3 2 2 3
+  have h_ddf := re.gravitational_wave_with_ddf_identities
+    s orb Φ_orb Δϖ ι 2 10 1 1 2 4 2 3 2 (1 / 2) 3 5 2 hPlus θ 2 (3 / 5) 10 1 2
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) 0 0 0 0
+  have h3d := NormedTensorGaussianSplat3D.gravitational_wave_splat3d_and_projection_identities
+    s orb 0 0 1 5 2 3 hPlus θ ψ 1 1
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_no_ddf.2.2.2.2.2.2.2.1, h_no_ddf.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_ddf.2.1, h_ddf.2.2.2.2.2.2.2.2.2.1, h_ddf.2.2.2.2.2.2.2.2.2.2.2.1,
+    h3d.1, h3d.2.1, h3d.2.2.2.2.2.2.1 hv, h3d.2.2.2.2.2.2.2.2⟩
 
 end ArxivGravityFromQEDPaperVerification
 ```

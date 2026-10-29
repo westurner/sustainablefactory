@@ -181,7 +181,7 @@ claims.
 
 ## Dilatant Dark Fluid (DDF) Modeling
 
-[src/signals/Signals/Nanolithography.lean](src/signals/Signals/Nanolithography.lean) formalizes the core
+[src/signals/Signals/DDF.lean](src/signals/Signals/DDF.lean) formalizes the core
 mathematical framework of the Dilatant Dark Fluid (Fedi, 2026, SSRN 7406660):
 - `DDFSubstrate` defines the two-component ultralight bosonic medium: a coherent
   $\phi$ superfluid condensate coupled to a heavier dispersed $\varphi$ phase

@@ -4816,4 +4816,35 @@ example : 0 < toyThreeZoneHyperbolicSFGCannon.heatRemovedBySink.joules := by
   exact toyThreeZoneHyperbolicSFGCannon.positive_heat_sink_required
     (by norm_num [toyThreeZoneHyperbolicSFGCannon])
 
+/-- Toy fixture for the Madelung variational action and dilatant jamming hypothesis. -/
+noncomputable def toyMadelungDilatantVariational : MadelungDilatantVariationalHypothesis :=
+  { bosonMass := 1
+    bosonMass_pos := by norm_num
+    baseCouplingG0 := 2
+    baseCouplingG0_pos := by norm_num
+    dilatantStrainCoeff := 1 / 4
+    dilatantStrainCoeff_pos := by norm_num
+    sheathBetaSq := 9 / 25
+    sheathBetaSq_nonneg := by norm_num
+    sheathBetaSq_lt_one := by norm_num
+    sheathCompressionFactor := 5 / 4
+    sheathCompressionFactor_pos := by norm_num
+    stationaryJammingClosure := by norm_num
+    laboratoryAcousticDispersionCalibrated := True
+    laboratoryAcousticDispersionCalibrated_hypothesis := trivial
+    crossedBeamDeflectionDiscriminatorTested := True
+    crossedBeamDeflectionDiscriminatorTested_hypothesis := trivial }
+
+/-- At the stationary jamming point Λ_∥ = 5/4 for β = 3/5, the Euler-Lagrange residual is zero. -/
+example :
+    toyMadelungDilatantVariational.sheathCompressionFactor *
+      (1 - toyMadelungDilatantVariational.sheathBetaSq) -
+      1 / toyMadelungDilatantVariational.sheathCompressionFactor = 0 := by
+  exact toyMadelungDilatantVariational.stationary_residual_zero
+
+/-- For β² = 9/25 > 0, the squared sheath compression factor Λ_∥² = 25/16 exceeds 1. -/
+example : 1 < toyMadelungDilatantVariational.sheathCompressionFactor ^ 2 := by
+  exact toyMadelungDilatantVariational.compression_sq_gt_one
+    (by norm_num [toyMadelungDilatantVariational])
+
 end SignalsPendingTests

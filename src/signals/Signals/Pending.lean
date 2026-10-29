@@ -4840,4 +4840,89 @@ lemma ThreeZoneHyperbolicSFGCannonHypothesis.positive_heat_sink_required
     hypothesis.absorbedSubTHzHeating_nonneg,
     above_reignition]
 
+/-! ## Madelung Variational Action & Dilatant-Phase ($\varphi$) Jamming Evidence Boundary
+
+The theorems in `Signals.DDF` (`madelung_lagrangian_variational_and_dilatant_jamming_identities`)
+verify that substituting $\psi = \sqrt{\rho} e^{i S / \hbar}$ into the Gross–Pitaevskii
+Lagrangian density yields the hydrodynamic continuity and Quantum Hamilton–Jacobi
+equations, and that adding the dilatant sheath-compression coupling recovers
+$\Lambda_\parallel(v) = \gamma_\varphi(v) = (1 - v^2/c^2)^{-1/2}$ and $d\tau_D = dt / \gamma_\varphi(v)$.
+The Pending record below separates that checked variational algebra from the
+experimental question of whether the vacuum itself is a two-phase dilatant medium
+versus a curved Lorentzian manifold (`η_act^γ = 0` vs. `1`), or whether a laboratory
+shear-thickening colloidal/BEC analog realizes the dilatant dispersion $g(k) = g_0(1 + \gamma_{\mathrm{dil}} k^2)$. -/
+
+/-- A Pending evidence-boundary contract for the Madelung variational action and
+dilatant-phase ($\varphi$) jamming coupling. -/
+@[blueprint "def:signals-madelung-dilatant-variational-hypothesis"
+  (title := "Madelung variational action and dilatant-phase jamming evidence contract")
+  (statement := /-- Records the superfluid boson mass $m_\phi > 0$, base contact coupling $g_0 > 0$,
+    dilatant strain-coupling coefficient $\gamma_{\mathrm{dil}} > 0$, sheath compression factor $\Lambda_\parallel > 0$,
+    speed ratio squared $\beta^2 \in [0, 1)$, stationary closure law $\Lambda_\parallel^2(1 - \beta^2) = 1$,
+    and the explicit experimental controls required to test dilatant dispersion and active-radiation sourcing. -/)]
+structure MadelungDilatantVariationalHypothesis where
+  bosonMass : ℝ
+  bosonMass_pos : 0 < bosonMass
+  baseCouplingG0 : ℝ
+  baseCouplingG0_pos : 0 < baseCouplingG0
+  dilatantStrainCoeff : ℝ
+  dilatantStrainCoeff_pos : 0 < dilatantStrainCoeff
+  sheathBetaSq : ℝ
+  sheathBetaSq_nonneg : 0 ≤ sheathBetaSq
+  sheathBetaSq_lt_one : sheathBetaSq < 1
+  sheathCompressionFactor : ℝ
+  sheathCompressionFactor_pos : 0 < sheathCompressionFactor
+  stationaryJammingClosure :
+    sheathCompressionFactor ^ 2 * (1 - sheathBetaSq) = 1
+  laboratoryAcousticDispersionCalibrated : Prop
+  laboratoryAcousticDispersionCalibrated_hypothesis :
+    laboratoryAcousticDispersionCalibrated
+  crossedBeamDeflectionDiscriminatorTested : Prop
+  crossedBeamDeflectionDiscriminatorTested_hypothesis :
+    crossedBeamDeflectionDiscriminatorTested
+
+/-- At the stationary jamming point $\Lambda_\parallel^2(1 - \beta^2) = 1$, the sheath
+compression Euler–Lagrange residual $\Lambda_\parallel(1 - \beta^2) - 1/\Lambda_\parallel$
+vanishes identically. -/
+@[blueprint "lem:signals-madelung-dilatant-stationary-residual-zero"
+  (title := "Stationary jamming closure forces zero sheath Euler-Lagrange residual")
+  (statement := /-- In any \texttt{MadelungDilatantVariationalHypothesis},
+    $\Lambda_\parallel(1 - \beta^2) - 1/\Lambda_\parallel = 0$. -/)
+  (proof := /-- Divide $\Lambda_\parallel^2(1 - \beta^2) = 1$ by $\Lambda_\parallel > 0$. -/)
+  (latexEnv := "lemma")]
+lemma MadelungDilatantVariationalHypothesis.stationary_residual_zero
+    (hypothesis : MadelungDilatantVariationalHypothesis) :
+    hypothesis.sheathCompressionFactor * (1 - hypothesis.sheathBetaSq) -
+      1 / hypothesis.sheathCompressionFactor = 0 := by
+  have hL_ne : hypothesis.sheathCompressionFactor ≠ 0 :=
+    ne_of_gt hypothesis.sheathCompressionFactor_pos
+  have h_eq :
+      hypothesis.sheathCompressionFactor * (1 - hypothesis.sheathBetaSq) =
+        1 / hypothesis.sheathCompressionFactor := by
+    rw [eq_div_iff hL_ne]
+    calc
+      hypothesis.sheathCompressionFactor * (1 - hypothesis.sheathBetaSq) *
+          hypothesis.sheathCompressionFactor =
+        hypothesis.sheathCompressionFactor ^ 2 * (1 - hypothesis.sheathBetaSq) := by ring
+      _ = 1 := hypothesis.stationaryJammingClosure
+  linarith
+
+/-- Subluminal translation ($\beta^2 > 0$) forces longitudinal sheath compression
+strictly above unity ($1 < \Lambda_\parallel^2$). -/
+@[blueprint "lem:signals-madelung-dilatant-compression-gt-one"
+  (title := "Positive translation speed forces longitudinal sheath compression Λ_∥² > 1")
+  (statement := /-- If $0 < \beta^2$ in \texttt{MadelungDilatantVariationalHypothesis},
+    then $1 < \Lambda_\parallel^2$. -/)
+  (proof := /-- Combine $\Lambda_\parallel^2(1 - \beta^2) = 1$ with $0 < 1 - \beta^2 < 1$. -/)
+  (latexEnv := "lemma")]
+lemma MadelungDilatantVariationalHypothesis.compression_sq_gt_one
+    (hypothesis : MadelungDilatantVariationalHypothesis)
+    (h_moving : 0 < hypothesis.sheathBetaSq) :
+    1 < hypothesis.sheathCompressionFactor ^ 2 := by
+  have h_one_sub_pos : 0 < 1 - hypothesis.sheathBetaSq := by
+    linarith [hypothesis.sheathBetaSq_lt_one]
+  have h_lt_one : 1 - hypothesis.sheathBetaSq < 1 := by linarith
+  have h_closure := hypothesis.stationaryJammingClosure
+  nlinarith [sq_nonneg hypothesis.sheathCompressionFactor]
+
 end Signals.Pending

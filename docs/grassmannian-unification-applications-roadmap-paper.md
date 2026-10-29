@@ -148,6 +148,7 @@ To keep the repository modular, auditable, and free of duplicated maintenance, e
 | **N-LIG Graphene SPP Waveguides, Transverse vs. Longitudinal Cherenkov/Proca Cutoff, & CW Laser Controls** | [grassmannian-polariton-spp-mechanics-paper.md](grassmannian-polariton-spp-mechanics-paper.md), [flat-light-nanolithography-scholarly.md](flat-light-nanolithography-scholarly.md), [chat-physics-catalog.md](chat-physics-catalog.md) | [flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md) (Guided-Mode Claim, CW vs. Pulsed Laser Precedents, and Longitudinal-Beam Gates) |
 | **DDF Active-Radiation Null ($\eta_{\mathrm{act}}^\gamma = 0$), Vortex Circulation, & JHTDB/PIV Cutouts** | [grassmannian-ddf-moving-sheath-paper.md](grassmannian-ddf-moving-sheath-paper.md), [grassmannian-holographic-principle-paper.md](grassmannian-holographic-principle-paper.md), [src/signals/OPEN_FLOW_DATASETS.md](../src/signals/OPEN_FLOW_DATASETS.md) | [src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md](../src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md) (`HDDF-active-null` crossed-laser-beam discriminator & Magnus control) and [src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md](../src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md) |
 | **AdS/CFT Dictionary, Planar Integrability (`arXiv:1012.3982`), & $\mathfrak{psl}(2|2)_c$ Secret Symmetries (`arXiv:1204.2366`)** | [grassmannian-ads-cft-ddf-paper.md](grassmannian-ads-cft-ddf-paper.md), [grassmannian-qism-bethe-ansatz-paper.md](grassmannian-qism-bethe-ansatz-paper.md), [src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) (Iterations 32–33) and [lean-blueprint-rust-port-plan.md](lean-blueprint-rust-port-plan.md) (`:blueprint` / `:blueprintJson` export) |
+| **Superfluid Gross–Pitaevskii Action, Madelung Polar Substitution, Euler–Lagrange QHJ/Euler Equations, Dilatant Jamming Recovery ($\Lambda_\parallel = \gamma_\varphi$), & $405\text{ nm}/532\text{ nm}$ Carbon  Nanolithography** | [grassmannian-madelung-lagrangian-ddf-jamming-paper.md](grassmannian-madelung-lagrangian-ddf-jamming-paper.md), [grassmannian-riscv-holographic-nanolithography-kicad-paper.md](grassmannian-riscv-holographic-nanolithography-kicad-paper.md), [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L7395-L8145), [src/signals/Signals/Nanolithography.lean](../src/signals/Signals/Nanolithography.lean) | [src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md](../src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md) (`madelung_lagrangian.rs`, `cannon_mask_cad.rs`) and [flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md) |
 
 ### 3.2 Concise Summary of All Nine Project Plan Documents
 
@@ -157,7 +158,7 @@ To keep the repository modular, auditable, and free of duplicated maintenance, e
 | **2** | [flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md) | Falsifiable experimental and computational adjudication program separating N-LIG material synthesis, classical guided modes, multi-beam holography, CW graphitization, and Pending Proca claims. | **Classical & Pending Contracts Implemented** (`LongitudinalBeamApplicationEvidence`, `sppEffectiveIndexSq`, `transversePlasmaPhaseVelSq` vs. `longitudinalPlasmaPhaseVelSq`). | Execute preregistered CW vs. pulsed N-LIG dose-stepped Raman/XPS/HAZ experiments and high-NA vectorial PSF/MTF imaging controls. |
 | **3** | [dispersive-homodyne-plan.md](dispersive-homodyne-plan.md) | Coverage and implementation plan for classical balanced homodyne detection, dual-homodyne Bell/CHSH traces, dispersive QND parity readout, Hawking-like CP/ALS decoding, and Argon MHD power ledgers. | **Substantially Implemented** (`Signals.Homodyne`, `Signals.NonDestructive`, `Signals.MHD`, `SecondHarmonicResonantOpaModel`, `opaSqueezedTensorSplat`). | Add regression fixtures for `WaveguideSpec.propagationLoss`, `DualHomodyneTrace.missingSamples`, and CMRR dB-to-linear conversion; ingest measured detector-loss and shot-noise traces. |
 | **4** | [src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md](../src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md) | Replaces earlier SQG fracture framing with a conditional DDF hypothesis (`H0` classical null vs. `HDDF` causal transverse-phonon defect perturbation vs. `HDDF-active-null` crossed-beam deflection). | **Contracts & Dataset Readers Implemented** (`DDFFractureCommunicationEvidence`, `MagnusEffectControl`, JHTDB/PIV/RSPID probes). | Populate `DDFFractureCommunicationEvidence` from an independent measured vortex/pressure-deficit observable after subtracting the classical Kutta–Joukowski Magnus control $L' = \rho U \Gamma$. |
-| **5** | [src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md](../src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md) | Defines the Lean-to-Rust/WASM/WebGL2 numerical boundary: Vortex 0.86.1 columnar arrays, HDF5/PIV/JHTDB ingestion, RK2 FTLE/LCS advection, and 2D/3D Grassmannian–DDF splat/telegrapher solvers. | **Core + 4 Physics Modules + Vortex/HDF5/JHTDB Implemented** (48 tests + `wasm32-unknown-unknown` release build passing). | Benchmark Vortex vs. Arrow/Parquet on large 3D cutouts; implement adaptive splat splitting under high Anosov/OPA aspect ratios. |
+| **5** | [src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md](../src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md) | Defines the Lean-to-Rust/WASM/WebGL2 numerical boundary: Vortex 0.86.1 columnar arrays, HDF5/PIV/JHTDB ingestion, RK2 FTLE/LCS advection, and 2D/3D Grassmannian–DDF splat/telegrapher solvers. | **Core + 6 Physics/CAD Modules + Vortex/HDF5/JHTDB Implemented** (58 tests + `wasm32-unknown-unknown` release build passing). | Benchmark Vortex vs. Arrow/Parquet on large 3D cutouts; implement adaptive splat splitting under high Anosov/OPA aspect ratios. |
 | **6** | [lean-blueprint-rust-port-plan.md](lean-blueprint-rust-port-plan.md) | Roadmap for integrating LeanArchitect's `:blueprint` / `:blueprintJson` facets with `dsport`'s Rust `sphinxdocrs` engine, optional Lean LSP enrichment, and `ratex` PDF rendering. | **Baseline & Lake JSON Facets Active** (`:blueprint` and `:blueprintJson` build all 4 Signals targets at 3,715 jobs). | Complete Phase 1 `ratex` PDF parity spike and Phase 3–4 Rust `BlueprintSnapshot` importer in `sphinxdocrs`. |
 | **7** | [rdfhdt-implementation-plan.md](rdfhdt-implementation-plan.md) | Plans streaming Rust `hdt-rs` (`0.7.3`) N-Triples-to-HDT export/import for the Oxigraph-backed `docindex` search store without Python list materialization. | **Architecture & Config Hooks Defined** (`docindex_rdf_hdt_enabled` in `docs/conf.py`). | Implement the streaming Rust `export_hdt` / `import_hdt` helper crate under `src/docindex` and benchmark against N-Triples fallback. |
 | **8** | [workflow-performance-plan.md](workflow-performance-plan.md) | Incremental manifest-driven pipeline (`chat-manifest.json`) from `data/chats/` through `transform-md`, Sphinx HTML build, and `docindex` indexing. | **Phase 0 & Phase 1 Incremental Runner Active** (`make chat_overlays`, `tools/workflow_transform.py`). | Add single-pass in-memory fan-out in `transform-md`, Sphinx changed-page instrumentation for incremental `docindex` upserts, and `.tmp/workflow/last-run.json` telemetry. |
@@ -351,32 +352,42 @@ end ArxivCapstoneNinePaperUnificationVerification
 
 ### Scholarly References
 
+(unif-thooft1993)=
 <a id="unif-thooft1993"></a>
 1. 't Hooft, G. (1993). *Dimensional Reduction in Quantum Gravity*. In *Salamfestschrift: A Collection of Talks*, World Scientific, pp. 284–296; [arXiv:gr-qc/9310026](https://arxiv.org/abs/gr-qc/9310026).
 
+(unif-susskind1995)=
 <a id="unif-susskind1995"></a>
 2. Susskind, L. (1995). *The World as a Hologram*. Journal of Mathematical Physics 36(11), 6377–6396. [DOI: 10.1063/1.531249](https://doi.org/10.1063/1.531249); [arXiv:hep-th/9409089](https://arxiv.org/abs/hep-th/9409089).
 
+(unif-maldacena1998)=
 <a id="unif-maldacena1998"></a>
 3. Maldacena, J. M. (1998). *The Large N Limit of Superconformal Field Theories and Supergravity*. Advances in Theoretical and Mathematical Physics 2, 231–252; [arXiv:hep-th/9711200](https://arxiv.org/abs/hep-th/9711200).
 
+(unif-beisert2012)=
 <a id="unif-beisert2012"></a>
 4. Beisert, N., Ahn, C., Alday, L. F., Bajnok, Z., Drummond, J. M., et al. (2012). *Review of AdS/CFT Integrability: An Overview*. Letters in Mathematical Physics 99(1–3), 3–32. [DOI: 10.1007/s11005-011-0529-2](https://doi.org/10.1007/s11005-011-0529-2); [arXiv:1012.3982](https://arxiv.org/abs/1012.3982).
 
+(unif-deleeuw2012)=
 <a id="unif-deleeuw2012"></a>
 5. de Leeuw, M., Matsumoto, T., Moriyama, S., Regelskis, V., and Torrielli, A. (2012). *Secret Symmetries in AdS/CFT*. Physica Scripta 86(2), 028502. [DOI: 10.1088/0031-8949/86/02/028502](https://doi.org/10.1088/0031-8949/86/02/028502); [arXiv:1204.2366](https://arxiv.org/abs/1204.2366).
 
+(unif-qian2023)=
 <a id="unif-qian2023"></a>
 6. Qian, X.-F., and Izadi, M. (2023). *Bridging Coherence Optics and Classical Mechanics: A Generic Light Polarization-Entanglement Complementary Relation*. Physical Review Research 5(3), 033110. [DOI: 10.1103/PhysRevResearch.5.033110](https://doi.org/10.1103/PhysRevResearch.5.033110).
 
+(unif-lei2025)=
 <a id="unif-lei2025"></a>
 7. Lei, B., et al. (2025). *Coherent Synchrotron Radiation by Excitation of Surface Plasmon Polaritons on Near-Critical Solid Microtube Surface*. Physical Review Letters; [DOI: 10.1103/cnym-16hc](https://doi.org/10.1103/cnym-16hc); [arXiv:2507.04561](https://arxiv.org/abs/2507.04561).
 
+(unif-dean2025)=
 <a id="unif-dean2025"></a>
-8. Dean, et al. (2025). *Low-Power Integrated Optical Amplification Through Second-Harmonic Resonance*. Nature; [DOI: 10.1038/s41586-025-09959-z](https://doi.org/10.1038/s41586-025-09959-z).
+8. Dean, et al. (2025). *Low-Power Integrated Optical Amplification Through Second-Harmonic Resonance*. Nature; [DOI: 10.1038/s41586-025-09959-z](https://doi.org/10.1038/s41586-025-09959-z); [arXiv:2509.26425](https://arxiv.org/abs/2509.26425).
 
+(unif-fedi2026)=
 <a id="unif-fedi2026"></a>
-9. Fedi, M. (2026). *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. SSRN Preprint 7406660.
+9. Fedi, M. (2026). *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. SSRN Preprint 7406660. [Preprint page](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660); [SSRN DOI](https://doi.org/10.2139/ssrn.7406660).
+
 
 ---
 
