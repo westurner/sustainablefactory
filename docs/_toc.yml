@@ -20,28 +20,38 @@ sustainablefactory:
     files: []
 chapters:
 - file: readme
-- file: paper
 - file: schema
 - file: visualization
 - file: cli_reference
 - file: glossary
-- file: research_brief_carbothermic_ultrasonic
-- file: sphinx-meilisearch-architecture
-- file: tables_and_figures
 - file: tools
 - file: workflow-performance-plan
-- file: dispersive-homodyne-plan
+- file: plan-index
+
+#- file: chats/index
+#- file: tables_and_figures
+
+
+- file: sphinx-meilisearch-architecture
+- file: lean-blueprint-rust-port-plan
+- file: chat-physics-catalog
+
+- file: paper
 - file: paper-model-review
 - file: soliton-bus
-- file: chat-physics-catalog
+- file: dispersive-homodyne-plan
+
+- file: research_brief_carbothermic_ultrasonic
+
 - file: anti-fire-cannon-review
 - file: water
-- file: chats/index
+
+- file: signals-blueprint
+
 - file: flat-light-nanolithography-scholarly
 - file: longitudinal-wave-polycbd-upt-dff-evidence
-- file: signals-blueprint
-- file: lean-blueprint-rust-port-plan
 - file: flat-light-proca-nlig-validation-plan
+
 - file: huygens-grassmannian-amplituhedron-plan
 - file: grassmannian-huygens-double-slit-oam-paper
 - file: grassmannian-qism-bethe-ansatz-paper
@@ -60,4 +70,4 @@ chapters:
 - file: grassmannian-riscv-holographic-nanolithography-kicad-paper
 - file: grassmannian-madelung-lagrangian-ddf-jamming-paper
 - file: grassmannian-hawking-radiation-decoding-paper
-- file: plan-index
+
