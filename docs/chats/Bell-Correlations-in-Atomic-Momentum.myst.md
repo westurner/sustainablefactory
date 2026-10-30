@@ -1651,7 +1651,7 @@ $$P_{\boldsymbol{\lambda}}(\theta) = \frac{1}{d^2 \cdot \left| \Omega_{\boldsymb
 
 | Physical / Geometric Property | Maximally Entangled State ($\lambda_m = 1/\sqrt{d}$) | Non-Maximally Entangled State ($\lambda_m$ non-uniform) |
 | :--- | :--- | :--- |
-| **Root Locations ($z_k$)** | All $d-1$ roots lie **on** the unit circle ($|z_k| = 1$). | Roots shift **off** the unit circle ($|z_k| \neq 1$). |
+| **Root Locations ($z_k$)** | All $d-1$ roots lie **on** the unit circle ($\|z_k\| = 1$). | Roots shift **off** the unit circle ($\|z_k\| \neq 1$). |
 | **Coincidence Zeros** | Reaches exact zeros ($P_d = 0$) at boundary intersections. | Zero-visibility drops; minima become non-zero ($P_{\min} > 0$). |
 | **Phase Trajectory Path** | Traverses **along** the codimension-1 boundary facets of $Gr^+(2,d)$. | Passes **near** rather than through the boundary facets. |
 | **Cell Centroid Position** | Perfectly centered at the origin of $Gr^+(2,d)$. | Displaced toward higher-weighted Schmidt mode facets. |
@@ -2793,7 +2793,7 @@ Instead of teleporting discrete photonic qubits using single-photon emitters and
 | :--- | :--- | :--- | :--- |
 | **TMSV Source** | FNLC Cell or N-LIG Waveguide | Generates 1550 nm two-mode squeezed vacuum via $\chi^{(2)}$ / $\chi^{(3)}$ non-linearity. | Squeezing parameter $r \ge 0.8$ ($\sim 7\text{ dB}$), $P_{\text{pump}} = 20\text{ mW}$. |
 | **Photon Subtractor** | $95:5$ Variable Beam Splitter + N-LIG Cavity | Taps $5\%$ of Mode A. Detecting a single photon applies $\hat{a}$, creating Wigner negativity ($W(0,0) < 0$). | Heralding rate $\sim 10\text{ kHz}$, tap reflectivity $R = 0.05$. |
-| **Alice's BSM Stage** | $50:50$ Non-Polarizing BS + N-LIG BHD Arrays | Mixes $|\psi_{\text{in}}\rangle$ with non-Gaussian Mode A; measures joint quadratures $\hat{X}_-$ and $\hat{P}_+$. | Homodyne quantum efficiency $\eta_{\text{BHD}} > 92\%$, bandwidth $> 1\text{ GHz}$. |
+| **Alice's BSM Stage** | $50:50$ Non-Polarizing BS + N-LIG BHD Arrays | Mixes $\|\psi_{\text{in}}\rangle$ with non-Gaussian Mode A; measures joint quadratures $\hat{X}_-$ and $\hat{P}_+$. | Homodyne quantum efficiency $\eta_{\text{BHD}} > 92\%$, bandwidth $> 1\text{ GHz}$. |
 | **N-LIG BHD Sensors** | Roll-to-roll N-LIG graphene channels on $c$-BAs | Converts difference optical power ($I_{\text{LO}} \gg I_{\text{sig}}$) into continuous photocurrents $(x_M, p_M)$ at $300\text{ K}$. | Dark current $< 10\text{ nA}$, common-mode rejection ratio (CMRR) $> 45\text{ dB}$. |
 | **Bob's Displacer** | High-Speed Lithium Niobate EOM Array | Applies real-time phase-space displacement $\hat{D}(\beta)$ with $\beta = \frac{g}{\sqrt{2}}(x_M + i p_M)$. | Operational bandwidth $2\text{ GHz}$, feed-forward gain $g \approx 1$. |
 

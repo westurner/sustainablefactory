@@ -47,7 +47,7 @@ Introduced by Takhtajan, Faddeev, and Sklyanin ([Takhtajan and Faddeev 1979](#qi
 | **Yang–Baxter Equation ($RTT$)** | Operator identity on $V_1 \otimes V_2 \otimes \mathcal{H}$ | Spectral cocycle & three-site braid identity (`yang_baxter_rational_braid`) | Local graph / braid equivalence |
 | **Transfer Spectrum $t(u)$ & BAE** | Canceling $2^M$ unwanted commutator terms | 3-term Plücker $QQ$-system (`baxter_qq_pluecker_identity`) & Wronskian $TQ$ identity (`baxterTQResidual_wronskian_zero`) | $2^N$ diagonalization $\to$ $Gr(2,4)$ Plücker algebra |
 | **Spurious Root Filtering** | Ad-hoc inspection of vanishing wavefunctions | MTV Casorati Wronskian nondegeneracy (`mtv_wronskian_nondegenerate_of_root`) | Certified full-rank Plücker minor |
-| **Correlators $\langle \Psi | \mathcal{O} | \Psi \rangle$** | $(M!)^2$ $RTT$ commutator contractions | Single Plücker / Slavnov determinant (`slavnovDet2`, `slavnovDet2_pauli_exclusion`) | $O((M!)^2) \to O(M^3)$ determinant |
+| **Correlators $\langle \Psi \| \mathcal{O} \| \Psi \rangle$** | $(M!)^2$ $RTT$ commutator contractions | Single Plücker / Slavnov determinant (`slavnovDet2`, `slavnovDet2_pauli_exclusion`) | $O((M!)^2) \to O(M^3)$ determinant |
 
 ---
 

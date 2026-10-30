@@ -234,7 +234,7 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6128-L6215) (Blueprint nod
 
 | # | Higher-Rank $Gr_{\mathbb{C}}(3,6)$ Volumetric Law | Mathematical Identity in $3\times 3$ Plücker Minors | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6133-L6169) |
 |---|---|---|---|
-| **G3-V1** | **Principal 1st-Axis Variance Minor** | $\bigl|\Delta_{045}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_1^2$ | `h_vol.1` |
+| **G3-V1** | **Principal 1st-Axis Variance Minor** | $\bigl\|\Delta_{045}^{\mathbb{C}}(M_3)\bigr\|^2 = \sigma_1^2$ | `h_vol.1` |
 | **G3-V2** | **Principal 2nd-Axis Variance Minor** | $\bigl|\Delta_{315}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_2^2$ | `h_vol.2.1` |
 | **G3-V3** | **Principal 3rd-Axis (Depth) Variance Minor** | $\bigl|\Delta_{342}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_3^2$ | `h_vol.2.2.1` |
 | **G3-V4** | **Transverse $xy$ Marginal Area Minor (Orthographic 2D Determinant)** | $\bigl|\Delta_{015}^{\mathbb{C}}(M_3)\bigr|^2 = \sigma_1^2\sigma_2^2 = \det\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}$ | `h_vol.2.2.2.1` |

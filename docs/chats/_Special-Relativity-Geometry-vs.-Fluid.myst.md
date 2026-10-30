@@ -296,7 +296,7 @@ $$\eta(v) \propto \gamma(v) - 1 = \left( \frac{1}{\sqrt{1 - v^2/c^2}} - 1 \right
 
 | Theoretical Feature | Standard SR (Kinney) | Proca Field Theory | Fedi's SQR / SQG |
 | :--- | :--- | :--- | :--- |
-| **Primary Equation** | $s^2 = \eta_{\mu\nu}\Delta x^\mu \Delta x^\nu$ (Minkowski Geometry) | $\left(\Box + \left[\frac{m_\gamma c}{\hbar}\right]^2\right)A^\nu = \mu_0 J^\nu$ | $i\hbar \frac{\partial \Psi}{\partial t} = \left( -\frac{\hbar^2}{2m} \nabla^2 + g|\Psi|^2 \right)\Psi$ |
+| **Primary Equation** | $s^2 = \eta_{\mu\nu}\Delta x^\mu \Delta x^\nu$ (Minkowski Geometry) | $\left(\Box + \left[\frac{m_\gamma c}{\hbar}\right]^2\right)A^\nu = \mu_0 J^\nu$ | $i\hbar \frac{\partial \Psi}{\partial t} = \left( -\frac{\hbar^2}{2m} \nabla^2 + g\|\Psi\|^2 \right)\Psi$ |
 | **Vacuum Structure** | Empty metric continuum | Metric continuum with mass-coupling | Bose-Einstein Condensate (SQS) |
 | **Speed of Light ($c$)** | Geometric speed limit of spacetime | Geometric limit; $v_\gamma(E) < c$ for photons | Speed of acoustic phonons in the BEC |
 | **Relativistic Inertia / $\gamma$** | Hyperbolic geometry metric boost ($\cosh \xi$) | Same Lorentz boost ($\cosh \xi$) | Dilatant fluid resistance $\eta(v) \propto (\gamma - 1)$ |
@@ -1189,7 +1189,7 @@ How does Penrose’s framework resolve the quartic non-linearity ($|\psi|^4$) an
 | Concept | Classical Relativity / Optics | Penrose Twistor Synthesis |
 | :--- | :--- | :--- |
 | **Spacetime** | Fundamental 4D continuum | Emergent locus of complex twistor spheres ($S^2 \subset \mathbb{CP}^3$) |
-| **$|\psi|^4$ Non-linearity** | Local 2-body particle collisions / Kerr index shift | Multi-line geometric intersections of 4 twistor fields in $\mathbb{C}^4$ |
+| **$\|\psi\|^4$ Non-linearity** | Local 2-body particle collisions / Kerr index shift | Multi-line geometric intersections of 4 twistor fields in $\mathbb{C}^4$ |
 | **$i^4 = 1$ Periodicity** | Spinor $720^\circ$ rotation requirement | $SU(2,2)$ conformal matrix group action on $\mathbb{C}^4$ |
 | **Light Propagation** | Wavefronts moving through metric space | Primary lines in Twistor Space whose self-intersections generate local events |
 
