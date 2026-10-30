@@ -38,6 +38,82 @@ at 3,147/3,147 jobs. An earlier run failed at 3,141/3,147 in `Codespace.lean`
 and `LogicalGateGroup.lean`. This is an observed build-graph size, not a
 build-time benchmark.
 
+## Markdown Math and Table Hygiene
+
+For MyST documents under `docs/` and `src/signals/docs/`, prevent delimiter
+errors at authoring time:
+
+- Use single-dollar delimiters for inline math: `$x^2 + y^2$`.
+- Put display math on its own lines, with a blank line before and after the
+  block. This is especially important inside list items:
+  ```markdown
+  1. Statement introducing the equation.
+
+     $$
+     \omega^2 = c^2 k^2 + c^2 m^2
+     $$
+
+     Continue the explanation in a new paragraph.
+  ```
+- Do not write display equations as `$$...$$` in the middle of prose. Use
+  `$...$` for short inline expressions; put longer equations in standalone
+  display blocks.
+- In Markdown table rows that start with `|`, escape every pipe belonging to
+  LaTeX with `\|` so the table parser does not treat it as a cell boundary:
+  ```markdown
+  | Quantity | Formula |
+  | --- | --- |
+  | Amplitude | $\|w_A\|^2 + \|w_B\|^2$ |
+  ```
+- Keep math examples inside fenced code blocks when documenting syntax, so
+  scanners do not treat examples as live source.
+
+`docs/conf.py` enables MyST dollar math and AMS math. If a render issue occurs,
+run the report-only fixers on the affected file first:
+
+```bash
+python3 tools/fix_markdown_table_math_pipes.py --file docs/example.md \
+  --report .tmp/example-table-math-pipes.json
+python3 tools/fix_markdown_display_math_spacing.py --file docs/example.md \
+  --report .tmp/example-display-math-spacing.json
+```
+
+Review the JSON findings, then rerun the relevant command with `--fix` to apply
+the scoped changes. The table-pipe fixer also accepts files under
+`src/signals/docs/`; pass those paths explicitly. The display-math scanner
+checks long same-line `$$...$$` candidates (64 TeX characters by default); use
+`--inline-math-min-length` only when intentionally auditing shorter candidates.
+Both fixers verify their changes with a second scan. Do not run `--fix` over an
+entire corpus without reviewing the report first.
+
+After fixing documentation, run `make -C docs html` and inspect the affected
+page in a browser. Confirm prose stays outside math spans, formulas have MathJax
+output, and there are no `mjx-merror` nodes or console/page errors.
+
+### Recommended Documentation Edit Loop
+
+1. Edit the authoritative source. For generated chat pages, update the input
+  under `data/chats/` or the transform configuration and regenerate the
+  output; do not patch `docs/_build/` or a generated copy alone.
+2. Audit each changed Markdown file with both fixers in report-only mode. For
+  `docs/example.md`, use `--root docs --file docs/example.md`; for
+  `src/signals/docs/example.md`, use `--root src/signals/docs --file
+  src/signals/docs/example.md`. Write reports under `.tmp/`.
+3. Review each JSON report and apply `--fix` only to the scoped files. Keep the
+  report as a record of what changed; do not lower
+  `--inline-math-min-length` unless intentionally investigating shorter
+  same-line `$$...$$` candidates.
+4. Run `pytest -q tests/test_markdown_display_math_spacing.py
+  tests/test_markdown_table_math_pipes.py`, then `make -C docs html` and
+  `git diff --check`.
+5. Inspect the affected generated page in a browser. Verify formulas have
+  MathJax output, surrounding prose is not captured as math, and the page has
+  no `mjx-merror` nodes or console/page errors.
+
+Fix source delimiters before changing global MathJax configuration. Change
+`mathjax_path` or MathJax settings only when the failure reproduces across
+correctly delimited source and is attributable to site-wide rendering setup.
+
 ## GPE Terminology
 
 The Signals Pending model uses distinct records for the three meanings that
