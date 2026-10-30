@@ -294,7 +294,13 @@ scattering, strain-thickened Kelvin-wave tail damping, 4D Schur-complement
 temporal conditioning, and 3D \texttt{NormedTensorGaussianSplat3D} vs.\ 2D
 \texttt{NormedTensorGaussianSplat2D} orthographic projection;
 \texttt{RiverExterior.gravitational\_wave\_with\_ddf\_identities},
-\texttt{NormedTensorGaussianSplat3D.gravitational\_wave\_splat3d\_and\_projection\_identities})) theorems.
+\texttt{NormedTensorGaussianSplat3D.gravitational\_wave\_splat3d\_and\_projection\_identities}),
+and Hawking thermodynamics without DDF (\texttt{hawking\_thermodynamics\_without\_ddf\_identities})
+and with DDF, hydrodynamic Madelung \texttt{iGPE} potential unwinding
+(\texttt{madelungInversePotentialReconstruction}), and 2D tensor-splat $90^\circ$
+orthogonal eigenvector snap (\texttt{rotateOrthogonal90}) and transformation-toughening
+isotropic metric swelling (\texttt{isotropicTraceSwell};
+\texttt{RiverExterior.hawking\_radiation\_ddf\_and\_splat\_fracture\_identities})) theorems.
 
 \inputleanmodule{Signals.EMT}
 \inputleanmodule{Signals.AntiFireCannon}
@@ -302,6 +308,7 @@ temporal conditioning, and 3D \texttt{NormedTensorGaussianSplat3D} vs.\ 2D
 \inputleanmodule{Signals.Nanolithography}
 \inputleanmodule{Signals.QEDGravity}
 \inputleanmodule{Signals.DDF}
+\inputleanmodule{Signals.HawkingRadiation}
 
 \section{Existing model, Pending wakefield/propulsion, and propagation nodes}
 
@@ -317,9 +324,14 @@ scope the 3-zone $400\to 800\text{ GHz}$ \texttt{rGO-polyCBD-SS-Lignin}
 hyperbolic SFG anti-fire cannon, $\cdot\mathrm{OH}$ spectroscopic frequency
 separation ($1.667\text{ GHz}<800\text{ GHz}<1830\text{ GHz}$), and exothermic
 recombination heat-sink requirement (\texttt{ThreeZoneHyperbolicSFGCannonHypothesis}),
-and record the calibration and crossed-beam discriminator controls for the
+record the calibration and crossed-beam discriminator controls for the
 Madelung variational action and dilatant-phase jamming coupling
-(\texttt{MadelungDilatantVariationalHypothesis}).
+(\texttt{MadelungDilatantVariationalHypothesis}), and connect the Hawking-radiation
+decoding stages across dual-quadrature homodyne phase sweeps, shared-state
+\texttt{InteractiveGPEPoint}/\texttt{InverseGPEPoint} potential inversion,
+2-point Hadamard \texttt{finiteInverseQFT} involution, Grassmannian row-sum
+slice projection, and the Page-curve bond-dimension bound
+(\texttt{HawkingGrassmannianSynthesisContract}, \texttt{hawking\_synthesis\_gpe\_and\_page\_bounds}).
 
 \inputleanmodule{Signals.Pending}
 \inputleanmodule{SignalsPending}

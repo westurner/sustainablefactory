@@ -159,13 +159,23 @@ measured disturbance data before making those claims. `absorbedProbeEnergy`
 uses `Energy` and must be interpreted in joules, not watts.
 
 The same Pending module contains the finite Hawking-like decoding boundary:
-`PreparedModulation`, `ObservedHomodyneTensor`, `FiniteIQFT`, `ALSRank`,
-`ALSDecomposition`, and `HawkingRadiationDecoding`. These records preserve
-known input, observed tensor data, finite transform laws, CP factors, rank
-bounds, iteration limits, and residuals. They do not prove Hawking radiation,
-SQG, cryptographic recovery, quantum Fourier-transform semantics, physical
-iGPE inversion, or Amplituhedron scattering. Treat rank 2--10 as a configured
-search range and require external numerical or measured controls before
+`PreparedModulation`, `ObservedHomodyneTensor`, `ObservedQuadratureHomodyneTensor`,
+`FiniteIQFT`, `ALSRank`, `ALSDecomposition`, `HawkingRadiationDecoding`,
+`HawkingDecodeRegime`, and `HawkingGrassmannianSynthesisContract`, connected to
+[`src/signals/Signals/HawkingRadiation.lean`](src/signals/Signals/HawkingRadiation.lean)
+and [`docs/grassmannian-hawking-radiation-decoding-paper.md`](docs/grassmannian-hawking-radiation-decoding-paper.md). These records
+preserve known input, observed single- and dual-quadrature tensor data
+(`homodyne_pi_div_two_phase_sweep_recovers_quadrature`), shared-state GPE/iGPE
+and continuum Madelung potential inversion (`InverseGPEPoint.potential_eq_interactive_of_shared_state`,
+`HawkingGrassmannianSynthesisContract.madelung_and_pointwise_igpe_potential_bridge`),
+2-point Hadamard transform/involution (`finiteInverseQFT_two_hadamard`,
+`finiteInverseQFT_two_involution`), Grassmannian row-sum slice projection
+(`HawkingRadiationDecoding.als_observed_slice_eq_weighted_recovered`), CP factors,
+rank bounds, iteration limits, residuals, and the Page-curve bond-dimension bound
+(`HawkingGrassmannianSynthesisContract.als_rank_lt_page_bond_dimension`). They do
+not prove Hawking radiation, SQG, cryptographic recovery, quantum Fourier-transform
+semantics, physical iGPE inversion, or Amplituhedron scattering. Treat rank 2--10 as
+a configured search range and require external numerical or measured controls before
 describing convergence or information recovery.
 
 The Pending model also contains `LVPProcess`, `LigninVitrimerPerovskite`,

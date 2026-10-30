@@ -9,6 +9,7 @@ import Signals.FireSuppression
 import Signals.Applications
 import Signals.Fabrication
 import Signals.Geometry
+import Signals.HawkingRadiation
 import Signals.Homodyne
 import Signals.Huygens
 import Signals.IQ

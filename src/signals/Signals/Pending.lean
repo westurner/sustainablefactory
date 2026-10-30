@@ -15,6 +15,7 @@ import Signals.LaserProcesses
 import Signals.LaserReferences
 import Signals.Geometry
 import Signals.DirectionalBroadbandAntenna
+import Signals.HawkingRadiation
 import Signals.Homodyne
 import Signals.Huygens
 import Signals.LayerCodes
@@ -35,6 +36,7 @@ open Signals.Acoustics
 open Signals.Geometry
 open Signals.Antennas
 open Signals.DDF
+open Signals.HawkingRadiation
 open Signals.Homodyne
 open Signals.Maxwell
 open Signals.MHD
@@ -220,6 +222,40 @@ lemma InverseGPEPoint.potential_reconstruction (point : InverseGPEPoint) :
           point.laplacian / point.wavefunction -
         ((point.coupling * point.density : ℝ) : ℂ) :=
   point.inverseLaw
+
+/-- When an `InverseGPEPoint` and an `InteractiveGPEPoint` share the same local
+wavefunction, derivatives, mass, coupling, and density, the inverse GPE record
+reconstructs the exact real scalar potential of the interactive GPE record:
+`inv.potential = (inter.potential : ℂ)` and `(inv.potential).im = 0`. -/
+@[blueprint "lem:signals-inverse-gpe-recovers-interactive-potential"
+  (title := "InverseGPEPoint reconstructs the exact InteractiveGPEPoint potential on shared state data")
+  (statement := /-- If \texttt{inter : InteractiveGPEPoint} and \texttt{inv : InverseGPEPoint}
+    share $(\hbar, m_{\mathrm{eff}}, g, \rho, \psi, \partial_t\psi, \Delta\psi)$, then
+    $\mathrm{inv}.\mathrm{potential} = (\mathrm{inter}.\mathrm{potential} : \mathbb{C})$
+    and $(\mathrm{inv}.\mathrm{potential}).\mathrm{im} = 0$. -/)
+  (proof := /-- Substitute \texttt{inter.balance} into \texttt{inv.inverseLaw} and cancel
+    $\mathrm{inv}.\mathrm{wavefunction} \ne 0$. -/)
+  (latexEnv := "lemma")]
+lemma InverseGPEPoint.potential_eq_interactive_of_shared_state
+    (inter : InteractiveGPEPoint) (inv : InverseGPEPoint)
+    (h_hbar : inv.hbar = inter.hbar)
+    (h_mass : inv.effectiveMass = inter.effectiveMass)
+    (h_coup : inv.coupling = inter.coupling)
+    (h_dens : inv.density = inter.density)
+    (h_psi : inv.wavefunction = inter.wavefunction)
+    (h_dt : inv.timeDerivative = inter.timeDerivative)
+    (h_lap : inv.laplacian = inter.laplacian) :
+    inv.potential = (inter.potential : ℂ) ∧ (inv.potential).im = 0 := by
+  have hpsi_ne : inter.wavefunction ≠ 0 := by
+    rw [← h_psi]
+    exact inv.wavefunction_nonzero
+  have h_eq : inv.potential = (inter.potential : ℂ) := by
+    rw [inv.inverseLaw, h_hbar, h_mass, h_coup, h_dens, h_psi, h_dt, h_lap, inter.balance]
+    push_cast
+    field_simp [hpsi_ne]
+    ring
+  refine ⟨h_eq, ?_⟩
+  rw [h_eq, Complex.ofReal_im]
 
 /-- An inhomogeneous GPE point includes an explicit external source term. -/
 structure InhomogeneousGPEPoint where
@@ -1348,6 +1384,67 @@ def ObservedHomodyneTensor.trace
     (x : Fin width) (y : Fin height) : Fin sampleCount → ℂ :=
   fun time => (tensor.value x y time : ℂ)
 
+/-- Because `ObservedHomodyneTensor.trace` casts a single real homodyne measurement to `ℂ`,
+its imaginary quadrature component is identically zero unless a second `π / 2`-shifted
+quadrature trace is supplied. -/
+@[blueprint "lem:signals-observed-homodyne-trace-im-zero"
+  (title := "Single-channel ObservedHomodyneTensor.trace has zero imaginary quadrature")
+  (statement := /-- For any \texttt{tensor : ObservedHomodyneTensor width height sampleCount},
+    $(\mathrm{tensor}.\mathrm{trace}\;x\;y\;\mathrm{time}).\mathrm{im} = 0$. -/)
+  (proof := /-- By definition of real-to-complex coercion \texttt{Complex.ofReal\_im}. -/)
+  (latexEnv := "lemma")]
+lemma ObservedHomodyneTensor.trace_im_zero
+    {width height sampleCount : ℕ} (tensor : ObservedHomodyneTensor width height sampleCount)
+    (x : Fin width) (y : Fin height) (time : Fin sampleCount) :
+    (tensor.trace x y time).im = 0 :=
+  rfl
+
+/-- A dual-quadrature spatial-temporal homodyne tensor recording both the in-phase
+(`X`, local-oscillator phase `0`) and quadrature (`P`, local-oscillator phase `π / 2`)
+measurements `X(x,y,t) + i P(x,y,t)`. -/
+@[blueprint "def:signals-observed-quadrature-homodyne-tensor"
+  (title := "Dual-quadrature (X + i P) spatial-temporal homodyne tensor")
+  (statement := /-- Records both the in-phase $X(x,y,t)$ and quadrature $P(x,y,t)$
+    homodyne measurements across a finite $\mathrm{width}\times\mathrm{height}\times\mathrm{sampleCount}$ grid. -/)]
+structure ObservedQuadratureHomodyneTensor (width height sampleCount : ℕ) where
+  inPhase : Fin width → Fin height → Fin sampleCount → ℝ
+  quadrature : Fin width → Fin height → Fin sampleCount → ℝ
+
+/-- Full complex quadrature time trace `X(x,y,t) + i P(x,y,t)` at a spatial pixel `(x, y)`. -/
+def ObservedQuadratureHomodyneTensor.complexTrace
+    {width height sampleCount : ℕ}
+    (tensor : ObservedQuadratureHomodyneTensor width height sampleCount)
+    (x : Fin width) (y : Fin height) : Fin sampleCount → ℂ :=
+  fun time => ⟨tensor.inPhase x y time, tensor.quadrature x y time⟩
+
+/-- Sweeping the homodyne local-oscillator phase from `0` to `π / 2` in
+`Signals.Homodyne.rotatedQuadrature` extracts both the real in-phase (`X`) and
+imaginary quadrature (`P`) components of a complex `Signals.IQ.Sample`. -/
+@[blueprint "lem:signals-homodyne-pi-div-two-quadrature-sweep"
+  (title := "Homodyne 0 and π/2 local-oscillator phase sweep recovers full complex X + i P sample")
+  (statement := /-- For any \texttt{signal : Signals.IQ.Sample},
+    $\operatorname{rotatedQuadrature}(\mathrm{signal}, 0) = \mathrm{signal}.\mathrm{inPhase}$,
+    $\operatorname{rotatedQuadrature}(\mathrm{signal}, \pi/2) = \mathrm{signal}.\mathrm{quadrature}$, and
+    $\langle\operatorname{rotatedQuadrature}(\mathrm{signal}, 0), \operatorname{rotatedQuadrature}(\mathrm{signal}, \pi/2)\rangle = \mathrm{signal}.\mathrm{asComplex}$. -/)
+  (proof := /-- Unfold \texttt{rotatedQuadrature} and evaluate $\cos 0 = 1, \sin 0 = 0, \cos(\pi/2) = 0, \sin(\pi/2) = 1$. -/)
+  (latexEnv := "lemma")]
+lemma homodyne_pi_div_two_phase_sweep_recovers_quadrature
+    (signal : Signals.IQ.Sample) :
+    Signals.Homodyne.rotatedQuadrature signal 0 = signal.inPhase ∧
+      Signals.Homodyne.rotatedQuadrature signal (Real.pi / 2) = signal.quadrature ∧
+      (⟨Signals.Homodyne.rotatedQuadrature signal 0,
+        Signals.Homodyne.rotatedQuadrature signal (Real.pi / 2)⟩ : ℂ) =
+        signal.asComplex := by
+  have h0 : Signals.Homodyne.rotatedQuadrature signal 0 = signal.inPhase := by
+    unfold Signals.Homodyne.rotatedQuadrature
+    simp
+  have hpi2 : Signals.Homodyne.rotatedQuadrature signal (Real.pi / 2) = signal.quadrature := by
+    unfold Signals.Homodyne.rotatedQuadrature
+    simp
+  refine ⟨h0, hpi2, ?_⟩
+  rw [h0, hpi2]
+  rfl
+
 /-- The explicit normalization factor for a finite inverse-QFT kernel. -/
 noncomputable def inverseQFTNormalization (dimension : ℕ) : ℝ :=
   1 / Real.sqrt (dimension : ℝ)
@@ -1362,6 +1459,77 @@ noncomputable def finiteInverseQFT (dimension : ℕ) (input : Fin dimension → 
         (((-2 : ℝ) : ℂ) * Complex.I * (Real.pi : ℂ) *
           (((outputIndex.val : ℝ) * (inputIndex.val : ℝ) /
             (dimension : ℝ) : ℝ) : ℂ))
+
+/-- For dimension 2, `finiteInverseQFT 2` is the normalized 2×2 Hadamard transform:
+index 0 sums the two inputs with factor `1 / √2`, and index 1 takes their difference
+with factor `1 / √2`. -/
+@[blueprint "lem:signals-finite-iqft-two-hadamard"
+  (title := "Two-point finiteInverseQFT Hadamard evaluation")
+  (statement := /-- For any $\mathrm{input} : \operatorname{Fin}(2) \to \mathbb{C}$,
+    $\operatorname{finiteInverseQFT}(2, \mathrm{input}, 0) = \frac{\mathrm{input}(0) + \mathrm{input}(1)}{\sqrt{2}}$ and
+    $\operatorname{finiteInverseQFT}(2, \mathrm{input}, 1) = \frac{\mathrm{input}(0) - \mathrm{input}(1)}{\sqrt{2}}$. -/)
+  (proof := /-- Expand the two-element sum via \texttt{Fin.sum\_univ\_two} and simplify the $k=1, j=1$ phase
+    $\exp(-\pi i) = (\exp(\pi i))^{-1} = -1$ via \texttt{Complex.exp\_neg} and \texttt{Complex.exp\_pi\_mul\_I}. -/)
+  (latexEnv := "lemma")]
+lemma finiteInverseQFT_two_hadamard (input : Fin 2 → ℂ) :
+    finiteInverseQFT 2 input 0 =
+      ((1 / Real.sqrt 2 : ℝ) : ℂ) * (input 0 + input 1) ∧
+    finiteInverseQFT 2 input 1 =
+      ((1 / Real.sqrt 2 : ℝ) : ℂ) * (input 0 - input 1) := by
+  refine ⟨?_, ?_⟩
+  · unfold finiteInverseQFT inverseQFTNormalization
+    rw [Fin.sum_univ_two]
+    simp
+  · unfold finiteInverseQFT inverseQFTNormalization
+    rw [Fin.sum_univ_two]
+    have h_exp :
+        Complex.exp (((-2 : ℝ) : ℂ) * Complex.I * (Real.pi : ℂ) *
+          (((1 : ℝ) / ((2 : ℕ) : ℝ) : ℝ) : ℂ)) = -1 := by
+      have h_arg :
+          (((-2 : ℝ) : ℂ) * Complex.I * (Real.pi : ℂ) *
+            (((1 : ℝ) / ((2 : ℕ) : ℝ) : ℝ) : ℂ)) =
+            -((Real.pi : ℂ) * Complex.I) := by
+        push_cast
+        ring
+      rw [h_arg, Complex.exp_neg, Complex.exp_pi_mul_I]
+      norm_num
+    simp only [Fin.val_zero, Fin.val_one, Nat.cast_zero, Nat.cast_one,
+      mul_zero, zero_div, Complex.ofReal_zero, Complex.exp_zero, mul_one]
+    rw [h_exp]
+    push_cast
+    ring
+
+/-- Applying the 2-point `finiteInverseQFT` twice recovers the original 2-point
+complex vector (`H_2^2 = I_2`). -/
+@[blueprint "lem:signals-finite-iqft-two-involution"
+  (title := "Two-point finiteInverseQFT Hadamard involution")
+  (statement := /-- For any $\mathrm{input} : \operatorname{Fin}(2) \to \mathbb{C}$ and $k \in \operatorname{Fin}(2)$,
+    $\operatorname{finiteInverseQFT}(2, \operatorname{finiteInverseQFT}(2, \mathrm{input}), k) = \mathrm{input}(k)$. -/)
+  (proof := /-- Apply \texttt{finiteInverseQFT\_two\_hadamard} twice and use $(\sqrt{2})^2 = 2$. -/)
+  (latexEnv := "lemma")]
+lemma finiteInverseQFT_two_involution (input : Fin 2 → ℂ) (k : Fin 2) :
+    finiteInverseQFT 2 (finiteInverseQFT 2 input) k = input k := by
+  have h1 := finiteInverseQFT_two_hadamard input
+  have h2 := finiteInverseQFT_two_hadamard (finiteInverseQFT 2 input)
+  have h_sq : ((Real.sqrt 2 : ℂ)) ^ 2 = 2 := by
+    norm_cast
+    exact Real.sq_sqrt (by norm_num)
+  have h_ne : (Real.sqrt 2 : ℂ) ≠ 0 := by
+    norm_cast
+    exact ne_of_gt (Real.sqrt_pos.mpr (by norm_num))
+  fin_cases k
+  · change finiteInverseQFT 2 (finiteInverseQFT 2 input) 0 = input 0
+    rw [h2.1, h1.1, h1.2]
+    push_cast
+    field_simp [h_ne]
+    rw [h_sq]
+    ring
+  · change finiteInverseQFT 2 (finiteInverseQFT 2 input) 1 = input 1
+    rw [h2.2, h1.1, h1.2]
+    push_cast
+    field_simp [h_ne]
+    rw [h_sq]
+    ring
 
 /-- A finite inverse-QFT record with an explicit transform law. -/
 structure FiniteIQFT (dimension : ℕ) where
@@ -1547,6 +1715,188 @@ lemma HawkingRadiationDecoding.comparison_ready
     decoding.als.residualWithinTolerance,
     decoding.als.iterationsWithinLimit,
     decoding.inputComparison.residualWithinTolerance⟩
+
+/-- Because `HawkingRadiationDecoding` embeds `LogarithmicChart width height sampleCount`
+(whose `boundary : OrderedColumns width height` is a strictly increasing map
+`Fin width → Fin height`), every valid instance satisfies `width ≤ height`. -/
+@[blueprint "lem:signals-hawking-decoding-width-le-height"
+  (title := "HawkingRadiationDecoding ordered-column chart requires width ≤ height")
+  (statement := /-- Every \texttt{HawkingRadiationDecoding width height sampleCount}
+    satisfies $\mathrm{width} \le \mathrm{height}$. -/)
+  (proof := /-- Apply \texttt{Fintype.card\_le\_of\_injective} to \texttt{amplituhedronChart.boundary.strictlyIncreasing.injective}. -/)
+  (latexEnv := "lemma")]
+lemma HawkingRadiationDecoding.width_le_height
+    {width height sampleCount : ℕ}
+    (decoding : HawkingRadiationDecoding width height sampleCount) :
+    width ≤ height := by
+  simpa using Fintype.card_le_of_injective
+    decoding.amplituhedronChart.boundary.index
+    decoding.amplituhedronChart.boundary.strictlyIncreasing.injective
+
+/-- In any `HawkingRadiationDecoding`, combining `alsProjectionObservedLaw`,
+`alsProjectionMapLaw`, `amplituhedron.imageLaw`, `iqftExternalDataLaw`, and
+`inputComparisonRecoveredLaw` proves that the ALS observed slice `als.observed x alsSliceY time`
+equals the row-sum of `amplituhedron.source.mat` at row `x` times `inputComparison.recovered time`. -/
+@[blueprint "lem:signals-hawking-decoding-als-slice-eq-weighted-recovered"
+  (title := "HawkingRadiationDecoding ALS observed slice equals Grassmannian row-sum times recovered trace")
+  (statement := /-- For any \texttt{decoding : HawkingRadiationDecoding width height sampleCount},
+    $x \in \operatorname{Fin}(\mathrm{width})$, and $\mathrm{time} \in \operatorname{Fin}(\mathrm{sampleCount})$,
+    $\mathrm{decoding}.\mathrm{als}.\mathrm{observed}\;x\;\mathrm{decoding}.\mathrm{alsSliceY}\;\mathrm{time}
+    = \left(\sum_{y \in \operatorname{Fin}(\mathrm{height})} \mathrm{decoding}.\mathrm{amplituhedron}.\mathrm{source}.\mathrm{mat}\;x\;y\right)
+    \cdot \mathrm{decoding}.\mathrm{inputComparison}.\mathrm{recovered}\;\mathrm{time}$. -/)
+  (proof := /-- Chain \texttt{alsProjectionObservedLaw}, \texttt{alsProjectionMapLaw},
+    \texttt{amplituhedron.imageLaw}, \texttt{iqftExternalDataLaw}, and \texttt{inputComparisonRecoveredLaw},
+    then factor out the `time`-dependent factor via \texttt{Finset.sum\_mul}. -/)
+  (latexEnv := "lemma")]
+lemma HawkingRadiationDecoding.als_observed_slice_eq_weighted_recovered
+    {width height sampleCount : ℕ}
+    (decoding : HawkingRadiationDecoding width height sampleCount)
+    (x : Fin width) (time : Fin sampleCount) :
+    decoding.als.observed x decoding.alsSliceY time =
+      (∑ y : Fin height, decoding.amplituhedron.source.mat x y) *
+        decoding.inputComparison.recovered time := by
+  have h_obs := (decoding.alsProjectionObservedLaw x time).symm
+  have h_map := congrFun (congrFun decoding.alsProjectionMapLaw x) time
+  have h_img := congrFun (congrFun decoding.amplituhedron.imageLaw x) time
+  rw [h_obs, h_map, h_img, Matrix.mul_apply]
+  have h_terms :
+      (∑ y : Fin height,
+        decoding.amplituhedron.source.mat x y *
+          decoding.amplituhedron.externalData y time) =
+      (∑ y : Fin height,
+        decoding.amplituhedron.source.mat x y *
+          decoding.inputComparison.recovered time) := by
+    refine Finset.sum_congr rfl (fun y _ => ?_)
+    rw [decoding.iqftExternalDataLaw y time, ← decoding.inputComparisonRecoveredLaw time]
+  rw [h_terms, ← Finset.sum_mul]
+
+/-- Four-quadrant modeling classification across the `Without DDF` vs. `With DDF`
+and `Without Splats` vs. `With Splats` axes for Hawking-radiation and analog-horizon
+studies. -/
+inductive HawkingDecodeRegime
+  | withoutDDF_withoutSplats
+  | withoutDDF_withSplats
+  | withDDF_withoutSplats
+  | withDDF_withSplats
+  deriving DecidableEq, Repr
+
+/-- Connected synthesis and evidence-boundary contract bridging `HawkingRadiationDecoding`,
+quadrature homodyne measurement, shared-state GPE/iGPE potential inversion, ALS-to-recovery
+consistency, and the Hayden–Preskill / Page-curve exponential bond-dimension threshold. -/
+@[blueprint "def:signals-hawking-grassmannian-synthesis-contract"
+  (title := "Connected Hawking-radiation decoding, Grassmannian/splat regime, and Page bond-dimension contract")
+  (statement := /-- Connects \texttt{HawkingRadiationDecoding} to its 4-quadrant
+    \texttt{HawkingDecodeRegime}, dual-quadrature homodyne tensor, shared-state
+    \texttt{InteractiveGPEPoint}/\texttt{InverseGPEPoint} potential inversion,
+    ALS-to-image slice consistency, Bekenstein–Hawking horizon entropy $S_{\mathrm{BH}}/k_B > 0$,
+    and Page-curve bond-dimension lower bound $\chi_{\mathrm{Page}} = \exp(S_{\mathrm{BH}}/(2 k_B))$. -/)]
+structure HawkingGrassmannianSynthesisContract (width height sampleCount : ℕ) where
+  regime : HawkingDecodeRegime
+  decoding : HawkingRadiationDecoding width height sampleCount
+  quadratureTensor : ObservedQuadratureHomodyneTensor width height sampleCount
+  quadratureInPhaseLaw : ∀ x y time,
+    quadratureTensor.inPhase x y time = decoding.observedTensor.value x y time
+  gpeSharedHbar : decoding.inverseGPE.hbar = decoding.interactiveGPE.hbar
+  gpeSharedMass : decoding.inverseGPE.effectiveMass = decoding.interactiveGPE.effectiveMass
+  gpeSharedCoupling : decoding.inverseGPE.coupling = decoding.interactiveGPE.coupling
+  gpeSharedDensity : decoding.inverseGPE.density = decoding.interactiveGPE.density
+  gpeSharedWavefunction :
+    decoding.inverseGPE.wavefunction = decoding.interactiveGPE.wavefunction
+  gpeSharedTimeDerivative :
+    decoding.inverseGPE.timeDerivative = decoding.interactiveGPE.timeDerivative
+  gpeSharedLaplacian :
+    decoding.inverseGPE.laplacian = decoding.interactiveGPE.laplacian
+  alsReconstructedMatchesImage : ∀ x time,
+    decoding.als.reconstructed x decoding.alsSliceY time =
+      decoding.amplituhedron.image x time
+  horizonEntropyNats : ℝ
+  horizonEntropy_pos : 0 < horizonEntropyNats
+  pageBondDimensionLowerBound : ℝ
+  pageBondDimensionLaw :
+    pageBondDimensionLowerBound = Real.exp (horizonEntropyNats / 2)
+  calibratedHomodyneQuadratures : Prop
+  calibratedHomodyneQuadratures_hypothesis : calibratedHomodyneQuadratures
+  heldOutControlVerified : Prop
+  heldOutControlVerified_hypothesis : heldOutControlVerified
+
+/-- In a `HawkingGrassmannianSynthesisContract`, the shared-state `InverseGPEPoint`
+reconstructs the exact real scalar potential of the `InteractiveGPEPoint`. -/
+@[blueprint "lem:signals-hawking-synthesis-gpe-potential-recovery"
+  (title := "Connected Hawking synthesis contract recovers the exact interactive GPE potential")
+  (statement := /-- In any \texttt{HawkingGrassmannianSynthesisContract},
+    $\mathrm{decoding}.\mathrm{inverseGPE}.\mathrm{potential} = (\mathrm{decoding}.\mathrm{interactiveGPE}.\mathrm{potential} : \mathbb{C})$
+    and $(\mathrm{decoding}.\mathrm{inverseGPE}.\mathrm{potential}).\mathrm{im} = 0$. -/)
+  (proof := /-- Apply \texttt{InverseGPEPoint.potential\_eq\_interactive\_of\_shared\_state}
+    to the contract's shared GPE fields. -/)
+  (latexEnv := "lemma")]
+lemma HawkingGrassmannianSynthesisContract.connected_gpe_potential_recovery
+    {width height sampleCount : ℕ}
+    (contract : HawkingGrassmannianSynthesisContract width height sampleCount) :
+    contract.decoding.inverseGPE.potential =
+      (contract.decoding.interactiveGPE.potential : ℂ) ∧
+    (contract.decoding.inverseGPE.potential).im = 0 :=
+  InverseGPEPoint.potential_eq_interactive_of_shared_state
+    contract.decoding.interactiveGPE contract.decoding.inverseGPE
+    contract.gpeSharedHbar contract.gpeSharedMass contract.gpeSharedCoupling
+    contract.gpeSharedDensity contract.gpeSharedWavefunction
+    contract.gpeSharedTimeDerivative contract.gpeSharedLaplacian
+
+/-- Whenever the Bekenstein–Hawking horizon entropy exceeds `2 * log 10` nats
+(`S_BH / k_B > 2 ln 10 ≈ 4.605`), the Page-curve entanglement bond dimension
+`χ_Page = exp(S_BH / (2 k_B))` strictly exceeds the maximum configured `ALSRank` (`r ≤ 10`),
+proving that rank `2..10` ALS is a low-rank subspace filter rather than a general
+astrophysical black-hole state decoder. -/
+@[blueprint "lem:signals-hawking-synthesis-als-rank-lt-page-bond"
+  (title := "ALS rank r ≤ 10 is strictly below the Page bond dimension exp(S_BH / 2k_B) when S_BH / k_B > 2 ln 10")
+  (statement := /-- If $2\ln 10 < S_{\mathrm{BH}}/k_B$ in \texttt{HawkingGrassmannianSynthesisContract},
+    then $(\mathrm{decoding}.\mathrm{als}.\mathrm{rank}.\mathrm{rank} : \mathbb{R}) < \chi_{\mathrm{Page}}$. -/)
+  (proof := /-- Combine $\mathrm{rank} \le 10 = \exp(\ln 10)$ with monotonicity of $\exp$ on $\ln 10 < S_{\mathrm{BH}}/(2 k_B)$. -/)
+  (latexEnv := "lemma")]
+lemma HawkingGrassmannianSynthesisContract.als_rank_lt_page_bond_dimension
+    {width height sampleCount : ℕ}
+    (contract : HawkingGrassmannianSynthesisContract width height sampleCount)
+    (h_entropy : 2 * Real.log 10 < contract.horizonEntropyNats) :
+    (contract.decoding.als.rank.rank : ℝ) < contract.pageBondDimensionLowerBound := by
+  have h_rank_le : (contract.decoding.als.rank.rank : ℝ) ≤ 10 := by
+    exact_mod_cast contract.decoding.als.rank.upperBound
+  have h_log_lt : Real.log 10 < contract.horizonEntropyNats / 2 := by linarith
+  have h_exp_lt : Real.exp (Real.log 10) < Real.exp (contract.horizonEntropyNats / 2) :=
+    Real.exp_lt_exp.mpr h_log_lt
+  rw [Real.exp_log (by norm_num : (0 : ℝ) < 10)] at h_exp_lt
+  rw [contract.pageBondDimensionLaw]
+  linarith
+
+/-- Bridge between the Pending pointwise `InteractiveGPEPoint` / `InverseGPEPoint`
+potential inversion and the verified continuum Madelung / Quantum Hamilton–Jacobi
+inverse potential `Signals.HawkingRadiation.madelungInversePotentialReconstruction`:
+when `contract.decoding.interactiveGPE.potential` equals the Madelung-reconstructed
+potential $V_{\mathrm{rec}}$, the `InverseGPEPoint` recovers $V_{\mathrm{rec}}$ over $\mathbb{C}$
+and the continuum QHJ residual vanishes identically. -/
+@[blueprint "lem:signals-hawking-synthesis-madelung-pointwise-igpe-bridge"
+  (title := "Bridge between Pending pointwise InverseGPEPoint and verified continuum Madelung iGPE potential reconstruction")
+  (statement := /-- If $\mathrm{decoding}.\mathrm{interactiveGPE}.\mathrm{potential} = \operatorname{madelungInversePotentialReconstruction}(m_\phi,\hbar,g_\phi,A,\Delta A,\partial_t S,v_\phi)$
+    in \texttt{HawkingGrassmannianSynthesisContract}, then
+    $\mathrm{decoding}.\mathrm{inverseGPE}.\mathrm{potential} = (\operatorname{madelungInversePotentialReconstruction}(m_\phi,\hbar,g_\phi,A,\Delta A,\partial_t S,v_\phi) : \mathbb{C})$
+    and $\operatorname{quantumHamiltonJacobiResidual}(m_\phi,\hbar,g_\phi,\mathrm{decoding}.\mathrm{interactiveGPE}.\mathrm{potential},A,\Delta A,\partial_t S,v_\phi) = 0$. -/)
+  (proof := /-- Combine \texttt{connected\_gpe\_potential\_recovery} with unfolding of
+    \texttt{madelungInversePotentialReconstruction} and \texttt{quantumHamiltonJacobiResidual}. -/)
+  (latexEnv := "lemma")]
+lemma HawkingGrassmannianSynthesisContract.madelung_and_pointwise_igpe_potential_bridge
+    {width height sampleCount : ℕ}
+    (contract : HawkingGrassmannianSynthesisContract width height sampleCount)
+    (m_phi hbar g_phi A laplacian_A S_t v_phi : ℝ)
+    (h_pot :
+      contract.decoding.interactiveGPE.potential =
+        madelungInversePotentialReconstruction m_phi hbar g_phi A laplacian_A S_t v_phi) :
+    contract.decoding.inverseGPE.potential =
+      (madelungInversePotentialReconstruction m_phi hbar g_phi A laplacian_A S_t v_phi : ℂ) ∧
+    quantumHamiltonJacobiResidual m_phi hbar g_phi
+      contract.decoding.interactiveGPE.potential A laplacian_A S_t v_phi = 0 := by
+  have h_rec := contract.connected_gpe_potential_recovery.1
+  rw [h_pot] at h_rec ⊢
+  refine ⟨h_rec, ?_⟩
+  unfold madelungInversePotentialReconstruction quantumHamiltonJacobiResidual
+  ring
 
 /-- Physical constituents that may be mixed within one propagation layer. -/
 inductive MediumConstituent

@@ -478,6 +478,160 @@ impl HolographicDdfGr24Model {
         let cross = two_row_minor_complex(&m, 0, 2).mul(two_row_minor_complex(&m, 1, 3));
         (w_a.re, w_b.re, cross.norm_sq())
     }
+
+    /// Semiclassical / acoustic Hawking horizon temperature
+    /// $T_H = \frac{\hbar \kappa_H}{2\pi k_B c} = \frac{\hbar c^3}{8\pi G_\phi M k_B}$,
+    /// matching `hawkingTemperature` and `RiverExterior.hawkingTemperature` in `Signals.HawkingRadiation`.
+    pub fn hawking_temperature(&self, hbar: f64) -> f64 {
+        (hbar * self.horizon_surface_gravity())
+            / (2.0 * std::f64::consts::PI * self.k_b * self.speed_of_light)
+    }
+
+    /// Relativistic photon-sphere radius $r_{\mathrm{ph}} = \frac{3 G_\phi M}{c^2} = \frac{3}{2} r_H$,
+    /// matching `photonSphereRadius` in `Signals.HawkingRadiation`.
+    pub fn photon_sphere_radius(&self) -> f64 {
+        1.5 * self.horizon_radius()
+    }
+
+    /// Dominant Schwarzschild ($\beta^2$) and subleading Kerr spin frame-dragging ($\beta^3$)
+    /// relativistic correction orders for a test star (e.g. S301 at $\beta = 1/12$),
+    /// matching `schwarzschildRelativisticOrder` and `kerrSpinFrameDraggingOrder` in `Signals.HawkingRadiation`.
+    pub fn schwarzschild_and_kerr_orders(beta: f64) -> (f64, f64) {
+        (beta * beta, beta * beta * beta)
+    }
+
+    /// Gordon acoustic metric temporal component
+    /// $g_{00}^{\mathrm{Gordon}}(\rho_0, c_s, v) = -\frac{\rho_0}{c_s}(c_s^2 - v^2)$,
+    /// matching `gordonAcousticMetricG00` in `Signals.HawkingRadiation`.
+    pub fn gordon_acoustic_metric_g00(rho0: f64, c_s: f64, v: f64) -> f64 {
+        -(rho0 / c_s) * (c_s * c_s - v * v)
+    }
+
+    /// Determinant $\det X^{AA'}(t, x, y, z) = \frac{1}{2}(t^2 - x^2 - y^2 - z^2)$
+    /// of Penrose's $2 \times 2$ Hermitian Pauli spinor spacetime matrix,
+    /// matching `pauliSpacetimeSpinorMatrix` in `Signals.HawkingRadiation`.
+    pub fn pauli_spacetime_spinor_det(t: f64, x: f64, y: f64, z: f64) -> f64 {
+        0.5 * (t * t - x * x - y * y - z * z)
+    }
+
+    /// S301 test-star pericenter stress-wake amplification
+    /// $\sigma_{\mathrm{wake}} = (R_{\mathrm{wake}} - d)\,\frac{1}{r_\star + \epsilon_{\mathrm{soft}}}\,G_{\mathrm{wake}}$,
+    /// matching `testStarWakeStress` in `Signals.HawkingRadiation`.
+    pub fn test_star_wake_stress(
+        wake_radius: f64,
+        dist_to_star: f64,
+        star_dist_to_center: f64,
+        softening: f64,
+        wake_gain: f64,
+    ) -> f64 {
+        (wake_radius - dist_to_star) * (1.0 / (star_dist_to_center + softening)) * wake_gain
+    }
+
+    /// Hydrodynamic iGPE / Madelung inverse potential reconstruction
+    /// $V_{\mathrm{ext}} = -\partial_t S - \frac{1}{2}m_\phi v_\phi^2 - g_\phi A^2 + \frac{\hbar^2}{2 m_\phi}\frac{\Delta A}{A}$,
+    /// matching `madelungInversePotentialReconstruction` in `Signals.HawkingRadiation`.
+    pub fn madelung_inverse_potential_reconstruction(
+        m_phi: f64,
+        hbar: f64,
+        g_phi_coup: f64,
+        a_amp: f64,
+        laplacian_a: f64,
+        s_t: f64,
+        v_phi: f64,
+    ) -> f64 {
+        -s_t - 0.5 * m_phi * v_phi * v_phi - g_phi_coup * a_amp * a_amp
+            + ((hbar * hbar) / (2.0 * m_phi)) * (laplacian_a / a_amp)
+    }
+
+    /// $90^\circ$ orthogonal eigenvector snap (`NormedTensorGaussianSplat2D.rotateOrthogonal90` in `Signals.HawkingRadiation`).
+    pub fn splat_rotate_orthogonal90(
+        splat: &NormedTensorGaussianSplat2D,
+    ) -> NormedTensorGaussianSplat2D {
+        NormedTensorGaussianSplat2D {
+            center_x: splat.center_x,
+            center_y: splat.center_y,
+            weight: splat.weight,
+            sigma1: splat.sigma2,
+            sigma2: splat.sigma1,
+            orientation_angle: splat.orientation_angle + std::f64::consts::FRAC_PI_2,
+            role: splat.role,
+        }
+    }
+
+    /// Trace-preserving isotropic metric swell (`NormedTensorGaussianSplat2D.isotropicTraceSwell` in `Signals.HawkingRadiation`).
+    pub fn splat_isotropic_trace_swell(
+        splat: &NormedTensorGaussianSplat2D,
+    ) -> NormedTensorGaussianSplat2D {
+        let sigma_swell =
+            (0.5 * (splat.sigma1 * splat.sigma1 + splat.sigma2 * splat.sigma2)).sqrt();
+        NormedTensorGaussianSplat2D {
+            center_x: splat.center_x,
+            center_y: splat.center_y,
+            weight: splat.weight,
+            sigma1: sigma_swell,
+            sigma2: sigma_swell,
+            orientation_angle: splat.orientation_angle + std::f64::consts::FRAC_PI_2,
+            role: splat.role,
+        }
+    }
+
+    /// Determinant of the WGSL Three.js `compose_instance_matrix` $3 \times 3$ quaternion-scale block,
+    /// matching `wgslInstanceMatrix3x3` in `Signals.HawkingRadiation`:
+    /// $\det M_{\mathrm{inst}}^{(3\times 3)} = s_x s_y s_z\bigl(1 + 4(q_x^2 + q_y^2 + q_z^2)(q_x^2 + q_y^2 + q_z^2 + q_w^2 - 1)\bigr)$.
+    pub fn wgsl_instance_matrix_det(
+        qx: f64,
+        qy: f64,
+        qz: f64,
+        qw: f64,
+        sx: f64,
+        sy: f64,
+        sz: f64,
+    ) -> f64 {
+        let vec_norm_sq = qx * qx + qy * qy + qz * qz;
+        let full_norm_sq = vec_norm_sq + qw * qw;
+        sx * sy * sz * (1.0 + 4.0 * vec_norm_sq * (full_norm_sq - 1.0))
+    }
+
+    /// Two-point Hadamard inverse QFT (`finiteInverseQFT 2` in `Signals.Pending`):
+    /// returns $\bigl(\frac{\mathrm{in}_0 + \mathrm{in}_1}{\sqrt{2}}, \frac{\mathrm{in}_0 - \mathrm{in}_1}{\sqrt{2}}\bigr)$.
+    pub fn finite_iqft_two_hadamard(
+        in0: Complex64,
+        in1: Complex64,
+    ) -> (Complex64, Complex64) {
+        let inv_sqrt2 = 1.0 / 2.0_f64.sqrt();
+        let sum = in0.add(in1);
+        let diff = Complex64::new(in0.re - in1.re, in0.im - in1.im);
+        (
+            Complex64::new(inv_sqrt2 * sum.re, inv_sqrt2 * sum.im),
+            Complex64::new(inv_sqrt2 * diff.re, inv_sqrt2 * diff.im),
+        )
+    }
+
+    /// Hayden–Preskill / Page-curve entanglement bond-dimension lower bound
+    /// $\chi_{\mathrm{Page}} = \exp\bigl(S_{\mathrm{BH}} / (2 k_B)\bigr)$,
+    /// matching `HawkingGrassmannianSynthesisContract.pageBondDimensionLowerBound` in `Signals.Pending`.
+    pub fn page_bond_dimension_lower_bound(s_bh_nats: f64) -> f64 {
+        (0.5 * s_bh_nats).exp()
+    }
+}
+
+/// WebAssembly C-ABI export: Semiclassical / DDF Hawking horizon temperature $T_H$.
+#[unsafe(no_mangle)]
+pub extern "C" fn wasm_hawking_temperature(
+    hbar: f64,
+    k_b: f64,
+    g_phi: f64,
+    source_mass: f64,
+    speed_of_light: f64,
+) -> f64 {
+    let model = HolographicDdfGr24Model {
+        g_phi,
+        source_mass,
+        speed_of_light,
+        k_b,
+        l_planck: 1.0,
+    };
+    model.hawking_temperature(hbar)
 }
 
 /// WebAssembly C-ABI export: Coherent Synchrotron Radiation (CSR) bunching intensity.
@@ -1578,5 +1732,84 @@ mod tests {
             splat.core_bohm_potential(1.0, 1.0),
         );
         insta::assert_snapshot!("polariton_and_spp_gr24_ddf_summary", summary);
+    }
+
+    #[test]
+    fn hawking_radiation_decoding_and_splat_fracture_identities_hold() {
+        let model = HolographicDdfGr24Model {
+            g_phi: 1.0,
+            source_mass: 2.0,
+            speed_of_light: 2.0,
+            k_b: 1.0,
+            l_planck: 0.5,
+        };
+        assert!(model.validate().is_ok());
+
+        let t_h = model.hawking_temperature(1.0);
+        let s_bh = model.bekenstein_hawking_entropy();
+        let r_h = model.horizon_radius();
+        assert!((r_h - 1.0).abs() < 1e-12);
+        assert!(
+            (t_h - (1.0 * 8.0) / (8.0 * std::f64::consts::PI * 1.0 * 2.0 * 1.0)).abs() < 1e-12
+        );
+        assert!(
+            (t_h * s_bh - (1.0 * 2.0 * r_h) / (4.0 * 0.25)).abs() < 1e-12
+        );
+        assert!((wasm_hawking_temperature(1.0, 1.0, 1.0, 2.0, 2.0) - t_h).abs() < 1e-12);
+
+        let v_r4 = -(2.0 * 1.0 * 2.0 / 4.0_f64).sqrt();
+        let v_rec = HolographicDdfGr24Model::madelung_inverse_potential_reconstruction(
+            1.0, 2.0, 0.0, 3.0, 0.0, 0.0, v_r4,
+        );
+        assert!((v_rec - (-0.5)).abs() < 1e-12);
+
+        let splat_aniso = NormedTensorGaussianSplat2D {
+            center_x: 0.0,
+            center_y: 0.0,
+            weight: 5.0,
+            sigma1: 3.0,
+            sigma2: 1.0,
+            orientation_angle: 0.2,
+            role: SplatRole::BodySinkSource,
+        };
+        let splat_rot = HolographicDdfGr24Model::splat_rotate_orthogonal90(&splat_aniso);
+        let splat_swell = HolographicDdfGr24Model::splat_isotropic_trace_swell(&splat_aniso);
+        assert!((splat_rot.cov_det() - splat_aniso.cov_det()).abs() < 1e-12);
+        assert!((splat_rot.cov_trace() - splat_aniso.cov_trace()).abs() < 1e-12);
+        assert!((splat_swell.cov_trace() - splat_aniso.cov_trace()).abs() < 1e-12);
+        assert!((splat_swell.cov_det() - 25.0).abs() < 1e-12);
+        assert!((splat_swell.cov_det() - splat_aniso.cov_det() - 16.0).abs() < 1e-12);
+        assert!(
+            splat_swell.core_bohm_potential(1.0, 1.0) < splat_aniso.core_bohm_potential(1.0, 1.0)
+        );
+
+        assert!((model.photon_sphere_radius() - 1.5).abs() < 1e-12);
+        let (ord2, ord3) = HolographicDdfGr24Model::schwarzschild_and_kerr_orders(1.0 / 12.0);
+        assert!((ord2 - 1.0 / 144.0).abs() < 1e-12);
+        assert!((ord3 - 1.0 / 1728.0).abs() < 1e-12 && ord3 < ord2);
+
+        let g00_r4 = HolographicDdfGr24Model::gordon_acoustic_metric_g00(2.0, 2.0, v_r4);
+        assert!((g00_r4 / (-2.0 * 2.0) - (1.0 - r_h / 4.0)).abs() < 1e-12);
+        assert!(
+            (HolographicDdfGr24Model::pauli_spacetime_spinor_det(5.0, 1.0, 2.0, 2.0) - 8.0).abs()
+                < 1e-12
+        );
+
+        let wake_per = HolographicDdfGr24Model::test_star_wake_stress(3.0, 1.0, 1.6, 0.0, 50.0);
+        let wake_aph = HolographicDdfGr24Model::test_star_wake_stress(3.0, 1.0, 14.4, 0.0, 50.0);
+        assert!(wake_per > wake_aph);
+
+        let det_inst =
+            HolographicDdfGr24Model::wgsl_instance_matrix_det(0.0, 0.6, 0.0, 0.8, 2.0, 3.0, 5.0);
+        assert!((det_inst - 30.0).abs() < 1e-12);
+
+        let rt2 = Complex64::new(2.0_f64.sqrt(), 0.0);
+        let (out0, out1) = HolographicDdfGr24Model::finite_iqft_two_hadamard(rt2, rt2);
+        assert!((out0.re - 2.0).abs() < 1e-12 && out1.re.abs() < 1e-12);
+        let (back0, back1) = HolographicDdfGr24Model::finite_iqft_two_hadamard(out0, out1);
+        assert!((back0.re - rt2.re).abs() < 1e-12 && (back1.re - rt2.re).abs() < 1e-12);
+
+        let chi_page = HolographicDdfGr24Model::page_bond_dimension_lower_bound(10.0);
+        assert!(chi_page > 10.0 && (chi_page - 5.0_f64.exp()).abs() < 1e-12);
     }
 }

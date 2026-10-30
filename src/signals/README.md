@@ -517,6 +517,22 @@ interpretation while keeping experimental premises explicit:
 - `Signals.Fabrication` models voxel fields, active phase masks, calibration
    tolerances, height-map bounds, and thermal budgets as data with accessor
    lemmas.
+- `Signals.HawkingRadiation` formalizes the four-quadrant (`Without DDF` vs.
+   `With DDF` $\times$ `Without Splats` vs. `With Splats`) horizon
+   thermodynamics, photon-sphere radius $r_{\mathrm{ph}} = \frac{3}{2}r_S$ and
+   ray-optics diffraction threshold, Sgr A* / S301 Kerr spin $\beta^3$ versus
+   Schwarzschild $\beta^2$ hierarchy and pericenter stress wake, Gordon acoustic
+   metric $g_{00}^{\mathrm{Gordon}}$, quartic $|\psi|^4$ GPE self-interaction
+   pressure, Penrose Pauli spinor spacetime matrix determinant
+   $\det X^{AA'} = \frac{1}{2}(t^2 - x^2 - y^2 - z^2)$ and $i^4 = 1$ spinor
+   periodicity, hydrodynamic Madelung / `iGPE` potential reconstruction
+   (`madelungInversePotentialReconstruction`), 2D and 3D splat $90^\circ$
+   orthogonal eigenvector snap (`rotateOrthogonal90`, `snapOrthogonalXZ`,
+   `rightHandedEigenvectorSwapMatrix`) and transformation-toughening isotropic
+   metric swell (`isotropicTraceSwell`, `isotropicTraceSwell3D`), Vieta's
+   $3 \times 3$ symmetric eigenvalue trace, and WGSL Three.js
+   `compose_instance_matrix` quaternion determinant. See
+   [`docs/grassmannian-hawking-radiation-decoding-paper.md`](../../docs/grassmannian-hawking-radiation-decoding-paper.md).
 - `SignalsTests` contains compile-time examples for the verified identities and
    edge cases. `SignalsPendingTests` separately compiles examples of the pending
    hypotheses and their conditional consequences. `make signals_build` builds
@@ -1284,8 +1300,18 @@ namespace and build target:
 - `HawkingRadiationDecoding` composes the prepared input, observed tensor,
    interactive/inverse GPE points, finite iQFT, Amplituhedron map, ALS
    projection, and known-input comparison. Its `comparisonReady` predicate
-   aggregates only supplied numerical residual and iteration checks. It remains
-   Pending and does not establish Hawking radiation, SQG, cryptographic
+   aggregates only supplied numerical residual and iteration checks, while
+   `ObservedQuadratureHomodyneTensor`, `homodyne_pi_div_two_phase_sweep_recovers_quadrature`,
+   `InverseGPEPoint.potential_eq_interactive_of_shared_state`,
+   `HawkingGrassmannianSynthesisContract.madelung_and_pointwise_igpe_potential_bridge`,
+   `finiteInverseQFT_two_hadamard`, `finiteInverseQFT_two_involution`,
+   `HawkingRadiationDecoding.width_le_height`,
+   `HawkingRadiationDecoding.als_observed_slice_eq_weighted_recovered`, and
+   `HawkingGrassmannianSynthesisContract` (`als_rank_lt_page_bond_dimension`)
+   connect the pipeline to `Signals.Homodyne`, `Signals.HawkingRadiation`, and
+   `Signals.DDF` across the 4-quadrant `Without/With DDF` $\times$ `Without/With Splats`
+   matrix ([docs/grassmannian-hawking-radiation-decoding-paper.md](../../docs/grassmannian-hawking-radiation-decoding-paper.md)).
+   It remains Pending and does not establish Hawking radiation, SQG, cryptographic
    recovery, or physical information decoding.
 - `ProcaMHDHypothesis` links a Proca channel to the classical MHD plant only as
    a conditional boundary. It separates optical/control power from motive

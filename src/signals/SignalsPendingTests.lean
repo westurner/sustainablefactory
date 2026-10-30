@@ -4847,4 +4847,267 @@ example : 1 < toyMadelungDilatantVariational.sheathCompressionFactor ^ 2 := by
   exact toyMadelungDilatantVariational.compression_sq_gt_one
     (by norm_num [toyMadelungDilatantVariational])
 
+/-- Non-trivial interactive GPE fixture with nonzero potential `V = 5`, coupling `g = 2`,
+density `ρ = 3`, wavefunction `ψ = 2`, and Laplacian `Δψ = 44`. -/
+noncomputable def toyNonzeroInteractiveGPE : InteractiveGPEPoint :=
+  { hbar := 1
+    hbar_pos := by norm_num
+    effectiveMass := 1
+    effectiveMass_pos := by norm_num
+    potential := 5
+    coupling := 2
+    density := 3
+    density_nonnegative := by norm_num
+    wavefunction := 2
+    timeDerivative := 0
+    laplacian := 44
+    balance := by norm_num }
+
+/-- Non-trivial inverse GPE fixture sharing state data with `toyNonzeroInteractiveGPE`
+and reconstructing `potential = 5`. -/
+noncomputable def toyNonzeroInverseGPE : InverseGPEPoint :=
+  { hbar := 1
+    hbar_pos := by norm_num
+    effectiveMass := 1
+    effectiveMass_pos := by norm_num
+    coupling := 2
+    density := 3
+    density_nonnegative := by norm_num
+    wavefunction := 2
+    wavefunction_nonzero := by norm_num
+    timeDerivative := 0
+    laplacian := 44
+    potential := 5
+    inverseLaw := by norm_num }
+
+/-- Non-zero prepared modulation trace `X = ![2, 0]`. -/
+def toyNonzeroPreparedModulation : PreparedModulation 2 :=
+  { value := ![2, 0] }
+
+/-- Non-zero observed homodyne tensor `Y(x, y, t)` on `1 × 2 × 2`. -/
+noncomputable def toyNonzeroObservedHomodyneTensor : ObservedHomodyneTensor 1 2 2 :=
+  { value := fun _ _ _ => Real.sqrt 2 }
+
+/-- Dual-quadrature observed homodyne tensor `X + i P` on `1 × 2 × 2`. -/
+noncomputable def toyNonzeroQuadratureHomodyneTensor :
+    ObservedQuadratureHomodyneTensor 1 2 2 :=
+  { inPhase := fun _ _ _ => Real.sqrt 2
+    quadrature := fun _ _ time => if time = 0 then 1 else -1 }
+
+/-- Non-zero 2-point `FiniteIQFT` fixture transforming `fun _ => √2` into the
+sharp frequency-domain spectral peak `![2, 0]`. -/
+noncomputable def toyNonzeroFiniteIQFT : FiniteIQFT 2 :=
+  { dimension_positive := by norm_num
+    input := fun _ => (Real.sqrt 2 : ℂ)
+    output := ![2, 0]
+    normalizationFactor := 1 / Real.sqrt (2 : ℝ)
+    normalizationLaw := rfl
+    outputLaw := by
+      intro outputIndex
+      have h_had := finiteInverseQFT_two_hadamard (fun _ => (Real.sqrt 2 : ℂ))
+      have h_ne : (Real.sqrt 2 : ℂ) ≠ 0 := by
+        norm_cast
+        exact ne_of_gt (Real.sqrt_pos.mpr (by norm_num))
+      fin_cases outputIndex
+      · change (2 : ℂ) = finiteInverseQFT 2 (fun _ => (Real.sqrt 2 : ℂ)) 0
+        rw [h_had.1]
+        push_cast
+        field_simp [h_ne]
+        ring
+      · change (0 : ℂ) = finiteInverseQFT 2 (fun _ => (Real.sqrt 2 : ℂ)) 1
+        rw [h_had.2]
+        ring }
+
+/-- Non-trivial `1 × 2 × 2` `AmplituhedronMap` with a positive Grassmannian fork row
+`!![2, 3]`, non-zero iQFT external data, and non-zero image `!![10, 0]`. -/
+noncomputable def toyHawkingNonzeroAmplituhedronMap : AmplituhedronMap 1 2 2 :=
+  { source := { mat := !![2, 3] }
+    externalData := fun _ column => (toyNonzeroFiniteIQFT.output column).re
+    image := !![10, 0]
+    imageLaw := by
+      ext row column
+      fin_cases row
+      fin_cases column
+      · change (10 : ℝ) = ∑ y : Fin 2, (!![2, 3] : Matrix (Fin 1) (Fin 2) ℝ) 0 y *
+          (toyNonzeroFiniteIQFT.output 0).re
+        rw [Fin.sum_univ_two]
+        simp [toyNonzeroFiniteIQFT]
+        norm_num
+      · change (0 : ℝ) = ∑ y : Fin 2, (!![2, 3] : Matrix (Fin 1) (Fin 2) ℝ) 0 y *
+          (toyNonzeroFiniteIQFT.output 1).re
+        rw [Fin.sum_univ_two]
+        simp [toyNonzeroFiniteIQFT] }
+
+/-- Positive Grassmannian `LogarithmicChart 1 2 2` for `toyHawkingNonzeroAmplituhedronMap`
+with strictly positive minors `2 > 0` and `3 > 0`, boundary minor `2`, and residue `10`. -/
+noncomputable def toyHawkingNonzeroLogarithmicChart : LogarithmicChart 1 2 2 :=
+  { map := toyHawkingNonzeroAmplituhedronMap
+    source_positive := by
+      intro columns
+      rw [GrassmannianMatrix.pluckerCoordinate, selectedMinor, Matrix.det_fin_one]
+      change 0 < (!![2, 3] : Matrix (Fin 1) (Fin 2) ℝ) 0 (columns.index 0)
+      generalize columns.index 0 = col
+      fin_cases col <;> norm_num
+    boundary := OrderedColumns.single 0
+    boundaryCoordinate := 2
+    boundaryCoordinateLaw := by
+      rw [GrassmannianMatrix.pluckerCoordinate, selectedMinor, Matrix.det_fin_one]
+      rfl
+    boundaryCoordinate_nonzero := by norm_num
+    residue := 10 }
+
+/-- Non-zero rank-2 CP/ALS decomposition on `1 × 2 × 2` reconstructing the
+spectral-peak slice `10` at `time = 0` and `0` at `time = 1` with zero residual. -/
+noncomputable def toyHawkingNonzeroALS : ALSDecomposition 1 2 2 :=
+  { rank := toyALSRank2
+    observed := fun _ _ time => (toyHawkingNonzeroAmplituhedronMap.image 0 time)
+    reconstructed := fun _ _ time => (toyHawkingNonzeroAmplituhedronMap.image 0 time)
+    factorX := !![1, 1]
+    factorY := !![1, 1; 1, 1]
+    factorT := !![5, 5; 0, 0]
+    reconstructionLaw := by
+      intro x y time
+      fin_cases x
+      fin_cases y <;> fin_cases time
+      · change (10 : ℝ) = ∑ component : Fin 2,
+          (!![1, 1] : Matrix (Fin 1) (Fin 2) ℝ) 0 component *
+          (!![1, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℝ) 0 component *
+          (!![5, 5; 0, 0] : Matrix (Fin 2) (Fin 2) ℝ) 0 component
+        rw [Fin.sum_univ_two]
+        norm_num
+      · change (0 : ℝ) = ∑ component : Fin 2,
+          (!![1, 1] : Matrix (Fin 1) (Fin 2) ℝ) 0 component *
+          (!![1, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℝ) 0 component *
+          (!![5, 5; 0, 0] : Matrix (Fin 2) (Fin 2) ℝ) 1 component
+        rw [Fin.sum_univ_two]
+        norm_num
+      · change (10 : ℝ) = ∑ component : Fin 2,
+          (!![1, 1] : Matrix (Fin 1) (Fin 2) ℝ) 0 component *
+          (!![1, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℝ) 1 component *
+          (!![5, 5; 0, 0] : Matrix (Fin 2) (Fin 2) ℝ) 0 component
+        rw [Fin.sum_univ_two]
+        norm_num
+      · change (0 : ℝ) = ∑ component : Fin 2,
+          (!![1, 1] : Matrix (Fin 1) (Fin 2) ℝ) 0 component *
+          (!![1, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℝ) 1 component *
+          (!![5, 5; 0, 0] : Matrix (Fin 2) (Fin 2) ℝ) 1 component
+        rw [Fin.sum_univ_two]
+        norm_num
+    residualMagnitude := 0
+    residualMagnitude_nonnegative := by norm_num
+    residualMagnitudeLaw := by
+      simp [tensorResidualMagnitude]
+    residualTolerance := 1 / 10
+    residualTolerance_nonnegative := by norm_num
+    residualWithinTolerance := by norm_num
+    iterations := 3
+    maximumIterations := 10
+    iterationsWithinLimit := by norm_num }
+
+/-- Connected non-zero `HawkingRadiationDecoding 1 2 2` instance with non-zero
+prepared modulation, non-zero iGPE/iQFT stages, positive Grassmannian `1 × 2` fork
+matrix `!![2, 3]`, and non-zero rank-2 ALS factors. -/
+noncomputable def toyConnectedHawkingDecoding : HawkingRadiationDecoding 1 2 2 :=
+  { emission := toyWave
+    interactiveGPE := toyNonzeroInteractiveGPE
+    inverseGPE := toyNonzeroInverseGPE
+    preparedModulation := toyNonzeroPreparedModulation
+    observedTensor := toyNonzeroObservedHomodyneTensor
+    observationX := 0
+    observationY := 0
+    observedTrace := toyNonzeroObservedHomodyneTensor.trace 0 0
+    observedTraceLaw := fun _ => rfl
+    iGPEOutput := fun _ => (Real.sqrt 2 : ℂ)
+    iGPEResidualMagnitude := 0
+    iGPEResidualMagnitude_nonnegative := by norm_num
+    iGPEResidualTolerance := 1 / 10
+    iGPEResidualTolerance_nonnegative := by norm_num
+    iGPEResidualWithinTolerance := by norm_num
+    iqft := toyNonzeroFiniteIQFT
+    iqftInputLaw := fun _ => rfl
+    amplituhedron := toyHawkingNonzeroAmplituhedronMap
+    amplituhedronChart := toyHawkingNonzeroLogarithmicChart
+    amplituhedronChartMapLaw := rfl
+    iqftExternalDataLaw := fun _ _ => rfl
+    als := toyHawkingNonzeroALS
+    alsSliceY := 0
+    alsProjection := toyHawkingNonzeroAmplituhedronMap.image
+    alsProjectionObservedLaw := by
+      intro x time
+      fin_cases x
+      rfl
+    alsProjectionMapLaw := rfl
+    inputComparison :=
+      { prepared := toyNonzeroPreparedModulation.value
+        recovered := fun time => (toyNonzeroFiniteIQFT.output time).re
+        residualMagnitude := 0
+        residualMagnitude_nonnegative := by norm_num
+        residualMagnitudeLaw := by
+          unfold traceResidualMagnitude
+          rw [Fin.sum_univ_two]
+          simp [toyNonzeroPreparedModulation, toyNonzeroFiniteIQFT]
+        residualTolerance := 1 / 10
+        residualTolerance_nonnegative := by norm_num
+        residualWithinTolerance := by norm_num }
+    inputComparisonPreparedLaw := rfl
+    inputComparisonRecoveredLaw := fun _ => rfl }
+
+/-- Connected synthesis contract instance linking `toyConnectedHawkingDecoding`
+to dual-quadrature homodyne data, shared-state GPE/iGPE potential inversion,
+and the Page-curve bond-dimension bound (`S_BH / k_B = 10 > 2 ln 10`). -/
+noncomputable def toyHawkingGrassmannianSynthesis :
+    HawkingGrassmannianSynthesisContract 1 2 2 :=
+  { regime := HawkingDecodeRegime.withDDF_withSplats
+    decoding := toyConnectedHawkingDecoding
+    quadratureTensor := toyNonzeroQuadratureHomodyneTensor
+    quadratureInPhaseLaw := fun _ _ _ => rfl
+    gpeSharedHbar := rfl
+    gpeSharedMass := rfl
+    gpeSharedCoupling := rfl
+    gpeSharedDensity := rfl
+    gpeSharedWavefunction := rfl
+    gpeSharedTimeDerivative := rfl
+    gpeSharedLaplacian := rfl
+    alsReconstructedMatchesImage := by
+      intro x time
+      fin_cases x
+      rfl
+    horizonEntropyNats := 10
+    horizonEntropy_pos := by norm_num
+    pageBondDimensionLowerBound := Real.exp 5
+    pageBondDimensionLaw := by norm_num
+    calibratedHomodyneQuadratures := True
+    calibratedHomodyneQuadratures_hypothesis := trivial
+    heldOutControlVerified := True
+    heldOutControlVerified_hypothesis := trivial }
+
+example (sample : Sample) :
+    Signals.Homodyne.rotatedQuadrature sample 0 = sample.inPhase ∧
+      Signals.Homodyne.rotatedQuadrature sample (Real.pi / 2) = sample.quadrature :=
+  ⟨(homodyne_pi_div_two_phase_sweep_recovers_quadrature sample).1,
+    (homodyne_pi_div_two_phase_sweep_recovers_quadrature sample).2.1⟩
+
+example :
+    toyConnectedHawkingDecoding.als.observed 0 toyConnectedHawkingDecoding.alsSliceY 0 =
+      (∑ y : Fin 2, toyConnectedHawkingDecoding.amplituhedron.source.mat 0 y) *
+        toyConnectedHawkingDecoding.inputComparison.recovered 0 :=
+  toyConnectedHawkingDecoding.als_observed_slice_eq_weighted_recovered 0 0
+
+example :
+    toyHawkingGrassmannianSynthesis.decoding.inverseGPE.potential =
+      (toyHawkingGrassmannianSynthesis.decoding.interactiveGPE.potential : ℂ) ∧
+    (toyHawkingGrassmannianSynthesis.decoding.inverseGPE.potential).im = 0 :=
+  toyHawkingGrassmannianSynthesis.connected_gpe_potential_recovery
+
+example :
+    toyHawkingGrassmannianSynthesis.decoding.inverseGPE.potential =
+      (Signals.HawkingRadiation.madelungInversePotentialReconstruction 1 1 2 2 52 0 0 : ℂ) ∧
+    Signals.DDF.quantumHamiltonJacobiResidual 1 1 2
+      toyHawkingGrassmannianSynthesis.decoding.interactiveGPE.potential 2 52 0 0 = 0 :=
+  toyHawkingGrassmannianSynthesis.madelung_and_pointwise_igpe_potential_bridge
+    1 1 2 2 52 0 0 (by
+      unfold Signals.HawkingRadiation.madelungInversePotentialReconstruction
+      norm_num [toyHawkingGrassmannianSynthesis, toyConnectedHawkingDecoding,
+        toyNonzeroInteractiveGPE])
+
 end SignalsPendingTests

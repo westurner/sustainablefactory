@@ -303,8 +303,13 @@ compressible and incompressible at once:
 coefficient; `NSDDFBridge` records the three regime labels and residual laws
 ([Pending.lean](../src/signals/Signals/Pending.lean#L2833-L3000)). `DDF.lean`
 supplies the separate substrate, moving-sheath, and river-flow model laws
-([DDF.lean](../src/signals/Signals/DDF.lean#L35-L255)). None of these contracts
-proves that DDF describes physical spacetime.
+([DDF.lean](../src/signals/Signals/DDF.lean#L35-L255)), while
+[`Signals/HawkingRadiation.lean`](../src/signals/Signals/HawkingRadiation.lean)
+and [`grassmannian-hawking-radiation-decoding-paper.md`](grassmannian-hawking-radiation-decoding-paper.md)
+formalize the four-quadrant (`Without/With DDF` $\times$ `Without/With Splats`)
+horizon thermodynamics, Gordon acoustic metric, `iGPE` unwinding, and
+`HawkingRadiationDecoding` boundary. None of these contracts proves that DDF
+describes physical spacetime.
 
 EHT data do not “show no Schwarzschild radius.” They measure sparse complex VLBI
 visibilities and reconstruct a bright emission ring with a central depression.

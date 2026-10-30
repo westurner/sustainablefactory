@@ -65,4 +65,30 @@ lemma cryogenic_spool_he3_phase_bounds
   ⟨hypothesis.supercritical_at_39K h_temp,
     hypothesis.no_solid_seal_below_3_4_MPa h_press⟩
 
+/-- Summary lemma: in a connected Hawking-radiation synthesis contract, the
+shared-state `InverseGPEPoint` recovers the exact `InteractiveGPEPoint` potential,
+`width ≤ height`, and whenever `2 * log 10 < S_BH / k_B`, the Page-curve
+bond dimension strictly exceeds the configured `ALSRank`. -/
+@[blueprint "lem:pending-hawking-synthesis-gpe-and-page-bounds"
+  (title := "Pending Hawking synthesis GPE potential recovery and Page bond-dimension bound")
+  (statement := /-- For any \texttt{contract : HawkingGrassmannianSynthesisContract width height sampleCount}
+    with $2\ln 10 < S_{\mathrm{BH}}/k_B$,
+    $\mathrm{decoding}.\mathrm{inverseGPE}.\mathrm{potential} = (\mathrm{decoding}.\mathrm{interactiveGPE}.\mathrm{potential} : \mathbb{C})$,
+    $\mathrm{width} \le \mathrm{height}$, and
+    $(\mathrm{decoding}.\mathrm{als}.\mathrm{rank}.\mathrm{rank} : \mathbb{R}) < \chi_{\mathrm{Page}}$. -/)
+  (proof := /-- Combine \texttt{connected\_gpe\_potential\_recovery}, \texttt{width\_le\_height},
+    and \texttt{als\_rank\_lt\_page\_bond\_dimension}. -/)
+  (latexEnv := "lemma")]
+lemma hawking_synthesis_gpe_and_page_bounds
+    {width height sampleCount : ℕ}
+    (contract : HawkingGrassmannianSynthesisContract width height sampleCount)
+    (h_entropy : 2 * Real.log 10 < contract.horizonEntropyNats) :
+    contract.decoding.inverseGPE.potential =
+      (contract.decoding.interactiveGPE.potential : ℂ) ∧
+    width ≤ height ∧
+    (contract.decoding.als.rank.rank : ℝ) < contract.pageBondDimensionLowerBound :=
+  ⟨contract.connected_gpe_potential_recovery.1,
+    contract.decoding.width_le_height,
+    contract.als_rank_lt_page_bond_dimension h_entropy⟩
+
 end SignalsPending

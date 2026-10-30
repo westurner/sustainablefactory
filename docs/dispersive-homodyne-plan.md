@@ -429,6 +429,25 @@ The Pending implementation now records the finite boundaries of that proposal:
   residual is likewise tied to a finite Euclidean trace residual, and
   `comparisonReady` exposes the three residual bounds plus the ALS iteration
   limit as one numerical predicate.
+- **Four-Quadrant & Connected Stage Synthesis ([grassmannian-hawking-radiation-decoding-paper.md](grassmannian-hawking-radiation-decoding-paper.md))**:
+  - `ObservedHomodyneTensor.trace_im_zero`, `ObservedQuadratureHomodyneTensor`, and
+    `homodyne_pi_div_two_phase_sweep_recovers_quadrature` connect $\pi/2$
+    local-oscillator phase sweeping (`Signals.Homodyne.rotatedQuadrature`) to the
+    full complex trace $X(t) + i P(t)$.
+  - `InverseGPEPoint.potential_eq_interactive_of_shared_state` proves that when
+    `InteractiveGPEPoint` and `InverseGPEPoint` share state data, the inverse
+    record reconstructs the exact real potential $\mathrm{inv}.\mathrm{potential} = (\mathrm{inter}.\mathrm{potential} : \mathbb{C})$ ($\operatorname{Im} V = 0$), while `Signals.DDF.madelungInversePotentialReconstruction` unwinds the continuum QHJ / `RiverExterior` flow to $V_{\mathrm{ext}}(r) = -\frac{m_\phi G_\phi M}{r}$.
+  - `finiteInverseQFT_two_hadamard` and `finiteInverseQFT_two_involution` prove
+    the 2-point Hadamard transform and round-trip involution ($H_2^2 = I_2$),
+    and `toyNonzeroFiniteIQFT` maps a spread input $(\sqrt{2}, \sqrt{2})$ to a
+    sharp spectral peak `![2, 0]`.
+  - `HawkingRadiationDecoding.width_le_height` and
+    `HawkingRadiationDecoding.als_observed_slice_eq_weighted_recovered` prove
+    $\mathrm{width} \le \mathrm{height}$ and $\mathrm{als}.\mathrm{observed}\;x\;y_0\;t = \bigl(\sum_y C_{x,y}\bigr)\cdot\mathrm{recovered}(t)$, backed by non-zero $1 \times 2 \times 2$ fixtures (`toyHawkingNonzeroAmplituhedronMap`, `toyHawkingNonzeroALS`, `toyConnectedHawkingDecoding`).
+  - `HawkingGrassmannianSynthesisContract.als_rank_lt_page_bond_dimension` proves
+    that whenever $S_{\mathrm{BH}}/k_B > 2\ln 10$, the Page-curve bond dimension
+    $\chi_{\mathrm{Page}} = \exp(S_{\mathrm{BH}}/(2k_B))$ strictly exceeds the
+    maximum configured `ALSRank` ($r \le 10$).
 
 These records remain in `Signals.Pending`: they are finite data contracts for a
 numerical or experimental adapter. They do not prove Hawking radiation,

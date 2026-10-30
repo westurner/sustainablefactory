@@ -5657,4 +5657,115 @@ example (hPlus θ ψ : ℝ) :
   exact ⟨h3d.1, h3d.2.1, h3d.2.2.1, h3d.2.2.2.1,
     h3d.2.2.2.2.2.2.1 hv_pos, h3d.2.2.2.2.2.2.2.1, h3d.2.2.2.2.2.2.2.2⟩
 
+/-- Hawking thermodynamics without DDF (`Signals.HawkingRadiation`) vs. with DDF (`Signals.DDF`),
+Gordon acoustic metric lapse, Penrose Pauli spinor determinant, S301 pericenter wake,
+Madelung iGPE potential unwinding, and 2D/3D Tensor Gaussian Splat topological snap / metric swelling. -/
+example (θ q_v p_v φ_v sx sy sz t x y z : ℝ)
+    (R_mat : Matrix (Fin 3) (Fin 3) ℝ) :
+    let splat_aniso : Signals.DDF.NormedTensorGaussianSplat2D :=
+      { centerX := 0
+        centerY := 0
+        weight := 5
+        weight_nonneg := by norm_num
+        sigma1 := 3
+        sigma1_pos := by norm_num
+        sigma2 := 1
+        sigma2_pos := by norm_num
+        orientationAngle := θ }
+    let splat3d_aniso : Signals.DDF.NormedTensorGaussianSplat3D :=
+      { centerX := 0
+        centerY := 0
+        centerZ := 0
+        weight := 5
+        weight_nonneg := by norm_num
+        sigma1 := 3
+        sigma1_pos := by norm_num
+        sigma2 := 2
+        sigma2_pos := by norm_num
+        sigma3 := 1
+        sigma3_pos := by norm_num
+        orientationAngle := θ
+        pitchAngle := 0 }
+    let splat_ddf := toyMovingSheath.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
+    0 < Signals.HawkingRadiation.hawkingTemperature 1 1 1 2 2 ∧
+    Signals.HawkingRadiation.photonSphereRadius 1 2 2 =
+      (3 / 2 : ℝ) * Signals.HawkingRadiation.schwarzschildRadius 1 2 2 ∧
+    Signals.HawkingRadiation.hawkingTemperature 1 1 1 2 2 * 2 =
+      1 * 2 ^ 3 / (8 * Real.pi * 1 * 1) ∧
+    Signals.HawkingRadiation.kerrSpinFrameDraggingOrder (1 / 12) <
+      Signals.HawkingRadiation.schwarzschildRelativisticOrder (1 / 12) ∧
+    Signals.HawkingRadiation.gordonAcousticMetricG00 2 toyDDFSubstrate.c
+        (toyRiverExterior.velocity 4) / (-2 * toyDDFSubstrate.c) =
+      1 - toyRiverExterior.horizonRadius / 4 ∧
+    (Signals.HawkingRadiation.pauliSpacetimeSpinorMatrix t x y z).det =
+      (((1 / 2 : ℝ) * (t ^ 2 - x ^ 2 - y ^ 2 - z ^ 2) : ℝ) : ℂ) ∧
+    Signals.HawkingRadiation.testStarWakeStress 3 1 toyMercuryOrbit.aphelionRadius 0 50 <
+      Signals.HawkingRadiation.testStarWakeStress 3 1 toyMercuryOrbit.perihelionRadius 0 50 ∧
+    0 < toyRiverExterior.hawkingTemperature 1 1 ∧
+    toyRiverExterior.hawkingTemperature 1 1 *
+        toyRiverExterior.bekensteinHawkingEntropy 1 (1 / 2) =
+      1 * toyDDFSubstrate.c * toyRiverExterior.horizonRadius / (4 * (1 / 2) ^ 2) ∧
+    Signals.HawkingRadiation.madelungInversePotentialReconstruction 1 1 0 3 0 0
+        (toyRiverExterior.velocity 4) =
+      - (1 * toyRiverExterior.G_phi * toyRiverExterior.sourceMass / 4) ∧
+    splat_aniso.rotateOrthogonal90.covDet = splat_aniso.covDet ∧
+    splat_aniso.isotropicTraceSwell.covTrace = splat_aniso.covTrace ∧
+    splat_aniso.covDet < splat_aniso.isotropicTraceSwell.covDet ∧
+    splat_aniso.isotropicTraceSwell.coreBohmPotential 1 1 <
+      splat_aniso.coreBohmPotential 1 1 ∧
+    splat_ddf.isotropicTraceSwell.covDet - splat_ddf.covDet =
+      (2 ^ 4 * toyMovingSheath.betaSq ^ 2) / 4 ∧
+    splat3d_aniso.snapOrthogonalXZ.covDet = splat3d_aniso.covDet ∧
+    splat3d_aniso.isotropicTraceSwell3D.covTrace = splat3d_aniso.covTrace ∧
+    splat3d_aniso.isotropicTraceSwell3D.coreBohmPotential 1 1 ≤
+      splat3d_aniso.coreBohmPotential 1 1 ∧
+    (R_mat * Signals.HawkingRadiation.rightHandedEigenvectorSwapMatrix).det = R_mat.det ∧
+    (R_mat * Signals.HawkingRadiation.unnegatedEigenvectorSwapMatrix).det = -R_mat.det ∧
+    Signals.HawkingRadiation.vietaEigenvalue1 q_v p_v φ_v +
+      Signals.HawkingRadiation.vietaEigenvalue2 q_v p_v φ_v +
+      Signals.HawkingRadiation.vietaEigenvalue3 q_v p_v φ_v = 3 * q_v ∧
+    (Signals.HawkingRadiation.wgslInstanceMatrix3x3 0 (3 / 5) 0 (4 / 5) sx sy sz).det =
+      sx * sy * sz := by
+  intro splat_aniso splat3d_aniso splat_ddf
+  have hr_gt : Signals.HawkingRadiation.schwarzschildRadius 1 2 2 < 4 := by
+    unfold Signals.HawkingRadiation.schwarzschildRadius
+    norm_num
+  have hr_ddf_gt : toyRiverExterior.horizonRadius < 4 := by
+    dsimp [RiverExterior.horizonRadius, toyRiverExterior, DDFSubstrate.c, toyDDFSubstrate]
+    norm_num
+  have h_no_ddf := Signals.HawkingRadiation.hawking_thermodynamics_without_ddf_identities
+    1 2 2 1 1 (1 / 2) 4 θ (1 / 12)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) hr_gt
+    (by norm_num) (by norm_num)
+  have h_gordon := Signals.HawkingRadiation.gordon_metric_quartic_gpe_and_penrose_spinor_identities
+    toyRiverExterior 2 5 3 4 θ t x y z (by norm_num) hr_ddf_gt
+  have h_s301 := Signals.HawkingRadiation.s301_pericenter_vs_aphelion_wake_identities
+    toyMercuryOrbit (by dsimp [toyMercuryOrbit]; norm_num) 3 1 0 50 θ
+    (by norm_num) (by norm_num) (by norm_num)
+  have h_ddf := toyRiverExterior.hawking_radiation_ddf_and_splat_fracture_identities
+    toyMovingSheath splat_aniso splat3d_aniso
+    1 1 (1 / 2) 1 0 3 0 0 1 4 5 2 θ q_v p_v φ_v 0 (3 / 5) 0 (4 / 5) sx sy sz R_mat
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  have h_aniso_ne : splat_aniso.sigma1 ^ 2 ≠ splat_aniso.sigma2 ^ 2 := by
+    dsimp [splat_aniso]
+    norm_num
+  exact ⟨h_no_ddf.2.2.2.2.1, h_no_ddf.2.1, h_no_ddf.2.2.2.2.2.2.2.1,
+    h_no_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_gordon.2.1, h_gordon.2.2.2.2.2.2, h_s301.2.2.1,
+    h_ddf.1, h_ddf.2.2.1, h_ddf.2.2.2.2.2.2.1,
+    h_ddf.2.2.2.2.2.2.2.1, h_ddf.2.2.2.2.2.2.2.2.2.2.1,
+    h_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.1 h_aniso_ne,
+    h_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 h_aniso_ne,
+    h_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests
