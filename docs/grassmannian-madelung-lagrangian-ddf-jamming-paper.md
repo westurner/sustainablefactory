@@ -460,7 +460,7 @@ end ArxivMadelungLagrangianDdfJammingVerification
 
 (mad-fedi2026)=
 <a id="mad-fedi2026"></a>
-6. Fedi, M. (2026). *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. SSRN Preprint 7406660.
+6. Fedi, M. (2026). *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. SSRN Preprint 7406660. [Preprint page](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660); [SSRN DOI](https://doi.org/10.2139/ssrn.7406660).
 
 (mad-chat-splat2026)=
 <a id="mad-chat-splat2026"></a>
@@ -503,11 +503,14 @@ end ArxivMadelungLagrangianDdfJammingVerification
   url     = {https://doi.org/10.1007/BF02731494}
 }
 
-@misc{fedi2026ddf,
-  author       = {Fedi, Marco},
-  title        = {Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of {L}orentz Invariance, Gravity, and Cosmological Phenomenology},
-  year         = {2026},
-  howpublished = {SSRN Preprint 7406660}
+@article{fedi2026ddf,
+  author  = {Fedi, Marco},
+  title   = {Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of {L}orentz Invariance, Gravity, and Cosmological Phenomenology},
+  journal = {SSRN Electronic Journal},
+  year    = {2026},
+  note    = {SSRN Preprint 7406660},
+  url     = {https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660},
+  doi     = {10.2139/ssrn.7406660}
 }
 
 @misc{chat_grassmannian_splat_gpe_madelung_2026,
