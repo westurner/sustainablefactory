@@ -11,6 +11,29 @@ test.describe('Sphinx Docs - index.html', () => {
     await expect(page.locator('h1').first()).toBeVisible();
   });
 
+  test('MathJax typesets equations on the Huygens paper page', async ({ page }) => {
+    const consoleErrors: string[] = [];
+    const pageErrors: string[] = [];
+    page.on('console', (message) => {
+      if (message.type() === 'error') consoleErrors.push(message.text());
+    });
+    page.on('pageerror', (error) => pageErrors.push(error.message));
+
+    await page.goto(
+      '/grassmannian-huygens-double-slit-oam-paper.html#why-real-positive-gr-ge-0-2-4-crossing-minors-have-a-50-unphased-errorand-how-complex-gr-mathbb-c-2-4-eliminates-it'
+    );
+
+    const renderedMath = page.locator('mjx-container');
+    await expect(renderedMath.first()).toBeAttached({ timeout: 15_000 });
+    expect(await renderedMath.count()).toBeGreaterThan(0);
+    await expect(page.locator('mjx-merror')).toHaveCount(0);
+    await expect(
+      page.locator('script[src*="docindex-search.js"][type="module"]')
+    ).toHaveCount(1);
+    expect(consoleErrors).toEqual([]);
+    expect(pageErrors).toEqual([]);
+  });
+
   test('sidebar is visible', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/');

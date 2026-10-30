@@ -60,7 +60,7 @@ def setup(app):
 def _configure_search_assets(app, config) -> None:
     search_config = normalize_search_config(config.docindex_searchtools)
     if config.docindex_searchtools_enhanced and search_config["docindex"]["enabled"]:
-        app.add_js_file("docindex-search.js")
+        app.add_js_file("docindex-search.js", type="module")
 
 
 def _add_search_context(app, pagename, templatename, context, doctree) -> None:

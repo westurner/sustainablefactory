@@ -51,14 +51,20 @@ def test_enhanced_searchtools_renders_separate_docindex_mode(tmp_path):
         f"sys.path.insert(0, {str(workspace)!r})\n"
         f"templates_path = [{str(workspace / 'docs' / '_templates')!r}]\n"
         f"html_static_path = [{str(workspace / 'docs' / '_static')!r}]\n"
-        "extensions = ['myst_parser', 'sustainablefactory.searchtools']\n"
+        "extensions = ['myst_parser', 'sphinx.ext.mathjax', "
+        "'sustainablefactory.searchtools']\n"
         "project = 'enhanced search fixture'\n"
+        "html_theme = 'wrd_sphinx_theme'\n"
+        "myst_enable_extensions = ['dollarmath']\n"
+        "mathjax4_config = {'options': {'processHtmlClass': 'math'}}\n"
         "docindex_searchtools_enhanced = True\n"
         "docindex_searchtools = {'native': {'enabled': True}, 'docindex': "
         "{'enabled': True, 'oxirs': {'enabled': False}, "
         "'meilisearch': {'enabled': False}}}\n"
     )
-    (source / "index.md").write_text("# Enhanced search fixture\n")
+    (source / "index.md").write_text(
+        "# Enhanced search fixture\n\nInline math: $x^2$.\n"
+    )
     output = tmp_path / "build"
     environment = os.environ.copy()
     environment["PYTHONPATH"] = os.pathsep.join(
@@ -84,7 +90,13 @@ def test_enhanced_searchtools_renders_separate_docindex_mode(tmp_path):
     search_page = (output / "search.html").read_text(encoding="utf-8")
     assert 'id="native-sphinx-search"' in search_page
     assert "DocIndex search" in search_page
-    assert "docindex-search.js" in search_page
+    docindex_script = next(
+        line for line in search_page.splitlines() if "docindex-search.js" in line
+    )
+    assert 'type="module"' in docindex_script
+    index_page = (output / "index.html").read_text(encoding="utf-8")
+    assert "window.MathJax =" in index_page
+    assert 'src="./"' not in index_page
 
 
 def test_search_page_preserves_native_layout_and_hides_disabled_docindex(tmp_path):
