@@ -13022,7 +13022,12 @@ $$$
 #### Mathematical Formulas
 
 - $$CO_{2}$$
-- $$Distilled Water+Bio-Ethylene Glycol/Bio-Propylene Glycol+CNTs+Sulfonated Lignin$$
+-
+
+  $$
+  Distilled Water+Bio-Ethylene Glycol/Bio-Propylene Glycol+CNTs+Sulfonated Lignin
+  $$
+
 - $$\text{CNT}$$
 
 #### Citations & Sources
@@ -13179,7 +13184,11 @@ $$$
 #### Mathematical Formulas
 
 - $$CNTs$$
-- $$s—\*\*high thermal conductivity\*\* and \*\*structural integrity\*\*—but be simpler to make from biomass. This leads us directly to \*\*Carbon Nanofibers (CNFs)\*\* and certain forms of \*\*Graphene Oxide/Reduced Graphene Oxide ($$
+-
+
+  $$
+  s—\*\*high thermal conductivity\*\* and \*\*structural integrity\*\*—but be simpler to make from biomass. This leads us directly to \*\*Carbon Nanofibers (CNFs)\*\* and certain forms of \*\*Graphene Oxide/Reduced Graphene Oxide (
+  $$
 
 ### 1\. Carbon Nanofibers ($\\text{CNF}$s)
 
@@ -13810,7 +13819,12 @@ $$$
 - $$CO_{2}$$
 - $$CVD$$
 - $$Carbon Nanofibers$$
-- $$Distilled Water+Bio-Ethylene Glycol/Bio-Propylene Glycol+CNTs+Sulfonated Lignin$$
+-
+
+  $$
+  Distilled Water+Bio-Ethylene Glycol/Bio-Propylene Glycol+CNTs+Sulfonated Lignin
+  $$
+
 - $$GO$$
 - $$H_{2}$$
 - $$H_{2}O$$
@@ -13841,7 +13855,12 @@ $$$
 - $$\text{CNT}$$
 - $$\text{GNP}$$
 - $$k$$
-- $$s—\*\*high thermal conductivity\*\* and \*\*structural integrity\*\*—but be simpler to make from biomass. This leads us directly to \*\*Carbon Nanofibers (CNFs)\*\* and certain forms of \*\*Graphene Oxide/Reduced Graphene Oxide ($$
+-
+
+  $$
+  s—\*\*high thermal conductivity\*\* and \*\*structural integrity\*\*—but be simpler to make from biomass. This leads us directly to \*\*Carbon Nanofibers (CNFs)\*\* and certain forms of \*\*Graphene Oxide/Reduced Graphene Oxide (
+  $$
+
 - $$→$$
 - $$−OCH_{3}$$
 - $$∼1 nm$$
@@ -14467,7 +14486,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$Y_{MgO/Hemp} = \omega_{Mg} \cdot \eta_{p} \cdot \left( \frac{M_{MgO}}{M_{Mg}} \right)$$$
+-
+
+  $$
+  $Y_{MgO/Hemp} = \omega_{Mg} \cdot \eta_{p} \cdot \left( \frac{M_{MgO}}{M_{Mg}} \right)
+  $$
+
+  $
 - $$M_{MgO} / M_{Mg}$$
 - $$MgO$$
 - $$Y_{MgO/Hemp} \approx \mathbf{0.005}$$
@@ -15725,7 +15750,13 @@ $$$
 - $$$MgO + 2C_6H_8O_7 \rightarrow Mg(C_6H_7O_7)_2 + H_2O$$$
 - $$$MgO_{(s)} + 2C_6H_8O_7 \rightarrow Mg(C_6H_7O_7)_2 + H_2O$$$
 - $$$R-COOH \xrightarrow{)))} R-H + CO_2 \uparrow$$$
-- $$$Y_{MgO/Hemp} = \omega_{Mg} \cdot \eta_{p} \cdot \left( \frac{M_{MgO}}{M_{Mg}} \right)$$$
+-
+
+  $$
+  $Y_{MgO/Hemp} = \omega_{Mg} \cdot \eta_{p} \cdot \left( \frac{M_{MgO}}{M_{Mg}} \right)
+  $$
+
+  $
 - $$$\chi_{CA} \geq Y_{MgO/Hemp} \cdot \dot{m}_{hemp} \cdot R_{s}$$$
 - $$+2$$
 - $$-COOH$$
@@ -21935,7 +21966,11 @@ $$$
 
 - $$\approx \$$
 - $$^{12}\text{C}$$
-- $$per gram. Selling just 5kg of purified precursors to the broader research community could generate **$$
+-
+
+  $$
+  per gram. Selling just 5kg of purified precursors to the broader research community could generate **
+  $$
 
 ### The "Green" Substrate Fab (Months 12–24)**
 
@@ -24436,7 +24471,12 @@ $$$
 - $$n_{high}$$
 - $$n_{low}$$
 - $$over commercial equivalents), our **$$
-- $$per gram. Selling just 5kg of purified precursors to the broader research community could generate **$$
+-
+
+  $$
+  per gram. Selling just 5kg of purified precursors to the broader research community could generate **
+  $$
+
 - $$sCO_2$$
 - $$sCO_2/sN_2$$
 - $$sN_2$$
@@ -31235,7 +31275,11 @@ $$$
 
 - $$\approx \$$
 - $$^{12}\text{C}$$
-- $$per gram. Selling just 5kg of purified precursors to the broader research community could generate **$$
+-
+
+  $$
+  per gram. Selling just 5kg of purified precursors to the broader research community could generate **
+  $$
 
 ### The "Green" Substrate Fab (Months 12–24)**
 
@@ -33736,7 +33780,12 @@ $$$
 - $$n_{high}$$
 - $$n_{low}$$
 - $$over commercial equivalents), our **$$
-- $$per gram. Selling just 5kg of purified precursors to the broader research community could generate **$$
+-
+
+  $$
+  per gram. Selling just 5kg of purified precursors to the broader research community could generate **
+  $$
+
 - $$sCO_2$$
 - $$sCO_2/sN_2$$
 - $$sN_2$$
@@ -47316,11 +47365,20 @@ $$$
 
 #### Mathematical Formulas
 
-- $$/MW savings that can come from removing the copper steering coils and related power electronics, comparing it with the cost of using the$$
+-
+
+  $$
+  /MW savings that can come from removing the copper steering coils and related power electronics, comparing it with the cost of using the
+  $$
+
 - $$Fe_{16}N_{2}$$
 - $$\mu$$
 - $$\pm 0.1$$
-- $$magnets. My primary focus will be Binder Jetting or Laser Powder Bed Fusion, followed by nitriding. Next, I'll need to research the cost per kilogram of both$$
+-
+
+  $$
+  magnets. My primary focus will be Binder Jetting or Laser Powder Bed Fusion, followed by nitriding. Next, I'll need to research the cost per kilogram of both
+  $$
 
 #### Citations & Sources
 
@@ -48646,7 +48704,12 @@ $$$
 - $$$
 Fe_{2}O_{3}+3H_{2}→2Fe+3H_{2}O↑
 $$$
-- $$/MW savings that can come from removing the copper steering coils and related power electronics, comparing it with the cost of using the$$
+-
+
+  $$
+  /MW savings that can come from removing the copper steering coils and related power electronics, comparing it with the cost of using the
+  $$
+
 - $$/kWe) | ~$$
 - $$/kg and$$
 - $$<20%$$
@@ -48669,7 +48732,12 @@ $$$
 - $$\left(x,y,z\right)$$
 - $$\mu$$
 - $$\pm 0.1$$
-- $$magnets. My primary focus will be Binder Jetting or Laser Powder Bed Fusion, followed by nitriding. Next, I'll need to research the cost per kilogram of both$$
+-
+
+  $$
+  magnets. My primary focus will be Binder Jetting or Laser Powder Bed Fusion, followed by nitriding. Next, I'll need to research the cost per kilogram of both
+  $$
+
 - $$n$$
 - $$→$$
 - $$∼$$
@@ -54901,7 +54969,11 @@ $$$
 
 - $$\approx$$
 - $$^{12}C$$
-- $$per gram. Selling just 5kg of purified precursors to the broader research community could generate **$$
+-
+
+  $$
+  per gram. Selling just 5kg of purified precursors to the broader research community could generate **
+  $$
 
 ### The "Green" Substrate Fab (Months 12–24)**
 
@@ -55063,7 +55135,12 @@ $$$
 
 #### Mathematical Formulas
 
-- $$C methane as a high-end reference. While lignin's chemical value is around$$
+-
+
+  $$
+  C methane as a high-end reference. While lignin's chemical value is around
+  $$
+
 - $$^{12}$$
 - $$^{12}C$$
 - $$^{13}$$
@@ -55675,7 +55752,13 @@ $$$
 #### Mathematical Formulas
 
 - $$$250k$  to  $$$
-- $$$7M$ ** if purchased as individual commercial workstations. This "recursive" cost-saving is what keeps your total CAPEX at  $$$
+-
+
+  $$
+  $7M$ ** if purchased as individual commercial workstations. This "recursive" cost-saving is what keeps your total CAPEX at
+  $$
+
+  $
 - $$\approx$$
 - $$to build a 16-head robotic forge that would cost over ** 5M$$
 
@@ -58725,7 +58808,13 @@ For a manufacturer producing 500 industrial robotic arms or 5,000 meters of sCO2
 ### **5\. Final "Series A" Investor Talk Track**
 
 > _"Investors, look at the energy wall. Aluminum and Steel are energy-hogs that require slow, manual, high-heat processes. Our A2Q-M1 factory uses **Cold-Wall RF Welding**. We are joining structural limbs and high-pressure sCO2 pipes with the speed of a 3D printer and the energy consumption of a lightbulb. This is how we achieve a ** $$$
-- $$$7M$ ** if purchased as individual industrial workstations. This "Recursive Fabrication" is why your CAPEX remains at  $$$
+-
+
+  $$
+  $7M$ ** if purchased as individual industrial workstations. This "Recursive Fabrication" is why your CAPEX remains at
+  $$
+
+  $
 - $$), further subsidizing the "Rest" units toward the$$
 - $$<0.001%$$
 - $$<0.1 dB/cm$$
@@ -58756,8 +58845,18 @@ For a manufacturer producing 500 industrial robotic arms or 5,000 meters of sCO2
 - $$Avg. 165k/yr\times 2.5 yrs\approx$$
 - $$Avg. 180k/yr\times 2.5 yrs\approx$$
 - $$Avg. 95k/yr\times 2.5 yrs\approx$$
-- $$C isotopes, and "shock-write" it into the world's most advanced hardware using a \*\*$$
-- $$C methane as a high-end reference. While lignin's chemical value is around$$
+-
+
+  $$
+  C isotopes, and "shock-write" it into the world's most advanced hardware using a \*\*
+  $$
+
+-
+
+  $$
+  C methane as a high-end reference. While lignin's chemical value is around
+  $$
+
 - $$CO_{2}$$
 - $$CO_{2}e$$
 - $$C_{f}$$
@@ -58852,7 +58951,12 @@ For a manufacturer producing 500 industrial robotic arms or 5,000 meters of sCO2
 - $$n_{2}$$
 - $$n_{high}$$
 - $$n_{low}$$
-- $$per gram. Selling just 5kg of purified precursors to the broader research community could generate **$$
+-
+
+  $$
+  per gram. Selling just 5kg of purified precursors to the broader research community could generate **
+  $$
+
 - $$sCO\_2$$
 - $$sCO_{2}$$
 - $$sCO_{2}/sN_{2}$$
@@ -70590,7 +70694,12 @@ $$$
 
 #### Mathematical Formulas
 
-- $$Equation:\sin \left(x\right)\cos \left(y\right)+\sin \left(y\right)\cos \left(z\right)+\sin \left(z\right)\cos \left(x\right)=t$$
+-
+
+  $$
+  Equation:\sin \left(x\right)\cos \left(y\right)+\sin \left(y\right)\cos \left(z\right)+\sin \left(z\right)\cos \left(x\right)=t
+  $$
+
 - $$→$$
 
 ### 2\. Adaptation for Air Cooling (The "Chimney" Variant)
@@ -71349,7 +71458,12 @@ $$$
 - $$D^{2}NN$$
 - $$E=V/d$$
 - $$E>ℏ\omega /2$$
-- $$Equation:\sin \left(x\right)\cos \left(y\right)+\sin \left(y\right)\cos \left(z\right)+\sin \left(z\right)\cos \left(x\right)=t$$
+-
+
+  $$
+  Equation:\sin \left(x\right)\cos \left(y\right)+\sin \left(y\right)\cos \left(z\right)+\sin \left(z\right)\cos \left(x\right)=t
+  $$
+
 - $$I^{2}R$$
 - $$L$$
 - $$N_{2+}$$
@@ -78582,7 +78696,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$\ln\left(\frac{P_2}{P_1}\right) = \frac{-\Delta H_{vap}}{R} \left(\frac{1}{T_2} - \frac{1}{T_1}\right)$$$
+-
+
+  $$
+  $\ln\left(\frac{P_2}{P_1}\right) = \frac{-\Delta H_{vap}}{R} \left(\frac{1}{T_2} - \frac{1}{T_1}\right)
+  $$
+
+  $
 - $$< 80^\circ\text{C}$$
 - $$> 230^\circ\text{C}$$
 - $$CO_2$$
@@ -79303,7 +79423,13 @@ $$$
 #### Mathematical Formulas
 
 - $$$Fe_2O_3 + 3H_2 \rightarrow 2Fe + 3H_2O$$$
-- $$$\ln\left(\frac{P_2}{P_1}\right) = \frac{-\Delta H_{vap}}{R} \left(\frac{1}{T_2} - \frac{1}{T_1}\right)$$$
+-
+
+  $$
+  $\ln\left(\frac{P_2}{P_1}\right) = \frac{-\Delta H_{vap}}{R} \left(\frac{1}{T_2} - \frac{1}{T_1}\right)
+  $$
+
+  $
 - $$(2.5\,\text{MPa})$$
 - $$(C_6H_{10}O_5)_n \rightarrow H_2 + CO + \text{Char}$$
 - $$(C_6H_{10}O_5)_n$$
@@ -80397,7 +80523,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$^{238}_{92}\text{U} \rightarrow ^{234}_{90}\text{Th} + ^{4}_{2}\text{He}^{2+}$$$
+-
+
+  $$
+  $^{238}_{92}\text{U} \rightarrow ^{234}_{90}\text{Th} + ^{4}_{2}\text{He}^{2+}
+  $$
+
+  $
 - $$^{4}_{2}\text{He}^{2+}$$
 
 ### The Role of Hydrogen Plasma Milling
@@ -81185,7 +81317,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$^{10}_{5}B + ^{1}_{0}n \rightarrow ^{7}_{3}Li + ^{4}_{2}He + 2.79 \text{ MeV}$$$
+-
+
+  $$
+  $^{10}_{5}B + ^{1}_{0}n \rightarrow ^{7}_{3}Li + ^{4}_{2}He + 2.79 \text{ MeV}
+  $$
+
+  $
 - $$(n, \alpha)$$
 - $$^{10}B$$
 - $$^{11}B$$
@@ -81366,9 +81504,21 @@ $$$
 - $$$Z = \rho c$$$
 - $$$\Delta G = \Delta H - T\Delta S$$$
 - $$$\vec{B}_{target} = B_x\hat{i} + B_y\hat{j} + B_z\hat{k}$$$
-- $$$^{10}_{5}B + ^{1}_{0}n \rightarrow ^{7}_{3}Li + ^{4}_{2}He + 2.79 \text{ MeV}$$$
+-
+
+  $$
+  $^{10}_{5}B + ^{1}_{0}n \rightarrow ^{7}_{3}Li + ^{4}_{2}He + 2.79 \text{ MeV}
+  $$
+
+  $
 - $$$^{10}_{5}B + ^{1}_{0}n \rightarrow ^{7}_{3}Li + ^{4}_{2}He$$$
-- $$$^{238}_{92}\text{U} \rightarrow ^{234}_{90}\text{Th} + ^{4}_{2}\text{He}^{2+}$$$
+-
+
+  $$
+  $^{238}_{92}\text{U} \rightarrow ^{234}_{90}\text{Th} + ^{4}_{2}\text{He}^{2+}
+  $$
+
+  $
 - $$$d_{50} = \sqrt{\frac{9 \mu b}{2 \pi N v_i (\rho_p - \rho_g)}}$$$
 - $$(n, \alpha)$$
 - $$(x, y, z)$$
@@ -81675,7 +81825,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$E_{total} = \sum_{i=1}^{n} (V_{s,i} \cdot \rho_s) + \int (V_c \cdot \rho_c) \, dV + \int_{0}^{t} P_{harvest}(t) \, dt$$$
+-
+
+  $$
+  $E_{total} = \sum_{i=1}^{n} (V_{s,i} \cdot \rho_s) + \int (V_c \cdot \rho_c) \, dV + \int_{0}^{t} P_{harvest}(t) \, dt
+  $$
+
+  $
 - $$Al^{3+}$$
 - $$E_c$$
 - $$E_s$$
@@ -81772,7 +81928,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$E_{total} = \sum_{i=1}^{n} (V_{s,i} \cdot \rho_s) + \int (V_c \cdot \rho_c) \, dV + \int_{0}^{t} P_{harvest}(t) \, dt$$$
+-
+
+  $$
+  $E_{total} = \sum_{i=1}^{n} (V_{s,i} \cdot \rho_s) + \int (V_c \cdot \rho_c) \, dV + \int_{0}^{t} P_{harvest}(t) \, dt
+  $$
+
+  $
 - $$$\sigma_{critical} = \sqrt{\frac{2E\gamma}{\pi a}}$$$
 - $$Al^{3+}$$
 - $$E_c$$
@@ -88141,7 +88303,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$P_e = \frac{\pi^2 \cdot B_{peak}^2 \cdot d^2 \cdot f^2}{6 \cdot \rho \cdot \delta}$$$
+-
+
+  $$
+  $P_e = \frac{\pi^2 \cdot B_{peak}^2 \cdot d^2 \cdot f^2}{6 \cdot \rho \cdot \delta}
+  $$
+
+  $
 - $$Fe_{16}N_2$$
 - $$M_s$$
 - $$P_e$$
@@ -89368,7 +89536,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$CO_3^{2-} (\text{molten}) + 4e^- \rightarrow C (\text{Nanospheres}) + 3O^{2-}$$$
+-
+
+  $$
+  $CO_3^{2-} (\text{molten}) + 4e^- \rightarrow C (\text{Nanospheres}) + 3O^{2-}
+  $$
+
+  $
 - $$BaCO_3$$
 - $$CO_2$$
 - $$CO_3^{2-}$$
@@ -93033,7 +93207,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\text{Break-Even} = \frac{\$1,900,000 \text{ (CapEx)}}{\$116.50 \text{ (Margin)}} \approx \mathbf{16,309 \text{ m}^2}$$$
+-
+
+  $$
+  $\text{Break-Even} = \frac{\$1,900,000 \text{ (CapEx)}}{\$116.50 \text{ (Margin)}} \approx \mathbf{16,309 \text{ m}^2}
+  $$
+
+  $
 - $$\sim 136$$
 
 ### **3. 12-Month Payback Schedule (Projected)**
@@ -95165,7 +95345,11 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 #### Mathematical Formulas
 
 - $$\$$
-- $$for PG), we reduce the operating expense of our **AI Datacenter Cooling** by over **$$
+-
+
+  $$
+  for PG), we reduce the operating expense of our **AI Datacenter Cooling** by over **
+  $$
 
 ### **4. Mineralization (PCC & Lignocrete)**
 
@@ -95265,8 +95449,18 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$** for industrial capture sequestered in durable materials, a single barge earns **$$
-- $$**. If sold on the voluntary market, the carbon "payload" of the barge structure alone is worth **$$
+-
+
+  $$
+  ** for industrial capture sequestered in durable materials, a single barge earns **
+  $$
+
+-
+
+  $$
+  **. If sold on the voluntary market, the carbon "payload" of the barge structure alone is worth **
+  $$
+
 - $$\$$
 
 ### **3. Operational "Avoided" Emissions (Scope 3)**
@@ -95311,8 +95505,20 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$Carbon_{Advantage} = (E_{Const} - S_{Const}) + (Op_{Legacy} - Op_{v0.4.0}) \times 10$$$
-- $$$Carbon_{Advantage} \approx 638.2 + 1,530 = \mathbf{2,168.2 \text{ t CO}_2\text{e}}$$$
+-
+
+  $$
+  $Carbon_{Advantage} = (E_{Const} - S_{Const}) + (Op_{Legacy} - Op_{v0.4.0}) \times 10
+  $$
+
+  $
+-
+
+  $$
+  $Carbon_{Advantage} \approx 638.2 + 1,530 = \mathbf{2,168.2 \text{ t CO}_2\text{e}}
+  $$
+
+  $
 - $$+12 \text{ t CO}_2\text{e}$$
 - $$+13,701.8 \text{ t CO}_2\text{e}$$
 - $$+13,770 \text{ t CO}_2\text{e}$$
@@ -95344,11 +95550,20 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 #### Mathematical Formulas
 
 - $$** for the$$
-- $$** in early 2026, the construction sequestration represents a marketable asset of **$$
+-
+
+  $$
+  ** in early 2026, the construction sequestration represents a marketable asset of **
+  $$
+
 - $$\$$
 - $$\sim \$$
 - $$of$$
-- $$permanently locked into the Lignocrete and Hadfield lattice, each barge earns an upfront tax credit of **$$
+-
+
+  $$
+  permanently locked into the Lignocrete and Hadfield lattice, each barge earns an upfront tax credit of **
+  $$
 
 #### Citations & Sources
 
@@ -96445,9 +96660,27 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 #### Mathematical Formulas
 
 - $$$Al^{3+} + 3e^- \rightarrow Al^0$$$
-- $$$CO_3^{2-} (\text{molten}) + 4e^- \rightarrow C (\text{Nanospheres}) + 3O^{2-}$$$
-- $$$Carbon_{Advantage} = (E_{Const} - S_{Const}) + (Op_{Legacy} - Op_{v0.4.0}) \times 10$$$
-- $$$Carbon_{Advantage} \approx 638.2 + 1,530 = \mathbf{2,168.2 \text{ t CO}_2\text{e}}$$$
+-
+
+  $$
+  $CO_3^{2-} (\text{molten}) + 4e^- \rightarrow C (\text{Nanospheres}) + 3O^{2-}
+  $$
+
+  $
+-
+
+  $$
+  $Carbon_{Advantage} = (E_{Const} - S_{Const}) + (Op_{Legacy} - Op_{v0.4.0}) \times 10
+  $$
+
+  $
+-
+
+  $$
+  $Carbon_{Advantage} \approx 638.2 + 1,530 = \mathbf{2,168.2 \text{ t CO}_2\text{e}}
+  $$
+
+  $
 - $$$Cr_{threshold} \leq 0.5\% \text{ wt.}$$$
 - $$$E = E^0 + \frac{RT}{nF} \ln \frac{[Ox]}{[Red]}$$$
 - $$$E_{pk} = K_e \cdot \omega$$$
@@ -96455,25 +96688,52 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 - $$$K_e \propto N \cdot A \cdot B_{r(surface)}$$$
 - $$$N_2(g) + 2Fe(surface) \rightarrow 2(Fe-N)$$$
 - $$$P_L = \frac{2\gamma \cos \theta}{r}$$$
-- $$$P_e = \frac{\pi^2 \cdot B_{peak}^2 \cdot d^2 \cdot f^2}{6 \cdot \rho \cdot \delta}$$$
+-
+
+  $$
+  $P_e = \frac{\pi^2 \cdot B_{peak}^2 \cdot d^2 \cdot f^2}{6 \cdot \rho \cdot \delta}
+  $$
+
+  $
 - $$$\cos \theta^* = f_1 \cos \theta_1 - f_2$$$
 - $$$\mu_k = \frac{F_f}{F_n}$$$
-- $$$\text{Break-Even} = \frac{\$1,900,000 \text{ (CapEx)}}{\$116.50 \text{ (Margin)}} \approx \mathbf{16,309 \text{ m}^2}$$$
+-
+
+  $$
+  $\text{Break-Even} = \frac{\$1,900,000 \text{ (CapEx)}}{\$116.50 \text{ (Margin)}} \approx \mathbf{16,309 \text{ m}^2}
+  $$
+
+  $
 - $$($$
 - $$(Base) | **$$
 - $$(REE) | **$$
 - $$** ($$
 - $$** (Sale of the 68.2t sequestered carbon per hull @$$
 - $$** (Targeting$$
-- $$** for industrial capture sequestered in durable materials, a single barge earns **$$
+-
+
+  $$
+  ** for industrial capture sequestered in durable materials, a single barge earns **
+  $$
+
 - $$** for the$$
 - $$** generates **$$
-- $$** in early 2026, the construction sequestration represents a marketable asset of **$$
+-
+
+  $$
+  ** in early 2026, the construction sequestration represents a marketable asset of **
+  $$
+
 - $$** | **$$
 - $$** | Feedstock for **Acetylated Lignin** ($$
 - $$** | Zero sandblasting/biocide costs ($$
 - $$** |$$
-- $$**. If sold on the voluntary market, the carbon "payload" of the barge structure alone is worth **$$
+-
+
+  $$
+  **. If sold on the voluntary market, the carbon "payload" of the barge structure alone is worth **
+  $$
+
 - $$+1,400 \text{--} 1,800$$
 - $$+10$$
 - $$+112\%$$
@@ -96837,7 +97097,12 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 - $$f \approx 333\text{ Hz}$$
 - $$f_1$$
 - $$f_2$$
-- $$for PG), we reduce the operating expense of our **AI Datacenter Cooling** by over **$$
+-
+
+  $$
+  for PG), we reduce the operating expense of our **AI Datacenter Cooling** by over **
+  $$
+
 - $$k > 0.45 \text{ W/mK}$$
 - $$k > 0.45\text{ W/mK}$$
 - $$k \approx 0.45\text{ W/mK}$$
@@ -96851,7 +97116,12 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 - $$nc:no$$
 - $$octahedral$$
 - $$of$$
-- $$permanently locked into the Lignocrete and Hadfield lattice, each barge earns an upfront tax credit of **$$
+-
+
+  $$
+  permanently locked into the Lignocrete and Hadfield lattice, each barge earns an upfront tax credit of **
+  $$
+
 - $$r$$
 - $$t = 0\text{--}10\text{ ms}$$
 - $$t = 10\text{--}100\text{ ms}$$
@@ -97923,10 +98193,28 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\Delta H_{rxn} = -2361.0 - (-2972.0) = +611.0 \text{ kJ/mol of citric acid}$$$
+-
+
+  $$
+  $\Delta H_{rxn} = -2361.0 - (-2972.0) = +611.0 \text{ kJ/mol of citric acid}
+  $$
+
+  $
 - $$$\Delta H_{rxn} = [6(-393.5) + 9(0)] - [-1543 + 5(-285.8)]$$$
-- $$$\Delta H_{rxn} = \sum \Delta H_{f,\text{products}} - \sum \Delta H_{f,\text{reactants}}$$$
-- $$$\text{C}_6\text{H}_8\text{O}_7 (\text{aq}) + 5 \text{H}_2\text{O} (\text{l}) \rightarrow 6 \text{CO}_2 (\text{g}) + 9 \text{H}_2 (\text{g})$$$
+-
+
+  $$
+  $\Delta H_{rxn} = \sum \Delta H_{f,\text{products}} - \sum \Delta H_{f,\text{reactants}}
+  $$
+
+  $
+-
+
+  $$
+  $\text{C}_6\text{H}_8\text{O}_7 (\text{aq}) + 5 \text{H}_2\text{O} (\text{l}) \rightarrow 6 \text{CO}_2 (\text{g}) + 9 \text{H}_2 (\text{g})
+  $$
+
+  $
 - $$CO_2$$
 - $$H_2$$
 - $$\Delta H_f^\circ$$
@@ -98251,8 +98539,20 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\text{Fe}_2\text{O}_3 + 3\text{H}_2 (\text{plasma}) \rightarrow 2\text{Fe} + 3\text{H}_2\text{O} (\text{g})$$$
-- $$$\text{MnO}_2 + 2\text{H}_2 (\text{plasma}) \rightarrow \text{Mn} + 2\text{H}_2\text{O} (\text{g})$$$
+-
+
+  $$
+  $\text{Fe}_2\text{O}_3 + 3\text{H}_2 (\text{plasma}) \rightarrow 2\text{Fe} + 3\text{H}_2\text{O} (\text{g})
+  $$
+
+  $
+-
+
+  $$
+  $\text{MnO}_2 + 2\text{H}_2 (\text{plasma}) \rightarrow \text{Mn} + 2\text{H}_2\text{O} (\text{g})
+  $$
+
+  $
 - $$H^*$$
 - $$H^+$$
 - $$H_2$$
@@ -98305,12 +98605,42 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 #### Mathematical Formulas
 
 - $$$Mg + 2C_6H_8O_7 \rightarrow Mg(C_6H_7O_7)_2 + H_2 \uparrow$$$
-- $$$\Delta H_{rxn} = -2361.0 - (-2972.0) = +611.0 \text{ kJ/mol of citric acid}$$$
+-
+
+  $$
+  $\Delta H_{rxn} = -2361.0 - (-2972.0) = +611.0 \text{ kJ/mol of citric acid}
+  $$
+
+  $
 - $$$\Delta H_{rxn} = [6(-393.5) + 9(0)] - [-1543 + 5(-285.8)]$$$
-- $$$\Delta H_{rxn} = \sum \Delta H_{f,\text{products}} - \sum \Delta H_{f,\text{reactants}}$$$
-- $$$\text{C}_6\text{H}_8\text{O}_7 (\text{aq}) + 5 \text{H}_2\text{O} (\text{l}) \rightarrow 6 \text{CO}_2 (\text{g}) + 9 \text{H}_2 (\text{g})$$$
-- $$$\text{Fe}_2\text{O}_3 + 3\text{H}_2 (\text{plasma}) \rightarrow 2\text{Fe} + 3\text{H}_2\text{O} (\text{g})$$$
-- $$$\text{MnO}_2 + 2\text{H}_2 (\text{plasma}) \rightarrow \text{Mn} + 2\text{H}_2\text{O} (\text{g})$$$
+-
+
+  $$
+  $\Delta H_{rxn} = \sum \Delta H_{f,\text{products}} - \sum \Delta H_{f,\text{reactants}}
+  $$
+
+  $
+-
+
+  $$
+  $\text{C}_6\text{H}_8\text{O}_7 (\text{aq}) + 5 \text{H}_2\text{O} (\text{l}) \rightarrow 6 \text{CO}_2 (\text{g}) + 9 \text{H}_2 (\text{g})
+  $$
+
+  $
+-
+
+  $$
+  $\text{Fe}_2\text{O}_3 + 3\text{H}_2 (\text{plasma}) \rightarrow 2\text{Fe} + 3\text{H}_2\text{O} (\text{g})
+  $$
+
+  $
+-
+
+  $$
+  $\text{MnO}_2 + 2\text{H}_2 (\text{plasma}) \rightarrow \text{Mn} + 2\text{H}_2\text{O} (\text{g})
+  $$
+
+  $
 - $$CO_2$$
 - $$C_6H_8O_7$$
 - $$HCl$$
@@ -102627,7 +102957,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 #### Mathematical Formulas
 
 - $$$2Cl^- \rightarrow Cl_2(g) + 2e^-$$$
-- $$$C_6H_7O_6Na + Cl_2 + H_2O \rightarrow C_6H_6O_6 + NaCl + HCl + NaOH$$$
+-
+
+  $$
+  $C_6H_7O_6Na + Cl_2 + H_2O \rightarrow C_6H_6O_6 + NaCl + HCl + NaOH
+  $$
+
+  $
 - $$Cl^-$$
 - $$Cl_2$$
 - $$HOCl$$
@@ -103626,7 +103962,12 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$I = 15\text{ mA/cm}^2 \times 10,000\text{ cm}^2 = \mathbf{150\text{A}}$$
+-
+
+  $$
+  I = 15\text{ mA/cm}^2 \times 10,000\text{ cm}^2 = \mathbf{150\text{A}}
+  $$
+
 - $$I$$
 - $$J$$
 - $$Mg(OH)_2$$
@@ -103745,7 +104086,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$A = \frac{I}{J} = \frac{150\text{A}}{2.0\text{ A/mm}^2} = 75\text{ mm}^2$$$
+-
+
+  $$
+  $A = \frac{I}{J} = \frac{150\text{A}}{2.0\text{ A/mm}^2} = 75\text{ mm}^2
+  $$
+
+  $
 - $$J = 2.0\text{ A/mm}^2$$
 
 ### **C. Physical Dimensions**
@@ -103756,7 +104103,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$t = \frac{A}{w} = \frac{75\text{ mm}^2}{25\text{ mm}} = \mathbf{3.0\text{ mm}}$$$
+-
+
+  $$
+  $t = \frac{A}{w} = \frac{75\text{ mm}^2}{25\text{ mm}} = \mathbf{3.0\text{ mm}}
+  $$
+
+  $
 - $$t$$
 - $$w$$
 
@@ -104019,8 +104372,20 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$A = \frac{\rho \cdot L}{R} = \frac{10 \times 10^{-6} \cdot 1.0\text{ m}}{0.0033 \Omega} \approx 3000\text{ mm}^2$$$
-- $$$V = I \cdot R \rightarrow R = \frac{V}{I} = \frac{0.5\text{V}}{150\text{A}} = 0.0033 \Omega$$$
+-
+
+  $$
+  $A = \frac{\rho \cdot L}{R} = \frac{10 \times 10^{-6} \cdot 1.0\text{ m}}{0.0033 \Omega} \approx 3000\text{ mm}^2
+  $$
+
+  $
+-
+
+  $$
+  $V = I \cdot R \rightarrow R = \frac{V}{I} = \frac{0.5\text{V}}{150\text{A}} = 0.0033 \Omega
+  $$
+
+  $
 - $$R = \rho \cdot \frac{L}{A}$$
 - $$V_{drop}$$
 
@@ -105194,7 +105559,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 #### Mathematical Formulas
 
 - $$$\text{Mg} \rightarrow \text{Mg}^{2+} + 2e^-$$$
-- $$$\text{SO}_4^{2-} + 8e^- + 9\text{H}^+ \rightarrow \text{HS}^- + 4\text{H}_2\text{O}$$$
+-
+
+  $$
+  $\text{SO}_4^{2-} + 8e^- + 9\text{H}^+ \rightarrow \text{HS}^- + 4\text{H}_2\text{O}
+  $$
+
+  $
 - $$H_2S$$
 - $$SO_4^{2-}$$
 - $$e^-$$
@@ -105354,9 +105725,27 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 #### Mathematical Formulas
 
 - $$$2Cl^- \rightarrow Cl_2(g) + 2e^-$$$
-- $$$A = \frac{I}{J} = \frac{150\text{A}}{2.0\text{ A/mm}^2} = 75\text{ mm}^2$$$
-- $$$A = \frac{\rho \cdot L}{R} = \frac{10 \times 10^{-6} \cdot 1.0\text{ m}}{0.0033 \Omega} \approx 3000\text{ mm}^2$$$
-- $$$C_6H_7O_6Na + Cl_2 + H_2O \rightarrow C_6H_6O_6 + NaCl + HCl + NaOH$$$
+-
+
+  $$
+  $A = \frac{I}{J} = \frac{150\text{A}}{2.0\text{ A/mm}^2} = 75\text{ mm}^2
+  $$
+
+  $
+-
+
+  $$
+  $A = \frac{\rho \cdot L}{R} = \frac{10 \times 10^{-6} \cdot 1.0\text{ m}}{0.0033 \Omega} \approx 3000\text{ mm}^2
+  $$
+
+  $
+-
+
+  $$
+  $C_6H_7O_6Na + Cl_2 + H_2O \rightarrow C_6H_6O_6 + NaCl + HCl + NaOH
+  $$
+
+  $
 - $$$C_6H_7O_6Na + HOCl \rightarrow C_6H_6O_6 + NaCl + H_2O$$$
 - $$$E_d = \frac{P}{v \cdot d}$$$
 - $$$I_{break} \approx J_{max} \cdot (w_{bridge} \cdot t_{LIG})$$$
@@ -105364,15 +105753,33 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 - $$$P_{adj} = \frac{P_{base}}{\cos(\alpha)}$$$
 - $$$P_{loss} = I^2 \cdot R$$$
 - $$$P_{loss} = I^2 \times R = 150^2 \times 0.002 = 45\text{ Watts}$$$
-- $$$V = I \cdot R \rightarrow R = \frac{V}{I} = \frac{0.5\text{V}}{150\text{A}} = 0.0033 \Omega$$$
+-
+
+  $$
+  $V = I \cdot R \rightarrow R = \frac{V}{I} = \frac{0.5\text{V}}{150\text{A}} = 0.0033 \Omega
+  $$
+
+  $
 - $$$Z = R + jX$$$
 - $$$\nabla \cdot (\sigma \nabla \Phi) = 0$$$
 - $$$\text{Mg} + \text{S} \rightarrow \text{MgS}$$$
 - $$$\text{Mg} \rightarrow \text{Mg}^{2+} + 2e^-$$$
-- $$$\text{SO}_4^{2-} + 8e^- + 9\text{H}^+ \rightarrow \text{HS}^- + 4\text{H}_2\text{O}$$$
+-
+
+  $$
+  $\text{SO}_4^{2-} + 8e^- + 9\text{H}^+ \rightarrow \text{HS}^- + 4\text{H}_2\text{O}
+  $$
+
+  $
 - $$$\theta = \arctan\left(\frac{X}{R}\right)$$$
 - $$$\vec{J} = -\sigma \nabla \Phi$$$
-- $$$t = \frac{A}{w} = \frac{75\text{ mm}^2}{25\text{ mm}} = \mathbf{3.0\text{ mm}}$$$
+-
+
+  $$
+  $t = \frac{A}{w} = \frac{75\text{ mm}^2}{25\text{ mm}} = \mathbf{3.0\text{ mm}}
+  $$
+
+  $
 - $$(x, y)$$
 - $$**, the energy cost is approximately **$$
 - $$+15^{\circ}$$
@@ -105398,7 +105805,12 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 - $$HOCl$$
 - $$H_2$$
 - $$H_2S$$
-- $$I = 15\text{ mA/cm}^2 \times 10,000\text{ cm}^2 = \mathbf{150\text{A}}$$
+-
+
+  $$
+  I = 15\text{ mA/cm}^2 \times 10,000\text{ cm}^2 = \mathbf{150\text{A}}
+  $$
+
 - $$I$$
 - $$I_{break}$$
 - $$J = 2.0\text{ A/mm}^2$$
@@ -105800,7 +106212,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 #### Mathematical Formulas
 
 - $$$2Cl^- \rightarrow Cl_2(g) + 2e^-$$$
-- $$$C_6H_7O_6Na + Cl_2 + H_2O \rightarrow C_6H_6O_6 + NaCl + HCl + NaOH$$$
+-
+
+  $$
+  $C_6H_7O_6Na + Cl_2 + H_2O \rightarrow C_6H_6O_6 + NaCl + HCl + NaOH
+  $$
+
+  $
 - $$Cl^-$$
 - $$Cl_2$$
 - $$HOCl$$
@@ -106799,7 +107217,12 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$I = 15\text{ mA/cm}^2 \times 10,000\text{ cm}^2 = \mathbf{150\text{A}}$$
+-
+
+  $$
+  I = 15\text{ mA/cm}^2 \times 10,000\text{ cm}^2 = \mathbf{150\text{A}}
+  $$
+
 - $$I$$
 - $$J$$
 - $$Mg(OH)_2$$
@@ -106918,7 +107341,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$A = \frac{I}{J} = \frac{150\text{A}}{2.0\text{ A/mm}^2} = 75\text{ mm}^2$$$
+-
+
+  $$
+  $A = \frac{I}{J} = \frac{150\text{A}}{2.0\text{ A/mm}^2} = 75\text{ mm}^2
+  $$
+
+  $
 - $$J = 2.0\text{ A/mm}^2$$
 
 ### **C. Physical Dimensions**
@@ -106929,7 +107358,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$t = \frac{A}{w} = \frac{75\text{ mm}^2}{25\text{ mm}} = \mathbf{3.0\text{ mm}}$$$
+-
+
+  $$
+  $t = \frac{A}{w} = \frac{75\text{ mm}^2}{25\text{ mm}} = \mathbf{3.0\text{ mm}}
+  $$
+
+  $
 - $$t$$
 - $$w$$
 
@@ -107192,8 +107627,20 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$A = \frac{\rho \cdot L}{R} = \frac{10 \times 10^{-6} \cdot 1.0\text{ m}}{0.0033 \Omega} \approx 3000\text{ mm}^2$$$
-- $$$V = I \cdot R \rightarrow R = \frac{V}{I} = \frac{0.5\text{V}}{150\text{A}} = 0.0033 \Omega$$$
+-
+
+  $$
+  $A = \frac{\rho \cdot L}{R} = \frac{10 \times 10^{-6} \cdot 1.0\text{ m}}{0.0033 \Omega} \approx 3000\text{ mm}^2
+  $$
+
+  $
+-
+
+  $$
+  $V = I \cdot R \rightarrow R = \frac{V}{I} = \frac{0.5\text{V}}{150\text{A}} = 0.0033 \Omega
+  $$
+
+  $
 - $$R = \rho \cdot \frac{L}{A}$$
 - $$V_{drop}$$
 
@@ -107969,21 +108416,51 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 #### Mathematical Formulas
 
 - $$$2Cl^- \rightarrow Cl_2(g) + 2e^-$$$
-- $$$A = \frac{I}{J} = \frac{150\text{A}}{2.0\text{ A/mm}^2} = 75\text{ mm}^2$$$
-- $$$A = \frac{\rho \cdot L}{R} = \frac{10 \times 10^{-6} \cdot 1.0\text{ m}}{0.0033 \Omega} \approx 3000\text{ mm}^2$$$
-- $$$C_6H_7O_6Na + Cl_2 + H_2O \rightarrow C_6H_6O_6 + NaCl + HCl + NaOH$$$
+-
+
+  $$
+  $A = \frac{I}{J} = \frac{150\text{A}}{2.0\text{ A/mm}^2} = 75\text{ mm}^2
+  $$
+
+  $
+-
+
+  $$
+  $A = \frac{\rho \cdot L}{R} = \frac{10 \times 10^{-6} \cdot 1.0\text{ m}}{0.0033 \Omega} \approx 3000\text{ mm}^2
+  $$
+
+  $
+-
+
+  $$
+  $C_6H_7O_6Na + Cl_2 + H_2O \rightarrow C_6H_6O_6 + NaCl + HCl + NaOH
+  $$
+
+  $
 - $$$C_6H_7O_6Na + HOCl \rightarrow C_6H_6O_6 + NaCl + H_2O$$$
 - $$$E_d = \frac{P}{v \cdot d}$$$
 - $$$J(r) = \frac{I}{h \cdot \theta \cdot r}$$$
 - $$$P_{adj} = \frac{P_{base}}{\cos(\alpha)}$$$
 - $$$P_{loss} = I^2 \cdot R$$$
 - $$$P_{loss} = I^2 \times R = 150^2 \times 0.002 = 45\text{ Watts}$$$
-- $$$V = I \cdot R \rightarrow R = \frac{V}{I} = \frac{0.5\text{V}}{150\text{A}} = 0.0033 \Omega$$$
+-
+
+  $$
+  $V = I \cdot R \rightarrow R = \frac{V}{I} = \frac{0.5\text{V}}{150\text{A}} = 0.0033 \Omega
+  $$
+
+  $
 - $$$Z = R + jX$$$
 - $$$\nabla \cdot (\sigma \nabla \Phi) = 0$$$
 - $$$\theta = \arctan\left(\frac{X}{R}\right)$$$
 - $$$\vec{J} = -\sigma \nabla \Phi$$$
-- $$$t = \frac{A}{w} = \frac{75\text{ mm}^2}{25\text{ mm}} = \mathbf{3.0\text{ mm}}$$$
+-
+
+  $$
+  $t = \frac{A}{w} = \frac{75\text{ mm}^2}{25\text{ mm}} = \mathbf{3.0\text{ mm}}
+  $$
+
+  $
 - $$(x, y)$$
 - $$**, the energy cost is approximately **$$
 - $$+15^{\circ}$$
@@ -108006,7 +108483,12 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 - $$H$$
 - $$HOCl$$
 - $$H_2$$
-- $$I = 15\text{ mA/cm}^2 \times 10,000\text{ cm}^2 = \mathbf{150\text{A}}$$
+-
+
+  $$
+  I = 15\text{ mA/cm}^2 \times 10,000\text{ cm}^2 = \mathbf{150\text{A}}
+  $$
+
 - $$I$$
 - $$J = 2.0\text{ A/mm}^2$$
 - $$J$$
@@ -110702,8 +111184,20 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 - $$$V = \pi (0.075)^2 (0.5) \approx 0.0088 \text{ m}^3$$$
 - $$$V = \pi \left( \frac{D}{2} \right)^2 h$$$
 - $$$\mu_0 \approx 0.05 \text{ to } 0.1 \text{ Pa}\cdot\text{s}$$$
-- $$$\mu_{max} \approx 10,000 \text{ to } 50,000 \text{ Pa}\cdot\text{s}$$$
-- $$$c = 2\sqrt{(2 \times 10^6)(5000)} \approx 200,000 \text{ N}\cdot\text{s/m}$$$
+-
+
+  $$
+  $\mu_{max} \approx 10,000 \text{ to } 50,000 \text{ Pa}\cdot\text{s}
+  $$
+
+  $
+-
+
+  $$
+  $c = 2\sqrt{(2 \times 10^6)(5000)} \approx 200,000 \text{ N}\cdot\text{s/m}
+  $$
+
+  $
 - $$D$$
 - $$F_{snap}$$
 - $$\mu$$
@@ -110741,7 +111235,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\text{If } \left( \frac{dI_m}{dt} < \tau_{current} \right) \text{ AND } \left( \Delta\nu > \tau_{acoustic} \right) \Rightarrow \text{Trigger } V_{LBGP}$$$
+-
+
+  $$
+  $\text{If } \left( \frac{dI_m}{dt} < \tau_{current} \right) \text{ AND } \left( \Delta\nu > \tau_{acoustic} \right) \Rightarrow \text{Trigger } V_{LBGP}
+  $$
+
+  $
 - $$I_m$$
 - $$V_{LBGP}$$
 - $$\epsilon$$
@@ -110914,7 +111414,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$K = \frac{1}{2} m v^2 = \frac{1}{2} (10,000) (30)^2 = 4.5 \text{ MJ}$$$
+-
+
+  $$
+  $K = \frac{1}{2} m v^2 = \frac{1}{2} (10,000) (30)^2 = 4.5 \text{ MJ}
+  $$
+
+  $
 - $$K$$
 - $$\approx 360$$
 
@@ -111294,14 +111800,38 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$K = \frac{1}{2} m v^2 = \frac{1}{2} (10,000) (30)^2 = 4.5 \text{ MJ}$$$
+-
+
+  $$
+  $K = \frac{1}{2} m v^2 = \frac{1}{2} (10,000) (30)^2 = 4.5 \text{ MJ}
+  $$
+
+  $
 - $$$V = \pi (0.075)^2 (0.5) \approx 0.0088 \text{ m}^3$$$
 - $$$V = \pi \left( \frac{D}{2} \right)^2 h$$$
 - $$$W = F \cdot d = 400,000 \cdot 0.005 = 2,000 \text{ Joules}$$$
 - $$$\mu_0 \approx 0.05 \text{ to } 0.1 \text{ Pa}\cdot\text{s}$$$
-- $$$\mu_{max} \approx 10,000 \text{ to } 50,000 \text{ Pa}\cdot\text{s}$$$
-- $$$\text{If } \left( \frac{dI_m}{dt} < \tau_{current} \right) \text{ AND } \left( \Delta\nu > \tau_{acoustic} \right) \Rightarrow \text{Trigger } V_{LBGP}$$$
-- $$$c = 2\sqrt{(2 \times 10^6)(5000)} \approx 200,000 \text{ N}\cdot\text{s/m}$$$
+-
+
+  $$
+  $\mu_{max} \approx 10,000 \text{ to } 50,000 \text{ Pa}\cdot\text{s}
+  $$
+
+  $
+-
+
+  $$
+  $\text{If } \left( \frac{dI_m}{dt} < \tau_{current} \right) \text{ AND } \left( \Delta\nu > \tau_{acoustic} \right) \Rightarrow \text{Trigger } V_{LBGP}
+  $$
+
+  $
+-
+
+  $$
+  $c = 2\sqrt{(2 \times 10^6)(5000)} \approx 200,000 \text{ N}\cdot\text{s/m}
+  $$
+
+  $
 - $$B_z$$
 - $$D$$
 - $$F = ma = 10,000 \times 14.7 = 147,000 \text{ N}$$
@@ -111572,7 +112102,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\text{Lignin-S} + \text{NaOH} + O_2 \xrightarrow{\text{Heat, Pressure}} \text{Depolymerized Organics} + Na_2SO_4 + H_2O$$$
+-
+
+  $$
+  $\text{Lignin-S} + \text{NaOH} + O_2 \xrightarrow{\text{Heat, Pressure}} \text{Depolymerized Organics} + Na_2SO_4 + H_2O
+  $$
+
+  $
 
 ### 2. Thermal Combustion with Alkaline Scrubbing
 
@@ -111676,7 +112212,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 - $$$2Na_2SO_3(aq) + O_2(g) \rightarrow 2Na_2SO_4(aq)$$$
 - $$$SO_2(g) + 2NaOH(aq) \rightarrow Na_2SO_3(aq) + H_2O(l)$$$
-- $$$\text{Lignin-S} + \text{NaOH} + O_2 \xrightarrow{\text{Heat, Pressure}} \text{Depolymerized Organics} + Na_2SO_4 + H_2O$$$
+-
+
+  $$
+  $\text{Lignin-S} + \text{NaOH} + O_2 \xrightarrow{\text{Heat, Pressure}} \text{Depolymerized Organics} + Na_2SO_4 + H_2O
+  $$
+
+  $
 - $$Na_2SO_4$$
 
 #### Citations & Sources
@@ -111833,7 +112375,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\text{QFT} |x\rangle = \frac{1}{\sqrt{N}} \sum_{k=0}^{N-1} \left( \sum_{j=0}^{N-1} x_j e^{2\pi i jk / N} \right) |k\rangle$$$
+-
+
+  $$
+  $\text{QFT} |x\rangle = \frac{1}{\sqrt{N}} \sum_{k=0}^{N-1} \left( \sum_{j=0}^{N-1} x_j e^{2\pi i jk / N} \right) |k\rangle
+  $$
+
+  $
 - $$U_{QFT}$$
 - $$\eta$$
 - $$\xi$$
@@ -111993,7 +112541,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\Delta\Phi(r,\theta) = \frac{2\pi L}{\lambda} \Delta n(r,\theta)$$$
+-
+
+  $$
+  $\Delta\Phi(r,\theta) = \frac{2\pi L}{\lambda} \Delta n(r,\theta)
+  $$
+
+  $
 - $$\Delta n(r,\theta)$$
 - $$e^{il\theta}$$
 - $$l$$
@@ -112027,7 +112581,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$H_{int} = - \int d^3r \Delta\varepsilon(\mathbf{r}, t) |\mathbf{E}(\mathbf{r})|^2$$$
+-
+
+  $$
+  $H_{int} = - \int d^3r \Delta\varepsilon(\mathbf{r}, t) |\mathbf{E}(\mathbf{r})|^2
+  $$
+
+  $
 - $$$U = \exp \left( \frac{i}{\hbar} \int_0^t H_{int} dt' \right)$$$
 - $$H = H_0 + H_{int}$$
 - $$H_0$$
@@ -112072,7 +112632,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\Phi_1(x, y) = \frac{2\pi a}{\lambda} \left( y \arctan \left( \frac{y}{x} \right) - x \ln \left( \frac{\sqrt{x^2 + y^2}}{b} \right) + x \right)$$$
+-
+
+  $$
+  $\Phi_1(x, y) = \frac{2\pi a}{\lambda} \left( y \arctan \left( \frac{y}{x} \right) - x \ln \left( \frac{\sqrt{x^2 + y^2}}{b} \right) + x \right)
+  $$
+
+  $
 - $$a$$
 - $$b$$
 - $$e^{il\theta}$$
@@ -112160,7 +112726,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$t_{cool} \approx (5 \times 10^{-9} \text{ m}^2\text{K/W}) \times (2 \times 10^6 \text{ J/m}^3\text{K}) \times (10^{-8} \text{ m})$$$
+-
+
+  $$
+  $t_{cool} \approx (5 \times 10^{-9} \text{ m}^2\text{K/W}) \times (2 \times 10^6 \text{ J/m}^3\text{K}) \times (10^{-8} \text{ m})
+  $$
+
+  $
 - $$$t_{cool} \approx 10^{-10} \text{ seconds}$$$
 - $$$t_{cool} \approx R_K \cdot C_v \cdot d$$$
 - $$C_v$$
@@ -112459,11 +113031,23 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$R_k = \begin{bmatrix} 1 & 0 \\ 0 & e^{\frac{2\pi i}{2^k}} \end{bmatrix}$$$
+-
+
+  $$
+  $R_k = \begin{bmatrix} 1 & 0 \\ 0 & e^{\frac{2\pi i}{2^k}} \end{bmatrix}
+  $$
+
+  $
 - $$$\Delta T_k = \frac{\lambda}{L \cdot \frac{dn}{dT} \cdot 2^k}$$$
 - $$$\Delta n_k = \frac{dn}{dT} \Delta T_k$$$
 - $$$\Delta\phi = \frac{2\pi L}{\lambda} \Delta n$$$
-- $$$\frac{2\pi}{2^k} = \frac{2\pi L}{\lambda} \Delta n \implies \Delta n_k = \frac{\lambda}{L 2^k}$$$
+-
+
+  $$
+  $\frac{2\pi}{2^k} = \frac{2\pi L}{\lambda} \Delta n \implies \Delta n_k = \frac{\lambda}{L 2^k}
+  $$
+
+  $
 - $$L$$
 - $$R_2$$
 - $$R_3$$
@@ -112490,7 +113074,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$H = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix}$$$
+-
+
+  $$
+  $H = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix}
+  $$
+
+  $
 - $$+1$$
 - $$-1$$
 - $$\Delta T$$
@@ -112618,11 +113208,23 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$H_{exchange} = \hbar g (\sigma_+^{(D)} \sigma_-^{(A)} + \sigma_-^{(D)} \sigma_+^{(A)})$$$
+-
+
+  $$
+  $H_{exchange} = \hbar g (\sigma_+^{(D)} \sigma_-^{(A)} + \sigma_-^{(D)} \sigma_+^{(A)})
+  $$
+
+  $
 - $$$U_{swap} = \exp\left(-\frac{i}{\hbar} H_{exchange} t\right)$$$
 - $$$\rho_A \to |0\rangle\langle0|$$$
 - $$$\rho_{initial} = \rho_D \otimes \rho_A$$$
-- $$$\rho_{siphoned} = U_{swap} (\rho_D \otimes \rho_A) U_{swap}^\dagger$$$
+-
+
+  $$
+  $\rho_{siphoned} = U_{swap} (\rho_D \otimes \rho_A) U_{swap}^\dagger
+  $$
+
+  $
 - $$A$$
 - $$D$$
 - $$H_{exchange}$$
@@ -112680,11 +113282,35 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$H = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix}$$$
-- $$$H_{exchange} = \hbar g (\sigma_+^{(D)} \sigma_-^{(A)} + \sigma_-^{(D)} \sigma_+^{(A)})$$$
-- $$$H_{int} = - \int d^3r \Delta\varepsilon(\mathbf{r}, t) |\mathbf{E}(\mathbf{r})|^2$$$
+-
+
+  $$
+  $H = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix}
+  $$
+
+  $
+-
+
+  $$
+  $H_{exchange} = \hbar g (\sigma_+^{(D)} \sigma_-^{(A)} + \sigma_-^{(D)} \sigma_+^{(A)})
+  $$
+
+  $
+-
+
+  $$
+  $H_{int} = - \int d^3r \Delta\varepsilon(\mathbf{r}, t) |\mathbf{E}(\mathbf{r})|^2
+  $$
+
+  $
 - $$$R \propto \sigma_2 I^2$$$
-- $$$R_k = \begin{bmatrix} 1 & 0 \\ 0 & e^{\frac{2\pi i}{2^k}} \end{bmatrix}$$$
+-
+
+  $$
+  $R_k = \begin{bmatrix} 1 & 0 \\ 0 & e^{\frac{2\pi i}{2^k}} \end{bmatrix}
+  $$
+
+  $
 - $$$U = \exp \left( \frac{i}{\hbar} \int_0^t H_{int} dt' \right)$$$
 - $$$U_{swap} = \exp\left(-\frac{i}{\hbar} H_{exchange} t\right)$$$
 - $$$V_R = 2 \pi \epsilon \epsilon_0 R \zeta^2 \exp(-\kappa h)$$$
@@ -112692,22 +113318,58 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 - $$$\Delta T_k = \frac{\lambda}{L \cdot \frac{dn}{dT} \cdot 2^k}$$$
 - $$$\Delta \phi = \frac{2\pi}{\lambda} \Delta n_{eff} L$$$
 - $$$\Delta n_k = \frac{dn}{dT} \Delta T_k$$$
-- $$$\Delta\Phi(r,\theta) = \frac{2\pi L}{\lambda} \Delta n(r,\theta)$$$
+-
+
+  $$
+  $\Delta\Phi(r,\theta) = \frac{2\pi L}{\lambda} \Delta n(r,\theta)
+  $$
+
+  $
 - $$$\Delta\phi = \frac{2\pi L}{\lambda} \Delta n$$$
 - $$$\Lambda \le 500 \text{ nm}$$$
 - $$$\Lambda \le \frac{800}{2 \times 0.8}$$$
 - $$$\Lambda \le \frac{\lambda}{2 \sin(\theta_{max})}$$$
-- $$$\Phi_1(x, y) = \frac{2\pi a}{\lambda} \left( y \arctan \left( \frac{y}{x} \right) - x \ln \left( \frac{\sqrt{x^2 + y^2}}{b} \right) + x \right)$$$
-- $$$\frac{2\pi}{2^k} = \frac{2\pi L}{\lambda} \Delta n \implies \Delta n_k = \frac{\lambda}{L 2^k}$$$
+-
+
+  $$
+  $\Phi_1(x, y) = \frac{2\pi a}{\lambda} \left( y \arctan \left( \frac{y}{x} \right) - x \ln \left( \frac{\sqrt{x^2 + y^2}}{b} \right) + x \right)
+  $$
+
+  $
+-
+
+  $$
+  $\frac{2\pi}{2^k} = \frac{2\pi L}{\lambda} \Delta n \implies \Delta n_k = \frac{\lambda}{L 2^k}
+  $$
+
+  $
 - $$$\rho_A \to |0\rangle\langle0|$$$
 - $$$\rho_{initial} = \rho_D \otimes \rho_A$$$
-- $$$\rho_{siphoned} = U_{swap} (\rho_D \otimes \rho_A) U_{swap}^\dagger$$$
+-
+
+  $$
+  $\rho_{siphoned} = U_{swap} (\rho_D \otimes \rho_A) U_{swap}^\dagger
+  $$
+
+  $
 - $$$\sin(\theta_{max}) = \frac{\lambda}{2\Lambda}$$$
 - $$$\tau \approx \frac{L^2}{\alpha}$$$
-- $$$\text{QFT} |x\rangle = \frac{1}{\sqrt{N}} \sum_{k=0}^{N-1} \left( \sum_{j=0}^{N-1} x_j e^{2\pi i jk / N} \right) |k\rangle$$$
+-
+
+  $$
+  $\text{QFT} |x\rangle = \frac{1}{\sqrt{N}} \sum_{k=0}^{N-1} \left( \sum_{j=0}^{N-1} x_j e^{2\pi i jk / N} \right) |k\rangle
+  $$
+
+  $
 - $$$d = \frac{\lambda}{2 \text{NA}}$$$
 - $$$l = \frac{1}{2\pi} \oint \nabla \Phi \cdot d\mathbf{l}$$$
-- $$$t_{cool} \approx (5 \times 10^{-9} \text{ m}^2\text{K/W}) \times (2 \times 10^6 \text{ J/m}^3\text{K}) \times (10^{-8} \text{ m})$$$
+-
+
+  $$
+  $t_{cool} \approx (5 \times 10^{-9} \text{ m}^2\text{K/W}) \times (2 \times 10^6 \text{ J/m}^3\text{K}) \times (10^{-8} \text{ m})
+  $$
+
+  $
 - $$$t_{cool} \approx 10^{-10} \text{ seconds}$$$
 - $$$t_{cool} \approx R_K \cdot C_v \cdot d$$$
 - $$$x = -a \ln\left(\frac{r}{b}\right), \quad y = a\theta$$$
@@ -113245,12 +113907,42 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$F_L = 0.5 \cdot 1.225 \cdot (30)^2 \cdot 0.1 \cdot 0.6 \cdot 2 = 33.08\text{ N}$$$
+-
+
+  $$
+  $F_L = 0.5 \cdot 1.225 \cdot (30)^2 \cdot 0.1 \cdot 0.6 \cdot 2 = 33.08\text{ N}
+  $$
+
+  $
 - $$$F_L = \frac{1}{2} \rho U^2 D C_L L$$$
-- $$$P_{elec} = P_{mech} \cdot \eta = 12.47 \cdot 0.05 \approx 0.62\text{ Watts per strut}$$$
-- $$$P_{mech} = \left(\frac{33.08}{\sqrt{2}}\right) \cdot \left(\frac{0.754}{\sqrt{2}}\right) \approx 12.47\text{ Watts}$$$
-- $$$f_s = \frac{St \cdot U}{D} = \frac{0.2 \cdot 30}{0.1} = 60\text{ Hz}$$$
-- $$$v_{max} = 2\pi f_s A = 2\pi \cdot 60 \cdot 0.002 = 0.754\text{ m/s}$$$
+-
+
+  $$
+  $P_{elec} = P_{mech} \cdot \eta = 12.47 \cdot 0.05 \approx 0.62\text{ Watts per strut}
+  $$
+
+  $
+-
+
+  $$
+  $P_{mech} = \left(\frac{33.08}{\sqrt{2}}\right) \cdot \left(\frac{0.754}{\sqrt{2}}\right) \approx 12.47\text{ Watts}
+  $$
+
+  $
+-
+
+  $$
+  $f_s = \frac{St \cdot U}{D} = \frac{0.2 \cdot 30}{0.1} = 60\text{ Hz}
+  $$
+
+  $
+-
+
+  $$
+  $v_{max} = 2\pi f_s A = 2\pi \cdot 60 \cdot 0.002 = 0.754\text{ m/s}
+  $$
+
+  $
 - $$A = 2\text{ mm}$$
 - $$C_L$$
 - $$D$$
@@ -114550,14 +115242,44 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 #### Mathematical Formulas
 
 - $$$E(r, \phi, z) = E_0 u(r, z) \exp(i l \phi) \exp(i k_z z)$$$
-- $$$F_L = 0.5 \cdot 1.225 \cdot (30)^2 \cdot 0.1 \cdot 0.6 \cdot 2 = 33.08\text{ N}$$$
+-
+
+  $$
+  $F_L = 0.5 \cdot 1.225 \cdot (30)^2 \cdot 0.1 \cdot 0.6 \cdot 2 = 33.08\text{ N}
+  $$
+
+  $
 - $$$F_L = \frac{1}{2} \rho U^2 D C_L L$$$
-- $$$P_{elec} = P_{mech} \cdot \eta = 12.47 \cdot 0.05 \approx 0.62\text{ Watts per strut}$$$
-- $$$P_{mech} = \left(\frac{33.08}{\sqrt{2}}\right) \cdot \left(\frac{0.754}{\sqrt{2}}\right) \approx 12.47\text{ Watts}$$$
+-
+
+  $$
+  $P_{elec} = P_{mech} \cdot \eta = 12.47 \cdot 0.05 \approx 0.62\text{ Watts per strut}
+  $$
+
+  $
+-
+
+  $$
+  $P_{mech} = \left(\frac{33.08}{\sqrt{2}}\right) \cdot \left(\frac{0.754}{\sqrt{2}}\right) \approx 12.47\text{ Watts}
+  $$
+
+  $
 - $$$SiO_2 + 3C \rightarrow SiC + 2CO$$$
-- $$$f_s = \frac{St \cdot U}{D} = \frac{0.2 \cdot 30}{0.1} = 60\text{ Hz}$$$
+-
+
+  $$
+  $f_s = \frac{St \cdot U}{D} = \frac{0.2 \cdot 30}{0.1} = 60\text{ Hz}
+  $$
+
+  $
 - $$$n(I) = n_0 + n_2 I$$$
-- $$$v_{max} = 2\pi f_s A = 2\pi \cdot 60 \cdot 0.002 = 0.754\text{ m/s}$$$
+-
+
+  $$
+  $v_{max} = 2\pi f_s A = 2\pi \cdot 60 \cdot 0.002 = 0.754\text{ m/s}
+  $$
+
+  $
 - $$+24$$
 - $$< 10\text{ ms}$$
 - $$A = 2\text{ mm}$$
@@ -115116,7 +115838,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\text{PEG} + 2\text{-MPE} \xrightarrow{\text{Me-THF}, [H^+]} \text{PDIP} + \text{Acetone}$$$
+-
+
+  $$
+  $\text{PEG} + 2\text{-MPE} \xrightarrow{\text{Me-THF}, [H^+]} \text{PDIP} + \text{Acetone}
+  $$
+
+  $
 
 ### Primary Separation (Thin-Film Evaporation)**
 
@@ -115208,7 +115936,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$A = \frac{\text{Evaporation Rate}}{\text{Flux}} = \frac{62.5 \text{ kg/hr}}{40 \text{ kg/m}^2\text{hr}} \approx \mathbf{1.6 \text{ m}^2}$$$
+-
+
+  $$
+  $A = \frac{\text{Evaporation Rate}}{\text{Flux}} = \frac{62.5 \text{ kg/hr}}{40 \text{ kg/m}^2\text{hr}} \approx \mathbf{1.6 \text{ m}^2}
+  $$
+
+  $
 
 ### 2.0 $m^2$ TFE**
 
@@ -117064,12 +117798,24 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$A = \frac{\text{Evaporation Rate}}{\text{Flux}} = \frac{62.5 \text{ kg/hr}}{40 \text{ kg/m}^2\text{hr}} \approx \mathbf{1.6 \text{ m}^2}$$$
+-
+
+  $$
+  $A = \frac{\text{Evaporation Rate}}{\text{Flux}} = \frac{62.5 \text{ kg/hr}}{40 \text{ kg/m}^2\text{hr}} \approx \mathbf{1.6 \text{ m}^2}
+  $$
+
+  $
 - $$$T_c \approx 1.14 \Theta_D \exp\left(-\frac{1}{N(E_F)V}\right)$$$
 - $$$Z = \rho \cdot c$$$
 - $$$\Psi = \Delta e^{i\phi}$$$
 - $$$\mu \approx \pm 1.5\text{--}2.0 \text{ eV}$$$
-- $$$\text{PEG} + 2\text{-MPE} \xrightarrow{\text{Me-THF}, [H^+]} \text{PDIP} + \text{Acetone}$$$
+-
+
+  $$
+  $\text{PEG} + 2\text{-MPE} \xrightarrow{\text{Me-THF}, [H^+]} \text{PDIP} + \text{Acetone}
+  $$
+
+  $
 - $$):** Chiller units (2-MPE is volatile, boiling at$$
 - $$-40^\circ\text{C}$$
 - $$-COOH$$
@@ -117883,7 +118629,12 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$I_{mixer} = I_{rf} \sin(\omega t + \theta) \times \sin(\omega t) = \frac{1}{2} I_{rf} \cos(\theta) - \frac{1}{2} I_{rf} \cos(2\omega t + \theta)$$
+-
+
+  $$
+  I_{mixer} = I_{rf} \sin(\omega t + \theta) \times \sin(\omega t) = \frac{1}{2} I_{rf} \cos(\theta) - \frac{1}{2} I_{rf} \cos(2\omega t + \theta)
+  $$
+
 - $$I_{rf}$$
 - $$\omega$$
 - $$\theta$$
@@ -118342,7 +119093,12 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 - $$H$$
 - $$I = V/R$$
 - $$I$$
-- $$I_{mixer} = I_{rf} \sin(\omega t + \theta) \times \sin(\omega t) = \frac{1}{2} I_{rf} \cos(\theta) - \frac{1}{2} I_{rf} \cos(2\omega t + \theta)$$
+-
+
+  $$
+  I_{mixer} = I_{rf} \sin(\omega t + \theta) \times \sin(\omega t) = \frac{1}{2} I_{rf} \cos(\theta) - \frac{1}{2} I_{rf} \cos(2\omega t + \theta)
+  $$
+
 - $$I_{rf}$$
 - $$L_{stray}$$
 - $$Q$$
@@ -118724,8 +119480,18 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$/kWh)' slider (0.05 to 0.30, default 0.12)\n- 'Annual Production Volume (kg)' slider (5000 to 200000, default 25000)\n\nAssume the following fixed background parameters for calculations:\n- Pilot plant CapEx is$$
-- $$/kg)' slider (0.10 to 5.00, default 1.00)\n- 'Bio-Epoxy/Additives Cost ($$
+-
+
+  $$
+  /kWh)' slider (0.05 to 0.30, default 0.12)\n- 'Annual Production Volume (kg)' slider (5000 to 200000, default 25000)\n\nAssume the following fixed background parameters for calculations:\n- Pilot plant CapEx is
+  $$
+
+-
+
+  $$
+  /kg)' slider (0.10 to 5.00, default 1.00)\n- 'Bio-Epoxy/Additives Cost (
+  $$
+
 - $$sCO_2$$
 
 #### Citations & Sources
@@ -119583,7 +120349,11 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$/ton)' slider (-50 to +50, where positive means income for taking waste). Default to 20.\n- 'Renewable Energy Cost ($$
+-
+
+  $$
+  /ton)' slider (-50 to +50, where positive means income for taking waste). Default to 20.\n- 'Renewable Energy Cost (
+  $$
 
 ### Thermal Self-Choking (Lignolux E-Caps)
 
@@ -119948,7 +120718,11 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$/ton)' slider (-20 to +100). Default 40.\n- 'R2R Line Speed (m/min)' slider (10 to 200). Default 50.\n- 'Boron-CNT Yield (%)' slider (70 to 99). Default 90.\n- 'Energy Price ($$
+-
+
+  $$
+  /ton)' slider (-20 to +100). Default 40.\n- 'R2R Line Speed (m/min)' slider (10 to 200). Default 50.\n- 'Boron-CNT Yield (%)' slider (70 to 99). Default 90.\n- 'Energy Price (
+  $$
 
 ### 1. The Lignolux R2R QA Sensor Suite
 
@@ -120495,7 +121269,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$k_{eff} = k_{base} \left( 1 + \frac{3 \phi (\beta - 1)}{\beta + 2 - \phi(\beta - 1)} \right)$$$
+-
+
+  $$
+  $k_{eff} = k_{base} \left( 1 + \frac{3 \phi (\beta - 1)}{\beta + 2 - \phi(\beta - 1)} \right)
+  $$
+
+  $
 - $$\beta$$
 - $$\phi$$
 - $$k_{eff}$$
@@ -120892,7 +121672,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$V_d = \sum (Q_{PG} \cdot P_{PG}) + (Q_{H_2} \cdot P_{H_2}) + (Q_{CO_2} \cdot C_{cred}) - E_{cost}$$$
+-
+
+  $$
+  $V_d = \sum (Q_{PG} \cdot P_{PG}) + (Q_{H_2} \cdot P_{H_2}) + (Q_{CO_2} \cdot C_{cred}) - E_{cost}
+  $$
+
+  $
 - $$V_d$$
 
 ### PG vs. Hydrogen
@@ -120911,7 +121697,12 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$(Biochar-tech grade). | **Mode: Sequestration.** | Optimize for maximum$$
+-
+
+  $$
+  (Biochar-tech grade). | **Mode: Sequestration.** | Optimize for maximum
+  $$
+
 - $$. | **Mode: Chemical Arbitrage.** |$$
 - $$. | **Mode: Hydrogen Max.** |$$
 - $$/$$
@@ -121484,7 +122275,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$Profit(I) = (V_{cell}(I, SOC, T) \cdot Price_{target}) - (I^2 \cdot R_{eff} \cdot Price_{degradation})$$$
+-
+
+  $$
+  $Profit(I) = (V_{cell}(I, SOC, T) \cdot Price_{target}) - (I^2 \cdot R_{eff} \cdot Price_{degradation})
+  $$
+
+  $
 - $$I$$
 - $$I^2 R$$
 
@@ -122392,7 +123189,11 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$/kWh** (the standard metric for grid storage), assuming a baseline Lignolux Q-Node costs **$$
+-
+
+  $$
+  /kWh** (the standard metric for grid storage), assuming a baseline Lignolux Q-Node costs **
+  $$
 
 ### 1. The Cost Breakdown per Strategy
 
@@ -122440,7 +123241,11 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$/kWh)'\n  2. '5-Year Charge Retention (%)'\n  3. 'Effective Cost of Retained Energy ($$
+-
+
+  $$
+  /kWh)'\n  2. '5-Year Charge Retention (%)'\n  3. 'Effective Cost of Retained Energy (
+  $$
 
 ### 3. Production Strategy Update
 
@@ -122511,7 +123316,11 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$/kWh)' (Range: 0.00 to 0.10, Step: 0.01, Default: 0.02).\n\nFixed Data (Do not allow user to change):\n- Lithium LFP: CapEx =$$
+-
+
+  $$
+  /kWh)' (Range: 0.00 to 0.10, Step: 0.01, Default: 0.02).\n\nFixed Data (Do not allow user to change):\n- Lithium LFP: CapEx =
+  $$
 
 ### 1. The 2026 Product Variant Matrix
 
@@ -122826,18 +123635,41 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 - $$$2CO_2 + 8H_2O + 8e^- \rightarrow CH_3COOH + 8OH^-$$$
 - $$$CO + H_2O \rightleftharpoons CO_2 + H_2$$$
 - $$$C_n H_{2n} + nH_2O \rightarrow nCO + 2nH_2$$$
-- $$$Profit(I) = (V_{cell}(I, SOC, T) \cdot Price_{target}) - (I^2 \cdot R_{eff} \cdot Price_{degradation})$$$
+-
+
+  $$
+  $Profit(I) = (V_{cell}(I, SOC, T) \cdot Price_{target}) - (I^2 \cdot R_{eff} \cdot Price_{degradation})
+  $$
+
+  $
 - $$$R(t) = e^{-(t/\eta)^\beta}$$$
 - $$$V = \frac{Q}{C}$$$
-- $$$V_d = \sum (Q_{PG} \cdot P_{PG}) + (Q_{H_2} \cdot P_{H_2}) + (Q_{CO_2} \cdot C_{cred}) - E_{cost}$$$
+-
+
+  $$
+  $V_d = \sum (Q_{PG} \cdot P_{PG}) + (Q_{H_2} \cdot P_{H_2}) + (Q_{CO_2} \cdot C_{cred}) - E_{cost}
+  $$
+
+  $
 - $$$V_m + C_r + N_d + A_f = 1$$$
 - $$$V_m + C_r + N_d = 1$$$
 - $$$\alpha \propto A_f$$$
 - $$$\phi \propto N_d$$$
 - $$$\tau \propto (V_m \cdot C_r)$$$
 - $$$\theta \approx 150^\circ \cdot H_c$$$
-- $$$k_{eff} = k_{base} \left( 1 + \frac{3 \phi (\beta - 1)}{\beta + 2 - \phi(\beta - 1)} \right)$$$
-- $$(Biochar-tech grade). | **Mode: Sequestration.** | Optimize for maximum$$
+-
+
+  $$
+  $k_{eff} = k_{base} \left( 1 + \frac{3 \phi (\beta - 1)}{\beta + 2 - \phi(\beta - 1)} \right)
+  $$
+
+  $
+-
+
+  $$
+  (Biochar-tech grade). | **Mode: Sequestration.** | Optimize for maximum
+  $$
+
 - $$(C_2H_4)_n$$
 - $$** | **$$
 - $$** | **Space is$$
@@ -122858,15 +123690,50 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 - $$. | **Mode: Hydrogen Max.** |$$
 - $$/$$
 - $$/kWh) | Coastal Defender ($$
-- $$/kWh)' (Range: 0.00 to 0.10, Step: 0.01, Default: 0.02).\n\nFixed Data (Do not allow user to change):\n- Lithium LFP: CapEx =$$
-- $$/kWh)' slider (0.05 to 0.30, default 0.12)\n- 'Annual Production Volume (kg)' slider (5000 to 200000, default 25000)\n\nAssume the following fixed background parameters for calculations:\n- Pilot plant CapEx is$$
-- $$/kWh)'\n  2. '5-Year Charge Retention (%)'\n  3. 'Effective Cost of Retained Energy ($$
+-
+
+  $$
+  /kWh)' (Range: 0.00 to 0.10, Step: 0.01, Default: 0.02).\n\nFixed Data (Do not allow user to change):\n- Lithium LFP: CapEx =
+  $$
+
+-
+
+  $$
+  /kWh)' slider (0.05 to 0.30, default 0.12)\n- 'Annual Production Volume (kg)' slider (5000 to 200000, default 25000)\n\nAssume the following fixed background parameters for calculations:\n- Pilot plant CapEx is
+  $$
+
+-
+
+  $$
+  /kWh)'\n  2. '5-Year Charge Retention (%)'\n  3. 'Effective Cost of Retained Energy (
+  $$
+
 - $$/kWh)** | **$$
 - $$/kWh)**. In 2026, a utility-scale LFP pack costs roughly **$$
-- $$/kWh** (the standard metric for grid storage), assuming a baseline Lignolux Q-Node costs **$$
-- $$/kg)' slider (0.10 to 5.00, default 1.00)\n- 'Bio-Epoxy/Additives Cost ($$
-- $$/ton)' slider (-20 to +100). Default 40.\n- 'R2R Line Speed (m/min)' slider (10 to 200). Default 50.\n- 'Boron-CNT Yield (%)' slider (70 to 99). Default 90.\n- 'Energy Price ($$
-- $$/ton)' slider (-50 to +50, where positive means income for taking waste). Default to 20.\n- 'Renewable Energy Cost ($$
+-
+
+  $$
+  /kWh** (the standard metric for grid storage), assuming a baseline Lignolux Q-Node costs **
+  $$
+
+-
+
+  $$
+  /kg)' slider (0.10 to 5.00, default 1.00)\n- 'Bio-Epoxy/Additives Cost (
+  $$
+
+-
+
+  $$
+  /ton)' slider (-20 to +100). Default 40.\n- 'R2R Line Speed (m/min)' slider (10 to 200). Default 50.\n- 'Boron-CNT Yield (%)' slider (70 to 99). Default 90.\n- 'Energy Price (
+  $$
+
+-
+
+  $$
+  /ton)' slider (-50 to +50, where positive means income for taking waste). Default to 20.\n- 'Renewable Energy Cost (
+  $$
+
 - $$< 180$$
 - $$< 60^\circ\text{C}$$
 - $$<200\text{ms}$$
@@ -124534,11 +125401,20 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$/MW savings that can come from removing the copper steering coils and related power electronics, comparing it with the cost of using the$$
+-
+
+  $$
+  /MW savings that can come from removing the copper steering coils and related power electronics, comparing it with the cost of using the
+  $$
+
 - $$Fe_{16}N_{2}$$
 - $$\mu$$
 - $$\pm 0.1$$
-- $$magnets. My primary focus will be Binder Jetting or Laser Powder Bed Fusion, followed by nitriding. Next, I'll need to research the cost per kilogram of both$$
+-
+
+  $$
+  magnets. My primary focus will be Binder Jetting or Laser Powder Bed Fusion, followed by nitriding. Next, I'll need to research the cost per kilogram of both
+  $$
 
 #### Citations & Sources
 
@@ -126344,7 +127220,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$P_{\text{shred}} = \frac{V \cdot \sigma^2}{2E \cdot \eta \cdot t}$$$
+-
+
+  $$
+  $P_{\text{shred}} = \frac{V \cdot \sigma^2}{2E \cdot \eta \cdot t}
+  $$
+
+  $
 - $$E$$
 - $$V$$
 - $$\eta$$
@@ -126735,11 +127617,22 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 #### Mathematical Formulas
 
 - $$$Fe_{2}O_{3} + 3H_{2} \rightarrow 2Fe + 3H_{2}O \uparrow$$$
-- $$$P_{\text{shred}} = \frac{V \cdot \sigma^2}{2E \cdot \eta \cdot t}$$$
+-
+
+  $$
+  $P_{\text{shred}} = \frac{V \cdot \sigma^2}{2E \cdot \eta \cdot t}
+  $$
+
+  $
 - $$$R_m = \mu_0 \sigma v L$$$
 - $$(x, y, z)$$
 - $$-196\text{--}50^\circ\text{C}$$
-- $$/MW savings that can come from removing the copper steering coils and related power electronics, comparing it with the cost of using the$$
+-
+
+  $$
+  /MW savings that can come from removing the copper steering coils and related power electronics, comparing it with the cost of using the
+  $$
+
 - $$/kWe)** | ~$$
 - $$/kg and$$
 - $$<20\%$$
@@ -126791,7 +127684,12 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 - $$^1\text{H}$$
 - $$^2\text{H}$$
 - $$d_{33}$$
-- $$magnets. My primary focus will be Binder Jetting or Laser Powder Bed Fusion, followed by nitriding. Next, I'll need to research the cost per kilogram of both$$
+-
+
+  $$
+  magnets. My primary focus will be Binder Jetting or Laser Powder Bed Fusion, followed by nitriding. Next, I'll need to research the cost per kilogram of both
+  $$
+
 - $$n$$
 - $$t$$
 - $$v$$
@@ -127828,7 +128726,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$Al(OH)_3 + H_3C_6H_5O_7 \xrightarrow{\text{20 kHz}} Al(C_6H_5O_7) + 3H_2O$$$
+-
+
+  $$
+  $Al(OH)_3 + H_3C_6H_5O_7 \xrightarrow{\text{20 kHz}} Al(C_6H_5O_7) + 3H_2O
+  $$
+
+  $
 - $$Al(C_6H_5O_7)$$
 - $$Al(OH)_3$$
 - $$Al^{3+}$$
@@ -127867,7 +128771,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$CaTiO_3 + C_6H_{18}O_{24}P_6 \xrightarrow{\text{100 kHz}} [Ti(C_6H_{12}O_{24}P_6)]^{2-} + Ca^{2+} + 3H_2O$$$
+-
+
+  $$
+  $CaTiO_3 + C_6H_{18}O_{24}P_6 \xrightarrow{\text{100 kHz}} [Ti(C_6H_{12}O_{24}P_6)]^{2-} + Ca^{2+} + 3H_2O
+  $$
+
+  $
 - $$C_6H_{18}O_{24}P_6$$
 - $$CaTiO_3$$
 - $$FeTiO_3$$
@@ -127889,7 +128799,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$16Fe + N_2 \text{ (plasma)} \xrightarrow{\text{FJH Spike}} Fe_{16}N_2$$$
+-
+
+  $$
+  $16Fe + N_2 \text{ (plasma)} \xrightarrow{\text{FJH Spike}} Fe_{16}N_2
+  $$
+
+  $
 - $$Fe$$
 - $$Fe_{16}N_2$$
 - $$N^+$$
@@ -128030,8 +128946,20 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$C_6H_8O_7 \xrightarrow{\Delta / \text{sonic}} 3CO_2 \uparrow + \text{organic residuals}$$$
-- $$$Mg_{(s)} + 2H_3C_6H_5O_7 \rightarrow Mg(C_6H_6O_7)_2 + H_2 \uparrow$$$
+-
+
+  $$
+  $C_6H_8O_7 \xrightarrow{\Delta / \text{sonic}} 3CO_2 \uparrow + \text{organic residuals}
+  $$
+
+  $
+-
+
+  $$
+  $Mg_{(s)} + 2H_3C_6H_5O_7 \rightarrow Mg(C_6H_6O_7)_2 + H_2 \uparrow
+  $$
+
+  $
 - $$CO_2$$
 - $$C_6H_8O_7$$
 - $$Mg$$
@@ -128127,7 +129055,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$Mg(C_6H_6O_7) + 2NaOH \rightarrow Mg(OH)_2(s) + Na_2(C_6H_6O_7)$$$
+-
+
+  $$
+  $Mg(C_6H_6O_7) + 2NaOH \rightarrow Mg(OH)_2(s) + Na_2(C_6H_6O_7)
+  $$
+
+  $
 - $$$MgO + C_6H_8O_7 \rightarrow Mg(C_6H_6O_7) + H_2O$$$
 - $$Mg(C_6H_6O_7)$$
 - $$MgO$$
@@ -128150,7 +129084,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$MnO + C_6H_8O_7 \xrightarrow{))) \text{ 500 kHz}} Mn(C_6H_6O_7) + H_2O$$$
+-
+
+  $$
+  $MnO + C_6H_8O_7 \xrightarrow{))) \text{ 500 kHz}} Mn(C_6H_6O_7) + H_2O
+  $$
+
+  $
 - $$>95\%$$
 - $$MnO$$
 - $$MnO_2$$
@@ -128208,7 +129148,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\text{Phenolic Monomer} + [O] \xrightarrow{\text{Catalyst/UV}} \text{Benzoquinone} + H_2O$$$
+-
+
+  $$
+  $\text{Phenolic Monomer} + [O] \xrightarrow{\text{Catalyst/UV}} \text{Benzoquinone} + H_2O
+  $$
+
+  $
 
 ### 2. The "Plateau" Mechanics
 
@@ -128279,7 +129225,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\eta_{\text{thermal}} \approx 1 - \left( \frac{P_{low}}{P_{high}} \right)^{\frac{\gamma - 1}{\gamma}}$$$
+-
+
+  $$
+  $\eta_{\text{thermal}} \approx 1 - \left( \frac{P_{low}}{P_{high}} \right)^{\frac{\gamma - 1}{\gamma}}
+  $$
+
+  $
 - $$CO_2$$
 - $$P_{high}$$
 - $$T_{in} > 450^\circ\text{C}$$
@@ -128460,7 +129412,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\Delta R = R_0 \cdot GF \cdot \left( \frac{P \cdot r}{E \cdot t} \right)$$$
+-
+
+  $$
+  $\Delta R = R_0 \cdot GF \cdot \left( \frac{P \cdot r}{E \cdot t} \right)
+  $$
+
+  $
 - $$$\epsilon \approx \frac{P \cdot r}{E \cdot t}$$$
 - $$E$$
 - $$P$$
@@ -128518,7 +129476,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$V_g = V_{in} \cdot \left( \frac{R_s}{R_s + R_3} - \frac{R_2}{R_1 + R_2} \right)$$$
+-
+
+  $$
+  $V_g = V_{in} \cdot \left( \frac{R_s}{R_s + R_3} - \frac{R_2}{R_1 + R_2} \right)
+  $$
+
+  $
 - $$V_g$$
 
 ### MetalPlantB Process Model v2.20
@@ -128635,28 +129599,94 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$16Fe + N_2 \text{ (plasma)} \xrightarrow{\text{FJH Spike}} Fe_{16}N_2$$$
-- $$$Al(OH)_3 + H_3C_6H_5O_7 \xrightarrow{\text{20 kHz}} Al(C_6H_5O_7) + 3H_2O$$$
-- $$$C_6H_8O_7 \xrightarrow{\Delta / \text{sonic}} 3CO_2 \uparrow + \text{organic residuals}$$$
+-
+
+  $$
+  $16Fe + N_2 \text{ (plasma)} \xrightarrow{\text{FJH Spike}} Fe_{16}N_2
+  $$
+
+  $
+-
+
+  $$
+  $Al(OH)_3 + H_3C_6H_5O_7 \xrightarrow{\text{20 kHz}} Al(C_6H_5O_7) + 3H_2O
+  $$
+
+  $
+-
+
+  $$
+  $C_6H_8O_7 \xrightarrow{\Delta / \text{sonic}} 3CO_2 \uparrow + \text{organic residuals}
+  $$
+
+  $
 - $$$C_{(s)} + CO_2 \rightarrow 2CO$$$
-- $$$CaTiO_3 + C_6H_{18}O_{24}P_6 \xrightarrow{\text{100 kHz}} [Ti(C_6H_{12}O_{24}P_6)]^{2-} + Ca^{2+} + 3H_2O$$$
+-
+
+  $$
+  $CaTiO_3 + C_6H_{18}O_{24}P_6 \xrightarrow{\text{100 kHz}} [Ti(C_6H_{12}O_{24}P_6)]^{2-} + Ca^{2+} + 3H_2O
+  $$
+
+  $
 - $$$Cr^{3+} + 3OH^\bullet + H_2O \rightarrow CrO_4^{2-} + 5H^+$$$
 - $$$E_{waste} = E_{in} \times (1 - \eta_{ex})$$$
 - $$$Fe_2O_3 + 3CO \rightarrow 2Fe + 3CO_2$$$
 - $$$Fe_2O_3 + 3H_2 \rightarrow 2Fe + 3H_2O$$$
 - $$$GF = \frac{\Delta R / R_0}{\epsilon}$$$
 - $$$H_2O \xrightarrow{\text{500 kHz}} H^\bullet + OH^\bullet$$$
-- $$$Mg(C_6H_6O_7) + 2NaOH \rightarrow Mg(OH)_2(s) + Na_2(C_6H_6O_7)$$$
+-
+
+  $$
+  $Mg(C_6H_6O_7) + 2NaOH \rightarrow Mg(OH)_2(s) + Na_2(C_6H_6O_7)
+  $$
+
+  $
 - $$$MgO + C_6H_8O_7 \rightarrow Mg(C_6H_6O_7) + H_2O$$$
-- $$$Mg_{(s)} + 2H_3C_6H_5O_7 \rightarrow Mg(C_6H_6O_7)_2 + H_2 \uparrow$$$
-- $$$MnO + C_6H_8O_7 \xrightarrow{))) \text{ 500 kHz}} Mn(C_6H_6O_7) + H_2O$$$
+-
+
+  $$
+  $Mg_{(s)} + 2H_3C_6H_5O_7 \rightarrow Mg(C_6H_6O_7)_2 + H_2 \uparrow
+  $$
+
+  $
+-
+
+  $$
+  $MnO + C_6H_8O_7 \xrightarrow{))) \text{ 500 kHz}} Mn(C_6H_6O_7) + H_2O
+  $$
+
+  $
 - $$$Q + 2e^- + 2H^+ \rightleftharpoons QH_2$$$
-- $$$V_g = V_{in} \cdot \left( \frac{R_s}{R_s + R_3} - \frac{R_2}{R_1 + R_2} \right)$$$
-- $$$\Delta R = R_0 \cdot GF \cdot \left( \frac{P \cdot r}{E \cdot t} \right)$$$
+-
+
+  $$
+  $V_g = V_{in} \cdot \left( \frac{R_s}{R_s + R_3} - \frac{R_2}{R_1 + R_2} \right)
+  $$
+
+  $
+-
+
+  $$
+  $\Delta R = R_0 \cdot GF \cdot \left( \frac{P \cdot r}{E \cdot t} \right)
+  $$
+
+  $
 - $$$\epsilon \approx \frac{P \cdot r}{E \cdot t}$$$
-- $$$\eta_{\text{thermal}} \approx 1 - \left( \frac{P_{low}}{P_{high}} \right)^{\frac{\gamma - 1}{\gamma}}$$$
+-
+
+  $$
+  $\eta_{\text{thermal}} \approx 1 - \left( \frac{P_{low}}{P_{high}} \right)^{\frac{\gamma - 1}{\gamma}}
+  $$
+
+  $
 - $$$\eta_{ex} = \frac{\Delta G}{E_{in}}$$$
-- $$$\text{Phenolic Monomer} + [O] \xrightarrow{\text{Catalyst/UV}} \text{Benzoquinone} + H_2O$$$
+-
+
+  $$
+  $\text{Phenolic Monomer} + [O] \xrightarrow{\text{Catalyst/UV}} \text{Benzoquinone} + H_2O
+  $$
+
+  $
 - $$>95\%$$
 - $$Al(C_6H_5O_7)$$
 - $$Al(OH)_3$$
@@ -129107,7 +130137,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\mathcal{D}(\text{Bit} + \text{Siphon}) < \mathcal{D}(\text{Bit alone})$$$
+-
+
+  $$
+  $\mathcal{D}(\text{Bit} + \text{Siphon}) < \mathcal{D}(\text{Bit alone})
+  $$
+
+  $
 - $$(\mathcal{D})$$
 - $$\rho$$
 - $$\sigma$$
@@ -129120,7 +130156,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\Delta Q_{siph} = \int_{Path_{Actual}} T ds - \int_{Path_{Shadow}} T ds$$$
+-
+
+  $$
+  $\Delta Q_{siph} = \int_{Path_{Actual}} T ds - \int_{Path_{Shadow}} T ds
+  $$
+
+  $
 - $$P-V-T$$
 - $$Path_{Shadow}$$
 - $$\Delta Q_{siph}$$
@@ -129160,8 +130202,20 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\Delta Q_{siph} = \int_{Path_{Actual}} T ds - \int_{Path_{Shadow}} T ds$$$
-- $$$\mathcal{D}(\text{Bit} + \text{Siphon}) < \mathcal{D}(\text{Bit alone})$$$
+-
+
+  $$
+  $\Delta Q_{siph} = \int_{Path_{Actual}} T ds - \int_{Path_{Shadow}} T ds
+  $$
+
+  $
+-
+
+  $$
+  $\mathcal{D}(\text{Bit} + \text{Siphon}) < \mathcal{D}(\text{Bit alone})
+  $$
+
+  $
 - $$$\mathcal{Q}^* = E[Q | do(K=1)] - E[Q | do(K=0)]$$$
 - $$(\mathcal{D})$$
 - $$A \to B$$
@@ -129366,7 +130420,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$Mg^{2+} + NH_4^+ + PO_4^{3-} + 6H_2O \rightarrow MgNH_4PO_4 \cdot 6H_2O\downarrow$$$
+-
+
+  $$
+  $Mg^{2+} + NH_4^+ + PO_4^{3-} + 6H_2O \rightarrow MgNH_4PO_4 \cdot 6H_2O\downarrow
+  $$
+
+  $
 
 ### The Fleece as a Bio-Reactor
 
@@ -129376,7 +130436,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$Mg^{2+} + NH_4^+ + PO_4^{3-} + 6H_2O \rightarrow MgNH_4PO_4 \cdot 6H_2O\downarrow$$$
+-
+
+  $$
+  $Mg^{2+} + NH_4^+ + PO_4^{3-} + 6H_2O \rightarrow MgNH_4PO_4 \cdot 6H_2O\downarrow
+  $$
+
+  $
 
 #### Citations & Sources
 
@@ -129852,7 +130918,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 #### Mathematical Formulas
 
 - $$$3NaOH + C_6H_8O_7 \rightarrow Na_3C_6H_5O_7 + 3H_2O$$$
-- $$$Mg^{2+} + NH_4^+ + PO_4^{3-} + 6H_2O \rightarrow MgNH_4PO_4 \cdot 6H_2O\downarrow$$$
+-
+
+  $$
+  $Mg^{2+} + NH_4^+ + PO_4^{3-} + 6H_2O \rightarrow MgNH_4PO_4 \cdot 6H_2O\downarrow
+  $$
+
+  $
 - $$Al^{3+}$$
 - $$BO_3^{3-}$$
 - $$CO_2$$
@@ -130939,7 +132011,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\text{Height} = V_t \times t = 6 \text{ m/s} \times 2.0 \text{ s} = 12 \text{ meters}$$$
+-
+
+  $$
+  $\text{Height} = V_t \times t = 6 \text{ m/s} \times 2.0 \text{ s} = 12 \text{ meters}
+  $$
+
+  $
 - $$<0.1$$
 - $$CO_2$$
 - $$T_f$$
@@ -130980,7 +132058,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\rho_{\text{foam}} = (0.65 \times 400) + (0.35 \times 1200) = 260 + 420 = \mathbf{680 \text{ kg/m}^3}$$$
+-
+
+  $$
+  $\rho_{\text{foam}} = (0.65 \times 400) + (0.35 \times 1200) = 260 + 420 = \mathbf{680 \text{ kg/m}^3}
+  $$
+
+  $
 - $$\sim1200 \text{ kg/m}^3$$
 - $$\sim400 \text{ kg/m}^3$$
 
@@ -131442,8 +132526,20 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\rho_{\text{foam}} = (0.65 \times 400) + (0.35 \times 1200) = 260 + 420 = \mathbf{680 \text{ kg/m}^3}$$$
-- $$$\text{Height} = V_t \times t = 6 \text{ m/s} \times 2.0 \text{ s} = 12 \text{ meters}$$$
+-
+
+  $$
+  $\rho_{\text{foam}} = (0.65 \times 400) + (0.35 \times 1200) = 260 + 420 = \mathbf{680 \text{ kg/m}^3}
+  $$
+
+  $
+-
+
+  $$
+  $\text{Height} = V_t \times t = 6 \text{ m/s} \times 2.0 \text{ s} = 12 \text{ meters}
+  $$
+
+  $
 - $$(-3.51) + (-0.35) + (+0.50)$$
 - $$)* | **$$
 - $$/sqft) | Insulation & Barrier ($$
@@ -131829,7 +132925,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$f_{acoustic} \rightarrow \Delta V_{electrical} \rightarrow \text{EM Radiation}$$$
+-
+
+  $$
+  $f_{acoustic} \rightarrow \Delta V_{electrical} \rightarrow \text{EM Radiation}
+  $$
+
+  $
 - $$F\#$$
 
 ### 2. The Star Shafts as "Antenna Feeds"
@@ -132140,7 +133242,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 #### Mathematical Formulas
 
 - $$$13.89^\circ \times 111 \text{ km} \approx 1,542 \text{ km}$$$
-- $$$\text{Drift} = \frac{1,000 \text{ years}}{72 \text{ years/degree}} \approx 13.89^\circ$$$
+-
+
+  $$
+  $\text{Drift} = \frac{1,000 \text{ years}}{72 \text{ years/degree}} \approx 13.89^\circ
+  $$
+
+  $
 
 #### Citations & Sources
 
@@ -133883,7 +134991,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$P_{required} \approx \frac{m \cdot z \cdot F}{M \cdot t \cdot \eta}$$$
+-
+
+  $$
+  $P_{required} \approx \frac{m \cdot z \cdot F}{M \cdot t \cdot \eta}
+  $$
+
+  $
 - $$F$$
 - $$M$$
 - $$\eta$$
@@ -136370,8 +137484,20 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$Force (F) = m \times a = 100,000 \text{ kg} \times 0.01 \text{ m/s}^2 = 1,000 \text{ Newtons}$$$
-- $$$Torque (\tau) = F \times r = 1,000 \times 0.5 = \mathbf{500 \text{ Nm}}$$$
+-
+
+  $$
+  $Force (F) = m \times a = 100,000 \text{ kg} \times 0.01 \text{ m/s}^2 = 1,000 \text{ Newtons}
+  $$
+
+  $
+-
+
+  $$
+  $Torque (\tau) = F \times r = 1,000 \times 0.5 = \mathbf{500 \text{ Nm}}
+  $$
+
+  $
 - $$r = 0.5 \text{ m}$$
 
 ### Aswan vs. Giza**
@@ -136562,7 +137688,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$\text{Draft} (D) = \frac{\text{Total Volume}}{\text{Hull Area}} = \frac{150 \text{ m}^3}{300 \text{ m}^2} = \mathbf{0.5 \text{ meters}}$$$
+-
+
+  $$
+  $\text{Draft} (D) = \frac{\text{Total Volume}}{\text{Hull Area}} = \frac{150 \text{ m}^3}{300 \text{ m}^2} = \mathbf{0.5 \text{ meters}}
+  $$
+
+  $
 
 ### **IV. Strategic "Tow-Hitch" Execution**
 
@@ -136596,7 +137728,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$P = 1000 \text{ kg/m}^3 \times 9.81 \times 15 \text{ m} \approx 147,150 \text{ Pa} \approx \mathbf{1.47 \text{ bar}}$$$
+-
+
+  $$
+  $P = 1000 \text{ kg/m}^3 \times 9.81 \times 15 \text{ m} \approx 147,150 \text{ Pa} \approx \mathbf{1.47 \text{ bar}}
+  $$
+
+  $
 - $$$P_{hydro} = \rho \times g \times h$$$
 - $$\sim 1.5 \text{ bar}$$
 - $$\sim 2.5 \text{ bar}$$
@@ -136609,7 +137747,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$D = \frac{130}{1.8 \times 30} \approx \mathbf{2.4 \text{ meters}}$$$
+-
+
+  $$
+  $D = \frac{130}{1.8 \times 30} \approx \mathbf{2.4 \text{ meters}}
+  $$
+
+  $
 - $$B = 1.8 \text{ meters}$$
 - $$D$$
 - $$L$$
@@ -136631,7 +137775,13 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$v = \sqrt{2 \times g \times h} = \sqrt{2 \times 9.81 \times 15} \approx \mathbf{17.1 \text{ m/s} \text{ (38 mph)}}$$$
+-
+
+  $$
+  $v = \sqrt{2 \times g \times h} = \sqrt{2 \times 9.81 \times 15} \approx \mathbf{17.1 \text{ m/s} \text{ (38 mph)}}
+  $$
+
+  $
 
 ### "The Eye of Ra"**
 
@@ -136793,8 +137943,20 @@ Because your cable is doped with **Iron Nanoparticles**, it is essentially a "ra
 
 #### Mathematical Formulas
 
-- $$$L = \frac{4600 \text{ m/s}}{2 \times 20,000 \text{ Hz}} = \mathbf{11.50 \text{ cm}}$$$
-- $$$L = \frac{\lambda}{2} = \frac{\text{Speed of Sound}}{2 \times \text{Frequency}}$$$
+-
+
+  $$
+  $L = \frac{4600 \text{ m/s}}{2 \times 20,000 \text{ Hz}} = \mathbf{11.50 \text{ cm}}
+  $$
+
+  $
+-
+
+  $$
+  $L = \frac{\lambda}{2} = \frac{\text{Speed of Sound}}{2 \times \text{Frequency}}
+  $$
+
+  $
 - $$L$$
 
 ### **3. The "Slurry" (The Cutting Edge)**
@@ -137502,7 +138664,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$\text{Density} = \frac{\text{Mass (g)}}{\pi \times r^2 \times L}$$$
+-
+
+  $$
+  $\text{Density} = \frac{\text{Mass (g)}}{\pi \times r^2 \times L}
+  $$
+
+  $
 
 ### **3. The "Hyper-Stiff" Scenario ($800\text{ GPa}$)**
 
@@ -138680,7 +139848,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$f_{x,y,z} = \frac{v}{2} \sqrt{\left(\frac{n_x}{L}\right)^2 + \left(\frac{n_y}{W}\right)^2 + \left(\frac{n_z}{H}\right)^2}$$$
+-
+
+  $$
+  $f_{x,y,z} = \frac{v}{2} \sqrt{\left(\frac{n_x}{L}\right)^2 + \left(\frac{n_y}{W}\right)^2 + \left(\frac{n_z}{H}\right)^2}
+  $$
+
+  $
 - $$n_x=1$$
 
 ### The Coffer Walls (16.6 kHz)**
@@ -138701,7 +139875,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$f = \frac{v}{2L} = \frac{5000}{2 \times 0.15} = 16,666 \text{ Hz}$$$
+-
+
+  $$
+  $f = \frac{v}{2L} = \frac{5000}{2 \times 0.15} = 16,666 \text{ Hz}
+  $$
+
+  $
 - $$^4He$$
 
 ### **II. Ancient Capture Mechanisms (The Lignolux Hypothesis)**
@@ -139694,7 +140874,13 @@ A
 #### Mathematical Formulas
 
 - $$$1,415\text{ kWh} / 24\text{ hours} = 58.9\text{ kW}$$$
-- $$$Total\ Energy = 28.3\text{ kg} \times 50\text{ kWh/kg} = 1,415\text{ kWh}$$$
+-
+
+  $$
+  $Total\ Energy = 28.3\text{ kg} \times 50\text{ kWh/kg} = 1,415\text{ kWh}
+  $$
+
+  $
 - $$H_2$$
 
 ### **II. Ionospheric Accumulation (The Fair-Weather Antenna)**
@@ -139937,7 +141123,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$2H_2O (liquid) \xrightarrow{Electrolysis} 2H_2\uparrow + O_2\uparrow$$$
+-
+
+  $$
+  $2H_2O (liquid) \xrightarrow{Electrolysis} 2H_2\uparrow + O_2\uparrow
+  $$
+
+  $
 
 ### **2. The Secondary Reaction (The Boiling Exhaust)**
 
@@ -140272,33 +141464,129 @@ A
 - $$$1,415\text{ kWh} / 24\text{ hours} = 58.9\text{ kW}$$$
 - $$$13.89^\circ \times 111 \text{ km} \approx 1,542 \text{ km}$$$
 - $$$1\text{ Billion Joules} = 277\text{ kWh}$$$
-- $$$2H_2O (liquid) \xrightarrow{Electrolysis} 2H_2\uparrow + O_2\uparrow$$$
+-
+
+  $$
+  $2H_2O (liquid) \xrightarrow{Electrolysis} 2H_2\uparrow + O_2\uparrow
+  $$
+
+  $
 - $$$CaCO_3 + H_2SO_4 \rightarrow CaSO_4 + H_2O + CO_2\uparrow$$$
-- $$$D = \frac{130}{1.8 \times 30} \approx \mathbf{2.4 \text{ meters}}$$$
+-
+
+  $$
+  $D = \frac{130}{1.8 \times 30} \approx \mathbf{2.4 \text{ meters}}
+  $$
+
+  $
 - $$$E_{yield} = \frac{V_{piezo} \cdot I_{plasma} \cdot t}{\eta}$$$
 - $$$F_b = (\rho_{air} - \rho_{He}) \cdot V \cdot g$$$
-- $$$Force (F) = m \times a = 100,000 \text{ kg} \times 0.01 \text{ m/s}^2 = 1,000 \text{ Newtons}$$$
+-
+
+  $$
+  $Force (F) = m \times a = 100,000 \text{ kg} \times 0.01 \text{ m/s}^2 = 1,000 \text{ Newtons}
+  $$
+
+  $
 - $$$L = 16.4\text{ cm} / 2 = \mathbf{8.2\text{ cm}}$$$
-- $$$L = \frac{4600 \text{ m/s}}{2 \times 20,000 \text{ Hz}} = \mathbf{11.50 \text{ cm}}$$$
-- $$$L = \frac{\lambda}{2} = \frac{\text{Speed of Sound}}{2 \times \text{Frequency}}$$$
-- $$$P = 1000 \text{ kg/m}^3 \times 9.81 \times 15 \text{ m} \approx 147,150 \text{ Pa} \approx \mathbf{1.47 \text{ bar}}$$$
+-
+
+  $$
+  $L = \frac{4600 \text{ m/s}}{2 \times 20,000 \text{ Hz}} = \mathbf{11.50 \text{ cm}}
+  $$
+
+  $
+-
+
+  $$
+  $L = \frac{\lambda}{2} = \frac{\text{Speed of Sound}}{2 \times \text{Frequency}}
+  $$
+
+  $
+-
+
+  $$
+  $P = 1000 \text{ kg/m}^3 \times 9.81 \times 15 \text{ m} \approx 147,150 \text{ Pa} \approx \mathbf{1.47 \text{ bar}}
+  $$
+
+  $
 - $$$P_{hydro} = \rho \times g \times h$$$
-- $$$P_{required} \approx \frac{m \cdot z \cdot F}{M \cdot t \cdot \eta}$$$
+-
+
+  $$
+  $P_{required} \approx \frac{m \cdot z \cdot F}{M \cdot t \cdot \eta}
+  $$
+
+  $
 - $$$Q = \dot{m} \cdot c_p \cdot \Delta T$$$
 - $$$Rate \propto \frac{1}{\sqrt{M}}$$$
-- $$$Torque (\tau) = F \times r = 1,000 \times 0.5 = \mathbf{500 \text{ Nm}}$$$
-- $$$Total\ Energy = 28.3\text{ kg} \times 50\text{ kWh/kg} = 1,415\text{ kWh}$$$
+-
+
+  $$
+  $Torque (\tau) = F \times r = 1,000 \times 0.5 = \mathbf{500 \text{ Nm}}
+  $$
+
+  $
+-
+
+  $$
+  $Total\ Energy = 28.3\text{ kg} \times 50\text{ kWh/kg} = 1,415\text{ kWh}
+  $$
+
+  $
 - $$$V_{out} = -R_f \cdot C_{in} \frac{dV_{in}}{dt}$$$
 - $$$Yield_{total} = \sum (Grains \cdot \Delta V_{p} \cdot t)$$$
 - $$$Zn + H_2SO_4 \rightarrow ZnSO_4 + H_2\uparrow$$$
-- $$$\text{Density} = \frac{\text{Mass (g)}}{\pi \times r^2 \times L}$$$
-- $$$\text{Draft} (D) = \frac{\text{Total Volume}}{\text{Hull Area}} = \frac{150 \text{ m}^3}{300 \text{ m}^2} = \mathbf{0.5 \text{ meters}}$$$
-- $$$\text{Drift} = \frac{1,000 \text{ years}}{72 \text{ years/degree}} \approx 13.89^\circ$$$
+-
+
+  $$
+  $\text{Density} = \frac{\text{Mass (g)}}{\pi \times r^2 \times L}
+  $$
+
+  $
+-
+
+  $$
+  $\text{Draft} (D) = \frac{\text{Total Volume}}{\text{Hull Area}} = \frac{150 \text{ m}^3}{300 \text{ m}^2} = \mathbf{0.5 \text{ meters}}
+  $$
+
+  $
+-
+
+  $$
+  $\text{Drift} = \frac{1,000 \text{ years}}{72 \text{ years/degree}} \approx 13.89^\circ
+  $$
+
+  $
 - $$$f = \frac{1}{2\pi\sqrt{LC}}$$$
-- $$$f = \frac{v}{2L} = \frac{5000}{2 \times 0.15} = 16,666 \text{ Hz}$$$
-- $$$f_{acoustic} \rightarrow \Delta V_{electrical} \rightarrow \text{EM Radiation}$$$
-- $$$f_{x,y,z} = \frac{v}{2} \sqrt{\left(\frac{n_x}{L}\right)^2 + \left(\frac{n_y}{W}\right)^2 + \left(\frac{n_z}{H}\right)^2}$$$
-- $$$v = \sqrt{2 \times g \times h} = \sqrt{2 \times 9.81 \times 15} \approx \mathbf{17.1 \text{ m/s} \text{ (38 mph)}}$$$
+-
+
+  $$
+  $f = \frac{v}{2L} = \frac{5000}{2 \times 0.15} = 16,666 \text{ Hz}
+  $$
+
+  $
+-
+
+  $$
+  $f_{acoustic} \rightarrow \Delta V_{electrical} \rightarrow \text{EM Radiation}
+  $$
+
+  $
+-
+
+  $$
+  $f_{x,y,z} = \frac{v}{2} \sqrt{\left(\frac{n_x}{L}\right)^2 + \left(\frac{n_y}{W}\right)^2 + \left(\frac{n_z}{H}\right)^2}
+  $$
+
+  $
+-
+
+  $$
+  $v = \sqrt{2 \times g \times h} = \sqrt{2 \times 9.81 \times 15} \approx \mathbf{17.1 \text{ m/s} \text{ (38 mph)}}
+  $$
+
+  $
 - $$+$$
 - $$+1.2 \text{ MJ/mile}$$
 - $$+1.50 \text{ V}$$
@@ -141230,7 +142518,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$D_\alpha(\rho || \gamma) = \frac{1}{\alpha - 1} \ln \text{Tr}(\rho^\alpha \gamma^{1-\alpha})$$$
+-
+
+  $$
+  $D_\alpha(\rho || \gamma) = \frac{1}{\alpha - 1} \ln \text{Tr}(\rho^\alpha \gamma^{1-\alpha})
+  $$
+
+  $
 - $$D_\alpha$$
 - $$F(\rho) \ge F(\sigma)$$
 - $$\alpha \in [0, \infty]$$
@@ -141311,7 +142605,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$D_\infty(\rho || \gamma) = \ln || \gamma^{-1/2} \rho \gamma^{-1/2} ||_\infty$$$
+-
+
+  $$
+  $D_\infty(\rho || \gamma) = \ln || \gamma^{-1/2} \rho \gamma^{-1/2} ||_\infty
+  $$
+
+  $
 - $$D_\alpha$$
 - $$P_s$$
 - $$\alpha = 1$$
@@ -141356,8 +142656,20 @@ A
 
 #### Mathematical Formulas
 
-- $$$D_\alpha(\rho || \gamma) = \frac{1}{\alpha - 1} \ln \text{Tr}(\rho^\alpha \gamma^{1-\alpha})$$$
-- $$$D_\infty(\rho || \gamma) = \ln || \gamma^{-1/2} \rho \gamma^{-1/2} ||_\infty$$$
+-
+
+  $$
+  $D_\alpha(\rho || \gamma) = \frac{1}{\alpha - 1} \ln \text{Tr}(\rho^\alpha \gamma^{1-\alpha})
+  $$
+
+  $
+-
+
+  $$
+  $D_\infty(\rho || \gamma) = \ln || \gamma^{-1/2} \rho \gamma^{-1/2} ||_\infty
+  $$
+
+  $
 - $$$TTS = t_a \frac{\ln(1 - p_d)}{\ln(1 - P_s(t_a))}$$$
 - $$D_1$$
 - $$D_\alpha$$
@@ -141784,7 +143096,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$\phi_l(z) = \frac{2\pi}{\lambda} \int [n_{eff, l} + \Delta n_{rGO}(V_l)] dz$$$
+-
+
+  $$
+  $\phi_l(z) = \frac{2\pi}{\lambda} \int [n_{eff, l} + \Delta n_{rGO}(V_l)] dz
+  $$
+
+  $
 - $$V_l$$
 - $$\phi$$
 - $$l$$
@@ -142483,7 +143801,12 @@ A
 
 #### Mathematical Formulas
 
-- $$I^2 R = (1.5\text{ mA})^2 \cdot 500 \, \Omega \approx 1.1 \text{ mW}$$
+-
+
+  $$
+  I^2 R = (1.5\text{ mA})^2 \cdot 500 \, \Omega \approx 1.1 \text{ mW}
+  $$
+
 - $$P_{heat}$$
 - $$\nabla T$$
 - $$\sim 1 \text{ W}$$
@@ -142680,7 +144003,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$\phi(x,y) = l \cdot \arctan\left(\frac{y}{x}\right) = l \cdot \theta$$$
+-
+
+  $$
+  $\phi(x,y) = l \cdot \arctan\left(\frac{y}{x}\right) = l \cdot \theta
+  $$
+
+  $
 - $$(x,y)$$
 - $$+24$$
 - $$-24$$
@@ -142792,7 +144121,12 @@ A
 
 - $$\Delta x$$
 - $$\Delta y$$
-- $$\theta_{true} = \arctan\left(\frac{y - \Delta y}{x - \Delta x}\right)$$
+-
+
+  $$
+  \theta_{true} = \arctan\left(\frac{y - \Delta y}{x - \Delta x}\right)
+  $$
+
 - $$\theta_{true}$$
 
 ### The DSP Slice Multiplier (The "Twist")
@@ -143040,8 +144374,20 @@ A
 - $$$I^2 = \frac{10^{-3}}{500} = 2 \times 10^{-6}$$$
 - $$$L = \frac{\lambda}{2 \cdot n_2 \cdot I_{control}}$$$
 - $$$P_{rad} = \eta \cdot P_{electrical}$$$
-- $$$\phi(x,y) = l \cdot \arctan\left(\frac{y}{x}\right) = l \cdot \theta$$$
-- $$$\phi_l(z) = \frac{2\pi}{\lambda} \int [n_{eff, l} + \Delta n_{rGO}(V_l)] dz$$$
+-
+
+  $$
+  $\phi(x,y) = l \cdot \arctan\left(\frac{y}{x}\right) = l \cdot \theta
+  $$
+
+  $
+-
+
+  $$
+  $\phi_l(z) = \frac{2\pi}{\lambda} \int [n_{eff, l} + \Delta n_{rGO}(V_l)] dz
+  $$
+
+  $
 - $$(0,0)$$
 - $$(X, Y)$$
 - $$(x,y)$$
@@ -143063,7 +144409,12 @@ A
 - $$F_{max}$$
 - $$H \cdot CPHASE \cdot H$$
 - $$I$$
-- $$I^2 R = (1.5\text{ mA})^2 \cdot 500 \, \Omega \approx 1.1 \text{ mW}$$
+-
+
+  $$
+  I^2 R = (1.5\text{ mA})^2 \cdot 500 \, \Omega \approx 1.1 \text{ mW}
+  $$
+
 - $$I_{control}$$
 - $$I_{sat}$$
 - $$L$$
@@ -143134,7 +144485,12 @@ A
 - $$\tau_{cav} < 1$$
 - $$\theta = \arctan(y/x)$$
 - $$\theta$$
-- $$\theta_{true} = \arctan\left(\frac{y - \Delta y}{x - \Delta x}\right)$$
+-
+
+  $$
+  \theta_{true} = \arctan\left(\frac{y - \Delta y}{x - \Delta x}\right)
+  $$
+
 - $$\theta_{true}$$
 - $$^{171}Yb^{+}$$
 - $$^{1}H$$
@@ -143263,7 +144619,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$i \hbar \frac{\partial \psi}{\partial t} = -\frac{\hbar^2}{2m} \nabla^2 \psi + V \psi - \gamma |\psi|^2 \psi$$$
+-
+
+  $$
+  $i \hbar \frac{\partial \psi}{\partial t} = -\frac{\hbar^2}{2m} \nabla^2 \psi + V \psi - \gamma |\psi|^2 \psi
+  $$
+
+  $
 - $$-\gamma |\psi|^2 \psi$$
 - $$\psi$$
 
@@ -143569,7 +144931,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$\text{Allowed } \Delta T_{\text{noise}} \approx \pm 0.05 \text{ K}$$$
+-
+
+  $$
+  $\text{Allowed } \Delta T_{\text{noise}} \approx \pm 0.05 \text{ K}
+  $$
+
+  $
 - $$\Delta T$$
 - $$dn/dT \approx -10^{-4} \text{ K}^{-1}$$
 
@@ -144376,7 +145744,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$I = C \frac{dV}{dt} \approx \frac{\epsilon_0 k A}{d} \cdot \frac{V_{swing}}{\tau_{switch}}$$$
+-
+
+  $$
+  $I = C \frac{dV}{dt} \approx \frac{\epsilon_0 k A}{d} \cdot \frac{V_{swing}}{\tau_{switch}}
+  $$
+
+  $
 - $$< 10^{-18} F$$
 - $$A_{rect}$$
 - $$C$$
@@ -146206,7 +147580,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$NEP_{total} = \sqrt{NEP_{phonon}^2 + NEP_{Johnson}^2 + NEP_{jitter}^2}$$$
+-
+
+  $$
+  $NEP_{total} = \sqrt{NEP_{phonon}^2 + NEP_{Johnson}^2 + NEP_{jitter}^2}
+  $$
+
+  $
 - $$W/\sqrt{Hz}$$
 
 ### **The Competitors:**
@@ -146275,7 +147655,13 @@ A
 #### Mathematical Formulas
 
 - $$$SNR = \frac{P_{signal}}{NEP} \sqrt{t}$$$
-- $$$t = \left( \frac{5 \cdot 150\text{ nW}}{10\text{ nW}} \right)^2 \approx \mathbf{5,625\text{ seconds (1.5 hours)}}$$$
+-
+
+  $$
+  $t = \left( \frac{5 \cdot 150\text{ nW}}{10\text{ nW}} \right)^2 \approx \mathbf{5,625\text{ seconds (1.5 hours)}}
+  $$
+
+  $
 - $$\sigma$$
 - $$t$$
 
@@ -146347,7 +147733,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$T \approx \left| \frac{1}{1 - (f_p/f_n)^2} \right| \approx 0.14$$$
+-
+
+  $$
+  $T \approx \left| \frac{1}{1 - (f_p/f_n)^2} \right| \approx 0.14
+  $$
+
+  $
 - $$NEP$$
 - $$T$$
 - $$\approx 1.5$$
@@ -148951,7 +150343,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$\Delta P = \frac{1}{2} \rho \omega^2 (r_{outer}^2 - r_{inner}^2)$$$
+-
+
+  $$
+  $\Delta P = \frac{1}{2} \rho \omega^2 (r_{outer}^2 - r_{inner}^2)
+  $$
+
+  $
 - $$\Delta P \approx 1,530\text{ Pa}$$
 - $$\Delta P$$
 - $$\approx 81\text{ kg/m}^3$$
@@ -149037,7 +150435,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$Q_{siphon} = N \cdot P_{gate} \cdot D = 10^9 \cdot 10 \cdot 10^{-9} \text{ W} \cdot 0.01 = 100\text{ mW}$$$
+-
+
+  $$
+  $Q_{siphon} = N \cdot P_{gate} \cdot D = 10^9 \cdot 10 \cdot 10^{-9} \text{ W} \cdot 0.01 = 100\text{ mW}
+  $$
+
+  $
 - $$D$$
 - $$N$$
 - $$P_{gate}$$
@@ -149062,7 +150466,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$Q_{conv} = \dot{m} \cdot c_p \cdot \Delta T \approx 0.0005\text{ kg/s} \cdot 25\text{ J/kg}\cdot\text{K} \cdot 0.001\text{ K} = 12.5\text{ }\mu\text{W}$$$
+-
+
+  $$
+  $Q_{conv} = \dot{m} \cdot c_p \cdot \Delta T \approx 0.0005\text{ kg/s} \cdot 25\text{ J/kg}\cdot\text{K} \cdot 0.001\text{ K} = 12.5\text{ }\mu\text{W}
+  $$
+
+  $
 - $$Q_{conv}$$
 - $$\Delta T$$
 - $$\approx 0.5\text{ g/s}$$
@@ -149256,8 +150666,20 @@ A
 
 #### Mathematical Formulas
 
-- $$$H(\theta) = \sum_{i,j} J_{ij} \sigma_i \cdot \sigma_j + \sum_i h_i \sigma_i^z$$$
-- $$$\chi_{\mu\nu} = \langle \partial_\mu \psi | \partial_\nu \psi \rangle - \langle \partial_\mu \psi | \psi \rangle \langle \psi | \partial_\nu \psi \rangle = g_{\mu\nu} - \frac{i}{2} \Omega_{\mu\nu}$$$
+-
+
+  $$
+  $H(\theta) = \sum_{i,j} J_{ij} \sigma_i \cdot \sigma_j + \sum_i h_i \sigma_i^z
+  $$
+
+  $
+-
+
+  $$
+  $\chi_{\mu\nu} = \langle \partial_\mu \psi | \partial_\nu \psi \rangle - \langle \partial_\mu \psi | \psi \rangle \langle \psi | \partial_\nu \psi \rangle = g_{\mu\nu} - \frac{i}{2} \Omega_{\mu\nu}
+  $$
+
+  $
 - $$J$$
 - $$N$$
 - $$\Omega_{\mu\nu}$$
@@ -149317,7 +150739,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$\Delta \Phi(x, y) = \text{Map}(\theta_{Hamiltonian}) \times \text{Scale}_{Optical}$$$
+-
+
+  $$
+  $\Delta \Phi(x, y) = \text{Map}(\theta_{Hamiltonian}) \times \text{Scale}_{Optical}
+  $$
+
+  $
 - $$J_{ij}$$
 - $$\Delta \Phi$$
 
@@ -149779,7 +151207,13 @@ A
 
 #### Mathematical Formulas
 
-- $$$1 - F \approx \sqrt{\sum \epsilon_{quant}^2 + \sum \epsilon_{thermal}^2}$$$
+-
+
+  $$
+  $1 - F \approx \sqrt{\sum \epsilon_{quant}^2 + \sum \epsilon_{thermal}^2}
+  $$
+
+  $
 - $$\epsilon_{total}$$
 
 #### Tables
@@ -152529,22 +153963,58 @@ Standard DLP is generally a **Microlithography** tool (resolving ~1.5 $\mu$m to 
 $$$
 - $$$E_{out} \propto \exp(i(l_{in} - l_{gate})\phi)$$$
 - $$$G_{PSA}(\phi) = G \cos^2(\phi) + \frac{1}{G} \sin^2(\phi)$$$
-- $$$I = C \frac{dV}{dt} \approx \frac{\epsilon_0 k A}{d} \cdot \frac{V_{swing}}{\tau_{switch}}$$$
+-
+
+  $$
+  $I = C \frac{dV}{dt} \approx \frac{\epsilon_0 k A}{d} \cdot \frac{V_{swing}}{\tau_{switch}}
+  $$
+
+  $
 - $$$NEP_{Johnson} = \frac{\sqrt{4 k_B T R}}{S}$$$
 - $$$NEP_{phonon} = \sqrt{4 k_B T^2 G}$$$
-- $$$NEP_{total} = \sqrt{NEP_{phonon}^2 + NEP_{Johnson}^2 + NEP_{jitter}^2}$$$
+-
+
+  $$
+  $NEP_{total} = \sqrt{NEP_{phonon}^2 + NEP_{Johnson}^2 + NEP_{jitter}^2}
+  $$
+
+  $
 - $$$SNR = \frac{P_{signal}}{NEP} \sqrt{t}$$$
-- $$$T \approx \left| \frac{1}{1 - (f_p/f_n)^2} \right| \approx 0.14$$$
+-
+
+  $$
+  $T \approx \left| \frac{1}{1 - (f_p/f_n)^2} \right| \approx 0.14
+  $$
+
+  $
 - $$$\chi^{(2)}_{\text{eff}} = 3 \chi^{(3)} E_{\text{DC}}$$$
 - $$$\delta = \sqrt{\frac{2}{\omega \mu \sigma}}$$$
 - $$$\delta I = \sqrt{2 e I \Delta f}$$$
 - $$$\epsilon_{xx} \cdot \epsilon_{zz} < 0$$$
 - $$$\kappa \propto \exp(-\alpha d)$$$
-- $$$\text{Allowed } \Delta T_{\text{noise}} \approx \pm 0.05 \text{ K}$$$
+-
+
+  $$
+  $\text{Allowed } \Delta T_{\text{noise}} \approx \pm 0.05 \text{ K}
+  $$
+
+  $
 - $$$f_n = \frac{1}{2\pi}\sqrt{\frac{k}{m}} \approx 0.5 \text{ Hz}$$$
-- $$$i \hbar \frac{\partial \psi}{\partial t} = -\frac{\hbar^2}{2m} \nabla^2 \psi + V \psi - \gamma |\psi|^2 \psi$$$
+-
+
+  $$
+  $i \hbar \frac{\partial \psi}{\partial t} = -\frac{\hbar^2}{2m} \nabla^2 \psi + V \psi - \gamma |\psi|^2 \psi
+  $$
+
+  $
 - $$$k = \frac{G d^4}{8 D^3 n}$$$
-- $$$t = \left( \frac{5 \cdot 150\text{ nW}}{10\text{ nW}} \right)^2 \approx \mathbf{5,625\text{ seconds (1.5 hours)}}$$$
+-
+
+  $$
+  $t = \left( \frac{5 \cdot 150\text{ nW}}{10\text{ nW}} \right)^2 \approx \mathbf{5,625\text{ seconds (1.5 hours)}}
+  $$
+
+  $
 - $$(-50\text{ nW to }+50\text{ nW})$$
 - $$(l, p, \psi)$$
 - $$+18\%$$
@@ -153624,7 +155094,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$\text{Output} = \sum (\text{Voltage} \times \text{Conductance})$$$
+-
+
+  $$
+  $\text{Output} = \sum (\text{Voltage} \times \text{Conductance})
+  $$
+
+  $
 
 ### The Protonic/Vacancy Approach
 
@@ -153754,7 +155230,13 @@ $$$
 #### Mathematical Formulas
 
 - $$$A'_{i} = A_{i} + (\alpha \cdot \vec{v}_s)$$$
-- $$$\text{Output} = \sum (\text{Voltage} \times \text{Conductance})$$$
+-
+
+  $$
+  $\text{Output} = \sum (\text{Voltage} \times \text{Conductance})
+  $$
+
+  $
 - $$A_{i}$$
 - $$Cu^{2+}$$
 - $$H^+$$
@@ -154004,7 +155486,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$L_{post} \ll L_{pre} \implies f_r = \frac{1}{2\pi\sqrt{LC}} \uparrow$$$
+-
+
+  $$
+  $L_{post} \ll L_{pre} \implies f_r = \frac{1}{2\pi\sqrt{LC}} \uparrow
+  $$
+
+  $
 - $$L$$
 - $$T_C$$
 - $$f_r$$
@@ -154551,7 +156039,13 @@ $$$
 
 - $$$3Fe_2O_3 \rightarrow 2Fe_3O_4 \rightarrow 6FeO \rightarrow 6Fe$$$
 - $$$FeO + Al_2O_3 \rightarrow FeAl_2O_4$$$
-- $$$L_{post} \ll L_{pre} \implies f_r = \frac{1}{2\pi\sqrt{LC}} \uparrow$$$
+-
+
+  $$
+  $L_{post} \ll L_{pre} \implies f_r = \frac{1}{2\pi\sqrt{LC}} \uparrow
+  $$
+
+  $
 - $$< 500^\circ\text{C}$$
 - $$Al_2O_3$$
 - $$Ar + CO + H_2$$
@@ -155178,7 +156672,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$M\text{O}_x + 2x\text{H}^\bullet \rightarrow M + x\text{H}_2\text{O}$$$
+-
+
+  $$
+  $M\text{O}_x + 2x\text{H}^\bullet \rightarrow M + x\text{H}_2\text{O}
+  $$
+
+  $
 
 ### Carbon Cracking via Plasmonic Catalysis
 
@@ -155438,7 +156938,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$M\text{O}_x + 2x\text{H}^\bullet \rightarrow M + x\text{H}_2\text{O}$$$
+-
+
+  $$
+  $M\text{O}_x + 2x\text{H}^\bullet \rightarrow M + x\text{H}_2\text{O}
+  $$
+
+  $
 - $$(n, m)$$
 - $$>2.0\text{V}$$
 - $$>800^\circ\text{C}$$
@@ -164648,7 +166154,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$L_{fluid} \propto \frac{1}{\int_{0}^{t} \text{Decay Rate} \, dt - \int_{0}^{t} \text{VUV Repair Rate} \, dt}$$$
+-
+
+  $$
+  $L_{fluid} \propto \frac{1}{\int_{0}^{t} \text{Decay Rate} \, dt - \int_{0}^{t} \text{VUV Repair Rate} \, dt}
+  $$
+
+  $
 
 ### **The "Un-Bolted" Conclusion**
 
@@ -174893,7 +176405,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$\text{R-NH}_2 + \text{R'-CHO} \rightleftharpoons \text{R-N=CH-R'} + \text{H}_2\text{O}$$$
+-
+
+  $$
+  $\text{R-NH}_2 + \text{R'-CHO} \rightleftharpoons \text{R-N=CH-R'} + \text{H}_2\text{O}
+  $$
+
+  $
 
 ### Enzymatic "Lock-In" (The Laccase Cure)**
 
@@ -182720,7 +184238,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$\phi_{\text{total}} = \phi_{\text{GSW}} - \phi_{\text{thermal\_error}}$$$
+-
+
+  $$
+  $\phi_{\text{total}} = \phi_{\text{GSW}} - \phi_{\text{thermal\_error}}
+  $$
+
+  $
 - $$\phi_{\text{total}}$$
 
 ### 3. LBGPC Fluidic Stabilization of the SLM
@@ -182827,7 +184351,13 @@ $$$
 #### Mathematical Formulas
 
 - $$$U_f(u,v) = \mathcal{F}\{U_i(x,y) \exp[i \phi(x,y)]\}$$$
-- $$$\phi_{\text{total}} = \phi_{\text{GSW}} - \phi_{\text{thermal\_error}}$$$
+-
+
+  $$
+  $\phi_{\text{total}} = \phi_{\text{GSW}} - \phi_{\text{thermal\_error}}
+  $$
+
+  $
 - $$<100\mu m$$
 - $$<\lambda/50$$
 - $$>98\%$$
@@ -183853,7 +185383,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$T(d) = T_{base} + A \cdot \sin\left(\frac{2\pi d}{365} + \phi\right)$$$
+-
+
+  $$
+  $T(d) = T_{base} + A \cdot \sin\left(\frac{2\pi d}{365} + \phi\right)
+  $$
+
+  $
 - $$A$$
 - $$T$$
 - $$\phi$$
@@ -184545,7 +186081,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Forecast_i - Actual_i)^2}$$$
+-
+
+  $$
+  $RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Forecast_i - Actual_i)^2}
+  $$
+
+  $
 
 ### 5. Unified Management Makefile
 
@@ -185076,7 +186618,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$Value_{calibrated} = (Value_{raw} \times \text{Multiplier}) + \text{Offset}$$$
+-
+
+  $$
+  $Value_{calibrated} = (Value_{raw} \times \text{Multiplier}) + \text{Offset}
+  $$
+
+  $
 
 ### Schema Update (`db/schema.ts`)
 
@@ -185134,7 +186682,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$Value_{calibrated} = (Value_{raw} \times \text{Multiplier}) + \text{Offset}$$$
+-
+
+  $$
+  $Value_{calibrated} = (Value_{raw} \times \text{Multiplier}) + \text{Offset}
+  $$
+
+  $
 
 ### Markdown Instructions (Rendered in App)
 
@@ -185271,7 +186825,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$\text{Trigger}_{\text{mow}} = \text{Precip}(t + n) \ge \text{Threshold}$$$
+-
+
+  $$
+  $\text{Trigger}_{\text{mow}} = \text{Precip}(t + n) \ge \text{Threshold}
+  $$
+
+  $
 - $$n$$
 - $$t + n$$
 
@@ -185379,7 +186939,13 @@ $$$
 
 #### Mathematical Formulas
 
-- $$$P = \max\left(0, \min\left(100, \frac{V_{\text{curr}} - 3.2}{4.2 - 3.2} \times 100\right)\right)$$$
+-
+
+  $$
+  $P = \max\left(0, \min\left(100, \frac{V_{\text{curr}} - 3.2}{4.2 - 3.2} \times 100\right)\right)
+  $$
+
+  $
 - $$P$$
 
 ### 5. Updated Makefile
@@ -185817,11 +187383,41 @@ $$$
 #### Mathematical Formulas
 
 - $$$H = 100 - (E_{retry} \times 10) - (D_{offline} \times 20)$$$
-- $$$P = \max\left(0, \min\left(100, \frac{V_{\text{curr}} - 3.2}{4.2 - 3.2} \times 100\right)\right)$$$
-- $$$RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Forecast_i - Actual_i)^2}$$$
-- $$$T(d) = T_{base} + A \cdot \sin\left(\frac{2\pi d}{365} + \phi\right)$$$
-- $$$Value_{calibrated} = (Value_{raw} \times \text{Multiplier}) + \text{Offset}$$$
-- $$$\text{Trigger}_{\text{mow}} = \text{Precip}(t + n) \ge \text{Threshold}$$$
+-
+
+  $$
+  $P = \max\left(0, \min\left(100, \frac{V_{\text{curr}} - 3.2}{4.2 - 3.2} \times 100\right)\right)
+  $$
+
+  $
+-
+
+  $$
+  $RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Forecast_i - Actual_i)^2}
+  $$
+
+  $
+-
+
+  $$
+  $T(d) = T_{base} + A \cdot \sin\left(\frac{2\pi d}{365} + \phi\right)
+  $$
+
+  $
+-
+
+  $$
+  $Value_{calibrated} = (Value_{raw} \times \text{Multiplier}) + \text{Offset}
+  $$
+
+  $
+-
+
+  $$
+  $\text{Trigger}_{\text{mow}} = \text{Precip}(t + n) \ge \text{Threshold}
+  $$
+
+  $
 - $$(LAT)&lon=$$
 - $$(shell echo$$
 - $$A$$
@@ -228328,7 +229924,12 @@ s
 
 #### Mathematical Formulas
 
-- $$C isotopes, and "shock-write" it into the world's most advanced hardware using a **$$
+-
+
+  $$
+  C isotopes, and "shock-write" it into the world's most advanced hardware using a **
+  $$
+
 - $$^{12}$$
 
 ### **Next Step for the User**
@@ -229376,7 +230977,12 @@ s
 #### Mathematical Formulas
 
 - $$>140$$
-- $$C isotopes, and "shock-write" it into the world's most advanced hardware using a **$$
+-
+
+  $$
+  C isotopes, and "shock-write" it into the world's most advanced hardware using a **
+  $$
+
 - $$Si) |$$
 - $$T_1$$
 - $$\>140$$
@@ -236755,7 +238361,12 @@ s
 
 #### Mathematical Formulas
 
-- $$C isotopes, and "shock-write" it into the world's most advanced hardware using a **$$
+-
+
+  $$
+  C isotopes, and "shock-write" it into the world's most advanced hardware using a **
+  $$
+
 - $$^{12}$$
 
 ### **Next Step for the User**
@@ -237833,7 +239444,12 @@ s
 #### Mathematical Formulas
 
 - $$>140$$
-- $$C isotopes, and "shock-write" it into the world's most advanced hardware using a **$$
+-
+
+  $$
+  C isotopes, and "shock-write" it into the world's most advanced hardware using a **
+  $$
+
 - $$Si) |$$
 - $$T_1$$
 - $$\mu$$

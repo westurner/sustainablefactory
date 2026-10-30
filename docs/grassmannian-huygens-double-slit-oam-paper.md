@@ -262,12 +262,23 @@ In [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L648-L960), we
 
 Identifying the reduced sheath speed $\beta = v/c \in [0, 1)$ of a `MovingSheath` with the Plücker barycentric shift magnitude $|d_{\mathrm{bary}}|$ establishes:
 1. **Reciprocal Visibility–Jamming Duality (`MovingSheath.visibility_jamming_duality`)**:
-   $$\mathcal{V}(s) = \sqrt{1 - \beta^2} = \frac{1}{\gamma_\varphi(v)}, \qquad \beta^2 + \mathcal{V}(s)^2 = 1.$$
+
+   $$
+   \mathcal{V}(s) = \sqrt{1 - \beta^2} = \frac{1}{\gamma_\varphi(v)}, \qquad \beta^2 + \mathcal{V}(s)^2 = 1.
+   $$
+
 2. **Kinetic-Energy Ratio for On-Axis Relative Error (`ddf_sheath_relative_error_eq_jamming`)**:
-   $$\varepsilon_{\mathrm{rel}}(0,0) = \frac{1 - \gamma_\varphi(v)^{-1}}{2} = \frac{\gamma_\varphi(v) - 1}{2\,\gamma_\varphi(v)} = \frac{K_D(v)}{2\,\gamma_\varphi(v) m c^2}.$$
+
+   $$
+   \varepsilon_{\mathrm{rel}}(0,0) = \frac{1 - \gamma_\varphi(v)^{-1}}{2} = \frac{\gamma_\varphi(v) - 1}{2\,\gamma_\varphi(v)} = \frac{K_D(v)}{2\,\gamma_\varphi(v) m c^2}.
+   $$
+
 3. **Quadratic Power-Law Sandwich & Exact Parameter Inversion (`ddf_relative_error_power_law_and_inversion`, `MovingSheath.inverse_recovery_from_relative_error`)**:
    Answering the power-law and inverse-recovery question in [Provenance Chat Log (2026), lines 226–228](#chat-plucker-sinks-ddf), for every $d_{\mathrm{bary}} \in [-1, 1]$ the on-axis relative error $\varepsilon = (1 - \mathcal{V})/2$ satisfies:
-   $$\frac{d_{\mathrm{bary}}^2}{4} \le \varepsilon \le \frac{d_{\mathrm{bary}}^2}{2}, \qquad \mathcal{V} = 1 - 2\varepsilon, \qquad \gamma_\varphi = \frac{1}{1 - 2\varepsilon}, \qquad \beta^2 = d_{\mathrm{bary}}^2 = 4\varepsilon(1 - \varepsilon).$$
+
+   $$
+   \frac{d_{\mathrm{bary}}^2}{4} \le \varepsilon \le \frac{d_{\mathrm{bary}}^2}{2}, \qquad \mathcal{V} = 1 - 2\varepsilon, \qquad \gamma_\varphi = \frac{1}{1 - 2\varepsilon}, \qquad \beta^2 = d_{\mathrm{bary}}^2 = 4\varepsilon(1 - \varepsilon).
+   $$
 
 ### 5.2 Formal Critique & Constructive Resolutions of the Chat Claims
 
@@ -277,13 +288,24 @@ Identifying the reduced sheath speed $\beta = v/c \in [0, 1)$ of a `MovingSheath
 2. **Critique 2 & Resolution — Non-Symplectic Compressive Jamming Invariance via Projective Plücker Normalization & Trace Renormalization (`nonSymplectic_jamming_barycentricShift_scaling`, `gr24_projective_pythagorean_complementarity`, `ddf_critique2_solved_projective_and_trace_renormalized_jamming`)**:
    - *Critique*: While a symplectic Anosov hyperbolic stretch $A_{\mathrm{Anosov}}(\lambda, t) = \operatorname{diag}(e^{\lambda t}, e^{-\lambda t})$ ($\det = 1$) preserves all $2 \times 2$ minors (`anosov_plucker_invariance`), a non-symplectic compressive jamming deformation $B(\lambda_1, \lambda_2, t) = \operatorname{diag}(e^{\lambda_1 t}, e^{\lambda_2 t})$ ($\lambda_1 + \lambda_2 \neq 0$) scales the unnormalized shift $d_{\mathrm{bary}}(BM) = e^{2(\lambda_1 + \lambda_2)t} d_{\mathrm{bary}}(M)$ (`nonSymplectic_jamming_barycentricShift_scaling`).
    - *Constructive Resolution (`ddf_critique2_solved_projective_and_trace_renormalized_jamming`)*: Defining the projectively normalized Plücker barycentric shift and squared visibility (`gr24ProjectiveBarycentricShift`, `gr24ProjectiveVisibilitySq` in [Geometry.lean](../src/signals/Signals/Geometry.lean#L1057-L1168)):
-     $$\widehat{d}_{\mathrm{bary}}(M) = \frac{\Delta_{01}\Delta_{23} - \Delta_{03}\Delta_{12}}{\Delta_{02}\Delta_{13}}, \qquad \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = \frac{4\,\Delta_{01}\Delta_{23}\,\Delta_{03}\Delta_{12}}{(\Delta_{02}\Delta_{13})^2}, \qquad \widehat{d}_{\mathrm{bary}}(M)^2 + \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = 1,$$
+
+     $$
+     \widehat{d}_{\mathrm{bary}}(M) = \frac{\Delta_{01}\Delta_{23} - \Delta_{03}\Delta_{12}}{\Delta_{02}\Delta_{13}}, \qquad \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = \frac{4\,\Delta_{01}\Delta_{23}\,\Delta_{03}\Delta_{12}}{(\Delta_{02}\Delta_{13})^2}, \qquad \widehat{d}_{\mathrm{bary}}(M)^2 + \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = 1,
+     $$
+
      cancels $(\det B)^2 = e^{2(\lambda_1 + \lambda_2)t} > 0$ identically, making $\widehat{d}_{\mathrm{bary}}(BM) = \widehat{d}_{\mathrm{bary}}(M)$ and $\widehat{\mathcal{V}}_{Gr(2,4)}(BM)^2 = \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2$ **exact invariants under arbitrary non-symplectic jamming**. Moreover, factoring out the isotropic trace dilation $e^{-(\lambda_1 + \lambda_2)t/2}$ reduces $B(\lambda_1, \lambda_2, t)$ to $A_{\mathrm{Anosov}}((\lambda_1 - \lambda_2)/2, t)$, which preserves even the unnormalized Plücker minors.
 3. **Critique 3 & Resolution — Constitutive DDF Substrate Parameter Recovery & Quantized Gravitomagnetic Swirl (`MovingSheath.ddf_critique3_solved_substrate_parameter_recovery`, `RiverExterior.quantized_vortex_swirl_from_circulation`)**:
    - *Constructive Resolution*: Using $c^2 = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1}$ (`DDFSubstrate.c_sq`), `MovingSheath.ddf_critique3_solved_substrate_parameter_recovery` proves that the optical relative error $\varepsilon = (1 - \mathcal{V}(s))/2$ directly determines the constitutive DDF jamming invariant, physical sheath speed squared, and (for $v \neq 0$) the dispersed-phase compressibility-density product:
-     $$\varrho_{\max}^\varphi\,j_{\min}^\varphi\,v^2 = 4\varepsilon(1 - \varepsilon), \qquad v^2 = \frac{4\varepsilon(1 - \varepsilon)}{\varrho_{\max}^\varphi\,j_{\min}^\varphi}, \qquad \varrho_{\max}^\varphi\,j_{\min}^\varphi = \frac{4\varepsilon(1 - \varepsilon)}{v^2}.$$
+
+     $$
+     \varrho_{\max}^\varphi\,j_{\min}^\varphi\,v^2 = 4\varepsilon(1 - \varepsilon), \qquad v^2 = \frac{4\varepsilon(1 - \varepsilon)}{\varrho_{\max}^\varphi\,j_{\min}^\varphi}, \qquad \varrho_{\max}^\varphi\,j_{\min}^\varphi = \frac{4\varepsilon(1 - \varepsilon)}{v^2}.
+     $$
+
      In addition, `RiverExterior.quantized_vortex_swirl_from_circulation` proves that for quantized differential vortex angular momentum $J = (\ell_2 - \ell_1)\hbar$, the Kerr/Lense–Thirring frame-dragging swirl velocity is governed directly by the differential circulation $\Delta\Gamma(\ell_1, \ell_2)$ and $\varrho_{\max}^\varphi j_{\min}^\varphi$:
-     $$v_{\phi,\mathrm{swirl}}\bigl((\ell_2 - \ell_1)\hbar, r\bigr) = \frac{G_\phi m_\phi \varrho_{\max}^\varphi j_{\min}^\varphi}{\pi r^2}\,\Delta\Gamma(\ell_1, \ell_2).$$
+
+     $$
+     v_{\phi,\mathrm{swirl}}\bigl((\ell_2 - \ell_1)\hbar, r\bigr) = \frac{G_\phi m_\phi \varrho_{\max}^\varphi j_{\min}^\varphi}{\pi r^2}\,\Delta\Gamma(\ell_1, \ell_2).
+     $$
 
 ### 5.3 Unified Integration of Complex $Gr_{\mathbb{C}}(2,4)$ with DDF (`MovingSheath.gr24TwistorMatrix`)
 
@@ -298,7 +320,11 @@ $$
 We prove four machine-checked unification theorems on $M_{\mathbb{C}}^{\mathrm{DDF}}(s)$:
 1. **Madelung Sink-Sector Densities & Jamming Product (`MovingSheath.gr24TwistorMatrix_madelung_sector_identities`)**:
    The complex Plücker sink amplitudes $w_A^{\mathbb{C}}$ and $w_B^{\mathbb{C}}$ have Madelung densities $|w_A^{\mathbb{C}}|^2 = 1 + \beta(s)$ and $|w_B^{\mathbb{C}}|^2 = 1 - \beta(s)$, satisfying $|w_A^{\mathbb{C}}|^2 + |w_B^{\mathbb{C}}|^2 = 2$, $(|w_A^{\mathbb{C}}|^2 - |w_B^{\mathbb{C}}|^2)/2 = \beta(s)$, and
-   $$|w_A^{\mathbb{C}}|^2\,|w_B^{\mathbb{C}}|^2 = 1 - \beta(s)^2 = \mathcal{V}(s)^2 = \frac{1}{\gamma_\varphi(v)^2}.$$
+
+   $$
+   |w_A^{\mathbb{C}}|^2\,|w_B^{\mathbb{C}}|^2 = 1 - \beta(s)^2 = \mathcal{V}(s)^2 = \frac{1}{\gamma_\varphi(v)^2}.
+   $$
+
 2. **Master $Gr_{\mathbb{C}}(2,4)$–DDF Crossing-Minor Unification (`MovingSheath.gr24TwistorMatrix_crossing_eq_ddf_oam_intensity`)**:
    Evaluating `complexGr24CrossingDoubleSlit` on $M_{\mathbb{C}}^{\mathrm{DDF}}(s)$ reproduces `huygensSteinerOAMDoubleSlit` with reciprocal jamming visibility $\gamma_\varphi(v)^{-1}$ **identically at every $(x, y, \phi) \in \mathbb{R}^3$** with **zero relative predictive error**.
 3. **Zero-Shear Limit (`MovingSheath.gr24TwistorMatrix_zero_shear_eq_fraunhoferOAM`)**:
@@ -366,7 +392,11 @@ end ArxivDoubleSlitPaperVerification
 
 1. **Paraxial Fresnel-to-Fraunhofer Quadratic Phase Remainder (`fresnel_to_fraunhofer_remainder_bound`, `CellQuadrature.fresnelFraunhoferComparison`)**:
    For an aperture of radius $\rho_{\max} \ge 0$ ($\xi^2 + \eta^2 \le \rho_{\max}^2$) at wavelength $\lambda > 0$ and screen distance $L > 0$, the quadratic Fresnel phase remainder $\Delta\phi_{\mathrm{Fresnel}}(\xi,\eta) = \frac{\pi(\xi^2+\eta^2)}{\lambda L}$ is bounded by $\pi N_{\mathrm{F}}(\rho_{\max},\lambda,L) = \frac{\pi\rho_{\max}^2}{\lambda L}$, and the unit-phasor chord error satisfies
-   $$|e^{i\phi_{\mathrm{Fresnel}}} - e^{i\phi_{\mathrm{Fraun}}}|^2 = 4\sin^2(\Delta\phi_{\mathrm{Fresnel}}/2) \le (\Delta\phi_{\mathrm{Fresnel}})^2 \le (\pi N_{\mathrm{F}})^2.$$
+
+   $$
+   |e^{i\phi_{\mathrm{Fresnel}}} - e^{i\phi_{\mathrm{Fraun}}}|^2 = 4\sin^2(\Delta\phi_{\mathrm{Fresnel}}/2) \le (\Delta\phi_{\mathrm{Fresnel}})^2 \le (\pi N_{\mathrm{F}})^2.
+   $$
+
    Combining this with `CellQuadrature.uniformComparison` via `AmplitudeComparison.compose` yields the unified discrete-to-Fraunhofer comparison `CellQuadrature.fresnelFraunhoferComparison` with error tolerance $\bigl(L_{\mathrm{Lip}}\,h + \pi N_{\mathrm{F}}(\rho_{\max},\lambda,L)\bigr)\mu(X)$.
 2. **Higher-Rank $Gr(3,n)$ and $Gr_{\mathbb{C}}(3,n)$ Four-Term Plücker Relations (`threeRowMinor_pluecker`, `complexThreeRowMinor_pluecker`, `selectedMinor_pluecker_rank3_five`)**:
    For any $3 \times n$ matrix over $\mathbb{R}$ or $\mathbb{C}$ and any column indices $(i_1, i_2, j_0, j_1, j_2, j_3)$, the $3 \times 3$ Plücker minors satisfy the 4-term quadratic Plücker syzygy $\Delta_{i_1 i_2 j_0}\Delta_{j_1 j_2 j_3} - \Delta_{i_1 i_2 j_1}\Delta_{j_0 j_2 j_3} + \Delta_{i_1 i_2 j_2}\Delta_{j_0 j_1 j_3} - \Delta_{i_1 i_2 j_3}\Delta_{j_0 j_1 j_2} = 0$.

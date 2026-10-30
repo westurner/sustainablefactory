@@ -39,7 +39,11 @@ How can a finite set of **normed anisotropic Tensor Gaussian Splatters** (`Norme
    - **Layer 2 (Complex Twistor Wavepacket $\Psi_{\mathrm{splat}}$)**: Attaching the complex Plücker sum $w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}$ to the square-root Gaussian amplitude $\sqrt{G(x,y)}$ yields $\Psi_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = \sqrt{G(x,y)}\,\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}})$, whose Madelung intensity $I_{\mathrm{splat}} = G(x,y)\,\bigl|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}\bigr|^2$ reproduces exact constructive and destructive interference (vanishing at dark fringes where $w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = 0$) while preserving the $L^1(\mathbb{R}^2)$ normalization of $G(x,y)$.
 2. **Core Bohm Quantum Potential & Madelung Quantum Pressure Tensor (`coreBohmPotential_identities`, `quantumPressureTensor_identities`)**:
    Because Gaussian splats are $C^\infty$ smooth with $\det\Sigma > 0$ and have a spatially constant negative log-density Hessian $-\partial_i\partial_j \ln G(x,y) = (\Sigma^{-1})_{ij}$, both the core Bohm quantum potential and the full Madelung quantum pressure tensor $\Pi_{ij}(x,y) = -\frac{\hbar^2}{4m^2} G(x,y) \partial_i\partial_j \ln G(x,y)$ reduce to pure $2 \times 2$ precision-matrix algebra:
-   $$Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4 m\,\det\Sigma} > 0, \qquad \Pi_{ij}(x, y) = \frac{\hbar^2}{4m^2}\,G(x, y)\,(\Sigma^{-1})_{ij}, \qquad \frac{\Pi_{11}^{\mathrm{DDF}}(x,y)}{\Pi_{22}^{\mathrm{DDF}}(x,y)} = \gamma_\varphi(v)^2,$$
+
+   $$
+   Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4 m\,\det\Sigma} > 0, \qquad \Pi_{ij}(x, y) = \frac{\hbar^2}{4m^2}\,G(x, y)\,(\Sigma^{-1})_{ij}, \qquad \frac{\Pi_{11}^{\mathrm{DDF}}(x,y)}{\Pi_{22}^{\mathrm{DDF}}(x,y)} = \gamma_\varphi(v)^2,
+   $$
+
    preventing $1/r \to \infty$ point-core singularities in both vortex reconnection and relativistic horizon compression.
 3. **Justification, Advantages, and Limitations Across All Four Companion Papers**:
    We provide a domain-by-domain audit of where normed tensor Gaussian splatters are exact, where they serve as an $O(N_{\mathrm{splats}})$ Lagrangian/Madelung discretization, and where hybrid analytic kernels (such as $\operatorname{sinc}^2$ aperture diffraction or long-range $1/r$ Ewald/Newtonian tails) are required.
@@ -99,11 +103,23 @@ To represent $M_{\mathbb{C}} \in Gr_{\mathbb{C}}(2,4)$ faithfully without losing
 
 1. **Layer 1 — Covariance Tensor Dictionary (`MovingSheath.ddfTensorSplat_identities`, `PlanetaryOrbit.gr24TensorSplat_identities`)**:
    For canonical $Gr_{\mathbb{C}}(2,4)$ twistor matrices with $|w_A^{\mathbb{C}}|^2 = 1 + d_{\mathrm{bary}}$ and $|w_B^{\mathbb{C}}|^2 = 1 - d_{\mathrm{bary}}$ ($d_{\mathrm{bary}} \in (-1, 1)$), setting $\sigma_1 = \sigma_0\sqrt{1 + d_{\mathrm{bary}}}$ and $\sigma_2 = \sigma_0\sqrt{1 - d_{\mathrm{bary}}}$ encodes:
-   $$\operatorname{Tr}\Sigma = 2\sigma_0^2, \qquad \frac{\sigma_1^2 - \sigma_2^2}{2\sigma_0^2} = d_{\mathrm{bary}}, \qquad \det\Sigma = \sigma_0^4(1 - d_{\mathrm{bary}}^2) = \sigma_0^4\,\mathcal{V}^2 = \sigma_0^4\,\gamma_\varphi(v)^{-2} = \sigma_0^4\,\frac{p}{a}.$$
+
+   $$
+   \operatorname{Tr}\Sigma = 2\sigma_0^2, \qquad \frac{\sigma_1^2 - \sigma_2^2}{2\sigma_0^2} = d_{\mathrm{bary}}, \qquad \det\Sigma = \sigma_0^4(1 - d_{\mathrm{bary}}^2) = \sigma_0^4\,\mathcal{V}^2 = \sigma_0^4\,\gamma_\varphi(v)^{-2} = \sigma_0^4\,\frac{p}{a}.
+   $$
+
 2. **Layer 2 — Coherent Twistor Wavepacket & Intensity (`NormedTensorGaussianSplat2D.complexTwistor_representation_identities` in [DDF.lean](../src/signals/Signals/DDF.lean#L2720-L2840))**:
    Weighting the square-root Gaussian envelope $\sqrt{G(x,y)}$ by $w_A^{\mathbb{C}}(M_{\mathbb{C}}) + w_B^{\mathbb{C}}(M_{\mathbb{C}})$ yields:
-   $$\Psi_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = \sqrt{G(x,y)}\,\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}}),$$
-   $$I_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = G(x,y)\,\bigl|\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}})\bigr|^2 = G(x,y)\,\Bigl(|w_A^{\mathbb{C}}|^2 + |w_B^{\mathbb{C}}|^2 + 2\operatorname{Re}\bigl(w_A^{\mathbb{C}}\,\overline{w_B^{\mathbb{C}}}\bigr)\Bigr).$$
+
+   $$
+   \Psi_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = \sqrt{G(x,y)}\,\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}}),
+   $$
+
+
+   $$
+   I_{\mathrm{splat}}(M_{\mathbb{C}}; x, y) = G(x,y)\,\bigl|\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}})\bigr|^2 = G(x,y)\,\Bigl(|w_A^{\mathbb{C}}|^2 + |w_B^{\mathbb{C}}|^2 + 2\operatorname{Re}\bigl(w_A^{\mathbb{C}}\,\overline{w_B^{\mathbb{C}}}\bigr)\Bigr).
+   $$
+
    Because $\int_{\mathbb{R}^2} G(x,y)\,dx\,dy = w$, the spatially integrated intensity of the twistor splat is conserved and equals $w\,\bigl|\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}\bigr|^2$, while vanishing identically at dark fringes ($w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = 0$).
 
 ```lean
@@ -307,7 +323,11 @@ Furthermore, `NormedTensorGaussianSplat3D` (`splitMajor3D_and_holographic_gr24_p
 - **Why Plücker / Twistor Minor Algebra Is More Efficient Than $4 \times 4$ Jacobians + Schur Pseudo-Inverses (`schur_plucker_inversion_free_and_twistor_vane_identities` at [DDF.lean#L5744-L5860](../src/signals/Signals/DDF.lean#L5744-L5860))**:
   - In `TensorCFDSolver` ([LBGPC-Fluid-Datacenter-Energy-Savings.myst.md](chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md#L2299-L2348)), updating $\Sigma' = J(s,\tau)\Sigma J(s,\tau)^T$ and evaluating the Schur complement $\Sigma_{\mathrm{3D}} = A - B D^{-1} C$ requires $4 \times 4$ matrix multiplications and a matrix pseudo-inverse `pinv(D)` per particle per frame.
   - By the **Schur determinant identity**, $\det(\Sigma_{4\times 4}) = D_{33}\,\det(\Sigma_{\mathrm{3D}})$ where $\det J(s,\tau) = 1 - \tau^2$ and $D_{33} = 1 + \tau^2$, so the exact 3D Schur-complement volume is given in $O(1)$ inversion-free closed form by the $Gr_{\mathbb{C}}(2,4)$ Plücker channel product $|w_A^{\mathbb{C}}(M_\tau)|^2|w_B^{\mathbb{C}}(M_\tau)|^2 = 1 - \tau^2$:
-    $$\det(\Sigma_{\mathrm{3D}}) = \frac{(1 - \tau^2)^2}{1 + \tau^2} = \frac{\bigl(|w_A^{\mathbb{C}}(M_\tau)|^2\,|w_B^{\mathbb{C}}(M_\tau)|^2\bigr)^2}{1 + \tau^2}.$$
+
+    $$
+    \det(\Sigma_{\mathrm{3D}}) = \frac{(1 - \tau^2)^2}{1 + \tau^2} = \frac{\bigl(|w_A^{\mathbb{C}}(M_\tau)|^2\,|w_B^{\mathbb{C}}(M_\tau)|^2\bigr)^2}{1 + \tau^2}.
+    $$
+
   - Our theorem also identifies and fixes a sign/triangularity bug in the chat's `AmplituhedronFluidSplat` (`chatAmplituhedronTwistorMatrix` has upper-triangular determinant $1 + s\tau$, which increases with turbulence $\tau > 0$, whereas `correctedTwistorShearMatrix` and $Gr_{\mathbb{C}}(2,4)$ Plücker channels give $1 - \tau^2 \in (0, 1)$, strictly favoring vortical vanes $\tau = 0$).
 
 ---

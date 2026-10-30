@@ -239,9 +239,30 @@ def _markdown_files(root: Path):
         yield path
 
 
+def _selected_files(root: Path, selected: list[Path] | None):
+    if not selected:
+        yield from _markdown_files(root)
+        return
+
+    for path in selected:
+        candidate = path if path.is_absolute() else WORKSPACE_ROOT / path
+        candidate = candidate.resolve()
+        if candidate.suffix != ".md" or not candidate.is_file():
+            raise FileNotFoundError(f"Markdown file not found: {candidate}")
+        if not candidate.is_relative_to(root):
+            raise ValueError(f"Selected Markdown file is outside --root: {candidate}")
+        yield candidate
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=DEFAULT_ROOT)
+    parser.add_argument(
+        "--file",
+        type=Path,
+        action="append",
+        help="scan only this Markdown file; may be supplied more than once",
+    )
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     parser.add_argument(
         "--fix",
@@ -255,15 +276,24 @@ def main(argv: list[str] | None = None) -> int:
     if not root.is_dir():
         parser.error(f"Markdown root is not a directory: {root}")
 
+    try:
+        paths = list(_selected_files(root, args.file))
+    except (FileNotFoundError, ValueError) as error:
+        parser.error(str(error))
+
     report_path.parent.mkdir(parents=True, exist_ok=True, mode=0o1777)
     if report_path.parent.name == ".tmp":
         report_path.parent.chmod(0o1777)
 
     findings: list[dict[str, object]] = []
     fixed_files = 0
-    for path in _markdown_files(root):
+    for path in paths:
         original = _read_text(path)
-        relative_path = path.relative_to(WORKSPACE_ROOT).as_posix() if path.is_relative_to(WORKSPACE_ROOT) else path.as_posix()
+        relative_path = (
+            path.relative_to(WORKSPACE_ROOT).as_posix()
+            if path.is_relative_to(WORKSPACE_ROOT)
+            else path.as_posix()
+        )
         file_findings = scan_text(original, relative_path)
         findings.extend(file_findings)
         if args.fix and file_findings:
@@ -273,8 +303,12 @@ def main(argv: list[str] | None = None) -> int:
 
     remaining: list[dict[str, object]] = []
     if args.fix:
-        for path in _markdown_files(root):
-            relative_path = path.relative_to(WORKSPACE_ROOT).as_posix() if path.is_relative_to(WORKSPACE_ROOT) else path.as_posix()
+        for path in paths:
+            relative_path = (
+                path.relative_to(WORKSPACE_ROOT).as_posix()
+                if path.is_relative_to(WORKSPACE_ROOT)
+                else path.as_posix()
+            )
             remaining.extend(scan_text(_read_text(path), relative_path))
 
     report = {

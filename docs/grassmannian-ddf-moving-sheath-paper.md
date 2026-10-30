@@ -28,10 +28,18 @@ We present a machine-checked formalization in the Lean 4 theorem prover (`Signal
 
 1. **Plücker Hydrodynamic Sink Fluxes & Reciprocal Jamming–Visibility Duality**:
    Interpreting the uncrossed $Gr(2,4)$ Plücker channel products $Q_A(M) = \Delta_{01}(M)\Delta_{23}(M)$ and $Q_B(M) = \Delta_{03}(M)\Delta_{12}(M)$ as localized sink fluxes across the coupled $(\phi, \varphi)$ bosonic sectors yields total flux conservation $Q_A(M) + Q_B(M) = \Delta_{02}(M)\Delta_{13}(M)$ and barycentric shear asymmetry $(Q_A(M) - Q_B(M))/2 = d_{\mathrm{bary}}(M)$. Identifying $|d_{\mathrm{bary}}|$ with the dimensionless sheath speed ratio $\beta(s) = v/c \in [0, 1)$ of a subluminal `MovingSheath` proves that optical fringe visibility is the exact reciprocal of the DDF constitutive Lorentz jamming factor:
-   $$\mathcal{V}(s) = \sqrt{1 - \beta(s)^2} = \frac{1}{\gamma_\varphi(v)}, \qquad \beta(s)^2 + \mathcal{V}(s)^2 = 1.$$
+
+   $$
+   \mathcal{V}(s) = \sqrt{1 - \beta(s)^2} = \frac{1}{\gamma_\varphi(v)}, \qquad \beta(s)^2 + \mathcal{V}(s)^2 = 1.
+   $$
+
 2. **Tight Quadratic Power-Law Bounds, Kinetic-Energy Ratio, & Constitutive Substrate Recovery**:
    The on-axis relative predictive error against the coherent Fraunhofer reference equals the ratio of reversible shear-jamming kinetic energy $K_D(v) = m c^2(\gamma_\varphi(v) - 1)$ to twice the total relativistic sheath energy $2 E_\varphi(v) = 2\gamma_\varphi(v) m c^2$:
-   $$\varepsilon_{\mathrm{rel}}(0,0) = \frac{\gamma_\varphi(v) - 1}{2\,\gamma_\varphi(v)} = \frac{K_D(v)}{2\,\gamma_\varphi(v) m c^2}, \qquad \frac{\beta^2}{4} \le \varepsilon_{\mathrm{rel}}(0,0) \le \frac{\beta^2}{2},$$
+
+   $$
+   \varepsilon_{\mathrm{rel}}(0,0) = \frac{\gamma_\varphi(v) - 1}{2\,\gamma_\varphi(v)} = \frac{K_D(v)}{2\,\gamma_\varphi(v) m c^2}, \qquad \frac{\beta^2}{4} \le \varepsilon_{\mathrm{rel}}(0,0) \le \frac{\beta^2}{2},
+   $$
+
    and admits exact closed-form inversion for both the dimensionless jamming parameters and the dimensionful DDF dispersed-phase compressibility-density product $\varrho_{\max}^\varphi j_{\min}^\varphi = c^{-2} = 4\varepsilon(1 - \varepsilon)/v^2$.
 3. **Constructive Resolutions of Three Formal Critiques (Symmetric Zero-Shear Point, Non-Symplectic Anosov Jamming, and Gravitomagnetic Vortex Swirl)**:
    We prove (i) that while an unphased positive-Grassmannian proxy $Q_A + Q_B = 2$ incurs a $50\%$ on-axis error at the symmetric point, squaring the amplitude-level crossing product $(\Delta_{02}\Delta_{13})^2 = 4$ or lifting to $Gr_{\mathbb{C}}(2,4)$ achieves $\varepsilon_{\mathrm{rel}} = 0$; (ii) that projectively normalized Plücker invariants $\widehat{d}_{\mathrm{bary}}(M)$ and $\widehat{\mathcal{V}}_{Gr(2,4)}(M)^2$ are strictly invariant under arbitrary non-symplectic compressive jamming $\operatorname{diag}(e^{\lambda_1 t}, e^{\lambda_2 t})$; and (iii) that the Kerr/Lense–Thirring gravitomagnetic swirl velocity around quantized $\phi$-superfluid vortex sinks is governed directly by the differential circulation $\Delta\Gamma(\ell_1, \ell_2) = (\ell_2 - \ell_1)\kappa_\phi$.
@@ -111,14 +119,29 @@ For a subluminal `MovingSheath` $s$ translating at speed $0 \le v < c$ through `
 1. **Zero-Shear / Zero-Jamming Limit (`MovingSheath.zero_shear_no_jamming`)**:
    When $v = 0$, $\beta^2 = 0$, $\gamma_\varphi(0) = 1$, and $K_D(0) = m c^2(\gamma_\varphi(0) - 1) = 0$.
 2. **Reciprocal Duality (`MovingSheath.visibility_jamming_duality`)**:
-   $$\mathcal{V}(s) = \gamma_\varphi(v)^{-1}, \qquad \gamma_\varphi(v)\,\mathcal{V}(s) = 1, \qquad \beta^2 + \mathcal{V}(s)^2 = 1.$$
+
+   $$
+   \mathcal{V}(s) = \gamma_\varphi(v)^{-1}, \qquad \gamma_\varphi(v)\,\mathcal{V}(s) = 1, \qquad \beta^2 + \mathcal{V}(s)^2 = 1.
+   $$
+
 3. **On-Axis Relative Error as Relativistic Sheath Kinetic-Energy Ratio (`ddf_sheath_relative_error_eq_jamming`)**:
-   $$\varepsilon_{\mathrm{rel}}\bigl(I_{\mathrm{HS}}(0,0;\mathcal{V}(s)),\,I_{\mathrm{F}}(0,0)\bigr) = \frac{\gamma_\varphi(v) - 1}{2\,\gamma_\varphi(v)} = \frac{K_D(v)}{2\,\gamma_\varphi(v)\,m c^2}.$$
+
+   $$
+   \varepsilon_{\mathrm{rel}}\bigl(I_{\mathrm{HS}}(0,0;\mathcal{V}(s)),\,I_{\mathrm{F}}(0,0)\bigr) = \frac{\gamma_\varphi(v) - 1}{2\,\gamma_\varphi(v)} = \frac{K_D(v)}{2\,\gamma_\varphi(v)\,m c^2}.
+   $$
+
 4. **Tight Quadratic Power-Law Bounds & Exact Substrate Recovery (`ddf_relative_error_power_law_and_inversion`, `MovingSheath.inverse_recovery_from_relative_error`, `MovingSheath.ddf_critique3_solved_substrate_parameter_recovery`)**:
    For $\varepsilon = (1 - \mathcal{V}(s))/2 \in [0, 1/2)$,
-   $$\frac{\beta^2}{4} \le \varepsilon \le \frac{\beta^2}{2}, \qquad \mathcal{V}(s) = 1 - 2\varepsilon, \qquad \gamma_\varphi(v) = \frac{1}{1 - 2\varepsilon}, \qquad \beta^2 = 4\varepsilon(1 - \varepsilon),$$
+
+   $$
+   \frac{\beta^2}{4} \le \varepsilon \le \frac{\beta^2}{2}, \qquad \mathcal{V}(s) = 1 - 2\varepsilon, \qquad \gamma_\varphi(v) = \frac{1}{1 - 2\varepsilon}, \qquad \beta^2 = 4\varepsilon(1 - \varepsilon),
+   $$
+
    and using $c^2 = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1}$ (`DDFSubstrate.c_sq`),
-   $$\varrho_{\max}^\varphi\,j_{\min}^\varphi\,v^2 = 4\varepsilon(1 - \varepsilon), \qquad v^2 = \frac{4\varepsilon(1 - \varepsilon)}{\varrho_{\max}^\varphi\,j_{\min}^\varphi}, \qquad \varrho_{\max}^\varphi\,j_{\min}^\varphi = \frac{4\varepsilon(1 - \varepsilon)}{v^2} \quad (v \neq 0).$$
+
+   $$
+   \varrho_{\max}^\varphi\,j_{\min}^\varphi\,v^2 = 4\varepsilon(1 - \varepsilon), \qquad v^2 = \frac{4\varepsilon(1 - \varepsilon)}{\varrho_{\max}^\varphi\,j_{\min}^\varphi}, \qquad \varrho_{\max}^\varphi\,j_{\min}^\varphi = \frac{4\varepsilon(1 - \varepsilon)}{v^2} \quad (v \neq 0).
+   $$
 
 ---
 
@@ -136,9 +159,17 @@ Under a symplectic 2D Anosov hyperbolic stretch $A_{\mathrm{Anosov}}(\lambda, t)
 
 Theorem `ddf_critique2_solved_projective_and_trace_renormalized_jamming` ([DDF.lean](../src/signals/Signals/DDF.lean#L1205-L1260)) resolves this completely:
 1. The projectively normalized Plücker barycentric shift and squared visibility (`gr24ProjectiveBarycentricShift`, `gr24ProjectiveVisibilitySq` in [Geometry.lean](../src/signals/Signals/Geometry.lean#L1090-L1210)):
-   $$\widehat{d}_{\mathrm{bary}}(M) = \frac{\Delta_{01}\Delta_{23} - \Delta_{03}\Delta_{12}}{\Delta_{02}\Delta_{13}}, \qquad \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = \frac{4\,\Delta_{01}\Delta_{23}\,\Delta_{03}\Delta_{12}}{(\Delta_{02}\Delta_{13})^2}$$
+
+   $$
+   \widehat{d}_{\mathrm{bary}}(M) = \frac{\Delta_{01}\Delta_{23} - \Delta_{03}\Delta_{12}}{\Delta_{02}\Delta_{13}}, \qquad \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = \frac{4\,\Delta_{01}\Delta_{23}\,\Delta_{03}\Delta_{12}}{(\Delta_{02}\Delta_{13})^2}
+   $$
+
    satisfy $\widehat{d}_{\mathrm{bary}}(M)^2 + \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2 = 1$ for every $\Delta_{02}\Delta_{13} \neq 0$ (`gr24_projective_pythagorean_complementarity`) and are **strictly invariant under every $B \in GL(2, \mathbb{R})$**, including arbitrary non-symplectic jamming:
-   $$\widehat{d}_{\mathrm{bary}}(B M) = \widehat{d}_{\mathrm{bary}}(M), \qquad \widehat{\mathcal{V}}_{Gr(2,4)}(B M)^2 = \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2.$$
+
+   $$
+   \widehat{d}_{\mathrm{bary}}(B M) = \widehat{d}_{\mathrm{bary}}(M), \qquad \widehat{\mathcal{V}}_{Gr(2,4)}(B M)^2 = \widehat{\mathcal{V}}_{Gr(2,4)}(M)^2.
+   $$
+
 2. Factoring out the isotropic trace dilation $e^{-(\lambda_1 + \lambda_2)t / 2}$ reduces $B(\lambda_1, \lambda_2, t)$ to the symplectic Anosov matrix $A_{\mathrm{Anosov}}((\lambda_1 - \lambda_2)/2, t)$, which preserves even the unnormalized Plücker minors.
 
 ### 3.3 Critique 3 & Resolution: Quantized Vortex Circulation & Gravitomagnetic Frame-Dragging Swirl
@@ -190,9 +221,17 @@ $$
 
 We prove:
 - **`MovingSheath.gr24TwistorMatrix_madelung_sector_identities`**:
-  $$|w_A^{\mathbb{C}}|^2 = 1 + \beta(s), \quad |w_B^{\mathbb{C}}|^2 = 1 - \beta(s), \quad |w_A^{\mathbb{C}}|^2 + |w_B^{\mathbb{C}}|^2 = 2, \quad |w_A^{\mathbb{C}}|^2\,|w_B^{\mathbb{C}}|^2 = \mathcal{V}(s)^2 = \gamma_\varphi(v)^{-2}.$$
+
+  $$
+  |w_A^{\mathbb{C}}|^2 = 1 + \beta(s), \quad |w_B^{\mathbb{C}}|^2 = 1 - \beta(s), \quad |w_A^{\mathbb{C}}|^2 + |w_B^{\mathbb{C}}|^2 = 2, \quad |w_A^{\mathbb{C}}|^2\,|w_B^{\mathbb{C}}|^2 = \mathcal{V}(s)^2 = \gamma_\varphi(v)^{-2}.
+  $$
+
 - **`MovingSheath.gr24TwistorMatrix_crossing_eq_ddf_oam_intensity`**:
-  $$I_{Gr_{\mathbb{C}}(2,4)}^{\times}\!\bigl(M_{\mathbb{C}}^{\mathrm{DDF}}(s); x, y\bigr) = I_{\mathrm{HS,OAM}}\!\bigl(x, y, \phi; \Delta\ell, \gamma_\varphi(v)^{-1}\bigr), \qquad \varepsilon_{\mathrm{rel}} = 0.$$
+
+  $$
+  I_{Gr_{\mathbb{C}}(2,4)}^{\times}\!\bigl(M_{\mathbb{C}}^{\mathrm{DDF}}(s); x, y\bigr) = I_{\mathrm{HS,OAM}}\!\bigl(x, y, \phi; \Delta\ell, \gamma_\varphi(v)^{-1}\bigr), \qquad \varepsilon_{\mathrm{rel}} = 0.
+  $$
+
 - **`complexGr24_sl2c_crossing_intensity_invariant`**:
   Invariant under any $B_{\mathbb{C}} \in \mathbb{C}^{2 \times 2}$ with $|\det B_{\mathbb{C}}|^2 = 1$.
 
@@ -212,15 +251,39 @@ We prove in [Geometry.lean](../src/signals/Signals/Geometry.lean#L1255-L1355), [
 
 1. **$N$-ary Plücker Minor & Madelung Sector Laws (`complexGr2NChannelMatrix_minors`, `complexGr2N_madelung_sector_identities`)**:
    For any $N \in \mathbb{N}$ and $z_j = \sqrt{w_j}\,e^{i\theta_j}$ ($w_j \ge 0$):
-   $$\Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr) = z_j, \qquad \Delta_{j+2, k+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr) = z_k - z_j, \qquad \Delta_{0, 1}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr) = \sum_{j=0}^{N-1} \Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr),$$
-   $$\bigl|\Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr)\bigr|^2 = w_j, \qquad \sum_{j=0}^{N-1} \bigl|\Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr)\bigr|^2 = \sum_{j=0}^{N-1} w_j.$$
+
+   $$
+   \Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr) = z_j, \qquad \Delta_{j+2, k+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr) = z_k - z_j, \qquad \Delta_{0, 1}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr) = \sum_{j=0}^{N-1} \Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr),
+   $$
+
+
+   $$
+   \bigl|\Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr)\bigr|^2 = w_j, \qquad \sum_{j=0}^{N-1} \bigl|\Delta_{0, j+2}^{\mathbb{C}}\bigl(M_{\mathbb{C}}^{(N)}\bigr)\bigr|^2 = \sum_{j=0}^{N-1} w_j.
+   $$
+
 2. **Triple-Slit ($N = 3$) Principal Peak, Secondary Null, and Relative Error Law (`multiSlitInterferenceFactor_three`, `tripleSlit_peak_and_secondary_null`, `tripleSlit_onAxis_relative_error`)**:
-   $$\mathcal{G}_3(\mathcal{V}, \beta) = 3 + 2\mathcal{V}\bigl(2\cos(2\beta) + \cos(4\beta)\bigr), \qquad \mathcal{G}_3(1, 0) = 9, \qquad \mathcal{G}_3(1, \pi/3) = 0,$$
-   $$\varepsilon_{\mathrm{rel}}\bigl(I_{\mathrm{HS}}^{(3)}(3,0,0,0;\Delta\ell,\mathcal{V}),\,I_{\mathrm{F}}^{(3)}(3,0,0,0;\Delta\ell)\bigr) = \frac{2}{3}(1 - \mathcal{V}).$$
+
+   $$
+   \mathcal{G}_3(\mathcal{V}, \beta) = 3 + 2\mathcal{V}\bigl(2\cos(2\beta) + \cos(4\beta)\bigr), \qquad \mathcal{G}_3(1, 0) = 9, \qquad \mathcal{G}_3(1, \pi/3) = 0,
+   $$
+
+
+   $$
+   \varepsilon_{\mathrm{rel}}\bigl(I_{\mathrm{HS}}^{(3)}(3,0,0,0;\Delta\ell,\mathcal{V}),\,I_{\mathrm{F}}^{(3)}(3,0,0,0;\Delta\ell)\bigr) = \frac{2}{3}(1 - \mathcal{V}).
+   $$
+
 3. **Triple-Slit $Gr_{\mathbb{C}}(2,5)$–DDF Sheath Twistor Matrix & Sorkin $\kappa_3 = 0$ (`MovingSheath.gr25TripleSlitTwistorMatrix_madelung_sector_identities`, `MovingSheath.gr25TripleSlitTwistorMatrix_zero_shear_eq_fraunhoferMultiSlit`, `sorkinTripleSlitParameter_zero`)**:
    Embedding a `MovingSheath` $s$ into $Gr_{\mathbb{C}}(2,5)$ with outer sheared channels $\mathcal{A}_0 = \sqrt{1+\beta(s)}\,e^{2i\beta_{\mathrm{opt}}}$, central channel $\mathcal{A}_1 = 1$, and $\mathcal{A}_2 = \sqrt{1-\beta(s)}\,e^{-2i\beta_{\mathrm{opt}}}$ satisfies:
-   $$|\mathcal{A}_0|^2 + |\mathcal{A}_1|^2 + |\mathcal{A}_2|^2 = 3, \qquad \frac{|\mathcal{A}_0|^2 - |\mathcal{A}_2|^2}{2} = \beta(s), \qquad |\mathcal{A}_0|^2\,|\mathcal{A}_1|^2\,|\mathcal{A}_2|^2 = \gamma_\varphi(v)^{-2},$$
-   $$\kappa_3(\mathcal{A}_0, \mathcal{A}_1, \mathcal{A}_2) = |\mathcal{A}_0 + \mathcal{A}_1 + \mathcal{A}_2|^2 - \bigl(|\mathcal{A}_0 + \mathcal{A}_1|^2 + |\mathcal{A}_0 + \mathcal{A}_2|^2 + |\mathcal{A}_1 + \mathcal{A}_2|^2\bigr) + \bigl(|\mathcal{A}_0|^2 + |\mathcal{A}_1|^2 + |\mathcal{A}_2|^2\bigr) = 0,$$
+
+   $$
+   |\mathcal{A}_0|^2 + |\mathcal{A}_1|^2 + |\mathcal{A}_2|^2 = 3, \qquad \frac{|\mathcal{A}_0|^2 - |\mathcal{A}_2|^2}{2} = \beta(s), \qquad |\mathcal{A}_0|^2\,|\mathcal{A}_1|^2\,|\mathcal{A}_2|^2 = \gamma_\varphi(v)^{-2},
+   $$
+
+
+   $$
+   \kappa_3(\mathcal{A}_0, \mathcal{A}_1, \mathcal{A}_2) = |\mathcal{A}_0 + \mathcal{A}_1 + \mathcal{A}_2|^2 - \bigl(|\mathcal{A}_0 + \mathcal{A}_1|^2 + |\mathcal{A}_0 + \mathcal{A}_2|^2 + |\mathcal{A}_1 + \mathcal{A}_2|^2\bigr) + \bigl(|\mathcal{A}_0|^2 + |\mathcal{A}_1|^2 + |\mathcal{A}_2|^2\bigr) = 0,
+   $$
+
    and at $v = 0$, `complexGr2NCollectorMultiSlit 3` matches `fraunhoferMultiSlit 3` with $\varepsilon_{\mathrm{rel}} = 0$ everywhere.
 
 ```lean

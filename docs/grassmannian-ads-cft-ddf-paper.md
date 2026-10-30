@@ -39,13 +39,24 @@ In this paper, we formalize AdS/CFT, planar integrability, and secret symmetries
    We formalize the all-loop bound-state magnon dispersion $E^2(M, \lambda, p) = M^2 + \frac{\lambda}{\pi^2}\sin^2(p/2)$, the exact one-loop Konishi ($L=4, M=2$, $u_{\mathrm{K}} = \pm \frac{1}{2\sqrt{3}}$) anomalous dimension check figure $2\,\delta D_1(\lambda, u_{\mathrm{K}}) = \frac{3\lambda}{4\pi^2}$, the braided $\mathfrak{psl}(2|2)_c$ central-charge identity $\mathbb{C}(p)\mathbb{C}^\dagger(p) + \mathbb{C}(p) + \mathbb{C}^\dagger(p) = 0$ and quasi-cocommutative coproduct $(1+\mathbb{C}(p_1))(1+\mathbb{C}(p_2)) = 1 + \Delta(\mathbb{C})$, the short vs. long $\mathfrak{gl}(2|2)$ multiplet compression $4 M < 16(M + 1)$, the indented Yangian secret supertrace $\operatorname{STr}(\widehat{\mathbb{B}}) = 4 B_0$ with $\operatorname{Tr}(\widehat{\mathbb{B}}) = 0$, and the degeneracy $\operatorname{Tr}(DA) = \det(DA) = 0$ of the $q$-deformed Hubbard affine Cartan matrix $DA$.
 3. **Without Splats: Exact 3-Term Plücker Realization of the $\mathfrak{psl}(2|2)_c$ Secret Outer Automorphism & Universal $\text{AdS}_5$/DDF Redshift Product (`RiverExterior.grassmannian_ads_cft_ddf_and_secret_symmetry_unification`)**:
    Embedding the Beisert–Torrielli $\mathfrak{psl}(2|2)_c$ outer-automorphism parameters $(a,b,c,d)$ (`arXiv:1204.2366`, Eq. (2.11)) into $Gr_{\mathbb{C}}(2,4)$ via
-   $$W_{\mathrm{sec}}(a,b,c,d) = \begin{pmatrix} a & b & a & -b \\ c & d & -c & d \end{pmatrix} \in \mathbb{C}^{2 \times 4}$$
+
+   $$
+   W_{\mathrm{sec}}(a,b,c,d) = \begin{pmatrix} a & b & a & -b \\ c & d & -c & d \end{pmatrix} \in \mathbb{C}^{2 \times 4}
+   $$
+
    proves that its 6 Plücker minors satisfy $\Delta_{01}^{\mathbb{C}} = \Delta_{23}^{\mathbb{C}} = ad - bc = M$, $\Delta_{03}^{\mathbb{C}} = -\Delta_{12}^{\mathbb{C}} = ad + bc = \mathbb{H}$, and $\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = -4(ab)(cd) = -4\mathbb{C}\mathbb{C}^\dagger$, so the **3-term quadratic Plücker identity on $Gr_{\mathbb{C}}(2,4)$ IS IDENTICALLY the $\mathfrak{psl}(2|2)_c$ central-charge dispersion relation**:
-   $$\mathbb{H}^2 - 4\,\mathbb{C}\,\mathbb{C}^\dagger = (ad + bc)^2 - 4(ab)(cd) = (ad - bc)^2 = M^2 = 1 \quad (ad - bc = 1).$$
+
+   $$
+   \mathbb{H}^2 - 4\,\mathbb{C}\,\mathbb{C}^\dagger = (ad + bc)^2 - 4(ab)(cd) = (ad - bc)^2 = M^2 = 1 \quad (ad - bc = 1).
+   $$
+
    Simultaneously, the $Gr_{\mathbb{C}}(2,4)$ channel product $|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2 = 1 - \beta^2$ reproduces both the Poincaré $\text{AdS}_5$ planar black-brane emblackening factor $1 - (z/z_H)^4$ ($\beta = (z/z_H)^2$) and the 4D DDF Painlevé–Gullstrand lapse $1 - r_H/r$ ($\beta = \sqrt{r_H/r}$).
 4. **With Normed Tensor Gaussian Splats: Holographic RG Scale-Radius Flow (`adsHolographicRGSplat`)**:
    Identifying the bulk Poincaré $\text{AdS}$ radial coordinate $z_{\mathrm{rg}} > 0$ with the boundary CFT Tensor Gaussian Splat coarse-graining width $\sigma_1 = \sigma_2 = z_{\mathrm{rg}}$ proves that an UV-to-IR coarse-graining dilatation $z_{\mathrm{UV}} \mapsto \lambda_{\mathrm{rg}}\,z_{\mathrm{UV}}$ ($\lambda_{\mathrm{rg}} > 1$) scales the phase-space covariance determinant by $\det\Sigma_{\mathrm{IR}} = \lambda_{\mathrm{rg}}^4\det\Sigma_{\mathrm{UV}} > \det\Sigma_{\mathrm{UV}}$ and relaxes the repulsive Madelung core Bohm quantum potential by the exact conformal weight:
-   $$Q_{\mathrm{core}}(\Sigma_{\mathrm{IR}}) = \frac{1}{\lambda_{\mathrm{rg}}^2}\,Q_{\mathrm{core}}(\Sigma_{\mathrm{UV}}) \le Q_{\mathrm{core}}(\Sigma_{\mathrm{UV}}).$$
+
+   $$
+   Q_{\mathrm{core}}(\Sigma_{\mathrm{IR}}) = \frac{1}{\lambda_{\mathrm{rg}}^2}\,Q_{\mathrm{core}}(\Sigma_{\mathrm{UV}}) \le Q_{\mathrm{core}}(\Sigma_{\mathrm{UV}}).
+   $$
 
 ---
 
@@ -107,19 +118,38 @@ As synthesized in the 23-chapter coordinated review by **Beisert et al. (2012)**
 
 1. **Spin-Chain Mapping & One-Loop Bethe Ansatz** ([Minahan & Zarembo 2003](#adscft-minahan2003); `arXiv:1012.3982` Sec. I.1):
    Single-trace gauge-invariant operators $\mathcal{O} = \operatorname{Tr}(Z Z \Phi Z \cdots)$ of length $L$ with $M$ impurity magnons map to states of an integrable $\mathfrak{psu}(2,2|4)$ spin chain. At one loop in the $\mathfrak{su}(2)$ sector, the Bethe rapidities $u_k$ satisfy:
-   $$\left(\frac{u_k + i/2}{u_k - i/2}\right)^L = \prod_{j \neq k}^M \frac{u_k - u_j + i}{u_k - u_j - i}, \qquad \prod_{j=1}^M \frac{u_j + i/2}{u_j - i/2} = 1, \qquad \delta D_1 = \sum_{j=1}^M \frac{\lambda}{8\pi^2\bigl(u_j^2 + \frac{1}{4}\bigr)}$$
+
+   $$
+   \left(\frac{u_k + i/2}{u_k - i/2}\right)^L = \prod_{j \neq k}^M \frac{u_k - u_j + i}{u_k - u_j - i}, \qquad \prod_{j=1}^M \frac{u_j + i/2}{u_j - i/2} = 1, \qquad \delta D_1 = \sum_{j=1}^M \frac{\lambda}{8\pi^2\bigl(u_j^2 + \frac{1}{4}\bigr)}
+   $$
+
    (`betheOneLoopMagnonEnergy` in `Signals.Scattering`).
 2. **The Konishi Operator Check Figure ($L=4, M=2$)** (`arXiv:1012.3982` Sec. I.2):
    For the simplest non-protected local operator ($L=4, M=2$), the cyclicity and Bethe equations fix $u_1 = -u_2 = \frac{1}{2\sqrt{3}}$ ($u_k^2 = \frac{1}{12}$, so $u_k^2 + \frac{1}{4} = \frac{1}{3}$). Summing the two magnons yields the exact one-loop Konishi anomalous dimension proved in `ads_cft_integrability_and_secret_symmetry_identities`:
-   $$\delta D_{\mathrm{Konishi}}^{(1)}(\lambda) = 2 \cdot \frac{\lambda}{8\pi^2(1/12 + 1/4)} = \frac{3\lambda}{4\pi^2},$$
+
+   $$
+   \delta D_{\mathrm{Konishi}}^{(1)}(\lambda) = 2 \cdot \frac{\lambda}{8\pi^2(1/12 + 1/4)} = \frac{3\lambda}{4\pi^2},
+   $$
+
    which extends at four loops (`arXiv:1012.3982` Sec. I.2) to:
-   $$\delta D_{\mathrm{Konishi}}(\lambda) = \frac{3\lambda}{4\pi^2} - \frac{3\lambda^2}{16\pi^4} + \frac{21\lambda^3}{256\pi^6} - \frac{\bigl(78 - 18\zeta(3) + 45\zeta(5)\bigr)\lambda^4}{2048\pi^8} + \mathcal{O}(\lambda^5).$$
+
+   $$
+   \delta D_{\mathrm{Konishi}}(\lambda) = \frac{3\lambda}{4\pi^2} - \frac{3\lambda^2}{16\pi^4} + \frac{21\lambda^3}{256\pi^6} - \frac{\bigl(78 - 18\zeta(3) + 45\zeta(5)\bigr)\lambda^4}{2048\pi^8} + \mathcal{O}(\lambda^5).
+   $$
+
 3. **All-Loop $\mathfrak{psu}(2|2)^2 \ltimes \mathbb{R}^3$ Bound-State Magnon Dispersion Relation** ([Beisert 2005](#adscft-beisert2005); [Dorey 2006](#adscft-dorey2006); `arXiv:1012.3982` Sec. III.2):
    Representation theory of the centrally extended $\mathfrak{psu}(2|2)^2 \ltimes \mathbb{R}^3$ residual symmetry algebra above the BMN vacuum $\operatorname{Tr}(Z^J)$ fixes the exact all-loop dispersion relation for an $M$-magnon bound state (`adsMagnonDispersionSq`, `adsMagnonDispersion`):
-   $$E_{\mathrm{mag}}(M, \lambda, p) = \sqrt{M^2 + \frac{\lambda}{\pi^2}\sin^2\!\left(\frac{p}{2}\right)} = \sqrt{M^2 + 4 g_{\mathrm{int}}^2\sin^2\!\left(\frac{p}{2}\right)} \ge M.$$
+
+   $$
+   E_{\mathrm{mag}}(M, \lambda, p) = \sqrt{M^2 + \frac{\lambda}{\pi^2}\sin^2\!\left(\frac{p}{2}\right)} = \sqrt{M^2 + 4 g_{\mathrm{int}}^2\sin^2\!\left(\frac{p}{2}\right)} \ge M.
+   $$
+
 4. **Cusp Anomalous Dimension $D_{\mathrm{cusp}}(\lambda)$ Interpolating Benchmark** (`arXiv:1012.3982` Sec. III.4):
    For large-spin twist-2 operators, the BES integral equation smoothly interpolates between weak and strong coupling:
-   $$D_{\mathrm{cusp}}(\lambda) = \frac{\lambda}{2\pi^2} - \frac{\lambda^2}{96\pi^2} + \frac{11\lambda^3}{23040\pi^2} - \cdots \;\underset{\lambda\to\infty}{=}\; \frac{\sqrt{\lambda}}{\pi} - \frac{3\ln 2}{\pi} - \frac{\mathrm{K}_{\mathrm{Catalan}}}{\pi\sqrt{\lambda}} - \cdots.$$
+
+   $$
+   D_{\mathrm{cusp}}(\lambda) = \frac{\lambda}{2\pi^2} - \frac{\lambda^2}{96\pi^2} + \frac{11\lambda^3}{23040\pi^2} - \cdots \;\underset{\lambda\to\infty}{=}\; \frac{\sqrt{\lambda}}{\pi} - \frac{3\ln 2}{\pi} - \frac{\mathrm{K}_{\mathrm{Catalan}}}{\pi\sqrt{\lambda}} - \cdots.
+   $$
 
 ---
 
@@ -177,19 +207,30 @@ $$
 satisfies $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}})\,R = R\,\Delta(\widehat{\mathbb{B}})$?
 - **Level-0 Breakdown**: Beisert's $R$-matrix includes the two-body conversion process $\text{fermion} \otimes \text{fermion} \longrightarrow \text{boson} \otimes \text{boson}$ ($|\psi^1\psi^2\rangle \leftrightarrow |\phi^1\phi^2\rangle$), which changes the naive fermionic grading $\Delta(\mathbb{B})$ by $\Delta B = (+2) - (-2) = +4$.
 - **Level-1 Restoration & Level-Raising Property**: The bilinear supercharge tail $e^{\frac{i}{2}p}\mathbb{G}\otimes\mathbb{Q} + e^{-\frac{i}{2}p}\mathbb{Q}\otimes\mathbb{G}$ supplies the exact off-diagonal $|\psi^1\psi^2\rangle \leftrightarrow |\phi^1\phi^2\rangle$ counterterm, and commuting $\widehat{\mathbb{B}}$ with the level-$0$ supercharges raises the Yangian level (`arXiv:1204.2366`, Eq. (3.5) & Sec. 3.3):
-  $$\widehat{\mathbb{Q}}_\alpha^a = [\widehat{\mathbb{B}}, \mathbb{Q}_\alpha^a] + i(1 + e^{-ip})\epsilon^{ab}\epsilon_{\alpha\beta}\mathbb{G}_b^\beta, \qquad [\widehat{\mathfrak{B}}, \mathfrak{Q}^{\alpha b}] = +\widehat{\mathfrak{Q}}^{\alpha b}.$$
+
+  $$
+  \widehat{\mathbb{Q}}_\alpha^a = [\widehat{\mathbb{B}}, \mathbb{Q}_\alpha^a] + i(1 + e^{-ip})\epsilon^{ab}\epsilon_{\alpha\beta}\mathbb{G}_b^\beta, \qquad [\widehat{\mathfrak{B}}, \mathfrak{Q}^{\alpha b}] = +\widehat{\mathfrak{Q}}^{\alpha b}.
+  $$
 
 Across the five sectors reviewed in [de Leeuw et al. (2012, `arXiv:1204.2366`)](#adscft-deleeuw2012), the secret symmetry manifests as:
 1. **Worldsheet $S$-Matrix / Spectral Problem** (Sec. 3.1): $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}}) R = R \Delta(\widehat{\mathbb{B}})$ for all bound-state representations $4 M$. In `Signals.Scattering`, we formalize the full $16 \times 16$ $\mathbb{Z}_2$-graded permutation matrix $\Pi_{16}$ (`psl22GradedSwap16`), the 6-parameter $16 \times 16$ worldsheet $R$-matrix $R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})$ (`psl22WorldsheetRMatrix16`), the diagonal secret coproduct $\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2)$ (`psl22SecretCoproductDiag16`), and the antisymmetric off-diagonal Yangian tail $\Delta_{\mathrm{tail}}\bigl((B_1 - B_2)L_{BF}\bigr)$ (`psl22YangianTail16`), proving (`psl22_rmatrix16_secret_coproduct_intertwining`):
    - $\Pi_{16}^2 = I_{16}$ and $\Delta_{\mathrm{diag}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2)\,\Pi_{16} = \Pi_{16}\,\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2)$,
    - When $B_1 \neq B_2$ and $L_{BF} \neq 0$, the diagonal secret coproduct alone leaves a mixed boson–fermion diagonal residual $2(B_2 - B_1)L_{BF}$ at $|\phi^1 \otimes \psi^1\rangle$,
    - Adding the off-diagonal Yangian tail $\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF}) = G_{BF}\Delta_{\mathrm{diag}}(\widehat{\mathbb{B}})(B_1, B_2) + \Delta_{\mathrm{tail}}\bigl((B_1 - B_2)L_{BF}\bigr)$ (`psl22SecretCoproductFull16`) cancels this residual identically across all $16 \times 16$ entries:
-     $$\Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})\,R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF}) = R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})\,\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF}).$$
+
+     $$
+     \Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})\,R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF}) = R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})\,\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF}).
+     $$
+
 2. **Open-String Boundary $K$-Matrices** (Sec. 3.2): Twisted secret charges $\widetilde{\mathbb{Q}}_{\alpha,\pm 1}^2, \widetilde{\mathbb{G}}_{2,\pm 1}^\alpha$ for $Y=0$ maximal giant gravitons ($D3$-branes) and horizontal/vertical $D5$-branes.
 3. **Planar $n$-Point Scattering Amplitudes & Grassmannian Integral** (Sec. 3.3; [Beisert & Schwab 2011](#adscft-beisert2011)): The bonus level-$1$ generator $\widehat{\mathfrak{B}}$ leaves the Grassmannian integral formula ([Arkani-Hamed et al. 2010](#adscft-arkani2010)) invariant and satisfies the length-changing anomaly equation $\widehat{\mathfrak{B}}\mathcal{A}_n + \widehat{\mathfrak{B}}^+\mathcal{A}_{n-1} = 0$.
 4. **Pure-Spinor Worldsheet Sigma Model** (Sec. 3.4; [Berkovits & Mikhailov 2011](#adscft-berkovits2011)): Lifting $T(z) \in PSU(2,2|4)$ to $SU(2,2|4)$ and supertracing with the hypercharge matrix $s = \operatorname{diag}(\mathbb{1}_4, -\mathbb{1}_4)$ generates BRST-closed nonlocal bonus charges $\operatorname{STr}(s\log T(z))$ at **odd levels only**.
 5. **Quantum-Deformed Hubbard Affine Algebra $\widehat{Q} = U_q(\widehat{\mathfrak{sl}}(2|2))_c$** (Sec. 3.5; [de Leeuw, Regelskis & Torrielli 2011](#adscft-deleeuw2011)): With symmetric Cartan matrix (`qDeformedHubbardCartanDA` in `Signals.Scattering`):
-   $$DA = \begin{pmatrix} 2 & -1 & 0 & -1 \\ -1 & 0 & 1 & 0 \\ 0 & 1 & -2 & 1 \\ -1 & 0 & 1 & 0 \end{pmatrix}, \qquad \operatorname{Tr}(DA) = 0, \qquad \det(DA) = 0,$$
+
+   $$
+   DA = \begin{pmatrix} 2 & -1 & 0 & -1 \\ -1 & 0 & 1 & 0 \\ 0 & 1 & -2 & 1 \\ -1 & 0 & 1 & 0 \end{pmatrix}, \qquad \operatorname{Tr}(DA) = 0, \qquad \det(DA) = 0,
+   $$
+
    the bound-state $R$-matrix admits a pair of $q$-deformed secret symmetries $(\Delta\mathbb{B}_E, \Delta\mathbb{B}_F)$ at levels $+1$ and $-1$ that coalesce into $\Delta\widehat{\mathbb{B}}$ as $q \to 1$.
 
 ---
@@ -215,11 +256,22 @@ $$
 
 Theorem `RiverExterior.grassmannian_ads_cft_ddf_and_secret_symmetry_unification` proves that the six $2 \times 2$ Plücker minors $\Delta_{ij}^{\mathbb{C}}(W_{\mathrm{sec}})$ evaluate to:
 - **Uncrossed Minors ($\Delta_{01}^{\mathbb{C}}, \Delta_{23}^{\mathbb{C}}$)**:
-  $$\Delta_{01}^{\mathbb{C}}(W_{\mathrm{sec}}) = a d - b c = M, \qquad \Delta_{23}^{\mathbb{C}}(W_{\mathrm{sec}}) = a d - (-b)(-c) = a d - b c = M,$$
+
+  $$
+  \Delta_{01}^{\mathbb{C}}(W_{\mathrm{sec}}) = a d - b c = M, \qquad \Delta_{23}^{\mathbb{C}}(W_{\mathrm{sec}}) = a d - (-b)(-c) = a d - b c = M,
+  $$
+
 - **Crossed Minors ($\Delta_{03}^{\mathbb{C}}, \Delta_{12}^{\mathbb{C}}$)**:
-  $$\Delta_{03}^{\mathbb{C}}(W_{\mathrm{sec}}) = a d - (-b)c = a d + b c = \mathbb{H}, \qquad \Delta_{12}^{\mathbb{C}}(W_{\mathrm{sec}}) = b(-c) - a d = -(a d + b c) = -\mathbb{H},$$
+
+  $$
+  \Delta_{03}^{\mathbb{C}}(W_{\mathrm{sec}}) = a d - (-b)c = a d + b c = \mathbb{H}, \qquad \Delta_{12}^{\mathbb{C}}(W_{\mathrm{sec}}) = b(-c) - a d = -(a d + b c) = -\mathbb{H},
+  $$
+
 - **Collector Minors ($\Delta_{02}^{\mathbb{C}}, \Delta_{13}^{\mathbb{C}}$)**:
-  $$\Delta_{02}^{\mathbb{C}}(W_{\mathrm{sec}}) = -2 a c, \qquad \Delta_{13}^{\mathbb{C}}(W_{\mathrm{sec}}) = 2 b d \implies \Delta_{02}^{\mathbb{C}}(W_{\mathrm{sec}})\,\Delta_{13}^{\mathbb{C}}(W_{\mathrm{sec}}) = -4(a b)(c d) = -4\,\mathbb{C}\,\mathbb{C}^\dagger.$$
+
+  $$
+  \Delta_{02}^{\mathbb{C}}(W_{\mathrm{sec}}) = -2 a c, \qquad \Delta_{13}^{\mathbb{C}}(W_{\mathrm{sec}}) = 2 b d \implies \Delta_{02}^{\mathbb{C}}(W_{\mathrm{sec}})\,\Delta_{13}^{\mathbb{C}}(W_{\mathrm{sec}}) = -4(a b)(c d) = -4\,\mathbb{C}\,\mathbb{C}^\dagger.
+  $$
 
 Substituting these into the universal 3-term quadratic Plücker identity $\Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}} - \Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} + \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}} = 0$ on $Gr_{\mathbb{C}}(2,4)$ yields:
 

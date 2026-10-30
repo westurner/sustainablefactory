@@ -31,15 +31,27 @@ How do **polaritons** (coupled photon–exciton and photon–phonon quasiparticl
 
 1. **Polariton Hopfield–Rabi Anticrossing, $Gr_{\mathbb{C}}(2,4)$ Hybridization Complementarity, & Lyddane–Sachs–Teller Reststrahlen Dispersion (`polariton_hopfield_rabi_and_lst_identities`)**:
    For a cavity or bulk photon mode $\omega_{\mathrm{ph}}$ strongly coupled at vacuum Rabi rate $g > 0$ to a matter resonance $\omega_{\mathrm{ex}}$ (exciton or transverse optical phonon $\omega_{\mathrm{TO}}$) with detuning $\Delta_{\mathrm{pol}} = \omega_{\mathrm{ph}} - \omega_{\mathrm{ex}}$, the upper ($\omega_{\mathrm{UP}}$) and lower ($\omega_{\mathrm{LP}}$) polariton eigenfrequencies satisfy exact trace conservation $\omega_{\mathrm{UP}} + \omega_{\mathrm{LP}} = \omega_{\mathrm{ph}} + \omega_{\mathrm{ex}}$, avoided-crossing gap $\omega_{\mathrm{UP}} - \omega_{\mathrm{LP}} = \sqrt{\Delta_{\mathrm{pol}}^2 + 4g^2} \ge 2g > 0$, and determinant invariance $\omega_{\mathrm{ph}}\omega_{\mathrm{ex}} - \omega_{\mathrm{UP}}\omega_{\mathrm{LP}} = g^2$ (`reconstructPolaritonRabiCouplingSq`). Defining the normalized Hopfield barycentric shift $d_{\mathrm{Hopfield}} = \Delta_{\mathrm{pol}} / \sqrt{\Delta_{\mathrm{pol}}^2 + 4g^2} \in (-1, 1)$, the Hopfield photon fraction $|C|^2 = (1 + d_{\mathrm{Hopfield}})/2$ and matter fraction $|X|^2 = (1 - d_{\mathrm{Hopfield}})/2$ obey the Pythagorean $Gr_{\mathbb{C}}(2,4)$ Plücker complementarity law:
-   $$|C|^2 + |X|^2 = 1, \qquad 4|C|^2|X|^2 = 1 - d_{\mathrm{Hopfield}}^2 = \frac{4g^2}{\Delta_{\mathrm{pol}}^2 + 4g^2} > 0.$$
+
+   $$
+   |C|^2 + |X|^2 = 1, \qquad 4|C|^2|X|^2 = 1 - d_{\mathrm{Hopfield}}^2 = \frac{4g^2}{\Delta_{\mathrm{pol}}^2 + 4g^2} > 0.
+   $$
+
    For polar dielectrics governed by the Lyddane–Sachs–Teller (LST) permittivity $\varepsilon_{\mathrm{pol}}(\omega) = \varepsilon_\infty \frac{\omega^2 - \omega_{\mathrm{LO}}^2}{\omega^2 - \omega_{\mathrm{TO}}^2}$ ($0 < \omega_{\mathrm{TO}} < \omega_{\mathrm{LO}}$), we prove the static limit $\varepsilon_{\mathrm{pol}}(0) = \varepsilon_\infty \omega_{\mathrm{LO}}^2 / \omega_{\mathrm{TO}}^2$, the Epsilon-Near-Zero (ENZ) bulk longitudinal polariton cutoff $\varepsilon_{\mathrm{pol}}(\omega_{\mathrm{LO}}) = 0$, and strict negativity $\varepsilon_{\mathrm{pol}}(\omega) < 0$ throughout the Reststrahlen band $\omega \in (\omega_{\mathrm{TO}}, \omega_{\mathrm{LO}})$.
 2. **Splat-Free Continuum Surface Plasmon Polariton (SPP) Dispersion, $Gr_{\mathbb{C}}(2,4)$ Plücker Skin-Depth Duality, & Spatial Semigroup (`MovingSheath.sppContinuum_gr24_and_semigroup_identities`)**:
    At a planar interface between a dielectric ($\varepsilon_d > 0$) and a conductor with negative real permittivity $\varepsilon_m = -|\varepsilon_m| < -\varepsilon_d < 0$, the squared effective SPP index $n_{\mathrm{SPP}}^2 = \frac{\varepsilon_d|\varepsilon_m|}{|\varepsilon_m| - \varepsilon_d}$ strictly exceeds $\varepsilon_d$ by $n_{\mathrm{SPP}}^2 - \varepsilon_d = \frac{\varepsilon_d^2}{|\varepsilon_m| - \varepsilon_d} > 0$, placing the SPP wavevector $k_{\mathrm{SPP}} = k_0 n_{\mathrm{SPP}}$ outside the dielectric light cone and requiring prism, grating, or cylindrical phase matching (`CylindricalSPPMode`). Embedding the SPP permittivity contrast $\chi_{\mathrm{SPP}} = \frac{|\varepsilon_m| - \varepsilon_d}{|\varepsilon_m| + \varepsilon_d} \in (0, 1)$ into $Gr_{\mathbb{C}}(2,4)$ via `sppGr24Matrix χ_spp θ` proves that the uncrossed Plücker channel ratio equals the exact normal evanescent skin-depth ratio $\delta_d / \delta_m = \kappa_m / \kappa_d = |\varepsilon_m| / \varepsilon_d > 1$:
-   $$\frac{|w_A^{\mathbb{C}}(M_{\mathrm{SPP}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{SPP}})|^2} = \frac{1 + \chi_{\mathrm{SPP}}}{1 - \chi_{\mathrm{SPP}}} = \frac{|\varepsilon_m|}{\varepsilon_d} = \frac{\kappa_m}{\kappa_d} > 1, \qquad |w_A^{\mathbb{C}}|^2\,|w_B^{\mathbb{C}}|^2 = \frac{4\varepsilon_d|\varepsilon_m|}{(|\varepsilon_m| + \varepsilon_d)^2} > 0.$$
+
+   $$
+   \frac{|w_A^{\mathbb{C}}(M_{\mathrm{SPP}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{SPP}})|^2} = \frac{1 + \chi_{\mathrm{SPP}}}{1 - \chi_{\mathrm{SPP}}} = \frac{|\varepsilon_m|}{\varepsilon_d} = \frac{\kappa_m}{\kappa_d} > 1, \qquad |w_A^{\mathbb{C}}|^2\,|w_B^{\mathbb{C}}|^2 = \frac{4\varepsilon_d|\varepsilon_m|}{(|\varepsilon_m| + \varepsilon_d)^2} > 0.
+   $$
+
    Along the interface, continuum SPP attenuation `evolveContinuumSppPropagation γ_spp L I0` satisfies the Chapman–Kolmogorov spatial semigroup laws ($\Delta L = 0$ identity and $L_1 + L_2$ additivity), while the conductor-side continuum Bohm evanescent quantum potential exceeds the dielectric side by $(|\varepsilon_m|/\varepsilon_d)^2 > 1$.
 3. **With Normed 2D Anisotropic Tensor Gaussian Splats: Sub-Wavelength SPP Hotspot Compression, Bohm Quantum Pressure Amplification, & Ohmic-Thermal Semigroup (`MovingSheath.sppTensorSplat_and_thermal_identities`)**:
    Representing a localized SPP wavepacket or plasmonic hotspot by `sppHotspotTensorSplat` with longitudinal width $\sigma_1 = \lambda_0 / n_{\mathrm{SPP}}$ and normal skin-depth width $\sigma_2 = \lambda_0 / (n_{\mathrm{SPP}}\kappa_{\mathrm{ratio}})$ ($\kappa_{\mathrm{ratio}} = |\varepsilon_m|/\varepsilon_d \ge 1$, $n_{\mathrm{SPP}} \ge 1$) compresses the covariance determinant to $\det\Sigma_{\mathrm{SPP}} = \frac{\lambda_0^4}{n_{\mathrm{SPP}}^4 \kappa_{\mathrm{ratio}}^2}$, boosts the peak normalization factor to $\mathcal{N}(\Sigma_{\mathrm{SPP}}) = \frac{n_{\mathrm{SPP}}^2 \kappa_{\mathrm{ratio}}}{2\pi\lambda_0^2}$, and amplifies the repulsive core Bohm quantum potential and Madelung quantum pressure anisotropy:
-   $$Q_{\mathrm{core}}(\Sigma_{\mathrm{SPP}}) = \frac{\hbar^2\,n_{\mathrm{SPP}}^2\,(1 + \kappa_{\mathrm{ratio}}^2)}{4 m\,\lambda_0^2} \ge \frac{\hbar^2}{2 m\,\lambda_0^2}, \qquad \Pi_{22}^{\mathrm{SPP}}(x,y) = \kappa_{\mathrm{ratio}}^2\,\Pi_{11}^{\mathrm{SPP}}(x,y),$$
+
+   $$
+   Q_{\mathrm{core}}(\Sigma_{\mathrm{SPP}}) = \frac{\hbar^2\,n_{\mathrm{SPP}}^2\,(1 + \kappa_{\mathrm{ratio}}^2)}{4 m\,\lambda_0^2} \ge \frac{\hbar^2}{2 m\,\lambda_0^2}, \qquad \Pi_{22}^{\mathrm{SPP}}(x,y) = \kappa_{\mathrm{ratio}}^2\,\Pi_{11}^{\mathrm{SPP}}(x,y),
+   $$
+
    while Ohmic-thermal relaxation `splat_spp.evolveThermal α1 α2 dt` obeys exact $L^1$ energy conservation, Chapman–Kolmogorov semigroup identity/additivity, and monotonic Bohm potential decay.
 4. **Explicit Physical & Evidence Boundaries**:
    We distinguish verified electromagnetic/hydrodynamic polariton and SPP laws from active-gain power balances (`SPPFreeElectronAmplifier`) and document the hard nuclear Coulomb barrier separating eV-scale SPP plasmonic catalysis from MeV-scale nuclear transmutation.
@@ -128,11 +140,19 @@ $$
 
 In `MovingSheath.sppContinuum_gr24_and_semigroup_identities`, we prove (with **zero splats**):
 1. **Strict Momentum Enhancement Beyond the Dielectric Light Cone**:
-   $$n_{\mathrm{SPP}}^2(\varepsilon_d, |\varepsilon_m|) - \varepsilon_d = \frac{\varepsilon_d^2}{|\varepsilon_m| - \varepsilon_d} > 0 \implies k_{\mathrm{SPP}} = k_0\,n_{\mathrm{SPP}} > k_0\sqrt{\varepsilon_d}.$$
+
+   $$
+   n_{\mathrm{SPP}}^2(\varepsilon_d, |\varepsilon_m|) - \varepsilon_d = \frac{\varepsilon_d^2}{|\varepsilon_m| - \varepsilon_d} > 0 \implies k_{\mathrm{SPP}} = k_0\,n_{\mathrm{SPP}} > k_0\sqrt{\varepsilon_d}.
+   $$
+
    Because $k_{\mathrm{SPP}}$ strictly exceeds the maximum tangential wavevector $k_0\sqrt{\varepsilon_d}\sin\theta_{\mathrm{inc}}$ of any propagating plane wave in the dielectric, free-space light cannot directly launch SPPs on a flat interface without momentum-matching via a Kretschmann/Otto prism, a periodic diffraction grating, a high-NA radially polarized focus, or a phase-matched cylindrical microtube (`CylindricalSPPMode` in [src/signals/Signals/ActiveOptics.lean](../src/signals/Signals/ActiveOptics.lean#L127-L155)).
 2. **Exact Normal Evanescent Skin-Depth Ratio**:
    Normal to the interface, the field decays evanescently as $\exp(-\kappa_d z)$ in the dielectric ($z > 0$) and $\exp(+\kappa_m z)$ in the conductor ($z < 0$), where $\kappa_d^2 = k_0^2(n_{\mathrm{SPP}}^2 - \varepsilon_d)$ and $\kappa_m^2 = k_0^2(n_{\mathrm{SPP}}^2 + |\varepsilon_m|)$. We prove the exact identity:
-   $$\frac{\kappa_d^2}{\kappa_m^2} = \frac{n_{\mathrm{SPP}}^2 - \varepsilon_d}{n_{\mathrm{SPP}}^2 + |\varepsilon_m|} = \frac{\varepsilon_d^2}{|\varepsilon_m|^2} \implies \frac{\delta_d}{\delta_m} = \frac{\kappa_m}{\kappa_d} = \frac{|\varepsilon_m|}{\varepsilon_d} > 1,$$
+
+   $$
+   \frac{\kappa_d^2}{\kappa_m^2} = \frac{n_{\mathrm{SPP}}^2 - \varepsilon_d}{n_{\mathrm{SPP}}^2 + |\varepsilon_m|} = \frac{\varepsilon_d^2}{|\varepsilon_m|^2} \implies \frac{\delta_d}{\delta_m} = \frac{\kappa_m}{\kappa_d} = \frac{|\varepsilon_m|}{\varepsilon_d} > 1,
+   $$
+
    confirming that the evanescent tail extends $|\varepsilon_m|/\varepsilon_d$ times farther into the dielectric than into the conductor.
 
 ### 2.2 Splat-Free $Gr_{\mathbb{C}}(2,4)$ Plücker Skin-Depth Duality & Spatial Semigroup
@@ -145,14 +165,33 @@ $$
 
 and embedding $(\chi_{\mathrm{SPP}}, \theta)$ into $Gr_{\mathbb{C}}(2,4)$ via $M_{\mathrm{SPP}} = \operatorname{sppGr24Matrix}(\chi_{\mathrm{SPP}}, \theta)$, Theorem `MovingSheath.sppContinuum_gr24_and_semigroup_identities` proves:
 - **Plücker Channel Ratio Equals the Exact Evanescent Skin-Depth Ratio**:
-  $$\frac{|w_A^{\mathbb{C}}(M_{\mathrm{SPP}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{SPP}})|^2} = \operatorname{reconstructSppPermittivityRatio}(\chi_{\mathrm{SPP}}) = \frac{1 + \chi_{\mathrm{SPP}}}{1 - \chi_{\mathrm{SPP}}} = \frac{|\varepsilon_m|}{\varepsilon_d} = \frac{\delta_d}{\delta_m} = \frac{\kappa_m}{\kappa_d} > 1,$$
+
+  $$
+  \frac{|w_A^{\mathbb{C}}(M_{\mathrm{SPP}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{SPP}})|^2} = \operatorname{reconstructSppPermittivityRatio}(\chi_{\mathrm{SPP}}) = \frac{1 + \chi_{\mathrm{SPP}}}{1 - \chi_{\mathrm{SPP}}} = \frac{|\varepsilon_m|}{\varepsilon_d} = \frac{\delta_d}{\delta_m} = \frac{\kappa_m}{\kappa_d} > 1,
+  $$
+
 - **Plücker Channel Product Encodes Electrostatic Surface-Plasmon Resonance Proximity**:
-  $$|w_A^{\mathbb{C}}(M_{\mathrm{SPP}})|^2\,|w_B^{\mathbb{C}}(M_{\mathrm{SPP}})|^2 = 1 - \chi_{\mathrm{SPP}}^2 = \frac{4\,\varepsilon_d\,|\varepsilon_m|}{(|\varepsilon_m| + \varepsilon_d)^2} > 0,$$
+
+  $$
+  |w_A^{\mathbb{C}}(M_{\mathrm{SPP}})|^2\,|w_B^{\mathbb{C}}(M_{\mathrm{SPP}})|^2 = 1 - \chi_{\mathrm{SPP}}^2 = \frac{4\,\varepsilon_d\,|\varepsilon_m|}{(|\varepsilon_m| + \varepsilon_d)^2} > 0,
+  $$
+
   which approaches $1$ as $|\varepsilon_m| \to \varepsilon_d^+$ (the electrostatic surface plasmon resonance $\omega \to \omega_{\mathrm{sp}} = \omega_p / \sqrt{1 + \varepsilon_d}$ where $n_{\mathrm{SPP}} \to \infty$),
 - **Splat-Free Continuum Spatial Propagation Semigroup & Bohm Evanescent Amplification**:
-  $$\operatorname{evolveContinuumSppPropagation}(\gamma_{\mathrm{SPP}}, 0, I_0) = I_0,$$
-  $$\operatorname{evolveContinuumSppPropagation}\bigl(\gamma_{\mathrm{SPP}}, L_2, \operatorname{evolveContinuumSppPropagation}(\gamma_{\mathrm{SPP}}, L_1, I_0)\bigr) = \operatorname{evolveContinuumSppPropagation}(\gamma_{\mathrm{SPP}}, L_1 + L_2, I_0),$$
-  $$Q_{\mathrm{cont}}\!\left(m, \hbar, \frac{|\varepsilon_m|}{\varepsilon_d}\kappa_d\right) = \left(\frac{|\varepsilon_m|}{\varepsilon_d}\right)^2 Q_{\mathrm{cont}}(m, \hbar, \kappa_d).$$
+
+  $$
+  \operatorname{evolveContinuumSppPropagation}(\gamma_{\mathrm{SPP}}, 0, I_0) = I_0,
+  $$
+
+
+  $$
+  \operatorname{evolveContinuumSppPropagation}\bigl(\gamma_{\mathrm{SPP}}, L_2, \operatorname{evolveContinuumSppPropagation}(\gamma_{\mathrm{SPP}}, L_1, I_0)\bigr) = \operatorname{evolveContinuumSppPropagation}(\gamma_{\mathrm{SPP}}, L_1 + L_2, I_0),
+  $$
+
+
+  $$
+  Q_{\mathrm{cont}}\!\left(m, \hbar, \frac{|\varepsilon_m|}{\varepsilon_d}\kappa_d\right) = \left(\frac{|\varepsilon_m|}{\varepsilon_d}\right)^2 Q_{\mathrm{cont}}(m, \hbar, \kappa_d).
+  $$
 
 ---
 
@@ -166,14 +205,30 @@ $$
 
 In `MovingSheath.sppTensorSplat_and_thermal_identities`, we prove five exact properties for `splat_spp`:
 1. **Sub-Wavelength Mode-Area Determinant Compression**:
-   $$\det\Sigma_{\mathrm{SPP}} = \sigma_1^2\,\sigma_2^2 = \frac{\lambda_0^4}{n_{\mathrm{SPP}}^4\,\kappa_{\mathrm{ratio}}^2} \le \lambda_0^4,$$
+
+   $$
+   \det\Sigma_{\mathrm{SPP}} = \sigma_1^2\,\sigma_2^2 = \frac{\lambda_0^4}{n_{\mathrm{SPP}}^4\,\kappa_{\mathrm{ratio}}^2} \le \lambda_0^4,
+   $$
+
 2. **Plasmonic Hotspot Peak Intensity Normalization Enhancement**:
-   $$\mathcal{N}(\Sigma_{\mathrm{SPP}}) = \frac{n_{\mathrm{SPP}}^2\,\kappa_{\mathrm{ratio}}}{2\pi\,\lambda_0^2},$$
+
+   $$
+   \mathcal{N}(\Sigma_{\mathrm{SPP}}) = \frac{n_{\mathrm{SPP}}^2\,\kappa_{\mathrm{ratio}}}{2\pi\,\lambda_0^2},
+   $$
+
 3. **Sub-Wavelength Amplification of the Core Bohm Quantum Potential**:
-   $$Q_{\mathrm{core}}(\Sigma_{\mathrm{SPP}}) = \frac{\hbar^2\,n_{\mathrm{SPP}}^2\,(1 + \kappa_{\mathrm{ratio}}^2)}{4 m\,\lambda_0^2} \ge \frac{\hbar^2}{2 m\,\lambda_0^2},$$
+
+   $$
+   Q_{\mathrm{core}}(\Sigma_{\mathrm{SPP}}) = \frac{\hbar^2\,n_{\mathrm{SPP}}^2\,(1 + \kappa_{\mathrm{ratio}}^2)}{4 m\,\lambda_0^2} \ge \frac{\hbar^2}{2 m\,\lambda_0^2},
+   $$
+
    demonstrating that compressing the optical mode by $n_{\mathrm{SPP}}$ (e.g., $n_{\mathrm{SPP}} = 100$ in N-LIG graphene plasmons) amplifies the repulsive Madelung/Bohm quantum pressure by $n_{\mathrm{SPP}}^2(1 + \kappa_{\mathrm{ratio}}^2)/2 \ge 10^4\times$,
 4. **Normal-to-Longitudinal Madelung Quantum Stress Anisotropy**:
-   $$\Pi_{22}^{\mathrm{SPP}}(x,y) = \kappa_{\mathrm{ratio}}^2\,\Pi_{11}^{\mathrm{SPP}}(x,y),$$
+
+   $$
+   \Pi_{22}^{\mathrm{SPP}}(x,y) = \kappa_{\mathrm{ratio}}^2\,\Pi_{11}^{\mathrm{SPP}}(x,y),
+   $$
+
 5. **Ohmic-Thermal Splat Semigroup Identity, Additivity, & Monotonic Bohm Relaxation**:
    As Ohmic losses heat the interface (`splat_spp.evolveThermal α1 α2 dt`), total energy $w$ is conserved, the Chapman–Kolmogorov semigroup laws ($\mathcal{E}(0) = \mathrm{id}$ and $\mathcal{E}(\Delta t_2)\circ\mathcal{E}(\Delta t_1) = \mathcal{E}(\Delta t_1 + \Delta t_2)$) hold identically, and the hotspot Bohm potential relaxes monotonically: $Q_{\mathrm{core}}(\Sigma_{\mathrm{SPP}}(t + \Delta t_1)) \le Q_{\mathrm{core}}(\Sigma_{\mathrm{SPP}}(t))$.
 
@@ -240,15 +295,27 @@ In `Signals.Scattering` (`csr_spp_cherenkov_cavity_and_grover_identities`), we p
 
 1. **Transverse Electromagnetic Plasma Waves Have Effective Proca Mass $m_{\mathrm{eff}} = \hbar\omega_p / c^2$ and Strictly Superluminal Phase Velocity ($v_{\mathrm{ph},\perp} > c$)**:
    In an isotropic, unmagnetized plasma with plasma frequency $\omega_p > 0$ ($\varepsilon(\omega) = 1 - \omega_p^2 / \omega^2$), transverse electromagnetic waves obey the Klein–Gordon / Proca dispersion relation $\omega^2 = \omega_p^2 + c^2 k^2$. For any propagating mode ($\omega > \omega_p$), the squared phase velocity (`transversePlasmaPhaseVelSq`) is:
-   $$v_{\mathrm{ph},\perp}^2(c, \omega, \omega_p) = \frac{\omega^2}{k^2} = \frac{c^2\,\omega^2}{\omega^2 - \omega_p^2} > c^2.$$
+
+   $$
+   v_{\mathrm{ph},\perp}^2(c, \omega, \omega_p) = \frac{\omega^2}{k^2} = \frac{c^2\,\omega^2}{\omega^2 - \omega_p^2} > c^2.
+   $$
+
    Because every material charge satisfies $v_e < c < v_{\mathrm{ph},\perp}$, **subluminal electrons can never emit transverse Cherenkov radiation in an isotropic unmagnetized plasma** ($\cos\theta_C = v_{\mathrm{ph},\perp} / v_e > 1$ has no real angle solution).
 2. **Longitudinal Bohm–Gross Plasma Waves and SPPs Slow the Phase Velocity Below $c$ ($v_{\mathrm{ph}} < c$), Enabling Subluminal Cherenkov / Landau Synchronous Emission**:
    - **Longitudinal Plasma Waves (`longitudinalPlasmaPhaseVelSq`)**: A longitudinal Langmuir / Bohm–Gross mode ($\mathbf{E} \parallel \mathbf{k}$, where $\varepsilon_L(\omega, k) = 0$) obeys $\omega^2 = \omega_p^2 + 3 v_{\mathrm{th}}^2 k^2$, so its squared phase velocity is:
-     $$v_{\mathrm{ph},\parallel}^2(v_{\mathrm{th}}, \omega_p, k) = \frac{\omega_p^2}{k^2} + 3 v_{\mathrm{th}}^2.$$
+
+     $$
+     v_{\mathrm{ph},\parallel}^2(v_{\mathrm{th}}, \omega_p, k) = \frac{\omega_p^2}{k^2} + 3 v_{\mathrm{th}}^2.
+     $$
+
      Although the cutoff frequency $\omega_p$ acts as an effective rest mass $m_{\mathrm{eff}} = \hbar\omega_p / c^2$ at $k \to 0$, the thermal acoustic speed $3 v_{\mathrm{th}}^2 \ll c^2$ replaces $c^2$ at large $k$. For all wavenumbers $k > \omega_p / \sqrt{c^2 - 3 v_{\mathrm{th}}^2}$, the longitudinal phase velocity is **strictly subluminal** ($v_{\mathrm{ph},\parallel} < c$)!
    - **Surface Plasmon Polaritons (`sppEffectiveIndexSq`)**: Similarly, at a conductor–dielectric interface, $n_{\mathrm{SPP}}^2 = \frac{\varepsilon_d|\varepsilon_m|}{|\varepsilon_m| - \varepsilon_d} > \varepsilon_d \ge 1$ slows the SPP phase velocity to $v_{\mathrm{ph},\mathrm{SPP}} = c / n_{\mathrm{SPP}} < c$.
    - **$Gr_{\mathbb{C}}(2,4)$ Cherenkov Mach Cone (`cherenkovCosine`)**: Whenever $0 < v_{\mathrm{ph}} < v_e < c$, a subluminal electron satisfies the synchronous Cherenkov / Smith–Purcell / Landau condition $\chi_C = \cos\theta_C = \frac{v_{\mathrm{ph}}}{v_e} \in (0, 1)$, and the uncrossed $Gr_{\mathbb{C}}(2,4)$ Plücker product of `ddfThermalGr24Matrix χ_C θ` equals the squared Cherenkov Mach-cone sine:
-     $$|w_A^{\mathbb{C}}|^2\,|w_B^{\mathbb{C}}|^2 = 1 - \chi_C^2 = \sin^2\theta_C = \frac{v_e^2 - v_{\mathrm{ph}}^2}{v_e^2} \in (0, 1).$$
+
+     $$
+     |w_A^{\mathbb{C}}|^2\,|w_B^{\mathbb{C}}|^2 = 1 - \chi_C^2 = \sin^2\theta_C = \frac{v_e^2 - v_{\mathrm{ph}}^2}{v_e^2} \in (0, 1).
+     $$
+
    Thus, **SPPs and Cherenkov radiation are distinct**: an SPP is a *bound eigenmode* of a conductor–dielectric boundary ($E_z$ evanescent normal to the surface), whereas Cherenkov radiation is a *kinematic shock-cone emission mechanism* triggered whenever a charged particle exceeds the phase velocity $v_{\mathrm{ph}}$ of a medium mode (whether a bulk dielectric photon, a longitudinal Bohm–Gross plasma wave, or a surface plasmon polariton as in [Lei et al. 2025](#pol-lei2025) and [Zhang et al. 2022](#pol-zhang2022)).
 3. **Distinction from Photon–Electron–Phonon Vorticity & Room-Temperature Graphene Current Whirlpools ([Science 2024](#pol-whirlpool2024), `10.1126/science.adj2167`)**:
    In room-temperature graphene at the charge-neutrality Dirac point, electron–electron and electron–optical-phonon scattering enters a hydrodynamic Navier–Stokes regime where steady current forms stationary **current whirlpools (vortices)** ($\nabla \times \mathbf{J} \neq \mathbf{0}$) with negative nonlocal resistance ([Palm et al. 2024](#pol-whirlpool2024)). In `Signals.DDF`, these are modeled by `vortexTangentialVelocity`, `quantized_vortex_circulation`, and `plaquette_phase_slip_syndrome` (real-space circulation vortices in the carrier velocity field), whereas an SPP is a high-frequency propagating TM surface wave whose Poynting vector circulates in the $(x, z)$ plane via transverse spin-momentum locking without requiring a dc current whirlpool.
@@ -259,7 +326,11 @@ In [Zhang et al. (2022)](#pol-zhang2022) (*Nature* `10.1038/s41586-022-05239-2` 
 
 How would the emissions vary if this experiment were driven by a **Terahertz-electronvolt ($E_F \sim 0.1\text{–}1.0\text{ eV}$, $f \sim 0.5\text{–}30\text{ THz}$) input from an on-chip graphene circuit**?
 - **Dirac Plasmon Scaling (`grapheneDiracPlasmonFreqSq`)**: Unlike 3D noble metals with fixed eV-scale plasma frequency $\omega_p \propto n_{3D}^{1/2}$, massless 2D Dirac fermions in graphene have a gate-tunable plasmon dispersion:
-  $$\omega_{\mathrm{GPP}}^2(E_F, q) = \frac{e^2\,E_F}{2\pi\varepsilon_0\varepsilon_r\hbar^2}\,q \propto E_F\,q.$$
+
+  $$
+  \omega_{\mathrm{GPP}}^2(E_F, q) = \frac{e^2\,E_F}{2\pi\varepsilon_0\varepsilon_r\hbar^2}\,q \propto E_F\,q.
+  $$
+
   In `csr_spp_cherenkov_cavity_and_grover_identities`, we prove the exact linear scaling $\operatorname{grapheneDiracPlasmonFreqSq}(\lambda_E E_F, q) = \lambda_E \operatorname{grapheneDiracPlasmonFreqSq}(E_F, q)$.
 - **Three Concrete Emission Consequences for a Graphene THz-eV Circuit**:
   1. **Ultra-Slow Phase Velocity ($v_{\mathrm{ph}} \sim c / 100$) Lowers Required Electron Energy from keV to On-Chip eV**: Because graphene plasmons at THz/mid-IR frequencies have $n_{\mathrm{SPP}} \sim 50\text{–}100$, the synchronous Cherenkov/Smith–Purcell electron velocity $v_e \approx v_{\mathrm{ph}} = c / n_{\mathrm{SPP}} \approx 3 \times 10^6\text{ m/s}$ corresponds to a kinetic energy of only $E_e = \frac{1}{2}m_e v_e^2 \approx 25\text{ eV}$ (solid-state ballistic/tunneling voltage) rather than relativistic keV–MeV vacuum electron beams.
@@ -281,7 +352,11 @@ In [docs/anti-fire-cannon-review.md](anti-fire-cannon-review.md), a speculative 
 
 1. **What Is Mathematically True on $Gr_{\mathbb{C}}(2,4)$ (`antiAmplituhedronGr24Matrix`)**:
    In the *positive* real Grassmannian $Gr_{\ge 0}(2,4)$ (the domain of the standard tree-level Amplituhedron), all ordered Plücker minors are nonnegative, so $w_A + w_B = \Delta_{02}\Delta_{13} > 0$ can **never** cancel to zero for active channels. However, lifting to the *complex* Grassmannian $Gr_{\mathbb{C}}(2,4)$ outside $Gr_{\ge 0}(2,4)$ via `antiAmplituhedronGr24Matrix A = complexGr24ChannelMatrix A (-A)` ($\Delta\theta = \pi$ phase inversion) produces two active channels with $w_A^{\mathbb{C}} = +A$, $w_B^{\mathbb{C}} = -A$, and $|w_A^{\mathbb{C}}|^2 = |w_B^{\mathbb{C}}|^2 = A^2 > 0$ whose coherent crossing amplitude vanishes identically (`RiverExterior.holographic_gr24_ddf_and_antiAmplituhedron_identities`):
-   $$w_A^{\mathbb{C}}(M_{\mathrm{anti}}) + w_B^{\mathbb{C}}(M_{\mathrm{anti}}) = \Delta_{02}^{\mathbb{C}}(M_{\mathrm{anti}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathrm{anti}}) = A + (-A) = 0.$$
+
+   $$
+   w_A^{\mathbb{C}}(M_{\mathrm{anti}}) + w_B^{\mathbb{C}}(M_{\mathrm{anti}}) = \Delta_{02}^{\mathbb{C}}(M_{\mathrm{anti}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathrm{anti}}) = A + (-A) = 0.
+   $$
+
    This is a genuine destructive interferometric null (an "anti-amplituhedron" dark node in $Gr_{\mathbb{C}}(2,4) \setminus Gr_{\ge 0}(2,4)$) that creates a steep local ponderomotive intensity gradient $\nabla |\mathbf{E}|^2$ (`ponderomotiveForce_down_gradient` in `Signals.MHD`).
 2. **Physical Soil Attenuation & Thermodynamic Boundaries (`evolveContinuumSppPropagation`)**:
    - **Electromagnetic Skin-Depth Attenuation in Moist Soil**: At $400\text{–}800\text{ GHz}$, moist soil and landfill overburden have strong dielectric loss $\gamma_{\mathrm{soil}} \gg 1\text{ m}^{-1}$, so the continuum intensity `evolveContinuumSppPropagation γ_soil L I0` decays exponentially as $I_0 \exp(-\gamma_{\mathrm{soil}} L)$ within millimeters to centimeters unless delivered mechanically via the **ground-driven anti-fire shaft array** documented in [docs/anti-fire-cannon-review.md](anti-fire-cannon-review.md#L58-L96).
@@ -297,22 +372,37 @@ How does **low-power integrated optical amplification through second-harmonic re
 
 1. **Symmetry Selection Rule — Why $\chi^{(2)}$ Requires Non-Centrosymmetric Crystals (`secondOrderPolarization`)**:
    The second-order nonlinear polarization is $P_i^{(2)} = \varepsilon_0 \sum_{jk} \chi_{ijk}^{(2)} E_j E_k$ (`secondOrderPolarization χ2 E = χ2 * E^2`). Under spatial inversion $\mathbf{r} \mapsto -\mathbf{r}$, the polar vectors $\mathbf{P}^{(2)}$ and $\mathbf{E}$ invert ($\mathbf{P}^{(2)} \mapsto -\mathbf{P}^{(2)}$, $\mathbf{E} \mapsto -\mathbf{E}$), so $E^2 = (-E)^2$ is invariant while $P^{(2)}$ changes sign. In any **centrosymmetric** material, the crystal is invariant under inversion ($\chi^{(2)} = -\chi^{(2)}$), which we prove in `second_harmonic_opa_and_centrosymmetry_identities` forces:
-   $$\chi^{(2)} = -\chi^{(2)} \implies \chi^{(2)} = 0 \implies P^{(2)}(\chi^{(2)}, E) = 0.$$
+
+   $$
+   \chi^{(2)} = -\chi^{(2)} \implies \chi^{(2)} = 0 \implies P^{(2)}(\chi^{(2)}, E) = 0.
+   $$
+
    Therefore, centrosymmetric pristine graphene, achiral carbon nanotubes, and isotropic amorphous lignin have vanishing bulk $\chi^{(2)} = 0$. Achieving $\chi^{(2)}$ second-harmonic generation (SHG) and optical parametric amplification (OPA) requires a **non-centrosymmetric** crystal lattice—such as Periodically Poled Thin-Film Lithium Niobate ($\text{TFLN}$, $\text{LiNbO}_3$, used in [Dean et al. 2025](#pol-dean2025)), trigonal $\alpha$-quartz, or macroscopically aligned chiral **Cellulose Nanocrystals (CNCs)** (`CelluloseStripResonator`; [Provenance Chat Log: Breaking Centrosymmetry with Aligned CNCs in SHG Resonant OPA (2026)](#pol-chat-opa2026), lines 3020–3165).
 2. **Resonant Second-Harmonic Recirculation Buildup (`shgResonantIntracavityPower`)**:
    In a conventional single-pass $\chi^{(2)}$ OPA, an input fundamental wave ($\omega_0$) first generates a second-harmonic pump ($\omega_{\mathrm{SH}} = 2\omega_0$, `SecondHarmonicResonance`), which then parametrically amplifies a signal ($\omega_s$) and idler ($\omega_i = 2\omega_0 - \omega_s$) via three-wave mixing $2\omega_0 \to \omega_s + \omega_i$. Because single-pass SHG is inefficient at low power, conventional OPAs require watt-to-kilowatt peak pump powers.
    In [Dean et al. (2025)](#pol-dean2025) (`10.1038/s41586-025-09959-z`), the integrated waveguide resonator **resonantly traps and recirculates the second harmonic ($2\omega_0$)** with cavity buildup factor $F_{\mathrm{SH}} \ge 1$ (`shgResonantIntracavityPower F_sh P_2w = F_sh * P_2w`). We prove in `second_harmonic_opa_and_centrosymmetry_identities`:
-   $$P_{2\omega} \le P_{2\omega}^{\mathrm{intracav}} = F_{\mathrm{SH}}\,P_{2\omega}, \qquad F_{\mathrm{SH}}\,\left(\frac{P_{\mathrm{thresh}}}{F_{\mathrm{SH}}}\right) = P_{\mathrm{thresh}},$$
+
+   $$
+   P_{2\omega} \le P_{2\omega}^{\mathrm{intracav}} = F_{\mathrm{SH}}\,P_{2\omega}, \qquad F_{\mathrm{SH}}\,\left(\frac{P_{\mathrm{thresh}}}{F_{\mathrm{SH}}}\right) = P_{\mathrm{thresh}},
+   $$
+
    proving that resonant recirculation lowers the external input power required to reach a parametric threshold $P_{\mathrm{thresh}}$ by a factor of $F_{\mathrm{SH}}$—enabling $>17\text{ dB}$ broadband gain with $<200\text{ mW}$ input power (`LowPowerIntegratedOPA`), while strictly obeying the thermodynamic energy conservation bound $P_{\mathrm{out}} \le P_{\mathrm{in}} + P_{\mathrm{pump}}$ (`ActiveOpticalAmplifier.output_le_input_and_pump`).
 3. **Phase-Matching Detuning Gate (`opaNetGainSq`)**:
    For parametric coupling rate $g_{\mathrm{OPA}}$ and wavevector phase mismatch $\Delta k = k_{2\omega} - k_s - k_i$, the net squared spatial gain rate is (`opaNetGainSq`):
-   $$g_{\mathrm{net}}^2(g_{\mathrm{OPA}}, \Delta k) = g_{\mathrm{OPA}}^2 - \left(\frac{\Delta k}{2}\right)^2 \le g_{\mathrm{OPA}}^2.$$
+
+   $$
+   g_{\mathrm{net}}^2(g_{\mathrm{OPA}}, \Delta k) = g_{\mathrm{OPA}}^2 - \left(\frac{\Delta k}{2}\right)^2 \le g_{\mathrm{OPA}}^2.
+   $$
+
    At perfect phase matching ($\Delta k = 0$), $g_{\mathrm{net}}^2(g_{\mathrm{OPA}}, 0) = g_{\mathrm{OPA}}^2$ reaches maximum gain; when piezoelectric or electro-optic detuning shifts $\Delta k \to 2 g_{\mathrm{OPA}}$, $g_{\mathrm{net}}^2(g_{\mathrm{OPA}}, 2 g_{\mathrm{OPA}}) = 0$, switching off the parametric gain cleanly without mechanical moving parts.
 4. **Symplectic Phase-Sensitive Quadrature Squeezing & Bohm Quantum-Potential Barrier (With and Without Splats: `opaSqueezed_splat_and_continuum_identities`)**:
    In a degenerate phase-sensitive OPA with squeeze parameter $r_{\mathrm{sq}} = g_{\mathrm{eff}} L \ge 0$, the in-phase quadrature is amplified by $G_+(r_{\mathrm{sq}}) = \exp(2 r_{\mathrm{sq}}) \ge 1$ (`opaAmplifiedQuadratureGain`) while the orthogonal quadrature is squeezed by $G_-(r_{\mathrm{sq}}) = \exp(-2 r_{\mathrm{sq}}) \le 1$ (`opaSqueezedQuadratureGain`), with exact symplectic unit product $G_+(r_{\mathrm{sq}})\,G_-(r_{\mathrm{sq}}) = 1$.
    - **Without Splats**: The squeezed-quadrature continuum Bohm potential scale `continuumBohmPotentialMode m hbar (κ0 * exp r_sq)` is amplified by $\exp(2 r_{\mathrm{sq}}) \ge 1$.
    - **With Normed Tensor Gaussian Splats (`opaSqueezedTensorSplat`)**: A wavepacket with principal widths $\sigma_1 = \sigma_0 e^{r_{\mathrm{sq}}}$ and $\sigma_2 = \sigma_0 e^{-r_{\mathrm{sq}}}$ preserves its symplectic phase-space area $\det\Sigma_{\mathrm{OPA}} = \sigma_0^4$ and peak normalization $\mathcal{N}(\Sigma_{\mathrm{OPA}}) = \frac{1}{2\pi\sigma_0^2}$ identically (matching our Anosov symplectic invariance theorem `anosov_plucker_invariance`), while its repulsive core Bohm quantum potential increases to:
-     $$Q_{\mathrm{core}}(\Sigma_{\mathrm{OPA}}) = \frac{\hbar^2\,\bigl(\exp(2 r_{\mathrm{sq}}) + \exp(-2 r_{\mathrm{sq}})\bigr)}{4 m\,\sigma_0^2} \ge \frac{\hbar^2}{2 m\,\sigma_0^2}.$$
+
+     $$
+     Q_{\mathrm{core}}(\Sigma_{\mathrm{OPA}}) = \frac{\hbar^2\,\bigl(\exp(2 r_{\mathrm{sq}}) + \exp(-2 r_{\mathrm{sq}})\bigr)}{4 m\,\sigma_0^2} \ge \frac{\hbar^2}{2 m\,\sigma_0^2}.
+     $$
 
 ### 7.2 Comparison of Three Optical Amplification Paradigms in `Signals`
 

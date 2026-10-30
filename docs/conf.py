@@ -116,6 +116,7 @@ myst_enable_extensions = [
     "colon_fence",
     "deflist",
     "dollarmath",
+    "amsmath",
     "fieldlist",
     "html_admonition",
     "html_image",

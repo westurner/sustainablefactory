@@ -87,10 +87,18 @@ For the canonical twistor channel embedding $M_{\mathbb{C}}(d_{\mathrm{bary}}, \
    - Baxter's functional $QQ$-system and $TQ$ Casorati Wronskian difference equation in quantum integrable spin chains (`baxter_qq_pluecker_identity`, `baxterTQResidual_wronskian_zero`),
    - The Bern–Carrasco–Johansson (BCJ) color–kinematics Jacobi identity $n_s + n_t + n_u = 0$ and graviton double copy $n_t^2 = (n_s + n_u)^2$ (`bcj_plucker_jacobi_and_double_copy`), and
    - The centrally extended $\mathfrak{psl}(2|2)_c = D(2,1;-1)$ secret-symmetry outer-automorphism central-charge invariant (`RiverExterior.grassmannian_ads_cft_ddf_and_secret_symmetry_unification`):
-     $$\bigl(\Delta_{03}^{\mathbb{C}}(W_{\mathrm{sec}})\bigr)^2 + \Delta_{02}^{\mathbb{C}}(W_{\mathrm{sec}})\,\Delta_{13}^{\mathbb{C}}(W_{\mathrm{sec}}) = (a d + b c)^2 - 4(a b)(c d) = (a d - b c)^2 = \Delta_{01}^{\mathbb{C}}(W_{\mathrm{sec}})\,\Delta_{23}^{\mathbb{C}}(W_{\mathrm{sec}}) = M^2.$$
+
+     $$
+     \bigl(\Delta_{03}^{\mathbb{C}}(W_{\mathrm{sec}})\bigr)^2 + \Delta_{02}^{\mathbb{C}}(W_{\mathrm{sec}})\,\Delta_{13}^{\mathbb{C}}(W_{\mathrm{sec}}) = (a d + b c)^2 - 4(a b)(c d) = (a d - b c)^2 = \Delta_{01}^{\mathbb{C}}(W_{\mathrm{sec}})\,\Delta_{23}^{\mathbb{C}}(W_{\mathrm{sec}}) = M^2.
+     $$
+
 3. **Exact Duality Between Splat-Free Continuum PDEs and Normed Tensor Gaussian Splats**:
    Every physical law in `Signals.DDF` is proved both **without splats** (for continuum modes, Eulerian telegrapher PDEs, and Plücker matrices) and **with `NormedTensorGaussianSplat2D`**. Because a 2D Gaussian density $G(x,y) = w\mathcal{N}(\Sigma)\exp(-\frac{1}{2}(\mathbf{x}-\mathbf{x}_0)^T\Sigma^{-1}(\mathbf{x}-\mathbf{x}_0))$ has a spatially constant negative log-density Hessian $-\partial_i\partial_j \ln G(x,y) = (\Sigma^{-1})_{ij}$, both the Madelung quantum pressure tensor $\Pi_{ij}(x,y)$ and the core Bohm quantum potential $Q_{\mathrm{core}}(\Sigma)$ reduce to nonsingular $2 \times 2$ precision-matrix algebra (`coreBohmPotential_identities`, `quantumPressureTensor_identities`):
-   $$Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4 m\,\det\Sigma} > 0, \qquad \Pi_{ij}(x,y) = \frac{\hbar^2}{4 m^2}\,G(x,y)\,(\Sigma^{-1})_{ij}, \qquad \operatorname{Tr}\Pi(x,y) = \frac{1}{m}\,Q_{\mathrm{core}}(\Sigma)\,G(x,y).$$
+
+   $$
+   Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2\,\operatorname{Tr}\Sigma}{4 m\,\det\Sigma} > 0, \qquad \Pi_{ij}(x,y) = \frac{\hbar^2}{4 m^2}\,G(x,y)\,(\Sigma^{-1})_{ij}, \qquad \operatorname{Tr}\Pi(x,y) = \frac{1}{m}\,Q_{\mathrm{core}}(\Sigma)\,G(x,y).
+   $$
+
    This provides an exact UV quantum-pressure barrier against $r \to 0$ horizon singularities (`holographicPlanckSplat`), sub-wavelength SPP hotspot compression (`sppHotspotTensorSplat`), and symplectic $\chi^{(2)}$ OPA squeezing (`opaSqueezedTensorSplat`).
 4. **Strict Epistemic & Physical Domain Boundaries**:
    The formalization enforces two sharp boundaries:

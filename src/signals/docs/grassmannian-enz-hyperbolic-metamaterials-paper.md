@@ -57,28 +57,28 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6710-L6916) (Blueprint nod
 
 | # | Metamaterial / Plasma Law | Mathematical Identity | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6710-L6916) |
 |---|---|---|---|
-| **MM-1** | **Critical Fill-Fraction Partition of Unity** | $f_{\mathrm{ENZ}} + f_{\perp,\mathrm{pole}} = \frac{\varepsilon_d}{\varepsilon_d + |\varepsilon_m|} + \frac{|\varepsilon_m|}{\varepsilon_d + |\varepsilon_m|} = 1$ | `h.1` |
+| **MM-1** | **Critical Fill-Fraction Partition of Unity** | $f_{\mathrm{ENZ}} + f_{\perp,\mathrm{pole}} = \frac{\varepsilon_d}{\varepsilon_d + \|\varepsilon_m\|} + \frac{\|\varepsilon_m\|}{\varepsilon_d + \|\varepsilon_m\|} = 1$ | `h.1` |
 | **MM-2** | **Strict Positivity of Critical ENZ Fill Fraction** | $0 < f_{\mathrm{ENZ}}$ | `h.2.1` |
-| **MM-3** | **Low-Fill Dilute Percolation Bound ($0 < \varepsilon_d < |\varepsilon_m|$)** | $f_{\mathrm{ENZ}} < \frac{1}{2}$ | `h.2.2.1` |
+| **MM-3** | **Low-Fill Dilute Percolation Bound ($0 < \varepsilon_d < \|\varepsilon_m\|$)** | $f_{\mathrm{ENZ}} < \frac{1}{2}$ | `h.2.2.1` |
 | **MM-4** | **High-Fill Perpendicular Pole Lower Bound** | $\frac{1}{2} < f_{\perp,\mathrm{pole}}$ | `h.2.2.2.1` |
 | **MM-5** | **Perpendicular Pole Unit Upper Bound** | $f_{\perp,\mathrm{pole}} < 1$ | `h.2.2.2.2.1` |
-| **MM-6** | **Regime 1 — Exact In-Plane ENZ Zero-Crossing at $f = f_{\mathrm{ENZ}}$** | $\varepsilon_\parallel(f_{\mathrm{ENZ}}, -|\varepsilon_m|, \varepsilon_d) = 0$ | `h.2.2.2.2.2.1` |
-| **MM-7** | **Regime 1 — Closed-Form Out-of-Plane Permittivity at $f = f_{\mathrm{ENZ}}$** | $\varepsilon_\perp(f_{\mathrm{ENZ}}, -|\varepsilon_m|, \varepsilon_d) = \frac{|\varepsilon_m|\,\varepsilon_d\,(\varepsilon_d + |\varepsilon_m|)}{|\varepsilon_m|^2 - \varepsilon_d^2}$ | `h.2.2.2.2.2.2.1` |
-| **MM-8** | **Regime 1 — Strict Positivity of $\varepsilon_\perp(f_{\mathrm{ENZ}})$** | $0 < \varepsilon_\perp(f_{\mathrm{ENZ}}, -|\varepsilon_m|, \varepsilon_d)$ | `h.2.2.2.2.2.2.2.1` |
-| **MM-9** | **Regime 2 — Metallic In-Plane Permittivity ($\varepsilon_\parallel < 0$) on $(f_{\mathrm{ENZ}}, f_{\perp,\mathrm{pole}})$** | $\varepsilon_\parallel(f, -|\varepsilon_m|, \varepsilon_d) < 0$ | `h.2.2.2.2.2.2.2.2.1` |
-| **MM-10** | **Regime 2 — Dielectric Out-of-Plane Permittivity ($\varepsilon_\perp > 0$) on $(f_{\mathrm{ENZ}}, f_{\perp,\mathrm{pole}})$** | $0 < \varepsilon_\perp(f, -|\varepsilon_m|, \varepsilon_d)$ | `h.2.2.2.2.2.2.2.2.2.1` |
+| **MM-6** | **Regime 1 — Exact In-Plane ENZ Zero-Crossing at $f = f_{\mathrm{ENZ}}$** | $\varepsilon_\parallel(f_{\mathrm{ENZ}}, -\|\varepsilon_m\|, \varepsilon_d) = 0$ | `h.2.2.2.2.2.1` |
+| **MM-7** | **Regime 1 — Closed-Form Out-of-Plane Permittivity at $f = f_{\mathrm{ENZ}}$** | $\varepsilon_\perp(f_{\mathrm{ENZ}}, -\|\varepsilon_m\|, \varepsilon_d) = \frac{\|\varepsilon_m\|\,\varepsilon_d\,(\varepsilon_d + \|\varepsilon_m\|)}{\|\varepsilon_m\|^2 - \varepsilon_d^2}$ | `h.2.2.2.2.2.2.1` |
+| **MM-8** | **Regime 1 — Strict Positivity of $\varepsilon_\perp(f_{\mathrm{ENZ}})$** | $0 < \varepsilon_\perp(f_{\mathrm{ENZ}}, -\|\varepsilon_m\|, \varepsilon_d)$ | `h.2.2.2.2.2.2.2.1` |
+| **MM-9** | **Regime 2 — Metallic In-Plane Permittivity ($\varepsilon_\parallel < 0$) on $(f_{\mathrm{ENZ}}, f_{\perp,\mathrm{pole}})$** | $\varepsilon_\parallel(f, -\|\varepsilon_m\|, \varepsilon_d) < 0$ | `h.2.2.2.2.2.2.2.2.1` |
+| **MM-10** | **Regime 2 — Dielectric Out-of-Plane Permittivity ($\varepsilon_\perp > 0$) on $(f_{\mathrm{ENZ}}, f_{\perp,\mathrm{pole}})$** | $0 < \varepsilon_\perp(f, -\|\varepsilon_m\|, \varepsilon_d)$ | `h.2.2.2.2.2.2.2.2.2.1` |
 | **MM-11** | **Regime 2 — Opposite-Sign Type-II Hyperbolic Tensor Signature** | $\varepsilon_\parallel(f) \cdot \varepsilon_\perp(f) < 0$ | `h.2.2.2.2.2.2.2.2.2.2.1` |
 | **MM-12** | **Regime 3 — $90^\circ$ Disulfide Rotation In-Plane Positivity ($\varepsilon_\parallel^{(90^\circ)} > 0$)** | $0 < (\operatorname{rotated90MetamaterialTensor}(\varepsilon_\parallel, \varepsilon_\perp)).1$ | `h.2.2.2.2.2.2.2.2.2.2.2.1` |
 | **MM-13** | **Regime 3 — $90^\circ$ Disulfide Rotation Out-of-Plane Negativity ($\varepsilon_\perp^{(90^\circ)} < 0$)** | $(\operatorname{rotated90MetamaterialTensor}(\varepsilon_\parallel, \varepsilon_\perp)).2 < 0$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.1` |
 | **MM-14** | **Regime 3 — Type-I Hyperbolic Transmission-Needle Signature** | $\varepsilon_\parallel^{(90^\circ)} \cdot \varepsilon_\perp^{(90^\circ)} < 0$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
-| **MM-15** | **Type-II Hyperboloid Unbounded High-$k$ Axial Wavevector Growth ($k_x \ne 0$)** | $\varepsilon_\perp \omega_c^2 < \operatorname{typeIIHyperbolicKzSq}(\omega_c, \varepsilon_\perp, |\varepsilon_m|, k_x)$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
+| **MM-15** | **Type-II Hyperboloid Unbounded High-$k$ Axial Wavevector Growth ($k_x \ne 0$)** | $\varepsilon_\perp \omega_c^2 < \operatorname{typeIIHyperbolicKzSq}(\omega_c, \varepsilon_\perp, \|\varepsilon_m\|, k_x)$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
 | **MM-16** | **Symmetric Non-Collinear SFG Cone Parity ($+k_x$ vs. $-k_x$)** | $k_z^2(-k_x) = k_z^2(k_x)$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
 | **MM-17** | **Cold-Plasma Isotropic Drude ENZ Cutoff at $\omega = \omega_{pe}$** | $\operatorname{coldPlasmaEpsilonParallel}(\omega_{pe}, \omega_{pe}) = 0$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
 | **MM-18** | **Magnetized Plasma Negative Axial Permittivity ($\omega < \omega_{pe}$)** | $\operatorname{coldPlasmaEpsilonParallel}(\omega, \omega_{pe}) < 0$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
 | **MM-19** | **Magnetized Plasma Super-Unity Transverse Permittivity ($\omega < \omega_{ce}$)** | $1 < \operatorname{coldPlasmaEpsilonPerp}(\omega, \omega_{pe}, \omega_{ce})$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
 | **MM-20** | **Trivelpiece–Gould / Ionospheric Whistler Type-I Hyperbolicity** | $\varepsilon_{\parallel,\mathrm{plasma}}(\omega) \cdot \varepsilon_{\perp,\mathrm{plasma}}(\omega) < 0$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
 | **MM-21** | **Denisov Mode-Conversion Normal-Incidence Null ($\theta_{\mathrm{in}} = 0$)** | $\operatorname{denisovModeConversionParam}(k_0, L_n, 0) = 0$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
-| **MM-22** | **$Gr_{\mathbb{C}}(2,4)$ Plücker Channel Recovery of $|\varepsilon_m| / \varepsilon_d$** | $\frac{|w_A^{\mathbb{C}}(M_{\mathrm{HMM}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{HMM}})|^2} = \frac{|\varepsilon_m|}{\varepsilon_d}$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2` |
+| **MM-22** | **$Gr_{\mathbb{C}}(2,4)$ Plücker Channel Recovery of $\|\varepsilon_m\| / \varepsilon_d$** | $\frac{\|w_A^{\mathbb{C}}(M_{\mathrm{HMM}})\|^2}{\|w_B^{\mathbb{C}}(M_{\mathrm{HMM}})\|^2} = \frac{\|\varepsilon_m\|}{\varepsilon_d}$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2` |
 
 ---
 

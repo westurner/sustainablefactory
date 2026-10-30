@@ -31,7 +31,11 @@ How do **inelastic photon scattering** (relativistic **Inverse Compton Scatterin
 
 1. **Relativistic Inverse Compton Scattering on $Gr_{\mathbb{C}}(2,4)$ & Klein–Nishina Recoil Boundary (`MovingSheath.inverseCompton_gr24_identities`, `inverseCompton_thomson_and_recoil_identities`)**:
    For a subluminal DDF moving sheath `s : MovingSheath sub` with reduced speed $\beta = v/c \in [0, 1)$ and canonical twistor matrix $M_{\mathbb{C}}^{\mathrm{DDF}}(s) \in Gr_{\mathbb{C}}(2,4)$, the ratio of the forward-to-backward uncrossed Plücker channel densities $|w_A^{\mathbb{C}}|^2 = 1 + \beta$ and $|w_B^{\mathbb{C}}|^2 = 1 - \beta$ equals the exact head-on relativistic Inverse Compton frequency upshift in the Thomson regime:
-   $$\frac{\omega_{\max}^{\mathrm{ICS}}}{\omega_0} = \frac{|w_A^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{DDF}})|^2}{|w_B^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{DDF}})|^2} = \frac{1 + \beta}{1 - \beta} = \gamma_\varphi(v)^2\,(1 + \beta)^2, \qquad \frac{P_{\mathrm{ICS}}}{P_{\mathrm{Thomson}}} = \frac{4}{3}\bigl(\gamma_\varphi(v)^2 - 1\bigr) = \frac{4}{3}\,\gamma_\varphi(v)^2\,\beta^2.$$
+
+   $$
+   \frac{\omega_{\max}^{\mathrm{ICS}}}{\omega_0} = \frac{|w_A^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{DDF}})|^2}{|w_B^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{DDF}})|^2} = \frac{1 + \beta}{1 - \beta} = \gamma_\varphi(v)^2\,(1 + \beta)^2, \qquad \frac{P_{\mathrm{ICS}}}{P_{\mathrm{Thomson}}} = \frac{4}{3}\bigl(\gamma_\varphi(v)^2 - 1\bigr) = \frac{4}{3}\,\gamma_\varphi(v)^2\,\beta^2.
+   $$
+
    When quantum photon recoil $\epsilon_{\mathrm{rec}} = \frac{2\gamma\hbar\omega_0}{m_e c^2}(1 + \beta) > 0$ is non-negligible, the Klein–Nishina upshift ratio satisfies $\frac{(1+\beta)/(1-\beta)}{1 + \epsilon_{\mathrm{rec}}} < \frac{1+\beta}{1-\beta}$, pinpointing the absolute electron rest-mass scale $m_e c^2$ that breaks scale-free projective $Gr_{\mathbb{C}}(2,4)$ invariance.
 2. **Stokes & Anti-Stokes Raman Scattering, $Gr_{\mathbb{C}}(2,4)$ Channel Inversion, and Raman Thermometry (`raman_stokes_antiStokes_gr24_identities`)**:
    Inelastic Raman scattering off a vibrational or Bogoliubov phonon mode $\Omega_v \in [0, \omega_L)$ splits the pump $\omega_L$ into Stokes ($\omega_S = \omega_L - \Omega_v$) and anti-Stokes ($\omega_{AS} = \omega_L + \Omega_v$) channels with normalized barycentric shift $\delta_R = \Omega_v / \omega_L$. The QISM channel inversions `reconstructSpectralDiff` and `reconstructYangCoupling` recover $(\omega_L, \Omega_v)$ identically from $(\omega_{AS}, \omega_S)$, while $\frac{\omega_{AS}}{\omega_S} = \frac{1 + \delta_R}{1 - \delta_R}$ and $\omega_S\omega_{AS} = \omega_L^2(1 - \delta_R^2)$. Pairing the coherent Plücker ratio with the Bose–Einstein thermal phonon factor $\exp(-\xi)$ ($\xi = \frac{\hbar\Omega_v}{k_B T} > 0$) yields the Raman thermometer $R_{AS/S}(\xi) = (\omega_{AS}/\omega_S)^4 e^{-\xi} < (\omega_{AS}/\omega_S)^4$.
@@ -41,7 +45,11 @@ How do **inelastic photon scattering** (relativistic **Inverse Compton Scatterin
    We review classical parabolic Fourier diffusion (proving its acausal high-frequency phase-speed blow-up $v_{\mathrm{phase}}^2(\omega_*) > V^2$ for any ceiling $V$, including $c$), hyperbolic Cattaneo–Vernotte telegrapher conduction ($c_{\mathrm{CV}} = \sqrt{\alpha / \tau_r} > 0$), and Guyer–Krumhansl / Dual-Phase-Lag phonon hydrodynamics, and then formulate our **Unified Grassmannian–DDF Thermal Method** in both **splat-free continuum PDE / $Gr_{\mathbb{C}}(2,4)$ characteristic** form and **normed Tensor Gaussian Splat** form, proving:
    - Strict subluminal second-sound causality $0 < c_{\mathrm{th}}^{\mathrm{DDF}}(s) = c_{\mathrm{th},0}\,\mathcal{V}(s) = c_{\mathrm{th},0}/\gamma_\varphi(v) \le c_{\mathrm{th},0} \le c$,
    - **Splat-Free Continuum PDE & $Gr_{\mathbb{C}}(2,4)$ Plücker Laws (`ddfThermalTransport_continuum_identities`)**:
-     $$\frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{\alpha_0} = \bigl|w_A^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2 = \gamma_\varphi(v)^{-2}, \qquad \frac{\mathcal{R}_{\mathrm{tele}}^{\mathrm{DDF}}}{\alpha_\parallel^{\mathrm{DDF}}(s)} = \frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2} T_{tt} + \frac{\gamma_\varphi(v)^2}{\alpha_0} T_t - T_{xx},$$
+
+     $$
+     \frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{\alpha_0} = \bigl|w_A^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2 = \gamma_\varphi(v)^{-2}, \qquad \frac{\mathcal{R}_{\mathrm{tele}}^{\mathrm{DDF}}}{\alpha_\parallel^{\mathrm{DDF}}(s)} = \frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2} T_{tt} + \frac{\gamma_\varphi(v)^2}{\alpha_0} T_t - T_{xx},
+     $$
+
      and for the splat-free $Gr_{\mathbb{C}}(2,4)$ thermal characteristic matrix $M_{\mathrm{th}} = \operatorname{ddfThermalGr24Matrix}(j_q, \theta)$, $\frac{|w_A^{\mathbb{C}}|^2 - |w_B^{\mathbb{C}}|^2}{2} = j_q$ and $0 < |w_A^{\mathbb{C}}|^2 |w_B^{\mathbb{C}}|^2 = 1 - j_q^2$ (enforcing the relativistic Cattaneo flux limiter $|q| < \rho c_v c_{\mathrm{th}}^{\mathrm{DDF}}(s) T_0$),
    - **Normed Tensor Gaussian Splat Bridge (`ddfThermalTransport_and_splat_identities`)**:
      $\frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{\alpha_0} = \frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4} = \gamma_\varphi(v)^{-2}$ and exact $L^1$-conserving variance evolution $\operatorname{Tr}\Sigma(t + \Delta t) = \operatorname{Tr}\Sigma(t) + 2(\alpha_1 + \alpha_2)\Delta t$.
@@ -110,12 +118,24 @@ where $\delta_R = \Omega_v / \omega_L \in [0, 1)$ is the normalized Raman shift 
 In `Signals.Scattering` ([src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean#L662-L790)), `raman_stokes_antiStokes_gr24_identities` proves that setting the $Gr_{\mathbb{C}}(2,4)$ barycentric shift to $d_{\mathrm{bary}} = \delta_R = \Omega_v / \omega_L$ yields:
 
 1. **Exact Inverse Spectral Recovery via QISM Channel Operators**:
-   $$\operatorname{reconstructSpectralDiff}(\omega_{AS}, \omega_S) = \frac{\omega_{AS} + \omega_S}{2} = \omega_L, \qquad \operatorname{reconstructYangCoupling}(\omega_{AS}, \omega_S) = \frac{\omega_{AS} - \omega_S}{2} = \Omega_v.$$
+
+   $$
+   \operatorname{reconstructSpectralDiff}(\omega_{AS}, \omega_S) = \frac{\omega_{AS} + \omega_S}{2} = \omega_L, \qquad \operatorname{reconstructYangCoupling}(\omega_{AS}, \omega_S) = \frac{\omega_{AS} - \omega_S}{2} = \Omega_v.
+   $$
+
 2. **Coherent $Gr_{\mathbb{C}}(2,4)$ Plücker Ratio and Determinant Product**:
-   $$\frac{\omega_{AS}}{\omega_S} = \frac{1 + \delta_R}{1 - \delta_R} = \frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2}, \qquad \omega_S\,\omega_{AS} = \omega_L^2(1 - \delta_R^2) = \omega_L^2\,\frac{\det\Sigma}{\sigma_0^4}.$$
+
+   $$
+   \frac{\omega_{AS}}{\omega_S} = \frac{1 + \delta_R}{1 - \delta_R} = \frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2}, \qquad \omega_S\,\omega_{AS} = \omega_L^2(1 - \delta_R^2) = \omega_L^2\,\frac{\det\Sigma}{\sigma_0^4}.
+   $$
+
 3. **Thermal Anti-Stokes / Stokes Boltzmann Asymmetry, Bose–Einstein Vacuum Fluctuations, & Complete Thermometer Inversion (`raman_boseEinstein_and_thermometer_inversion`, `inelastic_compton_and_raman_temperature_inversion`)**:
    In a medium at temperature $T > 0$ with characteristic vibrational temperature $\Theta_v = \frac{\hbar\Omega_v}{k_B} > 0$, dimensionless Boltzmann exponent $\xi = \frac{\Theta_v}{T} > 0$, and Bose–Einstein thermal phonon occupancy $\bar{n}_{\mathrm{BE}}(\xi) = \frac{1}{\exp(\xi) - 1} > 0$, anti-Stokes phonon absorption is proportional to $\bar{n}_{\mathrm{BE}}(\xi)$ whereas Stokes phonon creation includes the $+1$ zero-point vacuum fluctuation ($\bar{n}_{\mathrm{BE}}(\xi) + 1$), satisfying:
-   $$\frac{\bar{n}_{\mathrm{BE}}(\xi)}{\bar{n}_{\mathrm{BE}}(\xi) + 1} = \exp(-\xi), \qquad R_{AS/S}(\xi) = \left(\frac{\omega_L + \Omega_v}{\omega_L - \Omega_v}\right)^4 \frac{\bar{n}_{\mathrm{BE}}(\xi)}{\bar{n}_{\mathrm{BE}}(\xi) + 1} = \left(\frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2}\right)^4 \exp(-\xi) < \left(\frac{\omega_{AS}}{\omega_S}\right)^4,$$
+
+   $$
+   \frac{\bar{n}_{\mathrm{BE}}(\xi)}{\bar{n}_{\mathrm{BE}}(\xi) + 1} = \exp(-\xi), \qquad R_{AS/S}(\xi) = \left(\frac{\omega_L + \Omega_v}{\omega_L - \Omega_v}\right)^4 \frac{\bar{n}_{\mathrm{BE}}(\xi)}{\bar{n}_{\mathrm{BE}}(\xi) + 1} = \left(\frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2}\right)^4 \exp(-\xi) < \left(\frac{\omega_{AS}}{\omega_S}\right)^4,
+   $$
+
    with exact closed-form inversion for the Boltzmann exponent $\xi = 4\ln(\omega_{AS}/\omega_S) - \ln(R_{AS/S}(\xi))$ (`reconstructRamanBoltzmannExponent`), physical absolute temperature $T = \frac{\Theta_v}{\xi}$ (`reconstructRamanTemperature`), Inverse Compton reduced speed $\beta = \frac{D - 1}{D + 1}$ (`reconstructInverseComptonBeta`), and Klein–Nishina recoil $\epsilon_{\mathrm{rec}} = \frac{D}{R_{\mathrm{KN}}} - 1$ (`reconstructKleinNishinaRecoil`).
 
 ```lean
@@ -194,23 +214,50 @@ Our unified method resolves the limitations of both classical Fourier diffusion 
 
 1. **Constitutive DDF Second-Sound Speed & Splat-Free $Gr_{\mathbb{C}}(2,4)$ Plücker Diffusivity Bridge (`MovingSheath.ddfThermalTransport_continuum_identities`)**:
    In a DDF substrate `sub : DDFSubstrate` with transverse phonon speed $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$, let $c_{\mathrm{th},0} \in (0, c]$ be the rest-frame Landau second-sound speed (for a relativistic 3D phonon gas, $c_{\mathrm{th},0} = c_\phi / \sqrt{3} \le c$). Inside a moving sheath `s : MovingSheath sub`, the longitudinal coherence visibility $\mathcal{V}(s) = \sqrt{1 - \beta^2} = \gamma_\varphi(v)^{-1} \in (0, 1]$ contracts the longitudinal second-sound speed and thermal diffusivity (`MovingSheath.ddfSecondSoundSpeed`, `MovingSheath.ddfLongitudinalDiffusivity`):
-   $$c_{\mathrm{th}}^{\mathrm{DDF}}(s) = c_{\mathrm{th},0}\,\mathcal{V}(s) = \frac{c_{\mathrm{th},0}}{\gamma_\varphi(v)} \le c_{\mathrm{th},0} \le c,$$
-   $$\frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{c_{\mathrm{th},0}^2\,\tau_r} = \bigl|w_A^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2 = \bigl(\gamma_\varphi(v)^2\bigr)^{-1},$$
+
+   $$
+   c_{\mathrm{th}}^{\mathrm{DDF}}(s) = c_{\mathrm{th},0}\,\mathcal{V}(s) = \frac{c_{\mathrm{th},0}}{\gamma_\varphi(v)} \le c_{\mathrm{th},0} \le c,
+   $$
+
+
+   $$
+   \frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{c_{\mathrm{th},0}^2\,\tau_r} = \bigl|w_A^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2 = \bigl(\gamma_\varphi(v)^2\bigr)^{-1},
+   $$
+
    where $M_{\mathrm{sheath}} = s.\mathrm{gr24TwistorMatrix}\;d\;\lambda\;L\;\Delta\ell\;\varphi\;x \in Gr_{\mathbb{C}}(2,4)$ is the pure complex twistor matrix of the sheath (requiring **no Gaussian splat**). Dividing the continuum DDF telegrapher residual $\mathcal{R}_{\mathrm{tele}}^{\mathrm{DDF}}(s; T_{tt}, T_t, T_{xx}) = \tau_r T_{tt} + T_t - \alpha_\parallel^{\mathrm{DDF}}(s) T_{xx}$ by $\alpha_\parallel^{\mathrm{DDF}}(s)$ yields the exact Lorentz-jammed continuum wave operator:
-   $$\frac{\mathcal{R}_{\mathrm{tele}}^{\mathrm{DDF}}(s; T_{tt}, T_t, T_{xx})}{\alpha_\parallel^{\mathrm{DDF}}(s)} = \frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2}\,T_{tt} + \frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2\,\tau_r}\,T_t - T_{xx}.$$
+
+   $$
+   \frac{\mathcal{R}_{\mathrm{tele}}^{\mathrm{DDF}}(s; T_{tt}, T_t, T_{xx})}{\alpha_\parallel^{\mathrm{DDF}}(s)} = \frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2}\,T_{tt} + \frac{\gamma_\varphi(v)^2}{c_{\mathrm{th},0}^2\,\tau_r}\,T_t - T_{xx}.
+   $$
+
 2. **Splat-Free $Gr_{\mathbb{C}}(2,4)$ Plücker Characteristic Split, Continuum Semigroup Additivity, & Continuum Bohm Potential Relaxation (`ddfThermalGr24Matrix`, `MovingSheath.ddfContinuum_semigroup_and_bohm_decay`)**:
    Decomposing a 1D continuum hyperbolic Cattaneo–Vernotte / DDF state $(T(x,t), q(x,t))$ into right-moving ($A$) and left-moving ($B$) second-sound Riemann invariants on $Gr_{\mathbb{C}}(2,4)$ with dimensionless reduced heat flux $j_q = \frac{q}{q_{\max}^{\mathrm{DDF}}(s)} = \frac{q}{\rho c_v c_{\mathrm{th}}^{\mathrm{DDF}}(s) T_0} \in (-1, 1)$ defines the splat-free complex Grassmannian matrix $M_{\mathrm{th}} = \operatorname{ddfThermalGr24Matrix}(j_q, \theta) \in \mathbb{C}^{2 \times 4}$, whose Plücker channel amplitudes satisfy:
-   $$|w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 + j_q, \qquad |w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q, \qquad \frac{|w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2 - |w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2}{2} = j_q,$$
-   $$0 < |w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2\,|w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q^2 \iff |q| < q_{\max}^{\mathrm{DDF}}(s) = \rho c_v c_{\mathrm{th}}^{\mathrm{DDF}}(s) T_0 \le \rho c_v c T_0.$$
+
+   $$
+   |w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 + j_q, \qquad |w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q, \qquad \frac{|w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2 - |w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2}{2} = j_q,
+   $$
+
+
+   $$
+   0 < |w_A^{\mathbb{C}}(M_{\mathrm{th}})|^2\,|w_B^{\mathbb{C}}(M_{\mathrm{th}})|^2 = 1 - j_q^2 \iff |q| < q_{\max}^{\mathrm{DDF}}(s) = \rho c_v c_{\mathrm{th}}^{\mathrm{DDF}}(s) T_0 \le \rho c_v c T_0.
+   $$
+
    Furthermore, in `MovingSheath.ddfContinuum_semigroup_and_bohm_decay`, we prove (with **zero splats**):
    - **Splat-Free Chapman–Kolmogorov Semigroup Identity & Additivity**: Both the continuum thermal mode evolution $\operatorname{evolveContinuumThermalMode}(\alpha, k, \Delta t, A) = A\exp(-\alpha k^2 \Delta t)$ and the Cattaneo heat-flux relaxation $\operatorname{evolveContinuumReducedHeatFlux}(\tau_r, \Delta t, j_q) = j_q\exp(-\Delta t / \tau_r)$ satisfy the identity law at $\Delta t = 0$ and exact semigroup composition over $\Delta t_1 + \Delta t_2$,
    - **Splat-Free Continuum Bohm Quantum-Potential Relaxation**: $Q_{\mathrm{cont}}\bigl(m, \hbar, \operatorname{evolveContinuumThermalMode}(\alpha, k, \Delta t_1, \kappa_0)\bigr) = Q_{\mathrm{cont}}(m, \hbar, \kappa_0)\exp(-2\alpha k^2 \Delta t_1) \le Q_{\mathrm{cont}}(m, \hbar, \kappa_0)$, and
    - **Splat-Free $Gr_{\mathbb{C}}(2,4)$ Plücker Second-Law Relaxation**: Under Cattaneo heat-flux relaxation $j_q \mapsto j_q\exp(-\Delta t_1/\tau_r)$, the uncrossed Plücker channel product increases monotonically by $|w_A^{\mathbb{C}}(M_1)|^2\,|w_B^{\mathbb{C}}(M_1)|^2 - |w_A^{\mathbb{C}}(M_0)|^2\,|w_B^{\mathbb{C}}(M_0)|^2 = j_q^2(1 - \exp(-2\Delta t_1/\tau_r)) \ge 0$.
 3. **Optional Lagrangian Layer: Anisotropic Normed Tensor Gaussian Splat Thermal Evolution, Chapman–Kolmogorov Semigroup Additivity, & Second-Law Determinant Growth (`MovingSheath.ddfThermalTransport_and_splat_identities`, `MovingSheath.ddfThermal_fluxLimiter_and_entropy_growth`, `NormedTensorGaussianSplat2D.evolveThermal_semigroup_and_bohm_decay`)**:
    When a Lagrangian/WebGL2 representation is desired, each thermal packet is represented by a normed 2D anisotropic Tensor Gaussian Splat $G(x,y;t)$ whose covariance determinant satisfies $\frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4} = \frac{\alpha_\parallel^{\mathrm{DDF}}(s)}{\alpha_0} = \gamma_\varphi(v)^{-2}$ and whose principal widths evolve over $\Delta t \ge 0$ by:
-   $$\sigma_1(t + \Delta t) = \sqrt{\sigma_1(t)^2 + 2\alpha_\parallel^{\mathrm{DDF}}(s)\,\Delta t}, \qquad \sigma_2(t + \Delta t) = \sqrt{\sigma_2(t)^2 + 2\alpha_0\,\Delta t},$$
+
+   $$
+   \sigma_1(t + \Delta t) = \sqrt{\sigma_1(t)^2 + 2\alpha_\parallel^{\mathrm{DDF}}(s)\,\Delta t}, \qquad \sigma_2(t + \Delta t) = \sqrt{\sigma_2(t)^2 + 2\alpha_0\,\Delta t},
+   $$
+
    conserving total thermal energy $\int_{\mathbb{R}^2} G(x,y;t)\,dx\,dy = w$ **identically** at every step, obeying the exact Chapman–Kolmogorov semigroup identity $\mathcal{E}(0) = \mathrm{id}$ and composition law $\mathcal{E}(\Delta t_2)\circ\mathcal{E}(\Delta t_1) = \mathcal{E}(\Delta t_1 + \Delta t_2)$, relaxing the core Bohm potential monotonically $Q_{\mathrm{core}}(\Sigma(t+\Delta t)) \le Q_{\mathrm{core}}(\Sigma(t))$, and expanding the covariance determinant monotonically (`ddfThermal_fluxLimiter_and_entropy_growth`):
-   $$\det\Sigma(t + \Delta t) = \det\Sigma(t) + 2\bigl(\alpha_1\sigma_2^2 + \alpha_2\sigma_1^2\bigr)\Delta t + 4\alpha_1\alpha_2(\Delta t)^2 > \det\Sigma(t) \quad (\alpha_1, \Delta t > 0).$$
+
+   $$
+   \det\Sigma(t + \Delta t) = \det\Sigma(t) + 2\bigl(\alpha_1\sigma_2^2 + \alpha_2\sigma_1^2\bigr)\Delta t + 4\alpha_1\alpha_2(\Delta t)^2 > \det\Sigma(t) \quad (\alpha_1, \Delta t > 0).
+   $$
 
 ```lean
 -- 2. Fourier acausal blow-up, Cattaneo-Vernotte second sound, Splat-Free Continuum vs. Tensor Splat Semigroup & Bohm Relaxation

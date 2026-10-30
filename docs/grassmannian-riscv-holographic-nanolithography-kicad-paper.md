@@ -41,7 +41,11 @@ We present a formal, end-to-end hardware-synthesis and verification framework th
 
 1. **Sub-$20\text{ nm}$ Dual-Beam $405\text{ nm} / 532\text{ nm}$ Holographic Carbon Nanolithography (`holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities`)**:
    Combining a $405\text{ nm}$ radial vector vortex writing beam ($q = 1/2$, $\mathrm{NA} = 1.4$, longitudinal $E_z = 2 E_0 \sin\theta$ enhanced at the `rGO-polyCBD-SS-Lignin` ENZ horizon) with a coaxial $532\text{ nm}$ helical doughnut depletion ring ($\sigma\cdot\ell = +1$, $E_z = 0$ on axis, saturation ratio $\zeta_{532} = I_{532}/I_{\mathrm{sat}} = 63$) compresses the squared feature linewidth from the Abbe diffraction limit $w_0^2 = \left(\frac{2025}{14}\right)^2 \approx (144.64\text{ nm})^2 > 20^2$ to:
-   $$w_{\mathrm{STED}}^2 = \frac{(\lambda_{405} / (2\,\mathrm{NA}))^2}{1 + \zeta_{532}} = \left(\frac{2025}{112}\right)^2 \approx (18.08\text{ nm})^2 < 20^2,$$
+
+   $$
+   w_{\mathrm{STED}}^2 = \frac{(\lambda_{405} / (2\,\mathrm{NA}))^2}{1 + \zeta_{532}} = \left(\frac{2025}{112}\right)^2 \approx (18.08\text{ nm})^2 < 20^2,
+   $$
+
    matching the $22\text{ nm}$ FDSOI gate-length class of the $1.7\text{ GHz}$ `CVA6` reference processor ([Zaruba & Benini 2019](#zaruba2019)) while using pulsed $532\text{ nm}$ Laser Compression Shock (LCS) to imprint $d_{\mathrm{Bragg,532}} = \frac{532\text{ nm}}{2 \times 1.59} \approx 167.30\text{ nm}$ optical clock reflectors.
 2. **6-Stage Linux RISC-V (`CVA6`, `CHERI-CVA6`) & 1oo2 SIL-4 Lockstep (`Ibex`) Mapping & Volumetric DRC**:
    We map the 6 pipeline stages of `CVA6` / `CHERI-CVA6` (`PC_GEN`, `IF_ITLB_PTW`, `ID_DECODE`, `ISSUE_SCOREBOARD`, `EX_ALU_FPU_LSU_CHERI`, `COMMIT_CSR_PMP`) and the 3 stages of `Ibex` (`IF`, `ID_EX_CHERIOT`, `WB_1OO2_LOCKSTEP`) onto five synthesized material layers: $n$-type `N-LIG` ($sp^2$ graphene, Layer 10), $p$-type `S-LIG` (Sulfur-doped graphene, Layer 11), $sp^3$ diamond ballistic phonon routers (Layer 12), high-$k$ `O-CNT` crosstalk shields (Layer 13), and $532\text{ nm}$ `polyCBD` Bragg mirrors (Layer 14). We prove that single-flash exposure of adjacent stage interconnects ($A_1 = A_2 = 4/5$) causes constructive wave overlap $(A_1 + A_2)^2 = 64/25 > 2 = A_{sp3}$ (inadvertently synthesizing an insulating $sp^3$ diamond wall), whereas 2-color / 6-flash Orthogonal Volume Decomposition keeps every flash at $A_i^2 = 16/25 < 2$, eliminating all over-squeeze DRC hazards.

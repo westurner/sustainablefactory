@@ -69,12 +69,23 @@ We prove in [QISM.lean](../src/signals/Signals/QISM.lean#L52-L162):
 1. **Involutive Swap (`swapMatrix4_mul_self`)**: $P^2 = I_4$.
 2. **Regularity at Zero Spectral Shift (`yangRMatrix4_zero`)**: $R(0;\eta) = \eta P$.
 3. **Symmetric (Triplet) and Antisymmetric (Singlet) Eigenvalues (`yangSymmetricWeight`, `yangAntisymmetricWeight`, `yangRMatrix4_triplet_entry`)**:
-   $$w_{\mathrm{sym}}(u,v;\eta) = \delta(u,v) + \eta, \qquad w_{\mathrm{anti}}(u,v;\eta) = \delta(u,v) - \eta, \qquad R(u-v;\eta)_{00} = w_{\mathrm{sym}}(u,v;\eta).$$
+
+   $$
+   w_{\mathrm{sym}}(u,v;\eta) = \delta(u,v) + \eta, \qquad w_{\mathrm{anti}}(u,v;\eta) = \delta(u,v) - \eta, \qquad R(u-v;\eta)_{00} = w_{\mathrm{sym}}(u,v;\eta).
+   $$
+
 4. **Quantum Unitarity (`yangRMatrix4_unitarity`)**:
-   $$R(u - v; \eta)\,R(v - u; \eta) = \bigl(\eta^2 - (u - v)^2\bigr) I_4 = - w_{\mathrm{sym}}(u,v;\eta)\,w_{\mathrm{anti}}(u,v;\eta)\,I_4.$$
+
+   $$
+   R(u - v; \eta)\,R(v - u; \eta) = \bigl(\eta^2 - (u - v)^2\bigr) I_4 = - w_{\mathrm{sym}}(u,v;\eta)\,w_{\mathrm{anti}}(u,v;\eta)\,I_4.
+   $$
+
 5. **Three-Site Rational Braid Identity & Full $8 \times 8$ Matrix Quantum Yang–Baxter Equation (`yang_baxter_rational_braid`, `yang_baxter_equation_matrix8`)**:
    From the spectral cocycle $\delta(u,v) + \delta(v,w) = \delta(u,w)$ (`spectralDiff_add`) and the symmetric-group representation `permMatrix8` on $(\mathbb{R}^2)^{\otimes 3} \cong \mathbb{R}^8$ (`swap12Perm8`, `swap13Perm8`, `swap23Perm8`), the embedded $8 \times 8$ rational $R$-matrices `yangR12_8`, `yangR13_8`, `yangR23_8` satisfy the exact operator identity:
-   $$R_{12}(u - v; \eta)\,R_{13}(u - w; \eta)\,R_{23}(v - w; \eta) = R_{23}(v - w; \eta)\,R_{13}(u - w; \eta)\,R_{12}(u - v; \eta).$$
+
+   $$
+   R_{12}(u - v; \eta)\,R_{13}(u - w; \eta)\,R_{23}(v - w; \eta) = R_{23}(v - w; \eta)\,R_{13}(u - w; \eta)\,R_{12}(u - v; \eta).
+   $$
 
 ```lean
 import Signals
@@ -111,12 +122,23 @@ A $2 \times 2$ auxiliary Lax or monodromy matrix $T(u) = \begin{pmatrix} A & B \
   The auxiliary trace $t(u) = A + D$ agrees with `Matrix.trace` on `toMatrix` and obeys $\operatorname{Tr}(L_2 L_1) = \operatorname{Tr}(L_1 L_2)$.
 - **Grassmannian Minor & Cauchy–Binet Composition (`classicalDet_eq_twoRowMinor`, `classicalDet_comp`, `comp_det_eq_pathPairs`)**:
   The determinant $\det T = A D - B C$ equals the $2 \times 2$ Grassmannian minor $\Delta_{01}(T)$, is multiplicative across lattice sites ($\det(L_2 L_1) = \det(L_2)\det(L_1)$), and expands via `Signals.Geometry.twoStep_det_pathPairs` as a sum over intermediate virtual channel pairs $(a,b) \in \operatorname{Fin}(2)^2$:
-  $$\det(L_2 L_1) = \sum_{a=0}^1 \sum_{b=0}^1 (L_2)_{0a}(L_2)_{1b}\bigl((L_1)_{a0}(L_1)_{b1} - (L_1)_{a1}(L_1)_{b0}\bigr).$$
+
+  $$
+  \det(L_2 L_1) = \sum_{a=0}^1 \sum_{b=0}^1 (L_2)_{0a}(L_2)_{1b}\bigl((L_1)_{a0}(L_1)_{b1} - (L_1)_{a1}(L_1)_{b0}\bigr).
+  $$
+
 - **Shifted Yangian Quantum Determinants (`quantumDetLeft`, `quantumDetRight`, `quantumDetLeft_self`, `quantumDet_left_eq_right_iff`)**:
   In the Yangian $Y(\mathfrak{gl}_2)$, the central quantum determinant evaluates the second factor at the shifted spectral argument $u - \eta$:
-  $$\operatorname{qdet}_L(T(u), T(u-\eta)) = A(u)D(u-\eta) - B(u)C(u-\eta), \qquad \operatorname{qdet}_R(T(u), T(u-\eta)) = D(u)A(u-\eta) - C(u)B(u-\eta).$$
+
+  $$
+  \operatorname{qdet}_L(T(u), T(u-\eta)) = A(u)D(u-\eta) - B(u)C(u-\eta), \qquad \operatorname{qdet}_R(T(u), T(u-\eta)) = D(u)A(u-\eta) - C(u)B(u-\eta).
+  $$
+
   At zero shift ($T(u-\eta) = T(u)$), $\operatorname{qdet}_L(T, T) = \det T$ (`quantumDetLeft_self`). For general shifted matrices, `quantumDet_left_eq_right_iff` proves:
-  $$\operatorname{qdet}_L(T(u), T(u-\eta)) = \operatorname{qdet}_R(T(u), T(u-\eta)) \iff A(u)D(u-\eta) - D(u)A(u-\eta) = B(u)C(u-\eta) - C(u)B(u-\eta).$$
+
+  $$
+  \operatorname{qdet}_L(T(u), T(u-\eta)) = \operatorname{qdet}_R(T(u), T(u-\eta)) \iff A(u)D(u-\eta) - D(u)A(u-\eta) = B(u)C(u-\eta) - C(u)B(u-\eta).
+  $$
 
 ---
 
@@ -137,14 +159,21 @@ $$
    Left-multiplying $M_Q$ by any basis matrix $B \in \mathbb{R}^{2 \times 2}$ scales every ordered Casorati Wronskian minor uniformly by $\det B$: $\Delta_J(B M_Q) = (\det B)\,\Delta_J(M_Q)$.
 2. **Baxter's Functional $QQ$-System from $Gr(2,4)$ (`baxter_qq_pluecker_identity`)**:
    Applying the 3-term Plücker identity (`twoRowMinor_pluecker`) to $M_Q$ immediately yields the functional $QQ$-system / Hirota bilinear equation:
-   $$W(u_0, u_1)W(u_2, u_3) - W(u_0, u_2)W(u_1, u_3) + W(u_0, u_3)W(u_1, u_2) = 0.$$
+
+   $$
+   W(u_0, u_1)W(u_2, u_3) - W(u_0, u_2)W(u_1, u_3) + W(u_0, u_3)W(u_1, u_2) = 0.
+   $$
+
 3. **Three-Point Wronskian Solution of Baxter's $TQ$ Equation (`baxterTQResidual_wronskian_zero`)**:
    For Baxter's $TQ$ difference residual $\operatorname{baxterTQResidual}(T, a, d, Q(u), Q(u-\eta), Q(u+\eta)) = T Q(u) - (a Q(u-\eta) + d Q(u+\eta))$, setting $T(u) = W(u-\eta, u+\eta)$, $a(u) = W(u, u+\eta)$, and $d(u) = W(u-\eta, u)$ satisfies `baxterTQResidual = 0` identically for all $u, \eta \in \mathbb{R}$.
 4. **Spurious Triple-Zero Degeneracy vs. MTV Wronskian Nondegeneracy (`baxterTQResidual_spurious_zero`, `mtv_wronskian_nondegenerate_of_root`, `baxterGrassmannianMatrix_nonzero_minor`, `bethe_ansatz_ratio_of_tq_root`)**:
    - At a Bethe root $Q_+(u_m) = 0$, a vanishing $TQ$ residual implies the polynomial Bethe Ansatz Equation $a(u_m)Q_+(u_m-\eta) + d(u_m)Q_+(u_m+\eta) = 0$ (`bethe_ansatz_eq_of_tq_root`).
    - If $Q_+(u_m) = Q_+(u_m-\eta) = Q_+(u_m+\eta) = 0$ simultaneously, `baxterTQResidual_spurious_zero` proves that $\operatorname{baxterTQResidual}(T, a, d, 0, 0, 0) = 0$ for *every* $T \in \mathbb{R}$, leaving the transfer eigenvalue $T$ unconstrained and the rational phase-shift ratio $0/0$ undefined.
    - Theorem `mtv_wronskian_nondegenerate_of_root` proves that when $Q_+(u_m) = 0$ and the Casorati Wronskian $W(u_m, u_m-\eta) \neq 0$, both $Q_+(u_m-\eta) \neq 0$ and $Q_-(u_m) \neq 0$ are strictly forced, certifying a nonzero Plücker coordinate on $Gr(2,4)$ (`baxterGrassmannianMatrix_nonzero_minor`) and yielding the rational Bethe Ansatz Equation (`bethe_ansatz_ratio_of_tq_root`):
-     $$\frac{a(u_m)}{d(u_m)} = -\frac{Q_+(u_m + \eta)}{Q_+(u_m - \eta)}.$$
+
+     $$
+     \frac{a(u_m)}{d(u_m)} = -\frac{Q_+(u_m + \eta)}{Q_+(u_m - \eta)}.
+     $$
 
 ```lean
 -- 2. Baxter QQ-system Plücker identity, Wronskian TQ solution, and MTV nondegeneracy

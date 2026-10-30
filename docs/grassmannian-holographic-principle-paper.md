@@ -37,11 +37,19 @@ First proposed by **Gerard 't Hooft (1993)** ([`gr-qc/9310026`](#holo-thooft1993
    This proves that the 2D boundary integral of the acoustic surface gravity $\kappa_H$ over the holographic horizon screen $A_H$ recovers the exact 3D bulk gravitating mass $M$ without inspecting the interior volume.
 2. **Without Splats: Continuum $Gr_{\mathbb{C}}(2,4)$ Plücker Product Equals the Exact Gravitational Redshift / Painlevé–Gullstrand Lapse Function $g_{00}(r) = 1 - r_H / r$**:
    For any exterior radius $r > r_H$, the dimensionless radial river speed ratio is $\beta_\phi(r) = \frac{|v_\phi(r)|}{c} = \sqrt{\frac{r_H}{r}} \in (0, 1)$ (`RiverExterior.inflowBeta`). Embedding $\beta_\phi(r)$ into $Gr_{\mathbb{C}}(2,4)$ via $M_{\mathrm{holo}}(r) = \operatorname{ddfThermalGr24Matrix}(\beta_\phi(r), \theta)$ proves (with **zero splats**) that the uncrossed Plücker channel product equals the exact gravitational redshift factor $g_{00}(r) = 1 - r_H / r$:
-   $$\bigl|w_A^{\mathbb{C}}(M_{\mathrm{holo}}(r))\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{holo}}(r))\bigr|^2 = 1 - \beta_\phi(r)^2 = 1 - \frac{r_H}{r} > 0,$$
+
+   $$
+   \bigl|w_A^{\mathbb{C}}(M_{\mathrm{holo}}(r))\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{holo}}(r))\bigr|^2 = 1 - \beta_\phi(r)^2 = 1 - \frac{r_H}{r} > 0,
+   $$
+
    which approaches $1$ at asymptotic infinity ($r \to \infty$) and vanishes at the holographic horizon screen $r \to r_H^+$ (complete Lorentz shear jamming $\gamma_\varphi(v_\phi) \to \infty$).
 3. **With Normed Tensor Gaussian Splats: Planck-Pixelated Holographic Screen & UV Bohm Quantum Potential Cutoff (`holographicPlanckSplat`)**:
    Tiling the 2D holographic screen $A_H$ with $N_{\mathrm{bits}} = S_{\mathrm{BH}} / k_B = \frac{A_H}{4\ell_P^2}$ isotropic Planck-scale Tensor Gaussian Splats (`holographicPlanckSplat` with $\sigma_1 = \sigma_2 = \ell_P > 0$) yields exact Planck covariance volume $\det\Sigma_{\mathrm{Planck}} = \ell_P^4$, exact area reconstruction $A_H = 4\ell_P^2(S_{\mathrm{BH}}/k_B)$, and a finite **Planck-scale Bohm quantum-potential UV cutoff**:
-   $$Q_{\mathrm{core}}(\Sigma_{\mathrm{Planck}}) = \frac{\hbar^2}{2 m\,\ell_P^2} > 0,$$
+
+   $$
+   Q_{\mathrm{core}}(\Sigma_{\mathrm{Planck}}) = \frac{\hbar^2}{2 m\,\ell_P^2} > 0,
+   $$
+
    replacing the classical $r \to 0$ curvature singularity with a finite repulsive Madelung quantum pressure barrier ([Provenance Chat Log: Fracture Phases & Holographic Regularization in DDF (2026)](#holo-chat-fracture2026), lines 1090–1115).
 4. **Anti-Amplituhedron Destructive Cancellation in $Gr_{\mathbb{C}}(2,4) \setminus Gr_{\ge 0}(2,4)$ & Grover 4-State Holographic Code Carving**:
    We prove that `antiAmplituhedronGr24Matrix A` realizes an exact destructive phase-cancellation node ($\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = 0$) outside the positive Grassmannian $Gr_{\ge 0}(2,4)$, while a single Grover reflection (`groverSuccessAmplitude (1/2) = 1`) deterministically carves a target state out of a 4-dimensional twistor subspace.
@@ -110,7 +118,11 @@ When the 2D holographic horizon screen of area $A_H = 4\pi r_H^2$ is discretized
    $$A_H = 4\,\ell_P^2\,\left(\frac{S_{\mathrm{BH}}}{k_B}\right),$$
 3. **Planck UV Bohm Quantum-Potential Cutoff Against $r \to 0$ Singularities**:
    Whereas classical General Relativity allows radial compression $\sigma \to 0$ to an infinite-density point singularity, compressing a DDF bosonic condensate parcel to the Planck width $\sigma_1 = \sigma_2 = \ell_P$ generates a finite, strictly positive repulsive core Bohm quantum potential:
-   $$Q_{\mathrm{core}}(\Sigma_{\mathrm{Planck}}) = \frac{\hbar^2}{2 m_\phi\,\ell_P^2} > 0,$$
+
+   $$
+   Q_{\mathrm{core}}(\Sigma_{\mathrm{Planck}}) = \frac{\hbar^2}{2 m_\phi\,\ell_P^2} > 0,
+   $$
+
    providing a concrete quantum-hydrodynamic UV regularization of the interior core ([Provenance Chat Log: Fracture Phases & Singularity Resolution (2026)](#holo-chat-fracture2026), lines 1070–1115).
 
 ---

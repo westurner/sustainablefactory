@@ -1103,7 +1103,11 @@ $$
   For any $N \ge 2$ and any `CoherenceComplementarity N` record with visibility
   $\mathcal{V} = K_N$, the on-axis double-slit relative predictive error against
   the coherent Fraunhofer peak is governed directly by the eigenvalue spectrum:
-  $$\varepsilon_{\mathrm{rel}}^{\mathrm{HS}}(0,0) = \frac{1 - K_N}{2} = \frac{P_N^2}{2(1 + K_N)} = \frac{d_{\mathrm{bary}}^2}{2(1 + \mathcal{V})}.$$
+
+  $$
+  \varepsilon_{\mathrm{rel}}^{\mathrm{HS}}(0,0) = \frac{1 - K_N}{2} = \frac{P_N^2}{2(1 + K_N)} = \frac{d_{\mathrm{bary}}^2}{2(1 + \mathcal{V})}.
+  $$
+
 - **Binary ($N=2$) Two-Slit Weight Imbalance (`CoherenceSpectrum.binary_polarization_and_entanglement`)**:
   For $N = 2$ with normalized slit weights $m_0 + m_1 = 1$, Lean proves the
   exact identities $P_2^2 = (m_0 - m_1)^2 = d_{\mathrm{bary}}^2$ and
@@ -1111,10 +1115,18 @@ $$
 - **Pythagorean Pluecker--Steiner Identity on $Gr(2,4)$ (`gr24_plucker_pythagorean_identity`, `gr24_barycentric_complementarity`)**:
   For any real $2 \times 4$ matrix $M$, defining the Pluecker barycentric
   parallel-axis shift between the two uncrossed slit channels as
-  $$d_{\mathrm{bary}}(M) = \frac{\Delta_{01}(M)\Delta_{23}(M) - \Delta_{03}(M)\Delta_{12}(M)}{2},$$
+
+  $$
+  d_{\mathrm{bary}}(M) = \frac{\Delta_{01}(M)\Delta_{23}(M) - \Delta_{03}(M)\Delta_{12}(M)}{2},
+  $$
+
   the 3-term Pluecker identity $\Delta_{01}\Delta_{23} + \Delta_{03}\Delta_{12} = \Delta_{02}\Delta_{13}$
   implies the universal Pythagorean relation:
-  $$d_{\mathrm{bary}}(M)^2 + \underbrace{\Delta_{01}(M)\Delta_{23}(M)\,\Delta_{03}(M)\Delta_{12}(M)}_{\mathcal{V}_{Gr(2,4)}(M)^2} = \left(\frac{\Delta_{02}(M)\Delta_{13}(M)}{2}\right)^2.$$
+
+  $$
+  d_{\mathrm{bary}}(M)^2 + \underbrace{\Delta_{01}(M)\Delta_{23}(M)\,\Delta_{03}(M)\Delta_{12}(M)}_{\mathcal{V}_{Gr(2,4)}(M)^2} = \left(\frac{\Delta_{02}(M)\Delta_{13}(M)}{2}\right)^2.
+  $$
+
   When $\Delta_{02}(M)\Delta_{13}(M) = 2$, this becomes $d_{\mathrm{bary}}(M)^2 + \mathcal{V}_{Gr(2,4)}(M)^2 = 1$.
   Furthermore, lifting to the complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ with
   $z_1 = \sqrt{1 + d_{\mathrm{bary}}}\,e^{i\theta}$ and $z_2 = \sqrt{1 - d_{\mathrm{bary}}}\,e^{-i\theta}$
@@ -1449,7 +1461,11 @@ Implemented in [Huygens.lean](../src/signals/Signals/Huygens.lean),
   and Fresnel number $N_{\mathrm{F}}(\rho_{\max}, \lambda, L) = \frac{\rho_{\max}^2}{\lambda L}$.
   Proved that for $\xi^2 + \eta^2 \le \rho_{\max}^2$, $0 \le \Delta\phi_{\mathrm{Fresnel}} \le \pi N_{\mathrm{F}}$
   and the unit-phasor chord error satisfies
-  $$|e^{i\phi_{\mathrm{Fresnel}}} - e^{i\phi_{\mathrm{Fraun}}}|^2 = 4\sin^2(\Delta\phi_{\mathrm{Fresnel}}/2) \le (\Delta\phi_{\mathrm{Fresnel}})^2 \le (\pi N_{\mathrm{F}})^2.$$
+
+  $$
+  |e^{i\phi_{\mathrm{Fresnel}}} - e^{i\phi_{\mathrm{Fraun}}}|^2 = 4\sin^2(\Delta\phi_{\mathrm{Fresnel}}/2) \le (\Delta\phi_{\mathrm{Fresnel}})^2 \le (\pi N_{\mathrm{F}})^2.
+  $$
+
   Combined this in `CellQuadrature.fresnelFraunhoferComparison` with `CellQuadrature.uniformComparison`
   via `AmplitudeComparison.compose` to obtain the unified discrete-to-Fraunhofer tolerance
   $\bigl(L_{\mathrm{Lip}} h + \pi N_{\mathrm{F}}(\rho_{\max}, \lambda, L)\bigr)\mu(X)$.
@@ -1458,7 +1474,11 @@ Implemented in [Huygens.lean](../src/signals/Signals/Huygens.lean),
   proving $GL(3, \mathbb{R})$ basis-change scaling (`threeRowMinor_basisChange`), equivalence
   with `selectedMinor` on ordered triples (`threeRowMinor_eq_selectedMinor`), the general
   4-term quadratic Plücker syzygy
-  $$\Delta_{i_1 i_2 j_0}\Delta_{j_1 j_2 j_3} - \Delta_{i_1 i_2 j_1}\Delta_{j_0 j_2 j_3} + \Delta_{i_1 i_2 j_2}\Delta_{j_0 j_1 j_3} - \Delta_{i_1 i_2 j_3}\Delta_{j_0 j_1 j_2} = 0,$$
+
+  $$
+  \Delta_{i_1 i_2 j_0}\Delta_{j_1 j_2 j_3} - \Delta_{i_1 i_2 j_1}\Delta_{j_0 j_2 j_3} + \Delta_{i_1 i_2 j_2}\Delta_{j_0 j_1 j_3} - \Delta_{i_1 i_2 j_3}\Delta_{j_0 j_1 j_2} = 0,
+  $$
+
   and the ordered five-column `selectedMinor` specialization `selectedMinor_pluecker_rank3_five`.
 - **Multi-Layer & Three-Channel ($k = 3$) Lindström–Gessel–Viennot Disjoint-Path Positivity (`lgv_multiLayer_det_prod`, `lgv_multiLayer_det_positive`, `planar_threeChannel_lgv_and_bottleneck_identities`)**:
   Proved arbitrary-length layer transfer determinant multiplicativity and strict positivity
@@ -1478,7 +1498,11 @@ Implemented in [Huygens.lean](../src/signals/Signals/Huygens.lean),
   $\Delta^{\mathrm{op}}(\widehat{\mathbb{B}})\Pi_{16} = \Pi_{16}\Delta(\widehat{\mathbb{B}})$,
   the mixed boson–fermion diagonal commutator residual $2(B_2 - B_1)L_{BF}$ at state
   $|\phi^1 \otimes \psi^1\rangle$, and exact full $16 \times 16$ intertwining with the Yangian tail
-  $$\Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})\,R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF}) = R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})\,\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})$$
+
+  $$
+  \Delta_{\mathrm{full}}^{\mathrm{op}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})\,R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF}) = R_{16}(A_B, B_B, D_F, E_F, G_{BF}, L_{BF})\,\Delta_{\mathrm{full}}(\widehat{\mathbb{B}})(B_1, B_2, G_{BF}, L_{BF})
+  $$
+
   for arbitrary $B_1, B_2, A_B, B_B, D_F, E_F, G_{BF}, L_{BF} \in \mathbb{R}$.
 - **Adaptive Two-Child Splat Splitting Conservation (`NormedTensorGaussianSplat2D.splitMajor_conservation_identities`) & Coupled Electro-Thermal-Optical OPA Gain**:
   Formalized `splitMajorOffset`, `splitMajorPlus`, `splitMajorMinus`, and

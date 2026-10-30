@@ -62,16 +62,20 @@ The title page identifies the authors, citation, publication date, and DOI
    matrix has eigenvalues $m_i$ with $\sum_i m_i=1$ (pp. 1-2, Eqs. (1)-(3)).
 2. **Degree of polarization.** For an $N$-dimensional field, the squared
    normalized degree of polarization is
+
    $$
    P_N^2 = \frac{N}{N-1}\sum_i m_i^2 - \frac{1}{N-1}.
    $$
+
    This follows from Eq. (15) and the eigenvalue form in the Appendix (pp. 2
    and 5-6).
 3. **Schmidt-weight entanglement.** The normalized Schmidt weight has squared
    value
+
    $$
    K_N^2 = \frac{N}{N-1}\left(1-\sum_i m_i^2\right).
    $$
+
    The paper derives $P_N^2+K_N^2=1$ in Eq. (18) and Appendix Eq. (A7) (pp.
    4-6).
 4. **Barycentric mapping.** The eigenvalues are mapped to point masses at the
@@ -79,9 +83,11 @@ The title page identifies the authors, citation, publication date, and DOI
    the center of mass represents $P_N$, while the complementary distance
    represents $K_N$ (pp. 2-5, Eqs. (9)-(11) and (19)).
 5. **Huygens-Steiner relation.** The mapped point masses obey
+
    $$
    I_O=I_M+m_{tot}d^2.
    $$
+
    Under the paper's normalized $m_{tot}=1$ convention, the squared optical
    quantities are related to the inertia difference and its complement (p. 3,
    Eqs. (12)-(13)).
@@ -149,9 +155,11 @@ identity or of amplitude geometry.
    $\phi=\arg(E)$ is undefined where both real and imaginary parts vanish.
    The zero-isosurfaces can form point, line, or sheet singularities (pp. 2-3).
 2. **Topological charge.** For a one-dimensional singularity, the paper uses
+
    $$
    s=\oint_C \frac{\nabla\phi}{2\pi}\cdot d\mathbf r,
    $$
+
    which is integer-valued when the phase is continuous on the enclosing loop
    and no singularity crosses it (p. 3). First-order line singularities are
    robust under small field perturbations, whereas point, higher-order line,
@@ -163,9 +171,11 @@ identity or of amplitude geometry.
    finite structures rather than an infinite exact singularity (pp. 3-5).
 4. **Polarization singularity.** For a paraxial vector field, the complex
    scalar
+
    $$
    \sigma=|E_x|^2-|E_y|^2+2i\operatorname{Re}(E_xE_y^*)=s_1+i s_2
    $$
+
    has $\arg(\sigma)=2\Psi$, where $\Psi$ is the polarization-ellipse
    azimuth. The zeros of $s_1$ and $s_2$ define the corresponding azimuthal
    singularity; total intensity can remain nonzero through the $s_3$ component
@@ -435,10 +445,12 @@ of entangled states in cavity QED with Grover's algorithm," arXiv:2501.18881v4
 
 1. **Two-dimensional Grover subspace.** Decompose the initial state into a
    target and orthogonal component,
+
    $$
    |\psi_i\rangle=\sin(\theta/2)|\psi_t\rangle+
    \cos(\theta/2)|\psi_{t,\perp}\rangle.
    $$
+
    A Grover iteration is the product of two phase inversions. After $k$
    iterations, the target amplitude is $\sin((2k+1)\theta/2)$ and ideal
    fidelity is its squared magnitude (pp. 1-2, Eqs. (1)-(7)).
@@ -447,16 +459,20 @@ of entangled states in cavity QED with Grover's algorithm," arXiv:2501.18881v4
    satisfy the stated trigonometric condition (p. 3, Eqs. (8)-(11)).
 3. **Dicke-state overlap.** For a globally rotated product state, the overlap
    with the Dicke state having $m$ excitations is
+
    $$
    \binom{N}{m}^{1/2}\cos^{N-m}(\varphi/2)\sin^m(\varphi/2).
    $$
+
    Choosing the global rotation to maximize this overlap gives the favorable
    $m^{1/4}$ or $N^{1/4}$ step scaling in the stated regimes (pp. 3-5).
 4. **Cavity-QED phase oracle.** In the dispersive regime $|\Delta|\gg g$,
    eliminating the excited state gives
+
    $$
    H=\hbar\Omega\hat m\hat n_c,\qquad \Omega=\frac{g^2}{\Delta},
    $$
+
    where $\hat m$ counts atoms in $|1\rangle$. The cavity resonance shifts as
    $\omega_m=\omega_0+m\Omega$, so a frequency-selective reflected photon can
    implement a conditional phase inversion on a selected Dicke component (p.
@@ -498,9 +514,11 @@ of quantum states with Grover's algorithm," arXiv:2501.18884v4 [quant-ph]
 3. **Mode-mismatch channel.** If $\zeta$ is spatial mode-matching efficiency,
    the ideal phase inversion is replaced by a mixture of interacting and
    noninteracting branches,
+
    $$
    \rho\longmapsto\zeta\,\chi\rho\chi^\dagger+(1-\zeta)\rho.
    $$
+
    This is an error model, not a harmless calibration factor (p. 8, Eq. (38)).
 4. **Finite-bandwidth/loss model.** The paper gives frequency-dependent
    reflection, transmission, spontaneous-emission, and mirror-scattering
@@ -554,11 +572,13 @@ the author list and arXiv identifier (p. 1).
    transverse, longitudinal, symmetric, antisymmetric, and nilpotent operators
    (pp. 4-5). The transverse, longitudinal, and Chern-Simons scalar response
    components are listed in Eqs. (30)-(34):
+
    $$
    \bar\epsilon_T = 1 - \frac{M^2}{\omega^2},\qquad
    \bar\epsilon_L = 1 - \frac{M^2 + k^2}{\omega^2},\qquad
    \bar\epsilon_{CS} = \frac{i m}{\omega^3}.
    $$
+
 4. **Dispersion and response conclusion.** In this specialization, the paper
    states that the transverse and longitudinal response laws are unchanged by
    the nonlinear and Chern-Simons terms, while the Chern-Simons contribution
@@ -588,18 +608,22 @@ The title page identifies Said Mikki and the DOI (p. 1).
 ### Models extracted
 
 1. **Massive dispersion and cutoff.** The paper uses
+
    $$
    \omega^2 = c^2 k^2 + c^2 m^2
    $$
+
    and defines the photon-mass frequency
    $\omega_{ph}=m_{ph}c^2/\hbar$ (p. 4, Eqs. (3)-(4)). For real mass, real
    propagating wave number requires operation above the cutoff $\omega_{ph}$
    (p. 4).
 2. **Fabry-Perot cavity.** For a cavity with dynamic length
    $L(t)=L_0+x(t)$, the fundamental resonance is
+
    $$
    \omega_l = \sqrt{\left(\frac{l\pi c}{L}\right)^2+\omega_{ph}^2}.
    $$
+
    This is Eq. (13), with the massless limit in Eq. (14) (p. 5). The paper
    explicitly assumes a single bulk mode and notes that additional waves at
    nonlocal interfaces are omitted from the subsequent simplified treatment
@@ -608,11 +632,13 @@ The title page identifies Said Mikki and the DOI (p. 1).
    from photon momentum transfer and obtains
    $\langle F_{msv}\rangle=\hbar\omega_{msv}\langle a^\dagger a\rangle/L$
    (p. 5, Eq. (18)). Relative to a massless cavity, the normalized ratio is
+
    $$
    \frac{\langle F_{msv}\rangle}{\langle F_0\rangle}
    = \sqrt{l^2+\alpha^2},
    \qquad \alpha=\frac{\omega_{ph}}{\omega_0},
    $$
+
    in the paper's mode normalization (p. 6, Eqs. (21)-(23)).
 4. **Mechanical expansion.** The displaced resonance is expanded in powers of
    $x/L_0$, with coefficients $\beta_0$, $\beta_1$, and $\beta_2$ given in
@@ -652,20 +678,24 @@ page and is treated here as a metadata error, not a second attribution.
 and radiation density operator $\rho$, Definition 1 defines the space-time
    directivity as a local detection-rate expectation divided by its angular
    average:
+
    $$
    D_q(|x|,\Omega;t)=
    \frac{\operatorname{Tr}(\rho E^{(-)}(x,t)\cdot E^{(+)}(x,t))}
    {\frac{1}{4\pi}\int_{4\pi}
    \operatorname{Tr}(\rho E^{(-)}(x,t)\cdot E^{(+)}(x,t))\,d\Omega}.
    $$
+
    The directivity is undefined when the denominator is identically zero
    (pp. 5-6, Definition 1).
 2. **Positive local detector operator.** The paper contrasts the global number
    operator with the proposed local operator
+
    $$
    N(V)=\frac{2\epsilon_0\omega}{\hbar c}
    \int_V E^{(-)}(x,t)\cdot E^{(+)}(x,t)\,d^3x.
    $$
+
    Its integrand is positive, and Theorem 1 identifies it as a local number
    operator (p. 7, Eq. (4) and Theorem 1).
 3. **Nonlocalizability.** For disjoint regions, the paper defines
@@ -703,25 +733,31 @@ a journal DOI or publication venue in its front matter, so no DOI is inferred.
    current so Maxwell's material equations reproduce the Maxwell-Proca field
    equations. The conductivity tensor is Eq. (27), and the dielectric tensor
    is Eq. (28) (p. 5):
+
    $$
    \epsilon(k,\omega)=
    \left(1-\frac{m^2c^2}{\omega^2}\right)I
    -\frac{k^2c^2}{\omega^2}\hat{k}\hat{k}.
    $$
+
 2. **Transverse/longitudinal decomposition.** Equations (29)-(34) split the
    response into
+
    $$
    \epsilon_T=1-\frac{m^2c^2}{\omega^2},\qquad
    \epsilon_L=1-\frac{c^2(k^2+m^2)}{\omega^2},
    $$
+
    with spatial dispersion present in the longitudinal component (p. 5).
    The paper emphasizes that this is a specially designed isotropic nonlocal
    medium, not an ordinary local dielectric (p. 6).
 3. **Shared dispersion and cutoff.** The transverse and longitudinal modes
    satisfy the same law (p. 7, Eqs. (39)-(44)):
+
    $$
    \omega^2=c^2k^2+c^2m^2.
    $$
+
    For real mass, $k(\omega)$ is real only above $\omega_{ph}=mc$; below
    cutoff the solution is evanescent rather than a propagating power-transfer
    mode (p. 8). The paper also discusses imaginary mass as a separate formal
@@ -773,26 +809,32 @@ transcribed from the inaccessible PDF.
 ### Models extracted
 
 1. **Second-harmonic resonance.** The frequency relation used by the model is
+
    $$
    \omega_{2}=2\omega_{1},\qquad \omega_{r}=\omega_{2},
    $$
+
    with positive frequencies. This captures the resonance condition relevant
    to a chi^(2) parametric process without asserting a particular resonator
    geometry or phase-matching design.
 2. **Active gain.** For a finite signal-power abstraction, let $G$ be the
    linear signal gain:
+
    $$
    P_{\mathrm{out}}=G P_{\mathrm{sig}},\qquad
    G_{\mathrm{dB}}=10\log_{10}G.
    $$
+
    The Lean record stores $G$ and the reported dB value separately; it does
    not manufacture a logarithmic conversion from a rounded headline number.
 3. **Energy accounting.** An active amplifier must include its drive power and
    losses:
+
    $$
    P_{\mathrm{out}}+P_{\mathrm{diss}}
      =P_{\mathrm{sig}}+P_{\mathrm{pump}}.
    $$
+
    Consequently, nonnegative dissipation implies
    $P_{\mathrm{out}}\leq P_{\mathrm{sig}}+P_{\mathrm{pump}}$. Gain is not
    passive over-unity behavior or evidence of free energy.
@@ -823,10 +865,12 @@ light source," by Nicholas Rivera; it is not the primary research article.
 
 1. **Cylindrical SPP field.** The primary paper describes a cylindrical mode
    with axial field
+
    $$
    E_{z}^{(m)}=A f_{m}(\kappa r)
      e^{i(k_{z}z+m\phi-\omega t)},
    $$
+
    where the vacuum and plasma radial profiles use modified Bessel functions.
    A representative transverse decay parameter is
    $\kappa^2=k_z^2-\epsilon_d\omega^2/c^2$.
@@ -841,9 +885,11 @@ light source," by Nicholas Rivera; it is not the primary research article.
    in-phase free-electron pulse that coherently amplifies the THz surface wave.
    The article reports a twofold redshift over a 1 mm interaction length. The
    finite record represents this as
+
    $$
    \omega_{\mathrm{final}}=\omega_{\mathrm{initial}}/2,
    $$
+
    together with pump, loss, and output power fields.
 4. **Prediction boundary.** Phase-matched electron bunching and superradiant
    growth are model conditions. The observed coherent SPP amplification does
@@ -874,28 +920,34 @@ microtube surface," *Physical Review Letters* 135, 205001 (2025), DOI
 
 1. **Cylindrical mode and overlap.** The paper uses the mode in the previous
    section and gives an edge-coupling overlap of the form
+
    $$
    A\propto\int_{0}^{a}\int_{0}^{2\pi}
    E_{\mathrm{SPP},\perp}\cdot E_{\mathrm{laser},\perp}^{*}
    \,r\,dr\,d\phi.
    $$
+
    Matching the beam waist to the tube radius and matching azimuthal indices
    increase the coupling in the model.
 2. **Rotating electron modulation.** For the simulated helical modulation,
    the paper uses $\omega_m=\omega_l$ and gives a kinematic relation for the
    modulation phase velocity, together with the Vavilov-Cherenkov angle
+
    $$
    \phi_{\mathrm{vc}}\simeq
    \arccos\left(1-\frac{\omega_r}{\omega_m}\right).
    $$
+
    The Lean `CherenkovAngleModel` stores the cosine relation without claiming
    that every stored value is a physically realizable angle.
 3. **Coherent versus incoherent intensity.** With phase-symmetric electrons,
    the radiation field adds before squaring, so the idealized scaling is
+
    $$
    I_{\mathrm{coh}}\propto N^2 I_1,
    \qquad I_{\mathrm{incoh}}\propto N I_1.
    $$
+
    Finite radial spread reduces the form factor and therefore reduces perfect
    coherence. The paper's 3D PIC results report coherence enhancement of up to
    two orders of magnitude compared with an incoherent calculation.
@@ -1055,15 +1107,19 @@ separate QEC implementation.
    not a finite OAM register.
 2. **Grid stabilizers.** With quadrature operators satisfying
    $[\hat{x},\hat{p}]=i$, the logical displacements are
+
    $$
    \bar{X}=e^{-i\pi\hat{p}},\qquad
    \bar{Z}=e^{i\pi\hat{x}},
    $$
+
    and the GKP lattice stabilizers are
+
    $$
    S_x=\bar{X}^{2}=e^{-i2\pi\hat{p}},\qquad
    S_p=\bar{Z}^{2}=e^{i2\pi\hat{x}}.
    $$
+
    Homodyne measurements and feed-forward displacements are the relevant
    syndrome/recovery primitives in the proposed optical architecture.
 3. **Measured boundary.** The experiment generated one step of a finite,
@@ -1109,15 +1165,19 @@ Sivak, Andy Z. Ding, Luigi Frunzio, Steven M. Girvin, and Michel H. Devoret,
    oscillator displacement operators $D(\alpha)$ and logical operators
    $X_d=D(\sqrt{\pi/d})$ and $Z_d=D(i\sqrt{\pi/d})$. Their action on grid
    codewords is the finite-dimensional shift/phase action
+
    $$
    Z_d|Z_n\rangle_d=\omega_d^n|Z_n\rangle_d,\qquad
    X_d|Z_n\rangle_d=|Z_{(n+1)\bmod d}\rangle_d,
    \qquad \omega_d=e^{2\pi i/d}.
    $$
+
    The commuting stabilizers have length
+
    $$
    \ell_d=\sqrt{\pi d},
    $$
+
    and the finite-energy code applies an envelope of the form
    $E_\Delta=e^{-\Delta^2a^\dagger a}$.
 2. **Experimental dimensions.** The experiment realizes an error-corrected
@@ -1126,10 +1186,12 @@ Sivak, Andy Z. Ding, Luigi Frunzio, Steven M. Girvin, and Michel H. Devoret,
    stabilization protocol. It is not an OAM experiment.
 3. **QEC gain.** The paper defines a short-time effective decay rate from
    average channel fidelity and compares logical and physical qudits by
+
    $$
    G_d=\frac{\Gamma_d^{\mathrm{physical}}}
              {\Gamma_d^{\mathrm{logical}}},
    $$
+
    with break-even at $G_d=1$. It reports $G_3=1.82\pm0.03$ and
    $G_4=1.87\pm0.03$. The gain is a memory-lifetime comparison, not a gate
    fidelity, computational speedup, or claim of free error removal.
@@ -1178,9 +1240,11 @@ Mohamed M. Elsayed, Valeri N. Kotov, Yinming Shao, and Dmitri N. Basov,
 1. **Anisotropic dispersion.** The shared low-energy idealization has one
    linear momentum direction and one quadratic direction. In normalized
    coordinates, a useful energy-shell form is
+
    $$
    E^2 = (a k_x^2)^2 + (v k_y)^2,
    $$
+
    where $a>0$ is the quadratic-axis coefficient and $v>0$ is the linear-axis
    velocity. The equation is a conditional model after unit normalization;
    material-specific effective masses, velocities, doping, and gaps remain
@@ -1211,10 +1275,12 @@ rGO-vitrimer/metamaterial load, process load, and losses. It proves that
 declared outputs plus losses cannot exceed the fiber-laser input. The
 `SemiDiracGrapheneProcess` record adds a measured end-to-end efficiency and an
 absorbed-power threshold, then proves the necessary bound
+
 $$
 P_{\rm laser} \geq
 \frac{P_{\rm absorbed,required}}{\eta_{\rm end-to-end}}.
 $$
+
 The record also keeps material calibration, phase identification, and
 graphene-formation verification as separate flags.
 
@@ -1265,11 +1331,13 @@ interchangeable. A complete laser-process specification must distinguish:
 | Shock pressure, $p$ | Pressure in the target, in Pa or GPa | Phase transformation criterion, not a laser-head rating |
 
 For a pulsed beam with spot area $A$,
+
 $$
 F=\frac{E_p}{A},\qquad
 P_{\rm peak}=\frac{E_p}{\tau},\qquad
 P_{\rm avg}=E_p f_{\rm rep}.
 $$
+
 For a CW scanned beam, the relevant material dose is instead a function of
 average power, spot area, scan speed, dwell time, absorption, and thermal
 transport. A lower power setting changes the dose; it does not necessarily
@@ -1408,10 +1476,12 @@ the following narrower answer:
 - **Fiber laser feeding a semi-Dirac/rGO-vitrimer control chain:** calculate a
    necessary incident lower bound only after measuring absorbed required power
    and end-to-end efficiency:
+
    $$
    P_{\rm fiber,minimum} \geq
    \frac{P_{\rm absorbed,required}}{\eta_{\rm end-to-end}}.
    $$
+
    The Lean fixture uses 4 W required absorbed power and $\eta=0.5$, hence an
    8 W lower bound inside a 10 W illustrative budget. Those numbers are
    assumptions in a finite model, not values reported by the semi-Dirac or

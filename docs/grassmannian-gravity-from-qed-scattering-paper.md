@@ -30,9 +30,17 @@ Can planetary orbital dynamics—including the anomalous $42.98''/\text{century}
    In 4-point gauge scattering ([Bern, Carrasco, and Johansson 2008](#grav-bcj2008); [Arkani-Hamed and Trnka 2014](#grav-arkani2014)), the kinematic numerators $(n_s, n_t, n_u)$ defined by the quadratic Plücker products $n_s = \Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}$, $n_t = -\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}$, and $n_u = \Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}$ automatically satisfy the Jacobi identity $n_s + n_t + n_u = 0$ via the 3-term Plücker relation on $Gr_{\mathbb{C}}(2,4)$. Squaring the kinematic numerator ($\text{Gravity} = \text{Gauge}^2$) maps gauge-fluid vorticity ($\boldsymbol{\omega} = \nabla \times \mathbf{v}$) onto the symmetric graviton/fluid shear-stress tensor $n_t^2 = (n_s + n_u)^2 = n_s^2 + 2 n_s n_u + n_u^2$.
 2. **1-Loop Post-Minkowskian Effective Potential, DDF Substrate Decomposition, & Mercury's Perihelion Precession**:
    Matching the 1-loop classical scattering amplitude ([Partanen and Tulkki 2025](#grav-partanen2025); [Bjerrum-Bohr et al. 2018](#grav-bjerrum2018)) or the conservative Dilatant Dark Fluid (DDF) sheath action ([Fedi 2026](#grav-fedi2026)) yields the effective central potential
-   $$V_{\mathrm{eff}}(r) = -\frac{G_\phi M m}{r}\left(1 + \frac{3 L^2}{m^2 c^2 r^2}\right) = m\,\Phi_\phi(r) - \frac{3\,G_\phi M\,L^2\,\varrho_{\max}^\varphi j_{\min}^\varphi}{m\,r^3},$$
+
+   $$
+   V_{\mathrm{eff}}(r) = -\frac{G_\phi M m}{r}\left(1 + \frac{3 L^2}{m^2 c^2 r^2}\right) = m\,\Phi_\phi(r) - \frac{3\,G_\phi M\,L^2\,\varrho_{\max}^\varphi j_{\min}^\varphi}{m\,r^3},
+   $$
+
    where $\Phi_\phi(r) = -G_\phi M / r$ is the superfluid Bernoulli enthalpy deficit and $\varrho_{\max}^\varphi j_{\min}^\varphi = c^{-2}$ is the DDF dispersed-phase compressibility-density product. This generates the exact per-orbit anomalous perihelion advance:
-   $$\Delta\varpi = \frac{6\pi G_\phi M}{c^2 a(1 - e^2)} = \frac{3\pi\,r_H}{a(1 - e^2)} = \frac{6\pi\,G_\phi M\,\varrho_{\max}^\varphi j_{\min}^\varphi}{a(1 - e^2)},$$
+
+   $$
+   \Delta\varpi = \frac{6\pi G_\phi M}{c^2 a(1 - e^2)} = \frac{3\pi\,r_H}{a(1 - e^2)} = \frac{6\pi\,G_\phi M\,\varrho_{\max}^\varphi j_{\min}^\varphi}{a(1 - e^2)},
+   $$
+
    reproducing Mercury's anomalous $42.98''/\text{century}$ precession (and the total $574.61''/\text{century}$ advance when summed with the $531.63''/\text{century}$ Newtonian $N$-body planetary perturbations).
 3. **Complex $Gr_{\mathbb{C}}(2,4)$ Planetary Orbital Precession Twistor Matrix (`PlanetaryOrbit.gr24PrecessionMatrix`)**:
    Encoding orbital eccentricity $e \in [0, 1)$ as the $Gr_{\mathbb{C}}(2,4)$ barycentric parallel-axis shift ($d_{\mathrm{bary}} = e$) and the anomalous perihelion phase $\Delta\varpi / 2$ in $M_{\mathbb{C}}^{\mathrm{orb}} \in Gr_{\mathbb{C}}(2,4)$ makes the Madelung channel densities equal the normalized aphelion and perihelion radii ($|w_A^{\mathbb{C}}|^2 = 1 + e = r_{\max}/a$, $|w_B^{\mathbb{C}}|^2 = 1 - e = r_{\min}/a$), while their product $|w_A^{\mathbb{C}}|^2 |w_B^{\mathbb{C}}|^2 = 1 - e^2 = p/a = \gamma_\varphi(e c)^{-2}$ is the exact semi-latus rectum ratio governing $\Delta\varpi = 3\pi r_H / p$.
@@ -213,16 +221,31 @@ $$
 Theorem `PlanetaryOrbit.gr24PrecessionMatrix_orbital_identities` ([DDF.lean](../src/signals/Signals/DDF.lean#L2097-L2215)) proves five exact geometric bridges on $M_{\mathbb{C}}^{\mathrm{orb}}$:
 
 1. **Aphelion Ratio as First Madelung Channel Density**:
-   $$\bigl|w_A^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\bigr|^2 = \bigl|\Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}\bigr|^2 = 1 + e = \frac{r_{\max}}{a}.$$
+
+   $$
+   \bigl|w_A^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\bigr|^2 = \bigl|\Delta_{01}^{\mathbb{C}}\Delta_{23}^{\mathbb{C}}\bigr|^2 = 1 + e = \frac{r_{\max}}{a}.
+   $$
+
 2. **Perihelion Ratio as Second Madelung Channel Density**:
-   $$\bigl|w_B^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\bigr|^2 = \bigl|\Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}\bigr|^2 = 1 - e = \frac{r_{\min}}{a}.$$
+
+   $$
+   \bigl|w_B^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\bigr|^2 = \bigl|\Delta_{03}^{\mathbb{C}}\Delta_{12}^{\mathbb{C}}\bigr|^2 = 1 - e = \frac{r_{\min}}{a}.
+   $$
+
 3. **Orbital Eccentricity as Plücker Barycentric Shift**:
    $$\frac{|w_A^{\mathbb{C}}|^2 - |w_B^{\mathbb{C}}|^2}{2} = e.$$
 4. **Semi-Latus Rectum Ratio $p/a = 1 - e^2$ as Madelung Density Product & Reciprocal Jamming Factor**:
-   $$\bigl|w_A^{\mathbb{C}}\bigr|^2\,\bigl|w_B^{\mathbb{C}}\bigr|^2 = 1 - e^2 = \frac{p}{a} = \left(\frac{b}{a}\right)^2.$$
+
+   $$
+   \bigl|w_A^{\mathbb{C}}\bigr|^2\,\bigl|w_B^{\mathbb{C}}\bigr|^2 = 1 - e^2 = \frac{p}{a} = \left(\frac{b}{a}\right)^2.
+   $$
+
    Consequently, the denominator $p = a(1 - e^2)$ of Mercury's perihelion precession formula $\Delta\varpi = \frac{3\pi r_H}{a(1 - e^2)}$ is $a$ times the product of the two uncrossed Madelung channel densities on $Gr_{\mathbb{C}}(2,4)$!
 5. **Crossing Plücker Minor Encodes Precession Cosine & Minor-to-Major Axis Ratio**:
-   $$\bigl|\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\bigr|^2 = 2\left(1 + \sqrt{1 - e^2}\cos\Delta\varpi\right).$$
+
+   $$
+   \bigl|\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\bigr|^2 = 2\left(1 + \sqrt{1 - e^2}\cos\Delta\varpi\right).
+   $$
 
 ### 3.2 Normed Anisotropic Tensor Gaussian Splatting for $Gr_{\mathbb{C}}(2,4)$ and DDF Orbital Fields (`NormedTensorGaussianSplat2D`)
 
@@ -238,10 +261,17 @@ We prove in [DDF.lean](../src/signals/Signals/DDF.lean#L2485-L2630):
    $\det \Sigma = \sigma_1^2 \sigma_2^2 > 0$, $\mathcal{N}(\Sigma) > 0$, $0 \le G(x, y) \le G(x_0, y_0) = w\,\mathcal{N}(\Sigma)$.
 2. **DDF Moving-Sheath Tensor Splat (`MovingSheath.ddfTensorSplat`, `MovingSheath.ddfTensorSplat_identities`)**:
    With longitudinal Lorentz/jamming contraction $\sigma_1 = \sigma_0 \mathcal{V}(s) = \sigma_0 \gamma_\varphi(v)^{-1}$ and transverse width $\sigma_2 = \sigma_0$, the covariance determinant and peak normalization factor obey:
-   $$\det \Sigma_{\mathrm{DDF}}(s) = \sigma_0^4(1 - \beta^2) = \frac{\sigma_0^4}{\gamma_\varphi(v)^2}, \qquad \mathcal{N}_{\mathrm{DDF}}(s) = \frac{\gamma_\varphi(v)}{2\pi \sigma_0^2}.$$
+
+   $$
+   \det \Sigma_{\mathrm{DDF}}(s) = \sigma_0^4(1 - \beta^2) = \frac{\sigma_0^4}{\gamma_\varphi(v)^2}, \qquad \mathcal{N}_{\mathrm{DDF}}(s) = \frac{\gamma_\varphi(v)}{2\pi \sigma_0^2}.
+   $$
+
 3. **Complex $Gr_{\mathbb{C}}(2,4)$ Planetary Orbit Tensor Splat (`PlanetaryOrbit.gr24TensorSplat`, `PlanetaryOrbit.gr24TensorSplat_identities`)**:
    With principal variances weighted by the two $Gr_{\mathbb{C}}(2,4)$ Madelung channel densities $\sigma_1^2 = \sigma_0^2 |w_A^{\mathbb{C}}|^2 = \sigma_0^2(1 + e)$ and $\sigma_2^2 = \sigma_0^2 |w_B^{\mathbb{C}}|^2 = \sigma_0^2(1 - e)$ oriented along the precessing perihelion angle $\varpi$:
-   $$\operatorname{Tr} \Sigma_{Gr_{\mathbb{C}}(2,4)} = 2\sigma_0^2, \qquad \det \Sigma_{Gr_{\mathbb{C}}(2,4)} = \sigma_0^4(1 - e^2) = \sigma_0^4\,\frac{p}{a}.$$
+
+   $$
+   \operatorname{Tr} \Sigma_{Gr_{\mathbb{C}}(2,4)} = 2\sigma_0^2, \qquad \det \Sigma_{Gr_{\mathbb{C}}(2,4)} = \sigma_0^4(1 - e^2) = \sigma_0^4\,\frac{p}{a}.
+   $$
 
 ---
 

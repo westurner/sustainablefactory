@@ -50,7 +50,11 @@ In earlier modules of `Signals.DDF`, the Madelung representation of the continuo
    - the normalized action increment $d\tau_D = \bigl(-L_{\mathrm{DDF}}(v)/(m c^2)\bigr)dt = dt / \gamma_\varphi(v)$ (`MovingSheath.actionProperTime`) **derives** the proper-time law from the Lagrangian and satisfies $c^2 d\tau_D^2 = c^2 dt^2 - (v\,dt)^2$ unconditionally!
 4. **Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Plücker Duality & Strain-Thickened Bogoliubov Dispersion**:
    We prove that the squared normalized dilatant Lagrangian equals the uncrossed $Gr_{\mathbb{C}}(2,4)$ Plücker channel product and the normalized `NormedTensorGaussianSplat2D` covariance determinant:
-   $$\left(\frac{L_{\mathrm{DDF}}(v)}{-m c^2}\right)^2 = \bigl|w_A^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2 = \frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4} = \frac{1}{\gamma_\varphi(v)^2} = 1 - \frac{v^2}{c^2},$$
+
+   $$
+   \left(\frac{L_{\mathrm{DDF}}(v)}{-m c^2}\right)^2 = \bigl|w_A^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathrm{sheath}})\bigr|^2 = \frac{\det\Sigma_{\mathrm{DDF}}}{\sigma_0^4} = \frac{1}{\gamma_\varphi(v)^2} = 1 - \frac{v^2}{c^2},
+   $$
+
    and that strain-thickened dilatant coupling $g_{\mathrm{DDF}}(k) = g_0(1 + \gamma_{\mathrm{dil}} k^2)$ strictly accelerates high-wavenumber Bogoliubov quasiparticles ($v_{p,\mathrm{DDF}}^2(k) > v_p^2(k)$ for $k, \gamma_{\mathrm{dil}} > 0$).
 
 ---
@@ -126,9 +130,17 @@ $$
 Theorem `MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities` ([src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L7708-L7806)) proves four exact algebraic identities over $\mathbb{C}$:
 1. **Amplitude Normalization**: $|\psi|^2 = \operatorname{Complex.normSq}(\psi) = A^2(\cos^2\theta + \sin^2\theta) = A^2 = \rho$.
 2. **Exact Cancellation of $\dot{A}$ in the Symplectic Time Term**:
-   $$-\hbar\,\operatorname{Im}(\psi^*\partial_t\psi) = -\hbar A^2 \dot{\theta}(\cos^2\theta + \sin^2\theta) = -A^2\,\partial_t S = -\rho\,\partial_t S.$$
+
+   $$
+   -\hbar\,\operatorname{Im}(\psi^*\partial_t\psi) = -\hbar A^2 \dot{\theta}(\cos^2\theta + \sin^2\theta) = -A^2\,\partial_t S = -\rho\,\partial_t S.
+   $$
+
 3. **Orthogonal Decomposition of the Spatial Gradient Norm Squared**:
-   $$|\nabla\psi|^2 = (\nabla A)^2 + A^2\left(\frac{\nabla S}{\hbar}\right)^2.$$
+
+   $$
+   |\nabla\psi|^2 = (\nabla A)^2 + A^2\left(\frac{\nabla S}{\hbar}\right)^2.
+   $$
+
 4. **Equivalence of Complex GP, Amplitude-Phase, and Hydrodynamic Density-Phase Lagrangians**:
    $$\mathcal{L}_{\mathrm{GP}}(\psi, \partial_t\psi, \nabla\psi)
    = \underbrace{-A^2\left(\partial_t S + \frac{(\nabla S)^2}{2 m_\phi} + V_{\mathrm{ext}}\right) - \frac{g_\phi}{2}A^4 - \frac{\hbar^2}{2 m_\phi}(\nabla A)^2}_{\mathcal{L}_{\mathrm{Mad}}(A, \nabla A, \partial_t S, \nabla S)}
@@ -151,11 +163,18 @@ A natural critique of the real hydrodynamic Lagrangian density $\mathcal{L}_{\ma
 
 1. **Positive-Definite Field Legendre Hamiltonian Density (`madelungAmplitudeHamiltonianDensity`, `madelungHydrodynamicHamiltonianDensity`)**:
    Because $\pi_S = \frac{\partial\mathcal{L}_{\mathrm{Mad}}}{\partial(\partial_t S)} = -\rho = -A^2$, the canonical Hamilton–Jacobi decomposition $\mathcal{L}_{\mathrm{Mad}} = \pi_S\,\partial_t S - \mathcal{H}_{\mathrm{Mad}}$ yields the strictly nonnegative energy density:
-   $$\mathcal{H}_{\mathrm{Mad}} = \pi_S\,\partial_t S - \mathcal{L}_{\mathrm{Mad}} = A^2\left(\frac{(\nabla S)^2}{2 m_\phi} + V_{\mathrm{ext}}\right) + \frac{g_\phi}{2}A^4 + \frac{\hbar^2}{2 m_\phi}(\nabla A)^2 = \frac{1}{2}m_\phi\rho v_\phi^2 + V_{\mathrm{ext}}\rho + \frac{g_\phi}{2}\rho^2 + \frac{\hbar^2}{8 m_\phi}\frac{(\nabla\rho)^2}{\rho} \ge 0$$
+
+   $$
+   \mathcal{H}_{\mathrm{Mad}} = \pi_S\,\partial_t S - \mathcal{L}_{\mathrm{Mad}} = A^2\left(\frac{(\nabla S)^2}{2 m_\phi} + V_{\mathrm{ext}}\right) + \frac{g_\phi}{2}A^4 + \frac{\hbar^2}{2 m_\phi}(\nabla A)^2 = \frac{1}{2}m_\phi\rho v_\phi^2 + V_{\mathrm{ext}}\rho + \frac{g_\phi}{2}\rho^2 + \frac{\hbar^2}{8 m_\phi}\frac{(\nabla\rho)^2}{\rho} \ge 0
+   $$
+
    whenever $m_\phi > 0, V_{\mathrm{ext}} \ge 0, g_\phi \ge 0$.
 2. **Spatial Gradient Bridge from QHJ to the Compressible Madelung–Euler Momentum Equation (`madelungEulerMomentumResidual`)**:
    For irrotational flow $v_\phi = \nabla S / m_\phi$ with mixed-partial symmetry $\nabla(\partial_t S) = m_\phi\partial_t v_\phi$ and convective identity $\nabla\bigl(\frac{1}{2}m_\phi v_\phi^2\bigr) = m_\phi v_\phi\nabla v_\phi$, dividing the spatial gradient of the QHJ equation by $m_\phi > 0$ yields the exact compressible Madelung–Euler momentum residual:
-   $$\frac{(m_\phi\partial_t v_\phi) + (m_\phi v_\phi\nabla v_\phi) + \nabla V_{\mathrm{ext}} + g_\phi\nabla\rho + \nabla Q(\rho)}{m_\phi} = \partial_t v_\phi + v_\phi\nabla v_\phi + \frac{\nabla V_{\mathrm{ext}} + g_\phi\nabla\rho + \nabla Q(\rho)}{m_\phi} = \mathcal{R}_{\mathrm{Euler}}.$$
+
+   $$
+   \frac{(m_\phi\partial_t v_\phi) + (m_\phi v_\phi\nabla v_\phi) + \nabla V_{\mathrm{ext}} + g_\phi\nabla\rho + \nabla Q(\rho)}{m_\phi} = \partial_t v_\phi + v_\phi\nabla v_\phi + \frac{\nabla V_{\mathrm{ext}} + g_\phi\nabla\rho + \nabla Q(\rho)}{m_\phi} = \mathcal{R}_{\mathrm{Euler}}.
+   $$
 
 ---
 
@@ -185,9 +204,17 @@ $$
 
 In `MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities`, we prove:
 1. **Stationary Point & Global Minimum at $\Lambda_\parallel = \gamma_\varphi(v)$**:
-   $$\mathcal{R}_{\mathrm{sheath}}\bigl(\gamma_\varphi(v)\bigr) = 0 \quad\text{and}\quad \Delta\mathcal{E}_{\mathrm{sheath}}\bigl(\gamma_\varphi(v)\bigr) = 0.$$
+
+   $$
+   \mathcal{R}_{\mathrm{sheath}}\bigl(\gamma_\varphi(v)\bigr) = 0 \quad\text{and}\quad \Delta\mathcal{E}_{\mathrm{sheath}}\bigl(\gamma_\varphi(v)\bigr) = 0.
+   $$
+
 2. **Uniqueness of the Variational Jamming Solution for $\Lambda_\parallel > 0$**:
-   $$\mathcal{R}_{\mathrm{sheath}}(\Lambda_\parallel) = 0 \iff \Lambda_\parallel^2(1 - \beta^2) = 1 \iff \Lambda_\parallel = \gamma_\varphi(v) = \frac{1}{\sqrt{1 - v^2/c^2}},$$
+
+   $$
+   \mathcal{R}_{\mathrm{sheath}}(\Lambda_\parallel) = 0 \iff \Lambda_\parallel^2(1 - \beta^2) = 1 \iff \Lambda_\parallel = \gamma_\varphi(v) = \frac{1}{\sqrt{1 - v^2/c^2}},
+   $$
+
    recovering `profile_closure_jamming_factor` directly as the unique Euler–Lagrange stationary point of the dilatant sheath coupling.
 
 ### 3.2 Worldline Dilatant Action, Legendre Transform to $H_{\mathrm{DDF}} = \gamma_\varphi(v) m c^2$, and Unconditional Minkowski Proper Time
@@ -201,17 +228,36 @@ $$
 From $L_{\mathrm{DDF}}(v)$, `MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities` machine-checks the complete relativistic mechanics and proper-time chain:
 
 1. **Canonical Momentum (`MovingSheath.dilatantCanonicalMomentum`)**:
-   $$p_{\mathrm{DDF}}(v) = \frac{\partial L_{\mathrm{DDF}}}{\partial v} = \gamma_\varphi(v)\,m\,v.$$
+
+   $$
+   p_{\mathrm{DDF}}(v) = \frac{\partial L_{\mathrm{DDF}}}{\partial v} = \gamma_\varphi(v)\,m\,v.
+   $$
+
 2. **Legendre Transform Recovers Total Material Energy & Reversible Kinetic Energy (`MovingSheath.dilatantHamiltonian`)**:
-   $$H_{\mathrm{DDF}}(v) = v\,p_{\mathrm{DDF}}(v) - L_{\mathrm{DDF}}(v) = \gamma_\varphi(v) m v^2 + \frac{m c^2}{\gamma_\varphi(v)} = \gamma_\varphi(v)\,m c^2 = m c^2 + K_D(v),$$
+
+   $$
+   H_{\mathrm{DDF}}(v) = v\,p_{\mathrm{DDF}}(v) - L_{\mathrm{DDF}}(v) = \gamma_\varphi(v) m v^2 + \frac{m c^2}{\gamma_\varphi(v)} = \gamma_\varphi(v)\,m c^2 = m c^2 + K_D(v),
+   $$
+
    where $K_D(v) = m c^2(\gamma_\varphi(v) - 1)$ is `MovingSheath.kineticEnergy`.
 3. **Relativistic Mass-Shell Dispersion Invariant**:
-   $$H_{\mathrm{DDF}}(v)^2 - c^2\,p_{\mathrm{DDF}}(v)^2 = \bigl(\gamma_\varphi(v) m c^2\bigr)^2 - c^2\bigl(\gamma_\varphi(v) m v\bigr)^2 = (m c^2)^2.$$
+
+   $$
+   H_{\mathrm{DDF}}(v)^2 - c^2\,p_{\mathrm{DDF}}(v)^2 = \bigl(\gamma_\varphi(v) m c^2\bigr)^2 - c^2\bigl(\gamma_\varphi(v) m v\bigr)^2 = (m c^2)^2.
+   $$
+
 4. **Action-Derived Clock Proper Time & Unconditional Minkowski Interval (`MovingSheath.actionProperTime`)**:
    Defining the clock proper-time increment directly from the normalized worldline action increment $-dS_{\mathrm{DDF}}/(m c^2)$:
-   $$d\tau_D = s.\mathrm{actionProperTime}(m, dt) = \left(\frac{-L_{\mathrm{DDF}}(v)}{m c^2}\right)dt = \frac{dt}{\gamma_\varphi(v)}$$
+
+   $$
+   d\tau_D = s.\mathrm{actionProperTime}(m, dt) = \left(\frac{-L_{\mathrm{DDF}}(v)}{m c^2}\right)dt = \frac{dt}{\gamma_\varphi(v)}
+   $$
+
    proves **unconditionally** (without any external `h_dtau` assumption) that:
-   $$c^2\,\bigl(s.\mathrm{actionProperTime}(m, dt)\bigr)^2 = c^2\,dt^2 - (v\,dt)^2.$$
+
+   $$
+   c^2\,\bigl(s.\mathrm{actionProperTime}(m, dt)\bigr)^2 = c^2\,dt^2 - (v\,dt)^2.
+   $$
 
 ### 3.3 Four-Way Equivalence with Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Plücker Channels & Tensor Splats
 
@@ -231,7 +277,11 @@ Theorem `madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities` (
 
 1. **$\text{AdS}_5$ Planar Black-Brane Emblackening vs. DDF Worldline Lagrangian Square**:
    Evaluating $M_{\text{AdS}_5} = \operatorname{ddfThermalGr24Matrix}\bigl((z/z_H)^2, \theta\bigr)$ for $0 < z < z_H$ proves that the uncrossed $Gr_{\mathbb{C}}(2,4)$ Plücker channel product equals the $\text{AdS}_5$ black-brane emblackening factor:
-   $$\bigl|w_A^{\mathbb{C}}(M_{\text{AdS}_5})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\text{AdS}_5})\bigr|^2 = 1 - \left(\frac{z}{z_H}\right)^4 = \operatorname{adsPlanarBlackBraneEmblackening}(z, z_H, 4) > 0,$$
+
+   $$
+   \bigl|w_A^{\mathbb{C}}(M_{\text{AdS}_5})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\text{AdS}_5})\bigr|^2 = 1 - \left(\frac{z}{z_H}\right)^4 = \operatorname{adsPlanarBlackBraneEmblackening}(z, z_H, 4) > 0,
+   $$
+
    matching the squared normalized worldline Lagrangian $\bigl(L_{\mathrm{DDF}}/(-mc^2)\bigr)^2 = 1 - \beta^2$ on $Gr_{\mathbb{C}}(2,4)$.
 2. **Two-Spline Madelung Polar Wave Superposition & `kicad-volumetric` Metric Interference DRC**:
    For two adjacent nanolithography splines with amplitudes $A_1, A_2 > 0$:
@@ -239,7 +289,11 @@ Theorem `madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities` (
    - **Quadrature ($\Delta\theta = \pi/2$) / Orthogonal-Flash Decomposition**: $\operatorname{Complex.normSq}\bigl(\psi(A_1, \theta) + \psi(A_2, \theta + \pi/2)\bigr) = A_1^2 + A_2^2 < \operatorname{twoTraceConstructiveSqueezePeak}(A_1, A_2)$, eliminating the $2 A_1 A_2$ interference cross-term identically.
 3. **$532\text{ nm}$ STED Depletion Amplifies Core Bohm Quantum Potential by $1 + \zeta_{532} = 64\times$ (`stedCoreBohmPotential`)**:
    Compressing the $405\text{ nm}$ write spot by a coaxial $532\text{ nm}$ helical doughnut beam of saturation ratio $\zeta_{532} > 0$ amplifies the repulsive core Bohm quantum-confinement potential of the focal Gaussian splat by:
-   $$\operatorname{stedCoreBohmPotential}(m_\phi, \hbar, \lambda_w, \mathrm{NA}, \zeta_{532}) = (1 + \zeta_{532})\,\operatorname{stedCoreBohmPotential}(m_\phi, \hbar, \lambda_w, \mathrm{NA}, 0),$$
+
+   $$
+   \operatorname{stedCoreBohmPotential}(m_\phi, \hbar, \lambda_w, \mathrm{NA}, \zeta_{532}) = (1 + \zeta_{532})\,\operatorname{stedCoreBohmPotential}(m_\phi, \hbar, \lambda_w, \mathrm{NA}, 0),
+   $$
+
    yielding an exact $64\times$ quantum-confinement boost at $\zeta_{532} = 63$ ($w_{\mathrm{STED}} \approx 18.08\text{ nm}$).
 
 ---

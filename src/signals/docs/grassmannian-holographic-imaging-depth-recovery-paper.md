@@ -38,11 +38,19 @@ In this paper, we show how the **Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recove
 
 1. **Exact Plücker Inversion of the Unseen 3rd Principal Variance $\sigma_3^2$ (`recoverDepthVarianceSq`)**:
    By encoding the lateral-to-axial variance anisotropy $\delta_{\mathrm{depth}} = \frac{(\sigma_1^2 + \sigma_2^2) - \sigma_3^2}{(\sigma_1^2 + \sigma_2^2) + \sigma_3^2} \in (-1, 1)$ into a complex $Gr_{\mathbb{C}}(2,4)$ twistor matrix $M_{\mathrm{depth}} = \operatorname{ddfThermalGr24Matrix}(\delta_{\mathrm{depth}}, \theta_z)$ (measured experimentally via dual-plane defocus homodyne in `Signals.Homodyne`, off-axis digital holography quadratures, or dispersive phase-fingerprint channels in `Signals.NonDestructive`), the ratio of the two uncrossed $Gr_{\mathbb{C}}(2,4)$ Plücker channel intensities is $R_{\mathrm{depth}} = \frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2} = \frac{\sigma_1^2 + \sigma_2^2}{\sigma_3^2}$. Combining $R_{\mathrm{depth}}$ with the 2D screen trace $\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} = \sigma_1^2 + \sigma_2^2$ reconstructs in closed form:
-   $$\sigma_3^2 = \frac{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}}{R_{\mathrm{depth}}}, \qquad \operatorname{Tr}\Sigma_{\mathrm{3D}} = \operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}\!\left(1 + \frac{1}{R_{\mathrm{depth}}}\right), \qquad \det\Sigma_{\mathrm{3D}} = \det\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}\,\frac{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}}{R_{\mathrm{depth}}},$$
+
+   $$
+   \sigma_3^2 = \frac{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}}{R_{\mathrm{depth}}}, \qquad \operatorname{Tr}\Sigma_{\mathrm{3D}} = \operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}\!\left(1 + \frac{1}{R_{\mathrm{depth}}}\right), \qquad \det\Sigma_{\mathrm{3D}} = \det\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}\,\frac{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}}{R_{\mathrm{depth}}},
+   $$
+
    and recovers the full 3D repulsive core Bohm quantum potential $Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}) + \frac{\hbar^2}{4m}\frac{R_{\mathrm{depth}}}{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}}$.
 2. **Depth-Invariant Lateral Fingerprinting & Perspective Range ($z_c^2$) Tomography (`recoverFocalDepthSq`)**:
    Under perspective projection $s = f / z_c$, the lateral $Gr_{\mathbb{C}}(2,4)$ anisotropy $\frac{\sigma_{1,\mathrm{persp}}^2 - \sigma_{2,\mathrm{persp}}^2}{\sigma_{1,\mathrm{persp}}^2 + \sigma_{2,\mathrm{persp}}^2} = \frac{\sigma_1^2 - \sigma_2^2}{\sigma_1^2 + \sigma_2^2}$ is strictly independent of $z_c$, enabling range-free shape classification, while the focal depth $z_c^2$ is recovered from the trace ratio or 2D Bohm potential ratio:
-   $$z_c^2 = f^2\,\frac{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}}{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{persp}}} = f^2\,\frac{Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{persp}})}{Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}})}.$$
+
+   $$
+   z_c^2 = f^2\,\frac{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}}{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{persp}}} = f^2\,\frac{Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{persp}})}{Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}})}.
+   $$
+
 3. **Convergent Multi-Beam Confocal Axial Precision Compression (`convergentCrossedAxialPrecision`)**:
    Connecting our formalization to the convergent holography discussions in [docs/chats/IQ-Sampling-for-Signal-Phase.myst.md](../../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L9073-L9300) and [docs/chats/CNT Bandgap Creation with Lignin Vitrimer .myst.md](../../../docs/chats/CNT%20Bandgap%20Creation%20with%20Lignin%20Vitrimer%20.myst.md#L5320), we prove that crossing orthogonal convergent Gaussian beams with transverse waist $\sigma_\perp$ and elongated axial Rayleigh depth $\sigma_\parallel > \sigma_\perp$ sums their inverse-covariance precisions ($\tau_{z,\mathrm{conv}} = \sigma_\parallel^{-2} + \sigma_\perp^{-2} > 2\sigma_\parallel^{-2}$), eliminating the single-beam axial depth-of-focus bottleneck while synchronous $N_{\mathrm{beam}}$ phase locking boosts coherent focal intensity by $(N_{\mathrm{beam}} A_0)^2 = N_{\mathrm{beam}}(N_{\mathrm{beam}} A_0^2)$.
 4. **Self-Calibrating Pilot-Tone Phase Conjugation & Orthogonal Multi-Flash Thermal Controls**:
@@ -60,7 +68,11 @@ Consider a 3D volumetric Gaussian feature `splat : NormedTensorGaussianSplat3D` 
    Integrating along the beam axis $z$ integrates the normalized axial Gaussian factor $\int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}\sigma_3}\exp\!\left(-\frac{(z-z_c)^2}{2\sigma_3^2}\right)dz = 1$ to unity. The resulting 2D screen splat retains `(centerX, centerY, weight, sigma1, sigma2, orientationAngle)` but **completely erases `centerZ` and `sigma3`**.
 2. **Perspective Pinhole / EWA Projection (`projectPerspective2D`)**:
    Projecting from bulk depth $z_c > 0$ through focal length $f > 0$ scales the screen coordinates and lateral widths by $s = f / z_c$:
-   $$\sigma_{1,\mathrm{persp}} = \frac{f}{z_c}\,\sigma_1, \qquad \sigma_{2,\mathrm{persp}} = \frac{f}{z_c}\,\sigma_2.$$
+
+   $$
+   \sigma_{1,\mathrm{persp}} = \frac{f}{z_c}\,\sigma_1, \qquad \sigma_{2,\mathrm{persp}} = \frac{f}{z_c}\,\sigma_2.
+   $$
+
    A small object close to the lens ($z_c$ small) and a large object far from the lens ($z_c$ large) produce identical 2D screen widths unless an independent depth channel is available.
 
 ### 1.2 Dual-Twistor $Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)$ Encoding of a 3D Voxel
@@ -93,14 +105,25 @@ flowchart LR
 
 1. **Lateral $Gr_{\mathbb{C}}(2,4)$ Twistor Channel ($M_{\mathrm{lat}}$)**:
    Encodes the in-plane principal variance asymmetry:
-   $$\delta_{\mathrm{lat}} = \frac{\sigma_1^2 - \sigma_2^2}{\sigma_1^2 + \sigma_2^2} = \frac{\sigma_{1,\mathrm{persp}}^2 - \sigma_{2,\mathrm{persp}}^2}{\sigma_{1,\mathrm{persp}}^2 + \sigma_{2,\mathrm{persp}}^2} \in (-1, 1).$$
+
+   $$
+   \delta_{\mathrm{lat}} = \frac{\sigma_1^2 - \sigma_2^2}{\sigma_1^2 + \sigma_2^2} = \frac{\sigma_{1,\mathrm{persp}}^2 - \sigma_{2,\mathrm{persp}}^2}{\sigma_{1,\mathrm{persp}}^2 + \sigma_{2,\mathrm{persp}}^2} \in (-1, 1).
+   $$
+
    Because $(f/z_c)^2$ cancels identically between numerator and denominator (`h_depth_inv` in [../Signals/DDF.lean](../Signals/DDF.lean#L5600-L5615)), $\delta_{\mathrm{lat}}$ is an **exact projective depth invariant**: a 2D sensor immediately reads out the intrinsic lateral eccentricity of the 3D feature at any unknown depth $z_c > 0$.
 
 2. **Holographic Depth $Gr_{\mathbb{C}}(2,4)$ Twistor Channel ($M_{\mathrm{depth}}$)**:
    Encodes the lateral-to-axial variance balance (`holographicDepthAnisotropy` in [../Signals/DDF.lean](../Signals/DDF.lean#L5390-L5395)):
-   $$\delta_{\mathrm{depth}} = \frac{(\sigma_1^2 + \sigma_2^2) - \sigma_3^2}{(\sigma_1^2 + \sigma_2^2) + \sigma_3^2} \in (-1, 1), \qquad M_{\mathrm{depth}} = \operatorname{ddfThermalGr24Matrix}(\delta_{\mathrm{depth}}, \theta_z).$$
+
+   $$
+   \delta_{\mathrm{depth}} = \frac{(\sigma_1^2 + \sigma_2^2) - \sigma_3^2}{(\sigma_1^2 + \sigma_2^2) + \sigma_3^2} \in (-1, 1), \qquad M_{\mathrm{depth}} = \operatorname{ddfThermalGr24Matrix}(\delta_{\mathrm{depth}}, \theta_z).
+   $$
+
    Evaluating the two uncrossed $2 \times 2$ Plücker channel intensities $|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2 = 1 + \delta_{\mathrm{depth}}$ and $|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2 = 1 - \delta_{\mathrm{depth}}$ yields the **Plücker Depth Ratio**:
-   $$R_{\mathrm{depth}} := \frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2} = \frac{1 + \delta_{\mathrm{depth}}}{1 - \delta_{\mathrm{depth}}} = \frac{\sigma_1^2 + \sigma_2^2}{\sigma_3^2}.$$
+
+   $$
+   R_{\mathrm{depth}} := \frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2} = \frac{1 + \delta_{\mathrm{depth}}}{1 - \delta_{\mathrm{depth}}} = \frac{\sigma_1^2 + \sigma_2^2}{\sigma_3^2}.
+   $$
 
 3. **Physical Realization of the Depth Channel $M_{\mathrm{depth}}$ in Optical, Holographic, and X-Ray Imaging**:
    How does a physical imaging instrument measure $R_{\mathrm{depth}}$ or $\delta_{\mathrm{depth}}$?
@@ -140,27 +163,62 @@ Across the research chat corpus, convergent multi-beam holography was developed 
 In [../Signals/DDF.lean](../Signals/DDF.lean#L5942-L6069) (Blueprint node `thm:signals-ddf-holographic-gr24-imaging-depth-recovery`), we prove for any `splat : NormedTensorGaussianSplat3D` with $z_c > 0$, focal scale $f > 0$, $m > 0$, $\hbar \ne 0$, transverse waist $0 < \sigma_\perp < \sigma_\parallel$, beam count $N_{\mathrm{beam}} > 1$, and per-beam amplitude $A_0 > 0$:
 
 1. **Exact 3rd Principal Variance Inversion**:
-   $$\operatorname{recoverDepthVarianceSq}\bigl(\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}},\, R_{\mathrm{depth}}\bigr) = \frac{\sigma_1^2 + \sigma_2^2}{\left(\frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2}\right)} = \sigma_3^2.$$
+
+   $$
+   \operatorname{recoverDepthVarianceSq}\bigl(\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}},\, R_{\mathrm{depth}}\bigr) = \frac{\sigma_1^2 + \sigma_2^2}{\left(\frac{|w_A^{\mathbb{C}}(M_{\mathrm{depth}})|^2}{|w_B^{\mathbb{C}}(M_{\mathrm{depth}})|^2}\right)} = \sigma_3^2.
+   $$
+
 2. **Exact 3D Covariance Trace Reconstruction**:
-   $$\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} + \sigma_{3,\mathrm{rec}}^2 = \sigma_1^2 + \sigma_2^2 + \sigma_3^2 = \operatorname{Tr}\Sigma_{\mathrm{3D}}.$$
+
+   $$
+   \operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} + \sigma_{3,\mathrm{rec}}^2 = \sigma_1^2 + \sigma_2^2 + \sigma_3^2 = \operatorname{Tr}\Sigma_{\mathrm{3D}}.
+   $$
+
 3. **Exact 3D Covariance Determinant (Volume) Reconstruction**:
-   $$\det\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} \cdot \sigma_{3,\mathrm{rec}}^2 = (\sigma_1^2\sigma_2^2)\sigma_3^2 = \det\Sigma_{\mathrm{3D}}.$$
+
+   $$
+   \det\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} \cdot \sigma_{3,\mathrm{rec}}^2 = (\sigma_1^2\sigma_2^2)\sigma_3^2 = \det\Sigma_{\mathrm{3D}}.
+   $$
+
 4. **Exact 3D Core Bohm Quantum Potential Reconstruction from 2D Screen Data**:
-   $$Q_{\mathrm{core,2D}}\bigl(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}\bigr) + \frac{\hbar^2}{4m}\frac{R_{\mathrm{depth}}}{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}} = \frac{\hbar^2}{4m}\left(\frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2} + \frac{1}{\sigma_3^2}\right) = Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}).$$
+
+   $$
+   Q_{\mathrm{core,2D}}\bigl(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}\bigr) + \frac{\hbar^2}{4m}\frac{R_{\mathrm{depth}}}{\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}} = \frac{\hbar^2}{4m}\left(\frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2} + \frac{1}{\sigma_3^2}\right) = Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}).
+   $$
+
 5. **Exact Focal-Depth Squared ($z_c^2$) Tomography from 2D Screen Traces**:
-   $$\operatorname{recoverFocalDepthSq}\bigl(f,\, \operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}},\, \operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{persp}}\bigr) = f^2\,\frac{\sigma_1^2 + \sigma_2^2}{(f/z_c)^2(\sigma_1^2 + \sigma_2^2)} = z_c^2.$$
+
+   $$
+   \operatorname{recoverFocalDepthSq}\bigl(f,\, \operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}},\, \operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{persp}}\bigr) = f^2\,\frac{\sigma_1^2 + \sigma_2^2}{(f/z_c)^2(\sigma_1^2 + \sigma_2^2)} = z_c^2.
+   $$
+
 6. **Exact Focal-Depth Squared ($z_c^2$) Tomography from 2D Core Bohm Potentials**:
-   $$f^2\,\frac{Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{persp}})}{Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}})} = z_c^2.$$
+
+   $$
+   f^2\,\frac{Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{persp}})}{Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}})} = z_c^2.
+   $$
+
 7. **Collinear Two-Beam vs. Single-Beam Axial Precision**:
    $$\frac{1}{\sigma_\parallel^2} < \frac{2}{\sigma_\parallel^2}.$$
 8. **Crossed Orthogonal Convergent-Beam Confocal Axial Precision Boost**:
-   $$\frac{2}{\sigma_\parallel^2} < \frac{1}{\sigma_\parallel^2} + \frac{1}{\sigma_\perp^2} = \operatorname{convergentCrossedAxialPrecision}(\sigma_\perp, \sigma_\parallel).$$
+
+   $$
+   \frac{2}{\sigma_\parallel^2} < \frac{1}{\sigma_\parallel^2} + \frac{1}{\sigma_\perp^2} = \operatorname{convergentCrossedAxialPrecision}(\sigma_\perp, \sigma_\parallel).
+   $$
+
 9. **Synchronous $N$-Beam Coherent vs. Incoherent Focal Intensity Ratio**:
-   $$(N_{\mathrm{beam}}\,A_0)^2 = N_{\mathrm{beam}} \cdot \bigl(N_{\mathrm{beam}}\,A_0^2\bigr).$$
+
+   $$
+   (N_{\mathrm{beam}}\,A_0)^2 = N_{\mathrm{beam}} \cdot \bigl(N_{\mathrm{beam}}\,A_0^2\bigr).
+   $$
+
 10. **Strict Coherent Multi-Beam Focal Intensity Gain ($N_{\mathrm{beam}} > 1$)**:
     $$N_{\mathrm{beam}}\,A_0^2 < (N_{\mathrm{beam}}\,A_0)^2.$$
 11. **Self-Calibrating Pilot-Tone Phase-Conjugate Aberration Cancellation**:
-    $$\operatorname{ddfThermalGr24Matrix}(\delta_{\mathrm{depth}},\, \theta_z + \phi_{\mathrm{err}} - \phi_{\mathrm{err}}) = M_{\mathrm{depth}}.$$
+
+    $$
+    \operatorname{ddfThermalGr24Matrix}(\delta_{\mathrm{depth}},\, \theta_z + \phi_{\mathrm{err}} - \phi_{\mathrm{err}}) = M_{\mathrm{depth}}.
+    $$
 
 ### 3.2 Self-Contained Machine-Checked Lean 4 Proof Block
 

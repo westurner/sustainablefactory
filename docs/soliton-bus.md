@@ -143,7 +143,11 @@ and [grassmannian-qism-bethe-ansatz-paper.md](grassmannian-qism-bethe-ansatz-pap
 2. **Complex $Gr_{\mathbb{C}}(2,4)$ Twistor Coupler Representation (`SolitonMultiLaneCoupler.dualLane_complexGr24_eq_huygensSteinerOAM`)**:
    Encoding a dual-rail OAM soliton coupler in the complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
    with $\mathbb{C}^4$-projected twistor entries
-   $$z_{1,2} = \sqrt{1 \pm d_{\mathrm{bary}}}\,e^{\pm i\left(\frac{\pi d x}{\lambda L} + \frac{\Delta\ell\,\phi}{2}\right)}$$
+
+   $$
+   z_{1,2} = \sqrt{1 \pm d_{\mathrm{bary}}}\,e^{\pm i\left(\frac{\pi d x}{\lambda L} + \frac{\Delta\ell\,\phi}{2}\right)}
+   $$
+
    reproduces the partially coherent Huygens–Steiner OAM coupler output with
    visibility $\mathcal{V} = \sqrt{1 - d_{\mathrm{bary}}^2}$ identically across all
    $(x, y, \phi)$ with **zero relative predictive error**, eliminating the $50\%$
@@ -153,7 +157,11 @@ and [grassmannian-qism-bethe-ansatz-paper.md](grassmannian-qism-bethe-ansatz-pap
    interact pairwise in an integrable NLSE / Yangian zone, `solitonThreeWaveguide_yang_baxter_consistency`
    combines `Signals.QISM.yang_baxter_equation_matrix8` and `Signals.QISM.baxterTQResidual_wronskian_zero`
    to certify that the $8 \times 8$ three-mode scattering product satisfies
-   $$R_{12}(u-v;\eta)\,R_{13}(u-w;\eta)\,R_{23}(v-w;\eta) = R_{23}(v-w;\eta)\,R_{13}(u-w;\eta)\,R_{12}(u-v;\eta)$$
+
+   $$
+   R_{12}(u-v;\eta)\,R_{13}(u-w;\eta)\,R_{23}(v-w;\eta) = R_{23}(v-w;\eta)\,R_{13}(u-w;\eta)\,R_{12}(u-v;\eta)
+   $$
+
    and the three-point Casorati Wronskians on $Gr(2,4)$ satisfy Baxter's $TQ$ difference equation identically.
 4. **Rust + WebAssembly (`wasm32-unknown-unknown`) + WebGL2 GLSL Implementation**:
    All seven multi-slit / multi-lane ($N > 0$) models (`Fraunhofer`, `HuygensSteiner`,

@@ -326,19 +326,23 @@ The mathematical chain across the three zones operates as follows ([Denisov & hy
 
 1. **Zone 1 — Denisov Linear Mode Conversion ($\theta_{\mathrm{Denisov}} \approx 21.74^\circ$)**:
    Across a linearly graded permittivity profile $\varepsilon_\parallel(z) \approx -(z - z_{\mathrm{ENZ}})/L_n$ with scale length $L_n = 1.20\text{ mm}$ ($k_0 L_n \approx 10.06$ at $f_1 = 400\text{ GHz}$, $k_0 = 83.83\text{ cm}^{-1}$), an obliquely incident TM wave's transverse magnetic field $H_y$ tunnels to the $\varepsilon_\parallel = 0$ horizon and drives a resonant longitudinal electric field $E_z = -(\sin\theta_{\mathrm{in}} / \varepsilon_\parallel(z)) H_y$ ([Denisov 1957](#denisov-1957); [Poddubny et al. 2013](#poddubny-2013)):
+
    $$
    \tau_D = (k_0 L_n)^{1/3}\sin\theta_{\mathrm{in}},
    \qquad
    \eta_{\mathrm{Denisov}}(\tau_D) = 2\pi\tau_D^2\bigl[\operatorname{Ai}(\tau_D^2 - \tau_0)\bigr]^2.
    $$
+
    At normal incidence ($\theta_{\mathrm{in}} = 0^\circ$), $\tau_D = 0$ and mode conversion vanishes identically. Peak conversion occurs at $\tau_{\mathrm{opt}} \approx 0.80$, giving $\theta_{\mathrm{Denisov}} = \arcsin\bigl(0.80 / (10.06)^{1/3}\bigr) \approx 21.74^\circ$.
 2. **Zone 2 — Non-Collinear Type-II Hyperbolic Sum-Frequency Generation ($\Delta\mathbf{k} = 0$)**:
    At $400\text{ GHz}$ ($\omega_1$), $f = 3.20\%$ rGO places the stack in the Type-II hyperbolic regime ($\varepsilon_{\parallel,1} = -0.790 < 0, \varepsilon_{\perp,1} = +2.918 > 0$), while at $800\text{ GHz}$ ($\omega_2 = 2\omega_1$) the Drude term drops by $(\omega_1/\omega_2)^2 = 1/4$ so the stack is elliptical dielectric ($\varepsilon_{\parallel,2} = +1.84, \varepsilon_{\perp,2} = +2.85$). Launching two symmetric $400\text{ GHz}$ pump cones with opposite transverse wavevectors $+k_{x,1}$ and $-k_{x,1}$ (assisted by the concentric azimuthal `polyCBD-CNC` Bragg grating pitch $\Lambda_r = 612.0\text{ }\mu\text{m}$) satisfies both:
+
    $$
    k_{x,2} = (+k_{x,1}) + (-k_{x,1}) = 0,
    \qquad
    2\,k_{z,1}(k_{x,1}) = 2\sqrt{\varepsilon_{\perp,1}\left(\frac{\omega_1^2}{c^2} + \frac{k_{x,1}^2}{|\varepsilon_{\parallel,1}|}\right)} = k_{z,2} = \frac{2\omega_1}{c}\sqrt{\varepsilon_{\perp,2}},
    $$
+
    eliminating transverse walk-off and matching the axial phase velocity inside the $2.50\text{ mm}$ core.
 3. **Zone 3 — $800\text{ GHz}$ ENZ Boundary Amplification & Review Boundaries**:
    Stepping the rGO fill fraction to the $800\text{ GHz}$ ENZ crossing amplifies the internal longitudinal field by $\lvert\varepsilon_d / \varepsilon_{\mathrm{ENZ}}\rvert = 2.82 / 0.048 = 58.75\times$ (at exact $\operatorname{Re}(\varepsilon_\parallel) = 0$, $f_{\mathrm{ENZ}}(800\text{ GHz}) = \frac{141}{1516} \approx 9.301\%$).
@@ -421,7 +425,11 @@ In our **dual-beam $405\text{ nm} + 532\text{ nm}$ holographic carbon nanolithog
 1. **$405\text{ nm}$ Radial Vector Vortex Beam ($q = 1/2$, $\mathrm{NA} = 1.4$)**: Focuses into a sub-wavelength longitudinal electric-field needle ($E_z = 2 E_0 \sin\theta$, amplified at the `rGO-polyCBD-SS-Lignin` ENZ horizon) that cleaves $o$-nitrobenzyl (ONB) crosslinkers and drives $sp^2$ `N-LIG` ($n$-type) / `S-LIG` ($p$-type) synthesis. Alone, its Abbe diffraction spot is $w_0 = \frac{405\text{ nm}}{2 \times 1.4} = \frac{2025}{14} \approx 144.64\text{ nm}$.
 2. **$532\text{ nm}$ Helical Doughnut Beam ($\sigma \cdot \ell = +1$, $E_z = 0$ on axis)**: Performs three complementary functions:
    - **Thermal-STED / RAPID Annular Depletion ($\zeta_{532} = I_{532}/I_{\mathrm{sat}} = 63$)**: Compresses the active synthesis core by $\sqrt{1 + \zeta_{532}} = 8\times$ down to:
-     $$w_{\mathrm{STED}} = \frac{\lambda_{405}}{2\,\mathrm{NA}\sqrt{1 + \zeta_{532}}} = \frac{2025}{112}\text{ nm} \approx \mathbf{18.08\text{ nm}} < 20\text{ nm}$$
+
+     $$
+     w_{\mathrm{STED}} = \frac{\lambda_{405}}{2\,\mathrm{NA}\sqrt{1 + \zeta_{532}}} = \frac{2025}{112}\text{ nm} \approx \mathbf{18.08\text{ nm}} < 20\text{ nm}
+     $$
+
    (proved in [`holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities`](../src/signals/Signals/Nanolithography.lean#L80-L122), matching the $22\text{ nm}$ FDSOI gate-length class of Zaruba & Benini's $1.7\text{ GHz}$ CVA6 baseline!).
    - **Laser Compression Shock (LCS) Strain-Locking & $532\text{ nm}$ Bragg Mirrors**: Because lignin/polyCBD absorbs green $532\text{ nm}$ photons strongly, pulsed $532\text{ nm}$ interference patterns strain-lock CNT/GFET semiconducting bandgaps and imprint $d_{\mathrm{Bragg,532}} = \frac{532\text{ nm}}{2 \times 1.59} \approx 167.30\text{ nm}$ optical clock reflectors ([chat source](../data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md#L520-L535)).
    - **Inter-Flash Fiducial Registration**: Tracks thermal expansion between the $12$ orthogonal flashes.
@@ -573,7 +581,11 @@ In `Signals.Scattering` ([src/signals/Signals/Scattering.lean](../src/signals/Si
 1. **Complex $Gr_{\mathbb{C}}(2,4)$ "Anti-Amplituhedron" Destructive Phase Cancellation (`antiAmplituhedronGr24Matrix`, `RiverExterior.holographic_gr24_ddf_and_antiAmplituhedron_identities`)**:
    - In the standard *positive* real Grassmannian $Gr_{\ge 0}(2,4)$ (the domain of the tree-level Amplituhedron), all ordered Plücker minors are nonnegative, so two active uncrossed channels $w_A = \Delta_{01}\Delta_{23} > 0$ and $w_B = \Delta_{03}\Delta_{12} > 0$ can **never** cancel in the crossing product $\Delta_{02}\Delta_{13} = w_A + w_B > 0$.
    - Lifting to the *complex* Grassmannian $Gr_{\mathbb{C}}(2,4) \setminus Gr_{\ge 0}(2,4)$ with opposite-phase twistor amplitudes $z_1 = +A$ and $z_2 = -A$ (`antiAmplituhedronGr24Matrix A = complexGr24ChannelMatrix A (-A)`, $\Delta\theta = \pi$) yields two individually energetic channels ($|w_A^{\mathbb{C}}|^2 = |w_B^{\mathbb{C}}|^2 = A^2 > 0$, $w_A^{\mathbb{C}} = +A$, $w_B^{\mathbb{C}} = -A$) whose coherent crossing amplitude vanishes identically:
-     $$w_A^{\mathbb{C}}(M_{\mathrm{anti}}) + w_B^{\mathbb{C}}(M_{\mathrm{anti}}) = \Delta_{02}^{\mathbb{C}}(M_{\mathrm{anti}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathrm{anti}}) = 0.$$
+
+     $$
+     w_A^{\mathbb{C}}(M_{\mathrm{anti}}) + w_B^{\mathbb{C}}(M_{\mathrm{anti}}) = \Delta_{02}^{\mathbb{C}}(M_{\mathrm{anti}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathrm{anti}}) = 0.
+     $$
+
    - *Physical Boundary*: This destructive interferometric dark node creates a steep local ponderomotive intensity gradient $\nabla|\mathbf{E}|^2$ (`ponderomotiveForce_down_gradient` in `Signals.MHD`) that can push charged or polarizable species in a plasma, **provided the beams reach the target zone**. However, destructive interference redistributes energy into adjacent constructive lobes rather than destroying thermal energy; removing the sensible heat $\rho c_v \Delta T$ of a burning solid mass still requires an explicit heat sink (`ClassicalControlVolume`).
 
 2. **Low-Power Integrated Optical Amplification Through Second-Harmonic ($\chi^{(2)}$) Resonance (`second_harmonic_opa_and_centrosymmetry_identities`, `opaSqueezed_splat_and_continuum_identities`; [Dean et al. 2025](#dean-nature-2025), `10.1038/s41586-025-09959-z`)**:
@@ -583,7 +595,10 @@ In `Signals.Scattering` ([src/signals/Signals/Scattering.lean](../src/signals/Si
      2. **Resonant Second-Harmonic Recirculation Buildup (`shgResonantIntracavityPower`)**: By trapping and recirculating the generated second harmonic ($2\omega_0$) inside a high-finesse ring resonator with buildup factor $F_{\mathrm{SH}} \ge 1$, the intracavity pump power is amplified to $P_{2\omega}^{\mathrm{intracav}} = F_{\mathrm{SH}}\,P_{2\omega} \ge P_{2\omega}$. Consequently, reaching an OPA squeezing threshold $P_{\mathrm{thresh}}$ requires only a fraction $P_{2\omega} = P_{\mathrm{thresh}} / F_{\mathrm{SH}}$ of external input power (explaining how [Dean et al. 2025](#dean-nature-2025) achieved $>17\text{ dB}$ gain with $<200\text{ mW}$ input power, while still obeying the passive/active power ceiling $P_{\mathrm{out}} \le P_{\mathrm{in}} + P_{\mathrm{pump}}$ of `LowPowerIntegratedOPA` in `Signals.ActiveOptics`).
      3. **Piezoelectric / Electro-Optic Phase-Matching Gate (`opaNetGainSq`)**: The net squared parametric gain $g_{\mathrm{net}}^2 = g_{\mathrm{OPA}}^2 - (\Delta k / 2)^2$ is maximized at perfect phase matching ($\Delta k = 0 \implies g_{\mathrm{net}}^2 = g_{\mathrm{OPA}}^2$) and shuts off completely at the critical wavevector mismatch $\Delta k = 2 g_{\mathrm{OPA}} \implies g_{\mathrm{net}}^2 = 0$.
      4. **Symplectic OPA Squeezing & Bohm Quantum-Potential Barrier (`opaSqueezed_splat_and_continuum_identities`)**: Both **without splats** (`continuumBohmPotentialMode`) and **with Normed Tensor Gaussian Splats** (`opaSqueezedTensorSplat` with $\sigma_1 = \sigma_0 e^{r_{\mathrm{sq}}}, \sigma_2 = \sigma_0 e^{-r_{\mathrm{sq}}}$), degenerate $\chi^{(2)}$ OPA squeezing preserves the symplectic covariance determinant $\det\Sigma_{\mathrm{OPA}} = \sigma_0^4$ while amplifying the repulsive core Bohm quantum potential to:
-        $$Q_{\mathrm{core}}(\Sigma_{\mathrm{OPA}}) = \frac{\hbar^2\,\bigl(e^{2 r_{\mathrm{sq}}} + e^{-2 r_{\mathrm{sq}}}\bigr)}{4 m\,\sigma_0^2} \ge \frac{\hbar^2}{2 m\,\sigma_0^2}.$$
+
+        $$
+        Q_{\mathrm{core}}(\Sigma_{\mathrm{OPA}}) = \frac{\hbar^2\,\bigl(e^{2 r_{\mathrm{sq}}} + e^{-2 r_{\mathrm{sq}}}\bigr)}{4 m\,\sigma_0^2} \ge \frac{\hbar^2}{2 m\,\sigma_0^2}.
+        $$
 
 3. **Transverse Superluminal Cutoff vs. Longitudinal Cherenkov–Proca Modes & Soil Skin-Depth Attenuation (`csr_spp_cherenkov_cavity_and_grover_identities`, `evolveContinuumSppPropagation`)**:
    - In `csr_spp_cherenkov_cavity_and_grover_identities`, we prove that transverse electromagnetic waves in a plasma ($\omega > \omega_p$) have superluminal phase velocity $v_{\mathrm{ph},\perp}^2 = c^2\omega^2/(\omega^2 - \omega_p^2) > c^2$, whereas longitudinal Bohm–Gross modes (`longitudinalPlasmaPhaseVelSq`) and Surface Plasmon Polaritons (`sppEffectiveIndexSq`) slow the phase velocity below $c$, enabling subluminal Cherenkov/Landau phase matching ($\cos\theta_C = v_{\mathrm{ph}}/v_e \in (0, 1)$).

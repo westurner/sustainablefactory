@@ -45,7 +45,11 @@ Prior to this work, the finite decoding pipeline `HawkingRadiationDecoding` in [
    - **Quadrant II (`Without DDF, With Splats` — `Signals.DDF` & `Signals.HawkingRadiation`)**: Formalizes 't Hooft–Susskind Planck-pixelated horizon screen tiles (`holographicPlanckSplat` with $\det\Sigma_{\mathrm{Planck}} = \ell_P^4$ and UV Bohm quantum-potential cutoff $Q_{\mathrm{core}} = \frac{\hbar^2}{2m\ell_P^2}$), Penrose's Hermitian Pauli spinor spacetime matrix $X^{AA'}(t,x,y,z)$ with $\det X^{AA'} = \frac{1}{2}(t^2 - x^2 - y^2 - z^2)$ and spinor 4-periodicity $i^2 = -1, i^4 = 1$ (`gordon_metric_quartic_gpe_and_penrose_spinor_identities`), and 2D/3D symplectic transverse-traceless gravitational-wave splats (`ttGravitationalWaveSplat`, `ttGravitationalWaveSplat3D`).
    - **Quadrant III (`With DDF, Without Splats` — `RiverExterior.hawking_radiation_ddf_and_splat_fracture_identities`, `gordon_metric_quartic_gpe_and_penrose_spinor_identities`, & `s301_pericenter_vs_aphelion_wake_identities`)**: Formalizes the DDF acoustic Hawking temperature $T_H^{\mathrm{DDF}} = \frac{\hbar\kappa_H}{2\pi k_B c} = \frac{\hbar c}{4\pi k_B r_H}$, its dispersed-phase $(\varrho_{\max}^\varphi j_{\min}^\varphi)^{-3}$ scaling, the Gordon acoustic metric $g_{00}^{\mathrm{Gordon}}(\rho_0, c, v_\phi(r))/(-\rho_0 c) = 1 - r_H/r = |w_A^{\mathbb{C}}(M_{\mathrm{holo}})|^2|w_B^{\mathbb{C}}(M_{\mathrm{holo}})|^2$, quartic GPE pressure $P_{\mathrm{GPE}} = \frac{g}{2}|\psi|^4 = \frac{g}{2}A^4$, the S301 test-star pericenter vs. aphelion stress wake (`testStarWakeStress`) and $Gr_{\mathbb{C}}(2,4)$ vis-viva ratio $\frac{r_{\max}}{r_{\min}} = \frac{1+e}{1-e} = \frac{|w_A^{\mathbb{C}}|^2}{|w_B^{\mathbb{C}}|^2} > 1$, and the continuum **hydrodynamic Inverse Gross–Pitaevskii (`iGPE`) potential reconstruction** $V_{\mathrm{ext}} = -\partial_t S - \frac{1}{2}m_\phi v_\phi^2 - g_\phi A^2 + \frac{\hbar^2}{2m_\phi}\frac{\Delta A}{A}$ (`madelungInversePotentialReconstruction`), proving that it zeroes `quantumHamiltonJacobiResidual` identically and unwinds the stationary `RiverExterior` flow to $V_{\mathrm{ext}}(r) = m_\phi\Phi_\phi(r) = -\frac{m_\phi G_\phi M}{r}$.
    - **Quadrant IV (`With DDF, With Splats` — 2D & 3D Splat Fracture, Vieta $3 \times 3$ Cubic Roots, & WGSL Quaternion Instance Matrices)**: Formalizes the two-stage quantum fracture of both 2D (`NormedTensorGaussianSplat2D`) and 3D (`NormedTensorGaussianSplat3D`) Gaussian splats ([Superfluid Quantum Gravity and Hawking Radiation, lines 710–1405](#hawk-chat-sqg2026)): **(a)** the $90^\circ$ orthogonal eigenvector snap (`rotateOrthogonal90`, `snapOrthogonalXZ`, and `rightHandedEigenvectorSwapMatrix` with $\det = +1$ vs. `unnegatedEigenvectorSwapMatrix` with $\det = -1$); **(b)** the transformation-toughening isotropic metric swell (`isotropicTraceSwell` and `isotropicTraceSwell3D`), which conserves $\operatorname{Tr}\Sigma$, expands $\det\Sigma$, and releases a strictly positive core Bohm quantum-potential burst $\Delta Q_{\mathrm{core}} > 0$ in both 2D and 3D; **(c)** Vieta's trigonometric $3 \times 3$ symmetric eigenvalue trace conservation $\lambda_1 + \lambda_2 + \lambda_3 = 3q$; and **(d)** the exact polynomial and unit-quaternion determinant laws for the WGSL Three.js `compose_instance_matrix` linear block `wgslInstanceMatrix3x3`:
-     $$\det M_{\mathrm{inst}}^{(3\times 3)}(q, s) = s_x\,s_y\,s_z\,\Bigl(1 + 4\bigl(q_x^2 + q_y^2 + q_z^2\bigr)\bigl(q_x^2 + q_y^2 + q_z^2 + q_w^2 - 1\bigr)\Bigr) \underset{|q|^2=1}{=} s_x\,s_y\,s_z.$$
+
+     $$
+     \det M_{\mathrm{inst}}^{(3\times 3)}(q, s) = s_x\,s_y\,s_z\,\Bigl(1 + 4\bigl(q_x^2 + q_y^2 + q_z^2\bigr)\bigl(q_x^2 + q_y^2 + q_z^2 + q_w^2 - 1\bigr)\Bigr) \underset{|q|^2=1}{=} s_x\,s_y\,s_z.
+     $$
+
 2. **Six Structural Critiques & Machine-Checked Fixes in `HawkingRadiationDecoding` and `toyHawkingAmplituhedronMap`**:
    We prove `ObservedHomodyneTensor.trace_im_zero`, `homodyne_pi_div_two_phase_sweep_recovers_quadrature`, `InverseGPEPoint.potential_eq_interactive_of_shared_state`, `HawkingGrassmannianSynthesisContract.madelung_and_pointwise_igpe_potential_bridge`, `finiteInverseQFT_two_hadamard`, `finiteInverseQFT_two_involution`, `HawkingRadiationDecoding.width_le_height`, `HawkingRadiationDecoding.als_observed_slice_eq_weighted_recovered`, and `HawkingGrassmannianSynthesisContract.als_rank_lt_page_bond_dimension`, and upgrade the degenerate all-zero $1 \times 1 \times 2$ test fixtures with non-zero $1 \times 2 \times 2$ connected fixtures (`toyConnectedHawkingDecoding`, `toyHawkingGrassmannianSynthesis`).
 
@@ -141,7 +145,11 @@ $$
 Theorem `RiverExterior.hawking_radiation_ddf_and_splat_fracture_identities` and theorem `s301_pericenter_vs_aphelion_wake_identities` prove:
 1. Substituting $V_{\mathrm{ext}} = V_{\mathrm{rec}}$ into `quantumHamiltonJacobiResidual` yields $\mathcal{R}_{\mathrm{QHJ}} = 0$ identically,
 2. In the stationary coarse-grained `RiverExterior` flow ($\partial_t S = 0, g_\phi = 0, \Delta A = 0, v_\phi(r) = -\sqrt{2 G_\phi M / r}$), `madelungInversePotentialReconstruction` unwinds the superfluid inflow to recover the exact Newtonian / Bernoulli gravitational potential:
-   $$V_{\mathrm{rec}}\bigl(m_\phi, \hbar, 0, A, 0, 0, v_\phi(r)\bigr) = m_\phi\,\Phi_\phi(r) = -\frac{m_\phi\,G_\phi\,M}{r},$$
+
+   $$
+   V_{\mathrm{rec}}\bigl(m_\phi, \hbar, 0, A, 0, 0, v_\phi(r)\bigr) = m_\phi\,\Phi_\phi(r) = -\frac{m_\phi\,G_\phi\,M}{r},
+   $$
+
 3. For an eccentric test star (S301 analog, $0 < e < 1$), the pericenter stress wake `testStarWakeStress` strictly exceeds the aphelion wake, and the aphelion-to-pericenter ratio equals the uncrossed $Gr_{\mathbb{C}}(2,4)$ Plücker channel ratio $\frac{r_{\max}}{r_{\min}} = \frac{1+e}{1-e} = \frac{|w_A^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})|^2}{|w_B^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})|^2} > 1$.
 
 ### 2.3 Quadrant IV (With DDF, With Splats): 2D & 3D $90^\circ$ Topological Snap, Transformation-Toughening Isotropic Swell, Vieta $3 \times 3$ Cubic Roots, & WGSL Quaternion Instance Matrix
@@ -152,11 +160,22 @@ In the WGSL/Three.js quantum-fracture shader proposed in [Superfluid Quantum Gra
    Swapping $(\sigma_1, \sigma_2) \mapsto (\sigma_2, \sigma_1)$ in 2D (`rotateOrthogonal90`) or $(\sigma_1, \sigma_2, \sigma_3) \mapsto (\sigma_3, \sigma_2, \sigma_1)$ in 3D (`snapOrthogonalXZ`) preserves $\det\Sigma, \operatorname{Tr}\Sigma$, and $Q_{\mathrm{core}}$, while negating the swapped column (`rightHandedEigenvectorSwapMatrix`, $(v_0, v_1, v_2) \mapsto (v_2, v_1, -v_0)$) preserves right-handed orientation $\det(R \cdot S_{\mathrm{RH}}) = +\det R$ (whereas omitting the negation in `unnegatedEigenvectorSwapMatrix` flips the sign $\det(R \cdot S_{\mathrm{unneg}}) = -\det R$, turning the splat inside-out).
 2. **2D & 3D Transformation-Toughening Isotropic Metric Swell (`isotropicTraceSwell` & `isotropicTraceSwell3D`)**:
    Collapsing the principal variances to their arithmetic mean $\sigma_{\mathrm{swell}}^2 = \frac{\sigma_1^2 + \sigma_2^2}{2}$ in 2D or $\sigma_{\mathrm{swell,3D}}^2 = \frac{\sigma_1^2 + \sigma_2^2 + \sigma_3^2}{3}$ in 3D conserves $\operatorname{Tr}\Sigma$, expands the 2D covariance determinant by $\det\Sigma_{\mathrm{swell}} - \det\Sigma = \bigl(\frac{\sigma_1^2 - \sigma_2^2}{2}\bigr)^2 \ge 0$ (and $\frac{1}{4}\sigma_0^4\beta^4$ for `s.ddfTensorSplat`), and releases a nonnegative core Bohm quantum-potential burst in both 2D and 3D:
-   $$Q_{\mathrm{core}}(\Sigma) - Q_{\mathrm{core}}(\Sigma_{\mathrm{swell}}) = \frac{\hbar^2\,\bigl(\sigma_1^2 - \sigma_2^2\bigr)^2}{4 m_\phi\,\sigma_1^2\,\sigma_2^2\,\bigl(\sigma_1^2 + \sigma_2^2\bigr)} \ge 0,$$
-   $$Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) - Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{swell,3D}}) = \frac{\hbar^2\,\bigl((\sigma_1^2 - \sigma_2^2)^2\sigma_3^2 + (\sigma_2^2 - \sigma_3^2)^2\sigma_1^2 + (\sigma_3^2 - \sigma_1^2)^2\sigma_2^2\bigr)}{4 m_\phi\,\sigma_1^2\,\sigma_2^2\,\sigma_3^2\,\bigl(\sigma_1^2 + \sigma_2^2 + \sigma_3^2\bigr)} \ge 0.$$
+
+   $$
+   Q_{\mathrm{core}}(\Sigma) - Q_{\mathrm{core}}(\Sigma_{\mathrm{swell}}) = \frac{\hbar^2\,\bigl(\sigma_1^2 - \sigma_2^2\bigr)^2}{4 m_\phi\,\sigma_1^2\,\sigma_2^2\,\bigl(\sigma_1^2 + \sigma_2^2\bigr)} \ge 0,
+   $$
+
+
+   $$
+   Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) - Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{swell,3D}}) = \frac{\hbar^2\,\bigl((\sigma_1^2 - \sigma_2^2)^2\sigma_3^2 + (\sigma_2^2 - \sigma_3^2)^2\sigma_1^2 + (\sigma_3^2 - \sigma_1^2)^2\sigma_2^2\bigr)}{4 m_\phi\,\sigma_1^2\,\sigma_2^2\,\sigma_3^2\,\bigl(\sigma_1^2 + \sigma_2^2 + \sigma_3^2\bigr)} \ge 0.
+   $$
+
 3. **Vieta $3 \times 3$ Symmetric Eigenvalue Trace & WGSL Quaternion `compose_instance_matrix` Determinant (`wgslInstanceMatrix3x3`)**:
    In the WGSL shader, `vietaEigenvalue1`, `vietaEigenvalue2`, and `vietaEigenvalue3` satisfy $\lambda_1 + \lambda_2 + \lambda_3 = 3q$ identically, and the $3 \times 3$ linear block of `compose_instance_matrix(position, q, scale)` satisfies:
-   $$\det M_{\mathrm{inst}}^{(3\times 3)}(q, s) = s_x\,s_y\,s_z\,\Bigl(1 + 4\bigl(q_x^2 + q_y^2 + q_z^2\bigr)\bigl(q_x^2 + q_y^2 + q_z^2 + q_w^2 - 1\bigr)\Bigr) \underset{|q|^2=1}{=} s_x\,s_y\,s_z.$$
+
+   $$
+   \det M_{\mathrm{inst}}^{(3\times 3)}(q, s) = s_x\,s_y\,s_z\,\Bigl(1 + 4\bigl(q_x^2 + q_y^2 + q_z^2\bigr)\bigl(q_x^2 + q_y^2 + q_z^2 + q_w^2 - 1\bigr)\Bigr) \underset{|q|^2=1}{=} s_x\,s_y\,s_z.
+   $$
 
 ---
 
