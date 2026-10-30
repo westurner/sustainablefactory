@@ -94,7 +94,7 @@ lemma MonochromaticWave.kernel_product (wave : MonochromaticWave)
   unfold kernel pathAmplitude
   rw [div_mul_div_comm, ← Complex.exp_add]
   push_cast
-  congr 1
+  congr 2
   ring
 
 /-- Positive path lengths give a nonzero analytic reference with known absolute magnitude. -/
