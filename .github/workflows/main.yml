@@ -70,6 +70,8 @@ jobs:
       - name: Build documentation
         working-directory: docs
         run: python -m sphinx -M html . _build -j auto
+        env:
+          LEAN_NUM_THREADS: "1"
 
       - name: Upload documentation
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
