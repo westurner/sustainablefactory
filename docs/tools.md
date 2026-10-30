@@ -1,4 +1,82 @@
 
+# Tools
+Tools used in the sustainablefactory project
+
+## Sphinx
+- Commands:
+  - `sphinx-build --help`
+
+## Lean
+- Features:
+  - type verification, theorem modeling, thereom proving
+  - machine-checkable proofs
+- Commands:
+  - `lean`
+  - `leanc`
+
+### Lean Libraries
+#### Mathlib
+- Path: `src/Mathlib`
+
+#### Physlib
+- Path: `src/Physlib`
+
+#### QECLean
+- Path: `src/QECLean`
+
+#### Signals
+- Path: `src/signals`
+
+##### numerical_adapter
+- Path: `src/signals/numerical_adapter`
+- Features
+  - Rust-based fluid analysis
+    - Verify that Lyapunov exponents predict observed real fluids from JHTDB
+  - Rust code produced from src/signals
+    - cannon_mask_cad.rs
+    - cylinder.rs
+    - double_slit.rs
+    - jhtdb.rs
+    - madelung_lagrangian.rs
+    - orbital_splat.rs
+    - polariton_spp.rs
+    - thermal_inelastic.rs
+  - Python code produced from src/signals
+    - jhtdb_cutout_probe.py
+    - jhtdb_probe.py
+    - matlab_piv_probe.py
+    - rspid_subset_probe.py
+  - WebGL GLSL Shaders produced from src/signals
+    - double_slit.frag.glsl
+    - double_slit.vert.glsl
+    - orbital_splat.frag.glsl
+    - orbital_split.vert.glsl
+
+#### Signals blueprint
+- Path: `src/signals/blueprint/src/content.tex`
+
+## Lake
+- Features
+  - package manager for Lean modules 
+- Commands
+  - `lake`
+
+## Lean Blueprint
+- Features
+  - annotate Lean modules with structured docstrings
+- Commands
+  - `leanblueprint`
+
+## Lean Architect
+- Features
+  - build Lean modules with Lean Blueprint annotations into HTML
+
+## schematool
+- Features
+  - recursively download RDFS and OWL schemas into an on-disk file layout
+- Commands
+  - `schematool --help`
+
 ## transform_md
 transform_md parses industrial process descriptions (like [paper.md](paper.md)) and converts them into a structured graph linked data representation
 using the **Industrial Ontologies Foundry (IOF)** and sustainablefactory process schema.
@@ -8,8 +86,18 @@ using the **Industrial Ontologies Foundry (IOF)** and sustainablefactory process
 - **RDF Generator**: Produces Turtle-star (`.ttl`) with reified confidence metrics.
 - **Visualizer**: Integrated Mermaid diagrams for process flow overview.
 
-## YAML toctrees and tagged chat overlays
+- Commands
+  - `transform_md --help`
 
+
+
+## docindex
+- Features
+  - YAML toctrees and tagged chat overlays
+- Commands
+  - `docindex --help`
+
+### toctreeyaml
 The `toctreeyaml` directive extends Sphinx's native `toctree` directive with a
 Jupyter Book-compatible YAML tree. It reads `_toc.yml` by default, or a file
 selected with `:file:`:
