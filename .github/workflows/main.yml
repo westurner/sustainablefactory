@@ -60,7 +60,7 @@ jobs:
         if: ${{ steps.changes.outputs.signals == 'true' && (github.event_name == 'pull_request' || github.ref == 'refs/heads/main') }}
         run: make -C src/signals lean-build
         env:
-          LEAN_NUM_THREADS: "2"
+          LEAN_NUM_THREADS: "1"
 
       - name: Install documentation dependencies
         run: |
