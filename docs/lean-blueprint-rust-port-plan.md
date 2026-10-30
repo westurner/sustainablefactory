@@ -1,6 +1,6 @@
-# Lean Blueprint and SphinxDocRs Roadmap
+# Lean Blueprint and Sphinxdocrs Roadmap
 
-Status as of 2026-10-04. This plan extends dsport's existing SphinxDocRs H14
+Status as of 2026-10-04. This plan extends dsport's existing Sphinxdocrs H14
 work; it does not restart the Rust port of Sphinx.
 
 ## Current Baseline
@@ -66,7 +66,7 @@ work; it does not restart the Rust port of Sphinx.
 - Keep the current LeanArchitect/leanblueprint path available until Rust output
   passes parity checks. Ratex replaces only the print/PDF engine; it does not
   replace Lean extraction or the HTML renderer.
-- Prefer an incremental SphinxDocRs extension and its existing Python/Rust
+- Prefer an incremental Sphinxdocrs extension and its existing Python/Rust
   compatibility boundary over replacing the complete Sphinx application in
   one step. Existing H14 domain, source-analysis, and autodoc behavior should
   be reused.
@@ -173,11 +173,11 @@ work; it does not restart the Rust port of Sphinx.
 - Acceptance: Rust round-trips the fixture schema deterministically and reports
   unsupported schema versions instead of dropping fields.
 
-### Phase 4: SphinxDocRs Blueprint Extension
+### Phase 4: Sphinxdocrs Blueprint Extension
 
 - Add a small extension that consumes a validated snapshot and registers
   blueprint theorem/definition nodes, cross-references, source links, and
-  dependency edges through the existing SphinxDocRs extension/domain pipeline.
+  dependency edges through the existing Sphinxdocrs extension/domain pipeline.
 - First run it through the current Python Sphinx build with the Rust extension
   behind dsport's compatibility bridge. This isolates blueprint parity from
   remaining native builder/theme gaps.
@@ -190,7 +190,7 @@ work; it does not restart the Rust port of Sphinx.
 ### Phase 5: Rust leanblueprint-Compatible CLI
 
 - Add a Rust command layer for `extract`, `validate`, `web`, and `pdf`. Initially
-  `extract` orchestrates the existing Lake facet; `web` uses the SphinxDocRs
+  `extract` orchestrates the existing Lake facet; `web` uses the Sphinxdocrs
   extension; `pdf` delegates to the proven Ratex target.
 - Keep `leanblueprint new` and its existing Python path until a separate
   non-interactive project-init contract is defined. Do not port setup prompts
