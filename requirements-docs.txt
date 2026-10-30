@@ -1,0 +1,12 @@
+# requirements-docs.txt -- requirements to build the docs
+
+-e ./src/wrd-sphinx-theme
+-e ./src/sphinxcontrib-webmcp
+
+# -e ./src/docindex/src/docindex-core
+# -e ./src/docindex/src/docindex-sphinx
+-r ./requirements-docindex.txt
+
+-r ./src/signals/requirements-blueprint.txt
+
+-e .
