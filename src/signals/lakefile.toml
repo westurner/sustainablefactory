@@ -8,7 +8,9 @@ path = "../physlib"
 
 [[require]]
 name = "LeanArchitect"
-path = "../LeanArchitect"
+#path = "../LeanArchitect"
+git = "https://github.com/hanwenzhu/LeanArchitect.git"
+rev = "main"
 
 [[require]]
 name = "mathlib"
