@@ -67,6 +67,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install --editable ./src/wrd-sphinx-theme
           python -m pip install --editable ./src/sphinxcontrib-webmcp
+          python -m pip install --editable ./src/docindex/src/docindex-core --editable ./src/docindex/src/docindex-sphinx
           python -m pip install --editable .
           python -m pip install -r src/signals/requirements-blueprint.txt
 
