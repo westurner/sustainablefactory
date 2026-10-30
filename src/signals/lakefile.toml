@@ -6,6 +6,12 @@ defaultTargets = ["Signals", "SignalsTests", "SignalsPending", "SignalsPendingTe
 name = "Physlib"
 path = "../physlib"
 
+#git = "https://github.com/leanprover-community/physlib"
+#rev = "main"
+
+#git = "https://github.com/westurner/physlib"
+#rev = "main"
+
 [[require]]
 name = "LeanArchitect"
 #path = "../LeanArchitect"
