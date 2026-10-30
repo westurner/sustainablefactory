@@ -44,10 +44,14 @@ jobs:
       - name: Set up Lean
         uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1.5.0
         with:
+          lake-package-directory: src/signals
+          use-mathlib-cache: true
           auto-config: "false"
           build: "false"
           test: "false"
           lint: "false"
+          # leanchecker: "true"
+          # axiom-audit: true
 
       - name: Download dependency artifacts
         working-directory: src/signals
@@ -55,3 +59,5 @@ jobs:
 
       - name: Build Signals
         run: make -C src/signals lean-build
+        env:
+          LEAN_NUM_THREADS: "2"
