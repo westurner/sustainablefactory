@@ -26,7 +26,8 @@ lean-build:
 	$(LEAN) build Signals SignalsTests SignalsPending SignalsPendingTests
 
 lean-api:
-	GIT_CONFIG_PARAMETERS="$${GIT_CONFIG_PARAMETERS:+$$GIT_CONFIG_PARAMETERS }'url.https://github.com/.insteadOf'='ssh://git@github.com/'" $(LEAN) build :docs
+	GIT_CONFIG_PARAMETERS="$${GIT_CONFIG_PARAMETERS:+$$GIT_CONFIG_PARAMETERS }'url.https://github.com/.insteadOf'='ssh://git@github.com/'" \
+		$(LEAN) build :docs
 
 blueprint: lean-api
 	$(LEAN) build :blueprint

@@ -37,7 +37,7 @@ help:
 
 .PHONY: docs
 docs:
-	@echo "docs  #  Build Sphinx documentation"
+	@echo "docs  #  Build the sustainablefactory Sphinx documentation"
 	$(MAKE) -C docs html
 
 .PHONY: signals_build
