@@ -29,7 +29,7 @@ lean-api:
 	GIT_CONFIG_PARAMETERS="$${GIT_CONFIG_PARAMETERS:+$$GIT_CONFIG_PARAMETERS }'url.https://github.com/.insteadOf'='ssh://git@github.com/'" \
 		$(LEAN) build @doc-gen4/coreDocs
 	GIT_CONFIG_PARAMETERS="$${GIT_CONFIG_PARAMETERS:+$$GIT_CONFIG_PARAMETERS }'url.https://github.com/.insteadOf'='ssh://git@github.com/'" \
-		$(LEAN) build :docs
+		$(LEAN) build Signals:docs
 
 blueprint: lean-api
 	$(LEAN) build :blueprint
