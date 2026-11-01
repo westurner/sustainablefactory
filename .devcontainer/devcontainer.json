@@ -53,7 +53,8 @@
         "charliermarsh.ruff",
         "leanprover.lean4",
         "chrisjsewell.myst-lsp",
-        "ExecutableBookProject.myst-highlight"
+        "ExecutableBookProject.myst-highlight",
+        "github.vscode-github-actions"
       ],
 	"settings": {
 		"python.defaultInterpreterPath": "/home/appuser/.venv/bin/python3"
