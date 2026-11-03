@@ -5324,4 +5324,69 @@ example (i : Signals.DDF.PluckerIdx) (dtau_s_real : ℝ) :
   SignalsPending.complex_grassmannian_gpe_and_plucker_madelung_bounds
     toyGrassmannianGPEPluckerMadelungContract i dtau_s_real
 
+noncomputable def toyQuantumCausalBundleVideoGenContract :
+    QuantumCausalBundleVideoGenHypothesis :=
+  { pDo := 3 / 5
+    bConf := 1 / 5
+    u1 := 10
+    u2 := 2
+    bConf_pos := by norm_num
+    u_lt := by norm_num
+    c0 := 10
+    etaEff := 4
+    d0 := 100
+    epsEx := 1 / 2
+    c0_pos := by norm_num
+    etaEff_pos := by norm_num
+    d0_pos := by norm_num
+    epsEx_pos := by norm_num
+    crossLagWeight1 := 2
+    crossLagWeight12 := 3
+    crossLag1_pos := by norm_num
+    crossLag12_pos := by norm_num
+    grassmannRankK := 4
+    frobOverlapSq := 5 / 2
+    frob_nonneg := by norm_num
+    frob_le_k := by norm_num
+    qramStatePrepLatencySec := 100
+    qftGateLatencySec := 10
+    qftGate_pos := by norm_num
+    qramNativeOpticalInputVerified := True
+    qramNativeOpticalInputVerified_hypothesis := trivial
+    polarFiberGaugeTransportCalibrated := True
+    polarFiberGaugeTransportCalibrated_hypothesis := trivial
+    kapitzaThermalViaCalibrated := True
+    kapitzaThermalViaCalibrated_hypothesis := trivial }
+
+example (zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 : ℝ) :
+    let c := toyQuantumCausalBundleVideoGenContract
+    0 < Signals.QuantumCausalInference.jevEvidentialExpectedUtility
+          (c.pDo + c.bConf) ((1 - c.pDo) - c.bConf) c.u1 c.u2 -
+        Signals.QuantumCausalInference.cevCausalDoExpectedUtility
+          c.pDo (1 - c.pDo) c.u1 c.u2 ∧
+      c.c0 * c.d0 <
+        Signals.QuantumCausalInference.jevonsTotalComputeEnergy
+          c.c0 c.etaEff c.d0 c.epsEx ∧
+      Signals.QuantumCausalInference.pluckerQuadric4DResidual
+        (Signals.QuantumCausalInference.plucker2DCoord zc0 zc1 zp0 zp1)
+        (Signals.QuantumCausalInference.plucker2DCoord zc0 zc2 zp0 zp2)
+        (Signals.QuantumCausalInference.plucker2DCoord zc0 zc3 zp0 zp3)
+        (Signals.QuantumCausalInference.plucker2DCoord zc1 zc2 zp1 zp2)
+        (Signals.QuantumCausalInference.plucker2DCoord zc1 zc3 zp1 zp3)
+        (Signals.QuantumCausalInference.plucker2DCoord zc2 zc3 zp2 zp3) = 0 ∧
+      0 < Signals.QuantumCausalInference.pluckerQuadric4DResidual
+        c.crossLagWeight1 0 0 0 0 c.crossLagWeight12 ∧
+      0 ≤ Signals.QuantumCausalInference.grassmannChordalDistSq
+        c.grassmannRankK c.frobOverlapSq ∧
+      Signals.QuantumCausalInference.grassmannChordalDistSq
+        c.grassmannRankK c.frobOverlapSq ≤ c.grassmannRankK ∧
+      Signals.QuantumCausalInference.spatiotemporalGrassmannVideoComplexity 16 16 16 6 496 <
+        Signals.QuantumCausalInference.spatiotemporalFullAttentionComplexity 16 16 16 64 ∧
+      c.qramStatePrepLatencySec <
+        Signals.QuantumCausalInference.qftAssociativeTotalLatency
+          c.qramStatePrepLatencySec c.qftGateLatencySec ∧
+      Signals.QuantumCausalInference.rgoVitrimerKapitzaCoolTime (5e-9) (2e6) (1e-8) = 1e-10 :=
+  SignalsPending.quantum_causal_bundle_videogen_bounds
+    toyQuantumCausalBundleVideoGenContract zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3
+
 end SignalsPendingTests

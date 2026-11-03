@@ -591,7 +591,8 @@ interpretation while keeping experimental premises explicit:
    `mpemba_constructor_theory_and_entropy_siphoning_identities`,
    `grassmannian_mpemba_projector_werner_threshold_and_ocb_causal_witness_identities`,
    `phase_diagram_complexity_mpemba_and_quantum_causal_synthesis_identities`,
-   `quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities`).
+   `quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities`,
+   `quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities`).
    See [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](../../docs/grassmannian-quantum-causal-inference-mpemba-paper.md)
    and [`docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`](../../docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md).
 - `Signals.DDF` Section 30 formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$

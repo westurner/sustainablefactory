@@ -5638,4 +5638,148 @@ lemma ComplexGrassmannianGPEAndPluckerMadelungHypothesis.geometric_and_hydrodyna
   exact ⟨h_kahler.2.2.2.1, h_kahler.2.2.1, rfl, h_norm,
     h_pl.2.2.1, h_pl.2.2.2, h_qhj, h_igpe⟩
 
+/-! ## 29. Quantum Causal JEV/QCDT Decision Models, Tautological Bundle-Transformers, and QFT/QRAM Soliton VideoGen Pending Contract
+
+In `data/chats/_LLMs, Fourier, and Quantum Logic .md` (lines 1–685) and
+`data/papers/bundle_transformer.pdf` (pages 1–7), the chat and paper propose:
+1. Replacing observational `JEV` next-token conditioning with interventional $\operatorname{do}(X)$
+   surgery and complex Grassmannian Plücker interference (`QCDT`),
+2. Replacing quadratic $O(L^2 d)$ self-attention with multi-lag Causal Grassmann mixing
+   (`Zhang 2025`, `arXiv:2512.19428`) and tautological fiber-bundle geometry
+   (`De Clercq 2026`, *Bundle-Transformer*), and
+3. Accelerating long-context and 3D spatiotemporal `VideoGen` associative retrieval via
+   a Quantum Fourier Transform (`QFT`) Holographic Associative Memory over WDM + OAM
+   solitons in `N-LIG` waveguides with $100\text{ ps}$ (`10 GHz`) `rGO-Vitrimer` / `A-CNT`
+   Kapitza thermal reset.
+
+While the mathematical identities—JEV vs.\ CEV confounding bias, Jevons compute-energy
+rebound, Zhang (2025) / `kanenorman/grassmann` parameter and shared-anchor Plücker
+bilinear collapse ($\mathcal{Q}_4 = 0$ vs.\ cross-lag $\mathcal{Q}_4 > 0$), De Clercq (2026)
+tautological incidence and cross-fiber RoPE gauge-mismatch residual, spatiotemporal
+VideoGen complexity reduction, and passive Kapitza relaxation $t_{\mathrm{cool}} = R_K C_v d$—are
+machine-checked in `Signals.QuantumCausalInference`, any hardware claim of $O(\log^2 L)$
+QFT associative speedup or $10\text{ GHz}$ soliton steering remains strictly in
+`Signals.Pending`, requiring explicit accounting for $O(L)$ QRAM state-preparation
+latency $T_{\mathrm{prep}}$, Levi-Civita / polar fiber gauge synchronization, and
+measured Kapitza boundary conductance. -/
+
+/-- A Pending synthesis contract connecting Quantum Causal JEV/QCDT decision models,
+Zhang (2025) Grassmann flows, De Clercq (2026) Tautological Bundle-Transformers, and
+spatiotemporal VideoGen with QRAM state-preparation and Kapitza thermal calibration bounds. -/
+@[blueprint "def:signals-quantum-causal-bundle-videogen-contract"
+  (title := "Pending Quantum Causal JEV/QCDT, Bundle-Transformer, and QFT/QRAM Soliton VideoGen contract")
+  (statement := /-- Links JEV vs.\ CEV confounding bias, Jevons compute rebound, Plücker
+    rank-2 vs.\ cross-lag rank-4 Klein quadric residuals, tautological bundle chordal bounds,
+    spatiotemporal VideoGen complexity reduction, QFT state-preparation latency lower bound
+    $T_{\mathrm{prep}} < T_{\mathrm{total}}$, and $100\text{ ps}$ \texttt{rGO-Vitrimer}/\texttt{A-CNT}
+    Kapitza reset with explicit QRAM, polar fiber gauge, and Kapitza calibration flags. -/)]
+structure QuantumCausalBundleVideoGenHypothesis where
+  pDo : ℝ
+  bConf : ℝ
+  u1 : ℝ
+  u2 : ℝ
+  bConf_pos : 0 < bConf
+  u_lt : u2 < u1
+  c0 : ℝ
+  etaEff : ℝ
+  d0 : ℝ
+  epsEx : ℝ
+  c0_pos : 0 < c0
+  etaEff_pos : 0 < etaEff
+  d0_pos : 0 < d0
+  epsEx_pos : 0 < epsEx
+  crossLagWeight1 : ℝ
+  crossLagWeight12 : ℝ
+  crossLag1_pos : 0 < crossLagWeight1
+  crossLag12_pos : 0 < crossLagWeight12
+  grassmannRankK : ℝ
+  frobOverlapSq : ℝ
+  frob_nonneg : 0 ≤ frobOverlapSq
+  frob_le_k : frobOverlapSq ≤ grassmannRankK
+  qramStatePrepLatencySec : ℝ
+  qftGateLatencySec : ℝ
+  qftGate_pos : 0 < qftGateLatencySec
+  qramNativeOpticalInputVerified : Prop
+  qramNativeOpticalInputVerified_hypothesis : qramNativeOpticalInputVerified
+  polarFiberGaugeTransportCalibrated : Prop
+  polarFiberGaugeTransportCalibrated_hypothesis : polarFiberGaugeTransportCalibrated
+  kapitzaThermalViaCalibrated : Prop
+  kapitzaThermalViaCalibrated_hypothesis : kapitzaThermalViaCalibrated
+
+/-- In any `QuantumCausalBundleVideoGenHypothesis`:
+1. Observational `JEV` overestimates interventional `CEV` by $b_{\mathrm{conf}}(u_1 - u_2) > 0$,
+2. Elastic demand ($\varepsilon_{\mathrm{ex}} > 0$) triggers Jevons compute rebound ($c_0 D_0 < E_{\mathrm{total}}$),
+3. Shared-anchor 4D Plücker sums remain trapped on the rank-2 Klein quadric ($\mathcal{Q}_4 = 0$),
+   whereas cross-lag wedges achieve strictly positive rank-4 residual ($\mathcal{Q}_4 = c_1 c_{12} > 0$),
+4. Tautological bundle chordal distance squared is bounded by $0 \le d_{\mathrm{chord}}^2 \le k$,
+5. 3D Grassmannian video mixing beats full 3D self-attention on the $16^3$ benchmark grid,
+6. QRAM state-preparation latency strictly lower-bounds total QFT associative latency
+   ($T_{\mathrm{prep}} < \operatorname{qftAssociativeTotalLatency}(T_{\mathrm{prep}}, T_{\mathrm{QFT}})$), and
+7. The nominal `rGO-Vitrimer` / `A-CNT` Kapitza cooling time evaluates to $10^{-10}\text{ s} = 100\text{ ps}$. -/
+@[blueprint "lem:signals-quantum-causal-bundle-videogen-bounds"
+  (title := "Pending Quantum Causal Bundle-Transformer and VideoGen contract enforces confounding, Jevons, Klein quadric, and QRAM bounds")
+  (statement := /-- For any \texttt{contract : QuantumCausalBundleVideoGenHypothesis}:
+    (1) $0 < \mathrm{JEV} - \mathrm{CEV} = b_{\mathrm{conf}}(u_1 - u_2)$,
+    (2) $c_0 D_0 < \operatorname{jevonsTotalComputeEnergy}(c_0, \eta_{\mathrm{eff}}, D_0, \varepsilon_{\mathrm{ex}})$,
+    (3) $\mathcal{Q}_4(\text{shared-anchor}) = 0 < \mathcal{Q}_4(\text{cross-lag})$,
+    (4) $0 \le \operatorname{grassmannChordalDistSq}(k, \|Z_1^\top Z_2\|_F^2) \le k$,
+    (5) $\operatorname{spatiotemporalGrassmannVideoComplexity}(16, 16, 16, 6, 496) < \operatorname{spatiotemporalFullAttentionComplexity}(16, 16, 16, 64)$,
+    (6) $T_{\mathrm{prep}} < \operatorname{qftAssociativeTotalLatency}(T_{\mathrm{prep}}, T_{\mathrm{QFT}})$, and
+    (7) $\operatorname{rgoVitrimerKapitzaCoolTime}(5\times 10^{-9}, 2\times 10^6, 10^{-8}) = 10^{-10}$. -/)
+  (proof := /-- Combine `quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities`
+    and `quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities`. -/)
+  (latexEnv := "lemma")]
+lemma QuantumCausalBundleVideoGenHypothesis.decision_bundle_and_qram_bounds
+    (contract : QuantumCausalBundleVideoGenHypothesis)
+    (zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 : ℝ) :
+    0 < Signals.QuantumCausalInference.jevEvidentialExpectedUtility
+          (contract.pDo + contract.bConf) ((1 - contract.pDo) - contract.bConf)
+          contract.u1 contract.u2 -
+        Signals.QuantumCausalInference.cevCausalDoExpectedUtility
+          contract.pDo (1 - contract.pDo) contract.u1 contract.u2 ∧
+      contract.c0 * contract.d0 <
+        Signals.QuantumCausalInference.jevonsTotalComputeEnergy
+          contract.c0 contract.etaEff contract.d0 contract.epsEx ∧
+      Signals.QuantumCausalInference.pluckerQuadric4DResidual
+        (Signals.QuantumCausalInference.plucker2DCoord zc0 zc1 zp0 zp1)
+        (Signals.QuantumCausalInference.plucker2DCoord zc0 zc2 zp0 zp2)
+        (Signals.QuantumCausalInference.plucker2DCoord zc0 zc3 zp0 zp3)
+        (Signals.QuantumCausalInference.plucker2DCoord zc1 zc2 zp1 zp2)
+        (Signals.QuantumCausalInference.plucker2DCoord zc1 zc3 zp1 zp3)
+        (Signals.QuantumCausalInference.plucker2DCoord zc2 zc3 zp2 zp3) = 0 ∧
+      0 < Signals.QuantumCausalInference.pluckerQuadric4DResidual
+        contract.crossLagWeight1 0 0 0 0 contract.crossLagWeight12 ∧
+      0 ≤ Signals.QuantumCausalInference.grassmannChordalDistSq
+        contract.grassmannRankK contract.frobOverlapSq ∧
+      Signals.QuantumCausalInference.grassmannChordalDistSq
+        contract.grassmannRankK contract.frobOverlapSq ≤ contract.grassmannRankK ∧
+      Signals.QuantumCausalInference.spatiotemporalGrassmannVideoComplexity 16 16 16 6 496 <
+        Signals.QuantumCausalInference.spatiotemporalFullAttentionComplexity 16 16 16 64 ∧
+      contract.qramStatePrepLatencySec <
+        Signals.QuantumCausalInference.qftAssociativeTotalLatency
+          contract.qramStatePrepLatencySec contract.qftGateLatencySec ∧
+      Signals.QuantumCausalInference.rgoVitrimerKapitzaCoolTime (5e-9) (2e6) (1e-8) = 1e-10 := by
+  have h_syn :=
+    Signals.QuantumCausalInference.quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities
+      contract.pDo contract.bConf 0 contract.u1 contract.u2 0 0 0 0
+      contract.c0 contract.etaEff contract.d0 contract.epsEx
+      0 0 0 0 0 0 0 0
+      contract.grassmannRankK contract.frobOverlapSq 1 0 0 0 1 0 0 0
+      16 16 16 64 6 496
+      contract.bConf_pos contract.u_lt
+      contract.c0_pos contract.etaEff_pos contract.d0_pos contract.epsEx_pos
+      contract.frob_nonneg contract.frob_le_k
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_crit :=
+    Signals.QuantumCausalInference.quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities
+      zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 contract.crossLagWeight1 contract.crossLagWeight12
+      1 0 0 1 1 0 0 1 0 0 0 0 0 1
+      contract.qramStatePrepLatencySec contract.qftGateLatencySec 1 0 1
+      contract.crossLag1_pos contract.crossLag12_pos
+      (by norm_num) contract.qftGate_pos (by norm_num)
+  exact ⟨h_syn.2.1, h_syn.2.2.2.2.2.2.1, h_crit.1, h_crit.2.2.1,
+    h_syn.2.2.2.2.2.2.2.2.2.2.2.2.1, h_syn.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_syn.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h_crit.2.2.2.2.2.2.1,
+    h_syn.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end Signals.Pending

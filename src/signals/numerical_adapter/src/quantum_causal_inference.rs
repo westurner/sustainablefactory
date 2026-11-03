@@ -887,6 +887,47 @@ pub fn rgo_vitrimer_kapitza_cool_time(r_k: f64, c_v: f64, d_thick: f64) -> f64 {
     r_k * c_v * d_thick
 }
 
+/// 4D Plücker Klein quadric decomposability residual
+/// $\mathcal{Q}_4 = p_{01} p_{23} - p_{02} p_{13} + p_{03} p_{12}$.
+/// Equals $0$ for any rank-2 decomposable blade (including any shared-anchor multi-lag sum)
+/// and equals $c_1 c_{12} \neq 0$ for a rank-4 cross-lag superposition $c_1(e_0\wedge e_1) + c_{12}(e_2\wedge e_3)$.
+#[must_use]
+pub fn plucker_quadric_4d_residual(
+    p01: f64,
+    p02: f64,
+    p03: f64,
+    p12: f64,
+    p13: f64,
+    p23: f64,
+) -> f64 {
+    p01 * p23 - p02 * p13 + p03 * p12
+}
+
+/// Cross-frame inner product $\langle u, \operatorname{diag}(1, \sigma_2) w \rangle = u_0 w_0 + \sigma_2 u_1 w_1$
+/// between two 2D fiber vectors evaluated across concept subspaces $Z_i, Z_j \in \mathrm{Gr}(2, n)$
+/// with principal singular value $\sigma_2$.
+#[must_use]
+pub fn rope_cross_frame_inner_product(u: [f64; 2], w: [f64; 2], sigma2: f64) -> f64 {
+    u[0] * w[0] + sigma2 * u[1] * w[1]
+}
+
+/// Total latency $T_{\mathrm{total}} = T_{\mathrm{prep}} + T_{\mathrm{QFT}}$ of a QFT Holographic
+/// Associative Memory lookup (`_LLMs, Fourier, and Quantum Logic .md`, lines 20-23, 81-83).
+#[must_use]
+pub fn qft_associative_total_latency(t_prep: f64, t_qft: f64) -> f64 {
+    t_prep + t_qft
+}
+
+/// Transverse linear momentum $k_y = \ell / a_{\mathrm{scale}}$ produced by a log-polar OAM unwrapper
+/// (`_LLMs, Fourier, and Quantum Logic .md`, lines 509-548).
+pub fn oam_log_polar_transverse_momentum(
+    l_charge: f64,
+    a_scale: f64,
+) -> Result<f64, ValidationError> {
+    require_positive("a_scale", a_scale)?;
+    Ok(l_charge / a_scale)
+}
+
 // ============================================================================
 // 7. WASM32 / C-ABI Exports
 // ============================================================================
@@ -1243,11 +1284,49 @@ mod tests {
         let rot = rope_fiber_rotate(0.6, 0.8, 3.0, -4.0);
         assert!(((rot[0] * rot[0] + rot[1] * rot[1]) - (9.0 + 16.0)).abs() < 1e-12);
 
-        // 4. Spatiotemporal VideoGen Complexity & rGO/A-CNT 100 ps Kapitza QRAM Steering:
+        // 4D Plücker Klein quadric rank-2 shared-anchor collapse vs. cross-lag rank-4 escape:
+        let zc = [2.0, -1.0, 3.0, 4.0];
+        let zp = [1.0, 5.0, -2.0, 0.5];
+        let q_shared = plucker_quadric_4d_residual(
+            plucker_2d_coord(zc[0], zc[1], zp[0], zp[1]),
+            plucker_2d_coord(zc[0], zc[2], zp[0], zp[2]),
+            plucker_2d_coord(zc[0], zc[3], zp[0], zp[3]),
+            plucker_2d_coord(zc[1], zc[2], zp[1], zp[2]),
+            plucker_2d_coord(zc[1], zc[3], zp[1], zp[3]),
+            plucker_2d_coord(zc[2], zc[3], zp[2], zp[3]),
+        );
+        assert!(q_shared.abs() < 1e-12);
+        let q_cross = plucker_quadric_4d_residual(2.0, 0.0, 0.0, 0.0, 0.0, 3.0);
+        assert!((q_cross - 6.0).abs() < 1e-12);
+
+        // Same-frame vs. anisotropic cross-frame RoPE gauge-mismatch residual:
+        let u = [3.0, -2.0];
+        let w = [4.0, 5.0];
+        let u_rot = rope_fiber_rotate(0.6, 0.8, u[0], u[1]);
+        let w_rot = rope_fiber_rotate(0.6, 0.8, w[0], w[1]);
+        assert!(
+            (rope_cross_frame_inner_product(u_rot, w_rot, 1.0)
+                - rope_cross_frame_inner_product(u, w, 1.0))
+                .abs()
+                < 1e-12
+        );
+        let u_90 = rope_fiber_rotate(0.0, 1.0, u[0], u[1]);
+        let w_90 = rope_fiber_rotate(0.0, 1.0, w[0], w[1]);
+        let sigma2 = 0.4;
+        let aniso_shift = rope_cross_frame_inner_product(u_90, w_90, sigma2)
+            - rope_cross_frame_inner_product(u, w, sigma2);
+        let expected_shift = (sigma2 - 1.0) * (u[0] * w[0] - u[1] * w[1]);
+        assert!((aniso_shift - expected_shift).abs() < 1e-12);
+
+        // 4. Spatiotemporal VideoGen Complexity, QRAM Latency, & rGO/A-CNT 100 ps Kapitza Steering:
         let c_vid_grass =
             signals_spatiotemporal_grassmann_video_complexity(16.0, 16.0, 16.0, 6.0, 496.0);
         let c_vid_attn = spatiotemporal_full_attention_complexity(16.0, 16.0, 16.0, 64.0);
         assert!(c_vid_grass < c_vid_attn);
+        assert!(qft_associative_total_latency(100.0, 10.0) > 100.0);
+        let k_diff = oam_log_polar_transverse_momentum(3.0, 2.0).unwrap()
+            - oam_log_polar_transverse_momentum(1.0, 2.0).unwrap();
+        assert!((k_diff - 1.0).abs() < 1e-12);
         assert!((rgo_vitrimer_kapitza_cool_time(5.0e-9, 2.0e6, 1.0e-8) - 1.0e-10).abs() < 1e-20);
     }
 }

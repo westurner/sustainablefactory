@@ -6734,4 +6734,43 @@ example (wA_re wA_im wB_re wB_im c1 c2 z_ci z_cj z_p1i z_p1j z_p2i z_p2j alpha b
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+/-- 4D Plücker Klein quadric rank-2 collapse vs. cross-lag rank-4 escape, De Clercq (2026)
+tautological bundle shared linear transport incidence, same-frame vs. anisotropic cross-frame
+RoPE gauge-mismatch residual, QFT associative memory state-preparation latency bound, and
+log-polar OAM momentum separation (`Signals.QuantumCausalInference`). -/
+example (zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 a00 a01 a10 a11 c s alpha a1 a2 b1 b2 sigma2 : ℝ) :
+    Signals.QuantumCausalInference.pluckerQuadric4DResidual
+        (Signals.QuantumCausalInference.plucker2DCoord zc0 zc1 zp0 zp1)
+        (Signals.QuantumCausalInference.plucker2DCoord zc0 zc2 zp0 zp2)
+        (Signals.QuantumCausalInference.plucker2DCoord zc0 zc3 zp0 zp3)
+        (Signals.QuantumCausalInference.plucker2DCoord zc1 zc2 zp1 zp2)
+        (Signals.QuantumCausalInference.plucker2DCoord zc1 zc3 zp1 zp3)
+        (Signals.QuantumCausalInference.plucker2DCoord zc2 zc3 zp2 zp3) = 0 ∧
+      Signals.QuantumCausalInference.pluckerQuadric4DResidual 2 0 0 0 0 3 = 6 ∧
+      0 < Signals.QuantumCausalInference.pluckerQuadric4DResidual 2 0 0 0 0 3 ∧
+      Signals.QuantumCausalInference.tautologicalLinearTransportVec
+          a00 a01 a10 a11 (c * alpha) (s * alpha) =
+        Signals.QuantumCausalInference.tautologicalFiberVec
+          (a00 * c + a01 * s) (a10 * c + a11 * s) alpha ∧
+      Signals.QuantumCausalInference.ropeCrossFrameInnerProduct
+          (Signals.QuantumCausalInference.ropeFiberRotate (3 / 5) (4 / 5) a1 a2)
+          (Signals.QuantumCausalInference.ropeFiberRotate (3 / 5) (4 / 5) b1 b2) 1 =
+        Signals.QuantumCausalInference.ropeCrossFrameInnerProduct (a1, a2) (b1, b2) 1 ∧
+      Signals.QuantumCausalInference.ropeCrossFrameInnerProduct
+          (Signals.QuantumCausalInference.ropeFiberRotate 0 1 a1 a2)
+          (Signals.QuantumCausalInference.ropeFiberRotate 0 1 b1 b2) sigma2 -
+        Signals.QuantumCausalInference.ropeCrossFrameInnerProduct (a1, a2) (b1, b2) sigma2 =
+        (sigma2 - 1) * (a1 * b1 - a2 * b2) ∧
+      (100 : ℝ) < Signals.QuantumCausalInference.qftAssociativeTotalLatency 100 10 ∧
+      Signals.QuantumCausalInference.oamLogPolarTransverseMomentum 3 2 -
+          Signals.QuantumCausalInference.oamLogPolarTransverseMomentum 1 2 = 1 := by
+  have h :=
+    Signals.QuantumCausalInference.quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities
+      zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 2 3
+      a00 a01 a10 a11 c s alpha (3 / 5) (4 / 5) a1 a2 b1 b2 sigma2
+      100 10 3 1 2
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  refine ⟨h.1, by linarith [h.2.1], h.2.2.1, h.2.2.2.1, h.2.2.2.2.1,
+    h.2.2.2.2.2.1, h.2.2.2.2.2.2.1, by linarith [h.2.2.2.2.2.2.2]⟩
+
 end SignalsTests

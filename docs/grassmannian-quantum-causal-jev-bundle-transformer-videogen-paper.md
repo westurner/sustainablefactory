@@ -10,9 +10,9 @@ description: "An arXiv-ready MyST Markdown formal verification and systems archi
 - **Subjects:**
   - Machine Learning (`cs.LG`); Artificial Intelligence (`cs.AI`); Algebraic Geometry (`math.AG`); Quantum Physics (`quant-ph`); Computer Vision and Pattern Recognition (`cs.CV`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/QuantumCausalInference.lean](../src/signals/Signals/QuantumCausalInference.lean#L1052-L1335), [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L8346-L9304), [../src/signals/Signals/MultiArrayImaging.lean](../src/signals/Signals/MultiArrayImaging.lean#L1-L420), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L6610-L6670))
-  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex#L305-L385))
-  - `signals-numerical-adapter` Rust/WASM Engine ([../src/signals/numerical_adapter/src/quantum_causal_inference.rs](../src/signals/numerical_adapter/src/quantum_causal_inference.rs#L640-L1020))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/QuantumCausalInference.lean](../src/signals/Signals/QuantumCausalInference.lean#L1052-L1475), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L5615-L5748), [../src/signals/SignalsPending.lean](../src/signals/SignalsPending.lean#L218-L270), [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L8346-L9304), [../src/signals/Signals/MultiArrayImaging.lean](../src/signals/Signals/MultiArrayImaging.lean#L1-L420), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L6610-L6718), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L5332-L5400))
+  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex#L305-L425))
+  - `signals-numerical-adapter` Rust/WASM Engine ([../src/signals/numerical_adapter/src/quantum_causal_inference.rs](../src/signals/numerical_adapter/src/quantum_causal_inference.rs#L640-L1080))
   - Canonical `src/signals/docs/` Mirror: [../src/signals/docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md](../src/signals/docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md)
 - **Companion Papers:**
   - [Grassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the Mpemba / Entropy-Siphoning Laws](grassmannian-quantum-causal-inference-mpemba-paper.md)
@@ -205,9 +205,17 @@ Our formal audit in Lean 4 (`Signals.QuantumCausalInference`) and Rust (`quantum
      \sum_{\Delta \in \mathcal{W}_t} c_\Delta \,\operatorname{plucker2DCoord}\bigl(z_{t,i}, z_{t,j}, z_{t-\Delta,i}, z_{t-\Delta,j}\bigr) = \operatorname{plucker2DCoord}\!\left(z_{t,i}, z_{t,j},\, \sum_{\Delta \in \mathcal{W}_t} c_\Delta z_{t-\Delta,i},\, \sum_{\Delta \in \mathcal{W}_t} c_\Delta z_{t-\Delta,j}\right).
      $$
 
-   - **Crucial Geometric Insight**: Averaging $m$ normalized Plücker vectors that share the anchor $z_t$ does **not** preserve $m$ independent 2-planes in $\mathrm{Gr}_{\mathbb{R}}(2, r)$—it collapses algebraically into a **single decomposable 2-plane** $z_t \wedge \bar{z}_{\mathrm{past}}(t)$ spanned by $z_t$ and the single weighted-average vector $\bar{z}_{\mathrm{past}}(t) = \sum_\Delta c_\Delta z_{t-\Delta}$! All multi-scale relative geometry between different past lags $\Delta_a \ne \Delta_b$ is compressed into a single 1D vector $\bar{z}_{\mathrm{past}}(t)$ before taking the wedge product with $z_t$.
+   - **Crucial Geometric Insight & 4D Klein Quadric Proof (`shared_anchor_vs_cross_lag_klein_quadric`, `pluckerQuadric4DResidual`)**: Averaging $m$ normalized Plücker vectors that share the anchor $z_t$ does **not** preserve $m$ independent 2-planes in $\mathrm{Gr}_{\mathbb{R}}(2, r)$—it collapses algebraically into a **single decomposable 2-plane** $z_t \wedge \bar{z}_{\mathrm{past}}(t)$ spanned by $z_t$ and the single weighted-average vector $\bar{z}_{\mathrm{past}}(t) = \sum_\Delta c_\Delta z_{t-\Delta}$! All multi-scale relative geometry between different past lags $\Delta_a \ne \Delta_b$ is compressed into a single 1D vector $\bar{z}_{\mathrm{past}}(t)$ before taking the wedge product with $z_t$.
+     In Lean 4 (`shared_anchor_vs_cross_lag_klein_quadric`), we prove this exterior-rank bottleneck via the **4D Plücker Klein quadric residual** (`pluckerQuadric4DResidual`):
+
+     $$
+     \mathcal{Q}_4(p_{01}, p_{02}, p_{03}, p_{12}, p_{13}, p_{23}) = p_{01} p_{23} - p_{02} p_{13} + p_{03} p_{12}.
+     $$
+
+     - For **any** 4D anchor $z_c$ and **any** weighted sum of past lags $\bar{z}_p = \sum_\Delta c_\Delta z_{t-\Delta}$, the six Plücker coordinates $p_{ij} = \operatorname{plucker2DCoord}(z_{c,i}, z_{c,j}, \bar{z}_{p,i}, \bar{z}_{p,j})$ satisfy $\mathcal{Q}_4(p) = 0$ identically (`shared_anchor_vs_cross_lag_klein_quadric.1`), proving that the shared-anchor multi-lag sum is trapped on the **rank-2 decomposable Grassmannian cone** regardless of how many causal lags $m$ are averaged.
+     - Conversely, when we include a **disjoint cross-lag wedge** $c_1 (e_0 \wedge e_1) + c_{12} (e_2 \wedge e_3)$ between two past lags $(z_{t-\Delta_1} \wedge z_{t-\Delta_2})$, the Klein quadric residual evaluates to $\mathcal{Q}_4 = c_1 c_{12} > 0$ (`shared_anchor_vs_cross_lag_klein_quadric.2`), proving that cross-lag exterior pairing escapes the rank-2 cone to achieve **full exterior rank 4** in $\Lambda^2 \mathbb{R}^r$!
    - **How Our Framework Fixes This Collapse**:
-     1. Apply **per-lag or non-linear chordal/Fubini–Study kernels** $W_{\mathrm{pl\ddot{u}}}^{(\Delta)}$ (or cross-lag wedges $z_{t-\Delta_a} \wedge z_{t-\Delta_b}$) so distinct lags do not factor through a single shared anchor;
+     1. Include **cross-lag Plücker wedges** $z_{t-\Delta_a} \wedge z_{t-\Delta_b}$ (`shared_anchor_vs_cross_lag_klein_quadric`) or **per-lag non-linear chordal/Fubini–Study kernels** $W_{\mathrm{pl\ddot{u}}}^{(\Delta)}$ so distinct lags do not factor through a single shared anchor;
      2. Lift from $\mathrm{Gr}_{\mathbb{R}}(2, r)$ to the **complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2, r)$** with relative RoPE phases $e^{i\omega\Delta}$; and
      3. Lift token representations from flat vectors $z_t \in \mathbb{R}^r$ to the **tautological vector bundle** $\mathcal{T} \to \mathrm{Gr}(k, n)$ ([De Clercq 2026](#qcb-declercq2026)).
 
@@ -287,6 +295,39 @@ Should an LLM or VideoGen architecture use **real**, **complex**, **fiber-bundle
 > **Key Architectural Takeaway on Flag & Infinite Grassmannians**:
 > Notice a remarkable computational property of **Flag Bundles** $\mathrm{Fl}(k_1 < k_2 < \dots < k_m; n)$: because a single QR decomposition $M = Q R$ of an $n \times k_m$ matrix produces an orthonormal frame $Q = [q_1, \dots, q_{k_m}]$, taking the first $k_1, k_2, \dots, k_m$ columns of $Q$ gives the entire nested flag $Z^{(1)} \subset Z^{(2)} \subset \dots \subset Z^{(m)}$ at **zero extra QR cost**! Meanwhile, the **infinite-dimensional Sato Grassmannian** $\mathrm{Gr}(\mathcal{H})$ provides the exact theoretical continuum limit connecting discrete token-lag flows ([Zhang 2025](#qcb-zhang2025)) to continuous soliton transport in our `N-LIG` waveguide QRAM ({download}`data/chats/_LLMs, Fourier, and Quantum Logic .md, lines 270-345 <../data/chats/_LLMs,%20Fourier,%20and%20Quantum%20Logic%20.md>`), while finite-rank complex tautological/flag bundles $\mathcal{T}_{\mathbb{C}} \to \mathrm{Gr}_{\mathbb{C}}(k, n)$ provide the optimal finite-memory implementation.
 
+### 3.3 Mathematical Critique of Cross-Fiber RoPE Gauge Ambiguity in `Bundle-Transformer` and Resolution via Polar Parallel Transport
+
+A critical geometric subtlety arises in [De Clercq (2026, Section 3.3)](#qcb-declercq2026) when combining **Fiber-Preserving Rotary Position Embedding (`RoPE`)** ($\alpha_i \leftarrow R_{\theta_m} \alpha_i$, $v_i^{\mathrm{rot}} = Z_i R_{\theta_m} \alpha_i$) with ambient query-key dot products $(W_Q v_i^{\mathrm{rot}})^\top (W_K v_j^{\mathrm{rot}})$ across two tokens with **distinct concept subspaces** $Z_i \ne Z_j \in \mathrm{Gr}(k, n)$:
+
+1. **Why Standard RoFormer (`Su et al. 2021`) Is Shift-Invariant**:
+   In flat Euclidean space ($Z_i = Z_j = I_n$), every token shares the same global frame, so $R_{\theta_m}^\top R_{\theta_n} = R_{\theta_n - \theta_m}$ depends **only on relative token distance** $n - m$.
+2. **The Cross-Fiber Gauge-Mismatch Residual (`ropeCrossFrameInnerProduct`, `quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities`)**:
+   On the tautological bundle $\mathcal{T} \to \mathrm{Gr}(k, n)$, token $i$'s rotated fiber vector $v_i^{\mathrm{rot}} = Z_i R_{\theta_m} \alpha_i$ and token $j$'s rotated fiber vector $v_j^{\mathrm{rot}} = Z_j R_{\theta_n} \alpha_j$ are expressed in **independent local Stiefel frames** $Z_i$ and $Z_j$ produced by separate QR factorizations $Z_i = \operatorname{QR}(M_i)$ and $Z_j = \operatorname{QR}(M_j)$. In the principal-angle SVD basis where $Z_i^\top Z_j = \operatorname{diag}(\cos\psi_1, \cos\psi_2) = \operatorname{diag}(1, \sigma_2)$, their cross-frame inner product (`ropeCrossFrameInnerProduct`) is:
+
+   $$
+   \bigl\langle u, \operatorname{diag}(1, \sigma_2) w \bigr\rangle = u_1 w_1 + \sigma_2 u_2 w_2.
+   $$
+
+   In **Master Theorem 6 (`quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities`)**, we prove two exact laws:
+   - **Synchronized / Parallel-Transported Limit ($\sigma_2 = 1$)**: Applying any common position shift $R_\theta$ to both fiber vectors preserves the inner product identically:
+
+     $$
+     \operatorname{ropeCrossFrameInnerProduct}\bigl(R_\theta \alpha,\, R_\theta \beta,\, 1\bigr) = \operatorname{ropeCrossFrameInnerProduct}(\alpha, \beta, 1).
+     $$
+
+   - **Unsynchronized Cross-Concept Anisotropy ($\sigma_2 \ne 1$)**: Under a common $\theta = \pi/2$ shift ($R_{\pi/2}(\alpha_1, \alpha_2) = (-\alpha_2, \alpha_1)$), the cross-frame inner product changes by the **nonzero gauge-mismatch residual**:
+
+     $$
+     \operatorname{ropeCrossFrameInnerProduct}\bigl(R_{\pi/2}\alpha,\, R_{\pi/2}\beta,\, \sigma_2\bigr) - \operatorname{ropeCrossFrameInnerProduct}(\alpha, \beta, \sigma_2) = (\sigma_2 - 1)\bigl(\alpha_1 \beta_1 - \alpha_2 \beta_2\bigr) \ne 0.
+     $$
+
+3. **Constructive Geometric Fix (Levi-Civita / Polar Parallel Transport Before RoPE)**:
+   To make Fiber-RoPE strictly translation-invariant across distinct concept subspaces $Z_i \ne Z_j$, token $j$'s fiber coordinates must first be **parallel-transported** along the Grassmannian geodesic from $Z_j$ to $Z_i$ via the polar orthogonal factor $U_{ij} = \operatorname{Polar}(Z_i^\top Z_j) = Z_i^\top Z_j \bigl((Z_j^\top Z_i)(Z_i^\top Z_j)\bigr)^{-1/2} \in O(k)$ (or projected into $Z_i$'s fiber via $\alpha_{j \to i} = Z_i^\top v_j$), and **then** contracted with the relative rotation $R_{\theta_n - \theta_m}$:
+
+   $$
+   s_{ij}^{\mathrm{RoPE\text{-}conn}} = \alpha_i^\top R_{\theta_m}^\top U_{ij} R_{\theta_n} \alpha_j = \alpha_i^\top R_{\theta_n - \theta_m} \bigl(U_{ij} \alpha_j\bigr).
+   $$
+
 ---
 
 ## 4. "Quantum" LLM Video Generation (`VideoGen`) Methods and Architecture
@@ -351,7 +392,7 @@ flowchart TD
        t_{\mathrm{cool}} = (5 \times 10^{-9}) \times (2 \times 10^6) \times 10^{-8} = 10^{-10}\text{ s} = 100\text{ ps} \quad \Longrightarrow \quad f_{\mathrm{clock}} = \frac{1}{t_{\mathrm{cool}}} = 10\text{ GHz}.
        $$
 
-     - **Scoped Hardware Evidence Boundary**: As correctly noted in the HN critique inside {download}`data/chats/_LLMs, Fourier, and Quantum Logic .md, lines 20-23, 81-83 <../data/chats/_LLMs,%20Fourier,%20and%20Quantum%20Logic%20.md>`, the $O(\log^2 L)$ gate count of the Quantum Fourier Transform provides **no speedup when simulated on classical hardware**, and on quantum hardware requires $O(L)$ state-preparation / QRAM loading overhead unless states are generated and processed natively as coherent optical/solitonic wavepackets.
+     - **Scoped Hardware Evidence Boundary (`QuantumCausalBundleVideoGenHypothesis` in `Signals.Pending`)**: As correctly noted in the HN critique inside {download}`data/chats/_LLMs, Fourier, and Quantum Logic .md, lines 20-23, 81-83 <../data/chats/_LLMs,%20Fourier,%20and%20Quantum%20Logic%20.md>`, the $O(\log^2 L)$ gate count of the Quantum Fourier Transform provides **no speedup when simulated on classical hardware**, and on quantum hardware requires $O(L)$ state-preparation / QRAM loading overhead $T_{\mathrm{prep}} < T_{\mathrm{prep}} + T_{\mathrm{QFT}} = \operatorname{qftAssociativeTotalLatency}(T_{\mathrm{prep}}, T_{\mathrm{QFT}})$ unless states are generated and processed natively as coherent optical/solitonic wavepackets (`QuantumCausalBundleVideoGenHypothesis.decision_bundle_and_qram_bounds` in [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L5615-L5748) and [chat-physics-catalog.md](chat-physics-catalog.md#L152)).
 
 ---
 
@@ -440,6 +481,42 @@ example (wA_re wA_im wB_re wB_im alpha_gate h_val g_val : ℝ)
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+/-- Verification of Master Theorem 6: 4D Plücker Klein quadric rank-2 shared-anchor collapse
+vs. cross-lag rank-4 escape, tautological shared linear transport incidence, same-frame vs.
+anisotropic cross-frame RoPE gauge-mismatch residual, QRAM state-preparation latency bound,
+and log-polar OAM momentum separation. -/
+example (zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 a00 a01 a10 a11 c s alpha a1 a2 b1 b2 sigma2 : ℝ) :
+    pluckerQuadric4DResidual
+        (plucker2DCoord zc0 zc1 zp0 zp1)
+        (plucker2DCoord zc0 zc2 zp0 zp2)
+        (plucker2DCoord zc0 zc3 zp0 zp3)
+        (plucker2DCoord zc1 zc2 zp1 zp2)
+        (plucker2DCoord zc1 zc3 zp1 zp3)
+        (plucker2DCoord zc2 zc3 zp2 zp3) = 0 ∧
+      pluckerQuadric4DResidual 2 0 0 0 0 3 = 6 ∧
+      0 < pluckerQuadric4DResidual 2 0 0 0 0 3 ∧
+      tautologicalLinearTransportVec a00 a01 a10 a11 (c * alpha) (s * alpha) =
+        tautologicalFiberVec (a00 * c + a01 * s) (a10 * c + a11 * s) alpha ∧
+      ropeCrossFrameInnerProduct
+          (ropeFiberRotate (3 / 5) (4 / 5) a1 a2)
+          (ropeFiberRotate (3 / 5) (4 / 5) b1 b2) 1 =
+        ropeCrossFrameInnerProduct (a1, a2) (b1, b2) 1 ∧
+      ropeCrossFrameInnerProduct
+          (ropeFiberRotate 0 1 a1 a2)
+          (ropeFiberRotate 0 1 b1 b2) sigma2 -
+        ropeCrossFrameInnerProduct (a1, a2) (b1, b2) sigma2 =
+        (sigma2 - 1) * (a1 * b1 - a2 * b2) ∧
+      (100 : ℝ) < qftAssociativeTotalLatency 100 10 ∧
+      oamLogPolarTransverseMomentum 3 2 - oamLogPolarTransverseMomentum 1 2 = 1 := by
+  have h :=
+    quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities
+      zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 2 3
+      a00 a01 a10 a11 c s alpha (3 / 5) (4 / 5) a1 a2 b1 b2 sigma2
+      100 10 3 1 2
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  refine ⟨h.1, by linarith [h.2.1], h.2.2.1, h.2.2.2.1, h.2.2.2.2.1,
+    h.2.2.2.2.2.1, h.2.2.2.2.2.2.1, by linarith [h.2.2.2.2.2.2.2]⟩
+
 end QuantumCausalJevBundleTransformerVideogenPaperVerification
 ```
 
@@ -507,7 +584,7 @@ end QuantumCausalJevBundleTransformerVideogenPaperVerification
 
 (qcb-sato1981)=
 <a id="qcb-sato1981"></a>
-15. Sato, M. (1981). *Soliton equations as dynamical systems on ainfinite dimensional Grassmann manifolds*. RIMS Kokyuroku, 439, 30–46.
+15. Sato, M. (1981). *Soliton equations as dynamical systems on infinite dimensional Grassmann manifolds*. RIMS Kokyuroku, 439, 30–46.
 
 (qcb-segal1985)=
 <a id="qcb-segal1985"></a>

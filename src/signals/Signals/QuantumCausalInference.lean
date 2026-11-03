@@ -1351,6 +1351,190 @@ theorem quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities
     h_proj_in, h_proj_orth, h_rope_norm, h_vid,
     by unfold rgoVitrimerKapitzaCoolTime; norm_num⟩
 
+/-- 4D Plücker Klein quadric residual
+$\mathcal{Q}_4(p_{01}, p_{02}, p_{03}, p_{12}, p_{13}, p_{23}) = p_{01} p_{23} - p_{02} p_{13} + p_{03} p_{12}$
+measuring whether a 2-form in $\Lambda^2 \mathbb{R}^4$ is a simple rank-2 decomposable blade
+($\mathcal{Q}_4 = 0$) or a non-decomposable rank-4 cross-lag superposition ($\mathcal{Q}_4 \ne 0$). -/
+@[blueprint "def:signals-plucker-quadric-4d-residual"
+  (title := "4D Plücker Klein quadric decomposability residual p_01 p_23 - p_02 p_13 + p_03 p_12")
+  (statement := /-- Define $\operatorname{pluckerQuadric4DResidual}(p_{01}, p_{02}, p_{03}, p_{12}, p_{13}, p_{23})
+    = p_{01} p_{23} - p_{02} p_{13} + p_{03} p_{12}$. -/)]
+def pluckerQuadric4DResidual (p01 p02 p03 p12 p13 p23 : ℝ) : ℝ :=
+  p01 * p23 - p02 * p13 + p03 * p12
+
+/-- **Theorem (Shared-Anchor Multi-Lag Plücker Sums Always Satisfy the Rank-2 Klein Quadric)**:
+For any 4D anchor token $z_c = (z_{c0}, z_{c1}, z_{c2}, z_{c3})$ and any weighted sum of past lags
+$\bar{z}_p = (z_{p0}, z_{p1}, z_{p2}, z_{p3})$, the six Plücker coordinates $p_{ij} = \operatorname{plucker2DCoord}(z_{c,i}, z_{c,j}, z_{p,i}, z_{p,j})$
+satisfy $\operatorname{pluckerQuadric4DResidual}(p_{01}, p_{02}, p_{03}, p_{12}, p_{13}, p_{23}) = 0$ identically.
+By contrast, adding a disjoint cross-lag wedge $c_1 (e_0 \wedge e_1) + c_{12} (e_2 \wedge e_3)$
+produces a strictly nonzero Klein quadric residual $\mathcal{Q}_4 = c_1 c_{12} \ne 0$, escaping the
+rank-2 decomposable cone to achieve full exterior rank 4 in $\Lambda^2 \mathbb{R}^4$. -/
+@[blueprint "thm:signals-shared-anchor-vs-cross-lag-klein-quadric"
+  (title := "Shared-anchor Plücker sums remain trapped on the rank-2 Klein quadric while cross-lag wedges achieve rank 4")
+  (statement := /-- For any $z_{c0}, z_{c1}, z_{c2}, z_{c3}, z_{p0}, z_{p1}, z_{p2}, z_{p3}, c_1, c_{12} \in \mathbb{R}$,
+    $\operatorname{pluckerQuadric4DResidual}(p_{01}, p_{02}, p_{03}, p_{12}, p_{13}, p_{23}) = 0$
+    for $p_{ij} = \operatorname{plucker2DCoord}(z_{c,i}, z_{c,j}, z_{p,i}, z_{p,j})$, whereas
+    $\operatorname{pluckerQuadric4DResidual}(c_1, 0, 0, 0, 0, c_{12}) = c_1 c_{12}$. -/)
+  (proof := /-- Unfold \texttt{pluckerQuadric4DResidual} and \texttt{plucker2DCoord}, then close by \texttt{ring}. -/)]
+theorem shared_anchor_vs_cross_lag_klein_quadric
+    (zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 c1 c12 : ℝ) :
+    pluckerQuadric4DResidual
+        (plucker2DCoord zc0 zc1 zp0 zp1)
+        (plucker2DCoord zc0 zc2 zp0 zp2)
+        (plucker2DCoord zc0 zc3 zp0 zp3)
+        (plucker2DCoord zc1 zc2 zp1 zp2)
+        (plucker2DCoord zc1 zc3 zp1 zp3)
+        (plucker2DCoord zc2 zc3 zp2 zp3) = 0 ∧
+      pluckerQuadric4DResidual c1 0 0 0 0 c12 = c1 * c12 := by
+  unfold pluckerQuadric4DResidual plucker2DCoord
+  constructor <;> ring
+
+/-- Shared 2x2 linear transport $A(x, y)^\top = (a_{00}x + a_{01}y, a_{10}x + a_{11}y)^\top$
+on the tautological bundle (`De Clercq 2026`, *Bundle-Transformer*, Section 3.4 Step 1). -/
+@[blueprint "def:signals-tautological-linear-transport-vec"
+  (title := "Tautological bundle shared 2x2 linear transport A v")
+  (statement := /-- Define $\operatorname{tautologicalLinearTransportVec}(a_{00}, a_{01}, a_{10}, a_{11}, x, y)
+    = (a_{00} x + a_{01} y, a_{10} x + a_{11} y)$. -/)]
+def tautologicalLinearTransportVec (a00 a01 a10 a11 x y : ℝ) : ℝ × ℝ :=
+  (a00 * x + a01 * y, a10 * x + a11 * y)
+
+/-- Cross-frame inner product $\langle u, \operatorname{diag}(1, \sigma_2) w \rangle = u_1 w_1 + \sigma_2 u_2 w_2$
+between two 2D fiber vectors evaluated across concept subspaces $Z_i, Z_j \in \mathrm{Gr}(2, n)$
+with principal-angle singular values $(1, \sigma_2)$ (`De Clercq 2026`, Section 3.2 & 3.3). -/
+@[blueprint "def:signals-rope-cross-frame-inner-product"
+  (title := "Cross-frame fiber inner product u_1 w_1 + σ_2 u_2 w_2 under principal singular value σ_2")
+  (statement := /-- Define $\operatorname{ropeCrossFrameInnerProduct}(u, w, \sigma_2)
+    = u_1 w_1 + \sigma_2 u_2 w_2$. -/)]
+def ropeCrossFrameInnerProduct (u w : ℝ × ℝ) (sigma2 : ℝ) : ℝ :=
+  u.1 * w.1 + sigma2 * u.2 * w.2
+
+/-- Total latency $T_{\mathrm{total}} = T_{\mathrm{prep}} + T_{\mathrm{QFT}}$ of a Quantum Fourier
+Transform (`QFT`) Holographic Associative Memory lookup, separating the $O(\log^2 L)$ QFT gate
+execution time $T_{\mathrm{QFT}}$ from the $O(L)$ classical-to-quantum QRAM state-preparation
+time $T_{\mathrm{prep}}$ (`data/chats/_LLMs, Fourier, and Quantum Logic .md`, lines 20–23, 81–83). -/
+@[blueprint "def:signals-qft-associative-total-latency"
+  (title := "Total QFT holographic associative memory latency T_prep + T_QFT")
+  (statement := /-- Define $\operatorname{qftAssociativeTotalLatency}(T_{\mathrm{prep}}, T_{\mathrm{QFT}})
+    = T_{\mathrm{prep}} + T_{\mathrm{QFT}}$. -/)]
+def qftAssociativeTotalLatency (t_prep t_qft : ℝ) : ℝ :=
+  t_prep + t_qft
+
+/-- Transverse linear momentum $k_y = \ell / a_{\mathrm{scale}}$ produced by a log-polar
+coordinate unwrapper $(x, y) = (-a_{\mathrm{scale}} \ln(r/b), a_{\mathrm{scale}}\theta)$
+acting on an OAM vortex mode $\exp(i \ell \theta)$ (`data/chats/_LLMs, Fourier, and Quantum Logic .md`,
+lines 509–548). -/
+@[blueprint "def:signals-oam-log-polar-transverse-momentum"
+  (title := "Log-polar OAM unwrapper transverse linear momentum l / a_scale")
+  (statement := /-- Define $\operatorname{oamLogPolarTransverseMomentum}(\ell, a_{\mathrm{scale}})
+    = \ell / a_{\mathrm{scale}}$. -/)]
+def oamLogPolarTransverseMomentum (l_charge a_scale : ℝ) : ℝ :=
+  l_charge / a_scale
+
+/-- **Master Theorem 6 (Plücker Rank-2 vs. Rank-4 Klein Quadric Critique, Tautological Shared Linear Transport, Cross-Fiber RoPE Gauge-Mismatch Law, and QRAM State-Preparation Bounds)**:
+Establishes four foundational mathematical critiques and extensions:
+1. **Shared-Anchor Rank-2 Collapse vs. Cross-Lag Rank-4 Escape on $\mathcal{Q}_4$**:
+   - Any 4D shared-anchor Plücker sum satisfies $\mathcal{Q}_4(p) = 0$ (`shared_anchor_vs_cross_lag_klein_quadric.1`),
+     whereas adding a disjoint cross-lag wedge $c_1(e_0\wedge e_1) + c_{12}(e_2\wedge e_3)$ with
+     $c_1 > 0, c_{12} > 0$ yields $\mathcal{Q}_4(p) = c_1 c_{12} > 0$, proving exterior rank 4.
+2. **Tautological Bundle Shared Linear Transport Preserves Fiber Incidence (`De Clercq 2026`, Sec. 3.4 Step 1)**:
+   - Under any $2 \times 2$ matrix $A$, transporting $v = (c\alpha, s\alpha)$ gives
+     $A v = ((a_{00}c + a_{01}s)\alpha, (a_{10}c + a_{11}s)\alpha) = \operatorname{tautologicalFiberVec}(c_{\mathrm{new}}, s_{\mathrm{new}}, r\alpha)$,
+     lying identically in the QR-normalized subspace $Z_{\mathrm{new}} = (c_{\mathrm{new}}, s_{\mathrm{new}})$.
+3. **Cross-Fiber RoPE Gauge-Mismatch Critique (`De Clercq 2026`, Sec. 3.3 vs. `Su et al. 2021`)**:
+   - In a synchronized or parallel-transported concept frame ($\sigma_2 = 1$), applying a common
+     RoPE rotation $R_\theta$ to both query and key preserves their inner product identically
+     ($\langle R_\theta \alpha, R_\theta \beta \rangle = \langle \alpha, \beta \rangle$), so attention
+     depends purely on relative position $\theta_n - \theta_m$.
+   - In an unsynchronized cross-concept frame with principal singular value $\sigma_2 \ne 1$, a
+     common $\theta = \pi/2$ shift alters the inner product by the exact gauge-mismatch residual
+     $(\sigma_2 - 1)(\alpha_1 \beta_1 - \alpha_2 \beta_2)$, proving why Levi-Civita / polar
+     parallel transport $U_{ij} = \operatorname{Polar}(Z_i^\top Z_j)$ is required before cross-fiber RoPE.
+4. **QFT Associative Memory State-Preparation Lower Bound & OAM Log-Polar Mode Separation**:
+   - Whenever $T_{\mathrm{QFT}} > 0$, total QFT associative retrieval latency satisfies
+     $T_{\mathrm{prep}} < \operatorname{qftAssociativeTotalLatency}(T_{\mathrm{prep}}, T_{\mathrm{QFT}})$,
+     formalizing the QRAM loading bottleneck.
+   - Distinct OAM charges $\ell_1 \ne \ell_2$ map to strictly separated transverse momenta
+     $\operatorname{oamLogPolarTransverseMomentum}(\ell_1, a) - \operatorname{oamLogPolarTransverseMomentum}(\ell_2, a) = (\ell_1 - \ell_2)/a$. -/
+@[blueprint "thm:signals-quantum-causal-plucker-rank-rope-gauge-qram-critique"
+  (title := "Plücker Klein quadric rank-4 escape, tautological linear transport, cross-fiber RoPE gauge mismatch, and QRAM latency bounds")
+  (statement := /-- Simultaneous verification of 4D Plücker Klein quadric rank-2 collapse vs.\
+    cross-lag rank-4 escape, tautological bundle shared linear transport incidence,
+    same-frame vs.\ anisotropic cross-frame RoPE inner-product shift, QFT state-preparation
+    latency bound, and log-polar OAM momentum separation. -/)
+  (proof := /-- Combine \texttt{shared\_anchor\_vs\_cross\_lag\_klein\_quadric}, algebraic ring
+    identities, trigonometric norm invariance $\cos^2\theta + \sin^2\theta = 1$, and
+    \texttt{field\_simp} / \texttt{positivity}. -/)]
+theorem quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities
+    (zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 c1 c12 : ℝ)
+    (a00 a01 a10 a11 c s alpha cos_t sin_t a1 a2 b1 b2 sigma2 : ℝ)
+    (t_prep t_qft l1 l2 a_scale : ℝ)
+    (hc1 : 0 < c1) (hc12 : 0 < c12)
+    (hrope : cos_t ^ 2 + sin_t ^ 2 = 1)
+    (ht_qft : 0 < t_qft) (_ha_scale : 0 < a_scale) :
+    pluckerQuadric4DResidual
+        (plucker2DCoord zc0 zc1 zp0 zp1)
+        (plucker2DCoord zc0 zc2 zp0 zp2)
+        (plucker2DCoord zc0 zc3 zp0 zp3)
+        (plucker2DCoord zc1 zc2 zp1 zp2)
+        (plucker2DCoord zc1 zc3 zp1 zp3)
+        (plucker2DCoord zc2 zc3 zp2 zp3) = 0 ∧
+      pluckerQuadric4DResidual c1 0 0 0 0 c12 = c1 * c12 ∧
+      0 < pluckerQuadric4DResidual c1 0 0 0 0 c12 ∧
+      tautologicalLinearTransportVec a00 a01 a10 a11 (c * alpha) (s * alpha) =
+        tautologicalFiberVec (a00 * c + a01 * s) (a10 * c + a11 * s) alpha ∧
+      ropeCrossFrameInnerProduct
+          (ropeFiberRotate cos_t sin_t a1 a2)
+          (ropeFiberRotate cos_t sin_t b1 b2) 1 =
+        ropeCrossFrameInnerProduct (a1, a2) (b1, b2) 1 ∧
+      ropeCrossFrameInnerProduct
+          (ropeFiberRotate 0 1 a1 a2)
+          (ropeFiberRotate 0 1 b1 b2) sigma2 -
+        ropeCrossFrameInnerProduct (a1, a2) (b1, b2) sigma2 =
+        (sigma2 - 1) * (a1 * b1 - a2 * b2) ∧
+      t_prep < qftAssociativeTotalLatency t_prep t_qft ∧
+      oamLogPolarTransverseMomentum l1 a_scale -
+          oamLogPolarTransverseMomentum l2 a_scale =
+        (l1 - l2) / a_scale := by
+  have h_quad := shared_anchor_vs_cross_lag_klein_quadric zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 c1 c12
+  have h_quad_pos : 0 < pluckerQuadric4DResidual c1 0 0 0 0 c12 := by
+    rw [h_quad.2]
+    positivity
+  have h_trans :
+      tautologicalLinearTransportVec a00 a01 a10 a11 (c * alpha) (s * alpha) =
+        tautologicalFiberVec (a00 * c + a01 * s) (a10 * c + a11 * s) alpha := by
+    unfold tautologicalLinearTransportVec tautologicalFiberVec
+    apply Prod.ext <;> ring
+  have h_rope_same :
+      ropeCrossFrameInnerProduct
+          (ropeFiberRotate cos_t sin_t a1 a2)
+          (ropeFiberRotate cos_t sin_t b1 b2) 1 =
+        ropeCrossFrameInnerProduct (a1, a2) (b1, b2) 1 := by
+    unfold ropeCrossFrameInnerProduct ropeFiberRotate
+    calc
+      (cos_t * a1 - sin_t * a2) * (cos_t * b1 - sin_t * b2) +
+          1 * (sin_t * a1 + cos_t * a2) * (sin_t * b1 + cos_t * b2) =
+        (cos_t ^ 2 + sin_t ^ 2) * (a1 * b1 + a2 * b2) := by ring
+      _ = 1 * (a1 * b1 + a2 * b2) := by rw [hrope]
+      _ = a1 * b1 + 1 * a2 * b2 := by ring
+  have h_rope_aniso :
+      ropeCrossFrameInnerProduct
+          (ropeFiberRotate 0 1 a1 a2)
+          (ropeFiberRotate 0 1 b1 b2) sigma2 -
+        ropeCrossFrameInnerProduct (a1, a2) (b1, b2) sigma2 =
+        (sigma2 - 1) * (a1 * b1 - a2 * b2) := by
+    unfold ropeCrossFrameInnerProduct ropeFiberRotate
+    ring
+  have h_qft : t_prep < qftAssociativeTotalLatency t_prep t_qft := by
+    unfold qftAssociativeTotalLatency
+    linarith
+  have h_oam :
+      oamLogPolarTransverseMomentum l1 a_scale -
+          oamLogPolarTransverseMomentum l2 a_scale =
+        (l1 - l2) / a_scale := by
+    unfold oamLogPolarTransverseMomentum
+    ring
+  exact ⟨h_quad.1, h_quad.2, h_quad_pos, h_trans, h_rope_same, h_rope_aniso, h_qft, h_oam⟩
+
 end
 
 end Signals.QuantumCausalInference

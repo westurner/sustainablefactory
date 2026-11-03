@@ -275,7 +275,7 @@ data before making those claims.
 
 Finally, [`src/signals/Signals/QuantumCausalInference.lean`](src/signals/Signals/QuantumCausalInference.lean),
 [`src/signals/numerical_adapter/src/quantum_causal_inference.rs`](src/signals/numerical_adapter/src/quantum_causal_inference.rs),
-and `QuantumCausalMpembaSynthesisContract` in [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean)
+and `QuantumCausalMpembaSynthesisContract` / `QuantumCausalBundleVideoGenHypothesis` in [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean)
 (documented in [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](docs/grassmannian-quantum-causal-inference-mpemba-paper.md)
 and [`docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`](docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md))
 formalize Grassmannian causal transfer (`WeightedAcyclicNetwork.transfer_equation`),
@@ -292,13 +292,15 @@ $-0.750\text{ }\mu\text{W}$ numerical audit of `lignolux_entropy_siphon_sim.py`,
 JEV (`jevEvidentialExpectedUtility`) vs. $\operatorname{do}$-calculus (`cevCausalDoExpectedUtility`)
 vs. Quantum Causal Decision Theory (`qcdtQuantumCausalExpectedUtility`), Jevons compute
 rebound (`jevonsTotalComputeEnergy`), Zhang (2025, `arXiv:2512.19428`) / `kanenorman/grassmann`
-multi-lag Plücker bilinear collapse (`zhang_multi_lag_plucker_sum_collapses_to_single_wedge`),
+multi-lag Plücker bilinear collapse (`zhang_multi_lag_plucker_sum_collapses_to_single_wedge`)
+and 4D Klein quadric rank-2 vs. cross-lag rank-4 residual (`shared_anchor_vs_cross_lag_klein_quadric`),
 De Clercq (2026) tautological `Bundle-Transformer` morphisms (`tautologicalProjectorVec`,
-`grassmannChordalDistSq`, `ropeFiberRotate`), and linear-in-volume 3D spatiotemporal
-`VideoGen` (`spatiotemporalGrassmannVideoComplexity`, `quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities`).
-Keep any hardware "entropy siphoning" refrigeration claim in `Signals.Pending` with explicit
-closed-loop observer-memory reset ($Q_{\mathrm{closed}} \ge k_B T \ln 2$), unentangled
-$\operatorname{do}(F=0)$ control subtraction, and bolometer calibration.
+`grassmannChordalDistSq`, `ropeFiberRotate`, `ropeCrossFrameInnerProduct`), and linear-in-volume 3D spatiotemporal
+`VideoGen` (`spatiotemporalGrassmannVideoComplexity`, `quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities`,
+`quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities`).
+Keep any hardware "entropy siphoning" refrigeration or QFT/QRAM soliton associative speedup claim in `Signals.Pending` with explicit
+closed-loop observer-memory reset ($Q_{\mathrm{closed}} \ge k_B T \ln 2$), $O(L)$ QRAM state-preparation overhead ($T_{\mathrm{prep}} < T_{\mathrm{total}}$), unentangled
+$\operatorname{do}(F=0)$ control subtraction, and bolometer/Kapitza calibration.
 
 ## Dilatant Dark Fluid (DDF) Modeling
 

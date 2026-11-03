@@ -10,9 +10,9 @@ description: "An arXiv-ready MyST Markdown formal verification and systems archi
 - **Subjects:**
   - Machine Learning (`cs.LG`); Artificial Intelligence (`cs.AI`); Algebraic Geometry (`math.AG`); Quantum Physics (`quant-ph`); Computer Vision and Pattern Recognition (`cs.CV`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../Signals/QuantumCausalInference.lean](../Signals/QuantumCausalInference.lean#L1052-L1335), [../Signals/DDF.lean](../Signals/DDF.lean#L8346-L9304), [../Signals/MultiArrayImaging.lean](../Signals/MultiArrayImaging.lean#L1-L420), [../SignalsTests.lean](../SignalsTests.lean#L6610-L6670))
-  - `Signals` LeanArchitect Blueprint ([../blueprint/src/content.tex](../blueprint/src/content.tex#L305-L385))
-  - `signals-numerical-adapter` Rust/WASM Engine ([../numerical_adapter/src/quantum_causal_inference.rs](../numerical_adapter/src/quantum_causal_inference.rs#L640-L1020))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../Signals/QuantumCausalInference.lean](../Signals/QuantumCausalInference.lean#L1052-L1475), [../Signals/Pending.lean](../Signals/Pending.lean#L5615-L5748), [../SignalsPending.lean](../SignalsPending.lean#L218-L270), [../Signals/DDF.lean](../Signals/DDF.lean#L8346-L9304), [../Signals/MultiArrayImaging.lean](../Signals/MultiArrayImaging.lean#L1-L420), [../SignalsTests.lean](../SignalsTests.lean#L6610-L6718), [../SignalsPendingTests.lean](../SignalsPendingTests.lean#L5332-L5400))
+  - `Signals` LeanArchitect Blueprint ([../blueprint/src/content.tex](../blueprint/src/content.tex#L305-L425))
+  - `signals-numerical-adapter` Rust/WASM Engine ([../numerical_adapter/src/quantum_causal_inference.rs](../numerical_adapter/src/quantum_causal_inference.rs#L640-L1080))
   - Canonical `docs/` Mirror: [../../../docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md](../../../docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md)
 - **Companion Papers:**
   - [Grassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the Mpemba / Entropy-Siphoning Laws](grassmannian-quantum-causal-inference-mpemba-paper.md)
@@ -59,7 +59,20 @@ In this paper, we unify and redevelop **JEV-style decision models**, **self-atte
 
 ---
 
-## 2. Self-Contained Lean 4 Formal Verification Block
+## 2. Plücker Klein Quadric Rank-2 vs. Rank-4 Audit, Cross-Fiber RoPE Gauge-Mismatch Critique, and QRAM Latency Bounds
+
+1. **Shared-Anchor Multi-Lag Plücker Bilinear Collapse vs. Cross-Lag Rank-4 Escape (`shared_anchor_vs_cross_lag_klein_quadric`, `pluckerQuadric4DResidual`)**:
+   - For any 4D anchor token $z_c$ and any weighted sum of past lags $\bar{z}_p = \sum_\Delta c_\Delta z_{t-\Delta}$, the six Plücker coordinates $p_{ij} = \operatorname{plucker2DCoord}(z_{c,i}, z_{c,j}, \bar{z}_{p,i}, \bar{z}_{p,j})$ satisfy $\operatorname{pluckerQuadric4DResidual}(p_{01}, p_{02}, p_{03}, p_{12}, p_{13}, p_{23}) = p_{01}p_{23} - p_{02}p_{13} + p_{03}p_{12} = 0$ identically (`shared_anchor_vs_cross_lag_klein_quadric.1`), proving that Zhang's multi-lag sum is trapped on the rank-2 decomposable cone.
+   - Including a disjoint cross-lag wedge $c_1(e_0\wedge e_1) + c_{12}(e_2\wedge e_3)$ yields $\mathcal{Q}_4 = c_1 c_{12} > 0$ (`shared_anchor_vs_cross_lag_klein_quadric.2`), achieving full exterior rank 4 in $\Lambda^2 \mathbb{R}^r$.
+2. **Cross-Fiber RoPE Gauge-Mismatch Critique (`ropeCrossFrameInnerProduct`, `quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities`)**:
+   - In a synchronized or parallel-transported concept frame ($\sigma_2 = 1$), applying a common RoPE rotation $R_\theta$ to both query and key preserves their inner product identically ($\operatorname{ropeCrossFrameInnerProduct}(R_\theta\alpha, R_\theta\beta, 1) = \operatorname{ropeCrossFrameInnerProduct}(\alpha, \beta, 1)$).
+   - Across unsynchronized concept subspaces with principal singular value $\sigma_2 \ne 1$, a common $\theta = \pi/2$ shift alters the inner product by the nonzero gauge-mismatch residual $(\sigma_2 - 1)(\alpha_1 \beta_1 - \alpha_2 \beta_2)$, proving why Levi-Civita / polar parallel transport $U_{ij} = \operatorname{Polar}(Z_i^\top Z_j)$ is required before cross-fiber RoPE.
+3. **QRAM State-Preparation Latency Lower Bound & `QuantumCausalBundleVideoGenHypothesis`**:
+   - Total QFT associative lookup latency satisfies $T_{\mathrm{prep}} < \operatorname{qftAssociativeTotalLatency}(T_{\mathrm{prep}}, T_{\mathrm{QFT}})$ for $T_{\mathrm{QFT}} > 0$, and distinct OAM charges $\ell_1 \ne \ell_2$ map to separated transverse momenta $(\ell_1 - \ell_2)/a_{\mathrm{scale}}$ (`oamLogPolarTransverseMomentum`), while `QuantumCausalBundleVideoGenHypothesis` in `Signals.Pending` enforces QRAM, polar fiber gauge, and Kapitza thermal calibration bounds.
+
+---
+
+## 3. Self-Contained Lean 4 Formal Verification Block
 
 ```lean
 import Signals.QuantumCausalInference
@@ -129,12 +142,44 @@ example (wA_re wA_im wB_re wB_im alpha_gate h_val g_val : ℝ)
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+example (zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 a00 a01 a10 a11 c s alpha a1 a2 b1 b2 sigma2 : ℝ) :
+    pluckerQuadric4DResidual
+        (plucker2DCoord zc0 zc1 zp0 zp1)
+        (plucker2DCoord zc0 zc2 zp0 zp2)
+        (plucker2DCoord zc0 zc3 zp0 zp3)
+        (plucker2DCoord zc1 zc2 zp1 zp2)
+        (plucker2DCoord zc1 zc3 zp1 zp3)
+        (plucker2DCoord zc2 zc3 zp2 zp3) = 0 ∧
+      pluckerQuadric4DResidual 2 0 0 0 0 3 = 6 ∧
+      0 < pluckerQuadric4DResidual 2 0 0 0 0 3 ∧
+      tautologicalLinearTransportVec a00 a01 a10 a11 (c * alpha) (s * alpha) =
+        tautologicalFiberVec (a00 * c + a01 * s) (a10 * c + a11 * s) alpha ∧
+      ropeCrossFrameInnerProduct
+          (ropeFiberRotate (3 / 5) (4 / 5) a1 a2)
+          (ropeFiberRotate (3 / 5) (4 / 5) b1 b2) 1 =
+        ropeCrossFrameInnerProduct (a1, a2) (b1, b2) 1 ∧
+      ropeCrossFrameInnerProduct
+          (ropeFiberRotate 0 1 a1 a2)
+          (ropeFiberRotate 0 1 b1 b2) sigma2 -
+        ropeCrossFrameInnerProduct (a1, a2) (b1, b2) sigma2 =
+        (sigma2 - 1) * (a1 * b1 - a2 * b2) ∧
+      (100 : ℝ) < qftAssociativeTotalLatency 100 10 ∧
+      oamLogPolarTransverseMomentum 3 2 - oamLogPolarTransverseMomentum 1 2 = 1 := by
+  have h :=
+    quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities
+      zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 2 3
+      a00 a01 a10 a11 c s alpha (3 / 5) (4 / 5) a1 a2 b1 b2 sigma2
+      100 10 3 1 2
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  refine ⟨h.1, by linarith [h.2.1], h.2.2.1, h.2.2.2.1, h.2.2.2.2.1,
+    h.2.2.2.2.2.1, h.2.2.2.2.2.2.1, by linarith [h.2.2.2.2.2.2.2]⟩
+
 end QuantumCausalJevBundleTransformerVideogenPaperVerification
 ```
 
 ---
 
-## 3. Scholarly References
+## 4. Scholarly References
 
 (qcb-declercq2026)=
 <a id="qcb-declercq2026"></a>
