@@ -6494,4 +6494,76 @@ example (x0 x1 fidelity : ℝ) (zAB zBA z : ℂ) :
   unfold Signals.QuantumCausalInference.confoundedDagTransfer02
   norm_num
 
+/-- Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study GPE, coupled Dual-Grassmannian `iGPE`,
+and homogeneous Plücker 6-vector Madelung hydrodynamics on the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$
+(`Signals.DDF`). -/
+example (W K : Matrix (Fin 2) (Fin 2) ℂ) (Z : Matrix (Fin 2) (Fin 4) ℂ)
+    (i : Signals.DDF.PluckerIdx)
+    (s_coupled : Signals.DDF.CoupledDualGrassmannianState)
+    (dtau_s_real lambda_re lambda_im R_4D : ℝ) :
+    let p_Z := Signals.DDF.twistorToPluckerVec Z
+    let Z_W := Signals.DDF.chartToTwistor W
+    let gpe_rep : Signals.DDF.GrassmannianGPEParams :=
+      { hbar := 1, mass := 1, g_coupling := 2, g_dual := 1, lambda_int := 0, modular_weight := 1 }
+    let p_state : Signals.DDF.PluckerMadelungState :=
+      { p := p_Z
+        on_quadric :=
+          (Signals.DDF.plucker_hodge_klein_quadric_and_projector_identities p_Z 0 Z).2.2.2.1
+        rho := 4
+        rho_dual := 9
+        s_real := 2
+        s_imag := 0
+        s_dual := 2
+        kinetic_vel_sq := 3
+        projected_hessian_sqrt_rho := 6 }
+    let v_rec :=
+      Signals.DDF.pluckerInversePotentialReconstruction
+        dtau_s_real 1 1 2 1 lambda_re lambda_im p_state
+    Signals.DDF.pluckerHodgeDual (Signals.DDF.pluckerHodgeDual p_Z) i = p_Z i ∧
+      Signals.DDF.pluckerNormSq (Signals.DDF.pluckerHodgeDual p_Z) =
+        Signals.DDF.pluckerNormSq p_Z ∧
+      Signals.DDF.OnKleinQuadric p_Z ∧
+      Signals.DDF.pluckerContravariantMetricApply p_Z p_Z i = 0 ∧
+      Signals.DDF.pluckerContravariantMetricApply
+        p_Z (Signals.DDF.pluckerConjHodgeNormal p_Z) i = 0 ∧
+      Signals.DDF.kahlerDetFactor W =
+        Signals.DDF.pluckerNormSq (Signals.DDF.twistorToPluckerVec Z_W) ∧
+      1 ≤ Signals.DDF.kahlerDetFactor W ∧
+      Signals.DDF.fubiniStudyKineticNorm 0 K =
+        Signals.DDF.fubiniStudyFrobeniusNormSq K ∧
+      s_coupled.totalNormTimeDerivative =
+        2 * s_coupled.v_im *
+          (Complex.normSq s_coupled.psi + Complex.normSq s_coupled.phi) ∧
+      (s_coupled.v_im = 0 → s_coupled.totalNormTimeDerivative = 0) ∧
+      Signals.DDF.grassmannianEinsteinKahlerScalarCurvature 2 4 = 16 ∧
+      0 < Signals.DDF.grassmannianBogoliubovOmegaSq gpe_rep 0 K 3 ∧
+      0 < Signals.DDF.grassmannianProcaMassSq 1 1 1 6 (1 / 2) 4 9 ∧
+      Signals.DDF.pluckerHamiltonJacobiResidual
+        dtau_s_real 1 1 2 1 v_rec lambda_re lambda_im p_state = 0 ∧
+      Signals.DDF.pluckerContinuitySourceRHS 1 0 lambda_re 0 p_state = 0 ∧
+      Signals.DDF.reconstructWeylFromPluckerBohm 1 1 R_4D p_state + (1 / 24 : ℝ) * R_4D =
+        - p_state.projected_hessian_sqrt_rho / Real.sqrt p_state.rho := by
+  intro p_Z Z_W gpe_rep p_state v_rec
+  have h_pl := Signals.DDF.plucker_hodge_klein_quadric_and_projector_identities p_Z i Z
+  have h_quad_props := h_pl.2.2.2.2 h_pl.2.2.2.1
+  have h_kahler := Signals.DDF.kahlerDetFactor_eq_pluckerNormSq_and_ge_one W K
+  have h_norm := Signals.DDF.grassmannian_igpe_norm_balance_and_josephson_identities s_coupled
+  have h_bog := Signals.DDF.grassmannian_bogoliubov_proca_and_deborah_fracture_identities
+    gpe_rep 0 K 3 9 1 (1 / 2)
+    (by norm_num [gpe_rep]) (by norm_num [gpe_rep])
+    h_kahler.2.2.2.2.2.2
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_proca :
+      0 < Signals.DDF.grassmannianProcaMassSq 1 1 1 6 (1 / 2) 4 9 := by
+    unfold Signals.DDF.grassmannianProcaMassSq
+    positivity
+  have h_qhj := Signals.DDF.plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities
+    dtau_s_real 1 1 2 1 lambda_re lambda_im R_4D p_state
+    (by norm_num) (by norm_num)
+  exact ⟨h_pl.1, h_pl.2.1, h_pl.2.2.2.1, h_quad_props.2.2.1, h_quad_props.2.2.2,
+    h_kahler.2.2.1, h_kahler.2.2.2.1, h_kahler.2.2.2.2.2.1,
+    h_norm.2.2.1, h_norm.2.2.2,
+    h_bog.1, h_bog.2.1 (by norm_num [gpe_rep]), h_proca,
+    h_qhj.1, (h_qhj.2.1 rfl).1, h_qhj.2.2.2⟩
+
 end SignalsTests

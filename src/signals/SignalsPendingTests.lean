@@ -5244,4 +5244,84 @@ example :
   SignalsPending.quantum_causal_mpemba_and_entropy_siphon_bounds
     toyQuantumCausalMpembaSynthesis
 
+noncomputable def toyGrassmannianGPEPluckerMadelungContract :
+    ComplexGrassmannianGPEAndPluckerMadelungHypothesis :=
+  { gpeParams :=
+      { hbar := 1
+        mass := 1
+        g_coupling := 2
+        g_dual := 1
+        lambda_int := ⟨1 / 2, 0⟩
+        modular_weight := 1 }
+    hbar_pos := by norm_num
+    mass_pos := by norm_num
+    affineChart := 0
+    cotangentMomentum := 1
+    kineticNorm_nonneg :=
+      (Signals.DDF.kahlerDetFactor_eq_pluckerNormSq_and_ge_one 0 1).2.2.2.2.2.2
+    coupledState :=
+      { psi := ⟨3, 4⟩
+        phi := ⟨1, -2⟩
+        h0_real := 2
+        h0_dual_real := 3
+        g_nl_real := 5
+        g_dual_nl_real := 4
+        v_re := 1
+        v_im := 0
+        lam_re := 1 / 2
+        lam_im := 1 / 4 }
+    hermitianLimit := rfl
+    pluckerState :=
+      { p := Signals.DDF.twistorToPluckerVec (Signals.DDF.chartToTwistor 0)
+        on_quadric :=
+          (Signals.DDF.plucker_hodge_klein_quadric_and_projector_identities
+            (Signals.DDF.twistorToPluckerVec (Signals.DDF.chartToTwistor 0))
+            0 (Signals.DDF.chartToTwistor 0)).2.2.2.1
+        rho := 4
+        rho_dual := 9
+        s_real := 2
+        s_imag := 0
+        s_dual := 2
+        kinetic_vel_sq := 3
+        projected_hessian_sqrt_rho := 6 }
+    rho_pos := by norm_num
+    rho_dual_pos := by norm_num
+    interactiveGPE := toyIGPE
+    inverseGPE := toyInverseGPE
+    sharedHbar := rfl
+    sharedMass := rfl
+    sharedCoupling := rfl
+    sharedDensity := rfl
+    sharedWavefunction := rfl
+    sharedTimeDeriv := rfl
+    sharedLaplacian := rfl
+    bogoliubovDispersionCalibrated := True
+    bogoliubovDispersionCalibrated_hypothesis := trivial
+    procaMassUpperBoundVerified := True
+    procaMassUpperBoundVerified_hypothesis := trivial
+    schubertVortexBraidingInterferometryTested := True
+    schubertVortexBraidingInterferometryTested_hypothesis := trivial }
+
+example (i : Signals.DDF.PluckerIdx) (dtau_s_real : ℝ) :
+    let c := toyGrassmannianGPEPluckerMadelungContract
+    let v_rec := Signals.DDF.pluckerInversePotentialReconstruction
+      dtau_s_real c.gpeParams.hbar c.gpeParams.mass c.gpeParams.g_coupling
+      c.gpeParams.modular_weight c.coupledState.lam_re c.coupledState.lam_im c.pluckerState
+    1 ≤ Signals.DDF.kahlerDetFactor c.affineChart ∧
+      Signals.DDF.kahlerDetFactor c.affineChart =
+        Signals.DDF.pluckerNormSq
+          (Signals.DDF.twistorToPluckerVec (Signals.DDF.chartToTwistor c.affineChart)) ∧
+      Signals.DDF.grassmannianEinsteinKahlerScalarCurvature 2 4 = 16 ∧
+      c.coupledState.totalNormTimeDerivative = 0 ∧
+      Signals.DDF.pluckerContravariantMetricApply c.pluckerState.p c.pluckerState.p i = 0 ∧
+      Signals.DDF.pluckerContravariantMetricApply
+        c.pluckerState.p (Signals.DDF.pluckerConjHodgeNormal c.pluckerState.p) i = 0 ∧
+      Signals.DDF.pluckerHamiltonJacobiResidual
+        dtau_s_real c.gpeParams.hbar c.gpeParams.mass c.gpeParams.g_coupling
+        c.gpeParams.modular_weight v_rec c.coupledState.lam_re c.coupledState.lam_im
+        c.pluckerState = 0 ∧
+      c.inverseGPE.potential = (c.interactiveGPE.potential : ℂ) :=
+  SignalsPending.complex_grassmannian_gpe_and_plucker_madelung_bounds
+    toyGrassmannianGPEPluckerMadelungContract i dtau_s_real
+
 end SignalsPendingTests

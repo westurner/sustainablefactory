@@ -163,4 +163,48 @@ lemma quantum_causal_mpemba_and_entropy_siphon_bounds
       contract.causalControlResidual ≤ contract.causalControlTolerance :=
   contract.thermodynamic_and_causal_bounds
 
+/-- Summary lemma: in a `ComplexGrassmannianGPEAndPluckerMadelungHypothesis`,
+the Fubini–Study Kähler determinant satisfies $1 \le \det(I_2 + W W^\dagger) = \|p(I_2 \mid W)\|^2$,
+the Einstein–Kähler scalar curvature of $Gr_{\mathbb{C}}(2,4)$ is $16$, the coupled
+Dual-Grassmannian `iGPE` conserves total symplectic norm in the Hermitian limit,
+the homogeneous Plücker contravariant metric $\mathcal{H}^{I\bar{J}}$ annihilates both
+radial Euler scaling and Klein quadric normals, the Plücker `iGPE` potential reconstruction
+solves the Plücker QHJ equation, and the pointwise `InverseGPEPoint` recovers the
+`InteractiveGPEPoint` potential. -/
+@[blueprint "lem:pending-complex-grassmannian-gpe-plucker-madelung-bounds"
+  (title := "Pending Complex Grassmannian GPE, dual iGPE, and Plücker Madelung summary bounds")
+  (statement := /-- For any \texttt{contract : ComplexGrassmannianGPEAndPluckerMadelungHypothesis},
+    $i \in \mathrm{Fin}\,6$, and $\partial_\tau S_R \in \mathbb{R}$,
+    $1 \le \operatorname{kahlerDetFactor}(W) = \operatorname{pluckerNormSq}(\operatorname{twistorToPluckerVec}(\operatorname{chartToTwistor}(W)))$,
+    $\operatorname{grassmannianEinsteinKahlerScalarCurvature}(2, 4) = 16$,
+    $\mathrm{coupledState}.\mathrm{totalNormTimeDerivative} = 0$,
+    $\operatorname{pluckerContravariantMetricApply}(p, p)_i = 0$,
+    $\operatorname{pluckerContravariantMetricApply}(p, \overline{\tilde{p}})_i = 0$,
+    $\operatorname{pluckerHamiltonJacobiResidual} = 0$, and
+    $\mathrm{inverseGPE}.\mathrm{potential} = (\mathrm{interactiveGPE}.\mathrm{potential} : \mathbb{C})$. -/)
+  (proof := /-- Apply \texttt{ComplexGrassmannianGPEAndPluckerMadelungHypothesis.geometric\_and\_hydrodynamic\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma complex_grassmannian_gpe_and_plucker_madelung_bounds
+    (contract : ComplexGrassmannianGPEAndPluckerMadelungHypothesis)
+    (i : Signals.DDF.PluckerIdx) (dtau_s_real : ℝ) :
+    let W := contract.affineChart
+    let p_state := contract.pluckerState
+    let gpe := contract.gpeParams
+    let v_rec := Signals.DDF.pluckerInversePotentialReconstruction
+      dtau_s_real gpe.hbar gpe.mass gpe.g_coupling gpe.modular_weight
+      contract.coupledState.lam_re contract.coupledState.lam_im p_state
+    1 ≤ Signals.DDF.kahlerDetFactor W ∧
+      Signals.DDF.kahlerDetFactor W =
+        Signals.DDF.pluckerNormSq (Signals.DDF.twistorToPluckerVec (Signals.DDF.chartToTwistor W)) ∧
+      Signals.DDF.grassmannianEinsteinKahlerScalarCurvature 2 4 = 16 ∧
+      contract.coupledState.totalNormTimeDerivative = 0 ∧
+      Signals.DDF.pluckerContravariantMetricApply p_state.p p_state.p i = 0 ∧
+      Signals.DDF.pluckerContravariantMetricApply
+        p_state.p (Signals.DDF.pluckerConjHodgeNormal p_state.p) i = 0 ∧
+      Signals.DDF.pluckerHamiltonJacobiResidual
+        dtau_s_real gpe.hbar gpe.mass gpe.g_coupling gpe.modular_weight
+        v_rec contract.coupledState.lam_re contract.coupledState.lam_im p_state = 0 ∧
+      contract.inverseGPE.potential = (contract.interactiveGPE.potential : ℂ) :=
+  contract.geometric_and_hydrodynamic_bounds i dtau_s_real
+
 end SignalsPending

@@ -612,6 +612,503 @@ pub extern "C" fn wasm_sted_core_bohm_potential(
     model.sted_core_bohm_potential(lambda_write, na, sat_ratio)
 }
 
+// ============================================================================
+// Complex Grassmannian Gr_C(2,4) Fubini-Study GPE, Dual-Grassmannian iGPE,
+// and Homogeneous Plücker 6-Vector Madelung Hydrodynamics on Q_4 ⊂ P^5(C)
+// ============================================================================
+
+/// Homogeneous Plücker 6-vector $p = (p_{01}, p_{02}, p_{03}, p_{12}, p_{13}, p_{23}) \in \mathbb{C}^6$
+/// on the projective Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$,
+/// matching `Signals.DDF.PluckerVec`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Plucker6Vec {
+    pub coords: [Complex64; 6],
+}
+
+impl Plucker6Vec {
+    /// Embed a $2 \times 2$ complex affine coordinate chart $W \in \mathbb{C}^{2 \times 2}$
+    /// into the $2 \times 4$ twistor matrix $Z = (I_2 \mid W)$, matching `Signals.DDF.chartToTwistor`.
+    #[inline]
+    pub fn chart_to_twistor(w: &[[Complex64; 2]; 2]) -> [[Complex64; 4]; 2] {
+        [
+            [
+                Complex64::new(1.0, 0.0),
+                Complex64::new(0.0, 0.0),
+                w[0][0],
+                w[0][1],
+            ],
+            [
+                Complex64::new(0.0, 0.0),
+                Complex64::new(1.0, 0.0),
+                w[1][0],
+                w[1][1],
+            ],
+        ]
+    }
+
+    /// Extract the 6-component homogeneous Plücker vector from a $2 \times 4$ complex twistor
+    /// matrix $Z \in \mathbb{C}^{2 \times 4}$, matching `Signals.DDF.twistorToPluckerVec`.
+    #[inline]
+    pub fn from_twistor_matrix(z: &[[Complex64; 4]; 2]) -> Self {
+        Self {
+            coords: [
+                two_row_minor_complex(z, 0, 1),
+                two_row_minor_complex(z, 0, 2),
+                two_row_minor_complex(z, 0, 3),
+                two_row_minor_complex(z, 1, 2),
+                two_row_minor_complex(z, 1, 3),
+                two_row_minor_complex(z, 2, 3),
+            ],
+        }
+    }
+
+    /// Construct the homogeneous Plücker 6-vector for a canonical affine chart $Z = (I_2 \mid W)$.
+    #[inline]
+    pub fn from_affine_chart(w: &[[Complex64; 2]; 2]) -> Self {
+        Self::from_twistor_matrix(&Self::chart_to_twistor(w))
+    }
+
+    /// Hodge-dual Plücker 6-vector $\tilde{p}^I = (p_5, -p_4, p_3, p_2, -p_1, p_0)$,
+    /// matching `Signals.DDF.pluckerHodgeDual`.
+    #[inline]
+    pub fn hodge_dual(&self) -> Self {
+        let p = &self.coords;
+        let neg = |z: Complex64| Complex64::new(-z.re, -z.im);
+        Self {
+            coords: [p[5], neg(p[4]), p[3], p[2], neg(p[1]), p[0]],
+        }
+    }
+
+    /// Conjugate Hodge-dual Klein quadric normal $n_I(p) = \overline{\tilde{p}_I}$,
+    /// matching `Signals.DDF.pluckerConjHodgeNormal`.
+    #[inline]
+    pub fn conj_hodge_normal(&self) -> Self {
+        let dual = self.hodge_dual();
+        Self {
+            coords: [
+                dual.coords[0].conj(),
+                dual.coords[1].conj(),
+                dual.coords[2].conj(),
+                dual.coords[3].conj(),
+                dual.coords[4].conj(),
+                dual.coords[5].conj(),
+            ],
+        }
+    }
+
+    /// Quadratic Plücker bilinear pairing $\mathcal{C}(p) = \sum_{I=0}^5 p_I \tilde{p}^I = 2(p_0 p_5 - p_1 p_4 + p_2 p_3)$,
+    /// matching `Signals.DDF.kleinQuadricForm`.
+    #[inline]
+    pub fn klein_quadric_form(&self) -> Complex64 {
+        let p = &self.coords;
+        let term = p[0]
+            .mul(p[5])
+            .sub(p[1].mul(p[4]))
+            .add(p[2].mul(p[3]));
+        term.add(term)
+    }
+
+    /// Hermitian norm squared $\|p\|^2 = \sum_{I=0}^5 |p_I|^2$, matching `Signals.DDF.pluckerNormSq`.
+    #[inline]
+    pub fn norm_sq(&self) -> f64 {
+        self.coords.iter().map(|c| c.norm_sq()).sum()
+    }
+
+    /// Hermitian inner product $\langle u, v\rangle = \sum_{I=0}^5 \overline{u_I}\,v_I$,
+    /// matching `Signals.DDF.pluckerHermitianInner`.
+    #[inline]
+    pub fn hermitian_inner(&self, other: &Self) -> Complex64 {
+        let mut acc = Complex64::new(0.0, 0.0);
+        for i in 0..6 {
+            acc = acc.add(self.coords[i].conj().mul(other.coords[i]));
+        }
+        acc
+    }
+
+    /// Intrinsic Plücker contravariant metric operator action
+    /// $(\mathcal{H}(p, \bar{p})\,v)_I = \|p\|^2 v_I - \langle p, v\rangle p_I - \langle \overline{\tilde{p}}, v\rangle \overline{\tilde{p}}_I$,
+    /// matching `Signals.DDF.pluckerContravariantMetricApply`.
+    #[inline]
+    pub fn contravariant_metric_apply(&self, v: &Self) -> Self {
+        let norm_sq_c = Complex64::new(self.norm_sq(), 0.0);
+        let n = self.conj_hodge_normal();
+        let inner_p_v = self.hermitian_inner(v);
+        let inner_n_v = n.hermitian_inner(v);
+        let mut out = [Complex64::new(0.0, 0.0); 6];
+        for i in 0..6 {
+            out[i] = norm_sq_c
+                .mul(v.coords[i])
+                .sub(inner_p_v.mul(self.coords[i]))
+                .sub(inner_n_v.mul(n.coords[i]));
+        }
+        Self { coords: out }
+    }
+}
+
+/// Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study GPE & Dual-Schubert `iGPE` model,
+/// matching `Signals.DDF.GrassmannianGPEParams`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct GrassmannianFubiniStudyGpeModel {
+    pub hbar: f64,
+    pub mass: f64,
+    pub g_coupling: f64,
+    pub g_dual: f64,
+    pub lambda_re: f64,
+    pub lambda_im: f64,
+    pub modular_weight: f64,
+}
+
+impl GrassmannianFubiniStudyGpeModel {
+    /// Frobenius norm squared $\|W\|_{\mathrm{HS}}^2 = \sum_{a,\alpha} |W_{a\alpha}|^2$,
+    /// matching `Signals.DDF.fubiniStudyFrobeniusNormSq`.
+    #[inline]
+    pub fn frobenius_norm_sq(w: &[[Complex64; 2]; 2]) -> f64 {
+        w[0][0].norm_sq() + w[0][1].norm_sq() + w[1][0].norm_sq() + w[1][1].norm_sq()
+    }
+
+    /// Fubini–Study Kähler determinant factor $\det(I_2 + W W^\dagger) = 1 + \|W\|_{\mathrm{HS}}^2 + |\det W|^2$,
+    /// matching `Signals.DDF.kahlerDetFactor`.
+    #[inline]
+    pub fn kahler_det_factor(w: &[[Complex64; 2]; 2]) -> f64 {
+        let det_w = w[0][0].mul(w[1][1]).sub(w[0][1].mul(w[1][0]));
+        1.0 + Self::frobenius_norm_sq(w) + det_w.norm_sq()
+    }
+
+    /// Inverse Fubini–Study metric kinetic norm
+    /// $\operatorname{Re}\operatorname{Tr}((I_2 + W W^\dagger) K (I_2 + W^\dagger W) K^\dagger)$,
+    /// matching `Signals.DDF.fubiniStudyKineticNorm`.
+    pub fn fubini_study_kinetic_norm(
+        w: &[[Complex64; 2]; 2],
+        k: &[[Complex64; 2]; 2],
+    ) -> f64 {
+        let conj_t = |m: &[[Complex64; 2]; 2]| -> [[Complex64; 2]; 2] {
+            [[m[0][0].conj(), m[1][0].conj()], [m[0][1].conj(), m[1][1].conj()]]
+        };
+        let mat_mul = |a: &[[Complex64; 2]; 2], b: &[[Complex64; 2]; 2]| -> [[Complex64; 2]; 2] {
+            [
+                [
+                    a[0][0].mul(b[0][0]).add(a[0][1].mul(b[1][0])),
+                    a[0][0].mul(b[0][1]).add(a[0][1].mul(b[1][1])),
+                ],
+                [
+                    a[1][0].mul(b[0][0]).add(a[1][1].mul(b[1][0])),
+                    a[1][0].mul(b[0][1]).add(a[1][1].mul(b[1][1])),
+                ],
+            ]
+        };
+        let add_id = |m: &[[Complex64; 2]; 2]| -> [[Complex64; 2]; 2] {
+            [
+                [m[0][0].add(Complex64::new(1.0, 0.0)), m[0][1]],
+                [m[1][0], m[1][1].add(Complex64::new(1.0, 0.0))],
+            ]
+        };
+        let w_dag = conj_t(w);
+        let k_dag = conj_t(k);
+        let l = add_id(&mat_mul(w, &w_dag));
+        let r = add_id(&mat_mul(&w_dag, w));
+        let lk = mat_mul(&l, k);
+        let lkr = mat_mul(&lk, &r);
+        let prod = mat_mul(&lkr, &k_dag);
+        prod[0][0].re + prod[1][1].re
+    }
+
+    /// Einstein–Kähler scalar curvature $R_{\mathrm{Gr}}(k, n) = n k (n - k)$ of $Gr_{\mathbb{C}}(k, n)$,
+    /// matching `Signals.DDF.grassmannianEinsteinKahlerScalarCurvature`.
+    #[inline]
+    pub fn einstein_kahler_scalar_curvature(k: usize, n: usize) -> usize {
+        n * k * (n.saturating_sub(k))
+    }
+
+    /// Effective modular-weighted coupling $g_{\mathrm{eff}}(W) = g\,\det(I_2 + W W^\dagger)^{-w}$.
+    #[inline]
+    pub fn effective_coupling(&self, w: &[[Complex64; 2]; 2]) -> f64 {
+        self.g_coupling * Self::kahler_det_factor(w).powf(-self.modular_weight)
+    }
+
+    /// Complex Grassmannian Bogoliubov dispersion squared $\hbar^2 \omega^2(\mathbf{k}, W)$,
+    /// matching `Signals.DDF.grassmannianBogoliubovOmegaSq`.
+    #[inline]
+    pub fn bogoliubov_omega_sq(
+        &self,
+        w: &[[Complex64; 2]; 2],
+        k: &[[Complex64; 2]; 2],
+        rho0: f64,
+    ) -> f64 {
+        let e_kin =
+            (self.hbar * self.hbar / (2.0 * self.mass)) * Self::fubini_study_kinetic_norm(w, k);
+        let curv_shift = self.hbar * self.hbar / self.mass;
+        let g_eff = self.effective_coupling(w);
+        (e_kin + curv_shift) * (e_kin + curv_shift + 2.0 * g_eff * rho0)
+    }
+
+    /// Emergent Proca photon mass squared $m_{\gamma,\mathrm{eff}}^2$,
+    /// matching `Signals.DDF.grassmannianProcaMassSq`.
+    #[inline]
+    pub fn proca_mass_sq(
+        &self,
+        c: f64,
+        w: &[[Complex64; 2]; 2],
+        rho0: f64,
+        rho_dual: f64,
+    ) -> f64 {
+        let g_eff_rho0 = self.effective_coupling(w) * rho0;
+        let lam_abs = self.lambda_re.hypot(self.lambda_im);
+        (2.0 * self.hbar * self.hbar / (self.mass * c.powi(4)))
+            * (g_eff_rho0.abs() + lam_abs * (rho0 * rho_dual).max(0.0).sqrt())
+    }
+
+    /// Critical Deborah vacuum shear-fracture ratio $\mathrm{De}/\mathrm{De}_c$,
+    /// matching `Signals.DDF.grassmannianDeborahFractureRatio`.
+    #[inline]
+    pub fn deborah_fracture_ratio(
+        &self,
+        w: &[[Complex64; 2]; 2],
+        k: &[[Complex64; 2]; 2],
+        rho0: f64,
+        im_v_ext: f64,
+        include_lambda: bool,
+    ) -> f64 {
+        let e_kin =
+            (self.hbar * self.hbar / (2.0 * self.mass)) * Self::fubini_study_kinetic_norm(w, k);
+        let g_eff_rho0 = self.effective_coupling(w) * rho0;
+        let lam_abs = if include_lambda {
+            self.lambda_re.hypot(self.lambda_im)
+        } else {
+            0.0
+        };
+        let num = (-2.0 * g_eff_rho0).max(0.0) + im_v_ext.abs();
+        let den = (self.hbar * self.hbar / self.mass) + e_kin + lam_abs;
+        num / den
+    }
+}
+
+/// Local coupled Dual-Grassmannian `iGPE` state on $Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee$,
+/// matching `Signals.DDF.CoupledDualGrassmannianState`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct CoupledDualGrassmannianState {
+    pub psi: Complex64,
+    pub phi: Complex64,
+    pub h0_real: f64,
+    pub h0_dual_real: f64,
+    pub g_nl_real: f64,
+    pub g_dual_nl_real: f64,
+    pub v_re: f64,
+    pub v_im: f64,
+    pub lam_re: f64,
+    pub lam_im: f64,
+}
+
+impl CoupledDualGrassmannianState {
+    /// Primary time derivative $d\Psi/d\tau'$, matching `Signals.DDF.CoupledDualGrassmannianState.dPsi`.
+    #[inline]
+    pub fn d_psi(&self) -> Complex64 {
+        let h_self = Complex64::new(self.h0_real + self.g_nl_real + self.v_re, self.v_im);
+        let lam = Complex64::new(self.lam_re, self.lam_im);
+        let rhs = h_self.mul(self.psi).add(lam.mul(self.phi));
+        Complex64::new(0.0, -1.0).mul(rhs)
+    }
+
+    /// Dual time derivative $d\Phi/d\tau'$, matching `Signals.DDF.CoupledDualGrassmannianState.dPhi`.
+    #[inline]
+    pub fn d_phi(&self) -> Complex64 {
+        let h_dual =
+            Complex64::new(self.h0_dual_real + self.g_dual_nl_real + self.v_re, self.v_im);
+        let lam_conj = Complex64::new(self.lam_re, -self.lam_im);
+        let rhs = h_dual.mul(self.phi).add(lam_conj.mul(self.psi));
+        Complex64::new(0.0, -1.0).mul(rhs)
+    }
+
+    /// Primary probability rate $d|\Psi|^2/d\tau' = 2\operatorname{Re}(\bar{\Psi}\,d\Psi/d\tau')$.
+    #[inline]
+    pub fn primary_norm_time_derivative(&self) -> f64 {
+        2.0 * self.psi.conj().mul(self.d_psi()).re
+    }
+
+    /// Dual probability rate $d|\Phi|^2/d\tau' = 2\operatorname{Re}(\bar{\Phi}\,d\Phi/d\tau')$.
+    #[inline]
+    pub fn dual_norm_time_derivative(&self) -> f64 {
+        2.0 * self.phi.conj().mul(self.d_phi()).re
+    }
+
+    /// Total coupled probability rate $d(|\Psi|^2 + |\Phi|^2)/d\tau'$,
+    /// matching `Signals.DDF.CoupledDualGrassmannianState.totalNormTimeDerivative`.
+    #[inline]
+    pub fn total_norm_time_derivative(&self) -> f64 {
+        self.primary_norm_time_derivative() + self.dual_norm_time_derivative()
+    }
+
+    /// Chiral Josephson Schubert tunneling current $2\operatorname{Im}(\bar{\Psi}\,\lambda\,\Phi)$,
+    /// matching `Signals.DDF.CoupledDualGrassmannianState.josephsonSchubertCurrent`.
+    #[inline]
+    pub fn josephson_schubert_current(&self) -> f64 {
+        let lam = Complex64::new(self.lam_re, self.lam_im);
+        2.0 * self.psi.conj().mul(lam.mul(self.phi)).im
+    }
+}
+
+/// Homogeneous Plücker Madelung hydrodynamic state on the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$,
+/// matching `Signals.DDF.PluckerMadelungState`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct PluckerMadelungHydrodynamicState {
+    pub p: Plucker6Vec,
+    pub rho: f64,
+    pub rho_dual: f64,
+    pub s_real: f64,
+    pub s_imag: f64,
+    pub s_dual: f64,
+    pub kinetic_vel_sq: f64,
+    pub projected_hessian_sqrt_rho: f64,
+}
+
+impl PluckerMadelungHydrodynamicState {
+    /// Plücker Bohmian quantum potential $Q_{\mathrm{Pl\ddot{u}cker}}(\rho)$,
+    /// matching `Signals.DDF.pluckerQuantumPotential`.
+    #[inline]
+    pub fn plucker_quantum_potential(&self, hbar: f64, mass: f64) -> f64 {
+        -(hbar * hbar / (2.0 * mass * self.rho.sqrt())) * self.projected_hessian_sqrt_rho
+    }
+
+    /// Dual Schubert-incidence Josephson coupling potential $\Lambda_{\mathrm{dual}}(p, \tilde{p})$,
+    /// matching `Signals.DDF.dualJosephsonPotential`.
+    #[inline]
+    pub fn dual_josephson_potential(&self, lambda_re: f64, lambda_im: f64, hbar: f64) -> f64 {
+        let delta_phase = (self.s_dual - self.s_real) / hbar;
+        let amp_ratio = (self.rho_dual / self.rho).sqrt();
+        amp_ratio * (lambda_re * delta_phase.cos() - lambda_im * delta_phase.sin())
+    }
+
+    /// Plücker Quantum Hamilton–Jacobi (QHJ) right-hand side ($-\partial_\tau S_R$),
+    /// matching `Signals.DDF.pluckerHamiltonJacobiRHS`.
+    #[inline]
+    pub fn hamilton_jacobi_rhs(
+        &self,
+        hbar: f64,
+        mass: f64,
+        g: f64,
+        w: f64,
+        v_ext_re: f64,
+        lambda_re: f64,
+        lambda_im: f64,
+    ) -> f64 {
+        let mod_factor = (self.p.coords[0].norm_sq() / self.p.norm_sq()).powf(w);
+        let contact_term = g * mod_factor * self.rho;
+        let q_bohm = self.plucker_quantum_potential(hbar, mass);
+        let q_dual = self.dual_josephson_potential(lambda_re, lambda_im, hbar);
+        self.kinetic_vel_sq + v_ext_re + contact_term + q_bohm + q_dual
+    }
+
+    /// Plücker Quantum Hamilton–Jacobi (QHJ) PDE residual $\partial_\tau S_R + H_{\mathrm{QHJ}}^{\mathrm{Pl\ddot{u}cker}}$,
+    /// matching `Signals.DDF.pluckerHamiltonJacobiResidual`.
+    #[inline]
+    pub fn hamilton_jacobi_residual(
+        &self,
+        dtau_s_real: f64,
+        hbar: f64,
+        mass: f64,
+        g: f64,
+        w: f64,
+        v_ext_re: f64,
+        lambda_re: f64,
+        lambda_im: f64,
+    ) -> f64 {
+        dtau_s_real + self.hamilton_jacobi_rhs(hbar, mass, g, w, v_ext_re, lambda_re, lambda_im)
+    }
+
+    /// Homogeneous Plücker inverse `iGPE` potential reconstruction $V_{\mathrm{ext,re}}^{\mathrm{rec}}(p)$,
+    /// matching `Signals.DDF.pluckerInversePotentialReconstruction`.
+    #[inline]
+    pub fn inverse_potential_reconstruction(
+        &self,
+        dtau_s_real: f64,
+        hbar: f64,
+        mass: f64,
+        g: f64,
+        w: f64,
+        lambda_re: f64,
+        lambda_im: f64,
+    ) -> f64 {
+        let mod_factor = (self.p.coords[0].norm_sq() / self.p.norm_sq()).powf(w);
+        let contact_term = g * mod_factor * self.rho;
+        let q_bohm = self.plucker_quantum_potential(hbar, mass);
+        let q_dual = self.dual_josephson_potential(lambda_re, lambda_im, hbar);
+        0.0 - dtau_s_real - self.kinetic_vel_sq - contact_term - q_bohm - q_dual
+    }
+
+    /// Non-Hermitian and chiral Josephson source on the right-hand side of the Plücker
+    /// continuity equation, matching `Signals.DDF.pluckerContinuitySourceRHS`.
+    #[inline]
+    pub fn continuity_source_rhs(
+        &self,
+        hbar: f64,
+        v_ext_im: f64,
+        lambda_re: f64,
+        lambda_im: f64,
+    ) -> f64 {
+        let delta_phase = (self.s_dual - self.s_real) / hbar;
+        (2.0 / hbar) * v_ext_im * self.rho
+            + (2.0 / hbar)
+                * (self.rho * self.rho_dual).sqrt()
+                * (lambda_re * delta_phase.sin() + lambda_im * delta_phase.cos())
+    }
+
+    /// Penrose incidence dictionary reconstructing the self-dual Weyl curvature projection
+    /// from $Q_{\mathrm{Pl\ddot{u}cker}}$, matching `Signals.DDF.reconstructWeylFromPluckerBohm`.
+    #[inline]
+    pub fn reconstruct_weyl_from_plucker_bohm(
+        &self,
+        hbar: f64,
+        mass: f64,
+        scalar_curvature_4d: f64,
+    ) -> f64 {
+        (2.0 * mass / (hbar * hbar)) * self.plucker_quantum_potential(hbar, mass)
+            - (1.0 / 24.0) * scalar_curvature_4d
+    }
+}
+
+/// WASM entrypoint: Fubini–Study Kähler determinant $\det(I_2 + W W^\dagger)$ for a symmetric
+/// Plücker affine chart with magnitude $|W| = |p_{13}/p_{12}|$ and off-diagonal shear $|p_{34}/p_{12}|$.
+#[unsafe(no_mangle)]
+pub extern "C" fn wasm_grassmannian_kahler_det_factor(
+    w00_re: f64,
+    w00_im: f64,
+    w01_re: f64,
+    w01_im: f64,
+    w10_re: f64,
+    w10_im: f64,
+    w11_re: f64,
+    w11_im: f64,
+) -> f64 {
+    let w = [
+        [
+            Complex64::new(w00_re, w00_im),
+            Complex64::new(w01_re, w01_im),
+        ],
+        [
+            Complex64::new(w10_re, w10_im),
+            Complex64::new(w11_re, w11_im),
+        ],
+    ];
+    GrassmannianFubiniStudyGpeModel::kahler_det_factor(&w)
+}
+
+/// WASM entrypoint: Critical Deborah shear-fracture ratio $\mathrm{De}/\mathrm{De}_c$ on $Gr_{\mathbb{C}}(2,4)$.
+#[unsafe(no_mangle)]
+pub extern "C" fn wasm_grassmannian_deborah_fracture_ratio(
+    hbar: f64,
+    mass: f64,
+    e_kin: f64,
+    lambda_abs: f64,
+    re_g_eff_rho0: f64,
+    im_v_ext: f64,
+) -> f64 {
+    if hbar <= 0.0 || mass <= 0.0 || e_kin < 0.0 || lambda_abs < 0.0 {
+        return f64::NAN;
+    }
+    let num = (-2.0 * re_g_eff_rho0).max(0.0) + im_v_ext.abs();
+    let den = (hbar * hbar / mass) + e_kin + lambda_abs;
+    num / den
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -794,5 +1291,154 @@ mod tests {
         let total_mass_after: f64 = rho1.iter().sum();
         assert_eq!(s1.len(), 6);
         assert!((total_mass_after - total_mass_before).abs() < 1e-12);
+    }
+
+    #[rstest]
+    #[case(0.50, 0.00, 0.20, 2.00, 1.50, 0.00, 1.00, 0.35, false)] // Gr^+(2,4) Causal Core
+    #[case(1.15, 1.35, 0.45, 1.60, 1.80, 1.10, 1.15, 0.40, false)] // Evanescent Optical Sheet
+    #[case(0.45, 0.00, 0.15, -3.40, 2.20, 0.00, 0.85, 0.00, true)] // Tachyonic Shear Fracture (De > De_c)
+    #[case(0.85, -0.95, 0.60, 1.80, 1.60, 0.00, 1.25, 2.60, false)] // Strong Dual iGPE Lock
+    fn parametric_complex_grassmannian_gpe_dual_igpe_and_plucker_madelung(
+        #[case] w_mag: f64,
+        #[case] w_arg: f64,
+        #[case] w_det_off: f64,
+        #[case] g_coupling: f64,
+        #[case] rho0: f64,
+        #[case] v_im: f64,
+        #[case] modular_weight: f64,
+        #[case] lambda_re: f64,
+        #[case] expect_fracture: bool,
+    ) {
+        let w00 = Complex64::new(w_mag * w_arg.cos(), w_mag * w_arg.sin());
+        let w11 = Complex64::new(w_mag * w_arg.cos(), -w_mag * w_arg.sin());
+        let w01 = Complex64::new(w_det_off, 0.0);
+        let w10 = Complex64::new(-w_det_off, 0.0);
+        let w = [[w00, w01], [w10, w11]];
+
+        // 1. Homogeneous Plücker 6-vector, Hodge duality, Klein quadric, and H^{I \bar{J}} projector
+        let p = Plucker6Vec::from_affine_chart(&w);
+        assert!(p.klein_quadric_form().norm_sq() < 1e-24);
+
+        let p_dual = p.hodge_dual();
+        let p_dual_dual = p_dual.hodge_dual();
+        for i in 0..6 {
+            assert!(p_dual_dual.coords[i].sub(p.coords[i]).norm_sq() < 1e-24);
+        }
+        assert!((p_dual.norm_sq() - p.norm_sq()).abs() < 1e-12);
+        let n_conj = p.conj_hodge_normal();
+        assert!((n_conj.norm_sq() - p.norm_sq()).abs() < 1e-12);
+        assert!(p.hermitian_inner(&n_conj).norm_sq() < 1e-24);
+
+        // Radial Euler scaling and Klein quadric normal annihilation: H*p == 0 and H*n == 0
+        let h_p = p.contravariant_metric_apply(&p);
+        let h_n = p.contravariant_metric_apply(&n_conj);
+        assert!(h_p.norm_sq() < 1e-22);
+        assert!(h_n.norm_sq() < 1e-22);
+
+        // 2. Cauchy-Binet Kähler determinant identity det(I_2 + W W^\dagger) == ||p(I_2 | W)||^2 >= 1
+        let kahler_det = GrassmannianFubiniStudyGpeModel::kahler_det_factor(&w);
+        assert!((kahler_det - p.norm_sq()).abs() < 1e-12);
+        assert!(kahler_det >= 1.0);
+        assert_eq!(
+            GrassmannianFubiniStudyGpeModel::einstein_kahler_scalar_curvature(2, 4),
+            16
+        );
+
+        let w_zero = [
+            [Complex64::new(0.0, 0.0), Complex64::new(0.0, 0.0)],
+            [Complex64::new(0.0, 0.0), Complex64::new(0.0, 0.0)],
+        ];
+        let k_mat = [
+            [Complex64::new(0.3, -0.1), Complex64::new(0.2, 0.0)],
+            [Complex64::new(0.0, 0.4), Complex64::new(-0.2, 0.1)],
+        ];
+        assert!(
+            (GrassmannianFubiniStudyGpeModel::fubini_study_kinetic_norm(&w_zero, &k_mat)
+                - GrassmannianFubiniStudyGpeModel::frobenius_norm_sq(&k_mat))
+            .abs()
+                < 1e-12
+        );
+
+        // 3. Coupled Dual-Grassmannian iGPE norm balance & Josephson Schubert tunneling
+        let coupled = CoupledDualGrassmannianState {
+            psi: Complex64::new(1.2, -0.5),
+            phi: Complex64::new(-0.4, 0.9),
+            h0_real: 2.1,
+            h0_dual_real: 1.7,
+            g_nl_real: g_coupling * rho0,
+            g_dual_nl_real: 0.8 * rho0,
+            v_re: 0.5,
+            v_im,
+            lam_re: lambda_re,
+            lam_im: 0.25,
+        };
+        let j_jos = coupled.josephson_schubert_current();
+        let expected_prim = 2.0 * v_im * coupled.psi.norm_sq() + j_jos;
+        let expected_dual = 2.0 * v_im * coupled.phi.norm_sq() - j_jos;
+        let expected_tot = 2.0 * v_im * (coupled.psi.norm_sq() + coupled.phi.norm_sq());
+        assert!((coupled.primary_norm_time_derivative() - expected_prim).abs() < 1e-12);
+        assert!((coupled.dual_norm_time_derivative() - expected_dual).abs() < 1e-12);
+        assert!((coupled.total_norm_time_derivative() - expected_tot).abs() < 1e-12);
+
+        // 4. Bogoliubov dispersion, Proca mass, and Deborah fracture threshold De / De_c > 1
+        let gpe_model = GrassmannianFubiniStudyGpeModel {
+            hbar: 1.0,
+            mass: 1.0,
+            g_coupling,
+            g_dual: 1.0,
+            lambda_re,
+            lambda_im: 0.0,
+            modular_weight,
+        };
+        let omega_sq = gpe_model.bogoliubov_omega_sq(&w, &k_mat, rho0);
+        let de_ratio = gpe_model.deborah_fracture_ratio(&w, &k_mat, rho0, 0.0, false);
+        assert_eq!(omega_sq < 0.0, expect_fracture);
+        assert_eq!(de_ratio > 1.0, expect_fracture);
+        if lambda_re > 0.0 {
+            assert!(gpe_model.proca_mass_sq(1.0, &w, rho0, 2.0) > 0.0);
+        }
+
+        // 5. Homogeneous Plücker Madelung QHJ, inverse iGPE potential reconstruction, & Weyl bridge
+        let plucker_state = PluckerMadelungHydrodynamicState {
+            p,
+            rho: 4.0,
+            rho_dual: 9.0,
+            s_real: 2.0,
+            s_imag: 0.0,
+            s_dual: 2.0,
+            kinetic_vel_sq: 3.0,
+            projected_hessian_sqrt_rho: 6.0,
+        };
+        let v_rec = plucker_state.inverse_potential_reconstruction(
+            -1.5,
+            1.0,
+            1.0,
+            g_coupling,
+            modular_weight,
+            lambda_re,
+            0.25,
+        );
+        let qhj_res = plucker_state.hamilton_jacobi_residual(
+            -1.5,
+            1.0,
+            1.0,
+            g_coupling,
+            modular_weight,
+            v_rec,
+            lambda_re,
+            0.25,
+        );
+        assert!(qhj_res.abs() < 1e-12);
+        assert!(plucker_state.continuity_source_rhs(1.0, 0.0, lambda_re, 0.0).abs() < 1e-12);
+        assert!(
+            (plucker_state.dual_josephson_potential(lambda_re, 0.0, 1.0) - 1.5 * lambda_re).abs()
+                < 1e-12
+        );
+        let weyl = plucker_state.reconstruct_weyl_from_plucker_bohm(1.0, 1.0, 24.0);
+        assert!(
+            ((weyl + 1.0) - (-plucker_state.projected_hessian_sqrt_rho / plucker_state.rho.sqrt()))
+                .abs()
+                < 1e-12
+        );
     }
 }

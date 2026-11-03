@@ -8338,4 +8338,973 @@ theorem NormedTensorGaussianSplat3D.gravitational_wave_splat3d_and_projection_id
   exact ⟨rfl, rfl, rfl, h_tt3d_det, h_ddf3d_det1, h_ddf3d_det2,
     h_ddf3d_lt, h_orb3d_det, h_bohm_diff⟩
 
+/-! ## Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study GPE, Dual-Grassmannian `iGPE` ($\mathbf{Z} \leftrightarrow \mathbf{Z}^\perp$), and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$
+
+Formalizes the complex Grassmannian formulation of the Gross–Pitaevskii equation (GPE),
+the coupled Dual-Grassmannian interactive/inverse Gross–Pitaevskii (`iGPE`) system on
+$Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee$, and the homogeneous Plücker
+6-vector Madelung quantum-fluid equations on the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$
+without the positive Grassmannian ($Gr^+(2,4)$) restriction
+(`data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 1–1458):
+
+1. **Homogeneous Plücker 6-Vector Calculus, Hodge Duality ($\tilde{p}^I = \frac{1}{2}\epsilon^{IJ}p_J$), Klein Quadric $\mathcal{Q}_4$, & Orthogonal Tangent Projector $\mathcal{H}^{I\bar{J}}$**:
+   - Embeds any $2 \times 4$ complex twistor matrix $Z \in \mathbb{C}^{2 \times 4}$ into its
+     6-component Plücker vector $p(Z) = (\Delta_{01}^{\mathbb{C}}, \Delta_{02}^{\mathbb{C}}, \Delta_{03}^{\mathbb{C}}, \Delta_{12}^{\mathbb{C}}, \Delta_{13}^{\mathbb{C}}, \Delta_{23}^{\mathbb{C}}) \in \mathbb{C}^6$ (`twistorToPluckerVec`),
+   - Defines the Hodge-dual Plücker 6-vector $\tilde{p} = (p_{34}, -p_{24}, p_{23}, p_{14}, -p_{13}, p_{12})$ (`pluckerHodgeDual`) and Klein quadric bilinear pairing $\mathcal{C}(p) = \sum_{I=0}^5 p_I \tilde{p}^I = 2(p_{12}p_{34} - p_{13}p_{24} + p_{14}p_{23}) = 0$ (`kleinQuadricForm`, `OnKleinQuadric`),
+   - Proves Hodge-dual involution ($\tilde{\tilde{p}} = p$), norm preservation ($\|\tilde{p}\|^2 = \|p\|^2$), and that every $2 \times 4$ twistor matrix lies on the Klein quadric ($\operatorname{OnKleinQuadric}(\operatorname{twistorToPluckerVec} Z)$),
+   - Defines the intrinsic contravariant Plücker metric operator $\mathcal{H}^{I\bar{J}}(p, \bar{p}) = \|p\|^2 \delta^{IJ} - p^I \bar{p}^J - \overline{\tilde{p}}^I \tilde{p}^J$ (`pluckerContravariantMetricApply`) using the exact Hermitian quadric normal $n_I(p) = \overline{\tilde{p}_I}$ (`pluckerConjHodgeNormal`), and proves that on $\mathcal{Q}_4$ it annihilates both radial Euler scaling ($\mathcal{H}\,p = 0$) and Klein quadric normal variations ($\mathcal{H}\,\overline{\tilde{p}} = 0$).
+2. **Canonical Affine Chart $Z = (I_2 \mid W)$ on $Gr_{\mathbb{C}}(2,4)$, Fubini–Study Kähler Determinant $\det(I_2 + W W^\dagger) = \|p\|^2 \ge 1$, & Kinetic Norm**:
+   - Embeds any $2 \times 2$ complex affine chart $W \in \mathbb{C}^{2 \times 2}$ into $Z = (I_2 \mid W)$ (`chartToTwistor`),
+   - Proves the Cauchy–Binet Kähler–Plücker identity $\det(I_2 + W W^\dagger) = 1 + \|W\|_{\mathrm{HS}}^2 + |\det W|^2 = \|p(\operatorname{chartToTwistor} W)\|_{\mathbb{C}^6}^2 \ge 1$ (`kahlerDetFactor_eq_pluckerNormSq_and_ge_one`), and
+   - Proves that the inverse Fubini–Study metric kinetic norm $\operatorname{Re}\operatorname{Tr}((I_2 + W W^\dagger) K (I_2 + W^\dagger W) K^\dagger)$ (`fubiniStudyKineticNorm`) reduces at $W = 0$ to the nonnegative Frobenius norm $\|K\|_{\mathrm{HS}}^2 \ge 0$.
+3. **Coupled Dual-Grassmannian `iGPE` ($Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee$), Symplectic Norm Balance, & Chiral Josephson Schubert Tunneling**:
+   - Formalizes the coupled primary/dual condensate evolution (`CoupledDualGrassmannianState`, `GrassmannianIGPEFieldState`) and proves (`grassmannian_igpe_norm_balance_and_josephson_identities`) that all real kinetic, Fubini–Study curvature, nonlinear contact, and Hermitian Schubert incidence couplings ($\lambda, \bar{\lambda}$) cancel identically in the total probability rate $\frac{d}{d\tau'}(|\Psi|^2 + |\Phi|^2) = 2 V_{\mathrm{im}}(|\Psi|^2 + |\Phi|^2)$, while individual branch norms exchange probability via the chiral Josephson Schubert current $J_{\mathrm{Josephson}} = 2\operatorname{Im}(\bar{\Psi}\lambda\Phi)$.
+4. **Complex Grassmannian Bogoliubov Dispersion ($R_{\mathrm{Gr}} = 16 \implies \Delta_R = \hbar^2/\mathcal{M}$), Proca Photon Mass, & Critical Deborah Shear-Fracture Threshold ($\mathrm{De}/\mathrm{De}_c \ge 1$)**:
+   - Proves (`grassmannian_bogoliubov_proca_and_deborah_fracture_identities`) that in the repulsive causal sector ($g_{\mathrm{eff}}\rho_0 \ge 0$), $\hbar^2\omega^2 > 0$, whereas in the attractive/non-positive sector ($\lambda = 0, V_{\mathrm{im}} = 0$), tachyonic shear fracture ($\hbar^2\omega^2 \le 0$) holds if and only if the critical Deborah ratio satisfies $\mathrm{De}/\mathrm{De}_c \ge 1$.
+5. **Homogeneous Plücker Madelung Quantum Hamilton–Jacobi (QHJ), Plücker `iGPE` Potential Reconstruction, & Self-Dual Weyl Curvature Bridge**:
+   - Formalizes `PluckerMadelungState`, `pluckerQuantumPotential`, `dualJosephsonPotential`, `pluckerHamiltonJacobiResidual`, `pluckerInversePotentialReconstruction`, and `pluckerBohmWeylCurvatureBridge`, and proves (`plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities`) exact Plücker QHJ potential inversion, phase-locked vs. $\pi/2$ chiral phase-slip Josephson exchange, and Weyl curvature reconstruction.
+-/
+
+/-- Six-index type for homogeneous Plücker coordinates $I \in \{0, 1, 2, 3, 4, 5\}$
+corresponding to the ordered column pairs $(01, 02, 03, 12, 13, 23)$ on $Gr_{\mathbb{C}}(2,4)$. -/
+abbrev PluckerIdx := Fin 6
+
+/-- A homogeneous Plücker 6-vector $p \in \mathbb{C}^6$ representing a point in ambient
+projective space $\mathbb{P}^5(\mathbb{C})$ prior to or on the Klein quadric $\mathcal{Q}_4$. -/
+abbrev PluckerVec := PluckerIdx → ℂ
+
+/-- Extracts the 6-component homogeneous Plücker coordinate vector
+$p(Z) = (\Delta_{01}^{\mathbb{C}}, \Delta_{02}^{\mathbb{C}}, \Delta_{03}^{\mathbb{C}}, \Delta_{12}^{\mathbb{C}}, \Delta_{13}^{\mathbb{C}}, \Delta_{23}^{\mathbb{C}})$
+from a $2 \times 4$ complex twistor matrix $Z \in \mathbb{C}^{2 \times 4}$. -/
+@[blueprint "def:signals-ddf-twistor-to-plucker-vec"
+  (title := "Homogeneous Plücker 6-vector extracted from a 2×4 complex twistor matrix")
+  (statement := /-- Map $Z \in \mathbb{C}^{2 \times 4}$ to its six $2 \times 2$ Plücker minors
+    $(\Delta_{01}^{\mathbb C}, \Delta_{02}^{\mathbb C}, \Delta_{03}^{\mathbb C}, \Delta_{12}^{\mathbb C}, \Delta_{13}^{\mathbb C}, \Delta_{23}^{\mathbb C})$. -/)]
+def twistorToPluckerVec (Z : Matrix (Fin 2) (Fin 4) ℂ) : PluckerVec
+  | ⟨0, _⟩ => complexTwoRowMinor Z 0 1
+  | ⟨1, _⟩ => complexTwoRowMinor Z 0 2
+  | ⟨2, _⟩ => complexTwoRowMinor Z 0 3
+  | ⟨3, _⟩ => complexTwoRowMinor Z 1 2
+  | ⟨4, _⟩ => complexTwoRowMinor Z 1 3
+  | ⟨5, _⟩ => complexTwoRowMinor Z 2 3
+
+/-- The Hodge-dual Plücker 6-vector
+$\tilde{p}^I = \frac{1}{2}\epsilon^{IJ} p_J = (p_{34}, -p_{24}, p_{23}, p_{14}, -p_{13}, p_{12})$
+on $\mathbb{C}^6$ (`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 1110, 1249–1256). -/
+@[blueprint "def:signals-ddf-plucker-hodge-dual"
+  (title := "Hodge-dual Plücker 6-vector p̃^I = (p_34, -p_24, p_23, p_14, -p_13, p_12)")
+  (statement := /-- For $p \in \mathbb{C}^6$, define
+    $\operatorname{pluckerHodgeDual}(p) = (p_5, -p_4, p_3, p_2, -p_1, p_0)$. -/)]
+def pluckerHodgeDual (p : PluckerVec) : PluckerVec
+  | ⟨0, _⟩ =>  p ⟨5, by decide⟩
+  | ⟨1, _⟩ => -p ⟨4, by decide⟩
+  | ⟨2, _⟩ =>  p ⟨3, by decide⟩
+  | ⟨3, _⟩ =>  p ⟨2, by decide⟩
+  | ⟨4, _⟩ => -p ⟨1, by decide⟩
+  | ⟨5, _⟩ =>  p ⟨0, by decide⟩
+
+/-- The quadratic Plücker bilinear pairing
+$\mathcal{C}(p) = \sum_{I=0}^5 p_I \tilde{p}^I = 2(p_0 p_5 - p_1 p_4 + p_2 p_3)$
+defining the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$. -/
+@[blueprint "def:signals-ddf-klein-quadric-form"
+  (title := "Klein quadric quadratic Plücker form C(p) = 2(p_0 p_5 - p_1 p_4 + p_2 p_3)")
+  (statement := /-- Define $\operatorname{kleinQuadricForm}(p)
+    = p_0 p_5 - p_1 p_4 + p_2 p_3 + p_3 p_2 - p_4 p_1 + p_5 p_0$. -/)]
+def kleinQuadricForm (p : PluckerVec) : ℂ :=
+  p 0 * p 5 - p 1 * p 4 + p 2 * p 3 + p 3 * p 2 - p 4 * p 1 + p 5 * p 0
+
+/-- Predicate asserting that a Plücker 6-vector $p \in \mathbb{C}^6$ lies on the
+Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ ($\mathcal{C}(p) = 0$). -/
+@[blueprint "def:signals-ddf-on-klein-quadric"
+  (title := "Klein quadric membership predicate OnKleinQuadric(p) ↔ C(p) = 0")
+  (statement := /-- Define $\operatorname{OnKleinQuadric}(p) \iff \operatorname{kleinQuadricForm}(p) = 0$. -/)]
+def OnKleinQuadric (p : PluckerVec) : Prop :=
+  kleinQuadricForm p = 0
+
+/-- Hermitian norm squared $\|p\|^2 = \sum_{I=0}^5 |p_I|^2$ of a Plücker 6-vector in $\mathbb{C}^6$. -/
+@[blueprint "def:signals-ddf-plucker-norm-sq"
+  (title := "Plücker 6-vector Hermitian norm squared ‖p‖² = ∑_I |p_I|²")
+  (statement := /-- Define $\operatorname{pluckerNormSq}(p) = \sum_{I=0}^5 \operatorname{Complex.normSq}(p_I)$. -/)]
+def pluckerNormSq (p : PluckerVec) : ℝ :=
+  Complex.normSq (p 0) + Complex.normSq (p 1) + Complex.normSq (p 2) +
+    Complex.normSq (p 3) + Complex.normSq (p 4) + Complex.normSq (p 5)
+
+/-- Standard Hermitian inner product $\langle u, v\rangle = \sum_{I=0}^5 \overline{u_I}\,v_I$ on $\mathbb{C}^6$. -/
+@[blueprint "def:signals-ddf-plucker-hermitian-inner"
+  (title := "Hermitian inner product ⟨u, v⟩ = ∑_I ū_I v_I on Plücker 6-vectors")
+  (statement := /-- Define $\operatorname{pluckerHermitianInner}(u, v) = \sum_{I=0}^5 \overline{u_I}\,v_I$. -/)]
+def pluckerHermitianInner (u v : PluckerVec) : ℂ :=
+  starRingEnd ℂ (u 0) * v 0 + starRingEnd ℂ (u 1) * v 1 + starRingEnd ℂ (u 2) * v 2 +
+    starRingEnd ℂ (u 3) * v 3 + starRingEnd ℂ (u 4) * v 4 + starRingEnd ℂ (u 5) * v 5
+
+/-- The conjugate Hodge-dual Plücker normal vector
+$n_I(p) = \overline{\tilde{p}_I} = (\bar{p}_5, -\bar{p}_4, \bar{p}_3, \bar{p}_2, -\bar{p}_1, \bar{p}_0)$,
+which is the exact Hermitian normal to the holomorphic Klein quadric $\mathcal{C}(p) = 0$
+since $\langle n(p), p\rangle = \sum_I \tilde{p}_I p_I = \mathcal{C}(p) = 0$ on $\mathcal{Q}_4$. -/
+@[blueprint "def:signals-ddf-plucker-conj-hodge-normal"
+  (title := "Conjugate Hodge-dual Klein quadric normal vector n_I(p) = p̄̃_I")
+  (statement := /-- Define $\operatorname{pluckerConjHodgeNormal}(p)_I = \overline{\operatorname{pluckerHodgeDual}(p)_I}$. -/)]
+def pluckerConjHodgeNormal (p : PluckerVec) : PluckerVec :=
+  fun i => starRingEnd ℂ (pluckerHodgeDual p i)
+
+/-- Action of the intrinsic contravariant Plücker metric operator
+$$\bigl(\mathcal{H}(p, \bar{p})\,v\bigr)^I = \|p\|^2 v^I - \langle p, v\rangle\,p^I - \langle \overline{\tilde{p}}, v\rangle\,\overline{\tilde{p}}^I$$
+on a Plücker tangent/variation vector $v \in \mathbb{C}^6$. -/
+@[blueprint "def:signals-ddf-plucker-contravariant-metric-apply"
+  (title := "Intrinsic Plücker contravariant metric operator H^{I J̄} on T Q_4")
+  (statement := /-- For $p, v \in \mathbb{C}^6$, define
+    $\operatorname{pluckerContravariantMetricApply}(p, v)_I
+    = \|p\|^2 v_I - \langle p, v\rangle p_I - \langle \overline{\tilde{p}}, v\rangle \overline{\tilde{p}}_I$. -/)]
+def pluckerContravariantMetricApply (p v : PluckerVec) : PluckerVec :=
+  fun i =>
+    (pluckerNormSq p : ℂ) * v i -
+      pluckerHermitianInner p v * p i -
+      pluckerHermitianInner (pluckerConjHodgeNormal p) v * pluckerConjHodgeNormal p i
+
+/-- **Master Theorem for Homogeneous Plücker Hodge Duality, Klein Quadric Membership, & Tangent Projector Annihilation**:
+For any Plücker 6-vector $p \in \mathbb{C}^6$ and any $2 \times 4$ complex twistor matrix $Z \in \mathbb{C}^{2 \times 4}$:
+1. **Hodge-Dual Involution**: $\operatorname{pluckerHodgeDual}(\operatorname{pluckerHodgeDual}(p)) = p$,
+2. **Norm Preservation**: $\|\tilde{p}\|^2 = \|p\|^2$ and $\|\overline{\tilde{p}}\|^2 = \|p\|^2$,
+3. **Universal Klein Quadric Membership**: $\operatorname{OnKleinQuadric}(\operatorname{twistorToPluckerVec}(Z))$,
+4. **Hermitian Orthogonality on $\mathcal{Q}_4$**: If $\operatorname{OnKleinQuadric}(p)$, then
+   $\langle p, \overline{\tilde{p}}\rangle = 0$ and $\langle \overline{\tilde{p}}, p\rangle = 0$,
+5. **Exact Radial Euler Scaling Annihilation ($\mathcal{H}\,p = 0$)**: If $\operatorname{OnKleinQuadric}(p)$, then
+   $\operatorname{pluckerContravariantMetricApply}(p, p) = 0$, and
+6. **Exact Klein Quadric Normal Annihilation ($\mathcal{H}\,\overline{\tilde{p}} = 0$)**: If $\operatorname{OnKleinQuadric}(p)$, then
+   $\operatorname{pluckerContravariantMetricApply}(p, \overline{\tilde{p}}) = 0$. -/
+@[blueprint "thm:signals-ddf-plucker-hodge-klein-projector-identities"
+  (title := "Homogeneous Plücker Hodge-dual involution, Klein quadric membership, and H^{I J̄} radial/normal annihilation")
+  (statement := /-- For any $p \in \mathbb{C}^6$, $i \in \mathrm{Fin}\,6$, and $Z \in \mathbb{C}^{2 \times 4}$:
+    (1) $\operatorname{pluckerHodgeDual}(\operatorname{pluckerHodgeDual}(p))_i = p_i$,
+    (2) $\operatorname{pluckerNormSq}(\operatorname{pluckerHodgeDual}(p)) = \operatorname{pluckerNormSq}(p)$ and
+    $\operatorname{pluckerNormSq}(\operatorname{pluckerConjHodgeNormal}(p)) = \operatorname{pluckerNormSq}(p)$,
+    (3) $\operatorname{OnKleinQuadric}(\operatorname{twistorToPluckerVec}(Z))$, and
+    (4) if $\operatorname{OnKleinQuadric}(p)$, then $\langle \overline{\tilde{p}}, p\rangle = 0$,
+    $\langle p, \overline{\tilde{p}}\rangle = 0$,
+    $\operatorname{pluckerContravariantMetricApply}(p, p)_i = 0$, and
+    $\operatorname{pluckerContravariantMetricApply}(p, \overline{\tilde{p}})_i = 0$. -/)
+  (proof := /-- Use `fin_cases i` for Hodge-dual involution, `Complex.normSq_neg` and `Complex.normSq_conj`
+    for norm preservation, `complexTwoRowMinor_pluecker` for Klein quadric membership, and
+    `Complex.mul_conj'` to simplify the Hermitian inner products on $\mathcal{Q}_4$. -/)]
+theorem plucker_hodge_klein_quadric_and_projector_identities
+    (p : PluckerVec) (i : PluckerIdx) (Z : Matrix (Fin 2) (Fin 4) ℂ) :
+    pluckerHodgeDual (pluckerHodgeDual p) i = p i ∧
+      pluckerNormSq (pluckerHodgeDual p) = pluckerNormSq p ∧
+      pluckerNormSq (pluckerConjHodgeNormal p) = pluckerNormSq p ∧
+      OnKleinQuadric (twistorToPluckerVec Z) ∧
+      (OnKleinQuadric p →
+        pluckerHermitianInner (pluckerConjHodgeNormal p) p = 0 ∧
+        pluckerHermitianInner p (pluckerConjHodgeNormal p) = 0 ∧
+        pluckerContravariantMetricApply p p i = 0 ∧
+        pluckerContravariantMetricApply p (pluckerConjHodgeNormal p) i = 0) := by
+  have h_inv : pluckerHodgeDual (pluckerHodgeDual p) i = p i := by
+    fin_cases i <;> simp [pluckerHodgeDual]
+  have h_norm_dual : pluckerNormSq (pluckerHodgeDual p) = pluckerNormSq p := by
+    dsimp [pluckerNormSq, pluckerHodgeDual]
+    simp only [Complex.normSq_neg]
+    ring
+  have h_norm_conj : pluckerNormSq (pluckerConjHodgeNormal p) = pluckerNormSq p := by
+    dsimp [pluckerNormSq, pluckerConjHodgeNormal, pluckerHodgeDual]
+    simp only [map_neg, Complex.normSq_neg, Complex.normSq_conj]
+    ring
+  have h_twistor_quad : OnKleinQuadric (twistorToPluckerVec Z) := by
+    unfold OnKleinQuadric kleinQuadricForm
+    have h_pl := complexTwoRowMinor_pluecker Z 0 1 2 3
+    change complexTwoRowMinor Z 0 1 * complexTwoRowMinor Z 2 3 -
+      complexTwoRowMinor Z 0 2 * complexTwoRowMinor Z 1 3 +
+      complexTwoRowMinor Z 0 3 * complexTwoRowMinor Z 1 2 +
+      complexTwoRowMinor Z 1 2 * complexTwoRowMinor Z 0 3 -
+      complexTwoRowMinor Z 1 3 * complexTwoRowMinor Z 0 2 +
+      complexTwoRowMinor Z 2 3 * complexTwoRowMinor Z 0 1 = 0
+    linear_combination 2 * h_pl
+  have h_self_inner : ∀ u : PluckerVec, pluckerHermitianInner u u = (pluckerNormSq u : ℂ) := by
+    intro u
+    have h_conj_mul : ∀ z : ℂ, starRingEnd ℂ z * z = (Complex.normSq z : ℂ) := by
+      intro z
+      apply Complex.ext
+      · simp [Complex.normSq_apply, Complex.mul_re]
+      · simp [Complex.mul_im]
+        ring
+    unfold pluckerHermitianInner pluckerNormSq
+    push_cast
+    simp only [h_conj_mul]
+  refine ⟨h_inv, h_norm_dual, h_norm_conj, h_twistor_quad, ?_⟩
+  intro h_quad
+  unfold OnKleinQuadric at h_quad
+  have h_np : pluckerHermitianInner (pluckerConjHodgeNormal p) p = 0 := by
+    unfold pluckerHermitianInner pluckerConjHodgeNormal
+    change starRingEnd ℂ (starRingEnd ℂ (p 5)) * p 0 +
+      starRingEnd ℂ (starRingEnd ℂ (-p 4)) * p 1 +
+      starRingEnd ℂ (starRingEnd ℂ (p 3)) * p 2 +
+      starRingEnd ℂ (starRingEnd ℂ (p 2)) * p 3 +
+      starRingEnd ℂ (starRingEnd ℂ (-p 1)) * p 4 +
+      starRingEnd ℂ (starRingEnd ℂ (p 0)) * p 5 = 0
+    simp only [RingHomCompTriple.comp_apply, RingHom.id_apply]
+    unfold kleinQuadricForm at h_quad
+    linear_combination h_quad
+  have h_pn : pluckerHermitianInner p (pluckerConjHodgeNormal p) = 0 := by
+    unfold pluckerHermitianInner pluckerConjHodgeNormal
+    change starRingEnd ℂ (p 0) * starRingEnd ℂ (p 5) +
+      starRingEnd ℂ (p 1) * starRingEnd ℂ (-p 4) +
+      starRingEnd ℂ (p 2) * starRingEnd ℂ (p 3) +
+      starRingEnd ℂ (p 3) * starRingEnd ℂ (p 2) +
+      starRingEnd ℂ (p 4) * starRingEnd ℂ (-p 1) +
+      starRingEnd ℂ (p 5) * starRingEnd ℂ (p 0) = 0
+    have h_conj := congrArg (starRingEnd ℂ) h_quad
+    unfold kleinQuadricForm at h_conj
+    simp only [map_add, map_sub, map_mul, map_zero, map_neg] at h_conj ⊢
+    linear_combination h_conj
+  have h_proj_p : pluckerContravariantMetricApply p p i = 0 := by
+    unfold pluckerContravariantMetricApply
+    rw [h_self_inner p, h_np]
+    ring
+  have h_proj_n : pluckerContravariantMetricApply p (pluckerConjHodgeNormal p) i = 0 := by
+    unfold pluckerContravariantMetricApply
+    rw [h_pn, h_self_inner (pluckerConjHodgeNormal p), h_norm_conj]
+    ring
+  exact ⟨h_np, h_pn, h_proj_p, h_proj_n⟩
+
+/-- Embeds a canonical $2 \times 2$ complex affine coordinate chart $W \in \mathbb{C}^{2 \times 2}$
+into the full $2 \times 4$ twistor matrix $Z = (I_2 \mid W) \in \mathbb{C}^{2 \times 4}$ on the patch
+where $p_{01} = \Delta_{01}^{\mathbb{C}}(Z) = 1 \neq 0$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 322–332). -/
+@[blueprint "def:signals-ddf-chart-to-twistor"
+  (title := "Canonical affine chart embedding Z = (I_2 | W) into Gr_C(2,4)")
+  (statement := /-- For $W \in \mathbb{C}^{2 \times 2}$, define
+    $\operatorname{chartToTwistor}(W) = \begin{pmatrix} 1 & 0 & W_{00} & W_{01} \\ 0 & 1 & W_{10} & W_{11} \end{pmatrix}$. -/)]
+def chartToTwistor (W : Matrix (Fin 2) (Fin 2) ℂ) : Matrix (Fin 2) (Fin 4) ℂ :=
+  ![![1, 0, W 0 0, W 0 1],
+    ![0, 1, W 1 0, W 1 1] ]
+
+/-- Conjugate transpose (Hermitian adjoint $W^\dagger$) of a $2 \times 2$ complex matrix. -/
+@[blueprint "def:signals-ddf-conj-transpose-2x2"
+  (title := "Hermitian conjugate transpose W† of a 2×2 complex affine chart")
+  (statement := /-- Define $\operatorname{conjTranspose2x2}(M)_{i,j} = \overline{M_{j,i}}$. -/)]
+def conjTranspose2x2 (M : Matrix (Fin 2) (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ :=
+  fun i j => starRingEnd ℂ (M j i)
+
+/-- Hilbert–Schmidt / Frobenius norm squared $\|W\|_{\mathrm{HS}}^2 = \sum_{a,\alpha} |W_{a\alpha}|^2$
+of a $2 \times 2$ complex affine coordinate matrix $W$. -/
+@[blueprint "def:signals-ddf-fubini-study-frobenius-norm-sq"
+  (title := "Frobenius norm squared ‖W‖_HS² of a 2×2 affine chart on Gr_C(2,4)")
+  (statement := /-- Define $\operatorname{fubiniStudyFrobeniusNormSq}(W)
+    = |W_{00}|^2 + |W_{01}|^2 + |W_{10}|^2 + |W_{11}|^2$. -/)]
+def fubiniStudyFrobeniusNormSq (W : Matrix (Fin 2) (Fin 2) ℂ) : ℝ :=
+  Complex.normSq (W 0 0) + Complex.normSq (W 0 1) +
+    Complex.normSq (W 1 0) + Complex.normSq (W 1 1)
+
+/-- The Fubini–Study Kähler potential determinant argument
+$\det(I_2 + W W^\dagger) = 1 + \operatorname{Tr}(W W^\dagger) + |\det W|^2$
+in the canonical chart $Z = (I_2 \mid W)$ on $Gr_{\mathbb{C}}(2,4)$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 66–72, 193–195, 338–341). -/
+@[blueprint "def:signals-ddf-kahler-det-factor"
+  (title := "Fubini-Study Kähler determinant factor det(I_2 + W W†) on Gr_C(2,4)")
+  (statement := /-- For $W \in \mathbb{C}^{2 \times 2}$, define
+    $\operatorname{kahlerDetFactor}(W) = 1 + \|W\|_{\mathrm{HS}}^2 + |\det W|^2$. -/)]
+def kahlerDetFactor (W : Matrix (Fin 2) (Fin 2) ℂ) : ℝ :=
+  1 + fubiniStudyFrobeniusNormSq W +
+    Complex.normSq (W 0 0 * W 1 1 - W 0 1 * W 1 0)
+
+/-- The inverse Fubini–Study metric tensor $g^{a\alpha, \bar{b}\bar{\beta}}(W) = (I_2 + W W^\dagger)_{ab}(I_2 + W^\dagger W)_{\beta\alpha}$
+contracted with a cotangent momentum $K \in \mathbb{C}^{2 \times 2}$:
+$\operatorname{fubiniStudyKineticNorm}(W, K) = \operatorname{Re}\operatorname{Tr}\bigl((I_2 + W W^\dagger) K (I_2 + W^\dagger W) K^\dagger\bigr)$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 183–186, 344–349). -/
+@[blueprint "def:signals-ddf-fubini-study-kinetic-norm"
+  (title := "Inverse Fubini-Study metric kinetic norm Tr((I_2 + W W†) K (I_2 + W† W) K†)")
+  (statement := /-- For $W, K \in \mathbb{C}^{2 \times 2}$, define
+    $\operatorname{fubiniStudyKineticNorm}(W, K)
+    = \operatorname{Re}\operatorname{Tr}\bigl((1 + W W^\dagger) K (1 + W^\dagger W) K^\dagger\bigr)$. -/)]
+def fubiniStudyKineticNorm (W K : Matrix (Fin 2) (Fin 2) ℂ) : ℝ :=
+  let I₂ : Matrix (Fin 2) (Fin 2) ℂ := 1
+  let L := I₂ + W * conjTranspose2x2 W
+  let R := I₂ + conjTranspose2x2 W * W
+  let Kdag := conjTranspose2x2 K
+  (Matrix.trace (L * K * R * Kdag)).re
+
+/-- **Cauchy–Binet Kähler–Plücker Determinant Identity & Fubini–Study Chart Properties**:
+For any affine chart $W \in \mathbb{C}^{2 \times 2}$ and cotangent momentum $K \in \mathbb{C}^{2 \times 2}$,
+let $Z = \operatorname{chartToTwistor}(W) = (I_2 \mid W)$:
+1. The leading Plücker minor is normalized to unity ($\Delta_{01}^{\mathbb{C}}(Z) = 1$) and the trailing
+   minor equals the $2 \times 2$ determinant ($\Delta_{23}^{\mathbb{C}}(Z) = W_{00} W_{11} - W_{01} W_{10} = \det W$),
+2. The Fubini–Study Kähler determinant factor $\operatorname{kahlerDetFactor}(W) = 1 + \|W\|_{\mathrm{HS}}^2 + |\det W|^2$
+   equals the ambient Plücker norm squared $\|p(Z)\|_{\mathbb{C}^6}^2$ of $Z = (I_2 \mid W)$,
+3. $1 \le \operatorname{kahlerDetFactor}(W)$ (and $0 < \operatorname{kahlerDetFactor}(W)$), with equality
+   $\operatorname{kahlerDetFactor}(0) = 1$ at the origin $W = 0$, and
+4. At the origin $W = 0$, the inverse Fubini–Study kinetic norm reduces identically to the
+   nonnegative Frobenius norm squared:
+   $\operatorname{fubiniStudyKineticNorm}(0, K) = \operatorname{fubiniStudyFrobeniusNormSq}(K) \ge 0$. -/
+@[blueprint "thm:signals-ddf-kahler-det-eq-plucker-norm-sq"
+  (title := "Cauchy-Binet Kähler-Plücker identity det(I_2 + W W†) = ‖p(I_2 | W)‖² ≥ 1 and Fubini-Study origin reduction")
+  (statement := /-- For any $W, K \in \mathbb{C}^{2 \times 2}$ with $Z = \operatorname{chartToTwistor}(W)$:
+    (1) $\Delta_{01}^{\mathbb C}(Z) = 1$ and $\Delta_{23}^{\mathbb C}(Z) = W_{00}W_{11} - W_{01}W_{10}$,
+    (2) $\operatorname{kahlerDetFactor}(W) = \operatorname{pluckerNormSq}(\operatorname{twistorToPluckerVec}(Z))$,
+    (3) $1 \le \operatorname{kahlerDetFactor}(W)$ and $\operatorname{kahlerDetFactor}(0) = 1$, and
+    (4) $\operatorname{fubiniStudyKineticNorm}(0, K) = \operatorname{fubiniStudyFrobeniusNormSq}(K) \ge 0$. -/)
+  (proof := /-- Unfold `chartToTwistor`, `twistorToPluckerVec`, `pluckerNormSq`, and `kahlerDetFactor`,
+    apply `Complex.normSq_neg`, and expand the $2 \times 2$ matrix trace at $W = 0$. -/)]
+theorem kahlerDetFactor_eq_pluckerNormSq_and_ge_one
+    (W K : Matrix (Fin 2) (Fin 2) ℂ) :
+    let Z := chartToTwistor W
+    complexTwoRowMinor Z 0 1 = 1 ∧
+      complexTwoRowMinor Z 2 3 = W 0 0 * W 1 1 - W 0 1 * W 1 0 ∧
+      kahlerDetFactor W = pluckerNormSq (twistorToPluckerVec Z) ∧
+      1 ≤ kahlerDetFactor W ∧
+      kahlerDetFactor 0 = 1 ∧
+      fubiniStudyKineticNorm 0 K = fubiniStudyFrobeniusNormSq K ∧
+      0 ≤ fubiniStudyKineticNorm 0 K := by
+  intro Z
+  have h01 : complexTwoRowMinor Z 0 1 = 1 := by
+    dsimp [Z, chartToTwistor, complexTwoRowMinor]
+    ring
+  have h23 : complexTwoRowMinor Z 2 3 = W 0 0 * W 1 1 - W 0 1 * W 1 0 := by
+    dsimp [Z, chartToTwistor, complexTwoRowMinor]
+  have h02 : complexTwoRowMinor Z 0 2 = W 1 0 := by
+    dsimp [Z, chartToTwistor, complexTwoRowMinor]
+    ring
+  have h03 : complexTwoRowMinor Z 0 3 = W 1 1 := by
+    dsimp [Z, chartToTwistor, complexTwoRowMinor]
+    ring
+  have h12 : complexTwoRowMinor Z 1 2 = -W 0 0 := by
+    dsimp [Z, chartToTwistor, complexTwoRowMinor]
+    ring
+  have h13 : complexTwoRowMinor Z 1 3 = -W 0 1 := by
+    dsimp [Z, chartToTwistor, complexTwoRowMinor]
+    ring
+  have h_eq : kahlerDetFactor W = pluckerNormSq (twistorToPluckerVec Z) := by
+    unfold kahlerDetFactor fubiniStudyFrobeniusNormSq pluckerNormSq
+    change 1 + (Complex.normSq (W 0 0) + Complex.normSq (W 0 1) +
+        Complex.normSq (W 1 0) + Complex.normSq (W 1 1)) +
+        Complex.normSq (W 0 0 * W 1 1 - W 0 1 * W 1 0) =
+      Complex.normSq (complexTwoRowMinor Z 0 1) +
+        Complex.normSq (complexTwoRowMinor Z 0 2) +
+        Complex.normSq (complexTwoRowMinor Z 0 3) +
+        Complex.normSq (complexTwoRowMinor Z 1 2) +
+        Complex.normSq (complexTwoRowMinor Z 1 3) +
+        Complex.normSq (complexTwoRowMinor Z 2 3)
+    rw [h01, h02, h03, h12, h13, h23]
+    simp only [Complex.normSq_one, Complex.normSq_neg]
+    ring
+  have h_ge_one : 1 ≤ kahlerDetFactor W := by
+    unfold kahlerDetFactor fubiniStudyFrobeniusNormSq
+    have h1 : 0 ≤ Complex.normSq (W 0 0) := Complex.normSq_nonneg _
+    have h2 : 0 ≤ Complex.normSq (W 0 1) := Complex.normSq_nonneg _
+    have h3 : 0 ≤ Complex.normSq (W 1 0) := Complex.normSq_nonneg _
+    have h4 : 0 ≤ Complex.normSq (W 1 1) := Complex.normSq_nonneg _
+    have h5 : 0 ≤ Complex.normSq (W 0 0 * W 1 1 - W 0 1 * W 1 0) := Complex.normSq_nonneg _
+    linarith
+  have h_zero : kahlerDetFactor 0 = 1 := by
+    unfold kahlerDetFactor fubiniStudyFrobeniusNormSq
+    simp
+  have h_conj0 : conjTranspose2x2 0 = 0 := by
+    ext i j
+    simp [conjTranspose2x2]
+  have h_kin0 : fubiniStudyKineticNorm 0 K = fubiniStudyFrobeniusNormSq K := by
+    unfold fubiniStudyKineticNorm fubiniStudyFrobeniusNormSq
+    rw [h_conj0]
+    simp only [Matrix.mul_zero, add_zero, Matrix.one_mul, Matrix.mul_one]
+    simp only [Matrix.trace, Matrix.diag_apply, Fin.sum_univ_two, Matrix.mul_apply,
+      conjTranspose2x2, Fin.isValue]
+    simp only [Complex.add_re, Complex.mul_re, Complex.conj_re,
+      Complex.conj_im, Complex.normSq_apply]
+    ring
+  have h_kin_nonneg : 0 ≤ fubiniStudyKineticNorm 0 K := by
+    rw [h_kin0]
+    unfold fubiniStudyFrobeniusNormSq
+    have hk00 : 0 ≤ Complex.normSq (K 0 0) := Complex.normSq_nonneg _
+    have hk01 : 0 ≤ Complex.normSq (K 0 1) := Complex.normSq_nonneg _
+    have hk10 : 0 ≤ Complex.normSq (K 1 0) := Complex.normSq_nonneg _
+    have hk11 : 0 ≤ Complex.normSq (K 1 1) := Complex.normSq_nonneg _
+    linarith
+  exact ⟨h01, h23, h_eq, h_ge_one, h_zero, h_kin0, h_kin_nonneg⟩
+
+/-- Physical parameters for the Complex Grassmannian GPE & Dual-Grassmannian `iGPE` system
+on $Gr_{\mathbb{C}}(2,4)$ (`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 352–359). -/
+@[blueprint "def:signals-ddf-grassmannian-gpe-params"
+  (title := "Complex Grassmannian GPE & dual-Schubert iGPE physical parameters")
+  (statement := /-- Records $\hbar$, effective twistor mass $\mathcal{M}$, primary contact coupling $g_1$,
+    dual contact coupling $g_2$, interactive Schubert incidence coupling $\lambda \in \mathbb{C}$,
+    and $GL(2,\mathbb{C})$ modular weight $w$. -/)]
+structure GrassmannianGPEParams where
+  hbar : ℝ
+  mass : ℝ
+  g_coupling : ℝ
+  g_dual : ℝ
+  lambda_int : ℂ
+  modular_weight : ℝ
+
+/-- Local field state of the coupled Interactive Gross–Pitaevskii (`iGPE`) condensate
+at an affine chart point $W \in Gr_{\mathbb{C}}(2,4)$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 362–370). -/
+@[blueprint "def:signals-ddf-grassmannian-igpe-field-state"
+  (title := "Complex Grassmannian iGPE local field state at affine chart W")
+  (statement := /-- Records the affine chart $W \in \mathbb{C}^{2 \times 2}$, primary condensate
+    amplitude $\Psi(W,\tau)$, dual orthogonal condensate amplitude $\Phi(W^\perp,\tau)$,
+    holomorphic gradient $\partial_{a\alpha}\Psi$, Fubini–Study Laplace–Beltrami value $\Delta_{\mathrm{Gr}}\Psi$,
+    external complex potential $V_{\mathrm{ext}}(W)$, and incident Schubert integral $\int_{\sigma(W)}\Phi(W^\perp)\,d\mu$. -/)]
+structure GrassmannianIGPEFieldState where
+  W : Matrix (Fin 2) (Fin 2) ℂ
+  psi : ℂ
+  psi_dual : ℂ
+  grad_psi : Matrix (Fin 2) (Fin 2) ℂ
+  laplacian_psi : ℂ
+  v_ext : ℂ
+  schubert_integral_dual : ℂ
+
+/-- Effective $GL(2, \mathbb{C})$ modular-weighted nonlinear self-interaction potential
+$g_{\mathrm{eff}}(W)\,|\Psi|^2 = g\,\det(I_2 + W W^\dagger)^{-w}\,|\Psi|^2$ on $Gr_{\mathbb{C}}(2,4)$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 101, 373–376). -/
+@[blueprint "def:signals-ddf-grassmannian-nonlinear-potential"
+  (title := "Modular-weighted Grassmannian GPE nonlinear self-interaction g det(I_2 + W W†)^{-w} |Ψ|²")
+  (statement := /-- Define $\operatorname{grassmannianNonLinearPotential}(p, s)
+    = \bigl(p.\mathrm{g\_coupling}\cdot(\operatorname{kahlerDetFactor}(s.W))^{-p.\mathrm{modular\_weight}}\cdot\operatorname{Complex.normSq}(s.\psi) : \mathbb{R}\bigr)$. -/)]
+noncomputable def grassmannianNonLinearPotential
+    (p : GrassmannianGPEParams) (s : GrassmannianIGPEFieldState) : ℂ :=
+  let detFactor := (kahlerDetFactor s.W) ^ (-p.modular_weight)
+  let rho := Complex.normSq s.psi
+  ((p.g_coupling * detFactor * rho : ℝ) : ℂ)
+
+/-- Right-hand side of the Complex Grassmannian `iGPE` evolution equation
+$$i\hbar\frac{\partial\Psi}{\partial\tau} = -\frac{\hbar^2}{2\mathcal{M}}\Delta_{\mathrm{Gr}}\Psi + \bigl(V_{\mathrm{ext}}(W) + g\det(I_2 + W W^\dagger)^{-w}|\Psi|^2\bigr)\Psi + \lambda\int_{\sigma(W)}\Phi(W^\perp)\,d\mu$$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 122–125, 380–384). -/
+@[blueprint "def:signals-ddf-grassmannian-igpe-rhs"
+  (title := "Complex Grassmannian iGPE Hamiltonian evolution operator RHS")
+  (statement := /-- Define $\operatorname{grassmannianIGPETimeDerivativeRHS}(p, s)
+    = -\frac{\hbar^2}{2\mathcal{M}}\Delta_{\mathrm{Gr}}\Psi + (V_{\mathrm{ext}} + \mathcal{G}[\Psi])\Psi + \lambda\int_{\sigma(W)}\Phi(W^\perp)\,d\mu$. -/)]
+noncomputable def grassmannianIGPETimeDerivativeRHS
+    (p : GrassmannianGPEParams) (s : GrassmannianIGPEFieldState) : ℂ :=
+  let kineticTerm := - ((p.hbar ^ 2 / (2 * p.mass) : ℝ) : ℂ) * s.laplacian_psi
+  let potentialTerm := (s.v_ext + grassmannianNonLinearPotential p s) * s.psi
+  let interactiveTerm := p.lambda_int * s.schubert_integral_dual
+  kineticTerm + potentialTerm + interactiveTerm
+
+/-- Local coupled Dual-Grassmannian `iGPE` state at an orthogonal pair of 2-planes
+$(\mathbf{Z}, \mathbf{Z}^\perp) \in Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee$
+with normalized evolution parameter $\tau' = \tau / \hbar$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 477–488). -/
+@[blueprint "def:signals-ddf-coupled-dual-grassmannian-state"
+  (title := "Coupled Dual-Grassmannian iGPE local state on Gr_C(2,4) × Gr_C(2,4)∨")
+  (statement := /-- Records primary amplitude $\Psi(\mathbf{Z})$, dual orthogonal amplitude $\Phi(\mathbf{Z}^\perp)$,
+    real kinetic/curvature energies $(H_0, H_{0,\mathrm{dual}})$, real nonlinear couplings $(g_{\mathrm{nl}}, g_{\mathrm{dual,nl}})$,
+    complex external potential $V_{\mathrm{re}} + i V_{\mathrm{im}}$, and Schubert coupling $\lambda = \lambda_{\mathrm{re}} + i\lambda_{\mathrm{im}}$. -/)]
+structure CoupledDualGrassmannianState where
+  psi : ℂ
+  phi : ℂ
+  h0_real : ℝ
+  h0_dual_real : ℝ
+  g_nl_real : ℝ
+  g_dual_nl_real : ℝ
+  v_re : ℝ
+  v_im : ℝ
+  lam_re : ℝ
+  lam_im : ℝ
+
+/-- Primary condensate time derivative
+$\frac{d\Psi}{d\tau'} = -i\bigl((H_0 + g_{\mathrm{nl}} + V_{\mathrm{re}} + i V_{\mathrm{im}})\Psi + \lambda\Phi\bigr)$. -/
+@[blueprint "def:signals-ddf-coupled-dual-dpsi"
+  (title := "Primary condensate time derivative dΨ/dτ' in coupled Dual-Grassmannian iGPE")
+  (statement := /-- Define $s.\mathrm{dPsi} = -i\bigl((H_0 + g_{\mathrm{nl}} + V_{\mathrm{re}} + i V_{\mathrm{im}})\Psi + (\lambda_{\mathrm{re}} + i\lambda_{\mathrm{im}})\Phi\bigr)$. -/)]
+def CoupledDualGrassmannianState.dPsi (s : CoupledDualGrassmannianState) : ℂ :=
+  let h_self : ℂ := ⟨s.h0_real + s.g_nl_real + s.v_re, s.v_im⟩
+  let lam : ℂ := ⟨s.lam_re, s.lam_im⟩
+  (-Complex.I) * (h_self * s.psi + lam * s.phi)
+
+/-- Dual orthogonal condensate time derivative
+$\frac{d\Phi}{d\tau'} = -i\bigl((H_{0,\mathrm{dual}} + g_{\mathrm{dual,nl}} + V_{\mathrm{re}} + i V_{\mathrm{im}})\Phi + \bar{\lambda}\Psi\bigr)$. -/
+@[blueprint "def:signals-ddf-coupled-dual-dphi"
+  (title := "Dual orthogonal condensate time derivative dΦ/dτ' in coupled Dual-Grassmannian iGPE")
+  (statement := /-- Define $s.\mathrm{dPhi} = -i\bigl((H_{0,\mathrm{dual}} + g_{\mathrm{dual,nl}} + V_{\mathrm{re}} + i V_{\mathrm{im}})\Phi + (\lambda_{\mathrm{re}} - i\lambda_{\mathrm{im}})\Psi\bigr)$. -/)]
+def CoupledDualGrassmannianState.dPhi (s : CoupledDualGrassmannianState) : ℂ :=
+  let h_dual_self : ℂ := ⟨s.h0_dual_real + s.g_dual_nl_real + s.v_re, s.v_im⟩
+  let lam_conj : ℂ := ⟨s.lam_re, -s.lam_im⟩
+  (-Complex.I) * (h_dual_self * s.phi + lam_conj * s.psi)
+
+/-- Rate of change of the primary Grassmannian probability density:
+$\frac{d}{d\tau'}|\Psi|^2 = 2\operatorname{Re}(\bar{\Psi}\,\frac{d\Psi}{d\tau'})$. -/
+@[blueprint "def:signals-ddf-coupled-primary-norm-deriv"
+  (title := "Primary Grassmannian probability density rate d|Ψ|²/dτ'")
+  (statement := /-- Define $s.\mathrm{primaryNormTimeDerivative} = 2\operatorname{Re}(\bar{\Psi}\,s.\mathrm{dPsi})$. -/)]
+def CoupledDualGrassmannianState.primaryNormTimeDerivative
+    (s : CoupledDualGrassmannianState) : ℝ :=
+  2 * (starRingEnd ℂ s.psi * s.dPsi).re
+
+/-- Rate of change of the dual orthogonal Grassmannian probability density:
+$\frac{d}{d\tau'}|\Phi|^2 = 2\operatorname{Re}(\bar{\Phi}\,\frac{d\Phi}{d\tau'})$. -/
+@[blueprint "def:signals-ddf-coupled-dual-norm-deriv"
+  (title := "Dual orthogonal Grassmannian probability density rate d|Φ|²/dτ'")
+  (statement := /-- Define $s.\mathrm{dualNormTimeDerivative} = 2\operatorname{Re}(\bar{\Phi}\,s.\mathrm{dPhi})$. -/)]
+def CoupledDualGrassmannianState.dualNormTimeDerivative
+    (s : CoupledDualGrassmannianState) : ℝ :=
+  2 * (starRingEnd ℂ s.phi * s.dPhi).re
+
+/-- Rate of change of the total coupled Grassmannian probability density:
+$\frac{d}{d\tau'}\bigl(|\Psi|^2 + |\Phi|^2\bigr) = 2\operatorname{Re}\bigl(\bar{\Psi}\frac{d\Psi}{d\tau'} + \bar{\Phi}\frac{d\Phi}{d\tau'}\bigr)$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 502–503). -/
+@[blueprint "def:signals-ddf-coupled-total-norm-deriv"
+  (title := "Total coupled Dual-Grassmannian probability rate d(|Ψ|² + |Φ|²)/dτ'")
+  (statement := /-- Define $s.\mathrm{totalNormTimeDerivative}
+    = 2\bigl(\operatorname{Re}(\bar{\Psi}\,s.\mathrm{dPsi}) + \operatorname{Re}(\bar{\Phi}\,s.\mathrm{dPhi})\bigr)$. -/)]
+def CoupledDualGrassmannianState.totalNormTimeDerivative
+    (s : CoupledDualGrassmannianState) : ℝ :=
+  2 * ((starRingEnd ℂ s.psi * s.dPsi).re + (starRingEnd ℂ s.phi * s.dPhi).re)
+
+/-- Chiral Josephson Schubert tunneling current
+$J_{\mathrm{Josephson}}(\Psi, \Phi, \lambda) = 2\operatorname{Im}\bigl(\bar{\Psi}\,\lambda\,\Phi\bigr)$
+exchanged between the primary 2-plane $\mathbf{Z} \in Gr_{\mathbb{C}}(2,4)$ and its orthogonal
+complement $\mathbf{Z}^\perp \in Gr_{\mathbb{C}}(2,4)^\vee$. -/
+@[blueprint "def:signals-ddf-josephson-schubert-current"
+  (title := "Chiral Josephson Schubert tunneling current 2 Im(Ψ̄ λ Φ) between Z and Z⊥")
+  (statement := /-- Define $s.\mathrm{josephsonSchubertCurrent}
+    = 2\operatorname{Im}\bigl(\bar{\Psi}\,(\lambda_{\mathrm{re}} + i\lambda_{\mathrm{im}})\,\Phi\bigr)$. -/)]
+def CoupledDualGrassmannianState.josephsonSchubertCurrent
+    (s : CoupledDualGrassmannianState) : ℝ :=
+  let lam : ℂ := ⟨s.lam_re, s.lam_im⟩
+  2 * (starRingEnd ℂ s.psi * (lam * s.phi)).im
+
+/-- **Symplectic Norm Balance, Chiral Josephson Tunneling Cancellation, & Unitary Conservation in the Coupled Dual-Grassmannian `iGPE`**:
+For any `s : CoupledDualGrassmannianState`:
+1. **Primary Branch Continuity with Josephson Tunneling**:
+   $\frac{d}{d\tau'}|\Psi|^2 = 2\,V_{\mathrm{im}}\,|\Psi|^2 + J_{\mathrm{Josephson}}(\Psi, \Phi, \lambda)$,
+2. **Dual Branch Continuity with Opposite Josephson Tunneling**:
+   $\frac{d}{d\tau'}|\Phi|^2 = 2\,V_{\mathrm{im}}\,|\Phi|^2 - J_{\mathrm{Josephson}}(\Psi, \Phi, \lambda)$,
+3. **Exact Non-Hermitian Symplectic Norm Balance (`igpe_norm_balance_law`)**:
+   All real kinetic, Fubini–Study curvature, nonlinear self-interaction, and Hermitian
+   Schubert cross-coupling ($\pm J_{\mathrm{Josephson}}$) terms cancel identically:
+   $$\frac{d}{d\tau'}\bigl(|\Psi|^2 + |\Phi|^2\bigr) = 2\,V_{\mathrm{im}}\,\bigl(|\Psi|^2 + |\Phi|^2\bigr),$$
+4. **Unitary Symplectic Conservation in the Hermitian Limit (`igpe_unitary_conservation`)**:
+   When $V_{\mathrm{im}} = 0$, $\frac{d}{d\tau'}\bigl(|\Psi|^2 + |\Phi|^2\bigr) = 0$. -/
+@[blueprint "thm:signals-ddf-grassmannian-igpe-norm-balance-and-josephson"
+  (title := "Coupled Dual-Grassmannian iGPE symplectic norm balance law, chiral Josephson cancellation, and unitary conservation")
+  (statement := /-- For any \texttt{s : CoupledDualGrassmannianState}:
+    (1) $s.\mathrm{primaryNormTimeDerivative} = 2\,s.v_{\mathrm{im}}\,|\Psi|^2 + s.\mathrm{josephsonSchubertCurrent}$,
+    (2) $s.\mathrm{dualNormTimeDerivative} = 2\,s.v_{\mathrm{im}}\,|\Phi|^2 - s.\mathrm{josephsonSchubertCurrent}$,
+    (3) $s.\mathrm{totalNormTimeDerivative} = 2\,s.v_{\mathrm{im}}\,(|\Psi|^2 + |\Phi|^2)$, and
+    (4) if $s.v_{\mathrm{im}} = 0$, then $s.\mathrm{totalNormTimeDerivative} = 0$. -/)
+  (proof := /-- Destructure $\Psi = \langle\psi_r,\psi_i\rangle$ and $\Phi = \langle\phi_r,\phi_i\rangle$,
+    expand complex multiplication and conjugation, and close by `ring`. -/)]
+theorem grassmannian_igpe_norm_balance_and_josephson_identities
+    (s : CoupledDualGrassmannianState) :
+    s.primaryNormTimeDerivative =
+      2 * s.v_im * Complex.normSq s.psi + s.josephsonSchubertCurrent ∧
+    s.dualNormTimeDerivative =
+      2 * s.v_im * Complex.normSq s.phi - s.josephsonSchubertCurrent ∧
+    s.totalNormTimeDerivative =
+      2 * s.v_im * (Complex.normSq s.psi + Complex.normSq s.phi) ∧
+    (s.v_im = 0 → s.totalNormTimeDerivative = 0) := by
+  have h_prim :
+      s.primaryNormTimeDerivative =
+        2 * s.v_im * Complex.normSq s.psi + s.josephsonSchubertCurrent := by
+    dsimp [CoupledDualGrassmannianState.primaryNormTimeDerivative,
+      CoupledDualGrassmannianState.dPsi,
+      CoupledDualGrassmannianState.josephsonSchubertCurrent, Complex.normSq]
+    rcases s.psi with ⟨psi_r, psi_i⟩
+    rcases s.phi with ⟨phi_r, phi_i⟩
+    simp [Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
+      Complex.I_re, Complex.I_im, Complex.neg_re]
+    ring
+  have h_dual :
+      s.dualNormTimeDerivative =
+        2 * s.v_im * Complex.normSq s.phi - s.josephsonSchubertCurrent := by
+    dsimp [CoupledDualGrassmannianState.dualNormTimeDerivative,
+      CoupledDualGrassmannianState.dPhi,
+      CoupledDualGrassmannianState.josephsonSchubertCurrent, Complex.normSq]
+    rcases s.psi with ⟨psi_r, psi_i⟩
+    rcases s.phi with ⟨phi_r, phi_i⟩
+    simp [Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
+      Complex.I_re, Complex.I_im, Complex.neg_re]
+    ring
+  have h_tot :
+      s.totalNormTimeDerivative =
+        2 * s.v_im * (Complex.normSq s.psi + Complex.normSq s.phi) := by
+    have h_sum :
+        s.totalNormTimeDerivative =
+          s.primaryNormTimeDerivative + s.dualNormTimeDerivative := by
+      unfold CoupledDualGrassmannianState.totalNormTimeDerivative
+        CoupledDualGrassmannianState.primaryNormTimeDerivative
+        CoupledDualGrassmannianState.dualNormTimeDerivative
+      ring
+    rw [h_sum, h_prim, h_dual]
+    ring
+  refine ⟨h_prim, h_dual, h_tot, ?_⟩
+  intro h_vim
+  rw [h_tot, h_vim]
+  ring
+
+/-- Einstein–Kähler Fubini–Study scalar curvature $R_{\mathrm{Gr}}(k, n) = n k (n - k)$
+of the complex Grassmannian $Gr_{\mathbb{C}}(k, n)$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, line 201:
+$R_{\mathrm{Gr}}(2, 4) = 4 \cdot 2 \cdot 2 = 16$). -/
+@[blueprint "def:signals-ddf-grassmannian-scalar-curvature"
+  (title := "Einstein-Kähler scalar curvature R_Gr(k, n) = n k (n - k) of Gr_C(k, n)")
+  (statement := /-- Define $\operatorname{grassmannianEinsteinKahlerScalarCurvature}(k, n) = n k (n - k)$. -/)]
+def grassmannianEinsteinKahlerScalarCurvature (k n : ℕ) : ℕ :=
+  n * k * (n - k)
+
+/-- Dispersion relation squared $\hbar^2 \omega^2(\mathbf{k}, W)$ for Bogoliubov modes on $Gr_{\mathbb{C}}(2,4)$:
+$$\hbar^2 \omega^2(\mathbf{k}, W) = \left(\mathcal{E}_{\mathrm{kin}}(\mathbf{k}, W) + \frac{\hbar^2}{\mathcal{M}}\right)\left(\mathcal{E}_{\mathrm{kin}}(\mathbf{k}, W) + \frac{\hbar^2}{\mathcal{M}} + 2\,g\,\det(I_2 + W W^\dagger)^{-w}\rho_0\right)$$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 204, 398–402). -/
+@[blueprint "def:signals-ddf-grassmannian-bogoliubov-omega-sq"
+  (title := "Complex Grassmannian Bogoliubov dispersion squared ℏ² ω²(k, W) on Gr_C(2,4)")
+  (statement := /-- Define $\operatorname{grassmannianBogoliubovOmegaSq}(p, W, K, \rho_0)
+    = (\mathcal{E}_{\mathrm{kin}} + \hbar^2/\mathcal{M})(\mathcal{E}_{\mathrm{kin}} + \hbar^2/\mathcal{M} + 2 g_{\mathrm{eff}}\rho_0)$. -/)]
+noncomputable def grassmannianBogoliubovOmegaSq
+    (p : GrassmannianGPEParams) (W K : Matrix (Fin 2) (Fin 2) ℂ) (rho0 : ℝ) : ℝ :=
+  let e_kin := (p.hbar ^ 2 / (2 * p.mass)) * fubiniStudyKineticNorm W K
+  let curvature_shift := p.hbar ^ 2 / p.mass
+  let g_eff := p.g_coupling * ((kahlerDetFactor W) ^ (-p.modular_weight))
+  (e_kin + curvature_shift) * (e_kin + curvature_shift + 2 * g_eff * rho0)
+
+/-- Predicate identifying the Tachyonic / Shear-Fracture instability regime on $Gr_{\mathbb{C}}(2,4)$
+where $\hbar^2\omega^2(\mathbf{k}, W) < 0$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 406–407). -/
+@[blueprint "def:signals-ddf-is-shear-fracture-unstable"
+  (title := "Tachyonic / vacuum shear-fracture instability predicate on Gr_C(2,4)")
+  (statement := /-- Define $\operatorname{IsShearFractureUnstable}(p, W, K, \rho_0)
+    \iff \operatorname{grassmannianBogoliubovOmegaSq}(p, W, K, \rho_0) < 0$. -/)]
+def IsShearFractureUnstable
+    (p : GrassmannianGPEParams) (W K : Matrix (Fin 2) (Fin 2) ℂ) (rho0 : ℝ) : Prop :=
+  grassmannianBogoliubovOmegaSq p W K rho0 < 0
+
+/-- Isotropic emergent Proca photon mass squared
+$$m_{\gamma,\mathrm{eff}}^2 = \frac{2\hbar^2}{\mathcal{M} c^4}\bigl(|g_{\mathrm{eff}}\rho_0| + |\lambda|\sqrt{\rho_0\rho_{\mathrm{dual}}}\bigr)$$
+generated by the Stueckelberg–Higgs pullback of the coupled Dual-Grassmannian `iGPE`
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 441–444). -/
+@[blueprint "def:signals-ddf-grassmannian-proca-mass-sq"
+  (title := "Emergent Proca photon mass squared m_γ,eff² from Dual-Grassmannian iGPE")
+  (statement := /-- Define $\operatorname{grassmannianProcaMassSq}(\hbar, \mathcal{M}, c, g_{\mathrm{eff}}\rho_0, |\lambda|, \rho_0, \rho_{\mathrm{dual}})
+    = \frac{2\hbar^2}{\mathcal{M}c^4}\bigl(|g_{\mathrm{eff}}\rho_0| + |\lambda|\sqrt{\rho_0\rho_{\mathrm{dual}}}\bigr)$. -/)]
+noncomputable def grassmannianProcaMassSq
+    (hbar mass c g_eff_rho0 lambda_abs rho0 rho_dual : ℝ) : ℝ :=
+  (2 * hbar ^ 2 / (mass * c ^ 4)) *
+    (|g_eff_rho0| + lambda_abs * Real.sqrt (rho0 * rho_dual))
+
+/-- Critical Deborah number fracture ratio
+$$\frac{\mathrm{De}}{\mathrm{De}_c} = \frac{\max\bigl(0, -2\operatorname{Re}(g_{\mathrm{eff}}\rho_0)\bigr) + |\operatorname{Im}(V_{\mathrm{ext}})|}{\frac{\hbar^2}{\mathcal{M}} + \mathcal{E}_{\mathrm{kin}}(\mathbf{k}, W) + |\lambda|}$$
+comparing destabilizing attractive/evanescent shear against the Einstein–Kähler curvature
+and Schubert stabilization gap $\Delta_R = \frac{\hbar^2}{\mathcal{M}} + \mathcal{E}_{\mathrm{kin}} + |\lambda|$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 459–461). -/
+@[blueprint "def:signals-ddf-grassmannian-deborah-fracture-ratio"
+  (title := "Critical Deborah vacuum shear-fracture ratio De / De_c on Gr_C(2,4)")
+  (statement := /-- Define $\operatorname{grassmannianDeborahFractureRatio}(\hbar, \mathcal{M}, \mathcal{E}_{\mathrm{kin}}, |\lambda|, \operatorname{Re}(g_{\mathrm{eff}}\rho_0), \operatorname{Im}(V_{\mathrm{ext}}))
+    = \frac{\max(0, -2\operatorname{Re}(g_{\mathrm{eff}}\rho_0)) + |\operatorname{Im}(V_{\mathrm{ext}})|}{\hbar^2/\mathcal{M} + \mathcal{E}_{\mathrm{kin}} + |\lambda|}$. -/)]
+noncomputable def grassmannianDeborahFractureRatio
+    (hbar mass e_kin lambda_abs re_g_eff_rho0 im_v_ext : ℝ) : ℝ :=
+  (max 0 (-2 * re_g_eff_rho0) + |im_v_ext|) /
+    (hbar ^ 2 / mass + e_kin + lambda_abs)
+
+/-- **Complex Grassmannian Bogoliubov Dispersion, Emergent Proca Mass, & Critical Deborah Shear-Fracture Equivalence Theorem**:
+1. **Einstein–Kähler Scalar Curvature of $Gr_{\mathbb{C}}(2,4)$**:
+   $\operatorname{grassmannianEinsteinKahlerScalarCurvature}(2, 4) = 16$,
+2. **Causal Repulsive Stability ($\mathrm{De}/\mathrm{De}_c = 0 < 1 \implies \hbar^2\omega^2 > 0$)**:
+   When $\hbar > 0, \mathcal{M} > 0, g \ge 0, \rho_0 \ge 0$ and $\operatorname{fubiniStudyKineticNorm}(W, K) \ge 0$,
+   $\operatorname{grassmannianBogoliubovOmegaSq}(p, W, K, \rho_0) > 0$ and
+   $\operatorname{grassmannianDeborahFractureRatio}(\hbar, \mathcal{M}, \mathcal{E}_{\mathrm{kin}}, |\lambda|, g_{\mathrm{eff}}\rho_0, 0) = 0$,
+3. **Exact Equivalence Between Tachyonic Dispersion ($\hbar^2\omega^2 < 0$) and Supercritical Deborah Ratio ($\mathrm{De}/\mathrm{De}_c > 1$)**:
+   For $\hbar > 0, \mathcal{M} > 0, \operatorname{fubiniStudyKineticNorm}(W, K) \ge 0$ in the uncoupled Hermitian
+   limit ($|\lambda| = 0, \operatorname{Im}(V_{\mathrm{ext}}) = 0$), let
+   $\mathcal{E}_{\mathrm{kin}} = \frac{\hbar^2}{2\mathcal{M}}\operatorname{fubiniStudyKineticNorm}(W, K)$ and
+   $g_{\mathrm{eff}} = g\,\det(I_2 + W W^\dagger)^{-w}$. Then:
+   $$\operatorname{IsShearFractureUnstable}(p, W, K, \rho_0) \iff
+   1 < \operatorname{grassmannianDeborahFractureRatio}(\hbar, \mathcal{M}, \mathcal{E}_{\mathrm{kin}}, 0, g_{\mathrm{eff}}\rho_0, 0),$$
+4. **Nonnegativity & Schubert Enhancement of the Emergent Proca Mass**:
+   For $\hbar > 0, \mathcal{M} > 0, c > 0, \rho_0 > 0, \rho_{\mathrm{dual}} > 0, |\lambda| > 0$,
+   $0 < \operatorname{grassmannianProcaMassSq}(\hbar, \mathcal{M}, c, g_{\mathrm{eff}}\rho_0, |\lambda|, \rho_0, \rho_{\mathrm{dual}})$. -/
+@[blueprint "thm:signals-ddf-grassmannian-bogoliubov-proca-deborah-identities"
+  (title := "Complex Grassmannian Bogoliubov stability, emergent Proca mass positivity, and De / De_c > 1 shear-fracture equivalence")
+  (statement := /-- For \texttt{p : GrassmannianGPEParams} with $0 < p.\hbar$, $0 < p.\mathrm{mass}$,
+    and $0 \le \operatorname{fubiniStudyKineticNorm}(W, K)$:
+    (1) $\operatorname{grassmannianEinsteinKahlerScalarCurvature}(2, 4) = 16$,
+    (2) if $0 \le p.\mathrm{g\_coupling}$ and $0 \le \rho_0$, then $0 < \operatorname{grassmannianBogoliubovOmegaSq}(p, W, K, \rho_0)$,
+    (3) $\operatorname{IsShearFractureUnstable}(p, W, K, \rho_0) \iff
+    1 < \operatorname{grassmannianDeborahFractureRatio}(p.\hbar, p.\mathrm{mass}, \mathcal{E}_{\mathrm{kin}}, 0, g_{\mathrm{eff}}\rho_0, 0)$, and
+    (4) if $0 < c, 0 < \rho_0, 0 < \rho_{\mathrm{dual}}, 0 < |\lambda|$, then $0 < \operatorname{grassmannianProcaMassSq}(p.\hbar, p.\mathrm{mass}, c, g_{\mathrm{eff}}\rho_0, |\lambda|, \rho_0, \rho_{\mathrm{dual}})$. -/)
+  (proof := /-- Use `kahlerDetFactor_eq_pluckerNormSq_and_ge_one` ($1 \le \operatorname{kahlerDetFactor}(W)$)
+    and `Real.rpow_pos_of_pos` for $g_{\mathrm{eff}}$, and prove the $\mathrm{De}/\mathrm{De}_c > 1$
+    equivalence by case analysis on $-2 g_{\mathrm{eff}}\rho_0 \le 0$ vs. $> 0$ over $\Delta_R = \hbar^2/\mathcal{M} + \mathcal{E}_{\mathrm{kin}} > 0$. -/)]
+theorem grassmannian_bogoliubov_proca_and_deborah_fracture_identities
+    (p : GrassmannianGPEParams) (W K : Matrix (Fin 2) (Fin 2) ℂ)
+    (rho0 rho_dual c lambda_abs : ℝ)
+    (hhbar : 0 < p.hbar) (hmass : 0 < p.mass)
+    (h_kin_nonneg : 0 ≤ fubiniStudyKineticNorm W K)
+    (hc : 0 < c) (hrho0 : 0 < rho0) (hrho_dual : 0 < rho_dual)
+    (hlam : 0 < lambda_abs) :
+    let e_kin := (p.hbar ^ 2 / (2 * p.mass)) * fubiniStudyKineticNorm W K
+    let g_eff := p.g_coupling * ((kahlerDetFactor W) ^ (-p.modular_weight))
+    grassmannianEinsteinKahlerScalarCurvature 2 4 = 16 ∧
+      (0 ≤ p.g_coupling → 0 < grassmannianBogoliubovOmegaSq p W K rho0) ∧
+      (IsShearFractureUnstable p W K rho0 ↔
+        1 < grassmannianDeborahFractureRatio p.hbar p.mass e_kin 0 (g_eff * rho0) 0) ∧
+      0 < grassmannianProcaMassSq p.hbar p.mass c (g_eff * rho0) lambda_abs rho0 rho_dual := by
+  intro e_kin g_eff
+  have h_curv_pos : 0 < p.hbar ^ 2 / p.mass := div_pos (pow_pos hhbar 2) hmass
+  have h_ekin_nonneg : 0 ≤ e_kin := by
+    dsimp [e_kin]
+    positivity
+  have h_gap_pos : 0 < e_kin + p.hbar ^ 2 / p.mass := by linarith
+  have h_gap_pos' : 0 < p.hbar ^ 2 / p.mass + e_kin + 0 := by linarith
+  have h_kahler_ge : 1 ≤ kahlerDetFactor W :=
+    (kahlerDetFactor_eq_pluckerNormSq_and_ge_one W K).2.2.2.1
+  have h_kahler_pos : 0 < kahlerDetFactor W := lt_of_lt_of_le zero_lt_one h_kahler_ge
+  have h_rpow_pos : 0 < (kahlerDetFactor W) ^ (-p.modular_weight) :=
+    Real.rpow_pos_of_pos h_kahler_pos (-p.modular_weight)
+  have h_stable : 0 ≤ p.g_coupling → 0 < grassmannianBogoliubovOmegaSq p W K rho0 := by
+    intro hg_nonneg
+    unfold grassmannianBogoliubovOmegaSq
+    have h_geff_nonneg : 0 ≤ g_eff * rho0 := by
+      dsimp [g_eff]
+      positivity
+    have h_second_pos : 0 < e_kin + p.hbar ^ 2 / p.mass + 2 * g_eff * rho0 := by linarith
+    exact mul_pos h_gap_pos h_second_pos
+  have h_frac_iff :
+      IsShearFractureUnstable p W K rho0 ↔
+        1 < grassmannianDeborahFractureRatio p.hbar p.mass e_kin 0 (g_eff * rho0) 0 := by
+    unfold IsShearFractureUnstable grassmannianBogoliubovOmegaSq
+      grassmannianDeborahFractureRatio
+    rw [abs_zero, add_zero, one_lt_div h_gap_pos']
+    change (e_kin + p.hbar ^ 2 / p.mass) *
+        (e_kin + p.hbar ^ 2 / p.mass + 2 * g_eff * rho0) < 0 ↔
+      p.hbar ^ 2 / p.mass + e_kin + 0 < max 0 (-2 * (g_eff * rho0))
+    constructor
+    · intro h_prod_neg
+      have h_neg : e_kin + p.hbar ^ 2 / p.mass + 2 * g_eff * rho0 < 0 := by
+        by_contra h_nonneg
+        have h_nonneg' : 0 ≤ e_kin + p.hbar ^ 2 / p.mass + 2 * g_eff * rho0 :=
+          le_of_not_gt h_nonneg
+        have h_prod_nonneg :
+            0 ≤ (e_kin + p.hbar ^ 2 / p.mass) *
+              (e_kin + p.hbar ^ 2 / p.mass + 2 * g_eff * rho0) :=
+          mul_nonneg (le_of_lt h_gap_pos) h_nonneg'
+        linarith
+      have h_pos_neg : 0 < -2 * (g_eff * rho0) := by linarith
+      rw [max_eq_right (le_of_lt h_pos_neg)]
+      linarith
+    · intro h_max
+      have h_neg : e_kin + p.hbar ^ 2 / p.mass + 2 * g_eff * rho0 < 0 := by
+        by_cases h_le : -2 * (g_eff * rho0) ≤ 0
+        · rw [max_eq_left h_le] at h_max
+          linarith
+        · have h_gt : 0 < -2 * (g_eff * rho0) := lt_of_not_ge h_le
+          rw [max_eq_right (le_of_lt h_gt)] at h_max
+          linarith
+      exact mul_neg_of_pos_of_neg h_gap_pos h_neg
+  have h_proca_pos :
+      0 < grassmannianProcaMassSq p.hbar p.mass c (g_eff * rho0) lambda_abs rho0 rho_dual := by
+    unfold grassmannianProcaMassSq
+    have h_abs_nonneg : 0 ≤ |g_eff * rho0| := abs_nonneg _
+    have h_sqrt_pos : 0 < Real.sqrt (rho0 * rho_dual) :=
+      Real.sqrt_pos.mpr (mul_pos hrho0 hrho_dual)
+    have h_lam_term : 0 < lambda_abs * Real.sqrt (rho0 * rho_dual) :=
+      mul_pos hlam h_sqrt_pos
+    have h_bracket : 0 < |g_eff * rho0| + lambda_abs * Real.sqrt (rho0 * rho_dual) := by
+      linarith
+    have h_pref : 0 < 2 * p.hbar ^ 2 / (p.mass * c ^ 4) := by positivity
+    exact mul_pos h_pref h_bracket
+  exact ⟨rfl, h_stable, h_frac_iff, h_proca_pos⟩
+
+/-- Hydrodynamic Madelung state in homogeneous Plücker coordinates $p \in \mathbb{C}^6$
+on the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 1279–1289). -/
+@[blueprint "def:signals-ddf-plucker-madelung-state"
+  (title := "Homogeneous Plücker Madelung hydrodynamic state on Q_4 ⊂ P^5(C)")
+  (statement := /-- Records a Plücker 6-vector $p \in \mathbb{C}^6$ on the Klein quadric,
+    primary condensate density $\rho(p,\bar{p},\tau)$, dual condensate density $\rho_{\mathrm{dual}}(\tilde{p},\bar{\tilde{p}},\tau)$,
+    real/imaginary action phases $(S_R, S_I)$, dual phase $S_{\mathrm{dual}}$, contracted kinetic
+    energy $\frac{1}{\mathcal{M}}\mathcal{H}_{I\bar{J}}V^I\bar{V}^{\bar{J}}$, and projected amplitude
+    Laplacian $\mathcal{H}^{I\bar{J}}\partial_I\bar{\partial}_{\bar{J}}\sqrt{\rho}$. -/)]
+structure PluckerMadelungState where
+  p : PluckerVec
+  on_quadric : OnKleinQuadric p
+  rho : ℝ
+  rho_dual : ℝ
+  s_real : ℝ
+  s_imag : ℝ
+  s_dual : ℝ
+  kinetic_vel_sq : ℝ
+  projected_hessian_sqrt_rho : ℝ
+
+/-- The Plücker Bohmian Quantum Potential
+$$Q_{\mathrm{Pl\ddot{u}cker}}(\rho) = -\frac{\hbar^2}{2\mathcal{M}\sqrt{\rho}}\,\mathcal{H}^{I\bar{J}}\frac{\partial^2\sqrt{\rho}}{\partial p^I \partial\bar{p}^{\bar{J}}}$$
+on the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 1185, 1292–1293). -/
+@[blueprint "def:signals-ddf-plucker-quantum-potential"
+  (title := "Plücker Bohmian quantum potential Q_Plücker(ρ) = -(ℏ² / 2ℳ√ρ) H^{I J̄} ∂_I ∂̄_{J̄} √ρ")
+  (statement := /-- Define $\operatorname{pluckerQuantumPotential}(\hbar, \mathcal{M}, s)
+    = -\frac{\hbar^2}{2\mathcal{M}\sqrt{s.\rho}}\,s.\mathrm{projected\_hessian\_sqrt\_rho}$. -/)]
+noncomputable def pluckerQuantumPotential
+    (hbar mass : ℝ) (s : PluckerMadelungState) : ℝ :=
+  - (hbar ^ 2 / (2 * mass * Real.sqrt s.rho)) * s.projected_hessian_sqrt_rho
+
+/-- Dual Schubert-incidence Josephson coupling potential
+$$\Lambda_{\mathrm{dual}}(p, \tilde{p}) = \sqrt{\frac{\rho_{\mathrm{dual}}(\tilde{p})}{\rho(p)}}\bigl(\lambda_{\mathrm{re}}\cos\Delta\theta - \lambda_{\mathrm{im}}\sin\Delta\theta\bigr), \qquad \Delta\theta = \frac{S_{\mathrm{dual}} - S_R}{\hbar}$$
+in the Plücker Quantum Hamilton–Jacobi equation
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 1188, 1296–1299). -/
+@[blueprint "def:signals-ddf-dual-josephson-potential"
+  (title := "Dual Schubert-incidence Josephson potential Λ_dual(p, p̃) in Plücker QHJ")
+  (statement := /-- Define $\operatorname{dualJosephsonPotential}(\lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, \hbar, s)
+    = \sqrt{s.\rho_{\mathrm{dual}}/s.\rho}\,\bigl(\lambda_{\mathrm{re}}\cos((s.s_{\mathrm{dual}}-s.s_{\mathrm{real}})/\hbar)
+    - \lambda_{\mathrm{im}}\sin((s.s_{\mathrm{dual}}-s.s_{\mathrm{real}})/\hbar)\bigr)$. -/)]
+noncomputable def dualJosephsonPotential
+    (lambda_re lambda_im hbar : ℝ) (s : PluckerMadelungState) : ℝ :=
+  let delta_phase := (s.s_dual - s.s_real) / hbar
+  let amp_ratio := Real.sqrt (s.rho_dual / s.rho)
+  amp_ratio * (lambda_re * Real.cos delta_phase - lambda_im * Real.sin delta_phase)
+
+/-- Right-hand side of the Plücker Quantum Hamilton–Jacobi (QHJ) equation ($-\partial_\tau S_R$):
+$$\frac{1}{\mathcal{M}}\mathcal{H}_{I\bar{J}}V^I\bar{V}^{\bar{J}} + \operatorname{Re}\bigl(V_{\mathrm{ext}}(p)\bigr) + g\left(\frac{|p_0|^2}{\|p\|^2}\right)^w \rho + Q_{\mathrm{Pl\ddot{u}cker}}(\rho) + \Lambda_{\mathrm{dual}}(p, \tilde{p})$$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 1179, 1302–1308). -/
+@[blueprint "def:signals-ddf-plucker-hamilton-jacobi-rhs"
+  (title := "Plücker Quantum Hamilton-Jacobi (QHJ) right-hand side (-∂_τ S_R)")
+  (statement := /-- Define $\operatorname{pluckerHamiltonJacobiRHS}(\hbar, \mathcal{M}, g, w, V_{\mathrm{ext,re}}, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s)
+    = s.\mathrm{kinetic\_vel\_sq} + V_{\mathrm{ext,re}} + g(|p_0|^2/\|p\|^2)^w s.\rho + Q_{\mathrm{Pl\ddot{u}cker}} + \Lambda_{\mathrm{dual}}$. -/)]
+noncomputable def pluckerHamiltonJacobiRHS
+    (hbar mass g w v_ext_re lambda_re lambda_im : ℝ) (s : PluckerMadelungState) : ℝ :=
+  let mod_factor := (Complex.normSq (s.p 0) / pluckerNormSq s.p) ^ w
+  let contact_term := g * mod_factor * s.rho
+  let q_bohm := pluckerQuantumPotential hbar mass s
+  let q_dual := dualJosephsonPotential lambda_re lambda_im hbar s
+  s.kinetic_vel_sq + v_ext_re + contact_term + q_bohm + q_dual
+
+/-- Full Plücker Quantum Hamilton–Jacobi (QHJ) residual
+$$\mathcal{R}_{\mathrm{QHJ}}^{\mathrm{Pl\ddot{u}cker}} = \partial_\tau S_R + \operatorname{pluckerHamiltonJacobiRHS}(\hbar, \mathcal{M}, g, w, V_{\mathrm{ext,re}}, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s).$$ -/
+@[blueprint "def:signals-ddf-plucker-hamilton-jacobi-residual"
+  (title := "Plücker Quantum Hamilton-Jacobi (QHJ) PDE residual ∂_τ S_R + H_QHJ^Plücker")
+  (statement := /-- Define $\operatorname{pluckerHamiltonJacobiResidual}(\partial_\tau S_R, \hbar, \mathcal{M}, g, w, V_{\mathrm{ext,re}}, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s)
+    = \partial_\tau S_R + \operatorname{pluckerHamiltonJacobiRHS}(\hbar, \mathcal{M}, g, w, V_{\mathrm{ext,re}}, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s)$. -/)]
+noncomputable def pluckerHamiltonJacobiResidual
+    (dtau_s_real hbar mass g w v_ext_re lambda_re lambda_im : ℝ)
+    (s : PluckerMadelungState) : ℝ :=
+  dtau_s_real + pluckerHamiltonJacobiRHS hbar mass g w v_ext_re lambda_re lambda_im s
+
+/-- **Plücker Inverse Gross–Pitaevskii (`iGPE`) Potential Reconstruction on $\mathcal{Q}_4$**:
+Reconstructs the real external potential $\operatorname{Re}\bigl(V_{\mathrm{ext}}(p)\bigr)$ on the
+complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ from the Plücker Madelung state $s$ and phase rate $\partial_\tau S_R$:
+$$V_{\mathrm{ext,re}}^{\mathrm{rec}}(p) = -\partial_\tau S_R - \frac{1}{\mathcal{M}}\mathcal{H}_{I\bar{J}}V^I\bar{V}^{\bar{J}} - g\left(\frac{|p_0|^2}{\|p\|^2}\right)^w \rho - Q_{\mathrm{Pl\ddot{u}cker}}(\rho) - \Lambda_{\mathrm{dual}}(p, \tilde{p}).$$ -/
+@[blueprint "def:signals-ddf-plucker-inverse-potential-reconstruction"
+  (title := "Homogeneous Plücker inverse GPE (iGPE) potential reconstruction on Q_4")
+  (statement := /-- Define $\operatorname{pluckerInversePotentialReconstruction}(\partial_\tau S_R, \hbar, \mathcal{M}, g, w, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s)
+    = -\partial_\tau S_R - s.\mathrm{kinetic\_vel\_sq} - g(|p_0|^2/\|p\|^2)^w s.\rho - Q_{\mathrm{Pl\ddot{u}cker}} - \Lambda_{\mathrm{dual}}$. -/)]
+noncomputable def pluckerInversePotentialReconstruction
+    (dtau_s_real hbar mass g w lambda_re lambda_im : ℝ) (s : PluckerMadelungState) : ℝ :=
+  let mod_factor := (Complex.normSq (s.p 0) / pluckerNormSq s.p) ^ w
+  let contact_term := g * mod_factor * s.rho
+  let q_bohm := pluckerQuantumPotential hbar mass s
+  let q_dual := dualJosephsonPotential lambda_re lambda_im hbar s
+  0 - dtau_s_real - s.kinetic_vel_sq - contact_term - q_bohm - q_dual
+
+/-- Non-Hermitian + chiral Josephson source term on the right-hand side of the
+Plücker continuity equation:
+$$\Gamma_{\mathrm{Pl\ddot{u}cker}}(p, \tilde{p}) = \frac{2}{\hbar}\operatorname{Im}\bigl(V_{\mathrm{ext}}(p)\bigr)\,\rho + \frac{2}{\hbar}\sqrt{\rho\,\rho_{\mathrm{dual}}(\tilde{p})}\,\bigl(\lambda_{\mathrm{re}}\sin\Delta\theta + \lambda_{\mathrm{im}}\cos\Delta\theta\bigr)$$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, line 1173). -/
+@[blueprint "def:signals-ddf-plucker-continuity-source-rhs"
+  (title := "Plücker continuity equation non-Hermitian and chiral Josephson source RHS")
+  (statement := /-- Define $\operatorname{pluckerContinuitySourceRHS}(\hbar, V_{\mathrm{ext,im}}, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s)
+    = \frac{2}{\hbar}V_{\mathrm{ext,im}}s.\rho + \frac{2}{\hbar}\sqrt{s.\rho\,s.\rho_{\mathrm{dual}}}\bigl(\lambda_{\mathrm{re}}\sin\Delta\theta + \lambda_{\mathrm{im}}\cos\Delta\theta\bigr)$. -/)]
+noncomputable def pluckerContinuitySourceRHS
+    (hbar v_ext_im lambda_re lambda_im : ℝ) (s : PluckerMadelungState) : ℝ :=
+  let delta_phase := (s.s_dual - s.s_real) / hbar
+  (2 / hbar) * v_ext_im * s.rho +
+    (2 / hbar) * Real.sqrt (s.rho * s.rho_dual) *
+      (lambda_re * Real.sin delta_phase + lambda_im * Real.cos delta_phase)
+
+/-- Algebraic dictionary between the Plücker Bohmian quantum potential $Q_{\mathrm{Pl\ddot{u}cker}}(p, \bar{p})$
+and the self-dual Weyl curvature spinor projection $W_{\mathrm{Weyl}}(x) = \operatorname{Re}\bigl(\Psi_{ABCD}(x)\lambda^A\lambda^B\lambda^C\lambda^D / \langle\lambda\iota\rangle^4\bigr)$
+plus $\frac{1}{24}R_{4\mathrm{D}}(x)$ under the Penrose incidence transform:
+$$\frac{2\mathcal{M}}{\hbar^2}Q_{\mathrm{Pl\ddot{u}cker}}(p, \bar{p}) = W_{\mathrm{Weyl}}(x) + \frac{1}{24}R_{4\mathrm{D}}(x)$$
+(`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 1353–1361). -/
+@[blueprint "def:signals-ddf-plucker-bohm-weyl-curvature-bridge"
+  (title := "Penrose incidence dictionary reconstructing Weyl curvature from Q_Plücker")
+  (statement := /-- Given $\hbar, \mathcal{M}$, $s : \mathrm{PluckerMadelungState}$, and 4D scalar curvature $R_{4\mathrm{D}}$,
+    define the reconstructed self-dual Weyl curvature projection
+    $\operatorname{reconstructWeylFromPluckerBohm}(\hbar, \mathcal{M}, R_{4\mathrm{D}}, s)
+    = \frac{2\mathcal{M}}{\hbar^2}\operatorname{pluckerQuantumPotential}(\hbar, \mathcal{M}, s) - \frac{1}{24}R_{4\mathrm{D}}$. -/)]
+noncomputable def reconstructWeylFromPluckerBohm
+    (hbar mass scalarCurvature4D : ℝ) (s : PluckerMadelungState) : ℝ :=
+  (2 * mass / hbar ^ 2) * pluckerQuantumPotential hbar mass s -
+    (1 / 24 : ℝ) * scalarCurvature4D
+
+/-- **Master Theorem for Homogeneous Plücker Madelung QHJ, Plücker `iGPE` Potential Inversion, Chiral Josephson Phase-Slip Duality, & Self-Dual Weyl Curvature Reconstruction**:
+For any `s : PluckerMadelungState` with $\hbar \neq 0$ and $\mathcal{M} \neq 0$:
+1. **Exact Plücker `iGPE` Potential Reconstruction**:
+   Substituting $V_{\mathrm{ext,re}}^{\mathrm{rec}} = \operatorname{pluckerInversePotentialReconstruction}(\partial_\tau S_R, \hbar, \mathcal{M}, g, w, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s)$
+   into `pluckerHamiltonJacobiResidual` yields $0$ identically,
+2. **Phase-Locked Hermitian Regime ($S_{\mathrm{dual}} = S_R, \lambda_{\mathrm{im}} = 0, V_{\mathrm{ext,im}} = 0$)**:
+   - The Plücker continuity source vanishes identically:
+     $\operatorname{pluckerContinuitySourceRHS}(\hbar, 0, \lambda_{\mathrm{re}}, 0, s) = 0$,
+   - The dual Josephson potential equals the coherent amplitude-ratio coupling:
+     $\operatorname{dualJosephsonPotential}(\lambda_{\mathrm{re}}, 0, \hbar, s) = \sqrt{s.\rho_{\mathrm{dual}} / s.\rho}\,\lambda_{\mathrm{re}}$,
+3. **Chiral $\pi/2$ Phase-Slip Tunneling Regime ($S_{\mathrm{dual}} - S_R = \frac{\pi}{2}\hbar, \lambda_{\mathrm{im}} = 0, V_{\mathrm{ext,im}} = 0$)**:
+   - The dual Josephson potential in the QHJ energy equation vanishes ($\operatorname{dualJosephsonPotential} = 0$), while
+   - The chiral Josephson continuity tunneling source reaches its full amplitude
+     $\operatorname{pluckerContinuitySourceRHS}(\hbar, 0, \lambda_{\mathrm{re}}, 0, s) = \frac{2}{\hbar}\sqrt{s.\rho\,s.\rho_{\mathrm{dual}}}\,\lambda_{\mathrm{re}}$, and
+4. **Penrose Bohm–Weyl Curvature Dictionary**:
+   $$\operatorname{reconstructWeylFromPluckerBohm}(\hbar, \mathcal{M}, R_{4\mathrm{D}}, s) + \frac{1}{24}R_{4\mathrm{D}}
+   = -\frac{s.\mathrm{projected\_hessian\_sqrt\_rho}}{\sqrt{s.\rho}}.$$ -/
+@[blueprint "thm:signals-ddf-plucker-madelung-qhj-inverse-igpe-weyl-bridge"
+  (title := "Homogeneous Plücker Madelung QHJ, Plücker iGPE potential reconstruction, chiral Josephson phase-slip duality, and Weyl curvature bridge")
+  (statement := /-- For any \texttt{s : PluckerMadelungState} and $\hbar \ne 0, \mathcal{M} \ne 0$:
+    (1) $\operatorname{pluckerHamiltonJacobiResidual}(\partial_\tau S_R, \hbar, \mathcal{M}, g, w, \operatorname{pluckerInversePotentialReconstruction}(\partial_\tau S_R, \hbar, \mathcal{M}, g, w, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s), \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s) = 0$,
+    (2) if $s.s_{\mathrm{dual}} = s.s_{\mathrm{real}}$, then $\operatorname{pluckerContinuitySourceRHS}(\hbar, 0, \lambda_{\mathrm{re}}, 0, s) = 0$ and
+    $\operatorname{dualJosephsonPotential}(\lambda_{\mathrm{re}}, 0, \hbar, s) = \sqrt{s.\rho_{\mathrm{dual}}/s.\rho}\,\lambda_{\mathrm{re}}$,
+    (3) if $s.s_{\mathrm{dual}} - s.s_{\mathrm{real}} = (\pi/2)\hbar$, then $\operatorname{dualJosephsonPotential}(\lambda_{\mathrm{re}}, 0, \hbar, s) = 0$ and
+    $\operatorname{pluckerContinuitySourceRHS}(\hbar, 0, \lambda_{\mathrm{re}}, 0, s) = \frac{2}{\hbar}\sqrt{s.\rho\,s.\rho_{\mathrm{dual}}}\,\lambda_{\mathrm{re}}$, and
+    (4) $\operatorname{reconstructWeylFromPluckerBohm}(\hbar, \mathcal{M}, R_{4\mathrm{D}}, s) + \frac{1}{24}R_{4\mathrm{D}} = -s.\mathrm{projected\_hessian\_sqrt\_rho} / \sqrt{s.\rho}$. -/)
+  (proof := /-- Unfold the Plücker QHJ and inverse reconstruction definitions and close by `ring`,
+    evaluate $\sin(0)=0,\cos(0)=1$ and $\sin(\pi/2)=1,\cos(\pi/2)=0$, and cancel $2\mathcal{M}/\hbar^2$
+    against $-\hbar^2/(2\mathcal{M}\sqrt{\rho})$. -/)]
+theorem plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities
+    (dtau_s_real hbar mass g w lambda_re lambda_im R_4D : ℝ)
+    (s : PluckerMadelungState)
+    (hhbar : hbar ≠ 0) (hmass : mass ≠ 0) :
+    let v_rec :=
+      pluckerInversePotentialReconstruction dtau_s_real hbar mass g w lambda_re lambda_im s
+    pluckerHamiltonJacobiResidual
+        dtau_s_real hbar mass g w v_rec lambda_re lambda_im s = 0 ∧
+      (s.s_dual = s.s_real →
+        pluckerContinuitySourceRHS hbar 0 lambda_re 0 s = 0 ∧
+        dualJosephsonPotential lambda_re 0 hbar s =
+          Real.sqrt (s.rho_dual / s.rho) * lambda_re) ∧
+      (s.s_dual - s.s_real = (Real.pi / 2) * hbar →
+        dualJosephsonPotential lambda_re 0 hbar s = 0 ∧
+        pluckerContinuitySourceRHS hbar 0 lambda_re 0 s =
+          (2 / hbar) * Real.sqrt (s.rho * s.rho_dual) * lambda_re) ∧
+      reconstructWeylFromPluckerBohm hbar mass R_4D s + (1 / 24 : ℝ) * R_4D =
+        - s.projected_hessian_sqrt_rho / Real.sqrt s.rho := by
+  intro v_rec
+  have h_inv :
+      pluckerHamiltonJacobiResidual
+        dtau_s_real hbar mass g w v_rec lambda_re lambda_im s = 0 := by
+    dsimp [v_rec]
+    unfold pluckerHamiltonJacobiResidual pluckerHamiltonJacobiRHS
+      pluckerInversePotentialReconstruction
+    ring
+  have h_locked :
+      s.s_dual = s.s_real →
+        pluckerContinuitySourceRHS hbar 0 lambda_re 0 s = 0 ∧
+        dualJosephsonPotential lambda_re 0 hbar s =
+          Real.sqrt (s.rho_dual / s.rho) * lambda_re := by
+    intro h_eq
+    unfold pluckerContinuitySourceRHS dualJosephsonPotential
+    simp [h_eq]
+  have h_slip :
+      s.s_dual - s.s_real = (Real.pi / 2) * hbar →
+        dualJosephsonPotential lambda_re 0 hbar s = 0 ∧
+        pluckerContinuitySourceRHS hbar 0 lambda_re 0 s =
+          (2 / hbar) * Real.sqrt (s.rho * s.rho_dual) * lambda_re := by
+    intro h_diff
+    unfold dualJosephsonPotential pluckerContinuitySourceRHS
+    have h_angle : (s.s_dual - s.s_real) / hbar = Real.pi / 2 := by
+      rw [h_diff, mul_div_cancel_right₀ (Real.pi / 2) hhbar]
+    dsimp only []
+    rw [h_angle, Real.cos_pi_div_two, Real.sin_pi_div_two]
+    constructor <;> ring
+  have h_weyl :
+      reconstructWeylFromPluckerBohm hbar mass R_4D s + (1 / 24 : ℝ) * R_4D =
+        - s.projected_hessian_sqrt_rho / Real.sqrt s.rho := by
+    unfold reconstructWeylFromPluckerBohm pluckerQuantumPotential
+    have hbar2_ne : hbar ^ 2 ≠ 0 := pow_ne_zero 2 hhbar
+    by_cases h_sqrt : Real.sqrt s.rho = 0
+    · simp [h_sqrt]
+    · field_simp [hbar2_ne, hmass, h_sqrt]
+      ring
+  exact ⟨h_inv, h_locked, h_slip, h_weyl⟩
+
 end Signals.DDF

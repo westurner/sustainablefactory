@@ -5510,4 +5510,132 @@ lemma QuantumCausalMpembaSynthesisContract.thermodynamic_and_causal_bounds
     h_crit.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     contract.causalControlWithinTolerance⟩
 
+/-! ## 28. Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study GPE, Dual-Grassmannian `iGPE`, and Homogeneous Plücker Madelung Pending Contract
+
+In `data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`
+(lines 1–1458), the chat develops:
+1. A Fubini–Study Kähler formulation of the Gross–Pitaevskii equation on $Gr_{\mathbb{C}}(2,4)$
+   with modular-weighted nonlinearity $g\det(I_2 + W W^\dagger)^{-w}|\Psi|^2$,
+2. A coupled Dual-Grassmannian `iGPE` between orthogonal 2-planes $(\mathbf{Z}, \mathbf{Z}^\perp) \in Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee$
+   with symplectic norm balance $\frac{d}{d\tau'}(|\Psi|^2 + |\Phi|^2) = 2 V_{\mathrm{im}}(|\Psi|^2 + |\Phi|^2)$,
+3. A Complex Grassmannian Bogoliubov dispersion relation with Einstein–Kähler curvature shift
+   $\Delta_R = \hbar^2/\mathcal{M}$ ($R_{\mathrm{Gr}} = 16$), emergent Proca photon mass $m_{\gamma,\mathrm{eff}}^2$,
+   and critical Deborah shear-fracture threshold $\mathrm{De}/\mathrm{De}_c \ge 1$, and
+4. A homogeneous Plücker 6-vector Madelung quantum-fluid formulation on the Klein quadric
+   $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ with Hodge-dual involution $\tilde{\tilde{p}} = p$,
+   intrinsic contravariant metric $\mathcal{H}^{I\bar{J}}$, Plücker `iGPE` potential inversion,
+   and Penrose Bohm–Weyl curvature dictionary.
+
+While the algebraic and geometric identities of (1)–(4) are machine-checked in `Signals.DDF`
+(`plucker_hodge_klein_quadric_and_projector_identities`, `kahlerDetFactor_eq_pluckerNormSq_and_ge_one`,
+`grassmannian_igpe_norm_balance_and_josephson_identities`, `grassmannian_bogoliubov_proca_and_deborah_fracture_identities`,
+and `plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities`), physical claims that
+tachyonic $\omega^2 < 0$ or $\operatorname{Im}(S) \neq 0$ states stabilize wormhole/warp
+metrics, generate a nonzero vacuum photon rest mass $m_\gamma > 0$, or realize fault-tolerant
+non-Abelian anyonic braiding require explicit laboratory dispersion, polarimetric Proca-mass,
+and interferometric braiding controls in `Signals.Pending`. -/
+
+/-- A Pending synthesis contract connecting the machine-checked Complex Grassmannian GPE,
+coupled Dual-Grassmannian `iGPE`, and homogeneous Plücker Madelung identities in `Signals.DDF`
+with explicit experimental and calibration controls. -/
+@[blueprint "def:signals-complex-grassmannian-gpe-plucker-madelung-contract"
+  (title := "Pending Complex Grassmannian GPE, dual iGPE, and Plücker Madelung validation contract")
+  (statement := /-- Links `GrassmannianGPEParams`, `CoupledDualGrassmannianState`, and `PluckerMadelungState`
+    with shared `InteractiveGPEPoint`/`InverseGPEPoint` potential recovery and explicit
+    Bogoliubov dispersion, Proca mass-bound, and Schubert vortex braiding calibration flags. -/)]
+structure ComplexGrassmannianGPEAndPluckerMadelungHypothesis where
+  gpeParams : Signals.DDF.GrassmannianGPEParams
+  hbar_pos : 0 < gpeParams.hbar
+  mass_pos : 0 < gpeParams.mass
+  affineChart : Matrix (Fin 2) (Fin 2) ℂ
+  cotangentMomentum : Matrix (Fin 2) (Fin 2) ℂ
+  kineticNorm_nonneg :
+    0 ≤ Signals.DDF.fubiniStudyKineticNorm affineChart cotangentMomentum
+  coupledState : Signals.DDF.CoupledDualGrassmannianState
+  hermitianLimit : coupledState.v_im = 0
+  pluckerState : Signals.DDF.PluckerMadelungState
+  rho_pos : 0 < pluckerState.rho
+  rho_dual_pos : 0 < pluckerState.rho_dual
+  interactiveGPE : InteractiveGPEPoint
+  inverseGPE : InverseGPEPoint
+  sharedHbar : inverseGPE.hbar = interactiveGPE.hbar
+  sharedMass : inverseGPE.effectiveMass = interactiveGPE.effectiveMass
+  sharedCoupling : inverseGPE.coupling = interactiveGPE.coupling
+  sharedDensity : inverseGPE.density = interactiveGPE.density
+  sharedWavefunction : inverseGPE.wavefunction = interactiveGPE.wavefunction
+  sharedTimeDeriv : inverseGPE.timeDerivative = interactiveGPE.timeDerivative
+  sharedLaplacian : inverseGPE.laplacian = interactiveGPE.laplacian
+  bogoliubovDispersionCalibrated : Prop
+  bogoliubovDispersionCalibrated_hypothesis : bogoliubovDispersionCalibrated
+  procaMassUpperBoundVerified : Prop
+  procaMassUpperBoundVerified_hypothesis : procaMassUpperBoundVerified
+  schubertVortexBraidingInterferometryTested : Prop
+  schubertVortexBraidingInterferometryTested_hypothesis :
+    schubertVortexBraidingInterferometryTested
+
+/-- In any `ComplexGrassmannianGPEAndPluckerMadelungHypothesis`:
+1. The Fubini–Study Kähler determinant satisfies $1 \le \det(I_2 + W W^\dagger) = \|p(I_2 \mid W)\|^2$,
+2. The Einstein–Kähler scalar curvature of $Gr_{\mathbb{C}}(2,4)$ equals $16$,
+3. The coupled Dual-Grassmannian `iGPE` conserves total symplectic norm in the Hermitian limit
+   ($\mathrm{coupledState}.\mathrm{totalNormTimeDerivative} = 0$),
+4. The homogeneous Plücker contravariant metric $\mathcal{H}^{I\bar{J}}$ annihilates both radial
+   Euler scaling ($\mathcal{H}\,p = 0$) and the conjugate Hodge-dual Klein quadric normal
+   ($\mathcal{H}\,\overline{\tilde{p}} = 0$),
+5. The Plücker `iGPE` inverse potential reconstruction solves the Plücker QHJ equation with zero residual, and
+6. The pointwise `InverseGPEPoint` recovers the exact `InteractiveGPEPoint` potential. -/
+@[blueprint "lem:signals-complex-grassmannian-gpe-plucker-madelung-bounds"
+  (title := "Pending Complex Grassmannian GPE & Plücker Madelung contract enforces Kähler, symplectic norm, projector, and iGPE inversion identities")
+  (statement := /-- For any \texttt{contract : ComplexGrassmannianGPEAndPluckerMadelungHypothesis} and $i \in \mathrm{Fin}\,6$:
+    (1) $1 \le \operatorname{kahlerDetFactor}(W) = \operatorname{pluckerNormSq}(\operatorname{twistorToPluckerVec}(\operatorname{chartToTwistor}(W)))$,
+    (2) $\operatorname{grassmannianEinsteinKahlerScalarCurvature}(2, 4) = 16$,
+    (3) $\mathrm{coupledState}.\mathrm{totalNormTimeDerivative} = 0$,
+    (4) $\operatorname{pluckerContravariantMetricApply}(p, p)_i = 0$ and
+    $\operatorname{pluckerContravariantMetricApply}(p, \overline{\tilde{p}})_i = 0$,
+    (5) $\operatorname{pluckerHamiltonJacobiResidual}(\partial_\tau S_R, \hbar, \mathcal{M}, g, w, V_{\mathrm{rec}}, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s) = 0$, and
+    (6) $\mathrm{inverseGPE}.\mathrm{potential} = (\mathrm{interactiveGPE}.\mathrm{potential} : \mathbb{C})$. -/)
+  (proof := /-- Combine `kahlerDetFactor_eq_pluckerNormSq_and_ge_one`,
+    `grassmannian_igpe_norm_balance_and_josephson_identities`,
+    `plucker_hodge_klein_quadric_and_projector_identities`,
+    `plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities`, and
+    `InverseGPEPoint.potential_eq_interactive_of_shared_state`. -/)
+  (latexEnv := "lemma")]
+lemma ComplexGrassmannianGPEAndPluckerMadelungHypothesis.geometric_and_hydrodynamic_bounds
+    (contract : ComplexGrassmannianGPEAndPluckerMadelungHypothesis)
+    (i : Signals.DDF.PluckerIdx) (dtau_s_real : ℝ) :
+    let W := contract.affineChart
+    let p_state := contract.pluckerState
+    let gpe := contract.gpeParams
+    let v_rec := Signals.DDF.pluckerInversePotentialReconstruction
+      dtau_s_real gpe.hbar gpe.mass gpe.g_coupling gpe.modular_weight
+      contract.coupledState.lam_re contract.coupledState.lam_im p_state
+    1 ≤ Signals.DDF.kahlerDetFactor W ∧
+      Signals.DDF.kahlerDetFactor W =
+        Signals.DDF.pluckerNormSq (Signals.DDF.twistorToPluckerVec (Signals.DDF.chartToTwistor W)) ∧
+      Signals.DDF.grassmannianEinsteinKahlerScalarCurvature 2 4 = 16 ∧
+      contract.coupledState.totalNormTimeDerivative = 0 ∧
+      Signals.DDF.pluckerContravariantMetricApply p_state.p p_state.p i = 0 ∧
+      Signals.DDF.pluckerContravariantMetricApply
+        p_state.p (Signals.DDF.pluckerConjHodgeNormal p_state.p) i = 0 ∧
+      Signals.DDF.pluckerHamiltonJacobiResidual
+        dtau_s_real gpe.hbar gpe.mass gpe.g_coupling gpe.modular_weight
+        v_rec contract.coupledState.lam_re contract.coupledState.lam_im p_state = 0 ∧
+      contract.inverseGPE.potential = (contract.interactiveGPE.potential : ℂ) := by
+  intro W p_state gpe v_rec
+  have h_kahler := Signals.DDF.kahlerDetFactor_eq_pluckerNormSq_and_ge_one W contract.cotangentMomentum
+  have h_norm := (Signals.DDF.grassmannian_igpe_norm_balance_and_josephson_identities
+    contract.coupledState).2.2.2 contract.hermitianLimit
+  have h_pl := (Signals.DDF.plucker_hodge_klein_quadric_and_projector_identities
+    p_state.p i (Signals.DDF.chartToTwistor W)).2.2.2.2 p_state.on_quadric
+  have h_qhj := (Signals.DDF.plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities
+    dtau_s_real gpe.hbar gpe.mass gpe.g_coupling gpe.modular_weight
+    contract.coupledState.lam_re contract.coupledState.lam_im 0 p_state
+    (ne_of_gt contract.hbar_pos) (ne_of_gt contract.mass_pos)).1
+  have h_igpe := (InverseGPEPoint.potential_eq_interactive_of_shared_state
+    contract.interactiveGPE contract.inverseGPE
+    contract.sharedHbar contract.sharedMass contract.sharedCoupling
+    contract.sharedDensity contract.sharedWavefunction
+    contract.sharedTimeDeriv contract.sharedLaplacian).1
+  exact ⟨h_kahler.2.2.2.1, h_kahler.2.2.1, rfl, h_norm,
+    h_pl.2.2.1, h_pl.2.2.2, h_qhj, h_igpe⟩
+
 end Signals.Pending
