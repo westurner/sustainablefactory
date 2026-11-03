@@ -156,6 +156,10 @@ $$
 
 For $A_1 = A_2 = \frac{4}{5}$, $I_{\mathrm{single}}\!\left(\frac{4}{5}, \frac{4}{5}\right) = \frac{64}{25} = 2.56 > 2 = A_{sp3}$, synthesizing an unintended insulating $sp^3$ diamond wall right across the circuit! By partitioning odd and even pipeline stages into **orthogonal sequential flashes** (`flash_index = 1` vs. `2` in `generate_riscv_holographic_module`), each flash's peak intensity remains strictly $\left(\frac{4}{5}\right)^2 = 0.64 < 2$, reducing the Metric Interference DRC hazard count from $5$ (in 6-stage `CVA6` / `CHERI-CVA6`) and $2$ (in 3-stage `Ibex`) down to **$0$**.
 
+### 3.3 Scaling from $18.08\text{ nm}$ (`CVA6` $22\text{ nm}$ Class) to $< 1\text{ nm}$ ($0.75\text{ nm}$, $0.603\text{ nm}$, & $0.50\text{ nm}$) Convergent Nanoimaging
+
+In [`Signals.MultiArrayImaging`](../Signals/MultiArrayImaging.lean) (`multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities`) and [grassmannian-multispectral-hubble-medical-nanoimaging-paper.md](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md), we prove that balanced homodyne phase-slope registration at $\mathrm{SNR}_{\mathrm{amp}} = 30$ on the $18.08\text{ nm}$ STED spot reaches $\sigma_{\mathrm{loc}} = 135/224\text{ nm} \approx 0.603\text{ nm} < 1\text{ nm}$, while cascaded hyperbolic/SPP longitudinal metamaterial immersion (`cascadedNanoImagingLinewidthSq`) reaches $w_{\mathrm{nano}} = 0.75\text{ nm}$ ($n_{\mathrm{eff}} = 15, M = 2, \zeta = 80$) and $0.50\text{ nm} = 5\text{ \AA} < 1\text{ nm}$ ($n_{\mathrm{eff}} = 13.5, M = 3, \zeta = 99$).
+
 ---
 
 ## 4. 3-Zone $400 \to 800\text{ GHz}$ `rGO-polyCBD-SS-Lignin` SFG Audit, Exothermic Radical Recombination, and Multi-Band Fire Suppression

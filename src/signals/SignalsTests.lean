@@ -6126,7 +6126,13 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
         (re.velocity 4) =
       -(1 * re.G_phi * re.sourceMass / 4) ∧
     splat_ddf.isotropicTraceSwell.covDet - splat_ddf.covDet =
-      (2 ^ 4 * s.betaSq ^ 2) / 4 := by
+      (2 ^ 4 * s.betaSq ^ 2) / 4 ∧
+    -- (17) Paper 17 (Hubble 2x CCD Mosaics, Cosmic-Ray Telemetry, LVP Medical Arrays, LIFU/AOT/TRUE Focusing, & <1nm Nanoimaging):
+    Signals.MultiArrayImaging.layeredMosaicPixelCount 2 4096 2048 = 16777216 ∧
+    Signals.MultiArrayImaging.realGrassmannianDim 4 6800000 = 27199984 ∧
+    (16777216 : ℝ) * Signals.MultiArrayImaging.multiExposureCosmicRaySurvivalProb (3 / 200) 4 < 1 ∧
+    1 < Signals.MultiArrayImaging.trueOpticalPeakToBackgroundGain 1024 ∧
+    Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 (27 / 2) 99 3 < 1 := by
   intro z1 z2 M_sheath Δϖ_GR P_GR M_GW splat_ddf splat_opa M_spp M_holo W_sec M_ads5 M_depth R_depth J4 Sigma4
   have h1 := (Signals.Huygens.complexGr24CrossingDoubleSlit_zero_error 3 2 4 6 1 5 x y).2
   have h2 := Signals.QISM.yang_baxter_equation_matrix8 7 4 1 2
@@ -6225,6 +6231,9 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num)
+  have h17_img := Signals.MultiArrayImaging.multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities
+    60000 100 1 θ 4 1 1024 1
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   rcases h4_prec with ⟨_hp1, _hp2, _hp3, _hp4, _hp5, hp6, _hp7, hp8, hp9, _hp10, _hp11, _hp12,
     _hp13, _hp14, _hp15, _hp16, _hp17, _hp18, _hp19, _hp20, _hp21, _hp22, hp23, _hp24, _hp25, _hp26⟩
   rcases h4_gw with ⟨_hg1, hg2, _hg3, _hg4, _hg5, hg6, _hg7, hg8, _hg9, hg10, _hg11, _hg12, _hg13,
@@ -6249,6 +6258,65 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     h14_nano.2.2.2.1, h14_nano.2.2.2.2.2.2.2.1, h14_rec.2.2.2.1,
     h15_mad.2.2.2.2.2.2.2.2.1, h15_mad.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h16_gordon.2.1, h16_hawk.2.2.2.2.2.2.1,
-    h16_hawk.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+    h16_hawk.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h17_img.2.1, h17_img.2.2.2.2.2.1, h17_img.2.2.2.2.2.2.2.2.2.2.1,
+    h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    lt_trans h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
+      h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+/-- Verification of `Signals.MultiArrayImaging.multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities`
+and `NormedTensorGaussianSplat3D.multi_modal_subsurface_volumetric_and_grassmannian_hierarchy_identities`
+across Hubble 2× CCD mosaics (`ACS/WFC`, `WFC3/UVIS`, `WFPC2` `NGC 4151` `u5780205r`),
+LVP direct-conversion medical arrays, LIFU/AOT/TRUE sub-surface focusing, and
+$< 1\text{ nm}$ convergent holographic nanolithography. -/
+example (θ_aot θ_z φ_err φ1 φ2 φ3 θ φ : ℝ) :
+    let δ_aot : ℝ := (4 - 1) / (4 + 1)
+    let M_aot := Signals.DDF.ddfThermalGr24Matrix δ_aot θ_aot
+    let s_ortho := toySplat3D.projectOrthographic2D
+    let s_persp := toySplat3D.projectPerspective2D 2 (by norm_num) (by norm_num [toySplat3D])
+    let δ_d := toySplat3D.holographicDepthAnisotropy
+    let M_depth := Signals.DDF.ddfThermalGr24Matrix δ_d θ_z
+    let R_depth :=
+      Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_depth) /
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_depth)
+    Signals.MultiArrayImaging.sensorArrayPixelCount2D 4096 2048 = 8388608 ∧
+      Signals.MultiArrayImaging.layeredMosaicPixelCount 2 4096 2048 = 16777216 ∧
+      Signals.MultiArrayImaging.realGrassmannianDim 4 6800000 = 27199984 ∧
+      Signals.MultiArrayImaging.complexGrassmannianRealDim 4 6800000 =
+        2 * Signals.MultiArrayImaging.realGrassmannianDim 4 6800000 ∧
+      (16777216 : ℝ) * Signals.MultiArrayImaging.multiExposureCosmicRaySurvivalProb (3 / 200) 4 < 1 ∧
+      Signals.MultiArrayImaging.cosmicRayDepositedEnergyEv (215444 / 100) 7 (73 / 20) = 55045942 / 1000 ∧
+      (7 / 2 : ℝ) < Signals.MultiArrayImaging.cosmicRayClusterAspectRatio 16 2 ∧
+      Signals.MultiArrayImaging.directConversionChargeYield 60000 (1 / 20) (73 / 20) <
+        Signals.MultiArrayImaging.directConversionChargeYield 60000 (4 / 5) (9 / 2) ∧
+      Signals.MultiArrayImaging.lifuMechanicalIndexSq (3 / 5) (154 / 100) < (19 / 10) ^ 2 ∧
+      Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_aot) /
+          Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_aot) = (1 : ℝ) / 4 ∧
+      1 < Signals.MultiArrayImaging.trueOpticalPeakToBackgroundGain 1024 ∧
+      Signals.MultiArrayImaging.iterativeTrueFocalVarianceSq 1 4 < 1 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 15 80 2 = (3 / 4) ^ 2 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 (27 / 2) 99 3 = (1 / 2) ^ 2 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 15 80 2 < 1 ∧
+      Signals.DDF.recoverDepthVarianceSq s_ortho.covTrace R_depth = toySplat3D.sigma3 ^ 2 ∧
+      Signals.DDF.recoverFocalDepthSq 2 s_ortho.covTrace s_persp.covTrace = toySplat3D.centerZ ^ 2 := by
+  intro δ_aot M_aot s_ortho s_persp δ_d M_depth R_depth
+  have hm := Signals.MultiArrayImaging.multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities
+    60000 100 1 θ_aot 4 1 1024 1
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have hv :=
+    Signals.MultiArrayImaging.NormedTensorGaussianSplat3D.multi_modal_subsurface_volumetric_and_grassmannian_hierarchy_identities
+      toySplat3D 2 1 1 θ_z φ_err φ1 φ2 φ3 1 4 4 3 2 θ φ
+      (by norm_num) (by norm_num [toySplat3D]) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨hm.1, hm.2.1, hm.2.2.2.2.2.1, hm.2.2.2.2.2.2.1, hm.2.2.2.2.2.2.2.2.2.2.1,
+    hm.2.2.2.2.2.2.2.2.2.2.2.2.2.1, hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    hv.1, hv.2.1⟩
 
 end SignalsTests

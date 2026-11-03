@@ -5110,4 +5110,83 @@ example :
       norm_num [toyHawkingGrassmannianSynthesis, toyConnectedHawkingDecoding,
         toyNonzeroInteractiveGPE])
 
+/-- 2×2 LVP Proca phase-contrast imaging fixture sharing `toyLVP` with `toyLVPDirectConversionImaging`. -/
+noncomputable def toyLVPProcaImaging2x2 : LVPProcaImagingHypothesis 2 2 :=
+  { material := toyLVP
+    channel := toyChannel
+    phaseMap := !![1 / 10, 2 / 10; 3 / 10, 4 / 10]
+    longitudinalFraction :=
+      { value := 4 / 5, nonnegative := by norm_num, le_one := by norm_num }
+    spatialResolution := { meters := 5 / 10000000000 }
+    spatialResolution_pos := by norm_num
+    incidentProbeEnergy := { joules := 1 / 1000 }
+    incidentProbeEnergy_nonnegative := by norm_num
+    absorbedProbeEnergy := { joules := 1 / 1000000 }
+    absorbedProbeEnergy_nonnegative := by norm_num
+    phaseResidual := 1 / 100
+    phaseResidual_nonnegative := by norm_num
+    phaseResidualTolerance := 1 / 10
+    phaseResidualTolerance_nonnegative := by norm_num
+    phaseResidualWithinTolerance := by norm_num
+    masslessControlResidual := 1 / 50
+    masslessControlResidual_nonnegative := by norm_num
+    masslessControlTolerance := 1 / 10
+    masslessControlTolerance_nonnegative := by norm_num
+    masslessControlWithinTolerance := by norm_num }
+
+/-- Connected `MultiModalSubSurfaceImagingHypothesis 2 2` instance linking Hubble 2× mosaic
+dithering, `toyLVPDirectConversionImaging`, `toyLVPProcaImaging2x2`, `toyMultiBeamHolographyResult`,
+`toyLongitudinalBeamApplicationEvidence`, LIFU safety ($\mathrm{MI}^2 = 18/77 \le 1.9^2$),
+TRUE 1024-mode focusing, and cascaded $0.75\text{ nm}$ ($< 1\text{ nm}$) nanolithography. -/
+noncomputable def toyMultiModalSubSurfaceImaging :
+    MultiModalSubSurfaceImagingHypothesis 2 2 :=
+  { directConversion := toyLVPDirectConversionImaging
+    procaHypothesis := toyLVPProcaImaging2x2
+    multiBeamHolography := toyMultiBeamHolographyResult
+    longitudinalEvidence := toyLongitudinalBeamApplicationEvidence
+    sharedMaterial := rfl
+    hubbleMosaicChips := 2
+    hubbleMosaicChips_min := by norm_num
+    ditherExposures := 4
+    ditherExposures_min := by norm_num
+    lifuPeakNegPressureMPa := 3 / 5
+    lifuPeakNegPressure_pos := by norm_num
+    lifuFreqMHz := 154 / 100
+    lifuFreqMHz_pos := by norm_num
+    lifuNonCavitatingSafety := by
+      unfold Signals.MultiArrayImaging.lifuMechanicalIndexSq
+      norm_num
+    trueControlledModes := 1024
+    trueControlledModes_gt_one := by norm_num
+    nanoLambda0Nm := 405
+    nanoEffIndex := 15
+    nanoStedSatRatio := 80
+    nanoHarmonicOrder := 2
+    subNanometerTargetMet := by
+      unfold Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq
+      norm_num
+    mastFitsChecksumVerified := True
+    mastFitsChecksumVerified_hypothesis := trivial
+    phantomMtfAndDoseCalibrated := True
+    phantomMtfAndDoseCalibrated_hypothesis := trivial
+    acousticThermalSafetyVerified := True
+    acousticThermalSafetyVerified_hypothesis := trivial }
+
+example :
+    Signals.MultiArrayImaging.lifuMechanicalIndexSq
+        toyMultiModalSubSurfaceImaging.lifuPeakNegPressureMPa
+        toyMultiModalSubSurfaceImaging.lifuFreqMHz ≤ (19 / 10 : ℝ) ^ 2 ∧
+      1 < Signals.MultiArrayImaging.trueOpticalPeakToBackgroundGain
+        toyMultiModalSubSurfaceImaging.trueControlledModes ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq
+        toyMultiModalSubSurfaceImaging.nanoLambda0Nm
+        toyMultiModalSubSurfaceImaging.nanoEffIndex
+        toyMultiModalSubSurfaceImaging.nanoStedSatRatio
+        toyMultiModalSubSurfaceImaging.nanoHarmonicOrder < 1 ∧
+      toyMultiModalSubSurfaceImaging.directConversion.imageResidual ≤
+        toyMultiModalSubSurfaceImaging.directConversion.imageResidualTolerance ∧
+      toyMultiModalSubSurfaceImaging.procaHypothesis.masslessControlResidual ≤
+        toyMultiModalSubSurfaceImaging.procaHypothesis.masslessControlTolerance :=
+  toyMultiModalSubSurfaceImaging.safety_and_resolution_bounds
+
 end SignalsPendingTests

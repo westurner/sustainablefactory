@@ -281,6 +281,8 @@ To apply Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery in real laboratory an
    Apply `recoverDepthVarianceSq` and `recoverFocalDepthSq` (`holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities`) to reconstruct the full 3D covariance ellipsoid and focal range without 3D voxel-grid memory explosion.
 4. **Step 4 — Convergent Multi-Beam Confocal Refinement & Pilot-Tone Calibration**:
    When operating an active $N_{\mathrm{beam}} \ge 4$ convergent holographic chamber, run the pilot-tone handshake (`HolographyMaskTransfer` across `noMask`, `passiveMask`, `activatedMask`, and `shamActivation`) to pre-cancel phase drift $\phi_{\mathrm{err}}$ before synchronous multi-flash exposure.
+5. **Step 5 — Extension to Layered Multi-Sensor Arrays ($\mathrm{Gr}_{\mathbb{R}}(4, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$), `LIFU`/`AOT`/`TRUE` Sub-Surface Focusing, & $< 1\text{ nm}$ Nanoimaging**:
+   See [grassmannian-multispectral-hubble-medical-nanoimaging-paper.md](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md) (`Signals.MultiArrayImaging` in [../Signals/MultiArrayImaging.lean](../Signals/MultiArrayImaging.lean)) for the machine-checked unification with Hubble $2\times$ CCD mosaics (`ACS/WFC`, `WFC3/UVIS`, `WFPC2` `NGC 4151`), `LVPDirectConversionImaging` vs. `LVPProcaImagingHypothesis`, `LIFU`/`AOT`/`TRUE` sub-surface optical focusing, and $< 1\text{ nm}$ (`0.75 nm`, `0.603 nm`, and `0.50 nm`) convergent holographic nanolithography.
 
 ---
 

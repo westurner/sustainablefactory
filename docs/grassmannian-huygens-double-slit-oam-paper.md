@@ -57,7 +57,7 @@ All theorems in this paper are machine-checked in Lean 4 without `sorry` or cust
 import Signals
 import SignalsPending
 
-namespace ArxivDoubleSlitPaperVerification
+namespace DoubleSlitPaperVerification
 
 open Signals.Geometry
 open Signals.Coherence
@@ -385,7 +385,7 @@ example (x y : ℝ) (A32 : Matrix (Fin 3) (Fin 2) ℝ) (B23 : Matrix (Fin 2) (Fi
     2 3 4 6 8 5 7 (by norm_num) (by norm_num) (by norm_num) A32 B23
   exact ⟨h_fres, h_pl3, h_lgv3.2.2.2.1, h_lgv3.2.2.2.2⟩
 
-end ArxivDoubleSlitPaperVerification
+end DoubleSlitPaperVerification
 ```
 
 ### 5.4 Paraxial Fresnel-to-Fraunhofer Remainder Bound, Higher-Rank $Gr(3,n)$ / $Gr_{\mathbb{C}}(3,n)$ Plücker Relations, and Three-Channel ($k=3$) LGV Positivity

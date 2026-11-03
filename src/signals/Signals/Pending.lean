@@ -22,6 +22,7 @@ import Signals.LayerCodes
 import Signals.QECReferences
 import Signals.Maxwell
 import Signals.MHD
+import Signals.MultiArrayImaging
 import Signals.NonDestructive
 import Signals.OAM
 import Signals.PaperModels
@@ -5274,5 +5275,100 @@ lemma MadelungDilatantVariationalHypothesis.compression_sq_gt_one
   have h_lt_one : 1 - hypothesis.sheathBetaSq < 1 := by linarith
   have h_closure := hypothesis.stationaryJammingClosure
   nlinarith [sq_nonneg hypothesis.sheathCompressionFactor]
+
+/-! ## Multi-Modal Sub-Surface, Hubble Mosaic, LVP Medical, LIFU/AOT/TRUE, & Sub-Nanometer Imaging Boundary
+
+The theorems in `Signals.MultiArrayImaging` verify the exact Grassmannian manifold dimensions
+($\mathrm{Gr}_{\mathbb{R}}(k, N_{\mathrm{pixels}})$, $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$,
+$\mathrm{Gr}_{\mathbb{C}}(2, 4)$, $\mathrm{Gr}_{\mathbb{C}}(3, 6)$, and $\mathrm{Gr}_{\mathbb{C}}(k, N_{\mathrm{array}})$),
+dithered gap coverage, 4-exposure cosmic-ray coincidence bounds, silicon ($3.65\text{ eV}$)
+and LVP direct-conversion charge yields, LIFU Mechanical Index safety ($\mathrm{MI}^2 < 1.9^2$),
+AOT sideband Plücker ratios, TRUE phase-conjugate focusing gain, and cascaded $< 1\text{ nm}$
+nanoimaging linewidths. The Pending contract below links `LVPDirectConversionImaging`,
+`LVPProcaImagingHypothesis`, `MultiBeamHolographyResult`, and `LongitudinalBeamApplicationEvidence`
+with explicit Hubble FITS / phantom / cavitation / massless-Maxwell controls so that classical
+acousto-optic or high-NA longitudinal focusing is never conflated with an unverified Proca
+or zero-diffraction medical/lithographic wave. -/
+
+/-- A Pending synthesis contract connecting Hubble/layered mosaic calibration,
+`LVPDirectConversionImaging`, `LVPProcaImagingHypothesis`, LIFU/AOT/TRUE sub-surface
+focusing, and convergent $< 1\text{ nm}$ nanolithography controls. -/
+@[blueprint "def:signals-multi-modal-subsurface-imaging-hypothesis"
+  (title := "Multi-modal Hubble mosaic, LVP medical, LIFU/AOT/TRUE, and sub-nanometer imaging contract")
+  (statement := /-- Links \texttt{LVPDirectConversionImaging}, \texttt{LVPProcaImagingHypothesis},
+    \texttt{MultiBeamHolographyResult}, and \texttt{LongitudinalBeamApplicationEvidence}
+    with LIFU Mechanical Index bounds ($\mathrm{MI}^2 \le 1.9^2$), TRUE optical mode count
+    $N_{\mathrm{modes}} > 1$, cascaded $< 1\text{ nm}$ linewidth parameters, and explicit
+    phantom/cavitation/massless-Maxwell calibration flags. -/)]
+structure MultiModalSubSurfaceImagingHypothesis (width height : ℕ) where
+  directConversion : LVPDirectConversionImaging width height
+  procaHypothesis : LVPProcaImagingHypothesis width height
+  multiBeamHolography : MultiBeamHolographyResult
+  longitudinalEvidence : LongitudinalBeamApplicationEvidence
+  sharedMaterial : directConversion.material = procaHypothesis.material
+  hubbleMosaicChips : ℕ
+  hubbleMosaicChips_min : 2 ≤ hubbleMosaicChips
+  ditherExposures : ℕ
+  ditherExposures_min : 4 ≤ ditherExposures
+  lifuPeakNegPressureMPa : ℝ
+  lifuPeakNegPressure_pos : 0 < lifuPeakNegPressureMPa
+  lifuFreqMHz : ℝ
+  lifuFreqMHz_pos : 0 < lifuFreqMHz
+  lifuNonCavitatingSafety :
+    Signals.MultiArrayImaging.lifuMechanicalIndexSq lifuPeakNegPressureMPa lifuFreqMHz ≤
+      (19 / 10 : ℝ) ^ 2
+  trueControlledModes : ℝ
+  trueControlledModes_gt_one : 1 < trueControlledModes
+  nanoLambda0Nm : ℝ
+  nanoEffIndex : ℝ
+  nanoStedSatRatio : ℝ
+  nanoHarmonicOrder : ℝ
+  subNanometerTargetMet :
+    Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq
+      nanoLambda0Nm nanoEffIndex nanoStedSatRatio nanoHarmonicOrder < 1
+  mastFitsChecksumVerified : Prop
+  mastFitsChecksumVerified_hypothesis : mastFitsChecksumVerified
+  phantomMtfAndDoseCalibrated : Prop
+  phantomMtfAndDoseCalibrated_hypothesis : phantomMtfAndDoseCalibrated
+  acousticThermalSafetyVerified : Prop
+  acousticThermalSafetyVerified_hypothesis : acousticThermalSafetyVerified
+
+/-- In any `MultiModalSubSurfaceImagingHypothesis`, the LIFU Mechanical Index squared
+is bounded by $1.9^2 = 3.61$, the TRUE peak-to-background enhancement strictly exceeds $1$,
+the cascaded nanoimaging squared linewidth is strictly below $1\text{ nm}^2$, and both the
+direct-conversion and Proca massless-control residuals stay within their declared tolerances. -/
+@[blueprint "lem:signals-multi-modal-subsurface-safety-and-resolution-bounds"
+  (title := "Multi-modal sub-surface imaging contract enforces LIFU safety, TRUE gain > 1, < 1 nm linewidth, and control tolerances")
+  (statement := /-- In any \texttt{MultiModalSubSurfaceImagingHypothesis},
+    $\mathrm{MI}^2 \le 1.9^2$, $1 < \eta_{\mathrm{TRUE}}(N_{\mathrm{modes}})$,
+    $w_{\mathrm{nano}}^2 < 1$, $\mathrm{imageResidual} \le \mathrm{imageResidualTolerance}$,
+    and $\mathrm{masslessControlResidual} \le \mathrm{masslessControlTolerance}$. -/)
+  (proof := /-- Combine the contract fields with positivity of $(\pi/4)(N_{\mathrm{modes}} - 1)$. -/)
+  (latexEnv := "lemma")]
+lemma MultiModalSubSurfaceImagingHypothesis.safety_and_resolution_bounds
+    {width height : ℕ}
+    (hypothesis : MultiModalSubSurfaceImagingHypothesis width height) :
+    Signals.MultiArrayImaging.lifuMechanicalIndexSq
+        hypothesis.lifuPeakNegPressureMPa hypothesis.lifuFreqMHz ≤ (19 / 10 : ℝ) ^ 2 ∧
+      1 < Signals.MultiArrayImaging.trueOpticalPeakToBackgroundGain
+        hypothesis.trueControlledModes ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq
+        hypothesis.nanoLambda0Nm hypothesis.nanoEffIndex
+        hypothesis.nanoStedSatRatio hypothesis.nanoHarmonicOrder < 1 ∧
+      hypothesis.directConversion.imageResidual ≤
+        hypothesis.directConversion.imageResidualTolerance ∧
+      hypothesis.procaHypothesis.masslessControlResidual ≤
+        hypothesis.procaHypothesis.masslessControlTolerance := by
+  have h_true :
+      1 < Signals.MultiArrayImaging.trueOpticalPeakToBackgroundGain
+        hypothesis.trueControlledModes := by
+    unfold Signals.MultiArrayImaging.trueOpticalPeakToBackgroundGain
+    have h_nm : 0 < hypothesis.trueControlledModes - 1 :=
+      sub_pos.mpr hypothesis.trueControlledModes_gt_one
+    have h_pi4 : 0 < Real.pi / 4 := div_pos Real.pi_pos (by norm_num)
+    linarith [mul_pos h_pi4 h_nm]
+  exact ⟨hypothesis.lifuNonCavitatingSafety, h_true, hypothesis.subNanometerTargetMet,
+    hypothesis.directConversion.imageResidualWithinTolerance,
+    hypothesis.procaHypothesis.masslessControlWithinTolerance⟩
 
 end Signals.Pending

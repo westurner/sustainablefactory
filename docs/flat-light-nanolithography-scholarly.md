@@ -399,6 +399,19 @@ interpreting laser-driven carbon transformation ([Lin et al. 2021](#lin2021),
 identity must remain distinct from N-LIG formation and from any proposed
 phase-slip cleavage.
 
+## Sub-Nanometer ($< 1\text{ nm}$) Convergent Nanoimaging, `LIFU`/`AOT`/`TRUE` Sub-Surface Focusing, and `LVPProcaImagingHypothesis` Boundaries
+
+In [`Signals.MultiArrayImaging`](../src/signals/Signals/MultiArrayImaging.lean) and the companion paper [grassmannian-multispectral-hubble-medical-nanoimaging-paper.md](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md), we establish the formal boundary between **verified classical sub-surface and sub-nanometer optical/acoustic-optical methods** and **Pending Proca phase-contrast / Flat-Light claims** (`LVPProcaImagingHypothesis`, `MultiModalSubSurfaceImagingHypothesis` in [`Signals.Pending`](../src/signals/Signals/Pending.lean)):
+
+1. **Verified Sub-Nanometer ($< 1\text{ nm}$) Convergent Longitudinal & Transverse Nanoimaging (`cascadedNanoImagingLinewidthSq`, `homodyneSubNanometerLocalizationSq`)**:
+   - Without invoking infinite photon effective mass or Proca fields, combining a $405\text{ nm}$ high-NA radially polarized longitudinal write beam ($E_z = 2 E_0 \sin\theta$) with a coaxial $532\text{ nm}$ helical doughnut STED depletion beam ($\sigma\cdot\ell = +1$, $\zeta_{532} = 63$) compresses the squared spot width from the Abbe limit $(2025/14\text{ nm})^2 \approx (144.64\text{ nm})^2$ down to $(2025/112\text{ nm})^2 \approx (18.08\text{ nm})^2 < (20\text{ nm})^2$ (`stedDepletedLinewidthSq`).
+   - Tracking the interferometric phase slope across that $18.08\text{ nm}$ spot via balanced homodyne readout (`Signals.Homodyne`) at amplitude $\mathrm{SNR}_{\mathrm{amp}} = 30$ achieves sub-nanometer centroid localization $\sigma_{\mathrm{loc}} = \frac{135}{224}\text{ nm} \approx 0.603\text{ nm} < 1\text{ nm}$.
+   - Coupling the convergent longitudinal wave into a high-effective-index hyperbolic/SPP metamaterial nanolaminate (`rGO-polyCBD-SS-Lignin`) with $M_{\mathrm{harm}}$-harmonic multiphoton thresholding and STED saturation $\zeta_{\mathrm{STED}}$ compresses the physical feature linewidth (`cascadedNanoImagingLinewidthSq`) to **$0.75\text{ nm}$** ($n_{\mathrm{eff}} = 15, M_{\mathrm{harm}} = 2, \zeta_{\mathrm{STED}} = 80$) and **$0.50\text{ nm} = 5\text{ \AA} < 1\text{ nm}$** ($n_{\mathrm{eff}} = 13.5, M_{\mathrm{harm}} = 3, \zeta_{\mathrm{STED}} = 99$).
+2. **Verified Sub-Surface Focusing in Scattering Media via `LIFU`, `AOT`, and `TRUE` Phase Conjugation**:
+   - In turbid biological tissue or opaque polymer/vitrimer precursors, classical **Low-Intensity Focused Ultrasound (`LIFU`)** ($f_{\mathrm{US}} = 1.54\text{ MHz}$, $\lambda_{\mathrm{US}} = 1\text{ mm}$, $\mathrm{MI}^2 = 18/77 < 1.9^2$), **Acousto-Optic Tomography (`AOT`)** sideband tagging ($\omega_{\pm 1} = \omega_0 \pm \omega_{\mathrm{US}}$ read out on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ via $\|w_B^{\mathbb{C}}\|^2 / \|w_A^{\mathbb{C}}\|^2 = I_{\mathrm{tag}} / I_{\mathrm{car}}$), and **Time-Reversed Ultrasonically Encoded (`TRUE`)** optical focusing ($\eta_{\mathrm{TRUE}}(N_{\mathrm{modes}}) = \frac{\pi}{4}(N_{\mathrm{modes}}-1)+1 > 1$, iterative `DORT` variance compression $\sigma_{\mathrm{TRUE}}^{(m)\,2} = \sigma_{\mathrm{US}}^2 / m$) provide a calibrated, non-ionizing sub-surface focusing benchmark ([Xu, Liu, & Wang 2011](#xu2011true_flat)).
+3. **Strict Pending Isolation of `LVPProcaImagingHypothesis`**:
+   - High-$Z$ `LVP` direct-conversion X-ray arrays (`LVPDirectConversionImaging`) provide a verified classical $292/45 \approx 6.49\times$ charge-yield improvement and $16\times$ stopping-efficiency gain over silicon (`directConversionChargeYield`), whereas the chat's proposed $0.1\text{–}0.5\text{ \AA}$ whole-body Proca phase-contrast scanner ([IQ-Sampling-for-Signal-Phase.md, lines 5902–6140](../data/chats/IQ-Sampling-for-Signal-Phase.md#L5902-L6140)) remains isolated inside `LVPProcaImagingHypothesis` and `MultiModalSubSurfaceImagingHypothesis` until massless Maxwell controls (`masslessControlResidual ≤ masslessControlTolerance`), phantom MTF/NPS calibration, and acoustic/thermal safety bounds are experimentally satisfied.
+
 ## References
 
 ### Chat Provenance
@@ -441,6 +454,7 @@ phase-slip cleavage.
 - <a id="morais2026"></a>Morais et al., "Investigating planar Proca metamaterials in nonlinear (2+1)-Electrodynamics," arXiv:2607.23013 (2026), [arXiv:2607.23013](https://arxiv.org/abs/2607.23013). Theory/model reference only.
 - <a id="akkanen2022"></a>Akkanen, Fernandez, and Sun, "Optical modification of 2D materials: methods and applications," *Advanced Materials* 34, 2110152 (2022), DOI [`10.1002/adma.202110152`](https://doi.org/10.1002/adma.202110152).
 - <a id="mikki2021"></a>Mikki, "Proca metamaterials, massive electromagnetism, and spatial dispersion," *Annalen der Physik* 533, 2000625 (2021), DOI [`10.1002/andp.202000625`](https://doi.org/10.1002/andp.202000625). Theory/model reference only.
+- <a id="xu2011true_flat"></a>Xu, X., Liu, H., and Wang, L. V., "Time-reversed ultrasonically encoded optical focusing into scattering media," *Nature Photonics* 5(3), 154--157 (2011), DOI [`10.1038/nphoton.2010.306`](https://doi.org/10.1038/nphoton.2010.306). Classical acousto-optic tagging and time-reversal sub-surface focusing benchmark.
 
 ## Metadata & Citations
 

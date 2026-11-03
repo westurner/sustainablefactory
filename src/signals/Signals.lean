@@ -17,6 +17,7 @@ import Signals.DirectionalBroadbandAntenna
 import Signals.Lasers
 import Signals.Maxwell
 import Signals.MHD
+import Signals.MultiArrayImaging
 import Signals.Nanolithography
 import Signals.NonDestructive
 import Signals.OAM

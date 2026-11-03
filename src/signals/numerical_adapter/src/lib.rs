@@ -7,6 +7,7 @@ use std::fmt;
 pub mod cannon_mask_cad;
 pub mod double_slit;
 pub mod madelung_lagrangian;
+pub mod multi_array_imaging;
 pub mod orbital_splat;
 pub mod polariton_spp;
 pub mod thermal_inelastic;
