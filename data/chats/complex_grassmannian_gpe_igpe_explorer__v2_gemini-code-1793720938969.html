@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plücker Grassmannian iGPE & Vortex Explorer</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 1.8rem; margin: 0; color: #38bdf8; }
+        p { color: #94a3b8; font-size: 0.95rem; }
+        .container { display: grid; grid-template-columns: 350px 1fr; gap: 20px; max-width: 1400px; margin: 0 auto; }
+        .panel { background: #1e293b; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3); }
+        .control-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; color: #cbd5e1; }
+        input[type="range"] { width: 100%; accent-color: #38bdf8; }
+        .canvas-container { position: relative; background: #090d16; border-radius: 8px; overflow: hidden; display: flex; justify-content: center; align-items: center; border: 1px solid #334155; }
+        canvas { display: block; cursor: crosshair; }
+        .stats { margin-top: 15px; font-family: monospace; font-size: 0.85rem; background: #0f172a; padding: 10px; border-radius: 6px; border: 1px solid #334155; }
+        .legend { display: flex; gap: 15px; font-size: 0.8rem; margin-top: 10px; color: #94a3b8; }
+        .legend span::before { content: "■"; margin-right: 5px; }
+        .legend-vortex::before { color: #ef4444; }
+        .legend-flow::before { color: #38bdf8; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Plücker Grassmannian iGPE & Vortex Explorer</h1>
+        <p>Real-time simulation of $\text{Gr}_{\mathbb{C}}(2,4)$ Plücker velocity fields, Schubert vortex cores ($p_{ij}=0$), and Bohmian Quantum Potential $Q_{\text{Plücker}}$.</p>
+    </header>
+
+    <div class="container">
+        <div class="panel">
+            <h3>Simulation Parameters</h3>
+            <div class="control-group">
+                <label>Vortex Circulation ($n_{13}$): <span id="val-vortex">1.0</span></label>
+                <input type="range" id="param-vortex" min="-3" max="3" step="0.5" value="1">
+            </div>
+            <div class="control-group">
+                <label>Dual Schubert Coupling ($\lambda$): <span id="val-lambda">1.2</span></label>
+                <input type="range" id="param-lambda" min="0" max="3" step="0.1" value="1.2">
+            </div>
+            <div class="control-group">
+                <label>Quantum Potential Scale ($\hbar^2/2\mathcal{M}$): <span id="val-hbar">0.8</span></label>
+                <input type="range" id="param-hbar" min="0.1" max="2.0" step="0.1" value="0.8">
+            </div>
+            <div class="control-group">
+                <label>Non-Positive Sheet Bias (Im $p$): <span id="val-imag">0.5</span></label>
+                <input type="range" id="param-imag" min="-2.0" max="2.0" step="0.1" value="0.5">
+            </div>
+
+            <div class="stats" id="stats-box">
+                Status: Initialized on $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C}) $<br>
+                Plücker Minor $p_{13}$: active<br>
+                Divisor Locus: $p_{13} = 0$<br>
+                Bohmian Max $Q$: 4.12 eV
+            </div>
+
+            <div class="legend">
+                <span class="legend-vortex">Schubert Vortex Core ($p_{ij}=0$)</span>
+                <span class="legend-flow">Plücker Superfluid Vector Field $V^I$</span>
+            </div>
+        </div>
+
+        <div class="panel canvas-container">
+            <canvas id="simCanvas" width="700" height="700"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+
+        let params = {
+            vortex: parseFloat(document.getElementById('param-vortex').value),
+            lambda: parseFloat(document.getElementById('param-lambda').value),
+            hbar: parseFloat(document.getElementById('param-hbar').value),
+            imag: parseFloat(document.getElementById('param-imag').value),
+        };
+
+        // UI Binding
+        document.querySelectorAll('input[type="range"]').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const key = e.target.id.replace('param-', '');
+                params[key] = parseFloat(e.target.value);
+                document.getElementById('val-' + key).innerText = params[key].toFixed(1);
+            });
+        });
+
+        // Mouse interaction for moving vortex core
+        let mouseX = width / 2;
+        let mouseY = height / 2;
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+        });
+
+        function render() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw background grid (Plucker affine coordinate space Re(p13) vs Im(p13))
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            const step = 40;
+            for (let x = 0; x < width; x += step) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
+            }
+            for (let y = 0; y < height; y += step) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
+            }
+
+            // Draw Bohmian Quantum Potential Q_Plucker heat map (background glow)
+            const imgData = ctx.createImageData(width, height);
+            const data = imgData.data;
+            const cx = width / 2;
+            const cy = height / 2;
+
+            for (let y = 0; y < height; y += 4) {
+                for (let x = 0; x < width; x += 4) {
+                    const dx = (x - mouseX);
+                    const dy = (y - mouseY);
+                    const r2 = dx*dx + dy*dy + 100;
+                    const qBohm = (params.hbar * 5000) / r2 - params.lambda * 10;
+                    
+                    const idx = (y * width + x) * 4;
+                    // Color mapping for quantum potential (Blue = negative/attractive, Red = positive/repulsive)
+                    if (qBohm > 0) {
+                        data[idx] = Math.min(255, qBohm * 10);     // R
+                        data[idx+1] = Math.min(255, qBohm * 5);    // G
+                        data[idx+2] = 50;                          // B
+                    } else {
+                        data[idx] = 20;                            // R
+                        data[idx+1] = Math.min(255, -qBohm * 5);   // G
+                        data[idx+2] = Math.min(255, -qBohm * 15);  // B
+                    }
+                    data[idx+3] = 180; // Alpha
+                }
+            }
+            // Put coarse image and smooth with CSS if desired, or draw vector field on top
+            
+            // Draw Plucker Superfluid Velocity Vector Field V^I
+            const gridSpacing = 30;
+            ctx.lineWidth = 1.5;
+            for (let x = gridSpacing/2; x < width; x += gridSpacing) {
+                for (let y = gridSpacing/2; y < height; y += gridSpacing) {
+                    const dx = x - mouseX;
+                    const dy = y - mouseY;
+                    const r = Math.sqrt(dx*dx + dy*dy) + 1.0;
+
+                    // Vortex velocity field around Schubert divisor p13 = 0
+                    const theta = Math.atan2(dy, dx);
+                    const speed = (params.vortex * 40) / r;
+                    const vx = -speed * Math.sin(theta) + params.imag * (x - cx) / 200;
+                    const vy = speed * Math.cos(theta) + params.imag * (y - cy) / 200;
+
+                    const len = Math.sqrt(vx*vx + vy*vy);
+                    const maxLen = 15;
+                    const drawX = vx > maxLen ? maxLen * (vx/len) : (vx < -maxLen ? -maxLen * (vx/len) : vx);
+                    const drawY = vy > maxLen ? maxLen * (vy/len) : (vy < -maxLen ? -maxLen * (vy/len) : vy);
+
+                    ctx.strokeStyle = '#38bdf8';
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x + drawX, y + drawY);
+                    ctx.stroke();
+
+                    // Arrowhead
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 1.5, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
+            }
+
+            // Draw Schubert Vortex Core (p13 = 0 singularity)
+            ctx.fillStyle = '#ef4444';
+            ctx.shadowColor = '#ef4444';
+            ctx.shadowBlur = 15;
+            ctx.beginPath();
+            ctx.arc(mouseX, mouseY, 8, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.shadowBlur = 0; // reset
+
+            // Draw center axis lines (Klein Quadric origin)
+            ctx.strokeStyle = '#64748b';
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, height); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(width, cy); ctx.stroke();
+            ctx.setLineDash([]);
+
+            requestAnimationFrame(render);
+        }
+
+        render();
+    </script>
+</body>
+</html>

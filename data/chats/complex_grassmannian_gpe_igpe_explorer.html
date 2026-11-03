@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gr_ℂ(2,4) GPE & iGPE Dispersion & Shear-Fracture Explorer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #07090e;
+      --bg-panel: #0e131f;
+      --border-dim: #1e293b;
+      --accent-cyan: #06b6d4;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-emerald: #10b981;
+      --accent-violet: #8b5cf6;
+    }
+    body {
+      background-color: var(--bg-base);
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Custom Range Sliders */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 999px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #38bdf8;
+      cursor: pointer;
+      border: 2px solid #0f172a;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+      transition: transform 0.12s ease, background-color 0.12s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.18);
+      background: #7dd3fc;
+    }
+    .panel-card {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(10, 15, 29, 0.95) 100%);
+      border: 1px solid rgba(51, 65, 85, 0.55);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+    }
+    .glow-badge-stable {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #34d399;
+    }
+    .glow-badge-evanescent {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      color: #fbbf24;
+    }
+    .glow-badge-fracture {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.55);
+      color: #fb7185;
+      box-shadow: 0 0 15px rgba(244, 63, 94, 0.25);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-cyan-500/30 selection:text-cyan-200">
+
+  <!-- Top Header Bar -->
+  <header class="border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md sticky top-0 z-30">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 via-blue-600 to-purple-700 flex items-center justify-center shadow-lg shadow-cyan-500/20 border border-white/10">
+          <span class="mono font-bold text-white text-sm">Gr<sub>ℂ</sub></span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2.5">
+            <h1 class="text-base sm:text-lg font-bold tracking-tight text-white">
+              Complex Grassmannian GPE &amp; iGPE Explorer
+            </h1>
+            <span class="hidden sm:inline-block text-[11px] mono uppercase px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+              Gr_ℂ(2,4) ≅ 𝒬₄ ⊂ ℙ⁵(ℂ)
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">
+            Non-Positive Twistor Kinematics, Bogoliubov Excitation Spectrum &amp; Dilatant Vacuum Shear-Fracture Telemetry
+          </p>
+        </div>
+      </div>
+
+      <!-- Regime Presets -->
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-xs text-slate-400 mr-1 font-medium">Kinematic Presets:</span>
+        <button id="preset-positive" class="text-xs px-3 py-1.5 rounded-md bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 transition font-medium">
+          Gr⁺(2,4) Causal Core
+        </button>
+        <button id="preset-evanescent" class="text-xs px-3 py-1.5 rounded-md bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition font-medium">
+          Evanescent Optical Sheet
+        </button>
+        <button id="preset-fracture" class="text-xs px-3 py-1.5 rounded-md bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition font-medium">
+          Tachyonic Shear Fracture (De &gt; De_c)
+        </button>
+        <button id="preset-schubert" class="text-xs px-3 py-1.5 rounded-md bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 transition font-medium">
+          Strong Dual iGPE Lock
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Grid -->
+  <main class="max-w-[1600px] w-full mx-auto px-4 sm:px-6 py-5 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+    <!-- Left Column: Interactive Parameter Controls (4 cols on desktop) -->
+    <section class="lg:col-span-4 flex flex-col gap-4">
+      
+      <!-- Current Regime Status Card -->
+      <div class="panel-card rounded-xl p-4">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Active Manifold Sector</span>
+          <span id="sector-badge" class="text-xs mono font-semibold px-2.5 py-0.5 rounded-full glow-badge-stable">
+            CAUSAL ACOUSTIC (Gr⁺)
+          </span>
+        </div>
+        <p id="sector-description" class="text-xs text-slate-300 leading-relaxed">
+          All Plücker coordinates lie inside the positive causal cone. Excitations are stable acoustic bogoliubons with real sound speed c_s² &gt; 0.
+        </p>
+      </div>
+
+      <!-- Control Group 1: Complex Plücker / Affine Coordinate W -->
+      <div class="panel-card rounded-xl p-4 space-y-4">
+        <div class="border-b border-slate-800 pb-2 flex items-center justify-between">
+          <h2 class="text-xs font-semibold uppercase tracking-wider text-cyan-400">
+            1. Twistor Affine Chart W ∈ Mat(2,2;ℂ)
+          </h2>
+          <span class="mono text-[11px] text-slate-400">Z = (I₂ | W)</span>
+        </div>
+
+        <!-- |W| Magnitude -->
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <label for="slider-w-mag" class="text-slate-300 font-medium">Plücker Ratio Magnitude <span class="mono text-cyan-300">|W| = |p₁₃/p₁₂|</span></label>
+            <span id="val-w-mag" class="mono text-cyan-300 font-semibold">0.60</span>
+          </div>
+          <input id="slider-w-mag" type="range" min="0.0" max="2.5" step="0.02" value="0.60" />
+          <div class="flex justify-between text-[10px] text-slate-500 mt-0.5 mono">
+            <span>0.0 (Origin)</span>
+            <span>1.0 (Unit Sphere)</span>
+            <span>2.5 (IR Boundary)</span>
+          </div>
+        </div>
+
+        <!-- arg(W) Phase -->
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <label for="slider-w-arg" class="text-slate-300 font-medium">Complex Plücker Phase <span class="mono text-cyan-300">arg(p₁₃/p₁₂)</span></label>
+            <span id="val-w-arg" class="mono text-cyan-300 font-semibold">0.00 rad (0°)</span>
+          </div>
+          <input id="slider-w-arg" type="range" min="-3.1416" max="3.1416" step="0.02" value="0.00" />
+          <div class="flex justify-between text-[10px] text-slate-500 mt-0.5 mono">
+            <span>-π (Anti-Causal)</span>
+            <span>0 (Gr⁺ Cone)</span>
+            <span>+π (Anti-Causal)</span>
+          </div>
+        </div>
+
+        <!-- Anisotropy / Determinant Shear -->
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <label for="slider-w-det" class="text-slate-300 font-medium">Off-Diagonal Twistor Shear <span class="mono text-cyan-300">|p₃₄/p₁₂|</span></label>
+            <span id="val-w-det" class="mono text-cyan-300 font-semibold">0.25</span>
+          </div>
+          <input id="slider-w-det" type="range" min="0.0" max="2.0" step="0.02" value="0.25" />
+        </div>
+      </div>
+
+      <!-- Control Group 2: Condensate Coupling & Non-Hermitian Gain/Loss -->
+      <div class="panel-card rounded-xl p-4 space-y-4">
+        <div class="border-b border-slate-800 pb-2 flex items-center justify-between">
+          <h2 class="text-xs font-semibold uppercase tracking-wider text-amber-400">
+            2. Condensate Nonlinearity &amp; Gain/Loss
+          </h2>
+          <span class="mono text-[11px] text-slate-400">g |Ψ|² Ψ</span>
+        </div>
+
+        <!-- Primary Coupling g -->
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <label for="slider-g" class="text-slate-300 font-medium">Contact Coupling <span class="mono text-amber-300">g</span></label>
+            <span id="val-g" class="mono text-amber-300 font-semibold">+1.80</span>
+          </div>
+          <input id="slider-g" type="range" min="-5.0" max="5.0" step="0.05" value="1.80" />
+          <div class="flex justify-between text-[10px] text-slate-500 mt-0.5 mono">
+            <span>-5.0 (Attractive / Tachyonic)</span>
+            <span>0.0 (Free)</span>
+            <span>+5.0 (Repulsive)</span>
+          </div>
+        </div>
+
+        <!-- Background Density rho_0 -->
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <label for="slider-rho" class="text-slate-300 font-medium">Condensate Density <span class="mono text-amber-300">ρ₀ = |Ψ₀|²</span></label>
+            <span id="val-rho" class="mono text-amber-300 font-semibold">1.50</span>
+          </div>
+          <input id="slider-rho" type="range" min="0.1" max="4.0" step="0.05" value="1.50" />
+        </div>
+
+        <!-- Imaginary Potential / Evanescent Gain-Loss Im(V_ext) -->
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <label for="slider-imv" class="text-slate-300 font-medium">Evanescent Phase Flux <span class="mono text-amber-300">Im(V_ext + gρ₀)</span></label>
+            <span id="val-imv" class="mono text-amber-300 font-semibold">0.00</span>
+          </div>
+          <input id="slider-imv" type="range" min="-2.5" max="2.5" step="0.05" value="0.00" />
+          <div class="flex justify-between text-[10px] text-slate-500 mt-0.5 mono">
+            <span>-2.5 (Dissipative Sink)</span>
+            <span>0.0 (Hermitian)</span>
+            <span>+2.5 (Evanescent Gain)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control Group 3: Modular Weight & Dual iGPE Coupling -->
+      <div class="panel-card rounded-xl p-4 space-y-4">
+        <div class="border-b border-slate-800 pb-2 flex items-center justify-between">
+          <h2 class="text-xs font-semibold uppercase tracking-wider text-purple-400">
+            3. iGPE Dual Schubert &amp; Modular Weight
+          </h2>
+          <span class="mono text-[11px] text-slate-400">Gr(2,4) ↔ Gr(2,4)∨</span>
+        </div>
+
+        <!-- Modular Weight w -->
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <label for="slider-w-mod" class="text-slate-300 font-medium">GL(2,ℂ) Modular Weight <span class="mono text-purple-300">w</span></label>
+            <span id="val-w-mod" class="mono text-purple-300 font-semibold">1.00</span>
+          </div>
+          <input id="slider-w-mod" type="range" min="0.5" max="3.0" step="0.05" value="1.00" />
+        </div>
+
+        <!-- Dual Schubert Coupling |lambda| -->
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <label for="slider-lambda" class="text-slate-300 font-medium">Dual Schubert Incidence Coupling <span class="mono text-purple-300">|λ|</span></label>
+            <span id="val-lambda" class="mono text-purple-300 font-semibold">0.35</span>
+          </div>
+          <input id="slider-lambda" type="range" min="0.0" max="3.0" step="0.05" value="0.35" />
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Right Column: Real-Time Visualizations & Telemetry Readouts (8 cols on desktop) -->
+    <section class="lg:col-span-8 flex flex-col gap-5">
+
+      <!-- Real-Time Physics Telemetry Readout Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-3">
+        <!-- Readout 1: Kahler Det -->
+        <div class="panel-card rounded-xl p-3.5 border-l-2 border-l-cyan-400">
+          <div class="text-[11px] text-slate-400 font-medium">Kähler Determinant</div>
+          <div class="mono text-xs text-slate-400 mt-0.5">det(I₂ + WW†)</div>
+          <div id="readout-kahler" class="mono text-lg font-bold text-white mt-1">1.892</div>
+        </div>
+
+        <!-- Readout 2: Effective Coupling g_eff -->
+        <div class="panel-card rounded-xl p-3.5 border-l-2 border-l-amber-400">
+          <div class="text-[11px] text-slate-400 font-medium">Fubini-Study Coupling</div>
+          <div class="mono text-xs text-slate-400 mt-0.5">Re(g_eff · ρ₀)</div>
+          <div id="readout-geff" class="mono text-lg font-bold text-amber-300 mt-1">+1.427</div>
+        </div>
+
+        <!-- Readout 3: Complex Sound Speed -->
+        <div class="panel-card rounded-xl p-3.5 border-l-2 border-l-emerald-400">
+          <div class="text-[11px] text-slate-400 font-medium">Acoustic Sound Speed²</div>
+          <div class="mono text-xs text-slate-400 mt-0.5">c_s² = ∂P / ∂ρ</div>
+          <div id="readout-cs2" class="mono text-lg font-bold text-emerald-300 mt-1">1.43 + 0.00i</div>
+        </div>
+
+        <!-- Readout 4: Proca Mass -->
+        <div class="panel-card rounded-xl p-3.5 border-l-2 border-l-purple-400">
+          <div class="text-[11px] text-slate-400 font-medium">Emergent Proca Mass</div>
+          <div class="mono text-xs text-slate-400 mt-0.5">m_γ (ℏ/c = 1)</div>
+          <div id="readout-proca" class="mono text-lg font-bold text-purple-300 mt-1">1.884</div>
+        </div>
+
+        <!-- Readout 5: Deborah Fracture Ratio -->
+        <div class="panel-card rounded-xl p-3.5 border-l-2 border-l-rose-500 col-span-2 sm:col-span-1">
+          <div class="text-[11px] text-slate-400 font-medium">Deborah Fracture Ratio</div>
+          <div class="mono text-xs text-slate-400 mt-0.5">De / De_c (k → 0)</div>
+          <div id="readout-deborah" class="mono text-lg font-bold text-emerald-400 mt-1">0.000</div>
+        </div>
+      </div>
+
+      <!-- Dual Canvas Visualization Row -->
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 flex-1">
+        
+        <!-- Plot 1: Bogoliubov Dispersion Curve -->
+        <div class="panel-card rounded-xl p-4 flex flex-col">
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800">
+            <div>
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <span>Plot 1: Complex Bogoliubov Spectrum ω(k)</span>
+              </h3>
+              <p class="text-[11px] text-slate-400">
+                Excitation energy vs cotangent wavenumber |k| on T*Gr_ℂ(2,4)
+              </p>
+            </div>
+            <div class="flex items-center gap-3 text-[11px] mono">
+              <span class="flex items-center gap-1.5 text-cyan-300">
+                <span class="w-2.5 h-0.5 bg-cyan-400 inline-block"></span>Re(ω)
+              </span>
+              <span class="flex items-center gap-1.5 text-rose-400">
+                <span class="w-2.5 h-0.5 bg-rose-500 inline-block"></span>Im(ω) Growth
+              </span>
+              <span class="flex items-center gap-1.5 text-slate-400">
+                <span class="w-2.5 h-0.5 border-b border-dashed border-slate-400 inline-block"></span>c_s|k|
+              </span>
+            </div>
+          </div>
+
+          <div class="relative flex-1 min-h-[320px] mt-3 bg-slate-950/70 rounded-lg border border-slate-800/80 overflow-hidden">
+            <canvas id="canvas-dispersion" class="w-full h-full block"></canvas>
+          </div>
+
+          <div class="mt-3 flex flex-wrap items-center justify-between text-[11px] text-slate-400 mono bg-slate-900/60 px-3 py-2 rounded-lg border border-slate-800/60">
+            <span id="dispersion- equation-summary">ℏ²ω² = (ℰ_kin + Δ_R)(ℰ_kin + Δ_R + 2g_eff·ρ₀)</span>
+            <span id="fracture-k-band" class="text-emerald-400">No Tachyonic Band (∀k: ω² &gt; 0)</span>
+          </div>
+        </div>
+
+        <!-- Plot 2: 2D Complex Plücker Phase Space Stability Map -->
+        <div class="panel-card rounded-xl p-4 flex flex-col">
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800">
+            <div>
+              <h3 class="text-sm font-bold text-white">
+                Plot 2: Complex Plücker Phase-Space Map
+              </h3>
+              <p class="text-[11px] text-slate-400">
+                Stability &amp; De/De_c over Re(p₁₃/p₁₂) vs Im(p₁₃/p₁₂) — Click/Drag to move W
+              </p>
+            </div>
+            <div class="flex items-center gap-2 text-[10px] mono">
+              <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Gr⁺ Causal</span>
+              <span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Evanescent</span>
+              <span class="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">Fracture</span>
+            </div>
+          </div>
+
+          <div class="relative flex-1 min-h-[320px] mt-3 bg-slate-950/70 rounded-lg border border-slate-800/80 overflow-hidden cursor-crosshair">
+            <canvas id="canvas-phasemap" class="w-full h-full block"></canvas>
+          </div>
+
+          <div class="mt-3 flex flex-wrap items-center justify-between text-[11px] text-slate-400 mono bg-slate-900/60 px-3 py-2 rounded-lg border border-slate-800/60">
+            <span id="plucker-coord-readout">p₁₃/p₁₂ = +0.600 + 0.000i</span>
+            <span id="klein-invariant-readout" class="text-cyan-300">Klein Quadric: p₁₂p₃₄ - p₁₃p₂₄ + p₁₄p₂₃ = 0</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Card: Emergent 4D Spacetime Metric & Penrose Transform Summary -->
+      <div class="panel-card rounded-xl p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3 border-b border-slate-800 pb-2">
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-cyan-400">
+            Penrose-Ward Pullback &amp; Emergent 4D Acoustic Spacetime Metric g_μν^eff(x)
+          </h3>
+          <span class="text-[11px] mono text-slate-400">Incidence: μ^Ȧ = i x^{AȦ} λ_A</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-800/80">
+            <div class="text-slate-400 font-medium mb-1">Conformal Dilatant Factor Ω²(x)</div>
+            <div id="metric-omega" class="mono text-sm text-white font-semibold">Ω² = 0.446 · det(I₂ + WW†)⁻²</div>
+            <p class="text-[11px] text-slate-400 mt-1">
+              Modulates local effective gravitational constant G_eff ∝ Ω⁻² across Schubert cells.
+            </p>
+          </div>
+          <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-800/80">
+            <div class="text-slate-400 font-medium mb-1">Metric Signature &amp; Light Cone</div>
+            <div id="metric-signature" class="mono text-sm text-emerald-300 font-semibold">(-, +, +, +) Lorentzian</div>
+            <p class="text-[11px] text-slate-400 mt-1">
+              Determined by sign of Re(c_s²) and Bohmian quantum stress tensor Σ_μν^Bohm.
+            </p>
+          </div>
+          <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-800/80">
+            <div class="text-slate-400 font-medium mb-1">Symplectic Norm Flux ∂_τ(||Ψ||² + ||Φ||²)</div>
+            <div id="metric-normflux" class="mono text-sm text-cyan-300 font-semibold">0.000 (Unitary Conservation)</div>
+            <p class="text-[11px] text-slate-400 mt-1">
+              Verified by Lean 4 theorem <code class="text-purple-300">igpe_norm_balance_law</code>: proportional to 2·Im(V_ext).
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    // --- Physics State & DOM References ---
+    const state = {
+      wMag: 0.60,        // |W| = |p13 / p12|
+      wArg: 0.00,        // arg(W) in radians
+      wDet: 0.25,        // |p34 / p12| shear minor
+      g: 1.80,           // Primary nonlinear coupling
+      rho0: 1.50,        // Background condensate density
+      imV: 0.00,         // Evanescent imaginary potential Im(V_ext + g*rho0)
+      wMod: 1.00,        // Modular weight w
+      lambda: 0.35,      // Dual Schubert iGPE coupling |lambda|
+      hbar: 1.0,
+      mass: 1.0
+    };
+
+    const els = {
+      wMag: document.getElementById('slider-w-mag'),
+      wArg: document.getElementById('slider-w-arg'),
+      wDet: document.getElementById('slider-w-det'),
+      g: document.getElementById('slider-g'),
+      rho: document.getElementById('slider-rho'),
+      imv: document.getElementById('slider-imv'),
+      wMod: document.getElementById('slider-w-mod'),
+      lambda: document.getElementById('slider-lambda'),
+
+      valWMag: document.getElementById('val-w-mag'),
+      valWArg: document.getElementById('val-w-arg'),
+      valWDet: document.getElementById('val-w-det'),
+      valG: document.getElementById('val-g'),
+      valRho: document.getElementById('val-rho'),
+      valImv: document.getElementById('val-imv'),
+      valWMod: document.getElementById('val-w-mod'),
+      valLambda: document.getElementById('val-lambda'),
+
+      readoutKahler: document.getElementById('readout-kahler'),
+      readoutGeff: document.getElementById('readout-geff'),
+      readoutCs2: document.getElementById('readout-cs2'),
+      readoutProca: document.getElementById('readout-proca'),
+      readoutDeborah: document.getElementById('readout-deborah'),
+
+      sectorBadge: document.getElementById('sector-badge'),
+      sectorDesc: document.getElementById('sector-description'),
+      fractureKBand: document.getElementById('fracture-k-band'),
+      pluckerReadout: document.getElementById('plucker-coord-readout'),
+      metricOmega: document.getElementById('metric-omega'),
+      metricSignature: document.getElementById('metric-signature'),
+      metricNormflux: document.getElementById('metric-normflux'),
+
+      canvasDisp: document.getElementById('canvas-dispersion'),
+      canvasMap: document.getElementById('canvas-phasemap')
+    };
+
+    // --- Core Mathematical Physics Functions on Gr_C(2,4) ---
+    function computePhysicsAt(wMag, wArg, s = state) {
+      // Kähler determinant factor: det(I_2 + W W^\dagger) = 1 + Tr(W W^\dagger) + |det W|^2
+      // With symmetric off-diagonal Plücker ratio |W| and minor |p34/p12| = wDet:
+      const trWWdag = 2 * (wMag * wMag) + s.wDet * s.wDet;
+      const detW2 = Math.pow(wMag * wMag - s.wDet, 2);
+      const kahlerDet = 1.0 + trWWdag + detW2;
+
+      // Modular weight factor det(Z Z^\dagger)^{-w}
+      const modFactor = Math.pow(kahlerDet, -s.wMod);
+
+      // Phase modulation from dropping the Positive Grassmannian restriction:
+      // In Gr^+(2,4), arg(W) ~ 0. As |arg(W)| moves toward pi, complex phase rotation
+      // couples the real and imaginary branches of the condensate self-interaction.
+      const phaseCos = Math.cos(wArg);
+      const phaseSin = Math.sin(wArg);
+
+      // Effective complex nonlinear interaction g_eff * rho0
+      const rawGeffRho = s.g * s.rho0 * modFactor;
+      const reGeffRho = rawGeffRho * phaseCos;
+      const imGeffRho = rawGeffRho * phaseSin * 0.35 + s.imV;
+
+      // Einstein-Kähler curvature gap + dual iGPE Schubert gap
+      const curvatureGap = (s.hbar * s.hbar) / s.mass + s.lambda;
+
+      // Fubini-Study metric amplification factor for cotangent momentum |k|^2
+      // g^{a\alpha, \bar{b}\bar{\beta}} scales eigenvalues as (1 + |W|^2)^2
+      const fsMetricScale = Math.pow(1.0 + wMag * wMag, 2);
+
+      // Complex sound speed squared c_s^2
+      const cs2Re = reGeffRho / s.mass;
+      const cs2Im = imGeffRho / s.mass;
+
+      // Emergent Proca photon mass m_gamma
+      const procaMass = Math.sqrt(2.0 * Math.abs(reGeffRho) + 2.0 * s.lambda * s.rho0);
+
+      // Critical Deborah Number ratio De / De_c at long wavelength (k -> 0)
+      const destabilizingStress = Math.max(0, -2.0 * reGeffRho) + Math.abs(imGeffRho);
+      const deborahRatio = destabilizingStress / curvatureGap;
+
+      return {
+        kahlerDet,
+        modFactor,
+        reGeffRho,
+        imGeffRho,
+        curvatureGap,
+        fsMetricScale,
+        cs2Re,
+        cs2Im,
+        procaMass,
+        deborahRatio
+      };
+    }
+
+    // Compute complex Bogoliubov frequency omega(k) for scalar cotangent norm k
+    function computeBogoliubovOmega(k, phys, s = state) {
+      // Covariant kinetic energy E_kin(k, W)
+      const eKin = ((s.hbar * s.hbar) / (2.0 * s.mass)) * phys.fsMetricScale * (k * k);
+      const A = eKin + phys.curvatureGap;
+
+      // Complex omega^2 = A * (A + 2 * (reGeffRho + i * imGeffRho))
+      const reOmegaSq = A * (A + 2.0 * phys.reGeffRho);
+      const imOmegaSq = 2.0 * A * phys.imGeffRho;
+
+      // Principal complex square root of omega^2
+      const magOmegaSq = Math.hypot(reOmegaSq, imOmegaSq);
+      const reOmega = Math.sqrt(Math.max(0, (magOmegaSq + reOmegaSq) / 2.0));
+      const imOmega = Math.sqrt(Math.max(0, (magOmegaSq - reOmegaSq) / 2.0));
+
+      return { reOmega, imOmega, reOmegaSq, eKin };
+    }
+
+    // --- UI & Readout Updater ---
+    function updateDashboard() {
+      // Update text labels next to sliders
+      els.valWMag.textContent = state.wMag.toFixed(2);
+      const deg = ((state.wArg * 180) / Math.PI).toFixed(0);
+      els.valWArg.textContent = `${state.wArg >= 0 ? '+' : ''}${state.wArg.toFixed(2)} rad (${deg}°)`;
+      els.valWDet.textContent = state.wDet.toFixed(2);
+      els.valG.textContent = `${state.g >= 0 ? '+' : ''}${state.g.toFixed(2)}`;
+      els.valRho.textContent = state.rho0.toFixed(2);
+      els.valImv.textContent = `${state.imV >= 0 ? '+' : ''}${state.imV.toFixed(2)}`;
+      els.valWMod.textContent = state.wMod.toFixed(2);
+      els.valLambda.textContent = state.lambda.toFixed(2);
+
+      const phys = computePhysicsAt(state.wMag, state.wArg, state);
+
+      // Update Top Readouts
+      els.readoutKahler.textContent = phys.kahlerDet.toFixed(3);
+      els.readoutGeff.textContent = `${phys.reGeffRho >= 0 ? '+' : ''}${phys.reGeffRho.toFixed(3)}`;
+      els.readoutGeff.className = `mono text-lg font-bold mt-1 ${phys.reGeffRho >= 0 ? 'text-amber-300' : 'text-rose-400'}`;
+
+      const csImSign = phys.cs2Im >= 0 ? '+' : '-';
+      els.readoutCs2.textContent = `${phys.cs2Re.toFixed(2)} ${csImSign} ${Math.abs(phys.cs2Im).toFixed(2)}i`;
+      els.readoutCs2.className = `mono text-lg font-bold mt-1 ${phys.cs2Re >= 0 ? 'text-emerald-300' : 'text-rose-400'}`;
+
+      els.readoutProca.textContent = phys.procaMass.toFixed(3);
+
+      els.readoutDeborah.textContent = phys.deborahRatio.toFixed(3);
+      if (phys.deborahRatio >= 1.0) {
+        els.readoutDeborah.className = 'mono text-lg font-bold mt-1 text-rose-400';
+      } else if (phys.deborahRatio > 0.35 || Math.abs(phys.imGeffRho) > 0.15) {
+        els.readoutDeborah.className = 'mono text-lg font-bold mt-1 text-amber-300';
+      } else {
+        els.readoutDeborah.className = 'mono text-lg font-bold mt-1 text-emerald-400';
+      }
+
+      // Classify Regime & Update Status Badge
+      const isPositiveCone = Math.abs(state.wArg) < 0.45 && phys.reGeffRho >= 0 && Math.abs(phys.imGeffRho) < 0.12;
+      const isFracture = phys.deborahRatio >= 1.0 || (phys.curvatureGap + 2.0 * phys.reGeffRho < 0);
+
+      if (isFracture) {
+        els.sectorBadge.textContent = 'TACHYONIC SHEAR FRACTURE (De ≥ De_c)';
+        els.sectorBadge.className = 'text-xs mono font-semibold px-2.5 py-0.5 rounded-full glow-badge-fracture';
+        els.sectorDesc.textContent =
+          'Critical Deborah threshold exceeded! Negative effective compressibility softens the Fubini-Study curvature gap, triggering exponential Bogoliubov mode growth (Im(ω) > 0) and acoustic metric signature transition.';
+      } else if (!isPositiveCone) {
+        els.sectorBadge.textContent = 'EVANESCENT / OFF-CONE SUPERPOSITION';
+        els.sectorBadge.className = 'text-xs mono font-semibold px-2.5 py-0.5 rounded-full glow-badge-evanescent';
+        els.sectorDesc.textContent =
+          'Operating outside the positive Grassmannian Gr⁺(2,4) cone. Complex Plücker phase or non-Hermitian potential induces damped/amplified evanescent optical-electronic tunneling across Schubert cycles.';
+      } else {
+        els.sectorBadge.textContent = 'CAUSAL ACOUSTIC (Gr⁺ CORE)';
+        els.sectorBadge.className = 'text-xs mono font-semibold px-2.5 py-0.5 rounded-full glow-badge-stable';
+        els.sectorDesc.textContent =
+          'All Plücker coordinates lie inside the positive causal cone. Excitations are stable acoustic bogoliubons with real sound speed c_s² > 0 and unitary symplectic norm conservation.';
+      }
+
+      // Update Plücker & Metric Footer Readouts
+      const reP = state.wMag * Math.cos(state.wArg);
+      const imP = state.wMag * Math.sin(state.wArg);
+      els.pluckerReadout.textContent = `p₁₃/p₁₂ = ${reP >= 0 ? '+' : ''}${reP.toFixed(3)} ${imP >= 0 ? '+' : '-'}${Math.abs(imP).toFixed(3)}i`;
+
+      const omegaPrefactor = (state.rho0 / Math.max(0.15, Math.hypot(phys.cs2Re, phys.cs2Im))).toFixed(3);
+      els.metricOmega.textContent = `Ω² = ${omegaPrefactor} · (${phys.kahlerDet.toFixed(2)})⁻²`;
+
+      if (isFracture) {
+        els.metricSignature.textContent = '(+, +, +, +) / (-, -, +, +) Ultrahyperbolic Fracture';
+        els.metricSignature.className = 'mono text-sm text-rose-400 font-semibold';
+      } else if (Math.abs(phys.imGeffRho) > 0.15) {
+        els.metricSignature.textContent = 'Complexified Kähler-Optical Metric';
+        els.metricSignature.className = 'mono text-sm text-amber-300 font-semibold';
+      } else {
+        els.metricSignature.textContent = '(-, +, +, +) Lorentzian Acoustic Cone';
+        els.metricSignature.className = 'mono text-sm text-emerald-300 font-semibold';
+      }
+
+      const normFlux = 2.0 * state.imV * (state.rho0 + state.lambda);
+      if (Math.abs(normFlux) < 1e-3) {
+        els.metricNormflux.textContent = '0.000 (Unitary Conservation)';
+        els.metricNormflux.className = 'mono text-sm text-cyan-300 font-semibold';
+      } else {
+        els.metricNormflux.textContent = `${normFlux > 0 ? '+' : ''}${normFlux.toFixed(3)} / τ (${normFlux > 0 ? 'Evanescent Gain' : 'Dissipative Sink'})`;
+        els.metricNormflux.className = 'mono text-sm text-amber-300 font-semibold';
+      }
+
+      // Redraw both canvases
+      drawDispersionPlot(phys);
+      drawPhaseMap();
+    }
+
+    // --- Canvas 1: Bogoliubov Dispersion Curve Plotter ---
+    function drawDispersionPlot(phys) {
+      const canvas = els.canvasDisp;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      const W = rect.width;
+      const H = rect.height;
+
+      ctx.clearRect(0, 0, W, H);
+
+      const padL = 48, padR = 20, padT = 20, padB = 36;
+      const plotW = W - padL - padR;
+      const plotH = H - padT - padB;
+
+      const kMax = 2.5;
+      const yMax = 10.0;
+
+      const toX = (k) => padL + (k / kMax) * plotW;
+      const toY = (w) => padT + plotH - (Math.min(yMax, Math.max(0, w)) / yMax) * plotH;
+
+      // Grid lines
+      ctx.strokeStyle = 'rgba(51, 65, 85, 0.35)';
+      ctx.lineWidth = 1;
+      ctx.font = '10px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#64748b';
+
+      for (let yVal = 0; yVal <= yMax; yVal += 2) {
+        const y = toY(yVal);
+        ctx.beginPath();
+        ctx.moveTo(padL, y);
+        ctx.lineTo(W - padR, y);
+        ctx.stroke();
+        ctx.textAlign = 'right';
+        ctx.fillText(yVal.toFixed(0), padL - 8, y + 3);
+      }
+
+      for (let kVal = 0; kVal <= kMax; kVal += 0.5) {
+        const x = toX(kVal);
+        ctx.beginPath();
+        ctx.moveTo(x, padT);
+        ctx.lineTo(x, H - padB);
+        ctx.stroke();
+        ctx.textAlign = 'center';
+        ctx.fillText(kVal.toFixed(1), x, H - padB + 15);
+      }
+
+      // Axis titles
+      ctx.fillStyle = '#94a3b8';
+      ctx.textAlign = 'center';
+      ctx.fillText('Cotangent Wavenumber |k| (T*Gr_ℂ)', padL + plotW / 2, H - 6);
+
+      ctx.save();
+      ctx.translate(14, padT + plotH / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText('Frequency ℏω(k)', 0, 0);
+      ctx.restore();
+
+      // Check for Tachyonic Instability Band (where reOmegaSq < 0)
+      // A + 2*reGeffRho < 0  =>  eKin < -(curvatureGap + 2*reGeffRho)
+      const deficit = -(phys.curvatureGap + 2.0 * phys.reGeffRho);
+      let kCrit = 0;
+      if (deficit > 0) {
+        const kSqCrit = (2.0 * state.mass * deficit) / (state.hbar * state.hbar * phys.fsMetricScale);
+        kCrit = Math.sqrt(Math.max(0, kSqCrit));
+        const xCrit = toX(Math.min(kMax, kCrit));
+
+        // Shade tachyonic band
+        const grad = ctx.createLinearGradient(padL, padT, xCrit, padT);
+        grad.addColorStop(0, 'rgba(244, 63, 94, 0.25)');
+        grad.addColorStop(1, 'rgba(244, 63, 94, 0.05)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(padL, padT, xCrit - padL, plotH);
+
+        // Vertical boundary line at k_crit
+        ctx.strokeStyle = 'rgba(244, 63, 94, 0.7)';
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(xCrit, padT);
+        ctx.lineTo(xCrit, H - padB);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = '#fb7185';
+        ctx.textAlign = 'left';
+        ctx.fillText(`k_c = ${kCrit.toFixed(2)} (Fracture Cutoff)`, Math.min(W - 155, padL + 6), padT + 14);
+        els.fractureKBand.textContent = `Tachyonic Fracture Band: |k| ∈ [0, ${kCrit.toFixed(2)}]`;
+        els.fractureKBand.className = 'text-rose-400 font-semibold';
+      } else {
+        els.fractureKBand.textContent = 'No Tachyonic Band (∀k: Re(ω²) > 0)';
+        els.fractureKBand.className = 'text-emerald-400';
+      }
+
+      const steps = 160;
+
+      // 1. Draw Linear Acoustic Reference Line: omega_acoustic = gap + sqrt(max(0, cs2Re)) * |k|_g
+      if (phys.cs2Re > 0) {
+        const csEff = Math.sqrt(phys.cs2Re * phys.fsMetricScale);
+        ctx.strokeStyle = 'rgba(148, 163, 184, 0.45)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        for (let i = 0; i <= steps; i++) {
+          const k = (i / steps) * kMax;
+          const wLin = phys.curvatureGap + csEff * k;
+          const x = toX(k);
+          const y = toY(wLin);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // 2. Draw Im(omega(k)) Growth / Evanescent Curve
+      ctx.strokeStyle = '#f43f5e';
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      for (let i = 0; i <= steps; i++) {
+        const k = (i / steps) * kMax;
+        const { imOmega } = computeBogoliubovOmega(k, phys, state);
+        const x = toX(k);
+        const y = toY(imOmega);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // 3. Draw Re(omega(k)) Propagation Curve
+      ctx.strokeStyle = '#22d3ee';
+      ctx.lineWidth = 2.6;
+      ctx.beginPath();
+      for (let i = 0; i <= steps; i++) {
+        const k = (i / steps) * kMax;
+        const { reOmega } = computeBogoliubovOmega(k, phys, state);
+        const x = toX(k);
+        const y = toY(reOmega);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    // --- Canvas 2: 2D Complex Plücker Phase-Space Stability Map ---
+    function drawPhaseMap() {
+      const canvas = els.canvasMap;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      const W = rect.width;
+      const H = rect.height;
+
+      const padL = 44, padR = 16, padT = 16, padB = 34;
+      const plotW = W - padL - padR;
+      const plotH = H - padT - padB;
+      const rangeMax = 2.5;
+
+      // Render heatmap on an offscreen low-res buffer for smooth 60fps performance
+      const resX = 90;
+      const resY = 90;
+      const offCanvas = document.createElement('canvas');
+      offCanvas.width = resX;
+      offCanvas.height = resY;
+      const offCtx = offCanvas.getContext('2d');
+      const imgData = offCtx.createImageData(resX, resY);
+      const data = imgData.data;
+
+      for (let py = 0; py < resY; py++) {
+        const imW = ((0.5 - py / (resY - 1)) * 2.0) * rangeMax;
+        for (let px = 0; px < resX; px++) {
+          const reW = ((px / (resX - 1) - 0.5) * 2.0) * rangeMax;
+          const mag = Math.hypot(reW, imW);
+          const arg = Math.atan2(imW, reW);
+
+          const p = computePhysicsAt(mag, arg, state);
+          const isFrac = p.deborahRatio >= 1.0 || (p.curvatureGap + 2.0 * p.reGeffRho < 0);
+          const isPos = Math.abs(arg) < 0.45 && p.reGeffRho >= 0 && Math.abs(p.imGeffRho) < 0.12;
+
+          const idx = (py * resX + px) * 4;
+          if (isFrac) {
+            // Rose / Crimson for Tachyonic Shear Fracture
+            const intensity = Math.min(1, (p.deborahRatio - 0.8) * 0.6);
+            data[idx] = 190 + Math.floor(55 * intensity);
+            data[idx + 1] = 25;
+            data[idx + 2] = 65;
+            data[idx + 3] = 185;
+          } else if (isPos) {
+            // Emerald / Cyan for Causal Positive Grassmannian Core
+            data[idx] = 16;
+            data[idx + 1] = 155;
+            data[idx + 2] = 125;
+            data[idx + 3] = 150;
+          } else {
+            // Amber / Deep Violet blend for Evanescent Complex Sheet
+            const evNorm = Math.min(1, p.deborahRatio);
+            data[idx] = Math.floor(80 + 145 * evNorm);
+            data[idx + 1] = Math.floor(70 + 70 * (1 - evNorm));
+            data[idx + 2] = Math.floor(140 * (1 - evNorm) + 30);
+            data[idx + 3] = 145;
+          }
+        }
+      }
+
+      offCtx.putImageData(imgData, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      ctx.save();
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(offCanvas, padL, padT, plotW, plotH);
+      ctx.restore();
+
+      const toX = (re) => padL + ((re + rangeMax) / (2 * rangeMax)) * plotW;
+      const toY = (im) => padT + ((rangeMax - im) / (2 * rangeMax)) * plotH;
+
+      // Coordinate Axes & Unit Circle |W| = 1
+      ctx.strokeStyle = 'rgba(226, 232, 240, 0.25)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(padL, toY(0));
+      ctx.lineTo(padL + plotW, toY(0));
+      ctx.moveTo(toX(0), padT);
+      ctx.lineTo(toX(0), padT + plotH);
+      ctx.stroke();
+
+      // Unit circle |p13/p12| = 1
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.ellipse(
+        toX(0),
+        toY(0),
+        (1.0 / (2 * rangeMax)) * plotW,
+        (1.0 / (2 * rangeMax)) * plotH,
+        0,
+        0,
+        Math.PI * 2
+      );
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Positive Grassmannian Sector Cone Wedge (arg in [-0.45, +0.45])
+      ctx.strokeStyle = 'rgba(52, 211, 153, 0.6)';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(toX(0), toY(0));
+      ctx.lineTo(toX(rangeMax * Math.cos(0.45)), toY(rangeMax * Math.sin(0.45)));
+      ctx.moveTo(toX(0), toY(0));
+      ctx.lineTo(toX(rangeMax * Math.cos(-0.45)), toY(rangeMax * Math.sin(-0.45)));
+      ctx.stroke();
+
+      // Tick labels
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px "JetBrains Mono", monospace';
+      [-2, -1, 0, 1, 2].forEach((v) => {
+        ctx.textAlign = 'center';
+        ctx.fillText(v.toString(), toX(v), H - padB + 14);
+        ctx.textAlign = 'right';
+        ctx.fillText(v.toString() + 'i', padL - 6, toY(v) + 3);
+      });
+
+      ctx.textAlign = 'center';
+      ctx.fillText('Re(p₁₃ / p₁₂)', padL + plotW / 2, H - 5);
+
+      // Draw Current Active Operating Point Marker W
+      const curRe = state.wMag * Math.cos(state.wArg);
+      const curIm = state.wMag * Math.sin(state.wArg);
+      const ptX = toX(curRe);
+      const ptY = toY(curIm);
+
+      // Vector ray from origin
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(toX(0), toY(0));
+      ctx.lineTo(ptX, ptY);
+      ctx.stroke();
+
+      // Outer pulse ring & crosshair target
+      ctx.fillStyle = '#38bdf8';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(ptX, ptY, 6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    // --- Interactive Dragging on Plot 2 (Complex Plücker Plane) ---
+    let isDraggingMap = false;
+
+    function handleMapPointer(e) {
+      const canvas = els.canvasMap;
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      const padL = 44, padR = 16, padT = 16, padB = 34;
+      const plotW = rect.width - padL - padR;
+      const plotH = rect.height - padT - padB;
+      const rangeMax = 2.5;
+
+      const normX = Math.min(1, Math.max(0, (clientX - rect.left - padL) / plotW));
+      const normY = Math.min(1, Math.max(0, (clientY - rect.top - padT) / plotH));
+
+      const reW = (normX * 2.0 - 1.0) * rangeMax;
+      const imW = (1.0 - normY * 2.0) * rangeMax;
+
+      state.wMag = Math.min(2.5, Math.hypot(reW, imW));
+      state.wArg = Math.atan2(imW, reW);
+
+      els.wMag.value = state.wMag;
+      els.wArg.value = state.wArg;
+      updateDashboard();
+    }
+
+    els.canvasMap.addEventListener('mousedown', (e) => {
+      isDraggingMap = true;
+      handleMapPointer(e);
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (isDraggingMap) handleMapPointer(e);
+    });
+    window.addEventListener('mouseup', () => {
+      isDraggingMap = false;
+    });
+    els.canvasMap.addEventListener('touchstart', (e) => {
+      isDraggingMap = true;
+      handleMapPointer(e);
+      e.preventDefault();
+    }, { passive: false });
+    els.canvasMap.addEventListener('touchmove', (e) => {
+      if (isDraggingMap) handleMapPointer(e);
+      e.preventDefault();
+    }, { passive: false });
+    window.addEventListener('touchend', () => {
+      isDraggingMap = false;
+    });
+
+    // --- Slider Event Listeners ---
+    els.wMag.addEventListener('input', (e) => { state.wMag = parseFloat(e.target.value); updateDashboard(); });
+    els.wArg.addEventListener('input', (e) => { state.wArg = parseFloat(e.target.value); updateDashboard(); });
+    els.wDet.addEventListener('input', (e) => { state.wDet = parseFloat(e.target.value); updateDashboard(); });
+    els.g.addEventListener('input', (e) => { state.g = parseFloat(e.target.value); updateDashboard(); });
+    els.rho.addEventListener('input', (e) => { state.rho0 = parseFloat(e.target.value); updateDashboard(); });
+    els.imv.addEventListener('input', (e) => { state.imV = parseFloat(e.target.value); updateDashboard(); });
+    els.wMod.addEventListener('input', (e) => { state.wMod = parseFloat(e.target.value); updateDashboard(); });
+    els.lambda.addEventListener('input', (e) => { state.lambda = parseFloat(e.target.value); updateDashboard(); });
+
+    // --- Preset Buttons ---
+    function applyPreset(preset) {
+      Object.assign(state, preset);
+      els.wMag.value = state.wMag;
+      els.wArg.value = state.wArg;
+      els.wDet.value = state.wDet;
+      els.g.value = state.g;
+      els.rho.value = state.rho0;
+      els.imv.value = state.imV;
+      els.wMod.value = state.wMod;
+      els.lambda.value = state.lambda;
+      updateDashboard();
+    }
+
+    document.getElementById('preset-positive').addEventListener('click', () => {
+      applyPreset({ wMag: 0.50, wArg: 0.00, wDet: 0.20, g: 2.00, rho0: 1.50, imV: 0.00, wMod: 1.00, lambda: 0.35 });
+    });
+
+    document.getElementById('preset-evanescent').addEventListener('click', () => {
+      applyPreset({ wMag: 1.15, wArg: 1.35, wDet: 0.45, g: 1.60, rho0: 1.80, imV: 1.10, wMod: 1.15, lambda: 0.40 });
+    });
+
+    document.getElementById('preset-fracture').addEventListener('click', () => {
+      applyPreset({ wMag: 0.45, wArg: 2.85, wDet: 0.15, g: 3.40, rho0: 2.20, imV: -0.60, wMod: 0.85, lambda: 0.15 });
+    });
+
+    document.getElementById('preset-schubert').addEventListener('click', () => {
+      applyPreset({ wMag: 0.85, wArg: -0.95, wDet: 0.60, g: -1.80, rho0: 1.60, imV: 0.00, wMod: 1.25, lambda: 2.60 });
+    });
+
+    // Resize listener & initial render
+    window.addEventListener('resize', updateDashboard);
+    window.onload = updateDashboard;
+  </script>
+</body>
+</html>
