@@ -119,9 +119,27 @@ pub fn counterfactual_interventional_difference(
 
 /// Quantum Switch causal-order asymmetry $\delta_{\mathrm{switch}} = \frac{E_+ - E_-}{E_+ + E_-} \in [-1, 1]$
 /// (`Signals.QuantumCausalInference.quantumSwitchCausalAsymmetry`).
+/// Returns `0.0` if `e_sym + e_anti` is zero to avoid `0.0 / 0.0` NaN on a zero target vector.
 #[inline]
 pub fn quantum_switch_causal_asymmetry(e_sym: f64, e_anti: f64) -> f64 {
-    (e_sym - e_anti) / (e_sym + e_anti)
+    let denom = e_sym + e_anti;
+    if denom.abs() <= 1e-15 {
+        0.0
+    } else {
+        (e_sym - e_anti) / denom
+    }
+}
+
+/// Oreshkov–Costa–Brukner (2012) / Branciard et al. (2015) causal inequality bounds:
+/// returns `(p_causal_separable, p_quantum_indefinite, quantum_advantage)`:
+/// - `p_causal_separable = 3/4 = 0.75` (`Signals.QuantumCausalInference.ocbCausalSeparableBound`),
+/// - `p_quantum_indefinite = (2 + √2)/4 ≈ 0.85355339` (`Signals.QuantumCausalInference.ocbQuantumIndefiniteBound`),
+/// - `quantum_advantage = (√2 - 1)/4 ≈ 0.10355339`.
+#[inline]
+pub fn ocb_causal_inequality_bounds() -> (f64, f64, f64) {
+    let p_causal = 0.75;
+    let p_quantum = (2.0 + std::f64::consts::SQRT_2) / 4.0;
+    (p_causal, p_quantum, p_quantum - p_causal)
 }
 
 /// Evaluates the complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker channel squared norms
@@ -223,6 +241,35 @@ pub fn strong_mpemba_crossing_time(
     Ok((a3_hot / a2_cold).ln() / (lambda3 - lambda2))
 }
 
+/// Constructs the rank-1 orthogonal complement projector
+/// $P_{\perp v_2} = \begin{pmatrix} s^2 & -c s \\ -c s & c^2 \end{pmatrix} \in \mathrm{Gr}_{\mathbb{R}}(1, 2)$
+/// annihilating the normalized slow Liouvillian eigenmode $v_{\mathrm{slow}} = (c, s)^{\mathsf{T}}$
+/// (`Signals.QuantumCausalInference.mpembaProjector00`, `mpembaProjector01`, `mpembaProjector11`)
+/// and projects an initial mode-amplitude vector `x = [x0, x1]` onto the Strong Mpemba fast subspace,
+/// returning `(projector_2x2, projected_x, slow_mode_overlap_after)`.
+pub fn apply_strong_mpemba_gr12_projector(
+    c: f64,
+    s: f64,
+    x: [f64; 2],
+) -> Result<([[f64; 2]; 2], [f64; 2], f64), ValidationError> {
+    require_finite("c", c)?;
+    require_finite("s", s)?;
+    require_finite("x[0]", x[0])?;
+    require_finite("x[1]", x[1])?;
+    let norm_sq = c * c + s * s;
+    require_positive("c^2 + s^2", norm_sq)?;
+    let inv_norm = 1.0 / norm_sq.sqrt();
+    let cn = c * inv_norm;
+    let sn = s * inv_norm;
+    let p00 = sn * sn;
+    let p01 = -cn * sn;
+    let p11 = cn * cn;
+    let proj = [[p00, p01], [p01, p11]];
+    let x_proj = [p00 * x[0] + p01 * x[1], p01 * x[0] + p11 * x[1]];
+    let slow_overlap = cn * x_proj[0] + sn * x_proj[1];
+    Ok((proj, x_proj, slow_overlap))
+}
+
 /// Quantum Resource Theory (QRT) non-equilibrium free-energy difference
 /// $\Delta F(\rho \| \gamma_\beta) = k_B T \ln 2 \cdot D_{\mathrm{KL}}(\rho \| \gamma_\beta)$
 /// (`Summer et al. 2026`, `Signals.QuantumCausalInference.qrtNonEquilibriumFreeEnergy`).
@@ -280,20 +327,32 @@ pub fn thermo_majorization_dominates(
     let n = p.len();
     let mut idx_p: Vec<usize> = (0..n).collect();
     let mut idx_q: Vec<usize> = (0..n).collect();
+    let mut sum_p = 0.0f64;
+    let mut sum_q = 0.0f64;
+    let mut sum_g = 0.0f64;
     for i in 0..n {
         require_nonnegative("p_i", p[i])?;
         require_nonnegative("q_i", q[i])?;
         require_positive("gibbs_i", gibbs[i])?;
+        sum_p += p[i];
+        sum_q += q[i];
+        sum_g += gibbs[i];
+    }
+    let norm_tol = tol.max(1e-9);
+    if (sum_p - sum_q).abs() > norm_tol || (sum_p - sum_g).abs() > norm_tol {
+        return Err(ValidationError::ResidualTooLarge(
+            "thermo_majorization distributions must have matching total probability mass",
+        ));
     }
     idx_p.sort_by(|&a, &b| {
         let ra = p[a] / gibbs[a];
         let rb = p[b] / gibbs[b];
-        rb.partial_cmp(&ra).unwrap()
+        rb.total_cmp(&ra)
     });
     idx_q.sort_by(|&a, &b| {
         let ra = q[a] / gibbs[a];
         let rb = q[b] / gibbs[b];
-        rb.partial_cmp(&ra).unwrap()
+        rb.total_cmp(&ra)
     });
 
     let build_curve = |idx: &[usize], dist: &[f64]| -> Vec<(f64, f64)> {
@@ -428,6 +487,55 @@ pub fn exact_werner_conditional_entropy_bits(fidelity: f64) -> Result<f64, Valid
     Ok(s_ao - 1.0)
 }
 
+/// Converts isotropic 2-qubit Werner visibility $p \in [-1/3, 1]$ in
+/// $\rho_W(p) = p|\Phi^+\rangle\langle\Phi^+| + (1-p)\frac{I_4}{4}$ to Bell singlet fidelity
+/// $F = \langle\Phi^+|\rho_W(p)|\Phi^+\rangle = \frac{3p + 1}{4}$
+/// (`Signals.QuantumCausalInference.wernerFidelityFromVisibility`).
+#[inline]
+pub fn werner_fidelity_from_visibility(p: f64) -> f64 {
+    (3.0 * p + 1.0) / 4.0
+}
+
+/// Converts Bell singlet fidelity $F \in [0, 1]$ to isotropic 2-qubit Werner visibility
+/// $p = \frac{4F - 1}{3}$ (`Signals.QuantumCausalInference.wernerVisibilityFromFidelity`).
+#[inline]
+pub fn werner_visibility_from_fidelity(fidelity: f64) -> f64 {
+    (4.0 * fidelity - 1.0) / 3.0
+}
+
+/// Computes the exact Bell fidelity threshold $F_* \approx 0.8107103750847682$ (corresponding to
+/// Werner visibility $p_* = \frac{4 F_* - 1}{3} \approx 0.7476138334463576$) at which the
+/// isotropic 2-qubit Werner state conditional von Neumann entropy $S(A \mid O)_{\mathrm{Werner}}(F_*)$
+/// crosses zero (`exact_werner_conditional_entropy_bits(F_*) == 0.0`).
+/// Above $F_*$, single-shot conditional Landauer erasure extracts heat ($Q < 0$);
+/// for $0.5 < F < F_*$, the chat's linear proxy $1 - 2F < 0$ falsely predicts cooling whereas
+/// the isotropic Werner state actually dissipates heat ($S(A\mid O)_{\mathrm{Werner}}(F) > 0$).
+pub fn werner_cooling_threshold_fidelity() -> f64 {
+    let mut lo = 0.5f64;
+    let mut hi = 1.0f64;
+    for _ in 0..80 {
+        let mid = 0.5 * (lo + hi);
+        let s = exact_werner_conditional_entropy_bits(mid).unwrap_or(0.0);
+        if s > 0.0 {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    0.5 * (lo + hi)
+}
+
+/// Exact isotropic 2-qubit Werner conditional Landauer heat
+/// $Q_{\mathrm{Werner}}(F) = k_B T \ln 2 \cdot S(A \mid O)_{\mathrm{Werner}}(F)$.
+pub fn del_rio_werner_conditional_landauer_heat(
+    kbt_ln2: f64,
+    fidelity: f64,
+) -> Result<f64, ValidationError> {
+    require_finite("kbt_ln2", kbt_ln2)?;
+    let s_bits = exact_werner_conditional_entropy_bits(fidelity)?;
+    Ok(kbt_ln2 * s_bits)
+}
+
 /// Conditional Landauer heat dissipated into the bath per 1-bit reset (`del Rio et al. 2011`):
 /// $Q_{\mathrm{erasure}}(F) = k_B T \ln 2 \cdot (1 - 2 F)$
 /// (`Signals.QuantumCausalInference.delRioConditionalLandauerHeat`).
@@ -556,6 +664,13 @@ mod tests {
         assert!((w_b_sq - 0.5).abs() < 1e-12);
         assert!((ratio - (1.0 / 3.0)).abs() < 1e-12);
         assert_eq!(quantum_choi_grassmannian_real_dim(4, 4, 4), 96);
+
+        // Case D: Oreshkov-Costa-Brukner (2012) causal inequality violation:
+        let (p_causal, p_quantum, adv) = ocb_causal_inequality_bounds();
+        assert!((p_causal - 0.75).abs() < 1e-12);
+        assert!((p_quantum - 0.853_553_390_593_273_7).abs() < 1e-12);
+        assert!(adv > 0.103);
+        assert!(((4.0 * p_quantum - 2.0).powi(2) - 2.0).abs() < 1e-12);
     }
 
     #[test]
@@ -564,7 +679,22 @@ mod tests {
         assert!(landau_free_energy(0.0, -2.0, 2.0, 0.0).abs() < 1e-12);
         assert!((landau_free_energy(1.0, -2.0, 2.0, 0.0) - (-0.5)).abs() < 1e-12);
 
-        // Strong Mpemba: hot state (a2=0, a3=4) starts at D(0)=4 > D_cold(0)=2 (a2=1, a3=0 with pure slow mode, or a2=1, a3=1)
+        // Strong Mpemba Gr_R(1,2) orthogonal complement projector for v_slow = (3/5, 4/5):
+        let (proj, x_proj, slow_overlap) =
+            apply_strong_mpemba_gr12_projector(0.6, 0.8, [5.0, 10.0]).unwrap();
+        let tr = proj[0][0] + proj[1][1];
+        let det = proj[0][0] * proj[1][1] - proj[0][1] * proj[1][0];
+        assert!((tr - 1.0).abs() < 1e-12);
+        assert!(det.abs() < 1e-12);
+        assert!(slow_overlap.abs() < 1e-12);
+        // Applying projector a second time is idempotent: P^2 x = P x
+        let (_, x_proj_2, slow_overlap_2) =
+            apply_strong_mpemba_gr12_projector(0.6, 0.8, x_proj).unwrap();
+        assert!((x_proj_2[0] - x_proj[0]).abs() < 1e-12);
+        assert!((x_proj_2[1] - x_proj[1]).abs() < 1e-12);
+        assert!(slow_overlap_2.abs() < 1e-12);
+
+        // Strong Mpemba: hot state (a2=0, a3=4) starts at D(0)=4 > D_cold(0)=2 (a2=1, a3=1)
         let d_hot_0 = mpemba_two_mode_trajectory(0.0, 4.0, 1.0, 3.0, 0.0);
         let d_cold_0 = mpemba_two_mode_trajectory(1.0, 1.0, 1.0, 3.0, 0.0);
         assert!(d_hot_0 > d_cold_0);
@@ -618,13 +748,30 @@ mod tests {
         assert!((closed_loop_erasure_and_memory_reset_heat(1.0, 0.99, 0.1) - 1.1).abs() < 1e-12);
 
         // Isotropic Werner state: at F = 0.25 (maximally mixed I/4), S(A|O) = 2 - 1 = +1 bit;
-        // at F = 0.5 (entanglement threshold), S(A|O)_Werner > 0; at F = 1.0 (pure Bell), S(A|O)_Werner = -1 bit.
+        // at F = 0.5 (entanglement threshold), S(A|O)_Werner = (1/2) log2(3) ≈ +0.79248125 bits > 0.5 > 0;
+        // at F = 1.0 (pure Bell), S(A|O)_Werner = -1 bit.
         let s_werner_mix = exact_werner_conditional_entropy_bits(0.25).unwrap();
         let s_werner_half = exact_werner_conditional_entropy_bits(0.5).unwrap();
         let s_werner_bell = exact_werner_conditional_entropy_bits(1.0).unwrap();
         assert!((s_werner_mix - 1.0).abs() < 1e-12);
-        assert!(s_werner_half > 0.0);
+        assert!((s_werner_half - (0.5 * 3.0_f64.log2())).abs() < 1e-12);
+        assert!(s_werner_half > 0.5);
         assert!((s_werner_bell + 1.0).abs() < 1e-12);
+
+        // Exact Werner zero-cooling threshold:
+        // Bell singlet fidelity F_* ≈ 0.8107103750847682 <-> Werner visibility p_* = (4F_* - 1)/3 ≈ 0.7476138334463576:
+        let f_star = werner_cooling_threshold_fidelity();
+        let p_star = werner_visibility_from_fidelity(f_star);
+        assert!((f_star - 0.810_710_375_084_768_2).abs() < 1e-12);
+        assert!((p_star - 0.747_613_833_446_357_6).abs() < 1e-12);
+        assert!((werner_fidelity_from_visibility(p_star) - f_star).abs() < 1e-12);
+        assert!((werner_fidelity_from_visibility(1.0 / 3.0) - 0.5).abs() < 1e-12);
+        assert!(exact_werner_conditional_entropy_bits(f_star).unwrap().abs() < 1e-12);
+        // At F = 0.75 (above p_* = 0.7476, but below F_* = 0.8107!), linear model claims cooling (-0.5),
+        // yet the isotropic Werner state still heats!
+        assert!(del_rio_conditional_landauer_heat(1.0, 0.75) < 0.0);
+        assert!(del_rio_werner_conditional_landauer_heat(1.0, 0.75).unwrap() > 0.0);
+        assert!(del_rio_werner_conditional_landauer_heat(1.0, 0.85).unwrap() < 0.0);
 
         // Lignolux tape audit: at T = 4.0 K, F = 0.99, N_anc = 2e8, f_qec = 1e8 Hz,
         // power is -7.499298e-7 W (-0.750 μW), and even at clock_rate = 1e12 Hz (1 THz)

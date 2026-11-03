@@ -28,7 +28,7 @@ In this paper, we establish the exact mathematical and physical bridges and impl
 3. **Thermodynamic Critique & Numerical Audit of Chat "Entropy Siphoning"**:
    - We prove the single-shot conditional Landauer formula $Q_{\mathrm{erasure}}(F) = k_B T \ln 2 \cdot (1 - 2F)$ ([del Rio et al. 2011](#delrio2011negative)) and its interventional counterfactual gain $\mathcal{Q}^* = Q(\operatorname{do}(F=1)) - Q(\operatorname{do}(F=0)) = -2 k_B T \ln 2 < 0$, while proving three critical physical and numerical corrections to the chat corpus:
      1. **Closed-Loop Second-Law Compliance**: Including the observer memory reset ($Q_{\mathrm{reset}} \ge 2 F \, k_B T \ln 2$), the net cyclic heat is $Q_{\mathrm{closed}} = k_B T \ln 2 + Q_{\mathrm{overhead}} \ge k_B T \ln 2 > 0$.
-     2. **Isotropic Werner State vs. Rank-2 Linear Conditional Entropy**: For an isotropic 2-qubit Werner state $\rho_W(F)$, $S(A \mid O)_{\mathrm{Werner}} < 0$ requires $F > F_* \approx 0.747614$ (at $F = 0.5$, $S(A \mid O)_{\mathrm{Werner}} \approx +0.541\text{ bits} > 0$), whereas the chat's linear formula $1 - 2F$ applies to a rank-2 Bell mixture.
+     2. **Isotropic Werner State Visibility ($p_* \approx 0.747614$) vs. Bell Singlet Fidelity ($F_* \approx 0.810710$) and Rank-2 Linear Conditional Entropy**: For an isotropic 2-qubit Werner state $\rho_W(p) = p|\Phi^+\rangle\langle\Phi^+| + (1-p)\frac{I_4}{4}$ with Bell singlet fidelity $F(p) = \frac{3p+1}{4}$, negative conditional entropy $S(A \mid O)_{\mathrm{Werner}} < 0$ requires Werner visibility $p > p_* \approx 0.747614$, which corresponds to Bell singlet fidelity **$F > F_* = \frac{3 p_* + 1}{4} \approx 0.810710$** (`werner_cooling_threshold_fidelity`). At the chat's claimed threshold $F = 1/2$ ($p = 1/3$), the exact conditional entropy is $S(A \mid O)_{\mathrm{Werner}}(1/2) = \frac{\ln 3}{2\ln 2} = \frac{1}{2}\log_2 3 \approx +0.7925\text{ bits} > \frac{1}{2} > 0$ (`wernerConditionalEntropyBitsAtHalf`), whereas the chat's linear formula $1 - 2F$ applies only to a rank-2 Bell mixture.
      3. **$6.67 \times 10^7\times$ Numerical Audit of `lignolux_entropy_siphon_sim.py`**: In [`data/chats/_Quantum Processor and Soliton Discussions  .md`, lines 4480–4525](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L4480-L4525), the chat's own Python script (`T = 4.0 K`, `F = 0.99`, `n_ancillas = 2e8`, `qec_frequency = 1e8 Hz`) evaluates to **$P_{\mathrm{siphon}} = -7.50 \times 10^{-7}\text{ W} = -0.750\text{ }\mu\text{W}$** (and even at $1\text{ THz}$, $-7.50\text{ mW}$)—not the `-50 to -100 Watts` claimed in the chat prose!
 
 ---
@@ -175,6 +175,13 @@ $$
 
 - **Compatible / Commuting Causal Operations ($[U_A, U_B] = 0$, e.g. $U_A = I, U_B = Z$)**: $E_- = 0, E_+ = 1 \implies \delta_{\mathrm{switch}} = +1$ and $\|w_B^{\mathbb{C}}\|^2 = 0$.
 - **Anticommuting Pauli Operations ($\{U_A, U_B\} = 0$, e.g. $U_A = X, U_B = Z$)**: $E_+ = 0, E_- = 1 \implies \delta_{\mathrm{switch}} = -1$ and $\|w_A^{\mathbb{C}}\|^2 = 0$, providing a $100\%$ deterministic witness of indefinite causal order!
+- **Complex Parallelogram Conservation & Oreshkov–Costa–Brukner (OCB) Causal Inequality Violation (`quantumSwitchSymBranchWeight`, `ocbQuantumIndefiniteBound`)**:
+  In Theorem `grassmannian_mpemba_projector_werner_threshold_and_ocb_causal_witness_identities`, we further prove that for any complex causal-order path amplitudes $z_{AB}, z_{BA} \in \mathbb{C}$, the symmetric and antisymmetric branch weights obey the exact parallelogram identity $E_+(z_{AB}, z_{BA}) + E_-(z_{AB}, z_{BA}) = \frac{1}{2}(\|z_{AB}\|^2 + \|z_{BA}\|^2)$, and that indefinite causal order violates the Oreshkov–Costa–Brukner (2012) causal inequality:
+
+  $$
+  p_{\mathrm{OCB}}^{\mathrm{causal}} = \frac{3}{4} = 0.75 \;<\; p_{\mathrm{OCB}}^{\mathrm{quantum}} = \frac{2 + \sqrt{2}}{4} \approx 0.85355339, \qquad
+  \bigl(4\,p_{\mathrm{OCB}}^{\mathrm{quantum}} - 2\bigr)^2 = 2.
+  $$
 
 ---
 
@@ -214,6 +221,14 @@ Consider a two-eigenmode relaxation process with slow decay rate $\lambda_2 > 0$
     t_{\mathrm{cross}} = \frac{\ln(a_{3,\mathrm{hot}} / a_{2,\mathrm{cold}})}{\lambda_3 - \lambda_2} > 0.
     $$
 
+  - **Explicit $\mathrm{Gr}_{\mathbb{R}}(1, 2)$ Orthogonal Complement Projector (`mpembaProjector00`, `mpembaProjectedSlowOverlap`, `apply_strong_mpemba_gr12_projector`)**: Given any normalized slow Liouvillian eigenmode $v_{\mathrm{slow}} = (c, s)^{\mathsf{T}}$ with $c^2 + s^2 = 1$, preparing the Strong Mpemba state applies the rank-1 orthogonal complement projector
+
+    $$
+    P_{\perp v_2}(c, s) = I_2 - v_{\mathrm{slow}} v_{\mathrm{slow}}^{\mathsf{T}} = \begin{pmatrix} s^2 & -c s \\ -c s & c^2 \end{pmatrix} \in \mathrm{Gr}_{\mathbb{R}}(1, 2),
+    $$
+
+    which satisfies $\operatorname{Tr} P_{\perp v_2} = s^2 + c^2 = 1$, $\det P_{\perp v_2} = s^2 c^2 - (-c s)^2 = 0$, $P_{\perp v_2}^2 = P_{\perp v_2}$, and $\langle v_{\mathrm{slow}}, P_{\perp v_2} x \rangle = 0$ identically for all initial state vectors $x = (x_0, x_1)^{\mathsf{T}} \in \mathbb{R}^2$.
+
 ---
 
 ## 4. Review, Critique, and Thermodynamic Audit of "Entropy Siphoning" (`del Rio et al. 2011` vs. Chat Claims)
@@ -251,14 +266,30 @@ Following our research-evidence triage rules ([AGENTS.md](../AGENTS.md); [`docs/
    $$
 
    Thus, entangled erasure can **spatially relocate** heat away from the data qubits (if the ancilla/memory is physically transported or optically reset at a remote heat sink), but it **cannot** reduce the total closed-loop entropy production below Landauer's $+k_B T \ln 2$ per erased bit!
-2. **Critique 2 — Isotropic 2-Qubit Werner State vs. Linearized Conditional Entropy (`exact_werner_conditional_entropy_bits`)**:
-   In `lignolux_entropy_siphon_sim.py` (line 4504), the chat writes `heat_per_reset = k_B * T_ambient * np.log(2) * (1 - 2 * fidelity)` and claims that cooling begins whenever `fidelity > 0.5`. However, if hardware depolarizing noise produces an isotropic 2-qubit Werner state $\rho_W(F) = F|\Phi^+\rangle\langle\Phi^+| + \frac{1-F}{3}(I_4 - |\Phi^+\rangle\langle\Phi^+|)$, the exact conditional von Neumann entropy is:
+2. **Critique 2 — Isotropic 2-Qubit Werner State Visibility ($p_* \approx 0.747614$) vs. Bell Singlet Fidelity ($F_* \approx 0.810710$) and Linearized Conditional Entropy (`wernerConditionalEntropyBitsAtHalf`, `werner_cooling_threshold_fidelity`)**:
+   In `lignolux_entropy_siphon_sim.py` (line 4504), the chat writes `heat_per_reset = k_B * T_ambient * np.log(2) * (1 - 2 * fidelity)` and claims that cooling begins whenever `fidelity > 0.5`. However, if hardware depolarizing noise produces an isotropic 2-qubit Werner state
+
+   $$
+   \rho_W(p) = p\,|\Phi^+\rangle\langle\Phi^+| + (1 - p)\frac{I_4}{4}
+   = F\,|\Phi^+\rangle\langle\Phi^+| + \frac{1 - F}{3}\bigl(I_4 - |\Phi^+\rangle\langle\Phi^+|\bigr),
+   \qquad F(p) = \frac{3p + 1}{4} \iff p(F) = \frac{4F - 1}{3},
+   $$
+
+   its four eigenvalues are $(F, \frac{1-F}{3}, \frac{1-F}{3}, \frac{1-F}{3})$ (`wernerTripletEigenvalue`) and the exact conditional von Neumann entropy (in bits) is:
 
    $$
    S(A \mid O)_{\mathrm{Werner}}(F) = -F\log_2 F - (1 - F)\log_2\!\left(\frac{1 - F}{3}\right) - 1.
    $$
 
-   As verified in `exact_werner_conditional_entropy_bits` ([`quantum_causal_inference.rs`](../src/signals/numerical_adapter/src/quantum_causal_inference.rs#L390-L420)), at $F = 0.5$, $S(A \mid O)_{\mathrm{Werner}}(0.5) \approx +0.5409\text{ bits} > 0$ (heating!), and the true cooling threshold $S(A \mid O)_{\mathrm{Werner}}(F_*) = 0$ requires **$F > F_* \approx 0.747614$** ($74.76\%$ Bell fidelity).
+   As machine-checked in Lean 4 (`wernerConditionalEntropyBitsAtHalf` in [`QuantumCausalInference.lean`](../src/signals/Signals/QuantumCausalInference.lean#L555-L665)) and Rust (`exact_werner_conditional_entropy_bits`, `werner_cooling_threshold_fidelity` in [`quantum_causal_inference.rs`](../src/signals/numerical_adapter/src/quantum_causal_inference.rs#L400-L460)):
+   - At the Peres–Horodecki entanglement threshold $p = 1/3 \iff F = 1/2$, the chat's linear proxy vanishes ($1 - 2F = 0$), whereas the isotropic Werner state has strictly positive conditional entropy:
+
+     $$
+     S(A \mid O)_{\mathrm{Werner}}(1/2) = \frac{\ln 3}{2 \ln 2} = \frac{1}{2}\log_2 3 \approx +0.79248125\text{ bits} > \frac{1}{2} > 0
+     \quad (\text{net Landauer heating!}).
+     $$
+
+   - Furthermore, the true zero-cooling threshold $S(A \mid O)_{\mathrm{Werner}}(F_*) = 0$ occurs at Werner visibility $p_* \approx 0.74761383$, which corresponds via $F(p) = \frac{3p+1}{4}$ to a **Bell singlet fidelity threshold of $F_* \approx 0.81071038$ ($81.07\%$ Bell fidelity)**—strictly higher than both $0.5$ and $p_*$!
 3. **Critique 3 — $6.67 \times 10^7\times$ Numerical Error in `lignolux_entropy_siphon_sim.py` (`-0.750 μW` vs. `-50 to -100 Watts`)**:
    In [`data/chats/_Quantum Processor and Soliton Discussions  .md`, lines 4487–4525](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L4487-L4525), the chat specifies:
    - $k_B = 1.38 \times 10^{-23}\text{ J/K}$, $T_{\mathrm{ambient}} = 4.0\text{ K} \implies k_B T \ln 2 \approx 3.82617 \times 10^{-23}\text{ J}$,
@@ -281,7 +312,7 @@ Following our research-evidence triage rules ([AGENTS.md](../AGENTS.md); [`docs/
 | **Quantum Causal Counterfactuals (`Abduction–Action–Prediction`) & Quantum Switch on $\mathrm{Gr}_{\mathbb{C}}(2,4)$** | [`_Mpemba Effect_ Landau vs. Quantum .md`, lines 390–455](../data/chats/_Mpemba%20Effect_%20Landau%20vs.%20Quantum%20.md#L390-L455); [Giarmatzi & Costa 2023](#giarmatzi2023semantics); [Chiribella et al. 2013](#chiribella2013switch) | `scholarly theory` (verified math) | High | `counterfactualStructuralOutcome`, `quantumSwitchCausalAsymmetry`, `evaluate_quantum_switch_2x2` | Interferometric visibility calibration on photonic Quantum Switch bench |
 | **Landau Quartic Potential & Strong Mpemba Slow-Mode Orthogonal Projection ($a_{2,\mathrm{hot}} = 0$)** | [`_Mpemba Effect_ Landau vs. Quantum .md`, lines 45–75, 240–272](../data/chats/_Mpemba%20Effect_%20Landau%20vs.%20Quantum%20.md#L45-L75); [Holtzman & Raz 2022](#holtzman2022landau) | `scholarly theory` (verified math) | High | `landauFreeEnergy`, `mpembaTwoModeDistance`, `strongMpembaCrossingTime` | Measure Liouvillian decay rates $\lambda_2, \lambda_3$ in target spin/phonon bath |
 | **Quantum Resource Theory (QRT) Thermo-Majorization & Constructor Theory Task Algebra** | [`_Mpemba Effect_ Landau vs. Quantum .md`, lines 78–110, 355–435](../data/chats/_Mpemba%20Effect_%20Landau%20vs.%20Quantum%20.md#L78-L110); [Summer et al. 2026](#summer2026resource); [Marletto 2015](#marletto2015info) | `scholarly theory` (verified math) | High | `qrtNonEquilibriumFreeEnergy`, `ConstructorTask`, `thermo_majorization_dominates` | Tomographic state reconstruction of $\rho(t)$ relative to $\gamma_\beta$ |
-| **Single-Shot Conditional Landauer Cooling ($S(A\mid O) < 0 \implies Q < 0$) vs. Closed-Loop Reset** | [`_Mpemba Effect_ Landau vs. Quantum .md`, lines 298–325, 440–480](../data/chats/_Mpemba%20Effect_%20Landau%20vs.%20Quantum%20.md#L298-L325); [del Rio et al. 2011](#delrio2011negative) | `scholarly theory` (single-shot) / `calibration-required` (cyclic) | High | `delRioConditionalLandauerHeat`, `closedLoopErasureAndMemoryResetHeat`, `exact_werner_conditional_entropy_bits` | Include ancilla memory reset heat $Q_{\mathrm{reset}}$ and Werner threshold $F_* \approx 0.748$ |
+| **Single-Shot Conditional Landauer Cooling ($S(A\|O) < 0 \implies Q < 0$) vs. Closed-Loop Reset** | [`_Mpemba Effect_ Landau vs. Quantum .md`, lines 298–325, 440–480](../data/chats/_Mpemba%20Effect_%20Landau%20vs.%20Quantum%20.md#L298-L325); [del Rio et al. 2011](#delrio2011negative) | `scholarly theory` (single-shot) / `calibration-required` (cyclic) | High | `delRioConditionalLandauerHeat`, `closedLoopErasureAndMemoryResetHeat`, `wernerConditionalEntropyBitsAtHalf`, `werner_cooling_threshold_fidelity` | Include ancilla memory reset heat $Q_{\mathrm{reset}}$ and Werner threshold $F_* \approx 0.8107$ ($p_* \approx 0.7476$) |
 | **Lignolux Tape `-50 to -100 W` Entropy-Siphon Refrigeration Claim** | [`_Quantum Processor and Soliton Discussions  .md`, lines 4480–4525](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L4480-L4525) | `unsupported` ($-0.750\text{ }\mu\text{W}$ formula mismatch; `Pending` contract only) | High (audit) | `lignoluxTapeSiphonPowerWatts`, `QuantumCausalMpembaSynthesisContract` (`Signals.Pending`) | Keep in `Signals.Pending`; require $\operatorname{do}(F=0)$ control subtraction & TES calibration |
 
 ---
@@ -391,6 +422,42 @@ example (contract : QuantumCausalMpembaSynthesisContract) :
     hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
     hp.1, hp.2.2.2.1, hp.2.2.2.2.2.1⟩
+
+-- 3. Verification of 3-node confounded DAG do(X) surgery, Strong Mpemba Gr_R(1,2)
+-- orthogonal complement projector (trace = 1, det = 0, P^2 = P, slow-mode annihilation = 0),
+-- Quantum Switch complex parallelogram law & OCB causal inequality violation (3/4 < (2+√2)/4),
+-- and isotropic 2-qubit Werner visibility-to-fidelity bijection & F = 1/2 positive heating
+-- (0 = S_lin(1/2) < 1/2 < S_Werner(1/2) = ln 3 / (2 ln 2))
+example (x0 x1 fidelity : ℝ) (zAB zBA z : ℂ) :
+    confoundedDagTransfer02 2 3 4 - confoundedDagTransfer02 0 3 4 = 8 ∧
+      confoundedDagTransfer12 0 3 4 = 4 ∧
+      mpembaProjector00 (3 / 5) (4 / 5) + mpembaProjector11 (3 / 5) (4 / 5) = 1 ∧
+      mpembaProjector00 (3 / 5) (4 / 5) * mpembaProjector11 (3 / 5) (4 / 5) -
+        (mpembaProjector01 (3 / 5) (4 / 5)) ^ 2 = 0 ∧
+      mpembaProjectedSlowOverlap (3 / 5) (4 / 5) x0 x1 = 0 ∧
+      quantumSwitchSymBranchWeight zAB zBA + quantumSwitchAntiBranchWeight zAB zBA =
+        (1 / 2 : ℝ) * (Complex.normSq zAB + Complex.normSq zBA) ∧
+      quantumSwitchAntiBranchWeight z z = 0 ∧
+      quantumSwitchSymBranchWeight z (-z) = 0 ∧
+      ocbCausalSeparableBound < ocbQuantumIndefiniteBound ∧
+      (4 * ocbQuantumIndefiniteBound - 2) ^ 2 = 2 ∧
+      fidelity + 3 * wernerTripletEigenvalue fidelity = 1 ∧
+      conditionalEntropyLinearBits (1 / 2) = 0 ∧
+      (1 / 2 : ℝ) < wernerConditionalEntropyBitsAtHalf ∧
+      0 < wernerConditionalEntropyBitsAtHalf ∧
+      wernerVisibilityFromFidelity (wernerFidelityFromVisibility fidelity) = fidelity ∧
+      wernerFidelityFromVisibility (1 / 3) = 1 / 2 := by
+  have h :=
+    grassmannian_mpemba_projector_werner_threshold_and_ocb_causal_witness_identities
+      2 3 4 (3 / 5) (4 / 5) x0 x1 fidelity (by norm_num) zAB zBA z
+  refine ⟨by unfold confoundedDagTransfer02; norm_num,
+    h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
 end QuantumCausalInferenceMpembaPaperVerification
 ```

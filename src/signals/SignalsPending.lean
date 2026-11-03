@@ -157,6 +157,9 @@ lemma quantum_causal_mpemba_and_entropy_siphon_bounds
           contract.opticalAndMemoryOverheadJoules ∧
       0 < Signals.QuantumCausalInference.qrtMajorizationShortcutGap
         contract.qrtDistanceAloneBits contract.qrtDistanceSiphonBits ∧
+      Signals.QuantumCausalInference.ocbCausalSeparableBound <
+        Signals.QuantumCausalInference.ocbQuantumIndefiniteBound ∧
+      0 < Signals.QuantumCausalInference.wernerConditionalEntropyBitsAtHalf ∧
       contract.causalControlResidual ≤ contract.causalControlTolerance :=
   contract.thermodynamic_and_causal_bounds
 

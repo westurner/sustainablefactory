@@ -6460,4 +6460,38 @@ example (theta : ℝ) (A : Matrix (Fin 3) (Fin 2) ℝ) (B : Matrix (Fin 2) (Fin 
       Signals.QuantumCausalInference.delRioConditionalLandauerHeat
       Signals.QuantumCausalInference.conditionalEntropyLinearBits; norm_num
 
+example (x0 x1 fidelity : ℝ) (zAB zBA z : ℂ) :
+    Signals.QuantumCausalInference.confoundedDagTransfer02 2 3 4 -
+        Signals.QuantumCausalInference.confoundedDagTransfer02 0 3 4 = 8 ∧
+      Signals.QuantumCausalInference.confoundedDagTransfer12 0 3 4 = 4 ∧
+      Signals.QuantumCausalInference.mpembaProjector00 (3 / 5) (4 / 5) +
+        Signals.QuantumCausalInference.mpembaProjector11 (3 / 5) (4 / 5) = 1 ∧
+      Signals.QuantumCausalInference.mpembaProjector00 (3 / 5) (4 / 5) *
+          Signals.QuantumCausalInference.mpembaProjector11 (3 / 5) (4 / 5) -
+        (Signals.QuantumCausalInference.mpembaProjector01 (3 / 5) (4 / 5)) ^ 2 = 0 ∧
+      Signals.QuantumCausalInference.mpembaProjectedSlowOverlap (3 / 5) (4 / 5) x0 x1 = 0 ∧
+      Signals.QuantumCausalInference.quantumSwitchSymBranchWeight zAB zBA +
+          Signals.QuantumCausalInference.quantumSwitchAntiBranchWeight zAB zBA =
+        (1 / 2 : ℝ) * (Complex.normSq zAB + Complex.normSq zBA) ∧
+      Signals.QuantumCausalInference.quantumSwitchAntiBranchWeight z z = 0 ∧
+      Signals.QuantumCausalInference.quantumSwitchSymBranchWeight z (-z) = 0 ∧
+      Signals.QuantumCausalInference.ocbCausalSeparableBound <
+        Signals.QuantumCausalInference.ocbQuantumIndefiniteBound ∧
+      (4 * Signals.QuantumCausalInference.ocbQuantumIndefiniteBound - 2) ^ 2 = 2 ∧
+      fidelity + 3 * Signals.QuantumCausalInference.wernerTripletEigenvalue fidelity = 1 ∧
+      Signals.QuantumCausalInference.conditionalEntropyLinearBits (1 / 2) = 0 ∧
+      (1 / 2 : ℝ) < Signals.QuantumCausalInference.wernerConditionalEntropyBitsAtHalf ∧
+      0 < Signals.QuantumCausalInference.wernerConditionalEntropyBitsAtHalf ∧
+      Signals.QuantumCausalInference.wernerFidelityFromVisibility (1 / 3) = 1 / 2 := by
+  have h :=
+    Signals.QuantumCausalInference.grassmannian_mpemba_projector_werner_threshold_and_ocb_causal_witness_identities
+      2 3 4 (3 / 5) (4 / 5) x0 x1 fidelity (by norm_num) zAB zBA z
+  refine ⟨?_, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+  unfold Signals.QuantumCausalInference.confoundedDagTransfer02
+  norm_num
+
 end SignalsTests

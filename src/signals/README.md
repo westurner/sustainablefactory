@@ -563,8 +563,34 @@ interpretation while keeping experimental premises explicit:
    convergent holographic nanolithography (`cascadedNanoImagingLinewidthSq`,
    `homodyneSubNanometerLocalizationSq`,
    `multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities`,
-   `cosmic_ray_diagnostics_and_acousto_optic_homodyne_bridge_identities`). See
+   `cosmic_ray_diagnostics_and_acousto_optic_homodyne_bridge_identities`,
+   `layer_coding_plabic_lgv_and_multi_array_imaging_identities`,
+   `pca_streak_orientation_plabic_transfer_and_grassmannian_projector_identities`). See
    [`docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md`](../../docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md).
+- `Signals.QuantumCausalInference` formalizes the five Grassmannian structures in
+   classical and quantum causal relations (`WeightedAcyclicNetwork` nilpotency and
+   transfer equation $T = 1 + W T$, LGV / Trek d-separation bottlenecks $\det = 0$
+   vs. $\det > 0$, Pearl's $\operatorname{do}(X)$ incoming-edge surgery,
+   $\mathrm{Gr}_{\mathbb{C}}(2,4)$ lightcone causality $1 - \beta^2 > 0$,
+   Choi–Jamiołkowski quantum process subspaces $\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{C}}(4,16) = 96$,
+   and Quantum Switch commutator/anticommutator Plücker channel ratios
+   $\|w_B^{\mathbb{C}}\|^2 / \|w_A^{\mathbb{C}}\|^2 = E_- / E_+$ together with the
+   Oreshkov–Costa–Brukner causal inequality violation $3/4 < (2+\sqrt{2})/4$),
+   Giarmatzi–Costa (`arXiv:2302.11783`) Abduction–Action–Prediction counterfactuals,
+   Landau quartic free-energy barriers (`Holtzman & Raz 2022`), Strong Mpemba
+   two-mode crossings and $\mathrm{Gr}_{\mathbb{R}}(1,2)$ slow-mode orthogonal
+   complement projection (`mpembaProjectedSlowOverlap = 0`), Quantum Resource Theory
+   (QRT) thermo-majorization shortcuts (`Summer et al. 2026`), Constructor Theory
+   task algebra (`ConstructorTask`, `Deutsch & Marletto`), and `del Rio et al. (2011)`
+   single-shot conditional Landauer heat ($Q_{\mathrm{erasure}}(F) = k_B T \ln 2 \cdot (1 - 2F)$)
+   alongside its closed-loop Second-Law reset bound ($Q_{\mathrm{closed}} \ge k_B T \ln 2$),
+   isotropic 2-qubit Werner visibility-to-fidelity critique ($p_* \approx 0.747614 \mapsto F_* \approx 0.810710$,
+   $S(A\mid O)_{\mathrm{Werner}}(1/2) = \frac{\ln 3}{2\ln 2} > 1/2 > 0$), and the
+   $-0.750\text{ }\mu\text{W}$ numerical audit of `lignolux_entropy_siphon_sim.py`
+   (`grassmannian_causal_relations_do_calculus_and_quantum_switch_identities`,
+   `mpemba_constructor_theory_and_entropy_siphoning_identities`,
+   `grassmannian_mpemba_projector_werner_threshold_and_ocb_causal_witness_identities`).
+   See [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](../../docs/grassmannian-quantum-causal-inference-mpemba-paper.md).
 - `SignalsTests` contains compile-time examples for the verified identities and
    edge cases. `SignalsPendingTests` separately compiles examples of the pending
    hypotheses and their conditional consequences. `make signals_build` builds

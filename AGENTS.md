@@ -273,6 +273,25 @@ patient dose, sub-angstrom resolution, Proca propagation, or clinical safety.
 Require external materials, device, dosimetry, phantom, and clinical validation
 data before making those claims.
 
+Finally, [`src/signals/Signals/QuantumCausalInference.lean`](src/signals/Signals/QuantumCausalInference.lean),
+[`src/signals/numerical_adapter/src/quantum_causal_inference.rs`](src/signals/numerical_adapter/src/quantum_causal_inference.rs),
+and `QuantumCausalMpembaSynthesisContract` in [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean)
+(documented in [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](docs/grassmannian-quantum-causal-inference-mpemba-paper.md))
+formalize Grassmannian causal transfer (`WeightedAcyclicNetwork.transfer_equation`),
+LGV / Trek d-separation bottlenecks ($\det = 0$ vs. $\det > 0$), Pearl's $\operatorname{do}(X)$
+incoming-edge surgery, $\mathrm{Gr}_{\mathbb{C}}(2,4)$ lightcone causality and Quantum Switch
+commutator/anticommutator ratios, Oreshkov–Costa–Brukner causal inequality bounds
+($3/4 < (2+\sqrt{2})/4$), Landau vs. Quantum Resource Theory (QRT) Mpemba relaxation and
+$\mathrm{Gr}_{\mathbb{R}}(1,2)$ slow-mode orthogonal projection ($a_{2,\mathrm{hot}} = 0$),
+Constructor Theory task algebra (`ConstructorTask`), and `del Rio et al. (2011)`
+single-shot conditional Landauer heat ($Q_{\mathrm{erasure}}(F) = k_B T \ln 2 \cdot (1 - 2F)$)
+alongside its isotropic 2-qubit Werner visibility-to-fidelity critique ($p_* \approx 0.747614 \mapsto F_* \approx 0.810710$,
+with $S(A\mid O)_{\mathrm{Werner}}(1/2) = \frac{\ln 3}{2\ln 2} > 1/2 > 0$) and the
+$-0.750\text{ }\mu\text{W}$ numerical audit of `lignolux_entropy_siphon_sim.py`. Keep
+any hardware "entropy siphoning" refrigeration claim in `Signals.Pending` with explicit
+closed-loop observer-memory reset ($Q_{\mathrm{closed}} \ge k_B T \ln 2$), unentangled
+$\operatorname{do}(F=0)$ control subtraction, and bolometer calibration.
+
 ## Dilatant Dark Fluid (DDF) Modeling
 
 [src/signals/Signals/DDF.lean](src/signals/Signals/DDF.lean) formalizes the core

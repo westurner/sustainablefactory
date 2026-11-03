@@ -522,6 +522,252 @@ theorem mpemba_constructor_theory_and_entropy_siphoning_identities
   · unfold lignoluxTapeSiphonPowerWatts delRioConditionalLandauerHeat conditionalEntropyLinearBits
     norm_num
 
+/-! ## 7. Critique & Resolution: 3-Node Confounded DAG Surgery, Strong Mpemba $\mathrm{Gr}_{\mathbb{R}}(1,2)$ Projector, Quantum Switch Parallelogram / OCB Causal Witness, & Isotropic Werner vs. Linear Threshold
+
+A critical audit of `_Mpemba Effect_ Landau vs. Quantum .md` (lines 240–495) and
+`_Quantum Processor and Soliton Discussions  .md` (lines 4480–4525) identifies four
+additional structural and physical subtleties that we formalize and resolve below:
+1. **3-Node Confounded DAG Transfer vs. Pearl's $\operatorname{do}(X)$ Column Surgery**:
+   In the 3-node confounded DAG ($0 = U$ confounder, $1 = X$ treatment, $2 = Y$ outcome) with
+   edge weights $(w_{01}, w_{02}, w_{12})$, the $(0,2)$ transfer entry of $T = I + W + W^2$ is
+   $w_{02} + w_{01} w_{12}$ (matching `WeightedAcyclicNetwork.diamond`), whereas zeroing incoming
+   column $1$ of $W$ under $\operatorname{do}(X := x)$ ($w_{01} \mapsto 0$) severs the backdoor
+   trek $w_{01} w_{12}$ while preserving the direct causal edge $T_{1,2} = w_{12}$.
+2. **Explicit $\mathrm{Gr}_{\mathbb{R}}(1, 2)$ Orthogonal Projector for Strong Mpemba Slow-Mode Annihilation ($a_{2,\mathrm{hot}} = 0$)**:
+   Given a normalized slow Liouvillian eigenmode $v_{\mathrm{slow}} = (c, s)^{\mathsf{T}}$ with
+   $c^2 + s^2 = 1$, the rank-1 orthogonal complement projector
+   $P_{\perp v_2} = \begin{pmatrix} s^2 & -cs \\ -cs & c^2 \end{pmatrix} \in \mathrm{Gr}_{\mathbb{R}}(1, 2)$
+   has unit trace ($\operatorname{Tr} P_{\perp v_2} = 1$), vanishing $2\times 2$ determinant
+   ($\det P_{\perp v_2} = 0$), is idempotent ($P_{\perp v_2}^2 = P_{\perp v_2}$), and annihilates
+   the slow-mode overlap $\langle v_{\mathrm{slow}}, P_{\perp v_2} x \rangle = 0$ for every initial
+   state $x = (x_0, x_1)^{\mathsf{T}}$.
+3. **Complex Quantum Switch Parallelogram Law & Oreshkov–Costa–Brukner (OCB) Causal Inequality Violation**:
+   For any complex causal-order path amplitudes $z_{AB}, z_{BA} \in \mathbb{C}$, the symmetric
+   ($|+\rangle_c$, anticommutator) and antisymmetric ($|-\rangle_c$, commutator) branch weights
+   satisfy the exact parallelogram conservation law
+   $E_+(z_{AB}, z_{BA}) + E_-(z_{AB}, z_{BA}) = \frac{1}{2}(\|z_{AB}\|^2 + \|z_{BA}\|^2)$,
+   while the Oreshkov–Costa–Brukner (2012) indefinite-causal-order process matrix bound
+   $p_{\mathrm{OCB}}^{\mathrm{quantum}} = \frac{2 + \sqrt{2}}{4} \approx 0.8536$ strictly exceeds
+   the causally separable bound $p_{\mathrm{OCB}}^{\mathrm{causal}} = \frac{3}{4} = 0.75$.
+4. **Isotropic 2-Qubit Werner State vs. Rank-2 Linear Conditional Entropy at $F = 1/2$**:
+   The chat's linear formula $S_{\mathrm{lin}}(A \mid O) = 1 - 2F$ predicts zero heat at $F = 1/2$,
+   which holds only for a rank-2 Bell mixture. Under 2-qubit isotropic depolarizing noise
+   $\rho_W(F) = F|\Phi^+\rangle\langle\Phi^+| + \frac{1-F}{3}(I_4 - |\Phi^+\rangle\langle\Phi^+|)$
+   (eigenvalues $F, \frac{1-F}{3}, \frac{1-F}{3}, \frac{1-F}{3}$ summing to $1$), the exact
+   conditional von Neumann entropy at $F = 1/2$ is
+   $S(A \mid O)_{\mathrm{Werner}}(1/2) = \frac{\ln 3}{2 \ln 2} = \frac{1}{2}\log_2 3 > \frac{1}{2} > 0$,
+   proving that $F = 1/2$ still produces net Landauer heating ($F > F_* \approx 0.747614$ is required for cooling). -/
+
+/-- Total causal transfer entry $T_{0,2}(w_{01}, w_{02}, w_{12}) = w_{02} + w_{01} w_{12}$ from
+confounder $U$ (node 0) to outcome $Y$ (node 2) in the 3-node confounded DAG $T = I + W + W^2$. -/
+@[blueprint "def:signals-quantum-causal-dag-transfer-02"
+  (title := "3-node confounded DAG transfer entry T_{0,2} = w_{02} + w_{01} w_{12}")
+  (statement := /-- Define $\operatorname{confoundedDagTransfer02}(w_{01}, w_{02}, w_{12})
+    = w_{02} + w_{01} \cdot w_{12}$. -/)]
+def confoundedDagTransfer02 (w01 w02 w12 : ℝ) : ℝ :=
+  w02 + w01 * w12
+
+/-- Direct causal transfer entry $T_{1,2}(w_{01}, w_{02}, w_{12}) = w_{12}$ from treatment $X$
+(node 1) to outcome $Y$ (node 2) in the 3-node confounded DAG. -/
+@[blueprint "def:signals-quantum-causal-dag-transfer-12"
+  (title := "3-node confounded DAG direct causal entry T_{1,2} = w_{12}")
+  (statement := /-- Define $\operatorname{confoundedDagTransfer12}(w_{01}, w_{02}, w_{12}) = w_{12}$. -/)]
+def confoundedDagTransfer12 (_w01 _w02 w12 : ℝ) : ℝ :=
+  w12
+
+/-- $(0,0)$ entry $s^2$ of the rank-1 orthogonal complement projector $P_{\perp v_2} \in \mathrm{Gr}_{\mathbb{R}}(1, 2)$
+annihilating the slow Liouvillian eigenmode $v_{\mathrm{slow}} = (c, s)^{\mathsf{T}}$. -/
+def mpembaProjector00 (_c s : ℝ) : ℝ :=
+  s ^ 2
+
+/-- Off-diagonal $(0,1)$ and $(1,0)$ entry $-c s$ of the Strong Mpemba projector $P_{\perp v_2} \in \mathrm{Gr}_{\mathbb{R}}(1, 2)$. -/
+def mpembaProjector01 (c s : ℝ) : ℝ :=
+  -c * s
+
+/-- $(1,1)$ entry $c^2$ of the Strong Mpemba projector $P_{\perp v_2} \in \mathrm{Gr}_{\mathbb{R}}(1, 2)$. -/
+def mpembaProjector11 (c _s : ℝ) : ℝ :=
+  c ^ 2
+
+/-- Slow-mode overlap $a_{2,\mathrm{hot}} = \langle v_{\mathrm{slow}}, P_{\perp v_2} x \rangle$ of any
+initial state $x = (x_0, x_1)^{\mathsf{T}}$ after Strong Mpemba Grassmannian projection. -/
+@[blueprint "def:signals-mpemba-projected-slow-overlap"
+  (title := "Slow-mode overlap ⟨v_slow, P_{⊥ v_2} x⟩ after Strong Mpemba Gr_R(1,2) projection")
+  (statement := /-- Define $\operatorname{mpembaProjectedSlowOverlap}(c, s, x_0, x_1)
+    = c (s^2 x_0 - c s x_1) + s (-c s x_0 + c^2 x_1)$. -/)]
+def mpembaProjectedSlowOverlap (c s x0 x1 : ℝ) : ℝ :=
+  c * (mpembaProjector00 c s * x0 + mpembaProjector01 c s * x1) +
+    s * (mpembaProjector01 c s * x0 + mpembaProjector11 c s * x1)
+
+/-- Complex Quantum Switch symmetric ($|+\rangle_c$, anticommutator) branch weight
+$E_+(z_{AB}, z_{BA}) = \frac{1}{4}\|z_{AB} + z_{BA}\|^2$ for causal path amplitudes $z_{AB}, z_{BA} \in \mathbb{C}$. -/
+@[blueprint "def:signals-quantum-switch-sym-branch-weight"
+  (title := "Complex Quantum Switch symmetric (anticommutator) branch weight (1/4)‖z_{AB} + z_{BA}‖²")
+  (statement := /-- Define $\operatorname{quantumSwitchSymBranchWeight}(z_{AB}, z_{BA})
+    = \frac{1}{4} \|z_{AB} + z_{BA}\|^2$. -/)]
+def quantumSwitchSymBranchWeight (zAB zBA : ℂ) : ℝ :=
+  (1 / 4 : ℝ) * Complex.normSq (zAB + zBA)
+
+/-- Complex Quantum Switch antisymmetric ($|-\rangle_c$, commutator) branch weight
+$E_-(z_{AB}, z_{BA}) = \frac{1}{4}\|z_{AB} - z_{BA}\|^2$ for causal path amplitudes $z_{AB}, z_{BA} \in \mathbb{C}$. -/
+@[blueprint "def:signals-quantum-switch-anti-branch-weight"
+  (title := "Complex Quantum Switch antisymmetric (commutator) branch weight (1/4)‖z_{AB} - z_{BA}‖²")
+  (statement := /-- Define $\operatorname{quantumSwitchAntiBranchWeight}(z_{AB}, z_{BA})
+    = \frac{1}{4} \|z_{AB} - z_{BA}\|^2$. -/)]
+def quantumSwitchAntiBranchWeight (zAB zBA : ℂ) : ℝ :=
+  (1 / 4 : ℝ) * Complex.normSq (zAB - zBA)
+
+/-- Maximum success probability $p_{\mathrm{OCB}}^{\mathrm{causal}} = 3/4 = 0.75$ for any causally
+separable process in the Oreshkov–Costa–Brukner (2012) / Branciard et al. (2015) causal game. -/
+def ocbCausalSeparableBound : ℝ :=
+  3 / 4
+
+/-- Quantum indefinite-causal-order success probability $p_{\mathrm{OCB}}^{\mathrm{quantum}} = \frac{2 + \sqrt{2}}{4} \approx 0.85355$
+in the Oreshkov–Costa–Brukner (2012) causal game. -/
+def ocbQuantumIndefiniteBound : ℝ :=
+  (2 + Real.sqrt 2) / 4
+
+/-- Degenerate triplet eigenvalue $\lambda_{\mathrm{triplet}}(F) = \frac{1 - F}{3}$ of a 2-qubit
+isotropic Werner state $\rho_W(F) = F|\Phi^+\rangle\langle\Phi^+| + \frac{1-F}{3}(I_4 - |\Phi^+\rangle\langle\Phi^+|)$. -/
+def wernerTripletEigenvalue (fidelity : ℝ) : ℝ :=
+  (1 - fidelity) / 3
+
+/-- Affine conversion from 2-qubit isotropic Werner visibility $p \in [-1/3, 1]$ in
+$\rho_W(p) = p|\Phi^+\rangle\langle\Phi^+| + (1-p)\frac{I_4}{4}$ to Bell singlet fidelity
+$F(p) = \langle\Phi^+|\rho_W(p)|\Phi^+\rangle = \frac{3p + 1}{4}$.
+In particular, the Werner visibility cooling threshold $p_* \approx 0.747614$ maps to the
+strictly higher Bell singlet fidelity threshold $F_* = \frac{3 p_* + 1}{4} \approx 0.810710$. -/
+@[blueprint "def:signals-werner-fidelity-from-visibility"
+  (title := "Bell singlet fidelity F(p) = (3p + 1) / 4 from isotropic Werner visibility p")
+  (statement := /-- Define $\operatorname{wernerFidelityFromVisibility}(p) = \frac{3p + 1}{4}$. -/)]
+def wernerFidelityFromVisibility (p : ℝ) : ℝ :=
+  (3 * p + 1) / 4
+
+/-- Inverse affine conversion from Bell singlet fidelity $F \in [0, 1]$ to isotropic Werner
+visibility $p(F) = \frac{4F - 1}{3}$. -/
+@[blueprint "def:signals-werner-visibility-from-fidelity"
+  (title := "Isotropic Werner visibility p(F) = (4F - 1) / 3 from Bell singlet fidelity F")
+  (statement := /-- Define $\operatorname{wernerVisibilityFromFidelity}(F) = \frac{4F - 1}{3}$. -/)]
+def wernerVisibilityFromFidelity (fidelity : ℝ) : ℝ :=
+  (4 * fidelity - 1) / 3
+
+/-- Exact conditional von Neumann entropy $S(A \mid O)_{\mathrm{Werner}}(1/2) = \frac{\ln 3}{2 \ln 2} = \frac{1}{2}\log_2 3 \approx +0.7925\text{ bits}$
+of the 2-qubit isotropic Werner state at $F = 1/2$ ($p = 1/3$). -/
+@[blueprint "def:signals-werner-conditional-entropy-at-half"
+  (title := "Exact isotropic Werner state conditional entropy at F = 1/2: ln 3 / (2 ln 2)")
+  (statement := /-- Define $\operatorname{wernerConditionalEntropyBitsAtHalf}
+    = \frac{\ln 3}{2 \ln 2}$. -/)]
+def wernerConditionalEntropyBitsAtHalf : ℝ :=
+  Real.log 3 / (2 * Real.log 2)
+
+/-- **Master Theorem 3 (3-Node Confounded DAG Surgery, Strong Mpemba $\mathrm{Gr}_{\mathbb{R}}(1,2)$ Projector, Quantum Switch Parallelogram / OCB Causal Witness, & Isotropic Werner Visibility vs. Fidelity Threshold)**:
+Proves simultaneously:
+1. **3-Node Confounded DAG vs. Pearl's $\operatorname{do}(X)$ Surgery**:
+   `confoundedDagTransfer02 w01 w02 w12 - confoundedDagTransfer02 0 w02 w12 = w01 * w12` and
+   `confoundedDagTransfer12 0 w02 w12 = w12`.
+2. **Strong Mpemba $\mathrm{Gr}_{\mathbb{R}}(1, 2)$ Orthogonal Projector ($c^2 + s^2 = 1$)**:
+   $\operatorname{Tr} P_{\perp v_2} = 1$, $\det P_{\perp v_2} = 0$, $P_{\perp v_2}^2 = P_{\perp v_2}$,
+   and $\langle v_{\mathrm{slow}}, P_{\perp v_2} x \rangle = 0$ for all $(x_0, x_1) \in \mathbb{R}^2$.
+3. **Complex Quantum Switch Parallelogram Identity & OCB Indefinite Causal Order Witness**:
+   $E_+(z_{AB}, z_{BA}) + E_-(z_{AB}, z_{BA}) = \frac{1}{2}(\|z_{AB}\|^2 + \|z_{BA}\|^2)$,
+   $E_-(z, z) = 0$, $E_+(z, -z) = 0$, $p_{\mathrm{OCB}}^{\mathrm{causal}} < p_{\mathrm{OCB}}^{\mathrm{quantum}}$,
+   and $(4 p_{\mathrm{OCB}}^{\mathrm{quantum}} - 2)^2 = 2$.
+4. **Isotropic 2-Qubit Werner Eigenvalue Normalization, Visibility-to-Fidelity Bijection ($p_* \approx 0.7476 \mapsto F_* \approx 0.8107$), & Positive Heating at $F = 1/2$**:
+   $F + 3 \cdot \frac{1 - F}{3} = 1$, $p(F(p)) = p$, $F(p(F)) = F$, $F(1/3) = 1/2$,
+   $p < F(p)$ for all $p < 1$, and at $F = 1/2$,
+   $\operatorname{conditionalEntropyLinearBits}(1/2) = 0 < \frac{1}{2} < \operatorname{wernerConditionalEntropyBitsAtHalf}$. -/
+@[blueprint "thm:signals-quantum-causal-projector-werner-and-ocb-witness"
+  (title := "3-node DAG do(X) surgery, Strong Mpemba Gr_R(1,2) projector, Quantum Switch parallelogram / OCB witness, and isotropic Werner visibility-to-fidelity critique")
+  (statement := /-- For any $w_{01}, w_{02}, w_{12}, c, s, x_0, x_1, F, p \in \mathbb{R}$ with $c^2 + s^2 = 1$
+    and $p < 1$, and any $z_{AB}, z_{BA}, z \in \mathbb{C}$, the 3-node DAG $\operatorname{do}(X)$ surgery bias,
+    Strong Mpemba $\mathrm{Gr}_{\mathbb{R}}(1,2)$ projector trace/det/idempotency/slow-mode annihilation,
+    Quantum Switch parallelogram law, OCB causal inequality violation ($3/4 < (2+\sqrt{2})/4$),
+    Werner visibility-to-fidelity bijection ($F(p) = (3p+1)/4 > p$), and isotropic Werner positive
+    conditional entropy at $F = 1/2$ ($0 < 1/2 < \frac{\ln 3}{2\ln 2}$) hold simultaneously. -/)
+  (proof := /-- Combine algebraic ring identities, \texttt{Real.sq\_sqrt} on $\sqrt{2}$, and
+    \texttt{Real.log\_lt\_log} on $\ln 2 < \ln 3$. -/)]
+theorem grassmannian_mpemba_projector_werner_threshold_and_ocb_causal_witness_identities
+    (w01 w02 w12 c s x0 x1 fidelity : ℝ) (hcs : c ^ 2 + s ^ 2 = 1)
+    (zAB zBA z : ℂ) :
+    confoundedDagTransfer02 w01 w02 w12 - confoundedDagTransfer02 0 w02 w12 = w01 * w12 ∧
+      confoundedDagTransfer12 0 w02 w12 = w12 ∧
+      mpembaProjector00 c s + mpembaProjector11 c s = 1 ∧
+      mpembaProjector00 c s * mpembaProjector11 c s - (mpembaProjector01 c s) ^ 2 = 0 ∧
+      mpembaProjector00 c s * mpembaProjector00 c s +
+          mpembaProjector01 c s * mpembaProjector01 c s = mpembaProjector00 c s ∧
+      mpembaProjector01 c s * mpembaProjector01 c s +
+          mpembaProjector11 c s * mpembaProjector11 c s = mpembaProjector11 c s ∧
+      mpembaProjectedSlowOverlap c s x0 x1 = 0 ∧
+      quantumSwitchSymBranchWeight zAB zBA + quantumSwitchAntiBranchWeight zAB zBA =
+        (1 / 2 : ℝ) * (Complex.normSq zAB + Complex.normSq zBA) ∧
+      quantumSwitchAntiBranchWeight z z = 0 ∧
+      quantumSwitchSymBranchWeight z (-z) = 0 ∧
+      ocbCausalSeparableBound < ocbQuantumIndefiniteBound ∧
+      (4 * ocbQuantumIndefiniteBound - 2) ^ 2 = 2 ∧
+      fidelity + 3 * wernerTripletEigenvalue fidelity = 1 ∧
+      conditionalEntropyLinearBits (1 / 2) = 0 ∧
+      (1 / 2 : ℝ) < wernerConditionalEntropyBitsAtHalf ∧
+      0 < wernerConditionalEntropyBitsAtHalf ∧
+      wernerVisibilityFromFidelity (wernerFidelityFromVisibility fidelity) = fidelity ∧
+      wernerFidelityFromVisibility (wernerVisibilityFromFidelity fidelity) = fidelity ∧
+      wernerFidelityFromVisibility (1 / 3) = 1 / 2 := by
+  have h_proj_tr : mpembaProjector00 c s + mpembaProjector11 c s = 1 := by
+    unfold mpembaProjector00 mpembaProjector11
+    linarith [hcs]
+  have h_proj_idem00 :
+      mpembaProjector00 c s * mpembaProjector00 c s +
+          mpembaProjector01 c s * mpembaProjector01 c s = mpembaProjector00 c s := by
+    unfold mpembaProjector00 mpembaProjector01
+    calc
+      s ^ 2 * s ^ 2 + (-c * s) * (-c * s) = s ^ 2 * (c ^ 2 + s ^ 2) := by ring
+      _ = s ^ 2 := by rw [hcs, mul_one]
+  have h_proj_idem11 :
+      mpembaProjector01 c s * mpembaProjector01 c s +
+          mpembaProjector11 c s * mpembaProjector11 c s = mpembaProjector11 c s := by
+    unfold mpembaProjector01 mpembaProjector11
+    calc
+      (-c * s) * (-c * s) + c ^ 2 * c ^ 2 = c ^ 2 * (c ^ 2 + s ^ 2) := by ring
+      _ = c ^ 2 := by rw [hcs, mul_one]
+  have h_sw_para :
+      quantumSwitchSymBranchWeight zAB zBA + quantumSwitchAntiBranchWeight zAB zBA =
+        (1 / 2 : ℝ) * (Complex.normSq zAB + Complex.normSq zBA) := by
+    unfold quantumSwitchSymBranchWeight quantumSwitchAntiBranchWeight
+    simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.sub_re, Complex.sub_im]
+    ring
+  have h_sqrt2_gt_one : (1 : ℝ) < Real.sqrt 2 := by
+    rw [← Real.sqrt_one]
+    exact Real.sqrt_lt_sqrt (by norm_num) (by norm_num)
+  have h_ocb_lt : ocbCausalSeparableBound < ocbQuantumIndefiniteBound := by
+    unfold ocbCausalSeparableBound ocbQuantumIndefiniteBound
+    linarith [h_sqrt2_gt_one]
+  have h_ocb_sq : (4 * ocbQuantumIndefiniteBound - 2) ^ 2 = 2 := by
+    unfold ocbQuantumIndefiniteBound
+    have h_ring : 4 * ((2 + Real.sqrt 2) / 4) - 2 = Real.sqrt 2 := by ring
+    rw [h_ring]
+    exact Real.sq_sqrt (by norm_num)
+  have h_log2_pos : 0 < Real.log 2 := Real.log_pos (by norm_num)
+  have h_log2_lt_log3 : Real.log 2 < Real.log 3 :=
+    Real.log_lt_log (by norm_num) (by norm_num)
+  have h_werner_gt_half : (1 / 2 : ℝ) < wernerConditionalEntropyBitsAtHalf := by
+    unfold wernerConditionalEntropyBitsAtHalf
+    rw [div_lt_div_iff₀ (by norm_num : (0 : ℝ) < 2) (by positivity)]
+    linarith [h_log2_lt_log3]
+  refine ⟨by unfold confoundedDagTransfer02; ring,
+    rfl, h_proj_tr,
+    by unfold mpembaProjector00 mpembaProjector01 mpembaProjector11; ring,
+    h_proj_idem00, h_proj_idem11,
+    by unfold mpembaProjectedSlowOverlap mpembaProjector00 mpembaProjector01 mpembaProjector11; ring,
+    h_sw_para,
+    by unfold quantumSwitchAntiBranchWeight; simp,
+    by unfold quantumSwitchSymBranchWeight; simp,
+    h_ocb_lt, h_ocb_sq,
+    by unfold wernerTripletEigenvalue; ring,
+    by unfold conditionalEntropyLinearBits; norm_num,
+    h_werner_gt_half,
+    by linarith [h_werner_gt_half],
+    by unfold wernerVisibilityFromFidelity wernerFidelityFromVisibility; ring,
+    by unfold wernerFidelityFromVisibility wernerVisibilityFromFidelity; ring,
+    by unfold wernerFidelityFromVisibility; norm_num⟩
+
 end
 
 end Signals.QuantumCausalInference

@@ -5236,6 +5236,9 @@ example :
       0 < Signals.QuantumCausalInference.qrtMajorizationShortcutGap
         toyQuantumCausalMpembaSynthesis.qrtDistanceAloneBits
         toyQuantumCausalMpembaSynthesis.qrtDistanceSiphonBits ∧
+      Signals.QuantumCausalInference.ocbCausalSeparableBound <
+        Signals.QuantumCausalInference.ocbQuantumIndefiniteBound ∧
+      0 < Signals.QuantumCausalInference.wernerConditionalEntropyBitsAtHalf ∧
       toyQuantumCausalMpembaSynthesis.causalControlResidual ≤
         toyQuantumCausalMpembaSynthesis.causalControlTolerance :=
   SignalsPending.quantum_causal_mpemba_and_entropy_siphon_bounds

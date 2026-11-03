@@ -5469,6 +5469,9 @@ lemma QuantumCausalMpembaSynthesisContract.thermodynamic_and_causal_bounds
           contract.opticalAndMemoryOverheadJoules ∧
       0 < Signals.QuantumCausalInference.qrtMajorizationShortcutGap
         contract.qrtDistanceAloneBits contract.qrtDistanceSiphonBits ∧
+      Signals.QuantumCausalInference.ocbCausalSeparableBound <
+        Signals.QuantumCausalInference.ocbQuantumIndefiniteBound ∧
+      0 < Signals.QuantumCausalInference.wernerConditionalEntropyBitsAtHalf ∧
       contract.causalControlResidual ≤ contract.causalControlTolerance := by
   have h_neg :
       Signals.QuantumCausalInference.delRioConditionalLandauerHeat
@@ -5496,9 +5499,15 @@ lemma QuantumCausalMpembaSynthesisContract.thermodynamic_and_causal_bounds
         contract.qrtDistanceAloneBits contract.qrtDistanceSiphonBits := by
     unfold Signals.QuantumCausalInference.qrtMajorizationShortcutGap
     linarith [contract.qrtShortcut_lt]
+  have h_crit :=
+    Signals.QuantumCausalInference.grassmannian_mpemba_projector_werner_threshold_and_ocb_causal_witness_identities
+      0 0 0 1 0 0 0 contract.bellFidelity (by norm_num) 0 0 0
   exact ⟨contract.layerCode.three_dimensional,
     contract.layerCode.one_dimensional_junction,
     contract.layerCode.stabilizer_weight_le_six,
-    h_neg, h_pos0, h_closed, h_qrt, contract.causalControlWithinTolerance⟩
+    h_neg, h_pos0, h_closed, h_qrt,
+    h_crit.2.2.2.2.2.2.2.2.2.2.1,
+    h_crit.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    contract.causalControlWithinTolerance⟩
 
 end Signals.Pending
