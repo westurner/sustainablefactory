@@ -1,6 +1,6 @@
 ---
 title: "Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian Gr_C(2,4) and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4"
-description: "A capstone arXiv-ready formal verification and systems synthesis paper unifying sixteen companion papers across Complex Grassmannian Gr_C(2,4), N-ary Gr_C(2, N+2), higher-rank Gr_C(3,6) / Gr_C(3,n), and Dilatant Dark Fluid (DDF) mechanics (with and without 2D/3D Normed Tensor Gaussian Splats), cataloging concrete photonic, metamaterial, spectroscopic, thermal, RISC-V nanolithography, gravitational-wave, and WebGL2/WASM applications, mapping cross-document plan governance, and defining the next-stage research roadmap in Lean 4 and Rust/WASM."
+description: "A capstone arXiv-ready formal verification and systems synthesis paper unifying nineteen companion papers across Complex Grassmannian Gr_C(2,4), N-ary Gr_C(2, N+2), higher-rank Gr_C(3,6) / Gr_C(3,n), homogeneous Plücker Q_4 Madelung / dual-Schubert iGPE hydrodynamics, and Dilatant Dark Fluid (DDF) mechanics (with and without 2D/3D Normed Tensor Gaussian Splats), cataloging revised Turner (2026) models for Superposition (Model 6), Gravity (Models 14a & 14b), and Gravitational Waves (Models 14a & 14b) alongside photonic, metamaterial, spectroscopic, thermal, RISC-V nanolithography, causal-inference, and WebGL2/WASM applications, mapping cross-document plan governance, and defining the next-stage research roadmap in Lean 4 and Rust/WASM."
 ---
 
 (grassmannian-unification-applications-roadmap-paper)=
@@ -31,6 +31,7 @@ description: "A capstone arXiv-ready formal verification and systems synthesis p
   16. [Hawking Radiation, Inverse Gross–Pitaevskii (`iGPE`) Unwinding, and Amplituhedron/CP-ALS Decoding in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: With and Without DDF, With and Without Normed Tensor Gaussian Splats in Lean 4](grassmannian-hawking-radiation-decoding-paper.md)
   17. [Multi-Spectral and Multi-Array Grassmannian Imaging Across Scales: Hubble $2\times$ CCD Mosaics ($\mathrm{Gr}_{\mathbb{R}}(4, N_{\mathrm{pixels}})$ & $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$), Cosmic-Ray Particle Telemetry, LVP Medical Direct-Conversion & Proca Phase-Contrast Arrays, LIFU / AOT / TRUE Sub-Surface Optical Focusing, and Sub-Nanometer ($< 1\text{ nm}$) Convergent Holographic Nanolithography in Lean 4 and Rust/WASM](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md)
   18. [Grassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the Mpemba / Entropy-Siphoning Laws in Lean 4 and Rust/WASM](grassmannian-quantum-causal-inference-mpemba-paper.md)
+  19. [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert `iGPE`, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric $\mathcal{Q}_4$ in Lean 4 and Rust/WASM](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md)
 - **Related Roadmaps & Specifications:**
   - [Plan Index](plan-index.md), [Huygens Diffraction, Grassmannians, and Positive Geometry Plan](huygens-grassmannian-amplituhedron-plan.md), [Flat Light, Proca, and N-LIG Waveguide Validation Plan](flat-light-proca-nlig-validation-plan.md), [Dispersive Homodyne Coverage and Implementation Plan](dispersive-homodyne-plan.md), [Signals Library README](../src/signals/README.md), and [Repository README](../README.md).
 
@@ -38,12 +39,12 @@ description: "A capstone arXiv-ready formal verification and systems synthesis p
 
 ## Abstract
 
-Across seventeen companion papers, we have developed a machine-checked mathematical, physical, and computational unification in **Lean 4** (`3,626` core Lake build jobs / `3,716` with LeanArchitect `:blueprint` and `:blueprintJson`, zero `sorry` axioms) and **Rust / WebAssembly (`wasm32-unknown-unknown`) / WebGL2 GLSL (`#version 300 es`)** (`72` unit, parametric `rstest`, and `insta` snapshot tests across seven physics and EDA modules) demonstrating that a single algebraic and hydrodynamic architecture—a **complex 2-plane $M_{\mathbb{C}} \in Gr_{\mathbb{C}}(2,4)$** (together with its $N$-ary multi-channel extension $Gr_{\mathbb{C}}(2, N+2)$, higher-rank volumetric extension $Gr_{\mathbb{C}}(3,6) / Gr_{\mathbb{C}}(3,n)$, and multi-sensor / multi-spectral manifold hierarchy $\mathrm{Gr}_{\mathbb{R}}(k, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda) \times \mathrm{Gr}_{\mathbb{C}}(k, N_{\mathrm{array}})$), paired with the two-component quantum-hydrodynamic **Dilatant Dark Fluid (DDF)** substrate (`Signals.DDF`), evaluated across the $2 \times 2$ matrix of **Without/With DDF** and **Without/With Normed 2D & 3D Anisotropic Tensor Gaussian Splats** (`NormedTensorGaussianSplat2D`, `NormedTensorGaussianSplat3D`)—governs seventeen foundational domains of physics and engineering:
+Across nineteen companion papers, we have developed a machine-checked mathematical, physical, and computational unification in **Lean 4** (`3,627` core Lake build jobs / `3,717` with LeanArchitect `:blueprint` and `:blueprintJson`, zero `sorry` axioms) and **Rust / WebAssembly (`wasm32-unknown-unknown`) / WebGL2 GLSL (`#version 300 es`)** (`81` unit, parametric `rstest`, and `insta` snapshot tests across eight physics and EDA modules) demonstrating that a single algebraic and hydrodynamic architecture—a **complex 2-plane $M_{\mathbb{C}} \in Gr_{\mathbb{C}}(2,4)$** (together with its $N$-ary multi-channel extension $Gr_{\mathbb{C}}(2, N+2)$, higher-rank volumetric extension $Gr_{\mathbb{C}}(3,6) / Gr_{\mathbb{C}}(3,n)$, homogeneous Plücker Klein-quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ Madelung & dual-Grassmannian $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE` lifting, and multi-sensor / multi-spectral manifold hierarchy $\mathrm{Gr}_{\mathbb{R}}(k, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda) \times \mathrm{Gr}_{\mathbb{C}}(k, N_{\mathrm{array}})$), paired with the two-component quantum-hydrodynamic **Dilatant Dark Fluid (DDF)** substrate (`Signals.DDF`), evaluated across the $2 \times 2$ matrix of **Without/With DDF** and **Without/With Normed 2D & 3D Anisotropic Tensor Gaussian Splats** (`NormedTensorGaussianSplat2D`, `NormedTensorGaussianSplat3D`)—governs nineteen foundational domains of physics and engineering:
 
-1. Multi-model double-slit, $N$-slit ($N > 0$), Fresnel-to-Fraunhofer paraxial remainder bounds, and Orbital Angular Momentum (OAM) interferometry ([Qian & Izadi 2023](#unif-qian2023), );
+1. Multi-model double-slit (6 models, including the revised Turner (2026) Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-Grassmannian `iGPE` **Model 6** `pluckerMadelungSuperpositionOAMDoubleSlit` / `SlitModelKind::PluckerMadelungDualIgpe`), $N$-slit ($N > 0$), Fresnel-to-Fraunhofer paraxial remainder bounds, and Orbital Angular Momentum (OAM) interferometry ([Qian & Izadi 2023](#unif-qian2023));
 2. The Quantum Inverse Scattering Method (QISM), $8 \times 8$ Yang–Baxter equation, Baxter $QQ/TQ$ Casorati Wronskians, and Slavnov determinants;
 3. DDF moving sheaths, Lorentz shear-jamming $\gamma_\varphi(v)$, Anosov symplectic flows, and Sorkin triple-slit ($\kappa_3 = 0$) interferometry ([Fedi 2026](#unif-fedi2026));
-4. Flat-space QED/gauge Bern–Carrasco–Johansson (BCJ) color–kinematics double copy ([Bern et al. 2008](#unif-bcj2008); [Partanen & Tulkki 2025](#unif-partanen2025)), resolution of Witten's ([2004](#unif-witten2004)) $1/q^4$ conformal twistor-string Weyl ghost pathology via Cachazo–Skinner's ([2013](#unif-cachazo2013)) rank-2 infinity twistor $I_{AB}$, 15-row multi-model 1PN perihelion precession comparisons (`Mercury` $42.98''/\text{century}$), and 15-row multi-model 2.5PN Peters–Mathews ([1963](#unif-peters1963)) quadrupole gravitational-wave luminosity comparisons without and with DDF (`Signals.QEDGravity`, `Signals.DDF`);
+4. Flat-space QED/gauge Bern–Carrasco–Johansson (BCJ) color–kinematics double copy ([Bern et al. 2008](#unif-bcj2008); [Partanen & Tulkki 2025](#unif-partanen2025)), resolution of Witten's ([2004](#unif-witten2004)) $1/q^4$ conformal twistor-string Weyl ghost pathology via Cachazo–Skinner's ([2013](#unif-cachazo2013)) rank-2 infinity twistor $I_{AB}$, **17-row (`1`–`13` + `14a` & `14b`) multi-model 1PN perihelion precession comparisons** (`Mercury` $42.98''/\text{century}$, including the revised Turner (2026) Fubini–Study Kähler & Plücker `iGPE` **Models 14a & 14b** `PlanetaryOrbit.turnerPluckerIGPEPrecessionRad` and `RiverExterior.turnerDualGr24IGPEDDFPrecessionRad`), and **17-row (`1`–`13` + `14a` & `14b`) multi-model 2.5PN Peters–Mathews ([1963](#unif-peters1963)) quadrupole gravitational-wave luminosity & Deborah shear-fracture ringdown comparisons** (`PlanetaryOrbit.turnerPluckerIGPEGWLuminosity` and `RiverExterior.turnerDualGr24IGPEDDFGWLuminosity`) without and with DDF (`Signals.QEDGravity`, `Signals.DDF`);
 5. Dual-layer $Gr_{\mathbb{C}}(2,4)$ twistor wavepackets, core Bohm quantum potentials $Q_{\mathrm{core}}(\Sigma)$, and Madelung quantum pressure tensors $\Pi_{ij}(x,y)$;
 6. Relativistic Inverse Compton scattering, Stokes/anti-Stokes Raman thermometry, and subluminal Cattaneo–Vernotte / DDF second-sound heat transport;
 7. Hopfield–Rabi polaritons, Lyddane–Sachs–Teller Reststrahlen bands, Surface Plasmon Polaritons (SPPs), Coherent Synchrotron Radiation (CSR, [Lei et al. 2025](#unif-lei2025)), and low-power $\chi^{(2)}$ second-harmonic resonant optical parametric amplification ([Dean et al. 2025](#unif-dean2025));
@@ -56,16 +57,17 @@ Across seventeen companion papers, we have developed a machine-checked mathemati
 14. Sub-$20\text{ nm}$ ($w_{\mathrm{STED}} \approx 18.08\text{ nm}$) dual-beam $405\text{ nm} / 532\text{ nm}$ holographic carbon nanolithography, 6-stage Linux RISC-V (`CVA6`, `CHERI-CVA6`, [Zaruba & Benini 2019](#unif-zaruba2019)) and 1oo2 SIL-4 lockstep (`Ibex`) synthesis, pure-Rust KiCAD (`.kicad_mod`) / GDSII (`.gds`) / volumetric (`.kicad_vol`) EDA (`cannon_mask_cad.rs`, `kicad-happy`), and exothermic radical-recombination thermodynamics ($N_{\mathrm{chain}} \ge 5$);
 15. Variational derivation of compressible Madelung continuity and Quantum Hamilton–Jacobi (QHJ) hydrodynamics from the superfluid Gross–Pitaevskii action ($\psi = A e^{i S / \hbar}$), variational recovery of DDF Lorentz jamming $\Lambda_\parallel(v) = \gamma_\varphi(v)$, and action-derived Minkowski proper time $d\tau_D = dt / \gamma_\varphi(v)$;
 16. Four-quadrant Hawking radiation (`Signals.HawkingRadiation`, [Hawking 1975](#unif-hawking1975)), Gordon acoustic metric lapse, continuum `iGPE` potential unwinding (`madelungInversePotentialReconstruction`), S301 pericenter stress wakes, 2D/3D splat fracture ($90^\circ$ eigenvector snap and isotropic trace swell $\Delta Q_{\mathrm{core}} > 0$), and connected Amplituhedron/CP-ALS decoding (`HawkingGrassmannianSynthesisContract`);
-17. Multi-spectral and multi-array Grassmannian imaging (`Signals.MultiArrayImaging`, `multi_array_imaging.rs`) across Hubble Space Telescope $2\times$ CCD mosaics (`ACS/WFC`, `WFC3/UVIS`, `WFPC2` `NGC 4151` `u5780205r` on $\mathrm{Gr}_{\mathbb{R}}(4, 8.4\times 10^6)$, $\mathrm{Gr}_{\mathbb{R}}(4, 16.8\times 10^6)$, $\mathrm{Gr}_{\mathbb{R}}(4, 6.8\times 10^6)$, and $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$), 8-connected cosmic-ray particle telemetry ($\epsilon_{\mathrm{eh}} = 3.65\text{ eV}$), flexible `LVP` medical direct-conversion X-ray (`LVPDirectConversionImaging`) vs. Pending `LVPProcaImagingHypothesis`, Low-Intensity Focused Ultrasound (`LIFU`) / Acousto-Optic Tomography (`AOT`) / Time-Reversed Ultrasonically Encoded (`TRUE`) sub-surface optical focusing, and sub-nanometer ($< 1\text{ nm}$: $0.75\text{ nm}$, $0.603\text{ nm}$, and $0.50\text{ nm} = 5\text{ \AA}$) convergent holographic nanolithography; and
-18. Grassmannian Quantum Causal Inference (`Signals.QuantumCausalInference`, `quantum_causal_inference.rs`, [grassmannian-quantum-causal-inference-mpemba-paper.md](grassmannian-quantum-causal-inference-mpemba-paper.md)), unifying Plabic/LGV causal transfer and d-separation bottlenecks ($\det = 0$ vs. $\det > 0$), Pearl's $\operatorname{do}(X)$ incoming-edge surgery, $\mathrm{Gr}_{\mathbb{C}}(2,4)$ lightcone causality and Quantum Switch commutator/anticommutator Plücker ratios, Oreshkov–Costa–Brukner causal inequality violations ($3/4 < (2+\sqrt{2})/4$), Giarmatzi–Costa (`arXiv:2302.11783`) counterfactuals, Landau vs. QRT Mpemba relaxation and $\mathrm{Gr}_{\mathbb{R}}(1,2)$ slow-mode orthogonal projection ($a_{2,\mathrm{hot}} = 0$), Constructor Theory task algebra, and `del Rio et al. (2011)` conditional Landauer cooling vs. isotropic Werner state thresholds ($p_* \approx 0.747614 \mapsto F_* \approx 0.810710$, $S(A\mid O)_{\mathrm{Werner}}(1/2) = \frac{\ln 3}{2\ln 2} > 1/2 > 0$) and the $-0.750\text{ }\mu\text{W}$ numerical audit of `lignolux_entropy_siphon_sim.py`.
+17. Multi-spectral and multi-array Grassmannian imaging (`Signals.MultiArrayImaging`, `multi_array_imaging.rs`) across Hubble Space Telescope $2\times$ CCD mosaics (`ACS/WFC`, `WFC3/UVIS`, `WFPC2` `NGC 4151` `u5780205r` on $\mathrm{Gr}_{\mathbb{R}}(4, 8.4\times 10^6)$, $\mathrm{Gr}_{\mathbb{R}}(4, 16.8\times 10^6)$, $\mathrm{Gr}_{\mathbb{R}}(4, 6.8\times 10^6)$, and $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$), 8-connected cosmic-ray particle telemetry ($\epsilon_{\mathrm{eh}} = 3.65\text{ eV}$), flexible `LVP` medical direct-conversion X-ray (`LVPDirectConversionImaging`) vs. Pending `LVPProcaImagingHypothesis`, Low-Intensity Focused Ultrasound (`LIFU`) / Acousto-Optic Tomography (`AOT`) / Time-Reversed Ultrasonically Encoded (`TRUE`) sub-surface optical focusing, and sub-nanometer ($< 1\text{ nm}$: $0.75\text{ nm}$, $0.603\text{ nm}$, and $0.50\text{ nm} = 5\text{ \AA}$) convergent holographic nanolithography;
+18. Grassmannian Quantum Causal Inference (`Signals.QuantumCausalInference`, `quantum_causal_inference.rs`, [grassmannian-quantum-causal-inference-mpemba-paper.md](grassmannian-quantum-causal-inference-mpemba-paper.md)), unifying Plabic/LGV causal transfer and d-separation bottlenecks ($\det = 0$ vs. $\det > 0$), Pearl's $\operatorname{do}(X)$ incoming-edge surgery, $\mathrm{Gr}_{\mathbb{C}}(2,4)$ lightcone causality and Quantum Switch commutator/anticommutator Plücker ratios, Oreshkov–Costa–Brukner causal inequality violations ($3/4 < (2+\sqrt{2})/4$), Giarmatzi–Costa (`arXiv:2302.11783`) counterfactuals, Landau vs. QRT Mpemba relaxation and $\mathrm{Gr}_{\mathbb{R}}(1,2)$ slow-mode orthogonal projection ($a_{2,\mathrm{hot}} = 0$), Constructor Theory task algebra, and `del Rio et al. (2011)` conditional Landauer cooling vs. isotropic Werner state thresholds ($p_* \approx 0.747614 \mapsto F_* \approx 0.810710$, $S(A\mid O)_{\mathrm{Werner}}(1/2) = \frac{\ln 3}{2\ln 2} > 1/2 > 0$) and the $-0.750\text{ }\mu\text{W}$ numerical audit of `lignolux_entropy_siphon_sim.py`; and
+19. Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study Gross–Pitaevskii Equation (GPE), Dual-Schubert $Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$, and the **revised Turner (2026) models for Superposition (Model 6), 1PN Gravity (Models 14a & 14b), and 2.5PN + Ringdown Gravitational Waves (Models 14a & 14b)** (`Signals.DDF` Section 30.1–30.6, `madelung_lagrangian.rs`, `double_slit.rs`, `orbital_splat.rs`, [grassmannian-complex-gpe-igpe-plucker-madelung-paper.md](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md)).
 
-This capstone paper synthesizes: **(1)** the Master $Gr_{\mathbb{C}}(2,4)$ / $Gr_{\mathbb{C}}(3,6)$ / $\mathrm{Gr}_{\mathbb{R}}(k, N)$ Plücker & Subspace Dictionary across all seventeen companion papers, the five overarching theoretical implications, and the complete taxonomy of Real vs. Complex Grassmannians across 2D/3D sensor arrays, **(2)** the concrete engineering and scientific application pillars, **(3)** the cross-document routing architecture and status of all nine project plan documents, **(4)** the prioritized three-track research roadmap, and **(5)** a single self-contained Lean 4 verification block certifying all seventeen domains simultaneously.
+This capstone paper synthesizes: **(1)** the Master $Gr_{\mathbb{C}}(2,4)$ / $Gr_{\mathbb{C}}(3,6)$ / $\mathrm{Gr}_{\mathbb{R}}(k, N)$ Plücker & Subspace Dictionary across all nineteen companion papers, the five overarching theoretical implications, the taxonomy of Real vs. Complex Grassmannians across 2D/3D sensor arrays, and the revised Turner (2026) Superposition (Model 6), Gravity (Models 14a & 14b), and Gravitational-Wave (Models 14a & 14b) models, **(2)** the concrete engineering and scientific application pillars, **(3)** the cross-document routing architecture and status of all nine project plan documents, **(4)** the prioritized three-track research roadmap, and **(5)** a single self-contained Lean 4 verification block certifying the unified domains simultaneously.
 
 ---
 
-## 1. Theoretical & Structural Implications of the Sixteen-Domain Unification
+## 1. Theoretical & Structural Implications of the Nineteen-Domain Unification
 
-### 1.1 The Master $Gr_{\mathbb{C}}(2,4)$ & $Gr_{\mathbb{C}}(3,6)$ Plücker Dictionary Across All Sixteen Physical & Engineering Domains
+### 1.1 The Master $Gr_{\mathbb{C}}(2,4)$ & $Gr_{\mathbb{C}}(3,6)$ Plücker Dictionary Across All Nineteen Physical & Engineering Domains
 
 In `Signals.Geometry` ([src/signals/Signals/Geometry.lean](../src/signals/Signals/Geometry.lean#L1007-L1055)) and `Signals.DDF` ([src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean)), any $2 \times 4$ complex matrix $M_{\mathbb{C}} \in \mathbb{C}^{2 \times 4}$ representing a 2-plane in twistor space $\mathbb{C}^4$ has six $2 \times 2$ Plücker minors $\Delta_{ab}^{\mathbb{C}}(M_{\mathbb{C}})$ satisfying the universal 3-term quadratic Plücker identity (`complexTwoRowMinor_pluecker`):
 
@@ -75,14 +77,14 @@ $$
 = \Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}}),
 $$
 
-while any $3 \times 6$ complex matrix $M_3 \in \mathbb{C}^{3 \times 6}$ representing a 3-plane in $\mathbb{C}^6$ satisfies the universal 4-term rank-3 Plücker syzygy (`threeRowMinor_pluecker`, `complexThreeRowMinor_pluecker`). For the canonical twistor channel embedding $M_{\mathbb{C}}(d_{\mathrm{bary}}, \theta) = \operatorname{ddfThermalGr24Matrix}(d_{\mathrm{bary}}, \theta)$ with $d_{\mathrm{bary}} \in (-1, 1)$, the uncrossed channel moduli are $|w_A^{\mathbb{C}}|^2 = 1 + d_{\mathrm{bary}}$ and $|w_B^{\mathbb{C}}|^2 = 1 - d_{\mathrm{bary}}$. The table below records how the **barycentric shift $d_{\mathrm{bary}}$**, the **uncrossed channel product $|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2 = 1 - d_{\mathrm{bary}}^2$**, the **uncrossed channel ratio $|w_A^{\mathbb{C}}|^2 / |w_B^{\mathbb{C}}|^2 = \frac{1+d_{\mathrm{bary}}}{1-d_{\mathrm{bary}}}$**, and the **Plücker identity** specialize across all sixteen companion papers:
+while any $3 \times 6$ complex matrix $M_3 \in \mathbb{C}^{3 \times 6}$ representing a 3-plane in $\mathbb{C}^6$ satisfies the universal 4-term rank-3 Plücker syzygy (`threeRowMinor_pluecker`, `complexThreeRowMinor_pluecker`). For the canonical twistor channel embedding $M_{\mathbb{C}}(d_{\mathrm{bary}}, \theta) = \operatorname{ddfThermalGr24Matrix}(d_{\mathrm{bary}}, \theta)$ with $d_{\mathrm{bary}} \in (-1, 1)$, the uncrossed channel moduli are $|w_A^{\mathbb{C}}|^2 = 1 + d_{\mathrm{bary}}$ and $|w_B^{\mathbb{C}}|^2 = 1 - d_{\mathrm{bary}}$. The table below records how the **barycentric shift $d_{\mathrm{bary}}$**, the **uncrossed channel product $|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2 = 1 - d_{\mathrm{bary}}^2$**, the **uncrossed channel ratio $|w_A^{\mathbb{C}}|^2 / |w_B^{\mathbb{C}}|^2 = \frac{1+d_{\mathrm{bary}}}{1-d_{\mathrm{bary}}}$**, and the **Plücker identity** specialize across all nineteen companion papers:
 
 | # | Companion Paper & Domain | Barycentric Shift $d_{\mathrm{bary}} = \frac{\|w_A^{\mathbb{C}}\|^2 - \|w_B^{\mathbb{C}}\|^2}{2}$ | Uncrossed Product $\|w_A^{\mathbb{C}}\|^2\|w_B^{\mathbb{C}}\|^2 = 1 - d_{\mathrm{bary}}^2$ | Uncrossed Ratio $\frac{\|w_A^{\mathbb{C}}\|^2}{\|w_B^{\mathbb{C}}\|^2} = \frac{1+d_{\mathrm{bary}}}{1-d_{\mathrm{bary}}}$ | Physical Meaning of the Plücker Identity ($\Delta_{01}\Delta_{23} - \Delta_{02}\Delta_{13} + \Delta_{03}\Delta_{12} = 0$ or Rank-3 Syzygy) |
 |---|---|---|---|---|---|
-| **1** | [Double-Slit, $N$-Slit, & OAM Interferometry](grassmannian-huygens-double-slit-oam-paper.md) | Qian–Izadi parallel-axis shift $\pm\sqrt{I_O - I_M} = \pm P_N$ | Squared fringe visibility $\mathcal{V}^2 = K_N^2 = 1 - P_N^2$ | Slit intensity ratio $m_0 / m_1$ | Coherent two-slit / multi-slit wave superposition ($\varepsilon_{\mathrm{rel}} = 0$ everywhere on $Gr_{\mathbb{C}}(2,4)$) & Fresnel-to-Fraunhofer bound $\le (\pi N_F)^2$ |
+| **1** | [Double-Slit (Models 1–6), $N$-Slit, & OAM Interferometry](grassmannian-huygens-double-slit-oam-paper.md) | Qian–Izadi parallel-axis shift $\pm\sqrt{I_O - I_M} = \pm P_N$ | Squared fringe visibility $\mathcal{V}^2 = K_N^2 = 1 - P_N^2$ | Slit intensity ratio $m_0 / m_1$ | Coherent two-slit / multi-slit wave superposition (`complexGr24CrossingDoubleSlit` & Model 6 `pluckerMadelungSuperpositionOAMDoubleSlit`, $p_{13}=z_1+z_2$ on $\mathcal{Q}_4$, $\varepsilon_{\mathrm{rel}} = 0$ everywhere) & Fresnel-to-Fraunhofer bound $\le (\pi N_F)^2$ |
 | **2** | [QISM & Algebraic Bethe Ansatz](grassmannian-qism-bethe-ansatz-paper.md) | Normalized spectral coupling $\eta / (u - v)$ | Quantum unitarity factor $1 - \eta^2 / (u - v)^2$ | Triplet-to-singlet $R$-matrix eigenvalue ratio $\frac{u - v + \eta}{u - v - \eta}$ | Baxter's functional $QQ$-system, Hirota bilinear equation, & $TQ$ Casorati Wronskian |
 | **3** | [DDF Moving Sheaths & Anosov Flows](grassmannian-ddf-moving-sheath-paper.md) | Reduced sheath speed $\beta = v / c \in [0, 1)$ | Inverse squared Lorentz jamming factor $\gamma_\varphi(v)^{-2} = 1 - v^2/c^2$ | Relativistic longitudinal Doppler factor $\frac{1+\beta}{1-\beta}$ | Madelung two-sector conservation & operational Minkowski interval $c^2 d\tau_D^2 = c^2 dt^2 - d\mathbf{x}^2$ |
-| **4** | [QED Scattering Gravity, Planetary Orbits, & Quadrupole Gravitational Waves](grassmannian-gravity-from-qed-scattering-paper.md) | Orbital eccentricity $e \in [0, 1)$ in `gr24PrecessionMatrix` & `gr24QuadrupoleWaveMatrix` | Semi-latus rectum ratio $p / a = 1 - e^2$ & Peters–Mathews $f_{\mathrm{PM}}(e)^2 = \frac{P_{\mathrm{PM}}(e)^2}{(\|w_A^{\mathbb{C}}\|^2\|w_B^{\mathbb{C}}\|^2)^7}$ | Aphelion-to-perihelion ratio $\frac{r_{\mathrm{aph}}}{r_{\mathrm{per}}} = \frac{1+e}{1-e}$ | BCJ Jacobi $n_s + n_t + n_u = 0$, Cachazo–Skinner Hodges double-copy kernel $\mathcal{K}_{\mathrm{CS}} = (\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}})^2 = (w_A^{\mathbb{C}}+w_B^{\mathbb{C}})^2$, & $2\Phi_{\mathrm{orb}}+\Delta\varpi$ GW phase |
+| **4** | [QED Scattering Gravity, Planetary Orbits, & Quadrupole Gravitational Waves (Models 1–14b)](grassmannian-gravity-from-qed-scattering-paper.md) | Orbital eccentricity $e \in [0, 1)$ in `gr24PrecessionMatrix`, `gr24QuadrupoleWaveMatrix`, & `gr24AffineChart` $W_{\mathrm{orb}}$ | Semi-latus rectum ratio $p / a = 1 - e^2 = \mathcal{D}(W_{\mathrm{orb}})-3$ & Peters–Mathews $f_{\mathrm{PM}}(e)^2 = \frac{P_{\mathrm{PM}}(e)^2}{(\mathcal{D}(W_{\mathrm{orb}})-3)^7}$ | Aphelion-to-perihelion ratio $\frac{r_{\mathrm{aph}}}{r_{\mathrm{per}}} = \frac{1+e}{1-e}$ | BCJ Jacobi $n_s + n_t + n_u = 0$, Cachazo–Skinner Hodges double-copy kernel $\mathcal{K}_{\mathrm{CS}} = (\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}})^2 = (w_A^{\mathbb{C}}+w_B^{\mathbb{C}})^2$, & Models 14a/14b Fubini–Study Kähler + `iGPE` Josephson precession/GW laws |
 | **5** | [Normed Tensor Gaussian Splat Mechanics](grassmannian-splat-mechanics-paper.md) | Principal variance asymmetry $\frac{\sigma_1^2 - \sigma_2^2}{2\sigma_0^2}$ | Normalized covariance determinant $\det\Sigma / \sigma_0^4$ | Principal variance aspect ratio $\sigma_1^2 / \sigma_2^2$ | Dual-layer twistor wavepacket $\Psi_{\mathrm{splat}} = \sqrt{G}(w_A^{\mathbb{C}} + w_B^{\mathbb{C}})$ & Bohm precision-matrix algebra |
 | **6** | [Inverse Compton, Raman, & Second-Sound Heat](grassmannian-thermal-compton-raman-paper.md) | Velocity $\beta$, Raman shift $\frac{\Omega_v}{\omega_L}$, or reduced heat flux $j_q = \frac{q}{q_{\max}^{\mathrm{DDF}}}$ | Relativistic Cattaneo flux-limiter margin $1 - j_q^2 > 0$ & jammed diffusivity $\frac{\alpha_\parallel^{\mathrm{DDF}}}{\alpha_0}$ | Thomson ICS upshift $\frac{\omega_{\max}^{\mathrm{ICS}}}{\omega_0}$ & Raman ratio $\frac{\omega_{AS}}{\omega_S}$ | Forward/backward characteristic splitting & Second-Law Plücker product growth under relaxation |
 | **7** | [Polaritons, SPPs, CSR, & $\chi^{(2)}$ SHG-OPA](grassmannian-polariton-spp-mechanics-paper.md) | Hopfield shift $d_{\mathrm{Hopfield}}$, SPP contrast $\chi_{\mathrm{SPP}}$, or Cherenkov $\cos\theta_C$ | Hybridization $4\|C\|^2\|X\|^2$, SPP resonance factor, or Mach-cone $\sin^2\theta_C$ | Hopfield $\|C\|^2/\|X\|^2$ or SPP skin-depth ratio $\frac{\|\varepsilon_m\|}{\varepsilon_d} = \frac{\delta_d}{\delta_m}$ | Hopfield trace conservation, Anti-Amplituhedron destructive null ($w_A^{\mathbb{C}} + w_B^{\mathbb{C}} = 0$), & OPA squeezing |
@@ -97,18 +99,25 @@ while any $3 \times 6$ complex matrix $M_3 \in \mathbb{C}^{3 \times 6}$ represen
 | **16** | [Four-Quadrant Hawking Radiation, `iGPE` Unwinding, S301 Wake, & Amplituhedron/CP-ALS Decoding](grassmannian-hawking-radiation-decoding-paper.md) | Horizon inflow $\beta_\phi(r) = \sqrt{r_H/r}$ or S301 orbital eccentricity $e$ | Gordon acoustic metric lapse $\frac{g_{00}^{\mathrm{Gordon}}}{-\rho_0 c} = 1 - \frac{r_H}{r}$ & Penrose Pauli spinor $\det X^{AA'} = \frac{1}{2}(t^2 - r^2)$ | S301 pericenter-to-aphelion vis-viva ratio $\frac{r_{\max}}{r_{\min}} = \frac{1+e}{1-e} > 1$ | Continuum `iGPE` QHJ potential reconstruction $V_{\mathrm{ext}}(r) = -\frac{m_\phi G_\phi M}{r}$, 2D/3D splat fracture swell $\det\Sigma_{\mathrm{swell}} - \det\Sigma_{\mathrm{DDF}} = \frac{\sigma_0^4\beta^4}{4}$ releasing $\Delta Q_{\mathrm{core}} > 0$, & rank-2 CP/ALS Page-curve decoding |
 | **17** | [Multi-Spectral & Multi-Array Grassmannian Imaging: Hubble $2\times$ CCDs, `LVP` Medical, `LIFU`/`AOT`/`TRUE`, & $<1\text{ nm}$ Nanoimaging](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md) | AOT carrier-to-tagged contrast $\delta_{\mathrm{aot}} = \frac{I_{\mathrm{car}} - I_{\mathrm{tag}}}{I_{\mathrm{car}} + I_{\mathrm{tag}}}$ & cascaded STED / HMM compression | 4-exposure CR coincidence $16{,}777{,}216\times(0.015)^4 = 0.849 < 1$ & $<1\text{ nm}$ linewidths $w_{\mathrm{nano}}^2 = (3/4)^2, (1/2)^2 < 1$ | AOT ultrasonic sideband Plücker ratio $\frac{\|w_B^{\mathbb{C}}(M_{\mathrm{aot}})\|^2}{\|w_A^{\mathbb{C}}(M_{\mathrm{aot}})\|^2} = \frac{I_{\mathrm{tag}}}{I_{\mathrm{car}}}$ & `LVP` vs. Si yield $\frac{292}{45} \approx 6.49\times$ | Product hierarchy $\mathrm{Gr}_{\mathbb{R}}(4, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ for intensity arrays vs. $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(3,6) \times \mathrm{Gr}_{\mathbb{C}}(k, N_{\mathrm{SLM}})$ for coherent `TRUE`/`AOT`/holographic arrays |
 | **18** | [Grassmannian Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, & Mpemba / Entropy-Siphoning Laws](grassmannian-quantum-causal-inference-mpemba-paper.md) | Quantum Switch causal asymmetry $\delta_{\mathrm{switch}} = \frac{E_+ - E_-}{E_+ + E_-}$ & lightcone speed $\beta = v/c$ | Causal lightcone interval $1 - \beta^2 > 0$ & d-separation bottlenecks $\det T_{A,B} = 0$ vs. $> 0$ | Quantum Switch commutator-to-anticommutator Plücker ratio $\frac{\|w_B^{\mathbb{C}}\|^2}{\|w_A^{\mathbb{C}}\|^2} = \frac{E_-}{E_+}$ & Choi $\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{C}}(4,16) = 96$ | Pearl $\operatorname{do}(X)$ incoming-edge surgery, Giarmatzi–Costa counterfactual abduction–action–prediction, Strong Mpemba slow-mode projection ($a_{2,\mathrm{hot}}=0$), Constructor Theory task algebra, & del Rio conditional Landauer vs. $-0.750\text{ }\mu\text{W}$ Lignolux audit |
+| **19** | [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study GPE, Dual-Schubert `iGPE`, & Homogeneous Plücker $\mathcal{Q}_4$ Madelung Hydrodynamics](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md) | Orbital/slit eccentricity $e$ on Fubini–Study chart $W_{\mathrm{orb}}$ & dual-Schubert current $J_{\mathrm{Josephson}} = 2\operatorname{Im}(\bar{\Psi}\lambda\Phi)$ | Orbital Kähler excess $\det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) - 3 = 1 - e^2 = p/a$ & Cauchy–Binet $\det(I_2+W W^\dagger) = \|p(I_2\mid W)\|^2 \ge 1$ | Deborah shear-fracture ratio $\frac{\mathrm{De}}{\mathrm{De}_c}$ ($\hbar^2\omega^2 < 0 \iff \mathrm{De}/\mathrm{De}_c > 1$) & dual condensate ratio $\sqrt{\rho_{\mathrm{dual}}/\rho}$ | Klein quadric $\mathcal{C}(p) = p_I\tilde{p}^I = 0$ enforces linear wave superposition $p_4 = z_1+z_2$, corrected Hermitian normal $n(p)=\overline{\tilde{p}}$ annihilates $\mathcal{H}^{I\bar{J}}$, & Penrose Bohm–Weyl dictionary $W_{\mathrm{Weyl}} + \frac{1}{24}R_{4\mathrm{D}} = \frac{2\mathcal{M}}{\hbar^2}Q_{\mathrm{Pl\ddot{u}cker}}$ |
 
 ### 1.2 Five Overarching Theoretical Implications
 
-1. **Complex Twistor Phase Resolves the Real Positivity Obstruction Across Optics, Nanolithography, and Homodyne Tomography**:
-   Restricting to the real positive Grassmannian $Gr_{\ge 0}(2,4)$ (or positive real Gaussian densities $G(x,y) \ge 0$) incurs a mandatory $50\%$ ($1/2$) on-axis relative predictive error (`gr24UnphasedDoubleSlit_onAxis_relative_error_half`) and $100\%$ error at dark fringes because positive reals cannot sum to zero. Lifting to the complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ with $\mathbb{C}^4$ Penrose twistor phases $z_{1,2} = \sqrt{1 \pm d_{\mathrm{bary}}}\,e^{\pm i\theta}$:
-   - **Eliminates the $50\%$ double-slit error completely ($\varepsilon_{\mathrm{rel}} = 0$ everywhere)** (`complexGr24CrossingDoubleSlit_zero_error`, `complexGr24CrossingDoubleSlit_barycentric_eq_huygensSteiner`) and enables exact destructive phase cancellation (`antiAmplituhedronGr24Matrix`) in $Gr_{\mathbb{C}}(2,4) \setminus Gr_{\ge 0}(2,4)$;
+1. **Complex Twistor Phase & Homogeneous Plücker $\mathcal{Q}_4$ Madelung Resolve Both the Real Positivity Obstruction and the $\rho \to 0$ Bohm Singularity Across Optics, Nanolithography, and Homodyne Tomography**:
+   Restricting to the real positive Grassmannian $Gr_{\ge 0}(2,4)$ (or positive real Gaussian densities $G(x,y) \ge 0$) incurs a mandatory $50\%$ ($1/2$) on-axis relative predictive error (`gr24UnphasedDoubleSlit_onAxis_relative_error_half`) and $100\%$ error at dark fringes because positive reals cannot sum to zero. Lifting to the complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ with $\mathbb{C}^4$ Penrose twistor phases $z_{1,2} = \sqrt{1 \pm d_{\mathrm{bary}}}\,e^{\pm i\theta}$ and homogeneous Plücker coordinates $p_{ij} = \sqrt{\rho_{ij}}\,e^{i S_{ij}/\hbar}$ on the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$:
+   - **Eliminates the $50\%$ double-slit error completely ($\varepsilon_{\mathrm{rel}} = 0$ everywhere) while regularizing dark-fringe and OAM vortex-core singularities**: Both `complexGr24CrossingDoubleSlit` (Model 3) and the revised **Turner (2026) Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-Grassmannian `iGPE` Superposition Model 6** (`pluckerMadelungSuperpositionOAMDoubleSlit` in `Signals.DDF`, `SlitModelKind::PluckerMadelungDualIgpe` in `double_slit.rs`) achieve $\varepsilon_{\mathrm{rel}} = 0$ everywhere on $Gr_{\mathbb{C}}(2,4)$, while Model 6 replaces the singular scalar Bohm potential $-\frac{\hbar^2}{2m}\frac{\nabla^2\sqrt{\rho}}{\sqrt{\rho}}$ ($\rho \to 0$) with homogeneous Plücker coordinates constrained by $\mathcal{C}(p) = p_I\tilde{p}^I = 0$ (`plucker_hodge_klein_quadric_and_projector_identities`) and reduces identically to `huygensSteinerOAMDoubleSlit` in the phase-locked regime ($s_{\mathrm{dual}} = s_{\mathrm{real}}$);
    - **Prevents unwanted $sp^3$ diamond over-squeeze in sub-$20\text{ nm}$ carbon nanolithography** (`madelung_hamiltonian_euler_ads_and_nanolithography_bridge_identities`), where shifting adjacent exposure flashes by $\Delta\theta = \pi/2$ in `madelungPolarWavefunction` reduces peak intensity from $(A_1 + A_2)^2 = 2.56 > 2 = A_{sp3}$ down to $A_1^2 + A_2^2 = 1.28 < 2$; and
    - **Enables full complex quadrature recovery in Hawking/homodyne tomography** (`homodyne_pi_div_two_phase_sweep_recovers_quadrature`), where sweeping the local-oscillator phase by $\pi/2$ reconstructs both $\operatorname{Re}(\psi_{\mathrm{LO}}^*\psi_s)$ and $\operatorname{Im}(\psi_{\mathrm{LO}}^*\psi_s)$.
 
-2. **The 3-Term $Gr_{\mathbb{C}}(2,4)$ and 4-Term $Gr_{\mathbb{C}}(3,6)$ Plücker Identities Are Universal Superposition, Double-Copy, Integrability, and Volumetric Projection Laws**:
+2. **The 3-Term $Gr_{\mathbb{C}}(2,4)$ and 4-Term $Gr_{\mathbb{C}}(3,6)$ Plücker Identities Are Universal Superposition, Double-Copy, Orbital Kähler, Integrability, and Volumetric Projection Laws**:
    Across our formalization, the quadratic Plücker relations on $Gr_{\mathbb{C}}(2,4)$ and $Gr_{\mathbb{C}}(3,6)$ are proved to be the common algebraic origin of:
-   - Coherent optical and OAM wave amplitude superposition (`complexGr24_crossing_eq_channel_sum`),
+   - Coherent optical and OAM wave amplitude superposition (`complexGr24_crossing_eq_channel_sum`) and Klein-quadric linear superposition $p_4 = z_1 + z_2 = p_0 p_5 + p_2 p_3$ (`turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models`),
+   - The **Orbital Fubini–Study Kähler–Plücker Identity** (`PlanetaryOrbit.gr24AffineChart`), where embedding aphelion/perihelion orbital eccentricity $e \in [0,1)$ and anomaly $\Delta\varpi$ into $W_{\mathrm{orb}}(e,\Delta\varpi) = \operatorname{diag}(\sqrt{1+e}\,e^{i\Delta\varpi/2},\,\sqrt{1-e}\,e^{-i\Delta\varpi/2}) \in \mathbb{C}^{2\times 2}$ yields the exact Cauchy–Binet Kähler determinant identity:
+
+     $$
+     \operatorname{kahlerDetFactor}(W_{\mathrm{orb}}) = \det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) = \bigl\|p(I_2 \mid W_{\mathrm{orb}})\bigr\|_{\mathbb{C}^6}^2 = 4 - e^2 = 3 + \frac{p}{a} > 3 \implies \operatorname{kahlerDetFactor}(W_{\mathrm{orb}}) - 3 = 1 - e^2 = \frac{p}{a},
+     $$
+
    - Baxter's functional $QQ$-system and $TQ$ Casorati Wronskian difference equation in quantum integrable spin chains (`baxter_qq_pluecker_identity`, `baxterTQResidual_wronskian_zero`),
    - The Bern–Carrasco–Johansson (BCJ) color–kinematics Jacobi identity $n_s + n_t + n_u = 0$, the graviton double copy $n_t^2 = (n_s + n_u)^2$ (`bcj_plucker_jacobi_and_double_copy`), and the Cachazo–Skinner ([2013](#unif-cachazo2013)) 4-point Hodges reduced determinant double-copy kernel (`cachazoSkinnerHodges4PtKernel_eq_bcj_double_copy`):
 
@@ -124,18 +133,19 @@ while any $3 \times 6$ complex matrix $M_3 \in \mathbb{C}^{3 \times 6}$ represen
 
    - Direct 3D volumetric covariance, 2D marginal projection, and 4-term Plücker syzygy identities on $Gr_{\mathbb{C}}(3,6)$ (`gr36_volumetric_imaging_and_plucker_identities`, `gr36_simultaneous_conservation_holographic_projection_and_schur_identities`).
 
-3. **Why Flat-Space $Gr_{\mathbb{C}}(2,4)$ Double Copy, Cachazo–Skinner Infinity-Twistor Gravity, and Conservative DDF Match Einstein GR ($\varepsilon_{\mathrm{rel}} = 0$) at Both 1PN (Perihelion) and 2.5PN (Gravitational Waves) While Ruling Out Competing Theories**:
-   Our dual 15-row machine-checked model comparisons—`PlanetaryOrbit.gravity_models_relative_predictive_error_comparison` (conservative 1PN perihelion advance $\Delta\varpi$) and `PlanetaryOrbit.gravitational_wave_models_relative_predictive_error_comparison` (radiative 2.5PN Peters–Mathews quadrupole luminosity $P_{\mathrm{GW}}$) in [src/signals/Signals/QEDGravity.lean](../src/signals/Signals/QEDGravity.lean)—establish a sharp classification of gravitational theories:
-   - **Resolution of Witten's (2004) Twistor-String Conformal Gravity Pathology**: Witten's original $\mathbb{CP}^{3|4}$ topological B-model twistor string ([Witten 2004](#unif-witten2004); [Berkovits & Witten 2004](#unif-berkovits2004)) preserved full $\mathrm{SU}(2,2|4)$ conformal symmetry, generating 4th-order Weyl conformal supergravity ($S_{\mathrm{Weyl}} \propto \int C_{\mu\nu\rho\sigma}^2$, propagator $1/q^4 = 1/\mathbf{q}^4$) with non-unitary Ostrogradsky ghosts, an unphysical biharmonic linear potential $+\frac{1}{2}\gamma_{\mathrm{conf}}c^2 r$ whose perihelion error grows with semi-major axis as $a^3$, and negative-norm ghost radiation $-\delta P_{\mathrm{ghost}} < 0$ (`wittenConformalTwistorPrecessionRad`, `wittenConformalTwistorGWLuminosity`). Introducing Cachazo and Skinner's ([2013](#unif-cachazo2013)) rank-2 infinity twistor $I_{AB}$ on $\mathbb{CP}^{3|8}$ (`cachazoSkinnerTwistorPrecessionRad`, `cachazoSkinnerTwistorGWLuminosity`) or working directly in flat-space post-Minkowskian QFT on $Gr_{\mathbb{C}}(2,4)$ ([Partanen & Tulkki 2025](#unif-partanen2025); [Bjerrum-Bohr et al. 2018](#unif-bjerrum2018)) breaks spurious conformal invariance down to the Poincaré group, projects out all $1/q^4$ Weyl ghost modes, and yields $\varepsilon_{\mathrm{rel}} = 0$ at both 1PN and 2.5PN.
+3. **Why Flat-Space $Gr_{\mathbb{C}}(2,4)$ Double Copy, Cachazo–Skinner Infinity-Twistor Gravity, Homogeneous Plücker $\mathcal{Q}_4$ Kähler `iGPE` (Models 14a & 14b), and Conservative DDF Match Einstein GR ($\varepsilon_{\mathrm{rel}} = 0$) at Both 1PN (Perihelion) and 2.5PN (Gravitational Waves) While Ruling Out Competing Theories**:
+   Our dual 17-row (`1`–`13` + `14a` & `14b`) machine-checked model comparisons—`PlanetaryOrbit.gravity_models_relative_predictive_error_comparison` (conservative 1PN perihelion advance $\Delta\varpi$) and `PlanetaryOrbit.gravitational_wave_models_relative_predictive_error_comparison` (radiative 2.5PN Peters–Mathews quadrupole luminosity $P_{\mathrm{GW}}$) in [src/signals/Signals/QEDGravity.lean](../src/signals/Signals/QEDGravity.lean), together with `turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models` in [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L9305-L9715)—establish a sharp classification of gravitational theories:
+   - **Resolution of Witten's (2004) Twistor-String Conformal Gravity Pathology**: Witten's original $\mathbb{CP}^{3|4}$ topological B-model twistor string ([Witten 2004](#unif-witten2004); [Berkovits & Witten 2004](#unif-berkovits2004)) preserved full $\mathrm{SU}(2,2|4)$ conformal symmetry, generating 4th-order Weyl conformal supergravity ($S_{\mathrm{Weyl}} \propto \int C_{\mu\nu\rho\sigma}^2$, propagator $1/q^4 = 1/\mathbf{q}^4$) with non-unitary Ostrogradsky ghosts, an unphysical biharmonic linear potential $+\frac{1}{2}\gamma_{\mathrm{conf}}c^2 r$ whose perihelion error grows with semi-major axis as $a^3$, and negative-norm ghost radiation $-\delta P_{\mathrm{ghost}} < 0$ (`wittenConformalTwistorPrecessionRad`, `wittenConformalTwistorGWLuminosity`). Introducing Cachazo and Skinner's ([2013](#unif-cachazo2013)) rank-2 infinity twistor $I_{AB}$ on $\mathbb{CP}^{3|8}$ (`cachazoSkinnerTwistorPrecessionRad`, `cachazoSkinnerTwistorGWLuminosity`), working directly in flat-space post-Minkowskian QFT on $Gr_{\mathbb{C}}(2,4)$ ([Partanen & Tulkki 2025](#unif-partanen2025); [Bjerrum-Bohr et al. 2018](#unif-bjerrum2018)), or evaluating the **revised Turner (2026) Fubini–Study Kähler & Plücker $\mathcal{Q}_4$ `iGPE` Models 14a (`turnerPluckerIGPEPrecessionRad`, `turnerPluckerIGPEGWLuminosity`) and 14b (`turnerDualGr24IGPEDDFPrecessionRad`, `turnerDualGr24IGPEDDFGWLuminosity`)** breaks spurious conformal invariance down to the Poincaré group, projects out all $1/q^4$ Weyl ghost modes, and yields $\varepsilon_{\mathrm{rel}} = 0$ at both 1PN and 2.5PN while explicitly parameterizing strong-field dual-Schubert Josephson torque ($\delta_{\mathrm{Jos}}$) and Deborah shear-fracture ringdown leakage ($\delta P_{\mathrm{Jos}}$).
    - **Exact Predictive Deficits of Lower-Spin and Non-Relativistic/Viscous Models**:
      - *Newtonian $1/r$ gravity*: $\Delta\varpi = 0$ ($\varepsilon_{\mathrm{rel}} = 1 = 100\%$) and $P_{\mathrm{GW}} = 0$ ($\varepsilon_{\mathrm{rel}} = 1 = 100\%$).
      - *Nordström (1913) relativistic spin-0 scalar gravity*: $\Delta\varpi_{\mathrm{Nord}} = -\frac{1}{6}\Delta\varpi_{\mathrm{GR}} < 0$ (**retrograde** precession, $\varepsilon_{\mathrm{rel}} = 7/6 \approx 116.67\%$), zero spin-2 TT $(+, \times)$ modes ($\varepsilon_{\mathrm{rel}}^{\mathrm{TT}} = 1$), and $\varepsilon_{\mathrm{rel}}^{\mathrm{tot}} = 5/6 \approx 83.33\%$ in the virial scalar-trace quadrupole.
      - *Special-relativistic spin-1 vector / un-doubled Coulomb-Larmor model*: $\Delta\varpi_{\mathrm{vec}} = +\frac{1}{6}\Delta\varpi_{\mathrm{GR}}$ ($\varepsilon_{\mathrm{rel}} = 5/6 \approx 83.33\%$), zero spin-2 TT modes ($\varepsilon_{\mathrm{rel}}^{\mathrm{TT}} = 1$), and $\varepsilon_{\mathrm{rel}}^{\mathrm{tot}} = 3/4 = 75\%$ because the universal gravitational charge-to-mass ratio $q_i/m_i = \sqrt{G}$ makes the binary center-of-charge coincide with the center-of-mass ($\ddot{\mathbf{d}} = \mathbf{0}$), killing dipole radiation while vector quadrupole radiation supplies only $1/4$ of the spin-2 flux.
-     - *Pure inviscid Euler/Bernoulli sink flow vs. vortex-lattice DDF*: A pure scalar inviscid sink $v_r = -\sqrt{2GM/r}$ without $1/r^3$ relativistic acoustic pressure or vortex-lattice shear rigidity ($\mu_{\mathrm{shear}} = 0$) has $\varepsilon_{\mathrm{rel}} = 1$ ($100\%$ error) for both anomalous perihelion precession and transverse $(+, \times)$ gravitational waves, whereas incorporating relativistic acoustic pressure + GPE Bohm core ([Fedi 2016](#unif-fedi2016)) and conservative dilatant $\gamma - 1$ shear-jamming with zero baseline Stokes drag ([Fedi 2017](#unif-fedi2017); [Fedi 2026](#unif-fedi2026)) achieves $\varepsilon_{\mathrm{rel}} = 0$ while conserving orbital energy at 1PN ($\frac{dE}{dt} = 0$, `ddf_conservative_action_vs_stokes_drag_critique`).
+     - *Pure inviscid Euler/Bernoulli sink flow vs. vortex-lattice DDF*: A pure scalar inviscid sink $v_r = -\sqrt{2GM/r}$ without $1/r^3$ relativistic acoustic pressure or vortex-lattice shear rigidity ($\mu_{\mathrm{shear}} = 0$) has $\varepsilon_{\mathrm{rel}} = 1$ ($100\%$ error) for both anomalous perihelion precession and transverse $(+, \times)$ gravitational waves, whereas incorporating relativistic acoustic pressure + GPE Bohm core ([Fedi 2016](#unif-fedi2016)), conservative dilatant $\gamma - 1$ shear-jamming with zero baseline Stokes drag ([Fedi 2017](#unif-fedi2017); [Fedi 2026](#unif-fedi2026)), and the revised Fubini–Study Kähler + Plücker $\mathcal{Q}_4$ `iGPE` closure (Models 14a/14b) achieves $\varepsilon_{\mathrm{rel}} = 0$ while conserving orbital energy at 1PN ($\frac{dE}{dt} = 0$, `ddf_conservative_action_vs_stokes_drag_critique`).
 
-4. **Variational Closure from Superfluid Gross–Pitaevskii Action to Madelung QHJ, `iGPE` Potential Unwinding, and Action-Derived DDF Jamming**:
-   In [grassmannian-madelung-lagrangian-ddf-jamming-paper.md](grassmannian-madelung-lagrangian-ddf-jamming-paper.md) (`MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities`) and [grassmannian-hawking-radiation-decoding-paper.md](grassmannian-hawking-radiation-decoding-paper.md) (`madelungInversePotentialReconstruction`), we upgraded the Madelung representation from a kinematic variable decomposition to a complete **Euler–Lagrange variational principle**:
+4. **Variational Closure from Superfluid Gross–Pitaevskii Action to Homogeneous Plücker $\mathcal{Q}_4$ Madelung QHJ, Dual-Schubert `iGPE` Potential Unwinding, and Action-Derived DDF Jamming**:
+   In [grassmannian-madelung-lagrangian-ddf-jamming-paper.md](grassmannian-madelung-lagrangian-ddf-jamming-paper.md) (`MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_identities`), [grassmannian-hawking-radiation-decoding-paper.md](grassmannian-hawking-radiation-decoding-paper.md) (`madelungInversePotentialReconstruction`), and [grassmannian-complex-gpe-igpe-plucker-madelung-paper.md](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md) (`complex_grassmannian_gpe_dual_igpe_and_plucker_madelung_identities`), we upgraded the Madelung representation from a kinematic variable decomposition to a complete **Euler–Lagrange variational principle on both $\mathbb{R}^{1,3}$ and the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$**:
    - Substituting the polar order parameter $\psi(A, \theta) = A e^{i\theta}$ ($\theta = S/\hbar$, $A = \sqrt{\rho} > 0$) into the Gross–Pitaevskii Lagrangian density $\mathcal{L}_{\mathrm{GP}}$ cancels $\dot{A}$ identically in $-\hbar\operatorname{Im}(\psi^*\partial_t\psi) = -\rho\,\partial_t S$, yields the compressible continuity equation $\partial_t\rho + \nabla\cdot(\rho v_\phi) = 0$ from $\delta\mathcal{S}/\delta S = 0$, and yields the exact **Quantum Hamilton–Jacobi (QHJ)** equation $\partial_t S + \frac{1}{2}m_\phi v_\phi^2 + V_{\mathrm{ext}} + g_\phi\rho + Q(\rho) = 0$ from $(-2A)^{-1}\delta\mathcal{S}/\delta A = 0$.
+   - Lifting to homogeneous Plücker coordinates $p_I = \sqrt{\rho_I}\,e^{i S_I/\hbar}$ on $\mathcal{Q}_4$ with the **corrected Hermitian normal** $n(p) = \overline{\tilde{p}}$ (`pluckerHermitianNormal_annihilates_projector`: $\mathcal{H}^{I\bar{J}}(p)\,\tilde{p}_J = 0$) and coupling $Gr_{\mathbb{C}}(2,4)$ to its dual $Gr_{\mathbb{C}}(2,4)^\vee$ (`dualGrassmannianNoetherConservation`: $\partial_t(\rho_{\mathrm{real}}+\rho_{\mathrm{dual}}) + \nabla\cdot(\mathbf{J}_{\mathrm{real}}+\mathbf{J}_{\mathrm{dual}}) = 0$) establishes the **Penrose Bohm–Weyl curvature dictionary** $W_{\mathrm{Weyl}} + \frac{1}{24}R_{4\mathrm{D}} = \frac{2\mathcal{M}}{\hbar^2}Q_{\mathrm{Pl\ddot{u}cker}}$ (`pluckerBohmPotential_eq_weyl_plus_scalar_curvature`) and the **Deborah shear-fracture instability threshold** $\hbar^2\omega^2 < 0 \iff \mathrm{De}/\mathrm{De}_c > 1$ (`deborahShearFractureInstability_iff`).
    - Inverting the QHJ equation defines the continuum **Inverse Gross–Pitaevskii (`iGPE`) potential reconstruction** (`madelungInversePotentialReconstruction` and `HawkingGrassmannianSynthesisContract.madelung_and_pointwise_igpe_potential_bridge`), which unwinds stationary Painlevé–Gullstrand `RiverExterior` flow ($v_\phi(r) = -\sqrt{2G_\phi M/r}$) directly back to the Newtonian/superfluid sink potential $V_{\mathrm{ext}}(r) = -\frac{m_\phi G_\phi M}{r}$.
    - Coupling a translating vortex sheath ($v < c$) to the dilatant $\varphi$-substrate proves that the sheath-compression Euler–Lagrange residual $\mathcal{R}_{\mathrm{sheath}}(\Lambda_\parallel) = \Lambda_\parallel(1 - \beta^2) - \Lambda_\parallel^{-1} = 0$ has the **unique** positive minimum $\Lambda_\parallel = \gamma_\varphi(v) = (1 - v^2/c^2)^{-1/2}$, that the Legendre transform of $L_{\mathrm{DDF}}(v) = -m c^2/\gamma_\varphi(v)$ recovers $H_{\mathrm{DDF}}^2 - c^2 p_{\mathrm{DDF}}^2 = m^2 c^4$, and that the normalized action increment $d\tau_D = (-L_{\mathrm{DDF}}(v)/(m c^2))dt = dt/\gamma_\varphi(v)$ (`MovingSheath.actionProperTime`) **derives** the Minkowski proper-time interval $c^2 d\tau_D^2 = c^2 dt^2 - (v\,dt)^2$ without assuming `h_dtau` externally.
 
@@ -160,6 +170,18 @@ As formalized in [grassmannian-multispectral-hubble-medical-nanoimaging-paper.md
 | **$\mathrm{Gr}_{\mathbb{C}}(4, 6{,}800{,}000) = \mathrm{Gr}_{\mathbb{C}}(4, 6.8\times 10^6)$ & $\mathrm{Gr}_{\mathbb{C}}(k, N_{\mathrm{SLM}})$**<br>($\dim_{\mathbb{R}} = 54{,}399{,}968 = 2\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{R}}(4, 6.8\times 10^6)$) | $k$ complex wavefronts ($A e^{i\phi}$) across $N_{\mathrm{SLM}}$ or $N_{\mathrm{sensor}}$ coherent pixels/transducers | `TRUE` optical time-reversal SLMs ([Xu et al. 2011](#unif-xu2011true)), `LIFU` 2D/3D phased arrays, radio VLBI (EHT), off-axis digital holography, & `LVP` phase-contrast arrays | Computes DORT/TRUE time-reversal eigenstates of $(T^\dagger T)^m$, achieving peak-to-background gain $\eta_{\mathrm{TRUE}} = \frac{\pi}{4}(N_{\mathrm{modes}}-1)+1$ and focal compression $\sigma_{\mathrm{US}}^2 / m$ |
 | **$\mathrm{Gr}_{\mathbb{C}}(2, 4)$ & $N$-ary $\mathrm{Gr}_{\mathbb{C}}(2, N_{\mathrm{beam}}+2)$**<br>($\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{C}}(2,4) = 8$) | 2-plane in $\mathbb{C}^4$ twistor/quadrature space (`ddfThermalGr24Matrix`) | Dual-quadrature homodyne (`Signals.Homodyne`), `AOT` sideband tagging ($\omega_0 \pm \omega_{\mathrm{US}}$), 3D splat depth inversion (`recoverDepthVarianceSq`), & pilot-tone phase conjugation | Recovers unseen axial variance $\sigma_3^2 = \operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} / R_{\mathrm{depth}}$, focal range $z_c^2$, and `AOT` tagged-to-carrier ratio $\|w_B^{\mathbb{C}}\|^2 / \|w_A^{\mathbb{C}}\|^2 = I_{\mathrm{tag}} / I_{\mathrm{car}}$ |
 | **$\mathrm{Gr}_{\mathbb{C}}(3, 6)$ & $\mathrm{Gr}_{\mathbb{C}}(3, n)$**<br>($\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{C}}(3,6) = 18$) | Self-dual 3-plane in $\mathbb{C}^6$ (`gr36TwistorMatrix`, `complexThreeRowMinor`) | 3D vectorial longitudinal + transverse waves $(E_x, E_y, E_z)$, 3D Gaussian splats $(\sigma_1^2, \sigma_2^2, \sigma_3^2)$, & $< 1\text{ nm}$ ($0.75\text{ nm}, 0.50\text{ nm}$) convergent nanolithography | Simultaneously encodes all three principal variances, all three 2D orthographic marginals, 3D volume $\det\Sigma_{\mathrm{3D}}$, and Debye–Wolf longitudinal doubling $E_z = 2 E_0 \sin\theta$ |
+
+### 1.4 Revised Turner (2026) Superposition (Model 6), Gravity (Models 14a & 14b), and Gravitational-Wave (Models 14a & 14b) Synthesis via Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-Grassmannian `iGPE`
+
+As proved in `Signals.DDF` Section 30.6 ([src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L9305-L9715), `turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models`) and detailed in [grassmannian-complex-gpe-igpe-plucker-madelung-paper.md](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md), [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md), and [grassmannian-gravity-from-qed-scattering-paper.md](grassmannian-gravity-from-qed-scattering-paper.md), lifting the scalar Madelung wavefunction $\psi = \sqrt{\rho}\,e^{i S/\hbar}$ to **homogeneous Plücker coordinates $p_I = \sqrt{\rho_I}\,e^{i S_I/\hbar}$ on the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$** and coupling the Fubini–Study Kähler chart $W_{\mathrm{orb}} \in \mathbb{C}^{2\times 2}$ to the **dual-Schubert $Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`** produces revised Turner (2026) models across all three foundational benchmarks while preserving every baseline model entry in the comparison tables untouched:
+
+| Physical Domain & Benchmark | Revised Turner (2026) Model ID & Lean / Rust Identifiers | Governing Homogeneous Plücker $\mathcal{Q}_4$ / Fubini–Study Kähler & Dual-`iGPE` Law | Key Geometric & Hydrodynamic Upgrade Over Prior Models | Relative Predictive Error $\varepsilon_{\mathrm{rel}}$ vs. Exact Reference |
+|---|---|---|---|---|
+| **Planar & OAM Double-Slit Superposition** ([Paper 1](grassmannian-huygens-double-slit-oam-paper.md), Sec. 3 & 4; [Paper 19](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md), Sec. 5.1) | **Model 6**:<br>`pluckerMadelungSuperpositionOAMDoubleSlit` (`Signals.DDF`),<br>`SlitModelKind::PluckerMadelungDualIgpe` & `plucker_madelung_dual_igpe_oam_intensity` (`double_slit.rs`) | $I_{\mathrm{Pl\ddot{u}cker\text{-}iGPE}}(x,y) = I_{\mathrm{Gr}_{\mathbb{C}}(2,4)}(M_{\mathbb{C}}, x, y) + \tau_{\mathrm{flight}}\,\Gamma_{\mathrm{Pl\ddot{u}cker}}(\hbar, V_{\mathrm{ext,im}}, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s_{\mathrm{pl}})$ with $p_{\mathrm{slit}} = (z_1, 1, z_2, 1, z_1+z_2, 1)^\top \in \mathcal{Q}_4$ | Enforces linear superposition $p_4 = z_1+z_2$ directly via the Klein quadric $\mathcal{C}(p_{\mathrm{slit}}) = 0$, eliminates the scalar Bohm $-\frac{\hbar^2}{2m}\frac{\nabla^2\sqrt{\rho}}{\sqrt{\rho}}$ ($\rho\to 0$) singularity at dark fringes and OAM vortex cores, and bridges to `pilotWaveOAMDoubleSlit` under a $\Delta S = \frac{\pi}{2}\hbar$ chiral phase slip | **$\varepsilon_{\mathrm{rel}} = 0$ ($0.00\%$)** everywhere in the Hermitian phase-locked regime ($s_{\mathrm{dual}} = s_{\mathrm{real}}, \lambda_{\mathrm{im}} = V_{\mathrm{ext,im}} = 0$); $\varepsilon_{\mathrm{rel}} = \frac{\|\tau_{\mathrm{flight}}\Gamma_{\mathrm{Pl\ddot{u}cker}}\|}{I_{\mathrm{ref}}}$ under chiral phase slip |
+| **1PN Planetary Perihelion Precession (Without DDF)** ([Paper 4](grassmannian-gravity-from-qed-scattering-paper.md), Sec. 2.7; [Paper 19](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md), Sec. 5.2) | **Model 14a (Gravity)**:<br>`PlanetaryOrbit.gr24AffineChart`,<br>`PlanetaryOrbit.turnerPluckerIGPEPrecessionRad` (`Signals.DDF`),<br>`turner_plucker_igpe_precession_rad` (`orbital_splat.rs`) | $\Delta\varpi_{\mathrm{14a}} = \frac{6\pi G M}{c^2 a\bigl(\mathcal{D}(W_{\mathrm{orb}}(e,\Delta\varpi)) - 3\bigr)} + \delta_{\mathrm{Jos}}$, where $\mathcal{D}(W_{\mathrm{orb}}) = \det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) = \|p(I_2\mid W_{\mathrm{orb}})\|^2 = 4 - e^2$ | Replaces the scalar semi-latus rectum factor $1 - e^2 = p/a$ with the exact Fubini–Study Kähler determinant excess $\mathcal{D}(W_{\mathrm{orb}}) - 3 = 1 - e^2$ on $Gr_{\mathbb{C}}(2,4)$ while isolating near-horizon Plücker Bohm + Josephson core shifts $\delta_{\mathrm{Jos}}$ | **$\varepsilon_{\mathrm{rel}} = 0$ ($0.00\%$)** at solar-system scales ($\delta_{\mathrm{Jos}} = 0$, `Mercury` $42.98''/\text{century}$); $\varepsilon_{\mathrm{rel}} = \frac{\delta_{\mathrm{Jos}}}{\Delta\varpi_{\mathrm{GR}}} > 0$ for strong-field $\delta_{\mathrm{Jos}} > 0$ |
+| **1PN Planetary Perihelion Precession (With DDF)** ([Paper 4](grassmannian-gravity-from-qed-scattering-paper.md), Sec. 2.7; [Paper 19](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md), Sec. 5.2) | **Model 14b (Gravity)**:<br>`RiverExterior.turnerDualGr24IGPEDDFPrecessionRad` (`Signals.DDF`),<br>`turner_dual_gr24_igpe_ddf_error` (`orbital_splat.rs`) | $\Delta\varpi_{\mathrm{14b}} = \frac{6\pi G_\phi M\,\varrho_{\max}^\varphi j_{\min}^\varphi}{a\bigl(\mathcal{D}(W_{\mathrm{orb}}(e,\Delta\varpi)) - 3\bigr)} + \delta_{\mathrm{Jos}}$ with $c^{-2} = \varrho_{\max}^\varphi j_{\min}^\varphi$ | Combines the constitutive DDF dispersed-phase product $\varrho_{\max}^\varphi j_{\min}^\varphi = c^{-2}$, the Fubini–Study Kähler excess $\mathcal{D}(W_{\mathrm{orb}})-3 = 1-e^2$, and dual-Schubert $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ Josephson torque $\delta_{\mathrm{Jos}}$ with zero Stokes drag ($\frac{dE}{dt}=0$) | **$\varepsilon_{\mathrm{rel}} = 0$ ($0.00\%$)** in the phase-locked solar-system vacuum ($\delta_{\mathrm{Jos}} = 0$); $\varepsilon_{\mathrm{rel}} = \frac{\delta_{\mathrm{Jos}}}{\Delta\varpi_{\mathrm{GR}}} > 0$ in strong-field vortex-jamming regimes |
+| **2.5PN Quadrupole Gravitational Waves (Without DDF)** ([Paper 4](grassmannian-gravity-from-qed-scattering-paper.md), Sec. 3.3; [Paper 19](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md), Sec. 5.3) | **Model 14a (GW)**:<br>`PlanetaryOrbit.turnerPluckerIGPEGWLuminosity` (`Signals.DDF`),<br>`turner_plucker_igpe_gw_luminosity` (`orbital_splat.rs`) | $P_{\mathrm{GW,14a}} = \frac{32 G^4 m_1^2 m_2^2(m_1+m_2)}{5 c^5 a^5}\frac{P_{\mathrm{PM}}(e)}{\bigl(\sqrt{\mathcal{D}(W_{\mathrm{orb}}(e,2\Phi_{\mathrm{orb}}+\Delta\varpi))-3}\bigr)^7} + \delta P_{\mathrm{Jos}}$ with $p_{\mathrm{GW}} \in \mathcal{Q}_4$ | Factors the Peters–Mathews eccentricity enhancement $(1-e^2)^{-7/2}$ through the $-7/2$ power of the Fubini–Study Kähler excess $\mathcal{D}(W_{\mathrm{orb}})-3$ on $\mathcal{Q}_4$ while regularizing horizon coordinate singularities | **$\varepsilon_{\mathrm{rel}}^{\mathrm{TT}} = \varepsilon_{\mathrm{rel}}^{\mathrm{tot}} = 0$ ($0.00\%$)** during sub-critical inspiral ($\delta P_{\mathrm{Jos}} = 0$); $\varepsilon_{\mathrm{rel}} = \frac{\delta P_{\mathrm{Jos}}}{P_{\mathrm{GW}}^{\mathrm{GR}}} > 0$ at ringdown |
+| **2.5PN & Ringdown Gravitational Waves (With DDF)** ([Paper 4](grassmannian-gravity-from-qed-scattering-paper.md), Sec. 3.3; [Paper 19](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md), Sec. 5.3) | **Model 14b (GW)**:<br>`RiverExterior.turnerDualGr24IGPEDDFGWLuminosity` (`Signals.DDF`),<br>`turner_dual_gr24_igpe_ddf_gw_error` (`orbital_splat.rs`) | $P_{\mathrm{GW,14b}} = P_{\mathrm{GW}}^{\mathrm{DDF}}(m_2) + \delta P_{\mathrm{Jos}}$, where $\hbar^2\omega^2 < 0 \iff \mathrm{De}/\mathrm{De}_c > 1$ triggers super-critical Deborah shear fracture | Unifies $c_{\mathrm{GW}} = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2} = c$, the Einstein–Kähler scalar curvature gap $R_{\mathrm{Gr}}(2,4) = 16$, Penrose Bohm–Weyl curvature $W_{\mathrm{Weyl}} + \frac{1}{24}R_{4\mathrm{D}} = \frac{2\mathcal{M}}{\hbar^2}Q_{\mathrm{Pl\ddot{u}cker}}$, and $\mathrm{De}/\mathrm{De}_c > 1$ ringdown echoes | **$\varepsilon_{\mathrm{rel}}^{\mathrm{TT}} = \varepsilon_{\mathrm{rel}}^{\mathrm{tot}} = 0$ ($0.00\%$)** for $\mathrm{De}/\mathrm{De}_c < 1$ ($\delta P_{\mathrm{Jos}} = 0$); $\varepsilon_{\mathrm{rel}} = \frac{\delta P_{\mathrm{Jos}}}{P_{\mathrm{GW}}^{\mathrm{GR}}} > 0$ in super-critical merger ringdown |
 
 ---
 
@@ -195,7 +217,7 @@ As formalized in [grassmannian-multispectral-hubble-medical-nanoimaging-paper.md
 ### 2.4 Real-Time Browser-Based Scientific Simulation in Rust/WASM + WebGL2 GLSL (`src/signals/numerical_adapter/`)
 
 - **Hybrid `f64` WASM + `f32` WebGL2 Architecture**:
-  Compiles all seven physics and CAD modules (`double_slit.rs`, `orbital_splat.rs`, `thermal_inelastic.rs`, `polariton_spp.rs`, `madelung_lagrangian.rs`, `cannon_mask_cad.rs`, `multi_array_imaging.rs`) to zero-dependency `wasm32-unknown-unknown` C-ABI exports, pairing `f64` symplectic Velocity-Verlet and Plücker minor evaluation on the CPU with 12-FLOP-per-pixel Mahalanobis tensor-splat evaluation in WebGL2 (`#version 300 es`) fragment shaders ([double_slit.frag.glsl](../src/signals/numerical_adapter/src/shaders/double_slit.frag.glsl), [orbital_splat.frag.glsl](../src/signals/numerical_adapter/src/shaders/orbital_splat.frag.glsl)).
+  Compiles all eight physics, causal-inference, and CAD modules (`double_slit.rs`, `orbital_splat.rs`, `thermal_inelastic.rs`, `polariton_spp.rs`, `madelung_lagrangian.rs`, `cannon_mask_cad.rs`, `multi_array_imaging.rs`, `quantum_causal_inference.rs`; `81` unit, parametric `rstest`, and `insta` snapshot tests passing) to zero-dependency `wasm32-unknown-unknown` C-ABI exports, pairing `f64` symplectic Velocity-Verlet, Fubini–Study Kähler determinant evaluation (`gr24_kahler_det_factor`), homogeneous Plücker Madelung + dual-Schubert `iGPE` interferometry (`SlitModelKind::PluckerMadelungDualIgpe`), and 17-row Gravity/GW error comparisons (`turner_plucker_igpe_precession_rad`, `turner_plucker_igpe_gw_luminosity`) on the CPU with 12-FLOP-per-pixel Mahalanobis tensor-splat evaluation in WebGL2 (`#version 300 es`) fragment shaders ([double_slit.frag.glsl](../src/signals/numerical_adapter/src/shaders/double_slit.frag.glsl), [orbital_splat.frag.glsl](../src/signals/numerical_adapter/src/shaders/orbital_splat.frag.glsl)).
 
 ### 2.5 Multi-Spectral & Multi-Array Grassmannian Imaging: Hubble $2\times$ CCDs, `LVP` Medical Arrays, `LIFU`/`AOT`/`TRUE` Sub-Surface Focusing, & $< 1\text{ nm}$ Convergent Nanolithography (`Signals.MultiArrayImaging`, `multi_array_imaging.rs`)
 
@@ -220,7 +242,7 @@ To keep the repository modular, auditable, and free of duplicated maintenance, e
 
 | Content / Capability from This Unification | Primary Owning Document(s) | Target Plan Document(s) & Actionable Placement |
 |---|---|---|
-| **9-Domain $Gr_{\mathbb{C}}(2,4)$ Plücker Dictionary & Master Synthesis** | **This Paper** ([grassmannian-unification-applications-roadmap-paper.md](grassmannian-unification-applications-roadmap-paper.md)), [README.md](../README.md), [src/signals/README.md](../src/signals/README.md) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) (Iterations 24–33 & Synthesis section) |
+| **19-Domain $Gr_{\mathbb{C}}(2,4)$ Plücker Dictionary & Master Synthesis** | **This Paper** ([grassmannian-unification-applications-roadmap-paper.md](grassmannian-unification-applications-roadmap-paper.md)), [README.md](../README.md), [src/signals/README.md](../src/signals/README.md) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) (Iterations 24–33 & Synthesis section) |
 | **3D Fresnel-to-Fraunhofer Remainder, Higher-Rank $Gr_{\mathbb{C}}(k,n)$ ($k \ge 3$), & Disjoint-Path Positivity** | [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md), [src/signals/Signals/Geometry.lean](../src/signals/Signals/Geometry.lean), [src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) (Iteration 33 & Phase 2, Phase 3, and Phase 6 Acceptance Obligations) |
 | **$\chi^{(2)}$ SHG-OPA Squeezing (`opaSqueezedTensorSplat`), Dispersive QND Readout, & Soliton-Bus QEC** | [grassmannian-polariton-spp-mechanics-paper.md](grassmannian-polariton-spp-mechanics-paper.md), [soliton-bus.md](soliton-bus.md), [anti-fire-cannon-review.md](anti-fire-cannon-review.md) | [dispersive-homodyne-plan.md](dispersive-homodyne-plan.md) (CV Homodyne/Quadratures, Dispersive QND Readout, and M-Gate / OPA Squeezing sections) |
 | **N-LIG Graphene SPP Waveguides, Transverse vs. Longitudinal Cherenkov/Proca Cutoff, & CW Laser Controls** | [grassmannian-polariton-spp-mechanics-paper.md](grassmannian-polariton-spp-mechanics-paper.md), [flat-light-nanolithography-scholarly.md](flat-light-nanolithography-scholarly.md), [chat-physics-catalog.md](chat-physics-catalog.md) | [flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md) (Guided-Mode Claim, CW vs. Pulsed Laser Precedents, and Longitudinal-Beam Gates) |
@@ -229,6 +251,7 @@ To keep the repository modular, auditable, and free of duplicated maintenance, e
 | **Superfluid Gross–Pitaevskii Action, Madelung Polar Substitution, Euler–Lagrange QHJ/Euler Equations, Dilatant Jamming Recovery ($\Lambda_\parallel = \gamma_\varphi$), & $405\text{ nm}/532\text{ nm}$ Carbon  Nanolithography** | [grassmannian-madelung-lagrangian-ddf-jamming-paper.md](grassmannian-madelung-lagrangian-ddf-jamming-paper.md), [grassmannian-riscv-holographic-nanolithography-kicad-paper.md](grassmannian-riscv-holographic-nanolithography-kicad-paper.md), [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L7395-L8145), [src/signals/Signals/Nanolithography.lean](../src/signals/Signals/Nanolithography.lean) | [src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md](../src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md) (`madelung_lagrangian.rs`, `cannon_mask_cad.rs`) and [flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md) |
 | **Multi-Spectral & Multi-Array Grassmannian Imaging: Hubble $2\times$ CCDs ($\mathrm{Gr}_{\mathbb{R}}(4, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$), 3D Layer-Coding `Plabic` LGV Cascades, Cosmic-Ray CCL Telemetry, `LVP` Medical Arrays, `LIFU`/`AOT`/`TRUE` Sub-Surface Focusing, & $<1\text{ nm}$ Convergent Nanoimaging** | [grassmannian-multispectral-hubble-medical-nanoimaging-paper.md](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md), [grassmannian-holographic-imaging-depth-recovery-paper.md](grassmannian-holographic-imaging-depth-recovery-paper.md), [src/signals/Signals/MultiArrayImaging.lean](../src/signals/Signals/MultiArrayImaging.lean), [src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean), [src/signals/Signals/LayerCodes.lean](../src/signals/Signals/LayerCodes.lean), [src/signals/numerical_adapter/src/multi_array_imaging.rs](../src/signals/numerical_adapter/src/multi_array_imaging.rs) | [dispersive-homodyne-plan.md](dispersive-homodyne-plan.md) (Phase 4D `LVP` medical imaging & homodyne localization) and [flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md) (`MultiModalSubSurfaceImagingHypothesis` & $<1\text{ nm}$ gates) |
 | **Grassmannian Quantum Causal Inference, Counterfactual Semantics (`arXiv:2302.11783`), Indefinite Causal Order (`Quantum Switch`), Constructor Theory, Landau vs. QRT Mpemba Shortcuts, & Conditional Landauer / Entropy-Siphoning Audit** | [grassmannian-quantum-causal-inference-mpemba-paper.md](grassmannian-quantum-causal-inference-mpemba-paper.md), [src/signals/Signals/QuantumCausalInference.lean](../src/signals/Signals/QuantumCausalInference.lean), [src/signals/numerical_adapter/src/quantum_causal_inference.rs](../src/signals/numerical_adapter/src/quantum_causal_inference.rs), [chat-physics-catalog.md](chat-physics-catalog.md) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) (Plabic LGV trek bottlenecks) and `QuantumCausalMpembaSynthesisContract` in [src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean) |
+| **Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study GPE, Dual-Schubert `iGPE`, Homogeneous Plücker $\mathcal{Q}_4$ Madelung Hydrodynamics, & Revised Turner (2026) Superposition (Model 6), Gravity (Models 14a/14b), & GW (Models 14a/14b) Comparisons** | [grassmannian-complex-gpe-igpe-plucker-madelung-paper.md](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md), [grassmannian-gravity-from-qed-scattering-paper.md](grassmannian-gravity-from-qed-scattering-paper.md), [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md), [src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L8680-L9715), [src/signals/numerical_adapter/src/madelung_lagrangian.rs](../src/signals/numerical_adapter/src/madelung_lagrangian.rs), [src/signals/numerical_adapter/src/double_slit.rs](../src/signals/numerical_adapter/src/double_slit.rs), [src/signals/numerical_adapter/src/orbital_splat.rs](../src/signals/numerical_adapter/src/orbital_splat.rs) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md), [src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md](../src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md), and [src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md](../src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md) |
 
 ### 3.2 Concise Summary of All Nine Project Plan Documents
 
@@ -238,7 +261,7 @@ To keep the repository modular, auditable, and free of duplicated maintenance, e
 | **2** | [flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md) | Falsifiable experimental and computational adjudication program separating N-LIG material synthesis, classical guided modes, multi-beam holography, CW graphitization, and Pending Proca claims. | **Classical & Pending Contracts Implemented** (`LongitudinalBeamApplicationEvidence`, `sppEffectiveIndexSq`, `transversePlasmaPhaseVelSq` vs. `longitudinalPlasmaPhaseVelSq`). | Execute preregistered CW vs. pulsed N-LIG dose-stepped Raman/XPS/HAZ experiments and high-NA vectorial PSF/MTF imaging controls. |
 | **3** | [dispersive-homodyne-plan.md](dispersive-homodyne-plan.md) | Coverage and implementation plan for classical balanced homodyne detection, dual-homodyne Bell/CHSH traces, dispersive QND parity readout, Hawking-like CP/ALS decoding, and Argon MHD power ledgers. | **Substantially Implemented** (`Signals.Homodyne`, `Signals.NonDestructive`, `Signals.MHD`, `SecondHarmonicResonantOpaModel`, `opaSqueezedTensorSplat`). | Add regression fixtures for `WaveguideSpec.propagationLoss`, `DualHomodyneTrace.missingSamples`, and CMRR dB-to-linear conversion; ingest measured detector-loss and shot-noise traces. |
 | **4** | [src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md](../src/signals/DDF_FRACTURE_COMMUNICATION_PLAN.md) | Replaces earlier SQG fracture framing with a conditional DDF hypothesis (`H0` classical null vs. `HDDF` causal transverse-phonon defect perturbation vs. `HDDF-active-null` crossed-beam deflection). | **Contracts & Dataset Readers Implemented** (`DDFFractureCommunicationEvidence`, `MagnusEffectControl`, JHTDB/PIV/RSPID probes). | Populate `DDFFractureCommunicationEvidence` from an independent measured vortex/pressure-deficit observable after subtracting the classical Kutta–Joukowski Magnus control $L' = \rho U \Gamma$. |
-| **5** | [src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md](../src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md) | Defines the Lean-to-Rust/WASM/WebGL2 numerical boundary: Vortex 0.86.1 columnar arrays, HDF5/PIV/JHTDB ingestion, RK2 FTLE/LCS advection, and 2D/3D Grassmannian–DDF splat/telegrapher solvers. | **Core + 8 Physics/Imaging/Causal/CAD Modules + Vortex/HDF5/JHTDB/FITS Implemented** (77 tests + `wasm32-unknown-unknown` release build passing). | Benchmark Vortex vs. Arrow/Parquet on large 3D cutouts; implement adaptive splat splitting under high Anosov/OPA aspect ratios. |
+| **5** | [src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md](../src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md) | Defines the Lean-to-Rust/WASM/WebGL2 numerical boundary: Vortex 0.86.1 columnar arrays, HDF5/PIV/JHTDB ingestion, RK2 FTLE/LCS advection, and 2D/3D Grassmannian–DDF splat/telegrapher/Plücker-`iGPE` solvers. | **Core + 8 Physics/Imaging/Causal/CAD Modules + Vortex/HDF5/JHTDB/FITS Implemented** (`81` tests + `wasm32-unknown-unknown` release build passing). | Benchmark Vortex vs. Arrow/Parquet on large 3D cutouts; implement adaptive splat splitting under high Anosov/OPA aspect ratios. |
 | **6** | [lean-blueprint-rust-port-plan.md](lean-blueprint-rust-port-plan.md) | Roadmap for integrating LeanArchitect's `:blueprint` / `:blueprintJson` facets with `dsport`'s Rust `sphinxdocrs` engine, optional Lean LSP enrichment, and `ratex` PDF rendering. | **Baseline & Lake JSON Facets Active** (`:blueprint` and `:blueprintJson` build all 4 Signals targets at 3,727 jobs). | Complete Phase 1 `ratex` PDF parity spike and Phase 3–4 Rust `BlueprintSnapshot` importer in `sphinxdocrs`. |
 | **7** | [rdfhdt-implementation-plan.md](rdfhdt-implementation-plan.md) | Plans streaming Rust `hdt-rs` (`0.7.3`) N-Triples-to-HDT export/import for the Oxigraph-backed `docindex` search store without Python list materialization. | **Architecture & Config Hooks Defined** (`docindex_rdf_hdt_enabled` in `docs/conf.py`). | Implement the streaming Rust `export_hdt` / `import_hdt` helper crate under `src/docindex` and benchmark against N-Triples fallback. |
 | **8** | [workflow-performance-plan.md](workflow-performance-plan.md) | Incremental manifest-driven pipeline (`chat-manifest.json`) from `data/chats/` through `transform-md`, Sphinx HTML build, and `docindex` indexing. | **Phase 0 & Phase 1 Incremental Runner Active** (`make chat_overlays`, `tools/workflow_transform.py`). | Add single-pass in-memory fan-out in `transform-md`, Sphinx changed-page instrumentation for incremental `docindex` upserts, and `.tmp/workflow/last-run.json` telemetry. |
@@ -263,14 +286,14 @@ With the paraxial Fresnel-to-Fraunhofer remainder bound (`fresnel_to_fraunhofer_
 
 ---
 
-## 5. Machine-Checked Capstone Lean 4 Verification Across All Nine Unified Domains
+## 5. Machine-Checked Capstone Lean 4 Verification Across the Nineteen Unified Domains
 
-The following self-contained Lean 4 verification block typechecks directly against `Signals` (`lake env lean`) and simultaneously certifies the key identities across all nine companion papers:
+The following self-contained Lean 4 verification block typechecks directly against `Signals` (`lake env lean`) and simultaneously certifies the core identities across the unified companion papers, including the revised Turner (2026) Superposition (Model 6), Gravity (Models 14a & 14b), and Gravitational-Wave (Models 14a & 14b) models:
 
 ```lean
 import Signals
 
-namespace ArxivCapstoneNinePaperUnificationVerification
+namespace ArxivCapstoneNineteenPaperUnificationVerification
 
 open Signals.Plabic
 open Signals.Geometry
@@ -278,6 +301,7 @@ open Signals.Coherence
 open Signals.Huygens
 open Signals.QISM
 open Signals.Scattering
+open Signals.QEDGravity
 open Signals.DDF
 
 def capstoneRank3Matrix : Matrix (Fin 3) (Fin 6) ℝ :=
@@ -285,17 +309,24 @@ def capstoneRank3Matrix : Matrix (Fin 3) (Fin 6) ℝ :=
      0, 1, 2, -2, 1, -1;
      2, -1, 1, 0, 3, 2]
 
--- Master 9-domain + Iteration 33 verification across Double-Slit/OAM, QISM/Bethe Ansatz,
--- DDF Moving Sheaths, BCJ/Planetary Gravity, Normed Tensor Gaussian Splats,
+-- Master 19-domain verification across Double-Slit/OAM (including Revised Model 6),
+-- QISM/Bethe Ansatz, DDF Moving Sheaths, BCJ/Planetary Gravity & Gravitational Waves
+-- (including Revised Models 14a & 14b), Normed Tensor Gaussian Splats,
 -- Inverse Compton/Raman/Second-Sound Heat, Polaritons/SPPs/CSR/SHG-OPA,
 -- 't Hooft-Susskind Holography, AdS/CFT & Secret Symmetries, Fresnel-to-Fraunhofer Remainder,
--- Higher-Rank Gr(3,n) Plücker Relations, 3-Channel LGV Positivity, and 16x16 R-Matrix Intertwining
+-- Higher-Rank Gr(3,n) Plücker Relations, 3-Channel LGV Positivity, 16x16 R-Matrix Intertwining,
+-- Multi-Array Hubble/LVP/TRUE/Nanoimaging, and Homogeneous Plücker Q_4 Madelung & Dual-Schubert iGPE
 example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
-    (orb : PlanetaryOrbit) (hr : re.horizonRadius < 4)
+    (orb : PlanetaryOrbit) (s_pl : PluckerMadelungState)
+    (hr : re.horizonRadius < 4)
     (c_th0 : ℝ) (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c) (θ x y B1 B2 : ℝ) :
     let z1 : ℂ := ↑(Real.cos (Real.pi * 6 * x / (1 * 5))) + Complex.I * ↑(Real.sin (Real.pi * 6 * x / (1 * 5)))
     let z2 : ℂ := ↑(Real.cos (Real.pi * 6 * x / (1 * 5))) - Complex.I * ↑(Real.sin (Real.pi * 6 * x / (1 * 5)))
+    let p_slit := twistorToPluckerVec (complexGr24ChannelMatrix z1 z2)
     let M_sheath := s.gr24TwistorMatrix 6 1 5 2 0 0
+    let W_orb := PlanetaryOrbit.gr24AffineChart orb (1 / 5)
+    let Δϖ_GR := re.perihelionPrecessionRad orb
+    let P_GR := re.petersMathewsLuminosity orb 2
     let splat_ddf := s.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
     let splat_opa := opaSqueezedTensorSplat 0 0 5 2 3 (by norm_num) (by norm_num) θ
     let M_spp := sppGr24Matrix (sppPermittivityContrast 2 6) θ
@@ -363,15 +394,31 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
       planarThreeChannelUpperStep 2 3 4 6 8).det ∧
     splat_ddf.splitMajorPlus.sigma1 ^ 2 + splat_ddf.splitMajorOffset ^ 2 =
       splat_ddf.sigma1 ^ 2 ∧
-    psl22SecretCoproductFullOp16 B1 B2 7 8 * psl22WorldsheetRMatrix16 3 4 5 6 7 8 ∧
+    psl22SecretCoproductFullOp16 B1 B2 7 8 * psl22WorldsheetRMatrix16 3 4 5 6 7 8 =
+      psl22WorldsheetRMatrix16 3 4 5 6 7 8 * psl22SecretCoproductFull16 B1 B2 7 8 ∧
     -- (17) Paper 17 (Hubble 2x CCD Mosaics, Cosmic-Ray Telemetry, LVP Medical, LIFU/AOT/TRUE, & <1nm Nanoimaging):
     Signals.MultiArrayImaging.layeredMosaicPixelCount 2 4096 2048 = 16777216 ∧
     Signals.MultiArrayImaging.realGrassmannianDim 4 6800000 = 27199984 ∧
     (16777216 : ℝ) * Signals.MultiArrayImaging.multiExposureCosmicRaySurvivalProb (3 / 200) 4 < 1 ∧
     1 < Signals.MultiArrayImaging.trueOpticalPeakToBackgroundGain 1024 ∧
-    Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 (27 / 2) 99 3 < 1 =
-      psl22WorldsheetRMatrix16 3 4 5 6 7 8 * psl22SecretCoproductFull16 B1 B2 7 8 := by
-  intro z1 z2 M_sheath splat_ddf splat_opa M_spp M_holo W_sec M_ads5 φ_fraun φ_fres N_F
+    Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 (27 / 2) 99 3 < 1 ∧
+    -- (19) Paper 19 & Revised Turner (2026) Superposition (Model 6), Gravity (Models 14a/14b), & GW (Models 14a/14b):
+    OnKleinQuadric p_slit ∧
+    p_slit 4 = z1 + z2 ∧
+    (s_pl.s_dual = s_pl.s_real →
+      relativePredictiveError
+        (pluckerMadelungSuperpositionOAMDoubleSlit M_sheath 3 2 4 1 5 (1 / 10) 1 0 1 0 s_pl 0 0)
+        (huygensSteinerOAMDoubleSlit 3 2 4 6 1 5 (s.jammingFactor)⁻¹ 2 0 0 0) = 0) ∧
+    kahlerDetFactor W_orb - 3 = 1 - orb.eccentricity ^ 2 ∧
+    relativePredictiveError
+      (PlanetaryOrbit.turnerPluckerIGPEPrecessionRad orb re.G_phi re.sourceMass sub.c (1 / 5) 0) Δϖ_GR = 0 ∧
+    relativePredictiveError
+      (re.turnerDualGr24IGPEDDFPrecessionRad orb (1 / 5) 0) Δϖ_GR = 0 ∧
+    relativePredictiveError
+      (PlanetaryOrbit.turnerPluckerIGPEGWLuminosity orb re.G_phi re.sourceMass 2 sub.c (1 / 3) (1 / 5) 0) P_GR = 0 ∧
+    relativePredictiveError
+      (re.turnerDualGr24IGPEDDFGWLuminosity orb 2 0) P_GR = 0 := by
+  intro z1 z2 p_slit M_sheath W_orb Δϖ_GR P_GR splat_ddf splat_opa M_spp M_holo W_sec M_ads5 φ_fraun φ_fres N_F
   have h1 := (complexGr24CrossingDoubleSlit_zero_error 3 2 4 6 1 5 x y).2
   have h2 := yang_baxter_equation_matrix8 7 4 1 2
   have h3_mad := s.gr24TwistorMatrix_madelung_sector_identities 6 1 5 2 0 0
@@ -412,9 +459,23 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     2 1 1 1 1 2 4 0 0 1 (1 / 2) 2 1 1 θ
     (by norm_num) (by norm_num) (by norm_num) hr
     (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h10_fres := fresnel_to_fraunhofer_remainder_bound
+    x y (3 / 10) (4 / 10) 1 (1 / 2) 10
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h10_pl3 := threeRowMinor_pluecker capstoneRank3Matrix 0 1 2 3 4 5
+  have h10_lgv3 := (planar_threeChannel_lgv_and_bottleneck_identities
+    1 1 1 5 7 2 3 4 6 8 (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)).2.1
+  have h10_spl := (NormedTensorGaussianSplat2D.splitMajor_conservation_identities
+    splat_ddf x y).2.2.1
+  have h10_r16 := (psl22_rmatrix16_secret_coproduct_intertwining
+    3 4 5 6 7 8 B1 B2 2 (by norm_num)).2.2.2
   have h17_img := Signals.MultiArrayImaging.multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities
     60000 100 1 θ 4 1 1024 1
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h19_rev := turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models
+    s re orb s_pl z1 z2 3 2 4 6 1 5 (1 / 10) 1 1 2 0 0 0 (1 / 3) (1 / 5) 2 (1 / 100) (1 / 100)
+    (by norm_num) (by norm_num) (by norm_num)
   rcases h9_ads with ⟨ha1, _ha2, _ha3, _ha4, _ha5, _ha6, _ha7, _ha8, _ha9, _ha10,
     _ha11, _ha12, ha13, _ha14, _ha15, _ha16, _ha17, _ha18, _ha19, _ha20, _ha21,
     _ha22, ha23, _ha24, _ha25, _ha26, _ha27⟩
@@ -429,16 +490,14 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     h17_img.2.1, h17_img.2.2.2.2.2.1, h17_img.2.2.2.2.2.2.2.2.2.2.1,
     h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     lt_trans h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
-      h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2u5, _hu6, _hu7, hu8,
-    hu9, _hu10, _hu11, _hu12, _hu13, _hu14, _hu15, _hu16⟩
-  exact ⟨h1, h2, h3, h4, h5.1, h5.2.2.2,
-    h6_ics, h6_inv, h6_th,
-    h7_spp.2.2.2.2.2.1.trans h7_spp.2.2.2.2.2.2.1, h7_opa.2.2.1, h7_opa.2.2.2.2.2.2,
-    h8.2.2.2.2.2.2.2.1, h8.2.2.2.2.2.2.2.2.1,
-    ha1, ha13, ha23, hu8, hu9,
-    h10_fres, h10_pl3, h10_lgv3, h10_spl, h10_r16⟩
+      h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h19_rev.1, h19_rev.2.2.2.1, fun h_eq => (h19_rev.2.2.2.2.1 h_eq).2,
+    h19_rev.2.2.2.2.2.2.1, h19_rev.2.2.2.2.2.2.2.2.2.1,
+    h19_rev.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h19_rev.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h19_rev.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
-end ArxivCapstoneNinePaperUnificationVerification
+end ArxivCapstoneNineteenPaperUnificationVerification
 ```
 
 ---
@@ -467,6 +526,19 @@ end ArxivCapstoneNinePaperUnificationVerification
 
 (unif-qian2023)=
 <a id="unif-qian2023"></a>
+6. Qian, X.-F., and Izadi, M. (2023). *Bridging Coherence Optics and Classical Mechanics: A Generic Light Polarization-Entanglement Complementary Relation*. Physical Review Research 5(3), 033110. [DOI: 10.1103/PhysRevResearch.5.033110](https://doi.org/10.1103/PhysRevResearch.5.033110).
+
+(unif-lei2025)=
+<a id="unif-lei2025"></a>
+7. Lei, B., et al. (2025). *Coherent Synchrotron Radiation by Excitation of Surface Plasmon Polaritons on Near-Critical Solid Microtube Surface*. Physical Review Letters; [DOI: 10.1103/cnym-16hc](https://doi.org/10.1103/cnym-16hc); [arXiv:2507.04561](https://arxiv.org/abs/2507.04561).
+
+(unif-dean2025)=
+<a id="unif-dean2025"></a>
+8. Dean, et al. (2025). *Low-Power Integrated Optical Amplification Through Second-Harmonic Resonance*. Nature; [DOI: 10.1038/s41586-025-09959-z](https://doi.org/10.1038/s41586-025-09959-z); [arXiv:2509.26425](https://arxiv.org/abs/2509.26425).
+
+(unif-fedi2026)=
+<a id="unif-fedi2026"></a>
+9. Fedi, M. (2026). *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. SSRN Preprint 7406660. [Preprint page](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660); [SSRN DOI](https://doi.org/10.2139/ssrn.7406660).
 
 (unif-hubble-acs2025)=
 <a id="unif-hubble-acs2025"></a>
@@ -483,19 +555,50 @@ end ArxivCapstoneNinePaperUnificationVerification
 (unif-williamson2024)=
 <a id="unif-williamson2024"></a>
 13. Williamson, D. J., and Baspin, N. (2024). *Layer Codes*. Nature Communications 15(1), 9528. [DOI: 10.1038/s41467-024-53881-3](https://doi.org/10.1038/s41467-024-53881-3); [arXiv:2309.16503](https://arxiv.org/abs/2309.16503).
-6. Qian, X.-F., and Izadi, M. (2023). *Bridging Coherence Optics and Classical Mechanics: A Generic Light Polarization-Entanglement Complementary Relation*. Physical Review Research 5(3), 033110. [DOI: 10.1103/PhysRevResearch.5.033110](https://doi.org/10.1103/PhysRevResearch.5.033110).
 
-(unif-lei2025)=
-<a id="unif-lei2025"></a>
-7. Lei, B., et al. (2025). *Coherent Synchrotron Radiation by Excitation of Surface Plasmon Polaritons on Near-Critical Solid Microtube Surface*. Physical Review Letters; [DOI: 10.1103/cnym-16hc](https://doi.org/10.1103/cnym-16hc); [arXiv:2507.04561](https://arxiv.org/abs/2507.04561).
+(unif-bcj2008)=
+<a id="unif-bcj2008"></a>
+14. Bern, Z., Carrasco, J. J. M., and Johansson, H. (2008). *New Relations for Gauge-Theory Amplitudes*. Physical Review D 78(8), 085011. [DOI: 10.1103/PhysRevD.78.085011](https://doi.org/10.1103/PhysRevD.78.085011); [arXiv:0805.3993](https://arxiv.org/abs/0805.3993).
 
-(unif-dean2025)=
-<a id="unif-dean2025"></a>
-8. Dean, et al. (2025). *Low-Power Integrated Optical Amplification Through Second-Harmonic Resonance*. Nature; [DOI: 10.1038/s41586-025-09959-z](https://doi.org/10.1038/s41586-025-09959-z); [arXiv:2509.26425](https://arxiv.org/abs/2509.26425).
+(unif-partanen2025)=
+<a id="unif-partanen2025"></a>
+15. Partanen, M., and Tulkki, J. (2025). *Gravity Generated by Four One-Dimensional Unitary Gauge Symmetries and the Standard Model*. Reports on Progress in Physics 88, 057802. [DOI: 10.1088/1361-6633/adc82e](https://doi.org/10.1088/1361-6633/adc82e).
 
-(unif-fedi2026)=
-<a id="unif-fedi2026"></a>
-9. Fedi, M. (2026). *Dilatant Dark Fluid: Toward a Unified Quantum-Hydrodynamic Origin of Lorentz Invariance, Gravity, and Cosmological Phenomenology*. SSRN Preprint 7406660. [Preprint page](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7406660); [SSRN DOI](https://doi.org/10.2139/ssrn.7406660).
+(unif-witten2004)=
+<a id="unif-witten2004"></a>
+(unif-berkovits2004)=
+<a id="unif-berkovits2004"></a>
+16. Witten, E. (2004). *Perturbative Gauge Theory as a String Theory in Twistor Space*. Communications in Mathematical Physics 252, 189–258 ([arXiv:hep-th/0312171](https://arxiv.org/abs/hep-th/0312171)); Berkovits, N., and Witten, E. (2004). *Conformal Supergravity in Twistor-String Theory*. Journal of High Energy Physics 2004(08), 009 ([arXiv:hep-th/0406051](https://arxiv.org/abs/hep-th/0406051)).
+
+(unif-cachazo2013)=
+<a id="unif-cachazo2013"></a>
+(unif-bjerrum2018)=
+<a id="unif-bjerrum2018"></a>
+17. Cachazo, F., and Skinner, D. (2013). *Gravity from Rational Curves in Twistor Space*. Physical Review Letters 110(16), 161301 ([arXiv:1207.0741](https://arxiv.org/abs/1207.0741)); Bjerrum-Bohr, N. E. J., Damgaard, P. H., Festuccia, G., Planté, L., and Vanhove, P. (2018). *General Relativity from Scattering Amplitudes*. Physical Review Letters 121(17), 171601 ([arXiv:1806.04920](https://arxiv.org/abs/1806.04920)).
+
+(unif-peters1963)=
+<a id="unif-peters1963"></a>
+(unif-abbott2017)=
+<a id="unif-abbott2017"></a>
+18. Peters, P. C., and Mathews, J. (1963). *Gravitational Radiation from Point Masses in a Keplerian Orbit*. Physical Review 131(1), 435–440 ([DOI: 10.1103/PhysRev.131.435](https://doi.org/10.1103/PhysRev.131.435)); Abbott, B. P., et al. (LIGO/Virgo/Fermi/INTEGRAL) (2017). *Gravitational Waves and Gamma-Rays from a Binary Neutron Star Merger: GW170817 and GRB 170817A*. The Astrophysical Journal Letters 848(2), L13.
+
+(unif-fedi2016)=
+<a id="unif-fedi2016"></a>
+(unif-fedi2017)=
+<a id="unif-fedi2017"></a>
+(unif-hawking1975)=
+<a id="unif-hawking1975"></a>
+19. Fedi, M. (2016, 2017). *Gravity as a Fluid Dynamic Phenomenon in a Superfluid Quantum Space (Fluid Quantum Gravity)* & *Relativistic Viscous Superfluid Quantum Space (SQS) and Dilatant Vacuum*; Hawking, S. W. (1975). *Particle Creation by Black Holes*. Communications in Mathematical Physics 43(3), 199–220.
+
+(unif-richards1959)=
+<a id="unif-richards1959"></a>
+(unif-dorn2003)=
+<a id="unif-dorn2003"></a>
+(unif-poddubny2013)=
+<a id="unif-poddubny2013"></a>
+(unif-zaruba2019)=
+<a id="unif-zaruba2019"></a>
+20. Richards, B., and Wolf, E. (1959). *Electromagnetic Diffraction in Optical Systems, II*. Proc. R. Soc. Lond. A 253, 358–379; Dorn, R., Quabis, S., and Leuchs, G. (2003). *Sharper Focus for a Radially Polarized Light Beam*. Physical Review Letters 91(23), 233901; Poddubny, A., Iorsh, I., Belov, P., and Kivshar, Y. (2013). *Hyperbolic Metamaterials*. Nature Photonics 7, 948–957; Zaruba, F., and Benini, L. (2019). *The Cost of Application-Class Processing: Energy and Performance Analysis of a Linux-Ready 1.7-GHz 64-Bit RISC-V Core in 22-nm FDSOI Technology*. IEEE TVLSI 27(11), 2629–2640.
 
 
 ---
@@ -506,6 +609,14 @@ end ArxivCapstoneNinePaperUnificationVerification
 @article{turner2026grassmannian_unification,
   author  = {Turner, Wes},
   title   = {Unification, Engineering Applications, and Research Roadmap of Complex {G}rassmannian {$Gr_{\mathbb{C}}(2,4)$} and {D}ilatant {D}ark {F}luid ({DDF}) Mechanics: Cross-Domain {P}l{\"u}cker Invariants, Photonic--Thermal--Quantum Systems, and Formal Verification in {L}ean 4},
+  journal = {Sustainable Factory Research Archive},
+  year    = {2026},
+  note    = {Verified in Lean 4 (v4.35.0-rc3) and Rust/WASM}
+}
+
+@article{turner2026grassmannian_complex_gpe_igpe,
+  author  = {Turner, Wes},
+  title   = {Complex {G}rassmannian {$Gr_{\mathbb{C}}(2,4)$} {F}ubini--{S}tudy {G}ross--{P}itaevskii Equation, Dual-{S}chubert {iGPE}, and Homogeneous {P}l{\"u}cker {M}adelung Hydrodynamics on the {K}lein Quadric {$\mathcal{Q}_4$} in {L}ean 4 and {R}ust/{WASM}},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3) and Rust/WASM}
@@ -545,9 +656,12 @@ end ArxivCapstoneNinePaperUnificationVerification
     "@type": "Person",
     "name": "Wes Turner"
   },
-  "dateModified": "2026-10-25",
+  "dateModified": "2026-11-03",
   "about": [
     "Complex Grassmannian Gr_C(2,4)",
+    "Homogeneous Plücker Klein Quadric Q_4 Madelung Hydrodynamics",
+    "Dual-Schubert iGPE and Fubini-Study Kähler Gross-Pitaevskii Equation",
+    "Revised Turner (2026) Superposition (Model 6), Gravity (Models 14a/14b), and Gravitational-Wave (Models 14a/14b) Models",
     "Dilatant Dark Fluid",
     "Normed Tensor Gaussian Splatting",
     "Quantum Inverse Scattering Method",
@@ -555,6 +669,8 @@ end ArxivCapstoneNinePaperUnificationVerification
     "Second-Harmonic Optical Parametric Amplification",
     "Holographic Principle",
     "AdS/CFT Integrability and Secret Symmetries",
+    "Multi-Spectral Hubble and LVP Medical Grassmannian Imaging",
+    "Grassmannian Quantum Causal Inference and Mpemba Laws",
     "Lean 4 Formal Verification"
   ],
   "isBasedOn": [
@@ -567,6 +683,16 @@ end ArxivCapstoneNinePaperUnificationVerification
     "docs/grassmannian-polariton-spp-mechanics-paper.md",
     "docs/grassmannian-holographic-principle-paper.md",
     "docs/grassmannian-ads-cft-ddf-paper.md",
+    "docs/gaussian-splat-tensors-normed-paper.md",
+    "docs/grassmannian-holographic-imaging-depth-recovery-paper.md",
+    "docs/grassmannian-vectorial-longitudinal-polarization-paper.md",
+    "docs/grassmannian-enz-hyperbolic-metamaterials-paper.md",
+    "docs/grassmannian-riscv-holographic-nanolithography-kicad-paper.md",
+    "docs/grassmannian-madelung-lagrangian-ddf-jamming-paper.md",
+    "docs/grassmannian-hawking-radiation-decoding-paper.md",
+    "docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md",
+    "docs/grassmannian-quantum-causal-inference-mpemba-paper.md",
+    "docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md",
     "docs/huygens-grassmannian-amplituhedron-plan.md"
   ]
 }

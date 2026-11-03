@@ -570,6 +570,61 @@ impl PlanetaryOrbitParams {
             / (w_a_sq * w_b_sq).max(1e-18).sqrt().powi(7);
         (32.0 / 5.0) * u1 * u1 * u2 * u2 * (u1 + u2) * f_pm_gr24
     }
+
+    /// Canonical $2\times 2$ Fubini–Study affine chart Kähler determinant factor
+    /// $\det(I_2 + W_{\mathrm{orb}} W_{\mathrm{orb}}^\dagger) = \|p(I_2 \mid W_{\mathrm{orb}})\|_{\mathbb{C}^6}^2 = 4 - e^2 = 3 + p/a > 3$,
+    /// matching `Signals.DDF.PlanetaryOrbit.gr24AffineChart` and `Signals.DDF.kahlerDetFactor`.
+    #[inline]
+    pub fn gr24_affine_chart_kahler_det_factor(&self, delta_varpi_rad: f64) -> f64 {
+        let theta = 0.5 * delta_varpi_rad;
+        let a = (1.0 + self.eccentricity).max(0.0).sqrt();
+        let b = (1.0 - self.eccentricity).max(0.0).sqrt();
+        let z_aph = Complex64::from_polar(a, theta);
+        let z_per = Complex64::from_polar(b, -theta);
+        1.0 + (z_aph.norm_sq() + z_per.norm_sq()) + z_aph.mul(z_per).norm_sq()
+    }
+
+    /// Model 14a/14b (Gravity): Revised Turner (2026) homogeneous Plücker $\mathcal{Q}_4$ Madelung QHJ,
+    /// Fubini–Study Kähler chart ($\det(I_2 + W_{\mathrm{orb}} W_{\mathrm{orb}}^\dagger) - 3 = 1 - e^2 = p/a$),
+    /// and Dual-Grassmannian `iGPE` perihelion precession (with optional near-horizon Josephson/Bohm
+    /// core shift $\delta_{\mathrm{Jos}}$), matching `Signals.DDF.PlanetaryOrbit.turnerPluckerIGPEPrecessionRad`
+    /// and `Signals.DDF.RiverExterior.turnerDualGr24IGPEDDFPrecessionRad`.
+    #[inline]
+    pub fn turner_plucker_igpe_precession_rad(
+        &self,
+        delta_varpi_rad: f64,
+        delta_jos_rad: f64,
+    ) -> f64 {
+        let kahler_excess =
+            (self.gr24_affine_chart_kahler_det_factor(delta_varpi_rad) - 3.0).max(1e-18);
+        let r_h_au = self.central_horizon_radius_km / AU_KM;
+        (3.0 * PI * r_h_au) / (self.semi_major_axis_au * kahler_excess) + delta_jos_rad
+    }
+
+    /// Model 14a/14b (Gravitational Waves): Revised Turner (2026) homogeneous Plücker $\mathcal{Q}_4$
+    /// Madelung, Fubini–Study Kähler chart, and Dual-Grassmannian `iGPE` 2.5PN quadrupole luminosity
+    /// (with optional super-critical $\mathrm{De}/\mathrm{De}_c > 1$ Deborah shear-fracture Josephson
+    /// ringdown flux $\delta P_{\mathrm{Jos}}$), matching
+    /// `Signals.DDF.PlanetaryOrbit.turnerPluckerIGPEGWLuminosity` and
+    /// `Signals.DDF.RiverExterior.turnerDualGr24IGPEDDFGWLuminosity`.
+    #[inline]
+    pub fn turner_plucker_igpe_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        orbital_phase_rad: f64,
+        delta_varpi_rad: f64,
+        delta_p_jos: f64,
+    ) -> f64 {
+        let kahler_excess = (self
+            .gr24_affine_chart_kahler_det_factor(2.0 * orbital_phase_rad + delta_varpi_rad)
+            - 3.0)
+            .max(1e-18);
+        let a_km = (self.semi_major_axis_au * AU_KM).max(1e-12);
+        let u1 = 0.5 * self.central_horizon_radius_km / a_km;
+        let u2 = 0.5 * companion_horizon_radius_km / a_km;
+        let f_pm_kahler = self.peters_mathews_polynomial() / kahler_excess.sqrt().powi(7);
+        (32.0 / 5.0) * u1 * u1 * u2 * u2 * (u1 + u2) * f_pm_kahler + delta_p_jos
+    }
 }
 
 /// Cachazo–Skinner (2012) infinity-twistor 4-point reduced Hodges double-copy numerator kernel
@@ -625,6 +680,10 @@ pub struct GravityModelErrorComparison {
     pub fedi_ddf_2026_relative_error: f64,
     pub turner_gr24_qed_precession_rad: f64,
     pub turner_gr24_qed_relative_error: f64,
+    pub orbital_kahler_det_factor: f64,
+    pub turner_plucker_igpe_precession_rad: f64,
+    pub turner_plucker_igpe_relative_error: f64,
+    pub turner_dual_gr24_igpe_core_relative_error: f64,
 }
 
 impl GravityModelErrorComparison {
@@ -657,6 +716,9 @@ impl GravityModelErrorComparison {
         let dv_pt_2025 = orbit.partanen_tulkki_2025_precession_rad();
         let dv_ddf_2026 = orbit.fedi_ddf_2026_precession_rad();
         let dv_turner_gr24 = orbit.turner_gr24_qed_precession_rad(dv_gr);
+        let kahler_orb = orbit.gr24_affine_chart_kahler_det_factor(dv_gr);
+        let dv_turner_plucker_0 = orbit.turner_plucker_igpe_precession_rad(dv_gr, 0.0);
+        let dv_turner_plucker_core = orbit.turner_plucker_igpe_precession_rad(dv_gr, delta_gpe);
 
         let mat = orbit.gr24_precession_matrix(Some(dv_gr));
         let hodges = cachazo_skinner_hodges_4pt_kernel(&mat);
@@ -702,6 +764,16 @@ impl GravityModelErrorComparison {
             fedi_ddf_2026_relative_error: relative_predictive_error(dv_ddf_2026, dv_gr),
             turner_gr24_qed_precession_rad: dv_turner_gr24,
             turner_gr24_qed_relative_error: relative_predictive_error(dv_turner_gr24, dv_gr),
+            orbital_kahler_det_factor: kahler_orb,
+            turner_plucker_igpe_precession_rad: dv_turner_plucker_0,
+            turner_plucker_igpe_relative_error: relative_predictive_error(
+                dv_turner_plucker_0,
+                dv_gr,
+            ),
+            turner_dual_gr24_igpe_core_relative_error: relative_predictive_error(
+                dv_turner_plucker_core,
+                dv_gr,
+            ),
         }
     }
 }
@@ -739,6 +811,9 @@ pub struct GravitationalWaveModelErrorComparison {
     pub fedi_ddf_2026_relative_error: f64,
     pub turner_gr24_qed_gw_luminosity: f64,
     pub turner_gr24_qed_relative_error: f64,
+    pub turner_plucker_igpe_gw_luminosity: f64,
+    pub turner_plucker_igpe_relative_error: f64,
+    pub turner_dual_gr24_igpe_fracture_relative_error: f64,
 }
 
 impl GravitationalWaveModelErrorComparison {
@@ -803,10 +878,23 @@ impl GravitationalWaveModelErrorComparison {
         );
         let p_pt_2025 = orbit.partanen_tulkki_2025_gw_luminosity(companion_horizon_radius_km);
         let p_ddf_2026 = orbit.fedi_ddf_2026_gw_luminosity(companion_horizon_radius_km);
+        let dv_orb = orbit.anomalous_precession_rad_per_orbit();
         let p_turner_gr24 = orbit.turner_gr24_qed_gw_luminosity(
             companion_horizon_radius_km,
             0.35,
-            orbit.anomalous_precession_rad_per_orbit(),
+            dv_orb,
+        );
+        let p_turner_plucker_0 = orbit.turner_plucker_igpe_gw_luminosity(
+            companion_horizon_radius_km,
+            0.35,
+            dv_orb,
+            0.0,
+        );
+        let p_turner_plucker_fracture = orbit.turner_plucker_igpe_gw_luminosity(
+            companion_horizon_radius_km,
+            0.35,
+            dv_orb,
+            delta_gpe,
         );
 
         Self {
@@ -841,6 +929,15 @@ impl GravitationalWaveModelErrorComparison {
             fedi_ddf_2026_relative_error: relative_predictive_error(p_ddf_2026, p_gr),
             turner_gr24_qed_gw_luminosity: p_turner_gr24,
             turner_gr24_qed_relative_error: relative_predictive_error(p_turner_gr24, p_gr),
+            turner_plucker_igpe_gw_luminosity: p_turner_plucker_0,
+            turner_plucker_igpe_relative_error: relative_predictive_error(
+                p_turner_plucker_0,
+                p_gr,
+            ),
+            turner_dual_gr24_igpe_fracture_relative_error: relative_predictive_error(
+                p_turner_plucker_fracture,
+                p_gr,
+            ),
         }
     }
 }
@@ -2460,6 +2557,15 @@ mod tests {
         assert!(cmp.fedi_ddf_2026_relative_error.abs() < 1e-15);
         assert!((cmp.turner_gr24_qed_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15);
         assert!(cmp.turner_gr24_qed_relative_error.abs() < 1e-14);
+        assert!(
+            ((cmp.orbital_kahler_det_factor - 3.0)
+                - (orbit.semi_latus_rectum_au() / orbit.semi_major_axis_au))
+                .abs()
+                < 1e-14
+        );
+        assert!((cmp.turner_plucker_igpe_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15);
+        assert!(cmp.turner_plucker_igpe_relative_error.abs() < 1e-14);
+        assert!(cmp.turner_dual_gr24_igpe_core_relative_error > 0.0);
 
         let gw_cmp = GravitationalWaveModelErrorComparison::evaluate(&orbit, 1e-6);
         assert!(gw_cmp.gr_pm_gw_luminosity > 0.0);
@@ -2500,5 +2606,7 @@ mod tests {
         assert!((gw_cmp.fedi_ddf_2026_gw_luminosity - gw_cmp.gr_pm_gw_luminosity).abs() < 1e-30);
         assert!(gw_cmp.fedi_ddf_2026_relative_error.abs() < 1e-15);
         assert!(gw_cmp.turner_gr24_qed_relative_error.abs() < 1e-13);
+        assert!(gw_cmp.turner_plucker_igpe_relative_error.abs() < 1e-13);
+        assert!(gw_cmp.turner_dual_gr24_igpe_fracture_relative_error > 0.0);
     }
 }

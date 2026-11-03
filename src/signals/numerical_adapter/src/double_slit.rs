@@ -96,6 +96,8 @@ pub enum SlitModelKind {
     Wigner = 5,
     /// 6. Real positive Grassmannian $Gr_{\ge 0}(2, 4)$ unphased crossing-minor proxy ($\mathcal{V} = 0$).
     Gr24Unphased = 6,
+    /// 7. Revised Turner (2026) homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-Grassmannian `iGPE` superposition model.
+    PluckerMadelungDualIgpe = 7,
 }
 
 impl SlitModelKind {
@@ -108,6 +110,7 @@ impl SlitModelKind {
             4 => Some(Self::PilotWave),
             5 => Some(Self::Wigner),
             6 => Some(Self::Gr24Unphased),
+            7 => Some(Self::PluckerMadelungDualIgpe),
             _ => None,
         }
     }
@@ -668,6 +671,20 @@ pub fn evaluate_multi_slit_model(
             params.single_slit_scale * env * multi_slit_interference_factor(n, v_wigner, beta)
         }
         SlitModelKind::Gr24Unphased => params.single_slit_scale * env * f64::from(n),
+        SlitModelKind::PluckerMadelungDualIgpe => {
+            if n == 2 {
+                let a = (1.0 + d_bary).max(0.0).sqrt();
+                let b = (1.0 - d_bary).max(0.0).sqrt();
+                let z1 = Complex64::from_polar(a, beta);
+                let z2 = Complex64::from_polar(b, -beta);
+                let mat = complex_gr24_channel_matrix(z1, z2);
+                complex_gr24_crossing_double_slit(&mat, params, x, y)
+                    + params.non_equilibrium_residual
+            } else {
+                params.single_slit_scale * env * multi_slit_interference_factor(n, v_bary, beta)
+                    + params.non_equilibrium_residual
+            }
+        }
     }
 }
 
@@ -723,6 +740,12 @@ pub fn theoretical_on_axis_relative_error(model: SlitModelKind, params: &MultiSl
             n_factor * (1.0 - v_wigner)
         }
         SlitModelKind::Gr24Unphased => n_factor,
+        SlitModelKind::PluckerMadelungDualIgpe => {
+            let peak = n * n * params.single_slit_scale;
+            let on_axis = params.single_slit_scale * (n + n * (n - 1.0) * v_bary)
+                + params.non_equilibrium_residual;
+            (on_axis - peak).abs() / peak
+        }
     }
 }
 
@@ -736,6 +759,7 @@ pub struct MultiSlitEvaluationReport {
     pub pilot_wave: f64,
     pub wigner: f64,
     pub gr24_unphased: f64,
+    pub plucker_madelung_dual_igpe: f64,
 }
 
 impl MultiSlitEvaluationReport {
@@ -758,6 +782,12 @@ impl MultiSlitEvaluationReport {
             pilot_wave: evaluate_multi_slit_model(SlitModelKind::PilotWave, params, x, y),
             wigner: evaluate_multi_slit_model(SlitModelKind::Wigner, params, x, y),
             gr24_unphased: evaluate_multi_slit_model(SlitModelKind::Gr24Unphased, params, x, y),
+            plucker_madelung_dual_igpe: evaluate_multi_slit_model(
+                SlitModelKind::PluckerMadelungDualIgpe,
+                params,
+                x,
+                y,
+            ),
         }
     }
 }
@@ -1006,6 +1036,7 @@ mod tests {
             let report = MultiSlitEvaluationReport::evaluate(&asym, x, y);
             assert!((report.gr24_complex_twistor - report.huygens_steiner).abs() < 1e-12);
             assert!((report.gr24_real_plucker - report.huygens_steiner).abs() < 1e-12);
+            assert!((report.plucker_madelung_dual_igpe - report.huygens_steiner).abs() < 1e-12);
         }
         // On-axis relative error against Fraunhofer at d_bary = 3/5, V = 4/5 is (1 - 4/5)/2 = 1/10
         let i_hs_0 = evaluate_multi_slit_model(SlitModelKind::HuygensSteiner, &asym, 0.0, 0.0);

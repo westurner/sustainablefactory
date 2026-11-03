@@ -6566,4 +6566,67 @@ example (W K : Matrix (Fin 2) (Fin 2) ℂ) (Z : Matrix (Fin 2) (Fin 4) ℂ)
     h_bog.1, h_bog.2.1 (by norm_num [gpe_rep]), h_proca,
     h_qhj.1, (h_qhj.2.1 rfl).1, h_qhj.2.2.2⟩
 
+/-- End-to-end verification of the revised Turner (2026) Superposition, Gravity (Models 14a/14b),
+and Gravitational-Wave (Models 14a/14b) models via homogeneous Plücker $\mathcal{Q}_4$ Madelung
+and Dual-Grassmannian `iGPE`. -/
+example (s : Signals.DDF.MovingSheath toyDDFSubstrate)
+    (z1 z2 : ℂ) (Δℓ : ℤ) (φ x y orbitalPhase deltaVarpi deltaJos deltaPJos : ℝ)
+    (hJos : 0 < deltaJos) (hPJos : 0 < deltaPJos) :
+    let p_slit := Signals.DDF.twistorToPluckerVec (Signals.Huygens.complexGr24ChannelMatrix z1 z2)
+    let M_DDF := s.gr24TwistorMatrix 6 1 5 Δℓ φ x
+    let W_orb := Signals.DDF.PlanetaryOrbit.gr24AffineChart toyMercuryOrbit deltaVarpi
+    let Δϖ_GR := toyRiverExterior.perihelionPrecessionRad toyMercuryOrbit
+    let P_GR := toyRiverExterior.petersMathewsLuminosity toyMercuryOrbit 2
+    let p_state : Signals.DDF.PluckerMadelungState :=
+      { p := p_slit
+        on_quadric := (Signals.DDF.plucker_hodge_klein_quadric_and_projector_identities
+          p_slit 0 (Signals.Huygens.complexGr24ChannelMatrix z1 z2)).2.2.2.1
+        rho := 4
+        rho_dual := 9
+        s_real := 2
+        s_imag := 0
+        s_dual := 2
+        kinetic_vel_sq := 3
+        projected_hessian_sqrt_rho := 6 }
+    Signals.DDF.OnKleinQuadric p_slit ∧
+      p_slit 4 = z1 + z2 ∧
+      Signals.Huygens.relativePredictiveError
+        (Signals.DDF.pluckerMadelungSuperpositionOAMDoubleSlit
+          M_DDF 3 2 4 1 5 1 1 0 1 0 p_state x y)
+        (Signals.Huygens.huygensSteinerOAMDoubleSlit
+          3 2 4 6 1 5 (s.jammingFactor)⁻¹ Δℓ φ x y) = 0 ∧
+      Signals.DDF.kahlerDetFactor W_orb - 3 =
+        toyMercuryOrbit.semiLatusRectum / toyMercuryOrbit.semiMajorAxis ∧
+      Signals.Huygens.relativePredictiveError
+        (Signals.DDF.PlanetaryOrbit.turnerPluckerIGPEPrecessionRad toyMercuryOrbit
+          toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c deltaVarpi 0)
+        Δϖ_GR = 0 ∧
+      Signals.Huygens.relativePredictiveError
+        (toyRiverExterior.turnerDualGr24IGPEDDFPrecessionRad toyMercuryOrbit deltaVarpi 0)
+        Δϖ_GR = 0 ∧
+      Signals.Huygens.relativePredictiveError
+        (toyRiverExterior.turnerDualGr24IGPEDDFPrecessionRad toyMercuryOrbit deltaVarpi deltaJos)
+        Δϖ_GR = deltaJos / Δϖ_GR ∧
+      Signals.Huygens.relativePredictiveError
+        (Signals.DDF.PlanetaryOrbit.turnerPluckerIGPEGWLuminosity toyMercuryOrbit
+          toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c
+          orbitalPhase deltaVarpi 0)
+        P_GR = 0 ∧
+      Signals.Huygens.relativePredictiveError
+        (toyRiverExterior.turnerDualGr24IGPEDDFGWLuminosity toyMercuryOrbit 2 0)
+        P_GR = 0 ∧
+      Signals.Huygens.relativePredictiveError
+        (toyRiverExterior.turnerDualGr24IGPEDDFGWLuminosity toyMercuryOrbit 2 deltaPJos)
+        P_GR = deltaPJos / P_GR := by
+  intro p_slit M_DDF W_orb Δϖ_GR P_GR p_state
+  have h := Signals.DDF.turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models
+    s toyRiverExterior toyMercuryOrbit p_state z1 z2 3 2 4 6 1 5 1 1 1
+    Δℓ φ x y orbitalPhase deltaVarpi 2 deltaJos deltaPJos
+    (by norm_num) hJos hPJos
+  exact ⟨h.1, h.2.2.2.1, (h.2.2.2.2.1 rfl).2, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

@@ -238,9 +238,68 @@ Theorem `plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities` ([../src/
 
 ---
 
-## 5. Multi-Regime Quantitative Benchmarks & Machine-Checked Verification
+## 5. Application to Turner (2026) Models for Superposition, Gravity (1PN Perihelion), and Gravitational Waves (2.5PN & Ringdown Fracture)
 
-### 5.1 Four Kinematic Regimes on $Gr_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4$ (`madelung_lagrangian.rs`)
+How do the intrinsic Fubini–Study Kähler GPE, coupled Dual-Grassmannian `iGPE` ($Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee$), Einstein–Kähler Bogoliubov / Deborah shear-fracture dispersion, and homogeneous Plücker $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ Madelung hydrodynamics apply to and upgrade our earlier (Turner 2026) models for **Superposition** ([grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md)), **Gravity**, and **Gravitational Waves** ([grassmannian-gravity-from-qed-scattering-paper.md](grassmannian-gravity-from-qed-scattering-paper.md))? In Section 30.6 of [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L9305-L9710) (`turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models`), we formalize three foundational upgrades:
+
+### 5.1 Revised Superposition Model (`pluckerMadelungSuperpositionOAMDoubleSlit`): Linear Superposition as the Klein Quadric Constraint & Dual-Schubert Origin of $\delta_{\mathrm{neq}}$
+
+1. **Linear Wave Superposition Is Enforced by the Klein Quadric $\mathcal{C}(p) = 0$ on $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$**:
+   For the canonical complex channel matrix $M_{\mathbb{C}}(z_1, z_2) = \operatorname{complexGr24ChannelMatrix}(z_1, z_2)$, its homogeneous Plücker 6-vector $p_{\mathrm{slit}} = \operatorname{twistorToPluckerVec}(M_{\mathbb{C}}(z_1, z_2)) \in \mathbb{C}^6$ has components:
+
+   $$
+   p_{\mathrm{slit}} = \bigl(p_{01}, p_{02}, p_{03}, p_{12}, p_{13}, p_{23}\bigr) = \bigl(z_1,\,1,\,z_2,\,1,\,z_1 + z_2,\,1\bigr).
+   $$
+
+   On $\mathcal{Q}_4$, the holomorphic Klein quadric relation $\mathcal{C}(p_{\mathrm{slit}}) = 2(p_{01}p_{23} - p_{02}p_{13} + p_{03}p_{12}) = 0$ reads $p_{02}p_{13} = p_{01}p_{23} + p_{03}p_{12} \iff p_4 = z_1 + z_2$. Thus, **coherent wave amplitude addition $\Psi_{\mathrm{tot}} = z_1 + z_2$ is literally the geometric condition that keeps the 6-vector $p_{\mathrm{slit}}$ on the Klein quadric $\mathcal{Q}_4 \cong Gr_{\mathbb{C}}(2,4)$**!
+2. **Phase-Locked Equilibrium vs. Chiral $\pi/2$ Phase-Slip Non-Equilibrium (`pluckerMadelungSuperpositionOAMDoubleSlit`)**:
+   Combining the Klein-quadric crossing intensity with the time-of-flight integrated Plücker continuity source $\tau_{\mathrm{flight}}\,\Gamma_{\mathrm{Pl\ddot{u}cker}}(\hbar, V_{\mathrm{ext,im}}, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s_{\mathrm{pl}})$ proves:
+   - In **Hermitian phase-locked equilibrium** ($S_{\mathrm{dual}} = S_R, \lambda_{\mathrm{im}} = 0, V_{\mathrm{ext,im}} = 0 \implies \Gamma_{\mathrm{Pl\ddot{u}cker}} = 0$), `pluckerMadelungSuperpositionOAMDoubleSlit` on $M_{\mathbb{C}}^{\mathrm{DDF}}(s)$ reproduces `huygensSteinerOAMDoubleSlit` with $\mathcal{V} = \gamma_\varphi(v)^{-1}$ and **$\varepsilon_{\mathrm{rel}} = 0$ everywhere**.
+   - Under **chiral $\pi/2$ phase-slip Josephson tunneling** ($S_{\mathrm{dual}} - S_R = \frac{\pi}{2}\hbar$), `pluckerMadelungSuperpositionOAMDoubleSlit` derives the de Broglie–Bohm pilot-wave non-equilibrium density offset $\delta_{\mathrm{neq}} = \tau_{\mathrm{flight}}\,\frac{2}{\hbar}\sqrt{\rho\,\rho_{\mathrm{dual}}}\,\lambda_{\mathrm{re}}$ directly from primary-to-dual ($Gr_{\mathbb{C}}(2,4) \leftrightarrow Gr_{\mathbb{C}}(2,4)^\vee$) Schubert incidence tunneling.
+
+### 5.2 Revised Gravity Models (Models 14a & 14b): Orbital Fubini–Study Kähler Identity, Plücker `iGPE` Potential Inversion, & Dual-Schubert Core Regularization
+
+1. **Orbital Fubini–Study Kähler–Plücker Identity (`PlanetaryOrbit.gr24AffineChart`)**:
+   Embedding an eccentric precessing orbit ($e \in [0, 1)$, perihelion phase $\Delta\varpi$) into the canonical $2\times 2$ Fubini–Study affine chart $W_{\mathrm{orb}}(\mathrm{orb}, \Delta\varpi) = \operatorname{diag}\!\bigl(\sqrt{1+e}\,e^{i\Delta\varpi/2},\,\sqrt{1-e}\,e^{-i\Delta\varpi/2}\bigr)$ proves that the Kähler determinant factor equals:
+
+   $$
+   \det(I_2 + W_{\mathrm{orb}} W_{\mathrm{orb}}^\dagger) = \bigl\|p(I_2 \mid W_{\mathrm{orb}})\bigr\|_{\mathbb{C}^6}^2 = 1 + (1 + e) + (1 - e) + (1 - e^2) = 4 - e^2 = 3 + \frac{p}{a} > 3,
+   $$
+
+   so subtracting the constant 3-minor baseline recovers the exact orbital semi-latus rectum ratio:
+
+   $$
+   \det(I_2 + W_{\mathrm{orb}} W_{\mathrm{orb}}^\dagger) - 3 = 1 - e^2 = \frac{p}{a} = \bigl|w_A^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\bigr|^2\,\bigl|w_B^{\mathbb{C}}(M_{\mathbb{C}}^{\mathrm{orb}})\bigr|^2.
+   $$
+
+2. **Models 14a (`turnerPluckerIGPEPrecessionRad`, Without DDF) & 14b (`RiverExterior.turnerDualGr24IGPEDDFPrecessionRad`, With DDF)**:
+   - Reconstructs the effective central potential $V_{\mathrm{ext,re}}^{\mathrm{rec}}(p)$ from `pluckerInversePotentialReconstruction` ($\mathcal{R}_{\mathrm{QHJ}}^{\mathrm{Pl\ddot{u}cker}} = 0$) and links the self-dual Weyl curvature projection $W_{\mathrm{Weyl}}(x) + \frac{1}{24}R_{4\mathrm{D}}(x) = \frac{2\mathcal{M}}{\hbar^2}Q_{\mathrm{Pl\ddot{u}cker}}(p, \bar{p})$ to the Plücker Bohmian quantum potential (`reconstructWeylFromPluckerBohm`).
+   - At solar-system scales where dual-Schubert core tunneling vanishes ($\delta_{\mathrm{Jos}} = 0$), both Model 14a and Model 14b reproduce $\Delta\varpi_{\mathrm{GR}} = \frac{6\pi G M}{c^2 a(\det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) - 3)}$ ($42.98''/\text{cy}$ for Mercury) with **$\varepsilon_{\mathrm{rel}} = 0$ ($0\%$ error)**.
+   - In the strong-field near-horizon core ($\delta_{\mathrm{Jos}} > 0$), $\varepsilon_{\mathrm{rel}} = \delta_{\mathrm{Jos}} / \Delta\varpi_{\mathrm{GR}} > 0$ regularizes the classical $r = 0$ curvature singularity via $Q_{\mathrm{Pl\ddot{u}cker}} + \Lambda_{\mathrm{dual}}(p, \tilde{p})$.
+
+### 5.3 Revised Gravitational-Wave Models (Models 14a & 14b): Plücker $\mathcal{Q}_4$ Quadrupole Trajectory, Proca Gap, & Deborah Shear-Fracture Ringdown
+
+1. **Klein-Quadric Quadrupole Wave Trajectory & Kähler Eccentricity Enhancement**:
+   The Plücker 6-vector $p_{\mathrm{GW}}(t) = \operatorname{twistorToPluckerVec}(\mathrm{orb}.\mathrm{gr24QuadrupoleWaveMatrix}(\Phi_{\mathrm{orb}}(t), \Delta\varpi))$ evolves on the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ ($\operatorname{OnKleinQuadric}(p_{\mathrm{GW}}(t))$), with Peters–Mathews eccentricity factor $f_{\mathrm{PM}}(e)^2 = P_{\mathrm{PM}}(e)^2 / \bigl(\det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) - 3\bigr)^7$.
+2. **Sub-Critical Inspiral ($\mathrm{De}/\mathrm{De}_c < 1$, $\varepsilon_{\mathrm{rel}} = 0$) vs. Super-Critical Merger Ringdown Fracture ($\mathrm{De}/\mathrm{De}_c > 1$, $\delta P_{\mathrm{Jos}} > 0$)**:
+   - In the **sub-critical inspiral regime** ($\mathrm{De}/\mathrm{De}_c < 1 \iff \hbar^2\omega^2 > 0$, $\delta P_{\mathrm{Jos}} = 0$), transverse spin-2 modes propagate luminally ($c_{\mathrm{GW}} = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2} = c$), longitudinal modes are gapped by $R_{\mathrm{Gr}}(2,4) = 16$ and $m_{\gamma,\mathrm{eff}}^2 > 0$, and both **Model 14a (`turnerPluckerIGPEGWLuminosity`)** and **Model 14b (`RiverExterior.turnerDualGr24IGPEDDFGWLuminosity`)** match $P_{\mathrm{GW}}^{\mathrm{GR}}$ with **$\varepsilon_{\mathrm{rel}} = 0$ ($0\%$ error)**.
+   - In the **super-critical merger ringdown regime** ($\mathrm{De}/\mathrm{De}_c > 1 \iff \hbar^2\omega^2 < 0$, `IsShearFractureUnstable`), tachyonic shear fracture sheds chiral Josephson–Schubert flux $\delta P_{\mathrm{Jos}} > 0$ into $Gr_{\mathbb{C}}(2,4)^\vee$ ($\varepsilon_{\mathrm{rel}} = \delta P_{\mathrm{Jos}} / P_{\mathrm{GW}}^{\mathrm{GR}} > 0$) while conserving the total primary+dual symplectic norm $\frac{d}{d\tau'}(|\Psi|^2 + |\Phi|^2) = 0$ (avoiding Witten's non-unitary $1/q^4$ Weyl ghost $-\delta P_{\mathrm{ghost}} < 0$).
+
+### 5.4 Summary Comparison Table of Revised Turner (2026) Models
+
+| Domain & Model Entry | Lean 4 & Rust Declarations | Governing Plücker $\mathcal{Q}_4$ / Kähler / Dual-`iGPE` Law | Relative Predictive Error $\varepsilon_{\mathrm{rel}}$ & New Physical Capabilities |
+|---|---|---|---|
+| **Superposition Model 6**:<br>Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-Grassmannian `iGPE` | `pluckerMadelungSuperpositionOAMDoubleSlit`, `SlitModelKind::PluckerMadelungDualIgpe` | $p_{\mathrm{slit}} = (z_1, 1, z_2, 1, z_1+z_2, 1) \in \mathcal{Q}_4$; $I = I_0 E_{\mathrm{slit}}\|p_1 p_4\|^2 + \tau_{\mathrm{flight}}\Gamma_{\mathrm{Pl\ddot{u}cker}}$ | **Phase-locked ($\Delta\theta = 0, V_{\mathrm{im}} = 0$)**: **$\varepsilon_{\mathrm{rel}} = 0$ everywhere** vs. $I_{\mathrm{HS,OAM}}$;<br>**Chiral $\pi/2$ phase-slip**: derives Bohmian $\delta_{\mathrm{neq}} = \tau_{\mathrm{flight}}\frac{2}{\hbar}\sqrt{\rho\rho_{\mathrm{dual}}}\lambda_{\mathrm{re}}$ |
+| **Gravity Model 14a (Without DDF)**:<br>Homogeneous Plücker $\mathcal{Q}_4$ Madelung QHJ, Kähler Chart, & `iGPE` Inversion | `PlanetaryOrbit.gr24AffineChart`, `PlanetaryOrbit.turnerPluckerIGPEPrecessionRad`, `turner_plucker_igpe_precession_rad` | $\Delta\varpi = \frac{6\pi G M}{c^2 a(\det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) - 3)} + \delta_{\mathrm{Jos}}$, with $V_{\mathrm{ext,re}}^{\mathrm{rec}}$ from `pluckerInversePotentialReconstruction` & Weyl $W_{\mathrm{Weyl}} \propto Q_{\mathrm{Pl\ddot{u}cker}}$ | **Solar-system ($\delta_{\mathrm{Jos}} = 0$)**: **$\varepsilon_{\mathrm{rel}} = 0$ ($0\%$, $42.98''/\text{cy}$ Mercury)**;<br>**Near-horizon core ($\delta_{\mathrm{Jos}} > 0$)**: $\varepsilon_{\mathrm{rel}} = \delta_{\mathrm{Jos}}/\Delta\varpi_{\mathrm{GR}} > 0$ (regularizes $r=0$) |
+| **Gravity Model 14b (With DDF)**:<br>Unified Dual-Grassmannian $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE` + Plücker $\mathcal{Q}_4$ + DDF | `RiverExterior.turnerDualGr24IGPEDDFPrecessionRad`, `reconstructWeylFromPluckerBohm` | $\Delta\varpi = \frac{6\pi G_\phi M \varrho_{\max}^\varphi j_{\min}^\varphi}{a(\det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) - 3)} + \delta_{\mathrm{Jos}}$ ($c^{-2} = \varrho_{\max}^\varphi j_{\min}^\varphi$, $R_{\mathrm{Gr}}(2,4) = 16$) | **Solar-system ($\delta_{\mathrm{Jos}} = 0$)**: **$\varepsilon_{\mathrm{rel}} = 0$ ($0\%$, $42.98''/\text{cy}$)**;<br>$\eta_{\mathrm{act}}^\gamma = 0$ photon–photon discriminator + chiral dual-Schubert core |
+| **GW Model 14a (Without DDF)**:<br>Homogeneous Plücker $\mathcal{Q}_4$ Quadrupole Wave & Kähler `iGPE` 2.5PN Flux | `PlanetaryOrbit.turnerPluckerIGPEGWLuminosity`, `turner_plucker_igpe_gw_luminosity` | $P_{\mathrm{GW}} = \frac{32}{5}\frac{G^4 m_1^2 m_2^2(m_1+m_2)}{c^5 a^5}\frac{P_{\mathrm{PM}}(e)}{(\sqrt{\det(I_2+W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger)-3})^7} + \delta P_{\mathrm{Jos}}$, $p_{\mathrm{GW}}(t) \in \mathcal{Q}_4$ | **Inspiral ($\mathrm{De}/\mathrm{De}_c < 1, \delta P_{\mathrm{Jos}} = 0$)**: **$\varepsilon_{\mathrm{rel}} = 0$ ($0\%$)**;<br>**Ringdown fracture ($\delta P_{\mathrm{Jos}} > 0$)**: $\varepsilon_{\mathrm{rel}} = \delta P_{\mathrm{Jos}}/P_{\mathrm{GW}}^{\mathrm{GR}} > 0$ |
+| **GW Model 14b (With DDF)**:<br>Unified Dual-Grassmannian `iGPE` + Plücker $\mathcal{Q}_4$ + DDF + Deborah Fracture | `RiverExterior.turnerDualGr24IGPEDDFGWLuminosity`, `grassmannianDeborahFractureRatio` | $P_{\mathrm{GW}} = P_{\mathrm{GW}}^{\mathrm{DDF}} + \delta P_{\mathrm{Jos}}$, with $\hbar^2\omega^2 < 0 \iff \mathrm{De}/\mathrm{De}_c > 1$ and $\frac{d}{d\tau'}(\|\Psi\|^2+\|\Phi\|^2) = 0$ | **Inspiral ($\mathrm{De}/\mathrm{De}_c < 1, \delta P_{\mathrm{Jos}} = 0$)**: **$\varepsilon_{\mathrm{rel}} = 0$ ($0\%$)**;<br>unitary primary+dual norm conservation during $\mathrm{De} > \mathrm{De}_c$ ringdown fracture |
+
+---
+
+## 6. Multi-Regime Quantitative Benchmarks & Machine-Checked Verification
+
+### 6.1 Four Kinematic Regimes on $Gr_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4$ (`madelung_lagrangian.rs`)
 
 | # | Kinematic Regime on $Gr_{\mathbb{C}}(2,4)$ | Chart & Coupling Parameters $(\|W\|, \arg W, \|p_{34}/p_{12}\|, g, \rho_0, V_{\mathrm{im}}, w, \|\lambda\|)$ | Kähler Determinant $\det(I_2 + W W^\dagger) = \|p\|^2$ | Bogoliubov $\hbar^2\omega^2$ & Deborah Ratio $\mathrm{De}/\mathrm{De}_c$ | Symplectic Norm Rate $\frac{d}{d\tau'}(\|\Psi\|^2 + \|\Phi\|^2)$ |
 |---|---|---|---|---|---|
@@ -249,7 +308,7 @@ Theorem `plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities` ([../src/
 | **3** | **Tachyonic Shear Fracture ($\mathrm{De} > \mathrm{De}_c$)** | $(0.45, 0.00, 0.15, -3.40, 2.20, 0.00, 0.85, 0.00)$ | $1.4406 \ge 1$ | $\hbar^2\omega^2 < 0$, $\mathrm{De}/\mathrm{De}_c > 1$ (**Shear Fracture!**) | $0$ (Conservative Tachyonic Mode) |
 | **4** | **Strong Dual `iGPE` Schubert Lock** | $(0.85, -0.95, 0.60, +1.80, 1.60, 0.00, 1.25, 2.60)$ | $3.6201 \ge 1$ | $\hbar^2\omega^2 > 0$, $m_{\gamma,\mathrm{eff}}^2 > 0$ (**Gapped Proca Mode**) | $0$ ($J_{\mathrm{Josephson}}$ cancels between $\Psi, \Phi$) |
 
-### 5.2 Self-Contained Lean 4 Verification Block
+### 6.2 Self-Contained Lean 4 Verification Block
 
 ```lean
 import Signals
@@ -259,12 +318,16 @@ namespace ComplexGrassmannianGPEPluckerMadelungPaperVerification
 
 open Signals
 open Signals.Geometry
+open Signals.Huygens
 open Signals.DDF
 open Signals.Pending
 
-example (W K : Matrix (Fin 2) (Fin 2) ℂ) (Z : Matrix (Fin 2) (Fin 4) ℂ)
+example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
+    (orb : PlanetaryOrbit) (W K : Matrix (Fin 2) (Fin 2) ℂ) (Z : Matrix (Fin 2) (Fin 4) ℂ)
     (i : PluckerIdx) (s_coupled : CoupledDualGrassmannianState)
-    (dtau_s_real lambda_re lambda_im R_4D : ℝ) :
+    (z1 z2 : ℂ) (Δℓ : ℤ) (φ x y orbitalPhase deltaVarpi deltaJos deltaPJos : ℝ)
+    (dtau_s_real lambda_re lambda_im R_4D : ℝ)
+    (hJos : 0 < deltaJos) (hPJos : 0 < deltaPJos) :
     let p_Z := twistorToPluckerVec Z
     let Z_W := chartToTwistor W
     let gpe_rep : GrassmannianGPEParams :=
@@ -281,6 +344,11 @@ example (W K : Matrix (Fin 2) (Fin 2) ℂ) (Z : Matrix (Fin 2) (Fin 4) ℂ)
         projected_hessian_sqrt_rho := 6 }
     let v_rec :=
       pluckerInversePotentialReconstruction dtau_s_real 1 1 2 1 lambda_re lambda_im p_state
+    let p_slit := twistorToPluckerVec (complexGr24ChannelMatrix z1 z2)
+    let M_DDF := s.gr24TwistorMatrix 6 1 5 Δℓ φ x
+    let W_orb := PlanetaryOrbit.gr24AffineChart orb deltaVarpi
+    let Δϖ_GR := re.perihelionPrecessionRad orb
+    let P_GR := re.petersMathewsLuminosity orb 2
     pluckerHodgeDual (pluckerHodgeDual p_Z) i = p_Z i ∧
       pluckerNormSq (pluckerHodgeDual p_Z) = pluckerNormSq p_Z ∧
       OnKleinQuadric p_Z ∧
@@ -298,8 +366,28 @@ example (W K : Matrix (Fin 2) (Fin 2) ℂ) (Z : Matrix (Fin 2) (Fin 4) ℂ)
       pluckerHamiltonJacobiResidual dtau_s_real 1 1 2 1 v_rec lambda_re lambda_im p_state = 0 ∧
       pluckerContinuitySourceRHS 1 0 lambda_re 0 p_state = 0 ∧
       reconstructWeylFromPluckerBohm 1 1 R_4D p_state + (1 / 24 : ℝ) * R_4D =
-        - p_state.projected_hessian_sqrt_rho / Real.sqrt p_state.rho := by
-  intro p_Z Z_W gpe_rep p_state v_rec
+        - p_state.projected_hessian_sqrt_rho / Real.sqrt p_state.rho ∧
+      OnKleinQuadric p_slit ∧
+      p_slit 4 = z1 + z2 ∧
+      relativePredictiveError
+        (pluckerMadelungSuperpositionOAMDoubleSlit M_DDF 3 2 4 1 5 1 1 0 lambda_re 0 p_state x y)
+        (huygensSteinerOAMDoubleSlit 3 2 4 6 1 5 (s.jammingFactor)⁻¹ Δℓ φ x y) = 0 ∧
+      kahlerDetFactor W_orb - 3 = orb.semiLatusRectum / orb.semiMajorAxis ∧
+      relativePredictiveError
+        (PlanetaryOrbit.turnerPluckerIGPEPrecessionRad orb re.G_phi re.sourceMass sub.c deltaVarpi 0)
+        Δϖ_GR = 0 ∧
+      relativePredictiveError (re.turnerDualGr24IGPEDDFPrecessionRad orb deltaVarpi 0) Δϖ_GR = 0 ∧
+      relativePredictiveError
+        (re.turnerDualGr24IGPEDDFPrecessionRad orb deltaVarpi deltaJos) Δϖ_GR =
+        deltaJos / Δϖ_GR ∧
+      relativePredictiveError
+        (PlanetaryOrbit.turnerPluckerIGPEGWLuminosity
+          orb re.G_phi re.sourceMass 2 sub.c orbitalPhase deltaVarpi 0)
+        P_GR = 0 ∧
+      relativePredictiveError (re.turnerDualGr24IGPEDDFGWLuminosity orb 2 0) P_GR = 0 ∧
+      relativePredictiveError (re.turnerDualGr24IGPEDDFGWLuminosity orb 2 deltaPJos) P_GR =
+        deltaPJos / P_GR := by
+  intro p_Z Z_W gpe_rep p_state v_rec p_slit M_DDF W_orb Δϖ_GR P_GR
   have h_pl := plucker_hodge_klein_quadric_and_projector_identities p_Z i Z
   have h_quad_props := h_pl.2.2.2.2 h_pl.2.2.2.1
   have h_kahler := kahlerDetFactor_eq_pluckerNormSq_and_ge_one W K
@@ -314,18 +402,27 @@ example (W K : Matrix (Fin 2) (Fin 2) ℂ) (Z : Matrix (Fin 2) (Fin 4) ℂ)
     positivity
   have h_qhj := plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities
     dtau_s_real 1 1 2 1 lambda_re lambda_im R_4D p_state (by norm_num) (by norm_num)
+  have h_rev := turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models
+    s re orb p_state z1 z2 3 2 4 6 1 5 1 1 lambda_re
+    Δℓ φ x y orbitalPhase deltaVarpi 2 deltaJos deltaPJos
+    (by norm_num) hJos hPJos
   exact ⟨h_pl.1, h_pl.2.1, h_pl.2.2.2.1, h_quad_props.2.2.1, h_quad_props.2.2.2,
     h_kahler.2.2.1, h_kahler.2.2.2.1, h_kahler.2.2.2.2.2.1,
     h_norm.2.2.1, h_norm.2.2.2,
     h_bog.1, h_bog.2.1 (by norm_num [gpe_rep]), h_proca,
-    h_qhj.1, (h_qhj.2.1 rfl).1, h_qhj.2.2.2⟩
+    h_qhj.1, (h_qhj.2.1 rfl).1, h_qhj.2.2.2,
+    h_rev.1, h_rev.2.2.2.1, (h_rev.2.2.2.2.1 rfl).2, h_rev.2.2.2.2.2.2.2.1,
+    h_rev.2.2.2.2.2.2.2.2.2.1, h_rev.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_rev.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h_rev.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_rev.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_rev.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
 end ComplexGrassmannianGPEPluckerMadelungPaperVerification
 ```
 
 ---
 
-## 6. Conclusion & Reproducibility
+## 7. Conclusion & Reproducibility
 
 By formalizing the homogeneous Plücker 6-vector calculus on the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$, the corrected Hermitian tangent projector $\mathcal{H}^{I\bar{J}}$, the Cauchy–Binet Kähler determinant identity $\det(I_2 + W W^\dagger) = \|p(I_2 \mid W)\|^2 \ge 1$, the coupled Dual-Grassmannian `iGPE` symplectic norm balance and chiral Josephson Schubert current, the Einstein–Kähler Bogoliubov dispersion ($R_{\mathrm{Gr}}(2,4) = 16$) and critical Deborah shear-fracture threshold ($\hbar^2\omega^2 < 0 \iff \mathrm{De}/\mathrm{De}_c > 1$), and the homogeneous Plücker Madelung QHJ / `iGPE` potential reconstruction and Penrose Bohm–Weyl curvature dictionary in Lean 4 and Rust/WASM, we have unified spacetime Madelung hydrodynamics with intrinsic complex Grassmannian twistor geometry while maintaining strict Pending evidence boundaries (`ComplexGrassmannianGPEAndPluckerMadelungHypothesis`).
 

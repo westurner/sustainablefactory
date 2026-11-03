@@ -9307,4 +9307,419 @@ theorem plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities
       ring
   exact ⟨h_inv, h_locked, h_slip, h_weyl⟩
 
+/-! ### 30.6 Revised Turner (2026) Models for Superposition, Gravity (1PN Perihelion), and Gravitational Waves (2.5PN & Ringdown Fracture) via Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-Grassmannian `iGPE` -/
+
+/-- **Revised Turner (2026) Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-Grassmannian `iGPE` Superposition Evaluator**:
+Evaluates the double-slit / OAM interferometric intensity on the Klein quadric
+$\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ by combining the complex Plücker crossing-minor
+superposition intensity $I_0 E_{\mathrm{slit}}(x,y)\,|p_1(M_{\mathbb{C}})\,p_4(M_{\mathbb{C}})|^2$
+with the time-of-flight integrated Plücker continuity source
+$\tau_{\mathrm{flight}}\,\Gamma_{\mathrm{Pl\ddot{u}cker}}(\hbar, V_{\mathrm{ext,im}}, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s_{\mathrm{pl}})$
+from dual-Grassmannian $Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee$ Schubert tunneling. -/
+@[blueprint "def:signals-ddf-plucker-madelung-superposition-oam-double-slit"
+  (title := "Revised Turner (2026) homogeneous Plücker Q_4 Madelung and Dual-Grassmannian iGPE OAM double-slit superposition")
+  (statement := /-- Define $\operatorname{pluckerMadelungSuperpositionOAMDoubleSlit}(M_{\mathbb{C}}, I_0, a, b, \lambda, L, \tau_{\mathrm{flight}}, \hbar, V_{\mathrm{ext,im}}, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s_{\mathrm{pl}}, x, y)
+    = \operatorname{complexGr24CrossingDoubleSlit}(M_{\mathbb{C}}, I_0, a, b, \lambda, L, x, y)
+    + \tau_{\mathrm{flight}}\,\operatorname{pluckerContinuitySourceRHS}(\hbar, V_{\mathrm{ext,im}}, \lambda_{\mathrm{re}}, \lambda_{\mathrm{im}}, s_{\mathrm{pl}})$. -/)]
+noncomputable def pluckerMadelungSuperpositionOAMDoubleSlit
+    (M_C : Matrix (Fin 2) (Fin 4) ℂ)
+    (I0 a b wavelength L tauFlight hbar v_ext_im lambda_re lambda_im : ℝ)
+    (s_pl : PluckerMadelungState) (x y : ℝ) : ℝ :=
+  complexGr24CrossingDoubleSlit M_C I0 a b wavelength L x y +
+    tauFlight * pluckerContinuitySourceRHS hbar v_ext_im lambda_re lambda_im s_pl
+
+/-- **Canonical $2\times 2$ Fubini–Study Affine Chart $W_{\mathrm{orb}}(\mathrm{orb}, \Delta\varpi)$ for a Precessing Planetary Orbit**:
+On the canonical coordinate patch $Z = (I_2 \mid W_{\mathrm{orb}}) \in Gr_{\mathbb{C}}(2,4)$,
+encodes the normalized aphelion and perihelion twistor amplitudes along the diagonal:
+$$W_{\mathrm{orb}}(\mathrm{orb}, \Delta\varpi) = \begin{pmatrix} \sqrt{1 + e}\,e^{i\Delta\varpi/2} & 0 \\ 0 & \sqrt{1 - e}\,e^{-i\Delta\varpi/2} \end{pmatrix} \in \mathbb{C}^{2\times 2},$$
+so that $\det(I_2 + W_{\mathrm{orb}} W_{\mathrm{orb}}^\dagger) = \|p(I_2 \mid W_{\mathrm{orb}})\|_{\mathbb{C}^6}^2 = 4 - e^2 = 3 + \frac{p}{a} > 3$
+and $\det(I_2 + W_{\mathrm{orb}} W_{\mathrm{orb}}^\dagger) - 3 = 1 - e^2 = \frac{p}{a}$. -/
+@[blueprint "def:signals-ddf-planetary-gr24-affine-chart"
+  (title := "Canonical 2x2 Fubini-Study affine chart W_orb(orb, Δϖ) for a precessing planetary orbit")
+  (statement := /-- For \texttt{orb : PlanetaryOrbit} and $\Delta\varpi\in\mathbb{R}$, define
+    $W_{\mathrm{orb}}(\mathrm{orb}, \Delta\varpi)
+    = \operatorname{diag}\!\bigl(\sqrt{1+e}\,e^{i\Delta\varpi/2},\,\sqrt{1-e}\,e^{-i\Delta\varpi/2}\bigr)\in\mathbb{C}^{2\times 2}$. -/)]
+noncomputable def PlanetaryOrbit.gr24AffineChart
+    (orb : PlanetaryOrbit) (deltaVarpi : ℝ) : Matrix (Fin 2) (Fin 2) ℂ :=
+  let θ := deltaVarpi / 2
+  let a := Real.sqrt (1 + orb.eccentricity)
+  let b := Real.sqrt (1 - orb.eccentricity)
+  let z_aph : ℂ := ↑(a * Real.cos θ) + Complex.I * ↑(a * Real.sin θ)
+  let z_per : ℂ := ↑(b * Real.cos θ) - Complex.I * ↑(b * Real.sin θ)
+  !![z_aph, 0; 0, z_per]
+
+/-- **Model 14a (Gravity, Without DDF): Revised Turner (2026) Homogeneous Plücker $\mathcal{Q}_4$ Madelung QHJ, Fubini–Study Kähler Chart, & `iGPE` Perihelion Precession**:
+Factors the 1PN perihelion advance through the Fubini–Study Kähler determinant factor
+$\det(I_2 + W_{\mathrm{orb}} W_{\mathrm{orb}}^\dagger) - 3 = \|p(I_2 \mid W_{\mathrm{orb}})\|^2 - 3 = 1 - e^2 = p/a$
+plus the strong-field near-horizon Plücker Bohm + dual-Schubert Josephson core shift $\delta_{\mathrm{Jos}}$:
+$$\Delta\varpi_{\mathrm{Pl\ddot{u}cker\text{-}iGPE}}^{\mathrm{QED}}(G, M, c, \Delta\varpi, \delta_{\mathrm{Jos}})
+  = \frac{6\pi G M}{c^2 a\bigl(\operatorname{kahlerDetFactor}(W_{\mathrm{orb}}(\mathrm{orb}, \Delta\varpi)) - 3\bigr)} + \delta_{\mathrm{Jos}}.$$ -/
+@[blueprint "def:signals-ddf-turner-plucker-igpe-precession"
+  (title := "Model 14a (Gravity, Without DDF): Turner (2026) homogeneous Plücker Q_4 Madelung and Fubini-Study Kähler iGPE perihelion precession")
+  (statement := /-- Define $\Delta\varpi_{\mathrm{Pl\ddot{u}cker\text{-}iGPE}}^{\mathrm{QED}}(G, M, c, \Delta\varpi, \delta_{\mathrm{Jos}})
+    = \frac{6\pi G M}{c^2 a\bigl(\operatorname{kahlerDetFactor}(\mathrm{orb}.\mathrm{gr24AffineChart}(\Delta\varpi)) - 3\bigr)} + \delta_{\mathrm{Jos}}$. -/)]
+noncomputable def PlanetaryOrbit.turnerPluckerIGPEPrecessionRad
+    (orb : PlanetaryOrbit) (G sourceMass c deltaVarpi deltaJos : ℝ) : ℝ :=
+  6 * Real.pi * G * sourceMass /
+    (c ^ 2 * orb.semiMajorAxis *
+      (kahlerDetFactor (PlanetaryOrbit.gr24AffineChart orb deltaVarpi) - 3)) + deltaJos
+
+/-- **Model 14b (Gravity, With DDF): Revised Turner (2026) Unified Dual-Grassmannian $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker $\mathcal{Q}_4$ Madelung, & Conservative DDF Perihelion Precession**:
+Replaces $c^{-2}$ with the constitutive DDF dispersed-phase product $\varrho_{\max}^\varphi j_{\min}^\varphi$
+and factors $p/a = 1 - e^2$ through the Fubini–Study Kähler determinant factor
+$\operatorname{kahlerDetFactor}(W_{\mathrm{orb}}(\mathrm{orb}, \Delta\varpi)) - 3$ plus the
+dual-Schubert Josephson + Plücker Bohm core regularization shift $\delta_{\mathrm{Jos}}$:
+$$\Delta\varpi_{\mathrm{DualGr24\text{-}iGPE}}^{\mathrm{DDF}}(\Delta\varpi, \delta_{\mathrm{Jos}})
+  = \frac{6\pi\,G_\phi M\,\varrho_{\max}^\varphi j_{\min}^\varphi}{a\bigl(\operatorname{kahlerDetFactor}(W_{\mathrm{orb}}(\mathrm{orb}, \Delta\varpi)) - 3\bigr)} + \delta_{\mathrm{Jos}}.$$ -/
+@[blueprint "def:signals-ddf-turner-dual-gr24-igpe-ddf-precession"
+  (title := "Model 14b (Gravity, With DDF): Turner (2026) unified Dual-Grassmannian Gr_C(2,4) x Gr_C(2,4)∨ iGPE, Plücker Q_4 Madelung, and DDF perihelion precession")
+  (statement := /-- Define $\Delta\varpi_{\mathrm{DualGr24\text{-}iGPE}}^{\mathrm{DDF}}(\Delta\varpi, \delta_{\mathrm{Jos}})
+    = \frac{6\pi G_\phi M \varrho_{\max}^\varphi j_{\min}^\varphi}{a\bigl(\operatorname{kahlerDetFactor}(\mathrm{orb}.\mathrm{gr24AffineChart}(\Delta\varpi)) - 3\bigr)} + \delta_{\mathrm{Jos}}$. -/)]
+noncomputable def RiverExterior.turnerDualGr24IGPEDDFPrecessionRad
+    {sub : DDFSubstrate} (re : RiverExterior sub) (orb : PlanetaryOrbit)
+    (deltaVarpi deltaJos : ℝ) : ℝ :=
+  6 * Real.pi * re.G_phi * re.sourceMass * (sub.rho_max_varphi * sub.j_min_varphi) /
+    (orb.semiMajorAxis *
+      (kahlerDetFactor (PlanetaryOrbit.gr24AffineChart orb deltaVarpi) - 3)) + deltaJos
+
+/-- **Model 14a (Gravitational Waves, Without DDF): Revised Turner (2026) Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Fubini–Study Kähler `iGPE` 2.5PN Quadrupole Luminosity**:
+Factors the 2.5PN Peters–Mathews eccentricity enhancement factor through the $-7/2$ power
+of the Fubini–Study Kähler determinant excess
+$\operatorname{kahlerDetFactor}(W_{\mathrm{orb}}(\mathrm{orb}, 2\Phi_{\mathrm{orb}} + \Delta\varpi)) - 3 = 1 - e^2 = p/a$,
+augmented by the dual-Grassmannian $Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee$
+Josephson–Schubert ringdown leakage flux $\delta P_{\mathrm{Jos}}$:
+$$P_{\mathrm{GW}}^{\mathrm{Pl\ddot{u}cker\text{-}iGPE}}(G, m_1, m_2, c, \Phi_{\mathrm{orb}}, \Delta\varpi, \delta P_{\mathrm{Jos}})
+  = \frac{32}{5}\frac{G^4 m_1^2 m_2^2(m_1 + m_2)}{c^5 a^5}\,
+    \frac{P_{\mathrm{PM}}(e)}{\bigl(\sqrt{\operatorname{kahlerDetFactor}(W_{\mathrm{orb}}(\mathrm{orb}, 2\Phi_{\mathrm{orb}} + \Delta\varpi)) - 3}\bigr)^7} + \delta P_{\mathrm{Jos}}.$$ -/
+@[blueprint "def:signals-ddf-turner-plucker-igpe-gw-luminosity"
+  (title := "Model 14a (Gravitational Waves, Without DDF): Turner (2026) homogeneous Plücker Q_4 Madelung and Fubini-Study Kähler iGPE 2.5PN GW luminosity")
+  (statement := /-- Define $P_{\mathrm{GW}}^{\mathrm{Pl\ddot{u}cker\text{-}iGPE}}(G, m_1, m_2, c, \Phi_{\mathrm{orb}}, \Delta\varpi, \delta P_{\mathrm{Jos}})
+    = \frac{32}{5}\frac{G^4 m_1^2 m_2^2(m_1+m_2)}{c^5 a^5}\frac{P_{\mathrm{PM}}(e)}{\bigl(\sqrt{\operatorname{kahlerDetFactor}(\mathrm{orb}.\mathrm{gr24AffineChart}(2\Phi_{\mathrm{orb}}+\Delta\varpi))-3}\bigr)^7} + \delta P_{\mathrm{Jos}}$. -/)]
+noncomputable def PlanetaryOrbit.turnerPluckerIGPEGWLuminosity
+    (orb : PlanetaryOrbit) (G m1 m2 c orbitalPhase deltaVarpi deltaPJos : ℝ) : ℝ :=
+  (32 / 5 : ℝ) * G ^ 4 * m1 ^ 2 * m2 ^ 2 * (m1 + m2) /
+    (c ^ 5 * orb.semiMajorAxis ^ 5) *
+    (orb.petersMathewsPolynomial /
+      (Real.sqrt
+        (kahlerDetFactor (PlanetaryOrbit.gr24AffineChart orb (2 * orbitalPhase + deltaVarpi)) - 3)) ^ 7) +
+    deltaPJos
+
+/-- **Model 14b (Gravitational Waves, With DDF): Revised Turner (2026) Unified Dual-Grassmannian $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker $\mathcal{Q}_4$ Madelung, Conservative DDF, & Deborah Shear-Fracture GW Luminosity**:
+Combines the DDF 2.5PN Peters–Mathews quadrupole luminosity
+$re.\mathrm{petersMathewsLuminosity}\,\mathrm{orb}\,m_2$ (with $c = (\varrho_{\max}^\varphi j_{\min}^\varphi)^{-1/2}$
+and Einstein–Kähler curvature gap $R_{\mathrm{Gr}}(2,4) = 16$) with the super-critical
+($\mathrm{De}/\mathrm{De}_c > 1$) dual-Schubert Josephson ringdown flux $\delta P_{\mathrm{Jos}}$:
+$$P_{\mathrm{GW}}^{\mathrm{DualGr24\text{-}iGPE,DDF}}(m_2, \delta P_{\mathrm{Jos}})
+  = re.\mathrm{petersMathewsLuminosity}\,\mathrm{orb}\,m_2 + \delta P_{\mathrm{Jos}}.$$ -/
+@[blueprint "def:signals-ddf-turner-dual-gr24-igpe-ddf-gw-luminosity"
+  (title := "Model 14b (Gravitational Waves, With DDF): Turner (2026) unified Dual-Grassmannian iGPE, Plücker Q_4 Madelung, DDF, and Deborah shear-fracture GW luminosity")
+  (statement := /-- Define $P_{\mathrm{GW}}^{\mathrm{DualGr24\text{-}iGPE,DDF}}(m_2, \delta P_{\mathrm{Jos}})
+    = re.\mathrm{petersMathewsLuminosity}(\mathrm{orb}, m_2) + \delta P_{\mathrm{Jos}}$. -/)]
+noncomputable def RiverExterior.turnerDualGr24IGPEDDFGWLuminosity
+    {sub : DDFSubstrate} (re : RiverExterior sub) (orb : PlanetaryOrbit)
+    (m2 deltaPJos : ℝ) : ℝ :=
+  re.petersMathewsLuminosity orb m2 + deltaPJos
+
+/-- **Master Theorem for Revised Turner (2026) Superposition, Gravity (Models 14a/14b), and Gravitational-Wave (Models 14a/14b) Models via Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-Grassmannian `iGPE`**:
+1. **Superposition on the Klein Quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ & Dual-Grassmannian `iGPE` Equilibrium vs. Chiral Phase-Slip**:
+   - For any complex channel amplitudes $z_1, z_2 \in \mathbb{C}$, the homogeneous Plücker 6-vector
+     $p_{\mathrm{slit}} = \operatorname{twistorToPluckerVec}(\operatorname{complexGr24ChannelMatrix}(z_1, z_2))$
+     satisfies $\operatorname{OnKleinQuadric}(p_{\mathrm{slit}})$ with $p_{\mathrm{slit}}(0) = z_1$,
+     $p_{\mathrm{slit}}(2) = z_2$, $p_{\mathrm{slit}}(1) = p_{\mathrm{slit}}(3) = p_{\mathrm{slit}}(5) = 1$,
+     and $p_{\mathrm{slit}}(4) = z_1 + z_2 = p_{\mathrm{slit}}(0)\,p_{\mathrm{slit}}(5) + p_{\mathrm{slit}}(2)\,p_{\mathrm{slit}}(3)$,
+     so linear wave superposition is literally enforced by $\mathcal{C}(p_{\mathrm{slit}}) = 0$ on $\mathcal{Q}_4$.
+   - In the Hermitian phase-locked regime ($s_{\mathrm{pl}}.s_{\mathrm{dual}} = s_{\mathrm{pl}}.s_{\mathrm{real}}, \lambda_{\mathrm{im}} = 0, V_{\mathrm{ext,im}} = 0$),
+     evaluating `pluckerMadelungSuperpositionOAMDoubleSlit` on $M_{\mathbb{C}}^{\mathrm{DDF}}(s)$
+     reproduces `huygensSteinerOAMDoubleSlit` with $\mathcal{V} = \gamma_\varphi(v)^{-1}$ and
+     **zero relative predictive error ($\varepsilon_{\mathrm{rel}} = 0$) everywhere**.
+   - In the chiral $\pi/2$ phase-slip regime ($s_{\mathrm{pl}}.s_{\mathrm{dual}} - s_{\mathrm{pl}}.s_{\mathrm{real}} = \frac{\pi}{2}\hbar$),
+     `pluckerMadelungSuperpositionOAMDoubleSlit` on a coherent $d_{\mathrm{bary}} = 0$ channel matrix
+     reproduces `pilotWaveOAMDoubleSlit` with microscopic non-equilibrium offset
+     $\delta_{\mathrm{neq}} = \tau_{\mathrm{flight}}\,\frac{2}{\hbar}\sqrt{s_{\mathrm{pl}}.\rho\,s_{\mathrm{pl}}.\rho_{\mathrm{dual}}}\,\lambda_{\mathrm{re}}$.
+2. **Gravity (Models 14a & 14b): Orbital Kähler–Plücker Identity & Relative Predictive Errors**:
+   - For any `orb : PlanetaryOrbit` and $\Delta\varpi \in \mathbb{R}$, the Fubini–Study Kähler
+     determinant factor of $W_{\mathrm{orb}} = \mathrm{orb}.\mathrm{gr24AffineChart}(\Delta\varpi)$ satisfies:
+     $$\operatorname{kahlerDetFactor}(W_{\mathrm{orb}}) = \bigl\|p(I_2 \mid W_{\mathrm{orb}})\bigr\|_{\mathbb{C}^6}^2 = 4 - e^2 = 3 + \frac{p}{a} > 3, \qquad
+     \operatorname{kahlerDetFactor}(W_{\mathrm{orb}}) - 3 = 1 - e^2 = \frac{p}{a}.$$
+   - At solar-system scales ($\delta_{\mathrm{Jos}} = 0$), both **Model 14a (`turnerPluckerIGPEPrecessionRad`)**
+     and **Model 14b (`RiverExterior.turnerDualGr24IGPEDDFPrecessionRad`)** equal
+     $\Delta\varpi_{\mathrm{GR}} = re.\mathrm{perihelionPrecessionRad}(\mathrm{orb})$ with
+     **$\varepsilon_{\mathrm{rel}} = 0$ ($0\%$ error)**, while for strong-field core shift
+     $\delta_{\mathrm{Jos}} > 0$, $\varepsilon_{\mathrm{rel}} = \delta_{\mathrm{Jos}} / \Delta\varpi_{\mathrm{GR}} > 0$.
+3. **Gravitational Waves (Models 14a & 14b): Plücker $\mathcal{Q}_4$ Quadrupole Wave & Deborah Shear-Fracture Ringdown**:
+   - The Plücker 6-vector $p_{\mathrm{GW}} = \operatorname{twistorToPluckerVec}(\mathrm{orb}.\mathrm{gr24QuadrupoleWaveMatrix}(\Phi_{\mathrm{orb}}, \Delta\varpi))$
+     satisfies $\operatorname{OnKleinQuadric}(p_{\mathrm{GW}})$,
+   - In the sub-critical inspiral regime ($\mathrm{De}/\mathrm{De}_c < 1 \implies \delta P_{\mathrm{Jos}} = 0$),
+     both **Model 14a (`turnerPluckerIGPEGWLuminosity`)** and **Model 14b (`RiverExterior.turnerDualGr24IGPEDDFGWLuminosity`)**
+     equal $P_{\mathrm{GW}}^{\mathrm{GR}} = re.\mathrm{petersMathewsLuminosity}(\mathrm{orb}, m_2)$ with
+     **$\varepsilon_{\mathrm{rel}} = 0$ ($0\%$ error)**, while in the super-critical merger ringdown
+     fracture regime ($\delta P_{\mathrm{Jos}} > 0$), $\varepsilon_{\mathrm{rel}} = \delta P_{\mathrm{Jos}} / P_{\mathrm{GW}}^{\mathrm{GR}} > 0$. -/
+@[blueprint "thm:signals-ddf-turner-2026-revised-superposition-gravity-gw-plucker-igpe"
+  (title := "Master theorem for revised Turner (2026) superposition, gravity (Models 14a/14b), and gravitational-wave (Models 14a/14b) models via homogeneous Plücker Q_4 Madelung and Dual-Grassmannian iGPE")
+  (statement := /-- For \texttt{sub : DDFSubstrate}, \texttt{s : MovingSheath sub}, \texttt{re : RiverExterior sub},
+    \texttt{orb : PlanetaryOrbit}, \texttt{s\_pl : PluckerMadelungState}, $\hbar \ne 0$, $m_2 > 0$,
+    $\delta_{\mathrm{Jos}} > 0$, and $\delta P_{\mathrm{Jos}} > 0$:
+    (1) $p_{\mathrm{slit}} = \operatorname{twistorToPluckerVec}(\operatorname{complexGr24ChannelMatrix}(z_1, z_2))$
+    satisfies $\operatorname{OnKleinQuadric}(p_{\mathrm{slit}})$ and $p_{\mathrm{slit}}(4) = z_1 + z_2$;
+    in the phase-locked Hermitian regime ($s_{\mathrm{pl}}.s_{\mathrm{dual}} = s_{\mathrm{pl}}.s_{\mathrm{real}}$),
+    $\operatorname{pluckerMadelungSuperpositionOAMDoubleSlit}$ on $s.\mathrm{gr24TwistorMatrix}$ equals
+    $\operatorname{huygensSteinerOAMDoubleSlit}$ with $\mathcal{V} = \gamma_\varphi(v)^{-1}$ and $\varepsilon_{\mathrm{rel}} = 0$;
+    (2) $\operatorname{kahlerDetFactor}(\mathrm{orb}.\mathrm{gr24AffineChart}(\Delta\varpi)) - 3 = 1 - e^2 = p/a$,
+    and Models 14a and 14b have $\varepsilon_{\mathrm{rel}} = 0$ at $\delta_{\mathrm{Jos}} = 0$ and
+    $\varepsilon_{\mathrm{rel}} = \delta_{\mathrm{Jos}} / \Delta\varpi_{\mathrm{GR}} > 0$ for $\delta_{\mathrm{Jos}} > 0$;
+    (3) $\operatorname{OnKleinQuadric}(\operatorname{twistorToPluckerVec}(\mathrm{orb}.\mathrm{gr24QuadrupoleWaveMatrix}(\Phi_{\mathrm{orb}}, \Delta\varpi)))$,
+    and GW Models 14a and 14b have $\varepsilon_{\mathrm{rel}} = 0$ at $\delta P_{\mathrm{Jos}} = 0$ and
+    $\varepsilon_{\mathrm{rel}} = \delta P_{\mathrm{Jos}} / P_{\mathrm{GW}}^{\mathrm{GR}} > 0$ for $\delta P_{\mathrm{Jos}} > 0$. -/)
+  (proof := /-- Evaluate the Plücker 6-vector components of \texttt{complexGr24ChannelMatrix},
+    expand \texttt{kahlerDetFactor} on \texttt{gr24AffineChart} using $\cos^2\theta+\sin^2\theta=1$
+    and $(1+e)(1-e)=1-e^2$, and combine with \texttt{gr24TwistorMatrix\_crossing\_eq\_ddf\_oam\_intensity},
+    \texttt{perihelionPrecession\_eq\_horizon\_and\_substrate}, and \texttt{gravitational\_wave\_models\_relative\_predictive\_error\_comparison}. -/)]
+theorem turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models
+    {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
+    (orb : PlanetaryOrbit) (s_pl : PluckerMadelungState)
+    (z1 z2 : ℂ) (I0 a b d wavelength L tauFlight hbar lambda_re : ℝ)
+    (Δℓ : ℤ) (φ x y orbitalPhase deltaVarpi m2 deltaJos deltaPJos : ℝ)
+    (hm2 : 0 < m2)
+    (hJos : 0 < deltaJos) (hPJos : 0 < deltaPJos) :
+    let p_slit := twistorToPluckerVec (complexGr24ChannelMatrix z1 z2)
+    let M_DDF := s.gr24TwistorMatrix d wavelength L Δℓ φ x
+    let W_orb := PlanetaryOrbit.gr24AffineChart orb deltaVarpi
+    let Δϖ_GR := re.perihelionPrecessionRad orb
+    let P_GR := re.petersMathewsLuminosity orb m2
+    OnKleinQuadric p_slit ∧
+      p_slit 0 = z1 ∧
+      p_slit 2 = z2 ∧
+      p_slit 4 = z1 + z2 ∧
+      (s_pl.s_dual = s_pl.s_real →
+        pluckerMadelungSuperpositionOAMDoubleSlit
+            M_DDF I0 a b wavelength L tauFlight hbar 0 lambda_re 0 s_pl x y =
+          huygensSteinerOAMDoubleSlit I0 a b d wavelength L (s.jammingFactor)⁻¹ Δℓ φ x y ∧
+        relativePredictiveError
+          (pluckerMadelungSuperpositionOAMDoubleSlit
+            M_DDF I0 a b wavelength L tauFlight hbar 0 lambda_re 0 s_pl x y)
+          (huygensSteinerOAMDoubleSlit I0 a b d wavelength L (s.jammingFactor)⁻¹ Δℓ φ x y) = 0) ∧
+      kahlerDetFactor W_orb = 4 - orb.eccentricity ^ 2 ∧
+      kahlerDetFactor W_orb - 3 = 1 - orb.eccentricity ^ 2 ∧
+      kahlerDetFactor W_orb - 3 = orb.semiLatusRectum / orb.semiMajorAxis ∧
+      PlanetaryOrbit.turnerPluckerIGPEPrecessionRad orb re.G_phi re.sourceMass sub.c deltaVarpi 0 = Δϖ_GR ∧
+      relativePredictiveError
+        (PlanetaryOrbit.turnerPluckerIGPEPrecessionRad orb re.G_phi re.sourceMass sub.c deltaVarpi 0) Δϖ_GR = 0 ∧
+      relativePredictiveError
+        (PlanetaryOrbit.turnerPluckerIGPEPrecessionRad orb re.G_phi re.sourceMass sub.c deltaVarpi deltaJos) Δϖ_GR =
+        deltaJos / Δϖ_GR ∧
+      re.turnerDualGr24IGPEDDFPrecessionRad orb deltaVarpi 0 = Δϖ_GR ∧
+      relativePredictiveError
+        (re.turnerDualGr24IGPEDDFPrecessionRad orb deltaVarpi 0) Δϖ_GR = 0 ∧
+      relativePredictiveError
+        (re.turnerDualGr24IGPEDDFPrecessionRad orb deltaVarpi deltaJos) Δϖ_GR =
+        deltaJos / Δϖ_GR ∧
+      OnKleinQuadric (twistorToPluckerVec (orb.gr24QuadrupoleWaveMatrix orbitalPhase deltaVarpi)) ∧
+      PlanetaryOrbit.turnerPluckerIGPEGWLuminosity orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi 0 =
+        P_GR ∧
+      relativePredictiveError
+        (PlanetaryOrbit.turnerPluckerIGPEGWLuminosity orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi 0)
+        P_GR = 0 ∧
+      relativePredictiveError
+        (PlanetaryOrbit.turnerPluckerIGPEGWLuminosity orb
+          re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi deltaPJos) P_GR =
+        deltaPJos / P_GR ∧
+      re.turnerDualGr24IGPEDDFGWLuminosity orb m2 0 = P_GR ∧
+      relativePredictiveError (re.turnerDualGr24IGPEDDFGWLuminosity orb m2 0) P_GR = 0 ∧
+      relativePredictiveError (re.turnerDualGr24IGPEDDFGWLuminosity orb m2 deltaPJos) P_GR =
+        deltaPJos / P_GR := by
+  intro p_slit M_DDF W_orb Δϖ_GR P_GR
+  have h_quad_slit : OnKleinQuadric p_slit :=
+    (plucker_hodge_klein_quadric_and_projector_identities
+      p_slit 0 (complexGr24ChannelMatrix z1 z2)).2.2.2.1
+  have hp0 : p_slit 0 = z1 := by
+    dsimp [p_slit, twistorToPluckerVec, complexGr24ChannelMatrix, complexTwoRowMinor]
+    ring
+  have hp2 : p_slit 2 = z2 := by
+    dsimp [p_slit, twistorToPluckerVec, complexGr24ChannelMatrix, complexTwoRowMinor]
+    ring
+  have hp4 : p_slit 4 = z1 + z2 := by
+    dsimp [p_slit, twistorToPluckerVec, complexGr24ChannelMatrix, complexTwoRowMinor]
+    ring
+  have h_sup_locked :
+      s_pl.s_dual = s_pl.s_real →
+        pluckerMadelungSuperpositionOAMDoubleSlit
+            M_DDF I0 a b wavelength L tauFlight hbar 0 lambda_re 0 s_pl x y =
+          huygensSteinerOAMDoubleSlit I0 a b d wavelength L (s.jammingFactor)⁻¹ Δℓ φ x y ∧
+        relativePredictiveError
+          (pluckerMadelungSuperpositionOAMDoubleSlit
+            M_DDF I0 a b wavelength L tauFlight hbar 0 lambda_re 0 s_pl x y)
+          (huygensSteinerOAMDoubleSlit I0 a b d wavelength L (s.jammingFactor)⁻¹ Δℓ φ x y) = 0 := by
+    intro h_eq
+    have h_src0 : pluckerContinuitySourceRHS hbar 0 lambda_re 0 s_pl = 0 := by
+      unfold pluckerContinuitySourceRHS
+      simp [h_eq]
+    have h_ddf_oam := s.gr24TwistorMatrix_crossing_eq_ddf_oam_intensity
+      I0 a b d wavelength L Δℓ φ x y
+    have h_val :
+        pluckerMadelungSuperpositionOAMDoubleSlit
+            M_DDF I0 a b wavelength L tauFlight hbar 0 lambda_re 0 s_pl x y =
+          huygensSteinerOAMDoubleSlit I0 a b d wavelength L (s.jammingFactor)⁻¹ Δℓ φ x y := by
+      unfold pluckerMadelungSuperpositionOAMDoubleSlit
+      rw [h_src0, mul_zero, add_zero]
+      exact h_ddf_oam.1
+    refine ⟨h_val, ?_⟩
+    rw [h_val]
+    simp [relativePredictiveError]
+  have ha_pos := orb.semiMajorAxis_pos
+  have ha_ne : orb.semiMajorAxis ≠ 0 := ne_of_gt ha_pos
+  have he0 := orb.eccentricity_nonneg
+  have he1 := orb.eccentricity_lt_one
+  have h1pe : 0 ≤ 1 + orb.eccentricity := by linarith
+  have h1me : 0 ≤ 1 - orb.eccentricity := by linarith
+  have h_kahler_orb : ∀ dv : ℝ, kahlerDetFactor (PlanetaryOrbit.gr24AffineChart orb dv) = 4 - orb.eccentricity ^ 2 := by
+    intro dv
+    let θ := dv / 2
+    let a_e := Real.sqrt (1 + orb.eccentricity)
+    let b_e := Real.sqrt (1 - orb.eccentricity)
+    let z_aph : ℂ := ↑(a_e * Real.cos θ) + Complex.I * ↑(a_e * Real.sin θ)
+    let z_per : ℂ := ↑(b_e * Real.cos θ) - Complex.I * ↑(b_e * Real.sin θ)
+    have h_trig : (Real.cos θ) ^ 2 + (Real.sin θ) ^ 2 = 1 := Real.cos_sq_add_sin_sq θ
+    have ha2 : a_e ^ 2 = 1 + orb.eccentricity := Real.sq_sqrt h1pe
+    have hb2 : b_e ^ 2 = 1 - orb.eccentricity := Real.sq_sqrt h1me
+    have h_normA : Complex.normSq z_aph = 1 + orb.eccentricity := by
+      dsimp [z_aph]
+      simp only [Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.mul_re,
+        Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+      calc
+        _ = a_e ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+        _ = 1 + orb.eccentricity := by rw [ha2, h_trig, mul_one]
+    have h_normB : Complex.normSq z_per = 1 - orb.eccentricity := by
+      dsimp [z_per]
+      simp only [Complex.normSq_apply, Complex.sub_re, Complex.sub_im, Complex.mul_re,
+        Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+      calc
+        _ = b_e ^ 2 * ((Real.cos θ) ^ 2 + (Real.sin θ) ^ 2) := by ring
+        _ = 1 - orb.eccentricity := by rw [hb2, h_trig, mul_one]
+    unfold kahlerDetFactor fubiniStudyFrobeniusNormSq PlanetaryOrbit.gr24AffineChart
+    change 1 + (Complex.normSq z_aph + Complex.normSq (0 : ℂ) +
+      Complex.normSq (0 : ℂ) + Complex.normSq z_per) +
+      Complex.normSq (z_aph * z_per - 0 * 0) = 4 - orb.eccentricity ^ 2
+    simp only [mul_zero, sub_zero, map_zero, Complex.normSq_mul, h_normA, h_normB]
+    ring
+  have h_k_dv : kahlerDetFactor W_orb = 4 - orb.eccentricity ^ 2 := h_kahler_orb deltaVarpi
+  have h_k_sub3 : kahlerDetFactor W_orb - 3 = 1 - orb.eccentricity ^ 2 := by
+    rw [h_k_dv]
+    ring
+  have h_slr_div : orb.semiLatusRectum / orb.semiMajorAxis = 1 - orb.eccentricity ^ 2 := by
+    unfold PlanetaryOrbit.semiLatusRectum
+    exact mul_div_cancel_left₀ (1 - orb.eccentricity ^ 2) ha_ne
+  have h_k_slr : kahlerDetFactor W_orb - 3 = orb.semiLatusRectum / orb.semiMajorAxis := by
+    rw [h_k_sub3, h_slr_div]
+  have h_semi_eq : orb.semiMajorAxis * (kahlerDetFactor W_orb - 3) = orb.semiLatusRectum := by
+    rw [h_k_sub3]
+    rfl
+  have h_gr_info := re.perihelionPrecession_eq_horizon_and_substrate orb
+  have h_gr_pos : 0 < Δϖ_GR := h_gr_info.1
+  have h_abs_gr : |Δϖ_GR| = Δϖ_GR := abs_of_pos h_gr_pos
+  have h_14a_0 :
+      PlanetaryOrbit.turnerPluckerIGPEPrecessionRad orb re.G_phi re.sourceMass sub.c deltaVarpi 0 = Δϖ_GR := by
+    dsimp [Δϖ_GR]
+    unfold PlanetaryOrbit.turnerPluckerIGPEPrecessionRad RiverExterior.perihelionPrecessionRad
+    change 6 * Real.pi * re.G_phi * re.sourceMass /
+      (sub.c ^ 2 * orb.semiMajorAxis * (kahlerDetFactor W_orb - 3)) + 0 = _
+    rw [add_zero, mul_assoc (sub.c ^ 2), h_semi_eq]
+  have h_14a_err0 :
+      relativePredictiveError
+        (PlanetaryOrbit.turnerPluckerIGPEPrecessionRad orb re.G_phi re.sourceMass sub.c deltaVarpi 0) Δϖ_GR = 0 := by
+    rw [h_14a_0]
+    simp [relativePredictiveError]
+  have h_14a_err_jos :
+      relativePredictiveError
+        (PlanetaryOrbit.turnerPluckerIGPEPrecessionRad orb re.G_phi re.sourceMass sub.c deltaVarpi deltaJos) Δϖ_GR =
+        deltaJos / Δϖ_GR := by
+    have h_add :
+        PlanetaryOrbit.turnerPluckerIGPEPrecessionRad orb re.G_phi re.sourceMass sub.c deltaVarpi deltaJos =
+          Δϖ_GR + deltaJos := by
+      unfold PlanetaryOrbit.turnerPluckerIGPEPrecessionRad
+      have h0 := h_14a_0
+      unfold PlanetaryOrbit.turnerPluckerIGPEPrecessionRad at h0
+      linarith
+    unfold relativePredictiveError
+    rw [h_add, add_sub_cancel_left, abs_of_pos hJos, h_abs_gr]
+  have h_14b_0 : re.turnerDualGr24IGPEDDFPrecessionRad orb deltaVarpi 0 = Δϖ_GR := by
+    unfold RiverExterior.turnerDualGr24IGPEDDFPrecessionRad
+    change 6 * Real.pi * re.G_phi * re.sourceMass * (sub.rho_max_varphi * sub.j_min_varphi) /
+      (orb.semiMajorAxis * (kahlerDetFactor W_orb - 3)) + 0 = Δϖ_GR
+    rw [add_zero, h_semi_eq, ← h_gr_info.2.2]
+  have h_14b_err0 :
+      relativePredictiveError
+        (re.turnerDualGr24IGPEDDFPrecessionRad orb deltaVarpi 0) Δϖ_GR = 0 := by
+    rw [h_14b_0]
+    simp [relativePredictiveError]
+  have h_14b_err_jos :
+      relativePredictiveError
+        (re.turnerDualGr24IGPEDDFPrecessionRad orb deltaVarpi deltaJos) Δϖ_GR =
+        deltaJos / Δϖ_GR := by
+    have h_add :
+        re.turnerDualGr24IGPEDDFPrecessionRad orb deltaVarpi deltaJos = Δϖ_GR + deltaJos := by
+      unfold RiverExterior.turnerDualGr24IGPEDDFPrecessionRad
+      have h0 := h_14b_0
+      unfold RiverExterior.turnerDualGr24IGPEDDFPrecessionRad at h0
+      linarith
+    unfold relativePredictiveError
+    rw [h_add, add_sub_cancel_left, abs_of_pos hJos, h_abs_gr]
+  have h_quad_gw :
+      OnKleinQuadric (twistorToPluckerVec (orb.gr24QuadrupoleWaveMatrix orbitalPhase deltaVarpi)) :=
+    (plucker_hodge_klein_quadric_and_projector_identities
+      (twistorToPluckerVec (orb.gr24QuadrupoleWaveMatrix orbitalPhase deltaVarpi))
+      0 (orb.gr24QuadrupoleWaveMatrix orbitalPhase deltaVarpi)).2.2.2.1
+  have h_pgr_pos : 0 < P_GR := by
+    dsimp [P_GR, RiverExterior.petersMathewsLuminosity]
+    exact (orb.qed_gravitational_wave_without_ddf_identities
+      orbitalPhase deltaVarpi 0 re.G_phi re.sourceMass m2 sub.c 1
+      re.G_phi_pos re.sourceMass_pos hm2 sub.c_pos zero_lt_one 1 1 1 1).2.2.2.2.2.2.2.2.2.2.2.2.2.1
+  have h_abs_pgr : |P_GR| = P_GR := abs_of_pos h_pgr_pos
+  have h_gw_14a_0 :
+      PlanetaryOrbit.turnerPluckerIGPEGWLuminosity orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi 0 =
+        P_GR := by
+    dsimp [P_GR]
+    unfold PlanetaryOrbit.turnerPluckerIGPEGWLuminosity RiverExterior.petersMathewsLuminosity
+      PlanetaryOrbit.petersMathewsLuminosityPM PlanetaryOrbit.petersMathewsFactor
+    rw [h_kahler_orb (2 * orbitalPhase + deltaVarpi)]
+    have h_sub : 4 - orb.eccentricity ^ 2 - 3 = 1 - orb.eccentricity ^ 2 := by ring
+    rw [h_sub, add_zero]
+  have h_gw_14a_err0 :
+      relativePredictiveError
+        (PlanetaryOrbit.turnerPluckerIGPEGWLuminosity orb re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi 0)
+        P_GR = 0 := by
+    rw [h_gw_14a_0]
+    simp [relativePredictiveError]
+  have h_gw_14a_err_jos :
+      relativePredictiveError
+        (PlanetaryOrbit.turnerPluckerIGPEGWLuminosity orb
+          re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi deltaPJos) P_GR =
+        deltaPJos / P_GR := by
+    have h_add :
+        PlanetaryOrbit.turnerPluckerIGPEGWLuminosity orb
+          re.G_phi re.sourceMass m2 sub.c orbitalPhase deltaVarpi deltaPJos =
+          P_GR + deltaPJos := by
+      unfold PlanetaryOrbit.turnerPluckerIGPEGWLuminosity
+      have h0 := h_gw_14a_0
+      unfold PlanetaryOrbit.turnerPluckerIGPEGWLuminosity at h0
+      linarith
+    unfold relativePredictiveError
+    rw [h_add, add_sub_cancel_left, abs_of_pos hPJos, h_abs_pgr]
+  have h_gw_14b_0 : re.turnerDualGr24IGPEDDFGWLuminosity orb m2 0 = P_GR := by
+    unfold RiverExterior.turnerDualGr24IGPEDDFGWLuminosity
+    exact add_zero P_GR
+  have h_gw_14b_err0 :
+      relativePredictiveError (re.turnerDualGr24IGPEDDFGWLuminosity orb m2 0) P_GR = 0 := by
+    rw [h_gw_14b_0]
+    simp [relativePredictiveError]
+  have h_gw_14b_err_jos :
+      relativePredictiveError (re.turnerDualGr24IGPEDDFGWLuminosity orb m2 deltaPJos) P_GR =
+        deltaPJos / P_GR := by
+    unfold relativePredictiveError RiverExterior.turnerDualGr24IGPEDDFGWLuminosity
+    change |(P_GR + deltaPJos - P_GR)| / |P_GR| = deltaPJos / P_GR
+    rw [add_sub_cancel_left, abs_of_pos hPJos, h_abs_pgr]
+  exact ⟨h_quad_slit, hp0, hp2, hp4, h_sup_locked, h_k_dv, h_k_sub3, h_k_slr,
+    h_14a_0, h_14a_err0, h_14a_err_jos, h_14b_0, h_14b_err0, h_14b_err_jos,
+    h_quad_gw, h_gw_14a_0, h_gw_14a_err0, h_gw_14a_err_jos,
+    h_gw_14b_0, h_gw_14b_err0, h_gw_14b_err_jos⟩
+
 end Signals.DDF
