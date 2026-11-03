@@ -152,6 +152,39 @@ In both `Signals.MultiArrayImaging` ([../src/signals/Signals/MultiArrayImaging.l
    E_{\mathrm{dep}} = \frac{215444}{100} \times 7 \times \frac{73}{20} = \frac{55{,}045{,}942}{1000}\text{ eV} = 55.045942\text{ keV}.
    $$
 
+### 2.3 Critique & Mathematical Resolution of Three Gaps in the Chat's Cosmic-Ray Pipeline (`cosmic_ray_diagnostics_and_acousto_optic_homodyne_bridge_identities`)
+
+Auditing the Rust cosmic-ray classifier in {download}`Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 770–930 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>` against the STScI ACS Instrument Handbook ([STScI ACS IHB 2025, Sec. 4.3.7](#hubble-acs-ihb2025)) and [Miles et al. (2021)](#miles2021cr) revealed three bugs/gaps that we resolved in [`Signals.MultiArrayImaging`](../src/signals/Signals/MultiArrayImaging.lean) and [`multi_array_imaging.rs`](../src/signals/numerical_adapter/src/multi_array_imaging.rs):
+
+1. **Bug 1 — Syntax Error (`cluster_pixels.length()` vs. `cluster_pixels.len()`)**:
+   Line 871 of the chat's Rust listing calls `cluster_pixels.length()`, which does not compile on `std::vec::Vec` in Rust (`Vec::len()` is required).
+2. **Bug 2 — Misclassification of the Chat's Own $45^\circ$ Diagonal Streak**:
+   In `main()` (lines 915–919 of the chat), the chat simulates a 4-pixel diagonal grazing proton `Streak` at `(4,4), (5,5), (6,6), (7,7)`. However, the chat's own heuristic (lines 881–887) tests `if area <= 4.0 { RayType::Dot } else if aspect_ratio > 3.5 ... { RayType::Streak }`. Because `area == 4.0 <= 4.0` and an axis-aligned bounding box around a $45^\circ$ track has $H_{\mathrm{bbox}} = W_{\mathrm{bbox}} = 4 \implies \mathrm{AR}(4,4) = 1.0 \le 3.5$, the chat's code **misclassifies its own diagonal streak as `RayType::Dot` (and misclassifies longer $45^\circ$ streaks as `RayType::Worm`)**!
+   - **Mathematical Resolution (`cosmicRayBboxFillDensity` & `cosmicRayCovarianceDet2D`)**:
+     We introduce the bounding-box fill density $\rho_{\mathrm{fill}} = \frac{A}{H_{\mathrm{bbox}} W_{\mathrm{bbox}}}$ and the rotation-invariant 2D empirical covariance determinant $\det\Sigma_{\mathrm{cluster}} = \sigma_{rr}\sigma_{cc} - \sigma_{rc}^2 \ge 0$:
+     - For a compact $2\times 2$ perpendicular `Dot` ($A = 4, H = W = 2, \sigma_{rr} = \sigma_{cc} = 1/4, \sigma_{rc} = 0$):
+
+       $$
+       \rho_{\mathrm{fill}}(4, 2, 2) = 1, \qquad \det\Sigma_{\mathrm{cluster}}\!\left(\frac{1}{4}, \frac{1}{4}, 0\right) = \frac{1}{16} > 0,
+       $$
+
+     - For the 4-pixel $45^\circ$ diagonal `Streak` `(4,4)..(7,7)` ($A = 4, H = W = 4, \sigma_{rr} = \sigma_{cc} = \sigma_{rc} = 5/4$):
+
+       $$
+       \rho_{\mathrm{fill}}(4, 4, 4) = \frac{1}{4} < 1, \qquad \det\Sigma_{\mathrm{cluster}}\!\left(\frac{5}{4}, \frac{5}{4}, \frac{5}{4}\right) = 0,
+       $$
+
+       which vanishes identically for any collinear streak at *any* angle $\theta \in [0, \pi)$.
+3. **Gap 3 — Deposited Ionization Energy ($\mathrm{d}E/\mathrm{d}x$) vs. Primary Particle Kinetic Energy (`cosmicRaySiliconPathLengthSq`, `cosmicRayGrazingTangent`, `cosmicRayLinearEnergyTransferEvPerUm`)**:
+   Relativistic galactic cosmic-ray protons ($\sim\text{GeV}$) are Minimum Ionizing Particles (MIPs) that pass completely through Hubble's thinned $d_{\mathrm{Si}} = 15\text{ }\mu\text{m}$ silicon CCD wafer without stopping ([STScI ACS IHB 2025, Sec. 4.3.7](#hubble-acs-ihb2025); [Miles et al. 2021](#miles2021cr)). Thus $E_{\mathrm{dep}} = \Phi_{\mathrm{DN}}\cdot G\cdot 3.65\text{ eV}$ measures the **deposited ionization energy along the 3D silicon chord** $L_{\mathrm{path}} = \sqrt{d_{\mathrm{Si}}^2 + L_\parallel^2}$ rather than the total GeV kinetic energy of the primary proton. For the real `NGC 4151` (`u5780205r`) `Chip 3` 17-pixel proton streak ($L_\parallel = 16 \times 15\text{ }\mu\text{m} = 240\text{ }\mu\text{m}$):
+
+   $$
+   L_{\mathrm{path}}^2(15, 240) = 15^2 + 240^2 = 57{,}825\text{ }\mu\text{m}^2 = 257 \times L_{\mathrm{path}}^2(15, 0), \qquad
+   \tan\theta_{\mathrm{inc}}(15, 240) = \frac{240}{15} = 16 \implies \theta_{\mathrm{inc}} \approx 86.42^\circ,
+   $$
+
+   yielding Linear Energy Transfer $\mathrm{LET} = E_{\mathrm{dep}} / L_{\mathrm{path}} \approx 55.05\text{ keV} / 240.47\text{ }\mu\text{m} \approx 0.229\text{ keV/}\mu\text{m}$, in direct agreement with relativistic proton stopping power in silicon. In addition, [`multi_array_imaging.rs`](../src/signals/numerical_adapter/src/multi_array_imaging.rs) provides a zero-dependency pure-Rust FITS primary HDU serializer/parser (`FitsPrimaryHduF32`, `serialize_fits_primary_hdu_f32`, `parse_fits_primary_hdu_f32`) that round-trips 2880-byte FITS header blocks and big-endian IEEE-754 `BITPIX = -32` float arrays.
+
 ---
 
 ## 3. Flexible Lignin-Vitrimer Perovskite (`LVP`) Medical Imaging Arrays: Direct-Conversion X-Ray vs. `LVPProcaImagingHypothesis`
@@ -324,6 +357,26 @@ example (θ_aot : ℝ) :
   exact multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities
     60000 100 1 θ_aot 4 1 1024 1
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
+-- Verification of diagonal cosmic-ray collinearity discriminant (cov_det_2d = 0, fill = 1/4 < 1),
+-- 3D silicon depletion path-length ratio (57825 = 257 * 225, grazing tangent = 16),
+-- soft-tissue LIFU impedance (1.54 MRayl), 0 / (π/2) homodyne quadrature recovery,
+-- and zero-absorbed-energy DispersivePhaseFingerprint bridge
+example (sample : Signals.IQ.Sample)
+    (record : Signals.NonDestructive.DispersivePhaseFingerprint ℝ) :
+    cosmicRayBboxFillDensity 4 4 4 < cosmicRayBboxFillDensity 4 2 2 ∧
+      0 < cosmicRayCovarianceDet2D (1 / 4) (1 / 4) 0 ∧
+      cosmicRayCovarianceDet2D (5 / 4) (5 / 4) (5 / 4) = 0 ∧
+      cosmicRaySiliconPathLengthSq 15 240 = 257 * cosmicRaySiliconPathLengthSq 15 0 ∧
+      cosmicRayGrazingTangent 15 240 = 16 ∧
+      Signals.Homodyne.rotatedQuadrature sample 0 = sample.inPhase ∧
+      Signals.Homodyne.rotatedQuadrature sample (Real.pi / 2) = sample.quadrature ∧
+      record.readout.absorbedProbeEnergy.joules = 0 := by
+  have hb := cosmic_ray_diagnostics_and_acousto_optic_homodyne_bridge_identities sample record
+  exact ⟨hb.2.2.2.1, hb.2.2.2.2.2.1, hb.2.2.2.2.2.2.1,
+    hb.2.2.2.2.2.2.2.2.2.1, hb.2.2.2.2.2.2.2.2.2.2.2.1,
+    hb.2.2.2.2.2.2.2.2.2.2.2.2.2.1, hb.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    hb.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
 end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 ```

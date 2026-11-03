@@ -255,15 +255,23 @@ a configured search range and require external numerical or measured controls be
 describing convergence or information recovery.
 
 The Pending model also contains `LVPProcess`, `LigninVitrimerPerovskite`,
-`LVPPhotovoltaicObservation`, `LVPDirectConversionImaging`, and
-`LVPProcaImagingHypothesis`. These preserve LVP composition, roll-to-roll
-process telemetry, photovoltaic and direct-conversion X-ray calibration, and
-the speculative Proca phase-contrast branch. Do not describe the composition
-law or fixture values as proof of perovskite crystallization, self-healing,
-moisture resistance, high efficiency, reduced patient dose, sub-angstrom
-resolution, Proca propagation, or clinical safety. Require external materials,
-device, dosimetry, phantom, and clinical validation data before making those
-claims.
+`LVPPhotovoltaicObservation`, `LVPDirectConversionImaging`,
+`LVPProcaImagingHypothesis`, and `MultiModalSubSurfaceImagingHypothesis`
+(connected to [`src/signals/Signals/MultiArrayImaging.lean`](src/signals/Signals/MultiArrayImaging.lean),
+[`src/signals/numerical_adapter/src/multi_array_imaging.rs`](src/signals/numerical_adapter/src/multi_array_imaging.rs),
+and [`docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md`](docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md)).
+These preserve LVP composition, roll-to-roll process telemetry, photovoltaic and
+direct-conversion X-ray calibration, Hubble $2\times$ CCD mosaic Grassmannian
+subspaces ($\mathrm{Gr}_{\mathbb{R}}(4, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$),
+8-connected cosmic-ray telemetry ($\epsilon_{\mathrm{eh}} = 3.65\text{ eV}$,
+rotation-invariant $\det\Sigma_{\mathrm{cluster}}$, and 3D silicon $\mathrm{d}E/\mathrm{d}x$),
+classical `LIFU`/`AOT`/`TRUE` sub-surface optical focusing, $< 1\text{ nm}$
+convergent nanoimaging, and the speculative Proca phase-contrast branch. Do not
+describe the composition law or fixture values as proof of perovskite
+crystallization, self-healing, moisture resistance, high efficiency, reduced
+patient dose, sub-angstrom resolution, Proca propagation, or clinical safety.
+Require external materials, device, dosimetry, phantom, and clinical validation
+data before making those claims.
 
 ## Dilatant Dark Fluid (DDF) Modeling
 

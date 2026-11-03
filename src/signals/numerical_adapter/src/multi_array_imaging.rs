@@ -46,6 +46,11 @@ pub struct CosmicRayCluster {
     pub bbox_height: usize,
     pub bbox_width: usize,
     pub aspect_ratio: f64,
+    pub bbox_fill_density: f64,
+    pub cov_det_2d: f64,
+    pub silicon_path_length_um: f64,
+    pub grazing_tangent: f64,
+    pub let_ev_per_um: f64,
     pub track_angle_rad: f64,
     pub ray_type: RayType,
 }
@@ -216,9 +221,46 @@ pub fn cosmic_ray_cluster_aspect_ratio(bbox_h: f64, bbox_w: f64) -> f64 {
     max_d / min_d
 }
 
+/// Bounding-box fill density $\rho_{\mathrm{fill}} = A / (H_{\mathrm{bbox}} \cdot W_{\mathrm{bbox}})$,
+/// matching `Signals.MultiArrayImaging.cosmicRayBboxFillDensity`.
+#[inline]
+pub fn cosmic_ray_bbox_fill_density(area: f64, bbox_h: f64, bbox_w: f64) -> f64 {
+    area / (bbox_h * bbox_w)
+}
+
+/// Rotation-invariant 2D empirical covariance determinant $\det\Sigma = \sigma_{rr}\sigma_{cc} - \sigma_{rc}^2$,
+/// matching `Signals.MultiArrayImaging.cosmicRayCovarianceDet2D`.
+#[inline]
+pub fn cosmic_ray_covariance_det_2d(sigma_rr: f64, sigma_cc: f64, sigma_rc: f64) -> f64 {
+    sigma_rr * sigma_cc - sigma_rc * sigma_rc
+}
+
+/// Squared 3D chord length $L_{\mathrm{path}}^2 = d_{\mathrm{Si}}^2 + L_\parallel^2$ inside a silicon
+/// depletion layer of thickness $d_{\mathrm{Si}}$, matching `Signals.MultiArrayImaging.cosmicRaySiliconPathLengthSq`.
+#[inline]
+pub fn cosmic_ray_silicon_path_length_sq(d_si_um: f64, l_proj_um: f64) -> f64 {
+    d_si_um * d_si_um + l_proj_um * l_proj_um
+}
+
+/// Grazing incidence tangent $\tan\theta_{\mathrm{inc}} = L_\parallel / d_{\mathrm{Si}}$,
+/// matching `Signals.MultiArrayImaging.cosmicRayGrazingTangent`.
+#[inline]
+pub fn cosmic_ray_grazing_tangent(d_si_um: f64, l_proj_um: f64) -> f64 {
+    l_proj_um / d_si_um
+}
+
+/// Linear Energy Transfer $\mathrm{LET} = E_{\mathrm{dep}} / L_{\mathrm{path}}$ ($\mathrm{eV/\mu m}$),
+/// matching `Signals.MultiArrayImaging.cosmicRayLinearEnergyTransferEvPerUm`.
+#[inline]
+pub fn cosmic_ray_let_ev_per_um(energy_ev: f64, path_length_um: f64) -> f64 {
+    energy_ev / path_length_um
+}
+
 /// 8-Connectivity Connected-Component Labeling (CCL) and kinetic energy / morphology analyzer
 /// for Hubble CCD or LVP direct-conversion anomaly matrices
-/// (`Google-Search_Hubble-Sensor-Design_20261102-2031.md`, lines 795–915).
+/// (`Google-Search_Hubble-Sensor-Design_20261102-2031.md`, lines 795–915), enhanced with
+/// rotation-invariant 2D covariance determinant $\det\Sigma_{\mathrm{cluster}}$ and 3D silicon
+/// depletion path-length $\mathrm{LET}$ (`STScI ACS IHB Sec. 4.3.7`; `Miles et al. 2021`).
 pub fn analyze_cosmic_rays(
     anomaly_matrix: &[Vec<f32>],
     mask: &[Vec<bool>],
@@ -272,9 +314,13 @@ pub fn analyze_cosmic_rays(
                 let mut max_r = 0usize;
                 let mut min_c = cols;
                 let mut max_c = 0usize;
+                let mut sum_r = 0.0f64;
+                let mut sum_c = 0.0f64;
 
                 for &(pr, pc) in &cluster_pixels {
                     total_flux_dn += anomaly_matrix[pr][pc] as f64;
+                    sum_r += pr as f64;
+                    sum_c += pc as f64;
                     if pr < min_r {
                         min_r = pr;
                     }
@@ -294,17 +340,55 @@ pub fn analyze_cosmic_rays(
                     cosmic_ray_deposited_energy_ev(total_flux_dn, gain_e_per_dn, SILICON_IONIZATION_ENERGY_EV);
 
                 let area = cluster_pixels.len() as f64;
+                let mean_r = sum_r / area;
+                let mean_c = sum_c / area;
+                let mut sigma_rr = 0.0f64;
+                let mut sigma_cc = 0.0f64;
+                let mut sigma_rc = 0.0f64;
+                for &(pr, pc) in &cluster_pixels {
+                    let dr = (pr as f64) - mean_r;
+                    let dc = (pc as f64) - mean_c;
+                    sigma_rr += dr * dr;
+                    sigma_cc += dc * dc;
+                    sigma_rc += dr * dc;
+                }
+                sigma_rr /= area;
+                sigma_cc /= area;
+                sigma_rc /= area;
+                let cov_det_2d = cosmic_ray_covariance_det_2d(sigma_rr, sigma_cc, sigma_rc);
+
                 let bbox_height = max_r - min_r + 1;
                 let bbox_width = max_c - min_c + 1;
                 let aspect_ratio =
                     cosmic_ray_cluster_aspect_ratio(bbox_height as f64, bbox_width as f64);
+                let bbox_fill_density =
+                    cosmic_ray_bbox_fill_density(area, bbox_height as f64, bbox_width as f64);
                 let max_dim = (bbox_height.max(bbox_width)) as f64;
                 let track_angle_rad = (bbox_height as f64).atan2(bbox_width as f64);
 
-                let ray_type = if area <= 4.0 {
+                // 3D silicon depletion path length (15 μm pixel pitch & 15 μm thinned CCD thickness)
+                let d_si_um = 15.0;
+                let span_r_um = ((max_r - min_r) as f64) * 15.0;
+                let span_c_um = ((max_c - min_c) as f64) * 15.0;
+                let l_proj_um = (span_r_um * span_r_um + span_c_um * span_c_um).sqrt();
+                let silicon_path_length_um =
+                    cosmic_ray_silicon_path_length_sq(d_si_um, l_proj_um).sqrt();
+                let grazing_tangent = cosmic_ray_grazing_tangent(d_si_um, l_proj_um);
+                let let_ev_per_um =
+                    cosmic_ray_let_ev_per_um(total_energy_ev, silicon_path_length_um);
+
+                // Rotation-aware morphological classification:
+                // - Dot: compact 1x1 or 2x2 hit (area <= 4 AND max_dim <= 2)
+                // - Streak: high aspect ratio (> 3.5), OR long sparse track, OR collinear diagonal track
+                //   (max_dim >= 4 && cov_det_2d <= 1e-6 && bbox_fill_density <= 0.35)
+                // - Worm: curved multi-pixel delta-ray secondary electron scatter
+                let is_collinear_diagonal_streak =
+                    max_dim >= 4.0 && cov_det_2d <= 1e-6 && bbox_fill_density <= 0.35;
+                let ray_type = if area <= 4.0 && max_dim <= 2.0 {
                     RayType::Dot
                 } else if aspect_ratio > 3.5
                     || ((bbox_height > 10 || bbox_width > 10) && (area / max_dim) < 2.0)
+                    || is_collinear_diagonal_streak
                 {
                     RayType::Streak
                 } else {
@@ -320,6 +404,11 @@ pub fn analyze_cosmic_rays(
                     bbox_height,
                     bbox_width,
                     aspect_ratio,
+                    bbox_fill_density,
+                    cov_det_2d,
+                    silicon_path_length_um,
+                    grazing_tangent,
+                    let_ev_per_um,
                     track_angle_rad,
                     ray_type,
                 });
@@ -574,6 +663,182 @@ pub extern "C" fn signals_cosmic_ray_energy_ev(
     cosmic_ray_deposited_energy_ev(flux_dn, gain_e_per_dn, epsilon_eh_ev)
 }
 
+/// Pure-Rust zero-dependency FITS Primary Header Data Unit (`BITPIX = -32` IEEE-754 big-endian float)
+/// for Hubble Space Telescope (`WFPC2`, `ACS/WFC`, `WFC3/UVIS`) raw/calibrated data cubes.
+#[derive(Clone, Debug, PartialEq)]
+pub struct FitsPrimaryHduF32 {
+    pub naxis1: usize,
+    pub naxis2: usize,
+    pub naxis3: usize,
+    pub telescop: String,
+    pub instrume: String,
+    pub targname: String,
+    pub rootname: String,
+    pub atodgain: f64,
+    pub exptime: f64,
+    pub pixels: Vec<f32>,
+}
+
+fn format_fits_card(keyword: &str, value_expr: &str, comment: &str) -> [u8; 80] {
+    let mut card = [b' '; 80];
+    let text = if keyword == "END" {
+        "END".to_string()
+    } else {
+        format!("{:<8}= {:>20} / {}", keyword, value_expr, comment)
+    };
+    let bytes = text.as_bytes();
+    let copy_len = bytes.len().min(80);
+    card[..copy_len].copy_from_slice(&bytes[..copy_len]);
+    card
+}
+
+/// Serializes a `FitsPrimaryHduF32` into a standard FITS binary stream (2880-byte padded ASCII
+/// header block followed by 2880-byte padded big-endian IEEE-754 `f32` pixel array).
+pub fn serialize_fits_primary_hdu_f32(hdu: &FitsPrimaryHduF32) -> Result<Vec<u8>, ValidationError> {
+    let expected_len = hdu.naxis1 * hdu.naxis2 * hdu.naxis3.max(1);
+    if expected_len == 0 || hdu.pixels.len() != expected_len {
+        return Err(ValidationError::ShapeMismatch("FITS primary HDU pixel count"));
+    }
+    require_positive("atodgain", hdu.atodgain)?;
+    require_positive("exptime", hdu.exptime)?;
+
+    let naxis = if hdu.naxis3 > 1 { 3 } else { 2 };
+    let mut cards: Vec<[u8; 80]> = Vec::with_capacity(36);
+    cards.push(format_fits_card("SIMPLE", "T", "conforms to FITS standard"));
+    cards.push(format_fits_card("BITPIX", "-32", "IEEE-754 32-bit floating point"));
+    cards.push(format_fits_card("NAXIS", &naxis.to_string(), "number of data axes"));
+    cards.push(format_fits_card("NAXIS1", &hdu.naxis1.to_string(), "axis 1 width"));
+    cards.push(format_fits_card("NAXIS2", &hdu.naxis2.to_string(), "axis 2 height"));
+    if hdu.naxis3 > 1 {
+        cards.push(format_fits_card("NAXIS3", &hdu.naxis3.to_string(), "axis 3 chips/planes"));
+    }
+    cards.push(format_fits_card(
+        "TELESCOP",
+        &format!("'{}'", hdu.telescop),
+        "telescope",
+    ));
+    cards.push(format_fits_card(
+        "INSTRUME",
+        &format!("'{}'", hdu.instrume),
+        "instrument",
+    ));
+    cards.push(format_fits_card(
+        "TARGNAME",
+        &format!("'{}'", hdu.targname),
+        "target name",
+    ));
+    cards.push(format_fits_card(
+        "ROOTNAME",
+        &format!("'{}'", hdu.rootname),
+        "MAST observation rootname",
+    ));
+    cards.push(format_fits_card(
+        "ATODGAIN",
+        &format!("{:.4}", hdu.atodgain),
+        "analog-to-digital gain (e-/DN)",
+    ));
+    cards.push(format_fits_card(
+        "EXPTIME",
+        &format!("{:.2}", hdu.exptime),
+        "exposure duration (s)",
+    ));
+    cards.push(format_fits_card("END", "", ""));
+
+    let mut out = Vec::new();
+    for card in &cards {
+        out.extend_from_slice(card);
+    }
+    while out.len() % 2880 != 0 {
+        out.extend_from_slice(&[b' '; 80]);
+    }
+
+    for &px in &hdu.pixels {
+        out.extend_from_slice(&px.to_be_bytes());
+    }
+    while out.len() % 2880 != 0 {
+        out.push(0u8);
+    }
+
+    Ok(out)
+}
+
+/// Parses a standard `BITPIX = -32` FITS binary stream into a `FitsPrimaryHduF32` without
+/// external C (`cfitsio`) or Python (`astropy`) dependencies.
+pub fn parse_fits_primary_hdu_f32(raw: &[u8]) -> Result<FitsPrimaryHduF32, ValidationError> {
+    if raw.len() < 2880 || raw.len() % 2880 != 0 {
+        return Err(ValidationError::ShapeMismatch("FITS 2880-byte block alignment"));
+    }
+    let mut pos = 0usize;
+    let mut bitpix: i32 = 0;
+    let mut naxis1: usize = 0;
+    let mut naxis2: usize = 0;
+    let mut naxis3: usize = 1;
+    let mut telescop = String::new();
+    let mut instrume = String::new();
+    let mut targname = String::new();
+    let mut rootname = String::new();
+    let mut atodgain = 1.0f64;
+    let mut exptime = 1.0f64;
+    let mut found_end = false;
+
+    while pos + 2880 <= raw.len() && !found_end {
+        let block = &raw[pos..pos + 2880];
+        pos += 2880;
+        for i in (0..2880).step_by(80) {
+            let card = core::str::from_utf8(&block[i..i + 80]).unwrap_or("");
+            let key = card.get(..8).unwrap_or("").trim();
+            if key == "END" {
+                found_end = true;
+                break;
+            }
+            if card.get(8..10) == Some("= ") {
+                let val_part = card[10..].split('/').next().unwrap_or("").trim();
+                let clean_val = val_part.trim_matches('\'').trim();
+                match key {
+                    "BITPIX" => bitpix = clean_val.parse::<i32>().unwrap_or(0),
+                    "NAXIS1" => naxis1 = clean_val.parse::<usize>().unwrap_or(0),
+                    "NAXIS2" => naxis2 = clean_val.parse::<usize>().unwrap_or(0),
+                    "NAXIS3" => naxis3 = clean_val.parse::<usize>().unwrap_or(1),
+                    "TELESCOP" => telescop = clean_val.to_string(),
+                    "INSTRUME" => instrume = clean_val.to_string(),
+                    "TARGNAME" => targname = clean_val.to_string(),
+                    "ROOTNAME" => rootname = clean_val.to_string(),
+                    "ATODGAIN" => atodgain = clean_val.parse::<f64>().unwrap_or(1.0),
+                    "EXPTIME" => exptime = clean_val.parse::<f64>().unwrap_or(1.0),
+                    _ => {}
+                }
+            }
+        }
+    }
+
+    if !found_end || bitpix != -32 || naxis1 == 0 || naxis2 == 0 {
+        return Err(ValidationError::ShapeMismatch("FITS BITPIX=-32 primary header"));
+    }
+    let count = naxis1 * naxis2 * naxis3.max(1);
+    let byte_len = count * 4;
+    if pos + byte_len > raw.len() {
+        return Err(ValidationError::ShapeMismatch("FITS primary data unit truncated"));
+    }
+
+    let mut pixels = Vec::with_capacity(count);
+    for chunk in raw[pos..pos + byte_len].chunks_exact(4) {
+        pixels.push(f32::from_be_bytes([chunk[0], chunk[1], chunk[2], chunk[3]]));
+    }
+
+    Ok(FitsPrimaryHduF32 {
+        naxis1,
+        naxis2,
+        naxis3,
+        telescop,
+        instrume,
+        targname,
+        rootname,
+        atodgain,
+        exptime,
+        pixels,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -614,7 +879,7 @@ mod tests {
 
     #[test]
     fn hst_wfpc2_ngc4151_u5780205r_and_chat_cosmic_ray_ccl_benchmarks() {
-        // 1. Chat benchmark: Dot (1200 DN) and 4-pixel diagonal Streak (3500 DN) at gain = 1.0
+        // 1. Chat benchmark: Dot (1200 DN) and 4-pixel 45-degree diagonal Streak (3500 DN) at gain = 1.0
         let mut chat_matrix = vec![vec![0.0f32; 10]; 10];
         let mut chat_mask = vec![vec![false; 10]; 10];
         chat_matrix[1][1] = 1200.0;
@@ -627,8 +892,19 @@ mod tests {
         assert_eq!(chat_clusters.len(), 2);
         assert_eq!(chat_clusters[0].ray_type, RayType::Dot);
         assert!((chat_clusters[0].total_energy_ev - 4_380.0).abs() < 1e-6);
-        assert_eq!(chat_clusters[1].ray_type, RayType::Dot); // 4 pixels has area <= 4.0 in chat heuristic
+        assert!((chat_clusters[0].bbox_fill_density - 1.0).abs() < 1e-9);
+        assert!((chat_clusters[0].silicon_path_length_um - 15.0).abs() < 1e-9);
+
+        // With rotation-invariant 2nd-moment covariance (cov_det_2d == 0) and fill density (0.25),
+        // the chat's 4-pixel 45-degree diagonal track is now properly classified as RayType::Streak!
+        assert_eq!(chat_clusters[1].ray_type, RayType::Streak);
         assert!((chat_clusters[1].total_energy_ev - 12_775.0).abs() < 1e-6);
+        assert!((chat_clusters[1].bbox_fill_density - 0.25).abs() < 1e-9);
+        assert!(chat_clusters[1].cov_det_2d.abs() < 1e-12);
+
+        // Verify a compact 2x2 perpendicular Dot has cov_det_2d = 1/16 = 0.0625 > 0 and fill = 1.0
+        assert!((cosmic_ray_covariance_det_2d(0.25, 0.25, 0.0) - 0.0625).abs() < 1e-12);
+        assert!((cosmic_ray_silicon_check_57825() - 57_825.0).abs() < 1e-12);
 
         // 2. Real NASA HST WFPC2 NGC 4151 (u5780205r) cutout fixture (Dot, Worm, and 17-pixel Streak)
         let (ngc_matrix, ngc_mask, gain) = hst_wfpc2_ngc4151_u5780205r_fixture_grid();
@@ -639,6 +915,7 @@ mod tests {
         assert_eq!(ngc_clusters[0].ray_type, RayType::Dot);
         assert_eq!(ngc_clusters[0].coordinates.len(), 1);
         assert!((ngc_clusters[0].total_energy_ev - 1339.7031 * 7.0 * 3.65).abs() < 1e-2);
+        assert!((ngc_clusters[0].grazing_tangent - 0.0).abs() < 1e-9);
 
         // Cluster #2: Chip 3 grazing-incidence primary proton Streak (17 pixels, 16x2 bbox, AR = 8.0, 55.05 keV)
         assert_eq!(ngc_clusters[1].ray_type, RayType::Streak);
@@ -647,12 +924,56 @@ mod tests {
         assert_eq!(ngc_clusters[1].bbox_width, 2);
         assert!((ngc_clusters[1].aspect_ratio - 8.0).abs() < 1e-9);
         assert!((ngc_clusters[1].total_energy_ev - 55_045.94).abs() < 1.0);
+        assert!(ngc_clusters[1].grazing_tangent > 15.0);
 
         // Cluster #3: Chip 2 delta-ray Worm (6 pixels, 5x2 bbox, AR = 2.5, 21.05 keV)
         assert_eq!(ngc_clusters[2].ray_type, RayType::Worm);
         assert_eq!(ngc_clusters[2].coordinates.len(), 6);
         assert!((ngc_clusters[2].aspect_ratio - 2.5).abs() < 1e-9);
         assert!((ngc_clusters[2].total_energy_ev - 21_048.91).abs() < 1.0);
+    }
+
+    fn cosmic_ray_silicon_check_57825() -> f64 {
+        let s0 = cosmic_ray_silicon_path_length_sq(15.0, 0.0);
+        let s_streak = cosmic_ray_silicon_path_length_sq(15.0, 240.0);
+        assert!((s0 - 225.0).abs() < 1e-12);
+        assert!((s_streak - 257.0 * s0).abs() < 1e-12);
+        assert!((cosmic_ray_grazing_tangent(15.0, 240.0) - 16.0).abs() < 1e-12);
+        s_streak
+    }
+
+    #[test]
+    fn pure_rust_fits_primary_hdu_f32_roundtrip_on_hst_wfpc2_ngc4151_fixture() {
+        let (ngc_matrix, _ngc_mask, gain) = hst_wfpc2_ngc4151_u5780205r_fixture_grid();
+        let rows = ngc_matrix.len();
+        let cols = ngc_matrix[0].len();
+        let flat_pixels: Vec<f32> = ngc_matrix.into_iter().flatten().collect();
+
+        let hdu = FitsPrimaryHduF32 {
+            naxis1: cols,
+            naxis2: rows,
+            naxis3: 1,
+            telescop: "HST".to_string(),
+            instrume: "WFPC2".to_string(),
+            targname: "NGC4151".to_string(),
+            rootname: "u5780205r".to_string(),
+            atodgain: gain,
+            exptime: 300.0,
+            pixels: flat_pixels.clone(),
+        };
+
+        let raw_fits = serialize_fits_primary_hdu_f32(&hdu).unwrap();
+        assert_eq!(raw_fits.len() % 2880, 0);
+        let parsed = parse_fits_primary_hdu_f32(&raw_fits).unwrap();
+        assert_eq!(parsed.naxis1, cols);
+        assert_eq!(parsed.naxis2, rows);
+        assert_eq!(parsed.telescop, "HST");
+        assert_eq!(parsed.instrume, "WFPC2");
+        assert_eq!(parsed.targname, "NGC4151");
+        assert_eq!(parsed.rootname, "u5780205r");
+        assert!((parsed.atodgain - 7.0).abs() < 1e-6);
+        assert!((parsed.exptime - 300.0).abs() < 1e-6);
+        assert_eq!(parsed.pixels, flat_pixels);
     }
 
     #[test]

@@ -533,6 +533,38 @@ interpretation while keeping experimental premises explicit:
    $3 \times 3$ symmetric eigenvalue trace, and WGSL Three.js
    `compose_instance_matrix` quaternion determinant. See
    [`docs/grassmannian-hawking-radiation-decoding-paper.md`](../../docs/grassmannian-hawking-radiation-decoding-paper.md).
+- `Signals.Nanolithography` formalizes dual-beam $405\text{ nm} / 532\text{ nm}$
+   STED-depleted squared feature linewidth (`stedDepletedLinewidthSq`, reaching
+   $(2025/112\text{ nm})^2 \approx (18.08\text{ nm})^2 < 20^2$ at $\zeta_{532} = 63$),
+   `kicad-volumetric` single-flash two-trace constructive over-squeeze
+   (`twoTraceConstructiveSqueezePeak`, $(4/5 + 4/5)^2 = 64/25 > 2 = A_{sp3}$ vs.
+   orthogonal flash $(4/5)^2 = 16/25 < 2$), and 6-stage `CVA6` vs. 2/3-stage
+   `Ibex` RISC-V pipeline critical-path period (`riscvPipelineStagePeriod`,
+   `holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities`).
+   See [`docs/grassmannian-riscv-holographic-nanolithography-kicad-paper.md`](../../docs/grassmannian-riscv-holographic-nanolithography-kicad-paper.md).
+- `Signals.MultiArrayImaging` formalizes multi-spectral and multi-array
+   Grassmannian imaging across Hubble Space Telescope $2\times$ CCD mosaics
+   (`ACS/WFC`, `WFC3/UVIS`, `WFPC2` `NGC 4151` `u5780205r` on
+   $\mathrm{Gr}_{\mathbb{R}}(4, 8{,}388{,}608)$, $\mathrm{Gr}_{\mathbb{R}}(4, 16{,}777{,}216)$,
+   $\mathrm{Gr}_{\mathbb{R}}(4, 6{,}800{,}000)$, $\mathrm{Gr}_{\mathbb{C}}(4, 6{,}800{,}000)$,
+   and $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$), dithered seam-gap coverage
+   (`ditherGapUncoveredRows`), the STScI 4-exposure cosmic-ray coincidence law
+   ($16{,}777{,}216 \times (3/200)^4 < 1$), silicon $3.65\text{ eV}$ cosmic-ray
+   energy deposition (`cosmicRayDepositedEnergyEv`), rotation-invariant 2D
+   cluster covariance determinant (`cosmicRayCovarianceDet2D` and
+   `cosmicRayBboxFillDensity`) and 3D silicon depletion chord length
+   (`cosmicRaySiliconPathLengthSq`), `LVP` direct-conversion X-ray charge yield
+   (`directConversionChargeYield`), Low-Intensity Focused Ultrasound (`LIFU`)
+   safety (`lifuMechanicalIndexSq < 1.9^2`), Acousto-Optic Tomography (`AOT`)
+   $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker sideband ratios, `TRUE` / `DORT`
+   optical time-reversal focusing (`trueOpticalPeakToBackgroundGain`,
+   `iterativeTrueFocalVarianceSq`), and sub-nanometer ($< 1\text{ nm}$:
+   $0.75\text{ nm}$, $0.603\text{ nm}$, and $0.50\text{ nm} = 5\text{ \AA}$)
+   convergent holographic nanolithography (`cascadedNanoImagingLinewidthSq`,
+   `homodyneSubNanometerLocalizationSq`,
+   `multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities`,
+   `cosmic_ray_diagnostics_and_acousto_optic_homodyne_bridge_identities`). See
+   [`docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md`](../../docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md).
 - `SignalsTests` contains compile-time examples for the verified identities and
    edge cases. `SignalsPendingTests` separately compiles examples of the pending
    hypotheses and their conditional consequences. `make signals_build` builds

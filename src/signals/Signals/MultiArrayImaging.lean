@@ -1,9 +1,13 @@
 import Architect
+import Signals.Acoustics
 import Signals.DDF
+import Signals.Homodyne
+import Signals.NonDestructive
 
 namespace Signals.MultiArrayImaging
 
-open Complex Signals.Geometry Signals.Huygens Signals.Scattering Signals.DDF
+open Complex Signals.Acoustics Signals.Geometry Signals.Homodyne Signals.Huygens
+open Signals.IQ Signals.NonDestructive Signals.Scattering Signals.DDF
 
 /-! # Multi-Spectral & Multi-Array Grassmannian Imaging: Hubble 2× CCD Mosaics, Cosmic-Ray Particle Telemetry, LVP Direct-Conversion Medical Arrays, LIFU / AOT / TRUE Sub-Surface Focusing, and Sub-Nanometer ($< 1\text{ nm}$) Convergent Holographic Nanolithography
 
@@ -467,5 +471,146 @@ theorem NormedTensorGaussianSplat3D.multi_modal_subsurface_volumetric_and_grassm
     ring
   exact ⟨h_gr24.1, h_gr24.2.2.2.2.1, h_gr36.2.2.2.2.2.2.2.1, h_gr36.2.2.2.2.2.2.2.2.2.2.1,
     h_gr24.2.2.2.2.2.2.2.1, h_ex, h_ey, h_ez, h_gr24.2.2.2.2.2.2.2.2.2.2⟩
+
+/-! ## Section 5: Critique & Resolution of Diagonal Cosmic-Ray Classification, 3D Silicon Stopping-Power Path Length, & Acousto-Optic / Homodyne / Non-Destructive Bridges -/
+
+/-- Bounding-box fill density $\rho_{\mathrm{fill}}(A, H_{\mathrm{bbox}}, W_{\mathrm{bbox}}) = \frac{A}{H_{\mathrm{bbox}} \cdot W_{\mathrm{bbox}}}$,
+which distinguishes a compact $2\times 2$ perpendicular `Dot` ($\rho_{\mathrm{fill}}(4, 2, 2) = 1$)
+from a 4-pixel $45^\circ$ diagonal `Streak` `(4,4)..(7,7)` ($\rho_{\mathrm{fill}}(4, 4, 4) = 1/4$)
+that the source chat's naive `area <= 4.0` heuristic (`Google-Search_Hubble-Sensor-Design_20261102-2031.md`,
+lines 881–919) misclassified as a `Dot`. -/
+@[blueprint "def:signals-imaging-cosmic-ray-bbox-fill-density"
+  (title := "Cosmic-ray cluster bounding-box fill density A / (H_bbox × W_bbox)")
+  (statement := /-- Define $\operatorname{cosmicRayBboxFillDensity}(A, H_{\mathrm{bbox}}, W_{\mathrm{bbox}})
+    = A / (H_{\mathrm{bbox}} \cdot W_{\mathrm{bbox}})$. -/)]
+noncomputable def cosmicRayBboxFillDensity (area bbox_h bbox_w : ℝ) : ℝ :=
+  area / (bbox_h * bbox_w)
+
+/-- 2D empirical spatial covariance determinant $\det\Sigma_{\mathrm{cluster}}(\sigma_{rr}, \sigma_{cc}, \sigma_{rc}) = \sigma_{rr}\sigma_{cc} - \sigma_{rc}^2$
+of a cosmic-ray pixel cluster, which is positive for an isotropic $2\times 2$ `Dot`
+($\sigma_{rc} = 0 \implies \det\Sigma = \sigma_{rr}\sigma_{cc} > 0$) and vanishes identically
+($\det\Sigma = 0$) for any collinear primary cosmic-ray `Streak` at *any* angle $\theta \in [0, \pi)$
+(including $45^\circ$ diagonal tracks where $\sigma_{rr} = \sigma_{cc}$ and $\mathrm{AR}_{\mathrm{bbox}} = 1$). -/
+@[blueprint "def:signals-imaging-cosmic-ray-covariance-det-2d"
+  (title := "Rotation-invariant 2D cosmic-ray cluster covariance determinant σ_rr σ_cc - σ_rc²")
+  (statement := /-- Define $\operatorname{cosmicRayCovarianceDet2D}(\sigma_{rr}, \sigma_{cc}, \sigma_{rc})
+    = \sigma_{rr} \cdot \sigma_{cc} - \sigma_{rc}^2$. -/)]
+def cosmicRayCovarianceDet2D (sigma_rr sigma_cc sigma_rc : ℝ) : ℝ :=
+  sigma_rr * sigma_cc - sigma_rc ^ 2
+
+/-- Squared 3D chord length $L_{\mathrm{path}}^2(d_{\mathrm{Si}}, L_\parallel) = d_{\mathrm{Si}}^2 + L_\parallel^2$
+traversed by a relativistic minimum-ionizing cosmic ray through a thinned CCD silicon
+depletion layer of thickness $d_{\mathrm{Si}}$ (`15 μm` in HST `ACS/WFC` and `WFC3/UVIS`)
+with in-plane projected track length $L_\parallel$ (STScI ACS Instrument Handbook Sec. 4.3.7;
+Miles et al. 2021, *ApJ* 918, 86). -/
+@[blueprint "def:signals-imaging-cosmic-ray-silicon-path-length-sq"
+  (title := "Squared 3D cosmic-ray path length in silicon depletion layer d_Si² + L_∥²")
+  (statement := /-- Define $\operatorname{cosmicRaySiliconPathLengthSq}(d_{\mathrm{Si}}, L_\parallel)
+    = d_{\mathrm{Si}}^2 + L_\parallel^2$. -/)]
+def cosmicRaySiliconPathLengthSq (d_si_um l_proj_um : ℝ) : ℝ :=
+  d_si_um ^ 2 + l_proj_um ^ 2
+
+/-- Tangent of the zenith incidence angle $\tan\theta_{\mathrm{inc}}(d_{\mathrm{Si}}, L_\parallel) = \frac{L_\parallel}{d_{\mathrm{Si}}}$
+relative to the detector normal ($\tan\theta_{\mathrm{inc}} = 0$ for a perpendicular `Dot`,
+$\tan\theta_{\mathrm{inc}} = 240/15 = 16$ for the HST `WFPC2` `NGC 4151` `u5780205r` `Chip 3` grazing proton `Streak`). -/
+@[blueprint "def:signals-imaging-cosmic-ray-grazing-tangent"
+  (title := "Cosmic-ray grazing incidence tangent L_∥ / d_Si")
+  (statement := /-- Define $\operatorname{cosmicRayGrazingTangent}(d_{\mathrm{Si}}, L_\parallel)
+    = L_\parallel / d_{\mathrm{Si}}$. -/)]
+noncomputable def cosmicRayGrazingTangent (d_si_um l_proj_um : ℝ) : ℝ :=
+  l_proj_um / d_si_um
+
+/-- Linear Energy Transfer $\mathrm{LET}(E_{\mathrm{dep}}, L_{\mathrm{path}}) = \frac{E_{\mathrm{dep}}}{L_{\mathrm{path}}}$
+($\mathrm{d}E/\mathrm{d}x$ in $\mathrm{eV/\mu m}$) deposited per unit 3D path length in silicon. -/
+@[blueprint "def:signals-imaging-cosmic-ray-let"
+  (title := "Cosmic-ray Linear Energy Transfer LET = E_dep / L_path")
+  (statement := /-- Define $\operatorname{cosmicRayLinearEnergyTransferEvPerUm}(E_{\mathrm{dep}}, L_{\mathrm{path}})
+    = E_{\mathrm{dep}} / L_{\mathrm{path}}$. -/)]
+noncomputable def cosmicRayLinearEnergyTransferEvPerUm (energy_ev path_length_um : ℝ) : ℝ :=
+  energy_ev / path_length_um
+
+/-- **Diagonal Cosmic-Ray Collinearity Discriminant, 3D Silicon Depletion Path-Length (`dE/dx`), and `Signals.Acoustics` / `Signals.Homodyne` / `Signals.NonDestructive` Bridge Theorem**:
+Resolves the mathematical and physical gaps in the source chat's cosmic-ray and sub-surface
+imaging discussion and connects `Signals.MultiArrayImaging` directly to `Signals.Acoustics`,
+`Signals.Homodyne`, and `Signals.NonDestructive`:
+1. **Resolution of the Chat's $45^\circ$ Diagonal Streak Misclassification**:
+   For the chat's 4-pixel diagonal track `(4,4), (5,5), (6,6), (7,7)`, the axis-aligned
+   bounding box is $4 \times 4$ so $\operatorname{cosmicRayClusterAspectRatio}(4, 4) = 1 \le 3.5$,
+   and `area = 4` caused the chat's `area <= 4.0` check to misclassify it as a `Dot`.
+   Using $\rho_{\mathrm{fill}}$ and $\det\Sigma_{\mathrm{cluster}}$ resolves this cleanly:
+   - Compact $2\times 2$ perpendicular `Dot`: $\rho_{\mathrm{fill}}(4, 2, 2) = 1$ and
+     $\det\Sigma_{\mathrm{cluster}}(1/4, 1/4, 0) = 1/16 > 0$,
+   - 4-pixel $45^\circ$ diagonal `Streak`: $\rho_{\mathrm{fill}}(4, 4, 4) = 1/4 < 1$ and
+     $\det\Sigma_{\mathrm{cluster}}(5/4, 5/4, 5/4) = 0$ (exact collinearity!),
+2. **3D Silicon Depletion Path Length & Grazing Angle on HST `WFPC2` `NGC 4151` (`u5780205r`)**:
+   In a $d_{\mathrm{Si}} = 15\text{ }\mu\text{m}$ CCD (`15 × 15 μm` pixels):
+   - Perpendicular `Dot` ($L_\parallel = 0$): $L_{\mathrm{path}}^2(15, 0) = 225\text{ }\mu\text{m}^2$ and $\tan\theta_{\mathrm{inc}}(15, 0) = 0$,
+   - `NGC 4151` `Chip 3` 17-pixel proton `Streak` ($16\text{ px} \times 15\text{ }\mu\text{m} = 240\text{ }\mu\text{m}$):
+     $L_{\mathrm{path}}^2(15, 240) = 57{,}825\text{ }\mu\text{m}^2 = 257 \times L_{\mathrm{path}}^2(15, 0)$
+     and $\tan\theta_{\mathrm{inc}}(15, 240) = 16 > 1$, explaining why minimum-ionizing cosmic rays
+     deposit energy proportional to 3D silicon chord length rather than primary particle kinetic energy
+     (STScI ACS IHB Sec. 4.3.7; Miles et al. 2021),
+3. **Direct Bridge to `Signals.Acoustics`, `Signals.Homodyne`, and `Signals.NonDestructive`**:
+   - Soft-tissue `LIFU` acoustic impedance: for $\rho = 1000\text{ kg/m}^3$ and $c_s = 1540\text{ m/s}$,
+     $\rho \cdot c_s = 1{,}540{,}000\text{ Rayl}$,
+   - Balanced homodyne $0$ and $\pi/2$ local-oscillator phase sweep (`Signals.Homodyne.rotatedQuadrature`)
+     recovers the exact in-phase $I$ and quadrature $Q$ components of an `AOT`-tagged optical sample, and
+   - Any `DispersivePhaseFingerprint` (`Signals.NonDestructive`) preserves signal state and
+     target energy with zero absorbed signal, probe, and target energy (`= 0\text{ J}`). -/
+@[blueprint "thm:signals-imaging-cosmic-ray-diagnostics-and-acousto-optic-homodyne-bridge"
+  (title := "Diagonal cosmic-ray collinearity discriminant, 3D silicon path-length dE/dx, and Acoustics/Homodyne/NonDestructive bridge theorem")
+  (statement := /-- For any homodyne \texttt{sample : Sample} and non-destructive
+    \texttt{record : DispersivePhaseFingerprint α}, the diagonal streak fill-density and
+    covariance-determinant discriminants, the 3D silicon path-length ratio $57825 = 257 \times 225$,
+    the soft-tissue acoustic impedance $1540000\text{ Rayl}$, the $0/\frac{\pi}{2}$ homodyne
+    quadrature recovery, and the zero-absorbed-energy dispersive phase-fingerprint invariants
+    all hold simultaneously. -/)
+  (proof := /-- Evaluate the rational fill-density, covariance determinant, and 3D silicon
+    chord-length identities by \texttt{norm\_num}, unfold \texttt{rotatedQuadrature} at $0$ and $\pi/2$,
+    and apply the accessor lemmas of \texttt{DispersivePhaseFingerprint}. -/)]
+theorem cosmic_ray_diagnostics_and_acousto_optic_homodyne_bridge_identities
+    {α : Type*} (sample : Sample) (record : DispersivePhaseFingerprint α) :
+    cosmicRayClusterAspectRatio 4 4 = 1 ∧
+      cosmicRayBboxFillDensity 4 2 2 = 1 ∧
+      cosmicRayBboxFillDensity 4 4 4 = 1 / 4 ∧
+      cosmicRayBboxFillDensity 4 4 4 < cosmicRayBboxFillDensity 4 2 2 ∧
+      cosmicRayCovarianceDet2D (1 / 4) (1 / 4) 0 = 1 / 16 ∧
+      0 < cosmicRayCovarianceDet2D (1 / 4) (1 / 4) 0 ∧
+      cosmicRayCovarianceDet2D (5 / 4) (5 / 4) (5 / 4) = 0 ∧
+      cosmicRaySiliconPathLengthSq 15 0 = 225 ∧
+      cosmicRaySiliconPathLengthSq 15 240 = 57825 ∧
+      cosmicRaySiliconPathLengthSq 15 240 = 257 * cosmicRaySiliconPathLengthSq 15 0 ∧
+      cosmicRayGrazingTangent 15 0 = 0 ∧
+      cosmicRayGrazingTangent 15 240 = 16 ∧
+      (1000 : ℝ) * 1540 = 1540000 ∧
+      rotatedQuadrature sample 0 = sample.inPhase ∧
+      rotatedQuadrature sample (Real.pi / 2) = sample.quadrature ∧
+      record.fingerprint.phaseShift = record.readout.probePhaseShift ∧
+      record.readout.absorbedSignalEnergy.joules = 0 ∧
+      record.readout.absorbedProbeEnergy.joules = 0 ∧
+      record.fingerprint.absorbedTargetEnergy.joules = 0 := by
+  have h_q0 : rotatedQuadrature sample 0 = sample.inPhase := by
+    unfold rotatedQuadrature
+    rw [Real.cos_zero, Real.sin_zero]
+    ring
+  have h_qpi2 : rotatedQuadrature sample (Real.pi / 2) = sample.quadrature := by
+    unfold rotatedQuadrature
+    rw [Real.cos_pi_div_two, Real.sin_pi_div_two]
+    ring
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, by norm_num, h_q0, h_qpi2,
+    record.phase_shift_agrees, record.readout.no_absorbed_signal_energy,
+    record.readout.no_absorbed_probe_energy, record.fingerprint.no_absorbed_target_energy⟩
+  · unfold cosmicRayClusterAspectRatio; norm_num
+  · unfold cosmicRayBboxFillDensity; norm_num
+  · unfold cosmicRayBboxFillDensity; norm_num
+  · unfold cosmicRayBboxFillDensity; norm_num
+  · unfold cosmicRayCovarianceDet2D; norm_num
+  · unfold cosmicRayCovarianceDet2D; norm_num
+  · unfold cosmicRayCovarianceDet2D; norm_num
+  · unfold cosmicRaySiliconPathLengthSq; norm_num
+  · unfold cosmicRaySiliconPathLengthSq; norm_num
+  · unfold cosmicRaySiliconPathLengthSq; norm_num
+  · unfold cosmicRayGrazingTangent; norm_num
+  · unfold cosmicRayGrazingTangent; norm_num
 
 end Signals.MultiArrayImaging

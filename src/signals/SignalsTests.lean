@@ -6319,4 +6319,24 @@ example (θ_aot θ_z φ_err φ1 φ2 φ3 θ φ : ℝ) :
     hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
     hv.1, hv.2.1⟩
 
+example (sample : Signals.IQ.Sample)
+    (record : Signals.NonDestructive.DispersivePhaseFingerprint ℝ) :
+    Signals.MultiArrayImaging.cosmicRayBboxFillDensity 4 4 4 <
+      Signals.MultiArrayImaging.cosmicRayBboxFillDensity 4 2 2 ∧
+    0 < Signals.MultiArrayImaging.cosmicRayCovarianceDet2D (1 / 4) (1 / 4) 0 ∧
+    Signals.MultiArrayImaging.cosmicRayCovarianceDet2D (5 / 4) (5 / 4) (5 / 4) = 0 ∧
+    Signals.MultiArrayImaging.cosmicRaySiliconPathLengthSq 15 240 =
+      257 * Signals.MultiArrayImaging.cosmicRaySiliconPathLengthSq 15 0 ∧
+    Signals.MultiArrayImaging.cosmicRayGrazingTangent 15 240 = 16 ∧
+    Signals.Homodyne.rotatedQuadrature sample 0 = sample.inPhase ∧
+    Signals.Homodyne.rotatedQuadrature sample (Real.pi / 2) = sample.quadrature ∧
+    record.readout.absorbedProbeEnergy.joules = 0 := by
+  have hb :=
+    Signals.MultiArrayImaging.cosmic_ray_diagnostics_and_acousto_optic_homodyne_bridge_identities
+      sample record
+  exact ⟨hb.2.2.2.1, hb.2.2.2.2.2.1, hb.2.2.2.2.2.2.1,
+    hb.2.2.2.2.2.2.2.2.2.1, hb.2.2.2.2.2.2.2.2.2.2.2.1,
+    hb.2.2.2.2.2.2.2.2.2.2.2.2.2.1, hb.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    hb.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
 end SignalsTests

@@ -541,9 +541,18 @@ The Pending implementation now provides:
   figures of merit, environmental exposure, retained output, and residuals;
 - `LVPDirectConversionImaging` for finite pixel matrices, dark correction,
   dose-response calibration, sensitivity, resolution, validation stage, and
-  image residuals; and
+  image residuals;
 - `LVPProcaImagingHypothesis` for the speculative longitudinal-wave branch and
-  its explicit massless control.
+  its explicit massless control; and
+- `MultiModalSubSurfaceImagingHypothesis` (connected to `Signals.MultiArrayImaging`
+  and [grassmannian-multispectral-hubble-medical-nanoimaging-paper.md](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md)),
+  linking `LVPDirectConversionImaging`, `LVPProcaImagingHypothesis`,
+  `MultiBeamHolographyResult`, and `LongitudinalBeamApplicationEvidence` with
+  Hubble $2\times$ CCD mosaic calibration ($\mathrm{Gr}_{\mathbb{R}}(4, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$),
+  non-cavitating `LIFU` Mechanical Index safety ($\mathrm{MI}^2 = 18/77 \le 1.9^2$),
+  `AOT` sideband $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker ratios, `TRUE` / `DORT`
+  sub-surface focusing, and sub-nanometer ($< 1\text{ nm}$: $0.75\text{ nm}$,
+  $0.603\text{ nm}$, and $0.50\text{ nm}$) homodyne/STED nanoimaging.
 
 All LVP records remain in `Signals.Pending`. Composition fractions, output
 laws, calibration equalities, and residual bounds are model data or finite
