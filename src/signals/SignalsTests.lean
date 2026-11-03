@@ -6399,4 +6399,65 @@ example (sigma_rr sigma_cc sigma_rc E_par r_perp : ℝ) :
     hp.2.2.2.2.2.2.2.2.2.2.2.1, hp.2.2.2.2.2.2.2.2.2.2.2.2.1,
     hp.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+example (theta : ℝ) (A : Matrix (Fin 3) (Fin 2) ℝ) (B : Matrix (Fin 2) (Fin 3) ℝ) :
+    let net := Signals.Plabic.WeightedAcyclicNetwork.diamond (2 : NNReal) (3 : NNReal) (4 : NNReal) (5 : NNReal)
+    let M_cone := Signals.DDF.ddfThermalGr24Matrix (3 / 5) theta
+    let delta_sw := Signals.QuantumCausalInference.quantumSwitchCausalAsymmetry 3 1
+    let M_sw := Signals.DDF.ddfThermalGr24Matrix delta_sw theta
+    net.weight ^ 3 = 0 ∧
+      net.transfer = 1 + net.weight * net.transfer ∧
+      (Signals.Geometry.singleHubRepresentative (2 : NNReal) (3 : NNReal) (4 : NNReal) (5 : NNReal)).mat.det = 0 ∧
+      (A * B).det = 0 ∧
+      Signals.QuantumCausalInference.causalObservationalTransfer 5 2 = 7 ∧
+      Signals.QuantumCausalInference.causalInterventionalDoTransfer 5 2 = 5 ∧
+      Signals.QuantumCausalInference.causalConfoundingBias 5 2 = 2 ∧
+      0 < Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_cone) *
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_cone) ∧
+      Signals.QuantumCausalInference.counterfactualStructuralOutcome 2 3 10 5 = 14 ∧
+      Signals.QuantumCausalInference.counterfactualInterventionalDifference 2 3 10 5 = 4 ∧
+      Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_sw) /
+          Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_sw) = (1 : ℝ) / 3 ∧
+      Signals.QuantumCausalInference.quantumChoiGrassmannianRealDim 4 4 4 = 96 ∧
+      Signals.QuantumCausalInference.mpembaTwoModeDistance 1 1 1 1 <
+        Signals.QuantumCausalInference.mpembaTwoModeDistance 0 4 1 1 ∧
+      Signals.QuantumCausalInference.mpembaTwoModeDistance 0 4 (1 / 2) (1 / 16) <
+        Signals.QuantumCausalInference.mpembaTwoModeDistance 1 1 (1 / 2) (1 / 16) ∧
+      Signals.QuantumCausalInference.delRioConditionalLandauerHeat 1 0 = 1 ∧
+      Signals.QuantumCausalInference.delRioConditionalLandauerHeat 1 (1 / 2) = 0 ∧
+      Signals.QuantumCausalInference.delRioConditionalLandauerHeat 1 1 = -1 ∧
+      Signals.QuantumCausalInference.entropySiphonCounterfactualGain 1 1 0 = -2 ∧
+      |Signals.QuantumCausalInference.lignoluxTapeSiphonPowerWatts (3826e-26) (99 / 100) (2e8) (1e8)| < 1e-6 := by
+  intro net M_cone delta_sw M_sw
+  have hc :=
+    Signals.QuantumCausalInference.grassmannian_causal_relations_do_calculus_and_quantum_switch_identities
+      net 6 2 2 3 4 5 (by norm_num) 2 3 4 6 8 5 7 (by norm_num) (by norm_num) (by norm_num)
+      A B 5 2 2 3 10 5 (3 / 5) 3 1 theta
+      (by norm_num [abs_of_pos]) (by norm_num) (by norm_num)
+  let t0 : Signals.QuantumCausalInference.ConstructorTask := ⟨0, 0, 0⟩
+  have ht0 : t0.isPossible 1 := by
+    unfold Signals.QuantumCausalInference.ConstructorTask.isPossible
+      Signals.QuantumCausalInference.ConstructorTask.thermodynamicSurplus
+    norm_num [t0]
+  have hm :=
+    Signals.QuantumCausalInference.mpemba_constructor_theory_and_entropy_siphoning_identities
+      1 (-2) 2 1 4 1 (99 / 100) 0
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      t0 t0 ht0 ht0
+  refine ⟨hc.1, hc.2.1, hc.2.2.2.1, hc.2.2.2.2.1, ?_, hc.2.2.2.2.2.2.2.1, hc.2.2.2.2.2.2.2.2.1,
+    hc.2.2.2.2.2.2.2.2.2.2.1, ?_, ?_, hc.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    hc.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2, hm.2.2.2.1, hm.2.2.2.2.1,
+    ?_, hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    ?_, hm.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+  · unfold Signals.QuantumCausalInference.causalObservationalTransfer; norm_num
+  · unfold Signals.QuantumCausalInference.counterfactualStructuralOutcome
+      Signals.QuantumCausalInference.abducedExogenousState; norm_num
+  · unfold Signals.QuantumCausalInference.counterfactualInterventionalDifference
+      Signals.QuantumCausalInference.counterfactualStructuralOutcome
+      Signals.QuantumCausalInference.abducedExogenousState; norm_num
+  · unfold Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+      Signals.QuantumCausalInference.conditionalEntropyLinearBits; norm_num
+  · unfold Signals.QuantumCausalInference.entropySiphonCounterfactualGain
+      Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+      Signals.QuantumCausalInference.conditionalEntropyLinearBits; norm_num
+
 end SignalsTests

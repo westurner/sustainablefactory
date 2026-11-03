@@ -126,4 +126,38 @@ lemma multi_modal_subsurface_imaging_layer_and_safety_bounds
         hypothesis.procaHypothesis.masslessControlTolerance :=
   hypothesis.safety_and_resolution_bounds
 
+/-- Summary lemma: in a `QuantumCausalMpembaSynthesisContract`, the 3D Layer-Code
+topological (`= 3`), junction (`= 1`), and stabilizer-weight (`≤ 6`) bounds hold,
+single-shot conditional Landauer heat is negative ($Q_{\mathrm{erasure}}(F) < 0 < Q_{\mathrm{erasure}}(0)$)
+while closed-loop erasure plus observer-memory reset obeys the Second Law
+($k_B T \ln 2 \le Q_{\mathrm{closed}}(F)$), the QRT majorization shortcut gap is
+strictly positive, and the causal control residual is within tolerance. -/
+@[blueprint "lem:pending-quantum-causal-mpemba-entropy-siphon-bounds"
+  (title := "Pending quantum causal inference, Mpemba shortcut, and entropy-siphoning Second-Law bounds")
+  (statement := /-- For any \texttt{contract : QuantumCausalMpembaSynthesisContract},
+    $\mathrm{layerCode}.\mathrm{topologicalDimension} = 3$,
+    $Q_{\mathrm{erasure}}(F) < 0 < Q_{\mathrm{erasure}}(0)$,
+    $k_B T \ln 2 \le Q_{\mathrm{closed}}(F)$,
+    $0 < \Delta D_{\mathrm{QRT}}$, and
+    $\mathrm{causalControlResidual} \le \mathrm{causalControlTolerance}$. -/)
+  (proof := /-- Apply \texttt{QuantumCausalMpembaSynthesisContract.thermodynamic\_and\_causal\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma quantum_causal_mpemba_and_entropy_siphon_bounds
+    (contract : QuantumCausalMpembaSynthesisContract) :
+    contract.layerCode.topologicalDimension = 3 ∧
+      contract.layerCode.junctionDimension = 1 ∧
+      contract.layerCode.maximumStabilizerWeight ≤ 6 ∧
+      Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+        contract.thermalScaleJoules contract.bellFidelity < 0 ∧
+      0 < Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+        contract.thermalScaleJoules 0 ∧
+      contract.thermalScaleJoules ≤
+        Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat
+          contract.thermalScaleJoules contract.bellFidelity
+          contract.opticalAndMemoryOverheadJoules ∧
+      0 < Signals.QuantumCausalInference.qrtMajorizationShortcutGap
+        contract.qrtDistanceAloneBits contract.qrtDistanceSiphonBits ∧
+      contract.causalControlResidual ≤ contract.causalControlTolerance :=
+  contract.thermodynamic_and_causal_bounds
+
 end SignalsPending

@@ -28,6 +28,7 @@ import Signals.OAM
 import Signals.PaperModels
 import Signals.Proca
 import Signals.Propagation
+import Signals.QuantumCausalInference
 import Signals.Units
 
 namespace Signals.Pending
@@ -5381,5 +5382,123 @@ lemma MultiModalSubSurfaceImagingHypothesis.safety_and_resolution_bounds
     hypothesis.lifuNonCavitatingSafety, h_true, hypothesis.subNanometerTargetMet,
     hypothesis.directConversion.imageResidualWithinTolerance,
     hypothesis.procaHypothesis.masslessControlWithinTolerance⟩
+
+/-! ## 27. Quantum Causal Inference, Mpemba Shortcut, and Entropy Siphoning Pending Contract
+
+In `data/chats/_Mpemba Effect_ Landau vs. Quantum .md` (lines 298–495) and
+`data/chats/_Quantum Processor and Soliton Discussions  .md` (lines 4470–4700),
+the chats propose combining:
+1. Landau / QRT Mpemba relaxation shortcuts (`Holtzman & Raz 2022`; `Summer et al. 2026`),
+2. Constructor Theory task possibility with side information (`Deutsch & Marletto`),
+3. Interventional counterfactuals in Quantum Causal Models (`Giarmatzi & Costa 2023`, `arXiv:2302.11783`), and
+4. Conditional Landauer erasure (`del Rio et al. 2011`, *Nature* 474, 61–63) on a
+   3D Star / Layer-Coded `Lignin-Vitrimer` QPU (`Entropy Siphoning`).
+
+While the mathematical laws of Plabic/Grassmannian causal transfer, d-separation bottlenecks,
+$\operatorname{do}(X)$ edge surgery, Quantum Switch Plücker ratios, Mpemba mode-overlap crossings,
+Constructor Theory task composition, and single-shot conditional Landauer heat
+$Q_{\mathrm{erasure}}(F) = k_B T \ln 2 \cdot (1 - 2F)$ are machine-checked in
+`Signals.QuantumCausalInference`, `docs/chat-physics-catalog.md` (lines 16, 137)
+requires that any hardware claim of net "entropy siphoning" refrigeration remain strictly
+in `Signals.Pending`, with explicit Second-Law closed-loop accounting (observer memory
+reset + optical pump absorption), N-LIG TES bolometer calibration, and unentangled
+classical-control subtraction. -/
+
+/-- A Pending synthesis contract governing experimental tests of Quantum Causal
+Counterfactuals, Mpemba relaxation shortcuts, and conditional Landauer "entropy siphoning"
+in a 3D Layer-Coded QPU, enforcing closed-loop Second-Law nonnegativity and classical
+control subtraction. -/
+@[blueprint "def:signals-quantum-causal-mpemba-entropy-siphon-contract"
+  (title := "Pending quantum causal inference, Mpemba shortcut, and entropy-siphoning validation contract")
+  (statement := /-- Links \texttt{LayerCodeLift} with Bell entanglement fidelity $F > 1/2$,
+    QRT relative-entropy shortcut $D_{\mathrm{siphon}} < D_{\mathrm{alone}}$, closed-loop
+    observer-memory reset and optical pump overhead $Q_{\mathrm{overhead}} \ge 0$, and explicit
+    unentangled $\operatorname{do}(F = 0)$ differential thermal calibration flags. -/)]
+structure QuantumCausalMpembaSynthesisContract where
+  layerCode : LayerCodeLift
+  thermalScaleJoules : ℝ
+  thermalScale_pos : 0 < thermalScaleJoules
+  bellFidelity : ℝ
+  bellFidelity_gt_half : 1 / 2 < bellFidelity
+  bellFidelity_le_one : bellFidelity ≤ 1
+  qrtDistanceAloneBits : ℝ
+  qrtDistanceSiphonBits : ℝ
+  qrtShortcut_lt : qrtDistanceSiphonBits < qrtDistanceAloneBits
+  opticalAndMemoryOverheadJoules : ℝ
+  overhead_nonneg : 0 ≤ opticalAndMemoryOverheadJoules
+  causalControlResidual : ℝ
+  causalControlTolerance : ℝ
+  causalControl_nonneg : 0 ≤ causalControlResidual
+  causalControlWithinTolerance : causalControlResidual ≤ causalControlTolerance
+  unentangledControlSubtracted : Prop
+  unentangledControlSubtracted_hypothesis : unentangledControlSubtracted
+  tesBolometerCalibrated : Prop
+  tesBolometerCalibrated_hypothesis : tesBolometerCalibrated
+
+/-- In any `QuantumCausalMpembaSynthesisContract`:
+1. The 3D Layer-Code substrate satisfies $D_{\mathrm{top}} = 3$, $D_{\mathrm{junc}} = 1$, and $w_{\max} \le 6$.
+2. Because $F > 1/2$ and $k_B T \ln 2 > 0$, single-shot conditional Landauer heat is strictly
+   negative (`delRioConditionalLandauerHeat thermalScaleJoules bellFidelity < 0`), while the
+   unentangled control ($\operatorname{do}(F = 0)$) is strictly positive (`> 0`).
+3. Closed-loop erasure plus observer-memory reset obeys the Second Law:
+   `thermalScaleJoules ≤ closedLoopErasureAndMemoryResetHeat thermalScaleJoules bellFidelity opticalAndMemoryOverheadJoules`.
+4. The QRT majorization shortcut gap is strictly positive (`0 < qrtMajorizationShortcutGap`),
+   and the causal control residual is within tolerance. -/
+@[blueprint "lem:signals-quantum-causal-mpemba-entropy-siphon-bounds"
+  (title := "Pending quantum causal and entropy-siphoning contract enforces single-shot cooling vs. closed-loop Second-Law bounds")
+  (statement := /-- For any \texttt{contract : QuantumCausalMpembaSynthesisContract},
+    $\mathrm{layerCode}.\mathrm{topologicalDimension} = 3$,
+    $Q_{\mathrm{erasure}}(F) < 0 < Q_{\mathrm{erasure}}(0)$,
+    $k_B T \ln 2 \le Q_{\mathrm{closed}}(F)$,
+    $0 < \Delta D_{\mathrm{QRT}}$, and
+    $\mathrm{causalControlResidual} \le \mathrm{causalControlTolerance}$. -/)
+  (proof := /-- Combine \texttt{LayerCodeLift} accessors with \texttt{nlinarith} on $F > 1/2$ and $k_B T \ln 2 > 0$. -/)
+  (latexEnv := "lemma")]
+lemma QuantumCausalMpembaSynthesisContract.thermodynamic_and_causal_bounds
+    (contract : QuantumCausalMpembaSynthesisContract) :
+    contract.layerCode.topologicalDimension = 3 ∧
+      contract.layerCode.junctionDimension = 1 ∧
+      contract.layerCode.maximumStabilizerWeight ≤ 6 ∧
+      Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+        contract.thermalScaleJoules contract.bellFidelity < 0 ∧
+      0 < Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+        contract.thermalScaleJoules 0 ∧
+      contract.thermalScaleJoules ≤
+        Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat
+          contract.thermalScaleJoules contract.bellFidelity
+          contract.opticalAndMemoryOverheadJoules ∧
+      0 < Signals.QuantumCausalInference.qrtMajorizationShortcutGap
+        contract.qrtDistanceAloneBits contract.qrtDistanceSiphonBits ∧
+      contract.causalControlResidual ≤ contract.causalControlTolerance := by
+  have h_neg :
+      Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+        contract.thermalScaleJoules contract.bellFidelity < 0 := by
+    unfold Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+      Signals.QuantumCausalInference.conditionalEntropyLinearBits
+    nlinarith [contract.thermalScale_pos, contract.bellFidelity_gt_half]
+  have h_pos0 :
+      0 < Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+        contract.thermalScaleJoules 0 := by
+    unfold Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+      Signals.QuantumCausalInference.conditionalEntropyLinearBits
+    linarith [contract.thermalScale_pos]
+  have h_closed :
+      contract.thermalScaleJoules ≤
+        Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat
+          contract.thermalScaleJoules contract.bellFidelity
+          contract.opticalAndMemoryOverheadJoules := by
+    unfold Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat
+      Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+      Signals.QuantumCausalInference.conditionalEntropyLinearBits
+    linarith [contract.overhead_nonneg]
+  have h_qrt :
+      0 < Signals.QuantumCausalInference.qrtMajorizationShortcutGap
+        contract.qrtDistanceAloneBits contract.qrtDistanceSiphonBits := by
+    unfold Signals.QuantumCausalInference.qrtMajorizationShortcutGap
+    linarith [contract.qrtShortcut_lt]
+  exact ⟨contract.layerCode.three_dimensional,
+    contract.layerCode.one_dimensional_junction,
+    contract.layerCode.stabilizer_weight_le_six,
+    h_neg, h_pos0, h_closed, h_qrt, contract.causalControlWithinTolerance⟩
 
 end Signals.Pending

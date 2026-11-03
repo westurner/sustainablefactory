@@ -134,7 +134,7 @@ The following chat claims should not be promoted into verified Signals:
 
 - CW Proca vacuum-gradient energy extraction for Argon;
 - SQG as a plasma coupling medium;
-- “entropy siphoning” as a heat-extraction mechanism;
+- “entropy siphoning” as a net closed-loop QPU heat-extraction mechanism (`Signals.QuantumCausalInference` proves single-shot conditional Landauer heat $Q_{\mathrm{erasure}}(F) = k_B T \ln 2 \cdot (1 - 2F)$ per del Rio et al. 2011 and audits the $-0.750\text{ }\mu\text{W}$ vs. $-50\text{ W}$ `lignolux_entropy_siphon_sim.py` mismatch, while `QuantumCausalMpembaSynthesisContract` in `Signals.Pending` enforces closed-loop observer-memory reset $Q_{\mathrm{closed}} \ge k_B T \ln 2$; see [grassmannian-quantum-causal-inference-mpemba-paper.md](grassmannian-quantum-causal-inference-mpemba-paper.md));
 - 10 nm LIFT placement and lossless OAM/QPU routing;
 - room-temperature quantum advantage from an unmeasured N-LIG platform;
 - polyCBD Proca/400-800 GHz conversion and chat-estimated UPT transfer efficiency;

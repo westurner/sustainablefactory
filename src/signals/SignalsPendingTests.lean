@@ -5194,4 +5194,51 @@ example :
   SignalsPending.multi_modal_subsurface_imaging_layer_and_safety_bounds
     toyMultiModalSubSurfaceImaging
 
+/-- Connected `QuantumCausalMpembaSynthesisContract` fixture linking `toyLayerCodeLift`,
+Bell fidelity `F = 99/100 > 1/2`, QRT shortcut `D_siphon = 1 < 4 = D_alone`, and
+closed-loop Second-Law compliance. -/
+noncomputable def toyQuantumCausalMpembaSynthesis :
+    QuantumCausalMpembaSynthesisContract :=
+  { layerCode := toyLayerCodeLift
+    thermalScaleJoules := 1
+    thermalScale_pos := by norm_num
+    bellFidelity := 99 / 100
+    bellFidelity_gt_half := by norm_num
+    bellFidelity_le_one := by norm_num
+    qrtDistanceAloneBits := 4
+    qrtDistanceSiphonBits := 1
+    qrtShortcut_lt := by norm_num
+    opticalAndMemoryOverheadJoules := 1 / 10
+    overhead_nonneg := by norm_num
+    causalControlResidual := 1 / 100
+    causalControlTolerance := 1 / 10
+    causalControl_nonneg := by norm_num
+    causalControlWithinTolerance := by norm_num
+    unentangledControlSubtracted := True
+    unentangledControlSubtracted_hypothesis := trivial
+    tesBolometerCalibrated := True
+    tesBolometerCalibrated_hypothesis := trivial }
+
+example :
+    toyQuantumCausalMpembaSynthesis.layerCode.topologicalDimension = 3 ∧
+      toyQuantumCausalMpembaSynthesis.layerCode.junctionDimension = 1 ∧
+      toyQuantumCausalMpembaSynthesis.layerCode.maximumStabilizerWeight ≤ 6 ∧
+      Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+        toyQuantumCausalMpembaSynthesis.thermalScaleJoules
+        toyQuantumCausalMpembaSynthesis.bellFidelity < 0 ∧
+      0 < Signals.QuantumCausalInference.delRioConditionalLandauerHeat
+        toyQuantumCausalMpembaSynthesis.thermalScaleJoules 0 ∧
+      toyQuantumCausalMpembaSynthesis.thermalScaleJoules ≤
+        Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat
+          toyQuantumCausalMpembaSynthesis.thermalScaleJoules
+          toyQuantumCausalMpembaSynthesis.bellFidelity
+          toyQuantumCausalMpembaSynthesis.opticalAndMemoryOverheadJoules ∧
+      0 < Signals.QuantumCausalInference.qrtMajorizationShortcutGap
+        toyQuantumCausalMpembaSynthesis.qrtDistanceAloneBits
+        toyQuantumCausalMpembaSynthesis.qrtDistanceSiphonBits ∧
+      toyQuantumCausalMpembaSynthesis.causalControlResidual ≤
+        toyQuantumCausalMpembaSynthesis.causalControlTolerance :=
+  SignalsPending.quantum_causal_mpemba_and_entropy_siphon_bounds
+    toyQuantumCausalMpembaSynthesis
+
 end SignalsPendingTests

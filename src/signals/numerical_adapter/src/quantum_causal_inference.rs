@@ -1,0 +1,639 @@
+//! Grassmannian Quantum Causal Inference, Counterfactual Semantics (`arXiv:2302.11783`),
+//! Indefinite Causal Order (Quantum Switch), Constructor Theory, Landau vs. QRT Mpemba Effect,
+//! and Conditional Landauer / Entropy-Siphoning Audit (`Signals.QuantumCausalInference`).
+
+use crate::{ValidationError, require_finite, require_nonnegative, require_positive};
+
+/// Boltzmann constant $k_B = 1.380649 \times 10^{-23}\text{ J/K}$.
+pub const BOLTZMANN_CONSTANT_J_PER_K: f64 = 1.380_649e-23;
+
+/// Chat-specified Boltzmann constant $1.38 \times 10^{-23}\text{ J/K}$ from `lignolux_entropy_siphon_sim.py`
+/// (`data/chats/_Quantum Processor and Soliton Discussions  .md`, line 4488).
+pub const CHAT_BOLTZMANN_CONSTANT_J_PER_K: f64 = 1.38e-23;
+
+// ============================================================================
+// 1. Grassmannian Geometry of Causal Networks, d-Separation, & Pearl Do-Calculus
+// ============================================================================
+
+/// Observational transfer weight $C_{\mathrm{obs}} = d + b$ between $X$ and $Y$ in a confounded
+/// causal diamond, summing the direct causal edge $d = w_{X \to Y}$ and the backdoor trek
+/// $b = w_{U \to X} w_{U \to Y}$ (`Signals.QuantumCausalInference.causalObservationalTransfer`).
+#[inline]
+pub fn causal_observational_transfer(direct_causal: f64, backdoor_trek: f64) -> f64 {
+    direct_causal + backdoor_trek
+}
+
+/// Interventional transfer weight $C_{\mathrm{do}} = d$ under Pearl's $\operatorname{do}(X := x)$
+/// incoming-edge surgery (`Signals.QuantumCausalInference.causalInterventionalDoTransfer`).
+#[inline]
+pub fn causal_interventional_do_transfer(direct_causal: f64, _backdoor_trek: f64) -> f64 {
+    direct_causal
+}
+
+/// Spurious confounding bias $C_{\mathrm{obs}} - C_{\mathrm{do}} = b$
+/// (`Signals.QuantumCausalInference.causalConfoundingBias`).
+#[inline]
+pub fn causal_confounding_bias(direct_causal: f64, backdoor_trek: f64) -> f64 {
+    causal_observational_transfer(direct_causal, backdoor_trek)
+        - causal_interventional_do_transfer(direct_causal, backdoor_trek)
+}
+
+/// Evaluates the $3 \times 3$ acyclic causal transfer matrix $T = I + W + W^2$ of a 3-node DAG
+/// ($0 \to 1, 0 \to 2, 1 \to 2$, where node 0 is an upstream confounder $U$, node 1 is treatment $X$,
+/// and node 2 is outcome $Y$) both before and after Pearl's $\operatorname{do}(X_i := x_i)$
+/// graph surgery (which severs all incoming edges into `do_vertex`).
+pub fn causal_dag_do_surgery_3x3(
+    w01: f64,
+    w02: f64,
+    w12: f64,
+    do_vertex: usize,
+) -> ([[f64; 3]; 3], [[f64; 3]; 3]) {
+    let w_obs = [[0.0, w01, w02], [0.0, 0.0, w12], [0.0, 0.0, 0.0]];
+    let mut w_do = w_obs;
+    if do_vertex < 3 {
+        for r in 0..3 {
+            w_do[r][do_vertex] = 0.0;
+        }
+    }
+    let eval_transfer = |w: &[[f64; 3]; 3]| -> [[f64; 3]; 3] {
+        let mut w2 = [[0.0f64; 3]; 3];
+        for i in 0..3 {
+            for k in 0..3 {
+                for j in 0..3 {
+                    w2[i][j] += w[i][k] * w[k][j];
+                }
+            }
+        }
+        let mut t = [[0.0f64; 3]; 3];
+        for i in 0..3 {
+            for j in 0..3 {
+                let id_ij = if i == j { 1.0 } else { 0.0 };
+                t[i][j] = id_ij + w[i][j] + w2[i][j];
+            }
+        }
+        t
+    };
+    (eval_transfer(&w_obs), eval_transfer(&w_do))
+}
+
+/// Relativistic / DDF lightcone causal interval $1 - \beta^2$, matching the product of squared
+/// Plücker channel amplitudes $\|w_A^{\mathbb{C}}\|^2 \|w_B^{\mathbb{C}}\|^2$ on $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+/// (`Signals.QuantumCausalInference.causalLightconeInterval`).
+#[inline]
+pub fn causal_lightcone_interval(beta: f64) -> f64 {
+    1.0 - beta * beta
+}
+
+// ============================================================================
+// 2. Quantum Causal Counterfactuals (arXiv:2302.11783) & the Quantum Switch
+// ============================================================================
+
+/// Step 1 (Abduction) of Pearl / Giarmatzi–Costa (`arXiv:2302.11783`) counterfactual semantics:
+/// recovers the exogenous background variable $u_E = y_{\mathrm{obs}} - \alpha x_{\mathrm{obs}}$
+/// (`Signals.QuantumCausalInference.abducedExogenousState`).
+#[inline]
+pub fn abduced_exogenous_state(alpha: f64, x_obs: f64, y_obs: f64) -> f64 {
+    y_obs - alpha * x_obs
+}
+
+/// Steps 2 & 3 (Action & Prediction) of counterfactual semantics:
+/// evaluates $Y_{x_{\mathrm{cf}}}(u_E) = \alpha x_{\mathrm{cf}} + (y_{\mathrm{obs}} - \alpha x_{\mathrm{obs}})$
+/// (`Signals.QuantumCausalInference.counterfactualStructuralOutcome`).
+#[inline]
+pub fn counterfactual_structural_outcome(alpha: f64, x_obs: f64, y_obs: f64, x_cf: f64) -> f64 {
+    alpha * x_cf + abduced_exogenous_state(alpha, x_obs, y_obs)
+}
+
+/// Counterfactual interventional difference $\Delta Y_{\mathrm{cf}} = Y_{x_{\mathrm{cf}}} - Y_{x_{\mathrm{obs}}} = \alpha(x_{\mathrm{cf}} - x_{\mathrm{obs}})$
+/// (`Signals.QuantumCausalInference.counterfactualInterventionalDifference`).
+#[inline]
+pub fn counterfactual_interventional_difference(
+    alpha: f64,
+    x_obs: f64,
+    y_obs: f64,
+    x_cf: f64,
+) -> f64 {
+    counterfactual_structural_outcome(alpha, x_obs, y_obs, x_cf)
+        - counterfactual_structural_outcome(alpha, x_obs, y_obs, x_obs)
+}
+
+/// Quantum Switch causal-order asymmetry $\delta_{\mathrm{switch}} = \frac{E_+ - E_-}{E_+ + E_-} \in [-1, 1]$
+/// (`Signals.QuantumCausalInference.quantumSwitchCausalAsymmetry`).
+#[inline]
+pub fn quantum_switch_causal_asymmetry(e_sym: f64, e_anti: f64) -> f64 {
+    (e_sym - e_anti) / (e_sym + e_anti)
+}
+
+/// Evaluates the complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker channel squared norms
+/// $(\|w_A^{\mathbb{C}}\|^2, \|w_B^{\mathbb{C}}\|^2) = (1 + \delta_{\mathrm{switch}}, 1 - \delta_{\mathrm{switch}})$
+/// and their ratio $\|w_B^{\mathbb{C}}\|^2 / \|w_A^{\mathbb{C}}\|^2 = E_- / E_+$ for a Quantum Switch.
+#[inline]
+pub fn quantum_switch_gr24_plucker_channels(e_sym: f64, e_anti: f64) -> (f64, f64, f64) {
+    let delta = quantum_switch_causal_asymmetry(e_sym, e_anti);
+    let w_a_sq = 1.0 + delta;
+    let w_b_sq = 1.0 - delta;
+    (w_a_sq, w_b_sq, w_b_sq / w_a_sq)
+}
+
+/// Evaluates the exact 2-qubit Quantum Switch (Chiribella et al. 2013; Oreshkov, Costa, & Brukner 2012)
+/// on a 2D target state `psi = [(re0, im0), (re1, im1)]` and two $2\times 2$ complex unitary gates
+/// `u_a` and `u_b` with control qubit prepared in $|+\rangle_c = \frac{|0\rangle + |1\rangle}{\sqrt{2}}$:
+/// returns `(e_sym, e_anti, delta_switch)`, where:
+/// - `e_sym` $= \frac{1}{4}\|\{U_A, U_B\}\psi\|^2$ is the $|+\rangle_c$ (anticommutator) branch probability,
+/// - `e_anti` $= \frac{1}{4}\|[U_B, U_A]\psi\|^2$ is the $|-\rangle_c$ (commutator) branch probability.
+pub fn evaluate_quantum_switch_2x2(
+    u_a: &[[(f64, f64); 2]; 2],
+    u_b: &[[(f64, f64); 2]; 2],
+    psi: &[(f64, f64); 2],
+) -> (f64, f64, f64) {
+    let c_mul = |x: (f64, f64), y: (f64, f64)| -> (f64, f64) {
+        (x.0 * y.0 - x.1 * y.1, x.0 * y.1 + x.1 * y.0)
+    };
+    let c_add = |x: (f64, f64), y: (f64, f64)| -> (f64, f64) { (x.0 + y.0, x.1 + y.1) };
+    let c_sub = |x: (f64, f64), y: (f64, f64)| -> (f64, f64) { (x.0 - y.0, x.1 - y.1) };
+    let mat_vec = |m: &[[(f64, f64); 2]; 2], v: &[(f64, f64); 2]| -> [(f64, f64); 2] {
+        [
+            c_add(c_mul(m[0][0], v[0]), c_mul(m[0][1], v[1])),
+            c_add(c_mul(m[1][0], v[0]), c_mul(m[1][1], v[1])),
+        ]
+    };
+
+    // Path A ≺ B: U_B (U_A |ψ⟩)
+    let ua_psi = mat_vec(u_a, psi);
+    let ub_ua_psi = mat_vec(u_b, &ua_psi);
+
+    // Path B ≺ A: U_A (U_B |ψ⟩)
+    let ub_psi = mat_vec(u_b, psi);
+    let ua_ub_psi = mat_vec(u_a, &ub_psi);
+
+    let mut e_sym = 0.0f64;
+    let mut e_anti = 0.0f64;
+    for i in 0..2 {
+        let sym_i = c_add(ub_ua_psi[i], ua_ub_psi[i]);
+        let anti_i = c_sub(ub_ua_psi[i], ua_ub_psi[i]);
+        e_sym += 0.25 * (sym_i.0 * sym_i.0 + sym_i.1 * sym_i.1);
+        e_anti += 0.25 * (anti_i.0 * anti_i.0 + anti_i.1 * anti_i.1);
+    }
+    let delta = quantum_switch_causal_asymmetry(e_sym, e_anti);
+    (e_sym, e_anti, delta)
+}
+
+/// Real manifold dimension $2 k (d_{\mathrm{in}} d_{\mathrm{out}} - k)$ of the complex Grassmannian
+/// $\mathrm{Gr}_{\mathbb{C}}(k, d_{\mathrm{in}} d_{\mathrm{out}})$ parameterizing rank-$k$
+/// Choi–Jamiołkowski quantum causal process subspaces
+/// (`Signals.QuantumCausalInference.quantumChoiGrassmannianRealDim`).
+#[inline]
+pub fn quantum_choi_grassmannian_real_dim(k: usize, d_in: usize, d_out: usize) -> usize {
+    let n = d_in * d_out;
+    if k >= n { 0 } else { 2 * k * (n - k) }
+}
+
+// ============================================================================
+// 3. Landau Free-Energy vs. Quantum Resource Theory (QRT) Models of Mpemba
+// ============================================================================
+
+/// Landau quartic free-energy density $F(\eta, a, b, h) = \frac{1}{2} a \eta^2 + \frac{1}{4} b \eta^4 - h \eta$
+/// (`Holtzman & Raz 2022`, `Signals.QuantumCausalInference.landauFreeEnergy`).
+#[inline]
+pub fn landau_free_energy(eta: f64, a: f64, b: f64, h: f64) -> f64 {
+    0.5 * a * eta * eta + 0.25 * b * eta.powi(4) - h * eta
+}
+
+/// Two-eigenmode Markovian / Liouvillian relaxation distance from equilibrium at time $t$:
+/// $D(t) = a_2 e^{-\lambda_2 t} + a_3 e^{-\lambda_3 t}$ ($0 < \lambda_2 < \lambda_3$)
+/// (`Signals.QuantumCausalInference.mpembaTwoModeDistance`).
+#[inline]
+pub fn mpemba_two_mode_trajectory(a2: f64, a3: f64, lambda2: f64, lambda3: f64, t: f64) -> f64 {
+    a2 * (-lambda2 * t).exp() + a3 * (-lambda3 * t).exp()
+}
+
+/// Exact Strong Mpemba crossing time $t_{\mathrm{cross}} = \frac{\ln(a_{3,\mathrm{hot}} / a_{2,\mathrm{cold}})}{\lambda_3 - \lambda_2}$
+/// when $a_{2,\mathrm{hot}} = 0$ and $a_{3,\mathrm{cold}} = 0$
+/// (`Signals.QuantumCausalInference.strongMpembaCrossingTime`).
+#[inline]
+pub fn strong_mpemba_crossing_time(
+    a3_hot: f64,
+    a2_cold: f64,
+    lambda2: f64,
+    lambda3: f64,
+) -> Result<f64, ValidationError> {
+    require_positive("a3_hot", a3_hot)?;
+    require_positive("a2_cold", a2_cold)?;
+    require_positive("lambda3 - lambda2", lambda3 - lambda2)?;
+    Ok((a3_hot / a2_cold).ln() / (lambda3 - lambda2))
+}
+
+/// Quantum Resource Theory (QRT) non-equilibrium free-energy difference
+/// $\Delta F(\rho \| \gamma_\beta) = k_B T \ln 2 \cdot D_{\mathrm{KL}}(\rho \| \gamma_\beta)$
+/// (`Summer et al. 2026`, `Signals.QuantumCausalInference.qrtNonEquilibriumFreeEnergy`).
+#[inline]
+pub fn qrt_nonequilibrium_free_energy(kbt_ln2: f64, relative_entropy_bits: f64) -> f64 {
+    kbt_ln2 * relative_entropy_bits
+}
+
+/// Resource-theoretic Mpemba / entropy-siphon majorization shortcut gap
+/// $\Delta D_{\mathrm{QRT}} = D_{\mathrm{alone}} - D_{\mathrm{siphon}}$
+/// (`Signals.QuantumCausalInference.qrtMajorizationShortcutGap`).
+#[inline]
+pub fn qrt_majorization_shortcut_gap(d_alone: f64, d_siphon: f64) -> f64 {
+    d_alone - d_siphon
+}
+
+/// Evaluates the exact Kullback–Leibler relative entropy $D_{\mathrm{KL}}(p \| \gamma)$ (in bits)
+/// between a discrete state distribution `p` and the thermal Gibbs state `gibbs`, quantifying
+/// the QRT athermality resource (`Summer et al. 2026 PRX`).
+pub fn qrt_kl_divergence_bits(p: &[f64], gibbs: &[f64]) -> Result<f64, ValidationError> {
+    if p.is_empty() || gibbs.is_empty() {
+        return Err(ValidationError::EmptyDataset);
+    }
+    if p.len() != gibbs.len() {
+        return Err(ValidationError::ShapeMismatch("p vs gibbs length"));
+    }
+    let mut kl = 0.0f64;
+    for (&pi, &gi) in p.iter().zip(gibbs.iter()) {
+        require_nonnegative("p_i", pi)?;
+        require_positive("gibbs_i", gi)?;
+        if pi > 1e-15 {
+            kl += pi * (pi / gi).log2();
+        }
+    }
+    Ok(kl)
+}
+
+/// Checks whether state `p` **thermo-majorizes** state `q` ($p \succ_{\mathrm{th}} q$) relative to
+/// the thermal Gibbs distribution `gibbs` (`Horodecki & Oppenheim 2013`; `Summer et al. 2026 PRX`)
+/// by β-ordering both distributions in descending order of $p_i / \gamma_i$ and $q_i / \gamma_i$
+/// and verifying that the piecewise-linear Lorenz curve $L_p(x)$ lies on or above $L_q(x)$ at all
+/// cumulative Gibbs breakpoints.
+pub fn thermo_majorization_dominates(
+    p: &[f64],
+    q: &[f64],
+    gibbs: &[f64],
+    tol: f64,
+) -> Result<bool, ValidationError> {
+    if p.is_empty() || q.is_empty() || gibbs.is_empty() {
+        return Err(ValidationError::EmptyDataset);
+    }
+    if p.len() != q.len() || p.len() != gibbs.len() {
+        return Err(ValidationError::ShapeMismatch("p, q, gibbs length"));
+    }
+    let n = p.len();
+    let mut idx_p: Vec<usize> = (0..n).collect();
+    let mut idx_q: Vec<usize> = (0..n).collect();
+    for i in 0..n {
+        require_nonnegative("p_i", p[i])?;
+        require_nonnegative("q_i", q[i])?;
+        require_positive("gibbs_i", gibbs[i])?;
+    }
+    idx_p.sort_by(|&a, &b| {
+        let ra = p[a] / gibbs[a];
+        let rb = p[b] / gibbs[b];
+        rb.partial_cmp(&ra).unwrap()
+    });
+    idx_q.sort_by(|&a, &b| {
+        let ra = q[a] / gibbs[a];
+        let rb = q[b] / gibbs[b];
+        rb.partial_cmp(&ra).unwrap()
+    });
+
+    let build_curve = |idx: &[usize], dist: &[f64]| -> Vec<(f64, f64)> {
+        let mut pts = Vec::with_capacity(n + 1);
+        pts.push((0.0, 0.0));
+        let mut x = 0.0;
+        let mut y = 0.0;
+        for &k in idx {
+            x += gibbs[k];
+            y += dist[k];
+            pts.push((x, y));
+        }
+        pts
+    };
+
+    let curve_p = build_curve(&idx_p, p);
+    let curve_q = build_curve(&idx_q, q);
+
+    let eval_lorenz = |curve: &[(f64, f64)], x: f64| -> f64 {
+        if x <= 0.0 {
+            return 0.0;
+        }
+        for w in curve.windows(2) {
+            let (x0, y0) = w[0];
+            let (x1, y1) = w[1];
+            if x <= x1 + 1e-15 {
+                let dx = x1 - x0;
+                if dx.abs() <= 1e-15 {
+                    return y1;
+                }
+                let t = ((x - x0) / dx).clamp(0.0, 1.0);
+                return y0 + t * (y1 - y0);
+            }
+        }
+        curve.last().unwrap().1
+    };
+
+    for &(xq, yq) in &curve_q {
+        let yp = eval_lorenz(&curve_p, xq);
+        if yp + tol < yq {
+            return Ok(false);
+        }
+    }
+    for &(xp, yp) in &curve_p {
+        let yq = eval_lorenz(&curve_q, xp);
+        if yp + tol < yq {
+            return Ok(false);
+        }
+    }
+    Ok(true)
+}
+
+// ============================================================================
+// 4. Constructor Theory Task Algebra (Deutsch & Marletto)
+// ============================================================================
+
+/// A Constructor Theory thermodynamic/information task $\mathcal{T} = \{i \to o\}$
+/// (`Signals.QuantumCausalInference.ConstructorTask`).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct ConstructorTask {
+    pub delta_system_entropy_bits: f64,
+    pub work_supplied_joules: f64,
+    pub side_info_resource_bits: f64,
+}
+
+impl ConstructorTask {
+    /// Net thermodynamic free-energy surplus (in joules):
+    /// $\Sigma_{\mathrm{task}} = W_{\mathrm{supplied}} + k_B T \ln 2 \cdot (\Delta S_{\mathrm{sys}} + I_{\mathrm{side}})$
+    /// (`ConstructorTask.thermodynamicSurplus`).
+    #[inline]
+    pub fn thermodynamic_surplus(&self, kbt_ln2: f64) -> f64 {
+        self.work_supplied_joules
+            + kbt_ln2 * (self.delta_system_entropy_bits + self.side_info_resource_bits)
+    }
+
+    /// Whether the task is thermodynamically possible ($\Sigma_{\mathrm{task}} \ge 0$)
+    /// (`ConstructorTask.isPossible`).
+    #[inline]
+    pub fn is_possible(&self, kbt_ln2: f64) -> bool {
+        self.thermodynamic_surplus(kbt_ln2) >= 0.0
+    }
+
+    /// Serial/parallel composition of two Constructor Theory tasks (`ConstructorTask.compose`).
+    #[inline]
+    pub fn compose(&self, other: &Self) -> Self {
+        Self {
+            delta_system_entropy_bits: self.delta_system_entropy_bits
+                + other.delta_system_entropy_bits,
+            work_supplied_joules: self.work_supplied_joules + other.work_supplied_joules,
+            side_info_resource_bits: self.side_info_resource_bits + other.side_info_resource_bits,
+        }
+    }
+}
+
+// ============================================================================
+// 5. Conditional Landauer Erasure (del Rio et al. 2011) & Entropy Siphoning Audit
+// ============================================================================
+
+/// Linearized conditional von Neumann entropy $S(A \mid O) = 1 - 2 F$ (in bits) for a two-Bell
+/// mixture $F|\Phi^+\rangle\langle\Phi^+| + (1-F)|0\rangle\langle 0|\otimes \frac{I}{2}$
+/// (`Signals.QuantumCausalInference.conditionalEntropyLinearBits`).
+#[inline]
+pub fn conditional_entropy_linear_bits(fidelity: f64) -> f64 {
+    1.0 - 2.0 * fidelity
+}
+
+/// Exact von Neumann conditional entropy $S(A \mid O)_{\mathrm{Werner}} = S(\rho_{AO}) - S(\rho_O)$
+/// (in bits) of an isotropic 2-qubit Werner state
+/// $\rho_W(F) = F|\Phi^+\rangle\langle\Phi^+| + \frac{1-F}{3}(I_4 - |\Phi^+\rangle\langle\Phi^+|)$
+/// with Bell fidelity $F \in [0, 1]$ (`del Rio et al. 2011`, *Nature* 474, 61–63).
+/// Note that for an isotropic Werner state, $S(A\mid O)_{\mathrm{Werner}} < 0$ requires
+/// $F > F_* \approx 0.747614$, whereas the chat's linear formula $1 - 2F$ assumes a rank-2 mixture
+/// with zero-crossing at $F = 0.5$.
+pub fn exact_werner_conditional_entropy_bits(fidelity: f64) -> Result<f64, ValidationError> {
+    require_finite("fidelity", fidelity)?;
+    if !(0.0..=1.0).contains(&fidelity) {
+        return Err(ValidationError::ResidualTooLarge("fidelity out of [0, 1]"));
+    }
+    let eigs = [
+        fidelity,
+        (1.0 - fidelity) / 3.0,
+        (1.0 - fidelity) / 3.0,
+        (1.0 - fidelity) / 3.0,
+    ];
+    let mut s_ao = 0.0f64;
+    for &lam in &eigs {
+        if lam > 1e-15 {
+            s_ao -= lam * lam.log2();
+        }
+    }
+    // Reduced state \rho_O = I_2 / 2 has S(\rho_O) = 1 bit
+    Ok(s_ao - 1.0)
+}
+
+/// Conditional Landauer heat dissipated into the bath per 1-bit reset (`del Rio et al. 2011`):
+/// $Q_{\mathrm{erasure}}(F) = k_B T \ln 2 \cdot (1 - 2 F)$
+/// (`Signals.QuantumCausalInference.delRioConditionalLandauerHeat`).
+#[inline]
+pub fn del_rio_conditional_landauer_heat(kbt_ln2: f64, fidelity: f64) -> f64 {
+    kbt_ln2 * conditional_entropy_linear_bits(fidelity)
+}
+
+/// Interventional counterfactual heat difference $\mathcal{Q}^* = Q(\operatorname{do}(F = f_{\mathrm{active}})) - Q(\operatorname{do}(F = f_{\mathrm{control}}))$
+/// (`Signals.QuantumCausalInference.entropySiphonCounterfactualGain`).
+#[inline]
+pub fn entropy_siphon_counterfactual_gain(kbt_ln2: f64, f_active: f64, f_control: f64) -> f64 {
+    del_rio_conditional_landauer_heat(kbt_ln2, f_active)
+        - del_rio_conditional_landauer_heat(kbt_ln2, f_control)
+}
+
+/// Closed-loop net heat across single-shot entangled erasure of $A$ plus subsequent Landauer
+/// reset of the observer memory $O$ (`Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat`).
+#[inline]
+pub fn closed_loop_erasure_and_memory_reset_heat(
+    kbt_ln2: f64,
+    fidelity: f64,
+    q_overhead: f64,
+) -> f64 {
+    del_rio_conditional_landauer_heat(kbt_ln2, fidelity) + (2.0 * fidelity * kbt_ln2 + q_overhead)
+}
+
+/// Evaluates the chat's `lignolux_entropy_siphon_sim.py` cooling power (in watts)
+/// (`Signals.QuantumCausalInference.lignoluxTapeSiphonPowerWatts`).
+#[inline]
+pub fn lignolux_tape_siphon_power_watts(
+    t_kelvin: f64,
+    fidelity: f64,
+    n_ancillas: f64,
+    f_qec_hz: f64,
+) -> f64 {
+    let kbt_ln2 = CHAT_BOLTZMANN_CONSTANT_J_PER_K * t_kelvin * std::f64::consts::LN_2;
+    del_rio_conditional_landauer_heat(kbt_ln2, fidelity) * n_ancillas * f_qec_hz
+}
+
+// ============================================================================
+// 6. WASM32 / C-ABI Exports
+// ============================================================================
+
+/// C-ABI / WASM export: evaluates the Quantum Switch $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker
+/// channel ratio $\|w_B^{\mathbb{C}}\|^2 / \|w_A^{\mathbb{C}}\|^2 = E_- / E_+$.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_quantum_switch_gr24_ratio(e_sym: f64, e_anti: f64) -> f64 {
+    quantum_switch_gr24_plucker_channels(e_sym, e_anti).2
+}
+
+/// C-ABI / WASM export: evaluates `del_rio_conditional_landauer_heat`.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_del_rio_conditional_landauer_heat(kbt_ln2: f64, fidelity: f64) -> f64 {
+    del_rio_conditional_landauer_heat(kbt_ln2, fidelity)
+}
+
+/// C-ABI / WASM export: evaluates `lignolux_tape_siphon_power_watts`.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_lignolux_tape_siphon_power_watts(
+    t_kelvin: f64,
+    fidelity: f64,
+    n_ancillas: f64,
+    f_qec_hz: f64,
+) -> f64 {
+    lignolux_tape_siphon_power_watts(t_kelvin, fidelity, n_ancillas, f_qec_hz)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn grassmannian_causal_do_calculus_and_quantum_switch_identities_hold() {
+        // 1. Confounded diamond (U -> X, U -> Y, X -> Y):
+        // Observational transfer from X (node 1) to Y (node 2) vs confounder U (node 0):
+        // If we intervene do(X := x) on node 1, incoming edge 0 -> 1 is severed!
+        let (t_obs, t_do) = causal_dag_do_surgery_3x3(2.0, 3.0, 4.0, 1);
+        // Before do(X): U -> Y total transfer is w02 + w01*w12 = 3 + 2*4 = 11
+        assert!((t_obs[0][2] - 11.0).abs() < 1e-12);
+        // After do(X): edge U -> X (w01) is severed, so U -> X transfer is 0 and U -> Y is only direct w02 = 3
+        assert!(t_do[0][1].abs() < 1e-12);
+        assert!((t_do[0][2] - 3.0).abs() < 1e-12);
+        // While the direct causal effect X -> Y (t_do[1][2] = 4.0) is preserved!
+        assert!((t_do[1][2] - 4.0).abs() < 1e-12);
+
+        assert!((causal_observational_transfer(5.0, 2.0) - 7.0).abs() < 1e-12);
+        assert!((causal_interventional_do_transfer(5.0, 2.0) - 5.0).abs() < 1e-12);
+        assert!((causal_confounding_bias(5.0, 2.0) - 2.0).abs() < 1e-12);
+
+        // 2. Relativistic / DDF lightcone interval on Gr_C(2,4):
+        assert!((causal_lightcone_interval(0.6) - 0.64).abs() < 1e-12);
+        assert!(causal_lightcone_interval(1.0).abs() < 1e-12);
+        assert!(causal_lightcone_interval(1.2) < 0.0);
+
+        // 3. Pearl / Giarmatzi-Costa counterfactual abduction-action-prediction:
+        assert!((abduced_exogenous_state(2.0, 3.0, 10.0) - 4.0).abs() < 1e-12);
+        assert!((counterfactual_structural_outcome(2.0, 3.0, 10.0, 3.0) - 10.0).abs() < 1e-12);
+        assert!((counterfactual_structural_outcome(2.0, 3.0, 10.0, 5.0) - 14.0).abs() < 1e-12);
+        assert!(
+            (counterfactual_interventional_difference(2.0, 3.0, 10.0, 5.0) - 4.0).abs() < 1e-12
+        );
+
+        // 4. Quantum Switch on 2x2 unitaries:
+        // Case A: Commuting gates U_A = I, U_B = Z -> E_+ = 1, E_- = 0, delta_switch = +1
+        let id_2x2 = [[(1.0, 0.0), (0.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)]];
+        let pauli_z = [[(1.0, 0.0), (0.0, 0.0)], [(0.0, 0.0), (-1.0, 0.0)]];
+        let pauli_x = [[(0.0, 0.0), (1.0, 0.0)], [(1.0, 0.0), (0.0, 0.0)]];
+        let psi_0 = [(1.0, 0.0), (0.0, 0.0)];
+        let (e_sym_comm, e_anti_comm, delta_comm) =
+            evaluate_quantum_switch_2x2(&id_2x2, &pauli_z, &psi_0);
+        assert!((e_sym_comm - 1.0).abs() < 1e-12);
+        assert!(e_anti_comm.abs() < 1e-12);
+        assert!((delta_comm - 1.0).abs() < 1e-12);
+
+        // Case B: Anticommuting Pauli gates U_A = X, U_B = Z ({X, Z} = 0) -> E_+ = 0, E_- = 1, delta_switch = -1
+        let (e_sym_anti, e_anti_anti, delta_anti) =
+            evaluate_quantum_switch_2x2(&pauli_x, &pauli_z, &psi_0);
+        assert!(e_sym_anti.abs() < 1e-12);
+        assert!((e_anti_anti - 1.0).abs() < 1e-12);
+        assert!((delta_anti + 1.0).abs() < 1e-12);
+
+        // Case C: Gr_C(2,4) Plücker ratio recovery for (E_+, E_-) = (3, 1):
+        let (w_a_sq, w_b_sq, ratio) = quantum_switch_gr24_plucker_channels(3.0, 1.0);
+        assert!((w_a_sq - 1.5).abs() < 1e-12);
+        assert!((w_b_sq - 0.5).abs() < 1e-12);
+        assert!((ratio - (1.0 / 3.0)).abs() < 1e-12);
+        assert_eq!(quantum_choi_grassmannian_real_dim(4, 4, 4), 96);
+    }
+
+    #[test]
+    fn mpemba_landau_qrt_constructor_theory_and_entropy_siphon_audit_work() {
+        // 1. Landau free-energy double well & Strong Mpemba crossing:
+        assert!(landau_free_energy(0.0, -2.0, 2.0, 0.0).abs() < 1e-12);
+        assert!((landau_free_energy(1.0, -2.0, 2.0, 0.0) - (-0.5)).abs() < 1e-12);
+
+        // Strong Mpemba: hot state (a2=0, a3=4) starts at D(0)=4 > D_cold(0)=2 (a2=1, a3=0 with pure slow mode, or a2=1, a3=1)
+        let d_hot_0 = mpemba_two_mode_trajectory(0.0, 4.0, 1.0, 3.0, 0.0);
+        let d_cold_0 = mpemba_two_mode_trajectory(1.0, 1.0, 1.0, 3.0, 0.0);
+        assert!(d_hot_0 > d_cold_0);
+        let d_hot_1 = mpemba_two_mode_trajectory(0.0, 4.0, 1.0, 3.0, 1.0);
+        let d_cold_1 = mpemba_two_mode_trajectory(1.0, 1.0, 1.0, 3.0, 1.0);
+        assert!(d_hot_1 < d_cold_1);
+
+        // Exact crossing time for (a2_hot=0, a3_hot=4) vs (a2_cold=1, a3_cold=0):
+        let t_cross = strong_mpemba_crossing_time(4.0, 1.0, 1.0, 3.0).unwrap();
+        let d_hot_cross = mpemba_two_mode_trajectory(0.0, 4.0, 1.0, 3.0, t_cross);
+        let d_cold_cross = mpemba_two_mode_trajectory(1.0, 0.0, 1.0, 3.0, t_cross);
+        assert!((d_hot_cross - d_cold_cross).abs() < 1e-12);
+
+        // 2. QRT thermo-majorization & KL divergence:
+        let gibbs = [0.6, 0.3, 0.1];
+        let p_hot_shortcut = [0.2, 0.1, 0.7]; // Strongly non-equilibrium
+        let q_closer = [0.5, 0.3, 0.2]; // Closer to Gibbs
+        assert!(thermo_majorization_dominates(&p_hot_shortcut, &q_closer, &gibbs, 1e-12).unwrap());
+        assert!(!thermo_majorization_dominates(&q_closer, &p_hot_shortcut, &gibbs, 1e-12).unwrap());
+        let kl_hot = qrt_kl_divergence_bits(&p_hot_shortcut, &gibbs).unwrap();
+        let kl_closer = qrt_kl_divergence_bits(&q_closer, &gibbs).unwrap();
+        assert!(kl_closer < kl_hot);
+        assert!(qrt_majorization_shortcut_gap(kl_hot, kl_closer) > 0.0);
+
+        // 3. Constructor Theory tasks:
+        let task_no_info = ConstructorTask {
+            delta_system_entropy_bits: -1.0,
+            work_supplied_joules: 0.0,
+            side_info_resource_bits: 0.0,
+        };
+        let task_classical = ConstructorTask {
+            delta_system_entropy_bits: -1.0,
+            work_supplied_joules: 0.0,
+            side_info_resource_bits: 1.0,
+        };
+        let task_quantum = ConstructorTask {
+            delta_system_entropy_bits: -1.0,
+            work_supplied_joules: 0.0,
+            side_info_resource_bits: 2.0,
+        };
+        assert!(!task_no_info.is_possible(1.0));
+        assert!(task_classical.is_possible(1.0));
+        assert!(task_quantum.is_possible(1.0));
+        assert!(task_classical.compose(&task_quantum).is_possible(1.0));
+
+        // 4. Conditional Landauer (del Rio et al. 2011), Werner vs Linear conditional entropy, & Lignolux audit:
+        assert!((del_rio_conditional_landauer_heat(1.0, 0.0) - 1.0).abs() < 1e-12);
+        assert!(del_rio_conditional_landauer_heat(1.0, 0.5).abs() < 1e-12);
+        assert!((del_rio_conditional_landauer_heat(1.0, 1.0) + 1.0).abs() < 1e-12);
+        assert!((entropy_siphon_counterfactual_gain(1.0, 1.0, 0.0) + 2.0).abs() < 1e-12);
+        assert!((closed_loop_erasure_and_memory_reset_heat(1.0, 0.99, 0.1) - 1.1).abs() < 1e-12);
+
+        // Isotropic Werner state: at F = 0.25 (maximally mixed I/4), S(A|O) = 2 - 1 = +1 bit;
+        // at F = 0.5 (entanglement threshold), S(A|O)_Werner > 0; at F = 1.0 (pure Bell), S(A|O)_Werner = -1 bit.
+        let s_werner_mix = exact_werner_conditional_entropy_bits(0.25).unwrap();
+        let s_werner_half = exact_werner_conditional_entropy_bits(0.5).unwrap();
+        let s_werner_bell = exact_werner_conditional_entropy_bits(1.0).unwrap();
+        assert!((s_werner_mix - 1.0).abs() < 1e-12);
+        assert!(s_werner_half > 0.0);
+        assert!((s_werner_bell + 1.0).abs() < 1e-12);
+
+        // Lignolux tape audit: at T = 4.0 K, F = 0.99, N_anc = 2e8, f_qec = 1e8 Hz,
+        // power is -7.499298e-7 W (-0.750 μW), and even at clock_rate = 1e12 Hz (1 THz)
+        // it is -7.499298e-3 W (-7.50 mW) — NOT the -50 to -100 W claimed in the chat prose!
+        let p_siphon_100mhz = lignolux_tape_siphon_power_watts(4.0, 0.99, 2.0e8, 1.0e8);
+        let p_siphon_1thz = lignolux_tape_siphon_power_watts(4.0, 0.99, 2.0e8, 1.0e12);
+        assert!((p_siphon_100mhz - (-7.499_297_98e-7)).abs() < 1e-12);
+        assert!(p_siphon_100mhz.abs() < 1.0e-6);
+        assert!((p_siphon_1thz - (-7.499_297_98e-3)).abs() < 1e-8);
+        assert!(p_siphon_1thz.abs() < 1.0e-2);
+    }
+}
