@@ -10,29 +10,31 @@ description: "An arXiv-ready MyST Markdown formal verification paper detailing 2
 - **Subjects:**
   - Mathematical Physics (`math-ph`); Computational Physics (`physics.comp-ph`); Optics (`physics.optics`); Fluid Dynamics (`physics.flu-dyn`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../Signals/DDF.lean](../Signals/DDF.lean), [../Signals/Pending.lean](../Signals/Pending.lean), [../SignalsTests.lean](../SignalsTests.lean))
-  - `Signals` LeanArchitect Blueprint ([../blueprint/src/content.tex](../blueprint/src/content.tex))
-  - `signals-numerical-adapter` Rust/WASM/GLSL Crate ([../numerical_adapter/src/orbital_splat.rs](../numerical_adapter/src/orbital_splat.rs))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean))
+  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex))
+  - `signals-numerical-adapter` Rust/WASM/GLSL Crate ([../src/signals/numerical_adapter/src/orbital_splat.rs](../src/signals/numerical_adapter/src/orbital_splat.rs))
+  - Canonical `src/signals/docs/` Mirror: [../src/signals/docs/gaussian-splat-tensors-normed-paper.md](../src/signals/docs/gaussian-splat-tensors-normed-paper.md)
 
 - **Companion `grassmannian-*-paper.md` Series:**
-  1. [Huygens–Steiner Barycentric Coherence, Complex $Gr_{\mathbb{C}}(2,4)$ Plücker Channels, and Multi-Model Double-Slit & OAM Relative Predictive Error in Lean 4](../../../docs/grassmannian-huygens-double-slit-oam-paper.md)
-  2. [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](../../../docs/grassmannian-qism-bethe-ansatz-paper.md)
-  3. [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](../../../docs/grassmannian-ddf-moving-sheath-paper.md)
-  4. [Grassmannian Gravity from QED & Gauge Scattering Amplitudes: Complex $Gr_{\mathbb{C}}(2,4)$ Orbital Precession, Mercury's Perihelion, $N$-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4](../../../docs/grassmannian-gravity-from-qed-scattering-paper.md)
-  5. [Normed Tensor Gaussian Splat Mechanics for Complex $Gr_{\mathbb{C}}(2,4)$ Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4](../../../docs/grassmannian-splat-mechanics-paper.md)
-  6. [Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4](../../../docs/grassmannian-thermal-compton-raman-paper.md)
-  7. [Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, $Gr_{\mathbb{C}}(2,4)$ Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4](../../../docs/grassmannian-polariton-spp-mechanics-paper.md)
-  8. [The Holographic Principle in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: 't Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4](../../../docs/grassmannian-holographic-principle-paper.md)
-  9. [AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and $\mathfrak{psl}(2|2)_c$ Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4](../../../docs/grassmannian-ads-cft-ddf-paper.md)
-  10. [Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4](../../../docs/grassmannian-unification-applications-roadmap-paper.md)
+  1. [Huygens–Steiner Barycentric Coherence, Complex $Gr_{\mathbb{C}}(2,4)$ Plücker Channels, and Multi-Model Double-Slit & OAM Relative Predictive Error in Lean 4](grassmannian-huygens-double-slit-oam-paper.md)
+  2. [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.md)
+  3. [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.md)
+  4. [Grassmannian Gravity from QED & Gauge Scattering Amplitudes: Complex $Gr_{\mathbb{C}}(2,4)$ Orbital Precession, Mercury's Perihelion, $N$-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4](grassmannian-gravity-from-qed-scattering-paper.md)
+  5. [Normed Tensor Gaussian Splat Mechanics for Complex $Gr_{\mathbb{C}}(2,4)$ Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4](grassmannian-splat-mechanics-paper.md)
+  6. [Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4](grassmannian-thermal-compton-raman-paper.md)
+  7. [Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, $Gr_{\mathbb{C}}(2,4)$ Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4](grassmannian-polariton-spp-mechanics-paper.md)
+  8. [The Holographic Principle in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: 't Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4](grassmannian-holographic-principle-paper.md)
+  9. [AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and $\mathfrak{psl}(2|2)_c$ Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4](grassmannian-ads-cft-ddf-paper.md)
+  10. [Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4](grassmannian-unification-applications-roadmap-paper.md)
   11. [Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plücker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4](grassmannian-holographic-imaging-depth-recovery-paper.md)
   12. [3D Vectorial Wave Model for Longitudinal Polarization ($E_z$) and Higher-Rank $Gr_{\mathbb{C}}(3,n)$ Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4](grassmannian-vectorial-longitudinal-polarization-paper.md)
+  13. [Exceeding $6{,}400\times$ Volumetric Efficiency in 3D Normed Tensor Gaussian Splat Nanoimaging, Surgical Medicine, Jeffrey's Kinematic Engine, and Quantum Causal Semantic GraphRAG in Lean 4 and Rust/WASM](grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md)
 
 ---
 
 ## Abstract
 
-We present a comprehensive mathematical and formal-verification treatise on **Normed Anisotropic Tensor Gaussian Splats** in two and three spatial dimensions (`NormedTensorGaussianSplat2D` and `NormedTensorGaussianSplat3D` in [../Signals/DDF.lean](../Signals/DDF.lean#L2470-L6069), and velocity-space `TensorGaussianSplat` in [../Signals/Pending.lean](../Signals/Pending.lean#L813-L845)), together with their LeanArchitect (`@[blueprint]`) dependency graph and Rust/WASM/WebGL2 numerical implementation ([../numerical_adapter/src/orbital_splat.rs](../numerical_adapter/src/orbital_splat.rs#L172-L914)). Specifically:
+We present a comprehensive mathematical and formal-verification treatise on **Normed Anisotropic Tensor Gaussian Splats** in two and three spatial dimensions (`NormedTensorGaussianSplat2D` and `NormedTensorGaussianSplat3D` in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L2466-L6065), and velocity-space `TensorGaussianSplat` in [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L813-L845)), together with their LeanArchitect (`@[blueprint]`) dependency graph and Rust/WASM/WebGL2 numerical implementation ([../src/signals/numerical_adapter/src/orbital_splat.rs](../src/signals/numerical_adapter/src/orbital_splat.rs#L172-L914)). Specifically:
 
 1. **Unified 2D and 3D Normed Tensor Gaussian Splat Primitives**:
    We formulate exact $L^1(\mathbb{R}^d)$-normalized Gaussian wavepackets ($d \in \{2, 3\}$) whose principal variances $(\sigma_1^2, \sigma_2^2)$ or $(\sigma_1^2, \sigma_2^2, \sigma_3^2)$ encode complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Plücker channel moduli while their square-root envelope $\sqrt{G(\mathbf{x})}\,\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}$ carries coherent twistor interference, repulsive core Bohm quantum potential $Q_{\mathrm{core}}(\Sigma) = \frac{\hbar^2}{4m}\operatorname{Tr}(\Sigma^{-1})$, and Madelung quantum pressure tensor $\Pi_{ij}(\mathbf{x}) = \frac{\hbar^2}{4m^2}G(\mathbf{x})(\Sigma^{-1})_{ij}$.
@@ -99,13 +101,13 @@ flowchart TD
 
 | Structure Name & Module Location | Dimension & Space | Core Fields & Positivity Guards | Primary Physical & Mathematical Role |
 |---|---|---|---|
-| [`NormedTensorGaussianSplat2D`](../Signals/DDF.lean#L2470-L2481) (`Signals.DDF`) | $2\text{D}$ configuration or screen plane $\mathbb{R}^2$ | `centerX`, `centerY`, `weight` ($w \ge 0$), `sigma1` ($\sigma_1 > 0$), `sigma2` ($\sigma_2 > 0$), `orientationAngle` ($\theta \in \mathbb{R}$) | 2D Madelung/orbital/polariton/thermal splat, $Gr_{\mathbb{C}}(2,4)$ twistor wavepacket $\Psi_{\mathrm{splat}}$, and WebGL2 screen primitive |
-| [`NormedTensorGaussianSplat3D`](../Signals/DDF.lean#L5229-L5244) (`Signals.DDF`) | $3\text{D}$ bulk space $\mathbb{R}^3$ | `centerX`, `centerY`, `centerZ`, `weight` ($w \ge 0$), `sigma1`, `sigma2`, `sigma3` ($\sigma_i > 0$), `orientationAngle` ($\theta$), `pitchAngle` ($\psi$) | 3D volumetric packet with 3D adaptive splitting and holographic $Gr_{\mathbb{C}}(2,4)$ affine projection to `NormedTensorGaussianSplat2D` |
-| [`TensorGaussianSplat`](../Signals/Pending.lean#L813-L826) (`Signals.Pending`) | $3\text{D}$ velocity space $\mathbb{R}_v^3$ | `species : AtmosphericSpecies`, `meanVelocity : Vector3`, `covariance : Matrix (Fin 3) (Fin 3) ℝ`, `thermalVariance = k_B T / m` | Species-resolved Maxwell–Boltzmann velocity-space Gaussian splat for multi-species atmospheric scavenging (`AtmosphericMixture`) |
+| [`NormedTensorGaussianSplat2D`](../src/signals/Signals/DDF.lean#L2466-L2477) (`Signals.DDF`) | $2\text{D}$ configuration or screen plane $\mathbb{R}^2$ | `centerX`, `centerY`, `weight` ($w \ge 0$), `sigma1` ($\sigma_1 > 0$), `sigma2` ($\sigma_2 > 0$), `orientationAngle` ($\theta \in \mathbb{R}$) | 2D Madelung/orbital/polariton/thermal splat, $Gr_{\mathbb{C}}(2,4)$ twistor wavepacket $\Psi_{\mathrm{splat}}$, and WebGL2 screen primitive |
+| [`NormedTensorGaussianSplat3D`](../src/signals/Signals/DDF.lean#L5225-L5240) (`Signals.DDF`) | $3\text{D}$ bulk space $\mathbb{R}^3$ | `centerX`, `centerY`, `centerZ`, `weight` ($w \ge 0$), `sigma1`, `sigma2`, `sigma3` ($\sigma_i > 0$), `orientationAngle` ($\theta$), `pitchAngle` ($\psi$) | 3D volumetric packet with 3D adaptive splitting and holographic $Gr_{\mathbb{C}}(2,4)$ affine projection to `NormedTensorGaussianSplat2D` |
+| [`TensorGaussianSplat`](../src/signals/Signals/Pending.lean#L813-L826) (`Signals.Pending`) | $3\text{D}$ velocity space $\mathbb{R}_v^3$ | `species : AtmosphericSpecies`, `meanVelocity : Vector3`, `covariance : Matrix (Fin 3) (Fin 3) ℝ`, `thermalVariance = k_B T / m` | Species-resolved Maxwell–Boltzmann velocity-space Gaussian splat for multi-species atmospheric scavenging (`AtmosphericMixture`) |
 
 #### 1.2.1 Exact 2D Definitions (`NormedTensorGaussianSplat2D`)
 
-For a `splat : NormedTensorGaussianSplat2D` ([../Signals/DDF.lean](../Signals/DDF.lean#L2470-L2542)):
+For a `splat : NormedTensorGaussianSplat2D` ([../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L2466-L2538)):
 
 $$
 \det\Sigma_{\mathrm{2D}} = \sigma_1^2\,\sigma_2^2 > 0, \qquad
@@ -124,7 +126,7 @@ $$
 G_{\mathrm{2D}}(x, y) = w\,\mathcal{N}_{\mathrm{2D}}(\Sigma_{\mathrm{2D}})\,\exp\!\left(-\frac{1}{2} Q_{\Sigma_{\mathrm{2D}}}(x, y)\right) \in \bigl[0,\, w\,\mathcal{N}_{\mathrm{2D}}(\Sigma_{\mathrm{2D}})\bigr].
 $$
 
-Its core repulsive Bohm quantum potential and Madelung quantum pressure tensor $\Pi_{ij}(x,y) = -\frac{\hbar^2}{4m^2}G_{\mathrm{2D}}(x,y)\partial_i\partial_j\ln G_{\mathrm{2D}}(x,y)$ ([../Signals/DDF.lean](../Signals/DDF.lean#L2842-L3029)) are:
+Its core repulsive Bohm quantum potential and Madelung quantum pressure tensor $\Pi_{ij}(x,y) = -\frac{\hbar^2}{4m^2}G_{\mathrm{2D}}(x,y)\partial_i\partial_j\ln G_{\mathrm{2D}}(x,y)$ ([../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L2838-L3025)) are:
 
 $$
 Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}) = \frac{\hbar^2}{4m}\left(\frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2}\right) = \frac{\hbar^2\,\operatorname{Tr}\Sigma_{\mathrm{2D}}}{4m\,\det\Sigma_{\mathrm{2D}}} > 0, \qquad
@@ -133,7 +135,7 @@ $$
 
 #### 1.2.2 Exact 3D Definitions (`NormedTensorGaussianSplat3D`)
 
-For a `splat : NormedTensorGaussianSplat3D` ([../Signals/DDF.lean](../Signals/DDF.lean#L5229-L5289)) with unit major axis $\mathbf{u}_1 = (\cos\psi\cos\theta,\, \cos\psi\sin\theta,\, \sin\psi) \in S^2$:
+For a `splat : NormedTensorGaussianSplat3D` ([../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L5225-L5285)) with unit major axis $\mathbf{u}_1 = (\cos\psi\cos\theta,\, \cos\psi\sin\theta,\, \sin\psi) \in S^2$:
 
 $$
 \det\Sigma_{\mathrm{3D}} = \sigma_1^2\,\sigma_2^2\,\sigma_3^2 > 0, \qquad
@@ -153,7 +155,7 @@ Below is the complete, cross-referenced list of simultaneous conservation, holog
 
 ### 2.1 The 9 Simultaneous 2D Adaptive Splat-Splitting Conservation Laws (`NormedTensorGaussianSplat2D.splitMajor_conservation_identities`)
 
-Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L5075-L5225) (Blueprint node `thm:signals-ddf-splat2d-split-major-conservation`) and implemented in Rust in [`NormedTensorGaussianSplat2D::split_if_anisotropic`](../numerical_adapter/src/orbital_splat.rs#L633-L674). For parent `splat` and children `c_plus = splat.splitMajorPlus`, `c_minus = splat.splitMajorMinus` with offset $\delta_1 = \frac{\sqrt{3}}{2}\sigma_1$ and halved major width $\tilde{\sigma}_1 = \sigma_1 / 2$:
+Defined in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L5071-L5221) (Blueprint node `thm:signals-ddf-splat2d-split-major-conservation`) and implemented in Rust in [`NormedTensorGaussianSplat2D::split_if_anisotropic`](../src/signals/numerical_adapter/src/orbital_splat.rs#L633-L674). For parent `splat` and children `c_plus = splat.splitMajorPlus`, `c_minus = splat.splitMajorMinus` with offset $\delta_1 = \frac{\sqrt{3}}{2}\sigma_1$ and halved major width $\tilde{\sigma}_1 = \sigma_1 / 2$:
 
 | # | Law Name | Mathematical Statement | Lean 4 Accessor / Conjunct in `splitMajor_conservation_identities` |
 |---|---|---|---|
@@ -171,28 +173,28 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L5075-L5225) (Blueprint nod
 
 ### 2.2 The 10 Simultaneous 3D Splitting Conservation & Holographic $Gr_{\mathbb{C}}(2,4)$ Affine Projection Laws (`NormedTensorGaussianSplat3D.splitMajor3D_and_holographic_gr24_projection_identities`)
 
-Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L5445-L5660) (Blueprint node `thm:signals-ddf-splat3d-and-holographic-gr24-projection-trick`, comprising 16 formal conjuncts grouped into 10 physical laws) and implemented in Rust in [`NormedTensorGaussianSplat3D::split_if_anisotropic`](../numerical_adapter/src/orbital_splat.rs#L789-L832), [`project_orthographic_2d`](../numerical_adapter/src/orbital_splat.rs#L835-L846), [`project_perspective_2d`](../numerical_adapter/src/orbital_splat.rs#L851-L865), and [`holographic_gr24_depth_invariants`](../numerical_adapter/src/orbital_splat.rs#L877-L887):
+Defined in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L5441-L5656) (Blueprint node `thm:signals-ddf-splat3d-and-holographic-gr24-projection-trick`, comprising 16 formal conjuncts grouped into 10 physical laws) and implemented in Rust in [`NormedTensorGaussianSplat3D::split_if_anisotropic`](../src/signals/numerical_adapter/src/orbital_splat.rs#L789-L832), [`project_orthographic_2d`](../src/signals/numerical_adapter/src/orbital_splat.rs#L835-L846), [`project_perspective_2d`](../src/signals/numerical_adapter/src/orbital_splat.rs#L851-L865), and [`holographic_gr24_depth_invariants`](../src/signals/numerical_adapter/src/orbital_splat.rs#L877-L887):
 
-| Law # | Physical & Geometric Law | Mathematical Identity | Lean 4 Source & Conjunct(s) in [../Signals/DDF.lean](../Signals/DDF.lean#L5445-L5515) |
+| Law # | Physical & Geometric Law | Mathematical Identity | Lean 4 Source & Conjunct(s) in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L5441-L5511) |
 |---|---|---|---|
-| **Law 1** | **3D $L^1(\mathbb{R}^3)$ Mass/Weight Conservation** | $w_+ + w_- = w$ | `h3d.1` ([line 5480](../Signals/DDF.lean#L5484)) |
-| **Law 2** | **3D Center-of-Mass Vector Conservation** | $\frac{x_+ + x_-}{2} = x_c, \quad \frac{y_+ + y_-}{2} = y_c, \quad \frac{z_+ + z_-}{2} = z_c$ | `h3d.2.1`, `h3d.2.2.1`, `h3d.2.2.2.1` ([lines 5481–5483](../Signals/DDF.lean#L5485-L5487)) |
-| **Law 3** | **3D Spherical-Harmonic $(\theta, \psi)$ Major-Axis Second-Moment Conservation** | $(x_+ - x_c)^2 + (y_+ - y_c)^2 + (z_+ - z_c)^2 + \tilde{\sigma}_1^2 = \sigma_1^2$ via $\cos^2\psi(\cos^2\theta + \sin^2\theta) + \sin^2\psi = 1$ and $\left(\frac{\sqrt{3}}{2}\right)^2 + \left(\frac{1}{2}\right)^2 = 1$ | `h3d.2.2.2.2.1` ([lines 5484–5487](../Signals/DDF.lean#L5488-L5491)) |
-| **Law 4** | **3D Covariance Volume Quartering** | $\det\Sigma_{\mathrm{3D},+} = \tilde{\sigma}_1^2\sigma_2^2\sigma_3^2 = \frac{1}{4}\det\Sigma_{\mathrm{3D}}$ | `h3d.2.2.2.2.2.1` ([line 5488](../Signals/DDF.lean#L5492)) |
-| **Law 5** | **Dimension-Independent Core Bohm Refinement Increment & Strict Amplification** | $Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D},+}) - Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = \frac{3\hbar^2}{4m\sigma_1^2} > 0$ (identical to the 2D increment because $\sigma_2^{-2} + \sigma_3^{-2}$ cancels!) | `h3d.2.2.2.2.2.2.1` & `h3d.2.2.2.2.2.2.2.1` ([lines 5489–5491](../Signals/DDF.lean#L5493-L5495)) |
-| **Law 6** | **Holographic 3D-to-2D Additive Core Bohm Potential Decomposition** | $Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}) + \operatorname{continuumBohmPotentialMode}\!\left(m, \hbar, \frac{1}{\sqrt{2}\sigma_3}\right)$ | `h3d.2.2.2.2.2.2.2.2.1` ([lines 5492–5494](../Signals/DDF.lean#L5496-L5498)) |
-| **Law 7** | **Perspective / Poincaré AdS Bulk-to-Boundary Covariance & Bohm RG Scaling** | $\det\Sigma_{\mathrm{2D}}^{\mathrm{persp}} = \left(\frac{f}{z_c}\right)^4 \frac{\det\Sigma_{\mathrm{3D}}}{\sigma_3^2}, \qquad Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{persp}}) = \left(\frac{z_c}{f}\right)^2 Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}})$ | `h3d.2.2.2.2.2.2.2.2.2.1` & `h3d.2.2.2.2.2.2.2.2.2.2.1` ([lines 5495–5497](../Signals/DDF.lean#L5499-L5501)) |
-| **Law 8** | **Strict Depth-Invariance of Projective $Gr_{\mathbb{C}}(2,4)$ Lateral Anisotropy** | $\frac{\sigma_{1,\mathrm{persp}}^2 - \sigma_{2,\mathrm{persp}}^2}{\sigma_{1,\mathrm{persp}}^2 + \sigma_{2,\mathrm{persp}}^2} = \frac{\sigma_1^2 - \sigma_2^2}{\sigma_1^2 + \sigma_2^2}$ (independent of bulk depth $z_c$ and focal scale $f$) | `h3d.2.2.2.2.2.2.2.2.2.2.2.1` ([lines 5498–5501](../Signals/DDF.lean#L5502-L5505)) |
-| **Law 9** | **Exact Commutativity of In-Plane ($\psi = 0$) 3D Splitting and 2D Projection** | $\psi = 0 \implies (\text{splat}.\mathrm{splitMajorPlus}).\mathrm{projectOrthographic2D} = (\text{splat}.\mathrm{projectOrthographic2D}).\mathrm{splitMajorPlus}$ | `h3d.2.2.2.2.2.2.2.2.2.2.2.2.1` ([lines 5502–5503](../Signals/DDF.lean#L5506-L5507)) |
-| **Law 10** | **Holographic $Gr_{\mathbb{C}}(2,4)$ Plücker Channel Recovery of the 3rd Principal Variance $\sigma_3^2$** | $\delta_{\mathrm{depth}} = \frac{(\sigma_1^2 + \sigma_2^2) - \sigma_3^2}{(\sigma_1^2 + \sigma_2^2) + \sigma_3^2} \in (-1, 1) \quad\text{and}\quad \frac{\|w_A^{\mathbb{C}}(M_{\mathrm{depth}})\|^2}{\|w_B^{\mathbb{C}}(M_{\mathrm{depth}})\|^2} = \frac{\sigma_1^2 + \sigma_2^2}{\sigma_3^2}$ | `h3d.2.2.2.2.2.2.2.2.2.2.2.2.2.1`, `.2.1`, & `.2.2` ([lines 5504–5509](../Signals/DDF.lean#L5508-L5513)) |
+| **Law 1** | **3D $L^1(\mathbb{R}^3)$ Mass/Weight Conservation** | $w_+ + w_- = w$ | `h3d.1` ([line 5480](../src/signals/Signals/DDF.lean#L5480)) |
+| **Law 2** | **3D Center-of-Mass Vector Conservation** | $\frac{x_+ + x_-}{2} = x_c, \quad \frac{y_+ + y_-}{2} = y_c, \quad \frac{z_+ + z_-}{2} = z_c$ | `h3d.2.1`, `h3d.2.2.1`, `h3d.2.2.2.1` ([lines 5481–5483](../src/signals/Signals/DDF.lean#L5481-L5483)) |
+| **Law 3** | **3D Spherical-Harmonic $(\theta, \psi)$ Major-Axis Second-Moment Conservation** | $(x_+ - x_c)^2 + (y_+ - y_c)^2 + (z_+ - z_c)^2 + \tilde{\sigma}_1^2 = \sigma_1^2$ via $\cos^2\psi(\cos^2\theta + \sin^2\theta) + \sin^2\psi = 1$ and $\left(\frac{\sqrt{3}}{2}\right)^2 + \left(\frac{1}{2}\right)^2 = 1$ | `h3d.2.2.2.2.1` ([lines 5484–5487](../src/signals/Signals/DDF.lean#L5484-L5487)) |
+| **Law 4** | **3D Covariance Volume Quartering** | $\det\Sigma_{\mathrm{3D},+} = \tilde{\sigma}_1^2\sigma_2^2\sigma_3^2 = \frac{1}{4}\det\Sigma_{\mathrm{3D}}$ | `h3d.2.2.2.2.2.1` ([line 5488](../src/signals/Signals/DDF.lean#L5488)) |
+| **Law 5** | **Dimension-Independent Core Bohm Refinement Increment & Strict Amplification** | $Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D},+}) - Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = \frac{3\hbar^2}{4m\sigma_1^2} > 0$ (identical to the 2D increment because $\sigma_2^{-2} + \sigma_3^{-2}$ cancels!) | `h3d.2.2.2.2.2.2.1` & `h3d.2.2.2.2.2.2.2.1` ([lines 5489–5491](../src/signals/Signals/DDF.lean#L5489-L5491)) |
+| **Law 6** | **Holographic 3D-to-2D Additive Core Bohm Potential Decomposition** | $Q_{\mathrm{core,3D}}(\Sigma_{\mathrm{3D}}) = Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}) + \operatorname{continuumBohmPotentialMode}\!\left(m, \hbar, \frac{1}{\sqrt{2}\sigma_3}\right)$ | `h3d.2.2.2.2.2.2.2.2.1` ([lines 5492–5494](../src/signals/Signals/DDF.lean#L5492-L5494)) |
+| **Law 7** | **Perspective / Poincaré AdS Bulk-to-Boundary Covariance & Bohm RG Scaling** | $\det\Sigma_{\mathrm{2D}}^{\mathrm{persp}} = \left(\frac{f}{z_c}\right)^4 \frac{\det\Sigma_{\mathrm{3D}}}{\sigma_3^2}, \qquad Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{persp}}) = \left(\frac{z_c}{f}\right)^2 Q_{\mathrm{core,2D}}(\Sigma_{\mathrm{2D}}^{\mathrm{ortho}})$ | `h3d.2.2.2.2.2.2.2.2.2.1` & `h3d.2.2.2.2.2.2.2.2.2.2.1` ([lines 5495–5497](../src/signals/Signals/DDF.lean#L5495-L5497)) |
+| **Law 8** | **Strict Depth-Invariance of Projective $Gr_{\mathbb{C}}(2,4)$ Lateral Anisotropy** | $\frac{\sigma_{1,\mathrm{persp}}^2 - \sigma_{2,\mathrm{persp}}^2}{\sigma_{1,\mathrm{persp}}^2 + \sigma_{2,\mathrm{persp}}^2} = \frac{\sigma_1^2 - \sigma_2^2}{\sigma_1^2 + \sigma_2^2}$ (independent of bulk depth $z_c$ and focal scale $f$) | `h3d.2.2.2.2.2.2.2.2.2.2.2.1` ([lines 5498–5501](../src/signals/Signals/DDF.lean#L5498-L5501)) |
+| **Law 9** | **Exact Commutativity of In-Plane ($\psi = 0$) 3D Splitting and 2D Projection** | $\psi = 0 \implies (\text{splat}.\mathrm{splitMajorPlus}).\mathrm{projectOrthographic2D} = (\text{splat}.\mathrm{projectOrthographic2D}).\mathrm{splitMajorPlus}$ | `h3d.2.2.2.2.2.2.2.2.2.2.2.2.1` ([lines 5502–5503](../src/signals/Signals/DDF.lean#L5502-L5503)) |
+| **Law 10** | **Holographic $Gr_{\mathbb{C}}(2,4)$ Plücker Channel Recovery of the 3rd Principal Variance $\sigma_3^2$** | $\delta_{\mathrm{depth}} = \frac{(\sigma_1^2 + \sigma_2^2) - \sigma_3^2}{(\sigma_1^2 + \sigma_2^2) + \sigma_3^2} \in (-1, 1) \quad\text{and}\quad \frac{\|w_A^{\mathbb{C}}(M_{\mathrm{depth}})\|^2}{\|w_B^{\mathbb{C}}(M_{\mathrm{depth}})\|^2} = \frac{\sigma_1^2 + \sigma_2^2}{\sigma_3^2}$ | `h3d.2.2.2.2.2.2.2.2.2.2.2.2.2.1`, `.2.1`, & `.2.2` ([lines 5504–5509](../src/signals/Signals/DDF.lean#L5504-L5509)) |
 
 ---
 
 ### 2.3 The 11 Simultaneous Inversion-Free Schur–Plücker & Momentum-Twistor Shear Laws (`schur_plucker_inversion_free_and_twistor_vane_identities`)
 
-Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L5748-L5864) (Blueprint node `thm:signals-ddf-schur-plucker-inversion-free-identities`) and implemented in Rust in [`schur_plucker_inversion_free_volume`](../numerical_adapter/src/orbital_splat.rs#L896-L914), resolving Prompts 16–18 of [LBGPC-Fluid-Datacenter-Energy-Savings.myst.md](../../../docs/chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md#L2218-L2462):
+Defined in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L5744-L5860) (Blueprint node `thm:signals-ddf-schur-plucker-inversion-free-identities`) and implemented in Rust in [`schur_plucker_inversion_free_volume`](../src/signals/numerical_adapter/src/orbital_splat.rs#L896-L914), resolving Prompts 16–18 of [LBGPC-Fluid-Datacenter-Energy-Savings.myst.md](chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md#L2218-L2462):
 
-| # | Identity / Law | Mathematical Formula | Lean 4 Source & Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L5748-L5772) |
+| # | Identity / Law | Mathematical Formula | Lean 4 Source & Conjunct in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L5744-L5768) |
 |---|---|---|---|
 | **SP-1** | **Impeller $4 \times 4$ Shear Jacobian Determinant** | $\det J(s, \tau) = 1 - \tau^2$ (invariant under in-plane laminar shear $s$) | `h_schur.1` |
 | **SP-2** | **Sheared $4 \times 4$ Covariance Determinant** | $\det\Sigma_{4\times 4} = \det(J(s,\tau)J(s,\tau)^T) = (1 - \tau^2)^2$ | `h_schur.2.1` |
@@ -210,9 +212,9 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L5748-L5864) (Blueprint nod
 
 ### 2.4 The 11 Simultaneous Holographic $Gr_{\mathbb{C}}(2,4)$ Imaging Depth-Recovery & Convergent-Beam Laws (`holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities`)
 
-Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L5942-L6069) (Blueprint node `thm:signals-ddf-holographic-gr24-imaging-depth-recovery`) and analyzed in detail in our companion imaging paper [grassmannian-holographic-imaging-depth-recovery-paper.md](grassmannian-holographic-imaging-depth-recovery-paper.md):
+Defined in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L5938-L6065) (Blueprint node `thm:signals-ddf-holographic-gr24-imaging-depth-recovery`) and analyzed in detail in our companion imaging paper [grassmannian-holographic-imaging-depth-recovery-paper.md](grassmannian-holographic-imaging-depth-recovery-paper.md):
 
-| # | Imaging & Convergent-Beam Law | Mathematical Formula | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L5955-L5976) |
+| # | Imaging & Convergent-Beam Law | Mathematical Formula | Lean 4 Conjunct in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L5951-L5972) |
 |---|---|---|---|
 | **IM-1** | **Exact Inversion of Unseen 3rd Principal Variance $\sigma_3^2$** | $\operatorname{recoverDepthVarianceSq}(\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}, R_{\mathrm{depth}}) = \frac{\sigma_1^2 + \sigma_2^2}{R_{\mathrm{depth}}} = \sigma_3^2$ | `h_img.1` |
 | **IM-2** | **Full 3D Covariance Trace Recovery from 2D Screen Data** | $\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} + \sigma_{3,\mathrm{rec}}^2 = \operatorname{Tr}\Sigma_{\mathrm{3D}}$ | `h_img.2.1` |
@@ -230,9 +232,9 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L5942-L6069) (Blueprint nod
 
 ### 2.5 The 12 Simultaneous Higher-Rank $Gr_{\mathbb{C}}(3, 6)$ Direct 3D Volumetric Splat Imaging & Plücker Syzygy Laws (`NormedTensorGaussianSplat3D.gr36_volumetric_imaging_and_plucker_identities`)
 
-Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6128-L6215) (Blueprint node `thm:signals-ddf-gr36-volumetric-imaging-identities`) and implemented in Rust in [`NormedTensorGaussianSplat3D::gr36_volumetric_invariants`](../numerical_adapter/src/orbital_splat.rs#L891-L904). Embedding a 3D normed tensor Gaussian splat directly into $Gr_{\mathbb{C}}(3, 6)$ via $M_3 = \bigl[\,I_3 \;\big|\; \operatorname{diag}(\sigma_1 e^{i\phi_1},\, \sigma_2 e^{i\phi_2},\, \sigma_3 e^{i\phi_3})\,\bigr]$ (`splat.gr36TwistorMatrix`) encodes all 1D, 2D, and 3D covariance invariants into $3\times 3$ Plücker minors $\Delta_{ijk}^{\mathbb{C}}(M_3)$ (`complexThreeRowMinor`):
+Defined in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L6124-L6211) (Blueprint node `thm:signals-ddf-gr36-volumetric-imaging-identities`) and implemented in Rust in [`NormedTensorGaussianSplat3D::gr36_volumetric_invariants`](../src/signals/numerical_adapter/src/orbital_splat.rs#L891-L904). Embedding a 3D normed tensor Gaussian splat directly into $Gr_{\mathbb{C}}(3, 6)$ via $M_3 = \bigl[\,I_3 \;\big|\; \operatorname{diag}(\sigma_1 e^{i\phi_1},\, \sigma_2 e^{i\phi_2},\, \sigma_3 e^{i\phi_3})\,\bigr]$ (`splat.gr36TwistorMatrix`) encodes all 1D, 2D, and 3D covariance invariants into $3\times 3$ Plücker minors $\Delta_{ijk}^{\mathbb{C}}(M_3)$ (`complexThreeRowMinor`):
 
-| # | Higher-Rank $Gr_{\mathbb{C}}(3,6)$ Volumetric Law | Mathematical Identity in $3\times 3$ Plücker Minors | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6133-L6169) |
+| # | Higher-Rank $Gr_{\mathbb{C}}(3,6)$ Volumetric Law | Mathematical Identity in $3\times 3$ Plücker Minors | Lean 4 Conjunct in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L6129-L6165) |
 |---|---|---|---|
 | **G3-V1** | **Principal 1st-Axis Variance Minor** | $\bigl\|\Delta_{045}^{\mathbb{C}}(M_3)\bigr\|^2 = \sigma_1^2$ | `h_vol.1` |
 | **G3-V2** | **Principal 2nd-Axis Variance Minor** | $\bigl\|\Delta_{315}^{\mathbb{C}}(M_3)\bigr\|^2 = \sigma_2^2$ | `h_vol.2.1` |
@@ -251,7 +253,7 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6128-L6215) (Blueprint nod
 
 ### 2.6 The 24 Simultaneous Higher-Rank $Gr_{\mathbb{C}}(3, 6)$ Splitting Conservation, Holographic Perspective Projection, and Inversion-Free Schur–Plücker Laws (`NormedTensorGaussianSplat3D.gr36_simultaneous_conservation_holographic_projection_and_schur_identities`)
 
-Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6369-L6585) (Blueprint node `thm:signals-ddf-gr36-simultaneous-conservation-projection-schur`) and implemented in Rust in [`NormedTensorGaussianSplat3D::gr36_perspective_invariants`](../numerical_adapter/src/orbital_splat.rs#L909-L931) and [`gr36_schur_shear_invariants`](../numerical_adapter/src/orbital_splat.rs#L938-L958). Let:
+Defined in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L6365-L6593) (Blueprint node `thm:signals-ddf-gr36-simultaneous-conservation-projection-schur`) and implemented in Rust in [`NormedTensorGaussianSplat3D::gr36_perspective_invariants`](../src/signals/numerical_adapter/src/orbital_splat.rs#L909-L931) and [`gr36_schur_shear_invariants`](../src/signals/numerical_adapter/src/orbital_splat.rs#L938-L958). Let:
 - $M_3 = \text{splat}.\mathrm{gr36TwistorMatrix}(\phi_1, \phi_2, \phi_3)$ be the parent $Gr_{\mathbb{C}}(3,6)$ twistor frame,
 - $M_{3,+} = c_+.\mathrm{gr36TwistorMatrix}(\phi_1, \phi_2, \phi_3)$ and $M_{3,-} = c_-.\mathrm{gr36TwistorMatrix}(\phi_1, \phi_2, \phi_3)$ be the two-child 3D split $Gr_{\mathbb{C}}(3,6)$ frames (`c_plus = splat.splitMajorPlus`, `c_minus = splat.splitMajorMinus`),
 - $M_3^{\mathrm{persp}} = \text{splat}.\mathrm{gr36PerspectiveTwistorMatrix}(f, \phi_1, \phi_2, \phi_3)$ be the perspective-projected $Gr_{\mathbb{C}}(3,6)$ frame with lateral focal scaling $s = f / z_c$, and
@@ -259,7 +261,7 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6369-L6585) (Blueprint nod
 
 #### Part I — $Gr_{\mathbb{C}}(3,6)$ Adaptive 3D Two-Child Splat-Splitting Conservation (`G3-SC1` to `G3-SC11`)
 
-| # | $Gr_{\mathbb{C}}(3,6)$ Splitting Conservation Law | Mathematical Identity in $3\times 3$ Plücker Minors | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6388-L6409) |
+| # | $Gr_{\mathbb{C}}(3,6)$ Splitting Conservation Law | Mathematical Identity in $3\times 3$ Plücker Minors | Lean 4 Conjunct in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L6384-L6417) |
 |---|---|---|---|
 | **G3-SC1** | **Child Major-Minor Symmetry ($M_{3,+}$ vs. $M_{3,-}$)** | $\bigl\|\Delta_{045}^{\mathbb{C}}(M_{3,+})\bigr\|^2 = \bigl\|\Delta_{045}^{\mathbb{C}}(M_{3,-})\bigr\|^2$ | `h.1` |
 | **G3-SC2** | **Major-Axis $Gr_{\mathbb{C}}(3,6)$ Minor Quartering** | $\bigl\|\Delta_{045}^{\mathbb{C}}(M_{3,+})\bigr\|^2 = \frac{1}{4}\bigl\|\Delta_{045}^{\mathbb{C}}(M_3)\bigr\|^2$ | `h.2.1` |
@@ -275,7 +277,7 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6369-L6585) (Blueprint nod
 
 #### Part II — $Gr_{\mathbb{C}}(3,6)$ Holographic Perspective Projection & Tomographic Depth Recovery (`G3-HP1` to `G3-HP6`)
 
-| # | $Gr_{\mathbb{C}}(3,6)$ Holographic Projection Law | Mathematical Identity in $3\times 3$ Plücker Minors | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6410-L6434) |
+| # | $Gr_{\mathbb{C}}(3,6)$ Holographic Projection Law | Mathematical Identity in $3\times 3$ Plücker Minors | Lean 4 Conjunct in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L6418-L6442) |
 |---|---|---|---|
 | **G3-HP1** | **Perspective 2D Screen Determinant Minor Identity** | $\bigl\|\Delta_{015}^{\mathbb{C}}(M_3^{\mathrm{persp}})\bigr\|^2 = \det\Sigma_{\mathrm{2D}}^{\mathrm{persp}}$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.1` |
 | **G3-HP2** | **Poincaré / EWA $(f/z_c)^4$ Scaling of Transverse $Gr_{\mathbb{C}}(3,6)$ Area Minor** | $\bigl\|\Delta_{015}^{\mathbb{C}}(M_3^{\mathrm{persp}})\bigr\|^2 = \left(\frac{f}{z_c}\right)^4 \bigl\|\Delta_{015}^{\mathbb{C}}(M_3)\bigr\|^2$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
@@ -286,7 +288,7 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6369-L6585) (Blueprint nod
 
 #### Part III — $Gr_{\mathbb{C}}(3,6)$ Inversion-Free Schur–Plücker Determinant Calculus (`G3-SP1` to `G3-SP7`)
 
-| # | $Gr_{\mathbb{C}}(3,6)$ Schur–Plücker Law | Mathematical Identity in $3\times 3$ Plücker Minors | Lean 4 Conjunct in [../Signals/DDF.lean](../Signals/DDF.lean#L6435-L6457) |
+| # | $Gr_{\mathbb{C}}(3,6)$ Schur–Plücker Law | Mathematical Identity in $3\times 3$ Plücker Minors | Lean 4 Conjunct in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L6443-L6465) |
 |---|---|---|---|
 | **G3-SP1** | **Forward Shear Eigen-Channel Minor ($1 + \tau$)** | $\bigl\|\Delta_{045}^{\mathbb{C}}(M_{3,\tau})\bigr\|^2 = 1 + \tau$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
 | **G3-SP2** | **Backward Shear Eigen-Channel Minor ($1 - \tau$)** | $\bigl\|\Delta_{315}^{\mathbb{C}}(M_{3,\tau})\bigr\|^2 = 1 - \tau$ | `h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1` |
@@ -302,7 +304,7 @@ Defined in [../Signals/DDF.lean](../Signals/DDF.lean#L6369-L6585) (Blueprint nod
 
 ### 3.1 LeanArchitect Blueprint Node Registry (`Signals.DDF`)
 
-Every definition and theorem in the 2D and 3D Tensor Gaussian Splat hierarchy is annotated with LeanArchitect's `@[blueprint "..."]` attribute in [../Signals/DDF.lean](../Signals/DDF.lean) and indexed by `\inputleanmodule{Signals.DDF}` in [../blueprint/src/content.tex](../blueprint/src/content.tex#L247):
+Every definition and theorem in the 2D and 3D Tensor Gaussian Splat hierarchy is annotated with LeanArchitect's `@[blueprint "..."]` attribute in [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean) and indexed by `\inputleanmodule{Signals.DDF}` in [../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex#L247):
 
 | Blueprint Node Label | Lean 4 Declaration | Title / Summary |
 |---|---|---|
@@ -484,49 +486,49 @@ end NormedTensorGaussianSplatPaperVerification
 ## 4. Appendices: Multi-Domain Applications Across the `grassmannian-*-paper.md` Series
 
 ### Appendix A: Coherent Wave Optics, Multi-Slit Interferometry, & OAM Vortex Beams
-- **Companion Paper**: [grassmannian-huygens-double-slit-oam-paper.md](../../../docs/grassmannian-huygens-double-slit-oam-paper.md)
-- **Lean 4 & Rust Sources**: [`Signals.Huygens`](../Signals/Huygens.lean), [`NormedTensorGaussianSplat2D.complexTwistor_representation_identities`](../Signals/DDF.lean#L2775-L2839), [`double_slit.rs`](../numerical_adapter/src/double_slit.rs)
+- **Companion Paper**: [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md)
+- **Lean 4 & Rust Sources**: [`Signals.Huygens`](../src/signals/Signals/Huygens.lean), [`NormedTensorGaussianSplat2D.complexTwistor_representation_identities`](../src/signals/Signals/DDF.lean#L2771-L2835), [`double_slit.rs`](../src/signals/numerical_adapter/src/double_slit.rs)
 - **Application Summary**: Pairing the 2D covariance tensor $\Sigma_{\mathrm{2D}}$ ($\det\Sigma_{\mathrm{2D}} = \sigma_0^4(1 - d_{\mathrm{bary}}^2) = \sigma_0^4\mathcal{V}^2$) with the complex Plücker crossing amplitude $\Psi_{\mathrm{splat}} = \sqrt{G_{\mathrm{2D}}}\,\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}}$ eliminates the $50\%$ on-axis relative error of unphased $Gr_{\ge 0}(2,4)$ density sums and reproduces exact Fraunhofer and OAM Laguerre–Gaussian fringe visibility across $N$-slit apertures.
 
 ### Appendix B: Quantum Inverse Scattering Method (QISM), Bethe Ansatz, & Soliton Bus
-- **Companion Paper**: [grassmannian-qism-bethe-ansatz-paper.md](../../../docs/grassmannian-qism-bethe-ansatz-paper.md)
-- **Lean 4 Sources**: [`Signals.QISM`](../Signals/QISM.lean), [`Signals.SolitonBus`](../Signals/SolitonBus.lean)
+- **Companion Paper**: [grassmannian-qism-bethe-ansatz-paper.md](grassmannian-qism-bethe-ansatz-paper.md)
+- **Lean 4 Sources**: [`Signals.QISM`](../src/signals/Signals/QISM.lean), [`Signals.SolitonBus`](../src/signals/Signals/SolitonBus.lean)
 - **Application Summary**: $GL(2)$ gauge transformations $M \mapsto B M$ on $Gr_{\mathbb{C}}(2,4)$ act on Gaussian wavepackets as symplectic covariance updates $\Sigma \mapsto B\Sigma B^T$, while non-singular covariance determinants ($\det\Sigma > 0$) provide the continuum phase-space counterpart to Mukhin–Tarasov–Varchenko Casorati Wronskian nondegeneracy.
 
 ### Appendix C: Dilatant Dark Fluid (DDF) Moving Sheaths, Anosov Flows, & Datacenter Impeller CFD
-- **Companion Papers**: [grassmannian-ddf-moving-sheath-paper.md](../../../docs/grassmannian-ddf-moving-sheath-paper.md), [grassmannian-splat-mechanics-paper.md](../../../docs/grassmannian-splat-mechanics-paper.md)
-- **Chat Provenance**: [LBGPC-Fluid-Datacenter-Energy-Savings.myst.md, lines 2218–2462](../../../docs/chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md#L2218-L2462); [Grassmannian Splat Mechanics and Vortex Space Emergence.md, lines 658–691](../../../data/chats/Grassmannian%20Splat%20Mechanics%20and%20Vortex%20Space%20Emergence.md#L658-L691)
-- **Lean 4 & Rust Sources**: [`MovingSheath.ddfTensorSplat`](../Signals/DDF.lean#L2596), [`schur_plucker_inversion_free_and_twistor_vane_identities`](../Signals/DDF.lean#L5748), [`orbital_splat.rs`](../numerical_adapter/src/orbital_splat.rs#L896)
+- **Companion Papers**: [grassmannian-ddf-moving-sheath-paper.md](grassmannian-ddf-moving-sheath-paper.md), [grassmannian-splat-mechanics-paper.md](grassmannian-splat-mechanics-paper.md)
+- **Chat Provenance**: [LBGPC-Fluid-Datacenter-Energy-Savings.myst.md, lines 2218–2462](chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md#L2218-L2462); [Grassmannian Splat Mechanics and Vortex Space Emergence.md, lines 658–691](../data/chats/Grassmannian%20Splat%20Mechanics%20and%20Vortex%20Space%20Emergence.md#L658-L691)
+- **Lean 4 & Rust Sources**: [`MovingSheath.ddfTensorSplat`](../src/signals/Signals/DDF.lean#L2592), [`schur_plucker_inversion_free_and_twistor_vane_identities`](../src/signals/Signals/DDF.lean#L5744), [`orbital_splat.rs`](../src/signals/numerical_adapter/src/orbital_splat.rs#L896)
 - **Application Summary**: Under Lorentz jamming $\gamma_\varphi(v) = (1 - v^2/c^2)^{-1/2}$, longitudinal splat contraction $\sigma_1 = \sigma_0/\gamma_\varphi(v)$ amplifies the repulsive core Bohm potential by $\gamma_\varphi(v)^2 + 1$ and the longitudinal Madelung quantum stress by $\Pi_{11}^{\mathrm{DDF}}/\Pi_{22}^{\mathrm{DDF}} = \gamma_\varphi(v)^2$. When Anosov stretching elongates a splat past `max_aspect_ratio`, 2D/3D `split_if_anisotropic` remeshes it while conserving mass, center of mass, and second-moment variance. For 4D-to-3D impeller shear projections, `schurComplement3DVolume` replaces $4\times 4$ matrix multiplications and `pinv(D)` with the $O(1)$ Plücker channel product $(1-\tau^2)^2/(1+\tau^2)$.
 
 ### Appendix D: Relativistic Planetary Orbits, BCJ Double Copy, & $N$-Body Sink Gravity
-- **Companion Paper**: [grassmannian-gravity-from-qed-scattering-paper.md](../../../docs/grassmannian-gravity-from-qed-scattering-paper.md)
-- **Lean 4 & Rust Sources**: [`PlanetaryOrbit.gr24TensorSplat`](../Signals/DDF.lean#L2665), [`OrbitalSplatScene`](../numerical_adapter/src/orbital_splat.rs#L676), [`orbital_splat.frag.glsl`](../numerical_adapter/src/shaders/orbital_splat.frag.glsl)
+- **Companion Paper**: [grassmannian-gravity-from-qed-scattering-paper.md](grassmannian-gravity-from-qed-scattering-paper.md)
+- **Lean 4 & Rust Sources**: [`PlanetaryOrbit.gr24TensorSplat`](../src/signals/Signals/DDF.lean#L2661), [`OrbitalSplatScene`](../src/signals/numerical_adapter/src/orbital_splat.rs#L676), [`orbital_splat.frag.glsl`](../src/signals/numerical_adapter/src/shaders/orbital_splat.frag.glsl)
 - **Application Summary**: Encoding orbital eccentricity $e \in [0, 1)$ into $\sigma_{1,2} = \sigma_0\sqrt{1\pm e}$ yields $\operatorname{Tr}\Sigma = 2\sigma_0^2$ and $\det\Sigma = \sigma_0^4(1-e^2) = \sigma_0^4(p/a)$, while rotating $\theta = \varpi(t)$ tracks relativistic perihelion precession ($42.98''/\text{cy}$ for Mercury) in real-time WebGL2 shaders.
 
 ### Appendix E: Inverse Compton, Raman Scattering, & Cattaneo–Vernotte Second-Sound Heat Splatting
-- **Companion Paper**: [grassmannian-thermal-compton-raman-paper.md](../../../docs/grassmannian-thermal-compton-raman-paper.md)
-- **Lean 4 & Rust Sources**: [`NormedTensorGaussianSplat2D.evolveThermal`](../Signals/DDF.lean#L3503), [`evolveThermal_semigroup_and_bohm_decay`](../Signals/DDF.lean#L3744), [`thermal_inelastic.rs`](../numerical_adapter/src/thermal_inelastic.rs)
+- **Companion Paper**: [grassmannian-thermal-compton-raman-paper.md](grassmannian-thermal-compton-raman-paper.md)
+- **Lean 4 & Rust Sources**: [`NormedTensorGaussianSplat2D.evolveThermal`](../src/signals/Signals/DDF.lean#L3499), [`evolveThermal_semigroup_and_bohm_decay`](../src/signals/Signals/DDF.lean#L3740), [`thermal_inelastic.rs`](../src/signals/numerical_adapter/src/thermal_inelastic.rs)
 - **Application Summary**: Anisotropic thermal diffusion $\sigma_i^2(t+\Delta t) = \sigma_i^2(t) + 2\alpha_i\Delta t$ with DDF longitudinal diffusivity $\alpha_\parallel^{\mathrm{DDF}} = \alpha_0\gamma_\varphi(v)^{-2}$ obeys an exact Chapman–Kolmogorov semigroup law, monotonically relaxes the core Bohm potential, and strictly increases $\det\Sigma(t)$ (Second Law of Thermodynamics) while respecting the subluminal second-sound bound $c_{\mathrm{th}}^{\mathrm{DDF}} \le c$.
 
 ### Appendix F: Polaritons, Surface Plasmon Polaritons (SPPs), & $\chi^{(2)}$ SHG-OPA Squeezed Splats
-- **Companion Paper**: [grassmannian-polariton-spp-mechanics-paper.md](../../../docs/grassmannian-polariton-spp-mechanics-paper.md)
-- **Lean 4 & Rust Sources**: [`sppHotspotTensorSplat`](../Signals/DDF.lean#L4140), [`opaSqueezedTensorSplat`](../Signals/DDF.lean#L4672), [`polariton_spp.rs`](../numerical_adapter/src/polariton_spp.rs)
+- **Companion Paper**: [grassmannian-polariton-spp-mechanics-paper.md](grassmannian-polariton-spp-mechanics-paper.md)
+- **Lean 4 & Rust Sources**: [`sppHotspotTensorSplat`](../src/signals/Signals/DDF.lean#L4136), [`opaSqueezedTensorSplat`](../src/signals/Signals/DDF.lean#L4668), [`polariton_spp.rs`](../src/signals/numerical_adapter/src/polariton_spp.rs)
 - **Application Summary**: Sub-wavelength SPP confinement compresses the splat covariance determinant by $n_{\mathrm{SPP}}^{-4}\kappa_{\mathrm{ratio}}^{-2}$ and boosts the Bohm quantum potential to $\frac{\hbar^2 n_{\mathrm{SPP}}^2(1+\kappa_{\mathrm{ratio}}^2)}{4m\lambda_0^2}$, while $\chi^{(2)}$ resonant OPA squeezing ($\sigma_1 = \sigma_0 e^{r_{\mathrm{sq}}}$, $\sigma_2 = \sigma_0 e^{-r_{\mathrm{sq}}}$) preserves $\det\Sigma_{\mathrm{OPA}} = \sigma_0^4$ and amplifies $\Pi_{22}^{\mathrm{OPA}}/\Pi_{11}^{\mathrm{OPA}} = e^{4r_{\mathrm{sq}}}$.
 
 ### Appendix G: Horizon Holography, Planck UV Bohm Cutoff, & AdS/CFT Holographic RG Flow
-- **Companion Papers**: [grassmannian-holographic-principle-paper.md](../../../docs/grassmannian-holographic-principle-paper.md), [grassmannian-ads-cft-ddf-paper.md](../../../docs/grassmannian-ads-cft-ddf-paper.md)
-- **Lean 4 Sources**: [`holographicPlanckSplat`](../Signals/DDF.lean#L4480), [`adsHolographicRGSplat`](../Signals/DDF.lean#L4866)
+- **Companion Papers**: [grassmannian-holographic-principle-paper.md](grassmannian-holographic-principle-paper.md), [grassmannian-ads-cft-ddf-paper.md](grassmannian-ads-cft-ddf-paper.md)
+- **Lean 4 Sources**: [`holographicPlanckSplat`](../src/signals/Signals/DDF.lean#L4476), [`adsHolographicRGSplat`](../src/signals/Signals/DDF.lean#L4862)
 - **Application Summary**: Tiling an acoustic or gravitational horizon of area $A_H = 4\pi r_H^2$ with Planck-scale tensor splats ($\sigma_1 = \sigma_2 = \ell_P$) enforces a finite UV Bohm potential cutoff $Q_{\mathrm{core}}(\Sigma_{\mathrm{Planck}}) = \frac{\hbar^2}{2m\ell_P^2}$, while bulk-to-boundary Poincaré RG dilation $z \mapsto \lambda_{\mathrm{rg}} z$ scales $\det\Sigma_{\mathrm{IR}} = \lambda_{\mathrm{rg}}^4\det\Sigma_{\mathrm{UV}}$ and $Q_{\mathrm{core}}^{\mathrm{IR}} = \lambda_{\mathrm{rg}}^{-2}Q_{\mathrm{core}}^{\mathrm{UV}}$.
 
 ### Appendix H: Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery in Imaging & Convergent Volumetric Holography
 - **Companion Paper**: [grassmannian-holographic-imaging-depth-recovery-paper.md](grassmannian-holographic-imaging-depth-recovery-paper.md)
-- **Lean 4 Sources**: [`NormedTensorGaussianSplat3D.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities`](../Signals/DDF.lean#L5942), [`LVPDirectConversionImaging`](../Signals/Pending.lean#L743), [`MultiBeamHolographyResult`](../Signals/Pending.lean#L2509)
+- **Lean 4 Sources**: [`NormedTensorGaussianSplat3D.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities`](../src/signals/Signals/DDF.lean#L5938), [`LVPDirectConversionImaging`](../src/signals/Signals/Pending.lean#L743), [`MultiBeamHolographyResult`](../src/signals/Signals/Pending.lean#L2509)
 - **Application Summary**: Recovers the unseen 3rd principal variance $\sigma_3^2$, 3D trace, 3D determinant, 3D core Bohm potential, and focal depth $z_c^2$ of 3D Gaussian voxels from 2D detector planes and dual-channel $Gr_{\mathbb{C}}(2,4)$ Plücker ratios, and combines crossed convergent beams ($\tau_{z,\mathrm{conv}} = \sigma_\parallel^{-2} + \sigma_\perp^{-2}$) with pilot-tone phase conjugation for aberration-free volumetric synthesis and tomography.
 
 ### Appendix I: Atmospheric Species Scavenging & Velocity-Space Tensor Gaussian Splats
-- **Lean 4 Sources**: [`TensorGaussianSplat`](../Signals/Pending.lean#L813), [`AtmosphericMixture`](../Signals/Pending.lean#L829), [`AtmosphericScavenging`](../Signals/Pending.lean#L846)
-- **Chat Provenance**: [Twistors-and-Positive-Grassmannian-Interference.md, lines 279–620](../../../data/chats/Twistors-and-Positive-Grassmannian-Interference.md#L279-L620)
+- **Lean 4 Sources**: [`TensorGaussianSplat`](../src/signals/Signals/Pending.lean#L813), [`AtmosphericMixture`](../src/signals/Signals/Pending.lean#L829), [`AtmosphericScavenging`](../src/signals/Signals/Pending.lean#L846)
+- **Chat Provenance**: [Twistors-and-Positive-Grassmannian-Interference.md, lines 279–620](../data/chats/Twistors-and-Positive-Grassmannian-Interference.md#L279-L620)
 - **Application Summary**: Represents each gas species ($\text{N}_2, \text{O}_2, \text{Ar}, \text{CO}_2$) in a multi-component intake plume as a 3D velocity-space Gaussian splat with thermal variance $\sigma_{v,s}^2 = k_B T_s / m_s$ and bounded gate-overlap acceptance $a_s \in [0, 1]$, keeping species-resolved mass and momentum conservation explicit before any Pending phase-slip homogenization hypothesis.
 
 ---
@@ -536,8 +538,8 @@ end NormedTensorGaussianSplatPaperVerification
 - <a id="kerbl2023"></a> Kerbl, B., Kopanas, G., Leimkühler, T., & Drettakis, G. (2023). 3D Gaussian Splatting for Real-Time Radiance Field Rendering. *ACM Transactions on Graphics (SIGGRAPH 2023)*, 42(4), 139:1–139:14. DOI: `10.1145/3592433`.
 - <a id="zwicker2001"></a> Zwicker, M., Pfister, H., van Baar, J., & Gross, M. (2001). EWA Volume Splatting. *Proceedings of IEEE Visualization 2001*, 29–36. DOI: `10.1109/VISUAL.2001.964490`.
 - <a id="fedi2026"></a> Fedi, M. (2026). Dilatant Dark Fluid: Quantum-Hydrodynamic Lorentz Jamming and Acoustic Horizon Mechanics. *SSRN Electronic Journal*, SSRN 7406660.
-- <a id="splat-chat2026"></a> Provenance Chat Log (2026). *Grassmannian Splat Mechanics and Vortex Space Emergence*. Local corpus: [data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md, lines 658–1435](../../../data/chats/Grassmannian%20Splat%20Mechanics%20and%20Vortex%20Space%20Emergence.md#L658-L1435).
-- <a id="lbgpc-chat2026"></a> Provenance Chat Log (2026). *LBGPC Fluid Datacenter Energy Savings*. Local corpus: [docs/chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md, lines 2218–2518](../../../docs/chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md#L2218-L2518).
+- <a id="splat-chat2026"></a> Provenance Chat Log (2026). *Grassmannian Splat Mechanics and Vortex Space Emergence*. Local corpus: [data/chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md, lines 658–1435](../data/chats/Grassmannian%20Splat%20Mechanics%20and%20Vortex%20Space%20Emergence.md#L658-L1435).
+- <a id="lbgpc-chat2026"></a> Provenance Chat Log (2026). *LBGPC Fluid Datacenter Energy Savings*. Local corpus: [docs/chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md, lines 2218–2518](chats/LBGPC-Fluid-Datacenter-Energy-Savings.myst.md#L2218-L2518).
 
 ```bibtex
 @article{kerbl2023_3dgs,

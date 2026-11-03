@@ -275,9 +275,10 @@ data before making those claims.
 
 Finally, [`src/signals/Signals/QuantumCausalInference.lean`](src/signals/Signals/QuantumCausalInference.lean),
 [`src/signals/numerical_adapter/src/quantum_causal_inference.rs`](src/signals/numerical_adapter/src/quantum_causal_inference.rs),
-and `QuantumCausalMpembaSynthesisContract` / `QuantumCausalBundleVideoGenHypothesis` in [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean)
-(documented in [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](docs/grassmannian-quantum-causal-inference-mpemba-paper.md)
-and [`docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`](docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md))
+and `QuantumCausalMpembaSynthesisContract` / `QuantumCausalBundleVideoGenHypothesis` / `QuantumCausalSurgicalSplatGraphRAGHypothesis` in [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean)
+(documented in [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](docs/grassmannian-quantum-causal-inference-mpemba-paper.md),
+[`docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`](docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md),
+and [`docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md`](docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md))
 formalize Grassmannian causal transfer (`WeightedAcyclicNetwork.transfer_equation`),
 LGV / Trek d-separation bottlenecks ($\det = 0$ vs. $\det > 0$), Pearl's $\operatorname{do}(X)$
 incoming-edge surgery, $\mathrm{Gr}_{\mathbb{C}}(2,4)$ lightcone causality and Quantum Switch
@@ -295,12 +296,16 @@ rebound (`jevonsTotalComputeEnergy`), Zhang (2025, `arXiv:2512.19428`) / `kaneno
 multi-lag Plücker bilinear collapse (`zhang_multi_lag_plucker_sum_collapses_to_single_wedge`)
 and 4D Klein quadric rank-2 vs. cross-lag rank-4 residual (`shared_anchor_vs_cross_lag_klein_quadric`),
 De Clercq (2026) tautological `Bundle-Transformer` morphisms (`tautologicalProjectorVec`,
-`grassmannChordalDistSq`, `ropeFiberRotate`, `ropeCrossFrameInnerProduct`), and linear-in-volume 3D spatiotemporal
+`grassmannChordalDistSq`, `ropeFiberRotate`, `ropeCrossFrameInnerProduct`), linear-in-volume 3D spatiotemporal
 `VideoGen` (`spatiotemporalGrassmannVideoComplexity`, `quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities`,
-`quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities`).
-Keep any hardware "entropy siphoning" refrigeration or QFT/QRAM soliton associative speedup claim in `Signals.Pending` with explicit
+`quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities`), $> 6{,}400\times$ volumetric
+attention & splat-sparse efficiency (`volumetricAttentionEfficiencyRatio`: $13{,}107.2\times$, $104{,}857.6\times$, $640{,}000\times$, $1{,}310{,}720\times > 6{,}400\times$),
+Jeffrey's Kinematic Engine (`jeffreyKinematicUpdate`, `quantumJeffreyPluckerKinematicUpdate`),
+3D Normed Tensor Gaussian Splat nanoimaging & surgical reconstruction (`surgicalSplatVolumetric3DDet`, `surgicalSplatCoreBohm3D`),
+and Quantum Causal Semantic GraphRAG (`quantumCausalGraphRAGScore`, `quantum_causal_volumetric_6400x_splat_jeffrey_and_graphrag_synthesis`).
+Keep any hardware "entropy siphoning" refrigeration, QFT/QRAM soliton associative speedup, or autonomous surgical margin decision claim in `Signals.Pending` with explicit
 closed-loop observer-memory reset ($Q_{\mathrm{closed}} \ge k_B T \ln 2$), $O(L)$ QRAM state-preparation overhead ($T_{\mathrm{prep}} < T_{\mathrm{total}}$), unentangled
-$\operatorname{do}(F=0)$ control subtraction, and bolometer/Kapitza calibration.
+$\operatorname{do}(F=0)$ control subtraction, bolometer/Kapitza calibration, phantom/fiducial registration, and clinician-in-the-loop sign-off.
 
 ## Dilatant Dark Fluid (DDF) Modeling
 

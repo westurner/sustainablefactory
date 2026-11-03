@@ -28,6 +28,7 @@ description: "An arXiv-ready MyST Markdown formal verification paper detailing 2
   10. [Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4](grassmannian-unification-applications-roadmap-paper.md)
   11. [Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plücker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4](grassmannian-holographic-imaging-depth-recovery-paper.md)
   12. [3D Vectorial Wave Model for Longitudinal Polarization ($E_z$) and Higher-Rank $Gr_{\mathbb{C}}(3,n)$ Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4](grassmannian-vectorial-longitudinal-polarization-paper.md)
+  13. [Exceeding $6{,}400\times$ Volumetric Efficiency in 3D Normed Tensor Gaussian Splat Nanoimaging, Surgical Medicine, Jeffrey's Kinematic Engine, and Quantum Causal Semantic GraphRAG in Lean 4 and Rust/WASM](grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md)
 
 ---
 

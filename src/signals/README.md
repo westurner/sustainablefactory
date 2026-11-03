@@ -592,9 +592,15 @@ interpretation while keeping experimental premises explicit:
    `grassmannian_mpemba_projector_werner_threshold_and_ocb_causal_witness_identities`,
    `phase_diagram_complexity_mpemba_and_quantum_causal_synthesis_identities`,
    `quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities`,
-   `quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities`).
-   See [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](../../docs/grassmannian-quantum-causal-inference-mpemba-paper.md)
-   and [`docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`](../../docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md).
+   `quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities`,
+   `volumetric_6400x_efficiency_and_splat_sparse_identities`,
+   `jeffrey_kinematic_engine_classical_and_quantum_plucker_identities`,
+   `surgical_nanoimaging_3d_splat_volumetric_reconstruction_identities`,
+   `quantum_causal_semantic_graphrag_identities`,
+   `quantum_causal_volumetric_6400x_splat_jeffrey_and_graphrag_synthesis`).
+   See [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](../../docs/grassmannian-quantum-causal-inference-mpemba-paper.md),
+   [`docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`](../../docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md),
+   and [`docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md`](../../docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md).
 - `Signals.DDF` Section 30 formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
    Fubini–Study Gross–Pitaevskii Equation (GPE), Dual-Schubert
    $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker

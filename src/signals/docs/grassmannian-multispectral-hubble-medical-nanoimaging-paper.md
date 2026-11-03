@@ -10,19 +10,43 @@ description: "An arXiv-ready MyST Markdown formal verification and multi-modal i
 - **Subjects:**
   - Instrumentation and Methods for Astrophysics (`astro-ph.IM`); Optics (`physics.optics`); Medical Physics (`physics.med-ph`); Applied Physics (`physics.app-ph`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification, FITS Fixtures, & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../Signals/MultiArrayImaging.lean](../Signals/MultiArrayImaging.lean), [../Signals/Plabic.lean](../Signals/Plabic.lean), [../Signals/LayerCodes.lean](../Signals/LayerCodes.lean), [../Signals/DDF.lean](../Signals/DDF.lean), [../Signals/Nanolithography.lean](../Signals/Nanolithography.lean), [../Signals/Pending.lean](../Signals/Pending.lean), [../SignalsTests.lean](../SignalsTests.lean), [../SignalsPendingTests.lean](../SignalsPendingTests.lean))
-  - `Signals` LeanArchitect Blueprint ([../blueprint/src/content.tex](../blueprint/src/content.tex))
-  - `signals-numerical-adapter` Rust/WASM Crate ([../numerical_adapter/src/multi_array_imaging.rs](../numerical_adapter/src/multi_array_imaging.rs))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/MultiArrayImaging.lean](../src/signals/Signals/MultiArrayImaging.lean), [../src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean), [../src/signals/Signals/LayerCodes.lean](../src/signals/Signals/LayerCodes.lean), [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean), [../src/signals/Signals/Nanolithography.lean](../src/signals/Signals/Nanolithography.lean), [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean))
+  - `Signals` LeanArchitect Blueprint ([../src/signals/blueprint/src/content.tex](../src/signals/blueprint/src/content.tex))
+  - `signals-numerical-adapter` Rust/WASM Crate ([../src/signals/numerical_adapter/src/multi_array_imaging.rs](../src/signals/numerical_adapter/src/multi_array_imaging.rs))
+  - Canonical `src/signals/docs/` Mirror: [../src/signals/docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md](../src/signals/docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md)
+
+- **Companion `grassmannian-*-paper.md` Series:**
+  1. [Huygens–Steiner Barycentric Coherence, Complex $Gr_{\mathbb{C}}(2,4)$ Plücker Channels, and Multi-Model Double-Slit & OAM Relative Predictive Error in Lean 4](grassmannian-huygens-double-slit-oam-paper.md)
+  2. [Grassmannian Geometry of the Quantum Inverse Scattering Method, Algebraic Bethe Ansatz, and Inverse Scattering Metrology in Lean 4](grassmannian-qism-bethe-ansatz-paper.md)
+  3. [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ & $N$-ary $Gr_{\mathbb{C}}(2, N+2)$ Unification with Dilatant Dark Fluid (DDF) Moving Sheaths, Plücker Sink Fluxes, Anosov Invariance, and Sorkin Triple-Slit Interferometry in Lean 4](grassmannian-ddf-moving-sheath-paper.md)
+  4. [Grassmannian Gravity from QED & Gauge Scattering Amplitudes: Complex $Gr_{\mathbb{C}}(2,4)$ Orbital Precession, Mercury's Perihelion, $N$-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4](grassmannian-gravity-from-qed-scattering-paper.md)
+  5. [Normed Tensor Gaussian Splat Mechanics for Complex $Gr_{\mathbb{C}}(2,4)$ Twistors: Advantages, Limitations, WebGL2/WASM Practicality, and Unification Across Double-Slit, QISM, DDF, and Planetary Gravity in Lean 4](grassmannian-splat-mechanics-paper.md)
+  6. [Inelastic Scattering and the Heat Problem in Unified Grassmannian–DDF Mechanics: Inverse Compton, Stokes/Anti-Stokes Raman, Fourier vs. Cattaneo–Vernotte, and Subluminal Second-Sound Tensor Splatting in Lean 4](grassmannian-thermal-compton-raman-paper.md)
+  7. [Polaritons and Surface Plasmon Polaritons (SPPs) in Unified Grassmannian–DDF Mechanics: Hopfield–Rabi Anticrossing, Lyddane–Sachs–Teller Reststrahlen Bands, $Gr_{\mathbb{C}}(2,4)$ Evanescent Skin-Depth Duality, and Sub-Wavelength Tensor Splatting in Lean 4](grassmannian-polariton-spp-mechanics-paper.md)
+  8. [The Holographic Principle in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: 't Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4](grassmannian-holographic-principle-paper.md)
+  9. [AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and $\mathfrak{psl}(2|2)_c$ Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4](grassmannian-ads-cft-ddf-paper.md)
+  10. [Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4](grassmannian-unification-applications-roadmap-paper.md)
+  11. [Normed 2D and 3D Tensor Gaussian Splats in Lean 4: Simultaneous Conservation Laws, Holographic $Gr_{\mathbb{C}}(2,4)$ Affine Projection, Inversion-Free Schur–Plücker Calculus, and Multi-Domain Applications](gaussian-splat-tensors-normed-paper.md)
+  12. [Holographic $Gr_{\mathbb{C}}(2,4)$ Depth Recovery and Convergent Multi-Beam Volumetric Imaging: Plücker Axial Variance Inversion, Perspective Range Tomography, and Self-Calibrating Phase Conjugation in Lean 4](grassmannian-holographic-imaging-depth-recovery-paper.md)
+  13. [3D Vectorial Wave Model for Longitudinal Polarization ($E_z$) and Higher-Rank $Gr_{\mathbb{C}}(3,n)$ Volumetric Imaging: Debye–Wolf Counter-Polarization, High-NA Dielectric Metasurfaces, ZRI Collimation vs. Thin-Film ENZ-Lignin Boundary Amplification in Lean 4](grassmannian-vectorial-longitudinal-polarization-paper.md)
+  14. [Epsilon-Near-Zero (ENZ) and Hyperbolic Metamaterials in Unified Grassmannian–DDF Mechanics: `rGO-polyCBD-SS-Lignin` Nanolaminates, Argon/Ionospheric Trivelpiece–Gould Plasma, Denisov Mode Conversion, and CPA-TNSA $p\text{-}^{11}\text{B}$ / $s\text{CO}_2$ Power Ledgers in Lean 4](grassmannian-enz-hyperbolic-metamaterials-paper.md)
+  15. [Holographic $405\text{ nm} / 532\text{ nm}$ Longitudinal Carbon Nanolithography, 6-Stage Linux RISC-V (`CVA6`, `CHERI-CVA6`, & `Ibex`), Volumetric KiCAD/GDSII EDA, and Exothermic Radical-Recombination Physics in Lean 4 and Rust/WASM](grassmannian-riscv-holographic-nanolithography-kicad-paper.md)
+  16. [From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Mechanics](grassmannian-madelung-lagrangian-ddf-jamming-paper.md)
+  17. [Hawking Radiation, Inverse Gross–Pitaevskii (`iGPE`) Unwinding, and Amplituhedron/CP-ALS Decoding in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: With and Without DDF, With and Without Normed Tensor Gaussian Splats in Lean 4](grassmannian-hawking-radiation-decoding-paper.md)
+  18. [Grassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the Mpemba / Entropy-Siphoning Laws in Lean 4 and Rust/WASM](grassmannian-quantum-causal-inference-mpemba-paper.md)
+  19. [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert `iGPE`, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric $\mathcal{Q}_4$ in Lean 4 and Rust/WASM](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md)
+  20. [Quantum Causal Grassmannian Transformers, JEV vs. $\operatorname{do}$-Calculus Decision Models, Tautological Fiber Bundles, and Spatiotemporal Video Generation in Lean 4 and Rust/WASM](grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md)
+  21. [Exceeding $6{,}400\times$ Volumetric Efficiency in 3D Normed Tensor Gaussian Splat Nanoimaging, Surgical Medicine, Jeffrey's Kinematic Engine, and Quantum Causal Semantic GraphRAG in Lean 4 and Rust/WASM](grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md)
 
 ---
 
 ## Abstract
 
-When imaging detectors are tiled side-by-side in 2D mosaics—such as the Hubble Space Telescope's (`HST`) dual $4096 \times 2048$ `ACS/WFC` and dual $4096 \times 2051$ `WFC3/UVIS` CCD arrays (`Google-Search_Hubble-Sensor-Design_20261102-2031.md`, lines 56–90 & 265–345; [STScI ACS IHB 2025](#hubble-acs-ihb2025); [Marinelli & Green 2025](#hubble-wfc3-ihb2025))—or stacked in 3D depth-resolved layers—such as conformal **Lignin-Vitrimer Perovskite (`LVP`)** medical X-ray and phase-contrast detectors (`IQ-Sampling-for-Signal-Phase.md`, lines 5891–6140), **Low-Intensity Focused Ultrasound (`LIFU`)** / **Acousto-Optic Tomography (`AOT`)** / **Time-Reversed Ultrasonically Encoded (`TRUE`)** sub-surface optical arrays ([Xu, Liu, & Wang 2011](#xu2011true); [Vellekoop & Mosk 2007](#vellekoop2007)), and **convergent holographic longitudinal/transverse nanolithography** masks ([grassmannian-riscv-holographic-nanolithography-kicad-paper.md](grassmannian-riscv-holographic-nanolithography-kicad-paper.md))—a central mathematical question arises:
+When imaging detectors are tiled side-by-side in 2D mosaics—such as the Hubble Space Telescope's (`HST`) dual $4096 \times 2048$ `ACS/WFC` and dual $4096 \times 2051$ `WFC3/UVIS` CCD arrays ({download}`Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 56–90 & 265–345 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>`; [STScI ACS IHB 2025](#hubble-acs-ihb2025); [Marinelli & Green 2025](#hubble-wfc3-ihb2025))—or stacked in 3D depth-resolved layers—such as conformal **Lignin-Vitrimer Perovskite (`LVP`)** medical X-ray and phase-contrast detectors ([IQ-Sampling Chat 2026, lines 5891–6140](#lvp-medical-chat2026)), **Low-Intensity Focused Ultrasound (`LIFU`)** / **Acousto-Optic Tomography (`AOT`)** / **Time-Reversed Ultrasonically Encoded (`TRUE`)** sub-surface optical arrays ([Xu, Liu, & Wang 2011](#xu2011true); [Vellekoop & Mosk 2007](#vellekoop2007)), and **convergent holographic longitudinal/transverse nanolithography** masks ([grassmannian-riscv-holographic-nanolithography-kicad-paper.md](grassmannian-riscv-holographic-nanolithography-kicad-paper.md))—a central mathematical question arises:
 
 > **If we layer or tile each type of sensor like Hubble's $2\times$ CCDs, do we also use a real Grassmannian $\mathrm{Gr}_{\mathbb{R}}(4, 6.8 \times 10^6)$ (or $\mathrm{Gr}_{\mathbb{R}}(4, 8.4 \times 10^6)$ / $\mathrm{Gr}_{\mathbb{R}}(4, 16.8 \times 10^6)$), or when must we switch to spectral Grassmannians $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ and complex twistor/array Grassmannians $\mathrm{Gr}_{\mathbb{C}}(2,4)$, $\mathrm{Gr}_{\mathbb{C}}(3,6)$, and $\mathrm{Gr}_{\mathbb{C}}(k, N_{\mathrm{array}})$?**
 
-In this paper, we answer this question with a machine-checked formalization in **Lean 4** (`Signals.MultiArrayImaging` and `MultiModalSubSurfaceImagingHypothesis` in `Signals.Pending`) and a zero-dependency **Rust/WASM** numerical engine (`multi_array_imaging.rs`) tested against official NASA/STScI Hubble FITS observations of the Seyfert 1.5 Active Galactic Nucleus **NGC 4151** (`u5780205r`, `n4hk12010`, `f64y0106m`):
+In this paper, we answer this question with a machine-checked formalization in **Lean 4** (`Signals.MultiArrayImaging` in [../src/signals/Signals/MultiArrayImaging.lean](../src/signals/Signals/MultiArrayImaging.lean) and `MultiModalSubSurfaceImagingHypothesis` in [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean)) and a zero-dependency **Rust/WASM** numerical engine ([../src/signals/numerical_adapter/src/multi_array_imaging.rs](../src/signals/numerical_adapter/src/multi_array_imaging.rs)) tested against official NASA/STScI Hubble FITS observations of the Seyfert 1.5 Active Galactic Nucleus **NGC 4151** (`u5780205r`, `n4hk12010`, `f64y0106m`):
 
 1. **Exact Grassmannian Manifold Selection Across 2D Mosaic & 3D Layered Sensors**:
    - **Intensity-Accumulating Charge Sensors (Hubble CCDs, Direct-Conversion X-Ray Attenuation)**: Operate on unstretched linear electron counts ($I \in \mathbb{R}_{\ge 0}$). A $k = 4$-point dither sequence spans a 4-plane in $\mathrm{Gr}_{\mathbb{R}}(4, N_{\mathrm{pixels}})$, where $N_{\mathrm{chip}} = 4096 \times 2048 = 8{,}388{,}608 \approx 8.4 \times 10^6$ for a single `ACS/WFC` chip ($\dim_{\mathbb{R}} = 33{,}554{,}416$), $N_{\mathrm{mosaic}} = 2 \times 4096 \times 2048 = 16{,}777{,}216 \approx 16.8 \times 10^6$ for the full $2\times$ `ACS/WFC` mosaic ($\dim_{\mathbb{R}} = 67{,}108{,}848$), $16{,}801{,}792$ for `WFC3/UVIS`, and $N_{\mathrm{active}} = 6{,}800{,}000 = 6.8 \times 10^6$ for a cropped/annular aperture or $6.8\text{ MP}$ medical panel ($\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{R}}(4, 6.8 \times 10^6) = 27{,}199{,}984$). Simultaneously, stacking $\Lambda$ spectral filters or $L$ depth layers induces a local **Spectral / Depth-Layer Grassmannian** $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ (e.g., $\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{R}}(3, 10) = 21$ and $\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{R}}(3, 4) = \dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{R}}(1, 4) = 3$), forming the product manifold $\mathrm{Gr}_{\mathbb{R}}(k, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$.
@@ -32,7 +56,7 @@ In this paper, we answer this question with a machine-checked formalization in *
 3. **Flexible `LVP` Medical Arrays, `LIFU` / `AOT` / `TRUE` Sub-Surface Focusing, and $< 1\text{ nm}$ Convergent Nanoimaging**:
    We prove that high-$Z$ `LVP` direct-conversion panels achieve $6.49\times$ higher charge yield per incident diagnostic X-ray photon and $16\times$ stopping efficiency over silicon; formalize non-cavitating `LIFU` ($\mathrm{MI}^2 = 18/77 < 1.9^2$), `AOT` ultrasonic sideband Plücker readout on $\mathrm{Gr}_{\mathbb{C}}(2,4)$, and `TRUE` / `DORT` sub-surface focal compression ($\sigma_{\mathrm{TRUE}}^{(m)\,2} = \sigma_{\mathrm{US}}^2 / m$); and prove the multi-stage resolution cascade from $144.64\text{ nm}$ ($405\text{ nm}$ Abbe limit) and $18.08\text{ nm}$ ($532\text{ nm}$ STED depletion) down to **$0.603\text{ nm}$** (homodyne phase-slope localization at $\mathrm{SNR}_{\mathrm{amp}} = 30$) and **$0.75\text{ nm}$ / $0.50\text{ nm}$ ($5\text{ \AA} < 1\text{ nm}$)** via cascaded hyperbolic/SPP longitudinal metamaterial immersion and multiphoton STED depletion (`cascadedNanoImagingLinewidthSq`).
 4. **From 3D Layer Coding (`QEC.Stabilizer.Codes.Layer` & `Signals.LayerCodes`) to `Signals.Plabic` and Multi-Layer Grassmannian Sensor Cascades (`layer_coding_plabic_lgv_and_multi_array_imaging_identities`)**:
-   We document and formalize how [`Signals.Plabic`](../Signals/Plabic.lean) originated from implementing **3D Layer Coding** (`QEC.Stabilizer.Codes.Layer` in `src/QECLean/QEC/Stabilizer/Codes/Layer.lean` and `LayerCodeLift` in [../Signals/LayerCodes.lean](../Signals/LayerCodes.lean); [Williamson & Baspin 2024](#williamson2024layer); [Layer Coding Chat 2026](#layer-coding-chat2026)). We prove that its bicolored strand-routing permutation (`RotationSystem.boundaryPerm`), guarded serial calibration subdivision (`WeightedAcyclicNetwork.subdivision_boundary`), parallel dither diamond reduction (`diamond_transfer`), shared-hub rank collapse (`singleHubRepresentative_det`), and multi-layer Lindström–Gessel–Viennot (`LGV`) disjoint-path theorems (`lgv_multiLayer_det_prod`, `lgv_multiLayer_det_positive`, `planar_threeChannel_lgv_and_bottleneck_identities`) govern multi-layer detector stacks, explain why a 2-channel screen bottleneck forces $\det(A B) = 0$ on 3D volumetric data, and certify how pairing $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth / `AOT` sideband channels with $\mathrm{Gr}_{\mathbb{C}}(3,6)$ restores full 3D volumetric rank $\det\Sigma_{\mathrm{3D}} = |\Delta_{012}^{\mathbb{C}}(M_3)|^2 > 0$.
+   We document and formalize how [`Signals.Plabic`](../src/signals/Signals/Plabic.lean) originated from implementing **3D Layer Coding** (`QEC.Stabilizer.Codes.Layer` in `src/QECLean/QEC/Stabilizer/Codes/Layer.lean` and `LayerCodeLift` in [../src/signals/Signals/LayerCodes.lean](../src/signals/Signals/LayerCodes.lean); [Williamson & Baspin 2024](#williamson2024layer); [Layer Coding Chat 2026](#layer-coding-chat2026)). We prove that its bicolored strand-routing permutation (`RotationSystem.boundaryPerm`), guarded serial calibration subdivision (`WeightedAcyclicNetwork.subdivision_boundary`), parallel dither diamond reduction (`diamond_transfer`), shared-hub rank collapse (`singleHubRepresentative_det`), and multi-layer Lindström–Gessel–Viennot (`LGV`) disjoint-path theorems (`lgv_multiLayer_det_prod`, `lgv_multiLayer_det_positive`, `planar_threeChannel_lgv_and_bottleneck_identities`) govern multi-layer detector stacks, explain why a 2-channel screen bottleneck forces $\det(A B) = 0$ on 3D volumetric data, and certify how pairing $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth / `AOT` sideband channels with $\mathrm{Gr}_{\mathbb{C}}(3,6)$ restores full 3D volumetric rank $\det\Sigma_{\mathrm{3D}} = |\Delta_{012}^{\mathbb{C}}(M_3)|^2 > 0$.
 
 ---
 
@@ -40,7 +64,7 @@ In this paper, we answer this question with a machine-checked formalization in *
 
 ### 1.1 Why `8.4e6`, `16.8e6`, and `6.8e6` Arise in Hubble and Layered Detector Mosaics
 
-In the Hubble sensor design dialogue ([Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 56–89 & 275–315](../../../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md#L56-L89)) and the official STScI Instrument Handbooks ([STScI ACS IHB 2025](#hubble-acs-ihb2025); [Marinelli & Green 2025](#hubble-wfc3-ihb2025)), Hubble's primary wide-field cameras use **two side-by-side CCD chips** separated by a physical inter-chip gap:
+In the Hubble sensor design dialogue ({download}`Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 56–89 & 275–315 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>`) and the official STScI Instrument Handbooks ([STScI ACS IHB 2025](#hubble-acs-ihb2025); [Marinelli & Green 2025](#hubble-wfc3-ihb2025)), Hubble's primary wide-field cameras use **two side-by-side CCD chips** separated by a physical inter-chip gap:
 
 ```{mermaid}
 flowchart TD
@@ -74,7 +98,7 @@ flowchart TD
 
 ### 1.2 Why Linear 32-Bit Float Data Must Not Be Non-Linearly Stretched Before Grassmannian Optimization
 
-As highlighted in the Hubble FITS Liberator discussion ([Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 600–658](../../../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md#L600-L658)), raw CCD electron counts $X_{e,p} \in \mathbb{R}$ (`_raw.fits`, `BITPIX = -32` IEEE-754 float) are strictly **linear** in photon arrival flux. Applying a visual non-linear stretch ($\operatorname{asinh}(x)$ or $\log(1+x)$) before manifold projection destroys the linear superposition $X = L + S$ ($L \in \mathrm{Gr}_{\mathbb{R}}(k, N_{\mathrm{pixels}})$ low-rank scene subspace, $S$ sparse cosmic-ray anomaly spikes) and invalidates the quadratic Plücker relations. Thus, every sensor pipeline must execute in the strict order:
+As highlighted in the Hubble FITS Liberator discussion ({download}`Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 600–658 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>`), raw CCD electron counts $X_{e,p} \in \mathbb{R}$ (`_raw.fits`, `BITPIX = -32` IEEE-754 float) are strictly **linear** in photon arrival flux. Applying a visual non-linear stretch ($\operatorname{asinh}(x)$ or $\log(1+x)$) before manifold projection destroys the linear superposition $X = L + S$ ($L \in \mathrm{Gr}_{\mathbb{R}}(k, N_{\mathrm{pixels}})$ low-rank scene subspace, $S$ sparse cosmic-ray anomaly spikes) and invalidates the quadratic Plücker relations. Thus, every sensor pipeline must execute in the strict order:
 
 $$
 \text{Raw Linear Sensor Array } (\mathbb{R}^{k \times N} \text{ or } \mathbb{C}^{k \times N})
@@ -86,7 +110,7 @@ $$
 
 ### 1.3 Dithered Seam-Gap Inpainting and the STScI 4-Exposure Cosmic-Ray Coincidence Theorem
 
-In `Signals.MultiArrayImaging` ([../Signals/MultiArrayImaging.lean](../Signals/MultiArrayImaging.lean#L90-L115)):
+In `Signals.MultiArrayImaging` ([../src/signals/Signals/MultiArrayImaging.lean](../src/signals/Signals/MultiArrayImaging.lean#L90-L115)):
 1. **Dithered Seam Coverage (`ditherGapUncoveredRows`)**:
    When two $4096 \times 2048$ chips have a physical seam of $g_{\mathrm{gap}} = 50$ rows ($204{,}800$ pixels), a telescope dither shift of $\Delta y_{\mathrm{dither}} \ge 50$ rows (e.g., $\Delta y_{\mathrm{dither}} = 64$ rows) leaves `ditherGapUncoveredRows 50 64 = 0` uncovered rows, ensuring every sky coordinate is observed on active silicon in at least $k - 1$ of the $k$ exposures.
 2. **Exact 4-Exposure Cosmic-Ray Coincidence Bound (`multiExposureCosmicRaySurvivalProb`)**:
@@ -100,7 +124,7 @@ In `Signals.MultiArrayImaging` ([../Signals/MultiArrayImaging.lean](../Signals/M
 
 ## 2. Cosmic-Ray Particle Telemetry (`Dot`, `Worm`, `Streak`) & Official NASA/MAST Hubble `NGC 4151` Test Fixtures
 
-Instead of discarding the sparse outlier matrix $S = X - L$ after Grassmannian subspace subtraction, Hubble's CCDs act as an orbital silicon particle detector at $515\text{–}540\text{ km}$ Low Earth Orbit altitude ([Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 668–945](../../../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md#L668-L945); [Miles et al. 2021](#miles2021cr)).
+Instead of discarding the sparse outlier matrix $S = X - L$ after Grassmannian subspace subtraction, Hubble's CCDs act as an orbital silicon particle detector at $515\text{–}540\text{ km}$ Low Earth Orbit altitude ({download}`Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 668–945 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>`; [Miles et al. 2021](#miles2021cr)).
 
 ### 2.1 Silicon Ionization Energy Calibration ($\epsilon_{\mathrm{eh}} = 3.65\text{ eV}$) and 8-Connected CCL Classification
 
@@ -113,7 +137,7 @@ $$
 
 ### 2.2 Citable NASA/STScI Hubble Space Telescope FITS Fixtures Used in Our Test Suite
 
-We fetched and verified four official Hubble Space Telescope FITS datasets from the [NASA Science Data Portal / MAST Archive](https://science.data.nasa.gov/fits/sample-files), all observing the benchmark Seyfert 1.5 Active Galactic Nucleus **NGC 4151** ($\alpha_{\mathrm{J2000}} = 182.6312^\circ$, $\delta_{\mathrm{J2000}} = +39.3963^\circ$) across four complementary HST sensor architectures:
+We fetched and verified four official Hubble Space Telescope FITS datasets from the [NASA Science Data Portal / MAST Archive](https://science.data.nasa.gov/fits/sample-files), all observing the benchmark Seyfert 1.5 Active Galactic Nucleus **NGC 4151** ($\alpha_{\mathrm{J2000}} = 182.6312^\circ$, $\delta_{\mathrm{J2000}} = +39.3963^\circ$) across four complementaryHST sensor architectures:
 
 | Official NASA / MAST FITS Artifact | Instrument & Mode | Target & Proposal ID | Array Format & `BITPIX` | Gain & Exposure | SHA-256 Checksum | Verified Test Fixture Role |
 |---|---|---|---|---|---|---|
@@ -122,7 +146,7 @@ We fetched and verified four official Hubble Space Telescope FITS datasets from 
 | `hst-nicmos.fits` (`n4hk12010_mos.fits`) | `HST NICMOS` Near-IR HgCdTe Multi-Extension Cube (`SCI, ERR, DQ, SAMP, TIME`) | `NGC 4151`, Prop. `7215` (PI: R. I. Thompson) | $270 \times 263 \times 5$ extensions (`BITPIX = 16`) | Multi-accum non-destructive IR readout | `c1c1652945cc2bff4a912d7393e15d9afc0cd3ff1de097591405ad7c9e7895d2` | Multi-wavelength UV/Optical/IR fusion $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ & DQ mask benchmark |
 | `hst-fgs.fits` (`f64y0106m_cvt.a1h`) | `HST FGS1` Dual-Axis White-Light Koesters-Prism Shearing Interferometer | `NGC 4151`, Prop. `8727` (PI: E. J. Schreier, `FGSLOCK = FINE`) | $89{,}688 \times 7$ time series (`BITPIX = 32`) | $< 7\text{ mas}$ pointing stability lock | `1aa50edcfb6aff799098cc809acb25906be0d9b47a01ef86392074fcac4f96d6` | Coherent interferometric phase-lock & sub-pixel pointing trajectory benchmark |
 
-In both `Signals.MultiArrayImaging` ([../Signals/MultiArrayImaging.lean](../Signals/MultiArrayImaging.lean#L250-L320)) and `multi_array_imaging.rs` ([../numerical_adapter/src/multi_array_imaging.rs](../numerical_adapter/src/multi_array_imaging.rs)), our test suite verifies three real cosmic-ray impact clusters extracted directly from `hst-wfpc-II-800-800-4.fits` (`u5780205r`, $G = 7.0\text{ e}^-/\mathrm{DN}$):
+In both `Signals.MultiArrayImaging` ([../src/signals/Signals/MultiArrayImaging.lean](../src/signals/Signals/MultiArrayImaging.lean#L250-L320)) and `multi_array_imaging.rs` ([../src/signals/numerical_adapter/src/multi_array_imaging.rs](../src/signals/numerical_adapter/src/multi_array_imaging.rs#L275-L335)), our test suite verifies three real cosmic-ray impact clusters extracted directly from `hst-wfpc-II-800-800-4.fits` (`u5780205r`, $G = 7.0\text{ e}^-/\mathrm{DN}$):
 1. **`Chip 0` (`PC1`) Perpendicular Gamma/X-Ray `Dot`** at `(r=42, c=8)`:
    Single-pixel spike above the $5\sigma = 68.01\text{ DN}$ threshold with $\Phi_{\mathrm{DN}} = 1339.7031\text{ DN}$ ($9{,}377.92\text{ e}^-$), bounding box $1 \times 1$ ($\mathrm{AR} = 1.0 \le 4\text{ px}$), depositing $E_{\mathrm{dep}} = 1339.7031 \times 7.0 \times 3.65 \approx 34{,}229.41\text{ eV}$ ($34.23\text{ keV}$).
 2. **`Chip 2` (`WF3`) Delta-Ray Secondary Electron `Worm`** at `(r=125..129, c=150..151)`:
@@ -136,7 +160,7 @@ In both `Signals.MultiArrayImaging` ([../Signals/MultiArrayImaging.lean](../Sign
 
 ### 2.3 Critique & Mathematical Resolution of Three Gaps in the Chat's Cosmic-Ray Pipeline (`cosmic_ray_diagnostics_and_acousto_optic_homodyne_bridge_identities`)
 
-Auditing the Rust cosmic-ray classifier in [Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 770–930](../../../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md#L770-L930) against the STScI ACS Instrument Handbook ([STScI ACS IHB 2025, Sec. 4.3.7](#hubble-acs-ihb2025)) and [Miles et al. (2021)](#miles2021cr) revealed three bugs/gaps that we resolved in [`Signals.MultiArrayImaging`](../Signals/MultiArrayImaging.lean) and [`multi_array_imaging.rs`](../numerical_adapter/src/multi_array_imaging.rs):
+Auditing the Rust cosmic-ray classifier in {download}`Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 770–930 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>` against the STScI ACS Instrument Handbook ([STScI ACS IHB 2025, Sec. 4.3.7](#hubble-acs-ihb2025)) and [Miles et al. (2021)](#miles2021cr) revealed three bugs/gaps that we resolved in [`Signals.MultiArrayImaging`](../src/signals/Signals/MultiArrayImaging.lean) and [`multi_array_imaging.rs`](../src/signals/numerical_adapter/src/multi_array_imaging.rs):
 
 1. **Bug 1 — Syntax Error (`cluster_pixels.length()` vs. `cluster_pixels.len()`)**:
    Line 871 of the chat's Rust listing calls `cluster_pixels.length()`, which does not compile on `std::vec::Vec` in Rust (`Vec::len()` is required).
@@ -165,11 +189,11 @@ Auditing the Rust cosmic-ray classifier in [Google-Search_Hubble-Sensor-Design_2
    \tan\theta_{\mathrm{inc}}(15, 240) = \frac{240}{15} = 16 \implies \theta_{\mathrm{inc}} \approx 86.42^\circ,
    $$
 
-   yielding Linear Energy Transfer $\mathrm{LET} = E_{\mathrm{dep}} / L_{\mathrm{path}} \approx 55.05\text{ keV} / 240.47\text{ }\mu\text{m} \approx 0.229\text{ keV/}\mu\text{m}$, in direct agreement with relativistic proton stopping power in silicon. In addition, [`multi_array_imaging.rs`](../numerical_adapter/src/multi_array_imaging.rs) provides a zero-dependency pure-Rust FITS primary HDU serializer/parser (`FitsPrimaryHduF32`, `serialize_fits_primary_hdu_f32`, `parse_fits_primary_hdu_f32`) that round-trips 2880-byte FITS header blocks and big-endian IEEE-754 `BITPIX = -32` float arrays.
+   yielding Linear Energy Transfer $\mathrm{LET} = E_{\mathrm{dep}} / L_{\mathrm{path}} \approx 55.05\text{ keV} / 240.47\text{ }\mu\text{m} \approx 0.229\text{ keV/}\mu\text{m}$, in direct agreement with relativistic proton stopping power in silicon. In addition, [`multi_array_imaging.rs`](../src/signals/numerical_adapter/src/multi_array_imaging.rs) provides a zero-dependency pure-Rust FITS primary HDU serializer/parser (`FitsPrimaryHduF32`, `serialize_fits_primary_hdu_f32`, `parse_fits_primary_hdu_f32`) that round-trips 2880-byte FITS header blocks and big-endian IEEE-754 `BITPIX = -32` float arrays.
 4. **Bug 4 — Unsigned Bounding-Box `atan2(bbox_height, bbox_width)` Collapses $+45^\circ$ and $-45^\circ$ Streaks (`cosmicRayPrincipalEigenvaluePlus`, `cosmicRayPrincipalEigenvalueMinus`, `cosmic_ray_principal_axis_angle_rad`)**:
    In both the Hubble chat (`line 875`) and `data/chats/FITS Image Processing With Rust.md` (`lines 575, 623`), the particle trajectory inclination angle is computed as `let angle = (bbox_height as f64).atan2(bbox_width as f64)`. Because $H_{\mathrm{bbox}} \ge 1$ and $W_{\mathrm{bbox}} \ge 1$ are strictly positive bounding-box dimensions, `atan2(H, W)` maps every track into $(0, \pi/2)$: a $+45^\circ$ diagonal streak `(r+i, c+i)` ($\sigma_{rc} = +5/4 > 0$) and a $-45^\circ$ anti-diagonal streak `(r+i, c-i)` ($\sigma_{rc} = -5/4 < 0$) both have $H_{\mathrm{bbox}} = W_{\mathrm{bbox}} = 4$ and receive the identical unsigned angle $+\pi/4$ (and even a $1\times 1$ perpendicular `Dot` receives $+\pi/4$).
    - **Mathematical Resolution via 2D Covariance Principal Eigenvalues & Signed Eigenvector Angle**:
-     In [`MultiArrayImaging.lean`](../Signals/MultiArrayImaging.lean#L770-L895) (`pca_streak_orientation_plabic_transfer_and_grassmannian_projector_identities`) and [`multi_array_imaging.rs`](../numerical_adapter/src/multi_array_imaging.rs), we define the principal eigenvalues of the 2D cluster covariance tensor $\Sigma_{\mathrm{cluster}}$:
+     In [`MultiArrayImaging.lean`](../src/signals/Signals/MultiArrayImaging.lean#L770-L895) (`pca_streak_orientation_plabic_transfer_and_grassmannian_projector_identities`) and [`multi_array_imaging.rs`](../src/signals/numerical_adapter/src/multi_array_imaging.rs), we define the principal eigenvalues of the 2D cluster covariance tensor $\Sigma_{\mathrm{cluster}}$:
 
      $$
      \lambda_{\pm}(\sigma_{rr}, \sigma_{cc}, \sigma_{rc}) = \frac{\sigma_{rr} + \sigma_{cc} \pm \sqrt{(\sigma_{rr} - \sigma_{cc})^2 + 4\sigma_{rc}^2}}{2}, \qquad
@@ -185,7 +209,7 @@ Auditing the Rust cosmic-ray classifier in [Google-Search_Hubble-Sensor-Design_2
 
 ### 3.1 High-$Z$ Direct-Conversion X-Ray Charge Yield and Patient Dose Reduction (`directConversionChargeYield`)
 
-In hospital digital radiography, conventional flat-panel detectors use a scintillator (such as $\text{CsI:Tl}$) that converts X-rays into visible light before photodiode readout, introducing isotropic optical blur, or use low-$Z$ silicon ($Z_{\mathrm{Si}} = 14$), which has poor hard X-ray stopping power ($\eta_{\mathrm{Si}} \approx 5\%$ at $60\text{ keV}$). As discussed in [IQ-Sampling Chat 2026, lines 5891–5901](#lvp-medical-chat2026) and formalized in `LVPDirectConversionImaging` ([../Signals/Pending.lean](../Signals/Pending.lean#L778-L830)) and `directConversionChargeYield` ([../Signals/MultiArrayImaging.lean](../Signals/MultiArrayImaging.lean#L140-L152)):
+In hospital digital radiography, conventional flat-panel detectors use a scintillator (such as $\text{CsI:Tl}$) that converts X-rays into visible light before photodiode readout, introducing isotropic optical blur, or use low-$Z$ silicon ($Z_{\mathrm{Si}} = 14$), which has poor hard X-ray stopping power ($\eta_{\mathrm{Si}} \approx 5\%$ at $60\text{ keV}$). As discussed in [IQ-Sampling Chat 2026, lines 5891–5901](#lvp-medical-chat2026) and formalized in `LVPDirectConversionImaging` ([../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L778-L830)) and `directConversionChargeYield` ([../src/signals/Signals/MultiArrayImaging.lean](../src/signals/Signals/MultiArrayImaging.lean#L140-L152)):
 
 - **Direct-Conversion Halide Perovskite (`MAPbI3` / `CsPbBr3` in Radiolucent Vitrimer)**: High atomic numbers ($Z_{\mathrm{Pb}} = 82, Z_{\mathrm{I}} = 53, Z_{\mathrm{Cs}} = 55$) provide photoabsorption cross-sections scaling as $\propto Z^4 / E_\gamma^3$, achieving quantum stopping efficiency $\eta_{\mathrm{LVP}} = 4/5 = 80\%$ in a flexible roll-to-roll film with electron-hole pair creation energy $\epsilon_{\mathrm{eh,LVP}} = 9/2 = 4.5\text{ eV}$.
 - **Strict Charge-Yield & Dose Advantage**: For any diagnostic photon energy $E_\gamma > 0$, `multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities` proves:
@@ -203,8 +227,8 @@ In hospital digital radiography, conventional flat-panel detectors use a scintil
 
 ### 3.2 Evidence Boundary for `LVPProcaImagingHypothesis` and `MultiModalSubSurfaceImagingHypothesis`
 
-In [IQ-Sampling Chat 2026, lines 5902–6140](#lvp-medical-chat2026), the chat extrapolates from classical `LVP` direct-conversion X-ray arrays to a speculative "Proca-wave topological medical scanner" claiming non-ionizing, non-scattering, sub-Ångström ($0.1\text{–}0.5\text{ \AA}$) whole-body phase-contrast imaging and "topological tumor lysis." Following the repository's research-evidence rules ([AGENTS.md](../../../AGENTS.md)):
-- `LVPProcaImagingHypothesis` ([../Signals/Pending.lean](../Signals/Pending.lean#L2188-L2220)) and our new connected synthesis contract `MultiModalSubSurfaceImagingHypothesis` ([../Signals/Pending.lean](../Signals/Pending.lean#L5285-L5365)) keep Proca phase-contrast imaging strictly in **Pending** status.
+In [IQ-Sampling Chat 2026, lines 5902–6140](#lvp-medical-chat2026), the chat extrapolates from classical `LVP` direct-conversion X-ray arrays to a speculative "Proca-wave topological medical scanner" claiming non-ionizing, non-scattering, sub-Ångström ($0.1\text{–}0.5\text{ \AA}$) whole-body phase-contrast imaging and "topological tumor lysis." Following the repository's research-evidence rules ([AGENTS.md](../AGENTS.md)):
+- `LVPProcaImagingHypothesis` ([../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L2188-L2220)) and our new connected synthesis contract `MultiModalSubSurfaceImagingHypothesis` ([../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L5285-L5365)) keep Proca phase-contrast imaging strictly in **Pending** status.
 - Any experimental sub-surface imaging claim must record `masslessControlResidual ≤ masslessControlTolerance` (comparing against standard massless Maxwell optical/THz/ultrasound propagation), `phantomMtfAndDoseCalibrated`, and `acousticThermalSafetyVerified`.
 
 ---
@@ -272,7 +296,7 @@ flowchart LR
 
 How do we bridge the $405\text{ nm} / 532\text{ nm}$ carbon RISC-V nanolithography architecture ([grassmannian-riscv-holographic-nanolithography-kicad-paper.md](grassmannian-riscv-holographic-nanolithography-kicad-paper.md)) from sub-$20\text{ nm}$ ($18.08\text{ nm}$) down to **sub-nanometer ($< 1\text{ nm} = 10\text{ \AA}$) nanoimaging and nanolithography** using verified optical and metamaterial laws?
 
-In `Signals.MultiArrayImaging` ([../Signals/MultiArrayImaging.lean](../Signals/MultiArrayImaging.lean#L205-L235)), we formalize two complementary physical paths to $< 1\text{ nm}$:
+In `Signals.MultiArrayImaging` ([../src/signals/Signals/MultiArrayImaging.lean](../src/signals/Signals/MultiArrayImaging.lean#L205-L235)), we formalize two complementary physical paths to $< 1\text{ nm}$:
 
 | Resolution Stage & Physical Mechanism | Wavelength $\lambda_0$ | Effective Index $n_{\mathrm{eff}}$ & Harmonic $M_{\mathrm{harm}}$ | STED Depletion $\zeta_{\mathrm{STED}}$ or Homodyne $\mathrm{SNR}_{\mathrm{amp}}$ | Exact Squared Linewidth / Variance ($\mathrm{nm}^2$) | Feature Width / Localization ($\mathrm{nm}$ & $\text{\AA}$) | Verified Lean 4 Identity in `Signals.MultiArrayImaging` |
 |---|---|---|---|---|---|---|
@@ -296,9 +320,54 @@ compressing the axial depth-of-focus to match the sub-nanometer transverse waist
 
 ### 6.1 Architectural Provenance: How Implementing "Layer Coding" in Lean 4 Produced `Signals.Plabic`
 
-[`Signals.Plabic`](../Signals/Plabic.lean) was originally developed while formalizing **3D Layer Coding** in Lean 4—bridging `QEC.Stabilizer.Codes.Layer` (`src/QECLean/QEC/Stabilizer/Codes/Layer.lean`) and [`Signals.Pending.LayerCodeLift`](../Signals/LayerCodes.lean) ([Williamson & Baspin 2024](#williamson2024layer)) with our 3D Star/Layer Coding designs on laminated `Lignin-Vitrimer` substrates ([Gemini-_08.md, lines 835–1165](../../../data/chats/Gemini-_08.md#L835-L1165); [Grassmannian-Huygens-Principle-Amplituhedron.md, lines 320–375](../../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L320-L375)). In `Layer.lean`, $n$ data layers, $n_X$ X-check sheets, and $n_Z$ Z-check sheets intersect along 1D line defects (`canonDefectEdge`) and $10 + 12 = 22$ point-defect configurations (`layerCodePointDefectTaxonomyCount 10 12 = 22`), with pre-defect surface-edge cardinality $N_{\mathrm{surface}}(n, n_X, n_Z) = 6 n n_X n_Z + 2(n n_X + n n_Z + n_X n_Z)$ (`42`, `22`, and `32` for $n=4, 2, 3$ with $n_X=n_Z=1$).
+A foundational architectural link in this repository is that [`Signals.Plabic`](../src/signals/Signals/Plabic.lean) was originally developed while formalizing **3D Layer Coding** in Lean 4—bridging the quantum error-correction formalization in `QEC.Stabilizer.Codes.Layer` (`src/QECLean/QEC/Stabilizer/Codes/Layer.lean`, documented in `src/QECLean/QEC/Stabilizer/Codes/Layer.README.md`) and [`Signals.Pending.LayerCodeLift`](../src/signals/Signals/LayerCodes.lean) ([Williamson & Baspin 2024](#williamson2024layer)) with our 3D Star/Layer Coding designs on laminated `Lignin-Vitrimer` substrates ({download}`Gemini-_08.md, lines 835–1165 <../data/chats/Gemini-_08.md>`; {download}`_Quantum Processor and Soliton Discussions  .md, lines 3537–3705 <../data/chats/_Quantum Processor and Soliton Discussions  .md>`; {download}`Grassmannian-Huygens-Principle-Amplituhedron.md, lines 320–375 <../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md>`):
+
+```{mermaid}
+flowchart TD
+    subgraph LayerCoding["1. 3D Layer Coding in Lean 4 (QEC.Stabilizer.Codes.Layer & Signals.LayerCodes)"]
+        WB["Williamson & Baspin (2024) 3D Layer Codes\n• Lifts 2D CSS code into stacked xz, xy, yz surface-code layers\n• Topological dim = 3, 1D line junctions = 1, check weight w ≤ 6\n• Pre-defect surface edges: N_surface = 6 n n_X n_Z + 2(n n_X + n n_Z + n_X n_Z)\n  (n=4,1,1 → 42; n=2,1,1 → 22; n=3,1,1 → 32)\n• 10 bulk + 12 boundary = 22 point-defect configurations"]
+        VitStar["Laminated Lignin-Vitrimer 3D Star/Layer Coding\n• 3-leg / 4-leg / 5-leg star hubs (plabicStar, gridZLineFiveLegXStar)\n• OAM / WDM soliton ancilla bus routing across stacked sheets"]
+    end
+
+    subgraph PlabicEngine["2. Signals.Plabic Combinatorial & LGV Determinant Engine"]
+        Rot["Bicolored Strand Routing (RotationSystem)\n• Black = CCW turn, White = CW turn (dartTurn)\n• Guaranteed finite exit ≤ card(DirectedEdge) (boundary_firstExit_exists)\n• Derived bijective boundary permutation (boundaryPerm)"]
+        WAN["Level-Certified Acyclic Networks (WeightedAcyclicNetwork)\n• Nilpotency W^(h+1) = 0 & exact finite transfer T = Σ W^ℓ = 1 + W T\n• Guarded serial subdivision s · (w/s) = w (subdivision_boundary)\n• Parallel dither diamond sum a₁b₁ + a₂b₂ & shared-hub det = 0"]
+        LGV["Multi-Layer & 3-Channel Lindström–Gessel–Viennot (LGV)\n• det(∏ M_r) = ∏ det(M_r) > 0 (lgv_multiLayer_det_positive)\n• 3-channel step det(E_lower^(3) E_upper^(3)) = d₀ d₁ d₂ > 0\n• 2-vertex bottleneck obstruction: A ∈ R^(3×2), B ∈ R^(2×3) ⇒ det(A B) = 0"]
+    end
+
+    subgraph ImagingApps["3. Multi-Spectral & Multi-Array Grassmannian Imaging Applications"]
+        AppH["Hubble 2× CCD Mosaics & Filter Trains\n• Flat-field × QE calibration subdivision\n• Multi-exposure dither diamond accumulation\n• Degenerate unshifted dither rank collapse (det = 0)"]
+        AppM["Depth-Stacked LVP Medical & LIFU/AOT/TRUE Arrays\n• 4-layer LVP X-ray stack & LIFU acoustic matching cascade (det > 0)\n• Reversible TRUE phase-conjugate mode permutations"]
+        AppN["3D Volumetric Splat & < 1 nm Nanolithography\n• Explains why 2D screen bottleneck kills σ₃² (det(AB) = 0)\n• Gr_C(2,4) R_depth × Gr_C(3,6) restores det Σ_3D = |Δ_012^C|² > 0"]
+    end
+
+    WB --> Rot
+    VitStar --> Rot
+    WB --> WAN
+    WAN --> LGV
+    Rot --> AppM
+    WAN --> AppH
+    LGV --> AppM
+    LGV --> AppN
+```
+
+Specifically, while implementing `QEC.Stabilizer.Codes.Layer`:
+1. **Stacked 2D Surface-Code Sheets & 1D Line Junctions (`layerCodePreDefectSurfaceEdges`, `layerCodePointDefectTaxonomyCount`)**:
+   In `Layer.lean`, $n$ data layers, $n_X$ X-check sheets, and $n_Z$ Z-check sheets intersect along 1D line defects (`canonDefectEdge`, `canonGridZCouplingEdge`) and $10\text{ bulk} + 12\text{ boundary} = 22$ point-defect configurations (`layerCodePointDefectTaxonomyCount 10 12 = 22`), with pre-defect surface-edge cardinality:
+
+   $$
+   N_{\mathrm{surface}}(n, n_X, n_Z) = 6 n n_X n_Z + 2(n n_X + n n_Z + n_X n_Z),
+   $$
+
+   giving $N_{\mathrm{surface}}(4, 1, 1) = 42$ for the `[[4, 2, 2]]` junction, $N_{\mathrm{surface}}(2, 1, 1) = 22$ for the 2-data-layer spaced fixture, and $N_{\mathrm{surface}}(3, 1, 1) = 32$ for the 3-data-layer middle-coupling fixture.
+2. **Star-Hub Syndrome Routing Without Unverified Planar Disk Assumptions (`RotationSystem`, `plabicStar`)**:
+   To route syndromes and optical OAM/soliton ancilla modes around 3-leg boundary stars, 4-leg surface stars, and 5-leg Z-line stars (`gridZLineFiveLegXStar`, `plabicStar`) without assuming an unproved genus-zero disk embedding, we formulated `RotationSystem` in [`Signals.Plabic`](../src/signals/Signals/Plabic.lean#L56-L469), proving from finite permutation periodicity (`dartTurn_period`) that every boundary start reaches a unique first exit within $\le \mathrm{card}(\mathrm{DirectedEdge})$ steps (`boundary_firstExit_exists`, `boundaryExit_injective`), inducing a derived bijective boundary permutation (`RotationSystem.boundaryPerm`).
+3. **Acyclic Inter-Layer Transfer & Lindström–Gessel–Viennot Disjoint-Path Positivity (`WeightedAcyclicNetwork`, `lgv_multiLayer_det_positive`)**:
+   Propagating syndrome/optical weights across $h$ laminated vitrimer layers led directly to `WeightedAcyclicNetwork` ($W^{h+1} = 0$, $T = \sum_{\ell=0}^h W^\ell = 1 + W T$) and the multi-layer and 3-channel LGV theorems ([Postnikov 2006](#postnikov2006plabic); [Lindström 1973](#lindstrom1973lgv); [Gessel & Viennot 1985](#gessel1985lgv)).
 
 ### 6.2 How Every Component of `Signals.Plabic` Applies to Hubble, `LVP` Medical, `LIFU`/`AOT`/`TRUE`, and $< 1\text{ nm}$ Nanolithography
+
+In `layer_coding_plabic_lgv_and_multi_array_imaging_identities` ([../src/signals/Signals/MultiArrayImaging.lean](../src/signals/Signals/MultiArrayImaging.lean#L590-L685)) and `multi_array_imaging.rs` ([../src/signals/numerical_adapter/src/multi_array_imaging.rs](../src/signals/numerical_adapter/src/multi_array_imaging.rs#L795-L960)), we prove the exact correspondence between the Layer-Coding Plabic primitives and multi-array imaging:
 
 | `Signals.Plabic` / `Signals.LayerCodes` Construct | Machine-Checked Identity in `Signals.MultiArrayImaging` | Concrete Meaning in Hubble, `LVP` Medical, `LIFU`/`AOT`/`TRUE`, & $< 1\text{ nm}$ Nanoimaging |
 |---|---|---|
@@ -487,7 +556,7 @@ end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 
 (miles2021cr)=
 <a id="miles2021cr"></a>
-3. Miles, N. D., et al. (2021). Cosmic-Ray Impact Morphology and Energy Deposition Distributions in HST ACS/WFC and HRC Dark Exposures. *The Astrophysical Journal*, 918(2), 86. DOI: `10.3847/1538-4357/ac0d54`.
+3. Miles, N. D., et al. (2021). Cosmic-Ray Impact Morphology and Energy Deposition Distributions in HST ACS/WFC and HRC Dark Exposures. *The Astrophysical Journal*, 918(2), 86. DOI: `10.3847/1538-4357/ac0d54`. [https://ui.adsabs.harvard.edu/abs/2021ApJ...918...86M/abstract](https://ui.adsabs.harvard.edu/abs/2021ApJ...918...86M/abstract).
 
 (christensen1976)=
 <a id="christensen1976"></a>
@@ -515,19 +584,19 @@ end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 
 (hubble-chat2026)=
 <a id="hubble-chat2026"></a>
-10. Provenance Chat Log (2026). *Hubble Sensor Design: Dual $4096 \times 2048$ CCDs, 50-Pixel Gap, $\mathrm{Gr}_{\mathbb{R}}(k, N_{\mathrm{pixels}})$ vs. $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ vs. $\mathrm{Gr}_{\mathbb{C}}(2,4)$, FITS Liberator Linearity, and Rust 8-Connected Cosmic-Ray Analysis*. Local corpus: [data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 1–950](../../../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md#L1-L950).
+10. Provenance Chat Log (2026). *Hubble Sensor Design: Dual $4096 \times 2048$ CCDs, 50-Pixel Gap, $\mathrm{Gr}_{\mathbb{R}}(k, N_{\mathrm{pixels}})$ vs. $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ vs. $\mathrm{Gr}_{\mathbb{C}}(2,4)$, FITS Liberator Linearity, and Rust 8-Connected Cosmic-Ray Analysis*. Local corpus: {download}`data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 1–950 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>`.
 
 (lvp-medical-chat2026)=
 <a id="lvp-medical-chat2026"></a>
-11. Provenance Chat Log (2026). *IQ Sampling for Signal Phase: LVP Medical Imaging Arrays (Direct Conversion X-Ray), Proca Waves for Topological Medical Scans, and Ångström Resolution Limits*. Local corpus: [docs/chats/IQ-Sampling-for-Signal-Phase.myst.md, lines 5891–6140](../../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L5891-L6140).
+11. Provenance Chat Log (2026). *IQ Sampling for Signal Phase: LVP Medical Imaging Arrays (Direct Conversion X-Ray), Proca Waves for Topological Medical Scans, and Ångström Resolution Limits*. Local corpus: [docs/chats/IQ-Sampling-for-Signal-Phase.myst.md, lines 5891–6140](chats/IQ-Sampling-for-Signal-Phase.myst.md#L5891-L6140).
 
 (williamson2024layer)=
 <a id="williamson2024layer"></a>
-12. Williamson, D. J., & Baspin, N. (2024). Layer Codes. *Nature Communications*, 15(1), 9528. DOI: `10.1038/s41467-024-53881-3`; `arXiv:2309.16503`.
+12. Williamson, D. J., & Baspin, N. (2024). Layer Codes. *Nature Communications*, 15(1), 9528. DOI: `10.1038/s41467-024-53881-3`; `arXiv:2309.16503`. [https://doi.org/10.1038/s41467-024-53881-3](https://doi.org/10.1038/s41467-024-53881-3).
 
 (postnikov2006plabic)=
 <a id="postnikov2006plabic"></a>
-13. Postnikov, A. (2006). Total positivity, Grassmannians, and networks. `arXiv:math/0609764`.
+13. Postnikov, A. (2006). Total positivity, Grassmannians, and networks. `arXiv:math/0609764`. [https://arxiv.org/abs/math/0609764](https://arxiv.org/abs/math/0609764).
 
 (lindstrom1973lgv)=
 <a id="lindstrom1973lgv"></a>
@@ -539,4 +608,63 @@ end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 
 (layer-coding-chat2026)=
 <a id="layer-coding-chat2026"></a>
-16. Provenance Chat Logs (2026). *3D Star Topology & Layer Coding via Lignin-Vitrimer Welding, Single-Shot Syndrome Extraction, and Plabic Graph Integration into QECLean*. Local corpus: [data/chats/Gemini-_08.md, lines 835–1165](../../../data/chats/Gemini-_08.md#L835-L1165) and [data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md, lines 320–375](../../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L320-L375).
+16. Provenance Chat Logs (2026). *3D Star Topology & Layer Coding via Lignin-Vitrimer Welding, Single-Shot Syndrome Extraction, and Plabic Graph Integration into QECLean*. Local corpus: {download}`data/chats/Gemini-_08.md, lines 835–1165 <../data/chats/Gemini-_08.md>`, {download}`data/chats/_Quantum Processor and Soliton Discussions  .md, lines 3537–3705 <../data/chats/_Quantum Processor and Soliton Discussions  .md>`, and {download}`data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md, lines 320–375 <../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md>`.
+
+```bibtex
+@misc{chat_hubble_sensor_design_2026,
+  author       = {{Google Search AI / User}},
+  title        = {Hubble Sensor Design: Dual 4096x2048 {CCDs}, $\mathrm{Gr}_{\mathbb{R}}(k, N_{\mathrm{pixels}})$, $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$, $\mathrm{Gr}_{\mathbb{C}}(2,4)$, and Cosmic-Ray Particle Telemetry},
+  year         = {2026},
+  howpublished = {AI chat log},
+  note         = {Source: data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 1--950}
+}
+
+@article{xu2011true,
+  author  = {Xu, Xiao and Liu, Honglin and Wang, Lihong V.},
+  title   = {Time-reversed ultrasonically encoded optical focusing into scattering media},
+  journal = {Nature Photonics},
+  volume  = {5},
+  number  = {3},
+  pages   = {154--157},
+  year    = {2011},
+  doi     = {10.1038/nphoton.2010.306}
+}
+
+@article{miles2021cosmic,
+  author  = {Miles, N. D. and others},
+  title   = {Cosmic-Ray Impact Morphology and Energy Deposition Distributions in {HST} {ACS/WFC} and {HRC} Dark Exposures},
+  journal = {The Astrophysical Journal},
+  volume  = {918},
+  number  = {2},
+  pages   = {86},
+  year    = {2021},
+  doi     = {10.3847/1538-4357/ac0d54}
+}
+```
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "Multi-Spectral and Multi-Array Grassmannian Imaging Across Scales: Hubble 2x CCD Mosaics, Cosmic-Ray Particle Telemetry, LVP Medical Arrays, LIFU/AOT/TRUE Sub-Surface Focusing, and Sub-Nanometer (< 1 nm) Convergent Nanolithography in Lean 4 and Rust/WASM",
+  "author": {
+    "@type": "Person",
+    "name": "Wes Turner"
+  },
+  "dateModified": "2026-11-03",
+  "isBasedOn": [
+    "data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md",
+    "data/chats/IQ-Sampling-for-Signal-Phase.md",
+    "src/signals/Signals/MultiArrayImaging.lean",
+    "src/signals/numerical_adapter/src/multi_array_imaging.rs"
+  ],
+  "about": [
+    "Hubble Space Telescope ACS/WFC WFC3/UVIS WFPC2 CCD Mosaics",
+    "Real and Complex Grassmannian Manifolds Gr_R(k, N), Gr_R(d, Lambda), Gr_C(2,4), Gr_C(3,6)",
+    "Cosmic Ray Connected Component Labeling and Energy Telemetry",
+    "Lignin-Vitrimer Perovskite Direct-Conversion X-Ray and Phase-Contrast Medical Imaging",
+    "Low-Intensity Focused Ultrasound (LIFU), Acousto-Optic Tomography (AOT), and TRUE Optical Focusing",
+    "Sub-Nanometer Convergent Holographic Nanolithography"
+  ]
+}
+```

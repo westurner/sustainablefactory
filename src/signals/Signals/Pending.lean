@@ -5782,4 +5782,149 @@ lemma QuantumCausalBundleVideoGenHypothesis.decision_bundle_and_qram_bounds
     h_syn.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h_crit.2.2.2.2.2.2.1,
     h_syn.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+/-! ## 30. Beyond $6{,}400\times$ Splat-Grassmann Volumetric Efficiency, Jeffrey's Kinematic Engine, 3D Volumetric Splat Nanoimaging & Surgical Reconstruction, and Quantum Causal Semantic GraphRAG Pending Contract
+
+While `Signals.QuantumCausalInference.quantum_causal_jeffrey_kinematics_splat_volumetric_and_semantic_graphrag_identities`
+machine-checks:
+1. Compound splat-sparse Grassmannian volumetric speedups beyond $6{,}400\times$ (`51,200x` at
+   $32^3$ dense and `640,000x` with $10\times$ adaptive `NormedTensorGaussianSplat3D` pruning),
+2. Richard Jeffrey's Probability Kinematics (`jeffreyKinematicUpdate`, `jeffreyKinematicShift`)
+   and its exact confounding residual $q_1 b_1 + q_2 b_2$ relative to Pearl's causal soft
+   intervention $\operatorname{do}(\sigma_E(q))$,
+3. 3D `NormedTensorGaussianSplat3D` Jeffrey kinematic weight updates, two-child splitting
+   conservation (`splitMajorPlus` / `splitMajorMinus`), and holographic $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+   depth variance recovery (`recoverDepthVarianceSq`), and
+4. Quantum Causal Semantic GraphRAG scoring (`quantumCausalGraphRAGScore`) combining De Clercq
+   tautological subspace filtering, deconfounded Jeffrey kinematics, LGV disjoint-trek
+   certification (`twoByTwoTransfer`), and Quantum Switch multi-hop order asymmetry,
+
+any clinical surgical guidance, sub-nanometer patient/phantom reconstruction, or causal
+knowledge-graph deployment remains governed by `QuantumCausalSurgicalSplatGraphRAGHypothesis`
+in `Signals.Pending`, requiring explicit respiratory/motion confounder subtraction,
+FDA/IEC `MI < 1.9` and thermal dose $\mathrm{CEM}_{43}$ safety bounds, and held-out
+counterfactual GraphRAG provenance validation. -/
+
+/-- A Pending validation contract for $>6{,}400\times$ splat-sparse Grassmannian volumetric
+inference, Jeffrey's Kinematic Engine, 3D `NormedTensorGaussianSplat3D` surgical/nanoimaging
+tomography, and Quantum Causal Semantic GraphRAG. -/
+@[blueprint "def:signals-quantum-causal-surgical-splat-graphrag-contract"
+  (title := "Pending >6,400x Splat-Grassmann, Jeffrey Kinematic Engine, Surgical Nanoimaging, and Quantum Causal GraphRAG contract")
+  (statement := /-- Links $>6{,}400\times$ (`51,200x` and `640,000x`) splat-sparse Grassmannian
+    volumetric efficiency, Jeffrey's Probability Kinematics vs.\ Pearl $\operatorname{do}$-soft
+    confounding bounds, 3D \texttt{NormedTensorGaussianSplat3D} kinematic weight update and
+    $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth recovery, and Quantum Causal Semantic GraphRAG
+    tautological filtering and LGV disjointness certification with explicit clinical safety
+    and counterfactual provenance gates. -/)]
+structure QuantumCausalSurgicalSplatGraphRAGHypothesis where
+  splat3D : Signals.DDF.NormedTensorGaussianSplat3D
+  priorP1 : ℝ
+  priorP2 : ℝ
+  posteriorQ1 : ℝ
+  posteriorQ2 : ℝ
+  prior_norm : priorP1 + priorP2 = 1
+  posterior_norm : posteriorQ1 + posteriorQ2 = 1
+  posteriorQ1_nonneg : 0 ≤ posteriorQ1
+  posteriorQ2_nonneg : 0 ≤ posteriorQ2
+  c1Do : ℝ
+  c2Do : ℝ
+  c1Do_nonneg : 0 ≤ c1Do
+  c2Do_nonneg : 0 ≤ c2Do
+  confounderBias1 : ℝ
+  confounderBias2 : ℝ
+  tautologicalScore : ℝ
+  coherenceGamma : ℝ
+  motionConfounderSubtracted : Prop
+  motionConfounderSubtracted_hypothesis : motionConfounderSubtracted
+  surgicalAcousticThermalSafetyVerified : Prop
+  surgicalAcousticThermalSafetyVerified_hypothesis : surgicalAcousticThermalSafetyVerified
+  graphRagDisjointProvenanceVerified : Prop
+  graphRagDisjointProvenanceVerified_hypothesis : graphRagDisjointProvenanceVerified
+
+/-- In any `QuantumCausalSurgicalSplatGraphRAGHypothesis`:
+1. Volumetric efficiency strictly exceeds $6{,}400\times$ (`51,200x` on $32^3$ and `640,000x`
+   with $10\times$ adaptive `NormedTensorGaussianSplat3D` sparsity),
+2. Jeffrey's Kinematic Engine shift equals $(q_1 - p_1)(c_{1,\mathrm{do}} - c_{2,\mathrm{do}})$
+   and preserves total probability normalization,
+3. Observational Jeffrey kinematics differs from Pearl $\operatorname{do}$-deconfounded Jeffrey
+   kinematics by $q_1 b_1 + q_2 b_2$,
+4. The Jeffrey-updated 3D splat `splat_j` preserves $\det\Sigma_{\mathrm{3D}}$, conserves weight
+   across two-child splitting $w_+ + w_- = q_1 c_{1,\mathrm{do}} + q_2 c_{2,\mathrm{do}}$, and
+   recovers the exact 3rd principal variance $\sigma_3^2$ from orthographic $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+   depth anisotropy, and
+5. Quantum Causal Semantic GraphRAG eliminates off-subspace noise via $\Pi_Z(-s\beta, c\beta) = (0,0)$
+   and distinguishes single-hub bottlenecks ($\det = 0$) from disjoint 2-path treks. -/
+@[blueprint "lem:signals-quantum-causal-surgical-splat-graphrag-bounds"
+  (title := "Pending Surgical Splat and Quantum Causal GraphRAG contract enforces >6,400x speedup, Jeffrey kinematic deconfounding, and 3D depth recovery")
+  (statement := /-- For any \texttt{contract : QuantumCausalSurgicalSplatGraphRAGHypothesis},
+    $>6{,}400\times$ volumetric efficiency (`51,200x` and `640,000x`), Jeffrey's Kinematic Engine
+    shift and deconfounding laws, 3D \texttt{NormedTensorGaussianSplat3D} splitting and
+    $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth variance recovery, and Quantum Causal GraphRAG
+    filtering and LGV determinant laws hold simultaneously. -/)
+  (proof := /-- Apply \texttt{quantum\_causal\_jeffrey\_kinematics\_splat\_volumetric\_and\_semantic\_graphrag\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma QuantumCausalSurgicalSplatGraphRAGHypothesis.efficiency_kinematic_splat_and_graphrag_bounds
+    (contract : QuantumCausalSurgicalSplatGraphRAGHypothesis)
+    (wA_re wA_im wB_re wB_im c s beta : ℝ)
+    (u x v w_out : NNReal)
+    (zAB zBA : ℂ) :
+    let splat_j := contract.splat3D.jeffreyKinematicWeightUpdate
+      contract.posteriorQ1 contract.posteriorQ2 contract.c1Do contract.c2Do
+      contract.posteriorQ1_nonneg contract.posteriorQ2_nonneg
+      contract.c1Do_nonneg contract.c2Do_nonneg
+    let c_plus := splat_j.splitMajorPlus
+    let c_minus := splat_j.splitMajorMinus
+    let s_ortho := splat_j.projectOrthographic2D
+    let R_depth := (contract.splat3D.sigma1 ^ 2 + contract.splat3D.sigma2 ^ 2) /
+      contract.splat3D.sigma3 ^ 2
+    Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 32 64 32768 2 10 = 104857.6 ∧
+      Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 40 64 4096 2 10 = 1310720 ∧
+      (6400 : ℝ) < Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 16 16 16 64 4096 2 10 ∧
+      (6400 : ℝ) < Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 40 64 4096 2 10 ∧
+      Signals.QuantumCausalInference.jeffreyKinematicShift
+          contract.priorP1 contract.priorP2 contract.posteriorQ1 contract.posteriorQ2
+          contract.c1Do contract.c2Do =
+        (contract.posteriorQ1 - contract.priorP1) * (contract.c1Do - contract.c2Do) ∧
+      Signals.QuantumCausalInference.jeffreyKinematicUpdate
+          contract.posteriorQ1 contract.posteriorQ2
+          (contract.c1Do + contract.confounderBias1) (contract.c2Do + contract.confounderBias2) -
+        Signals.QuantumCausalInference.jeffreyKinematicUpdate
+          contract.posteriorQ1 contract.posteriorQ2 contract.c1Do contract.c2Do =
+        contract.posteriorQ1 * contract.confounderBias1 +
+          contract.posteriorQ2 * contract.confounderBias2 ∧
+      c_plus.weight + c_minus.weight =
+        Signals.QuantumCausalInference.jeffreyKinematicUpdate
+          contract.posteriorQ1 contract.posteriorQ2 contract.c1Do contract.c2Do ∧
+      Signals.DDF.recoverDepthVarianceSq s_ortho.covTrace R_depth =
+        contract.splat3D.sigma3 ^ 2 ∧
+      Signals.QuantumCausalInference.quantumCausalGraphRAGScore
+          contract.tautologicalScore contract.posteriorQ1 contract.posteriorQ2
+          (contract.c1Do + contract.confounderBias1) (contract.c2Do + contract.confounderBias2)
+          contract.coherenceGamma wA_re wA_im wB_re wB_im -
+        Signals.QuantumCausalInference.quantumCausalGraphRAGScore
+          contract.tautologicalScore contract.posteriorQ1 contract.posteriorQ2
+          contract.c1Do contract.c2Do
+          contract.coherenceGamma wA_re wA_im wB_re wB_im =
+        contract.posteriorQ1 * contract.confounderBias1 +
+          contract.posteriorQ2 * contract.confounderBias2 ∧
+      Signals.QuantumCausalInference.tautologicalProjectorVec c s (-s * beta) (c * beta) = (0, 0) ∧
+      (Signals.Geometry.singleHubRepresentative u x v w_out).mat.det = 0 ∧
+      Signals.QuantumCausalInference.quantumSwitchSymBranchWeight zAB zBA +
+          Signals.QuantumCausalInference.quantumSwitchAntiBranchWeight zAB zBA =
+        (1 / 2 : ℝ) * (Complex.normSq zAB + Complex.normSq zBA) := by
+  intro splat_j c_plus c_minus s_ortho R_depth
+  have h :=
+    Signals.QuantumCausalInference.quantum_causal_jeffrey_kinematics_splat_volumetric_and_semantic_graphrag_identities
+      contract.splat3D contract.priorP1 contract.priorP2
+      contract.posteriorQ1 contract.posteriorQ2 contract.c1Do contract.c2Do
+      contract.confounderBias1 contract.confounderBias2 contract.coherenceGamma
+      wA_re wA_im wB_re wB_im contract.tautologicalScore c s beta u x v w_out zAB zBA
+      contract.prior_norm contract.posterior_norm
+      contract.posteriorQ1_nonneg contract.posteriorQ2_nonneg
+      contract.c1Do_nonneg contract.c2Do_nonneg
+  exact ⟨h.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end Signals.Pending

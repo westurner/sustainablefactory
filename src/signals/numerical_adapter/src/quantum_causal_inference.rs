@@ -929,7 +929,189 @@ pub fn oam_log_polar_transverse_momentum(
 }
 
 // ============================================================================
-// 7. WASM32 / C-ABI Exports
+// 8. Beyond 6,400x Splat-Grassmann Volumetric Efficiency, Jeffrey's Kinematic Engine,
+//    3D Volumetric Splat Nanoimaging/Surgery, and Quantum Causal Semantic GraphRAG
+// ============================================================================
+
+/// Spatiotemporal FLOP complexity $N_{\mathrm{splats}} \cdot m_{\mathrm{lags}} \cdot d_{\mathrm{pl\ddot{u}cker}}$
+/// of adaptive 3D Normed Tensor Gaussian Splat (`NormedTensorGaussianSplat3D`) Grassmannian mixing
+/// (`Signals.QuantumCausalInference.splatSparseGrassmannVideoComplexity`).
+#[must_use]
+pub fn splat_sparse_grassmann_video_complexity(
+    n_splats: f64,
+    m_lags: f64,
+    d_plucker: f64,
+) -> f64 {
+    n_splats * m_lags * d_plucker
+}
+
+/// Dimensionless volumetric attention efficiency gain ratio
+/// $\eta_{\mathrm{vol}} = \frac{(T \cdot H \cdot W)^2 d_{\mathrm{head}}}{N_{\mathrm{splats}} \cdot m_{\mathrm{lags}} \cdot d_{\mathrm{pl\ddot{u}cker}}}$
+/// measuring the exact speedup of splat-sparse Grassmannian mixing over dense 3D spatiotemporal
+/// self-attention (`Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio`).
+pub fn volumetric_attention_efficiency_ratio(
+    t: f64,
+    h: f64,
+    w: f64,
+    d_head: f64,
+    n_splats: f64,
+    m_lags: f64,
+    d_plucker: f64,
+) -> Result<f64, ValidationError> {
+    require_positive("n_splats", n_splats)?;
+    require_positive("m_lags", m_lags)?;
+    require_positive("d_plucker", d_plucker)?;
+    let num = spatiotemporal_full_attention_complexity(t, h, w, d_head);
+    let den = splat_sparse_grassmann_video_complexity(n_splats, m_lags, d_plucker);
+    Ok(num / den)
+}
+
+/// Richard Jeffrey's Probability Kinematics (`Jeffrey's Rule`, Jeffrey 1965) two-partition update
+/// $Q(S) = q_1 c_1 + q_2 c_2$ (`Signals.QuantumCausalInference.jeffreyKinematicUpdate`).
+#[must_use]
+pub fn jeffrey_kinematic_update(q1: f64, q2: f64, c1: f64, c2: f64) -> f64 {
+    q1 * c1 + q2 * c2
+}
+
+/// Kinematic shift $\Delta Q(S) = Q(S) - P(S) = (q_1 - p_1) c_1 + (q_2 - p_2) c_2$
+/// induced by Jeffrey's Kinematic Engine (`Signals.QuantumCausalInference.jeffreyKinematicShift`).
+#[must_use]
+pub fn jeffrey_kinematic_shift(p1: f64, p2: f64, q1: f64, q2: f64, c1: f64, c2: f64) -> f64 {
+    (q1 - p1) * c1 + (q2 - p2) * c2
+}
+
+/// Quantum Causal / Lüders–Plücker Kinematic Update (`Quantum Jeffrey Kinematics`)
+/// $Q_{\mathrm{QJE}}(S) = q_1 c_1 + q_2 c_2 + \gamma_{\mathrm{coh}} \cdot I_{\mathrm{Pl\ddot{u}cker}}$
+/// (`Signals.QuantumCausalInference.quantumJeffreyPluckerKinematicUpdate`).
+#[must_use]
+pub fn quantum_jeffrey_plucker_kinematic_update(
+    q1: f64,
+    q2: f64,
+    c1: f64,
+    c2: f64,
+    gamma_coh: f64,
+    wa_re: f64,
+    wa_im: f64,
+    wb_re: f64,
+    wb_im: f64,
+) -> f64 {
+    jeffrey_kinematic_update(q1, q2, c1, c2)
+        + gamma_coh * qcdt_plucker_interference_term(wa_re, wa_im, wb_re, wb_im)
+}
+
+/// Quantum Causal Semantic GraphRAG Subspace-Deconfounded Retrieval Score
+/// combining De Clercq tautological subspace projection $s_{\mathrm{taut}}$, Pearl $\operatorname{do}$-deconfounded
+/// Jeffrey kinematic update, and complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker path interference
+/// (`Signals.QuantumCausalInference.quantumCausalGraphRAGScore`).
+#[must_use]
+pub fn quantum_causal_graphrag_score(
+    s_taut: f64,
+    q1: f64,
+    q2: f64,
+    c1_do: f64,
+    c2_do: f64,
+    gamma_coh: f64,
+    wa_re: f64,
+    wa_im: f64,
+    wb_re: f64,
+    wb_im: f64,
+) -> f64 {
+    s_taut
+        + quantum_jeffrey_plucker_kinematic_update(
+            q1, q2, c1_do, c2_do, gamma_coh, wa_re, wa_im, wb_re, wb_im,
+        )
+}
+
+/// 3D Normed Tensor Gaussian Splat (`NormedTensorGaussianSplat3D`) with Jeffrey Kinematic Engine
+/// weight update, adaptive two-child major-axis splitting (`splitMajorPlus` / `splitMajorMinus`),
+/// and holographic $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth variance recovery (`recoverDepthVarianceSq`)
+/// for volumetric nanoimaging and surgical navigation.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct SurgicalVolumetricSplat3D {
+    pub center: [f64; 3],
+    pub weight: f64,
+    pub sigma: [f64; 3],
+}
+
+impl SurgicalVolumetricSplat3D {
+    /// Constructs a validated 3D Normed Tensor Gaussian Splat.
+    pub fn new(center: [f64; 3], weight: f64, sigma: [f64; 3]) -> Result<Self, ValidationError> {
+        require_nonnegative("weight", weight)?;
+        require_positive("sigma1", sigma[0])?;
+        require_positive("sigma2", sigma[1])?;
+        require_positive("sigma3", sigma[2])?;
+        Ok(Self {
+            center,
+            weight,
+            sigma,
+        })
+    }
+
+    /// 3D covariance determinant $\det\Sigma_{\mathrm{3D}} = \sigma_1^2 \sigma_2^2 \sigma_3^2$.
+    #[must_use]
+    pub fn cov_det(&self) -> f64 {
+        (self.sigma[0] * self.sigma[1] * self.sigma[2]).powi(2)
+    }
+
+    /// Orthographic 2D projection trace $\operatorname{Tr}\Sigma_{\mathrm{2D}} = \sigma_1^2 + \sigma_2^2$.
+    #[must_use]
+    pub fn ortho_2d_cov_trace(&self) -> f64 {
+        self.sigma[0] * self.sigma[0] + self.sigma[1] * self.sigma[1]
+    }
+
+    /// Updates the voxel weight via Jeffrey's Kinematic Engine (`jeffreyKinematicWeightUpdate`)
+    /// while preserving the 3D covariance fiber (`Jeffrey rigidity`).
+    pub fn jeffrey_kinematic_weight_update(
+        &self,
+        q1: f64,
+        q2: f64,
+        c1_do: f64,
+        c2_do: f64,
+    ) -> Result<Self, ValidationError> {
+        require_nonnegative("q1", q1)?;
+        require_nonnegative("q2", q2)?;
+        require_nonnegative("c1_do", c1_do)?;
+        require_nonnegative("c2_do", c2_do)?;
+        Ok(Self {
+            center: self.center,
+            weight: jeffrey_kinematic_update(q1, q2, c1_do, c2_do),
+            sigma: self.sigma,
+        })
+    }
+
+    /// Adaptive two-child splitting (`splitMajorPlus`, `splitMajorMinus`) along the first principal axis:
+    /// halves the weight ($w_\pm = w/2$) and halves $\sigma_1$ ($\sigma_{1,\pm} = \sigma_1 / 2$),
+    /// reducing $\det\Sigma_{\mathrm{3D}}$ by $1/4$ while conserving total $L^1$ mass $w_+ + w_- = w$.
+    #[must_use]
+    pub fn split_major_children(&self) -> (Self, Self) {
+        let half_w = 0.5 * self.weight;
+        let half_s1 = 0.5 * self.sigma[0];
+        let offset = (0.75_f64).sqrt() * self.sigma[0];
+        let child_plus = Self {
+            center: [self.center[0] + offset, self.center[1], self.center[2]],
+            weight: half_w,
+            sigma: [half_s1, self.sigma[1], self.sigma[2]],
+        };
+        let child_minus = Self {
+            center: [self.center[0] - offset, self.center[1], self.center[2]],
+            weight: half_w,
+            sigma: [half_s1, self.sigma[1], self.sigma[2]],
+        };
+        (child_plus, child_minus)
+    }
+
+    /// Recovers the exact 3rd principal depth variance $\sigma_3^2 = \operatorname{Tr}\Sigma_{\mathrm{2D}} / R_{\mathrm{depth}}$
+    /// from the 2D orthographic trace and the $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker channel ratio
+    /// $R_{\mathrm{depth}} = \|w_A^{\mathbb{C}}\|^2 / \|w_B^{\mathbb{C}}\|^2 = (\sigma_1^2 + \sigma_2^2) / \sigma_3^2$
+    /// (`Signals.DDF.recoverDepthVarianceSq`).
+    pub fn recover_depth_variance_sq(&self, r_depth: f64) -> Result<f64, ValidationError> {
+        require_positive("r_depth", r_depth)?;
+        Ok(self.ortho_2d_cov_trace() / r_depth)
+    }
+}
+
+// ============================================================================
+// 9. WASM32 / C-ABI Exports
 // ============================================================================
 
 /// C-ABI / WASM export: evaluates the Quantum Switch $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker
@@ -988,6 +1170,64 @@ pub extern "C" fn signals_spatiotemporal_grassmann_video_complexity(
     d_plucker: f64,
 ) -> f64 {
     spatiotemporal_grassmann_video_complexity(t, h, w, m_lags, d_plucker)
+}
+
+/// C-ABI / WASM export: evaluates `volumetric_attention_efficiency_ratio` (returns `NaN` on invalid inputs).
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_volumetric_attention_efficiency_ratio(
+    t: f64,
+    h: f64,
+    w: f64,
+    d_head: f64,
+    n_splats: f64,
+    m_lags: f64,
+    d_plucker: f64,
+) -> f64 {
+    volumetric_attention_efficiency_ratio(t, h, w, d_head, n_splats, m_lags, d_plucker)
+        .unwrap_or(f64::NAN)
+}
+
+/// C-ABI / WASM export: evaluates `jeffrey_kinematic_update`.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_jeffrey_kinematic_update(q1: f64, q2: f64, c1: f64, c2: f64) -> f64 {
+    jeffrey_kinematic_update(q1, q2, c1, c2)
+}
+
+/// C-ABI / WASM export: evaluates `quantum_jeffrey_plucker_kinematic_update`.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_quantum_jeffrey_plucker_kinematic_update(
+    q1: f64,
+    q2: f64,
+    c1: f64,
+    c2: f64,
+    gamma_coh: f64,
+    wa_re: f64,
+    wa_im: f64,
+    wb_re: f64,
+    wb_im: f64,
+) -> f64 {
+    quantum_jeffrey_plucker_kinematic_update(
+        q1, q2, c1, c2, gamma_coh, wa_re, wa_im, wb_re, wb_im,
+    )
+}
+
+/// C-ABI / WASM export: evaluates `quantum_causal_graphrag_score`.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_quantum_causal_graphrag_score(
+    s_taut: f64,
+    q1: f64,
+    q2: f64,
+    c1_do: f64,
+    c2_do: f64,
+    gamma_coh: f64,
+    wa_re: f64,
+    wa_im: f64,
+    wb_re: f64,
+    wb_im: f64,
+) -> f64 {
+    quantum_causal_graphrag_score(
+        s_taut, q1, q2, c1_do, c2_do, gamma_coh, wa_re, wa_im, wb_re, wb_im,
+    )
 }
 
 #[cfg(test)]
@@ -1328,5 +1568,107 @@ mod tests {
             - oam_log_polar_transverse_momentum(1.0, 2.0).unwrap();
         assert!((k_diff - 1.0).abs() < 1e-12);
         assert!((rgo_vitrimer_kapitza_cool_time(5.0e-9, 2.0e6, 1.0e-8) - 1.0e-10).abs() < 1e-20);
+    }
+
+    #[test]
+    fn splat_volumetric_6400x_efficiency_jeffrey_kinematics_and_quantum_graphrag_hold() {
+        // 1. Beyond 6,400x Splat-Sparse Grassmannian Volumetric Efficiency:
+        // Dense 16x16x16 volume (N=4096, d_head=64, m_lags=2, d_plucker=10):
+        let eta_dense_16 =
+            signals_volumetric_attention_efficiency_ratio(16.0, 16.0, 16.0, 64.0, 4096.0, 2.0, 10.0);
+        assert!((eta_dense_16 - 13_107.2).abs() < 1e-9);
+        assert!(eta_dense_16 > 6400.0);
+
+        // Dense 32x32x32 surgical navigation volume (N=32768) or 16^3 with 8x splat sparsity (N_splats=512):
+        let eta_dense_32 = volumetric_attention_efficiency_ratio(
+            32.0, 32.0, 32.0, 64.0, 32_768.0, 2.0, 10.0,
+        )
+        .unwrap();
+        let eta_sparse_16 =
+            volumetric_attention_efficiency_ratio(16.0, 16.0, 16.0, 64.0, 512.0, 2.0, 10.0)
+                .unwrap();
+        assert!((eta_dense_32 - 104_857.6).abs() < 1e-8);
+        assert!((eta_sparse_16 - 104_857.6).abs() < 1e-8);
+        assert!(eta_dense_32 > 6400.0);
+
+        // 32x32x40 endoscopic/OCT surgical slab (N=40960) with 10x splat sparsity (N_splats=4096):
+        let eta_surgical =
+            volumetric_attention_efficiency_ratio(32.0, 32.0, 40.0, 64.0, 4096.0, 2.0, 10.0)
+                .unwrap();
+        assert!((eta_surgical - 1_310_720.0).abs() < 1e-6);
+        assert!(eta_surgical > 6400.0);
+
+        // 2. Jeffrey's Kinematic Engine (`Probability Kinematics`, Jeffrey 1965) & Pearl do-deconfounding:
+        let p1 = 0.3;
+        let p2 = 0.7;
+        let q1 = 0.8;
+        let q2 = 0.2;
+        let c1_do = 0.9;
+        let c2_do = 0.1;
+        let b1 = 0.05;
+        let b2 = 0.25;
+        // Exact conservation under zero sensor shift:
+        assert!(jeffrey_kinematic_shift(p1, p2, p1, p2, c1_do, c2_do).abs() < 1e-12);
+        // Binary partition reduction (p2 = 1 - p1, q2 = 1 - q1):
+        let shift = jeffrey_kinematic_shift(p1, p2, q1, q2, c1_do, c2_do);
+        assert!((shift - (q1 - p1) * (c1_do - c2_do)).abs() < 1e-12);
+        // Confounding bias decomposition between observational and Pearl do-surgical Jeffrey kinematics:
+        let q_obs = signals_jeffrey_kinematic_update(q1, q2, c1_do + b1, c2_do + b2);
+        let q_do = signals_jeffrey_kinematic_update(q1, q2, c1_do, c2_do);
+        let q_bias = signals_jeffrey_kinematic_update(q1, q2, b1, b2);
+        assert!(((q_obs - q_do) - q_bias).abs() < 1e-12);
+
+        // Quantum Lüders-Plücker interference cancellation under pi-phase shift:
+        let q_qje_pos = signals_quantum_jeffrey_plucker_kinematic_update(
+            q1, q2, c1_do, c2_do, 0.5, 0.6, 0.2, 0.4, -0.3,
+        );
+        let q_qje_neg = signals_quantum_jeffrey_plucker_kinematic_update(
+            q1, q2, c1_do, c2_do, 0.5, 0.6, 0.2, -0.4, 0.3,
+        );
+        assert!(((0.5 * (q_qje_pos + q_qje_neg)) - q_do).abs() < 1e-12);
+
+        // 3. 3D Volumetric Normed Tensor Gaussian Splat for Nanoimaging & Surgical Navigation:
+        let splat = SurgicalVolumetricSplat3D::new([1.0, 2.0, 3.0], 1.2, [2.0, 1.5, 0.8]).unwrap();
+        let splat_updated = splat
+            .jeffrey_kinematic_weight_update(q1, q2, c1_do, c2_do)
+            .unwrap();
+        // Jeffrey rigidity: 3D covariance determinant & 2D orthographic trace are preserved!
+        assert!((splat_updated.cov_det() - splat.cov_det()).abs() < 1e-12);
+        assert!((splat_updated.ortho_2d_cov_trace() - splat.ortho_2d_cov_trace()).abs() < 1e-12);
+        assert!((splat_updated.weight - q_do).abs() < 1e-12);
+
+        // Adaptive two-child splitting along major axis reduces det(Sigma_3D) by 1/4 and conserves weight:
+        let (child_plus, child_minus) = splat_updated.split_major_children();
+        assert!(((child_plus.weight + child_minus.weight) - splat_updated.weight).abs() < 1e-12);
+        assert!((child_plus.cov_det() - 0.25 * splat_updated.cov_det()).abs() < 1e-12);
+        assert!((child_minus.cov_det() - 0.25 * splat_updated.cov_det()).abs() < 1e-12);
+
+        // Holographic Gr_C(2,4) Plücker channel ratio recovers exact 3rd principal depth variance sigma_3^2:
+        let r_depth = splat_updated.ortho_2d_cov_trace() / (splat_updated.sigma[2].powi(2));
+        let recovered_sigma3_sq = splat_updated.recover_depth_variance_sq(r_depth).unwrap();
+        assert!((recovered_sigma3_sq - splat_updated.sigma[2].powi(2)).abs() < 1e-12);
+
+        // 4. Quantum Causal Semantic GraphRAG Subspace-Deconfounded Retrieval:
+        let s_taut = 1.75;
+        let score_obs = signals_quantum_causal_graphrag_score(
+            s_taut,
+            q1,
+            q2,
+            c1_do + b1,
+            c2_do + b2,
+            0.5,
+            0.6,
+            0.2,
+            0.4,
+            -0.3,
+        );
+        let score_do_pos = signals_quantum_causal_graphrag_score(
+            s_taut, q1, q2, c1_do, c2_do, 0.5, 0.6, 0.2, 0.4, -0.3,
+        );
+        let score_do_neg = signals_quantum_causal_graphrag_score(
+            s_taut, q1, q2, c1_do, c2_do, 0.5, 0.6, 0.2, -0.4, 0.3,
+        );
+        assert!(((score_obs - score_do_pos) - q_bias).abs() < 1e-12);
+        assert!(((0.5 * (score_do_pos + score_do_neg)) - (s_taut + q_do)).abs() < 1e-12);
     }
 }

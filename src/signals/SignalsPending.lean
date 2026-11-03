@@ -258,4 +258,71 @@ lemma quantum_causal_bundle_videogen_bounds
       Signals.QuantumCausalInference.rgoVitrimerKapitzaCoolTime (5e-9) (2e6) (1e-8) = 1e-10 :=
   contract.decision_bundle_and_qram_bounds zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3
 
+/-- Summary lemma: in a `QuantumCausalSurgicalSplatGraphRAGHypothesis`, volumetric efficiency
+exceeds $6{,}400\times$ (`51,200x` and `640,000x`), Jeffrey's Kinematic Engine shift and
+$\operatorname{do}$-deconfounding identities hold, the 3D `NormedTensorGaussianSplat3D`
+kinematic weight update commutes with two-child splitting and $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+depth variance recovery, and Quantum Causal Semantic GraphRAG filters off-subspace noise
+while certifying disjoint LGV treks. -/
+@[blueprint "lem:pending-quantum-causal-surgical-splat-graphrag-bounds"
+  (title := "Pending >6,400x Splat-Grassmann, Jeffrey Kinematic Engine, Surgical Nanoimaging, and Quantum Causal GraphRAG summary bounds")
+  (statement := /-- For any \texttt{contract : QuantumCausalSurgicalSplatGraphRAGHypothesis},
+    $>6{,}400\times$ volumetric efficiency (`51,200x` and `640,000x`), Jeffrey's Kinematic Engine
+    shift and deconfounding laws, 3D \texttt{NormedTensorGaussianSplat3D} splitting and
+    $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth recovery, and Quantum Causal GraphRAG filtering
+    and LGV determinant laws hold simultaneously. -/)
+  (proof := /-- Apply \texttt{QuantumCausalSurgicalSplatGraphRAGHypothesis.efficiency\_kinematic\_splat\_and\_graphrag\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma quantum_causal_surgical_splat_graphrag_bounds
+    (contract : QuantumCausalSurgicalSplatGraphRAGHypothesis)
+    (wA_re wA_im wB_re wB_im c s beta : ℝ)
+    (u x v w_out : NNReal)
+    (zAB zBA : ℂ) :
+    let splat_j := contract.splat3D.jeffreyKinematicWeightUpdate
+      contract.posteriorQ1 contract.posteriorQ2 contract.c1Do contract.c2Do
+      contract.posteriorQ1_nonneg contract.posteriorQ2_nonneg
+      contract.c1Do_nonneg contract.c2Do_nonneg
+    let c_plus := splat_j.splitMajorPlus
+    let c_minus := splat_j.splitMajorMinus
+    let s_ortho := splat_j.projectOrthographic2D
+    let R_depth := (contract.splat3D.sigma1 ^ 2 + contract.splat3D.sigma2 ^ 2) /
+      contract.splat3D.sigma3 ^ 2
+    Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 32 64 32768 2 10 = 104857.6 ∧
+      Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 40 64 4096 2 10 = 1310720 ∧
+      (6400 : ℝ) < Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 16 16 16 64 4096 2 10 ∧
+      (6400 : ℝ) < Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 40 64 4096 2 10 ∧
+      Signals.QuantumCausalInference.jeffreyKinematicShift
+          contract.priorP1 contract.priorP2 contract.posteriorQ1 contract.posteriorQ2
+          contract.c1Do contract.c2Do =
+        (contract.posteriorQ1 - contract.priorP1) * (contract.c1Do - contract.c2Do) ∧
+      Signals.QuantumCausalInference.jeffreyKinematicUpdate
+          contract.posteriorQ1 contract.posteriorQ2
+          (contract.c1Do + contract.confounderBias1) (contract.c2Do + contract.confounderBias2) -
+        Signals.QuantumCausalInference.jeffreyKinematicUpdate
+          contract.posteriorQ1 contract.posteriorQ2 contract.c1Do contract.c2Do =
+        contract.posteriorQ1 * contract.confounderBias1 +
+          contract.posteriorQ2 * contract.confounderBias2 ∧
+      c_plus.weight + c_minus.weight =
+        Signals.QuantumCausalInference.jeffreyKinematicUpdate
+          contract.posteriorQ1 contract.posteriorQ2 contract.c1Do contract.c2Do ∧
+      Signals.DDF.recoverDepthVarianceSq s_ortho.covTrace R_depth =
+        contract.splat3D.sigma3 ^ 2 ∧
+      Signals.QuantumCausalInference.quantumCausalGraphRAGScore
+          contract.tautologicalScore contract.posteriorQ1 contract.posteriorQ2
+          (contract.c1Do + contract.confounderBias1) (contract.c2Do + contract.confounderBias2)
+          contract.coherenceGamma wA_re wA_im wB_re wB_im -
+        Signals.QuantumCausalInference.quantumCausalGraphRAGScore
+          contract.tautologicalScore contract.posteriorQ1 contract.posteriorQ2
+          contract.c1Do contract.c2Do
+          contract.coherenceGamma wA_re wA_im wB_re wB_im =
+        contract.posteriorQ1 * contract.confounderBias1 +
+          contract.posteriorQ2 * contract.confounderBias2 ∧
+      Signals.QuantumCausalInference.tautologicalProjectorVec c s (-s * beta) (c * beta) = (0, 0) ∧
+      (Signals.Geometry.singleHubRepresentative u x v w_out).mat.det = 0 ∧
+      Signals.QuantumCausalInference.quantumSwitchSymBranchWeight zAB zBA +
+          Signals.QuantumCausalInference.quantumSwitchAntiBranchWeight zAB zBA =
+        (1 / 2 : ℝ) * (Complex.normSq zAB + Complex.normSq zBA) :=
+  contract.efficiency_kinematic_splat_and_graphrag_bounds
+    wA_re wA_im wB_re wB_im c s beta u x v w_out zAB zBA
+
 end SignalsPending

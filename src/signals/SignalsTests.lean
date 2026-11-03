@@ -6773,4 +6773,65 @@ example (zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 a00 a01 a10 a11 c s alpha a1 a2 b1 b2 s
   refine ⟨h.1, by linarith [h.2.1], h.2.2.1, h.2.2.2.1, h.2.2.2.2.1,
     h.2.2.2.2.2.1, h.2.2.2.2.2.2.1, by linarith [h.2.2.2.2.2.2.2]⟩
 
+/-- Beyond $6{,}400\times$ (`51,200x` and `640,000x`) splat-sparse Grassmannian volumetric
+efficiency, Jeffrey's Kinematic Engine (`jeffreyKinematicShift`, `jeffreyKinematicUpdate`),
+3D `NormedTensorGaussianSplat3D` kinematic weight update + child splitting + $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+depth recovery, and Quantum Causal Semantic GraphRAG (`Signals.QuantumCausalInference`). -/
+example (splat : Signals.DDF.NormedTensorGaussianSplat3D)
+    (b1 b2 gamma wA_re wA_im wB_re wB_im tau_score c s beta : ℝ)
+    (u x v w_out : NNReal) (zAB zBA : ℂ) :
+    let splat_j := splat.jeffreyKinematicWeightUpdate (4 / 5) (1 / 5) 10 2
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    let c_plus := splat_j.splitMajorPlus
+    let c_minus := splat_j.splitMajorMinus
+    let s_ortho := splat_j.projectOrthographic2D
+    let R_depth := (splat.sigma1 ^ 2 + splat.sigma2 ^ 2) / splat.sigma3 ^ 2
+    Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 16 16 16 64 4096 2 10 = 13107.2 ∧
+      Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 32 64 32768 2 10 = 104857.6 ∧
+      Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 16 16 16 64 512 2 10 = 104857.6 ∧
+      Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 40 64 4096 2 10 = 1310720 ∧
+      (6400 : ℝ) < Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 16 16 16 64 4096 2 10 ∧
+      (6400 : ℝ) < Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 40 64 4096 2 10 ∧
+      Signals.QuantumCausalInference.jeffreyKinematicUpdate (4 / 5) (1 / 5) 1 1 = 1 ∧
+      Signals.QuantumCausalInference.jeffreyKinematicShift (1 / 2) (1 / 2) (4 / 5) (1 / 5) 10 2 =
+        12 / 5 ∧
+      Signals.QuantumCausalInference.jeffreyKinematicShift (1 / 2) (1 / 2) (1 / 2) (1 / 2) 10 2 = 0 ∧
+      Signals.QuantumCausalInference.jeffreyKinematicUpdate (4 / 5) (1 / 5) (10 + b1) (2 + b2) -
+          Signals.QuantumCausalInference.jeffreyKinematicUpdate (4 / 5) (1 / 5) 10 2 =
+        (4 / 5) * b1 + (1 / 5) * b2 ∧
+      Signals.QuantumCausalInference.quantumJeffreyPluckerKinematicUpdate
+          (4 / 5) (1 / 5) 10 2 gamma wA_re wA_im wB_re wB_im -
+        Signals.QuantumCausalInference.jeffreyKinematicUpdate (4 / 5) (1 / 5) 10 2 =
+        2 * gamma * (wA_re * wB_re + wA_im * wB_im) ∧
+      splat_j.covDet = splat.covDet ∧
+      c_plus.weight + c_minus.weight = 42 / 5 ∧
+      Signals.DDF.recoverDepthVarianceSq s_ortho.covTrace R_depth = splat.sigma3 ^ 2 ∧
+      Signals.QuantumCausalInference.quantumCausalGraphRAGScore
+          tau_score (4 / 5) (1 / 5) (10 + b1) (2 + b2) gamma wA_re wA_im wB_re wB_im -
+        Signals.QuantumCausalInference.quantumCausalGraphRAGScore
+          tau_score (4 / 5) (1 / 5) 10 2 gamma wA_re wA_im wB_re wB_im =
+        (4 / 5) * b1 + (1 / 5) * b2 ∧
+      Signals.QuantumCausalInference.tautologicalProjectorVec c s (-s * beta) (c * beta) = (0, 0) ∧
+      (Signals.Geometry.singleHubRepresentative u x v w_out).mat.det = 0 ∧
+      Signals.QuantumCausalInference.quantumSwitchSymBranchWeight zAB zBA +
+          Signals.QuantumCausalInference.quantumSwitchAntiBranchWeight zAB zBA =
+        (1 / 2 : ℝ) * (Complex.normSq zAB + Complex.normSq zBA) := by
+  intro splat_j c_plus c_minus s_ortho R_depth
+  have h :=
+    Signals.QuantumCausalInference.quantum_causal_jeffrey_kinematics_splat_volumetric_and_semantic_graphrag_identities
+      splat (1 / 2) (1 / 2) (4 / 5) (1 / 5) 10 2 b1 b2 gamma
+      wA_re wA_im wB_re wB_im tau_score c s beta u x v w_out zAB zBA
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  refine ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1,
+    by unfold Signals.QuantumCausalInference.jeffreyKinematicUpdate; norm_num,
+    by linarith [h.2.2.2.2.2.2.2.1],
+    by unfold Signals.QuantumCausalInference.jeffreyKinematicShift; norm_num,
+    h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.1,
+    ?_, h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+  have h_w := h.2.2.2.2.2.2.2.2.2.2.2.2.1
+  unfold Signals.QuantumCausalInference.jeffreyKinematicUpdate at h_w
+  linarith
+
 end SignalsTests

@@ -5389,4 +5389,96 @@ example (zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 : ℝ) :
   SignalsPending.quantum_causal_bundle_videogen_bounds
     toyQuantumCausalBundleVideoGenContract zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3
 
+noncomputable def toySurgicalSplat3D : Signals.DDF.NormedTensorGaussianSplat3D :=
+  { centerX := 1
+    centerY := -2
+    centerZ := 4
+    weight := 6
+    weight_nonneg := by norm_num
+    sigma1 := 8
+    sigma1_pos := by norm_num
+    sigma2 := 2
+    sigma2_pos := by norm_num
+    sigma3 := 1
+    sigma3_pos := by norm_num
+    orientationAngle := 0
+    pitchAngle := 0 }
+
+noncomputable def toyQuantumCausalSurgicalSplatGraphRAGContract :
+    QuantumCausalSurgicalSplatGraphRAGHypothesis :=
+  { splat3D := toySurgicalSplat3D
+    priorP1 := 1 / 2
+    priorP2 := 1 / 2
+    posteriorQ1 := 4 / 5
+    posteriorQ2 := 1 / 5
+    prior_norm := by norm_num
+    posterior_norm := by norm_num
+    posteriorQ1_nonneg := by norm_num
+    posteriorQ2_nonneg := by norm_num
+    c1Do := 10
+    c2Do := 2
+    c1Do_nonneg := by norm_num
+    c2Do_nonneg := by norm_num
+    confounderBias1 := 1 / 2
+    confounderBias2 := 1 / 4
+    tautologicalScore := 3
+    coherenceGamma := 1 / 10
+    motionConfounderSubtracted := True
+    motionConfounderSubtracted_hypothesis := trivial
+    surgicalAcousticThermalSafetyVerified := True
+    surgicalAcousticThermalSafetyVerified_hypothesis := trivial
+    graphRagDisjointProvenanceVerified := True
+    graphRagDisjointProvenanceVerified_hypothesis := trivial }
+
+example (wA_re wA_im wB_re wB_im c s beta : ℝ)
+    (u x v w_out : NNReal) (zAB zBA : ℂ) :
+    let contract := toyQuantumCausalSurgicalSplatGraphRAGContract
+    let splat_j := contract.splat3D.jeffreyKinematicWeightUpdate
+      contract.posteriorQ1 contract.posteriorQ2 contract.c1Do contract.c2Do
+      contract.posteriorQ1_nonneg contract.posteriorQ2_nonneg
+      contract.c1Do_nonneg contract.c2Do_nonneg
+    let c_plus := splat_j.splitMajorPlus
+    let c_minus := splat_j.splitMajorMinus
+    let s_ortho := splat_j.projectOrthographic2D
+    let R_depth := (contract.splat3D.sigma1 ^ 2 + contract.splat3D.sigma2 ^ 2) /
+      contract.splat3D.sigma3 ^ 2
+    Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 32 64 32768 2 10 = 104857.6 ∧
+      Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 40 64 4096 2 10 = 1310720 ∧
+      (6400 : ℝ) < Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 16 16 16 64 4096 2 10 ∧
+      (6400 : ℝ) < Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 32 32 40 64 4096 2 10 ∧
+      Signals.QuantumCausalInference.jeffreyKinematicShift
+          contract.priorP1 contract.priorP2 contract.posteriorQ1 contract.posteriorQ2
+          contract.c1Do contract.c2Do =
+        (contract.posteriorQ1 - contract.priorP1) * (contract.c1Do - contract.c2Do) ∧
+      Signals.QuantumCausalInference.jeffreyKinematicUpdate
+          contract.posteriorQ1 contract.posteriorQ2
+          (contract.c1Do + contract.confounderBias1) (contract.c2Do + contract.confounderBias2) -
+        Signals.QuantumCausalInference.jeffreyKinematicUpdate
+          contract.posteriorQ1 contract.posteriorQ2 contract.c1Do contract.c2Do =
+        contract.posteriorQ1 * contract.confounderBias1 +
+          contract.posteriorQ2 * contract.confounderBias2 ∧
+      c_plus.weight + c_minus.weight =
+        Signals.QuantumCausalInference.jeffreyKinematicUpdate
+          contract.posteriorQ1 contract.posteriorQ2 contract.c1Do contract.c2Do ∧
+      Signals.DDF.recoverDepthVarianceSq s_ortho.covTrace R_depth =
+        contract.splat3D.sigma3 ^ 2 ∧
+      Signals.QuantumCausalInference.quantumCausalGraphRAGScore
+          contract.tautologicalScore contract.posteriorQ1 contract.posteriorQ2
+          (contract.c1Do + contract.confounderBias1) (contract.c2Do + contract.confounderBias2)
+          contract.coherenceGamma wA_re wA_im wB_re wB_im -
+        Signals.QuantumCausalInference.quantumCausalGraphRAGScore
+          contract.tautologicalScore contract.posteriorQ1 contract.posteriorQ2
+          contract.c1Do contract.c2Do
+          contract.coherenceGamma wA_re wA_im wB_re wB_im =
+        contract.posteriorQ1 * contract.confounderBias1 +
+          contract.posteriorQ2 * contract.confounderBias2 ∧
+      Signals.QuantumCausalInference.tautologicalProjectorVec c s (-s * beta) (c * beta) = (0, 0) ∧
+      (Signals.Geometry.singleHubRepresentative u x v w_out).mat.det = 0 ∧
+      Signals.QuantumCausalInference.quantumSwitchSymBranchWeight zAB zBA +
+          Signals.QuantumCausalInference.quantumSwitchAntiBranchWeight zAB zBA =
+        (1 / 2 : ℝ) * (Complex.normSq zAB + Complex.normSq zBA) :=
+  SignalsPending.quantum_causal_surgical_splat_graphrag_bounds
+    toyQuantumCausalSurgicalSplatGraphRAGContract
+    wA_re wA_im wB_re wB_im c s beta u x v w_out zAB zBA
+
 end SignalsPendingTests
