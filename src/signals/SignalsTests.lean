@@ -5657,6 +5657,201 @@ example (hPlus θ ψ : ℝ) :
   exact ⟨h3d.1, h3d.2.1, h3d.2.2.1, h3d.2.2.2.1,
     h3d.2.2.2.2.2.2.1 hv_pos, h3d.2.2.2.2.2.2.2.1, h3d.2.2.2.2.2.2.2.2⟩
 
+/-- Multi-model gravity relative predictive error comparison (`Signals.QEDGravity`):
+Einstein General Relativity (1915/1916, $0\%$), $Gr_{\mathbb{C}}(2,4)$ 1-loop QFT double copy ($0\%$),
+Fedi (2016) Superfluid Quantum Gravity ($100\%$ pure Bernoulli sink / $0\%$ relativistic acoustic + GPE),
+Fedi (2017) dark superfluid ($0\%$ conservative $\gamma - 1$ / $>0$ Pioneer Stokes drag), and
+Cachazo–Skinner (2012) infinity-twistor broken twistor string ($0\%$ at $\Lambda_{\mathrm{cc}} = 0$, $> 0$ at
+$\Lambda_{\mathrm{cc}} > 0$) vs. Witten 2004 conformal twistor string ($100\%$ scale-free /
+$>0$ Weyl linear potential), spin-1 vector ($5/6$), Nordström spin-0 scalar ($7/6$),
+and Newtonian ($1$). -/
+example (M_C : Matrix (Fin 2) (Fin 4) ℂ) :
+    let Δϖ_GR := toyMercuryOrbit.perihelionPrecessionRadPM
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c
+    Signals.DDF.cachazoSkinnerHodges4PtKernel M_C =
+      (Signals.DDF.complexPluckerSinkAmplitudeA M_C +
+        Signals.DDF.complexPluckerSinkAmplitudeB M_C) ^ 2 ∧
+    0 < Δϖ_GR ∧
+    Signals.Huygens.relativePredictiveError Δϖ_GR Δϖ_GR = 0 ∧
+    Signals.Huygens.relativePredictiveError toyMercuryOrbit.newtonianAnomalousPrecessionRad Δϖ_GR = 1 ∧
+    toyMercuryOrbit.nordstromScalarPrecessionRad
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c < 0 ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.nordstromScalarPrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c) Δϖ_GR = 7 / 6 ∧
+    toyMercuryOrbit.einsteinGeneralRelativityPrecessionRad
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 1 1 = Δϖ_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.einsteinGeneralRelativityPrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 1 1) Δϖ_GR = 0 ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.spinOneVectorPrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c) Δϖ_GR = 5 / 6 ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.wittenConformalTwistorPrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 0 0) Δϖ_GR = 1 ∧
+    0 < Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.wittenConformalTwistorPrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 1 (1 / 10)) Δϖ_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.fediSQG2016PrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 0 0) Δϖ_GR = 1 ∧
+    toyMercuryOrbit.fediSQG2016PrecessionRad
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 1 0 = Δϖ_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.fediSQG2016PrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 1 0) Δϖ_GR = 0 ∧
+    0 < Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.fediSQG2016PrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 1 (1 / 1000)) Δϖ_GR ∧
+    toyMercuryOrbit.fediDarkSuperfluid2017PrecessionRad
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 1 0 = Δϖ_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.fediDarkSuperfluid2017PrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 1 0) Δϖ_GR = 0 ∧
+    0 < Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.fediDarkSuperfluid2017PrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 1 (1 / 10000)) Δϖ_GR ∧
+    toyMercuryOrbit.cachazoSkinnerTwistorPrecessionRad
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 1 (1 / 10) 0 = Δϖ_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.cachazoSkinnerTwistorPrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 1 (1 / 10) 0) Δϖ_GR = 0 ∧
+    0 < Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.cachazoSkinnerTwistorPrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 1 (1 / 10) (1 / 100)) Δϖ_GR ∧
+    toyMercuryOrbit.cachazoSkinnerTwistorPrecessionRad
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 0 (1 / 10) 0 =
+      toyMercuryOrbit.wittenConformalTwistorPrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c 0 (1 / 10) ∧
+    toyMercuryOrbit.partanenTulkki2025PrecessionRad
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c = Δϖ_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.partanenTulkki2025PrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c) Δϖ_GR = 0 ∧
+    toyMercuryOrbit.fediDDF2026PrecessionRad
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c = Δϖ_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.fediDDF2026PrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c) Δϖ_GR = 0 ∧
+    toyMercuryOrbit.turnerGr24QEDPrecessionRad
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c Δϖ_GR = Δϖ_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.turnerGr24QEDPrecessionRad
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c Δϖ_GR) Δϖ_GR = 0 := by
+  intro Δϖ_GR
+  have h_cs_bcj := (Signals.DDF.cachazoSkinnerHodges4PtKernel_eq_bcj_double_copy M_C).1
+  have h := toyMercuryOrbit.gravity_models_relative_predictive_error_comparison
+    toyRiverExterior.G_phi toyRiverExterior.sourceMass toyDDFSubstrate.c
+    (1 / 10) (1 / 100) (1 / 1000) (1 / 10000)
+    toyRiverExterior.G_phi_pos toyRiverExterior.sourceMass_pos toyDDFSubstrate.c_pos
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  rcases h with ⟨h1, _h2, h3, h4, h5, h6, h7, h8, h9, h10, _h11, h12,
+    h13, h14, h15, _h16, h17, h18, h19, _h20, h21, h22, h23, _h24, h25, h26,
+    h27, h28, h29, h30, h31, h32⟩
+  exact ⟨h_cs_bcj, h1, h3, h4, h5, h6, h7, h8, h9, h10, h12,
+    h13, h14, h15, h17, h18, h19, h21, h22, h23, h25, h26,
+    h27, h28, h29, h30, h31, h32⟩
+
+/-- Multi-model gravitational-wave luminosity relative predictive error comparison (`Signals.QEDGravity`):
+Einstein General Relativity (1916/1918) + Peters–Mathews (1963) ($0\%$),
+Partanen & Tulkki (2025) 2.5PN QFT ($0\%$),
+Fedi (2026) conservative DDF ($0\%$),
+Turner (2026) $Gr_{\mathbb{C}}(2,4)$ BCJ spin-2 double copy ($0\%$),
+Cachazo–Skinner (2012) infinity-twistor ($0\%$ at $\delta P_\Lambda = 0$, $> 0$ at $\delta P_\Lambda > 0$),
+Fedi (2016) SQG ($100\%$ pure longitudinal BEC sink / $0\%$ with vortex-lattice transverse elasticity),
+and Fedi (2017) dark superfluid ($0\%$ conservative $\gamma - 1$ / $> 0$ with Stokes drag) vs.
+Witten (2004) conformal twistor string ($100\%$ scale-free / $> 0$ with negative-norm Weyl ghost flux),
+spin-1 vector ($100\%$ in TT channel / $3/4$ in vector quadrupole), Nordström spin-0 scalar
+($100\%$ in TT channel / $5/6$ in virial trace quadrupole), and Newtonian ($100\%$). -/
+example (Φ_orb Δϖ : ℝ) :
+    let P_GR := toyMercuryOrbit.petersMathewsLuminosityPM
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c
+    0 < P_GR ∧
+    Signals.Huygens.relativePredictiveError P_GR P_GR = 0 ∧
+    Signals.Huygens.relativePredictiveError toyMercuryOrbit.newtonianGWLuminosity P_GR = 1 ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.nordstromScalarGWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 0) P_GR = 1 ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.nordstromScalarGWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c (1 / 6)) P_GR = 5 / 6 ∧
+    toyMercuryOrbit.einsteinGeneralRelativityGWLuminosity
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 1 = P_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.einsteinGeneralRelativityGWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 1) P_GR = 0 ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.spinOneVectorGWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 0 0) P_GR = 1 ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.spinOneVectorGWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c (1 / 4) 0) P_GR = 3 / 4 ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.wittenConformalTwistorGWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 0 0) P_GR = 1 ∧
+    0 < Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.wittenConformalTwistorGWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 1 (1 / 10)) P_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.fediSQG2016GWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 0 0) P_GR = 1 ∧
+    toyMercuryOrbit.fediSQG2016GWLuminosity
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 1 0 = P_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.fediSQG2016GWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 1 0) P_GR = 0 ∧
+    0 < Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.fediSQG2016GWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 1 (1 / 1000)) P_GR ∧
+    toyMercuryOrbit.fediDarkSuperfluid2017GWLuminosity
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 1 0 = P_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.fediDarkSuperfluid2017GWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 1 0) P_GR = 0 ∧
+    0 < Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.fediDarkSuperfluid2017GWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 1 (1 / 10000)) P_GR ∧
+    toyMercuryOrbit.cachazoSkinnerTwistorGWLuminosity
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 1 (1 / 10) 0 = P_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.cachazoSkinnerTwistorGWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 1 (1 / 10) 0) P_GR = 0 ∧
+    0 < Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.cachazoSkinnerTwistorGWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 1 (1 / 10) (1 / 100)) P_GR ∧
+    toyMercuryOrbit.cachazoSkinnerTwistorGWLuminosity
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 0 (1 / 10) 0 =
+      toyMercuryOrbit.wittenConformalTwistorGWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c 0 (1 / 10) ∧
+    toyMercuryOrbit.partanenTulkki2025GWLuminosity
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c = P_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.partanenTulkki2025GWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c) P_GR = 0 ∧
+    toyMercuryOrbit.fediDDF2026GWLuminosity
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c = P_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.fediDDF2026GWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c) P_GR = 0 ∧
+    toyMercuryOrbit.turnerGr24QEDGWLuminosity
+      toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c Φ_orb Δϖ = P_GR ∧
+    Signals.Huygens.relativePredictiveError
+      (toyMercuryOrbit.turnerGr24QEDGWLuminosity
+        toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c Φ_orb Δϖ) P_GR = 0 := by
+  intro P_GR
+  have h := toyMercuryOrbit.gravitational_wave_models_relative_predictive_error_comparison
+    Φ_orb Δϖ toyRiverExterior.G_phi toyRiverExterior.sourceMass 2 toyDDFSubstrate.c
+    (1 / 10) (1 / 100) (1 / 1000) (1 / 10000)
+    toyRiverExterior.G_phi_pos toyRiverExterior.sourceMass_pos (by norm_num) toyDDFSubstrate.c_pos
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  rcases h with ⟨h1, _h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, _h12, h13,
+    h14, h15, h16, _h17, h18, h19, h20, _h21, h22, h23, h24, _h25, h26, h27,
+    h28, h29, h30, h31, h32, h33⟩
+  exact ⟨h1, h3, h4, h5, h6, h7, h8, h9, h10, h11, h13,
+    h14, h15, h16, h18, h19, h20, h22, h23, h24, h26, h27,
+    h28, h29, h30, h31, h32, h33⟩
+
 /-- Hawking thermodynamics without DDF (`Signals.HawkingRadiation`) vs. with DDF (`Signals.DDF`),
 Gordon acoustic metric lapse, Penrose Pauli spinor determinant, S301 pericenter wake,
 Madelung iGPE potential unwinding, and 2D/3D Tensor Gaussian Splat topological snap / metric swelling. -/
@@ -5767,5 +5962,293 @@ example (θ q_v p_v φ_v sx sy sz t x y z : ℝ)
     h_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h_ddf.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+/-- Master 16-domain capstone unification verification across all sixteen companion papers:
+(1) Double-Slit & OAM Interferometry, (2) QISM & Bethe Ansatz, (3) DDF Moving Sheaths,
+(4) QED/Gauge BCJ Double Copy, Cachazo-Skinner vs. Witten Twistor Gravity, Multi-Model 1PN
+Perihelion Precession, & Multi-Model 2.5PN Peters-Mathews Gravitational Waves + 3D GW Splats,
+(5) Normed Tensor Gaussian Splat Mechanics, (6) Inverse Compton, Raman, & Second-Sound Heat,
+(7) Polaritons, SPPs, CSR, & SHG-OPA, (8) 't Hooft-Susskind Holography, (9) AdS/CFT, Planar
+Integrability, & 16x16 Secret Symmetries, (10) 2D/3D Splat Splitting & Schur-Plücker Calculus,
+(11) Holographic Gr_C(2,4) 3D Depth & Range Recovery, (12) 3D Vectorial Debye-Wolf E_z, Thin-Film
+ENZ, & Gr(3,6) Plücker Syzygies, (13) rGO-polyCBD-SS-Lignin ENZ/HMM & CPA-TNSA p-11B / sCO2
+Ledgers, (14) 405/532 nm Thermal-STED Carbon Nanolithography, 6-Stage RISC-V (CVA6/Ibex), &
+Radical Recombination, (15) Madelung Polar Variational Action & Action-Derived DDF Proper Time,
+and (16) Four-Quadrant Hawking Radiation, Gordon Acoustic Metric, iGPE Unwinding, & Splat Swell. -/
+example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
+    (orb : PlanetaryOrbit) (hr : re.horizonRadius < 4)
+    (c_th0 : ℝ) (hc_pos : 0 < c_th0) (hc_le : c_th0 ≤ sub.c)
+    (Φ_orb Δϖ dt θ x y B1 B2 : ℝ) :
+    let z1 : ℂ := ↑(Real.cos (Real.pi * 6 * x / (1 * 5))) + Complex.I * ↑(Real.sin (Real.pi * 6 * x / (1 * 5)))
+    let z2 : ℂ := ↑(Real.cos (Real.pi * 6 * x / (1 * 5))) - Complex.I * ↑(Real.sin (Real.pi * 6 * x / (1 * 5)))
+    let M_sheath := s.gr24TwistorMatrix 6 1 5 2 0 0
+    let Δϖ_GR := orb.perihelionPrecessionRadPM re.G_phi re.sourceMass sub.c
+    let P_GR := orb.petersMathewsLuminosityPM re.G_phi re.sourceMass 2 sub.c
+    let M_GW := orb.gr24QuadrupoleWaveMatrix Φ_orb Δϖ
+    let splat_ddf := s.ddfTensorSplat 0 0 5 2 (by norm_num) (by norm_num) θ
+    let splat_opa := opaSqueezedTensorSplat 0 0 5 2 3 (by norm_num) (by norm_num) θ
+    let M_spp := sppGr24Matrix (sppPermittivityContrast 2 6) θ
+    let M_holo := ddfThermalGr24Matrix (re.inflowBeta 4) θ
+    let W_sec := psl22SecretAutomorphismGr24Matrix 2 1 1 1
+    let M_ads5 := ddfThermalGr24Matrix ((1 / 2 : ℝ) ^ 2) θ
+    let M_depth := ddfThermalGr24Matrix toySplat3D.holographicDepthAnisotropy θ
+    let R_depth :=
+      Complex.normSq (complexPluckerSinkAmplitudeA M_depth) /
+        Complex.normSq (complexPluckerSinkAmplitudeB M_depth)
+    let J4 := impellerShear4x4 2 (3 / 5)
+    let Sigma4 := J4 * J4.transpose
+    -- (1) Paper 1 (Double-Slit & OAM): 0% error on Gr_C(2,4) everywhere:
+    Signals.Huygens.relativePredictiveError
+      (Signals.Huygens.complexGr24CrossingDoubleSlit (Signals.Huygens.complexGr24ChannelMatrix z1 z2) 3 2 4 1 5 x y)
+      (Signals.Huygens.fraunhoferRectangularDoubleSlit 3 2 4 6 1 5 x y) = 0 ∧
+    -- (2) Paper 2 (QISM & Bethe Ansatz): 8x8 Matrix Quantum Yang-Baxter Equation:
+    Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff 7 4) 2 *
+        Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff 7 1) 2 *
+        Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff 4 1) 2 =
+      Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff 4 1) 2 *
+        Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff 7 1) 2 *
+        Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff 7 4) 2 ∧
+    -- (3) Paper 3 (DDF Moving Sheaths): Plücker product equals inverse squared Lorentz jamming factor:
+    Complex.normSq (complexPluckerSinkAmplitudeA M_sheath) *
+        Complex.normSq (complexPluckerSinkAmplitudeB M_sheath) =
+      (s.jammingFactor ^ 2)⁻¹ ∧
+    -- (4a) Paper 4 (Planetary Gravity, Cachazo-Skinner 4-pt Hodges Kernel, & Multi-Model 1PN Perihelion Errors):
+    re.perihelionPrecessionArcsecPerOrbit orb =
+      1944000 * re.horizonRadius / orb.semiLatusRectum ∧
+    cachazoSkinnerHodges4PtKernel M_GW =
+      (complexPluckerSinkAmplitudeA M_GW + complexPluckerSinkAmplitudeB M_GW) ^ 2 ∧
+    Signals.Huygens.relativePredictiveError
+      (orb.einsteinGeneralRelativityPrecessionRad re.G_phi re.sourceMass sub.c 1 1) Δϖ_GR = 0 ∧
+    Signals.Huygens.relativePredictiveError
+      (orb.nordstromScalarPrecessionRad re.G_phi re.sourceMass sub.c) Δϖ_GR = 7 / 6 ∧
+    Signals.Huygens.relativePredictiveError
+      (orb.spinOneVectorPrecessionRad re.G_phi re.sourceMass sub.c) Δϖ_GR = 5 / 6 ∧
+    Signals.Huygens.relativePredictiveError
+      (orb.cachazoSkinnerTwistorPrecessionRad re.G_phi re.sourceMass sub.c 1 (1 / 10) 0) Δϖ_GR = 0 ∧
+    -- (4b) Paper 4 (2.5PN Peters-Mathews Quadrupole Gravitational Waves, Multi-Model GW Errors, & 3D GW Splat Projection):
+    P_GR ^ 2 =
+      ((32 / 5 : ℝ) * re.G_phi ^ 4 * re.sourceMass ^ 2 * 2 ^ 2 * (re.sourceMass + 2) /
+        (sub.c ^ 5 * orb.semiMajorAxis ^ 5)) ^ 2 *
+        (orb.petersMathewsPolynomial ^ 2 /
+          (Complex.normSq (complexPluckerSinkAmplitudeA M_GW) *
+            Complex.normSq (complexPluckerSinkAmplitudeB M_GW)) ^ 7) ∧
+    Signals.Huygens.relativePredictiveError
+      (orb.einsteinGeneralRelativityGWLuminosity re.G_phi re.sourceMass 2 sub.c 1) P_GR = 0 ∧
+    Signals.Huygens.relativePredictiveError
+      (orb.nordstromScalarGWLuminosity re.G_phi re.sourceMass 2 sub.c (1 / 6)) P_GR = 5 / 6 ∧
+    Signals.Huygens.relativePredictiveError
+      (orb.spinOneVectorGWLuminosity re.G_phi re.sourceMass 2 sub.c (1 / 4) 0) P_GR = 3 / 4 ∧
+    Signals.Huygens.relativePredictiveError
+      (orb.cachazoSkinnerTwistorGWLuminosity re.G_phi re.sourceMass 2 sub.c 1 (1 / 10) 0) P_GR = 0 ∧
+    (s.ddfGravitationalWaveSplat3D 0 0 1 5 2 3 0
+      (by norm_num) (by norm_num) (by norm_num) θ 0).projectOrthographic2D =
+      NormedTensorGaussianSplat2D.ttGravitationalWaveSplat 0 0 5 2 0
+        (by norm_num) (by norm_num) θ ∧
+    -- (5) Paper 5 (Tensor Gaussian Splats): Madelung quantum pressure tensor trace & anisotropy:
+    splat_ddf.quantumPressureTrace 1 1 x y =
+      (splat_ddf.coreBohmPotential 1 1 / 1) * splat_ddf.eval x y ∧
+    splat_ddf.quantumPressurePrincipal1 1 1 x y =
+      s.jammingFactor ^ 2 * splat_ddf.quantumPressurePrincipal2 1 1 x y ∧
+    -- (6) Paper 6 (Inverse Compton, Raman, & Second-Sound Heat): Doppler ratio, Raman T, & subluminal c_th:
+    Complex.normSq (complexPluckerSinkAmplitudeA M_sheath) /
+        Complex.normSq (complexPluckerSinkAmplitudeB M_sheath) =
+      Signals.Scattering.inverseComptonDopplerRatio s.beta ∧
+    Signals.Scattering.reconstructRamanTemperature 10 2 150
+      (Signals.Scattering.ramanAntiStokesToStokesThermalRatio 10 2 (150 / 300)) = 300 ∧
+    s.ddfSecondSoundSpeed c_th0 ≤ sub.c ∧
+    -- (7) Paper 7 (Polaritons, SPPs, CSR, & χ^(2) SHG-OPA): SPP skin-depth ratio & symplectic OPA squeezing:
+    Complex.normSq (complexPluckerSinkAmplitudeA M_spp) /
+        Complex.normSq (complexPluckerSinkAmplitudeB M_spp) = 6 / 2 ∧
+    splat_opa.covDet = 2 ^ 4 ∧
+    splat_opa.quantumPressurePrincipal2 1 1 x y =
+      Real.exp (4 * 3) * splat_opa.quantumPressurePrincipal1 1 1 x y ∧
+    -- (8) Paper 8 ('t Hooft-Susskind Holography): Gauss-Smarr 2D-to-3D mass recovery & PG lapse 1 - r_H/r:
+    (re.horizonSurfaceGravity * re.horizonArea) / (4 * Real.pi * re.G_phi) = re.sourceMass ∧
+    Complex.normSq (complexPluckerSinkAmplitudeA M_holo) *
+        Complex.normSq (complexPluckerSinkAmplitudeB M_holo) =
+      1 - re.horizonRadius / 4 ∧
+    -- (9) Paper 9 (AdS/CFT, Integrability, & 16x16 Secret Symmetries): GKPW, Konishi, STr(B̂), Gr_C(2,4) Casimir, & R-Matrix Intertwining:
+    Signals.Scattering.adsCftScalingDimensionPlus 4 5 +
+        Signals.Scattering.adsCftScalingDimensionMinus 4 5 = 4 ∧
+    2 * Signals.Scattering.betheOneLoopMagnonEnergy 16 (1 / (2 * Real.sqrt 3)) =
+      Signals.Scattering.konishiOneLoopAnomalousDim 16 ∧
+    Signals.Scattering.supertrace22 (Signals.Scattering.secretSymmetryMatrix 3) = 4 * 3 ∧
+    (Signals.Geometry.complexTwoRowMinor W_sec 0 3) ^ 2 +
+        Signals.Geometry.complexTwoRowMinor W_sec 0 2 *
+          Signals.Geometry.complexTwoRowMinor W_sec 1 3 =
+      Signals.Geometry.complexTwoRowMinor W_sec 0 1 *
+        Signals.Geometry.complexTwoRowMinor W_sec 2 3 ∧
+    Complex.normSq (complexPluckerSinkAmplitudeA M_ads5) *
+        Complex.normSq (complexPluckerSinkAmplitudeB M_ads5) =
+      adsPlanarBlackBraneEmblackening 1 2 4 ∧
+    Signals.Scattering.psl22SecretCoproductFullOp16 B1 B2 7 8 *
+        Signals.Scattering.psl22WorldsheetRMatrix16 3 4 5 6 7 8 =
+      Signals.Scattering.psl22WorldsheetRMatrix16 3 4 5 6 7 8 *
+        Signals.Scattering.psl22SecretCoproductFull16 B1 B2 7 8 ∧
+    -- (10) Paper 10 (2D & 3D Normed Tensor Splats): Adaptive splitting variance conservation & Schur-Plücker 4x4 identity:
+    splat_ddf.splitMajorPlus.sigma1 ^ 2 + splat_ddf.splitMajorOffset ^ 2 =
+      splat_ddf.sigma1 ^ 2 ∧
+    Sigma4.det = Sigma4 3 3 * schurComplement3DVolume (3 / 5) ∧
+    -- (11) Paper 11 (Holographic Gr_C(2,4) 3D Depth Recovery): Unseen σ_3² & perspective focal depth z_c² inversion:
+    recoverDepthVarianceSq toySplat3D.projectOrthographic2D.covTrace R_depth =
+      toySplat3D.sigma3 ^ 2 ∧
+    recoverFocalDepthSq 2 toySplat3D.projectOrthographic2D.covTrace
+      (toySplat3D.projectPerspective2D 2 (by norm_num) (by norm_num [toySplat3D])).covTrace =
+      toySplat3D.centerZ ^ 2 ∧
+    -- (12) Paper 12 (3D Vectorial Longitudinal Polarization E_z & Gr(3,6) Plücker): Debye-Wolf doubling, ENZ 100x, & 4-term rank-3 Plücker:
+    (debyeWolfRayVec3 2 (Real.pi / 2) θ).2.2 +
+        (debyeWolfRayVec3 2 (Real.pi / 2) (θ + Real.pi)).2.2 =
+      2 * debyeWolfLongitudinalComponent 2 (Real.pi / 2) ∧
+    enzBoundaryIntensityEnhancement 1 (1 / 10) = 100 ∧
+    Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 0 1 2 *
+        Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 3 4 5 -
+      Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 0 1 3 *
+        Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 2 4 5 +
+      Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 0 1 4 *
+        Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 2 3 5 -
+      Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 0 1 5 *
+        Signals.Geometry.threeRowMinor toyRank3GrassmannianMatrix 2 3 4 = 0 ∧
+    -- (13) Paper 13 (rGO-polyCBD-SS-Lignin ENZ/HMM & CPA-TNSA p-11B / sCO2 Ledgers): ENZ horizon ε_∥(f_ENZ) = 0 & TNSA gain Q_E = 2.584:
+    Signals.emtEpsilonParallel (Signals.emtCriticalEnzFillFraction (282 / 100) 110) (-110) (282 / 100) = 0 ∧
+    tnsaEngineeringGain (1 / 5) (38 / 100) 40 (17 / 20) = 646 / 250 ∧
+    -- (14) Paper 14 (405/532 nm Thermal-STED Carbon Nanolithography, 6-Stage RISC-V CVA6, & Radical Recombination):
+    Signals.stedDepletedLinewidthSq 405 (7 / 5) 63 < (20 : ℝ) ^ 2 ∧
+    Signals.riscvPipelineStagePeriod 6 6 < Signals.riscvPipelineStagePeriod 6 3 ∧
+    0 < Signals.netChainArrestHeatSavings 10 104 499 ∧
+    -- (15) Paper 15 (Madelung Polar Variational Action & DDF Jamming Recovery): Sheath stationarity & action-derived Minkowski interval:
+    s.sheathCompressionResidual s.jammingFactor = 0 ∧
+    sub.c ^ 2 * (s.actionProperTime 5 dt) ^ 2 =
+      sub.c ^ 2 * dt ^ 2 - (s.velocity * dt) ^ 2 ∧
+    -- (16) Paper 16 (Four-Quadrant Hawking Radiation, Gordon Acoustic Metric, iGPE Unwinding, & Splat Swell):
+    Signals.HawkingRadiation.gordonAcousticMetricG00 2 sub.c (re.velocity 4) / (-2 * sub.c) =
+      1 - re.horizonRadius / 4 ∧
+    Signals.HawkingRadiation.madelungInversePotentialReconstruction 1 1 0 3 0 0
+        (re.velocity 4) =
+      -(1 * re.G_phi * re.sourceMass / 4) ∧
+    splat_ddf.isotropicTraceSwell.covDet - splat_ddf.covDet =
+      (2 ^ 4 * s.betaSq ^ 2) / 4 := by
+  intro z1 z2 M_sheath Δϖ_GR P_GR M_GW splat_ddf splat_opa M_spp M_holo W_sec M_ads5 M_depth R_depth J4 Sigma4
+  have h1 := (Signals.Huygens.complexGr24CrossingDoubleSlit_zero_error 3 2 4 6 1 5 x y).2
+  have h2 := Signals.QISM.yang_baxter_equation_matrix8 7 4 1 2
+  have h3_mad := s.gr24TwistorMatrix_madelung_sector_identities 6 1 5 2 0 0
+  have h3 :
+      Complex.normSq (complexPluckerSinkAmplitudeA M_sheath) *
+          Complex.normSq (complexPluckerSinkAmplitudeB M_sheath) =
+        (s.jammingFactor ^ 2)⁻¹ :=
+    h3_mad.2.2.2.2.1.trans h3_mad.2.2.2.2.2
+  have h4_arc := (re.perihelionPrecessionArcsecPerOrbit_eq orb).1
+  have h4_cs := (cachazoSkinnerHodges4PtKernel_eq_bcj_double_copy M_GW).1
+  have h4_prec := orb.gravity_models_relative_predictive_error_comparison
+    re.G_phi re.sourceMass sub.c (1 / 10) (1 / 100) (1 / 1000) (1 / 10000)
+    re.G_phi_pos re.sourceMass_pos sub.c_pos
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h4_gw := orb.gravitational_wave_models_relative_predictive_error_comparison
+    Φ_orb Δϖ re.G_phi re.sourceMass 2 sub.c (1 / 10) (1 / 100) (1 / 1000) (1 / 10000)
+    re.G_phi_pos re.sourceMass_pos (by norm_num) sub.c_pos
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h4_gw3d := (NormedTensorGaussianSplat3D.gravitational_wave_splat3d_and_projection_identities
+    s orb 0 0 1 5 2 3 0 θ 0 1 1
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)).2.1
+  have h5 := NormedTensorGaussianSplat2D.quantumPressureTensor_identities
+    s splat_ddf 0 0 5 2 1 1 θ x y (by norm_num) (by norm_num) (by norm_num)
+  have h6_ics := (s.inverseCompton_gr24_identities 6 1 5 2 0 0).1
+  have h6_inv := (Signals.Scattering.inelastic_compton_and_raman_temperature_inversion
+    (3 / 5) (1 / 4) 10 2 150 300 (1 / 10)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)).2.2.1
+  have h6_th := (s.ddfThermalTransport_continuum_identities
+    c_th0 (1 / 2) 6 1 5 0 0 4 2 (-1) (3 / 5) θ 2
+    hc_pos hc_le (by norm_num) (by norm_num) (by norm_num)).2.1
+  have h7_spp := s.sppContinuum_gr24_and_semigroup_identities
+    2 6 (1 / 2) 3 4 10 5 1 1 θ (by norm_num) (by norm_num)
+  have h7_opa := opaSqueezed_splat_and_continuum_identities
+    0 0 5 2 3 5 1 1 θ x y (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h8 := re.holographic_gr24_ddf_and_antiAmplituhedron_identities
+    5 4 2 0 4 1 (1 / 2) 0 0 1 1 1 θ hr
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have hu_K : (1 / (2 * Real.sqrt 3 : ℝ)) ^ 2 = 1 / 12 := by
+    have h_sq3 : (Real.sqrt 3) ^ 2 = 3 := Real.sq_sqrt (by norm_num)
+    calc
+      (1 / (2 * Real.sqrt 3 : ℝ)) ^ 2 = 1 / (4 * (Real.sqrt 3) ^ 2) := by ring
+      _ = 1 / 12 := by rw [h_sq3]; norm_num
+  have h9_ads := Signals.Scattering.ads_cft_integrability_and_secret_symmetry_identities
+    4 5 1 1 6 3 10 2 2 16 3 0 (1 / (2 * Real.sqrt 3)) 0 0 3
+    (by norm_num) (by norm_num [Signals.Scattering.adsBreitenlohnerFreedmanBound])
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) hu_K
+  have h9_unif := re.grassmannian_ads_cft_ddf_and_secret_symmetry_unification
+    2 1 1 1 1 2 4 0 0 1 (1 / 2) 2 1 1 θ
+    (by norm_num) (by norm_num) (by norm_num) hr
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h9_r16 := (Signals.Scattering.psl22_rmatrix16_secret_coproduct_intertwining
+    B1 B2 0 3 4 5 6 7 8).2.2.2.2.2
+  have h10_spl := (splat_ddf.splitMajor_conservation_identities 1 1 (by norm_num) (by norm_num)).2.2.2.1
+  have h10_schur := (schur_plucker_inversion_free_and_twistor_vane_identities
+    2 (3 / 5) θ (by norm_num) (by norm_num) (by norm_num)).2.2.2.1
+  have h11_img := toySplat3D.holographic_gr24_imaging_depth_recovery_and_convergent_beam_identities
+    2 1 1 θ 0 1 4 4 3
+    (by norm_num) (by norm_num [toySplat3D]) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have hsin_pi2 : Real.sin (Real.pi / 2) ≠ 0 := by
+    rw [Real.sin_pi_div_two]
+    norm_num
+  have h12_vec := vectorial_longitudinal_polarization_metasurface_and_enz_identities
+    2 (Real.pi / 2) θ 3 5 1 10 1 1 (1 / 15) 3 2 (1 / 10)
+    (by norm_num) hsin_pi2 (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  have h12_pl3 := Signals.Geometry.threeRowMinor_pluecker toyRank3GrassmannianMatrix 0 1 2 3 4 5
+  have h13_hmm := rgo_polycbd_enz_hyperbolic_and_plasma_metamaterial_identities
+    (282 / 100) 110 (32 / 1000) 2 5 200 400 300 10 1 θ
+    (by norm_num) (by norm_num)
+    (by unfold Signals.emtCriticalEnzFillFraction; norm_num)
+    (by unfold Signals.emtPerpendicularPoleFillFraction; norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h13_tnsa := argon_ion_acoustic_tnsa_enz_polycbd_and_sco2_ledger_identities
+    (5 / 3) 10 800 (1 / 10) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h14_nano := Signals.holographic_405_532_nanolithography_kicad_vol_and_cva6_pipeline_identities
+    405 (7 / 5) 63 (4 / 5) (4 / 5) 6
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h14_rec := Signals.exothermic_recombination_tradeoff_and_multiband_suppression_identities
+    100 (4 / 5) 2 499 1 1 50 400000000000
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  have h15_mad := s.madelung_lagrangian_variational_and_dilatant_jamming_identities
+    re 1 2 5 7 3 0 4 0 0 0 0 0 0 4 5 2 dt 2 3 (1 / 2) 4 6 1 5 2 0 x
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h16_gordon := Signals.HawkingRadiation.gordon_metric_quartic_gpe_and_penrose_spinor_identities
+    re 2 5 3 4 θ 0 x y 0 (by norm_num) hr
+  have h16_hawk := re.hawking_radiation_ddf_and_splat_fracture_identities
+    s splat_ddf toySplat3D
+    1 1 (1 / 2) 1 0 3 0 0 1 4 5 2 θ 0 0 0 0 (3 / 5) 0 (4 / 5) 1 1 1 1
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  rcases h4_prec with ⟨_hp1, _hp2, _hp3, _hp4, _hp5, hp6, _hp7, hp8, hp9, _hp10, _hp11, _hp12,
+    _hp13, _hp14, _hp15, _hp16, _hp17, _hp18, _hp19, _hp20, _hp21, _hp22, hp23, _hp24, _hp25, _hp26⟩
+  rcases h4_gw with ⟨_hg1, hg2, _hg3, _hg4, _hg5, hg6, _hg7, hg8, _hg9, hg10, _hg11, _hg12, _hg13,
+    _hg14, _hg15, _hg16, _hg17, _hg18, _hg19, _hg20, _hg21, _hg22, _hg23, hg24, _hg25, _hg26, _hg27⟩
+  rcases h9_ads with ⟨ha1, _ha2, _ha3, _ha4, _ha5, _ha6, _ha7, _ha8, _ha9, _ha10,
+    _ha11, _ha12, ha13, _ha14, _ha15, _ha16, _ha17, _ha18, _ha19, _ha20, _ha21,
+    _ha22, ha23, _ha24, _ha25, _ha26, _ha27⟩
+  rcases h9_unif with ⟨_hu1, _hu2, _hu3, _hu4, _hu5, _hu6, _hu7, hu8,
+    hu9, _hu10, _hu11, _hu12, _hu13, _hu14, _hu15, _hu16⟩
+  exact ⟨h1, h2, h3,
+    h4_arc, h4_cs, hp8, hp6, hp9, hp23,
+    hg2, hg8, hg6, hg10, hg24, h4_gw3d,
+    h5.1, h5.2.2.2,
+    h6_ics, h6_inv, h6_th,
+    h7_spp.2.2.2.2.2.1.trans h7_spp.2.2.2.2.2.2.1, h7_opa.2.2.1, h7_opa.2.2.2.2.2.2,
+    h8.2.2.2.2.2.2.2.1, h8.2.2.2.2.2.2.2.2.1,
+    ha1, ha13, ha23, hu8, hu9, h9_r16,
+    h10_spl, h10_schur,
+    h11_img.1, h11_img.2.2.2.2.1,
+    h12_vec.2.2.2.1, h12_vec.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h12_pl3,
+    h13_hmm.2.2.2.2.2.1, h13_tnsa.2.2.2.2.2.2.2.2.1,
+    h14_nano.2.2.2.1, h14_nano.2.2.2.2.2.2.2.1, h14_rec.2.2.2.1,
+    h15_mad.2.2.2.2.2.2.2.2.1, h15_mad.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h16_gordon.2.1, h16_hawk.2.2.2.2.2.2.1,
+    h16_hawk.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
 end SignalsTests

@@ -25,6 +25,8 @@ export Signals.QEDGravity (
   complexPluckerSinkAmplitudeA
   complexPluckerSinkAmplitudeB
   bcj_plucker_jacobi_and_double_copy
+  cachazoSkinnerHodges4PtKernel
+  cachazoSkinnerHodges4PtKernel_eq_bcj_double_copy
   PlanetaryOrbit
   postMinkowskianEffectivePotential
   complexGr2NTwistorEntry

@@ -270,6 +270,579 @@ impl PlanetaryOrbitParams {
         let phase = 2.0 * orbital_phase + dv;
         (-h0 * f_plus * phase.cos(), -h0 * f_cross * phase.sin())
     }
+
+    /// Newtonian 2-body anomalous perihelion precession $\Delta\varpi_{\mathrm{Newton}} = 0$
+    /// in radians per orbit (`Signals.QEDGravity.PlanetaryOrbit.newtonianAnomalousPrecessionRad`).
+    #[inline]
+    pub fn newtonian_anomalous_precession_rad(&self) -> f64 {
+        0.0
+    }
+
+    /// Nordström relativistic spin-0 scalar gravity perihelion precession
+    /// $\Delta\varpi_{\mathrm{scalar}} = -\frac{1}{6}\Delta\varpi_{\mathrm{PM}}$ in radians per orbit
+    /// (`Signals.QEDGravity.PlanetaryOrbit.nordstromScalarPrecessionRad`).
+    #[inline]
+    pub fn nordstrom_scalar_precession_rad(&self) -> f64 {
+        -(1.0 / 6.0) * self.anomalous_precession_rad_per_orbit()
+    }
+
+    /// Einstein's General Relativity (1915 / 1916) curved-spacetime geodesic & PPN perihelion
+    /// precession in radians per orbit:
+    /// $\Delta\varpi_{\mathrm{EGR}}(\beta_{\mathrm{PPN}}, \gamma_{\mathrm{PPN}})
+    /// = \frac{2 - \beta_{\mathrm{PPN}} + 2\gamma_{\mathrm{PPN}}}{3}\,\Delta\varpi_{\mathrm{PM}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.einsteinGeneralRelativityPrecessionRad`
+    /// (with $\beta_{\mathrm{PPN}} = 1, \gamma_{\mathrm{PPN}} = 1$ in Einstein GR).
+    #[inline]
+    pub fn einstein_general_relativity_precession_rad(
+        &self,
+        beta_ppn: f64,
+        gamma_ppn: f64,
+    ) -> f64 {
+        ((2.0 - beta_ppn + 2.0 * gamma_ppn) / 3.0) * self.anomalous_precession_rad_per_orbit()
+    }
+
+    /// Special-relativistic spin-1 vector (un-doubled Coulomb/QED) perihelion precession
+    /// $\Delta\varpi_{\mathrm{vector}} = +\frac{1}{6}\Delta\varpi_{\mathrm{PM}}$ in radians per orbit
+    /// (`Signals.QEDGravity.PlanetaryOrbit.spinOneVectorPrecessionRad`).
+    #[inline]
+    pub fn spin_one_vector_precession_rad(&self) -> f64 {
+        (1.0 / 6.0) * self.anomalous_precession_rad_per_orbit()
+    }
+
+    /// Witten (2004) / Berkovits–Witten (2004) twistor-string $\mathcal{N}=4$ conformal supergravity
+    /// (Weyl $C_{\mu\nu\rho\sigma}^2$ biharmonic) perihelion precession in radians per orbit:
+    /// $\Delta\varpi_{\mathrm{Weyl}}(\beta_{\mathrm{scale}}, \gamma_{\mathrm{conf}})
+    /// = \beta_{\mathrm{scale}}\,\Delta\varpi_{\mathrm{PM}} - \pi\,\gamma_{\mathrm{conf}}\,a^2\sqrt{1 - e^2}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.wittenConformalTwistorPrecessionRad`.
+    #[inline]
+    pub fn witten_conformal_twistor_precession_rad(&self, beta_scale: f64, gamma_conf: f64) -> f64 {
+        let one_minus_e2_sqrt = (1.0 - self.eccentricity * self.eccentricity)
+            .max(0.0)
+            .sqrt();
+        beta_scale * self.anomalous_precession_rad_per_orbit()
+            - PI * gamma_conf
+                * self.semi_major_axis_au
+                * self.semi_major_axis_au
+                * one_minus_e2_sqrt
+    }
+
+    /// Fedi (2016) *Superfluid Quantum Gravity* (SQG / Superfluid Quantum Space, HAL `hal-01248015v3`/`v4`)
+    /// perihelion precession in radians per orbit:
+    /// $\Delta\varpi_{\mathrm{SQG,2016}}(\kappa_{\mathrm{rel}}, \delta_{\mathrm{GPE}})
+    /// = \kappa_{\mathrm{rel}}\,\Delta\varpi_{\mathrm{PM}} + \delta_{\mathrm{GPE}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.fediSQG2016PrecessionRad`.
+    #[inline]
+    pub fn fedi_sqg_2016_precession_rad(&self, kappa_rel: f64, delta_gpe_rad: f64) -> f64 {
+        kappa_rel * self.anomalous_precession_rad_per_orbit() + delta_gpe_rad
+    }
+
+    /// Fedi (2017) *"Hydrodynamics of the dark superfluid"* (dilatant Lorentz viscosity
+    /// $\eta_{\mathrm{eff}}(v) \propto \gamma(v) - 1$ & Mercury perihelion) precession in radians per orbit:
+    /// $\Delta\varpi_{\mathrm{dark,2017}}(\lambda_\gamma, \eta_{\mathrm{drag}})
+    /// = \lambda_\gamma\,\Delta\varpi_{\mathrm{PM}} - 2\pi\,\eta_{\mathrm{drag}}\,a\sqrt{1 - e^2}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.fediDarkSuperfluid2017PrecessionRad`.
+    #[inline]
+    pub fn fedi_dark_superfluid_2017_precession_rad(
+        &self,
+        lambda_gamma: f64,
+        eta_drag_au_inv: f64,
+    ) -> f64 {
+        let one_minus_e2_sqrt = (1.0 - self.eccentricity * self.eccentricity)
+            .max(0.0)
+            .sqrt();
+        lambda_gamma * self.anomalous_precession_rad_per_orbit()
+            - 2.0 * PI * eta_drag_au_inv * self.semi_major_axis_au * one_minus_e2_sqrt
+    }
+
+    /// Cachazo–Skinner (2012) infinity-twistor broken twistor-string perihelion precession
+    /// in radians per orbit (`arXiv:1207.0741`):
+    /// $\Delta\varpi_{\mathrm{CS}}(\pi_I, \gamma_{\mathrm{conf}}, \Lambda_{\mathrm{cc}})
+    /// = \pi_I\,\Delta\varpi_{\mathrm{PM}}
+    /// - (1 - \pi_I)\,\pi\,\gamma_{\mathrm{conf}}\,a^2\sqrt{1 - e^2}
+    /// + \frac{2\pi\,\Lambda_{\mathrm{cc}}\,a^3\sqrt{1 - e^2}}{r_H}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.cachazoSkinnerTwistorPrecessionRad`
+    /// with $r_H = 2 G M / c^2$.
+    #[inline]
+    pub fn cachazo_skinner_twistor_precession_rad(
+        &self,
+        pi_infinity: f64,
+        gamma_conf: f64,
+        lambda_cc_au_inv_sq: f64,
+    ) -> f64 {
+        let one_minus_e2_sqrt = (1.0 - self.eccentricity * self.eccentricity)
+            .max(0.0)
+            .sqrt();
+        let a = self.semi_major_axis_au;
+        let r_h_au = self.central_horizon_radius_km / AU_KM;
+        let gm_over_c2_au = 0.5 * r_h_au;
+        pi_infinity * self.anomalous_precession_rad_per_orbit()
+            - (1.0 - pi_infinity) * PI * gamma_conf * a * a * one_minus_e2_sqrt
+            + (PI * lambda_cc_au_inv_sq * a * a * a * one_minus_e2_sqrt) / gm_over_c2_au
+    }
+
+    /// Partanen & Tulkki (2025) 1-loop post-Minkowskian QFT perihelion precession
+    /// (without $Gr_{\mathbb{C}}(2,4)$), matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.partanenTulkki2025PrecessionRad`.
+    #[inline]
+    pub fn partanen_tulkki_2025_precession_rad(&self) -> f64 {
+        self.anomalous_precession_rad_per_orbit()
+    }
+
+    /// Fedi (2026) conservative Dilatant Dark Fluid (DDF, SSRN 7406660) perihelion precession
+    /// (without $Gr_{\mathbb{C}}(2,4)$), matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.fediDDF2026PrecessionRad`.
+    #[inline]
+    pub fn fedi_ddf_2026_precession_rad(&self) -> f64 {
+        self.fedi_dark_superfluid_2017_precession_rad(1.0, 0.0)
+    }
+
+    /// Turner (2026) flat-space $Gr_{\mathbb{C}}(2,4)$ BCJ double-copy 1-loop QFT perihelion
+    /// precession factored through $M_{\mathbb{C}}^{\mathrm{orb}} \in Gr_{\mathbb{C}}(2,4)$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.turnerGr24QEDPrecessionRad`.
+    #[inline]
+    pub fn turner_gr24_qed_precession_rad(&self, delta_varpi_rad: f64) -> f64 {
+        let mat = self.gr24_precession_matrix(Some(delta_varpi_rad));
+        let w_a_sq = two_row_minor_complex(&mat, 0, 1)
+            .mul(two_row_minor_complex(&mat, 2, 3))
+            .norm_sq();
+        let w_b_sq = two_row_minor_complex(&mat, 0, 3)
+            .mul(two_row_minor_complex(&mat, 1, 2))
+            .norm_sq();
+        let r_h_au = self.central_horizon_radius_km / AU_KM;
+        (3.0 * PI * r_h_au) / (self.semi_major_axis_au * (w_a_sq * w_b_sq).max(1e-18))
+    }
+
+    /// Dimensionless 2.5PN Peters–Mathews gravitational-wave luminosity (normalized to $c^5 / G$)
+    /// $P_{\mathrm{GW}}^{\mathrm{PM}} = \frac{32}{5}\left(\frac{r_{H,1}}{2a}\right)^2\left(\frac{r_{H,2}}{2a}\right)^2\left(\frac{r_{H,1} + r_{H,2}}{2a}\right) f_{\mathrm{PM}}(e)$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.petersMathewsLuminosityPM`.
+    #[inline]
+    pub fn peters_mathews_luminosity_normalized(&self, companion_horizon_radius_km: f64) -> f64 {
+        let a_km = (self.semi_major_axis_au * AU_KM).max(1e-12);
+        let u1 = 0.5 * self.central_horizon_radius_km / a_km;
+        let u2 = 0.5 * companion_horizon_radius_km / a_km;
+        (32.0 / 5.0) * u1 * u1 * u2 * u2 * (u1 + u2) * self.peters_mathews_factor()
+    }
+
+    /// Newtonian $1/r$ instantaneous gravity gravitational-wave luminosity ($0.0$),
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.newtonianGWLuminosity`.
+    #[inline]
+    pub fn newtonian_gw_luminosity(&self) -> f64 {
+        0.0
+    }
+
+    /// Nordström (1913) spin-0 scalar gravitational-wave luminosity
+    /// $P_{\mathrm{GW}}^{\mathrm{scalar}}(\kappa_{\mathrm{scalar}}) = \kappa_{\mathrm{scalar}}\,P_{\mathrm{GW}}^{\mathrm{PM}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.nordstromScalarGWLuminosity`.
+    #[inline]
+    pub fn nordstrom_scalar_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        kappa_scalar: f64,
+    ) -> f64 {
+        kappa_scalar * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+    }
+
+    /// Einstein's General Relativity (1916 / 1918) & Peters–Mathews (1963) 2.5PN quadrupole
+    /// gravitational-wave luminosity $P_{\mathrm{GW}}^{\mathrm{EGR}}(\kappa_{\mathrm{quad}}) = \kappa_{\mathrm{quad}}\,P_{\mathrm{GW}}^{\mathrm{PM}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.einsteinGeneralRelativityGWLuminosity`.
+    #[inline]
+    pub fn einstein_general_relativity_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        kappa_quad: f64,
+    ) -> f64 {
+        kappa_quad * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+    }
+
+    /// Special-relativistic spin-1 vector / un-doubled Larmor gravitational-wave luminosity
+    /// $P_{\mathrm{GW}}^{\mathrm{vector}}(\kappa_{\mathrm{vec}}, \Delta_{\mathrm{dip}}) = \kappa_{\mathrm{vec}}\,P_{\mathrm{GW}}^{\mathrm{PM}} + \Delta_{\mathrm{dip}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.spinOneVectorGWLuminosity`.
+    #[inline]
+    pub fn spin_one_vector_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        kappa_vec: f64,
+        delta_dipole: f64,
+    ) -> f64 {
+        kappa_vec * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+            + delta_dipole
+    }
+
+    /// Witten (2004) / Berkovits–Witten (2004) twistor-string conformal supergravity (Weyl $C_{\mu\nu\rho\sigma}^2$)
+    /// gravitational-wave luminosity $P_{\mathrm{GW}}^{\mathrm{Weyl}}(\beta_{\mathrm{scale}}, \delta P_{\mathrm{ghost}})
+    /// = \beta_{\mathrm{scale}}\,P_{\mathrm{GW}}^{\mathrm{PM}} - \delta P_{\mathrm{ghost}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.wittenConformalTwistorGWLuminosity`.
+    #[inline]
+    pub fn witten_conformal_twistor_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        beta_scale: f64,
+        delta_ghost: f64,
+    ) -> f64 {
+        beta_scale * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+            - delta_ghost
+    }
+
+    /// Fedi (2016) *Superfluid Quantum Gravity* (`hal-01248015v3`/`v4`) gravitational-wave luminosity
+    /// $P_{\mathrm{GW}}^{\mathrm{SQG,2016}}(\kappa_{\mathrm{trans}}, \delta P_{\mathrm{GPE}})
+    /// = \kappa_{\mathrm{trans}}\,P_{\mathrm{GW}}^{\mathrm{PM}} + \delta P_{\mathrm{GPE}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.fediSQG2016GWLuminosity`.
+    #[inline]
+    pub fn fedi_sqg_2016_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        kappa_trans: f64,
+        delta_gpe_flux: f64,
+    ) -> f64 {
+        kappa_trans * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+            + delta_gpe_flux
+    }
+
+    /// Fedi (2017) *"Hydrodynamics of the dark superfluid"* gravitational-wave & Stokes-drag luminosity
+    /// $P_{\mathrm{GW}}^{\mathrm{dark,2017}}(\lambda_\gamma, P_{\mathrm{Stokes}})
+    /// = \lambda_\gamma\,P_{\mathrm{GW}}^{\mathrm{PM}} + P_{\mathrm{Stokes}}$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.fediDarkSuperfluid2017GWLuminosity`.
+    #[inline]
+    pub fn fedi_dark_superfluid_2017_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        lambda_gamma: f64,
+        power_stokes: f64,
+    ) -> f64 {
+        lambda_gamma * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+            + power_stokes
+    }
+
+    /// Cachazo–Skinner (2012) infinity-twistor broken twistor-string gravitational-wave luminosity
+    /// $P_{\mathrm{GW}}^{\mathrm{CS}}(\pi_I, \delta P_{\mathrm{ghost}}, \delta P_\Lambda)
+    /// = \pi_I\,P_{\mathrm{GW}}^{\mathrm{PM}} - (1 - \pi_I)\,\delta P_{\mathrm{ghost}} + \delta P_\Lambda$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.cachazoSkinnerTwistorGWLuminosity`.
+    #[inline]
+    pub fn cachazo_skinner_twistor_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        pi_infinity: f64,
+        delta_ghost: f64,
+        delta_lambda_flux: f64,
+    ) -> f64 {
+        pi_infinity * self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+            - (1.0 - pi_infinity) * delta_ghost
+            + delta_lambda_flux
+    }
+
+    /// Partanen & Tulkki (2025) 2.5PN post-Minkowskian QFT gravitational-wave luminosity
+    /// (without $Gr_{\mathbb{C}}(2,4)$), matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.partanenTulkki2025GWLuminosity`.
+    #[inline]
+    pub fn partanen_tulkki_2025_gw_luminosity(&self, companion_horizon_radius_km: f64) -> f64 {
+        self.peters_mathews_luminosity_normalized(companion_horizon_radius_km)
+    }
+
+    /// Fedi (2026) conservative Dilatant Dark Fluid (DDF, SSRN 7406660) gravitational-wave
+    /// luminosity (without $Gr_{\mathbb{C}}(2,4)$), matching
+    /// `Signals.QEDGravity.PlanetaryOrbit.fediDDF2026GWLuminosity`.
+    #[inline]
+    pub fn fedi_ddf_2026_gw_luminosity(&self, companion_horizon_radius_km: f64) -> f64 {
+        self.fedi_dark_superfluid_2017_gw_luminosity(companion_horizon_radius_km, 1.0, 0.0)
+    }
+
+    /// Turner (2026) flat-space $Gr_{\mathbb{C}}(2,4)$ BCJ double-copy 2.5PN gravitational-wave
+    /// luminosity factored through $M_{\mathbb{C}}^{\mathrm{GW}} \in Gr_{\mathbb{C}}(2,4)$,
+    /// matching `Signals.QEDGravity.PlanetaryOrbit.turnerGr24QEDGWLuminosity`.
+    #[inline]
+    pub fn turner_gr24_qed_gw_luminosity(
+        &self,
+        companion_horizon_radius_km: f64,
+        orbital_phase_rad: f64,
+        delta_varpi_rad: f64,
+    ) -> f64 {
+        let mat = self.gr24_quadrupole_wave_matrix(orbital_phase_rad, Some(delta_varpi_rad));
+        let w_a_sq = two_row_minor_complex(&mat, 0, 1)
+            .mul(two_row_minor_complex(&mat, 2, 3))
+            .norm_sq();
+        let w_b_sq = two_row_minor_complex(&mat, 0, 3)
+            .mul(two_row_minor_complex(&mat, 1, 2))
+            .norm_sq();
+        let a_km = (self.semi_major_axis_au * AU_KM).max(1e-12);
+        let u1 = 0.5 * self.central_horizon_radius_km / a_km;
+        let u2 = 0.5 * companion_horizon_radius_km / a_km;
+        let f_pm_gr24 = self.peters_mathews_polynomial()
+            / (w_a_sq * w_b_sq).max(1e-18).sqrt().powi(7);
+        (32.0 / 5.0) * u1 * u1 * u2 * u2 * (u1 + u2) * f_pm_gr24
+    }
+}
+
+/// Cachazo–Skinner (2012) infinity-twistor 4-point reduced Hodges double-copy numerator kernel
+/// $\mathcal{K}_{\mathrm{CS}}(M_{\mathbb{C}}) = (\Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}}))^2$
+/// on $Gr_{\mathbb{C}}(2, 4)$, matching `Signals.QEDGravity.cachazoSkinnerHodges4PtKernel`.
+#[inline]
+pub fn cachazo_skinner_hodges_4pt_kernel(mat: &[[Complex64; 4]; 2]) -> Complex64 {
+    let cross = two_row_minor_complex(mat, 0, 2).mul(two_row_minor_complex(mat, 1, 3));
+    cross.mul(cross)
+}
+
+/// Pointwise relative predictive error $\varepsilon_{\mathrm{rel}}(y_{\mathrm{model}}, y_{\mathrm{ref}})
+/// = \frac{|y_{\mathrm{model}} - y_{\mathrm{ref}}|}{|y_{\mathrm{ref}}|}$, matching
+/// `Signals.Huygens.relativePredictiveError`.
+#[inline]
+pub fn relative_predictive_error(model_prediction: f64, reference_value: f64) -> f64 {
+    (model_prediction - reference_value).abs() / reference_value.abs()
+}
+
+/// Summary of the multi-model gravity perihelion precession and relative predictive error
+/// comparison for a bound planetary orbit, matching
+/// `Signals.QEDGravity.PlanetaryOrbit.gravity_models_relative_predictive_error_comparison`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct GravityModelErrorComparison {
+    pub gr_pm_precession_rad: f64,
+    pub gr_pm_relative_error: f64,
+    pub newtonian_relative_error: f64,
+    pub nordstrom_scalar_precession_rad: f64,
+    pub nordstrom_scalar_relative_error: f64,
+    pub einstein_gr_precession_rad: f64,
+    pub einstein_gr_relative_error: f64,
+    pub spin_one_vector_precession_rad: f64,
+    pub spin_one_vector_relative_error: f64,
+    pub witten_scale_free_relative_error: f64,
+    pub witten_biharmonic_precession_rad: f64,
+    pub witten_biharmonic_relative_error: f64,
+    pub fedi_sqg_2016_bernoulli_relative_error: f64,
+    pub fedi_sqg_2016_planetary_precession_rad: f64,
+    pub fedi_sqg_2016_planetary_relative_error: f64,
+    pub fedi_sqg_2016_gpe_core_relative_error: f64,
+    pub fedi_dark_2017_conservative_precession_rad: f64,
+    pub fedi_dark_2017_conservative_relative_error: f64,
+    pub fedi_dark_2017_pioneer_drag_relative_error: f64,
+    pub cachazo_skinner_flat_precession_rad: f64,
+    pub cachazo_skinner_flat_relative_error: f64,
+    pub cachazo_skinner_cosmological_precession_rad: f64,
+    pub cachazo_skinner_cosmological_relative_error: f64,
+    pub cachazo_skinner_unbroken_minus_witten_rad: f64,
+    pub hodges_minus_bcj_double_copy_norm_sq: f64,
+    pub partanen_tulkki_2025_precession_rad: f64,
+    pub partanen_tulkki_2025_relative_error: f64,
+    pub fedi_ddf_2026_precession_rad: f64,
+    pub fedi_ddf_2026_relative_error: f64,
+    pub turner_gr24_qed_precession_rad: f64,
+    pub turner_gr24_qed_relative_error: f64,
+}
+
+impl GravityModelErrorComparison {
+    /// Evaluate all competing gravity models and their relative predictive errors against
+    /// the 1PN Einstein / 1-loop $Gr_{\mathbb{C}}(2,4)$ double-copy benchmark $\Delta\varpi_{\mathrm{GR}}$.
+    pub fn evaluate(
+        orbit: &PlanetaryOrbitParams,
+        gamma_conf: f64,
+        lambda_cc_au_inv_sq: f64,
+    ) -> Self {
+        let dv_gr = orbit.anomalous_precession_rad_per_orbit();
+        let dv_newt = orbit.newtonian_anomalous_precession_rad();
+        let dv_scal = orbit.nordstrom_scalar_precession_rad();
+        let dv_egr = orbit.einstein_general_relativity_precession_rad(1.0, 1.0);
+        let dv_vec = orbit.spin_one_vector_precession_rad();
+        let dv_witten_0 = orbit.witten_conformal_twistor_precession_rad(0.0, 0.0);
+        let dv_witten_gamma = orbit.witten_conformal_twistor_precession_rad(1.0, gamma_conf);
+        let delta_gpe = 1e-12;
+        let eta_drag = 1e-11;
+        let dv_sqg_0 = orbit.fedi_sqg_2016_precession_rad(0.0, 0.0);
+        let dv_sqg_10 = orbit.fedi_sqg_2016_precession_rad(1.0, 0.0);
+        let dv_sqg_gpe = orbit.fedi_sqg_2016_precession_rad(1.0, delta_gpe);
+        let dv_dark_10 = orbit.fedi_dark_superfluid_2017_precession_rad(1.0, 0.0);
+        let dv_dark_drag = orbit.fedi_dark_superfluid_2017_precession_rad(1.0, eta_drag);
+        let dv_cs_flat = orbit.cachazo_skinner_twistor_precession_rad(1.0, gamma_conf, 0.0);
+        let dv_cs_cc =
+            orbit.cachazo_skinner_twistor_precession_rad(1.0, gamma_conf, lambda_cc_au_inv_sq);
+        let dv_cs_unbroken = orbit.cachazo_skinner_twistor_precession_rad(0.0, gamma_conf, 0.0);
+        let dv_witten_unbroken = orbit.witten_conformal_twistor_precession_rad(0.0, gamma_conf);
+        let dv_pt_2025 = orbit.partanen_tulkki_2025_precession_rad();
+        let dv_ddf_2026 = orbit.fedi_ddf_2026_precession_rad();
+        let dv_turner_gr24 = orbit.turner_gr24_qed_precession_rad(dv_gr);
+
+        let mat = orbit.gr24_precession_matrix(Some(dv_gr));
+        let hodges = cachazo_skinner_hodges_4pt_kernel(&mat);
+        let w_a = two_row_minor_complex(&mat, 0, 1).mul(two_row_minor_complex(&mat, 2, 3));
+        let w_b = two_row_minor_complex(&mat, 0, 3).mul(two_row_minor_complex(&mat, 1, 2));
+        let w_sum = w_a.add(w_b);
+        let bcj_sq = w_sum.mul(w_sum);
+
+        Self {
+            gr_pm_precession_rad: dv_gr,
+            gr_pm_relative_error: relative_predictive_error(dv_gr, dv_gr),
+            newtonian_relative_error: relative_predictive_error(dv_newt, dv_gr),
+            nordstrom_scalar_precession_rad: dv_scal,
+            nordstrom_scalar_relative_error: relative_predictive_error(dv_scal, dv_gr),
+            einstein_gr_precession_rad: dv_egr,
+            einstein_gr_relative_error: relative_predictive_error(dv_egr, dv_gr),
+            spin_one_vector_precession_rad: dv_vec,
+            spin_one_vector_relative_error: relative_predictive_error(dv_vec, dv_gr),
+            witten_scale_free_relative_error: relative_predictive_error(dv_witten_0, dv_gr),
+            witten_biharmonic_precession_rad: dv_witten_gamma,
+            witten_biharmonic_relative_error: relative_predictive_error(dv_witten_gamma, dv_gr),
+            fedi_sqg_2016_bernoulli_relative_error: relative_predictive_error(dv_sqg_0, dv_gr),
+            fedi_sqg_2016_planetary_precession_rad: dv_sqg_10,
+            fedi_sqg_2016_planetary_relative_error: relative_predictive_error(dv_sqg_10, dv_gr),
+            fedi_sqg_2016_gpe_core_relative_error: relative_predictive_error(dv_sqg_gpe, dv_gr),
+            fedi_dark_2017_conservative_precession_rad: dv_dark_10,
+            fedi_dark_2017_conservative_relative_error: relative_predictive_error(
+                dv_dark_10, dv_gr,
+            ),
+            fedi_dark_2017_pioneer_drag_relative_error: relative_predictive_error(
+                dv_dark_drag,
+                dv_gr,
+            ),
+            cachazo_skinner_flat_precession_rad: dv_cs_flat,
+            cachazo_skinner_flat_relative_error: relative_predictive_error(dv_cs_flat, dv_gr),
+            cachazo_skinner_cosmological_precession_rad: dv_cs_cc,
+            cachazo_skinner_cosmological_relative_error: relative_predictive_error(dv_cs_cc, dv_gr),
+            cachazo_skinner_unbroken_minus_witten_rad: (dv_cs_unbroken - dv_witten_unbroken).abs(),
+            hodges_minus_bcj_double_copy_norm_sq: hodges.sub(bcj_sq).norm_sq(),
+            partanen_tulkki_2025_precession_rad: dv_pt_2025,
+            partanen_tulkki_2025_relative_error: relative_predictive_error(dv_pt_2025, dv_gr),
+            fedi_ddf_2026_precession_rad: dv_ddf_2026,
+            fedi_ddf_2026_relative_error: relative_predictive_error(dv_ddf_2026, dv_gr),
+            turner_gr24_qed_precession_rad: dv_turner_gr24,
+            turner_gr24_qed_relative_error: relative_predictive_error(dv_turner_gr24, dv_gr),
+        }
+    }
+}
+
+/// Summary of the multi-model gravitational-wave luminosity and relative predictive error
+/// comparison for a binary / planetary orbit, matching
+/// `Signals.QEDGravity.PlanetaryOrbit.gravitational_wave_models_relative_predictive_error_comparison`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct GravitationalWaveModelErrorComparison {
+    pub gr_pm_gw_luminosity: f64,
+    pub gr_pm_relative_error: f64,
+    pub newtonian_relative_error: f64,
+    pub nordstrom_scalar_tt_relative_error: f64,
+    pub nordstrom_scalar_virial_relative_error: f64,
+    pub einstein_gr_gw_luminosity: f64,
+    pub einstein_gr_relative_error: f64,
+    pub spin_one_vector_tt_relative_error: f64,
+    pub spin_one_vector_quadrupole_relative_error: f64,
+    pub witten_scale_free_relative_error: f64,
+    pub witten_ghost_relative_error: f64,
+    pub fedi_sqg_2016_longitudinal_relative_error: f64,
+    pub fedi_sqg_2016_vortex_lattice_gw_luminosity: f64,
+    pub fedi_sqg_2016_vortex_lattice_relative_error: f64,
+    pub fedi_sqg_2016_gpe_dispersion_relative_error: f64,
+    pub fedi_dark_2017_conservative_gw_luminosity: f64,
+    pub fedi_dark_2017_conservative_relative_error: f64,
+    pub fedi_dark_2017_stokes_drag_relative_error: f64,
+    pub cachazo_skinner_flat_gw_luminosity: f64,
+    pub cachazo_skinner_flat_relative_error: f64,
+    pub cachazo_skinner_cosmological_relative_error: f64,
+    pub cachazo_skinner_unbroken_minus_witten: f64,
+    pub partanen_tulkki_2025_gw_luminosity: f64,
+    pub partanen_tulkki_2025_relative_error: f64,
+    pub fedi_ddf_2026_gw_luminosity: f64,
+    pub fedi_ddf_2026_relative_error: f64,
+    pub turner_gr24_qed_gw_luminosity: f64,
+    pub turner_gr24_qed_relative_error: f64,
+}
+
+impl GravitationalWaveModelErrorComparison {
+    /// Evaluate all competing gravitational-wave luminosity models and their relative
+    /// predictive errors against the 2.5PN Einstein–Peters–Mathews / $Gr_{\mathbb{C}}(2,4)$
+    /// double-copy benchmark $P_{\mathrm{GW}}^{\mathrm{GR}}$.
+    pub fn evaluate(orbit: &PlanetaryOrbitParams, companion_horizon_radius_km: f64) -> Self {
+        let p_gr = orbit.peters_mathews_luminosity_normalized(companion_horizon_radius_km);
+        let delta_ghost = 0.05 * p_gr;
+        let delta_lambda = 0.01 * p_gr;
+        let delta_gpe = 0.02 * p_gr;
+        let power_stokes = 0.03 * p_gr;
+
+        let p_newt = orbit.newtonian_gw_luminosity();
+        let p_scal_0 = orbit.nordstrom_scalar_gw_luminosity(companion_horizon_radius_km, 0.0);
+        let p_scal_16 =
+            orbit.nordstrom_scalar_gw_luminosity(companion_horizon_radius_km, 1.0 / 6.0);
+        let p_egr =
+            orbit.einstein_general_relativity_gw_luminosity(companion_horizon_radius_km, 1.0);
+        let p_vec_0 = orbit.spin_one_vector_gw_luminosity(companion_horizon_radius_km, 0.0, 0.0);
+        let p_vec_14 = orbit.spin_one_vector_gw_luminosity(companion_horizon_radius_km, 0.25, 0.0);
+        let p_weyl_0 =
+            orbit.witten_conformal_twistor_gw_luminosity(companion_horizon_radius_km, 0.0, 0.0);
+        let p_weyl_ghost = orbit.witten_conformal_twistor_gw_luminosity(
+            companion_horizon_radius_km,
+            1.0,
+            delta_ghost,
+        );
+        let p_sqg_0 = orbit.fedi_sqg_2016_gw_luminosity(companion_horizon_radius_km, 0.0, 0.0);
+        let p_sqg_10 = orbit.fedi_sqg_2016_gw_luminosity(companion_horizon_radius_km, 1.0, 0.0);
+        let p_sqg_gpe =
+            orbit.fedi_sqg_2016_gw_luminosity(companion_horizon_radius_km, 1.0, delta_gpe);
+        let p_dark_10 =
+            orbit.fedi_dark_superfluid_2017_gw_luminosity(companion_horizon_radius_km, 1.0, 0.0);
+        let p_dark_stokes = orbit.fedi_dark_superfluid_2017_gw_luminosity(
+            companion_horizon_radius_km,
+            1.0,
+            power_stokes,
+        );
+        let p_cs_flat = orbit.cachazo_skinner_twistor_gw_luminosity(
+            companion_horizon_radius_km,
+            1.0,
+            delta_ghost,
+            0.0,
+        );
+        let p_cs_cc = orbit.cachazo_skinner_twistor_gw_luminosity(
+            companion_horizon_radius_km,
+            1.0,
+            delta_ghost,
+            delta_lambda,
+        );
+        let p_cs_unbroken = orbit.cachazo_skinner_twistor_gw_luminosity(
+            companion_horizon_radius_km,
+            0.0,
+            delta_ghost,
+            0.0,
+        );
+        let p_weyl_unbroken = orbit.witten_conformal_twistor_gw_luminosity(
+            companion_horizon_radius_km,
+            0.0,
+            delta_ghost,
+        );
+        let p_pt_2025 = orbit.partanen_tulkki_2025_gw_luminosity(companion_horizon_radius_km);
+        let p_ddf_2026 = orbit.fedi_ddf_2026_gw_luminosity(companion_horizon_radius_km);
+        let p_turner_gr24 = orbit.turner_gr24_qed_gw_luminosity(
+            companion_horizon_radius_km,
+            0.35,
+            orbit.anomalous_precession_rad_per_orbit(),
+        );
+
+        Self {
+            gr_pm_gw_luminosity: p_gr,
+            gr_pm_relative_error: relative_predictive_error(p_gr, p_gr),
+            newtonian_relative_error: relative_predictive_error(p_newt, p_gr),
+            nordstrom_scalar_tt_relative_error: relative_predictive_error(p_scal_0, p_gr),
+            nordstrom_scalar_virial_relative_error: relative_predictive_error(p_scal_16, p_gr),
+            einstein_gr_gw_luminosity: p_egr,
+            einstein_gr_relative_error: relative_predictive_error(p_egr, p_gr),
+            spin_one_vector_tt_relative_error: relative_predictive_error(p_vec_0, p_gr),
+            spin_one_vector_quadrupole_relative_error: relative_predictive_error(p_vec_14, p_gr),
+            witten_scale_free_relative_error: relative_predictive_error(p_weyl_0, p_gr),
+            witten_ghost_relative_error: relative_predictive_error(p_weyl_ghost, p_gr),
+            fedi_sqg_2016_longitudinal_relative_error: relative_predictive_error(p_sqg_0, p_gr),
+            fedi_sqg_2016_vortex_lattice_gw_luminosity: p_sqg_10,
+            fedi_sqg_2016_vortex_lattice_relative_error: relative_predictive_error(p_sqg_10, p_gr),
+            fedi_sqg_2016_gpe_dispersion_relative_error: relative_predictive_error(p_sqg_gpe, p_gr),
+            fedi_dark_2017_conservative_gw_luminosity: p_dark_10,
+            fedi_dark_2017_conservative_relative_error: relative_predictive_error(p_dark_10, p_gr),
+            fedi_dark_2017_stokes_drag_relative_error: relative_predictive_error(
+                p_dark_stokes,
+                p_gr,
+            ),
+            cachazo_skinner_flat_gw_luminosity: p_cs_flat,
+            cachazo_skinner_flat_relative_error: relative_predictive_error(p_cs_flat, p_gr),
+            cachazo_skinner_cosmological_relative_error: relative_predictive_error(p_cs_cc, p_gr),
+            cachazo_skinner_unbroken_minus_witten: (p_cs_unbroken - p_weyl_unbroken).abs(),
+            partanen_tulkki_2025_gw_luminosity: p_pt_2025,
+            partanen_tulkki_2025_relative_error: relative_predictive_error(p_pt_2025, p_gr),
+            fedi_ddf_2026_gw_luminosity: p_ddf_2026,
+            fedi_ddf_2026_relative_error: relative_predictive_error(p_ddf_2026, p_gr),
+            turner_gr24_qed_gw_luminosity: p_turner_gr24,
+            turner_gr24_qed_relative_error: relative_predictive_error(p_turner_gr24, p_gr),
+        }
+    }
 }
 
 /// Summary of the $Gr_{\mathbb{C}}(2, 4)$ orbital invariants for a planetary orbit,
@@ -1837,5 +2410,95 @@ mod tests {
         let (var_unstrained, var_dilatant) =
             schur_conditioned_spatial_variance_1d(10.0, 1.0, 2.0, 2.0, 0.6);
         assert!(var_dilatant < var_unstrained && var_unstrained < 10.0);
+    }
+
+    #[rstest]
+    #[case(SolarSystemBody::Mercury)]
+    #[case(SolarSystemBody::Venus)]
+    #[case(SolarSystemBody::Earth)]
+    #[case(SolarSystemBody::Mars)]
+    #[case(SolarSystemBody::Icarus)]
+    fn gravity_models_and_cachazo_skinner_infinity_twistor_comparison(
+        #[case] body: SolarSystemBody,
+    ) {
+        let orbit = PlanetaryOrbitParams::from_solar_system_body(body);
+        let cmp = GravityModelErrorComparison::evaluate(&orbit, 1e-9, 1e-16);
+        assert!(cmp.gr_pm_precession_rad > 0.0);
+        assert!(cmp.gr_pm_relative_error.abs() < 1e-15);
+        assert!((cmp.newtonian_relative_error - 1.0).abs() < 1e-15);
+        assert!(cmp.nordstrom_scalar_precession_rad < 0.0);
+        assert!((cmp.nordstrom_scalar_relative_error - 7.0 / 6.0).abs() < 1e-14);
+        assert!((cmp.einstein_gr_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15);
+        assert!(cmp.einstein_gr_relative_error.abs() < 1e-15);
+        assert!((cmp.spin_one_vector_relative_error - 5.0 / 6.0).abs() < 1e-14);
+        assert!((cmp.witten_scale_free_relative_error - 1.0).abs() < 1e-15);
+        assert!(cmp.witten_biharmonic_relative_error > 0.0);
+        assert!((cmp.fedi_sqg_2016_bernoulli_relative_error - 1.0).abs() < 1e-15);
+        assert!(
+            (cmp.fedi_sqg_2016_planetary_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15
+        );
+        assert!(cmp.fedi_sqg_2016_planetary_relative_error.abs() < 1e-15);
+        assert!(cmp.fedi_sqg_2016_gpe_core_relative_error > 0.0);
+        assert!(
+            (cmp.fedi_dark_2017_conservative_precession_rad - cmp.gr_pm_precession_rad).abs()
+                < 1e-15
+        );
+        assert!(cmp.fedi_dark_2017_conservative_relative_error.abs() < 1e-15);
+        assert!(cmp.fedi_dark_2017_pioneer_drag_relative_error > 0.0);
+        assert!(
+            (cmp.cachazo_skinner_flat_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15
+        );
+        assert!(cmp.cachazo_skinner_flat_relative_error.abs() < 1e-15);
+        assert!(cmp.cachazo_skinner_cosmological_relative_error > 0.0);
+        assert!(cmp.cachazo_skinner_unbroken_minus_witten_rad < 1e-15);
+        assert!(cmp.hodges_minus_bcj_double_copy_norm_sq < 1e-24);
+        assert!(
+            (cmp.partanen_tulkki_2025_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15
+        );
+        assert!(cmp.partanen_tulkki_2025_relative_error.abs() < 1e-15);
+        assert!((cmp.fedi_ddf_2026_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15);
+        assert!(cmp.fedi_ddf_2026_relative_error.abs() < 1e-15);
+        assert!((cmp.turner_gr24_qed_precession_rad - cmp.gr_pm_precession_rad).abs() < 1e-15);
+        assert!(cmp.turner_gr24_qed_relative_error.abs() < 1e-14);
+
+        let gw_cmp = GravitationalWaveModelErrorComparison::evaluate(&orbit, 1e-6);
+        assert!(gw_cmp.gr_pm_gw_luminosity > 0.0);
+        assert!(gw_cmp.gr_pm_relative_error.abs() < 1e-15);
+        assert!((gw_cmp.newtonian_relative_error - 1.0).abs() < 1e-15);
+        assert!((gw_cmp.nordstrom_scalar_tt_relative_error - 1.0).abs() < 1e-15);
+        assert!((gw_cmp.nordstrom_scalar_virial_relative_error - 5.0 / 6.0).abs() < 1e-14);
+        assert!((gw_cmp.einstein_gr_gw_luminosity - gw_cmp.gr_pm_gw_luminosity).abs() < 1e-30);
+        assert!(gw_cmp.einstein_gr_relative_error.abs() < 1e-15);
+        assert!((gw_cmp.spin_one_vector_tt_relative_error - 1.0).abs() < 1e-15);
+        assert!((gw_cmp.spin_one_vector_quadrupole_relative_error - 0.75).abs() < 1e-14);
+        assert!((gw_cmp.witten_scale_free_relative_error - 1.0).abs() < 1e-15);
+        assert!(gw_cmp.witten_ghost_relative_error > 0.0);
+        assert!((gw_cmp.fedi_sqg_2016_longitudinal_relative_error - 1.0).abs() < 1e-15);
+        assert!(
+            (gw_cmp.fedi_sqg_2016_vortex_lattice_gw_luminosity - gw_cmp.gr_pm_gw_luminosity).abs()
+                < 1e-30
+        );
+        assert!(gw_cmp.fedi_sqg_2016_vortex_lattice_relative_error.abs() < 1e-15);
+        assert!(gw_cmp.fedi_sqg_2016_gpe_dispersion_relative_error > 0.0);
+        assert!(
+            (gw_cmp.fedi_dark_2017_conservative_gw_luminosity - gw_cmp.gr_pm_gw_luminosity).abs()
+                < 1e-30
+        );
+        assert!(gw_cmp.fedi_dark_2017_conservative_relative_error.abs() < 1e-15);
+        assert!(gw_cmp.fedi_dark_2017_stokes_drag_relative_error > 0.0);
+        assert!(
+            (gw_cmp.cachazo_skinner_flat_gw_luminosity - gw_cmp.gr_pm_gw_luminosity).abs() < 1e-30
+        );
+        assert!(gw_cmp.cachazo_skinner_flat_relative_error.abs() < 1e-15);
+        assert!(gw_cmp.cachazo_skinner_cosmological_relative_error > 0.0);
+        assert!(gw_cmp.cachazo_skinner_unbroken_minus_witten < 1e-30);
+        assert!(
+            (gw_cmp.partanen_tulkki_2025_gw_luminosity - gw_cmp.gr_pm_gw_luminosity).abs()
+                < 1e-30
+        );
+        assert!(gw_cmp.partanen_tulkki_2025_relative_error.abs() < 1e-15);
+        assert!((gw_cmp.fedi_ddf_2026_gw_luminosity - gw_cmp.gr_pm_gw_luminosity).abs() < 1e-30);
+        assert!(gw_cmp.fedi_ddf_2026_relative_error.abs() < 1e-15);
+        assert!(gw_cmp.turner_gr24_qed_relative_error.abs() < 1e-13);
     }
 }
