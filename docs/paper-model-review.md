@@ -48,6 +48,8 @@ Proca propulsion, FRC-density, Argon-ionization, or over-unity MHD claims.
 | [Resource-Theoretical Unification of Mpemba Effects: Classical and Quantum](https://doi.org/10.1103/rbt4-psfd) | Non-equilibrium free-energy monotone $\Delta F = k_B T \ln 2 \cdot D_{\mathrm{KL}}(\rho\Vert\gamma_\beta)$; piecewise-linear Lorenz thermo-majorization ($\rho \succ_{\mathrm{th}} \sigma$); majorization shortcut gap | `Signals.QuantumCausalInference.qrtNonEquilibriumFreeEnergy`, `qrtMajorizationShortcutGap`, `thermo_majorization_dominates` | peer-reviewed PRX theoretical framework (Summer et al. 2026, *Phys. Rev. X* 16, 011050) |
 | [A Semantics for Counterfactuals in Quantum Causal Models](https://arxiv.org/abs/2302.11783) | Abduction–Action–Prediction counterfactual semantics; Choi–Jamiołkowski process subspaces in $\mathrm{Gr}_{\mathbb{C}}(k, d_{\mathrm{in}}d_{\mathrm{out}})$; Quantum Switch Plücker ratios and OCB causal inequality violation ($3/4 < (2+\sqrt{2})/4$) | `Signals.QuantumCausalInference.abducedExogenousState`, `counterfactualStructuralOutcome`, `quantumSwitchCausalAsymmetry`, `ocbQuantumIndefiniteBound` | arXiv theoretical framework (Giarmatzi & Costa 2023; Oreshkov, Costa, & Brukner 2012) |
 | [The thermodynamic meaning of negative entropy](https://doi.org/10.1038/nature10123) | Single-shot conditional Landauer erasure $Q_{\mathrm{erasure}} = k_B T \ln 2 \cdot S(A\mid O)$ with quantum memory $O$; closed-loop Second-Law reset bound $Q_{\mathrm{closed}} \ge k_B T \ln 2$; isotropic Werner threshold $F_* \approx 0.8107$ ($p_* \approx 0.7476$) | `Signals.QuantumCausalInference.delRioConditionalLandauerHeat`, `closedLoopErasureAndMemoryResetHeat`, `wernerConditionalEntropyBitsAtHalf`, `QuantumCausalMpembaSynthesisContract` | peer-reviewed *Nature* theory (del Rio et al. 2011); chat's `-50 to -100 W` Lignolux tape claim is refuted ($-0.750\text{ }\mu\text{W}$ formula evaluation) and gated in `Signals.Pending` |
+| {download}`bundle_transformer.pdf <../data/papers/bundle_transformer.pdf>` | Tautological vector bundle $\mathcal{T} = \{(Z,v) \mid Z \in \mathrm{Gr}(k,n),\, v = Z\alpha \in Z\}$; chordal distance $d_{\mathrm{chord}}(Z_1,Z_2)^2 = k - \|Z_1^\top Z_2\|_F^2 \le k$; hybrid concept + instance attention; orthogonal residual concept filter $\Pi_Z = Z Z^\top$; fiber-preserving RoPE ([Su et al. 2021](#su2021roformer)) | `Signals.QuantumCausalInference.grassmannChordalDistSq`, `bundleConceptSimilarity`, `bundleHybridAttentionScore`, `tautologicalFiberVec`, `tautologicalProjectorVec`, `ropeFiberRotate` | geometric position paper (De Clercq 2026); mathematical bundle morphisms and chordal bounds verified in Lean 4 and Rust |
+| [Attention Is Not What You Need](https://arxiv.org/abs/2512.19428) | Causal Grassmann mixing on $\mathrm{Gr}_{\mathbb{R}}(2, r)$ via $\binom{r}{2}$ Plücker coordinates; multi-scale causal lag windows $\mathcal{W} = \{1,2,4,8,12,16\}$; convex vs. additive gating; shared-anchor multi-lag Plücker bilinear collapse | `Signals.QuantumCausalInference.pluckerPairDimension`, `kanenormanGrassmannBlockParams`, `kanenorman_vs_zhang_gating_difference`, `zhang_multi_lag_plucker_sum_collapses_to_single_wedge` | arXiv preprint (Zhang 2025) & reproduction (`kanenorman/grassmann`); exact $12.61\text{M}$ vs. $13.00\text{M}$ parameter ledger and bilinear collapse proved in Lean 4 |
 
 ## 1. Polarization-entanglement complementarity and Huygens-Steiner mapping
 
@@ -1592,6 +1594,9 @@ The paper-derived API is in [Signals/Coherence.lean](../src/signals/Signals/Cohe
 | `qrtNonEquilibriumFreeEnergy` / `ConstructorTask` | QRT non-equilibrium free energy ([Summer et al. 2026](#summer2026resource)) and Constructor Theory task surplus | Majorization shortcut gap and side-information task unlocking |
 | `counterfactualStructuralOutcome` / `quantumSwitchCausalAsymmetry` | Quantum causal counterfactuals ([Giarmatzi and Costa 2023](#giarmatzi2023semantics)) and $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Quantum Switch | Abduction–Action–Prediction difference, Plücker ratio $E_-/E_+$, and OCB bound $3/4 < (2+\sqrt{2})/4$ |
 | `delRioConditionalLandauerHeat` / `wernerConditionalEntropyBitsAtHalf` | Conditional Landauer erasure ([del Rio et al. 2011](#delrio2011negative)) vs. isotropic Werner state and closed-loop reset | Single-shot $Q(1) = -k_B T \ln 2$, Werner $S(A\mid O)(1/2) = \frac{\ln 3}{2\ln 2} > 1/2 > 0$ ($F_* \approx 0.8107$), and $Q_{\mathrm{closed}} \ge k_B T \ln 2$ |
+| `jevEvidentialExpectedUtility` / `qcdtQuantumCausalExpectedUtility` | Jeffrey Evidential (`JEV`) vs. Pearl $\operatorname{do}$-calculus (`CEV`) vs. Quantum Causal Decision Theory (`QCDT`) & Jevons rebound | Confounding bias $\mathrm{JEV} - \mathrm{CEV} = b_{\mathrm{conf}}(u_1 - u_2)$, Plücker $\pi$-phase alternation $q(\theta)+q(\theta+\pi)=0$, and $E_{\mathrm{total}} > c_0 D_0$ |
+| `pluckerPairDimension` / `zhang_multi_lag_plucker_sum_collapses_to_single_wedge` | Causal Grassmann flows ([Zhang 2025](#zhang2025grassmann)) and `kanenorman/grassmann` parameter & gating audit | $\binom{32}{2}=496$, $12{,}607{,}168 + 6\times 256^2 = 13{,}000{,}384$, gating discrepancy, and shared-anchor bilinear wedge collapse |
+| `grassmannChordalDistSq` / `tautologicalProjectorVec` / `ropeFiberRotate` | Tautological Bundle-Transformer ([De Clercq 2026](#declercq2026bundle)), `GrFormer` ([Kang et al. 2025](#kang2025grformer)), & `RoFormer` ([Su et al. 2021](#su2021roformer)) | Chordal bounds $0 \le d_{\mathrm{chord}}^2 \le k$, $\Pi_Z(Z\alpha)=Z\alpha$, $\Pi_Z(v^\perp)=0$, fiber-RoPE norm invariance, and linear-in-volume 3D VideoGen scaling |
 
 Coherence fixtures are compiled in [SignalsTests.lean](../src/signals/SignalsTests.lean).
 The Proca-paper and cavity/Grover records and fixtures are compiled through the
@@ -1700,6 +1705,14 @@ explicit Pending target in [SignalsPendingTests.lean](../src/signals/SignalsPend
 <a id="giarmatzi2023semantics"></a> Giarmatzi, C., and Costa, F. (2023). *A Semantics for Counterfactuals in Quantum Causal Models*. arXiv preprint [arXiv:2302.11783](https://arxiv.org/abs/2302.11783).
 
 <a id="delrio2011negative"></a> del Rio, L., Åberg, J., Renner, R., Dahlsten, O., and Vedral, V. (2011). *The thermodynamic meaning of negative entropy*. Nature, 474(7349), 61--63. DOI: [10.1038/nature10123](https://doi.org/10.1038/nature10123).
+
+<a id="declercq2026bundle"></a> De Clercq, C. (2026). *Bundle-Transformer: A Geometric Position Paper*. Université Sorbonne Paris Nord, LAGA, September 24, 2026. Supplied PDF: {download}`bundle_transformer.pdf <../data/papers/bundle_transformer.pdf>`.
+
+<a id="zhang2025grassmann"></a> Zhang, C. (2025). *Attention Is Not What You Need: Grassmann Flows as an Attention-Free Alternative for Sequence Modeling*. arXiv preprint [arXiv:2512.19428](https://arxiv.org/abs/2512.19428).
+
+<a id="kang2025grformer"></a> Kang, H., et al. (2025). *GrFormer: A novel Transformer on Grassmann manifold for infrared and visible image fusion*. Information Fusion, 125, 2025.
+
+<a id="su2021roformer"></a> Su, J., Lu, Y., Pan, S., Murtadha, A., Wen, B., and Liu, Y. (2021). *RoFormer: Enhanced Transformer with Rotary Position Embedding*. arXiv preprint [arXiv:2104.09864](https://arxiv.org/abs/2104.09864).
 
 ### BibTeX
 
@@ -2008,5 +2021,36 @@ explicit Pending target in [SignalsPendingTests.lean](../src/signals/SignalsPend
    pages        = {61--63},
    year         = {2011},
    doi          = {10.1038/nature10123}
+}
+
+@unpublished{declercq2026bundle,
+   author       = {De Clercq, Charles},
+   title        = {Bundle-Transformer: A Geometric Position Paper},
+   year         = {2026},
+   month        = sep,
+   note         = {Supplied PDF: data/papers/bundle_transformer.pdf}
+}
+
+@article{zhang2025grassmann,
+   author       = {Zhang, Chong},
+   title        = {Attention Is Not What You Need: Grassmann Flows as an Attention-Free Alternative for Sequence Modeling},
+   journal      = {arXiv preprint arXiv:2512.19428},
+   year         = {2025},
+   doi          = {10.48550/arXiv.2512.19428}
+}
+
+@article{kang2025grformer,
+   author       = {Kang, H. and others},
+   title        = {GrFormer: A novel Transformer on Grassmann manifold for infrared and visible image fusion},
+   journal      = {Information Fusion},
+   volume       = {125},
+   year         = {2025}
+}
+
+@article{su2021roformer,
+   author       = {Su, Jianlin and Lu, Yu and Pan, Shengfeng and Murtadha, Ahmed and Wen, Bo and Liu, Yunfeng},
+   title        = {RoFormer: Enhanced Transformer with Rotary Position Embedding},
+   journal      = {arXiv preprint arXiv:2104.09864},
+   year         = {2021}
 }
 ```

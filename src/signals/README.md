@@ -589,8 +589,11 @@ interpretation while keeping experimental premises explicit:
    $-0.750\text{ }\mu\text{W}$ numerical audit of `lignolux_entropy_siphon_sim.py`
    (`grassmannian_causal_relations_do_calculus_and_quantum_switch_identities`,
    `mpemba_constructor_theory_and_entropy_siphoning_identities`,
-   `grassmannian_mpemba_projector_werner_threshold_and_ocb_causal_witness_identities`).
-   See [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](../../docs/grassmannian-quantum-causal-inference-mpemba-paper.md).
+   `grassmannian_mpemba_projector_werner_threshold_and_ocb_causal_witness_identities`,
+   `phase_diagram_complexity_mpemba_and_quantum_causal_synthesis_identities`,
+   `quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities`).
+   See [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](../../docs/grassmannian-quantum-causal-inference-mpemba-paper.md)
+   and [`docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`](../../docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md).
 - `Signals.DDF` Section 30 formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
    Fubini–Study Gross–Pitaevskii Equation (GPE), Dual-Schubert
    $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker

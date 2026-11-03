@@ -4,7 +4,8 @@
 **Companion Lean 4 Formalization**: [`src/signals/Signals/QuantumCausalInference.lean`](../src/signals/Signals/QuantumCausalInference.lean), [`src/signals/Signals/Plabic.lean`](../src/signals/Signals/Plabic.lean), [`src/signals/Signals/LayerCodes.lean`](../src/signals/Signals/LayerCodes.lean), [`src/signals/Signals/Pending.lean`](../src/signals/Signals/Pending.lean), [`src/signals/SignalsPending.lean`](../src/signals/SignalsPending.lean)
 **Companion Rust / WASM Implementation**: [`src/signals/numerical_adapter/src/quantum_causal_inference.rs`](../src/signals/numerical_adapter/src/quantum_causal_inference.rs)
 **Companion Papers**:
-- [Unified Grassmannian Synthesis & 19-Domain Roadmap (`grassmannian-unification-applications-roadmap-paper.md`)](grassmannian-unification-applications-roadmap-paper.md)
+- [Unified Grassmannian Synthesis & Roadmap (`grassmannian-unification-applications-roadmap-paper.md`)](grassmannian-unification-applications-roadmap-paper.md)
+- [Quantum Causal Grassmannian Transformers, JEV vs. $\operatorname{do}$-Calculus Decision Models, Tautological Fiber Bundles, & Spatiotemporal VideoGen (`grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`)](grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md)
 - [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study GPE, Dual-Schubert `iGPE`, & Homogeneous Plücker $\mathcal{Q}_4$ Madelung Hydrodynamics (`grassmannian-complex-gpe-igpe-plucker-madelung-paper.md`)](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md)
 - [Multi-Spectral & Multi-Array Grassmannian Imaging & 3D Layer-Coding `Plabic` Provenance (`grassmannian-multispectral-hubble-medical-nanoimaging-paper.md`)](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md)
 - [Causal Second-Sound Thermal Conduction, Inverse Compton, & Raman Thermometry (`grassmannian-thermal-compton-raman-paper.md`)](grassmannian-thermal-compton-raman-paper.md)

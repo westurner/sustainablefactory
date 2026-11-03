@@ -639,7 +639,256 @@ pub fn lignolux_tape_siphon_power_watts(
 }
 
 // ============================================================================
-// 6. WASM32 / C-ABI Exports
+// 6. JEV vs. QCDT Decision Models, Zhang (2025) Grassmann Flows, De Clercq (2026)
+//    Tautological Bundle-Transformers, and Spatiotemporal VideoGen
+// ============================================================================
+
+/// Jeffrey Expected Value (`JEV`, Jeffrey 1965) over a binary state partition
+/// conditioned observationally on action/token $A$: $P(s_1 \mid A) u_1 + P(s_2 \mid A) u_2$.
+#[must_use]
+pub fn jev_evidential_expected_utility(p_cond_1: f64, p_cond_2: f64, u1: f64, u2: f64) -> f64 {
+    p_cond_1 * u1 + p_cond_2 * u2
+}
+
+/// Causal Expected Value (`CEV`, Pearl 2000; Joyce 1999) under interventional
+/// incoming-edge surgery $\operatorname{do}(A)$: $P(s_1 \mid \operatorname{do}(A)) u_1 + P(s_2 \mid \operatorname{do}(A)) u_2$.
+#[must_use]
+pub fn cev_causal_do_expected_utility(p_do_1: f64, p_do_2: f64, u1: f64, u2: f64) -> f64 {
+    p_do_1 * u1 + p_do_2 * u2
+}
+
+/// Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Plücker interference / Yukalov-Sornette
+/// quantum decision attraction term $q_{\mathrm{Pl\ddot{u}cker}} = 2(w_{A,\mathrm{re}} w_{B,\mathrm{re}} + w_{A,\mathrm{im}} w_{B,\mathrm{im}})$.
+#[must_use]
+pub fn qcdt_plucker_interference_term(w_a_re: f64, w_a_im: f64, w_b_re: f64, w_b_im: f64) -> f64 {
+    2.0 * (w_a_re * w_b_re + w_a_im * w_b_im)
+}
+
+/// Quantum Causal Decision Theory (`QCDT`) expected utility combining Pearl's $\operatorname{do}(A)$
+/// distribution with a zero-sum Complex Grassmannian Plücker interference shift $q_{\mathrm{int}}$.
+#[must_use]
+pub fn qcdt_quantum_causal_expected_utility(
+    p_do_1: f64,
+    p_do_2: f64,
+    q_int: f64,
+    u1: f64,
+    u2: f64,
+) -> f64 {
+    (p_do_1 + q_int) * u1 + (p_do_2 - q_int) * u2
+}
+
+/// Jevons (1865/1871) effective compute/energy cost per token $c_0 / \eta_{\mathrm{eff}}$
+/// and total compute energy $E_{\mathrm{total}} = (c_0 / \eta_{\mathrm{eff}}) D_0 \eta_{\mathrm{eff}} (1 + \varepsilon_{\mathrm{ex}})$.
+pub fn jevons_total_compute_energy(
+    c0: f64,
+    eta_eff: f64,
+    d0: f64,
+    elasticity_excess: f64,
+) -> Result<f64, ValidationError> {
+    require_positive("eta_eff", eta_eff)?;
+    let eff_cost = c0 / eta_eff;
+    let demand = d0 * eta_eff * (1.0 + elasticity_excess);
+    Ok(eff_cost * demand)
+}
+
+/// Pairwise Plücker coordinate dimension $\binom{r}{2} = r(r - 1)/2$ for $\mathrm{Gr}(2, r)$
+/// (`Zhang 2025`, `arXiv:2512.19428`, Section 2.2 & 3.2).
+#[must_use]
+pub const fn plucker_pair_dimension(r: usize) -> usize {
+    (r * r.saturating_sub(1)) / 2
+}
+
+/// Parameter count of a `MultiHeadAttention` sub-block in `kanenorman/grassmann` (`README.md`, lines 125-136).
+#[must_use]
+pub const fn multi_head_attention_block_params(d: usize) -> usize {
+    2 * d + (3 * d * d + 3 * d) + (d * d + d)
+}
+
+/// Parameter count of a `GrassmannMixing` sub-block in `kanenorman/grassmann` (`README.md`, lines 138-150).
+#[must_use]
+pub const fn kanenorman_grassmann_block_params(d: usize, r: usize) -> usize {
+    let d_plucker = plucker_pair_dimension(r);
+    2 * d + (d * r + r) + (d_plucker * d + d) + (2 * d * d + d)
+}
+
+/// Convex gated fusion $\alpha h + (1 - \alpha) g$ (`Zhang 2025`, `arXiv:2512.19428`, Section 3.2.5).
+#[must_use]
+pub fn zhang_convex_gated_fusion(alpha: f64, h: f64, g: f64) -> f64 {
+    alpha * h + (1.0 - alpha) * g
+}
+
+/// Additive gated residual $h + \alpha g$ (`kanenorman/grassmann/model.py`, lines 116-117, 163-176).
+#[must_use]
+pub fn kanenorman_additive_gated_residual(alpha: f64, h: f64, g: f64) -> f64 {
+    h + alpha * g
+}
+
+/// Pairwise $2 \times 2$ Plücker minor $p_{ij}(z_{\mathrm{curr}}, z_{\mathrm{past}}) = z_{c,i} z_{p,j} - z_{c,j} z_{p,i}$.
+#[must_use]
+pub fn plucker_2d_coord(z_curr_i: f64, z_curr_j: f64, z_past_i: f64, z_past_j: f64) -> f64 {
+    z_curr_i * z_past_j - z_curr_j * z_past_i
+}
+
+/// Computes the normalized Plücker feature vector $\hat{p} \in \mathbb{R}^{\binom{r}{2}}$
+/// for a pair of reduced token states $(z_{\mathrm{curr}}, z_{\mathrm{past}}) \in \mathbb{R}^r \times \mathbb{R}^r$
+/// (`Zhang 2025`, `arXiv:2512.19428`, Section 3.2.3).
+pub fn causal_grassmann_plucker_vector(
+    z_curr: &[f64],
+    z_past: &[f64],
+    eps: f64,
+) -> Result<Vec<f64>, ValidationError> {
+    if z_curr.len() != z_past.len() || z_curr.len() < 2 {
+        return Err(ValidationError::ShapeMismatch(
+            "z_curr and z_past must have equal length >= 2",
+        ));
+    }
+    require_positive("eps", eps)?;
+    let r = z_curr.len();
+    let mut plucker = Vec::with_capacity(plucker_pair_dimension(r));
+    let mut norm_sq = 0.0;
+    for i in 0..r {
+        for j in (i + 1)..r {
+            let p_ij = plucker_2d_coord(z_curr[i], z_curr[j], z_past[i], z_past[j]);
+            norm_sq += p_ij * p_ij;
+            plucker.push(p_ij);
+        }
+    }
+    let scale = norm_sq.sqrt().max(eps);
+    for p in &mut plucker {
+        *p /= scale;
+    }
+    Ok(plucker)
+}
+
+/// Squared chordal distance $d_{\mathrm{chord}}(Z_1, Z_2)^2 = k - \|Z_1^\top Z_2\|_F^2$
+/// on $\mathrm{Gr}(k, n)$ (`De Clercq 2026`, *Bundle-Transformer*, Section 2.1).
+#[must_use]
+pub fn grassmann_chordal_dist_sq(k: f64, frob_overlap_sq: f64) -> f64 {
+    k - frob_overlap_sq
+}
+
+/// Concept similarity score $s_{ij}^{\mathrm{concept}} = \gamma \exp(-d_{\mathrm{chord}}(Z_i, Z_j)^2 / \sigma)$
+/// (`De Clercq 2026`, Section 3.2).
+#[must_use]
+pub fn bundle_concept_similarity(gamma: f64, k: f64, frob_overlap_sq: f64, sigma: f64) -> f64 {
+    gamma * (-grassmann_chordal_dist_sq(k, frob_overlap_sq) / sigma).exp()
+}
+
+/// Hybrid Bundle-Transformer attention score $s_{ij} = \lambda_{\mathrm{inst}} s_{ij}^{\mathrm{inst}} + \lambda_{\mathrm{concept}} s_{ij}^{\mathrm{concept}}$
+/// (`De Clercq 2026`, Section 3.2).
+#[must_use]
+pub fn bundle_hybrid_attention_score(
+    lam_inst: f64,
+    s_inst: f64,
+    lam_concept: f64,
+    s_concept: f64,
+) -> f64 {
+    lam_inst * s_inst + lam_concept * s_concept
+}
+
+/// A 2D tautological bundle token $(Z, v) \in \mathcal{T} \to \mathrm{Gr}_{\mathbb{R}}(1, 2)$,
+/// where $Z = (c, s)^\top$ ($c^2 + s^2 = 1$) is the orthonormal concept frame and
+/// $v = Z\alpha = (c\alpha, s\alpha)^\top \in Z$ is the contextual instance vector
+/// (`De Clercq 2026`, *Bundle-Transformer*, Sections 2.2 & 3.1-3.4).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct TautologicalBundleToken2D {
+    pub z_c: f64,
+    pub z_s: f64,
+    pub alpha: f64,
+}
+
+impl TautologicalBundleToken2D {
+    /// Encodes a raw rank-1 direction $(m_x, m_y)$ and fiber coordinate $\alpha$ via QR normalization.
+    pub fn from_qr_1d(m_x: f64, m_y: f64, alpha: f64) -> Result<Self, ValidationError> {
+        let norm = (m_x * m_x + m_y * m_y).sqrt();
+        require_positive("subspace_column_norm", norm)?;
+        Ok(Self {
+            z_c: m_x / norm,
+            z_s: m_y / norm,
+            alpha,
+        })
+    }
+
+    /// Ambient contextual instance vector $v = Z \alpha \in Z \subset \mathbb{R}^2$.
+    #[must_use]
+    pub fn instance_vec(&self) -> [f64; 2] {
+        [self.z_c * self.alpha, self.z_s * self.alpha]
+    }
+
+    /// Projects an arbitrary ambient vector $(x, y) \in \mathbb{R}^2$ onto the fiber subspace $Z$:
+    /// $\Pi_Z(w) = Z Z^\top w$.
+    #[must_use]
+    pub fn project_onto_fiber(&self, x: f64, y: f64) -> [f64; 2] {
+        let dot = self.z_c * x + self.z_s * y;
+        [self.z_c * dot, self.z_s * dot]
+    }
+
+    /// Squared chordal distance $d_{\mathrm{chord}}(Z_1, Z_2)^2 = 1 - (Z_1^\top Z_2)^2 \in [0, 1]$.
+    #[must_use]
+    pub fn chordal_dist_sq(&self, other: &Self) -> f64 {
+        let dot = self.z_c * other.z_c + self.z_s * other.z_s;
+        grassmann_chordal_dist_sq(1.0, dot * dot)
+    }
+
+    /// Applies shared linear transport $A \in \mathbb{R}^{2 \times 2}$ simultaneously to the
+    /// concept subspace $Z^{\mathrm{new}} = \operatorname{QR}(A Z)$ and instance $\tilde{v} = A v \in Z^{\mathrm{new}}$
+    /// (`De Clercq 2026`, Section 3.4 Step 1).
+    pub fn linear_transport_2x2(
+        &self,
+        a00: f64,
+        a01: f64,
+        a10: f64,
+        a11: f64,
+    ) -> Result<Self, ValidationError> {
+        let az_x = a00 * self.z_c + a01 * self.z_s;
+        let az_y = a10 * self.z_c + a11 * self.z_s;
+        let r_norm = (az_x * az_x + az_y * az_y).sqrt();
+        require_positive("transported_subspace_norm", r_norm)?;
+        // Since A v = A (Z alpha) = (A Z) alpha = (Z_new * r_norm) * alpha = Z_new * (r_norm * alpha),
+        // the transported vector lies identically in Z_new with fiber coordinate r_norm * alpha!
+        Ok(Self {
+            z_c: az_x / r_norm,
+            z_s: az_y / r_norm,
+            alpha: r_norm * self.alpha,
+        })
+    }
+}
+
+/// Fiber-preserving Rotary Position Embedding (`RoPE`) coordinate rotation in $\mathbb{R}^2$
+/// (`Su et al. 2021`, `arXiv:2104.09864`; `De Clercq 2026`, Section 3.3).
+#[must_use]
+pub fn rope_fiber_rotate(cos_t: f64, sin_t: f64, a1: f64, a2: f64) -> [f64; 2] {
+    [cos_t * a1 - sin_t * a2, sin_t * a1 + cos_t * a2]
+}
+
+/// Quadratic 3D spatiotemporal video self-attention complexity $(T H W)^2 d_{\mathrm{head}}$.
+#[must_use]
+pub fn spatiotemporal_full_attention_complexity(t: f64, h: f64, w: f64, d_head: f64) -> f64 {
+    let l = t * h * w;
+    l * l * d_head
+}
+
+/// Linear-in-volume 3D spatiotemporal Causal Grassmann video complexity $(T H W) m_{\mathrm{lags}} d_{\mathrm{pl\ddot{u}cker}}$.
+#[must_use]
+pub fn spatiotemporal_grassmann_video_complexity(
+    t: f64,
+    h: f64,
+    w: f64,
+    m_lags: f64,
+    d_plucker: f64,
+) -> f64 {
+    (t * h * w) * m_lags * d_plucker
+}
+
+/// Kapitza thermal relaxation time $t_{\mathrm{cool}} = R_K C_v d_{\mathrm{thick}}$ for an
+/// `rGO-Vitrimer` / `A-CNT` QRAM soliton steering metasurface (`_LLMs, Fourier, and Quantum Logic .md`, lines 660-685).
+#[must_use]
+pub fn rgo_vitrimer_kapitza_cool_time(r_k: f64, c_v: f64, d_thick: f64) -> f64 {
+    r_k * c_v * d_thick
+}
+
+// ============================================================================
+// 7. WASM32 / C-ABI Exports
 // ============================================================================
 
 /// C-ABI / WASM export: evaluates the Quantum Switch $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker
@@ -675,6 +924,29 @@ pub extern "C" fn signals_landau_double_well_barrier_height(
     b_quartic: f64,
 ) -> f64 {
     landau_double_well_barrier_height(a0, temp_k, t_critical_k, b_quartic).unwrap_or(f64::NAN)
+}
+
+/// C-ABI / WASM export: evaluates `bundle_hybrid_attention_score`.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_bundle_hybrid_attention_score(
+    lam_inst: f64,
+    s_inst: f64,
+    lam_concept: f64,
+    s_concept: f64,
+) -> f64 {
+    bundle_hybrid_attention_score(lam_inst, s_inst, lam_concept, s_concept)
+}
+
+/// C-ABI / WASM export: evaluates `spatiotemporal_grassmann_video_complexity`.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_spatiotemporal_grassmann_video_complexity(
+    t: f64,
+    h: f64,
+    w: f64,
+    m_lags: f64,
+    d_plucker: f64,
+) -> f64 {
+    spatiotemporal_grassmann_video_complexity(t, h, w, m_lags, d_plucker)
 }
 
 #[cfg(test)]
@@ -884,5 +1156,98 @@ mod tests {
         assert!(p_siphon_100mhz.abs() < 1.0e-6);
         assert!((p_siphon_1thz - (-7.499_297_98e-3)).abs() < 1e-8);
         assert!(p_siphon_1thz.abs() < 1.0e-2);
+    }
+
+    #[test]
+    fn jev_bundle_transformer_grassmann_flows_and_videogen_identities_hold() {
+        // 1. JEV vs. CEV (do-calculus) vs. Quantum Causal Decision Theory (QCDT) & Jevons Rebound:
+        let p_do = 0.6;
+        let b_conf = 0.2;
+        let u1 = 10.0;
+        let u2 = 2.0;
+        let jev = jev_evidential_expected_utility(p_do + b_conf, (1.0 - p_do) - b_conf, u1, u2);
+        let cev = cev_causal_do_expected_utility(p_do, 1.0 - p_do, u1, u2);
+        assert!(((jev - cev) - b_conf * (u1 - u2)).abs() < 1e-12);
+        assert!(jev > cev);
+
+        // Complex Grassmannian Plücker interference & pi-phase alternation law:
+        let q_int = qcdt_plucker_interference_term(0.5, 0.25, 0.4, -0.1);
+        let q_int_pi = qcdt_plucker_interference_term(0.5, 0.25, -0.4, 0.1);
+        assert!((q_int + q_int_pi).abs() < 1e-12);
+        let qcev = qcdt_quantum_causal_expected_utility(p_do, 1.0 - p_do, 0.25, u1, u2);
+        assert!(((qcev - cev) - 0.25 * (u1 - u2)).abs() < 1e-12);
+
+        // Jevons compute-energy rebound when demand elasticity excess eps_ex = 0.5 > 0:
+        let e_rebound = jevons_total_compute_energy(10.0, 4.0, 100.0, 0.5).unwrap();
+        assert!((e_rebound - 1500.0).abs() < 1e-12);
+        assert!(e_rebound > 10.0 * 100.0);
+
+        // 2. Zhang (2025, arXiv:2512.19428) & kanenorman/grassmann parameter and Plücker laws:
+        assert_eq!(plucker_pair_dimension(32), 496);
+        assert_eq!(multi_head_attention_block_params(256), 263_680);
+        assert_eq!(kanenorman_grassmann_block_params(256, 32), 267_296);
+        assert_eq!(12_607_168 + 6 * (256 * 256), 13_000_384);
+
+        // Gating discrepancy between kanenorman additive residual and Zhang convex gating:
+        let alpha = 0.7;
+        let h_val = 2.0;
+        let g_val = 5.0;
+        let diff_gate = kanenorman_additive_gated_residual(alpha, h_val, g_val)
+            - zhang_convex_gated_fusion(alpha, h_val, g_val);
+        let expected_diff = (1.0 - alpha) * h_val + (2.0 * alpha - 1.0) * g_val;
+        assert!((diff_gate - expected_diff).abs() < 1e-12);
+
+        // Multi-lag Plücker bilinear collapse to single wedge product:
+        let p1 = plucker_2d_coord(3.0, -2.0, 1.0, 4.0);
+        let p2 = plucker_2d_coord(3.0, -2.0, -5.0, 2.0);
+        let p_comb = plucker_2d_coord(
+            3.0,
+            -2.0,
+            0.4 * 1.0 + 0.6 * (-5.0),
+            0.4 * 4.0 + 0.6 * 2.0,
+        );
+        assert!(((0.4 * p1 + 0.6 * p2) - p_comb).abs() < 1e-12);
+        let p_vec = causal_grassmann_plucker_vector(&[1.0, 0.0, 2.0], &[0.0, 3.0, 4.0], 1e-6)
+            .unwrap();
+        assert_eq!(p_vec.len(), 3);
+        let p_norm_sq: f64 = p_vec.iter().map(|v| v * v).sum();
+        assert!((p_norm_sq - 1.0).abs() < 1e-12);
+
+        // 3. De Clercq (2026) Tautological Bundle-Transformer & Su et al. (2021) Fiber-RoPE:
+        let tok_i = TautologicalBundleToken2D::from_qr_1d(3.0, 4.0, 5.0).unwrap();
+        let tok_j = TautologicalBundleToken2D::from_qr_1d(4.0, -3.0, 2.0).unwrap();
+        let v_i = tok_i.instance_vec();
+        let v_i_proj = tok_i.project_onto_fiber(v_i[0], v_i[1]);
+        assert!((v_i_proj[0] - v_i[0]).abs() < 1e-12);
+        assert!((v_i_proj[1] - v_i[1]).abs() < 1e-12);
+        // Orthogonal vector (-s * beta, c * beta) is filtered to zero by Π_Z:
+        let v_orth_proj = tok_i.project_onto_fiber(-tok_i.z_s * 7.0, tok_i.z_c * 7.0);
+        assert!(v_orth_proj[0].abs() < 1e-12);
+        assert!(v_orth_proj[1].abs() < 1e-12);
+        // Chordal distance between orthogonal subspaces is 1, self-distance is 0:
+        assert!(tok_i.chordal_dist_sq(&tok_i).abs() < 1e-12);
+        assert!((tok_i.chordal_dist_sq(&tok_j) - 1.0).abs() < 1e-12);
+        assert!((bundle_concept_similarity(2.0, 1.0, 1.0, 0.5) - 2.0).abs() < 1e-12);
+        assert!(
+            (signals_bundle_hybrid_attention_score(0.5, 4.0, 0.5, 2.0) - 3.0).abs() < 1e-12
+        );
+        // Shared linear transport A = [[2, 1], [0, 3]] preserves v_tilde = A v in Z_new:
+        let tok_trans = tok_i.linear_transport_2x2(2.0, 1.0, 0.0, 3.0).unwrap();
+        let v_trans = tok_trans.instance_vec();
+        let av_x = 2.0 * v_i[0] + 1.0 * v_i[1];
+        let av_y = 0.0 * v_i[0] + 3.0 * v_i[1];
+        assert!((v_trans[0] - av_x).abs() < 1e-12);
+        assert!((v_trans[1] - av_y).abs() < 1e-12);
+
+        // Fiber-RoPE preserves norm:
+        let rot = rope_fiber_rotate(0.6, 0.8, 3.0, -4.0);
+        assert!(((rot[0] * rot[0] + rot[1] * rot[1]) - (9.0 + 16.0)).abs() < 1e-12);
+
+        // 4. Spatiotemporal VideoGen Complexity & rGO/A-CNT 100 ps Kapitza QRAM Steering:
+        let c_vid_grass =
+            signals_spatiotemporal_grassmann_video_complexity(16.0, 16.0, 16.0, 6.0, 496.0);
+        let c_vid_attn = spatiotemporal_full_attention_complexity(16.0, 16.0, 16.0, 64.0);
+        assert!(c_vid_grass < c_vid_attn);
+        assert!((rgo_vitrimer_kapitza_cool_time(5.0e-9, 2.0e6, 1.0e-8) - 1.0e-10).abs() < 1e-20);
     }
 }

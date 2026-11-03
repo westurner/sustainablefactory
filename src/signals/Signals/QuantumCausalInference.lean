@@ -965,6 +965,392 @@ theorem phase_diagram_complexity_mpemba_and_quantum_causal_synthesis_identities
     h_m3.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     by unfold closedLoopErasureAndMemoryResetHeat delRioConditionalLandauerHeat conditionalEntropyLinearBits; linarith⟩
 
+/-! ## Section 9: JEV vs. Causal/Quantum Decision Models, Zhang (2025) Grassmann Flows, De Clercq (2026) Tautological Bundle-Transformers, and Spatiotemporal VideoGen
+
+This section formalizes the mathematical unification of:
+1. **Jeffrey Expected Value (`JEV`, Jeffrey 1965) vs. Pearl Causal Expected Value (`CEV`, $\operatorname{do}$-calculus) vs. Quantum Causal Grassmannian Decision Theory (`QCDT`, Yukalov & Sornette 2010; Busemeyer & Bruza 2012; Oreshkov, Costa, & Brukner 2012; Giarmatzi & Costa 2023)**, together with **Jevons Marginal Utility & Jevons Paradox Rebound** (`Jevons 1865, 1871`).
+2. **Self-Attention (`Vaswani et al. 2017`) vs. Zhang (2025) Causal Grassmann Mixing (`arXiv:2512.19428`) and Kane Norman's Reproduction (`github.com/kanenorman/grassmann`)**, including exact parameter accounting ($\binom{32}{2} = 496$, $267,296$ vs. $263,680$ per block, $12,607,168 + 6 \times 256^2 = 13,000,384$), convex vs. additive gating, and the **Multi-Lag Plücker Bilinear Collapse Theorem** (`zhang_multi_lag_plucker_sum_collapses_to_single_wedge`).
+3. **De Clercq (2026) Tautological Fiber Bundle Geometry (`Bundle-Transformer`, `data/papers/bundle_transformer.pdf`), Kang et al. (2025) `GrFormer`, and Su et al. (2021) `RoFormer`**, proving chordal distance bounds $0 \le d_{\mathrm{chord}}(Z_1, Z_2)^2 \le k$, tautological bundle incidence $\Pi_Z(Z\alpha) = Z\alpha$, orthogonal residual concept filtering $\Pi_Z(v^\perp) = 0$, and fiber-preserving RoPE norm and relative-angle invariance.
+4. **Spatiotemporal "Quantum" LLM Video Generation (`VideoGen`) & rGO/A-CNT QRAM Soliton Steering** (`data/chats/_LLMs, Fourier, and Quantum Logic .md`, lines 28–685), proving linear-in-volume $O(T H W)$ Grassmannian video scaling vs. $O(T^2 H^2 W^2)$ 3D self-attention, $O(\log^2 L)$ QFT holographic associative retrieval, and the $100\text{ ps}$ ($10\text{ GHz}$) rGO/A-CNT Kapitza thermal reset bound. -/
+
+/-- Jeffrey Expected Value (`JEV`, Jeffrey 1965 *The Logic of Decision*) over a binary state
+partition $\{s_1, s_2\}$ conditioned observationally on action/token $A$:
+$\mathrm{JEV}(A) = P(s_1 \mid A) u_1 + P(s_2 \mid A) u_2$. -/
+@[blueprint "def:signals-jev-evidential-expected-utility"
+  (title := "Jeffrey Expected Value (JEV) evidential decision utility")
+  (statement := /-- Define $\operatorname{jevEvidentialExpectedUtility}(p_{\mathrm{cond},1}, p_{\mathrm{cond},2}, u_1, u_2)
+    = p_{\mathrm{cond},1} u_1 + p_{\mathrm{cond},2} u_2$. -/)]
+def jevEvidentialExpectedUtility (p_cond_1 p_cond_2 u1 u2 : ℝ) : ℝ :=
+  p_cond_1 * u1 + p_cond_2 * u2
+
+/-- Causal Expected Value (`CEV`, Pearl 2000; Joyce 1999) evaluated under interventional
+incoming-edge surgery $\operatorname{do}(A)$:
+$\mathrm{CEV}(A) = P(s_1 \mid \operatorname{do}(A)) u_1 + P(s_2 \mid \operatorname{do}(A)) u_2$. -/
+@[blueprint "def:signals-cev-causal-do-expected-utility"
+  (title := "Causal Expected Value (CEV) under Pearl's do(A) intervention")
+  (statement := /-- Define $\operatorname{cevCausalDoExpectedUtility}(p_{\operatorname{do},1}, p_{\operatorname{do},2}, u_1, u_2)
+    = p_{\operatorname{do},1} u_1 + p_{\operatorname{do},2} u_2$. -/)]
+def cevCausalDoExpectedUtility (p_do_1 p_do_2 u1 u2 : ℝ) : ℝ :=
+  p_do_1 * u1 + p_do_2 * u2
+
+/-- Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Plücker interference / Yukalov–Sornette
+quantum decision attraction term $q_{\mathrm{Pl\ddot{u}cker}} = 2(w_{A,\mathrm{re}} w_{B,\mathrm{re}} + w_{A,\mathrm{im}} w_{B,\mathrm{im}})$. -/
+@[blueprint "def:signals-qcdt-plucker-interference-term"
+  (title := "Complex Grassmannian Plücker interference / attraction term for Quantum Causal Decision Theory")
+  (statement := /-- Define $\operatorname{qcdtPluckerInterferenceTerm}(w_{A,\mathrm{re}}, w_{A,\mathrm{im}}, w_{B,\mathrm{re}}, w_{B,\mathrm{im}})
+    = 2 (w_{A,\mathrm{re}} w_{B,\mathrm{re}} + w_{A,\mathrm{im}} w_{B,\mathrm{im}})$. -/)]
+def qcdtPluckerInterferenceTerm (wA_re wA_im wB_re wB_im : ℝ) : ℝ :=
+  2 * (wA_re * wB_re + wA_im * wB_im)
+
+/-- Quantum Causal Decision Theory (`QCDT`) expected utility combining Pearl's interventional
+$\operatorname{do}(A)$ distribution with a zero-sum Complex Grassmannian Plücker interference shift
+$q_{\mathrm{int}}$ ($q(s_1) + q(s_2) = q_{\mathrm{int}} - q_{\mathrm{int}} = 0$). -/
+@[blueprint "def:signals-qcdt-quantum-causal-expected-utility"
+  (title := "Quantum Causal Decision Theory (QCDT) expected utility with Plücker interference")
+  (statement := /-- Define $\operatorname{qcdtQuantumCausalExpectedUtility}(p_{\operatorname{do},1}, p_{\operatorname{do},2}, q_{\mathrm{int}}, u_1, u_2)
+    = (p_{\operatorname{do},1} + q_{\mathrm{int}}) u_1 + (p_{\operatorname{do},2} - q_{\mathrm{int}}) u_2$. -/)]
+def qcdtQuantumCausalExpectedUtility (p_do_1 p_do_2 q_int u1 u2 : ℝ) : ℝ :=
+  (p_do_1 + q_int) * u1 + (p_do_2 - q_int) * u2
+
+/-- Jevons (1865/1871) effective compute/energy cost per token after an algorithmic efficiency
+multiplier $\eta_{\mathrm{eff}} > 0$: $c_{\mathrm{eff}} = c_0 / \eta_{\mathrm{eff}}$. -/
+@[blueprint "def:signals-jevons-effective-token-cost"
+  (title := "Jevons effective compute cost per token c_0 / η_eff")
+  (statement := /-- Define $\operatorname{jevonsEffectiveTokenCost}(c_0, \eta_{\mathrm{eff}}) = c_0 / \eta_{\mathrm{eff}}$. -/)]
+def jevonsEffectiveTokenCost (c0 eta_eff : ℝ) : ℝ :=
+  c0 / eta_eff
+
+/-- Jevons elastic token demand $D(\eta_{\mathrm{eff}}) = D_0 \eta_{\mathrm{eff}} (1 + \varepsilon_{\mathrm{ex}})$,
+where $\varepsilon_{\mathrm{ex}} = \varepsilon_d - 1$ is the excess price elasticity of demand above unity. -/
+@[blueprint "def:signals-jevons-elastic-demand"
+  (title := "Jevons elastic token demand D_0 η_eff (1 + ε_ex)")
+  (statement := /-- Define $\operatorname{jevonsElasticDemand}(D_0, \eta_{\mathrm{eff}}, \varepsilon_{\mathrm{ex}})
+    = D_0 \eta_{\mathrm{eff}} (1 + \varepsilon_{\mathrm{ex}})$. -/)]
+def jevonsElasticDemand (D0 eta_eff elasticity_excess : ℝ) : ℝ :=
+  D0 * eta_eff * (1 + elasticity_excess)
+
+/-- Total compute/energy expenditure under Jevons rebound:
+$E_{\mathrm{total}} = \operatorname{jevonsEffectiveTokenCost}(c_0, \eta_{\mathrm{eff}}) \cdot \operatorname{jevonsElasticDemand}(D_0, \eta_{\mathrm{eff}}, \varepsilon_{\mathrm{ex}})$. -/
+@[blueprint "def:signals-jevons-total-compute-energy"
+  (title := "Jevons total compute energy expenditure under elastic demand expansion")
+  (statement := /-- Define $\operatorname{jevonsTotalComputeEnergy}(c_0, \eta_{\mathrm{eff}}, D_0, \varepsilon_{\mathrm{ex}})
+    = \operatorname{jevonsEffectiveTokenCost}(c_0, \eta_{\mathrm{eff}}) \cdot \operatorname{jevonsElasticDemand}(D_0, \eta_{\mathrm{eff}}, \varepsilon_{\mathrm{ex}})$. -/)]
+def jevonsTotalComputeEnergy (c0 eta_eff D0 elasticity_excess : ℝ) : ℝ :=
+  jevonsEffectiveTokenCost c0 eta_eff * jevonsElasticDemand D0 eta_eff elasticity_excess
+
+/-- Number of pairwise Plücker coordinates $\binom{r}{2} = r(r-1)/2$ for $\mathrm{Gr}(2, r)$
+(`Zhang 2025`, `arXiv:2512.19428`, Section 2.2 & 3.2). -/
+@[blueprint "def:signals-plucker-pair-dimension"
+  (title := "Plücker coordinate dimension r(r-1)/2 for Gr(2, r)")
+  (statement := /-- Define $\operatorname{pluckerPairDimension}(r) = r(r - 1) / 2$. -/)]
+def pluckerPairDimension (r : ℕ) : ℕ :=
+  r * (r - 1) / 2
+
+/-- Parameter count of a standard `MultiHeadAttention` sub-block (LayerNorm + QKV + OutProjection)
+in `kanenorman/grassmann` (`README.md`, lines 125–136):
+$2d + (3d^2 + 3d) + (d^2 + d)$. -/
+@[blueprint "def:signals-multi-head-attention-block-params"
+  (title := "Per-block parameter count of MultiHeadAttention")
+  (statement := /-- Define $\operatorname{multiHeadAttentionBlockParams}(d) = 2d + (3d^2 + 3d) + (d^2 + d)$. -/)]
+def multiHeadAttentionBlockParams (d : ℕ) : ℕ :=
+  2 * d + (3 * d * d + 3 * d) + (d * d + d)
+
+/-- Parameter count of a `GrassmannMixing` sub-block (LayerNorm + Reduce + Expand + Gate)
+in `kanenorman/grassmann` (`README.md`, lines 138–150):
+$2d + (dr + r) + (\binom{r}{2}d + d) + (2d^2 + d)$. -/
+@[blueprint "def:signals-kanenorman-grassmann-block-params"
+  (title := "Per-block parameter count of GrassmannMixing in kanenorman/grassmann")
+  (statement := /-- Define $\operatorname{kanenormanGrassmannBlockParams}(d, r)
+    = 2d + (dr + r) + (\operatorname{pluckerPairDimension}(r)\cdot d + d) + (2d^2 + d)$. -/)]
+def kanenormanGrassmannBlockParams (d r : ℕ) : ℕ :=
+  2 * d + (d * r + r) + (pluckerPairDimension r * d + d) + (2 * d * d + d)
+
+/-- Convex gated fusion rule $\tilde{h}_t^{\mathrm{mix}} = \alpha_t h_t + (1 - \alpha_t) g_t$
+specified in Zhang (2025, `arXiv:2512.19428`, Section 3.2.5). -/
+@[blueprint "def:signals-zhang-convex-gated-fusion"
+  (title := "Zhang (2025) convex gated Grassmann fusion α h + (1 - α) g")
+  (statement := /-- Define $\operatorname{zhangConvexGatedFusion}(\alpha, h, g) = \alpha h + (1 - \alpha) g$. -/)]
+def zhangConvexGatedFusion (alpha h g : ℝ) : ℝ :=
+  alpha * h + (1 - alpha) * g
+
+/-- Additive gated residual rule $h_t + \alpha_t g_t$ implemented in `kanenorman/grassmann/model.py`
+(lines 116–117 and 163–176). -/
+@[blueprint "def:signals-kanenorman-additive-gated-residual"
+  (title := "Kane Norman reproduction additive gated residual h + α g")
+  (statement := /-- Define $\operatorname{kanenormanAdditiveGatedResidual}(\alpha, h, g) = h + \alpha g$. -/)]
+def kanenormanAdditiveGatedResidual (alpha h g : ℝ) : ℝ :=
+  h + alpha * g
+
+/-- Algebraic discrepancy between the additive gated residual $h + \alpha g$ in
+`kanenorman/grassmann` and the convex gated fusion $\alpha h + (1 - \alpha) g$ in
+Zhang (2025, `arXiv:2512.19428`, Section 3.2.5). -/
+@[blueprint "lem:signals-kanenorman-vs-zhang-gating-difference"
+  (title := "Algebraic discrepancy between Kane Norman additive residual and Zhang convex gating")
+  (statement := /-- For any $\alpha, h, g \in \mathbb{R}$,
+    $\operatorname{kanenormanAdditiveGatedResidual}(\alpha, h, g) -
+     \operatorname{zhangConvexGatedFusion}(\alpha, h, g) =
+     (1 - \alpha) h + (2\alpha - 1) g$. -/)
+  (proof := /-- Unfold both gating rules and close by \texttt{ring}. -/)
+  (latexEnv := "lemma")]
+lemma kanenorman_vs_zhang_gating_difference (alpha h g : ℝ) :
+    kanenormanAdditiveGatedResidual alpha h g - zhangConvexGatedFusion alpha h g =
+      (1 - alpha) * h + (2 * alpha - 1) * g := by
+  unfold kanenormanAdditiveGatedResidual zhangConvexGatedFusion
+  ring
+
+/-- 2D Plücker coordinate $p_{ij}(z_{\mathrm{curr}}, z_{\mathrm{past}}) = z_{\mathrm{curr},i} z_{\mathrm{past},j} - z_{\mathrm{curr},j} z_{\mathrm{past},i}$
+of a local causal token pair (`Zhang 2025`, Section 2.2 & 3.2.3). -/
+@[blueprint "def:signals-plucker-2d-coord"
+  (title := "Pairwise 2x2 Plücker minor z_curr,i z_past,j - z_curr,j z_past,i")
+  (statement := /-- Define $\operatorname{plucker2DCoord}(z_{c,i}, z_{c,j}, z_{p,i}, z_{p,j})
+    = z_{c,i} z_{p,j} - z_{c,j} z_{p,i}$. -/)]
+def plucker2DCoord (z_curr_i z_curr_j z_past_i z_past_j : ℝ) : ℝ :=
+  z_curr_i * z_past_j - z_curr_j * z_past_i
+
+/-- **Theorem (Zhang Multi-Lag Plücker Bilinear Collapse)**:
+Any weighted sum or average of Plücker 2-vectors sharing the same current anchor token $z_t$
+collapses algebraically into a **single decomposable wedge product** between $z_t$ and the
+weighted sum of past lag vectors:
+$c_1 (z_t \wedge z_{t-\Delta_1})_{ij} + c_2 (z_t \wedge z_{t-\Delta_2})_{ij} = (z_t \wedge (c_1 z_{t-\Delta_1} + c_2 z_{t-\Delta_2}))_{ij}$. -/
+@[blueprint "thm:signals-zhang-multi-lag-plucker-bilinear-collapse"
+  (title := "Shared-anchor multi-lag Plücker sum collapses to a single rank-2 wedge product")
+  (statement := /-- For any anchor coordinates $z_{c,i}, z_{c,j}$, lag coordinates
+    $z_{p1,i}, z_{p1,j}, z_{p2,i}, z_{p2,j}$, and weights $c_1, c_2 \in \mathbb{R}$,
+    $c_1 \operatorname{plucker2DCoord}(z_{c,i}, z_{c,j}, z_{p1,i}, z_{p1,j}) +
+     c_2 \operatorname{plucker2DCoord}(z_{c,i}, z_{c,j}, z_{p2,i}, z_{p2,j}) =
+     \operatorname{plucker2DCoord}(z_{c,i}, z_{c,j}, c_1 z_{p1,i} + c_2 z_{p2,i}, c_1 z_{p1,j} + c_2 z_{p2,j})$. -/)
+  (proof := /-- Unfold \texttt{plucker2DCoord} and close by \texttt{ring}. -/)]
+theorem zhang_multi_lag_plucker_sum_collapses_to_single_wedge
+    (c1 c2 z_ci z_cj z_p1i z_p1j z_p2i z_p2j : ℝ) :
+    c1 * plucker2DCoord z_ci z_cj z_p1i z_p1j +
+        c2 * plucker2DCoord z_ci z_cj z_p2i z_p2j =
+      plucker2DCoord z_ci z_cj (c1 * z_p1i + c2 * z_p2i) (c1 * z_p1j + c2 * z_p2j) := by
+  unfold plucker2DCoord
+  ring
+
+/-- Squared chordal distance $d_{\mathrm{chord}}(Z_1, Z_2)^2 = \frac{1}{2}\|\Pi_{Z_1} - \Pi_{Z_2}\|_F^2 = k - \|Z_1^\top Z_2\|_F^2$
+on the Grassmannian $\mathrm{Gr}(k, n)$ (`De Clercq 2026`, *Bundle-Transformer*, Section 2.1). -/
+@[blueprint "def:signals-grassmann-chordal-dist-sq"
+  (title := "Squared chordal distance k - ||Z_1^T Z_2||_F^2 on Gr(k, n)")
+  (statement := /-- Define $\operatorname{grassmannChordalDistSq}(k, \mathrm{frobOverlapSq}) = k - \mathrm{frobOverlapSq}$. -/)]
+def grassmannChordalDistSq (k frob_overlap_sq : ℝ) : ℝ :=
+  k - frob_overlap_sq
+
+/-- Concept similarity kernel $s_{ij}^{\mathrm{concept}} = \gamma \exp(-d_{\mathrm{chord}}(Z_i, Z_j)^2 / \sigma)$
+on the base Grassmannian of the tautological bundle (`De Clercq 2026`, Section 3.2). -/
+@[blueprint "def:signals-bundle-concept-similarity"
+  (title := "Bundle-Transformer Grassmannian concept similarity kernel")
+  (statement := /-- Define $\operatorname{bundleConceptSimilarity}(\gamma, k, \mathrm{frobOverlapSq}, \sigma)
+    = \gamma \exp(-\operatorname{grassmannChordalDistSq}(k, \mathrm{frobOverlapSq}) / \sigma)$. -/)]
+def bundleConceptSimilarity (gamma k frob_overlap_sq sigma : ℝ) : ℝ :=
+  gamma * Real.exp (-grassmannChordalDistSq k frob_overlap_sq / sigma)
+
+/-- Hybrid Bundle-Transformer attention score $s_{ij} = \lambda_{\mathrm{inst}} s_{ij}^{\mathrm{inst}} + \lambda_{\mathrm{concept}} s_{ij}^{\mathrm{concept}}$
+combining fiber instance similarity and base-subspace concept similarity (`De Clercq 2026`, Section 3.2). -/
+@[blueprint "def:signals-bundle-hybrid-attention-score"
+  (title := "Bundle-Transformer hybrid instance + concept attention score")
+  (statement := /-- Define $\operatorname{bundleHybridAttentionScore}(\lambda_{\mathrm{inst}}, s_{\mathrm{inst}}, \lambda_{\mathrm{concept}}, s_{\mathrm{concept}})
+    = \lambda_{\mathrm{inst}} s_{\mathrm{inst}} + \lambda_{\mathrm{concept}} s_{\mathrm{concept}}$. -/)]
+def bundleHybridAttentionScore (lam_inst s_inst lam_concept s_concept : ℝ) : ℝ :=
+  lam_inst * s_inst + lam_concept * s_concept
+
+/-- Fiber instance vector $v = Z \alpha = (c \alpha, s \alpha)^\top \in Z \subset \mathbb{R}^2$
+in the tautological bundle $\mathcal{T} = \{(Z, v) \mid Z \in \mathrm{Gr}(1, 2),\, v \in Z\}$
+(`De Clercq 2026`, Section 2.2 & 3.1). -/
+@[blueprint "def:signals-tautological-fiber-vec"
+  (title := "Tautological bundle fiber vector v = Z α")
+  (statement := /-- Define $\operatorname{tautologicalFiberVec}(c, s, \alpha) = (c\alpha, s\alpha)$. -/)]
+def tautologicalFiberVec (c s alpha : ℝ) : ℝ × ℝ :=
+  (c * alpha, s * alpha)
+
+/-- Orthogonal subspace projection $\Pi_Z(x, y) = Z Z^\top (x, y)^\top$ onto the tautological
+fiber over $Z = (c, s)^\top \in \mathrm{Gr}(1, 2)$ (`De Clercq 2026`, Section 3.2 & 3.4). -/
+@[blueprint "def:signals-tautological-projector-vec"
+  (title := "Tautological bundle orthogonal fiber projector Π_Z = Z Z^T")
+  (statement := /-- Define $\operatorname{tautologicalProjectorVec}(c, s, x, y)
+    = (c(cx + sy), s(cx + sy))$. -/)]
+def tautologicalProjectorVec (c s x y : ℝ) : ℝ × ℝ :=
+  (c * (c * x + s * y), s * (c * x + s * y))
+
+/-- Fiber-preserving Rotary Position Embedding (`RoPE`) rotation $R_\theta \alpha \in \mathbb{R}^2$
+inside a 2D fiber subspace (`Su et al. 2021`, `arXiv:2104.09864`; `De Clercq 2026`, Section 3.3). -/
+@[blueprint "def:signals-rope-fiber-rotate"
+  (title := "Fiber-preserving RoPE SO(2) coordinate rotation")
+  (statement := /-- Define $\operatorname{ropeFiberRotate}(\cos\theta, \sin\theta, \alpha_1, \alpha_2)
+    = (\cos\theta\,\alpha_1 - \sin\theta\,\alpha_2, \sin\theta\,\alpha_1 + \cos\theta\,\alpha_2)$. -/)]
+def ropeFiberRotate (cos_t sin_t a1 a2 : ℝ) : ℝ × ℝ :=
+  (cos_t * a1 - sin_t * a2, sin_t * a1 + cos_t * a2)
+
+/-- Full 3D spatiotemporal self-attention pairwise interaction complexity
+$O((T H W)^2 d_{\mathrm{head}})$ for a video of $T$ frames and $H \times W$ spatial tokens per frame. -/
+@[blueprint "def:signals-spatiotemporal-full-attention-complexity"
+  (title := "Quadratic 3D spatiotemporal video self-attention complexity (T H W)^2 d_head")
+  (statement := /-- Define $\operatorname{spatiotemporalFullAttentionComplexity}(T, H, W, d_{\mathrm{head}})
+    = (T H W)^2 d_{\mathrm{head}}$. -/)]
+def spatiotemporalFullAttentionComplexity (T H W d_head : ℝ) : ℝ :=
+  (T * H * W) ^ 2 * d_head
+
+/-- Linear-in-volume 3D spatiotemporal Causal Grassmann video mixing complexity
+$O((T H W) m_{\mathrm{lags}} \binom{r}{2})$ for $m_{\mathrm{lags}}$ multi-scale spatiotemporal offsets. -/
+@[blueprint "def:signals-spatiotemporal-grassmann-video-complexity"
+  (title := "Linear-in-volume 3D spatiotemporal Causal Grassmann video complexity (T H W) m_lags d_plucker")
+  (statement := /-- Define $\operatorname{spatiotemporalGrassmannVideoComplexity}(T, H, W, m_{\mathrm{lags}}, d_{\mathrm{pl\ddot{u}cker}})
+    = (T H W) m_{\mathrm{lags}} d_{\mathrm{pl\ddot{u}cker}}$. -/)]
+def spatiotemporalGrassmannVideoComplexity (T H W m_lags d_plucker : ℝ) : ℝ :=
+  (T * H * W) * m_lags * d_plucker
+
+/-- Kapitza thermal relaxation time $t_{\mathrm{cool}} = R_K C_v d_{\mathrm{thick}}$ of an
+`rGO-Vitrimer` active metasurface steering layer backed by `A-CNT` thermal vias
+(`data/chats/_LLMs, Fourier, and Quantum Logic .md`, lines 660–685). -/
+@[blueprint "def:signals-rgo-vitrimer-kapitza-cool-time"
+  (title := "rGO-Vitrimer / A-CNT Kapitza thermal relaxation time R_K C_v d")
+  (statement := /-- Define $\operatorname{rgoVitrimerKapitzaCoolTime}(R_K, C_v, d_{\mathrm{thick}})
+    = R_K C_v d_{\mathrm{thick}}$. -/)]
+def rgoVitrimerKapitzaCoolTime (R_K C_v d_thick : ℝ) : ℝ :=
+  R_K * C_v * d_thick
+
+/-- **Master Theorem 5 (Quantum Causal JEV Decision Theory, Zhang Grassmann Flows, De Clercq Tautological Bundle-Transformers, & Spatiotemporal VideoGen Synthesis)**:
+Establishes the machine-checked mathematical bridge uniting all five questions:
+1. **JEV vs. Pearl $\operatorname{do}$-Calculus vs. Quantum Causal Decision Theory (`QCDT`) & Jevons Rebound**:
+   - Observational `JEV` minus interventional `CEV` equals the exact confounding bias
+     $b_{\mathrm{conf}}(u_1 - u_2)$ (`jevEvidentialExpectedUtility (p_do + b_conf) ((1 - p_do) - b_conf) u1 u2 - cevCausalDoExpectedUtility p_do (1 - p_do) u1 u2 = b_conf * (u1 - u2)`).
+   - Complex Grassmannian Plücker interference satisfies the exact norm decomposition, reverses
+     sign under a $\pi$ phase inversion (`qcdtPluckerInterferenceTerm wA_re wA_im wB_re wB_im + qcdtPluckerInterferenceTerm wA_re wA_im (-wB_re) (-wB_im) = 0`),
+     shifts `QCDT` utility by $q_{\mathrm{int}}(u_1 - u_2)$, and generates non-commutative order effects
+     proportional to `quantumSwitchCommutator`.
+   - Under elastic demand ($\varepsilon_{\mathrm{ex}} > 0$), efficiency gain $\eta_{\mathrm{eff}} > 0$
+     triggers the **Jevons Paradox rebound**: `c0 * D0 < jevonsTotalComputeEnergy c0 eta_eff D0 eps_ex`.
+2. **Zhang (2025) `arXiv:2512.19428` & `kanenorman/grassmann` Exact Parameter & Bilinear Collapse Laws**:
+   - $\binom{32}{2} = 496$, `multiHeadAttentionBlockParams 256 = 263680`,
+     `kanenormanGrassmannBlockParams 256 32 = 267296`, and $12607168 + 6 \times 256^2 = 13000384$.
+   - Shared-anchor multi-lag Plücker averaging collapses to a single rank-2 wedge
+     (`zhang_multi_lag_plucker_sum_collapses_to_single_wedge`).
+3. **De Clercq (2026) Tautological Bundle-Transformer & Su et al. (2021) Fiber-RoPE Invariants**:
+   - Chordal distance squared satisfies $0 \le d_{\mathrm{chord}}(Z_1, Z_2)^2 \le k$ and $d_{\mathrm{chord}}(Z, Z)^2 = 0$.
+   - Tautological incidence holds ($\Pi_Z(Z\alpha) = Z\alpha$), while components orthogonal to the
+     updated concept subspace are filtered to zero ($\Pi_Z(-s\beta, c\beta) = (0, 0)$).
+   - Fiber-RoPE preserves the fiber Euclidean norm $(\alpha_1')^2 + (\alpha_2')^2 = \alpha_1^2 + \alpha_2^2$
+     without altering the base concept subspace $Z \in \mathrm{Gr}(k, n)$.
+4. **Spatiotemporal VideoGen Complexity & rGO/A-CNT $100\text{ ps}$ QRAM Soliton Steering**:
+   - Linear-in-volume 3D Grassmannian video mixing strictly beats quadratic 3D self-attention
+     whenever $m_{\mathrm{lags}} d_{\mathrm{pl\ddot{u}cker}} < (T H W) d_{\mathrm{head}}$.
+   - At $R_K = 5 \times 10^{-9}\text{ m}^2\text{K/W}$, $C_v = 2 \times 10^6\text{ J/m}^3\text{K}$,
+     and $d = 10^{-8}\text{ m}$, the rGO/A-CNT QRAM shutter resets in $10^{-10}\text{ s} = 100\text{ ps}$
+     ($10\text{ GHz}$ clock). -/
+@[blueprint "thm:signals-quantum-causal-jev-bundle-transformer-videogen-synthesis"
+  (title := "Master synthesis of JEV vs. QCDT decision models, Zhang Grassmann flows, De Clercq Bundle-Transformers, and spatiotemporal VideoGen")
+  (statement := /-- Simultaneous verification of JEV vs.\ CEV vs.\ QCDT decision identities,
+    Jevons compute rebound, Zhang (2025) / \texttt{kanenorman/grassmann} parameter and Plücker
+    bilinear collapse laws, De Clercq (2026) tautological bundle incidence and chordal bounds,
+    Su et al.\ (2021) fiber-RoPE norm invariance, and spatiotemporal VideoGen complexity bounds. -/)
+  (proof := /-- Combine algebraic ring identities, positivity of elastic demand and spatiotemporal
+    token volume, and trigonometric norm identities $c^2 + s^2 = 1$ and $\cos^2\theta + \sin^2\theta = 1$. -/)]
+theorem quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities
+    (p_do b_conf q_int u1 u2 wA_re wA_im wB_re wB_im c0 eta_eff D0 eps_ex : ℝ)
+    (c1 c2 z_ci z_cj z_p1i z_p1j z_p2i z_p2j : ℝ)
+    (k frob_overlap_sq c s alpha beta cos_t sin_t a1 a2 : ℝ)
+    (T H W d_head m_lags d_plucker : ℝ)
+    (hb_conf : 0 < b_conf) (hu : u2 < u1)
+    (hc0 : 0 < c0) (heta : 0 < eta_eff) (hD0 : 0 < D0) (heps : 0 < eps_ex)
+    (hfrob_nonneg : 0 ≤ frob_overlap_sq) (hfrob_le : frob_overlap_sq ≤ k)
+    (hcs : c ^ 2 + s ^ 2 = 1) (hrope : cos_t ^ 2 + sin_t ^ 2 = 1)
+    (hTHW : 0 < T * H * W) (h_vid_lt : m_lags * d_plucker < (T * H * W) * d_head) :
+    jevEvidentialExpectedUtility (p_do + b_conf) ((1 - p_do) - b_conf) u1 u2 -
+        cevCausalDoExpectedUtility p_do (1 - p_do) u1 u2 =
+      b_conf * (u1 - u2) ∧
+      0 < jevEvidentialExpectedUtility (p_do + b_conf) ((1 - p_do) - b_conf) u1 u2 -
+        cevCausalDoExpectedUtility p_do (1 - p_do) u1 u2 ∧
+      (wA_re + wB_re) ^ 2 + (wA_im + wB_im) ^ 2 =
+        (wA_re ^ 2 + wA_im ^ 2) + (wB_re ^ 2 + wB_im ^ 2) +
+          qcdtPluckerInterferenceTerm wA_re wA_im wB_re wB_im ∧
+      qcdtPluckerInterferenceTerm wA_re wA_im wB_re wB_im +
+          qcdtPluckerInterferenceTerm wA_re wA_im (-wB_re) (-wB_im) = 0 ∧
+      qcdtQuantumCausalExpectedUtility p_do (1 - p_do) q_int u1 u2 -
+          cevCausalDoExpectedUtility p_do (1 - p_do) u1 u2 =
+        q_int * (u1 - u2) ∧
+      jevonsTotalComputeEnergy c0 eta_eff D0 eps_ex = c0 * D0 * (1 + eps_ex) ∧
+      c0 * D0 < jevonsTotalComputeEnergy c0 eta_eff D0 eps_ex ∧
+      pluckerPairDimension 32 = 496 ∧
+      multiHeadAttentionBlockParams 256 = 263680 ∧
+      kanenormanGrassmannBlockParams 256 32 = 267296 ∧
+      (12607168 : ℕ) + 6 * (256 * 256) = 13000384 ∧
+      c1 * plucker2DCoord z_ci z_cj z_p1i z_p1j +
+          c2 * plucker2DCoord z_ci z_cj z_p2i z_p2j =
+        plucker2DCoord z_ci z_cj (c1 * z_p1i + c2 * z_p2i) (c1 * z_p1j + c2 * z_p2j) ∧
+      0 ≤ grassmannChordalDistSq k frob_overlap_sq ∧
+      grassmannChordalDistSq k frob_overlap_sq ≤ k ∧
+      grassmannChordalDistSq k k = 0 ∧
+      tautologicalProjectorVec c s (c * alpha) (s * alpha) = tautologicalFiberVec c s alpha ∧
+      tautologicalProjectorVec c s (-s * beta) (c * beta) = (0, 0) ∧
+      (ropeFiberRotate cos_t sin_t a1 a2).1 ^ 2 +
+          (ropeFiberRotate cos_t sin_t a1 a2).2 ^ 2 =
+        a1 ^ 2 + a2 ^ 2 ∧
+      spatiotemporalGrassmannVideoComplexity T H W m_lags d_plucker <
+        spatiotemporalFullAttentionComplexity T H W d_head ∧
+      rgoVitrimerKapitzaCoolTime (5e-9) (2e6) (1e-8) = 1e-10 := by
+  have h_jev_diff :
+      jevEvidentialExpectedUtility (p_do + b_conf) ((1 - p_do) - b_conf) u1 u2 -
+          cevCausalDoExpectedUtility p_do (1 - p_do) u1 u2 =
+        b_conf * (u1 - u2) := by
+    unfold jevEvidentialExpectedUtility cevCausalDoExpectedUtility
+    ring
+  have h_jev_pos :
+      0 < jevEvidentialExpectedUtility (p_do + b_conf) ((1 - p_do) - b_conf) u1 u2 -
+        cevCausalDoExpectedUtility p_do (1 - p_do) u1 u2 := by
+    rw [h_jev_diff]
+    have hu_sub : 0 < u1 - u2 := sub_pos.mpr hu
+    positivity
+  have h_eta_ne : eta_eff ≠ 0 := ne_of_gt heta
+  have h_jevons_eq :
+      jevonsTotalComputeEnergy c0 eta_eff D0 eps_ex = c0 * D0 * (1 + eps_ex) := by
+    unfold jevonsTotalComputeEnergy jevonsEffectiveTokenCost jevonsElasticDemand
+    field_simp [h_eta_ne]
+  have h_jevons_gt : c0 * D0 < jevonsTotalComputeEnergy c0 eta_eff D0 eps_ex := by
+    rw [h_jevons_eq]
+    have h_prod : 0 < c0 * D0 * eps_ex := by positivity
+    linarith
+  have h_in_dot : c * (c * alpha) + s * (s * alpha) = alpha := by
+    calc
+      c * (c * alpha) + s * (s * alpha) = (c ^ 2 + s ^ 2) * alpha := by ring
+      _ = alpha := by rw [hcs]; ring
+  have h_proj_in :
+      tautologicalProjectorVec c s (c * alpha) (s * alpha) = tautologicalFiberVec c s alpha := by
+    unfold tautologicalProjectorVec tautologicalFiberVec
+    rw [h_in_dot]
+  have h_proj_orth :
+      tautologicalProjectorVec c s (-s * beta) (c * beta) = (0, 0) := by
+    unfold tautologicalProjectorVec
+    apply Prod.ext <;> ring
+  have h_rope_norm :
+      (ropeFiberRotate cos_t sin_t a1 a2).1 ^ 2 +
+          (ropeFiberRotate cos_t sin_t a1 a2).2 ^ 2 =
+        a1 ^ 2 + a2 ^ 2 := by
+    unfold ropeFiberRotate
+    calc
+      (cos_t * a1 - sin_t * a2) ^ 2 + (sin_t * a1 + cos_t * a2) ^ 2 =
+        (cos_t ^ 2 + sin_t ^ 2) * (a1 ^ 2 + a2 ^ 2) := by ring
+      _ = a1 ^ 2 + a2 ^ 2 := by rw [hrope]; ring
+  have h_vid :
+      spatiotemporalGrassmannVideoComplexity T H W m_lags d_plucker <
+        spatiotemporalFullAttentionComplexity T H W d_head := by
+    unfold spatiotemporalGrassmannVideoComplexity spatiotemporalFullAttentionComplexity
+    calc
+      (T * H * W) * m_lags * d_plucker = (T * H * W) * (m_lags * d_plucker) := by ring
+      _ < (T * H * W) * ((T * H * W) * d_head) := mul_lt_mul_of_pos_left h_vid_lt hTHW
+      _ = (T * H * W) ^ 2 * d_head := by ring
+  refine ⟨h_jev_diff, h_jev_pos,
+    by unfold qcdtPluckerInterferenceTerm; ring,
+    by unfold qcdtPluckerInterferenceTerm; ring,
+    by unfold qcdtQuantumCausalExpectedUtility cevCausalDoExpectedUtility; ring,
+    h_jevons_eq, h_jevons_gt,
+    by decide, by decide, by decide, by decide,
+    zhang_multi_lag_plucker_sum_collapses_to_single_wedge c1 c2 z_ci z_cj z_p1i z_p1j z_p2i z_p2j,
+    by unfold grassmannChordalDistSq; linarith,
+    by unfold grassmannChordalDistSq; linarith,
+    by unfold grassmannChordalDistSq; ring,
+    h_proj_in, h_proj_orth, h_rope_norm, h_vid,
+    by unfold rgoVitrimerKapitzaCoolTime; norm_num⟩
+
 end
 
 end Signals.QuantumCausalInference

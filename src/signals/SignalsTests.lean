@@ -6673,4 +6673,65 @@ example (s : Signals.DDF.MovingSheath toyDDFSubstrate)
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+/-- JEV vs. Pearl $\operatorname{do}$-calculus vs. Quantum Causal Decision Theory (`QCDT`),
+Jevons compute rebound, Zhang (2025) & `kanenorman/grassmann` exact parameter and Plücker
+bilinear collapse laws, De Clercq (2026) Tautological Bundle-Transformer chordal and
+fiber-projection laws, Su et al. (2021) fiber-RoPE norm invariance, and spatiotemporal
+VideoGen complexity + $100\text{ ps}$ rGO/A-CNT Kapitza QRAM steering (`Signals.QuantumCausalInference`). -/
+example (wA_re wA_im wB_re wB_im c1 c2 z_ci z_cj z_p1i z_p1j z_p2i z_p2j alpha beta a1 a2 : ℝ) :
+    Signals.QuantumCausalInference.jevEvidentialExpectedUtility (3 / 5 + 1 / 5) ((1 - 3 / 5) - 1 / 5) 10 2 -
+        Signals.QuantumCausalInference.cevCausalDoExpectedUtility (3 / 5) (1 - 3 / 5) 10 2 = 8 / 5 ∧
+      0 < Signals.QuantumCausalInference.jevEvidentialExpectedUtility (3 / 5 + 1 / 5) ((1 - 3 / 5) - 1 / 5) 10 2 -
+        Signals.QuantumCausalInference.cevCausalDoExpectedUtility (3 / 5) (1 - 3 / 5) 10 2 ∧
+      (wA_re + wB_re) ^ 2 + (wA_im + wB_im) ^ 2 =
+        (wA_re ^ 2 + wA_im ^ 2) + (wB_re ^ 2 + wB_im ^ 2) +
+          Signals.QuantumCausalInference.qcdtPluckerInterferenceTerm wA_re wA_im wB_re wB_im ∧
+      Signals.QuantumCausalInference.qcdtPluckerInterferenceTerm wA_re wA_im wB_re wB_im +
+          Signals.QuantumCausalInference.qcdtPluckerInterferenceTerm wA_re wA_im (-wB_re) (-wB_im) = 0 ∧
+      Signals.QuantumCausalInference.qcdtQuantumCausalExpectedUtility (3 / 5) (1 - 3 / 5) (1 / 4) 10 2 -
+          Signals.QuantumCausalInference.cevCausalDoExpectedUtility (3 / 5) (1 - 3 / 5) 10 2 = 2 ∧
+      Signals.QuantumCausalInference.jevonsTotalComputeEnergy 10 4 100 (1 / 2) = 1500 ∧
+      (10 : ℝ) * 100 < Signals.QuantumCausalInference.jevonsTotalComputeEnergy 10 4 100 (1 / 2) ∧
+      Signals.QuantumCausalInference.pluckerPairDimension 32 = 496 ∧
+      Signals.QuantumCausalInference.multiHeadAttentionBlockParams 256 = 263680 ∧
+      Signals.QuantumCausalInference.kanenormanGrassmannBlockParams 256 32 = 267296 ∧
+      (12607168 : ℕ) + 6 * (256 * 256) = 13000384 ∧
+      c1 * Signals.QuantumCausalInference.plucker2DCoord z_ci z_cj z_p1i z_p1j +
+          c2 * Signals.QuantumCausalInference.plucker2DCoord z_ci z_cj z_p2i z_p2j =
+        Signals.QuantumCausalInference.plucker2DCoord z_ci z_cj
+          (c1 * z_p1i + c2 * z_p2i) (c1 * z_p1j + c2 * z_p2j) ∧
+      0 ≤ Signals.QuantumCausalInference.grassmannChordalDistSq 4 (5 / 2) ∧
+      Signals.QuantumCausalInference.grassmannChordalDistSq 4 (5 / 2) ≤ 4 ∧
+      Signals.QuantumCausalInference.grassmannChordalDistSq 4 4 = 0 ∧
+      Signals.QuantumCausalInference.tautologicalProjectorVec (3 / 5) (4 / 5)
+          ((3 / 5) * alpha) ((4 / 5) * alpha) =
+        Signals.QuantumCausalInference.tautologicalFiberVec (3 / 5) (4 / 5) alpha ∧
+      Signals.QuantumCausalInference.tautologicalProjectorVec (3 / 5) (4 / 5)
+          (-(4 / 5) * beta) ((3 / 5) * beta) = (0, 0) ∧
+      (Signals.QuantumCausalInference.ropeFiberRotate (3 / 5) (4 / 5) a1 a2).1 ^ 2 +
+          (Signals.QuantumCausalInference.ropeFiberRotate (3 / 5) (4 / 5) a1 a2).2 ^ 2 =
+        a1 ^ 2 + a2 ^ 2 ∧
+      Signals.QuantumCausalInference.spatiotemporalGrassmannVideoComplexity 16 16 16 6 496 <
+        Signals.QuantumCausalInference.spatiotemporalFullAttentionComplexity 16 16 16 64 ∧
+      Signals.QuantumCausalInference.rgoVitrimerKapitzaCoolTime (5e-9) (2e6) (1e-8) = 1e-10 := by
+  have h :=
+    Signals.QuantumCausalInference.quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities
+      (3 / 5) (1 / 5) (1 / 4) 10 2 wA_re wA_im wB_re wB_im 10 4 100 (1 / 2)
+      c1 c2 z_ci z_cj z_p1i z_p1j z_p2i z_p2j
+      4 (5 / 2) (3 / 5) (4 / 5) alpha beta (3 / 5) (4 / 5) a1 a2
+      16 16 16 64 6 496
+      (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num)
+  refine ⟨by linarith [h.1], h.2.1, h.2.2.1, h.2.2.2.1, by linarith [h.2.2.2.2.1],
+    by linarith [h.2.2.2.2.2.1], h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

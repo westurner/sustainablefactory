@@ -32,6 +32,7 @@ description: "A capstone arXiv-ready formal verification and systems synthesis p
   17. [Multi-Spectral and Multi-Array Grassmannian Imaging Across Scales: Hubble $2\times$ CCD Mosaics ($\mathrm{Gr}_{\mathbb{R}}(4, N_{\mathrm{pixels}})$ & $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$), Cosmic-Ray Particle Telemetry, LVP Medical Direct-Conversion & Proca Phase-Contrast Arrays, LIFU / AOT / TRUE Sub-Surface Optical Focusing, and Sub-Nanometer ($< 1\text{ nm}$) Convergent Holographic Nanolithography in Lean 4 and Rust/WASM](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md)
   18. [Grassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the Mpemba / Entropy-Siphoning Laws in Lean 4 and Rust/WASM](grassmannian-quantum-causal-inference-mpemba-paper.md)
   19. [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert `iGPE`, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric $\mathcal{Q}_4$ in Lean 4 and Rust/WASM](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md)
+  20. [Quantum Causal Grassmannian Transformers, JEV vs. $\operatorname{do}$-Calculus Decision Models, Tautological Fiber Bundles, and Spatiotemporal Video Generation in Lean 4 and Rust/WASM](grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md)
 - **Related Roadmaps & Specifications:**
   - [Plan Index](plan-index.md), [Huygens Diffraction, Grassmannians, and Positive Geometry Plan](huygens-grassmannian-amplituhedron-plan.md), [Flat Light, Proca, and N-LIG Waveguide Validation Plan](flat-light-proca-nlig-validation-plan.md), [Dispersive Homodyne Coverage and Implementation Plan](dispersive-homodyne-plan.md), [Signals Library README](../src/signals/README.md), and [Repository README](../README.md).
 
@@ -100,6 +101,7 @@ while any $3 \times 6$ complex matrix $M_3 \in \mathbb{C}^{3 \times 6}$ represen
 | **17** | [Multi-Spectral & Multi-Array Grassmannian Imaging: Hubble $2\times$ CCDs, `LVP` Medical, `LIFU`/`AOT`/`TRUE`, & $<1\text{ nm}$ Nanoimaging](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md) | AOT carrier-to-tagged contrast $\delta_{\mathrm{aot}} = \frac{I_{\mathrm{car}} - I_{\mathrm{tag}}}{I_{\mathrm{car}} + I_{\mathrm{tag}}}$ & cascaded STED / HMM compression | 4-exposure CR coincidence $16{,}777{,}216\times(0.015)^4 = 0.849 < 1$ & $<1\text{ nm}$ linewidths $w_{\mathrm{nano}}^2 = (3/4)^2, (1/2)^2 < 1$ | AOT ultrasonic sideband Plücker ratio $\frac{\|w_B^{\mathbb{C}}(M_{\mathrm{aot}})\|^2}{\|w_A^{\mathbb{C}}(M_{\mathrm{aot}})\|^2} = \frac{I_{\mathrm{tag}}}{I_{\mathrm{car}}}$ & `LVP` vs. Si yield $\frac{292}{45} \approx 6.49\times$ | Product hierarchy $\mathrm{Gr}_{\mathbb{R}}(4, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ for intensity arrays vs. $\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(3,6) \times \mathrm{Gr}_{\mathbb{C}}(k, N_{\mathrm{SLM}})$ for coherent `TRUE`/`AOT`/holographic arrays |
 | **18** | [Grassmannian Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, & Mpemba / Entropy-Siphoning Laws](grassmannian-quantum-causal-inference-mpemba-paper.md) | Quantum Switch causal asymmetry $\delta_{\mathrm{switch}} = \frac{E_+ - E_-}{E_+ + E_-}$ & lightcone speed $\beta = v/c$ | Causal lightcone interval $1 - \beta^2 > 0$ & d-separation bottlenecks $\det T_{A,B} = 0$ vs. $> 0$ | Quantum Switch commutator-to-anticommutator Plücker ratio $\frac{\|w_B^{\mathbb{C}}\|^2}{\|w_A^{\mathbb{C}}\|^2} = \frac{E_-}{E_+}$ & Choi $\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{C}}(4,16) = 96$ | Pearl $\operatorname{do}(X)$ incoming-edge surgery, Giarmatzi–Costa counterfactual abduction–action–prediction, Strong Mpemba slow-mode projection ($a_{2,\mathrm{hot}}=0$), Constructor Theory task algebra, & del Rio conditional Landauer vs. $-0.750\text{ }\mu\text{W}$ Lignolux audit |
 | **19** | [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study GPE, Dual-Schubert `iGPE`, & Homogeneous Plücker $\mathcal{Q}_4$ Madelung Hydrodynamics](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md) | Orbital/slit eccentricity $e$ on Fubini–Study chart $W_{\mathrm{orb}}$ & dual-Schubert current $J_{\mathrm{Josephson}} = 2\operatorname{Im}(\bar{\Psi}\lambda\Phi)$ | Orbital Kähler excess $\det(I_2 + W_{\mathrm{orb}}W_{\mathrm{orb}}^\dagger) - 3 = 1 - e^2 = p/a$ & Cauchy–Binet $\det(I_2+W W^\dagger) = \|p(I_2\mid W)\|^2 \ge 1$ | Deborah shear-fracture ratio $\frac{\mathrm{De}}{\mathrm{De}_c}$ ($\hbar^2\omega^2 < 0 \iff \mathrm{De}/\mathrm{De}_c > 1$) & dual condensate ratio $\sqrt{\rho_{\mathrm{dual}}/\rho}$ | Klein quadric $\mathcal{C}(p) = p_I\tilde{p}^I = 0$ enforces linear wave superposition $p_4 = z_1+z_2$, corrected Hermitian normal $n(p)=\overline{\tilde{p}}$ annihilates $\mathcal{H}^{I\bar{J}}$, & Penrose Bohm–Weyl dictionary $W_{\mathrm{Weyl}} + \frac{1}{24}R_{4\mathrm{D}} = \frac{2\mathcal{M}}{\hbar^2}Q_{\mathrm{Pl\ddot{u}cker}}$ |
+| **20** | [Quantum Causal Grassmannian Transformers, JEV vs. $\operatorname{do}$-Calculus Decision Models, Tautological Fiber Bundles, & Spatiotemporal VideoGen](grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md) | JEV vs. $\operatorname{do}$-calculus confounding shift $b_{\mathrm{conf}}$ & Plücker interference $q_{\mathrm{Pl\ddot{u}cker}} = 2\operatorname{Re}(w_A^{\mathbb{C}}\overline{w_B^{\mathbb{C}}})$ | Squared chordal distance $d_{\mathrm{chord}}(Z_1, Z_2)^2 = k - \|Z_1^\top Z_2\|_F^2 \in [0, k]$ on tautological bundle $\mathcal{T} \to \mathrm{Gr}(k,n)$ | Hybrid concept-to-instance weight $\frac{\lambda_{\mathrm{concept}}}{\lambda_{\mathrm{inst}}}$ & Jevons elastic rebound $1 + \varepsilon_{\mathrm{ex}}$ | Shared-anchor multi-lag Plücker bilinear collapse $\sum c_\Delta(z_t \wedge z_{t-\Delta}) = z_t \wedge \sum c_\Delta z_{t-\Delta}$, orthogonal concept filter $\Pi_Z(v^\perp)=0$, fiber-RoPE norm invariance, & $O(T H W)$ VideoGen speedup |
 
 ### 1.2 Five Overarching Theoretical Implications
 
@@ -441,7 +443,13 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     relativePredictiveError
       (PlanetaryOrbit.turnerPluckerIGPEGWLuminosity orb re.G_phi re.sourceMass 2 sub.c (1 / 3) (1 / 5) 0) P_GR = 0 ∧
     relativePredictiveError
-      (re.turnerDualGr24IGPEDDFGWLuminosity orb 2 0) P_GR = 0 := by
+      (re.turnerDualGr24IGPEDDFGWLuminosity orb 2 0) P_GR = 0 ∧
+    -- (20) Paper 20 (JEV vs. QCDT Decision Models, Zhang Grassmann Flows, De Clercq Tautological Bundle-Transformer, & VideoGen):
+    Signals.QuantumCausalInference.pluckerPairDimension 32 = 496 ∧
+    Signals.QuantumCausalInference.kanenormanGrassmannBlockParams 256 32 = 267296 ∧
+    Signals.QuantumCausalInference.tautologicalProjectorVec (3 / 5) (4 / 5) (-(4 / 5) * x) ((3 / 5) * x) = (0, 0) ∧
+    Signals.QuantumCausalInference.spatiotemporalGrassmannVideoComplexity 16 16 16 6 496 <
+      Signals.QuantumCausalInference.spatiotemporalFullAttentionComplexity 16 16 16 64 := by
   intro z1 z2 p_slit M_sheath W_orb Δϖ_GR P_GR splat_ddf splat_opa M_spp M_holo W_sec M_ads5 φ_fraun φ_fres N_F
   have h1 := (complexGr24CrossingDoubleSlit_zero_error 3 2 4 6 1 5 x y).2
   have h2 := yang_baxter_equation_matrix8 7 4 1 2
@@ -508,6 +516,16 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
   have h19_rev := turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models
     s re orb s_pl z1 z2 3 2 4 6 1 5 (1 / 10) 1 1 2 0 0 0 (1 / 3) (1 / 5) 2 (1 / 100) (1 / 100)
     (by norm_num) (by norm_num) (by norm_num)
+  have h20_jev := Signals.QuantumCausalInference.quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities
+    (3 / 5) (1 / 5) (1 / 4) 10 2 0 0 0 0 10 4 100 (1 / 2)
+    0 0 0 0 0 0 0 0
+    4 (5 / 2) (3 / 5) (4 / 5) x x (3 / 5) (4 / 5) x y
+    16 16 16 64 6 496
+    (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num)
   rcases h9_ads with ⟨ha1, _ha2, _ha3, _ha4, _ha5, _ha6, _ha7, _ha8, _ha9, _ha10,
     _ha11, _ha12, ha13, _ha14, _ha15, _ha16, _ha17, _ha18, _ha19, _ha20, _ha21,
     _ha22, ha23, _ha24, _ha25, _ha26, _ha27⟩
@@ -529,7 +547,10 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     h19_rev.2.2.2.2.2.2.1, h19_rev.2.2.2.2.2.2.2.2.2.1,
     h19_rev.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h19_rev.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
-    h19_rev.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+    h19_rev.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h20_jev.2.2.2.2.2.2.2.1, h20_jev.2.2.2.2.2.2.2.2.2.1,
+    h20_jev.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h20_jev.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
 end ArxivCapstoneNineteenPaperUnificationVerification
 ```
@@ -643,6 +664,12 @@ end ArxivCapstoneNineteenPaperUnificationVerification
 (unif-delrio2011)=
 <a id="unif-delrio2011"></a>
 21. Holtzman, R., and Raz, O. (2022). *Landau theory for the Mpemba effect through phase transitions*. Communications Physics 5(1), 280 ([DOI: 10.1038/s42005-022-01063-2](https://doi.org/10.1038/s42005-022-01063-2)); Summer, A., Moroder, M., Bettmann, L. P., Turkeshi, X., Marvian, I., and Goold, J. (2026). *Resource-Theoretical Unification of Mpemba Effects: Classical and Quantum*. Physical Review X 16, 011050 ([DOI: 10.1103/rbt4-psfd](https://doi.org/10.1103/rbt4-psfd)); Giarmatzi, C., and Costa, F. (2023). *A Semantics for Counterfactuals in Quantum Causal Models* ([arXiv:2302.11783](https://arxiv.org/abs/2302.11783)); del Rio, L., Åberg, J., Renner, R., Dahlsten, O., and Vedral, V. (2011). *The thermodynamic meaning of negative entropy*. Nature 474(7349), 61–63 ([DOI: 10.1038/nature10123](https://doi.org/10.1038/nature10123)).
+
+(unif-declercq2026)=
+<a id="unif-declercq2026"></a>
+(unif-zhang2025)=
+<a id="unif-zhang2025"></a>
+22. De Clercq, C. (2026). *Bundle-Transformer: A Geometric Position Paper* (Université Sorbonne Paris Nord, LAGA, {download}`data/papers/bundle_transformer.pdf <../data/papers/bundle_transformer.pdf>`); Zhang, C. (2025). *Attention Is Not What You Need: Grassmann Flows as an Attention-Free Alternative for Sequence Modeling* ([arXiv:2512.19428](https://arxiv.org/abs/2512.19428)); Kang, H., et al. (2025). *GrFormer: A novel Transformer on Grassmann manifold for infrared and visible image fusion*. Information Fusion 125; Su, J., et al. (2021). *RoFormer: Enhanced Transformer with Rotary Position Embedding* ([arXiv:2104.09864](https://arxiv.org/abs/2104.09864)).
 
 
 ---
