@@ -322,6 +322,24 @@ mathematical framework of the Dilatant Dark Fluid (Fedi, 2026, SSRN 7406660):
   `bogoliubov_phase_velocity_sq_ge_cs_sq`, `subcritical_no_dissipation`, and
   `supercritical_excitation_onset` formalize continuous Madelung circulation quantization,
   discrete 2D plaquette coboundaries, and the Bogoliubov Landau critical velocity threshold.
+- Section 30 of [src/signals/Signals/DDF.lean](src/signals/Signals/DDF.lean)
+  ([src/signals/numerical_adapter/src/madelung_lagrangian.rs](src/signals/numerical_adapter/src/madelung_lagrangian.rs),
+  [docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md](docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md))
+  formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study Gross–Pitaevskii
+  Equation, Dual-Schubert $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`,
+  Homogeneous Plücker Madelung Hydrodynamics on the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$
+  (`PluckerVec`, `OnKleinQuadric`, `pluckerHermitianNormal_annihilates_projector`,
+  `kahlerDetFactor_eq_pluckerNormSq_affineChart`, `dualGrassmannianNoetherConservation`,
+  `pluckerInversePotentialReconstruction`, `pluckerBohmPotential_eq_weyl_plus_scalar_curvature`,
+  `deborahShearFractureInstability_iff`), and the revised Turner (2026) models for
+  Superposition (Model 6: `pluckerMadelungSuperpositionOAMDoubleSlit`), 1PN Gravity
+  (Models 14a/14b: `PlanetaryOrbit.turnerPluckerIGPEPrecessionRad`,
+  `RiverExterior.turnerDualGr24IGPEDDFPrecessionRad`), and 2.5PN + Ringdown Gravitational
+  Waves (Models 14a/14b: `PlanetaryOrbit.turnerPluckerIGPEGWLuminosity`,
+  `RiverExterior.turnerDualGr24IGPEDDFGWLuminosity`, proved in
+  `turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models`), while
+  `ComplexGrassmannianIGPEPluckerContract` in [src/signals/Signals/Pending.lean](src/signals/Signals/Pending.lean)
+  isolates speculative chiral baryogenesis and dark-sector vacuum claims with explicit controls.
   The corresponding wakefield, Halbach, centrifugal thermosyphon, Bohm-Gross, and Landau
   growth/damping identities live in [`src/signals/Signals/MHD.lean`](src/signals/Signals/MHD.lean),
   while `TwistorMomentumSinkHypothesis`, `PulsedWakefieldHalbachHypothesis`,

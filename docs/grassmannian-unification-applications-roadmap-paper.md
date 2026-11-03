@@ -459,17 +459,15 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     2 1 1 1 1 2 4 0 0 1 (1 / 2) 2 1 1 θ
     (by norm_num) (by norm_num) (by norm_num) hr
     (by norm_num) (by norm_num) (by norm_num) (by norm_num)
-  have h10_fres := fresnel_to_fraunhofer_remainder_bound
-    x y (3 / 10) (4 / 10) 1 (1 / 2) 10
-    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h10_fres := (fresnel_to_fraunhofer_remainder_bound
+    x y (3 / 10) (4 / 10) 1 (1 / 2) 10 (by norm_num) (by norm_num) (by norm_num)).2.2.2.2.2
   have h10_pl3 := threeRowMinor_pluecker capstoneRank3Matrix 0 1 2 3 4 5
   have h10_lgv3 := (planar_threeChannel_lgv_and_bottleneck_identities
-    1 1 1 5 7 2 3 4 6 8 (by norm_num) (by norm_num) (by norm_num)
-    (by norm_num) (by norm_num) (by norm_num)).2.1
-  have h10_spl := (NormedTensorGaussianSplat2D.splitMajor_conservation_identities
-    splat_ddf x y).2.2.1
+    2 3 4 6 8 5 7 (by norm_num) (by norm_num) (by norm_num)
+    (0 : Matrix (Fin 3) (Fin 2) ℝ) (0 : Matrix (Fin 2) (Fin 3) ℝ)).2.2.2.1
+  have h10_spl := (splat_ddf.splitMajor_conservation_identities 1 1 (by norm_num) (by norm_num)).2.2.2.1
   have h10_r16 := (psl22_rmatrix16_secret_coproduct_intertwining
-    3 4 5 6 7 8 B1 B2 2 (by norm_num)).2.2.2
+    B1 B2 0 3 4 5 6 7 8).2.2.2.2.2
   have h17_img := Signals.MultiArrayImaging.multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities
     60000 100 1 θ 4 1 1024 1
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
@@ -490,7 +488,7 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     h17_img.2.1, h17_img.2.2.2.2.2.1, h17_img.2.2.2.2.2.2.2.2.2.2.1,
     h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     lt_trans h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
-      h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+      h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
     h19_rev.1, h19_rev.2.2.2.1, fun h_eq => (h19_rev.2.2.2.2.1 h_eq).2,
     h19_rev.2.2.2.2.2.2.1, h19_rev.2.2.2.2.2.2.2.2.2.1,
     h19_rev.2.2.2.2.2.2.2.2.2.2.2.2.1,

@@ -127,7 +127,7 @@ When the crossing Plücker product is normalized to $\Delta_{02}(M)\Delta_{13}(M
 
 ---
 
-## 3. Five-Model Double-Slit Superposition & Lifting $Gr_{\ge 0}(2,4) \to Gr_{\mathbb{C}}(2,4)$
+## 3. Six-Model Double-Slit Superposition & Lifting $Gr_{\ge 0}(2,4) \to Gr_{\mathbb{C}}(2,4)$
 
 ### 3.1 Why Real Positive $Gr_{\ge 0}(2,4)$ Crossing Minors Have a $50\%$ Unphased Error—and How Complex $Gr_{\mathbb{C}}(2,4)$ Eliminates It
 
@@ -155,7 +155,7 @@ $$
 
 gives $\Delta_{02}^{\mathbb{C}}\Delta_{13}^{\mathbb{C}} = z_1 + z_2 = (\sqrt{1+d_{\mathrm{bary}}} + \sqrt{1-d_{\mathrm{bary}}})\cos\theta + i(\sqrt{1+d_{\mathrm{bary}}} - \sqrt{1-d_{\mathrm{bary}}})\sin\theta$. Theorem `complexGr24CrossingDoubleSlit_barycentric_eq_huygensSteiner` ([Huygens.lean](../src/signals/Signals/Huygens.lean#L1460-L1551)) proves that its squared modulus equals $2\bigl(1 + \sqrt{1 - d_{\mathrm{bary}}^2}\cos(2\theta)\bigr)$, reproducing the partially coherent Huygens–Steiner profile $I_{\mathrm{HS}}\bigl(x,y;\sqrt{1 - d_{\mathrm{bary}}^2}\bigr)$ **identically at every $(x,y) \in \mathbb{R}^2$** (and reducing to $I_{\mathrm{F}}(x,y)$ at $d_{\mathrm{bary}} = 0$ via `complexGr24CrossingDoubleSlit_zero_error`).
 
-### 3.2 Master Table: Five-Model Double-Slit Superposition & Relative Predictive Error
+### 3.2 Master Table: Six-Model Double-Slit Superposition & Relative Predictive Error
 
 | Double-Slit Formulation | Lean Definitions & Theorems | Intensity Law $I(x,y)$ | Relative Predictive Error vs. Fraunhofer ($I_{\mathrm{F}}$) |
 |---|---|---|---|
@@ -387,6 +387,28 @@ example (x y : ℝ) (A32 : Matrix (Fin 3) (Fin 2) ℝ) (B23 : Matrix (Fin 2) (Fi
   have h_lgv3 := Signals.Plabic.planar_threeChannel_lgv_and_bottleneck_identities
     2 3 4 6 8 5 7 (by norm_num) (by norm_num) (by norm_num) A32 B23
   exact ⟨h_fres, h_pl3, h_lgv3.2.2.2.1, h_lgv3.2.2.2.2⟩
+
+-- 7. Revised Turner (2026) Model 6: Homogeneous Plücker Q_4 Madelung & Dual-Grassmannian iGPE Superposition
+example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
+    (orb : Signals.QEDGravity.PlanetaryOrbit) (s_pl : PluckerMadelungState)
+    (z1 z2 : ℂ) (Δℓ : ℤ) (φ x y : ℝ) :
+    let p_slit := twistorToPluckerVec (complexGr24ChannelMatrix z1 z2)
+    let M_DDF := s.gr24TwistorMatrix 6 1 5 Δℓ φ x
+    OnKleinQuadric p_slit ∧
+    p_slit 0 = z1 ∧
+    p_slit 2 = z2 ∧
+    p_slit 4 = z1 + z2 ∧
+    (s_pl.s_dual = s_pl.s_real →
+      pluckerMadelungSuperpositionOAMDoubleSlit M_DDF 3 2 4 1 5 (1 / 10) 1 0 1 0 s_pl x y =
+        huygensSteinerOAMDoubleSlit 3 2 4 6 1 5 (s.jammingFactor)⁻¹ Δℓ φ x y ∧
+      relativePredictiveError
+        (pluckerMadelungSuperpositionOAMDoubleSlit M_DDF 3 2 4 1 5 (1 / 10) 1 0 1 0 s_pl x y)
+        (huygensSteinerOAMDoubleSlit 3 2 4 6 1 5 (s.jammingFactor)⁻¹ Δℓ φ x y) = 0) := by
+  intro p_slit M_DDF
+  have h := turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models
+    s re orb s_pl z1 z2 3 2 4 6 1 5 (1 / 10) 1 1 Δℓ φ x y (1 / 3) (1 / 5) 2 (1 / 100) (1 / 100)
+    (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1⟩
 
 end DoubleSlitPaperVerification
 ```

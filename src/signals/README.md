@@ -591,6 +591,24 @@ interpretation while keeping experimental premises explicit:
    `mpemba_constructor_theory_and_entropy_siphoning_identities`,
    `grassmannian_mpemba_projector_werner_threshold_and_ocb_causal_witness_identities`).
    See [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](../../docs/grassmannian-quantum-causal-inference-mpemba-paper.md).
+- `Signals.DDF` Section 30 formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
+   Fubini–Study Gross–Pitaevskii Equation (GPE), Dual-Schubert
+   $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker
+   Madelung Hydrodynamics on the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$
+   (`PluckerVec`, `OnKleinQuadric`, `pluckerHermitianNormal_annihilates_projector`,
+   `kahlerDetFactor_eq_pluckerNormSq_affineChart`, `dualGrassmannianNoetherConservation`,
+   `pluckerInversePotentialReconstruction`, `pluckerBohmPotential_eq_weyl_plus_scalar_curvature`,
+   `deborahShearFractureInstability_iff`, `complex_grassmannian_gpe_dual_igpe_and_plucker_madelung_identities`),
+   and the revised Turner (2026) models for Superposition (Model 6:
+   `pluckerMadelungSuperpositionOAMDoubleSlit`), 1PN Gravity (Models 14a/14b:
+   `PlanetaryOrbit.turnerPluckerIGPEPrecessionRad`,
+   `RiverExterior.turnerDualGr24IGPEDDFPrecessionRad`), and 2.5PN + Ringdown
+   Gravitational Waves (Models 14a/14b: `PlanetaryOrbit.turnerPluckerIGPEGWLuminosity`,
+   `RiverExterior.turnerDualGr24IGPEDDFGWLuminosity`, proved in
+   `turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models`), while
+   `ComplexGrassmannianIGPEPluckerContract` in `Signals.Pending` isolates speculative
+   chiral baryogenesis and dark-sector vacuum claims. See
+   [`docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md`](../../docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md).
 - `SignalsTests` contains compile-time examples for the verified identities and
    edge cases. `SignalsPendingTests` separately compiles examples of the pending
    hypotheses and their conditional consequences. `make signals_build` builds
