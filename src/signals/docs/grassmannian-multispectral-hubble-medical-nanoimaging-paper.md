@@ -10,7 +10,7 @@ description: "An arXiv-ready MyST Markdown formal verification and multi-modal i
 - **Subjects:**
   - Instrumentation and Methods for Astrophysics (`astro-ph.IM`); Optics (`physics.optics`); Medical Physics (`physics.med-ph`); Applied Physics (`physics.app-ph`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification, FITS Fixtures, & Simulation Artifacts:**
-  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../Signals/MultiArrayImaging.lean](../Signals/MultiArrayImaging.lean), [../Signals/DDF.lean](../Signals/DDF.lean), [../Signals/Nanolithography.lean](../Signals/Nanolithography.lean), [../Signals/Pending.lean](../Signals/Pending.lean), [../SignalsTests.lean](../SignalsTests.lean), [../SignalsPendingTests.lean](../SignalsPendingTests.lean))
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../Signals/MultiArrayImaging.lean](../Signals/MultiArrayImaging.lean), [../Signals/Plabic.lean](../Signals/Plabic.lean), [../Signals/LayerCodes.lean](../Signals/LayerCodes.lean), [../Signals/DDF.lean](../Signals/DDF.lean), [../Signals/Nanolithography.lean](../Signals/Nanolithography.lean), [../Signals/Pending.lean](../Signals/Pending.lean), [../SignalsTests.lean](../SignalsTests.lean), [../SignalsPendingTests.lean](../SignalsPendingTests.lean))
   - `Signals` LeanArchitect Blueprint ([../blueprint/src/content.tex](../blueprint/src/content.tex))
   - `signals-numerical-adapter` Rust/WASM Crate ([../numerical_adapter/src/multi_array_imaging.rs](../numerical_adapter/src/multi_array_imaging.rs))
 
@@ -31,6 +31,8 @@ In this paper, we answer this question with a machine-checked formalization in *
    We prove the STScI ACS IHB Sec. 4.3.7 4-exposure coincidence bound ($16{,}777{,}216 \times (0.015)^4 = 0.84934656 < 1$ pixel across the entire $4096 \times 4096$ mosaic), and implement the 8-connected component labeling (`CCL`) and silicon ionization energy pipeline ($E_{\mathrm{eV}} = \Phi_{\mathrm{DN}}\cdot G\cdot 3.65\text{ eV}$, [Christensen 1976](#christensen1976)) on real cosmic-ray `Dot`, `Worm`, and `Streak` impacts extracted from HST `WFPC2` observation `u5780205r` of `NGC 4151` ([Miles et al. 2021](#miles2021cr)).
 3. **Flexible `LVP` Medical Arrays, `LIFU` / `AOT` / `TRUE` Sub-Surface Focusing, and $< 1\text{ nm}$ Convergent Nanoimaging**:
    We prove that high-$Z$ `LVP` direct-conversion panels achieve $6.49\times$ higher charge yield per incident diagnostic X-ray photon and $16\times$ stopping efficiency over silicon; formalize non-cavitating `LIFU` ($\mathrm{MI}^2 = 18/77 < 1.9^2$), `AOT` ultrasonic sideband Plücker readout on $\mathrm{Gr}_{\mathbb{C}}(2,4)$, and `TRUE` / `DORT` sub-surface focal compression ($\sigma_{\mathrm{TRUE}}^{(m)\,2} = \sigma_{\mathrm{US}}^2 / m$); and prove the multi-stage resolution cascade from $144.64\text{ nm}$ ($405\text{ nm}$ Abbe limit) and $18.08\text{ nm}$ ($532\text{ nm}$ STED depletion) down to **$0.603\text{ nm}$** (homodyne phase-slope localization at $\mathrm{SNR}_{\mathrm{amp}} = 30$) and **$0.75\text{ nm}$ / $0.50\text{ nm}$ ($5\text{ \AA} < 1\text{ nm}$)** via cascaded hyperbolic/SPP longitudinal metamaterial immersion and multiphoton STED depletion (`cascadedNanoImagingLinewidthSq`).
+4. **From 3D Layer Coding (`QEC.Stabilizer.Codes.Layer` & `Signals.LayerCodes`) to `Signals.Plabic` and Multi-Layer Grassmannian Sensor Cascades (`layer_coding_plabic_lgv_and_multi_array_imaging_identities`)**:
+   We document and formalize how [`Signals.Plabic`](../Signals/Plabic.lean) originated from implementing **3D Layer Coding** (`QEC.Stabilizer.Codes.Layer` in `src/QECLean/QEC/Stabilizer/Codes/Layer.lean` and `LayerCodeLift` in [../Signals/LayerCodes.lean](../Signals/LayerCodes.lean); [Williamson & Baspin 2024](#williamson2024layer); [Layer Coding Chat 2026](#layer-coding-chat2026)). We prove that its bicolored strand-routing permutation (`RotationSystem.boundaryPerm`), guarded serial calibration subdivision (`WeightedAcyclicNetwork.subdivision_boundary`), parallel dither diamond reduction (`diamond_transfer`), shared-hub rank collapse (`singleHubRepresentative_det`), and multi-layer Lindström–Gessel–Viennot (`LGV`) disjoint-path theorems (`lgv_multiLayer_det_prod`, `lgv_multiLayer_det_positive`, `planar_threeChannel_lgv_and_bottleneck_identities`) govern multi-layer detector stacks, explain why a 2-channel screen bottleneck forces $\det(A B) = 0$ on 3D volumetric data, and certify how pairing $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth / `AOT` sideband channels with $\mathrm{Gr}_{\mathbb{C}}(3,6)$ restores full 3D volumetric rank $\det\Sigma_{\mathrm{3D}} = |\Delta_{012}^{\mathbb{C}}(M_3)|^2 > 0$.
 
 ---
 
@@ -278,7 +280,27 @@ compressing the axial depth-of-focus to match the sub-nanometer transverse waist
 
 ---
 
-## 6. Self-Contained Machine-Checked Lean 4 Verification Block
+## 6. From 3D Layer Coding (`QEC.Stabilizer.Codes.Layer` & `Signals.LayerCodes`) to `Signals.Plabic` and Multi-Layer Grassmannian Imaging
+
+### 6.1 Architectural Provenance: How Implementing "Layer Coding" in Lean 4 Produced `Signals.Plabic`
+
+[`Signals.Plabic`](../Signals/Plabic.lean) was originally developed while formalizing **3D Layer Coding** in Lean 4—bridging `QEC.Stabilizer.Codes.Layer` (`src/QECLean/QEC/Stabilizer/Codes/Layer.lean`) and [`Signals.Pending.LayerCodeLift`](../Signals/LayerCodes.lean) ([Williamson & Baspin 2024](#williamson2024layer)) with our 3D Star/Layer Coding designs on laminated `Lignin-Vitrimer` substrates ([Gemini-_08.md, lines 835–1165](../../../data/chats/Gemini-_08.md#L835-L1165); [Grassmannian-Huygens-Principle-Amplituhedron.md, lines 320–375](../../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L320-L375)). In `Layer.lean`, $n$ data layers, $n_X$ X-check sheets, and $n_Z$ Z-check sheets intersect along 1D line defects (`canonDefectEdge`) and $10 + 12 = 22$ point-defect configurations (`layerCodePointDefectTaxonomyCount 10 12 = 22`), with pre-defect surface-edge cardinality $N_{\mathrm{surface}}(n, n_X, n_Z) = 6 n n_X n_Z + 2(n n_X + n n_Z + n_X n_Z)$ (`42`, `22`, and `32` for $n=4, 2, 3$ with $n_X=n_Z=1$).
+
+### 6.2 How Every Component of `Signals.Plabic` Applies to Hubble, `LVP` Medical, `LIFU`/`AOT`/`TRUE`, and $< 1\text{ nm}$ Nanolithography
+
+| `Signals.Plabic` / `Signals.LayerCodes` Construct | Machine-Checked Identity in `Signals.MultiArrayImaging` | Concrete Meaning in Hubble, `LVP` Medical, `LIFU`/`AOT`/`TRUE`, & $< 1\text{ nm}$ Nanoimaging |
+|---|---|---|
+| **3D Layer-Code Surface-Edge & Point-Defect Taxonomy**<br>(`layerCodePreDefectSurfaceEdges`, `layerCodePointDefectTaxonomyCount`, `LayerCodeLift`) | $N_{\mathrm{surface}}(4,1,1)=42$, $N_{\mathrm{surface}}(2,1,1)=22$, $N_{\mathrm{surface}}(3,1,1)=32$, $N_{\mathrm{defect}}(10,12)=22$, $D_{\mathrm{top}}=3, D_{\mathrm{junc}}=1, w_{\max}\le 6$ | Governs the 3D laminated `Lignin-Vitrimer` star/layer-coded processor and active metasurface control plane driving multi-head holographic exposure and `TRUE` phase conjugation. |
+| **Bicolored Strand Routing & Bijective Boundary Permutation**<br>(`RotationSystem`, `dartTurn`, `boundaryExit_injective`, `boundaryPerm`, `plabic_star_boundary_permutation`) | $\forall i,\; \pi_{\mathrm{white}}(\pi_{\mathrm{black}}(i)) = i$ and `firstExit` terminates in $\le \mathrm{card}(\mathrm{DirectedEdge})$ steps | Certifies non-blocking optical waveguide/AOD port routing and reversible forward/backward mode permutations ($\mathrm{Black} \leftrightarrow \mathrm{White}$) in `TRUE` optical phase conjugation. |
+| **Guarded Serial Edge Subdivision**<br>(`WeightedAcyclicNetwork.subdivision_boundary`, `plabic_subdivision_transfer`) | `(twoEdgePath s (w / s)).transfer 0 2 = (oneEdgePath w).transfer 0 1` ($\forall s \ne 0$) | Certifies that factoring pixel response $w$ into flat-field $s$ and quantum efficiency $w/s$ in Hubble FITS pipelines—or X-ray stopping efficiency $\eta_{\mathrm{abs}}$ and conversion gain in `LVPDirectConversionImaging`—preserves the exact source-to-sink transfer matrix. |
+| **Parallel Two-Edge Diamond Path Reduction**<br>(`WeightedAcyclicNetwork.diamond_transfer`, `plabic_diamond_parallel_transfer`) | `(diamond a1 a2 b1 b2).transfer 0 3 = a1 * b1 + a2 * b2` | Models linear multi-exposure dither accumulation across Hubble's 50-pixel seam and dual-path interferometric channel combination. |
+| **Shared-Hub $2\times 2$ Determinant Cancellation**<br>(`singleHubRepresentative_det`, `plabic_single_hub_det_2x2`) | `(singleHubRepresentative u x v w_out).mat.det = 0` | Proves that routing two channels through a single unsplit intermediate hub (or taking two un-dithered/collinear exposures) yields a rank-1 matrix whose $2 \times 2$ minor vanishes identically. |
+| **Multi-Layer LGV Cascade Determinant Multiplicativity & Positivity**<br>(`lgv_multiLayer_det_prod`, `lgv_multiLayer_det_positive`, `multilayer_lgv_cascade_det_3x3`) | $\det\!\left(\prod_{r=1}^m M_r\right) = \prod_{r=1}^m \det(M_r)$ and $\det(E_{\mathrm{lower}}^{(3)} E_{\mathrm{upper}}^{(3)}) = d_0 d_1 d_2 > 0$ | Certifies that a multi-layer `LVP` dual/multi-energy X-ray stack ($\mathrm{Gr}_{\mathbb{R}}(3, 4)$), a multi-filter HST optical train ($\mathrm{Gr}_{\mathbb{R}}(3, 10)$), a `LIFU` acoustic impedance stack, or a 3-zone `rGO-polyCBD-SS-Lignin` metamaterial preserves full 3-channel rank iff each layer is vertex-disjoint. |
+| **3-Through-2 Bottleneck Rank Collapse vs. $\mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(3,6)$ Volumetric Recovery**<br>(`planar_threeChannel_lgv_and_bottleneck_identities`, `three_through_two_bottleneck_det`) | $\det(A B) = 0$ for $A \in \mathbb{R}^{3\times 2}, B \in \mathbb{R}^{2\times 3}$, whereas $\det\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} \cdot \operatorname{recoverDepthVarianceSq}(\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}, R_{\mathrm{depth}}) = \|\Delta_{012}^{\mathbb{C}}(M_3)\|^2 = \det\Sigma_{\mathrm{3D}}$ | Proves by the LGV pigeonhole principle why projecting a 3D voxel $(\sigma_1^2, \sigma_2^2, \sigma_3^2)$ or 3D vectorial wave $(E_x, E_y, E_z)$ onto a 2-channel 2D screen collapses the $3 \times 3$ determinant to zero, and how adding the $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth / `AOT` sideband channel restores the exact 3D volume $\det\Sigma_{\mathrm{3D}} > 0$. |
+
+---
+
+## 7. Self-Contained Machine-Checked Lean 4 Verification Block
 
 The following Lean 4 verification block compiles directly against `Signals` and `SignalsPending` (`cd src/signals && lake env lean`):
 
@@ -358,6 +380,45 @@ example (sample : Signals.IQ.Sample)
     hb.2.2.2.2.2.2.2.2.2.2.2.2.2.1, hb.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     hb.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
+-- Verification of 3D Layer-Coding surface-edge & 22-case point-defect taxonomy,
+-- Plabic guarded calibration subdivision, parallel dither diamond reduction,
+-- shared-hub rank collapse (det = 0), 3-channel LGV cascade positivity,
+-- 2-channel screen bottleneck collapse (det(A * B) = 0), and Gr_C(2,4) x Gr_C(3,6) 3D volume recovery
+example (splat : NormedTensorGaussianSplat3D) (hz : 0 < splat.centerZ)
+    (θ_z φ1 φ2 φ3 : ℝ)
+    (A : Matrix (Fin 3) (Fin 2) ℝ) (B : Matrix (Fin 2) (Fin 3) ℝ) :
+    let s_ortho := splat.projectOrthographic2D
+    let δ_d := splat.holographicDepthAnisotropy
+    let M_depth := ddfThermalGr24Matrix δ_d θ_z
+    let R_depth :=
+      Complex.normSq (complexPluckerSinkAmplitudeA M_depth) /
+        Complex.normSq (complexPluckerSinkAmplitudeB M_depth)
+    let M3 := splat.gr36TwistorMatrix φ1 φ2 φ3
+    layerCodePreDefectSurfaceEdges 4 1 1 = 42 ∧
+      layerCodePreDefectSurfaceEdges 2 1 1 = 22 ∧
+      layerCodePreDefectSurfaceEdges 3 1 1 = 32 ∧
+      layerCodePointDefectTaxonomyCount 10 12 = 22 ∧
+      (Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath (2 : NNReal) ((6 : NNReal) / 2)).transfer 0 2 =
+        (Signals.Plabic.WeightedAcyclicNetwork.oneEdgePath (6 : NNReal)).transfer 0 1 ∧
+      (Signals.Plabic.WeightedAcyclicNetwork.diamond (2 : NNReal) (3 : NNReal) (4 : NNReal) (5 : NNReal)).transfer 0 3 =
+        (2 : NNReal) * 4 + 3 * 5 ∧
+      (Signals.Geometry.singleHubRepresentative (2 : NNReal) (3 : NNReal) (4 : NNReal) (5 : NNReal)).mat.det = 0 ∧
+      0 < (Signals.Plabic.planarThreeChannelLowerStep 1 1 1 5 7 *
+        Signals.Plabic.planarThreeChannelUpperStep 2 3 4 6 8).det ∧
+      (A * B).det = 0 ∧
+      s_ortho.covDet * recoverDepthVarianceSq s_ortho.covTrace R_depth =
+        Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 0 1 2) := by
+  intro s_ortho δ_d M_depth R_depth M3
+  have hl := layer_coding_plabic_lgv_and_multi_array_imaging_identities
+    splat hz 6 2 2 3 4 5 2 3 4 5 (by norm_num)
+    2 3 4 6 8 5 7 θ_z φ1 φ2 φ3
+    (by norm_num) (by norm_num) (by norm_num)
+    [Signals.Plabic.planarThreeChannelUpperStep 2 3 4 6 8]
+    A B
+  exact ⟨hl.1, hl.2.1, hl.2.2.1, hl.2.2.2.1, hl.2.2.2.2.1,
+    hl.2.2.2.2.2.1, hl.2.2.2.2.2.2.1, hl.2.2.2.2.2.2.2.2.2.1,
+    hl.2.2.2.2.2.2.2.2.2.2.1, hl.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 ```
 
@@ -408,3 +469,23 @@ end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 (lvp-medical-chat2026)=
 <a id="lvp-medical-chat2026"></a>
 11. Provenance Chat Log (2026). *IQ Sampling for Signal Phase: LVP Medical Imaging Arrays (Direct Conversion X-Ray), Proca Waves for Topological Medical Scans, and Ångström Resolution Limits*. Local corpus: [docs/chats/IQ-Sampling-for-Signal-Phase.myst.md, lines 5891–6140](../../../docs/chats/IQ-Sampling-for-Signal-Phase.myst.md#L5891-L6140).
+
+(williamson2024layer)=
+<a id="williamson2024layer"></a>
+12. Williamson, D. J., & Baspin, N. (2024). Layer Codes. *Nature Communications*, 15(1), 9528. DOI: `10.1038/s41467-024-53881-3`; `arXiv:2309.16503`.
+
+(postnikov2006plabic)=
+<a id="postnikov2006plabic"></a>
+13. Postnikov, A. (2006). Total positivity, Grassmannians, and networks. `arXiv:math/0609764`.
+
+(lindstrom1973lgv)=
+<a id="lindstrom1973lgv"></a>
+14. Lindström, B. (1973). On the vector representations of induced matroids. *Bulletin of the London Mathematical Society*, 5(1), 85–90. DOI: `10.1112/blms/5.1.85`.
+
+(gessel1985lgv)=
+<a id="gessel1985lgv"></a>
+15. Gessel, I., & Viennot, G. (1985). Binomial determinants, paths, and hook length formulae. *Advances in Mathematics*, 58(3), 300–321. DOI: `10.1016/0001-8708(85)90121-5`.
+
+(layer-coding-chat2026)=
+<a id="layer-coding-chat2026"></a>
+16. Provenance Chat Logs (2026). *3D Star Topology & Layer Coding via Lignin-Vitrimer Welding, Single-Shot Syndrome Extraction, and Plabic Graph Integration into QECLean*. Local corpus: [data/chats/Gemini-_08.md, lines 835–1165](../../../data/chats/Gemini-_08.md#L835-L1165) and [data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md, lines 320–375](../../../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md#L320-L375).

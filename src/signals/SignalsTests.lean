@@ -6339,4 +6339,40 @@ example (sample : Signals.IQ.Sample)
     hb.2.2.2.2.2.2.2.2.2.2.2.2.2.1, hb.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     hb.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
+example (θ_z φ1 φ2 φ3 : ℝ)
+    (A : Matrix (Fin 3) (Fin 2) ℝ) (B : Matrix (Fin 2) (Fin 3) ℝ) :
+    let s_ortho := toySplat3D.projectOrthographic2D
+    let δ_d := toySplat3D.holographicDepthAnisotropy
+    let M_depth := Signals.DDF.ddfThermalGr24Matrix δ_d θ_z
+    let R_depth :=
+      Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeA M_depth) /
+        Complex.normSq (Signals.DDF.complexPluckerSinkAmplitudeB M_depth)
+    let M3 := toySplat3D.gr36TwistorMatrix φ1 φ2 φ3
+    Signals.MultiArrayImaging.layerCodePreDefectSurfaceEdges 4 1 1 = 42 ∧
+      Signals.MultiArrayImaging.layerCodePreDefectSurfaceEdges 2 1 1 = 22 ∧
+      Signals.MultiArrayImaging.layerCodePreDefectSurfaceEdges 3 1 1 = 32 ∧
+      Signals.MultiArrayImaging.layerCodePointDefectTaxonomyCount 10 12 = 22 ∧
+      (Signals.Plabic.WeightedAcyclicNetwork.twoEdgePath (2 : NNReal) ((6 : NNReal) / 2)).transfer 0 2 =
+        (Signals.Plabic.WeightedAcyclicNetwork.oneEdgePath (6 : NNReal)).transfer 0 1 ∧
+      (Signals.Plabic.WeightedAcyclicNetwork.diamond (2 : NNReal) (3 : NNReal) (4 : NNReal) (5 : NNReal)).transfer 0 3 =
+        (2 : NNReal) * 4 + 3 * 5 ∧
+      (Signals.Geometry.singleHubRepresentative (2 : NNReal) (3 : NNReal) (4 : NNReal) (5 : NNReal)).mat.det = 0 ∧
+      0 < (Signals.Plabic.planarThreeChannelLowerStep 1 1 1 5 7 *
+        Signals.Plabic.planarThreeChannelUpperStep 2 3 4 6 8).det ∧
+      (A * B).det = 0 ∧
+      s_ortho.covDet * Signals.DDF.recoverDepthVarianceSq s_ortho.covTrace R_depth =
+        Complex.normSq (Signals.Geometry.complexThreeRowMinor M3 0 1 2) := by
+  intro s_ortho δ_d M_depth R_depth M3
+  have hl :=
+    Signals.MultiArrayImaging.layer_coding_plabic_lgv_and_multi_array_imaging_identities
+      toySplat3D (by norm_num [toySplat3D])
+      6 2 2 3 4 5 2 3 4 5 (by norm_num)
+      2 3 4 6 8 5 7 θ_z φ1 φ2 φ3
+      (by norm_num) (by norm_num) (by norm_num)
+      [Signals.Plabic.planarThreeChannelUpperStep 2 3 4 6 8]
+      A B
+  exact ⟨hl.1, hl.2.1, hl.2.2.1, hl.2.2.2.1, hl.2.2.2.2.1,
+    hl.2.2.2.2.2.1, hl.2.2.2.2.2.2.1, hl.2.2.2.2.2.2.2.2.2.1,
+    hl.2.2.2.2.2.2.2.2.2.2.1, hl.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

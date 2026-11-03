@@ -5144,6 +5144,7 @@ noncomputable def toyMultiModalSubSurfaceImaging :
     procaHypothesis := toyLVPProcaImaging2x2
     multiBeamHolography := toyMultiBeamHolographyResult
     longitudinalEvidence := toyLongitudinalBeamApplicationEvidence
+    layerCode := toyLayerCodeLift
     sharedMaterial := rfl
     hubbleMosaicChips := 2
     hubbleMosaicChips_min := by norm_num
@@ -5173,7 +5174,10 @@ noncomputable def toyMultiModalSubSurfaceImaging :
     acousticThermalSafetyVerified_hypothesis := trivial }
 
 example :
-    Signals.MultiArrayImaging.lifuMechanicalIndexSq
+    toyMultiModalSubSurfaceImaging.layerCode.topologicalDimension = 3 ∧
+      toyMultiModalSubSurfaceImaging.layerCode.junctionDimension = 1 ∧
+      toyMultiModalSubSurfaceImaging.layerCode.maximumStabilizerWeight ≤ 6 ∧
+      Signals.MultiArrayImaging.lifuMechanicalIndexSq
         toyMultiModalSubSurfaceImaging.lifuPeakNegPressureMPa
         toyMultiModalSubSurfaceImaging.lifuFreqMHz ≤ (19 / 10 : ℝ) ^ 2 ∧
       1 < Signals.MultiArrayImaging.trueOpticalPeakToBackgroundGain

@@ -5305,6 +5305,7 @@ structure MultiModalSubSurfaceImagingHypothesis (width height : ℕ) where
   procaHypothesis : LVPProcaImagingHypothesis width height
   multiBeamHolography : MultiBeamHolographyResult
   longitudinalEvidence : LongitudinalBeamApplicationEvidence
+  layerCode : LayerCodeLift
   sharedMaterial : directConversion.material = procaHypothesis.material
   hubbleMosaicChips : ℕ
   hubbleMosaicChips_min : 2 ≤ hubbleMosaicChips
@@ -5333,22 +5334,29 @@ structure MultiModalSubSurfaceImagingHypothesis (width height : ℕ) where
   acousticThermalSafetyVerified : Prop
   acousticThermalSafetyVerified_hypothesis : acousticThermalSafetyVerified
 
-/-- In any `MultiModalSubSurfaceImagingHypothesis`, the LIFU Mechanical Index squared
-is bounded by $1.9^2 = 3.61$, the TRUE peak-to-background enhancement strictly exceeds $1$,
-the cascaded nanoimaging squared linewidth is strictly below $1\text{ nm}^2$, and both the
-direct-conversion and Proca massless-control residuals stay within their declared tolerances. -/
+/-- In any `MultiModalSubSurfaceImagingHypothesis`, the 3D Layer-Code topological
+dimension (`= 3`), junction dimension (`= 1`), and stabilizer weight bound (`≤ 6`),
+the LIFU Mechanical Index squared (`≤ 1.9²`), the TRUE peak-to-background enhancement (`> 1`),
+the cascaded nanoimaging squared linewidth (`< 1 nm²`), and both the direct-conversion and
+Proca massless-control residuals hold simultaneously. -/
 @[blueprint "lem:signals-multi-modal-subsurface-safety-and-resolution-bounds"
-  (title := "Multi-modal sub-surface imaging contract enforces LIFU safety, TRUE gain > 1, < 1 nm linewidth, and control tolerances")
+  (title := "Multi-modal sub-surface imaging contract enforces 3D Layer-Code bounds, LIFU safety, TRUE gain > 1, < 1 nm linewidth, and control tolerances")
   (statement := /-- In any \texttt{MultiModalSubSurfaceImagingHypothesis},
+    $\mathrm{layerCode}.\mathrm{topologicalDimension} = 3$,
+    $\mathrm{layerCode}.\mathrm{junctionDimension} = 1$,
+    $\mathrm{layerCode}.\mathrm{maximumStabilizerWeight} \le 6$,
     $\mathrm{MI}^2 \le 1.9^2$, $1 < \eta_{\mathrm{TRUE}}(N_{\mathrm{modes}})$,
     $w_{\mathrm{nano}}^2 < 1$, $\mathrm{imageResidual} \le \mathrm{imageResidualTolerance}$,
     and $\mathrm{masslessControlResidual} \le \mathrm{masslessControlTolerance}$. -/)
-  (proof := /-- Combine the contract fields with positivity of $(\pi/4)(N_{\mathrm{modes}} - 1)$. -/)
+  (proof := /-- Combine the contract fields with \texttt{LayerCodeLift} accessors and positivity of $(\pi/4)(N_{\mathrm{modes}} - 1)$. -/)
   (latexEnv := "lemma")]
 lemma MultiModalSubSurfaceImagingHypothesis.safety_and_resolution_bounds
     {width height : ℕ}
     (hypothesis : MultiModalSubSurfaceImagingHypothesis width height) :
-    Signals.MultiArrayImaging.lifuMechanicalIndexSq
+    hypothesis.layerCode.topologicalDimension = 3 ∧
+      hypothesis.layerCode.junctionDimension = 1 ∧
+      hypothesis.layerCode.maximumStabilizerWeight ≤ 6 ∧
+      Signals.MultiArrayImaging.lifuMechanicalIndexSq
         hypothesis.lifuPeakNegPressureMPa hypothesis.lifuFreqMHz ≤ (19 / 10 : ℝ) ^ 2 ∧
       1 < Signals.MultiArrayImaging.trueOpticalPeakToBackgroundGain
         hypothesis.trueControlledModes ∧
@@ -5367,7 +5375,10 @@ lemma MultiModalSubSurfaceImagingHypothesis.safety_and_resolution_bounds
       sub_pos.mpr hypothesis.trueControlledModes_gt_one
     have h_pi4 : 0 < Real.pi / 4 := div_pos Real.pi_pos (by norm_num)
     linarith [mul_pos h_pi4 h_nm]
-  exact ⟨hypothesis.lifuNonCavitatingSafety, h_true, hypothesis.subNanometerTargetMet,
+  exact ⟨hypothesis.layerCode.three_dimensional,
+    hypothesis.layerCode.one_dimensional_junction,
+    hypothesis.layerCode.stabilizer_weight_le_six,
+    hypothesis.lifuNonCavitatingSafety, h_true, hypothesis.subNanometerTargetMet,
     hypothesis.directConversion.imageResidualWithinTolerance,
     hypothesis.procaHypothesis.masslessControlWithinTolerance⟩
 

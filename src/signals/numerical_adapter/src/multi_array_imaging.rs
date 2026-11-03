@@ -839,6 +839,182 @@ pub fn parse_fits_primary_hdu_f32(raw: &[u8]) -> Result<FitsPrimaryHduF32, Valid
     })
 }
 
+/// Internal vertex color for bicolored Plabic strand routing (`Signals.Plabic.NodeColor`).
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum PlabicNodeColor {
+    /// Turns counterclockwise (`rotation`) at internal vertex.
+    Black,
+    /// Turns clockwise (`rotation.symm`) at internal vertex.
+    White,
+}
+
+/// Exact pre-defect surface-edge count
+/// $N_{\mathrm{surface}}(n, n_X, n_Z) = 6 n n_X n_Z + 2(n n_X + n n_Z + n_X n_Z)$
+/// of a 3D Layer Code (`QEC.Stabilizer.Codes.Layer` & `Signals.MultiArrayImaging.layerCodePreDefectSurfaceEdges`;
+/// Williamson & Baspin 2024, *Nature Communications* 15, 9528).
+#[inline]
+pub const fn layer_code_pre_defect_surface_edges(n: usize, n_x: usize, n_z: usize) -> usize {
+    6 * n * n_x * n_z + 2 * (n * n_x + n * n_z + n_x * n_z)
+}
+
+/// Combined bulk + boundary point-defect taxonomy count ($10 + 12 = 22$ cases in `QEC.Stabilizer.Codes.Layer`),
+/// matching `Signals.MultiArrayImaging.layerCodePointDefectTaxonomyCount`.
+#[inline]
+pub const fn layer_code_point_defect_taxonomy_count(
+    bulk_cases: usize,
+    boundary_cases: usize,
+) -> usize {
+    bulk_cases + boundary_cases
+}
+
+/// Evaluates the derived bijective boundary permutation (`Signals.Plabic.RotationSystem.boundaryPerm`)
+/// of an $N$-leg single-hub bicolored Plabic star (`plabicStar` in `SignalsTests.lean`).
+pub fn plabic_star_boundary_permutation(
+    boundary_count: usize,
+    color: PlabicNodeColor,
+) -> Vec<usize> {
+    if boundary_count == 0 {
+        return Vec::new();
+    }
+    (0..boundary_count)
+        .map(|idx| match color {
+            PlabicNodeColor::Black => (idx + 1) % boundary_count,
+            PlabicNodeColor::White => (idx + boundary_count - 1) % boundary_count,
+        })
+        .collect()
+}
+
+/// Guarded two-edge serial subdivision transfer `factor * (weight / factor)`,
+/// matching `Signals.Plabic.WeightedAcyclicNetwork.subdivision_boundary`.
+#[inline]
+pub fn plabic_subdivision_transfer(weight: f64, factor: f64) -> f64 {
+    factor * (weight / factor)
+}
+
+/// Two-path parallel diamond network transfer `first_in * first_out + second_in * second_out`,
+/// matching `Signals.Plabic.WeightedAcyclicNetwork.diamond_transfer`.
+#[inline]
+pub fn plabic_diamond_parallel_transfer(
+    first_in: f64,
+    second_in: f64,
+    first_out: f64,
+    second_out: f64,
+) -> f64 {
+    first_in * first_out + second_in * second_out
+}
+
+/// Shared-hub $2 \times 2$ boundary determinant
+/// $\det\begin{pmatrix} u v & u w \\ x v & x w \end{pmatrix} = (u v)(x w) - (u w)(x v) = 0$,
+/// matching `Signals.Geometry.singleHubRepresentative_det`.
+#[inline]
+pub fn plabic_single_hub_det_2x2(
+    first_in: f64,
+    second_in: f64,
+    first_out: f64,
+    second_out: f64,
+) -> f64 {
+    let m00 = first_in * first_out;
+    let m01 = first_in * second_out;
+    let m10 = second_in * first_out;
+    let m11 = second_in * second_out;
+    m00 * m11 - m01 * m10
+}
+
+/// Planar 3-channel upper-bidiagonal step matrix $E_{\mathrm{upper}}^{(3)}(d_0, d_1, d_2, u_{01}, u_{12})$,
+/// matching `Signals.Plabic.planarThreeChannelUpperStep`.
+#[inline]
+pub const fn planar_three_channel_upper_step(
+    d0: f64,
+    d1: f64,
+    d2: f64,
+    u01: f64,
+    u12: f64,
+) -> [[f64; 3]; 3] {
+    [[d0, u01, 0.0], [0.0, d1, u12], [0.0, 0.0, d2]]
+}
+
+/// Planar 3-channel lower-bidiagonal step matrix $E_{\mathrm{lower}}^{(3)}(d_0, d_1, d_2, l_{10}, l_{21})$,
+/// matching `Signals.Plabic.planarThreeChannelLowerStep`.
+#[inline]
+pub const fn planar_three_channel_lower_step(
+    d0: f64,
+    d1: f64,
+    d2: f64,
+    l10: f64,
+    l21: f64,
+) -> [[f64; 3]; 3] {
+    [[d0, 0.0, 0.0], [l10, d1, 0.0], [0.0, l21, d2]]
+}
+
+/// $3 \times 3$ real matrix multiplication.
+#[inline]
+pub fn mat3_mul(a: &[[f64; 3]; 3], b: &[[f64; 3]; 3]) -> [[f64; 3]; 3] {
+    let mut out = [[0.0f64; 3]; 3];
+    for r in 0..3 {
+        for c in 0..3 {
+            out[r][c] = a[r][0] * b[0][c] + a[r][1] * b[1][c] + a[r][2] * b[2][c];
+        }
+    }
+    out
+}
+
+/// Exact $3 \times 3$ matrix determinant.
+#[inline]
+pub fn mat3_det(m: &[[f64; 3]; 3]) -> f64 {
+    m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+        - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+        + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0])
+}
+
+/// Multi-layer Lindström–Gessel–Viennot (`LGV`) $3 \times 3$ cascade determinant evaluator:
+/// returns `(det_of_product, product_of_dets)` for a sequence of layer transfer matrices,
+/// matching `Signals.Plabic.lgv_multiLayer_det_prod` and `lgv_multiLayer_det_positive`.
+pub fn multilayer_lgv_cascade_det_3x3(layers: &[[[f64; 3]; 3]]) -> (f64, f64) {
+    let mut composite = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]];
+    let mut prod_dets = 1.0f64;
+    for layer in layers {
+        composite = mat3_mul(&composite, layer);
+        prod_dets *= mat3_det(layer);
+    }
+    (mat3_det(&composite), prod_dets)
+}
+
+/// Evaluates $\det(A B)$ when 3 volumetric channels route through a 2-channel screen bottleneck
+/// ($A \in \mathbb{R}^{3\times 2}$, $B \in \mathbb{R}^{2\times 3}$), proving that every path triple
+/// shares an intermediate vertex so $\det(A B) = 0$ (`planar_threeChannel_lgv_and_bottleneck_identities`).
+pub fn three_through_two_bottleneck_det(a_3x2: &[[f64; 2]; 3], b_2x3: &[[f64; 3]; 2]) -> f64 {
+    let mut ab = [[0.0f64; 3]; 3];
+    for r in 0..3 {
+        for c in 0..3 {
+            ab[r][c] = a_3x2[r][0] * b_2x3[0][c] + a_3x2[r][1] * b_2x3[1][c];
+        }
+    }
+    mat3_det(&ab)
+}
+
+/// C-ABI / WASM export: returns the pre-defect surface-edge count of a 3D Layer Code.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_layer_code_surface_edges(n: usize, n_x: usize, n_z: usize) -> usize {
+    layer_code_pre_defect_surface_edges(n, n_x, n_z)
+}
+
+/// C-ABI / WASM export: returns the 3-channel LGV two-step determinant $\det(E_{\mathrm{lower}}^{(3)} E_{\mathrm{upper}}^{(3)})$.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_planar_three_channel_lgv_det(
+    d0: f64,
+    d1: f64,
+    d2: f64,
+    u01: f64,
+    u12: f64,
+    l10: f64,
+    l21: f64,
+) -> f64 {
+    let low = planar_three_channel_lower_step(1.0, 1.0, 1.0, l10, l21);
+    let up = planar_three_channel_upper_step(d0, d1, d2, u01, u12);
+    let comp = mat3_mul(&low, &up);
+    mat3_det(&comp)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1047,5 +1223,40 @@ mod tests {
         assert!((aot_ratio - 0.25).abs() < 1e-12);
         assert!(true_optical_peak_to_background_gain(1024.0) > 800.0);
         assert!((iterative_true_focal_variance_sq(1.0, 4) - 0.25).abs() < 1e-12);
+    }
+
+    #[test]
+    fn layer_coding_plabic_lgv_and_three_channel_bottleneck_identities_match_lean() {
+        // 1. 3D Layer-Code pre-defect surface-edge counts and 22-case point-defect taxonomy
+        assert_eq!(layer_code_pre_defect_surface_edges(4, 1, 1), 42);
+        assert_eq!(layer_code_pre_defect_surface_edges(2, 1, 1), 22);
+        assert_eq!(layer_code_pre_defect_surface_edges(3, 1, 1), 32);
+        assert_eq!(layer_code_point_defect_taxonomy_count(10, 12), 22);
+
+        // 2. Plabic bicolored star rotation permutation (bijective & inverse between Black and White)
+        let perm_black = plabic_star_boundary_permutation(3, PlabicNodeColor::Black);
+        let perm_white = plabic_star_boundary_permutation(3, PlabicNodeColor::White);
+        assert_eq!(perm_black, vec![1, 2, 0]);
+        assert_eq!(perm_white, vec![2, 0, 1]);
+        for i in 0..3 {
+            assert_eq!(perm_white[perm_black[i]], i);
+        }
+
+        // 3. Plabic WeightedAcyclicNetwork subdivision, diamond parallel dither sum, and shared-hub rank collapse
+        assert!((plabic_subdivision_transfer(6.0, 2.0) - 6.0).abs() < 1e-12);
+        assert!((plabic_diamond_parallel_transfer(2.0, 3.0, 4.0, 5.0) - 23.0).abs() < 1e-12);
+        assert!(plabic_single_hub_det_2x2(2.0, 3.0, 4.0, 5.0).abs() < 1e-12);
+
+        // 4. Multi-layer 3-channel LGV cascade positivity and 2-channel screen bottleneck collapse
+        let low = planar_three_channel_lower_step(1.0, 1.0, 1.0, 5.0, 7.0);
+        let up = planar_three_channel_upper_step(2.0, 3.0, 4.0, 6.0, 8.0);
+        let (det_prod, prod_dets) = multilayer_lgv_cascade_det_3x3(&[low, up]);
+        assert!((det_prod - 24.0).abs() < 1e-12);
+        assert!((prod_dets - 24.0).abs() < 1e-12);
+        assert!((signals_planar_three_channel_lgv_det(2.0, 3.0, 4.0, 6.0, 8.0, 5.0, 7.0) - 24.0).abs() < 1e-12);
+
+        let a_3x2 = [[1.5, -2.0], [3.25, 0.75], [-1.0, 4.5]];
+        let b_2x3 = [[2.0, -1.0, 0.5], [1.25, 3.0, -2.5]];
+        assert!(three_through_two_bottleneck_det(&a_3x2, &b_2x3).abs() < 1e-11);
     }
 }

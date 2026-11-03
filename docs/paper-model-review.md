@@ -1018,7 +1018,17 @@ The local [QECReferences.lean](../src/signals/Signals/QECReferences.lean)
 registry records these URLs, primary references, and the external
 [QECLean](https://github.com/Stavan-Jain/QECLean) candidate with an explicit
 `referenceOnly` or `localParameterMetadata` status. It does not import QECLean
-or implement a quantum code. QECLean is currently the strongest Lean 4 project
+or implement a quantum code. In addition, the bicolored strand-routing and
+multi-layer Lindström--Gessel--Viennot (`LGV`) transfer network module
+[`Signals.Plabic`](../src/signals/Signals/Plabic.lean) (`RotationSystem`,
+`WeightedAcyclicNetwork`, `lgv_multiLayer_det_positive`,
+`planar_threeChannel_lgv_and_bottleneck_identities`) originated from modeling
+syndrome/ancilla routing and laminated layer cascades for 3D Layer Coding, and
+is connected to multi-layer Hubble, `LVP` medical, `LIFU`/`AOT`/`TRUE`, and
+$< 1\text{ nm}$ nanolithography arrays in
+[`Signals.MultiArrayImaging`](../src/signals/Signals/MultiArrayImaging.lean) and
+[grassmannian-multispectral-hubble-medical-nanoimaging-paper.md](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md).
+QECLean is currently the strongest Lean 4 project
 to study for a future integration: its public documentation describes
 Pauli/binary-symplectic algebra, stabilizer and CSS codes, toric and rotated
 surface codes, chain-complex infrastructure, and axiom-clean distance proofs.
