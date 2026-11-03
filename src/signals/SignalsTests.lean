@@ -6375,4 +6375,28 @@ example (θ_z φ1 φ2 φ3 : ℝ)
     hl.2.2.2.2.2.1, hl.2.2.2.2.2.2.1, hl.2.2.2.2.2.2.2.2.2.1,
     hl.2.2.2.2.2.2.2.2.2.2.1, hl.2.2.2.2.2.2.2.2.2.2.2⟩
 
+example (sigma_rr sigma_cc sigma_rc E_par r_perp : ℝ) :
+    let net := Signals.Plabic.WeightedAcyclicNetwork.diamond (2 : NNReal) (3 : NNReal) (4 : NNReal) (5 : NNReal)
+    Signals.MultiArrayImaging.cosmicRayPrincipalEigenvaluePlus (5 / 4) (5 / 4) (5 / 4) = 5 / 2 ∧
+      Signals.MultiArrayImaging.cosmicRayPrincipalEigenvalueMinus (5 / 4) (5 / 4) (5 / 4) = 0 ∧
+      Signals.MultiArrayImaging.cosmicRayPrincipalEigenvaluePlus (5 / 4) (5 / 4) (-5 / 4) = 5 / 2 ∧
+      Signals.MultiArrayImaging.cosmicRayPrincipalEigenvalueMinus (5 / 4) (5 / 4) (-5 / 4) = 0 ∧
+      Signals.MultiArrayImaging.cosmicRayPrincipalEigenvaluePlus sigma_rr sigma_cc sigma_rc +
+          Signals.MultiArrayImaging.cosmicRayPrincipalEigenvalueMinus sigma_rr sigma_cc sigma_rc =
+        Signals.MultiArrayImaging.cosmicRayCovarianceTrace2D sigma_rr sigma_cc ∧
+      Signals.MultiArrayImaging.cosmicRayPrincipalEigenvaluePlus sigma_rr sigma_cc sigma_rc *
+          Signals.MultiArrayImaging.cosmicRayPrincipalEigenvalueMinus sigma_rr sigma_cc sigma_rc =
+        Signals.MultiArrayImaging.cosmicRayCovarianceDet2D sigma_rr sigma_cc sigma_rc ∧
+      net.weight ^ 3 = 0 ∧
+      net.transfer = 1 + net.weight * net.transfer ∧
+      (E_par + r_perp ^ 2) - E_par = r_perp ^ 2 := by
+  intro net
+  have hp :=
+    Signals.MultiArrayImaging.pca_streak_orientation_plabic_transfer_and_grassmannian_projector_identities
+      net sigma_rr sigma_cc sigma_rc E_par r_perp
+  exact ⟨hp.2.2.2.2.1, hp.2.2.2.2.2.1, hp.2.2.2.2.2.2.1, hp.2.2.2.2.2.2.2.1,
+    hp.2.2.2.2.2.2.2.2.2.1, hp.2.2.2.2.2.2.2.2.2.2.1,
+    hp.2.2.2.2.2.2.2.2.2.2.2.1, hp.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    hp.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

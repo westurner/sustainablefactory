@@ -744,4 +744,144 @@ theorem layer_coding_plabic_lgv_and_multi_array_imaging_identities
     h_sub, h_diam, h_hub, h_lgv_prod,
     h_lgv3.2.2.1, h_lgv3.2.2.2.1, h_lgv3.2.2.2.2, h_vol_bridge⟩
 
+/-! ## Section 7: Signed Principal-Axis Cosmic-Ray Orientation ($+45^\circ$ vs. $-45^\circ$), Vieta Eigenvalue Invariants, Plabic Transfer Fixed-Point ($T = 1 + W T$), & Pythagorean $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ Subspace Projection
+
+The source chat's suggestion to compute cosmic-ray streak angles via `atan2(bbox_height, bbox_width)`
+(`Google-Search_Hubble-Sensor-Design_20261102-2031.md`, line 939) suffers from a fundamental
+sign ambiguity: because `bbox_height >= 1` and `bbox_width >= 1` are positive bounding-box lengths,
+`atan2(bbox_height, bbox_width)` always lies in $(0, \pi/2)$ and cannot distinguish a $+45^\circ$
+diagonal track (`σ_rc > 0`) from a $-45^\circ$ anti-diagonal track (`σ_rc < 0`), while also
+reporting a spurious $45^\circ$ angle on a $1\times 1$ single-pixel `Dot`. Using the 2D second-moment
+covariance tensor $\Sigma_{\mathrm{cluster}} = \begin{pmatrix} \sigma_{cc} & \sigma_{rc} \\ \sigma_{rc} & \sigma_{rr} \end{pmatrix}$
+resolves both defects via the signed off-diagonal moment $\sigma_{rc}$ and principal eigenvalues $\lambda_\pm$. -/
+
+/-- 2D cosmic-ray cluster covariance trace $\operatorname{Tr}\Sigma_{\mathrm{cluster}}(\sigma_{rr}, \sigma_{cc}) = \sigma_{rr} + \sigma_{cc}$. -/
+@[blueprint "def:signals-imaging-cosmic-ray-covariance-trace-2d"
+  (title := "2D cosmic-ray cluster covariance trace σ_rr + σ_cc")
+  (statement := /-- Define $\operatorname{cosmicRayCovarianceTrace2D}(\sigma_{rr}, \sigma_{cc})
+    = \sigma_{rr} + \sigma_{cc}$. -/)]
+def cosmicRayCovarianceTrace2D (sigma_rr sigma_cc : ℝ) : ℝ :=
+  sigma_rr + sigma_cc
+
+/-- 2D cosmic-ray cluster principal-axis eigenvalue discriminant
+$\Delta_{\mathrm{cluster}}(\sigma_{rr}, \sigma_{cc}, \sigma_{rc}) = (\sigma_{rr} - \sigma_{cc})^2 + 4\sigma_{rc}^2 \ge 0$. -/
+@[blueprint "def:signals-imaging-cosmic-ray-principal-discriminant-2d"
+  (title := "2D cosmic-ray cluster principal eigenvalue discriminant (σ_rr - σ_cc)² + 4 σ_rc²")
+  (statement := /-- Define $\operatorname{cosmicRayPrincipalDiscriminant2D}(\sigma_{rr}, \sigma_{cc}, \sigma_{rc})
+    = (\sigma_{rr} - \sigma_{cc})^2 + 4\sigma_{rc}^2$. -/)]
+def cosmicRayPrincipalDiscriminant2D (sigma_rr sigma_cc sigma_rc : ℝ) : ℝ :=
+  (sigma_rr - sigma_cc) ^ 2 + 4 * sigma_rc ^ 2
+
+/-- Major principal variance eigenvalue $\lambda_+(\sigma_{rr}, \sigma_{cc}, \sigma_{rc}) = \frac{\sigma_{rr} + \sigma_{cc} + \sqrt{(\sigma_{rr} - \sigma_{cc})^2 + 4\sigma_{rc}^2}}{2}$
+of a 2D cosmic-ray cluster. -/
+@[blueprint "def:signals-imaging-cosmic-ray-eigenvalue-plus"
+  (title := "Major principal variance eigenvalue λ_+ of a 2D cosmic-ray cluster")
+  (statement := /-- Define $\operatorname{cosmicRayPrincipalEigenvaluePlus}(\sigma_{rr}, \sigma_{cc}, \sigma_{rc})
+    = (\sigma_{rr} + \sigma_{cc} + \sqrt{\operatorname{cosmicRayPrincipalDiscriminant2D}(\sigma_{rr}, \sigma_{cc}, \sigma_{rc})}) / 2$. -/)]
+noncomputable def cosmicRayPrincipalEigenvaluePlus (sigma_rr sigma_cc sigma_rc : ℝ) : ℝ :=
+  (sigma_rr + sigma_cc + Real.sqrt (cosmicRayPrincipalDiscriminant2D sigma_rr sigma_cc sigma_rc)) / 2
+
+/-- Minor transverse variance eigenvalue $\lambda_-(\sigma_{rr}, \sigma_{cc}, \sigma_{rc}) = \frac{\sigma_{rr} + \sigma_{cc} - \sqrt{(\sigma_{rr} - \sigma_{cc})^2 + 4\sigma_{rc}^2}}{2}$
+of a 2D cosmic-ray cluster ($\lambda_- = 0$ for any collinear primary cosmic-ray `Streak`). -/
+@[blueprint "def:signals-imaging-cosmic-ray-eigenvalue-minus"
+  (title := "Minor transverse variance eigenvalue λ_- of a 2D cosmic-ray cluster")
+  (statement := /-- Define $\operatorname{cosmicRayPrincipalEigenvalueMinus}(\sigma_{rr}, \sigma_{cc}, \sigma_{rc})
+    = (\sigma_{rr} + \sigma_{cc} - \sqrt{\operatorname{cosmicRayPrincipalDiscriminant2D}(\sigma_{rr}, \sigma_{cc}, \sigma_{rc})}) / 2$. -/)]
+noncomputable def cosmicRayPrincipalEigenvalueMinus (sigma_rr sigma_cc sigma_rc : ℝ) : ℝ :=
+  (sigma_rr + sigma_cc - Real.sqrt (cosmicRayPrincipalDiscriminant2D sigma_rr sigma_cc sigma_rc)) / 2
+
+/-- **Signed Principal-Axis Cosmic-Ray Orientation ($+45^\circ$ vs. $-45^\circ$), Vieta Eigenvalue Invariants, Plabic Nilpotency / Transfer Fixed-Point ($T = 1 + W T$), & Pythagorean $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ Subspace Projection Theorem**:
+1. **Critique & Resolution of `atan2(bbox_height, bbox_width)` on $+45^\circ$ vs. $-45^\circ$ Streaks**:
+   - Both a $+45^\circ$ diagonal streak ($\sigma_{rc} = +5/4$) and a $-45^\circ$ anti-diagonal streak ($\sigma_{rc} = -5/4$)
+     have $\mathrm{AR}_{\mathrm{bbox}}(4, 4) = 1$, but opposite covariance signs $(-5/4 < 0 < 5/4)$ while both
+     satisfy $\det\Sigma_{\mathrm{cluster}}(5/4, 5/4, \pm 5/4) = 0$, $\lambda_+(5/4, 5/4, \pm 5/4) = 5/2$, and $\lambda_-(5/4, 5/4, \pm 5/4) = 0$,
+2. **Universal 2D Covariance Discriminant Nonnegativity & Vieta Eigenvalue Sum/Product Laws**:
+   - For all $\sigma_{rr}, \sigma_{cc}, \sigma_{rc} \in \mathbb{R}$:
+     $0 \le \Delta_{\mathrm{cluster}}(\sigma_{rr}, \sigma_{cc}, \sigma_{rc})$,
+     $\lambda_+ + \lambda_- = \operatorname{Tr}\Sigma_{\mathrm{cluster}}$, and
+     $\lambda_+ \cdot \lambda_- = \det\Sigma_{\mathrm{cluster}}$,
+3. **3D Layer-Coding `WeightedAcyclicNetwork` Nilpotency & Transfer Continuation Equation**:
+   - For any level-certified acyclic network `net : WeightedAcyclicNetwork V h`,
+     `net.weight ^ (h + 1) = 0` and `net.transfer = 1 + net.weight * net.transfer`,
+4. **Orthonormal $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ Subspace Pythagorean Energy Decomposition**:
+   - Decomposing a $\Lambda$-band or $L$-layer measurement vector into its subspace projection norm squared
+     $E_\parallel = \sum_{j=1}^d c_j^2$ and orthogonal anomaly residual $E_\perp = r_\perp^2 \ge 0$ satisfies
+     $E_\parallel \le E_\parallel + r_\perp^2$ and $(E_\parallel + r_\perp^2) - E_\parallel = r_\perp^2$. -/
+@[blueprint "thm:signals-imaging-pca-streak-plabic-transfer-grassmannian-projector"
+  (title := "Signed principal-axis cosmic-ray orientation (+45° vs. -45°), Vieta eigenvalue invariants, Plabic transfer fixed-point, and Gr_R(d, Λ) Pythagorean projection theorem")
+  (statement := /-- For any $\sigma_{rr}, \sigma_{cc}, \sigma_{rc}, E_\parallel, r_\perp \in \mathbb{R}$
+    and any \texttt{net : WeightedAcyclicNetwork V h}, the $+45^\circ / -45^\circ$ streak covariance
+    and eigenvalue laws, universal Vieta trace/determinant identities, Plabic nilpotency
+    $W^{h+1} = 0$ and transfer fixed-point $T = 1 + W T$, and Pythagorean $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$
+    residual decomposition hold simultaneously. -/)
+  (proof := /-- Combine \texttt{positivity} and \texttt{Real.sq\_sqrt} on $\Delta_{\mathrm{cluster}} \ge 0$,
+    apply \texttt{WeightedAcyclicNetwork.nilpotent} and \texttt{transfer\_equation}, and close rational
+    and ring identities by \texttt{norm\_num} and \texttt{ring}. -/)]
+theorem pca_streak_orientation_plabic_transfer_and_grassmannian_projector_identities
+    {V h : ℕ} (net : WeightedAcyclicNetwork V h)
+    (sigma_rr sigma_cc sigma_rc E_par r_perp : ℝ) :
+    (-5 / 4 : ℝ) < 0 ∧
+      (0 : ℝ) < 5 / 4 ∧
+      cosmicRayCovarianceDet2D (5 / 4) (5 / 4) (5 / 4) = 0 ∧
+      cosmicRayCovarianceDet2D (5 / 4) (5 / 4) (-5 / 4) = 0 ∧
+      cosmicRayPrincipalEigenvaluePlus (5 / 4) (5 / 4) (5 / 4) = 5 / 2 ∧
+      cosmicRayPrincipalEigenvalueMinus (5 / 4) (5 / 4) (5 / 4) = 0 ∧
+      cosmicRayPrincipalEigenvaluePlus (5 / 4) (5 / 4) (-5 / 4) = 5 / 2 ∧
+      cosmicRayPrincipalEigenvalueMinus (5 / 4) (5 / 4) (-5 / 4) = 0 ∧
+      0 ≤ cosmicRayPrincipalDiscriminant2D sigma_rr sigma_cc sigma_rc ∧
+      cosmicRayPrincipalEigenvaluePlus sigma_rr sigma_cc sigma_rc +
+          cosmicRayPrincipalEigenvalueMinus sigma_rr sigma_cc sigma_rc =
+        cosmicRayCovarianceTrace2D sigma_rr sigma_cc ∧
+      cosmicRayPrincipalEigenvaluePlus sigma_rr sigma_cc sigma_rc *
+          cosmicRayPrincipalEigenvalueMinus sigma_rr sigma_cc sigma_rc =
+        cosmicRayCovarianceDet2D sigma_rr sigma_cc sigma_rc ∧
+      net.weight ^ (h + 1) = 0 ∧
+      net.transfer = 1 + net.weight * net.transfer ∧
+      E_par ≤ E_par + r_perp ^ 2 ∧
+      (E_par + r_perp ^ 2) - E_par = r_perp ^ 2 := by
+  have h_disc_nonneg : 0 ≤ cosmicRayPrincipalDiscriminant2D sigma_rr sigma_cc sigma_rc := by
+    unfold cosmicRayPrincipalDiscriminant2D
+    positivity
+  have h_sq_sqrt :
+      (Real.sqrt (cosmicRayPrincipalDiscriminant2D sigma_rr sigma_cc sigma_rc)) ^ 2 =
+        cosmicRayPrincipalDiscriminant2D sigma_rr sigma_cc sigma_rc :=
+    Real.sq_sqrt h_disc_nonneg
+  have h_vieta_sum :
+      cosmicRayPrincipalEigenvaluePlus sigma_rr sigma_cc sigma_rc +
+          cosmicRayPrincipalEigenvalueMinus sigma_rr sigma_cc sigma_rc =
+        cosmicRayCovarianceTrace2D sigma_rr sigma_cc := by
+    unfold cosmicRayPrincipalEigenvaluePlus cosmicRayPrincipalEigenvalueMinus cosmicRayCovarianceTrace2D
+    ring
+  have h_vieta_prod :
+      cosmicRayPrincipalEigenvaluePlus sigma_rr sigma_cc sigma_rc *
+          cosmicRayPrincipalEigenvalueMinus sigma_rr sigma_cc sigma_rc =
+        cosmicRayCovarianceDet2D sigma_rr sigma_cc sigma_rc := by
+    unfold cosmicRayPrincipalEigenvaluePlus cosmicRayPrincipalEigenvalueMinus
+    calc
+      (sigma_rr + sigma_cc + Real.sqrt (cosmicRayPrincipalDiscriminant2D sigma_rr sigma_cc sigma_rc)) / 2 *
+          ((sigma_rr + sigma_cc - Real.sqrt (cosmicRayPrincipalDiscriminant2D sigma_rr sigma_cc sigma_rc)) / 2) =
+        ((sigma_rr + sigma_cc) ^ 2 -
+          (Real.sqrt (cosmicRayPrincipalDiscriminant2D sigma_rr sigma_cc sigma_rc)) ^ 2) / 4 := by ring
+      _ = ((sigma_rr + sigma_cc) ^ 2 -
+          cosmicRayPrincipalDiscriminant2D sigma_rr sigma_cc sigma_rc) / 4 := by rw [h_sq_sqrt]
+      _ = cosmicRayCovarianceDet2D sigma_rr sigma_cc sigma_rc := by
+        unfold cosmicRayPrincipalDiscriminant2D cosmicRayCovarianceDet2D
+        ring
+  have h_sqrt_25_4 : Real.sqrt (25 / 4 : ℝ) = 5 / 2 := by
+    rw [show (25 / 4 : ℝ) = (5 / 2 : ℝ) ^ 2 by norm_num, Real.sqrt_sq (by norm_num)]
+  refine ⟨by norm_num, by norm_num, ?_, ?_, ?_, ?_, ?_, ?_,
+    h_disc_nonneg, h_vieta_sum, h_vieta_prod,
+    net.nilpotent, net.transfer_equation,
+    by nlinarith [sq_nonneg r_perp], by ring⟩
+  · unfold cosmicRayCovarianceDet2D; norm_num
+  · unfold cosmicRayCovarianceDet2D; norm_num
+  · unfold cosmicRayPrincipalEigenvaluePlus cosmicRayPrincipalDiscriminant2D
+    norm_num [h_sqrt_25_4]
+  · unfold cosmicRayPrincipalEigenvalueMinus cosmicRayPrincipalDiscriminant2D
+    norm_num [h_sqrt_25_4]
+  · unfold cosmicRayPrincipalEigenvaluePlus cosmicRayPrincipalDiscriminant2D
+    norm_num [h_sqrt_25_4]
+  · unfold cosmicRayPrincipalEigenvalueMinus cosmicRayPrincipalDiscriminant2D
+    norm_num [h_sqrt_25_4]
+
 end Signals.MultiArrayImaging

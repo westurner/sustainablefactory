@@ -47,11 +47,11 @@ This document indexes the nine project plan and specification documents across [
    - **Remaining**: Populate `DDFFractureCommunicationEvidence` from an independent defect measurement with blinded waveform replication.
 5. **Rust Numerical Adapter (`src/signals/numerical_adapter/`)**:
    - **Scope**: Defines the Lean-to-Rust/WASM/WebGL2 boundary: Vortex `0.86.1` columnar arrays, PDEBench HDF5, Zenodo cylinder PIV, RSPID synthetic controls, JHTDB 3D cutouts, RK2 FTLE/LCS advection, and the seven physics, imaging, and CAD modules (`double_slit.rs`, `orbital_splat.rs`, `thermal_inelastic.rs`, `polariton_spp.rs`, `cannon_mask_cad.rs`, `madelung_lagrangian.rs`, `multi_array_imaging.rs`).
-   - **Status**: Native core, Vortex/HDF5/JHTDB/FITS readers, and all seven `wasm32-unknown-unknown` / WebGL2 physics, imaging, and CAD modules implemented (73 tests passing).
+   - **Status**: Native core, Vortex/HDF5/JHTDB/FITS readers, and all seven `wasm32-unknown-unknown` / WebGL2 physics, imaging, and CAD modules implemented (75 tests passing).
    - **Remaining**: Vortex vs. Arrow/Parquet large-cutout benchmarks and adaptive splat splitting/remeshing under high Anosov/OPA aspect ratios.
 6. **[lean-blueprint-rust-port-plan.md](lean-blueprint-rust-port-plan.md) (*Lean Blueprint and Sphinxdocrs Roadmap*)**:
    - **Scope**: Integrates LeanArchitect's `:blueprint` / `:blueprintJson` facets with `dsport`'s Rust `sphinxdocrs` engine, optional Lean LSP semantic enrichment, and `ratex` PDF generation.
-   - **Status**: Package-wide `:blueprint` and `:blueprintJson` facets active across all four `Signals` targets (3,715 Lake jobs).
+   - **Status**: Package-wide `:blueprint` and `:blueprintJson` facets active across all four `Signals` targets (3,716 Lake jobs).
    - **Remaining**: Phase 1 `ratex` XeLaTeX PDF parity check and Phase 3–4 Rust `BlueprintSnapshot` importer in `sphinxdocrs`.
 7. **[rdfhdt-implementation-plan.md](rdfhdt-implementation-plan.md) (*RDF-HDT Implementation Plan*)**:
    - **Scope**: Plans a streaming Rust `hdt-rs` (`0.7.3`) bridge (`export_hdt` / `import_hdt`) between `pyoxigraph.Store` and static `.hdt` search artifacts (`docindex.hdt`), avoiding Python string materialization while retaining `docindex.nt` fallback.

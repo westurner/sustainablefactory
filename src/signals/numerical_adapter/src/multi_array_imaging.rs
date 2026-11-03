@@ -48,6 +48,9 @@ pub struct CosmicRayCluster {
     pub aspect_ratio: f64,
     pub bbox_fill_density: f64,
     pub cov_det_2d: f64,
+    pub principal_eigenvalue_plus: f64,
+    pub principal_eigenvalue_minus: f64,
+    pub principal_axis_angle_rad: f64,
     pub silicon_path_length_um: f64,
     pub grazing_tangent: f64,
     pub let_ev_per_um: f64,
@@ -235,6 +238,37 @@ pub fn cosmic_ray_covariance_det_2d(sigma_rr: f64, sigma_cc: f64, sigma_rc: f64)
     sigma_rr * sigma_cc - sigma_rc * sigma_rc
 }
 
+/// Returns `(lambda_plus, lambda_minus)` principal variance eigenvalues of a 2D cosmic-ray cluster
+/// covariance tensor $\Sigma_{\mathrm{cluster}} = \begin{pmatrix} \sigma_{cc} & \sigma_{rc} \\ \sigma_{rc} & \sigma_{rr} \end{pmatrix}$,
+/// matching `Signals.MultiArrayImaging.cosmicRayPrincipalEigenvaluePlus` and `cosmicRayPrincipalEigenvalueMinus`.
+#[inline]
+pub fn cosmic_ray_principal_eigenvalues_2d(
+    sigma_rr: f64,
+    sigma_cc: f64,
+    sigma_rc: f64,
+) -> (f64, f64) {
+    let disc = ((sigma_rr - sigma_cc) * (sigma_rr - sigma_cc) + 4.0 * sigma_rc * sigma_rc)
+        .max(0.0)
+        .sqrt();
+    let trace = sigma_rr + sigma_cc;
+    (0.5 * (trace + disc), 0.5 * (trace - disc))
+}
+
+/// Signed principal-axis inclination angle $\theta_{\mathrm{PCA}} = \frac{1}{2}\operatorname{atan2}(2\sigma_{rc},\; \sigma_{cc} - \sigma_{rr}) \in (-\pi/2, \pi/2]$
+/// of a 2D cosmic-ray cluster, resolving the sign ambiguity of unsigned `atan2(bbox_height, bbox_width)`
+/// between $+45^\circ$ ($\sigma_{rc} > 0 \implies +\pi/4$) and $-45^\circ$ ($\sigma_{rc} < 0 \implies -\pi/4$) streaks
+/// and returning `0.0` for isotropic/1-pixel `Dot` clusters.
+#[inline]
+pub fn cosmic_ray_principal_axis_angle_rad(sigma_rr: f64, sigma_cc: f64, sigma_rc: f64) -> f64 {
+    let dy = 2.0 * sigma_rc;
+    let dx = sigma_cc - sigma_rr;
+    if dy.abs() <= 1e-15 && dx.abs() <= 1e-15 {
+        0.0
+    } else {
+        0.5 * dy.atan2(dx)
+    }
+}
+
 /// Squared 3D chord length $L_{\mathrm{path}}^2 = d_{\mathrm{Si}}^2 + L_\parallel^2$ inside a silicon
 /// depletion layer of thickness $d_{\mathrm{Si}}$, matching `Signals.MultiArrayImaging.cosmicRaySiliconPathLengthSq`.
 #[inline]
@@ -356,6 +390,10 @@ pub fn analyze_cosmic_rays(
                 sigma_cc /= area;
                 sigma_rc /= area;
                 let cov_det_2d = cosmic_ray_covariance_det_2d(sigma_rr, sigma_cc, sigma_rc);
+                let (principal_eigenvalue_plus, principal_eigenvalue_minus) =
+                    cosmic_ray_principal_eigenvalues_2d(sigma_rr, sigma_cc, sigma_rc);
+                let principal_axis_angle_rad =
+                    cosmic_ray_principal_axis_angle_rad(sigma_rr, sigma_cc, sigma_rc);
 
                 let bbox_height = max_r - min_r + 1;
                 let bbox_width = max_c - min_c + 1;
@@ -406,6 +444,9 @@ pub fn analyze_cosmic_rays(
                     aspect_ratio,
                     bbox_fill_density,
                     cov_det_2d,
+                    principal_eigenvalue_plus,
+                    principal_eigenvalue_minus,
+                    principal_axis_angle_rad,
                     silicon_path_length_um,
                     grazing_tangent,
                     let_ev_per_um,
@@ -1015,6 +1056,86 @@ pub extern "C" fn signals_planar_three_channel_lgv_det(
     mat3_det(&comp)
 }
 
+/// Evaluates a height-2, 3-vertex acyclic network weight matrix
+/// $W = \begin{pmatrix} 0 & w_{01} & w_{02} \\ 0 & 0 & w_{12} \\ 0 & 0 & 0 \end{pmatrix}$,
+/// returning `(W, W^3, T = I + W + W^2, I + W * T)` to verify `WeightedAcyclicNetwork.nilpotent`
+/// ($W^3 = 0$) and `WeightedAcyclicNetwork.transfer_equation` ($T = I + W T$).
+pub fn plabic_acyclic_transfer_3x3(
+    w01: f64,
+    w02: f64,
+    w12: f64,
+) -> ([[f64; 3]; 3], [[f64; 3]; 3], [[f64; 3]; 3], [[f64; 3]; 3]) {
+    let id = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]];
+    let w = [[0.0, w01, w02], [0.0, 0.0, w12], [0.0, 0.0, 0.0]];
+    let w2 = mat3_mul(&w, &w);
+    let w3 = mat3_mul(&w2, &w);
+    let mut t = [[0.0f64; 3]; 3];
+    for r in 0..3 {
+        for c in 0..3 {
+            t[r][c] = id[r][c] + w[r][c] + w2[r][c];
+        }
+    }
+    let wt = mat3_mul(&w, &t);
+    let mut id_plus_wt = [[0.0f64; 3]; 3];
+    for r in 0..3 {
+        for c in 0..3 {
+            id_plus_wt[r][c] = id[r][c] + wt[r][c];
+        }
+    }
+    (w, w3, t, id_plus_wt)
+}
+
+/// Orthonormal subspace projector $P_U = U U^T$ on the real Grassmannian $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$
+/// for multi-spectral HST filter vectors ($\Lambda \in [3, 10]$) or depth-stacked `LVP` medical X-ray vectors:
+/// Given $d$ orthonormal basis vectors `basis[0..d]` in $\mathbb{R}^\Lambda$ and an observed vector `signal`,
+/// returns `(projected_signal, orthogonal_residual, parallel_energy, perpendicular_energy)`.
+pub fn multispectral_grassmannian_subspace_project(
+    orthonormal_basis: &[Vec<f64>],
+    signal: &[f64],
+) -> Result<(Vec<f64>, Vec<f64>, f64, f64), ValidationError> {
+    if orthonormal_basis.is_empty() || signal.is_empty() {
+        return Err(ValidationError::EmptyDataset);
+    }
+    let lambda_dim = signal.len();
+    for b in orthonormal_basis {
+        if b.len() != lambda_dim {
+            return Err(ValidationError::ShapeMismatch(
+                "Gr_R(d, Lambda) basis vector length",
+            ));
+        }
+    }
+    for &v in signal {
+        require_finite("signal", v)?;
+    }
+
+    let mut coeffs = Vec::with_capacity(orthonormal_basis.len());
+    for b in orthonormal_basis {
+        let mut dot = 0.0f64;
+        for (bv, sv) in b.iter().zip(signal.iter()) {
+            dot += bv * sv;
+        }
+        coeffs.push(dot);
+    }
+
+    let mut projected = vec![0.0f64; lambda_dim];
+    for (b, &c) in orthonormal_basis.iter().zip(coeffs.iter()) {
+        for (p, &bv) in projected.iter_mut().zip(b.iter()) {
+            *p += c * bv;
+        }
+    }
+
+    let mut residual = vec![0.0f64; lambda_dim];
+    let mut e_par = 0.0f64;
+    let mut e_perp = 0.0f64;
+    for i in 0..lambda_dim {
+        residual[i] = signal[i] - projected[i];
+        e_par += projected[i] * projected[i];
+        e_perp += residual[i] * residual[i];
+    }
+
+    Ok((projected, residual, e_par, e_perp))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1258,5 +1379,75 @@ mod tests {
         let a_3x2 = [[1.5, -2.0], [3.25, 0.75], [-1.0, 4.5]];
         let b_2x3 = [[2.0, -1.0, 0.5], [1.25, 3.0, -2.5]];
         assert!(three_through_two_bottleneck_det(&a_3x2, &b_2x3).abs() < 1e-11);
+
+        // 5. WeightedAcyclicNetwork nilpotency W^3 = 0 and transfer fixed-point T = I + W * T
+        let (_w, w3, t, id_plus_wt) = plabic_acyclic_transfer_3x3(2.0, 3.0, 4.0);
+        for r in 0..3 {
+            for c in 0..3 {
+                assert!(w3[r][c].abs() < 1e-12);
+                assert!((t[r][c] - id_plus_wt[r][c]).abs() < 1e-12);
+            }
+        }
+        // Path 0 -> 2 sums direct edge w02 (3.0) + two-step path w01 * w12 (2.0 * 4.0 = 8.0) = 11.0
+        assert!((t[0][2] - 11.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn pca_streak_angle_sign_and_multispectral_grassmannian_projector_work() {
+        // 1. +45° diagonal streak vs -45° anti-diagonal streak:
+        // Bounding-box atan2(H, W) is +π/4 for both, whereas principal_axis_angle_rad
+        // distinguishes +π/4 (+45°) from -π/4 (-45°) and returns 0.0 on a 1x1 Dot!
+        let mut grid = vec![vec![0.0f32; 12]; 12];
+        let mut mask = vec![vec![false; 12]; 12];
+        // Cluster 1: 1x1 Dot at (0, 10), well separated from the 8-connected streaks
+        grid[0][10] = 500.0;
+        mask[0][10] = true;
+        // Cluster 2: +45° streak at (2,2), (3,3), (4,4), (5,5)
+        for i in 0..4 {
+            grid[2 + i][2 + i] = 800.0;
+            mask[2 + i][2 + i] = true;
+        }
+        // Cluster 3: -45° anti-diagonal streak at (7,10), (8,9), (9,8), (10,7)
+        for i in 0..4 {
+            grid[7 + i][10 - i] = 800.0;
+            mask[7 + i][10 - i] = true;
+        }
+        let clusters = analyze_cosmic_rays(&grid, &mask, 1.0);
+        assert_eq!(clusters.len(), 3);
+        assert_eq!(clusters[0].ray_type, RayType::Dot);
+        assert!(clusters[0].principal_axis_angle_rad.abs() < 1e-12);
+
+        assert_eq!(clusters[1].ray_type, RayType::Streak);
+        assert!((clusters[1].principal_eigenvalue_plus - 2.5).abs() < 1e-12);
+        assert!(clusters[1].principal_eigenvalue_minus.abs() < 1e-12);
+        assert!((clusters[1].principal_axis_angle_rad - std::f64::consts::FRAC_PI_4).abs() < 1e-12);
+
+        assert_eq!(clusters[2].ray_type, RayType::Streak);
+        assert!((clusters[2].principal_eigenvalue_plus - 2.5).abs() < 1e-12);
+        assert!(clusters[2].principal_eigenvalue_minus.abs() < 1e-12);
+        assert!((clusters[2].principal_axis_angle_rad + std::f64::consts::FRAC_PI_4).abs() < 1e-12);
+
+        // 2. Orthonormal Gr_R(2, 4) multi-spectral / multi-layer subspace projection:
+        // Idempotence P_U(P_U x) = P_U x, orthogonality <P_U x, (I - P_U) x> = 0, and Pythagorean energy
+        let u1 = vec![0.5, 0.5, 0.5, 0.5];
+        let u2 = vec![0.5, 0.5, -0.5, -0.5];
+        let basis = vec![u1, u2];
+        let signal = vec![10.0, 12.0, 4.0, 2.0];
+        let (proj, res, e_par, e_perp) =
+            multispectral_grassmannian_subspace_project(&basis, &signal).unwrap();
+        let total_energy: f64 = signal.iter().map(|v| v * v).sum();
+        assert!((e_par + e_perp - total_energy).abs() < 1e-11);
+
+        // Orthogonality <proj, res> == 0
+        let dot_orth: f64 = proj.iter().zip(res.iter()).map(|(a, b)| a * b).sum();
+        assert!(dot_orth.abs() < 1e-11);
+
+        // Idempotence: projecting `proj` again gives `proj` with zero residual
+        let (proj2, _res2, _e_par2, e_perp2) =
+            multispectral_grassmannian_subspace_project(&basis, &proj).unwrap();
+        for (a, b) in proj.iter().zip(proj2.iter()) {
+            assert!((a - b).abs() < 1e-12);
+        }
+        assert!(e_perp2.abs() < 1e-20);
     }
 }

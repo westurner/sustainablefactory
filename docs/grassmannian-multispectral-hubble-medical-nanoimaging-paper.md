@@ -186,6 +186,18 @@ Auditing the Rust cosmic-ray classifier in {download}`Google-Search_Hubble-Senso
    $$
 
    yielding Linear Energy Transfer $\mathrm{LET} = E_{\mathrm{dep}} / L_{\mathrm{path}} \approx 55.05\text{ keV} / 240.47\text{ }\mu\text{m} \approx 0.229\text{ keV/}\mu\text{m}$, in direct agreement with relativistic proton stopping power in silicon. In addition, [`multi_array_imaging.rs`](../src/signals/numerical_adapter/src/multi_array_imaging.rs) provides a zero-dependency pure-Rust FITS primary HDU serializer/parser (`FitsPrimaryHduF32`, `serialize_fits_primary_hdu_f32`, `parse_fits_primary_hdu_f32`) that round-trips 2880-byte FITS header blocks and big-endian IEEE-754 `BITPIX = -32` float arrays.
+4. **Bug 4 — Unsigned Bounding-Box `atan2(bbox_height, bbox_width)` Collapses $+45^\circ$ and $-45^\circ$ Streaks (`cosmicRayPrincipalEigenvaluePlus`, `cosmicRayPrincipalEigenvalueMinus`, `cosmic_ray_principal_axis_angle_rad`)**:
+   In both the Hubble chat (`line 875`) and `data/chats/FITS Image Processing With Rust.md` (`lines 575, 623`), the particle trajectory inclination angle is computed as `let angle = (bbox_height as f64).atan2(bbox_width as f64)`. Because $H_{\mathrm{bbox}} \ge 1$ and $W_{\mathrm{bbox}} \ge 1$ are strictly positive bounding-box dimensions, `atan2(H, W)` maps every track into $(0, \pi/2)$: a $+45^\circ$ diagonal streak `(r+i, c+i)` ($\sigma_{rc} = +5/4 > 0$) and a $-45^\circ$ anti-diagonal streak `(r+i, c-i)` ($\sigma_{rc} = -5/4 < 0$) both have $H_{\mathrm{bbox}} = W_{\mathrm{bbox}} = 4$ and receive the identical unsigned angle $+\pi/4$ (and even a $1\times 1$ perpendicular `Dot` receives $+\pi/4$).
+   - **Mathematical Resolution via 2D Covariance Principal Eigenvalues & Signed Eigenvector Angle**:
+     In [`MultiArrayImaging.lean`](../src/signals/Signals/MultiArrayImaging.lean#L770-L895) (`pca_streak_orientation_plabic_transfer_and_grassmannian_projector_identities`) and [`multi_array_imaging.rs`](../src/signals/numerical_adapter/src/multi_array_imaging.rs), we define the principal eigenvalues of the 2D cluster covariance tensor $\Sigma_{\mathrm{cluster}}$:
+
+     $$
+     \lambda_{\pm}(\sigma_{rr}, \sigma_{cc}, \sigma_{rc}) = \frac{\sigma_{rr} + \sigma_{cc} \pm \sqrt{(\sigma_{rr} - \sigma_{cc})^2 + 4\sigma_{rc}^2}}{2}, \qquad
+     \lambda_+ + \lambda_- = \operatorname{Tr}\Sigma_{\mathrm{cluster}}, \qquad
+     \lambda_+\,\lambda_- = \det\Sigma_{\mathrm{cluster}},
+     $$
+
+     together with the signed principal-axis orientation angle $\theta_{\mathrm{PCA}} = \frac{1}{2}\operatorname{atan2}(2\sigma_{rc},\; \sigma_{cc} - \sigma_{rr}) \in (-\pi/2, \pi/2]$. For both the $+45^\circ$ and $-45^\circ$ 4-pixel streaks, $\lambda_+ = 5/2$ and $\lambda_- = 0$, while the sign of $\sigma_{rc} = \pm 5/4$ cleanly separates $\theta_{\mathrm{PCA}}(+45^\circ) = +\pi/4$ from $\theta_{\mathrm{PCA}}(-45^\circ) = -\pi/4$ (and assigns $\theta_{\mathrm{PCA}} = 0$ to an isotropic $1\times 1$ or $2\times 2$ `Dot`).
 
 ---
 
@@ -362,6 +374,8 @@ In `layer_coding_plabic_lgv_and_multi_array_imaging_identities` ([../src/signals
 | **Shared-Hub $2\times 2$ Determinant Cancellation**<br>(`singleHubRepresentative_det`, `plabic_single_hub_det_2x2`) | `(singleHubRepresentative u x v w_out).mat.det = 0` | Proves that routing two channels through a single unsplit intermediate hub (or taking two un-dithered/collinear exposures) yields a rank-1 matrix whose $2 \times 2$ minor vanishes identically. |
 | **Multi-Layer LGV Cascade Determinant Multiplicativity & Positivity**<br>(`lgv_multiLayer_det_prod`, `lgv_multiLayer_det_positive`, `multilayer_lgv_cascade_det_3x3`) | $\det\!\left(\prod_{r=1}^m M_r\right) = \prod_{r=1}^m \det(M_r)$ and $\det(E_{\mathrm{lower}}^{(3)} E_{\mathrm{upper}}^{(3)}) = d_0 d_1 d_2 > 0$ | Certifies that a multi-layer `LVP` dual/multi-energy X-ray stack ($\mathrm{Gr}_{\mathbb{R}}(3, 4)$), a multi-filter HST optical train ($\mathrm{Gr}_{\mathbb{R}}(3, 10)$), a `LIFU` acoustic impedance stack, or a 3-zone `rGO-polyCBD-SS-Lignin` metamaterial preserves full 3-channel rank iff each layer is vertex-disjoint. |
 | **3-Through-2 Bottleneck Rank Collapse vs. $\mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(3,6)$ Volumetric Recovery**<br>(`planar_threeChannel_lgv_and_bottleneck_identities`, `three_through_two_bottleneck_det`) | $\det(A B) = 0$ for $A \in \mathbb{R}^{3\times 2}, B \in \mathbb{R}^{2\times 3}$, whereas $\det\Sigma_{\mathrm{2D}}^{\mathrm{ortho}} \cdot \operatorname{recoverDepthVarianceSq}(\operatorname{Tr}\Sigma_{\mathrm{2D}}^{\mathrm{ortho}}, R_{\mathrm{depth}}) = \|\Delta_{012}^{\mathbb{C}}(M_3)\|^2 = \det\Sigma_{\mathrm{3D}}$ | Proves by the LGV pigeonhole principle why projecting a 3D voxel $(\sigma_1^2, \sigma_2^2, \sigma_3^2)$ or 3D vectorial wave $(E_x, E_y, E_z)$ onto a 2-channel 2D screen collapses the $3 \times 3$ determinant to zero, and how adding the $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth / `AOT` sideband channel restores the exact 3D volume $\det\Sigma_{\mathrm{3D}} > 0$. |
+| **Acyclic Network Nilpotency & Finite Transfer Fixed-Point**<br>(`WeightedAcyclicNetwork.nilpotent`, `transfer_equation`, `plabic_acyclic_transfer_3x3`) | $W^{h+1} = 0$ and $T = \sum_{k=0}^h W^k = I + W T$ | Certifies that finite-depth multi-layer optical, acoustic, or X-ray cascades terminate without unphysical feedback divergences and satisfy the exact single-step transfer recurrence $T = I + W T$. |
+| **Orthonormal $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ Multi-Spectral / Multi-Layer Subspace Projector**<br>(`pca_streak_orientation_plabic_transfer_and_grassmannian_projector_identities`, `multispectral_grassmannian_subspace_project`) | $P_U = U U^T$, $P_U^2 = P_U$, and $\|x\|^2 = \|P_U x\|^2 + \|(I - P_U) x\|^2$ | Separates in-subspace astrophysical SED or tissue/bone attenuation energy $E_\parallel = \|P_U x\|^2$ from orthogonal cosmic-ray or contrast-edge residuals $r_\perp^2 = \|(I - P_U) x\|^2$ on $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$. |
 
 ### 6.3 Boundary Between Nonnegative Plabic Networks ($\mathrm{Gr}_{\ge 0}(k, n)$) and Complex Twistor Grassmannians ($\mathrm{Gr}_{\mathbb{C}}(k, n)$)
 
@@ -490,6 +504,37 @@ example (splat : NormedTensorGaussianSplat3D) (hz : 0 < splat.centerZ)
     hl.2.2.2.2.2.1, hl.2.2.2.2.2.2.1, hl.2.2.2.2.2.2.2.2.2.1,
     hl.2.2.2.2.2.2.2.2.2.2.1, hl.2.2.2.2.2.2.2.2.2.2.2⟩
 
+-- Verification of 2D PCA cosmic-ray streak orientation (+45° vs -45° sign separation,
+-- Vieta eigenvalue trace/determinant laws), Plabic acyclic nilpotency (W^(h+1) = 0)
+-- & transfer fixed-point (T = 1 + W * T), and Pending MultiModalSubSurfaceImagingHypothesis bounds
+example (σ_rr σ_cc σ_rc : ℝ)
+    (V h width height : ℕ)
+    (net : Signals.Plabic.WeightedAcyclicNetwork V h)
+    (h_sub : Signals.Pending.MultiModalSubSurfaceImagingHypothesis width height) :
+    cosmicRayPrincipalEigenvaluePlus (5 / 4) (5 / 4) (5 / 4) = 5 / 2 ∧
+      cosmicRayPrincipalEigenvalueMinus (5 / 4) (5 / 4) (5 / 4) = 0 ∧
+      cosmicRayPrincipalEigenvaluePlus (5 / 4) (5 / 4) (-5 / 4) = 5 / 2 ∧
+      cosmicRayPrincipalEigenvalueMinus (5 / 4) (5 / 4) (-5 / 4) = 0 ∧
+      cosmicRayPrincipalEigenvaluePlus σ_rr σ_cc σ_rc +
+        cosmicRayPrincipalEigenvalueMinus σ_rr σ_cc σ_rc =
+        cosmicRayCovarianceTrace2D σ_rr σ_cc ∧
+      cosmicRayPrincipalEigenvaluePlus σ_rr σ_cc σ_rc *
+        cosmicRayPrincipalEigenvalueMinus σ_rr σ_cc σ_rc =
+        cosmicRayCovarianceDet2D σ_rr σ_cc σ_rc ∧
+      net.weight ^ (h + 1) = 0 ∧
+      net.transfer = 1 + net.weight * net.transfer ∧
+      h_sub.layerCode.topologicalDimension = 3 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq
+        h_sub.nanoLambda0Nm h_sub.nanoEffIndex
+        h_sub.nanoStedSatRatio h_sub.nanoHarmonicOrder < 1 := by
+  have hp := pca_streak_orientation_plabic_transfer_and_grassmannian_projector_identities
+    net σ_rr σ_cc σ_rc 1 1
+  have hs := SignalsPending.multi_modal_subsurface_imaging_layer_and_safety_bounds h_sub
+  exact ⟨hp.2.2.2.2.1, hp.2.2.2.2.2.1, hp.2.2.2.2.2.2.1, hp.2.2.2.2.2.2.2.1,
+    hp.2.2.2.2.2.2.2.2.2.1, hp.2.2.2.2.2.2.2.2.2.2.1,
+    hp.2.2.2.2.2.2.2.2.2.2.2.1, hp.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    hs.1, hs.2.2.2.2.2.1⟩
+
 end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 ```
 
@@ -501,26 +546,6 @@ end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 <a id="hubble-acs-ihb2025"></a>
 1. STScI ACS Team (2025). *Advanced Camera for Surveys Instrument Handbook for Cycle 34 (Version 24.0)*, Chapters 3.5, 4.2, & 4.3 (Baltimore: Space Telescope Science Institute). [https://hst-docs.stsci.edu/acsihb](https://hst-docs.stsci.edu/acsihb).
 
-
-(williamson2024layer)=
-<a id="williamson2024layer"></a>
-12. Williamson, D. J., & Baspin, N. (2024). Layer Codes. *Nature Communications*, 15(1), 9528. DOI: `10.1038/s41467-024-53881-3`; `arXiv:2309.16503`. [https://doi.org/10.1038/s41467-024-53881-3](https://doi.org/10.1038/s41467-024-53881-3).
-
-(postnikov2006plabic)=
-<a id="postnikov2006plabic"></a>
-13. Postnikov, A. (2006). Total positivity, Grassmannians, and networks. `arXiv:math/0609764`. [https://arxiv.org/abs/math/0609764](https://arxiv.org/abs/math/0609764).
-
-(lindstrom1973lgv)=
-<a id="lindstrom1973lgv"></a>
-14. Lindström, B. (1973). On the vector representations of induced matroids. *Bulletin of the London Mathematical Society*, 5(1), 85–90. DOI: `10.1112/blms/5.1.85`.
-
-(gessel1985lgv)=
-<a id="gessel1985lgv"></a>
-15. Gessel, I., & Viennot, G. (1985). Binomial determinants, paths, and hook length formulae. *Advances in Mathematics*, 58(3), 300–321. DOI: `10.1016/0001-8708(85)90121-5`.
-
-(layer-coding-chat2026)=
-<a id="layer-coding-chat2026"></a>
-16. Provenance Chat Logs (2026). *3D Star Topology & Layer Coding via Lignin-Vitrimer Welding, Single-Shot Syndrome Extraction, and Plabic Graph Integration into QECLean*. Local corpus: {download}`data/chats/Gemini-_08.md, lines 835–1165 <../data/chats/Gemini-_08.md>`, {download}`data/chats/_Quantum Processor and Soliton Discussions  .md, lines 3537–3705 <../data/chats/_Quantum Processor and Soliton Discussions  .md>`, and {download}`data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md, lines 320–375 <../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md>`.
 (hubble-wfc3-ihb2025)=
 <a id="hubble-wfc3-ihb2025"></a>
 2. Marinelli, M., & Green, J. (2025). *Wide Field Camera 3 Instrument Handbook for Cycle 34 (Version 18.0)*, Chapter 5.1 & 5.2 (Baltimore: Space Telescope Science Institute). [https://hst-docs.stsci.edu/wfc3ihb](https://hst-docs.stsci.edu/wfc3ihb).
@@ -560,6 +585,26 @@ end MultiSpectralHubbleMedicalNanoImagingPaperVerification
 (lvp-medical-chat2026)=
 <a id="lvp-medical-chat2026"></a>
 11. Provenance Chat Log (2026). *IQ Sampling for Signal Phase: LVP Medical Imaging Arrays (Direct Conversion X-Ray), Proca Waves for Topological Medical Scans, and Ångström Resolution Limits*. Local corpus: [docs/chats/IQ-Sampling-for-Signal-Phase.myst.md, lines 5891–6140](chats/IQ-Sampling-for-Signal-Phase.myst.md#L5891-L6140).
+
+(williamson2024layer)=
+<a id="williamson2024layer"></a>
+12. Williamson, D. J., & Baspin, N. (2024). Layer Codes. *Nature Communications*, 15(1), 9528. DOI: `10.1038/s41467-024-53881-3`; `arXiv:2309.16503`. [https://doi.org/10.1038/s41467-024-53881-3](https://doi.org/10.1038/s41467-024-53881-3).
+
+(postnikov2006plabic)=
+<a id="postnikov2006plabic"></a>
+13. Postnikov, A. (2006). Total positivity, Grassmannians, and networks. `arXiv:math/0609764`. [https://arxiv.org/abs/math/0609764](https://arxiv.org/abs/math/0609764).
+
+(lindstrom1973lgv)=
+<a id="lindstrom1973lgv"></a>
+14. Lindström, B. (1973). On the vector representations of induced matroids. *Bulletin of the London Mathematical Society*, 5(1), 85–90. DOI: `10.1112/blms/5.1.85`.
+
+(gessel1985lgv)=
+<a id="gessel1985lgv"></a>
+15. Gessel, I., & Viennot, G. (1985). Binomial determinants, paths, and hook length formulae. *Advances in Mathematics*, 58(3), 300–321. DOI: `10.1016/0001-8708(85)90121-5`.
+
+(layer-coding-chat2026)=
+<a id="layer-coding-chat2026"></a>
+16. Provenance Chat Logs (2026). *3D Star Topology & Layer Coding via Lignin-Vitrimer Welding, Single-Shot Syndrome Extraction, and Plabic Graph Integration into QECLean*. Local corpus: {download}`data/chats/Gemini-_08.md, lines 835–1165 <../data/chats/Gemini-_08.md>`, {download}`data/chats/_Quantum Processor and Soliton Discussions  .md, lines 3537–3705 <../data/chats/_Quantum Processor and Soliton Discussions  .md>`, and {download}`data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md, lines 320–375 <../data/chats/Grassmannian-Huygens-Principle-Amplituhedron.md>`.
 
 ```bibtex
 @misc{chat_hubble_sensor_design_2026,

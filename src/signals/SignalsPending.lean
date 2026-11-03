@@ -91,4 +91,39 @@ lemma hawking_synthesis_gpe_and_page_bounds
     contract.decoding.width_le_height,
     contract.als_rank_lt_page_bond_dimension h_entropy⟩
 
+/-- Summary lemma: in a `MultiModalSubSurfaceImagingHypothesis`, the 3D Layer-Code
+topological dimension (`= 3`), 1D line-junction dimension (`= 1`), and stabilizer weight
+bound (`≤ 6`), the LIFU Mechanical Index safety bound (`MI² ≤ 1.9²`), the TRUE optical
+time-reversal gain (`> 1`), the cascaded sub-nanometer linewidth (`w_nano² < 1`), and
+both the direct-conversion and Proca massless-control residuals hold simultaneously. -/
+@[blueprint "lem:pending-multi-modal-subsurface-imaging-bounds"
+  (title := "Pending multi-modal sub-surface imaging 3D Layer-Code, LIFU, TRUE, and <1nm bounds")
+  (statement := /-- For any \texttt{hypothesis : MultiModalSubSurfaceImagingHypothesis width height},
+    $\mathrm{layerCode}.\mathrm{topologicalDimension} = 3$,
+    $\mathrm{layerCode}.\mathrm{junctionDimension} = 1$,
+    $\mathrm{layerCode}.\mathrm{maximumStabilizerWeight} \le 6$,
+    $\mathrm{MI}^2 \le 1.9^2$, $1 < \eta_{\mathrm{TRUE}}(N_{\mathrm{modes}})$,
+    $w_{\mathrm{nano}}^2 < 1$, $\mathrm{imageResidual} \le \mathrm{imageResidualTolerance}$,
+    and $\mathrm{masslessControlResidual} \le \mathrm{masslessControlTolerance}$. -/)
+  (proof := /-- Apply \texttt{MultiModalSubSurfaceImagingHypothesis.safety\_and\_resolution\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma multi_modal_subsurface_imaging_layer_and_safety_bounds
+    {width height : ℕ}
+    (hypothesis : MultiModalSubSurfaceImagingHypothesis width height) :
+    hypothesis.layerCode.topologicalDimension = 3 ∧
+      hypothesis.layerCode.junctionDimension = 1 ∧
+      hypothesis.layerCode.maximumStabilizerWeight ≤ 6 ∧
+      Signals.MultiArrayImaging.lifuMechanicalIndexSq
+        hypothesis.lifuPeakNegPressureMPa hypothesis.lifuFreqMHz ≤ (19 / 10 : ℝ) ^ 2 ∧
+      1 < Signals.MultiArrayImaging.trueOpticalPeakToBackgroundGain
+        hypothesis.trueControlledModes ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq
+        hypothesis.nanoLambda0Nm hypothesis.nanoEffIndex
+        hypothesis.nanoStedSatRatio hypothesis.nanoHarmonicOrder < 1 ∧
+      hypothesis.directConversion.imageResidual ≤
+        hypothesis.directConversion.imageResidualTolerance ∧
+      hypothesis.procaHypothesis.masslessControlResidual ≤
+        hypothesis.procaHypothesis.masslessControlTolerance :=
+  hypothesis.safety_and_resolution_bounds
+
 end SignalsPending

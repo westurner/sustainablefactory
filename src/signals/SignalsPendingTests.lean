@@ -5191,6 +5191,7 @@ example :
         toyMultiModalSubSurfaceImaging.directConversion.imageResidualTolerance ∧
       toyMultiModalSubSurfaceImaging.procaHypothesis.masslessControlResidual ≤
         toyMultiModalSubSurfaceImaging.procaHypothesis.masslessControlTolerance :=
-  toyMultiModalSubSurfaceImaging.safety_and_resolution_bounds
+  SignalsPending.multi_modal_subsurface_imaging_layer_and_safety_bounds
+    toyMultiModalSubSurfaceImaging
 
 end SignalsPendingTests
