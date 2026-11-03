@@ -4,7 +4,8 @@
 **Companion Lean 4 Formalization**: [`src/signals/Signals/QuantumCausalInference.lean`](../src/signals/Signals/QuantumCausalInference.lean), [`src/signals/Signals/Plabic.lean`](../src/signals/Signals/Plabic.lean), [`src/signals/Signals/LayerCodes.lean`](../src/signals/Signals/LayerCodes.lean), [`src/signals/Signals/Pending.lean`](../src/signals/Signals/Pending.lean), [`src/signals/SignalsPending.lean`](../src/signals/SignalsPending.lean)
 **Companion Rust / WASM Implementation**: [`src/signals/numerical_adapter/src/quantum_causal_inference.rs`](../src/signals/numerical_adapter/src/quantum_causal_inference.rs)
 **Companion Papers**:
-- [Unified Grassmannian Synthesis & 18-Domain Roadmap (`grassmannian-unification-applications-roadmap-paper.md`)](grassmannian-unification-applications-roadmap-paper.md)
+- [Unified Grassmannian Synthesis & 19-Domain Roadmap (`grassmannian-unification-applications-roadmap-paper.md`)](grassmannian-unification-applications-roadmap-paper.md)
+- [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study GPE, Dual-Schubert `iGPE`, & Homogeneous Plücker $\mathcal{Q}_4$ Madelung Hydrodynamics (`grassmannian-complex-gpe-igpe-plucker-madelung-paper.md`)](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md)
 - [Multi-Spectral & Multi-Array Grassmannian Imaging & 3D Layer-Coding `Plabic` Provenance (`grassmannian-multispectral-hubble-medical-nanoimaging-paper.md`)](grassmannian-multispectral-hubble-medical-nanoimaging-paper.md)
 - [Causal Second-Sound Thermal Conduction, Inverse Compton, & Raman Thermometry (`grassmannian-thermal-compton-raman-paper.md`)](grassmannian-thermal-compton-raman-paper.md)
 - [Huygens–Steiner Double-Slit, OAM, & Plabic LGV Networks (`grassmannian-huygens-double-slit-oam-paper.md`)](grassmannian-huygens-double-slit-oam-paper.md)
@@ -67,10 +68,10 @@ At first glance, **material phase diagrams and the Mpemba effect** (why hot wate
 
 | Question in a Quantum / Material Reset Cycle | Subject That Answers It | Shared Mathematical Object in `Signals` |
 |---|---|---|
-| **1. What does the material's terrain look like?** (Why are there slow metastable traps and fast lanes near phase transitions?) | **Phase-Diagram Complexity & Landau Mpemba Theory** ([Holtzman & Raz 2022](#holtzman2022landau)) | Quartic landscape $F(\eta)$ and slow-mode orthogonal projector $P_{\perp v_2} \in \mathrm{Gr}_{\mathbb{R}}(N-1, N)$ |
+| **1. What does the material's terrain look like?** (Why are there slow metastable traps and fast lanes near phase transitions?) | **Phase-Diagram Complexity & Landau Mpemba Theory** ([Holtzman & Raz 2022](#holtzman2022landau)) | 3D $P\text{--}V\text{--}T$ van der Waals / water ice-hump (`vanDerWaalsPressure`, `waterAnomalousFreezingVolume`), Landau barrier $\Delta F_{\mathrm{barrier}}(T) = \frac{a_0^2(T-T_c)^2}{4b}$ (`landauDoubleWellBarrierHeight`), and projector $P_{\perp v_2} \in \mathrm{Gr}_{\mathbb{R}}(N-1, N)$ |
 | **2. Which state shortcuts are allowed by the laws of thermodynamics?** | **Quantum Resource Theory ([Summer et al. 2026](#summer2026resource)) & Constructor Theory ([Marletto 2015](#marletto2015info))** | Thermo-majorization preorder $\rho \succ_{\mathrm{th}} \sigma$ and task surplus $\Sigma_{\mathrm{task}} \ge 0$ |
 | **3. How can quantum entanglement reduce or relocate the heat of a reset step?** | **Conditional Landauer Erasure / "Entropy Siphoning"** ([del Rio et al. 2011](#delrio2011negative)) | Single-shot $Q(F) = k_B T \ln 2\,(1-2F)$, Werner threshold $F_* \approx 0.8107$, and closed-loop reset bound |
-| **4. How do we intervene to trigger the shortcut and prove it wasn't a confounding artifact?** | **Quantum Causal Inference & Counterfactual Semantics** ([Giarmatzi & Costa 2023](#giarmatzi2023semantics); [Pearl 2009](#pearl2009causality)) | Plabic/DAG transfer $T = (I-W)^{-1}$, $\operatorname{do}(X)$ surgery, Choi subspaces, and $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Quantum Switch |
+| **4. How do we intervene to trigger the shortcut and prove it wasn't a confounding artifact?** | **Quantum Causal Inference & Counterfactual Semantics** ([Giarmatzi & Costa 2023](#giarmatzi2023semantics); [Pearl 2009](#pearl2009causality)) | Plabic/DAG transfer $T = (I-W)^{-1}$, $\operatorname{do}(X)$ surgery, Choi subspaces, $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Quantum Switch, and Master Theorem 4 (`phase_diagram_complexity_mpemba_and_quantum_causal_synthesis_identities`) |
 
 **When should they be treated separately?**
 If a reader only needs **classical DAG causal discovery** (e.g., removing sensor confounding via `causal_dag_do_surgery_3x3`) or only needs **classical material phase relaxation** (without quantum entanglement), the modules can be used independently. They belong **together in this paper** because in quantum hardware design (such as QPU ancilla reset and non-equilibrium state preparation) and in the provenance chat corpus ([`_Mpemba Effect_ Landau vs. Quantum .md`](../data/chats/_Mpemba%20Effect_%20Landau%20vs.%20Quantum%20.md)), **bypassing slow phase-space bottlenecks (Mpemba)**, **relocating erasure heat via entanglement (conditional Landauer)**, and **proving causal attribution via $\operatorname{do}$-interventions** are the exact same physical operation viewed from dynamics, thermodynamics, and causal inference, all unified by **Grassmannian subspace projection**.
@@ -502,6 +503,43 @@ example (x0 x1 fidelity : ℝ) (zAB zBA z : ℂ) :
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+-- 4. Verification of 3D P-V-T van der Waals surface, water ice-hump volume expansion,
+-- Landau T > T_c vs. T < T_c phase-transition barrier dichotomy, Strong Mpemba Gr_R(1,2)
+-- slow-mode annihilation, do-surgery deconfounding, and conditional Landauer / Second-Law synthesis
+example (x0 x1 fidelity : ℝ) :
+    0 < vanDerWaalsPressure (1 / 10) 80 2 (1 / 2) 1 -
+        vanDerWaalsPressure (1 / 10) 30 2 (1 / 2) 1 ∧
+      waterAnomalousFreezingVolume 18 (3 / 2) 280 273 = 18 ∧
+      waterAnomalousFreezingVolume 18 (3 / 2) 265 273 = 39 / 2 ∧
+      waterAnomalousFreezingVolume 18 (3 / 2) 280 273 <
+        waterAnomalousFreezingVolume 18 (3 / 2) 265 273 ∧
+      0 < landauOrderCoeff 1 300 273 ∧
+      0 < landauFreeEnergy 1 (landauOrderCoeff 1 300 273) 2 0 ∧
+      landauOrderCoeff 1 271 273 < 0 ∧
+      landauFreeEnergy 0 (landauOrderCoeff 1 271 273) 2 0 -
+          landauFreeEnergy 1 (landauOrderCoeff 1 271 273) 2 0 =
+        landauDoubleWellBarrierHeight 1 271 273 2 ∧
+      0 < landauDoubleWellBarrierHeight 1 271 273 2 ∧
+      mpembaProjectedSlowOverlap (3 / 5) (4 / 5) x0 x1 = 0 ∧
+      causalObservationalTransfer 5 2 - causalInterventionalDoTransfer 5 2 = 2 ∧
+      entropySiphonCounterfactualGain 1 1 0 = -2 ∧
+      (1 / 2 : ℝ) < wernerConditionalEntropyBitsAtHalf ∧
+      1 ≤ closedLoopErasureAndMemoryResetHeat 1 fidelity (1 / 10) := by
+  have h :=
+    phase_diagram_complexity_mpemba_and_quantum_causal_synthesis_identities
+      (1 / 10) 30 80 2 (1 / 2) 1 18 (3 / 2) 265 273 280
+      1 273 300 271 2 1 1 (3 / 5) (4 / 5) x0 x1 5 2 1 fidelity (1 / 10)
+      (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by unfold landauOrderCoeff; norm_num)
+      (by norm_num) (by norm_num) (by norm_num)
+  refine ⟨h.2.1, h.2.2.1, by linarith [h.2.2.2.1], h.2.2.2.2.1,
+    h.2.2.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1, by linarith [h.2.2.2.2.2.2.2.2.2.2.2.2.1],
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
 end QuantumCausalInferenceMpembaPaperVerification
 ```

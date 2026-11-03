@@ -232,6 +232,22 @@ As proved in `Signals.DDF` Section 30.6 ([src/signals/Signals/DDF.lean](../src/s
 - **3D Layer-Coding Provenance of `Signals.Plabic` & Multi-Layer LGV Sensor Cascades (`layer_coding_plabic_lgv_and_multi_array_imaging_identities`, `pca_streak_orientation_plabic_transfer_and_grassmannian_projector_identities`, `LayerCodeLift`)**:
   `Signals.Plabic` ([src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean)) originated from implementing **3D Layer Coding** (`QEC.Stabilizer.Codes.Layer` in `src/QECLean/QEC/Stabilizer/Codes/Layer.lean` and `LayerCodeLift` in [src/signals/Signals/LayerCodes.lean](../src/signals/Signals/LayerCodes.lean); [Williamson & Baspin 2024](#unif-williamson2024)), where stacked $xz/xy/yz$ surface-code sheets ($N_{\mathrm{surface}} = 6 n n_X n_Z + 2(n n_X + n n_Z + n_X n_Z)$, $10 + 12 = 22$ point-defect cases, check weight $w \le 6$) are routed via bicolored star hubs (`RotationSystem.boundaryPerm`) and acyclic transfer matrices (`WeightedAcyclicNetwork`, $W^{h+1} = 0$, $T = I + W T$). Its guarded calibration subdivision (`subdivision_boundary`), parallel dither diamond reduction (`diamond_transfer`), shared-hub rank collapse (`singleHubRepresentative_det`), multi-layer LGV cascade positivity (`lgv_multiLayer_det_positive`), 3-through-2 screen bottleneck collapse ($\det(A B) = 0$, `planar_threeChannel_lgv_and_bottleneck_identities`), signed 2D PCA cosmic-ray streak orientation ($\lambda_\pm$, $\theta_{\mathrm{PCA}} = \frac{1}{2}\operatorname{atan2}(2\sigma_{rc}, \sigma_{cc} - \sigma_{rr})$), and orthonormal $\mathrm{Gr}_{\mathbb{R}}(d, \Lambda)$ subspace projection (`multispectral_grassmannian_subspace_project`) directly govern multi-layer Hubble filter stacks, depth-stacked `LVP` medical X-ray panels, `LIFU` acoustic matching layers, and 3D volumetric splat reconstruction.
 
+### 2.6 Grassmannian Quantum Causal Inference, Mpemba Phase-Transition Shortcuts, & Conditional Landauer Thermal Auditing (`Signals.QuantumCausalInference`, `quantum_causal_inference.rs`)
+
+- **Plabic / LGV Causal Transfer, d-Separation Bottlenecks, & Pearl's $\operatorname{do}(X)$ Surgery (`grassmannian_causal_relations_do_calculus_and_quantum_switch_identities`, `causal_dag_do_surgery_3x3`)**:
+  Formalizes acyclic structural causal transfer $T = (I - W)^{-1} = I + W T$ (`WeightedAcyclicNetwork.transfer_equation`), proving that $k$ causes act on $k$ outcomes through unconfounded vertex-disjoint pathways iff $\det T_{A,B} > 0$, whereas shared confounders or $m < k$ mediator bottlenecks collapse the Plücker minor to $\det T_{A,B} = 0$ (`singleHubRepresentative_det`), and incoming-edge surgery $\operatorname{do}(X := x)$ isolates the direct causal effect $C_{\mathrm{do}} = d$ from backdoor confounding bias $C_{\mathrm{obs}} - C_{\mathrm{do}} = b$.
+- **Quantum Counterfactuals (`arXiv:2302.11783`), Indefinite Causal Order (`Quantum Switch`), & OCB Causal Inequality Violation (`quantumSwitchCausalAsymmetry`, `ocbQuantumIndefiniteBound`)**:
+  Proves Giarmatzi–Costa ([2023](#unif-giarmatzi2023)) Abduction–Action–Prediction counterfactual identities, Choi–Jamiołkowski process subspace dimensions $\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{C}}(k, d_{\mathrm{in}}d_{\mathrm{out}}) = 2k(d_{\mathrm{in}}d_{\mathrm{out}}-k)$ ($\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{C}}(4,16) = 96$), exact $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker channel recovery of the Quantum Switch commutator-to-anticommutator ratio $\|w_B^{\mathbb{C}}\|^2 / \|w_A^{\mathbb{C}}\|^2 = E_- / E_+$, and the Oreshkov–Costa–Brukner causal inequality violation $p_{\mathrm{OCB}}^{\mathrm{causal}} = 3/4 < \frac{2+\sqrt{2}}{4} = p_{\mathrm{OCB}}^{\mathrm{quantum}}$.
+- **3D $P\text{--}V\text{--}T$ / Landau Phase-Diagram Complexity, Strong Mpemba $\mathrm{Gr}_{\mathbb{R}}(1,2)$ Projection, & Conditional Landauer Audit (`phase_diagram_complexity_mpemba_and_quantum_causal_synthesis_identities`)**:
+  Connects the 3D van der Waals / water ice-hump equation of state (`vanDerWaalsPressure`, `waterAnomalousFreezingVolume`) and the Landau phase-transition barrier dichotomy ($T > T_c$ convex single valley vs. $T < T_c$ double-well barrier $\Delta F_{\mathrm{barrier}}(T) = \frac{a_0^2(T-T_c)^2}{4b} > 0$, [Holtzman & Raz 2022](#unif-holtzman2022)) to Strong Mpemba slow-mode annihilation (`mpembaProjectedSlowOverlap c s x0 x1 = 0`), QRT thermo-majorization ([Summer et al. 2026](#unif-summer2026)), Constructor Theory task composition, and `del Rio et al. (2011)` ([del Rio et al. 2011](#unif-delrio2011)) single-shot conditional Landauer erasure vs. the isotropic Werner threshold ($p_* \approx 0.747614 \mapsto F_* \approx 0.810710$, $S(A\mid O)_{\mathrm{Werner}}(1/2) = \frac{\ln 3}{2\ln 2} > 1/2 > 0$), closed-loop Second-Law reset ($Q_{\mathrm{closed}} \ge k_B T \ln 2$), and the $-0.750\text{ }\mu\text{W}$ numerical audit of `lignolux_entropy_siphon_sim.py`.
+
+### 2.7 Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study GPE, Dual-Schubert `iGPE`, & Homogeneous Plücker $\mathcal{Q}_4$ Madelung Hydrodynamics (`Signals.DDF` Sec. 30, `madelung_lagrangian.rs`)
+
+- **Cauchy–Binet Kähler Identity & Corrected Klein Quadric Projector (`kahlerDetFactor_eq_pluckerNormSq_and_ge_one`, `plucker_hodge_klein_quadric_and_projector_identities`)**:
+  Proves $\det(I_2 + W W^\dagger) = \|p(I_2 \mid W)\|_{\mathbb{C}^6}^2 \ge 1$ on $Gr_{\mathbb{C}}(2,4)$, Einstein–Kähler scalar curvature $R_{\mathrm{Gr}}(2,4) = 16$, and exact annihilation of both radial scaling $p$ and the conjugate Hodge normal $n(p) = \overline{\tilde{p}}$ by the contravariant Klein quadric projector $\mathcal{H}^{I\bar{J}}(p)$.
+- **Dual-Schubert $Gr_{\mathbb{C}}(2,4) \times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Penrose Bohm–Weyl Dictionary, & Deborah Shear-Fracture Threshold (`plucker_madelung_qhj_inverse_igpe_and_weyl_bridge_identities`, `turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models`)**:
+  Proves joint symplectic Noether continuity $\partial_t(\rho_{\mathrm{real}}+\rho_{\mathrm{dual}}) + \nabla\cdot(\mathbf{J}_{\mathrm{real}}+\mathbf{J}_{\mathrm{dual}}) = 0$, the Penrose Bohm–Weyl curvature identity $W_{\mathrm{Weyl}} + \frac{1}{24}R_{4\mathrm{D}} = \frac{2\mathcal{M}}{\hbar^2}Q_{\mathrm{Pl\ddot{u}cker}}$, the super-critical Deborah fracture condition $\hbar^2\omega^2 < 0 \iff \mathrm{De}/\mathrm{De}_c > 1$, and zero-error ($\varepsilon_{\mathrm{rel}} = 0$) reductions for the revised Turner (2026) Superposition (Model 6), 1PN Gravity (Models 14a/14b), and 2.5PN Gravitational-Wave (Models 14a/14b) models.
+
 ---
 
 ## 3. Cross-Document Architecture: What Belongs in Which Document & Summary of Existing Plan Documents
@@ -402,6 +418,14 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     (16777216 : ℝ) * Signals.MultiArrayImaging.multiExposureCosmicRaySurvivalProb (3 / 200) 4 < 1 ∧
     1 < Signals.MultiArrayImaging.trueOpticalPeakToBackgroundGain 1024 ∧
     Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 (27 / 2) 99 3 < 1 ∧
+    -- (18) Paper 18 (Quantum Causal Inference, Mpemba Gr_R(1,2) Projector, OCB Witness, & Conditional Landauer / Werner Audit):
+    Signals.QuantumCausalInference.causalObservationalTransfer 5 2 -
+        Signals.QuantumCausalInference.causalInterventionalDoTransfer 5 2 = 2 ∧
+    Signals.QuantumCausalInference.mpembaProjectedSlowOverlap (3 / 5) (4 / 5) x y = 0 ∧
+    Signals.QuantumCausalInference.ocbCausalSeparableBound <
+        Signals.QuantumCausalInference.ocbQuantumIndefiniteBound ∧
+    (1 / 2 : ℝ) < Signals.QuantumCausalInference.wernerConditionalEntropyBitsAtHalf ∧
+    (1 : ℝ) ≤ Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat 1 (99 / 100) (1 / 10) ∧
     -- (19) Paper 19 & Revised Turner (2026) Superposition (Model 6), Gravity (Models 14a/14b), & GW (Models 14a/14b):
     OnKleinQuadric p_slit ∧
     p_slit 4 = z1 + z2 ∧
@@ -471,6 +495,16 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
   have h17_img := Signals.MultiArrayImaging.multi_array_hubble_lvp_lifu_true_aot_and_subnanometer_imaging_identities
     60000 100 1 θ 4 1 1024 1
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h18_qci := Signals.QuantumCausalInference.phase_diagram_complexity_mpemba_and_quantum_causal_synthesis_identities
+    (1 / 10) 30 80 2 (1 / 2) 1 18 (3 / 2) 265 273 280
+    1 273 300 271 2 1 1 (3 / 5) (4 / 5) x y 5 2 1 (99 / 100) (1 / 10)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by unfold Signals.QuantumCausalInference.landauOrderCoeff; norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+  have h18_ocb := (Signals.QuantumCausalInference.grassmannian_mpemba_projector_werner_threshold_and_ocb_causal_witness_identities
+    2 3 4 (3 / 5) (4 / 5) x y (99 / 100) (by norm_num) 0 0 0).2.2.2.2.2.2.2.2.2.2.1
   have h19_rev := turner_2026_revised_superposition_gravity_and_gw_plucker_igpe_models
     s re orb s_pl z1 z2 3 2 4 6 1 5 (1 / 10) 1 1 2 0 0 0 (1 / 3) (1 / 5) 2 (1 / 100) (1 / 100)
     (by norm_num) (by norm_num) (by norm_num)
@@ -489,6 +523,8 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     lt_trans h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
       h17_img.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    h18_qci.2.2.2.2.2.2.2.2.2.2.2.1, h18_qci.2.2.2.2.2.2.2.2.2.2.1,
+    h18_ocb, h18_qci.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h18_qci.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
     h19_rev.1, h19_rev.2.2.2.1, fun h_eq => (h19_rev.2.2.2.2.1 h_eq).2,
     h19_rev.2.2.2.2.2.2.1, h19_rev.2.2.2.2.2.2.2.2.2.1,
     h19_rev.2.2.2.2.2.2.2.2.2.2.2.2.1,
@@ -598,6 +634,16 @@ end ArxivCapstoneNineteenPaperUnificationVerification
 <a id="unif-zaruba2019"></a>
 20. Richards, B., and Wolf, E. (1959). *Electromagnetic Diffraction in Optical Systems, II*. Proc. R. Soc. Lond. A 253, 358–379; Dorn, R., Quabis, S., and Leuchs, G. (2003). *Sharper Focus for a Radially Polarized Light Beam*. Physical Review Letters 91(23), 233901; Poddubny, A., Iorsh, I., Belov, P., and Kivshar, Y. (2013). *Hyperbolic Metamaterials*. Nature Photonics 7, 948–957; Zaruba, F., and Benini, L. (2019). *The Cost of Application-Class Processing: Energy and Performance Analysis of a Linux-Ready 1.7-GHz 64-Bit RISC-V Core in 22-nm FDSOI Technology*. IEEE TVLSI 27(11), 2629–2640.
 
+(unif-holtzman2022)=
+<a id="unif-holtzman2022"></a>
+(unif-summer2026)=
+<a id="unif-summer2026"></a>
+(unif-giarmatzi2023)=
+<a id="unif-giarmatzi2023"></a>
+(unif-delrio2011)=
+<a id="unif-delrio2011"></a>
+21. Holtzman, R., and Raz, O. (2022). *Landau theory for the Mpemba effect through phase transitions*. Communications Physics 5(1), 280 ([DOI: 10.1038/s42005-022-01063-2](https://doi.org/10.1038/s42005-022-01063-2)); Summer, A., Moroder, M., Bettmann, L. P., Turkeshi, X., Marvian, I., and Goold, J. (2026). *Resource-Theoretical Unification of Mpemba Effects: Classical and Quantum*. Physical Review X 16, 011050 ([DOI: 10.1103/rbt4-psfd](https://doi.org/10.1103/rbt4-psfd)); Giarmatzi, C., and Costa, F. (2023). *A Semantics for Counterfactuals in Quantum Causal Models* ([arXiv:2302.11783](https://arxiv.org/abs/2302.11783)); del Rio, L., Åberg, J., Renner, R., Dahlsten, O., and Vedral, V. (2011). *The thermodynamic meaning of negative entropy*. Nature 474(7349), 61–63 ([DOI: 10.1038/nature10123](https://doi.org/10.1038/nature10123)).
+
 
 ---
 
@@ -607,6 +653,14 @@ end ArxivCapstoneNineteenPaperUnificationVerification
 @article{turner2026grassmannian_unification,
   author  = {Turner, Wes},
   title   = {Unification, Engineering Applications, and Research Roadmap of Complex {G}rassmannian {$Gr_{\mathbb{C}}(2,4)$} and {D}ilatant {D}ark {F}luid ({DDF}) Mechanics: Cross-Domain {P}l{\"u}cker Invariants, Photonic--Thermal--Quantum Systems, and Formal Verification in {L}ean 4},
+  journal = {Sustainable Factory Research Archive},
+  year    = {2026},
+  note    = {Verified in Lean 4 (v4.35.0-rc3) and Rust/WASM}
+}
+
+@article{turner2026grassmannian_quantum_causal_mpemba,
+  author  = {Turner, Wes},
+  title   = {{G}rassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the {M}pemba / Entropy-Siphoning Laws in {L}ean 4 and {R}ust/{WASM}},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3) and Rust/WASM}

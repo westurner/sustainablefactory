@@ -270,6 +270,68 @@ pub fn apply_strong_mpemba_gr12_projector(
     Ok((proj, x_proj, slow_overlap))
 }
 
+/// Van der Waals 3D $P\text{--}V\text{--}T$ equation-of-state pressure
+/// $P_{\mathrm{vdW}}(R, T, V, b_{\mathrm{cov}}, a_{\mathrm{attr}}) = \frac{R T}{V - b_{\mathrm{cov}}} - \frac{a_{\mathrm{attr}}}{V^2}$
+/// (`_Mpemba Effect_ Landau vs. Quantum .md`, lines 140–180;
+/// `Signals.QuantumCausalInference.vanDerWaalsPressure`).
+pub fn van_der_waals_pressure(
+    r_gas: f64,
+    temp_k: f64,
+    volume: f64,
+    b_covolume: f64,
+    a_attraction: f64,
+) -> Result<f64, ValidationError> {
+    require_positive("r_gas", r_gas)?;
+    require_finite("temp_k", temp_k)?;
+    require_positive("volume", volume)?;
+    require_positive("volume - b_covolume", volume - b_covolume)?;
+    require_finite("a_attraction", a_attraction)?;
+    Ok((r_gas * temp_k) / (volume - b_covolume) - a_attraction / (volume * volume))
+}
+
+/// Piecewise molar volume of water across the freezing boundary $T_{\mathrm{freeze}}$, capturing
+/// water's anomalous expansion ("the Ice Hump", $\Delta V_{\mathrm{ice}} > 0$ for $T < T_{\mathrm{freeze}}$;
+/// `Signals.QuantumCausalInference.waterAnomalousFreezingVolume`).
+#[inline]
+pub fn water_anomalous_freezing_volume(
+    v_liquid: f64,
+    delta_v_ice: f64,
+    temp_k: f64,
+    t_freeze_k: f64,
+) -> f64 {
+    if temp_k < t_freeze_k {
+        v_liquid + delta_v_ice
+    } else {
+        v_liquid
+    }
+}
+
+/// Temperature-dependent quadratic Landau coefficient $a(T) = a_0 (T - T_c)$ across critical
+/// phase-transition temperature $T_c$ (`Holtzman & Raz 2022`;
+/// `Signals.QuantumCausalInference.landauOrderCoeff`).
+#[inline]
+pub fn landau_order_coeff(a0: f64, temp_k: f64, t_critical_k: f64) -> f64 {
+    a0 * (temp_k - t_critical_k)
+}
+
+/// Metastable hilltop-to-valley activation barrier height
+/// $\Delta F_{\mathrm{barrier}}(T) = F(0, T) - F(\eta_\pm, T) = \frac{a_0^2 (T - T_c)^2}{4 b}$
+/// in the symmetry-broken multi-phase regime $T < T_c$ (`Holtzman & Raz 2022`;
+/// `Signals.QuantumCausalInference.landauDoubleWellBarrierHeight`).
+pub fn landau_double_well_barrier_height(
+    a0: f64,
+    temp_k: f64,
+    t_critical_k: f64,
+    b_quartic: f64,
+) -> Result<f64, ValidationError> {
+    require_positive("a0", a0)?;
+    require_finite("temp_k", temp_k)?;
+    require_finite("t_critical_k", t_critical_k)?;
+    require_positive("b_quartic", b_quartic)?;
+    let a_t = landau_order_coeff(a0, temp_k, t_critical_k);
+    Ok((a_t * a_t) / (4.0 * b_quartic))
+}
+
 /// Quantum Resource Theory (QRT) non-equilibrium free-energy difference
 /// $\Delta F(\rho \| \gamma_\beta) = k_B T \ln 2 \cdot D_{\mathrm{KL}}(\rho \| \gamma_\beta)$
 /// (`Summer et al. 2026`, `Signals.QuantumCausalInference.qrtNonEquilibriumFreeEnergy`).
@@ -464,8 +526,8 @@ pub fn conditional_entropy_linear_bits(fidelity: f64) -> f64 {
 /// $\rho_W(F) = F|\Phi^+\rangle\langle\Phi^+| + \frac{1-F}{3}(I_4 - |\Phi^+\rangle\langle\Phi^+|)$
 /// with Bell fidelity $F \in [0, 1]$ (`del Rio et al. 2011`, *Nature* 474, 61–63).
 /// Note that for an isotropic Werner state, $S(A\mid O)_{\mathrm{Werner}} < 0$ requires
-/// $F > F_* \approx 0.747614$, whereas the chat's linear formula $1 - 2F$ assumes a rank-2 mixture
-/// with zero-crossing at $F = 0.5$.
+/// Bell singlet fidelity $F > F_* \approx 0.810710$ (Werner visibility $p > p_* \approx 0.747614$),
+/// whereas the chat's linear formula $1 - 2F$ assumes a rank-2 mixture with zero-crossing at $F = 0.5$.
 pub fn exact_werner_conditional_entropy_bits(fidelity: f64) -> Result<f64, ValidationError> {
     require_finite("fidelity", fidelity)?;
     if !(0.0..=1.0).contains(&fidelity) {
@@ -604,6 +666,17 @@ pub extern "C" fn signals_lignolux_tape_siphon_power_watts(
     lignolux_tape_siphon_power_watts(t_kelvin, fidelity, n_ancillas, f_qec_hz)
 }
 
+/// C-ABI / WASM export: evaluates `landau_double_well_barrier_height` (returns `NaN` on invalid inputs).
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_landau_double_well_barrier_height(
+    a0: f64,
+    temp_k: f64,
+    t_critical_k: f64,
+    b_quartic: f64,
+) -> f64 {
+    landau_double_well_barrier_height(a0, temp_k, t_critical_k, b_quartic).unwrap_or(f64::NAN)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -675,9 +748,38 @@ mod tests {
 
     #[test]
     fn mpemba_landau_qrt_constructor_theory_and_entropy_siphon_audit_work() {
-        // 1. Landau free-energy double well & Strong Mpemba crossing:
+        // 1. Landau free-energy double well, 3D P-V-T surface / water ice-hump, & Strong Mpemba crossing:
         assert!(landau_free_energy(0.0, -2.0, 2.0, 0.0).abs() < 1e-12);
         assert!((landau_free_energy(1.0, -2.0, 2.0, 0.0) - (-0.5)).abs() < 1e-12);
+
+        // 3D P-V-T van der Waals surface (`P_surface = (0.1 * T) / (V - 0.5) - 1 / V^2`) and water ice-hump:
+        let p_hot_vdw = van_der_waals_pressure(0.1, 80.0, 2.0, 0.5, 1.0).unwrap();
+        let p_cold_vdw = van_der_waals_pressure(0.1, 30.0, 2.0, 0.5, 1.0).unwrap();
+        assert!(((p_hot_vdw - p_cold_vdw) - (0.1 * 50.0 / 1.5)).abs() < 1e-12);
+        let v_liq = water_anomalous_freezing_volume(18.0, 1.62, 280.0, 273.15);
+        let v_ice = water_anomalous_freezing_volume(18.0, 1.62, 265.0, 273.15);
+        assert!((v_liq - 18.0).abs() < 1e-12);
+        assert!((v_ice - 19.62).abs() < 1e-12);
+        assert!(v_ice > v_liq);
+
+        // Landau phase-transition complexity dichotomy across T_c = 273 K:
+        let a_above = landau_order_coeff(1.0, 300.0, 273.0);
+        assert!(a_above > 0.0);
+        assert!(landau_free_energy(1.0, a_above, 2.0, 0.0) > 0.0);
+        let a_below = landau_order_coeff(1.0, 271.0, 273.0);
+        assert!((a_below - (-2.0)).abs() < 1e-12);
+        let barrier = landau_double_well_barrier_height(1.0, 271.0, 273.0, 2.0).unwrap();
+        assert!((barrier - 0.5).abs() < 1e-12);
+        assert!(
+            ((landau_free_energy(0.0, a_below, 2.0, 0.0)
+                - landau_free_energy(1.0, a_below, 2.0, 0.0))
+                - barrier)
+                .abs()
+                < 1e-12
+        );
+        assert!(
+            (signals_landau_double_well_barrier_height(1.0, 271.0, 273.0, 2.0) - 0.5).abs() < 1e-12
+        );
 
         // Strong Mpemba Gr_R(1,2) orthogonal complement projector for v_slow = (3/5, 4/5):
         let (proj, x_proj, slow_overlap) =

@@ -6494,6 +6494,50 @@ example (x0 x1 fidelity : ℝ) (zAB zBA z : ℂ) :
   unfold Signals.QuantumCausalInference.confoundedDagTransfer02
   norm_num
 
+/-- 3D $P\text{--}V\text{--}T$ van der Waals surface, water ice-hump volume expansion,
+Landau $T > T_c$ vs. $T < T_c$ phase-transition barrier dichotomy, Strong Mpemba
+$\mathrm{Gr}_{\mathbb{R}}(1,2)$ slow-mode annihilation, $\operatorname{do}$-surgery, and
+conditional Landauer vs. closed-loop Second-Law synthesis (`Signals.QuantumCausalInference`). -/
+example (x0 x1 fidelity : ℝ) :
+    0 < Signals.QuantumCausalInference.vanDerWaalsPressure (1 / 10) 80 2 (1 / 2) 1 -
+        Signals.QuantumCausalInference.vanDerWaalsPressure (1 / 10) 30 2 (1 / 2) 1 ∧
+      Signals.QuantumCausalInference.waterAnomalousFreezingVolume 18 (3 / 2) 280 273 = 18 ∧
+      Signals.QuantumCausalInference.waterAnomalousFreezingVolume 18 (3 / 2) 265 273 = 39 / 2 ∧
+      Signals.QuantumCausalInference.waterAnomalousFreezingVolume 18 (3 / 2) 280 273 <
+        Signals.QuantumCausalInference.waterAnomalousFreezingVolume 18 (3 / 2) 265 273 ∧
+      0 < Signals.QuantumCausalInference.landauOrderCoeff 1 300 273 ∧
+      0 < Signals.QuantumCausalInference.landauFreeEnergy 1
+        (Signals.QuantumCausalInference.landauOrderCoeff 1 300 273) 2 0 ∧
+      Signals.QuantumCausalInference.landauOrderCoeff 1 271 273 < 0 ∧
+      Signals.QuantumCausalInference.landauFreeEnergy 0
+          (Signals.QuantumCausalInference.landauOrderCoeff 1 271 273) 2 0 -
+        Signals.QuantumCausalInference.landauFreeEnergy 1
+          (Signals.QuantumCausalInference.landauOrderCoeff 1 271 273) 2 0 =
+        Signals.QuantumCausalInference.landauDoubleWellBarrierHeight 1 271 273 2 ∧
+      0 < Signals.QuantumCausalInference.landauDoubleWellBarrierHeight 1 271 273 2 ∧
+      Signals.QuantumCausalInference.mpembaProjectedSlowOverlap (3 / 5) (4 / 5) x0 x1 = 0 ∧
+      Signals.QuantumCausalInference.causalObservationalTransfer 5 2 -
+        Signals.QuantumCausalInference.causalInterventionalDoTransfer 5 2 = 2 ∧
+      Signals.QuantumCausalInference.entropySiphonCounterfactualGain 1 1 0 = -2 ∧
+      (1 / 2 : ℝ) < Signals.QuantumCausalInference.wernerConditionalEntropyBitsAtHalf ∧
+      1 ≤ Signals.QuantumCausalInference.closedLoopErasureAndMemoryResetHeat 1 fidelity (1 / 10) := by
+  have h :=
+    Signals.QuantumCausalInference.phase_diagram_complexity_mpemba_and_quantum_causal_synthesis_identities
+      (1 / 10) 30 80 2 (1 / 2) 1 18 (3 / 2) 265 273 280
+      1 273 300 271 2 1 1 (3 / 5) (4 / 5) x0 x1 5 2 1 fidelity (1 / 10)
+      (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by unfold Signals.QuantumCausalInference.landauOrderCoeff; norm_num)
+      (by norm_num) (by norm_num) (by norm_num)
+  refine ⟨h.2.1, h.2.2.1, ?_, h.2.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.1,
+    by linarith [h.2.2.2.2.2.2.2.2.2.2.2.2.1],
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+  have h_ice := h.2.2.2.1
+  linarith [h_ice]
+
 /-- Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study GPE, coupled Dual-Grassmannian `iGPE`,
 and homogeneous Plücker 6-vector Madelung hydrodynamics on the Klein quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$
 (`Signals.DDF`). -/

@@ -1587,6 +1587,11 @@ The paper-derived API is in [Signals/Coherence.lean](../src/signals/Signals/Cohe
 | `SemiDiracOpticalResponse` | CW pump-dependent anisotropic response | Response monotonicity under positive calibrated gain |
 | `SemiDiracOpticalPowerBudget` | Fiber-laser, resonator, metamaterial, process, and loss accounting | Declared outputs plus loss bounded by laser input |
 | `SemiDiracGrapheneProcess` | Calibrated absorbed-power threshold and end-to-end efficiency | Necessary fiber-laser lower bound; no formation claim |
+| `landauFreeEnergy` / `landauDoubleWellBarrierHeight` | Quartic Landau potential $F(\eta)$ and $T < T_c$ activation barrier $\Delta F_{\mathrm{barrier}}(T) = \frac{a_0^2(T-T_c)^2}{4b}$ ([Holtzman and Raz 2022](#holtzman2022landau)) | Single-valley convexity ($T > T_c$) vs. double-well barrier ($T < T_c$) |
+| `mpembaTwoModeDistance` / `mpembaProjectedSlowOverlap` | Two-eigenmode Markovian relaxation and Strong Mpemba $\mathrm{Gr}_{\mathbb{R}}(1,2)$ projector $P_{\perp v_2}$ | Trajectory crossing $t_{\mathrm{cross}} > 0$ and exact slow-mode annihilation $a_{2,\mathrm{hot}} = 0$ |
+| `qrtNonEquilibriumFreeEnergy` / `ConstructorTask` | QRT non-equilibrium free energy ([Summer et al. 2026](#summer2026resource)) and Constructor Theory task surplus | Majorization shortcut gap and side-information task unlocking |
+| `counterfactualStructuralOutcome` / `quantumSwitchCausalAsymmetry` | Quantum causal counterfactuals ([Giarmatzi and Costa 2023](#giarmatzi2023semantics)) and $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Quantum Switch | Abduction–Action–Prediction difference, Plücker ratio $E_-/E_+$, and OCB bound $3/4 < (2+\sqrt{2})/4$ |
+| `delRioConditionalLandauerHeat` / `wernerConditionalEntropyBitsAtHalf` | Conditional Landauer erasure ([del Rio et al. 2011](#delrio2011negative)) vs. isotropic Werner state and closed-loop reset | Single-shot $Q(1) = -k_B T \ln 2$, Werner $S(A\mid O)(1/2) = \frac{\ln 3}{2\ln 2} > 1/2 > 0$ ($F_* \approx 0.8107$), and $Q_{\mathrm{closed}} \ge k_B T \ln 2$ |
 
 Coherence fixtures are compiled in [SignalsTests.lean](../src/signals/SignalsTests.lean).
 The Proca-paper and cavity/Grover records and fixtures are compiled through the
@@ -1687,6 +1692,14 @@ explicit Pending target in [SignalsPendingTests.lean](../src/signals/SignalsPend
 <a id="akkanen2022optical"></a> Akkanen, S.-T. M., Fernández, H. A., and Sun, Z. (2022). *Optical Modification of 2D Materials: Methods and Applications*. Advanced Materials, 34(19), e2110152. DOI: [10.1002/adma.202110152](https://doi.org/10.1002/adma.202110152).
 
 <a id="mikki2021proca"></a> Mikki, S. (2021). *Proca Metamaterials, Massive Electromagnetism, and Spatial Dispersion*. Annalen der Physik, 533(8), 2000625. DOI: [10.1002/andp.202000625](https://doi.org/10.1002/andp.202000625).
+
+<a id="holtzman2022landau"></a> Holtzman, R., and Raz, O. (2022). *Landau theory for the Mpemba effect through phase transitions*. Communications Physics, 5(1), 280. DOI: [10.1038/s42005-022-01063-2](https://doi.org/10.1038/s42005-022-01063-2).
+
+<a id="summer2026resource"></a> Summer, A., Moroder, M., Bettmann, L. P., Turkeshi, X., Marvian, I., and Goold, J. (2026). *Resource-Theoretical Unification of Mpemba Effects: Classical and Quantum*. Physical Review X, 16, 011050. DOI: [10.1103/rbt4-psfd](https://doi.org/10.1103/rbt4-psfd).
+
+<a id="giarmatzi2023semantics"></a> Giarmatzi, C., and Costa, F. (2023). *A Semantics for Counterfactuals in Quantum Causal Models*. arXiv preprint [arXiv:2302.11783](https://arxiv.org/abs/2302.11783).
+
+<a id="delrio2011negative"></a> del Rio, L., Åberg, J., Renner, R., Dahlsten, O., and Vedral, V. (2011). *The thermodynamic meaning of negative entropy*. Nature, 474(7349), 61--63. DOI: [10.1038/nature10123](https://doi.org/10.1038/nature10123).
 
 ### BibTeX
 
@@ -1954,5 +1967,46 @@ explicit Pending target in [SignalsPendingTests.lean](../src/signals/SignalsPend
    pages        = {110},
    year         = {2019},
    doi          = {10.1038/s41377-019-0215-1}
+}
+
+@article{holtzman2022landau,
+   author       = {Holtzman, Roi and Raz, Oren},
+   title        = {Landau theory for the Mpemba effect through phase transitions},
+   journal      = {Communications Physics},
+   volume       = {5},
+   number       = {1},
+   pages        = {280},
+   year         = {2022},
+   doi          = {10.1038/s42005-022-01063-2}
+}
+
+@article{summer2026resource,
+   author       = {Summer, Alessandro and Moroder, Mattia and Bettmann, Laetitia P. and Turkeshi, Xhek and Marvian, Iman and Goold, John},
+   title        = {Resource-Theoretical Unification of Mpemba Effects: Classical and Quantum},
+   journal      = {Physical Review X},
+   volume       = {16},
+   pages        = {011050},
+   year         = {2026},
+   doi          = {10.1103/rbt4-psfd}
+}
+
+@article{giarmatzi2023semantics,
+   author       = {Giarmatzi, Christina and Costa, Fabio},
+   title        = {A Semantics for Counterfactuals in Quantum Causal Models},
+   journal      = {arXiv preprint arXiv:2302.11783},
+   year         = {2023},
+   eprint       = {2302.11783},
+   archivePrefix = {arXiv}
+}
+
+@article{delrio2011negative,
+   author       = {del Rio, L{\'\i}dia and {\AA}berg, Johan and Renner, Renato and Dahlsten, Oscar and Vedral, Vlatko},
+   title        = {The thermodynamic meaning of negative entropy},
+   journal      = {Nature},
+   volume       = {474},
+   number       = {7349},
+   pages        = {61--63},
+   year         = {2011},
+   doi          = {10.1038/nature10123}
 }
 ```
