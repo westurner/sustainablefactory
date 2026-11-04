@@ -5785,15 +5785,20 @@ lemma QuantumCausalBundleVideoGenHypothesis.decision_bundle_and_qram_bounds
 /-! ## 30. Beyond $6{,}400\times$ Splat-Grassmann Volumetric Efficiency, Jeffrey's Kinematic Engine, 3D Volumetric Splat Nanoimaging & Surgical Reconstruction, and Quantum Causal Semantic GraphRAG Pending Contract
 
 While `Signals.QuantumCausalInference.quantum_causal_jeffrey_kinematics_splat_volumetric_and_semantic_graphrag_identities`
-machine-checks:
-1. Compound splat-sparse Grassmannian volumetric speedups beyond $6{,}400\times$ (`51,200x` at
-   $32^3$ dense and `640,000x` with $10\times$ adaptive `NormedTensorGaussianSplat3D` pruning),
-2. Richard Jeffrey's Probability Kinematics (`jeffreyKinematicUpdate`, `jeffreyKinematicShift`)
-   and its exact confounding residual $q_1 b_1 + q_2 b_2$ relative to Pearl's causal soft
-   intervention $\operatorname{do}(\sigma_E(q))$,
+and `Signals.QuantumCausalInference.quantum_causal_overhead_boundary_commutativity_and_splat_moment_identities`
+machine-check:
+1. Compound splat-sparse Grassmannian volumetric speedups beyond $6{,}400\times$ (`13,107.2x` on
+   $16^3$ dense, `104,857.6x` at $32^3$ dense or $16^3$ @ $8\times$ sparsity, `1,310,720x` on
+   $32 \times 32 \times 40$ @ $10\times$ sparsity, and `6,553.6x > 6,400x` even with $199\times$
+   per-splat projection and radix-sorting overhead),
+2. Richard Jeffrey's Probability Kinematics (`jeffreyKinematicUpdate`, `jeffreyKinematicShift`),
+   partition-weighted Lüders–Jeffrey boundary rigidity (`partitionWeightedQuantumJeffreyUpdate`),
+   Diaconis–Zabell sequential non-commutativity vs. log-odds commutativity, and its exact
+   confounding residual $q_1 b_1 + q_2 b_2$ relative to Pearl's causal soft intervention
+   $\operatorname{do}(\sigma_E(q))$,
 3. 3D `NormedTensorGaussianSplat3D` Jeffrey kinematic weight updates, two-child splitting
-   conservation (`splitMajorPlus` / `splitMajorMinus`), and holographic $\mathrm{Gr}_{\mathbb{C}}(2,4)$
-   depth variance recovery (`recoverDepthVarianceSq`), and
+   0th/1st/2nd-moment conservation (`splitMajorPlus` / `splitMajorMinus`), and holographic
+   $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth variance recovery (`recoverDepthVarianceSq`), and
 4. Quantum Causal Semantic GraphRAG scoring (`quantumCausalGraphRAGScore`) combining De Clercq
    tautological subspace filtering, deconfounded Jeffrey kinematics, LGV disjoint-trek
    certification (`twoByTwoTransfer`), and Quantum Switch multi-hop order asymmetry,
@@ -5809,12 +5814,12 @@ inference, Jeffrey's Kinematic Engine, 3D `NormedTensorGaussianSplat3D` surgical
 tomography, and Quantum Causal Semantic GraphRAG. -/
 @[blueprint "def:signals-quantum-causal-surgical-splat-graphrag-contract"
   (title := "Pending >6,400x Splat-Grassmann, Jeffrey Kinematic Engine, Surgical Nanoimaging, and Quantum Causal GraphRAG contract")
-  (statement := /-- Links $>6{,}400\times$ (`51,200x` and `640,000x`) splat-sparse Grassmannian
-    volumetric efficiency, Jeffrey's Probability Kinematics vs.\ Pearl $\operatorname{do}$-soft
-    confounding bounds, 3D \texttt{NormedTensorGaussianSplat3D} kinematic weight update and
-    $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth recovery, and Quantum Causal Semantic GraphRAG
-    tautological filtering and LGV disjointness certification with explicit clinical safety
-    and counterfactual provenance gates. -/)]
+  (statement := /-- Links $>6{,}400\times$ (`13,107.2x`, `104,857.6x`, `1,310,720x`, and
+    overhead-inclusive `6,553.6x`) splat-sparse Grassmannian volumetric efficiency, Jeffrey's
+    Probability Kinematics vs.\ Pearl $\operatorname{do}$-soft confounding bounds, 3D
+    \texttt{NormedTensorGaussianSplat3D} kinematic weight update and $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+    depth recovery, and Quantum Causal Semantic GraphRAG tautological filtering and LGV
+    disjointness certification with explicit clinical safety and counterfactual provenance gates. -/)]
 structure QuantumCausalSurgicalSplatGraphRAGHypothesis where
   splat3D : Signals.DDF.NormedTensorGaussianSplat3D
   priorP1 : ℝ
@@ -5841,8 +5846,9 @@ structure QuantumCausalSurgicalSplatGraphRAGHypothesis where
   graphRagDisjointProvenanceVerified_hypothesis : graphRagDisjointProvenanceVerified
 
 /-- In any `QuantumCausalSurgicalSplatGraphRAGHypothesis`:
-1. Volumetric efficiency strictly exceeds $6{,}400\times$ (`51,200x` on $32^3$ and `640,000x`
-   with $10\times$ adaptive `NormedTensorGaussianSplat3D` sparsity),
+1. Volumetric efficiency strictly exceeds $6{,}400\times$ (`13,107.2x` on $16^3$, `104,857.6x`
+   on $32^3$, and `1,310,720x` on $32 \times 32 \times 40$ with $10\times$ adaptive
+   `NormedTensorGaussianSplat3D` sparsity),
 2. Jeffrey's Kinematic Engine shift equals $(q_1 - p_1)(c_{1,\mathrm{do}} - c_{2,\mathrm{do}})$
    and preserves total probability normalization,
 3. Observational Jeffrey kinematics differs from Pearl $\operatorname{do}$-deconfounded Jeffrey
@@ -5856,9 +5862,9 @@ structure QuantumCausalSurgicalSplatGraphRAGHypothesis where
 @[blueprint "lem:signals-quantum-causal-surgical-splat-graphrag-bounds"
   (title := "Pending Surgical Splat and Quantum Causal GraphRAG contract enforces >6,400x speedup, Jeffrey kinematic deconfounding, and 3D depth recovery")
   (statement := /-- For any \texttt{contract : QuantumCausalSurgicalSplatGraphRAGHypothesis},
-    $>6{,}400\times$ volumetric efficiency (`51,200x` and `640,000x`), Jeffrey's Kinematic Engine
-    shift and deconfounding laws, 3D \texttt{NormedTensorGaussianSplat3D} splitting and
-    $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth variance recovery, and Quantum Causal GraphRAG
+    $>6{,}400\times$ volumetric efficiency (`13,107.2x`, `104,857.6x`, and `1,310,720x`), Jeffrey's
+    Kinematic Engine shift and deconfounding laws, 3D \texttt{NormedTensorGaussianSplat3D} splitting
+    and $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth variance recovery, and Quantum Causal GraphRAG
     filtering and LGV determinant laws hold simultaneously. -/)
   (proof := /-- Apply \texttt{quantum\_causal\_jeffrey\_kinematics\_splat\_volumetric\_and\_semantic\_graphrag\_identities}. -/)
   (latexEnv := "lemma")]

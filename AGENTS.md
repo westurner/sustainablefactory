@@ -299,10 +299,10 @@ De Clercq (2026) tautological `Bundle-Transformer` morphisms (`tautologicalProje
 `grassmannChordalDistSq`, `ropeFiberRotate`, `ropeCrossFrameInnerProduct`), linear-in-volume 3D spatiotemporal
 `VideoGen` (`spatiotemporalGrassmannVideoComplexity`, `quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities`,
 `quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities`), $> 6{,}400\times$ volumetric
-attention & splat-sparse efficiency (`volumetricAttentionEfficiencyRatio`: $13{,}107.2\times$, $104{,}857.6\times$, $640{,}000\times$, $1{,}310{,}720\times > 6{,}400\times$),
-Jeffrey's Kinematic Engine (`jeffreyKinematicUpdate`, `quantumJeffreyPluckerKinematicUpdate`),
-3D Normed Tensor Gaussian Splat nanoimaging & surgical reconstruction (`surgicalSplatVolumetric3DDet`, `surgicalSplatCoreBohm3D`),
-and Quantum Causal Semantic GraphRAG (`quantumCausalGraphRAGScore`, `quantum_causal_volumetric_6400x_splat_jeffrey_and_graphrag_synthesis`).
+attention & splat-sparse efficiency (`volumetricAttentionEfficiencyRatio`, `effectiveVolumetricSpeedupWithOverhead`: $13{,}107.2\times$, $104{,}857.6\times$, $640{,}000\times$, $1{,}310{,}720\times$, and overhead-inclusive $6{,}553.6\times > 6{,}400\times$),
+Jeffrey's Kinematic Engine (`jeffreyKinematicUpdate`, `quantumJeffreyPluckerKinematicUpdate`, `partitionWeightedQuantumJeffreyUpdate`, `sequentialJeffreyPool`, `diaconisZabellLogOddsUpdate`),
+3D Normed Tensor Gaussian Splat nanoimaging & surgical reconstruction (`NormedTensorGaussianSplat3D.jeffreyKinematicWeightUpdate`, `NormedTensorGaussianSplat3D.covDet`, `NormedTensorGaussianSplat3D.coreBohmPotential`, `NormedTensorGaussianSplat3D.splitMajorOffset`),
+and Quantum Causal Semantic GraphRAG (`quantumCausalGraphRAGScore`, `quantum_causal_jeffrey_kinematics_splat_volumetric_and_semantic_graphrag_identities`, `quantum_causal_overhead_boundary_commutativity_and_splat_moment_identities`).
 Keep any hardware "entropy siphoning" refrigeration, QFT/QRAM soliton associative speedup, or autonomous surgical margin decision claim in `Signals.Pending` with explicit
 closed-loop observer-memory reset ($Q_{\mathrm{closed}} \ge k_B T \ln 2$), $O(L)$ QRAM state-preparation overhead ($T_{\mathrm{prep}} < T_{\mathrm{total}}$), unentangled
 $\operatorname{do}(F=0)$ control subtraction, bolometer/Kapitza calibration, phantom/fiducial registration, and clinician-in-the-loop sign-off.

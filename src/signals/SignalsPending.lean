@@ -259,7 +259,7 @@ lemma quantum_causal_bundle_videogen_bounds
   contract.decision_bundle_and_qram_bounds zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3
 
 /-- Summary lemma: in a `QuantumCausalSurgicalSplatGraphRAGHypothesis`, volumetric efficiency
-exceeds $6{,}400\times$ (`51,200x` and `640,000x`), Jeffrey's Kinematic Engine shift and
+exceeds $6{,}400\times$ (`13,107.2x`, `104,857.6x`, and `1,310,720x`), Jeffrey's Kinematic Engine shift and
 $\operatorname{do}$-deconfounding identities hold, the 3D `NormedTensorGaussianSplat3D`
 kinematic weight update commutes with two-child splitting and $\mathrm{Gr}_{\mathbb{C}}(2,4)$
 depth variance recovery, and Quantum Causal Semantic GraphRAG filters off-subspace noise
@@ -267,7 +267,7 @@ while certifying disjoint LGV treks. -/
 @[blueprint "lem:pending-quantum-causal-surgical-splat-graphrag-bounds"
   (title := "Pending >6,400x Splat-Grassmann, Jeffrey Kinematic Engine, Surgical Nanoimaging, and Quantum Causal GraphRAG summary bounds")
   (statement := /-- For any \texttt{contract : QuantumCausalSurgicalSplatGraphRAGHypothesis},
-    $>6{,}400\times$ volumetric efficiency (`51,200x` and `640,000x`), Jeffrey's Kinematic Engine
+    $>6{,}400\times$ volumetric efficiency (`13,107.2x`, `104,857.6x`, and `1,310,720x`), Jeffrey's Kinematic Engine
     shift and deconfounding laws, 3D \texttt{NormedTensorGaussianSplat3D} splitting and
     $\mathrm{Gr}_{\mathbb{C}}(2,4)$ depth recovery, and Quantum Causal GraphRAG filtering
     and LGV determinant laws hold simultaneously. -/)

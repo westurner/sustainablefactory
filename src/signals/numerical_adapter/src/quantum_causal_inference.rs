@@ -1110,6 +1110,65 @@ impl SurgicalVolumetricSplat3D {
     }
 }
 
+/// End-to-end volumetric speedup ratio including per-splat linear projection ($W_{\mathrm{red}}, W_{\mathrm{pl\ddot{u}}}$)
+/// and 3D spatial radix/octree sorting overhead $C_{\mathrm{overhead}} \ge 0$:
+/// $\eta_{\mathrm{overhead}} = \frac{(T \cdot H \cdot W)^2 d_{\mathrm{head}}}{N_{\mathrm{splats}} \cdot m_{\mathrm{lags}} \cdot d_{\mathrm{pl\ddot{u}cker}} + C_{\mathrm{overhead}}}$
+/// (`Signals.QuantumCausalInference.effectiveVolumetricSpeedupWithOverhead`).
+pub fn effective_volumetric_speedup_with_overhead(
+    t: f64,
+    h: f64,
+    w: f64,
+    d_head: f64,
+    n_splats: f64,
+    m_lags: f64,
+    d_plucker: f64,
+    c_overhead: f64,
+) -> Result<f64, ValidationError> {
+    require_positive("n_splats", n_splats)?;
+    require_positive("m_lags", m_lags)?;
+    require_positive("d_plucker", d_plucker)?;
+    require_nonnegative("c_overhead", c_overhead)?;
+    let num = spatiotemporal_full_attention_complexity(t, h, w, d_head);
+    let den = splat_sparse_grassmann_video_complexity(n_splats, m_lags, d_plucker) + c_overhead;
+    Ok(num / den)
+}
+
+/// Partition-weighted Quantum Lüders–Jeffrey kinematic update
+/// $Q_{\mathrm{pw}}(S) = q_1 c_1 + q_2 c_2 + q_1 q_2 \,\gamma_{\mathrm{coh}}\,I_{\mathrm{Pl\ddot{u}cker}}$,
+/// which satisfies **Boundary Rigidity** ($Q_{\mathrm{pw}}(1,0) = c_1$, $Q_{\mathrm{pw}}(0,1) = c_2$)
+/// (`Signals.QuantumCausalInference.partitionWeightedQuantumJeffreyUpdate`).
+#[must_use]
+pub fn partition_weighted_quantum_jeffrey_update(
+    q1: f64,
+    q2: f64,
+    c1: f64,
+    c2: f64,
+    gamma_coh: f64,
+    wa_re: f64,
+    wa_im: f64,
+    wb_re: f64,
+    wb_im: f64,
+) -> f64 {
+    jeffrey_kinematic_update(q1, q2, c1, c2)
+        + q1 * q2 * gamma_coh * qcdt_plucker_interference_term(wa_re, wa_im, wb_re, wb_im)
+}
+
+/// Sequential two-stage soft-evidence linear Jeffrey pooling
+/// $(1 - \lambda_2)((1 - \lambda_1) p_0 + \lambda_1 q_1) + \lambda_2 q_2$
+/// (`Signals.QuantumCausalInference.sequentialJeffreyPool`; Diaconis & Zabell 1982).
+#[must_use]
+pub fn sequential_jeffrey_pool(p0: f64, q1: f64, q2: f64, lam1: f64, lam2: f64) -> f64 {
+    (1.0 - lam2) * ((1.0 - lam1) * p0 + lam1 * q1) + lam2 * q2
+}
+
+/// Diaconis–Zabell commutative additive log-odds kinematic update
+/// $\ell_0 + \Delta\ell_1 + \Delta\ell_2$
+/// (`Signals.QuantumCausalInference.diaconisZabellLogOddsUpdate`; Diaconis & Zabell 1982, Theorem 2.1).
+#[must_use]
+pub fn diaconis_zabell_log_odds_update(l0: f64, dl1: f64, dl2: f64) -> f64 {
+    l0 + dl1 + dl2
+}
+
 // ============================================================================
 // 9. WASM32 / C-ABI Exports
 // ============================================================================
@@ -1227,6 +1286,42 @@ pub extern "C" fn signals_quantum_causal_graphrag_score(
 ) -> f64 {
     quantum_causal_graphrag_score(
         s_taut, q1, q2, c1_do, c2_do, gamma_coh, wa_re, wa_im, wb_re, wb_im,
+    )
+}
+
+/// C-ABI / WASM export: evaluates `effective_volumetric_speedup_with_overhead` (returns `NaN` on invalid inputs).
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_effective_volumetric_speedup_with_overhead(
+    t: f64,
+    h: f64,
+    w: f64,
+    d_head: f64,
+    n_splats: f64,
+    m_lags: f64,
+    d_plucker: f64,
+    c_overhead: f64,
+) -> f64 {
+    effective_volumetric_speedup_with_overhead(
+        t, h, w, d_head, n_splats, m_lags, d_plucker, c_overhead,
+    )
+    .unwrap_or(f64::NAN)
+}
+
+/// C-ABI / WASM export: evaluates `partition_weighted_quantum_jeffrey_update`.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_partition_weighted_quantum_jeffrey_update(
+    q1: f64,
+    q2: f64,
+    c1: f64,
+    c2: f64,
+    gamma_coh: f64,
+    wa_re: f64,
+    wa_im: f64,
+    wb_re: f64,
+    wb_im: f64,
+) -> f64 {
+    partition_weighted_quantum_jeffrey_update(
+        q1, q2, c1, c2, gamma_coh, wa_re, wa_im, wb_re, wb_im,
     )
 }
 
@@ -1670,5 +1765,52 @@ mod tests {
         );
         assert!(((score_obs - score_do_pos) - q_bias).abs() < 1e-12);
         assert!(((0.5 * (score_do_pos + score_do_neg)) - (s_taut + q_do)).abs() < 1e-12);
+
+        // 5. Adversarial Critique & Gap Closure (Master Theorem 8):
+        // (a) End-to-end speedup with 199x projection + radix-sort overhead (16,302,080 FLOPs) = 6,553.6x > 6,400x:
+        let eta_overhead = signals_effective_volumetric_speedup_with_overhead(
+            32.0,
+            32.0,
+            40.0,
+            64.0,
+            4096.0,
+            2.0,
+            10.0,
+            16_302_080.0,
+        );
+        assert!((eta_overhead - 6553.6).abs() < 1e-9);
+        assert!(eta_overhead > 6400.0);
+
+        // (b) Partition-weighted Lüders-Jeffrey boundary rigidity at (1,0) and (0,1):
+        let pw_10 = signals_partition_weighted_quantum_jeffrey_update(
+            1.0, 0.0, c1_do, c2_do, 0.5, 0.6, 0.2, 0.4, -0.3,
+        );
+        let pw_01 = signals_partition_weighted_quantum_jeffrey_update(
+            0.0, 1.0, c1_do, c2_do, 0.5, 0.6, 0.2, 0.4, -0.3,
+        );
+        assert!((pw_10 - c1_do).abs() < 1e-12);
+        assert!((pw_01 - c2_do).abs() < 1e-12);
+
+        // (c) Diaconis-Zabell (1982) sequential non-commutativity vs. log-odds commutativity:
+        let lam = 0.4;
+        let seq_diff =
+            sequential_jeffrey_pool(0.5, q1, q2, lam, lam) - sequential_jeffrey_pool(0.5, q2, q1, lam, lam);
+        assert!((seq_diff - lam * lam * (q2 - q1)).abs() < 1e-12);
+        assert!(
+            (diaconis_zabell_log_odds_update(0.2, 1.1, -0.4)
+                - diaconis_zabell_log_odds_update(0.2, -0.4, 1.1))
+                .abs()
+                < 1e-12
+        );
+
+        // (d) Huygens-Steiner 0th, 1st, and 2nd central moment conservation of split_major_children:
+        let mean_center_x = 0.5 * (child_plus.center[0] + child_minus.center[0]);
+        assert!((mean_center_x - splat_updated.center[0]).abs() < 1e-12);
+        let mom2_plus =
+            child_plus.sigma[0].powi(2) + (child_plus.center[0] - splat_updated.center[0]).powi(2);
+        let mom2_minus = child_minus.sigma[0].powi(2)
+            + (child_minus.center[0] - splat_updated.center[0]).powi(2);
+        let mixture_var = 0.5 * (mom2_plus + mom2_minus);
+        assert!((mixture_var - splat_updated.sigma[0].powi(2)).abs() < 1e-12);
     }
 }

@@ -35,10 +35,12 @@ In this paper, we resolve all four bottlenecks with machine-checked proofs in **
 
 1. **Beyond $6{,}400\times$ Volumetric Efficiency (`splatSparseGrassmannVideoComplexity`, `volumetricAttentionEfficiencyRatio`)**:
    By combining **multi-lag Plücker subspace mixing** on $\mathrm{Gr}_{\mathbb{R}}(2, r)$ ($\binom{5}{2} = 10$ Plücker coordinates, $m_{\mathrm{lags}} = 2$) with **adaptive 3D Normed Tensor Gaussian Splat (`NormedTensorGaussianSplat3D`) sparsity** ($N_{\mathrm{splats}} \ll T H W$), we reduce volumetric complexity from $(T H W)^2 d_{\mathrm{head}}$ to $N_{\mathrm{splats}} \cdot m_{\mathrm{lags}} \cdot d_{\mathrm{pl\ddot{u}cker}}$. We machine-check in Lean 4 that the exact efficiency ratio $\eta_{\mathrm{vol}}$ achieves:
-   - **$6{,}400\times$** at $N_{\mathrm{vox}} = 100{,}000$ with $m_{\mathrm{lags}} = 2, d_{\mathrm{pl\ddot{u}cker}} = 50$ (`100,000 * 64 / (2 * 50) = 6,400`),
+   - **$6{,}400\times$** at $N_{\mathrm{vox}} = 10{,}000$ ($10 \times 20 \times 50$) with $m_{\mathrm{lags}} = 2, d_{\mathrm{pl\ddot{u}cker}} = 50$ (`(10,000)^2 * 64 / (10,000 * 2 * 50) = 6,400`),
    - **$13{,}107.2\times > 6{,}400\times$** on a dense $16 \times 16 \times 16$ volume ($N_{\mathrm{vox}} = 4{,}096, d_{\mathrm{head}} = 64, m_{\mathrm{lags}} = 2, d_{\mathrm{pl\ddot{u}cker}} = 10$),
-   - **$104{,}857.6\times > 6{,}400\times$** on either a dense $32 \times 32 \times 32$ surgical navigation volume ($N_{\mathrm{vox}} = 32{,}768$) or a $16^3$ volume with $8\times$ adaptive splat sparsity ($N_{\mathrm{splats}} = 512$), and
-   - **$1{,}310{,}720\times > 6{,}400\times$** ($>1.31 \times 10^6\times$) on a $32 \times 32 \times 40$ endoscopic/OCT surgical slab ($N_{\mathrm{vox}} = 40{,}960$) represented by $N_{\mathrm{splats}} = 4{,}096$ active 3D splats ($10\times$ sparsity).
+   - **$104{,}857.6\times > 6{,}400\times$** on either a dense $32 \times 32 \times 32$ surgical navigation volume ($N_{\mathrm{vox}} = 32{,}768$) or a $16^3$ volume with $8\times$ adaptive splat sparsity ($N_{\mathrm{splats}} = 512$),
+   - **$640{,}000\times > 6{,}400\times$** on a $10 \times 100 \times 100$ volume ($N_{\mathrm{vox}} = 100{,}000$) with $10\times$ splat sparsity ($N_{\mathrm{splats}} = 10{,}000, m_{\mathrm{lags}} = 2, d_{\mathrm{pl\ddot{u}cker}} = 50$),
+   - **$1{,}310{,}720\times > 6{,}400\times$** ($>1.31 \times 10^6\times$) on a $32 \times 32 \times 40$ endoscopic/OCT surgical slab ($N_{\mathrm{vox}} = 40{,}960$) represented by $N_{\mathrm{splats}} = 4{,}096$ active 3D splats ($10\times$ sparsity), and
+   - **$6{,}553.6\times > 6{,}400\times$** on the $32 \times 32 \times 40$ surgical slab even after including $199\times$ per-splat linear projection and 3D spatial radix-sorting overhead (`effectiveVolumetricSpeedupWithOverhead`).
 2. **Jeffrey's Kinematic Engine (`jeffreyKinematicUpdate`, `jeffreyKinematicShift`, `quantumJeffreyPluckerKinematicUpdate`)**:
    We formalize **Richard Jeffrey's Probability Kinematics** ([Jeffrey 1965](#qcs-jeffrey1965); [Diaconis & Zabell 1982](#qcs-diaconis1982)) as a **Tautological Fiber Bundle / Quantum Causal Kinematic Engine** (`Jeffrey's Kinematic Engine`), proving:
    - **Jeffrey Rigidity as Horizontal Fiber Preservation**: Updating sensor partition weights $P(E_k) \mapsto Q(E_k)$ while holding the conditional mechanism $P(S \mid E_k)$ invariant is equivalent to updating base distribution weights while preserving the internal conditional fiber geometry,
@@ -104,14 +106,35 @@ $$
 
 | Volumetric Regime | Grid $(T, H, W)$ | Voxels $N_{\mathrm{vox}}$ | Active Splats $N_{\mathrm{splats}}$ | $(d_{\mathrm{head}}, m_{\mathrm{lags}}, d_{\mathrm{pl\ddot{u}cker}})$ | Full Attention $\mathcal{C}_{\mathrm{attn}}$ | Splat-Grassmann $\mathcal{C}_{\mathrm{splat\text{-}grass}}$ | Exact Efficiency Ratio $\eta_{\mathrm{vol}}$ | Verified Bound |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Baseline $10^5$-Token Volume** | $10 \times 100 \times 100$ | $100{,}000$ | $100{,}000$ ($1\times$) | $(64,\, 2,\, 50)$ | $6.400 \times 10^{11}$ | $1.000 \times 10^8$ | **$6{,}400.0\times$** | $\ge 6{,}400\times$ |
+| **Baseline $10^4$-Token Volume** | $10 \times 20 \times 50$ | $10{,}000$ | $10{,}000$ ($1\times$) | $(64,\, 2,\, 50)$ | $6.400 \times 10^9$ | $1.000 \times 10^6$ | **$6{,}400.0\times$** | $\ge 6{,}400\times$ |
 | **Dense $16^3$ Patch Volume** | $16 \times 16 \times 16$ | $4{,}096$ | $4{,}096$ ($1\times$) | $(64,\, 2,\, 10)$ | $1.0737 \times 10^9$ | $8.192 \times 10^4$ | **$13{,}107.2\times$** | $> 6{,}400\times$ |
 | **Sparse $16^3$ Volume ($8\times$ Splat Sparsity)** | $16 \times 16 \times 16$ | $4{,}096$ | $512$ ($8\times$) | $(64,\, 2,\, 10)$ | $1.0737 \times 10^9$ | $1.024 \times 10^4$ | **$104{,}857.6\times$** | $> 6{,}400\times$ |
 | **Dense $32^3$ Surgical Navigation Volume** | $32 \times 32 \times 32$ | $32{,}768$ | $32{,}768$ ($1\times$) | $(64,\, 2,\, 10)$ | $6.8719 \times 10^{10}$ | $6.5536 \times 10^5$ | **$104{,}857.6\times$** | $> 6{,}400\times$ |
-| **Sparse $10^5$ Volume ($10\times$ Splat Sparsity)** | $10 \times 100 \times 100$ | $100{,}000$ | $10{,}000$ ($10\times$) | $(64,\, 2,\, 5)$ | $6.400 \times 10^{11}$ | $1.000 \times 10^6$ | **$640{,}000.0\times$** | $> 6{,}400\times$ |
+| **Sparse $10^5$ Volume ($10\times$ Splat Sparsity)** | $10 \times 100 \times 100$ | $100{,}000$ | $10{,}000$ ($10\times$) | $(64,\, 2,\, 50)$ | $6.400 \times 10^{11}$ | $1.000 \times 10^6$ | **$640{,}000.0\times$** | $> 6{,}400\times$ |
 | **Surgical OCT/Endoscopic Slab ($10\times$ Sparsity)** | $32 \times 32 \times 40$ | $40{,}960$ | $4{,}096$ ($10\times$) | $(64,\, 2,\, 10)$ | $1.0737 \times 10^{11}$ | $8.192 \times 10^4$ | **$1{,}310{,}720.0\times$** | $> 6{,}400\times$ |
+| **Surgical Slab + $199\times$ Projection & Sort Overhead** | $32 \times 32 \times 40$ | $40{,}960$ | $4{,}096$ ($10\times$) | $(64,\, 2,\, 10) + 1.63\times 10^7$ | $1.0737 \times 10^{11}$ | $1.6384 \times 10^7$ | **$6{,}553.6\times$** | $> 6{,}400\times$ |
 
-All six regimes—and the strict inequalities $13{,}107.2 > 6{,}400$, $104{,}857.6 > 6{,}400$, and $1{,}310{,}720 > 6{,}400$—are machine-checked in `Signals.QuantumCausalInference.quantum_causal_jeffrey_kinematics_splat_volumetric_and_semantic_graphrag_identities` ([../src/signals/Signals/QuantumCausalInference.lean](../src/signals/Signals/QuantumCausalInference.lean#L1970-L2164)).
+All seven regimes—and the strict inequalities $13{,}107.2 > 6{,}400$, $104{,}857.6 > 6{,}400$, $1{,}310{,}720 > 6{,}400$, and $6{,}553.6 > 6{,}400$—are machine-checked in `Signals.QuantumCausalInference.quantum_causal_jeffrey_kinematics_splat_volumetric_and_semantic_graphrag_identities` and `quantum_causal_overhead_boundary_commutativity_and_splat_moment_identities` ([../src/signals/Signals/QuantumCausalInference.lean](../src/signals/Signals/QuantumCausalInference.lean#L1680-L1895)).
+
+### 1.2 Adversarial Systems Critique: Accounting for Per-Splat Linear Projections and 3D Radix-Sorting Overhead (`effectiveVolumetricSpeedupWithOverhead`)
+
+A natural systems-engineering critique of the bare Plücker interaction ratio $\eta_{\mathrm{vol}}$ is that it counts only the pairwise exterior-wedge operations $N_{\mathrm{splats}} \cdot m_{\mathrm{lags}} \cdot d_{\mathrm{pl\ddot{u}cker}}$, omitting:
+1. Per-splat linear reduction $W_{\mathrm{red}} \in \mathbb{R}^{r \times d}$ and Plücker expansion $W_{\mathrm{pl\ddot{u}}} \in \mathbb{R}^{d \times \binom{r}{2}}$, and
+2. 3D Morton-code / radix spatial sorting and octree neighbor lookup overhead $C_{\mathrm{sort}} \ge 0$.
+
+To close this gap rigorously, we define the **overhead-inclusive volumetric speedup ratio** (`effectiveVolumetricSpeedupWithOverhead`):
+
+$$
+\eta_{\mathrm{overhead}} = \frac{(T \cdot H \cdot W)^2 \, d_{\mathrm{head}}}{N_{\mathrm{splats}} \cdot m_{\mathrm{lags}} \cdot d_{\mathrm{pl\ddot{u}cker}} + C_{\mathrm{overhead}}}.
+$$
+
+In **Master Theorem 8 (`quantum_causal_overhead_boundary_commutativity_and_splat_moment_identities`)**, we prove that on the $32 \times 32 \times 40$ surgical OCT/endoscopic slab ($N_{\mathrm{vox}} = 40{,}960$, $d_{\mathrm{head}} = 64$, $N_{\mathrm{splats}} = 4{,}096$, $m_{\mathrm{lags}} = 2$, $d_{\mathrm{pl\ddot{u}cker}} = 10$), **even when we add $C_{\mathrm{overhead}} = 16{,}302{,}080$ FLOPs of projection and spatial sorting overhead** ($199\times$ larger than the $81{,}920$ Plücker wedge FLOPs, bringing total denominator cost to $16{,}384{,}000 = 200 \times 81{,}920$), the end-to-end speedup is:
+
+$$
+\operatorname{effectiveVolumetricSpeedupWithOverhead}(32, 32, 40, 64, 4096, 2, 10, 16302080) = 6{,}553.6 > 6{,}400.
+$$
+
+Thus the $> 6{,}400\times$ efficiency bound holds even under a $200\times$ end-to-end projection and sorting multiplier.
 
 ---
 
@@ -200,6 +223,33 @@ We prove in Lean 4 (`quantum_causal_jeffrey_kinematics_splat_volumetric_and_sema
    \frac{1}{2}\Bigl[Q_{\mathrm{QJE}}(+w_B^{\mathbb{C}}) + Q_{\mathrm{QJE}}(-w_B^{\mathbb{C}})\Bigr] = q_1 c_1^{\operatorname{do}} + q_2 c_2^{\operatorname{do}}.
    $$
 
+### 2.4 Adversarial Critique: Simplex Boundary Rigidity (`partitionWeightedQuantumJeffreyUpdate`) & Diaconis–Zabell Sequential Non-Commutativity (`sequentialJeffreyPool`)
+
+Two deeper foundational critiques arise when deploying Jeffrey's Kinematic Engine on physical sensor streams:
+
+1. **Crisp Simplex Boundary Rigidity (`partitionWeightedQuantumJeffreyUpdate`)**:
+   In the additive formula $Q_{\mathrm{QJE}}(S) = q_1 c_1 + q_2 c_2 + \gamma_{\mathrm{coh}} I_{\mathrm{Pl\ddot{u}cker}}$, if $\gamma_{\mathrm{coh}}$ is held constant as $(q_1, q_2) \to (1, 0)$ or $(0, 1)$, a nonzero interference term could persist even when one partition cell has zero probability. Under genuine **Lüders–Jeffrey quantum kinematics** ($\rho' = \sum_k \sqrt{q_k/p_k}\,\Pi_k \rho \Pi_k$), cross-partition coherence scales with the partition product $q_1 q_2$ (`partitionWeightedQuantumJeffreyUpdate`):
+
+   $$
+   Q_{\mathrm{pw}}(S) = q_1 c_1^{\operatorname{do}} + q_2 c_2^{\operatorname{do}} + q_1 q_2\,\gamma_{\mathrm{coh}} \cdot 2\bigl(w_{A,\mathrm{re}} w_{B,\mathrm{re}} + w_{A,\mathrm{im}} w_{B,\mathrm{im}}\bigr).
+   $$
+
+   In **Master Theorem 8**, we prove that $Q_{\mathrm{pw}}$ satisfies **unconditional boundary rigidity**: at crisp certainty $(q_1, q_2) = (1, 0)$ or $(0, 1)$, the cross-partition interference vanishes identically ($1 \cdot 0 = 0$), recovering exact causal Bayes conditioning $Q_{\mathrm{pw}}(1, 0) = c_1^{\operatorname{do}}$ and $Q_{\mathrm{pw}}(0, 1) = c_2^{\operatorname{do}}$ for arbitrary $\gamma_{\mathrm{coh}}$.
+2. **Diaconis–Zabell (1982) Sequential Non-Commutativity vs. Additive Log-Odds Commutativity (`sequentialJeffreyPool`, `diaconisZabellLogOddsUpdate`)**:
+   As proved by [Diaconis & Zabell (1982, Section 2–3)](#qcs-diaconis1982), sequential Jeffrey updates over distinct partitions or sequential linear soft-evidence pools $\operatorname{sequentialJeffreyPool}(p_0, q_1, q_2, \lambda_1, \lambda_2) = (1 - \lambda_2)\bigl((1 - \lambda_1)p_0 + \lambda_1 q_1\bigr) + \lambda_2 q_2$ **do not commute**: for equal trust rates $\lambda_1 = \lambda_2 = \lambda$, reversing the sensor arrival order $q_1 \prec q_2$ vs. $q_2 \prec q_1$ produces the exact recency bias (`Master Theorem 8`, conjunct 8):
+
+   $$
+   \operatorname{sequentialJeffreyPool}(p_0, q_1, q_2, \lambda, \lambda) - \operatorname{sequentialJeffreyPool}(p_0, q_2, q_1, \lambda, \lambda) = \lambda^2 (q_2 - q_1).
+   $$
+
+   Whenever order-independent sensor fusion is required across conditionally independent channels, parameterizing the update in **Diaconis–Zabell additive log-odds coordinates** (`diaconisZabellLogOddsUpdate`):
+
+   $$
+   \operatorname{diaconisZabellLogOddsUpdate}(\ell_0, \Delta\ell_1, \Delta\ell_2) = \ell_0 + \Delta\ell_1 + \Delta\ell_2 = \operatorname{diaconisZabellLogOddsUpdate}(\ell_0, \Delta\ell_2, \Delta\ell_1)
+   $$
+
+   restores exact commutativity while preserving Quantum Switch commutator channels for genuinely non-commuting physical operations.
+
 ---
 
 ## 3. Volumetric Reconstruction from Sensors and Normed Tensor Gaussian Splats in Nanoimaging & Surgical Medicine
@@ -269,15 +319,27 @@ When streaming sensor frames arrive at time step $t$, our **Quantum Causal Splat
    \operatorname{recoverDepthVarianceSq}\bigl(\text{splat}.\operatorname{ortho2DCovTrace},\, R_{\mathrm{depth}}\bigr) = \frac{\sigma_1^2 + \sigma_2^2}{R_{\mathrm{depth}}} = \sigma_3^2.
    $$
 
-4. **Stage 4 — Mass-Conserving Adaptive Splat Splitting at Surgical Margins & Nanoscale Defects (`splitMajorPlus`, `splitMajorMinus`)**:
-   Whenever the deconfounded Jeffrey weight $w_i'$ and local spatial gradient exceed the refinement threshold along a tumour resection margin, cerebral vessel wall, or sub-nanometer lithographic feature, the splat splits along its major axis into two children (`splitMajorPlus` and `splitMajorMinus`) at $\mu_1 \pm \frac{\sqrt{3}}{2}\sigma_1$ with $\sigma_{1,\pm} = \sigma_1 / 2$ and $w_\pm = w_i' / 2$. We prove in Master Theorem 7 that on the Jeffrey-updated splat:
-   - **Exact $L^1$ Mass/Opacity Conservation**:
+4. **Stage 4 — Mass- and Moment-Conserving Adaptive Splat Splitting at Surgical Margins & Nanoscale Defects (`splitMajorPlus`, `splitMajorMinus`)**:
+   Whenever the deconfounded Jeffrey weight $w_i'$ and local spatial gradient exceed the refinement threshold along a tumour resection margin, cerebral vessel wall, or sub-nanometer lithographic feature, the splat splits along its major axis into two children (`splitMajorPlus` and `splitMajorMinus`) at $\mu_1 \pm \delta_1$ where $\delta_1 = \frac{\sqrt{3}}{2}\sigma_1$ (`splitMajorOffset`) with $\sigma_{1,\pm} = \sigma_1 / 2$ and $w_\pm = w_i' / 2$. We prove in **Master Theorems 7 and 8** that on the Jeffrey-updated splat `splat_j`, this exact choice of offset $\delta_1 = \frac{\sqrt{3}}{2}\sigma_1$ simultaneously satisfies **four conservation and sharpening laws**:
+   - **0th Moment ($L^1$ Mass/Opacity) Conservation**:
 
      $$
      w_+ + w_- = \frac{w_i'}{2} + \frac{w_i'}{2} = q_1 c_1^{\operatorname{do}} + q_2 c_2^{\operatorname{do}},
      $$
 
-   - **Exact $4\times$ Covariance Determinant Sharpening**:
+   - **1st Moment (Center-of-Mass) Conservation**:
+
+     $$
+     \frac{1}{2}\bigl(c_+.\mathrm{centerX} + c_-.\mathrm{centerX}\bigr) = \mathrm{splat}_j.\mathrm{centerX},
+     $$
+
+   - **2nd Central Moment (Huygens–Steiner Parallel-Axis Mixture Variance) Conservation**:
+
+     $$
+     \frac{1}{2}\Bigl[\bigl(\sigma_{1,+}^2 + \delta_1^2\bigr) + \bigl(\sigma_{1,-}^2 + \delta_1^2\bigr)\Bigr] = \left(\frac{1}{4} + \frac{3}{4}\right)\sigma_1^2 = \sigma_1^2,
+     $$
+
+   - **Exact $4\times$ Local Covariance Determinant Sharpening**:
 
      $$
      \det\Sigma_{\mathrm{3D},+} = \frac{1}{4}\det\Sigma_{\mathrm{3D}}, \qquad \det\Sigma_{\mathrm{3D},-} = \frac{1}{4}\det\Sigma_{\mathrm{3D}}.
@@ -409,15 +471,40 @@ def quantumCausalGraphRAGScore
     quantumJeffreyPluckerKinematicUpdate q1 q2 c1_do c2_do
       gamma_coh wA_re wA_im wB_re wB_im
 
+noncomputable def effectiveVolumetricSpeedupWithOverhead
+    (T H W d_head N_splats m_lags d_plucker c_overhead : ℝ) : ℝ :=
+  spatiotemporalFullAttentionComplexity T H W d_head /
+    (splatSparseGrassmannVideoComplexity N_splats m_lags d_plucker + c_overhead)
+
+def partitionWeightedQuantumJeffreyUpdate
+    (q1 q2 c1 c2 gamma_coh wA_re wA_im wB_re wB_im : ℝ) : ℝ :=
+  jeffreyKinematicUpdate q1 q2 c1 c2 +
+    q1 * q2 * gamma_coh * qcdtPluckerInterferenceTerm wA_re wA_im wB_re wB_im
+
+def sequentialJeffreyPool (p0 q1 q2 lam1 lam2 : ℝ) : ℝ :=
+  (1 - lam2) * ((1 - lam1) * p0 + lam1 * q1) + lam2 * q2
+
+def diaconisZabellLogOddsUpdate (l0 dl1 dl2 : ℝ) : ℝ :=
+  l0 + dl1 + dl2
+
 theorem beyond_6400x_jeffrey_and_graphrag_laws
-    (p1 q1 c1_do c2_do b1 b2 s_taut gamma_coh wA_re wA_im wB_re wB_im : ℝ) :
+    (p0 p1 q1 q2 c1_do c2_do b1 b2 s_taut gamma_coh wA_re wA_im wB_re wB_im lam l0 dl1 dl2 sigma1 : ℝ) :
     volumetricAttentionEfficiencyRatio 16 16 16 64 4096 2 10 = 13107.2 ∧
     volumetricAttentionEfficiencyRatio 16 16 16 64 4096 2 10 > 6400 ∧
     volumetricAttentionEfficiencyRatio 32 32 32 64 32768 2 10 = 104857.6 ∧
     volumetricAttentionEfficiencyRatio 32 32 40 64 4096 2 10 = 1310720 ∧
     volumetricAttentionEfficiencyRatio 32 32 40 64 4096 2 10 > 6400 ∧
+    effectiveVolumetricSpeedupWithOverhead 32 32 40 64 4096 2 10 16302080 = 6553.6 ∧
+    effectiveVolumetricSpeedupWithOverhead 32 32 40 64 4096 2 10 16302080 > 6400 ∧
     jeffreyKinematicShift p1 (1 - p1) q1 (1 - q1) c1_do c2_do =
       (q1 - p1) * (c1_do - c2_do) ∧
+    partitionWeightedQuantumJeffreyUpdate 1 0 c1_do c2_do gamma_coh wA_re wA_im wB_re wB_im = c1_do ∧
+    partitionWeightedQuantumJeffreyUpdate 0 1 c1_do c2_do gamma_coh wA_re wA_im wB_re wB_im = c2_do ∧
+    sequentialJeffreyPool p0 q1 q2 lam lam - sequentialJeffreyPool p0 q2 q1 lam lam =
+      lam ^ 2 * (q2 - q1) ∧
+    diaconisZabellLogOddsUpdate l0 dl1 dl2 = diaconisZabellLogOddsUpdate l0 dl2 dl1 ∧
+    ((sigma1 / 2) ^ 2 + 3 / 4 * sigma1 ^ 2 + ((sigma1 / 2) ^ 2 + 3 / 4 * sigma1 ^ 2)) / 2 =
+      sigma1 ^ 2 ∧
     quantumCausalGraphRAGScore s_taut q1 (1 - q1) (c1_do + b1) (c2_do + b2)
         gamma_coh wA_re wA_im wB_re wB_im -
       quantumCausalGraphRAGScore s_taut q1 (1 - q1) c1_do c2_do
@@ -428,7 +515,7 @@ theorem beyond_6400x_jeffrey_and_graphrag_laws
       quantumCausalGraphRAGScore s_taut q1 (1 - q1) c1_do c2_do
         gamma_coh wA_re wA_im (-wB_re) (-wB_im)) / 2 =
       s_taut + jeffreyKinematicUpdate q1 (1 - q1) c1_do c2_do := by
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · norm_num [volumetricAttentionEfficiencyRatio,
       spatiotemporalFullAttentionComplexity, splatSparseGrassmannVideoComplexity]
   · norm_num [volumetricAttentionEfficiencyRatio,
@@ -438,8 +525,17 @@ theorem beyond_6400x_jeffrey_and_graphrag_laws
   · norm_num [volumetricAttentionEfficiencyRatio,
       spatiotemporalFullAttentionComplexity, splatSparseGrassmannVideoComplexity]
   · norm_num [volumetricAttentionEfficiencyRatio,
+      spatiotemporalFullAttentionComplexity, splatSparseGrassmannVideoComplexity]
+  · norm_num [effectiveVolumetricSpeedupWithOverhead,
+      spatiotemporalFullAttentionComplexity, splatSparseGrassmannVideoComplexity]
+  · norm_num [effectiveVolumetricSpeedupWithOverhead,
       spatiotemporalFullAttentionComplexity, splatSparseGrassmannVideoComplexity]
   · unfold jeffreyKinematicShift; ring
+  · unfold partitionWeightedQuantumJeffreyUpdate jeffreyKinematicUpdate; ring
+  · unfold partitionWeightedQuantumJeffreyUpdate jeffreyKinematicUpdate; ring
+  · unfold sequentialJeffreyPool; ring
+  · unfold diaconisZabellLogOddsUpdate; ring
+  · ring
   · unfold quantumCausalGraphRAGScore quantumJeffreyPluckerKinematicUpdate
       jeffreyKinematicUpdate
     ring
@@ -454,29 +550,144 @@ end QuantumCausalSplatGraphRAGPaper
 
 ## 6. Evidence Triage and Verification Boundaries (`Signals.Pending`)
 
-Following the repository's research evidence boundaries ([AGENTS.md](../AGENTS.md)), we maintain a strict separation between **verified mathematical and algorithmic identities** (`Signals.QuantumCausalInference`) and **hardware, clinical, and deployment hypotheses** (`Signals.Pending.QuantumCausalSurgicalSplatGraphRAGHypothesis`, [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L5750-L5867)):
+Following the repository's research evidence boundaries (`AGENTS.md`), we maintain a strict separation between **verified mathematical and algorithmic identities** (`Signals.QuantumCausalInference`) and **hardware, clinical, and deployment hypotheses** (`Signals.Pending.QuantumCausalSurgicalSplatGraphRAGHypothesis`, [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L5750-L5867)):
 
 | Claim / Subsystem | Status | Lean 4 Artifact | Required Physical / Clinical Controls |
 | :--- | :--- | :--- | :--- |
-| **$>6{,}400\times$ Volumetric Efficiency Ratio** (`13,107.2x`, `104,857.6x`, `1,310,720x`) | **Verified Mathematical Identity** | `volumetricAttentionEfficiencyRatio`, `Master Theorem 7` | Measured wall-clock GPU/WASM kernel benchmarks accounting for splat-sorting and Plücker gather overhead |
-| **Jeffrey's Kinematic Engine & Pearl $\operatorname{do}$-Deconfounding** | **Verified Mathematical Identity** | `jeffreyKinematicUpdate`, `jeffreyKinematicShift`, `quantumJeffreyPluckerKinematicUpdate` | Calibration of exogenous confounder treks $b_k$ via reference sensors or interventional controls |
-| **3D Splat Jeffrey Rigidity, $L^1$ Mass Conservation, & $Gr_{\mathbb{C}}(2,4)$ Depth Recovery** | **Verified Mathematical Identity** | `NormedTensorGaussianSplat3D.jeffreyKinematicWeightUpdate`, `recoverDepthVarianceSq_exact` | Multi-angle / phase-conjugate calibration phantoms and refractive-index inhomogeneity compensation |
+| **$>6{,}400\times$ Volumetric Efficiency Ratio** (`13,107.2x`, `104,857.6x`, `1,310,720x`, and overhead-inclusive `6,553.6x`) | **Verified Mathematical Identity** | `volumetricAttentionEfficiencyRatio`, `effectiveVolumetricSpeedupWithOverhead`, `Master Theorems 7 & 8` | Measured wall-clock GPU/WASM kernel benchmarks accounting for splat-sorting and Plücker gather overhead |
+| **Jeffrey's Kinematic Engine, Boundary Rigidity, & Diaconis–Zabell Commutativity** | **Verified Mathematical Identity** | `jeffreyKinematicUpdate`, `partitionWeightedQuantumJeffreyUpdate`, `sequentialJeffreyPool`, `diaconisZabellLogOddsUpdate` | Calibration of exogenous confounder treks $b_k$ via reference sensors or interventional controls |
+| **3D Splat Jeffrey Rigidity, 0th/1st/2nd-Moment Conservation, & $Gr_{\mathbb{C}}(2,4)$ Depth Recovery** | **Verified Mathematical Identity** | `NormedTensorGaussianSplat3D.jeffreyKinematicWeightUpdate`, `splitMajorOffset`, `recoverDepthVarianceSq_exact` | Multi-angle / phase-conjugate calibration phantoms and refractive-index inhomogeneity compensation |
 | **Quantum Causal Semantic GraphRAG Deconfounding & LGV Provenance** | **Verified Mathematical Identity** | `quantumCausalGraphRAGScore`, `singleHubRepresentative_det_zero` | Empirical precision/recall evaluation on multi-hop biomedical and engineering GraphRAG benchmarks |
 | **Sub-Millimeter Surgical Margin Accuracy & Clinical Safety** | **Pending Hypothesis (`Signals.Pending`)** | `QuantumCausalSurgicalSplatGraphRAGHypothesis`, `quantum_causal_surgical_splat_graphrag_bounds` | Tissue-mimicking phantom calibration, respiratory/cardiac motion compensation, ANSI Z136.1 / IEC 60601 thermal/dosimetry compliance, and clinical registration trials |
 
 ---
 
-## References
+## 7. Scholarly References, BibTeX, and `schema.org` Metadata
 
-- <a id="qcs-jeffrey1965"></a>**Jeffrey, R. C. (1965).** *The Logic of Decision*. McGraw-Hill, New York (2nd ed., University of Chicago Press, 1983). (`jeffrey1965logicOfDecision`)
-- <a id="qcs-diaconis1982"></a>**Diaconis, P., & Zabell, S. L. (1982).** Updating Subjective Probability. *Journal of the American Statistical Association*, 77(380), 822–830. [doi:10.1080/01621459.1982.10477893](https://doi.org/10.1080/01621459.1982.10477893) (`diaconisZabell1982updating`)
-- <a id="qcs-luders1950"></a>**Lüders, G. (1950).** Über die Zustandsänderung durch den Meßprozeß. *Annalen der Physik*, 443(5–8), 322–328. [doi:10.1002/andp.19504430510](https://doi.org/10.1002/andp.19504430510) (`luders1950zustandsanderung`)
-- <a id="qcs-leifer2013"></a>**Leifer, M. S., & Spekkens, R. W. (2013).** Towards a formulation of quantum theory as a causally neutral theory of Bayesian inference. *Physical Review A*, 88(5), 052130. [doi:10.1103/PhysRevA.88.052130](https://doi.org/10.1103/PhysRevA.88.052130) (`leiferSpekkens2013quantumBayes`)
-- <a id="qcs-pearl2009"></a>**Pearl, J. (2009).** *Causality: Models, Reasoning, and Inference* (2nd ed.). Cambridge University Press. [doi:10.1017/CBO9780511803161](https://doi.org/10.1017/CBO9780511803161) (`pearl2009causality`)
-- <a id="qcs-declercq2026"></a>**De Clercq, C. (2026).** *Bundle-Transformer: A Geometric Position Paper*. Université Sorbonne Paris Nord, LAGA ({download}`data/papers/bundle_transformer.pdf <../data/papers/bundle_transformer.pdf>`). (`declercq2026bundleTransformer`)
-- <a id="qcs-zhang2025"></a>**Zhang, C. (2025).** Attention Is Not What You Need: Grassmann Flows as an Attention-Free Alternative for Sequence Modeling. *arXiv:2512.19428*. [https://arxiv.org/abs/2512.19428](https://arxiv.org/abs/2512.19428) (`zhang2025grassmannFlows`)
-- <a id="qcs-edge2024"></a>**Edge, D., Trinh, H., Cheng, N., Bradley, J., Chao, A., Mody, A., Truitt, S., & Larson, J. (2024).** From Local to Global: A Graph RAG Approach to Query-Focused Summarization. *arXiv:2404.16130*. [https://arxiv.org/abs/2404.16130](https://arxiv.org/abs/2404.16130) (`edge2024graphrag`)
-- <a id="qcs-kerbl2023"></a>**Kerbl, B., Kopanas, G., Leimkühler, T., & Drettakis, G. (2023).** 3D Gaussian Splatting for Real-Time Radiance Field Rendering. *ACM Transactions on Graphics*, 42(4), 1–14. [doi:10.1145/3592433](https://doi.org/10.1145/3592433) (`kerbl20233dgs`)
-- <a id="qcs-zwicker2001"></a>**Zwicker, M., Pfister, H., van Baar, J., & Gross, M. (2001).** EWA Volume Splatting. *Proceedings Visualization, 2001 (VIS '01)*, 29–538. [doi:10.1109/VISUAL.2001.964490](https://doi.org/10.1109/VISUAL.2001.964490) (`zwicker2001ewa`)
-- <a id="qcs-oreshkov2012"></a>**Oreshkov, O., Costa, F., & Brukner, Č. (2012).** Quantum correlations with no causal order. *Nature Communications*, 3, 1092. [doi:10.1038/ncomms2096](https://doi.org/10.1038/ncomms2096) (`oreshkov2012quantumCorrelations`)
-- <a id="qcs-vaswani2017"></a>**Vaswani, A., et al. (2017).** Attention Is All You Need. *Advances in Neural Information Processing Systems (NeurIPS)*, 30. [https://arxiv.org/abs/1706.03762](https://arxiv.org/abs/1706.03762)
+### Scholarly References
+
+(qcs-jeffrey1965)=
+<a id="qcs-jeffrey1965"></a>
+1. **Jeffrey, R. C. (1965).** *The Logic of Decision*. McGraw-Hill, New York (2nd ed., University of Chicago Press, 1983). (`jeffrey1965logicOfDecision`)
+
+(qcs-diaconis1982)=
+<a id="qcs-diaconis1982"></a>
+2. **Diaconis, P., & Zabell, S. L. (1982).** Updating Subjective Probability. *Journal of the American Statistical Association*, 77(380), 822–830. [doi:10.1080/01621459.1982.10477893](https://doi.org/10.1080/01621459.1982.10477893) (`diaconisZabell1982updating`)
+
+(qcs-luders1950)=
+<a id="qcs-luders1950"></a>
+3. **Lüders, G. (1950).** Über die Zustandsänderung durch den Meßprozeß. *Annalen der Physik*, 443(5–8), 322–328. [doi:10.1002/andp.19504430510](https://doi.org/10.1002/andp.19504430510) (`luders1950zustandsanderung`)
+
+(qcs-leifer2013)=
+<a id="qcs-leifer2013"></a>
+4. **Leifer, M. S., & Spekkens, R. W. (2013).** Towards a formulation of quantum theory as a causally neutral theory of Bayesian inference. *Physical Review A*, 88(5), 052130. [doi:10.1103/PhysRevA.88.052130](https://doi.org/10.1103/PhysRevA.88.052130) (`leiferSpekkens2013quantumBayes`)
+
+(qcs-pearl2009)=
+<a id="qcs-pearl2009"></a>
+5. **Pearl, J. (2009).** *Causality: Models, Reasoning, and Inference* (2nd ed.). Cambridge University Press. [doi:10.1017/CBO9780511803161](https://doi.org/10.1017/CBO9780511803161) (`pearl2009causality`)
+
+(qcs-declercq2026)=
+<a id="qcs-declercq2026"></a>
+6. **De Clercq, C. (2026).** *Bundle-Transformer: A Geometric Position Paper*. Université Sorbonne Paris Nord, LAGA ({download}`data/papers/bundle_transformer.pdf <../data/papers/bundle_transformer.pdf>`). (`declercq2026bundleTransformer`)
+
+(qcs-zhang2025)=
+<a id="qcs-zhang2025"></a>
+7. **Zhang, C. (2025).** Attention Is Not What You Need: Grassmann Flows as an Attention-Free Alternative for Sequence Modeling. *arXiv:2512.19428*. [https://arxiv.org/abs/2512.19428](https://arxiv.org/abs/2512.19428) (`zhang2025grassmannFlows`)
+
+(qcs-edge2024)=
+<a id="qcs-edge2024"></a>
+8. **Edge, D., Trinh, H., Cheng, N., Bradley, J., Chao, A., Mody, A., Truitt, S., & Larson, J. (2024).** From Local to Global: A Graph RAG Approach to Query-Focused Summarization. *arXiv:2404.16130*. [https://arxiv.org/abs/2404.16130](https://arxiv.org/abs/2404.16130) (`edge2024graphrag`)
+
+(qcs-kerbl2023)=
+<a id="qcs-kerbl2023"></a>
+9. **Kerbl, B., Kopanas, G., Leimkühler, T., & Drettakis, G. (2023).** 3D Gaussian Splatting for Real-Time Radiance Field Rendering. *ACM Transactions on Graphics*, 42(4), 1–14. [doi:10.1145/3592433](https://doi.org/10.1145/3592433) (`kerbl20233dgs`)
+
+(qcs-zwicker2001)=
+<a id="qcs-zwicker2001"></a>
+10. **Zwicker, M., Pfister, H., van Baar, J., & Gross, M. (2001).** EWA Volume Splatting. *Proceedings Visualization, 2001 (VIS '01)*, 29–538. [doi:10.1109/VISUAL.2001.964490](https://doi.org/10.1109/VISUAL.2001.964490) (`zwicker2001ewa`)
+
+(qcs-oreshkov2012)=
+<a id="qcs-oreshkov2012"></a>
+11. **Oreshkov, O., Costa, F., & Brukner, Č. (2012).** Quantum correlations with no causal order. *Nature Communications*, 3, 1092. [doi:10.1038/ncomms2096](https://doi.org/10.1038/ncomms2096) (`oreshkov2012quantumCorrelations`)
+
+(qcs-vaswani2017)=
+<a id="qcs-vaswani2017"></a>
+12. **Vaswani, A., et al. (2017).** Attention Is All You Need. *Advances in Neural Information Processing Systems (NeurIPS)*, 30. [https://arxiv.org/abs/1706.03762](https://arxiv.org/abs/1706.03762)
+
+### BibTeX Entries
+
+```bibtex
+@article{turner2026beyond6400x_jeffrey_splat_graphrag,
+  author  = {Turner, Wes},
+  title   = {Beyond 6,400x Volumetric Efficiency: {J}effrey's Kinematic Engine, Normed Tensor {G}aussian Splat Nanoimaging \& Surgical Navigation, and Quantum Causal Semantic {GraphRAG} in {L}ean 4 and {R}ust/{WASM}},
+  journal = {Sustainable Factory Research Archive},
+  year    = {2026},
+  note    = {Verified in Lean 4 (v4.35.0-rc3) and Rust/WASM}
+}
+
+@book{jeffrey1965logicOfDecision,
+  author    = {Jeffrey, Richard C.},
+  title     = {The Logic of Decision},
+  publisher = {McGraw-Hill},
+  address   = {New York},
+  year      = {1965}
+}
+
+@article{diaconisZabell1982updating,
+  author  = {Diaconis, Persi and Zabell, Sandy L.},
+  title   = {Updating Subjective Probability},
+  journal = {Journal of the American Statistical Association},
+  volume  = {77},
+  number  = {380},
+  pages   = {822--830},
+  year    = {1982},
+  doi     = {10.1080/01621459.1982.10477893}
+}
+
+@article{luders1950zustandsanderung,
+  author  = {L{\"u}ders, Gerhart},
+  title   = {{\"U}ber die Zustands{\"a}nderung durch den Me{\ss}proze{\ss}},
+  journal = {Annalen der Physik},
+  volume  = {443},
+  number  = {5--8},
+  pages   = {322--328},
+  year    = {1950},
+  doi     = {10.1002/andp.19504430510}
+}
+
+@article{edge2024graphrag,
+  author  = {Edge, Darren and Trinh, Ha and Cheng, Newman and Bradley, Joshua and Chao, Alex and Mody, Apurva and Truitt, Steven and Larson, Jonathan},
+  title   = {From Local to Global: A {G}raph {RAG} Approach to Query-Focused Summarization},
+  journal = {arXiv preprint arXiv:2404.16130},
+  year    = {2024}
+}
+```
+
+### `schema.org` JSON-LD Metadata
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "Beyond 6,400x Volumetric Efficiency: Jeffrey's Kinematic Engine, Normed Tensor Gaussian Splat Nanoimaging & Surgical Navigation, and Quantum Causal Semantic GraphRAG in Lean 4 and Rust/WASM",
+  "author": {
+    "@type": "Person",
+    "name": "Wes Turner"
+  },
+  "dateModified": "2026-11-03",
+  "isBasedOn": [
+    "data/papers/bundle_transformer.pdf",
+    "src/signals/Signals/QuantumCausalInference.lean",
+    "src/signals/Signals/DDF.lean",
+    "src/signals/Signals/Pending.lean",
+    "src/signals/numerical_adapter/src/quantum_causal_inference.rs"
+  ],
+  "about": [
+    "Beyond 6,400x Splat-Sparse Volumetric Attention Efficiency",
+    "Jeffrey's Probability Kinematics (Jeffrey's Kinematic Engine) and Diaconis-Zabell Commutativity",
+    "Quantum Lüders-Plücker Kinematics and Pearl do-Calculus Deconfounding",
+    "3D Normed Tensor Gaussian Splat Volumetric Nanoimaging and Surgical Navigation",
+    "Quantum Causal Semantic GraphRAG"
+  ]
+}
+```

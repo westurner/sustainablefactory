@@ -6773,7 +6773,7 @@ example (zc0 zc1 zc2 zc3 zp0 zp1 zp2 zp3 a00 a01 a10 a11 c s alpha a1 a2 b1 b2 s
   refine ⟨h.1, by linarith [h.2.1], h.2.2.1, h.2.2.2.1, h.2.2.2.2.1,
     h.2.2.2.2.2.1, h.2.2.2.2.2.2.1, by linarith [h.2.2.2.2.2.2.2]⟩
 
-/-- Beyond $6{,}400\times$ (`51,200x` and `640,000x`) splat-sparse Grassmannian volumetric
+/-- Beyond $6{,}400\times$ (`13,107.2x`, `104,857.6x`, and `1,310,720x`) splat-sparse Grassmannian volumetric
 efficiency, Jeffrey's Kinematic Engine (`jeffreyKinematicShift`, `jeffreyKinematicUpdate`),
 3D `NormedTensorGaussianSplat3D` kinematic weight update + child splitting + $\mathrm{Gr}_{\mathbb{C}}(2,4)$
 depth recovery, and Quantum Causal Semantic GraphRAG (`Signals.QuantumCausalInference`). -/
@@ -6833,5 +6833,43 @@ example (splat : Signals.DDF.NormedTensorGaussianSplat3D)
   have h_w := h.2.2.2.2.2.2.2.2.2.2.2.2.1
   unfold Signals.QuantumCausalInference.jeffreyKinematicUpdate at h_w
   linarith
+
+/-- End-to-end overhead-inclusive volumetric speedup (`6,553.6x > 6,400x`), partition-weighted
+Lüders–Jeffrey boundary rigidity, Diaconis–Zabell sequential non-commutativity vs. log-odds
+commutativity, and Huygens–Steiner 0th/1st/2nd-moment splat splitting conservation
+(`Signals.QuantumCausalInference`). -/
+example (splat : Signals.DDF.NormedTensorGaussianSplat3D)
+    (p0 gamma wA_re wA_im wB_re wB_im lam l0 dl1 dl2 : ℝ) :
+    let splat_j := splat.jeffreyKinematicWeightUpdate (4 / 5) (1 / 5) 10 2
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    let c_plus := splat_j.splitMajorPlus
+    let c_minus := splat_j.splitMajorMinus
+    Signals.QuantumCausalInference.effectiveVolumetricSpeedupWithOverhead 32 32 40 64 4096 2 10 16302080 = 6553.6 ∧
+      (6400 : ℝ) < Signals.QuantumCausalInference.effectiveVolumetricSpeedupWithOverhead 32 32 40 64 4096 2 10 16302080 ∧
+      Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 10 20 50 64 10000 2 50 = 6400 ∧
+      Signals.QuantumCausalInference.volumetricAttentionEfficiencyRatio 10 100 100 64 10000 2 50 = 640000 ∧
+      Signals.QuantumCausalInference.partitionWeightedQuantumJeffreyUpdate
+          1 0 10 2 gamma wA_re wA_im wB_re wB_im = 10 ∧
+      Signals.QuantumCausalInference.partitionWeightedQuantumJeffreyUpdate
+          0 1 10 2 gamma wA_re wA_im wB_re wB_im = 2 ∧
+      Signals.QuantumCausalInference.sequentialJeffreyPool p0 (4 / 5) (1 / 5) lam lam -
+          Signals.QuantumCausalInference.sequentialJeffreyPool p0 (1 / 5) (4 / 5) lam lam =
+        lam ^ 2 * (1 / 5 - 4 / 5) ∧
+      Signals.QuantumCausalInference.diaconisZabellLogOddsUpdate l0 dl1 dl2 =
+        Signals.QuantumCausalInference.diaconisZabellLogOddsUpdate l0 dl2 dl1 ∧
+      (c_plus.centerX + c_minus.centerX) / 2 = splat_j.centerX ∧
+      ((c_plus.sigma1 ^ 2 + splat_j.splitMajorOffset ^ 2) +
+          (c_minus.sigma1 ^ 2 + splat_j.splitMajorOffset ^ 2)) / 2 =
+        splat_j.sigma1 ^ 2 ∧
+      c_plus.covDet = splat_j.covDet / 4 ∧
+      c_minus.covDet = splat_j.covDet / 4 := by
+  intro splat_j c_plus c_minus
+  have h :=
+    Signals.QuantumCausalInference.quantum_causal_overhead_boundary_commutativity_and_splat_moment_identities
+      splat p0 (4 / 5) (1 / 5) 10 2 gamma wA_re wA_im wB_re wB_im lam l0 dl1 dl2
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
 end SignalsTests
