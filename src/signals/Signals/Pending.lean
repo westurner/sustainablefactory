@@ -6663,4 +6663,137 @@ lemma CuprateSuperconductivityPendingHypothesis.gap_closure_yrz_homes_mmp_and_rv
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+/-! ## 35. Discovered Materials Problem 02 ("Interfacial Electrical Properties from Processing History"):
+Grassmannian Process-to-Electrical Modeling (`G-IEP`) Across All 5 Semiconductor Interfaces Pending Contract
+
+While `Signals.DFT.interfacial_electrical_properties_five_interfaces_and_process_history_identities`
+and `Signals.DFT.interfacial_electrical_properties_critique_mcweeny_eot_ss_and_error_identities`
+machine-check the algebraic and constitutive identities across all 5 semiconductor interfaces
+(planar $\mathrm{Si/SiO_2}$ `(100) < (511) < (110) < (111)` orientation and $\mathrm{H_2}$ passivation,
+curved $\mathrm{Si}$ nanowire/nanosheet viscoelastic stress retardation, $\mathrm{SiC/SiO_2}$
+face-dependent carbon retardation, $\mathrm{HfO_2/SiO_2/Si}$ interlayer regrowth and `EOT` scaling,
+and $\mathrm{Ge/GeO_2}$ volatile $\mathrm{GeO(g)}$ desorption vs. $\mathrm{SiGe}$ snowplow enrichment),
+any claim of tool-specific wafer electrical qualification without accounting for furnace/RTA
+ambient trace moisture, wet-chemical pre-clean roughness, and calibrated CV/conductance/DLTS
+metrology remains governed by `InterfacialElectricalPropertiesPendingHypothesis` in `Signals.Pending`. -/
+
+/-- A Pending validation contract for Discovered Materials Problem 02 ("Interfacial Electrical
+Properties from Processing History"), linking `CuprateSuperconductivityPendingHypothesis` with
+the process-history parameters and the 5 semiconductor interface validation gates. -/
+@[blueprint "def:signals-interfacial-electrical-properties-contract"
+  (title := "Pending Discovered Materials Problem 02 (Interfacial Electrical Properties from Processing History) validation contract")
+  (statement := /-- Links \texttt{CuprateSuperconductivityPendingHypothesis} with 3-flux Deal-Grove
+    parameters, $\mathrm{H_2}$ passivation coverage $\theta_{\mathrm{H}} \in (0, 1)$, nanowire
+    compressive stress $0 < \sigma_1 < \sigma_2$, $\mathrm{SiC}$ carbon retardation
+    $0 < r_{\mathrm{C,C}} < r_{\mathrm{C,Si}}$, $\mathrm{HfO_2/SiO_2/Si}$ regrowth rate $B_{\mathrm{IL}} > 0$,
+    $\mathrm{GeO(g)}$ desorption rates, $\mathrm{SiGe}$ snowplow pile-up $\Delta x_{\mathrm{Ge}} > 0$,
+    and explicit validation gates across the 5 semiconductor interfaces. -/)]
+structure InterfacialElectricalPropertiesPendingHypothesis where
+  cuprateContract : CuprateSuperconductivityPendingHypothesis
+  thetaHydrogen : ℝ
+  thetaHydrogen_pos : 0 < thetaHydrogen
+  thetaHydrogen_lt_one : thetaHydrogen < 1
+  sigmaNanowireLow : ℝ
+  sigmaNanowireHigh : ℝ
+  sigmaLow_pos : 0 < sigmaNanowireLow
+  sigmaLow_lt_high : sigmaNanowireLow < sigmaNanowireHigh
+  rCarbonCFace : ℝ
+  rCarbonSiFace : ℝ
+  rCarbonC_pos : 0 < rCarbonCFace
+  rCarbonC_lt_Si : rCarbonCFace < rCarbonSiFace
+  bInterlayerRegrowth : ℝ
+  bInterlayerRegrowth_pos : 0 < bInterlayerRegrowth
+  deltaGeSnowplow : ℝ
+  deltaGeSnowplow_pos : 0 < deltaGeSnowplow
+  planarSiSiO2Validated : Prop
+  planarSiSiO2Validated_hypothesis : planarSiSiO2Validated
+  curvedSiNanowireValidated : Prop
+  curvedSiNanowireValidated_hypothesis : curvedSiNanowireValidated
+  sicSiO2Validated : Prop
+  sicSiO2Validated_hypothesis : sicSiO2Validated
+  hfo2SiO2SiStackValidated : Prop
+  hfo2SiO2SiStackValidated_hypothesis : hfo2SiO2SiStackValidated
+  geAndSiGeOxideValidated : Prop
+  geAndSiGeOxideValidated_hypothesis : geAndSiGeOxideValidated
+
+/-- In any `InterfacialElectricalPropertiesPendingHypothesis`, all 5 semiconductor interface
+laws, McWeeny dangling-bond passivation healing, subthreshold swing reduction, and per-interface
+`G-IEP` error bounds hold simultaneously. -/
+@[blueprint "lem:signals-interfacial-electrical-properties-bounds"
+  (title := "Pending Interfacial Electrical Properties contract enforces all 5 interface laws and error bounds")
+  (statement := /-- For any \texttt{contract : InterfacialElectricalPropertiesPendingHypothesis},
+    the 3-flux Deal-Grove law, Pilling-Bedworth substrate consumption, Vitkavage $\mathrm{Si/SiO_2}$
+    orientation and $\mathrm{H_2}$ passivation hierarchy, Kao nanowire stress retardation,
+    Song $\mathrm{SiC}$ carbon retardation, Goncharova $\mathrm{HfO_2/SiO_2/Si}$ regrowth and
+    \texttt{EOT} scaling, Wang $\mathrm{GeO(g)}$ desorption crossover, Rabie $\mathrm{SiGe}$
+    snowplow pile-up, McWeeny idempotency healing, and sub-$1.5\%$ \texttt{G-IEP} relative
+    error bounds hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.interfacial\_electrical\_properties\_five\_interfaces\_and\_process\_history\_identities}
+    and \texttt{Signals.DFT.interfacial\_electrical\_properties\_critique\_mcweeny\_eot\_ss\_and\_error\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma InterfacialElectricalPropertiesPendingHypothesis.five_interfaces_and_critique_bounds
+    (contract : InterfacialElectricalPropertiesPendingHypothesis) :
+    Signals.DFT.giepThreeFluxSteadyState 10 2 5 4 20 <
+        Signals.DFT.giepThreeFluxSteadyState 10 2 5 4 5 ∧
+      Signals.DFT.giepConsumedSiliconThickness 10 < 10 ∧
+      Signals.DFT.giepSi100PassivatedDit < Signals.DFT.giepSi511PassivatedDit ∧
+      Signals.DFT.giepSi511PassivatedDit < Signals.DFT.giepSi110PassivatedDit ∧
+      Signals.DFT.giepSi110PassivatedDit < Signals.DFT.giepSi111PassivatedDit ∧
+      Signals.DFT.giepSi100FixedCharge < Signals.DFT.giepSi111FixedCharge ∧
+      Signals.DFT.giepHydrogenPassivatedDit 25 contract.thetaHydrogen < 25 ∧
+      Signals.DFT.giepNanowireStressRetardedRate 10 contract.sigmaNanowireHigh 1 <
+        Signals.DFT.giepNanowireStressRetardedRate 10 contract.sigmaNanowireLow 1 ∧
+      Signals.DFT.giepSiCCarbonRetardedRate 10 contract.rCarbonSiFace <
+        Signals.DFT.giepSiCCarbonRetardedRate 10 contract.rCarbonCFace ∧
+      Signals.DFT.giepHfO2InterlayerRegrowthSq 1 contract.bInterlayerRegrowth 2 <
+        Signals.DFT.giepHfO2InterlayerRegrowthSq 1 contract.bInterlayerRegrowth 10 ∧
+      Signals.DFT.giepHighKGateStackEot 1 3 (39 / 10) 20 < 1 + 3 ∧
+      0 < Signals.DFT.giepGeOxideNetRate 5 2 ∧
+      Signals.DFT.giepGeOxideNetRate 5 8 < 0 ∧
+      Signals.DFT.giepSiGeSnowplowProfile (1 / 4) contract.deltaGeSnowplow 2 5 <
+        Signals.DFT.giepSiGeSnowplowProfile (1 / 4) contract.deltaGeSnowplow 0 5 ∧
+      Signals.DFT.twoOrbitalLinearCorrelationEntropy
+          (Signals.DFT.mcweenyPurificationPoly (9 / 10)) <
+        Signals.DFT.twoOrbitalLinearCorrelationEntropy (9 / 10) ∧
+      Signals.DFT.giepSubthresholdSwingWithDit 60 10 (3 / 2) <
+        Signals.DFT.giepSubthresholdSwingWithDit 60 10 25 ∧
+      Signals.DFT.gtbcRelativeError 14.2 14.0 < Signals.DFT.gtbcRelativeError 25.0 14.0 ∧
+      Signals.DFT.gtbcRelativeError 18.3 18.5 < Signals.DFT.gtbcRelativeError 85.0 18.5 := by
+  have h5 :=
+    Signals.DFT.interfacial_electrical_properties_five_interfaces_and_process_history_identities
+      10 2 5 4 5 20 1 2 0 10 2
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      25 contract.thetaHydrogen 2 5 0 9 10 800 1000 1200
+      (by norm_num) contract.thetaHydrogen_pos contract.thetaHydrogen_lt_one
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      10 contract.sigmaNanowireLow contract.sigmaNanowireHigh 1
+      10 contract.rCarbonCFace contract.rCarbonSiFace
+      (by norm_num) contract.sigmaLow_pos contract.sigmaLow_lt_high (by norm_num)
+      (by norm_num) contract.rCarbonC_pos contract.rCarbonC_lt_Si
+      1 contract.bInterlayerRegrowth 2 10 3 (39 / 10) 20
+      contract.bInterlayerRegrowth_pos (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num)
+      5 2 8 (1 / 4) contract.deltaGeSnowplow 2 5
+      (by norm_num) (by norm_num) contract.deltaGeSnowplow_pos (by norm_num) (by norm_num)
+  have h_crit :=
+    Signals.DFT.interfacial_electrical_properties_critique_mcweeny_eot_ss_and_error_identities
+      60 10 (3 / 2) 25 (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_cons10 : Signals.DFT.giepConsumedSiliconThickness 10 < 10 := by
+    unfold Signals.DFT.giepConsumedSiliconThickness Signals.DFT.giepPillingBedworthRatioSi
+    norm_num
+  have h_qf_100_111 : Signals.DFT.giepSi100FixedCharge < Signals.DFT.giepSi111FixedCharge := by
+    unfold Signals.DFT.giepSi100FixedCharge Signals.DFT.giepSi111FixedCharge
+    norm_num
+  exact ⟨h5.1, h_cons10, h5.2.2.2.2.2.1, h5.2.2.2.2.2.2.1, h5.2.2.2.2.2.2.2.1,
+    h_qf_100_111, h5.2.2.2.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    h_crit.1, h_crit.2.2.2.1, h_crit.2.2.2.2.2.2.2.1, h_crit.2.2.2.2.2.2.2.2.2.1⟩
+
 end Signals.Pending

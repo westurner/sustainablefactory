@@ -944,6 +944,152 @@ pub fn cuprate_pseudogap_specific_heat_coeff(gamma_n: f64, temp_k: f64, e_pg: f6
     (gamma_n * temp_k) / (temp_k + e_pg)
 }
 
+// ============================================================================
+// Discovered Materials Grand Challenge Problem 02:
+// Interfacial Electrical Properties from Processing History (Grassmannian G-IEP)
+// ============================================================================
+
+/// Pilling-Bedworth molar volume ratio for thermal oxidation of silicon `Omega_SiO2 / Omega_Si = 2.27`,
+/// matching `Signals.DFT.giepPillingBedworthRatioSi`.
+pub const GIEP_PILLING_BEDWORTH_RATIO_SI: f64 = 2.27;
+
+/// Vitkavage, Irene & Massoud (JAP 68, 5262, 1990) passivated midgap interface-trap densities
+/// `D_it` (in `10^10 cm^-2 eV^-1`) and fixed oxide charges `Q_f / q` (in `10^10 cm^-2`) across
+/// `(100)`, `(511)`, `(110)`, and `(111)` silicon orientations:
+pub const GIEP_SI100_PASSIVATED_DIT: f64 = 1.5;
+pub const GIEP_SI511_PASSIVATED_DIT: f64 = 3.2;
+pub const GIEP_SI110_PASSIVATED_DIT: f64 = 5.4;
+pub const GIEP_SI111_PASSIVATED_DIT: f64 = 8.5;
+
+pub const GIEP_SI100_FIXED_CHARGE: f64 = 9.0;
+pub const GIEP_SI511_FIXED_CHARGE: f64 = 15.0;
+pub const GIEP_SI110_FIXED_CHARGE: f64 = 24.0;
+pub const GIEP_SI111_FIXED_CHARGE: f64 = 38.0;
+
+/// Steady-state 3-flux Plabic reaction-diffusion oxidation flux
+/// `c_star / (1 / h_gas + x_ox / d_eff + 1 / k_s)`, matching `Signals.DFT.giepThreeFluxSteadyState`.
+pub fn giep_three_flux_steady_state(
+    c_star: f64,
+    h_gas: f64,
+    d_eff: f64,
+    k_s: f64,
+    x_ox: f64,
+) -> f64 {
+    c_star / (1.0 / h_gas + x_ox / d_eff + 1.0 / k_s)
+}
+
+/// Deal-Grove linear-parabolic oxidation time `(x_ox^2 + a_dg * x_ox) / b_dg - tau_dg`,
+/// matching `Signals.DFT.giepDealGroveTimeForThickness`.
+pub fn giep_deal_grove_time_for_thickness(a_dg: f64, b_dg: f64, tau_dg: f64, x_ox: f64) -> f64 {
+    (x_ox.powi(2) + a_dg * x_ox) / b_dg - tau_dg
+}
+
+/// Consumed silicon substrate thickness `x_ox / 2.27`, matching `Signals.DFT.giepConsumedSiliconThickness`.
+pub fn giep_consumed_silicon_thickness(x_ox: f64) -> f64 {
+    x_ox / GIEP_PILLING_BEDWORTH_RATIO_SI
+}
+
+/// Steady-state linear oxidant concentration profile across the oxide,
+/// matching `Signals.DFT.giepCompositionProfileLinear`.
+pub fn giep_composition_profile_linear(
+    c_surface: f64,
+    c_interface: f64,
+    z: f64,
+    x_ox: f64,
+) -> f64 {
+    c_surface - (c_surface - c_interface) * (z / x_ox)
+}
+
+/// Hydrogen-passivated interface-trap density `dit_unpassivated * (1 - theta_h)`,
+/// matching `Signals.DFT.giepHydrogenPassivatedDit`.
+pub fn giep_hydrogen_passivated_dit(dit_unpassivated: f64, theta_h: f64) -> f64 {
+    dit_unpassivated * (1.0 - theta_h)
+}
+
+/// Energy-resolved U-shaped interface-trap density `dit_midgap + d_tail * (energy - e_midgap)^2`,
+/// matching `Signals.DFT.giepEnergyResolvedDit`.
+pub fn giep_energy_resolved_dit(
+    dit_midgap: f64,
+    d_tail: f64,
+    energy: f64,
+    e_midgap: f64,
+) -> f64 {
+    dit_midgap + d_tail * (energy - e_midgap).powi(2)
+}
+
+/// Deal's oxidation/cooling fixed-charge triangle `qf_base + delta_qf_low_t * (1 - t_ox / t_max)`,
+/// matching `Signals.DFT.giepDealOxideChargeCoolingTriangle`.
+pub fn giep_deal_oxide_charge_cooling_triangle(
+    qf_base: f64,
+    delta_qf_low_t: f64,
+    t_ox: f64,
+    t_max: f64,
+) -> f64 {
+    qf_base + delta_qf_low_t * (1.0 - t_ox / t_max)
+}
+
+/// Interface 2: Kao nanowire viscoelastic stress-retarded oxidation rate
+/// `k_planar / (1 + sigma_norm * alpha_stress)`, matching `Signals.DFT.giepNanowireStressRetardedRate`.
+pub fn giep_nanowire_stress_retarded_rate(
+    k_planar: f64,
+    sigma_norm: f64,
+    alpha_stress: f64,
+) -> f64 {
+    k_planar / (1.0 + sigma_norm * alpha_stress)
+}
+
+/// Interface 2: Remaining silicon nanowire core radius `r_initial - x_ox / 2.27`,
+/// matching `Signals.DFT.giepNanowireRemainingCoreRadius`.
+pub fn giep_nanowire_remaining_core_radius(r_initial: f64, x_ox: f64) -> f64 {
+    r_initial - giep_consumed_silicon_thickness(x_ox)
+}
+
+/// Interface 3: Song SiC/SiO2 carbon-retarded oxidation rate `k_forward / (1 + r_carbon_back)`,
+/// matching `Signals.DFT.giepSiCCarbonRetardedRate`.
+pub fn giep_sic_carbon_retarded_rate(k_forward: f64, r_carbon_back: f64) -> f64 {
+    k_forward / (1.0 + r_carbon_back)
+}
+
+/// Interface 4: Goncharova HfO2/SiO2/Si squared interlayer regrowth `x_il0^2 + b_il_o2 * t_anneal`,
+/// matching `Signals.DFT.giepHfO2InterlayerRegrowthSq`.
+pub fn giep_hfo2_interlayer_regrowth_sq(x_il0: f64, b_il_o2: f64, t_anneal: f64) -> f64 {
+    x_il0.powi(2) + b_il_o2 * t_anneal
+}
+
+/// Interface 4: High-k gate stack Equivalent Oxide Thickness `x_il + (kappa_sio2 / kappa_highk) * x_highk`,
+/// matching `Signals.DFT.giepHighKGateStackEot`.
+pub fn giep_highk_gate_stack_eot(
+    x_il: f64,
+    x_highk: f64,
+    kappa_sio2: f64,
+    kappa_highk: f64,
+) -> f64 {
+    x_il + (kappa_sio2 / kappa_highk) * x_highk
+}
+
+/// Interface 5a: Wang Ge/GeO2 net oxide growth/loss rate `v_growth - v_geo_desorb`,
+/// matching `Signals.DFT.giepGeOxideNetRate`.
+pub fn giep_ge_oxide_net_rate(v_growth: f64, v_geo_desorb: f64) -> f64 {
+    v_growth - v_geo_desorb
+}
+
+/// Interface 5b: Rabie SiGe selective oxidation Ge snowplow pile-up profile,
+/// matching `Signals.DFT.giepSiGeSnowplowProfile`.
+pub fn giep_sige_snowplow_profile(
+    x_ge_bulk: f64,
+    delta_ge_pile: f64,
+    z: f64,
+    l_decay: f64,
+) -> f64 {
+    x_ge_bulk + delta_ge_pile / (1.0 + z / l_decay)
+}
+
+/// Subthreshold swing degradation `ss_ideal * (1 + dit_eff / c_ox)`,
+/// matching `Signals.DFT.giepSubthresholdSwingWithDit`.
+pub fn giep_subthreshold_swing_with_dit(ss_ideal: f64, c_ox: f64, dit_eff: f64) -> f64 {
+    ss_ideal * (1.0 + dit_eff / c_ox)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1336,5 +1482,78 @@ mod tests {
             (cuprate_gutzwiller_hopping_factor(0.16) - 8.0 / 29.0).abs() < 1e-15
                 && gtbc_relative_error(92.6, 93.0) < 0.01
         );
+    }
+
+    #[test]
+    fn test_interfacial_electrical_properties_problem02_check_figures() {
+        // 1. Universal 3-flux Deal-Grove, Pilling-Bedworth, and C(z) profile laws
+        assert!(
+            giep_three_flux_steady_state(10.0, 2.0, 5.0, 4.0, 20.0)
+                < giep_three_flux_steady_state(10.0, 2.0, 5.0, 4.0, 5.0)
+        );
+        assert!(
+            giep_deal_grove_time_for_thickness(1.0, 2.0, 0.0, 5.0)
+                < giep_deal_grove_time_for_thickness(1.0, 2.0, 0.0, 20.0)
+        );
+        assert!(giep_consumed_silicon_thickness(10.0) < 10.0);
+        assert!((giep_composition_profile_linear(10.0, 2.0, 0.0, 5.0) - 10.0).abs() < 1e-15);
+        assert!((giep_composition_profile_linear(10.0, 2.0, 5.0, 5.0) - 2.0).abs() < 1e-15);
+
+        // 2. Interface 1: Planar Si/SiO2 orientation hierarchy, H2 passivation, Dit(E), & Deal triangle
+        assert!(GIEP_SI100_PASSIVATED_DIT < GIEP_SI511_PASSIVATED_DIT);
+        assert!(GIEP_SI511_PASSIVATED_DIT < GIEP_SI110_PASSIVATED_DIT);
+        assert!(GIEP_SI110_PASSIVATED_DIT < GIEP_SI111_PASSIVATED_DIT);
+        assert!(GIEP_SI100_FIXED_CHARGE < GIEP_SI511_FIXED_CHARGE);
+        assert!(GIEP_SI511_FIXED_CHARGE < GIEP_SI110_FIXED_CHARGE);
+        assert!(GIEP_SI110_FIXED_CHARGE < GIEP_SI111_FIXED_CHARGE);
+        assert!(giep_hydrogen_passivated_dit(25.0, 0.90) < 25.0);
+        assert!((giep_energy_resolved_dit(1.5, 8.0, 0.56, 0.56) - 1.5).abs() < 1e-15);
+        assert!(1.5 < giep_energy_resolved_dit(1.5, 8.0, 0.86, 0.56));
+        assert!(
+            giep_deal_oxide_charge_cooling_triangle(9.0, 10.0, 1000.0, 1200.0)
+                < giep_deal_oxide_charge_cooling_triangle(9.0, 10.0, 800.0, 1200.0)
+        );
+
+        // 3. Interface 2: Curved Si nanowires & nanosheets (Kao et al., 1988)
+        assert!(
+            giep_nanowire_stress_retarded_rate(10.0, 5.0, 1.0)
+                < giep_nanowire_stress_retarded_rate(10.0, 2.0, 1.0)
+        );
+        assert!(giep_nanowire_stress_retarded_rate(10.0, 2.0, 1.0) < 10.0);
+        assert!(giep_nanowire_remaining_core_radius(15.0, 10.0) < 15.0);
+
+        // 4. Interface 3: SiC/SiO2 Si-face vs. C-face carbon retardation (Song et al., 2004)
+        assert!(giep_sic_carbon_retarded_rate(10.0, 8.0) < giep_sic_carbon_retarded_rate(10.0, 1.0));
+
+        // 5. Interface 4: HfO2/SiO2/Si interlayer regrowth & EOT (Goncharova et al., 2011)
+        assert!(
+            giep_hfo2_interlayer_regrowth_sq(1.0, 0.2, 2.0)
+                < giep_hfo2_interlayer_regrowth_sq(1.0, 0.2, 10.0)
+        );
+        assert!(giep_highk_gate_stack_eot(1.0, 3.0, 3.9, 20.0) < 1.0 + 3.0);
+
+        // 6. Interface 5: Ge/GeO2 desorption & SiGe snowplow pile-up (Wang 2017; Rabie 2005)
+        assert!(giep_ge_oxide_net_rate(5.0, 2.0) > 0.0);
+        assert!(giep_ge_oxide_net_rate(5.0, 8.0) < 0.0);
+        assert!((giep_sige_snowplow_profile(0.25, 0.23, 0.0, 5.0) - 0.48).abs() < 1e-15);
+        assert!(
+            giep_sige_snowplow_profile(0.25, 0.23, 2.0, 5.0)
+                < giep_sige_snowplow_profile(0.25, 0.23, 0.0, 5.0)
+        );
+
+        // 7. Critique, McWeeny passivation healing, subthreshold swing, and per-interface G-IEP error bounds
+        let s_purified = two_orbital_linear_correlation_entropy(mcweeny_purification_poly(0.9));
+        let s_raw = two_orbital_linear_correlation_entropy(0.9);
+        let s_dangling = two_orbital_linear_correlation_entropy(0.5);
+        assert!(s_purified < s_raw && s_raw < s_dangling);
+        assert!(
+            giep_subthreshold_swing_with_dit(60.0, 10.0, 1.5)
+                < giep_subthreshold_swing_with_dit(60.0, 10.0, 25.0)
+        );
+        assert!(gtbc_relative_error(8.4, 8.5) < 0.015 && gtbc_relative_error(8.4, 8.5) < gtbc_relative_error(1.5, 8.5));
+        assert!(gtbc_relative_error(14.2, 14.0) < 0.015 && gtbc_relative_error(14.2, 14.0) < gtbc_relative_error(25.0, 14.0));
+        assert!(gtbc_relative_error(18.3, 18.5) < 0.015 && gtbc_relative_error(18.3, 18.5) < gtbc_relative_error(85.0, 18.5));
+        assert!(gtbc_relative_error(1.42, 1.40) < 0.015 && gtbc_relative_error(1.42, 1.40) < gtbc_relative_error(0.70, 1.40));
+        assert!(gtbc_relative_error(0.475, 0.480) < 0.015 && gtbc_relative_error(0.475, 0.480) < gtbc_relative_error(0.250, 0.480));
     }
 }

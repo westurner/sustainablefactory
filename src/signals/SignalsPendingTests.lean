@@ -5769,4 +5769,64 @@ example (p cos_kx omega xi0 q_cdw : ℝ) :
   SignalsPending.cuprate_superconductivity_gap_closure_bounds
     toyCuprateSuperconductivityContract p cos_kx omega xi0 q_cdw
 
+noncomputable def toyInterfacialElectricalPropertiesContract :
+    Signals.Pending.InterfacialElectricalPropertiesPendingHypothesis :=
+  { cuprateContract := toyCuprateSuperconductivityContract
+    thetaHydrogen := 9 / 10
+    thetaHydrogen_pos := by norm_num
+    thetaHydrogen_lt_one := by norm_num
+    sigmaNanowireLow := 2
+    sigmaNanowireHigh := 5
+    sigmaLow_pos := by norm_num
+    sigmaLow_lt_high := by norm_num
+    rCarbonCFace := 1
+    rCarbonSiFace := 8
+    rCarbonC_pos := by norm_num
+    rCarbonC_lt_Si := by norm_num
+    bInterlayerRegrowth := 2
+    bInterlayerRegrowth_pos := by norm_num
+    deltaGeSnowplow := 1 / 5
+    deltaGeSnowplow_pos := by norm_num
+    planarSiSiO2Validated := True
+    planarSiSiO2Validated_hypothesis := trivial
+    curvedSiNanowireValidated := True
+    curvedSiNanowireValidated_hypothesis := trivial
+    sicSiO2Validated := True
+    sicSiO2Validated_hypothesis := trivial
+    hfo2SiO2SiStackValidated := True
+    hfo2SiO2SiStackValidated_hypothesis := trivial
+    geAndSiGeOxideValidated := True
+    geAndSiGeOxideValidated_hypothesis := trivial }
+
+example :
+    let c := toyInterfacialElectricalPropertiesContract
+    Signals.DFT.giepThreeFluxSteadyState 10 2 5 4 20 <
+        Signals.DFT.giepThreeFluxSteadyState 10 2 5 4 5 ∧
+      Signals.DFT.giepConsumedSiliconThickness 10 < 10 ∧
+      Signals.DFT.giepSi100PassivatedDit < Signals.DFT.giepSi511PassivatedDit ∧
+      Signals.DFT.giepSi511PassivatedDit < Signals.DFT.giepSi110PassivatedDit ∧
+      Signals.DFT.giepSi110PassivatedDit < Signals.DFT.giepSi111PassivatedDit ∧
+      Signals.DFT.giepSi100FixedCharge < Signals.DFT.giepSi111FixedCharge ∧
+      Signals.DFT.giepHydrogenPassivatedDit 25 c.thetaHydrogen < 25 ∧
+      Signals.DFT.giepNanowireStressRetardedRate 10 c.sigmaNanowireHigh 1 <
+        Signals.DFT.giepNanowireStressRetardedRate 10 c.sigmaNanowireLow 1 ∧
+      Signals.DFT.giepSiCCarbonRetardedRate 10 c.rCarbonSiFace <
+        Signals.DFT.giepSiCCarbonRetardedRate 10 c.rCarbonCFace ∧
+      Signals.DFT.giepHfO2InterlayerRegrowthSq 1 c.bInterlayerRegrowth 2 <
+        Signals.DFT.giepHfO2InterlayerRegrowthSq 1 c.bInterlayerRegrowth 10 ∧
+      Signals.DFT.giepHighKGateStackEot 1 3 (39 / 10) 20 < 1 + 3 ∧
+      0 < Signals.DFT.giepGeOxideNetRate 5 2 ∧
+      Signals.DFT.giepGeOxideNetRate 5 8 < 0 ∧
+      Signals.DFT.giepSiGeSnowplowProfile (1 / 4) c.deltaGeSnowplow 2 5 <
+        Signals.DFT.giepSiGeSnowplowProfile (1 / 4) c.deltaGeSnowplow 0 5 ∧
+      Signals.DFT.twoOrbitalLinearCorrelationEntropy
+          (Signals.DFT.mcweenyPurificationPoly (9 / 10)) <
+        Signals.DFT.twoOrbitalLinearCorrelationEntropy (9 / 10) ∧
+      Signals.DFT.giepSubthresholdSwingWithDit 60 10 (3 / 2) <
+        Signals.DFT.giepSubthresholdSwingWithDit 60 10 25 ∧
+      Signals.DFT.gtbcRelativeError 14.2 14.0 < Signals.DFT.gtbcRelativeError 25.0 14.0 ∧
+      Signals.DFT.gtbcRelativeError 18.3 18.5 < Signals.DFT.gtbcRelativeError 85.0 18.5 :=
+  SignalsPending.interfacial_electrical_properties_five_interfaces_and_critique_bounds
+    toyInterfacialElectricalPropertiesContract
+
 end SignalsPendingTests

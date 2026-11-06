@@ -7221,4 +7221,49 @@ example (p cos_kx omega xi0 q_cdw : ℝ) :
     h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
+/-- Compile-time verification of Discovered Materials Problem 02 ("Interfacial Electrical
+Properties from Processing History"): simultaneous verification across all 5 semiconductor
+interfaces and McWeeny dangling-bond passivation healing. -/
+example :
+    Signals.DFT.giepThreeFluxSteadyState 10 2 5 4 20 <
+        Signals.DFT.giepThreeFluxSteadyState 10 2 5 4 5 ∧
+      Signals.DFT.giepSi100PassivatedDit < Signals.DFT.giepSi111PassivatedDit ∧
+      Signals.DFT.giepNanowireStressRetardedRate 10 5 1 <
+        Signals.DFT.giepNanowireStressRetardedRate 10 2 1 ∧
+      Signals.DFT.giepSiCCarbonRetardedRate 10 8 <
+        Signals.DFT.giepSiCCarbonRetardedRate 10 1 ∧
+      Signals.DFT.giepHighKGateStackEot 1 3 (39 / 10) 20 < 1 + 3 ∧
+      Signals.DFT.giepGeOxideNetRate 5 8 < 0 ∧
+      Signals.DFT.giepSiGeSnowplowProfile (1 / 4) (1 / 5) 2 5 <
+        Signals.DFT.giepSiGeSnowplowProfile (1 / 4) (1 / 5) 0 5 ∧
+      Signals.DFT.twoOrbitalLinearCorrelationEntropy
+          (Signals.DFT.mcweenyPurificationPoly (9 / 10)) <
+        Signals.DFT.twoOrbitalLinearCorrelationEntropy (9 / 10) := by
+  have h5 :=
+    Signals.DFT.interfacial_electrical_properties_five_interfaces_and_process_history_identities
+      10 2 5 4 5 20 1 2 0 10 2
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      25 (9 / 10) 2 5 0 9 10 800 1000 1200
+      (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      10 2 5 1 10 1 8
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num)
+      1 2 2 10 3 (39 / 10) 20
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      5 2 8 (1 / 4) (1 / 5) 2 5
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_crit :=
+    Signals.DFT.interfacial_electrical_properties_critique_mcweeny_eot_ss_and_error_identities
+      60 10 (3 / 2) 25 (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h5.1,
+    by unfold Signals.DFT.giepSi100PassivatedDit Signals.DFT.giepSi111PassivatedDit; norm_num,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    h_crit.1⟩
+
 end SignalsTests

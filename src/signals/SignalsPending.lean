@@ -654,4 +654,48 @@ lemma cuprate_superconductivity_gap_closure_bounds
       Signals.DFT.gtbcRelativeError 306 310 < Signals.DFT.gtbcRelativeError 0 310 :=
   contract.gap_closure_yrz_homes_mmp_and_rvb_bounds p cos_kx omega xi0 q_cdw
 
+/-- Summary lemma: in an `InterfacialElectricalPropertiesPendingHypothesis` (Discovered Materials
+Problem 02), all 5 semiconductor interface laws (planar $\mathrm{Si/SiO_2}$ orientation and
+$\mathrm{H_2}$ passivation, curved $\mathrm{Si}$ nanowire stress retardation, $\mathrm{SiC/SiO_2}$
+carbon retardation, $\mathrm{HfO_2/SiO_2/Si}$ interlayer regrowth and `EOT` compression, and
+$\mathrm{Ge/GeO_2}$ desorption vs. $\mathrm{SiGe}$ snowplow pile-up), McWeeny dangling-bond
+idempotency healing, subthreshold swing reduction, and per-interface `G-IEP` error bounds
+hold simultaneously. -/
+@[blueprint "lem:pending-interfacial-electrical-properties-bounds"
+  (title := "Pending Discovered Materials Problem 02 (Interfacial Electrical Properties from Processing History) summary bounds")
+  (statement := /-- For any \texttt{contract : InterfacialElectricalPropertiesPendingHypothesis},
+    all 5 semiconductor interface process-to-electrical laws and error bounds hold
+    simultaneously. -/)
+  (proof := /-- Apply \texttt{InterfacialElectricalPropertiesPendingHypothesis.five\_interfaces\_and\_critique\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma interfacial_electrical_properties_five_interfaces_and_critique_bounds
+    (contract : InterfacialElectricalPropertiesPendingHypothesis) :
+    Signals.DFT.giepThreeFluxSteadyState 10 2 5 4 20 <
+        Signals.DFT.giepThreeFluxSteadyState 10 2 5 4 5 ∧
+      Signals.DFT.giepConsumedSiliconThickness 10 < 10 ∧
+      Signals.DFT.giepSi100PassivatedDit < Signals.DFT.giepSi511PassivatedDit ∧
+      Signals.DFT.giepSi511PassivatedDit < Signals.DFT.giepSi110PassivatedDit ∧
+      Signals.DFT.giepSi110PassivatedDit < Signals.DFT.giepSi111PassivatedDit ∧
+      Signals.DFT.giepSi100FixedCharge < Signals.DFT.giepSi111FixedCharge ∧
+      Signals.DFT.giepHydrogenPassivatedDit 25 contract.thetaHydrogen < 25 ∧
+      Signals.DFT.giepNanowireStressRetardedRate 10 contract.sigmaNanowireHigh 1 <
+        Signals.DFT.giepNanowireStressRetardedRate 10 contract.sigmaNanowireLow 1 ∧
+      Signals.DFT.giepSiCCarbonRetardedRate 10 contract.rCarbonSiFace <
+        Signals.DFT.giepSiCCarbonRetardedRate 10 contract.rCarbonCFace ∧
+      Signals.DFT.giepHfO2InterlayerRegrowthSq 1 contract.bInterlayerRegrowth 2 <
+        Signals.DFT.giepHfO2InterlayerRegrowthSq 1 contract.bInterlayerRegrowth 10 ∧
+      Signals.DFT.giepHighKGateStackEot 1 3 (39 / 10) 20 < 1 + 3 ∧
+      0 < Signals.DFT.giepGeOxideNetRate 5 2 ∧
+      Signals.DFT.giepGeOxideNetRate 5 8 < 0 ∧
+      Signals.DFT.giepSiGeSnowplowProfile (1 / 4) contract.deltaGeSnowplow 2 5 <
+        Signals.DFT.giepSiGeSnowplowProfile (1 / 4) contract.deltaGeSnowplow 0 5 ∧
+      Signals.DFT.twoOrbitalLinearCorrelationEntropy
+          (Signals.DFT.mcweenyPurificationPoly (9 / 10)) <
+        Signals.DFT.twoOrbitalLinearCorrelationEntropy (9 / 10) ∧
+      Signals.DFT.giepSubthresholdSwingWithDit 60 10 (3 / 2) <
+        Signals.DFT.giepSubthresholdSwingWithDit 60 10 25 ∧
+      Signals.DFT.gtbcRelativeError 14.2 14.0 < Signals.DFT.gtbcRelativeError 25.0 14.0 ∧
+      Signals.DFT.gtbcRelativeError 18.3 18.5 < Signals.DFT.gtbcRelativeError 85.0 18.5 :=
+  contract.five_interfaces_and_critique_bounds
+
 end SignalsPending

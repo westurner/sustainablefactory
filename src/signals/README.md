@@ -661,12 +661,24 @@ interpretation while keeping experimental premises explicit:
    all 12 experimental benchmark targets, Kotliar–Liu–RVB product dome equivalence,
    Pavarini–O'Mahony $T_{c,\max}$, YRZ nodal Fermi arcs, Homes' law, MMP dynamical
    paramagnons, 2D CDW peak, and smooth Loram specific heat across `LSCO`, `Tl2201`,
-   `Bi2212`, `YBCO`, and `Hg1201`). See
+   `Bi2212`, `YBCO`, and `Hg1201`),
+   and `InterfacialElectricalPropertiesPendingHypothesis`
+   (`interfacial_electrical_properties_five_interfaces_and_critique_bounds`,
+   `interfacial_electrical_properties_five_interfaces_and_process_history_identities`,
+   `interfacial_electrical_properties_critique_mcweeny_eot_ss_and_error_identities`)
+   formalizes Discovered Materials Problem 02 ("Interfacial Electrical Properties from
+   Processing History": Plabic 3-flux Deal–Grove kinetics, Pilling–Bedworth substrate
+   consumption, Vitkavage planar $\mathrm{Si/SiO_2}$ `(100) < (511) < (110) < (111)`
+   orientation & $\mathrm{H_2}$ passivation, Kao nanowire stress retardation, Song
+   $\mathrm{SiC/SiO_2}$ carbon retardation, Goncharova $\mathrm{HfO_2/SiO_2/Si}$
+   interlayer regrowth & `EOT`, Wang $\mathrm{GeO(g)}$ desorption, and Rabie $\mathrm{SiGe}$
+   snowplow pile-up). See
    [`docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`](../../docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md),
    [`docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`](../../docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md),
    [`docs/grassmannian-tuning-materials-with-light-paper.md`](../../docs/grassmannian-tuning-materials-with-light-paper.md),
    [`docs/grassmannian-interfacial-heat-transport-paper.md`](../../docs/grassmannian-interfacial-heat-transport-paper.md),
-   and [`docs/grassmannian-cuprate-superconductivity-paper.md`](../../docs/grassmannian-cuprate-superconductivity-paper.md).
+   [`docs/grassmannian-cuprate-superconductivity-paper.md`](../../docs/grassmannian-cuprate-superconductivity-paper.md),
+   and [`docs/grassmannian-interfacial-electrical-properties-paper.md`](../../docs/grassmannian-interfacial-electrical-properties-paper.md).
 - `Signals.DDF` Section 30 formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
    Fubini–Study Gross–Pitaevskii Equation (GPE), Dual-Schubert
    $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker

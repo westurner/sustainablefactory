@@ -900,3 +900,98 @@ def test_cuprate_superconductivity_problem01_all_twelve_targets_and_families() -
     assert 0.0 < CuprateSuperconductivityEngine.cuprate_pseudogap_specific_heat_coeff(
         1.0, 100.0, 50.0
     ) < 1.0
+
+
+def test_interfacial_electrical_properties_problem02_all_five_interfaces() -> None:
+    """
+    Verifies Discovered Materials Problem 02 ("Interfacial Electrical Properties from
+    Processing History", written with inputs from Prof. Tibor Grasser, Prof. Theresia
+    Knobloch, and Prof. Peter Schindler) across all 5 required semiconductor interfaces:
+      1. Planar Si/SiO2 orientation & H2 passivation (Vitkavage, Irene & Massoud, JAP 1990),
+      2. Curved Si nanowires & nanosheets stress retardation (Kao et al., IEEE TED 1988),
+      3. SiC/SiO2 face-dependent carbon retardation (Song et al., JAP 2004),
+      4. HfO2/SiO2/Si interlayer regrowth & EOT (Goncharova et al., PRB 2011),
+      5. Ge/GeO2 desorption loss & SiGe snowplow pile-up (Wang et al. 2017; Rabie et al. 2005).
+    """
+    from sustainablefactory.qci_grassmannian_dft import InterfacialElectricalProcessEngine
+
+    # Universal 3-flux Deal-Grove, Pilling-Bedworth, and C(z) profile laws
+    assert InterfacialElectricalProcessEngine.giep_three_flux_steady_state(
+        10.0, 2.0, 5.0, 4.0, 20.0
+    ) < InterfacialElectricalProcessEngine.giep_three_flux_steady_state(
+        10.0, 2.0, 5.0, 4.0, 5.0
+    )
+    assert InterfacialElectricalProcessEngine.giep_deal_grove_time_for_thickness(
+        1.0, 2.0, 0.0, 5.0
+    ) < InterfacialElectricalProcessEngine.giep_deal_grove_time_for_thickness(
+        1.0, 2.0, 0.0, 20.0
+    )
+    assert InterfacialElectricalProcessEngine.giep_consumed_silicon_thickness(10.0) < 10.0
+    assert np.isclose(
+        InterfacialElectricalProcessEngine.giep_composition_profile_linear(10.0, 2.0, 0.0, 5.0),
+        10.0,
+    )
+    assert np.isclose(
+        InterfacialElectricalProcessEngine.giep_composition_profile_linear(10.0, 2.0, 5.0, 5.0),
+        2.0,
+    )
+
+    # Interface 1: Planar Si/SiO2 orientation hierarchy, H2 passivation, Dit(E), & Deal triangle
+    ot = InterfacialElectricalProcessEngine.ORIENTATION_TABLE
+    assert (
+        ot["(100)"]["dit_pass_exp_1e10_cm2_ev"]
+        < ot["(511)"]["dit_pass_exp_1e10_cm2_ev"]
+        < ot["(110)"]["dit_pass_exp_1e10_cm2_ev"]
+        < ot["(111)"]["dit_pass_exp_1e10_cm2_ev"]
+    )
+    assert (
+        ot["(100)"]["qf_exp_1e10_cm2"]
+        < ot["(511)"]["qf_exp_1e10_cm2"]
+        < ot["(110)"]["qf_exp_1e10_cm2"]
+        < ot["(111)"]["qf_exp_1e10_cm2"]
+    )
+    assert InterfacialElectricalProcessEngine.giep_hydrogen_passivated_dit(25.0, 0.90) < 25.0
+    assert np.isclose(
+        InterfacialElectricalProcessEngine.giep_energy_resolved_dit(1.5, 8.0, 0.56, 0.56),
+        1.5,
+    )
+    assert InterfacialElectricalProcessEngine.giep_deal_oxide_charge_cooling_triangle(
+        9.0, 10.0, 1000.0, 1200.0
+    ) < InterfacialElectricalProcessEngine.giep_deal_oxide_charge_cooling_triangle(
+        9.0, 10.0, 800.0, 1200.0
+    )
+
+    # Interface 2: Curved Si nanowires & nanosheets (Kao et al., 1988)
+    assert InterfacialElectricalProcessEngine.giep_nanowire_stress_retarded_rate(
+        10.0, 5.0, 1.0
+    ) < InterfacialElectricalProcessEngine.giep_nanowire_stress_retarded_rate(
+        10.0, 2.0, 1.0
+    ) < 10.0
+    assert InterfacialElectricalProcessEngine.giep_nanowire_remaining_core_radius(15.0, 10.0) < 15.0
+
+    # Interface 3: SiC/SiO2 Si-face vs. C-face carbon retardation (Song et al., 2004)
+    assert InterfacialElectricalProcessEngine.giep_sic_carbon_retarded_rate(
+        10.0, 8.0
+    ) < InterfacialElectricalProcessEngine.giep_sic_carbon_retarded_rate(10.0, 1.0)
+
+    # Interface 4: HfO2/SiO2/Si interlayer regrowth & EOT (Goncharova et al., 2011)
+    assert InterfacialElectricalProcessEngine.giep_hfo2_interlayer_regrowth_sq(
+        1.0, 0.2, 2.0
+    ) < InterfacialElectricalProcessEngine.giep_hfo2_interlayer_regrowth_sq(1.0, 0.2, 10.0)
+    assert InterfacialElectricalProcessEngine.giep_highk_gate_stack_eot(1.0, 3.0, 3.9, 20.0) < 4.0
+
+    # Interface 5: Ge/GeO2 desorption & SiGe snowplow pile-up (Wang 2017; Rabie 2005)
+    assert InterfacialElectricalProcessEngine.giep_ge_oxide_net_rate(5.0, 2.0) > 0.0
+    assert InterfacialElectricalProcessEngine.giep_ge_oxide_net_rate(5.0, 8.0) < 0.0
+    assert InterfacialElectricalProcessEngine.giep_sige_snowplow_profile(
+        0.25, 0.23, 2.0, 5.0
+    ) < InterfacialElectricalProcessEngine.giep_sige_snowplow_profile(0.25, 0.23, 0.0, 5.0)
+
+    # Critique, subthreshold swing, and per-interface G-IEP vs. classical Deal-Grove error audit
+    assert InterfacialElectricalProcessEngine.giep_subthreshold_swing_with_dit(
+        60.0, 10.0, 1.5
+    ) < InterfacialElectricalProcessEngine.giep_subthreshold_swing_with_dit(60.0, 10.0, 25.0)
+    summary = InterfacialElectricalProcessEngine.run_all_problem02_benchmarks()
+    assert summary["overall_giep_mape"] < 0.015
+    assert summary["overall_classical_dg_mape"] > 0.80
+    assert summary["error_reduction_factor_vs_classical_dg"] > 70.0
