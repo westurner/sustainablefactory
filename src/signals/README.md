@@ -623,12 +623,24 @@ interpretation while keeping experimental premises explicit:
    unified bridge across Polaritons, Plasmons, Magnetic Skyrmions, Majorana Zero
    Modes (`MZMs`), and Non-Destructive Dispersive Readout
    (`polariton_plasmon_skyrmion_mzm_and_nondestructive_readout_identities`),
-   while `QuantumCausalGrassmannianDFTHypothesis` in `Signals.Pending`
+   while `QuantumCausalGrassmannianDFTHypothesis` and
+   `LightDrivenMaterialsPendingHypothesis` in `Signals.Pending`
    (`quantum_causal_grassmannian_dft_bounds`,
-   `quantum_causal_grassmannian_dft_eri_wtmad2_and_vrc_bounds`) isolates
-   experimental anyon-braiding and full basis-set hardware claims. See
-   [`docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`](../../docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md)
-   and [`docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`](../../docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md).
+   `quantum_causal_grassmannian_dft_eri_wtmad2_and_vrc_bounds`,
+   `light_driven_materials_gkba_and_four_target_bounds`,
+   `light_driven_materials_critique_and_gap_closure_bounds`) isolate
+   experimental anyon-braiding, full basis-set hardware claims, and Discovered
+   Materials Problem 04 ("Tuning Materials with Light":
+   `tuning_materials_with_light_gkba_hubbard_wse2_graphite_and_mgb2_identities`,
+   `tuning_materials_with_light_cumulant_pauli_ode_and_neq_tc_critique_identities`,
+   $1.44\times 10^8\times$ bare and $1.44\times 10^7\times$ cumulant-inclusive
+   time-linear Grassmannian `G-GKBA` speedups, Hubbard 11-site chain & $6\times 2$
+   ladder, $\mathrm{WSe}_2$ excitons & high-density Pauli Mott screening, Graphite
+   5-reservoir ODE rate conservation, and $\mathrm{MgB}_2$ THz superconductivity
+   & out-of-equilibrium $T_c^{\mathrm{neq}}$). See
+   [`docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`](../../docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md),
+   [`docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`](../../docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md),
+   and [`docs/grassmannian-tuning-materials-with-light-paper.md`](../../docs/grassmannian-tuning-materials-with-light-paper.md).
 - `Signals.DDF` Section 30 formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
    Fubini–Study Gross–Pitaevskii Equation (GPE), Dual-Schubert
    $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker

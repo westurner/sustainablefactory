@@ -6140,4 +6140,159 @@ lemma QuantumCausalGrassmannianDFTHypothesis.full_55_subset_eri_wtmad2_optional_
     by unfold Signals.DFT.mzmDispersiveParityContrast
         Signals.DFT.mzmDispersiveParityPhaseShift; norm_num⟩
 
+/-! ## 32. Discovered Materials Problem 04 ("Tuning Materials with Light"): Time-Linear Grassmannian `G-GKBA`, Hubbard Chains/Ladders, $\mathrm{WSe}_2$, Graphite, & $\mathrm{MgB}_2$ Pending Contract
+
+While `Signals.DFT.tuning_materials_with_light_gkba_hubbard_wse2_graphite_and_mgb2_identities`
+machine-checks:
+1. Time-linear Grassmannian Generalized Kadanoff–Baym Ansatz (`G-GKBA`) complexity reduction
+   $\operatorname{grassmannGKBASpeedupRatio}(N_t, N_{\mathrm{occ}}, N_{\mathrm{basis}}) = N_t^2(N_{\mathrm{basis}}/N_{\mathrm{occ}})^2$
+   ($1.44\times 10^8\times$ at $N_t = 1000, N_{\mathrm{occ}} = 10, N_{\mathrm{basis}} = 120$),
+2. Hubbard 11-site chain correlated double occupancy ($U/J = 0 \to 5 \to 15 \to 20$), doublon
+   relaxation scaling $J^2 / U$, and $6\times 2$ ladder optical conductivity thresholds
+   ($U/J = 3, 6, 12$; Schroedter, Bonitz & Joost, `arXiv:2606.10773`, 2026),
+3. $\mathrm{WSe}_2$ resonant ($1.72\text{ eV}$) and above-gap ($2.48\text{ eV}$) bright/dark
+   exciton energetics ($45\text{ meV}$ splitting), $400\text{ fs}$ momentum-dark buildup, and
+   $0.5$ late-time bright/dark population ratio (Madéo et al., *Science* **370**, 1199 (2020)),
+4. Graphite $35\text{ fs}, 800\text{ nm}, 12\text{ mJ/cm}^2$ five-reservoir energy conservation
+   and $K$-point $A_1'$ SCOP-to-acoustic (`LA`/`TA`) relaxation across $0.5, 1.5, 5, 100\text{ ps}$
+   (René de Cotret et al., *Phys. Rev. B* **100**, 214115 (2019)), and
+5. $\mathrm{MgB}_2$ $T_c = 38\text{ K}$ lower $\pi$-band gap curve, $0.63\text{ THz}$ monotonic
+   first-harmonic cooling response, $1\text{ THz}$ third-harmonic resonance peak at $7\text{ K}$,
+   and $150\text{ kV/cm}$ $2\text{ ps}$ inductive superfluid conductivity suppression
+   (Katsumi et al., *Phys. Rev. Lett.* **135**, 036902 (2025)),
+
+any claim of ab initio predictive transfer to arbitrary driven crystals or light-induced
+room-temperature superconductivity above $T_c$ without full Brillouin-zone $GW\text{-}\mathrm{BSE}$ /
+DFPT electron–phonon matrix elements, multi-band Eliashberg–Nambu–Gor'kov self-consistency,
+and time-resolved experimental trARPES / UEDS / THz-TDS validation remains governed by
+`LightDrivenMaterialsPendingHypothesis` in `Signals.Pending`. -/
+
+/-- A Pending validation contract for Discovered Materials Problem 04 ("Tuning Materials
+with Light"), linking `QuantumCausalGrassmannianDFTHypothesis` with the four reproduction
+benchmarks (Hubbard chains/ladders, $\mathrm{WSe}_2$, Graphite, and $\mathrm{MgB}_2$). -/
+@[blueprint "def:signals-light-driven-materials-contract"
+  (title := "Pending Discovered Materials Problem 04 (Tuning Materials with Light) validation contract")
+  (statement := /-- Links \texttt{QuantumCausalGrassmannianDFTHypothesis} with $\Delta_{\pi,0} > 0$,
+    probe frequency $\omega_{\mathrm{probe}} > 0$, strong-pump condensate fraction
+    $0 < n_s^{\mathrm{driven}} < n_s^{\mathrm{eq}}$, and explicit validation gates for
+    Schroedter et al.\ (2026) Hubbard DMRG/ED, Madéo et al.\ (2020) $\mathrm{WSe}_2$ trARPES,
+    René de Cotret et al.\ (2019) Graphite UEDS, and Katsumi et al.\ (2025) $\mathrm{MgB}_2$ THz-TDS. -/)]
+structure LightDrivenMaterialsPendingHypothesis where
+  dftContract : QuantumCausalGrassmannianDFTHypothesis
+  deltaPi0MeV : ℝ
+  deltaPi0_pos : 0 < deltaPi0MeV
+  probeFreqTHz : ℝ
+  probeFreq_pos : 0 < probeFreqTHz
+  dampingTHz : ℝ
+  drivenSuperfluidFraction : ℝ
+  equilibriumSuperfluidFraction : ℝ
+  superfluidDepleted : drivenSuperfluidFraction < equilibriumSuperfluidFraction
+  hubbardChainAndLadderValidated : Prop
+  hubbardChainAndLadderValidated_hypothesis : hubbardChainAndLadderValidated
+  wse2ExcitonTrArpesValidated : Prop
+  wse2ExcitonTrArpesValidated_hypothesis : wse2ExcitonTrArpesValidated
+  graphiteDiffuseScatteringValidated : Prop
+  graphiteDiffuseScatteringValidated_hypothesis : graphiteDiffuseScatteringValidated
+  mgb2ThzHarmonicAndConductivityValidated : Prop
+  mgb2ThzHarmonicAndConductivityValidated_hypothesis :
+    mgb2ThzHarmonicAndConductivityValidated
+
+/-- In any `LightDrivenMaterialsPendingHypothesis`, the time-linear Grassmannian `G-GKBA`
+speedup ($1.44\times 10^8\times$), the 11-site Hubbard chain and $6\times 2$ ladder
+double-occupancy and $\sigma(\omega)$ threshold laws, the $\mathrm{WSe}_2$ $400\text{ fs}$
+dark-exciton buildup and $0.5$ late-time bright/dark ratio, the Graphite five-reservoir
+energy conservation and $K\text{-}A_1'$ optical-to-acoustic decay, and the $\mathrm{MgB}_2$
+$T_c = 38\text{ K}$ gap, $0.63\text{ THz}$ first-harmonic cooling monotonicity, $1\text{ THz}$
+nonlinear resonance minimum at $7\text{ K}$, and $150\text{ kV/cm}$ $2\text{ ps}$ conductivity
+suppression hold simultaneously. -/
+@[blueprint "lem:signals-light-driven-materials-bounds"
+  (title := "Pending Tuning Materials with Light contract enforces G-GKBA speedup and Hubbard, WSe2, Graphite, and MgB2 laws")
+  (statement := /-- For any \texttt{contract : LightDrivenMaterialsPendingHypothesis},
+    $\operatorname{grassmannGKBASpeedupRatio}(1000, 10, 120) = 144000000$,
+    $\operatorname{hubbardCorrelatedDoubleOccupancy}(1/2, 1/2, 15) < \operatorname{hubbardCorrelatedDoubleOccupancy}(1/2, 1/2, 5)$,
+    $\operatorname{wse2DarkExcitonBuildupFs} = 400$,
+    $\operatorname{wse2LateTimeBrightToDarkRatio}(1, 2) = 1/2$,
+    $\operatorname{graphiteTotalEnergyBalance}(4, 9/2, 2, 1, 1/2) = \operatorname{graphiteTotalEnergyBalance}(1/2, 1/5, 3/10, 6, 5)$,
+    $\operatorname{mgb2LowerPiGapSq}(\Delta_{\pi,0}, 38, 38) = 0$,
+    $\operatorname{mgb2NormalizedFirstHarmonic}(20, 38) < \operatorname{mgb2NormalizedFirstHarmonic}(7, 38)$, and
+    $\operatorname{mgb2DrivenSuperfluidConductivityIm}(n_s^{\mathrm{driven}}, \omega) < \operatorname{mgb2DrivenSuperfluidConductivityIm}(n_s^{\mathrm{eq}}, \omega)$
+    hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.tuning\_materials\_with\_light\_gkba\_hubbard\_wse2\_graphite\_and\_mgb2\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma LightDrivenMaterialsPendingHypothesis.gkba_hubbard_wse2_graphite_and_mgb2_bounds
+    (contract : LightDrivenMaterialsPendingHypothesis) :
+    Signals.DFT.grassmannGKBASpeedupRatio 1000 10 120 = 144000000 ∧
+      Signals.DFT.hubbardCorrelatedDoubleOccupancy (1 / 2) (1 / 2) 15 <
+        Signals.DFT.hubbardCorrelatedDoubleOccupancy (1 / 2) (1 / 2) 5 ∧
+      Signals.DFT.hubbardDoublonDecayRate 1 15 <
+        Signals.DFT.hubbardDoublonDecayRate 1 5 ∧
+      Signals.DFT.hubbardOpticalConductivityThreshold 3 2 <
+        Signals.DFT.hubbardOpticalConductivityThreshold 6 2 ∧
+      Signals.DFT.wse2DarkExcitonBuildupFs = 400 ∧
+      Signals.DFT.wse2LateTimeBrightToDarkRatio 1 2 = 1 / 2 ∧
+      Signals.DFT.graphiteTotalEnergyBalance 4 (9 / 2) 2 1 (1 / 2) =
+        Signals.DFT.graphiteTotalEnergyBalance (1 / 2) (1 / 5) (3 / 10) 6 5 ∧
+      Signals.DFT.mgb2LowerPiGapSq contract.deltaPi0MeV 38 Signals.DFT.mgb2KatsumiCriticalTempK = 0 ∧
+      Signals.DFT.mgb2NormalizedFirstHarmonic 20 Signals.DFT.mgb2KatsumiCriticalTempK <
+        Signals.DFT.mgb2NormalizedFirstHarmonic 7 Signals.DFT.mgb2KatsumiCriticalTempK ∧
+      Signals.DFT.mgb2ThirdHarmonicResonanceDenomSq 1 1 contract.dampingTHz ≤
+        Signals.DFT.mgb2ThirdHarmonicResonanceDenomSq
+          contract.probeFreqTHz 1 contract.dampingTHz ∧
+      Signals.DFT.mgb2DrivenSuperfluidConductivityIm
+          contract.drivenSuperfluidFraction contract.probeFreqTHz <
+        Signals.DFT.mgb2DrivenSuperfluidConductivityIm
+          contract.equilibriumSuperfluidFraction contract.probeFreqTHz := by
+  have h :=
+    Signals.DFT.tuning_materials_with_light_gkba_hubbard_wse2_graphite_and_mgb2_identities
+      1000 10 120 (by norm_num) (by norm_num) (by norm_num)
+      contract.deltaPi0MeV contract.probeFreqTHz contract.dampingTHz
+      contract.drivenSuperfluidFraction contract.equilibriumSuperfluidFraction
+      contract.deltaPi0_pos contract.probeFreq_pos contract.superfluidDepleted
+  exact ⟨h.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+/-- In any `LightDrivenMaterialsPendingHypothesis`, the G1–G2 cumulant-overhead-inclusive
+`G-GKBA` speedup (`effectiveGGKBASpeedupWithCumulants 1000 10 120 108000 = 14400000 > 10^7`),
+the Hubbard superexchange hierarchy ($J_{\mathrm{ex}}(1,15) < J_{\mathrm{ex}}(1,5) < J_{\mathrm{ex}}(1,3)$),
+high-density Pauli phase-space filling and exciton Mott dissociation ($f_{\mathrm{Pauli}}(n_{\mathrm{Mott}}, n_{\mathrm{Mott}}) = 0$),
+exact five-reservoir Graphite ODE rate conservation ($\sum_r \dot{E}_r = P_{\mathrm{laser}}$),
+and out-of-equilibrium superconducting critical temperature suppression
+($T_c^{\mathrm{neq}}(38, 0) = 38$, $T_c^{\mathrm{neq}}(38, 1/2) = 0$) hold simultaneously. -/
+@[blueprint "lem:signals-light-driven-materials-critique-and-gap-closure-bounds"
+  (title := "Pending Tuning Materials with Light contract enforces G1-G2 cumulant speedup, Pauli Mott screening, 5-reservoir ODE conservation, and non-equilibrium Tc")
+  (statement := /-- For any \texttt{contract : LightDrivenMaterialsPendingHypothesis} and $n_{\mathrm{Mott}} > 0$,
+    $\operatorname{effectiveGGKBASpeedupWithCumulants}(1000, 10, 120, 108000) = 14400000 > 10^7$,
+    $\operatorname{hubbardSuperexchangeScale}(1, 15) < \operatorname{hubbardSuperexchangeScale}(1, 5)$,
+    $\operatorname{excitonPauliPhaseSpaceFillingFactor}(n_{\mathrm{Mott}}, n_{\mathrm{Mott}}) = 0$,
+    $\operatorname{graphiteFiveReservoirRateSum}(P_{\mathrm{laser}}, g_1, \dots, g_8) = P_{\mathrm{laser}}$,
+    and $\operatorname{mgb2NonEquilibriumCriticalTemp}(38, 1/2) = 0$ hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.tuning\_materials\_with\_light\_cumulant\_pauli\_ode\_and\_neq\_tc\_critique\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma LightDrivenMaterialsPendingHypothesis.cumulant_pauli_ode_and_neq_tc_bounds
+    (_contract : LightDrivenMaterialsPendingHypothesis)
+    (n_ex n_mott : ℝ) (hn_ex_pos : 0 < n_ex) (hn_ex_lt : n_ex < n_mott)
+    (p_laser g1 g2 g3 g4 g5 g6 g7 g8 : ℝ) :
+    Signals.DFT.effectiveGGKBASpeedupWithCumulants 1000 10 120 108000 = 14400000 ∧
+      (10000000 : ℝ) < Signals.DFT.effectiveGGKBASpeedupWithCumulants 1000 10 120 108000 ∧
+      Signals.DFT.hubbardSuperexchangeScale 1 15 < Signals.DFT.hubbardSuperexchangeScale 1 5 ∧
+      Signals.DFT.excitonPauliPhaseSpaceFillingFactor n_mott n_mott = 0 ∧
+      0 < Signals.DFT.excitonPauliPhaseSpaceFillingFactor n_ex n_mott ∧
+      Signals.DFT.graphiteFiveReservoirRateSum p_laser g1 g2 g3 g4 g5 g6 g7 g8 = p_laser ∧
+      Signals.DFT.mgb2NonEquilibriumCriticalTemp 38 0 = 38 ∧
+      Signals.DFT.mgb2NonEquilibriumCriticalTemp 38 (1 / 2) = 0 := by
+  have h :=
+    Signals.DFT.tuning_materials_with_light_cumulant_pauli_ode_and_neq_tc_critique_identities
+      1000 10 120 1 5 1 n_ex n_mott hn_ex_pos hn_ex_lt
+      p_laser g1 g2 g3 g4 g5 g6 g7 g8
+      (1 / 4) 1 1 1 (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.2.1, h.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
 end Signals.Pending

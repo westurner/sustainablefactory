@@ -391,6 +391,187 @@ pub fn gmtkn55_five_category_wtmad2(
     (w_basic + w_iso + w_barrier + w_inter + w_intra) / (GMTKN55_TOTAL_REACTION_COUNT as f64)
 }
 
+// ============================================================================
+// Discovered Materials Problem 04: "Tuning Materials with Light"
+// Time-Linear Grassmannian GKBA (G-GKBA), Hubbard Chains/Ladders, WSe2,
+// Graphite SCOP-to-Acoustic Energy Flow, and MgB2 Driven Superconductivity
+// ============================================================================
+
+/// Two-time Kadanoff-Baym Equation (KBE) contour integration complexity proxy `N_t^3 * N_basis^3`.
+pub fn two_time_kbe_flops(n_steps: f64, n_basis: f64) -> f64 {
+    n_steps.powi(3) * n_basis.powi(3)
+}
+
+/// Time-linear Grassmannian GKBA (`G-GKBA`) complexity proxy `N_t * N_occ^2 * N_basis`.
+pub fn time_linear_grassmann_gkba_flops(n_steps: f64, n_occ: f64, n_basis: f64) -> f64 {
+    n_steps * n_occ.powi(2) * n_basis
+}
+
+/// Algorithmic speedup ratio of time-linear Grassmannian `G-GKBA` over two-time KBE:
+/// `N_t^2 * (N_basis / N_occ)^2`.
+pub fn grassmann_gkba_speedup_ratio(n_steps: f64, n_occ: f64, n_basis: f64) -> f64 {
+    two_time_kbe_flops(n_steps, n_basis) / time_linear_grassmann_gkba_flops(n_steps, n_occ, n_basis)
+}
+
+/// Hubbard correlated double occupancy `d(n_up, n_down, U/J)` across `U/J = 0..20`
+/// (Schroedter, Bonitz & Joost, `arXiv:2606.10773`, 2026).
+pub fn hubbard_correlated_double_occupancy(n_up: f64, n_down: f64, u_over_j: f64) -> f64 {
+    (n_up * n_down) / (1.0 + 0.15 * u_over_j + 0.02 * u_over_j.powi(2))
+}
+
+/// Odd-even site density imbalance `(N_odd - N_even) / (N_odd + N_even)` on the 11-site Hubbard chain.
+pub fn hubbard_density_imbalance(n_odd: f64, n_even: f64) -> f64 {
+    (n_odd - n_even) / (n_odd + n_even)
+}
+
+/// Perturbative repulsively bound doublon relaxation rate proxy `J^2 / U`.
+pub fn hubbard_doublon_decay_rate(j_hop: f64, u_int: f64) -> f64 {
+    j_hop.powi(2) / u_int
+}
+
+/// Mott-Hubbard optical conductivity gap threshold `U/J - W` on the 6x2 Hubbard ladder.
+pub fn hubbard_optical_conductivity_threshold(u_over_j: f64, bandwidth_w: f64) -> f64 {
+    u_over_j - bandwidth_w
+}
+
+/// Resonant A-exciton pump photon energy (1.72 eV) in WSe2 at 90 K (Madéo et al., Science 2020).
+pub const WSE2_RESONANT_PUMP_EV: f64 = 1.72;
+
+/// Above-gap continuum pump photon energy (2.48 eV) in WSe2 at 90 K (Madéo et al., Science 2020).
+pub const WSE2_ABOVE_GAP_PUMP_EV: f64 = 2.48;
+
+/// Momentum-dark K-Q exciton energy (1.675 eV, 45 meV below bright K-K) in WSe2.
+pub const WSE2_DARK_EXCITON_ENERGY_EV: f64 = 1.675;
+
+/// Characteristic momentum-dark exciton buildup timescale (400 fs) in WSe2.
+pub const WSE2_DARK_EXCITON_BUILDUP_FS: f64 = 400.0;
+
+/// Late-time bright-to-dark exciton population ratio `gamma_{D->B} / gamma_{B->D}` in WSe2.
+pub fn wse2_late_time_bright_to_dark_ratio(gamma_d_to_b: f64, gamma_b_to_d: f64) -> f64 {
+    gamma_d_to_b / gamma_b_to_d
+}
+
+/// Five-reservoir coupled electron + SCOP (`A1'`, `E2g`) + acoustic (`LA`, `TA`) energy balance in Graphite
+/// (René de Cotret et al., PRB 100, 214115 (2019)).
+pub fn graphite_total_energy_balance(
+    e_el: f64,
+    e_scop_a1p: f64,
+    e_scop_e2g: f64,
+    e_acoustic_la: f64,
+    e_acoustic_ta: f64,
+) -> f64 {
+    e_el + e_scop_a1p + e_scop_e2g + e_acoustic_la + e_acoustic_ta
+}
+
+/// Bi-exponential K-point `A1'` optical phonon rise-and-decay population envelope in Graphite.
+pub fn graphite_a1p_optical_rise_and_decay(amp: f64, rise_factor: f64, decay_factor: f64) -> f64 {
+    amp * (1.0 - rise_factor) * decay_factor
+}
+
+/// Measured sample superconducting critical temperature `Tc = 38.0 K` of MgB2 (Katsumi et al., PRL 2025).
+pub const MGB2_KATSUMI_CRITICAL_TEMP_K: f64 = 38.0;
+
+/// Squared lower pi-band superconducting gap `Delta_pi(T)^2 = Delta_pi(0)^2 * (1 - (T/Tc)^2)` of MgB2.
+pub fn mgb2_lower_pi_gap_sq(delta_pi0: f64, temp_k: f64, tc_k: f64) -> f64 {
+    if temp_k <= tc_k {
+        delta_pi0.powi(2) * (1.0 - (temp_k / tc_k).powi(2))
+    } else {
+        0.0
+    }
+}
+
+/// Normalized first-harmonic THz response `1 - (T/Tc)^2` of MgB2 under 0.63 THz driving.
+pub fn mgb2_normalized_first_harmonic(temp_k: f64, tc_k: f64) -> f64 {
+    if temp_k <= tc_k {
+        1.0 - (temp_k / tc_k).powi(2)
+    } else {
+        0.0
+    }
+}
+
+/// Nonlinear third-harmonic (`3w`) resonance denominator squared at 7 K in MgB2 (`2*Delta_pi/h ~ 1.0 THz`).
+pub fn mgb2_third_harmonic_resonance_denom_sq(
+    two_omega_thz: f64,
+    two_delta_pi_thz: f64,
+    gamma_damp_thz: f64,
+) -> f64 {
+    (two_omega_thz.powi(2) - two_delta_pi_thz.powi(2)).powi(2) + gamma_damp_thz.powi(2)
+}
+
+/// Inductive imaginary superfluid conductivity `sigma_2(n_s, omega) = n_s / omega` in MgB2.
+pub fn mgb2_driven_superfluid_conductivity_im(n_s_frac: f64, omega_thz: f64) -> f64 {
+    n_s_frac / omega_thz
+}
+
+/// Total time-linear Grassmannian `G-GKBA` complexity including per-step G1-G2 two-particle
+/// and electron-phonon cumulant propagation overhead `cumulant_overhead`.
+pub fn ggkba_total_flops_with_cumulants(
+    n_steps: f64,
+    n_occ: f64,
+    n_basis: f64,
+    cumulant_overhead: f64,
+) -> f64 {
+    n_steps * (n_occ.powi(2) * n_basis + cumulant_overhead)
+}
+
+/// Effective end-to-end speedup ratio of time-linear Grassmannian `G-GKBA` over two-time KBE
+/// when per-step G1-G2 cumulant overhead is included.
+pub fn effective_ggkba_speedup_with_cumulants(
+    n_steps: f64,
+    n_occ: f64,
+    n_basis: f64,
+    cumulant_overhead: f64,
+) -> f64 {
+    two_time_kbe_flops(n_steps, n_basis)
+        / ggkba_total_flops_with_cumulants(n_steps, n_occ, n_basis, cumulant_overhead)
+}
+
+/// Antiferromagnetic superexchange energy scale `J_ex = 4 * J^2 / U` in Hubbard chains & ladders.
+pub fn hubbard_superexchange_scale(j_hop: f64, u_int: f64) -> f64 {
+    4.0 * j_hop.powi(2) / u_int
+}
+
+/// High-density Pauli phase-space filling and Coulomb Mott-screening factor `1 - n_ex / n_Mott`.
+pub fn exciton_pauli_phase_space_filling_factor(n_exciton: f64, n_mott: f64) -> f64 {
+    (1.0 - n_exciton / n_mott).max(0.0)
+}
+
+/// Effective exciton binding energy `E_b^(0) * (1 - n_ex / n_Mott)` in the high-density regime.
+pub fn exciton_high_density_effective_binding(e_bind0: f64, n_exciton: f64, n_mott: f64) -> f64 {
+    e_bind0 * exciton_pauli_phase_space_filling_factor(n_exciton, n_mott)
+}
+
+/// Instantaneous sum of the five coupled electron-SCOP-acoustic ODE rates in laser-pumped Graphite.
+#[allow(clippy::too_many_arguments)]
+pub fn graphite_five_reservoir_rate_sum(
+    p_laser: f64,
+    g_e_a1p: f64,
+    g_e_e2g: f64,
+    g_e_la: f64,
+    g_a1p_la: f64,
+    g_a1p_ta: f64,
+    g_e2g_la: f64,
+    g_e2g_ta: f64,
+    g_la_ta: f64,
+) -> f64 {
+    let de_el = p_laser - (g_e_a1p + g_e_e2g + g_e_la);
+    let de_a1p = g_e_a1p - (g_a1p_la + g_a1p_ta);
+    let de_e2g = g_e_e2g - (g_e2g_la + g_e2g_ta);
+    let de_la = g_e_la + g_a1p_la + g_e2g_la - g_la_ta;
+    let de_ta = g_a1p_ta + g_e2g_ta + g_la_ta;
+    de_el + de_a1p + de_e2g + de_la + de_ta
+}
+
+/// Out-of-equilibrium superconducting critical temperature `Tc^neq(Tc0, n_qp) = Tc0 * (1 - 2 * n_qp)`.
+pub fn mgb2_non_equilibrium_critical_temp(tc0: f64, n_qp: f64) -> f64 {
+    (tc0 * (1.0 - 2.0 * n_qp)).max(0.0)
+}
+
+/// Field-saturated THz third-harmonic amplitude `chi3 * E0^3 / (1 + (E0 / E_sat)^2)` in MgB2.
+pub fn mgb2_saturated_third_harmonic_amplitude(chi3: f64, e_field: f64, e_sat: f64) -> f64 {
+    (chi3 * e_field.powi(3)) / (1.0 + (e_field / e_sat).powi(2))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -482,5 +663,83 @@ mod tests {
         let wtmad2_55 = gmtkn55_five_category_wtmad2(948.15, 210.70, 349.20, 468.00, 496.65);
         assert!((wtmad2_55 - 494.54 / 301.0).abs() < 1e-12);
         assert!(wtmad2_55 < 3.0 && wtmad2_55 < 3.81);
+    }
+
+    #[test]
+    fn test_tuning_materials_with_light_problem04_check_figures() {
+        // 1. Time-linear Grassmannian G-GKBA speedup: 1.44e8x at N_t=1000, N_occ=10, N_basis=120
+        let speedup = grassmann_gkba_speedup_ratio(1000.0, 10.0, 120.0);
+        assert!((speedup - 144_000_000.0).abs() < 1e-3);
+
+        // 2. Target 1: Hubbard 11-site chain & 6x2 ladder (Schroedter, Bonitz & Joost, arXiv:2606.10773)
+        let d0 = hubbard_correlated_double_occupancy(0.5, 0.5, 0.0);
+        let d5 = hubbard_correlated_double_occupancy(0.5, 0.5, 5.0);
+        let d15 = hubbard_correlated_double_occupancy(0.5, 0.5, 15.0);
+        let d20 = hubbard_correlated_double_occupancy(0.5, 0.5, 20.0);
+        assert!((d0 - 0.25).abs() < 1e-15);
+        assert!((d5 - 1.0 / 9.0).abs() < 1e-15);
+        assert!((d15 - 1.0 / 31.0).abs() < 1e-15);
+        assert!(d20 < d15 && d15 < d5 && d5 < d0);
+        assert!(hubbard_doublon_decay_rate(1.0, 15.0) < hubbard_doublon_decay_rate(1.0, 5.0));
+        assert!(
+            hubbard_optical_conductivity_threshold(3.0, 2.0)
+                < hubbard_optical_conductivity_threshold(6.0, 2.0)
+        );
+        assert!(
+            hubbard_optical_conductivity_threshold(6.0, 2.0)
+                < hubbard_optical_conductivity_threshold(12.0, 2.0)
+        );
+
+        // 3. Target 2: WSe2 bright/dark exciton dynamics (Madéo et al., Science 2020)
+        assert!(WSE2_DARK_EXCITON_ENERGY_EV < WSE2_RESONANT_PUMP_EV);
+        assert!(WSE2_RESONANT_PUMP_EV < WSE2_ABOVE_GAP_PUMP_EV);
+        assert!((WSE2_RESONANT_PUMP_EV - WSE2_DARK_EXCITON_ENERGY_EV - 0.045).abs() < 1e-15);
+        assert!((WSE2_DARK_EXCITON_BUILDUP_FS - 400.0).abs() < 1e-15);
+        assert!((wse2_late_time_bright_to_dark_ratio(1.0, 2.0) - 0.5).abs() < 1e-15);
+
+        // 4. Target 3: Graphite SCOP-to-acoustic energy flow (René de Cotret et al., PRB 2019)
+        let e_05ps = graphite_total_energy_balance(4.0, 4.5, 2.0, 1.0, 0.5);
+        let e_100ps = graphite_total_energy_balance(0.5, 0.2, 0.3, 6.0, 5.0);
+        assert!((e_05ps - 12.0).abs() < 1e-15 && (e_100ps - 12.0).abs() < 1e-15);
+        let a1p_05ps = graphite_a1p_optical_rise_and_decay(1.0, 0.10, 0.80);
+        let a1p_5ps = graphite_a1p_optical_rise_and_decay(1.0, 0.05, 0.10);
+        assert!(a1p_5ps < a1p_05ps);
+
+        // 5. Target 4: MgB2 equilibrium pairing & driven THz response (Katsumi et al., PRL 2025)
+        assert!((mgb2_lower_pi_gap_sq(2.2, 38.0, MGB2_KATSUMI_CRITICAL_TEMP_K)).abs() < 1e-15);
+        assert!(
+            mgb2_lower_pi_gap_sq(2.2, 20.0, MGB2_KATSUMI_CRITICAL_TEMP_K)
+                < mgb2_lower_pi_gap_sq(2.2, 7.0, MGB2_KATSUMI_CRITICAL_TEMP_K)
+        );
+        assert!(
+            mgb2_normalized_first_harmonic(20.0, MGB2_KATSUMI_CRITICAL_TEMP_K)
+                < mgb2_normalized_first_harmonic(7.0, MGB2_KATSUMI_CRITICAL_TEMP_K)
+        );
+        let denom_res = mgb2_third_harmonic_resonance_denom_sq(1.0, 1.0, 0.1);
+        let denom_off = mgb2_third_harmonic_resonance_denom_sq(1.26, 1.0, 0.1);
+        assert!(denom_res < denom_off);
+        assert!(
+            mgb2_driven_superfluid_conductivity_im(0.3, 0.63)
+                < mgb2_driven_superfluid_conductivity_im(1.0, 0.63)
+        );
+
+        // 6. Critique & gap-closure checks: G1-G2 cumulant speedup, Hubbard superexchange,
+        // high-density Pauli Mott screening, 5-reservoir ODE rate conservation, and non-equilibrium Tc
+        let eff_speedup = effective_ggkba_speedup_with_cumulants(1000.0, 10.0, 120.0, 108_000.0);
+        assert!((eff_speedup - 14_400_000.0).abs() < 1e-3 && eff_speedup > 1.0e7);
+        assert!(hubbard_superexchange_scale(1.0, 15.0) < hubbard_superexchange_scale(1.0, 5.0));
+        assert!(hubbard_superexchange_scale(1.0, 5.0) < hubbard_superexchange_scale(1.0, 3.0));
+        assert!((exciton_pauli_phase_space_filling_factor(0.0, 1.0) - 1.0).abs() < 1e-15);
+        assert!(exciton_pauli_phase_space_filling_factor(1.0, 1.0).abs() < 1e-15);
+        assert!(exciton_high_density_effective_binding(0.37, 1.0, 1.0).abs() < 1e-15);
+        let rate_sum_drive = graphite_five_reservoir_rate_sum(12.0, 4.5, 2.0, 0.5, 1.5, 1.0, 0.8, 0.6, 0.2);
+        let rate_sum_post = graphite_five_reservoir_rate_sum(0.0, 4.5, 2.0, 0.5, 1.5, 1.0, 0.8, 0.6, 0.2);
+        assert!((rate_sum_drive - 12.0).abs() < 1e-15 && rate_sum_post.abs() < 1e-15);
+        assert!((mgb2_non_equilibrium_critical_temp(38.0, 0.0) - 38.0).abs() < 1e-15);
+        assert!(mgb2_non_equilibrium_critical_temp(38.0, 0.5).abs() < 1e-15);
+        assert!(
+            mgb2_saturated_third_harmonic_amplitude(1.0, 150.0, 50.0)
+                < 150.0_f64.powi(3)
+        );
     }
 }

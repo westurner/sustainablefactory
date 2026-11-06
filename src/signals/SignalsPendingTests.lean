@@ -5555,4 +5555,60 @@ example (p q s_sum k_ab k_cd boys_f0 eri_diag p_diag : ℝ)
     toyQuantumCausalGrassmannianDFTContract
     p q s_sum k_ab k_cd boys_f0 eri_diag p_diag x1 x2 xX hxX
 
+noncomputable def toyLightDrivenMaterialsContract : LightDrivenMaterialsPendingHypothesis :=
+  { dftContract := toyQuantumCausalGrassmannianDFTContract
+    deltaPi0MeV := 11 / 5
+    deltaPi0_pos := by norm_num
+    probeFreqTHz := 63 / 100
+    probeFreq_pos := by norm_num
+    dampingTHz := 1 / 10
+    drivenSuperfluidFraction := 3 / 10
+    equilibriumSuperfluidFraction := 1
+    superfluidDepleted := by norm_num
+    hubbardChainAndLadderValidated := True
+    hubbardChainAndLadderValidated_hypothesis := trivial
+    wse2ExcitonTrArpesValidated := True
+    wse2ExcitonTrArpesValidated_hypothesis := trivial
+    graphiteDiffuseScatteringValidated := True
+    graphiteDiffuseScatteringValidated_hypothesis := trivial
+    mgb2ThzHarmonicAndConductivityValidated := True
+    mgb2ThzHarmonicAndConductivityValidated_hypothesis := trivial }
+
+example :
+    let c := toyLightDrivenMaterialsContract
+    Signals.DFT.grassmannGKBASpeedupRatio 1000 10 120 = 144000000 ∧
+      Signals.DFT.hubbardCorrelatedDoubleOccupancy (1 / 2) (1 / 2) 15 <
+        Signals.DFT.hubbardCorrelatedDoubleOccupancy (1 / 2) (1 / 2) 5 ∧
+      Signals.DFT.hubbardDoublonDecayRate 1 15 <
+        Signals.DFT.hubbardDoublonDecayRate 1 5 ∧
+      Signals.DFT.hubbardOpticalConductivityThreshold 3 2 <
+        Signals.DFT.hubbardOpticalConductivityThreshold 6 2 ∧
+      Signals.DFT.wse2DarkExcitonBuildupFs = 400 ∧
+      Signals.DFT.wse2LateTimeBrightToDarkRatio 1 2 = 1 / 2 ∧
+      Signals.DFT.graphiteTotalEnergyBalance 4 (9 / 2) 2 1 (1 / 2) =
+        Signals.DFT.graphiteTotalEnergyBalance (1 / 2) (1 / 5) (3 / 10) 6 5 ∧
+      Signals.DFT.mgb2LowerPiGapSq c.deltaPi0MeV 38 Signals.DFT.mgb2KatsumiCriticalTempK = 0 ∧
+      Signals.DFT.mgb2NormalizedFirstHarmonic 20 Signals.DFT.mgb2KatsumiCriticalTempK <
+        Signals.DFT.mgb2NormalizedFirstHarmonic 7 Signals.DFT.mgb2KatsumiCriticalTempK ∧
+      Signals.DFT.mgb2ThirdHarmonicResonanceDenomSq 1 1 c.dampingTHz ≤
+        Signals.DFT.mgb2ThirdHarmonicResonanceDenomSq c.probeFreqTHz 1 c.dampingTHz ∧
+      Signals.DFT.mgb2DrivenSuperfluidConductivityIm c.drivenSuperfluidFraction c.probeFreqTHz <
+        Signals.DFT.mgb2DrivenSuperfluidConductivityIm c.equilibriumSuperfluidFraction c.probeFreqTHz :=
+  SignalsPending.light_driven_materials_gkba_and_four_target_bounds
+    toyLightDrivenMaterialsContract
+
+example (n_ex n_mott : ℝ) (hn_ex_pos : 0 < n_ex) (hn_ex_lt : n_ex < n_mott)
+    (p_laser g1 g2 g3 g4 g5 g6 g7 g8 : ℝ) :
+    Signals.DFT.effectiveGGKBASpeedupWithCumulants 1000 10 120 108000 = 14400000 ∧
+      (10000000 : ℝ) < Signals.DFT.effectiveGGKBASpeedupWithCumulants 1000 10 120 108000 ∧
+      Signals.DFT.hubbardSuperexchangeScale 1 15 < Signals.DFT.hubbardSuperexchangeScale 1 5 ∧
+      Signals.DFT.excitonPauliPhaseSpaceFillingFactor n_mott n_mott = 0 ∧
+      0 < Signals.DFT.excitonPauliPhaseSpaceFillingFactor n_ex n_mott ∧
+      Signals.DFT.graphiteFiveReservoirRateSum p_laser g1 g2 g3 g4 g5 g6 g7 g8 = p_laser ∧
+      Signals.DFT.mgb2NonEquilibriumCriticalTemp 38 0 = 38 ∧
+      Signals.DFT.mgb2NonEquilibriumCriticalTemp 38 (1 / 2) = 0 :=
+  SignalsPending.light_driven_materials_critique_and_gap_closure_bounds
+    toyLightDrivenMaterialsContract
+    n_ex n_mott hn_ex_pos hn_ex_lt p_laser g1 g2 g3 g4 g5 g6 g7 g8
+
 end SignalsPendingTests

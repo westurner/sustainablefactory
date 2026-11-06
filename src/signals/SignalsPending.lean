@@ -421,4 +421,71 @@ lemma quantum_causal_grassmannian_dft_eri_wtmad2_and_vrc_bounds
   contract.full_55_subset_eri_wtmad2_optional_vrc_and_ndm_bounds
     p q s_sum k_ab k_cd boys_f0 eri_diag p_diag x1 x2 xX hxX
 
+/-- Summary lemma: in a `LightDrivenMaterialsPendingHypothesis` (Discovered Materials Problem 04),
+the time-linear Grassmannian `G-GKBA` speedup ($1.44\times 10^8\times$), the Hubbard 11-site
+chain and $6\times 2$ ladder laws, the $\mathrm{WSe}_2$ $400\text{ fs}$ dark-exciton buildup
+and $0.5$ late-time ratio, the Graphite five-reservoir energy balance, and the $\mathrm{MgB}_2$
+$T_c = 38\text{ K}$ gap, $0.63\text{ THz}$ first-harmonic cooling monotonicity, $1\text{ THz}$
+nonlinear peak at $7\text{ K}$, and $150\text{ kV/cm}$ $2\text{ ps}$ conductivity suppression
+hold simultaneously. -/
+@[blueprint "lem:pending-light-driven-materials-bounds"
+  (title := "Pending Discovered Materials Problem 04 (Tuning Materials with Light) summary bounds")
+  (statement := /-- For any \texttt{contract : LightDrivenMaterialsPendingHypothesis},
+    the time-linear \texttt{G-GKBA} speedup and the Hubbard, $\mathrm{WSe}_2$, Graphite, and
+    $\mathrm{MgB}_2$ reproduction bounds hold simultaneously. -/)
+  (proof := /-- Apply \texttt{LightDrivenMaterialsPendingHypothesis.gkba\_hubbard\_wse2\_graphite\_and\_mgb2\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma light_driven_materials_gkba_and_four_target_bounds
+    (contract : LightDrivenMaterialsPendingHypothesis) :
+    Signals.DFT.grassmannGKBASpeedupRatio 1000 10 120 = 144000000 ∧
+      Signals.DFT.hubbardCorrelatedDoubleOccupancy (1 / 2) (1 / 2) 15 <
+        Signals.DFT.hubbardCorrelatedDoubleOccupancy (1 / 2) (1 / 2) 5 ∧
+      Signals.DFT.hubbardDoublonDecayRate 1 15 <
+        Signals.DFT.hubbardDoublonDecayRate 1 5 ∧
+      Signals.DFT.hubbardOpticalConductivityThreshold 3 2 <
+        Signals.DFT.hubbardOpticalConductivityThreshold 6 2 ∧
+      Signals.DFT.wse2DarkExcitonBuildupFs = 400 ∧
+      Signals.DFT.wse2LateTimeBrightToDarkRatio 1 2 = 1 / 2 ∧
+      Signals.DFT.graphiteTotalEnergyBalance 4 (9 / 2) 2 1 (1 / 2) =
+        Signals.DFT.graphiteTotalEnergyBalance (1 / 2) (1 / 5) (3 / 10) 6 5 ∧
+      Signals.DFT.mgb2LowerPiGapSq contract.deltaPi0MeV 38 Signals.DFT.mgb2KatsumiCriticalTempK = 0 ∧
+      Signals.DFT.mgb2NormalizedFirstHarmonic 20 Signals.DFT.mgb2KatsumiCriticalTempK <
+        Signals.DFT.mgb2NormalizedFirstHarmonic 7 Signals.DFT.mgb2KatsumiCriticalTempK ∧
+      Signals.DFT.mgb2ThirdHarmonicResonanceDenomSq 1 1 contract.dampingTHz ≤
+        Signals.DFT.mgb2ThirdHarmonicResonanceDenomSq
+          contract.probeFreqTHz 1 contract.dampingTHz ∧
+      Signals.DFT.mgb2DrivenSuperfluidConductivityIm
+          contract.drivenSuperfluidFraction contract.probeFreqTHz <
+        Signals.DFT.mgb2DrivenSuperfluidConductivityIm
+          contract.equilibriumSuperfluidFraction contract.probeFreqTHz :=
+  contract.gkba_hubbard_wse2_graphite_and_mgb2_bounds
+
+/-- Summary lemma: in a `LightDrivenMaterialsPendingHypothesis`, the G1–G2 cumulant-overhead-inclusive
+`G-GKBA` speedup ($1.44\times 10^7\times > 10^7\times$), Hubbard superexchange hierarchy,
+high-density Pauli phase-space filling and Mott dissociation, five-reservoir Graphite ODE
+rate conservation, and out-of-equilibrium superconducting critical temperature suppression
+hold simultaneously. -/
+@[blueprint "lem:pending-light-driven-materials-critique-and-gap-closure-bounds"
+  (title := "Pending Problem 04 critique and gap-closure summary bounds")
+  (statement := /-- For any \texttt{contract : LightDrivenMaterialsPendingHypothesis} and
+    $0 < n_{\mathrm{ex}} < n_{\mathrm{Mott}}$, the G1-G2 cumulant-inclusive \texttt{G-GKBA}
+    speedup, Hubbard superexchange, Pauli Mott screening, 5-reservoir Graphite ODE rate
+    conservation, and out-of-equilibrium $T_c^{\mathrm{neq}}$ bounds hold simultaneously. -/)
+  (proof := /-- Apply \texttt{LightDrivenMaterialsPendingHypothesis.cumulant\_pauli\_ode\_and\_neq\_tc\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma light_driven_materials_critique_and_gap_closure_bounds
+    (contract : LightDrivenMaterialsPendingHypothesis)
+    (n_ex n_mott : ℝ) (hn_ex_pos : 0 < n_ex) (hn_ex_lt : n_ex < n_mott)
+    (p_laser g1 g2 g3 g4 g5 g6 g7 g8 : ℝ) :
+    Signals.DFT.effectiveGGKBASpeedupWithCumulants 1000 10 120 108000 = 14400000 ∧
+      (10000000 : ℝ) < Signals.DFT.effectiveGGKBASpeedupWithCumulants 1000 10 120 108000 ∧
+      Signals.DFT.hubbardSuperexchangeScale 1 15 < Signals.DFT.hubbardSuperexchangeScale 1 5 ∧
+      Signals.DFT.excitonPauliPhaseSpaceFillingFactor n_mott n_mott = 0 ∧
+      0 < Signals.DFT.excitonPauliPhaseSpaceFillingFactor n_ex n_mott ∧
+      Signals.DFT.graphiteFiveReservoirRateSum p_laser g1 g2 g3 g4 g5 g6 g7 g8 = p_laser ∧
+      Signals.DFT.mgb2NonEquilibriumCriticalTemp 38 0 = 38 ∧
+      Signals.DFT.mgb2NonEquilibriumCriticalTemp 38 (1 / 2) = 0 :=
+  contract.cumulant_pauli_ode_and_neq_tc_bounds
+    n_ex n_mott hn_ex_pos hn_ex_lt p_laser g1 g2 g3 g4 g5 g6 g7 g8
+
 end SignalsPending

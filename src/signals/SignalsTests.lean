@@ -7024,4 +7024,72 @@ example
   exact ⟨h.1, h.2.1, h.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2⟩
 
+/-- Discovered Materials Grand Challenge Problem 04 ("Tuning Materials with Light"):
+Time-linear Grassmannian `G-GKBA` ($1.44\times 10^8\times$ speedup), Hubbard 11-site chain
+& $6\times 2$ ladder (`arXiv:2606.10773`), $\mathrm{WSe}_2$ bright/dark excitons (Madéo et al., 2020),
+Graphite SCOP-to-acoustic energy flow (René de Cotret et al., 2019), and $\mathrm{MgB}_2$
+driven THz superconductivity (Katsumi et al., 2025)
+(`Signals.DFT.tuning_materials_with_light_gkba_hubbard_wse2_graphite_and_mgb2_identities`). -/
+example
+    (n_steps n_occ n_basis : ℝ)
+    (hn_steps : n_steps ≠ 0) (hn_occ : n_occ ≠ 0) (hn_basis : n_basis ≠ 0)
+    (delta_pi0 omega_probe gamma_damp n_s_driven n_s_eq : ℝ)
+    (h_dpi0 : 0 < delta_pi0) (h_omega : 0 < omega_probe)
+    (h_ns_lt : n_s_driven < n_s_eq) :
+    Signals.DFT.grassmannGKBASpeedupRatio n_steps n_occ n_basis =
+        n_steps ^ 2 * (n_basis / n_occ) ^ 2 ∧
+      Signals.DFT.grassmannGKBASpeedupRatio 1000 10 120 = 144000000 ∧
+      Signals.DFT.hubbardCorrelatedDoubleOccupancy (1 / 2) (1 / 2) 15 <
+        Signals.DFT.hubbardCorrelatedDoubleOccupancy (1 / 2) (1 / 2) 5 ∧
+      Signals.DFT.hubbardDoublonDecayRate 1 15 <
+        Signals.DFT.hubbardDoublonDecayRate 1 5 ∧
+      Signals.DFT.wse2DarkExcitonBuildupFs = 400 ∧
+      Signals.DFT.wse2LateTimeBrightToDarkRatio 1 2 = 1 / 2 ∧
+      Signals.DFT.graphiteTotalEnergyBalance 4 (9 / 2) 2 1 (1 / 2) =
+        Signals.DFT.graphiteTotalEnergyBalance (1 / 2) (1 / 5) (3 / 10) 6 5 ∧
+      Signals.DFT.mgb2LowerPiGapSq delta_pi0 38 Signals.DFT.mgb2KatsumiCriticalTempK = 0 ∧
+      Signals.DFT.mgb2NormalizedFirstHarmonic 20 Signals.DFT.mgb2KatsumiCriticalTempK <
+        Signals.DFT.mgb2NormalizedFirstHarmonic 7 Signals.DFT.mgb2KatsumiCriticalTempK ∧
+      Signals.DFT.mgb2DrivenSuperfluidConductivityIm n_s_driven omega_probe <
+        Signals.DFT.mgb2DrivenSuperfluidConductivityIm n_s_eq omega_probe := by
+  have h :=
+    Signals.DFT.tuning_materials_with_light_gkba_hubbard_wse2_graphite_and_mgb2_identities
+      n_steps n_occ n_basis hn_steps hn_occ hn_basis
+      delta_pi0 omega_probe gamma_damp n_s_driven n_s_eq h_dpi0 h_omega h_ns_lt
+  exact ⟨h.1, h.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+/-- Critique & gap-closure laws for Problem 04 ("Tuning Materials with Light"):
+G1-G2 cumulant-inclusive speedup ($1.44\times 10^7\times$), Hubbard superexchange $4J^2/U$,
+high-density exciton Pauli phase-space filling and Mott dissociation, five-reservoir
+Graphite ODE rate conservation, and out-of-equilibrium $T_c^{\mathrm{neq}}(n_{\mathrm{qp}})$
+(`Signals.DFT.tuning_materials_with_light_cumulant_pauli_ode_and_neq_tc_critique_identities`). -/
+example
+    (n_ex n_mott : ℝ) (hn_ex_pos : 0 < n_ex) (hn_ex_lt : n_ex < n_mott)
+    (p_laser g1 g2 g3 g4 g5 g6 g7 g8 : ℝ)
+    (n_qp chi3 e_field e_sat : ℝ)
+    (hn_qp_pos : 0 < n_qp) (hn_qp_lt : n_qp < 1 / 2)
+    (hchi3 : 0 < chi3) (he_field : 0 < e_field) (he_sat : 0 < e_sat) :
+    Signals.DFT.effectiveGGKBASpeedupWithCumulants 1000 10 120 108000 = 14400000 ∧
+      (10000000 : ℝ) < Signals.DFT.effectiveGGKBASpeedupWithCumulants 1000 10 120 108000 ∧
+      Signals.DFT.hubbardSuperexchangeScale 1 15 < Signals.DFT.hubbardSuperexchangeScale 1 5 ∧
+      Signals.DFT.excitonPauliPhaseSpaceFillingFactor n_mott n_mott = 0 ∧
+      Signals.DFT.graphiteFiveReservoirRateSum p_laser g1 g2 g3 g4 g5 g6 g7 g8 = p_laser ∧
+      Signals.DFT.mgb2NonEquilibriumCriticalTemp 38 (1 / 2) = 0 ∧
+      0 < Signals.DFT.mgb2NonEquilibriumCriticalTemp 38 n_qp ∧
+      Signals.DFT.mgb2SaturatedThirdHarmonicAmplitude chi3 e_field e_sat < chi3 * e_field ^ 3 := by
+  have h :=
+    Signals.DFT.tuning_materials_with_light_cumulant_pauli_ode_and_neq_tc_critique_identities
+      1000 10 120 1 5 1 n_ex n_mott hn_ex_pos hn_ex_lt
+      p_laser g1 g2 g3 g4 g5 g6 g7 g8
+      n_qp chi3 e_field e_sat hn_qp_pos hn_qp_lt hchi3 he_field he_sat
+  exact ⟨h.2.1, h.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

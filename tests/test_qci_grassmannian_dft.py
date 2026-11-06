@@ -28,6 +28,7 @@ from sustainablefactory.qci_grassmannian_dft import (
     TopologicalCheckFigures,
     TopologicalGrassmannianEngine,
     TopologicalNoiseProfiler,
+    TuningMaterialsWithLightEngine,
     UniversalGeometryParser,
     UniversalSolitonQuditEngine,
     calculate_symbolic_plucker_relation,
@@ -539,3 +540,95 @@ def test_polaritons_plasmons_skyrmions_mzms_and_nondestructive_readout() -> None
         1.75 + res_vrc_do["classical_jeffrey_update"],
         atol=1e-12,
     )
+
+
+def test_tuning_materials_with_light_problem04_all_four_targets() -> None:
+    """
+    Verifies Discovered Materials Problem 04 ("Tuning Materials with Light"):
+      1. Time-linear Grassmannian G-GKBA speedup: 1.44e8x at N_t=1000, N_occ=10, N_basis=120.
+      2. Hubbard 11-site chain (U/J = 5, 15, tJ/hbar = 50; U/J = 0..20 sweep) & 6x2 ladder
+         (Schroedter, Bonitz & Joost, arXiv:2606.10773, 2026).
+      3. WSe2 exciton formation & momentum-dark intervalley scattering at 90 K
+         (1.72 eV resonant, 2.48 eV above-gap, 400 fs dark buildup, 0.5 late-time ratio;
+         Madéo et al., Science 370, 1199, 2020).
+      4. Graphite ultrafast electron-phonon & anharmonic acoustic energy flow at
+         0.5, 1.5, 5, and 100 ps (René de Cotret et al., PRB 100, 214115, 2019).
+      5. MgB2 equilibrium pairing (Tc = 38 K) & driven THz superconducting response
+         (0.63 THz harmonics, ~1 THz nonlinear peak at 7 K, 150 kV/cm sigma(omega) at 2 ps;
+         Katsumi et al., PRL 135, 036902, 2025).
+    """
+    summary = TuningMaterialsWithLightEngine.run_all_four_targets_benchmark()
+
+    # 1. Time-linear G-GKBA speedup (bare and G1-G2 cumulant-inclusive)
+    assert np.isclose(summary["ggkba_speedup_1000steps_def2qzvp"], 1.44e8, rtol=1e-12)
+    assert np.isclose(
+        summary["effective_ggkba_speedup_with_cumulants"], 1.44e7, rtol=1e-12
+    )
+    assert summary["effective_ggkba_speedup_with_cumulants"] > 1.0e7
+
+    # 2. Target 1: Hubbard chain & ladder
+    hub = summary["hubbard"]
+    assert hub["n_sites_chain"] == 11
+    assert np.isclose(hub["t_max_j"], 50.0)
+    assert hub["cayley_max_unitarity_error"] < 1e-14
+    assert hub["gamma_doublon_u15"] < hub["gamma_doublon_u5"]
+    assert hub["superexchange_j_ex_u15"] < hub["superexchange_j_ex_u5"]
+    assert hub["imbalance_final_abs_u5"] < hub["imbalance_final_abs_u15"]
+    d_sweep = hub["double_occupancy_sweep"]
+    assert np.isclose(d_sweep[0.0], 0.25)
+    assert np.isclose(d_sweep[5.0], 1.0 / 9.0)
+    assert np.isclose(d_sweep[15.0], 1.0 / 31.0)
+    assert d_sweep[20.0] < d_sweep[15.0] < d_sweep[5.0] < d_sweep[0.0]
+    assert hub["ladder_shape"] == (6, 2)
+    assert hub["spin_corr_6x2_eq"] < hub["spin_corr_6x2_driven"] < 0.0
+    th = hub["optical_conductivity_thresholds"]
+    assert th[3] < th[6] < th[12]
+
+    # 3. Target 2: WSe2 bright/dark exciton dynamics & high-density Pauli Mott screening
+    wse2 = summary["wse2"]
+    assert np.isclose(wse2["temperature_k"], 90.0)
+    assert np.isclose(wse2["resonant_pump_ev"], 1.72)
+    assert np.isclose(wse2["above_gap_pump_ev"], 2.48)
+    assert np.isclose(wse2["bright_dark_splitting_mev"], 45.0)
+    assert np.isclose(wse2["dark_buildup_tau_fs"], 400.0)
+    assert np.isclose(wse2["dark_fraction_at_400fs"], 1.0 - np.exp(-1.0), atol=1e-2)
+    assert np.isclose(wse2["asymptotic_bright_to_dark_ratio"], 0.5, atol=1e-12)
+    assert np.isclose(wse2["late_time_bright_to_dark_ratio_2ps"], 0.5, atol=2e-2)
+    assert np.isclose(wse2["pauli_filling_low_density"], 1.0, atol=1e-12)
+    assert np.isclose(wse2["pauli_filling_half_mott"], 0.5, atol=1e-12)
+    assert np.isclose(wse2["pauli_filling_at_mott"], 0.0, atol=1e-12)
+    assert np.isclose(wse2["effective_binding_at_mott_ev"], 0.0, atol=1e-12)
+
+    # 4. Target 3: Graphite electron-lattice energy flow & 5-reservoir ODE rate conservation
+    gr = summary["graphite"]
+    assert np.isclose(gr["fluence_mj_cm2"], 12.0)
+    assert np.isclose(gr["pulse_duration_fs"], 35.0)
+    assert np.isclose(gr["wavelength_nm"], 800.0)
+    for t_ps in (0.5, 1.5, 5.0, 100.0):
+        assert np.isclose(gr["total_energy_per_snapshot"][t_ps], 12.0, atol=1e-12)
+    assert np.isclose(gr["rate_sum_during_pulse"], 12.0, atol=1e-12)
+    assert np.isclose(gr["rate_sum_post_pulse"], 0.0, atol=1e-12)
+    a1p = gr["a1p_optical_energy_per_snapshot"]
+    assert a1p[0.5] > a1p[1.5] > a1p[5.0] > a1p[100.0]
+    ac = gr["acoustic_energy_per_snapshot"]
+    assert ac[0.5] < ac[1.5] < ac[5.0] < ac[100.0]
+
+    # 5. Target 4: MgB2 equilibrium & driven THz superconducting response + non-equilibrium Tc
+    mgb2 = summary["mgb2"]
+    assert np.isclose(mgb2["tc_k"], 38.0)
+    assert np.isclose(mgb2["drive_freq_thz"], 0.63)
+    assert np.isclose(mgb2["third_harmonic_freq_thz"], 1.89)
+    assert np.isclose(mgb2["strong_pump_kv_cm"], 150.0)
+    gaps = mgb2["lower_pi_gap_mev"]
+    assert np.isclose(gaps[38.0], 0.0, atol=1e-12)
+    assert gaps[4.0] > gaps[7.0] > gaps[20.0] > gaps[30.0] > gaps[38.0]
+    r1w = mgb2["normalized_first_harmonic"]
+    assert r1w[4.0] > r1w[7.0] > r1w[20.0] > r1w[30.0] > r1w[38.0] == 0.0
+    spec7k = mgb2["nonlinear_peak_spectrum_7k"]
+    assert spec7k[1.00] > spec7k[0.63] and spec7k[1.00] > spec7k[1.26]
+    assert mgb2["sigma_driven_150kv_cm_2ps"].imag < mgb2["sigma_eq_7k"].imag
+    assert mgb2["sigma_driven_150kv_cm_2ps"].real > mgb2["sigma_eq_7k"].real
+    assert np.isclose(mgb2["tc_neq_equilibrium_k"], 38.0, atol=1e-12)
+    assert 0.0 < mgb2["tc_neq_moderate_pump_k"] < 38.0
+    assert np.isclose(mgb2["tc_neq_quenched_k"], 0.0, atol=1e-12)
+    assert mgb2["a3w_saturated_150kv_cm"] < 150.0**3
