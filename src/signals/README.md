@@ -664,15 +664,19 @@ interpretation while keeping experimental premises explicit:
    `Bi2212`, `YBCO`, and `Hg1201`),
    and `InterfacialElectricalPropertiesPendingHypothesis`
    (`interfacial_electrical_properties_five_interfaces_and_critique_bounds`,
+   `interfacial_electrical_properties_deep_gap_closure_bounds`,
    `interfacial_electrical_properties_five_interfaces_and_process_history_identities`,
-   `interfacial_electrical_properties_critique_mcweeny_eot_ss_and_error_identities`)
+   `interfacial_electrical_properties_critique_mcweeny_eot_ss_and_error_identities`,
+   `interfacial_electrical_properties_deep_gap_closure_identities`)
    formalizes Discovered Materials Problem 02 ("Interfacial Electrical Properties from
-   Processing History": Plabic 3-flux Deal–Grove kinetics, Pilling–Bedworth substrate
-   consumption, Vitkavage planar $\mathrm{Si/SiO_2}$ `(100) < (511) < (110) < (111)`
-   orientation & $\mathrm{H_2}$ passivation, Kao nanowire stress retardation, Song
-   $\mathrm{SiC/SiO_2}$ carbon retardation, Goncharova $\mathrm{HfO_2/SiO_2/Si}$
-   interlayer regrowth & `EOT`, Wang $\mathrm{GeO(g)}$ desorption, and Rabie $\mathrm{SiGe}$
-   snowplow pile-up). See
+   Processing History": Plabic 3-flux Deal–Grove kinetics & explicit forward thickness
+   inversion, Massoud thin-oxide enhancement, Pilling–Bedworth substrate consumption,
+   Vitkavage planar $\mathrm{Si/SiO_2}$ `(100) < (511) < (110) < (111)` orientation &
+   Brower–Stesmans $\mathrm{H_2}$ passivation equilibrium, Kao nanowire stress retardation
+   & curvature charge, Song $\mathrm{SiC/SiO_2}$ carbon retardation & carbon-cluster traps,
+   Goncharova $\mathrm{HfO_2/SiO_2/Si}$ interlayer regrowth, `EOT`, & flatband shift,
+   Wang $\mathrm{GeO(g)}$ desorption, and Rabie mass-conserving $\mathrm{SiGe}$ snowplow
+   pile-up). See
    [`docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`](../../docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md),
    [`docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`](../../docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md),
    [`docs/grassmannian-tuning-materials-with-light-paper.md`](../../docs/grassmannian-tuning-materials-with-light-paper.md),

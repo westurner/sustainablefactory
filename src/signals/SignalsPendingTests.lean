@@ -5829,4 +5829,28 @@ example :
   SignalsPending.interfacial_electrical_properties_five_interfaces_and_critique_bounds
     toyInterfacialElectricalPropertiesContract
 
+example (t_ox : ℝ) (ht_ox : 0 ≤ t_ox) :
+    let c := toyInterfacialElectricalPropertiesContract
+    let x_dg := Signals.DFT.giepDealGroveExplicitThickness 2 4 0 t_ox
+    x_dg ^ 2 + 2 * x_dg = 4 * (t_ox + 0) ∧
+      Signals.DFT.giepDealGroveTimeForThickness 2 4 0 x_dg = t_ox ∧
+      Signals.DFT.giepMassoudThinOxideRate 1 5 6 2 <
+        Signals.DFT.giepMassoudThinOxideRate 1 5 2 2 ∧
+      Signals.DFT.giepHydrogenPassivatedDit 25
+          (Signals.DFT.giepBrowerStesmansEquilibriumCoverage 9 1) =
+        Signals.DFT.giepBrowerStesmansEquilibriumDit 25 9 1 ∧
+      Signals.DFT.giepBrowerStesmansEquilibriumDit 25 19 1 <
+        Signals.DFT.giepBrowerStesmansEquilibriumDit 25 9 1 ∧
+      Signals.DFT.giepNanowireStressInducedCharge 9 2 10 25 <
+        Signals.DFT.giepNanowireStressInducedCharge 9 2 10 10 ∧
+      Signals.DFT.giepSiCCarbonClusterDit 25 5 c.rCarbonCFace c.thetaHydrogen <
+        Signals.DFT.giepSiCCarbonClusterDit 25 5 c.rCarbonSiFace c.thetaHydrogen ∧
+      Signals.DFT.giepHighKFlatbandVoltageShift (1 / 2) 2 (5 / 2) <
+        Signals.DFT.giepHighKFlatbandVoltageShift (1 / 2) 2 (3 / 2) ∧
+      Signals.DFT.giepSiGeSnowplowMassBalance (1 / 4) 6 3 * 3 = (1 / 4) * 6 ∧
+      Signals.DFT.giepSiGeSnowplowMassBalance (1 / 4) 6 3 <
+        Signals.DFT.giepSiGeSnowplowMassBalance (1 / 4) 12 3 :=
+  SignalsPending.interfacial_electrical_properties_deep_gap_closure_bounds
+    toyInterfacialElectricalPropertiesContract t_ox ht_ox
+
 end SignalsPendingTests

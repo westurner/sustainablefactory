@@ -995,3 +995,43 @@ def test_interfacial_electrical_properties_problem02_all_five_interfaces() -> No
     assert summary["overall_giep_mape"] < 0.015
     assert summary["overall_classical_dg_mape"] > 0.80
     assert summary["error_reduction_factor_vs_classical_dg"] > 70.0
+
+    # Deep gap-closure checks (Gaps 1-5): Deal-Grove forward inversion, Massoud rate,
+    # Brower-Stesmans equilibrium, Kao nanowire curvature charge, SiC carbon traps, and SiGe mass balance
+    x_dg = InterfacialElectricalProcessEngine.giep_deal_grove_explicit_thickness(2.0, 4.0, 0.0, 15.0)
+    assert np.isclose((x_dg**2) + 2.0 * x_dg, 4.0 * 15.0)
+    assert np.isclose(
+        InterfacialElectricalProcessEngine.giep_deal_grove_time_for_thickness(2.0, 4.0, 0.0, x_dg),
+        15.0,
+    )
+    assert (
+        1.0
+        < InterfacialElectricalProcessEngine.giep_massoud_thin_oxide_rate(1.0, 5.0, 6.0, 2.0)
+        < InterfacialElectricalProcessEngine.giep_massoud_thin_oxide_rate(1.0, 5.0, 2.0, 2.0)
+    )
+    theta_eq = InterfacialElectricalProcessEngine.giep_brower_stesmans_equilibrium_coverage(9.0, 1.0)
+    assert np.isclose(
+        InterfacialElectricalProcessEngine.giep_hydrogen_passivated_dit(25.0, theta_eq),
+        InterfacialElectricalProcessEngine.giep_brower_stesmans_equilibrium_dit(25.0, 9.0, 1.0),
+    )
+    assert InterfacialElectricalProcessEngine.giep_brower_stesmans_equilibrium_dit(
+        25.0, 19.0, 1.0
+    ) < InterfacialElectricalProcessEngine.giep_brower_stesmans_equilibrium_dit(25.0, 9.0, 1.0)
+    assert InterfacialElectricalProcessEngine.giep_nanowire_stress_induced_charge(
+        9.0, 2.0, 10.0, 25.0
+    ) < InterfacialElectricalProcessEngine.giep_nanowire_stress_induced_charge(
+        9.0, 2.0, 10.0, 10.0
+    )
+    assert InterfacialElectricalProcessEngine.giep_sic_carbon_cluster_dit(
+        25.0, 5.0, 1.0, 0.9
+    ) < InterfacialElectricalProcessEngine.giep_sic_carbon_cluster_dit(25.0, 5.0, 8.0, 0.9)
+    assert InterfacialElectricalProcessEngine.giep_highk_flatband_voltage_shift(
+        0.5, 2.0, 2.5
+    ) < InterfacialElectricalProcessEngine.giep_highk_flatband_voltage_shift(0.5, 2.0, 1.5)
+    assert np.isclose(
+        InterfacialElectricalProcessEngine.giep_sige_snowplow_mass_balance(0.25, 6.0, 3.0) * 3.0,
+        1.5,
+    )
+    assert InterfacialElectricalProcessEngine.giep_sige_snowplow_mass_balance(
+        0.25, 6.0, 3.0
+    ) < InterfacialElectricalProcessEngine.giep_sige_snowplow_mass_balance(0.25, 12.0, 3.0)

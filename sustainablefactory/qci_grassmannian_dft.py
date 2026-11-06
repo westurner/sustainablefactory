@@ -3780,6 +3780,100 @@ class InterfacialElectricalProcessEngine:
         """Subthreshold swing degradation SS0 * (1 + dit_eff / c_ox)."""
         return float(ss_ideal * (1.0 + dit_eff / c_ox))
 
+    @staticmethod
+    def giep_deal_grove_explicit_thickness(
+        a_dg: float, b_dg: float, tau_dg: float, t_ox: float
+    ) -> float:
+        """
+        Gap 1: Explicit forward Deal-Grove oxide thickness
+        (sqrt(a_dg^2 + 4 * b_dg * (t_ox + tau_dg)) - a_dg) / 2,
+        matching `Signals.DFT.giepDealGroveExplicitThickness`.
+        """
+        return float(
+            (np.sqrt((a_dg**2) + 4.0 * b_dg * (t_ox + tau_dg)) - a_dg) / 2.0
+        )
+
+    @staticmethod
+    def giep_massoud_thin_oxide_rate(
+        v_dg: float, c_massoud: float, x_ox: float, l_massoud: float
+    ) -> float:
+        """
+        Gap 1: Massoud thin-oxide rapid oxidation rate v_dg + c_massoud / (1 + x_ox / l_massoud),
+        matching `Signals.DFT.giepMassoudThinOxideRate`.
+        """
+        return float(v_dg + c_massoud / (1.0 + x_ox / l_massoud))
+
+    @staticmethod
+    def giep_brower_stesmans_equilibrium_coverage(
+        r_pass: float, k_dissoc: float
+    ) -> float:
+        """
+        Gap 2: Brower-Stesmans steady-state H2 passivation coverage r_pass / (r_pass + k_dissoc),
+        matching `Signals.DFT.giepBrowerStesmansEquilibriumCoverage`.
+        """
+        return float(r_pass / (r_pass + k_dissoc))
+
+    @staticmethod
+    def giep_brower_stesmans_equilibrium_dit(
+        dit0: float, r_pass: float, k_dissoc: float
+    ) -> float:
+        """
+        Gap 2: Brower-Stesmans steady-state interface-trap density (dit0 * k_dissoc) / (r_pass + k_dissoc),
+        matching `Signals.DFT.giepBrowerStesmansEquilibriumDit`.
+        """
+        return float((dit0 * k_dissoc) / (r_pass + k_dissoc))
+
+    @staticmethod
+    def giep_nanowire_curvature_stress(eta_eff: float, r_si: float) -> float:
+        """
+        Gap 3: Kao cylindrical nanowire compressive stress eta_eff / r_si,
+        matching `Signals.DFT.giepNanowireCurvatureStress`.
+        """
+        return float(eta_eff / r_si)
+
+    @classmethod
+    def giep_nanowire_stress_induced_charge(
+        cls, qf_planar: float, beta_q: float, eta_eff: float, r_si: float
+    ) -> float:
+        """
+        Gap 3: Curvature-stress-enhanced fixed oxide charge on a silicon nanowire,
+        matching `Signals.DFT.giepNanowireStressInducedCharge`.
+        """
+        return float(
+            qf_planar + beta_q * cls.giep_nanowire_curvature_stress(eta_eff, r_si)
+        )
+
+    @staticmethod
+    def giep_sic_carbon_cluster_dit(
+        dit0: float, gamma_c: float, r_carbon: float, theta_no: float
+    ) -> float:
+        """
+        Gap 4: Song SiC/SiO2 carbon-cluster interface-trap density
+        (dit0 + gamma_c * r_carbon) * (1 - theta_no),
+        matching `Signals.DFT.giepSiCCarbonClusterDit`.
+        """
+        return float((dit0 + gamma_c * r_carbon) * (1.0 - theta_no))
+
+    @staticmethod
+    def giep_highk_flatband_voltage_shift(
+        v_dipole: float, q_fixed: float, eot: float
+    ) -> float:
+        """
+        Gap 4: High-k gate-stack flatband voltage shift v_dipole - q_fixed * eot,
+        matching `Signals.DFT.giepHighKFlatbandVoltageShift`.
+        """
+        return float(v_dipole - q_fixed * eot)
+
+    @staticmethod
+    def giep_sige_snowplow_mass_balance(
+        x_ge0: float, delta_x_sub: float, l_decay: float
+    ) -> float:
+        """
+        Gap 5: Mass-conserving SiGe snowplow pile-up amplitude (x_ge0 * delta_x_sub) / l_decay,
+        matching `Signals.DFT.giepSiGeSnowplowMassBalance`.
+        """
+        return float((x_ge0 * delta_x_sub) / l_decay)
+
     @classmethod
     def run_all_problem02_benchmarks(cls) -> dict[str, Any]:
         """

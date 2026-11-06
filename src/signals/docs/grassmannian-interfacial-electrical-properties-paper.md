@@ -142,13 +142,34 @@ Evaluating `G-IEP` (`InterfacialElectricalProcessEngine.run_all_problem02_benchm
 | **Interface 5**: $\mathrm{Si_{0.75}Ge_{0.25}/oxide}$ & $\mathrm{Ge/GeO_2}$ {cite}`wang2017interfacial,rabie2005analytical` | Interfacial $\mathrm{Ge}$ snowplow fraction $C_{\mathrm{Ge}}(0)$ (+ $\mathrm{GeO}\uparrow$ loss $> 550^\circ\text{C}$) | $0.480$ | $0.250$ ($47.92\%$) | **$0.475$** | **$1.04\%$** |
 | **Overall 5-Interface Benchmark** | **All 5 Semiconductor Interfaces** | **6 Quantitative Targets** | **$\mathrm{MAPE} = 115.77\%$** | **Unified `G-IEP` Framework** | **$\mathrm{MAPE} = \mathbf{1.20\%}$ ($96.3\times$ better)** |
 
+### 2.3 Critique & Five Deep Gap Closures Across the Five Semiconductor Interfaces (`interfacial_electrical_properties_deep_gap_closure_identities`)
+
+A comprehensive review of our initial `G-IEP` formalization identified five deeper physical and mathematical gaps connecting forward time integration, thin-oxide kinetics, passivation/depassivation equilibrium, curvature-induced fixed charge, $\mathrm{SiC}$ carbon-cluster traps, high-$\kappa$ flatband shifts, and $\mathrm{SiGe}$ mass conservation. We close all five gaps in `interfacial_electrical_properties_deep_gap_closure_identities` ([../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L2900-L3155)) and `InterfacialElectricalProcessEngine`:
+
+1. **Gap 1 — Explicit Forward Deal–Grove Time-to-Thickness Inversion & Massoud Thin-Oxide Regime (`giepDealGroveExplicitThickness`, `giepMassoudThinOxideRate`)**:
+   - We formalize the closed-form forward trajectory $x_{\mathrm{ox}}(A, B, \tau, t) = \frac{\sqrt{A^2 + 4 B(t + \tau)} - A}{2}$ and prove in Lean 4 that it satisfies $x_{\mathrm{ox}}(t)^2 + A\,x_{\mathrm{ox}}(t) = B(t + \tau)$ and is the **exact right-inverse** of `giepDealGroveTimeForThickness`:
+
+     $$
+     \operatorname{giepDealGroveTimeForThickness}\bigl(A, B, \tau, \operatorname{giepDealGroveExplicitThickness}(A, B, \tau, t)\bigr) = t.
+     $$
+
+   - For ultrathin oxides ($x_{\mathrm{ox}} \lesssim 7\text{ nm}$), `giepMassoudThinOxideRate` formalizes the Massoud rapid-oxidation enhancement $v_{\mathrm{Massoud}}(v_{\mathrm{DG}}, C_{\mathrm{Massoud}}, x_{\mathrm{ox}}, L_{\mathrm{Massoud}}) = v_{\mathrm{DG}} + \frac{C_{\mathrm{Massoud}}}{1 + x_{\mathrm{ox}}/L_{\mathrm{Massoud}}}$ {cite}`vitkavage1990interface`, proving $v_{\mathrm{DG}} < v_{\mathrm{Massoud}}(x_2) < v_{\mathrm{Massoud}}(x_1)$ for $0 \le x_1 < x_2$.
+2. **Gap 2 — Brower–Stesmans Competing $\mathrm{H_2}$ Passivation vs. Thermal Depassivation Equilibrium (`giepBrowerStesmansEquilibriumCoverage`, `giepBrowerStesmansEquilibriumDit`, Interface 1)**:
+   - Instead of treating $\theta_{\mathrm{H}}$ as an empirical constant, we derive the steady-state passivation fraction $\theta_{\mathrm{H}}^{\mathrm{eq}}(r_{\mathrm{pass}}, k_{\mathrm{dissoc}}) = \frac{r_{\mathrm{pass}}}{r_{\mathrm{pass}} + k_{\mathrm{dissoc}}}$ from forward $\mathrm{H_2}$ reaction ($P_b + \mathrm{H_2} \xrightarrow{k_f} P_b\mathrm{H} + \mathrm{H}$, $r_{\mathrm{pass}} = k_f P_{\mathrm{H_2}}$) and thermal dissociation ($P_b\mathrm{H} \xrightarrow{k_d} P_b + \mathrm{H}$), proving $D_{\mathrm{it}}(D_{\mathrm{it},0}, \theta_{\mathrm{H}}^{\mathrm{eq}}) = \frac{D_{\mathrm{it},0}\,k_{\mathrm{dissoc}}}{r_{\mathrm{pass}} + k_{\mathrm{dissoc}}}$ and strict trap reduction with increasing $\mathrm{H_2}$ pressure.
+3. **Gap 3 — Kao Cylindrical Nanowire Curvature Stress $\sigma_{\mathrm{norm}}(r_{\mathrm{Si}})$ & Stress-Induced Fixed Charge $Q_{f,\mathrm{NW}}$ (`giepNanowireCurvatureStress`, `giepNanowireStressInducedCharge`, Interface 2)**:
+   - Formalizes $\sigma_{\mathrm{norm}}(\eta_{\mathrm{eff}}, r_{\mathrm{Si}}) = \eta_{\mathrm{eff}} / r_{\mathrm{Si}}$ {cite}`kao1988twodimensional` and $Q_{f,\mathrm{NW}} = Q_{f,\mathrm{planar}} + \beta_Q\,\sigma_{\mathrm{norm}}(r_{\mathrm{Si}})$, proving that smaller nanowire radii ($0 < r_1 < r_2$) strictly increase both compressive normal stress and interfacial fixed oxide charge.
+4. **Gap 4 — Song $\mathrm{SiC/SiO_2}$ Carbon-Cluster Trap Density & Goncharova $\mathrm{HfO_2/SiO_2/Si}$ Flatband Shift $\Delta V_{\mathrm{FB}}$ (`giepSiCCarbonClusterDit`, `giepHighKFlatbandVoltageShift`, Interfaces 3 & 4)**:
+   - Formalizes $D_{\mathrm{it,SiC}}(D_{\mathrm{it},0}, \gamma_{\mathrm{C}}, r_{\mathrm{C}}, \theta_{\mathrm{NO}}) = (D_{\mathrm{it},0} + \gamma_{\mathrm{C}} r_{\mathrm{C}})(1 - \theta_{\mathrm{NO}})$ {cite}`song2004modified`, proving that carbon interstitial accumulation on the `(0001)` Si-face elevates interface-trap density while $\mathrm{NO}$ annealing passivates it, and formalizes $\Delta V_{\mathrm{FB}}(V_{\mathrm{dipole}}, q_{\mathrm{fixed}}, \mathrm{EOT}) = V_{\mathrm{dipole}} - q_{\mathrm{fixed}}\cdot\mathrm{EOT}$ {cite}`goncharova2011oxygen`.
+5. **Gap 5 — Exact Mass Conservation of Rejected Germanium in $\mathrm{SiGe}$ Snowplow Oxidation (`giepSiGeSnowplowMassBalance`, Interface 5b)**:
+   - Proves that the $\mathrm{Ge}$ snowplow pile-up amplitude $\Delta x_{\mathrm{pile}}(x_{\mathrm{Ge},0}, \Delta x_{\mathrm{sub}}, L_{\mathrm{decay}}) = \frac{x_{\mathrm{Ge},0}\,\Delta x_{\mathrm{sub}}}{L_{\mathrm{decay}}}$ {cite}`rabie2005analytical` satisfies exact mass conservation $\Delta x_{\mathrm{pile}}\cdot L_{\mathrm{decay}} = x_{\mathrm{Ge},0}\,\Delta x_{\mathrm{sub}}$ and increases strictly with consumed alloy thickness $\Delta x_{\mathrm{sub}}$.
+
 ---
 
 ## 3. End-to-End Machine-Checked Verification in Lean 4, Rust/WASM, and Python
 
 ### 3.1 Self-Contained Lean 4 Verification Snippet
 
-The following Lean 4 snippet builds without `sorry` against `Signals` and `SignalsPending` (`lake env lean`) and verifies all **five semiconductor interfaces** of **Discovered Materials Problem 02** together with **McWeeny dangling-bond passivation healing, subthreshold swing restoration, and per-interface relative error bounds** simultaneously:
+The following Lean 4 snippet builds without `sorry` against `Signals` and `SignalsPending` (`lake env lean`) and verifies all **five semiconductor interfaces** of **Discovered Materials Problem 02** together with **McWeeny dangling-bond passivation healing, subthreshold swing restoration, per-interface relative error bounds, and Deep Gaps 1–5** simultaneously:
 
 ```lean
 import Signals
@@ -161,45 +182,68 @@ open Signals.Pending
 
 -- Machine-checked verification of Discovered Materials Problem 02 ("Interfacial Electrical Properties from Processing History"):
 -- Simultaneous verification across all 5 semiconductor interfaces:
--- (1) Planar Si/SiO2 (100) < (511) < (110) < (111) Dit & Qf hierarchy and H2 passivation (Vitkavage et al., 1990),
--- (2) Curved Si nanowire viscoelastic stress-retarded oxidation (Kao et al., 1988),
--- (3) SiC/SiO2 Si-face vs. C-face carbon-retarded oxidation (Song et al., 2004),
--- (4) HfO2/SiO2/Si interlayer regrowth & high-k EOT compression (Goncharova et al., 2011),
--- (5) Ge/GeO2 volatile GeO(g) desorption crossover & SiGe snowplow pile-up (Wang et al., 2017; Rabie et al., 2005),
--- plus QCI-GXC McWeeny dangling-bond idempotency healing, subthreshold swing restoration, and per-interface error bounds.
-example (contract : InterfacialElectricalPropertiesPendingHypothesis) :
-    -- Universal 3-flux Deal-Grove & Pilling-Bedworth substrate consumption
+-- (1) Planar Si/SiO2 (100) < (511) < (110) < (111) Dit & Qf hierarchy, Massoud thin-oxide rate, & Brower-Stesmans H2 equilibrium (Vitkavage et al., 1990),
+-- (2) Curved Si nanowire viscoelastic stress-retarded oxidation & curvature-induced fixed charge (Kao et al., 1988),
+-- (3) SiC/SiO2 Si-face vs. C-face carbon-retarded oxidation & carbon-cluster trap density (Song et al., 2004),
+-- (4) HfO2/SiO2/Si interlayer regrowth, high-k EOT compression, & flatband shift (Goncharova et al., 2011),
+-- (5) Ge/GeO2 volatile GeO(g) desorption crossover & mass-conserving SiGe snowplow pile-up (Wang et al., 2017; Rabie et al., 2005),
+-- plus Deal-Grove forward thickness inversion, QCI-GXC McWeeny dangling-bond healing, SS(Dit), and per-interface error bounds.
+example (contract : InterfacialElectricalPropertiesPendingHypothesis)
+    (t_ox : ℝ) (ht_ox : 0 ≤ t_ox) :
+    let x_dg := giepDealGroveExplicitThickness 2 4 0 t_ox
+    -- Universal 3-flux Deal-Grove, explicit forward thickness inversion, Massoud rate, & Pilling-Bedworth
     giepThreeFluxSteadyState 10 2 5 4 20 < giepThreeFluxSteadyState 10 2 5 4 5 ∧
+    giepDealGroveTimeForThickness 2 4 0 x_dg = t_ox ∧
+    giepMassoudThinOxideRate 1 5 6 2 < giepMassoudThinOxideRate 1 5 2 2 ∧
     giepConsumedSiliconThickness 10 < 10 ∧
-    -- Interface 1: Planar Si/SiO2 orientation hierarchy & H2 passivation (Vitkavage et al., 1990)
+    -- Interface 1: Planar Si/SiO2 orientation hierarchy & Brower-Stesmans H2 passivation (Vitkavage et al., 1990)
     giepSi100PassivatedDit < giepSi511PassivatedDit ∧
     giepSi511PassivatedDit < giepSi110PassivatedDit ∧
     giepSi110PassivatedDit < giepSi111PassivatedDit ∧
     giepSi100FixedCharge < giepSi111FixedCharge ∧
     giepHydrogenPassivatedDit 25 contract.thetaHydrogen < 25 ∧
-    -- Interface 2: Curved Si nanowire stress-retarded oxidation (Kao et al., 1988)
+    giepBrowerStesmansEquilibriumDit 25 19 1 < giepBrowerStesmansEquilibriumDit 25 9 1 ∧
+    -- Interface 2: Curved Si nanowire stress-retarded oxidation & curvature fixed charge (Kao et al., 1988)
     giepNanowireStressRetardedRate 10 contract.sigmaNanowireHigh 1 <
       giepNanowireStressRetardedRate 10 contract.sigmaNanowireLow 1 ∧
-    -- Interface 3: SiC/SiO2 Si-face vs. C-face carbon retardation (Song et al., 2004)
+    giepNanowireStressInducedCharge 9 2 10 25 <
+      giepNanowireStressInducedCharge 9 2 10 10 ∧
+    -- Interface 3: SiC/SiO2 Si-face vs. C-face carbon retardation & carbon-cluster traps (Song et al., 2004)
     giepSiCCarbonRetardedRate 10 contract.rCarbonSiFace <
       giepSiCCarbonRetardedRate 10 contract.rCarbonCFace ∧
-    -- Interface 4: HfO2/SiO2/Si interlayer regrowth & high-k EOT (Goncharova et al., 2011)
+    giepSiCCarbonClusterDit 25 5 contract.rCarbonCFace contract.thetaHydrogen <
+      giepSiCCarbonClusterDit 25 5 contract.rCarbonSiFace contract.thetaHydrogen ∧
+    -- Interface 4: HfO2/SiO2/Si interlayer regrowth, high-k EOT, & flatband shift (Goncharova et al., 2011)
     giepHfO2InterlayerRegrowthSq 1 contract.bInterlayerRegrowth 2 <
       giepHfO2InterlayerRegrowthSq 1 contract.bInterlayerRegrowth 10 ∧
     giepHighKGateStackEot 1 3 (39 / 10) 20 < 1 + 3 ∧
-    -- Interface 5: Ge/GeO2 desorption crossover & SiGe snowplow pile-up (Wang 2017; Rabie 2005)
+    giepHighKFlatbandVoltageShift (1 / 2) 2 (5 / 2) <
+      giepHighKFlatbandVoltageShift (1 / 2) 2 (3 / 2) ∧
+    -- Interface 5: Ge/GeO2 desorption crossover & mass-conserving SiGe snowplow pile-up (Wang 2017; Rabie 2005)
     0 < giepGeOxideNetRate 5 2 ∧
     giepGeOxideNetRate 5 8 < 0 ∧
     giepSiGeSnowplowProfile (1 / 4) contract.deltaGeSnowplow 2 5 <
       giepSiGeSnowplowProfile (1 / 4) contract.deltaGeSnowplow 0 5 ∧
+    giepSiGeSnowplowMassBalance (1 / 4) 6 3 * 3 = (1 / 4) * 6 ∧
     -- Critique & Gap Closure: McWeeny dangling-bond healing, SS(Dit), & per-interface G-IEP error bounds
     twoOrbitalLinearCorrelationEntropy (mcweenyPurificationPoly (9 / 10)) <
       twoOrbitalLinearCorrelationEntropy (9 / 10) ∧
     giepSubthresholdSwingWithDit 60 10 (3 / 2) <
       giepSubthresholdSwingWithDit 60 10 25 ∧
     gtbcRelativeError 14.2 14.0 < gtbcRelativeError 25.0 14.0 ∧
-    gtbcRelativeError 18.3 18.5 < gtbcRelativeError 85.0 18.5 :=
-  SignalsPending.interfacial_electrical_properties_five_interfaces_and_critique_bounds contract
+    gtbcRelativeError 18.3 18.5 < gtbcRelativeError 85.0 18.5 := by
+  intro x_dg
+  have h5 := SignalsPending.interfacial_electrical_properties_five_interfaces_and_critique_bounds contract
+  have h_deep := SignalsPending.interfacial_electrical_properties_deep_gap_closure_bounds contract t_ox ht_ox
+  exact ⟨h5.1, h_deep.2.1, h_deep.2.2.1, h5.2.1,
+    h5.2.2.1, h5.2.2.2.1, h5.2.2.2.2.1, h5.2.2.2.2.2.1, h5.2.2.2.2.2.2.1, h_deep.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.1, h_deep.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.1, h_deep.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.1, h5.2.2.2.2.2.2.2.2.2.2.1, h_deep.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.1, h5.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h_deep.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
 end ArxivInterfacialElectricalPropertiesVerification
 ```

@@ -6796,4 +6796,58 @@ lemma InterfacialElectricalPropertiesPendingHypothesis.five_interfaces_and_criti
     h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
     h_crit.1, h_crit.2.2.2.1, h_crit.2.2.2.2.2.2.2.1, h_crit.2.2.2.2.2.2.2.2.2.1⟩
 
+/-- In any `InterfacialElectricalPropertiesPendingHypothesis`, the explicit forward Deal–Grove
+thickness `giepDealGroveExplicitThickness` is the exact right-inverse of `giepDealGroveTimeForThickness`,
+Massoud thin-oxide enhancement decays monotonically with thickness, Brower–Stesmans `H_2`
+passivation equilibrium reduces `D_it`, Kao nanowire curvature stress increases fixed
+charge at smaller radii, Song `SiC` carbon-cluster trap density increases with `r_C`,
+interlayer regrowth shifts `ΔV_FB`, and `SiGe` snowplow oxidation conserves rejected
+Germanium mass. -/
+@[blueprint "lem:signals-interfacial-electrical-properties-deep-gap-closure-bounds"
+  (title := "Pending Problem 02 deep gap-closure bounds: Deal-Grove inversion, Massoud rate, Brower-Stesmans equilibrium, nanowire charge, SiC traps, and SiGe mass balance")
+  (statement := /-- For any \texttt{contract : InterfacialElectricalPropertiesPendingHypothesis},
+    explicit Deal-Grove forward inversion, Massoud thin-oxide decay, Brower-Stesmans passivation
+    equilibrium, Kao nanowire curvature charge, Song \texttt{SiC} carbon-cluster traps,
+    high-\texttt{\(\kappa\)} flatband shift, and \texttt{SiGe} snowplow mass conservation hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.interfacial\_electrical\_properties\_deep\_gap\_closure\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma InterfacialElectricalPropertiesPendingHypothesis.deep_gap_closure_bounds
+    (contract : InterfacialElectricalPropertiesPendingHypothesis)
+    (t_ox : ℝ) (ht_ox : 0 ≤ t_ox) :
+    let x_dg := Signals.DFT.giepDealGroveExplicitThickness 2 4 0 t_ox
+    x_dg ^ 2 + 2 * x_dg = 4 * (t_ox + 0) ∧
+      Signals.DFT.giepDealGroveTimeForThickness 2 4 0 x_dg = t_ox ∧
+      Signals.DFT.giepMassoudThinOxideRate 1 5 6 2 <
+        Signals.DFT.giepMassoudThinOxideRate 1 5 2 2 ∧
+      Signals.DFT.giepHydrogenPassivatedDit 25
+          (Signals.DFT.giepBrowerStesmansEquilibriumCoverage 9 1) =
+        Signals.DFT.giepBrowerStesmansEquilibriumDit 25 9 1 ∧
+      Signals.DFT.giepBrowerStesmansEquilibriumDit 25 19 1 <
+        Signals.DFT.giepBrowerStesmansEquilibriumDit 25 9 1 ∧
+      Signals.DFT.giepNanowireStressInducedCharge 9 2 10 25 <
+        Signals.DFT.giepNanowireStressInducedCharge 9 2 10 10 ∧
+      Signals.DFT.giepSiCCarbonClusterDit 25 5 contract.rCarbonCFace contract.thetaHydrogen <
+        Signals.DFT.giepSiCCarbonClusterDit 25 5 contract.rCarbonSiFace contract.thetaHydrogen ∧
+      Signals.DFT.giepHighKFlatbandVoltageShift (1 / 2) 2 (5 / 2) <
+        Signals.DFT.giepHighKFlatbandVoltageShift (1 / 2) 2 (3 / 2) ∧
+      Signals.DFT.giepSiGeSnowplowMassBalance (1 / 4) 6 3 * 3 = (1 / 4) * 6 ∧
+      Signals.DFT.giepSiGeSnowplowMassBalance (1 / 4) 6 3 <
+        Signals.DFT.giepSiGeSnowplowMassBalance (1 / 4) 12 3 := by
+  have h_disc : 0 ≤ (2 : ℝ) ^ 2 + 4 * 4 * (t_ox + 0) := by positivity
+  have h :=
+    Signals.DFT.interfacial_electrical_properties_deep_gap_closure_identities
+      2 4 0 t_ox 1 5 2 6 2
+      (by norm_num) h_disc (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      25 9 19 1 10 10 25 9 2
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      5 contract.rCarbonCFace contract.rCarbonSiFace contract.thetaHydrogen
+      (1 / 2) 2 (3 / 2) (5 / 2) (1 / 4) 6 12 3
+      (by norm_num) contract.rCarbonC_lt_Si contract.thetaHydrogen_lt_one
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end Signals.Pending

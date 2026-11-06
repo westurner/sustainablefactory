@@ -7266,4 +7266,38 @@ example :
     h5.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
     h_crit.1⟩
 
+/-- Compile-time verification of the five deep gap closures for Discovered Materials
+Problem 02 (`Signals.DFT.interfacial_electrical_properties_deep_gap_closure_identities`):
+explicit forward Deal–Grove thickness inversion, Massoud thin-oxide enhancement,
+Brower–Stesmans $\mathrm{H_2}$ passivation vs. depassivation equilibrium, Kao nanowire
+curvature-induced fixed charge, Song $\mathrm{SiC}$ carbon-cluster traps, Goncharova
+high-$\kappa$ flatband shift, and Rabie mass-conserving $\mathrm{SiGe}$ snowplow pile-up. -/
+example (t_ox : ℝ) (ht_ox : 0 ≤ t_ox) :
+    let x_dg := Signals.DFT.giepDealGroveExplicitThickness 2 4 0 t_ox
+    Signals.DFT.giepDealGroveTimeForThickness 2 4 0 x_dg = t_ox ∧
+      Signals.DFT.giepMassoudThinOxideRate 1 5 6 2 <
+        Signals.DFT.giepMassoudThinOxideRate 1 5 2 2 ∧
+      Signals.DFT.giepBrowerStesmansEquilibriumDit 25 19 1 <
+        Signals.DFT.giepBrowerStesmansEquilibriumDit 25 9 1 ∧
+      Signals.DFT.giepNanowireStressInducedCharge 9 2 10 25 <
+        Signals.DFT.giepNanowireStressInducedCharge 9 2 10 10 ∧
+      Signals.DFT.giepSiCCarbonClusterDit 25 5 1 (9 / 10) <
+        Signals.DFT.giepSiCCarbonClusterDit 25 5 8 (9 / 10) ∧
+      Signals.DFT.giepHighKFlatbandVoltageShift (1 / 2) 2 (5 / 2) <
+        Signals.DFT.giepHighKFlatbandVoltageShift (1 / 2) 2 (3 / 2) ∧
+      Signals.DFT.giepSiGeSnowplowMassBalance (1 / 4) 6 3 * 3 = (1 / 4) * 6 := by
+  intro x_dg
+  have h :=
+    Signals.DFT.interfacial_electrical_properties_deep_gap_closure_identities
+      2 4 0 t_ox 1 5 2 6 2
+      (by norm_num) (by linarith [ht_ox]) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      25 9 19 1 10 10 25 9 2
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      5 1 8 (9 / 10) (1 / 2) 2 (3 / 2) (5 / 2) (1 / 4) 6 10 3
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.2.1, h.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1⟩
+
 end SignalsTests

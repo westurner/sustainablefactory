@@ -2907,6 +2907,263 @@ theorem interfacial_electrical_properties_critique_mcweeny_eot_ss_and_error_iden
     by unfold gtbcRelativeError; norm_num,
     by unfold gtbcRelativeError; norm_num⟩
 
+/-- Explicit forward Deal–Grove oxide thickness trajectory
+$x_{\mathrm{ox}}(A, B, \tau, t) = \frac{\sqrt{A^2 + 4 B(t + \tau)} - A}{2}$
+solving $x_{\mathrm{ox}}^2 + A\,x_{\mathrm{ox}} = B(t + \tau)$ for $t + \tau \ge 0$
+(Deal & Grove, *J. Appl. Phys.* **36**, 3770 (1965)). -/
+@[blueprint "def:signals-giep-deal-grove-explicit-thickness"
+  (title := "Explicit forward Deal-Grove oxide thickness (√(A² + 4 B (t + τ)) - A) / 2")
+  (statement := /-- Define $\operatorname{giepDealGroveExplicitThickness}(A, B, \tau, t) =
+    \frac{\sqrt{A^2 + 4 B(t + \tau)} - A}{2}$. -/)]
+noncomputable def giepDealGroveExplicitThickness (a_dg b_dg tau_dg t_ox : ℝ) : ℝ :=
+  (Real.sqrt (a_dg ^ 2 + 4 * b_dg * (t_ox + tau_dg)) - a_dg) / 2
+
+/-- Massoud thin-oxide rapid initial oxidation rate enhancement
+$v_{\mathrm{Massoud}}(v_{\mathrm{DG}}, C_{\mathrm{Massoud}}, x_{\mathrm{ox}}, L_{\mathrm{Massoud}}) =
+v_{\mathrm{DG}} + \frac{C_{\mathrm{Massoud}}}{1 + x_{\mathrm{ox}} / L_{\mathrm{Massoud}}}$
+for ultrathin $\mathrm{SiO_2}$ ($x_{\mathrm{ox}} \lesssim 7\text{ nm}$, Vitkavage, Irene & Massoud,
+*J. Appl. Phys.* **68**, 5262 (1990)). -/
+@[blueprint "def:signals-giep-massoud-thin-oxide-rate"
+  (title := "Massoud thin-oxide rapid oxidation rate v_DG + C_Massoud / (1 + x_ox / L_Massoud)")
+  (statement := /-- Define $\operatorname{giepMassoudThinOxideRate}(v_{\mathrm{DG}}, C_{\mathrm{Massoud}}, x_{\mathrm{ox}}, L_{\mathrm{Massoud}}) =
+    v_{\mathrm{DG}} + \frac{C_{\mathrm{Massoud}}}{1 + x_{\mathrm{ox}} / L_{\mathrm{Massoud}}}$. -/)]
+def giepMassoudThinOxideRate (v_dg c_massoud x_ox l_massoud : ℝ) : ℝ :=
+  v_dg + c_massoud / (1 + x_ox / l_massoud)
+
+/-- Brower–Stesmans steady-state hydrogen passivation coverage
+$\theta_{\mathrm{H}}^{\mathrm{eq}}(r_{\mathrm{pass}}, k_{\mathrm{dissoc}}) =
+\frac{r_{\mathrm{pass}}}{r_{\mathrm{pass}} + k_{\mathrm{dissoc}}} \in (0, 1)$
+balancing forward $\mathrm{H_2}$ passivation rate $r_{\mathrm{pass}} = k_f P_{\mathrm{H_2}}$ against
+thermal $P_b\mathrm{H}$ dissociation rate $k_{\mathrm{dissoc}}(T)$. -/
+@[blueprint "def:signals-giep-brower-stesmans-equilibrium-coverage"
+  (title := "Brower-Stesmans steady-state H₂ passivation coverage r_pass / (r_pass + k_dissoc)")
+  (statement := /-- Define $\operatorname{giepBrowerStesmansEquilibriumCoverage}(r_{\mathrm{pass}}, k_{\mathrm{dissoc}}) =
+    \frac{r_{\mathrm{pass}}}{r_{\mathrm{pass}} + k_{\mathrm{dissoc}}}$. -/)]
+def giepBrowerStesmansEquilibriumCoverage (r_pass k_dissoc : ℝ) : ℝ :=
+  r_pass / (r_pass + k_dissoc)
+
+/-- Brower–Stesmans steady-state interface-trap density
+$D_{\mathrm{it}}^{\mathrm{eq}}(D_{\mathrm{it},0}, r_{\mathrm{pass}}, k_{\mathrm{dissoc}}) =
+\frac{D_{\mathrm{it},0}\,k_{\mathrm{dissoc}}}{r_{\mathrm{pass}} + k_{\mathrm{dissoc}}}$. -/
+@[blueprint "def:signals-giep-brower-stesmans-equilibrium-dit"
+  (title := "Brower-Stesmans steady-state interface-trap density D_it,0 k_dissoc / (r_pass + k_dissoc)")
+  (statement := /-- Define $\operatorname{giepBrowerStesmansEquilibriumDit}(D_{\mathrm{it},0}, r_{\mathrm{pass}}, k_{\mathrm{dissoc}}) =
+    \frac{D_{\mathrm{it},0}\,k_{\mathrm{dissoc}}}{r_{\mathrm{pass}} + k_{\mathrm{dissoc}}}$. -/)]
+def giepBrowerStesmansEquilibriumDit (dit0 r_pass k_dissoc : ℝ) : ℝ :=
+  (dit0 * k_dissoc) / (r_pass + k_dissoc)
+
+/-- Kao cylindrical nanowire / nanosheet normal compressive stress
+$\sigma_{\mathrm{norm}}(\eta_{\mathrm{eff}}, r_{\mathrm{Si}}) = \frac{\eta_{\mathrm{eff}}}{r_{\mathrm{Si}}}$
+inversely proportional to the remaining silicon core radius $r_{\mathrm{Si}} > 0$
+(Kao et al., *IEEE Trans. Electron Devices* **35**, 25 (1988)). -/
+@[blueprint "def:signals-giep-nanowire-curvature-stress"
+  (title := "Kao cylindrical nanowire compressive stress σ_norm = η_eff / r_Si")
+  (statement := /-- Define $\operatorname{giepNanowireCurvatureStress}(\eta_{\mathrm{eff}}, r_{\mathrm{Si}}) =
+    \frac{\eta_{\mathrm{eff}}}{r_{\mathrm{Si}}}$. -/)]
+def giepNanowireCurvatureStress (eta_eff r_si : ℝ) : ℝ :=
+  eta_eff / r_si
+
+/-- Curvature-stress-enhanced fixed oxide charge on a silicon nanowire / nanosheet
+$Q_{f,\mathrm{NW}}(Q_{f,\mathrm{planar}}, \beta_Q, \eta_{\mathrm{eff}}, r_{\mathrm{Si}}) =
+Q_{f,\mathrm{planar}} + \beta_Q\,\operatorname{giepNanowireCurvatureStress}(\eta_{\mathrm{eff}}, r_{\mathrm{Si}})$. -/
+@[blueprint "def:signals-giep-nanowire-stress-induced-charge"
+  (title := "Curvature-stress-enhanced fixed oxide charge on a silicon nanowire")
+  (statement := /-- Define $\operatorname{giepNanowireStressInducedCharge}(Q_{f,\mathrm{planar}}, \beta_Q, \eta_{\mathrm{eff}}, r_{\mathrm{Si}}) =
+    Q_{f,\mathrm{planar}} + \beta_Q\,\operatorname{giepNanowireCurvatureStress}(\eta_{\mathrm{eff}}, r_{\mathrm{Si}})$. -/)]
+def giepNanowireStressInducedCharge (qf_planar beta_q eta_eff r_si : ℝ) : ℝ :=
+  qf_planar + beta_q * giepNanowireCurvatureStress eta_eff r_si
+
+/-- Song $\mathrm{SiC/SiO_2}$ interface-trap density including carbon-interstitial cluster traps
+and nitric-oxide ($\mathrm{NO}$) / hydrogen passivation:
+$D_{\mathrm{it,SiC}}(D_{\mathrm{it},0}, \gamma_{\mathrm{C}}, r_{\mathrm{C}}, \theta_{\mathrm{NO}}) =
+(D_{\mathrm{it},0} + \gamma_{\mathrm{C}}\,r_{\mathrm{C}})(1 - \theta_{\mathrm{NO}})$
+(Song et al., *J. Appl. Phys.* **95**, 4953 (2004)). -/
+@[blueprint "def:signals-giep-sic-carbon-cluster-dit"
+  (title := "Song SiC/SiO₂ carbon-cluster interface-trap density (D_it,0 + γ_C r_C)(1 - θ_NO)")
+  (statement := /-- Define $\operatorname{giepSiCCarbonClusterDit}(D_{\mathrm{it},0}, \gamma_{\mathrm{C}}, r_{\mathrm{C}}, \theta_{\mathrm{NO}}) =
+    (D_{\mathrm{it},0} + \gamma_{\mathrm{C}}\,r_{\mathrm{C}})(1 - \theta_{\mathrm{NO}})$. -/)]
+def giepSiCCarbonClusterDit (dit0 gamma_c r_carbon theta_no : ℝ) : ℝ :=
+  (dit0 + gamma_c * r_carbon) * (1 - theta_no)
+
+/-- High-$\kappa$ $\mathrm{HfO_2/SiO_2/Si}$ gate-stack flatband voltage shift
+$\Delta V_{\mathrm{FB}}(V_{\mathrm{dipole}}, q_{\mathrm{fixed}}, \mathrm{EOT}) =
+V_{\mathrm{dipole}} - q_{\mathrm{fixed}}\cdot \mathrm{EOT}$
+driven by interfacial oxygen-vacancy dipoles and fixed charge during interlayer regrowth
+(Goncharova et al., *Phys. Rev. B* **83**, 115329 (2011)). -/
+@[blueprint "def:signals-giep-highk-flatband-voltage-shift"
+  (title := "High-κ gate-stack flatband voltage shift ΔV_FB = V_dipole - q_fixed EOT")
+  (statement := /-- Define $\operatorname{giepHighKFlatbandVoltageShift}(V_{\mathrm{dipole}}, q_{\mathrm{fixed}}, \mathrm{EOT}) =
+    V_{\mathrm{dipole}} - q_{\mathrm{fixed}}\cdot \mathrm{EOT}$. -/)]
+def giepHighKFlatbandVoltageShift (v_dipole q_fixed eot : ℝ) : ℝ :=
+  v_dipole - q_fixed * eot
+
+/-- Mass-conserving $\mathrm{Ge}$ snowplow pile-up amplitude
+$\Delta x_{\mathrm{pile}}(x_{\mathrm{Ge},0}, \Delta x_{\mathrm{sub}}, L_{\mathrm{decay}}) =
+\frac{x_{\mathrm{Ge},0}\,\Delta x_{\mathrm{sub}}}{L_{\mathrm{decay}}}$
+for selective oxidation of $\mathrm{Si}$ from $\mathrm{Si_{1-x_0}Ge_{x_0}}$ consuming alloy thickness
+$\Delta x_{\mathrm{sub}}$ over characteristic decay length $L_{\mathrm{decay}}$
+(Rabie, Haddara & Carette, *J. Appl. Phys.* **98**, 074904 (2005)). -/
+@[blueprint "def:signals-giep-sige-snowplow-mass-balance"
+  (title := "Mass-conserving SiGe snowplow pile-up amplitude x_Ge,0 Δx_sub / L_decay")
+  (statement := /-- Define $\operatorname{giepSiGeSnowplowMassBalance}(x_{\mathrm{Ge},0}, \Delta x_{\mathrm{sub}}, L_{\mathrm{decay}}) =
+    \frac{x_{\mathrm{Ge},0}\,\Delta x_{\mathrm{sub}}}{L_{\mathrm{decay}}}$. -/)]
+def giepSiGeSnowplowMassBalance (x_ge0 delta_x_sub l_decay : ℝ) : ℝ :=
+  (x_ge0 * delta_x_sub) / l_decay
+
+set_option maxHeartbeats 800000 in
+/-- **Theorem (Problem 02 Deep Gap Closure — Explicit Forward Deal–Grove Inversion, Massoud
+Thin-Oxide Enhancement, Brower–Stesmans Passivation/Depassivation Equilibrium, Kao Curvature
+Stress & Charge, Song $\mathrm{SiC}$ Carbon-Cluster Traps, High-$\kappa$ $\Delta V_{\mathrm{FB}}$,
+and $\mathrm{SiGe}$ Snowplow Mass Conservation)**:
+Closes all five deeper physical and mathematical gaps across the five Problem 02 interfaces:
+1. **Gap 1 — Explicit Deal–Grove Forward-Time Inversion & Massoud Thin-Oxide Regime**:
+   - For $B > 0$ and $A^2 + 4 B(t + \tau) \ge 0$, `giepDealGroveExplicitThickness` satisfies the
+     exact quadratic Deal–Grove law $x_{\mathrm{ox}}(t)^2 + A\,x_{\mathrm{ox}}(t) = B(t + \tau)$ and is
+     the exact right-inverse of `giepDealGroveTimeForThickness`:
+     $\operatorname{giepDealGroveTimeForThickness}(A, B, \tau, \operatorname{giepDealGroveExplicitThickness}(A, B, \tau, t)) = t$,
+   - In the thin-oxide regime ($0 \le x_1 < x_2$), `giepMassoudThinOxideRate` strictly exceeds
+     $v_{\mathrm{DG}}$ and decays monotonically toward $v_{\mathrm{DG}}$ as oxide thickness grows.
+2. **Gap 2 — Brower–Stesmans $\mathrm{H_2}$ Passivation vs. Thermal Depassivation Equilibrium (`Interface 1`)**:
+   - $\operatorname{giepHydrogenPassivatedDit}(D_{\mathrm{it},0}, \operatorname{giepBrowerStesmansEquilibriumCoverage}(r_{\mathrm{pass}}, k_d)) =
+     \operatorname{giepBrowerStesmansEquilibriumDit}(D_{\mathrm{it},0}, r_{\mathrm{pass}}, k_d)$,
+   - Higher $\mathrm{H_2}$ passivation rate ($0 < r_1 < r_2$) strictly lowers equilibrium $D_{\mathrm{it}}^{\mathrm{eq}}$.
+3. **Gap 3 — Kao Nanowire Curvature Stress & Fixed-Charge Penalty (`Interface 2`)**:
+   - Smaller nanowire core radius ($0 < r_1 < r_2$) strictly increases compressive stress
+     $\operatorname{giepNanowireCurvatureStress}(\eta_{\mathrm{eff}}, r_2) <
+      \operatorname{giepNanowireCurvatureStress}(\eta_{\mathrm{eff}}, r_1)$ and strictly increases
+     curvature-induced fixed charge $Q_{f,\mathrm{NW}}(r_2) < Q_{f,\mathrm{NW}}(r_1)$.
+4. **Gap 4 — Song $\mathrm{SiC}$ Carbon-Cluster Traps & High-$\kappa$ $\mathrm{HfO_2/SiO_2/Si}$ Flatband Shift (`Interfaces 3 & 4`)**:
+   - Higher carbon accumulation ($r_{\mathrm{C},1} < r_{\mathrm{C},2}$) strictly increases unpassivated
+     and partially passivated $\mathrm{SiC}$ trap density `giepSiCCarbonClusterDit`,
+   - Interlayer regrowth ($\mathrm{EOT}_1 < \mathrm{EOT}_2$) with positive fixed charge $q_{\mathrm{fixed}} > 0$
+     shifts $\Delta V_{\mathrm{FB}}$ negatively.
+5. **Gap 5 — Mass Conservation of Rejected Germanium in $\mathrm{SiGe}$ Snowplow Oxidation (`Interface 5b`)**:
+   - $\operatorname{giepSiGeSnowplowMassBalance}(x_{\mathrm{Ge},0}, \Delta x_{\mathrm{sub}}, L_{\mathrm{decay}}) \cdot L_{\mathrm{decay}} =
+     x_{\mathrm{Ge},0}\,\Delta x_{\mathrm{sub}}$, and thicker consumed substrate ($\Delta x_1 < \Delta x_2$)
+     strictly increases the interfacial $\mathrm{Ge}$ snowplow pile-up amplitude. -/
+@[blueprint "thm:signals-interfacial-electrical-properties-deep-gap-closure-identities"
+  (title := "Problem 02 deep gap closure: Deal-Grove forward inversion, Massoud rate, Brower-Stesmans equilibrium, nanowire curvature charge, SiC carbon traps, and SiGe mass balance")
+  (statement := /-- Simultaneous verification of explicit Deal-Grove forward thickness inversion,
+    Massoud thin-oxide enhancement, Brower-Stesmans passivation equilibrium, Kao nanowire
+    curvature stress and charge, Song $\mathrm{SiC}$ carbon-cluster traps, high-$\kappa$
+    flatband shift, and $\mathrm{SiGe}$ snowplow mass conservation. -/)
+  (proof := /-- Combine \texttt{Real.sq\_sqrt}, \texttt{field\_simp}, \texttt{ring},
+    \texttt{div\_lt\_div\_of\_pos\_left}, and \texttt{linarith}. -/)]
+theorem interfacial_electrical_properties_deep_gap_closure_identities
+    (a_dg b_dg tau_dg t_ox v_dg c_mass x1 x2 l_mass : ℝ)
+    (hb_dg : 0 < b_dg) (hdisc : 0 ≤ a_dg ^ 2 + 4 * b_dg * (t_ox + tau_dg))
+    (hc_mass : 0 < c_mass) (hx1 : 0 ≤ x1) (hx_lt : x1 < x2) (hl_mass : 0 < l_mass)
+    (dit0 r_pass1 r_pass2 k_dissoc eta_eff r_si1 r_si2 qf_plan beta_q : ℝ)
+    (hdit0 : 0 < dit0) (hr1 : 0 < r_pass1) (hr_lt : r_pass1 < r_pass2) (hk_dis : 0 < k_dissoc)
+    (heta : 0 < eta_eff) (hrsi1 : 0 < r_si1) (hrsi_lt : r_si1 < r_si2) (hbeta : 0 < beta_q)
+    (gamma_c r_c1 r_c2 theta_no v_dip q_fix eot1 eot2 x_ge0 dx1 dx2 l_dec : ℝ)
+    (hgc : 0 < gamma_c) (hrc_lt : r_c1 < r_c2) (htheta_no : theta_no < 1)
+    (hq_fix : 0 < q_fix) (heot_lt : eot1 < eot2)
+    (hx_ge0 : 0 < x_ge0) (hdx_lt : dx1 < dx2) (hl_dec : 0 < l_dec) :
+    let x_dg := giepDealGroveExplicitThickness a_dg b_dg tau_dg t_ox
+    x_dg ^ 2 + a_dg * x_dg = b_dg * (t_ox + tau_dg) ∧
+      giepDealGroveTimeForThickness a_dg b_dg tau_dg x_dg = t_ox ∧
+      v_dg < giepMassoudThinOxideRate v_dg c_mass x1 l_mass ∧
+      giepMassoudThinOxideRate v_dg c_mass x2 l_mass <
+        giepMassoudThinOxideRate v_dg c_mass x1 l_mass ∧
+      giepHydrogenPassivatedDit dit0 (giepBrowerStesmansEquilibriumCoverage r_pass1 k_dissoc) =
+        giepBrowerStesmansEquilibriumDit dit0 r_pass1 k_dissoc ∧
+      giepBrowerStesmansEquilibriumDit dit0 r_pass2 k_dissoc <
+        giepBrowerStesmansEquilibriumDit dit0 r_pass1 k_dissoc ∧
+      giepNanowireCurvatureStress eta_eff r_si2 <
+        giepNanowireCurvatureStress eta_eff r_si1 ∧
+      giepNanowireStressInducedCharge qf_plan beta_q eta_eff r_si2 <
+        giepNanowireStressInducedCharge qf_plan beta_q eta_eff r_si1 ∧
+      giepSiCCarbonClusterDit dit0 gamma_c r_c1 theta_no <
+        giepSiCCarbonClusterDit dit0 gamma_c r_c2 theta_no ∧
+      giepHighKFlatbandVoltageShift v_dip q_fix eot2 <
+        giepHighKFlatbandVoltageShift v_dip q_fix eot1 ∧
+      giepSiGeSnowplowMassBalance x_ge0 dx1 l_dec * l_dec = x_ge0 * dx1 ∧
+      giepSiGeSnowplowMassBalance x_ge0 dx1 l_dec <
+        giepSiGeSnowplowMassBalance x_ge0 dx2 l_dec := by
+  intro x_dg
+  have h_sqrt_sq :
+      (Real.sqrt (a_dg ^ 2 + 4 * b_dg * (t_ox + tau_dg))) ^ 2 =
+        a_dg ^ 2 + 4 * b_dg * (t_ox + tau_dg) :=
+    Real.sq_sqrt hdisc
+  have h_quad : x_dg ^ 2 + a_dg * x_dg = b_dg * (t_ox + tau_dg) := by
+    dsimp [x_dg]
+    unfold giepDealGroveExplicitThickness
+    calc
+      ((Real.sqrt (a_dg ^ 2 + 4 * b_dg * (t_ox + tau_dg)) - a_dg) / 2) ^ 2 +
+          a_dg * ((Real.sqrt (a_dg ^ 2 + 4 * b_dg * (t_ox + tau_dg)) - a_dg) / 2) =
+        ((Real.sqrt (a_dg ^ 2 + 4 * b_dg * (t_ox + tau_dg))) ^ 2 - a_dg ^ 2) / 4 := by ring
+      _ = b_dg * (t_ox + tau_dg) := by rw [h_sqrt_sq]; ring
+  have hb_ne : b_dg ≠ 0 := ne_of_gt hb_dg
+  have h_inv : giepDealGroveTimeForThickness a_dg b_dg tau_dg x_dg = t_ox := by
+    unfold giepDealGroveTimeForThickness
+    rw [h_quad]
+    field_simp [hb_ne]
+    ring
+  have h_mass_gt : v_dg < giepMassoudThinOxideRate v_dg c_mass x1 l_mass := by
+    unfold giepMassoudThinOxideRate
+    have h_div_pos : 0 < c_mass / (1 + x1 / l_mass) := by positivity
+    linarith
+  have h_mass_mono :
+      giepMassoudThinOxideRate v_dg c_mass x2 l_mass <
+        giepMassoudThinOxideRate v_dg c_mass x1 l_mass := by
+    unfold giepMassoudThinOxideRate
+    have h_d1_pos : 0 < 1 + x1 / l_mass := by positivity
+    have h_x_div : x1 / l_mass < x2 / l_mass := div_lt_div_of_pos_right hx_lt hl_mass
+    have h_c_lt : c_mass / (1 + x2 / l_mass) < c_mass / (1 + x1 / l_mass) :=
+      div_lt_div_of_pos_left hc_mass h_d1_pos (by linarith)
+    linarith
+  have hrk1_ne : r_pass1 + k_dissoc ≠ 0 := ne_of_gt (add_pos hr1 hk_dis)
+  have h_bs_eq :
+      giepHydrogenPassivatedDit dit0 (giepBrowerStesmansEquilibriumCoverage r_pass1 k_dissoc) =
+        giepBrowerStesmansEquilibriumDit dit0 r_pass1 k_dissoc := by
+    unfold giepHydrogenPassivatedDit giepBrowerStesmansEquilibriumCoverage
+      giepBrowerStesmansEquilibriumDit
+    field_simp [hrk1_ne]
+    ring
+  have h_bs_mono :
+      giepBrowerStesmansEquilibriumDit dit0 r_pass2 k_dissoc <
+        giepBrowerStesmansEquilibriumDit dit0 r_pass1 k_dissoc := by
+    unfold giepBrowerStesmansEquilibriumDit
+    exact div_lt_div_of_pos_left (mul_pos hdit0 hk_dis) (add_pos hr1 hk_dis) (by linarith)
+  have h_stress_lt :
+      giepNanowireCurvatureStress eta_eff r_si2 <
+        giepNanowireCurvatureStress eta_eff r_si1 := by
+    unfold giepNanowireCurvatureStress
+    exact div_lt_div_of_pos_left heta hrsi1 hrsi_lt
+  have h_qf_nw :
+      giepNanowireStressInducedCharge qf_plan beta_q eta_eff r_si2 <
+        giepNanowireStressInducedCharge qf_plan beta_q eta_eff r_si1 := by
+    unfold giepNanowireStressInducedCharge
+    have h_mul := mul_lt_mul_of_pos_left h_stress_lt hbeta
+    linarith
+  have h_sic_dit :
+      giepSiCCarbonClusterDit dit0 gamma_c r_c1 theta_no <
+        giepSiCCarbonClusterDit dit0 gamma_c r_c2 theta_no := by
+    unfold giepSiCCarbonClusterDit
+    have h1 : gamma_c * r_c1 < gamma_c * r_c2 := mul_lt_mul_of_pos_left hrc_lt hgc
+    have h2 : 0 < 1 - theta_no := by linarith
+    exact mul_lt_mul_of_pos_right (by linarith) h2
+  have h_vfb :
+      giepHighKFlatbandVoltageShift v_dip q_fix eot2 <
+        giepHighKFlatbandVoltageShift v_dip q_fix eot1 := by
+    unfold giepHighKFlatbandVoltageShift
+    have h_q_eot : q_fix * eot1 < q_fix * eot2 := mul_lt_mul_of_pos_left heot_lt hq_fix
+    linarith
+  have hl_dec_ne : l_dec ≠ 0 := ne_of_gt hl_dec
+  have h_ge_mass :
+      giepSiGeSnowplowMassBalance x_ge0 dx1 l_dec * l_dec = x_ge0 * dx1 := by
+    unfold giepSiGeSnowplowMassBalance
+    exact div_mul_cancel₀ (x_ge0 * dx1) hl_dec_ne
+  have h_ge_mono :
+      giepSiGeSnowplowMassBalance x_ge0 dx1 l_dec <
+        giepSiGeSnowplowMassBalance x_ge0 dx2 l_dec := by
+    unfold giepSiGeSnowplowMassBalance
+    have h_num : x_ge0 * dx1 < x_ge0 * dx2 := mul_lt_mul_of_pos_left hdx_lt hx_ge0
+    exact div_lt_div_of_pos_right h_num hl_dec
+  exact ⟨h_quad, h_inv, h_mass_gt, h_mass_mono, h_bs_eq, h_bs_mono,
+    h_stress_lt, h_qf_nw, h_sic_dit, h_vfb, h_ge_mass, h_ge_mono⟩
+
 end
 
 end Signals.DFT

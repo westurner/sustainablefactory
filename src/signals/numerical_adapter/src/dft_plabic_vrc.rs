@@ -1090,6 +1090,75 @@ pub fn giep_subthreshold_swing_with_dit(ss_ideal: f64, c_ox: f64, dit_eff: f64) 
     ss_ideal * (1.0 + dit_eff / c_ox)
 }
 
+/// Explicit forward Deal-Grove oxide thickness `((a_dg^2 + 4 * b_dg * (t_ox + tau_dg)).sqrt() - a_dg) / 2`,
+/// matching `Signals.DFT.giepDealGroveExplicitThickness`.
+pub fn giep_deal_grove_explicit_thickness(a_dg: f64, b_dg: f64, tau_dg: f64, t_ox: f64) -> f64 {
+    ((a_dg.powi(2) + 4.0 * b_dg * (t_ox + tau_dg)).sqrt() - a_dg) / 2.0
+}
+
+/// Massoud thin-oxide rapid oxidation rate `v_dg + c_massoud / (1 + x_ox / l_massoud)`,
+/// matching `Signals.DFT.giepMassoudThinOxideRate`.
+pub fn giep_massoud_thin_oxide_rate(
+    v_dg: f64,
+    c_massoud: f64,
+    x_ox: f64,
+    l_massoud: f64,
+) -> f64 {
+    v_dg + c_massoud / (1.0 + x_ox / l_massoud)
+}
+
+/// Brower-Stesmans steady-state H2 passivation coverage `r_pass / (r_pass + k_dissoc)`,
+/// matching `Signals.DFT.giepBrowerStesmansEquilibriumCoverage`.
+pub fn giep_brower_stesmans_equilibrium_coverage(r_pass: f64, k_dissoc: f64) -> f64 {
+    r_pass / (r_pass + k_dissoc)
+}
+
+/// Brower-Stesmans steady-state interface-trap density `(dit0 * k_dissoc) / (r_pass + k_dissoc)`,
+/// matching `Signals.DFT.giepBrowerStesmansEquilibriumDit`.
+pub fn giep_brower_stesmans_equilibrium_dit(dit0: f64, r_pass: f64, k_dissoc: f64) -> f64 {
+    (dit0 * k_dissoc) / (r_pass + k_dissoc)
+}
+
+/// Kao cylindrical nanowire compressive stress `eta_eff / r_si`,
+/// matching `Signals.DFT.giepNanowireCurvatureStress`.
+pub fn giep_nanowire_curvature_stress(eta_eff: f64, r_si: f64) -> f64 {
+    eta_eff / r_si
+}
+
+/// Curvature-stress-enhanced fixed oxide charge on a silicon nanowire,
+/// matching `Signals.DFT.giepNanowireStressInducedCharge`.
+pub fn giep_nanowire_stress_induced_charge(
+    qf_planar: f64,
+    beta_q: f64,
+    eta_eff: f64,
+    r_si: f64,
+) -> f64 {
+    qf_planar + beta_q * giep_nanowire_curvature_stress(eta_eff, r_si)
+}
+
+/// Song SiC/SiO2 carbon-cluster interface-trap density `(dit0 + gamma_c * r_carbon) * (1 - theta_no)`,
+/// matching `Signals.DFT.giepSiCCarbonClusterDit`.
+pub fn giep_sic_carbon_cluster_dit(
+    dit0: f64,
+    gamma_c: f64,
+    r_carbon: f64,
+    theta_no: f64,
+) -> f64 {
+    (dit0 + gamma_c * r_carbon) * (1.0 - theta_no)
+}
+
+/// High-k gate-stack flatband voltage shift `v_dipole - q_fixed * eot`,
+/// matching `Signals.DFT.giepHighKFlatbandVoltageShift`.
+pub fn giep_highk_flatband_voltage_shift(v_dipole: f64, q_fixed: f64, eot: f64) -> f64 {
+    v_dipole - q_fixed * eot
+}
+
+/// Mass-conserving SiGe snowplow pile-up amplitude `(x_ge0 * delta_x_sub) / l_decay`,
+/// matching `Signals.DFT.giepSiGeSnowplowMassBalance`.
+pub fn giep_sige_snowplow_mass_balance(x_ge0: f64, delta_x_sub: f64, l_decay: f64) -> f64 {
+    (x_ge0 * delta_x_sub) / l_decay
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1555,5 +1624,44 @@ mod tests {
         assert!(gtbc_relative_error(18.3, 18.5) < 0.015 && gtbc_relative_error(18.3, 18.5) < gtbc_relative_error(85.0, 18.5));
         assert!(gtbc_relative_error(1.42, 1.40) < 0.015 && gtbc_relative_error(1.42, 1.40) < gtbc_relative_error(0.70, 1.40));
         assert!(gtbc_relative_error(0.475, 0.480) < 0.015 && gtbc_relative_error(0.475, 0.480) < gtbc_relative_error(0.250, 0.480));
+
+        // 8. Deep gap-closure checks (Gaps 1-5): Deal-Grove forward inversion, Massoud rate,
+        // Brower-Stesmans equilibrium, Kao nanowire curvature charge, SiC carbon traps, and SiGe mass balance
+        let x_dg = giep_deal_grove_explicit_thickness(2.0, 4.0, 0.0, 15.0);
+        assert!((x_dg.powi(2) + 2.0 * x_dg - 4.0 * 15.0).abs() < 1e-12);
+        assert!((giep_deal_grove_time_for_thickness(2.0, 4.0, 0.0, x_dg) - 15.0).abs() < 1e-12);
+        assert!(1.0 < giep_massoud_thin_oxide_rate(1.0, 5.0, 2.0, 2.0));
+        assert!(
+            giep_massoud_thin_oxide_rate(1.0, 5.0, 6.0, 2.0)
+                < giep_massoud_thin_oxide_rate(1.0, 5.0, 2.0, 2.0)
+        );
+        let theta_eq = giep_brower_stesmans_equilibrium_coverage(9.0, 1.0);
+        assert!(
+            (giep_hydrogen_passivated_dit(25.0, theta_eq)
+                - giep_brower_stesmans_equilibrium_dit(25.0, 9.0, 1.0))
+                .abs()
+                < 1e-12
+        );
+        assert!(
+            giep_brower_stesmans_equilibrium_dit(25.0, 19.0, 1.0)
+                < giep_brower_stesmans_equilibrium_dit(25.0, 9.0, 1.0)
+        );
+        assert!(
+            giep_nanowire_stress_induced_charge(9.0, 2.0, 10.0, 25.0)
+                < giep_nanowire_stress_induced_charge(9.0, 2.0, 10.0, 10.0)
+        );
+        assert!(
+            giep_sic_carbon_cluster_dit(25.0, 5.0, 1.0, 0.9)
+                < giep_sic_carbon_cluster_dit(25.0, 5.0, 8.0, 0.9)
+        );
+        assert!(
+            giep_highk_flatband_voltage_shift(0.5, 2.0, 2.5)
+                < giep_highk_flatband_voltage_shift(0.5, 2.0, 1.5)
+        );
+        assert!((giep_sige_snowplow_mass_balance(0.25, 6.0, 3.0) * 3.0 - 1.5).abs() < 1e-15);
+        assert!(
+            giep_sige_snowplow_mass_balance(0.25, 6.0, 3.0)
+                < giep_sige_snowplow_mass_balance(0.25, 12.0, 3.0)
+        );
     }
 }
