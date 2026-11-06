@@ -369,6 +369,13 @@ In Section 11 of [`src/signals/Signals/QuantumCausalInference.lean`](../src/sign
    Updating a 3D Normed Tensor Gaussian Splat (`NormedTensorGaussianSplat3D`) via Jeffrey's Kinematic Engine preserves $\det\Sigma_{\mathrm{3D}} = \sigma_1^2 \sigma_2^2 \sigma_3^2$ and $\operatorname{Tr}\Sigma_{\mathrm{2D}} = \sigma_1^2 + \sigma_2^2$ (**Jeffrey Geometric Rigidity**), simultaneously conserves 0th moment ($w_+ + w_- = q_1 c_1^{\operatorname{do}} + q_2 c_2^{\operatorname{do}}$), 1st moment ($\frac{1}{2}(c_+.\mathrm{centerX} + c_-.\mathrm{centerX}) = \mathrm{splat}_j.\mathrm{centerX}$), and 2nd central moment ($\frac{1}{2}[(\sigma_{1,+}^2 + \delta_1^2) + (\sigma_{1,-}^2 + \delta_1^2)] = \sigma_1^2$ at $\delta_1 = \frac{\sqrt{3}}{2}\sigma_1$) while sharpening $\det\Sigma_{\mathrm{3D},\pm} = \frac{1}{4}\det\Sigma_{\mathrm{3D}}$ under adaptive major-axis splitting at surgical margins or nanoscale defects, and recovers the hidden axial depth variance $\sigma_3^2 = \operatorname{Tr}\Sigma_{\mathrm{2D}} / R_{\mathrm{depth}}$ from the holographic $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker channel ratio.
 4. **Quantum Causal Semantic GraphRAG (`quantumCausalGraphRAGScore`)**:
    Combining De Clercq tautological subspace filtering ($\Pi_{Z_q} v^\perp = 0$), LGV disjoint-trek rank provenance (`singleHubRepresentative_det_zero` flagging rank-1 hub confounders), Pearl $\operatorname{do}$-deconfounded Jeffrey belief propagation, and Quantum Switch multi-hop ordering (`quantumSwitchSymBranchWeight`, `quantumSwitchAntiBranchWeight`) eliminates hub bias and contradictory multi-hop hallucinations in GraphRAG ([Edge et al. 2024](#qci-edge2024)).
+5. **Optional Complex Vector-Relation Configurations (`VRC`) vs. Plabic Rational Charts in Grassmannian Quantum Causal Inference (`GrassmannianCausalBackend`, `qciRecommendBackend`, `qciGr24PluckerMinor`, `qciOptionalVrcJeffreyKinematicUpdate`, `qciOptionalVrcGraphRAGScore`)**:
+   In Sections 13 and 14 of [`src/signals/Signals/QuantumCausalInference.lean`](../src/signals/Signals/QuantumCausalInference.lean#L2110-L2305) (Master Theorem 9 `qci_optional_vrc_vs_plabic_complex_grassmannian_identities`, [`quantum_causal_inference.rs`](../src/signals/numerical_adapter/src/quantum_causal_inference.rs#L1180-L1330), and [`sustainablefactory/qci_grassmannian_dft.py`](../sustainablefactory/qci_grassmannian_dft.py#L1680-L1800); see also [Paper 22 (`grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`)](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md) and [Paper 23 (`grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`)](grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md)), we extend Grassmannian Quantum Causal Inference (`QCI`) with:
+   - **QCI Directed Conditional Mutual Information, Phase Velocity, & Spin-Channel Mutual Information (`qciDirectedConditionalMutualInfo`, `qciCausalPhaseVelocity`, `qciConfinedPlasmonProcessWeight`, `qciSpinChannelMutualInformation`)**: Formalizes directed conditional mutual information $I(X \to Y \mid Z_{\mathrm{past}}) = H(Y_t \mid Y_{\mathrm{past}}, Z_{\mathrm{past}}) - H(Y_t \mid Y_{\mathrm{past}}, X_{t-\Delta t}, Z_{\mathrm{past}})$, plasmonic phase velocity $v_p = \Delta x / \Delta t_{\mathrm{causal}}$, confined process-matrix causal superposition $W_{\mathrm{conf}} = \alpha W_{A \to B \to C} + \beta W_{C \to B \to A}$, and unrestricted spin-channel mutual information $I(\alpha;\beta) = S(P_\alpha) + S(P_\beta) - S(P_{\alpha\beta})$.
+   - **Optional Complex Homogeneous VRC Parameterization (`GrassmannianCausalBackend.complexHomogeneousVRC` vs. `.plabicRationalChart`)**: Standard Postnikov Plabic boundary measurement maps (`gr24RationalChartMatrix`) use rational face weights $1/x_X$ and $x_1' = (x_1 x_X + x_2)/(x_X + 1)$, which are well-defined on the totally positive real Grassmannian $\mathrm{Gr}_{>0}(k,n)$ ($x_f > 0$) but diverge on $\mathrm{Gr}_{\mathbb{C}}(k,n)$ at the destructive-interference / on-shell polariton resonance pole $x_X = -1$ and chart boundary $x_X = 0$. The selector `qciRecommendBackend isComplex hasResonance` automatically switches to **Complex Homogeneous Vector-Relation Configurations (`VRC`, `(V, K)` with $V K^\top = 0$)** (`gr24HomogeneousVRC`, `gr24MutatedHomogeneousVRC`) whenever complex phases or resonances are present, proving:
+     1. *Away from chart poles ($x_X \ne 0$)*: Clearing the $1/x_X$ denominator at white vertex $w_2$ scales Plücker minors involving column $2$ ($\Delta_{02}, \Delta_{12}, \Delta_{23}$) by $x_X$ while leaving $\Delta_{01}, \Delta_{03}, \Delta_{13}$ unchanged, so both uncrossed causal channels scale by the exact same projective factor $x_X$ (`qciGr24UncrossedChannelA .complexHomogeneousVRC = x_X * qciGr24UncrossedChannelA .plabicRationalChart`, `qciGr24UncrossedChannelB .complexHomogeneousVRC = x_X * qciGr24UncrossedChannelB .plabicRationalChart`) and represent the identical projective subspace in $\mathrm{Gr}_{\mathbb{C}}(2,4)$.
+     2. *At the on-shell destructive-interference / polariton resonance ($x_X = -1$)*: The mutated Complex VRC (`mutated = true`) remains completely pole-free with finite Plücker minors ($\Delta_{01} = 1, \Delta_{02} = 0, \Delta_{03} = x_2, \Delta_{12} = x_2 - x_1, \Delta_{13} = 1, \Delta_{23} = x_1 x_2 - x_2^2$) satisfying the exact 3-term Plücker relation.
+     3. *Under Pearl $\operatorname{do}$-surgical backdoor severing (`doSeverBackdoor = true`, setting $x_2 \mapsto 0$)*: The backdoor Plücker channel vanishes identically ($w_B^{\mathbb{C}} = 0$) in both `plabicRationalChart` and `complexHomogeneousVRC`, collapsing `qciOptionalVrcJeffreyKinematicUpdate` and `qciOptionalVrcGraphRAGScore` to the exact deconfounded classical Jeffrey update $q_1 c_1^{\operatorname{do}} + q_2 c_2^{\operatorname{do}}$.
 
 ---
 
@@ -383,6 +390,7 @@ In Section 11 of [`src/signals/Signals/QuantumCausalInference.lean`](../src/sign
 | **Single-Shot Conditional Landauer Cooling ($S(A\|O) < 0 \implies Q < 0$) vs. Closed-Loop Reset** | [`_Mpemba Effect_ Landau vs. Quantum .md`, lines 298–325, 440–480](../data/chats/_Mpemba%20Effect_%20Landau%20vs.%20Quantum%20.md#L298-L325); [del Rio et al. 2011](#delrio2011negative) | `scholarly theory` (single-shot) / `calibration-required` (cyclic) | High | `delRioConditionalLandauerHeat`, `closedLoopErasureAndMemoryResetHeat`, `wernerConditionalEntropyBitsAtHalf`, `werner_cooling_threshold_fidelity` | Include ancilla memory reset heat $Q_{\mathrm{reset}}$ and Werner threshold $F_* \approx 0.8107$ ($p_* \approx 0.7476$) |
 | **Lignolux Tape `-50 to -100 W` Entropy-Siphon Refrigeration Claim** | [`_Quantum Processor and Soliton Discussions  .md`, lines 4480–4525](../data/chats/_Quantum%20Processor%20and%20Soliton%20Discussions%20%20.md#L4480-L4525) | `unsupported` ($-0.750\text{ }\mu\text{W}$ formula mismatch; `Pending` contract only) | High (audit) | `lignoluxTapeSiphonPowerWatts`, `QuantumCausalMpembaSynthesisContract` (`Signals.Pending`) | Keep in `Signals.Pending`; require $\operatorname{do}(F=0)$ control subtraction & TES calibration |
 | **$>6{,}400\times$ Splat-Grassmann Volumetric Efficiency, Jeffrey's Kinematic Engine, & Quantum Causal Semantic GraphRAG** | [Jeffrey 1965](#qci-jeffrey1965); [Lüders 1950](#qci-luders1950); [De Clercq 2026](#qci-declercq2026); [Edge et al. 2024](#qci-edge2024) | `scholarly theory` (verified math) / `calibration-required` (clinical margin & GraphRAG recall) | High | `volumetricAttentionEfficiencyRatio`, `jeffreyKinematicUpdate`, `quantumCausalGraphRAGScore`, `QuantumCausalSurgicalSplatGraphRAGHypothesis` | Phantom registration, motion-gating calibration, and multi-hop GraphRAG benchmark evaluation |
+| **Optional Complex Vector-Relation Configurations (`VRC`) vs. Plabic Rational Charts & QCI Spin-Channel Mutual Information** | [`Google-Search_Density-Functional-Theory_20261105-1512.md`, lines 669–765, 1453–1479](../data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md#L669-L765); [Paper 22](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md) | `scholarly theory` (verified math) | High | `GrassmannianCausalBackend`, `qci_optional_vrc_vs_plabic_complex_grassmannian_identities`, `qciSpinChannelMutualInformation` | Experimental polariton / spin-wave interferometry at destructive resonance $x_X = -1$ |
 
 ---
 
@@ -605,6 +613,38 @@ example (q1 c1_do c2_do b1 b2 gamma_coh wA_re wA_im wB_re wB_im s_taut : ℝ) :
   · unfold quantumCausalGraphRAGScore quantumJeffreyPluckerKinematicUpdate
       jeffreyKinematicUpdate qcdtPluckerInterferenceTerm
     ring
+
+-- 6. Verification of Optional Complex Vector-Relation Configuration (VRC) vs. Plabic
+-- Rational Chart parameterization on Gr_C(2,4) (Master Theorem 9):
+-- automatic backend recommendation, Plücker quadratic relation across all backends,
+-- projective x_X scaling away from poles, pole-free regularity at x_X = -1, and
+-- Pearl do-surgical backdoor severing (doSeverBackdoor = true -> w_B = 0)
+example (backend : GrassmannianCausalBackend) (mutated isRes doSever : Bool)
+    (x1 x2 xX : ℂ) (hxX : xX ≠ 0) (s_taut q1 q2 c1_do c2_do gamma_coh : ℝ) :
+    qciRecommendBackend true isRes = .complexHomogeneousVRC ∧
+      qciRecommendBackend false true = .complexHomogeneousVRC ∧
+      qciRecommendBackend false false = .plabicRationalChart ∧
+      pluckerQuadraticRelation2x4 (qciGr24BoundaryMatrix backend mutated x1 x2 xX doSever) = 0 ∧
+      qciGr24UncrossedChannelA .complexHomogeneousVRC false x1 x2 xX false =
+        xX * qciGr24UncrossedChannelA .plabicRationalChart false x1 x2 xX false ∧
+      qciGr24UncrossedChannelB .complexHomogeneousVRC false x1 x2 xX false =
+        xX * qciGr24UncrossedChannelB .plabicRationalChart false x1 x2 xX false ∧
+      qciGr24PluckerMinor .complexHomogeneousVRC true x1 x2 (-1) false 1 2 = x2 - x1 ∧
+      qciGr24UncrossedChannelB .complexHomogeneousVRC mutated x1 x2 xX true = 0 ∧
+      qciOptionalVrcJeffreyKinematicUpdate .complexHomogeneousVRC mutated
+          q1 q2 c1_do c2_do gamma_coh x1 x2 xX true =
+        jeffreyKinematicUpdate q1 q2 c1_do c2_do ∧
+      qciOptionalVrcGraphRAGScore .complexHomogeneousVRC mutated
+          s_taut q1 q2 c1_do c2_do gamma_coh x1 x2 xX true =
+        s_taut + jeffreyKinematicUpdate q1 q2 c1_do c2_do := by
+  have h9 := qci_optional_vrc_vs_plabic_complex_grassmannian_identities
+    backend mutated isRes doSever x1 x2 xX hxX s_taut q1 q2 c1_do c2_do gamma_coh
+  exact ⟨h9.1, h9.2.1, h9.2.2.1, h9.2.2.2.1,
+    h9.2.2.2.2.2.2.2.2.2.2.1, h9.2.2.2.2.2.2.2.2.2.2.2.1,
+    h9.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h9.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h9.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h9.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
 end QuantumCausalInferenceMpembaPaperVerification
 ```

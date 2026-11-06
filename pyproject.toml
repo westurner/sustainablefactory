@@ -15,6 +15,7 @@ dependencies = [
     "pyoxigraph",
     "httpx",
     "sphinx",
+    "sphinxcontrib-bibtex",
     "myst-parser",
     "sphinxcontrib-mermaid",
     "furo",

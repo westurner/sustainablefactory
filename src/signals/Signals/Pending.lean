@@ -8,6 +8,7 @@ import Signals.Applications
 import Signals.CavityQED
 import Signals.ActiveOptics
 import Signals.DDF
+import Signals.DFT
 import Signals.ProtocolZ8
 import Signals.QuditQEC
 import Signals.SemiDirac
@@ -5932,5 +5933,211 @@ lemma QuantumCausalSurgicalSplatGraphRAGHypothesis.efficiency_kinematic_splat_an
     h.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+/-! ## 31. Complex Grassmannian Vector-Relation Configurations (`VRC`), Kohn-Sham DFT (`QCI-GXC`), McWeeny Distillation, Full 55-Subset Two-Electron ERI, and Topological Multi-Qudit Pending Contract
+
+While `Signals.Plabic.complex_plabic_vrc_and_sympy_check_figures`,
+`Signals.DFT.grassmannian_dft_vrc_cayley_mcweeny_and_mermin_check_figures`,
+`Signals.DFT.speed_accuracy_barrier_wtmad2_ald_cvd_and_cayley_scaling_identities`,
+`Signals.DFT.polariton_plasmon_skyrmion_mzm_and_nondestructive_readout_identities`,
+`Signals.DFT.full_55_subset_two_electron_eri_and_gmtkn55_wtmad2_identities`,
+`Signals.QuantumCausalInference.qci_directed_phase_flow_and_spin_mutual_info_identities`, and
+`Signals.QuantumCausalInference.qci_optional_vrc_vs_plabic_complex_grassmannian_identities`
+machine-check:
+1. **Vector-Relation Configurations (`VectorRelationConfiguration`) & Optional Complex VRC vs. Plabic Causal Backend (`Signals.Plabic`, `Signals.QuantumCausalInference`)**:
+   $V K^\top = 0$, global $\mathrm{GL}_k(\mathbb{C})$ / unitary orbital gauge invariance,
+   black-vertex row-elimination invariance, quadratic Plücker relation `pluckerQuadraticRelation2x4 = 0`,
+   pole-free regularity across the on-shell polariton resonance $x_X = -1$, automatic Complex VRC
+   backend selection (`qciRecommendBackend true false = .complexHomogeneousVRC`), projective
+   scaling equivalence $w_{A,B}^{\mathrm{VRC}} = x_X w_{A,B}^{\mathrm{Plabic}}$ away from poles,
+   and exact SymPy benchmark values $p_{14} = 0.3 - 0.7i$ and $x_X' = 0.75 + 0.25i$ (`qci_gxc_sympy.py`),
+2. **Unrestricted Spin-Polarized Kohn-Sham Manifolds & Riemannian Cayley Retraction (`Signals.DFT`)**:
+   $\dim_{\mathbb{R}}\bigl(\mathrm{Gr}_{\mathbb{C}}(2,4) \times \mathrm{Gr}_{\mathbb{C}}(1,4)\bigr) = 14$,
+   variational ground-state lower bounds $E_{\mathrm{UKS}}(0,0) = 4\text{ Ha} = 2510.036\text{ kcal/mol} \le E_{\mathrm{UKS}}(w_\alpha, w_\beta)$,
+   exact Cayley retraction unitarity $\operatorname{cayleyRetractionNormSq}(\theta) = 1$, and
+   $144\times$ occupied-subspace `def2-QZVP` Grassmann–Cayley speedup (`grassmannCayleySpeedupRatio 10 120 = 144`),
+3. **McWeeny / Kovtun–Schulz Cubic Idempotency Distillation, 1-RDM Correlation Entropy, & ALD Barrier Restoration (`Signals.DFT`)**:
+   $\operatorname{mcweenyPurificationPoly}(9/10) = 243/250 = 0.972$ with quadratic error
+   contraction $1 - f(1 - \varepsilon) = \varepsilon^2(3 - 2\varepsilon)$, 1-RDM natural-occupation
+   correlation entropy $S_{\mathrm{corr}}(1/2) = 1/2 > S_{\mathrm{corr}}(0) = S_{\mathrm{corr}}(1) = 0$,
+   and ALD transition-state SIE barrier restoration (`aldBarrierWithSIERestoration`),
+4. **Analytical 4-Center $s$-Wave Gaussian Two-Electron ERI, `RI-J / COSX` Auxiliary Scaling, & Full 55-Subset (`N_total = 1505`) GMTKN55 `WTMAD-2` (`Signals.DFT`)**:
+   `gaussianFourCenterSWaveERI`, Boys $F_0(0) = 1$ (`boysF0Taylor2`), exact Pauli diagonal
+   self-interaction cancellation (`sameSpinDiagonalCoulombMinusExchange = 0`), $192\times$
+   3-center `RI-J / COSX` auxiliary ERI speedup (`riAuxiliaryERISpeedupRatio 4 48 144 = 192`),
+   and the full 55-subset / 1,505-reaction GMTKN55 `WTMAD-2 = 494.54 / 301 ≈ 1.643 kcal/mol < 3.0 < 3.81`
+   (`gmtkn55FiveCategoryWTMAD2`), and
+5. **Soliton Envelope Width Optimum, 3-Qudit GHZ Mermin Witness, & Polariton/Plasmon/Skyrmion/MZM Non-Destructive Readout (`Signals.DFT`, `Signals.NonDestructive`)**:
+   $T_{\mathrm{gate}}(0.73) < T_{\mathrm{gate}}(0.1), T_{\mathrm{gate}}(3.5)$,
+   $W_{\mathrm{Mermin}}(1) = 4 > W_{\mathrm{Mermin}}(0.9866) = 3.9464 > 2$,
+   unit-skyrmion Pontryagin charge $Q_{\mathrm{skyrmion}}(1,-1,1) = 1$, Kitaev Majorana
+   topological regime $|\mu| < 2|t|$, and zero-absorption dispersive parity contrast
+   $\Delta\phi_{\mathrm{MZM}}(+1) - \Delta\phi_{\mathrm{MZM}}(-1) = 2\chi_{\mathrm{MZM}}$,
+
+any claim that uncalibrated real-space molecular DFT or room-temperature open-shell precursor
+orbitals physically realize fault-tolerant **non-Abelian anyons / Majorana Zero Modes (MZMs)**
+without full basis-set convergence, relativistic/solvation controls, and experimental braiding
+interferometry remains governed by `QuantumCausalGrassmannianDFTHypothesis` in `Signals.Pending`. -/
+
+/-- A Pending validation contract for Complex Grassmannian Vector-Relation Configurations,
+QCI-GXC Kohn-Sham DFT, McWeeny idempotency distillation, and 3-qudit Mermin nonlocality
+benchmarks (`data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md`). -/
+@[blueprint "def:signals-quantum-causal-grassmannian-dft-contract"
+  (title := "Pending Complex Grassmannian VRC, QCI-GXC Kohn-Sham DFT, and Topological Multi-Qudit contract")
+  (statement := /-- Links Complex Grassmannian Vector-Relation Configurations ($V K^\top = 0$ and
+    $x_X = -1$ pole-free regularity), unrestricted spin-polarized $\mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(1,4)$
+    Kohn-Sham ground-state bounds ($4\text{ Ha} = 2510.036\text{ kcal/mol}$), Cayley retraction
+    unitarity, McWeeny cubic purification ($0.9 \mapsto 0.972$), soliton width optimum ($w = 0.73$),
+    and 3-qudit GHZ Mermin witness ($W = 3.9464 > 2$) with explicit two-electron $J-K$ integral,
+    GMTKN55 WTMAD-2, and experimental anyon-braiding verification gates. -/)]
+structure QuantumCausalGrassmannianDFTHypothesis where
+  eps1 : ℝ
+  eps2 : ℝ
+  eps_le : eps1 ≤ eps2
+  xNormSq : ℝ
+  xNormSq_nonneg : 0 ≤ xNormSq
+  wAlpha : ℝ
+  wBeta : ℝ
+  wAlpha_nonneg : 0 ≤ wAlpha
+  wBeta_nonneg : 0 ≤ wBeta
+  cayleyTheta : ℝ
+  twoElectronCoulombExchangeEvaluated : Prop
+  twoElectronCoulombExchangeEvaluated_hypothesis : twoElectronCoulombExchangeEvaluated
+  gmtkn55BenchmarkValidated : Prop
+  gmtkn55BenchmarkValidated_hypothesis : gmtkn55BenchmarkValidated
+  experimentalAnyonBraidingVerified : Prop
+  experimentalAnyonBraidingVerified_hypothesis : experimentalAnyonBraidingVerified
+
+/-- In any `QuantumCausalGrassmannianDFTHypothesis`:
+1. Both `gr24HomogeneousVRC` and the $x_X = -1$ resonance `gr24MutatedHomogeneousVRC` satisfy
+   $V K^\top = 0$ and `pluckerQuadraticRelation2x4 = 0`, and the SymPy check figures
+   $p_{14} = 0.3 - 0.7i$ and $x_X' = 0.75 + 0.25i$ hold,
+2. The spin-polarized manifold $\mathrm{Gr}_{\mathbb{C}}(2,4)\times\mathrm{Gr}_{\mathbb{C}}(1,4)$
+   has real dimension $14$ and ground-state core energy $4\text{ Ha} = 2510.036\text{ kcal/mol} \le E_{\mathrm{UKS}}(w_\alpha, w_\beta)$,
+3. The Cayley retraction satisfies $\operatorname{cayleyRetractionNormSq}(\theta) = 1$,
+4. McWeeny cubic purification maps $0.9 \mapsto 0.972$, reducing idempotency leakage below $0.1$,
+5. The soliton envelope width $w = 0.73$ beats $w = 0.1$ and $w = 3.5$, and
+6. The 3-qudit GHZ Mermin witness satisfies $W(0.9866) = 3.9464 > 2$ and $W(1) = 4$. -/
+@[blueprint "lem:signals-quantum-causal-grassmannian-dft-bounds"
+  (title := "Pending Complex Grassmannian VRC and QCI-GXC DFT contract enforces Plücker, Kohn-Sham, Cayley, McWeeny, and Mermin bounds")
+  (statement := /-- For any \texttt{contract : QuantumCausalGrassmannianDFTHypothesis} and
+    $x_1, x_2, x_X \in \mathbb{C}$ ($x_X \neq 0$), the VRC relation $V K^\top = 0$, the SymPy
+    Plücker check figures, the Kohn-Sham variational energy bounds, Cayley retraction unitarity,
+    McWeeny purification, soliton width optimum, and 3-qudit GHZ Mermin bounds hold simultaneously. -/)
+  (proof := /-- Combine \texttt{Signals.Plabic.complex\_plabic\_vrc\_and\_sympy\_check\_figures} and
+    \texttt{Signals.DFT.grassmannian\_dft\_vrc\_cayley\_mcweeny\_and\_mermin\_check\_figures}. -/)
+  (latexEnv := "lemma")]
+lemma QuantumCausalGrassmannianDFTHypothesis.vrc_dft_cayley_mcweeny_and_mermin_bounds
+    (contract : QuantumCausalGrassmannianDFTHypothesis)
+    (x1 x2 xX : ℂ) (hxX : xX ≠ 0) :
+    let vrc_pre := Signals.Plabic.gr24HomogeneousVRC x1 x2 xX
+    let vrc_res := Signals.Plabic.gr24MutatedHomogeneousVRC x1 x2 (-1)
+    let test_x1 : ℂ := 1 / 2 + (1 / 5 : ℂ) * Complex.I
+    let test_x2 : ℂ := -(3 / 10 : ℂ) + (7 / 10 : ℂ) * Complex.I
+    let test_xX : ℂ := 6 / 5 - (2 / 5 : ℂ) * Complex.I
+    vrc_pre.vectors * vrc_pre.relations.transpose = 0 ∧
+      vrc_res.vectors * vrc_res.relations.transpose = 0 ∧
+      Signals.Plabic.pluckerQuadraticRelation2x4 vrc_res.boundaryMatrix = 0 ∧
+      Signals.Plabic.plucker2x4Minor (Signals.Plabic.gr24RationalChartMatrix test_x1 test_x2 test_xX) 0 3 =
+        (3 / 10 : ℂ) - (7 / 10 : ℂ) * Complex.I ∧
+      (Signals.Plabic.gr24ClusterMutation test_x1 test_x2 test_xX).2.2 =
+        (3 / 4 : ℂ) + (1 / 4 : ℂ) * Complex.I ∧
+      Signals.DFT.spinPolarizedGrassmannianRealDim 2 1 4 = 14 ∧
+      contract.eps1 ≤ Signals.DFT.grassmannianKohnShamEnergy2x2
+        contract.eps1 contract.eps2 contract.xNormSq ∧
+      Signals.DFT.hartreeToKcalPerMol
+        (Signals.DFT.spinPolarized4OrbitalCoreEnergy 0 0) = 2510.036 ∧
+      4 ≤ Signals.DFT.spinPolarized4OrbitalCoreEnergy
+        contract.wAlpha contract.wBeta ∧
+      Signals.DFT.cayleyRetractionNormSq contract.cayleyTheta = 1 ∧
+      Signals.DFT.mcweenyPurificationPoly (9 / 10) = 243 / 250 ∧
+      Signals.DFT.solitonEnvelopeGateTime (73 / 100) <
+        Signals.DFT.solitonEnvelopeGateTime (1 / 10) ∧
+      Signals.DFT.solitonEnvelopeGateTime (73 / 100) <
+        Signals.DFT.solitonEnvelopeGateTime (7 / 2) ∧
+      Signals.DFT.merminThreeQuditGHZWitness 1 = 4 ∧
+      (2 : ℝ) < Signals.DFT.merminThreeQuditGHZWitness (9866 / 10000) := by
+  intro vrc_pre vrc_res test_x1 test_x2 test_xX
+  have h_vrc := Signals.Plabic.complex_plabic_vrc_and_sympy_check_figures x1 x2 xX hxX
+  have h_dft :=
+    Signals.DFT.grassmannian_dft_vrc_cayley_mcweeny_and_mermin_check_figures
+      contract.eps1 contract.eps2 contract.xNormSq contract.wAlpha contract.wBeta
+      contract.cayleyTheta (1 / 10)
+      contract.eps_le contract.xNormSq_nonneg contract.wAlpha_nonneg contract.wBeta_nonneg
+  exact ⟨h_vrc.2.2.2.2.2.2.2.1, h_vrc.2.2.2.2.2.2.2.2.2.1,
+    h_vrc.2.2.2.2.2.2.2.2.2.2.1, h_vrc.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_vrc.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    h_dft.1, h_dft.2.2.1, h_dft.2.2.2.2.1, h_dft.2.2.2.2.2.1,
+    h_dft.2.2.2.2.2.2.1, h_dft.2.2.2.2.2.2.2.2.2.2.1,
+    h_dft.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_dft.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_dft.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_dft.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+/-- In any `QuantumCausalGrassmannianDFTHypothesis`, the analytical 4-center $s$-wave Gaussian ERI
+bra-ket symmetry, Boys $F_0(0) = 1$, exact Pauli diagonal Coulomb-minus-Exchange self-interaction
+cancellation (`sameSpinDiagonalCoulombMinusExchange = 0`), $192\times$ 3-center `RI-J / COSX`
+auxiliary ERI speedup (`riAuxiliaryERISpeedupRatio 4 48 144 = 192`), $144\times$ `def2-QZVP`
+Grassmann–Cayley tangent-space speedup (`grassmannCayleySpeedupRatio 10 120 = 144`), full 55-subset
+($1{,}505$-reaction) GMTKN55 `WTMAD-2 = 494.54 / 301 ≈ 1.643 kcal/mol < 3.0 < 3.81` bounds,
+optional Complex VRC vs. Plabic causal backend selection (`qciRecommendBackend true false = .complexHomogeneousVRC`)
+and $x_X = -1$ pole resolution, unit-skyrmion Pontryagin charge (`skyrmionPontryaginCharge 1 (-1) 1 = 1`),
+and Kitaev Majorana zero-mode dispersive parity contrast (`mzmDispersiveParityContrast 1 = 2`)
+hold simultaneously. -/
+@[blueprint "lem:signals-quantum-causal-grassmannian-dft-eri-wtmad2-and-vrc-bounds"
+  (title := "Pending Grassmannian DFT contract enforces 55-subset two-electron ERI, GMTKN55 WTMAD-2, optional Complex VRC, and Skyrmion/MZM bounds")
+  (statement := /-- For any \texttt{contract : QuantumCausalGrassmannianDFTHypothesis},
+    analytical 4-center Gaussian ERI symmetry, $\operatorname{boysF0Taylor2}(0) = 1$,
+    $\operatorname{sameSpinDiagonalCoulombMinusExchange}(\gamma, P) = 0$,
+    $\operatorname{riAuxiliaryERISpeedupRatio}(4, 48, 144) = 192$,
+    $\operatorname{grassmannCayleySpeedupRatio}(10, 120) = 144$,
+    $\operatorname{gmtkn55TotalSubsetCount} = 55$,
+    $\operatorname{gmtkn55TotalReactionCount} = 1505$,
+    $\operatorname{gmtkn55FiveCategoryWTMAD2}(948.15, 210.70, 349.20, 468.00, 496.65) = 494.54 / 301 < 3.0 < 3.81$,
+    $\operatorname{qciRecommendBackend}(\mathrm{true}, \mathrm{false}) = \mathrm{.complexHomogeneousVRC}$,
+    $\operatorname{skyrmionPontryaginCharge}(1, -1, 1) = 1$, and
+    $\operatorname{mzmDispersiveParityContrast}(1) = 2$ hold simultaneously. -/)
+  (proof := /-- Combine \texttt{Signals.DFT.full\_55\_subset\_two\_electron\_eri\_and\_gmtkn55\_wtmad2\_identities},
+    \texttt{Signals.QuantumCausalInference.qci\_optional\_vrc\_vs\_plabic\_complex\_grassmannian\_identities},
+    and \texttt{norm\_num}. -/)
+  (latexEnv := "lemma")]
+lemma QuantumCausalGrassmannianDFTHypothesis.full_55_subset_eri_wtmad2_optional_vrc_and_ndm_bounds
+    (_contract : QuantumCausalGrassmannianDFTHypothesis)
+    (p q s_sum k_ab k_cd boys_f0 eri_diag p_diag : ℝ)
+    (x1 x2 xX : ℂ) (hxX : xX ≠ 0) :
+    Signals.DFT.gaussianFourCenterSWaveERI p q s_sum k_ab k_cd boys_f0 =
+        Signals.DFT.gaussianFourCenterSWaveERI q p s_sum k_cd k_ab boys_f0 ∧
+      Signals.DFT.boysF0Taylor2 0 = 1 ∧
+      Signals.DFT.sameSpinDiagonalCoulombMinusExchange eri_diag p_diag = 0 ∧
+      Signals.DFT.riAuxiliaryERISpeedupRatio 4 48 144 = 192 ∧
+      Signals.DFT.grassmannCayleySpeedupRatio 10 120 = 144 ∧
+      Signals.DFT.gmtkn55TotalSubsetCount = 55 ∧
+      Signals.DFT.gmtkn55TotalReactionCount = 1505 ∧
+      Signals.DFT.gmtkn55FiveCategoryWTMAD2 948.15 210.70 349.20 468.00 496.65 = 494.54 / 301 ∧
+      Signals.DFT.gmtkn55FiveCategoryWTMAD2 948.15 210.70 349.20 468.00 496.65 < 3.0 ∧
+      Signals.DFT.gmtkn55FiveCategoryWTMAD2 948.15 210.70 349.20 468.00 496.65 < 3.81 ∧
+      Signals.QuantumCausalInference.qciRecommendBackend true false = .complexHomogeneousVRC ∧
+      Signals.QuantumCausalInference.qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX false 0 2 =
+        xX * Signals.QuantumCausalInference.qciGr24PluckerMinor .plabicRationalChart false x1 x2 xX false 0 2 ∧
+      Signals.QuantumCausalInference.qciGr24PluckerMinor .complexHomogeneousVRC true x1 x2 (-1) false 1 2 =
+        x2 - x1 ∧
+      Signals.DFT.skyrmionPontryaginCharge 1 (-1) 1 = 1 ∧
+      Signals.DFT.mzmDispersiveParityContrast 1 = 2 := by
+  have h_eri :=
+    Signals.DFT.full_55_subset_two_electron_eri_and_gmtkn55_wtmad2_identities
+      p q s_sum k_ab k_cd boys_f0 eri_diag p_diag 4 48 144
+      (by norm_num) (by norm_num) (by norm_num)
+  have h_vrc :=
+    Signals.QuantumCausalInference.qci_optional_vrc_vs_plabic_complex_grassmannian_identities
+      .complexHomogeneousVRC false false false x1 x2 xX hxX 0 (1 / 2) (1 / 2) 1 0 0
+  exact ⟨h_eri.1, h_eri.2.1, h_eri.2.2.2.1, h_eri.2.2.2.2.2.1,
+    by unfold Signals.DFT.grassmannCayleySpeedupRatio
+        Signals.DFT.fullBasisSCFStepFlops Signals.DFT.grassmannCayleyStepFlops; norm_num,
+    h_eri.2.2.2.2.2.2.1, h_eri.2.2.2.2.2.2.2.1,
+    h_eri.2.2.2.2.2.2.2.2.1, h_eri.2.2.2.2.2.2.2.2.2.1, h_eri.2.2.2.2.2.2.2.2.2.2,
+    h_vrc.1, h_vrc.2.2.2.2.1, h_vrc.2.2.2.2.2.2.2.2.2.2.1,
+    by unfold Signals.DFT.skyrmionPontryaginCharge; norm_num,
+    by unfold Signals.DFT.mzmDispersiveParityContrast
+        Signals.DFT.mzmDispersiveParityPhaseShift; norm_num⟩
 
 end Signals.Pending

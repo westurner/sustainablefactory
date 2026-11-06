@@ -274,11 +274,17 @@ Require external materials, device, dosimetry, phantom, and clinical validation
 data before making those claims.
 
 Finally, [`src/signals/Signals/QuantumCausalInference.lean`](src/signals/Signals/QuantumCausalInference.lean),
+[`src/signals/Signals/DFT.lean`](src/signals/Signals/DFT.lean),
+[`src/signals/Signals/Plabic.lean`](src/signals/Signals/Plabic.lean),
 [`src/signals/numerical_adapter/src/quantum_causal_inference.rs`](src/signals/numerical_adapter/src/quantum_causal_inference.rs),
-and `QuantumCausalMpembaSynthesisContract` / `QuantumCausalBundleVideoGenHypothesis` / `QuantumCausalSurgicalSplatGraphRAGHypothesis` in [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean)
+[`src/signals/numerical_adapter/src/dft_plabic_vrc.rs`](src/signals/numerical_adapter/src/dft_plabic_vrc.rs),
+[`sustainablefactory/qci_grassmannian_dft.py`](sustainablefactory/qci_grassmannian_dft.py),
+and `QuantumCausalMpembaSynthesisContract` / `QuantumCausalBundleVideoGenHypothesis` / `QuantumCausalSurgicalSplatGraphRAGHypothesis` / `QuantumCausalGrassmannianDFTHypothesis` in [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean)
 (documented in [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](docs/grassmannian-quantum-causal-inference-mpemba-paper.md),
 [`docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`](docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md),
-and [`docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md`](docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md))
+[`docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md`](docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md),
+[`docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`](docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md),
+and [`docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`](docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md))
 formalize Grassmannian causal transfer (`WeightedAcyclicNetwork.transfer_equation`),
 LGV / Trek d-separation bottlenecks ($\det = 0$ vs. $\det > 0$), Pearl's $\operatorname{do}(X)$
 incoming-edge surgery, $\mathrm{Gr}_{\mathbb{C}}(2,4)$ lightcone causality and Quantum Switch
@@ -302,10 +308,14 @@ De Clercq (2026) tautological `Bundle-Transformer` morphisms (`tautologicalProje
 attention & splat-sparse efficiency (`volumetricAttentionEfficiencyRatio`, `effectiveVolumetricSpeedupWithOverhead`: $13{,}107.2\times$, $104{,}857.6\times$, $640{,}000\times$, $1{,}310{,}720\times$, and overhead-inclusive $6{,}553.6\times > 6{,}400\times$),
 Jeffrey's Kinematic Engine (`jeffreyKinematicUpdate`, `quantumJeffreyPluckerKinematicUpdate`, `partitionWeightedQuantumJeffreyUpdate`, `sequentialJeffreyPool`, `diaconisZabellLogOddsUpdate`),
 3D Normed Tensor Gaussian Splat nanoimaging & surgical reconstruction (`NormedTensorGaussianSplat3D.jeffreyKinematicWeightUpdate`, `NormedTensorGaussianSplat3D.covDet`, `NormedTensorGaussianSplat3D.coreBohmPotential`, `NormedTensorGaussianSplat3D.splitMajorOffset`),
-and Quantum Causal Semantic GraphRAG (`quantumCausalGraphRAGScore`, `quantum_causal_jeffrey_kinematics_splat_volumetric_and_semantic_graphrag_identities`, `quantum_causal_overhead_boundary_commutativity_and_splat_moment_identities`).
-Keep any hardware "entropy siphoning" refrigeration, QFT/QRAM soliton associative speedup, or autonomous surgical margin decision claim in `Signals.Pending` with explicit
+Quantum Causal Semantic GraphRAG (`quantumCausalGraphRAGScore`, `quantum_causal_jeffrey_kinematics_splat_volumetric_and_semantic_graphrag_identities`, `quantum_causal_overhead_boundary_commutativity_and_splat_moment_identities`),
+Complex Grassmannian Plabic Vector-Relation Configurations (`Signals.Plabic.VectorRelationConfiguration`, `gr24HomogeneousVRC`, `gr24MutatedHomogeneousVRC`, `complex_plabic_vrc_and_sympy_check_figures` resolving the $x_X = -1$ on-shell polariton resonance pole),
+optional Complex VRC vs. Plabic parameterization in Grassmannian Quantum Causal Inference (`GrassmannianCausalBackend`, `qciRecommendBackend`, `qciOptionalVrcJeffreyKinematicUpdate`, `qciOptionalVrcGraphRAGScore`, `qci_optional_vrc_vs_plabic_complex_grassmannian_identities`),
+QCI directed conditional mutual information & spin-channel mutual information (`qciDirectedConditionalMutualInfo`, `qciSpinChannelMutualInformation`, `qci_directed_phase_flow_and_spin_mutual_info_identities`),
+and Unrestricted Spin-Polarized Grassmannian Kohn–Sham DFT (`Signals.DFT.spinPolarizedGrassmannianRealDim`, `grassmannianKohnShamEnergy2x2`, `spinPolarized4OrbitalCoreEnergy`, `cayleyRetractionNormSq`, `mcweenyPurificationPoly`, `twoOrbitalLinearCorrelationEntropy`, `solitonEnvelopeGateTime`, `merminThreeQuditGHZWitness`, `dft_cayley_mcweeny_soliton_and_mermin_identities`, Discovered Materials Problem 03 `wtmad2TwoSubsetScore`, `grassmannCayleySpeedupRatio`, `aldBarrierWithSIERestoration`, `speed_accuracy_barrier_wtmad2_ald_cvd_and_cayley_scaling_identities`, analytical 4-center $s$-wave Gaussian two-electron ERI `gaussianFourCenterSWaveERI`, Boys $F_0(T)$ `boysF0Taylor2`, exact Pauli diagonal cancellation `sameSpinDiagonalCoulombMinusExchange = 0`, $192\times$ 3-center `RI-J / COSX` speedup `riAuxiliaryERISpeedupRatio`, full 55-subset / 1,505-reaction `GMTKN55` `WTMAD-2 = 494.54 / 301 ≈ 1.643 kcal/mol` `gmtkn55FiveCategoryWTMAD2`, `full_55_subset_two_electron_eri_and_gmtkn55_wtmad2_identities`, and polariton/plasmon/skyrmion/MZM/NonDestructive bridge `polariton_plasmon_skyrmion_mzm_and_nondestructive_readout_identities`).
+Keep any hardware "entropy siphoning" refrigeration, QFT/QRAM soliton associative speedup, autonomous surgical margin decision, or chemical-accuracy `GMTKN55` / experimental anyon-braiding DFT claim in `Signals.Pending` (`QuantumCausalGrassmannianDFTHypothesis`, `quantum_causal_grassmannian_dft_bounds`, `quantum_causal_grassmannian_dft_eri_wtmad2_and_vrc_bounds`) with explicit
 closed-loop observer-memory reset ($Q_{\mathrm{closed}} \ge k_B T \ln 2$), $O(L)$ QRAM state-preparation overhead ($T_{\mathrm{prep}} < T_{\mathrm{total}}$), unentangled
-$\operatorname{do}(F=0)$ control subtraction, bolometer/Kapitza calibration, phantom/fiducial registration, and clinician-in-the-loop sign-off.
+$\operatorname{do}(F=0)$ control subtraction, bolometer/Kapitza calibration, phantom/fiducial registration, clinician-in-the-loop sign-off, and two-electron Coulomb/exchange (`J/K`) integral evaluation.
 
 ## Dilatant Dark Fluid (DDF) Modeling
 

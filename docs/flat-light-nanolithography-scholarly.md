@@ -23,16 +23,11 @@ and polarization signature is demonstrated.
 
 The attached [bibliography](proof_of_cw_and_lignin_and_holography.bib) supplies
 the classical and materials benchmark for this overview: laser-reduced graphene
-synthesis and applications ([Wan et al. 2018](#wan2018), [Ye et al.
-2024](#ye2024)), sustainable carbon precursors ([Claro et al. 2022](#claro2022)),
-flexible and wearable LIG devices ([You et al. 2020](#you2020), [Kim and Kim
-2025](#kim2025)), maskless and selective laser processing ([Cheng et al.
-2026](#cheng2026), [Park et al. 2024](#park2024)), LIG diffractive optics
-([Lee et al. 2023](#lee2023)), and optical modification of 2D materials
-([Akkanen et al. 2022](#akkanen2022)). Biomass-to-nanodiamond conversion is a
-separate material control ([Lin et al. 2021](#lin2021), [Joshi et al.
-2021](#joshi2021)). The Proca references ([Morais et al. 2026](#morais2026),
-[Mikki 2021](#mikki2021)) are theory/model inputs only; they do not establish
+synthesis and applications {cite:p}`wan2018laser,ye2024review`, sustainable carbon precursors {cite:p}`c2022sustainable`,
+flexible and wearable LIG devices {cite:p}`you2020laser,kim2025wearable`, maskless and selective laser processing {cite:p}`cheng2026maskless,park2024laser`, LIG diffractive optics
+{cite:p}`lee2023ultra`, and optical modification of 2D materials
+{cite:p}`akkanen2022optical`. Biomass-to-nanodiamond conversion is a
+separate material control {cite:p}`lin2021fabricating,joshi2021advances`. The Proca references {cite:p}`morais2026investigating,mikki2021proca` are theory/model inputs only; they do not establish
 that a cellulose/N-LIG device generates a massive propagating optical mode.
 
 By modulating this "flat light" with a dynamic, piezophotonic reduced-Graphene Oxide (rGO) vitrimer mask, proponents argue that Angstrom-scale geometric volumes (Anti-Amplituhedrons or phase-slip gradients) could be encoded directly into the field and used to deterministically sever chemical bonds in specialized photoresists like Photo-Cleavable Lignin Polymers (PCLP).
@@ -62,12 +57,12 @@ environment, so the result was cross-checked against Crossref/OpenAlex records
 and accessible publisher metadata. The literature strengthens the classical
 materials branch, but does not establish the full Flat Light proposal.
 
-Primary material precedents include [Mahmood et al. 2020](#mahmood2020) on
-Kraft-lignin LIG by direct laser writing, [Ye et al. 2017](#ye2017) on CO2-laser
-graphene scribing on wood, [Ghavipanjeh and Sadeghzadeh 2024](#ghavipanjeh2024)
+Primary material precedents include {cite:p}`mahmood2020kraft` on
+Kraft-lignin LIG by direct laser writing, {cite:p}`ye2017wood` on CO2-laser
+graphene scribing on wood, {cite:p}`ghavipanjeh2024cellulose`
 on cellulose/lignin laser conversion with molecular-dynamics and experimental
-controls, [Zhang et al. 2024](#zhang2024) on laser-induced lignin-to-few-layer
-graphene transformation, and [Meng et al. 2022](#meng2022) on sequential
+controls, {cite:p}`zhang2024fewlayer` on laser-induced lignin-to-few-layer
+graphene transformation, and {cite:p}`meng2022greenlignin` on sequential
 laser-lithography/post-treatment of lignin-derived graphene electrodes.
 These support laser-driven carbonization/graphitization, pattern transfer, and
 electrical characterization. They also make precursor chemistry, absorbed
@@ -377,14 +372,10 @@ loss, thermal drift, PSF, MTF, side-lobe power, propagation length, encircled
 energy, absorbed power, temperature, and any chemical endpoint.
 
 For the classical materials branch, benchmark the process window against LIG
-synthesis and sensor/application literature ([Wan et al. 2018](#wan2018), [Ye
-et al. 2024](#ye2024), [You et al. 2020](#you2020), [Kim and Kim
-2025](#kim2025)). Use maskless and selective laser-processing work to define
-direct-write controls ([Cheng et al. 2026](#cheng2026), [Park et al.
-2024](#park2024)), and use LIG diffractive optics as a classical pattern-
-transfer control ([Lee et al. 2023](#lee2023)). Optical modification of 2D
-materials can inform exposure and characterization variables ([Akkanen et al.
-2022](#akkanen2022)); it is not evidence of a Proca coupling.
+synthesis and sensor/application literature {cite:p}`wan2018laser,ye2024review,you2020laser,kim2025wearable`. Use maskless and selective laser-processing work to define
+direct-write controls {cite:p}`cheng2026maskless,park2024laser`, and use LIG diffractive optics as a classical pattern-
+transfer control {cite:p}`lee2023ultra`. Optical modification of 2D
+materials can inform exposure and characterization variables {cite:p}`akkanen2022optical`; it is not evidence of a Proca coupling.
 
 The first engineering success can be lower-power CW graphene-on-lignin
 processing. A result is successful if graphene formation, sheet resistance,
@@ -394,8 +385,7 @@ uniformity or throughput at fixed total power, but it cannot create energy or
 replace absorbed-power accounting.
 
 Biomass-to-nanodiamond laser writing is a useful negative material control for
-interpreting laser-driven carbon transformation ([Lin et al. 2021](#lin2021),
-[Joshi et al. 2021](#joshi2021)). Its chemistry, thermal history, and phase
+interpreting laser-driven carbon transformation {cite:p}`lin2021fabricating,joshi2021advances`. Its chemistry, thermal history, and phase
 identity must remain distinct from N-LIG formation and from any proposed
 phase-slip cleavage.
 

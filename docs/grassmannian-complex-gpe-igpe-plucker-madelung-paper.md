@@ -18,6 +18,7 @@ description: "An arXiv-ready MyST Markdown formal verification and numerical sim
   - [From Superfluid Gross–Pitaevskii Action and Madelung Polar Substitution to Euler–Lagrange Hydrodynamics and Dilatant Dark Fluid (DDF) Jamming Recovery in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Mechanics](grassmannian-madelung-lagrangian-ddf-jamming-paper.md)
   - [Hawking Radiation, Inverse Gross–Pitaevskii (`iGPE`) Unwinding, and Amplituhedron/CP-ALS Decoding in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-hawking-radiation-decoding-paper.md)
   - [Grassmannian Gravity from QED & Gauge Scattering Amplitudes: Complex $Gr_{\mathbb{C}}(2,4)$ Orbital Precession, Mercury's Perihelion, $N$-Body Dynamics, and Dilatant Dark Fluid (DDF) Unification in Lean 4](grassmannian-gravity-from-qed-scattering-paper.md)
+  - [Complex Grassmannian Plabic Vector-Relation Configurations (`VRC`), Quantum Causal Inference Kohn–Sham Density Functional Theory (`QCI-GXC`), Riemannian Cayley Optimization, and Topological Multi-Qudit Compilers in Lean 4, SymPy, and Rust](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md)
   - [Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-unification-applications-roadmap-paper.md)
 
 ---

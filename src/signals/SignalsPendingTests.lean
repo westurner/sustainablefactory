@@ -5481,4 +5481,78 @@ example (wA_re wA_im wB_re wB_im c s beta : ℝ)
     toyQuantumCausalSurgicalSplatGraphRAGContract
     wA_re wA_im wB_re wB_im c s beta u x v w_out zAB zBA
 
+noncomputable def toyQuantumCausalGrassmannianDFTContract : QuantumCausalGrassmannianDFTHypothesis :=
+  { eps1 := 1
+    eps2 := 2
+    eps_le := by norm_num
+    xNormSq := 3 / 4
+    xNormSq_nonneg := by norm_num
+    wAlpha := 1 / 5
+    wBeta := 1 / 10
+    wAlpha_nonneg := by norm_num
+    wBeta_nonneg := by norm_num
+    cayleyTheta := 1 / 2
+    twoElectronCoulombExchangeEvaluated := True
+    twoElectronCoulombExchangeEvaluated_hypothesis := trivial
+    gmtkn55BenchmarkValidated := True
+    gmtkn55BenchmarkValidated_hypothesis := trivial
+    experimentalAnyonBraidingVerified := True
+    experimentalAnyonBraidingVerified_hypothesis := trivial }
+
+example (x1 x2 xX : ℂ) (hxX : xX ≠ 0) :
+    let contract := toyQuantumCausalGrassmannianDFTContract
+    let vrc_pre := Signals.Plabic.gr24HomogeneousVRC x1 x2 xX
+    let vrc_res := Signals.Plabic.gr24MutatedHomogeneousVRC x1 x2 (-1)
+    let test_x1 : ℂ := 1 / 2 + (1 / 5 : ℂ) * Complex.I
+    let test_x2 : ℂ := -(3 / 10 : ℂ) + (7 / 10 : ℂ) * Complex.I
+    let test_xX : ℂ := 6 / 5 - (2 / 5 : ℂ) * Complex.I
+    vrc_pre.vectors * vrc_pre.relations.transpose = 0 ∧
+      vrc_res.vectors * vrc_res.relations.transpose = 0 ∧
+      Signals.Plabic.pluckerQuadraticRelation2x4 vrc_res.boundaryMatrix = 0 ∧
+      Signals.Plabic.plucker2x4Minor (Signals.Plabic.gr24RationalChartMatrix test_x1 test_x2 test_xX) 0 3 =
+        (3 / 10 : ℂ) - (7 / 10 : ℂ) * Complex.I ∧
+      (Signals.Plabic.gr24ClusterMutation test_x1 test_x2 test_xX).2.2 =
+        (3 / 4 : ℂ) + (1 / 4 : ℂ) * Complex.I ∧
+      Signals.DFT.spinPolarizedGrassmannianRealDim 2 1 4 = 14 ∧
+      contract.eps1 ≤ Signals.DFT.grassmannianKohnShamEnergy2x2
+        contract.eps1 contract.eps2 contract.xNormSq ∧
+      Signals.DFT.hartreeToKcalPerMol
+        (Signals.DFT.spinPolarized4OrbitalCoreEnergy 0 0) = 2510.036 ∧
+      4 ≤ Signals.DFT.spinPolarized4OrbitalCoreEnergy
+        contract.wAlpha contract.wBeta ∧
+      Signals.DFT.cayleyRetractionNormSq contract.cayleyTheta = 1 ∧
+      Signals.DFT.mcweenyPurificationPoly (9 / 10) = 243 / 250 ∧
+      Signals.DFT.solitonEnvelopeGateTime (73 / 100) <
+        Signals.DFT.solitonEnvelopeGateTime (1 / 10) ∧
+      Signals.DFT.solitonEnvelopeGateTime (73 / 100) <
+        Signals.DFT.solitonEnvelopeGateTime (7 / 2) ∧
+      Signals.DFT.merminThreeQuditGHZWitness 1 = 4 ∧
+      (2 : ℝ) < Signals.DFT.merminThreeQuditGHZWitness (9866 / 10000) :=
+  SignalsPending.quantum_causal_grassmannian_dft_bounds
+    toyQuantumCausalGrassmannianDFTContract x1 x2 xX hxX
+
+example (p q s_sum k_ab k_cd boys_f0 eri_diag p_diag : ℝ)
+    (x1 x2 xX : ℂ) (hxX : xX ≠ 0) :
+    Signals.DFT.gaussianFourCenterSWaveERI p q s_sum k_ab k_cd boys_f0 =
+        Signals.DFT.gaussianFourCenterSWaveERI q p s_sum k_cd k_ab boys_f0 ∧
+      Signals.DFT.boysF0Taylor2 0 = 1 ∧
+      Signals.DFT.sameSpinDiagonalCoulombMinusExchange eri_diag p_diag = 0 ∧
+      Signals.DFT.riAuxiliaryERISpeedupRatio 4 48 144 = 192 ∧
+      Signals.DFT.grassmannCayleySpeedupRatio 10 120 = 144 ∧
+      Signals.DFT.gmtkn55TotalSubsetCount = 55 ∧
+      Signals.DFT.gmtkn55TotalReactionCount = 1505 ∧
+      Signals.DFT.gmtkn55FiveCategoryWTMAD2 948.15 210.70 349.20 468.00 496.65 = 494.54 / 301 ∧
+      Signals.DFT.gmtkn55FiveCategoryWTMAD2 948.15 210.70 349.20 468.00 496.65 < 3.0 ∧
+      Signals.DFT.gmtkn55FiveCategoryWTMAD2 948.15 210.70 349.20 468.00 496.65 < 3.81 ∧
+      Signals.QuantumCausalInference.qciRecommendBackend true false = .complexHomogeneousVRC ∧
+      Signals.QuantumCausalInference.qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX false 0 2 =
+        xX * Signals.QuantumCausalInference.qciGr24PluckerMinor .plabicRationalChart false x1 x2 xX false 0 2 ∧
+      Signals.QuantumCausalInference.qciGr24PluckerMinor .complexHomogeneousVRC true x1 x2 (-1) false 1 2 =
+        x2 - x1 ∧
+      Signals.DFT.skyrmionPontryaginCharge 1 (-1) 1 = 1 ∧
+      Signals.DFT.mzmDispersiveParityContrast 1 = 2 :=
+  SignalsPending.quantum_causal_grassmannian_dft_eri_wtmad2_and_vrc_bounds
+    toyQuantumCausalGrassmannianDFTContract
+    p q s_sum k_ab k_cd boys_f0 eri_diag p_diag x1 x2 xX hxX
+
 end SignalsPendingTests

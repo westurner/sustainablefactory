@@ -5,6 +5,7 @@
 use std::fmt;
 
 pub mod cannon_mask_cad;
+pub mod dft_plabic_vrc;
 pub mod double_slit;
 pub mod madelung_lagrangian;
 pub mod multi_array_imaging;

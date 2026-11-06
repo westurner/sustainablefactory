@@ -1,4 +1,5 @@
 import Architect
+import Mathlib.Analysis.Complex.Basic
 import Mathlib.Combinatorics.SimpleGraph.Basic
 import Mathlib.Data.Matrix.Basic
 import Mathlib.Dynamics.PeriodicPts.Lemmas
@@ -1003,5 +1004,336 @@ theorem planar_threeChannel_lgv_and_bottleneck_identities
     simp only [Matrix.mul_apply, Fin.sum_univ_two, Fin.isValue]
     ring
   exact ⟨h_up, h_low, h_comp, h_pos, h_bottle⟩
+
+
+/-! ## Vector-Relation Configurations (VRC) for Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(k, n)$ Plabic Networks
+
+Standard Postnikov plabic graphs (`WeightedAcyclicNetwork` above) assign strictly positive real
+weights $x_e \in \mathbb{R}_{>0}$ (or nonnegative `ℝ≥0` weights) to parameterize positroid cells
+of the **Totally Nonnegative Grassmannian $\mathrm{Gr}_{\ge 0}(k, n)$**, where boundary-measurement
+denominators and cluster-mutation denominators $x_X + 1 > 1 > 0$ never vanish.
+
+When moving to the **Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(k, n)$**—as required for
+off-shell virtual states, complex Kohn-Sham / QED-DFT electronic orbitals, hybrid polariton and
+plasmon superpositions, and quantum causal channels—rational face weights $x_e \in \mathbb{C}^*$
+parameterize only an open algebraic torus chart $(\mathbb{C}^*)^{k(n-k)}$ and suffer from two
+fundamental obstructions:
+1. **On-Shell Resonance / Destructive-Interference Poles ($x_X = -1$)**: Under the complex square
+   move (urban renewal) $x_X' = 1 / x_X$, $x_1' = (x_1 x_X + x_2) / (x_X + 1)$, the denominator
+   $x_X + 1$ vanishes at $x_X = -1$ (on-shell polaritonic resonance or destructive loop interference).
+2. **Chart-Boundary Degeneration ($x_X = 0$)**: Rational entries such as $x_X^{-1}$ blow up on
+   lower-rank positroid / Schubert boundary strata.
+
+Following Lam (2015) and Affolter, Glick, Pylyavskyy, & Ramassamy (2019, `arXiv:1908.06959`),
+a **Vector-Relation Configuration (`VectorRelationConfiguration`)** resolves both obstructions
+by placing vectors $v_w \in R^k$ on the white vertices $w \in W$ (`vectors : Matrix (Fin rankK) (Fin whiteCount) R`)
+and homogeneous linear relations $\sum_{w} K_{b,w} v_w = 0$ on the black vertices $b \in B$
+(`relations : Matrix (Fin blackCount) (Fin whiteCount) R`), governed by the polynomial matrix
+identity $V K^\top = 0$ (`vectors * relations.transpose = 0`).
+-/
+
+/-- A **Vector-Relation Configuration (VRC)** on a bicolored network over a commutative ring $R$:
+- `vectors : Matrix (Fin rankK) (Fin whiteCount) R` assigns a column vector $v_w \in R^{\mathrm{rankK}}$
+  to each white vertex $w \in \mathrm{Fin}\,\mathrm{whiteCount}$,
+- `relations : Matrix (Fin blackCount) (Fin whiteCount) R` assigns linear relation coefficients
+  $K_{b, w} \in R$ to each black vertex $b \in \mathrm{Fin}\,\mathrm{blackCount}$,
+- `boundaryWhite : Fin boundaryCount → Fin whiteCount` identifies the $n$ boundary white vertices,
+- `relation_satisfied : vectors * relations.transpose = 0` enforces $\sum_w K_{b, w} v_w = 0$
+  at every black vertex $b$ without any division or non-vanishing denominator assumption. -/
+@[blueprint "def:signals-vector-relation-configuration"
+  (title := "Vector-Relation Configuration (VRC) for Complex and Ring-Valued Grassmannians")
+  (statement := /-- A Vector-Relation Configuration over a commutative ring $R$ consists of
+    white-vertex vectors $V \in R^{k \times |W|}$, black-vertex relation coefficients
+    $K \in R^{|B| \times |W|}$, and boundary vertex indices $\partial : \mathrm{Fin}\,n \to \mathrm{Fin}\,|W|$
+    satisfying the homogeneous linear constraint $V K^\top = 0$. -/)]
+structure VectorRelationConfiguration
+    (rankK whiteCount blackCount boundaryCount : ℕ) (R : Type*) [CommRing R] where
+  vectors : Matrix (Fin rankK) (Fin whiteCount) R
+  relations : Matrix (Fin blackCount) (Fin whiteCount) R
+  boundaryWhite : Fin boundaryCount → Fin whiteCount
+  relation_satisfied : vectors * relations.transpose = 0
+
+/-- Extract the $k \times n$ boundary generator matrix $C_{\mathrm{bdry}} \in R^{k \times n}$
+whose $j$-th column is the vector at boundary white vertex `boundaryWhite j`. -/
+@[blueprint "def:signals-vrc-boundary-matrix"
+  (title := "Boundary subspace generator matrix of a Vector-Relation Configuration")
+  (statement := /-- Extract the $k \times n$ boundary matrix $C_{i, j} = V_{i, \partial(j)}$
+    generating the point in $\mathrm{Gr}_R(k, n)$. -/)]
+def VectorRelationConfiguration.boundaryMatrix
+    {rankK whiteCount blackCount boundaryCount : ℕ} {R : Type*} [CommRing R]
+    (vrc : VectorRelationConfiguration rankK whiteCount blackCount boundaryCount R) :
+    Matrix (Fin rankK) (Fin boundaryCount) R :=
+  vrc.vectors.submatrix id vrc.boundaryWhite
+
+/-- At every black vertex $b$ and vector component $i$, the weighted sum of white-vertex vectors
+vanishes identically: $\sum_w V_{i, w} K_{b, w} = 0$. -/
+@[blueprint "lem:signals-vrc-black-linear-combination-zero"
+  (title := "Componentwise black-vertex linear relation identity")
+  (statement := /-- For any `vrc`, $i \in \mathrm{Fin}\,k$, and $b \in \mathrm{Fin}\,|B|$,
+    $\sum_{w} V_{i, w} K_{b, w} = 0$. -/)
+  (proof := /-- Extract the $(i, b)$ entry of `vrc.relation_satisfied : V * Kᵀ = 0`. -/)
+  (latexEnv := "lemma")]
+lemma VectorRelationConfiguration.blackLinearCombination_eq_zero
+    {rankK whiteCount blackCount boundaryCount : ℕ} {R : Type*} [CommRing R]
+    (vrc : VectorRelationConfiguration rankK whiteCount blackCount boundaryCount R)
+    (i : Fin rankK) (b : Fin blackCount) :
+    ∑ w : Fin whiteCount, vrc.vectors i w * vrc.relations b w = 0 := by
+  have h := congrFun (congrFun vrc.relation_satisfied i) b
+  simpa [Matrix.mul_apply, Matrix.transpose_apply] using h
+
+/-- **Global $\mathrm{GL}_k(R)$ / Unitary Orbital Rotation Gauge Invariance of a VRC**:
+Left-multiplying all white-vertex vectors by $g \in R^{k \times k}$ (such as a unitary
+orbital transformation $U \in U(N_{\mathrm{occ}})$ in Kohn-Sham DFT) preserves all
+black-vertex relations $V K^\top = 0$. -/
+@[blueprint "def:signals-vrc-transform-gl"
+  (title := "Global GL_k / unitary orbital gauge action on a Vector-Relation Configuration")
+  (statement := /-- Left-multiplying white-vertex vectors by $g \in R^{k \times k}$ maps $V \mapsto gV$
+    and preserves $(gV)K^\top = g(VK^\top) = 0$. -/)]
+def VectorRelationConfiguration.transformGL
+    {rankK whiteCount blackCount boundaryCount : ℕ} {R : Type*} [CommRing R]
+    (vrc : VectorRelationConfiguration rankK whiteCount blackCount boundaryCount R)
+    (g : Matrix (Fin rankK) (Fin rankK) R) :
+    VectorRelationConfiguration rankK whiteCount blackCount boundaryCount R where
+  vectors := g * vrc.vectors
+  relations := vrc.relations
+  boundaryWhite := vrc.boundaryWhite
+  relation_satisfied := by
+    rw [Matrix.mul_assoc, vrc.relation_satisfied, Matrix.mul_zero]
+
+/-- Global $\mathrm{GL}_k(R)$ action on a VRC acts by left multiplication on the boundary matrix:
+$(g \cdot \mathrm{vrc}).\mathrm{boundaryMatrix} = g \cdot \mathrm{vrc}.\mathrm{boundaryMatrix}$. -/
+lemma VectorRelationConfiguration.transformGL_boundaryMatrix
+    {rankK whiteCount blackCount boundaryCount : ℕ} {R : Type*} [CommRing R]
+    (vrc : VectorRelationConfiguration rankK whiteCount blackCount boundaryCount R)
+    (g : Matrix (Fin rankK) (Fin rankK) R) :
+    (vrc.transformGL g).boundaryMatrix = g * vrc.boundaryMatrix := by
+  apply Matrix.ext
+  intro i j
+  simp [boundaryMatrix, transformGL, Matrix.mul_apply]
+
+/-- **Black-Vertex Row-Operation / Urban-Renewal Elimination Invariance of a VRC**:
+Left-multiplying the black-vertex relation matrix $K$ by any row-mixing matrix
+$M \in R^{|B'| \times |B|}$ preserves $V (M K)^\top = (V K^\top) M^\top = 0$ and leaves
+the boundary Grassmannian generator matrix unchanged. -/
+@[blueprint "def:signals-vrc-transform-black-relations"
+  (title := "Black-vertex row-mixing and linear-elimination gauge action on a VRC")
+  (statement := /-- Left-multiplying the relation matrix $K$ by $M \in R^{|B'| \times |B|}$
+    preserves $V(MK)^\top = (VK^\top)M^\top = 0$ and leaves the boundary matrix invariant. -/)]
+def VectorRelationConfiguration.transformBlackRelations
+    {rankK whiteCount blackCount blackCount' boundaryCount : ℕ} {R : Type*} [CommRing R]
+    (vrc : VectorRelationConfiguration rankK whiteCount blackCount boundaryCount R)
+    (m : Matrix (Fin blackCount') (Fin blackCount) R) :
+    VectorRelationConfiguration rankK whiteCount blackCount' boundaryCount R where
+  vectors := vrc.vectors
+  relations := m * vrc.relations
+  boundaryWhite := vrc.boundaryWhite
+  relation_satisfied := by
+    rw [Matrix.transpose_mul, ← Matrix.mul_assoc, vrc.relation_satisfied, Matrix.zero_mul]
+
+/-- Black-vertex relation row operations leave the boundary subspace matrix identically unchanged. -/
+lemma VectorRelationConfiguration.transformBlackRelations_boundaryMatrix
+    {rankK whiteCount blackCount blackCount' boundaryCount : ℕ} {R : Type*} [CommRing R]
+    (vrc : VectorRelationConfiguration rankK whiteCount blackCount boundaryCount R)
+    (m : Matrix (Fin blackCount') (Fin blackCount) R) :
+    (vrc.transformBlackRelations m).boundaryMatrix = vrc.boundaryMatrix := rfl
+
+/-- The $2 \times 2$ Plücker minor $p_{j_1, j_2}(C) = C_{0, j_1} C_{1, j_2} - C_{0, j_2} C_{1, j_1}$
+of a $2 \times 4$ generator matrix $C \in R^{2 \times 4}$. -/
+@[blueprint "def:signals-plucker-2x4-minor"
+  (title := "2x2 Plücker minor of a 2x4 Grassmannian generator matrix")
+  (statement := /-- Define $p_{j_1, j_2}(C) = C_{0, j_1} C_{1, j_2} - C_{0, j_2} C_{1, j_1}$
+    for $C \in R^{2 \times 4}$. -/)]
+def plucker2x4Minor {R : Type*} [CommRing R]
+    (C : Matrix (Fin 2) (Fin 4) R) (j1 j2 : Fin 4) : R :=
+  C 0 j1 * C 1 j2 - C 0 j2 * C 1 j1
+
+/-- The quadratic Plücker relation residual
+$\mathcal{R}_{\mathrm{Pl\ddot{u}cker}}(C) = p_{01} p_{23} - p_{02} p_{13} + p_{03} p_{12}$
+(in 1-based indexing: $p_{12} p_{34} - p_{13} p_{24} + p_{14} p_{23}$) for $C \in R^{2 \times 4}$. -/
+@[blueprint "def:signals-plucker-quadratic-relation-2x4"
+  (title := "Quadratic Plücker relation residual on Gr(2, 4)")
+  (statement := /-- Define $\mathcal{R}_{\mathrm{Pl\ddot{u}cker}}(C) =
+    p_{01}(C) p_{23}(C) - p_{02}(C) p_{13}(C) + p_{03}(C) p_{12}(C)$. -/)]
+def pluckerQuadraticRelation2x4 {R : Type*} [CommRing R]
+    (C : Matrix (Fin 2) (Fin 4) R) : R :=
+  plucker2x4Minor C 0 1 * plucker2x4Minor C 2 3 -
+    plucker2x4Minor C 0 2 * plucker2x4Minor C 1 3 +
+    plucker2x4Minor C 0 3 * plucker2x4Minor C 1 2
+
+/-- **Universal Quadratic Plücker Identity on $\mathrm{Gr}_R(2, 4)$**:
+Every $2 \times 4$ matrix $C \in R^{2 \times 4}$ over any commutative ring $R$ (including
+every VRC boundary matrix over $\mathbb{C}$) identically satisfies the quadratic Plücker
+relation $p_{01} p_{23} - p_{02} p_{13} + p_{03} p_{12} = 0$. -/
+@[blueprint "thm:signals-plucker-quadratic-relation-2x4-eq-zero"
+  (title := "Universal quadratic Plücker relation identity for 2x4 generator matrices")
+  (statement := /-- For any commutative ring $R$ and any $C \in R^{2 \times 4}$,
+    $\operatorname{pluckerQuadraticRelation2x4}(C) = 0$. -/)
+  (proof := /-- Unfold \texttt{pluckerQuadraticRelation2x4} and \texttt{plucker2x4Minor} and close by \texttt{ring}. -/)]
+theorem pluckerQuadraticRelation2x4_eq_zero {R : Type*} [CommRing R]
+    (C : Matrix (Fin 2) (Fin 4) R) :
+    pluckerQuadraticRelation2x4 C = 0 := by
+  unfold pluckerQuadraticRelation2x4 plucker2x4Minor
+  ring
+
+/-- The rational face-weight generator matrix $C_{\mathrm{rat}}(x_1, x_2, x_X)$ on $\mathrm{Gr}_F(2, 4)$
+from the QCI-GXC / polariton plabic network (`Google-Search_Density-Functional-Theory_20261105-1512.md`,
+lines 576–580, 735–739, 1118–1122):
+$$C_{\mathrm{rat}}(x_1, x_2, x_X) = \begin{pmatrix} 1 & 0 & -x_1 & -x_X \\ 0 & 1 & x_X^{-1} & -x_2 \end{pmatrix}.$$ -/
+@[blueprint "def:signals-gr24-rational-chart-matrix"
+  (title := "Rational face-weight Gr(2, 4) plabic chart matrix")
+  (statement := /-- Define $C_{\mathrm{rat}}(x_1, x_2, x_X) =
+    \begin{pmatrix} 1 & 0 & -x_1 & -x_X \\ 0 & 1 & x_X^{-1} & -x_2 \end{pmatrix}$. -/)]
+def gr24RationalChartMatrix {F : Type*} [Field F] (x1 x2 xX : F) : Matrix (Fin 2) (Fin 4) F :=
+  !![1, 0, -x1, -xX;
+     0, 1, xX⁻¹, -x2]
+
+/-- The rational complex cluster mutation (square move) around the central face $x_X$
+(`Google-Search_Density-Functional-Theory_20261105-1512.md`, lines 373–378, 761–763, 1129–1135):
+$$(x_1', x_2', x_X') = \left(\frac{x_1 x_X + x_2}{x_X + 1},\; x_2,\; \frac{1}{x_X}\right).$$ -/
+@[blueprint "def:signals-gr24-cluster-mutation"
+  (title := "Complex square-move cluster mutation on Gr(2, 4) face weights")
+  (statement := /-- Define $\operatorname{gr24ClusterMutation}(x_1, x_2, x_X) =
+    \bigl((x_1 x_X + x_2)/(x_X + 1),\; x_2,\; x_X^{-1}\bigr)$. -/)]
+def gr24ClusterMutation {F : Type*} [Field F] (x1 x2 xX : F) : F × F × F :=
+  ((x1 * xX + x2) / (xX + 1), x2, xX⁻¹)
+
+/-- **Pole-Free Homogeneous Vector-Relation Configuration (`gr24HomogeneousVRC`) for the $\mathrm{Gr}_R(2, 4)$ Plabic Network**:
+Clears the rational chart singularity $x_X^{-1}$ by scaling white vertex $w_2$ by $x_X$, yielding
+white-vertex vectors
+$$V_{\mathrm{hom}}(x_1, x_2, x_X) = \begin{pmatrix} 1 & 0 & -x_1 x_X & -x_X \\ 0 & 1 & 1 & -x_2 \end{pmatrix}$$
+and black-vertex linear relations
+$$K_{\mathrm{hom}}(x_1, x_2, x_X) = \begin{pmatrix} x_1 x_X & -1 & 1 & 0 \\ x_X & x_2 & 0 & 1 \end{pmatrix},$$
+which satisfy $V_{\mathrm{hom}} K_{\mathrm{hom}}^\top = 0$ over **any** commutative ring $R$
+(including at $x_X = 0$ and $x_X = -1$)! -/
+@[blueprint "def:signals-gr24-homogeneous-vrc"
+  (title := "Pole-free homogeneous Vector-Relation Configuration for Gr(2, 4)")
+  (statement := /-- Construct the 4-white, 2-black Vector-Relation Configuration on $\mathrm{Gr}_R(2, 4)$
+    with $V_{\mathrm{hom}} = \begin{pmatrix} 1 & 0 & -x_1 x_X & -x_X \\ 0 & 1 & 1 & -x_2 \end{pmatrix}$
+    and $K_{\mathrm{hom}} = \begin{pmatrix} x_1 x_X & -1 & 1 & 0 \\ x_X & x_2 & 0 & 1 \end{pmatrix}$,
+    regular for all $x_1, x_2, x_X \in R$. -/)]
+def gr24HomogeneousVRC {R : Type*} [CommRing R] (x1 x2 xX : R) :
+    VectorRelationConfiguration 2 4 2 4 R where
+  vectors := !![1, 0, -(x1 * xX), -xX;
+                0, 1, 1, -x2]
+  relations := !![x1 * xX, -1, 1, 0;
+                  xX, x2, 0, 1]
+  boundaryWhite := id
+  relation_satisfied := by
+    apply Matrix.ext
+    intro i b
+    fin_cases i <;> fin_cases b <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_four]
+
+/-- **Pole-Free Mutated Vector-Relation Configuration (`gr24MutatedHomogeneousVRC`) Across the $x_X = -1$ On-Shell Polaritonic Resonance**:
+In the rational cluster mutation (`gr24ClusterMutation`), $x_1' = (x_1 x_X + x_2)/(x_X + 1)$ and
+$x_X' = 1 / x_X$ exhibit rational poles at the on-shell polariton resonance $x_X = -1$ ($x_X + 1 = 0$)
+and at $x_X = 0$. In the Vector-Relation Configuration framework, scaling white vertex $w_2$ by
+$x_X + 1$ and white vertex $w_3$ by $x_X$ produces the polynomial VRC:
+$$V_{\mathrm{mut}}^{\mathrm{VRC}}(x_1, x_2, x_X) =
+  \begin{pmatrix} 1 & 0 & -(x_1 x_X + x_2) & -1 \\ 0 & 1 & x_X(x_X + 1) & -x_2 x_X \end{pmatrix},$$
+$$K_{\mathrm{mut}}^{\mathrm{VRC}}(x_1, x_2, x_X) =
+  \begin{pmatrix} x_1 x_X + x_2 & -x_X(x_X + 1) & 1 & 0 \\ 1 & x_2 x_X & 0 & 1 \end{pmatrix},$$
+which satisfies $V_{\mathrm{mut}}^{\mathrm{VRC}} (K_{\mathrm{mut}}^{\mathrm{VRC}})^\top = 0$ and the
+quadratic Plücker relation identically for **all** $x_1, x_2, x_X \in R$, remaining completely
+smooth through the on-shell polariton resonance $x_X = -1$! -/
+@[blueprint "def:signals-gr24-mutated-homogeneous-vrc"
+  (title := "Pole-free mutated Vector-Relation Configuration across the x_X = -1 polariton resonance")
+  (statement := /-- Construct the post-square-move Vector-Relation Configuration on $\mathrm{Gr}_R(2, 4)$
+    by clearing the $(x_X + 1)$ and $x_X$ denominators into homogeneous white-vertex vectors and
+    black-vertex linear relations, regular at $x_X = -1$ and $x_X = 0$. -/)]
+def gr24MutatedHomogeneousVRC {R : Type*} [CommRing R] (x1 x2 xX : R) :
+    VectorRelationConfiguration 2 4 2 4 R where
+  vectors := !![1, 0, -(x1 * xX + x2), -1;
+                0, 1, xX * (xX + 1), -(x2 * xX)]
+  relations := !![x1 * xX + x2, -(xX * (xX + 1)), 1, 0;
+                  1, x2 * xX, 0, 1]
+  boundaryWhite := id
+  relation_satisfied := by
+    apply Matrix.ext
+    intro i b
+    fin_cases i <;> fin_cases b <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_four]
+
+/-- **Master Theorem: Complex Grassmannian Vector-Relation Configurations, Pole-Free Square-Move Resonance at $x_X = -1$, and Exact SymPy Benchmark Check Figures**:
+1. Every $2 \times 4$ rational chart matrix $C_{\mathrm{rat}}(x_1, x_2, x_X)$ ($x_X \neq 0$) has
+   exact Plücker minors $p_{01} = 1$, $p_{02} = x_X^{-1}$, $p_{03} = -x_2$, $p_{12} = x_1$,
+   $p_{13} = x_X$, $p_{23} = x_1 x_2 + 1$, and satisfies `pluckerQuadraticRelation2x4 = 0`,
+2. Both the pre-mutation `gr24HomogeneousVRC` and post-mutation `gr24MutatedHomogeneousVRC` satisfy
+   $V K^\top = 0$ and `pluckerQuadraticRelation2x4 = 0` for **all** $x_1, x_2, x_X \in \mathbb{C}$,
+3. At the **on-shell polariton resonance pole $x_X = -1$** ($x_X + 1 = 0$), where the rational
+   cluster mutation divides by zero, `gr24MutatedHomogeneousVRC x1 x2 (-1)` remains regular with
+   finite Plücker minors $P_{01} = 1$, $P_{02} = 0$, $P_{03} = x_2$, $P_{12} = x_2 - x_1$,
+   $P_{13} = 1$, and $P_{23} = x_2(x_1 - x_2)$,
+4. On the concrete off-shell complex test point from `qci_gxc_sympy.py` (`lines 1190–1212`),
+   $x_1 = \frac{1}{2} + \frac{1}{5}i$, $x_2 = -\frac{3}{10} + \frac{7}{10}i$, $x_X = \frac{6}{5} - \frac{2}{5}i$:
+   - $p_{03}(C_{\mathrm{rat}}(x_1, x_2, x_X)) = -x_2 = \frac{3}{10} - \frac{7}{10}i$, and
+   - $(\operatorname{gr24ClusterMutation}(x_1, x_2, x_X)).2.2 = x_X^{-1} = \frac{3}{4} + \frac{1}{4}i$. -/
+@[blueprint "thm:signals-complex-plabic-vrc-and-sympy-check-figures"
+  (title := "Complex Grassmannian VRC regularity at x_X = -1 and exact SymPy Plücker check figures")
+  (statement := /-- Simultaneous verification of the $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker minors,
+    quadratic Plücker relation, pole-free Vector-Relation Configuration regularity at the on-shell
+    polariton resonance $x_X = -1$, and exact numerical check figures $p_{14} = 0.3 - 0.7i$ and
+    $x_X' = 0.75 + 0.25i$ from \texttt{qci\_gxc\_sympy.py}. -/)
+  (proof := /-- Expand matrix entries and determinants on $\mathrm{Fin}\,2 \times \mathrm{Fin}\,4$
+    and close by \texttt{ring}, \texttt{field\_simp}, and complex arithmetic. -/)]
+theorem complex_plabic_vrc_and_sympy_check_figures
+    (x1 x2 xX : ℂ) (hxX : xX ≠ 0) :
+    let C_rat := gr24RationalChartMatrix x1 x2 xX
+    let vrc_pre := gr24HomogeneousVRC x1 x2 xX
+    let vrc_res := gr24MutatedHomogeneousVRC x1 x2 (-1)
+    let test_x1 : ℂ := 1 / 2 + (1 / 5 : ℂ) * Complex.I
+    let test_x2 : ℂ := -(3 / 10 : ℂ) + (7 / 10 : ℂ) * Complex.I
+    let test_xX : ℂ := 6 / 5 - (2 / 5 : ℂ) * Complex.I
+    plucker2x4Minor C_rat 0 1 = 1 ∧
+      plucker2x4Minor C_rat 0 2 = xX⁻¹ ∧
+      plucker2x4Minor C_rat 0 3 = -x2 ∧
+      plucker2x4Minor C_rat 1 2 = x1 ∧
+      plucker2x4Minor C_rat 1 3 = xX ∧
+      plucker2x4Minor C_rat 2 3 = x1 * x2 + 1 ∧
+      pluckerQuadraticRelation2x4 C_rat = 0 ∧
+      vrc_pre.vectors * vrc_pre.relations.transpose = 0 ∧
+      pluckerQuadraticRelation2x4 vrc_pre.boundaryMatrix = 0 ∧
+      vrc_res.vectors * vrc_res.relations.transpose = 0 ∧
+      pluckerQuadraticRelation2x4 vrc_res.boundaryMatrix = 0 ∧
+      plucker2x4Minor vrc_res.boundaryMatrix 0 2 = 0 ∧
+      plucker2x4Minor vrc_res.boundaryMatrix 1 2 = x2 - x1 ∧
+      plucker2x4Minor vrc_res.boundaryMatrix 2 3 = x2 * (x1 - x2) ∧
+      plucker2x4Minor (gr24RationalChartMatrix test_x1 test_x2 test_xX) 0 3 =
+        (3 / 10 : ℂ) - (7 / 10 : ℂ) * Complex.I ∧
+      (gr24ClusterMutation test_x1 test_x2 test_xX).2.2 =
+        (3 / 4 : ℂ) + (1 / 4 : ℂ) * Complex.I := by
+  intro C_rat vrc_pre vrc_res test_x1 test_x2 test_xX
+  have hp23 : plucker2x4Minor C_rat 2 3 = x1 * x2 + 1 := by
+    unfold C_rat gr24RationalChartMatrix plucker2x4Minor
+    dsimp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail]
+    calc
+      -x1 * -x2 - -xX * xX⁻¹ = x1 * x2 + xX * xX⁻¹ := by ring
+      _ = x1 * x2 + 1 := by rw [mul_inv_cancel₀ hxX]
+  have h_test_inv :
+      (gr24ClusterMutation test_x1 test_x2 test_xX).2.2 =
+        (3 / 4 : ℂ) + (1 / 4 : ℂ) * Complex.I := by
+    unfold gr24ClusterMutation test_xX
+    dsimp
+    apply inv_eq_of_mul_eq_one_right
+    calc
+      ((6 / 5 : ℂ) - (2 / 5 : ℂ) * Complex.I) * ((3 / 4 : ℂ) + (1 / 4 : ℂ) * Complex.I) =
+        (9 / 10 : ℂ) - (1 / 10 : ℂ) * (Complex.I ^ 2) := by ring
+      _ = 1 := by rw [Complex.I_sq]; ring
+  refine ⟨by unfold C_rat gr24RationalChartMatrix plucker2x4Minor; dsimp; ring,
+    by unfold C_rat gr24RationalChartMatrix plucker2x4Minor; dsimp; ring,
+    by unfold C_rat gr24RationalChartMatrix plucker2x4Minor; dsimp; ring,
+    by unfold C_rat gr24RationalChartMatrix plucker2x4Minor; dsimp; ring,
+    by unfold C_rat gr24RationalChartMatrix plucker2x4Minor; dsimp; ring,
+    hp23,
+    pluckerQuadraticRelation2x4_eq_zero C_rat,
+    vrc_pre.relation_satisfied,
+    pluckerQuadraticRelation2x4_eq_zero vrc_pre.boundaryMatrix,
+    vrc_res.relation_satisfied,
+    pluckerQuadraticRelation2x4_eq_zero vrc_res.boundaryMatrix,
+    by unfold vrc_res gr24MutatedHomogeneousVRC VectorRelationConfiguration.boundaryMatrix plucker2x4Minor; dsimp; ring,
+    by unfold vrc_res gr24MutatedHomogeneousVRC VectorRelationConfiguration.boundaryMatrix plucker2x4Minor; dsimp; ring,
+    by unfold vrc_res gr24MutatedHomogeneousVRC VectorRelationConfiguration.boundaryMatrix plucker2x4Minor; dsimp; ring,
+    by unfold test_x1 test_x2 test_xX gr24RationalChartMatrix plucker2x4Minor; dsimp; ring,
+    h_test_inv⟩
 
 end Signals.Plabic

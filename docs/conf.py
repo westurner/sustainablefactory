@@ -16,6 +16,7 @@ release = "0.1.0"
 # -- General configuration ---------------------------------------------------
 extensions = [
     "myst_parser",
+    "sphinxcontrib.bibtex",
     "sphinxcontrib.mermaid",
     "sphinx.ext.coverage",
     # "sphinx.ext.doctest",
@@ -128,6 +129,10 @@ myst_enable_extensions = [
 ]
 
 myst_fence_as_directive = ["mermaid"]
+
+bibtex_bibfiles = ["citations.bib"]
+bibtex_default_style = "unsrt"
+bibtex_reference_style = "author_year"
 
 # -- Mermaid configuration ---------------------------------------------------
 # You can use a CDN or local file for mermaid.js

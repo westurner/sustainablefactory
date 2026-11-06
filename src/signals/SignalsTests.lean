@@ -6872,4 +6872,156 @@ example (splat : Signals.DDF.NormedTensorGaussianSplat3D)
     h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+/-- Complex Grassmannian Vector-Relation Configurations (`Signals.Plabic.VectorRelationConfiguration`),
+pole-free square-move resonance at $x_X = -1$, SymPy Plücker check figures, unrestricted
+spin-polarized Kohn-Sham DFT (`Signals.DFT`), Cayley retraction unitarity, McWeeny cubic
+purification, soliton width optimum, 3-qudit GHZ Mermin nonlocality check figures, and
+QCI directed conditional mutual information / phase velocity (`Signals.Plabic`, `Signals.DFT`,
+& `Signals.QuantumCausalInference`). -/
+example (x1 x2 xX : ℂ) (hxX : xX ≠ 0) (theta eps s_ac s_bc s_c w : ℝ) :
+    let vrc_pre := Signals.Plabic.gr24HomogeneousVRC x1 x2 xX
+    let vrc_res := Signals.Plabic.gr24MutatedHomogeneousVRC x1 x2 (-1)
+    let test_x1 : ℂ := 1 / 2 + (1 / 5 : ℂ) * Complex.I
+    let test_x2 : ℂ := -(3 / 10 : ℂ) + (7 / 10 : ℂ) * Complex.I
+    let test_xX : ℂ := 6 / 5 - (2 / 5 : ℂ) * Complex.I
+    vrc_pre.vectors * vrc_pre.relations.transpose = 0 ∧
+      vrc_res.vectors * vrc_res.relations.transpose = 0 ∧
+      Signals.Plabic.pluckerQuadraticRelation2x4 vrc_res.boundaryMatrix = 0 ∧
+      Signals.Plabic.plucker2x4Minor vrc_res.boundaryMatrix 1 2 = x2 - x1 ∧
+      Signals.Plabic.plucker2x4Minor (Signals.Plabic.gr24RationalChartMatrix test_x1 test_x2 test_xX) 0 3 =
+        (3 / 10 : ℂ) - (7 / 10 : ℂ) * Complex.I ∧
+      (Signals.Plabic.gr24ClusterMutation test_x1 test_x2 test_xX).2.2 =
+        (3 / 4 : ℂ) + (1 / 4 : ℂ) * Complex.I ∧
+      Signals.DFT.spinPolarizedGrassmannianRealDim 2 1 4 = 14 ∧
+      Signals.DFT.spinPolarized4OrbitalCoreEnergy 0 0 = 4 ∧
+      Signals.DFT.hartreeToKcalPerMol
+        (Signals.DFT.spinPolarized4OrbitalCoreEnergy 0 0) = 2510.036 ∧
+      Signals.DFT.cayleyRetractionNormSq theta = 1 ∧
+      1 - Signals.DFT.mcweenyPurificationPoly (1 - eps) =
+        eps ^ 2 * (3 - 2 * eps) ∧
+      Signals.DFT.mcweenyPurificationPoly (9 / 10) = 243 / 250 ∧
+      Signals.DFT.naturalOrbitalLinearCorrelationEntropy (1 / 2) = 1 / 2 ∧
+      Signals.DFT.solitonEnvelopeGateTime (73 / 100) <
+        Signals.DFT.solitonEnvelopeGateTime (1 / 10) ∧
+      Signals.DFT.merminThreeQuditGHZWitness 1 = 4 ∧
+      Signals.DFT.merminThreeQuditGHZWitness (9866 / 10000) = 3.9464 ∧
+      (2 : ℝ) < Signals.DFT.merminThreeQuditGHZWitness (9866 / 10000) ∧
+      Signals.QuantumCausalInference.qciDirectedConditionalMutualInfo s_ac s_bc s_c (s_ac + s_bc - s_c) = 0 ∧
+      Signals.QuantumCausalInference.qciConfinedPlasmonProcessWeight (3 / 5) (2 / 5) w w = w := by
+  intro vrc_pre vrc_res test_x1 test_x2 test_xX
+  have h_vrc := Signals.Plabic.complex_plabic_vrc_and_sympy_check_figures x1 x2 xX hxX
+  have h_dft :=
+    Signals.DFT.grassmannian_dft_vrc_cayley_mcweeny_and_mermin_check_figures
+      1 2 1 0 0 theta eps (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_qci :=
+    Signals.QuantumCausalInference.qci_directed_phase_flow_and_spin_mutual_info_identities
+      s_ac s_bc s_c 10 2 (3 / 5) (2 / 5) w 1 1 1
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h_vrc.2.2.2.2.2.2.2.1, h_vrc.2.2.2.2.2.2.2.2.2.1,
+    h_vrc.2.2.2.2.2.2.2.2.2.2.1, h_vrc.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_vrc.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h_vrc.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    h_dft.1, h_dft.2.2.2.1, h_dft.2.2.2.2.1, h_dft.2.2.2.2.2.2.1,
+    h_dft.2.2.2.2.2.2.2.2.2.1, h_dft.2.2.2.2.2.2.2.2.2.2.1,
+    h_dft.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_dft.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_dft.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_dft.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_dft.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    h_qci.1, h_qci.2.2.2.1⟩
+
+/-- Discovered Materials Speed–Accuracy Barrier (`Signals.DFT.speed_accuracy_barrier_wtmad2_ald_cvd_and_cayley_scaling_identities`):
+`def2-QZVP` occupied-subspace Cayley speedup ($144\times$), Goerigk et al. (2017) `WTMAD-2`
+monotonicity, ALD transition-state SIE barrier restoration, and 3-repeat median runtime bounds. -/
+example (n_occ n_basis : ℝ) (hn_occ : n_occ ≠ 0) (hn_basis : n_basis ≠ 0) :
+    Signals.DFT.grassmannCayleySpeedupRatio n_occ n_basis = (n_basis / n_occ) ^ 2 ∧
+      Signals.DFT.grassmannCayleySpeedupRatio 10 120 = 144 ∧
+      Signals.DFT.wtmad2TwoSubsetScore 76 18.61 1.45 43 414.73 2.10 ≤
+        Signals.DFT.wtmad2TwoSubsetScore 76 18.61 8.92 43 414.73 14.30 ∧
+      |Signals.DFT.aldBarrierWithSIERestoration 15.2 6.4 5.8 - 15.2| <
+        |Signals.DFT.aldBarrierWithSIERestoration 15.2 6.4 0 - 15.2| ∧
+      Signals.DFT.medianOfThreeOrdered 2.38 2.40 2.43 = 2.40 := by
+  have h :=
+    Signals.DFT.speed_accuracy_barrier_wtmad2_ald_cvd_and_cayley_scaling_identities
+      n_occ n_basis hn_occ hn_basis
+      76 18.61 1.45 8.92 43 414.73 2.10 14.30
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      15.2 6.4 5.8 (by norm_num) (by norm_num)
+      2.38 2.40 2.43 (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.1, rfl⟩
+
+/-- Polaritons, Plasmons, Skyrmions, Majorana Zero Modes (`MZMs`), and `Signals.NonDestructive`
+dispersive readout (`Signals.DFT.polariton_plasmon_skyrmion_mzm_and_nondestructive_readout_identities`). -/
+example
+    (x1 x2 : ℂ) (chi_mzm : ℝ)
+    (fp : Signals.NonDestructive.DispersivePhaseFingerprint ℝ)
+    (insp : Signals.NonDestructive.InspectionRecord) :
+    let vrc_res := Signals.Plabic.gr24MutatedHomogeneousVRC x1 x2 (-1)
+    vrc_res.vectors * vrc_res.relations.transpose = 0 ∧
+      Signals.DFT.skyrmionPontryaginCharge 1 (-1) 1 = 1 ∧
+      Signals.DFT.kitaevChemicalPotentialTopological 0 1 ∧
+      Signals.DFT.kitaevBulkGapAtBrillouinBoundary (-2) 1 = 0 ∧
+      Signals.DFT.mzmDispersiveParityContrast chi_mzm = 2 * chi_mzm ∧
+      fp.readout.absorbedProbeEnergy.joules = 0 ∧
+      fp.fingerprint.phaseShift = fp.readout.coupling * fp.readout.signalObservable ∧
+      insp.specimenStateAfter = insp.specimenStateBefore := by
+  intro vrc_res
+  have h :=
+    Signals.DFT.polariton_plasmon_skyrmion_mzm_and_nondestructive_readout_identities
+      x1 x2 1 (by norm_num) 1 (3 / 5) (2 / 5) 1 1 chi_mzm (by norm_num) fp insp
+  exact ⟨h.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    by simpa using h.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+/-- Optional Complex Grassmannian Vector-Relation Configuration (`VRC`) vs. Plabic Rational Chart
+in Quantum Causal Inference (`Signals.QuantumCausalInference.qci_optional_vrc_vs_plabic_complex_grassmannian_identities`). -/
+example
+    (x1 x2 xX : ℂ) (hxX : xX ≠ 0)
+    (s_taut q1 q2 c1_do c2_do gamma_coh : ℝ) :
+    Signals.QuantumCausalInference.qciRecommendBackend true false = .complexHomogeneousVRC ∧
+      Signals.QuantumCausalInference.qciRecommendBackend false false = .plabicRationalChart ∧
+      Signals.QuantumCausalInference.qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX false 0 2 =
+        xX * Signals.QuantumCausalInference.qciGr24PluckerMinor .plabicRationalChart false x1 x2 xX false 0 2 ∧
+      Signals.QuantumCausalInference.qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX false 2 3 =
+        xX * Signals.QuantumCausalInference.qciGr24PluckerMinor .plabicRationalChart false x1 x2 xX false 2 3 ∧
+      Signals.QuantumCausalInference.qciGr24PluckerMinor .complexHomogeneousVRC true x1 x2 (-1) false 1 2 =
+        x2 - x1 ∧
+      Signals.QuantumCausalInference.qciOptionalVrcJeffreyKinematicUpdate .complexHomogeneousVRC true
+          q1 q2 c1_do c2_do gamma_coh x1 x2 (-1) true =
+        Signals.QuantumCausalInference.jeffreyKinematicUpdate q1 q2 c1_do c2_do ∧
+      Signals.QuantumCausalInference.qciOptionalVrcGraphRAGScore .complexHomogeneousVRC true
+          s_taut q1 q2 c1_do c2_do gamma_coh x1 x2 (-1) true =
+        s_taut + Signals.QuantumCausalInference.jeffreyKinematicUpdate q1 q2 c1_do c2_do := by
+  have h :=
+    Signals.QuantumCausalInference.qci_optional_vrc_vs_plabic_complex_grassmannian_identities
+      .complexHomogeneousVRC true false false x1 x2 xX hxX s_taut q1 q2 c1_do c2_do gamma_coh
+  exact ⟨h.1, h.2.1, h.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+/-- Full 55-subset two-electron ERI, Boys $F_0(T)$, Pauli self-interaction cancellation,
+`RI-J / COSX` auxiliary scaling ($192\times$), and 1,505-reaction GMTKN55 `WTMAD-2` chemical
+accuracy bounds (`Signals.DFT.full_55_subset_two_electron_eri_and_gmtkn55_wtmad2_identities`). -/
+example
+    (p q s_sum k_ab k_cd boys_f0 eri_diag p_diag : ℝ)
+    (n_occ n_basis n_aux : ℝ)
+    (hn_occ : n_occ ≠ 0) (hn_basis : n_basis ≠ 0) (hn_aux : n_aux ≠ 0) :
+    Signals.DFT.gaussianFourCenterSWaveERI p q s_sum k_ab k_cd boys_f0 =
+        Signals.DFT.gaussianFourCenterSWaveERI q p s_sum k_cd k_ab boys_f0 ∧
+      Signals.DFT.boysF0Taylor2 0 = 1 ∧
+      Signals.DFT.sameSpinDiagonalCoulombMinusExchange eri_diag p_diag = 0 ∧
+      Signals.DFT.riAuxiliaryERISpeedupRatio 4 48 144 = 192 ∧
+      Signals.DFT.gmtkn55TotalSubsetCount = 55 ∧
+      Signals.DFT.gmtkn55TotalReactionCount = 1505 ∧
+      Signals.DFT.gmtkn55FiveCategoryWTMAD2 948.15 210.70 349.20 468.00 496.65 < 3.0 ∧
+      Signals.DFT.gmtkn55FiveCategoryWTMAD2 948.15 210.70 349.20 468.00 496.65 < 3.81 := by
+  have h :=
+    Signals.DFT.full_55_subset_two_electron_eri_and_gmtkn55_wtmad2_identities
+      p q s_sum k_ab k_cd boys_f0 eri_diag p_diag n_occ n_basis n_aux hn_occ hn_basis hn_aux
+  exact ⟨h.1, h.2.1, h.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

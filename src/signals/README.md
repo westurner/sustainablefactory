@@ -594,10 +594,41 @@ interpretation while keeping experimental premises explicit:
    `quantum_causal_jev_bundle_transformer_and_videogen_synthesis_identities`,
    `quantum_causal_plucker_rank_rope_gauge_and_qram_critique_identities`,
    `quantum_causal_jeffrey_kinematics_splat_volumetric_and_semantic_graphrag_identities`,
-   `quantum_causal_overhead_boundary_commutativity_and_splat_moment_identities`).
+   `quantum_causal_overhead_boundary_commutativity_and_splat_moment_identities`,
+   `qci_directed_phase_flow_and_spin_mutual_info_identities`,
+   `qci_optional_vrc_vs_plabic_complex_grassmannian_identities`).
    See [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](../../docs/grassmannian-quantum-causal-inference-mpemba-paper.md),
    [`docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`](../../docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md),
    and [`docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md`](../../docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md).
+- `Signals.DFT` (together with `Signals.Plabic` Section 13) formalizes
+   Complex Grassmannian Plabic Vector-Relation Configurations
+   (`VectorRelationConfiguration`, `gr24HomogeneousVRC`, `gr24MutatedHomogeneousVRC`,
+   `complex_plabic_vrc_and_sympy_check_figures` resolving the $x_X = -1$ on-shell
+   polariton resonance pole), Unrestricted Spin-Polarized Grassmannian Kohn–Sham
+   DFT (`spinPolarizedGrassmannianRealDim`, `grassmannianKohnShamEnergy2x2`,
+   `spinPolarized4OrbitalCoreEnergy`, `cayleyRetractionNormSq`,
+   `mcweenyPurificationPoly`, `twoOrbitalLinearCorrelationEntropy`,
+   `solitonEnvelopeGateTime`, `merminThreeQuditGHZWitness`,
+   `dft_cayley_mcweeny_soliton_and_mermin_identities`), Discovered Materials
+   Problem 03 (`wtmad2TwoSubsetScore`, `grassmannCayleySpeedupRatio`,
+   `aldBarrierWithSIERestoration`,
+   `speed_accuracy_barrier_wtmad2_ald_cvd_and_cayley_scaling_identities`),
+   analytical 4-center $s$-wave Gaussian two-electron repulsion integrals
+   (`gaussianFourCenterSWaveERI`), Boys $F_0(T)$ (`boysF0Taylor2`), exact Pauli
+   diagonal self-interaction cancellation (`sameSpinDiagonalCoulombMinusExchange = 0`),
+   $192\times$ 3-center `RI-J / COSX` auxiliary density-fitting speedup
+   (`riAuxiliaryERISpeedupRatio`), the full 55-subset / 1,505-reaction `GMTKN55`
+   `WTMAD-2 = 494.54 / 301 ≈ 1.643 kcal/mol` (`gmtkn55FiveCategoryWTMAD2`,
+   `full_55_subset_two_electron_eri_and_gmtkn55_wtmad2_identities`), and the
+   unified bridge across Polaritons, Plasmons, Magnetic Skyrmions, Majorana Zero
+   Modes (`MZMs`), and Non-Destructive Dispersive Readout
+   (`polariton_plasmon_skyrmion_mzm_and_nondestructive_readout_identities`),
+   while `QuantumCausalGrassmannianDFTHypothesis` in `Signals.Pending`
+   (`quantum_causal_grassmannian_dft_bounds`,
+   `quantum_causal_grassmannian_dft_eri_wtmad2_and_vrc_bounds`) isolates
+   experimental anyon-braiding and full basis-set hardware claims. See
+   [`docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`](../../docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md)
+   and [`docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`](../../docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md).
 - `Signals.DDF` Section 30 formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
    Fubini–Study Gross–Pitaevskii Equation (GPE), Dual-Schubert
    $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker

@@ -161,12 +161,12 @@ properties of N-LIG.
 The Google Scholar query for `continuous wave laser lignin` was unavailable
 behind an automated redirect during review. Crossref/OpenAlex metadata and
 publisher records identify a useful primary set: Kraft-lignin LIG by direct
-laser writing ([Mahmood et al. 2020](#mahmood2020)), CO2-laser graphene on wood
-([Ye et al. 2017](#ye2017)), cellulose/lignin conversion with molecular-dynamics
-and experimental controls ([Ghavipanjeh and Sadeghzadeh 2024](#ghavipanjeh2024)),
-laser-induced lignin-to-few-layer graphene ([Zhang et al. 2024](#zhang2024)),
+laser writing {cite:p}`mahmood2020kraft`, CO2-laser graphene on wood
+{cite:p}`ye2017wood`, cellulose/lignin conversion with molecular-dynamics
+and experimental controls {cite:p}`ghavipanjeh2024cellulose`,
+laser-induced lignin-to-few-layer graphene {cite:p}`zhang2024fewlayer`,
 and sequential laser lithography for lignin-derived biosensor electrodes
-([Meng et al. 2022](#meng2022)). These records support the classical material
+{cite:p}`meng2022greenlignin`. These records support the classical material
 claim and process-variable matrix. They do not, by themselves, prove that
 every experiment used a continuous-wave source or that graphitization is
 athermal.
@@ -240,14 +240,9 @@ paper is a material lead, not validation of the chat's 400-800 GHz values or
 Proca mode; see the [focused evidence report](longitudinal-wave-polycbd-upt-dff-evidence.md).
 
 The attached bibliography supports the classical and materials portions of the
-plan: LIG synthesis and applications ([Wan et al. 2018](#wan2018), [Ye et al.
-2024](#ye2024), [Claro et al. 2022](#claro2022), [You et al. 2020](#you2020)),
-maskless and selective laser processing ([Cheng et al. 2026](#cheng2026), [Park
-et al. 2024](#park2024)), LIG diffractive optics ([Lee et al. 2023](#lee2023)),
-biomass-derived nanodiamond controls ([Lin et al. 2021](#lin2021), [Joshi et al.
-2021](#joshi2021)), and optical modification of 2D materials ([Akkanen et al.
-2022](#akkanen2022)). The Proca references ([Morais et al. 2026](#morais2026),
-[Mikki 2021](#mikki2021)) support theory/model construction, not a laboratory
+plan: LIG synthesis and applications {cite:p}`wan2018laser,ye2024review,c2022sustainable,you2020laser`,
+maskless and selective laser processing {cite:p}`cheng2026maskless,park2024laser`, LIG diffractive optics {cite:p}`lee2023ultra`,
+biomass-derived nanodiamond controls {cite:p}`lin2021fabricating,joshi2021advances`, and optical modification of 2D materials {cite:p}`akkanen2022optical`. The Proca references {cite:p}`morais2026investigating,mikki2021proca` support theory/model construction, not a laboratory
 detection claim.
 
 The current Lean boundary is deliberately weaker than the proposal. `ProcaChannel`
@@ -545,13 +540,11 @@ Acceptance is material reproducibility and a complete uncertainty budget. It is
 not evidence of a guided Proca mode.
 
 Use the LIG reviews and sustainable-carbon perspective to define the process
-factor matrix and characterization vocabulary ([Wan et al. 2018](#wan2018), [Ye
-et al. 2024](#ye2024), [Claro et al. 2022](#claro2022)). Use the flexible-LIG
+factor matrix and characterization vocabulary {cite:p}`wan2018laser,ye2024review,c2022sustainable`. Use the flexible-LIG
 electronics and LIG-diffractive-optics literature as classical application and
-pattern-fidelity controls ([You et al. 2020](#you2020), [Lee et al.
-2023](#lee2023)); neither establishes lignin-derived N-LIG or Proca coupling.
+pattern-fidelity controls {cite:p}`you2020laser,lee2023ultra`; neither establishes lignin-derived N-LIG or Proca coupling.
 Wearable and sensor applications provide additional classical endpoint context,
-but not proof of the proposed waveguide mechanism ([Kim and Kim 2025](#kim2025)).
+but not proof of the proposed waveguide mechanism {cite:p}`kim2025wearable`.
 
 ### WP1A: Find the lowest-power CW N-LIG process window
 
@@ -582,8 +575,7 @@ throughput, yield, cooling, and post-processing energy are included.
 The attached laser-processing reviews support this as a materials/process
 optimization question, not as a shortcut to Flat Light. Maskless photolithography
 and selective laser-processing reviews provide comparison methods for the
-classical direct-write baseline ([Cheng et al. 2026](#cheng2026), [Park et al.
-2024](#park2024)).
+classical direct-write baseline {cite:p}`cheng2026maskless,park2024laser`.
 
 ### WP2: Establish the classical guide
 
@@ -690,7 +682,7 @@ classical guide model, if the result depends on aperture truncation, or if
 side-lobe energy is omitted from the resolution metric.
 
 Use LIG diffractive optics as a useful classical positive control for the
-proposed rGO/N-LIG optical-patterning path ([Lee et al. 2023](#lee2023)). A
+proposed rGO/N-LIG optical-patterning path {cite:p}`lee2023ultra`. A
 successful diffractive LIG optic validates fabrication and pattern transfer; it
 does not validate zero diffraction or a massive photon.
 
@@ -717,10 +709,10 @@ matched. An atomic-scale image without a calibrated point-spread function and
 chemical control is insufficient.
 
 Biomass-to-nanodiamond direct laser writing provides a separate material
-transformation control ([Lin et al. 2021](#lin2021)); it must be analyzed by
+transformation control {cite:p}`lin2021fabricating`; it must be analyzed by
 its measured chemistry and thermal history rather than relabeled as a Proca
 phase-slip result. The nanodiamond review supplies additional process context
-and failure modes ([Joshi et al. 2021](#joshi2021)).
+and failure modes {cite:p}`joshi2021advances`.
 
 ### WP7: Test multi-beam holography and trilateration
 

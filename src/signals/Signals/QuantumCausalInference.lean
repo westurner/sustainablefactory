@@ -1946,6 +1946,333 @@ theorem quantum_causal_overhead_boundary_commutativity_and_splat_moment_identiti
     by dsimp only [c_plus, splat_j, NormedTensorGaussianSplat3D.splitMajorPlus, NormedTensorGaussianSplat3D.covDet, NormedTensorGaussianSplat3D.jeffreyKinematicWeightUpdate]; ring,
     by dsimp only [c_minus, splat_j, NormedTensorGaussianSplat3D.splitMajorMinus, NormedTensorGaussianSplat3D.covDet, NormedTensorGaussianSplat3D.jeffreyKinematicWeightUpdate]; ring⟩
 
+/-! ## Section 13: Quantum Causal Directed Conditional Mutual Information $I(A \to B \mid C)$, Causal Phase Velocity, Indefinite Causal Order Process Superposition, and Spin-Channel Mutual Information
+
+Formalizes the purely Quantum Causal Inference (QCI) information-flow laws from
+`data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md` (lines 404–425, 623–656, 1451–1478),
+while keeping Kohn-Sham DFT, Riemannian Cayley retraction, McWeeny purification, and multi-qudit
+check figures in `Signals.DFT`:
+1. **Quantum Conditional Mutual Information**:
+   $I(A \to B \mid C) = S(\rho_{AC}) + S(\rho_{BC}) - S(\rho_C) - S(\rho_{ABC})$, which vanishes
+   at causal phase-locking ($S(\rho_{AC}) + S(\rho_{BC}) = S(\rho_C) + S(\rho_{ABC})$).
+2. **Causal Phase Velocity**:
+   $v_p(\Delta x, \Delta t) = \Delta x / \Delta t$ extracted from the causal time-lag $\Delta t > 0$
+   maximizing the directed information asymmetry $I(A \to B \mid C)$.
+3. **Confined Indefinite Causal Order (ICO) Process Superposition**:
+   $W_{\mathrm{confined}}(\alpha, \beta, W_{A\to B\to C}, W_{C\to B\to A}) = \alpha W_{A\to B\to C} + \beta W_{C\to B\to A}$.
+4. **Spin-Channel Quantum Mutual Information (`QCIChannelTracker`)**:
+   $I(\alpha : \beta) = S(\rho_\alpha) + S(\rho_\beta) - S(\rho_{\alpha\beta})$.
+-/
+
+/-- Quantum Conditional Mutual Information
+$I(A \to B \mid C) = S(\rho_{AC}) + S(\rho_{BC}) - S(\rho_C) - S(\rho_{ABC})$
+tracking directed quantum phase propagation across three regions $A, B, C$
+(`Google-Search_Density-Functional-Theory_20261105-1512.md`, lines 404–409, 636–640). -/
+@[blueprint "def:signals-qci-directed-conditional-mutual-info"
+  (title := "Quantum Conditional Mutual Information I(A -> B | C)")
+  (statement := /-- Define $I(A \to B \mid C) = S_{AC} + S_{BC} - S_C - S_{ABC}$. -/)]
+def qciDirectedConditionalMutualInfo (s_ac s_bc s_c s_abc : ℝ) : ℝ :=
+  s_ac + s_bc - s_c - s_abc
+
+/-- Causal phase velocity $v_p = \Delta x / \Delta t$ extracted from the causal time-lag $\Delta t$
+that maximizes directed quantum conditional mutual information across distance $\Delta x$
+(`Google-Search_Density-Functional-Theory_20261105-1512.md`, lines 644–648). -/
+@[blueprint "def:signals-qci-causal-phase-velocity"
+  (title := "QCI directed causal phase velocity v_p = Δx / Δt")
+  (statement := /-- Define $\operatorname{qciCausalPhaseVelocity}(\Delta x, \Delta t) = \Delta x / \Delta t$. -/)]
+def qciCausalPhaseVelocity (dx dt : ℝ) : ℝ :=
+  dx / dt
+
+/-- Confined bidirectional Indefinite Causal Order (ICO) process weight
+$W_{\mathrm{confined}} = \alpha W_{A \to B \to C} + \beta W_{C \to B \to A}$
+superposing forward ($A \to B \to C$) and back-scattered ($C \to B \to A$) causal channels
+(`Google-Search_Density-Functional-Theory_20261105-1512.md`, lines 652–658). -/
+@[blueprint "def:signals-qci-confined-plasmon-process-weight"
+  (title := "Confined Indefinite Causal Order process matrix superposition")
+  (statement := /-- Define $W_{\mathrm{confined}}(\alpha, \beta, W_{\mathrm{fwd}}, W_{\mathrm{bwd}}) =
+    \alpha W_{\mathrm{fwd}} + \beta W_{\mathrm{bwd}}$. -/)]
+def qciConfinedPlasmonProcessWeight (alpha beta w_fwd w_bwd : ℝ) : ℝ :=
+  alpha * w_fwd + beta * w_bwd
+
+/-- Quantum Mutual Information $I(\alpha : \beta) = S(\rho_\alpha) + S(\rho_\beta) - S(\rho_{\alpha\beta})$
+between spin-up ($\alpha$) and spin-down ($\beta$) channels (`QCIChannelTracker.calculate_spin_mutual_information`
+in `test_qci_gxc_production.py`, lines 1454–1478). -/
+@[blueprint "def:signals-qci-spin-channel-mutual-information"
+  (title := "QCI cross-channel spin mutual information I(alpha : beta)")
+  (statement := /-- Define $I(\alpha : \beta) = S_\alpha + S_\beta - S_{\alpha\beta}$. -/)]
+def qciSpinChannelMutualInformation (s_alpha s_beta s_joint : ℝ) : ℝ :=
+  s_alpha + s_beta - s_joint
+
+/-- **Theorem (QCI Directed Conditional Mutual Information, Causal Phase-Locking Fixed Point, Causal Phase Velocity, and Spin-Channel Mutual Information)**:
+1. When $C$ screens $A$ from $B$ at the causal phase-locked equilibrium ($S_{AC} + S_{BC} = S_C + S_{ABC}$),
+   $\operatorname{qciDirectedConditionalMutualInfo}(S_{AC}, S_{BC}, S_C, S_{ABC}) = 0$,
+2. For $\Delta x > 0$ and $\Delta t > 0$, $\operatorname{qciCausalPhaseVelocity}(\Delta x, \Delta t) > 0$
+   and $\operatorname{qciCausalPhaseVelocity}(\Delta x, \Delta t) \cdot \Delta t = \Delta x$,
+3. When $\alpha + \beta = 1$, $\operatorname{qciConfinedPlasmonProcessWeight}(\alpha, \beta, w, w) = w$, and
+4. By subadditivity $S_{\alpha\beta} \le S_\alpha + S_\beta$,
+   $0 \le \operatorname{qciSpinChannelMutualInformation}(S_\alpha, S_\beta, S_{\alpha\beta})$, vanishing
+   for product channels $S_{\alpha\beta} = S_\alpha + S_\beta$. -/
+@[blueprint "thm:signals-qci-directed-phase-flow-and-spin-mutual-info"
+  (title := "QCI directed conditional mutual information phase-locking, phase velocity, and spin mutual information bounds")
+  (statement := /-- Verification of $I(A \to B \mid C) = 0$ at Markov phase-locking,
+    $v_p \cdot \Delta t = \Delta x$, convex normalization of $W_{\mathrm{confined}}$, and
+    nonnegativity $0 \le I(\alpha : \beta)$ under entropy subadditivity. -/)
+  (proof := /-- Combine \texttt{div\_pos}, \texttt{div\_mul\_cancel₀}, and linear arithmetic. -/)]
+theorem qci_directed_phase_flow_and_spin_mutual_info_identities
+    (s_ac s_bc s_c dx dt alpha beta w s_alpha s_beta s_joint : ℝ)
+    (hdx : 0 < dx) (hdt : 0 < dt)
+    (hab : alpha + beta = 1)
+    (h_subadd : s_joint ≤ s_alpha + s_beta) :
+    qciDirectedConditionalMutualInfo s_ac s_bc s_c (s_ac + s_bc - s_c) = 0 ∧
+      0 < qciCausalPhaseVelocity dx dt ∧
+      qciCausalPhaseVelocity dx dt * dt = dx ∧
+      qciConfinedPlasmonProcessWeight alpha beta w w = w ∧
+      0 ≤ qciSpinChannelMutualInformation s_alpha s_beta s_joint ∧
+      qciSpinChannelMutualInformation s_alpha s_beta (s_alpha + s_beta) = 0 := by
+  have hdt_ne : dt ≠ 0 := ne_of_gt hdt
+  refine ⟨by unfold qciDirectedConditionalMutualInfo; ring,
+    by unfold qciCausalPhaseVelocity; exact div_pos hdx hdt,
+    by unfold qciCausalPhaseVelocity; exact div_mul_cancel₀ dx hdt_ne,
+    by unfold qciConfinedPlasmonProcessWeight; calc alpha * w + beta * w = (alpha + beta) * w := by ring
+      _ = 1 * w := by rw [hab]
+      _ = w := by ring,
+    by unfold qciSpinChannelMutualInformation; linarith,
+    by unfold qciSpinChannelMutualInformation; ring⟩
+
+/-! ## Section 14: Optional Complex Grassmannian Vector-Relation Configuration (`VRC`) Parameterization for Quantum Causal Inference (`GrassmannianCausalBackend`)
+
+When Grassmannian causal inference operates on **real totally nonnegative Grassmannians**
+$\mathrm{Gr}_{\ge 0}(k, n) \subset \mathrm{Gr}_{\mathbb{R}}(k, n)$ (classical DAG treks with
+positive weights $w_e > 0$), standard Postnikov plabic rational charts (`gr24RationalChartMatrix`
+and `gr24ClusterMutation`) never encounter vanishing denominators because $1 + x_X > 1$.
+However, when **Complex Grassmannians** $\mathrm{Gr}_{\mathbb{C}}(k, n)$ are appropriate—such as
+in quantum causal inference (`QCI`), Indefinite Causal Order (`Quantum Switch` and confined
+plasmonic superpositions), Quantum Lüders–Plücker Jeffrey kinematics, and `QCI-GXC` polaritonic
+exchange-correlation pathways—complex interference phases $x_X = r_X e^{i\theta_X} \in \mathbb{C}^\times$
+can hit the **on-shell destructive-interference / polariton resonance** $x_X = -1$ ($\theta_X = \pi$,
+where $x_X + 1 = 0$) or the chart boundary $x_X = 0$.
+
+To support both regimes seamlessly, we provide `GrassmannianCausalBackend` so all Grassmannian
+causal inference, Pearl $\operatorname{do}$-surgery, Quantum Jeffrey kinematic, and Semantic GraphRAG
+methods can **optionally use homogeneous Vector-Relation Configurations (`VRC`, `(V, K)` with $V K^\top = 0$)**
+instead of rational plabic charts whenever Complex Grassmannians are appropriate. -/
+
+/-- Selects whether Grassmannian causal inference parameterizes $\mathrm{Gr}(2,4)$ subspaces via
+a standard Postnikov rational plabic face-weight chart (`.plabicRationalChart`) or via a pole-free
+homogeneous Vector-Relation Configuration (`.complexHomogeneousVRC`, $V K^\top = 0$). -/
+inductive GrassmannianCausalBackend where
+  | plabicRationalChart
+  | complexHomogeneousVRC
+  deriving DecidableEq, Repr
+
+/-- Recommends `.complexHomogeneousVRC` whenever the causal model lives on a Complex Grassmannian
+$\mathrm{Gr}_{\mathbb{C}}(k, n)$ (`isComplexGrassmannian = true`) or approaches an on-shell
+interference resonance / chart boundary (`isResonantOrBoundary = true`), and `.plabicRationalChart`
+for real positive plabic DAGs. -/
+@[blueprint "def:signals-qci-recommend-backend"
+  (title := "Recommended Grassmannian causal backend selector (Plabic vs. Complex VRC)")
+  (statement := /-- Select \texttt{.complexHomogeneousVRC} when \texttt{isComplexGrassmannian || isResonantOrBoundary},
+    and \texttt{.plabicRationalChart} otherwise. -/)]
+def qciRecommendBackend (isComplexGrassmannian isResonantOrBoundary : Bool) :
+    GrassmannianCausalBackend :=
+  if isComplexGrassmannian || isResonantOrBoundary then
+    .complexHomogeneousVRC
+  else
+    .plabicRationalChart
+
+/-- Evaluates the $2 \times 4$ complex Grassmannian causal boundary generator matrix under the
+chosen `backend : GrassmannianCausalBackend`, square-move mutation flag `mutated : Bool`,
+complex parameters $(x_1, x_2, x_X) \in \mathbb{C}^3$, and optional Pearl $\operatorname{do}$-intervention
+`doSeverBackdoor : Bool` (which severs the backdoor confounding parameter $x_2 \mapsto 0$). -/
+@[blueprint "def:signals-qci-gr24-boundary-matrix"
+  (title := "Optional VRC vs. Plabic Gr_C(2,4) causal boundary matrix with Pearl do-surgery")
+  (statement := /-- Evaluate the $2 \times 4$ causal boundary matrix on $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+    using either \texttt{.plabicRationalChart} or \texttt{.complexHomogeneousVRC}, before or after
+    a square-move cluster mutation and optional Pearl backdoor $\operatorname{do}$-surgery ($x_2 \mapsto 0$). -/)]
+def qciGr24BoundaryMatrix
+    (backend : GrassmannianCausalBackend) (mutated : Bool)
+    (x1 x2 xX : ℂ) (doSeverBackdoor : Bool) : Matrix (Fin 2) (Fin 4) ℂ :=
+  let x2_eff : ℂ := if doSeverBackdoor then 0 else x2
+  match backend, mutated with
+  | .plabicRationalChart, false =>
+      gr24RationalChartMatrix x1 x2_eff xX
+  | .plabicRationalChart, true =>
+      let (x1', x2', xX') := gr24ClusterMutation x1 x2_eff xX
+      gr24RationalChartMatrix x1' x2' xX'
+  | .complexHomogeneousVRC, false =>
+      (gr24HomogeneousVRC x1 x2_eff xX).boundaryMatrix
+  | .complexHomogeneousVRC, true =>
+      (gr24MutatedHomogeneousVRC x1 x2_eff xX).boundaryMatrix
+
+/-- Evaluates the $(j_1, j_2)$ Plücker minor of the $\mathrm{Gr}_{\mathbb{C}}(2,4)$ causal boundary
+matrix under the selected `backend : GrassmannianCausalBackend`. -/
+@[blueprint "def:signals-qci-gr24-plucker-minor"
+  (title := "Optional VRC vs. Plabic Gr_C(2,4) causal Plücker minor")
+  (statement := /-- Define $\operatorname{qciGr24PluckerMinor}(\mathrm{backend}, \mathrm{mutated}, x_1, x_2, x_X, \mathrm{doSeverBackdoor}, j_1, j_2)
+    = \operatorname{plucker2x4Minor}(\operatorname{qciGr24BoundaryMatrix}(\dots), j_1, j_2)$. -/)]
+def qciGr24PluckerMinor
+    (backend : GrassmannianCausalBackend) (mutated : Bool)
+    (x1 x2 xX : ℂ) (doSeverBackdoor : Bool) (j1 j2 : Fin 4) : ℂ :=
+  plucker2x4Minor (qciGr24BoundaryMatrix backend mutated x1 x2 xX doSeverBackdoor) j1 j2
+
+/-- Uncrossed causal Plücker channel $w_A^{\mathbb{C}} = p_{01} p_{23}$ under the chosen
+`GrassmannianCausalBackend`. -/
+def qciGr24UncrossedChannelA
+    (backend : GrassmannianCausalBackend) (mutated : Bool)
+    (x1 x2 xX : ℂ) (doSeverBackdoor : Bool) : ℂ :=
+  qciGr24PluckerMinor backend mutated x1 x2 xX doSeverBackdoor 0 1 *
+    qciGr24PluckerMinor backend mutated x1 x2 xX doSeverBackdoor 2 3
+
+/-- Uncrossed backdoor/interfering Plücker channel $w_B^{\mathbb{C}} = p_{03} p_{12}$ under the chosen
+`GrassmannianCausalBackend`. -/
+def qciGr24UncrossedChannelB
+    (backend : GrassmannianCausalBackend) (mutated : Bool)
+    (x1 x2 xX : ℂ) (doSeverBackdoor : Bool) : ℂ :=
+  qciGr24PluckerMinor backend mutated x1 x2 xX doSeverBackdoor 0 3 *
+    qciGr24PluckerMinor backend mutated x1 x2 xX doSeverBackdoor 1 2
+
+/-- **Optional-VRC Quantum Lüders–Plücker Jeffrey Kinematic Update**:
+Evaluates `quantumJeffreyPluckerKinematicUpdate` using the complex Plücker channel amplitudes
+$w_A^{\mathbb{C}}, w_B^{\mathbb{C}}$ computed from `backend : GrassmannianCausalBackend`
+(`.plabicRationalChart` or `.complexHomogeneousVRC`). -/
+@[blueprint "def:signals-qci-optional-vrc-jeffrey-kinematic-update"
+  (title := "Quantum Lüders-Plücker Jeffrey kinematic update with optional Complex VRC backend")
+  (statement := /-- Evaluate \texttt{quantumJeffreyPluckerKinematicUpdate} using the $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+    Plücker channels $w_A^{\mathbb{C}}, w_B^{\mathbb{C}}$ produced by \texttt{backend : GrassmannianCausalBackend}. -/)]
+def qciOptionalVrcJeffreyKinematicUpdate
+    (backend : GrassmannianCausalBackend) (mutated : Bool)
+    (q1 q2 c1_do c2_do gamma_coh : ℝ)
+    (x1 x2 xX : ℂ) (doSeverBackdoor : Bool) : ℝ :=
+  let wA := qciGr24UncrossedChannelA backend mutated x1 x2 xX doSeverBackdoor
+  let wB := qciGr24UncrossedChannelB backend mutated x1 x2 xX doSeverBackdoor
+  quantumJeffreyPluckerKinematicUpdate q1 q2 c1_do c2_do gamma_coh wA.re wA.im wB.re wB.im
+
+/-- **Optional-VRC Quantum Causal Semantic GraphRAG Score**:
+Evaluates `quantumCausalGraphRAGScore` using the complex Plücker channel amplitudes
+$w_A^{\mathbb{C}}, w_B^{\mathbb{C}}$ computed from `backend : GrassmannianCausalBackend`. -/
+@[blueprint "def:signals-qci-optional-vrc-graphrag-score"
+  (title := "Quantum Causal Semantic GraphRAG score with optional Complex VRC backend")
+  (statement := /-- Evaluate \texttt{quantumCausalGraphRAGScore} using the $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+    Plücker channels $w_A^{\mathbb{C}}, w_B^{\mathbb{C}}$ produced by \texttt{backend : GrassmannianCausalBackend}. -/)]
+def qciOptionalVrcGraphRAGScore
+    (backend : GrassmannianCausalBackend) (mutated : Bool)
+    (s_taut q1 q2 c1_do c2_do gamma_coh : ℝ)
+    (x1 x2 xX : ℂ) (doSeverBackdoor : Bool) : ℝ :=
+  s_taut +
+    qciOptionalVrcJeffreyKinematicUpdate backend mutated q1 q2 c1_do c2_do gamma_coh x1 x2 xX doSeverBackdoor
+
+/-- **Master Theorem 9 (Optional Complex Grassmannian Vector-Relation Configuration vs. Plabic Chart in Quantum Causal Inference, On-Shell Resonance Regularity, and Pearl $\operatorname{do}$-Deconfounded Jeffrey/GraphRAG Equivalence)**:
+Establishes the exact mathematical relationship between `.plabicRationalChart` and
+`.complexHomogeneousVRC` across all Grassmannian causal inference methods:
+1. **Automatic Backend Selection & Universal Quadratic Plücker Identity**:
+   - `qciRecommendBackend true isRes = .complexHomogeneousVRC` and
+     `qciRecommendBackend false false = .plabicRationalChart`.
+   - For **any** `backend`, `mutated`, `x1`, `x2`, `xX`, and `doSeverBackdoor`, the boundary
+     matrix identically satisfies `pluckerQuadraticRelation2x4 = 0`.
+2. **Exact Projective Channel Equivalence on the Generic Complex Torus ($x_X \neq 0$)**:
+   - Because `gr24HomogeneousVRC` clears the $x_X^{-1}$ singularity by scaling white vertex $w_2$
+     (column $2$) by $x_X$, minors not involving column $2$ (`(0,1)`, `(0,3)`, `(1,3)`) are
+     identically equal between `.complexHomogeneousVRC` and `.plabicRationalChart`, while minors
+     involving column $2$ (`(0,2)`, `(1,2)`, `(2,3)`) are scaled by $x_X$. Consequently, both
+     uncrossed Plücker causal channels $w_A^{\mathbb{C}} = p_{01} p_{23}$ and
+     $w_B^{\mathbb{C}} = p_{03} p_{12}$ scale by the **exact same global projective factor $x_X$**:
+     `qciGr24UncrossedChannelA .complexHomogeneousVRC = xX * qciGr24UncrossedChannelA .plabicRationalChart`
+     and `qciGr24UncrossedChannelB .complexHomogeneousVRC = xX * qciGr24UncrossedChannelB .plabicRationalChart`!
+3. **Pole-Free Regularity of `.complexHomogeneousVRC` at Destructive Causal Interference / On-Shell Resonance ($x_X = -1$ and $x_X = 0$)**:
+   - At $x_X = -1$ ($\theta_X = \pi$ destructive quantum causal interference / on-shell polariton
+     resonance, where `.plabicRationalChart` square-move mutation divides by $x_X + 1 = 0$),
+     `.complexHomogeneousVRC` (`mutated = true`) remains completely smooth with finite Plücker
+     minors $p_{01} = 1$, $p_{02} = 0$, $p_{03} = x_2$, $p_{12} = x_2 - x_1$, $p_{13} = 1$,
+     and $p_{23} = x_2(x_1 - x_2)$.
+4. **Pearl $\operatorname{do}$-Deconfounding (`doSeverBackdoor = true`) & Reduction of Quantum Jeffrey / GraphRAG**:
+   - Severing the backdoor confounding trek (`doSeverBackdoor = true`, $x_2 \mapsto 0$) under
+     `.complexHomogeneousVRC` annihilates the backdoor Plücker minor $p_{03} = 0$ and channel
+     $w_B^{\mathbb{C}} = 0$ (both pre-mutation and at the $x_X = -1$ resonance), reducing
+     `qciOptionalVrcJeffreyKinematicUpdate` and `qciOptionalVrcGraphRAGScore` identically to
+     the deconfounded `jeffreyKinematicUpdate q1 q2 c1_do c2_do` and
+     `s_taut + jeffreyKinematicUpdate q1 q2 c1_do c2_do`. -/
+@[blueprint "thm:signals-qci-optional-vrc-vs-plabic-complex-grassmannian-identities"
+  (title := "Optional Complex VRC vs. Plabic parameterization in Quantum Causal Inference, projective channel equivalence, on-shell resonance regularity, and Pearl do-deconfounding")
+  (statement := /-- Simultaneous verification of backend selection, universal Plücker syzygy,
+    projective channel scaling $w_{A,B}^{\mathrm{VRC}} = x_X \cdot w_{A,B}^{\mathrm{Plabic}}$
+    for $x_X \neq 0$, pole-free regularity of \texttt{.complexHomogeneousVRC} at $x_X = -1$, and
+    exact reduction of \texttt{qciOptionalVrcJeffreyKinematicUpdate} and
+    \texttt{qciOptionalVrcGraphRAGScore} under Pearl backdoor $\operatorname{do}$-surgery. -/)
+  (proof := /-- Unfold \texttt{qciGr24PluckerMinor}, \texttt{qciGr24BoundaryMatrix},
+    \texttt{gr24HomogeneousVRC}, \texttt{gr24MutatedHomogeneousVRC}, and
+    \texttt{gr24RationalChartMatrix}, apply \texttt{mul\_inv\_cancel₀} for $x_X \neq 0$, and close
+    by \texttt{ring} and \texttt{simp}. -/)]
+theorem qci_optional_vrc_vs_plabic_complex_grassmannian_identities
+    (backend : GrassmannianCausalBackend) (mutated isRes doSever : Bool)
+    (x1 x2 xX : ℂ) (hxX : xX ≠ 0)
+    (s_taut q1 q2 c1_do c2_do gamma_coh : ℝ) :
+    qciRecommendBackend true isRes = .complexHomogeneousVRC ∧
+      qciRecommendBackend false false = .plabicRationalChart ∧
+      pluckerQuadraticRelation2x4 (qciGr24BoundaryMatrix backend mutated x1 x2 xX doSever) = 0 ∧
+      qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX false 0 1 =
+        qciGr24PluckerMinor .plabicRationalChart false x1 x2 xX false 0 1 ∧
+      qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX false 0 2 =
+        xX * qciGr24PluckerMinor .plabicRationalChart false x1 x2 xX false 0 2 ∧
+      qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX false 0 3 =
+        qciGr24PluckerMinor .plabicRationalChart false x1 x2 xX false 0 3 ∧
+      qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX false 1 2 =
+        xX * qciGr24PluckerMinor .plabicRationalChart false x1 x2 xX false 1 2 ∧
+      qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX false 1 3 =
+        qciGr24PluckerMinor .plabicRationalChart false x1 x2 xX false 1 3 ∧
+      qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX false 2 3 =
+        xX * qciGr24PluckerMinor .plabicRationalChart false x1 x2 xX false 2 3 ∧
+      qciGr24PluckerMinor .complexHomogeneousVRC true x1 x2 (-1) false 0 2 = 0 ∧
+      qciGr24PluckerMinor .complexHomogeneousVRC true x1 x2 (-1) false 1 2 = x2 - x1 ∧
+      qciGr24PluckerMinor .complexHomogeneousVRC true x1 x2 (-1) false 2 3 = x2 * (x1 - x2) ∧
+      qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX true 0 3 = 0 ∧
+      qciGr24PluckerMinor .complexHomogeneousVRC true x1 x2 (-1) true 0 3 = 0 ∧
+      qciOptionalVrcJeffreyKinematicUpdate .complexHomogeneousVRC false
+          q1 q2 c1_do c2_do gamma_coh x1 x2 xX true =
+        jeffreyKinematicUpdate q1 q2 c1_do c2_do ∧
+      qciOptionalVrcJeffreyKinematicUpdate .complexHomogeneousVRC true
+          q1 q2 c1_do c2_do gamma_coh x1 x2 (-1) true =
+        jeffreyKinematicUpdate q1 q2 c1_do c2_do ∧
+      qciOptionalVrcGraphRAGScore .complexHomogeneousVRC true
+          s_taut q1 q2 c1_do c2_do gamma_coh x1 x2 (-1) true =
+        s_taut + jeffreyKinematicUpdate q1 q2 c1_do c2_do := by
+  have hp02_scale :
+      qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX false 0 2 =
+        xX * qciGr24PluckerMinor .plabicRationalChart false x1 x2 xX false 0 2 := by
+    unfold qciGr24PluckerMinor qciGr24BoundaryMatrix gr24HomogeneousVRC gr24RationalChartMatrix
+      VectorRelationConfiguration.boundaryMatrix plucker2x4Minor
+    dsimp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail]
+    calc
+      1 * 1 - -(x1 * xX) * 0 = xX * xX⁻¹ := by rw [mul_inv_cancel₀ hxX]; ring
+      _ = xX * (1 * xX⁻¹ - -x1 * 0) := by ring
+  have hp23_scale :
+      qciGr24PluckerMinor .complexHomogeneousVRC false x1 x2 xX false 2 3 =
+        xX * qciGr24PluckerMinor .plabicRationalChart false x1 x2 xX false 2 3 := by
+    unfold qciGr24PluckerMinor qciGr24BoundaryMatrix gr24HomogeneousVRC gr24RationalChartMatrix
+      VectorRelationConfiguration.boundaryMatrix plucker2x4Minor
+    dsimp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail]
+    have h_xx : xX * 1 = xX * (xX * xX⁻¹) := by rw [mul_inv_cancel₀ hxX]
+    calc
+      -(x1 * xX) * -x2 - -xX * 1 = xX * (x1 * x2) + xX * 1 := by ring
+      _ = xX * (x1 * x2) + xX * (xX * xX⁻¹) := by rw [h_xx]
+      _ = xX * (-x1 * -x2 - -xX * xX⁻¹) := by ring
+  refine ⟨by unfold qciRecommendBackend; simp,
+    by unfold qciRecommendBackend; simp,
+    pluckerQuadraticRelation2x4_eq_zero _,
+    by unfold qciGr24PluckerMinor qciGr24BoundaryMatrix gr24HomogeneousVRC gr24RationalChartMatrix VectorRelationConfiguration.boundaryMatrix plucker2x4Minor; rfl,
+    hp02_scale,
+    by unfold qciGr24PluckerMinor qciGr24BoundaryMatrix gr24HomogeneousVRC gr24RationalChartMatrix VectorRelationConfiguration.boundaryMatrix plucker2x4Minor; rfl,
+    by unfold qciGr24PluckerMinor qciGr24BoundaryMatrix gr24HomogeneousVRC gr24RationalChartMatrix VectorRelationConfiguration.boundaryMatrix plucker2x4Minor; dsimp; ring,
+    by unfold qciGr24PluckerMinor qciGr24BoundaryMatrix gr24HomogeneousVRC gr24RationalChartMatrix VectorRelationConfiguration.boundaryMatrix plucker2x4Minor; rfl,
+    hp23_scale,
+    by unfold qciGr24PluckerMinor qciGr24BoundaryMatrix gr24MutatedHomogeneousVRC VectorRelationConfiguration.boundaryMatrix plucker2x4Minor; dsimp; ring,
+    by unfold qciGr24PluckerMinor qciGr24BoundaryMatrix gr24MutatedHomogeneousVRC VectorRelationConfiguration.boundaryMatrix plucker2x4Minor; dsimp; ring,
+    by unfold qciGr24PluckerMinor qciGr24BoundaryMatrix gr24MutatedHomogeneousVRC VectorRelationConfiguration.boundaryMatrix plucker2x4Minor; dsimp; ring,
+    by unfold qciGr24PluckerMinor qciGr24BoundaryMatrix gr24HomogeneousVRC VectorRelationConfiguration.boundaryMatrix plucker2x4Minor; dsimp; ring,
+    by unfold qciGr24PluckerMinor qciGr24BoundaryMatrix gr24MutatedHomogeneousVRC VectorRelationConfiguration.boundaryMatrix plucker2x4Minor; dsimp; ring,
+    by unfold qciOptionalVrcJeffreyKinematicUpdate qciGr24UncrossedChannelA qciGr24UncrossedChannelB qciGr24PluckerMinor qciGr24BoundaryMatrix gr24HomogeneousVRC VectorRelationConfiguration.boundaryMatrix plucker2x4Minor quantumJeffreyPluckerKinematicUpdate qcdtPluckerInterferenceTerm; dsimp; simp only [mul_zero, zero_mul, sub_zero, neg_zero, Complex.zero_re, Complex.zero_im, add_zero],
+    by unfold qciOptionalVrcJeffreyKinematicUpdate qciGr24UncrossedChannelA qciGr24UncrossedChannelB qciGr24PluckerMinor qciGr24BoundaryMatrix gr24MutatedHomogeneousVRC VectorRelationConfiguration.boundaryMatrix plucker2x4Minor quantumJeffreyPluckerKinematicUpdate qcdtPluckerInterferenceTerm; dsimp; simp only [mul_zero, zero_mul, sub_zero, neg_zero, Complex.zero_re, Complex.zero_im, add_zero],
+    by unfold qciOptionalVrcGraphRAGScore qciOptionalVrcJeffreyKinematicUpdate qciGr24UncrossedChannelA qciGr24UncrossedChannelB qciGr24PluckerMinor qciGr24BoundaryMatrix gr24MutatedHomogeneousVRC VectorRelationConfiguration.boundaryMatrix plucker2x4Minor quantumJeffreyPluckerKinematicUpdate qcdtPluckerInterferenceTerm; dsimp; simp only [mul_zero, zero_mul, sub_zero, neg_zero, Complex.zero_re, Complex.zero_im, add_zero]⟩
+
 end
 
 end Signals.QuantumCausalInference

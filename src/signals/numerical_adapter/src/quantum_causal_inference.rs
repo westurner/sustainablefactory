@@ -1170,6 +1170,148 @@ pub fn diaconis_zabell_log_odds_update(l0: f64, dl1: f64, dl2: f64) -> f64 {
 }
 
 // ============================================================================
+// 8b. Optional Complex VRC vs. Plabic Parameterization for Grassmannian QCI
+// ============================================================================
+
+/// Selector for Grassmannian Quantum Causal Inference (`QCI`) parameterization
+/// (`Signals.QuantumCausalInference.GrassmannianCausalBackend`):
+/// - `PlabicRationalChart`: standard Postnikov Plabic boundary measurement chart (`x_X != 0`, `x_X != -1`).
+/// - `ComplexHomogeneousVrc`: homogeneous Complex Vector-Relation Configuration (`V K^T = 0`),
+///   which clears all `1/x_X` and `1/(1 + x_X)` denominators so on-shell destructive-interference
+///   and polariton resonance poles (`x_X = -1`, `x_X = 0`) remain regular points in `Gr_C(k, n)`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum GrassmannianCausalBackend {
+    PlabicRationalChart,
+    ComplexHomogeneousVrc,
+}
+
+/// Automatically recommends `ComplexHomogeneousVrc` whenever Complex Grassmannians (`is_complex = true`)
+/// or on-shell destructive-interference / polariton resonances (`has_resonance = true`) are present,
+/// and falls back to `PlabicRationalChart` otherwise (`Signals.QuantumCausalInference.qciRecommendBackend`).
+#[must_use]
+pub const fn qci_recommend_backend(
+    is_complex: bool,
+    has_resonance: bool,
+) -> GrassmannianCausalBackend {
+    if is_complex || has_resonance {
+        GrassmannianCausalBackend::ComplexHomogeneousVrc
+    } else {
+        GrassmannianCausalBackend::PlabicRationalChart
+    }
+}
+
+/// Evaluates the $2 \times 4$ boundary subspace matrix $C \in \mathbb{C}^{2 \times 4}$ on $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+/// under either `PlabicRationalChart` or `ComplexHomogeneousVrc`, with optional cluster square-move
+/// mutation (`mutated`) and Pearl $\operatorname{do}$-surgical backdoor severing (`do_sever_backdoor`, which sets $x_2 \mapsto 0$)
+/// (`Signals.QuantumCausalInference.qciGr24BoundaryMatrix`).
+#[must_use]
+pub fn qci_gr24_boundary_matrix(
+    backend: GrassmannianCausalBackend,
+    mutated: bool,
+    x1: crate::dft_plabic_vrc::C64,
+    x2: crate::dft_plabic_vrc::C64,
+    x_x: crate::dft_plabic_vrc::C64,
+    do_sever_backdoor: bool,
+) -> [[crate::dft_plabic_vrc::C64; 4]; 2] {
+    use crate::dft_plabic_vrc::{C64, ComplexPlabicVrc2x4};
+    let x2_eff = if do_sever_backdoor { C64::ZERO } else { x2 };
+    match (backend, mutated) {
+        (GrassmannianCausalBackend::PlabicRationalChart, false) => {
+            ComplexPlabicVrc2x4::rational_chart_matrix(x1, x2_eff, x_x)
+        }
+        (GrassmannianCausalBackend::PlabicRationalChart, true) => {
+            let (x1_m, x2_m, xx_m) = ComplexPlabicVrc2x4::cluster_mutation(x1, x2_eff, x_x);
+            ComplexPlabicVrc2x4::rational_chart_matrix(x1_m, x2_m, xx_m)
+        }
+        (GrassmannianCausalBackend::ComplexHomogeneousVrc, false) => {
+            ComplexPlabicVrc2x4::homogeneous(x1, x2_eff, x_x).vectors
+        }
+        (GrassmannianCausalBackend::ComplexHomogeneousVrc, true) => {
+            ComplexPlabicVrc2x4::mutated_homogeneous(x1, x2_eff, x_x).vectors
+        }
+    }
+}
+
+/// Evaluates the six $2 \times 2$ Plücker minors `(p12, p13, p14, p23, p24, p34)` of the $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+/// causal boundary matrix under the selected `GrassmannianCausalBackend`
+/// (`Signals.QuantumCausalInference.qciGr24PluckerMinor`).
+#[must_use]
+pub fn qci_gr24_plucker_minors(
+    backend: GrassmannianCausalBackend,
+    mutated: bool,
+    x1: crate::dft_plabic_vrc::C64,
+    x2: crate::dft_plabic_vrc::C64,
+    x_x: crate::dft_plabic_vrc::C64,
+    do_sever_backdoor: bool,
+) -> crate::dft_plabic_vrc::Plucker2x4 {
+    let mat = qci_gr24_boundary_matrix(backend, mutated, x1, x2, x_x, do_sever_backdoor);
+    crate::dft_plabic_vrc::Plucker2x4::from_matrix(&mat)
+}
+
+/// Evaluates the two uncrossed complex Plücker channels $w_A^{\mathbb{C}} = p_{12} p_{34}$ and
+/// $w_B^{\mathbb{C}} = p_{14} p_{23}$ under the selected `GrassmannianCausalBackend`
+/// (`Signals.QuantumCausalInference.qciGr24UncrossedChannelA`, `qciGr24UncrossedChannelB`).
+#[must_use]
+pub fn qci_gr24_uncrossed_channels(
+    backend: GrassmannianCausalBackend,
+    mutated: bool,
+    x1: crate::dft_plabic_vrc::C64,
+    x2: crate::dft_plabic_vrc::C64,
+    x_x: crate::dft_plabic_vrc::C64,
+    do_sever_backdoor: bool,
+) -> (crate::dft_plabic_vrc::C64, crate::dft_plabic_vrc::C64) {
+    let p = qci_gr24_plucker_minors(backend, mutated, x1, x2, x_x, do_sever_backdoor);
+    (p.p12 * p.p34, p.p14 * p.p23)
+}
+
+/// Evaluates the Quantum Lüders–Jeffrey Plücker kinematic update using the selected
+/// `GrassmannianCausalBackend` (`PlabicRationalChart` vs. `ComplexHomogeneousVrc`)
+/// (`Signals.QuantumCausalInference.qciOptionalVrcJeffreyKinematicUpdate`).
+#[must_use]
+pub fn qci_optional_vrc_jeffrey_kinematic_update(
+    backend: GrassmannianCausalBackend,
+    mutated: bool,
+    q1: f64,
+    q2: f64,
+    c1: f64,
+    c2: f64,
+    gamma_coh: f64,
+    x1: crate::dft_plabic_vrc::C64,
+    x2: crate::dft_plabic_vrc::C64,
+    x_x: crate::dft_plabic_vrc::C64,
+    do_sever_backdoor: bool,
+) -> f64 {
+    let (wa, wb) = qci_gr24_uncrossed_channels(backend, mutated, x1, x2, x_x, do_sever_backdoor);
+    quantum_jeffrey_plucker_kinematic_update(
+        q1, q2, c1, c2, gamma_coh, wa.re, wa.im, wb.re, wb.im,
+    )
+}
+
+/// Evaluates the Quantum Causal Semantic GraphRAG score using the selected
+/// `GrassmannianCausalBackend` (`PlabicRationalChart` vs. `ComplexHomogeneousVrc`)
+/// (`Signals.QuantumCausalInference.qciOptionalVrcGraphRAGScore`).
+#[must_use]
+pub fn qci_optional_vrc_graphrag_score(
+    backend: GrassmannianCausalBackend,
+    mutated: bool,
+    s_taut: f64,
+    q1: f64,
+    q2: f64,
+    c1_do: f64,
+    c2_do: f64,
+    gamma_coh: f64,
+    x1: crate::dft_plabic_vrc::C64,
+    x2: crate::dft_plabic_vrc::C64,
+    x_x: crate::dft_plabic_vrc::C64,
+    do_sever_backdoor: bool,
+) -> f64 {
+    let (wa, wb) = qci_gr24_uncrossed_channels(backend, mutated, x1, x2, x_x, do_sever_backdoor);
+    quantum_causal_graphrag_score(
+        s_taut, q1, q2, c1_do, c2_do, gamma_coh, wa.re, wa.im, wb.re, wb.im,
+    )
+}
+
+// ============================================================================
 // 9. WASM32 / C-ABI Exports
 // ============================================================================
 
@@ -1322,6 +1464,88 @@ pub extern "C" fn signals_partition_weighted_quantum_jeffrey_update(
 ) -> f64 {
     partition_weighted_quantum_jeffrey_update(
         q1, q2, c1, c2, gamma_coh, wa_re, wa_im, wb_re, wb_im,
+    )
+}
+
+/// C-ABI / WASM export: evaluates `qci_optional_vrc_jeffrey_kinematic_update`
+/// (`use_vrc != 0` selects `ComplexHomogeneousVrc`, `0` selects `PlabicRationalChart`).
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_qci_optional_vrc_jeffrey_kinematic_update(
+    use_vrc: i32,
+    mutated: i32,
+    q1: f64,
+    q2: f64,
+    c1: f64,
+    c2: f64,
+    gamma_coh: f64,
+    x1_re: f64,
+    x1_im: f64,
+    x2_re: f64,
+    x2_im: f64,
+    xx_re: f64,
+    xx_im: f64,
+    do_sever_backdoor: i32,
+) -> f64 {
+    use crate::dft_plabic_vrc::C64;
+    let backend = if use_vrc != 0 {
+        GrassmannianCausalBackend::ComplexHomogeneousVrc
+    } else {
+        GrassmannianCausalBackend::PlabicRationalChart
+    };
+    qci_optional_vrc_jeffrey_kinematic_update(
+        backend,
+        mutated != 0,
+        q1,
+        q2,
+        c1,
+        c2,
+        gamma_coh,
+        C64::new(x1_re, x1_im),
+        C64::new(x2_re, x2_im),
+        C64::new(xx_re, xx_im),
+        do_sever_backdoor != 0,
+    )
+}
+
+/// C-ABI / WASM export: evaluates `qci_optional_vrc_graphrag_score`
+/// (`use_vrc != 0` selects `ComplexHomogeneousVrc`, `0` selects `PlabicRationalChart`).
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_qci_optional_vrc_graphrag_score(
+    use_vrc: i32,
+    mutated: i32,
+    s_taut: f64,
+    q1: f64,
+    q2: f64,
+    c1_do: f64,
+    c2_do: f64,
+    gamma_coh: f64,
+    x1_re: f64,
+    x1_im: f64,
+    x2_re: f64,
+    x2_im: f64,
+    xx_re: f64,
+    xx_im: f64,
+    do_sever_backdoor: i32,
+) -> f64 {
+    use crate::dft_plabic_vrc::C64;
+    let backend = if use_vrc != 0 {
+        GrassmannianCausalBackend::ComplexHomogeneousVrc
+    } else {
+        GrassmannianCausalBackend::PlabicRationalChart
+    };
+    qci_optional_vrc_graphrag_score(
+        backend,
+        mutated != 0,
+        s_taut,
+        q1,
+        q2,
+        c1_do,
+        c2_do,
+        gamma_coh,
+        C64::new(x1_re, x1_im),
+        C64::new(x2_re, x2_im),
+        C64::new(xx_re, xx_im),
+        do_sever_backdoor != 0,
     )
 }
 
@@ -1812,5 +2036,99 @@ mod tests {
             + (child_minus.center[0] - splat_updated.center[0]).powi(2);
         let mixture_var = 0.5 * (mom2_plus + mom2_minus);
         assert!((mixture_var - splat_updated.sigma[0].powi(2)).abs() < 1e-12);
+
+        // 6. Optional Complex VRC vs. Plabic Parameterization (Master Theorem 9):
+        use crate::dft_plabic_vrc::C64;
+        assert_eq!(
+            qci_recommend_backend(false, false),
+            GrassmannianCausalBackend::PlabicRationalChart
+        );
+        assert_eq!(
+            qci_recommend_backend(true, false),
+            GrassmannianCausalBackend::ComplexHomogeneousVrc
+        );
+        assert_eq!(
+            qci_recommend_backend(false, true),
+            GrassmannianCausalBackend::ComplexHomogeneousVrc
+        );
+
+        let x1_c = C64::new(0.4, 0.3);
+        let x2_c = C64::new(0.7, -0.2);
+        let xx_c = C64::new(1.2, 0.5);
+        let p_plabic = qci_gr24_plucker_minors(
+            GrassmannianCausalBackend::PlabicRationalChart,
+            false,
+            x1_c,
+            x2_c,
+            xx_c,
+            false,
+        );
+        let p_vrc = qci_gr24_plucker_minors(
+            GrassmannianCausalBackend::ComplexHomogeneousVrc,
+            false,
+            x1_c,
+            x2_c,
+            xx_c,
+            false,
+        );
+        // Plücker quadratic identity holds for both backends:
+        assert!(p_plabic.quadratic_relation().abs() < 1e-12);
+        assert!(p_vrc.quadratic_relation().abs() < 1e-12);
+        // Minors involving column 2 (p13, p23, p34) scale by x_X; others (p12, p14, p24) are equal:
+        assert!((p_vrc.p12 - p_plabic.p12).abs() < 1e-12);
+        assert!((p_vrc.p14 - p_plabic.p14).abs() < 1e-12);
+        assert!((p_vrc.p24 - p_plabic.p24).abs() < 1e-12);
+        assert!((p_vrc.p13 - xx_c * p_plabic.p13).abs() < 1e-12);
+        assert!((p_vrc.p23 - xx_c * p_plabic.p23).abs() < 1e-12);
+        assert!((p_vrc.p34 - xx_c * p_plabic.p34).abs() < 1e-12);
+
+        // Both uncrossed channels w_A and w_B scale by x_X:
+        let (wa_plab, wb_plab) = qci_gr24_uncrossed_channels(
+            GrassmannianCausalBackend::PlabicRationalChart,
+            false,
+            x1_c,
+            x2_c,
+            xx_c,
+            false,
+        );
+        let (wa_vrc, wb_vrc) = qci_gr24_uncrossed_channels(
+            GrassmannianCausalBackend::ComplexHomogeneousVrc,
+            false,
+            x1_c,
+            x2_c,
+            xx_c,
+            false,
+        );
+        assert!((wa_vrc - xx_c * wa_plab).abs() < 1e-12);
+        assert!((wb_vrc - xx_c * wb_plab).abs() < 1e-12);
+
+        // At the on-shell polariton resonance x_X = -1, mutated ComplexHomogeneousVrc is completely pole-free:
+        let xx_res = C64::new(-1.0, 0.0);
+        let p_vrc_res = qci_gr24_plucker_minors(
+            GrassmannianCausalBackend::ComplexHomogeneousVrc,
+            true,
+            x1_c,
+            x2_c,
+            xx_res,
+            false,
+        );
+        assert!(p_vrc_res.quadratic_relation().abs() < 1e-12);
+        assert!((p_vrc_res.p12 - C64::ONE).abs() < 1e-12);
+        assert!((p_vrc_res.p13 - C64::ZERO).abs() < 1e-12);
+        assert!((p_vrc_res.p14 - x2_c).abs() < 1e-12);
+        assert!((p_vrc_res.p23 - (x2_c - x1_c)).abs() < 1e-12);
+        assert!((p_vrc_res.p24 - C64::ONE).abs() < 1e-12);
+        assert!((p_vrc_res.p34 - (x1_c * x2_c - x2_c * x2_c)).abs() < 1e-12);
+
+        // Pearl do-surgical severing (do_sever_backdoor = true) sets w_B = 0 and collapses to classical Jeffrey:
+        let q_vrc_do = signals_qci_optional_vrc_jeffrey_kinematic_update(
+            1, 1, q1, q2, c1_do, c2_do, 0.5, x1_c.re, x1_c.im, x2_c.re, x2_c.im, -1.0, 0.0, 1,
+        );
+        let score_vrc_do = signals_qci_optional_vrc_graphrag_score(
+            1, 1, s_taut, q1, q2, c1_do, c2_do, 0.5, x1_c.re, x1_c.im, x2_c.re, x2_c.im, -1.0, 0.0,
+            1,
+        );
+        assert!((q_vrc_do - q_do).abs() < 1e-12);
+        assert!((score_vrc_do - (s_taut + q_do)).abs() < 1e-12);
     }
 }

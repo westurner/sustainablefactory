@@ -458,9 +458,9 @@ range and composition laws.
 
 | Claim | Evidence status | Disposition |
 | --- | --- | --- |
-| CP decomposition represents a tensor as a sum of rank-one terms and ALS is a standard fitting method | Scholarly numerical method ([Kolda and Bader 2009](#kolda2009)) | Use a computed reconstruction residual and explicit stopping metadata. |
-| Density correlations can reveal analogue Hawking emission in a BEC sonic-horizon model | Scholarly numerical theory ([Carusotto et al. 2008](#carusotto2008)) | Relevant observable precedent; it does not validate the proposed decoder. |
-| Hawking/partner correlations and entanglement were reported in an atomic-BEC analogue black hole | Experimental claim ([Steinhauer 2016](#steinhauer2016)) | Analogue-gravity evidence only; it does not establish astrophysical decoding, iGPE inversion, iQFT hardware, or Amplituhedron constraints. |
+| CP decomposition represents a tensor as a sum of rank-one terms and ALS is a standard fitting method | Scholarly numerical method {cite:p}`kolda2009` | Use a computed reconstruction residual and explicit stopping metadata. |
+| Density correlations can reveal analogue Hawking emission in a BEC sonic-horizon model | Scholarly numerical theory {cite:p}`carusotto2008` | Relevant observable precedent; it does not validate the proposed decoder. |
+| Hawking/partner correlations and entanglement were reported in an atomic-BEC analogue black hole | Experimental claim {cite:p}`steinhauer2016` | Analogue-gravity evidence only; it does not establish astrophysical decoding, iGPE inversion, iQFT hardware, or Amplituhedron constraints. |
 | iGPE + iQFT + Amplituhedron-constrained ALS gives exact or rank-2 recovery | Proposal with low confidence ([source chat](../data/chats/Superfluid-Quantum-Gravity-and-Hawking-Radiation.md#L2451-L2540)) | Keep Pending. Require a specified solver, raw calibrated data, held-out controls, uncertainty, rank selection, and reproducible residuals. |
 
 ### Scholarly References

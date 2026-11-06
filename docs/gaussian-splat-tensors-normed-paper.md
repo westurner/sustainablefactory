@@ -58,7 +58,7 @@ We present a comprehensive mathematical and formal-verification treatise on **No
 
 ### 1.1 Why Normed Anisotropic Tensor Gaussian Splats?
 
-Standard visual 3D Gaussian Splatting ([Kerbl et al. 2023](#kerbl2023); [Zwicker et al. 2001](#zwicker2001)) treats each Gaussian primitive as an empirical radiance kernel optimized by stochastic gradient descent for novel-view synthesis, without enforcing $L^1$ mass/energy conservation, symplectic volume preservation, or quantum-hydrodynamic pressure balance. Conversely, in unified Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) mechanics ([Fedi 2026](#fedi2026); [Grassmannian Splat Mechanics Chat 2026](#splat-chat2026)), a **Normed Tensor Gaussian Splat** is a conservation-enforcing Lagrangian wavepacket primitive:
+Standard visual 3D Gaussian Splatting ({cite:p}`kerbl20233dgs`; {cite:p}`zwicker2001ewa`) treats each Gaussian primitive as an empirical radiance kernel optimized by stochastic gradient descent for novel-view synthesis, without enforcing $L^1$ mass/energy conservation, symplectic volume preservation, or quantum-hydrodynamic pressure balance. Conversely, in unified Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) mechanics ([Fedi 2026](#fedi2026); [Grassmannian Splat Mechanics Chat 2026](#splat-chat2026)), a **Normed Tensor Gaussian Splat** is a conservation-enforcing Lagrangian wavepacket primitive:
 
 ```{mermaid}
 flowchart TD
