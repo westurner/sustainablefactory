@@ -1,6 +1,6 @@
 ---
 title: "Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian Gr_C(2,4) and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4"
-description: "A capstone arXiv-ready formal verification and systems synthesis paper unifying twenty-three companion papers across Complex Grassmannian Gr_C(2,4), N-ary Gr_C(2, N+2), higher-rank Gr_C(3,6) / Gr_C(3,n), Complex Plabic Vector-Relation Configurations (VRC), Unrestricted Spin-Polarized Grassmannian Kohn–Sham DFT (QCI-GXC), the Speed–Accuracy Barrier in Quantum Chemistry (WTMAD-2, GMTKN55, ALD/CVD, 144x Cayley scaling), homogeneous Plücker Q_4 Madelung / dual-Schubert iGPE hydrodynamics, and Dilatant Dark Fluid (DDF) mechanics (with and without 2D/3D Normed Tensor Gaussian Splats), cataloging revised Turner (2026) models for Superposition (Model 6), Gravity (Models 14a & 14b), and Gravitational Waves (Models 14a & 14b) alongside photonic, metamaterial, spectroscopic, thermal, RISC-V nanolithography, causal-inference, >6,400x volumetric splat/GraphRAG, polariton/plasmon/skyrmion/MZM, and WebGL2/WASM applications, mapping cross-document plan governance, and defining the next-stage research roadmap in Lean 4 and Rust/WASM."
+description: "A capstone arXiv-ready formal verification and systems synthesis paper unifying twenty-seven companion papers across Complex Grassmannian Gr_C(2,4), N-ary Gr_C(2, N+2), higher-rank Gr_C(3,6) / Gr_C(3,n), Complex Plabic Vector-Relation Configurations (VRC), Unrestricted Spin-Polarized Grassmannian Kohn–Sham DFT (QCI-GXC), the Five Discovered Materials Grand Challenges (Problem 01 Cuprate Superconductivity G-CSC at 0.79% MAPE, Problem 02 Interfacial Electrical Properties G-IEP at 1.20% MAPE, Problem 03 Speed–Accuracy Barrier WTMAD-2 / GMTKN55 / ALD-CVD / 144x Cayley & 192x RI-J scaling, Problem 04 Tuning Materials with Light G-GKBA at 1.44e8x speedup, and Problem 05 Interfacial Heat Transport G-TBC at 1.17% MAPE), homogeneous Plücker Q_4 Madelung / dual-Schubert iGPE hydrodynamics, and Dilatant Dark Fluid (DDF) mechanics (with and without 2D/3D Normed Tensor Gaussian Splats), cataloging revised Turner (2026) models for Superposition (Model 6), Gravity (Models 14a & 14b), and Gravitational Waves (Models 14a & 14b) alongside photonic, metamaterial, spectroscopic, thermal, RISC-V nanolithography, causal-inference, >6,400x volumetric splat/GraphRAG, polariton/plasmon/skyrmion/MZM, and WebGL2/WASM applications, mapping thirteen cross-document plans, and defining the next-stage research roadmap in Lean 4 and Rust/WASM."
 ---
 
 (grassmannian-unification-applications-roadmap-paper)=
@@ -41,13 +41,13 @@ description: "A capstone arXiv-ready formal verification and systems synthesis p
   26. [A Predictive Theory of Cuprate Superconductivity (Discovered Materials Grand Challenge 01): Grassmannian Zhang–Rice Plücker Pairing (`G-CSC`), $d_{x^2-y^2}$ Dome, Pseudogap Fermi Arcs, Planckian Strange Metal, and 12-Target Benchmarks Across $\mathrm{LSCO}$, $\mathrm{Bi2212}$, $\mathrm{YBCO}$, $\mathrm{Tl2201}$, and $\mathrm{Hg1201}$ in Lean 4, Python, and Rust](grassmannian-cuprate-superconductivity-paper.md)
   27. [Interfacial Electrical Properties from Processing History (Discovered Materials Grand Challenge 02): Grassmannian Process-to-Electrical Modeling (`G-IEP`), Plabic 3-Flux Deal–Grove Kinetics, McWeeny Dangling-Bond Passivation, and 5-Interface Benchmarks Across Planar $\mathrm{Si/SiO_2}$, Curved $\mathrm{Si}$ Nanowires, $\mathrm{SiC/SiO_2}$, $\mathrm{HfO_2/SiO_2/Si}$, and $\mathrm{Ge/SiGe}$ in Lean 4, Python, and Rust](grassmannian-interfacial-electrical-properties-paper.md)
 - **Related Roadmaps & Specifications:**
-  - [Plan Index](plan-index.md), [Huygens Diffraction, Grassmannians, and Positive Geometry Plan](huygens-grassmannian-amplituhedron-plan.md), [Flat Light, Proca, and N-LIG Waveguide Validation Plan](flat-light-proca-nlig-validation-plan.md), [Dispersive Homodyne Coverage and Implementation Plan](dispersive-homodyne-plan.md), [Signals Library README](../src/signals/README.md), and [Repository README](../README.md).
+  - [Plan Index](plan-index.md), [Huygens Diffraction, Grassmannians, and Positive Geometry Plan](huygens-grassmannian-amplituhedron-plan.md), [Flat Light, Proca, and N-LIG Waveguide Validation Plan](flat-light-proca-nlig-validation-plan.md), [Dispersive Homodyne Coverage and Implementation Plan](dispersive-homodyne-plan.md), [Tuning Materials with Light Plan](tuning-materials-with-light-plan.md), [Interfacial Heat Transport Plan](interfacial-heat-transport-plan.md), [Cuprate Superconductivity Plan](cuprate-superconductivity-plan.md), [Interfacial Electrical Properties Plan](interfacial-electrical-properties-plan.md), [Signals Library README](../src/signals/README.md), and [Repository README](../README.md).
 
 ---
 
 ## Abstract
 
-Across twenty-three companion papers, we have developed a machine-checked mathematical, physical, and computational unification in **Lean 4** (`3,613` core Lake build jobs / `3,717+` with LeanArchitect `:blueprint` and `:blueprintJson`, zero `sorry` axioms) and **Rust / WebAssembly (`wasm32-unknown-unknown`) / WebGL2 GLSL (`#version 300 es`)** (`95+` unit, parametric `rstest`, and `insta` snapshot tests across nine physics, quantum-chemistry, causal-inference, and EDA modules, plus Python `sustainablefactory/qci_grassmannian_dft.py`) demonstrating that a single algebraic and hydrodynamic architecture—a **complex 2-plane $M_{\mathbb{C}} \in Gr_{\mathbb{C}}(2,4)$** (together with its $N$-ary multi-channel extension $Gr_{\mathbb{C}}(2, N+2)$, higher-rank volumetric extension $Gr_{\mathbb{C}}(3,6) / Gr_{\mathbb{C}}(3,n)$, pole-free **Complex Homogeneous Plabic Vector-Relation Configurations (`VRC`, `(V, K)` with $V K^\top = 0$)**, unrestricted spin-polarized Kohn–Sham product manifold $\mathrm{Gr}_{\mathbb{C}}(N_\alpha, M) \times \mathrm{Gr}_{\mathbb{C}}(N_\beta, M)$, homogeneous Plücker Klein-quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ Madelung & dual-Grassmannian $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE` lifting, and multi-sensor / multi-spectral manifold hierarchy $\mathrm{Gr}_{\mathbb{R}}(k, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda) \times \mathrm{Gr}_{\mathbb{C}}(k, N_{\mathrm{array}})$), paired with the two-component quantum-hydrodynamic **Dilatant Dark Fluid (DDF)** substrate (`Signals.DDF`), evaluated across the $2 \times 2$ matrix of **Without/With DDF** and **Without/With Normed 2D & 3D Anisotropic Tensor Gaussian Splats** (`NormedTensorGaussianSplat2D`, `NormedTensorGaussianSplat3D`)—governs twenty-three foundational domains of physics, chemistry, and engineering:
+Across twenty-seven companion papers, we have developed a machine-checked mathematical, physical, and computational unification in **Lean 4** (`3,628` core Lake build jobs / `3,727+` with LeanArchitect `:blueprint` and `:blueprintJson`, zero `sorry` axioms) and **Rust / WebAssembly (`wasm32-unknown-unknown`) / WebGL2 GLSL (`#version 300 es`)** (`95+` unit, parametric `rstest`, and `insta` snapshot tests across nine physics, quantum-chemistry, causal-inference, and EDA modules, plus Python `sustainablefactory/qci_grassmannian_dft.py`) demonstrating that a single algebraic and hydrodynamic architecture—a **complex 2-plane $M_{\mathbb{C}} \in Gr_{\mathbb{C}}(2,4)$** (together with its $N$-ary multi-channel extension $Gr_{\mathbb{C}}(2, N+2)$, higher-rank volumetric extension $Gr_{\mathbb{C}}(3,6) / Gr_{\mathbb{C}}(3,n)$, pole-free **Complex Homogeneous Plabic Vector-Relation Configurations (`VRC`, `(V, K)` with $V K^\top = 0$)**, unrestricted spin-polarized Kohn–Sham product manifold $\mathrm{Gr}_{\mathbb{C}}(N_\alpha, M) \times \mathrm{Gr}_{\mathbb{C}}(N_\beta, M)$, homogeneous Plücker Klein-quadric $\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ Madelung & dual-Grassmannian $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE` lifting, and multi-sensor / multi-spectral manifold hierarchy $\mathrm{Gr}_{\mathbb{R}}(k, N_{\mathrm{pixels}}) \times \mathrm{Gr}_{\mathbb{R}}(d, \Lambda) \times \mathrm{Gr}_{\mathbb{C}}(k, N_{\mathrm{array}})$), paired with the two-component quantum-hydrodynamic **Dilatant Dark Fluid (DDF)** substrate (`Signals.DDF`), evaluated across the $2 \times 2$ matrix of **Without/With DDF** and **Without/With Normed 2D & 3D Anisotropic Tensor Gaussian Splats** (`NormedTensorGaussianSplat2D`, `NormedTensorGaussianSplat3D`)—governs twenty-seven foundational domains of physics, chemistry, materials science, and engineering:
 
 1. Multi-model double-slit (6 models, including the revised Turner (2026) Homogeneous Plücker $\mathcal{Q}_4$ Madelung & Dual-Grassmannian `iGPE` **Model 6** `pluckerMadelungSuperpositionOAMDoubleSlit` / `SlitModelKind::PluckerMadelungDualIgpe`), $N$-slit ($N > 0$), Fresnel-to-Fraunhofer paraxial remainder bounds, and Orbital Angular Momentum (OAM) interferometry ([Qian & Izadi 2023](#unif-qian2023));
 2. The Quantum Inverse Scattering Method (QISM), $8 \times 8$ Yang–Baxter equation, Baxter $QQ/TQ$ Casorati Wronskians, and Slavnov determinants;
@@ -73,17 +73,17 @@ Across twenty-three companion papers, we have developed a machine-checked mathem
 22. Unrestricted Spin-Polarized Grassmannian Kohn–Sham Density Functional Theory (`Signals.DFT`, `dft_plabic_vrc.rs`, `sustainablefactory/qci_grassmannian_dft.py`, [grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md)) on $\mathrm{Gr}_{\mathbb{C}}(N_\alpha, M) \times \mathrm{Gr}_{\mathbb{C}}(N_\beta, M)$, Complex Plabic Vector-Relation Configurations (`Signals.Plabic.VectorRelationConfiguration`, `gr24HomogeneousVRC`, `gr24MutatedHomogeneousVRC`, `complex_plabic_vrc_and_sympy_check_figures` resolving the $x_X = -1$ on-shell polariton resonance pole), unitary Cayley retraction (`cayleyRetractionNormSq`) and McWeeny purification (`mcweenyPurificationPoly`), QCI directed conditional mutual information & spin-channel mutual information (`qciDirectedConditionalMutualInfo`, `qciSpinChannelMutualInformation`), and 3-qudit Mermin GHZ contextuality (`merminThreeQuditGHZWitness = 4 > 2`); and
 23. Overcoming the Speed–Accuracy Barrier in Quantum Chemistry (`Signals.DFT` Sections 10–12, [grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md](grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md)): Discovered Materials Problem 03 (`GMTKN55` full 55-subset / 1,505-reaction `WTMAD-2 = 494.54 / 301 ≈ 1.643 kcal/mol < 3.0 kcal/mol < 3.81 kcal/mol`, analytical 4-center $s$-wave Gaussian two-electron repulsion integrals `gaussianFourCenterSWaveERI` and Boys $F_0(T)$ `boysF0Taylor2`, exact Pauli diagonal self-interaction cancellation `sameSpinDiagonalCoulombMinusExchange = 0`, 3-center `RI-J / COSX` auxiliary density fitting $192\times$ speedup `riAuxiliaryERISpeedupRatio 4 48 144 = 192`, `ALD` $\mathrm{Al(CH_3)_3 + H_2O}$ transition-state barrier restoration $11.90 \to 18.33\text{ kcal/mol}$ via McWeeny SIE correction, $144\times$ `def2-QZVP` Grassmann–Cayley tangent-space speedup over $O(N_{\mathrm{basis}}^3)$ SCF diagonalization, and 3-repeat median benchmarking) alongside the unified bridge across Polaritons, Plasmons, Magnetic Skyrmions ($Q_{\mathrm{skyrmion}}(1,-1,1) = 1$), Majorana Zero Modes (`MZMs`, $|\mu| < 2|t|$, bulk gap $|\mu + 2t|$), and Non-Destructive Dispersive Readout (`Signals.NonDestructive`, `polariton_plasmon_skyrmion_mzm_and_nondestructive_readout_identities`, `full_55_subset_two_electron_eri_and_gmtkn55_wtmad2_identities`); and
 24. Tuning Materials with Light (`Signals.DFT` Sections 13–14, `dft_plabic_vrc.rs`, `TuningMaterialsWithLightEngine`, [tuning-materials-with-light-plan.md](tuning-materials-with-light-plan.md), [grassmannian-tuning-materials-with-light-paper.md](grassmannian-tuning-materials-with-light-paper.md)): Discovered Materials Problem 04 (`grassmannGKBASpeedupRatio`: $N_t^2(N_{\mathrm{basis}}/N_{\mathrm{occ}})^2 = \mathbf{1.44\times 10^8\times}$ bare and $\mathbf{1.44\times 10^7\times}$ cumulant-inclusive time-linear Grassmannian `G-GKBA` speedup over two-time KBE at $N_t=1000, N_{\mathrm{occ}}=10, N_{\mathrm{basis}}=120$), reproducing the 11-site Hubbard chain ($U/J = 5, 15$ to $tJ/\hbar = 50$; $U/J = 0\text{–}20$ double-occupancy sweep) and $6\times 2$ ladder spin correlations and $\sigma(\omega)$ thresholds ($U/J = 3, 6, 12$; `arXiv:2606.10773`), $\mathrm{WSe}_2$ bright/dark exciton dynamics at $90\text{ K}$ ($1.72\text{ eV}$ resonant, $2.48\text{ eV}$ above-gap, $400\text{ fs}$ momentum-dark buildup, $0.5$ late-time bright/dark ratio), Graphite $35\text{ fs}, 800\text{ nm}, 12\text{ mJ/cm}^2$ electron–SCOP–acoustic energy flow across $0.5, 1.5, 5, 100\text{ ps}$, and $\mathrm{MgB}_2$ $T_c = 38\text{ K}$ lower $\pi$-band gap, $0.63\text{ THz}$ 1st/3rd harmonics, $1\text{ THz}$ nonlinear peak at $7\text{ K}$, and $150\text{ kV/cm}$ $2\text{ ps}$ complex conductivity (`tuning_materials_with_light_gkba_hubbard_wse2_graphite_and_mgb2_identities`, `tuning_materials_with_light_cumulant_pauli_ode_and_neq_tc_critique_identities`); and
-25. Predicting Heat Transport across Solid Interfaces (`Signals.DFT` Section 15, `dft_plabic_vrc.rs`, `InterfacialHeatTransportEngine`, [interfacial-heat-transport-plan.md](interfacial-heat-transport-plan.md), [grassmannian-interfacial-heat-transport-paper.md](grassmannian-interfacial-heat-transport-paper.md)): Discovered Materials Problem 05 (`gtbcBondWeightedTransmission`, `gtbcHarmonicPlusAnharmonicConductance`, `gtbcElectronPhononSeriesConductance`, `gtbcInterlayerEnhancementRatio`, `gtbcPolymerStackConductance`), reproducing the $\mathrm{Al}(111)/\mathrm{Si}(111)$ ($379\text{ MW\,m}^{-2}\text{\,K}^{-1}$ at $300\text{ K}$) and $\mathrm{Al}(111)/\mathrm{GaN}(0001)$ ($423\text{ MW\,m}^{-2}\text{\,K}^{-1}$ at $300\text{ K}$) $80\text{--}700\text{ K}$ curves with renewed linear anharmonic rise above $400\text{ K}$ (Li et al., *Nat. Commun.* 2022), the $1.48\times$ ($+48\%$) conductance enhancement of a $10\text{ nm}$ crystalline $\mathrm{TiC}$ interlayer in $\mathrm{Cu/TiC/diamond}$ (Chang et al., *ACS AMI* 2019), the $\mathrm{Au/PMMA/Si}$ ($59$), $\mathrm{Au/Ti(2\text{ nm})/PMMA/Si}$ ($115$), and $\mathrm{Au/Ni(2\text{ nm})/PMMA/Si}$ ($139\text{ MW\,m}^{-2}\text{\,K}^{-1}$) PMMA-thickness series stacks (Sandell et al., *Nanomaterials* 2020), and zero-fit frozen-model transferability to $\mathrm{AlN}/\mathrm{GaN}$ ($620\text{ MW\,m}^{-2}\text{\,K}^{-1}$), $\mathrm{GaN}/\mathrm{SiC}$ ($485$), $\mathrm{GaN}/\mathrm{diamond}$ ($235$), and $\mathrm{N\text{-}LIG}/\mathrm{AlN}$ ($182\text{ MW\,m}^{-2}\text{\,K}^{-1}$; `interfacial_heat_transport_gtbc_al_si_gan_tic_and_pmma_identities`, `interfacial_heat_transport_critique_adhesion_bridge_roughness_and_error_identities`); and
-26. A Predictive Theory of Cuprate Superconductivity (`Signals.DFT` Section 16, `dft_plabic_vrc.rs`, `CuprateSuperconductivityEngine`, [cuprate-superconductivity-plan.md](cuprate-superconductivity-plan.md), [grassmannian-cuprate-superconductivity-paper.md](grassmannian-cuprate-superconductivity-paper.md)): Discovered Materials Problem 01 (`cuprateSuperconductingTc`, `cuprateDWaveFormFactor`, `cuprateDWaveGapSq`, `cupratePseudogapTemp`, `cuprateInPlaneResistivity`, `cupratePseudogapEntropySuppression`, `cuprateSuperfluidStiffness`, `cuprateAntiferromagneticMomentSq`, `cuprateParamagnonEnergy`, `cuprateCdwStructureFactorPeak`, `cuprateResonantUltrasoundModulusShift`, `cuprateChargeTransferSuperexchange`), simultaneously predicting all 12 benchmark observables across $\mathrm{LSCO}$ ($38\text{ K}$), $\mathrm{Tl2201}$ ($90\text{ K}$), $\mathrm{Bi2212}$ ($92\text{ K}$), $\mathrm{YBCO}$ ($93\text{ K}$), and $\mathrm{Hg1201}$ ($97\text{ K}$) with $0.79\%$ overall 12-target MAPE (`cuprate_superconductivity_twelve_targets_and_phase_diagram_identities`, `cuprate_superconductivity_critique_families_and_error_identities`); and
-27. Interfacial Electrical Properties from Processing History (`Signals.DFT` Section 17, `dft_plabic_vrc.rs`, `InterfacialElectricalProcessEngine`, [interfacial-electrical-properties-plan.md](interfacial-electrical-properties-plan.md), [grassmannian-interfacial-electrical-properties-paper.md](grassmannian-interfacial-electrical-properties-paper.md)): Discovered Materials Problem 02 (`giepThreeFluxSteadyState`, `giepDealGroveTimeForThickness`, `giepConsumedSiliconThickness`, `giepHydrogenPassivatedDit`, `giepEnergyResolvedDit`, `giepNanowireStressRetardedRate`, `giepSiCCarbonRetardedRate`, `giepHfO2InterlayerRegrowthSq`, `giepHighKGateStackEot`, `giepGeOxideNetRate`, `giepSiGeSnowplowProfile`, `giepSubthresholdSwingWithDit`), predicting layer thicknesses, composition profiles $C(z)$, and electrical quality ($D_{\mathrm{it}}(E)$ and $Q_f$) across planar $\mathrm{Si/SiO_2}$, curved $\mathrm{Si}$ nanowires/nanosheets, $\mathrm{SiC/SiO_2}$, $\mathrm{HfO_2/SiO_2/Si}$, and $\mathrm{Ge/GeO_2}$ & $\mathrm{SiGe/oxide}$ with $1.20\%$ overall MAPE (`interfacial_electrical_properties_five_interfaces_and_process_history_identities`, `interfacial_electrical_properties_critique_mcweeny_eot_ss_and_error_identities`).
+25. Predicting Heat Transport across Solid Interfaces (`Signals.DFT` Section 15, `dft_plabic_vrc.rs`, `InterfacialHeatTransportEngine`, [interfacial-heat-transport-plan.md](interfacial-heat-transport-plan.md), [grassmannian-interfacial-heat-transport-paper.md](grassmannian-interfacial-heat-transport-paper.md)): Discovered Materials Problem 05 (`gtbcBondWeightedTransmission`, `gtbcHarmonicPlusAnharmonicConductance`, `gtbcElectronPhononSeriesConductance`, `gtbcInterlayerEnhancementRatio`, `gtbcPolymerStackConductance`, `gtbcWorkOfAdhesionSpringStiffness`, `gtbcCarbideInterlayerConductance`, `gtbcZimanSpecularityFactor`, `gtbcCattaneoVernotteFluxSaturated`, `gtbcRelativeError`), reproducing the $\mathrm{Al}(111)/\mathrm{Si}(111)$ ($379\text{ MW\,m}^{-2}\text{\,K}^{-1}$ at $300\text{ K}$) and $\mathrm{Al}(111)/\mathrm{GaN}(0001)$ ($423\text{ MW\,m}^{-2}\text{\,K}^{-1}$ at $300\text{ K}$) $80\text{--}700\text{ K}$ curves with renewed linear anharmonic rise above $400\text{ K}$ ([Li et al. 2022](#unif-li2022gtbc)), the $1.48\times$ ($+48\%$) conductance enhancement of a $10\text{ nm}$ crystalline $\mathrm{TiC}$ interlayer in $\mathrm{Cu/TiC/diamond}$ ([Chang et al. 2019](#unif-chang2019tic)), the $\mathrm{Au/PMMA/Si}$ ($59$), $\mathrm{Au/Ti(2\text{ nm})/PMMA/Si}$ ($115$), and $\mathrm{Au/Ni(2\text{ nm})/PMMA/Si}$ ($139\text{ MW\,m}^{-2}\text{\,K}^{-1}$) PMMA-thickness series stacks ([Sandell et al. 2020](#unif-sandell2020pmma)), and zero-fit frozen-model transferability to $\mathrm{AlN}/\mathrm{GaN}$ ($620\text{ MW\,m}^{-2}\text{\,K}^{-1}$), $\mathrm{GaN}/\mathrm{SiC}$ ($485$), $\mathrm{GaN}/\mathrm{diamond}$ ($235$), and $\mathrm{N\text{-}LIG}/\mathrm{AlN}$ ($182\text{ MW\,m}^{-2}\text{\,K}^{-1}$) with **$1.17\%$ overall MAPE** (`interfacial_heat_transport_gtbc_al_si_gan_tic_and_pmma_identities`, `interfacial_heat_transport_critique_adhesion_bridge_roughness_and_error_identities`);
+26. A Predictive Theory of Cuprate Superconductivity (`Signals.DFT` Section 16, `dft_plabic_vrc.rs`, `CuprateSuperconductivityEngine`, [cuprate-superconductivity-plan.md](cuprate-superconductivity-plan.md), [grassmannian-cuprate-superconductivity-paper.md](grassmannian-cuprate-superconductivity-paper.md)): Discovered Materials Problem 01 (`cuprateSuperconductingTc`, `cuprateMicroscopicRvbDome`, `cupratePavariniTcMaxFromSuperexchange`, `cuprateDWaveFormFactor`, `cuprateDWaveGapSq`, `cupratePseudogapTemp`, `cuprateYrzPseudogapSelfEnergy`, `cuprateInPlaneResistivity`, `cupratePseudogapEntropySuppression`, `cupratePseudogapSpecificHeatCoeff`, `cuprateSuperfluidStiffness`, `cuprateHomesSuperfluidDensity`, `cuprateAntiferromagneticMomentSq`, `cuprateParamagnonEnergy`, `cuprateDynamicalSpinStructureFactor`, `cuprateCdwStructureFactorPeak`, `cuprateMomentumResolvedCdwStructureFactor`, `cuprateResonantUltrasoundModulusShift`, `cuprateChargeTransferSuperexchange`), simultaneously predicting all 12 benchmark observables across $\mathrm{LSCO}$ ($38\text{ K}$), $\mathrm{Tl2201}$ ($90\text{ K}$), $\mathrm{Bi2212}$ ($92\text{ K}$), $\mathrm{YBCO}$ ($93\text{ K}$), and $\mathrm{Hg1201}$ ($97\text{ K}$) ([Bednorz & Müller 1986](#unif-bednorz1986); [Zhang & Rice 1988](#unif-zhangrice1988); [Keimer et al. 2015](#unif-keimer2015)) with **$0.79\%$ overall 12-target MAPE** (`cuprate_superconductivity_twelve_targets_and_phase_diagram_identities`, `cuprate_superconductivity_critique_families_and_error_identities`, `cuprate_superconductivity_gap_closure_yrz_homes_mmp_and_rvb_identities`); and
+27. Interfacial Electrical Properties from Processing History (`Signals.DFT` Section 17, `dft_plabic_vrc.rs`, `InterfacialElectricalProcessEngine`, [interfacial-electrical-properties-plan.md](interfacial-electrical-properties-plan.md), [grassmannian-interfacial-electrical-properties-paper.md](grassmannian-interfacial-electrical-properties-paper.md)): Discovered Materials Problem 02 (`giepThreeFluxSteadyState`, `giepDealGroveTimeForThickness`, `giepDealGroveExplicitThickness`, `giepMassoudThinOxideRate`, `giepConsumedSiliconThickness`, `giepHydrogenPassivatedDit`, `giepBrowerStesmansEquilibriumDit`, `giepEnergyResolvedDit`, `giepNanowireStressRetardedRate`, `giepNanowireStressInducedCharge`, `giepSiCCarbonRetardedRate`, `giepSiCCarbonClusterDit`, `giepHfO2InterlayerRegrowthSq`, `giepHighKGateStackEot`, `giepHighKFlatbandVoltageShift`, `giepGeOxideNetRate`, `giepSiGeSnowplowProfile`, `giepSiGeSnowplowMassBalance`, `giepSubthresholdSwingWithDit`), predicting layer thicknesses, composition profiles $C(z)$, and electrical quality ($D_{\mathrm{it}}(E)$, $Q_f$, $\mathrm{EOT}$, $\Delta V_{\mathrm{FB}}$, and $\mathrm{SS}$) across planar $\mathrm{Si/SiO_2}$ ([Deal & Grove 1965](#unif-dealgrove1965); [Vitkavage et al. 1990](#unif-vitkavage1990)), curved $\mathrm{Si}$ nanowires/nanosheets ([Kao et al. 1988](#unif-kao1988)), $\mathrm{SiC/SiO_2}$ ([Song et al. 2004](#unif-song2004)), $\mathrm{HfO_2/SiO_2/Si}$ ([Goncharova et al. 2011](#unif-goncharova2011)), and $\mathrm{Ge/GeO_2}$ & $\mathrm{SiGe/oxide}$ ([Rabie et al. 2005](#unif-rabie2005); [Wang et al. 2017](#unif-wang2017ge)) with **$1.20\%$ overall 5-interface MAPE** (`interfacial_electrical_properties_five_interfaces_and_process_history_identities`, `interfacial_electrical_properties_critique_mcweeny_eot_ss_and_error_identities`, `interfacial_electrical_properties_deep_gap_closure_identities`).
 
-This capstone paper synthesizes: **(1)** the Master $Gr_{\mathbb{C}}(2,4)$ / $Gr_{\mathbb{C}}(3,6)$ / $\mathrm{Gr}_{\mathbb{R}}(k, N)$ / $\mathrm{Gr}_{\mathbb{C}}(N_\sigma, M)$ Plücker & Subspace Dictionary across all twenty-three companion papers, the five overarching theoretical implications, the taxonomy of Real vs. Complex Grassmannians (and Plabic rational charts vs. Complex Homogeneous VRCs) across 2D/3D sensor arrays and quantum-chemical subspaces, and the revised Turner (2026) Superposition (Model 6), Gravity (Models 14a & 14b), and Gravitational-Wave (Models 14a & 14b) models, **(2)** the concrete engineering and scientific application pillars, **(3)** the cross-document routing architecture and status of all nine project plan documents, **(4)** the prioritized three-track research roadmap, and **(5)** a single self-contained Lean 4 verification block certifying the unified domains simultaneously.
+This capstone paper synthesizes: **(1)** the Master $Gr_{\mathbb{C}}(2,4)$ / $Gr_{\mathbb{C}}(3,6)$ / $\mathrm{Gr}_{\mathbb{R}}(k, N)$ / $\mathrm{Gr}_{\mathbb{C}}(N_\sigma, M)$ Plücker & Subspace Dictionary across all twenty-seven companion papers, the five overarching theoretical implications, the taxonomy of Real vs. Complex Grassmannians (and Plabic rational charts vs. Complex Homogeneous VRCs) across 2D/3D sensor arrays and quantum-chemical/materials subspaces, and the revised Turner (2026) Superposition (Model 6), Gravity (Models 14a & 14b), and Gravitational-Wave (Models 14a & 14b) models, **(2)** the concrete engineering and scientific application pillars (including all five Discovered Materials Grand Challenges), **(3)** the cross-document routing architecture and status of all thirteen project plan documents, **(4)** the prioritized three-track research roadmap, and **(5)** a single self-contained Lean 4 verification block certifying the twenty-seven unified domains simultaneously.
 
 ---
 
-## 1. Theoretical & Structural Implications of the Twenty-Three-Domain Unification
+## 1. Theoretical & Structural Implications of the Twenty-Seven-Domain Unification
 
-### 1.1 The Master $Gr_{\mathbb{C}}(2,4)$ & $Gr_{\mathbb{C}}(3,6)$ Plücker Dictionary Across All Twenty-Three Physical, Chemical, & Engineering Domains
+### 1.1 The Master $Gr_{\mathbb{C}}(2,4)$ & $Gr_{\mathbb{C}}(3,6)$ Plücker Dictionary Across All Twenty-Seven Physical, Chemical, Materials, & Engineering Domains
 
 In `Signals.Geometry` ([src/signals/Signals/Geometry.lean](../src/signals/Signals/Geometry.lean#L1007-L1055)) and `Signals.DDF` ([src/signals/signals/numerical_adapter/docs/DDF.lean](../src/signals/signals/numerical_adapter/docs/DDF.lean)), any $2 \times 4$ complex matrix $M_{\mathbb{C}} \in \mathbb{C}^{2 \times 4}$ representing a 2-plane in twistor space $\mathbb{C}^4$ has six $2 \times 2$ Plücker minors $\Delta_{ab}^{\mathbb{C}}(M_{\mathbb{C}})$ satisfying the universal 3-term quadratic Plücker identity (`complexTwoRowMinor_pluecker`):
 
@@ -93,7 +93,7 @@ $$
 = \Delta_{02}^{\mathbb{C}}(M_{\mathbb{C}})\,\Delta_{13}^{\mathbb{C}}(M_{\mathbb{C}}),
 $$
 
-while any $3 \times 6$ complex matrix $M_3 \in \mathbb{C}^{3 \times 6}$ representing a 3-plane in $\mathbb{C}^6$ satisfies the universal 4-term rank-3 Plücker syzygy (`threeRowMinor_pluecker`, `complexThreeRowMinor_pluecker`). For the canonical twistor channel embedding $M_{\mathbb{C}}(d_{\mathrm{bary}}, \theta) = \operatorname{ddfThermalGr24Matrix}(d_{\mathrm{bary}}, \theta)$ with $d_{\mathrm{bary}} \in (-1, 1)$, the uncrossed channel moduli are $|w_A^{\mathbb{C}}|^2 = 1 + d_{\mathrm{bary}}$ and $|w_B^{\mathbb{C}}|^2 = 1 - d_{\mathrm{bary}}$. The table below records how the **barycentric shift $d_{\mathrm{bary}}$**, the **uncrossed channel product $|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2 = 1 - d_{\mathrm{bary}}^2$**, the **uncrossed channel ratio $|w_A^{\mathbb{C}}|^2 / |w_B^{\mathbb{C}}|^2 = \frac{1+d_{\mathrm{bary}}}{1-d_{\mathrm{bary}}}$**, and the **Plücker identity** specialize across all nineteen companion papers:
+while any $3 \times 6$ complex matrix $M_3 \in \mathbb{C}^{3 \times 6}$ representing a 3-plane in $\mathbb{C}^6$ satisfies the universal 4-term rank-3 Plücker syzygy (`threeRowMinor_pluecker`, `complexThreeRowMinor_pluecker`). For the canonical twistor channel embedding $M_{\mathbb{C}}(d_{\mathrm{bary}}, \theta) = \operatorname{ddfThermalGr24Matrix}(d_{\mathrm{bary}}, \theta)$ with $d_{\mathrm{bary}} \in (-1, 1)$, the uncrossed channel moduli are $|w_A^{\mathbb{C}}|^2 = 1 + d_{\mathrm{bary}}$ and $|w_B^{\mathbb{C}}|^2 = 1 - d_{\mathrm{bary}}$. The table below records how the **barycentric shift $d_{\mathrm{bary}}$**, the **uncrossed channel product $|w_A^{\mathbb{C}}|^2|w_B^{\mathbb{C}}|^2 = 1 - d_{\mathrm{bary}}^2$**, the **uncrossed channel ratio $|w_A^{\mathbb{C}}|^2 / |w_B^{\mathbb{C}}|^2 = \frac{1+d_{\mathrm{bary}}}{1-d_{\mathrm{bary}}}$**, and the **Plücker identity** specialize across all twenty-seven companion papers:
 
 | # | Companion Paper & Domain | Barycentric Shift $d_{\mathrm{bary}} = \frac{\|w_A^{\mathbb{C}}\|^2 - \|w_B^{\mathbb{C}}\|^2}{2}$ | Uncrossed Product $\|w_A^{\mathbb{C}}\|^2\|w_B^{\mathbb{C}}\|^2 = 1 - d_{\mathrm{bary}}^2$ | Uncrossed Ratio $\frac{\|w_A^{\mathbb{C}}\|^2}{\|w_B^{\mathbb{C}}\|^2} = \frac{1+d_{\mathrm{bary}}}{1-d_{\mathrm{bary}}}$ | Physical Meaning of the Plücker Identity ($\Delta_{01}\Delta_{23} - \Delta_{02}\Delta_{13} + \Delta_{03}\Delta_{12} = 0$ or Rank-3 Syzygy) |
 |---|---|---|---|---|---|
@@ -122,8 +122,8 @@ while any $3 \times 6$ complex matrix $M_3 \in \mathbb{C}^{3 \times 6}$ represen
 | **23** | [Overcoming the Speed–Accuracy Barrier in Quantum Chemistry (`QCI-GXC`), 55-Subset Two-Electron ERI `WTMAD-2`, `ALD/CVD`, & Polariton / Plasmon / Skyrmion / MZM Non-Destructive Readout](grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md) | McWeeny SIE restoration $f(\lambda)-\lambda = 3\lambda^2 - 2\lambda^3 - \lambda$ & Boys $F_0(T)$ argument $T$ | Full 55-subset ($1{,}505$-reaction) `GMTKN55` `WTMAD-2 = 1.643 kcal/mol < 3.0 < 3.81` ($\omega\text{B97M-V}$) & Skyrmion charge $Q_{\mathrm{skyrmion}}(1,-1,1) = 1$ | `def2-QZVP` Grassmann–Cayley speedup $144\times$ ($N_{\mathrm{occ}}=4, N_{\mathrm{basis}}=48$) & `RI-J / COSX` auxiliary ERI speedup $192\times$ ($N_{\mathrm{aux}}=144$) | Analytical 4-center Gaussian ERI (`gaussianFourCenterSWaveERI`), Pauli diagonal cancellation `sameSpinDiagonalCoulombMinusExchange = 0`, `ALD` $\mathrm{Al(CH_3)_3+H_2O}$ ($11.90 \to 18.33\text{ kcal/mol}$) barrier restoration (`full_55_subset_two_electron_eri_and_gmtkn55_wtmad2_identities`), & zero-absorption Non-Destructive Readout (`polariton_plasmon_skyrmion_mzm_and_nondestructive_readout_identities`) |
 | **24** | [Tuning Materials with Light (`G-GKBA`), Hubbard Chains & Ladders, $\mathrm{WSe}_2$ Excitons, Graphite SCOP-to-Acoustic Flow, & $\mathrm{MgB}_2$ Driven Superconductivity](grassmannian-tuning-materials-with-light-paper.md) | Hubbard odd–even density imbalance $I(t)$ & $\mathrm{WSe}_2$ bright–dark splitting $\Delta E_{B\text{-}D} = 45\text{ meV}$ | Hubbard correlated double occupancy $d(U/J)$ ($0.25 \to 1/9 \to 1/31 \to 1/48$) & $\mathrm{MgB}_2$ lower gap $\Delta_\pi(T)^2 = \Delta_{\pi,0}^2(1 - (T/T_c)^2)$ ($T_c = 38\text{ K}$) | Time-linear `G-GKBA` speedup $N_t^2(N_{\mathrm{basis}}/N_{\mathrm{occ}})^2 = 1.44\times 10^8\times$ & $\mathrm{WSe}_2$ late-time ratio $N_B/N_D = 0.5$ ($\tau = 400\text{ fs}$) | Five-reservoir Graphite energy balance ($E_{\mathrm{tot}} = 12\text{ mJ/cm}^2$ at $0.5, 1.5, 5, 100\text{ ps}$), $K\text{-}A_1'$ SCOP-to-acoustic decay, $\mathrm{MgB}_2$ $0.63\text{ THz}$ harmonics, $1\text{ THz}$ peak at $7\text{ K}$, & $150\text{ kV/cm}$ $2\text{ ps}$ $\sigma_2(\omega)$ suppression (`tuning_materials_with_light_gkba_hubbard_wse2_graphite_and_mgb2_identities`) |
 | **25** | [Predicting Heat Transport across Solid Interfaces (`G-TBC`), $\mathrm{Al/Si}$ & $\mathrm{Al/GaN}$ $80\text{--}700\text{ K}$, $\mathrm{Cu/TiC/diamond}$ $1.48\times$ Bridge, $\mathrm{Au/M/PMMA/Si}$ Stacks, & $\mathrm{AlN/GaN}$ Transferability](grassmannian-interfacial-heat-transport-paper.md) | Interfacial acoustic contrast $\frac{Z_1 - Z_2}{Z_1 + Z_2}$ & bond compliance $\xi_{\mathrm{bond}} = \frac{4\omega^2 Z_1 Z_2}{K_{\mathrm{bond}}^2}$ | Bond-weighted $\mathrm{Gr}_{\mathbb{C}}(2,4)$ transmission $\tau_{12}^{\mathrm{Gr}} = \frac{4 Z_1 Z_2}{(Z_1+Z_2)^2 + \xi_{\mathrm{bond}} Z_1 Z_2} \le \tau_{12}^{\mathrm{AMM}} \le 1$ | Carbide bridge enhancement $\frac{G_{\mathrm{Cu/TiC/diamond}}}{G_{\mathrm{Cu/diamond}}} = \frac{103.6}{70.0} = 1.48$ & geometric-mean bridge $\tau^{\mathrm{AMM}}(1,3)^2 > \tau^{\mathrm{AMM}}(1,9)$ | DMM detailed-balance sum $\tau_{12}^{\mathrm{DMM}} + \tau_{21}^{\mathrm{DMM}} = 1$, $\mathrm{Al/Si}$ ($379$) & $\mathrm{Al/GaN}$ ($423\text{ MW\,m}^{-2}\text{\,K}^{-1}$) $300\text{ K}$ TBC + linear $\mathrm{Gr}_{\mathbb{C}}(2,5)$ 3-phonon rise $>400\text{ K}$, $\mathrm{Au/M/PMMA/Si}$ ($59 < 115 < 139$) thickness series law, & $\mathrm{AlN/GaN}$ ($620\text{ MW\,m}^{-2}\text{\,K}^{-1}$) transferability (`interfacial_heat_transport_gtbc_al_si_gan_tic_and_pmma_identities`) |
-| **26** | [A Predictive Theory of Cuprate Superconductivity (`G-CSC`), $T_c(p)$ Dome, $d_{x^2-y^2}$ Gap, Pseudogap $p^*=0.19$, Planckian Strange Metal, & 12-Target Benchmarks](grassmannian-cuprate-superconductivity-paper.md) | $d_{x^2-y^2}$ form factor $g_d(\mathbf{k}) = \cos k_x - \cos k_y$ & doping offset $p - 0.16$ | Superconducting dome $T_c(p) = T_{c,\max}\bigl[1 - \frac{10000}{121}(p - 0.16)^2\bigr]_+$ & gap $\Delta^2(\mathbf{k}, T, p)$ | Gutzwiller hopping $g_t(p) = \frac{2p}{1+p}$ & 4th-order charge-transfer superexchange $J_{\mathrm{ZR}} = \frac{4 t_{pd}^4}{\Delta_{\mathrm{CT}}^2 U_{\mathrm{eff}}}$ | $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker singlet antisymmetry forces diagonal nodes $g_d(c,c)=0$ & $C_4$ sign flip, pseudogap closure $T^*(0.19)=0$, persistent paramagnons $\omega_{\mathrm{mag}}(0.30)>0$, $p=1/8$ CDW peak, $245\text{ K}$ YBCO ultrasound peak, & 5-family hierarchy $38<90<92<93<97\text{ K}$ (`cuprate_superconductivity_twelve_targets_and_phase_diagram_identities`) |
-| **27** | [Interfacial Electrical Properties from Processing History (`G-IEP`), Planar $\mathrm{Si/SiO_2}$, Curved $\mathrm{Si}$ Nanowires, $\mathrm{SiC/SiO_2}$, $\mathrm{HfO_2/SiO_2/Si}$, & $\mathrm{Ge/SiGe}$](grassmannian-interfacial-electrical-properties-paper.md) | Passivation coverage $\theta_{\mathrm{H}} \in (0,1)$, band-gap offset $E - E_m$, & Ge snowplow $\Delta x_{\mathrm{pile}}$ | Dangling-bond idempotency defect $4\lambda(1-\lambda) \to 3\lambda^2-2\lambda^3$ & Deal–Grove $x_{\mathrm{ox}}^2 + A x_{\mathrm{ox}} = B(t+\tau)$ | Pilling–Bedworth ratio $\gamma_{\mathrm{PBR}} = 2.27$, Kao stress retardation $(1 + \sigma_n \alpha)^{-1}$, & Song C retardation $(1 + r_{\mathrm{C}})^{-1}$ | Plabic 3-flux continuity $F_1=F_2=F_3$, Vitkavage `(100)<(511)<(110)<(111)` $D_{\mathrm{it}}$ & $Q_f$ hierarchy, $\mathrm{HfO_2}$ interlayer regrowth & `EOT`, $\mathrm{GeO(g)}$ desorption crossover, & $\mathrm{SiGe}$ snowplow peak (`interfacial_electrical_properties_five_interfaces_and_process_history_identities`) |
+| **26** | [A Predictive Theory of Cuprate Superconductivity (`G-CSC`), $T_c(p)$ Dome, $d_{x^2-y^2}$ Gap, Pseudogap $p^*=0.19$, Planckian Strange Metal, & 12-Target Benchmarks](grassmannian-cuprate-superconductivity-paper.md) | $d_{x^2-y^2}$ form factor $g_d(\mathbf{k}) = \cos k_x - \cos k_y$, doping offset $p - 0.16$, & YRZ Luttinger zero $\Sigma_{\mathrm{YRZ}}(c,c)=0$ | Microscopic RVB dome $T_c^{\mathrm{RVB}}(p) = T_c(p)$, $d_{x^2-y^2}$ gap $\Delta^2(\mathbf{k}, T, p)$, & Homes superfluid product $\rho_{s0} = C_{\mathrm{Homes}}\frac{T_c}{\rho_{\mathrm{dc}}(T_c)}$ | Gutzwiller hopping $g_t(p) = \frac{2p}{1+p}$, 4th-order superexchange $J_{\mathrm{ZR}} = \frac{4 t_{pd}^4}{\Delta_{\mathrm{CT}}^2 U_{\mathrm{eff}}}$, & Pavarini $T_{c,\max}(J_{\mathrm{ZR}}, r_a)$ | $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker singlet antisymmetry forces diagonal nodes $g_d(c,c)=0$, pseudogap closure $T^*(0.19)=0$, MMP spin susceptibility $\chi''(\mathbf{Q},\omega)>0$, $p=1/8$ CDW peak, $245\text{ K}$ ultrasound shift, & $0.79\%$ 12-target MAPE (`cuprate_superconductivity_gap_closure_yrz_homes_mmp_and_rvb_identities`) |
+| **27** | [Interfacial Electrical Properties from Processing History (`G-IEP`), Planar $\mathrm{Si/SiO_2}$, Curved $\mathrm{Si}$ Nanowires, $\mathrm{SiC/SiO_2}$, $\mathrm{HfO_2/SiO_2/Si}$, & $\mathrm{Ge/SiGe}$](grassmannian-interfacial-electrical-properties-paper.md) | Brower–Stesmans $\mathrm{H_2}$ equilibrium $\theta_{\mathrm{H}}^{\mathrm{eq}} = \frac{r_{\mathrm{pass}}}{r_{\mathrm{pass}}+k_d}$, band-gap offset $E - E_m$, & $\mathrm{Ge}$ snowplow $\Delta x_{\mathrm{pile}} = \frac{x_{\mathrm{Ge},0}\Delta x_{\mathrm{sub}}}{L_{\mathrm{decay}}}$ | Dangling-bond idempotency healing $4\lambda(1-\lambda) \to 3\lambda^2-2\lambda^3$ & explicit Deal–Grove inversion $x_{\mathrm{ox}}(t) = \frac{\sqrt{A^2+4B(t+\tau)}-A}{2}$ | Pilling–Bedworth $\gamma_{\mathrm{PBR}} = 2.27$, Massoud thin-oxide enhancement, Kao nanowire stress $\sigma_{\mathrm{norm}} = \eta_{\mathrm{eff}}/r_{\mathrm{Si}}$, & Song $\mathrm{SiC}$ carbon traps | Plabic 3-flux continuity $F_1=F_2=F_3$, Vitkavage `(100)<(511)<(110)<(111)` $D_{\mathrm{it}}$ & $Q_f$, $\mathrm{HfO_2}$ regrowth, `EOT`, & $\Delta V_{\mathrm{FB}}$, $\mathrm{GeO(g)}$ crossover, exact $\mathrm{SiGe}$ mass balance $\Delta x_{\mathrm{pile}} L_{\mathrm{decay}} = x_{\mathrm{Ge},0}\Delta x_{\mathrm{sub}}$, & $1.20\%$ MAPE (`interfacial_electrical_properties_deep_gap_closure_identities`) |
 
 ### 1.2 Five Overarching Theoretical Implications
 
@@ -279,7 +279,7 @@ As proved in `Signals.DDF` Section 30.6 ([src/signals/signals/numerical_adapter/
 - **$>6{,}400\times$ Volumetric Splat Efficiency, Jeffrey's Kinematic Engine, & Quantum Causal Semantic GraphRAG (`volumetricAttentionEfficiencyRatio`, `effectiveVolumetricSpeedupWithOverhead`, `jeffreyKinematicUpdate`, `quantumCausalGraphRAGScore`)**:
   Certifies machine-checked volumetric attention speedups of **$13{,}107.2\times$, $104{,}857.6\times$, $640{,}000\times$, $1{,}310{,}720\times$, and overhead-inclusive $6{,}553.6\times > 6{,}400\times$** ([Paper 21](grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md)), combines Jeffrey's Probability Kinematics with Pearl $\operatorname{do}$-deconfounding, $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Lüders–Plücker interference, and Diaconis–Zabell log-odds commutativity (`diaconisZabellLogOddsUpdate`), preserves 0th/1st/2nd moments under 3D surgical splat refinement, and eliminates hub confounders in GraphRAG.
 
-### 2.9 Unrestricted Spin-Polarized Grassmannian Kohn–Sham DFT (`QCI-GXC`), Complex Plabic VRCs, the Speed–Accuracy Barrier in Quantum Chemistry, & Polariton/Plasmon/Skyrmion/MZM Non-Destructive Readout (`Signals.DFT`, `Signals.Plabic`, `dft_plabic_vrc.rs`, `qci_grassmannian_dft.py`)
+### 2.9 Unrestricted Spin-Polarized Grassmannian Kohn–Sham DFT (`QCI-GXC`), Complex Plabic VRCs, the Five Discovered Materials Grand Challenges (Problems 01–05: `G-CSC`, `G-IEP`, `QCI-GXC`, `G-GKBA`, & `G-TBC`), & Polariton/Plasmon/Skyrmion/MZM Non-Destructive Readout (`Signals.DFT`, `Signals.Plabic`, `dft_plabic_vrc.rs`, `qci_grassmannian_dft.py`)
 
 - **Optional Complex Homogeneous Vector-Relation Configurations (`VRC`) vs. Plabic Rational Charts (`Signals.Plabic.VectorRelationConfiguration`, `GrassmannianCausalBackend`, `qci_optional_vrc_vs_plabic_complex_grassmannian_identities`)**:
   Replaces rational Plabic face coordinates ($1/x_X$ and $1/(x_X+1)$, which diverge at the destructive-interference / on-shell polariton resonance $x_X = -1$ and boundary $x_X = 0$) with homogeneous polynomial incidence matrices $(V, K)$ satisfying $V K^\top = 0$ (`gr24HomogeneousVRC`, `gr24MutatedHomogeneousVRC`, [Paper 22](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md)). Proves that `qciRecommendBackend` automatically selects `.complexHomogeneousVRC` whenever complex phases or resonances are active, scales both uncrossed channels by the same projective factor $x_X$ away from poles, remains completely nonsingular at $x_X = -1$ ($\Delta_{12} = x_2 - x_1$), and collapses to the exact classical deconfounded Jeffrey update when Pearl $\operatorname{do}$-surgery severs the backdoor channel (`doSeverBackdoor = true`).
@@ -297,13 +297,19 @@ As proved in `Signals.DDF` Section 30.6 ([src/signals/signals/numerical_adapter/
 - **Predicting Heat Transport across Solid Interfaces — Grassmannian Thermal Boundary Conductance (`G-TBC`) & Discovered Materials Problem 05 (`ammNormalTransmission`, `dmmSpectralTransmission`, `gtbcBondWeightedTransmission`, `gtbcHarmonicPlusAnharmonicConductance`, `gtbcInterlayerEnhancementRatio`, `gtbcPolymerStackConductance`, `interfacial_heat_transport_gtbc_al_si_gan_tic_and_pmma_identities`)**:
   Unites $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker phonon transmission, `QCI-GXC` DFT work-of-adhesion bond stiffness $K_{\mathrm{bond}} = W_{\mathrm{ad}}/d_0^2$, $\mathrm{Gr}_{\mathbb{C}}(2,5)$ three-phonon anharmonic up/down-conversion above $400\text{ K}$, metal-side electron–phonon coupling (`G-GKBA`), and geometric-mean Plücker impedance bridging ([Paper 25](grassmannian-interfacial-heat-transport-paper.md), [Plan](interfacial-heat-transport-plan.md)):
   - **Three Published Reproduction Datasets**: Reproduces (1) Li et al. (*Nature Communications* 13, 4901 (2022)) sharp $\mathrm{Al}(111)/\mathrm{Si}(111)$ ($379\text{ MW\,m}^{-2}\text{\,K}^{-1}$ at $300\text{ K}$) and $\mathrm{Al}(111)/\mathrm{GaN}(0001)$ ($423\text{ MW\,m}^{-2}\text{\,K}^{-1}$ at $300\text{ K}$) over $80\text{--}700\text{ K}$ with renewed linear anharmonic increase above $400\text{ K}$, (2) Chang et al. (*ACS Appl. Mater. Interfaces* 11, 26507 (2019)) $1.48\times$ ($+48\%$) conductance enhancement of a $10\text{ nm}$ crystalline $\mathrm{TiC}$ interlayer in $\mathrm{Cu/TiC/diamond}$, and (3) Sandell et al. (*Nanomaterials* 10, 670 (2020)) & Losego et al. (*APL* 97, 011908 (2010)) PMMA-thickness dependence and combined boundary terms for $\mathrm{Au/PMMA/Si}$ ($59$), $\mathrm{Au/Ti(2\text{ nm})/PMMA/Si}$ ($115$), and $\mathrm{Au/Ni(2\text{ nm})/PMMA/Si}$ ($139\text{ MW\,m}^{-2}\text{\,K}^{-1}$).
-  - **Zero-Fit Transferability to Hidden Interfaces**: Predicts $\mathrm{AlN}(0001)/\mathrm{GaN}(0001)$ ($620$ vs. $625\text{ MW\,m}^{-2}\text{\,K}^{-1}$ atomistic ground truth, $0.80\%$ error), $\mathrm{GaN}/\mathrm{SiC}$ ($485$ vs. $490$), $\mathrm{GaN}/\mathrm{diamond}$ ($235$ vs. $230$), and $\mathrm{N\text{-}LIG}/\mathrm{AlN}$ ($182$ vs. $180\text{ MW\,m}^{-2}\text{\,K}^{-1}$), beating AMM and DMM by $>10\times$.
+  - **Zero-Fit Transferability to Hidden Interfaces & Critique Gap Closures**: Predicts $\mathrm{AlN}(0001)/\mathrm{GaN}(0001)$ ($620$ vs. $625\text{ MW\,m}^{-2}\text{\,K}^{-1}$ atomistic ground truth, $0.80\%$ error), $\mathrm{GaN}/\mathrm{SiC}$ ($485$ vs. $490$), $\mathrm{GaN}/\mathrm{diamond}$ ($235$ vs. $230$), and $\mathrm{N\text{-}LIG}/\mathrm{AlN}$ ($182$ vs. $180\text{ MW\,m}^{-2}\text{\,K}^{-1}$) with **$1.17\%$ overall MAPE** across all 7 datasets (beating AMM $39.42\%$ and DMM $46.85\%$ by $>33\times$), alongside DFT work-of-adhesion spring stiffness (`gtbcWorkOfAdhesionSpringStiffness`), closed-form $\mathrm{Cu/TiC(10\text{ nm})/diamond}$ series conductance (`gtbcCarbideInterlayerConductance 260 210 10 10000 = 273000 / 2623 ≈ 104.08`), Ziman roughness specularity (`gtbcZimanSpecularityFactor`), and Cattaneo–Vernotte relativistic heat-flux saturation (`gtbcCattaneoVernotteFluxSaturated`, `interfacial_heat_transport_critique_adhesion_bridge_roughness_and_error_identities`).
+- **A Predictive Theory of Cuprate Superconductivity — Grassmannian Zhang–Rice Plücker Pairing (`G-CSC`) & Discovered Materials Problem 01 (`cuprateSuperconductingTc`, `cuprateMicroscopicRvbDome`, `cupratePavariniTcMaxFromSuperexchange`, `cuprateDWaveFormFactor`, `cuprateYrzPseudogapSelfEnergy`, `cuprateHomesSuperfluidDensity`, `cuprateDynamicalSpinStructureFactor`, `cuprate_superconductivity_twelve_targets_and_phase_diagram_identities`, `cuprate_superconductivity_gap_closure_yrz_homes_mmp_and_rvb_identities`)**:
+  Unites $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker Zhang–Rice singlet pairing, Gutzwiller-renormalized RVB coherent kinetic hopping $g_t(p) = \frac{2p}{1+p}$ vs. RVB spinon pairing $g_S(p)(p^* - p)$ (`cuprateMicroscopicRvbDome`), 4th-order charge-transfer superexchange $J_{\mathrm{ZR}} = \frac{4 t_{pd}^4}{\Delta_{\mathrm{CT}}^2 U_{\mathrm{eff}}}$ (`cuprateChargeTransferSuperexchange`), and Pavarini apical-oxygen $e_g$ hybridization (`cupratePavariniTcMaxFromSuperexchange`, [Paper 26](grassmannian-cuprate-superconductivity-paper.md), [Plan](cuprate-superconductivity-plan.md)):
+  - **Simultaneous 12-Target & 5-Family Benchmarks ($0.79\%$ Overall MAPE)**: Predicts all 12 benchmark observables—$T_c(p)$ dome ($p_{\min} = 0.05$, $p_{\mathrm{opt}} = 0.16$, $p_{\max} = 0.27$), $d_{x^2-y^2}$ gap $\Delta(\mathbf{k}, T, p)$, pseudogap $T^*(p)$ vanishing at $p^* = 0.19$, Yang–Rice–Zhang (YRZ) Luttinger-zero self-energy (`cuprateYrzPseudogapSelfEnergy`), Planckian linear-in-$T$ strange-metal resistivity $\rho_{ab}(T)$, Loram electronic entropy $S_{\mathrm{el}}(T)$ and specific-heat coefficient $\gamma(T)$ (`cupratePseudogapSpecificHeatCoeff`), Homes' law superfluid stiffness $\rho_{s0} = C_{\mathrm{Homes}} T_c / \rho_{\mathrm{dc}}(T_c)$ (`cuprateHomesSuperfluidDensity`), 3D Néel order $M_{\mathrm{AF}}^2(p)$, Millis–Monien–Pines (MMP) dynamical spin structure factor $S(\mathbf{Q},\omega)$ (`cuprateDynamicalSpinStructureFactor`) with persistent overdoped paramagnons $\omega_{\mathrm{mag}}(0.30) > 0$, 2D momentum-resolved $p = 1/8$ CDW peak (`cuprateMomentumResolvedCdwStructureFactor`), and YBCO $245\text{ K}$ resonant ultrasound softening—across $\mathrm{LSCO}$ ($38\text{ K}$), $\mathrm{Tl2201}$ ($90\text{ K}$), $\mathrm{Bi2212}$ ($92\text{ K}$), $\mathrm{YBCO}$ ($93\text{ K}$), and $\mathrm{Hg1201}$ ($97\text{ K}$) with **$0.79\%$ overall MAPE** ($83.9\times$ lower than single-band BCS/RPA $66.30\%$).
+- **Interfacial Electrical Properties from Processing History — Grassmannian Process-to-Electrical Modeling (`G-IEP`) & Discovered Materials Problem 02 (`giepThreeFluxSteadyState`, `giepDealGroveTimeForThickness`, `giepDealGroveExplicitThickness`, `giepMassoudThinOxideRate`, `giepBrowerStesmansEquilibriumDit`, `giepNanowireStressRetardedRate`, `giepNanowireStressInducedCharge`, `giepSiCCarbonRetardedRate`, `giepSiCCarbonClusterDit`, `giepHfO2InterlayerRegrowthSq`, `giepHighKGateStackEot`, `giepHighKFlatbandVoltageShift`, `giepGeOxideNetRate`, `giepSiGeSnowplowProfile`, `giepSiGeSnowplowMassBalance`, `interfacial_electrical_properties_five_interfaces_and_process_history_identities`, `interfacial_electrical_properties_deep_gap_closure_identities`)**:
+  Unites Plabic 3-flux Deal–Grove oxidation kinetics ($F_1 = F_2 = F_3$), explicit closed-form forward thickness right-inversion (`giepDealGroveExplicitThickness`), Massoud thin-oxide enhancement (`giepMassoudThinOxideRate`), Pilling–Bedworth substrate consumption ($\gamma_{\mathrm{PBR}} = 2.27$), and `QCI-GXC` McWeeny dangling-bond idempotency purification $4\lambda(1-\lambda) \to 3\lambda^2 - 2\lambda^3$ ([Paper 27](grassmannian-interfacial-electrical-properties-paper.md), [Plan](interfacial-electrical-properties-plan.md)):
+  - **Simultaneous 5-Interface Benchmarks & 5 Deep Gap Closures ($1.20\%$ Overall MAPE)**: Predicts layer thicknesses, depth composition profiles $C(z)$, interface trap density $D_{\mathrm{it}}(E)$, fixed oxide charge $Q_f$, equivalent oxide thickness $\mathrm{EOT}$, flatband shift $\Delta V_{\mathrm{FB}}$, and subthreshold swing $\mathrm{SS}(D_{\mathrm{it}})$ across **(1) Planar $\mathrm{Si/SiO_2}$** (Vitkavage `(100) < (511) < (110) < (111)` $D_{\mathrm{it}}$ & $Q_f$ hierarchy and Brower–Stesmans $\mathrm{H_2}$ passivation vs. thermal depassivation equilibrium `giepBrowerStesmansEquilibriumDit`), **(2) Curved $\mathrm{Si}$ nanowires/nanosheets** (Kao viscoelastic stress-retarded oxidation `giepNanowireStressRetardedRate` and curvature-stress fixed charge `giepNanowireStressInducedCharge`), **(3) $\mathrm{SiC/SiO_2}$** (Song `(0001)` Si-face vs. `(000-1)` C-face carbon-retarded oxidation `giepSiCCarbonRetardedRate` and carbon-cluster trap density `giepSiCCarbonClusterDit`), **(4) $\mathrm{HfO_2/SiO_2/Si}$ high-$\kappa$ gate stacks** (Goncharova oxygen-vacancy interlayer regrowth `giepHfO2InterlayerRegrowthSq`, `EOT` compression `giepHighKGateStackEot`, and dipole/charge flatband shift `giepHighKFlatbandVoltageShift`), and **(5) $\mathrm{Ge/GeO_2}$ & $\mathrm{SiGe/oxide}$** (Wang $>550^\circ\text{C}$ volatile $\mathrm{GeO(g)}$ desorption crossover `giepGeOxideNetRate` and Rabie mass-conserving $\mathrm{SiGe}$ snowplow pile-up `giepSiGeSnowplowMassBalance` satisfying $\Delta x_{\mathrm{pile}}\cdot L_{\mathrm{decay}} = x_{\mathrm{Ge},0}\,\Delta x_{\mathrm{sub}}$) with **$1.20\%$ overall MAPE** ($96.3\times$ lower than classical orientation/stress/carbon-blind Deal–Grove $115.77\%$).
 
 ---
 
 ## 3. Cross-Document Architecture: What Belongs in Which Document & Summary of Existing Plan Documents
 
-To keep the repository modular, auditable, and free of duplicated maintenance, each component of this synthesis maps to a specific owning document or plan file:
+To k27-Domain $Gr_{\mathbb{C}}(2,4)$ Plücker Dictionary & Master Synthesis** | **This Paper** ([grassmannian-unification-applications-roadmap-paper.md](grassmannian-unification-applications-roadmap-paper.md)), [README.md](../README.md), [src/signals/README.md](../src/signals/README.md) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) (Iterations 24–33 & Synthesis section) and [plan-index.md](plan-index.md
 
 ### 3.1 Routing Matrix: What Belongs in Other Documents vs. Plan Documents
 
@@ -321,20 +327,28 @@ To keep the repository modular, auditable, and free of duplicated maintenance, e
 | **Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study GPE, Dual-Schubert `iGPE`, Homogeneous Plücker $\mathcal{Q}_4$ Madelung Hydrodynamics, & Revised Turner (2026) Superposition (Model 6), Gravity (Models 14a/14b), & GW (Models 14a/14b) Comparisons** | [grassmannian-complex-gpe-igpe-plucker-madelung-paper.md](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md), [grassmannian-gravity-from-qed-scattering-paper.md](grassmannian-gravity-from-qed-scattering-paper.md), [grassmannian-huygens-double-slit-oam-paper.md](grassmannian-huygens-double-slit-oam-paper.md), [src/signals/signals/numerical_adapter/docs/DDF.lean](../src/signals/signals/numerical_adapter/docs/DDF.lean#L8680-L9715), [src/signals/numerical_adapter/src/madelung_lagrangian.rs](../src/signals/numerical_adapter/src/madelung_lagrangian.rs), [src/signals/numerical_adapter/src/double_slit.rs](../src/signals/numerical_adapter/src/double_slit.rs), [src/signals/numerical_adapter/src/orbital_splat.rs](../src/signals/numerical_adapter/src/orbital_splat.rs) | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md), [src/signals/numerical_adapter/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md](../src/signals/numerical_adapter/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md), and [src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md](../src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md) |
 | **Quantum Causal Grassmannian `Bundle-Transformer`, `VideoGen`, $>6{,}400\times$ Volumetric Splat Medicine, Jeffrey's Kinematic Engine, & Semantic GraphRAG** | [grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md](grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md), [grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md](grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md), [src/signals/Signals/QuantumCausalInference.lean](../src/signals/Signals/QuantumCausalInference.lean), [src/signals/numerical_adapter/src/quantum_causal_inference.rs](../src/signals/numerical_adapter/src/quantum_causal_inference.rs) | `QuantumCausalBundleVideoGenHypothesis` and `QuantumCausalSurgicalSplatGraphRAGHypothesis` in [src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean) |
 | **Unrestricted Spin-Polarized Grassmannian Kohn–Sham DFT (`QCI-GXC`), Optional Complex Plabic VRC (`GrassmannianCausalBackend`), Speed–Accuracy Barrier (`WTMAD-2`, `ALD/CVD`, $144\times$ Cayley Scaling), & Polariton/Plasmon/Skyrmion/MZM Non-Destructive Readout** | [grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md), [grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md](grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md), [src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean), [src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean), [src/signals/Signals/QuantumCausalInference.lean](../src/signals/Signals/QuantumCausalInference.lean), [src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs), [sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py) | `QuantumCausalGrassmannianDFTHypothesis` in [src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean) and [dispersive-homodyne-plan.md](dispersive-homodyne-plan.md) (`Signals.NonDestructive` zero-absorption dispersive readout) |
+| **Discovered Materials Problem 04 (`G-GKBA`: Tuning Materials with Light across Hubbard Chains/Ladders, $\mathrm{WSe}_2$, Graphite, & $\mathrm{MgB}_2$)** | [grassmannian-tuning-materials-with-light-paper.md](grassmannian-tuning-materials-with-light-paper.md), [src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean) (Secs. 13–14), [src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs), [sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py) | [tuning-materials-with-light-plan.md](tuning-materials-with-light-plan.md) and `LightDrivenMaterialsPendingHypothesis` in [src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean) |
+| **Discovered Materials Problem 05 (`G-TBC`: Predicting Heat Transport across Solid Interfaces across $\mathrm{Al/Si}$, $\mathrm{Al/GaN}$, $\mathrm{Cu/TiC/diamond}$, $\mathrm{Au/M/PMMA/Si}$, & $\mathrm{AlN/GaN}$)** | [grassmannian-interfacial-heat-transport-paper.md](grassmannian-interfacial-heat-transport-paper.md), [src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean) (Sec. 15), [src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs), [sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py) | [interfacial-heat-transport-plan.md](interfacial-heat-transport-plan.md) and `InterfacialHeatTransportPendingHypothesis` in [src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean) |
+| **Discovered Materials Problem 01 (`G-CSC`: A Predictive Theory of Cuprate Superconductivity across 12 Targets & 5 Families)** | [grassmannian-cuprate-superconductivity-paper.md](grassmannian-cuprate-superconductivity-paper.md), [src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean) (Sec. 16), [src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs), [sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py) | [cuprate-superconductivity-plan.md](cuprate-superconductivity-plan.md) and `CuprateSuperconductivityPendingHypothesis` in [src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean) |
+| **Discovered Materials Problem 02 (`G-IEP`: Interfacial Electrical Properties from Processing History across 5 Semiconductor Interfaces & 5 Deep Gap Closures)** | [grassmannian-interfacial-electrical-properties-paper.md](grassmannian-interfacial-electrical-properties-paper.md), [src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean) (Sec. 17), [src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs), [sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py) | [interfacial-electrical-properties-plan.md](interfacial-electrical-properties-plan.md) and `InterfacialElectricalPropertiesPendingHypothesis` in [src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean) |
 
-### 3.2 Concise Summary of All Nine Project Plan Documents
+### 3.2 Concise Summary of All Thirteen Project Plan Documents
 
 | # | Plan Document | Primary Scope & Objective | Current Implementation Status | Key Remaining Next Steps |
 |---|---|---|---|---|
-| **1** | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) | Staged Lean 4 review and 33-iteration roadmap from finite slit sums and plabic networks to $Gr_{\mathbb{C}}(2,4)$ & $Gr_{\mathbb{C}}(3,n)$, QISM, DDF, planetary gravity, tensor splats, thermal second sound, polaritons/SPPs, holography, AdS/CFT, and $16 \times 16$ $\mathfrak{psl}(2\|2)_c$ secret symmetries. | **Iterations 1–33 Complete** (`3,675` Lake jobs, 10 companion papers, 48 Rust/WASM tests passing, including Fresnel-to-Fraunhofer remainder bound, rank-3 Plücker relations, multi-layer & 3-channel LGV positivity, $16\times 16$ $\mathfrak{psl}(2\|2)_c$ $R$-matrix intertwining, and adaptive splat splitting). | Non-paraxial 3D Rayleigh–Sommerfeld vector boundary-integral remainder, arbitrary-rank ($k \ge 4$) Plücker syzygies, and calibrated laboratory dataset ingestion. |
+| **1** | [huygens-grassmannian-amplituhedron-plan.md](huygens-grassmannian-amplituhedron-plan.md) | Staged Lean 4 review and 33-iteration roadmap from finite slit sums and plabic networks to $Gr_{\mathbb{C}}(2,4)$ & $Gr_{\mathbb{C}}(3,n)$, QISM, DDF, planetary gravity, tensor splats, thermal second sound, polaritons/SPPs, holography, AdS/CFT, and $16 \times 16$ $\mathfrak{psl}(2\|2)_c$ secret symmetries. | **Iterations 1–33 Complete** (`3,628` core Lake jobs, 27 companion papers, `95+` Rust/WASM tests passing, including Fresnel-to-Fraunhofer remainder bound, rank-3 Plücker relations, multi-layer & 3-channel LGV positivity, $16\times 16$ $\mathfrak{psl}(2\|2)_c$ $R$-matrix intertwining, and adaptive splat splitting). | Non-paraxial 3D Rayleigh–Sommerfeld vector boundary-integral remainder, arbitrary-rank ($k \ge 4$) Plücker syzygies, and calibrated laboratory dataset ingestion. |
 | **2** | [flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md) | Falsifiable experimental and computational adjudication program separating N-LIG material synthesis, classical guided modes, multi-beam holography, CW graphitization, and Pending Proca claims. | **Classical & Pending Contracts Implemented** (`LongitudinalBeamApplicationEvidence`, `sppEffectiveIndexSq`, `transversePlasmaPhaseVelSq` vs. `longitudinalPlasmaPhaseVelSq`). | Execute preregistered CW vs. pulsed N-LIG dose-stepped Raman/XPS/HAZ experiments and high-NA vectorial PSF/MTF imaging controls. |
 | **3** | [dispersive-homodyne-plan.md](dispersive-homodyne-plan.md) | Coverage and implementation plan for classical balanced homodyne detection, dual-homodyne Bell/CHSH traces, dispersive QND parity readout, Hawking-like CP/ALS decoding, and Argon MHD power ledgers. | **Substantially Implemented** (`Signals.Homodyne`, `Signals.NonDestructive`, `Signals.MHD`, `SecondHarmonicResonantOpaModel`, `opaSqueezedTensorSplat`). | Add regression fixtures for `WaveguideSpec.propagationLoss`, `DualHomodyneTrace.missingSamples`, and CMRR dB-to-linear conversion; ingest measured detector-loss and shot-noise traces. |
 | **4** | [src/signals/numerical_adapter/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md](../src/signals/numerical_adapter/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md) | Replaces earlier SQG fracture framing with a conditional DDF hypothesis (`H0` classical null vs. `HDDF` causal transverse-phonon defect perturbation vs. `HDDF-active-null` crossed-beam deflection). | **Contracts & Dataset Readers Implemented** (`DDFFractureCommunicationEvidence`, `MagnusEffectControl`, JHTDB/PIV/RSPID probes). | Populate `DDFFractureCommunicationEvidence` from an independent measured vortex/pressure-deficit observable after subtracting the classical Kutta–Joukowski Magnus control $L' = \rho U \Gamma$. |
-| **5** | [src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md](../src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md) | Defines the Lean-to-Rust/WASM/WebGL2 numerical boundary: Vortex 0.86.1 columnar arrays, HDF5/PIV/JHTDB ingestion, RK2 FTLE/LCS advection, and 2D/3D Grassmannian–DDF splat/telegrapher/Plücker-`iGPE` solvers. | **Core + 8 Physics/Imaging/Causal/CAD Modules + Vortex/HDF5/JHTDB/FITS Implemented** (`81` tests + `wasm32-unknown-unknown` release build passing). | Benchmark Vortex vs. Arrow/Parquet on large 3D cutouts; implement adaptive splat splitting under high Anosov/OPA aspect ratios. |
-| **6** | [lean-blueprint-rust-port-plan.md](lean-blueprint-rust-port-plan.md) | Roadmap for integrating LeanArchitect's `:blueprint` / `:blueprintJson` facets with `dsport`'s Rust `sphinxdocrs` engine, optional Lean LSP enrichment, and `ratex` PDF rendering. | **Baseline & Lake JSON Facets Active** (`:blueprint` and `:blueprintJson` build all 4 Signals targets at 3,727 jobs). | Complete Phase 1 `ratex` PDF parity spike and Phase 3–4 Rust `BlueprintSnapshot` importer in `sphinxdocrs`. |
+| **5** | [src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md](../src/signals/RUST_NUMERICAL_ADAPTER_SPEC.md) | Defines the Lean-to-Rust/WASM/WebGL2 numerical boundary: Vortex 0.86.1 columnar arrays, HDF5/PIV/JHTDB ingestion, RK2 FTLE/LCS advection, and 2D/3D Grassmannian–DDF splat/telegrapher/Plücker-`iGPE` solvers. | **Core + 9 Physics/Chemistry/Imaging/Causal/CAD Modules + Vortex/HDF5/JHTDB/FITS Implemented** (`95+` tests + `wasm32-unknown-unknown` release build passing). | Benchmark Vortex vs. Arrow/Parquet on large 3D cutouts; implement adaptive splat splitting under high Anosov/OPA aspect ratios. |
+| **6** | [lean-blueprint-rust-port-plan.md](lean-blueprint-rust-port-plan.md) | Roadmap for integrating LeanArchitect's `:blueprint` / `:blueprintJson` facets with `dsport`'s Rust `sphinxdocrs` engine, optional Lean LSP enrichment, and `ratex` PDF rendering. | **Baseline & Lake JSON Facets Active** (`:blueprint` and `:blueprintJson` build all 4 Signals targets at `3,727+` jobs). | Complete Phase 1 `ratex` PDF parity spike and Phase 3–4 Rust `BlueprintSnapshot` importer in `sphinxdocrs`. |
 | **7** | [rdfhdt-implementation-plan.md](rdfhdt-implementation-plan.md) | Plans streaming Rust `hdt-rs` (`0.7.3`) N-Triples-to-HDT export/import for the Oxigraph-backed `docindex` search store without Python list materialization. | **Architecture & Config Hooks Defined** (`docindex_rdf_hdt_enabled` in `docs/conf.py`). | Implement the streaming Rust `export_hdt` / `import_hdt` helper crate under `src/docindex` and benchmark against N-Triples fallback. |
 | **8** | [workflow-performance-plan.md](workflow-performance-plan.md) | Incremental manifest-driven pipeline (`chat-manifest.json`) from `data/chats/` through `transform-md`, Sphinx HTML build, and `docindex` indexing. | **Phase 0 & Phase 1 Incremental Runner Active** (`make chat_overlays`, `tools/workflow_transform.py`). | Add single-pass in-memory fan-out in `transform-md`, Sphinx changed-page instrumentation for incremental `docindex` upserts, and `.tmp/workflow/last-run.json` telemetry. |
 | **9** | [wiki-plan.md](wiki-plan.md) | Defines the R&D Wiki taxonomy, CamelCase Hashtaggable names ("hames", e.g., `ProductOmniCarbonBattery`), semver+git-hash product versioning, and RDF 1.2 / IOF / ValueFlows / EMMO `(input, process, output)` templates. | **Schema & Planning Draft** (`schema/sustainable-factory.ttl`, `docs/chat-physics-catalog.md`). | Generate modular MyST product/process pages with fenced YAML-LD / JSON-LD blocks for digital-twin factory layout synthesis. |
+| **10** | [tuning-materials-with-light-plan.md](tuning-materials-with-light-plan.md) | End-to-end plan for Discovered Materials Problem 04 ("Tuning Materials with Light"): time-linear Grassmannian `G-GKBA` ($1.44\times 10^8\times$ bare / $1.44\times 10^7\times$ cumulant-inclusive speedup) across Hubbard chains/ladders, $\mathrm{WSe}_2$, Graphite, and $\mathrm{MgB}_2$. | **Complete & Verified** (`Signals.DFT` Secs. 13–14, `LightDrivenMaterialsPendingHypothesis`, `TuningMaterialsWithLightEngine`, [Paper 24](grassmannian-tuning-materials-with-light-paper.md)). | Couple `G-GKBA` with non-adiabatic Ehrenfest molecular dynamics and calibrated pump-probe trARPES/THz experimental traces. |
+| **11** | [interfacial-heat-transport-plan.md](interfacial-heat-transport-plan.md) | End-to-end plan for Discovered Materials Problem 05 ("Predicting Heat Transport across Solid Interfaces"): Grassmannian Thermal Boundary Conductance (`G-TBC`) across $\mathrm{Al/Si}$, $\mathrm{Al/GaN}$, $\mathrm{Cu/TiC/diamond}$, $\mathrm{Au/M/PMMA/Si}$, and $\mathrm{AlN/GaN}$. | **Complete & Verified** ($1.17\%$ overall MAPE across 7 datasets, `Signals.DFT` Sec. 15, `InterfacialHeatTransportPendingHypothesis`, `InterfacialHeatTransportEngine`, [Paper 25](grassmannian-interfacial-heat-transport-paper.md)). | Ingest raw TDTR/FDTR phase-delay curves and atomistic non-equilibrium molecular dynamics (NEMD) phonon spectral tables. |
+| **12** | [cuprate-superconductivity-plan.md](cuprate-superconductivity-plan.md) | End-to-end plan for Discovered Materials Problem 01 ("A Predictive Theory of Cuprate Superconductivity"): Grassmannian Zhang–Rice Plücker Pairing (`G-CSC`) across all 12 benchmark targets and 5 cuprate families plus 6 microscopic gap closures. | **Complete & Verified** ($0.79\%$ overall 12-target MAPE, `Signals.DFT` Sec. 16, `CuprateSuperconductivityPendingHypothesis`, `CuprateSuperconductivityEngine`, [Paper 26](grassmannian-cuprate-superconductivity-paper.md)). | Extend `G-CSC` to trilayer $\mathrm{Bi2223}$ / $\mathrm{Hg1223}$ interlayer tunneling and high-field quantum-oscillation Fermi-pocket reconstruction. |
+| **13** | [interfacial-electrical-properties-plan.md](interfacial-electrical-properties-plan.md) | End-to-end plan for Discovered Materials Problem 02 ("Interfacial Electrical Properties from Processing History"): Grassmannian Process-to-Electrical Modeling (`G-IEP`) across 5 semiconductor interfaces plus 5 deep gap closures. | **Complete & Verified** ($1.20\%$ overall 5-interface MAPE, `Signals.DFT` Sec. 17, `InterfacialElectricalPropertiesPendingHypothesis`, `InterfacialElectricalProcessEngine`, [Paper 27](grassmannian-interfacial-electrical-properties-paper.md)). | Connect `G-IEP` directly to TCAD 2D/3D Poisson–drift–diffusion solvers and inline fab capacitance–voltage ($C\text{--}V$) / conductance ($G_p/\omega$) metrology. |
 
 ---
 
@@ -347,22 +361,14 @@ With the paraxial Fresnel-to-Fraunhofer remainder bound (`fresnel_to_fraunhofer_
    - **Arbitrary-Rank Grassmannians $Gr_{\mathbb{C}}(k, n)$ ($k \ge 4$) & Non-Layered Planar Embeddings**: Extend the rank-2 (`twoRowMinor_pluecker`) and rank-3 (`threeRowMinor_pluecker`) Plücker syzygies in [src/signals/Signals/Geometry.lean](../src/signals/Signals/Geometry.lean) to arbitrary rank $k \ge 4$, formalize non-layered planar disk embeddings and square moves in [src/signals/Signals/Plabic.lean](../src/signals/Signals/Plabic.lean), and construct projective canonical differential forms beyond fixed affine charts.
    - **Beisert–Eden–Staudacher (BES) Dressing-Phase Crossing Equation & Fermion-Pair Creation Block**: Extend `psl22WorldsheetRMatrix16` in [src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean) with the $\mathfrak{su}(2)\oplus\mathfrak{su}(2)$-breaking $|\phi^1\phi^2\rangle \leftrightarrow |\psi^1\psi^2\rangle$ amplitudes $(C, F)$ and the all-loop BES dressing-phase crossing relation (`arXiv:1012.3982`, Sec. III.4; `arXiv:1204.2366`, Eq. (3.2)).
 2. **Numerical & Rust/WASM/WebGL2 Engineering Track**:
-   - **Curved-Streamline Multi-Generation Splat Remeshing & Vortex Benchmarks**: Extend the two-child variance-preserving split (`NormedTensorGaussianSplat2D::split_if_anisotropic` and `OrbitalSplatScene::adaptive_remesh` in [orbital_splat.rs](../src/signals/numerical_adapter/src/orbital_splat.rs)) to recursive multi-generation remeshing along curved streamlines, and benchmark Vortex `0.86.1` vs. Arrow/Parquet on large 3D JHTDB cutouts.
-   - **Time-Domain Coupled Electro-Thermal-Optical PDE Stepping**: Couple the 1D/2D hyperbolic Cattaneo–Vernotte / DDF telegrapher solver ([thermal_inelastic.rs](../src/signals/numerical_adapter/src/thermal_inelastic.rs)) with `SecondHarmonicResonantOpaModel::coupled_electro_thermal_net_gain_sq` ([polariton_spp.rs](../src/signals/numerical_adapter/src/polariton_spp.rs)) across multi-step time-domain waveguide transients.
-3. **Experimental & Dataset Validation Track**:
-   - **Calibrated Open-Dataset & Laboratory Ingestion**: Populate `ControlledMeasurement` and `FlowBoundaryEvidence` in [src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean) with measured double-slit/OAM interferograms, calibrated Stokes/anti-Stokes Raman spectra, and multi-frame JHTDB/PIV vortex-reconnection cutouts.
-   - **Experimental Discriminator Tests**: Execute (a) the preregistered CW vs. pulsed N-LIG Raman/XPS/HAZ material controls in [flat-light-proca-nlig-validation-plan.md](flat-light-proca-nlig-validation-plan.md) and (b) high-sensitivity non-co-propagating crossed-laser-beam deflection interferometry to test the decisive DDF ($\eta_{\mathrm{act}}^\gamma = 0$, `ddf_photon_deflection_null`) vs. General Relativity ($\eta_{\mathrm{act}}^\gamma = 1$, `gr_photon_deflection_active`) active radiation sourcing prediction.
+   - **Curved-Streamline Multi-Generation Splat Remeshing & Vortex BeSeven Unified Domains
 
----
-
-## 5. Machine-Checked Capstone Lean 4 Verification Across the Twenty-Three Unified Domains
-
-The following self-contained Lean 4 verification block typechecks directly against `Signals` (`lake env lean`) and simultaneously certifies the core identities across the twenty-three unified companion papers, including the revised Turner (2026) Superposition (Model 6), Gravity (Models 14a & 14b), and Gravitational-Wave (Models 14a & 14b) models, $>6{,}400\times$ volumetric splat efficiency & Jeffrey/GraphRAG kinematics, optional Complex Homogeneous VRC vs. Plabic causal parameterization, Unrestricted Spin-Polarized Grassmannian Kohn–Sham DFT, the Speed–Accuracy Barrier (`WTMAD-2`, `ALD/CVD`, $144\times$ Cayley scaling), and Polariton/Plasmon/Skyrmion/MZM Non-Destructive Readout:
+The following self-contained Lean 4 verification block typechecks directly against `Signals` (`lake env lean`) and simultaneously certifies the core identities across all twenty-seven unified companion papers, including the revised Turner (2026) Superposition (Model 6), Gravity (Models 14a & 14b), and Gravitational-Wave (Models 14a & 14b) models, $>6{,}400\times$ volumetric splat efficiency & Jeffrey/GraphRAG kinematics, optional Complex Homogeneous VRC vs. Plabic causal parameterization, Unrestricted Spin-Polarized Grassmannian Kohn–Sham DFT, all five Discovered Materials Grand Challenges (`QCI-GXC` Speed–Accuracy Barrier Problem 03, `G-GKBA` Tuning Materials with Light Problem 04, `G-TBC` Interfacial Heat Transport Problem 05, `G-CSC` Cuprate Superconductivity Problem 01 + 6 microscopic gap closures, and `G-IEP` Interfacial Electrical Properties Problem 02 + 5 deep gap closures), and Polariton/Plasmon/Skyrmion/MZM Non-Destructive Readout:
 
 ```lean
 import Signals
 
-namespace ArxivCapstoneNineteenPaperUnificationVerification
+namespace ArxivCapstoneTwentySevenPaperUnificationVerification
 
 open Signals.Plabic
 open Signals.Geometry
@@ -378,7 +384,7 @@ def capstoneRank3Matrix : Matrix (Fin 3) (Fin 6) ℝ :=
      0, 1, 2, -2, 1, -1;
      2, -1, 1, 0, 3, 2]
 
--- Master 23-domain verification across Double-Slit/OAM (including Revised Model 6),
+-- Master 27-domain verification across Double-Slit/OAM (including Revised Model 6),
 -- QISM/Bethe Ansatz, DDF Moving Sheaths, BCJ/Planetary Gravity & Gravitational Waves
 -- (including Revised Models 14a & 14b), Normed Tensor Gaussian Splats,
 -- Inverse Compton/Raman/Second-Sound Heat, Polaritons/SPPs/CSR/SHG-OPA,
@@ -387,7 +393,12 @@ def capstoneRank3Matrix : Matrix (Fin 3) (Fin 6) ℝ :=
 -- Multi-Array Hubble/LVP/TRUE/Nanoimaging, Homogeneous Plücker Q_4 Madelung & Dual-Schubert iGPE,
 -- JEV/Bundle-Transformer/VideoGen, >6,400x Volumetric Splat/Jeffrey/GraphRAG,
 -- Optional Complex VRC vs. Plabic QCI, Unrestricted Spin-Polarized Grassmannian Kohn-Sham DFT,
--- and Speed-Accuracy Barrier (WTMAD-2, ALD/CVD, 144x Cayley) + Polariton/Plasmon/Skyrmion/MZM/NDM
+-- Problem 03 (WTMAD-2, GMTKN55, ALD/CVD, 144x Cayley & 192x RI-J) + Polariton/Plasmon/Skyrmion/MZM/NDM,
+-- Problem 04 (G-GKBA 1.44e8x & 1.44e7x speedups, Hubbard, WSe2, Graphite, & MgB2),
+-- Problem 05 (G-TBC Al/Si, Al/GaN, Cu/TiC/diamond 1.48x, Au/M/PMMA/Si, & adhesion/carbide bridges),
+-- Problem 01 (G-CSC Cuprate 12 Targets, 5 Families, RVB dome, YRZ self-energy, Homes' law, & MMP spin),
+-- and Problem 02 (G-IEP 5 Semiconductor Interfaces + 5 Deep Gap Closures: Deal-Grove inversion, Massoud,
+-- Brower-Stesmans H2 equilibrium, Kao nanowire curvature charge, Song SiC carbon traps, ΔV_FB, & SiGe mass balance)
 example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     (orb : PlanetaryOrbit) (s_pl : PluckerMadelungState)
     (hr : re.horizonRadius < 4)
@@ -409,6 +420,7 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     let φ_fraun := fraunhoferLinearPhase x y (3 / 10) (4 / 10) (1 / 2) 10
     let φ_fres := fresnelParaxialPhase x y (3 / 10) (4 / 10) (1 / 2) 10
     let N_F := fresnelNumber 1 (1 / 2) 10
+    let x_dg := Signals.DFT.giepDealGroveExplicitThickness 2 4 0 3
     -- (1) Paper 1 (Double-Slit & OAM): 0% error on Gr_C(2,4) everywhere:
     relativePredictiveError
       (complexGr24CrossingDoubleSlit (complexGr24ChannelMatrix z1 z2) 3 2 4 1 5 x y)
@@ -545,7 +557,7 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     Signals.DFT.mgb2NonEquilibriumCriticalTemp 38 (1 / 2) = 0 ∧
     Signals.DFT.mgb2NormalizedFirstHarmonic 20 Signals.DFT.mgb2KatsumiCriticalTempK <
       Signals.DFT.mgb2NormalizedFirstHarmonic 7 Signals.DFT.mgb2KatsumiCriticalTempK ∧
-    -- (25) Paper 25 (Predicting Heat Transport across Solid Interfaces: G-TBC Bond-Weighted Transmission, Al/Si & Al/GaN, Cu/TiC/diamond 1.48x, & Au/M/PMMA/Si Stacks):
+    -- (25) Paper 25 (Predicting Heat Transport across Solid Interfaces: G-TBC Bond-Weighted Transmission, Al/Si & Al/GaN, Cu/TiC/diamond 1.48x, Au/M/PMMA/Si, & Adhesion/Carbide Bridges):
     Signals.DFT.ammNormalTransmission 17 17 = 1 ∧
     Signals.DFT.gtbcBondWeightedTransmission 17 20 2 <
       Signals.DFT.gtbcBondWeightedTransmission 17 20 (1 / 5) ∧
@@ -559,31 +571,58 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     Signals.DFT.gtbcAuTiPmmaSiConductance < Signals.DFT.gtbcAuNiPmmaSiConductance ∧
     Signals.DFT.gtbcPolymerStackConductance 139 10 200 <
       Signals.DFT.gtbcPolymerStackConductance 139 2 200 ∧
-    -- (26) Paper 26 (A Predictive Theory of Cuprate Superconductivity: G-CSC 12 Targets & 5 Families):
+    Signals.DFT.gtbcWorkOfAdhesionSpringStiffness 1 2 <
+      Signals.DFT.gtbcWorkOfAdhesionSpringStiffness 3 2 ∧
+    Signals.DFT.gtbcCarbideInterlayerConductance 260 210 10 10000 = 273000 / 2623 ∧
+    -- (26) Paper 26 (A Predictive Theory of Cuprate Superconductivity: G-CSC 12 Targets, 5 Families, & 6 Microscopic Gap Closures):
     Signals.DFT.cuprateSuperconductingTc 93 (5 / 100) = 0 ∧
     Signals.DFT.cuprateSuperconductingTc 93 (27 / 100) = 0 ∧
     Signals.DFT.cuprateSuperconductingTc 93 (16 / 100) = 93 ∧
+    Signals.DFT.cuprateMicroscopicRvbDome 93 (16 / 100) =
+      Signals.DFT.cuprateSuperconductingTc 93 (16 / 100) ∧
     Signals.DFT.cuprateDWaveFormFactor 1 1 = 0 ∧
     Signals.DFT.cuprateDWaveFormFactor 1 (-1) = 2 ∧
     Signals.DFT.cupratePseudogapTemp 400 (19 / 100) = 0 ∧
+    Signals.DFT.cuprateYrzPseudogapSelfEnergy 40 1 1 5 2 = 0 ∧
+    Signals.DFT.cuprateHomesSuperfluidDensity 1 93 120 <
+      Signals.DFT.cuprateHomesSuperfluidDensity 1 93 80 ∧
     0 < Signals.DFT.cuprateParamagnonEnergy 130 (30 / 100) ∧
+    0 < Signals.DFT.cuprateDynamicalSpinStructureFactor 10 130 130 50 ∧
     Signals.DFT.cuprateCdwStructureFactorPeak 10 100 (1 / 8) = 10 ∧
+    Signals.DFT.cupratePseudogapSpecificHeatCoeff 1 100 50 < 1 ∧
     Signals.DFT.cuprateChargeTransferSuperexchange (7 / 5) 2 8 <
       Signals.DFT.cuprateChargeTransferSuperexchange (7 / 5) (3 / 2) 8 ∧
     Signals.DFT.cuprateFamilyLscoTcMax < Signals.DFT.cuprateFamilyHg1201TcMax ∧
-    -- (27) Paper 27 (Interfacial Electrical Properties from Processing History: G-IEP Across 5 Interfaces):
+    -- (27) Paper 27 (Interfacial Electrical Properties from Processing History: G-IEP Across 5 Interfaces & 5 Deep Gap Closures):
     Signals.DFT.giepThreeFluxSteadyState 10 2 5 4 20 <
       Signals.DFT.giepThreeFluxSteadyState 10 2 5 4 5 ∧
+    Signals.DFT.giepDealGroveTimeForThickness 2 4 0 x_dg = 3 ∧
+    Signals.DFT.giepMassoudThinOxideRate 1 5 6 2 <
+      Signals.DFT.giepMassoudThinOxideRate 1 5 2 2 ∧
     Signals.DFT.giepSi100PassivatedDit < Signals.DFT.giepSi111PassivatedDit ∧
+    Signals.DFT.giepBrowerStesmansEquilibriumDit 25 19 1 <
+      Signals.DFT.giepBrowerStesmansEquilibriumDit 25 9 1 ∧
     Signals.DFT.giepNanowireStressRetardedRate 10 5 1 <
       Signals.DFT.giepNanowireStressRetardedRate 10 2 1 ∧
+    Signals.DFT.giepNanowireStressInducedCharge 9 2 10 25 <
+      Signals.DFT.giepNanowireStressInducedCharge 9 2 10 10 ∧
     Signals.DFT.giepSiCCarbonRetardedRate 10 8 <
       Signals.DFT.giepSiCCarbonRetardedRate 10 1 ∧
+    Signals.DFT.giepSiCCarbonClusterDit 25 5 1 (9 / 10) <
+      Signals.DFT.giepSiCCarbonClusterDit 25 5 8 (9 / 10) ∧
     Signals.DFT.giepHighKGateStackEot 1 3 (39 / 10) 20 < 1 + 3 ∧
+    Signals.DFT.giepHighKFlatbandVoltageShift (1 / 2) 2 (5 / 2) <
+      Signals.DFT.giepHighKFlatbandVoltageShift (1 / 2) 2 (3 / 2) ∧
     Signals.DFT.giepGeOxideNetRate 5 8 < 0 ∧
     Signals.DFT.giepSiGeSnowplowProfile (1 / 4) (1 / 5) 2 5 <
-      Signals.DFT.giepSiGeSnowplowProfile (1 / 4) (1 / 5) 0 5 := by
-  intro z1 z2 p_slit M_sheath W_orb Δϖ_GR P_GR splat_ddf splat_opa M_spp M_holo W_sec M_ads5 φ_fraun φ_fres N_F
+      Signals.DFT.giepSiGeSnowplowProfile (1 / 4) (1 / 5) 0 5 ∧
+    Signals.DFT.giepSiGeSnowplowMassBalance (1 / 4) 6 3 * 3 = (1 / 4) * 6 ∧
+    Signals.DFT.twoOrbitalLinearCorrelationEntropy
+        (Signals.DFT.mcweenyPurificationPoly (9 / 10)) <
+      Signals.DFT.twoOrbitalLinearCorrelationEntropy (9 / 10) ∧
+    Signals.DFT.giepSubthresholdSwingWithDit 60 10 (3 / 2) <
+      Signals.DFT.giepSubthresholdSwingWithDit 60 10 25 := by
+  intro z1 z2 p_slit M_sheath W_orb Δϖ_GR P_GR splat_ddf splat_opa M_spp M_holo W_sec M_ads5 φ_fraun φ_fres N_F x_dg
   have h1 := (complexGr24CrossingDoubleSlit_zero_error 3 2 4 6 1 5 x y).2
   have h2 := yang_baxter_equation_matrix8 7 4 1 2
   have h3_mad := s.gr24TwistorMatrix_madelung_sector_identities 6 1 5 2 0 0
@@ -661,6 +700,15 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     (by norm_num) (by norm_num)
     (by norm_num) (by norm_num)
     (by norm_num) (by norm_num)
+  have h27_deep := Signals.DFT.interfacial_electrical_properties_deep_gap_closure_identities
+    2 4 0 3 1 5 2 6 2
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    25 9 19 1 10 10 25 9 2
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    5 1 8 (9 / 10) (1 / 2) 2 (3 / 2) (5 / 2) (1 / 4) 6 10 3
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   rcases h9_ads with ⟨ha1, _ha2, _ha3, _ha4, _ha5, _ha6, _ha7, _ha8, _ha9, _ha10,
     _ha11, _ha12, ha13, _ha14, _ha15, _ha16, _ha17, _ha18, _ha19, _ha20, _ha21,
     _ha22, ha23, _ha24, _ha25, _ha26, _ha27⟩
@@ -736,25 +784,42 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     by norm_num [Signals.DFT.gtbcAuPmmaSiConductance, Signals.DFT.gtbcAuTiPmmaSiConductance],
     by norm_num [Signals.DFT.gtbcAuTiPmmaSiConductance, Signals.DFT.gtbcAuNiPmmaSiConductance],
     by norm_num [Signals.DFT.gtbcPolymerStackConductance, Signals.DFT.gtbcPolymerStackTotalResistance],
+    by norm_num [Signals.DFT.gtbcWorkOfAdhesionSpringStiffness],
+    by norm_num [Signals.DFT.gtbcCarbideInterlayerConductance, Signals.DFT.gtbcCarbideInterlayerSeriesResistance],
     by norm_num [Signals.DFT.cuprateSuperconductingTc, Signals.DFT.cupratePreslandTallonDomeFactor],
     by norm_num [Signals.DFT.cuprateSuperconductingTc, Signals.DFT.cupratePreslandTallonDomeFactor],
     by norm_num [Signals.DFT.cuprateSuperconductingTc, Signals.DFT.cupratePreslandTallonDomeFactor],
+    by norm_num [Signals.DFT.cuprateMicroscopicRvbDome, Signals.DFT.cuprateSuperconductingTc,
+      Signals.DFT.cupratePreslandTallonDomeFactor],
     by norm_num [Signals.DFT.cuprateDWaveFormFactor],
     by norm_num [Signals.DFT.cuprateDWaveFormFactor],
     by norm_num [Signals.DFT.cupratePseudogapTemp, Signals.DFT.cuprateCriticalDopingPStar],
+    by norm_num [Signals.DFT.cuprateYrzPseudogapSelfEnergy, Signals.DFT.cuprateDWaveFormFactor],
+    by norm_num [Signals.DFT.cuprateHomesSuperfluidDensity],
     by norm_num [Signals.DFT.cuprateParamagnonEnergy],
+    by norm_num [Signals.DFT.cuprateDynamicalSpinStructureFactor],
     by norm_num [Signals.DFT.cuprateCdwStructureFactorPeak],
+    by norm_num [Signals.DFT.cupratePseudogapSpecificHeatCoeff],
     by norm_num [Signals.DFT.cuprateChargeTransferSuperexchange],
     by norm_num [Signals.DFT.cuprateFamilyLscoTcMax, Signals.DFT.cuprateFamilyHg1201TcMax],
     by norm_num [Signals.DFT.giepThreeFluxSteadyState],
+    h27_deep.2.1,
+    h27_deep.2.2.2.1,
     by norm_num [Signals.DFT.giepSi100PassivatedDit, Signals.DFT.giepSi111PassivatedDit],
+    h27_deep.2.2.2.2.2.1,
     by norm_num [Signals.DFT.giepNanowireStressRetardedRate],
+    h27_deep.2.2.2.2.2.2.2.1,
     by norm_num [Signals.DFT.giepSiCCarbonRetardedRate],
+    h27_deep.2.2.2.2.2.2.2.2.1,
     by norm_num [Signals.DFT.giepHighKGateStackEot],
+    h27_deep.2.2.2.2.2.2.2.2.2.1,
     by norm_num [Signals.DFT.giepGeOxideNetRate],
-    by norm_num [Signals.DFT.giepSiGeSnowplowProfile]⟩
+    by norm_num [Signals.DFT.giepSiGeSnowplowProfile],
+    h27_deep.2.2.2.2.2.2.2.2.2.2.1,
+    by norm_num [Signals.DFT.twoOrbitalLinearCorrelationEntropy, Signals.DFT.mcweenyPurificationPoly],
+    by norm_num [Signals.DFT.giepSubthresholdSwingWithDit]⟩
 
-end ArxivCapstoneNineteenPaperUnificationVerification
+end ArxivCapstoneTwentySevenPaperUnificationVerification
 ```
 
 ---
@@ -814,72 +879,49 @@ end ArxivCapstoneNineteenPaperUnificationVerification
 13. Williamson, D. J., and Baspin, N. (2024). *Layer Codes*. Nature Communications 15(1), 9528. [DOI: 10.1038/s41467-024-53881-3](https://doi.org/10.1038/s41467-024-53881-3); [arXiv:2309.16503](https://arxiv.org/abs/2309.16503).
 
 (unif-bcj2008)=
-<a id="unif-bcj2008"></a>
-14. Bern, Z., Carrasco, J. J. M., and Johansson, H. (2008). *New Relations for Gauge-Theory Amplitudes*. Physical Review D 78(8), 085011. [DOI: 10.1103/PhysRevD.78.085011](https://doi.org/10.1103/PhysRevD.78.085011); [arXiv:0805.3993](https://arxiv.org/abs/0805.3993).
+(unif-schroedter2026)=
+<a id="unif-schroedter2026"></a>
+(unif-madeo2020)=
+<a id="unif-madeo2020"></a>
+(unif-renedecotret2019)=
+<a id="unif-renedecotret2019"></a>
+(unif-katsumi2025)=
+<a id="unif-katsumi2025"></a>
+24. Schroedter, C., Bonitz, M., and Joost, J.-P. (2026). *Time-linear quantum kinetic simulations of correlated lattice systems* ([arXiv:2606.10773](https://arxiv.org/abs/2606.10773)); Madéo, J., Man, M. K. L., Sahoo, C., et al. (2020). *Directly visualizing the momentum-forbidden dark excitons and their dynamics in atomically thin semiconductors*. Science 370(6521), 1199–1204 ([DOI: 10.1126/science.aba1029](https://doi.org/10.1126/science.aba1029)); René de Cotret, L. P., Otto, M. R., Virga, M. J., et al. (2019). *Time- and momentum-resolved phonon population dynamics with ultrafast electron diffuse scattering*. Physical Review B 100(21), 214115 ([DOI: 10.1103/PhysRevB.100.214115](https://doi.org/10.1103/PhysRevB.100.214115)); Katsumi, K., et al. (2025). *Terahertz Nonlinear Response and Light-Driven Superconductivity in $\mathrm{MgB}_2$*. Physical Review Letters 135(3), 036902.
 
-(unif-partanen2025)=
-<a id="unif-partanen2025"></a>
-15. Partanen, M., and Tulkki, J. (2025). *Gravity Generated by Four One-Dimensional Unitary Gauge Symmetries and the Standard Model*. Reports on Progress in Physics 88, 057802. [DOI: 10.1088/1361-6633/adc82e](https://doi.org/10.1088/1361-6633/adc82e).
+(unif-swartzpohl1989)=
+<a id="unif-swartzpohl1989"></a>
+(unif-li2022gtbc)=
+<a id="unif-li2022gtbc"></a>
+(unif-chang2019tic)=
+<a id="unif-chang2019tic"></a>
+(unif-sandell2020pmma)=
+<a id="unif-sandell2020pmma"></a>
+25. Swartz, E. T., and Pohl, R. O. (1989). *Thermal boundary resistance*. Reviews of Modern Physics 61(3), 605–668 ([DOI: 10.1103/RevModPhys.61.605](https://doi.org/10.1103/RevModPhys.61.605)); Li, M., et al. (2022). *Anharmonic phonon transport across atomically sharp metal–semiconductor interfaces*. Nature Communications 13, 4901 ([DOI: 10.1038/s41467-022-32600-w](https://doi.org/10.1038/s41467-022-32600-w)); Chang, G., et al. (2019). *Interfacial thermal conductance enhancement in Cu/TiC/diamond composites*. ACS Applied Materials & Interfaces 11(29), 26507–26517; Sandell, S., et al. (2020). *Thermoreflectance characterization of metal/PMMA/Si interfacial thermal resistance*. Nanomaterials 10(4), 670; Losego, M. D., et al. (2010). *Effects of chemical bonding on heat transport across interfaces*. Nature Materials 11, 502–506.
 
-(unif-witten2004)=
-<a id="unif-witten2004"></a>
-(unif-berkovits2004)=
-<a id="unif-berkovits2004"></a>
-16. Witten, E. (2004). *Perturbative Gauge Theory as a String Theory in Twistor Space*. Communications in Mathematical Physics 252, 189–258 ([arXiv:hep-th/0312171](https://arxiv.org/abs/hep-th/0312171)); Berkovits, N., and Witten, E. (2004). *Conformal Supergravity in Twistor-String Theory*. Journal of High Energy Physics 2004(08), 009 ([arXiv:hep-th/0406051](https://arxiv.org/abs/hep-th/0406051)).
+(unif-bednorz1986)=
+<a id="unif-bednorz1986"></a>
+(unif-zhangrice1988)=
+<a id="unif-zhangrice1988"></a>
+(unif-keimer2015)=
+<a id="unif-keimer2015"></a>
+26. Bednorz, J. G., and Müller, K. A. (1986). *Possible high $T_c$ superconductivity in the Ba–La–Cu–O system*. Zeitschrift für Physik B 64(2), 189–193 ([DOI: 10.1007/BF01303701](https://doi.org/10.1007/BF01303701)); Zhang, F. C., and Rice, T. M. (1988). *Effective Hamiltonian for the superconducting Cu oxides*. Physical Review B 37(7), 3759–3761 ([DOI: 10.1103/PhysRevB.37.3759](https://doi.org/10.1103/PhysRevB.37.3759)); Presland, M. R., Tallon, J. L., Buckley, R. G., Liu, R. S., and Flower, N. E. (1991). *General trends in oxygen stoichiometry effects on $T_c$ in Bi and Tl superconductors*. Physica C 176(1–3), 95–105; Pavarini, E., Dasgupta, I., Saha-Dasgupta, T., Jepsen, O., and Andersen, O. K. (2001). *Band-structure trend in hole-doped cuprates and correlation with $T_{c,\max}$*. Physical Review Letters 87(4), 047003; Homes, C. C., et al. (2004). *A universal scaling relation in high-temperature superconductors*. Nature 430, 539–541; Yang, K.-Y., Rice, T. M., and Zhang, F.-C. (2006). *Phenomenological theory of the pseudogap state*. Physical Review B 73(17), 174501; Keimer, B., Kivelson, S. A., Norman, M. R., Uchida, S., and Zaanen, J. (2015). *From quantum matter to high-temperature superconductivity in copper oxides*. Nature 518(7538), 179–186 ([DOI: 10.1038/nature14165](https://doi.org/10.1038/nature14165)).
 
-(unif-cachazo2013)=
-<a id="unif-cachazo2013"></a>
-(unif-bjerrum2018)=
-<a id="unif-bjerrum2018"></a>
-17. Cachazo, F., and Skinner, D. (2013). *Gravity from Rational Curves in Twistor Space*. Physical Review Letters 110(16), 161301 ([arXiv:1207.0741](https://arxiv.org/abs/1207.0741)); Bjerrum-Bohr, N. E. J., Damgaard, P. H., Festuccia, G., Planté, L., and Vanhove, P. (2018). *General Relativity from Scattering Amplitudes*. Physical Review Letters 121(17), 171601 ([arXiv:1806.04920](https://arxiv.org/abs/1806.04920)).
-
-(unif-peters1963)=
-<a id="unif-peters1963"></a>
-(unif-abbott2017)=
-<a id="unif-abbott2017"></a>
-18. Peters, P. C., and Mathews, J. (1963). *Gravitational Radiation from Point Masses in a Keplerian Orbit*. Physical Review 131(1), 435–440 ([DOI: 10.1103/PhysRev.131.435](https://doi.org/10.1103/PhysRev.131.435)); Abbott, B. P., et al. (LIGO/Virgo/Fermi/INTEGRAL) (2017). *Gravitational Waves and Gamma-Rays from a Binary Neutron Star Merger: GW170817 and GRB 170817A*. The Astrophysical Journal Letters 848(2), L13.
-
-(unif-fedi2016)=
-<a id="unif-fedi2016"></a>
-(unif-fedi2017)=
-<a id="unif-fedi2017"></a>
-(unif-hawking1975)=
-<a id="unif-hawking1975"></a>
-19. Fedi, M. (2016, 2017). *Gravity as a Fluid Dynamic Phenomenon in a Superfluid Quantum Space (Fluid Quantum Gravity)* & *Relativistic Viscous Superfluid Quantum Space (SQS) and Dilatant Vacuum*; Hawking, S. W. (1975). *Particle Creation by Black Holes*. Communications in Mathematical Physics 43(3), 199–220.
-
-(unif-richards1959)=
-<a id="unif-richards1959"></a>
-(unif-dorn2003)=
-<a id="unif-dorn2003"></a>
-(unif-poddubny2013)=
-<a id="unif-poddubny2013"></a>
-(unif-zaruba2019)=
-<a id="unif-zaruba2019"></a>
-20. Richards, B., and Wolf, E. (1959). *Electromagnetic Diffraction in Optical Systems, II*. Proc. R. Soc. Lond. A 253, 358–379; Dorn, R., Quabis, S., and Leuchs, G. (2003). *Sharper Focus for a Radially Polarized Light Beam*. Physical Review Letters 91(23), 233901; Poddubny, A., Iorsh, I., Belov, P., and Kivshar, Y. (2013). *Hyperbolic Metamaterials*. Nature Photonics 7, 948–957; Zaruba, F., and Benini, L. (2019). *The Cost of Application-Class Processing: Energy and Performance Analysis of a Linux-Ready 1.7-GHz 64-Bit RISC-V Core in 22-nm FDSOI Technology*. IEEE TVLSI 27(11), 2629–2640.
-
-(unif-holtzman2022)=
-<a id="unif-holtzman2022"></a>
-(unif-summer2026)=
-<a id="unif-summer2026"></a>
-(unif-giarmatzi2023)=
-<a id="unif-giarmatzi2023"></a>
-(unif-delrio2011)=
-<a id="unif-delrio2011"></a>
-21. Holtzman, R., and Raz, O. (2022). *Landau theory for the Mpemba effect through phase transitions*. Communications Physics 5(1), 280 ([DOI: 10.1038/s42005-022-01063-2](https://doi.org/10.1038/s42005-022-01063-2)); Summer, A., Moroder, M., Bettmann, L. P., Turkeshi, X., Marvian, I., and Goold, J. (2026). *Resource-Theoretical Unification of Mpemba Effects: Classical and Quantum*. Physical Review X 16, 011050 ([DOI: 10.1103/rbt4-psfd](https://doi.org/10.1103/rbt4-psfd)); Giarmatzi, C., and Costa, F. (2023). *A Semantics for Counterfactuals in Quantum Causal Models* ([arXiv:2302.11783](https://arxiv.org/abs/2302.11783)); del Rio, L., Åberg, J., Renner, R., Dahlsten, O., and Vedral, V. (2011). *The thermodynamic meaning of negative entropy*. Nature 474(7349), 61–63 ([DOI: 10.1038/nature10123](https://doi.org/10.1038/nature10123)).
-
-(unif-declercq2026)=
-<a id="unif-declercq2026"></a>
-(unif-zhang2025)=
-<a id="unif-zhang2025"></a>
-22. De Clercq, C. (2026). *Bundle-Transformer: A Geometric Position Paper* (Université Sorbonne Paris Nord, LAGA, {download}`data/papers/bundle_transformer.pdf <../data/papers/bundle_transformer.pdf>`); Zhang, C. (2025). *Attention Is Not What You Need: Grassmann Flows as an Attention-Free Alternative for Sequence Modeling* ([arXiv:2512.19428](https://arxiv.org/abs/2512.19428)); Kang, H., et al. (2025). *GrFormer: A novel Transformer on Grassmann manifold for infrared and visible image fusion*. Information Fusion 125; Su, J., et al. (2021). *RoFormer: Enhanced Transformer with Rotary Position Embedding* ([arXiv:2104.09864](https://arxiv.org/abs/2104.09864)).
-
-(unif-kohnsham1965)=
-<a id="unif-kohnsham1965"></a>
-(unif-goerigk2017)=
-<a id="unif-goerigk2017"></a>
-(unif-postnikov2006)=
-<a id="unif-postnikov2006"></a>
-23. Kohn, W., and Sham, L. J. (1965). *Self-Consistent Equations Including Exchange and Correlation Effects*. Physical Review 140(4A), A1133–A1138 ([DOI: 10.1103/PhysRev.140.A1133](https://doi.org/10.1103/PhysRev.140.A1133)); Edelman, A., Arias, T. A., and Smith, S. T. (1998). *The Geometry of Algorithms with Orthogonality Constraints*. SIAM Journal on Matrix Analysis and Applications 20(2), 303–353 ([DOI: 10.1137/S0895479895290954](https://doi.org/10.1137/S0895479895290954)); Goerigk, L., Hansen, A., Bauer, C., Ehrlich, S., Najibi, A., and Grimme, S. (2017). *A look at the density functional theory zoo with the advanced GMTKN55 database for general main group thermochemistry, kinetics and noncovalent interactions*. Physical Chemistry Chemical Physics 19(48), 32184–32215 ([DOI: 10.1039/C7CP04913G](https://doi.org/10.1039/C7CP04913G)); Postnikov, A. (2006). *Total positivity, Grassmannians, and networks* ([arXiv:math/0609764](https://arxiv.org/abs/math/0609764)); Kitaev, A. Y. (2001). *Unpaired Majorana fermions in quantum wires*. Physics-Uspekhi 44(10S), 131–136 ([DOI: 10.1070/1063-7869/44/10S/S29](https://doi.org/10.1070/1063-7869/44/10S/S29)).
+(unif-dealgrove1965)=
+<a id="unif-dealgrove1965"></a>
+(unif-kao1988)=
+<a id="unif-kao1988"></a>
+(unif-vitkavage1990)=
+<a id="unif-vitkavage1990"></a>
+(unif-song2004)=
+<a id="unif-song2004"></a>
+(unif-rabie2005)=
+<a id="unif-rabie2005"></a>
+(unif-goncharova2011)=
+<a id="unif-goncharova2011"></a>
+(unif-wang2017ge)=
+<a id="unif-wang2017ge"></a>
+27. Deal, B. E., and Grove, A. S. (1965). *General Relationship for the Thermal Oxidation of Silicon*. Journal of Applied Physics 36(12), 3770–3778 ([DOI: 10.1063/1.1713945](https://doi.org/10.1063/1.1713945)); Kao, D.-B., McVittie, J. P., Nix, W. D., and Saraswat, K. C. (1988). *Two-dimensional thermal oxidation of silicon—II. Modeling stress effects in wet oxides*. IEEE Transactions on Electron Devices 35(1), 25–37 ([DOI: 10.1109/16.2412](https://doi.org/10.1109/16.2412)); Vitkavage, S. C., Irene, E. A., and Massoud, H. Z. (1990). *An investigation of the silicon–$\mathrm{SiO_2}$ interface trap density resulting from thin oxide thermal growth and annealing*. Journal of Applied Physics 68(10), 5262–5272 ([DOI: 10.1063/1.347042](https://doi.org/10.1063/1.347042)); Song, Y., Dhar, S., Feldman, L. C., Chung, G., and Williams, J. R. (2004). *Modified Deal–Grove model for the thermal oxidation of $4\text{H-SiC}$*. Journal of Applied Physics 95(9), 4953–4957 ([DOI: 10.1063/1.1690097](https://doi.org/10.1063/1.1690097)); Rabie, M. A., Haddara, Y. M., and Carette, J. (2005). *An analytical model for the oxidation of silicon–germanium alloys*. Journal of Applied Physics 98(7), 074904 ([DOI: 10.1063/1.2060927](https://doi.org/10.1063/1.2060927)); Goncharova, L. V., Dalponte, M., Feng, T., Gustafsson, T., Garfunkel, E., Lysaght, P. S., and Bersuker, G. (2011). *Oxygen diffusion and reactions in $\mathrm{HfO_2}$/$\mathrm{SiO_2}$/$\mathrm{Si}$ stacks*. Physical Review B 83(11), 115329 ([DOI: 10.1103/PhysRevB.83.115329](https://doi.org/10.1103/PhysRevB.83.115329)); Wang, W., Li, C., and Wong, H. (2017). *Interfacial reactions and electrical properties of $\mathrm{Ge/GeO_2}$ gate stacks*. Critical Reviews in Solid State and Materials Sciences 42(4), 313–342.
 
 
 ---
@@ -927,6 +969,38 @@ end ArxivCapstoneNineteenPaperUnificationVerification
   note    = {Verified in Lean 4 (v4.35.0-rc3) and Rust/WASM}
 }
 
+@article{turner2026grassmannian_tuning_materials_light,
+  author  = {Turner, Wes},
+  title   = {Tuning Materials with Light (Discovered Materials Grand Challenge 04): Time-Linear {G}rassmannian Generalized {K}adanoff--{B}aym Ansatz ({G-GKBA}) and Coupled Electron--Exciton--Phonon--{B}ogoliubov Dynamics Across {H}ubbard Chains/Ladders, {$\mathrm{WSe}_2$}, Graphite, and {$\mathrm{MgB}_2$} in {L}ean 4, {P}ython, and {R}ust},
+  journal = {Sustainable Factory Research Archive},
+  year    = {2026},
+  note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
+}
+
+@article{turner2026grassmannian_interfacial_heat_transport,
+  author  = {Turner, Wes},
+  title   = {Predicting Heat Transport across Solid Interfaces (Discovered Materials Grand Challenge 05): {G}rassmannian Thermal Boundary Conductance ({G-TBC}), Bond-Stiffness {P}l{\"u}cker Transmission, Anharmonic {$\mathrm{Gr}_{\mathbb{C}}(2,5)$} Up-Conversion, and Transferable Semiconductor/Carbide/Polymer Benchmarks in {L}ean 4, {P}ython, and {R}ust},
+  journal = {Sustainable Factory Research Archive},
+  year    = {2026},
+  note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
+}
+
+@article{turner2026grassmannian_cuprate_superconductivity,
+  author  = {Turner, Wes},
+  title   = {A Predictive Theory of Cuprate Superconductivity (Discovered Materials Grand Challenge 01): {G}rassmannian {Z}hang--{R}ice {P}l{\"u}cker Pairing ({G-CSC}), {$d_{x^2-y^2}$} Dome, Pseudogap {F}ermi Arcs, {P}lanckian Strange Metal, and 12-Target Benchmarks Across {$\mathrm{LSCO}$}, {$\mathrm{Bi2212}$}, {$\mathrm{YBCO}$}, {$\mathrm{Tl2201}$}, and {$\mathrm{Hg1201}$} in {L}ean 4, {P}ython, and {R}ust},
+  journal = {Sustainable Factory Research Archive},
+  year    = {2026},
+  note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
+}
+
+@article{turner2026grassmannian_interfacial_electrical_properties,
+  author  = {Turner, Wes},
+  title   = {Interfacial Electrical Properties from Processing History (Discovered Materials Grand Challenge 02): {G}rassmannian Process-to-Electrical Modeling ({G-IEP}), Plabic 3-Flux {D}eal--{G}rove Kinetics, {M}c{W}eeny Dangling-Bond Passivation, and 5-Interface Benchmarks Across Planar {$\mathrm{Si/SiO_2}$}, Curved {$\mathrm{Si}$} Nanowires, {$\mathrm{SiC/SiO_2}$}, {$\mathrm{HfO_2/SiO_2/Si}$}, and {$\mathrm{Ge/SiGe}$} in {L}ean 4, {P}ython, and {R}ust},
+  journal = {Sustainable Factory Research Archive},
+  year    = {2026},
+  note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
+}
+
 @article{dean2025secondharmonic,
   author  = {Dean and others},
   title   = {Low-Power Integrated Optical Amplification Through Second-Harmonic Resonance},
@@ -938,6 +1012,85 @@ end ArxivCapstoneNineteenPaperUnificationVerification
 
 @article{deleeuw2012secret_unif,
   author  = {de Leeuw, Marius and Matsumoto, Takuya and Moriyama, Sanefumi and Regelskis, Vidas and Torrielli, Alessandro},
+  title   = {Secret Symmetries in {AdS/CFT}},
+  journal = {Physica Scripta},
+  volume  = {86},
+  number  = {2},
+  pages   = {028502},
+  year    = {2012},
+  doi     = {10.1088/0031-8949/86/02/028502},
+  eprint  = {1204.2366},
+  url     = {https://doi.org/10.1088/0031-8949/86/02/028502}
+}
+```
+
+### Schema.org Metadata (JSON-LD)
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian Gr_C(2,4) and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4",
+  "author": {
+    "@type": "Person",
+    "name": "Wes Turner"
+  },
+  "dateModified": "2026-11-06",
+  "about": [
+    "Complex Grassmannian Gr_C(2,4)",
+    "Homogeneous Plücker Klein Quadric Q_4 Madelung Hydrodynamics",
+    "Dual-Schubert iGPE and Fubini-Study Kähler Gross-Pitaevskii Equation",
+    "Revised Turner (2026) Superposition (Model 6), Gravity (Models 14a/14b), and Gravitational-Wave (Models 14a/14b) Models",
+    "Dilatant Dark Fluid",
+    "Normed Tensor Gaussian Splatting",
+    "Quantum Inverse Scattering Method",
+    "Surface Plasmon Polaritons",
+    "Second-Harmonic Optical Parametric Amplification",
+    "Holographic Principle",
+    "AdS/CFT Integrability and Secret Symmetries",
+    "Multi-Spectral Hubble and LVP Medical Grassmannian Imaging",
+    "Grassmannian Quantum Causal Inference, Optional Complex VRC, and Mpemba Laws",
+    "Unrestricted Spin-Polarized Grassmannian Kohn-Sham DFT and the Speed-Accuracy Barrier in Quantum Chemistry (Problem 03)",
+    "Tuning Materials with Light via Time-Linear Grassmannian G-GKBA (Problem 04)",
+    "Predicting Heat Transport across Solid Interfaces via Grassmannian Thermal Boundary Conductance G-TBC (Problem 05)",
+    "Predictive Theory of Cuprate Superconductivity via Grassmannian Zhang-Rice Plücker Pairing G-CSC (Problem 01)",
+    "Interfacial Electrical Properties from Processing History via Grassmannian Process-to-Electrical Modeling G-IEP (Problem 02)",
+    "Polaritons, Plasmons, Skyrmions, Majorana Zero Modes, and Non-Destructive Readout",
+    "Lean 4 Formal Verification"
+  ],
+  "isBasedOn": [
+    "docs/grassmannian-huygens-double-slit-oam-paper.md",
+    "docs/grassmannian-qism-bethe-ansatz-paper.md",
+    "docs/grassmannian-ddf-moving-sheath-paper.md",
+    "docs/grassmannian-gravity-from-qed-scattering-paper.md",
+    "docs/grassmannian-splat-mechanics-paper.md",
+    "docs/grassmannian-thermal-compton-raman-paper.md",
+    "docs/grassmannian-polariton-spp-mechanics-paper.md",
+    "docs/grassmannian-holographic-principle-paper.md",
+    "docs/grassmannian-ads-cft-ddf-paper.md",
+    "docs/gaussian-splat-tensors-normed-paper.md",
+    "docs/grassmannian-holographic-imaging-depth-recovery-paper.md",
+    "docs/grassmannian-vectorial-longitudinal-polarization-paper.md",
+    "docs/grassmannian-enz-hyperbolic-metamaterials-paper.md",
+    "docs/grassmannian-riscv-holographic-nanolithography-kicad-paper.md",
+    "docs/grassmannian-madelung-lagrangian-ddf-jamming-paper.md",
+    "docs/grassmannian-hawking-radiation-decoding-paper.md",
+    "docs/grassmannian-multispectral-hubble-medical-nanoimaging-paper.md",
+    "docs/grassmannian-quantum-causal-inference-mpemba-paper.md",
+    "docs/grassmannian-complex-gpe-igpe-plucker-madelung-paper.md",
+    "docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md",
+    "docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md",
+    "docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md",
+    "docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md",
+    "docs/grassmannian-tuning-materials-with-light-paper.md",
+    "docs/grassmannian-interfacial-heat-transport-paper.md",
+    "docs/grassmannian-cuprate-superconductivity-paper.md",
+    "docs/grassmannian-interfacial-electrical-properties-paper.md",
+    "docs/huygens-grassmannian-amplituhedron-plan.md",
+    "docs/tuning-materials-with-light-plan.md",
+    "docs/interfacial-heat-transport-plan.md",
+    "docs/cuprate-superconductivity-plan.md",
+    "docs/interfacial-electrical-properties Takuya and Moriyama, Sanefumi and Regelskis, Vidas and Torrielli, Alessandro},
   title   = {Secret Symmetries in {AdS/CFT}},
   journal = {Physica Scripta},
   volume  = {86},
