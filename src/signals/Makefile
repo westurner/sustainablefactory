@@ -33,8 +33,19 @@ lean-api:
 
 blueprint: lean-api
 	$(LEAN) build :blueprint
-	cd blueprint/src && plastex --kpsewhich ./resolve-tex-input.sh -c plastex.cfg web.tex
-	ln -sfnT ../../.lake/build/doc blueprint/web/signals-api
+	@set -eu; \
+		stamp=".lake/build/blueprint-web.sha256"; \
+		current="$$( { \
+			find blueprint/src .lake/build/blueprint -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum; \
+			sha256sum Makefile requirements-blueprint.txt; \
+		} | sha256sum | cut -d' ' -f1)"; \
+		if [ ! -f "$$stamp" ] || [ "$$(cat "$$stamp")" != "$$current" ] || [ ! -f blueprint/web/index.html ]; then \
+			(cd blueprint/src && plastex --kpsewhich ./resolve-tex-input.sh -c plastex.cfg web.tex); \
+			printf '%s\n' "$$current" > "$$stamp"; \
+		else \
+			printf '%s\n' 'Blueprint HTML unchanged; reusing generated output'; \
+		fi; \
+		ln -sfnT ../../.lake/build/doc blueprint/web/signals-api
 
 blueprint-pdf: blueprint
 	cd blueprint/src && latexmk -output-directory=../print

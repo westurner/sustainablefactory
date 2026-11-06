@@ -208,6 +208,8 @@ def _regenerate_glossary(app):
 def _build_signals_blueprint(app):
     if app.builder.format != "html":
         return
+    if os.environ.get("SIGNALS_BLUEPRINT_PREBUILT") == "1":
+        return
 
     repo_root = Path(__file__).resolve().parents[1]
     tmp_dir = repo_root / ".tmp"
@@ -234,7 +236,14 @@ def _copy_signals_blueprint(app, exception):
     destination = Path(app.outdir) / "signals-blueprint"
     if destination.exists():
         shutil.rmtree(destination)
-    shutil.copytree(source, destination)
+
+    def link_or_copy(src, dst):
+        try:
+            os.link(src, dst)
+        except OSError:
+            shutil.copy2(src, dst)
+
+    shutil.copytree(source, destination, copy_function=link_or_copy)
 
 
 def setup(app):
