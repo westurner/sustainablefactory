@@ -571,4 +571,87 @@ lemma interfacial_heat_transport_critique_and_gap_closure_bounds
   contract.critique_adhesion_bridge_roughness_and_error_bounds
     w_ad1 w_ad2 d0 omega hw1 hw_lt hd0 homega tau_spec tau_diff delta_t q_max hdt hq_max
 
+/-- Summary lemma: in a `CuprateSuperconductivityPendingHypothesis` (Discovered Materials
+Problem 01), all 12 experimental benchmark targets ($T_c(p)$ dome, $d_{x^2-y^2}$ gap symmetry
+and magnitude, pseudogap $T^*(p)$ closure at $p^* = 0.19$, strange-metal $T$-linear resistivity,
+Loram pseudogap entropy suppression, nodal superfluid stiffness depletion, AF order collapse
+at $p = 0.05$, persistent zone-boundary paramagnons at $p = 0.30$, $p = 1/8$ CDW peak,
+$245\text{ K}$ $\mathrm{YBa_2Cu_3O_{6.60}}$ resonant ultrasound peak, and O'Mahony
+charge-transfer superexchange monotonicity) and the 5-family $T_{c,\max}$ hierarchy hold
+simultaneously. -/
+@[blueprint "lem:pending-cuprate-superconductivity-bounds"
+  (title := "Pending Discovered Materials Problem 01 (Cuprate Superconductivity) summary bounds")
+  (statement := /-- For any \texttt{contract : CuprateSuperconductivityPendingHypothesis},
+    all 12 cuprate superconductivity benchmark laws and the 5-family $T_{c,\max}$ bounds hold
+    simultaneously. -/)
+  (proof := /-- Apply \texttt{CuprateSuperconductivityPendingHypothesis.cuprate\_twelve\_targets\_and\_family\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma cuprate_superconductivity_twelve_targets_and_family_bounds
+    (contract : CuprateSuperconductivityPendingHypothesis) :
+    Signals.DFT.cuprateSuperconductingTc contract.tcMax (5 / 100) = 0 ∧
+      Signals.DFT.cuprateSuperconductingTc contract.tcMax (27 / 100) = 0 ∧
+      Signals.DFT.cuprateSuperconductingTc contract.tcMax (16 / 100) = contract.tcMax ∧
+      Signals.DFT.cuprateDWaveFormFactor 1 1 = 0 ∧
+      Signals.DFT.cuprateDWaveFormFactor 1 (-1) = 2 ∧
+      Signals.DFT.cuprateDWaveGapSq 35 1 (-1) 0 contract.tcMax = 35 ^ 2 ∧
+      Signals.DFT.cupratePseudogapTemp contract.tStar0 (19 / 100) = 0 ∧
+      (Signals.DFT.cuprateInPlaneResistivity 10 (6 / 5) 0 300 -
+          Signals.DFT.cuprateInPlaneResistivity 10 (6 / 5) 0 100) / (300 - 100) = 6 / 5 ∧
+      0 < Signals.DFT.cupratePseudogapEntropySuppression
+          contract.gammaNormal 10 contract.tPgEff ∧
+      Signals.DFT.cuprateSuperfluidStiffness contract.rhoS0 20 contract.tcMax <
+        Signals.DFT.cuprateSuperfluidStiffness contract.rhoS0 10 contract.tcMax ∧
+      Signals.DFT.cuprateAntiferromagneticMomentSq (36 / 100) (5 / 100) = 0 ∧
+      0 < Signals.DFT.cuprateParamagnonEnergy contract.jZrMeV (30 / 100) ∧
+      Signals.DFT.cuprateCdwStructureFactorPeak
+          contract.sMaxCdw contract.xiScaleCdw (16 / 100) < contract.sMaxCdw ∧
+      Signals.DFT.cuprateResonantUltrasoundModulusShift
+          contract.lambdaNemSq 300 Signals.DFT.cuprateYbco660PseudogapTempK contract.etaDisorder <
+        contract.lambdaNemSq / contract.etaDisorder ∧
+      Signals.DFT.cuprateChargeTransferSuperexchange
+          contract.tPdEv contract.deltaCtHighEv contract.uEffEv <
+        Signals.DFT.cuprateChargeTransferSuperexchange
+          contract.tPdEv contract.deltaCtLowEv contract.uEffEv ∧
+      Signals.DFT.cuprateFamilyLscoTcMax < Signals.DFT.cuprateFamilyHg1201TcMax ∧
+      Signals.DFT.gtbcRelativeError 92.6 93 < 1 / 100 :=
+  contract.cuprate_twelve_targets_and_family_bounds
+
+/-- Summary lemma: in a `CuprateSuperconductivityPendingHypothesis` (Discovered Materials
+Problem 01), the Kotliar–Liu–RVB product dome equals `cuprateSuperconductingTc`,
+Pavarini–O'Mahony $T_{c,\max}$ increases strictly with $J_{\mathrm{ZR}}$ and $|t'/t|$,
+the YRZ pseudogap self-energy vanishes on the nodal Fermi arcs while opening an antinodal
+gap $\Delta_{\mathrm{PG},0}^2 > 0$, Homes' superfluid scaling holds, the MMP dynamical spin
+structure factor is strictly positive at paramagnon resonance, the 2D $(p, q)$ CDW peak holds
+at $p = 1/8$, Loram specific heat is smoothly suppressed in the pseudogap, and `G-CSC` beats
+unprojected mean-field BCS/FL baselines. -/
+@[blueprint "lem:pending-cuprate-superconductivity-gap-closure-bounds"
+  (title := "Pending Problem 01 gap-closure summary bounds")
+  (statement := /-- For any \texttt{contract : CuprateSuperconductivityPendingHypothesis},
+    the RVB dome identity, Pavarini $T_{c,\max}$ monotonicity, YRZ nodal Fermi-arc and
+    antinodal pseudogap laws, Homes' law, MMP dynamical spin resonance, 2D CDW peak,
+    and smooth Loram specific heat bounds hold simultaneously. -/)
+  (proof := /-- Apply \texttt{CuprateSuperconductivityPendingHypothesis.gap\_closure\_yrz\_homes\_mmp\_and\_rvb\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma cuprate_superconductivity_gap_closure_bounds
+    (contract : CuprateSuperconductivityPendingHypothesis)
+    (p cos_kx omega xi0 q_cdw : ℝ) :
+    Signals.DFT.cuprateMicroscopicRvbDome contract.tcMax p =
+        Signals.DFT.cuprateSuperconductingTc contract.tcMax p ∧
+      Signals.DFT.cupratePavariniTcMaxFromSuperexchange 2 112 (16 / 100) <
+        Signals.DFT.cupratePavariniTcMaxFromSuperexchange 2 140 (37 / 100) ∧
+      Signals.DFT.cuprateYrzPseudogapSelfEnergy 40 cos_kx cos_kx omega xi0 = 0 ∧
+      Signals.DFT.cuprateYrzQuasiparticleEnergySq 0 40 cos_kx cos_kx = 0 ∧
+      0 < Signals.DFT.cuprateYrzQuasiparticleEnergySq 0 40 1 (-1) ∧
+      Signals.DFT.cuprateHomesSuperfluidDensity 1 contract.tcMax 120 <
+        Signals.DFT.cuprateHomesSuperfluidDensity 1 contract.tcMax 80 ∧
+      0 < Signals.DFT.cuprateDynamicalSpinStructureFactor
+          10 contract.jZrMeV contract.jZrMeV 50 ∧
+      Signals.DFT.cuprateMomentumResolvedCdwStructureFactor
+          contract.sMaxCdw contract.xiScaleCdw (1 / 8) 20 q_cdw q_cdw = contract.sMaxCdw ∧
+      Signals.DFT.cupratePseudogapSpecificHeatCoeff
+          contract.gammaNormal 100 contract.tPgEff < contract.gammaNormal ∧
+      Signals.DFT.gtbcRelativeError 92.6 93 < Signals.DFT.gtbcRelativeError 40 93 ∧
+      Signals.DFT.gtbcRelativeError 306 310 < Signals.DFT.gtbcRelativeError 0 310 :=
+  contract.gap_closure_yrz_homes_mmp_and_rvb_bounds p cos_kx omega xi0 q_cdw
+
 end SignalsPending

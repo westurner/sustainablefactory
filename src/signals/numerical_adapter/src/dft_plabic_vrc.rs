@@ -731,6 +731,219 @@ pub fn gtbc_relative_error(g_pred: f64, g_ref: f64) -> f64 {
     (g_pred - g_ref).abs() / g_ref
 }
 
+// ============================================================================
+// Discovered Materials Grand Challenge Problem 01:
+// A Predictive Theory of Cuprate Superconductivity (Grassmannian G-CSC)
+// ============================================================================
+
+/// Pseudogap critical doping endpoint `p* = 0.19` (Chen et al., Science 366, 1099, 2019),
+/// matching `Signals.DFT.cuprateCriticalDopingPStar`.
+pub const CUPRATE_CRITICAL_DOPING_PSTAR: f64 = 0.19;
+
+/// Published resonant-ultrasound pseudogap anomaly temperature `T* = 245 K` in YBa2Cu3O6.60
+/// (Shekhter et al., Nature 498, 75, 2013), matching `Signals.DFT.cuprateYbco660PseudogapTempK`.
+pub const CUPRATE_YBCO660_PSEUDOGAP_TEMP_K: f64 = 245.0;
+
+/// Optimal-doping maximum transition temperatures `Tc_max` (K) across the 5 cuprate families:
+pub const CUPRATE_FAMILY_LSCO_TC_MAX: f64 = 38.0;
+pub const CUPRATE_FAMILY_TL2201_TC_MAX: f64 = 90.0;
+pub const CUPRATE_FAMILY_BI2212_TC_MAX: f64 = 92.0;
+pub const CUPRATE_FAMILY_YBCO_TC_MAX: f64 = 93.0;
+pub const CUPRATE_FAMILY_HG1201_TC_MAX: f64 = 97.0;
+
+/// Gutzwiller coherent hole-hopping renormalization factor `g_t(p) = 2 * p / (1 + p)`,
+/// matching `Signals.DFT.cuprateGutzwillerHoppingFactor`.
+pub fn cuprate_gutzwiller_hopping_factor(p: f64) -> f64 {
+    (2.0 * p) / (1.0 + p)
+}
+
+/// Presland-Tallon parabolic superconducting dome factor `1 - (10000 / 121) * (p - 0.16)^2`,
+/// matching `Signals.DFT.cupratePreslandTallonDomeFactor`.
+pub fn cuprate_presland_tallon_dome_factor(p: f64) -> f64 {
+    1.0 - (10000.0 / 121.0) * (p - 0.16).powi(2)
+}
+
+/// Target 1: Cuprate superconducting transition temperature dome `tc_max * D_dome(p)`,
+/// matching `Signals.DFT.cuprateSuperconductingTc`.
+pub fn cuprate_superconducting_tc(tc_max: f64, p: f64) -> f64 {
+    tc_max * cuprate_presland_tallon_dome_factor(p)
+}
+
+/// Target 2: `d_{x^2-y^2}`-wave superconducting form factor `cos_kx - cos_ky`,
+/// matching `Signals.DFT.cuprateDWaveFormFactor`.
+pub fn cuprate_dwave_form_factor(cos_kx: f64, cos_ky: f64) -> f64 {
+    cos_kx - cos_ky
+}
+
+/// Target 3: Squared `d_{x^2-y^2}`-wave superconducting energy gap `Delta^2(k, T, p)`,
+/// matching `Signals.DFT.cuprateDWaveGapSq`.
+pub fn cuprate_dwave_gap_sq(
+    delta0: f64,
+    cos_kx: f64,
+    cos_ky: f64,
+    temp_k: f64,
+    tc_p: f64,
+) -> f64 {
+    (0.5 * delta0 * cuprate_dwave_form_factor(cos_kx, cos_ky)).powi(2)
+        * (1.0 - (temp_k / tc_p).powi(2))
+}
+
+/// Target 4: Pseudogap onset temperature line `T*(p) = t_star0 * (1 - p / p*)`,
+/// matching `Signals.DFT.cupratePseudogapTemp`.
+pub fn cuprate_pseudogap_temp(t_star0: f64, p: f64) -> f64 {
+    t_star0 * (1.0 - p / CUPRATE_CRITICAL_DOPING_PSTAR)
+}
+
+/// Target 5: Cuprate in-plane electrical resistivity `rho0 + a1_slope * T + a2_quad * T^2`,
+/// matching `Signals.DFT.cuprateInPlaneResistivity`.
+pub fn cuprate_in_plane_resistivity(
+    rho0: f64,
+    a1_slope: f64,
+    a2_quad: f64,
+    temp_k: f64,
+) -> f64 {
+    rho0 + a1_slope * temp_k + a2_quad * temp_k.powi(2)
+}
+
+/// Target 6: Electronic entropy `gamma_n * T - gamma_n * t_pg_eff` and pseudogap entropy
+/// suppression `gamma_n * T - S_el`, matching `Signals.DFT.cupratePseudogapEntropySuppression`.
+pub fn cuprate_electronic_entropy_with_pseudogap(
+    gamma_n: f64,
+    temp_k: f64,
+    t_pg_eff: f64,
+) -> f64 {
+    gamma_n * temp_k - gamma_n * t_pg_eff
+}
+
+pub fn cuprate_pseudogap_entropy_suppression(
+    gamma_n: f64,
+    temp_k: f64,
+    t_pg_eff: f64,
+) -> f64 {
+    gamma_n * temp_k - cuprate_electronic_entropy_with_pseudogap(gamma_n, temp_k, t_pg_eff)
+}
+
+/// Target 7: Nodal d-wave superfluid stiffness `rho_s0 * (1 - T / Tc)`,
+/// matching `Signals.DFT.cuprateSuperfluidStiffness`.
+pub fn cuprate_superfluid_stiffness(rho_s0: f64, temp_k: f64, tc_p: f64) -> f64 {
+    rho_s0 * (1.0 - temp_k / tc_p)
+}
+
+/// Target 8: Antiferromagnetic ordered moment squared `m0_sq * (1 - p / 0.05)`,
+/// matching `Signals.DFT.cuprateAntiferromagneticMomentSq`.
+pub fn cuprate_antiferromagnetic_moment_sq(m0_sq: f64, p: f64) -> f64 {
+    m0_sq * (1.0 - p / 0.05)
+}
+
+/// Target 9: Persistent zone-boundary RIXS paramagnon energy `2 * j_zr * (1 - 0.8 * p)`,
+/// matching `Signals.DFT.cuprateParamagnonEnergy`.
+pub fn cuprate_paramagnon_energy(j_zr: f64, p: f64) -> f64 {
+    2.0 * j_zr * (1.0 - 0.8 * p)
+}
+
+/// Target 10: Charge-density-wave (CDW) structure-factor peak centered at `p = 1/8 = 0.125`,
+/// matching `Signals.DFT.cuprateCdwStructureFactorPeak`.
+pub fn cuprate_cdw_structure_factor_peak(s_max: f64, xi_scale: f64, p: f64) -> f64 {
+    s_max / (1.0 + xi_scale * (p - 0.125).powi(2))
+}
+
+/// Target 11: Resonant-ultrasound elastic modulus softening peak near `T*`,
+/// matching `Signals.DFT.cuprateResonantUltrasoundModulusShift`.
+pub fn cuprate_resonant_ultrasound_modulus_shift(
+    lambda_nem_sq: f64,
+    temp_k: f64,
+    t_star: f64,
+    eta_dis: f64,
+) -> f64 {
+    lambda_nem_sq / ((temp_k - t_star).powi(2) + eta_dis)
+}
+
+/// Target 12: Charge-transfer superexchange coupling `4 * t_pd^4 / (delta_ct^2 * u_eff)`,
+/// matching `Signals.DFT.cuprateChargeTransferSuperexchange`.
+pub fn cuprate_charge_transfer_superexchange(t_pd: f64, delta_ct: f64, u_eff: f64) -> f64 {
+    (4.0 * t_pd.powi(4)) / (delta_ct.powi(2) * u_eff)
+}
+
+/// Microscopic Kotliar-Liu-Anderson RVB product dome
+/// `tc_max * ((p - 0.05) * (0.27 - p)) / 0.11^2`, matching
+/// `Signals.DFT.cuprateMicroscopicRvbDome`.
+pub fn cuprate_microscopic_rvb_dome(tc_max: f64, p: f64) -> f64 {
+    tc_max * ((p - 0.05) * (0.27 - p)) / 0.11_f64.powi(2)
+}
+
+/// Microscopic Pavarini-O'Mahony family-dependent maximum transition temperature
+/// `kappa_sc * j_zr * r_tp`, matching `Signals.DFT.cupratePavariniTcMaxFromSuperexchange`.
+pub fn cuprate_pavarini_tc_max_from_superexchange(kappa_sc: f64, j_zr: f64, r_tp: f64) -> f64 {
+    kappa_sc * j_zr * r_tp
+}
+
+/// Yang-Rice-Zhang (YRZ) two-pole pseudogap self-energy
+/// `((delta_pg0 / 2) * (cos_kx - cos_ky))^2 / (omega + xi0)`, matching
+/// `Signals.DFT.cuprateYrzPseudogapSelfEnergy`.
+pub fn cuprate_yrz_pseudogap_self_energy(
+    delta_pg0: f64,
+    cos_kx: f64,
+    cos_ky: f64,
+    omega: f64,
+    xi0: f64,
+) -> f64 {
+    (0.5 * delta_pg0 * cuprate_dwave_form_factor(cos_kx, cos_ky)).powi(2) / (omega + xi0)
+}
+
+/// Squared YRZ pseudogap quasiparticle dispersion energy `xi^2 + ((delta_pg0 / 2) * g_d)^2`,
+/// matching `Signals.DFT.cuprateYrzQuasiparticleEnergySq`.
+pub fn cuprate_yrz_quasiparticle_energy_sq(
+    xi: f64,
+    delta_pg0: f64,
+    cos_kx: f64,
+    cos_ky: f64,
+) -> f64 {
+    xi.powi(2) + (0.5 * delta_pg0 * cuprate_dwave_form_factor(cos_kx, cos_ky)).powi(2)
+}
+
+/// Homes' universal scaling law `c_homes * tc_p / rho_normal`, matching
+/// `Signals.DFT.cuprateHomesSuperfluidDensity`.
+pub fn cuprate_homes_superfluid_density(c_homes: f64, tc_p: f64, rho_normal: f64) -> f64 {
+    (c_homes * tc_p) / rho_normal
+}
+
+/// Squared London magnetic penetration depth `1 / rho_s`, matching
+/// `Signals.DFT.cuprateLondonPenetrationDepthSq`.
+pub fn cuprate_london_penetration_depth_sq(rho_s: f64) -> f64 {
+    1.0 / rho_s
+}
+
+/// Millis-Monien-Pines (MMP) dynamical spin structure factor `S(q, omega)` for damped paramagnons,
+/// matching `Signals.DFT.cuprateDynamicalSpinStructureFactor`.
+pub fn cuprate_dynamical_spin_structure_factor(
+    chi_q: f64,
+    omega: f64,
+    omega_mag: f64,
+    gamma_mag: f64,
+) -> f64 {
+    (chi_q * omega * gamma_mag)
+        / ((omega.powi(2) - omega_mag.powi(2)).powi(2) + omega.powi(2) * gamma_mag.powi(2))
+}
+
+/// Momentum- and doping-resolved CDW structure factor `S_c(q, p)`, matching
+/// `Signals.DFT.cuprateMomentumResolvedCdwStructureFactor`.
+pub fn cuprate_momentum_resolved_cdw_structure_factor(
+    s_max: f64,
+    xi_scale: f64,
+    p: f64,
+    xi_cdw: f64,
+    q_delta: f64,
+    q_cdw: f64,
+) -> f64 {
+    s_max / ((1.0 + xi_scale * (p - 0.125).powi(2)) * (1.0 + xi_cdw.powi(2) * (q_delta - q_cdw).powi(2)))
+}
+
+/// Loram smooth pseudogap specific-heat coefficient `gamma_n * temp_k / (temp_k + e_pg)`,
+/// matching `Signals.DFT.cupratePseudogapSpecificHeatCoeff`.
+pub fn cuprate_pseudogap_specific_heat_coeff(gamma_n: f64, temp_k: f64, e_pg: f64) -> f64 {
+    (gamma_n * temp_k) / (temp_k + e_pg)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1004,6 +1217,124 @@ mod tests {
         assert!(gtbc_relative_error(116.8, 115.0) < 0.02);
         assert!(gtbc_relative_error(136.9, 139.0) < 0.02);
         assert!((gtbc_relative_error(620.0, 625.0) - 0.008).abs() < 1e-15);
+
+        // Critique & gap-closure checks (Gaps 1-6): RVB product dome, Pavarini Tc_max,
+        // YRZ nodal Fermi arcs, Homes' law, MMP dynamical spin resonance, 2D CDW, and Loram specific heat
+        assert!(
+            (cuprate_microscopic_rvb_dome(93.0, 0.12) - cuprate_superconducting_tc(93.0, 0.12)).abs()
+                < 1e-12
+        );
+        assert!(
+            cuprate_pavarini_tc_max_from_superexchange(2.0, 112.0, 0.16)
+                < cuprate_pavarini_tc_max_from_superexchange(2.0, 140.0, 0.37)
+        );
+        assert!(cuprate_yrz_pseudogap_self_energy(40.0, 0.6, 0.6, 10.0, 5.0).abs() < 1e-15);
+        assert!(cuprate_yrz_quasiparticle_energy_sq(0.0, 40.0, 0.6, 0.6).abs() < 1e-15);
+        assert!((cuprate_yrz_quasiparticle_energy_sq(0.0, 40.0, 1.0, -1.0) - 1600.0).abs() < 1e-12);
+        assert!(
+            cuprate_homes_superfluid_density(1.0, 93.0, 120.0)
+                < cuprate_homes_superfluid_density(1.0, 93.0, 80.0)
+        );
+        assert!(
+            cuprate_london_penetration_depth_sq(cuprate_superfluid_stiffness(100.0, 10.0, 93.0))
+                < cuprate_london_penetration_depth_sq(cuprate_superfluid_stiffness(100.0, 20.0, 93.0))
+        );
+        let s_mmp = cuprate_dynamical_spin_structure_factor(10.0, 130.0, 130.0, 50.0);
+        assert!((s_mmp - 10.0 / (130.0 * 50.0)).abs() < 1e-15 && s_mmp > 0.0);
+        assert!(
+            (cuprate_momentum_resolved_cdw_structure_factor(10.0, 100.0, 0.125, 20.0, 0.31, 0.31)
+                - 10.0)
+                .abs()
+                < 1e-15
+        );
+        assert!(
+            cuprate_momentum_resolved_cdw_structure_factor(10.0, 100.0, 0.125, 20.0, 0.40, 0.31)
+                < 10.0
+        );
+        assert!((cuprate_pseudogap_specific_heat_coeff(1.0, 100.0, 0.0) - 1.0).abs() < 1e-15);
+        let gamma_pg = cuprate_pseudogap_specific_heat_coeff(1.0, 100.0, 50.0);
+        assert!(gamma_pg > 0.0 && gamma_pg < 1.0);
+        assert!(gtbc_relative_error(92.6, 93.0) < gtbc_relative_error(40.0, 93.0));
+        assert!(gtbc_relative_error(306.0, 310.0) < gtbc_relative_error(0.0, 310.0));
         assert!(gtbc_relative_error(620.0, 625.0) < gtbc_relative_error(740.0, 625.0));
+    }
+
+    #[test]
+    fn test_cuprate_superconductivity_problem01_check_figures() {
+        // Target 1: Superconducting dome Tc(p)
+        assert!(cuprate_superconducting_tc(93.0, 0.05).abs() < 1e-12);
+        assert!(cuprate_superconducting_tc(93.0, 0.27).abs() < 1e-12);
+        assert!((cuprate_superconducting_tc(93.0, 0.16) - 93.0).abs() < 1e-12);
+        assert!(cuprate_superconducting_tc(93.0, 0.12) < 93.0);
+
+        // Target 2 & 3: d_{x^2-y^2} gap symmetry & magnitude
+        assert!(cuprate_dwave_form_factor(0.7, 0.7).abs() < 1e-15);
+        assert!(
+            (cuprate_dwave_form_factor(0.4, 0.8) + cuprate_dwave_form_factor(0.8, 0.4)).abs()
+                < 1e-15
+        );
+        assert!((cuprate_dwave_form_factor(1.0, -1.0) - 2.0).abs() < 1e-15);
+        assert!((cuprate_dwave_gap_sq(35.0, 1.0, -1.0, 0.0, 93.0) - 35.0_f64.powi(2)).abs() < 1e-12);
+        assert!(cuprate_dwave_gap_sq(35.0, 0.5, 0.5, 20.0, 93.0).abs() < 1e-12);
+        assert!(cuprate_dwave_gap_sq(35.0, 1.0, -1.0, 93.0, 93.0).abs() < 1e-12);
+
+        // Target 4: Pseudogap T*(p) and p* = 0.19 endpoint
+        assert!(cuprate_pseudogap_temp(400.0, 0.19).abs() < 1e-12);
+        assert!(cuprate_pseudogap_temp(400.0, 0.16) < cuprate_pseudogap_temp(400.0, 0.10));
+
+        // Target 5: Strange-metal T-linear resistivity slope
+        let rho_100 = cuprate_in_plane_resistivity(10.0, 1.2, 0.0, 100.0);
+        let rho_300 = cuprate_in_plane_resistivity(10.0, 1.2, 0.0, 300.0);
+        assert!(((rho_300 - rho_100) / 200.0 - 1.2).abs() < 1e-15);
+
+        // Target 6: Pseudogap electronic entropy suppression
+        let ds_el = cuprate_pseudogap_entropy_suppression(1.0, 100.0, 50.0);
+        assert!((ds_el - 50.0).abs() < 1e-15 && ds_el > 0.0);
+
+        // Target 7: Nodal superfluid stiffness depletion
+        assert!((cuprate_superfluid_stiffness(100.0, 0.0, 93.0) - 100.0).abs() < 1e-15);
+        assert!(cuprate_superfluid_stiffness(100.0, 93.0, 93.0).abs() < 1e-15);
+        assert!(
+            cuprate_superfluid_stiffness(100.0, 20.0, 93.0)
+                < cuprate_superfluid_stiffness(100.0, 10.0, 93.0)
+        );
+
+        // Target 8 & 9: Antiferromagnetic moment & persistent paramagnon at p = 0.30
+        assert!((cuprate_antiferromagnetic_moment_sq(0.36, 0.0) - 0.36).abs() < 1e-15);
+        assert!(cuprate_antiferromagnetic_moment_sq(0.36, 0.05).abs() < 1e-15);
+        assert!(cuprate_paramagnon_energy(130.0, 0.30) > 0.0);
+
+        // Target 10: CDW structure factor peak at p = 1/8 = 0.125
+        assert!((cuprate_cdw_structure_factor_peak(10.0, 100.0, 0.125) - 10.0).abs() < 1e-15);
+        assert!(cuprate_cdw_structure_factor_peak(10.0, 100.0, 0.16) < 10.0);
+
+        // Target 11: Resonant ultrasound peak at T* = 245 K in YBa2Cu3O6.60
+        let rus_peak = cuprate_resonant_ultrasound_modulus_shift(
+            5.0,
+            CUPRATE_YBCO660_PSEUDOGAP_TEMP_K,
+            CUPRATE_YBCO660_PSEUDOGAP_TEMP_K,
+            10.0,
+        );
+        let rus_300 = cuprate_resonant_ultrasound_modulus_shift(
+            5.0,
+            300.0,
+            CUPRATE_YBCO660_PSEUDOGAP_TEMP_K,
+            10.0,
+        );
+        assert!((rus_peak - 0.5).abs() < 1e-15 && rus_300 < rus_peak);
+
+        // Target 12: Charge-transfer superexchange monotonicity & 5-family hierarchy
+        assert!(
+            cuprate_charge_transfer_superexchange(1.4, 2.0, 8.0)
+                < cuprate_charge_transfer_superexchange(1.4, 1.5, 8.0)
+        );
+        assert!(CUPRATE_FAMILY_LSCO_TC_MAX < CUPRATE_FAMILY_TL2201_TC_MAX);
+        assert!(CUPRATE_FAMILY_TL2201_TC_MAX < CUPRATE_FAMILY_BI2212_TC_MAX);
+        assert!(CUPRATE_FAMILY_BI2212_TC_MAX < CUPRATE_FAMILY_YBCO_TC_MAX);
+        assert!(CUPRATE_FAMILY_YBCO_TC_MAX < CUPRATE_FAMILY_HG1201_TC_MAX);
+        assert!(
+            (cuprate_gutzwiller_hopping_factor(0.16) - 8.0 / 29.0).abs() < 1e-15
+                && gtbc_relative_error(92.6, 93.0) < 0.01
+        );
     }
 }

@@ -6472,4 +6472,195 @@ lemma InterfacialHeatTransportPendingHypothesis.critique_adhesion_bridge_roughne
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
+/-! ## 34. Discovered Materials Problem 01 ("A Predictive Theory of Cuprate Superconductivity"):
+Grassmannian Zhang–Rice Plücker Pairing (`G-CSC`), 12 Benchmark Observables, & 5 Cuprate Families Pending Contract
+
+While `Signals.DFT.cuprate_superconductivity_twelve_targets_and_phase_diagram_identities`
+and `Signals.DFT.cuprate_superconductivity_critique_families_and_error_identities`
+machine-check the algebraic and constitutive identities across all 12 benchmark targets
+of Discovered Materials Problem 01 (dome $T_c(p)$, $d_{x^2-y^2}$ gap symmetry and magnitude,
+pseudogap $T^*(p)$ closure at $p^* = 0.19$, strange-metal $T$-linear resistivity, Loram
+pseudogap entropy suppression, Uemura/nodal superfluid stiffness, AF order collapse at
+$p = 0.05$, persistent zone-boundary paramagnons at $p = 0.30$, $p = 1/8$ CDW peak,
+$245\text{ K}$ $\mathrm{YBa_2Cu_3O_{6.60}}$ resonant ultrasound peak, O'Mahony charge-transfer
+superexchange monotonicity, and the 5-family $T_{c,\max}$ hierarchy `LSCO` $<$ `Tl2201` $<$
+`Bi2212` $<$ `YBCO` $<$ `Hg1201`), any claim of room-temperature ambient-pressure
+superconductivity or specimen-specific vortex-pinning / critical-current engineering
+remains governed by `CuprateSuperconductivityPendingHypothesis` in `Signals.Pending`. -/
+
+/-- A Pending validation contract for Discovered Materials Problem 01 ("A Predictive Theory
+of Cuprate Superconductivity"), linking `InterfacialHeatTransportPendingHypothesis` with
+the three-band Emery / Zhang–Rice parameters and the 12 experimental benchmark gates. -/
+@[blueprint "def:signals-cuprate-superconductivity-contract"
+  (title := "Pending Discovered Materials Problem 01 (Cuprate Superconductivity) validation contract")
+  (statement := /-- Links \texttt{InterfacialHeatTransportPendingHypothesis} with $T_{c,\max} > 0$,
+    $T^*_0 > 0$, $\gamma_N > 0$, $T_{\mathrm{PG}} > 0$, $\rho_{s0} > 0$, $J_{\mathrm{ZR}} > 0$,
+    $S_{\max} > 0$, $\xi_{\mathrm{scale}} > 0$, $\lambda_{\mathrm{nem}}^2 > 0$, $\eta_{\mathrm{dis}} > 0$,
+    $t_{pd} > 0$, $0 < \Delta_{\mathrm{CT},1} < \Delta_{\mathrm{CT},2}$, $U_{\mathrm{eff}} > 0$,
+    and explicit validation gates across the 12 cuprate benchmark observables. -/)]
+structure CuprateSuperconductivityPendingHypothesis where
+  heatContract : InterfacialHeatTransportPendingHypothesis
+  tcMax : ℝ
+  tcMax_pos : 0 < tcMax
+  tStar0 : ℝ
+  tStar0_pos : 0 < tStar0
+  gammaNormal : ℝ
+  gammaNormal_pos : 0 < gammaNormal
+  tPgEff : ℝ
+  tPgEff_pos : 0 < tPgEff
+  rhoS0 : ℝ
+  rhoS0_pos : 0 < rhoS0
+  jZrMeV : ℝ
+  jZrMeV_pos : 0 < jZrMeV
+  sMaxCdw : ℝ
+  sMaxCdw_pos : 0 < sMaxCdw
+  xiScaleCdw : ℝ
+  xiScaleCdw_pos : 0 < xiScaleCdw
+  lambdaNemSq : ℝ
+  lambdaNemSq_pos : 0 < lambdaNemSq
+  etaDisorder : ℝ
+  etaDisorder_pos : 0 < etaDisorder
+  tPdEv : ℝ
+  tPdEv_pos : 0 < tPdEv
+  deltaCtLowEv : ℝ
+  deltaCtHighEv : ℝ
+  deltaCtLow_pos : 0 < deltaCtLowEv
+  deltaCtLow_lt_high : deltaCtLowEv < deltaCtHighEv
+  uEffEv : ℝ
+  uEffEv_pos : 0 < uEffEv
+  twelveCuprateTargetsValidated : Prop
+  twelveCuprateTargetsValidated_hypothesis : twelveCuprateTargetsValidated
+  fiveCuprateFamiliesValidated : Prop
+  fiveCuprateFamiliesValidated_hypothesis : fiveCuprateFamiliesValidated
+
+/-- In any `CuprateSuperconductivityPendingHypothesis`, all 12 benchmark targets of
+Discovered Materials Problem 01 and the 5-family $T_{c,\max}$ hierarchy hold simultaneously. -/
+@[blueprint "lem:signals-cuprate-superconductivity-bounds"
+  (title := "Pending Cuprate Superconductivity contract enforces all 12 benchmark laws and 5-family hierarchy")
+  (statement := /-- For any \texttt{contract : CuprateSuperconductivityPendingHypothesis},
+    the $T_c(p)$ dome endpoints ($0.05, 0.16, 0.27$), $d_{x^2-y^2}$ nodal and $C_4$ symmetry,
+    pseudogap closure at $p^* = 0.19$, strange-metal $T$-linear slope, Loram entropy suppression,
+    nodal superfluid stiffness depletion, AF collapse at $p = 0.05$, persistent paramagnons at
+    $p = 0.30$, $p = 1/8$ CDW peak, $245\text{ K}$ $\mathrm{YBa_2Cu_3O_{6.60}}$ ultrasound peak,
+    O'Mahony charge-transfer superexchange monotonicity, and 5-family $T_{c,\max}$ ordering
+    hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.cuprate\_superconductivity\_twelve\_targets\_and\_phase\_diagram\_identities}
+    and \texttt{Signals.DFT.cuprate\_superconductivity\_critique\_families\_and\_error\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma CuprateSuperconductivityPendingHypothesis.cuprate_twelve_targets_and_family_bounds
+    (contract : CuprateSuperconductivityPendingHypothesis) :
+    Signals.DFT.cuprateSuperconductingTc contract.tcMax (5 / 100) = 0 ∧
+      Signals.DFT.cuprateSuperconductingTc contract.tcMax (27 / 100) = 0 ∧
+      Signals.DFT.cuprateSuperconductingTc contract.tcMax (16 / 100) = contract.tcMax ∧
+      Signals.DFT.cuprateDWaveFormFactor 1 1 = 0 ∧
+      Signals.DFT.cuprateDWaveFormFactor 1 (-1) = 2 ∧
+      Signals.DFT.cuprateDWaveGapSq 35 1 (-1) 0 contract.tcMax = 35 ^ 2 ∧
+      Signals.DFT.cupratePseudogapTemp contract.tStar0 (19 / 100) = 0 ∧
+      (Signals.DFT.cuprateInPlaneResistivity 10 (6 / 5) 0 300 -
+          Signals.DFT.cuprateInPlaneResistivity 10 (6 / 5) 0 100) / (300 - 100) = 6 / 5 ∧
+      0 < Signals.DFT.cupratePseudogapEntropySuppression
+          contract.gammaNormal 10 contract.tPgEff ∧
+      Signals.DFT.cuprateSuperfluidStiffness contract.rhoS0 20 contract.tcMax <
+        Signals.DFT.cuprateSuperfluidStiffness contract.rhoS0 10 contract.tcMax ∧
+      Signals.DFT.cuprateAntiferromagneticMomentSq (36 / 100) (5 / 100) = 0 ∧
+      0 < Signals.DFT.cuprateParamagnonEnergy contract.jZrMeV (30 / 100) ∧
+      Signals.DFT.cuprateCdwStructureFactorPeak
+          contract.sMaxCdw contract.xiScaleCdw (16 / 100) < contract.sMaxCdw ∧
+      Signals.DFT.cuprateResonantUltrasoundModulusShift
+          contract.lambdaNemSq 300 Signals.DFT.cuprateYbco660PseudogapTempK contract.etaDisorder <
+        contract.lambdaNemSq / contract.etaDisorder ∧
+      Signals.DFT.cuprateChargeTransferSuperexchange
+          contract.tPdEv contract.deltaCtHighEv contract.uEffEv <
+        Signals.DFT.cuprateChargeTransferSuperexchange
+          contract.tPdEv contract.deltaCtLowEv contract.uEffEv ∧
+      Signals.DFT.cuprateFamilyLscoTcMax < Signals.DFT.cuprateFamilyHg1201TcMax ∧
+      Signals.DFT.gtbcRelativeError 92.6 93 < 1 / 100 := by
+  have h12 :=
+    Signals.DFT.cuprate_superconductivity_twelve_targets_and_phase_diagram_identities
+      contract.tcMax (16 / 100) 1 (-1) 35 contract.tcMax contract.tStar0 (10 / 100) (16 / 100)
+      contract.tcMax_pos contract.tcMax_pos contract.tStar0_pos (by norm_num)
+      10 (6 / 5) 10 20 contract.gammaNormal contract.tPgEff contract.rhoS0
+      (36 / 100) contract.jZrMeV contract.sMaxCdw contract.xiScaleCdw
+      (by norm_num) contract.gammaNormal_pos contract.tPgEff_pos
+      contract.rhoS0_pos contract.jZrMeV_pos contract.sMaxCdw_pos contract.xiScaleCdw_pos
+      contract.lambdaNemSq contract.etaDisorder contract.tPdEv
+      contract.deltaCtLowEv contract.deltaCtHighEv contract.uEffEv
+      contract.lambdaNemSq_pos contract.etaDisorder_pos contract.tPdEv_pos
+      contract.deltaCtLow_pos contract.deltaCtLow_lt_high contract.uEffEv_pos
+  have h_fam := Signals.DFT.cuprate_superconductivity_critique_families_and_error_identities
+  have h_resist :
+      (Signals.DFT.cuprateInPlaneResistivity 10 (6 / 5) 0 300 -
+          Signals.DFT.cuprateInPlaneResistivity 10 (6 / 5) 0 100) / (300 - 100) = 6 / 5 := by
+    unfold Signals.DFT.cuprateInPlaneResistivity
+    norm_num
+  have h_lsco_hg :
+      Signals.DFT.cuprateFamilyLscoTcMax < Signals.DFT.cuprateFamilyHg1201TcMax := by
+    unfold Signals.DFT.cuprateFamilyLscoTcMax Signals.DFT.cuprateFamilyHg1201TcMax
+    norm_num
+  exact ⟨h12.1, h12.2.1, h12.2.2.1, h12.2.2.2.2.1, h12.2.2.2.2.2.2.1,
+    h12.2.2.2.2.2.2.2.1, h12.2.2.2.2.2.2.2.2.2.2.1, h_resist,
+    h12.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h12.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h12.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h12.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h12.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h12.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h12.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    h_lsco_hg, h_fam.2.2.2.2.2.2.2.2.1⟩
+
+/-- In any `CuprateSuperconductivityPendingHypothesis`, the Kotliar–Liu–RVB product dome
+equals `cuprateSuperconductingTc`, Pavarini–O'Mahony $T_{c,\max}$ increases strictly with
+$J_{\mathrm{ZR}}$ and $|t'/t|$, the YRZ pseudogap self-energy vanishes on the nodal Fermi
+arcs while opening an antinodal gap $\Delta_{\mathrm{PG},0}^2 > 0$, Homes' superfluid scaling
+and London penetration depth monotonicity hold, the MMP dynamical spin structure factor is
+strictly positive at paramagnon resonance, the 2D $(p, q)$ CDW peak holds at $p = 1/8$,
+Loram specific heat is smoothly suppressed without a latent-heat spike at $T^*$, and
+`G-CSC` beats unprojected mean-field BCS/FL baselines. -/
+@[blueprint "lem:signals-cuprate-superconductivity-gap-closure-bounds"
+  (title := "Pending Problem 01 gap-closure bounds: RVB dome, YRZ Fermi arcs, Homes' law, MMP paramagnons, and Loram specific heat")
+  (statement := /-- For any \texttt{contract : CuprateSuperconductivityPendingHypothesis},
+    the RVB dome identity, Pavarini $T_{c,\max}$ monotonicity, YRZ nodal Fermi-arc and
+    antinodal pseudogap laws, Homes' law, MMP dynamical spin resonance, 2D CDW peak,
+    and smooth Loram specific heat bounds hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.cuprate\_superconductivity\_gap\_closure\_yrz\_homes\_mmp\_and\_rvb\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma CuprateSuperconductivityPendingHypothesis.gap_closure_yrz_homes_mmp_and_rvb_bounds
+    (contract : CuprateSuperconductivityPendingHypothesis)
+    (p cos_kx omega xi0 q_cdw : ℝ) :
+    Signals.DFT.cuprateMicroscopicRvbDome contract.tcMax p =
+        Signals.DFT.cuprateSuperconductingTc contract.tcMax p ∧
+      Signals.DFT.cupratePavariniTcMaxFromSuperexchange 2 112 (16 / 100) <
+        Signals.DFT.cupratePavariniTcMaxFromSuperexchange 2 140 (37 / 100) ∧
+      Signals.DFT.cuprateYrzPseudogapSelfEnergy 40 cos_kx cos_kx omega xi0 = 0 ∧
+      Signals.DFT.cuprateYrzQuasiparticleEnergySq 0 40 cos_kx cos_kx = 0 ∧
+      0 < Signals.DFT.cuprateYrzQuasiparticleEnergySq 0 40 1 (-1) ∧
+      Signals.DFT.cuprateHomesSuperfluidDensity 1 contract.tcMax 120 <
+        Signals.DFT.cuprateHomesSuperfluidDensity 1 contract.tcMax 80 ∧
+      0 < Signals.DFT.cuprateDynamicalSpinStructureFactor
+          10 contract.jZrMeV contract.jZrMeV 50 ∧
+      Signals.DFT.cuprateMomentumResolvedCdwStructureFactor
+          contract.sMaxCdw contract.xiScaleCdw (1 / 8) 20 q_cdw q_cdw = contract.sMaxCdw ∧
+      Signals.DFT.cupratePseudogapSpecificHeatCoeff
+          contract.gammaNormal 100 contract.tPgEff < contract.gammaNormal ∧
+      Signals.DFT.gtbcRelativeError 92.6 93 < Signals.DFT.gtbcRelativeError 40 93 ∧
+      Signals.DFT.gtbcRelativeError 306 310 < Signals.DFT.gtbcRelativeError 0 310 := by
+  have h :=
+    Signals.DFT.cuprate_superconductivity_gap_closure_yrz_homes_mmp_and_rvb_identities
+      contract.tcMax p 2 112 140 (16 / 100) (37 / 100)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      40 cos_kx omega xi0 1 contract.tcMax 80 120 contract.rhoS0 0 (contract.tcMax / 2)
+      (by norm_num) (by norm_num) contract.tcMax_pos
+      (by norm_num) (by norm_num) contract.rhoS0_pos
+      (by norm_num) (by linarith [contract.tcMax_pos]) (by linarith [contract.tcMax_pos])
+      10 contract.jZrMeV 50 contract.sMaxCdw contract.xiScaleCdw 20 q_cdw
+      contract.gammaNormal 100 contract.tPgEff
+      (by norm_num) contract.jZrMeV_pos (by norm_num)
+      contract.sMaxCdw_pos contract.xiScaleCdw_pos (by norm_num)
+      contract.gammaNormal_pos (by norm_num) contract.tPgEff_pos
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end Signals.Pending

@@ -5685,4 +5685,88 @@ example (w_ad1 w_ad2 d0 omega : ℝ)
     toyInterfacialHeatTransportContract
     w_ad1 w_ad2 d0 omega hw1 hw_lt hd0 homega tau_spec tau_diff delta_t q_max hdt hq_max
 
+noncomputable def toyCuprateSuperconductivityContract :
+    Signals.Pending.CuprateSuperconductivityPendingHypothesis :=
+  { heatContract := toyInterfacialHeatTransportContract
+    tcMax := 93
+    tcMax_pos := by norm_num
+    tStar0 := 400
+    tStar0_pos := by norm_num
+    gammaNormal := 1
+    gammaNormal_pos := by norm_num
+    tPgEff := 50
+    tPgEff_pos := by norm_num
+    rhoS0 := 100
+    rhoS0_pos := by norm_num
+    jZrMeV := 130
+    jZrMeV_pos := by norm_num
+    sMaxCdw := 10
+    sMaxCdw_pos := by norm_num
+    xiScaleCdw := 100
+    xiScaleCdw_pos := by norm_num
+    lambdaNemSq := 5
+    lambdaNemSq_pos := by norm_num
+    etaDisorder := 10
+    etaDisorder_pos := by norm_num
+    tPdEv := 7 / 5
+    tPdEv_pos := by norm_num
+    deltaCtLowEv := 3 / 2
+    deltaCtHighEv := 2
+    deltaCtLow_pos := by norm_num
+    deltaCtLow_lt_high := by norm_num
+    uEffEv := 8
+    uEffEv_pos := by norm_num
+    twelveCuprateTargetsValidated := True
+    twelveCuprateTargetsValidated_hypothesis := trivial
+    fiveCuprateFamiliesValidated := True
+    fiveCuprateFamiliesValidated_hypothesis := trivial }
+
+example :
+    let c := toyCuprateSuperconductivityContract
+    Signals.DFT.cuprateSuperconductingTc c.tcMax (5 / 100) = 0 ∧
+      Signals.DFT.cuprateSuperconductingTc c.tcMax (27 / 100) = 0 ∧
+      Signals.DFT.cuprateSuperconductingTc c.tcMax (16 / 100) = c.tcMax ∧
+      Signals.DFT.cuprateDWaveFormFactor 1 1 = 0 ∧
+      Signals.DFT.cuprateDWaveFormFactor 1 (-1) = 2 ∧
+      Signals.DFT.cuprateDWaveGapSq 35 1 (-1) 0 c.tcMax = 35 ^ 2 ∧
+      Signals.DFT.cupratePseudogapTemp c.tStar0 (19 / 100) = 0 ∧
+      (Signals.DFT.cuprateInPlaneResistivity 10 (6 / 5) 0 300 -
+          Signals.DFT.cuprateInPlaneResistivity 10 (6 / 5) 0 100) / (300 - 100) = 6 / 5 ∧
+      0 < Signals.DFT.cupratePseudogapEntropySuppression c.gammaNormal 10 c.tPgEff ∧
+      Signals.DFT.cuprateSuperfluidStiffness c.rhoS0 20 c.tcMax <
+        Signals.DFT.cuprateSuperfluidStiffness c.rhoS0 10 c.tcMax ∧
+      Signals.DFT.cuprateAntiferromagneticMomentSq (36 / 100) (5 / 100) = 0 ∧
+      0 < Signals.DFT.cuprateParamagnonEnergy c.jZrMeV (30 / 100) ∧
+      Signals.DFT.cuprateCdwStructureFactorPeak c.sMaxCdw c.xiScaleCdw (16 / 100) < c.sMaxCdw ∧
+      Signals.DFT.cuprateResonantUltrasoundModulusShift
+          c.lambdaNemSq 300 Signals.DFT.cuprateYbco660PseudogapTempK c.etaDisorder <
+        c.lambdaNemSq / c.etaDisorder ∧
+      Signals.DFT.cuprateChargeTransferSuperexchange c.tPdEv c.deltaCtHighEv c.uEffEv <
+        Signals.DFT.cuprateChargeTransferSuperexchange c.tPdEv c.deltaCtLowEv c.uEffEv ∧
+      Signals.DFT.cuprateFamilyLscoTcMax < Signals.DFT.cuprateFamilyHg1201TcMax ∧
+      Signals.DFT.gtbcRelativeError 92.6 93 < 1 / 100 :=
+  SignalsPending.cuprate_superconductivity_twelve_targets_and_family_bounds
+    toyCuprateSuperconductivityContract
+
+example (p cos_kx omega xi0 q_cdw : ℝ) :
+    let c := toyCuprateSuperconductivityContract
+    Signals.DFT.cuprateMicroscopicRvbDome c.tcMax p =
+        Signals.DFT.cuprateSuperconductingTc c.tcMax p ∧
+      Signals.DFT.cupratePavariniTcMaxFromSuperexchange 2 112 (16 / 100) <
+        Signals.DFT.cupratePavariniTcMaxFromSuperexchange 2 140 (37 / 100) ∧
+      Signals.DFT.cuprateYrzPseudogapSelfEnergy 40 cos_kx cos_kx omega xi0 = 0 ∧
+      Signals.DFT.cuprateYrzQuasiparticleEnergySq 0 40 cos_kx cos_kx = 0 ∧
+      0 < Signals.DFT.cuprateYrzQuasiparticleEnergySq 0 40 1 (-1) ∧
+      Signals.DFT.cuprateHomesSuperfluidDensity 1 c.tcMax 120 <
+        Signals.DFT.cuprateHomesSuperfluidDensity 1 c.tcMax 80 ∧
+      0 < Signals.DFT.cuprateDynamicalSpinStructureFactor 10 c.jZrMeV c.jZrMeV 50 ∧
+      Signals.DFT.cuprateMomentumResolvedCdwStructureFactor
+          c.sMaxCdw c.xiScaleCdw (1 / 8) 20 q_cdw q_cdw = c.sMaxCdw ∧
+      Signals.DFT.cupratePseudogapSpecificHeatCoeff c.gammaNormal 100 c.tPgEff <
+        c.gammaNormal ∧
+      Signals.DFT.gtbcRelativeError 92.6 93 < Signals.DFT.gtbcRelativeError 40 93 ∧
+      Signals.DFT.gtbcRelativeError 306 310 < Signals.DFT.gtbcRelativeError 0 310 :=
+  SignalsPending.cuprate_superconductivity_gap_closure_bounds
+    toyCuprateSuperconductivityContract p cos_kx omega xi0 q_cdw
+
 end SignalsPendingTests

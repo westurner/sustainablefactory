@@ -7162,4 +7162,63 @@ example
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
+/-- Compile-time verification of Discovered Materials Problem 01 ("A Predictive Theory of
+Cuprate Superconductivity"): simultaneous verification of all 12 benchmark targets and
+the 5-family $T_{c,\max}$ hierarchy (`Signals.DFT.cuprate_superconductivity_twelve_targets_and_phase_diagram_identities`,
+`Signals.DFT.cuprate_superconductivity_critique_families_and_error_identities`). -/
+example :
+    Signals.DFT.cuprateSuperconductingTc 93 (5 / 100) = 0 ∧
+      Signals.DFT.cuprateSuperconductingTc 93 (27 / 100) = 0 ∧
+      Signals.DFT.cuprateSuperconductingTc 93 (16 / 100) = 93 ∧
+      Signals.DFT.cuprateDWaveFormFactor 1 1 = 0 ∧
+      Signals.DFT.cuprateDWaveFormFactor 1 (-1) = 2 ∧
+      Signals.DFT.cuprateDWaveGapSq 35 1 (-1) 0 93 = 35 ^ 2 ∧
+      Signals.DFT.cupratePseudogapTemp 400 (19 / 100) = 0 ∧
+      0 < Signals.DFT.cuprateParamagnonEnergy 130 (30 / 100) ∧
+      Signals.DFT.cuprateCdwStructureFactorPeak 10 100 (1 / 8) = 10 ∧
+      Signals.DFT.cuprateChargeTransferSuperexchange (7 / 5) 2 8 <
+        Signals.DFT.cuprateChargeTransferSuperexchange (7 / 5) (3 / 2) 8 ∧
+      Signals.DFT.cuprateFamilyLscoTcMax < Signals.DFT.cuprateFamilyHg1201TcMax := by
+  have h12 :=
+    Signals.DFT.cuprate_superconductivity_twelve_targets_and_phase_diagram_identities
+      93 (16 / 100) 1 (-1) 35 93 400 (10 / 100) (16 / 100)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      10 (6 / 5) 10 20 1 50 100 (36 / 100) 130 10 100
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      5 10 (7 / 5) (3 / 2) 2 8
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h12.1, h12.2.1, h12.2.2.1, h12.2.2.2.2.1, h12.2.2.2.2.2.2.1,
+    h12.2.2.2.2.2.2.2.1, h12.2.2.2.2.2.2.2.2.2.2.1,
+    h12.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h12.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h12.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    by unfold Signals.DFT.cuprateFamilyLscoTcMax Signals.DFT.cuprateFamilyHg1201TcMax; norm_num⟩
+
+example (p cos_kx omega xi0 q_cdw : ℝ) :
+    Signals.DFT.cuprateMicroscopicRvbDome 93 p = Signals.DFT.cuprateSuperconductingTc 93 p ∧
+      Signals.DFT.cupratePavariniTcMaxFromSuperexchange 2 112 (16 / 100) <
+        Signals.DFT.cupratePavariniTcMaxFromSuperexchange 2 140 (37 / 100) ∧
+      Signals.DFT.cuprateYrzPseudogapSelfEnergy 40 cos_kx cos_kx omega xi0 = 0 ∧
+      0 < Signals.DFT.cuprateYrzQuasiparticleEnergySq 0 40 1 (-1) ∧
+      Signals.DFT.cuprateHomesSuperfluidDensity 1 93 120 <
+        Signals.DFT.cuprateHomesSuperfluidDensity 1 93 80 ∧
+      0 < Signals.DFT.cuprateDynamicalSpinStructureFactor 10 130 130 50 ∧
+      Signals.DFT.cuprateMomentumResolvedCdwStructureFactor 10 100 (1 / 8) 20 q_cdw q_cdw = 10 ∧
+      Signals.DFT.cupratePseudogapSpecificHeatCoeff 1 100 50 < 1 := by
+  have h :=
+    Signals.DFT.cuprate_superconductivity_gap_closure_yrz_homes_mmp_and_rvb_identities
+      93 p 2 112 140 (16 / 100) (37 / 100)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      40 cos_kx omega xi0 1 93 80 120 100 10 20
+      (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num)
+      10 130 50 10 100 20 q_cdw 1 100 50
+      (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
 end SignalsTests

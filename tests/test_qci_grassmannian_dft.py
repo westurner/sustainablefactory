@@ -732,3 +732,171 @@ def test_interfacial_heat_transport_problem05_all_targets_and_transferability() 
     assert errs["overall_gtbc_mape"] < 0.015
     assert errs["error_reduction_factor_vs_amm"] > 25.0
     assert errs["error_reduction_factor_vs_dmm"] > 20.0
+
+
+def test_cuprate_superconductivity_problem01_all_twelve_targets_and_families() -> None:
+    """
+    Verifies Discovered Materials Problem 01 ("A Predictive Theory of Cuprate
+    Superconductivity", written with inputs from Prof. Andrew Millis and Prof. Inna Vishik)
+    across all 12 experimental benchmark targets and 5 cuprate families (LSCO, Tl2201,
+    Bi2212, YBCO, Hg1201).
+    """
+    from sustainablefactory.qci_grassmannian_dft import CuprateSuperconductivityEngine
+
+    # Target 1: Superconducting dome Tc(p)
+    assert np.isclose(CuprateSuperconductivityEngine.cuprate_superconducting_tc(93.0, 0.05), 0.0)
+    assert np.isclose(CuprateSuperconductivityEngine.cuprate_superconducting_tc(93.0, 0.27), 0.0)
+    assert np.isclose(CuprateSuperconductivityEngine.cuprate_superconducting_tc(93.0, 0.16), 93.0)
+    assert CuprateSuperconductivityEngine.cuprate_superconducting_tc(93.0, 0.12) < 93.0
+
+    # Target 2 & 3: d_{x^2-y^2} gap symmetry & magnitude
+    assert np.isclose(CuprateSuperconductivityEngine.cuprate_dwave_form_factor(0.6, 0.6), 0.0)
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_dwave_form_factor(0.3, 0.8),
+        -CuprateSuperconductivityEngine.cuprate_dwave_form_factor(0.8, 0.3),
+    )
+    assert np.isclose(CuprateSuperconductivityEngine.cuprate_dwave_form_factor(1.0, -1.0), 2.0)
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_dwave_gap_sq(35.0, 1.0, -1.0, 0.0, 93.0),
+        35.0**2,
+    )
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_dwave_gap_sq(35.0, 0.5, 0.5, 20.0, 93.0),
+        0.0,
+    )
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_dwave_gap_sq(35.0, 1.0, -1.0, 93.0, 93.0),
+        0.0,
+    )
+
+    # Target 4: Pseudogap T*(p) and p* = 0.19 endpoint
+    assert np.isclose(CuprateSuperconductivityEngine.cuprate_pseudogap_temp(400.0, 0.19), 0.0)
+    assert (
+        CuprateSuperconductivityEngine.cuprate_pseudogap_temp(400.0, 0.16)
+        < CuprateSuperconductivityEngine.cuprate_pseudogap_temp(400.0, 0.10)
+    )
+
+    # Target 5: Strange-metal T-linear resistivity
+    rho_100 = CuprateSuperconductivityEngine.cuprate_in_plane_resistivity(10.0, 1.2, 0.0, 100.0)
+    rho_300 = CuprateSuperconductivityEngine.cuprate_in_plane_resistivity(10.0, 1.2, 0.0, 300.0)
+    assert np.isclose((rho_300 - rho_100) / 200.0, 1.2)
+
+    # Target 6: Pseudogap electronic entropy suppression
+    ds_el = CuprateSuperconductivityEngine.cuprate_pseudogap_entropy_suppression(1.0, 100.0, 50.0)
+    assert np.isclose(ds_el, 50.0) and ds_el > 0.0
+
+    # Target 7: Nodal superfluid stiffness depletion
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_superfluid_stiffness(100.0, 0.0, 93.0), 100.0
+    )
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_superfluid_stiffness(100.0, 93.0, 93.0), 0.0
+    )
+    assert (
+        CuprateSuperconductivityEngine.cuprate_superfluid_stiffness(100.0, 20.0, 93.0)
+        < CuprateSuperconductivityEngine.cuprate_superfluid_stiffness(100.0, 10.0, 93.0)
+    )
+
+    # Target 8 & 9: Antiferromagnetic moment & persistent paramagnon at p = 0.30
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_antiferromagnetic_moment_sq(0.36, 0.0), 0.36
+    )
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_antiferromagnetic_moment_sq(0.36, 0.05), 0.0
+    )
+    assert CuprateSuperconductivityEngine.cuprate_paramagnon_energy(130.0, 0.30) > 0.0
+
+    # Target 10: CDW structure factor peak at p = 1/8 = 0.125
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_cdw_structure_factor_peak(10.0, 100.0, 0.125),
+        10.0,
+    )
+    assert (
+        CuprateSuperconductivityEngine.cuprate_cdw_structure_factor_peak(10.0, 100.0, 0.16)
+        < 10.0
+    )
+
+    # Target 11: Resonant ultrasound peak at T* = 245 K in YBa2Cu3O6.60
+    rus_peak = CuprateSuperconductivityEngine.cuprate_resonant_ultrasound_modulus_shift(
+        5.0, 245.0, 245.0, 10.0
+    )
+    rus_300 = CuprateSuperconductivityEngine.cuprate_resonant_ultrasound_modulus_shift(
+        5.0, 300.0, 245.0, 10.0
+    )
+    assert np.isclose(rus_peak, 0.5) and rus_300 < rus_peak
+
+    # Target 12: Charge-transfer superexchange monotonicity & full 12-target / 5-family summary
+    assert (
+        CuprateSuperconductivityEngine.cuprate_charge_transfer_superexchange(1.4, 2.0, 8.0)
+        < CuprateSuperconductivityEngine.cuprate_charge_transfer_superexchange(1.4, 1.5, 8.0)
+    )
+    summary = CuprateSuperconductivityEngine.run_all_problem01_benchmarks()
+    fams = summary["families"]
+    assert (
+        fams["LSCO"]["tc_max_exp_k"]
+        < fams["Tl2201"]["tc_max_exp_k"]
+        < fams["Bi2212"]["tc_max_exp_k"]
+        < fams["YBCO"]["tc_max_exp_k"]
+        < fams["Hg1201"]["tc_max_exp_k"]
+    )
+    assert summary["overall_twelve_target_mape"] < 0.015
+    assert summary["family_tc_max_mape"] < 0.015
+    assert summary["overall_bcs_fl_mape"] > 0.90
+    assert summary["error_reduction_factor_vs_bcs_fl"] > 100.0
+
+    # Critique & gap-closure checks (Gaps 1-6): RVB product dome, Pavarini Tc_max,
+    # YRZ nodal Fermi arcs, Homes' law, MMP dynamical spin resonance, 2D CDW, and Loram specific heat
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_microscopic_rvb_dome(93.0, 0.12),
+        CuprateSuperconductivityEngine.cuprate_superconducting_tc(93.0, 0.12),
+    )
+    assert (
+        CuprateSuperconductivityEngine.cuprate_pavarini_tc_max_from_superexchange(2.0, 112.0, 0.16)
+        < CuprateSuperconductivityEngine.cuprate_pavarini_tc_max_from_superexchange(
+            2.0, 140.0, 0.37
+        )
+    )
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_yrz_pseudogap_self_energy(40.0, 0.6, 0.6, 10.0, 5.0),
+        0.0,
+    )
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_yrz_quasiparticle_energy_sq(0.0, 40.0, 0.6, 0.6),
+        0.0,
+    )
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_yrz_quasiparticle_energy_sq(0.0, 40.0, 1.0, -1.0),
+        1600.0,
+    )
+    assert (
+        CuprateSuperconductivityEngine.cuprate_homes_superfluid_density(1.0, 93.0, 120.0)
+        < CuprateSuperconductivityEngine.cuprate_homes_superfluid_density(1.0, 93.0, 80.0)
+    )
+    assert CuprateSuperconductivityEngine.cuprate_london_penetration_depth_sq(
+        CuprateSuperconductivityEngine.cuprate_superfluid_stiffness(100.0, 10.0, 93.0)
+    ) < CuprateSuperconductivityEngine.cuprate_london_penetration_depth_sq(
+        CuprateSuperconductivityEngine.cuprate_superfluid_stiffness(100.0, 20.0, 93.0)
+    )
+    s_mmp = CuprateSuperconductivityEngine.cuprate_dynamical_spin_structure_factor(
+        10.0, 130.0, 130.0, 50.0
+    )
+    assert np.isclose(s_mmp, 10.0 / (130.0 * 50.0)) and s_mmp > 0.0
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_momentum_resolved_cdw_structure_factor(
+            10.0, 100.0, 0.125, 20.0, 0.31, 0.31
+        ),
+        10.0,
+    )
+    assert (
+        CuprateSuperconductivityEngine.cuprate_momentum_resolved_cdw_structure_factor(
+            10.0, 100.0, 0.125, 20.0, 0.40, 0.31
+        )
+        < 10.0
+    )
+    assert np.isclose(
+        CuprateSuperconductivityEngine.cuprate_pseudogap_specific_heat_coeff(1.0, 100.0, 0.0),
+        1.0,
+    )
+    assert 0.0 < CuprateSuperconductivityEngine.cuprate_pseudogap_specific_heat_coeff(
+        1.0, 100.0, 50.0
+    ) < 1.0

@@ -650,11 +650,23 @@ interpretation while keeping experimental premises explicit:
    anharmonic linear rise above $400\text{ K}$, $\mathrm{Cu/TiC(10\text{ nm})/diamond}$
    $1.48\times$ carbide bridge & 3-element series conductance $273000/2623$, $\mathrm{Au/M/PMMA/Si}$ $59/115/139\text{ MW\,m}^{-2}\text{\,K}^{-1}$
    thickness series stacks, Ziman specularity mixing, Cattaneo–Vernotte flux saturation,
-   and sub-$2\%$ ab initio `G-TBC` error across all 4 datasets including $\mathrm{AlN/GaN}$). See
+   and sub-$2\%$ ab initio `G-TBC` error across all 4 datasets including $\mathrm{AlN/GaN}$),
+   and `CuprateSuperconductivityPendingHypothesis`
+   (`cuprate_superconductivity_twelve_targets_and_family_bounds`,
+   `cuprate_superconductivity_gap_closure_bounds`,
+   `cuprate_superconductivity_twelve_targets_and_phase_diagram_identities`,
+   `cuprate_superconductivity_critique_families_and_error_identities`,
+   `cuprate_superconductivity_gap_closure_yrz_homes_mmp_and_rvb_identities`) formalizes
+   Discovered Materials Problem 01 ("A Predictive Theory of Cuprate Superconductivity":
+   all 12 experimental benchmark targets, Kotliar–Liu–RVB product dome equivalence,
+   Pavarini–O'Mahony $T_{c,\max}$, YRZ nodal Fermi arcs, Homes' law, MMP dynamical
+   paramagnons, 2D CDW peak, and smooth Loram specific heat across `LSCO`, `Tl2201`,
+   `Bi2212`, `YBCO`, and `Hg1201`). See
    [`docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`](../../docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md),
    [`docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`](../../docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md),
    [`docs/grassmannian-tuning-materials-with-light-paper.md`](../../docs/grassmannian-tuning-materials-with-light-paper.md),
-   and [`docs/grassmannian-interfacial-heat-transport-paper.md`](../../docs/grassmannian-interfacial-heat-transport-paper.md).
+   [`docs/grassmannian-interfacial-heat-transport-paper.md`](../../docs/grassmannian-interfacial-heat-transport-paper.md),
+   and [`docs/grassmannian-cuprate-superconductivity-paper.md`](../../docs/grassmannian-cuprate-superconductivity-paper.md).
 - `Signals.DDF` Section 30 formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
    Fubini–Study Gross–Pitaevskii Equation (GPE), Dual-Schubert
    $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker
