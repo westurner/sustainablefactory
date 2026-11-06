@@ -637,10 +637,24 @@ interpretation while keeping experimental premises explicit:
    time-linear Grassmannian `G-GKBA` speedups, Hubbard 11-site chain & $6\times 2$
    ladder, $\mathrm{WSe}_2$ excitons & high-density Pauli Mott screening, Graphite
    5-reservoir ODE rate conservation, and $\mathrm{MgB}_2$ THz superconductivity
-   & out-of-equilibrium $T_c^{\mathrm{neq}}$). See
+   & out-of-equilibrium $T_c^{\mathrm{neq}}$), and
+   `InterfacialHeatTransportPendingHypothesis`
+   (`interfacial_heat_transport_gtbc_and_three_target_bounds`,
+   `interfacial_heat_transport_critique_and_gap_closure_bounds`,
+   `interfacial_heat_transport_gtbc_al_si_gan_tic_and_pmma_identities`,
+   `interfacial_heat_transport_critique_adhesion_bridge_roughness_and_error_identities`) formalizes
+   Discovered Materials Problem 05 ("Predicting Heat Transport across Solid Interfaces":
+   bond-stiffness-weighted $\mathrm{Gr}_{\mathbb{C}}(2,4)$ transmission, `QCI-GXC`
+   work-of-adhesion spring stiffness $K_{\mathrm{bond}} = W_{\mathrm{ad}}/d_0^2$, $\mathrm{Al/Si}$
+   $379$ & $\mathrm{Al/GaN}$ $423\text{ MW\,m}^{-2}\text{\,K}^{-1}$ $80\text{--}700\text{ K}$
+   anharmonic linear rise above $400\text{ K}$, $\mathrm{Cu/TiC(10\text{ nm})/diamond}$
+   $1.48\times$ carbide bridge & 3-element series conductance $273000/2623$, $\mathrm{Au/M/PMMA/Si}$ $59/115/139\text{ MW\,m}^{-2}\text{\,K}^{-1}$
+   thickness series stacks, Ziman specularity mixing, Cattaneo–Vernotte flux saturation,
+   and sub-$2\%$ ab initio `G-TBC` error across all 4 datasets including $\mathrm{AlN/GaN}$). See
    [`docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`](../../docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md),
    [`docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`](../../docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md),
-   and [`docs/grassmannian-tuning-materials-with-light-paper.md`](../../docs/grassmannian-tuning-materials-with-light-paper.md).
+   [`docs/grassmannian-tuning-materials-with-light-paper.md`](../../docs/grassmannian-tuning-materials-with-light-paper.md),
+   and [`docs/grassmannian-interfacial-heat-transport-paper.md`](../../docs/grassmannian-interfacial-heat-transport-paper.md).
 - `Signals.DDF` Section 30 formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
    Fubini–Study Gross–Pitaevskii Equation (GPE), Dual-Schubert
    $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker

@@ -632,3 +632,103 @@ def test_tuning_materials_with_light_problem04_all_four_targets() -> None:
     assert 0.0 < mgb2["tc_neq_moderate_pump_k"] < 38.0
     assert np.isclose(mgb2["tc_neq_quenched_k"], 0.0, atol=1e-12)
     assert mgb2["a3w_saturated_150kv_cm"] < 150.0**3
+
+
+def test_interfacial_heat_transport_problem05_all_targets_and_transferability() -> None:
+    """
+    Verifies Discovered Materials Problem 05 ("Predicting Heat Transport across Solid Interfaces"):
+      1. Dataset 1: Sharp Al(111)/Si(111) (379 MW m^-2 K^-1 at 300 K) and Al(111)/GaN(0001)
+         (423 MW m^-2 K^-1 at 300 K) over 80-700 K with renewed linear anharmonic rise above 400 K
+         (Li et al., Nature Communications 13, 4901, 2022).
+      2. Dataset 2: Carbide-assisted Cu/TiC(10 nm)/diamond conductance ratio = 1.48 (+48%)
+         and geometric-mean Plücker impedance bridging (Chang et al., ACS Appl. Mater.
+         Interfaces 11, 26507, 2019).
+      3. Dataset 3: Inorganic/polymer stack boundary conductances Au/PMMA/Si (59),
+         Au/Ti(2 nm)/PMMA/Si (115), and Au/Ni(2 nm)/PMMA/Si (139 MW m^-2 K^-1) and monotonic
+         PMMA thickness scaling (Sandell et al., Nanomaterials 10, 670, 2020; Losego et al.,
+         Appl. Phys. Lett. 97, 011908, 2010).
+      4. Frozen-model transferability on hidden interfaces (AlN/GaN, GaN/SiC, GaN/diamond,
+         N-LIG/AlN), beating both AMM and DMM against atomistic ground truth.
+    """
+    from sustainablefactory.qci_grassmannian_dft import InterfacialHeatTransportEngine
+
+    summary = InterfacialHeatTransportEngine.run_all_problem05_benchmarks()
+
+    # 1. Dataset 1: Al/Si & Al/GaN 80-700 K
+    ms = summary["metal_semiconductor_curves"]
+    assert np.isclose(ms["al_si_300k_mw_m2_k"], 379.0, atol=1e-9)
+    assert np.isclose(ms["al_gan_300k_mw_m2_k"], 423.0, atol=1e-9)
+    assert ms["al_gan_rk_300k_m2_k_gw"] < ms["al_si_rk_300k_m2_k_gw"]
+    c_si = ms["al_si_gtbc_curve"]
+    c_gan = ms["al_gan_gtbc_curve"]
+    assert c_si[80.0] < c_si[300.0] < c_si[400.0] < c_si[500.0] < c_si[600.0] < c_si[700.0]
+    assert c_gan[80.0] < c_gan[300.0] < c_gan[400.0] < c_gan[500.0] < c_gan[600.0] < c_gan[700.0]
+    assert ms["slope_al_si_400_700_mw_m2_k2"] > 5.0 * ms["slope_dmm_al_si_400_700_mw_m2_k2"]
+    assert ms["slope_al_gan_400_700_mw_m2_k2"] > ms["slope_al_si_400_700_mw_m2_k2"] > 0.20
+
+    # 2. Dataset 2: Cu/TiC(10 nm)/diamond 1.48x enhancement
+    tic = summary["carbide_interlayer_cu_tic_diamond"]
+    assert np.isclose(tic["d_tic_nm"], 10.0)
+    assert tic["tau_amm_direct_vibrational"] < tic["tau_amm_bridge_two_step_product"]
+    assert np.isclose(tic["enhancement_ratio_gtbc"], 1.48, atol=1e-12)
+    assert np.isclose(tic["enhancement_percent_gtbc"], 48.0, atol=1e-9)
+    assert tic["enhancement_ratio_naive_dmm"] < 1.0 < tic["enhancement_ratio_gtbc"]
+
+    # 3. Dataset 3: Au/M/PMMA/Si bonding-layer & thickness series
+    pmma = summary["polymer_stack_au_m_pmma_si"]
+    bounds = pmma["combined_boundary_conductance_mw_m2_k"]
+    assert np.isclose(bounds["Au/PMMA/Si"], 59.0)
+    assert np.isclose(bounds["Au/Ti/PMMA/Si"], 115.0)
+    assert np.isclose(bounds["Au/Ni/PMMA/Si"], 139.0)
+    assert bounds["Au/PMMA/Si"] < bounds["Au/Ti/PMMA/Si"] < bounds["Au/Ni/PMMA/Si"]
+    g_vs_d = pmma["conductance_vs_thickness_mw_m2_k"]
+    for stack_name in ("Au/PMMA/Si", "Au/Ti/PMMA/Si", "Au/Ni/PMMA/Si"):
+        assert g_vs_d[stack_name][0.0] > g_vs_d[stack_name][2.0] > g_vs_d[stack_name][10.0] > g_vs_d[stack_name][25.0]
+    assert g_vs_d["Au/PMMA/Si"][5.0] < g_vs_d["Au/Ti/PMMA/Si"][5.0] < g_vs_d["Au/Ni/PMMA/Si"][5.0]
+
+    # 4. Frozen-model transferability on hidden interfaces (AlN/GaN, GaN/SiC, GaN/diamond, N-LIG/AlN)
+    hidden = summary["hidden_transfer_interfaces"]
+    assert "AlN/GaN" in hidden
+    for name, metrics in hidden.items():
+        assert metrics["gtbc_abs_rel_error"] < 0.03, f"{name} G-TBC error too high"
+        assert metrics["gtbc_abs_rel_error"] < metrics["amm_abs_rel_error"]
+        assert metrics["gtbc_abs_rel_error"] < metrics["dmm_abs_rel_error"]
+        assert metrics["gtbc_600k_mw_m2_k"] > metrics["gtbc_300k_mw_m2_k"]
+
+    # 5. Critique, gap closure, and per-dataset G-TBC vs. AMM/DMM error audit
+    k_weak = InterfacialHeatTransportEngine.gtbc_work_of_adhesion_spring_stiffness(0.14, 0.25)
+    k_strong = InterfacialHeatTransportEngine.gtbc_work_of_adhesion_spring_stiffness(1.18, 0.25)
+    assert k_weak < k_strong
+    assert (
+        InterfacialHeatTransportEngine.gtbc_bond_compliance_ratio(1.0, 17.0, 20.0, k_strong)
+        < InterfacialHeatTransportEngine.gtbc_bond_compliance_ratio(1.0, 17.0, 20.0, k_weak)
+    )
+    assert np.isclose(InterfacialHeatTransportEngine.gtbc_ziman_specularity_factor(0.0), 1.0)
+    assert np.isclose(
+        InterfacialHeatTransportEngine.gtbc_mixed_specular_diffuse_transmission(1.0, 0.8, 0.5),
+        0.8,
+    )
+    assert np.isclose(
+        InterfacialHeatTransportEngine.gtbc_mixed_specular_diffuse_transmission(0.0, 0.8, 0.5),
+        0.5,
+    )
+    q_cv = InterfacialHeatTransportEngine.gtbc_cattaneo_vernotte_flux_saturated(379.0, 50.0, 10000.0)
+    assert 0.0 < q_cv < 379.0 * 50.0 and q_cv < 10000.0
+
+    errs = summary["per_dataset_errors"]
+    assert errs["dataset1_al_si_al_gan"]["gtbc_mape"] < 0.015
+    assert errs["dataset1_al_si_al_gan"]["gtbc_mape"] < errs["dataset1_al_si_al_gan"]["dmm_mape"]
+    assert errs["dataset1_al_si_al_gan"]["gtbc_mape"] < errs["dataset1_al_si_al_gan"]["amm_mape"]
+    assert np.isclose(
+        errs["dataset2_cu_tic_diamond"]["g_bridged_ab_initio_mw_m2_k"],
+        273000.0 / 2623.0,
+        atol=1e-12,
+    )
+    assert errs["dataset2_cu_tic_diamond"]["gtbc_mape"] < 0.01
+    assert errs["dataset2_cu_tic_diamond"]["gtbc_mape"] < errs["dataset2_cu_tic_diamond"]["dmm_mape"]
+    assert errs["dataset3_au_m_pmma_si"]["gtbc_mape"] < 0.02
+    assert errs["dataset3_au_m_pmma_si"]["gtbc_mape"] < errs["dataset3_au_m_pmma_si"]["dmm_mape"]
+    assert errs["dataset4_hidden_transfer"]["gtbc_mape"] < 0.02
+    assert errs["overall_gtbc_mape"] < 0.015
+    assert errs["error_reduction_factor_vs_amm"] > 25.0
+    assert errs["error_reduction_factor_vs_dmm"] > 20.0

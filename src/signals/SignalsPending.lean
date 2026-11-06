@@ -488,4 +488,87 @@ lemma light_driven_materials_critique_and_gap_closure_bounds
   contract.cumulant_pauli_ode_and_neq_tc_bounds
     n_ex n_mott hn_ex_pos hn_ex_lt p_laser g1 g2 g3 g4 g5 g6 g7 g8
 
+/-- Summary lemma: in an `InterfacialHeatTransportPendingHypothesis` (Discovered Materials
+Problem 05), the AMM/DMM bounds, bond-stiffness-weighted $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+phonon transmission ordering, the $\mathrm{Al/Si}$ ($379$) and $\mathrm{Al/GaN}$
+($423\text{ MW\,m}^{-2}\text{\,K}^{-1}$) $300\text{ K}$ conductances and $>400\text{ K}$
+linear anharmonic rise, the geometric-mean impedance bridge and $1.48\times$
+$\mathrm{Cu/TiC(10\text{ nm})/diamond}$ enhancement, and the $\mathrm{Au/PMMA/Si}$ ($59$),
+$\mathrm{Au/Ti/PMMA/Si}$ ($115$), and $\mathrm{Au/Ni/PMMA/Si}$ ($139\text{ MW\,m}^{-2}\text{\,K}^{-1}$)
+PMMA thickness series laws hold simultaneously. -/
+@[blueprint "lem:pending-interfacial-heat-transport-bounds"
+  (title := "Pending Discovered Materials Problem 05 (Predicting Heat Transport across Solid Interfaces) summary bounds")
+  (statement := /-- For any \texttt{contract : InterfacialHeatTransportPendingHypothesis},
+    the \texttt{G-TBC} bond-weighted transmission bounds and the $\mathrm{Al/Si}$, $\mathrm{Al/GaN}$,
+    $\mathrm{Cu/TiC/diamond}$, and $\mathrm{Au/M/PMMA/Si}$ reproduction laws hold simultaneously. -/)
+  (proof := /-- Apply \texttt{InterfacialHeatTransportPendingHypothesis.interfacial\_heat\_transport\_gtbc\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma interfacial_heat_transport_gtbc_and_three_target_bounds
+    (contract : InterfacialHeatTransportPendingHypothesis) :
+    Signals.DFT.ammNormalTransmission contract.z1Impedance contract.z2Impedance ≤ 1 ∧
+      Signals.DFT.gtbcBondWeightedTransmission
+          contract.z1Impedance contract.z2Impedance contract.xiBondWeak <
+        Signals.DFT.gtbcBondWeightedTransmission
+          contract.z1Impedance contract.z2Impedance contract.xiBondStrong ∧
+      Signals.DFT.gtbcAlSi300KConductance = 379 ∧
+      Signals.DFT.gtbcAlGaN300KConductance = 423 ∧
+      Signals.DFT.gtbcAlSi300KConductance < Signals.DFT.gtbcAlGaN300KConductance ∧
+      Signals.DFT.gtbcHarmonicPlusAnharmonicConductance 379 contract.gammaAnharmonic 400 <
+        Signals.DFT.gtbcHarmonicPlusAnharmonicConductance 379 contract.gammaAnharmonic 700 ∧
+      Signals.DFT.ammNormalTransmission 1 9 < (Signals.DFT.ammNormalTransmission 1 3) ^ 2 ∧
+      Signals.DFT.gtbcInterlayerEnhancementRatio 103.6 70.0 =
+        Signals.DFT.gtbcCuTiCDiamondRatio ∧
+      (1 : ℝ) < Signals.DFT.gtbcCuTiCDiamondRatio ∧
+      Signals.DFT.gtbcAuPmmaSiConductance < Signals.DFT.gtbcAuTiPmmaSiConductance ∧
+      Signals.DFT.gtbcAuTiPmmaSiConductance < Signals.DFT.gtbcAuNiPmmaSiConductance ∧
+      Signals.DFT.gtbcPolymerStackConductance
+          Signals.DFT.gtbcAuNiPmmaSiConductance 10 contract.kappaPmma <
+        Signals.DFT.gtbcPolymerStackConductance
+          Signals.DFT.gtbcAuNiPmmaSiConductance 2 contract.kappaPmma :=
+  contract.interfacial_heat_transport_gtbc_bounds
+
+/-- Summary lemma: in an `InterfacialHeatTransportPendingHypothesis` (Discovered Materials
+Problem 05), increasing `QCI-GXC` work of adhesion strictly increases spring stiffness
+$K_{\mathrm{bond}}$ and reduces compliance $\xi_{\mathrm{bond}}$, the 3-element
+$\mathrm{Cu/TiC(10\text{ nm})/diamond}$ series conductance equals $273000 / 2623$,
+Ziman specularity interpolates between $\mathrm{Gr}_{\mathbb{C}}(2,4)$ specular and DMM
+diffuse channels, Cattaneo–Vernotte hyperbolic flux saturation bounds interfacial heat flux
+below $G\Delta T$ and $q_{\max}$, and ab initio `G-TBC` relative errors beat AMM and DMM
+across all four datasets. -/
+@[blueprint "lem:pending-interfacial-heat-transport-critique-and-gap-closure-bounds"
+  (title := "Pending Problem 05 critique, gap closure, and per-dataset G-TBC error summary bounds")
+  (statement := /-- For any \texttt{contract : InterfacialHeatTransportPendingHypothesis} and
+    $0 < W_{\mathrm{ad},1} < W_{\mathrm{ad},2}$, $d_0, \omega, \Delta T, q_{\max} > 0$,
+    work-of-adhesion stiffness/compliance monotonicity, the 3-element $\mathrm{Cu/TiC/diamond}$
+    conductance ($273000 / 2623$), Ziman specularity mixing, Cattaneo–Vernotte flux saturation,
+    and per-dataset \texttt{G-TBC} error bounds hold simultaneously. -/)
+  (proof := /-- Apply \texttt{InterfacialHeatTransportPendingHypothesis.critique\_adhesion\_bridge\_roughness\_and\_error\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma interfacial_heat_transport_critique_and_gap_closure_bounds
+    (contract : InterfacialHeatTransportPendingHypothesis)
+    (w_ad1 w_ad2 d0 omega : ℝ)
+    (hw1 : 0 < w_ad1) (hw_lt : w_ad1 < w_ad2) (hd0 : 0 < d0) (homega : 0 < omega)
+    (tau_spec tau_diff delta_t q_max : ℝ) (hdt : 0 < delta_t) (hq_max : 0 < q_max) :
+    Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad1 d0 <
+        Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad2 d0 ∧
+      Signals.DFT.gtbcBondComplianceRatio omega contract.z1Impedance contract.z2Impedance
+          (Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad2 d0) <
+        Signals.DFT.gtbcBondComplianceRatio omega contract.z1Impedance contract.z2Impedance
+          (Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad1 d0) ∧
+      Signals.DFT.gtbcCarbideInterlayerConductance 260 210 10 10000 = 273000 / 2623 ∧
+      Signals.DFT.gtbcZimanSpecularityFactor 0 = 1 ∧
+      Signals.DFT.gtbcMixedSpecularDiffuseTransmission 1 tau_spec tau_diff = tau_spec ∧
+      Signals.DFT.gtbcCattaneoVernotteFluxSaturated 379 delta_t q_max < 379 * delta_t ∧
+      Signals.DFT.gtbcCattaneoVernotteFluxSaturated 379 delta_t q_max < q_max ∧
+      Signals.DFT.gtbcRelativeError 374.8 379 < Signals.DFT.gtbcRelativeError 290 379 ∧
+      Signals.DFT.gtbcRelativeError 417.6 423 < Signals.DFT.gtbcRelativeError 310 423 ∧
+      Signals.DFT.gtbcRelativeError
+          (Signals.DFT.gtbcInterlayerEnhancementRatio
+            (Signals.DFT.gtbcCarbideInterlayerConductance 260 210 10 10000) 70.5) 1.48 <
+        Signals.DFT.gtbcRelativeError (78 / 95) 1.48 ∧
+      Signals.DFT.gtbcRelativeError 58.1 59 < Signals.DFT.gtbcRelativeError 92 59 ∧
+      Signals.DFT.gtbcRelativeError 620 625 < Signals.DFT.gtbcRelativeError 740 625 :=
+  contract.critique_adhesion_bridge_roughness_and_error_bounds
+    w_ad1 w_ad2 d0 omega hw1 hw_lt hd0 homega tau_spec tau_diff delta_t q_max hdt hq_max
+
 end SignalsPending

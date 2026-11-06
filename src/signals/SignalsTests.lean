@@ -7092,4 +7092,74 @@ example
     h.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+/-- Discovered Materials Problem 05 ("Predicting Heat Transport across Solid Interfaces"):
+AMM/DMM transmission laws, bond-stiffness-weighted $\mathrm{Gr}_{\mathbb{C}}(2,4)$ transmission,
+$\mathrm{Al/Si}$ ($379$) & $\mathrm{Al/GaN}$ ($423\text{ MW\,m}^{-2}\text{\,K}^{-1}$) $300\text{ K}$
+conductances and $>400\text{ K}$ linear anharmonic rise, geometric-mean impedance bridging and
+$1.48\times$ $\mathrm{Cu/TiC(10\text{ nm})/diamond}$ enhancement, and $\mathrm{Au/M/PMMA/Si}$
+($59 < 115 < 139$) thickness series scaling
+(`Signals.DFT.interfacial_heat_transport_gtbc_al_si_gan_tic_and_pmma_identities`). -/
+example
+    (z1 z2 flux1 flux2 xi_strong xi_weak : ℝ)
+    (hz1 : 0 < z1) (hz2 : 0 < z2)
+    (hflux1 : 0 < flux1) (hflux2 : 0 < flux2)
+    (hxi_nonneg : 0 ≤ xi_strong) (hxi_lt : xi_strong < xi_weak)
+    (g_el gamma_anh g_ep g_bound kappa_pmma d1 d2 : ℝ)
+    (hg_el : 0 < g_el) (hgamma : 0 < gamma_anh) (hg_ep : 0 < g_ep)
+    (hg_bound : 0 < g_bound) (hkappa : 0 < kappa_pmma)
+    (hd1 : 0 ≤ d1) (hd_lt : d1 < d2) :
+    Signals.DFT.ammNormalTransmission z1 z1 = 1 ∧
+      Signals.DFT.dmmSpectralTransmission flux1 flux2 +
+        Signals.DFT.dmmSpectralTransmission flux2 flux1 = 1 ∧
+      Signals.DFT.gtbcBondWeightedTransmission z1 z2 xi_weak <
+        Signals.DFT.gtbcBondWeightedTransmission z1 z2 xi_strong ∧
+      Signals.DFT.gtbcAlSi300KConductance = 379 ∧
+      Signals.DFT.gtbcAlGaN300KConductance = 423 ∧
+      Signals.DFT.gtbcHarmonicPlusAnharmonicConductance g_el gamma_anh 400 <
+        Signals.DFT.gtbcHarmonicPlusAnharmonicConductance g_el gamma_anh 700 ∧
+      Signals.DFT.ammNormalTransmission 1 9 < (Signals.DFT.ammNormalTransmission 1 3) ^ 2 ∧
+      Signals.DFT.gtbcInterlayerEnhancementRatio 103.6 70.0 =
+        Signals.DFT.gtbcCuTiCDiamondRatio ∧
+      Signals.DFT.gtbcAuPmmaSiConductance < Signals.DFT.gtbcAuTiPmmaSiConductance ∧
+      Signals.DFT.gtbcAuTiPmmaSiConductance < Signals.DFT.gtbcAuNiPmmaSiConductance ∧
+      Signals.DFT.gtbcPolymerStackConductance g_bound d2 kappa_pmma <
+        Signals.DFT.gtbcPolymerStackConductance g_bound d1 kappa_pmma := by
+  have h :=
+    Signals.DFT.interfacial_heat_transport_gtbc_al_si_gan_tic_and_pmma_identities
+      z1 z2 flux1 flux2 xi_strong xi_weak hz1 hz2 hflux1 hflux2 hxi_nonneg hxi_lt
+      g_el gamma_anh g_ep g_bound kappa_pmma d1 d2
+      hg_el hgamma hg_ep hg_bound hkappa hd1 hd_lt
+  exact ⟨h.2.1, h.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+example
+    (w_ad1 w_ad2 d0 omega z1 z2 : ℝ)
+    (hw1 : 0 < w_ad1) (hw_lt : w_ad1 < w_ad2) (hd0 : 0 < d0)
+    (homega : 0 < omega) (hz1 : 0 < z1) (hz2 : 0 < z2)
+    (tau_spec tau_diff g_tbc delta_t q_max : ℝ)
+    (hg_tbc : 0 < g_tbc) (hdt : 0 < delta_t) (hq_max : 0 < q_max) :
+    Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad1 d0 <
+        Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad2 d0 ∧
+      Signals.DFT.gtbcCarbideInterlayerConductance 260 210 10 10000 = 273000 / 2623 ∧
+      Signals.DFT.gtbcZimanSpecularityFactor 0 = 1 ∧
+      Signals.DFT.gtbcCattaneoVernotteFluxSaturated g_tbc delta_t q_max < g_tbc * delta_t ∧
+      Signals.DFT.gtbcRelativeError 374.8 379 < Signals.DFT.gtbcRelativeError 290 379 ∧
+      Signals.DFT.gtbcRelativeError 417.6 423 < Signals.DFT.gtbcRelativeError 310 423 ∧
+      Signals.DFT.gtbcRelativeError 58.1 59 < Signals.DFT.gtbcRelativeError 92 59 ∧
+      Signals.DFT.gtbcRelativeError 620 625 < Signals.DFT.gtbcRelativeError 740 625 := by
+  have h :=
+    Signals.DFT.interfacial_heat_transport_critique_adhesion_bridge_roughness_and_error_identities
+      w_ad1 w_ad2 d0 omega z1 z2 hw1 hw_lt hd0 homega hz1 hz2
+      tau_spec tau_diff g_tbc delta_t q_max hg_tbc hdt hq_max
+  exact ⟨h.1, h.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
 end SignalsTests

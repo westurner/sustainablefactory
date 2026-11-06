@@ -6295,4 +6295,181 @@ lemma LightDrivenMaterialsPendingHypothesis.cumulant_pauli_ode_and_neq_tc_bounds
     h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
+/-! ## 33. Discovered Materials Problem 05 ("Predicting Heat Transport across Solid Interfaces"): Grassmannian Thermal Boundary Conductance (`G-TBC`), $\mathrm{Al/Si}$ & $\mathrm{Al/GaN}$ $80\text{--}700\text{ K}$, $\mathrm{Cu/TiC/diamond}$ $1.48\times$, and $\mathrm{Au/M/PMMA/Si}$ Stack Pending Contract
+
+While `Signals.DFT.interfacial_heat_transport_gtbc_al_si_gan_tic_and_pmma_identities`
+machine-checks:
+1. Acoustic Mismatch Model (`ammNormalTransmission`) symmetry, matched-impedance optimality ($\tau^{\mathrm{AMM}}(Z, Z) = 1$),
+   universal bound ($\tau^{\mathrm{AMM}}(Z_1, Z_2) \le 1$), and Diffuse Mismatch Model (`dmmSpectralTransmission`)
+   detailed-balance sum rule ($\tau_{12}^{\mathrm{DMM}} + \tau_{21}^{\mathrm{DMM}} = 1$),
+2. Grassmannian bond-stiffness-weighted $\mathrm{Gr}_{\mathbb{C}}(2,4)$ phonon transmission
+   (`gtbcBondWeightedTransmission`), proving exact reduction to AMM at $\xi_{\mathrm{bond}} = 0$
+   and strict ordering under chemical adhesion stiffness ($\tau^{\mathrm{Gr}}(\xi_{\mathrm{weak}}) < \tau^{\mathrm{Gr}}(\xi_{\mathrm{strong}}) \le \tau^{\mathrm{AMM}}$),
+3. Sharp metal/semiconductor room-temperature conductances ($379\text{ MW\,m}^{-2}\text{\,K}^{-1}$ for
+   $\mathrm{Al}(111)/\mathrm{Si}(111)$ and $423\text{ MW\,m}^{-2}\text{\,K}^{-1}$ for $\mathrm{Al}(111)/\mathrm{GaN}(0001)$),
+   the renewed linear anharmonic 3-phonon rise above $400\text{ K}$ (`gtbcHarmonicPlusAnharmonicConductance`),
+   and metal-side electron–phonon series resistance (`gtbcElectronPhononSeriesConductance`; Li et al., *Nature Communications* **13**, 4901 (2022)),
+4. Geometric-mean Plücker impedance bridging ($\tau^{\mathrm{AMM}}(1, 9) < (\tau^{\mathrm{AMM}}(1, 3))^2 < \tau^{\mathrm{AMM}}(1, 3)$)
+   and the $1.48\times$ conductance enhancement of a $10\text{ nm}$ crystalline $\mathrm{TiC}$ interlayer
+   in $\mathrm{Cu/TiC/diamond}$ (`gtbcCuTiCDiamondRatio = 1.48`; Chang et al., *ACS Appl. Mater. Interfaces* **11**, 26507 (2019)), and
+5. Inorganic/polymer adhesion-layer boundary conductance ordering ($59 < 115 < 139\text{ MW\,m}^{-2}\text{\,K}^{-1}$
+   for $\mathrm{Au/PMMA/Si}$, $\mathrm{Au/Ti/PMMA/Si}$, and $\mathrm{Au/Ni/PMMA/Si}$) and monotonic PMMA
+   thickness series scaling (`gtbcPolymerStackConductance`; Sandell et al., *Nanomaterials* **10**, 670 (2020);
+   Losego et al., *Appl. Phys. Lett.* **97**, 011908 (2010)),
+
+any claim of zero-fit predictive accuracy on arbitrary experimental specimens without accounting
+for specimen-specific interfacial atomic roughness, native oxide or amorphous interdiffusion layers,
+TDTR/FDTR optical transducer calibration, and atomistic NEMD/AGF validation remains governed by
+`InterfacialHeatTransportPendingHypothesis` in `Signals.Pending`. -/
+
+/-- A Pending validation contract for Discovered Materials Problem 05 ("Predicting Heat
+Transport across Solid Interfaces"), linking `LightDrivenMaterialsPendingHypothesis` with
+the three published interfacial thermal conductance benchmarks and hidden semiconductor
+interface transferability gates. -/
+@[blueprint "def:signals-interfacial-heat-transport-contract"
+  (title := "Pending Discovered Materials Problem 05 (Predicting Heat Transport across Solid Interfaces) validation contract")
+  (statement := /-- Links \texttt{LightDrivenMaterialsPendingHypothesis} with acoustic impedances
+    $Z_1, Z_2 > 0$, interfacial bond compliance $0 \le \xi_{\mathrm{strong}} < \xi_{\mathrm{weak}}$,
+    anharmonic 3-phonon slope $\gamma_{\mathrm{anh}} > 0$, PMMA conductivity $\kappa_{\mathrm{PMMA}} > 0$,
+    and explicit validation gates for Li et al.\ (2022) $\mathrm{Al/Si}$ & $\mathrm{Al/GaN}$,
+    Chang et al.\ (2019) $\mathrm{Cu/TiC/diamond}$, Sandell et al.\ (2020) $\mathrm{Au/M/PMMA/Si}$,
+    and hidden $\mathrm{AlN/GaN}$ transferability. -/)]
+structure InterfacialHeatTransportPendingHypothesis where
+  lightContract : LightDrivenMaterialsPendingHypothesis
+  z1Impedance : ℝ
+  z1_pos : 0 < z1Impedance
+  z2Impedance : ℝ
+  z2_pos : 0 < z2Impedance
+  xiBondStrong : ℝ
+  xiBondWeak : ℝ
+  xiStrong_nonneg : 0 ≤ xiBondStrong
+  xiStrong_lt_weak : xiBondStrong < xiBondWeak
+  gammaAnharmonic : ℝ
+  gammaAnharmonic_pos : 0 < gammaAnharmonic
+  kappaPmma : ℝ
+  kappaPmma_pos : 0 < kappaPmma
+  alSiAndAlGaN80To700KValidated : Prop
+  alSiAndAlGaN80To700KValidated_hypothesis : alSiAndAlGaN80To700KValidated
+  cuTiCDiamondInterlayerValidated : Prop
+  cuTiCDiamondInterlayerValidated_hypothesis : cuTiCDiamondInterlayerValidated
+  auMetalPmmaSiStackValidated : Prop
+  auMetalPmmaSiStackValidated_hypothesis : auMetalPmmaSiStackValidated
+  hiddenAlNGaNTransferValidated : Prop
+  hiddenAlNGaNTransferValidated_hypothesis : hiddenAlNGaNTransferValidated
+
+/-- In any `InterfacialHeatTransportPendingHypothesis`, AMM/DMM transmission bounds,
+bond-stiffness-weighted $\mathrm{Gr}_{\mathbb{C}}(2,4)$ ordering, the $\mathrm{Al/Si}$ ($379$)
+and $\mathrm{Al/GaN}$ ($423\text{ MW\,m}^{-2}\text{\,K}^{-1}$) $300\text{ K}$ conductances and
+$>400\text{ K}$ linear anharmonic rise, the geometric-mean impedance bridge and $1.48\times$
+$\mathrm{Cu/TiC/diamond}$ ratio, and the $\mathrm{Au/PMMA/Si}$ ($59$), $\mathrm{Au/Ti/PMMA/Si}$ ($115$),
+and $\mathrm{Au/Ni/PMMA/Si}$ ($139\text{ MW\,m}^{-2}\text{\,K}^{-1}$) PMMA thickness laws
+hold simultaneously. -/
+@[blueprint "lem:signals-interfacial-heat-transport-bounds"
+  (title := "Pending Interfacial Heat Transport contract enforces G-TBC transmission, Al/Si & Al/GaN, Cu/TiC/diamond, and Au/M/PMMA/Si laws")
+  (statement := /-- For any \texttt{contract : InterfacialHeatTransportPendingHypothesis},
+    $\operatorname{gtbcBondWeightedTransmission}(Z_1, Z_2, \xi_{\mathrm{weak}}) < \operatorname{gtbcBondWeightedTransmission}(Z_1, Z_2, \xi_{\mathrm{strong}}) \le \operatorname{ammNormalTransmission}(Z_1, Z_2) \le 1$,
+    $\operatorname{gtbcAlSi300KConductance} = 379 < \operatorname{gtbcAlGaN300KConductance} = 423$,
+    $\operatorname{gtbcHarmonicPlusAnharmonicConductance}(379, \gamma_{\mathrm{anh}}, 400) < \operatorname{gtbcHarmonicPlusAnharmonicConductance}(379, \gamma_{\mathrm{anh}}, 700)$,
+    $\operatorname{ammNormalTransmission}(1, 9) < (\operatorname{ammNormalTransmission}(1, 3))^2$,
+    $\operatorname{gtbcInterlayerEnhancementRatio}(103.6, 70.0) = 1.48 > 1$,
+    $59 < 115 < 139$, and monotonic PMMA thickness scaling hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.interfacial\_heat\_transport\_gtbc\_al\_si\_gan\_tic\_and\_pmma\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma InterfacialHeatTransportPendingHypothesis.interfacial_heat_transport_gtbc_bounds
+    (contract : InterfacialHeatTransportPendingHypothesis) :
+    Signals.DFT.ammNormalTransmission contract.z1Impedance contract.z2Impedance ≤ 1 ∧
+      Signals.DFT.gtbcBondWeightedTransmission
+          contract.z1Impedance contract.z2Impedance contract.xiBondWeak <
+        Signals.DFT.gtbcBondWeightedTransmission
+          contract.z1Impedance contract.z2Impedance contract.xiBondStrong ∧
+      Signals.DFT.gtbcAlSi300KConductance = 379 ∧
+      Signals.DFT.gtbcAlGaN300KConductance = 423 ∧
+      Signals.DFT.gtbcAlSi300KConductance < Signals.DFT.gtbcAlGaN300KConductance ∧
+      Signals.DFT.gtbcHarmonicPlusAnharmonicConductance 379 contract.gammaAnharmonic 400 <
+        Signals.DFT.gtbcHarmonicPlusAnharmonicConductance 379 contract.gammaAnharmonic 700 ∧
+      Signals.DFT.ammNormalTransmission 1 9 < (Signals.DFT.ammNormalTransmission 1 3) ^ 2 ∧
+      Signals.DFT.gtbcInterlayerEnhancementRatio 103.6 70.0 =
+        Signals.DFT.gtbcCuTiCDiamondRatio ∧
+      (1 : ℝ) < Signals.DFT.gtbcCuTiCDiamondRatio ∧
+      Signals.DFT.gtbcAuPmmaSiConductance < Signals.DFT.gtbcAuTiPmmaSiConductance ∧
+      Signals.DFT.gtbcAuTiPmmaSiConductance < Signals.DFT.gtbcAuNiPmmaSiConductance ∧
+      Signals.DFT.gtbcPolymerStackConductance
+          Signals.DFT.gtbcAuNiPmmaSiConductance 10 contract.kappaPmma <
+        Signals.DFT.gtbcPolymerStackConductance
+          Signals.DFT.gtbcAuNiPmmaSiConductance 2 contract.kappaPmma := by
+  have h :=
+    Signals.DFT.interfacial_heat_transport_gtbc_al_si_gan_tic_and_pmma_identities
+      contract.z1Impedance contract.z2Impedance 1 1
+      contract.xiBondStrong contract.xiBondWeak
+      contract.z1_pos contract.z2_pos
+      (by norm_num) (by norm_num)
+      contract.xiStrong_nonneg contract.xiStrong_lt_weak
+      379 contract.gammaAnharmonic 1000 Signals.DFT.gtbcAuNiPmmaSiConductance
+      contract.kappaPmma 2 10
+      (by norm_num) contract.gammaAnharmonic_pos (by norm_num)
+      (by unfold Signals.DFT.gtbcAuNiPmmaSiConductance; norm_num)
+      contract.kappaPmma_pos (by norm_num) (by norm_num)
+  exact ⟨h.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+/-- In any `InterfacialHeatTransportPendingHypothesis`, increasing `QCI-GXC` work of adhesion
+strictly increases spring stiffness $K_{\mathrm{bond}}$ and strictly reduces compliance
+$\xi_{\mathrm{bond}}$, the 3-element $\mathrm{Cu/TiC(10\text{ nm})/diamond}$ series conductance
+equals $273000 / 2623 > 70.5\text{ MW\,m}^{-2}\text{\,K}^{-1}$, Ziman specularity interpolates
+between $\mathrm{Gr}_{\mathbb{C}}(2,4)$ specular and DMM diffuse channels, Cattaneo–Vernotte
+hyperbolic flux saturation bounds interfacial heat flux below $G\Delta T$ and $q_{\max}$,
+and ab initio `G-TBC` relative errors are strictly below $2\%$ and beat AMM and DMM across
+all four datasets. -/
+@[blueprint "lem:signals-interfacial-heat-transport-critique-and-error-bounds"
+  (title := "Pending Problem 05 critique, gap closure, and per-dataset G-TBC vs. AMM/DMM error bounds")
+  (statement := /-- For any \texttt{contract : InterfacialHeatTransportPendingHypothesis} and
+    $0 < W_{\mathrm{ad},1} < W_{\mathrm{ad},2}$, $d_0, \omega, \Delta T, q_{\max} > 0$,
+    work-of-adhesion stiffness/compliance monotonicity, the 3-element $\mathrm{Cu/TiC/diamond}$
+    conductance ($273000 / 2623$), Ziman specularity mixing, Cattaneo–Vernotte flux saturation,
+    and per-dataset \texttt{G-TBC} error bounds hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.interfacial\_heat\_transport\_critique\_adhesion\_bridge\_roughness\_and\_error\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma InterfacialHeatTransportPendingHypothesis.critique_adhesion_bridge_roughness_and_error_bounds
+    (contract : InterfacialHeatTransportPendingHypothesis)
+    (w_ad1 w_ad2 d0 omega : ℝ)
+    (hw1 : 0 < w_ad1) (hw_lt : w_ad1 < w_ad2) (hd0 : 0 < d0) (homega : 0 < omega)
+    (tau_spec tau_diff delta_t q_max : ℝ) (hdt : 0 < delta_t) (hq_max : 0 < q_max) :
+    Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad1 d0 <
+        Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad2 d0 ∧
+      Signals.DFT.gtbcBondComplianceRatio omega contract.z1Impedance contract.z2Impedance
+          (Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad2 d0) <
+        Signals.DFT.gtbcBondComplianceRatio omega contract.z1Impedance contract.z2Impedance
+          (Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad1 d0) ∧
+      Signals.DFT.gtbcCarbideInterlayerConductance 260 210 10 10000 = 273000 / 2623 ∧
+      Signals.DFT.gtbcZimanSpecularityFactor 0 = 1 ∧
+      Signals.DFT.gtbcMixedSpecularDiffuseTransmission 1 tau_spec tau_diff = tau_spec ∧
+      Signals.DFT.gtbcCattaneoVernotteFluxSaturated 379 delta_t q_max < 379 * delta_t ∧
+      Signals.DFT.gtbcCattaneoVernotteFluxSaturated 379 delta_t q_max < q_max ∧
+      Signals.DFT.gtbcRelativeError 374.8 379 < Signals.DFT.gtbcRelativeError 290 379 ∧
+      Signals.DFT.gtbcRelativeError 417.6 423 < Signals.DFT.gtbcRelativeError 310 423 ∧
+      Signals.DFT.gtbcRelativeError
+          (Signals.DFT.gtbcInterlayerEnhancementRatio
+            (Signals.DFT.gtbcCarbideInterlayerConductance 260 210 10 10000) 70.5) 1.48 <
+        Signals.DFT.gtbcRelativeError (78 / 95) 1.48 ∧
+      Signals.DFT.gtbcRelativeError 58.1 59 < Signals.DFT.gtbcRelativeError 92 59 ∧
+      Signals.DFT.gtbcRelativeError 620 625 < Signals.DFT.gtbcRelativeError 740 625 := by
+  have h :=
+    Signals.DFT.interfacial_heat_transport_critique_adhesion_bridge_roughness_and_error_identities
+      w_ad1 w_ad2 d0 omega contract.z1Impedance contract.z2Impedance
+      hw1 hw_lt hd0 homega contract.z1_pos contract.z2_pos
+      tau_spec tau_diff 379 delta_t q_max (by norm_num) hdt hq_max
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
 end Signals.Pending

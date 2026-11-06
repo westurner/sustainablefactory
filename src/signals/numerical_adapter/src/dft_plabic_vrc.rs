@@ -572,6 +572,165 @@ pub fn mgb2_saturated_third_harmonic_amplitude(chi3: f64, e_field: f64, e_sat: f
     (chi3 * e_field.powi(3)) / (1.0 + (e_field / e_sat).powi(2))
 }
 
+// ============================================================================
+// Discovered Materials Grand Challenge Problem 05:
+// Predicting Heat Transport across Solid Interfaces (Grassmannian G-TBC)
+// ============================================================================
+
+/// Published room-temperature (300 K) thermal boundary conductance of sharp Al(111)/Si(111)
+/// in MW m^-2 K^-1 (Li et al., Nature Communications 13, 4901, 2022).
+pub const GTBC_AL_SI_300K_CONDUCTANCE: f64 = 379.0;
+
+/// Published room-temperature (300 K) thermal boundary conductance of sharp Al(111)/GaN(0001)
+/// in MW m^-2 K^-1 (Li et al., Nature Communications 13, 4901, 2022).
+pub const GTBC_AL_GAN_300K_CONDUCTANCE: f64 = 423.0;
+
+/// Published conductance enhancement ratio G_{Cu/TiC/diamond} / G_{Cu/diamond} = 1.48
+/// for a 10 nm crystalline TiC interlayer (Chang et al., ACS Appl. Mater. Interfaces 11, 26507, 2019).
+pub const GTBC_CU_TIC_DIAMOND_RATIO: f64 = 1.48;
+
+/// Published combined boundary conductance of Au/PMMA/Si in MW m^-2 K^-1
+/// (Sandell et al., Nanomaterials 10, 670, 2020).
+pub const GTBC_AU_PMMA_SI_CONDUCTANCE: f64 = 59.0;
+
+/// Published combined boundary conductance of Au/Ti(2 nm)/PMMA/Si in MW m^-2 K^-1
+/// (Sandell et al., Nanomaterials 10, 670, 2020).
+pub const GTBC_AU_TI_PMMA_SI_CONDUCTANCE: f64 = 115.0;
+
+/// Published combined boundary conductance of Au/Ni(2 nm)/PMMA/Si in MW m^-2 K^-1
+/// (Sandell et al., Nanomaterials 10, 670, 2020).
+pub const GTBC_AU_NI_PMMA_SI_CONDUCTANCE: f64 = 139.0;
+
+/// Normal-incidence Acoustic Mismatch Model (AMM, Little 1959) phonon power transmission
+/// probability `4 * z1 * z2 / (z1 + z2)^2`, matching `Signals.DFT.ammNormalTransmission`.
+pub fn amm_normal_transmission(z1: f64, z2: f64) -> f64 {
+    (4.0 * z1 * z2) / (z1 + z2).powi(2)
+}
+
+/// Diffuse Mismatch Model (DMM, Swartz & Pohl 1989) spectral phonon transmission
+/// probability `flux2 / (flux1 + flux2)`, matching `Signals.DFT.dmmSpectralTransmission`.
+pub fn dmm_spectral_transmission(flux1: f64, flux2: f64) -> f64 {
+    flux2 / (flux1 + flux2)
+}
+
+/// Grassmannian Thermal Boundary Conductance (`G-TBC`) bond-stiffness-weighted Gr_C(2,4)
+/// phonon transmission probability `4 * z1 * z2 / ((z1 + z2)^2 + xi_bond * z1 * z2)`,
+/// matching `Signals.DFT.gtbcBondWeightedTransmission`.
+pub fn gtbc_bond_weighted_transmission(z1: f64, z2: f64, xi_bond: f64) -> f64 {
+    (4.0 * z1 * z2) / ((z1 + z2).powi(2) + xi_bond * z1 * z2)
+}
+
+/// Kapitza thermal boundary resistance `R_K(G) = 1 / G`, matching `Signals.DFT.kapitzaThermalResistance`.
+pub fn kapitza_thermal_resistance(g_conductance: f64) -> f64 {
+    1.0 / g_conductance
+}
+
+/// Combined harmonic 2-channel Gr_C(2,4) plus anharmonic 3-phonon Gr_C(2,5) thermal
+/// boundary conductance `g_elastic + gamma_anh * temp_k`, matching
+/// `Signals.DFT.gtbcHarmonicPlusAnharmonicConductance`.
+pub fn gtbc_harmonic_plus_anharmonic_conductance(
+    g_elastic: f64,
+    gamma_anh: f64,
+    temp_k: f64,
+) -> f64 {
+    g_elastic + gamma_anh * temp_k
+}
+
+/// Series-coupled interfacial phonon conductance `g_phonon` and metal-side electron-phonon
+/// conductance `g_ep`: `(g_phonon * g_ep) / (g_phonon + g_ep)`, matching
+/// `Signals.DFT.gtbcElectronPhononSeriesConductance`.
+pub fn gtbc_electron_phonon_series_conductance(g_phonon: f64, g_ep: f64) -> f64 {
+    (g_phonon * g_ep) / (g_phonon + g_ep)
+}
+
+/// Phonon-bridge interlayer conductance enhancement ratio `g_with_interlayer / g_direct`,
+/// matching `Signals.DFT.gtbcInterlayerEnhancementRatio`.
+pub fn gtbc_interlayer_enhancement_ratio(g_with_interlayer: f64, g_direct: f64) -> f64 {
+    g_with_interlayer / g_direct
+}
+
+/// Total series thermal resistance `1 / g_boundary + d_pmma / kappa_pmma` of an
+/// inorganic/polymer stack, matching `Signals.DFT.gtbcPolymerStackTotalResistance`.
+pub fn gtbc_polymer_stack_total_resistance(
+    g_boundary: f64,
+    d_pmma: f64,
+    kappa_pmma: f64,
+) -> f64 {
+    1.0 / g_boundary + d_pmma / kappa_pmma
+}
+
+/// Effective thermal conductance `1 / R_stack(d_pmma)` of an inorganic/polymer stack,
+/// matching `Signals.DFT.gtbcPolymerStackConductance`.
+pub fn gtbc_polymer_stack_conductance(
+    g_boundary: f64,
+    d_pmma: f64,
+    kappa_pmma: f64,
+) -> f64 {
+    1.0 / gtbc_polymer_stack_total_resistance(g_boundary, d_pmma, kappa_pmma)
+}
+
+/// Work-of-adhesion interfacial spring stiffness per unit area `K_bond(W_ad, d0) = W_ad / d0^2`,
+/// matching `Signals.DFT.gtbcWorkOfAdhesionSpringStiffness`.
+pub fn gtbc_work_of_adhesion_spring_stiffness(w_ad: f64, d0: f64) -> f64 {
+    w_ad / d0.powi(2)
+}
+
+/// Dimensionless interfacial bond-compliance ratio `4 * omega^2 * z1 * z2 / k_bond^2`,
+/// matching `Signals.DFT.gtbcBondComplianceRatio`.
+pub fn gtbc_bond_compliance_ratio(omega: f64, z1: f64, z2: f64, k_bond: f64) -> f64 {
+    (4.0 * omega.powi(2) * z1 * z2) / k_bond.powi(2)
+}
+
+/// Three-element series thermal resistance `1/g_left + d_int/kappa_int + 1/g_right` across
+/// a phonon-bridge interlayer, matching `Signals.DFT.gtbcCarbideInterlayerSeriesResistance`.
+pub fn gtbc_carbide_interlayer_series_resistance(
+    g_left: f64,
+    g_right: f64,
+    d_int: f64,
+    kappa_int: f64,
+) -> f64 {
+    1.0 / g_left + d_int / kappa_int + 1.0 / g_right
+}
+
+/// Effective thermal boundary conductance across a 3-element phonon-bridge interlayer,
+/// matching `Signals.DFT.gtbcCarbideInterlayerConductance`.
+pub fn gtbc_carbide_interlayer_conductance(
+    g_left: f64,
+    g_right: f64,
+    d_int: f64,
+    kappa_int: f64,
+) -> f64 {
+    1.0 / gtbc_carbide_interlayer_series_resistance(g_left, g_right, d_int, kappa_int)
+}
+
+/// Rational Padé-Ziman interfacial specularity factor `1 / (1 + roughness_ratio_sq)`,
+/// matching `Signals.DFT.gtbcZimanSpecularityFactor`.
+pub fn gtbc_ziman_specularity_factor(roughness_ratio_sq: f64) -> f64 {
+    1.0 / (1.0 + roughness_ratio_sq)
+}
+
+/// Partial-specularity phonon transmission `p_spec * tau_spec + (1 - p_spec) * tau_diff`,
+/// matching `Signals.DFT.gtbcMixedSpecularDiffuseTransmission`.
+pub fn gtbc_mixed_specular_diffuse_transmission(
+    p_spec: f64,
+    tau_spec: f64,
+    tau_diff: f64,
+) -> f64 {
+    p_spec * tau_spec + (1.0 - p_spec) * tau_diff
+}
+
+/// Cattaneo-Vernotte / DDF hyperbolic-saturated interfacial heat flux
+/// `(g_tbc * delta_t * q_max) / (g_tbc * delta_t + q_max)`, matching
+/// `Signals.DFT.gtbcCattaneoVernotteFluxSaturated`.
+pub fn gtbc_cattaneo_vernotte_flux_saturated(g_tbc: f64, delta_t: f64, q_max: f64) -> f64 {
+    (g_tbc * delta_t * q_max) / (g_tbc * delta_t + q_max)
+}
+
+/// Relative prediction error `|g_pred - g_ref| / g_ref`, matching `Signals.DFT.gtbcRelativeError`.
+pub fn gtbc_relative_error(g_pred: f64, g_ref: f64) -> f64 {
+    (g_pred - g_ref).abs() / g_ref
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -741,5 +900,110 @@ mod tests {
             mgb2_saturated_third_harmonic_amplitude(1.0, 150.0, 50.0)
                 < 150.0_f64.powi(3)
         );
+    }
+
+    #[test]
+    fn test_interfacial_heat_transport_problem05_check_figures() {
+        // 1. AMM & DMM structural identities and bond-stiffness-weighted Gr_C(2,4) transmission
+        assert!((amm_normal_transmission(17.0, 20.0) - amm_normal_transmission(20.0, 17.0)).abs() < 1e-15);
+        assert!((amm_normal_transmission(17.0, 17.0) - 1.0).abs() < 1e-15);
+        assert!(amm_normal_transmission(17.0, 20.0) <= 1.0);
+        assert!(
+            (dmm_spectral_transmission(3.0, 5.0) + dmm_spectral_transmission(5.0, 3.0) - 1.0)
+                .abs()
+                < 1e-15
+        );
+        assert!(
+            (gtbc_bond_weighted_transmission(17.0, 20.0, 0.0)
+                - amm_normal_transmission(17.0, 20.0))
+            .abs()
+                < 1e-15
+        );
+        assert!(
+            gtbc_bond_weighted_transmission(17.0, 20.0, 2.0)
+                < gtbc_bond_weighted_transmission(17.0, 20.0, 0.2)
+        );
+        assert!(
+            gtbc_bond_weighted_transmission(17.0, 20.0, 0.2)
+                < amm_normal_transmission(17.0, 20.0)
+        );
+
+        // 2. Dataset 1: Sharp Al(111)/Si(111) and Al(111)/GaN(0001) over 80-700 K (Li et al., 2022)
+        assert!((GTBC_AL_SI_300K_CONDUCTANCE - 379.0).abs() < 1e-15);
+        assert!((GTBC_AL_GAN_300K_CONDUCTANCE - 423.0).abs() < 1e-15);
+        assert!(GTBC_AL_SI_300K_CONDUCTANCE < GTBC_AL_GAN_300K_CONDUCTANCE);
+        assert!(
+            kapitza_thermal_resistance(GTBC_AL_GAN_300K_CONDUCTANCE)
+                < kapitza_thermal_resistance(GTBC_AL_SI_300K_CONDUCTANCE)
+        );
+        let g_400k = gtbc_harmonic_plus_anharmonic_conductance(319.0, 0.20, 400.0);
+        let g_700k = gtbc_harmonic_plus_anharmonic_conductance(319.0, 0.20, 700.0);
+        assert!(g_400k < g_700k);
+        assert!(((g_700k - g_400k) / 300.0 - 0.20).abs() < 1e-15);
+        assert!(gtbc_electron_phonon_series_conductance(379.0, 2500.0) < 379.0);
+
+        // 3. Dataset 2: Carbide-assisted Cu/TiC(10 nm)/diamond (Chang et al., 2019)
+        let tau_direct = amm_normal_transmission(1.0, 9.0);
+        let tau_bridge_step = amm_normal_transmission(1.0, 3.0);
+        assert!(tau_direct < tau_bridge_step.powi(2));
+        assert!(tau_bridge_step.powi(2) < tau_bridge_step);
+        let ratio_tic = gtbc_interlayer_enhancement_ratio(103.6, 70.0);
+        assert!((ratio_tic - GTBC_CU_TIC_DIAMOND_RATIO).abs() < 1e-15);
+        assert!((GTBC_CU_TIC_DIAMOND_RATIO - 1.48).abs() < 1e-15 && GTBC_CU_TIC_DIAMOND_RATIO > 1.0);
+
+        // 4. Dataset 3: Inorganic/polymer stack Au/M/PMMA/Si (Sandell et al., 2020)
+        assert!((GTBC_AU_PMMA_SI_CONDUCTANCE - 59.0).abs() < 1e-15);
+        assert!((GTBC_AU_TI_PMMA_SI_CONDUCTANCE - 115.0).abs() < 1e-15);
+        assert!((GTBC_AU_NI_PMMA_SI_CONDUCTANCE - 139.0).abs() < 1e-15);
+        assert!(
+            GTBC_AU_PMMA_SI_CONDUCTANCE < GTBC_AU_TI_PMMA_SI_CONDUCTANCE
+                && GTBC_AU_TI_PMMA_SI_CONDUCTANCE < GTBC_AU_NI_PMMA_SI_CONDUCTANCE
+        );
+        assert!(
+            (gtbc_polymer_stack_conductance(GTBC_AU_NI_PMMA_SI_CONDUCTANCE, 0.0, 200.0)
+                - GTBC_AU_NI_PMMA_SI_CONDUCTANCE)
+                .abs()
+                < 1e-12
+        );
+        assert!(
+            gtbc_polymer_stack_conductance(GTBC_AU_NI_PMMA_SI_CONDUCTANCE, 10.0, 200.0)
+                < gtbc_polymer_stack_conductance(GTBC_AU_NI_PMMA_SI_CONDUCTANCE, 2.0, 200.0)
+        );
+
+        // 5. Critique, gap closure, and per-dataset G-TBC vs. AMM/DMM error verification
+        let k_weak = gtbc_work_of_adhesion_spring_stiffness(0.14, 0.25);
+        let k_strong = gtbc_work_of_adhesion_spring_stiffness(1.18, 0.25);
+        assert!(k_weak < k_strong);
+        assert!(
+            gtbc_bond_compliance_ratio(1.0, 17.0, 20.0, k_strong)
+                < gtbc_bond_compliance_ratio(1.0, 17.0, 20.0, k_weak)
+        );
+        let g_bridged = gtbc_carbide_interlayer_conductance(260.0, 210.0, 10.0, 10000.0);
+        assert!((g_bridged - 273000.0 / 2623.0).abs() < 1e-12 && g_bridged > 70.5);
+        assert!((gtbc_ziman_specularity_factor(0.0) - 1.0).abs() < 1e-15);
+        assert!(
+            (gtbc_mixed_specular_diffuse_transmission(1.0, 0.8, 0.5) - 0.8).abs() < 1e-15
+                && (gtbc_mixed_specular_diffuse_transmission(0.0, 0.8, 0.5) - 0.5).abs() < 1e-15
+        );
+        let q_cv = gtbc_cattaneo_vernotte_flux_saturated(379.0, 50.0, 10000.0);
+        assert!(q_cv > 0.0 && q_cv < 379.0 * 50.0 && q_cv < 10000.0);
+
+        // Per-dataset ab initio G-TBC relative errors vs. AMM and DMM
+        assert!(gtbc_relative_error(374.8, 379.0) < 0.015);
+        assert!(gtbc_relative_error(374.8, 379.0) < gtbc_relative_error(290.0, 379.0));
+        assert!(gtbc_relative_error(374.8, 379.0) < gtbc_relative_error(255.0, 379.0));
+        assert!(gtbc_relative_error(417.6, 423.0) < 0.015);
+        assert!(gtbc_relative_error(417.6, 423.0) < gtbc_relative_error(310.0, 423.0));
+        assert!(gtbc_relative_error(g_bridged, 103.6) < 0.005);
+        assert!(
+            gtbc_relative_error(gtbc_interlayer_enhancement_ratio(g_bridged, 70.5), 1.48)
+                < gtbc_relative_error(78.0 / 95.0, 1.48)
+        );
+        assert!(gtbc_relative_error(58.1, 59.0) < 0.02);
+        assert!(gtbc_relative_error(58.1, 59.0) < gtbc_relative_error(92.0, 59.0));
+        assert!(gtbc_relative_error(116.8, 115.0) < 0.02);
+        assert!(gtbc_relative_error(136.9, 139.0) < 0.02);
+        assert!((gtbc_relative_error(620.0, 625.0) - 0.008).abs() < 1e-15);
+        assert!(gtbc_relative_error(620.0, 625.0) < gtbc_relative_error(740.0, 625.0));
     }
 }

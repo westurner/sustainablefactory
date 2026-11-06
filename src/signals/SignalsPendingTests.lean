@@ -5611,4 +5611,78 @@ example (n_ex n_mott : ℝ) (hn_ex_pos : 0 < n_ex) (hn_ex_lt : n_ex < n_mott)
     toyLightDrivenMaterialsContract
     n_ex n_mott hn_ex_pos hn_ex_lt p_laser g1 g2 g3 g4 g5 g6 g7 g8
 
+noncomputable def toyInterfacialHeatTransportContract :
+    Signals.Pending.InterfacialHeatTransportPendingHypothesis :=
+  { lightContract := toyLightDrivenMaterialsContract
+    z1Impedance := 17
+    z1_pos := by norm_num
+    z2Impedance := 20
+    z2_pos := by norm_num
+    xiBondStrong := 1 / 5
+    xiBondWeak := 2
+    xiStrong_nonneg := by norm_num
+    xiStrong_lt_weak := by norm_num
+    gammaAnharmonic := 1 / 4
+    gammaAnharmonic_pos := by norm_num
+    kappaPmma := 1 / 5
+    kappaPmma_pos := by norm_num
+    alSiAndAlGaN80To700KValidated := True
+    alSiAndAlGaN80To700KValidated_hypothesis := trivial
+    cuTiCDiamondInterlayerValidated := True
+    cuTiCDiamondInterlayerValidated_hypothesis := trivial
+    auMetalPmmaSiStackValidated := True
+    auMetalPmmaSiStackValidated_hypothesis := trivial
+    hiddenAlNGaNTransferValidated := True
+    hiddenAlNGaNTransferValidated_hypothesis := trivial }
+
+example :
+    let c := toyInterfacialHeatTransportContract
+    Signals.DFT.ammNormalTransmission c.z1Impedance c.z2Impedance ≤ 1 ∧
+      Signals.DFT.gtbcBondWeightedTransmission c.z1Impedance c.z2Impedance c.xiBondWeak <
+        Signals.DFT.gtbcBondWeightedTransmission c.z1Impedance c.z2Impedance c.xiBondStrong ∧
+      Signals.DFT.gtbcAlSi300KConductance = 379 ∧
+      Signals.DFT.gtbcAlGaN300KConductance = 423 ∧
+      Signals.DFT.gtbcAlSi300KConductance < Signals.DFT.gtbcAlGaN300KConductance ∧
+      Signals.DFT.gtbcHarmonicPlusAnharmonicConductance 379 c.gammaAnharmonic 400 <
+        Signals.DFT.gtbcHarmonicPlusAnharmonicConductance 379 c.gammaAnharmonic 700 ∧
+      Signals.DFT.ammNormalTransmission 1 9 < (Signals.DFT.ammNormalTransmission 1 3) ^ 2 ∧
+      Signals.DFT.gtbcInterlayerEnhancementRatio 103.6 70.0 =
+        Signals.DFT.gtbcCuTiCDiamondRatio ∧
+      (1 : ℝ) < Signals.DFT.gtbcCuTiCDiamondRatio ∧
+      Signals.DFT.gtbcAuPmmaSiConductance < Signals.DFT.gtbcAuTiPmmaSiConductance ∧
+      Signals.DFT.gtbcAuTiPmmaSiConductance < Signals.DFT.gtbcAuNiPmmaSiConductance ∧
+      Signals.DFT.gtbcPolymerStackConductance
+          Signals.DFT.gtbcAuNiPmmaSiConductance 10 c.kappaPmma <
+        Signals.DFT.gtbcPolymerStackConductance
+          Signals.DFT.gtbcAuNiPmmaSiConductance 2 c.kappaPmma :=
+  SignalsPending.interfacial_heat_transport_gtbc_and_three_target_bounds
+    toyInterfacialHeatTransportContract
+
+example (w_ad1 w_ad2 d0 omega : ℝ)
+    (hw1 : 0 < w_ad1) (hw_lt : w_ad1 < w_ad2) (hd0 : 0 < d0) (homega : 0 < omega)
+    (tau_spec tau_diff delta_t q_max : ℝ) (hdt : 0 < delta_t) (hq_max : 0 < q_max) :
+    let c := toyInterfacialHeatTransportContract
+    Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad1 d0 <
+        Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad2 d0 ∧
+      Signals.DFT.gtbcBondComplianceRatio omega c.z1Impedance c.z2Impedance
+          (Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad2 d0) <
+        Signals.DFT.gtbcBondComplianceRatio omega c.z1Impedance c.z2Impedance
+          (Signals.DFT.gtbcWorkOfAdhesionSpringStiffness w_ad1 d0) ∧
+      Signals.DFT.gtbcCarbideInterlayerConductance 260 210 10 10000 = 273000 / 2623 ∧
+      Signals.DFT.gtbcZimanSpecularityFactor 0 = 1 ∧
+      Signals.DFT.gtbcMixedSpecularDiffuseTransmission 1 tau_spec tau_diff = tau_spec ∧
+      Signals.DFT.gtbcCattaneoVernotteFluxSaturated 379 delta_t q_max < 379 * delta_t ∧
+      Signals.DFT.gtbcCattaneoVernotteFluxSaturated 379 delta_t q_max < q_max ∧
+      Signals.DFT.gtbcRelativeError 374.8 379 < Signals.DFT.gtbcRelativeError 290 379 ∧
+      Signals.DFT.gtbcRelativeError 417.6 423 < Signals.DFT.gtbcRelativeError 310 423 ∧
+      Signals.DFT.gtbcRelativeError
+          (Signals.DFT.gtbcInterlayerEnhancementRatio
+            (Signals.DFT.gtbcCarbideInterlayerConductance 260 210 10 10000) 70.5) 1.48 <
+        Signals.DFT.gtbcRelativeError (78 / 95) 1.48 ∧
+      Signals.DFT.gtbcRelativeError 58.1 59 < Signals.DFT.gtbcRelativeError 92 59 ∧
+      Signals.DFT.gtbcRelativeError 620 625 < Signals.DFT.gtbcRelativeError 740 625 :=
+  SignalsPending.interfacial_heat_transport_critique_and_gap_closure_bounds
+    toyInterfacialHeatTransportContract
+    w_ad1 w_ad2 d0 omega hw1 hw_lt hd0 homega tau_spec tau_diff delta_t q_max hdt hq_max
+
 end SignalsPendingTests
