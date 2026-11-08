@@ -908,4 +908,62 @@ lemma rhombohedral_graphene_mzm_qudit_and_four_paper_advantages_bounds
   contract.mzm_qudit_and_four_paper_advantages_bounds
     delta0 t_kit chi_mzm eri_diag p_occ hdelta0 ht_kit fp splat M_C x y cv
 
+/-- Summary lemma: in a `RhombohedralGrapheneSuperconductivityPendingHypothesis`, the semi-Dirac
+fermion laws (with and without $\mathrm{Gr}_{\mathbb{C}}$, with and without DDF, including
+$\mathrm{ZrSiS}$ $B^{2/3}$ Landau-level scaling and anisotropic Tensor Gaussian Splat propagation)
+and the $\mathrm{SU}(4)$ / lower Grassmannian / Witten twistor-string / CHY / Cachazo–DDF–Turner–AdS/CFT
+5-way Klein quadric unification identities hold simultaneously. -/
+@[blueprint "lem:pending-semi-dirac-and-su4-witten-chy-unification-bounds"
+  (title := "Pending semi-Dirac fermion and SU(4) / Witten twistor string / CHY / DDF / Turner / AdS-CFT unification summary bounds")
+  (statement := /-- For any \texttt{contract : RhombohedralGrapheneSuperconductivityPendingHypothesis},
+    the semi-Dirac dispersion, $\mathrm{ZrSiS}$ $B^{2/3}$ Landau scaling, $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+    Plücker and Kähler determinant laws, DDF longitudinal sheath effective mass enhancement,
+    anisotropic splat spreading, $\mathrm{SU}(4)$ and lower Grassmannian dimensions, CHY $(n-3)!$
+    and BCFW Catalan worldsheet localization, and 5-way Klein quadric unification hold
+    simultaneously. -/)
+  (proof := /-- Apply \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis.semi\_dirac\_and\_su4\_witten\_chy\_unification\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma rhombohedral_graphene_semi_dirac_and_su4_witten_chy_unification_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (kx ky m_x v_y delta_m tx py z1 z2 a b c d beta e : ℝ) :
+    Signals.DFT.semiDiracEnergySq kx 0 m_x v_y 0 = (kx ^ 2 / (2 * m_x)) ^ 2 ∧
+      Signals.DFT.semiDiracEnergySq 0 ky m_x v_y 0 = (v_y * ky) ^ 2 ∧
+      Signals.DFT.semiDiracLandauLevelCube 1 1 1 1 8 =
+        64 * Signals.DFT.semiDiracLandauLevelCube 1 1 1 1 1 ∧
+      Signals.DFT.semiDiracPluckerDet (kx ^ 2 / (2 * m_x)) delta_m (v_y * ky) =
+        Signals.DFT.semiDiracEnergySq kx ky m_x v_y delta_m ∧
+      Signals.DFT.semiDiracKahlerDetFactor tx delta_m py =
+        (1 + Signals.DFT.semiDiracPluckerDet tx delta_m py) ^ 2 ∧
+      1 ≤ Signals.DFT.semiDiracKahlerDetFactor tx delta_m py ∧
+      Signals.DFT.semiDiracDdfJammedMassX 1 (3 / 5) = 25 / 16 ∧
+      Signals.DFT.semiDiracPluckerDet 16 0 0 <
+        Signals.DFT.semiDiracDdfGr24EnergySq 16 0 0 (3 / 5) ∧
+      (Signals.DFT.semiDiracAnisotropicSplatVarX 1 0 1 <
+          Signals.DFT.semiDiracAnisotropicSplatVarX 1 2 1 ∧
+        Signals.DFT.semiDiracAnisotropicSplatVarY 1 2 =
+          Signals.DFT.semiDiracAnisotropicSplatVarY 1 0) ∧
+      Signals.DFT.suNRealDim 4 = 15 ∧
+      2 * (Signals.DFT.suNRealDim 2 + Signals.DFT.suNRealDim 2) + 3 =
+        Signals.DFT.suNRealDim 4 ∧
+      Signals.DFT.pluckerAmbientCoordCount 2 4 = 6 ∧
+      Signals.DFT.complexGrassmannianRealDim 2 4 = 8 ∧
+      Signals.DFT.grassmannianScalarCurvature 2 4 = 16 ∧
+      Signals.DFT.complexGrassmannianRealDim 2 6 = 16 ∧
+      Signals.DFT.pluckerAmbientCoordCount 2 6 = 15 ∧
+      Signals.DFT.chySolutionCount 4 = 1 ∧
+      Signals.DFT.chySolutionCount 6 = 6 ∧
+      Signals.DFT.bcfwCatalanTreeCount 6 = 5 ∧
+      Signals.DFT.chyFourPointCrossEquation 3 5
+        (Signals.DFT.chyFourPointRoot 3 5) = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual z1 1 1 (z1 + z2) z2 1 = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual
+        (a * d - b * c) (a * d - b * c)
+        (2 * a * b) (-2 * c * d) (-(a * d + b * c)) (a * d + b * c) = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual
+        (1 + beta) (1 - beta) 1 (1 - beta ^ 2) 0 1 = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual
+        (1 + e) (1 - e) 1 (1 - e ^ 2) 0 1 = 0 :=
+  contract.semi_dirac_and_su4_witten_chy_unification_bounds
+    kx ky m_x v_y delta_m tx py z1 z2 a b c d beta e
+
 end SignalsPending

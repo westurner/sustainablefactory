@@ -7400,4 +7400,66 @@ example
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
+example (kx ky m_x v_y delta_m tx py : ℝ) :
+    Signals.DFT.semiDiracEnergySq kx 0 m_x v_y 0 = (kx ^ 2 / (2 * m_x)) ^ 2 ∧
+      Signals.DFT.semiDiracEnergySq 0 ky m_x v_y 0 = (v_y * ky) ^ 2 ∧
+      Signals.DFT.semiDiracLandauLevelCube 1 1 1 1 8 =
+        64 * Signals.DFT.semiDiracLandauLevelCube 1 1 1 1 1 ∧
+      Signals.DFT.semiDiracPluckerDet (kx ^ 2 / (2 * m_x)) delta_m (v_y * ky) =
+        Signals.DFT.semiDiracEnergySq kx ky m_x v_y delta_m ∧
+      Signals.DFT.semiDiracKahlerDetFactor tx delta_m py =
+        (1 + Signals.DFT.semiDiracPluckerDet tx delta_m py) ^ 2 ∧
+      1 ≤ Signals.DFT.semiDiracKahlerDetFactor tx delta_m py ∧
+      Signals.DFT.semiDiracDdfJammedMassX 1 (3 / 5) = 25 / 16 ∧
+      Signals.DFT.semiDiracPluckerDet 16 0 0 <
+        Signals.DFT.semiDiracDdfGr24EnergySq 16 0 0 (3 / 5) ∧
+      (Signals.DFT.semiDiracAnisotropicSplatVarX 1 0 1 <
+          Signals.DFT.semiDiracAnisotropicSplatVarX 1 2 1 ∧
+        Signals.DFT.semiDiracAnisotropicSplatVarY 1 2 =
+          Signals.DFT.semiDiracAnisotropicSplatVarY 1 0) := by
+  have h :=
+    Signals.DFT.semi_dirac_fermions_with_and_without_grc_and_ddf_identities
+      kx ky m_x v_y delta_m tx py
+  exact ⟨h.1, h.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+example (z1 z2 a b c d beta e : ℝ) :
+    Signals.DFT.suNRealDim 4 = 15 ∧
+      2 * (Signals.DFT.suNRealDim 2 + Signals.DFT.suNRealDim 2) + 3 =
+        Signals.DFT.suNRealDim 4 ∧
+      Signals.DFT.pluckerAmbientCoordCount 2 4 = 6 ∧
+      Signals.DFT.complexGrassmannianRealDim 2 4 = 8 ∧
+      Signals.DFT.grassmannianScalarCurvature 2 4 = 16 ∧
+      Signals.DFT.complexGrassmannianRealDim 2 6 = 16 ∧
+      Signals.DFT.pluckerAmbientCoordCount 2 6 = 15 ∧
+      Signals.DFT.chySolutionCount 4 = 1 ∧
+      Signals.DFT.chySolutionCount 6 = 6 ∧
+      Signals.DFT.bcfwCatalanTreeCount 6 = 5 ∧
+      Signals.DFT.chyFourPointCrossEquation 3 5
+        (Signals.DFT.chyFourPointRoot 3 5) = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual z1 1 1 (z1 + z2) z2 1 = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual
+        (a * d - b * c) (a * d - b * c)
+        (2 * a * b) (-2 * c * d) (-(a * d + b * c)) (a * d + b * c) = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual
+        (1 + beta) (1 - beta) 1 (1 - beta ^ 2) 0 1 = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual
+        (1 + e) (1 - e) 1 (1 - e ^ 2) 0 1 = 0 := by
+  have h :=
+    Signals.DFT.su4_lower_grassmannians_witten_chy_ddf_turner_and_ads_cft_unification_identities
+      3 5 z1 z2 a b c d beta e (by norm_num)
+  exact ⟨h.1, h.2.2.1, h.2.2.2.1,
+    h.2.2.2.2.2.2.1.2.1, h.2.2.2.2.2.2.1.2.2.2,
+    h.2.2.2.2.2.2.2.2.1.2.1, h.2.2.2.2.2.2.2.2.1.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

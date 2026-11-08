@@ -1157,3 +1157,52 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
         < GMGS.gmgs_qudit_hilbert_compression_ratio(4.0, 4)
         < GMGS.gmgs_qudit_hilbert_compression_ratio(15.0, 4)
     )
+
+    # Section 19 & 20: Semi-Dirac fermions (with/without Gr_C and DDF) & SU(4)/Witten/CHY unification
+    from sustainablefactory.qci_grassmannian_dft import (
+        SemiDiracAndSU4WittenUnificationEngine as SDSU4,
+    )
+
+    assert np.isclose(SDSU4.semi_dirac_energy_sq(2.0, 0.0, 1.0, 3.0, 0.0), 4.0)
+    assert np.isclose(SDSU4.semi_dirac_energy_sq(0.0, 2.0, 1.0, 3.0, 0.0), 36.0)
+    assert np.isclose(SDSU4.semi_dirac_plucker_det(-2.5, 2.5, 0.0), 0.0)
+    assert np.isclose(
+        SDSU4.semi_dirac_landau_level_cube(1.0, 1.0, 1.0, 1.0, 8.0),
+        64.0 * SDSU4.semi_dirac_landau_level_cube(1.0, 1.0, 1.0, 1.0, 1.0),
+    )
+    assert np.isclose(
+        SDSU4.semi_dirac_kahler_det_factor(2.0, 0.0, 3.0),
+        (1.0 + SDSU4.semi_dirac_plucker_det(2.0, 0.0, 3.0)) ** 2,
+    )
+    assert np.isclose(SDSU4.semi_dirac_ddf_jammed_mass_x(1.0, 0.6), 25.0 / 16.0)
+    assert SDSU4.semi_dirac_plucker_det(
+        16.0, 0.0, 0.0
+    ) < SDSU4.semi_dirac_ddf_gr24_energy_sq(16.0, 0.0, 0.0, 0.6)
+    assert SDSU4.semi_dirac_anisotropic_splat_var_x(
+        1.0, 0.0, 1.0
+    ) < SDSU4.semi_dirac_anisotropic_splat_var_x(1.0, 2.0, 1.0)
+    assert np.isclose(
+        SDSU4.semi_dirac_anisotropic_splat_var_y(1.0, 2.0),
+        SDSU4.semi_dirac_anisotropic_splat_var_y(1.0, 0.0),
+    )
+    assert SDSU4.su_n_real_dim(4) == 15
+    assert SDSU4.real_grassmannian_dim(2, 4) == 4
+    assert SDSU4.complex_grassmannian_real_dim(2, 4) == 8
+    assert SDSU4.grassmannian_scalar_curvature(2, 4) == 16
+    assert SDSU4.complex_grassmannian_real_dim(2, 6) == 16
+    assert SDSU4.grassmannian_scalar_curvature(2, 6) == 48
+    assert SDSU4.chy_solution_count(4) == 1
+    assert SDSU4.chy_solution_count(6) == 6
+    assert SDSU4.chy_solution_count(8) == 120
+    sigma4 = SDSU4.chy_four_point_root(3.0, 5.0)
+    assert np.isclose(SDSU4.chy_four_point_cross_equation(3.0, 5.0, sigma4), 0.0)
+    assert np.isclose(
+        SDSU4.universal_plucker_three_term_residual(2.0, 1.0, 1.0, 5.0, 3.0, 1.0),
+        0.0,
+    )
+    assert np.isclose(
+        SDSU4.universal_plucker_three_term_residual(
+            1.6, 0.4, 1.0, 1.0 - 0.36, 0.0, 1.0
+        ),
+        0.0,
+    )

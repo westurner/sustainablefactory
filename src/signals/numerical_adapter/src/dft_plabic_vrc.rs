@@ -1432,6 +1432,126 @@ pub fn gmgs_qudit_hilbert_compression_ratio(d: f64, n_registers: u32) -> f64 {
     (d / 2.0).powi(n_registers as i32)
 }
 
+// ============================================================================
+// Section 19 & 20: Semi-Dirac Fermions (With and Without Gr_C and DDF) &
+// SU(4), Lower Grassmannians, Witten Twistor String, CHY, and 5-Way Unification
+// ============================================================================
+
+/// Semi-Dirac fermion squared energy dispersion `(kx^2 / (2 * m_x) + delta_m)^2 + (v_y * ky)^2`,
+/// matching `Signals.DFT.semiDiracEnergySq`.
+pub fn semi_dirac_energy_sq(kx: f64, ky: f64, m_x: f64, v_y: f64, delta_m: f64) -> f64 {
+    (kx.powi(2) / (2.0 * m_x) + delta_m).powi(2) + (v_y * ky).powi(2)
+}
+
+/// Semi-Dirac massive x-axis group velocity `kx / m_x`,
+/// matching `Signals.DFT.semiDiracGroupVelocityX`.
+pub fn semi_dirac_group_velocity_x(kx: f64, m_x: f64) -> f64 {
+    kx / m_x
+}
+
+/// Semi-Dirac massless y-axis group velocity `v_y`,
+/// matching `Signals.DFT.semiDiracGroupVelocityY`.
+pub fn semi_dirac_group_velocity_y(v_y: f64) -> f64 {
+    v_y
+}
+
+/// Shao et al. (2024, ZrSiS) B^(2/3) semi-Dirac Landau-level cube law `c3 * v_y^2 * (n_half * B)^2 / m_x`,
+/// matching `Signals.DFT.semiDiracLandauLevelCube`.
+pub fn semi_dirac_landau_level_cube(c3: f64, m_x: f64, v_y: f64, n_half: f64, b_field: f64) -> f64 {
+    c3 * (v_y.powi(2) * (n_half * b_field).powi(2) / m_x)
+}
+
+/// Gr_C(2,4) Plücker determinant `p_23(Z_SD) = (tx + delta_m)^2 + py^2`,
+/// matching `Signals.DFT.semiDiracPluckerDet`.
+pub fn semi_dirac_plucker_det(tx: f64, delta_m: f64, py: f64) -> f64 {
+    (tx + delta_m).powi(2) + py.powi(2)
+}
+
+/// Fubini-Study Kähler determinant factor `1 + 2 * E_SD^2 + E_SD^4 = (1 + E_SD^2)^2`,
+/// matching `Signals.DFT.semiDiracKahlerDetFactor`.
+pub fn semi_dirac_kahler_det_factor(tx: f64, delta_m: f64, py: f64) -> f64 {
+    let e_sq = semi_dirac_plucker_det(tx, delta_m, py);
+    1.0 + 2.0 * e_sq + e_sq.powi(2)
+}
+
+/// DDF longitudinal moving-sheath jammed effective mass `m_0 / (1 - beta_x^2)`,
+/// matching `Signals.DFT.semiDiracDdfJammedMassX`.
+pub fn semi_dirac_ddf_jammed_mass_x(m_0: f64, beta_x: f64) -> f64 {
+    m_0 / (1.0 - beta_x.powi(2))
+}
+
+/// Unified Gr_C(2,4) + DDF semi-Dirac squared energy dispersion `(tx / (1 - beta_x^2) + delta_m)^2 + py^2`,
+/// matching `Signals.DFT.semiDiracDdfGr24EnergySq`.
+pub fn semi_dirac_ddf_gr24_energy_sq(tx: f64, delta_m: f64, py: f64, beta_x: f64) -> f64 {
+    (tx / (1.0 - beta_x.powi(2)) + delta_m).powi(2) + py.powi(2)
+}
+
+/// Anisotropic 2D Tensor Gaussian Splat dispersive variance along massive x-axis,
+/// matching `Signals.DFT.semiDiracAnisotropicSplatVarX`.
+pub fn semi_dirac_anisotropic_splat_var_x(sigma_x0: f64, t: f64, m_x: f64) -> f64 {
+    sigma_x0.powi(2) + t.powi(2) / (4.0 * m_x.powi(2) * sigma_x0.powi(2))
+}
+
+/// Anisotropic 2D Tensor Gaussian Splat dispersionless variance along massless y-axis,
+/// matching `Signals.DFT.semiDiracAnisotropicSplatVarY`.
+pub fn semi_dirac_anisotropic_splat_var_y(sigma_y0: f64, _t: f64) -> f64 {
+    sigma_y0.powi(2)
+}
+
+/// Real dimension of SU(N): `N^2 - 1`, matching `Signals.DFT.suNRealDim`.
+pub fn su_n_real_dim(n: usize) -> usize {
+    n * n - 1
+}
+
+/// Real dimension of real Grassmannian Gr_R(k, n): `k * (n - k)`,
+/// matching `Signals.DFT.realGrassmannianDim`.
+pub fn real_grassmannian_dim(k: usize, n: usize) -> usize {
+    k * (n - k)
+}
+
+/// Real dimension of complex Grassmannian Gr_C(k, n): `2 * k * (n - k)`,
+/// matching `Signals.DFT.complexGrassmannianRealDim`.
+pub fn complex_grassmannian_real_dim(k: usize, n: usize) -> usize {
+    2 * k * (n - k)
+}
+
+/// Einstein-Kähler scalar curvature `R_Gr(k, n) = n * k * (n - k)`,
+/// matching `Signals.DFT.grassmannianScalarCurvature`.
+pub fn grassmannian_scalar_curvature(k: usize, n: usize) -> usize {
+    n * k * (n - k)
+}
+
+/// Cachazo-He-Yuan (CHY) discrete worldsheet solution count `(n - 3)!`,
+/// matching `Signals.DFT.chySolutionCount`.
+pub fn chy_solution_count(n: usize) -> usize {
+    (1..=n.saturating_sub(3)).product()
+}
+
+/// Unique 4-point CHY worldsheet puncture root `s12 / (s12 + s13)`,
+/// matching `Signals.DFT.chyFourPointRoot`.
+pub fn chy_four_point_root(s12: f64, s13: f64) -> f64 {
+    s12 / (s12 + s13)
+}
+
+/// Cleared-denominator 4-point CHY scattering equation `s12 * (sigma4 - 1) + s13 * sigma4`,
+/// matching `Signals.DFT.chyFourPointCrossEquation`.
+pub fn chy_four_point_cross_equation(s12: f64, s13: f64, sigma4: f64) -> f64 {
+    s12 * (sigma4 - 1.0) + s13 * sigma4
+}
+
+/// Universal SU(4)-invariant 3-term Plücker / Klein quadric residual `p01*p23 - p02*p13 + p03*p12`,
+/// matching `Signals.DFT.universalPluckerThreeTermResidual`.
+pub fn universal_plucker_three_term_residual(
+    p01: f64,
+    p23: f64,
+    p02: f64,
+    p13: f64,
+    p03: f64,
+    p12: f64,
+) -> f64 {
+    p01 * p23 - p02 * p13 + p03 * p12
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2055,6 +2175,54 @@ mod tests {
                     < gmgs_qudit_hilbert_compression_ratio(4.0, 4)
                 && gmgs_qudit_hilbert_compression_ratio(4.0, 4)
                     < gmgs_qudit_hilbert_compression_ratio(15.0, 4)
+        );
+
+        // 12. Section 19 & 20: Semi-Dirac fermions (with/without Gr_C and DDF) & SU(4)/Witten/CHY unification
+        assert!((semi_dirac_energy_sq(2.0, 0.0, 1.0, 3.0, 0.0) - 4.0).abs() < 1e-15);
+        assert!((semi_dirac_energy_sq(0.0, 2.0, 1.0, 3.0, 0.0) - 36.0).abs() < 1e-15);
+        assert!(semi_dirac_plucker_det(-2.5, 2.5, 0.0).abs() < 1e-15);
+        assert!(
+            (semi_dirac_landau_level_cube(1.0, 1.0, 1.0, 1.0, 8.0)
+                - 64.0 * semi_dirac_landau_level_cube(1.0, 1.0, 1.0, 1.0, 1.0))
+                .abs()
+                < 1e-12
+        );
+        assert!(
+            (semi_dirac_kahler_det_factor(2.0, 0.0, 3.0)
+                - (1.0 + semi_dirac_plucker_det(2.0, 0.0, 3.0)).powi(2))
+                .abs()
+                < 1e-12
+        );
+        assert!((semi_dirac_ddf_jammed_mass_x(1.0, 0.6) - 25.0 / 16.0).abs() < 1e-12);
+        assert!(
+            semi_dirac_plucker_det(16.0, 0.0, 0.0)
+                < semi_dirac_ddf_gr24_energy_sq(16.0, 0.0, 0.0, 0.6)
+        );
+        assert!(
+            semi_dirac_anisotropic_splat_var_x(1.0, 0.0, 1.0)
+                < semi_dirac_anisotropic_splat_var_x(1.0, 2.0, 1.0)
+        );
+        assert!(
+            (semi_dirac_anisotropic_splat_var_y(1.0, 2.0)
+                - semi_dirac_anisotropic_splat_var_y(1.0, 0.0))
+                .abs()
+                < 1e-15
+        );
+        assert_eq!(su_n_real_dim(4), 15);
+        assert_eq!(real_grassmannian_dim(2, 4), 4);
+        assert_eq!(complex_grassmannian_real_dim(2, 4), 8);
+        assert_eq!(grassmannian_scalar_curvature(2, 4), 16);
+        assert_eq!(complex_grassmannian_real_dim(2, 6), 16);
+        assert_eq!(grassmannian_scalar_curvature(2, 6), 48);
+        assert_eq!(chy_solution_count(4), 1);
+        assert_eq!(chy_solution_count(6), 6);
+        assert_eq!(chy_solution_count(8), 120);
+        let sigma4 = chy_four_point_root(3.0, 5.0);
+        assert!(chy_four_point_cross_equation(3.0, 5.0, sigma4).abs() < 1e-15);
+        assert!(universal_plucker_three_term_residual(2.0, 1.0, 1.0, 5.0, 3.0, 1.0).abs() < 1e-15);
+        assert!(
+            universal_plucker_three_term_residual(1.6, 0.4, 1.0, 1.0 - 0.36, 0.0, 1.0).abs()
+                < 1e-15
         );
     }
 }

@@ -4266,3 +4266,110 @@ class RhombohedralGrapheneSuperconductivityEngine:
             "overall_conventional_mape": overall_conv_mape,
             "error_reduction_factor": overall_conv_mape / overall_gmgs_mape,
         }
+
+
+class SemiDiracAndSU4WittenUnificationEngine:
+    """
+    Section 19 & 20 of `Signals.DFT`:
+      1. Semi-Dirac Fermions (mass in only one direction) with and without Gr_C(2,4),
+         with and without Dilatant Dark Fluid (DDF) moving-sheath jamming, including
+         Shao et al. (2024, PRX 14, 041057) ZrSiS B^(2/3) Landau-level scaling and
+         anisotropic 2D Tensor Gaussian Splat propagation.
+      2. SU(4) Lie algebra / Cartan KAK decomposition, lower Grassmannians Gr_R(k,n)
+         and Gr_C(k,n), Edward Witten's Twistor String Theory (Witten 2003/2004),
+         Cachazo-He-Yuan (CHY) (n-3)! worldsheet localization, BCFW Catalan cell
+         triangulation, and the 5-way universal Klein quadric Q_4 unification across
+         Superposition, BCJ/Cachazo-Skinner Double Copy, AdS/CFT Secret Symmetries,
+         Holographic DDF/AdS Redshift Lapse, and Turner (2026) Orbital Precession.
+    """
+
+    @staticmethod
+    def semi_dirac_energy_sq(
+        kx: float, ky: float, m_x: float, v_y: float, delta_m: float
+    ) -> float:
+        return float(((kx**2) / (2.0 * m_x) + delta_m) ** 2 + (v_y * ky) ** 2)
+
+    @staticmethod
+    def semi_dirac_group_velocity_x(kx: float, m_x: float) -> float:
+        return float(kx / m_x)
+
+    @staticmethod
+    def semi_dirac_group_velocity_y(v_y: float) -> float:
+        return float(v_y)
+
+    @staticmethod
+    def semi_dirac_landau_level_cube(
+        c3: float, m_x: float, v_y: float, n_half: float, b_field: float
+    ) -> float:
+        return float(c3 * ((v_y**2) * ((n_half * b_field) ** 2) / m_x))
+
+    @staticmethod
+    def semi_dirac_plucker_det(tx: float, delta_m: float, py: float) -> float:
+        return float(((tx + delta_m) ** 2) + (py**2))
+
+    @classmethod
+    def semi_dirac_kahler_det_factor(
+        cls, tx: float, delta_m: float, py: float
+    ) -> float:
+        e_sq = cls.semi_dirac_plucker_det(tx, delta_m, py)
+        return float(1.0 + 2.0 * e_sq + (e_sq**2))
+
+    @staticmethod
+    def semi_dirac_ddf_jammed_mass_x(m_0: float, beta_x: float) -> float:
+        return float(m_0 / (1.0 - (beta_x**2)))
+
+    @staticmethod
+    def semi_dirac_ddf_gr24_energy_sq(
+        tx: float, delta_m: float, py: float, beta_x: float
+    ) -> float:
+        return float(((tx / (1.0 - (beta_x**2)) + delta_m) ** 2) + (py**2))
+
+    @staticmethod
+    def semi_dirac_anisotropic_splat_var_x(
+        sigma_x0: float, t: float, m_x: float
+    ) -> float:
+        return float(
+            (sigma_x0**2) + (t**2) / (4.0 * (m_x**2) * (sigma_x0**2))
+        )
+
+    @staticmethod
+    def semi_dirac_anisotropic_splat_var_y(sigma_y0: float, _t: float) -> float:
+        return float(sigma_y0**2)
+
+    @staticmethod
+    def su_n_real_dim(n: int) -> int:
+        return int(n * n - 1)
+
+    @staticmethod
+    def real_grassmannian_dim(k: int, n: int) -> int:
+        return int(k * (n - k))
+
+    @staticmethod
+    def complex_grassmannian_real_dim(k: int, n: int) -> int:
+        return int(2 * k * (n - k))
+
+    @staticmethod
+    def grassmannian_scalar_curvature(k: int, n: int) -> int:
+        return int(n * k * (n - k))
+
+    @staticmethod
+    def chy_solution_count(n: int) -> int:
+        import math
+
+        return int(math.factorial(max(0, int(n) - 3)))
+
+    @staticmethod
+    def chy_four_point_root(s12: float, s13: float) -> float:
+        return float(s12 / (s12 + s13))
+
+    @staticmethod
+    def chy_four_point_cross_equation(
+        s12: float, s13: float, sigma4: float
+    ) -> float:
+        return float(s12 * (sigma4 - 1.0) + s13 * sigma4)
+
+    @staticmethod
+    def universal_plucker_three_term_residual(
+        p01: float, p23: float, p02: float, p13: float, p03: float, p12: float
+    ) -> float:
+        return float(p01 * p23 - p02 * p13 + p03 * p12)

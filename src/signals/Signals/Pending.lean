@@ -7158,4 +7158,82 @@ lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.mzm_qudit_and_four_
     contract.t0HoppingMeV contract.gamma1DimerMeV delta0 t_kit chi_mzm eri_diag p_occ
     contract.t0_pos contract.t0_lt_gamma1 hdelta0 ht_kit fp splat M_C x y cv
 
+/--In any `RhombohedralGrapheneSuperconductivityPendingHypothesis`, the semi-Dirac fermion
+laws (with and without $\mathrm{Gr}_{\mathbb{C}}$, with and without DDF, including $\mathrm{ZrSiS}$
+$B^{2/3}$ Landau-level scaling and anisotropic Tensor Gaussian Splat propagation) and the
+$\mathrm{SU}(4)$ / lower Grassmannian / Witten twistor-string / CHY / Cachazo–DDF–Turner–AdS/CFT
+5-way Klein quadric unification identities hold simultaneously. -/
+@[blueprint "lem:signals-semi-dirac-and-su4-witten-chy-unification-bounds"
+  (title := "Pending semi-Dirac fermion and SU(4) / Witten twistor string / CHY / DDF / Turner / AdS-CFT unification bounds")
+  (statement := /-- For any \texttt{contract : RhombohedralGrapheneSuperconductivityPendingHypothesis},
+    the semi-Dirac dispersion, $\mathrm{ZrSiS}$ $B^{2/3}$ Landau scaling, $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+    Plücker and Kähler determinant laws, DDF longitudinal sheath effective mass enhancement,
+    anisotropic splat spreading, $\mathrm{SU}(4)$ and lower Grassmannian dimensions, CHY $(n-3)!$
+    and BCFW Catalan worldsheet localization, and 5-way Klein quadric unification hold
+    simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.semi\_dirac\_fermions\_with\_and\_without\_grc\_and\_ddf\_identities}
+    and \texttt{Signals.DFT.su4\_lower\_grassmannians\_witten\_chy\_ddf\_turner\_and\_ads\_cft\_unification\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.semi_dirac_and_su4_witten_chy_unification_bounds
+    (_contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (kx ky m_x v_y delta_m tx py z1 z2 a b c d beta e : ℝ) :
+    Signals.DFT.semiDiracEnergySq kx 0 m_x v_y 0 = (kx ^ 2 / (2 * m_x)) ^ 2 ∧
+      Signals.DFT.semiDiracEnergySq 0 ky m_x v_y 0 = (v_y * ky) ^ 2 ∧
+      Signals.DFT.semiDiracLandauLevelCube 1 1 1 1 8 =
+        64 * Signals.DFT.semiDiracLandauLevelCube 1 1 1 1 1 ∧
+      Signals.DFT.semiDiracPluckerDet (kx ^ 2 / (2 * m_x)) delta_m (v_y * ky) =
+        Signals.DFT.semiDiracEnergySq kx ky m_x v_y delta_m ∧
+      Signals.DFT.semiDiracKahlerDetFactor tx delta_m py =
+        (1 + Signals.DFT.semiDiracPluckerDet tx delta_m py) ^ 2 ∧
+      1 ≤ Signals.DFT.semiDiracKahlerDetFactor tx delta_m py ∧
+      Signals.DFT.semiDiracDdfJammedMassX 1 (3 / 5) = 25 / 16 ∧
+      Signals.DFT.semiDiracPluckerDet 16 0 0 <
+        Signals.DFT.semiDiracDdfGr24EnergySq 16 0 0 (3 / 5) ∧
+      (Signals.DFT.semiDiracAnisotropicSplatVarX 1 0 1 <
+          Signals.DFT.semiDiracAnisotropicSplatVarX 1 2 1 ∧
+        Signals.DFT.semiDiracAnisotropicSplatVarY 1 2 =
+          Signals.DFT.semiDiracAnisotropicSplatVarY 1 0) ∧
+      Signals.DFT.suNRealDim 4 = 15 ∧
+      2 * (Signals.DFT.suNRealDim 2 + Signals.DFT.suNRealDim 2) + 3 =
+        Signals.DFT.suNRealDim 4 ∧
+      Signals.DFT.pluckerAmbientCoordCount 2 4 = 6 ∧
+      Signals.DFT.complexGrassmannianRealDim 2 4 = 8 ∧
+      Signals.DFT.grassmannianScalarCurvature 2 4 = 16 ∧
+      Signals.DFT.complexGrassmannianRealDim 2 6 = 16 ∧
+      Signals.DFT.pluckerAmbientCoordCount 2 6 = 15 ∧
+      Signals.DFT.chySolutionCount 4 = 1 ∧
+      Signals.DFT.chySolutionCount 6 = 6 ∧
+      Signals.DFT.bcfwCatalanTreeCount 6 = 5 ∧
+      Signals.DFT.chyFourPointCrossEquation 3 5
+        (Signals.DFT.chyFourPointRoot 3 5) = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual z1 1 1 (z1 + z2) z2 1 = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual
+        (a * d - b * c) (a * d - b * c)
+        (2 * a * b) (-2 * c * d) (-(a * d + b * c)) (a * d + b * c) = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual
+        (1 + beta) (1 - beta) 1 (1 - beta ^ 2) 0 1 = 0 ∧
+      Signals.DFT.universalPluckerThreeTermResidual
+        (1 + e) (1 - e) 1 (1 - e ^ 2) 0 1 = 0 := by
+  have h_sd :=
+    Signals.DFT.semi_dirac_fermions_with_and_without_grc_and_ddf_identities
+      kx ky m_x v_y delta_m tx py
+  have h_su4 :=
+    Signals.DFT.su4_lower_grassmannians_witten_chy_ddf_turner_and_ads_cft_unification_identities
+      3 5 z1 z2 a b c d beta e (by norm_num)
+  exact ⟨h_sd.1, h_sd.2.1, h_sd.2.2.2.2.2.2.1, h_sd.2.2.2.2.2.2.2.1,
+    h_sd.2.2.2.2.2.2.2.2.1, h_sd.2.2.2.2.2.2.2.2.2.1,
+    h_sd.2.2.2.2.2.2.2.2.2.2.2.1, h_sd.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_sd.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    h_su4.1, h_su4.2.2.1, h_su4.2.2.2.1,
+    h_su4.2.2.2.2.2.2.1.2.1, h_su4.2.2.2.2.2.2.1.2.2.2,
+    h_su4.2.2.2.2.2.2.2.2.1.2.1, h_su4.2.2.2.2.2.2.2.2.1.2.2.1,
+    h_su4.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_su4.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_su4.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_su4.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_su4.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_su4.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_su4.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_su4.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end Signals.Pending
