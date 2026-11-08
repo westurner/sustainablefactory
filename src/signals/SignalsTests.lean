@@ -7360,4 +7360,44 @@ example (omega_berry inv_phi0 b_chern : ℝ) :
     h_gap.1, h_gap.2.2.2.2.2.2.1, h_gap.2.2.2.2.2.2.2.1,
     h_cf_half, h_gap.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+/-- Compile-time verification of topologically protected graphene `MZM` qubits,
+multi-level parafermion/Plücker qudits, and the four-paper cross-domain advantages
+(`G-IEP`, `QCI-GXC`, `NormedTensorGaussianSplat2D`, and `Raman / Second-Sound`). -/
+example
+    (fp : Signals.NonDestructive.DispersivePhaseFingerprint Unit)
+    (splat : Signals.DDF.NormedTensorGaussianSplat2D)
+    (M_C : Matrix (Fin 2) (Fin 4) ℂ) (x y : ℝ)
+    (cv : Signals.DDF.CattaneoVernotteHeatModel) :
+    Signals.DFT.gmgsBoundaryGrassmannianRealDim 3 = 16 ∧
+      Signals.DFT.gmgsBoundaryGrassmannianRealDim 5 = 32 ∧
+      Signals.DFT.gmgsPluckerSublatticeQuditDim 3 = 15 ∧
+      Signals.DFT.gmgsVortexCoreMiniGap 1 (Signals.DFT.gmgsFlatBandBandwidth 100 380 3) <
+        Signals.DFT.gmgsVortexCoreMiniGap 1 (Signals.DFT.gmgsFlatBandBandwidth 100 380 5) ∧
+      Signals.DFT.kitaevChemicalPotentialTopological 0 1 ∧
+      Signals.DFT.mzmDispersiveParityContrast 2 = 4 ∧
+      Signals.DFT.gmgsParafermionQuditDim 1 = 3 ∧
+      1 < Signals.DFT.gmgsQuditHilbertCompressionRatio 3 4 ∧
+      Signals.DFT.giepHighKGateStackEot 1 3 (39 / 10) 20 < 1 + 3 ∧
+      Signals.DFT.grassmannCayleySpeedupRatio 4 48 = 144 ∧
+      0 < splat.coreBohmPotential 1 1 ∧
+      Signals.Scattering.reconstructRamanTemperature 10 2 150
+        (Signals.Scattering.ramanAntiStokesToStokesThermalRatio 10 2 (150 / 300)) = 300 ∧
+      0 < cv.secondSoundSpeedSq := by
+  have h :=
+    Signals.DFT.graphene_topological_mzm_qudit_and_four_paper_advantages_identities
+      100 380 1 1 2 1 1
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      fp splat M_C x y cv
+  have h_mzm : Signals.DFT.mzmDispersiveParityContrast 2 = 4 := by
+    have h1 := h.2.2.2.2.2.2.2.2.2.2.1
+    linarith
+  exact ⟨h.1, h.2.1, h.2.2.2.1, h.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.1, h_mzm, h.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
 end SignalsTests

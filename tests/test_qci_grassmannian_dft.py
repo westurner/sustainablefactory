@@ -1137,3 +1137,23 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
     ) < GMGS.gmgs_flat_band_kinetic_inductance(10.0, 2.0)
     assert np.isclose(GMGS.gmgs_qahe_sc_bdg_gap_sq(1.0, 0.0, 3.0, 3.0), 0.0)
     assert GMGS.gmgs_qahe_sc_bdg_gap_sq(1.0, 0.0, 5.0, 3.0) > 0.0
+
+    # Section 18.4: Gr_C(2,6) / Gr_C(2,10), CdGM Majorana mini-gap, parafermion/Plücker qudits
+    assert GMGS.gmgs_boundary_grassmannian_real_dim(3) == 16
+    assert GMGS.gmgs_boundary_grassmannian_real_dim(5) == 32
+    assert GMGS.gmgs_plucker_sublattice_qudit_dim(2) == 6
+    assert GMGS.gmgs_plucker_sublattice_qudit_dim(3) == 15
+    assert GMGS.gmgs_plucker_sublattice_qudit_dim(5) == 45
+    assert (
+        GMGS.gmgs_vortex_core_mini_gap(0.2, w1)
+        < GMGS.gmgs_vortex_core_mini_gap(0.2, w3)
+        < GMGS.gmgs_vortex_core_mini_gap(0.2, w5)
+    )
+    assert GMGS.gmgs_parafermion_qudit_dim(1) == 3
+    assert GMGS.gmgs_parafermion_qudit_dim(2) == 5
+    assert (
+        1.0
+        < GMGS.gmgs_qudit_hilbert_compression_ratio(3.0, 4)
+        < GMGS.gmgs_qudit_hilbert_compression_ratio(4.0, 4)
+        < GMGS.gmgs_qudit_hilbert_compression_ratio(15.0, 4)
+    )

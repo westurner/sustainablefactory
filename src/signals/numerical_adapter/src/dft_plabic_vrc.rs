@@ -1402,6 +1402,36 @@ pub fn gmgs_qahe_sc_bdg_gap_sq(v_edge: f64, k_mom: f64, delta_ind: f64, m_qah: f
     (v_edge * k_mom).powi(2) + (delta_ind - m_qah).powi(2)
 }
 
+/// Real manifold dimension `4 * (2N - 2)` of the boundary Grassmannian `Gr_C(2, 2N)`,
+/// matching `Signals.DFT.gmgsBoundaryGrassmannianRealDim`.
+pub fn gmgs_boundary_grassmannian_real_dim(n_layers: usize) -> usize {
+    4 * (2 * n_layers - 2)
+}
+
+/// Number of Plücker sublattice-pair qudit channels `C(2N, 2) = N * (2N - 1)` on `Gr_C(2, 2N)`,
+/// matching `Signals.DFT.gmgsPluckerSublatticeQuditDim`.
+pub fn gmgs_plucker_sublattice_qudit_dim(n_layers: usize) -> usize {
+    n_layers * (2 * n_layers - 1)
+}
+
+/// Caroli-de Gennes-Matricon (CdGM) vortex-core Majorana mini-gap `delta0^2 / e_fermi`,
+/// matching `Signals.DFT.gmgsVortexCoreMiniGap`.
+pub fn gmgs_vortex_core_mini_gap(delta0: f64, e_fermi: f64) -> f64 {
+    delta0.powi(2) / e_fermi
+}
+
+/// Logical qudit dimension `d = 2p + 1` of a pair of `Z_{2m}` parafermion zero modes (`m = 2p + 1`),
+/// matching `Signals.DFT.gmgsParafermionQuditDim`.
+pub fn gmgs_parafermion_qudit_dim(p_cf: usize) -> usize {
+    2 * p_cf + 1
+}
+
+/// Hilbert-space compression ratio `(d / 2)^n_registers` of an `n_registers`-qudit register vs. qubits,
+/// matching `Signals.DFT.gmgsQuditHilbertCompressionRatio`.
+pub fn gmgs_qudit_hilbert_compression_ratio(d: f64, n_registers: u32) -> f64 {
+    (d / 2.0).powi(n_registers as i32)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2006,5 +2036,25 @@ mod tests {
         assert!(gmgs_flat_band_kinetic_inductance(10.0, 5.0) < gmgs_flat_band_kinetic_inductance(10.0, 2.0));
         assert!(gmgs_qahe_sc_bdg_gap_sq(1.0, 0.0, 3.0, 3.0).abs() < 1e-15);
         assert!(gmgs_qahe_sc_bdg_gap_sq(1.0, 0.0, 5.0, 3.0) > 0.0);
+
+        // 11. Section 18.4: Gr_C(2,6) / Gr_C(2,10), CdGM Majorana mini-gap, parafermion/Plücker qudits
+        assert_eq!(gmgs_boundary_grassmannian_real_dim(3), 16);
+        assert_eq!(gmgs_boundary_grassmannian_real_dim(5), 32);
+        assert_eq!(gmgs_plucker_sublattice_qudit_dim(2), 6);
+        assert_eq!(gmgs_plucker_sublattice_qudit_dim(3), 15);
+        assert_eq!(gmgs_plucker_sublattice_qudit_dim(5), 45);
+        assert!(
+            gmgs_vortex_core_mini_gap(0.2, w1) < gmgs_vortex_core_mini_gap(0.2, w3)
+                && gmgs_vortex_core_mini_gap(0.2, w3) < gmgs_vortex_core_mini_gap(0.2, w5)
+        );
+        assert_eq!(gmgs_parafermion_qudit_dim(1), 3);
+        assert_eq!(gmgs_parafermion_qudit_dim(2), 5);
+        assert!(
+            1.0 < gmgs_qudit_hilbert_compression_ratio(3.0, 4)
+                && gmgs_qudit_hilbert_compression_ratio(3.0, 4)
+                    < gmgs_qudit_hilbert_compression_ratio(4.0, 4)
+                && gmgs_qudit_hilbert_compression_ratio(4.0, 4)
+                    < gmgs_qudit_hilbert_compression_ratio(15.0, 4)
+        );
     }
 }

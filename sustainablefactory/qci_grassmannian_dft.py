@@ -4177,6 +4177,27 @@ class RhombohedralGrapheneSuperconductivityEngine:
     ) -> float:
         return float(((v_edge * k_mom) ** 2) + ((delta_ind - m_qah) ** 2))
 
+    @staticmethod
+    def gmgs_boundary_grassmannian_real_dim(n_layers: int) -> int:
+        return int(4 * (2 * int(n_layers) - 2))
+
+    @staticmethod
+    def gmgs_plucker_sublattice_qudit_dim(n_layers: int) -> int:
+        n = int(n_layers)
+        return int(n * (2 * n - 1))
+
+    @staticmethod
+    def gmgs_vortex_core_mini_gap(delta0: float, e_fermi: float) -> float:
+        return float((delta0**2) / e_fermi)
+
+    @staticmethod
+    def gmgs_parafermion_qudit_dim(p_cf: int) -> int:
+        return int(2 * int(p_cf) + 1)
+
+    @staticmethod
+    def gmgs_qudit_hilbert_compression_ratio(d: float, n_registers: int) -> float:
+        return float((d / 2.0) ** int(n_registers))
+
     @classmethod
     def run_all_gmgs_benchmarks(cls) -> dict[str, Any]:
         """

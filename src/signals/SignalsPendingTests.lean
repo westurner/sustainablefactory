@@ -5943,4 +5943,72 @@ example (omega_berry inv_phi0 b_chern : ℝ) :
   SignalsPending.rhombohedral_graphene_superconductivity_deep_gap_closure_bounds
     toyRhombohedralGrapheneSuperconductivityContract omega_berry inv_phi0 b_chern
 
+example {state : Type}
+    (fp : Signals.NonDestructive.DispersivePhaseFingerprint state)
+    (splat : Signals.DDF.NormedTensorGaussianSplat2D)
+    (M_C : Matrix (Fin 2) (Fin 4) ℂ) (x y : ℝ)
+    (cv : Signals.DDF.CattaneoVernotteHeatModel) :
+    let c := toyRhombohedralGrapheneSuperconductivityContract
+    Signals.DFT.gmgsBoundaryGrassmannianRealDim 3 = 16 ∧
+      Signals.DFT.gmgsBoundaryGrassmannianRealDim 5 = 32 ∧
+      Signals.DFT.gmgsPluckerSublatticeQuditDim 2 = 6 ∧
+      Signals.DFT.gmgsPluckerSublatticeQuditDim 3 = 15 ∧
+      Signals.DFT.gmgsPluckerSublatticeQuditDim 5 = 45 ∧
+      Signals.DFT.gmgsVortexCoreMiniGap 1
+          (Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 1) <
+        Signals.DFT.gmgsVortexCoreMiniGap 1
+          (Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 3) ∧
+      Signals.DFT.gmgsVortexCoreMiniGap 1
+          (Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 3) <
+        Signals.DFT.gmgsVortexCoreMiniGap 1
+          (Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 5) ∧
+      Signals.DFT.kitaevChemicalPotentialTopological 0 2 ∧
+      Signals.DFT.kitaevBulkGapAtBrillouinBoundary 0 2 = 2 * 2 ∧
+      Signals.DFT.kitaevBulkGapAtBrillouinBoundary (-2 * 2) 2 = 0 ∧
+      Signals.DFT.mzmDispersiveParityContrast 3 = 2 * 3 ∧
+      Signals.DFT.gmgsParafermionQuditDim 1 = 3 ∧
+      Signals.DFT.gmgsParafermionQuditDim 2 = 5 ∧
+      Signals.DFT.gmgsParafermionQuantumDimSq 1 < Signals.DFT.gmgsParafermionQuantumDimSq 3 ∧
+      Signals.DFT.gmgsParafermionQuantumDimSq 3 < Signals.DFT.gmgsParafermionQuantumDimSq 5 ∧
+      1 < Signals.DFT.gmgsQuditHilbertCompressionRatio 3 4 ∧
+      Signals.DFT.gmgsQuditHilbertCompressionRatio 3 4 <
+        Signals.DFT.gmgsQuditHilbertCompressionRatio 4 4 ∧
+      Signals.DFT.gmgsQuditHilbertCompressionRatio 4 4 <
+        Signals.DFT.gmgsQuditHilbertCompressionRatio 15 4 ∧
+      Signals.DFT.solitonEnvelopeGateTime (73 / 100) <
+        Signals.DFT.solitonEnvelopeGateTime (1 / 10) ∧
+      Signals.DFT.skyrmionPontryaginCharge 1 (-1) 1 = 1 ∧
+      2 < Signals.DFT.merminThreeQuditGHZWitness (9866 / 10000) ∧
+      Signals.DFT.giepHighKGateStackEot 1 3 (39 / 10) 20 < 1 + 3 ∧
+      Signals.DFT.giepBrowerStesmansEquilibriumDit 25 19 1 <
+        Signals.DFT.giepBrowerStesmansEquilibriumDit 25 9 1 ∧
+      Signals.DFT.twoOrbitalLinearCorrelationEntropy
+          (Signals.DFT.mcweenyPurificationPoly (9 / 10)) <
+        Signals.DFT.twoOrbitalLinearCorrelationEntropy (9 / 10) ∧
+      Signals.DFT.giepSubthresholdSwingWithDit 60 10 (3 / 2) <
+        Signals.DFT.giepSubthresholdSwingWithDit 60 10 25 ∧
+      Signals.DFT.spinPolarizedGrassmannianRealDim 2 2 6 = 32 ∧
+      Signals.DFT.grassmannCayleySpeedupRatio 4 48 = 144 ∧
+      Signals.DFT.riAuxiliaryERISpeedupRatio 4 48 144 = 192 ∧
+      Signals.DFT.sameSpinDiagonalCoulombMinusExchange 7 (1 / 2) = 0 ∧
+      |Signals.DFT.aldBarrierWithSIERestoration (1810 / 100) (620 / 100) (643 / 100) -
+          (1810 / 100)| <
+        |Signals.DFT.aldBarrierWithSIERestoration (1810 / 100) (620 / 100) 0 -
+          (1810 / 100)| ∧
+      fp.readout.signalAfter = fp.readout.signalBefore ∧
+      fp.readout.absorbedSignalEnergy.joules = 0 ∧
+      fp.readout.absorbedProbeEnergy.joules = 0 ∧
+      0 < splat.coreBohmPotential 1 1 ∧
+      (Signals.DDF.complexPluckerSinkAmplitudeA M_C +
+          Signals.DDF.complexPluckerSinkAmplitudeB M_C = 0 →
+        splat.complexTwistorIntensity M_C x y = 0) ∧
+      Signals.Scattering.reconstructRamanTemperature 10 2 150
+        (Signals.Scattering.ramanAntiStokesToStokesThermalRatio 10 2 (150 / 300)) = 300 ∧
+      0 < cv.secondSoundSpeedSq ∧
+      (splat.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)).covTrace =
+        splat.covTrace + 2 * (1 + 2) * 3 :=
+  SignalsPending.rhombohedral_graphene_mzm_qudit_and_four_paper_advantages_bounds
+    toyRhombohedralGrapheneSuperconductivityContract 1 2 3 7 (1 / 2) (by norm_num) (by norm_num)
+    fp splat M_C x y cv
+
 end SignalsPendingTests

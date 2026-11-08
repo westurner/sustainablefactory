@@ -4029,6 +4029,257 @@ theorem graphene_superconductivity_deep_gap_closure_identities
     by unfold gmgsQaheScBdgGapSq; ring,
     h_bdg_pos⟩
 
+/-! ## Section 18.4: Topologically Protected Graphene Qubits (`MZM`), Multi-Level Qudits, and
+Four-Paper Cross-Domain Synthesis (`G-IEP`, `QCI-GXC`, `Splat Mechanics`, & `Thermal/Raman Second Sound`) -/
+
+/-- Real dimension $\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{C}}(2, 2N) = 2 \cdot 2 \cdot (2N - 2) = 4(2N - 2)$
+of the low-energy boundary sublattice Grassmannian $(A_1, B_N) \subset \mathbb{C}^{2N}$ in
+$N$-layer rhombohedral graphene: equal to $16$ for trilayer $N = 3$ ($\mathrm{Gr}_{\mathbb{C}}(2, 6)$,
+`GrC(2,6)`) and $32$ for pentalayer $N = 5$ ($\mathrm{Gr}_{\mathbb{C}}(2, 10)$). -/
+@[blueprint "def:signals-gmgs-boundary-grassmannian-real-dim"
+  (title := "Rhombohedral N-layer boundary Grassmannian real dimension dim_R Gr_C(2, 2N) = 4(2N - 2)")
+  (statement := /-- Define $\operatorname{gmgsBoundaryGrassmannianRealDim}(N) = 4\,(2N - 2)$. -/)]
+def gmgsBoundaryGrassmannianRealDim (n_layers : ℕ) : ℕ :=
+  4 * (2 * n_layers - 2)
+
+/-- Number of homogeneous Plücker two-sublattice coordinates
+$\binom{2N}{2} = N(2N - 1)$ on $\mathrm{Gr}_{\mathbb{C}}(2, 2N)$ encoding a multi-sublattice
+qudit in $N$-layer rhombohedral or twisted graphene ($6$ for bilayer $N=2$ on $\mathrm{Gr}_{\mathbb{C}}(2,4)$,
+$15$ for trilayer $N=3$ on $\mathrm{Gr}_{\mathbb{C}}(2,6)$, and $45$ for pentalayer $N=5$ on $\mathrm{Gr}_{\mathbb{C}}(2,10)$). -/
+@[blueprint "def:signals-gmgs-plucker-sublattice-qudit-dim"
+  (title := "Plücker two-sublattice qudit dimension N(2N - 1) on Gr_C(2, 2N)")
+  (statement := /-- Define $\operatorname{gmgsPluckerSublatticeQuditDim}(N) = N\,(2N - 1)$. -/)]
+def gmgsPluckerSublatticeQuditDim (n_layers : ℕ) : ℕ :=
+  n_layers * (2 * n_layers - 1)
+
+/-- Caroli–de Gennes–Matricon (`CdGM`) vortex-core mini-gap
+$\Delta_{\mathrm{CdGM}}(\Delta_0, E_F) = \frac{\Delta_0^2}{E_F}$
+isolating the zero-energy Majorana bound state (`MZM`) inside a superconducting vortex core of
+chiral $p_x \pm i p_y$ rhombohedral graphene from excited core quasiparticles (Han et al.,
+*Nature* **643**, 654 (2025)). Flat-band compression ($W_5 < W_3 < W_1$) reduces $E_F$ and
+dramatically amplifies $\Delta_{\mathrm{CdGM}}$. -/
+@[blueprint "def:signals-gmgs-vortex-core-mini-gap"
+  (title := "Caroli-de Gennes-Matricon vortex-core Majorana mini-gap Δ_0² / E_F")
+  (statement := /-- Define $\operatorname{gmgsVortexCoreMiniGap}(\Delta_0, E_F) = \Delta_0^2 / E_F$. -/)]
+def gmgsVortexCoreMiniGap (delta0 e_fermi : ℝ) : ℝ :=
+  delta0 ^ 2 / e_fermi
+
+/-- Logical qudit dimension $d_{\mathrm{PF}}(p) = 2 p + 1$ encoded by a pair of non-Abelian
+$\mathbb{Z}_{2(2p+1)}$ parafermion zero modes at a zero-field lateral junction between a Jain
+`FQAH` state $\nu = \frac{p}{2p + 1}$ (or $1 - \frac{p}{2p + 1}$) and an intrinsic superconductor
+in rhombohedral pentalayer graphene (`R5G/hBN`, Lu et al., *Nature* **626**, 759 (2024);
+Clarke, Alicea & Shtengel, *Nat. Commun.* **4**, 1348 (2013)): $d = 3$ (qutrit) at $p = 1$
+($\nu = 1/3, 2/3$) and $d = 5$ (ququint) at $p = 2$ ($\nu = 2/5, 3/5$). -/
+@[blueprint "def:signals-gmgs-parafermion-qudit-dim"
+  (title := "Parafermion topological qudit dimension d_PF(p) = 2p + 1 at Jain FQAH-SC junctions")
+  (statement := /-- Define $\operatorname{gmgsParafermionQuditDim}(p) = 2p + 1$. -/)]
+def gmgsParafermionQuditDim (p_cf : ℕ) : ℕ :=
+  2 * p_cf + 1
+
+/-- Exponential Hilbert-space compression ratio
+$R_{\mathrm{qudit}}(d, n) = \bigl(\frac{d}{2}\bigr)^n$ of $n$ topologically protected $d$-level
+qudits relative to $n$ binary qubits ($d = 2$). -/
+@[blueprint "def:signals-gmgs-qudit-hilbert-compression-ratio"
+  (title := "Multi-qudit vs. multi-qubit Hilbert-space capacity ratio (d / 2)^n")
+  (statement := /-- Define $\operatorname{gmgsQuditHilbertCompressionRatio}(d, n) = (d / 2)^n$. -/)]
+def gmgsQuditHilbertCompressionRatio (d : ℝ) (n_registers : ℕ) : ℝ :=
+  (d / 2) ^ n_registers
+
+set_option maxHeartbeats 800000 in
+/-- **Theorem (Topologically Protected Graphene Qubits (`MZM`) & Multi-Level Qudits Unified with
+`G-IEP` Interfacial Passivation, `QCI-GXC` Speed–Accuracy DFT, `NormedTensorGaussianSplat2D`
+Vortex Mechanics, and `Raman / Second-Sound` Cryogenic Metrology)**:
+Simultaneously verifies:
+1. **Topologically Protected Graphene `MZM` Qubits & Multi-Level Qudits**:
+   - Boundary Grassmannian dimensions $\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{C}}(2, 6) = 16$ ($N=3$)
+     and $\dim_{\mathbb{R}}\mathrm{Gr}_{\mathbb{C}}(2, 10) = 32$ ($N=5$), and Plücker qudit dimensions
+     $\binom{4}{2} = 6$, $\binom{6}{2} = 15$, and $\binom{10}{2} = 45$;
+   - Flat-band amplification of the Caroli–de Gennes–Matricon vortex-core Majorana mini-gap:
+     for $\Delta_0 > 0$ and $0 < t_0 < \gamma_1$,
+     $\Delta_{\mathrm{CdGM}}(\Delta_0, W_1) < \Delta_{\mathrm{CdGM}}(\Delta_0, W_3) < \Delta_{\mathrm{CdGM}}(\Delta_0, W_5)$;
+   - 1D Kitaev `MZM` topological regime $|\mu| < 2|t|$ at $\mu = 0, t > 0$, bulk gap $2t > 0$,
+     critical gap closure at $\mu = -2t$, and QND dispersive parity contrast $2\chi_{\mathrm{MZM}}$;
+   - Non-Abelian $\mathbb{Z}_{2(2p+1)}$ parafermion qudit dimensions $d_{\mathrm{PF}}(1) = 3 < d_{\mathrm{PF}}(2) = 5$,
+     quantum dimensions $d_{\mathrm{MZM}}^2 = 2 < d_{\mathbb{Z}_6}^2 = 6 < d_{\mathbb{Z}_{10}}^2 = 10$,
+     exponential Hilbert-space capacity gain $1 < (3/2)^4 < 2^4 < (15/2)^4$, SSH domain-wall
+     soliton gate-time optimum $T_{\mathrm{gate}}(0.73) < T_{\mathrm{gate}}(0.10)$, unit skyrmion
+     charge $Q_{\mathrm{skyrmion}}(1,-1,1) = 1$, and 3-qudit GHZ Mermin witness $W(0.9866) > 2$.
+2. **Advantages from the Four Reviewed Companion Papers**:
+   - **Paper 27 (`G-IEP`)**: High-$\kappa$ gate-stack `EOT` compression, Brower–Stesmans $\mathrm{H_2}$
+     passivation $D_{\mathrm{it}}$ reduction, McWeeny dangling-bond idempotency purification, and
+     subthreshold swing $\mathrm{SS}(D_{\mathrm{it}})$ sharpening;
+   - **Paper 23 (`QCI-GXC`)**: Spin-polarized $\mathrm{Gr}_{\mathbb{C}}(2,6)^2$ dimension $32$,
+     $144\times$ Riemannian Cayley speedup, $192\times$ `RI-J / COSX` ERI speedup, exact Pauli
+     diagonal self-interaction cancellation, ALD $\mathrm{Al(CH_3)_3 + H_2O}$ barrier restoration,
+     and zero-absorption `Signals.NonDestructive.DispersivePhaseFingerprint` state preservation;
+   - **Paper 5 (`Splat Mechanics`)**: Strictly positive `NormedTensorGaussianSplat2D` core Bohm
+     quantum potential regularizing vortex cores and exact dark-fringe interference null;
+   - **Paper 6 (`Thermal, Compton, & Raman`)**: Exact graphene Raman $(\omega_L, \Omega_v)$ and
+     Boltzmann temperature inversion ($300\text{ K}$), subluminal Cattaneo–Vernotte second-sound
+     positivity, and $L^1$-conserving thermal splat variance evolution. -/
+@[blueprint "thm:signals-graphene-topological-mzm-qudit-and-four-paper-advantages-identities"
+  (title := "Graphene MZM qubits, parafermion/Plücker qudits, and four-paper cross-domain advantages")
+  (statement := /-- Simultaneous verification of graphene vortex-core MZM mini-gap amplification,
+    parafermion and Plücker qudit scaling, and concrete advantages from \texttt{G-IEP},
+    \texttt{QCI-GXC}, \texttt{NormedTensorGaussianSplat2D}, and \texttt{Raman/Cattaneo-Vernotte}
+    second-sound mechanics. -/)
+  (proof := /-- Combine \texttt{div\_lt\_div\_of\_pos\_left}, \texttt{polariton\_plasmon\_skyrmion\_mzm\_and\_nondestructive\_readout\_identities},
+    \texttt{NormedTensorGaussianSplat2D} lemmas, \texttt{reconstructRamanTemperature}, and \texttt{norm\_num}. -/)]
+theorem graphene_topological_mzm_qudit_and_four_paper_advantages_identities
+    {state : Type}
+    (t0 gamma1 delta0 t_kit chi_mzm eri_diag p_occ : ℝ)
+    (ht0 : 0 < t0) (h_t0_lt : t0 < gamma1) (hdelta0 : 0 < delta0) (ht_kit : 0 < t_kit)
+    (fp : Signals.NonDestructive.DispersivePhaseFingerprint state)
+    (splat : Signals.DDF.NormedTensorGaussianSplat2D)
+    (M_C : Matrix (Fin 2) (Fin 4) ℂ) (x y : ℝ)
+    (cv : Signals.DDF.CattaneoVernotteHeatModel) :
+    gmgsBoundaryGrassmannianRealDim 3 = 16 ∧
+      gmgsBoundaryGrassmannianRealDim 5 = 32 ∧
+      gmgsPluckerSublatticeQuditDim 2 = 6 ∧
+      gmgsPluckerSublatticeQuditDim 3 = 15 ∧
+      gmgsPluckerSublatticeQuditDim 5 = 45 ∧
+      gmgsVortexCoreMiniGap delta0 (gmgsFlatBandBandwidth t0 gamma1 1) <
+        gmgsVortexCoreMiniGap delta0 (gmgsFlatBandBandwidth t0 gamma1 3) ∧
+      gmgsVortexCoreMiniGap delta0 (gmgsFlatBandBandwidth t0 gamma1 3) <
+        gmgsVortexCoreMiniGap delta0 (gmgsFlatBandBandwidth t0 gamma1 5) ∧
+      kitaevChemicalPotentialTopological 0 t_kit ∧
+      kitaevBulkGapAtBrillouinBoundary 0 t_kit = 2 * t_kit ∧
+      kitaevBulkGapAtBrillouinBoundary (-2 * t_kit) t_kit = 0 ∧
+      mzmDispersiveParityContrast chi_mzm = 2 * chi_mzm ∧
+      gmgsParafermionQuditDim 1 = 3 ∧
+      gmgsParafermionQuditDim 2 = 5 ∧
+      gmgsParafermionQuantumDimSq 1 < gmgsParafermionQuantumDimSq 3 ∧
+      gmgsParafermionQuantumDimSq 3 < gmgsParafermionQuantumDimSq 5 ∧
+      1 < gmgsQuditHilbertCompressionRatio 3 4 ∧
+      gmgsQuditHilbertCompressionRatio 3 4 < gmgsQuditHilbertCompressionRatio 4 4 ∧
+      gmgsQuditHilbertCompressionRatio 4 4 < gmgsQuditHilbertCompressionRatio 15 4 ∧
+      solitonEnvelopeGateTime (73 / 100) < solitonEnvelopeGateTime (1 / 10) ∧
+      skyrmionPontryaginCharge 1 (-1) 1 = 1 ∧
+      2 < merminThreeQuditGHZWitness (9866 / 10000) ∧
+      -- Paper 27 (G-IEP) graphene gate-stack & passivation advantages:
+      giepHighKGateStackEot 1 3 (39 / 10) 20 < 1 + 3 ∧
+      giepBrowerStesmansEquilibriumDit 25 19 1 < giepBrowerStesmansEquilibriumDit 25 9 1 ∧
+      twoOrbitalLinearCorrelationEntropy (mcweenyPurificationPoly (9 / 10)) <
+        twoOrbitalLinearCorrelationEntropy (9 / 10) ∧
+      giepSubthresholdSwingWithDit 60 10 (3 / 2) < giepSubthresholdSwingWithDit 60 10 25 ∧
+      -- Paper 23 (QCI-GXC) supercell speedup, ERI SIE cancellation, ALD barrier, & QND readout:
+      spinPolarizedGrassmannianRealDim 2 2 6 = 32 ∧
+      grassmannCayleySpeedupRatio 4 48 = 144 ∧
+      riAuxiliaryERISpeedupRatio 4 48 144 = 192 ∧
+      sameSpinDiagonalCoulombMinusExchange eri_diag p_occ = 0 ∧
+      |aldBarrierWithSIERestoration (1810 / 100) (620 / 100) (643 / 100) - (1810 / 100)| <
+        |aldBarrierWithSIERestoration (1810 / 100) (620 / 100) 0 - (1810 / 100)| ∧
+      fp.readout.signalAfter = fp.readout.signalBefore ∧
+      fp.readout.absorbedSignalEnergy.joules = 0 ∧
+      fp.readout.absorbedProbeEnergy.joules = 0 ∧
+      -- Paper 5 (Splat Mechanics) vortex-core Bohm regularization & dark-fringe null:
+      0 < splat.coreBohmPotential 1 1 ∧
+      (Signals.DDF.complexPluckerSinkAmplitudeA M_C +
+          Signals.DDF.complexPluckerSinkAmplitudeB M_C = 0 →
+        splat.complexTwistorIntensity M_C x y = 0) ∧
+      -- Paper 6 (Thermal, Compton, & Raman) non-contact Raman thermometry & Cattaneo second sound:
+      Signals.Scattering.reconstructRamanTemperature 10 2 150
+        (Signals.Scattering.ramanAntiStokesToStokesThermalRatio 10 2 (150 / 300)) = 300 ∧
+      0 < cv.secondSoundSpeedSq ∧
+      (splat.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)).covTrace =
+        splat.covTrace + 2 * (1 + 2) * 3 := by
+  have hgamma1 : 0 < gamma1 := lt_trans ht0 h_t0_lt
+  have h_ratio_pos : 0 < t0 / gamma1 := div_pos ht0 hgamma1
+  have h_ratio_lt_one : t0 / gamma1 < 1 := (div_lt_one hgamma1).mpr h_t0_lt
+  have h_pow_4_2 : (t0 / gamma1) ^ 4 < (t0 / gamma1) ^ 2 :=
+    pow_lt_pow_right_of_lt_one₀ h_ratio_pos h_ratio_lt_one (by decide)
+  have h_pow_2_0 : (t0 / gamma1) ^ 2 < (t0 / gamma1) ^ 0 :=
+    pow_lt_pow_right_of_lt_one₀ h_ratio_pos h_ratio_lt_one (by decide)
+  have hw5_pos : 0 < gmgsFlatBandBandwidth t0 gamma1 5 := by
+    unfold gmgsFlatBandBandwidth
+    positivity
+  have hw3_pos : 0 < gmgsFlatBandBandwidth t0 gamma1 3 := by
+    unfold gmgsFlatBandBandwidth
+    positivity
+  have hw_5_3 : gmgsFlatBandBandwidth t0 gamma1 5 < gmgsFlatBandBandwidth t0 gamma1 3 := by
+    unfold gmgsFlatBandBandwidth
+    exact mul_lt_mul_of_pos_left h_pow_4_2 ht0
+  have hw_3_1 : gmgsFlatBandBandwidth t0 gamma1 3 < gmgsFlatBandBandwidth t0 gamma1 1 := by
+    unfold gmgsFlatBandBandwidth
+    exact mul_lt_mul_of_pos_left h_pow_2_0 ht0
+  have hd0_sq : 0 < delta0 ^ 2 := sq_pos_of_pos hdelta0
+  have h_cdgm_1_3 :
+      gmgsVortexCoreMiniGap delta0 (gmgsFlatBandBandwidth t0 gamma1 1) <
+        gmgsVortexCoreMiniGap delta0 (gmgsFlatBandBandwidth t0 gamma1 3) := by
+    unfold gmgsVortexCoreMiniGap
+    exact div_lt_div_of_pos_left hd0_sq hw3_pos hw_3_1
+  have h_cdgm_3_5 :
+      gmgsVortexCoreMiniGap delta0 (gmgsFlatBandBandwidth t0 gamma1 3) <
+        gmgsVortexCoreMiniGap delta0 (gmgsFlatBandBandwidth t0 gamma1 5) := by
+    unfold gmgsVortexCoreMiniGap
+    exact div_lt_div_of_pos_left hd0_sq hw5_pos hw_5_3
+  have h_kit_top : kitaevChemicalPotentialTopological 0 t_kit := by
+    unfold kitaevChemicalPotentialTopological
+    rw [abs_zero, abs_of_pos ht_kit]
+    linarith
+  have h_kit_gap0 : kitaevBulkGapAtBrillouinBoundary 0 t_kit = 2 * t_kit := by
+    unfold kitaevBulkGapAtBrillouinBoundary
+    rw [zero_add, abs_of_pos (by linarith)]
+  have h_kit_close : kitaevBulkGapAtBrillouinBoundary (-2 * t_kit) t_kit = 0 := by
+    unfold kitaevBulkGapAtBrillouinBoundary
+    have hz : -2 * t_kit + 2 * t_kit = 0 := by ring
+    rw [hz, abs_zero]
+  have h_bohm : 0 < splat.coreBohmPotential 1 1 := by
+    unfold Signals.DDF.NormedTensorGaussianSplat2D.coreBohmPotential
+    have hs1 := splat.sigma1_pos
+    have hs2 := splat.sigma2_pos
+    positivity
+  have h_twistor := (splat.complexTwistor_representation_identities M_C x y).2.2.2
+  have h_raman := (Signals.Scattering.inelastic_compton_and_raman_temperature_inversion
+    (3 / 5) (1 / 4) 10 2 150 300 (1 / 10)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)).2.2.1
+  have h_cv := (cv.identities 0 0 0 0 0).1
+  have h_therm :
+      (splat.evolveThermal 1 2 3 (by norm_num) (by norm_num) (by norm_num)).covTrace =
+        splat.covTrace + 2 * (1 + 2) * 3 := by
+    unfold Signals.DDF.NormedTensorGaussianSplat2D.evolveThermal
+      Signals.DDF.NormedTensorGaussianSplat2D.covTrace
+    dsimp
+    have hs1_nonneg : 0 ≤ splat.sigma1 ^ 2 + 2 * 1 * 3 := by positivity
+    have hs2_nonneg : 0 ≤ splat.sigma2 ^ 2 + 2 * 2 * 3 := by positivity
+    rw [Real.sq_sqrt hs1_nonneg, Real.sq_sqrt hs2_nonneg]
+    ring
+  refine ⟨rfl, rfl, rfl, rfl, rfl,
+    h_cdgm_1_3,
+    h_cdgm_3_5,
+    h_kit_top,
+    h_kit_gap0,
+    h_kit_close,
+    by unfold mzmDispersiveParityContrast mzmDispersiveParityPhaseShift; ring,
+    rfl, rfl,
+    by unfold gmgsParafermionQuantumDimSq; norm_num,
+    by unfold gmgsParafermionQuantumDimSq; norm_num,
+    by unfold gmgsQuditHilbertCompressionRatio; norm_num,
+    by unfold gmgsQuditHilbertCompressionRatio; norm_num,
+    by unfold gmgsQuditHilbertCompressionRatio; norm_num,
+    by unfold solitonEnvelopeGateTime; norm_num,
+    by unfold skyrmionPontryaginCharge; norm_num,
+    by unfold merminThreeQuditGHZWitness; norm_num,
+    by unfold giepHighKGateStackEot; norm_num,
+    by unfold giepBrowerStesmansEquilibriumDit; norm_num,
+    by unfold twoOrbitalLinearCorrelationEntropy mcweenyPurificationPoly; norm_num,
+    by unfold giepSubthresholdSwingWithDit; norm_num,
+    rfl,
+    by unfold grassmannCayleySpeedupRatio fullBasisSCFStepFlops grassmannCayleyStepFlops; norm_num,
+    by unfold riAuxiliaryERISpeedupRatio fourCenterERIFlops riAuxiliaryERIFlops; norm_num,
+    by unfold sameSpinDiagonalCoulombMinusExchange; ring,
+    by unfold aldBarrierWithSIERestoration; norm_num,
+    fp.readout.signal_preserved,
+    fp.readout.no_absorbed_signal_energy,
+    fp.readout.no_absorbed_probe_energy,
+    h_bohm,
+    h_twistor,
+    h_raman,
+    h_cv,
+    h_therm⟩
+
 end
 
 end Signals.DFT
