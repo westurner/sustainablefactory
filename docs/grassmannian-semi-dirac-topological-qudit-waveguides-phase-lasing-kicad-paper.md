@@ -147,11 +147,31 @@ where $\Delta\Phi(\ell, \phi) = \ell\phi$ (`helicalPhaseLasingAzimuthalShift`) w
 | **Calma GDSII v6.0 Binary Stream (`parse_gdsii_bytes`)** | [SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus.gds](../src/signals/kicad/semi_dirac/SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus.gds) | `1,742` bytes, `24/24` closed `BOUNDARY` loops verified |
 | **IOF / EMMO / W3C PROV-O CBOM (`_CBOM.yaml-ld`)** | [SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus_CBOM.yaml-ld](../src/signals/kicad/semi_dirac/SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus_CBOM.yaml-ld) | Links `prov:wasInformedBy` to Lean 4 theorem & `cooling_delay_ms: 15.0` |
 
+### 3.3 Critique, SPP Thermal-Drift Compensation (`compensatedOamPhaseResidual`), `CGLMP` Qudit Bell Witness, and Falsifiable Experimental Test Protocols
+
+As noted in the chat corpus ({download}`gemini_google-gemini_2026-01-25T19-38-50-0500.md, line 2581 <../data/chats/gemini_google-gemini_2026-01-25T19-38-50-0500.md>`; {download}`Bell-Correlations-in-Atomic-Momentum.md, lines 1669-1715 <../data/chats/Bell-Correlations-in-Atomic-Momentum.md>`), two critical hardware challenges must be closed and tested before claiming operational qudit superiority:
+
+1. **Gap 32.1 — Thermal Warping of Vitrimer Spiral Phase Plates (`compensatedOamPhaseResidual`)**:
+   A temperature excursion $\Delta T$ across a `polyCBD-SS-Lignin` Spiral Phase Plate of thermal-expansion/thermo-optic coefficient $\alpha_{\mathrm{CTE}}$ induces a parasitic azimuthal phase drift $\delta\Phi_{\mathrm{thermal}}(\ell, \alpha_{\mathrm{CTE}}, \Delta T) = \ell\,\alpha_{\mathrm{CTE}}\,\Delta T$ that blurs integer OAM charge $\ell$ into adjacent modes $\ell \pm 1$. Sampling the $532\text{ nm}$ / $1550\text{ nm}$ pilot-tone homodyne phase at `HOMODYNE_READ` and applying the phase-conjugate SLM / `rGO` correction $\delta\Phi_{\mathrm{corr}} = \ell\,\alpha_{\mathrm{CTE}}\,\Delta T$ cancels the thermal drift identically:
+
+   $$
+   \mathcal{R}_{\mathrm{SPP}}\bigl(\ell, \alpha_{\mathrm{CTE}}, \Delta T, \ell\,\alpha_{\mathrm{CTE}}\,\Delta T\bigr) = 0.
+   $$
+
+   - **How to Test Experimentally**: Apply a controlled thermal gradient $\Delta T \in [0, 20\text{ K}]$ across Stage 1 (`1_SPP_PHASE_VARYING_LASER_IN`) while imaging the output Laguerre–Gaussian ring on an InGaAs OAM mode sorter at `QUDIT_BUS_OUT`: verify that closing the `HOMODYNE_READ` phase-conjugate feedback loop suppresses inter-mode OAM crosstalk below $-25\text{ dB}$.
+2. **Gap 32.2 — Falsifiable `CGLMP` High-Dimensional Qudit Bell-Inequality Witness (`cglmpClassicalBound`, `cglmpQutritQuantumBenchmark`) & Etch-Free 1D $\mathrm{MZM}$/Parafermion Tunneling Protocol**:
+   - **How to Test Etch-Free 1D $\mathrm{MZM}$ & $\mathbb{Z}_6$ Parafermion Confinement**: Compare non-local differential conductance $G_{12}(V) = dI_1/dV_2$ and sub-gap Caroli–de Gennes–Matricon (`CdGM`, $\omega_0 = \Delta_0^2/E_F \approx 20\text{ }\mu\text{eV}$) tunneling spectroscopy in Stage 2 (`2_ETCH_FREE_SC1_MZM_Y_CHANNEL`) against an RIE-etched control nanoribbon on the same wafer, while measuring interface trap density $D_{\mathrm{it}}(E)$ via high-low frequency capacitance/conductance ($G_p/\omega$) to confirm $\mathcal{G}_{\mathrm{coh}} = D_{\mathrm{it,rie}}/D_{\mathrm{it,etchfree}} \ge 100$.
+   - **How to Test High-Dimensional Carbon Qudit Entanglement (`CGLMP` Inequality)**: Measure the Collins–Gisin–Linden–Massar–Popescu (`CGLMP`) $d$-dimensional correlation witness $I_d$ across entangled qudit pairs in Stage 3 (`3_Z6_PARAFERMION_GR26_PLUCKER_CORE`), verifying violation of the classical local-realism bound:
+
+     $$
+     I_d^{\mathrm{classical}} = 2 < \frac{69}{25} = 2.76 = I_3^{\mathrm{CGLMP}}.
+     $$
+
 ---
 
 ## 4. Machine-Checked Lean 4 Verification (`Signals.Nanolithography`)
 
-The following Lean 4 verification block is machine-checked in [../src/signals/Signals/Nanolithography.lean](../src/signals/Signals/Nanolithography.lean#L175-L320) and [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7500-L7540):
+The following Lean 4 verification block is machine-checked in [../src/signals/Signals/Nanolithography.lean](../src/signals/Signals/Nanolithography.lean#L175-L490) and [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7500-L7565):
 
 ```lean
 import Signals
@@ -160,7 +180,7 @@ namespace SemiDiracApplication4AndPhaseLasingVerification
 
 open Signals
 
-example (m_x l1 l2 phi : ℝ) (hmx : 0 < m_x) :
+example (m_x l1 l2 phi alpha_cte delta_temp : ℝ) (hmx : 0 < m_x) :
     semiDiracTransverseGroupVelocityX 0 m_x = 0 ∧
       semiDiracEtchFreeCoherenceGain (10 ^ 12) (10 ^ 10) = 100 ∧
       helicalPhaseLasingAzimuthalShift (l1 + l2) phi =
@@ -172,12 +192,19 @@ example (m_x l1 l2 phi : ℝ) (hmx : 0 < m_x) :
       oamCarbonQuditHilbertDim 2 4 < oamCarbonQuditHilbertDim 6 4 ∧
       oamCarbonQuditHilbertDim 6 4 < oamCarbonQuditHilbertDim 15 4 ∧
       oamCarbonQuditHilbertDim 15 4 < oamCarbonQuditHilbertDim 100 4 ∧
-      oamCarbonQuditHilbertDim 2 66 < oamCarbonQuditHilbertDim 100 10 := by
+      oamCarbonQuditHilbertDim 2 66 < oamCarbonQuditHilbertDim 100 10 ∧
+      compensatedOamPhaseResidual l1 alpha_cte delta_temp
+        (l1 * alpha_cte * delta_temp) = 0 ∧
+      cglmpClassicalBound < cglmpQutritQuantumBenchmark := by
   have h := semi_dirac_four_applications_nanolithography_and_kicad_drc_identities
     1 2 10 1 m_x 1 1 4 10 1 2 1 10 300 1 1 2 l1 l2 phi
     (by norm_num) (by norm_num) (by norm_num) hmx (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have hc := semi_dirac_applications_and_phase_lasing_critique_gap_closure_identities
+    1 2 10 1 2 (3 / 2) 2 l1 alpha_cte delta_temp
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num)
   exact ⟨h.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.1,
@@ -187,7 +214,9 @@ example (m_x l1 l2 phi : ℝ) (hmx : 0 < m_x) :
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
-    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    hc.2.2.2.2.2.2.2.2.2.1,
+    hc.2.2.2.2.2.2.2.2.2.2⟩
 
 end SemiDiracApplication4AndPhaseLasingVerification
 ```

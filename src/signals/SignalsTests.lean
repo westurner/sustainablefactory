@@ -7529,4 +7529,24 @@ example (delta0 l1 l2 phi : ℝ) :
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
 
+example (l_charge alpha_cte delta_temp : ℝ) :
+    Signals.semiDiracObliqueKleinTransmissionY 0 2 = 1 ∧
+      0 < Signals.semiDiracObliqueKleinTransmissionY 1 2 ∧
+      Signals.semiDiracObliqueKleinTransmissionY 1 2 < 1 ∧
+      1 < Signals.semiDiracHyperbolicQualityFactor 10 2 ∧
+      Signals.semiDiracHyperbolicQualityFactor 10 2 <
+        Signals.semiDiracHyperbolicQualityFactor 10 1 ∧
+      0 < Signals.semiDiracThermoelectricReducedEfficiency (3 / 2) ∧
+      Signals.semiDiracThermoelectricReducedEfficiency (3 / 2) <
+        Signals.semiDiracThermoelectricReducedEfficiency 2 ∧
+      Signals.semiDiracThermoelectricReducedEfficiency 2 < 1 ∧
+      Signals.semiDiracThermoelectricReducedEfficiency 2 = 1 / 3 ∧
+      Signals.compensatedOamPhaseResidual l_charge alpha_cte delta_temp
+        (l_charge * alpha_cte * delta_temp) = 0 ∧
+      Signals.cglmpClassicalBound < Signals.cglmpQutritQuantumBenchmark :=
+  Signals.semi_dirac_applications_and_phase_lasing_critique_gap_closure_identities
+    1 2 10 1 2 (3 / 2) 2 l_charge alpha_cte delta_temp
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num)
+
 end SignalsTests

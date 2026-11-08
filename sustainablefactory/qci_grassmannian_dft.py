@@ -4478,3 +4478,31 @@ class SemiDiracAndSU4WittenUnificationEngine:
     @staticmethod
     def oam_carbon_qudit_hilbert_dim(d: int, n_qudits: int) -> int:
         return int(d**n_qudits)
+
+    @staticmethod
+    def semi_dirac_oblique_klein_transmission_y(tx: float, py: float) -> float:
+        return float((py**2) / ((py**2) + (tx**2)))
+
+    @staticmethod
+    def semi_dirac_hyperbolic_quality_factor(
+        omega: float, gamma_loss: float
+    ) -> float:
+        return float(omega / gamma_loss)
+
+    @staticmethod
+    def semi_dirac_thermoelectric_reduced_efficiency(u_zt: float) -> float:
+        return float((u_zt - 1.0) / (u_zt + 1.0))
+
+    @staticmethod
+    def compensated_oam_phase_residual(
+        l_charge: float, alpha_cte: float, delta_temp: float, phi_corr: float
+    ) -> float:
+        return float(l_charge * alpha_cte * delta_temp - phi_corr)
+
+    @staticmethod
+    def cglmp_classical_bound() -> float:
+        return 2.0
+
+    @staticmethod
+    def cglmp_qutrit_quantum_benchmark() -> float:
+        return 69.0 / 25.0

@@ -1277,3 +1277,23 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
     assert SDSU4.oam_carbon_qudit_hilbert_dim(
         2, 66
     ) < SDSU4.oam_carbon_qudit_hilbert_dim(100, 10)
+    assert np.isclose(SDSU4.semi_dirac_oblique_klein_transmission_y(0.0, 2.0), 1.0)
+    assert 0.0 < SDSU4.semi_dirac_oblique_klein_transmission_y(1.0, 2.0) < 1.0
+    assert (
+        1.0
+        < SDSU4.semi_dirac_hyperbolic_quality_factor(10.0, 2.0)
+        < SDSU4.semi_dirac_hyperbolic_quality_factor(10.0, 1.0)
+    )
+    assert (
+        0.0
+        < SDSU4.semi_dirac_thermoelectric_reduced_efficiency(1.5)
+        < SDSU4.semi_dirac_thermoelectric_reduced_efficiency(2.0)
+        < 1.0
+    )
+    assert np.isclose(
+        SDSU4.semi_dirac_thermoelectric_reduced_efficiency(2.0), 1.0 / 3.0
+    )
+    assert np.isclose(
+        SDSU4.compensated_oam_phase_residual(3.0, 1.0e-5, 10.0, 3.0e-4), 0.0
+    )
+    assert SDSU4.cglmp_classical_bound() < SDSU4.cglmp_qutrit_quantum_benchmark()

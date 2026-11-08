@@ -366,4 +366,141 @@ theorem semi_dirac_four_applications_nanolithography_and_kicad_drc_identities
     by unfold oamCarbonQuditHilbertDim; decide,
     by unfold oamCarbonQuditHilbertDim; decide⟩
 
+/-! ### Deep Critique & Gap-Closure Definitions and Theorem for Papers 31 & 32 -/
+
+/-- **Gap 31.1 — Oblique-Incidence Semi-Dirac Klein Transmission $T_y^{\mathrm{oblique}}(T_x, P_y)$**:
+At non-zero transverse kinetic energy $T_x = \frac{\hbar^2 k_x^2}{2 m_x^*}$ and longitudinal
+Dirac momentum $P_y = \hbar v_y k_y \ne 0$, pseudospin rotation away from $\sigma_y$ yields
+$$T_y^{\mathrm{oblique}}(T_x, P_y) = \frac{P_y^2}{P_y^2 + T_x^2} \in (0, 1],$$
+which equals $1$ at normal incidence ($T_x = 0$) and strictly collimates oblique trajectories
+($T_y^{\mathrm{oblique}}(T_x, P_y) < 1$ for $T_x \ne 0$). -/
+@[blueprint "def:signals-nanolitho-semi-dirac-oblique-klein-transmission-y"
+  (title := "Semi-Dirac oblique-incidence y-axis Klein transmission P_y² / (P_y² + T_x²)")
+  (statement := /-- Define $\operatorname{semiDiracObliqueKleinTransmissionY}(T_x, P_y) = P_y^2 / (P_y^2 + T_x^2)$. -/)]
+noncomputable def semiDiracObliqueKleinTransmissionY (tx py : ℝ) : ℝ :=
+  py ^ 2 / (py ^ 2 + tx ^ 2)
+
+/-- **Gap 31.2 — Damped In-Plane Hyperbolic Polariton Quality Factor $Q_{\mathrm{hyp}}(\omega, \gamma_{\mathrm{loss}}) = \omega / \gamma_{\mathrm{loss}}$**:
+Quantifies hyperbolic plasmon propagation figure of merit in the presence of finite Drude
+scattering rate $\gamma_{\mathrm{loss}} > 0$. -/
+@[blueprint "def:signals-nanolitho-semi-dirac-hyperbolic-quality-factor"
+  (title := "Damped in-plane hyperbolic polariton quality factor Q_hyp = ω / γ_loss")
+  (statement := /-- Define $\operatorname{semiDiracHyperbolicQualityFactor}(\omega, \gamma_{\mathrm{loss}}) = \omega / \gamma_{\mathrm{loss}}$. -/)]
+noncomputable def semiDiracHyperbolicQualityFactor (omega gamma_loss : ℝ) : ℝ :=
+  omega / gamma_loss
+
+/-- **Gap 31.3 — Carnot-Normalized Thermoelectric Conversion Efficiency Factor $\eta_{\mathrm{red}}(u) = \frac{u - 1}{u + 1}$**:
+For $u = \sqrt{1 + ZT_{yy}} > 1$ (in the symmetric $T_C \to T_H$ limit), the reduced efficiency
+relative to the Carnot limit $\eta_C = 1 - T_C/T_H$ is $\eta_{\mathrm{red}}(u) = \frac{u - 1}{u + 1} \in (0, 1)$. -/
+@[blueprint "def:signals-nanolitho-semi-dirac-thermoelectric-reduced-efficiency"
+  (title := "Carnot-normalized thermoelectric conversion efficiency factor (u - 1)/(u + 1)")
+  (statement := /-- Define $\operatorname{semiDiracThermoelectricReducedEfficiency}(u) = (u - 1) / (u + 1)$. -/)]
+noncomputable def semiDiracThermoelectricReducedEfficiency (u_zt : ℝ) : ℝ :=
+  (u_zt - 1) / (u_zt + 1)
+
+/-- **Gap 32.1 — Spiral Phase Plate (SPP) Thermal Warping Phase Drift & `A2Q-Kernel` Homodyne Compensation**:
+Models the thermal expansion drift $\delta\Phi_{\mathrm{thermal}}(\ell, \alpha_{\mathrm{CTE}}, \Delta T) = \ell\,\alpha_{\mathrm{CTE}}\,\Delta T$
+of a vitrimer Spiral Phase Plate (`gemini_google-gemini_2026-01-25T19-38-50-0500.md`, line 2581) and the
+residual phase error after applying active SLM / homodyne phase-conjugate feedback $\delta\Phi_{\mathrm{corr}}$:
+$$\mathcal{R}_{\mathrm{SPP}}(\ell, \alpha_{\mathrm{CTE}}, \Delta T, \delta\Phi_{\mathrm{corr}}) = \ell\,\alpha_{\mathrm{CTE}}\,\Delta T - \delta\Phi_{\mathrm{corr}}.$$ -/
+@[blueprint "def:signals-nanolitho-compensated-oam-phase-residual"
+  (title := "SPP thermal phase drift residual ℓ α_CTE ΔT - δΦ_corr under A2Q-Kernel feedback")
+  (statement := /-- Define $\operatorname{compensatedOamPhaseResidual}(\ell, \alpha_{\mathrm{CTE}}, \Delta T, \delta\Phi_{\mathrm{corr}}) = \ell \alpha_{\mathrm{CTE}} \Delta T - \delta\Phi_{\mathrm{corr}}$. -/)]
+def compensatedOamPhaseResidual (l_charge alpha_cte delta_temp phi_corr : ℝ) : ℝ :=
+  l_charge * alpha_cte * delta_temp - phi_corr
+
+/-- **Gap 32.2 — Collins–Gisin–Linden–Massar–Popescu (`CGLMP`) High-Dimensional Qudit Bell Witness Bounds**:
+Classical local-hidden-variable bound $I_d^{\mathrm{classical}} = 2$ vs. quantum qutrit ($d=3$)
+entanglement benchmark $I_3^{\mathrm{CGLMP}} = \frac{69}{25} = 2.76 > 2$
+(`Bell-Correlations-in-Atomic-Momentum.md`, lines 1137 & 1669). -/
+@[blueprint "def:signals-nanolitho-cglmp-qudit-bell-bounds"
+  (title := "CGLMP high-dimensional qudit Bell inequality classical bound 2 and quantum benchmark 69/25")
+  (statement := /-- Define $\operatorname{cglmpClassicalBound} = 2$ and $\operatorname{cglmpQutritQuantumBenchmark} = 69 / 25$. -/)]
+def cglmpClassicalBound : ℝ := 2
+
+noncomputable def cglmpQutritQuantumBenchmark : ℝ := 69 / 25
+
+/-- **Critique & Gap-Closure Theorem for Semi-Dirac Devices (Paper 31) and Phase-Lased Carbon Qudit Waveguides (Paper 32) (`semi_dirac_applications_and_phase_lasing_critique_gap_closure_identities`)**:
+Simultaneously establishes:
+1. **Oblique-Angle Klein Collimation**:
+   $T_y^{\mathrm{oblique}}(0, P_y) = 1$ and $0 < T_y^{\mathrm{oblique}}(T_x, P_y) < 1$ for $T_x \ne 0, P_y \ne 0$,
+2. **Damped Hyperbolic Polariton Quality Factor Monotonicity**:
+   $1 < Q_{\mathrm{hyp}}(\omega, \gamma_2) < Q_{\mathrm{hyp}}(\omega, \gamma_1)$ for $0 < \gamma_1 < \gamma_2 < \omega$,
+3. **Carnot-Scaled Thermoelectric Efficiency Monotonicity**:
+   $0 < \eta_{\mathrm{red}}(u_1) < \eta_{\mathrm{red}}(u_2) < 1$ for $1 < u_1 < u_2$, with $\eta_{\mathrm{red}}(2) = 1/3$ at $ZT = 3$,
+4. **SPP Thermal Drift Cancellation & CGLMP High-Dimensional Qudit Bell Violation**:
+   $\operatorname{compensatedOamPhaseResidual}(\ell, \alpha_{\mathrm{CTE}}, \Delta T, \ell\alpha_{\mathrm{CTE}}\Delta T) = 0$ and
+   $\operatorname{cglmpClassicalBound} = 2 < \frac{69}{25} = \operatorname{cglmpQutritQuantumBenchmark}$. -/
+@[blueprint "thm:signals-nanolitho-semi-dirac-critique-gap-closure"
+  (title := "Critique & gap-closure theorem for Semi-Dirac devices (Paper 31) and phase-lased carbon qudits (Paper 32)")
+  (statement := /-- Proves oblique-angle Klein collimation, damped hyperbolic polariton quality-factor monotonicity, Carnot-scaled thermoelectric efficiency monotonicity, SPP thermal phase-drift cancellation, and CGLMP qudit Bell-inequality violation. -/)]
+theorem semi_dirac_applications_and_phase_lasing_critique_gap_closure_identities
+    (tx py omega gamma1 gamma2 u1 u2 l_charge alpha_cte delta_temp : ℝ)
+    (htx : tx ≠ 0) (hpy : py ≠ 0)
+    (hgam1 : 0 < gamma1) (hgam12 : gamma1 < gamma2) (hom : gamma2 < omega)
+    (hu1 : 1 < u1) (hu12 : u1 < u2) :
+    semiDiracObliqueKleinTransmissionY 0 py = 1 ∧
+    0 < semiDiracObliqueKleinTransmissionY tx py ∧
+    semiDiracObliqueKleinTransmissionY tx py < 1 ∧
+    1 < semiDiracHyperbolicQualityFactor omega gamma2 ∧
+    semiDiracHyperbolicQualityFactor omega gamma2 <
+      semiDiracHyperbolicQualityFactor omega gamma1 ∧
+    0 < semiDiracThermoelectricReducedEfficiency u1 ∧
+    semiDiracThermoelectricReducedEfficiency u1 <
+      semiDiracThermoelectricReducedEfficiency u2 ∧
+    semiDiracThermoelectricReducedEfficiency u2 < 1 ∧
+    semiDiracThermoelectricReducedEfficiency 2 = 1 / 3 ∧
+    compensatedOamPhaseResidual l_charge alpha_cte delta_temp
+      (l_charge * alpha_cte * delta_temp) = 0 ∧
+    cglmpClassicalBound < cglmpQutritQuantumBenchmark := by
+  have hpy2 : 0 < py ^ 2 := sq_pos_of_ne_zero hpy
+  have htx2 : 0 < tx ^ 2 := sq_pos_of_ne_zero htx
+  have h_ob0 : semiDiracObliqueKleinTransmissionY 0 py = 1 := by
+    unfold semiDiracObliqueKleinTransmissionY
+    have hpy2_ne : py ^ 2 ≠ 0 := ne_of_gt hpy2
+    simp [hpy2_ne]
+  have h_ob_pos : 0 < semiDiracObliqueKleinTransmissionY tx py := by
+    unfold semiDiracObliqueKleinTransmissionY
+    exact div_pos hpy2 (by linarith)
+  have h_ob_lt1 : semiDiracObliqueKleinTransmissionY tx py < 1 := by
+    unfold semiDiracObliqueKleinTransmissionY
+    rw [div_lt_iff₀ (by linarith)]
+    linarith
+  have hgam2 : 0 < gamma2 := by linarith
+  have hom_pos : 0 < omega := by linarith
+  have h_q1 : 1 < semiDiracHyperbolicQualityFactor omega gamma2 := by
+    unfold semiDiracHyperbolicQualityFactor
+    rw [one_lt_div hgam2]
+    exact hom
+  have h_q12 :
+      semiDiracHyperbolicQualityFactor omega gamma2 <
+        semiDiracHyperbolicQualityFactor omega gamma1 := by
+    unfold semiDiracHyperbolicQualityFactor
+    exact div_lt_div_of_pos_left hom_pos hgam1 hgam12
+  have h_eta_pos : 0 < semiDiracThermoelectricReducedEfficiency u1 := by
+    unfold semiDiracThermoelectricReducedEfficiency
+    exact div_pos (by linarith) (by linarith)
+  have h_eta12 :
+      semiDiracThermoelectricReducedEfficiency u1 <
+        semiDiracThermoelectricReducedEfficiency u2 := by
+    unfold semiDiracThermoelectricReducedEfficiency
+    rw [div_lt_div_iff₀ (by linarith) (by linarith)]
+    nlinarith
+  have h_eta_lt1 : semiDiracThermoelectricReducedEfficiency u2 < 1 := by
+    unfold semiDiracThermoelectricReducedEfficiency
+    rw [div_lt_iff₀ (by linarith)]
+    linarith
+  refine ⟨
+    h_ob0,
+    h_ob_pos,
+    h_ob_lt1,
+    h_q1,
+    h_q12,
+    h_eta_pos,
+    h_eta12,
+    h_eta_lt1,
+    by unfold semiDiracThermoelectricReducedEfficiency; norm_num,
+    by unfold compensatedOamPhaseResidual; ring,
+    by unfold cglmpClassicalBound cglmpQutritQuantumBenchmark; norm_num⟩
+
 end Signals

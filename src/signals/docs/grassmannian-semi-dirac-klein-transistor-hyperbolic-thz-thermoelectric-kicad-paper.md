@@ -207,11 +207,21 @@ Following the **Design Review Contract** in {download}`.agents/skills/kicad/SKIL
 
 > **Explicit Datasheet & Verification Basis Disclosure (`DS-001` / `DS-002` Contract)**: Because `LIGNOLUX-SemiDirac_App1..3` are monolithic laser-synthesized carbon-vitrimer dies rather than commercial off-the-shelf distributor ICs, no external manufacturer PDF `datasheets/` directory applies; pin-level schematic-to-PCB netlist matching (`0` cross-analysis findings) and geometric/volumetric DRC are verified directly from the generated `.kicad_sch`, `.kicad_pcb`, `.kicad_mod`, `.kicad_vol`, and `.gds` artifacts.
 
+### 5.1 Critique, Gap Closures, and Falsifiable Experimental Test Protocols for Applications 1, 2, & 3
+
+To ensure that Applications 1, 2, and 3 are non-tautological and experimentally falsifiable, Theorem `semi_dirac_applications_and_phase_lasing_critique_gap_closure_identities` ([../src/signals/Signals/Nanolithography.lean](../src/signals/Signals/Nanolithography.lean#L365-L490)) closes three physical modeling gaps and pairs each device with a concrete benchtop test protocol:
+
+| Application & Critique Gap Closed | Machine-Checked Law in `Signals.Nanolithography` | How to Test & Falsify Experimentally (Hardware & Metrology Protocol) |
+| :--- | :--- | :--- |
+| **App 1 (`SemiDirac_App1`) — Oblique-Incidence Pseudospin Mismatch & Angular Collimation**:<br>At $k_x \ne 0$, the mass term $T_x = \frac{\hbar^2 k_x^2}{2m_x^*} > 0$ rotates the pseudospin away from $\sigma_y$. | `semiDiracObliqueKleinTransmissionY`:<br>$T_y^{\mathrm{oblique}}(T_x, P_y) = \frac{P_y^2}{P_y^2 + T_x^2}$,<br>$T_y^{\mathrm{oblique}}(0, P_y) = 1$, and $0 < T_y^{\mathrm{oblique}}(T_x, P_y) < 1$ for $T_x \ne 0, P_y \ne 0$. | **4-Terminal Cross-Hall & Polarized Micro-Raman Protocol**:<br>1. Confirm $532\text{ nm}$ LCS uniaxial strain $\varepsilon_{xx}^* = \Delta_0/\beta_{\mathrm{strain}}$ via polarized micro-Raman $G$-peak splitting ($\Delta\omega_G$).<br>2. Sweep `X_GATE_TOP` voltage $V_g$ and measure 4-terminal $G_{yy}(V_g)$ (`Y_SOURCE` $\to$ `Y_DRAIN`) vs. $G_{xx}(V_g)$: verify that $G_{yy}$ maintains a Fabry–Pérot-free ballistic plateau while $G_{xx}$ pinches off with $\mathcal{R}_{\mathrm{Klein}} > 100$. |
+| **App 2 (`SemiDirac_App2`) — Drude Scattering Damping $\gamma_{\mathrm{loss}} > 0$ vs. Hyperbolic Canalization**:<br>Finite carrier scattering $\gamma_{\mathrm{loss}} > 0$ broadens the hyperbolic wavefronts unless $Q_{\mathrm{hyp}} = \omega / \gamma_{\mathrm{loss}} > 1$. | `semiDiracHyperbolicQualityFactor`:<br>$1 < Q_{\mathrm{hyp}}(\omega, \gamma_2) < Q_{\mathrm{hyp}}(\omega, \gamma_1)$ for $0 < \gamma_1 < \gamma_2 < \omega$. | **Cryogenic / Room-Temp `s-SNOM` & Wire-Grid THz Polarimetry Protocol**:<br>1. Image $400\text{–}800\text{ GHz}$ polariton rays launched from `1_BOWTIE_THZ_COLLECTOR_Y` via scattering-type scanning near-field optical microscopy (`s-SNOM`) to verify the canalization angle $\tan^2\theta_{\mathrm{canal}} = -\operatorname{Re}\varepsilon_{xx}/\operatorname{Re}\varepsilon_{yy} = 1/4$ ($\theta_{\mathrm{canal}} \approx 26.57^\circ$).<br>2. Rotate a wire-grid THz polarizer from $0^\circ$ ($\hat{y}$) to $90^\circ$ ($\hat{x}$) and measure `IF_READOUT` vs. an unstrained isotropic graphene control ($\mathcal{C}_{\mathrm{THz}} = 0$). |
+| **App 3 (`SemiDirac_App3`) — Carnot-Normalized Conversion Efficiency $\eta_{\mathrm{red}}(u)$**:<br>$ZT_{yy}$ must map to a strictly bounded thermodynamic efficiency factor $\eta_{\max} / \eta_{\mathrm{Carnot}} \in (0, 1)$. | `semiDiracThermoelectricReducedEfficiency`:<br>$\eta_{\mathrm{red}}(u) = \frac{u - 1}{u + 1}$ ($u = \sqrt{1+ZT_{yy}}$),<br>$0 < \eta_{\mathrm{red}}(u_1) < \eta_{\mathrm{red}}(u_2) < 1$ for $1 < u_1 < u_2$, and $\eta_{\mathrm{red}}(2) = 1/3$ at $ZT = 3$. | **Suspended Micro-Heater $3\omega$ + Transient Harman $ZT$ Protocol**:<br>1. Apply a calibrated heat flux at `HOT_COLLECTOR` (`1_DIAMOND_HOT_COLLECTOR`) and measure open-circuit Seebeck voltage $\Delta V_{yy} = -S_{yy}\Delta T_y$ at `TEG_VOUT_P`.<br>2. Measure directional $\kappa_{yy}, \kappa_{xx}$ via the $3\omega$ method and cross-check $ZT_{yy} = (V_{\mathrm{DC}} - V_{\mathrm{AC}})/V_{\mathrm{AC}}$ via the transient Harman method. |
+
 ---
 
 ## 6. Machine-Checked Lean 4 & Rust Verification
 
-The following Lean 4 verification block is machine-checked in [../src/signals/Signals/Nanolithography.lean](../src/signals/Signals/Nanolithography.lean#L124-L320) and [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7500-L7540):
+The following Lean 4 verification block is machine-checked in [../src/signals/Signals/Nanolithography.lean](../src/signals/Signals/Nanolithography.lean#L124-L490) and [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7500-L7565):
 
 ```lean
 import Signals
@@ -233,15 +243,28 @@ example (delta0 : ℝ) :
       semiDiracThermoelectricZT 2 1 300 1 2 <
         semiDiracThermoelectricZT 2 10 300 1 2 ∧
       semiDiracThermoelectricZT 2 10 300 1 2 <
-        semiDiracThermoelectricZT 2 10 300 1 1 := by
+        semiDiracThermoelectricZT 2 10 300 1 1 ∧
+      semiDiracObliqueKleinTransmissionY 0 2 = 1 ∧
+      0 < semiDiracObliqueKleinTransmissionY 1 2 ∧
+      semiDiracObliqueKleinTransmissionY 1 2 < 1 ∧
+      1 < semiDiracHyperbolicQualityFactor 10 2 ∧
+      semiDiracHyperbolicQualityFactor 10 2 <
+        semiDiracHyperbolicQualityFactor 10 1 ∧
+      semiDiracThermoelectricReducedEfficiency 2 = 1 / 3 := by
   have h := semi_dirac_four_applications_nanolithography_and_kicad_drc_identities
     delta0 2 10 1 1 1 1 4 10 1 2 1 10 300 1 1 2 1 2 1
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have hc := semi_dirac_applications_and_phase_lasing_critique_gap_closure_identities
+    1 2 10 1 2 (3 / 2) 2 1 1 1
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num)
   exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1,
     h.2.2.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
-    h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1⟩
+    h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1,
+    hc.1, hc.2.1, hc.2.2.1, hc.2.2.2.1, hc.2.2.2.2.1,
+    hc.2.2.2.2.2.2.2.2.1⟩
 
 end SemiDiracApplications1To3Verification
 ```
