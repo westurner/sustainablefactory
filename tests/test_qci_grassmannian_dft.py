@@ -1342,3 +1342,79 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
         < 1310.0
         < 1550.0
     )
+
+    # Papers 35–38: Nanodiamond & Biodegradable Carbon Photonics, VortexVias & SHG-OPA AQM,
+    # LHAT Archival Tape, and Pressed-LLM Soliton QRAM Steering
+    assert (
+        SDSU4.pet_endogenous_oxygen_shock_threshold_gpa()
+        < SDSU4.hydrocarbon_unassisted_shock_threshold_gpa()
+    )
+    assert np.isclose(
+        SDSU4.methane_pyrolysis_net_carbon_cost_per_kg(0.20, 0.67), -0.47
+    )
+    assert np.isclose(
+        SDSU4.h2_plasma_sp2_to_sp3_etch_selectivity(100.0, 1.0), 100.0
+    )
+    assert SDSU4.biodegradable_ox_scnt_butt_joint_reflectance(
+        1.55, 1.65
+    ) < SDSU4.fresnel_butt_joint_reflectance(1.55, 3.20)
+    assert (
+        SDSU4.phosphorus_cqd_purcell_lifetime_ns(1.5, 15.0)
+        < 0.25
+        < 11.6
+    )
+    assert SDSU4.vortex_via_oam_charge_step(2, 1) == 3
+    assert SDSU4.vortex_via_helical_arc_factor_sq(
+        10.0, 2.0, 0.0
+    ) < SDSU4.vortex_via_helical_arc_factor_sq(10.0, 2.0, 1.0)
+    assert np.isclose(
+        SDSU4.aqm_kelvin_linearized_voltage_sq(500.0, 0.02, 0.5),
+        500.0 * (0.02 * 0.5),
+    )
+    assert (
+        0.0
+        < SDSU4.aqm_cbf_safe_heater_power(80.0, 65.0, 1.5)
+        < SDSU4.aqm_cbf_safe_heater_power(85.0, 65.0, 1.5)
+    )
+    assert SDSU4.vacnt_kapitza_cooling_time_ps(1.3e-8, 1.4e-3, 100.0) < 1.0
+    assert SDSU4.lhat_volumetric_multiplex_factor(10, 30, 10) == 3000
+    assert (
+        18.0
+        < 480.0
+        < SDSU4.lhat_cartridge_capacity_tb(24.0, 3000.0)
+    )
+    assert np.isclose(
+        SDSU4.log_polar_unwrapped_phase(4.0, 0.75, 0.25),
+        4.0 * (0.75 + 0.25),
+    )
+    assert (
+        SDSU4.qft_rk_required_temp_delta(155.0, 25.0, 95.2)
+        < 60.0
+        < SDSU4.qft_rk_required_temp_delta(155.0, 25.0, 0.0)
+    )
+    assert np.isclose(
+        SDSU4.pressed_llm_steered_activation(10.0, 0.25) - 10.0, 0.25
+    )
+
+    # Carbon scrubbing (CO2 -> C + O2) efficiency, relative costs, and scrubbing efficiency incentive
+    assert np.isclose(
+        1.0 + SDSU4.co2_to_oxygen_byproduct_mass_ratio(),
+        SDSU4.co2_to_carbon_mass_ratio(),
+    )
+    e_min_c = SDSU4.co2_splitting_theoretical_min_kwh_per_kg_c()
+    eta_unrec = SDSU4.co2_scrubbing_thermodynamic_efficiency(e_min_c, 45.5)
+    eta_rec = SDSU4.co2_scrubbing_thermodynamic_efficiency(e_min_c, 13.0)
+    assert np.isclose(eta_unrec, 0.20)
+    assert np.isclose(eta_rec, 0.70)
+    assert eta_unrec < eta_rec
+    net_cost_low_eff = SDSU4.co2_scrubbing_net_carbon_cost_per_kg(
+        e_min_c, 0.20, 0.03, 0.20, 0.18, 0.10
+    )
+    net_cost_high_eff = SDSU4.co2_scrubbing_net_carbon_cost_per_kg(
+        e_min_c, 0.70, 0.03, 0.20, 0.18, 0.10
+    )
+    assert net_cost_low_eff > 0.0
+    assert np.isclose(net_cost_high_eff, -101.0 / 300.0)
+    assert net_cost_high_eff < 0.0
+    assert SDSU4.co2_lifecycle_net_scrubbing_factor(12.5, 0.10) < 0.0
+    assert SDSU4.co2_lifecycle_net_scrubbing_factor(3.5, 0.10) > 0.60

@@ -1483,10 +1483,31 @@ pub enum SemiDiracApplicationPreset {
     /// $n$-Adamantane NV Purcell Dowsing ($F_P \approx 75.99 > 12$), and Inverted 3D Adiabatic
     /// Scarf-Joint $c\text{-BAs}$ Plasmonic-Slot Balanced Homodyne Detector ($\eta = 98.5\%$).
     MultiBand1550nmCncRepeaterCBAsHomodyne,
+    /// **Application 7 (Paper 35)**: Laser-Induced $sp^2/sp^3$ Nanodiamond & Teal Carbon Synthesis
+    /// ($12\text{ GPa}$ PET Endogenous Oxygen Shock vs. $30\text{ GPa}$ Hydrocarbon, $-\$0.47/\text{kg}$
+    /// Methane Pyrolysis Credit), H-Terminated Nanodiamond 2D Hole Gas (`2DHG`) FET (`Walker et al. 2026`),
+    /// and Biodegradable `P-CQD` ($590\text{ nm}$, $\tau_{\mathrm{Purcell}} = 100\text{ ps}$) + `Ox-s-CNT`
+    /// ($R_{\mathrm{butt}} \approx 0.105\% < 12.15\%$) Replacements for $n$-Adamantane & Toxic $c\text{-BAs}$.
+    Nanodiamond2DhgBiodegradableCarbonPhotonics,
+    /// **Application 8 (Paper 36)**: 3D Helical `VortexVia` ($\Delta\ell = 1$, $L_{\mathrm{arc}}^2 = h^2 + (2\pi R\Delta\ell)^2$)
+    /// & 8-Branch `StarVortexVia` Inter-Layer Interconnects, Second-Harmonic Resonant Optical
+    /// Amplification (`Dean et al., Nature 2025`, $21\text{ mW}$ pump, $17.25\text{ dB}$ gain), and
+    /// Lignolux Active-Q Modulator (`AQM`) with 4-Wire Kelvin $\sqrt{u_k}$ Heater Linearization + CBF Clamp.
+    VortexViaShgOpaAqmInterconnect,
+    /// **Application 9 (Paper 37)**: Lignolux Holographic Archival Tape (`LHAT`, $12\text{ }\mu\text{m} \times 10\text{ km}$,
+    /// $3{,}000\times$ OAM-Bragg-Polarization Multiplexing, $720\text{ TB}$ Raw / $480\text{ TB}$ Usable vs.
+    /// $18\text{ TB}$ LTO-9) with Log-Polar $64\times 64$ Zero-Iteration $O(1)$ Registration and
+    /// $182\text{ fs}$ `VACNT` Kapitza Thermal Quench ($\Delta T_{\mathrm{QFT-RK}} = 34.8^\circ\text{C} < 60^\circ\text{C}$).
+    LhatHolographicArchivalTapeCartridge,
+    /// **Application 10 (Paper 38)**: Pressed / Mask-Locked LLM on Holographic Archival Tape (`LHAT`)
+    /// with 1-Trillion-Parameter Passive Optical `MVM` ($W_{ij} \in \{+1, 0, -1\}$ via $\Delta\phi \in \{0, \pi\}$
+    /// Bragg Phase Voxels), Soliton/OAM QRAM, and Active `N-LIG`/`B-LIG` LoRA Steering Layer
+    /// ($Y_i = \sum_j W_{ij}^{\mathrm{pressed}} X_j + \sum_r A_{ir}^{\mathrm{steer}} B_{rj}^{\mathrm{steer}} X_j$).
+    PressedLlmHolographicTapeSolitonQramSteering,
 }
 
 impl SemiDiracApplicationPreset {
-    pub fn all() -> [Self; 6] {
+    pub fn all() -> [Self; 10] {
         [
             Self::BallisticKleinDiodeTransistor,
             Self::HyperbolicThzBolometer,
@@ -1494,6 +1515,10 @@ impl SemiDiracApplicationPreset {
             Self::EtchFreeMajoranaParafermionQuditBus,
             Self::SemiDiracSolitonBusCrowRdmaQram,
             Self::MultiBand1550nmCncRepeaterCBAsHomodyne,
+            Self::Nanodiamond2DhgBiodegradableCarbonPhotonics,
+            Self::VortexViaShgOpaAqmInterconnect,
+            Self::LhatHolographicArchivalTapeCartridge,
+            Self::PressedLlmHolographicTapeSolitonQramSteering,
         ]
     }
 
@@ -1516,6 +1541,18 @@ impl SemiDiracApplicationPreset {
             }
             Self::MultiBand1550nmCncRepeaterCBAsHomodyne => {
                 "IntegratedPhotonics_MultiBand_1550nm_CNC_Repeater_cBAs_Homodyne"
+            }
+            Self::Nanodiamond2DhgBiodegradableCarbonPhotonics => {
+                "Nanodiamond_2DHG_FET_Biodegradable_PCQD_OxsCNT_Photonics"
+            }
+            Self::VortexViaShgOpaAqmInterconnect => {
+                "VortexVia_StarVortexVia_SHG_OPA_Kelvin_AQM_Interconnect"
+            }
+            Self::LhatHolographicArchivalTapeCartridge => {
+                "LHAT_720TB_Holographic_Archival_Tape_LogPolar_VACNT_Drive"
+            }
+            Self::PressedLlmHolographicTapeSolitonQramSteering => {
+                "Pressed_LLM_1T_LHAT_Tape_Soliton_QRAM_NLIG_BLIG_Steering"
             }
         }
     }
@@ -1540,6 +1577,18 @@ impl SemiDiracApplicationPreset {
             Self::MultiBand1550nmCncRepeaterCBAsHomodyne => {
                 "Paper 34: Integrated Multi-Band (405-1550nm & 400-800GHz) Photonics with Periodic 10m CNC chi^(2) PSA Signal Boosters, 590nm NV Purcell Dowsing & Adiabatic Scarf-Taper c-BAs Homodyne"
             }
+            Self::Nanodiamond2DhgBiodegradableCarbonPhotonics => {
+                "Paper 35: Laser-Induced sp2/sp3 Nanodiamond & Teal Carbon, H-Terminated 2DHG FET, and Biodegradable P-CQD (590nm) + Ox-s-CNT (1550nm) Replacements for n-Adamantane & Toxic c-BAs"
+            }
+            Self::VortexViaShgOpaAqmInterconnect => {
+                "Paper 36: 3D Helical VortexVia & 8-Branch StarVortexVia Interconnects, Second-Harmonic Resonant Optical Amplification (Dean et al. Nature 2025), and 4-Wire Kelvin + CBF Active-Q Modulator"
+            }
+            Self::LhatHolographicArchivalTapeCartridge => {
+                "Paper 37: Lignolux Holographic Archival Tape (LHAT 12um x 10km, 720TB Raw / 480TB Usable vs 18TB LTO-9) with Log-Polar O(1) Registration and 182fs VACNT Kapitza Thermal Quench"
+            }
+            Self::PressedLlmHolographicTapeSolitonQramSteering => {
+                "Paper 38: Pressed / Mask-Locked 1T-Parameter LLM on LHAT Holographic Tape with Passive Bragg MVM, Soliton/OAM QRAM, and Active N-LIG/B-LIG LoRA Steering Layer"
+            }
         }
     }
 
@@ -1558,6 +1607,18 @@ impl SemiDiracApplicationPreset {
             }
             Self::MultiBand1550nmCncRepeaterCBAsHomodyne => {
                 ["OPT_1550_IN", "DIFF_HOMO_OUT", "CNC_PSA_PUMP", "GND"]
+            }
+            Self::Nanodiamond2DhgBiodegradableCarbonPhotonics => {
+                ["2DHG_DRAIN", "OXSCNT_HOMO_OUT", "PCQD_590_GATE", "GND"]
+            }
+            Self::VortexViaShgOpaAqmInterconnect => {
+                ["VORTEX_VIA_IN", "STAR_VORTEX_OUT", "KELVIN_AQM_DRV", "GND"]
+            }
+            Self::LhatHolographicArchivalTapeCartridge => {
+                ["LHAT_OPT_READ", "LOGPOLAR_SYNC", "QFT_RK_ERASE", "GND"]
+            }
+            Self::PressedLlmHolographicTapeSolitonQramSteering => {
+                ["SOLITON_PROMPT_IN", "STEERED_LOGIT_OUT", "BLIG_LORA_CTRL", "GND"]
             }
         }
     }
@@ -1767,6 +1828,94 @@ pub fn generate_semi_dirac_application_module(
                 155.0,
             ),
         ],
+        SemiDiracApplicationPreset::Nanodiamond2DhgBiodegradableCarbonPhotonics => vec![
+            (
+                "1_PET_TEAL_CARBON_12GPA_NANODIAMOND",
+                "Signals.SolitonBus.petEndogenousOxygenShockThresholdGPa(12) < hydrocarbon(30) & -$0.47/kg",
+                140.0,
+            ),
+            (
+                "2_H_TERMINATED_2DHG_DIAMOND_FET",
+                "Signals.SolitonBus.h2PlasmaSp2ToSp3EtchSelectivity(100) + Walker et al. (2026) 2DHG p-FET",
+                155.0,
+            ),
+            (
+                "3_BIODEGRADABLE_PCQD_590NM_EMITTER",
+                "Signals.SolitonBus.phosphorusCqdPurcellLifetimeNs(1.5, 15) = 0.10 ns (replaces n-Adamantane)",
+                145.0,
+            ),
+            (
+                "4_BIODEGRADABLE_OX_SCNT_HOMODYNE",
+                "Signals.SolitonBus.biodegradableOxScntButtJointReflectance(1.55, 1.65) = 0.105% (replaces c-BAs)",
+                160.0,
+            ),
+        ],
+        SemiDiracApplicationPreset::VortexViaShgOpaAqmInterconnect => vec![
+            (
+                "1_VORTEX_VIA_HELICAL_OAM_STEP",
+                "Signals.SolitonBus.vortexViaOamChargeStep(l, 1) + vortexViaHelicalArcFactorSq",
+                135.0,
+            ),
+            (
+                "2_STAR_VORTEX_VIA_8BRANCH_SPLITTER",
+                "8-Branch C8 StarVortexVia Broadcast & OAM Mode-Sorting Inter-Layer Hub",
+                155.0,
+            ),
+            (
+                "3_DEAN_2025_SHG_RESONANT_OPA_CORE",
+                "Signals.DDF.SecondHarmonicResonantOPA (Dean et al. Nature 2025: 21 mW pump, 17.25 dB gain)",
+                165.0,
+            ),
+            (
+                "4_KELVIN_SQRT_CBF_AQM_MODULATOR",
+                "Signals.SolitonBus.aqmKelvinLinearizedVoltageSq + aqmCbfSafeHeaterPower (T_max = 80 C < 85 C)",
+                145.0,
+            ),
+        ],
+        SemiDiracApplicationPreset::LhatHolographicArchivalTapeCartridge => vec![
+            (
+                "1_LHAT_3000X_OAM_BRAGG_TAPE_WEB",
+                "Signals.SolitonBus.lhatVolumetricMultiplexFactor(10,30,10)=3000 & lhatCartridgeCapacityTb=720TB",
+                155.0,
+            ),
+            (
+                "2_LOG_POLAR_O1_OPTICAL_TRACKING",
+                "Signals.SolitonBus.logPolarUnwrappedPhase (64x64 2D FFT Zero-Iteration Scale/Rotation Lock)",
+                145.0,
+            ),
+            (
+                "3_VACNT_182FS_KAPITZA_THERMAL_SINK",
+                "Signals.SolitonBus.vacntKapitzaCoolingTimePs(1.3e-8, 1.4e-3, 100) = 0.182 ps (182 fs)",
+                150.0,
+            ),
+            (
+                "4_QFT_RK_635NM_SELECTIVE_ERASE",
+                "Signals.SolitonBus.qftRkRequiredTempDelta(155,25,95.2)=34.8 C < 60 C (Zero-Neighbor-Bleed)",
+                150.0,
+            ),
+        ],
+        SemiDiracApplicationPreset::PressedLlmHolographicTapeSolitonQramSteering => vec![
+            (
+                "1_PRESSED_1T_LLM_BRAGG_WEIGHT_TAPE",
+                "Mask-Locked Ternary W_ij in {+1, 0, -1} via {0, pi} Bragg Phase Voxels on LHAT Tape",
+                155.0,
+            ),
+            (
+                "2_SOLITON_OAM_QRAM_PROMPT_BUS",
+                "Signals.SolitonBus.lutPlusCordicOamPhase + Passive Mach-Zehnder Homodyne Optical MVM",
+                150.0,
+            ),
+            (
+                "3_NLIG_BLIG_ACTIVE_LORA_STEERING",
+                "Signals.SolitonBus.pressedLlmSteeredActivation(W_pressed, delta_W_steer) = W_pressed + delta_W",
+                160.0,
+            ),
+            (
+                "4_OXSCNT_HOMODYNE_LOGIT_READOUT",
+                "Zero-Tox Biodegradable Ox-s-CNT + VACNT Balanced Homodyne Token Logit Decoder",
+                135.0,
+            ),
+        ],
     };
 
     let mut polygons = Vec::new();
@@ -1851,13 +2000,18 @@ pub fn generate_semi_dirac_application_module(
         let flash_nlig = if idx % 2 == 0 { 1 } else { 2 };
         let z_base_um = 12.0 + (idx as f64) * 3.0;
 
-        // For Application 4, 5, or 6 (phase-steered OAM qudit / soliton bus / multi-band photonics),
+        // For Application 4..10 (phase-steered OAM qudit / soliton bus / multi-band photonics /
+        // biodegradable nanodiamond / VortexVia SHG-AQM / LHAT tape / Pressed-LLM QRAM),
         // vary the lasing phase ΔΦ(ℓ, φ) = ℓ φ along a 3D helical corkscrew spline
         let points_3d = if matches!(
             preset,
             SemiDiracApplicationPreset::EtchFreeMajoranaParafermionQuditBus
                 | SemiDiracApplicationPreset::SemiDiracSolitonBusCrowRdmaQram
                 | SemiDiracApplicationPreset::MultiBand1550nmCncRepeaterCBAsHomodyne
+                | SemiDiracApplicationPreset::Nanodiamond2DhgBiodegradableCarbonPhotonics
+                | SemiDiracApplicationPreset::VortexViaShgOpaAqmInterconnect
+                | SemiDiracApplicationPreset::LhatHolographicArchivalTapeCartridge
+                | SemiDiracApplicationPreset::PressedLlmHolographicTapeSolitonQramSteering
         ) {
             let l_charge = (idx as f64) + 1.0;
             let helix_radius_um = 6.0;

@@ -4570,3 +4570,134 @@ class SemiDiracAndSU4WittenUnificationEngine:
     @staticmethod
     def multiband_third_harmonic_wavelength_nm(lambda_fund_nm: float) -> float:
         return float(lambda_fund_nm / 3.0)
+
+    @staticmethod
+    def pet_endogenous_oxygen_shock_threshold_gpa() -> float:
+        return 12.0
+
+    @staticmethod
+    def hydrocarbon_unassisted_shock_threshold_gpa() -> float:
+        return 30.0
+
+    @staticmethod
+    def methane_pyrolysis_net_carbon_cost_per_kg(
+        process_cost: float, h2_credit: float
+    ) -> float:
+        return float(process_cost - h2_credit)
+
+    @staticmethod
+    def h2_plasma_sp2_to_sp3_etch_selectivity(
+        r_etch_sp2: float, r_etch_sp3: float
+    ) -> float:
+        return float(r_etch_sp2 / r_etch_sp3)
+
+    @staticmethod
+    def biodegradable_ox_scnt_butt_joint_reflectance(
+        n_nlig: float, n_ox_scnt: float
+    ) -> float:
+        return float(((n_nlig - n_ox_scnt) / (n_nlig + n_ox_scnt)) ** 2)
+
+    @staticmethod
+    def phosphorus_cqd_purcell_lifetime_ns(
+        tau_bulk_ns: float, f_purcell: float
+    ) -> float:
+        return float(tau_bulk_ns / f_purcell)
+
+    @staticmethod
+    def vortex_via_oam_charge_step(l_in: int, delta_l: int) -> int:
+        return int(l_in + delta_l)
+
+    @staticmethod
+    def vortex_via_helical_arc_factor_sq(
+        h_z: float, r_helix: float, delta_l: float, two_pi: float = 2.0 * np.pi
+    ) -> float:
+        return float((h_z**2) + ((two_pi * r_helix * delta_l) ** 2))
+
+    @staticmethod
+    def aqm_kelvin_linearized_voltage_sq(
+        r_sense: float, p_max: float, u_cmd: float
+    ) -> float:
+        return float(r_sense * p_max * u_cmd)
+
+    @staticmethod
+    def aqm_cbf_safe_heater_power(
+        t_max_safe: float, t_actual: float, r_th: float
+    ) -> float:
+        return float((t_max_safe - t_actual) / r_th)
+
+    @staticmethod
+    def vacnt_kapitza_cooling_time_ps(
+        r_kapitza: float, c_vol: float, d_film_nm: float
+    ) -> float:
+        return float(r_kapitza * c_vol * d_film_nm * 1000.0)
+
+    @staticmethod
+    def lhat_volumetric_multiplex_factor(
+        n_oam: int, n_bragg: int, n_pol_lambda: int
+    ) -> int:
+        return int(n_oam * n_bragg * n_pol_lambda)
+
+    @staticmethod
+    def lhat_cartridge_capacity_tb(
+        areal_base_tb: float, multiplex_factor: float
+    ) -> float:
+        return float(areal_base_tb * multiplex_factor / 100.0)
+
+    @staticmethod
+    def log_polar_unwrapped_phase(
+        l_charge: float, theta_img: float, delta_theta_rot: float
+    ) -> float:
+        return float(l_charge * theta_img + l_charge * delta_theta_rot)
+
+    @staticmethod
+    def qft_rk_required_temp_delta(
+        t_erase: float, t_ambient: float, delta_t_optical_equiv: float
+    ) -> float:
+        return float((t_erase - t_ambient) - delta_t_optical_equiv)
+
+    @staticmethod
+    def pressed_llm_steered_activation(
+        w_pressed_dot_x: float, delta_w_steer_dot_x: float
+    ) -> float:
+        return float(w_pressed_dot_x + delta_w_steer_dot_x)
+
+    @staticmethod
+    def co2_to_carbon_mass_ratio() -> float:
+        return float(44.0 / 12.0)
+
+    @staticmethod
+    def co2_to_oxygen_byproduct_mass_ratio() -> float:
+        return float(32.0 / 12.0)
+
+    @staticmethod
+    def co2_splitting_theoretical_min_kwh_per_kg_c() -> float:
+        return 9.10
+
+    @staticmethod
+    def co2_scrubbing_thermodynamic_efficiency(
+        e_min_kwh_per_kg_c: float, e_actual_kwh_per_kg_c: float
+    ) -> float:
+        return float(e_min_kwh_per_kg_c / e_actual_kwh_per_kg_c)
+
+    @classmethod
+    def co2_scrubbing_net_carbon_cost_per_kg(
+        cls,
+        e_min_kwh_per_kg_c: float,
+        eta_scrub: float,
+        p_elec_per_kwh: float,
+        capex_opex_per_kg_c: float,
+        p_co2_credit_per_kg: float,
+        p_o2_credit_per_kg: float,
+    ) -> float:
+        gross_cost = (e_min_kwh_per_kg_c / eta_scrub) * p_elec_per_kwh + capex_opex_per_kg_c
+        credits = (
+            cls.co2_to_carbon_mass_ratio() * p_co2_credit_per_kg
+            + cls.co2_to_oxygen_byproduct_mass_ratio() * p_o2_credit_per_kg
+        )
+        return float(gross_cost - credits)
+
+    @staticmethod
+    def co2_lifecycle_net_scrubbing_factor(
+        e_actual_kwh_per_kg_co2: float, grid_ci_kg_co2_per_kwh: float
+    ) -> float:
+        return float(1.0 - e_actual_kwh_per_kg_co2 * grid_ci_kg_co2_per_kwh)

@@ -7580,4 +7580,55 @@ example (l_charge theta_lut theta_true total_len_m loss_db_per_m : ℝ) :
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
+example (l_in m_helix : ℤ)
+    (u_pid p_steady gamma t_max l_real theta lambda_nm length_nm dn_dT w_x alpha_steer v_steer : ℝ)
+    (k_order : ℕ) :
+    Signals.SolitonBus.petEndogenousOxygenShockThresholdGPa <
+      Signals.SolitonBus.hydrocarbonUnassistedShockThresholdGPa ∧
+      Signals.SolitonBus.methanePyrolysisNetCarbonCostPerKg 1 (1 / 3) 2 = 1 / 3 ∧
+      Signals.SolitonBus.h2PlasmaSp2ToSp3EtchSelectivity 500 1 = 500 ∧
+      Signals.SolitonBus.biodegradableOxScntButtJointReflectance <
+        Signals.SolitonBus.fresnelButtJointReflectance (31 / 20) (16 / 5) ∧
+      Signals.SolitonBus.phosphorusCqdPurcellLifetimeNs 4 80 < 1 ∧
+      Signals.SolitonBus.vortexViaOamChargeStep (Signals.SolitonBus.vortexViaOamChargeStep l_in m_helix) (-m_helix) = l_in ∧
+      1 < Signals.SolitonBus.vortexViaHelicalArcFactorSq 3 4 ∧
+      Signals.SolitonBus.aqmCbfSafeHeaterPower u_pid p_steady gamma t_max t_max ≤ p_steady ∧
+      Signals.SolitonBus.vacntKapitzaCoolingTimePs (5 / 10 ^ 9) (2 * 10 ^ 6) (1 / 10 ^ 8) = 100 ∧
+      Signals.SolitonBus.lhatVolumetricMultiplexFactor 2 16 48 8 = 12288 ∧
+      18 < Signals.SolitonBus.lhatCartridgeCapacityTb (1 / 20) 2 16 48 8 ∧
+      Signals.SolitonBus.logPolarUnwrappedPhase l_real 1 (1 * theta) = l_real * theta ∧
+      Signals.SolitonBus.qftRkRequiredTempDelta lambda_nm length_nm dn_dT (k_order + 1) =
+        (1 / 2) * Signals.SolitonBus.qftRkRequiredTempDelta lambda_nm length_nm dn_dT k_order ∧
+      Signals.SolitonBus.pressedLlmSteeredActivation w_x alpha_steer v_steer - w_x =
+        alpha_steer * v_steer := by
+  have h :=
+    Signals.SolitonBus.nanodiamond_biodegradable_photonics_vortex_via_shg_aqm_lhat_and_pressed_llm_qram_identities
+      l_in m_helix 1 1 u_pid p_steady gamma t_max l_real 1 theta lambda_nm length_nm dn_dT w_x alpha_steer v_steer
+      (by norm_num) (by norm_num) k_order
+  exact ⟨h.1, h.2.1, h.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+example :
+    1 + Signals.SolitonBus.co2ToOxygenByproductMassRatio =
+      Signals.SolitonBus.co2ToCarbonMassRatio ∧
+    Signals.SolitonBus.co2ScrubbingThermodynamicEfficiency
+        Signals.SolitonBus.co2SplittingTheoreticalMinKwhPerKgC 13 = 7 / 10 ∧
+    Signals.SolitonBus.co2ScrubbingNetCarbonCostPerKg
+        Signals.SolitonBus.co2SplittingTheoreticalMinKwhPerKgC (7 / 10) (3 / 100) (1 / 5) (18 / 100) (1 / 10) =
+      -101 / 300 ∧
+    0 < Signals.SolitonBus.co2ScrubbingNetCarbonCostPerKg
+        Signals.SolitonBus.co2SplittingTheoreticalMinKwhPerKgC (1 / 5) (3 / 100) (1 / 5) (18 / 100) (1 / 10) ∧
+    Signals.SolitonBus.co2LifecycleNetScrubbingFactor (25 / 2) (1 / 10) < 0 ∧
+    0 < Signals.SolitonBus.co2LifecycleNetScrubbingFactor (7 / 2) (1 / 10) := by
+  have h := Signals.SolitonBus.co2_carbon_scrubbing_efficiency_relative_cost_and_incentive_identities
+  exact ⟨h.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

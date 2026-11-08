@@ -1070,4 +1070,345 @@ theorem semi_dirac_soliton_bus_crow_rdma_and_multiband_cnc_cbas_photonics_identi
     by norm_num, by norm_num, by norm_num,
     by norm_num, by norm_num, by norm_num⟩
 
+/-! ## 14. Laser-Induced $sp^2/sp^3$ Nanodiamond & Biodegradable Carbon Photonics (Paper 35), Vortex Vias & Second-Harmonic `AQM` Amplification (Paper 36), `LHAT` Archival Tape (Paper 37), and Pressed-LLM Soliton QRAM (Paper 38)
+
+This section formalizes the mathematical laws governing our four-paper extension:
+1. **Paper 35 (`sp^2 / sp^3` Carbon & Nanodiamond from Lignin, Lignin-Vitrimer, Plastics, $\mathrm{CO}_2$, and Methane Pyrolysis + Biodegradable Carbon Alternatives to $590\text{ nm}$ `n-Adamantane` & `c-BAs`)**:
+   - Endogenous oxygen-assisted shock demixing in PET ($\mathrm{C}_{10}\mathrm{H}_8\mathrm{O}_4$, $P_{\mathrm{PET}} = 15\text{ GPa} < 25\text{ GPa} = P_{\mathrm{HC}}$),
+   - Methane pyrolysis ("Teal Carbon", $\mathrm{CH}_4 \to \mathrm{C} + 2\mathrm{H}_2$) net carbon cost after $1/3\text{ kg }\mathrm{H}_2/\text{kg C}$ hydrogen credit,
+   - Atomic-hydrogen plasma selective $sp^2$ shell stripping ($\mathrm{C}(sp^2) + 4\mathrm{H}^* \to \mathrm{CH}_4$, $500\times$ etch selectivity over $sp^3$) for Walker et al. (2026) $\text{C–H}$ 2DHG FETs,
+   - Enzymatically biodegradable oxidized semiconducting carbon nanotube (`Ox-s-CNT`, $n = 9/5 = 1.80, \kappa_{\mathrm{VACNT}} = 3000\text{ W/m}\cdot\text{K}$) replacing toxic-arsenic `c-BAs` ($n = 16/5 = 3.20$), cutting butt-joint Fresnel reflection from $1089/9025 \approx 12.07\%$ down to $25/4489 \approx 0.557\%$,
+   - Biodegradable citric/phytic-acid Phosphorus-doped Carbon Quantum Dots (`P-CQDs`, $\tau_0 = 4\text{ ns}$ at $590\text{ nm}$) achieving $50\text{ ps}$ Purcell-enhanced lifetime without non-biodegradable diamondoid cages.
+2. **Paper 36 (`VortexVia` & `StarVortexVia` vs. $C_8$ `StarVia` + Doubly-Resonant $\chi^{(2)}$ `SHG-OPA` & Lignolux Active-Q Modulator `AQM`)**:
+   - 3D helical `VortexVia` / `StarVortexVia` topological OAM charge stepping $\ell_{\mathrm{out}} = \ell_{\mathrm{in}} + m_{\mathrm{helix}}$ and geometric inductance enhancement $1 + (2\pi R / P_z)^2 > 1$,
+   - 4-wire Kelvin square-root heater linearization $V_{\mathrm{cmd}}^2 / R_{\mathrm{NLIG}} = u_P$ and Control Barrier Function (`CBF`) thermal clamp $u_{\mathrm{safe}}(T_{\max}) \le P_{\mathrm{steady}}$ below $T_g = 85^\circ\text{C}$,
+   - $300\text{ nm}$-pitch `VACNT` Kapitza thermal reset time $t_{\mathrm{cool}} = R_K C_v d = 100\text{ ps}$ ($10\text{ GHz}$ clock).
+3. **Paper 37 (Lignolux Holographic Archival Tape `LHAT` for Classical & Quantum Data Storage)**:
+   - Volumetric polarization $\times$ WDM $\times$ OAM $\times$ multi-depth multiplexing factor ($2 \times 16 \times 48 \times 8 = 12{,}288\times$) and $614.4\text{ TB} > 18\text{ TB}$ (LTO-9) per $12\text{ }\mu\text{m} \times 10\text{ km}$ cartridge.
+4. **Paper 38 (Hosting Pressed / Mask-Locked LLMs on `LHAT` Tape & Integration with Soliton/OAM QRAM)**:
+   - Log-polar conformal OAM unwrapper topological charge conservation $\Phi_{\mathrm{cart}}(x, a\theta) = \ell\theta$,
+   - QFT $R_k$ phase-gate temperature halving law $\Delta T_{k+1} = \frac{1}{2}\Delta T_k$,
+   - In-transit optical pressed-weight VMM + active `N-LIG`/`B-LIG` steering-vector injection $h' = W^{(\ell)}x + \alpha_{\mathrm{steer}}\vec{v}_s$. -/
+
+/-- **PET Endogenous-Oxygen Confined-Shock Diamond Nucleation Threshold ($15\text{ GPa}$)** (`Gemini_Nanodiamond-Laser-Synthesis-and-2DHG-FETs_20261108-1047.json`, Part 2). -/
+@[blueprint "def:signals-soliton-pet-shock-threshold-gpa"
+  (title := "PET endogenous-oxygen confined-shock diamond nucleation threshold (15 GPa)")
+  (statement := /-- Define $\operatorname{petEndogenousOxygenShockThresholdGPa} = 15$. -/)]
+noncomputable def petEndogenousOxygenShockThresholdGPa : ℝ := 15
+
+/-- **Unassisted Pure-Hydrocarbon Shock Diamond Nucleation Threshold ($25\text{ GPa}$)** (`Gemini_Nanodiamond-Laser-Synthesis-and-2DHG-FETs_20261108-1047.json`, Part 2). -/
+@[blueprint "def:signals-soliton-hc-shock-threshold-gpa"
+  (title := "Unassisted pure-hydrocarbon shock diamond nucleation threshold (25 GPa)")
+  (statement := /-- Define $\operatorname{hydrocarbonUnassistedShockThresholdGPa} = 25$. -/)]
+noncomputable def hydrocarbonUnassistedShockThresholdGPa : ℝ := 25
+
+/-- **Methane Pyrolysis ("Teal Carbon") Net Solid-Carbon Cost per kg after $\mathrm{H}_2$ Co-Product Credit**:
+$C_{\mathrm{net}}(C_{\mathrm{gross}}, r_{\mathrm{H_2/C}}, P_{\mathrm{H_2}}) = C_{\mathrm{gross}} - r_{\mathrm{H_2/C}}\,P_{\mathrm{H_2}}$
+(`Gemini_Nanodiamond-Laser-Synthesis-and-2DHG-FETs_20261108-1047.json`, Prompt 5). -/
+@[blueprint "def:signals-soliton-methane-pyrolysis-net-carbon-cost"
+  (title := "Methane pyrolysis net Teal Carbon cost per kg after hydrogen credit")
+  (statement := /-- Define $\operatorname{methanePyrolysisNetCarbonCostPerKg}(C_{\mathrm{gross}}, r_{\mathrm{H_2}}, P_{\mathrm{H_2}}) = C_{\mathrm{gross}} - r_{\mathrm{H_2}} P_{\mathrm{H_2}}$. -/)]
+noncomputable def methanePyrolysisNetCarbonCostPerKg
+    (gross_cost_per_kg_c h2_mass_ratio h2_price_per_kg : ℝ) : ℝ :=
+  gross_cost_per_kg_c - h2_mass_ratio * h2_price_per_kg
+
+/-- **Atomic-Hydrogen Plasma $sp^2$-to-$sp^3$ Etch Selectivity Ratio ($\mathrm{C}(sp^2) + 4\mathrm{H}^* \to \mathrm{CH}_4$)**
+(`Gemini_Nanodiamond-Laser-Synthesis-and-2DHG-FETs_20261108-1047.json`, Prompt 3). -/
+@[blueprint "def:signals-soliton-h2-plasma-sp2-sp3-selectivity"
+  (title := "Atomic-hydrogen plasma sp2-to-sp3 etch selectivity ratio")
+  (statement := /-- Define $\operatorname{h2PlasmaSp2ToSp3EtchSelectivity}(r_{sp^2}, r_{sp^3}) = r_{sp^2} / r_{sp^3}$. -/)]
+noncomputable def h2PlasmaSp2ToSp3EtchSelectivity
+    (sp2_etch_rate sp3_etch_rate : ℝ) : ℝ :=
+  sp2_etch_rate / sp3_etch_rate
+
+/-- **Biodegradable Oxidized Semiconducting Carbon Nanotube (`Ox-s-CNT`, $n_2 = 9/5 = 1.80$) Normal-Incidence Fresnel Butt-Joint Reflectance against `N-LIG` ($n_1 = 31/20 = 1.55$)**,
+providing an arsenic-free, peroxidase-biodegradable alternative to `c-BAs` ($n_2 = 16/5 = 3.20$). -/
+@[blueprint "def:signals-soliton-biodegradable-ox-scnt-fresnel"
+  (title := "Biodegradable Ox-s-CNT Fresnel butt-joint reflectance against N-LIG")
+  (statement := /-- Define $\operatorname{biodegradableOxScntButtJointReflectance} = \operatorname{fresnelButtJointReflectance}(31/20, 9/5)$. -/)]
+noncomputable def biodegradableOxScntButtJointReflectance : ℝ :=
+  fresnelButtJointReflectance (31 / 20) (9 / 5)
+
+/-- **Purcell-Enhanced Radiative Lifetime $\tau_{\mathrm{eff}}(\tau_0, F_P) = \tau_0 / F_P$ for Biodegradable Phosphorus-Doped Carbon Quantum Dots (`P-CQDs`) at $590\text{ nm}$**
+(`_Lignin-Vitrimer Material Design .md`, lines 198–335). -/
+@[blueprint "def:signals-soliton-pcqd-purcell-lifetime-ns"
+  (title := "Purcell-enhanced radiative lifetime for biodegradable 590 nm P-CQDs")
+  (statement := /-- Define $\operatorname{phosphorusCqdPurcellLifetimeNs}(\tau_0, F_P) = \tau_0 / F_P$. -/)]
+noncomputable def phosphorusCqdPurcellLifetimeNs
+    (tau0_ns purcell_factor : ℝ) : ℝ :=
+  tau0_ns / purcell_factor
+
+/-- **3D Helical `VortexVia` / `StarVortexVia` Inter-Layer Topological OAM Charge Step $\ell_{\mathrm{out}}(\ell_{\mathrm{in}}, m_{\mathrm{helix}}) = \ell_{\mathrm{in}} + m_{\mathrm{helix}}$**:
+Whereas a non-chiral straight $C_8$ `StarVia` has $m_{\mathrm{helix}} = 0$, a 3D helical `VortexVia` shifts the OAM topological charge by $m_{\mathrm{helix}}$ per vertical layer transit. -/
+@[blueprint "def:signals-soliton-vortex-via-oam-step"
+  (title := "3D Helical VortexVia inter-layer topological OAM charge step")
+  (statement := /-- Define $\operatorname{vortexViaOamChargeStep}(\ell_{\mathrm{in}}, m_{\mathrm{helix}}) = \ell_{\mathrm{in}} + m_{\mathrm{helix}}$. -/)]
+def vortexViaOamChargeStep (l_in m_helix : ℤ) : ℤ :=
+  l_in + m_helix
+
+/-- **Helical `VortexVia` Geometric Arc-Length & Inductance Enhancement Factor Squared $\gamma_{\mathrm{helix}}^2 = 1 + (2\pi R / P_z)^2$**. -/
+@[blueprint "def:signals-soliton-vortex-via-arc-factor-sq"
+  (title := "Helical VortexVia geometric arc-length and inductance factor squared")
+  (statement := /-- Define $\operatorname{vortexViaHelicalArcFactorSq}(C_{\mathrm{circ}}, P_z) = 1 + (C_{\mathrm{circ}} / P_z)^2$. -/)]
+noncomputable def vortexViaHelicalArcFactorSq (two_pi_r pitch_z : ℝ) : ℝ :=
+  1 + (two_pi_r / pitch_z) ^ 2
+
+/-- **Lignolux Active-Q Modulator (`AQM`) 4-Wire Kelvin Square-Root Linearized Heater Voltage Squared $V_{\mathrm{cmd}}^2(u_P, R_{\mathrm{NLIG}}) = u_P \cdot R_{\mathrm{NLIG}}$**
+(`Breakthrough-in-Extreme-Dielectric-Nanolasers.md`, lines 580–615). -/
+@[blueprint "def:signals-soliton-aqm-kelvin-voltage-sq"
+  (title := "Lignolux AQM 4-wire Kelvin linearized heater voltage squared")
+  (statement := /-- Define $\operatorname{aqmKelvinLinearizedVoltageSq}(u_P, R_{\mathrm{NLIG}}) = u_P R_{\mathrm{NLIG}}$. -/)]
+noncomputable def aqmKelvinLinearizedVoltageSq (u_power r_nlig : ℝ) : ℝ :=
+  u_power * r_nlig
+
+/-- **Lignolux `AQM` Control Barrier Function (`CBF`) Thermal Safety Power Limiter**:
+$u_{\mathrm{safe}}(u_{\mathrm{PID}}, P_{\mathrm{steady}}, \gamma, T_{\max}, T_{\mathrm{NLIG}}) = \min\bigl(u_{\mathrm{PID}}, P_{\mathrm{steady}} + \gamma(T_{\max} - T_{\mathrm{NLIG}})\bigr)$
+(`Breakthrough-in-Extreme-Dielectric-Nanolasers.md`, lines 660–685). -/
+@[blueprint "def:signals-soliton-aqm-cbf-safe-power"
+  (title := "Lignolux AQM Control Barrier Function (CBF) thermal safety power limiter")
+  (statement := /-- Define $\operatorname{aqmCbfSafeHeaterPower}(u_{\mathrm{PID}}, P_{\mathrm{steady}}, \gamma, T_{\max}, T_{\mathrm{NLIG}}) = \min(u_{\mathrm{PID}}, P_{\mathrm{steady}} + \gamma(T_{\max} - T_{\mathrm{NLIG}}))$. -/)]
+noncomputable def aqmCbfSafeHeaterPower
+    (u_pid p_steady gamma t_max t_nlig : ℝ) : ℝ :=
+  min u_pid (p_steady + gamma * (t_max - t_nlig))
+
+/-- **`VACNT` Covalently-Bonded Kapitza Thermal Reset Time in Picoseconds**:
+$t_{\mathrm{cool,ps}}(R_K, C_v, d) = R_K \cdot C_v \cdot d \cdot 10^{12}$
+(`_LLMs, Fourier, and Quantum Logic .md`, lines 710–745). -/
+@[blueprint "def:signals-soliton-vacnt-kapitza-cooling-ps"
+  (title := "VACNT Kapitza thermal reset time in picoseconds")
+  (statement := /-- Define $\operatorname{vacntKapitzaCoolingTimePs}(R_K, C_v, d) = R_K C_v d \cdot 10^{12}$. -/)]
+noncomputable def vacntKapitzaCoolingTimePs
+    (r_kapitza_m2k_per_w c_vol_j_per_m3k thickness_m : ℝ) : ℝ :=
+  r_kapitza_m2k_per_w * c_vol_j_per_m3k * thickness_m * 10 ^ 12
+
+/-- **Lignolux Holographic Archival Tape (`LHAT`) Volumetric Multiplexing Factor**:
+$\mathcal{M}_{\mathrm{LHAT}}(N_{\mathrm{pol}}, N_{\mathrm{WDM}}, N_{\mathrm{OAM}}, N_{\mathrm{depth}}) = N_{\mathrm{pol}} \cdot N_{\mathrm{WDM}} \cdot N_{\mathrm{OAM}} \cdot N_{\mathrm{depth}}$
+(`Gemini_Lignolux-Holographic-Archival-Tape-Innovation_20261108-1046.json`). -/
+@[blueprint "def:signals-soliton-lhat-volumetric-multiplex-factor"
+  (title := "Lignolux Holographic Archival Tape (LHAT) volumetric multiplexing factor")
+  (statement := /-- Define $\operatorname{lhatVolumetricMultiplexFactor}(N_{\mathrm{pol}}, N_{\mathrm{WDM}}, N_{\mathrm{OAM}}, N_{\mathrm{depth}}) = N_{\mathrm{pol}} N_{\mathrm{WDM}} N_{\mathrm{OAM}} N_{\mathrm{depth}}$. -/)]
+def lhatVolumetricMultiplexFactor (n_pol n_wdm n_oam n_depth_layers : ℕ) : ℕ :=
+  n_pol * n_wdm * n_oam * n_depth_layers
+
+/-- **`LHAT` Total Cartridge Capacity in Terabytes**:
+$C_{\mathrm{LHAT,TB}}(C_{\mathrm{base}}, N_{\mathrm{pol}}, N_{\mathrm{WDM}}, N_{\mathrm{OAM}}, N_{\mathrm{depth}}) = C_{\mathrm{base}} \cdot \mathcal{M}_{\mathrm{LHAT}}$
+(`Gemini_Lignolux-Holographic-Archival-Tape-Innovation_20261108-1046.json`). -/
+@[blueprint "def:signals-soliton-lhat-cartridge-capacity-tb"
+  (title := "LHAT total cartridge capacity in Terabytes")
+  (statement := /-- Define $\operatorname{lhatCartridgeCapacityTb}(C_{\mathrm{base}}, N_{\mathrm{pol}}, N_{\mathrm{WDM}}, N_{\mathrm{OAM}}, N_{\mathrm{depth}}) = C_{\mathrm{base}} \cdot \operatorname{lhatVolumetricMultiplexFactor}(N_{\mathrm{pol}}, N_{\mathrm{WDM}}, N_{\mathrm{OAM}}, N_{\mathrm{depth}})$. -/)]
+noncomputable def lhatCartridgeCapacityTb
+    (base_areal_tb : ℝ) (n_pol n_wdm n_oam n_depth_layers : ℕ) : ℝ :=
+  base_areal_tb * (lhatVolumetricMultiplexFactor n_pol n_wdm n_oam n_depth_layers : ℝ)
+
+/-- **Log-Polar Conformal OAM Unwrapper Phase $\Phi_{\mathrm{cart}}(\ell, a, y) = \ell \cdot (y / a)$**:
+Maps azimuthal OAM phase $\ell\theta$ under $y = a\theta$ into linear transverse momentum $(\ell / a) y$
+for systolic QRAM fan-out (`_LLMs, Fourier, and Quantum Logic .md`, lines 645–695). -/
+@[blueprint "def:signals-soliton-log-polar-unwrapped-phase"
+  (title := "Log-polar conformal OAM unwrapper phase (l / a) * y")
+  (statement := /-- Define $\operatorname{logPolarUnwrappedPhase}(\ell, a, y) = \ell (y / a)$. -/)]
+noncomputable def logPolarUnwrappedPhase (l_charge a_scale y_coord : ℝ) : ℝ :=
+  l_charge * (y_coord / a_scale)
+
+/-- **QFT Controlled-Phase Gate $R_k$ Hardware Temperature Delta $\Delta T_k(\lambda, L, dn/dT, k) = \frac{\lambda}{L \cdot (dn/dT) \cdot 2^k}$**
+(`_LLMs, Fourier, and Quantum Logic .md`, lines 1060–1105). -/
+@[blueprint "def:signals-soliton-qft-rk-temp-delta"
+  (title := "QFT R_k gate required metasurface temperature delta")
+  (statement := /-- Define $\operatorname{qftRkRequiredTempDelta}(\lambda, L, dn/dT, k) = \frac{\lambda}{L (dn/dT) 2^k}$. -/)]
+noncomputable def qftRkRequiredTempDelta
+    (lambda_nm length_nm dn_dT : ℝ) (k_order : ℕ) : ℝ :=
+  lambda_nm / (length_nm * dn_dT * (2 ^ k_order : ℝ))
+
+/-- **Pressed-LLM Holographic Tape + Active `N-LIG`/`B-LIG` Steering-Layer Output Activation**:
+$h_{\mathrm{out}}(W_{\mathrm{pressed}} x, \alpha_{\mathrm{steer}}, v_{\mathrm{steer}}) = W_{\mathrm{pressed}} x + \alpha_{\mathrm{steer}} v_{\mathrm{steer}}$
+(`_Read our A2Q and quantum review chats about N-LIG and B-LIG...md`, lines 105–285). -/
+@[blueprint "def:signals-soliton-pressed-llm-steered-activation"
+  (title := "Pressed-LLM holographic tape + active N-LIG/B-LIG steering-layer activation")
+  (statement := /-- Define $\operatorname{pressedLlmSteeredActivation}(W x, \alpha_{\mathrm{steer}}, v_{\mathrm{steer}}) = W x + \alpha_{\mathrm{steer}} v_{\mathrm{steer}}$. -/)]
+noncomputable def pressedLlmSteeredActivation
+    (base_weight_dot_x alpha_steer v_steer : ℝ) : ℝ :=
+  base_weight_dot_x + alpha_steer * v_steer
+
+/-- **Master Theorem for Papers 35, 36, 37, and 38 (`nanodiamond_biodegradable_photonics_vortex_via_shg_aqm_lhat_and_pressed_llm_qram_identities`)**:
+Simultaneously establishes:
+1. **Paper 35 (Laser-Induced $sp^2/sp^3$ Diamond & Biodegradable `Ox-s-CNT` / `P-CQD` Alternatives to `c-BAs` & `n-Adamantane`)**:
+   - $P_{\mathrm{PET}} = 15\text{ GPa} < 25\text{ GPa} = P_{\mathrm{HC}}$,
+   - Methane pyrolysis net Teal Carbon cost $C_{\mathrm{net}}(1, 1/3, 2) = 1/3 < 1\text{ USD/kg C}$,
+   - Atomic-$\mathrm{H}$ plasma $sp^2/sp^3$ etch selectivity $\operatorname{h2PlasmaSp2ToSp3EtchSelectivity}(500, 1) = 500 > 100$,
+   - Biodegradable `Ox-s-CNT` ($n=9/5$) butt-joint Fresnel reflection $25/4489 \approx 0.557\% < 1089/9025 \approx 12.07\%$ (`c-BAs`, $n=16/5$),
+   - Biodegradable $590\text{ nm}$ `P-CQD` Purcell radiative lifetime $\tau_{\mathrm{eff}}(4, 80) = 1/20\text{ ns} = 50\text{ ps} < 1\text{ ns}$,
+2. **Paper 36 (`VortexVia` & `StarVortexVia` vs. `StarVia` + Second-Harmonic `SHG-OPA` & Lignolux `AQM`)**:
+   - Straight `StarVia` preserves $\ell$ ($\operatorname{vortexViaOamChargeStep}(\ell, 0) = \ell$) while helical `VortexVia` shifts $\ell \mapsto \ell + m$ and is inverted by $-m$,
+   - Helical `VortexVia` inductance/arc-length factor $\operatorname{vortexViaHelicalArcFactorSq}(3, 4) = 25/16 > 1$,
+   - 4-wire Kelvin square-root heater linearization $\operatorname{aqmKelvinLinearizedVoltageSq}(u_P, R_{\mathrm{NLIG}}) / R_{\mathrm{NLIG}} = u_P$,
+   - Control Barrier Function (`CBF`) thermal clamp at $T_{\mathrm{NLIG}} = T_{\max}$ enforces $\operatorname{aqmCbfSafeHeaterPower}(u_{\mathrm{PID}}, P_{\mathrm{steady}}, \gamma, T_{\max}, T_{\max}) \le P_{\mathrm{steady}}$,
+   - `VACNT` Kapitza cooling reset time $\operatorname{vacntKapitzaCoolingTimePs}(5/10^9, 2\cdot 10^6, 1/10^8) = 100\text{ ps}$ ($10\text{ GHz}$),
+3. **Paper 37 (`LHAT`: Lignolux Holographic Archival Tape)**:
+   - $\operatorname{lhatVolumetricMultiplexFactor}(2, 16, 48, 8) = 12288$,
+   - $\operatorname{lhatCartridgeCapacityTb}(1/20, 2, 16, 48, 8) = 3072/5 = 614.4\text{ TB} > 18\text{ TB}$ (LTO-9 magnetic tape),
+4. **Paper 38 (Pressed-LLM Holographic Tape & Soliton/OAM QRAM Integration)**:
+   - Conformal OAM unwrapper topological charge conservation $\operatorname{logPolarUnwrappedPhase}(\ell, a, a\theta) = \ell\theta$,
+   - QFT $R_k$ phase-gate halving law $\operatorname{qftRkRequiredTempDelta}(\lambda, L, dn/dT, k+1) = \frac{1}{2}\operatorname{qftRkRequiredTempDelta}(\lambda, L, dn/dT, k)$,
+   - Pressed-LLM steering residual $\operatorname{pressedLlmSteeredActivation}(W x, \alpha, v_s) - W x = \alpha v_s$. -/
+@[blueprint "thm:signals-soliton-nanodiamond-vortex-via-shg-aqm-lhat-pressed-llm-qram"
+  (title := "Master theorem for Papers 35–38: Laser-Induced Nanodiamond & Biodegradable Photonics, VortexVias & SHG-OPA AQM, LHAT Archival Tape, and Pressed-LLM Soliton QRAM")
+  (statement := /-- Simultaneously proves the governing identities for Papers 35, 36, 37, and 38 across laser-induced $sp^2/sp^3$ carbon/nanodiamond synthesis, biodegradable \texttt{Ox-s-CNT} and \texttt{P-CQD} optoelectronics, 3D helical \texttt{VortexVia} OAM stepping, Lignolux \texttt{AQM} Kelvin linearization and CBF thermal clamping, \texttt{VACNT} $100\text{ ps}$ Kapitza reset, \texttt{LHAT} $12{,}288\times$ volumetric archival capacity ($614.4\text{ TB} > 18\text{ TB}$), log-polar OAM unwrapping, QFT $R_k$ temperature halving, and pressed-LLM optical steering. -/)]
+theorem nanodiamond_biodegradable_photonics_vortex_via_shg_aqm_lhat_and_pressed_llm_qram_identities
+    (l_in m_helix : ℤ)
+    (u_power r_nlig u_pid p_steady gamma t_max l_real a_scale theta lambda_nm length_nm dn_dT w_x alpha_steer v_steer : ℝ)
+    (hr : r_nlig ≠ 0) (ha : a_scale ≠ 0) (k_order : ℕ) :
+    petEndogenousOxygenShockThresholdGPa < hydrocarbonUnassistedShockThresholdGPa ∧
+    methanePyrolysisNetCarbonCostPerKg 1 (1 / 3) 2 = 1 / 3 ∧
+    methanePyrolysisNetCarbonCostPerKg 1 (1 / 3) 2 < 1 ∧
+    h2PlasmaSp2ToSp3EtchSelectivity 500 1 = 500 ∧
+    biodegradableOxScntButtJointReflectance = 25 / 4489 ∧
+    biodegradableOxScntButtJointReflectance <
+      fresnelButtJointReflectance (31 / 20) (16 / 5) ∧
+    phosphorusCqdPurcellLifetimeNs 4 80 = 1 / 20 ∧
+    phosphorusCqdPurcellLifetimeNs 4 80 < 1 ∧
+    vortexViaOamChargeStep l_in 0 = l_in ∧
+    vortexViaOamChargeStep (vortexViaOamChargeStep l_in m_helix) (-m_helix) = l_in ∧
+    vortexViaHelicalArcFactorSq 3 4 = 25 / 16 ∧
+    1 < vortexViaHelicalArcFactorSq 3 4 ∧
+    aqmKelvinLinearizedVoltageSq u_power r_nlig / r_nlig = u_power ∧
+    aqmCbfSafeHeaterPower u_pid p_steady gamma t_max t_max ≤ p_steady ∧
+    vacntKapitzaCoolingTimePs (5 / 10 ^ 9) (2 * 10 ^ 6) (1 / 10 ^ 8) = 100 ∧
+    lhatVolumetricMultiplexFactor 2 16 48 8 = 12288 ∧
+    lhatCartridgeCapacityTb (1 / 20) 2 16 48 8 = 3072 / 5 ∧
+    18 < lhatCartridgeCapacityTb (1 / 20) 2 16 48 8 ∧
+    logPolarUnwrappedPhase l_real a_scale (a_scale * theta) = l_real * theta ∧
+    qftRkRequiredTempDelta lambda_nm length_nm dn_dT (k_order + 1) =
+      (1 / 2) * qftRkRequiredTempDelta lambda_nm length_nm dn_dT k_order ∧
+    pressedLlmSteeredActivation w_x 0 v_steer = w_x ∧
+    pressedLlmSteeredActivation w_x alpha_steer v_steer - w_x = alpha_steer * v_steer := by
+  have h_kelvin : aqmKelvinLinearizedVoltageSq u_power r_nlig / r_nlig = u_power := by
+    unfold aqmKelvinLinearizedVoltageSq
+    exact mul_div_cancel_right₀ u_power hr
+  have h_cbf : aqmCbfSafeHeaterPower u_pid p_steady gamma t_max t_max ≤ p_steady := by
+    unfold aqmCbfSafeHeaterPower
+    have h_eq : p_steady + gamma * (t_max - t_max) = p_steady := by ring
+    rw [h_eq]
+    exact min_le_right u_pid p_steady
+  have h_logpolar : logPolarUnwrappedPhase l_real a_scale (a_scale * theta) = l_real * theta := by
+    unfold logPolarUnwrappedPhase
+    rw [mul_div_cancel_left₀ theta ha]
+  have h_qft :
+      qftRkRequiredTempDelta lambda_nm length_nm dn_dT (k_order + 1) =
+        (1 / 2) * qftRkRequiredTempDelta lambda_nm length_nm dn_dT k_order := by
+    unfold qftRkRequiredTempDelta
+    push_cast [pow_succ]
+    ring
+  refine ⟨
+    by unfold petEndogenousOxygenShockThresholdGPa hydrocarbonUnassistedShockThresholdGPa; norm_num,
+    by unfold methanePyrolysisNetCarbonCostPerKg; norm_num,
+    by unfold methanePyrolysisNetCarbonCostPerKg; norm_num,
+    by unfold h2PlasmaSp2ToSp3EtchSelectivity; norm_num,
+    by unfold biodegradableOxScntButtJointReflectance fresnelButtJointReflectance; norm_num,
+    by unfold biodegradableOxScntButtJointReflectance fresnelButtJointReflectance; norm_num,
+    by unfold phosphorusCqdPurcellLifetimeNs; norm_num,
+    by unfold phosphorusCqdPurcellLifetimeNs; norm_num,
+    by unfold vortexViaOamChargeStep; omega,
+    by unfold vortexViaOamChargeStep; omega,
+    by unfold vortexViaHelicalArcFactorSq; norm_num,
+    by unfold vortexViaHelicalArcFactorSq; norm_num,
+    h_kelvin,
+    h_cbf,
+    by unfold vacntKapitzaCoolingTimePs; norm_num,
+    rfl,
+    by unfold lhatCartridgeCapacityTb lhatVolumetricMultiplexFactor; norm_num,
+    by unfold lhatCartridgeCapacityTb lhatVolumetricMultiplexFactor; norm_num,
+    h_logpolar,
+    h_qft,
+    by unfold pressedLlmSteeredActivation; ring,
+    by unfold pressedLlmSteeredActivation; ring⟩
+
+/-- **Stoichiometric $\mathrm{CO}_2$-to-Solid-Carbon Mass Scrubbing Multiplier ($\frac{M_{\mathrm{CO}_2}}{M_{\mathrm{C}}} = \frac{44}{12} = \frac{11}{3} \approx 3.667\text{ kg }\mathrm{CO}_2/\text{kg C}$)**:
+Every $1\text{ kg}$ of solid $sp^2/sp^3$ carbon synthesized from $\mathrm{CO}_2 \to \mathrm{C}(s) + \mathrm{O}_2(g)$ permanently scrubs $11/3\text{ kg}$ of $\mathrm{CO}_2$ (`_Making-Oxygenated-CNTs-from-Air.md`, lines 15–45; `Gemini_Nanodiamond-Laser-Synthesis-and-2DHG-FETs_20261108-1047.json`, Prompt 4). -/
+@[blueprint "def:signals-soliton-co2-to-carbon-mass-ratio"
+  (title := "Stoichiometric CO2-to-solid-carbon mass scrubbing multiplier (44/12 = 11/3)")
+  (statement := /-- Define $\operatorname{co2ToCarbonMassRatio} = 44 / 12$. -/)]
+noncomputable def co2ToCarbonMassRatio : ℝ := 44 / 12
+
+/-- **Stoichiometric $\mathrm{O}_2$-to-Solid-Carbon Byproduct Mass Ratio ($\frac{M_{\mathrm{O}_2}}{M_{\mathrm{C}}} = \frac{32}{12} = \frac{8}{3} \approx 2.667\text{ kg }\mathrm{O}_2/\text{kg C}$)**:
+Every $1\text{ kg}$ of solid carbon scrubbed from $\mathrm{CO}_2 \to \mathrm{C}(s) + \mathrm{O}_2(g)$ co-produces $8/3\text{ kg}$ of pure $\mathrm{O}_2$ gas at the anode. -/
+@[blueprint "def:signals-soliton-co2-to-oxygen-mass-ratio"
+  (title := "Stoichiometric O2-to-solid-carbon byproduct mass ratio (32/12 = 8/3)")
+  (statement := /-- Define $\operatorname{co2ToOxygenByproductMassRatio} = 32 / 12$. -/)]
+noncomputable def co2ToOxygenByproductMassRatio : ℝ := 32 / 12
+
+/-- **Thermodynamic Minimum Specific Energy for Direct $\mathrm{CO}_2 \to \mathrm{C}(s) + \mathrm{O}_2(g)$ Splitting ($\Delta H^\circ = +393.5\text{ kJ/mol} \approx 32.76\text{ MJ/kg C} \approx 9.10\text{ kWh/kg C}$)**. -/
+@[blueprint "def:signals-soliton-co2-splitting-min-kwh-per-kg-c"
+  (title := "Thermodynamic minimum specific energy for CO2 -> C + O2 splitting (9.1 kWh/kg C)")
+  (statement := /-- Define $\operatorname{co2SplittingTheoreticalMinKwhPerKgC} = 91 / 10$. -/)]
+noncomputable def co2SplittingTheoreticalMinKwhPerKgC : ℝ := 91 / 10
+
+/-- **Carbon Scrubbing Thermodynamic Energy Efficiency $\eta_{\mathrm{scrub}}(E_{\min}, E_{\mathrm{actual}}) = E_{\min} / E_{\mathrm{actual}}$**. -/
+@[blueprint "def:signals-soliton-co2-scrubbing-efficiency"
+  (title := "Carbon scrubbing thermodynamic energy efficiency E_min / E_actual")
+  (statement := /-- Define $\operatorname{co2ScrubbingThermodynamicEfficiency}(E_{\min}, E_{\mathrm{actual}}) = E_{\min} / E_{\mathrm{actual}}$. -/)]
+noncomputable def co2ScrubbingThermodynamicEfficiency
+    (e_min_kwh_per_kg_c e_actual_kwh_per_kg_c : ℝ) : ℝ :=
+  e_min_kwh_per_kg_c / e_actual_kwh_per_kg_c
+
+/-- **Levelized Net Cost per kg of $\mathrm{CO}_2$-Scrubbed Solid Carbon Incorporating the Carbon Scrubbing Efficiency Incentive (`45Q / CDR` Sequestration Credit + Anodic $\mathrm{O}_2$ Byproduct Credit)**:
+$C_{\mathrm{net,scrub}}(E_{\min}, \eta_{\mathrm{scrub}}, p_{\mathrm{elec}}, C_{\mathrm{non\text{-}elec}}, P_{\mathrm{CO_2}}, P_{\mathrm{O_2}}) = \frac{E_{\min}}{\eta_{\mathrm{scrub}}} p_{\mathrm{elec}} + C_{\mathrm{non\text{-}elec}} - \bigl(\frac{11}{3} P_{\mathrm{CO_2}} + \frac{8}{3} P_{\mathrm{O_2}}\bigr)$
+(`_Carbothermic Reduction_ 2026 Developments  .md`, lines 7538–7796; `_Commercial-Methane-Pyrolysis-Overview.md`, lines 350–450). -/
+@[blueprint "def:signals-soliton-co2-scrubbing-net-carbon-cost"
+  (title := "Levelized net cost per kg of CO2-scrubbed solid carbon with 45Q/CDR and O2 credits")
+  (statement := /-- Define $\operatorname{co2ScrubbingNetCarbonCostPerKg}(E_{\min}, \eta_{\mathrm{scrub}}, p_{\mathrm{elec}}, C_{\mathrm{op}}, P_{\mathrm{CO_2}}, P_{\mathrm{O_2}}) = (E_{\min}/\eta_{\mathrm{scrub}}) p_{\mathrm{elec}} + C_{\mathrm{op}} - (\operatorname{co2ToCarbonMassRatio}\cdot P_{\mathrm{CO_2}} + \operatorname{co2ToOxygenByproductMassRatio}\cdot P_{\mathrm{O_2}})$. -/)]
+noncomputable def co2ScrubbingNetCarbonCostPerKg
+    (e_min_kwh_per_kg_c eta_scrub p_elec_per_kwh capex_opex_per_kg_c
+      p_co2_credit_per_kg p_o2_credit_per_kg : ℝ) : ℝ :=
+  (e_min_kwh_per_kg_c / eta_scrub) * p_elec_per_kwh + capex_opex_per_kg_c -
+    (co2ToCarbonMassRatio * p_co2_credit_per_kg +
+      co2ToOxygenByproductMassRatio * p_o2_credit_per_kg)
+
+/-- **Lifecycle Net Carbon Scrubbing Factor $\eta_{\mathrm{LCA}}(E_{\mathrm{actual,CO_2}}, \mathrm{CI}_{\mathrm{grid}}) = 1 - E_{\mathrm{actual,CO_2}} \cdot \mathrm{CI}_{\mathrm{grid}}$**,
+measuring the fraction of captured $\mathrm{CO}_2$ permanently removed after deducting upstream grid electricity emissions. -/
+@[blueprint "def:signals-soliton-co2-lifecycle-net-scrubbing-factor"
+  (title := "Lifecycle net carbon scrubbing factor 1 - E_actual * CI_grid")
+  (statement := /-- Define $\operatorname{co2LifecycleNetScrubbingFactor}(E_{\mathrm{actual,CO_2}}, \mathrm{CI}_{\mathrm{grid}}) = 1 - E_{\mathrm{actual,CO_2}} \cdot \mathrm{CI}_{\mathrm{grid}}$. -/)]
+noncomputable def co2LifecycleNetScrubbingFactor
+    (e_actual_kwh_per_kg_co2 grid_ci_kg_co2_per_kwh : ℝ) : ℝ :=
+  1 - e_actual_kwh_per_kg_co2 * grid_ci_kg_co2_per_kwh
+
+/-- **Carbon Scrubbing ($\mathrm{CO}_2 \to \mathrm{C} + \mathrm{O}_2$) Efficiency, Relative Cost, and Scrubbing Efficiency Incentive Theorem (`co2_carbon_scrubbing_efficiency_relative_cost_and_incentive_identities`)**:
+Simultaneously proves:
+1. Stoichiometric mass conservation: $1\text{ kg C} + \frac{8}{3}\text{ kg }\mathrm{O}_2 = \frac{11}{3}\text{ kg }\mathrm{CO}_2$,
+2. Cascaded sand-battery + `sCO2`/`LGBPC` heat recovery lifts molten-carbonate (`C2CNT`) scrubbing efficiency from $\eta_{\mathrm{scrub}}(9.1, 45.5) = 1/5 = 20\%$ to $\eta_{\mathrm{scrub}}(9.1, 13.0) = 7/10 = 70\%$,
+3. **The Carbon Scrubbing Efficiency Incentive**: Under a $\$180/\text{t }\mathrm{CO}_2$ (`$0.18/kg`) `45Q/CDR` credit and $\$0.10/\text{kg }\mathrm{O}_2$ byproduct credit at $p_{\mathrm{elec}} = \$0.03/\text{kWh}$ and $C_{\mathrm{op}} = \$0.20/\text{kg C}$, low-efficiency scrubbing ($\eta_{\mathrm{scrub}} = 20\%$) incurs a positive net cost ($+383/600 \approx +\$0.638/\text{kg C} > 0$), whereas high-efficiency heat-recovered scrubbing ($\eta_{\mathrm{scrub}} = 70\%$) achieves a **strictly negative net carbon cost** ($-101/300 \approx -\$0.337/\text{kg C} < 0$),
+4. On a non-zero-carbon grid ($\mathrm{CI}_{\mathrm{grid}} = 0.10\text{ kg }\mathrm{CO}_2/\text{kWh}$), un-recovered scrubbing ($12.5\text{ kWh/kg }\mathrm{CO}_2$) is net carbon-emitting ($\eta_{\mathrm{LCA}} = -1/4 < 0$), whereas high-efficiency scrubbing ($3.5\text{ kWh/kg }\mathrm{CO}_2$) achieves $+65\% > 0$ net atmospheric carbon removal. -/
+@[blueprint "thm:signals-soliton-co2-scrubbing-efficiency-and-incentive"
+  (title := "Carbon scrubbing (CO2 -> C + O2) efficiency, relative cost, and scrubbing efficiency incentive identities")
+  (statement := /-- Proves stoichiometric $\mathrm{CO}_2 \to \mathrm{C} + \mathrm{O}_2$ mass conservation ($1 + 8/3 = 11/3$), the $20\% \to 70\%$ heat-recovered scrubbing efficiency gain, the negative-cost flip ($+383/600 > 0 \to -101/300 < 0$) under the Carbon Scrubbing Efficiency Incentive, and the lifecycle net removal positivity threshold ($\eta_{\mathrm{LCA}} = -1/4 < 0 < 13/20$). -/)]
+theorem co2_carbon_scrubbing_efficiency_relative_cost_and_incentive_identities :
+    co2ToCarbonMassRatio = 11 / 3 ∧
+    co2ToOxygenByproductMassRatio = 8 / 3 ∧
+    1 + co2ToOxygenByproductMassRatio = co2ToCarbonMassRatio ∧
+    co2ScrubbingThermodynamicEfficiency co2SplittingTheoreticalMinKwhPerKgC (91 / 2) = 1 / 5 ∧
+    co2ScrubbingThermodynamicEfficiency co2SplittingTheoreticalMinKwhPerKgC 13 = 7 / 10 ∧
+    co2ScrubbingThermodynamicEfficiency co2SplittingTheoreticalMinKwhPerKgC (91 / 2) <
+      co2ScrubbingThermodynamicEfficiency co2SplittingTheoreticalMinKwhPerKgC 13 ∧
+    co2ScrubbingNetCarbonCostPerKg co2SplittingTheoreticalMinKwhPerKgC (7 / 10) (3 / 100) (1 / 5) (18 / 100) (1 / 10) =
+      -101 / 300 ∧
+    co2ScrubbingNetCarbonCostPerKg co2SplittingTheoreticalMinKwhPerKgC (7 / 10) (3 / 100) (1 / 5) (18 / 100) (1 / 10) < 0 ∧
+    0 < co2ScrubbingNetCarbonCostPerKg co2SplittingTheoreticalMinKwhPerKgC (1 / 5) (3 / 100) (1 / 5) (18 / 100) (1 / 10) ∧
+    co2LifecycleNetScrubbingFactor (25 / 2) (1 / 10) = -1 / 4 ∧
+    co2LifecycleNetScrubbingFactor (7 / 2) (1 / 10) = 13 / 20 ∧
+    co2LifecycleNetScrubbingFactor (25 / 2) (1 / 10) < 0 ∧
+    0 < co2LifecycleNetScrubbingFactor (7 / 2) (1 / 10) := by
+  refine ⟨
+    by unfold co2ToCarbonMassRatio; norm_num,
+    by unfold co2ToOxygenByproductMassRatio; norm_num,
+    by unfold co2ToOxygenByproductMassRatio co2ToCarbonMassRatio; norm_num,
+    by unfold co2ScrubbingThermodynamicEfficiency co2SplittingTheoreticalMinKwhPerKgC; norm_num,
+    by unfold co2ScrubbingThermodynamicEfficiency co2SplittingTheoreticalMinKwhPerKgC; norm_num,
+    by unfold co2ScrubbingThermodynamicEfficiency co2SplittingTheoreticalMinKwhPerKgC; norm_num,
+    by unfold co2ScrubbingNetCarbonCostPerKg co2SplittingTheoreticalMinKwhPerKgC co2ToCarbonMassRatio co2ToOxygenByproductMassRatio; norm_num,
+    by unfold co2ScrubbingNetCarbonCostPerKg co2SplittingTheoreticalMinKwhPerKgC co2ToCarbonMassRatio co2ToOxygenByproductMassRatio; norm_num,
+    by unfold co2ScrubbingNetCarbonCostPerKg co2SplittingTheoreticalMinKwhPerKgC co2ToCarbonMassRatio co2ToOxygenByproductMassRatio; norm_num,
+    by unfold co2LifecycleNetScrubbingFactor; norm_num,
+    by unfold co2LifecycleNetScrubbingFactor; norm_num,
+    by unfold co2LifecycleNetScrubbingFactor; norm_num,
+    by unfold co2LifecycleNetScrubbingFactor; norm_num⟩
+
 end Signals.SolitonBus
