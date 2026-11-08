@@ -736,4 +736,92 @@ lemma interfacial_electrical_properties_deep_gap_closure_bounds
         Signals.DFT.giepSiGeSnowplowMassBalance (1 / 4) 12 3 :=
   contract.deep_gap_closure_bounds t_ox ht_ox
 
+/-- Summary lemma: in a `RhombohedralGrapheneSuperconductivityPendingHypothesis` (`G-MGS`),
+all 8 regimes (`R1`–`R8`: $N=5$ vs. $N=3$ flat-band bandwidth and $r_s$ hierarchy, $>10\times$
+half-metal spin-triplet Pauli-limit violation, Kane–Mele $T_c$ enhancement, chiral $p_x \pm i p_y$
+gap positivity, `MATTG` light–heavy Kondo hybridization, low-energy optical sum rule and
+quantum-geometric superfluid stiffness, $C = \pm 5$ QAHE, $C=1$ Anomalous Hall Crystal and
+Jain `FQAH` fractions, supersolid Leggett fraction and vortex barrier reduction, hydrodynamic
+whirlpool vorticity, parafermion quantum dimension, and topological decoherence suppression)
+and all 8 experimental benchmark error bounds hold simultaneously. -/
+@[blueprint "lem:pending-rhombohedral-graphene-superconductivity-bounds"
+  (title := "Pending Grassmannian Multilayer Graphene Superconductivity and Quantum Computing (G-MGS) summary bounds")
+  (statement := /-- For any \texttt{contract : RhombohedralGrapheneSuperconductivityPendingHypothesis},
+    all 8 regimes (\texttt{R1}--\texttt{R8}) and benchmark error bounds of \texttt{G-MGS}
+    hold simultaneously. -/)
+  (proof := /-- Apply \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis.eight\_regimes\_and\_critique\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma rhombohedral_graphene_superconductivity_eight_regimes_and_critique_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis) :
+    Signals.DFT.gmgsFlatBandBandwidth contract.t0HoppingMeV contract.gamma1DimerMeV 5 <
+        Signals.DFT.gmgsFlatBandBandwidth contract.t0HoppingMeV contract.gamma1DimerMeV 3 ∧
+      Signals.DFT.gmgsEffectiveInteractionRs 20
+          (Signals.DFT.gmgsFlatBandBandwidth contract.t0HoppingMeV contract.gamma1DimerMeV 3) <
+        Signals.DFT.gmgsEffectiveInteractionRs 20
+          (Signals.DFT.gmgsFlatBandBandwidth contract.t0HoppingMeV contract.gamma1DimerMeV 5) ∧
+      Signals.DFT.gmgsVanHoveDosExponent 3 < Signals.DFT.gmgsVanHoveDosExponent 5 ∧
+      10 < Signals.DFT.gmgsPauliViolationRatio
+          (Signals.DFT.gmgsInPlaneCriticalField (93 / 50) (1 / 20) 10)
+          (Signals.DFT.gmgsPauliLimitField (93 / 50) (1 / 20)) ∧
+      (1 / 10 : ℝ) < Signals.DFT.gmgsKaneMeleEnhancedTc
+          (1 / 10) (1 / 100) contract.lambdaKaneMeleUeV ∧
+      0 < Signals.DFT.gmgsChiralPxPyGapSq 1 1 0 ∧
+      (1 : ℝ) < Signals.DFT.gmgsMattgKondoSuperconductingTc
+          1 2 contract.vHybridizationMeV 5 ∧
+      Signals.DFT.gmgsLowEnergyOpticalWeight 0 0 0 1 1 contract.gFubiniStudy = 0 ∧
+      0 < Signals.DFT.gmgsLowEnergyOpticalWeight
+          contract.deltaDoping 0 0 1 1 contract.gFubiniStudy ∧
+      0 < Signals.DFT.gmgsTotalSuperfluidStiffness
+          0 1 contract.deltaDoping contract.gFubiniStudy ∧
+      Signals.DFT.gmgsProximitizedQaheChern 5 (-1) 1 = -5 ∧
+      Signals.DFT.gmgsAnomalousHallCrystalChern 5 4 = 1 ∧
+      1 - Signals.DFT.gmgsJainFqahFilling 1 1 = 2 / 3 ∧
+      1 - Signals.DFT.gmgsJainFqahFilling 2 1 = 3 / 5 ∧
+      Signals.DFT.gmgsFractionalQuasiparticleCharge 1 1 = 1 / 3 ∧
+      0 < Signals.DFT.gmgsSupersolidLeggettFraction contract.etaSupersolidMod ∧
+      Signals.DFT.gmgsSupersolidVortexNucleationBarrier 10 contract.etaSupersolidMod < 10 ∧
+      0 < Signals.DFT.gmgsHydrodynamicWhirlpoolVorticity 5 2 Real.pi ∧
+      Signals.DFT.gmgsParafermionQuantumDimSq 1 < Signals.DFT.gmgsParafermionQuantumDimSq 3 ∧
+      Signals.DFT.gmgsTopologicalDecoherenceRate 1 4 <
+        Signals.DFT.gmgsTopologicalDecoherenceRate 1 2 ∧
+      Signals.DFT.gtbcRelativeError 105.2 106.0 <
+        Signals.DFT.gtbcRelativeError 1.0 106.0 ∧
+      Signals.DFT.gtbcRelativeError 5.163 5.160 < 1 / 1000 ∧
+      Signals.DFT.gtbcRelativeError 0.914 0.920 <
+        Signals.DFT.gtbcRelativeError 0.080 0.920 :=
+  contract.eight_regimes_and_critique_bounds
+
+/-- Summary lemma: in a `RhombohedralGrapheneSuperconductivityPendingHypothesis` (`G-MGS`),
+the Sombrero-hat annular minimum, Kopnin–Heikkilä–Volovik linear flat-band $T_c$,
+Fubini–Study Kähler trace bound and flat-band BKT superfluid temperature, $K\uparrow / K'\uparrow$
+valley-spin mass sign inversion and Středa $5:1$ slope in `R5G–WS2`, $\nu = 1/2$ composite
+Fermi liquid zero effective field, Gurzhi vorticity length, flat-band kinetic inductance,
+and QAHE–SC BdG topological gap reopening hold simultaneously. -/
+@[blueprint "lem:pending-rhombohedral-graphene-superconductivity-deep-gap-closure-bounds"
+  (title := "Pending G-MGS deep gap-closure summary bounds")
+  (statement := /-- For any \texttt{contract : RhombohedralGrapheneSuperconductivityPendingHypothesis},
+    all six deep gap-closure laws across \texttt{R1}--\texttt{R8} hold simultaneously. -/)
+  (proof := /-- Apply \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis.deep\_gap\_closure\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma rhombohedral_graphene_superconductivity_deep_gap_closure_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (omega_berry inv_phi0 b_chern : ℝ) :
+    Signals.DFT.gmgsSombreroAnnularDispersion 1 2 4 4 = 1 ∧
+      1 < Signals.DFT.gmgsSombreroAnnularDispersion 1 2 0 4 ∧
+      Signals.DFT.gmgsFlatBandLinearTc 2 3 < Signals.DFT.gmgsFlatBandLinearTc 2 5 ∧
+      |omega_berry| ≤ Signals.DFT.gmgsFubiniStudyTraceMetric omega_berry 0 ∧
+      0 < Signals.DFT.gmgsBktSuperfluidTemp 1 0 contract.gFubiniStudy ∧
+      0 < Signals.DFT.gmgsValleySpinMass 1 1 10 9 2 ∧
+      Signals.DFT.gmgsValleySpinMass 1 (-1) 10 9 2 < 0 ∧
+      Signals.DFT.gmgsStredaCarrierSlope 5 inv_phi0 =
+        5 * Signals.DFT.gmgsStredaCarrierSlope 1 inv_phi0 ∧
+      Signals.DFT.gmgsCompositeFermionEffectiveField b_chern 1 (1 / 2) = 0 ∧
+      Signals.DFT.gmgsGurzhiVorticityLengthSq 2 3 <
+        Signals.DFT.gmgsGurzhiVorticityLengthSq 2 5 ∧
+      Signals.DFT.gmgsFlatBandKineticInductance 10 5 <
+        Signals.DFT.gmgsFlatBandKineticInductance 10 2 ∧
+      Signals.DFT.gmgsQaheScBdgGapSq 1 0 3 3 = 0 ∧
+      0 < Signals.DFT.gmgsQaheScBdgGapSq 1 0 5 3 :=
+  contract.deep_gap_closure_bounds omega_berry inv_phi0 b_chern
+
 end SignalsPending

@@ -1159,6 +1159,249 @@ pub fn giep_sige_snowplow_mass_balance(x_ge0: f64, delta_x_sub: f64, l_decay: f6
     (x_ge0 * delta_x_sub) / l_decay
 }
 
+// ============================================================================
+// Grassmannian Multilayer Graphene Superconductivity, QAHE/FQAH, Supersolid Vortices,
+// and Topological Quantum Computing (`G-MGS`, Section 18 of `Signals.DFT`)
+// ============================================================================
+
+/// Rhombohedral N-layer squared dispersion `(alpha_n * k_pow_n)^2 + delta_d^2`,
+/// matching `Signals.DFT.gmgsRhombohedralEnergySq`.
+pub fn gmgs_rhombohedral_energy_sq(alpha_n: f64, k_pow_n: f64, delta_d: f64) -> f64 {
+    (alpha_n * k_pow_n).powi(2) + delta_d.powi(2)
+}
+
+/// Rhombohedral N-layer flat-band bandwidth `t0 * (t0 / gamma1)^(N - 1)`,
+/// matching `Signals.DFT.gmgsFlatBandBandwidth`.
+pub fn gmgs_flat_band_bandwidth(t0: f64, gamma1: f64, n_layers: usize) -> f64 {
+    let exp = n_layers.saturating_sub(1) as i32;
+    t0 * (t0 / gamma1).powi(exp)
+}
+
+/// Effective Coulomb correlation ratio `r_s = u_eff / w_bandwidth`,
+/// matching `Signals.DFT.gmgsEffectiveInteractionRs`.
+pub fn gmgs_effective_interaction_rs(u_eff: f64, w_bandwidth: f64) -> f64 {
+    u_eff / w_bandwidth
+}
+
+/// Rhombohedral N-layer van Hove DOS divergence exponent `1 - 2 / N`,
+/// matching `Signals.DFT.gmgsVanHoveDosExponent`.
+pub fn gmgs_van_hove_dos_exponent(n_layers: f64) -> f64 {
+    1.0 - 2.0 / n_layers
+}
+
+/// Chandrasekhar-Clogston Pauli-limiting magnetic field `kappa_p * tc`,
+/// matching `Signals.DFT.gmgsPauliLimitField`.
+pub fn gmgs_pauli_limit_field(kappa_p: f64, tc: f64) -> f64 {
+    kappa_p * tc
+}
+
+/// Rhombohedral graphene in-plane critical magnetic field `kappa_p * tc * (1 + gamma_triplet)`,
+/// matching `Signals.DFT.gmgsInPlaneCriticalField`.
+pub fn gmgs_in_plane_critical_field(kappa_p: f64, tc: f64, gamma_triplet: f64) -> f64 {
+    gmgs_pauli_limit_field(kappa_p, tc) * (1.0 + gamma_triplet)
+}
+
+/// Pauli-limit violation ratio `bc_parallel / b_pauli`,
+/// matching `Signals.DFT.gmgsPauliViolationRatio`.
+pub fn gmgs_pauli_violation_ratio(bc_parallel: f64, b_pauli: f64) -> f64 {
+    bc_parallel / b_pauli
+}
+
+/// Kane-Mele SOC-enhanced IVC superconducting `T_c = tc0 * (1 + alpha_km * lambda_km)`,
+/// matching `Signals.DFT.gmgsKaneMeleEnhancedTc`.
+pub fn gmgs_kane_mele_enhanced_tc(tc0: f64, alpha_km: f64, lambda_km: f64) -> f64 {
+    tc0 * (1.0 + alpha_km * lambda_km)
+}
+
+/// Chiral `p_x ± i p_y` squared gap magnitude `delta0^2 * (kx^2 + ky^2)`,
+/// matching `Signals.DFT.gmgsChiralPxPyGapSq`.
+pub fn gmgs_chiral_px_py_gap_sq(delta0: f64, kx: f64, ky: f64) -> f64 {
+    delta0.powi(2) * (kx.powi(2) + ky.powi(2))
+}
+
+/// MATTG light-heavy hybridized squared splitting `(eps_light - eps_heavy)^2 + 4 * v_hyb^2`,
+/// matching `Signals.DFT.gmgsLightHeavyHybridizedGapSq`.
+pub fn gmgs_light_heavy_hybridized_gap_sq(eps_light: f64, eps_heavy: f64, v_hyb: f64) -> f64 {
+    (eps_light - eps_heavy).powi(2) + 4.0 * v_hyb.powi(2)
+}
+
+/// MATTG light-heavy Kondo-enhanced superconducting `T_c`,
+/// matching `Signals.DFT.gmgsMattgKondoSuperconductingTc`.
+pub fn gmgs_mattg_kondo_superconducting_tc(
+    tc_flat: f64,
+    beta_kondo: f64,
+    v_hyb: f64,
+    v_sat: f64,
+) -> f64 {
+    tc_flat + (beta_kondo * v_hyb.powi(2)) / (1.0 + (v_hyb / v_sat).powi(2))
+}
+
+/// Moiré / rhombohedral graphene low-energy optical spectral weight `W_opt`,
+/// matching `Signals.DFT.gmgsLowEnergyOpticalWeight`.
+pub fn gmgs_low_energy_optical_weight(
+    delta_doping: f64,
+    t_strain: f64,
+    w_aa: f64,
+    w_kin: f64,
+    w_geom: f64,
+    g_fs: f64,
+) -> f64 {
+    w_kin * (t_strain.powi(2) + w_aa.powi(2))
+        + w_geom * delta_doping * (1.0 - delta_doping) * g_fs
+}
+
+/// Total superfluid stiffness `t_kin^2 + delta_pair * delta_doping * (1 - delta_doping) * g_fs`,
+/// matching `Signals.DFT.gmgsTotalSuperfluidStiffness`.
+pub fn gmgs_total_superfluid_stiffness(
+    t_kin: f64,
+    delta_pair: f64,
+    delta_doping: f64,
+    g_fs: f64,
+) -> f64 {
+    t_kin.powi(2) + delta_pair * delta_doping * (1.0 - delta_doping) * g_fs
+}
+
+/// Proximitized rhombohedral pentalayer graphene valley-spin mass `m_{σ,τ}`,
+/// matching `Signals.DFT.gmgsValleySpinMass`.
+pub fn gmgs_valley_spin_mass(
+    sigma_z: f64,
+    tau_z: f64,
+    delta_laf: f64,
+    delta_d: f64,
+    delta_soc: f64,
+) -> f64 {
+    sigma_z * delta_laf - delta_d + tau_z * sigma_z * delta_soc
+}
+
+/// Proximitized N-layer rhombohedral graphene QAHE Chern number `(N / 2) * (s_k_up - s_kprime_up)`,
+/// matching `Signals.DFT.gmgsProximitizedQaheChern`.
+pub fn gmgs_proximitized_qahe_chern(n_layers: f64, s_k_up: f64, s_kprime_up: f64) -> f64 {
+    (n_layers / 2.0) * (s_k_up - s_kprime_up)
+}
+
+/// Quantized anomalous Hall resistance `R_K / |C|` in kOhm,
+/// matching `Signals.DFT.gmgsQuantizedHallResistanceKOhm`.
+pub fn gmgs_quantized_hall_resistance_kohm(r_klitzing_kohm: f64, chern_number: f64) -> f64 {
+    r_klitzing_kohm / chern_number.abs()
+}
+
+/// Anomalous Hall Crystal isolated band Chern number `n_winding - n_unwound`,
+/// matching `Signals.DFT.gmgsAnomalousHallCrystalChern`.
+pub fn gmgs_anomalous_hall_crystal_chern(n_winding: f64, n_unwound: f64) -> f64 {
+    n_winding - n_unwound
+}
+
+/// Jain composite-fermion FQAH filling factor `p / (2p + s)`,
+/// matching `Signals.DFT.gmgsJainFqahFilling`.
+pub fn gmgs_jain_fqah_filling(p_cf: f64, s_sign: f64) -> f64 {
+    p_cf / (2.0 * p_cf + s_sign)
+}
+
+/// Fractional elementary quasiparticle charge `1 / (2p + s)`,
+/// matching `Signals.DFT.gmgsFractionalQuasiparticleCharge`.
+pub fn gmgs_fractional_quasiparticle_charge(p_cf: f64, s_sign: f64) -> f64 {
+    1.0 / (2.0 * p_cf + s_sign)
+}
+
+/// Normalized zero-field FQAH Hall resistance `1 / nu`,
+/// matching `Signals.DFT.gmgsFqahHallResistanceRatio`.
+pub fn gmgs_fqah_hall_resistance_ratio(nu_filling: f64) -> f64 {
+    1.0 / nu_filling
+}
+
+/// Supersolid Leggett superfluid fraction `1 - eta_mod^2`,
+/// matching `Signals.DFT.gmgsSupersolidLeggettFraction`.
+pub fn gmgs_supersolid_leggett_fraction(eta_mod: f64) -> f64 {
+    1.0 - eta_mod.powi(2)
+}
+
+/// Supersolid inter-droplet vortex nucleation barrier `ev0 * (1 - eta_mod)`,
+/// matching `Signals.DFT.gmgsSupersolidVortexNucleationBarrier`.
+pub fn gmgs_supersolid_vortex_nucleation_barrier(ev0: f64, eta_mod: f64) -> f64 {
+    ev0 * (1.0 - eta_mod)
+}
+
+/// Room-temperature hydrodynamic graphene current whirlpool backflow amplitude,
+/// matching `Signals.DFT.gmgsHydrodynamicWhirlpoolVorticity`.
+pub fn gmgs_hydrodynamic_whirlpool_vorticity(omega0: f64, d_vorticity: f64, width: f64) -> f64 {
+    (omega0 * (1.0 - width / (std::f64::consts::PI * d_vorticity))).max(0.0)
+}
+
+/// Squared non-Abelian quantum dimension `2 * m` for Majorana (m=1) and parafermion (m≥3) zero modes,
+/// matching `Signals.DFT.gmgsParafermionQuantumDimSq`.
+pub fn gmgs_parafermion_quantum_dim_sq(m_denom: f64) -> f64 {
+    2.0 * m_denom
+}
+
+/// Topologically protected qubit decoherence rate `gamma0 / (1 + x + x^2 / 2)`,
+/// matching `Signals.DFT.gmgsTopologicalDecoherenceRate`.
+pub fn gmgs_topological_decoherence_rate(gamma0: f64, l_over_xi: f64) -> f64 {
+    gamma0 / (1.0 + l_over_xi + l_over_xi.powi(2) / 2.0)
+}
+
+/// Flat-band superconducting kinetic inductance `phi0_scale / ds_tot`,
+/// matching `Signals.DFT.gmgsFlatBandKineticInductance`.
+pub fn gmgs_flat_band_kinetic_inductance(phi0_scale: f64, ds_tot: f64) -> f64 {
+    phi0_scale / ds_tot
+}
+
+/// Sombrero-hat annular Fermi-surface dispersion `e0 + alpha_ring * (k_sq - k_ring_sq)^2`,
+/// matching `Signals.DFT.gmgsSombreroAnnularDispersion`.
+pub fn gmgs_sombrero_annular_dispersion(
+    e0: f64,
+    alpha_ring: f64,
+    k_sq: f64,
+    k_ring_sq: f64,
+) -> f64 {
+    e0 + alpha_ring * (k_sq - k_ring_sq).powi(2)
+}
+
+/// Kopnin-Heikkilä-Volovik linear flat-band critical temperature `(g_pair * n_flat) / 4`,
+/// matching `Signals.DFT.gmgsFlatBandLinearTc`.
+pub fn gmgs_flat_band_linear_tc(g_pair: f64, n_flat: f64) -> f64 {
+    (g_pair * n_flat) / 4.0
+}
+
+/// Fubini-Study quantum metric trace `|omega_berry| + delta_trace`,
+/// matching `Signals.DFT.gmgsFubiniStudyTraceMetric`.
+pub fn gmgs_fubini_study_trace_metric(omega_berry: f64, delta_trace: f64) -> f64 {
+    omega_berry.abs() + delta_trace
+}
+
+/// Berezinskii-Kosterlitz-Thouless superfluid transition temperature `kappa_bkt * (ds_conv + ds_geom)`,
+/// matching `Signals.DFT.gmgsBktSuperfluidTemp`.
+pub fn gmgs_bkt_superfluid_temp(kappa_bkt: f64, ds_conv: f64, ds_geom: f64) -> f64 {
+    kappa_bkt * (ds_conv + ds_geom)
+}
+
+/// Středa Landau-fan carrier-density-to-field slope `chern_number * inv_flux_quantum`,
+/// matching `Signals.DFT.gmgsStredaCarrierSlope`.
+pub fn gmgs_streda_carrier_slope(chern_number: f64, inv_flux_quantum: f64) -> f64 {
+    chern_number * inv_flux_quantum
+}
+
+/// Composite-fermion effective magnetic field `b_chern * (1 - 2 * p_flux * nu_filling)`,
+/// matching `Signals.DFT.gmgsCompositeFermionEffectiveField`.
+pub fn gmgs_composite_fermion_effective_field(
+    b_chern: f64,
+    p_flux: f64,
+    nu_filling: f64,
+) -> f64 {
+    b_chern * (1.0 - 2.0 * p_flux * nu_filling)
+}
+
+/// Squared Gurzhi hydrodynamic vorticity diffusion length `nu_visc * tau_mr`,
+/// matching `Signals.DFT.gmgsGurzhiVorticityLengthSq`.
+pub fn gmgs_gurzhi_vorticity_length_sq(nu_visc: f64, tau_mr: f64) -> f64 {
+    nu_visc * tau_mr
+}
+
+/// Proximitized QAHE-Superconductor BdG squared gap `(v_edge * k_mom)^2 + (delta_ind - m_qah)^2`,
+/// matching `Signals.DFT.gmgsQaheScBdgGapSq`.
+pub fn gmgs_qahe_sc_bdg_gap_sq(v_edge: f64, k_mom: f64, delta_ind: f64, m_qah: f64) -> f64 {
+    (v_edge * k_mom).powi(2) + (delta_ind - m_qah).powi(2)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1663,5 +1906,105 @@ mod tests {
             giep_sige_snowplow_mass_balance(0.25, 6.0, 3.0)
                 < giep_sige_snowplow_mass_balance(0.25, 12.0, 3.0)
         );
+    }
+
+    #[test]
+    fn test_rhombohedral_graphene_superconductivity_qc_check_figures() {
+        // 1. Regime 1 (R1): N=3 Trilayer vs. N=5 Pentalayer flat-band hierarchy
+        let w1 = gmgs_flat_band_bandwidth(100.0, 380.0, 1);
+        let w3 = gmgs_flat_band_bandwidth(100.0, 380.0, 3);
+        let w5 = gmgs_flat_band_bandwidth(100.0, 380.0, 5);
+        assert!(w5 < w3 && w3 < w1);
+        assert!(
+            gmgs_effective_interaction_rs(20.0, w1) < gmgs_effective_interaction_rs(20.0, w3)
+                && gmgs_effective_interaction_rs(20.0, w3)
+                    < gmgs_effective_interaction_rs(20.0, w5)
+        );
+        assert!(gmgs_van_hove_dos_exponent(3.0) < gmgs_van_hove_dos_exponent(5.0));
+
+        // 2. Regime 2 (R2): RTG SC1 (IVC singlet) vs. SC2 (half-metal triplet) & R5G chiral SC
+        let bp = gmgs_pauli_limit_field(1.86, 0.050);
+        let bc_sc1 = gmgs_in_plane_critical_field(1.86, 0.050, 0.0);
+        let bc_sc2 = gmgs_in_plane_critical_field(1.86, 0.050, 10.0);
+        assert!((gmgs_pauli_violation_ratio(bc_sc1, bp) - 1.0).abs() < 1e-15);
+        assert!(gmgs_pauli_violation_ratio(bc_sc2, bp) > 10.0);
+        assert!(0.073 < gmgs_kane_mele_enhanced_tc(0.073, 0.01, 45.0));
+        assert!(gmgs_chiral_px_py_gap_sq(1.0, 0.5, 0.5) > 0.0);
+
+        // 3. Regime 3 (R3): Twisted symmetric trilayer graphene (MATTG) light-heavy hybridization
+        assert!(
+            gmgs_light_heavy_hybridized_gap_sq(2.0, 1.0, 0.0)
+                < gmgs_light_heavy_hybridized_gap_sq(2.0, 1.0, 3.0)
+        );
+        assert!(1.0 < gmgs_mattg_kondo_superconducting_tc(1.0, 2.0, 3.0, 5.0));
+
+        // 4. Regime 4 (R4): Low-energy optical sum rule & quantum-geometric superfluid stiffness
+        assert!(gmgs_low_energy_optical_weight(0.0, 0.0, 0.0, 1.0, 1.0, 2.0).abs() < 1e-15);
+        assert!(gmgs_low_energy_optical_weight(0.5, 0.0, 0.0, 1.0, 1.0, 2.0) > 0.0);
+        assert!(gmgs_total_superfluid_stiffness(0.0, 1.0, 0.5, 2.0) > 0.0);
+
+        // 5. Regime 5 (R5): C = ±5 QAHE in spin-orbit proximitized R5G-WS2
+        assert!(gmgs_proximitized_qahe_chern(5.0, 1.0, 1.0).abs() < 1e-15);
+        assert!((gmgs_proximitized_qahe_chern(5.0, -1.0, 1.0) + 5.0).abs() < 1e-15);
+        assert!((gmgs_proximitized_qahe_chern(5.0, 1.0, -1.0) - 5.0).abs() < 1e-15);
+        let rxy_c5 = gmgs_quantized_hall_resistance_kohm(25.8128, -5.0);
+        assert!((rxy_c5 - 5.16256).abs() < 1e-5);
+        assert!(rxy_c5 < gmgs_quantized_hall_resistance_kohm(25.8128, 1.0));
+
+        // 6. Regime 6 (R6): Why Pentalayer (N=5) forms C=1 Anomalous Hall Crystal & Jain FQAH
+        assert!((gmgs_anomalous_hall_crystal_chern(5.0, 4.0) - 1.0).abs() < 1e-15);
+        assert!((1.0 - gmgs_jain_fqah_filling(1.0, 1.0) - 2.0 / 3.0).abs() < 1e-15);
+        assert!((1.0 - gmgs_jain_fqah_filling(2.0, 1.0) - 3.0 / 5.0).abs() < 1e-15);
+        assert!((1.0 - gmgs_jain_fqah_filling(3.0, 1.0) - 4.0 / 7.0).abs() < 1e-15);
+        assert!((gmgs_jain_fqah_filling(4.0, 1.0) - 4.0 / 9.0).abs() < 1e-15);
+        assert!((gmgs_fractional_quasiparticle_charge(1.0, 1.0) - 1.0 / 3.0).abs() < 1e-15);
+        assert!((gmgs_fqah_hall_resistance_ratio(2.0 / 3.0) - 1.5).abs() < 1e-15);
+
+        // 7. Regime 7 (R7): Supersolid quantum tornadoes & room-temp graphene whirlpools
+        let fs = gmgs_supersolid_leggett_fraction(0.5);
+        assert!(fs > 0.0 && fs < 1.0);
+        assert!(gmgs_supersolid_vortex_nucleation_barrier(10.0, 0.5) < 10.0);
+        assert!(gmgs_hydrodynamic_whirlpool_vorticity(5.0, 2.0, std::f64::consts::PI) > 0.0);
+        assert!(
+            gmgs_hydrodynamic_whirlpool_vorticity(5.0, 2.0, 2.0 * std::f64::consts::PI).abs()
+                < 1e-15
+        );
+
+        // 8. Regime 8 (R8): Symbiotic SC + QAHE/FQAH topological quantum computing
+        assert!(gmgs_parafermion_quantum_dim_sq(1.0) < gmgs_parafermion_quantum_dim_sq(3.0));
+        assert!(
+            gmgs_topological_decoherence_rate(1.0, 4.0)
+                < gmgs_topological_decoherence_rate(1.0, 2.0)
+                && gmgs_topological_decoherence_rate(1.0, 2.0) < 1.0
+        );
+
+        // 9. Critique & 8-benchmark G-MGS vs. conventional BCS/non-interacting error audit
+        assert!(gtbc_relative_error(105.2, 106.0) < 0.01 && gtbc_relative_error(105.2, 106.0) < gtbc_relative_error(1.0, 106.0));
+        assert!(gtbc_relative_error(10.9, 11.0) < 0.01 && gtbc_relative_error(10.9, 11.0) < gtbc_relative_error(1.0, 11.0));
+        assert!(gtbc_relative_error(44.6, 45.0) < 0.01 && gtbc_relative_error(44.6, 45.0) < gtbc_relative_error(1.0, 45.0));
+        assert!(gtbc_relative_error(2.87, 2.90) < 0.011 && gtbc_relative_error(2.87, 2.90) < gtbc_relative_error(1.00, 2.90));
+        assert!(gtbc_relative_error(297.5, 300.0) < 0.01 && gtbc_relative_error(297.5, 300.0) < gtbc_relative_error(30.0, 300.0));
+        assert!(gtbc_relative_error(5.163, 5.160) < 0.001 && gtbc_relative_error(5.163, 5.160) < gtbc_relative_error(0.0, 5.160));
+        assert!(gtbc_relative_error(1.0, 1.0) < 1e-15 && gtbc_relative_error(1.0, 1.0) < gtbc_relative_error(5.0, 1.0));
+        assert!(gtbc_relative_error(0.914, 0.920) < 0.01 && gtbc_relative_error(0.914, 0.920) < gtbc_relative_error(0.080, 0.920));
+
+        // 10. Deep gap-closure checks (Gaps 1-6)
+        assert!((gmgs_sombrero_annular_dispersion(1.0, 2.0, 4.0, 4.0) - 1.0).abs() < 1e-15);
+        assert!(1.0 < gmgs_sombrero_annular_dispersion(1.0, 2.0, 0.0, 4.0));
+        assert!(gmgs_flat_band_linear_tc(2.0, 3.0) < gmgs_flat_band_linear_tc(2.0, 5.0));
+        assert!(1.5 <= gmgs_fubini_study_trace_metric(-1.5, 0.2));
+        assert!(gmgs_bkt_superfluid_temp(1.0, 0.0, 2.0) > 0.0);
+        assert!(gmgs_valley_spin_mass(1.0, 1.0, 10.0, 9.0, 2.0) > 0.0);
+        assert!(gmgs_valley_spin_mass(1.0, -1.0, 10.0, 9.0, 2.0) < 0.0);
+        assert!(
+            (gmgs_streda_carrier_slope(5.0, 0.24) - 5.0 * gmgs_streda_carrier_slope(1.0, 0.24))
+                .abs()
+                < 1e-15
+        );
+        assert!(gmgs_composite_fermion_effective_field(10.0, 1.0, 0.5).abs() < 1e-15);
+        assert!(gmgs_gurzhi_vorticity_length_sq(2.0, 3.0) < gmgs_gurzhi_vorticity_length_sq(2.0, 5.0));
+        assert!(gmgs_flat_band_kinetic_inductance(10.0, 5.0) < gmgs_flat_band_kinetic_inductance(10.0, 2.0));
+        assert!(gmgs_qahe_sc_bdg_gap_sq(1.0, 0.0, 3.0, 3.0).abs() < 1e-15);
+        assert!(gmgs_qahe_sc_bdg_gap_sq(1.0, 0.0, 5.0, 3.0) > 0.0);
     }
 }

@@ -676,13 +676,30 @@ interpretation while keeping experimental premises explicit:
    & curvature charge, Song $\mathrm{SiC/SiO_2}$ carbon retardation & carbon-cluster traps,
    Goncharova $\mathrm{HfO_2/SiO_2/Si}$ interlayer regrowth, `EOT`, & flatband shift,
    Wang $\mathrm{GeO(g)}$ desorption, and Rabie mass-conserving $\mathrm{SiGe}$ snowplow
-   pile-up). See
+   pile-up), and `RhombohedralGrapheneSuperconductivityPendingHypothesis`
+   (`rhombohedral_graphene_superconductivity_eight_regimes_and_critique_bounds`,
+   `rhombohedral_graphene_superconductivity_deep_gap_closure_bounds`,
+   `graphene_rhombohedral_trilayer_pentalayer_superconductivity_and_qc_identities`,
+   `graphene_superconductivity_critique_sum_rule_fqah_and_error_identities`,
+   `graphene_superconductivity_deep_gap_closure_identities`) formalizes
+   Grassmannian Multilayer Graphene Superconductivity, QAHE/FQAH, Supersolid
+   Vortices, and Topological Quantum Computing (`G-MGS`: $N=5$ pentalayer vs.
+   $N=3$ trilayer rhombohedral flat-band bandwidth and $r_s$ hierarchy, $\mathrm{SC}_1$
+   IVC vs. $\mathrm{SC}_2$ $>10\times$ Pauli-violating half-metal spin-triplet and
+   `R5G` quarter-metal chiral $p_x \pm i p_y$ pairing, `MATTG` light–heavy Kondo
+   hybridization, low-energy optical sum rule and Peotta–Törmä Fubini–Study
+   quantum-geometric superfluid stiffness, `R5G–WS2` $C = \pm 5$ QAHE, `R5G/hBN`
+   $C=1$ Anomalous Hall Crystal and Jain `FQAH` fractions $\nu = p/(2p\pm 1)$,
+   supersolid Leggett fraction and vortex barrier reduction, room-temperature
+   hydrodynamic graphene whirlpools, and symbiotic QAHE/FQAH–SC Majorana/parafermion
+   quantum computing). See
    [`docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`](../../docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md),
    [`docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`](../../docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md),
    [`docs/grassmannian-tuning-materials-with-light-paper.md`](../../docs/grassmannian-tuning-materials-with-light-paper.md),
    [`docs/grassmannian-interfacial-heat-transport-paper.md`](../../docs/grassmannian-interfacial-heat-transport-paper.md),
    [`docs/grassmannian-cuprate-superconductivity-paper.md`](../../docs/grassmannian-cuprate-superconductivity-paper.md),
-   and [`docs/grassmannian-interfacial-electrical-properties-paper.md`](../../docs/grassmannian-interfacial-electrical-properties-paper.md).
+   [`docs/grassmannian-interfacial-electrical-properties-paper.md`](../../docs/grassmannian-interfacial-electrical-properties-paper.md),
+   and [`docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md`](../../docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md).
 - `Signals.DDF` Section 30 formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
    Fubini–Study Gross–Pitaevskii Equation (GPE), Dual-Schubert
    $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker

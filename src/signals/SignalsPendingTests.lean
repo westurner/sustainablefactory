@@ -5853,4 +5853,94 @@ example (t_ox : ℝ) (ht_ox : 0 ≤ t_ox) :
   SignalsPending.interfacial_electrical_properties_deep_gap_closure_bounds
     toyInterfacialElectricalPropertiesContract t_ox ht_ox
 
+noncomputable def toyRhombohedralGrapheneSuperconductivityContract :
+    Signals.Pending.RhombohedralGrapheneSuperconductivityPendingHypothesis :=
+  { interfacialContract := toyInterfacialElectricalPropertiesContract
+    t0HoppingMeV := 100
+    gamma1DimerMeV := 380
+    t0_pos := by norm_num
+    t0_lt_gamma1 := by norm_num
+    lambdaKaneMeleUeV := 45
+    lambdaKaneMele_pos := by norm_num
+    vHybridizationMeV := 3
+    vHybridization_pos := by norm_num
+    deltaDoping := 1 / 2
+    deltaDoping_pos := by norm_num
+    deltaDoping_lt_one := by norm_num
+    gFubiniStudy := 2
+    gFubiniStudy_pos := by norm_num
+    etaSupersolidMod := 1 / 2
+    etaSupersolid_pos := by norm_num
+    etaSupersolid_lt_one := by norm_num
+    millikelvinTransportValidated := True
+    millikelvinTransportValidated_hypothesis := trivial
+    squidMagnetometryValidated := True
+    squidMagnetometryValidated_hypothesis := trivial
+    qaheFqahHallPlateauValidated := True
+    qaheFqahHallPlateauValidated_hypothesis := trivial
+    majoranaParafermionBraidingValidated := True
+    majoranaParafermionBraidingValidated_hypothesis := trivial }
+
+example :
+    let c := toyRhombohedralGrapheneSuperconductivityContract
+    Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 5 <
+        Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 3 ∧
+      Signals.DFT.gmgsEffectiveInteractionRs 20
+          (Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 3) <
+        Signals.DFT.gmgsEffectiveInteractionRs 20
+          (Signals.DFT.gmgsFlatBandBandwidth c.t0HoppingMeV c.gamma1DimerMeV 5) ∧
+      Signals.DFT.gmgsVanHoveDosExponent 3 < Signals.DFT.gmgsVanHoveDosExponent 5 ∧
+      10 < Signals.DFT.gmgsPauliViolationRatio
+          (Signals.DFT.gmgsInPlaneCriticalField (93 / 50) (1 / 20) 10)
+          (Signals.DFT.gmgsPauliLimitField (93 / 50) (1 / 20)) ∧
+      (1 / 10 : ℝ) < Signals.DFT.gmgsKaneMeleEnhancedTc
+          (1 / 10) (1 / 100) c.lambdaKaneMeleUeV ∧
+      0 < Signals.DFT.gmgsChiralPxPyGapSq 1 1 0 ∧
+      (1 : ℝ) < Signals.DFT.gmgsMattgKondoSuperconductingTc
+          1 2 c.vHybridizationMeV 5 ∧
+      Signals.DFT.gmgsLowEnergyOpticalWeight 0 0 0 1 1 c.gFubiniStudy = 0 ∧
+      0 < Signals.DFT.gmgsLowEnergyOpticalWeight
+          c.deltaDoping 0 0 1 1 c.gFubiniStudy ∧
+      0 < Signals.DFT.gmgsTotalSuperfluidStiffness
+          0 1 c.deltaDoping c.gFubiniStudy ∧
+      Signals.DFT.gmgsProximitizedQaheChern 5 (-1) 1 = -5 ∧
+      Signals.DFT.gmgsAnomalousHallCrystalChern 5 4 = 1 ∧
+      1 - Signals.DFT.gmgsJainFqahFilling 1 1 = 2 / 3 ∧
+      1 - Signals.DFT.gmgsJainFqahFilling 2 1 = 3 / 5 ∧
+      Signals.DFT.gmgsFractionalQuasiparticleCharge 1 1 = 1 / 3 ∧
+      0 < Signals.DFT.gmgsSupersolidLeggettFraction c.etaSupersolidMod ∧
+      Signals.DFT.gmgsSupersolidVortexNucleationBarrier 10 c.etaSupersolidMod < 10 ∧
+      0 < Signals.DFT.gmgsHydrodynamicWhirlpoolVorticity 5 2 Real.pi ∧
+      Signals.DFT.gmgsParafermionQuantumDimSq 1 < Signals.DFT.gmgsParafermionQuantumDimSq 3 ∧
+      Signals.DFT.gmgsTopologicalDecoherenceRate 1 4 <
+        Signals.DFT.gmgsTopologicalDecoherenceRate 1 2 ∧
+      Signals.DFT.gtbcRelativeError 105.2 106.0 <
+        Signals.DFT.gtbcRelativeError 1.0 106.0 ∧
+      Signals.DFT.gtbcRelativeError 5.163 5.160 < 1 / 1000 ∧
+      Signals.DFT.gtbcRelativeError 0.914 0.920 <
+        Signals.DFT.gtbcRelativeError 0.080 0.920 :=
+  SignalsPending.rhombohedral_graphene_superconductivity_eight_regimes_and_critique_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+
+example (omega_berry inv_phi0 b_chern : ℝ) :
+    let c := toyRhombohedralGrapheneSuperconductivityContract
+    Signals.DFT.gmgsSombreroAnnularDispersion 1 2 4 4 = 1 ∧
+      1 < Signals.DFT.gmgsSombreroAnnularDispersion 1 2 0 4 ∧
+      Signals.DFT.gmgsFlatBandLinearTc 2 3 < Signals.DFT.gmgsFlatBandLinearTc 2 5 ∧
+      |omega_berry| ≤ Signals.DFT.gmgsFubiniStudyTraceMetric omega_berry 0 ∧
+      0 < Signals.DFT.gmgsBktSuperfluidTemp 1 0 c.gFubiniStudy ∧
+      0 < Signals.DFT.gmgsValleySpinMass 1 1 10 9 2 ∧
+      Signals.DFT.gmgsValleySpinMass 1 (-1) 10 9 2 < 0 ∧
+      Signals.DFT.gmgsStredaCarrierSlope 5 inv_phi0 =
+        5 * Signals.DFT.gmgsStredaCarrierSlope 1 inv_phi0 ∧
+      Signals.DFT.gmgsCompositeFermionEffectiveField b_chern 1 (1 / 2) = 0 ∧
+      Signals.DFT.gmgsGurzhiVorticityLengthSq 2 3 <
+        Signals.DFT.gmgsGurzhiVorticityLengthSq 2 5 ∧
+      Signals.DFT.gmgsFlatBandKineticInductance 10 5 <
+        Signals.DFT.gmgsFlatBandKineticInductance 10 2 ∧
+      Signals.DFT.gmgsQaheScBdgGapSq 1 0 3 3 = 0 ∧
+      0 < Signals.DFT.gmgsQaheScBdgGapSq 1 0 5 3 :=
+  SignalsPending.rhombohedral_graphene_superconductivity_deep_gap_closure_bounds
+    toyRhombohedralGrapheneSuperconductivityContract omega_berry inv_phi0 b_chern
+
 end SignalsPendingTests

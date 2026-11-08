@@ -1035,3 +1035,105 @@ def test_interfacial_electrical_properties_problem02_all_five_interfaces() -> No
     assert InterfacialElectricalProcessEngine.giep_sige_snowplow_mass_balance(
         0.25, 6.0, 3.0
     ) < InterfacialElectricalProcessEngine.giep_sige_snowplow_mass_balance(0.25, 12.0, 3.0)
+
+
+def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> None:
+    """
+    Verifies Grassmannian Multilayer Graphene Superconductivity, QAHE/FQAH, Supersolid
+    Vortices, and Topological Quantum Computing (`G-MGS`, Section 18 of `Signals.DFT`)
+    across all 8 regimes (`R1`-`R8`) and 6 deep gap closures.
+    """
+    from sustainablefactory.qci_grassmannian_dft import (
+        RhombohedralGrapheneSuperconductivityEngine as GMGS,
+    )
+
+    # Regime 1 (R1): Rhombohedral N=3 vs. N=5 flat-band bandwidth & r_s hierarchy
+    w1 = GMGS.gmgs_flat_band_bandwidth(100.0, 380.0, 1)
+    w3 = GMGS.gmgs_flat_band_bandwidth(100.0, 380.0, 3)
+    w5 = GMGS.gmgs_flat_band_bandwidth(100.0, 380.0, 5)
+    assert w5 < w3 < w1
+    assert (
+        GMGS.gmgs_effective_interaction_rs(20.0, w1)
+        < GMGS.gmgs_effective_interaction_rs(20.0, w3)
+        < GMGS.gmgs_effective_interaction_rs(20.0, w5)
+    )
+    assert GMGS.gmgs_van_hove_dos_exponent(3.0) < GMGS.gmgs_van_hove_dos_exponent(5.0)
+
+    # Regime 2 (R2): RTG SC1 (IVC singlet) vs. SC2 (half-metal triplet) & R5G chiral SC
+    bp = GMGS.gmgs_pauli_limit_field(1.86, 0.050)
+    bc_sc1 = GMGS.gmgs_in_plane_critical_field(1.86, 0.050, 0.0)
+    bc_sc2 = GMGS.gmgs_in_plane_critical_field(1.86, 0.050, 10.0)
+    assert np.isclose(GMGS.gmgs_pauli_violation_ratio(bc_sc1, bp), 1.0)
+    assert GMGS.gmgs_pauli_violation_ratio(bc_sc2, bp) > 10.0
+    assert GMGS.gmgs_kane_mele_enhanced_tc(0.073, 0.01, 45.0) > 0.073
+    assert GMGS.gmgs_chiral_px_py_gap_sq(1.0, 0.5, 0.5) > 0.0
+
+    # Regime 3 (R3): Twisted symmetric trilayer graphene (MATTG) light-heavy hybridization
+    assert GMGS.gmgs_light_heavy_hybridized_gap_sq(
+        2.0, 1.0, 0.0
+    ) < GMGS.gmgs_light_heavy_hybridized_gap_sq(2.0, 1.0, 3.0)
+    assert GMGS.gmgs_mattg_kondo_superconducting_tc(1.0, 2.0, 3.0, 5.0) > 1.0
+
+    # Regime 4 (R4): Low-energy optical sum rule & quantum-geometric superfluid stiffness
+    assert np.isclose(GMGS.gmgs_low_energy_optical_weight(0.0, 0.0, 0.0, 1.0, 1.0, 2.0), 0.0)
+    assert GMGS.gmgs_low_energy_optical_weight(0.5, 0.0, 0.0, 1.0, 1.0, 2.0) > 0.0
+    assert GMGS.gmgs_total_superfluid_stiffness(0.0, 1.0, 0.5, 2.0) > 0.0
+
+    # Regime 5 (R5): C = ±5 QAHE in spin-orbit proximitized R5G-WS2
+    assert np.isclose(GMGS.gmgs_proximitized_qahe_chern(5.0, 1.0, 1.0), 0.0)
+    assert np.isclose(GMGS.gmgs_proximitized_qahe_chern(5.0, -1.0, 1.0), -5.0)
+    assert np.isclose(GMGS.gmgs_proximitized_qahe_chern(5.0, 1.0, -1.0), 5.0)
+    rxy_c5 = GMGS.gmgs_quantized_hall_resistance_kohm(25.8128, -5.0)
+    assert np.isclose(rxy_c5, 5.16256)
+    assert rxy_c5 < GMGS.gmgs_quantized_hall_resistance_kohm(25.8128, 1.0)
+
+    # Regime 6 (R6): Why Pentalayer (N=5) forms C=1 Anomalous Hall Crystal & Jain FQAH
+    assert np.isclose(GMGS.gmgs_anomalous_hall_crystal_chern(5.0, 4.0), 1.0)
+    assert np.isclose(1.0 - GMGS.gmgs_jain_fqah_filling(1.0, 1.0), 2.0 / 3.0)
+    assert np.isclose(1.0 - GMGS.gmgs_jain_fqah_filling(2.0, 1.0), 3.0 / 5.0)
+    assert np.isclose(1.0 - GMGS.gmgs_jain_fqah_filling(3.0, 1.0), 4.0 / 7.0)
+    assert np.isclose(GMGS.gmgs_jain_fqah_filling(4.0, 1.0), 4.0 / 9.0)
+    assert np.isclose(GMGS.gmgs_fractional_quasiparticle_charge(1.0, 1.0), 1.0 / 3.0)
+    assert np.isclose(GMGS.gmgs_fqah_hall_resistance_ratio(2.0 / 3.0), 1.5)
+
+    # Regime 7 (R7): Supersolid quantum tornadoes & room-temperature graphene whirlpools
+    assert 0.0 < GMGS.gmgs_supersolid_leggett_fraction(0.5) < 1.0
+    assert GMGS.gmgs_supersolid_vortex_nucleation_barrier(10.0, 0.5) < 10.0
+    assert GMGS.gmgs_hydrodynamic_whirlpool_vorticity(5.0, 2.0, np.pi) > 0.0
+    assert np.isclose(GMGS.gmgs_hydrodynamic_whirlpool_vorticity(5.0, 2.0, 2.0 * np.pi), 0.0)
+
+    # Regime 8 (R8): Symbiotic SC + QAHE/FQAH topological quantum computing
+    assert GMGS.gmgs_parafermion_quantum_dim_sq(1.0) < GMGS.gmgs_parafermion_quantum_dim_sq(3.0)
+    assert (
+        GMGS.gmgs_topological_decoherence_rate(1.0, 4.0)
+        < GMGS.gmgs_topological_decoherence_rate(1.0, 2.0)
+        < 1.0
+    )
+
+    # Critique & 8-benchmark G-MGS vs. conventional BCS/non-interacting error audit
+    summary = GMGS.run_all_gmgs_benchmarks()
+    assert summary["overall_gmgs_mape"] < 0.01
+    assert summary["overall_conventional_mape"] > 0.85
+    assert summary["error_reduction_factor"] > 120.0
+
+    # Deep gap-closure checks (Gaps 1-6)
+    assert np.isclose(GMGS.gmgs_sombrero_annular_dispersion(1.0, 2.0, 4.0, 4.0), 1.0)
+    assert GMGS.gmgs_sombrero_annular_dispersion(1.0, 2.0, 0.0, 4.0) > 1.0
+    assert GMGS.gmgs_flat_band_linear_tc(2.0, 3.0) < GMGS.gmgs_flat_band_linear_tc(2.0, 5.0)
+    assert GMGS.gmgs_fubini_study_trace_metric(-1.5, 0.2) >= 1.5
+    assert GMGS.gmgs_bkt_superfluid_temp(1.0, 0.0, 2.0) > 0.0
+    assert GMGS.gmgs_valley_spin_mass(1.0, 1.0, 10.0, 9.0, 2.0) > 0.0
+    assert GMGS.gmgs_valley_spin_mass(1.0, -1.0, 10.0, 9.0, 2.0) < 0.0
+    assert np.isclose(
+        GMGS.gmgs_streda_carrier_slope(5.0, 0.24),
+        5.0 * GMGS.gmgs_streda_carrier_slope(1.0, 0.24),
+    )
+    assert np.isclose(GMGS.gmgs_composite_fermion_effective_field(10.0, 1.0, 0.5), 0.0)
+    assert GMGS.gmgs_gurzhi_vorticity_length_sq(2.0, 3.0) < GMGS.gmgs_gurzhi_vorticity_length_sq(
+        2.0, 5.0
+    )
+    assert GMGS.gmgs_flat_band_kinetic_inductance(
+        10.0, 5.0
+    ) < GMGS.gmgs_flat_band_kinetic_inductance(10.0, 2.0)
+    assert np.isclose(GMGS.gmgs_qahe_sc_bdg_gap_sq(1.0, 0.0, 3.0, 3.0), 0.0)
+    assert GMGS.gmgs_qahe_sc_bdg_gap_sq(1.0, 0.0, 5.0, 3.0) > 0.0

@@ -279,7 +279,7 @@ Finally, [`src/signals/Signals/QuantumCausalInference.lean`](src/signals/Signals
 [`src/signals/numerical_adapter/src/quantum_causal_inference.rs`](src/signals/numerical_adapter/src/quantum_causal_inference.rs),
 [`src/signals/numerical_adapter/src/dft_plabic_vrc.rs`](src/signals/numerical_adapter/src/dft_plabic_vrc.rs),
 [`sustainablefactory/qci_grassmannian_dft.py`](sustainablefactory/qci_grassmannian_dft.py),
-and `QuantumCausalMpembaSynthesisContract` / `QuantumCausalBundleVideoGenHypothesis` / `QuantumCausalSurgicalSplatGraphRAGHypothesis` / `QuantumCausalGrassmannianDFTHypothesis` / `LightDrivenMaterialsPendingHypothesis` / `InterfacialHeatTransportPendingHypothesis` / `CuprateSuperconductivityPendingHypothesis` / `InterfacialElectricalPropertiesPendingHypothesis` in [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean)
+and `QuantumCausalMpembaSynthesisContract` / `QuantumCausalBundleVideoGenHypothesis` / `QuantumCausalSurgicalSplatGraphRAGHypothesis` / `QuantumCausalGrassmannianDFTHypothesis` / `LightDrivenMaterialsPendingHypothesis` / `InterfacialHeatTransportPendingHypothesis` / `CuprateSuperconductivityPendingHypothesis` / `InterfacialElectricalPropertiesPendingHypothesis` / `RhombohedralGrapheneSuperconductivityPendingHypothesis` in [`src/signals/Signals/Pending.lean`](src/signals/Signals/Pending.lean)
 (documented in [`docs/grassmannian-quantum-causal-inference-mpemba-paper.md`](docs/grassmannian-quantum-causal-inference-mpemba-paper.md),
 [`docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md`](docs/grassmannian-quantum-causal-jev-bundle-transformer-videogen-paper.md),
 [`docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md`](docs/grassmannian-quantum-causal-splat-nanoimaging-surgical-graphrag-paper.md),
@@ -288,7 +288,8 @@ and `QuantumCausalMpembaSynthesisContract` / `QuantumCausalBundleVideoGenHypothe
 [`docs/grassmannian-tuning-materials-with-light-paper.md`](docs/grassmannian-tuning-materials-with-light-paper.md),
 [`docs/grassmannian-interfacial-heat-transport-paper.md`](docs/grassmannian-interfacial-heat-transport-paper.md),
 [`docs/grassmannian-cuprate-superconductivity-paper.md`](docs/grassmannian-cuprate-superconductivity-paper.md),
-and [`docs/grassmannian-interfacial-electrical-properties-paper.md`](docs/grassmannian-interfacial-electrical-properties-paper.md))
+[`docs/grassmannian-interfacial-electrical-properties-paper.md`](docs/grassmannian-interfacial-electrical-properties-paper.md),
+and [`docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md`](docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md))
 formalize Grassmannian causal transfer (`WeightedAcyclicNetwork.transfer_equation`),
 LGV / Trek d-separation bottlenecks ($\det = 0$ vs. $\det > 0$), Pearl's $\operatorname{do}(X)$
 incoming-edge surgery, $\mathrm{Gr}_{\mathbb{C}}(2,4)$ lightcone causality and Quantum Switch

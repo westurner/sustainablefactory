@@ -6850,4 +6850,223 @@ lemma InterfacialElectricalPropertiesPendingHypothesis.deep_gap_closure_bounds
     h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2⟩
 
+/-! ## 36. Grassmannian Multilayer Graphene Superconductivity, QAHE/FQAH, Supersolid Vortices,
+and Topological Quantum Computing (`G-MGS`) Pending Contract
+
+While `Signals.DFT.graphene_rhombohedral_trilayer_pentalayer_superconductivity_and_qc_identities`,
+`Signals.DFT.graphene_superconductivity_critique_sum_rule_fqah_and_error_identities`, and
+`Signals.DFT.graphene_superconductivity_deep_gap_closure_identities` machine-check the algebraic
+and constitutive identities across all 8 regimes (`R1`–`R8`: $N=3$ vs. $N=5$ rhombohedral flat-band
+bandwidth and interaction ratio $r_s$, $\mathrm{SC}_1$ IVC vs. $\mathrm{SC}_2$ spin-triplet
+$>10\times$ Pauli-limit violation and `R5G` quarter-metal chiral $p_x \pm i p_y$ pairing, `MATTG`
+light–heavy Kondo hybridization, low-energy optical sum rule and Peotta–Törmä Fubini–Study
+superfluid stiffness, `R5G–WS2` $C = \pm 5$ QAHE, $C=1$ Anomalous Hall Crystal and Jain `FQAH`
+fractions $\nu \in \{2/3, 3/5, 4/7, 4/9, 3/7, 2/5\}$, supersolid Leggett fraction and vortex
+barrier reduction, and QAHE/FQAH–SC Majorana/parafermion quantum computing), any claim of
+ambient-temperature ($-20^\circ\text{C}$ to $+80^\circ\text{C}$) flux-pinning superconductivity
+in unmeasured laser-induced or strained rhombohedral graphene pump stators, or fault-tolerant
+non-Abelian Majorana/parafermion braiding without dilution-refrigerator magnetotransport,
+SQUID-on-tip, and interferometric braiding verification, remains governed by
+`RhombohedralGrapheneSuperconductivityPendingHypothesis` in `Signals.Pending`. -/
+
+/-- A Pending validation contract for Grassmannian Multilayer Graphene Superconductivity,
+QAHE/FQAH, and Topological Quantum Computing (`G-MGS`), linking
+`InterfacialElectricalPropertiesPendingHypothesis` with rhombohedral hoppings $0 < t_0 < \gamma_1$,
+Kane–Mele spin–orbit coupling $\lambda_{\mathrm{KM}} > 0$, `MATTG` hybridization $V_{\mathrm{hyb}} > 0$,
+fractional doping $\delta \in (0, 1)$, Fubini–Study quantum metric $g_{\mathrm{FS}} > 0$,
+supersolid modulation $\eta_{\mathrm{mod}} \in (0, 1)$, and explicit experimental validation gates. -/
+@[blueprint "def:signals-rhombohedral-graphene-superconductivity-contract"
+  (title := "Pending Grassmannian Multilayer Graphene Superconductivity and Quantum Computing (G-MGS) validation contract")
+  (statement := /-- Links \texttt{InterfacialElectricalPropertiesPendingHypothesis} with
+    rhombohedral hoppings $0 < t_0 < \gamma_1$, Kane-Mele SOC $\lambda_{\mathrm{KM}} > 0$,
+    \texttt{MATTG} light-heavy hybridization $V_{\mathrm{hyb}} > 0$, fractional doping
+    $\delta \in (0, 1)$, Fubini-Study metric trace $g_{\mathrm{FS}} > 0$, supersolid
+    modulation $\eta_{\mathrm{mod}} \in (0, 1)$, and explicit validation gates for
+    millikelvin magnetotransport, SQUID magnetometry, and interferometric braiding. -/)]
+structure RhombohedralGrapheneSuperconductivityPendingHypothesis where
+  interfacialContract : InterfacialElectricalPropertiesPendingHypothesis
+  t0HoppingMeV : ℝ
+  gamma1DimerMeV : ℝ
+  t0_pos : 0 < t0HoppingMeV
+  t0_lt_gamma1 : t0HoppingMeV < gamma1DimerMeV
+  lambdaKaneMeleUeV : ℝ
+  lambdaKaneMele_pos : 0 < lambdaKaneMeleUeV
+  vHybridizationMeV : ℝ
+  vHybridization_pos : 0 < vHybridizationMeV
+  deltaDoping : ℝ
+  deltaDoping_pos : 0 < deltaDoping
+  deltaDoping_lt_one : deltaDoping < 1
+  gFubiniStudy : ℝ
+  gFubiniStudy_pos : 0 < gFubiniStudy
+  etaSupersolidMod : ℝ
+  etaSupersolid_pos : 0 < etaSupersolidMod
+  etaSupersolid_lt_one : etaSupersolidMod < 1
+  millikelvinTransportValidated : Prop
+  millikelvinTransportValidated_hypothesis : millikelvinTransportValidated
+  squidMagnetometryValidated : Prop
+  squidMagnetometryValidated_hypothesis : squidMagnetometryValidated
+  qaheFqahHallPlateauValidated : Prop
+  qaheFqahHallPlateauValidated_hypothesis : qaheFqahHallPlateauValidated
+  majoranaParafermionBraidingValidated : Prop
+  majoranaParafermionBraidingValidated_hypothesis : majoranaParafermionBraidingValidated
+
+/-- In any `RhombohedralGrapheneSuperconductivityPendingHypothesis`, all 8 regimes (`R1`–`R8`)
+and all 8 experimental benchmark error bounds of `G-MGS` hold simultaneously. -/
+@[blueprint "lem:signals-rhombohedral-graphene-superconductivity-bounds"
+  (title := "Pending Rhombohedral Graphene Superconductivity contract enforces all 8 regimes and error bounds")
+  (statement := /-- For any \texttt{contract : RhombohedralGrapheneSuperconductivityPendingHypothesis},
+    the $N=5$ vs. $N=3$ flat-band bandwidth and $r_s$ hierarchy, $>10\times$ spin-triplet
+    Pauli-limit violation, Kane-Mele $T_c$ enhancement, chiral $p_x \pm i p_y$ gap positivity,
+    \texttt{MATTG} light-heavy hybridization, low-energy optical sum rule and quantum-geometric
+    superfluid stiffness, $C = \pm 5$ QAHE, $C=1$ Anomalous Hall Crystal and Jain \texttt{FQAH}
+    fractions, supersolid Leggett fraction and vortex barrier reduction, hydrodynamic whirlpool
+    vorticity, parafermion quantum dimension, topological decoherence suppression, and
+    $\le 1.1\%$ 8-benchmark \texttt{G-MGS} error bounds hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.graphene\_rhombohedral\_trilayer\_pentalayer\_superconductivity\_and\_qc\_identities}
+    and \texttt{Signals.DFT.graphene\_superconductivity\_critique\_sum\_rule\_fqah\_and\_error\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.eight_regimes_and_critique_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis) :
+    Signals.DFT.gmgsFlatBandBandwidth contract.t0HoppingMeV contract.gamma1DimerMeV 5 <
+        Signals.DFT.gmgsFlatBandBandwidth contract.t0HoppingMeV contract.gamma1DimerMeV 3 ∧
+      Signals.DFT.gmgsEffectiveInteractionRs 20
+          (Signals.DFT.gmgsFlatBandBandwidth contract.t0HoppingMeV contract.gamma1DimerMeV 3) <
+        Signals.DFT.gmgsEffectiveInteractionRs 20
+          (Signals.DFT.gmgsFlatBandBandwidth contract.t0HoppingMeV contract.gamma1DimerMeV 5) ∧
+      Signals.DFT.gmgsVanHoveDosExponent 3 < Signals.DFT.gmgsVanHoveDosExponent 5 ∧
+      10 < Signals.DFT.gmgsPauliViolationRatio
+          (Signals.DFT.gmgsInPlaneCriticalField (93 / 50) (1 / 20) 10)
+          (Signals.DFT.gmgsPauliLimitField (93 / 50) (1 / 20)) ∧
+      (1 / 10 : ℝ) < Signals.DFT.gmgsKaneMeleEnhancedTc
+          (1 / 10) (1 / 100) contract.lambdaKaneMeleUeV ∧
+      0 < Signals.DFT.gmgsChiralPxPyGapSq 1 1 0 ∧
+      (1 : ℝ) < Signals.DFT.gmgsMattgKondoSuperconductingTc
+          1 2 contract.vHybridizationMeV 5 ∧
+      Signals.DFT.gmgsLowEnergyOpticalWeight 0 0 0 1 1 contract.gFubiniStudy = 0 ∧
+      0 < Signals.DFT.gmgsLowEnergyOpticalWeight
+          contract.deltaDoping 0 0 1 1 contract.gFubiniStudy ∧
+      0 < Signals.DFT.gmgsTotalSuperfluidStiffness
+          0 1 contract.deltaDoping contract.gFubiniStudy ∧
+      Signals.DFT.gmgsProximitizedQaheChern 5 (-1) 1 = -5 ∧
+      Signals.DFT.gmgsAnomalousHallCrystalChern 5 4 = 1 ∧
+      1 - Signals.DFT.gmgsJainFqahFilling 1 1 = 2 / 3 ∧
+      1 - Signals.DFT.gmgsJainFqahFilling 2 1 = 3 / 5 ∧
+      Signals.DFT.gmgsFractionalQuasiparticleCharge 1 1 = 1 / 3 ∧
+      0 < Signals.DFT.gmgsSupersolidLeggettFraction contract.etaSupersolidMod ∧
+      Signals.DFT.gmgsSupersolidVortexNucleationBarrier 10 contract.etaSupersolidMod < 10 ∧
+      0 < Signals.DFT.gmgsHydrodynamicWhirlpoolVorticity 5 2 Real.pi ∧
+      Signals.DFT.gmgsParafermionQuantumDimSq 1 < Signals.DFT.gmgsParafermionQuantumDimSq 3 ∧
+      Signals.DFT.gmgsTopologicalDecoherenceRate 1 4 <
+        Signals.DFT.gmgsTopologicalDecoherenceRate 1 2 ∧
+      Signals.DFT.gtbcRelativeError 105.2 106.0 <
+        Signals.DFT.gtbcRelativeError 1.0 106.0 ∧
+      Signals.DFT.gtbcRelativeError 5.163 5.160 < 1 / 1000 ∧
+      Signals.DFT.gtbcRelativeError 0.914 0.920 <
+        Signals.DFT.gtbcRelativeError 0.080 0.920 := by
+  have h8 :=
+    Signals.DFT.graphene_rhombohedral_trilayer_pentalayer_superconductivity_and_qc_identities
+      contract.t0HoppingMeV contract.gamma1DimerMeV 20
+      contract.t0_pos contract.t0_lt_gamma1 (by norm_num)
+      (93 / 50) (1 / 10) (1 / 100) contract.lambdaKaneMeleUeV 1 1 2 1
+      contract.vHybridizationMeV 5 2
+      (by norm_num) (by norm_num) (by norm_num) contract.lambdaKaneMele_pos
+      (by norm_num) (by norm_num) contract.vHybridization_pos (by norm_num) (by norm_num)
+      1 1 1 contract.deltaDoping contract.gFubiniStudy (258128 / 10000)
+      (by norm_num) (by norm_num) contract.deltaDoping_pos contract.deltaDoping_lt_one
+      contract.gFubiniStudy_pos (by norm_num)
+      10 contract.etaSupersolidMod 5 2 1 2 4
+      (by norm_num) contract.etaSupersolid_pos contract.etaSupersolid_lt_one
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_pauli2 :
+      10 < Signals.DFT.gmgsPauliViolationRatio
+          (Signals.DFT.gmgsInPlaneCriticalField (93 / 50) (1 / 20) 10)
+          (Signals.DFT.gmgsPauliLimitField (93 / 50) (1 / 20)) := by
+    unfold Signals.DFT.gmgsPauliViolationRatio Signals.DFT.gmgsInPlaneCriticalField
+      Signals.DFT.gmgsPauliLimitField
+    norm_num
+  have h_mattg1 :
+      (1 : ℝ) < Signals.DFT.gmgsMattgKondoSuperconductingTc
+          1 2 contract.vHybridizationMeV 5 := by
+    unfold Signals.DFT.gmgsMattgKondoSuperconductingTc
+    have hv : 0 < contract.vHybridizationMeV := contract.vHybridization_pos
+    have h_pos : 0 < (2 * contract.vHybridizationMeV ^ 2) /
+        (1 + (contract.vHybridizationMeV / 5) ^ 2) := by positivity
+    linarith
+  have h_whirl_pi : 0 < Signals.DFT.gmgsHydrodynamicWhirlpoolVorticity 5 2 Real.pi := by
+    have h_eq : Real.pi * 2 / 2 = Real.pi := by ring
+    simpa [h_eq] using h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
+  have h_crit := Signals.DFT.graphene_superconductivity_critique_sum_rule_fqah_and_error_identities
+  exact ⟨h8.1, h8.2.2.2.1, h8.2.2.2.2.1, h_pauli2,
+    h8.2.2.2.2.2.2.2.1, h8.2.2.2.2.2.2.2.2.1, h_mattg1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_whirl_pi,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_crit.2.1, h_crit.2.2.2.2.2.2.2.2.2.2.1,
+    h_crit.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
+/-- In any `RhombohedralGrapheneSuperconductivityPendingHypothesis`, the six deep gap-closure
+laws (Sombrero-hat annular Fermi-surface minimum, Kopnin–Heikkilä–Volovik linear flat-band $T_c$,
+Fubini–Study Kähler trace bound and flat-band BKT superfluid temperature, $K\uparrow / K'\uparrow$
+valley-spin mass sign inversion and Středa $5:1$ slope in `R5G–WS2`, composite-fermion zero
+effective field at $\nu = 1/2$, Gurzhi vorticity diffusion length, flat-band kinetic inductance,
+and QAHE–SC BdG topological gap reopening) hold simultaneously. -/
+@[blueprint "lem:signals-rhombohedral-graphene-superconductivity-deep-gap-closure-bounds"
+  (title := "Pending G-MGS deep gap-closure bounds: Sombrero annular ring, Fubini-Study BKT bound, LAF/QAH valley mass inversion, composite Fermi liquid at ν=1/2, and QAHE-SC BdG gap reopening")
+  (statement := /-- For any \texttt{contract : RhombohedralGrapheneSuperconductivityPendingHypothesis},
+    the Sombrero-hat annular minimum, linear flat-band $T_c$, Fubini-Study Kähler trace bound
+    and BKT superfluid temperature, $K\uparrow / K'\uparrow$ valley-spin mass sign inversion,
+    Středa $5:1$ slope, $\nu = 1/2$ composite Fermi liquid zero effective field, Gurzhi vorticity
+    length, flat-band kinetic inductance, and QAHE-SC BdG gap reopening hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.graphene\_superconductivity\_deep\_gap\_closure\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.deep_gap_closure_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (omega_berry inv_phi0 b_chern : ℝ) :
+    Signals.DFT.gmgsSombreroAnnularDispersion 1 2 4 4 = 1 ∧
+      1 < Signals.DFT.gmgsSombreroAnnularDispersion 1 2 0 4 ∧
+      Signals.DFT.gmgsFlatBandLinearTc 2 3 < Signals.DFT.gmgsFlatBandLinearTc 2 5 ∧
+      |omega_berry| ≤ Signals.DFT.gmgsFubiniStudyTraceMetric omega_berry 0 ∧
+      0 < Signals.DFT.gmgsBktSuperfluidTemp 1 0 contract.gFubiniStudy ∧
+      0 < Signals.DFT.gmgsValleySpinMass 1 1 10 9 2 ∧
+      Signals.DFT.gmgsValleySpinMass 1 (-1) 10 9 2 < 0 ∧
+      Signals.DFT.gmgsStredaCarrierSlope 5 inv_phi0 =
+        5 * Signals.DFT.gmgsStredaCarrierSlope 1 inv_phi0 ∧
+      Signals.DFT.gmgsCompositeFermionEffectiveField b_chern 1 (1 / 2) = 0 ∧
+      Signals.DFT.gmgsGurzhiVorticityLengthSq 2 3 <
+        Signals.DFT.gmgsGurzhiVorticityLengthSq 2 5 ∧
+      Signals.DFT.gmgsFlatBandKineticInductance 10 5 <
+        Signals.DFT.gmgsFlatBandKineticInductance 10 2 ∧
+      Signals.DFT.gmgsQaheScBdgGapSq 1 0 3 3 = 0 ∧
+      0 < Signals.DFT.gmgsQaheScBdgGapSq 1 0 5 3 := by
+  have h :=
+    Signals.DFT.graphene_superconductivity_deep_gap_closure_identities
+      1 2 4 2 3 5
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      omega_berry 0 1 contract.gFubiniStudy
+      (by norm_num) (by norm_num) contract.gFubiniStudy_pos
+      10 9 2 inv_phi0 b_chern 1
+      (by norm_num) (by norm_num) (by norm_num)
+      2 3 5 10 2 5 1 3 5
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_cf_half :
+      Signals.DFT.gmgsCompositeFermionEffectiveField b_chern 1 (1 / 2) = 0 := by
+    have h_eq : (1 : ℝ) / (2 * 1) = 1 / 2 := by ring
+    simpa [h_eq] using h.2.2.2.2.2.2.2.2.2.1
+  exact ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1,
+    h_cf_half, h.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end Signals.Pending

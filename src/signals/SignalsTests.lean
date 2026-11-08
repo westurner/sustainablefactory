@@ -7300,4 +7300,64 @@ example (t_ox : ℝ) (ht_ox : 0 ≤ t_ox) :
   exact ⟨h.2.1, h.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1⟩
 
+/-- Compile-time verification of Grassmannian Multilayer Graphene Superconductivity,
+QAHE/FQAH, Supersolid Vortices, and Topological Quantum Computing (`G-MGS`) across
+all 8 regimes (`R1`–`R8`) and 6 deep gap closures (`Signals.DFT` Section 18). -/
+example (omega_berry inv_phi0 b_chern : ℝ) :
+    Signals.DFT.gmgsFlatBandBandwidth 100 380 5 <
+        Signals.DFT.gmgsFlatBandBandwidth 100 380 3 ∧
+      Signals.DFT.gmgsVanHoveDosExponent 3 < Signals.DFT.gmgsVanHoveDosExponent 5 ∧
+      10 < Signals.DFT.gmgsPauliViolationRatio
+          (Signals.DFT.gmgsInPlaneCriticalField (93 / 50) (1 / 20) 10)
+          (Signals.DFT.gmgsPauliLimitField (93 / 50) (1 / 20)) ∧
+      Signals.DFT.gmgsLowEnergyOpticalWeight 0 0 0 1 1 2 = 0 ∧
+      0 < Signals.DFT.gmgsTotalSuperfluidStiffness 0 1 (1 / 2) 2 ∧
+      Signals.DFT.gmgsProximitizedQaheChern 5 (-1) 1 = -5 ∧
+      Signals.DFT.gmgsAnomalousHallCrystalChern 5 4 = 1 ∧
+      1 - Signals.DFT.gmgsJainFqahFilling 1 1 = 2 / 3 ∧
+      Signals.DFT.gmgsSupersolidVortexNucleationBarrier 10 (1 / 2) < 10 ∧
+      Signals.DFT.gmgsParafermionQuantumDimSq 1 < Signals.DFT.gmgsParafermionQuantumDimSq 3 ∧
+      Signals.DFT.gmgsSombreroAnnularDispersion 1 2 4 4 = 1 ∧
+      0 < Signals.DFT.gmgsValleySpinMass 1 1 10 9 2 ∧
+      Signals.DFT.gmgsValleySpinMass 1 (-1) 10 9 2 < 0 ∧
+      Signals.DFT.gmgsCompositeFermionEffectiveField b_chern 1 (1 / 2) = 0 ∧
+      0 < Signals.DFT.gmgsQaheScBdgGapSq 1 0 5 3 := by
+  have h8 :=
+    Signals.DFT.graphene_rhombohedral_trilayer_pentalayer_superconductivity_and_qc_identities
+      100 380 20
+      (by norm_num) (by norm_num) (by norm_num)
+      (93 / 50) (1 / 20) (1 / 100) 45 1 1 2 1 3 5 2
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      1 1 1 (1 / 2) 2 (258128 / 10000)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num)
+      10 (1 / 2) 5 2 1 2 4
+      (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_gap :=
+    Signals.DFT.graphene_superconductivity_deep_gap_closure_identities
+      1 2 4 2 3 5
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      omega_berry 0 1 2
+      (by norm_num) (by norm_num) (by norm_num)
+      10 9 2 inv_phi0 b_chern 1
+      (by norm_num) (by norm_num) (by norm_num)
+      2 3 5 10 2 5 1 3 5
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  have h_cf_half :
+      Signals.DFT.gmgsCompositeFermionEffectiveField b_chern 1 (1 / 2) = 0 := by
+    have h_eq : (1 : ℝ) / (2 * 1) = 1 / 2 := by ring
+    simpa [h_eq] using h_gap.2.2.2.2.2.2.2.2.2.1
+  exact ⟨h8.1, h8.2.2.2.2.1, h8.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h8.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h_gap.1, h_gap.2.2.2.2.2.2.1, h_gap.2.2.2.2.2.2.2.1,
+    h_cf_half, h_gap.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests
