@@ -2110,7 +2110,7 @@ mod tests {
         assert!((gmgs_fractional_quasiparticle_charge(1.0, 1.0) - 1.0 / 3.0).abs() < 1e-15);
         assert!((gmgs_fqah_hall_resistance_ratio(2.0 / 3.0) - 1.5).abs() < 1e-15);
 
-        // 7. Regime 7 (R7): Supersolid quantum tornadoes & room-temp graphene whirlpools
+        // 7. Regime 7 (R7): Supersolid Quantum Vortices & room-temp graphene whirlpools
         let fs = gmgs_supersolid_leggett_fraction(0.5);
         assert!(fs > 0.0 && fs < 1.0);
         assert!(gmgs_supersolid_vortex_nucleation_barrier(10.0, 0.5) < 10.0);

@@ -1,10 +1,10 @@
 ---
-title: "Superconductivity, Quantum Anomalous Hall Effects, and Topological Quantum Computing in Trilayer and Pentalayer Rhombohedral & Moiré Graphene: Grassmannian Boundary Sublattice Projection (G-MGS), Light–Heavy Kondo Hybridization, Fubini–Study Optical Sum Rules, C = ±5 QAHE, C = 1 Anomalous Hall Crystals, and Supersolid Quantum Tornadoes in Lean 4, Python, and Rust"
+title: "Superconductivity, Quantum Anomalous Hall Effects, and Topological Quantum Computing in Trilayer and Pentalayer Rhombohedral & Moiré Graphene: Grassmannian Boundary Sublattice Projection (G-MGS), Light–Heavy Kondo Hybridization, Fubini–Study Optical Sum Rules, C = ±5 QAHE, C = 1 Anomalous Hall Crystals, and Supersolid Quantum Vortices in Lean 4, Python, and Rust"
 description: "An arXiv-ready MyST Markdown formal verification and numerical benchmark paper presenting and demonstrating the Grassmannian Multilayer Graphene Superconductivity (G-MGS) framework across rhombohedral trilayer (N=3), twisted symmetric trilayer (MATTG), and rhombohedral pentalayer (N=5) graphene for fault-tolerant quantum computing."
 ---
 
 (grassmannian-rhombohedral-graphene-superconductivity-qc-paper)=
-# Superconductivity, Quantum Anomalous Hall Effects, and Topological Quantum Computing in Trilayer and Pentalayer Rhombohedral & Moiré Graphene: Grassmannian Boundary Sublattice Projection (`G-MGS`), Light–Heavy Kondo Hybridization, Fubini–Study Optical Sum Rules, $C = \pm 5$ QAHE, $C = 1$ Anomalous Hall Crystals, and Supersolid Quantum Tornadoes in Lean 4, Python, and Rust
+# Superconductivity, Quantum Anomalous Hall Effects, and Topological Quantum Computing in Trilayer and Pentalayer Rhombohedral & Moiré Graphene: Grassmannian Boundary Sublattice Projection (`G-MGS`), Light–Heavy Kondo Hybridization, Fubini–Study Optical Sum Rules, $C = \pm 5$ QAHE, $C = 1$ Anomalous Hall Crystals, and Supersolid Quantum Vortices in Lean 4, Python, and Rust
 
 - **Authors:** Wes Turner
 - **Subjects:**
@@ -45,7 +45,7 @@ In this paper, we formulate, implement, and machine-check the **Grassmannian Mul
    - At $f = 1$ (spin- and valley-polarized quarter-metal parent in pentalayer `R5G`), intravalley chiral $p_x \pm i p_y$ pairing on $\mathrm{Gr}_{\mathbb{C}}(1,4)$ forms a nodeless topological superconductor ($\mathrm{SC}_{\mathrm{chiral}}$, $T_{c,\mathrm{chiral}} \approx 300\text{ mK}$, $|\Delta_{\mathrm{chiral}}(\mathbf{k})|^2 = \Delta_0^2(k_x^2 + k_y^2) > 0$ for $\mathbf{k} \neq \mathbf{0}$) {cite}`han2025chiral_sc`.
 3. **Twisted Trilayer (`MATTG`) Light–Heavy Kondo Hybridization & Fubini–Study Optical Sum Rule (`R3` & `R4`, `gmgsLightHeavyHybridizedGapSq`, `gmgsMattgKondoSuperconductingTc`, `gmgsLowEnergyOpticalWeight`, `gmgsTotalSuperfluidStiffness`)**:
    In `MATTG`, displacement field $D$ hybridizes the mirror-odd light Dirac cone and mirror-even heavy flat band on $\mathrm{Gr}_{\mathbb{C}}(2,6)$, boosting $T_{c,\max} \approx 2.90\text{ K}$ {cite}`pierce2025light_heavy`. In the strong-coupling chiral flat-band limit at integer fillings ($\delta = 0$), the low-energy optical spectral weight vanishes identically ($W_{\mathrm{opt}}(0,0,0) = 0$), whereas carrier doping $\delta \in (0, 1)$ activates the Fubini–Study quantum-geometric superfluid stiffness $D_s^{\mathrm{geom}} = \Delta_{\mathrm{pair}}\,\delta(1-\delta)\,\operatorname{Tr}g_{\mathrm{FS}} > 0$ {cite}`mendez2024sumrule`.
-4. **Proximitized $C = \pm 5$ QAHE, $C = 1$ Anomalous Hall Crystal & Jain `FQAH` Anyons, Supersolid Quantum Tornadoes, & Topological Quantum Computing (`R5`–`R8`)**:
+4. **Proximitized $C = \pm 5$ QAHE, $C = 1$ Anomalous Hall Crystal & Jain `FQAH` Anyons, Supersolid Quantum Vortices, & Topological Quantum Computing (`R5`–`R8`)**:
    Proves single-valley $K'\uparrow$ mass inversion yielding $C = \pm 5$ ($|R_{xy}| = \frac{h}{5e^2} \approx 5.163\text{ k}\Omega$) in `R5G–WS2` {cite}`han2024large_qahe`, Hartree–Fock Berry unwinding $C_{\mathrm{AHC}} = 5 - 4 = 1$ and Jain fillings $\nu = \frac{p}{2p \pm 1} \in \{2/3, 3/5, 4/7, 4/9, 3/7, 2/5\}$ in `R5G/hBN` {cite}`lu2024fqah,dong2024ahc_prl`, supersolid Leggett fraction $1 - \eta_{\mathrm{mod}}^2$ and vortex nucleation barrier reduction {cite}`casotti2024supersolid,palm2024whirlpools`, and symbiotic QAHE/FQAH–Superconductor Majorana ($d^2 = 2$) and $\mathbb{Z}_6$ parafermion ($d^2 = 6$) fault-tolerant qubit gates.
 
 ---
@@ -201,7 +201,7 @@ become strictly positive even at zero single-particle bandwidth ($t_{\mathrm{kin
    \nu_{\mathrm{Jain}}(p, +1) = \frac{p}{2p + 1} \in \left\{\frac{1}{3},\, \frac{2}{5},\, \frac{3}{7},\, \frac{4}{9}\right\}, \quad 1 - \nu_{\mathrm{Jain}}(p, +1) = \frac{p + 1}{2p + 1} \in \left\{\frac{2}{3},\, \frac{3}{5},\, \frac{4}{7}\right\}, \quad e^* = \frac{e}{2p + 1}.
    $$
 
-### 1.7 Regimes 7 & 8 (`R7` & `R8`): Supersolid Quantum Tornadoes, Hydrodynamic Graphene Whirlpools, and Symbiotic Topological Quantum Computing
+### 1.7 Regimes 7 & 8 (`R7` & `R8`): Supersolid Quantum Vortices, Hydrodynamic Graphene Whirlpools, and Symbiotic Topological Quantum Computing
 
 1. **Quantum Tornadoes in Supersolids & Room-Temperature Graphene Current Whirlpools (`R7`, Casotti et al., *Nature* 2024 {cite}`casotti2024supersolid`; Palm et al., *Science* 2024 {cite}`palm2024whirlpools`)**:
    - In a density-modulated supersolid (whether a dipolar Dysprosium condensate {cite}`casotti2024supersolid` or a superconducting Anomalous Hall Crystal / pair-density-wave state in rhombohedral graphene) with crystalline modulation contrast $\eta_{\mathrm{mod}} \in (0, 1)$, continuous translational symmetry and $U(1)$ gauge symmetry are broken simultaneously. The superfluid fraction obeys Leggett's bound $f_s^{\mathrm{Leggett}}(\eta_{\mathrm{mod}}) = 1 - \eta_{\mathrm{mod}}^2 \in (0, 1)$ (`gmgsSupersolidLeggettFraction`), while quantized vortices ("quantum tornadoes" with circulation $\oint \mathbf{v}_s\cdot\mathrm{d}\mathbf{l} = 2\pi \ell \hbar / m^*$, `Signals.DDF.quantized_vortex_circulation`) nucleate through the low-density inter-droplet channels with reduced energy barrier $E_{\mathrm{vortex}}^{\mathrm{supersolid}}(E_{v,0}, \eta_{\mathrm{mod}}) = E_{v,0}(1 - \eta_{\mathrm{mod}}) < E_{v,0}$ (`gmgsSupersolidVortexNucleationBarrier`).
@@ -366,7 +366,7 @@ example (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
     1 - gmgsJainFqahFilling 2 1 = 3 / 5 ∧
     gmgsFractionalQuasiparticleCharge 1 1 = 1 / 3 ∧
     gmgsCompositeFermionEffectiveField b_chern 1 (1 / 2) = 0 ∧
-    -- R7: Supersolid quantum tornadoes & room-temperature graphene whirlpools
+    -- R7: Supersolid Quantum Vortices & room-temperature graphene whirlpools
     0 < gmgsSupersolidLeggettFraction contract.etaSupersolidMod ∧
     gmgsSupersolidVortexNucleationBarrier 10 contract.etaSupersolidMod < 10 ∧
     0 < gmgsHydrodynamicWhirlpoolVorticity 5 2 Real.pi ∧
@@ -582,7 +582,7 @@ In strict compliance with our research-evidence separation rules ([AGENTS.md](..
 
 @article{turner2026grassmannian_rhombohedral_graphene,
   author  = {Turner, Wes},
-  title   = {Superconductivity, Quantum Anomalous {H}all Effects, and Topological Quantum Computing in Trilayer and Pentalayer Rhombohedral \& Moir{\'e} Graphene: {G}rassmannian Boundary Sublattice Projection ({G-MGS}), Light--Heavy {K}ondo Hybridization, {F}ubini--{S}tudy Optical Sum Rules, {$C = \pm 5$} {QAHE}, {$C = 1$} Anomalous {H}all Crystals, and Supersolid Quantum Tornadoes in {L}ean 4, {P}ython, and {R}ust},
+  title   = {Superconductivity, Quantum Anomalous {H}all Effects, and Topological Quantum Computing in Trilayer and Pentalayer Rhombohedral \& Moir{\'e} Graphene: {G}rassmannian Boundary Sublattice Projection ({G-MGS}), Light--Heavy {K}ondo Hybridization, {F}ubini--{S}tudy Optical Sum Rules, {$C = \pm 5$} {QAHE}, {$C = 1$} Anomalous {H}all Crystals, and Supersolid Quantum Vortices in {L}ean 4, {P}ython, and {R}ust},
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
@@ -595,7 +595,7 @@ In strict compliance with our research-evidence separation rules ([AGENTS.md](..
 {
   "@context": "https://schema.org",
   "@type": "ScholarlyArticle",
-  "headline": "Superconductivity, Quantum Anomalous Hall Effects, and Topological Quantum Computing in Trilayer and Pentalayer Rhombohedral & Moiré Graphene: Grassmannian Boundary Sublattice Projection (G-MGS), Light–Heavy Kondo Hybridization, Fubini–Study Optical Sum Rules, C = ±5 QAHE, C = 1 Anomalous Hall Crystals, and Supersolid Quantum Tornadoes in Lean 4, Python, and Rust",
+  "headline": "Superconductivity, Quantum Anomalous Hall Effects, and Topological Quantum Computing in Trilayer and Pentalayer Rhombohedral & Moiré Graphene: Grassmannian Boundary Sublattice Projection (G-MGS), Light–Heavy Kondo Hybridization, Fubini–Study Optical Sum Rules, C = ±5 QAHE, C = 1 Anomalous Hall Crystals, and Supersolid Quantum Vortices in Lean 4, Python, and Rust",
   "author": {
     "@type": "Person",
     "name": "Wes Turner"
@@ -608,7 +608,7 @@ In strict compliance with our research-evidence separation rules ([AGENTS.md](..
     "Low-Energy Optical Sum Rule and Fubini-Study Quantum-Geometric Superfluid Stiffness",
     "Spin-Orbit Proximitized R5G-WS2 Large C = ±5 Quantum Anomalous Hall Effect (QAHE)",
     "C = 1 Anomalous Hall Crystal (AHC) and Zero-Field Fractional Quantum Anomalous Hall (FQAH) Anyons",
-    "Supersolid Quantum Tornadoes and Room-Temperature Hydrodynamic Graphene Current Whirlpools",
+    "Supersolid Quantum Vortices and Room-Temperature Hydrodynamic Graphene Current Whirlpools",
     "Topological Quantum Computing with Chiral Majorana Modes and Z_6 Parafermions",
     "Lean 4 Formal Verification"
   ],

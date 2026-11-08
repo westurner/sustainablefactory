@@ -1096,7 +1096,7 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
     assert np.isclose(GMGS.gmgs_fractional_quasiparticle_charge(1.0, 1.0), 1.0 / 3.0)
     assert np.isclose(GMGS.gmgs_fqah_hall_resistance_ratio(2.0 / 3.0), 1.5)
 
-    # Regime 7 (R7): Supersolid quantum tornadoes & room-temperature graphene whirlpools
+    # Regime 7 (R7): Supersolid Quantum Vortices & room-temperature graphene whirlpools
     assert 0.0 < GMGS.gmgs_supersolid_leggett_fraction(0.5) < 1.0
     assert GMGS.gmgs_supersolid_vortex_nucleation_barrier(10.0, 0.5) < 10.0
     assert GMGS.gmgs_hydrodynamic_whirlpool_vorticity(5.0, 2.0, np.pi) > 0.0
