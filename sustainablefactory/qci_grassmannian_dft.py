@@ -4414,3 +4414,67 @@ class SemiDiracAndSU4WittenUnificationEngine:
         delta: float, j_helicity: float
     ) -> float:
         return float((delta - j_helicity) / 2.0)
+
+    @staticmethod
+    def semi_dirac_strain_merging_gap(
+        delta0: float, beta_strain: float, eps_xx: float
+    ) -> float:
+        return float(delta0 - beta_strain * eps_xx)
+
+    @staticmethod
+    def semi_dirac_klein_rectification_ratio(kappa_l: float) -> float:
+        return float(1.0 + (kappa_l**2))
+
+    @staticmethod
+    def semi_dirac_drude_anisotropy_sq(
+        c_drude: float, m_x: float, v_y: float, ef: float
+    ) -> float:
+        return float(c_drude * m_x * (v_y**2) / ef)
+
+    @staticmethod
+    def semi_dirac_hyperbolic_canalization_tan_sq(
+        eps_xx: float, eps_yy: float
+    ) -> float:
+        return float(-eps_xx / eps_yy)
+
+    @staticmethod
+    def semi_dirac_bolometer_polarization_contrast(
+        g_yy: float, g_xx: float
+    ) -> float:
+        return float((g_yy - g_xx) / (g_yy + g_xx))
+
+    @staticmethod
+    def semi_dirac_thermoelectric_zt(
+        seebeck: float,
+        sigma: float,
+        temp: float,
+        kappa_el: float,
+        kappa_ph: float,
+    ) -> float:
+        return float((seebeck**2) * sigma * temp / (kappa_el + kappa_ph))
+
+    @staticmethod
+    def semi_dirac_etch_free_coherence_gain(
+        dit_rie: float, dit_etchfree: float
+    ) -> float:
+        return float(dit_rie / dit_etchfree)
+
+    @staticmethod
+    def helical_phase_lasing_azimuthal_shift(
+        l_charge: float, phi: float
+    ) -> float:
+        return float(l_charge * phi)
+
+    @staticmethod
+    def spiral_phase_plate_step_height(
+        l_charge: float, wavelength: float, n_refr: float
+    ) -> float:
+        return float(l_charge * wavelength / (n_refr - 1.0))
+
+    @staticmethod
+    def cp_rank_3d_voxel_compression_ratio(n_grid: int, rank: int) -> float:
+        return float((n_grid**3) / (3.0 * rank * n_grid))
+
+    @staticmethod
+    def oam_carbon_qudit_hilbert_dim(d: int, n_qudits: int) -> int:
+        return int(d**n_qudits)

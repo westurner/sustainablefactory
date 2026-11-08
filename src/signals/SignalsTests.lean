@@ -7497,4 +7497,36 @@ example (z11 z22 z12 z21 delta j_hel : ℝ) :
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+example (delta0 l1 l2 phi : ℝ) :
+    Signals.semiDiracStrainMergingGap delta0 2 (delta0 / 2) = 0 ∧
+      Signals.semiDiracKleinRectificationRatio 0 = 1 ∧
+      1 < Signals.semiDiracKleinRectificationRatio 10 ∧
+      Signals.semiDiracKleinRectificationRatio 10 = 101 ∧
+      Signals.semiDiracDrudeAnisotropySq 1 1 1 4 <
+        Signals.semiDiracDrudeAnisotropySq 1 1 1 1 ∧
+      Signals.semiDiracHyperbolicCanalizationTanSq (3 / 4) (-3) = 1 / 4 ∧
+      0 < Signals.semiDiracBolometerPolarizationContrast 10 1 ∧
+      Signals.semiDiracBolometerPolarizationContrast 10 1 < 1 ∧
+      Signals.semiDiracThermoelectricZT 2 1 300 1 2 <
+        Signals.semiDiracThermoelectricZT 2 10 300 1 2 ∧
+      Signals.semiDiracThermoelectricZT 2 10 300 1 2 <
+        Signals.semiDiracThermoelectricZT 2 10 300 1 1 ∧
+      Signals.semiDiracTransverseGroupVelocityX 0 1 = 0 ∧
+      Signals.semiDiracEtchFreeCoherenceGain (10 ^ 12) (10 ^ 10) = 100 ∧
+      Signals.helicalPhaseLasingAzimuthalShift (l1 + l2) phi =
+        Signals.helicalPhaseLasingAzimuthalShift l1 phi +
+          Signals.helicalPhaseLasingAzimuthalShift l2 phi ∧
+      Signals.spiralPhasePlateStepHeight 1 1550 (3 / 2) = 3100 ∧
+      Signals.spiralPhasePlateStepHeight 1 405 (159 / 100) = 40500 / 59 ∧
+      Signals.cpRank3DVoxelCompressionRatio 1000 50 = 20000 / 3 ∧
+      Signals.oamCarbonQuditHilbertDim 2 4 < Signals.oamCarbonQuditHilbertDim 6 4 ∧
+      Signals.oamCarbonQuditHilbertDim 6 4 < Signals.oamCarbonQuditHilbertDim 15 4 ∧
+      Signals.oamCarbonQuditHilbertDim 15 4 < Signals.oamCarbonQuditHilbertDim 100 4 ∧
+      Signals.oamCarbonQuditHilbertDim 2 66 < Signals.oamCarbonQuditHilbertDim 100 10 :=
+  Signals.semi_dirac_four_applications_nanolithography_and_kicad_drc_identities
+    delta0 2 10 1 1 1 1 4 10 1 2 1 10 300 1 1 2 l1 l2 phi
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
 end SignalsTests

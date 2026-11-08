@@ -8,16 +8,19 @@ use std::process;
 
 use signals_numerical_adapter::cannon_mask_cad::{
     DenisovPitchMode, HolographicLaserLithoSpec, ProcaCannonMaskSpec, RiscVCorePreset,
-    export_gdsii_file, export_iof_prov_cbom_yaml_ld, export_kicad_footprint_file,
-    export_kicad_volumetric_str, export_polygons_to_gdsii_bytes, generate_mask_polygons,
-    generate_riscv_holographic_module, parse_gdsii_bytes, verify_mask_drc,
-    verify_volumetric_metric_interference_drc,
+    SemiDiracApplicationPreset, export_gdsii_file, export_iof_prov_cbom_yaml_ld,
+    export_kicad_footprint_file, export_kicad_volumetric_str, export_polygons_to_gdsii_bytes,
+    export_polygons_to_kicad_footprint_str, export_semi_dirac_kicad_pcb_str,
+    export_semi_dirac_kicad_schematic_str, generate_mask_polygons,
+    generate_riscv_holographic_module, generate_semi_dirac_application_module, parse_gdsii_bytes,
+    verify_mask_drc, verify_volumetric_metric_interference_drc,
 };
 
 fn main() {
     let mut out_dir = PathBuf::from(".");
     let mut pitch_mode = DenisovPitchMode::ForwardFirstOrder;
     let mut export_riscv = false;
+    let mut export_semi_dirac = false;
 
     let mut args = env::args().skip(1);
     while let Some(arg) = args.next() {
@@ -39,9 +42,12 @@ fn main() {
             "--export-riscv-all" => {
                 export_riscv = true;
             }
+            "--export-semi-dirac-all" => {
+                export_semi_dirac = true;
+            }
             "--help" | "-h" => {
                 println!(
-                    "Usage: cannon-mask-cad [--out-dir <dir>] [--forward-pitch | --bragg-pitch] [--export-riscv-all]"
+                    "Usage: cannon-mask-cad [--out-dir <dir>] [--forward-pitch | --bragg-pitch] [--export-riscv-all] [--export-semi-dirac-all]"
                 );
                 return;
             }
@@ -130,6 +136,56 @@ fn main() {
             .expect("write CBOM.yaml-ld");
             println!(
                 "Exported RISC-V Holographic Module {mod_name}: stages={}, 2D_polys={}, 3D_splines={}, STED_width={:.2}nm, single_flash_hazards={} -> multi_flash_hazards={}",
+                vdrc.pipeline_stages,
+                vdrc.total_floorplan_polygons_2d,
+                vdrc.total_splines_3d,
+                vdrc.sted_linewidth_nm,
+                vdrc.single_flash_over_squeeze_hazards,
+                vdrc.orthogonal_multi_flash_hazards,
+            );
+        }
+    }
+
+    if export_semi_dirac {
+        let litho = HolographicLaserLithoSpec::default();
+        for preset in SemiDiracApplicationPreset::all() {
+            let (mod_name, polys, splines) = generate_semi_dirac_application_module(preset, &litho);
+            let vdrc =
+                verify_volumetric_metric_interference_drc(&mod_name, 4, &polys, &splines, &litho);
+            let mod_file = out_dir.join(format!("{mod_name}.kicad_mod"));
+            std::fs::write(
+                &mod_file,
+                export_polygons_to_kicad_footprint_str(
+                    &mod_name,
+                    preset.description(),
+                    40.0,
+                    &polys,
+                ),
+            )
+            .expect("write Semi-Dirac .kicad_mod");
+            let sch_file = out_dir.join(format!("{mod_name}.kicad_sch"));
+            std::fs::write(&sch_file, export_semi_dirac_kicad_schematic_str(preset))
+                .expect("write Semi-Dirac .kicad_sch");
+            let pcb_file = out_dir.join(format!("{mod_name}.kicad_pcb"));
+            std::fs::write(&pcb_file, export_semi_dirac_kicad_pcb_str(preset))
+                .expect("write Semi-Dirac .kicad_pcb");
+            let gds_bytes = export_polygons_to_gdsii_bytes(&mod_name, &polys);
+            let gds_file = out_dir.join(format!("{mod_name}.gds"));
+            std::fs::write(&gds_file, &gds_bytes).expect("write Semi-Dirac .gds");
+            let vol_file = out_dir.join(format!("{mod_name}.kicad_vol"));
+            std::fs::write(
+                &vol_file,
+                export_kicad_volumetric_str(&mod_name, &litho, &splines),
+            )
+            .expect("write Semi-Dirac .kicad_vol");
+            let cbom_file = out_dir.join(format!("{mod_name}_CBOM.yaml-ld"));
+            std::fs::write(
+                &cbom_file,
+                export_iof_prov_cbom_yaml_ld(&mod_name, &litho, &splines),
+            )
+            .expect("write Semi-Dirac _CBOM.yaml-ld");
+            println!(
+                "Exported Semi-Dirac Module {mod_name}: stages={}, 2D_polys={}, 3D_splines={}, STED_width={:.2}nm, single_flash_hazards={} -> multi_flash_hazards={}",
                 vdrc.pipeline_stages,
                 vdrc.total_floorplan_polygons_2d,
                 vdrc.total_splines_3d,

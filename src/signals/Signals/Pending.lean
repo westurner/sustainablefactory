@@ -7236,4 +7236,49 @@ lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.semi_dirac_and_su4_
     h_su4.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h_su4.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+/-- Pending boundary lemma for the 4 Semi-Dirac Engineering & Quantum Applications,
+phase-varying lasing of carbon-based qudits (`OAM`, `Gr_C(2,6)` Plücker, and $\mathbb{Z}_6$
+parafermions), $405\text{ nm}/532\text{ nm}$ strain nanolithography, and volumetric KiCAD DRC. -/
+theorem RhombohedralGrapheneSuperconductivityPendingHypothesis.semi_dirac_four_applications_and_carbon_qudit_lasing_bounds
+    (_contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (delta0 l1 l2 phi : ℝ) :
+    Signals.semiDiracStrainMergingGap delta0 2 (delta0 / 2) = 0 ∧
+      1 < Signals.semiDiracKleinRectificationRatio 10 ∧
+      Signals.semiDiracKleinRectificationRatio 10 = 101 ∧
+      Signals.semiDiracDrudeAnisotropySq 1 1 1 4 <
+        Signals.semiDiracDrudeAnisotropySq 1 1 1 1 ∧
+      Signals.semiDiracHyperbolicCanalizationTanSq (3 / 4) (-3) = 1 / 4 ∧
+      0 < Signals.semiDiracBolometerPolarizationContrast 10 1 ∧
+      Signals.semiDiracBolometerPolarizationContrast 10 1 < 1 ∧
+      Signals.semiDiracThermoelectricZT 2 1 300 1 2 <
+        Signals.semiDiracThermoelectricZT 2 10 300 1 2 ∧
+      Signals.semiDiracThermoelectricZT 2 10 300 1 2 <
+        Signals.semiDiracThermoelectricZT 2 10 300 1 1 ∧
+      Signals.semiDiracTransverseGroupVelocityX 0 1 = 0 ∧
+      Signals.semiDiracEtchFreeCoherenceGain (10 ^ 12) (10 ^ 10) = 100 ∧
+      Signals.helicalPhaseLasingAzimuthalShift (l1 + l2) phi =
+        Signals.helicalPhaseLasingAzimuthalShift l1 phi +
+          Signals.helicalPhaseLasingAzimuthalShift l2 phi ∧
+      Signals.spiralPhasePlateStepHeight 1 1550 (3 / 2) = 3100 ∧
+      Signals.cpRank3DVoxelCompressionRatio 1000 50 = 20000 / 3 ∧
+      Signals.oamCarbonQuditHilbertDim 2 4 < Signals.oamCarbonQuditHilbertDim 6 4 ∧
+      Signals.oamCarbonQuditHilbertDim 6 4 < Signals.oamCarbonQuditHilbertDim 15 4 ∧
+      Signals.oamCarbonQuditHilbertDim 15 4 < Signals.oamCarbonQuditHilbertDim 100 4 ∧
+      Signals.oamCarbonQuditHilbertDim 2 66 < Signals.oamCarbonQuditHilbertDim 100 10 := by
+  have h :=
+    Signals.semi_dirac_four_applications_nanolithography_and_kicad_drc_identities
+      delta0 2 10 1 1 1 1 4 10 1 2 1 10 300 1 1 2 l1 l2 phi
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end Signals.Pending

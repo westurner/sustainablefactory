@@ -1234,3 +1234,46 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
     hbar_cel = SDSU4.celestial_conformal_weight_hbar(2.5, 2.0)
     assert np.isclose(h_cel + hbar_cel, 2.5)
     assert np.isclose(h_cel - hbar_cel, 2.0)
+
+    # Semi-Dirac 4 Applications + Phase-Varying Lasing of Carbon-Based Qudits
+    assert np.isclose(SDSU4.semi_dirac_strain_merging_gap(1.2, 2.0, 0.6), 0.0)
+    assert np.isclose(SDSU4.semi_dirac_klein_rectification_ratio(10.0), 101.0)
+    assert SDSU4.semi_dirac_drude_anisotropy_sq(
+        1.0, 1.0, 1.0, 4.0
+    ) < SDSU4.semi_dirac_drude_anisotropy_sq(1.0, 1.0, 1.0, 1.0)
+    assert np.isclose(
+        SDSU4.semi_dirac_hyperbolic_canalization_tan_sq(0.75, -3.0), 0.25
+    )
+    assert (
+        0.0
+        < SDSU4.semi_dirac_bolometer_polarization_contrast(10.0, 1.0)
+        < 1.0
+    )
+    assert (
+        SDSU4.semi_dirac_thermoelectric_zt(2.0, 1.0, 300.0, 1.0, 2.0)
+        < SDSU4.semi_dirac_thermoelectric_zt(2.0, 10.0, 300.0, 1.0, 2.0)
+        < SDSU4.semi_dirac_thermoelectric_zt(2.0, 10.0, 300.0, 1.0, 1.0)
+    )
+    assert np.isclose(
+        SDSU4.semi_dirac_etch_free_coherence_gain(1.0e12, 1.0e10), 100.0
+    )
+    assert np.isclose(
+        SDSU4.helical_phase_lasing_azimuthal_shift(3.0, np.pi),
+        SDSU4.helical_phase_lasing_azimuthal_shift(1.0, np.pi)
+        + SDSU4.helical_phase_lasing_azimuthal_shift(2.0, np.pi),
+    )
+    assert np.isclose(
+        SDSU4.spiral_phase_plate_step_height(1.0, 1550.0, 1.5), 3100.0
+    )
+    assert np.isclose(
+        SDSU4.cp_rank_3d_voxel_compression_ratio(1000, 50), 20000.0 / 3.0
+    )
+    assert (
+        SDSU4.oam_carbon_qudit_hilbert_dim(2, 4)
+        < SDSU4.oam_carbon_qudit_hilbert_dim(6, 4)
+        < SDSU4.oam_carbon_qudit_hilbert_dim(15, 4)
+        < SDSU4.oam_carbon_qudit_hilbert_dim(100, 4)
+    )
+    assert SDSU4.oam_carbon_qudit_hilbert_dim(
+        2, 66
+    ) < SDSU4.oam_carbon_qudit_hilbert_dim(100, 10)

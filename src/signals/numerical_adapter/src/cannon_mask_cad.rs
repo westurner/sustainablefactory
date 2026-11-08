@@ -1443,6 +1443,654 @@ pub fn export_iof_prov_cbom_yaml_ld(
     out
 }
 
+// =========================================================================
+// PART 3: SEMI-DIRAC FERMION ENGINEERING & QUANTUM APPLICATIONS (1-4)
+//         & PHASE-VARYING LASING OF CARBON-BASED QUDITS IN KICAD / GDSII
+// =========================================================================
+
+/// The 4 Semi-Dirac Fermion Engineering & Quantum Application presets from
+/// Section 3.1 of `docs/grassmannian-semi-dirac-fermions-ddf-paper.md`, synthesized
+/// via $405\text{ nm} / 532\text{ nm}$ strain-engineered holographic nanolithography
+/// and phase-varying lasing for carbon-based qudits.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum SemiDiracApplicationPreset {
+    /// **Application 1**: Ballistic Directional Klein Diode & Dual-Gate Transistor
+    /// ($T_y = 1$ massless $\hat{y}$ ballistic interconnect vs. $T_x = 1/(1 + (\kappa_x L)^2) = 1/101$
+    /// massive $\hat{x}$ WKB gate pinch-off at $w_{\mathrm{STED}} = 18.08\text{ nm}$).
+    BallisticKleinDiodeTransistor,
+    /// **Application 2**: Lithography-Free In-Plane Hyperbolic Polariton & $400\text{–}800\text{ GHz}$
+    /// Polarization-Sensitive THz Bolometer ($\varepsilon_{xx} = 3/4 > 0, \varepsilon_{yy} = -3 < 0$,
+    /// $\tan^2\theta_{\mathrm{canal}} = 1/4$, polarization contrast $\mathcal{C}_{\mathrm{THz}} = 9/11$).
+    HyperbolicThzBolometer,
+    /// **Application 3**: Orthogonal-Axis Thermoelectric Energy Harvester ($ZT$ Enhancement)
+    /// (decoupling heavy $m_x^*$ Seebeck thermopower $S_{yy}$ and phonon blocking $\kappa_{\mathrm{ph},xx}$
+    /// from massless $\hat{y}$ high electrical conductivity $\sigma_{yy}$ with $sp^3$ diamond heat sinks).
+    OrthogonalThermoelectricHarvester,
+    /// **Application 4**: Etch-Free 1D Topological Majorana ($\mathrm{MZM}$), $\mathbb{Z}_6$
+    /// Parafermion ($d=6$), $\mathrm{Gr}_{\mathbb{C}}(2,6)$ Plücker ($d=15$), and Phase-Steered
+    /// 3D Helical `N-LIG` OAM ($d=100$) Carbon Qudit Waveguide Bus ($v_{g,x}(0, m_x^*) = 0$,
+    /// $100\times$ sidewall $D_{\mathrm{it}}$ suppression vs. RIE etching, and $\Delta\Phi(\ell,\phi)=\ell\phi$
+    /// phase-varying lasing).
+    EtchFreeMajoranaParafermionQuditBus,
+}
+
+impl SemiDiracApplicationPreset {
+    pub fn all() -> [Self; 4] {
+        [
+            Self::BallisticKleinDiodeTransistor,
+            Self::HyperbolicThzBolometer,
+            Self::OrthogonalThermoelectricHarvester,
+            Self::EtchFreeMajoranaParafermionQuditBus,
+        ]
+    }
+
+    pub fn module_name(&self) -> &'static str {
+        match self {
+            Self::BallisticKleinDiodeTransistor => {
+                "SemiDirac_App1_Ballistic_Klein_Diode_Transistor"
+            }
+            Self::HyperbolicThzBolometer => {
+                "SemiDirac_App2_Hyperbolic_400_800GHz_THz_Bolometer"
+            }
+            Self::OrthogonalThermoelectricHarvester => {
+                "SemiDirac_App3_Orthogonal_ZT_Thermoelectric_Harvester"
+            }
+            Self::EtchFreeMajoranaParafermionQuditBus => {
+                "SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus"
+            }
+        }
+    }
+
+    pub fn description(&self) -> &'static str {
+        match self {
+            Self::BallisticKleinDiodeTransistor => {
+                "Semi-Dirac App 1: Ballistic Directional Klein Diode & Transistor (T_y=1, R_Klein=101, w_STED=18.08nm)"
+            }
+            Self::HyperbolicThzBolometer => {
+                "Semi-Dirac App 2: Lithography-Free In-Plane Hyperbolic Polariton & 400-800 GHz THz Bolometer (eps_xx=0.75, eps_yy=-3.0)"
+            }
+            Self::OrthogonalThermoelectricHarvester => {
+                "Semi-Dirac App 3: Orthogonal-Axis Thermoelectric ZT Harvester (Heavy m_x* Seebeck S_yy + Massless v_y Conductivity sigma_yy)"
+            }
+            Self::EtchFreeMajoranaParafermionQuditBus => {
+                "Semi-Dirac App 4: Etch-Free 1D MZM, Z6 Parafermion (d=6), Gr_C(2,6) Plucker (d=15) & Phase-Steered Helical N-LIG OAM (d=100) Carbon Qudit Bus"
+            }
+        }
+    }
+
+    pub fn pin_names(&self) -> [&'static str; 4] {
+        match self {
+            Self::BallisticKleinDiodeTransistor => ["Y_SOURCE", "Y_DRAIN", "X_GATE_TOP", "GND"],
+            Self::HyperbolicThzBolometer => ["THZ_ANT_Y", "IF_READOUT", "LO_REF_X", "GND"],
+            Self::OrthogonalThermoelectricHarvester => {
+                ["TEG_VOUT_P", "HOT_COLLECTOR", "BIAS_SENSE", "GND"]
+            }
+            Self::EtchFreeMajoranaParafermionQuditBus => {
+                ["QUDIT_BUS_IN", "QUDIT_BUS_OUT", "HOMODYNE_READ", "GND"]
+            }
+        }
+    }
+}
+
+/// Export an arbitrary polygon list (`&[PolygonFeature]`) into a KiCAD v8 `.kicad_mod`
+/// footprint string (coordinates converted from $\mu\text{m}$ to $\text{mm}$).
+pub fn export_polygons_to_kicad_footprint_str(
+    module_name: &str,
+    description: &str,
+    pad_width_um: f64,
+    features: &[PolygonFeature],
+) -> String {
+    let mut out = String::with_capacity(features.len() * 160 + 512);
+    let _ = writeln!(
+        out,
+        "(footprint \"{module_name}\" (version 20240108) (generator \"signals_semi_dirac_cad_rs\")"
+    );
+    let _ = writeln!(out, "  (layer \"F.Cu\")");
+    let _ = writeln!(out, "  (descr \"{description}\")");
+    let _ = writeln!(out, "  (attr smd)");
+    let _ = writeln!(
+        out,
+        "  (fp_text reference \"REF**\" (at 0 -0.25) (layer \"F.SilkS\")"
+    );
+    let _ = writeln!(out, "    (effects (font (size 0.5 0.5) (thickness 0.1)))");
+    let _ = writeln!(out, "  )");
+    let _ = writeln!(
+        out,
+        "  (fp_text value \"{module_name}\" (at 0 0.35) (layer \"F.Fab\")"
+    );
+    let _ = writeln!(out, "    (effects (font (size 0.5 0.5) (thickness 0.1)))");
+    let _ = writeln!(out, "  )");
+
+    let mut pad_counter = 1usize;
+    for feat in features {
+        if feat.layer == 3 {
+            let n = feat.points_um.len() as f64;
+            let cx: f64 = feat.points_um.iter().map(|p| p.0 / 1000.0).sum::<f64>() / n;
+            let cy: f64 = feat.points_um.iter().map(|p| p.1 / 1000.0).sum::<f64>() / n;
+            let w_mm = pad_width_um / 1000.0;
+            let _ = writeln!(
+                out,
+                "  (pad \"{pad_counter}\" smd rect (at {cx:.4} {cy:.4}) (size {w_mm:.4} {w_mm:.4}) (layers \"F.Cu\" \"F.Mask\"))"
+            );
+            pad_counter += 1;
+        } else {
+            let kicad_layer = match feat.layer {
+                10 => "F.Cu",
+                11 => "B.Cu",
+                12 => "Eco1.User",
+                13 => "Eco2.User",
+                _ => "F.Fab",
+            };
+            let _ = write!(out, "  (fp_poly (pts");
+            for (x_um, y_um) in &feat.points_um {
+                let _ = write!(out, " (xy {:.4} {:.4})", x_um / 1000.0, y_um / 1000.0);
+            }
+            let _ = writeln!(
+                out,
+                ") (stroke (width 0.005) (type solid)) (fill solid) (layer \"{kicad_layer}\"))"
+            );
+        }
+    }
+    let _ = writeln!(out, ")");
+    out
+}
+
+/// Synthesize the 2D KiCAD/GDSII polygons and 3D `.kicad_vol` holographic splines
+/// (including phase-varying lasing $\Delta\Phi(\ell,\phi) = \ell\phi$ for carbon-based
+/// qudits) for any of the 4 Semi-Dirac Engineering & Quantum Applications.
+pub fn generate_semi_dirac_application_module(
+    preset: SemiDiracApplicationPreset,
+    litho: &HolographicLaserLithoSpec,
+) -> (String, Vec<PolygonFeature>, Vec<VolumetricSpline3D>) {
+    let mod_name = preset.module_name().to_string();
+    let stages: Vec<(&str, &str, f64)> = match preset {
+        SemiDiracApplicationPreset::BallisticKleinDiodeTransistor => vec![
+            (
+                "1_LCS_STRAIN_CLAMP_WEST",
+                "Signals.semiDiracStrainMergingGap(Delta0, beta, eps_xx* = Delta0/beta) = 0",
+                90.0,
+            ),
+            (
+                "2_MASSLESS_Y_KLEIN_BUS",
+                "Signals.DFT.semiDiracKleinTunnelingY = 1 (k_x = 0 ballistic y-channel)",
+                140.0,
+            ),
+            (
+                "3_MASSIVE_X_WKB_GATE",
+                "Signals.semiDiracKleinRectificationRatio(10) = 101 (w_STED = 18.08 nm x-pinch)",
+                110.0,
+            ),
+            (
+                "4_LCS_STRAIN_CLAMP_EAST",
+                "Signals.DFT.semiDiracEnergySq(k_x, k_y, m_x*, v_y, 0)",
+                90.0,
+            ),
+        ],
+        SemiDiracApplicationPreset::HyperbolicThzBolometer => vec![
+            (
+                "1_BOWTIE_THZ_COLLECTOR_Y",
+                "Signals.semiDiracDrudeAnisotropySq(c, m_x*, v_y, E_F) -> D_yy / D_xx >> 1",
+                120.0,
+            ),
+            (
+                "2_HYPERBOLIC_CANAL_SHEET",
+                "Signals.semiDiracHyperbolicCanalizationTanSq(3/4, -3) = 1/4 (400-800 GHz)",
+                160.0,
+            ),
+            (
+                "3_SLIG_HOMODYNE_BOLOMETER",
+                "Signals.semiDiracBolometerPolarizationContrast(10, 1) = 9/11",
+                120.0,
+            ),
+            (
+                "4_DIAMOND_PHONON_ISOLATOR",
+                "Signals.DDF.rgo_polycbd_enz_hyperbolic_and_plasma_metamaterial_identities",
+                100.0,
+            ),
+        ],
+        SemiDiracApplicationPreset::OrthogonalThermoelectricHarvester => vec![
+            (
+                "1_DIAMOND_HOT_COLLECTOR",
+                "Signals.DFT.gtbcHarmonicPlusAnharmonicConductance (Hot-side sp3 phonon bus)",
+                110.0,
+            ),
+            (
+                "2_NLIG_SEMI_DIRAC_N_LEG",
+                "Signals.semiDiracThermoelectricZT (Heavy m_x* Seebeck S_yy + Massless v_y sigma_yy)",
+                150.0,
+            ),
+            (
+                "3_SLIG_SEMI_DIRAC_P_LEG",
+                "Signals.semiDiracThermoelectricZT (Complementary p-type S-LIG pi-couple)",
+                150.0,
+            ),
+            (
+                "4_DIAMOND_COLD_PHONON_SINK",
+                "Signals.DDF.CattaneoVernotteHeatModel (Cold-side phonon siphon)",
+                110.0,
+            ),
+        ],
+        SemiDiracApplicationPreset::EtchFreeMajoranaParafermionQuditBus => vec![
+            (
+                "1_SPP_PHASE_VARYING_LASER_IN",
+                "Signals.helicalPhaseLasingAzimuthalShift(l, phi) = l*phi + spiralPhasePlateStepHeight",
+                125.0,
+            ),
+            (
+                "2_ETCH_FREE_SC1_MZM_Y_CHANNEL",
+                "Signals.semiDiracTransverseGroupVelocityX(0, m_x*) = 0 (D_it gain = 100x vs RIE)",
+                165.0,
+            ),
+            (
+                "3_Z6_PARAFERMION_GR26_PLUCKER_CORE",
+                "Signals.oamCarbonQuditHilbertDim (d=6 parafermion, d=15 Gr_C(2,6), d=100 OAM)",
+                165.0,
+            ),
+            (
+                "4_KERR_HOMODYNE_QND_READOUT",
+                "Signals.Homodyne + Nondestructive Kerr Cross-Phase Parity Readout",
+                125.0,
+            ),
+        ],
+    };
+
+    let mut polygons = Vec::new();
+    let mut splines = Vec::new();
+    let linewidth_nm = litho.sted_depleted_linewidth_nm();
+    let mut x_cursor_um = 0.0_f64;
+    let stage_height_um = 140.0_f64;
+    let stage_gap_um = 16.0_f64;
+
+    for (idx, (stage_label, rtl_ref, width_um)) in stages.iter().enumerate() {
+        let x0 = x_cursor_um;
+        let x1 = x0 + *width_um;
+        let y0 = 0.0;
+        let y1 = stage_height_um;
+
+        // 1. N-LIG semi-Dirac massless y-axis channel / waveguide (Layer 10)
+        polygons.push(PolygonFeature {
+            layer: CarbonMaterial::NLigSp2.gds_layer(),
+            datatype: idx as i16,
+            points_um: vec![(x0, y0), (x1, y0), (x1, y1), (x0, y1)],
+            tag: format!("SD_{stage_label}_NLIG"),
+            local_director_rad: 0.0,
+        });
+
+        // 2. S-LIG complementary gate / bolometer / thermoelectric p-leg (Layer 11)
+        polygons.push(PolygonFeature {
+            layer: CarbonMaterial::SLigPType.gds_layer(),
+            datatype: idx as i16,
+            points_um: vec![
+                (x0 + 8.0, y0 + 18.0),
+                (x1 - 8.0, y0 + 18.0),
+                (x1 - 8.0, y0 + 62.0),
+                (x0 + 8.0, y0 + 62.0),
+            ],
+            tag: format!("SD_{stage_label}_SLIG"),
+            local_director_rad: 0.0,
+        });
+
+        // 3. sp3 Diamond phonon router & thermal isolator (Layer 12)
+        polygons.push(PolygonFeature {
+            layer: CarbonMaterial::Sp3DiamondPhononBus.gds_layer(),
+            datatype: idx as i16,
+            points_um: vec![
+                (x0 + 5.0, y0 - 14.0),
+                (x1 - 5.0, y0 - 14.0),
+                (x1 - 5.0, y0 - 4.0),
+                (x0 + 5.0, y0 - 4.0),
+            ],
+            tag: format!("SD_{stage_label}_DIAMOND"),
+            local_director_rad: 0.0,
+        });
+
+        // 4. O-CNT high-k gate dielectric & braiding shield (Layer 13)
+        polygons.push(PolygonFeature {
+            layer: CarbonMaterial::OCntHighKShield.gds_layer(),
+            datatype: idx as i16,
+            points_um: vec![
+                (x1 + 2.0, y0 - 8.0),
+                (x1 + stage_gap_um - 2.0, y0 - 8.0),
+                (x1 + stage_gap_um - 2.0, y1 + 8.0),
+                (x1 + 2.0, y1 + 8.0),
+            ],
+            tag: format!("SD_{stage_label}_OCNT"),
+            local_director_rad: 0.0,
+        });
+
+        // 5. 532 nm LCS polyCBD uniaxial strain-locking Bragg clamp (Layer 14)
+        polygons.push(PolygonFeature {
+            layer: CarbonMaterial::PolyCbdBraggGrating.gds_layer(),
+            datatype: idx as i16,
+            points_um: vec![
+                (x0 + 12.0, y1 + 5.0),
+                (x1 - 12.0, y1 + 5.0),
+                (x1 - 12.0, y1 + 15.0),
+                (x0 + 12.0, y1 + 15.0),
+            ],
+            tag: format!("SD_{stage_label}_LCS_STRAIN_532NM"),
+            local_director_rad: 0.0,
+        });
+
+        // Orthogonal flash assignment (Flash 1 for even stages, Flash 2 for odd stages)
+        let flash_nlig = if idx % 2 == 0 { 1 } else { 2 };
+        let z_base_um = 12.0 + (idx as f64) * 3.0;
+
+        // For Application 4 (or phase-steered OAM qudit mode), vary the lasing phase
+        // ΔΦ(ℓ, φ) = ℓ φ along a 3D helical corkscrew spline (`IQ-Sampling-for-Signal-Phase.md`, line 8618)
+        let points_3d = if preset == SemiDiracApplicationPreset::EtchFreeMajoranaParafermionQuditBus
+        {
+            let l_charge = (idx as f64) + 1.0;
+            let helix_radius_um = 6.0;
+            (0..=8)
+                .map(|step| {
+                    let frac = (step as f64) / 8.0;
+                    let x = x0 + frac * (*width_um + stage_gap_um);
+                    let phi = 2.0 * PI * frac;
+                    let phase_shift = l_charge * phi;
+                    let y = 0.5 * stage_height_um + helix_radius_um * phase_shift.cos();
+                    let z = z_base_um + helix_radius_um * phase_shift.sin();
+                    (x, y, z)
+                })
+                .collect()
+        } else {
+            vec![
+                (x0, 0.5 * stage_height_um, z_base_um),
+                (0.5 * (x0 + x1), 0.5 * stage_height_um, z_base_um + 3.5),
+                (x1 + stage_gap_um, 0.5 * stage_height_um, z_base_um),
+            ]
+        };
+
+        splines.push(VolumetricSpline3D {
+            id: format!("spline_sd_{stage_label}_nlig"),
+            stage_name: (*stage_label).to_string(),
+            rtl_source: (*rtl_ref).to_string(),
+            material: CarbonMaterial::NLigSp2,
+            flash_index: flash_nlig,
+            wave_amplitude: 0.80,
+            width_nm: linewidth_nm,
+            points_um: points_3d,
+        });
+
+        splines.push(VolumetricSpline3D {
+            id: format!("spline_sd_{stage_label}_slig"),
+            stage_name: (*stage_label).to_string(),
+            rtl_source: (*rtl_ref).to_string(),
+            material: CarbonMaterial::SLigPType,
+            flash_index: flash_nlig + 2,
+            wave_amplitude: 0.78,
+            width_nm: linewidth_nm,
+            points_um: vec![
+                (x0 + 8.0, 40.0, z_base_um + 1.4),
+                (x1 - 8.0, 40.0, z_base_um + 1.4),
+            ],
+        });
+
+        splines.push(VolumetricSpline3D {
+            id: format!("spline_sd_{stage_label}_sp3_diamond"),
+            stage_name: (*stage_label).to_string(),
+            rtl_source: (*rtl_ref).to_string(),
+            material: CarbonMaterial::Sp3DiamondPhononBus,
+            flash_index: 5,
+            wave_amplitude: 1.55,
+            width_nm: 45.0,
+            points_um: vec![
+                (0.5 * (x0 + x1), 0.5 * stage_height_um, z_base_um - 2.0),
+                (0.5 * (x0 + x1), -12.0, 0.0),
+            ],
+        });
+
+        splines.push(VolumetricSpline3D {
+            id: format!("spline_sd_{stage_label}_polycbd_lcs_strain"),
+            stage_name: (*stage_label).to_string(),
+            rtl_source: (*rtl_ref).to_string(),
+            material: CarbonMaterial::PolyCbdBraggGrating,
+            flash_index: 6,
+            wave_amplitude: 0.70,
+            width_nm: litho.lcs_green_bragg_pitch_nm(),
+            points_um: vec![
+                (x0 + 12.0, y1 + 10.0, z_base_um + 2.0),
+                (x1 - 12.0, y1 + 10.0, z_base_um + 2.0),
+            ],
+        });
+
+        x_cursor_um = x1 + stage_gap_um;
+    }
+
+    // Add 4 SMD contact pads on Layer 3
+    for pad_idx in 0..4 {
+        let px = (pad_idx as f64) * (x_cursor_um / 4.0) + 35.0;
+        let py = -40.0;
+        polygons.push(PolygonFeature {
+            layer: 3,
+            datatype: 0,
+            points_um: vec![
+                (px - 20.0, py - 20.0),
+                (px + 20.0, py - 20.0),
+                (px + 20.0, py + 20.0),
+                (px - 20.0, py + 20.0),
+            ],
+            tag: format!("SD_IO_PAD_{}", pad_idx + 1),
+            local_director_rad: 0.0,
+        });
+    }
+
+    (mod_name, polygons, splines)
+}
+
+/// Generate a complete KiCAD v8 Schematic (`.kicad_sch`) for a Semi-Dirac Application
+/// module, compatible with `.agents/skills/kicad/scripts/analyze_schematic.py`.
+pub fn export_semi_dirac_kicad_schematic_str(preset: SemiDiracApplicationPreset) -> String {
+    let mod_name = preset.module_name();
+    let descr = preset.description();
+    let pins = preset.pin_names();
+    format!(
+        r#"(kicad_sch
+  (version 20231120)
+  (generator "signals_semi_dirac_cad_rs")
+  (generator_version "8.0")
+  (uuid "00000000-0000-4000-8000-000000000001")
+  (paper "A4")
+  (title_block
+    (title "{mod_name}")
+    (date "2026-11-08")
+    (rev "1.0")
+    (comment 1 "{descr}")
+  )
+  (lib_symbols
+    (symbol "SemiDirac:{mod_name}"
+      (in_bom yes)
+      (on_board yes)
+      (property "Reference" "U" (at 0 10.16 0) (effects (font (size 1.27 1.27))))
+      (property "Value" "{mod_name}" (at 0 -10.16 0) (effects (font (size 1.27 1.27))))
+      (property "Footprint" "SemiDirac:{mod_name}" (at 0 -12.7 0) (effects (font (size 1.27 1.27)) (hide yes)))
+      (property "Description" "{descr}" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
+      (symbol "{mod_name}_1_1"
+        (pin bidirectional line (at -12.7 2.54 0) (length 2.54)
+          (name "{p1}" (effects (font (size 1.27 1.27))))
+          (number "1" (effects (font (size 1.27 1.27))))
+        )
+        (pin bidirectional line (at 12.7 2.54 180) (length 2.54)
+          (name "{p2}" (effects (font (size 1.27 1.27))))
+          (number "2" (effects (font (size 1.27 1.27))))
+        )
+        (pin input line (at -12.7 -2.54 0) (length 2.54)
+          (name "{p3}" (effects (font (size 1.27 1.27))))
+          (number "3" (effects (font (size 1.27 1.27))))
+        )
+        (pin power_in line (at 12.7 -2.54 180) (length 2.54)
+          (name "{p4}" (effects (font (size 1.27 1.27))))
+          (number "4" (effects (font (size 1.27 1.27))))
+        )
+      )
+    )
+    (symbol "Connector:Conn_01x04"
+      (in_bom yes)
+      (on_board yes)
+      (property "Reference" "J" (at 0 7.62 0) (effects (font (size 1.27 1.27))))
+      (property "Value" "Conn_01x04" (at 0 -7.62 0) (effects (font (size 1.27 1.27))))
+      (symbol "Conn_01x04_1_1"
+        (pin passive line (at -5.08 2.54 0) (length 2.54)
+          (name "Pin_1" (effects (font (size 1.27 1.27))))
+          (number "1" (effects (font (size 1.27 1.27))))
+        )
+        (pin passive line (at -5.08 0 0) (length 2.54)
+          (name "Pin_2" (effects (font (size 1.27 1.27))))
+          (number "2" (effects (font (size 1.27 1.27))))
+        )
+        (pin passive line (at -5.08 -2.54 0) (length 2.54)
+          (name "Pin_3" (effects (font (size 1.27 1.27))))
+          (number "3" (effects (font (size 1.27 1.27))))
+        )
+        (pin passive line (at -5.08 -5.08 0) (length 2.54)
+          (name "Pin_4" (effects (font (size 1.27 1.27))))
+          (number "4" (effects (font (size 1.27 1.27))))
+        )
+      )
+    )
+  )
+  (symbol
+    (lib_id "SemiDirac:{mod_name}")
+    (at 100 100 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "00000000-0000-4000-8000-000000000010")
+    (property "Reference" "U1" (at 100 89.84 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "{mod_name}" (at 100 110.16 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "SemiDirac:{mod_name}" (at 100 112.7 0) (effects (font (size 1.27 1.27)) (hide yes)))
+    (property "MPN" "LIGNOLUX-{mod_name}" (at 100 115.0 0) (effects (font (size 1.27 1.27)) (hide yes)))
+    (pin "1" (uuid "00000000-0000-4000-8000-000000000011"))
+    (pin "2" (uuid "00000000-0000-4000-8000-000000000012"))
+    (pin "3" (uuid "00000000-0000-4000-8000-000000000013"))
+    (pin "4" (uuid "00000000-0000-4000-8000-000000000014"))
+  )
+  (symbol
+    (lib_id "Connector:Conn_01x04")
+    (at 140 100 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (uuid "00000000-0000-4000-8000-000000000020")
+    (property "Reference" "J1" (at 140 92.38 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "Conn_01x04" (at 140 107.62 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Connector:PinHeader_1x04_P2.54mm" (at 140 110.0 0) (effects (font (size 1.27 1.27)) (hide yes)))
+    (property "MPN" "LIGNOLUX-CONN-1X4" (at 140 112.0 0) (effects (font (size 1.27 1.27)) (hide yes)))
+    (pin "1" (uuid "00000000-0000-4000-8000-000000000021"))
+    (pin "2" (uuid "00000000-0000-4000-8000-000000000022"))
+    (pin "3" (uuid "00000000-0000-4000-8000-000000000023"))
+    (pin "4" (uuid "00000000-0000-4000-8000-000000000024"))
+  )
+  (wire (pts (xy 87.3 97.46) (xy 80.0 97.46)) (uuid "00000000-0000-4000-8000-000000000031"))
+  (wire (pts (xy 112.7 97.46) (xy 120.0 97.46)) (uuid "00000000-0000-4000-8000-000000000032"))
+  (wire (pts (xy 87.3 102.54) (xy 80.0 102.54)) (uuid "00000000-0000-4000-8000-000000000033"))
+  (wire (pts (xy 112.7 102.54) (xy 120.0 102.54)) (uuid "00000000-0000-4000-8000-000000000034"))
+  (wire (pts (xy 134.92 97.46) (xy 128.0 97.46)) (uuid "00000000-0000-4000-8000-000000000035"))
+  (wire (pts (xy 134.92 100.0) (xy 128.0 100.0)) (uuid "00000000-0000-4000-8000-000000000036"))
+  (wire (pts (xy 134.92 102.54) (xy 128.0 102.54)) (uuid "00000000-0000-4000-8000-000000000037"))
+  (wire (pts (xy 134.92 105.08) (xy 128.0 105.08)) (uuid "00000000-0000-4000-8000-000000000038"))
+  (label "{p1}" (at 80.0 97.46 0) (effects (font (size 1.27 1.27))))
+  (label "{p2}" (at 120.0 97.46 0) (effects (font (size 1.27 1.27))))
+  (label "{p3}" (at 80.0 102.54 0) (effects (font (size 1.27 1.27))))
+  (label "{p4}" (at 120.0 102.54 0) (effects (font (size 1.27 1.27))))
+  (label "{p1}" (at 128.0 97.46 0) (effects (font (size 1.27 1.27))))
+  (label "{p2}" (at 128.0 100.0 0) (effects (font (size 1.27 1.27))))
+  (label "{p3}" (at 128.0 102.54 0) (effects (font (size 1.27 1.27))))
+  (label "{p4}" (at 128.0 105.08 0) (effects (font (size 1.27 1.27))))
+  (symbol_instances
+    (path "/00000000-0000-4000-8000-000000000001/00000000-0000-4000-8000-000000000010"
+      (reference "U1") (unit 1) (value "{mod_name}") (footprint "SemiDirac:{mod_name}")
+    )
+    (path "/00000000-0000-4000-8000-000000000001/00000000-0000-4000-8000-000000000020"
+      (reference "J1") (unit 1) (value "Conn_01x04") (footprint "Connector:PinHeader_1x04_P2.54mm")
+    )
+  )
+)
+"#,
+        p1 = pins[0],
+        p2 = pins[1],
+        p3 = pins[2],
+        p4 = pins[3],
+    )
+}
+
+/// Generate a complete KiCAD v8 PCB Layout (`.kicad_pcb`) for a Semi-Dirac Application
+/// module with board `Edge.Cuts`, placed `U1` and `J1` footprints, and 100% routed
+/// `F.Cu` segments, compatible with `.agents/skills/kicad/scripts/analyze_pcb.py`.
+pub fn export_semi_dirac_kicad_pcb_str(preset: SemiDiracApplicationPreset) -> String {
+    let mod_name = preset.module_name();
+    let descr = preset.description();
+    let pins = preset.pin_names();
+    format!(
+        r#"(kicad_pcb
+  (version 20240108)
+  (generator "signals_semi_dirac_cad_rs")
+  (generator_version "8.0")
+  (general (thickness 1.6) (legacy_teardrops no))
+  (paper "A4")
+  (title_block
+    (title "{mod_name}")
+    (date "2026-11-08")
+    (rev "1.0")
+    (comment 1 "{descr}")
+  )
+  (layers
+    (0 "F.Cu" signal)
+    (31 "B.Cu" signal)
+    (36 "B.SilkS" user "B.Silkscreen")
+    (37 "F.SilkS" user "F.Silkscreen")
+    (38 "B.Mask" user)
+    (39 "F.Mask" user)
+    (44 "Edge.Cuts" user)
+    (49 "F.Fab" user)
+  )
+  (setup
+    (pad_to_mask_clearance 0)
+  )
+  (net 0 "")
+  (net 1 "{p1}")
+  (net 2 "{p2}")
+  (net 3 "{p3}")
+  (net 4 "{p4}")
+  (gr_rect (start 90 90) (end 130 115) (stroke (width 0.15) (type default)) (fill none) (layer "Edge.Cuts"))
+  (footprint "SemiDirac:{mod_name}"
+    (layer "F.Cu")
+    (at 102 102 0)
+    (descr "{descr}")
+    (attr smd)
+    (property "Reference" "U1" (at 0 -4 0) (layer "F.SilkS") (effects (font (size 1 1) (thickness 0.15))))
+    (property "Value" "{mod_name}" (at 0 5 0) (layer "F.Fab") (effects (font (size 1 1) (thickness 0.15))))
+    (property "MPN" "LIGNOLUX-{mod_name}" (at 0 6 0) (layer "F.Fab") (hide yes))
+    (pad "1" smd rect (at 0 -3) (size 1.0 0.8) (layers "F.Cu" "F.Mask") (net 1 "{p1}"))
+    (pad "2" smd rect (at 0 -1) (size 1.0 0.8) (layers "F.Cu" "F.Mask") (net 2 "{p2}"))
+    (pad "3" smd rect (at 0 1) (size 1.0 0.8) (layers "F.Cu" "F.Mask") (net 3 "{p3}"))
+    (pad "4" smd rect (at 0 3) (size 1.0 0.8) (layers "F.Cu" "F.Mask") (net 4 "{p4}"))
+  )
+  (footprint "Connector:PinHeader_1x04_P2.54mm"
+    (layer "F.Cu")
+    (at 118 102 0)
+    (attr through_hole)
+    (property "Reference" "J1" (at 0 -5 0) (layer "F.SilkS") (effects (font (size 1 1) (thickness 0.15))))
+    (property "Value" "Conn_01x04" (at 0 5 0) (layer "F.Fab") (effects (font (size 1 1) (thickness 0.15))))
+    (property "MPN" "LIGNOLUX-CONN-1X4" (at 0 6 0) (layer "F.Fab") (hide yes))
+    (pad "1" thru_hole circle (at 0 -3) (size 1.5 1.5) (drill 0.9) (layers "*.Cu" "*.Mask") (net 1 "{p1}"))
+    (pad "2" thru_hole circle (at 0 -1) (size 1.5 1.5) (drill 0.9) (layers "*.Cu" "*.Mask") (net 2 "{p2}"))
+    (pad "3" thru_hole circle (at 0 1) (size 1.5 1.5) (drill 0.9) (layers "*.Cu" "*.Mask") (net 3 "{p3}"))
+    (pad "4" thru_hole circle (at 0 3) (size 1.5 1.5) (drill 0.9) (layers "*.Cu" "*.Mask") (net 4 "{p4}"))
+  )
+  (segment (start 102 99) (end 118 99) (width 0.25) (layer "F.Cu") (net 1))
+  (segment (start 102 101) (end 118 101) (width 0.25) (layer "F.Cu") (net 2))
+  (segment (start 102 103) (end 118 103) (width 0.25) (layer "F.Cu") (net 3))
+  (segment (start 102 105) (end 118 105) (width 0.40) (layer "F.Cu") (net 4))
+)
+"#,
+        p1 = pins[0],
+        p2 = pins[1],
+        p3 = pins[2],
+        p4 = pins[3],
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1569,6 +2217,46 @@ mod tests {
             let cbom = export_iof_prov_cbom_yaml_ld(&mod_name, &litho, &splines);
             assert!(cbom.contains("iof:ManufacturingOperation"));
             assert!(cbom.contains("cooling_delay_ms: 15.0"));
+        }
+    }
+
+    #[test]
+    fn semi_dirac_four_applications_kicad_gdsii_vol_and_cbom_workflow() {
+        let litho = HolographicLaserLithoSpec::default();
+        for preset in SemiDiracApplicationPreset::all() {
+            let (mod_name, polys, splines) = generate_semi_dirac_application_module(preset, &litho);
+            let drc = verify_volumetric_metric_interference_drc(&mod_name, 4, &polys, &splines, &litho);
+            assert_eq!(drc.pipeline_stages, 4);
+            assert_eq!(drc.single_flash_over_squeeze_hazards, 3);
+            assert_eq!(drc.orthogonal_multi_flash_hazards, 0);
+
+            let kicad_mod = export_polygons_to_kicad_footprint_str(
+                &mod_name,
+                preset.description(),
+                40.0,
+                &polys,
+            );
+            assert!(kicad_mod.contains(&format!("(footprint \"{mod_name}\"")));
+            assert!(kicad_mod.contains("(pad \"4\" smd rect"));
+
+            let kicad_sch = export_semi_dirac_kicad_schematic_str(preset);
+            assert!(kicad_sch.contains("(kicad_sch"));
+            assert!(kicad_sch.contains(&format!("LIGNOLUX-{mod_name}")));
+
+            let kicad_pcb = export_semi_dirac_kicad_pcb_str(preset);
+            assert!(kicad_pcb.contains("(kicad_pcb"));
+            assert!(kicad_pcb.contains("(segment (start 102 99) (end 118 99)"));
+
+            let gds_bytes = export_polygons_to_gdsii_bytes(&mod_name, &polys);
+            let parsed = parse_gdsii_bytes(&gds_bytes).expect("valid Semi-Dirac GDSII");
+            assert_eq!(parsed.boundaries.len(), polys.len());
+
+            let kicad_vol = export_kicad_volumetric_str(&mod_name, &litho, &splines);
+            assert!(kicad_vol.contains("(kicad_vol (version 20261025)"));
+            assert!(kicad_vol.contains("(material polycbd_bragg)"));
+
+            let cbom = export_iof_prov_cbom_yaml_ld(&mod_name, &litho, &splines);
+            assert!(cbom.contains("iof:ManufacturingOperation"));
         }
     }
 }
