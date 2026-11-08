@@ -1297,3 +1297,48 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
         SDSU4.compensated_oam_phase_residual(3.0, 1.0e-5, 10.0, 3.0e-4), 0.0
     )
     assert SDSU4.cglmp_classical_bound() < SDSU4.cglmp_qutrit_quantum_benchmark()
+
+    # Papers 33 & 34: Semi-Dirac Soliton Bus, CROW Delay, 128->64b RDMA, & Multi-Band CNC / c-BAs Photonics
+    assert np.isclose(
+        SDSU4.co2_carbonate_chi3_cphase_length(1550.0, 5.0, 1.0),
+        0.2 * SDSU4.co2_carbonate_chi3_cphase_length(1550.0, 1.0, 1.0),
+    )
+    assert (
+        SDSU4.crow_slow_light_delay_length(12.0, 0.5, 0.3, 300.0)
+        < SDSU4.crow_slow_light_delay_length(12.0, 0.5, 0.3, 5.0)
+        < SDSU4.crow_slow_light_delay_length(12.0, 0.5, 0.3, 1.5)
+    )
+    assert SDSU4.tiered_qnic_stripped_payload_bits(128, 64) == 64
+    assert np.isclose(
+        SDSU4.lut_plus_cordic_oam_phase(4.0, 0.5, 0.125), 4.0 * 0.625
+    )
+    assert (
+        250.0 * SDSU4.nlig_internal_pump_avg_power_mw(1.5, 500.0, 0.375)
+        < 110.0
+        < 250.0 * SDSU4.nlig_internal_pump_avg_power_mw(1.5, 500.0, 1.0)
+    )
+    assert np.isclose(
+        SDSU4.cnc_periodic_booster_net_link_gain_db(10000.0, 10.0, 0.05, 0.5),
+        0.0,
+    )
+    assert SDSU4.cnc_checkpoint_count(10000, 10) == 1000
+    assert SDSU4.cnc_checkpoint_count(10000, 100) == 100
+    assert SDSU4.adiabatic_scarf_taper_loss() < SDSU4.fresnel_butt_joint_reflectance(
+        1.55, 3.20
+    )
+    assert SDSU4.nv_purcell_factor_normalized(100.0, 0.10) > 12.0
+    assert (
+        405.0
+        < 475.0
+        < SDSU4.multiband_third_harmonic_wavelength_nm(1550.0)
+        < 532.0
+        < 540.0
+        < 590.0
+        < 650.0
+        < 775.0
+        < 785.0
+        < 800.0
+        < 1030.0
+        < 1310.0
+        < 1550.0
+    )

@@ -845,4 +845,229 @@ theorem solitonThreeWaveguide_yang_baxter_consistency
   ⟨yang_baxter_equation_matrix8 u v w η,
     baxterTQResidual_wronskian_zero Q_plus Q_minus u η⟩
 
+/-! ## Revised Semi-Dirac Soliton Bus, Slow-Light CROW Delay Lines, Tiered 128-to-64-Bit RDMA LUT-CORDIC QRAM, and Integrated Multi-Band ($405\text{–}1550\text{ nm}$) CNC / $c\text{-BAs}$ Photonics -/
+
+/-- **$\mathrm{CO}_2$-Carbonate $\chi^{(3)}$-Enhanced Cross-Phase Modulation (`CPHASE` / `CNOT`) Interaction Length**:
+$$L_{\mathrm{CPHASE}}(\lambda, n_2, I_{\mathrm{ctrl}}) = \frac{\lambda}{2\,n_2\,I_{\mathrm{ctrl}}}.$$
+Introducing Direct-Air-Captured $\mathrm{CO}_2$ carbonate bridges ($-\text{O–CO–O}-$) during laser
+induction increases $n_2$ by $5\times$ (`_Quantum Computing Hardware Architectures Review  .myst.md`,
+Prompts 7 & 13), shrinking $L_{\mathrm{CPHASE}}$ by $5\times$ ($80\%$ reduction in gate length/power). -/
+@[blueprint "def:signals-soliton-co2-carbonate-cphase-length"
+  (title := "CO₂-carbonate χ^(3) CPHASE / CNOT interaction length λ / (2 n_2 I_ctrl)")
+  (statement := /-- Define $\operatorname{co2CarbonateChi3CphaseLength}(\lambda, n_2, I_{\mathrm{ctrl}})
+    = \lambda / (2 n_2 I_{\mathrm{ctrl}})$. -/)]
+noncomputable def co2CarbonateChi3CphaseLength (lambda n2 i_ctrl : ℝ) : ℝ :=
+  lambda / (2 * n2 * i_ctrl)
+
+/-- **Slow-Light `N-LIG` CROW (Coupled Resonator Optical Waveguide) Physical Buffer Length**:
+$$L_{\mathrm{CROW}}(N_{\mathrm{cycles}}, f_{\mathrm{clk}}, c_0, n_g) = \left(\frac{N_{\mathrm{cycles}}}{f_{\mathrm{clk}}}\right)\left(\frac{c_0}{n_g}\right).$$
+Buffers an incoming soliton while the 64-bit LUT-CORDIC decoder computes the `rGO` phase map
+(`_Quantum Computing Hardware Architectures Review  .myst.md`, Prompt 18, lines 1765–1790). -/
+@[blueprint "def:signals-soliton-crow-slow-light-delay-length"
+  (title := "Slow-light N-LIG CROW optical delay buffer length (N_cycles / f_clk) * (c_0 / n_g)")
+  (statement := /-- Define $\operatorname{crowSlowLightDelayLength}(N_{\mathrm{cycles}}, f_{\mathrm{clk}}, c_0, n_g)
+    = (N_{\mathrm{cycles}} / f_{\mathrm{clk}}) \cdot (c_0 / n_g)$. -/)]
+noncomputable def crowSlowLightDelayLength (cycles f_clk_ghz c_m_per_ns n_group : ℝ) : ℝ :=
+  (cycles / f_clk_ghz) * (c_m_per_ns / n_group)
+
+/-- **Tiered 128-Bit Inter-Node QNIC to 64-Bit Intra-QPU RDMA Payload Bit Width**:
+Strips the 64-bit room-temperature QNIC header (32-bit Rack/Wafer ID + 16-bit Time-Bin + 16-bit
+Bell-pair graph tag) at the cryostat boundary, passing the 64-bit intra-module payload
+(`[63:32]` 32-bit Spatial Via + `[31:16]` 16-bit WDM Color + `[15:0]` 16-bit OAM $\ell$ & superposition)
+to the RFSoC (`_Quantum Computing Hardware Architectures Review  .myst.md`, Prompts 16–18). -/
+@[blueprint "def:signals-soliton-tiered-qnic-payload-bits"
+  (title := "Tiered 128-bit QNIC to 64-bit intra-QPU RDMA payload bit width")
+  (statement := /-- Define $\operatorname{tieredQnicStrippedPayloadBits}(B_{\mathrm{total}}, B_{\mathrm{header}})
+    = B_{\mathrm{total}} - B_{\mathrm{header}}$. -/)]
+def tieredQnicStrippedPayloadBits (total_bits header_bits : ℕ) : ℕ :=
+  total_bits - header_bits
+
+/-- **Hybrid LUT-Seeded CORDIC Thermal-Drift-Compensated OAM Phase Map**:
+$$\phi_{\mathrm{final}}(\ell, \theta_{\mathrm{LUT}}, \Delta\theta_{\mathrm{CORDIC}})
+= \ell\,\theta_{\mathrm{LUT}} + \ell\,\Delta\theta_{\mathrm{CORDIC}} = \ell\,(\theta_{\mathrm{LUT}} + \Delta\theta_{\mathrm{CORDIC}}).$$ -/
+@[blueprint "def:signals-soliton-lut-plus-cordic-oam-phase"
+  (title := "Hybrid LUT-seeded CORDIC thermal-drift-compensated OAM phase map")
+  (statement := /-- Define $\operatorname{lutPlusCordicOamPhase}(\ell, \theta_{\mathrm{LUT}}, \Delta\theta_{\mathrm{CORDIC}})
+    = \ell \theta_{\mathrm{LUT}} + \ell \Delta\theta_{\mathrm{CORDIC}}$. -/)]
+def lutPlusCordicOamPhase (l_charge theta_lut delta_theta_cordic : ℝ) : ℝ :=
+  l_charge * theta_lut + l_charge * delta_theta_cordic
+
+/-- **`NLIG_Power_Manager` PWM-Throttled Internal-Pumping Average Thermal Load ($\text{mW}$)**:
+$$P_{\mathrm{avg,mW}}(I_{\mathrm{mA}}, R_\Omega, D_{\mathrm{PWM}}) = \left(\frac{I_{\mathrm{mA}}}{1000}\right)^2 R_\Omega \cdot 1000 \cdot D_{\mathrm{PWM}}.$$
+At $I = 1.5\text{ mA}, R = 500\text{ }\Omega$, the $60\text{ }\mu\text{s} / 160\text{ }\mu\text{s} = 3/8$ ($37.5\%$)
+PWM duty cycle reduces per-node heat from $1.125\text{ mW}$ to $27/64 \approx 0.422\text{ mW}$, allowing
+$250$ simultaneous dowsing nodes within the $110\text{ mW}$ 4K budget (`_Quantum Computing Hardware Architectures Review  .myst.md`, Prompts 13–14). -/
+@[blueprint "def:signals-soliton-nlig-internal-pump-avg-power-mw"
+  (title := "NLIG_Power_Manager PWM-throttled internal-pumping average power (mW)")
+  (statement := /-- Define $\operatorname{nligInternalPumpAvgPowerMw}(I_{\mathrm{mA}}, R_\Omega, D_{\mathrm{PWM}})
+    = (I_{\mathrm{mA}} / 1000)^2 R_\Omega \cdot 1000 \cdot D_{\mathrm{PWM}}$. -/)]
+noncomputable def nligInternalPumpAvgPowerMw (i_ma r_ohm duty_cycle : ℝ) : ℝ :=
+  (i_ma / 1000) ^ 2 * r_ohm * 1000 * duty_cycle
+
+/-- **Periodic Cellulose Nanocrystal (CNC) $\chi^{(2)}$ PSA Signal-Booster Net Link Gain ($\text{dB}$)**:
+$$G_{\mathrm{net,dB}}(L_{\mathrm{total}}, d_{\mathrm{CNC}}, \alpha_{\mathrm{dB/m}}, G_{\mathrm{CNC,dB}})
+= -L_{\mathrm{total}}\,\alpha_{\mathrm{dB/m}} + \left(\frac{L_{\mathrm{total}}}{d_{\mathrm{CNC}}}\right) G_{\mathrm{CNC,dB}}.$$
+Inserting high-$Q$ non-centrosymmetric CNC checkpoints every $d_{\mathrm{CNC}} = 10\text{ m}$ (or $100\text{ m}$)
+along an `N-LIG` waveguide (`_Quantum Processor and Soliton Discussions  .md`, lines 8306–8415;
+`IQ-Sampling-for-Signal-Phase.md`, line 3932; `Lignin-Vitrimer-Surface-Roughness-Limits.md`, lines 1130–1245)
+boosts the soliton signal at $0\text{ dB}$ quantum noise figure and resets the Quantum Geometric Tensor. -/
+@[blueprint "def:signals-soliton-cnc-periodic-booster-net-link-gain-db"
+  (title := "Periodic Cellulose Nanocrystal (CNC) χ^(2) PSA signal-booster net link gain (dB)")
+  (statement := /-- Define $\operatorname{cncPeriodicBoosterNetLinkGainDb}(L_{\mathrm{total}}, d_{\mathrm{CNC}}, \alpha_{\mathrm{dB/m}}, G_{\mathrm{CNC,dB}})
+    = -L_{\mathrm{total}} \alpha_{\mathrm{dB/m}} + (L_{\mathrm{total}} / d_{\mathrm{CNC}}) G_{\mathrm{CNC,dB}}$. -/)]
+noncomputable def cncPeriodicBoosterNetLinkGainDb
+    (total_len_m spacing_m loss_db_per_m gain_per_cnc_db : ℝ) : ℝ :=
+  -total_len_m * loss_db_per_m + (total_len_m / spacing_m) * gain_per_cnc_db
+
+/-- **Number of Periodic CNC Checkpoints Along an R2R Waveguide Run**:
+$$N_{\mathrm{CNC}}(L_{\mathrm{total}}, d_{\mathrm{CNC}}) = L_{\mathrm{total}} / d_{\mathrm{CNC}}.$$ -/
+@[blueprint "def:signals-soliton-cnc-checkpoint-count"
+  (title := "Number of periodic CNC optical checkpoints L_total / d_CNC")
+  (statement := /-- Define $\operatorname{cncCheckpointCount}(L_{\mathrm{total}}, d_{\mathrm{CNC}})
+    = L_{\mathrm{total}} / d_{\mathrm{CNC}}$. -/)]
+def cncCheckpointCount (total_len_m spacing_m : ℕ) : ℕ :=
+  total_len_m / spacing_m
+
+/-- **Normal-Incidence Fresnel Butt-Joint Reflectance $R_{\mathrm{Fresnel}}(n_1, n_2) = \left(\frac{n_1 - n_2}{n_1 + n_2}\right)^2$**:
+At $1550\text{ nm}$, a flat butt-joint between `N-LIG` ($n_1 = 1.55$) and Cubic Boron Arsenide
+$c\text{-BAs}$ ($n_2 = 3.20$) reflects $(1.65 / 4.75)^2 = 1089 / 9025 \approx 12.07\%$ per facet,
+whereas an **Inverted 3D Adiabatic Scarf-Joint Taper** achieves $\eta_{\mathrm{scarf}} = 98.5\%$
+transmission ($1.5\%$ loss, `Lignin-Vitrimer-Surface-Roughness-Limits.md`, lines 1265–1310). -/
+@[blueprint "def:signals-soliton-fresnel-butt-joint-reflectance"
+  (title := "Normal-incidence Fresnel butt-joint reflectance ((n_1 - n_2)/(n_1 + n_2))²")
+  (statement := /-- Define $\operatorname{fresnelButtJointReflectance}(n_1, n_2)
+    = ((n_1 - n_2) / (n_1 + n_2))^2$. -/)]
+noncomputable def fresnelButtJointReflectance (n1 n2 : ℝ) : ℝ :=
+  ((n1 - n2) / (n1 + n2)) ^ 2
+
+/-- **Inverted 3D Adiabatic Scarf-Joint Taper Mode-Transfer Efficiency ($\eta_{\mathrm{scarf}} = 98.5\%$)**:
+From `Lignin-Vitrimer-Surface-Roughness-Limits.md`, line 1291. -/
+@[blueprint "def:signals-soliton-adiabatic-scarf-taper-loss"
+  (title := "Inverted 3D adiabatic scarf-joint taper insertion loss fraction 1 - 0.985 = 0.015")
+  (statement := /-- Define $\operatorname{adiabaticScarfTaperLoss} = 15 / 1000$. -/)]
+noncomputable def adiabaticScarfTaperLoss : ℝ := 15 / 1000
+
+/-- **$590\text{ nm}$ Amber $n$-Adamantane NV-Center Plasmonic Cavity Purcell Factor**:
+$$F_P(Q, v_{\mathrm{norm}}, \pi_{\mathrm{approx}}) = \frac{3}{4\,\pi_{\mathrm{approx}}^2}\,\frac{Q}{v_{\mathrm{norm}}}, \qquad v_{\mathrm{norm}} = \frac{V_{\mathrm{mode}}}{(\lambda / n)^3},$$
+reducing the $12\text{ ns}$ bulk NV lifetime to $< 1\text{ ns}$ ($F_P \ge 12$, reaching $F_P \approx 75.99$
+at $Q = 100, v_{\mathrm{norm}} = 0.10$) for GHz "Optical Dowsing" QND soliton-shadow readout
+(`_Quantum Computing Hardware Architectures Review  .myst.md`, Prompt 8, lines 680–755). -/
+@[blueprint "def:signals-soliton-nv-purcell-factor-normalized"
+  (title := "590nm Amber n-adamantane NV plasmonic cavity Purcell factor (3/(4π²)) * (Q / v_norm)")
+  (statement := /-- Define $\operatorname{nvPurcellFactorNormalized}(Q, v_{\mathrm{norm}}, \pi_{\mathrm{approx}})
+    = (3 / (4 \pi_{\mathrm{approx}}^2)) \cdot (Q / v_{\mathrm{norm}})$. -/)]
+noncomputable def nvPurcellFactorNormalized (q_cav v_norm pi_approx : ℝ) : ℝ :=
+  (3 / (4 * pi_approx ^ 2)) * (q_cav / v_norm)
+
+/-- **$\mathrm{CO}_2$-Carbonate $\chi^{(3)}$ Third-Harmonic Generation (`THG`) Wavelength $\lambda_{\mathrm{THG}}(\lambda_0) = \lambda_0 / 3$**:
+Converts a $1550\text{ nm}$ telecom soliton into a $1550 / 3 \approx 516.67\text{ nm}$ green synchronization
+beacon (`_Quantum Computing Hardware Architectures Review  .myst.md`, Prompt 15, line 1545). -/
+@[blueprint "def:signals-soliton-multiband-thg-wavelength-nm"
+  (title := "CO₂-carbonate χ^(3) Third-Harmonic Generation wavelength λ_0 / 3")
+  (statement := /-- Define $\operatorname{multiBandThirdHarmonicWavelengthNm}(\lambda_0) = \lambda_0 / 3$. -/)]
+noncomputable def multiBandThirdHarmonicWavelengthNm (lambda_fund_nm : ℝ) : ℝ :=
+  lambda_fund_nm / 3
+
+/-- **Master Theorem for the Revised Semi-Dirac Soliton Bus (Paper 33) and Integrated Multi-Band ($405\text{–}1550\text{ nm}$) CNC / $c\text{-BAs}$ Photonics (Paper 34) (`semi_dirac_soliton_bus_crow_rdma_and_multiband_cnc_cbas_photonics_identities`)**:
+Simultaneously establishes:
+1. **$\mathrm{CO}_2$-Carbonate $\chi^{(3)}$ $5\times$ CPHASE / CNOT Gate Compression**:
+   $\operatorname{co2CarbonateChi3CphaseLength}(\lambda, 5 n_2, I_{\mathrm{ctrl}}) = \frac{1}{5}\operatorname{co2CarbonateChi3CphaseLength}(\lambda, n_2, I_{\mathrm{ctrl}}) < \operatorname{co2CarbonateChi3CphaseLength}(\lambda, n_2, I_{\mathrm{ctrl}})$,
+2. **Slow-Light `N-LIG` CROW Delay Line Compression ($24\text{ ns}$ RFSoC CORDIC Window)**:
+   $L_{\mathrm{vitrimer}}(n_g=1.5) = 24/5 = 4.8\text{ m} > L_{\mathrm{CROW}}(n_g=5) = 36/25 = 1.44\text{ m} > L_{\mathrm{CROW}}(n_g=300) = 6/250 = 0.024\text{ m}$ ($24\text{ mm}$),
+3. **Tiered 128-to-64-Bit QNIC RDMA Header Stripping & LUT-Seeded CORDIC Thermal-Drift Cancellation**:
+   $\operatorname{tieredQnicStrippedPayloadBits}(128, 64) = 64$, $32 + 16 + 16 = 64$, and
+   $\operatorname{lutPlusCordicOamPhase}(\ell, \theta_{\mathrm{LUT}}, \theta_{\mathrm{true}} - \theta_{\mathrm{LUT}}) = \ell\,\theta_{\mathrm{true}}$,
+4. **`NLIG_Power_Manager` $37.5\%$ PWM Duty-Cycle 4K Cryo Budget Compliance**:
+   $250 \times \operatorname{nligInternalPumpAvgPowerMw}(3/2, 500, 3/8) = 3375/32 \approx 105.47\text{ mW} < 110\text{ mW} < 250 \times \operatorname{nligInternalPumpAvgPowerMw}(3/2, 500, 1) = 2250/8 = 281.25\text{ mW}$,
+5. **Periodic CNC $\chi^{(2)}$ PSA Signal Boosters Every $10\text{ m}$ / $100\text{ m}$ Over $10\text{ km}$**:
+   $\operatorname{cncPeriodicBoosterNetLinkGainDb}(L, d_{\mathrm{CNC}}, \alpha, \alpha\,d_{\mathrm{CNC}}) = 0$ for $d_{\mathrm{CNC}} \ne 0$,
+   $\operatorname{cncCheckpointCount}(10000, 10) = 1000$, and $\operatorname{cncCheckpointCount}(10000, 100) = 100$,
+6. **$1550\text{ nm}$ Adiabatic Scarf-Joint Taper vs. Butt-Joint Fresnel Loss into $c\text{-BAs}$**:
+   $\operatorname{adiabaticScarfTaperLoss} = 15/1000 < 1089/9025 = \operatorname{fresnelButtJointReflectance}(31/20, 16/5)$,
+7. **$590\text{ nm}$ Amber NV Plasmonic Purcell Enhancement ($F_P > 12$) & Multi-Band ($405\text{–}1550\text{ nm}$) Wavelength Ordering**:
+   $12 < \operatorname{nvPurcellFactorNormalized}(100, 1/10, 314/100)$ and
+   $405 < 475 < \operatorname{multiBandThirdHarmonicWavelengthNm}(1550) < 532 < 540 < 590 < 650 < 775 < 785 < 800 < 1030 < 1310 < 1550$. -/
+@[blueprint "thm:signals-soliton-semi-dirac-bus-crow-rdma-and-multiband-cnc-cbas-photonics"
+  (title := "Master theorem for the revised Semi-Dirac Soliton Bus (Paper 33) and Integrated Multi-Band CNC / c-BAs Photonics (Paper 34)")
+  (statement := /-- Simultaneously proves $\mathrm{CO}_2$-carbonate $5\times$ CPHASE gate compression, Slow-Light CROW delay compression ($4.8\text{ m} \to 1.44\text{ m} \to 24\text{ mm}$), tiered 128-to-64-bit QNIC RDMA header stripping, LUT-CORDIC thermal drift cancellation, 37.5% PWM 250-node 4K cryo budget compliance ($105.47\text{ mW} < 110\text{ mW}$), periodic CNC $\chi^{(2)}$ PSA zero-net-loss boosting every $d_{\mathrm{CNC}}$, $1550\text{ nm}$ adiabatic scarf-joint taper loss reduction into $c\text{-BAs}$, $590\text{ nm}$ NV Purcell enhancement ($F_P > 12$), and the 13-band $405\text{–}1550\text{ nm}$ wavelength hierarchy. -/)]
+theorem semi_dirac_soliton_bus_crow_rdma_and_multiband_cnc_cbas_photonics_identities
+    (lambda n2 i_ctrl l_charge theta_lut theta_true total_len_m spacing_m loss_db_per_m : ℝ)
+    (hlam : 0 < lambda) (hn2 : 0 < n2) (hic : 0 < i_ctrl) (hspac : spacing_m ≠ 0) :
+    co2CarbonateChi3CphaseLength lambda (5 * n2) i_ctrl =
+      (1 / 5) * co2CarbonateChi3CphaseLength lambda n2 i_ctrl ∧
+    co2CarbonateChi3CphaseLength lambda (5 * n2) i_ctrl <
+      co2CarbonateChi3CphaseLength lambda n2 i_ctrl ∧
+    crowSlowLightDelayLength 12 (1 / 2) (3 / 10) (3 / 2) = 24 / 5 ∧
+    crowSlowLightDelayLength 12 (1 / 2) (3 / 10) 5 = 36 / 25 ∧
+    crowSlowLightDelayLength 12 (1 / 2) (3 / 10) 300 = 6 / 250 ∧
+    crowSlowLightDelayLength 12 (1 / 2) (3 / 10) 300 <
+      crowSlowLightDelayLength 12 (1 / 2) (3 / 10) 5 ∧
+    crowSlowLightDelayLength 12 (1 / 2) (3 / 10) 5 <
+      crowSlowLightDelayLength 12 (1 / 2) (3 / 10) (3 / 2) ∧
+    tieredQnicStrippedPayloadBits 128 64 = 64 ∧
+    lutPlusCordicOamPhase l_charge theta_lut (theta_true - theta_lut) =
+      l_charge * theta_true ∧
+    250 * nligInternalPumpAvgPowerMw (3 / 2) 500 (3 / 8) = 3375 / 32 ∧
+    250 * nligInternalPumpAvgPowerMw (3 / 2) 500 (3 / 8) < 110 ∧
+    110 < 250 * nligInternalPumpAvgPowerMw (3 / 2) 500 1 ∧
+    cncPeriodicBoosterNetLinkGainDb total_len_m spacing_m loss_db_per_m
+      (loss_db_per_m * spacing_m) = 0 ∧
+    cncCheckpointCount 10000 10 = 1000 ∧
+    cncCheckpointCount 10000 100 = 100 ∧
+    fresnelButtJointReflectance (31 / 20) (16 / 5) = 1089 / 9025 ∧
+    adiabaticScarfTaperLoss < fresnelButtJointReflectance (31 / 20) (16 / 5) ∧
+    12 < nvPurcellFactorNormalized 100 (1 / 10) (314 / 100) ∧
+    multiBandThirdHarmonicWavelengthNm 1550 = 1550 / 3 ∧
+    (405 : ℝ) < 475 ∧
+    (475 : ℝ) < multiBandThirdHarmonicWavelengthNm 1550 ∧
+    multiBandThirdHarmonicWavelengthNm 1550 < 532 ∧
+    (532 : ℝ) < 540 ∧ (540 : ℝ) < 590 ∧ (590 : ℝ) < 650 ∧
+    (650 : ℝ) < 775 ∧ (775 : ℝ) < 785 ∧ (785 : ℝ) < 800 ∧
+    (800 : ℝ) < 1030 ∧ (1030 : ℝ) < 1310 ∧ (1310 : ℝ) < 1550 := by
+  have h_cphase_eq :
+      co2CarbonateChi3CphaseLength lambda (5 * n2) i_ctrl =
+        (1 / 5) * co2CarbonateChi3CphaseLength lambda n2 i_ctrl := by
+    unfold co2CarbonateChi3CphaseLength
+    ring
+  have h_cphase_pos : 0 < co2CarbonateChi3CphaseLength lambda n2 i_ctrl := by
+    unfold co2CarbonateChi3CphaseLength
+    positivity
+  have h_cphase_lt :
+      co2CarbonateChi3CphaseLength lambda (5 * n2) i_ctrl <
+        co2CarbonateChi3CphaseLength lambda n2 i_ctrl := by
+    rw [h_cphase_eq]
+    linarith
+  have h_cnc :
+      cncPeriodicBoosterNetLinkGainDb total_len_m spacing_m loss_db_per_m
+        (loss_db_per_m * spacing_m) = 0 := by
+    unfold cncPeriodicBoosterNetLinkGainDb
+    field_simp [hspac]
+    ring
+  refine ⟨
+    h_cphase_eq,
+    h_cphase_lt,
+    by unfold crowSlowLightDelayLength; norm_num,
+    by unfold crowSlowLightDelayLength; norm_num,
+    by unfold crowSlowLightDelayLength; norm_num,
+    by unfold crowSlowLightDelayLength; norm_num,
+    by unfold crowSlowLightDelayLength; norm_num,
+    rfl,
+    by unfold lutPlusCordicOamPhase; ring,
+    by unfold nligInternalPumpAvgPowerMw; norm_num,
+    by unfold nligInternalPumpAvgPowerMw; norm_num,
+    by unfold nligInternalPumpAvgPowerMw; norm_num,
+    h_cnc,
+    rfl,
+    rfl,
+    by unfold fresnelButtJointReflectance; norm_num,
+    by unfold adiabaticScarfTaperLoss fresnelButtJointReflectance; norm_num,
+    by unfold nvPurcellFactorNormalized; norm_num,
+    by unfold multiBandThirdHarmonicWavelengthNm; norm_num,
+    by norm_num,
+    by unfold multiBandThirdHarmonicWavelengthNm; norm_num,
+    by unfold multiBandThirdHarmonicWavelengthNm; norm_num,
+    by norm_num, by norm_num, by norm_num,
+    by norm_num, by norm_num, by norm_num,
+    by norm_num, by norm_num, by norm_num⟩
+
 end Signals.SolitonBus

@@ -172,6 +172,12 @@ and [grassmannian-qism-bethe-ansatz-paper.md](grassmannian-qism-bethe-ansatz-pap
    and [double_slit.frag.glsl](../src/signals/numerical_adapter/src/shaders/double_slit.frag.glsl),
    parameterized by `num_slits > 0`, `slit_width`, `slit_separation`, `barycentric_shift`,
    `delta_oam`, and `azimuth_phi`.
+5. **Revised Semi-Dirac Soliton Bus, Slow-Light CROW Delay Lines, Tiered 128-to-64-Bit RDMA LUT-CORDIC QRAM, & Integrated Multi-Band ($405\text{–}1550\text{ nm}$) CNC / $c\text{-BAs}$ Photonics (`semi_dirac_soliton_bus_crow_rdma_and_multiband_cnc_cbas_photonics_identities`)**:
+   In [grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper.md](grassmannian-semi-dirac-soliton-bus-crow-rdma-qram-kicad-paper.md) (**Paper 33**) and [grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.md](grassmannian-multiband-1550nm-photonics-cnc-repeaters-cbas-homodyne-kicad-paper.md) (**Paper 34**), we refine the Soliton Bus with:
+   - **$532\text{ nm}$ LCS Strain-Locked Semi-Dirac Ring-Core & $C_8$ Star-Via Channels**: Enforcing $v_{g,x}(0, m_x^*) = 0$, dispersionless $\hat{y}$ soliton propagation $\sigma_y^2(t) = \sigma_{y,0}^2$, $100\times$ RIE sidewall $D_{\mathrm{it}}$ suppression, and GHz ballistic Klein switching ($\mathcal{R}_{\mathrm{Klein}}(10) = 101$),
+   - **$\mathrm{CO}_2$-Carbonate $5\times$ $\chi^{(3)}$ `CPHASE`/`CNOT` Gate Compression (`co2CarbonateChi3CphaseLength`)** & **Slow-Light `N-LIG` CROW Delay Lines (`crowSlowLightDelayLength`)**: Compressing the $24\text{ ns}$ RFSoC CORDIC buffer from $4.8\text{ m}$ ($n_g = 1.5$) down to $24\text{ mm}$ ($n_g = 300$),
+   - **Tiered 128-to-64-Bit QNIC RDMA Header Stripping (`tieredQnicStrippedPayloadBits`), LUT-Seeded CORDIC Thermal-Drift Cancellation (`lutPlusCordicOamPhase`), & $37.5\%$ PWM 4K Cryo Budget (`nligInternalPumpAvgPowerMw`)** ($105.47\text{ mW} < 110\text{ mW}$ across 250 nodes),
+   - **Periodic $10\text{ m}$ / $100\text{ m}$ Cellulose Nanocrystal (CNC) $\chi^{(2)}$ PSA Signal Boosters (`cncPeriodicBoosterNetLinkGainDb`, `cncCheckpointCount`)**, **$590\text{ nm}$ $n$-Adamantane NV Purcell Dowsing (`nvPurcellFactorNormalized` $> 12$)**, and **$1550\text{ nm}$ Inverted 3D Adiabatic Scarf-Joint Tapers into Cubic Boron Arsenide ($c\text{-BAs}$) Homodyne Detectors (`adiabaticScarfTaperLoss < fresnelButtJointReflectance`)**, with verified KiCAD v8 (`.kicad_mod`, `.kicad_sch`, `.kicad_pcb`, `.kicad_vol`), GDSII (`.gds`), and IOF/PROV-O (`_CBOM.yaml-ld`) hardware artifacts in `src/signals/kicad/semi_dirac/`.
 
 ### Scholarly References
 

@@ -4506,3 +4506,67 @@ class SemiDiracAndSU4WittenUnificationEngine:
     @staticmethod
     def cglmp_qutrit_quantum_benchmark() -> float:
         return 69.0 / 25.0
+
+    @staticmethod
+    def co2_carbonate_chi3_cphase_length(
+        wavelength: float, n2: float, i_ctrl: float
+    ) -> float:
+        return float(wavelength / (2.0 * n2 * i_ctrl))
+
+    @staticmethod
+    def crow_slow_light_delay_length(
+        cycles: float, f_clk_ghz: float, c_m_per_ns: float, n_group: float
+    ) -> float:
+        return float((cycles / f_clk_ghz) * (c_m_per_ns / n_group))
+
+    @staticmethod
+    def tiered_qnic_stripped_payload_bits(
+        total_bits: int, header_bits: int
+    ) -> int:
+        return int(total_bits - header_bits)
+
+    @staticmethod
+    def lut_plus_cordic_oam_phase(
+        l_charge: float, theta_lut: float, delta_theta_cordic: float
+    ) -> float:
+        return float(l_charge * theta_lut + l_charge * delta_theta_cordic)
+
+    @staticmethod
+    def nlig_internal_pump_avg_power_mw(
+        i_ma: float, r_ohm: float, duty_cycle: float
+    ) -> float:
+        return float(((i_ma / 1000.0) ** 2) * r_ohm * 1000.0 * duty_cycle)
+
+    @staticmethod
+    def cnc_periodic_booster_net_link_gain_db(
+        total_len_m: float,
+        spacing_m: float,
+        loss_db_per_m: float,
+        gain_per_cnc_db: float,
+    ) -> float:
+        return float(
+            -total_len_m * loss_db_per_m
+            + (total_len_m / spacing_m) * gain_per_cnc_db
+        )
+
+    @staticmethod
+    def cnc_checkpoint_count(total_len_m: int, spacing_m: int) -> int:
+        return int(total_len_m // spacing_m)
+
+    @staticmethod
+    def fresnel_butt_joint_reflectance(n1: float, n2: float) -> float:
+        return float(((n1 - n2) / (n1 + n2)) ** 2)
+
+    @staticmethod
+    def adiabatic_scarf_taper_loss() -> float:
+        return 0.015
+
+    @staticmethod
+    def nv_purcell_factor_normalized(
+        q_cav: float, v_norm: float, pi_approx: float = 3.141592653589793
+    ) -> float:
+        return float((3.0 / (4.0 * (pi_approx**2))) * (q_cav / v_norm))
+
+    @staticmethod
+    def multiband_third_harmonic_wavelength_nm(lambda_fund_nm: float) -> float:
+        return float(lambda_fund_nm / 3.0)

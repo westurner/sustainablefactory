@@ -1472,15 +1472,28 @@ pub enum SemiDiracApplicationPreset {
     /// $100\times$ sidewall $D_{\mathrm{it}}$ suppression vs. RIE etching, and $\Delta\Phi(\ell,\phi)=\ell\phi$
     /// phase-varying lasing).
     EtchFreeMajoranaParafermionQuditBus,
+    /// **Application 5 (Paper 33)**: Revised Semi-Dirac & $\mathrm{Gr}_{\mathbb{C}}(2,4)/\mathrm{Gr}_{\mathbb{C}}(2,6)$
+    /// Soliton Bus with Slow-Light `N-LIG` CROW Delay Line ($n_g = 300 \implies 24\text{ mm}$),
+    /// $\mathrm{CO}_2$-Carbonate $5\times$ $\chi^{(3)}$ `CPHASE`/`CNOT` Gate, $C_8$ Star-Via Ancilla Hub,
+    /// and Tiered 128-to-64-Bit QNIC RDMA LUT-CORDIC QRAM (`37.5%` PWM 4K Cryo Budget).
+    SemiDiracSolitonBusCrowRdmaQram,
+    /// **Application 6 (Paper 34)**: Integrated Multi-Band Classical & Quantum Photonics
+    /// ($405\text{–}1550\text{ nm}$ & $400\text{–}800\text{ GHz}$) with Periodic $10\text{ m}$ / $100\text{ m}$
+    /// Cellulose Nanocrystal (CNC) $\chi^{(2)}$ PSA Signal Boosters ($0\text{ dB}$ NF), $590\text{ nm}$
+    /// $n$-Adamantane NV Purcell Dowsing ($F_P \approx 75.99 > 12$), and Inverted 3D Adiabatic
+    /// Scarf-Joint $c\text{-BAs}$ Plasmonic-Slot Balanced Homodyne Detector ($\eta = 98.5\%$).
+    MultiBand1550nmCncRepeaterCBAsHomodyne,
 }
 
 impl SemiDiracApplicationPreset {
-    pub fn all() -> [Self; 4] {
+    pub fn all() -> [Self; 6] {
         [
             Self::BallisticKleinDiodeTransistor,
             Self::HyperbolicThzBolometer,
             Self::OrthogonalThermoelectricHarvester,
             Self::EtchFreeMajoranaParafermionQuditBus,
+            Self::SemiDiracSolitonBusCrowRdmaQram,
+            Self::MultiBand1550nmCncRepeaterCBAsHomodyne,
         ]
     }
 
@@ -1497,6 +1510,12 @@ impl SemiDiracApplicationPreset {
             }
             Self::EtchFreeMajoranaParafermionQuditBus => {
                 "SemiDirac_App4_EtchFree_MZM_Parafermion_OAM_Qudit_Bus"
+            }
+            Self::SemiDiracSolitonBusCrowRdmaQram => {
+                "SolitonBus_SemiDirac_CROW_StarVia_RDMA_QRAM"
+            }
+            Self::MultiBand1550nmCncRepeaterCBAsHomodyne => {
+                "IntegratedPhotonics_MultiBand_1550nm_CNC_Repeater_cBAs_Homodyne"
             }
         }
     }
@@ -1515,6 +1534,12 @@ impl SemiDiracApplicationPreset {
             Self::EtchFreeMajoranaParafermionQuditBus => {
                 "Semi-Dirac App 4: Etch-Free 1D MZM, Z6 Parafermion (d=6), Gr_C(2,6) Plucker (d=15) & Phase-Steered Helical N-LIG OAM (d=100) Carbon Qudit Bus"
             }
+            Self::SemiDiracSolitonBusCrowRdmaQram => {
+                "Paper 33: Revised Semi-Dirac & Gr_C(2,4)/Gr_C(2,6) Soliton Bus with Slow-Light N-LIG CROW Delay, CO2-Carbonate chi^(3) CNOT, C8 Star-Via & 128-to-64b RDMA LUT-CORDIC QRAM"
+            }
+            Self::MultiBand1550nmCncRepeaterCBAsHomodyne => {
+                "Paper 34: Integrated Multi-Band (405-1550nm & 400-800GHz) Photonics with Periodic 10m CNC chi^(2) PSA Signal Boosters, 590nm NV Purcell Dowsing & Adiabatic Scarf-Taper c-BAs Homodyne"
+            }
         }
     }
 
@@ -1527,6 +1552,12 @@ impl SemiDiracApplicationPreset {
             }
             Self::EtchFreeMajoranaParafermionQuditBus => {
                 ["QUDIT_BUS_IN", "QUDIT_BUS_OUT", "HOMODYNE_READ", "GND"]
+            }
+            Self::SemiDiracSolitonBusCrowRdmaQram => {
+                ["SOLITON_BUS_IN", "SOLITON_BUS_OUT", "RDMA_64B_CLK", "GND"]
+            }
+            Self::MultiBand1550nmCncRepeaterCBAsHomodyne => {
+                ["OPT_1550_IN", "DIFF_HOMO_OUT", "CNC_PSA_PUMP", "GND"]
             }
         }
     }
@@ -1692,6 +1723,50 @@ pub fn generate_semi_dirac_application_module(
                 125.0,
             ),
         ],
+        SemiDiracApplicationPreset::SemiDiracSolitonBusCrowRdmaQram => vec![
+            (
+                "1_QNIC_128_TO_64_RDMA_INGRESS",
+                "Signals.SolitonBus.tieredQnicStrippedPayloadBits(128, 64) = 64",
+                130.0,
+            ),
+            (
+                "2_NLIG_CROW_SLOW_LIGHT_DELAY",
+                "Signals.SolitonBus.crowSlowLightDelayLength(12, 0.5, 0.3, 300) = 0.024 m (24 mm)",
+                160.0,
+            ),
+            (
+                "3_SEMI_DIRAC_RING_CORE_CO2_CNOT",
+                "Signals.SolitonBus.co2CarbonateChi3CphaseLength(lambda, 5*n2, I_ctrl) = L_0 / 5",
+                170.0,
+            ),
+            (
+                "4_C8_STAR_VIA_LUT_CORDIC_QRAM",
+                "Signals.SolitonBus.lutPlusCordicOamPhase + nligInternalPumpAvgPowerMw (37.5% PWM)",
+                140.0,
+            ),
+        ],
+        SemiDiracApplicationPreset::MultiBand1550nmCncRepeaterCBAsHomodyne => vec![
+            (
+                "1_MULTIBAND_405_1550NM_WDM_OAM_IN",
+                "Signals.SolitonBus.multiBandThirdHarmonicWavelengthNm(1550) = 516.67 nm THG",
+                135.0,
+            ),
+            (
+                "2_CNC_10M_CHI2_PSA_SIGNAL_BOOSTER",
+                "Signals.SolitonBus.cncPeriodicBoosterNetLinkGainDb(L, 10, alpha, 10*alpha) = 0 dB",
+                165.0,
+            ),
+            (
+                "3_NV_590NM_ADAMANTANE_PURCELL_DOWSER",
+                "Signals.SolitonBus.nvPurcellFactorNormalized(100, 0.10, 3.14) = 75.99 > 12",
+                145.0,
+            ),
+            (
+                "4_SCARF_TAPER_CBAS_SLOT_HOMODYNE",
+                "Signals.SolitonBus.adiabaticScarfTaperLoss (1.5%) < fresnelButtJointReflectance (12.1%)",
+                155.0,
+            ),
+        ],
     };
 
     let mut polygons = Vec::new();
@@ -1776,10 +1851,14 @@ pub fn generate_semi_dirac_application_module(
         let flash_nlig = if idx % 2 == 0 { 1 } else { 2 };
         let z_base_um = 12.0 + (idx as f64) * 3.0;
 
-        // For Application 4 (or phase-steered OAM qudit mode), vary the lasing phase
-        // ΔΦ(ℓ, φ) = ℓ φ along a 3D helical corkscrew spline (`IQ-Sampling-for-Signal-Phase.md`, line 8618)
-        let points_3d = if preset == SemiDiracApplicationPreset::EtchFreeMajoranaParafermionQuditBus
-        {
+        // For Application 4, 5, or 6 (phase-steered OAM qudit / soliton bus / multi-band photonics),
+        // vary the lasing phase ΔΦ(ℓ, φ) = ℓ φ along a 3D helical corkscrew spline
+        let points_3d = if matches!(
+            preset,
+            SemiDiracApplicationPreset::EtchFreeMajoranaParafermionQuditBus
+                | SemiDiracApplicationPreset::SemiDiracSolitonBusCrowRdmaQram
+                | SemiDiracApplicationPreset::MultiBand1550nmCncRepeaterCBAsHomodyne
+        ) {
             let l_charge = (idx as f64) + 1.0;
             let helix_radius_um = 6.0;
             (0..=8)
