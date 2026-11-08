@@ -7462,4 +7462,39 @@ example (z1 z2 a b c d beta e : ℝ) :
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+example (z11 z22 z12 z21 delta j_hel : ℝ) :
+    Signals.DFT.semiDiracDosExponent 2 2 = 0 ∧
+      Signals.DFT.semiDiracDosExponent 2 1 = 1 / 2 ∧
+      Signals.DFT.semiDiracDosExponent 1 1 = 1 ∧
+      Signals.DFT.semiDiracWkbBarrierTransmissionX 2 < Signals.DFT.semiDiracKleinTunnelingY ∧
+      Signals.DFT.semiDiracDirectionalPermittivity 1 1 2 *
+        Signals.DFT.semiDiracDirectionalPermittivity 1 4 2 < 0 ∧
+      Signals.DFT.gtbcRelativeError 4.0 3.98 < 1 / 100 ∧
+      Signals.DFT.pluckerRelationCodimension 2 4 = 1 ∧
+      Signals.DFT.pluckerRelationCodimension 2 6 = 6 ∧
+      Signals.DFT.pluckerRelationCodimension 3 6 = 10 ∧
+      Signals.DFT.pluckerRelationCodimension 2 10 = 28 ∧
+      Signals.DFT.chyFourPointBiAdjointScalar 3 5 = 1 / 3 + 1 / 5 ∧
+      Signals.DFT.twistedHolographyDeformedConifoldResidual
+        z11 z22 z12 z21 (z11 * z22 - z12 * z21) = 0 ∧
+      Signals.DFT.celestialConformalWeightH delta j_hel +
+        Signals.DFT.celestialConformalWeightHBar delta j_hel = delta ∧
+      Signals.DFT.celestialConformalWeightH delta j_hel -
+        Signals.DFT.celestialConformalWeightHBar delta j_hel = j_hel := by
+  have h :=
+    Signals.DFT.semi_dirac_and_su4_witten_chy_deep_gap_closure_identities
+      3 5 z11 z22 z12 z21 delta j_hel (by norm_num) (by norm_num) (by norm_num)
+  exact ⟨h.1, h.2.1, h.2.2.1,
+    h.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+
 end SignalsTests

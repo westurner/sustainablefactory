@@ -692,14 +692,19 @@ interpretation while keeping experimental premises explicit:
    $C=1$ Anomalous Hall Crystal and Jain `FQAH` fractions $\nu = p/(2p\pm 1)$,
    supersolid Leggett fraction and vortex barrier reduction, room-temperature
    hydrodynamic graphene whirlpools, and symbiotic QAHE/FQAH–SC Majorana/parafermion
-   quantum computing). See
+   quantum computing, plus Section 19 Semi-Dirac Fermions `semi_dirac_fermions_with_and_without_grc_and_ddf_identities`
+   and Section 20 $\mathrm{SU}(4)$ / Witten Twistor String / CHY / Twisted & Celestial
+   Holography Unification `su4_lower_grassmannians_witten_chy_ddf_turner_and_ads_cft_unification_identities`
+   and `semi_dirac_and_su4_witten_chy_deep_gap_closure_identities`). See
    [`docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`](../../docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md),
    [`docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`](../../docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md),
    [`docs/grassmannian-tuning-materials-with-light-paper.md`](../../docs/grassmannian-tuning-materials-with-light-paper.md),
    [`docs/grassmannian-interfacial-heat-transport-paper.md`](../../docs/grassmannian-interfacial-heat-transport-paper.md),
    [`docs/grassmannian-cuprate-superconductivity-paper.md`](../../docs/grassmannian-cuprate-superconductivity-paper.md),
    [`docs/grassmannian-interfacial-electrical-properties-paper.md`](../../docs/grassmannian-interfacial-electrical-properties-paper.md),
-   and [`docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md`](../../docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md).
+   [`docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md`](../../docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md),
+   [`docs/grassmannian-semi-dirac-fermions-ddf-paper.md`](../../docs/grassmannian-semi-dirac-fermions-ddf-paper.md),
+   and [`docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md`](../../docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md).
 - `Signals.DDF` Section 30 formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
    Fubini–Study Gross–Pitaevskii Equation (GPE), Dual-Schubert
    $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker

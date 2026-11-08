@@ -424,7 +424,7 @@ pytest -q tests/test_qci_grassmannian_dft.py -k "rhombohedral_graphene"
 
 ## 4. Evidentiary Boundaries (`Signals.Pending.RhombohedralGrapheneSuperconductivityPendingHypothesis`)
 
-In strict compliance with our research-evidence separation rules ([AGENTS.md](../AGENTS.md)), `RhombohedralGrapheneSuperconductivityPendingHypothesis` in [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L6880-L7125) separates the machine-checked cryogenic ($20\text{ mK}\text{--}2.9\text{ K}$) algebraic and constitutive theorems of `G-MGS` from unverified high-temperature or uncalibrated hardware claims:
+In strict compliance with our research-evidence separation rules ({download}`AGENTS.md <../AGENTS.md>`), `RhombohedralGrapheneSuperconductivityPendingHypothesis` in [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L6880-L7125) separates the machine-checked cryogenic ($20\text{ mK}\text{--}2.9\text{ K}$) algebraic and constitutive theorems of `G-MGS` from unverified high-temperature or uncalibrated hardware claims:
 1. **Cryogenic Millikelvin Superconductivity vs. Ambient-Temperature Chat Extrapolations**:
    Experimentally verified superconductivity in crystalline rhombohedral trilayer (`RTG`, $T_{c,1} \approx 106\text{ mK}$, $T_{c,2} \approx 50\text{ mK}$ {cite}`zhou2021rtg_sc,arp2024intervalley`), rhombohedral pentalayer (`R5G`, $T_{c,\mathrm{chiral}} \approx 300\text{ mK}$ {cite}`han2025chiral_sc`), and twisted symmetric trilayer (`MATTG`, $T_{c,\max} \approx 2.90\text{ K}$ {cite}`pierce2025light_heavy,park2021mattg`), as well as the $C = \pm 5$ QAHE ($T \lesssim 1.5\text{ K}$ {cite}`han2024large_qahe`) and $\nu = \frac{p}{2p\pm 1}$ FQAH states ($T \lesssim 0.1\text{--}1\text{ K}$ {cite}`lu2024fqah`), occur in **cryogenic dilution-refrigerator or $^4\mathrm{He}$ regimes** (whereas viscous hydrodynamic current whirlpools in monolayer graphene are observed up to $300\text{ K}$ {cite}`palm2024whirlpools`). Any speculative chat-corpus design proposing ambient-temperature ($-20^\circ\text{C}$ to $+80^\circ\text{C}$) flux-pinning superconductivity in strained or laser-induced rhombohedral graphene pump stators or coaxial plasma sieves ([Provenance Chat Log: Lignolux Rhombohedral Graphene Stator & Geothermal Loop (2026)](#gmgs-chat-gemini52), lines 1757–1978; [Provenance Chat Log: Ammonia Plasma Coaxial Reactor Rhombohedral Graphene Sieve (2026)](#gmgs-chat-ammonia), lines 424–476; [Provenance Chat Log: Flash-Quenched Rhombohedral Graphene Synthesis (2026)](#gmgs-chat-ballmilling), lines 682–852) remains strictly in `Signals.Pending` until demonstrated by four-probe zero resistance and Meissner flux expulsion.
 2. **Topological Quantum Computing Hardware Gates**:
@@ -464,15 +464,19 @@ In strict compliance with our research-evidence separation rules ([AGENTS.md](..
 <a id="gmgs-ref-zhou2021"></a>
 10. Zhou, H., Xie, T., Taniguchi, T., Watanabe, K., and Young, A. F. (2021). *Superconductivity in Rhombohedral Trilayer Graphene*. Nature **598**(7881), 434–438. [DOI: 10.1038/s41586-021-03926-0](https://doi.org/10.1038/s41586-021-03926-0).
 
+(gmgs-chat-qcqahe)=
 <a id="gmgs-chat-qcqahe"></a>
 11. Provenance Chat Log (2026). *Superconductivity vs. QAHE in Quantum Computing (Symbiotic Superconducting-Topological Hybrid Stack)*. ({download}`data/chats/_Superconductivity vs. QAHE in Quantum Computing .md, lines 114-165 <../data/chats/_Superconductivity vs. QAHE in Quantum Computing .md>`).
 
+(gmgs-chat-ammonia)=
 <a id="gmgs-chat-ammonia"></a>
 12. Provenance Chat Log (2026). *Ammonia Plasma, Membranes, Fertilizer, and Nitrogenated Lignin (Magic-Angle & Rhombohedral Trilayer/Pentalayer Graphene Correlated Electrodes)*. ({download}`data/chats/_Ammonia-plasma,-membranes,-fertilizer,-nitrogenated-lignin.md, lines 424-476 <../data/chats/_Ammonia-plasma,-membranes,-fertilizer,-nitrogenated-lignin.md>`).
 
+(gmgs-chat-gemini52)=
 <a id="gmgs-chat-gemini52"></a>
 13. Provenance Chat Log (2026). *Lignolux Rhombohedral Graphene Flux-Pinning Stator & Geothermal Loop (Pending High-Temperature Claim Audit)*. ({download}`data/chats/Gemini-_52.md, lines 1757-1978 <../data/chats/Gemini-_52.md>`).
 
+(gmgs-chat-ballmilling)=
 <a id="gmgs-chat-ballmilling"></a>
 14. Provenance Chat Log (2026). *Ball Milling Metal Under Protective Gas (Flash-Quenched Rhombohedral Graphene Synthesis)*. ({download}`data/chats/_Ball Milling Metal Under Protective Gas .md, lines 682-852 <../data/chats/_Ball Milling Metal Under Protective Gas .md>`).
 

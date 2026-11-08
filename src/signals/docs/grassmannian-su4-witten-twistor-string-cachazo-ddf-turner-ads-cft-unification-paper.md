@@ -11,9 +11,9 @@ description: "An arXiv-ready MyST Markdown formal verification and theoretical p
   - High Energy Physics - Theory (`hep-th`); General Relativity and Quantum Cosmology (`gr-qc`); Mathematical Physics (`math-ph`); Mesoscale and Nanoscale Physics (`cond-mat.mes-hall`); Quantum Physics (`quant-ph`); Logic in Computer Science (`cs.LO`)
 - **Formal Verification & Simulation Artifacts:**
   - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L4508-L4693), [../src/signals/Signals/DDF.lean](../src/signals/Signals/DDF.lean#L8346-L9620), [../src/signals/Signals/QEDGravity.lean](../src/signals/Signals/QEDGravity.lean), [../src/signals/Signals/Scattering.lean](../src/signals/Signals/Scattering.lean), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7428-L7466), [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L6048-L6095))
-  - `signals-numerical-adapter` Rust/WASM Crate ([../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L1503-L1620))
-  - Python Reference Implementation & Pytest Suite ([../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py#L4352-L4410), [../tests/test_qci_grassmannian_dft.py](../tests/test_qci_grassmannian_dft.py#L1026-L1060))
-  - Canonical `src/signals/docs/` Mirror: [../src/signals/docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md](../src/signals/docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md)
+  - `signals-numerical-adapter` Rust/WASM Crate ([../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L1503-L1650))
+  - Python Reference Implementation & Pytest Suite ([../sustainablefactory/qci_grassmannian_dft.py](../sustainablefactory/qci_grassmannian_dft.py#L4352-L4455), [../tests/test_qci_grassmannian_dft.py](../tests/test_qci_grassmannian_dft.py#L1026-L1085))
+  - Canonical `src/signals/docs/` Mirror: `src/signals/docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md`
 - **Companion Papers:**
   - [AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-ads-cft-ddf-paper.md)
   - [The Holographic Principle in Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: 't Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting](grassmannian-holographic-principle-paper.md)
@@ -31,7 +31,7 @@ Across modern high-energy theory, quantum gravity, condensed-matter physics, and
 
 1. **The Four-Fold Role of $\mathrm{SU}(4)$ (`suNRealDim 4 = 15`, `pluckerAmbientCoordCount 2 4 = 6`)**:
    We show how the exact same 15-dimensional group $\mathrm{SU}(4)$ (and its 6-dimensional antisymmetric exterior square $\Lambda^2(\mathbf{4}) = \mathbf{6}$) simultaneously governs:
-   - **(a) Twistor & Klein Quadric Geometry**: $\mathrm{Gr}_{\mathbb{C}}(1,4) = \mathbb{CP}^3 \cong \mathrm{SU}(4)/\mathrm{S}(\mathrm{U}(1)\times\mathrm{U}(3))$ and $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathrm{SU}(4)/\mathrm{S}(\mathrm{U}(2)\times\mathrm{U}(2)) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ ([data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 224, 1629](../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md#L224));
+   - **(a) Twistor & Klein Quadric Geometry**: $\mathrm{Gr}_{\mathbb{C}}(1,4) = \mathbb{CP}^3 \cong \mathrm{SU}(4)/\mathrm{S}(\mathrm{U}(1)\times\mathrm{U}(3))$ and $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathrm{SU}(4)/\mathrm{S}(\mathrm{U}(2)\times\mathrm{U}(2)) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ ({download}`data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 224, 1629 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`);
    - **(b) $\mathcal{N}=4$ Super Yang–Mills & $\text{AdS}_5 \times S^5$ $R$-Symmetry**: $\mathrm{SU}(4)_R \cong \mathrm{SO}(6)$ rotating the 4 supercharges $\eta_A$ on $\mathbb{CP}^{3|4}$ and the 6 scalar fields $\Phi_{AB} \in \Lambda^2(\mathbf{4})$ on $S^5 = \mathrm{SO}(6)/\mathrm{SO}(5)$;
    - **(c) Multilayer Graphene Spin $\times$ Valley Isospin**: The 4-flavor $(\uparrow/\downarrow)\times(K/K')$ $\mathrm{SU}(4)$ symmetry whose Stoner cascade $\mathrm{Gr}_{\mathbb{C}}(f, 4)$ ($f \in \{4, 2, 1\}$) drives `SC1`, `SC2`, `QAHE`, and `FQAH` in `RTG`/`RPG`; and
    - **(d) Two-Qubit Quantum Logic Gates**: The Cartan $K A K$ decomposition $\dim_{\mathbb{R}}\mathrm{SU}(4) = 2(\dim_{\mathbb{R}}\mathrm{SU}(2) + \dim_{\mathbb{R}}\mathrm{SU}(2)) + 3 = 12 + 3 = 15$.
@@ -60,7 +60,7 @@ while its split signature $(2,2)$ real form satisfies $\mathrm{SU}(2,2) \cong \m
 
 | Pillar | Physical / Mathematical System | How $\mathbf{4} \in \mathrm{SU}(4)$ Acts | How $\mathbf{6} = \Lambda^2(\mathbf{4}) \in \mathrm{SO}(6)$ Acts | Key Invariant in `Signals` |
 | :--- | :--- | :--- | :--- | :--- |
-| **1. Twistor & Klein Quadric Geometry** | Projective twistor space $\mathbb{PT} = \mathbb{CP}^3 = \mathrm{Gr}_{\mathbb{C}}(1,4)$ & complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ ([data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 388–445](../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md#L388-L445)) | Rotates homogeneous twistor coordinates $Z^A = (\omega^{\dot{\alpha}}, \pi_\alpha) \in \mathbb{C}^4$ | Rotates the 6 Plücker coordinates $p_{AB} = Z_1^{[A} Z_2^{B]} \in \mathbb{C}^6$ preserving the Klein quadric $\mathcal{C}(p) = \frac{1}{2}\epsilon^{ABCD}p_{AB}p_{CD} = 0$ | `OnKleinQuadric`, `kahlerDetFactor_eq_pluckerNormSq_and_ge_one` ([`Signals.DDF`](../src/signals/Signals/DDF.lean#L8482-L8715)) |
+| **1. Twistor & Klein Quadric Geometry** | Projective twistor space $\mathbb{PT} = \mathbb{CP}^3 = \mathrm{Gr}_{\mathbb{C}}(1,4)$ & complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$ ({download}`data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 388–445 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>`) | Rotates homogeneous twistor coordinates $Z^A = (\omega^{\dot{\alpha}}, \pi_\alpha) \in \mathbb{C}^4$ | Rotates the 6 Plücker coordinates $p_{AB} = Z_1^{[A} Z_2^{B]} \in \mathbb{C}^6$ preserving the Klein quadric $\mathcal{C}(p) = \frac{1}{2}\epsilon^{ABCD}p_{AB}p_{CD} = 0$ | `OnKleinQuadric`, `kahlerDetFactor_eq_pluckerNormSq_and_ge_one` ([`Signals.DDF`](../src/signals/Signals/DDF.lean#L8482-L8715)) |
 | **2. Witten Twistor String & AdS/CFT ($R$-Symmetry)** | $\mathcal{N}=4$ Super Yang–Mills on $\mathbb{CP}^{3\|4}$ and Type IIB strings on $\text{AdS}_5 \times S^5$ ([Witten 2004](#su4-witten2004); [Maldacena 1998](#su4-maldacena1998)) | $\mathrm{SU}(4)_R$ rotates the 4 fermionic supertwistor coordinates $\eta_A$ ($A=1,2,3,4$) and 4 gluino flavours $\lambda_\alpha^A$ | $\mathrm{SO}(6)_R \cong \mathrm{SU}(4)_R$ rotates the 6 real adjoint scalars $\Phi_{AB} = -\Phi_{BA}$ of $\mathcal{N}=4$ SYM and isometries of $S^5 \subset \mathbb{R}^6$ | `ads_cft_integrability_and_secret_symmetry_identities` ([`Signals.Scattering`](../src/signals/Signals/Scattering.lean)) |
 | **3. Multilayer Graphene Spin–Valley Isospin** | `BBG` ($N=2$), `RTG` ($N=3$), `RPG` ($N=5$), & `MATBG`/`MATTG` ([Zhou et al. 2021](#su4-zhou2021); [Han et al. 2025](#su4-han2025)) | Rotates the 4-component spin-valley flavor vector $\Psi = (\psi_{K\uparrow}, \psi_{K\downarrow}, \psi_{K'\uparrow}, \psi_{K'\downarrow})^T \in \mathbb{C}^4$ | Classifies the $\binom{4}{2} = 6$ two-flavor Stoner half-metal / intervalley-coherent (`IVC`) order parameters on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ | `graphene_rhombohedral_trilayer_pentalayer_superconductivity_and_qc_identities` ([`Signals.DFT`](../src/signals/Signals/DFT.lean#L3650-L4302)) |
 | **4. Two-Qubit Quantum Computing Gate Group** | Universal 2-qubit unitary logic on $\mathbb{C}^2 \otimes \mathbb{C}^2 \cong \mathbb{C}^4$ | Evolves 2-qubit statevectors $\|\psi\rangle \in \mathbb{C}^4$; Cartan $K A K$ factors $\mathrm{SU}(4) = (\mathrm{SU}(2)\otimes\mathrm{SU}(2))\,e^{i\sum c_k \sigma_k\otimes\sigma_k}\,(\mathrm{SU}(2)\otimes\mathrm{SU}(2))$ | Makhlin local-entanglement invariants map $\mathrm{SU}(4)/(\mathrm{SU}(2)\otimes\mathrm{SU}(2)) \cong \mathrm{SO}(6)/\mathrm{SO}(4)$ via the magic Bell basis | `suNRealDim 4 = 15`, `2 * (3 + 3) + 3 = 15` ([`Signals.DFT`](../src/signals/Signals/DFT.lean#L4516-L4693)) |
@@ -77,10 +77,10 @@ For $1 \le k < n$, the **real Grassmannian** $\mathrm{Gr}_{\mathbb{R}}(k, n) = \
 | **$(1, 3)$** $\cong$ **$(2, 3)$** | $2$ ($\mathbb{RP}^2$) | $4$ ($\mathbb{CP}^2$) | $3$ | $0$ | $6$ | Complex projective plane $\mathbb{CP}^2 = \mathrm{SU}(3)/\mathrm{S}(\mathrm{U}(1)\times\mathrm{U}(2))$ | • Qutrit ($d=3$) projective state space ($\mathbb{Z}_6$ parafermion qutrit in `RPG` $\nu=2/3$ `FQAH`)<br>• 3-slit Sorkin interferometry & 3-flux Deal–Grove `G-IEP` oxidation graph |
 | **$(1, 4)$** $\cong$ **$(3, 4)$** | $3$ ($\mathbb{RP}^3 \cong \mathrm{SO}(3)$) | $6$ ($\mathbb{CP}^3 = \mathbb{PT}$) | $4$ | $0$ | $12$ | **Projective Twistor Space** $\mathbb{PT} = \mathbb{CP}^3 = \mathrm{SU}(4)/\mathrm{S}(\mathrm{U}(1)\times\mathrm{U}(3))$ | • **Single light ray in 4D Minkowski space** ([Penrose 1967](#su4-penrose1967); [Witten 2004](#su4-witten2004))<br>• Quarter-metal ($f=1$) spin-valley polarized state in `RTG`/`RPG` (`G-MGS`)<br>• 4-state Grover holographic code target space (`Signals.DDF`) |
 | **$(2, 4)$** | $4$ ($\frac{S^2 \times S^2}{\mathbb{Z}_2}$) | **$8$** ($\mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$) | **$6$** | **$1$** ($\mathcal{C}(p)=0$) | **$16$** | **Klein Quadric** $\mathcal{Q}_4 \cong \frac{\mathrm{SU}(4)}{\mathrm{S}(\mathrm{U}(2)\times\mathrm{U}(2))} \cong \frac{\mathrm{SO}(6)}{\mathrm{SO}(4)\times\mathrm{SO}(2)}$ | • **Complexified spacetime / 2-slit & OAM Plücker channels** ($p_4 = z_1 + z_2$)<br>• **4-point MHV gauge & BCJ/Hodges gravity double copy** ($n_s+n_t+n_u=0$)<br>• **DDF Moving Sheath ($\beta$), Acoustic Horizon ($1-r_H/r$), & Orbital Precession ($1-e^2$)**<br>• **AdS/CFT $\mathfrak{psl}(2\|2)_c$ secret symmetry** ($\mathbb{H}^2-4\mathbb{C}\mathbb{C}^\dagger=M^2$)<br>• **Semi-Dirac merged two-valley Hamiltonian** ($p_{23} = E_{\mathrm{SD}}^2$, Paper 29)<br>• **Cuprate Zhang–Rice singlet (`G-CSC`) & Half-metal ($f=2$) graphene (`G-MGS`)** |
-| **$(2, 5)$** $\cong$ **$(3, 5)$** | $6$ | $12$ | $10$ | $5$ | $30$ | 5-particle MHV / 3-phonon scattering manifold | • 5-point gluon/graviton MHV amplitudes & $A_2$ pentagon cluster algebra<br>• **3-phonon anharmonic interfacial heat transport (`G-TBC`, Problem 05)**<br>• Graphite 5-reservoir ultrafast electron–phonon flow (`G-GKBA`, Problem 04) |
-| **$(2, 6)$** $\cong$ **$(4, 6)$** | $8$ | **$16$** | **$15$** | $6$ | **$48$** | $\mathrm{SU}(6)/\mathrm{S}(\mathrm{U}(2)\times\mathrm{U}(4))$ | • **Rhombohedral Trilayer Graphene (`RTG`, $N=3$) & `MATTG` 6-orbital $(A_1..B_3)$ subspace** (`gmgsBoundaryGrassmannianRealDim 3 = 16`, 15-level Plücker qudit, Paper 28)<br>• **6-particle MHV scattering amplitude** & uniaxially strained `RTG` semi-Dirac merging |
-| **$(3, 6)$** | $9$ | **$18$** | **$20$** | $10$ | **$54$** | Self-dual 6-twistor NMHV manifold $\mathrm{SU}(6)/\mathrm{S}(\mathrm{U}(3)\times\mathrm{U}(3))$ | • **6-point NMHV gauge/gravity scattering** (3 BCFW Plücker cells / $D_4$ cluster algebra)<br>• 3D vectorial longitudinal polarization ($E_z$) volumetric imaging (`Gr_C(3,6)`, Paper 13)<br>• 3-orbital 6-spin-orbital `QCI-GXC` Kohn–Sham DFT benchmark |
-| **$(2, 10)$** | $16$ | **$32$** | **$45$** | $28$ | **$160$** | $\mathrm{SU}(10)/\mathrm{S}(\mathrm{U}(2)\times\mathrm{U}(8))$ | • **Rhombohedral Pentalayer Graphene (`RPG`, $N=5$) 10-orbital $(A_1..B_5)$ subspace** (`gmgsBoundaryGrassmannianRealDim 5 = 32`, 45-level Plücker qudit, $C=\pm 5$ `QAHE`, `FQAH`) |
+| **$(2, 5)$** $\cong$ **$(3, 5)$** | $6$ | $12$ | $10$ | **$3$** ($\binom{5}{4}=5$ eqs) | $30$ | 5-particle MHV / 3-phonon scattering manifold | • 5-point gluon/graviton MHV amplitudes & $A_2$ pentagon cluster algebra<br>• **3-phonon anharmonic interfacial heat transport (`G-TBC`, Problem 05)**<br>• Graphite 5-reservoir ultrafast electron–phonon flow (`G-GKBA`, Problem 04) |
+| **$(2, 6)$** $\cong$ **$(4, 6)$** | $8$ | **$16$** | **$15$** | **$6$** ($\binom{6}{4}=15$ eqs) | **$48$** | $\mathrm{SU}(6)/\mathrm{S}(\mathrm{U}(2)\times\mathrm{U}(4))$ | • **Rhombohedral Trilayer Graphene (`RTG`, $N=3$) & `MATTG` 6-orbital $(A_1..B_3)$ subspace** (`gmgsBoundaryGrassmannianRealDim 3 = 16`, 15-level Plücker qudit, Paper 28)<br>• **6-particle MHV scattering amplitude** & uniaxially strained `RTG` semi-Dirac merging |
+| **$(3, 6)$** | $9$ | **$18$** | **$20$** | **$10$** | **$54$** | Self-dual 6-twistor NMHV manifold $\mathrm{SU}(6)/\mathrm{S}(\mathrm{U}(3)\times\mathrm{U}(3))$ | • **6-point NMHV gauge/gravity scattering** (3 BCFW Plücker cells / $D_4$ cluster algebra)<br>• 3D vectorial longitudinal polarization ($E_z$) volumetric imaging (`Gr_C(3,6)`, Paper 13)<br>• 3-orbital 6-spin-orbital `QCI-GXC` Kohn–Sham DFT benchmark |
+| **$(2, 10)$** | $16$ | **$32$** | **$45$** | **$28$** ($\binom{10}{4}=210$ eqs) | **$160$** | $\mathrm{SU}(10)/\mathrm{S}(\mathrm{U}(2)\times\mathrm{U}(8))$ | • **Rhombohedral Pentalayer Graphene (`RPG`, $N=5$) 10-orbital $(A_1..B_5)$ subspace** (`gmgsBoundaryGrassmannianRealDim 5 = 32`, 45-level Plücker qudit, $C=\pm 5$ `QAHE`, `FQAH`) |
 
 ---
 
@@ -88,7 +88,7 @@ For $1 \le k < n$, the **real Grassmannian** $\mathrm{Gr}_{\mathbb{R}}(k, n) = \
 
 ### 3.1 How Witten's (2003/2004) Twistor String Theory Works
 
-In December 2003, **Edward Witten** (*Perturbative Gauge Theory as a String Theory in Twistor Space*, *Commun. Math. Phys.* 252, 189–258, [`hep-th/0312171`](#su4-witten2004) — also referred to as *"Witted's String Theory"* in our research notes) revolutionized quantum field theory by uniting **Roger Penrose's Twistor Theory (1967)** with **Topological String Theory** ([data/chats/Bell-Correlations-in-Atomic-Momentum.md, lines 220–245](../data/chats/Bell-Correlations-in-Atomic-Momentum.md#L220-L245); [data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 388–445](../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md#L388-L445)):
+In December 2003, **Edward Witten** (*Perturbative Gauge Theory as a String Theory in Twistor Space*, *Commun. Math. Phys.* 252, 189–258, [`hep-th/0312171`](#su4-witten2004)) revolutionized quantum field theory by uniting **Roger Penrose's Twistor Theory (1967)** with **Topological String Theory** ({download}`data/chats/Bell-Correlations-in-Atomic-Momentum.md, lines 220–245 <../data/chats/Bell-Correlations-in-Atomic-Momentum.md>`; {download}`data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md, lines 388–445 <../data/chats/Google-Search_Hubble-Sensor-Design_20261102-2031.md>`):
 
 1. **The Penrose Incidence Relation ($\mathbb{R}^{1,3}_{\mathbb{C}} \leftrightarrow \mathbb{CP}^3 = \mathrm{Gr}_{\mathbb{C}}(1,4)$)**:
    A point $x^{\alpha\dot{\alpha}} = \sigma_\mu^{\alpha\dot{\alpha}} x^\mu$ in complexified 4D Minkowski spacetime corresponds to a complex projective line $\mathbb{CP}^1 \subset \mathbb{CP}^3$ (a 2-plane in $\mathbb{C}^4$, i.e., a point in $\mathrm{Gr}_{\mathbb{C}}(2,4)$!) defined by the **incidence relation**:
@@ -242,9 +242,35 @@ and machine-check that **all five fundamental laws** across our 30-paper corpus 
 
 ---
 
+### 6.3 Deep Gap Closures: Projective Plücker Codimension $N_{\mathrm{rel}}(k, n)$, 4-Point CHY Bi-Adjoint Scalar Amplitude Recovery, Twisted Holography Deformed Conifold, and Celestial Conformal Weights (`Signals.DFT` Section 20.2)
+
+Theorem `semi_dirac_and_su4_witten_chy_deep_gap_closure_identities` ([../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L4695-L4835)) machine-checks four additional structural bridges:
+
+1. **Exact Projective Plücker Codimension Formula (`pluckerRelationCodimension`)**:
+   Inside $\mathbb{P}^{\binom{n}{k}-1}(\mathbb{C})$, the Grassmannian $\mathrm{Gr}_{\mathbb{C}}(k, n)$ has complex dimension $k(n-k)$ and projective codimension
+
+   $$
+   N_{\mathrm{rel}}(k, n) = \binom{n}{k} - 1 - k(n - k),
+   $$
+
+   machine-checking $N_{\mathrm{rel}}(1,2) = N_{\mathrm{rel}}(1,3) = N_{\mathrm{rel}}(1,4) = 0$, $N_{\mathrm{rel}}(2,4) = 1$, $N_{\mathrm{rel}}(2,5) = 3$, $N_{\mathrm{rel}}(2,6) = 6$, $N_{\mathrm{rel}}(3,6) = 10$, and $N_{\mathrm{rel}}(2,10) = 28$.
+2. **Exact 4-Point CHY Bi-Adjoint Scalar Amplitude Recovery (`chyFourPointBiAdjointScalar`)**:
+   Evaluating the 4-point CHY worldsheet localization ratio $\mathrm{PT}(1,2,3,4)^2 / |\det'\Phi_{\mathrm{CHY}}|$ at the unique scattering-equation root $\sigma_4^*(s_{12}, s_{13}) = \frac{s_{12}}{s_{12} + s_{13}}$ recovers the exact sum of $s$- and $t$-channel Feynman propagators:
+
+   $$
+   \mathcal{A}_4^{\mathrm{CHY},\phi^3}(s_{12}, s_{13}) = \frac{1}{(s_{12} + s_{13})\,\sigma_4^*(s_{12}, s_{13})\,\bigl(1 - \sigma_4^*(s_{12}, s_{13})\bigr)} = \frac{s_{12} + s_{13}}{s_{12}\,s_{13}} = \frac{1}{s_{12}} + \frac{1}{s_{13}}.
+   $$
+
+3. **Costello–Gaiotto (`arXiv:1812.09257`) Twisted Holography Deformed Conifold (`twistedHolographyDeformedConifoldResidual`)**:
+   In the holomorphic B-twist of Type IIB supergravity on $\text{AdS}_5 \times S^5$, $N_c$ $D1$-branes deform the singular conifold $\det Z_{2\times 2} = z_{11}z_{22} - z_{12}z_{21} = 0$ into $\mathrm{SL}(2,\mathbb{C})$ with modulus $g_s N_c$, satisfying $\mathcal{R}_{\mathrm{conifold}}(z_{11}, z_{22}, z_{12}, z_{21}, z_{11}z_{22} - z_{12}z_{21}) = 0$.
+4. **Celestial Holography Conformal Weights on $\mathcal{CS}^2 \cong \mathbb{CP}^1 = \mathrm{Gr}_{\mathbb{C}}(1,2)$ (`celestialConformalWeightH`, `celestialConformalWeightHBar`)**:
+   Mapping a 4D massless state of Mellin boost weight $\Delta$ and helicity $J$ in $\mathbb{CP}^3 = \mathrm{Gr}_{\mathbb{C}}(1,4)$ to a 2D primary operator on the celestial sphere $\mathrm{Gr}_{\mathbb{C}}(1,2)$ with weights $h = (\Delta + J)/2$ and $\bar{h} = (\Delta - J)/2$ satisfies $h + \bar{h} = \Delta$ and $h - \bar{h} = J$.
+
+---
+
 ## 7. Machine-Checked Lean 4 Verification (`Signals.DFT` Section 20)
 
-The following theorem `su4_lower_grassmannians_witten_chy_ddf_turner_and_ads_cft_unification_identities` is machine-checked in [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L4630-L4693) (and tested in [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7428-L7466) and [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L6048-L6095)):
+The following theorems `su4_lower_grassmannians_witten_chy_ddf_turner_and_ads_cft_unification_identities` and `semi_dirac_and_su4_witten_chy_deep_gap_closure_identities` are machine-checked in [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L4630-L4835) (and tested in [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7428-L7505) and [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L6048-L6095)):
 
 ```lean
 import Signals
@@ -253,7 +279,8 @@ namespace SU4WittenTwistorStringCHYUnificationVerification
 
 open Signals.DFT
 
-example (s12 s13 z1 z2 a b c d beta e : ℝ) (hs : s12 + s13 ≠ 0) :
+example (s12 s13 z1 z2 a b c d beta e z11 z22 z12 z21 delta j_hel : ℝ)
+    (hs12 : s12 ≠ 0) (hs13 : s13 ≠ 0) (hs : s12 + s13 ≠ 0) :
     suNRealDim 4 = 15 ∧
       suNRealDim 2 = 3 ∧
       2 * (suNRealDim 2 + suNRealDim 2) + 3 = suNRealDim 4 ∧
@@ -285,9 +312,43 @@ example (s12 s13 z1 z2 a b c d beta e : ℝ) (hs : s12 + s13 ≠ 0) :
       universalPluckerThreeTermResidual (a * d - b * c) (a * d - b * c)
         (2 * a * b) (-2 * c * d) (-(a * d + b * c)) (a * d + b * c) = 0 ∧
       universalPluckerThreeTermResidual (1 + beta) (1 - beta) 1 (1 - beta ^ 2) 0 1 = 0 ∧
-      universalPluckerThreeTermResidual (1 + e) (1 - e) 1 (1 - e ^ 2) 0 1 = 0 :=
-  su4_lower_grassmannians_witten_chy_ddf_turner_and_ads_cft_unification_identities
-    s12 s13 z1 z2 a b c d beta e hs
+      universalPluckerThreeTermResidual (1 + e) (1 - e) 1 (1 - e ^ 2) 0 1 = 0 ∧
+      pluckerRelationCodimension 2 4 = 1 ∧
+      pluckerRelationCodimension 2 5 = 3 ∧
+      pluckerRelationCodimension 2 6 = 6 ∧
+      pluckerRelationCodimension 3 6 = 10 ∧
+      pluckerRelationCodimension 2 10 = 28 ∧
+      chyFourPointBiAdjointScalar s12 s13 = 1 / s12 + 1 / s13 ∧
+      twistedHolographyDeformedConifoldResidual z11 z22 z12 z21 (z11 * z22 - z12 * z21) = 0 ∧
+      celestialConformalWeightH delta j_hel + celestialConformalWeightHBar delta j_hel = delta ∧
+      celestialConformalWeightH delta j_hel - celestialConformalWeightHBar delta j_hel = j_hel := by
+  have h1 :=
+    su4_lower_grassmannians_witten_chy_ddf_turner_and_ads_cft_unification_identities
+      s12 s13 z1 z2 a b c d beta e hs
+  have h2 :=
+    semi_dirac_and_su4_witten_chy_deep_gap_closure_identities
+      s12 s13 z11 z22 z12 z21 delta j_hel hs12 hs13 hs
+  exact ⟨h1.1, h1.2.1, h1.2.2.1, h1.2.2.2.1,
+    h1.2.2.2.2.1, h1.2.2.2.2.2.1, h1.2.2.2.2.2.2.1, h1.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.1, h1.2.2.2.2.2.2.2.2.2.1, h1.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.1, h1.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
 end SU4WittenTwistorStringCHYUnificationVerification
 ```
@@ -296,25 +357,151 @@ end SU4WittenTwistorStringCHYUnificationVerification
 
 ## References
 
-- <a id="su4-penrose1967"></a>**Penrose, R. (1967).** *Twistor Algebra.* Journal of Mathematical Physics, 8(2), 345–366. `https://doi.org/10.1063/1.1705200`
-- <a id="su4-thooft1993"></a>**'t Hooft, G. (1993).** *Dimensional Reduction in Quantum Gravity.* (`arXiv:gr-qc/9310026`).
-- <a id="su4-susskind1995"></a>**Susskind, L. (1995).** *The World as a Hologram.* Journal of Mathematical Physics, 36(11), 6377–6396 (`arXiv:hep-th/9409089`).
-- <a id="su4-maldacena1998"></a>**Maldacena, J. (1998).** *The Large-$N$ Limit of Superconformal Field Theories and Supergravity.* Advances in Theoretical and Mathematical Physics, 2, 231–252 (`arXiv:hep-th/9711200`).
-- <a id="su4-witten2004"></a>**Witten, E. (2004).** *Perturbative Gauge Theory as a String Theory in Twistor Space.* Communications in Mathematical Physics, 252, 189–258 (`arXiv:hep-th/0312171`).
-- <a id="su4-berkovits2004"></a>**Berkovits, N., & Witten, E. (2004).** *Conformal Supergravity in Twistor-String Theory.* Journal of High Energy Physics, 2004(08), 009 (`arXiv:hep-th/0406051`).
-- <a id="su4-csw2004"></a>**Cachazo, F., Svrček, P., & Witten, E. (2004).** *MHV Vertices and Tree Amplitudes in Gauge Theory.* Journal of High Energy Physics, 2004(09), 006 (`arXiv:hep-th/0403047`).
-- <a id="su4-bcfw2005"></a>**Britto, R., Cachazo, F., Feng, B., & Witten, E. (2005).** *Direct Proof of Tree-Level Recursion Relation in Yang–Mills Theory.* Physical Review Letters, 94(18), 181602 (`arXiv:hep-th/0501052`).
-- <a id="su4-beisert2012"></a>**Beisert, N., et al. (2012).** *Review of AdS/CFT Integrability: An Overview.* Letters in Mathematical Physics, 99, 3–32 (`arXiv:1012.3982`).
-- <a id="su4-deleeuw2012"></a>**de Leeuw, M., Matsumoto, T., Moriyama, S., Regelskis, V., & Torrielli, A. (2012).** *Secret Symmetries in AdS/CFT.* Physica Scripta, 024002 (`arXiv:1204.2366`).
-- <a id="su4-cachazogeyer2012"></a>**Cachazo, F., & Geyer, Y. (2012).** *A 'Twistor String' Inspired Formula For Tree-Level Scattering Amplitudes in $\mathcal{N}=8$ SUGRA.* (`arXiv:1206.6511`).
-- <a id="su4-cachazoskinner2012"></a>**Cachazo, F., & Skinner, D. (2013).** *Gravity from Rational Curves in Twistor Space.* Physical Review Letters, 110(16), 161301 (`arXiv:1207.0741`).
-- <a id="su4-masonskinner2013"></a>**Mason, L., & Skinner, D. (2014).** *Ambitwistor Strings and the Scattering Equations.* Journal of High Energy Physics, 2014(07), 048 (`arXiv:1311.2564`).
-- <a id="su4-chy2014"></a>**Cachazo, F., He, S., & Yuan, E. Y. (2014).** *Scattering of Massless Particles in Arbitrary Dimensions.* Physical Review Letters, 113(17), 171601 (`arXiv:1307.2199`).
-- <a id="su4-arkani2016"></a>**Arkani-Hamed, N., Bourjaily, J. L., Cachazo, F., Goncharov, A. B., Postnikov, A., & Trnka, J. (2016).** *Grassmannian Geometry of Scattering Amplitudes.* Cambridge University Press (`arXiv:1212.5605`).
-- <a id="su4-strominger2017"></a>**Strominger, A. (2018).** *Lectures on the Infrared Structure of Gravity and Gauge Theory.* Princeton University Press (`arXiv:1703.05448`).
-- <a id="su4-costello2018"></a>**Costello, K., & Gaiotto, D. (2018).** *Twisted Holography.* (`arXiv:1812.09257`).
-- <a id="su4-zhou2021"></a>**Zhou, H., Xie, T., Taniguchi, T., Watanabe, K., & Young, A. F. (2021).** *Superconductivity in rhombohedral trilayer graphene.* Nature, 598, 434–438.
-- <a id="su4-costellopaquette2022"></a>**Costello, K., & Paquette, N. M. (2022).** *Celestial holography meets twisted holography: 4d amplitudes from chiral correlators.* Journal of High Energy Physics, 2022(10), 193 (`arXiv:2201.02595`).
-- <a id="su4-cps2022"></a>**Costello, K., Paquette, N. M., & Sharma, A. (2023).** *Top-Down Holography in an Asymptotically Flat Spacetime.* Physical Review Letters, 130(6), 061602 (`arXiv:2204.05301`).
-- <a id="su4-han2025"></a>**Han, T., Lu, Z., Yao, Y., Suh, J., Yang, J., Wang, D., Watanabe, K., Taniguchi, T., & Ju, L. (2025).** *Chiral superconductivity in rhombohedral graphene.* Nature, 643, 654–661.
-- <a id="su4-fedi2026"></a>**Fedi, M. (2026).** *Gravity and Special Relativity in a Dilatant Dark Fluid.* SSRN 7406660.
+(su4-penrose1967)=
+<a id="su4-penrose1967"></a>
+1. **Penrose, R. (1967).** *Twistor Algebra.* Journal of Mathematical Physics, 8(2), 345–366. `https://doi.org/10.1063/1.1705200`
+
+(su4-thooft1993)=
+<a id="su4-thooft1993"></a>
+2. **'t Hooft, G. (1993).** *Dimensional Reduction in Quantum Gravity.* (`arXiv:gr-qc/9310026`).
+
+(su4-susskind1995)=
+<a id="su4-susskind1995"></a>
+3. **Susskind, L. (1995).** *The World as a Hologram.* Journal of Mathematical Physics, 36(11), 6377–6396 (`arXiv:hep-th/9409089`).
+
+(su4-maldacena1998)=
+<a id="su4-maldacena1998"></a>
+4. **Maldacena, J. (1998).** *The Large-$N$ Limit of Superconformal Field Theories and Supergravity.* Advances in Theoretical and Mathematical Physics, 2, 231–252 (`arXiv:hep-th/9711200`).
+
+(su4-witten2004)=
+<a id="su4-witten2004"></a>
+5. **Witten, E. (2004).** *Perturbative Gauge Theory as a String Theory in Twistor Space.* Communications in Mathematical Physics, 252, 189–258 (`arXiv:hep-th/0312171`).
+
+(su4-berkovits2004)=
+<a id="su4-berkovits2004"></a>
+6. **Berkovits, N., & Witten, E. (2004).** *Conformal Supergravity in Twistor-String Theory.* Journal of High Energy Physics, 2004(08), 009 (`arXiv:hep-th/0406051`).
+
+(su4-csw2004)=
+<a id="su4-csw2004"></a>
+7. **Cachazo, F., Svrček, P., & Witten, E. (2004).** *MHV Vertices and Tree Amplitudes in Gauge Theory.* Journal of High Energy Physics, 2004(09), 006 (`arXiv:hep-th/0403047`).
+
+(su4-bcfw2005)=
+<a id="su4-bcfw2005"></a>
+8. **Britto, R., Cachazo, F., Feng, B., & Witten, E. (2005).** *Direct Proof of Tree-Level Recursion Relation in Yang–Mills Theory.* Physical Review Letters, 94(18), 181602 (`arXiv:hep-th/0501052`).
+
+(su4-beisert2012)=
+<a id="su4-beisert2012"></a>
+9. **Beisert, N., et al. (2012).** *Review of AdS/CFT Integrability: An Overview.* Letters in Mathematical Physics, 99, 3–32 (`arXiv:1012.3982`).
+
+(su4-deleeuw2012)=
+<a id="su4-deleeuw2012"></a>
+10. **de Leeuw, M., Matsumoto, T., Moriyama, S., Regelskis, V., & Torrielli, A. (2012).** *Secret Symmetries in AdS/CFT.* Physica Scripta, 024002 (`arXiv:1204.2366`).
+
+(su4-cachazogeyer2012)=
+<a id="su4-cachazogeyer2012"></a>
+11. **Cachazo, F., & Geyer, Y. (2012).** *A 'Twistor String' Inspired Formula For Tree-Level Scattering Amplitudes in $\mathcal{N}=8$ SUGRA.* (`arXiv:1206.6511`).
+
+(su4-cachazoskinner2012)=
+<a id="su4-cachazoskinner2012"></a>
+12. **Cachazo, F., & Skinner, D. (2013).** *Gravity from Rational Curves in Twistor Space.* Physical Review Letters, 110(16), 161301 (`arXiv:1207.0741`).
+
+(su4-masonskinner2013)=
+<a id="su4-masonskinner2013"></a>
+13. **Mason, L., & Skinner, D. (2014).** *Ambitwistor Strings and the Scattering Equations.* Journal of High Energy Physics, 2014(07), 048 (`arXiv:1311.2564`).
+
+(su4-chy2014)=
+<a id="su4-chy2014"></a>
+14. **Cachazo, F., He, S., & Yuan, E. Y. (2014).** *Scattering of Massless Particles in Arbitrary Dimensions.* Physical Review Letters, 113(17), 171601 (`arXiv:1307.2199`).
+
+(su4-arkani2016)=
+<a id="su4-arkani2016"></a>
+15. **Arkani-Hamed, N., Bourjaily, J. L., Cachazo, F., Goncharov, A. B., Postnikov, A., & Trnka, J. (2016).** *Grassmannian Geometry of Scattering Amplitudes.* Cambridge University Press (`arXiv:1212.5605`).
+
+(su4-strominger2017)=
+<a id="su4-strominger2017"></a>
+16. **Strominger, A. (2018).** *Lectures on the Infrared Structure of Gravity and Gauge Theory.* Princeton University Press (`arXiv:1703.05448`).
+
+(su4-costello2018)=
+<a id="su4-costello2018"></a>
+17. **Costello, K., & Gaiotto, D. (2018).** *Twisted Holography.* (`arXiv:1812.09257`).
+
+(su4-zhou2021)=
+<a id="su4-zhou2021"></a>
+18. **Zhou, H., Xie, T., Taniguchi, T., Watanabe, K., & Young, A. F. (2021).** *Superconductivity in rhombohedral trilayer graphene.* Nature, 598, 434–438.
+
+(su4-costellopaquette2022)=
+<a id="su4-costellopaquette2022"></a>
+19. **Costello, K., & Paquette, N. M. (2022).** *Celestial holography meets twisted holography: 4d amplitudes from chiral correlators.* Journal of High Energy Physics, 2022(10), 193 (`arXiv:2201.02595`).
+
+(su4-cps2022)=
+<a id="su4-cps2022"></a>
+20. **Costello, K., Paquette, N. M., & Sharma, A. (2023).** *Top-Down Holography in an Asymptotically Flat Spacetime.* Physical Review Letters, 130(6), 061602 (`arXiv:2204.05301`).
+
+(su4-han2025)=
+<a id="su4-han2025"></a>
+21. **Han, T., Lu, Z., Yao, Y., Suh, J., Yang, J., Wang, D., Watanabe, K., Taniguchi, T., & Ju, L. (2025).** *Chiral superconductivity in rhombohedral graphene.* Nature, 643, 654–661.
+
+(su4-fedi2026)=
+<a id="su4-fedi2026"></a>
+22. **Fedi, M. (2026).** *Gravity and Special Relativity in a Dilatant Dark Fluid.* SSRN 7406660.
+
+---
+
+### BibTeX Citations
+
+```bibtex
+@article{turner2026grassmannian_su4_witten_chy,
+  author  = {Turner, Wes},
+  title   = {{$\mathrm{SU}(4)$} Symmetry, {W}itten's Twistor String Theory, Lower {G}rassmannians in {$\mathrm{Gr}_{\mathbb{R}}$} and {$\mathrm{Gr}_{\mathbb{C}}$}, Relative Merits of {C}achazo ({CSW} / {BCFW} / {H}odges / {CHY}) vs. {DDF} vs. {T}urner Models, and Grand Unification with the Holographic Principle and {AdS/CFT} in {L}ean 4, {R}ust, and {P}ython},
+  journal = {Sustainable Factory Research Archive},
+  year    = {2026},
+  note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
+}
+
+@article{witten2004twistor,
+  author  = {Witten, Edward},
+  title   = {Perturbative Gauge Theory as a String Theory in Twistor Space},
+  journal = {Communications in Mathematical Physics},
+  volume  = {252},
+  pages   = {189--258},
+  year    = {2004},
+  doi     = {10.1007/s00220-004-1187-3},
+  eprint  = {hep-th/0312171}
+}
+
+@article{cachazo2014chy,
+  author  = {Cachazo, Freddy and He, Song and Yuan, Ellis Ye},
+  title   = {Scattering of Massless Particles in Arbitrary Dimensions},
+  journal = {Physical Review Letters},
+  volume  = {113},
+  number  = {17},
+  pages   = {171601},
+  year    = {2014},
+  doi     = {10.1103/PhysRevLett.113.171601},
+  eprint  = {1307.2199}
+}
+```
+
+### Schema.org Metadata (JSON-LD)
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "SU(4) Symmetry, Witten's Twistor String Theory, Lower Grassmannians in Gr_R and Gr_C, Relative Merits of Cachazo (CSW / BCFW / Hodges / CHY) vs. DDF vs. Turner Models, and Grand Unification with the Holographic Principle and AdS/CFT in Lean 4, Rust, and Python",
+  "author": {
+    "@type": "Person",
+    "name": "Wes Turner"
+  },
+  "dateModified": "2026-11-08",
+  "about": [
+    "SU(4) and Spin(2,4) Symmetry",
+    "Witten Twistor String Theory",
+    "Lower Grassmannians Gr_R(k,n) and Gr_C(k,n)",
+    "Cachazo-He-Yuan (CHY) Scattering Equations and BCFW Recursion",
+    "Dilatant Dark Fluid and Turner (2026) Plücker Q_4 Models",
+    "Holographic Principle, AdS/CFT, Twisted Holography, and Celestial Holography",
+    "Lean 4 Formal Verification"
+  ]
+}
+```

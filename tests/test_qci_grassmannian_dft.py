@@ -1206,3 +1206,31 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
         ),
         0.0,
     )
+
+    # Section 20.2: Deep gap-closure checks for Papers 29 & 30
+    assert np.isclose(SDSU4.semi_dirac_dos_exponent(2.0, 2.0), 0.0)
+    assert np.isclose(SDSU4.semi_dirac_dos_exponent(2.0, 1.0), 0.5)
+    assert np.isclose(SDSU4.semi_dirac_dos_exponent(1.0, 1.0), 1.0)
+    assert SDSU4.semi_dirac_wkb_barrier_transmission_x(2.0) < 1.0
+    assert (
+        SDSU4.semi_dirac_directional_permittivity(1.0, 1.0, 2.0)
+        * SDSU4.semi_dirac_directional_permittivity(1.0, 4.0, 2.0)
+        < 0.0
+    )
+    assert SDSU4.plucker_relation_codimension(1, 4) == 0
+    assert SDSU4.plucker_relation_codimension(2, 4) == 1
+    assert SDSU4.plucker_relation_codimension(2, 5) == 3
+    assert SDSU4.plucker_relation_codimension(2, 6) == 6
+    assert SDSU4.plucker_relation_codimension(3, 6) == 10
+    assert SDSU4.plucker_relation_codimension(2, 10) == 28
+    assert np.isclose(
+        SDSU4.chy_four_point_bi_adjoint_scalar(3.0, 5.0), 1.0 / 3.0 + 1.0 / 5.0
+    )
+    assert np.isclose(
+        SDSU4.twisted_holography_deformed_conifold_residual(3.0, 4.0, 2.0, 5.0, 2.0),
+        0.0,
+    )
+    h_cel = SDSU4.celestial_conformal_weight_h(2.5, 2.0)
+    hbar_cel = SDSU4.celestial_conformal_weight_hbar(2.5, 2.0)
+    assert np.isclose(h_cel + hbar_cel, 2.5)
+    assert np.isclose(h_cel - hbar_cel, 2.0)

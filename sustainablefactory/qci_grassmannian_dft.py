@@ -4373,3 +4373,44 @@ class SemiDiracAndSU4WittenUnificationEngine:
         p01: float, p23: float, p02: float, p13: float, p03: float, p12: float
     ) -> float:
         return float(p01 * p23 - p02 * p13 + p03 * p12)
+
+    @staticmethod
+    def semi_dirac_dos_exponent(px: float, py: float) -> float:
+        return float(1.0 / px + 1.0 / py - 1.0)
+
+    @staticmethod
+    def semi_dirac_wkb_barrier_transmission_x(kappa_l: float) -> float:
+        return float(1.0 / (1.0 + (kappa_l**2)))
+
+    @staticmethod
+    def semi_dirac_directional_permittivity(
+        eps_inf: float, omega_p: float, omega: float
+    ) -> float:
+        return float(eps_inf - ((omega_p / omega) ** 2))
+
+    @staticmethod
+    def plucker_relation_codimension(k: int, n: int) -> int:
+        import math
+
+        return int(math.comb(int(n), int(k)) - 1 - int(k) * (int(n) - int(k)))
+
+    @classmethod
+    def chy_four_point_bi_adjoint_scalar(cls, s12: float, s13: float) -> float:
+        sigma4 = cls.chy_four_point_root(s12, s13)
+        return float(1.0 / ((s12 + s13) * sigma4 * (1.0 - sigma4)))
+
+    @staticmethod
+    def twisted_holography_deformed_conifold_residual(
+        z11: float, z22: float, z12: float, z21: float, gs_nc: float
+    ) -> float:
+        return float((z11 * z22 - z12 * z21) - gs_nc)
+
+    @staticmethod
+    def celestial_conformal_weight_h(delta: float, j_helicity: float) -> float:
+        return float((delta + j_helicity) / 2.0)
+
+    @staticmethod
+    def celestial_conformal_weight_hbar(
+        delta: float, j_helicity: float
+    ) -> float:
+        return float((delta - j_helicity) / 2.0)

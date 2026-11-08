@@ -1552,6 +1552,65 @@ pub fn universal_plucker_three_term_residual(
     p01 * p23 - p02 * p13 + p03 * p12
 }
 
+/// 2D anisotropic density-of-states power-law exponent `1 / px + 1 / py - 1`,
+/// matching `Signals.DFT.semiDiracDosExponent`.
+pub fn semi_dirac_dos_exponent(px: f64, py: f64) -> f64 {
+    1.0 / px + 1.0 / py - 1.0
+}
+
+/// Semi-Dirac massive x-axis WKB barrier transmission envelope `1 / (1 + kappa_l^2)`,
+/// matching `Signals.DFT.semiDiracWkbBarrierTransmissionX`.
+pub fn semi_dirac_wkb_barrier_transmission_x(kappa_l: f64) -> f64 {
+    1.0 / (1.0 + kappa_l.powi(2))
+}
+
+/// Semi-Dirac directional in-plane Drude permittivity `eps_inf - (omega_p / omega)^2`,
+/// matching `Signals.DFT.semiDiracDirectionalPermittivity`.
+pub fn semi_dirac_directional_permittivity(eps_inf: f64, omega_p: f64, omega: f64) -> f64 {
+    eps_inf - (omega_p / omega).powi(2)
+}
+
+/// Number of independent quadratic Plücker relations `C(n, k) - 1 - k * (n - k)`,
+/// matching `Signals.DFT.pluckerRelationCodimension`.
+pub fn plucker_relation_codimension(k: usize, n: usize) -> usize {
+    let mut binom = 1usize;
+    for i in 0..k {
+        binom = binom * (n - i) / (i + 1);
+    }
+    binom - 1 - k * (n - k)
+}
+
+/// 4-point CHY localized bi-adjoint scalar amplitude `1 / ((s12 + s13) * sigma4 * (1 - sigma4))`,
+/// matching `Signals.DFT.chyFourPointBiAdjointScalar`.
+pub fn chy_four_point_bi_adjoint_scalar(s12: f64, s13: f64) -> f64 {
+    let sigma4 = chy_four_point_root(s12, s13);
+    1.0 / ((s12 + s13) * sigma4 * (1.0 - sigma4))
+}
+
+/// Costello-Gaiotto Twisted Holography deformed conifold residual `(z11 * z22 - z12 * z21) - gs_nc`,
+/// matching `Signals.DFT.twistedHolographyDeformedConifoldResidual`.
+pub fn twisted_holography_deformed_conifold_residual(
+    z11: f64,
+    z22: f64,
+    z12: f64,
+    z21: f64,
+    gs_nc: f64,
+) -> f64 {
+    (z11 * z22 - z12 * z21) - gs_nc
+}
+
+/// Celestial Holography left-moving conformal weight `(delta + j_helicity) / 2`,
+/// matching `Signals.DFT.celestialConformalWeightH`.
+pub fn celestial_conformal_weight_h(delta: f64, j_helicity: f64) -> f64 {
+    (delta + j_helicity) / 2.0
+}
+
+/// Celestial Holography right-moving conformal weight `(delta - j_helicity) / 2`,
+/// matching `Signals.DFT.celestialConformalWeightHBar`.
+pub fn celestial_conformal_weight_hbar(delta: f64, j_helicity: f64) -> f64 {
+    (delta - j_helicity) / 2.0
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2224,5 +2283,37 @@ mod tests {
             universal_plucker_three_term_residual(1.6, 0.4, 1.0, 1.0 - 0.36, 0.0, 1.0).abs()
                 < 1e-15
         );
+
+        // 13. Section 20.2: Deep gap-closure checks for Papers 29 & 30
+        assert!(semi_dirac_dos_exponent(2.0, 2.0).abs() < 1e-15);
+        assert!((semi_dirac_dos_exponent(2.0, 1.0) - 0.5).abs() < 1e-15);
+        assert!((semi_dirac_dos_exponent(1.0, 1.0) - 1.0).abs() < 1e-15);
+        assert!(semi_dirac_wkb_barrier_transmission_x(2.0) < 1.0);
+        assert!(
+            semi_dirac_directional_permittivity(1.0, 1.0, 2.0)
+                * semi_dirac_directional_permittivity(1.0, 4.0, 2.0)
+                < 0.0
+        );
+        assert!(
+            gtbc_relative_error(4.0, 3.98) < 0.01
+                && gtbc_relative_error(4.0, 3.98) < gtbc_relative_error(2.828, 3.98)
+                && gtbc_relative_error(4.0, 3.98) < gtbc_relative_error(8.0, 3.98)
+        );
+        assert_eq!(plucker_relation_codimension(1, 4), 0);
+        assert_eq!(plucker_relation_codimension(2, 4), 1);
+        assert_eq!(plucker_relation_codimension(2, 5), 3);
+        assert_eq!(plucker_relation_codimension(2, 6), 6);
+        assert_eq!(plucker_relation_codimension(3, 6), 10);
+        assert_eq!(plucker_relation_codimension(2, 10), 28);
+        assert!(
+            (chy_four_point_bi_adjoint_scalar(3.0, 5.0) - (1.0 / 3.0 + 1.0 / 5.0)).abs() < 1e-15
+        );
+        assert!(
+            twisted_holography_deformed_conifold_residual(3.0, 4.0, 2.0, 5.0, 2.0).abs() < 1e-15
+        );
+        let h_cel = celestial_conformal_weight_h(2.5, 2.0);
+        let hbar_cel = celestial_conformal_weight_hbar(2.5, 2.0);
+        assert!((h_cel + hbar_cel - 2.5).abs() < 1e-15);
+        assert!((h_cel - hbar_cel - 2.0).abs() < 1e-15);
     }
 }
