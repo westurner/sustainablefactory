@@ -5137,3 +5137,160 @@ class SemiDiracAndSU4WittenUnificationEngine:
         v_max: float,
     ) -> float:
         return float((5.0 / 36.0) * c_vol_f_per_cm3 * (v_max**2))
+
+    # =========================================================================
+    # Paper 42: Plasma-Fluffed Hemostatic Gauze, Sprout-Zero Biodegradable
+    # Diapers, Aero-Fleece Thermal Liners, CAM Struvite Geotextiles, and
+    # Graphene-Susceptor FJH Quartzite Argon Plasma Tubes
+    # =========================================================================
+
+    @staticmethod
+    def quartzite_graphene_fjh_susceptor_power(
+        f_graphene: float,
+        sigma_0: float,
+        v_pulse: float,
+    ) -> float:
+        return float(f_graphene * sigma_0 * (v_pulse**2))
+
+    @staticmethod
+    def vello_vacuum_fining_bubble_escape_velocity(
+        r_bubble: float,
+        delta_rho: float,
+        g_eff: float,
+        eta_melt: float,
+    ) -> float:
+        return float((2.0 * (r_bubble**2) * delta_rho * g_eff) / (9.0 * eta_melt))
+
+    @staticmethod
+    def quartz_tube_optical_transmittance(
+        t_0: float,
+        f_scatter: float,
+    ) -> float:
+        return float(t_0 * (1.0 - f_scatter))
+
+    @staticmethod
+    def pdd_rosen_piezo_step_up_voltage(
+        v_in: float,
+        q_mech: float,
+        k_eff_sq: float,
+        l_1: float,
+        l_2: float,
+    ) -> float:
+        return float(v_in * q_mech * k_eff_sq * (l_1 / l_2))
+
+    @staticmethod
+    def ghz_piezo_gap_tuned_ignition_power(
+        p_0: float,
+        alpha_d: float,
+        d_gap_mm: float,
+    ) -> float:
+        return float(p_0 + alpha_d * d_gap_mm)
+
+    @staticmethod
+    def lucas_washburn_plasma_wicking_velocity_ratio(
+        r_plasma: float,
+        cos_theta_plasma: float,
+        r_raw: float,
+        cos_theta_raw: float,
+    ) -> float:
+        return float((r_plasma * cos_theta_plasma) / (r_raw * cos_theta_raw))
+
+    @staticmethod
+    def chitosan_alginate_pec_charge_neutrality_residual(
+        n_chitosan: float,
+        z_chitosan: float,
+        n_alginate: float,
+        z_alginate: float,
+    ) -> float:
+        return float(n_chitosan * z_chitosan + n_alginate * z_alginate)
+
+    @staticmethod
+    def hemostatic_clotting_time_sec(
+        t_0: float,
+        a_chitosan: float,
+        b_mg: float,
+        c_ltp: float,
+    ) -> float:
+        return float(t_0 / (1.0 + a_chitosan + b_mg + c_ltp))
+
+    @staticmethod
+    def bimodal_mg_lignin_vitrimer_ph_residual(
+        ph_0: float,
+        delta_ph_mg: float,
+        delta_ph_buf: float,
+    ) -> float:
+        return float(ph_0 + delta_ph_mg - delta_ph_buf)
+
+    @staticmethod
+    def composite_weighted_swelling_ratio(
+        f_hemp: float,
+        w_hemp: float,
+        f_alg: float,
+        w_alg: float,
+        f_dop: float,
+        w_dop: float,
+    ) -> float:
+        return float(f_hemp * w_hemp + f_alg * w_alg + f_dop * w_dop)
+
+    @staticmethod
+    def janus_topsheet_net_downward_drive_pressure(
+        gamma_lv: float,
+        r_pore: float,
+        cos_theta_bot: float,
+        cos_theta_top: float,
+    ) -> float:
+        return float((2.0 * gamma_lv * (cos_theta_bot - cos_theta_top)) / r_pore)
+
+    @staticmethod
+    def aero_fleece_submerged_thermal_resistance(
+        r_dry: float,
+        eta_ret: float,
+    ) -> float:
+        return float(eta_ret * r_dry)
+
+    @staticmethod
+    def struvite_nitrogen_captured_kg(
+        m_mg_kg: float,
+        mol_n: float = 14.0,
+        mol_mg: float = 24.3,
+    ) -> float:
+        return float(m_mg_kg * (mol_n / mol_mg))
+
+    @staticmethod
+    def struvite_fertilizer_generated_kg(
+        m_mg_kg: float,
+        mol_struv: float = 245.3,
+        mol_mg: float = 24.3,
+    ) -> float:
+        return float(m_mg_kg * (mol_struv / mol_mg))
+
+    @staticmethod
+    def mgo_to_elemental_mg_mass_kg(
+        m_mgo_kg: float,
+        mol_mg: float = 24.3,
+        mol_mgo: float = 40.3,
+    ) -> float:
+        return float(m_mgo_kg * (mol_mg / mol_mgo))
+
+    @staticmethod
+    def soil_carbon_to_nitrogen_ratio(
+        c_0: float,
+        n_0: float,
+        delta_n_captured: float,
+    ) -> float:
+        return float(c_0 / (n_0 + delta_n_captured))
+
+    @staticmethod
+    def product_gross_margin_fraction(
+        cost_usd: float,
+        price_usd: float,
+    ) -> float:
+        return float((price_usd - cost_usd) / price_usd)
+
+    @staticmethod
+    def cascade_retting_opex_coverage_ratio(
+        m_oil_kg: float,
+        price_per_kg: float,
+        opex_annual: float,
+    ) -> float:
+        return float((m_oil_kg * price_per_kg) / opex_annual)

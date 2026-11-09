@@ -1708,3 +1708,125 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
         9.0
         * SDSU4.supercapacitor_volumetric_energy_density_wh_per_l(52.5, 3.5),
     )
+
+    # Paper 42: Plasma-Fluffed Gauze, Sprout-Zero Diapers, Aero-Fleece, CAM Geotextiles, & Quartzite Tubes
+    # 1. Sacrificial graphene-susceptor FJH quartzite melting & Vello vacuum fining
+    assert np.isclose(
+        SDSU4.quartzite_graphene_fjh_susceptor_power(0.0, 1000.0, 10.0), 0.0
+    )
+    assert np.isclose(
+        SDSU4.quartzite_graphene_fjh_susceptor_power(0.02, 1000.0, 10.0),
+        2000.0,
+    )
+    assert np.isclose(
+        SDSU4.vello_vacuum_fining_bubble_escape_velocity(10.0, 2.0, 10.0, 1.0),
+        100.0
+        * SDSU4.vello_vacuum_fining_bubble_escape_velocity(1.0, 2.0, 10.0, 1.0),
+    )
+    assert np.isclose(
+        SDSU4.quartz_tube_optical_transmittance(0.92, 0.0), 0.92
+    )
+    assert SDSU4.quartz_tube_optical_transmittance(
+        0.92, 0.8
+    ) < SDSU4.quartz_tube_optical_transmittance(0.92, 0.0)
+
+    # 2. Argon PDD step-up (12 V -> 12 kV), GHz piezo gap tuning (5.4 W -> 4.1 W), & 8x wicking
+    assert np.isclose(
+        SDSU4.pdd_rosen_piezo_step_up_voltage(12.0, 500.0, 0.5, 4.0, 1.0),
+        12000.0,
+    )
+    assert np.isclose(
+        SDSU4.ghz_piezo_gap_tuned_ignition_power(2.8, 13.0 / 15.0, 1.5), 4.1
+    )
+    assert np.isclose(
+        SDSU4.ghz_piezo_gap_tuned_ignition_power(2.8, 13.0 / 15.0, 3.0), 5.4
+    )
+    assert np.isclose(
+        SDSU4.lucas_washburn_plasma_wicking_velocity_ratio(2.0, 1.0, 1.0, 0.25),
+        8.0,
+    )
+
+    # 3. PEC charge neutrality, 15 s hemostatic clotting, & pH 7.4 bimodal Mg buffering
+    assert np.isclose(
+        SDSU4.chitosan_alginate_pec_charge_neutrality_residual(
+            2.5, 1.0, 2.5, -1.0
+        ),
+        0.0,
+    )
+    assert np.isclose(
+        SDSU4.hemostatic_clotting_time_sec(180.0, 3.0, 3.0, 5.0), 15.0
+    )
+    assert np.isclose(
+        SDSU4.bimodal_mg_lignin_vitrimer_ph_residual(7.4, 2.0, 2.0), 7.4
+    )
+    assert (
+        SDSU4.bimodal_mg_lignin_vitrimer_ph_residual(7.4, 2.0, 2.0)
+        < SDSU4.bimodal_mg_lignin_vitrimer_ph_residual(7.4, 2.0, 0.0)
+    )
+
+    # 4. Sprout-Zero diaper (132x swelling, Janus diode) & Aero-Fleece (90% wet insulation)
+    assert np.isclose(
+        SDSU4.composite_weighted_swelling_ratio(
+            0.3, 20.0, 0.7, 180.0, 0.0, 0.0
+        ),
+        132.0,
+    )
+    assert (
+        SDSU4.janus_topsheet_net_downward_drive_pressure(72.0, 10.0, 1.0, -0.5)
+        > 0.0
+    )
+    assert np.isclose(
+        SDSU4.aero_fleece_submerged_thermal_resistance(10.0, 0.9),
+        6.0 * SDSU4.aero_fleece_submerged_thermal_resistance(10.0, 0.15),
+    )
+
+    # 5. CAM Geo-Diaper (42x water -> 210,000 L/ha, 288.07 kg N/ha, 5,047.33 kg/ha struvite)
+    assert np.isclose(
+        SDSU4.composite_weighted_swelling_ratio(
+            0.6, 20.0, 0.3, 100.0, 0.1, 0.0
+        ),
+        42.0,
+    )
+    assert np.isclose(
+        SDSU4.struvite_nitrogen_captured_kg(500.0), 70000.0 / 243.0
+    )
+    assert SDSU4.struvite_nitrogen_captured_kg(500.0) > 288.0
+    assert np.isclose(
+        SDSU4.struvite_fertilizer_generated_kg(500.0), 1226500.0 / 243.0
+    )
+    assert SDSU4.struvite_fertilizer_generated_kg(500.0) > 5047.0
+
+    # 6. Deep gap closures: MgO stoichiometry, 50:1 -> 25:1 C:N, margins, & Omega-3 OpEx coverage
+    assert np.isclose(
+        SDSU4.mgo_to_elemental_mg_mass_kg(240.0), 58320.0 / 403.0
+    )
+    assert np.isclose(
+        SDSU4.mgo_to_elemental_mg_mass_kg(201500.0 / 243.0), 500.0
+    )
+    assert np.isclose(
+        SDSU4.soil_carbon_to_nitrogen_ratio(2000.0, 40.0, 0.0), 50.0
+    )
+    assert np.isclose(
+        SDSU4.soil_carbon_to_nitrogen_ratio(2000.0, 40.0, 40.0), 25.0
+    )
+    assert np.isclose(
+        SDSU4.product_gross_margin_fraction(0.85, 45.0), 883.0 / 900.0
+    )
+    assert SDSU4.product_gross_margin_fraction(0.85, 45.0) > 0.98
+    assert np.isclose(
+        SDSU4.product_gross_margin_fraction(8.0, 45.0), 37.0 / 45.0
+    )
+    assert np.isclose(
+        SDSU4.product_gross_margin_fraction(15.0, 80.0), 13.0 / 16.0
+    )
+    assert np.isclose(
+        SDSU4.product_gross_margin_fraction(40.0, 180.0), 7.0 / 9.0
+    )
+    assert np.isclose(
+        SDSU4.cascade_retting_opex_coverage_ratio(40000.0, 150.0, 7900000.0),
+        60.0 / 79.0,
+    )
+    assert (
+        SDSU4.cascade_retting_opex_coverage_ratio(40000.0, 150.0, 7900000.0)
+        > 0.75
+    )

@@ -1286,4 +1286,67 @@ theorem rhombohedral_graphene_omni_carbon_energy_storage_deep_gap_closure_bounds
       (400 : ℝ) < 800 :=
   contract.omni_carbon_energy_storage_deep_gap_closure_bounds d_0 s_steric
 
+/-- Re-exports the Paper 42 primary boundary theorem. -/
+theorem rhombohedral_graphene_plasma_fluffed_gauze_diaper_fleece_geotextile_and_quartzite_tube_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (sigma_0 v_pulse n_c : ℝ) :
+    Signals.SolitonBus.quartziteGrapheneFjhSusceptorPower 0 sigma_0 v_pulse = 0 ∧
+      Signals.SolitonBus.quartziteGrapheneFjhSusceptorPower (1 / 50) 1000 10 = 2000 ∧
+      Signals.SolitonBus.velloVacuumFiningBubbleEscapeVelocity 10 2 10 1 =
+        100 * Signals.SolitonBus.velloVacuumFiningBubbleEscapeVelocity 1 2 10 1 ∧
+      Signals.SolitonBus.quartzTubeOpticalTransmittance (92 / 100) 0 = 23 / 25 ∧
+      Signals.SolitonBus.quartzTubeOpticalTransmittance (92 / 100) (4 / 5) <
+        Signals.SolitonBus.quartzTubeOpticalTransmittance (92 / 100) 0 ∧
+      Signals.SolitonBus.pddRosenPiezoStepUpVoltage 12 500 (1 / 2) 4 1 = 12000 ∧
+      Signals.SolitonBus.ghzPiezoGapTunedIgnitionPower (14 / 5) (13 / 15) (3 / 2) = 41 / 10 ∧
+      Signals.SolitonBus.ghzPiezoGapTunedIgnitionPower (14 / 5) (13 / 15) 3 = 27 / 5 ∧
+      Signals.SolitonBus.ghzPiezoGapTunedIgnitionPower (14 / 5) (13 / 15) (3 / 2) <
+        Signals.SolitonBus.ghzPiezoGapTunedIgnitionPower (14 / 5) (13 / 15) 3 ∧
+      Signals.SolitonBus.lucasWashburnPlasmaWickingVelocityRatio 2 1 1 (1 / 4) = 8 ∧
+      Signals.SolitonBus.chitosanAlginatePecChargeNeutralityResidual n_c 1 n_c (-1) = 0 ∧
+      Signals.SolitonBus.hemostaticClottingTimeSec 180 3 3 5 = 15 ∧
+      Signals.SolitonBus.hemostaticClottingTimeSec 180 3 3 5 <
+        Signals.SolitonBus.hemostaticClottingTimeSec 180 0 0 0 ∧
+      Signals.SolitonBus.bimodalMgLigninVitrimerPhResidual (37 / 5) 2 2 = 37 / 5 ∧
+      Signals.SolitonBus.bimodalMgLigninVitrimerPhResidual (37 / 5) 2 2 <
+        Signals.SolitonBus.bimodalMgLigninVitrimerPhResidual (37 / 5) 2 0 ∧
+      Signals.SolitonBus.compositeWeightedSwellingRatio (3 / 10) 20 (7 / 10) 180 0 0 = 132 ∧
+      (100 : ℝ) < Signals.SolitonBus.compositeWeightedSwellingRatio (3 / 10) 20 (7 / 10) 180 0 0 ∧
+      Signals.SolitonBus.janusTopsheetNetDownwardDrivePressure 72 10 1 (-1 / 2) = 108 / 5 ∧
+      (0 : ℝ) < Signals.SolitonBus.janusTopsheetNetDownwardDrivePressure 72 10 1 (-1 / 2) ∧
+      Signals.SolitonBus.aeroFleeceSubmergedThermalResistance 10 (9 / 10) = 9 ∧
+      Signals.SolitonBus.aeroFleeceSubmergedThermalResistance 10 (9 / 10) =
+        6 * Signals.SolitonBus.aeroFleeceSubmergedThermalResistance 10 (3 / 20) ∧
+      Signals.SolitonBus.compositeWeightedSwellingRatio (6 / 10) 20 (3 / 10) 100 (1 / 10) 0 = 42 ∧
+      (40 : ℝ) < Signals.SolitonBus.compositeWeightedSwellingRatio (6 / 10) 20 (3 / 10) 100 (1 / 10) 0 ∧
+      Signals.SolitonBus.struviteNitrogenCapturedKg 500 14 (243 / 10) = 70000 / 243 ∧
+      (288 : ℝ) < Signals.SolitonBus.struviteNitrogenCapturedKg 500 14 (243 / 10) ∧
+      Signals.SolitonBus.struviteFertilizerGeneratedKg 500 (2453 / 10) (243 / 10) = 1226500 / 243 ∧
+      (5047 : ℝ) < Signals.SolitonBus.struviteFertilizerGeneratedKg 500 (2453 / 10) (243 / 10) :=
+  contract.plasma_fluffed_gauze_diaper_fleece_geotextile_and_quartzite_tube_bounds
+    sigma_0 v_pulse n_c
+
+/-- Re-exports the Paper 42 deep gap-closure boundary theorem. -/
+theorem rhombohedral_graphene_plasma_fluffed_bio_foundry_deep_gap_closure_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis) :
+    Signals.SolitonBus.mgoToElementalMgMassKg 240 (243 / 10) (403 / 10) = 58320 / 403 ∧
+      Signals.SolitonBus.struviteFertilizerGeneratedKg (58320 / 403) (2453 / 10) (243 / 10) = 588720 / 403 ∧
+      Signals.SolitonBus.mgoToElementalMgMassKg (201500 / 243) (243 / 10) (403 / 10) = 500 ∧
+      Signals.SolitonBus.soilCarbonToNitrogenRatio 2000 40 0 = 50 ∧
+      Signals.SolitonBus.soilCarbonToNitrogenRatio 2000 40 40 = 25 ∧
+      Signals.SolitonBus.soilCarbonToNitrogenRatio 2000 40 40 <
+        Signals.SolitonBus.soilCarbonToNitrogenRatio 2000 40 0 ∧
+      Signals.SolitonBus.productGrossMarginFraction (85 / 100) 45 = 883 / 900 ∧
+      (98 / 100 : ℝ) < Signals.SolitonBus.productGrossMarginFraction (85 / 100) 45 ∧
+      Signals.SolitonBus.productGrossMarginFraction 8 45 = 37 / 45 ∧
+      (82 / 100 : ℝ) < Signals.SolitonBus.productGrossMarginFraction 8 45 ∧
+      Signals.SolitonBus.productGrossMarginFraction 15 80 = 13 / 16 ∧
+      (81 / 100 : ℝ) < Signals.SolitonBus.productGrossMarginFraction 15 80 ∧
+      Signals.SolitonBus.productGrossMarginFraction 40 180 = 7 / 9 ∧
+      (77 / 100 : ℝ) < Signals.SolitonBus.productGrossMarginFraction 40 180 ∧
+      Signals.SolitonBus.cascadeRettingOpexCoverageRatio 40000 150 7900000 = 60 / 79 ∧
+      (3 / 4 : ℝ) < Signals.SolitonBus.cascadeRettingOpexCoverageRatio 40000 150 7900000 ∧
+      (365 * 2 * 1200 : ℝ) = 876000 :=
+  contract.plasma_fluffed_bio_foundry_deep_gap_closure_bounds
+
 end SignalsPending

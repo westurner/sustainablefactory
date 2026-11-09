@@ -7804,4 +7804,36 @@ example (theta_pass d_0 s_steric : ℝ) :
     by unfold Signals.SolitonBus.poreDiffusionCharacteristicTimeUs; norm_num,
     by unfold Signals.SolitonBus.supercapacitorVolumetricEnergyDensityWhPerL; norm_num⟩
 
+example (sigma_0 v_pulse n_c : ℝ) :
+    Signals.SolitonBus.quartziteGrapheneFjhSusceptorPower 0 sigma_0 v_pulse = 0 ∧
+      Signals.SolitonBus.quartzTubeOpticalTransmittance (92 / 100) 0 = 23 / 25 ∧
+      Signals.SolitonBus.pddRosenPiezoStepUpVoltage 12 500 (1 / 2) 4 1 = 12000 ∧
+      Signals.SolitonBus.lucasWashburnPlasmaWickingVelocityRatio 2 1 1 (1 / 4) = 8 ∧
+      Signals.SolitonBus.chitosanAlginatePecChargeNeutralityResidual n_c 1 n_c (-1) = 0 ∧
+      Signals.SolitonBus.hemostaticClottingTimeSec 180 3 3 5 = 15 ∧
+      Signals.SolitonBus.bimodalMgLigninVitrimerPhResidual (37 / 5) 2 2 = 37 / 5 ∧
+      Signals.SolitonBus.compositeWeightedSwellingRatio (3 / 10) 20 (7 / 10) 180 0 0 = 132 ∧
+      Signals.SolitonBus.aeroFleeceSubmergedThermalResistance 10 (9 / 10) = 9 ∧
+      Signals.SolitonBus.compositeWeightedSwellingRatio (6 / 10) 20 (3 / 10) 100 (1 / 10) 0 = 42 ∧
+      Signals.SolitonBus.struviteNitrogenCapturedKg 500 14 (243 / 10) = 70000 / 243 ∧
+      Signals.SolitonBus.struviteFertilizerGeneratedKg 500 (2453 / 10) (243 / 10) = 1226500 / 243 ∧
+      Signals.SolitonBus.mgoToElementalMgMassKg (201500 / 243) (243 / 10) (403 / 10) = 500 ∧
+      Signals.SolitonBus.soilCarbonToNitrogenRatio 2000 40 40 = 25 ∧
+      Signals.SolitonBus.productGrossMarginFraction (85 / 100) 45 = 883 / 900 ∧
+      Signals.SolitonBus.cascadeRettingOpexCoverageRatio 40000 150 7900000 = 60 / 79 := by
+  have h1 :=
+    Signals.SolitonBus.plasma_fluffed_gauze_diaper_fleece_geotextile_and_quartzite_tube_identities
+      sigma_0 v_pulse n_c
+  have h2 :=
+    Signals.SolitonBus.plasma_fluffed_bio_foundry_deep_gap_closure_identities
+  exact ⟨h1.1, h1.2.2.2.1, h1.2.2.2.2.2.1, h1.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.1, h1.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.1, h2.2.2.2.2.1, h2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
 end SignalsTests

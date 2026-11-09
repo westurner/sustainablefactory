@@ -1519,10 +1519,15 @@ pub enum SemiDiracApplicationPreset {
     /// Pseudocapacitor (`450 F/g`, `3.5 V` `QCI-GXC` DFT Passivated), `96%` `MBB` Collar + `hBN`
     /// Lightning Gulp Barrier, and `98%` Closed-Loop `Bio-PG` Solvolysis / Biodegradable Electrical Node.
     OmniCarbonKineticBatteryQNodeSupercapDftStorage,
+    /// **Application 14 (Paper 42)**: Plasma-Fluffed Chitosan-Alginate-Mg Hemostatic Gauze (`15 s` Clot,
+    /// `98.1%` Margin) & `LTP` `VEGF` Spray, `Sprout-Zero` Biodegradable Diaper (`132x-200x` Swelling +
+    /// Janus Hydrophobin Topsheet), `Aero-Fleece` (`90%` Submerged Insulation), `CAM` Struvite Geotextile
+    /// (`5,047 kg/ha` Struvite, `25:1` `C:N`), and Graphene-Susceptor `FJH` Quartzite Argon Plasma Tube.
+    PlasmaFluffedGauzeSproutDiaperAeroFleeceCamGeotextile,
 }
 
 impl SemiDiracApplicationPreset {
-    pub fn all() -> [Self; 13] {
+    pub fn all() -> [Self; 14] {
         [
             Self::BallisticKleinDiodeTransistor,
             Self::HyperbolicThzBolometer,
@@ -1537,6 +1542,7 @@ impl SemiDiracApplicationPreset {
             Self::QuantumCausalNextConceptPressedLlmAccelerator,
             Self::RgoVitrimerMetamaterialEpaperNanodiamondDisplay,
             Self::OmniCarbonKineticBatteryQNodeSupercapDftStorage,
+            Self::PlasmaFluffedGauzeSproutDiaperAeroFleeceCamGeotextile,
         ]
     }
 
@@ -1580,6 +1586,9 @@ impl SemiDiracApplicationPreset {
             }
             Self::OmniCarbonKineticBatteryQNodeSupercapDftStorage => {
                 "OmniCarbon_Kinetic_Battery_QNode_Supercap_DFT_Storage"
+            }
+            Self::PlasmaFluffedGauzeSproutDiaperAeroFleeceCamGeotextile => {
+                "PlasmaFluffed_Gauze_SproutDiaper_AeroFleece_CAM_Geotextile"
             }
         }
     }
@@ -1625,6 +1634,9 @@ impl SemiDiracApplicationPreset {
             Self::OmniCarbonKineticBatteryQNodeSupercapDftStorage => {
                 "Paper 41: Lignolux Omni-Carbon Kinetic Battery (550 Wh/kg, 850 Wh/L Al-LGBPC + Iodine + SiS + LCS), Semi-Dirac Q-Node Pseudocapacitor (450 F/g, 3.5V QCI-GXC DFT), 96% MBB Collar, & 98% Solvolysis Loop"
             }
+            Self::PlasmaFluffedGauzeSproutDiaperAeroFleeceCamGeotextile => {
+                "Paper 42: Plasma-Fluffed Chitosan-Alginate-Mg Hemostatic Gauze (15s Clot, 98.1% Margin), Sprout-Zero Diaper (132x-200x Swell), Aero-Fleece (90% Wet R_th), CAM Struvite Geotextile (5,047 kg/ha), & FJH Quartzite Argon Plasma Tube"
+            }
         }
     }
 
@@ -1664,6 +1676,9 @@ impl SemiDiracApplicationPreset {
             }
             Self::OmniCarbonKineticBatteryQNodeSupercapDftStorage => {
                 ["OMNI_AL_I3_BUS", "QNODE_MBB_VOUT", "ZNO_PIEZO_TELEM", "GND"]
+            }
+            Self::PlasmaFluffedGauzeSproutDiaperAeroFleeceCamGeotextile => {
+                ["AR_PDD_PLASMA_DRV", "LUXSENSE_NITRATE", "VEIN_LIG_42C_OUT", "GND"]
             }
         }
     }
@@ -2024,6 +2039,28 @@ pub fn generate_semi_dirac_application_module(
             (
                 "4_ZNO_PIEZO_MAGLEV_SOLVOLYSIS_NODE",
                 "Signals.SolitonBus.omniCarbonCircularPackNetCostPerKwh($28.50 -> $4.28/kWh) + closedLoopSolvolysisRetention(98%)",
+                140.0,
+            ),
+        ],
+        SemiDiracApplicationPreset::PlasmaFluffedGauzeSproutDiaperAeroFleeceCamGeotextile => vec![
+            (
+                "1_FJH_QUARTZITE_ARGON_PDD_PLASMA_TUBE",
+                "Signals.SolitonBus.pddRosenPiezoStepUpVoltage(12 -> 12000 V) + quartzTubeOpticalTransmittance(92%)",
+                155.0,
+            ),
+            (
+                "2_CHITOSAN_ALGINATE_MG_HEMOSTATIC_GAUZE",
+                "Signals.SolitonBus.hemostaticClottingTimeSec(180 -> 15 s) + bimodalMgLigninVitrimerPhResidual(7.4) + 98.1% Margin",
+                155.0,
+            ),
+            (
+                "3_SPROUT_ZERO_DIAPER_AERO_FLEECE_OLIS",
+                "Signals.SolitonBus.compositeWeightedSwellingRatio(132x) + aeroFleeceSubmergedThermalResistance(90%)",
+                150.0,
+            ),
+            (
+                "4_CAM_GEO_DIAPER_STRUVITE_SMARTGEOTEX",
+                "Signals.SolitonBus.struviteFertilizerGeneratedKg(5047 kg/ha) + soilCarbonToNitrogenRatio(50:1 -> 25:1)",
                 140.0,
             ),
         ],
@@ -3217,4 +3254,3 @@ mod tests {
         );
     }
 }
-
