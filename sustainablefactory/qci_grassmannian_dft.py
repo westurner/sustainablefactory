@@ -4701,3 +4701,124 @@ class SemiDiracAndSU4WittenUnificationEngine:
         e_actual_kwh_per_kg_co2: float, grid_ci_kg_co2_per_kwh: float
     ) -> float:
         return float(1.0 - e_actual_kwh_per_kg_co2 * grid_ci_kg_co2_per_kwh)
+
+    # -----------------------------------------------------------------------
+    # Paper 39: Quantum Causal Next-Concept Modeling (QCI-NCM, arXiv:2610.14162)
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def ncm_cumulative_reconstruction_step(z_prev: float, delta_k: float) -> float:
+        return float(z_prev + delta_k)
+
+    @staticmethod
+    def ncm_residual_at_level(z: float, z_hat_k: float) -> float:
+        return float(z - z_hat_k)
+
+    @staticmethod
+    def ncm_counterfactual_concept_reconstruction(
+        z_obs: float, z_coarse_obs: float, z_coarse_int: float
+    ) -> float:
+        return float(z_coarse_int + (z_obs - z_coarse_obs))
+
+    @staticmethod
+    def ncm_story_concept_composition(
+        lam: float, z_coarse_a: float, z_coarse_b: float
+    ) -> float:
+        return float((1.0 - lam) * z_coarse_a + lam * z_coarse_b)
+
+    @staticmethod
+    def ncm_elbo_posterior_kl_gap(
+        log_p_marginal: float, log_p_recon: float, log_p_gen: float
+    ) -> float:
+        return float(log_p_marginal - (log_p_recon + log_p_gen))
+
+    @staticmethod
+    def ncm_corruption_deconfounded_bias(p_corr: float, b_conf: float) -> float:
+        return float((1.0 - p_corr) * b_conf)
+
+    @classmethod
+    def ncm_corrupted_expected_concept_utility(
+        cls,
+        p_do_1: float,
+        u1: float,
+        u2: float,
+        p_corr: float,
+        b_conf: float,
+    ) -> float:
+        cev = p_do_1 * u1 + (1.0 - p_do_1) * u2
+        return float(cev + cls.ncm_corruption_deconfounded_bias(p_corr, b_conf) * (u1 - u2))
+
+    @staticmethod
+    def qci_ncm_coherent_pairwise_code_prob(
+        wa_re: float, wa_im: float, wb_re: float, wb_im: float
+    ) -> float:
+        norm_a = wa_re**2 + wa_im**2
+        norm_b = wb_re**2 + wb_im**2
+        interference = 2.0 * (wa_re * wb_re + wa_im * wb_im)
+        return float(norm_a + norm_b + interference)
+
+    @staticmethod
+    def dlm_full_sequence_attention_complexity(
+        t_steps: float, l_seq: float, d_head: float
+    ) -> float:
+        return float(t_steps * (l_seq**2) * d_head)
+
+    @staticmethod
+    def ncm_four_level_block_diagonal_attention_complexity(
+        l1: float, l2: float, l3: float, l4: float, d_head: float
+    ) -> float:
+        return float(((l1**2) + (l2**2) + (l3**2) + (l4**2)) * d_head)
+
+    @staticmethod
+    def qci_grassmann_ncm_four_level_complexity(
+        l1: float,
+        l2: float,
+        l3: float,
+        l4: float,
+        m_lags: float,
+        d_plucker: float,
+    ) -> float:
+        return float((l1 + l2 + l3 + l4) * m_lags * d_plucker)
+
+    @staticmethod
+    def ncm_nfe_speedup_ratio(nfe_baseline: float, nfe_ncm: float) -> float:
+        return float(nfe_baseline / nfe_ncm)
+
+    @classmethod
+    def ncm_pressed_two_scale_steered_latent(
+        cls,
+        z_pressed_coarse: float,
+        z_pressed_fine: float,
+        alpha_coarse: float,
+        v_steer_coarse: float,
+        alpha_fine: float,
+        v_steer_fine: float,
+    ) -> float:
+        return float(
+            cls.pressed_llm_steered_activation(
+                z_pressed_coarse, alpha_coarse * v_steer_coarse
+            )
+            + cls.pressed_llm_steered_activation(
+                z_pressed_fine, alpha_fine * v_steer_fine
+            )
+        )
+
+    @staticmethod
+    def ncm_sequential_vs_oam_parallel_mbr_steps(
+        m_candidates: int, k_levels: int
+    ) -> tuple[int, int]:
+        return int(m_candidates * k_levels), int(k_levels)
+
+    @staticmethod
+    def ncm_flag_manifold_two_step_real_dim(l1: int, l2: int, l_seq: int) -> int:
+        return int(l1 * (l2 - l1) + l2 * (l_seq - l2))
+
+    @staticmethod
+    def ncm_classifier_free_guided_logit(
+        l_cond: float, l_uncond: float, gamma_cfg: float
+    ) -> float:
+        return float((1.0 + gamma_cfg) * l_cond - gamma_cfg * l_uncond)
+
+    @staticmethod
+    def ncm_nested_dropout_active_bragg_layers(k_cutoff: int, k_total: int) -> int:
+        return int(min(k_cutoff, k_total))

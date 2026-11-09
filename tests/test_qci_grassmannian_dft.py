@@ -1418,3 +1418,38 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
     assert net_cost_high_eff < 0.0
     assert SDSU4.co2_lifecycle_net_scrubbing_factor(12.5, 0.10) < 0.0
     assert SDSU4.co2_lifecycle_net_scrubbing_factor(3.5, 0.10) > 0.60
+
+    # Paper 39: Quantum Causal Next-Concept Modeling (QCI-NCM, arXiv:2610.14162)
+    z_hat_k = SDSU4.ncm_cumulative_reconstruction_step(7.0, 3.25)
+    z_res_k = SDSU4.ncm_residual_at_level(12.5, z_hat_k)
+    assert np.isclose(z_hat_k + z_res_k, 12.5)
+    z_cf = SDSU4.ncm_counterfactual_concept_reconstruction(10.0, 6.0, 8.5)
+    assert np.isclose(z_cf - 10.0, 8.5 - 6.0)
+    assert np.isclose(SDSU4.ncm_story_concept_composition(0.35, 4.0, 4.0), 4.0)
+    assert SDSU4.ncm_elbo_posterior_kl_gap(-10.0, -6.0, -5.0) >= 0.0
+    assert SDSU4.ncm_corruption_deconfounded_bias(0.5, 0.2) < 0.2
+    assert np.isclose(
+        SDSU4.qci_ncm_coherent_pairwise_code_prob(0.6, -0.3, -0.6, 0.3), 0.0
+    )
+    c_dlm = SDSU4.dlm_full_sequence_attention_complexity(128.0, 128.0, 64.0)
+    c_ncm = SDSU4.ncm_four_level_block_diagonal_attention_complexity(
+        16.0, 32.0, 64.0, 128.0, 64.0
+    )
+    c_qci_g_ncm = SDSU4.qci_grassmann_ncm_four_level_complexity(
+        16.0, 32.0, 64.0, 128.0, 2.0, 10.0
+    )
+    assert (c_dlm / c_ncm) > 96.0
+    assert (c_dlm / c_qci_g_ncm) > 27_962.0
+    assert np.isclose(SDSU4.ncm_nfe_speedup_ratio(1024.0, 32.0), 32.0)
+    z_steered = SDSU4.ncm_pressed_two_scale_steered_latent(
+        5.0, 2.0, 0.8, 1.5, -0.4, 2.5
+    )
+    assert np.isclose(z_steered - 7.0, 0.8 * 1.5 - 0.4 * 2.5)
+    seq_mbr, oam_mbr = SDSU4.ncm_sequential_vs_oam_parallel_mbr_steps(16, 8)
+    assert seq_mbr == 128 and oam_mbr == 8
+    assert SDSU4.ncm_flag_manifold_two_step_real_dim(16, 32, 128) == 3328
+    assert np.isclose(
+        SDSU4.ncm_classifier_free_guided_logit(3.5, 1.5, 0.8) - 1.5,
+        1.8 * (3.5 - 1.5),
+    )
+    assert SDSU4.ncm_nested_dropout_active_bragg_layers(5, 12) == 5

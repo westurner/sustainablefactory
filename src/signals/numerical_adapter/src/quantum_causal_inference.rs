@@ -1549,6 +1549,240 @@ pub extern "C" fn signals_qci_optional_vrc_graphrag_score(
     )
 }
 
+// ---------------------------------------------------------------------------
+// 10. Quantum Causal Next-Concept Modeling (`QCI-NCM`), Multiscale Residual
+//     Counterfactuals, Deconfounded Conditioning Corruption, Plücker/VRC
+//     Intra-Level Constraint Coupling, & Pressed-LLM `LHAT` Hardware
+//     (`arXiv:2610.14162`, Section 15 of `Signals.QuantumCausalInference`)
+// ---------------------------------------------------------------------------
+
+/// Cumulative multiscale residual reconstruction step at level `k` (`ncmCumulativeReconstructionStep`):
+/// `z_hat_k = z_prev + delta_k` where `delta_k = R_k(e_k(r_k))`.
+pub fn ncm_cumulative_reconstruction_step(z_prev: f64, delta_k: f64) -> f64 {
+    z_prev + delta_k
+}
+
+/// Remaining latent residual after level `k` (`ncmResidualAtLevel`):
+/// `z_k = z - z_hat_k`.
+pub fn ncm_residual_at_level(z: f64, z_hat_k: f64) -> f64 {
+    z - z_hat_k
+}
+
+/// Giarmatzi–Costa / Pearl abduced fine-scale exogenous residual at coarse cutoff `k_0`
+/// (`ncmTwoScaleAbducedFineResidual`): `u_fine = z_obs - z_coarse_obs`.
+pub fn ncm_two_scale_abduced_fine_residual(z_obs: f64, z_coarse_obs: f64) -> f64 {
+    z_obs - z_coarse_obs
+}
+
+/// Counterfactual concept reconstruction under coarse-level intervention
+/// `do(z_hat^(k_0) := z_coarse_int)` (`ncmCounterfactualConceptReconstruction`):
+/// `z_cf = z_coarse_int + (z_obs - z_coarse_obs)`.
+pub fn ncm_counterfactual_concept_reconstruction(
+    z_obs: f64,
+    z_coarse_obs: f64,
+    z_coarse_int: f64,
+) -> f64 {
+    z_coarse_int + ncm_two_scale_abduced_fine_residual(z_obs, z_coarse_obs)
+}
+
+/// Convex coarse-concept story composition (`ncmStoryConceptComposition`, `arXiv:2610.14162` Appendix C.2):
+/// `z_mix = (1 - lam) * z_coarse_a + lam * z_coarse_b`.
+pub fn ncm_story_concept_composition(lam: f64, z_coarse_a: f64, z_coarse_b: f64) -> f64 {
+    (1.0 - lam) * z_coarse_a + lam * z_coarse_b
+}
+
+/// Deterministic point-mass variational ELBO (`ncmPointMassElbo`, `arXiv:2610.14162` Appendix A):
+/// `L_ELBO(x) = log_p_recon + log_p_gen`.
+pub fn ncm_point_mass_elbo(log_p_recon: f64, log_p_gen: f64) -> f64 {
+    log_p_recon + log_p_gen
+}
+
+/// Exact posterior KL divergence gap (`ncmElboPosteriorKlGap`):
+/// `log_p_marginal - L_ELBO(x) = D_KL(q(r_{1:K}|x) || p_{theta,psi}(r_{1:K}|x)) >= 0`.
+pub fn ncm_elbo_posterior_kl_gap(
+    log_p_marginal: f64,
+    log_p_recon: f64,
+    log_p_gen: f64,
+) -> f64 {
+    log_p_marginal - ncm_point_mass_elbo(log_p_recon, log_p_gen)
+}
+
+/// Residual exposure confounding bias under NCM conditioning corruption
+/// (`ncmCorruptionDeconfoundedBias`, `arXiv:2610.14162` Section 3.4):
+/// `(1 - p_corr) * b_conf`.
+pub fn ncm_corruption_deconfounded_bias(p_corr: f64, b_conf: f64) -> f64 {
+    (1.0 - p_corr) * b_conf
+}
+
+/// Expected concept utility under NCM conditioning corruption (`ncmCorruptedExpectedConceptUtility`):
+/// interpolates between confounded teacher-forcing `JEV` (`p_corr = 0`) and Pearl's
+/// interventional `CEV` (`p_corr = 1`).
+pub fn ncm_corrupted_expected_concept_utility(
+    p_do_1: f64,
+    u1: f64,
+    u2: f64,
+    p_corr: f64,
+    b_conf: f64,
+) -> f64 {
+    cev_causal_do_expected_utility(p_do_1, 1.0 - p_do_1, u1, u2)
+        + ncm_corruption_deconfounded_bias(p_corr, b_conf) * (u1 - u2)
+}
+
+/// Quantum Causal coherent pairwise concept probability (`qciNcmCoherentPairwiseCodeProb`):
+/// replaces conditionally independent intra-level sampling by coherent `Gr_C(2,4)` / VRC
+/// Plücker superposition `|w_A + w_B|^2`, vanishing identically at the destructive
+/// constraint-exclusion resonance `w_B = -w_A` (`x_X = -1`).
+pub fn qci_ncm_coherent_pairwise_code_prob(
+    wa_re: f64,
+    wa_im: f64,
+    wb_re: f64,
+    wb_im: f64,
+) -> f64 {
+    (wa_re * wa_re + wa_im * wa_im)
+        + (wb_re * wb_re + wb_im * wb_im)
+        + qcdt_plucker_interference_term(wa_re, wa_im, wb_re, wb_im)
+}
+
+/// Full-sequence Diffusion Language Model (`DLM`) attention FLOP complexity across `T` steps
+/// (`dlmFullSequenceAttentionComplexity`): `T * L^2 * d_head`.
+pub fn dlm_full_sequence_attention_complexity(t_steps: f64, l_seq: f64, d_head: f64) -> f64 {
+    t_steps * l_seq * l_seq * d_head
+}
+
+/// Block-diagonal NCM attention FLOP complexity across arbitrary level lengths `level_lengths`
+/// (`ncmFourLevelBlockDiagonalAttentionComplexity` generalized to `K` levels):
+/// `(sum_k l_k^2) * d_head`.
+pub fn ncm_block_diagonal_attention_complexity(level_lengths: &[f64], d_head: f64) -> f64 {
+    let sum_sq: f64 = level_lengths.iter().map(|&l| l * l).sum();
+    sum_sq * d_head
+}
+
+/// Quantum Causal Grassmannian NCM (`QCI-G-NCM`) linear Plücker mixing FLOP complexity across
+/// level lengths `level_lengths` (`qciGrassmannNcmFourLevelComplexity` generalized to `K` levels):
+/// `(sum_k l_k) * m_lags * d_plucker`.
+pub fn qci_grassmann_ncm_complexity(
+    level_lengths: &[f64],
+    m_lags: f64,
+    d_plucker: f64,
+) -> f64 {
+    let sum_l: f64 = level_lengths.iter().sum();
+    sum_l * m_lags * d_plucker
+}
+
+/// Function Evaluation (`NFE`) speedup ratio (`ncmNfeSpeedupRatio`): `nfe_baseline / nfe_ncm`.
+pub fn ncm_nfe_speedup_ratio(nfe_baseline: f64, nfe_ncm: f64) -> Option<f64> {
+    if nfe_ncm <= 0.0 || !nfe_baseline.is_finite() || !nfe_ncm.is_finite() {
+        return None;
+    }
+    Some(nfe_baseline / nfe_ncm)
+}
+
+/// Pressed-LLM `LHAT` holographic tape + scale-selective coarse/fine active `N-LIG`/`B-LIG`
+/// steering (`ncmPressedTwoScaleSteeredLatent`):
+/// `(z_pressed_coarse + alpha_coarse * v_steer_coarse) + (z_pressed_fine + alpha_fine * v_steer_fine)`.
+pub fn ncm_pressed_two_scale_steered_latent(
+    z_pressed_coarse: f64,
+    z_pressed_fine: f64,
+    alpha_coarse: f64,
+    v_steer_coarse: f64,
+    alpha_fine: f64,
+    v_steer_fine: f64,
+) -> f64 {
+    (z_pressed_coarse + alpha_coarse * v_steer_coarse)
+        + (z_pressed_fine + alpha_fine * v_steer_fine)
+}
+
+/// Sequential single-GPU vs. OAM-multiplexed parallel Minimum Bayes Risk (`MBR`) decoding
+/// step counts (`ncmSequentialMbrLatencySteps`, `ncmOamParallelMbrLatencySteps`).
+pub fn ncm_sequential_vs_oam_parallel_mbr_steps(
+    m_candidates: usize,
+    k_levels: usize,
+) -> (usize, usize) {
+    (m_candidates * k_levels, k_levels)
+}
+
+/// Two-step partial flag manifold real dimension `dim_R Fl_R(l_1, l_2; L) = l_1(l_2 - l_1) + l_2(L - l_2)`
+/// (`ncmFlagManifoldTwoStepRealDim`).
+pub fn ncm_flag_manifold_two_step_real_dim(l1: usize, l2: usize, l_seq: usize) -> Option<usize> {
+    if l1 > l2 || l2 > l_seq {
+        return None;
+    }
+    Some(l1 * (l2 - l1) + l2 * (l_seq - l2))
+}
+
+/// Unnormalized NCM inverse-length per-position level loss weight (`ncmLevelLossWeightUnnorm`, Eq. (5)).
+pub fn ncm_level_loss_weight_unnorm(l_k: f64) -> Option<f64> {
+    if l_k <= 0.0 || !l_k.is_finite() {
+        return None;
+    }
+    Some(1.0 / l_k)
+}
+
+/// Classifier-Free Guidance (`CFG`) concept logit extrapolation (`ncmClassifierFreeGuidedLogit`, Table 2):
+/// `l_CFG = (1 + gamma_cfg) * l_cond - gamma_cfg * l_uncond`.
+pub fn ncm_classifier_free_guided_logit(l_cond: f64, l_uncond: f64, gamma_cfg: f64) -> f64 {
+    (1.0 + gamma_cfg) * l_cond - gamma_cfg * l_uncond
+}
+
+/// Nested-dropout active Bragg depth layer count (`ncmNestedDropoutActiveBraggLayers`, Eq. (3)):
+/// `min(k_cutoff, k_total) <= k_total`.
+pub fn ncm_nested_dropout_active_bragg_layers(k_cutoff: usize, k_total: usize) -> usize {
+    k_cutoff.min(k_total)
+}
+
+/// C-ABI / WASM export: evaluates `ncm_counterfactual_concept_reconstruction`.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_ncm_counterfactual_concept_reconstruction(
+    z_obs: f64,
+    z_coarse_obs: f64,
+    z_coarse_int: f64,
+) -> f64 {
+    ncm_counterfactual_concept_reconstruction(z_obs, z_coarse_obs, z_coarse_int)
+}
+
+/// C-ABI / WASM export: evaluates `ncm_corrupted_expected_concept_utility`.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_ncm_corrupted_expected_concept_utility(
+    p_do_1: f64,
+    u1: f64,
+    u2: f64,
+    p_corr: f64,
+    b_conf: f64,
+) -> f64 {
+    ncm_corrupted_expected_concept_utility(p_do_1, u1, u2, p_corr, b_conf)
+}
+
+/// C-ABI / WASM export: evaluates `qci_ncm_coherent_pairwise_code_prob`.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_qci_ncm_coherent_pairwise_code_prob(
+    wa_re: f64,
+    wa_im: f64,
+    wb_re: f64,
+    wb_im: f64,
+) -> f64 {
+    qci_ncm_coherent_pairwise_code_prob(wa_re, wa_im, wb_re, wb_im)
+}
+
+/// C-ABI / WASM export: evaluates `ncm_pressed_two_scale_steered_latent`.
+#[unsafe(no_mangle)]
+pub extern "C" fn signals_ncm_pressed_two_scale_steered_latent(
+    z_pressed_coarse: f64,
+    z_pressed_fine: f64,
+    alpha_coarse: f64,
+    v_steer_coarse: f64,
+    alpha_fine: f64,
+    v_steer_fine: f64,
+) -> f64 {
+    ncm_pressed_two_scale_steered_latent(
+        z_pressed_coarse,
+        z_pressed_fine,
+        alpha_coarse,
+        v_steer_coarse,
+        alpha_fine,
+        v_steer_fine,
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2130,5 +2364,142 @@ mod tests {
         );
         assert!((q_vrc_do - q_do).abs() < 1e-12);
         assert!((score_vrc_do - (s_taut + q_do)).abs() < 1e-12);
+    }
+
+    #[test]
+    fn qci_ncm_multiscale_counterfactual_corruption_vrc_and_pressed_llm_identities_hold() {
+        // 1. Multiscale residual VQ-VAE telescoping & Giarmatzi-Costa / Pearl concept counterfactuals:
+        let z = 12.5;
+        let z_prev = 7.0;
+        let delta_k = 3.25;
+        let z_hat_k = ncm_cumulative_reconstruction_step(z_prev, delta_k);
+        let z_res_k = ncm_residual_at_level(z, z_hat_k);
+        assert!(((z_hat_k + z_res_k) - z).abs() < 1e-12);
+        assert!((z_res_k - (ncm_residual_at_level(z, z_prev) - delta_k)).abs() < 1e-12);
+
+        let z_obs = 10.0;
+        let z_coarse_obs = 6.0;
+        let z_coarse_int = 8.5;
+        assert!(
+            (signals_ncm_counterfactual_concept_reconstruction(z_obs, z_coarse_obs, z_coarse_obs)
+                - z_obs)
+                .abs()
+                < 1e-12
+        );
+        let z_cf =
+            signals_ncm_counterfactual_concept_reconstruction(z_obs, z_coarse_obs, z_coarse_int);
+        assert!(((z_cf - z_obs) - (z_coarse_int - z_coarse_obs)).abs() < 1e-12);
+        assert!((ncm_story_concept_composition(0.0, 4.0, 9.0) - 4.0).abs() < 1e-12);
+        assert!((ncm_story_concept_composition(1.0, 4.0, 9.0) - 9.0).abs() < 1e-12);
+        assert!((ncm_story_concept_composition(0.35, 4.0, 4.0) - 4.0).abs() < 1e-12);
+
+        // 2. Deterministic Point-Mass Variational ELBO & KL Posterior Gap (arXiv:2610.14162 Appendix A):
+        let elbo = ncm_point_mass_elbo(-6.0, -5.0);
+        assert!((elbo - (-11.0)).abs() < 1e-12);
+        let kl_gap = ncm_elbo_posterior_kl_gap(-10.0, -6.0, -5.0);
+        assert!((kl_gap - 1.0).abs() < 1e-12);
+        assert!(kl_gap >= 0.0);
+        assert!(ncm_elbo_posterior_kl_gap(-11.0, -6.0, -5.0).abs() < 1e-12);
+
+        // 3. Conditioning Corruption as Pearl Incoming-Edge do-Deconfounding:
+        let p_do_1 = 0.6;
+        let u1 = 10.0;
+        let u2 = 2.0;
+        let b_conf = 0.2;
+        let jev_uncorrupted =
+            signals_ncm_corrupted_expected_concept_utility(p_do_1, u1, u2, 0.0, b_conf);
+        let cev_full_do =
+            signals_ncm_corrupted_expected_concept_utility(p_do_1, u1, u2, 1.0, b_conf);
+        let half_corrupted =
+            signals_ncm_corrupted_expected_concept_utility(p_do_1, u1, u2, 0.5, b_conf);
+        assert!(
+            (jev_uncorrupted
+                - jev_evidential_expected_utility(
+                    p_do_1 + b_conf,
+                    1.0 - p_do_1 - b_conf,
+                    u1,
+                    u2,
+                ))
+                .abs()
+                < 1e-12
+        );
+        assert!(
+            (cev_full_do - cev_causal_do_expected_utility(p_do_1, 1.0 - p_do_1, u1, u2)).abs()
+                < 1e-12
+        );
+        assert!(ncm_corruption_deconfounded_bias(0.5, b_conf) < b_conf);
+        assert!(half_corrupted < jev_uncorrupted && half_corrupted > cev_full_do);
+
+        // 4. QCI-NCM Coherent Pairwise Concept Probability & Destructive Constraint Exclusion (x_X = -1):
+        let wa_re = 0.6;
+        let wa_im = -0.3;
+        let wb_re = 0.4;
+        let wb_im = 0.5;
+        // Destructive resonance w_B = -w_A cancels constraint-violating parallel pairs to 0:
+        assert!(
+            signals_qci_ncm_coherent_pairwise_code_prob(wa_re, wa_im, -wa_re, -wa_im).abs()
+                < 1e-12
+        );
+        let p_pos = signals_qci_ncm_coherent_pairwise_code_prob(wa_re, wa_im, wb_re, wb_im);
+        let p_neg = signals_qci_ncm_coherent_pairwise_code_prob(wa_re, wa_im, -wb_re, -wb_im);
+        let expected_sum = 2.0 * ((wa_re * wa_re + wa_im * wa_im) + (wb_re * wb_re + wb_im * wb_im));
+        assert!(((p_pos + p_neg) - expected_sum).abs() < 1e-12);
+
+        // 5. NFE, Training-Token, and Multi-Scale Grassmannian FLOP Speedup Ledgers (arXiv:2610.14162):
+        assert!((ncm_nfe_speedup_ratio(128.0, 12.0).unwrap() - (32.0 / 3.0)).abs() < 1e-12);
+        assert!((ncm_nfe_speedup_ratio(128.0, 8.0).unwrap() - 16.0).abs() < 1e-12);
+        assert!((ncm_nfe_speedup_ratio(1024.0, 32.0).unwrap() - 32.0).abs() < 1e-12);
+        assert!((ncm_nfe_speedup_ratio(64.0, 11.0).unwrap() - (64.0 / 11.0)).abs() < 1e-12);
+        assert!((66.0 / 13.36) > 4.9);
+
+        let ladder = [16.0, 32.0, 64.0, 128.0];
+        let c_dlm = dlm_full_sequence_attention_complexity(128.0, 128.0, 64.0);
+        let c_ncm_attn = ncm_block_diagonal_attention_complexity(&ladder, 64.0);
+        let c_qci_g_ncm = qci_grassmann_ncm_complexity(&ladder, 2.0, 10.0);
+        assert!((c_dlm - 134_217_728.0).abs() < 1e-6);
+        assert!((c_ncm_attn - 1_392_640.0).abs() < 1e-6);
+        assert!((c_qci_g_ncm - 4800.0).abs() < 1e-9);
+        assert!(((c_dlm / c_ncm_attn) - (8192.0 / 85.0)).abs() < 1e-9);
+        assert!((c_dlm / c_ncm_attn) > 96.0);
+        assert!(((c_ncm_attn / c_qci_g_ncm) - (4352.0 / 15.0)).abs() < 1e-9);
+        assert!((c_ncm_attn / c_qci_g_ncm) > 290.0);
+        assert!(((c_dlm / c_qci_g_ncm) - (2_097_152.0 / 75.0)).abs() < 1e-9);
+        assert!((c_dlm / c_qci_g_ncm) > 27_962.0);
+
+        // 6. Pressed-LLM LHAT + Scale-Selective Coarse/Fine Active N-LIG/B-LIG Steering & OAM Parallel MBR:
+        let z_c = 5.0;
+        let z_f = 2.0;
+        let alpha_c = 0.8;
+        let v_c = 1.5;
+        let alpha_f = -0.4;
+        let v_f = 2.5;
+        let z_steered =
+            signals_ncm_pressed_two_scale_steered_latent(z_c, z_f, alpha_c, v_c, alpha_f, v_f);
+        assert!(
+            ((z_steered - (z_c + z_f)) - (alpha_c * v_c + alpha_f * v_f)).abs() < 1e-12
+        );
+        let (seq_xsum, oam_xsum) = ncm_sequential_vs_oam_parallel_mbr_steps(16, 8);
+        assert_eq!(seq_xsum, 128);
+        assert_eq!(oam_xsum, 8);
+        assert!(oam_xsum < seq_xsum);
+
+        // 7. Deep Gap Closure (Flag Manifold Dimension, Level Weights, CFG, Nested-Dropout Bragg Gating):
+        assert_eq!(ncm_flag_manifold_two_step_real_dim(16, 32, 128), Some(3328));
+        let w16 = ncm_level_loss_weight_unnorm(16.0).unwrap();
+        let w32 = ncm_level_loss_weight_unnorm(32.0).unwrap();
+        assert!(w32 < w16);
+        assert!((16.0 * w16 - 1.0).abs() < 1e-12);
+        let l_cond = 3.5;
+        let l_uncond = 1.5;
+        let gamma_cfg = 0.8;
+        assert!((ncm_classifier_free_guided_logit(l_cond, l_uncond, 0.0) - l_cond).abs() < 1e-12);
+        let cfg_shift = ncm_classifier_free_guided_logit(l_cond, l_uncond, gamma_cfg) - l_uncond;
+        assert!((cfg_shift - (1.0 + gamma_cfg) * (l_cond - l_uncond)).abs() < 1e-12);
+        let (seq_cfg_wmt, oam_cfg_wmt) = ncm_sequential_vs_oam_parallel_mbr_steps(2, 11);
+        assert_eq!(seq_cfg_wmt, 22);
+        assert_eq!(oam_cfg_wmt, 11);
+        assert!(oam_cfg_wmt < seq_cfg_wmt);
+        assert_eq!(ncm_nested_dropout_active_bragg_layers(5, 12), 5);
+        assert!(ncm_nested_dropout_active_bragg_layers(20, 12) <= 12);
     }
 }

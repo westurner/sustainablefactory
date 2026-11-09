@@ -1504,10 +1504,15 @@ pub enum SemiDiracApplicationPreset {
     /// Bragg Phase Voxels), Soliton/OAM QRAM, and Active `N-LIG`/`B-LIG` LoRA Steering Layer
     /// ($Y_i = \sum_j W_{ij}^{\mathrm{pressed}} X_j + \sum_r A_{ir}^{\mathrm{steer}} B_{rj}^{\mathrm{steer}} X_j$).
     PressedLlmHolographicTapeSolitonQramSteering,
+    /// **Application 11 (Paper 39)**: Quantum Causal Next-Concept Modeling (`QCI-NCM`, `arXiv:2610.14162`)
+    /// Coarse-to-Fine Parallel LLM Accelerator on Pressed `LHAT` Bragg Tape with Multiscale Residual
+    /// VQ Codebook Depth Layers, Plücker/VRC Destructive Constraint Exclusion ($x_X = -1$),
+    /// Scale-Selective `N-LIG`/`B-LIG` Coarse/Fine Steering, and OAM-Parallel MBR Decoding.
+    QuantumCausalNextConceptPressedLlmAccelerator,
 }
 
 impl SemiDiracApplicationPreset {
-    pub fn all() -> [Self; 10] {
+    pub fn all() -> [Self; 11] {
         [
             Self::BallisticKleinDiodeTransistor,
             Self::HyperbolicThzBolometer,
@@ -1519,6 +1524,7 @@ impl SemiDiracApplicationPreset {
             Self::VortexViaShgOpaAqmInterconnect,
             Self::LhatHolographicArchivalTapeCartridge,
             Self::PressedLlmHolographicTapeSolitonQramSteering,
+            Self::QuantumCausalNextConceptPressedLlmAccelerator,
         ]
     }
 
@@ -1553,6 +1559,9 @@ impl SemiDiracApplicationPreset {
             }
             Self::PressedLlmHolographicTapeSolitonQramSteering => {
                 "Pressed_LLM_1T_LHAT_Tape_Soliton_QRAM_NLIG_BLIG_Steering"
+            }
+            Self::QuantumCausalNextConceptPressedLlmAccelerator => {
+                "QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering"
             }
         }
     }
@@ -1589,6 +1598,9 @@ impl SemiDiracApplicationPreset {
             Self::PressedLlmHolographicTapeSolitonQramSteering => {
                 "Paper 38: Pressed / Mask-Locked 1T-Parameter LLM on LHAT Holographic Tape with Passive Bragg MVM, Soliton/OAM QRAM, and Active N-LIG/B-LIG LoRA Steering Layer"
             }
+            Self::QuantumCausalNextConceptPressedLlmAccelerator => {
+                "Paper 39: Quantum Causal Next-Concept Modeling (QCI-NCM, arXiv:2610.14162) Coarse-to-Fine Parallel LLM on Pressed LHAT Tape with VRC Plucker Coupling & Scale-Selective Steering"
+            }
         }
     }
 
@@ -1619,6 +1631,9 @@ impl SemiDiracApplicationPreset {
             }
             Self::PressedLlmHolographicTapeSolitonQramSteering => {
                 ["SOLITON_PROMPT_IN", "STEERED_LOGIT_OUT", "BLIG_LORA_CTRL", "GND"]
+            }
+            Self::QuantumCausalNextConceptPressedLlmAccelerator => {
+                ["NCM_CONCEPT_IN", "QCI_MBR_TOKEN_OUT", "SCALE_STEER_CTRL", "GND"]
             }
         }
     }
@@ -1916,6 +1931,28 @@ pub fn generate_semi_dirac_application_module(
                 135.0,
             ),
         ],
+        SemiDiracApplicationPreset::QuantumCausalNextConceptPressedLlmAccelerator => vec![
+            (
+                "1_MULTISCALE_RESIDUAL_VQ_BRAGG_STACK",
+                "Signals.QuantumCausalInference.ncmCumulativeReconstructionStep + Nested-Dropout Bragg Depth Layers",
+                155.0,
+            ),
+            (
+                "2_QCI_VRC_PLUCKER_PARALLEL_LEVEL_GEN",
+                "Signals.QuantumCausalInference.qciNcmCoherentPairwiseCodeProb (x_X = -1 Constraint Exclusion, 27,962x Speedup)",
+                155.0,
+            ),
+            (
+                "3_SCALE_SELECTIVE_NLIG_BLIG_STEERING",
+                "Signals.QuantumCausalInference.ncmPressedTwoScaleSteeredLatent (Coarse Concept + Fine Lexical LoRA)",
+                155.0,
+            ),
+            (
+                "4_OAM_PARALLEL_MBR_OXSCNT_DECODER",
+                "Signals.QuantumCausalInference.ncmOamParallelMbrLatencySteps (K Steps vs M_cand*K) + Ox-s-CNT Readout",
+                135.0,
+            ),
+        ],
     };
 
     let mut polygons = Vec::new();
@@ -2012,6 +2049,7 @@ pub fn generate_semi_dirac_application_module(
                 | SemiDiracApplicationPreset::VortexViaShgOpaAqmInterconnect
                 | SemiDiracApplicationPreset::LhatHolographicArchivalTapeCartridge
                 | SemiDiracApplicationPreset::PressedLlmHolographicTapeSolitonQramSteering
+                | SemiDiracApplicationPreset::QuantumCausalNextConceptPressedLlmAccelerator
         ) {
             let l_charge = (idx as f64) + 1.0;
             let helix_radius_um = 6.0;

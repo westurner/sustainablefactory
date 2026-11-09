@@ -7631,4 +7631,63 @@ example :
   exact ⟨h.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+example (z z_prev delta_k z_obs z_coarse_obs z_coarse_int lam zA zB : ℝ)
+    (p_do_1 u1 u2 wA_re wA_im wB_re wB_im : ℝ)
+    (z_c z_f alpha_c v_c alpha_f v_f : ℝ) :
+    Signals.QuantumCausalInference.ncmCumulativeReconstructionStep z_prev delta_k +
+        Signals.QuantumCausalInference.ncmResidualAtLevel z
+          (Signals.QuantumCausalInference.ncmCumulativeReconstructionStep z_prev delta_k) = z ∧
+      Signals.QuantumCausalInference.ncmCounterfactualConceptReconstruction z_obs z_coarse_obs z_coarse_int - z_obs =
+        z_coarse_int - z_coarse_obs ∧
+      Signals.QuantumCausalInference.ncmStoryConceptComposition lam zA zA = zA ∧
+      0 ≤ Signals.QuantumCausalInference.ncmElboPosteriorKlGap (-10) (-6) (-5) ∧
+      Signals.QuantumCausalInference.ncmCorruptedExpectedConceptUtility p_do_1 u1 u2 1 (1 / 5) =
+        Signals.QuantumCausalInference.cevCausalDoExpectedUtility p_do_1 (1 - p_do_1) u1 u2 ∧
+      Signals.QuantumCausalInference.ncmCorruptionDeconfoundedBias (1 / 2) (1 / 5) < 1 / 5 ∧
+      Signals.QuantumCausalInference.qciNcmCoherentPairwiseCodeProb wA_re wA_im (-wA_re) (-wA_im) = 0 ∧
+      (10 : ℝ) < Signals.QuantumCausalInference.ncmNfeSpeedupRatio 128 12 ∧
+      Signals.QuantumCausalInference.ncmNfeSpeedupRatio 128 8 = 16 ∧
+      Signals.QuantumCausalInference.ncmNfeSpeedupRatio 1024 32 = 32 ∧
+      (96 : ℝ) < Signals.QuantumCausalInference.dlmFullSequenceAttentionComplexity 128 128 64 /
+          Signals.QuantumCausalInference.ncmFourLevelBlockDiagonalAttentionComplexity 16 32 64 128 64 ∧
+      (27962 : ℝ) < Signals.QuantumCausalInference.dlmFullSequenceAttentionComplexity 128 128 64 /
+          Signals.QuantumCausalInference.qciGrassmannNcmFourLevelComplexity 16 32 64 128 2 10 ∧
+      Signals.QuantumCausalInference.ncmPressedTwoScaleSteeredLatent z_c z_f alpha_c v_c alpha_f v_f - (z_c + z_f) =
+        alpha_c * v_c + alpha_f * v_f ∧
+      Signals.QuantumCausalInference.ncmOamParallelMbrLatencySteps 8 <
+        Signals.QuantumCausalInference.ncmSequentialMbrLatencySteps 16 8 := by
+  have h :=
+    Signals.QuantumCausalInference.qci_ncm_multiscale_counterfactual_corruption_vrc_and_pressed_llm_identities
+      z z_prev delta_k z_obs z_coarse_obs z_coarse_int lam zA zB
+      (-10) (-6) (-5) (by unfold Signals.QuantumCausalInference.ncmPointMassElbo; norm_num)
+      p_do_1 u1 u2 (1 / 2) (1 / 5) (by norm_num) (by norm_num)
+      wA_re wA_im wB_re wB_im z_c z_f alpha_c v_c alpha_f v_f
+  exact ⟨h.1, h.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
+example (l_k l_cond l_uncond gamma_cfg : ℝ) (hl_k : l_k ≠ 0)
+    (k_cut k_tot : ℕ) (x1_c x2_c : ℂ) :
+    Signals.QuantumCausalInference.ncmFlagManifoldTwoStepRealDim 16 32 128 = 3328 ∧
+      Signals.QuantumCausalInference.ncmLevelLossWeightUnnorm 32 <
+        Signals.QuantumCausalInference.ncmLevelLossWeightUnnorm 16 ∧
+      l_k * Signals.QuantumCausalInference.ncmLevelLossWeightUnnorm l_k = 1 ∧
+      Signals.QuantumCausalInference.ncmClassifierFreeGuidedLogit l_cond l_uncond 0 = l_cond ∧
+      Signals.QuantumCausalInference.ncmClassifierFreeGuidedLogit l_cond l_uncond gamma_cfg - l_uncond =
+        (1 + gamma_cfg) * (l_cond - l_uncond) ∧
+      Signals.QuantumCausalInference.ncmOamParallelMbrLatencySteps 11 <
+        Signals.QuantumCausalInference.ncmSequentialMbrLatencySteps 2 11 ∧
+      Signals.QuantumCausalInference.ncmNestedDropoutActiveBraggLayers k_cut k_tot ≤ k_tot ∧
+      Signals.QuantumCausalInference.qciGr24PluckerMinor .complexHomogeneousVRC true x1_c x2_c (-1) false 1 2 =
+        x2_c - x1_c :=
+  Signals.QuantumCausalInference.qci_ncm_flag_bundle_cfg_level_weights_and_vrc_jeffrey_bridge_identities
+    l_k l_cond l_uncond gamma_cfg hl_k k_cut k_tot x1_c x2_c
+
 end SignalsTests

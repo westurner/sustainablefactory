@@ -7372,4 +7372,96 @@ lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.nanodiamond_vortex_
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
+/-- In any `RhombohedralGrapheneSuperconductivityPendingHypothesis`, the Paper 39
+identities for Quantum Causal Next-Concept Modeling (`QCI-NCM`, `arXiv:2610.14162`),
+multiscale residual counterfactuals, Pearl $\operatorname{do}$-deconfounded conditioning
+corruption, destructive Plücker/VRC constraint exclusion at $x_X = -1$, exact NFE and
+$27{,}962.03\times$ multi-scale Grassmannian FLOP speedups, scale-selective `N-LIG`/`B-LIG`
+steering on pressed `LHAT` tape, and OAM-parallel Minimum Bayes Risk (`MBR`) decoding hold
+simultaneously while keeping physical hardware realization and scale-extrapolation claims
+under explicit validation gates. -/
+@[blueprint "lem:signals-pending-qci-ncm-multiscale-counterfactual-vrc-pressed-llm-bounds"
+  (title := "Pending boundary for Paper 39: Quantum Causal Next-Concept Modeling (QCI-NCM) and Pressed-LLM LHAT Hardware")
+  (statement := /-- Under a \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis} contract,
+    all Paper 39 identities for multiscale residual VQ-VAE telescoping, Giarmatzi–Costa / Pearl
+    coarse-concept counterfactuals, point-mass ELBO KL nonnegativity, conditioning-corruption
+    deconfounding, destructive Plücker constraint exclusion at $x_X = -1$, NFE and $27{,}962.03\times$
+    multi-scale Grassmannian FLOP speedups, scale-selective \texttt{N-LIG}/\texttt{B-LIG} steering
+    on pressed \texttt{LHAT} tape, and OAM-parallel MBR step reduction hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.QuantumCausalInference.qci\_ncm\_multiscale\_counterfactual\_corruption\_vrc\_and\_pressed\_llm\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.qci_ncm_multiscale_counterfactual_corruption_vrc_and_pressed_llm_bounds
+    (_contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (z z_prev delta_k z_obs z_coarse_obs z_coarse_int lam zA zB : ℝ)
+    (p_do_1 u1 u2 wA_re wA_im wB_re wB_im : ℝ)
+    (z_c z_f alpha_c v_c alpha_f v_f : ℝ) :
+    Signals.QuantumCausalInference.ncmCumulativeReconstructionStep z_prev delta_k +
+        Signals.QuantumCausalInference.ncmResidualAtLevel z
+          (Signals.QuantumCausalInference.ncmCumulativeReconstructionStep z_prev delta_k) = z ∧
+      Signals.QuantumCausalInference.ncmCounterfactualConceptReconstruction z_obs z_coarse_obs z_coarse_int - z_obs =
+        z_coarse_int - z_coarse_obs ∧
+      Signals.QuantumCausalInference.ncmStoryConceptComposition lam zA zA = zA ∧
+      0 ≤ Signals.QuantumCausalInference.ncmElboPosteriorKlGap (-10) (-6) (-5) ∧
+      Signals.QuantumCausalInference.ncmCorruptedExpectedConceptUtility p_do_1 u1 u2 1 (1 / 5) =
+        Signals.QuantumCausalInference.cevCausalDoExpectedUtility p_do_1 (1 - p_do_1) u1 u2 ∧
+      Signals.QuantumCausalInference.ncmCorruptionDeconfoundedBias (1 / 2) (1 / 5) < 1 / 5 ∧
+      Signals.QuantumCausalInference.qciNcmCoherentPairwiseCodeProb wA_re wA_im (-wA_re) (-wA_im) = 0 ∧
+      Signals.QuantumCausalInference.qciNcmCoherentPairwiseCodeProb wA_re wA_im wB_re wB_im +
+          Signals.QuantumCausalInference.qciNcmCoherentPairwiseCodeProb wA_re wA_im (-wB_re) (-wB_im) =
+        2 * ((wA_re ^ 2 + wA_im ^ 2) + (wB_re ^ 2 + wB_im ^ 2)) ∧
+      (10 : ℝ) < Signals.QuantumCausalInference.ncmNfeSpeedupRatio 128 12 ∧
+      Signals.QuantumCausalInference.ncmNfeSpeedupRatio 128 8 = 16 ∧
+      Signals.QuantumCausalInference.ncmNfeSpeedupRatio 1024 32 = 32 ∧
+      (96 : ℝ) < Signals.QuantumCausalInference.dlmFullSequenceAttentionComplexity 128 128 64 /
+          Signals.QuantumCausalInference.ncmFourLevelBlockDiagonalAttentionComplexity 16 32 64 128 64 ∧
+      (27962 : ℝ) < Signals.QuantumCausalInference.dlmFullSequenceAttentionComplexity 128 128 64 /
+          Signals.QuantumCausalInference.qciGrassmannNcmFourLevelComplexity 16 32 64 128 2 10 ∧
+      Signals.QuantumCausalInference.ncmPressedTwoScaleSteeredLatent z_c z_f alpha_c v_c alpha_f v_f - (z_c + z_f) =
+        alpha_c * v_c + alpha_f * v_f ∧
+      Signals.QuantumCausalInference.ncmOamParallelMbrLatencySteps 8 <
+        Signals.QuantumCausalInference.ncmSequentialMbrLatencySteps 16 8 := by
+  have h :=
+    Signals.QuantumCausalInference.qci_ncm_multiscale_counterfactual_corruption_vrc_and_pressed_llm_identities
+      z z_prev delta_k z_obs z_coarse_obs z_coarse_int lam zA zB
+      (-10) (-6) (-5) (by unfold Signals.QuantumCausalInference.ncmPointMassElbo; norm_num)
+      p_do_1 u1 u2 (1 / 2) (1 / 5) (by norm_num) (by norm_num)
+      wA_re wA_im wB_re wB_im z_c z_f alpha_c v_c alpha_f v_f
+  exact ⟨h.1, h.2.2.2.1, h.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+
+/-- **Pending Deep Gap-Closure Boundary for Paper 39 (`QCI-NCM` Flag Bundle Dimension, Level Loss Weighting, CFG, Nested-Dropout Bragg Gating, and Pole-Free VRC Jeffrey Bridge)** -/
+@[blueprint "lem:signals-pending-qci-ncm-deep-gap-closure-bounds"
+  (title := "Pending deep gap-closure boundary for Paper 39 (QCI-NCM Flag bundle, CFG, level weights, and VRC Jeffrey bridge)")
+  (statement := /-- Under a \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis} contract,
+    all Paper 39 deep gap-closure identities for two-step flag manifold dimension, inverse-length
+    level loss weights, Classifier-Free Guidance extrapolation, nested-dropout Bragg gating, and
+    pole-free \texttt{.complexHomogeneousVRC} evaluation at $x_X = -1$ hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.QuantumCausalInference.qci\_ncm\_flag\_bundle\_cfg\_level\_weights\_and\_vrc\_jeffrey\_bridge\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.qci_ncm_deep_gap_closure_bounds
+    (_contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (l_k l_cond l_uncond gamma_cfg : ℝ) (hl_k : l_k ≠ 0)
+    (k_cut k_tot : ℕ) (x1_c x2_c : ℂ) :
+    Signals.QuantumCausalInference.ncmFlagManifoldTwoStepRealDim 16 32 128 = 3328 ∧
+      Signals.QuantumCausalInference.ncmLevelLossWeightUnnorm 32 <
+        Signals.QuantumCausalInference.ncmLevelLossWeightUnnorm 16 ∧
+      l_k * Signals.QuantumCausalInference.ncmLevelLossWeightUnnorm l_k = 1 ∧
+      Signals.QuantumCausalInference.ncmClassifierFreeGuidedLogit l_cond l_uncond 0 = l_cond ∧
+      Signals.QuantumCausalInference.ncmClassifierFreeGuidedLogit l_cond l_uncond gamma_cfg - l_uncond =
+        (1 + gamma_cfg) * (l_cond - l_uncond) ∧
+      Signals.QuantumCausalInference.ncmOamParallelMbrLatencySteps 11 <
+        Signals.QuantumCausalInference.ncmSequentialMbrLatencySteps 2 11 ∧
+      Signals.QuantumCausalInference.ncmNestedDropoutActiveBraggLayers k_cut k_tot ≤ k_tot ∧
+      Signals.QuantumCausalInference.qciGr24PluckerMinor .complexHomogeneousVRC true x1_c x2_c (-1) false 1 2 =
+        x2_c - x1_c :=
+  Signals.QuantumCausalInference.qci_ncm_flag_bundle_cfg_level_weights_and_vrc_jeffrey_bridge_identities
+    l_k l_cond l_uncond gamma_cfg hl_k k_cut k_tot x1_c x2_c
+
 end Signals.Pending
