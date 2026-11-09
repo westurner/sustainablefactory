@@ -1514,10 +1514,15 @@ pub enum SemiDiracApplicationPreset {
     /// `rGO-Bio-TPU` Failsafe E-Paper (`25 ms` Video-Rate), Chiral `CNC` `Bio-Bragg` RGB Stack, and
     /// Nanodiamond (`SHG` $590\text{ nm}$ Insect-Blind Amber / RGB + `NV`/`n-Adamantane` ODMR) Quantum Display.
     RgoVitrimerMetamaterialEpaperNanodiamondDisplay,
+    /// **Application 13 (Paper 41)**: Lignolux Omni-Carbon Kinetic Battery (`550 Wh/kg`, `850 Wh/L`
+    /// Horizontal `Ox-CNT` + `LCS` + `Iodine` + `SiS` Vitrimer Gel), Semi-Dirac `Q-Node` Quinone
+    /// Pseudocapacitor (`450 F/g`, `3.5 V` `QCI-GXC` DFT Passivated), `96%` `MBB` Collar + `hBN`
+    /// Lightning Gulp Barrier, and `98%` Closed-Loop `Bio-PG` Solvolysis / Biodegradable Electrical Node.
+    OmniCarbonKineticBatteryQNodeSupercapDftStorage,
 }
 
 impl SemiDiracApplicationPreset {
-    pub fn all() -> [Self; 12] {
+    pub fn all() -> [Self; 13] {
         [
             Self::BallisticKleinDiodeTransistor,
             Self::HyperbolicThzBolometer,
@@ -1531,6 +1536,7 @@ impl SemiDiracApplicationPreset {
             Self::PressedLlmHolographicTapeSolitonQramSteering,
             Self::QuantumCausalNextConceptPressedLlmAccelerator,
             Self::RgoVitrimerMetamaterialEpaperNanodiamondDisplay,
+            Self::OmniCarbonKineticBatteryQNodeSupercapDftStorage,
         ]
     }
 
@@ -1571,6 +1577,9 @@ impl SemiDiracApplicationPreset {
             }
             Self::RgoVitrimerMetamaterialEpaperNanodiamondDisplay => {
                 "RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display"
+            }
+            Self::OmniCarbonKineticBatteryQNodeSupercapDftStorage => {
+                "OmniCarbon_Kinetic_Battery_QNode_Supercap_DFT_Storage"
             }
         }
     }
@@ -1613,6 +1622,9 @@ impl SemiDiracApplicationPreset {
             Self::RgoVitrimerMetamaterialEpaperNanodiamondDisplay => {
                 "Paper 40: rGO-Vitrimer Active Metamaterial (Pauli-Blocked GTE & 4ns A-CNT Reset), Vector Reflect CNS / rGO-Bio-TPU Failsafe E-Paper, Chiral CNC Bio-Bragg RGB, & Nanodiamond SHG/NV Quantum Display"
             }
+            Self::OmniCarbonKineticBatteryQNodeSupercapDftStorage => {
+                "Paper 41: Lignolux Omni-Carbon Kinetic Battery (550 Wh/kg, 850 Wh/L Al-LGBPC + Iodine + SiS + LCS), Semi-Dirac Q-Node Pseudocapacitor (450 F/g, 3.5V QCI-GXC DFT), 96% MBB Collar, & 98% Solvolysis Loop"
+            }
         }
     }
 
@@ -1649,6 +1661,9 @@ impl SemiDiracApplicationPreset {
             }
             Self::RgoVitrimerMetamaterialEpaperNanodiamondDisplay => {
                 ["RGO_GTE_PHASE_IN", "BRAGG_RGB_AMBER_OUT", "EPAPER_OAM_GATE", "GND"]
+            }
+            Self::OmniCarbonKineticBatteryQNodeSupercapDftStorage => {
+                ["OMNI_AL_I3_BUS", "QNODE_MBB_VOUT", "ZNO_PIEZO_TELEM", "GND"]
             }
         }
     }
@@ -1988,6 +2003,28 @@ pub fn generate_semi_dirac_application_module(
                 "4_NANODIAMOND_SHG_590NM_NV_ODMR_PIXEL",
                 "Signals.SolitonBus.nanodiamondShgDisplayWavelengthNm (590nm Insect-Blind Amber & RGB) + nvDiamondOdmrSplittingMhz",
                 145.0,
+            ),
+        ],
+        SemiDiracApplicationPreset::OmniCarbonKineticBatteryQNodeSupercapDftStorage => vec![
+            (
+                "1_OMNI_CARBON_AL_LGBPC_IODINE_SIS_CORE",
+                "Signals.SolitonBus.omniCarbonVolumetricEnergyDensityWhPerL(550, 17/11) = 850 Wh/L (> 643 Wh/L 4680)",
+                155.0,
+            ),
+            (
+                "2_QNODE_QUINONE_SEMIDIRAC_SUPERCAP",
+                "Signals.SolitonBus.seriesQuantumDoubleLayerCapacitance(600, 1800) = 450 F/g + dftMcWeenyPassivatedLeakageFactor < 1%",
+                155.0,
+            ),
+            (
+                "3_MBB_COLLAR_HBN_VORTEX_INDUCTOR",
+                "Signals.SolitonBus.supercapacitorUsableEnergyFraction(1, 5) = 96% + hbnLightningGulpAttenuatedFluidTempC < 210 C",
+                150.0,
+            ),
+            (
+                "4_ZNO_PIEZO_MAGLEV_SOLVOLYSIS_NODE",
+                "Signals.SolitonBus.omniCarbonCircularPackNetCostPerKwh($28.50 -> $4.28/kWh) + closedLoopSolvolysisRetention(98%)",
+                140.0,
             ),
         ],
     };
@@ -2595,6 +2632,247 @@ pub fn nv_odmr_calibrated_phase_residual(
     delta_phi_raw - gamma_phase_per_mhz * delta_f_odmr_mhz
 }
 
+// ---------------------------------------------------------------------------
+// Paper 41: Lignolux Omni-Carbon Kinetic Batteries, `Q-Node` Pseudocapacitors,
+//           Semi-Dirac Quantum Capacitance, `QCI-GXC` DFT Passivation, &
+//           Biodegradable/Recyclable Electrical Components (`Signals.SolitonBus` Section 10)
+// ---------------------------------------------------------------------------
+
+/// Volumetric energy density (`Wh/L`) from gravimetric energy density (`Wh/kg`) and packing density (`kg/L`)
+/// (`omniCarbonVolumetricEnergyDensityWhPerL`).
+#[inline]
+pub fn omni_carbon_volumetric_energy_density_wh_per_l(
+    e_grav_wh_per_kg: f64,
+    rho_pack_kg_per_l: f64,
+) -> f64 {
+    e_grav_wh_per_kg * rho_pack_kg_per_l
+}
+
+/// `OmniKinetic` hybrid Core-and-Skin structural pack + vibration harvesting total energy (`kWh`)
+/// (`omniKineticHybridPackEnergyKwh`).
+#[inline]
+pub fn omni_kinetic_hybrid_pack_energy_kwh(
+    v_core_m3: f64,
+    rho_core_kwh_m3: f64,
+    v_skin_m3: f64,
+    rho_skin_kwh_m3: f64,
+    p_harvest_kw: f64,
+    t_trip_hr: f64,
+) -> f64 {
+    v_core_m3 * rho_core_kwh_m3 + v_skin_m3 * rho_skin_kwh_m3 + p_harvest_kw * t_trip_hr
+}
+
+/// Piezoelectric `ZnO` nanowire acoustic health monitoring Griffith critical fracture stress squared
+/// (`znoPiezoCriticalFractureStressSq`).
+#[inline]
+pub fn zno_piezo_critical_fracture_stress_sq(
+    e_modulus: f64,
+    gamma_surf: f64,
+    pi_times_crack_a: f64,
+) -> f64 {
+    (2.0 * e_modulus * gamma_surf) / pi_times_crack_a
+}
+
+/// Harmonic series combination of EDL capacitance `c_edl` and quantum capacitance `c_quantum`
+/// (`seriesQuantumDoubleLayerCapacitance`).
+#[inline]
+pub fn series_quantum_double_layer_capacitance(c_edl: f64, c_quantum: f64) -> f64 {
+    (c_edl * c_quantum) / (c_edl + c_quantum)
+}
+
+/// Supercapacitor usable energy extraction fraction `1 - (v_cut / v_max)^2`
+/// (`supercapacitorUsableEnergyFraction`).
+#[inline]
+pub fn supercapacitor_usable_energy_fraction(v_cut: f64, v_max: f64) -> f64 {
+    1.0 - (v_cut / v_max).powi(2)
+}
+
+/// Lignolux `Q-Node` Stage 2 quinone redox plateau voltage mismatch against an `N`-cell PEM electrolyzer
+/// (`quinoneRedoxPemElectrolyzerVoltageMismatch`).
+#[inline]
+pub fn quinone_redox_pem_electrolyzer_voltage_mismatch(
+    v_qnode: f64,
+    n_cells: f64,
+    v_pem_cell: f64,
+) -> f64 {
+    v_qnode - n_cells * v_pem_cell
+}
+
+/// `QCI-GXC` Kohn–Sham DFT Nernst open-circuit redox voltage `delta_e_ks_ev / z_electrons`
+/// (`dftNernstOpenCircuitVoltage`).
+#[inline]
+pub fn dft_nernst_open_circuit_voltage(delta_e_ks_ev: f64, z_electrons: f64) -> f64 {
+    delta_e_ks_ev / z_electrons
+}
+
+/// `QCI-GXC` McWeeny-purified and `G-IEP` passivated dangling-bond self-discharge leakage factor
+/// (`dftMcWeenyPassivatedLeakageFactor`).
+#[inline]
+pub fn dft_mcweeny_passivated_leakage_factor(lambda_occ: f64, theta_pass: f64) -> f64 {
+    let lambda_m = 3.0 * lambda_occ.powi(2) - 2.0 * lambda_occ.powi(3);
+    4.0 * lambda_m * (1.0 - lambda_m) * (1.0 - theta_pass)
+}
+
+/// Plabic 3-stage series ion-transport Equivalent Series Resistance (`ESR`)
+/// (`plabicThreeStageIonTransportEsr`).
+#[inline]
+pub fn plabic_three_stage_ion_transport_esr(
+    r_bulk: f64,
+    tortuosity: f64,
+    r_meso_base: f64,
+    r_ct: f64,
+) -> f64 {
+    r_bulk + tortuosity * r_meso_base + r_ct
+}
+
+/// `hBN` dielectric thermal-inertia barrier attenuated fluid temperature during a $1000^\circ\text{C}$ lightning gulp
+/// (`hbnLightningGulpAttenuatedFluidTempC`).
+#[inline]
+pub fn hbn_lightning_gulp_attenuated_fluid_temp_c(
+    t_amb_c: f64,
+    delta_t_strike_c: f64,
+    r_th_fluid: f64,
+    r_th_hbn: f64,
+) -> f64 {
+    t_amb_c + delta_t_strike_c * (r_th_fluid / (r_th_fluid + r_th_hbn))
+}
+
+/// MagLev spinning `Lignolux` spool / kinetic flywheel hoop-stress-limited specific energy (`MJ/kg`)
+/// (`maglevKineticSpoolSpecificEnergyMax`).
+#[inline]
+pub fn maglev_kinetic_spool_specific_energy_max(
+    sigma_tensile_mpa: f64,
+    rho_kg_per_m3: f64,
+) -> f64 {
+    sigma_tensile_mpa / (2.0 * rho_kg_per_m3)
+}
+
+/// Circular `Omni-Carbon` structural pack levelized cost (`USD/kWh`)
+/// (`omniCarbonCircularPackNetCostPerKwh`).
+#[inline]
+pub fn omni_carbon_circular_pack_net_cost_per_kwh(
+    c_base_per_kwh: f64,
+    m_carbon_kg_per_kwh: f64,
+    c_credit_per_kg_c: f64,
+    eta_stage: f64,
+) -> f64 {
+    (c_base_per_kwh - m_carbon_kg_per_kwh * c_credit_per_kg_c) * eta_stage
+}
+
+/// Ragone terminal voltage delivery efficiency `1 - (i_curr * r_esr) / v_oc`
+/// (`ragoneTerminalDeliveryEfficiency`).
+#[inline]
+pub fn ragone_terminal_delivery_efficiency(v_oc: f64, i_curr: f64, r_esr: f64) -> f64 {
+    1.0 - (i_curr * r_esr) / v_oc
+}
+
+/// Matched-load peak Ragone power density `v_oc^2 / (4 * r_esr)`
+/// (`ragoneMatchedLoadPeakPower`).
+#[inline]
+pub fn ragone_matched_load_peak_power(v_oc: f64, r_esr: f64) -> f64 {
+    v_oc.powi(2) / (4.0 * r_esr)
+}
+
+/// Deep-eutectic `Solvent-in-Salt` (`SiS`) + vitrimer steric-hindrance polyiodide shuttle diffusivity
+/// (`sisPolyiodideShuttleDiffusivity`).
+#[inline]
+pub fn sis_polyiodide_shuttle_diffusivity(
+    d_0: f64,
+    f_free_solvent: f64,
+    s_steric: f64,
+) -> f64 {
+    (d_0 * f_free_solvent) / (1.0 + s_steric)
+}
+
+/// Microwave-assisted phenolation vs. acid-reflux functionalization speedup ratio
+/// (`microwavePhenolationSpeedupRatio`).
+#[inline]
+pub fn microwave_phenolation_speedup_ratio(t_reflux_min: f64, t_mw_min: f64) -> f64 {
+    t_reflux_min / t_mw_min
+}
+
+/// Distributed railroad track-mile energy storage capacity in `MWh`
+/// (`railroadTrackMileStorageMwh`).
+#[inline]
+pub fn railroad_track_mile_storage_mwh(
+    n_ties: f64,
+    v_tie_l: f64,
+    e_vol_wh_per_l: f64,
+) -> f64 {
+    (n_ties * v_tie_l * e_vol_wh_per_l) / 1.0e6
+}
+
+/// Closed-loop `Bio-PG` / citric-acid solvolysis recovery retention `eta_rec^n_reloops`
+/// (`closedLoopSolvolysisRetention`).
+#[inline]
+pub fn closed_loop_solvolysis_retention(eta_rec: f64, n_reloops: u32) -> f64 {
+    eta_rec.powi(n_reloops as i32)
+}
+
+/// Raw-biomass-normalized specific process energy efficiency ratio of hydroxyl radical (`·OH`)
+/// cold plasma vs. hydrothermal + `800 °C` `KOH` pyrolysis (`hydroxylPlasmaSpecificEnergyEfficiencyRatio`).
+#[inline]
+pub fn hydroxyl_plasma_specific_energy_efficiency_ratio(
+    e_koh_kwh_per_kg: f64,
+    y_koh_yield: f64,
+    e_plasma_kwh_per_kg: f64,
+    y_plasma_yield: f64,
+) -> f64 {
+    (e_koh_kwh_per_kg / y_koh_yield) / (e_plasma_kwh_per_kg / y_plasma_yield)
+}
+
+/// Conductive- and volumetric-normalized high-rate bast-fiber activation Figure of Merit
+/// `s_bet * sigma_elec * rho_pack` (`bastActivationVolumetricConductiveRateFoM`).
+#[inline]
+pub fn bast_activation_volumetric_conductive_rate_fom(
+    s_bet_m2_per_g: f64,
+    sigma_s_per_cm: f64,
+    rho_pack_g_per_cm3: f64,
+) -> f64 {
+    s_bet_m2_per_g * sigma_s_per_cm * rho_pack_g_per_cm3
+}
+
+/// Volumetric specific surface area in `m^2/cm^3`: `s_bet * rho_pack`
+/// (`volumetricSpecificSurfaceArea`).
+#[inline]
+pub fn volumetric_specific_surface_area(s_bet_m2_per_g: f64, rho_pack_g_per_cm3: f64) -> f64 {
+    s_bet_m2_per_g * rho_pack_g_per_cm3
+}
+
+/// Volumetric specific capacitance in `F/cm^3`: `c_grav * rho_pack`
+/// (`volumetricSpecificCapacitanceFPerCm3`).
+#[inline]
+pub fn volumetric_specific_capacitance_f_per_cm3(
+    c_grav_f_per_g: f64,
+    rho_pack_g_per_cm3: f64,
+) -> f64 {
+    c_grav_f_per_g * rho_pack_g_per_cm3
+}
+
+/// Battery first-cycle Initial Coulombic Efficiency (`ICE`) vs. open-pore SEI consumption
+/// `1 - k_sei * s_bet` (`batteryInitialCoulombicEfficiency`).
+#[inline]
+pub fn battery_initial_coulombic_efficiency(k_sei_per_m2: f64, s_bet_m2_per_g: f64) -> f64 {
+    1.0 - k_sei_per_m2 * s_bet_m2_per_g
+}
+
+/// Characteristic electrolyte ion diffusion time across active pore depth in `us`:
+/// `l_path_nm^2 / d_ion_nm2_per_us` (`poreDiffusionCharacteristicTimeUs`).
+#[inline]
+pub fn pore_diffusion_characteristic_time_us(l_path_nm: f64, d_ion_nm2_per_us: f64) -> f64 {
+    l_path_nm.powi(2) / d_ion_nm2_per_us
+}
+
+/// Supercapacitor volumetric energy density in `Wh/L`: `(5/36) * c_vol * v_max^2`
+/// (`supercapacitorVolumetricEnergyDensityWhPerL`).
+#[inline]
+pub fn supercapacitor_volumetric_energy_density_wh_per_l(
+    c_vol_f_per_cm3: f64,
+    v_max: f64,
+) -> f64 {
+    (5.0 / 36.0) * c_vol_f_per_cm3 * v_max.powi(2)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2814,4 +3092,129 @@ mod tests {
                 < 1e-12
         );
     }
+
+    #[test]
+    fn omni_carbon_kinetic_battery_supercapacitor_dft_and_biodegradable_component_identities_hold() {
+        assert!(
+            (omni_carbon_volumetric_energy_density_wh_per_l(280.0, 1.8) - 504.0).abs() < 1e-11
+        );
+        assert!(
+            (omni_carbon_volumetric_energy_density_wh_per_l(320.0, 45.0 / 32.0) - 450.0).abs()
+                < 1e-11
+        );
+        assert!(
+            (omni_carbon_volumetric_energy_density_wh_per_l(550.0, 17.0 / 11.0) - 850.0).abs()
+                < 1e-11
+        );
+        assert!(
+            (omni_kinetic_hybrid_pack_energy_kwh(2.5, 300.0, 2.5, 200.0, 5.0, 10.0) - 1300.0)
+                .abs()
+                < 1e-11
+        );
+        assert!(
+            zno_piezo_critical_fracture_stress_sq(100.0, 2.0, 8.0)
+                < zno_piezo_critical_fracture_stress_sq(100.0, 2.0, 4.0)
+        );
+        assert!((series_quantum_double_layer_capacitance(600.0, 200.0) - 150.0).abs() < 1e-11);
+        assert!((series_quantum_double_layer_capacitance(600.0, 1800.0) - 450.0).abs() < 1e-11);
+        assert!(
+            (supercapacitor_usable_energy_fraction(3.0, 4.2) - (24.0 / 49.0)).abs() < 1e-12
+        );
+        assert!((supercapacitor_usable_energy_fraction(1.0, 5.0) - 0.96).abs() < 1e-12);
+        assert!(
+            quinone_redox_pem_electrolyzer_voltage_mismatch(3.1, 2.0, 1.55).abs() < 1e-12
+        );
+        assert!((dft_nernst_open_circuit_voltage(6.2, 2.0) - 3.1).abs() < 1e-12);
+        assert!((dft_nernst_open_circuit_voltage(7.0, 2.0) - 3.5).abs() < 1e-12);
+        assert!(dft_mcweeny_passivated_leakage_factor(1.0, 0.95).abs() < 1e-15);
+        assert!((dft_mcweeny_passivated_leakage_factor(0.5, 0.0) - 1.0).abs() < 1e-12);
+        assert!(
+            (dft_mcweeny_passivated_leakage_factor(0.9, 0.95) - (3402.0 / 625000.0)).abs()
+                < 1e-15
+        );
+        assert!(dft_mcweeny_passivated_leakage_factor(0.9, 0.95) < 0.01);
+        assert!((plabic_three_stage_ion_transport_esr(1.0, 5.0, 2.0, 1.0) - 12.0).abs() < 1e-12);
+        assert!((plabic_three_stage_ion_transport_esr(1.0, 1.0, 2.0, 1.0) - 4.0).abs() < 1e-12);
+        assert!(
+            (hbn_lightning_gulp_attenuated_fluid_temp_c(50.0, 950.0, 1.0, 5.0) - (625.0 / 3.0))
+                .abs()
+                < 1e-11
+        );
+        assert!(hbn_lightning_gulp_attenuated_fluid_temp_c(50.0, 950.0, 1.0, 5.0) < 210.0);
+        assert!((maglev_kinetic_spool_specific_energy_max(3600.0, 1800.0) - 1.0).abs() < 1e-12);
+        assert!((maglev_kinetic_spool_specific_energy_max(800.0, 8000.0) - 0.05).abs() < 1e-12);
+        assert!(
+            (omni_carbon_circular_pack_net_cost_per_kwh(45.0, 2.0, 8.25, 1.0) - 28.5).abs()
+                < 1e-12
+        );
+        assert!(
+            (omni_carbon_circular_pack_net_cost_per_kwh(45.0, 2.0, 8.25, 0.15) - 4.275).abs()
+                < 1e-12
+        );
+
+        // Deep gap-closure checks:
+        assert!((ragone_terminal_delivery_efficiency(3.0, 1.0, 0.6) - 0.8).abs() < 1e-12);
+        assert!(
+            (ragone_terminal_delivery_efficiency(3.0, 1.0, 0.2) - (14.0 / 15.0)).abs() < 1e-12
+        );
+        assert!(
+            (ragone_matched_load_peak_power(3.0, 4.0)
+                - 3.0 * ragone_matched_load_peak_power(3.0, 12.0))
+            .abs()
+                < 1e-12
+        );
+        assert!(sis_polyiodide_shuttle_diffusivity(1.0e-7, 0.0, 999.0).abs() < 1e-20);
+        assert!(
+            (sis_polyiodide_shuttle_diffusivity(1.0e-7, 1.0e-3, 999.0) - 1.0e-13).abs() < 1e-20
+        );
+        assert!(sis_polyiodide_shuttle_diffusivity(1.0e-7, 1.0e-3, 999.0) < 1.0e-12);
+        assert!((microwave_phenolation_speedup_ratio(2880.0, 5.0) - 576.0).abs() < 1e-12);
+        assert!((railroad_track_mile_storage_mwh(3250.0, 10.0, 150.0) - 4.875).abs() < 1e-12);
+        assert!((railroad_track_mile_storage_mwh(3250.0, 10.0, 500.0) - 16.25).abs() < 1e-12);
+        assert!((closed_loop_solvolysis_retention(0.98, 1) - 0.98).abs() < 1e-12);
+        assert!(
+            (hydroxyl_plasma_specific_energy_efficiency_ratio(20.0, 1.0, 2.5, 1.0) - 8.0).abs()
+                < 1e-12
+        );
+        assert!(
+            (hydroxyl_plasma_specific_energy_efficiency_ratio(20.0, 0.18, 2.5, 0.36) - 16.0).abs()
+                < 1e-12
+        );
+        assert!(
+            (bast_activation_volumetric_conductive_rate_fom(2500.0, 5.0, 0.35) - 4375.0).abs()
+                < 1e-11
+        );
+        assert!(
+            (bast_activation_volumetric_conductive_rate_fom(900.0, 75.0, 1.05) - 70875.0).abs()
+                < 1e-10
+        );
+        assert!(
+            (5.0 * bast_activation_volumetric_conductive_rate_fom(900.0, 75.0, 1.05)
+                - 81.0 * bast_activation_volumetric_conductive_rate_fom(2500.0, 5.0, 0.35))
+            .abs()
+                < 1e-9
+        );
+        assert!((volumetric_specific_surface_area(2500.0, 0.35) - 875.0).abs() < 1e-11);
+        assert!((volumetric_specific_surface_area(900.0, 1.05) - 945.0).abs() < 1e-11);
+        assert!((volumetric_specific_capacitance_f_per_cm3(150.0, 0.35) - 52.5).abs() < 1e-12);
+        assert!((volumetric_specific_capacitance_f_per_cm3(450.0, 1.05) - 472.5).abs() < 1e-12);
+        assert!(
+            (battery_initial_coulombic_efficiency(22.0 / 100000.0, 2500.0) - 0.45).abs() < 1e-12
+        );
+        assert!(
+            (battery_initial_coulombic_efficiency(22.0 / 100000.0, 900.0) - 0.802).abs() < 1e-12
+        );
+        assert!(
+            (battery_initial_coulombic_efficiency(22.0 / 100000.0, 300.0) - 0.934).abs() < 1e-12
+        );
+        assert!((pore_diffusion_characteristic_time_us(30.0, 1000.0) - 0.9).abs() < 1e-12);
+        assert!((pore_diffusion_characteristic_time_us(30000.0, 1000.0) - 900000.0).abs() < 1e-9);
+        assert!(
+            (supercapacitor_volumetric_energy_density_wh_per_l(472.5, 3.5)
+                - 9.0 * supercapacitor_volumetric_energy_density_wh_per_l(52.5, 3.5))
+            .abs()
+                < 1e-11
+        );
+    }
 }
+

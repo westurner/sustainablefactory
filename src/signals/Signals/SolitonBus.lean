@@ -1914,8 +1914,8 @@ cubic purification polynomial (`grassmannian-kohn-sham-dft-complex-plabic-vrc-pa
   (statement := /-- Define $\operatorname{dftMcWeenyPassivatedLeakageFactor}(\lambda_{\mathrm{occ}}, \theta_{\mathrm{pass}}) = 4 (3\lambda_{\mathrm{occ}}^2 - 2\lambda_{\mathrm{occ}}^3)(1 - (3\lambda_{\mathrm{occ}}^2 - 2\lambda_{\mathrm{occ}}^3))(1 - \theta_{\mathrm{pass}})$. -/)]
 noncomputable def dftMcWeenyPassivatedLeakageFactor
     (lambda_occ theta_pass : ℝ) : ℝ :=
-  let lambda_m := 3 * lambda_occ ^ 2 - 2 * lambda_occ ^ 3
-  4 * lambda_m * (1 - lambda_m) * (1 - theta_pass)
+  4 * (3 * lambda_occ ^ 2 - 2 * lambda_occ ^ 3) *
+    (1 - (3 * lambda_occ ^ 2 - 2 * lambda_occ ^ 3)) * (1 - theta_pass)
 
 /-- **Plabic 3-Stage Series Ion-Transport Equivalent Series Resistance (`ESR`)**:
 $R_{\mathrm{ESR}}(R_{\mathrm{bulk}}, \tau_{\mathrm{tort}}, R_{\mathrm{meso},0}, R_{\mathrm{ct}}) = R_{\mathrm{bulk}} + \tau_{\mathrm{tort}}\,R_{\mathrm{meso},0} + R_{\mathrm{ct}}$
@@ -1965,7 +1965,7 @@ Simultaneously establishes:
    - Isolated Horizontal `Ox-CNT` + `LCS` volumetric jump: $\operatorname{omniCarbonVolumetricEnergyDensityWhPerL}(320, 45/32) = 450\text{ Wh/L} > 180\text{ Wh/L}$,
    - Combined Synergy (`Horizontal Ox-CNT` + `LCS` + `Iodine` + `SiS` Vitrimer Gel): $550\text{ Wh/kg} > 244\text{ Wh/kg}$ (Tesla 4680 baseline) and $\operatorname{omniCarbonVolumetricEnergyDensityWhPerL}(550, 17/11) = 850\text{ Wh/L} > 643\text{ Wh/L}$ (Tesla 4680 baseline),
    - `OmniKinetic` Core-and-Skin Semi chassis ($2.5\text{ m}^3$ core at $300\text{ kWh/m}^3$ + $2.5\text{ m}^3$ fairing skin at $200\text{ kWh/m}^3$ + $5\text{ kW}\times 10\text{ h}$ `ZnO`/`LIG-TENG` road harvest): $\operatorname{omniKineticHybridPackEnergyKwh}(5/2, 300, 5/2, 200, 5, 10) = 1300\text{ kWh} > 900\text{ kWh}$ (Tesla Semi Cube),
-   - Piezoelectric `ZnO` Griffith fracture telemetry: $\operatorname{znoPiezoCriticalFractureStressSq}(100, 2, 4) = 50 > \operatorname{znoPiezoCriticalFractureStressSq}(100, 2, 8) = 25$.
+   - Piezoelectric `ZnO` Griffith fracture telemetry: $\operatorname{znoPiezoCriticalFractureStressSq}(100, 2, 4) = 100 > \operatorname{znoPiezoCriticalFractureStressSq}(100, 2, 8) = 50$.
 2. **Semi-Dirac Quantum Capacitance ($3\times$), `MBB` Collar ($96\%$), `Q-Node` PEM Electrolyzer Matching, & `QCI-GXC` DFT Passivation**:
    - Replacing 2D Dirac graphene ($C_Q = 200\text{ F/g}$) with Semi-Dirac / flat-band `N/S/P-LIG` ($C_Q = 1800\text{ F/g}$) at $C_{\mathrm{EDL}} = 600\text{ F/g}$ triples total specific capacitance: $\operatorname{seriesQuantumDoubleLayerCapacitance}(600, 1800) = 450 = 3 \times \operatorname{seriesQuantumDoubleLayerCapacitance}(600, 200) = 150\text{ F/g}$,
    - `MBB` collar usable energy extraction: $\operatorname{supercapacitorUsableEnergyFraction}(30/10, 42/10) = 24/49 < 1/2$, whereas $\operatorname{supercapacitorUsableEnergyFraction}(1, 5) = 24/25 = 96\%$,
@@ -1996,8 +1996,8 @@ theorem omni_carbon_kinetic_battery_supercapacitor_dft_and_biodegradable_compone
     (643 : ℝ) < omniCarbonVolumetricEnergyDensityWhPerL 550 (17 / 11) ∧
     omniKineticHybridPackEnergyKwh (5 / 2) 300 (5 / 2) 200 5 10 = 1300 ∧
     (900 : ℝ) < omniKineticHybridPackEnergyKwh (5 / 2) 300 (5 / 2) 200 5 10 ∧
-    znoPiezoCriticalFractureStressSq 100 2 4 = 50 ∧
-    znoPiezoCriticalFractureStressSq 100 2 8 = 25 ∧
+    znoPiezoCriticalFractureStressSq 100 2 4 = 100 ∧
+    znoPiezoCriticalFractureStressSq 100 2 8 = 50 ∧
     znoPiezoCriticalFractureStressSq 100 2 8 < znoPiezoCriticalFractureStressSq 100 2 4 ∧
     seriesQuantumDoubleLayerCapacitance 600 200 = 150 ∧
     seriesQuantumDoubleLayerCapacitance 600 1800 = 450 ∧
@@ -2121,6 +2121,93 @@ noncomputable def closedLoopSolvolysisRetention
     (eta_rec : ℝ) (n_reloops : ℕ) : ℝ :=
   eta_rec ^ n_reloops
 
+/-- **Raw-Biomass-Normalized Specific Process Energy Efficiency Ratio of Hydroxyl Radical ($\cdot\mathrm{OH} / \mathrm{OH}^*$) Cold Plasma vs. Hydrothermal + $800^\circ\text{C}$ $\mathrm{KOH}$ Pyrolysis**:
+$\eta_{\mathrm{OH/KOH}}(E_{\mathrm{KOH}}, Y_{\mathrm{KOH}}, E_{\mathrm{plasma}}, Y_{\mathrm{plasma}}) = \frac{E_{\mathrm{KOH}} / Y_{\mathrm{KOH}}}{E_{\mathrm{plasma}} / Y_{\mathrm{plasma}}}$
+(`Lignin-Derived-Carbon-Fibers-Applications.md`, lines 205–365 & `Carbon Chips_ Hurdles and Future .md`, lines 789–820:
+hydrothermal autoclave + $800^\circ\text{C}$ $\mathrm{KOH}$ pyrolysis requires $E_{\mathrm{KOH}} = 20\text{ kWh/kg}$ finished carbon at
+$Y_{\mathrm{KOH}} = 18\%$ mass yield due to bulk $6\mathrm{KOH} + 2\mathrm{C} \to 2\mathrm{K}_2\mathrm{CO}_3$ burn-off, whereas R2R $\cdot\mathrm{OH}$
+cold plasma ($< 60^\circ\text{C}$) + millisecond `FJH`/`LCS` requires $E_{\mathrm{plasma}} = 2.5\text{ kWh/kg}$ at $Y_{\mathrm{plasma}} = 36\%$
+core-shell yield, achieving an $8\times$ per-kg finished-carbon efficiency gain and a $16\times$ raw-hemp-to-electrode energy efficiency gain). -/
+@[blueprint "def:signals-soliton-hydroxyl-plasma-energy-efficiency-ratio"
+  (title := "Hydroxyl plasma vs. pyrolysis+KOH raw-biomass-normalized process energy efficiency ratio")
+  (statement := /-- Define $\operatorname{hydroxylPlasmaSpecificEnergyEfficiencyRatio}(E_{\mathrm{KOH}}, Y_{\mathrm{KOH}}, E_{\mathrm{plasma}}, Y_{\mathrm{plasma}}) = (E_{\mathrm{KOH}} / Y_{\mathrm{KOH}}) / (E_{\mathrm{plasma}} / Y_{\mathrm{plasma}})$. -/)]
+noncomputable def hydroxylPlasmaSpecificEnergyEfficiencyRatio
+    (e_koh_kwh_per_kg y_koh_yield e_plasma_kwh_per_kg y_plasma_yield : ℝ) : ℝ :=
+  (e_koh_kwh_per_kg / y_koh_yield) / (e_plasma_kwh_per_kg / y_plasma_yield)
+
+/-- **Conductive- & Volumetric-Normalized High-Rate Bast-Fiber Activation Figure of Merit**:
+$\Phi_{\mathrm{rate}}(S_{\mathrm{BET}}, \sigma_{\mathrm{elec}}, \rho_{\mathrm{pack}}) = S_{\mathrm{BET}} \cdot \sigma_{\mathrm{elec}} \cdot \rho_{\mathrm{pack}}$
+(`Lignin-Derived-Carbon-Fibers-Applications.md`, lines 295–365: at $90\%$ activation intensity, bulk $\mathrm{KOH}$
+etching reaches $S_{\mathrm{BET}} = 2500\text{ m}^2/\text{g}$ but unzips the graphitic backbone to $\sigma_{\mathrm{KOH}} = 5\text{ S/cm}$
+at $\rho_{\mathrm{KOH}} = 0.35\text{ g/cm}^3$ ($\Phi_{\mathrm{rate}} = 4375$), whereas surface-selective $\cdot\mathrm{OH}$ plasma
+($S_{\mathrm{BET}} = 900\text{ m}^2/\text{g}$ outer $10\text{–}50\text{ nm}$ shell) preserves the intact conductive core
+($\sigma_{\mathrm{plasma}} = 75\text{ S/cm}$, $15\times$ higher) and ethyl-lactate elasto-capillary densification reaches
+$\rho_{\mathrm{plasma}} = 1.05\text{ g/cm}^3$ ($\Phi_{\mathrm{rate}} = 70875 = \frac{81}{5} \times 4375 = 16.2\times$ higher)). -/
+@[blueprint "def:signals-soliton-bast-activation-volumetric-conductive-fom"
+  (title := "Conductive- and volumetric-normalized high-rate bast-fiber activation figure of merit")
+  (statement := /-- Define $\operatorname{bastActivationVolumetricConductiveRateFoM}(S_{\mathrm{BET}}, \sigma_{\mathrm{elec}}, \rho_{\mathrm{pack}}) = S_{\mathrm{BET}} \sigma_{\mathrm{elec}} \rho_{\mathrm{pack}}$. -/)]
+noncomputable def bastActivationVolumetricConductiveRateFoM
+    (s_bet_m2_per_g sigma_s_per_cm rho_pack_g_per_cm3 : ℝ) : ℝ :=
+  s_bet_m2_per_g * sigma_s_per_cm * rho_pack_g_per_cm3
+
+/-- **Volumetric Specific Surface Area in $\mathrm{m}^2/\mathrm{cm}^3$**:
+$S_{\mathrm{vol}}(S_{\mathrm{BET}}, \rho_{\mathrm{pack}}) = S_{\mathrm{BET}} \cdot \rho_{\mathrm{pack}}$
+(Combining $0.36\times$ surface-confined BET area $900\text{ vs. }2500\text{ m}^2/\text{g}$ with $3\times$ packing density
+$1.05\text{ vs. }0.35\text{ g/cm}^3$ yields $S_{\mathrm{vol}} = 945 > 875\text{ m}^2/\text{cm}^3$, an exact $\frac{27}{25} = 1.08\times$
+higher total pore area per unit volume than $\mathrm{KOH}$-activated carbon). -/
+@[blueprint "def:signals-soliton-volumetric-specific-surface-area"
+  (title := "Volumetric specific surface area in m^2/cm^3")
+  (statement := /-- Define $\operatorname{volumetricSpecificSurfaceArea}(S_{\mathrm{BET}}, \rho_{\mathrm{pack}}) = S_{\mathrm{BET}} \rho_{\mathrm{pack}}$. -/)]
+noncomputable def volumetricSpecificSurfaceArea
+    (s_bet_m2_per_g rho_pack_g_per_cm3 : ℝ) : ℝ :=
+  s_bet_m2_per_g * rho_pack_g_per_cm3
+
+/-- **Volumetric Specific Capacitance in $\mathrm{F/cm}^3$**:
+$C_{\mathrm{vol}}(C_{\mathrm{grav}}, \rho_{\mathrm{pack}}) = C_{\mathrm{grav}} \cdot \rho_{\mathrm{pack}}$
+(Combining $3\times$ Semi-Dirac/core-shell gravimetric capacitance $450\text{ vs. }150\text{ F/g}$ with $3\times$ packing density
+$1.05\text{ vs. }0.35\text{ g/cm}^3$ yields $C_{\mathrm{vol}} = 472.5\text{ F/cm}^3 = 9 \times 52.5\text{ F/cm}^3$). -/
+@[blueprint "def:signals-soliton-volumetric-specific-capacitance"
+  (title := "Volumetric specific capacitance in F/cm^3")
+  (statement := /-- Define $\operatorname{volumetricSpecificCapacitanceFPerCm3}(C_{\mathrm{grav}}, \rho_{\mathrm{pack}}) = C_{\mathrm{grav}} \rho_{\mathrm{pack}}$. -/)]
+noncomputable def volumetricSpecificCapacitanceFPerCm3
+    (c_grav_f_per_g rho_pack_g_per_cm3 : ℝ) : ℝ :=
+  c_grav_f_per_g * rho_pack_g_per_cm3
+
+/-- **Battery First-Cycle Initial Coulombic Efficiency (`ICE`) vs. Parasitic Open-Pore SEI Formation**:
+$\mathrm{ICE}(k_{\mathrm{SEI}}, S_{\mathrm{BET}}) = 1 - k_{\mathrm{SEI}} \, S_{\mathrm{BET}}$
+(`Carbon Chips_ Hurdles and Future .md`, lines 965–986, 1080–1128: reducing open BET area by $0.36\times$
+from $2500\text{ m}^2/\text{g}$ ($\mathrm{KOH}$) to $900\text{ m}^2/\text{g}$ ($\cdot\mathrm{OH}$ core-shell) or $300\text{ m}^2/\text{g}$
+(mild plasma-treated closed-pore hard carbon) cuts first-cycle SEI sodium/aluminum trapping by $64\text{–}88\%$,
+lifting $\mathrm{ICE}$ from $45\%$ to $80.2\%$ and $93.4\%$). -/
+@[blueprint "def:signals-soliton-battery-initial-coulombic-efficiency"
+  (title := "Battery first-cycle Initial Coulombic Efficiency vs. open-pore SEI consumption")
+  (statement := /-- Define $\operatorname{batteryInitialCoulombicEfficiency}(k_{\mathrm{SEI}}, S_{\mathrm{BET}}) = 1 - k_{\mathrm{SEI}} S_{\mathrm{BET}}$. -/)]
+noncomputable def batteryInitialCoulombicEfficiency
+    (k_sei_per_m2 s_bet_m2_per_g : ℝ) : ℝ :=
+  1 - k_sei_per_m2 * s_bet_m2_per_g
+
+/-- **Characteristic Electrolyte Ion Diffusion Time Across Active Pore Depth in $\mu\mathrm{s}$**:
+$\tau_{\mathrm{diff}}(L_{\mathrm{path,nm}}, D_{\mathrm{ion,nm^2/\mu s}}) = \frac{L_{\mathrm{path,nm}}^2}{D_{\mathrm{ion,nm^2/\mu s}}}$
+(Confining the porous shell to $L_{\mathrm{shell}} = 30\text{ nm}$ vs. $L_{\mathrm{bulk}} = 30{,}000\text{ nm} = 30\text{ }\mu\text{m}$
+in bulk $\mathrm{KOH}$-etched grains accelerates ion diffusion by $10^6\times$: $0.9\text{ }\mu\text{s}$ vs. $900{,}000\text{ }\mu\text{s} = 0.9\text{ s}$). -/
+@[blueprint "def:signals-soliton-pore-diffusion-characteristic-time"
+  (title := "Characteristic electrolyte ion diffusion time across active pore depth in microseconds")
+  (statement := /-- Define $\operatorname{poreDiffusionCharacteristicTimeUs}(L_{\mathrm{path}}, D_{\mathrm{ion}}) = L_{\mathrm{path}}^2 / D_{\mathrm{ion}}$. -/)]
+noncomputable def poreDiffusionCharacteristicTimeUs
+    (l_path_nm d_ion_nm2_per_us : ℝ) : ℝ :=
+  (l_path_nm ^ 2) / d_ion_nm2_per_us
+
+/-- **Supercapacitor Volumetric Energy Density in $\mathrm{Wh/L}$**:
+$E_{\mathrm{cap,Wh/L}}(C_{\mathrm{vol,F/cm^3}}, V_{\max}) = \frac{5}{36}\,C_{\mathrm{vol,F/cm^3}}\,V_{\max}^2$
+(where $\frac{1000\text{ cm}^3/\text{L}}{2 \times 3600\text{ J/Wh}} = \frac{5}{36}$; combining $9\times$ volumetric capacitance
+$472.5\text{ vs. }52.5\text{ F/cm}^3$ yields an exact $9\times$ gain in volumetric capacitive energy density). -/
+@[blueprint "def:signals-soliton-supercapacitor-volumetric-energy-density"
+  (title := "Supercapacitor volumetric energy density in Wh/L")
+  (statement := /-- Define $\operatorname{supercapacitorVolumetricEnergyDensityWhPerL}(C_{\mathrm{vol}}, V_{\max}) = \frac{5}{36} C_{\mathrm{vol}} V_{\max}^2$. -/)]
+noncomputable def supercapacitorVolumetricEnergyDensityWhPerL
+    (c_vol_f_per_cm3 v_max : ℝ) : ℝ :=
+  (5 / 36) * c_vol_f_per_cm3 * (v_max ^ 2)
+
 /-- **Deep Critique & Gap-Closure Theorem for Paper 41 (`omni_carbon_energy_storage_deep_gap_closure_identities`)**:
 Simultaneously establishes:
 1. **Ragone Terminal Delivery Efficiency ($80\% \to 93.33\%$) & $3\times$ Peak Matched-Load Power via `LCS` Horizontal Alignment**:
@@ -2134,10 +2221,22 @@ Simultaneously establishes:
 4. **Railroad Track-Mile Distributed Storage Upgrade ($4.875\text{ MWh/mile} \to 16.25\text{ MWh/mile}$)**:
    $\operatorname{railroadTrackMileStorageMwh}(3250, 10, 150) = 39/8 < \operatorname{railroadTrackMileStorageMwh}(3250, 10, 500) = 65/4\text{ MWh/mile}$,
 5. **Closed-Loop Solvolysis Recovery ($98\% > 95\%$)**:
-   $\operatorname{closedLoopSolvolysisRetention}(49/50, 1) = 49/50 > 19/20$. -/
+   $\operatorname{closedLoopSolvolysisRetention}(49/50, 1) = 49/50 > 19/20$,
+6. **Hydroxyl ($\cdot\mathrm{OH}$) Cold Plasma vs. Pyrolysis + $\mathrm{KOH}$ Activation Efficiency ($8\times$ per-kg finished carbon, $16\times$ per-kg raw hemp bast, and $16.2\times$ volumetric conductive high-rate FoM)**:
+   $\operatorname{hydroxylPlasmaSpecificEnergyEfficiencyRatio}(20, 1, 5/2, 1) = 8$,
+   $\operatorname{hydroxylPlasmaSpecificEnergyEfficiencyRatio}(20, 18/100, 5/2, 36/100) = 16$,
+   $\operatorname{bastActivationVolumetricConductiveRateFoM}(2500, 5, 7/20) = 4375 < \operatorname{bastActivationVolumetricConductiveRateFoM}(900, 75, 21/20) = 70875$, and
+   $5 \times \operatorname{bastActivationVolumetricConductiveRateFoM}(900, 75, 21/20) = 81 \times \operatorname{bastActivationVolumetricConductiveRateFoM}(2500, 5, 7/20)$,
+7. **Impact of $15\times$ Conductivity, $3\times$ Packing Density, and $0.36\times$ Surface-Confined BET Area on Battery, Capacitor, and Supercapacitor Specs**:
+   - $+8\%$ higher volumetric surface area ($945 > 875\text{ m}^2/\text{cm}^3$, $25 \times S_{\mathrm{vol}}^{\mathrm{plasma}} = 27 \times S_{\mathrm{vol}}^{\mathrm{KOH}}$),
+   - $9\times$ higher volumetric capacitance ($472.5\text{ F/cm}^3 = 9 \times 52.5\text{ F/cm}^3$) and $9\times$ volumetric capacitive energy density (`supercapacitorVolumetricEnergyDensityWhPerL`),
+   - First-cycle battery Initial Coulombic Efficiency (`ICE`) jump from $45\%$ ($9/20$) to $80.2\%$ ($401/500$) and $93.4\%$ ($467/500$), and
+   - $10^6\times$ faster active-shell ion diffusion ($0.9\text{ }\mu\text{s}$ vs. $900{,}000\text{ }\mu\text{s}$),
+8. **Strict 4-Stage Graceful Thermal Failsafe Hierarchy ($45^\circ\text{C} < 130^\circ\text{C} < 150^\circ\text{C} < 200^\circ\text{C} < 208.33^\circ\text{C} < 400^\circ\text{C} < 800^\circ\text{C}$)**:
+   Separating UL 2596 nail puncture ($45^\circ\text{C}$), `Lignin-Vitrimer` $T_v$ creep disconnect ($130^\circ\text{C}$), Joule self-healing ($150^\circ\text{C}$), $\mathrm{CaCl}_2$ intumescent pore crushing ($200^\circ\text{C}$), `hBN` lightning-gulp fluid peak ($625/3^\circ\text{C}$), `hBN` wide-bandgap ceiling ($400^\circ\text{C}$), and 4680 Li-ion runaway ($800^\circ\text{C}$). -/
 @[blueprint "thm:signals-soliton-omni-carbon-energy-storage-deep-gap-closure"
-  (title := "Deep critique and gap-closure theorem for Paper 41: Ragone efficiency and 3x peak power, SiS polyiodide shuttle suppression (< 10^-12 cm^2/s), 576x microwave phenolation speedup, 16.25 MWh/mile rail storage, and 98% closed-loop solvolysis recovery")
-  (statement := /-- Simultaneously proves the $80\% \to 93.33\%$ Ragone terminal efficiency and $3\times$ matched-load peak power gain under \texttt{LCS} alignment, deep-eutectic \texttt{SiS} polyiodide shuttle suppression ($10^{-13} < 10^{-12}\text{ cm}^2/\text{s}$), $576\times$ microwave phenolation speedup, $4.875 \to 16.25\text{ MWh/mile}$ railroad tie storage scaling, and $98\%$ closed-loop solvolysis monomer recovery. -/)]
+  (title := "Deep critique and gap-closure theorem for Paper 41: Ragone efficiency and 3x peak power, SiS polyiodide shuttle suppression (< 10^-12 cm^2/s), 576x microwave phenolation speedup, 16.25 MWh/mile rail storage, 98% closed-loop solvolysis recovery, 16x/16.2x hydroxyl plasma efficiency, 1.08x volumetric area / 9x volumetric capacitance / 80.2%-93.4% ICE / 10^6x diffusion specs, and 4-stage graceful thermal failsafe ordering")
+  (statement := /-- Simultaneously proves the $80\% \to 93.33\%$ Ragone terminal efficiency and $3\times$ matched-load peak power gain under \texttt{LCS} alignment, deep-eutectic \texttt{SiS} polyiodide shuttle suppression ($10^{-13} < 10^{-12}\text{ cm}^2/\text{s}$), $576\times$ microwave phenolation speedup, $4.875 \to 16.25\text{ MWh/mile}$ railroad tie storage scaling, $98\%$ closed-loop solvolysis monomer recovery, $8\times / 16\times$ process-energy plus $16.2\times$ volumetric conductive high-rate efficiency of $\cdot\mathrm{OH}$ cold plasma over pyrolysis + $\mathrm{KOH}$ activation, the resulting $1.08\times$ volumetric surface area, $9\times$ volumetric capacitance and energy density, $45\% \to 80.2\%/93.4\%$ battery \texttt{ICE}, $10^6\times$ faster shell ion diffusion, and the strict 4-stage graceful thermal failsafe hierarchy. -/)]
 theorem omni_carbon_energy_storage_deep_gap_closure_identities
     (d_0 s_steric : ℝ) :
     ragoneTerminalDeliveryEfficiency 3 1 (3 / 5) = 4 / 5 ∧
@@ -2154,7 +2253,38 @@ theorem omni_carbon_energy_storage_deep_gap_closure_identities
     railroadTrackMileStorageMwh 3250 10 500 = 65 / 4 ∧
     railroadTrackMileStorageMwh 3250 10 150 < railroadTrackMileStorageMwh 3250 10 500 ∧
     closedLoopSolvolysisRetention (49 / 50) 1 = 49 / 50 ∧
-    (19 / 20 : ℝ) < closedLoopSolvolysisRetention (49 / 50) 1 := by
+    (19 / 20 : ℝ) < closedLoopSolvolysisRetention (49 / 50) 1 ∧
+    hydroxylPlasmaSpecificEnergyEfficiencyRatio 20 1 (5 / 2) 1 = 8 ∧
+    hydroxylPlasmaSpecificEnergyEfficiencyRatio 20 (18 / 100) (5 / 2) (36 / 100) = 16 ∧
+    bastActivationVolumetricConductiveRateFoM 2500 5 (7 / 20) = 4375 ∧
+    bastActivationVolumetricConductiveRateFoM 900 75 (21 / 20) = 70875 ∧
+    bastActivationVolumetricConductiveRateFoM 2500 5 (7 / 20) <
+      bastActivationVolumetricConductiveRateFoM 900 75 (21 / 20) ∧
+    5 * bastActivationVolumetricConductiveRateFoM 900 75 (21 / 20) =
+      81 * bastActivationVolumetricConductiveRateFoM 2500 5 (7 / 20) ∧
+    volumetricSpecificSurfaceArea 2500 (7 / 20) = 875 ∧
+    volumetricSpecificSurfaceArea 900 (21 / 20) = 945 ∧
+    25 * volumetricSpecificSurfaceArea 900 (21 / 20) =
+      27 * volumetricSpecificSurfaceArea 2500 (7 / 20) ∧
+    volumetricSpecificCapacitanceFPerCm3 150 (7 / 20) = 105 / 2 ∧
+    volumetricSpecificCapacitanceFPerCm3 450 (21 / 20) = 945 / 2 ∧
+    volumetricSpecificCapacitanceFPerCm3 450 (21 / 20) =
+      9 * volumetricSpecificCapacitanceFPerCm3 150 (7 / 20) ∧
+    batteryInitialCoulombicEfficiency (22 / 100000) 2500 = 9 / 20 ∧
+    batteryInitialCoulombicEfficiency (22 / 100000) 900 = 401 / 500 ∧
+    batteryInitialCoulombicEfficiency (22 / 100000) 300 = 467 / 500 ∧
+    batteryInitialCoulombicEfficiency (22 / 100000) 2500 <
+      batteryInitialCoulombicEfficiency (22 / 100000) 900 ∧
+    poreDiffusionCharacteristicTimeUs 30 1000 = 9 / 10 ∧
+    poreDiffusionCharacteristicTimeUs 30000 1000 = 900000 ∧
+    1000000 * poreDiffusionCharacteristicTimeUs 30 1000 =
+      poreDiffusionCharacteristicTimeUs 30000 1000 ∧
+    supercapacitorVolumetricEnergyDensityWhPerL (945 / 2) (7 / 2) =
+      9 * supercapacitorVolumetricEnergyDensityWhPerL (105 / 2) (7 / 2) ∧
+    (45 : ℝ) < 130 ∧ (130 : ℝ) < 150 ∧ (150 : ℝ) < 200 ∧
+    (200 : ℝ) < hbnLightningGulpAttenuatedFluidTempC 50 950 1 5 ∧
+    hbnLightningGulpAttenuatedFluidTempC 50 950 1 5 < 400 ∧
+    (400 : ℝ) < 800 := by
   refine ⟨
     by unfold ragoneTerminalDeliveryEfficiency; norm_num,
     by unfold ragoneTerminalDeliveryEfficiency; norm_num,
@@ -2169,6 +2299,32 @@ theorem omni_carbon_energy_storage_deep_gap_closure_identities
     by unfold railroadTrackMileStorageMwh; norm_num,
     by unfold railroadTrackMileStorageMwh; norm_num,
     by unfold closedLoopSolvolysisRetention; norm_num,
-    by unfold closedLoopSolvolysisRetention; norm_num⟩
+    by unfold closedLoopSolvolysisRetention; norm_num,
+    by unfold hydroxylPlasmaSpecificEnergyEfficiencyRatio; norm_num,
+    by unfold hydroxylPlasmaSpecificEnergyEfficiencyRatio; norm_num,
+    by unfold bastActivationVolumetricConductiveRateFoM; norm_num,
+    by unfold bastActivationVolumetricConductiveRateFoM; norm_num,
+    by unfold bastActivationVolumetricConductiveRateFoM; norm_num,
+    by unfold bastActivationVolumetricConductiveRateFoM; norm_num,
+    by unfold volumetricSpecificSurfaceArea; norm_num,
+    by unfold volumetricSpecificSurfaceArea; norm_num,
+    by unfold volumetricSpecificSurfaceArea; norm_num,
+    by unfold volumetricSpecificCapacitanceFPerCm3; norm_num,
+    by unfold volumetricSpecificCapacitanceFPerCm3; norm_num,
+    by unfold volumetricSpecificCapacitanceFPerCm3; norm_num,
+    by unfold batteryInitialCoulombicEfficiency; norm_num,
+    by unfold batteryInitialCoulombicEfficiency; norm_num,
+    by unfold batteryInitialCoulombicEfficiency; norm_num,
+    by unfold batteryInitialCoulombicEfficiency; norm_num,
+    by unfold poreDiffusionCharacteristicTimeUs; norm_num,
+    by unfold poreDiffusionCharacteristicTimeUs; norm_num,
+    by unfold poreDiffusionCharacteristicTimeUs; norm_num,
+    by unfold supercapacitorVolumetricEnergyDensityWhPerL; norm_num,
+    by norm_num,
+    by norm_num,
+    by norm_num,
+    by unfold hbnLightningGulpAttenuatedFluidTempC; norm_num,
+    by unfold hbnLightningGulpAttenuatedFluidTempC; norm_num,
+    by norm_num⟩
 
 end Signals.SolitonBus

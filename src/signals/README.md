@@ -84,15 +84,19 @@ interpretation while keeping experimental premises explicit:
    phase, OAM modal crosstalk, MIMO equalization, and on-bus/interface/off-bus
    operator placement, as well as the revised Semi-Dirac / multi-band photonics,
    nanodiamond `2DHG`, `VortexVia` / `StarVortexVia`, `LHAT` archival tape,
-   pressed-LLM QRAM, and `rGO-Vitrimer` active metamaterial / e-paper /
-   `Bio-Bragg` / nanodiamond display theorems
+   pressed-LLM QRAM, `rGO-Vitrimer` active metamaterial / e-paper /
+   `Bio-Bragg` / nanodiamond display, and `Lignolux Omni-Carbon Kinetic`
+   battery / `Q-Node` supercapacitor / `QCI-GXC` DFT passivation theorems
    (`rgo_vitrimer_active_metamaterial_epaper_and_nanodiamond_display_identities`,
-   `rgo_vitrimer_display_deep_gap_closure_identities`). The source chats remain
+   `rgo_vitrimer_display_deep_gap_closure_identities`,
+   `omni_carbon_kinetic_battery_supercapacitor_dft_and_biodegradable_component_identities`,
+   `omni_carbon_energy_storage_deep_gap_closure_identities`). The source chats remain
    proposal evidence: the model does
    not establish room-temperature N-LIG soliton stability, single-photon Kerr
    coupling, nondestructive parity measurement, or a fault-tolerant QPU. See
    [`docs/soliton-bus.md`](../../docs/soliton-bus.md),
    [`docs/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md`](../../docs/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md),
+   [`docs/grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md`](../../docs/grassmannian-omni-carbon-kinetic-batteries-supercapacitors-dft-biodegradable-components-kicad-paper.md),
    and the [signal-phase chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L8547).
 - `Signals.Physlib` imports Physlib's compatible free-space parameter model and
    proves a small interface lemma over its `FreeSpace` parameters.

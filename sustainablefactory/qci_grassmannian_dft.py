@@ -4949,3 +4949,191 @@ class SemiDiracAndSU4WittenUnificationEngine:
         delta_f_odmr_mhz: float,
     ) -> float:
         return float(delta_phi_raw - gamma_phase_per_mhz * delta_f_odmr_mhz)
+
+    # ------------------------------------------------------------------
+    # Paper 41: Lignolux Omni-Carbon Kinetic Batteries, Q-Node Supercapacitors,
+    #           Semi-Dirac Quantum Capacitance, QCI-GXC DFT Passivation, &
+    #           Biodegradable / Closed-Loop Recyclable Electrical Components
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def omni_carbon_volumetric_energy_density_wh_per_l(
+        e_grav_wh_per_kg: float, rho_pack_kg_per_l: float
+    ) -> float:
+        return float(e_grav_wh_per_kg * rho_pack_kg_per_l)
+
+    @staticmethod
+    def omni_kinetic_hybrid_pack_energy_kwh(
+        v_core_m3: float,
+        rho_core_kwh_m3: float,
+        v_skin_m3: float,
+        rho_skin_kwh_m3: float,
+        p_harvest_kw: float,
+        t_trip_hr: float,
+    ) -> float:
+        return float(
+            v_core_m3 * rho_core_kwh_m3
+            + v_skin_m3 * rho_skin_kwh_m3
+            + p_harvest_kw * t_trip_hr
+        )
+
+    @staticmethod
+    def zno_piezo_critical_fracture_stress_sq(
+        e_modulus: float, gamma_surf: float, pi_times_crack_a: float
+    ) -> float:
+        return float((2.0 * e_modulus * gamma_surf) / pi_times_crack_a)
+
+    @staticmethod
+    def series_quantum_double_layer_capacitance(
+        c_edl: float, c_quantum: float
+    ) -> float:
+        return float((c_edl * c_quantum) / (c_edl + c_quantum))
+
+    @staticmethod
+    def supercapacitor_usable_energy_fraction(
+        v_cut: float, v_max: float
+    ) -> float:
+        return float(1.0 - (v_cut / v_max) ** 2)
+
+    @staticmethod
+    def quinone_redox_pem_electrolyzer_voltage_mismatch(
+        v_qnode: float, n_cells: float, v_pem_cell: float
+    ) -> float:
+        return float(v_qnode - n_cells * v_pem_cell)
+
+    @staticmethod
+    def dft_nernst_open_circuit_voltage(
+        delta_e_ks_ev: float, z_electrons: float
+    ) -> float:
+        return float(delta_e_ks_ev / z_electrons)
+
+    @staticmethod
+    def dft_mcweeny_passivated_leakage_factor(
+        lambda_occ: float, theta_pass: float
+    ) -> float:
+        lambda_m = 3.0 * (lambda_occ**2) - 2.0 * (lambda_occ**3)
+        return float(4.0 * lambda_m * (1.0 - lambda_m) * (1.0 - theta_pass))
+
+    @staticmethod
+    def plabic_three_stage_ion_transport_esr(
+        r_bulk: float, tortuosity: float, r_meso_base: float, r_ct: float
+    ) -> float:
+        return float(r_bulk + tortuosity * r_meso_base + r_ct)
+
+    @staticmethod
+    def hbn_lightning_gulp_attenuated_fluid_temp_c(
+        t_amb_c: float,
+        delta_t_strike_c: float,
+        r_th_fluid: float,
+        r_th_hbn: float,
+    ) -> float:
+        return float(
+            t_amb_c + delta_t_strike_c * (r_th_fluid / (r_th_fluid + r_th_hbn))
+        )
+
+    @staticmethod
+    def maglev_kinetic_spool_specific_energy_max(
+        sigma_tensile_mpa: float, rho_kg_per_m3: float
+    ) -> float:
+        return float(sigma_tensile_mpa / (2.0 * rho_kg_per_m3))
+
+    @staticmethod
+    def omni_carbon_circular_pack_net_cost_per_kwh(
+        c_base_per_kwh: float,
+        m_carbon_kg_per_kwh: float,
+        c_credit_per_kg_c: float,
+        eta_stage: float,
+    ) -> float:
+        return float(
+            (c_base_per_kwh - m_carbon_kg_per_kwh * c_credit_per_kg_c)
+            * eta_stage
+        )
+
+    @staticmethod
+    def ragone_terminal_delivery_efficiency(
+        v_oc: float, i_curr: float, r_esr: float
+    ) -> float:
+        return float(1.0 - (i_curr * r_esr) / v_oc)
+
+    @staticmethod
+    def ragone_matched_load_peak_power(v_oc: float, r_esr: float) -> float:
+        return float((v_oc**2) / (4.0 * r_esr))
+
+    @staticmethod
+    def sis_polyiodide_shuttle_diffusivity(
+        d_0: float, f_free_solvent: float, s_steric: float
+    ) -> float:
+        return float((d_0 * f_free_solvent) / (1.0 + s_steric))
+
+    @staticmethod
+    def microwave_phenolation_speedup_ratio(
+        t_reflux_min: float, t_mw_min: float
+    ) -> float:
+        return float(t_reflux_min / t_mw_min)
+
+    @staticmethod
+    def railroad_track_mile_storage_mwh(
+        n_ties: float, v_tie_l: float, e_vol_wh_per_l: float
+    ) -> float:
+        return float((n_ties * v_tie_l * e_vol_wh_per_l) / 1.0e6)
+
+    @staticmethod
+    def closed_loop_solvolysis_retention(
+        eta_rec: float, n_reloops: int
+    ) -> float:
+        return float(eta_rec**n_reloops)
+
+    @staticmethod
+    def hydroxyl_plasma_specific_energy_efficiency_ratio(
+        e_koh_kwh_per_kg: float,
+        y_koh_yield: float,
+        e_plasma_kwh_per_kg: float,
+        y_plasma_yield: float,
+    ) -> float:
+        return float(
+            (e_koh_kwh_per_kg / y_koh_yield)
+            / (e_plasma_kwh_per_kg / y_plasma_yield)
+        )
+
+    @staticmethod
+    def bast_activation_volumetric_conductive_rate_fom(
+        s_bet_m2_per_g: float,
+        sigma_s_per_cm: float,
+        rho_pack_g_per_cm3: float,
+    ) -> float:
+        return float(s_bet_m2_per_g * sigma_s_per_cm * rho_pack_g_per_cm3)
+
+    @staticmethod
+    def volumetric_specific_surface_area(
+        s_bet_m2_per_g: float,
+        rho_pack_g_per_cm3: float,
+    ) -> float:
+        return float(s_bet_m2_per_g * rho_pack_g_per_cm3)
+
+    @staticmethod
+    def volumetric_specific_capacitance_f_per_cm3(
+        c_grav_f_per_g: float,
+        rho_pack_g_per_cm3: float,
+    ) -> float:
+        return float(c_grav_f_per_g * rho_pack_g_per_cm3)
+
+    @staticmethod
+    def battery_initial_coulombic_efficiency(
+        k_sei_per_m2: float,
+        s_bet_m2_per_g: float,
+    ) -> float:
+        return float(1.0 - k_sei_per_m2 * s_bet_m2_per_g)
+
+    @staticmethod
+    def pore_diffusion_characteristic_time_us(
+        l_path_nm: float,
+        d_ion_nm2_per_us: float,
+    ) -> float:
+        return float((l_path_nm**2) / d_ion_nm2_per_us)
+
+    @staticmethod
+    def supercapacitor_volumetric_energy_density_wh_per_l(
+        c_vol_f_per_cm3: float,
+        v_max: float,
+    ) -> float:
+        return float((5.0 / 36.0) * c_vol_f_per_cm3 * (v_max**2))

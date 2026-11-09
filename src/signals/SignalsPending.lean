@@ -1194,4 +1194,96 @@ theorem rhombohedral_graphene_rgo_vitrimer_display_deep_gap_closure_bounds
     r_top cos_phi sin_phi n_avg pitch_nm cos_theta_int gamma_phase gamma_nv b_field
     h_circle h_denom h_cos
 
+@[blueprint "lem:signals-pending-facade-omni-carbon-kinetic-energy-storage-dft-and-components-bounds"
+  (title := "Pending facade lemma for Paper 41: Lignolux Omni-Carbon Kinetic batteries, Q-Node pseudocapacitors, Semi-Dirac quantum capacitance, QCI-GXC DFT passivation, and biodegradable/recyclable electrical components")
+  (statement := /-- Under a \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis} contract,
+    all Paper 41 bounds for \texttt{Omni-Carbon} / \texttt{OmniKinetic} batteries, supercapacitors,
+    \texttt{QCI-GXC} DFT passivation, and circular electrical components hold simultaneously. -/)
+  (proof := /-- Apply \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis.omni\_carbon\_kinetic\_battery\_supercapacitor\_dft\_and\_biodegradable\_component\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma rhombohedral_graphene_omni_carbon_kinetic_battery_supercapacitor_dft_and_biodegradable_component_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (theta_pass : ℝ) :
+    Signals.SolitonBus.omniCarbonVolumetricEnergyDensityWhPerL 280 (9 / 5) = 504 ∧
+      Signals.SolitonBus.omniCarbonVolumetricEnergyDensityWhPerL 320 (45 / 32) = 450 ∧
+      Signals.SolitonBus.omniCarbonVolumetricEnergyDensityWhPerL 550 (17 / 11) = 850 ∧
+      (244 : ℝ) < 550 ∧
+      (643 : ℝ) < Signals.SolitonBus.omniCarbonVolumetricEnergyDensityWhPerL 550 (17 / 11) ∧
+      Signals.SolitonBus.omniKineticHybridPackEnergyKwh (5 / 2) 300 (5 / 2) 200 5 10 = 1300 ∧
+      (900 : ℝ) < Signals.SolitonBus.omniKineticHybridPackEnergyKwh (5 / 2) 300 (5 / 2) 200 5 10 ∧
+      Signals.SolitonBus.znoPiezoCriticalFractureStressSq 100 2 8 <
+        Signals.SolitonBus.znoPiezoCriticalFractureStressSq 100 2 4 ∧
+      Signals.SolitonBus.seriesQuantumDoubleLayerCapacitance 600 1800 =
+        3 * Signals.SolitonBus.seriesQuantumDoubleLayerCapacitance 600 200 ∧
+      Signals.SolitonBus.supercapacitorUsableEnergyFraction (30 / 10) (42 / 10) = 24 / 49 ∧
+      Signals.SolitonBus.supercapacitorUsableEnergyFraction 1 5 = 24 / 25 ∧
+      Signals.SolitonBus.quinoneRedoxPemElectrolyzerVoltageMismatch (31 / 10) 2 (31 / 20) = 0 ∧
+      Signals.SolitonBus.dftNernstOpenCircuitVoltage (62 / 10) 2 <
+        Signals.SolitonBus.dftNernstOpenCircuitVoltage 7 2 ∧
+      Signals.SolitonBus.dftMcWeenyPassivatedLeakageFactor 1 theta_pass = 0 ∧
+      Signals.SolitonBus.dftMcWeenyPassivatedLeakageFactor (9 / 10) (19 / 20) < 1 / 100 ∧
+      Signals.SolitonBus.plabicThreeStageIonTransportEsr 1 1 2 1 <
+        Signals.SolitonBus.plabicThreeStageIonTransportEsr 1 5 2 1 ∧
+      Signals.SolitonBus.hbnLightningGulpAttenuatedFluidTempC 50 950 1 5 < 210 ∧
+      Signals.SolitonBus.maglevKineticSpoolSpecificEnergyMax 800 8000 <
+        Signals.SolitonBus.maglevKineticSpoolSpecificEnergyMax 3600 1800 ∧
+      Signals.SolitonBus.omniCarbonCircularPackNetCostPerKwh 45 2 (33 / 4) 1 = 57 / 2 ∧
+      Signals.SolitonBus.omniCarbonCircularPackNetCostPerKwh 45 2 (33 / 4) (3 / 20) = 171 / 40 :=
+  contract.omni_carbon_kinetic_battery_supercapacitor_dft_and_biodegradable_component_bounds
+    theta_pass
+
+/-- Re-exports the Paper 41 deep gap-closure boundary theorem. -/
+theorem rhombohedral_graphene_omni_carbon_energy_storage_deep_gap_closure_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (d_0 s_steric : ℝ) :
+    Signals.SolitonBus.ragoneTerminalDeliveryEfficiency 3 1 (3 / 5) = 4 / 5 ∧
+      Signals.SolitonBus.ragoneTerminalDeliveryEfficiency 3 1 (1 / 5) = 14 / 15 ∧
+      Signals.SolitonBus.ragoneTerminalDeliveryEfficiency 3 1 (3 / 5) <
+        Signals.SolitonBus.ragoneTerminalDeliveryEfficiency 3 1 (1 / 5) ∧
+      Signals.SolitonBus.ragoneMatchedLoadPeakPower 3 4 =
+        3 * Signals.SolitonBus.ragoneMatchedLoadPeakPower 3 12 ∧
+      Signals.SolitonBus.sisPolyiodideShuttleDiffusivity d_0 0 s_steric = 0 ∧
+      Signals.SolitonBus.sisPolyiodideShuttleDiffusivity (1 / 10 ^ 7) (1 / 1000) 999 = 1 / 10 ^ 13 ∧
+      Signals.SolitonBus.sisPolyiodideShuttleDiffusivity (1 / 10 ^ 7) (1 / 1000) 999 < 1 / 10 ^ 12 ∧
+      Signals.SolitonBus.microwavePhenolationSpeedupRatio 2880 5 = 576 ∧
+      (500 : ℝ) < Signals.SolitonBus.microwavePhenolationSpeedupRatio 2880 5 ∧
+      Signals.SolitonBus.railroadTrackMileStorageMwh 3250 10 150 = 39 / 8 ∧
+      Signals.SolitonBus.railroadTrackMileStorageMwh 3250 10 500 = 65 / 4 ∧
+      Signals.SolitonBus.railroadTrackMileStorageMwh 3250 10 150 <
+        Signals.SolitonBus.railroadTrackMileStorageMwh 3250 10 500 ∧
+      Signals.SolitonBus.closedLoopSolvolysisRetention (49 / 50) 1 = 49 / 50 ∧
+      (19 / 20 : ℝ) < Signals.SolitonBus.closedLoopSolvolysisRetention (49 / 50) 1 ∧
+      Signals.SolitonBus.hydroxylPlasmaSpecificEnergyEfficiencyRatio 20 1 (5 / 2) 1 = 8 ∧
+      Signals.SolitonBus.hydroxylPlasmaSpecificEnergyEfficiencyRatio 20 (18 / 100) (5 / 2) (36 / 100) = 16 ∧
+      Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 2500 5 (7 / 20) = 4375 ∧
+      Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 900 75 (21 / 20) = 70875 ∧
+      Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 2500 5 (7 / 20) <
+        Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 900 75 (21 / 20) ∧
+      5 * Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 900 75 (21 / 20) =
+        81 * Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 2500 5 (7 / 20) ∧
+      Signals.SolitonBus.volumetricSpecificSurfaceArea 2500 (7 / 20) = 875 ∧
+      Signals.SolitonBus.volumetricSpecificSurfaceArea 900 (21 / 20) = 945 ∧
+      25 * Signals.SolitonBus.volumetricSpecificSurfaceArea 900 (21 / 20) =
+        27 * Signals.SolitonBus.volumetricSpecificSurfaceArea 2500 (7 / 20) ∧
+      Signals.SolitonBus.volumetricSpecificCapacitanceFPerCm3 150 (7 / 20) = 105 / 2 ∧
+      Signals.SolitonBus.volumetricSpecificCapacitanceFPerCm3 450 (21 / 20) = 945 / 2 ∧
+      Signals.SolitonBus.volumetricSpecificCapacitanceFPerCm3 450 (21 / 20) =
+        9 * Signals.SolitonBus.volumetricSpecificCapacitanceFPerCm3 150 (7 / 20) ∧
+      Signals.SolitonBus.batteryInitialCoulombicEfficiency (22 / 100000) 2500 = 9 / 20 ∧
+      Signals.SolitonBus.batteryInitialCoulombicEfficiency (22 / 100000) 900 = 401 / 500 ∧
+      Signals.SolitonBus.batteryInitialCoulombicEfficiency (22 / 100000) 300 = 467 / 500 ∧
+      Signals.SolitonBus.batteryInitialCoulombicEfficiency (22 / 100000) 2500 <
+        Signals.SolitonBus.batteryInitialCoulombicEfficiency (22 / 100000) 900 ∧
+      Signals.SolitonBus.poreDiffusionCharacteristicTimeUs 30 1000 = 9 / 10 ∧
+      Signals.SolitonBus.poreDiffusionCharacteristicTimeUs 30000 1000 = 900000 ∧
+      1000000 * Signals.SolitonBus.poreDiffusionCharacteristicTimeUs 30 1000 =
+        Signals.SolitonBus.poreDiffusionCharacteristicTimeUs 30000 1000 ∧
+      Signals.SolitonBus.supercapacitorVolumetricEnergyDensityWhPerL (945 / 2) (7 / 2) =
+        9 * Signals.SolitonBus.supercapacitorVolumetricEnergyDensityWhPerL (105 / 2) (7 / 2) ∧
+      (45 : ℝ) < 130 ∧ (130 : ℝ) < 150 ∧ (150 : ℝ) < 200 ∧
+      (200 : ℝ) < Signals.SolitonBus.hbnLightningGulpAttenuatedFluidTempC 50 950 1 5 ∧
+      Signals.SolitonBus.hbnLightningGulpAttenuatedFluidTempC 50 950 1 5 < 400 ∧
+      (400 : ℝ) < 800 :=
+  contract.omni_carbon_energy_storage_deep_gap_closure_bounds d_0 s_steric
+
 end SignalsPending

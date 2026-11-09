@@ -7749,4 +7749,59 @@ example (n_avg pitch_nm gamma_phase gamma_nv b_field : ℝ) :
     (1 / 2) (3 / 5) (4 / 5) n_avg pitch_nm (4 / 5) gamma_phase gamma_nv b_field
     (by norm_num) (by norm_num) (by norm_num)
 
+example (theta_pass d_0 s_steric : ℝ) :
+    Signals.SolitonBus.omniCarbonVolumetricEnergyDensityWhPerL 280 (9 / 5) = 504 ∧
+      Signals.SolitonBus.omniCarbonVolumetricEnergyDensityWhPerL 550 (17 / 11) = 850 ∧
+      Signals.SolitonBus.omniKineticHybridPackEnergyKwh (5 / 2) 300 (5 / 2) 200 5 10 = 1300 ∧
+      Signals.SolitonBus.seriesQuantumDoubleLayerCapacitance 600 1800 =
+        3 * Signals.SolitonBus.seriesQuantumDoubleLayerCapacitance 600 200 ∧
+      Signals.SolitonBus.supercapacitorUsableEnergyFraction 1 5 = 24 / 25 ∧
+      Signals.SolitonBus.quinoneRedoxPemElectrolyzerVoltageMismatch (31 / 10) 2 (31 / 20) = 0 ∧
+      Signals.SolitonBus.dftMcWeenyPassivatedLeakageFactor 1 theta_pass = 0 ∧
+      Signals.SolitonBus.dftMcWeenyPassivatedLeakageFactor (9 / 10) (19 / 20) < 1 / 100 ∧
+      Signals.SolitonBus.plabicThreeStageIonTransportEsr 1 1 2 1 <
+        Signals.SolitonBus.plabicThreeStageIonTransportEsr 1 5 2 1 ∧
+      Signals.SolitonBus.hbnLightningGulpAttenuatedFluidTempC 50 950 1 5 < 210 ∧
+      Signals.SolitonBus.omniCarbonCircularPackNetCostPerKwh 45 2 (33 / 4) 1 = 57 / 2 ∧
+      Signals.SolitonBus.omniCarbonCircularPackNetCostPerKwh 45 2 (33 / 4) (3 / 20) = 171 / 40 ∧
+      Signals.SolitonBus.ragoneMatchedLoadPeakPower 3 4 =
+        3 * Signals.SolitonBus.ragoneMatchedLoadPeakPower 3 12 ∧
+      Signals.SolitonBus.sisPolyiodideShuttleDiffusivity d_0 0 s_steric = 0 ∧
+      Signals.SolitonBus.microwavePhenolationSpeedupRatio 2880 5 = 576 ∧
+      Signals.SolitonBus.railroadTrackMileStorageMwh 3250 10 500 = 65 / 4 ∧
+      (19 / 20 : ℝ) < Signals.SolitonBus.closedLoopSolvolysisRetention (49 / 50) 1 ∧
+      Signals.SolitonBus.hydroxylPlasmaSpecificEnergyEfficiencyRatio 20 (18 / 100) (5 / 2) (36 / 100) = 16 ∧
+      5 * Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 900 75 (21 / 20) =
+        81 * Signals.SolitonBus.bastActivationVolumetricConductiveRateFoM 2500 5 (7 / 20) ∧
+      25 * Signals.SolitonBus.volumetricSpecificSurfaceArea 900 (21 / 20) =
+        27 * Signals.SolitonBus.volumetricSpecificSurfaceArea 2500 (7 / 20) ∧
+      Signals.SolitonBus.volumetricSpecificCapacitanceFPerCm3 450 (21 / 20) =
+        9 * Signals.SolitonBus.volumetricSpecificCapacitanceFPerCm3 150 (7 / 20) ∧
+      Signals.SolitonBus.batteryInitialCoulombicEfficiency (22 / 100000) 900 = 401 / 500 ∧
+      1000000 * Signals.SolitonBus.poreDiffusionCharacteristicTimeUs 30 1000 =
+        Signals.SolitonBus.poreDiffusionCharacteristicTimeUs 30000 1000 ∧
+      Signals.SolitonBus.supercapacitorVolumetricEnergyDensityWhPerL (945 / 2) (7 / 2) =
+        9 * Signals.SolitonBus.supercapacitorVolumetricEnergyDensityWhPerL (105 / 2) (7 / 2) := by
+  have h1 :=
+    Signals.SolitonBus.omni_carbon_kinetic_battery_supercapacitor_dft_and_biodegradable_component_identities
+      theta_pass
+  have h2 :=
+    Signals.SolitonBus.omni_carbon_energy_storage_deep_gap_closure_identities d_0 s_steric
+  exact ⟨h1.1, h1.2.2.1, h1.2.2.2.2.2.1, h1.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.1, h2.2.2.2.2.1, h2.2.2.2.2.2.2.2.1, h2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.1, h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    by unfold Signals.SolitonBus.poreDiffusionCharacteristicTimeUs; norm_num,
+    by unfold Signals.SolitonBus.supercapacitorVolumetricEnergyDensityWhPerL; norm_num⟩
+
 end SignalsTests

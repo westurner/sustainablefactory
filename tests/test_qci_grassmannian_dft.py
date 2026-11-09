@@ -1515,3 +1515,196 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
         ),
         0.0,
     )
+
+    # Paper 41: Lignolux Omni-Carbon Kinetic Batteries, Q-Node Supercapacitors,
+    #           Semi-Dirac Quantum Capacitance, QCI-GXC DFT Passivation, &
+    #           Biodegradable / Closed-Loop Recyclable Electrical Components
+    assert np.isclose(
+        SDSU4.omni_carbon_volumetric_energy_density_wh_per_l(280.0, 1.8), 504.0
+    )
+    assert np.isclose(
+        SDSU4.omni_carbon_volumetric_energy_density_wh_per_l(
+            320.0, 45.0 / 32.0
+        ),
+        450.0,
+    )
+    assert np.isclose(
+        SDSU4.omni_carbon_volumetric_energy_density_wh_per_l(
+            550.0, 17.0 / 11.0
+        ),
+        850.0,
+    )
+    assert np.isclose(
+        SDSU4.omni_kinetic_hybrid_pack_energy_kwh(
+            2.5, 300.0, 2.5, 200.0, 5.0, 10.0
+        ),
+        1300.0,
+    )
+    assert SDSU4.zno_piezo_critical_fracture_stress_sq(
+        100.0, 2.0, 8.0
+    ) < SDSU4.zno_piezo_critical_fracture_stress_sq(100.0, 2.0, 4.0)
+    assert np.isclose(
+        SDSU4.series_quantum_double_layer_capacitance(600.0, 200.0), 150.0
+    )
+    assert np.isclose(
+        SDSU4.series_quantum_double_layer_capacitance(600.0, 1800.0), 450.0
+    )
+    assert np.isclose(
+        SDSU4.supercapacitor_usable_energy_fraction(3.0, 4.2), 24.0 / 49.0
+    )
+    assert np.isclose(
+        SDSU4.supercapacitor_usable_energy_fraction(1.0, 5.0), 0.96
+    )
+    assert np.isclose(
+        SDSU4.quinone_redox_pem_electrolyzer_voltage_mismatch(3.1, 2.0, 1.55),
+        0.0,
+    )
+    assert np.isclose(SDSU4.dft_nernst_open_circuit_voltage(6.2, 2.0), 3.1)
+    assert np.isclose(SDSU4.dft_nernst_open_circuit_voltage(7.0, 2.0), 3.5)
+    assert np.isclose(
+        SDSU4.dft_mcweeny_passivated_leakage_factor(1.0, 0.95), 0.0
+    )
+    assert np.isclose(
+        SDSU4.dft_mcweeny_passivated_leakage_factor(0.5, 0.0), 1.0
+    )
+    assert np.isclose(
+        SDSU4.dft_mcweeny_passivated_leakage_factor(0.9, 0.95),
+        3402.0 / 625000.0,
+    )
+    assert SDSU4.dft_mcweeny_passivated_leakage_factor(0.9, 0.95) < 0.01
+    assert np.isclose(
+        SDSU4.plabic_three_stage_ion_transport_esr(1.0, 5.0, 2.0, 1.0), 12.0
+    )
+    assert np.isclose(
+        SDSU4.plabic_three_stage_ion_transport_esr(1.0, 1.0, 2.0, 1.0), 4.0
+    )
+    assert np.isclose(
+        SDSU4.hbn_lightning_gulp_attenuated_fluid_temp_c(50.0, 950.0, 1.0, 5.0),
+        625.0 / 3.0,
+    )
+    assert (
+        SDSU4.hbn_lightning_gulp_attenuated_fluid_temp_c(50.0, 950.0, 1.0, 5.0)
+        < 210.0
+    )
+    assert np.isclose(
+        SDSU4.maglev_kinetic_spool_specific_energy_max(3600.0, 1800.0), 1.0
+    )
+    assert np.isclose(
+        SDSU4.maglev_kinetic_spool_specific_energy_max(800.0, 8000.0), 0.05
+    )
+    assert np.isclose(
+        SDSU4.omni_carbon_circular_pack_net_cost_per_kwh(45.0, 2.0, 8.25, 1.0),
+        28.5,
+    )
+    assert np.isclose(
+        SDSU4.omni_carbon_circular_pack_net_cost_per_kwh(45.0, 2.0, 8.25, 0.15),
+        4.275,
+    )
+    assert np.isclose(
+        SDSU4.ragone_terminal_delivery_efficiency(3.0, 1.0, 0.6), 0.8
+    )
+    assert np.isclose(
+        SDSU4.ragone_terminal_delivery_efficiency(3.0, 1.0, 0.2), 14.0 / 15.0
+    )
+    assert np.isclose(
+        SDSU4.ragone_matched_load_peak_power(3.0, 4.0),
+        3.0 * SDSU4.ragone_matched_load_peak_power(3.0, 12.0),
+    )
+    assert np.isclose(
+        SDSU4.sis_polyiodide_shuttle_diffusivity(1.0e-7, 0.0, 999.0), 0.0
+    )
+    assert np.isclose(
+        SDSU4.sis_polyiodide_shuttle_diffusivity(1.0e-7, 1.0e-3, 999.0),
+        1.0e-13,
+    )
+    assert (
+        SDSU4.sis_polyiodide_shuttle_diffusivity(1.0e-7, 1.0e-3, 999.0)
+        < 1.0e-12
+    )
+    assert np.isclose(
+        SDSU4.microwave_phenolation_speedup_ratio(2880.0, 5.0), 576.0
+    )
+    assert np.isclose(
+        SDSU4.railroad_track_mile_storage_mwh(3250.0, 10.0, 150.0), 4.875
+    )
+    assert np.isclose(
+        SDSU4.railroad_track_mile_storage_mwh(3250.0, 10.0, 500.0), 16.25
+    )
+    assert np.isclose(SDSU4.closed_loop_solvolysis_retention(0.98, 1), 0.98)
+    assert np.isclose(
+        SDSU4.hydroxyl_plasma_specific_energy_efficiency_ratio(
+            20.0, 1.0, 2.5, 1.0
+        ),
+        8.0,
+    )
+    assert np.isclose(
+        SDSU4.hydroxyl_plasma_specific_energy_efficiency_ratio(
+            20.0, 0.18, 2.5, 0.36
+        ),
+        16.0,
+    )
+    assert np.isclose(
+        SDSU4.bast_activation_volumetric_conductive_rate_fom(
+            2500.0, 5.0, 0.35
+        ),
+        4375.0,
+    )
+    assert np.isclose(
+        SDSU4.bast_activation_volumetric_conductive_rate_fom(
+            900.0, 75.0, 1.05
+        ),
+        70875.0,
+    )
+    assert np.isclose(
+        5.0
+        * SDSU4.bast_activation_volumetric_conductive_rate_fom(
+            900.0, 75.0, 1.05
+        ),
+        81.0
+        * SDSU4.bast_activation_volumetric_conductive_rate_fom(
+            2500.0, 5.0, 0.35
+        ),
+    )
+    assert np.isclose(
+        SDSU4.volumetric_specific_surface_area(2500.0, 0.35), 875.0
+    )
+    assert np.isclose(
+        SDSU4.volumetric_specific_surface_area(900.0, 1.05), 945.0
+    )
+    assert np.isclose(
+        25.0 * SDSU4.volumetric_specific_surface_area(900.0, 1.05),
+        27.0 * SDSU4.volumetric_specific_surface_area(2500.0, 0.35),
+    )
+    assert np.isclose(
+        SDSU4.volumetric_specific_capacitance_f_per_cm3(150.0, 0.35), 52.5
+    )
+    assert np.isclose(
+        SDSU4.volumetric_specific_capacitance_f_per_cm3(450.0, 1.05), 472.5
+    )
+    assert np.isclose(
+        SDSU4.volumetric_specific_capacitance_f_per_cm3(450.0, 1.05),
+        9.0 * SDSU4.volumetric_specific_capacitance_f_per_cm3(150.0, 0.35),
+    )
+    assert np.isclose(
+        SDSU4.battery_initial_coulombic_efficiency(22.0 / 100000.0, 2500.0),
+        0.45,
+    )
+    assert np.isclose(
+        SDSU4.battery_initial_coulombic_efficiency(22.0 / 100000.0, 900.0),
+        0.802,
+    )
+    assert np.isclose(
+        SDSU4.battery_initial_coulombic_efficiency(22.0 / 100000.0, 300.0),
+        0.934,
+    )
+    assert np.isclose(
+        SDSU4.pore_diffusion_characteristic_time_us(30.0, 1000.0), 0.9
+    )
+    assert np.isclose(
+        SDSU4.pore_diffusion_characteristic_time_us(30000.0, 1000.0), 900000.0
+    )
+    assert np.isclose(
+        SDSU4.supercapacitor_volumetric_energy_density_wh_per_l(472.5, 3.5),
+        9.0
+        * SDSU4.supercapacitor_volumetric_energy_density_wh_per_l(52.5, 3.5),
+    )
