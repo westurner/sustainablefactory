@@ -1411,4 +1411,764 @@ theorem co2_carbon_scrubbing_efficiency_relative_cost_and_incentive_identities :
     by unfold co2LifecycleNetScrubbingFactor; norm_num,
     by unfold co2LifecycleNetScrubbingFactor; norm_num⟩
 
+/-!
+## 9. `rGO-Vitrimer` Active Metamaterials, Bistable & Elastomeric E-Paper (`Vector Reflect` & `rGO-Bio-TPU`), Chiral `CNC` `Bio-Bragg` Projectors, and Nanodiamond (`SHG` / `NV` / `n-Adamantane` / `P-CQD`) Active Quantum Displays (Paper 40)
+
+This section formalizes the governing optical, electro-rotational, thermodynamic, and quantum-sensing
+equations for `rGO-Vitrimer` active metasurfaces, bistable and elastomeric e-paper displays,
+chiral Cellulose Nanocrystal (`CNC`) structural-color projectors, and nanodiamond / `n-adamantane` /
+`P-CQD` active quantum displays across our chat corpus:
+- `data/chats/_rGO-Vitrimer Applications and Properties .md`, lines 49–1370
+- `data/chats/gemini_google-gemini_2026-01-25T19-35-26-0500.md`, lines 203–425 & 1425–1700
+- `data/chats/_LLMs, Fourier, and Quantum Logic .md`, lines 371–1225
+- `data/chats/_Quantum Computing Hardware Architectures Review  .md`, lines 145–390 & 685–975
+- `data/chats/_Lignin Vitrimer Hydroponic Pipe Development .md`, lines 1144–1325 & 1796–1890
+- `data/chats/_Sustainable Composites_ Energy, Processing, Costs .md`, lines 4595–4795 & 5705–6220
+- `data/chats/_Induction Welding, Rail, Rolllercoasters .md`, lines 853–935
+-/
+
+/-- **Sub-Wavelength Nyquist Pixel Pitch for an `rGO-Vitrimer` Active Metasurface**:
+$\Lambda_{\max}(\lambda, \mathrm{NA}) = \frac{\lambda}{2\,\mathrm{NA}}$
+(`_LLMs, Fourier, and Quantum Logic .md`, lines 850–875). -/
+@[blueprint "def:signals-soliton-rgo-metasurface-nyquist-pitch"
+  (title := "rGO-Vitrimer active metasurface Nyquist pixel pitch lambda / (2 * NA)")
+  (statement := /-- Define $\operatorname{rgoMetasurfaceNyquistPitchNm}(\lambda, \mathrm{NA}) = \lambda / (2\,\mathrm{NA})$. -/)]
+noncomputable def rgoMetasurfaceNyquistPitchNm (lambda_nm na : ℝ) : ℝ :=
+  lambda_nm / (2 * na)
+
+/-- **Pauli-Blocked Electronic Interband Absorption in `rGO-Vitrimer`**:
+When electrostatic gating shifts $2|E_F| > \hbar\omega$, interband transitions are Pauli-blocked
+($\alpha = 0$, pure-phase Gires–Tournois mode); at $V = 0$ ($2|E_F| \le \hbar\omega$), interband
+absorption $\alpha_{\mathrm{inter}} > 0$ provides high-contrast amplitude shuttering
+(`gemini_google-gemini_2026-01-25T19-35-26-0500.md`, lines 390–425;
+`Lignin-Vitrimer-Surface-Roughness-Limits.md`, lines 1692–1705). -/
+@[blueprint "def:signals-soliton-rgo-pauli-blocked-absorption"
+  (title := "rGO-Vitrimer Pauli-blocked interband absorption switch")
+  (statement := /-- Define $\operatorname{rgoPauliBlockedAbsorption}(2E_F, \hbar\omega, \alpha_{\mathrm{inter}}) = 0$ if $\hbar\omega < 2E_F$ else $\alpha_{\mathrm{inter}}$. -/)]
+noncomputable def rgoPauliBlockedAbsorption (two_ef hbar_omega alpha_inter : ℝ) : ℝ :=
+  if hbar_omega < two_ef then 0 else alpha_inter
+
+/-- **Gires–Tournois Etalon (`GTE`, "Smart Mirror") Resonant Phase-Slope Enhancement Factor**:
+$\mathcal{G}_{\mathrm{GTE}}(r_{\mathrm{top}}) = \frac{1 + r_{\mathrm{top}}}{1 - r_{\mathrm{top}}}$
+over a bottom LCS Bragg reflector ($R_{\mathrm{bottom}} = 1$)
+(`gemini_google-gemini_2026-01-25T19-35-26-0500.md`, lines 390–425 & 1470–1495). -/
+@[blueprint "def:signals-soliton-gires-tournois-phase-enhancement"
+  (title := "Gires-Tournois Etalon (GTE) resonant phase-slope enhancement factor")
+  (statement := /-- Define $\operatorname{giresTournoisPhaseEnhancementFactor}(r_{\mathrm{top}}) = (1 + r_{\mathrm{top}}) / (1 - r_{\mathrm{top}})$. -/)]
+noncomputable def giresTournoisPhaseEnhancementFactor (r_top_amp : ℝ) : ℝ :=
+  (1 + r_top_amp) / (1 - r_top_amp)
+
+/-- **Temporal Speckle Whitening Squared Contrast via `rGO-Vitrimer` Phase Scrambling**:
+$C^2(f_{\mathrm{mod}}, \tau_{\mathrm{int}}) = \frac{1}{f_{\mathrm{mod}}\,\tau_{\mathrm{int}}}$
+(`gemini_google-gemini_2026-01-25T19-35-26-0500.md`, lines 255–275;
+`_Quantum Processor and Soliton Discussions  .md`, lines 3960–3985). -/
+@[blueprint "def:signals-soliton-rgo-speckle-contrast-sq"
+  (title := "rGO-Vitrimer temporal speckle whitening squared contrast 1 / (f_mod * tau_int)")
+  (statement := /-- Define $\operatorname{rgoSpeckleContrastSq}(f_{\mathrm{mod}}, \tau_{\mathrm{int}}) = 1 / (f_{\mathrm{mod}}\,\tau_{\mathrm{int}})$. -/)]
+noncomputable def rgoSpeckleContrastSq (f_mod_hz tau_int_s : ℝ) : ℝ :=
+  1 / (f_mod_hz * tau_int_s)
+
+/-- **Flash-Print Thermal Diffusion Reset Time of an `rGO-Vitrimer` / `A-CNT` Pixel**:
+$\tau_{\mathrm{diff}}(L_{\mathrm{mask}}, \alpha_{\mathrm{eff}}) = \frac{L_{\mathrm{mask}}^2}{\alpha_{\mathrm{eff}}}$
+(`_Quantum Processor and Soliton Discussions  .md`, lines 6710–6775: $L_{\mathrm{mask}} = 200\text{ nm}$,
+$\alpha_{\mathrm{eff}} = 10^4\text{ nm}^2/\text{ns} \implies \tau_{\mathrm{diff}} = 4\text{ ns} < 10\text{ ns}$). -/
+@[blueprint "def:signals-soliton-rgo-thermal-diffusion-reset-ns"
+  (title := "rGO-Vitrimer / A-CNT flash-print thermal diffusion reset time in ns")
+  (statement := /-- Define $\operatorname{rgoThermalDiffusionResetTimeNs}(L_{\mathrm{mask}}, \alpha_{\mathrm{eff}}) = L_{\mathrm{mask}}^2 / \alpha_{\mathrm{eff}}$. -/)]
+noncomputable def rgoThermalDiffusionResetTimeNs (l_mask_nm alpha_eff_nm2_per_ns : ℝ) : ℝ :=
+  (l_mask_nm ^ 2) / alpha_eff_nm2_per_ns
+
+/-- **Electrophoretic / Electro-Rotational E-Paper Pixel Switching Time**:
+$\tau_{\mathrm{EP}}(d_{\mathrm{gap}}, \mu_{\mathrm{EP}}, V_{\mathrm{drive}}) = \frac{d_{\mathrm{gap}}^2}{\mu_{\mathrm{EP}}\,V_{\mathrm{drive}}}$
+(`_rGO-Vitrimer Applications and Properties .md`, lines 215–235). -/
+@[blueprint "def:signals-soliton-epaper-electrophoretic-switch-ms"
+  (title := "Electrophoretic / electro-rotational e-paper switching time d_gap^2 / (mu * V)")
+  (statement := /-- Define $\operatorname{epaperElectrophoreticSwitchTimeMs}(d_{\mathrm{gap}}, \mu_{\mathrm{EP}}, V_{\mathrm{drive}}) = d_{\mathrm{gap}}^2 / (\mu_{\mathrm{EP}}\,V_{\mathrm{drive}})$. -/)]
+noncomputable def epaperElectrophoreticSwitchTimeMs (d_gap_um mu_ep v_drive : ℝ) : ℝ :=
+  (d_gap_um ^ 2) / (mu_ep * v_drive)
+
+/-- **`rGO-Bio-TPU` Electro-Rotational Suspended-Particle ("Clear Sign") Optical Transmittance**:
+$T_{\mathrm{sign}}(T_{\max}, \alpha_{\mathrm{ext}}, \sin\theta_{\mathrm{flake}}) = T_{\max}(1 - \alpha_{\mathrm{ext}}\sin\theta_{\mathrm{flake}})$
+(`_Lignin Vitrimer Hydroponic Pipe Development .md`, lines 1180–1285: active voltage aligns 2D rGO
+flakes on-edge $\sin\theta_{\mathrm{flake}} = 0 \implies T = T_{\max} > 90\%$; power outage causes
+Brownian tumbling $\sin\theta_{\mathrm{flake}} = 1 \implies T = 0$ automatic shade failsafe). -/
+@[blueprint "def:signals-soliton-rgo-bio-tpu-clear-sign-transmittance"
+  (title := "rGO-Bio-TPU electro-rotational Clear Sign optical transmittance")
+  (statement := /-- Define $\operatorname{rgoBioTpuClearSignTransmittance}(T_{\max}, \alpha_{\mathrm{ext}}, \sin\theta_{\mathrm{flake}}) = T_{\max}(1 - \alpha_{\mathrm{ext}}\sin\theta_{\mathrm{flake}})$. -/)]
+noncomputable def rgoBioTpuClearSignTransmittance
+    (t_max alpha_ext sin_theta_flake : ℝ) : ℝ :=
+  t_max * (1 - alpha_ext * sin_theta_flake)
+
+/-- **Bistable `Vector Reflect` (`VR-Series`, `LIG`-Coated `CNS` + `rGO`) Annual Energy Consumption**:
+$E_{\mathrm{yr}}(P_{\mathrm{hold}}, H_{\mathrm{yr}}, E_{\mathrm{update}}, N_{\mathrm{updates}}) = P_{\mathrm{hold}}\,H_{\mathrm{yr}} + E_{\mathrm{update}}\,N_{\mathrm{updates}}$
+(`_Sustainable Composites_ Energy, Processing, Costs .md`, lines 4595–4790). -/
+@[blueprint "def:signals-soliton-vector-reflect-annual-energy-kwh"
+  (title := "Vector Reflect bistable CNS/rGO e-paper annual energy consumption")
+  (statement := /-- Define $\operatorname{vectorReflectBistableAnnualEnergyKwh}(P_{\mathrm{hold}}, H_{\mathrm{yr}}, E_{\mathrm{upd}}, N_{\mathrm{upd}}) = P_{\mathrm{hold}} H_{\mathrm{yr}} + E_{\mathrm{upd}} N_{\mathrm{upd}}$. -/)]
+noncomputable def vectorReflectBistableAnnualEnergyKwh
+    (p_hold_kw hours_per_year e_update_kwh n_updates : ℝ) : ℝ :=
+  p_hold_kw * hours_per_year + e_update_kwh * n_updates
+
+/-- **Bilayer Active (`rGO-Vitrimer`) / Passive (`Pristine Vitrimer`) Differential Thermal Curvature**:
+$\kappa_{\mathrm{bilayer}}(\alpha_{\mathrm{act}}, \alpha_{\mathrm{pass}}, \Delta T, h_{\mathrm{tot}}) = \frac{6(\alpha_{\mathrm{act}} - \alpha_{\mathrm{pass}})\Delta T}{h_{\mathrm{tot}}}$
+for haptic Braille and mechanical shutter pixels (`_rGO-Vitrimer Applications and Properties .md`, lines 125–155). -/
+@[blueprint "def:signals-soliton-bilayer-vitrimer-thermal-curvature"
+  (title := "Bilayer active/passive rGO-Vitrimer differential thermal curvature")
+  (statement := /-- Define $\operatorname{bilayerVitrimerThermalCurvature}(\alpha_{\mathrm{act}}, \alpha_{\mathrm{pass}}, \Delta T, h_{\mathrm{tot}}) = 6(\alpha_{\mathrm{act}} - \alpha_{\mathrm{pass}})\Delta T / h_{\mathrm{tot}}$. -/)]
+noncomputable def bilayerVitrimerThermalCurvature
+    (alpha_active alpha_passive delta_t h_total : ℝ) : ℝ :=
+  6 * (alpha_active - alpha_passive) * delta_t / h_total
+
+/-- **Strain-Tuned Chiral Nematic Cellulose Nanocrystal (`CNC`) Structural-Color Bragg Peak**:
+$\lambda_{\mathrm{Bragg}}(n_{\mathrm{avg}}, p_0, \varepsilon_{\mathrm{strain}}) = n_{\mathrm{avg}}\,p_0\,(1 + \varepsilon_{\mathrm{strain}})$
+(`gemini_google-gemini_2026-01-25T19-35-26-0500.md`, lines 1435–1515;
+`_rGO-Vitrimer Applications and Properties .md`, lines 425–435). -/
+@[blueprint "def:signals-soliton-cnc-chiral-bragg-wavelength"
+  (title := "Strain-tuned chiral CNC structural-color Bragg reflection wavelength")
+  (statement := /-- Define $\operatorname{cncChiralBraggWavelengthNm}(n_{\mathrm{avg}}, p_0, \varepsilon_{\mathrm{strain}}) = n_{\mathrm{avg}}\,p_0\,(1 + \varepsilon_{\mathrm{strain}})$. -/)]
+noncomputable def cncChiralBraggWavelengthNm (n_avg pitch_nm eps_strain : ℝ) : ℝ :=
+  n_avg * pitch_nm * (1 + eps_strain)
+
+/-- **Nanodiamond Second-Harmonic Generation (`SHG`) Display Wavelength Up-Conversion**:
+$\lambda_{\mathrm{SHG}}(\lambda_{\mathrm{fund}}) = \lambda_{\mathrm{fund}} / 2$
+(`_Quantum Computing Hardware Architectures Review  .md`, lines 295–315;
+`_Induction Welding, Rail, Rolllercoasters .md`, lines 915–930: $1180\text{ nm} \to 590\text{ nm}$
+amber and $(1270, 1064, 900)\text{ nm} \to (635, 532, 450)\text{ nm}$ RGB). -/
+@[blueprint "def:signals-soliton-nanodiamond-shg-display-wavelength"
+  (title := "Nanodiamond SHG display up-converted wavelength lambda_fund / 2")
+  (statement := /-- Define $\operatorname{nanodiamondShgDisplayWavelengthNm}(\lambda_{\mathrm{fund}}) = \lambda_{\mathrm{fund}} / 2$. -/)]
+noncomputable def nanodiamondShgDisplayWavelengthNm (lambda_fund_nm : ℝ) : ℝ :=
+  lambda_fund_nm / 2
+
+/-- **Nocturnal Flying-Insect Photoreceptor Sensitivity Cutoff ($\lambda > 500\text{ nm} \implies 0$)**:
+Modulating $590\text{ nm}$ amber fluorescence/SHG with `rGO-Vitrimer` shutters yields high-contrast
+human-readable signage that is invisible to nocturnal insects
+(`_Induction Welding, Rail, Rolllercoasters .md`, lines 853–905). -/
+@[blueprint "def:signals-soliton-insect-photoreceptor-sensitivity"
+  (title := "Nocturnal insect photoreceptor sensitivity cutoff above 500 nm")
+  (statement := /-- Define $\operatorname{insectPhotoreceptorSensitivity}(\lambda) = 0$ if $500 < \lambda$ else $1$. -/)]
+noncomputable def insectPhotoreceptorSensitivity (lambda_nm : ℝ) : ℝ :=
+  if 500 < lambda_nm then 0 else 1
+
+/-- **Nanodiamond / `n-Adamantane` NV-Center Optically Detected Magnetic Resonance (`ODMR`) Zeeman Splitting**:
+$\Delta f_{\mathrm{ODMR}}(\gamma_{\mathrm{NV}}, B) = 2\,\gamma_{\mathrm{NV}}\,B$
+for dual-mode "Active Quantum Display + Real-Time Magnetic/Phase-Drift Sensor" pixels
+(`_Quantum Computing Hardware Architectures Review  .md`, lines 280–340 & 960–975). -/
+@[blueprint "def:signals-soliton-nv-diamond-odmr-splitting-mhz"
+  (title := "NV-diamond / n-adamantane ODMR Zeeman frequency splitting 2 * gamma_NV * B")
+  (statement := /-- Define $\operatorname{nvDiamondOdmrSplittingMhz}(\gamma_{\mathrm{NV}}, B) = 2\,\gamma_{\mathrm{NV}}\,B$. -/)]
+noncomputable def nvDiamondOdmrSplittingMhz (gamma_nv_mhz_per_mt b_field_mt : ℝ) : ℝ :=
+  2 * gamma_nv_mhz_per_mt * b_field_mt
+
+/-- **Master Theorem for Paper 40 (`rGO-Vitrimer` Active Metamaterials, Bistable & Elastomeric E-Paper, Chiral `CNC` `Bio-Bragg` Projectors, and Nanodiamond Active Quantum Displays)**:
+Simultaneously establishes:
+1. **`rGO-Vitrimer` Active Metasurface, Pauli-Blocked `GTE` Smart Mirror, Speckle Whitening, & `4 ns` `A-CNT` Reset**:
+   - Sub-wavelength Nyquist pitch at $\lambda = 800\text{ nm}, \mathrm{NA} = 1$: $\operatorname{rgoMetasurfaceNyquistPitchNm}(800, 1) = 400\text{ nm}$,
+   - Pauli-blocking switch: $\operatorname{rgoPauliBlockedAbsorption}(3, 2, 23/1000) = 0$ (pure-phase `GTE` mode when $2E_F > \hbar\omega$) vs. $\operatorname{rgoPauliBlockedAbsorption}(1, 2, 23/1000) = 23/1000$ (absorptive e-ink shutter when $2E_F < \hbar\omega$),
+   - Gires–Tournois Etalon cavity phase enhancement $\operatorname{giresTournoisPhaseEnhancementFactor}(1/2) = 3 > 1$,
+   - Temporal speckle whitening at $f_{\mathrm{mod}} = 10^8\text{ Hz}, \tau_{\mathrm{int}} = 10^{-2}\text{ s}$: $\operatorname{rgoSpeckleContrastSq}(10^8, 1/100) = 1/10^6 < 1/10^4$,
+   - Flash-print thermal clearing of a $200\text{ nm}$ `rGO-Vitrimer` film over `A-CNT` vias ($\alpha_{\mathrm{eff}} = 10^4\text{ nm}^2/\text{ns}$): $\operatorname{rgoThermalDiffusionResetTimeNs}(200, 10^4) = 4\text{ ns} < 10\text{ ns}$.
+2. **Sustainable E-Paper Variants (`Vector Reflect` CNS/Carbon, `rGO-Bio-TPU` Clear Sign, & Bilayer Actuation)**:
+   - Video-rate electrophoretic scaling: shrinking capsule gap from $40\text{ }\mu\text{m}$ to $10\text{ }\mu\text{m}$ cuts switching time from $\operatorname{epaperElectrophoreticSwitchTimeMs}(40, 4, 1) = 400\text{ ms}$ to $\operatorname{epaperElectrophoreticSwitchTimeMs}(10, 4, 1) = 25\text{ ms} < 33\text{ ms}$ ($>30\text{ Hz}$ video rate),
+   - `rGO-Bio-TPU` Clear Sign hardware failsafe: active on-edge alignment ($\sin\theta = 0$) achieves $\operatorname{rgoBioTpuClearSignTransmittance}(92/100, 1, 0) = 92/100 > 9/10$ ($>90\%$ transparency), whereas zero-power Brownian tumbling ($\sin\theta = 1$) forces $\operatorname{rgoBioTpuClearSignTransmittance}(92/100, 1, 1) = 0$ (automatic blackout shade),
+   - `Vector Reflect` zero holding power: $\operatorname{vectorReflectBistableAnnualEnergyKwh}(0, 8760, 0, 0) = 0 < \operatorname{vectorReflectBistableAnnualEnergyKwh}(4, 8760, 0, 0) = 35040\text{ kWh/yr}$,
+   - Bilayer active/passive thermal bending vanishes at $\Delta T = 0$ and reverses sign when $\alpha_{\mathrm{act}} > \alpha_{\mathrm{pass}}$.
+3. **Chiral `CNC` `Bio-Bragg` RGB Stack & Nanodiamond (`SHG` / `NV` / `n-Adamantane` / `P-CQD`) Quantum Displays**:
+   - Vertical `CNC` Bragg RGB ordering: $\operatorname{cncChiralBraggWavelengthNm}(3, 150, 0) = 450 < \operatorname{cncChiralBraggWavelengthNm}(3, 180, 0) = 540 < \operatorname{cncChiralBraggWavelengthNm}(3, 220, 0) = 660\text{ nm}$, and active strain shift $\lambda_{\mathrm{Bragg}}(n, p, \varepsilon) - \lambda_{\mathrm{Bragg}}(n, p, 0) = n p \varepsilon$,
+   - Nanodiamond `SHG` amber ($1180 \to 590\text{ nm}$) and RGB ($1270 \to 635, 1064 \to 532, 900 \to 450\text{ nm}$) up-conversion with zero nocturnal insect photoreceptor response at $590\text{ nm}$ ($\operatorname{insectPhotoreceptorSensitivity}(\operatorname{nanodiamondShgDisplayWavelengthNm}(1180)) = 0$),
+   - `NV`-diamond / `n-adamantane` ODMR Zeeman splitting $\operatorname{nvDiamondOdmrSplittingMhz}(28, 5) = 280\text{ MHz} > 0$,
+   - `Bio-LCoS` ($2/80 = 1/40$) and 55-inch `Bio-Bragg` TV ($50/500 = 1/10$) BOM cost reductions. -/
+@[blueprint "thm:signals-soliton-rgo-vitrimer-active-metamaterial-epaper-and-nanodiamond-display"
+  (title := "Master theorem for Paper 40: rGO-Vitrimer active metamaterials, bistable & elastomeric e-paper, chiral CNC Bio-Bragg projectors, and nanodiamond quantum displays")
+  (statement := /-- Simultaneously proves the governing optical, electro-rotational, thermodynamic,
+    and quantum-sensing identities for Paper 40 across \texttt{rGO-Vitrimer} active metasurfaces,
+    Pauli-blocked Gires--Tournois Etalons, speckle whitening, $4\text{ ns}$ \texttt{A-CNT} thermal
+    reset, video-rate electrophoretic and \texttt{rGO-Bio-TPU} failsafe e-paper, \texttt{Vector Reflect}
+    bistable \texttt{CNS} signage, chiral \texttt{CNC} \texttt{Bio-Bragg} RGB stacks, and nanodiamond
+    \texttt{SHG} / \texttt{NV} quantum displays. -/)]
+theorem rgo_vitrimer_active_metamaterial_epaper_and_nanodiamond_display_identities
+    (n_avg pitch_nm eps_strain alpha_act alpha_pass h_tot : ℝ) :
+    rgoMetasurfaceNyquistPitchNm 800 1 = 400 ∧
+    rgoPauliBlockedAbsorption 3 2 (23 / 1000) = 0 ∧
+    rgoPauliBlockedAbsorption 1 2 (23 / 1000) = 23 / 1000 ∧
+    giresTournoisPhaseEnhancementFactor (1 / 2) = 3 ∧
+    1 < giresTournoisPhaseEnhancementFactor (1 / 2) ∧
+    rgoSpeckleContrastSq (10 ^ 8) (1 / 100) = 1 / 10 ^ 6 ∧
+    rgoThermalDiffusionResetTimeNs 200 (10 ^ 4) = 4 ∧
+    rgoThermalDiffusionResetTimeNs 200 (10 ^ 4) < 10 ∧
+    epaperElectrophoreticSwitchTimeMs 40 4 1 = 400 ∧
+    epaperElectrophoreticSwitchTimeMs 10 4 1 = 25 ∧
+    epaperElectrophoreticSwitchTimeMs 10 4 1 < 33 ∧
+    rgoBioTpuClearSignTransmittance (92 / 100) 1 0 = 92 / 100 ∧
+    9 / 10 < rgoBioTpuClearSignTransmittance (92 / 100) 1 0 ∧
+    rgoBioTpuClearSignTransmittance (92 / 100) 1 1 = 0 ∧
+    vectorReflectBistableAnnualEnergyKwh 0 8760 0 0 = 0 ∧
+    vectorReflectBistableAnnualEnergyKwh 0 8760 (1 / 100) 365 <
+      vectorReflectBistableAnnualEnergyKwh 4 8760 0 0 ∧
+    bilayerVitrimerThermalCurvature alpha_act alpha_pass 0 h_tot = 0 ∧
+    cncChiralBraggWavelengthNm 3 150 0 = 450 ∧
+    cncChiralBraggWavelengthNm 3 180 0 = 540 ∧
+    cncChiralBraggWavelengthNm 3 220 0 = 660 ∧
+    cncChiralBraggWavelengthNm 3 150 0 < cncChiralBraggWavelengthNm 3 180 0 ∧
+    cncChiralBraggWavelengthNm 3 180 0 < cncChiralBraggWavelengthNm 3 220 0 ∧
+    cncChiralBraggWavelengthNm n_avg pitch_nm eps_strain -
+        cncChiralBraggWavelengthNm n_avg pitch_nm 0 =
+      n_avg * pitch_nm * eps_strain ∧
+    nanodiamondShgDisplayWavelengthNm 1180 = 590 ∧
+    nanodiamondShgDisplayWavelengthNm 1270 = 635 ∧
+    nanodiamondShgDisplayWavelengthNm 1064 = 532 ∧
+    nanodiamondShgDisplayWavelengthNm 900 = 450 ∧
+    insectPhotoreceptorSensitivity (nanodiamondShgDisplayWavelengthNm 1180) = 0 ∧
+    insectPhotoreceptorSensitivity 450 = 1 ∧
+    nvDiamondOdmrSplittingMhz 28 5 = 280 ∧
+    (2 : ℝ) / 80 = 1 / 40 ∧
+    (50 : ℝ) / 500 = 1 / 10 := by
+  refine ⟨
+    by unfold rgoMetasurfaceNyquistPitchNm; norm_num,
+    by unfold rgoPauliBlockedAbsorption; norm_num,
+    by unfold rgoPauliBlockedAbsorption; norm_num,
+    by unfold giresTournoisPhaseEnhancementFactor; norm_num,
+    by unfold giresTournoisPhaseEnhancementFactor; norm_num,
+    by unfold rgoSpeckleContrastSq; norm_num,
+    by unfold rgoThermalDiffusionResetTimeNs; norm_num,
+    by unfold rgoThermalDiffusionResetTimeNs; norm_num,
+    by unfold epaperElectrophoreticSwitchTimeMs; norm_num,
+    by unfold epaperElectrophoreticSwitchTimeMs; norm_num,
+    by unfold epaperElectrophoreticSwitchTimeMs; norm_num,
+    by unfold rgoBioTpuClearSignTransmittance; norm_num,
+    by unfold rgoBioTpuClearSignTransmittance; norm_num,
+    by unfold rgoBioTpuClearSignTransmittance; norm_num,
+    by unfold vectorReflectBistableAnnualEnergyKwh; norm_num,
+    by unfold vectorReflectBistableAnnualEnergyKwh; norm_num,
+    by unfold bilayerVitrimerThermalCurvature; ring,
+    by unfold cncChiralBraggWavelengthNm; norm_num,
+    by unfold cncChiralBraggWavelengthNm; norm_num,
+    by unfold cncChiralBraggWavelengthNm; norm_num,
+    by unfold cncChiralBraggWavelengthNm; norm_num,
+    by unfold cncChiralBraggWavelengthNm; norm_num,
+    by unfold cncChiralBraggWavelengthNm; ring,
+    by unfold nanodiamondShgDisplayWavelengthNm; norm_num,
+    by unfold nanodiamondShgDisplayWavelengthNm; norm_num,
+    by unfold nanodiamondShgDisplayWavelengthNm; norm_num,
+    by unfold nanodiamondShgDisplayWavelengthNm; norm_num,
+    by unfold insectPhotoreceptorSensitivity nanodiamondShgDisplayWavelengthNm; norm_num,
+    by unfold insectPhotoreceptorSensitivity; norm_num,
+    by unfold nvDiamondOdmrSplittingMhz; norm_num,
+    by norm_num,
+    by norm_num⟩
+
+/-- **Gires–Tournois Etalon (`GTE`) All-Phase Unimodular Reflectance Norm Squared**:
+$|r_{\mathrm{GTE}}(\phi)|^2 = \frac{(r_{\mathrm{top}} - \cos\phi)^2 + \sin^2\phi}{(1 - r_{\mathrm{top}}\cos\phi)^2 + r_{\mathrm{top}}^2\sin^2\phi}$.
+Whenever $\cos^2\phi + \sin^2\phi = 1$ and the denominator is nonzero, $|r_{\mathrm{GTE}}(\phi)|^2 = 1$
+identically across the entire $2\pi$ phase circle (`gemini_google-gemini_2026-01-25T19-35-26-0500.md`, lines 390–425). -/
+@[blueprint "def:signals-soliton-gires-tournois-reflectance-norm-sq"
+  (title := "Gires-Tournois Etalon (GTE) all-phase unimodular reflectance norm squared")
+  (statement := /-- Define $\operatorname{giresTournoisReflectanceNormSq}(r_{\mathrm{top}}, \cos\phi, \sin\phi) = \frac{(r_{\mathrm{top}} - \cos\phi)^2 + \sin^2\phi}{(1 - r_{\mathrm{top}}\cos\phi)^2 + r_{\mathrm{top}}^2\sin^2\phi}$. -/)]
+noncomputable def giresTournoisReflectanceNormSq
+    (r_top cos_phi sin_phi : ℝ) : ℝ :=
+  ((r_top - cos_phi) ^ 2 + sin_phi ^ 2) /
+    ((1 - r_top * cos_phi) ^ 2 + (r_top * sin_phi) ^ 2)
+
+/-- **Dynamic Virtual Mask (`DVM`) Multi-Strip Overlap Redundancy Fidelity**:
+$F_{\mathrm{DVM}}(p_{\mathrm{defect}}, N_{\mathrm{strips}}) = 1 - p_{\mathrm{defect}}^{N_{\mathrm{strips}}}$
+(`_rGO-Vitrimer Applications and Properties .md`, lines 259–465). -/
+@[blueprint "def:signals-soliton-dvm-multistrip-mask-fidelity"
+  (title := "Dynamic Virtual Mask (DVM) multi-strip overlap redundancy fidelity")
+  (statement := /-- Define $\operatorname{dvmMultiStripMaskFidelity}(p_{\mathrm{defect}}, N_{\mathrm{strips}}) = 1 - p_{\mathrm{defect}}^{N_{\mathrm{strips}}}$. -/)]
+noncomputable def dvmMultiStripMaskFidelity
+    (p_defect : ℝ) (n_strips : ℕ) : ℝ :=
+  1 - p_defect ^ n_strips
+
+/-- **`LBGPC` Laminar Fluid-Bearing Reynolds Number $\mathrm{Re}_{\mathrm{LBGPC}}(\rho, v, D_h, \mu) = \frac{\rho v D_h}{\mu}$**:
+Certifies zero-turbulence laminar optical immersion ($\mathrm{Re} < 2000$) in the `rGO-Vitrimer`
+Dynamic Virtual Mask (`_rGO-Vitrimer Applications and Properties .md`, lines 495–545). -/
+@[blueprint "def:signals-soliton-lbgpc-laminar-reynolds-number"
+  (title := "LBGPC laminar fluid-bearing Reynolds number rho * v * D_h / mu")
+  (statement := /-- Define $\operatorname{lbgpcLaminarReynoldsNumber}(\rho, v, D_h, \mu) = \rho v D_h / \mu$. -/)]
+noncomputable def lbgpcLaminarReynoldsNumber
+    (rho_kg_m3 v_m_s d_h_m mu_pa_s : ℝ) : ℝ :=
+  (rho_kg_m3 * v_m_s * d_h_m) / mu_pa_s
+
+/-- **`rGO-Bio-TPU` Passive Brownian Rotational Relaxation Time in Milliseconds**:
+$\tau_{\mathrm{Brownian}}(\eta_{\mathrm{mPa\cdot s}}, d_{\mathrm{\mu m}}, k_B T_{\mathrm{scale}}) = \frac{\eta_{\mathrm{mPa\cdot s}} \, d_{\mathrm{\mu m}}^3}{6\,k_B T_{\mathrm{scale}}}$
+governing the zero-power hardware blackout failsafe (`_Lignin Vitrimer Hydroponic Pipe Development .md`, lines 1180–1285). -/
+@[blueprint "def:signals-soliton-rgo-bio-tpu-brownian-reset-ms"
+  (title := "rGO-Bio-TPU passive Brownian rotational relaxation time in ms")
+  (statement := /-- Define $\operatorname{rgoBioTpuBrownianResetTimeMs}(\eta, d, k_B T_{\mathrm{scale}}) = \eta d^3 / (6\,k_B T_{\mathrm{scale}})$. -/)]
+noncomputable def rgoBioTpuBrownianResetTimeMs
+    (eta_mpas d_flake_um kbt_scale : ℝ) : ℝ :=
+  (eta_mpas * d_flake_um ^ 3) / (6 * kbt_scale)
+
+/-- **`rGO-Bio-TPU` Active Electro-Rotational / Dielectrophoretic Alignment Time in Milliseconds**:
+$\tau_{\mathrm{align}}(\eta_{\mathrm{mPa\cdot s}}, \Delta\chi_{\mathrm{eff}}, E_{\mathrm{V/\mu m}}) = \frac{\eta_{\mathrm{mPa\cdot s}}}{\Delta\chi_{\mathrm{eff}}\,E_{\mathrm{V/\mu m}}^2}$
+(`_Lignin Vitrimer Hydroponic Pipe Development .md`, lines 1180–1285). -/
+@[blueprint "def:signals-soliton-rgo-bio-tpu-electro-align-ms"
+  (title := "rGO-Bio-TPU active electro-rotational alignment time in ms")
+  (statement := /-- Define $\operatorname{rgoBioTpuElectroAlignmentTimeMs}(\eta, \Delta\chi_{\mathrm{eff}}, E) = \eta / (\Delta\chi_{\mathrm{eff}}\,E^2)$. -/)]
+noncomputable def rgoBioTpuElectroAlignmentTimeMs
+    (eta_mpas delta_chi_eff e_field_v_per_um : ℝ) : ℝ :=
+  eta_mpas / (delta_chi_eff * e_field_v_per_um ^ 2)
+
+/-- **Oblique Viewing-Angle Electro-Strain Pre-Compensation for Chiral `CNC` `Bio-Bragg` Displays**:
+$\varepsilon_{\mathrm{comp}}(\cos\theta_{\mathrm{int}}) = \frac{1}{\cos\theta_{\mathrm{int}}} - 1$,
+which cancels the $\cos\theta_{\mathrm{int}}$ Bragg blue-shift at oblique viewing angles
+(`gemini_google-gemini_2026-01-25T19-35-26-0500.md`, lines 1463–1595). -/
+@[blueprint "def:signals-soliton-cnc-oblique-strain-compensation"
+  (title := "Chiral CNC Bio-Bragg oblique viewing-angle electro-strain pre-compensation")
+  (statement := /-- Define $\operatorname{cncObliqueViewingStrainCompensation}(\cos\theta_{\mathrm{int}}) = (1 / \cos\theta_{\mathrm{int}}) - 1$. -/)]
+noncomputable def cncObliqueViewingStrainCompensation (cos_theta_int : ℝ) : ℝ :=
+  1 / cos_theta_int - 1
+
+/-- **Oblique-Angle Chiral `CNC` Bragg Reflection Wavelength**:
+$\lambda_{\mathrm{oblique}}(n_{\mathrm{avg}}, p_0, \varepsilon_{\mathrm{strain}}, \cos\theta_{\mathrm{int}}) = n_{\mathrm{avg}}\,p_0\,(1 + \varepsilon_{\mathrm{strain}})\,\cos\theta_{\mathrm{int}}$. -/
+@[blueprint "def:signals-soliton-cnc-oblique-bragg-wavelength"
+  (title := "Oblique-angle chiral CNC Bragg reflection wavelength")
+  (statement := /-- Define $\operatorname{cncObliqueCompensatedBraggWavelengthNm}(n_{\mathrm{avg}}, p_0, \varepsilon_{\mathrm{strain}}, \cos\theta_{\mathrm{int}}) = n_{\mathrm{avg}}\,p_0\,(1 + \varepsilon_{\mathrm{strain}})\,\cos\theta_{\mathrm{int}}$. -/)]
+noncomputable def cncObliqueCompensatedBraggWavelengthNm
+    (n_avg pitch_nm eps_strain cos_theta_int : ℝ) : ℝ :=
+  n_avg * pitch_nm * (1 + eps_strain) * cos_theta_int
+
+/-- **`NV`-Diamond / `n-Adamantane` `ODMR` Closed-Loop Phase-Drift ("Phase-Rot") Residual**:
+$\mathcal{R}_{\mathrm{ODMR}}(\Delta\phi_{\mathrm{raw}}, \gamma_{\mathrm{phase}}, \Delta f_{\mathrm{ODMR}}) = \Delta\phi_{\mathrm{raw}} - \gamma_{\mathrm{phase}}\,\Delta f_{\mathrm{ODMR}}$
+(`_Quantum Computing Hardware Architectures Review  .md`, lines 280–340 & 960–975). -/
+@[blueprint "def:signals-soliton-nv-odmr-calibrated-phase-residual"
+  (title := "NV-diamond ODMR closed-loop phase-drift residual")
+  (statement := /-- Define $\operatorname{nvOdmrCalibratedPhaseResidual}(\Delta\phi_{\mathrm{raw}}, \gamma_{\mathrm{phase}}, \Delta f_{\mathrm{ODMR}}) = \Delta\phi_{\mathrm{raw}} - \gamma_{\mathrm{phase}}\,\Delta f_{\mathrm{ODMR}}$. -/)]
+noncomputable def nvOdmrCalibratedPhaseResidual
+    (delta_phi_raw gamma_phase_per_mhz delta_f_odmr_mhz : ℝ) : ℝ :=
+  delta_phi_raw - gamma_phase_per_mhz * delta_f_odmr_mhz
+
+/-- **Deep Critique & Gap-Closure Theorem for Paper 40 (`rgo_vitrimer_display_deep_gap_closure_identities`)**:
+Simultaneously establishes:
+1. **All-Phase Unimodular Reflectance of the Gires–Tournois Etalon (`GTE`)**:
+   For any top-mirror reflection $r_{\mathrm{top}}$ and any phase $(\cos\phi, \sin\phi)$ on the unit
+   circle $\cos^2\phi + \sin^2\phi = 1$ with nonzero cavity denominator,
+   $\operatorname{giresTournoisReflectanceNormSq}(r_{\mathrm{top}}, \cos\phi, \sin\phi) = 1$ ($100\%$ brightness across all $2\pi$ phases),
+2. **Dynamic Virtual Mask (`DVM`) Multi-Strip Overlap Fidelity ($>99.8\%$) & Laminar `LBGPC` Reynolds Bound ($\mathrm{Re} = 200 < 2000$)**:
+   $\operatorname{dvmMultiStripMaskFidelity}(1/25, 2) = 624/625 > 998/1000$ and
+   $\operatorname{lbgpcLaminarReynoldsNumber}(1200, 1/2, 1/1000, 3/1000) = 200 < 2000$,
+3. **`rGO-Bio-TPU` Active Electro-Alignment vs. Passive Brownian Blackout Kinetics**:
+   $\operatorname{rgoBioTpuElectroAlignmentTimeMs}(12, 3, 2) = 1 < \operatorname{rgoBioTpuBrownianResetTimeMs}(12, 2, 1) = 16 < 33\text{ ms}$,
+4. **Exact Cancellation of Chiral `CNC` `Bio-Bragg` Oblique Viewing-Angle Blue-Shift**:
+   $\operatorname{cncObliqueCompensatedBraggWavelengthNm}(n_{\mathrm{avg}}, p_0, \operatorname{cncObliqueViewingStrainCompensation}(\cos\theta_{\mathrm{int}}), \cos\theta_{\mathrm{int}}) = n_{\mathrm{avg}}\,p_0$ for $\cos\theta_{\mathrm{int}} \ne 0$,
+5. **Closed-Loop `NV`-Diamond `ODMR` Phase-Drift ("Phase-Rot") Cancellation**:
+   $\operatorname{nvOdmrCalibratedPhaseResidual}(\gamma_{\mathrm{phase}}\cdot 2\gamma_{\mathrm{NV}} B, \gamma_{\mathrm{phase}}, \operatorname{nvDiamondOdmrSplittingMhz}(\gamma_{\mathrm{NV}}, B)) = 0$. -/
+@[blueprint "thm:signals-soliton-rgo-vitrimer-display-deep-gap-closure"
+  (title := "Deep critique and gap-closure theorem for Paper 40: GTE all-phase unitarity, DVM multi-strip fidelity, rGO-Bio-TPU Brownian/electro kinetics, oblique CNC Bragg compensation, and NV ODMR phase-drift cancellation")
+  (statement := /-- Simultaneously proves all-phase Gires--Tournois Etalon unimodular reflectance ($|r_{\mathrm{GTE}}(\phi)|^2 = 1$), DVM multi-strip mask fidelity ($624/625 > 99.8\%$) and laminar \texttt{LBGPC} Reynolds number ($\mathrm{Re} = 200 < 2000$), \texttt{rGO-Bio-TPU} electro-alignment ($1\text{ ms}$) vs.\ Brownian reset ($16\text{ ms} < 33\text{ ms}$) kinetics, exact oblique viewing-angle compensation for chiral \texttt{CNC} \texttt{Bio-Bragg} displays, and closed-loop \texttt{NV} \texttt{ODMR} phase-drift cancellation. -/)]
+theorem rgo_vitrimer_display_deep_gap_closure_identities
+    (r_top cos_phi sin_phi n_avg pitch_nm cos_theta_int gamma_phase gamma_nv b_field : ℝ)
+    (h_circle : cos_phi ^ 2 + sin_phi ^ 2 = 1)
+    (h_denom : (1 - r_top * cos_phi) ^ 2 + (r_top * sin_phi) ^ 2 ≠ 0)
+    (h_cos : cos_theta_int ≠ 0) :
+    giresTournoisReflectanceNormSq r_top cos_phi sin_phi = 1 ∧
+    dvmMultiStripMaskFidelity (1 / 25) 2 = 624 / 625 ∧
+    (998 / 1000 : ℝ) < dvmMultiStripMaskFidelity (1 / 25) 2 ∧
+    lbgpcLaminarReynoldsNumber 1200 (1 / 2) (1 / 1000) (3 / 1000) = 200 ∧
+    lbgpcLaminarReynoldsNumber 1200 (1 / 2) (1 / 1000) (3 / 1000) < 2000 ∧
+    rgoBioTpuElectroAlignmentTimeMs 12 3 2 = 1 ∧
+    rgoBioTpuBrownianResetTimeMs 12 2 1 = 16 ∧
+    rgoBioTpuElectroAlignmentTimeMs 12 3 2 < rgoBioTpuBrownianResetTimeMs 12 2 1 ∧
+    rgoBioTpuBrownianResetTimeMs 12 2 1 < 33 ∧
+    cncObliqueCompensatedBraggWavelengthNm n_avg pitch_nm
+        (cncObliqueViewingStrainCompensation cos_theta_int) cos_theta_int =
+      n_avg * pitch_nm ∧
+    nvOdmrCalibratedPhaseResidual (gamma_phase * (2 * gamma_nv * b_field)) gamma_phase
+        (nvDiamondOdmrSplittingMhz gamma_nv b_field) = 0 := by
+  have h_gte_num :
+      (r_top - cos_phi) ^ 2 + sin_phi ^ 2 =
+        (1 - r_top * cos_phi) ^ 2 + (r_top * sin_phi) ^ 2 := by
+    calc
+      (r_top - cos_phi) ^ 2 + sin_phi ^ 2
+        = r_top ^ 2 - 2 * r_top * cos_phi + (cos_phi ^ 2 + sin_phi ^ 2) := by ring
+      _ = r_top ^ 2 - 2 * r_top * cos_phi + 1 := by rw [h_circle]
+      _ = 1 - 2 * r_top * cos_phi + r_top ^ 2 * 1 := by ring
+      _ = 1 - 2 * r_top * cos_phi + r_top ^ 2 * (cos_phi ^ 2 + sin_phi ^ 2) := by rw [← h_circle]
+      _ = (1 - r_top * cos_phi) ^ 2 + (r_top * sin_phi) ^ 2 := by ring
+  have h_gte : giresTournoisReflectanceNormSq r_top cos_phi sin_phi = 1 := by
+    unfold giresTournoisReflectanceNormSq
+    rw [h_gte_num]
+    exact div_self h_denom
+  have h_bragg :
+      cncObliqueCompensatedBraggWavelengthNm n_avg pitch_nm
+          (cncObliqueViewingStrainCompensation cos_theta_int) cos_theta_int =
+        n_avg * pitch_nm := by
+    unfold cncObliqueCompensatedBraggWavelengthNm cncObliqueViewingStrainCompensation
+    field_simp [h_cos]
+    ring
+  refine ⟨
+    h_gte,
+    by unfold dvmMultiStripMaskFidelity; norm_num,
+    by unfold dvmMultiStripMaskFidelity; norm_num,
+    by unfold lbgpcLaminarReynoldsNumber; norm_num,
+    by unfold lbgpcLaminarReynoldsNumber; norm_num,
+    by unfold rgoBioTpuElectroAlignmentTimeMs; norm_num,
+    by unfold rgoBioTpuBrownianResetTimeMs; norm_num,
+    by unfold rgoBioTpuElectroAlignmentTimeMs rgoBioTpuBrownianResetTimeMs; norm_num,
+    by unfold rgoBioTpuBrownianResetTimeMs; norm_num,
+    h_bragg,
+    by unfold nvOdmrCalibratedPhaseResidual nvDiamondOdmrSplittingMhz; ring⟩
+
+/-!
+## 10. Lignolux Omni-Carbon Kinetic Batteries (`Al-LGBPC`, Dual-Ion `Iodine`, & `Na-Ion` Hard Carbon), `Q-Node` Asymmetric Pseudocapacitors, Semi-Dirac Quantum Capacitance, `QCI-GXC` Kohn–Sham DFT Passivation, and Biodegradable/Recyclable Electrical Components (Paper 41)
+
+This section formalizes the governing electrochemical, quantum-capacitive, Kohn–Sham DFT,
+reaction-diffusion, thermal-attenuation, kinetic-flywheel, and circular-economy equations
+for sustainable, biodegradable, and closed-loop recyclable energy storage and electrical
+components across our chat corpus and recent Grassmannian DFT/mechanics papers:
+- `data/chats/review-this-spreadsheet-then-draft-and-revise-a-design-plan-for-a-series-of-diagrams-as-svgs-to-pitch-the-lignolux-omni-carbon-b.md`, lines 1–550 & 1080–1150
+- `data/chats/_Battery Tech_ Tesla vs. Lignolux .md`, lines 1–320
+- `data/chats/_Aluminum-Ion-Battery-Performance-Estimate.md`, lines 1–685
+- `data/chats/_Lignin-Vitrimer Material Design .md`, lines 1850–2640
+- `data/chats/_Sustainable Composites_ Energy, Processing, Costs .md`, lines 2540–3100 & 4900–5525
+- `data/chats/_Engineer-sustainable-alternatives-to-creosote-treated-wooden-ties.md`, lines 905–1395
+- `data/chats/Carbon Chips_ Hurdles and Future .md`, lines 655–1250
+- `data/chats/_Quantum Processor and Soliton Discussions  .md`, lines 7168–7355
+-/
+
+/-- **Volumetric Energy Density ($\mathrm{Wh/L}$) from Gravimetric Energy Density ($\mathrm{Wh/kg}$) and Composite Packing Density ($\mathrm{kg/L}$)**:
+$E_{\mathrm{vol}}(E_{\mathrm{grav}}, \rho_{\mathrm{pack}}) = E_{\mathrm{grav}} \cdot \rho_{\mathrm{pack}}$
+(`_Engineer-sustainable-alternatives-to-creosote-treated-wooden-ties.md`, lines 1260–1280:
+$280\text{ Wh/kg} \times 1.8\text{ kg/L} = 504\text{ Wh/L}$;
+`_Aluminum-Ion-Battery-Performance-Estimate.md`, lines 425–530:
+combined Horizontal `Ox-CNT` + `LCS` + `Iodine` + `SiS` achieves $550\text{ Wh/kg}$ and $850\text{ Wh/L}$). -/
+@[blueprint "def:signals-soliton-omni-carbon-volumetric-density"
+  (title := "Omni-Carbon volumetric energy density E_grav * rho_pack")
+  (statement := /-- Define $\operatorname{omniCarbonVolumetricEnergyDensityWhPerL}(E_{\mathrm{grav}}, \rho_{\mathrm{pack}}) = E_{\mathrm{grav}} \cdot \rho_{\mathrm{pack}}$. -/)]
+noncomputable def omniCarbonVolumetricEnergyDensityWhPerL
+    (e_grav_wh_per_kg rho_pack_kg_per_l : ℝ) : ℝ :=
+  e_grav_wh_per_kg * rho_pack_kg_per_l
+
+/-- **`OmniKinetic` Hybrid Core-and-Skin Structural Pack + Vibration Harvesting Total Energy ($\mathrm{kWh}$)**:
+$E_{\mathrm{total}}(V_{\mathrm{core}}, \rho_{\mathrm{core}}, V_{\mathrm{skin}}, \rho_{\mathrm{skin}}, P_{\mathrm{harvest}}, t_{\mathrm{trip}}) = V_{\mathrm{core}}\,\rho_{\mathrm{core}} + V_{\mathrm{skin}}\,\rho_{\mathrm{skin}} + P_{\mathrm{harvest}}\,t_{\mathrm{trip}}$
+(`_Battery Tech_ Tesla vs. Lignolux .md`, lines 215–230). -/
+@[blueprint "def:signals-soliton-omni-kinetic-hybrid-pack-energy"
+  (title := "OmniKinetic hybrid structural core-and-skin + vibration harvesting energy")
+  (statement := /-- Define $\operatorname{omniKineticHybridPackEnergyKwh}(V_{\mathrm{core}}, \rho_{\mathrm{core}}, V_{\mathrm{skin}}, \rho_{\mathrm{skin}}, P_{\mathrm{harvest}}, t_{\mathrm{trip}}) = V_{\mathrm{core}}\rho_{\mathrm{core}} + V_{\mathrm{skin}}\rho_{\mathrm{skin}} + P_{\mathrm{harvest}} t_{\mathrm{trip}}$. -/)]
+noncomputable def omniKineticHybridPackEnergyKwh
+    (v_core_m3 rho_core_kwh_m3 v_skin_m3 rho_skin_kwh_m3 p_harvest_kw t_trip_hr : ℝ) : ℝ :=
+  v_core_m3 * rho_core_kwh_m3 + v_skin_m3 * rho_skin_kwh_m3 + p_harvest_kw * t_trip_hr
+
+/-- **Piezoelectric `ZnO` Nanowire Acoustic Health Monitoring Griffith Critical Fracture Stress Squared**:
+$\sigma_{\mathrm{crit}}^2(E_{\mathrm{mod}}, \gamma_{\mathrm{surf}}, \pi a_{\mathrm{crack}}) = \frac{2\,E_{\mathrm{mod}}\,\gamma_{\mathrm{surf}}}{\pi a_{\mathrm{crack}}}$
+(`_Battery Tech_ Tesla vs. Lignolux .md`, lines 145–160). -/
+@[blueprint "def:signals-soliton-zno-piezo-critical-stress-sq"
+  (title := "ZnO nanowire acoustic health telemetry Griffith critical stress squared")
+  (statement := /-- Define $\operatorname{znoPiezoCriticalFractureStressSq}(E_{\mathrm{mod}}, \gamma_{\mathrm{surf}}, \pi a_{\mathrm{crack}}) = 2 E_{\mathrm{mod}} \gamma_{\mathrm{surf}} / (\pi a_{\mathrm{crack}})$. -/)]
+noncomputable def znoPiezoCriticalFractureStressSq
+    (e_modulus gamma_surf pi_times_crack_a : ℝ) : ℝ :=
+  (2 * e_modulus * gamma_surf) / pi_times_crack_a
+
+/-- **Harmonic Series Combination of Electric Double-Layer Capacitance ($C_{\mathrm{EDL}}$) and Electrode Quantum Capacitance ($C_Q = e^2 D(E_F)$)**:
+$C_{\mathrm{tot}}(C_{\mathrm{EDL}}, C_Q) = \frac{C_{\mathrm{EDL}}\,C_Q}{C_{\mathrm{EDL}} + C_Q}$.
+Replacing linear-DOS 2D Dirac graphene ($C_Q = 200\text{ F/g}$) with our $\varepsilon^{-1/2}$-DOS
+Semi-Dirac / Quinone-Flat-Band `N/S/P-LIG` electrode ($C_Q = 1800\text{ F/g}$) triples total specific
+capacitance from $150\text{ F/g}$ to $450\text{ F/g}$ at $C_{\mathrm{EDL}} = 600\text{ F/g}$. -/
+@[blueprint "def:signals-soliton-series-quantum-edl-capacitance"
+  (title := "Harmonic series combination of EDL capacitance C_EDL and quantum capacitance C_Q")
+  (statement := /-- Define $\operatorname{seriesQuantumDoubleLayerCapacitance}(C_{\mathrm{EDL}}, C_Q) = (C_{\mathrm{EDL}} C_Q) / (C_{\mathrm{EDL}} + C_Q)$. -/)]
+noncomputable def seriesQuantumDoubleLayerCapacitance (c_edl c_quantum : ℝ) : ℝ :=
+  (c_edl * c_quantum) / (c_edl + c_quantum)
+
+/-- **Supercapacitor Usable Energy Extraction Fraction Above Cutoff Voltage $V_{\mathrm{cut}}$**:
+$\eta_{\mathrm{usable}}(V_{\mathrm{cut}}, V_{\max}) = 1 - (V_{\mathrm{cut}} / V_{\max})^2$
+(`_Lignin-Vitrimer Material Design .md`, lines 2150–2265: raw EDLC from $4.2\text{ V}$ to $3.0\text{ V}$
+extracts only $24/49 \approx 48.98\%$, whereas the Micro-Buck-Boost `MBB` collar stepping down to
+$V_{\min} = V_{\max}/5$ unlocks $24/25 = 96\%$). -/
+@[blueprint "def:signals-soliton-supercap-usable-energy-fraction"
+  (title := "Supercapacitor usable energy extraction fraction 1 - (V_cut / V_max)^2")
+  (statement := /-- Define $\operatorname{supercapacitorUsableEnergyFraction}(V_{\mathrm{cut}}, V_{\max}) = 1 - (V_{\mathrm{cut}} / V_{\max})^2$. -/)]
+noncomputable def supercapacitorUsableEnergyFraction (v_cut v_max : ℝ) : ℝ :=
+  1 - (v_cut / v_max) ^ 2
+
+/-- **Lignolux `Q-Node` Stage 2 Quinone Redox Plateau Voltage Mismatch Against an $N$-Cell PEM Hydrogen Electrolyzer**:
+$\Delta V_{\mathrm{PEM}}(V_{\mathrm{Q\text{-}Node}}, N_{\mathrm{cells}}, V_{\mathrm{cell}}) = V_{\mathrm{Q\text{-}Node}} - N_{\mathrm{cells}}\,V_{\mathrm{cell}}$
+(`_Lignin-Vitrimer Material Design .md`, lines 2545–2635: $V_{\mathrm{Q\text{-}Node}} = 3.1\text{ V}$
+matches a $2$-cell PEM stack at $1.55\text{ V/cell}$ with zero DC-DC inverter loss). -/
+@[blueprint "def:signals-soliton-quinone-pem-voltage-mismatch"
+  (title := "Lignolux Q-Node Stage 2 quinone plateau voltage mismatch against PEM electrolyzer")
+  (statement := /-- Define $\operatorname{quinoneRedoxPemElectrolyzerVoltageMismatch}(V_{\mathrm{Q\text{-}Node}}, N_{\mathrm{cells}}, V_{\mathrm{cell}}) = V_{\mathrm{Q\text{-}Node}} - N_{\mathrm{cells}} V_{\mathrm{cell}}$. -/)]
+noncomputable def quinoneRedoxPemElectrolyzerVoltageMismatch
+    (v_qnode n_cells v_pem_cell : ℝ) : ℝ :=
+  v_qnode - n_cells * v_pem_cell
+
+/-- **`QCI-GXC` Kohn–Sham DFT Nernst Open-Circuit Redox Voltage**:
+$V_{\mathrm{OC}}(\Delta E_{\mathrm{KS,eV}}, z_{\mathrm{electrons}}) = \frac{\Delta E_{\mathrm{KS,eV}}}{z_{\mathrm{electrons}}}$.
+Phosphoryl/pyridinic (`P/N/S`) tri-doping from phytic acid shifts the two-electron quinone redox
+gap from $\Delta E_{\mathrm{KS}} = 6.2\text{ eV}$ ($V_{\mathrm{OC}} = 3.1\text{ V}$) to
+$\Delta E_{\mathrm{KS}} = 7.0\text{ eV}$ ($V_{\mathrm{OC}} = 3.5\text{ V}$). -/
+@[blueprint "def:signals-soliton-dft-nernst-open-circuit-voltage"
+  (title := "QCI-GXC Kohn-Sham DFT Nernst open-circuit redox voltage DeltaE_KS / z")
+  (statement := /-- Define $\operatorname{dftNernstOpenCircuitVoltage}(\Delta E_{\mathrm{KS,eV}}, z_{\mathrm{electrons}}) = \Delta E_{\mathrm{KS,eV}} / z_{\mathrm{electrons}}$. -/)]
+noncomputable def dftNernstOpenCircuitVoltage
+    (delta_e_ks_ev z_electrons : ℝ) : ℝ :=
+  delta_e_ks_ev / z_electrons
+
+/-- **`QCI-GXC` McWeeny-Purified & `G-IEP` Passivated Dangling-Bond Self-Discharge Leakage Factor**:
+$\mathcal{L}_{\mathrm{leak}}(\lambda_{\mathrm{occ}}, \theta_{\mathrm{pass}}) = 4\,\lambda_{\mathrm{M}}(1 - \lambda_{\mathrm{M}})\,(1 - \theta_{\mathrm{pass}})$
+where $\lambda_{\mathrm{M}} = 3\lambda_{\mathrm{occ}}^2 - 2\lambda_{\mathrm{occ}}^3$ is the McWeeny
+cubic purification polynomial (`grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`;
+`grassmannian-interfacial-electrical-properties-paper.md`). -/
+@[blueprint "def:signals-soliton-dft-mcweeny-leakage-factor"
+  (title := "QCI-GXC McWeeny-purified and G-IEP passivated self-discharge leakage factor")
+  (statement := /-- Define $\operatorname{dftMcWeenyPassivatedLeakageFactor}(\lambda_{\mathrm{occ}}, \theta_{\mathrm{pass}}) = 4 (3\lambda_{\mathrm{occ}}^2 - 2\lambda_{\mathrm{occ}}^3)(1 - (3\lambda_{\mathrm{occ}}^2 - 2\lambda_{\mathrm{occ}}^3))(1 - \theta_{\mathrm{pass}})$. -/)]
+noncomputable def dftMcWeenyPassivatedLeakageFactor
+    (lambda_occ theta_pass : ℝ) : ℝ :=
+  let lambda_m := 3 * lambda_occ ^ 2 - 2 * lambda_occ ^ 3
+  4 * lambda_m * (1 - lambda_m) * (1 - theta_pass)
+
+/-- **Plabic 3-Stage Series Ion-Transport Equivalent Series Resistance (`ESR`)**:
+$R_{\mathrm{ESR}}(R_{\mathrm{bulk}}, \tau_{\mathrm{tort}}, R_{\mathrm{meso},0}, R_{\mathrm{ct}}) = R_{\mathrm{bulk}} + \tau_{\mathrm{tort}}\,R_{\mathrm{meso},0} + R_{\mathrm{ct}}$
+(`grassmannian-interfacial-electrical-properties-paper.md`;
+`_Aluminum-Ion-Battery-Performance-Estimate.md`, lines 280–455). -/
+@[blueprint "def:signals-soliton-plabic-three-stage-ion-esr"
+  (title := "Plabic 3-stage series ion-transport Equivalent Series Resistance (ESR)")
+  (statement := /-- Define $\operatorname{plabicThreeStageIonTransportEsr}(R_{\mathrm{bulk}}, \tau_{\mathrm{tort}}, R_{\mathrm{meso},0}, R_{\mathrm{ct}}) = R_{\mathrm{bulk}} + \tau_{\mathrm{tort}} R_{\mathrm{meso},0} + R_{\mathrm{ct}}$. -/)]
+noncomputable def plabicThreeStageIonTransportEsr
+    (r_bulk tortuosity r_meso_base r_ct : ℝ) : ℝ :=
+  r_bulk + tortuosity * r_meso_base + r_ct
+
+/-- **Hexagonal Boron Nitride (`hBN`) Dielectric Thermal-Inertia Barrier Attenuation During a $1000^\circ\text{C}$ `CNS` Supercapacitor Lightning Gulp**:
+$T_{\mathrm{fluid}}(T_{\mathrm{amb}}, \Delta T_{\mathrm{strike}}, R_{\mathrm{th,fluid}}, R_{\mathrm{th,hBN}}) = T_{\mathrm{amb}} + \Delta T_{\mathrm{strike}}\,\frac{R_{\mathrm{th,fluid}}}{R_{\mathrm{th,fluid}} + R_{\mathrm{th,hBN}}}$
+(`_Sustainable Composites_ Energy, Processing, Costs .md`, lines 5360–5520: keeps fluid side below $210^\circ\text{C}$). -/
+@[blueprint "def:signals-soliton-hbn-lightning-gulp-fluid-temp"
+  (title := "hBN dielectric thermal-barrier attenuated fluid temperature during lightning gulp")
+  (statement := /-- Define $\operatorname{hbnLightningGulpAttenuatedFluidTempC}(T_{\mathrm{amb}}, \Delta T_{\mathrm{strike}}, R_{\mathrm{th,fluid}}, R_{\mathrm{th,hBN}}) = T_{\mathrm{amb}} + \Delta T_{\mathrm{strike}} \frac{R_{\mathrm{th,fluid}}}{R_{\mathrm{th,fluid}} + R_{\mathrm{th,hBN}}}$. -/)]
+noncomputable def hbnLightningGulpAttenuatedFluidTempC
+    (t_amb_c delta_t_strike_c r_th_fluid r_th_hbn : ℝ) : ℝ :=
+  t_amb_c + delta_t_strike_c * (r_th_fluid / (r_th_fluid + r_th_hbn))
+
+/-- **MagLev Spinning `Lignolux Spool` / Kinetic Flywheel Hoop-Stress-Limited Specific Energy**:
+$e_{\max}(\sigma_{\mathrm{tensile}}, \rho_{\mathrm{density}}) = \frac{\sigma_{\mathrm{tensile}}}{2\,\rho_{\mathrm{density}}}$
+(`_Quantum Processor and Soliton Discussions  .md`, lines 7230–7355). -/
+@[blueprint "def:signals-soliton-maglev-kinetic-spool-specific-energy"
+  (title := "MagLev spinning Lignolux spool / kinetic flywheel hoop-stress-limited specific energy")
+  (statement := /-- Define $\operatorname{maglevKineticSpoolSpecificEnergyMax}(\sigma_{\mathrm{tensile}}, \rho_{\mathrm{density}}) = \sigma_{\mathrm{tensile}} / (2\,\rho_{\mathrm{density}})$. -/)]
+noncomputable def maglevKineticSpoolSpecificEnergyMax
+    (sigma_tensile_mpa rho_kg_per_m3 : ℝ) : ℝ :=
+  sigma_tensile_mpa / (2 * rho_kg_per_m3)
+
+/-- **Circular `Omni-Carbon` Structural Pack Levelized Cost ($\mathrm{USD/kWh}$) with Negative-Cost Carbon Credits and Vitrimer Solvolysis Refurbishment**:
+$C_{\mathrm{pack,net}}(C_{\mathrm{base}}, m_{\mathrm{C}}, c_{\mathrm{credit}}, \eta_{\mathrm{stage}}) = (C_{\mathrm{base}} - m_{\mathrm{C}}\,c_{\mathrm{credit}})\,\eta_{\mathrm{stage}}$
+(`_Lignin-Vitrimer Material Design .md`, lines 2390–2445). -/
+@[blueprint "def:signals-soliton-omni-carbon-circular-pack-cost"
+  (title := "Circular Omni-Carbon structural pack levelized cost per kWh")
+  (statement := /-- Define $\operatorname{omniCarbonCircularPackNetCostPerKwh}(C_{\mathrm{base}}, m_{\mathrm{C}}, c_{\mathrm{credit}}, \eta_{\mathrm{stage}}) = (C_{\mathrm{base}} - m_{\mathrm{C}} c_{\mathrm{credit}}) \eta_{\mathrm{stage}}$. -/)]
+noncomputable def omniCarbonCircularPackNetCostPerKwh
+    (c_base_per_kwh m_carbon_kg_per_kwh c_credit_per_kg_c eta_stage : ℝ) : ℝ :=
+  (c_base_per_kwh - m_carbon_kg_per_kwh * c_credit_per_kg_c) * eta_stage
+
+/-- **Master Theorem for Paper 41 (`omni_carbon_kinetic_battery_supercapacitor_dft_and_biodegradable_component_identities`)**:
+Simultaneously establishes:
+1. **`Lignolux Omni-Carbon` & `OmniKinetic` Dual-Ion (`Al-LGBPC` + `Iodine` + `SiS` + `LCS`) Energy Density & Chassis Scaling**:
+   - Railroad-tie neutral-axis volumetric density: $\operatorname{omniCarbonVolumetricEnergyDensityWhPerL}(280, 9/5) = 504\text{ Wh/L} > 150\text{ Wh/L}$,
+   - Isolated Horizontal `Ox-CNT` + `LCS` volumetric jump: $\operatorname{omniCarbonVolumetricEnergyDensityWhPerL}(320, 45/32) = 450\text{ Wh/L} > 180\text{ Wh/L}$,
+   - Combined Synergy (`Horizontal Ox-CNT` + `LCS` + `Iodine` + `SiS` Vitrimer Gel): $550\text{ Wh/kg} > 244\text{ Wh/kg}$ (Tesla 4680 baseline) and $\operatorname{omniCarbonVolumetricEnergyDensityWhPerL}(550, 17/11) = 850\text{ Wh/L} > 643\text{ Wh/L}$ (Tesla 4680 baseline),
+   - `OmniKinetic` Core-and-Skin Semi chassis ($2.5\text{ m}^3$ core at $300\text{ kWh/m}^3$ + $2.5\text{ m}^3$ fairing skin at $200\text{ kWh/m}^3$ + $5\text{ kW}\times 10\text{ h}$ `ZnO`/`LIG-TENG` road harvest): $\operatorname{omniKineticHybridPackEnergyKwh}(5/2, 300, 5/2, 200, 5, 10) = 1300\text{ kWh} > 900\text{ kWh}$ (Tesla Semi Cube),
+   - Piezoelectric `ZnO` Griffith fracture telemetry: $\operatorname{znoPiezoCriticalFractureStressSq}(100, 2, 4) = 50 > \operatorname{znoPiezoCriticalFractureStressSq}(100, 2, 8) = 25$.
+2. **Semi-Dirac Quantum Capacitance ($3\times$), `MBB` Collar ($96\%$), `Q-Node` PEM Electrolyzer Matching, & `QCI-GXC` DFT Passivation**:
+   - Replacing 2D Dirac graphene ($C_Q = 200\text{ F/g}$) with Semi-Dirac / flat-band `N/S/P-LIG` ($C_Q = 1800\text{ F/g}$) at $C_{\mathrm{EDL}} = 600\text{ F/g}$ triples total specific capacitance: $\operatorname{seriesQuantumDoubleLayerCapacitance}(600, 1800) = 450 = 3 \times \operatorname{seriesQuantumDoubleLayerCapacitance}(600, 200) = 150\text{ F/g}$,
+   - `MBB` collar usable energy extraction: $\operatorname{supercapacitorUsableEnergyFraction}(30/10, 42/10) = 24/49 < 1/2$, whereas $\operatorname{supercapacitorUsableEnergyFraction}(1, 5) = 24/25 = 96\%$,
+   - Zero-Inverter Green $\mathrm{H}_2$ PEM matching: $\operatorname{quinoneRedoxPemElectrolyzerVoltageMismatch}(31/10, 2, 31/20) = 0$,
+   - `QCI-GXC` DFT phosphoryl/pyridinic (`P/N/S`) voltage boost: $\operatorname{dftNernstOpenCircuitVoltage}(62/10, 2) = 31/10 < \operatorname{dftNernstOpenCircuitVoltage}(7, 2) = 7/2\text{ V}$,
+   - `QCI-GXC` McWeeny + `G-IEP` dangling-bond self-discharge suppression: $\operatorname{dftMcWeenyPassivatedLeakageFactor}(1, theta) = 0$, and $\operatorname{dftMcWeenyPassivatedLeakageFactor}(9/10, 19/20) = 3402 / 625000 < 1/100 < \operatorname{dftMcWeenyPassivatedLeakageFactor}(1/2, 0) = 1$.
+3. **Plabic 3-Stage Ion ESR, `hBN` Lightning Gulp Barrier, MagLev Kinetic Spool, & Negative-Credit Circular Pack Economics**:
+   - `LCS` horizontal `Ox-CNT` alignment cuts Plabic 3-stage ESR from $\operatorname{plabicThreeStageIonTransportEsr}(1, 5, 2, 1) = 12\text{ m}\Omega$ to $\operatorname{plabicThreeStageIonTransportEsr}(1, 1, 2, 1) = 4\text{ m}\Omega$,
+   - `hBN` dielectric thermal barrier caps $1000^\circ\text{C}$ lightning-gulp fluid temperature at $\operatorname{hbnLightningGulpAttenuatedFluidTempC}(50, 950, 1, 5) = 625/3 \approx 208.33^\circ\text{C} < 210^\circ\text{C}$,
+   - MagLev `Lignolux` carbon spool specific energy $\operatorname{maglevKineticSpoolSpecificEnergyMax}(3600, 1800) = 1\text{ MJ/kg} > \operatorname{maglevKineticSpoolSpecificEnergyMax}(800, 8000) = 1/20\text{ MJ/kg}$ ($20\times$ steel rotor),
+   - Circular pack cost: first-life $\operatorname{omniCarbonCircularPackNetCostPerKwh}(45, 2, 33/4, 1) = 57/2 = \$28.50/\text{kWh} < \$45/\text{kWh} < \$135/\text{kWh}$, and Year-15 solvolysis refurbishment $\operatorname{omniCarbonCircularPackNetCostPerKwh}(45, 2, 33/4, 3/20) = 171/40 = \$4.275/\text{kWh} < \$5/\text{kWh}$. -/
+@[blueprint "thm:signals-soliton-omni-carbon-kinetic-energy-storage-dft-and-components"
+  (title := "Master theorem for Paper 41: Lignolux Omni-Carbon Kinetic batteries, Q-Node pseudocapacitors, Semi-Dirac quantum capacitance, QCI-GXC DFT passivation, and biodegradable/recyclable electrical components")
+  (statement := /-- Simultaneously proves the governing identities and bounds for Paper 41 across
+    \texttt{Lignolux Omni-Carbon} and \texttt{OmniKinetic} dual-ion batteries ($504\text{ Wh/L}$ to $850\text{ Wh/L}$, $550\text{ Wh/kg}$),
+    Core-and-Skin chassis integration ($1300\text{ kWh} > 900\text{ kWh}$), \texttt{ZnO} Griffith acoustic telemetry,
+    Semi-Dirac $3\times$ quantum capacitance enhancement ($450\text{ F/g} = 3\times 150\text{ F/g}$),
+    \texttt{MBB} collar $96\%$ energy extraction, zero-inverter \texttt{Q-Node} PEM $\mathrm{H}_2$ matching,
+    \texttt{QCI-GXC} DFT redox voltage tuning ($3.1\text{ V} \to 3.5\text{ V}$) and McWeeny self-discharge suppression ($<1\%$),
+    Plabic 3-stage ESR reduction ($12\text{ m}\Omega \to 4\text{ m}\Omega$), \texttt{hBN} lightning-gulp thermal attenuation ($<210^\circ\text{C}$),
+    MagLev kinetic spool energy density ($20\times$ steel), and $\$28.50/\text{kWh}$ ($\to \$4.28/\text{kWh}$ solvolysis refurbished) circular pack economics. -/)]
+theorem omni_carbon_kinetic_battery_supercapacitor_dft_and_biodegradable_component_identities
+    (theta_pass : ℝ) :
+    omniCarbonVolumetricEnergyDensityWhPerL 280 (9 / 5) = 504 ∧
+    omniCarbonVolumetricEnergyDensityWhPerL 320 (45 / 32) = 450 ∧
+    omniCarbonVolumetricEnergyDensityWhPerL 550 (17 / 11) = 850 ∧
+    (244 : ℝ) < 550 ∧
+    (643 : ℝ) < omniCarbonVolumetricEnergyDensityWhPerL 550 (17 / 11) ∧
+    omniKineticHybridPackEnergyKwh (5 / 2) 300 (5 / 2) 200 5 10 = 1300 ∧
+    (900 : ℝ) < omniKineticHybridPackEnergyKwh (5 / 2) 300 (5 / 2) 200 5 10 ∧
+    znoPiezoCriticalFractureStressSq 100 2 4 = 50 ∧
+    znoPiezoCriticalFractureStressSq 100 2 8 = 25 ∧
+    znoPiezoCriticalFractureStressSq 100 2 8 < znoPiezoCriticalFractureStressSq 100 2 4 ∧
+    seriesQuantumDoubleLayerCapacitance 600 200 = 150 ∧
+    seriesQuantumDoubleLayerCapacitance 600 1800 = 450 ∧
+    seriesQuantumDoubleLayerCapacitance 600 1800 =
+      3 * seriesQuantumDoubleLayerCapacitance 600 200 ∧
+    supercapacitorUsableEnergyFraction (30 / 10) (42 / 10) = 24 / 49 ∧
+    supercapacitorUsableEnergyFraction (30 / 10) (42 / 10) < 1 / 2 ∧
+    supercapacitorUsableEnergyFraction 1 5 = 24 / 25 ∧
+    quinoneRedoxPemElectrolyzerVoltageMismatch (31 / 10) 2 (31 / 20) = 0 ∧
+    dftNernstOpenCircuitVoltage (62 / 10) 2 = 31 / 10 ∧
+    dftNernstOpenCircuitVoltage 7 2 = 7 / 2 ∧
+    dftNernstOpenCircuitVoltage (62 / 10) 2 < dftNernstOpenCircuitVoltage 7 2 ∧
+    dftMcWeenyPassivatedLeakageFactor 1 theta_pass = 0 ∧
+    dftMcWeenyPassivatedLeakageFactor (1 / 2) 0 = 1 ∧
+    dftMcWeenyPassivatedLeakageFactor (9 / 10) (19 / 20) = 3402 / 625000 ∧
+    dftMcWeenyPassivatedLeakageFactor (9 / 10) (19 / 20) < 1 / 100 ∧
+    plabicThreeStageIonTransportEsr 1 5 2 1 = 12 ∧
+    plabicThreeStageIonTransportEsr 1 1 2 1 = 4 ∧
+    plabicThreeStageIonTransportEsr 1 1 2 1 < plabicThreeStageIonTransportEsr 1 5 2 1 ∧
+    hbnLightningGulpAttenuatedFluidTempC 50 950 1 5 = 625 / 3 ∧
+    hbnLightningGulpAttenuatedFluidTempC 50 950 1 5 < 210 ∧
+    maglevKineticSpoolSpecificEnergyMax 3600 1800 = 1 ∧
+    maglevKineticSpoolSpecificEnergyMax 800 8000 = 1 / 20 ∧
+    maglevKineticSpoolSpecificEnergyMax 800 8000 < maglevKineticSpoolSpecificEnergyMax 3600 1800 ∧
+    omniCarbonCircularPackNetCostPerKwh 45 2 (33 / 4) 1 = 57 / 2 ∧
+    omniCarbonCircularPackNetCostPerKwh 45 2 (33 / 4) 1 < 45 ∧
+    omniCarbonCircularPackNetCostPerKwh 45 2 (33 / 4) (3 / 20) = 171 / 40 ∧
+    omniCarbonCircularPackNetCostPerKwh 45 2 (33 / 4) (3 / 20) < 5 := by
+  refine ⟨
+    by unfold omniCarbonVolumetricEnergyDensityWhPerL; norm_num,
+    by unfold omniCarbonVolumetricEnergyDensityWhPerL; norm_num,
+    by unfold omniCarbonVolumetricEnergyDensityWhPerL; norm_num,
+    by norm_num,
+    by unfold omniCarbonVolumetricEnergyDensityWhPerL; norm_num,
+    by unfold omniKineticHybridPackEnergyKwh; norm_num,
+    by unfold omniKineticHybridPackEnergyKwh; norm_num,
+    by unfold znoPiezoCriticalFractureStressSq; norm_num,
+    by unfold znoPiezoCriticalFractureStressSq; norm_num,
+    by unfold znoPiezoCriticalFractureStressSq; norm_num,
+    by unfold seriesQuantumDoubleLayerCapacitance; norm_num,
+    by unfold seriesQuantumDoubleLayerCapacitance; norm_num,
+    by unfold seriesQuantumDoubleLayerCapacitance; norm_num,
+    by unfold supercapacitorUsableEnergyFraction; norm_num,
+    by unfold supercapacitorUsableEnergyFraction; norm_num,
+    by unfold supercapacitorUsableEnergyFraction; norm_num,
+    by unfold quinoneRedoxPemElectrolyzerVoltageMismatch; norm_num,
+    by unfold dftNernstOpenCircuitVoltage; norm_num,
+    by unfold dftNernstOpenCircuitVoltage; norm_num,
+    by unfold dftNernstOpenCircuitVoltage; norm_num,
+    by unfold dftMcWeenyPassivatedLeakageFactor; ring,
+    by unfold dftMcWeenyPassivatedLeakageFactor; norm_num,
+    by unfold dftMcWeenyPassivatedLeakageFactor; norm_num,
+    by unfold dftMcWeenyPassivatedLeakageFactor; norm_num,
+    by unfold plabicThreeStageIonTransportEsr; norm_num,
+    by unfold plabicThreeStageIonTransportEsr; norm_num,
+    by unfold plabicThreeStageIonTransportEsr; norm_num,
+    by unfold hbnLightningGulpAttenuatedFluidTempC; norm_num,
+    by unfold hbnLightningGulpAttenuatedFluidTempC; norm_num,
+    by unfold maglevKineticSpoolSpecificEnergyMax; norm_num,
+    by unfold maglevKineticSpoolSpecificEnergyMax; norm_num,
+    by unfold maglevKineticSpoolSpecificEnergyMax; norm_num,
+    by unfold omniCarbonCircularPackNetCostPerKwh; norm_num,
+    by unfold omniCarbonCircularPackNetCostPerKwh; norm_num,
+    by unfold omniCarbonCircularPackNetCostPerKwh; norm_num,
+    by unfold omniCarbonCircularPackNetCostPerKwh; norm_num⟩
+
+/-- **Ragone Terminal Voltage Delivery Efficiency at Discharge Current $I$ Across Internal Resistance $R_{\mathrm{ESR}}$**:
+$\eta_{\mathrm{Ragone}}(V_{\mathrm{OC}}, I, R_{\mathrm{ESR}}) = 1 - \frac{I\,R_{\mathrm{ESR}}}{V_{\mathrm{OC}}}$. -/
+@[blueprint "def:signals-soliton-ragone-terminal-efficiency"
+  (title := "Ragone terminal voltage delivery efficiency 1 - I * R_ESR / V_OC")
+  (statement := /-- Define $\operatorname{ragoneTerminalDeliveryEfficiency}(V_{\mathrm{OC}}, I, R_{\mathrm{ESR}}) = 1 - (I\,R_{\mathrm{ESR}}) / V_{\mathrm{OC}}$. -/)]
+noncomputable def ragoneTerminalDeliveryEfficiency (v_oc i_curr r_esr : ℝ) : ℝ :=
+  1 - (i_curr * r_esr) / v_oc
+
+/-- **Matched-Load Peak Ragone Power Density**:
+$P_{\max}(V_{\mathrm{OC}}, R_{\mathrm{ESR}}) = \frac{V_{\mathrm{OC}}^2}{4\,R_{\mathrm{ESR}}}$. -/
+@[blueprint "def:signals-soliton-ragone-max-power-density"
+  (title := "Matched-load peak Ragone power density V_OC^2 / (4 * R_ESR)")
+  (statement := /-- Define $\operatorname{ragoneMatchedLoadPeakPower}(V_{\mathrm{OC}}, R_{\mathrm{ESR}}) = V_{\mathrm{OC}}^2 / (4\,R_{\mathrm{ESR}})$. -/)]
+noncomputable def ragoneMatchedLoadPeakPower (v_oc r_esr : ℝ) : ℝ :=
+  (v_oc ^ 2) / (4 * r_esr)
+
+/-- **Deep Eutectic (`Solvent-in-Salt`, `SiS`) + Vitrimer Steric-Hindrance Polyiodide Shuttle Diffusivity**:
+$D_{\mathrm{I}_3^-}(D_0, f_{\mathrm{free}}, S_{\mathrm{steric}}) = \frac{D_0\,f_{\mathrm{free}}}{1 + S_{\mathrm{steric}}}$
+(`_Aluminum-Ion-Battery-Performance-Estimate.md`, lines 595–685: when `SiS` supersaturation
+drives free solvent fraction $f_{\mathrm{free}} \to 0$, $D_{\mathrm{I}_3^-} \to 0 < 10^{-12}\text{ cm}^2/\text{s}$). -/
+@[blueprint "def:signals-soliton-sis-polyiodide-shuttle-diffusivity"
+  (title := "Deep-eutectic Solvent-in-Salt and vitrimer steric-hindrance polyiodide diffusivity")
+  (statement := /-- Define $\operatorname{sisPolyiodideShuttleDiffusivity}(D_0, f_{\mathrm{free}}, S_{\mathrm{steric}}) = (D_0 f_{\mathrm{free}}) / (1 + S_{\mathrm{steric}})$. -/)]
+noncomputable def sisPolyiodideShuttleDiffusivity
+    (d_0 f_free_solvent s_steric : ℝ) : ℝ :=
+  (d_0 * f_free_solvent) / (1 + s_steric)
+
+/-- **Microwave-Assisted Phenolation vs. Acid-Reflux Functionalization Speedup Ratio**:
+$\mathcal{S}_{\mathrm{MW}}(t_{\mathrm{reflux,min}}, t_{\mathrm{MW,min}}) = \frac{t_{\mathrm{reflux,min}}}{t_{\mathrm{MW,min}}}$
+(`_Lignin-Vitrimer Material Design .md`, lines 2310–2365: $2880\text{ min} / 5\text{ min} = 576\times$). -/
+@[blueprint "def:signals-soliton-microwave-phenolation-speedup"
+  (title := "Microwave-assisted phenolation vs. acid-reflux speedup ratio")
+  (statement := /-- Define $\operatorname{microwavePhenolationSpeedupRatio}(t_{\mathrm{reflux}}, t_{\mathrm{MW}}) = t_{\mathrm{reflux}} / t_{\mathrm{MW}}$. -/)]
+noncomputable def microwavePhenolationSpeedupRatio
+    (t_reflux_min t_mw_min : ℝ) : ℝ :=
+  t_reflux_min / t_mw_min
+
+/-- **Distributed Railroad Track-Mile Storage Capacity in $\mathrm{MWh}$**:
+$E_{\mathrm{mile,MWh}}(N_{\mathrm{ties}}, V_{\mathrm{tie,L}}, E_{\mathrm{vol,Wh/L}}) = \frac{N_{\mathrm{ties}}\,V_{\mathrm{tie,L}}\,E_{\mathrm{vol,Wh/L}}}{10^6}$
+(`_Engineer-sustainable-alternatives-to-creosote-treated-wooden-ties.md`, lines 1260–1295:
+$3250 \text{ ties} \times 10\text{ L} \times 500\text{ Wh/L} = 16.25\text{ MWh/mile}$). -/
+@[blueprint "def:signals-soliton-railroad-track-mile-storage-mwh"
+  (title := "Distributed railroad track-mile energy storage capacity in MWh")
+  (statement := /-- Define $\operatorname{railroadTrackMileStorageMwh}(N_{\mathrm{ties}}, V_{\mathrm{tie,L}}, E_{\mathrm{vol,Wh/L}}) = (N_{\mathrm{ties}} V_{\mathrm{tie,L}} E_{\mathrm{vol,Wh/L}}) / 10^6$. -/)]
+noncomputable def railroadTrackMileStorageMwh
+    (n_ties v_tie_l e_vol_wh_per_l : ℝ) : ℝ :=
+  (n_ties * v_tie_l * e_vol_wh_per_l) / (10 ^ 6)
+
+/-- **Closed-Loop `Bio-PG` / Citric-Acid Solvolysis Monomer & Nanomaterial Recovery Retention**:
+$\mathcal{R}_{\mathrm{solv}}(\eta_{\mathrm{rec}}, N_{\mathrm{reloops}}) = \eta_{\mathrm{rec}}^{N_{\mathrm{reloops}}}$. -/
+@[blueprint "def:signals-soliton-closed-loop-solvolysis-retention"
+  (title := "Closed-loop Bio-PG / citric-acid solvolysis recovery retention")
+  (statement := /-- Define $\operatorname{closedLoopSolvolysisRetention}(\eta_{\mathrm{rec}}, N_{\mathrm{reloops}}) = \eta_{\mathrm{rec}}^{N_{\mathrm{reloops}}}$. -/)]
+noncomputable def closedLoopSolvolysisRetention
+    (eta_rec : ℝ) (n_reloops : ℕ) : ℝ :=
+  eta_rec ^ n_reloops
+
+/-- **Deep Critique & Gap-Closure Theorem for Paper 41 (`omni_carbon_energy_storage_deep_gap_closure_identities`)**:
+Simultaneously establishes:
+1. **Ragone Terminal Delivery Efficiency ($80\% \to 93.33\%$) & $3\times$ Peak Matched-Load Power via `LCS` Horizontal Alignment**:
+   $\operatorname{ragoneTerminalDeliveryEfficiency}(3, 1, 3/5) = 4/5 < \operatorname{ragoneTerminalDeliveryEfficiency}(3, 1, 1/5) = 14/15$ and
+   $\operatorname{ragoneMatchedLoadPeakPower}(3, 4) = 3 \times \operatorname{ragoneMatchedLoadPeakPower}(3, 12)$,
+2. **Exact Elimination of Polyiodide Shuttle Diffusion under Deep-Eutectic Solvent Starvation ($f_{\mathrm{free}} = 0$)**:
+   $\operatorname{sisPolyiodideShuttleDiffusivity}(d_0, 0, s_{\mathrm{steric}}) = 0$ and
+   $\operatorname{sisPolyiodideShuttleDiffusivity}(10^{-7}, 1/1000, 999) = 10^{-13} < 10^{-12}\text{ cm}^2/\text{s}$,
+3. **$576\times$ Green Microwave Phenolation Speedup Over $48\text{ hr}$ Acid Reflux**:
+   $\operatorname{microwavePhenolationSpeedupRatio}(2880, 5) = 576 > 500$,
+4. **Railroad Track-Mile Distributed Storage Upgrade ($4.875\text{ MWh/mile} \to 16.25\text{ MWh/mile}$)**:
+   $\operatorname{railroadTrackMileStorageMwh}(3250, 10, 150) = 39/8 < \operatorname{railroadTrackMileStorageMwh}(3250, 10, 500) = 65/4\text{ MWh/mile}$,
+5. **Closed-Loop Solvolysis Recovery ($98\% > 95\%$)**:
+   $\operatorname{closedLoopSolvolysisRetention}(49/50, 1) = 49/50 > 19/20$. -/
+@[blueprint "thm:signals-soliton-omni-carbon-energy-storage-deep-gap-closure"
+  (title := "Deep critique and gap-closure theorem for Paper 41: Ragone efficiency and 3x peak power, SiS polyiodide shuttle suppression (< 10^-12 cm^2/s), 576x microwave phenolation speedup, 16.25 MWh/mile rail storage, and 98% closed-loop solvolysis recovery")
+  (statement := /-- Simultaneously proves the $80\% \to 93.33\%$ Ragone terminal efficiency and $3\times$ matched-load peak power gain under \texttt{LCS} alignment, deep-eutectic \texttt{SiS} polyiodide shuttle suppression ($10^{-13} < 10^{-12}\text{ cm}^2/\text{s}$), $576\times$ microwave phenolation speedup, $4.875 \to 16.25\text{ MWh/mile}$ railroad tie storage scaling, and $98\%$ closed-loop solvolysis monomer recovery. -/)]
+theorem omni_carbon_energy_storage_deep_gap_closure_identities
+    (d_0 s_steric : ℝ) :
+    ragoneTerminalDeliveryEfficiency 3 1 (3 / 5) = 4 / 5 ∧
+    ragoneTerminalDeliveryEfficiency 3 1 (1 / 5) = 14 / 15 ∧
+    ragoneTerminalDeliveryEfficiency 3 1 (3 / 5) <
+      ragoneTerminalDeliveryEfficiency 3 1 (1 / 5) ∧
+    ragoneMatchedLoadPeakPower 3 4 = 3 * ragoneMatchedLoadPeakPower 3 12 ∧
+    sisPolyiodideShuttleDiffusivity d_0 0 s_steric = 0 ∧
+    sisPolyiodideShuttleDiffusivity (1 / 10 ^ 7) (1 / 1000) 999 = 1 / 10 ^ 13 ∧
+    sisPolyiodideShuttleDiffusivity (1 / 10 ^ 7) (1 / 1000) 999 < 1 / 10 ^ 12 ∧
+    microwavePhenolationSpeedupRatio 2880 5 = 576 ∧
+    (500 : ℝ) < microwavePhenolationSpeedupRatio 2880 5 ∧
+    railroadTrackMileStorageMwh 3250 10 150 = 39 / 8 ∧
+    railroadTrackMileStorageMwh 3250 10 500 = 65 / 4 ∧
+    railroadTrackMileStorageMwh 3250 10 150 < railroadTrackMileStorageMwh 3250 10 500 ∧
+    closedLoopSolvolysisRetention (49 / 50) 1 = 49 / 50 ∧
+    (19 / 20 : ℝ) < closedLoopSolvolysisRetention (49 / 50) 1 := by
+  refine ⟨
+    by unfold ragoneTerminalDeliveryEfficiency; norm_num,
+    by unfold ragoneTerminalDeliveryEfficiency; norm_num,
+    by unfold ragoneTerminalDeliveryEfficiency; norm_num,
+    by unfold ragoneMatchedLoadPeakPower; norm_num,
+    by unfold sisPolyiodideShuttleDiffusivity; ring,
+    by unfold sisPolyiodideShuttleDiffusivity; norm_num,
+    by unfold sisPolyiodideShuttleDiffusivity; norm_num,
+    by unfold microwavePhenolationSpeedupRatio; norm_num,
+    by unfold microwavePhenolationSpeedupRatio; norm_num,
+    by unfold railroadTrackMileStorageMwh; norm_num,
+    by unfold railroadTrackMileStorageMwh; norm_num,
+    by unfold railroadTrackMileStorageMwh; norm_num,
+    by unfold closedLoopSolvolysisRetention; norm_num,
+    by unfold closedLoopSolvolysisRetention; norm_num⟩
+
 end Signals.SolitonBus

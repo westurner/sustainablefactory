@@ -1453,3 +1453,65 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
         1.8 * (3.5 - 1.5),
     )
     assert SDSU4.ncm_nested_dropout_active_bragg_layers(5, 12) == 5
+
+    # Paper 40: rGO-Vitrimer Active Metamaterials, E-Paper, & Nanodiamond Displays
+    assert np.isclose(SDSU4.rgo_metasurface_nyquist_pitch_nm(800.0, 1.0), 400.0)
+    assert np.isclose(SDSU4.rgo_pauli_blocked_absorption(3.0, 2.0, 0.023), 0.0)
+    assert np.isclose(SDSU4.rgo_pauli_blocked_absorption(1.0, 2.0, 0.023), 0.023)
+    assert np.isclose(SDSU4.gires_tournois_phase_enhancement_factor(0.5), 3.0)
+    assert np.isclose(SDSU4.rgo_speckle_contrast_sq(1.0e8, 0.01), 1.0e-6)
+    assert np.isclose(SDSU4.rgo_thermal_diffusion_reset_time_ns(200.0, 1.0e4), 4.0)
+    assert np.isclose(
+        SDSU4.epaper_electrophoretic_switch_time_ms(10.0, 4.0, 1.0), 25.0
+    )
+    assert np.isclose(
+        SDSU4.rgo_bio_tpu_clear_sign_transmittance(0.92, 1.0, 0.0), 0.92
+    )
+    assert np.isclose(
+        SDSU4.rgo_bio_tpu_clear_sign_transmittance(0.92, 1.0, 1.0), 0.0
+    )
+    assert np.isclose(
+        SDSU4.vector_reflect_bistable_annual_energy_kwh(0.0, 8760.0, 0.0, 0.0), 0.0
+    )
+    assert (
+        SDSU4.cnc_chiral_bragg_wavelength_nm(3.0, 150.0, 0.0)
+        < SDSU4.cnc_chiral_bragg_wavelength_nm(3.0, 180.0, 0.0)
+        < SDSU4.cnc_chiral_bragg_wavelength_nm(3.0, 220.0, 0.0)
+    )
+    assert np.isclose(SDSU4.nanodiamond_shg_display_wavelength_nm(1180.0), 590.0)
+    assert np.isclose(
+        SDSU4.insect_photoreceptor_sensitivity(
+            SDSU4.nanodiamond_shg_display_wavelength_nm(1180.0)
+        ),
+        0.0,
+    )
+    assert np.isclose(SDSU4.nv_diamond_odmr_splitting_mhz(28.0, 5.0), 280.0)
+    assert np.isclose(
+        SDSU4.gires_tournois_reflectance_norm_sq(0.5, 0.6, 0.8), 1.0
+    )
+    assert np.isclose(
+        SDSU4.dvm_multi_strip_mask_fidelity(0.04, 2), 624.0 / 625.0
+    )
+    assert SDSU4.dvm_multi_strip_mask_fidelity(0.04, 2) > 0.998
+    assert np.isclose(
+        SDSU4.lbgpc_laminar_reynolds_number(1200.0, 0.5, 1.0e-3, 3.0e-3), 200.0
+    )
+    assert np.isclose(
+        SDSU4.rgo_bio_tpu_electro_alignment_time_ms(12.0, 3.0, 2.0), 1.0
+    )
+    assert np.isclose(
+        SDSU4.rgo_bio_tpu_brownian_reset_time_ms(12.0, 2.0, 1.0), 16.0
+    )
+    eps_comp = SDSU4.cnc_oblique_viewing_strain_compensation(0.8)
+    assert np.isclose(
+        SDSU4.cnc_oblique_compensated_bragg_wavelength_nm(
+            3.0, 180.0, eps_comp, 0.8
+        ),
+        540.0,
+    )
+    assert np.isclose(
+        SDSU4.nv_odmr_calibrated_phase_residual(
+            0.01 * 280.0, 0.01, SDSU4.nv_diamond_odmr_splitting_mhz(28.0, 5.0)
+        ),
+        0.0,
+    )

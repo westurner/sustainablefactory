@@ -82,11 +82,18 @@ interpretation while keeping experimental premises explicit:
    dynamics contracts expose dispersion length, nonlinear length, soliton order,
    self-compression/dispersive-wave observations, signal-driven XPM collision
    phase, OAM modal crosstalk, MIMO equalization, and on-bus/interface/off-bus
-   operator placement. The source chats remain proposal evidence: the model does
+   operator placement, as well as the revised Semi-Dirac / multi-band photonics,
+   nanodiamond `2DHG`, `VortexVia` / `StarVortexVia`, `LHAT` archival tape,
+   pressed-LLM QRAM, and `rGO-Vitrimer` active metamaterial / e-paper /
+   `Bio-Bragg` / nanodiamond display theorems
+   (`rgo_vitrimer_active_metamaterial_epaper_and_nanodiamond_display_identities`,
+   `rgo_vitrimer_display_deep_gap_closure_identities`). The source chats remain
+   proposal evidence: the model does
    not establish room-temperature N-LIG soliton stability, single-photon Kerr
    coupling, nondestructive parity measurement, or a fault-tolerant QPU. See
-   [`docs/soliton-bus.md`](../../docs/soliton-bus.md) and the
-   [signal-phase chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L8547).
+   [`docs/soliton-bus.md`](../../docs/soliton-bus.md),
+   [`docs/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md`](../../docs/grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md),
+   and the [signal-phase chat](../../data/chats/IQ-Sampling-for-Signal-Phase.md#L8547).
 - `Signals.Physlib` imports Physlib's compatible free-space parameter model and
    proves a small interface lemma over its `FreeSpace` parameters.
 - `Signals.Proca` provides a normalized massive-vector mode with explicit mass,

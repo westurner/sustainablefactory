@@ -4822,3 +4822,130 @@ class SemiDiracAndSU4WittenUnificationEngine:
     @staticmethod
     def ncm_nested_dropout_active_bragg_layers(k_cutoff: int, k_total: int) -> int:
         return int(min(k_cutoff, k_total))
+
+    # -----------------------------------------------------------------------
+    # Paper 40: rGO-Vitrimer Active Metamaterials, Bistable & Elastomeric
+    # E-Paper, Chiral CNC Bio-Bragg Projectors, & Nanodiamond Displays
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def rgo_metasurface_nyquist_pitch_nm(lambda_nm: float, na: float) -> float:
+        return float(lambda_nm / (2.0 * na))
+
+    @staticmethod
+    def rgo_pauli_blocked_absorption(
+        two_ef: float, hbar_omega: float, alpha_inter: float
+    ) -> float:
+        return 0.0 if hbar_omega < two_ef else float(alpha_inter)
+
+    @staticmethod
+    def gires_tournois_phase_enhancement_factor(r_top_amp: float) -> float:
+        return float((1.0 + r_top_amp) / (1.0 - r_top_amp))
+
+    @staticmethod
+    def rgo_speckle_contrast_sq(f_mod_hz: float, tau_int_s: float) -> float:
+        return float(1.0 / (f_mod_hz * tau_int_s))
+
+    @staticmethod
+    def rgo_thermal_diffusion_reset_time_ns(
+        l_mask_nm: float, alpha_eff_nm2_per_ns: float
+    ) -> float:
+        return float((l_mask_nm**2) / alpha_eff_nm2_per_ns)
+
+    @staticmethod
+    def epaper_electrophoretic_switch_time_ms(
+        d_gap_um: float, mu_ep: float, v_drive: float
+    ) -> float:
+        return float((d_gap_um**2) / (mu_ep * v_drive))
+
+    @staticmethod
+    def rgo_bio_tpu_clear_sign_transmittance(
+        t_max: float, alpha_ext: float, sin_theta_flake: float
+    ) -> float:
+        return float(t_max * (1.0 - alpha_ext * sin_theta_flake))
+
+    @staticmethod
+    def vector_reflect_bistable_annual_energy_kwh(
+        p_hold_kw: float,
+        hours_per_year: float,
+        e_update_kwh: float,
+        n_updates: float,
+    ) -> float:
+        return float(p_hold_kw * hours_per_year + e_update_kwh * n_updates)
+
+    @staticmethod
+    def bilayer_vitrimer_thermal_curvature(
+        alpha_active: float,
+        alpha_passive: float,
+        delta_t: float,
+        h_total: float,
+    ) -> float:
+        return float(6.0 * (alpha_active - alpha_passive) * delta_t / h_total)
+
+    @staticmethod
+    def cnc_chiral_bragg_wavelength_nm(
+        n_avg: float, pitch_nm: float, eps_strain: float
+    ) -> float:
+        return float(n_avg * pitch_nm * (1.0 + eps_strain))
+
+    @staticmethod
+    def nanodiamond_shg_display_wavelength_nm(lambda_fund_nm: float) -> float:
+        return float(lambda_fund_nm / 2.0)
+
+    @staticmethod
+    def insect_photoreceptor_sensitivity(lambda_nm: float) -> float:
+        return 0.0 if lambda_nm > 500.0 else 1.0
+
+    @staticmethod
+    def nv_diamond_odmr_splitting_mhz(
+        gamma_nv_mhz_per_mt: float, b_field_mt: float
+    ) -> float:
+        return float(2.0 * gamma_nv_mhz_per_mt * b_field_mt)
+
+    @staticmethod
+    def gires_tournois_reflectance_norm_sq(
+        r_top: float, cos_phi: float, sin_phi: float
+    ) -> float:
+        num = (r_top - cos_phi) ** 2 + sin_phi**2
+        den = (1.0 - r_top * cos_phi) ** 2 + (r_top * sin_phi) ** 2
+        return float(num / den)
+
+    @staticmethod
+    def dvm_multi_strip_mask_fidelity(p_defect: float, n_strips: int) -> float:
+        return float(1.0 - (p_defect**n_strips))
+
+    @staticmethod
+    def lbgpc_laminar_reynolds_number(
+        rho_kg_m3: float, v_m_s: float, d_h_m: float, mu_pa_s: float
+    ) -> float:
+        return float((rho_kg_m3 * v_m_s * d_h_m) / mu_pa_s)
+
+    @staticmethod
+    def rgo_bio_tpu_brownian_reset_time_ms(
+        eta_mpas: float, d_flake_um: float, kbt_scale: float
+    ) -> float:
+        return float((eta_mpas * (d_flake_um**3)) / (6.0 * kbt_scale))
+
+    @staticmethod
+    def rgo_bio_tpu_electro_alignment_time_ms(
+        eta_mpas: float, delta_chi_eff: float, e_field_v_per_um: float
+    ) -> float:
+        return float(eta_mpas / (delta_chi_eff * (e_field_v_per_um**2)))
+
+    @staticmethod
+    def cnc_oblique_viewing_strain_compensation(cos_theta_int: float) -> float:
+        return float(1.0 / cos_theta_int - 1.0)
+
+    @staticmethod
+    def cnc_oblique_compensated_bragg_wavelength_nm(
+        n_avg: float, pitch_nm: float, eps_strain: float, cos_theta_int: float
+    ) -> float:
+        return float(n_avg * pitch_nm * (1.0 + eps_strain) * cos_theta_int)
+
+    @staticmethod
+    def nv_odmr_calibrated_phase_residual(
+        delta_phi_raw: float,
+        gamma_phase_per_mhz: float,
+        delta_f_odmr_mhz: float,
+    ) -> float:
+        return float(delta_phi_raw - gamma_phase_per_mhz * delta_f_odmr_mhz)

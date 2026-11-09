@@ -1131,4 +1131,67 @@ lemma rhombohedral_graphene_qci_ncm_deep_gap_closure_bounds
         x2_c - x1_c :=
   contract.qci_ncm_deep_gap_closure_bounds l_k l_cond l_uncond gamma_cfg hl_k k_cut k_tot x1_c x2_c
 
+@[blueprint "lem:signals-pending-facade-rgo-vitrimer-active-metamaterial-epaper-and-nanodiamond-display-bounds"
+  (title := "Pending facade lemma for Paper 40: rGO-Vitrimer active metamaterials, bistable & elastomeric e-paper, chiral CNC Bio-Bragg projectors, and nanodiamond quantum displays")
+  (statement := /-- Under a \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis} contract,
+    all Paper 40 bounds for \texttt{rGO-Vitrimer} active metamaterials, e-paper, and nanodiamond
+    quantum displays hold simultaneously. -/)
+  (proof := /-- Apply \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis.rgo\_vitrimer\_active\_metamaterial\_epaper\_and\_nanodiamond\_display\_bounds}. -/)
+  (latexEnv := "lemma")]
+lemma rhombohedral_graphene_rgo_vitrimer_active_metamaterial_epaper_and_nanodiamond_display_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (n_avg pitch_nm eps_strain alpha_act alpha_pass h_tot : ℝ) :
+    Signals.SolitonBus.rgoMetasurfaceNyquistPitchNm 800 1 = 400 ∧
+      Signals.SolitonBus.rgoPauliBlockedAbsorption 3 2 (23 / 1000) = 0 ∧
+      Signals.SolitonBus.rgoPauliBlockedAbsorption 1 2 (23 / 1000) = 23 / 1000 ∧
+      Signals.SolitonBus.giresTournoisPhaseEnhancementFactor (1 / 2) = 3 ∧
+      Signals.SolitonBus.rgoSpeckleContrastSq (10 ^ 8) (1 / 100) = 1 / 10 ^ 6 ∧
+      Signals.SolitonBus.rgoThermalDiffusionResetTimeNs 200 (10 ^ 4) = 4 ∧
+      Signals.SolitonBus.epaperElectrophoreticSwitchTimeMs 10 4 1 = 25 ∧
+      Signals.SolitonBus.epaperElectrophoreticSwitchTimeMs 10 4 1 < 33 ∧
+      Signals.SolitonBus.rgoBioTpuClearSignTransmittance (92 / 100) 1 0 = 92 / 100 ∧
+      Signals.SolitonBus.rgoBioTpuClearSignTransmittance (92 / 100) 1 1 = 0 ∧
+      Signals.SolitonBus.vectorReflectBistableAnnualEnergyKwh 0 8760 0 0 = 0 ∧
+      Signals.SolitonBus.bilayerVitrimerThermalCurvature alpha_act alpha_pass 0 h_tot = 0 ∧
+      Signals.SolitonBus.cncChiralBraggWavelengthNm 3 150 0 <
+        Signals.SolitonBus.cncChiralBraggWavelengthNm 3 180 0 ∧
+      Signals.SolitonBus.cncChiralBraggWavelengthNm 3 180 0 <
+        Signals.SolitonBus.cncChiralBraggWavelengthNm 3 220 0 ∧
+      Signals.SolitonBus.cncChiralBraggWavelengthNm n_avg pitch_nm eps_strain -
+          Signals.SolitonBus.cncChiralBraggWavelengthNm n_avg pitch_nm 0 =
+        n_avg * pitch_nm * eps_strain ∧
+      Signals.SolitonBus.nanodiamondShgDisplayWavelengthNm 1180 = 590 ∧
+      Signals.SolitonBus.insectPhotoreceptorSensitivity
+          (Signals.SolitonBus.nanodiamondShgDisplayWavelengthNm 1180) = 0 ∧
+      Signals.SolitonBus.nvDiamondOdmrSplittingMhz 28 5 = 280 :=
+  contract.rgo_vitrimer_active_metamaterial_epaper_and_nanodiamond_display_bounds
+    n_avg pitch_nm eps_strain alpha_act alpha_pass h_tot
+
+/-- Re-exports the Paper 40 deep gap-closure boundary theorem. -/
+theorem rhombohedral_graphene_rgo_vitrimer_display_deep_gap_closure_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (r_top cos_phi sin_phi n_avg pitch_nm cos_theta_int gamma_phase gamma_nv b_field : ℝ)
+    (h_circle : cos_phi ^ 2 + sin_phi ^ 2 = 1)
+    (h_denom : (1 - r_top * cos_phi) ^ 2 + (r_top * sin_phi) ^ 2 ≠ 0)
+    (h_cos : cos_theta_int ≠ 0) :
+    Signals.SolitonBus.giresTournoisReflectanceNormSq r_top cos_phi sin_phi = 1 ∧
+      Signals.SolitonBus.dvmMultiStripMaskFidelity (1 / 25) 2 = 624 / 625 ∧
+      (998 / 1000 : ℝ) < Signals.SolitonBus.dvmMultiStripMaskFidelity (1 / 25) 2 ∧
+      Signals.SolitonBus.lbgpcLaminarReynoldsNumber 1200 (1 / 2) (1 / 1000) (3 / 1000) = 200 ∧
+      Signals.SolitonBus.lbgpcLaminarReynoldsNumber 1200 (1 / 2) (1 / 1000) (3 / 1000) < 2000 ∧
+      Signals.SolitonBus.rgoBioTpuElectroAlignmentTimeMs 12 3 2 = 1 ∧
+      Signals.SolitonBus.rgoBioTpuBrownianResetTimeMs 12 2 1 = 16 ∧
+      Signals.SolitonBus.rgoBioTpuElectroAlignmentTimeMs 12 3 2 <
+        Signals.SolitonBus.rgoBioTpuBrownianResetTimeMs 12 2 1 ∧
+      Signals.SolitonBus.rgoBioTpuBrownianResetTimeMs 12 2 1 < 33 ∧
+      Signals.SolitonBus.cncObliqueCompensatedBraggWavelengthNm n_avg pitch_nm
+          (Signals.SolitonBus.cncObliqueViewingStrainCompensation cos_theta_int) cos_theta_int =
+        n_avg * pitch_nm ∧
+      Signals.SolitonBus.nvOdmrCalibratedPhaseResidual
+          (gamma_phase * (2 * gamma_nv * b_field)) gamma_phase
+          (Signals.SolitonBus.nvDiamondOdmrSplittingMhz gamma_nv b_field) = 0 :=
+  contract.rgo_vitrimer_display_deep_gap_closure_bounds
+    r_top cos_phi sin_phi n_avg pitch_nm cos_theta_int gamma_phase gamma_nv b_field
+    h_circle h_denom h_cos
+
 end SignalsPending

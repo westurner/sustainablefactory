@@ -1509,10 +1509,15 @@ pub enum SemiDiracApplicationPreset {
     /// VQ Codebook Depth Layers, Plücker/VRC Destructive Constraint Exclusion ($x_X = -1$),
     /// Scale-Selective `N-LIG`/`B-LIG` Coarse/Fine Steering, and OAM-Parallel MBR Decoding.
     QuantumCausalNextConceptPressedLlmAccelerator,
+    /// **Application 12 (Paper 40)**: `rGO-Vitrimer` Active Metamaterial (`300-400 nm` Pauli-Blocked
+    /// Gires–Tournois Etalon + `4 ns` `A-CNT` Reset), Bistable `Vector Reflect` (`CNS`/`rGO`) &
+    /// `rGO-Bio-TPU` Failsafe E-Paper (`25 ms` Video-Rate), Chiral `CNC` `Bio-Bragg` RGB Stack, and
+    /// Nanodiamond (`SHG` $590\text{ nm}$ Insect-Blind Amber / RGB + `NV`/`n-Adamantane` ODMR) Quantum Display.
+    RgoVitrimerMetamaterialEpaperNanodiamondDisplay,
 }
 
 impl SemiDiracApplicationPreset {
-    pub fn all() -> [Self; 11] {
+    pub fn all() -> [Self; 12] {
         [
             Self::BallisticKleinDiodeTransistor,
             Self::HyperbolicThzBolometer,
@@ -1525,6 +1530,7 @@ impl SemiDiracApplicationPreset {
             Self::LhatHolographicArchivalTapeCartridge,
             Self::PressedLlmHolographicTapeSolitonQramSteering,
             Self::QuantumCausalNextConceptPressedLlmAccelerator,
+            Self::RgoVitrimerMetamaterialEpaperNanodiamondDisplay,
         ]
     }
 
@@ -1562,6 +1568,9 @@ impl SemiDiracApplicationPreset {
             }
             Self::QuantumCausalNextConceptPressedLlmAccelerator => {
                 "QCI_NCM_CoarseToFine_Pressed_LLM_LHAT_Steering"
+            }
+            Self::RgoVitrimerMetamaterialEpaperNanodiamondDisplay => {
+                "RGO_Vitrimer_Active_Metamaterial_EPaper_Nanodiamond_Display"
             }
         }
     }
@@ -1601,6 +1610,9 @@ impl SemiDiracApplicationPreset {
             Self::QuantumCausalNextConceptPressedLlmAccelerator => {
                 "Paper 39: Quantum Causal Next-Concept Modeling (QCI-NCM, arXiv:2610.14162) Coarse-to-Fine Parallel LLM on Pressed LHAT Tape with VRC Plucker Coupling & Scale-Selective Steering"
             }
+            Self::RgoVitrimerMetamaterialEpaperNanodiamondDisplay => {
+                "Paper 40: rGO-Vitrimer Active Metamaterial (Pauli-Blocked GTE & 4ns A-CNT Reset), Vector Reflect CNS / rGO-Bio-TPU Failsafe E-Paper, Chiral CNC Bio-Bragg RGB, & Nanodiamond SHG/NV Quantum Display"
+            }
         }
     }
 
@@ -1634,6 +1646,9 @@ impl SemiDiracApplicationPreset {
             }
             Self::QuantumCausalNextConceptPressedLlmAccelerator => {
                 ["NCM_CONCEPT_IN", "QCI_MBR_TOKEN_OUT", "SCALE_STEER_CTRL", "GND"]
+            }
+            Self::RgoVitrimerMetamaterialEpaperNanodiamondDisplay => {
+                ["RGO_GTE_PHASE_IN", "BRAGG_RGB_AMBER_OUT", "EPAPER_OAM_GATE", "GND"]
             }
         }
     }
@@ -1951,6 +1966,28 @@ pub fn generate_semi_dirac_application_module(
                 "4_OAM_PARALLEL_MBR_OXSCNT_DECODER",
                 "Signals.QuantumCausalInference.ncmOamParallelMbrLatencySteps (K Steps vs M_cand*K) + Ox-s-CNT Readout",
                 135.0,
+            ),
+        ],
+        SemiDiracApplicationPreset::RgoVitrimerMetamaterialEpaperNanodiamondDisplay => vec![
+            (
+                "1_RGO_VITRIMER_PAULI_GTE_METASURFACE",
+                "Signals.SolitonBus.rgoPauliBlockedAbsorption + giresTournoisPhaseEnhancementFactor (300nm Pitch, 4ns A-CNT Reset)",
+                150.0,
+            ),
+            (
+                "2_VECTOR_REFLECT_CNS_BIO_TPU_EPAPER",
+                "Signals.SolitonBus.epaperElectrophoreticSwitchTimeMs (25ms Video-Rate) + rgoBioTpuClearSignTransmittance (Brownian Failsafe)",
+                150.0,
+            ),
+            (
+                "3_CHIRAL_CNC_BIO_BRAGG_RGB_STACK",
+                "Signals.SolitonBus.cncChiralBraggWavelengthNm (450/540/660nm Strain-Tuned RGB, >90% Transparent AR/TV)",
+                155.0,
+            ),
+            (
+                "4_NANODIAMOND_SHG_590NM_NV_ODMR_PIXEL",
+                "Signals.SolitonBus.nanodiamondShgDisplayWavelengthNm (590nm Insect-Blind Amber & RGB) + nvDiamondOdmrSplittingMhz",
+                145.0,
             ),
         ],
     };
@@ -2362,6 +2399,202 @@ pub fn export_semi_dirac_kicad_pcb_str(preset: SemiDiracApplicationPreset) -> St
     )
 }
 
+// ---------------------------------------------------------------------------
+// Paper 40: `rGO-Vitrimer` Active Metamaterials, Bistable & Elastomeric E-Paper,
+//           Chiral `CNC` `Bio-Bragg` Projectors, & Nanodiamond Quantum Displays
+//           (`Signals.SolitonBus` Section 9)
+// ---------------------------------------------------------------------------
+
+/// Sub-wavelength Nyquist pixel pitch `Lambda_max = lambda_nm / (2 * na)` (`rgoMetasurfaceNyquistPitchNm`).
+#[inline]
+pub fn rgo_metasurface_nyquist_pitch_nm(lambda_nm: f64, na: f64) -> f64 {
+    lambda_nm / (2.0 * na)
+}
+
+/// Pauli-blocked interband absorption switch (`rgoPauliBlockedAbsorption`):
+/// returns `0.0` when `2 * E_F > hbar * omega` (pure-phase GTE mode), else `alpha_inter`.
+#[inline]
+pub fn rgo_pauli_blocked_absorption(two_ef: f64, hbar_omega: f64, alpha_inter: f64) -> f64 {
+    if hbar_omega < two_ef {
+        0.0
+    } else {
+        alpha_inter
+    }
+}
+
+/// Gires–Tournois Etalon (`GTE`, "Smart Mirror") resonant phase-slope enhancement factor
+/// `(1 + r_top_amp) / (1 - r_top_amp)` (`giresTournoisPhaseEnhancementFactor`).
+#[inline]
+pub fn gires_tournois_phase_enhancement_factor(r_top_amp: f64) -> f64 {
+    (1.0 + r_top_amp) / (1.0 - r_top_amp)
+}
+
+/// Temporal speckle whitening squared contrast `1 / (f_mod_hz * tau_int_s)` (`rgoSpeckleContrastSq`).
+#[inline]
+pub fn rgo_speckle_contrast_sq(f_mod_hz: f64, tau_int_s: f64) -> f64 {
+    1.0 / (f_mod_hz * tau_int_s)
+}
+
+/// Flash-print thermal diffusion reset time in nanoseconds `l_mask_nm^2 / alpha_eff_nm2_per_ns`
+/// (`rgoThermalDiffusionResetTimeNs`).
+#[inline]
+pub fn rgo_thermal_diffusion_reset_time_ns(l_mask_nm: f64, alpha_eff_nm2_per_ns: f64) -> f64 {
+    (l_mask_nm * l_mask_nm) / alpha_eff_nm2_per_ns
+}
+
+/// Electrophoretic / electro-rotational e-paper switching time `d_gap_um^2 / (mu_ep * v_drive)` in ms
+/// (`epaperElectrophoreticSwitchTimeMs`).
+#[inline]
+pub fn epaper_electrophoretic_switch_time_ms(d_gap_um: f64, mu_ep: f64, v_drive: f64) -> f64 {
+    (d_gap_um * d_gap_um) / (mu_ep * v_drive)
+}
+
+/// `rGO-Bio-TPU` electro-rotational Clear Sign transmittance `t_max * (1 - alpha_ext * sin_theta_flake)`
+/// (`rgoBioTpuClearSignTransmittance`).
+#[inline]
+pub fn rgo_bio_tpu_clear_sign_transmittance(
+    t_max: f64,
+    alpha_ext: f64,
+    sin_theta_flake: f64,
+) -> f64 {
+    t_max * (1.0 - alpha_ext * sin_theta_flake)
+}
+
+/// Bistable `Vector Reflect` (`LIG`-coated `CNS` + `rGO`) annual energy consumption in kWh
+/// (`vectorReflectBistableAnnualEnergyKwh`).
+#[inline]
+pub fn vector_reflect_bistable_annual_energy_kwh(
+    p_hold_kw: f64,
+    hours_per_year: f64,
+    e_update_kwh: f64,
+    n_updates: f64,
+) -> f64 {
+    p_hold_kw * hours_per_year + e_update_kwh * n_updates
+}
+
+/// Bilayer active (`rGO-Vitrimer`) / passive (`Pristine Vitrimer`) differential thermal curvature
+/// (`bilayerVitrimerThermalCurvature`).
+#[inline]
+pub fn bilayer_vitrimer_thermal_curvature(
+    alpha_active: f64,
+    alpha_passive: f64,
+    delta_t: f64,
+    h_total: f64,
+) -> f64 {
+    6.0 * (alpha_active - alpha_passive) * delta_t / h_total
+}
+
+/// Strain-tuned chiral nematic `CNC` structural-color Bragg peak wavelength in nm
+/// (`cncChiralBraggWavelengthNm`).
+#[inline]
+pub fn cnc_chiral_bragg_wavelength_nm(n_avg: f64, pitch_nm: f64, eps_strain: f64) -> f64 {
+    n_avg * pitch_nm * (1.0 + eps_strain)
+}
+
+/// Nanodiamond Second-Harmonic Generation (`SHG`) display up-converted wavelength `lambda_fund_nm / 2`
+/// (`nanodiamondShgDisplayWavelengthNm`).
+#[inline]
+pub fn nanodiamond_shg_display_wavelength_nm(lambda_fund_nm: f64) -> f64 {
+    lambda_fund_nm / 2.0
+}
+
+/// Nocturnal flying-insect photoreceptor sensitivity cutoff (`0.0` for `lambda_nm > 500.0`, else `1.0`)
+/// (`insectPhotoreceptorSensitivity`).
+#[inline]
+pub fn insect_photoreceptor_sensitivity(lambda_nm: f64) -> f64 {
+    if lambda_nm > 500.0 {
+        0.0
+    } else {
+        1.0
+    }
+}
+
+/// Nanodiamond / `n-adamantane` NV-center ODMR Zeeman frequency splitting `2 * gamma_nv * B` in MHz
+/// (`nvDiamondOdmrSplittingMhz`).
+#[inline]
+pub fn nv_diamond_odmr_splitting_mhz(gamma_nv_mhz_per_mt: f64, b_field_mt: f64) -> f64 {
+    2.0 * gamma_nv_mhz_per_mt * b_field_mt
+}
+
+/// Gires–Tournois Etalon (`GTE`) all-phase unimodular reflectance norm squared
+/// (`giresTournoisReflectanceNormSq`).
+#[inline]
+pub fn gires_tournois_reflectance_norm_sq(r_top: f64, cos_phi: f64, sin_phi: f64) -> f64 {
+    ((r_top - cos_phi).powi(2) + sin_phi.powi(2))
+        / ((1.0 - r_top * cos_phi).powi(2) + (r_top * sin_phi).powi(2))
+}
+
+/// Dynamic Virtual Mask (`DVM`) multi-strip overlap redundancy fidelity `1 - p_defect^n_strips`
+/// (`dvmMultiStripMaskFidelity`).
+#[inline]
+pub fn dvm_multi_strip_mask_fidelity(p_defect: f64, n_strips: u32) -> f64 {
+    1.0 - p_defect.powi(n_strips as i32)
+}
+
+/// `LBGPC` laminar fluid-bearing Reynolds number `rho * v * d_h / mu`
+/// (`lbgpcLaminarReynoldsNumber`).
+#[inline]
+pub fn lbgpc_laminar_reynolds_number(
+    rho_kg_m3: f64,
+    v_m_s: f64,
+    d_h_m: f64,
+    mu_pa_s: f64,
+) -> f64 {
+    (rho_kg_m3 * v_m_s * d_h_m) / mu_pa_s
+}
+
+/// `rGO-Bio-TPU` passive Brownian rotational relaxation time in ms
+/// (`rgoBioTpuBrownianResetTimeMs`).
+#[inline]
+pub fn rgo_bio_tpu_brownian_reset_time_ms(
+    eta_mpas: f64,
+    d_flake_um: f64,
+    kbt_scale: f64,
+) -> f64 {
+    (eta_mpas * d_flake_um.powi(3)) / (6.0 * kbt_scale)
+}
+
+/// `rGO-Bio-TPU` active electro-rotational / dielectrophoretic alignment time in ms
+/// (`rgoBioTpuElectroAlignmentTimeMs`).
+#[inline]
+pub fn rgo_bio_tpu_electro_alignment_time_ms(
+    eta_mpas: f64,
+    delta_chi_eff: f64,
+    e_field_v_per_um: f64,
+) -> f64 {
+    eta_mpas / (delta_chi_eff * e_field_v_per_um.powi(2))
+}
+
+/// Chiral `CNC` `Bio-Bragg` oblique viewing-angle electro-strain pre-compensation `1 / cos_theta - 1`
+/// (`cncObliqueViewingStrainCompensation`).
+#[inline]
+pub fn cnc_oblique_viewing_strain_compensation(cos_theta_int: f64) -> f64 {
+    1.0 / cos_theta_int - 1.0
+}
+
+/// Oblique-angle chiral `CNC` Bragg reflection wavelength `n_avg * pitch_nm * (1 + eps_strain) * cos_theta_int`
+/// (`cncObliqueCompensatedBraggWavelengthNm`).
+#[inline]
+pub fn cnc_oblique_compensated_bragg_wavelength_nm(
+    n_avg: f64,
+    pitch_nm: f64,
+    eps_strain: f64,
+    cos_theta_int: f64,
+) -> f64 {
+    n_avg * pitch_nm * (1.0 + eps_strain) * cos_theta_int
+}
+
+/// `NV`-diamond / `n-adamantane` `ODMR` closed-loop phase-drift residual
+/// (`nvOdmrCalibratedPhaseResidual`).
+#[inline]
+pub fn nv_odmr_calibrated_phase_residual(
+    delta_phi_raw: f64,
+    gamma_phase_per_mhz: f64,
+    delta_f_odmr_mhz: f64,
+) -> f64 {
+    delta_phi_raw - gamma_phase_per_mhz * delta_f_odmr_mhz
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2529,5 +2762,56 @@ mod tests {
             let cbom = export_iof_prov_cbom_yaml_ld(&mod_name, &litho, &splines);
             assert!(cbom.contains("iof:ManufacturingOperation"));
         }
+    }
+
+    #[test]
+    fn rgo_vitrimer_active_metamaterial_epaper_and_nanodiamond_display_identities_hold() {
+        assert!((rgo_metasurface_nyquist_pitch_nm(800.0, 1.0) - 400.0).abs() < 1e-12);
+        assert!(rgo_pauli_blocked_absorption(3.0, 2.0, 0.023).abs() < 1e-12);
+        assert!((rgo_pauli_blocked_absorption(1.0, 2.0, 0.023) - 0.023).abs() < 1e-12);
+        assert!((gires_tournois_phase_enhancement_factor(0.5) - 3.0).abs() < 1e-12);
+        assert!((rgo_speckle_contrast_sq(1.0e8, 0.01) - 1.0e-6).abs() < 1e-18);
+        assert!((rgo_thermal_diffusion_reset_time_ns(200.0, 1.0e4) - 4.0).abs() < 1e-12);
+        assert!((epaper_electrophoretic_switch_time_ms(40.0, 4.0, 1.0) - 400.0).abs() < 1e-12);
+        assert!((epaper_electrophoretic_switch_time_ms(10.0, 4.0, 1.0) - 25.0).abs() < 1e-12);
+        assert!((rgo_bio_tpu_clear_sign_transmittance(0.92, 1.0, 0.0) - 0.92).abs() < 1e-12);
+        assert!(rgo_bio_tpu_clear_sign_transmittance(0.92, 1.0, 1.0).abs() < 1e-12);
+        assert!(vector_reflect_bistable_annual_energy_kwh(0.0, 8760.0, 0.0, 0.0).abs() < 1e-12);
+        assert!(
+            vector_reflect_bistable_annual_energy_kwh(0.0, 8760.0, 0.01, 365.0)
+                < vector_reflect_bistable_annual_energy_kwh(4.0, 8760.0, 0.0, 0.0)
+        );
+        assert!(bilayer_vitrimer_thermal_curvature(2.0e-4, 0.5e-4, 0.0, 100.0).abs() < 1e-15);
+        assert!((cnc_chiral_bragg_wavelength_nm(3.0, 150.0, 0.0) - 450.0).abs() < 1e-12);
+        assert!((cnc_chiral_bragg_wavelength_nm(3.0, 180.0, 0.0) - 540.0).abs() < 1e-12);
+        assert!((cnc_chiral_bragg_wavelength_nm(3.0, 220.0, 0.0) - 660.0).abs() < 1e-12);
+        assert!((nanodiamond_shg_display_wavelength_nm(1180.0) - 590.0).abs() < 1e-12);
+        assert!((nanodiamond_shg_display_wavelength_nm(1270.0) - 635.0).abs() < 1e-12);
+        assert!((nanodiamond_shg_display_wavelength_nm(1064.0) - 532.0).abs() < 1e-12);
+        assert!((nanodiamond_shg_display_wavelength_nm(900.0) - 450.0).abs() < 1e-12);
+        assert!(
+            insect_photoreceptor_sensitivity(nanodiamond_shg_display_wavelength_nm(1180.0)).abs()
+                < 1e-12
+        );
+        assert!((insect_photoreceptor_sensitivity(450.0) - 1.0).abs() < 1e-12);
+        assert!((nv_diamond_odmr_splitting_mhz(28.0, 5.0) - 280.0).abs() < 1e-12);
+
+        // Deep gap-closure checks:
+        assert!((gires_tournois_reflectance_norm_sq(0.5, 0.6, 0.8) - 1.0).abs() < 1e-12);
+        assert!((dvm_multi_strip_mask_fidelity(0.04, 2) - (624.0 / 625.0)).abs() < 1e-12);
+        assert!(dvm_multi_strip_mask_fidelity(0.04, 2) > 0.998);
+        assert!((lbgpc_laminar_reynolds_number(1200.0, 0.5, 1.0e-3, 3.0e-3) - 200.0).abs() < 1e-12);
+        assert!((rgo_bio_tpu_electro_alignment_time_ms(12.0, 3.0, 2.0) - 1.0).abs() < 1e-12);
+        assert!((rgo_bio_tpu_brownian_reset_time_ms(12.0, 2.0, 1.0) - 16.0).abs() < 1e-12);
+        let eps_comp = cnc_oblique_viewing_strain_compensation(0.8);
+        assert!(
+            (cnc_oblique_compensated_bragg_wavelength_nm(3.0, 180.0, eps_comp, 0.8) - 540.0).abs()
+                < 1e-12
+        );
+        assert!(
+            nv_odmr_calibrated_phase_residual(0.01 * 280.0, 0.01, nv_diamond_odmr_splitting_mhz(28.0, 5.0))
+                .abs()
+                < 1e-12
+        );
     }
 }
