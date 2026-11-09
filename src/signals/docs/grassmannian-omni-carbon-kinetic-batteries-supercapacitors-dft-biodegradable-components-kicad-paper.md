@@ -23,6 +23,7 @@ description: "An arXiv-ready MyST Markdown formal verification and sustainable e
   - [Semi-Dirac Fermions (Mass in Only One Direction) With and Without Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-semi-dirac-fermions-ddf-paper.md)
   - [Laser-Induced $sp^2/sp^3$ Carbon and Nanodiamonds from Lignin, Plastics (`PET`/`PE`), $\mathrm{CO}_2$, and Methane Pyrolysis ("Teal Carbon"), H-Terminated Nanodiamond `2DHG` FETs, and Biodegradable Carbon Semiconductor Alternatives (`P-CQDs` and `Ox-s-CNT` / `VACNT`)](grassmannian-nanodiamond-2dhg-biodegradable-carbon-photonics-kicad-paper.md)
   - [`rGO-Vitrimer` Active Metamaterials, Bistable & Elastomeric E-Paper (`Vector Reflect` & `rGO-Bio-TPU`), Chiral `CNC` `Bio-Bragg` Projectors, and Nanodiamond (`SHG` / `NV` / `n-Adamantane` / `P-CQD`) Active Quantum Displays](grassmannian-rgo-vitrimer-active-metamaterial-epaper-nanodiamond-displays-kicad-paper.md)
+  - [Plasma-Fluffed Chitosan–Alginate–Magnesium Hemostatic Gauze & `VEGF` Wound Sprays, `Sprout-Zero` Biodegradable Diapers, `Aero-Fleece` Thermal Liners, `CAM` Struvite Geotextiles, and Graphene-Susceptor `FJH` Quartzite Argon Plasma Tubes](grassmannian-plasma-fluffed-gauze-diapers-fleece-geotextiles-quartzite-kicad-paper.md)
 
 ---
 

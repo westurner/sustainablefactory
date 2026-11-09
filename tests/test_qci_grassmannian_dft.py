@@ -1830,3 +1830,28 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
         SDSU4.cascade_retting_opex_coverage_ratio(40000.0, 150.0, 7900000.0)
         > 0.75
     )
+    assert np.isclose(
+        SDSU4.k_struvite_competitive_selectivity_fraction(0.0, 10.0), 0.0
+    )
+    assert np.isclose(
+        SDSU4.k_struvite_competitive_selectivity_fraction(10.0, 10.0), 0.5
+    )
+    assert np.isclose(
+        SDSU4.mg_corrosion_hydrogen_overpressure_ratio(42.0, 2.0, 5.0), 4.2
+    )
+    assert np.isclose(
+        SDSU4.mg_corrosion_hydrogen_overpressure_ratio(42.0, 84.0, 5.0), 0.1
+    )
+    assert SDSU4.mg_corrosion_hydrogen_overpressure_ratio(42.0, 84.0, 5.0) < 1.0
+    assert np.isclose(
+        SDSU4.olis_five_node_total_shear_capacity_kg(5.0, 15.0), 75.0
+    )
+    assert np.isclose(
+        SDSU4.olis_vitrimer_thermal_bridge_reduction_ratio(50.0, 0.25), 200.0
+    )
+    assert np.isclose(
+        SDSU4.sodis_ascorbate_humic_footprint_ratio(1.0, 1.5), 0.4
+    )
+    assert np.isclose(
+        1.0 - SDSU4.sodis_ascorbate_humic_footprint_ratio(1.0, 1.5), 0.6
+    )

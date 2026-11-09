@@ -812,7 +812,25 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     Signals.SolitonBus.epaperElectrophoreticSwitchTimeMs 10 4 1 = 25 ∧
     Signals.SolitonBus.rgoBioTpuClearSignTransmittance (92 / 100) 1 1 = 0 ∧
     Signals.SolitonBus.insectPhotoreceptorSensitivity
-      (Signals.SolitonBus.nanodiamondShgDisplayWavelengthNm 1180) = 0 := by
+      (Signals.SolitonBus.nanodiamondShgDisplayWavelengthNm 1180) = 0 ∧
+    -- (41) Paper 41 (Lignolux Omni-Carbon Kinetic Batteries, Q-Node Quinone Pseudocapacitors, Semi-Dirac Quantum Capacitance, QCI-GXC DFT Passivation, & OH* Cold Plasma Bast Activation):
+    Signals.SolitonBus.omniCarbonVolumetricEnergyDensityWhPerL 550 (17 / 11) = 850 ∧
+    Signals.SolitonBus.seriesQuantumDoubleLayerCapacitance 600 1800 =
+      3 * Signals.SolitonBus.seriesQuantumDoubleLayerCapacitance 600 200 ∧
+    Signals.SolitonBus.quinoneRedoxPemElectrolyzerVoltageMismatch (31 / 10) 2 (31 / 20) = 0 ∧
+    Signals.SolitonBus.dftMcWeenyPassivatedLeakageFactor (9 / 10) (19 / 20) < 1 / 100 ∧
+    Signals.SolitonBus.hydroxylPlasmaSpecificEnergyEfficiencyRatio 20 (18 / 100) (5 / 2) (36 / 100) = 16 ∧
+    Signals.SolitonBus.volumetricSpecificCapacitanceFPerCm3 450 (21 / 20) =
+      9 * Signals.SolitonBus.volumetricSpecificCapacitanceFPerCm3 150 (7 / 20) ∧
+    -- (42) Paper 42 (Plasma-Fluffed Chitosan-Alginate-Mg Hemostatic Gauze & VEGF Spray, Sprout-Zero Diapers, Aero-Fleece, CAM Struvite Geotextiles, & FJH Quartzite Argon Plasma Tubes):
+    Signals.SolitonBus.quartzTubeOpticalTransmittance (92 / 100) 0 = 23 / 25 ∧
+    Signals.SolitonBus.pddRosenPiezoStepUpVoltage 12 500 (1 / 2) 4 1 = 12000 ∧
+    Signals.SolitonBus.hemostaticClottingTimeSec 180 3 3 5 = 15 ∧
+    Signals.SolitonBus.compositeWeightedSwellingRatio (3 / 10) 20 (7 / 10) 180 0 0 = 132 ∧
+    Signals.SolitonBus.aeroFleeceSubmergedThermalResistance 10 (9 / 10) =
+      6 * Signals.SolitonBus.aeroFleeceSubmergedThermalResistance 10 (3 / 20) ∧
+    (5047 : ℝ) < Signals.SolitonBus.struviteFertilizerGeneratedKg 500 (2453 / 10) (243 / 10) ∧
+    Signals.SolitonBus.mgCorrosionHydrogenOverpressureRatio 42 84 5 < 1 := by
   intro z1 z2 p_slit M_sheath W_orb Δϖ_GR P_GR splat_ddf splat_opa M_spp M_holo W_sec M_ads5 φ_fraun φ_fres N_F x_dg
   have h1 := (complexGr24CrossingDoubleSlit_zero_error 3 2 4 6 1 5 x y).2
   have h2 := yang_baxter_equation_matrix8 7 4 1 2
@@ -1097,7 +1115,20 @@ example {sub : DDFSubstrate} (s : MovingSheath sub) (re : RiverExterior sub)
     by norm_num [Signals.SolitonBus.epaperElectrophoreticSwitchTimeMs],
     by norm_num [Signals.SolitonBus.rgoBioTpuClearSignTransmittance],
     by norm_num [Signals.SolitonBus.insectPhotoreceptorSensitivity,
-      Signals.SolitonBus.nanodiamondShgDisplayWavelengthNm]⟩
+      Signals.SolitonBus.nanodiamondShgDisplayWavelengthNm],
+    by norm_num [Signals.SolitonBus.omniCarbonVolumetricEnergyDensityWhPerL],
+    by norm_num [Signals.SolitonBus.seriesQuantumDoubleLayerCapacitance],
+    by norm_num [Signals.SolitonBus.quinoneRedoxPemElectrolyzerVoltageMismatch],
+    by norm_num [Signals.SolitonBus.dftMcWeenyPassivatedLeakageFactor],
+    by norm_num [Signals.SolitonBus.hydroxylPlasmaSpecificEnergyEfficiencyRatio],
+    by norm_num [Signals.SolitonBus.volumetricSpecificCapacitanceFPerCm3],
+    by norm_num [Signals.SolitonBus.quartzTubeOpticalTransmittance],
+    by norm_num [Signals.SolitonBus.pddRosenPiezoStepUpVoltage],
+    by norm_num [Signals.SolitonBus.hemostaticClottingTimeSec],
+    by norm_num [Signals.SolitonBus.compositeWeightedSwellingRatio],
+    by norm_num [Signals.SolitonBus.aeroFleeceSubmergedThermalResistance],
+    by norm_num [Signals.SolitonBus.struviteFertilizerGeneratedKg],
+    by norm_num [Signals.SolitonBus.mgCorrosionHydrogenOverpressureRatio]⟩
 
 end ArxivCapstoneThirtyPaperUnificationVerification
 ```
@@ -1424,6 +1455,22 @@ end ArxivCapstoneThirtyPaperUnificationVerification
   journal = {Sustainable Factory Research Archive},
   year    = {2026},
   note    = {Verified in Lean 4 (v4.35.0-rc3), Python, and Rust/WASM}
+}
+
+@article{turner2026omni_carbon_kinetic_batteries_supercapacitors_dft_kicad,
+  author  = {Turner, Wes},
+  title   = {Lignolux {O}mni-{C}arbon {K}inetic {B}atteries ({Al-LGBPC}, {D}ual-{I}on {I}odine, \& {Na-Ion} {H}ard {C}arbon), {Q-Node} {Q}uinone {P}seudocapacitors, {S}emi-{D}irac {Q}uantum {C}apacitance, {QCI-GXC} {K}ohn--{S}ham {DFT} {P}assivation, and {B}iodegradable / {C}losed-{L}oop {R}ecyclable {E}lectrical {C}omponents in {L}ean 4, {R}ust/{WASM}, {P}ython, and {K}i{CAD} v8},
+  journal = {Sustainable Factory Research Archive},
+  year    = {2026},
+  note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
+}
+
+@article{turner2026plasma_fluffed_gauze_diapers_fleece_geotextiles_quartzite_kicad,
+  author  = {Turner, Wes},
+  title   = {Plasma-{F}luffed {C}hitosan--{A}lginate--{M}agnesium {H}emostatic {G}auze \& {VEGF} {W}ound {S}prays, {S}prout-{Z}ero {B}iodegradable {D}iapers, {A}ero-{F}leece {T}hermal {L}iners, {CAM} {S}truvite {G}eotextiles, and {G}raphene-{S}usceptor {FJH} {Q}uartzite {A}rgon {P}lasma {T}ubes in {L}ean 4, {R}ust/{WASM}, {P}ython, and {K}i{CAD} v8},
+  journal = {Sustainable Factory Research Archive},
+  year    = {2026},
+  note    = {Verified in Lean 4 (v4.35.0-rc3), Rust/WASM, Python, and KiCAD v8}
 }
 
 @article{dean2025secondharmonic,

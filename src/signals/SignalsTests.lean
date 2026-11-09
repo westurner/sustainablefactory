@@ -7820,7 +7820,12 @@ example (sigma_0 v_pulse n_c : ℝ) :
       Signals.SolitonBus.mgoToElementalMgMassKg (201500 / 243) (243 / 10) (403 / 10) = 500 ∧
       Signals.SolitonBus.soilCarbonToNitrogenRatio 2000 40 40 = 25 ∧
       Signals.SolitonBus.productGrossMarginFraction (85 / 100) 45 = 883 / 900 ∧
-      Signals.SolitonBus.cascadeRettingOpexCoverageRatio 40000 150 7900000 = 60 / 79 := by
+      Signals.SolitonBus.cascadeRettingOpexCoverageRatio 40000 150 7900000 = 60 / 79 ∧
+      Signals.SolitonBus.kStruviteCompetitiveSelectivityFraction 10 10 = 1 / 2 ∧
+      Signals.SolitonBus.mgCorrosionHydrogenOverpressureRatio 42 84 5 = 1 / 10 ∧
+      Signals.SolitonBus.olisFiveNodeTotalShearCapacityKg 5 15 = 75 ∧
+      Signals.SolitonBus.olisVitrimerThermalBridgeReductionRatio 50 (1 / 4) = 200 ∧
+      1 - Signals.SolitonBus.sodisAscorbateHumicFootprintRatio 1 (3 / 2) = 3 / 5 := by
   have h1 :=
     Signals.SolitonBus.plasma_fluffed_gauze_diaper_fleece_geotextile_and_quartzite_tube_identities
       sigma_0 v_pulse n_c
@@ -7834,6 +7839,11 @@ example (sigma_0 v_pulse n_c : ℝ) :
     h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
     h2.2.2.1, h2.2.2.2.2.1, h2.2.2.2.2.2.2.1,
-    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    h2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
 
 end SignalsTests

@@ -5294,3 +5294,39 @@ class SemiDiracAndSU4WittenUnificationEngine:
         opex_annual: float,
     ) -> float:
         return float((m_oil_kg * price_per_kg) / opex_annual)
+
+    @staticmethod
+    def k_struvite_competitive_selectivity_fraction(
+        r_k_to_nh4: float,
+        k_sel: float,
+    ) -> float:
+        return float(r_k_to_nh4 / (r_k_to_nh4 + k_sel))
+
+    @staticmethod
+    def mg_corrosion_hydrogen_overpressure_ratio(
+        m_mg_core: float,
+        t_resorb_days: float,
+        j_vent_cap: float,
+    ) -> float:
+        return float((m_mg_core / t_resorb_days) / j_vent_cap)
+
+    @staticmethod
+    def olis_five_node_total_shear_capacity_kg(
+        n_nodes: float,
+        f_node_kg: float,
+    ) -> float:
+        return float(n_nodes * f_node_kg)
+
+    @staticmethod
+    def olis_vitrimer_thermal_bridge_reduction_ratio(
+        kappa_metal: float,
+        kappa_vit: float,
+    ) -> float:
+        return float(kappa_metal / kappa_vit)
+
+    @staticmethod
+    def sodis_ascorbate_humic_footprint_ratio(
+        a_0: float,
+        k_accel: float,
+    ) -> float:
+        return float(a_0 / (1.0 + k_accel))

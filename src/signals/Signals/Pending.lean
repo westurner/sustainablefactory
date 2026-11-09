@@ -7760,7 +7760,17 @@ lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.plasma_fluffed_bio_
       (77 / 100 : ℝ) < Signals.SolitonBus.productGrossMarginFraction 40 180 ∧
       Signals.SolitonBus.cascadeRettingOpexCoverageRatio 40000 150 7900000 = 60 / 79 ∧
       (3 / 4 : ℝ) < Signals.SolitonBus.cascadeRettingOpexCoverageRatio 40000 150 7900000 ∧
-      (365 * 2 * 1200 : ℝ) = 876000 :=
+      (365 * 2 * 1200 : ℝ) = 876000 ∧
+      Signals.SolitonBus.kStruviteCompetitiveSelectivityFraction 0 10 = 0 ∧
+      Signals.SolitonBus.kStruviteCompetitiveSelectivityFraction 10 10 = 1 / 2 ∧
+      Signals.SolitonBus.mgCorrosionHydrogenOverpressureRatio 42 2 5 = 21 / 5 ∧
+      Signals.SolitonBus.mgCorrosionHydrogenOverpressureRatio 42 84 5 = 1 / 10 ∧
+      Signals.SolitonBus.mgCorrosionHydrogenOverpressureRatio 42 84 5 < 1 ∧
+      (1 : ℝ) < Signals.SolitonBus.mgCorrosionHydrogenOverpressureRatio 42 2 5 ∧
+      Signals.SolitonBus.olisFiveNodeTotalShearCapacityKg 5 15 = 75 ∧
+      Signals.SolitonBus.olisVitrimerThermalBridgeReductionRatio 50 (1 / 4) = 200 ∧
+      Signals.SolitonBus.sodisAscorbateHumicFootprintRatio 1 (3 / 2) = 2 / 5 ∧
+      1 - Signals.SolitonBus.sodisAscorbateHumicFootprintRatio 1 (3 / 2) = 3 / 5 :=
   Signals.SolitonBus.plasma_fluffed_bio_foundry_deep_gap_closure_identities
 
 end Signals.Pending
