@@ -145,8 +145,9 @@ Theorem `MovingSheath.madelung_lagrangian_variational_and_dilatant_jamming_ident
 4. **Equivalence of Complex GP, Amplitude-Phase, and Hydrodynamic Density-Phase Lagrangians**:
    $$\mathcal{L}_{\mathrm{GP}}(\psi, \partial_t\psi, \nabla\psi)
    = \underbrace{-A^2\left(\partial_t S + \frac{(\nabla S)^2}{2 m_\phi} + V_{\mathrm{ext}}\right) - \frac{g_\phi}{2}A^4 - \frac{\hbar^2}{2 m_\phi}(\nabla A)^2}_{\mathcal{L}_{\mathrm{Mad}}(A, \nabla A, \partial_t S, \nabla S)}
-   = \underbrace{-\rho\left(\partial_t S + \frac{(\nabla S)^2}{2 m_\phi} + V_{\mathrm{ext}} + \frac{g_\phi}{2}\rho\right) - \frac{\hbar^2}{8 m_\phi}\frac{(\nabla\rho)^2}{\rho}}_{\mathcal{L}_{\mathrm{Mad}}^\rho(\rho, \nabla\rho, \partial_t S, \nabla S)}$$
-   for $\rho = A^2 > 0$ and $\nabla\rho = 2 A\nabla A$, where the last term is the Fisher-information / von Weizsäcker quantum gradient density.
+   = \underbrace{-\rho\left(\partial_t S + \frac{(\nabla S)^2}{2 m_\phi} + V_{\mathrm{ext}} + \frac{g_\phi}{2}\rho\right) - \frac{\hbar^2}{8 m_\phi}\frac{(\nabla\rho)^2}{\rho}}_{\mathcal{L}_{\mathrm{Mad}}^\rho(\rho, \nabla\rho, \partial_t S, \nabla S)}$$  
+   for $\rho = A^2 > 0$ and $\nabla\rho = 2 A\nabla A$,
+   where the last term is the Fisher-information / von Weizsäcker quantum gradient density.
 
 ### 2.2 Euler–Lagrange Variations: Compressible Continuity & Quantum Hamilton–Jacobi (QHJ) Equations
 
