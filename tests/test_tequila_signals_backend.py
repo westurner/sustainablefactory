@@ -377,6 +377,11 @@ def test_tequila_signals_benchmark_functions_and_cli_main(tmp_path, capsys):
     captured = capsys.readouterr()
     assert "INFO [tequila.simulators.simulator_signals]" in captured.out
     assert "DEBUG [tequila.simulators.simulator_signals]" in captured.out
+    assert "[(n=4, L=2, M=24), (n=6, L=2, M=24)]" in captured.out
+    assert "[Dense 1/2] Testing n_qubits=4" in captured.out
+    assert "-> [Dense 1/2] n=4" in captured.out
+    assert "<- [Dense 1/2] n=4" in captured.out
+    assert "[Gr(2,6)[M=16], Gr(8,126)[M=16]]" in captured.out
     assert "### Table 1:" in captured.out
     assert json_file.exists() and md_file.exists()
     loaded_json = json.loads(json_file.read_text(encoding="utf-8"))
