@@ -1855,3 +1855,162 @@ def test_rhombohedral_graphene_superconductivity_and_qc_all_eight_regimes() -> N
     assert np.isclose(
         1.0 - SDSU4.sodis_ascorbate_humic_footprint_ratio(1.0, 1.5), 0.6
     )
+
+    # Paper 43: Layer-Coded Plabic & Complex VRC Quantum Chemistry in MADNESS & Tequila
+    from sustainablefactory.qci_grassmannian_dft import (
+        MadnessTequilaVRCQuantumChemistryEngine as MTVRC,
+    )
+
+    assert SDSU4.mra_wavelet_box_coeff_count(5, 3) == 216
+    assert SDSU4.mra_wavelet_box_coeff_count(7, 3) == 512
+    assert SDSU4.mra_wavelet_box_coeff_count(9, 3) == 1000
+    assert np.isclose(SDSU4.mra_bsh_green_mu_sq(-0.05, 0.0), 0.10)
+    ga = np.array([1.5, -0.8, 2.1])
+    gb = np.array([-0.4, 1.2, 0.7])
+    gram_det = float(np.dot(ga, ga) * np.dot(gb, gb) - np.dot(ga, gb) ** 2)
+    plucker_det = SDSU4.libxc_gram_det_from_plucker(
+        ga[0] * gb[1] - ga[1] * gb[0],
+        ga[0] * gb[2] - ga[2] * gb[0],
+        ga[1] * gb[2] - ga[2] * gb[1],
+    )
+    assert np.isclose(gram_det, plucker_det) and plucker_det >= 0.0
+    assert np.isclose(
+        SDSU4.libxc_von_weizsacker_single_orbital_residual(1.8, 3.2), 0.0
+    )
+    assert SDSU4.mra_pno_active_orbital_count(2, 2, 0) == 6
+    assert SDSU4.mra_pno_active_orbital_count(4, 2, 0) == 12
+    assert np.isclose(SDSU4.mra_gtensor_compression_ratio(60.0, 2.0), 810_000.0)
+    assert np.isclose(SDSU4.mra_gtensor_compression_ratio(90.0, 6.0), 50_625.0)
+    assert np.isclose(SDSU4.mra_gtensor_compression_ratio(120.0, 12.0), 10_000.0)
+    assert SDSU4.tequila_jw_qubit_count(12) == 2 * SDSU4.tequila_hcb_qubit_count(12)
+    assert SDSU4.plabic_vrc_layer_gate_count(4, 2) == 11
+    assert SDSU4.full_upccgsd_pair_gate_count(12) == 66
+    assert SDSU4.plabic_vrc_layer_gate_count(10, 3) == 39
+    assert SDSU4.full_upccgsd_pair_gate_count(40) == 780
+    assert np.isclose(SDSU4.vrc_regularized_pno_amplitude(0.25, 0.0, 0.05), 0.0)
+    assert np.isclose(SDSU4.vrc_regularized_pno_amplitude(0.50, 2.0, 0.0), -0.25)
+    assert np.isclose(-1.4 * SDSU4.f12_slater_cusp_factor(1.4, 0.35), 0.35)
+
+    # End-to-End MADNESS-Tequila VRC Engine verification (open-shell deck, 4-stage Plabic-VRC,
+    # PySCF-free Cayley-McWeeny orbital optimization, and [2]_F12 cusp correction)
+    tmp_mad_dir = Path(".tmp/madness_tequila_test")
+    deck_doublet = MTVRC.write_madness_vrc_input(
+        geometry_xyz="Li 0.0 0.0 0.0\nH 0.0 0.0 1.60",
+        charge=1,
+        multiplicity=2,
+        n_electrons=3,
+        maxrank=2,
+        filepath=tmp_mad_dir / "input_doublet",
+    )
+    assert deck_doublet["n_alpha"] == 2 and deck_doublet["n_beta"] == 1
+    assert deck_doublet["sections"]["dft"]["spin_restricted"] == "false"
+    assert deck_doublet["n_orbitals"] == 6
+    assert deck_doublet["manifold_real_dim"] == 26  # Gr_C(2,6) x Gr_C(1,6)
+
+    deck_triplet = MTVRC.write_madness_vrc_input(
+        geometry_xyz="C 0.0 0.0 0.0\nH 0.0 0.0 1.08\nH 1.02 0.0 -0.36",
+        charge=0,
+        multiplicity=3,
+        n_electrons=6,
+        maxrank=2,
+        filepath=tmp_mad_dir / "input_triplet",
+    )
+    assert deck_triplet["n_alpha"] == 4 and deck_triplet["n_beta"] == 2
+    assert deck_triplet["n_orbitals"] == 12
+    assert deck_triplet["manifold_real_dim"] == 104  # Gr_C(4,12) x Gr_C(2,12)
+
+    stage_res = MTVRC.evaluate_four_stage_plabic_vrc_layer()
+    assert stage_res["nilpotent_norm_w3"] < 1e-15
+    assert stage_res["transfer_continuation_residual"] < 1e-15
+    assert np.isclose(stage_res["diamond_source_sink_transfer"], 0.6 * 0.5 + 0.4 * 0.75)
+    assert np.isclose(stage_res["lgv_det"], stage_res["lgv_det_exact"])
+    assert stage_res["vrc_orthogonality_residual"] < 1e-15
+    assert stage_res["vrc_plucker_residual"] < 1e-15
+    assert np.isclose(stage_res["vrc_pluckers"]["13"], 0.0)
+    assert np.isclose(
+        stage_res["vrc_pluckers"]["23"], (-0.3 + 0.7j) - (0.5 + 0.2j)
+    )
+
+    # PySCF-free Cayley + McWeeny orbital optimization on 4-orbital MRA-PNO surrogate
+    h_surr = np.diag([1.0, 2.0, 3.0, 4.0]).astype(float)
+    g_surr = np.zeros((4, 4, 4, 4), dtype=float)
+    for idx in range(4):
+        g_surr[idx, idx, idx, idx] = 0.20
+    surr_loaded = MTVRC.export_and_load_madness_tequila_surrogate(
+        name="beh2_vrc",
+        datadir=tmp_mad_dir,
+        h_tensor=h_surr,
+        g_tensor=g_surr,
+        nuclear_repulsion=0.5,
+        pairinfo=[(0, 0), (1, 1), (0, 0), (1, 1)],
+        occinfo=[2.0, 2.0, 0.0, 0.0],
+        f12_tensor=0.05 * np.ones((4, 4, 4, 4), dtype=float),
+    )
+    assert surr_loaded["n_orbitals"] == 4
+    assert surr_loaded["reference_orbitals"] == [0, 1]
+
+    opt_res = MTVRC.optimize_orbitals_cayley_mcweeny(
+        h_core=h_surr,
+        g_tensor=g_surr,
+        n_alpha=2,
+        n_beta=1,
+        nuclear_repulsion=0.0,
+    )
+    assert opt_res["final_energy"] <= opt_res["initial_energy"]
+    assert opt_res["idempotency_error_alpha"] < 1e-12
+    assert opt_res["idempotency_error_beta"] < 1e-12
+    assert opt_res["cayley_unitarity_error"] < 1e-12
+
+    e_f12 = MTVRC.compute_f12_cusp_correction(
+        g_tensor=g_surr,
+        r_raw_tensor=surr_loaded["f12_tensor"],
+        rdm1=np.real(opt_res["P_alpha"] + opt_res["P_beta"]),
+        gamma=1.4,
+    )
+    assert e_f12 < 0.0
+
+    # Deep gap-closure checks for Paper 43 (VRC projected pair energy bounds, Tequila intra-pair
+    # virt-virt bug audit, separated 3D BSH convolution speedup, and libxc chain rules)
+    e_pair_peak = SDSU4.vrc_projected_pair_energy(0.25, 0.05, 0.05)
+    e_pair_off = SDSU4.vrc_projected_pair_energy(0.25, 2.0, 0.05)
+    assert np.isclose(e_pair_peak, -(0.25**2) / (2.0 * 0.05))
+    assert e_pair_peak <= e_pair_off <= 0.0
+    assert SDSU4.tequila_intra_pair_virt_virt_gate_count(4, 2) == 4
+    assert SDSU4.tequila_intra_pair_virt_virt_gate_count(4, 3) == 12
+    assert SDSU4.mra_separated_1d_directional_flops(7) == 12_288
+    assert SDSU4.mra_unseparated_3d_box_flops(7) == 262_144
+    assert (
+        SDSU4.mra_separated_1d_directional_flops(7)
+        < SDSU4.mra_unseparated_3d_box_flops(7)
+    )
+    assert np.isclose(SDSU4.libxc_spin_symmetric_total_sigma(3.6 / 4.0), 3.6)
+    assert np.isclose(
+        SDSU4.libxc_unpolarized_vsigma_from_polarized(1.25, 2.50), 1.25
+    )
+
+    # Live Tequila QuantumChemistryMadness 6-orbital (maxrank=2) VRC-SPA circuit & upstream bug audit
+    h_6 = np.diag([1.0, 1.5, 2.5, 3.0, 3.5, 4.0]).astype(float)
+    g_6 = np.zeros((6, 6, 6, 6), dtype=float)
+    for idx in range(6):
+        g_6[idx, idx, idx, idx] = 0.15
+    MTVRC.export_and_load_madness_tequila_surrogate(
+        name="beh2_vrc6",
+        datadir=tmp_mad_dir,
+        h_tensor=h_6,
+        g_tensor=g_6,
+        nuclear_repulsion=0.5,
+        pairinfo=[(0, 0), (1, 1), (0, 0), (0, 0), (1, 1), (1, 1)],
+        occinfo=[2.0, 2.0, 0.0, 0.0, 0.0, 0.0],
+    )
+    tq_audit = MTVRC.build_tequila_vrc_spa_circuit_and_audit_upstream_bugs(
+        name="beh2_vrc6",
+        datadir=tmp_mad_dir,
+    )
+    assert tq_audit["n_orbitals"] == 6
+    assert tq_audit["n_electrons"] == 4
+    assert tq_audit["n_reference_pairs"] == 2
+    assert tq_audit["spa_variable_count"] == 4  # N_pairs * R_PNO = 2 * 2 = 4
+    assert tq_audit["vrc_spa_variable_count"] == 5  # 4 + (2 - 1) = 5 = plabic_vrc_layer_gate_count(2, 2)
+    assert tq_audit["has_gtensor_dot_typo"] is True
+    assert tq_audit["corrected_virt_virt_pairs"] == [(2, 3), (4, 5)]
+    assert tq_audit["upstream_buggy_entries"] == [(0, 2), (1, 4)]

@@ -17,6 +17,7 @@ description: "An arXiv-ready MyST Markdown formal verification and numerical ben
   - `signals-numerical-adapter` Rust Engine ([../src/signals/numerical_adapter/src/dft_plabic_vrc.rs](../src/signals/numerical_adapter/src/dft_plabic_vrc.rs#L1-L450))
 - **Companion Papers:**
   - [Complex Grassmannian Plabic Vector-Relation Configurations (`VRC`), Quantum Causal Inference Kohn–Sham Density Functional Theory (`QCI-GXC`), Riemannian Cayley Optimization, and Topological Multi-Qudit Compilers in Lean 4, SymPy, and Rust](grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md)
+  - [Layer-Coded Plabic Graphs, Complex Vector-Relation Configurations (`VRC`), and Unrestricted Grassmannian Quantum Chemistry (`QCI-GXC`) in `MADNESS` Multiwavelet `MRA-PNO` and `Tequila` for Computational Advantage](grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md)
   - [Quantum Causal Inference, Grassmannian DAG d-Separation, Indefinite Causal Order, and Mpemba/Landauer Thermodynamics in Lean 4 and Rust](grassmannian-quantum-causal-inference-mpemba-paper.md)
   - [Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert `iGPE`, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric $\mathcal{Q}_4$ in Lean 4 and Rust/WASM](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md)
 

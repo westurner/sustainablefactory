@@ -21,6 +21,7 @@ description: "An arXiv-ready MyST Markdown formal verification and theoretical p
   - [Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert `iGPE`, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric $\mathcal{Q}_4$](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md)
   - [Grassmannian Multilayer Graphene Superconductivity, Quantum Anomalous Hall ($C = \pm 5$), Fractional Chern Insulators (`FQAH`), Supersolid Quantum Vortices, and Symbiotic Topological Quantum Computing (`G-MGS`)](grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md)
   - [Semi-Dirac Fermions (Mass in Only One Direction) With and Without Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-semi-dirac-fermions-ddf-paper.md)
+  - [Layer-Coded Plabic Graphs, Complex Vector-Relation Configurations (`VRC`), and Unrestricted Grassmannian Quantum Chemistry (`QCI-GXC`) in `MADNESS` Multiwavelet `MRA-PNO` and `Tequila` for Computational Advantage](grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md)
   - [Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-unification-applications-roadmap-paper.md)
 
 ---

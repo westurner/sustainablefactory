@@ -1611,6 +1611,116 @@ pub fn celestial_conformal_weight_hbar(delta: f64, j_helicity: f64) -> f64 {
     (delta - j_helicity) / 2.0
 }
 
+/// MADNESS multiwavelet octree box coefficient count `(k + 1)^d`,
+/// matching `Signals.DFT.mraWaveletBoxCoeffCount`.
+pub fn mra_wavelet_box_coeff_count(k: usize, d: u32) -> usize {
+    (k + 1).pow(d)
+}
+
+/// MADNESS Bound-State Helmholtz (`BSHApply`) screening parameter squared `-2 * (eps_i + level_shift)`,
+/// matching `Signals.DFT.mraBshGreenMuSq`.
+pub fn mra_bsh_green_mu_sq(eps_i: f64, level_shift: f64) -> f64 {
+    -2.0 * (eps_i + level_shift)
+}
+
+/// Cauchy-Binet `Gr_R(2, 3)` Plücker sum of squares `p12^2 + p13^2 + p23^2` for the `libxc`
+/// open-shell GGA `sigma`-Gram determinant, matching `Signals.DFT.libxcGramDetFromPlucker`.
+pub fn libxc_gram_det_from_plucker(p12: f64, p13: f64, p23: f64) -> f64 {
+    p12 * p12 + p13 * p13 + p23 * p23
+}
+
+/// `libxc >= 2.0.0` single-orbital von Weizsäcker residual `8 * phi^2 * (0.5 * grad_phi^2) - 4 * phi^2 * grad_phi^2`,
+/// matching `Signals.DFT.libxcVonWeizsackerSingleOrbitalResidual`.
+pub fn libxc_von_weizsacker_single_orbital_residual(phi_sq: f64, grad_phi_sq: f64) -> f64 {
+    8.0 * phi_sq * (0.5 * grad_phi_sq) - 4.0 * phi_sq * grad_phi_sq
+}
+
+/// MADNESS-Tequila MRA-PNO active orbital count `n_pairs * (1 + maxrank) + n_virt`,
+/// matching `Signals.DFT.mraPnoActiveOrbitalCount`.
+pub fn mra_pno_active_orbital_count(n_pairs: usize, maxrank: usize, n_virt: usize) -> usize {
+    n_pairs * (1 + maxrank) + n_virt
+}
+
+/// Two-body `g_pqrs` tensor compression ratio `(n_ao / n_mra)^4` of MRA-PNO vs. LCAO,
+/// matching `Signals.DFT.mraGtensorCompressionRatio`.
+pub fn mra_gtensor_compression_ratio(n_ao: f64, n_mra: f64) -> f64 {
+    (n_ao / n_mra).powi(4)
+}
+
+/// Tequila Hard-Core Boson (`HCB`) qubit count `n_orb`,
+/// matching `Signals.DFT.tequilaHcbQubitCount`.
+pub fn tequila_hcb_qubit_count(n_orb: usize) -> usize {
+    n_orb
+}
+
+/// Tequila Jordan-Wigner (`JW`) spin-orbital qubit count `2 * n_orb`,
+/// matching `Signals.DFT.tequilaJwQubitCount`.
+pub fn tequila_jw_qubit_count(n_orb: usize) -> usize {
+    2 * n_orb
+}
+
+/// Layer-coded Plabic `VRC-SPA` two-body excitation gate count `n_pairs * maxrank + (n_pairs - 1)`,
+/// matching `Signals.DFT.plabicVrcLayerGateCount`.
+pub fn plabic_vrc_layer_gate_count(n_pairs: usize, maxrank: usize) -> usize {
+    n_pairs * maxrank + n_pairs.saturating_sub(1)
+}
+
+/// Dense first-order `UpCCGSD` pair-excitation gate count `n_orb * (n_orb - 1) / 2`,
+/// matching `Signals.DFT.fullUpccgsdPairGateCount`.
+pub fn full_upccgsd_pair_gate_count(n_orb: usize) -> usize {
+    n_orb * n_orb.saturating_sub(1) / 2
+}
+
+/// Pole-free VRC-regularized MRA-PNO first-order pair amplitude `-g_ijab * delta_eps / (delta_eps^2 + gamma_vrc^2)`,
+/// matching `Signals.DFT.vrcRegularizedPnoAmplitude`.
+pub fn vrc_regularized_pno_amplitude(g_ijab: f64, delta_eps: f64, gamma_vrc: f64) -> f64 {
+    -g_ijab * delta_eps / (delta_eps * delta_eps + gamma_vrc * gamma_vrc)
+}
+
+/// Tequila-MADNESS `[2]_F12` Slater geminal cusp rescaling factor `-(1 / gamma) * r_raw`,
+/// matching `Signals.DFT.f12SlaterCuspFactor`.
+pub fn f12_slater_cusp_factor(gamma: f64, r_raw: f64) -> f64 {
+    -(1.0 / gamma) * r_raw
+}
+
+/// Pole-free VRC-regularized projected MRA-PNO pair correlation energy
+/// `g_ijab * vrc_regularized_pno_amplitude(g_ijab, delta_eps, gamma_vrc)`,
+/// matching `Signals.DFT.vrcProjectedPairEnergy`.
+pub fn vrc_projected_pair_energy(g_ijab: f64, delta_eps: f64, gamma_vrc: f64) -> f64 {
+    g_ijab * vrc_regularized_pno_amplitude(g_ijab, delta_eps, gamma_vrc)
+}
+
+/// Corrected Tequila intra-pair PNO virtual-virtual excitation gate count
+/// `n_pairs * (maxrank * (maxrank - 1) / 2)`,
+/// matching `Signals.DFT.tequilaIntraPairVirtVirtGateCount`.
+pub fn tequila_intra_pair_virt_virt_gate_count(n_pairs: usize, maxrank: usize) -> usize {
+    n_pairs * (maxrank * maxrank.saturating_sub(1) / 2)
+}
+
+/// Unseparated 3D multiwavelet box operator complexity `(k + 1)^6`,
+/// matching `Signals.DFT.mraUnseparated3dBoxFlops`.
+pub fn mra_unseparated_3d_box_flops(k: usize) -> usize {
+    (k + 1).pow(6)
+}
+
+/// Beylkin-Harrison separated 1D directional multiwavelet box complexity `3 * (k + 1)^4`,
+/// matching `Signals.DFT.mraSeparated1dDirectionalFlops`.
+pub fn mra_separated_1d_directional_flops(k: usize) -> usize {
+    3 * (k + 1).pow(4)
+}
+
+/// `libxc` spin-symmetric total gradient invariant `sigma_chan + 2 * sigma_chan + sigma_chan`,
+/// matching `Signals.DFT.libxcSpinSymmetricTotalSigma`.
+pub fn libxc_spin_symmetric_total_sigma(sigma_chan: f64) -> f64 {
+    sigma_chan + 2.0 * sigma_chan + sigma_chan
+}
+
+/// `libxc` unpolarized `vsigma` derivative mapping `(2 * vsigma_aa + vsigma_ab) / 4`,
+/// matching `Signals.DFT.libxcUnpolarizedVsigmaFromPolarized`.
+pub fn libxc_unpolarized_vsigma_from_polarized(vsigma_aa: f64, vsigma_ab: f64) -> f64 {
+    (2.0 * vsigma_aa + vsigma_ab) / 4.0
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2315,5 +2425,50 @@ mod tests {
         let hbar_cel = celestial_conformal_weight_hbar(2.5, 2.0);
         assert!((h_cel + hbar_cel - 2.5).abs() < 1e-15);
         assert!((h_cel - hbar_cel - 2.0).abs() < 1e-15);
+
+        // 14. Section 21: Layer-Coded Plabic & Complex VRC Quantum Chemistry in MADNESS & Tequila (Paper 43)
+        assert_eq!(mra_wavelet_box_coeff_count(5, 3), 216);
+        assert_eq!(mra_wavelet_box_coeff_count(7, 3), 512);
+        assert_eq!(mra_wavelet_box_coeff_count(9, 3), 1000);
+        assert!((mra_bsh_green_mu_sq(-0.05, 0.0) - 0.10).abs() < 1e-15);
+        let (ga1, ga2, ga3): (f64, f64, f64) = (1.5, -0.8, 2.1);
+        let (gb1, gb2, gb3): (f64, f64, f64) = (-0.4, 1.2, 0.7);
+        let gram_det = (ga1 * ga1 + ga2 * ga2 + ga3 * ga3) * (gb1 * gb1 + gb2 * gb2 + gb3 * gb3)
+            - (ga1 * gb1 + ga2 * gb2 + ga3 * gb3).powi(2);
+        let plucker_det = libxc_gram_det_from_plucker(
+            ga1 * gb2 - ga2 * gb1,
+            ga1 * gb3 - ga3 * gb1,
+            ga2 * gb3 - ga3 * gb2,
+        );
+        assert!((gram_det - plucker_det).abs() < 1e-14 && plucker_det >= 0.0);
+        assert!(libxc_von_weizsacker_single_orbital_residual(1.8, 3.2).abs() < 1e-15);
+        assert_eq!(mra_pno_active_orbital_count(2, 2, 0), 6);
+        assert_eq!(mra_pno_active_orbital_count(4, 2, 0), 12);
+        assert!((mra_gtensor_compression_ratio(60.0, 2.0) - 810_000.0).abs() < 1e-6);
+        assert!((mra_gtensor_compression_ratio(90.0, 6.0) - 50_625.0).abs() < 1e-6);
+        assert!((mra_gtensor_compression_ratio(120.0, 12.0) - 10_000.0).abs() < 1e-6);
+        assert_eq!(tequila_jw_qubit_count(12), 2 * tequila_hcb_qubit_count(12));
+        assert_eq!(plabic_vrc_layer_gate_count(4, 2), 11);
+        assert_eq!(full_upccgsd_pair_gate_count(12), 66);
+        assert_eq!(plabic_vrc_layer_gate_count(10, 3), 39);
+        assert_eq!(full_upccgsd_pair_gate_count(40), 780);
+        assert!(vrc_regularized_pno_amplitude(0.25, 0.0, 0.05).abs() < 1e-15);
+        assert!((vrc_regularized_pno_amplitude(0.50, 2.0, 0.0) - (-0.25)).abs() < 1e-15);
+        assert!((-1.4 * f12_slater_cusp_factor(1.4, 0.35) - 0.35).abs() < 1e-15);
+        assert_eq!(spin_polarized_grassmannian_real_dim(2, 1, 6), 26);
+        assert_eq!(spin_polarized_grassmannian_real_dim(4, 2, 12), 104);
+        assert!((1.0 - mcweeny_purification_poly(0.99)) < 1e-3);
+        assert!((grassmann_cayley_speedup_ratio(4.0, 12.0) - 9.0).abs() < 1e-12);
+        let e_pair_peak = vrc_projected_pair_energy(0.25, 0.05, 0.05);
+        let e_pair_off = vrc_projected_pair_energy(0.25, 2.0, 0.05);
+        assert!((e_pair_peak - (-0.25_f64.powi(2) / (2.0 * 0.05))).abs() < 1e-15);
+        assert!(e_pair_peak <= e_pair_off && e_pair_off <= 0.0);
+        assert_eq!(tequila_intra_pair_virt_virt_gate_count(4, 2), 4);
+        assert_eq!(tequila_intra_pair_virt_virt_gate_count(4, 3), 12);
+        assert_eq!(mra_separated_1d_directional_flops(7), 12_288);
+        assert_eq!(mra_unseparated_3d_box_flops(7), 262_144);
+        assert!(mra_separated_1d_directional_flops(7) < mra_unseparated_3d_box_flops(7));
+        assert!((libxc_spin_symmetric_total_sigma(3.6 / 4.0) - 3.6).abs() < 1e-15);
+        assert!((libxc_unpolarized_vsigma_from_polarized(1.25, 2.50) - 1.25).abs() < 1e-15);
     }
 }

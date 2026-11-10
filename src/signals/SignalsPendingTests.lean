@@ -6377,4 +6377,84 @@ example :
   SignalsPending.rhombohedral_graphene_plasma_fluffed_bio_foundry_deep_gap_closure_bounds
     toyRhombohedralGrapheneSuperconductivityContract
 
+example (d0 d1 d2 u01 u12 l10 l21 : ℝ)
+    (x1_c x2_c : ℂ)
+    (ga1 ga2 ga3 gb1 gb2 gb3 phi_sq grad_phi_sq : ℝ)
+    (n_pairs n_orb : ℕ)
+    (g_ijab gamma_vrc r_raw : ℝ) :
+    let vrc_res := Signals.Plabic.gr24MutatedHomogeneousVRC x1_c x2_c (-1)
+    let p12 := ga1 * gb2 - ga2 * gb1
+    let p13 := ga1 * gb3 - ga3 * gb1
+    let p23 := ga2 * gb3 - ga3 * gb2
+    (Signals.Plabic.planarThreeChannelLowerStep 1 1 1 l10 l21 *
+        Signals.Plabic.planarThreeChannelUpperStep d0 d1 d2 u01 u12).det = d0 * d1 * d2 ∧
+      vrc_res.vectors * vrc_res.relations.transpose = 0 ∧
+      Signals.Plabic.pluckerQuadraticRelation2x4 vrc_res.boundaryMatrix = 0 ∧
+      Signals.Plabic.plucker2x4Minor vrc_res.boundaryMatrix 1 2 = x2_c - x1_c ∧
+      Signals.DFT.mraWaveletBoxCoeffCount 5 3 = 216 ∧
+      Signals.DFT.mraWaveletBoxCoeffCount 7 3 = 512 ∧
+      Signals.DFT.mraWaveletBoxCoeffCount 9 3 = 1000 ∧
+      Signals.DFT.mraWaveletBoxCoeffCount 5 3 < Signals.DFT.mraWaveletBoxCoeffCount 7 3 ∧
+      Signals.DFT.mraWaveletBoxCoeffCount 7 3 < Signals.DFT.mraWaveletBoxCoeffCount 9 3 ∧
+      Signals.DFT.mraBshGreenMuSq (-1 / 20) 0 = 1 / 10 ∧
+      0 < Signals.DFT.mraBshGreenMuSq (-1 / 20) 0 ∧
+      (ga1 ^ 2 + ga2 ^ 2 + ga3 ^ 2) * (gb1 ^ 2 + gb2 ^ 2 + gb3 ^ 2) -
+          (ga1 * gb1 + ga2 * gb2 + ga3 * gb3) ^ 2 =
+        Signals.DFT.libxcGramDetFromPlucker p12 p13 p23 ∧
+      0 ≤ Signals.DFT.libxcGramDetFromPlucker p12 p13 p23 ∧
+      Signals.DFT.libxcVonWeizsackerSingleOrbitalResidual phi_sq grad_phi_sq = 0 ∧
+      Signals.DFT.mraPnoActiveOrbitalCount n_pairs 1 0 = 2 * n_pairs ∧
+      Signals.DFT.mraPnoActiveOrbitalCount 2 2 0 = 6 ∧
+      Signals.DFT.mraPnoActiveOrbitalCount 4 2 0 = 12 ∧
+      Signals.DFT.mraGtensorCompressionRatio 60 2 = 810000 ∧
+      Signals.DFT.mraGtensorCompressionRatio 90 6 = 50625 ∧
+      Signals.DFT.mraGtensorCompressionRatio 120 12 = 10000 ∧
+      Signals.DFT.tequilaJwQubitCount n_orb = 2 * Signals.DFT.tequilaHcbQubitCount n_orb ∧
+      Signals.DFT.plabicVrcLayerGateCount 4 2 = 11 ∧
+      Signals.DFT.fullUpccgsdPairGateCount 12 = 66 ∧
+      Signals.DFT.plabicVrcLayerGateCount 4 2 < Signals.DFT.fullUpccgsdPairGateCount 12 ∧
+      Signals.DFT.plabicVrcLayerGateCount 10 3 = 39 ∧
+      Signals.DFT.fullUpccgsdPairGateCount 40 = 780 ∧
+      Signals.DFT.plabicVrcLayerGateCount 10 3 < Signals.DFT.fullUpccgsdPairGateCount 40 ∧
+      Signals.DFT.vrcRegularizedPnoAmplitude g_ijab 0 gamma_vrc = 0 ∧
+      Signals.DFT.vrcRegularizedPnoAmplitude g_ijab 2 0 = -g_ijab / 2 ∧
+      -(7 / 5) * Signals.DFT.f12SlaterCuspFactor (7 / 5) r_raw = r_raw :=
+  SignalsPending.rhombohedral_graphene_madness_tequila_plabic_vrc_quantum_chemistry_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    d0 d1 d2 u01 u12 l10 l21 x1_c x2_c ga1 ga2 ga3 gb1 gb2 gb3 phi_sq grad_phi_sq
+    n_pairs n_orb g_ijab 2 gamma_vrc (7 / 5) r_raw (by norm_num) (by norm_num)
+
+example (theta eps g_ijab sigma v_s : ℝ) :
+    Signals.DFT.spinPolarizedGrassmannianRealDim 2 1 6 = 26 ∧
+      Signals.DFT.spinPolarizedGrassmannianRealDim 4 2 12 = 104 ∧
+      Signals.DFT.suNRealDim 4 = 15 ∧
+      (Signals.DFT.complexGrassmannianRealDim 1 2 = 2 ∧ Signals.DFT.pluckerAmbientCoordCount 1 2 = 2 ∧
+        Signals.DFT.pluckerRelationCodimension 1 2 = 0 ∧ Signals.DFT.grassmannianScalarCurvature 1 2 = 2) ∧
+      (Signals.DFT.complexGrassmannianRealDim 2 4 = 8 ∧ Signals.DFT.pluckerAmbientCoordCount 2 4 = 6 ∧
+        Signals.DFT.pluckerRelationCodimension 2 4 = 1 ∧ Signals.DFT.grassmannianScalarCurvature 2 4 = 16) ∧
+      (Signals.DFT.complexGrassmannianRealDim 2 6 = 16 ∧ Signals.DFT.pluckerAmbientCoordCount 2 6 = 15 ∧
+        Signals.DFT.pluckerRelationCodimension 2 6 = 6 ∧ Signals.DFT.grassmannianScalarCurvature 2 6 = 48) ∧
+      (Signals.DFT.complexGrassmannianRealDim 3 6 = 18 ∧ Signals.DFT.pluckerAmbientCoordCount 3 6 = 20 ∧
+        Signals.DFT.pluckerRelationCodimension 3 6 = 10 ∧ Signals.DFT.grassmannianScalarCurvature 3 6 = 54) ∧
+      (Signals.DFT.complexGrassmannianRealDim 2 10 = 32 ∧ Signals.DFT.pluckerAmbientCoordCount 2 10 = 45 ∧
+        Signals.DFT.pluckerRelationCodimension 2 10 = 28 ∧ Signals.DFT.grassmannianScalarCurvature 2 10 = 160) ∧
+      Signals.DFT.cayleyRetractionNormSq theta = 1 ∧
+      1 - Signals.DFT.mcweenyPurificationPoly (1 - eps) = eps ^ 2 * (3 - 2 * eps) ∧
+      1 - Signals.DFT.mcweenyPurificationPoly (99 / 100) < 1 / 1000 ∧
+      Signals.DFT.grassmannCayleySpeedupRatio 4 12 = 9 ∧
+      Signals.DFT.grassmannCayleySpeedupRatio 4 48 = 144 ∧
+      Signals.DFT.vrcProjectedPairEnergy g_ijab (1 / 20) (1 / 20) = -(g_ijab ^ 2) / (2 * (1 / 20)) ∧
+      -(g_ijab ^ 2) / (2 * (1 / 20)) ≤ Signals.DFT.vrcProjectedPairEnergy g_ijab 2 (1 / 20) ∧
+      Signals.DFT.vrcProjectedPairEnergy g_ijab 2 (1 / 20) ≤ 0 ∧
+      Signals.DFT.tequilaIntraPairVirtVirtGateCount 4 2 = 4 ∧
+      Signals.DFT.tequilaIntraPairVirtVirtGateCount 4 3 = 12 ∧
+      Signals.DFT.mraSeparated1dDirectionalFlops 7 = 12288 ∧
+      Signals.DFT.mraUnseparated3dBoxFlops 7 = 262144 ∧
+      Signals.DFT.mraSeparated1dDirectionalFlops 7 < Signals.DFT.mraUnseparated3dBoxFlops 7 ∧
+      Signals.DFT.libxcSpinSymmetricTotalSigma (sigma / 4) = sigma ∧
+      Signals.DFT.libxcUnpolarizedVsigmaFromPolarized v_s (2 * v_s) = v_s :=
+  SignalsPending.rhombohedral_graphene_madness_tequila_open_shell_cayley_f12_and_lower_grassmannian_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    theta eps g_ijab 2 (1 / 20) sigma v_s (by norm_num) (by norm_num)
+
 end SignalsPendingTests
