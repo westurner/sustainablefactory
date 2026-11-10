@@ -330,13 +330,15 @@ def test_tequila_signals_benchmark_functions_and_cli_main(tmp_path, capsys):
     assert "### Table 1:" in md_tables
     assert "### Table 5:" in md_tables
 
-    # 2. Test build_arg_parser() and main() in-process
+    # 2. Test build_arg_parser(), -v/-q/--log-level=, and main() in-process
     parser = build_arg_parser()
     parsed = parser.parse_args(
         [
             "--suite",
             "chemistry",
             "--quick",
+            "-v",
+            "--log-level=DEBUG",
             "--backends",
             "signals",
             "--chemistry-configs",
@@ -347,11 +349,14 @@ def test_tequila_signals_benchmark_functions_and_cli_main(tmp_path, capsys):
     )
     assert parsed.suite == "chemistry"
     assert parsed.quick is True
+    assert parsed.verbose is True
+    assert parsed.log_level == "DEBUG"
 
     json_file = tmp_path / "bench.json"
     md_file = tmp_path / "bench.md"
     rc = simulator_signals.main(
         [
+            "-v",
             "--suite",
             "quick",
             "--backends",
@@ -370,21 +375,41 @@ def test_tequila_signals_benchmark_functions_and_cli_main(tmp_path, capsys):
     )
     assert rc == 0
     captured = capsys.readouterr()
+    assert "INFO [tequila.simulators.simulator_signals]" in captured.out
+    assert "DEBUG [tequila.simulators.simulator_signals]" in captured.out
     assert "### Table 1:" in captured.out
     assert json_file.exists() and md_file.exists()
     loaded_json = json.loads(json_file.read_text(encoding="utf-8"))
     assert "plucker_hcb_chemistry" in loaded_json
 
-    rc_bm = benchmark_signals.main(
-        ["--suite", "plucker", "--quiet"]
-    )
+    # Test -q / --quiet suppresses INFO/DEBUG and table output
+    rc_bm = benchmark_signals.main(["--suite", "plucker", "-q"])
     assert rc_bm == 0
-    rc_sf = main(
-        ["--suite", "dense", "--qubits", "4", "--backends", "signals", "--repeats", "1", "--quiet"]
-    )
-    assert rc_sf == 0
+    captured_q = capsys.readouterr()
+    assert captured_q.out.strip() == ""
 
-    # 3. Subprocess invocation of `python -m <module>`
+    # Test -q combined with --log-level=DEBUG logs DEBUG/INFO to stdout while suppressing table output
+    rc_q_dbg = main(
+        [
+            "--suite",
+            "dense",
+            "--qubits",
+            "4",
+            "--backends",
+            "signals",
+            "--repeats",
+            "1",
+            "-q",
+            "--log-level=DEBUG",
+        ]
+    )
+    assert rc_q_dbg == 0
+    captured_q_dbg = capsys.readouterr()
+    assert "DEBUG [tequila.simulators.simulator_signals]" in captured_q_dbg.out
+    assert "INFO [tequila.simulators.simulator_signals]" in captured_q_dbg.out
+    assert "### Table 1:" not in captured_q_dbg.out
+
+    # 3. Subprocess invocation of `python -m <module>` with -v / --log-level=DEBUG
     for mod_name in (
         "tequila.simulators.simulator_signals",
         "tequila.simulators.benchmark_signals",
@@ -396,6 +421,8 @@ def test_tequila_signals_benchmark_functions_and_cli_main(tmp_path, capsys):
                 sys.executable,
                 "-m",
                 mod_name,
+                "-v",
+                "--log-level=DEBUG",
                 "--suite",
                 "plucker",
             ],
@@ -404,5 +431,7 @@ def test_tequila_signals_benchmark_functions_and_cli_main(tmp_path, capsys):
             check=True,
         )
         assert proc.returncode == 0
+        assert "INFO [tequila.simulators.simulator_signals]" in proc.stdout
+        assert "DEBUG [tequila.simulators.simulator_signals]" in proc.stdout
         assert "Table 5: Grassmannian Plücker Fermionic Determinant" in proc.stdout
 

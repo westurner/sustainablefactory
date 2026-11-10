@@ -286,16 +286,17 @@ For a complete multi-parameter VQE optimization trajectory (`tq.minimize(objecti
 
 ### 4.5 Reproducible Command-Line & Programmatic Benchmark Runner (`python -m tequila.simulators.simulator_signals`)
 
-All five benchmark suites—`benchmark_dense_expectation_scaling`, `benchmark_dense_memory_wall_limit`, `benchmark_plucker_hcb_chemistry_scaling`, `benchmark_vqe_optimization_and_wavefunction`, and `benchmark_grassmann_plucker_permanent_vs_determinant`—are integrated directly into `tequila` ([../src/tequila/src/tequila/simulators/simulator_signals.py](../src/tequila/src/tequila/simulators/simulator_signals.py#L540-L1150) and [../src/tequila/src/tequila/simulators/benchmark_signals.py](../src/tequila/src/tequila/simulators/benchmark_signals.py#L1-L55)) with a testable `argparse` `main(argv)` entry point:
+All five benchmark suites—`benchmark_dense_expectation_scaling`, `benchmark_dense_memory_wall_limit`, `benchmark_plucker_hcb_chemistry_scaling`, `benchmark_vqe_optimization_and_wavefunction`, and `benchmark_grassmann_plucker_permanent_vs_determinant`—are integrated directly into `tequila` ([../src/tequila/src/tequila/simulators/simulator_signals.py](../src/tequila/src/tequila/simulators/simulator_signals.py#L540-L1250) and [../src/tequila/src/tequila/simulators/benchmark_signals.py](../src/tequila/src/tequila/simulators/benchmark_signals.py#L1-L58)) with structured `stdout` `INFO`/`DEBUG` logging (`configure_logging`) and a testable `argparse` `main(argv)` entry point supporting `-v`/`--verbose`, `-q`/`--quiet`, and `--log-level={DEBUG,INFO,WARNING,ERROR,CRITICAL}`:
 
 ```bash
-# Run the fast CI/verification benchmark suite across all 5 tables:
-python -m tequila.simulators.simulator_signals --quick
-python -m tequila.simulators.benchmark_signals --quick
-python -m tequila --quick
+# Run the fast CI/verification benchmark suite with verbose DEBUG/INFO stdout logging:
+python -m tequila.simulators.simulator_signals -v --quick
+python -m tequila.simulators.benchmark_signals --log-level=DEBUG --quick
+python -m tequila -q --json-out .tmp/tequila_benchmarks.json
 
 # Run specific suites with custom qubit counts, chemistry manifolds, and JSON/Markdown export:
 python -m tequila.simulators.simulator_signals \
+  --log-level=INFO \
   --suite chemistry \
   --chemistry-configs 2:6:60,4:14:120,6:64:240,8:126:240 \
   --backends signals,qulacs \

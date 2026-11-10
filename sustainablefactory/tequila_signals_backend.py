@@ -738,7 +738,9 @@ try:
         build_arg_parser,
         build_dense_benchmark_circuit_and_hamiltonian,
         build_plucker_hcb_chemistry_circuit_and_hamiltonian,
+        configure_logging,
         format_benchmark_markdown_tables,
+        logger,
         main as _tequila_signals_main,
         run_all_benchmarks,
     )
@@ -798,8 +800,10 @@ __all__ = [
     "build_arg_parser",
     "build_dense_benchmark_circuit_and_hamiltonian",
     "build_plucker_hcb_chemistry_circuit_and_hamiltonian",
+    "configure_logging",
     "ensure_tequila_signals_backend_registered",
     "format_benchmark_markdown_tables",
+    "logger",
     "main",
     "run_all_benchmarks",
 ]
