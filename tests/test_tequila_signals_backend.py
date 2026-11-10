@@ -248,3 +248,161 @@ def test_tequila_signals_high_n_scaling_and_comparative_backends():
         assert np.isfinite(energy_val)
         assert c_hcb.args[0].U._rust_circuit.last_support_size() == (1 << n_occ)
 
+
+def test_tequila_signals_benchmark_functions_and_cli_main(tmp_path, capsys):
+    import json
+    import subprocess
+    import sys
+    from tequila.simulators import benchmark_signals, simulator_signals
+    from sustainablefactory.tequila_signals_backend import (
+        benchmark_dense_expectation_scaling,
+        benchmark_dense_memory_wall_limit,
+        benchmark_grassmann_plucker_permanent_vs_determinant,
+        benchmark_plucker_hcb_chemistry_scaling,
+        benchmark_vqe_optimization_and_wavefunction,
+        build_arg_parser,
+        format_benchmark_markdown_tables,
+        main,
+        run_all_benchmarks,
+    )
+
+    ensure_tequila_signals_backend_registered()
+
+    # 1. Direct programmatic benchmark function calls
+    dense_rows = benchmark_dense_expectation_scaling(
+        configs=[(4, 2, 12), (6, 2, 16)],
+        backends=["signals", "qulacs"],
+        repeats=2,
+        include_symbolic_max_qubits=0,
+    )
+    assert len(dense_rows) >= 2
+    assert all(r["status"] == "OK" for r in dense_rows if r["backend"] == "signals")
+
+    mw_rows = benchmark_dense_memory_wall_limit(
+        qubits_list=[10, 29],
+        backends=["signals"],
+        max_dense_ram_gb=1.0,
+    )
+    assert mw_rows[0]["status"] == "OK" and mw_rows[0]["warm_ms"] > 0.0
+    assert mw_rows[1]["status"] == "SKIPPED_RAM_LIMIT"
+
+    chem_rows = benchmark_plucker_hcb_chemistry_scaling(
+        configs=[(2, 6, 20), (8, 126, 20)],
+        backends=["signals"],
+        repeats=2,
+    )
+    assert len(chem_rows) == 2
+    assert chem_rows[0]["active_support_size"] == 4
+    assert chem_rows[1]["active_support_size"] == 256
+    assert chem_rows[1]["n_qubits"] == 126
+
+    vqe_rows = benchmark_vqe_optimization_and_wavefunction(
+        backends=["signals"],
+        samples=200,
+    )
+    assert len(vqe_rows) == 1
+    assert vqe_rows[0]["status"] == "OK"
+    assert np.isclose(vqe_rows[0]["optimal_energy"], -1.40998396, atol=1e-5)
+    assert vqe_rows[0]["sample_ms"] is not None and vqe_rows[0]["sample_ms"] > 0.0
+
+    pl_rows = benchmark_grassmann_plucker_permanent_vs_determinant(
+        configs=[(2, 4), (2, 6)]
+    )
+    assert len(pl_rows) == 2
+    assert np.isclose(pl_rows[0]["det_norm_sq"], 1.0, atol=1e-12)
+    assert np.isclose(pl_rows[0]["perm_norm_sq"], 1.0, atol=1e-12)
+
+    all_res = run_all_benchmarks(
+        suite="quick",
+        backends=["signals"],
+        qubits=[4, 6],
+        chemistry_configs=[(2, 6, 16), (8, 126, 16)],
+        repeats=1,
+    )
+    assert set(all_res.keys()) == {
+        "dense_expectation",
+        "dense_memory_wall",
+        "plucker_hcb_chemistry",
+        "vqe_optimization",
+        "plucker_det_vs_perm",
+    }
+    md_tables = format_benchmark_markdown_tables(all_res)
+    assert "### Table 1:" in md_tables
+    assert "### Table 5:" in md_tables
+
+    # 2. Test build_arg_parser() and main() in-process
+    parser = build_arg_parser()
+    parsed = parser.parse_args(
+        [
+            "--suite",
+            "chemistry",
+            "--quick",
+            "--backends",
+            "signals",
+            "--chemistry-configs",
+            "2:6:16,8:126:16",
+            "--repeats",
+            "1",
+        ]
+    )
+    assert parsed.suite == "chemistry"
+    assert parsed.quick is True
+
+    json_file = tmp_path / "bench.json"
+    md_file = tmp_path / "bench.md"
+    rc = simulator_signals.main(
+        [
+            "--suite",
+            "quick",
+            "--backends",
+            "signals",
+            "--qubits",
+            "4,6",
+            "--chemistry-configs",
+            "2:6:16,8:126:16",
+            "--repeats",
+            "1",
+            "--json-out",
+            str(json_file),
+            "--markdown-out",
+            str(md_file),
+        ]
+    )
+    assert rc == 0
+    captured = capsys.readouterr()
+    assert "### Table 1:" in captured.out
+    assert json_file.exists() and md_file.exists()
+    loaded_json = json.loads(json_file.read_text(encoding="utf-8"))
+    assert "plucker_hcb_chemistry" in loaded_json
+
+    rc_bm = benchmark_signals.main(
+        ["--suite", "plucker", "--quiet"]
+    )
+    assert rc_bm == 0
+    rc_sf = main(
+        ["--suite", "dense", "--qubits", "4", "--backends", "signals", "--repeats", "1", "--quiet"]
+    )
+    assert rc_sf == 0
+
+    # 3. Subprocess invocation of `python -m <module>`
+    for mod_name in (
+        "tequila.simulators.simulator_signals",
+        "tequila.simulators.benchmark_signals",
+        "tequila",
+        "sustainablefactory.tequila_signals_backend",
+    ):
+        proc = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                mod_name,
+                "--suite",
+                "plucker",
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        assert proc.returncode == 0
+        assert "Table 5: Grassmannian Plücker Fermionic Determinant" in proc.stdout
+

@@ -15,9 +15,10 @@ description: "An arXiv-ready MyST Markdown formal verification and systems engin
     - [../src/signals/numerical_adapter/src/lib.rs](../src/signals/numerical_adapter/src/lib.rs#L14-L55) (`#[pymodule] fn signals_numerical_adapter`)
     - [../src/signals/numerical_adapter/Cargo.toml](../src/signals/numerical_adapter/Cargo.toml#L1-L30) & [../src/signals/numerical_adapter/pyproject.toml](../src/signals/numerical_adapter/pyproject.toml#L1-L16) (`pyo3 = "0.24.1"`, `rayon = "1.11.0"`, `maturin` build backend)
   - `Tequila` Python Backend & Workspace Integration:
-    - [../src/tequila/src/tequila/simulators/simulator_signals.py](../src/tequila/src/tequila/simulators/simulator_signals.py#L1-L545) (`BackendCircuitSignals`, `BackendExpectationValueSignals`, `BackendBraKetSignals`)
+    - [../src/tequila/src/tequila/simulators/simulator_signals.py](../src/tequila/src/tequila/simulators/simulator_signals.py#L1-L1150) (`BackendCircuitSignals`, `BackendExpectationValueSignals`, `BackendBraKetSignals`, `benchmark_dense_expectation_scaling`, `benchmark_dense_memory_wall_limit`, `benchmark_plucker_hcb_chemistry_scaling`, `benchmark_vqe_optimization_and_wavefunction`, `benchmark_grassmann_plucker_permanent_vs_determinant`, `run_all_benchmarks`, `format_benchmark_markdown_tables`, `build_arg_parser`, `main`)
+    - [../src/tequila/src/tequila/simulators/benchmark_signals.py](../src/tequila/src/tequila/simulators/benchmark_signals.py#L1-L55) & [../src/tequila/src/tequila/__main__.py](../src/tequila/src/tequila/__main__.py#L1-L12) (`python -m tequila.simulators.benchmark_signals`, `python -m tequila.simulators.simulator_signals`, and `python -m tequila` CLI entry points)
     - [../src/tequila/src/tequila/simulators/simulator_api.py](../src/tequila/src/tequila/simulators/simulator_api.py#L14-L72) (registration of `"signals"` and `"grassmann"` in `SUPPORTED_BACKENDS`, `INSTALLED_SIMULATORS`, `INSTALLED_SAMPLERS`, `INSTALLED_NOISE_SAMPLERS`, and `SUPPORTED_DENSITY_BACKENDS`)
-    - [../sustainablefactory/tequila_signals_backend.py](../sustainablefactory/tequila_signals_backend.py#L1-L160) & [../tests/test_tequila_signals_backend.py](../tests/test_tequila_signals_backend.py#L1-L245)
+    - [../sustainablefactory/tequila_signals_backend.py](../sustainablefactory/tequila_signals_backend.py#L1-L745), [../tests/test_tequila_signals_backend.py](../tests/test_tequila_signals_backend.py#L1-L390), & [../src/tequila/tests/test_simulator_signals.py](../src/tequila/tests/test_simulator_signals.py#L1-L78)
   - `Signals` Lean 4 Formal Verification Library (`leanprover/lean4:v4.35.0-rc3`):
     - [../src/signals/Signals/DFT.lean](../src/signals/Signals/DFT.lean#L5210-L5455) (Section 22 & Section 22.1: `tequilaFullHilbertDim`, `tequilaGrassmannPluckerSectorDim`, `tequilaHilbertToPluckerCompressionRatio`, `tequilaShiftRuleTwoTermGradient`, `tequilaVqeBellModelEnergy`, `tequilaDenseStatevectorBytes`, `tequilaSparsePluckerHcbSupportDim`, `tequilaSparsePluckerHcbBytes`, `tequilaHermitianButterflyPairOps`, `tequilaNaivePauliStringOps`, `tequila_rust_pyo3_grassmannian_vrc_qci_simulator_identities`, `tequila_high_n_butterfly_plucker_128bit_and_memory_ceiling_identities`)
     - [../src/signals/Signals/Pending.lean](../src/signals/Signals/Pending.lean#L7865-L7915), [../src/signals/SignalsPending.lean](../src/signals/SignalsPending.lean#L1460-L1505), [../src/signals/SignalsTests.lean](../src/signals/SignalsTests.lean#L7935-L8010), & [../src/signals/SignalsPendingTests.lean](../src/signals/SignalsPendingTests.lean#L6445-L6485)
@@ -282,6 +283,26 @@ For a complete multi-parameter VQE optimization trajectory (`tq.minimize(objecti
 | **Noisy Kraus Density Evolution + McWeeny $3\rho^2 - 2\rho^3$ Idempotency Healing** | **Yes (`mcweeny_passes`)** | Kraus only | Kraus only | Kraus only | No |
 | **Pearl Causal $\operatorname{do}(q = b)$ Intervention & Quantum Jeffrey Plücker Kinematics** | **Yes (`CausalDo` / `QJE`)** | No | No | No | No |
 | **Machine-Checked Lean 4 Formal Proofs (`Signals.DFT` Section 22 & 22.1)** | **Yes (`3,628/3,628` jobs)** | No | No | No | No |
+
+### 4.5 Reproducible Command-Line & Programmatic Benchmark Runner (`python -m tequila.simulators.simulator_signals`)
+
+All five benchmark suites—`benchmark_dense_expectation_scaling`, `benchmark_dense_memory_wall_limit`, `benchmark_plucker_hcb_chemistry_scaling`, `benchmark_vqe_optimization_and_wavefunction`, and `benchmark_grassmann_plucker_permanent_vs_determinant`—are integrated directly into `tequila` ([../src/tequila/src/tequila/simulators/simulator_signals.py](../src/tequila/src/tequila/simulators/simulator_signals.py#L540-L1150) and [../src/tequila/src/tequila/simulators/benchmark_signals.py](../src/tequila/src/tequila/simulators/benchmark_signals.py#L1-L55)) with a testable `argparse` `main(argv)` entry point:
+
+```bash
+# Run the fast CI/verification benchmark suite across all 5 tables:
+python -m tequila.simulators.simulator_signals --quick
+python -m tequila.simulators.benchmark_signals --quick
+python -m tequila --quick
+
+# Run specific suites with custom qubit counts, chemistry manifolds, and JSON/Markdown export:
+python -m tequila.simulators.simulator_signals \
+  --suite chemistry \
+  --chemistry-configs 2:6:60,4:14:120,6:64:240,8:126:240 \
+  --backends signals,qulacs \
+  --repeats 5 \
+  --json-out .tmp/tequila_benchmarks.json \
+  --markdown-out .tmp/tequila_benchmarks.md
+```
 
 ---
 

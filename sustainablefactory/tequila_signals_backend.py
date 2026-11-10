@@ -133,6 +133,8 @@ class BackendCircuitSignals(BackendCircuit):
         return result
 
     def update_variables(self, variables) -> None:
+        if variables is None:
+            return
         if self._rust_circuit is not None:
             self._current_angles = [
                 self._resolve_angle(fn, variables) for fn in self._param_callables
@@ -382,13 +384,14 @@ class BackendCircuitSignals(BackendCircuit):
         *args,
         **kwargs,
     ) -> QubitWaveFunction:
+        override = None if circuit is self.circuit else circuit
         if noise_model is not None or self.noise is not None:
             active_noise = noise_model if noise_model is not None else self.noise
             dm = self.do_simulate_density(
-                variables=kwargs.get("variables", {}),
+                variables=kwargs.get("variables", None),
                 initial_state=initial_state,
                 noise_model=active_noise,
-                circuit_override=circuit,
+                circuit_override=override,
             )
             diag_probs = np.clip(np.real(np.diag(dm.get_density_as_array())), 0.0, 1.0)
             msb_re_im = [
@@ -407,9 +410,9 @@ class BackendCircuitSignals(BackendCircuit):
             )
         else:
             re_im = self.simulate_statevector_re_im(
-                variables=kwargs.get("variables", {}),
+                variables=kwargs.get("variables", None),
                 initial_state=initial_state,
-                circuit_override=circuit,
+                circuit_override=override,
             )
             sampled_pairs = sna.py_sample_statevector_msb(
                 re_im, int(samples), int(self.seed)
@@ -593,15 +596,6 @@ class BackendBraKetSignals(BackendBraKet):
         return complex(re_val, im_val)
 
 
-if "tequila.simulators.simulator_signals" not in sys.modules:
-    _mod = types.ModuleType("tequila.simulators.simulator_signals")
-    _mod.BackendCircuitSignals = BackendCircuitSignals
-    _mod.BackendExpectationValueSignals = BackendExpectationValueSignals
-    _mod.BackendBraKetSignals = BackendBraKetSignals
-    _mod.TequilaSignalsException = TequilaSignalsException
-    sys.modules["tequila.simulators.simulator_signals"] = _mod
-
-
 def ensure_tequila_signals_backend_registered() -> list[str]:
     """
     Ensures that the Rust/PyO3 `signals` and `grassmann` backends are registered
@@ -728,11 +722,88 @@ class SignalsTequilaGrassmannSimulator:
         }
 
 
+try:
+    from tequila.simulators.simulator_signals import (  # noqa: E402
+        DEFAULT_CHEMISTRY_CONFIGS,
+        DEFAULT_DENSE_CONFIGS,
+        DEFAULT_MEMORY_WALL_QUBITS,
+        QUICK_CHEMISTRY_CONFIGS,
+        QUICK_DENSE_CONFIGS,
+        QUICK_MEMORY_WALL_QUBITS,
+        benchmark_dense_expectation_scaling,
+        benchmark_dense_memory_wall_limit,
+        benchmark_grassmann_plucker_permanent_vs_determinant,
+        benchmark_plucker_hcb_chemistry_scaling,
+        benchmark_vqe_optimization_and_wavefunction,
+        build_arg_parser,
+        build_dense_benchmark_circuit_and_hamiltonian,
+        build_plucker_hcb_chemistry_circuit_and_hamiltonian,
+        format_benchmark_markdown_tables,
+        main as _tequila_signals_main,
+        run_all_benchmarks,
+    )
+except ImportError:  # pragma: no cover
+    _mod = types.ModuleType("tequila.simulators.simulator_signals")
+    _mod.BackendCircuitSignals = BackendCircuitSignals
+    _mod.BackendExpectationValueSignals = BackendExpectationValueSignals
+    _mod.BackendBraKetSignals = BackendBraKetSignals
+    _mod.TequilaSignalsException = TequilaSignalsException
+    sys.modules["tequila.simulators.simulator_signals"] = _mod
+
+
+def main(argv: list[str] | None = None) -> int:
+    """
+    CLI entry point for `python -m sustainablefactory.tequila_signals_backend`
+    and `python -m tequila.simulators.simulator_signals`.
+    """
+    ensure_tequila_signals_backend_registered()
+    return _tequila_signals_main(argv)
+
+
+SignalsTequilaGrassmannSimulator.benchmark_dense_expectation_scaling = staticmethod(
+    benchmark_dense_expectation_scaling
+)
+SignalsTequilaGrassmannSimulator.benchmark_dense_memory_wall_limit = staticmethod(
+    benchmark_dense_memory_wall_limit
+)
+SignalsTequilaGrassmannSimulator.benchmark_plucker_hcb_chemistry_scaling = staticmethod(
+    benchmark_plucker_hcb_chemistry_scaling
+)
+SignalsTequilaGrassmannSimulator.benchmark_vqe_optimization_and_wavefunction = (
+    staticmethod(benchmark_vqe_optimization_and_wavefunction)
+)
+SignalsTequilaGrassmannSimulator.benchmark_grassmann_plucker_permanent_vs_determinant = (
+    staticmethod(benchmark_grassmann_plucker_permanent_vs_determinant)
+)
+SignalsTequilaGrassmannSimulator.run_all_benchmarks = staticmethod(run_all_benchmarks)
+
+
 __all__ = [
     "BackendBraKetSignals",
     "BackendCircuitSignals",
     "BackendExpectationValueSignals",
+    "DEFAULT_CHEMISTRY_CONFIGS",
+    "DEFAULT_DENSE_CONFIGS",
+    "DEFAULT_MEMORY_WALL_QUBITS",
+    "QUICK_CHEMISTRY_CONFIGS",
+    "QUICK_DENSE_CONFIGS",
+    "QUICK_MEMORY_WALL_QUBITS",
     "SignalsTequilaGrassmannSimulator",
     "TequilaSignalsException",
+    "benchmark_dense_expectation_scaling",
+    "benchmark_dense_memory_wall_limit",
+    "benchmark_grassmann_plucker_permanent_vs_determinant",
+    "benchmark_plucker_hcb_chemistry_scaling",
+    "benchmark_vqe_optimization_and_wavefunction",
+    "build_arg_parser",
+    "build_dense_benchmark_circuit_and_hamiltonian",
+    "build_plucker_hcb_chemistry_circuit_and_hamiltonian",
     "ensure_tequila_signals_backend_registered",
+    "format_benchmark_markdown_tables",
+    "main",
+    "run_all_benchmarks",
 ]
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
