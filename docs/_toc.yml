@@ -26,6 +26,7 @@ chapters:
 - file: glossary
 - file: tools
 - file: workflow-performance-plan
+- file: chat-markdown-warning-remediation-plan
 - file: plan-index
 
 #- file: chats/index
