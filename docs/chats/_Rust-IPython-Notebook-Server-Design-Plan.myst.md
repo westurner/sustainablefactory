@@ -7,465 +7,39 @@ kernelspec:
 
 # _Rust-IPython-Notebook-Server-Design-Plan
 
-## Contents
-
-* [_Rust-IPython-Notebook-Server-Design-Plan](#_rust-ipython-notebook-server-design-plan)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [1. Architecture & Framework Selection](#1-architecture-framework-selection)
-    * [2. Phase 1: Core Server & Virtual Filesystem (VFS)](#2-phase-1-core-server-virtual-filesystem-vfs)
-    * [3. Phase 2: Kernel Management & `xeus` Integration](#3-phase-2-kernel-management-xeus-integration)
-    * [4. Phase 3: The WASM Bash Terminal](#4-phase-3-the-wasm-bash-terminal)
-    * [5. Phase 4: Build, Test, and CI/CD Pipeline](#5-phase-4-build-test-and-cicd-pipeline)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-    * [1. The CRDT Document Model (`yrs`)](#1-the-crdt-document-model-yrs)
-    * [2. Real-Time Sync Protocols](#2-real-time-sync-protocols)
-    * [3. Identity, Provenance, and the RTC Event Log](#3-identity-provenance-and-the-rtc-event-log)
-* [Prompt: 3](#prompt-3)
-* [Response: 3](#response-3)
-    * [1. The Server as the OID4VP Verifier](#1-the-server-as-the-oid4vp-verifier)
-    * [2. Target-Specific Presentation Flows](#2-target-specific-presentation-flows)
-    * [3. Cryptographic Validation and the Rust Ecosystem](#3-cryptographic-validation-and-the-rust-ecosystem)
-    * [4. Binding Identity to Execution Provenance](#4-binding-identity-to-execution-provenance)
-* [Prompt: 4](#prompt-4)
-* [Response: 4](#response-4)
-    * [The DCQL Query Schema](#the-dcql-query-schema)
-    * [Schema Breakdown](#schema-breakdown)
-    * [Connecting the Presentation to Execution Provenance](#connecting-the-presentation-to-execution-provenance)
-* [Prompt: 5](#prompt-5)
-* [Response: 5](#response-5)
-    * [The Axum Extractor for OID4VP](#the-axum-extractor-for-oid4vp)
-    * [How the Endpoint Uses It](#how-the-endpoint-uses-it)
-    * [The Holder Binding Mechanics (The "Key Binding JWT")](#the-holder-binding-mechanics-the-key-binding-jwt)
-* [Prompt: 6](#prompt-6)
-* [Response: 6](#response-6)
-    * [1\. Defining the Shared State](#1-defining-the-shared-state)
-    * [2\. The Authorization Request Endpoint](#2-the-authorization-request-endpoint)
-    * [3\. Upgrading the Extractor to Consume State](#3-upgrading-the-extractor-to-consume-state)
-    * [4\. Wiring the Router](#4-wiring-the-router)
-* [Prompt: 7](#prompt-7)
-* [Response: 7](#response-7)
-    * [1\. Mapping DIDs to the Yrs Awareness Protocol](#1-mapping-dids-to-the-yrs-awareness-protocol)
-    * [2\. The Immutable Session Provenance Log](#2-the-immutable-session-provenance-log)
-    * [3\. Emitting W3C PROV using RDF 1.2 Triple Terms](#3-emitting-w3c-prov-using-rdf-12-triple-terms)
-* [1. Define the cryptographically verified actor](#1-define-the-cryptographically-verified-actor)
-* [2. Define the exact execution activity](#2-define-the-exact-execution-activity)
-* [3. Use an RDF 1.2 Triple Term to bind the code execution to the structural notebook change.](#3-use-an-rdf-12-triple-term-to-bind-the-code-execution-to-the-structural-notebook-change)
-* [The `reifies` predicate defines the identifier `_:update1` for the embedded triple term.](#the-reifies-predicate-defines-the-identifier-_update1-for-the-embedded-triple-term)
-    * [4\. Integration with JSON-LD Contexts](#4-integration-with-json-ld-contexts)
-* [Prompt: 8](#prompt-8)
-* [Response: 8](#response-8)
-    * [1\. Solving the Identity Duality: Deterministic ClientIDs](#1-solving-the-identity-duality-deterministic-clientids)
-    * [2\. Upgrading the Jupyter Message Protocol (JMP)](#2-upgrading-the-jupyter-message-protocol-jmp)
-    * [3\. The Rust Zero-Trust Kernel Broker](#3-the-rust-zero-trust-kernel-broker)
-    * [The Security Guarantee](#the-security-guarantee)
-* [Prompt: 9](#prompt-9)
-* [Response: 9](#response-9)
-    * [1. Iroh (The Best Fit for DIDs and Rust)](#1-iroh-the-best-fit-for-dids-and-rust)
-    * [2. rust-libp2p (The Industry Standard)](#2-rust-libp2p-the-industry-standard)
-    * [3. Matchbox (The Lightweight Socket Abstraction)](#3-matchbox-the-lightweight-socket-abstraction)
-    * [4. y-webrtc (The Yjs Native Approach)](#4-y-webrtc-the-yjs-native-approach)
-    * [Recommendation for Your Architecture](#recommendation-for-your-architecture)
-* [Prompt: 10](#prompt-10)
-* [Response: 10](#response-10)
-    * [1\. The "QR Tango" Flow](#1-the-qr-tango-flow)
-    * [2\. Aggressive SDP Minification](#2-aggressive-sdp-minification)
-    * [3\. The Leptos & `web-sys` Implementation](#3-the-leptos-web-sys-implementation)
-      * [A. The WebRTC Wrapper (`web-sys`)](#a-the-webrtc-wrapper-web-sys)
-      * [B. Generating the QR Code (Rust)](#b-generating-the-qr-code-rust)
-      * [C. The Scanner Component](#c-the-scanner-component)
-* [Prompt: 11](#prompt-11)
-* [Response: 11](#response-11)
-    * [1\. The Rust `onicecandidate` SDP Stripper](#1-the-rust-onicecandidate-sdp-stripper)
-    * [2\. WebRTC-Native DLTs for CRDTs and Mandatory Keys](#2-webrtc-native-dlts-for-crdts-and-mandatory-keys)
-      * [A. Holochain (via the `tx5` crate)](#a-holochain-via-the-tx5-crate)
-      * [B. GunDB (The `gundb` Rust Ecosystem)](#b-gundb-the-gundb-rust-ecosystem)
-      * [C. Iroh (by number0)](#c-iroh-by-number0)
-* [Prompt: 12](#prompt-12)
-* [Response: 12](#response-12)
-    * [1\. Structuring the Yjs Entry Definition](#1-structuring-the-yjs-entry-definition)
-    * [2\. Natively Validating the CRDT State](#2-natively-validating-the-crdt-state)
-    * [Can Holochain use Post-Quantum (PQ) ciphers and hashes?](#can-holochain-use-post-quantum-pq-ciphers-and-hashes)
-      * [The Application Layer (Zomes): Fully Customizable](#the-application-layer-zomes-fully-customizable)
-      * [The Network & Identity Layer (The Conductor): Hardcoded](#the-network-identity-layer-the-conductor-hardcoded)
-    * [The Cryptographic Bridging Strategy](#the-cryptographic-bridging-strategy)
-* [Prompt: 13](#prompt-13)
-* [Response: 13](#response-13)
-    * [1\. The Leptos ML-DSA Signing Component](#1-the-leptos-ml-dsa-signing-component)
-    * [2\. The Post-Quantum Upgrade Plan for the Networks](#2-the-post-quantum-upgrade-plan-for-the-networks)
-      * [Iroh: The Pragmatic Upgrade Path](#iroh-the-pragmatic-upgrade-path)
-      * [Holochain: The Structural Fork](#holochain-the-structural-fork)
-* [Prompt: 14](#prompt-14)
-* [Response: 14](#response-14)
-    * [1\. The Web Worker Architecture](#1-the-web-worker-architecture)
-    * [2\. The Rust Web Worker Implementation](#2-the-rust-web-worker-implementation)
-    * [3\. The Leptos Frontend Integration](#3-the-leptos-frontend-integration)
-    * [The CI/CD Implication](#the-cicd-implication)
-* [Prompt: 15](#prompt-15)
-* [Response: 15](#response-15)
-    * [1\. The Workspace Directory Structure](#1-the-workspace-directory-structure)
-    * [2\. The Cargo Manifests](#2-the-cargo-manifests)
-    * [3\. The `wasm-pack` Build Script](#3-the-wasm-pack-build-script)
-* [1. Ensure the destination directory exists](#1-ensure-the-destination-directory-exists)
-* [2. Compile the crypto_worker crate](#2-compile-the-crypto_worker-crate)
-* [--target web generates an ES module wrapper compatible with standard browser module workers](#-target-web-generates-an-es-module-wrapper-compatible-with-standard-browser-module-workers)
-* [3. Clean up the .gitignore created by wasm-pack so Trunk doesn't ignore the assets](#3-clean-up-the-gitignore-created-by-wasm-pack-so-trunk-doesnt-ignore-the-assets)
-    * [4\. The Trunk Configuration](#4-the-trunk-configuration)
-* [Hook to build the Web Worker before the main app compiles](#hook-to-build-the-web-worker-before-the-main-app-compiles)
-    * [5\. Invoking the Worker in Leptos](#5-invoking-the-worker-in-leptos)
-    * [6\. The CI/CD Pipeline (GitHub Actions)](#6-the-cicd-pipeline-github-actions)
-* [To secure the software supply chain, generate an SLSA Level 3 attestation](#to-secure-the-software-supply-chain-generate-an-slsa-level-3-attestation)
-* [linking this exact compiled WASM artifact back to this specific commit.](#linking-this-exact-compiled-wasm-artifact-back-to-this-specific-commit)
-* [Prompt: 16](#prompt-16)
-* [Response: 16](#response-16)
-    * [The Transferable Object Architecture](#the-transferable-object-architecture)
-      * [1\. The Worker Thread (Signing and Transferring)](#1-the-worker-thread-signing-and-transferring)
-      * [2\. The Main Thread (Sending and Receiving)](#2-the-main-thread-sending-and-receiving)
-    * [The Alternative: `SharedArrayBuffer`](#the-alternative-sharedarraybuffer)
-* [Prompt: 17](#prompt-17)
-* [Response: 17](#response-17)
-    * [1\. The TypeScript Interceptor (The Mock WebSocket)](#1-the-typescript-interceptor-the-mock-websocket)
-    * [2\. The Leptos Main Thread (The WASM Boundary)](#2-the-leptos-main-thread-the-wasm-boundary)
-    * [3\. The Crypto Worker (Injecting the ML-DSA Signature)](#3-the-crypto-worker-injecting-the-ml-dsa-signature)
-    * [4\. Final Dispatch to the Mesh Network](#4-final-dispatch-to-the-mesh-network)
-* [Prompt: 18](#prompt-18)
-* [Response: 18](#response-18)
-    * [How Merkle Batching Kills the Overhead](#how-merkle-batching-kills-the-overhead)
-    * [Adapting Our Zero-Trust Architecture](#adapting-our-zero-trust-architecture)
-      * [1. The Stateful Web Worker](#1-the-stateful-web-worker)
-      * [2. The Epoch Sync](#2-the-epoch-sync)
-      * [3. Lightweight Provenance Logs](#3-lightweight-provenance-logs)
-    * [The Trade-off: State Management](#the-trade-off-state-management)
-* [Prompt: 19](#prompt-19)
-* [Response: 19](#response-19)
-    * [1\. The Stateful Web Worker Implementation](#1-the-stateful-web-worker-implementation)
-    * [2\. The Leptos Event Loop (Batching & Gossiping)](#2-the-leptos-event-loop-batching-gossiping)
-    * [The Bandwidth Math](#the-bandwidth-math)
-* [Prompt: 20](#prompt-20)
-* [Response: 20](#response-20)
-    * [1\. The Network Message Structure](#1-the-network-message-structure)
-    * [2\. The Peer State Enclave](#2-the-peer-state-enclave)
-    * [3\. The Zero-Trust Validation Logic](#3-the-zero-trust-validation-logic)
-    * [The End-to-End Result](#the-end-to-end-result)
-* [Prompt: 21](#prompt-21)
-* [Response: 21](#response-21)
-    * [1\. The Architectural Strategy: Top-Level vs. Cell-Level](#1-the-architectural-strategy-top-level-vs-cell-level)
-    * [2\. The Top-Level JSON-LD Context and Graph](#2-the-top-level-json-ld-context-and-graph)
-    * [3\. The Cell-Level RDF 1.2 Triple Terms](#3-the-cell-level-rdf-12-triple-terms)
-    * [4\. Cementing the Software Supply Chain](#4-cementing-the-software-supply-chain)
-* [Prompt: 22](#prompt-22)
-* [Response: 22](#response-22)
-    * [1\. The `pre-receive` Hook Architecture](#1-the-pre-receive-hook-architecture)
-    * [2\. The Cryptographic Validation Engine](#2-the-cryptographic-validation-engine)
-    * [3\. Generating the SLSA Level 3 Attestation](#3-generating-the-slsa-level-3-attestation)
-    * [4\. Attestation Signing and Storage (Sigstore)](#4-attestation-signing-and-storage-sigstore)
-* [Prompt: 23](#prompt-23)
-* [Response: 23](#response-23)
-    * [1\. The Rust `git notes` Integration](#1-the-rust-git-notes-integration)
-    * [2\. Identity, Auth, and Authz Controls](#2-identity-auth-and-authz-controls)
-    * [3\. OpenAPI 3.0 Specification for the Rust Jupyter Server](#3-openapi-30-specification-for-the-rust-jupyter-server)
-* [Prompt: 24](#prompt-24)
-* [Response: 24](#response-24)
-    * [1\. Defining the App State and Router](#1-defining-the-app-state-and-router)
-    * [2\. The WebSocket Upgrade Handler](#2-the-websocket-upgrade-handler)
-    * [3\. The Zero-Trust Stream Processor](#3-the-zero-trust-stream-processor)
-    * [The Multiplexing Return Path](#the-multiplexing-return-path)
-* [Prompt: 25](#prompt-25)
-* [Response: 25](#response-25)
-    * [The Bidirectional Multiplexer](#the-bidirectional-multiplexer)
-    * [Why this Architecture Scales](#why-this-architecture-scales)
-* [Prompt: 26](#prompt-26)
-* [Response: 26](#response-26)
-    * [1\. The Zero-Trust Kernel Manager](#1-the-zero-trust-kernel-manager)
-    * [2\. The Rust "ipykernel" (Guest Execution)](#2-the-rust-ipykernel-guest-execution)
-      * [Option A: The Industry Standard (`evcxr_jupyter`)](#option-a-the-industry-standard-evcxr_jupyter)
-      * [Option B: A Custom Zero-Trust Rust Kernel](#option-b-a-custom-zero-trust-rust-kernel)
-    * [The WebAssembly Advantage](#the-webassembly-advantage)
-* [Prompt: 27](#prompt-27)
-* [Response: 27](#response-27)
-    * [1\. The Architecture: WASI Web Worker](#1-the-architecture-wasi-web-worker)
-    * [2\. The Rust WASI Worker Implementation](#2-the-rust-wasi-worker-implementation)
-    * [3\. The I/O JavaScript Glue](#3-the-io-javascript-glue)
-    * [4\. The Data Flow Summary](#4-the-data-flow-summary)
-* [Prompt: 28](#prompt-28)
-* [Response: 28](#response-28)
-    * [1\. The Compilation Strategy: BusyBox over Bash](#1-the-compilation-strategy-busybox-over-bash)
-    * [2\. Rust Bindings for Xterm.js](#2-rust-bindings-for-xtermjs)
-    * [3\. The Leptos Terminal Component](#3-the-leptos-terminal-component)
-    * [4\. The Data Flow Execution](#4-the-data-flow-execution)
-* [Prompt: 29](#prompt-29)
-* [Response: 29](#response-29)
-    * [1\. The Pure Rust Userland (`rustybox`)](#1-the-pure-rust-userland-rustybox)
-    * [2\. The "Systemd in WASM" Supervisor](#2-the-systemd-in-wasm-supervisor)
-      * [The `.service` File Contract](#the-service-file-contract)
-      * [The Rust Unit Parser & Executor](#the-rust-unit-parser-executor)
-    * [3\. Bridging the VFS and the Supervisor](#3-bridging-the-vfs-and-the-supervisor)
-    * [The Security Implications](#the-security-implications)
-* [Prompt: 30](#prompt-30)
-* [Response: 30](#response-30)
-    * [1\. The Filesystem: Why OPFS beats IndexedDB for WASI](#1-the-filesystem-why-opfs-beats-indexeddb-for-wasi)
-    * [2\. The Rust Systemd Supervisor](#2-the-rust-systemd-supervisor)
-      * [A. Parsing the `.service` File](#a-parsing-the-service-file)
-      * [B. Provisioning the Web Worker and I/O Pipes](#b-provisioning-the-web-worker-and-io-pipes)
-    * [3\. Inside the Worker (`wasi_worker.js`)](#3-inside-the-worker-wasi_workerjs)
-    * [The Power of the Abstraction](#the-power-of-the-abstraction)
-* [Prompt: 31](#prompt-31)
-* [Response: 31](#response-31)
-    * [1\. The Web Worker VFS Mounter (JavaScript)](#1-the-web-worker-vfs-mounter-javascript)
-    * [2\. The UI Thread OPFS Writer (Rust / Leptos)](#2-the-ui-thread-opfs-writer-rust-leptos)
-    * [3\. The End-to-End Loop](#3-the-end-to-end-loop)
-* [Prompt: 32](#prompt-32)
-* [Response: 32](#response-32)
-    * [1\. The Headscale / `tsnet` Background Worker](#1-the-headscale-tsnet-background-worker)
-    * [2\. The Tailscale Socket Interceptor (`browser_wasi_shim`)](#2-the-tailscale-socket-interceptor-browser_wasi_shim)
-    * [3\. Injecting the `sock_connect` Syscall](#3-injecting-the-sock_connect-syscall)
-    * [The End Result](#the-end-result)
-* [Prompt: 33](#prompt-33)
-* [Response: 33](#response-33)
-    * [1\. The Headscale OID4VP Auth Broker (Rust)](#1-the-headscale-oid4vp-auth-broker-rust)
-    * [2\. Compiling `tsnet` to WebAssembly (Go)](#2-compiling-tsnet-to-webassembly-go)
-    * [3\. The Front-End Integration](#3-the-front-end-integration)
-* [Prompt: 34](#prompt-34)
-* [Response: 34](#response-34)
-    * [1\. The Service Worker Interceptor (`sw.js`)](#1-the-service-worker-interceptor-swjs)
-    * [2\. The Go `tsnet` HTTP Bridge (WebAssembly)](#2-the-go-tsnet-http-bridge-webassembly)
-    * [3\. The Orchestration Glue (Leptos Main Thread)](#3-the-orchestration-glue-leptos-main-thread)
-    * [The End Result](#the-end-result)
-* [Prompt: 35](#prompt-35)
-* [Response: 35](#response-35)
-    * [1\. The SD-JWT Presentation (The Wallet Layer)](#1-the-sd-jwt-presentation-the-wallet-layer)
-    * [2\. The Identity-to-Network Translation (Rust Broker)](#2-the-identity-to-network-translation-rust-broker)
-    * [3\. The Headscale Grants Syntax (The Policy Layer)](#3-the-headscale-grants-syntax-the-policy-layer)
-    * [4\. WireGuard Cryptographic Enforcement](#4-wireguard-cryptographic-enforcement)
-* [Prompt: 36](#prompt-36)
-* [Response: 36](#response-36)
-    * [1\. The Strategy: Pluggable Yjs Providers](#1-the-strategy-pluggable-yjs-providers)
-    * [2\. Building the Custom `TailnetProvider`](#2-building-the-custom-tailnetprovider)
-    * [3\. The Discovery Mechanism (Finding Peers)](#3-the-discovery-mechanism-finding-peers)
-    * [4\. The Graceful Degradation Logic (Leptos UI)](#4-the-graceful-degradation-logic-leptos-ui)
-    * [The Architectural Advantage](#the-architectural-advantage)
-* [Prompt: 37](#prompt-37)
-* [Response: 37](#response-37)
-    * [1\. The Upgraded `TailnetProvider`](#1-the-upgraded-tailnetprovider)
-    * [2\. Injecting Local Identity (Leptos / UI Layer)](#2-injecting-local-identity-leptos-ui-layer)
-    * [3\. Binding to the Jupyter Code Editor](#3-binding-to-the-jupyter-code-editor)
-    * [The End Result](#the-end-result)
-* [Prompt: 38](#prompt-38)
-* [Response: 38](#response-38)
-    * [1\. The Visual Layer (UI "Soft Locks")](#1-the-visual-layer-ui-soft-locks)
-    * [2\. Solving Deadlock: The Compute Leader Election](#2-solving-deadlock-the-compute-leader-election)
-    * [3\. Implementing the Execution Queue in Rust](#3-implementing-the-execution-queue-in-rust)
-    * [The True P2P Fallback](#the-true-p2p-fallback)
-* [Prompt: 39](#prompt-39)
-* [Response: 39](#response-39)
-    * [1\. The DID-Bully Election Architecture](#1-the-did-bully-election-architecture)
-    * [2\. The Handoff Execution](#2-the-handoff-execution)
-    * [3\. The Candid Reality: State Recovery](#3-the-candid-reality-state-recovery)
-      * [Path A: The "Jupyter Replay" (The Standard Way)](#path-a-the-jupyter-replay-the-standard-way)
-      * [Path B: WASM Memory Snapshotting (The Bleeding Edge Way)](#path-b-wasm-memory-snapshotting-the-bleeding-edge-way)
-* [Prompt: 40](#prompt-40)
-* [Response: 40](#response-40)
-    * [1. The Compiler Contract: `--import-memory`](#1-the-compiler-contract-import-memory)
-    * [2. The Snapshot Generator (The Dying Host)](#2-the-snapshot-generator-the-dying-host)
-    * [3. The Peer-to-Peer State Gossip](#3-the-peer-to-peer-state-gossip)
-    * [4. The Frankenstein Boot (The New Host)](#4-the-frankenstein-boot-the-new-host)
-    * [The Magic of the Illusion](#the-magic-of-the-illusion)
-* [Prompt: 41](#prompt-41)
-* [Response: 41](#response-41)
-    * [1. The CurveZMQ and Libsodium Roadblock](#1-the-curvezmq-and-libsodium-roadblock)
-    * [2. The Jupyter Enterprise Gateway Pivot](#2-the-jupyter-enterprise-gateway-pivot)
-    * [3. The Sidecar Proxy Pattern](#3-the-sidecar-proxy-pattern)
-    * [4. The Shift to WebSockets and WebRTC (DTLS 1.3)](#4-the-shift-to-websockets-and-webrtc-dtls-13)
-* [Prompt: 42](#prompt-42)
-* [Response: 42](#response-42)
-  * [1. Workspace Structural Setup](#1-workspace-structural-setup)
-    * [`Cargo.toml` (Workspace Root)](#cargotoml-workspace-root)
-  * [2. Crate-by-Crate Implementation Plan](#2-crate-by-crate-implementation-plan)
-    * [🚀 Phase 1: `jupyter_nbformat_rs` (The Data Layer)](#-phase-1-jupyter_nbformat_rs-the-data-layer)
-    * [🔌 Phase 2: `jupyter_client_rs` (The Wire Protocol)](#-phase-2-jupyter_client_rs-the-wire-protocol)
-    * [🖥️ Phase 3: `jupyter_server_rs` (The Session & Process Manager)](#-phase-3-jupyter_server_rs-the-session-process-manager)
-    * [🌐 Phase 4: `jupyter_lab_rs` (The Actix HTTP & WebSocket Gateway)](#-phase-4-jupyter_lab_rs-the-actix-http-websocket-gateway)
-  * [3. Testing Strategy with `cargo-insta`](#3-testing-strategy-with-cargo-insta)
-    * [Example: Writing an Integration Snapshot Test](#example-writing-an-integration-snapshot-test)
-    * [Reviewing and Advancing Snapshots](#reviewing-and-advancing-snapshots)
-* [Prompt: 43](#prompt-43)
-* [Response: 43](#response-43)
-    * [1. `jupyter_nbformat_rs`: Implementing Cryptographic Signatures](#1-jupyter_nbformat_rs-implementing-cryptographic-signatures)
-      * [The Implementation Strategy](#the-implementation-strategy)
-      * [The `cargo-insta` Testing Plan](#the-cargo-insta-testing-plan)
-    * [2. `jupyter_client_rs`: JEG WebSocket Multiplexing](#2-jupyter_client_rs-jeg-websocket-multiplexing)
-      * [The Implementation Strategy](#the-implementation-strategy)
-      * [The `cargo-insta` Testing Plan](#the-cargo-insta-testing-plan)
-* [Prompt: 44](#prompt-44)
-* [Response: 44](#response-44)
-  * [1. Cargo Feature Configuration](#1-cargo-feature-configuration)
-* [jupyter_server_rs/Cargo.toml](#jupyter_server_rscargotoml)
-* [Standard local server behavior (spawns local kernels via pyzmq/zmq)](#standard-local-server-behavior-spawns-local-kernels-via-pyzmqzmq)
-* [Gateway behavior (manages remote kernels, exposes JEG WebSocket endpoints)](#gateway-behavior-manages-remote-kernels-exposes-jeg-websocket-endpoints)
-* [Internal workspace dependencies compiled conditionally](#internal-workspace-dependencies-compiled-conditionally)
-  * [2. Testing the Server/Client Configurations](#2-testing-the-serverclient-configurations)
-    * [Tier 1: State Machine & Protocol Snapshots (`cargo-insta`)](#tier-1-state-machine-protocol-snapshots-cargo-insta)
-    * [Tier 2: In-Memory Integration Testing (`tokio::test`)](#tier-2-in-memory-integration-testing-tokiotest)
-    * [Tier 3: Real Integration Testing with Actix (`actix-web::test`)](#tier-3-real-integration-testing-with-actix-actix-webtest)
-    * [Tier 4: Differential Live Interop (The Sanity Check)](#tier-4-differential-live-interop-the-sanity-check)
-  * [3. Recommended Execution Sequence for Development](#3-recommended-execution-sequence-for-development)
-* [Prompt: 45](#prompt-45)
-* [Response: 45](#response-45)
-  * [1. Adding the WASM Architecture to the Workspace](#1-adding-the-wasm-architecture-to-the-workspace)
-    * [Updated `jupyter_client_rs/Cargo.toml`](#updated-jupyter_client_rscargotoml)
-* [Standard shared dependencies](#standard-shared-dependencies)
-* [Conditional feature targets](#conditional-feature-targets)
-  * [2. Implementing the `WasmChannelTransport`](#2-implementing-the-wasmchanneltransport)
-  * [3. Testing the WASM Target Configurations](#3-testing-the-wasm-target-configurations)
-    * [Step 1: Headless Browser Unit Testing](#step-1-headless-browser-unit-testing)
-    * [Step 2: In-Browser Mocking](#step-2-in-browser-mocking)
-* [Prompt: 46](#prompt-46)
-* [Response: 46](#response-46)
-  * [1. Unified Workspace Topology](#1-unified-workspace-topology)
-* [Cargo.toml (Workspace Root)](#cargotoml-workspace-root)
-  * [2. Feature Matrix & Core Compilation Targets](#2-feature-matrix-core-compilation-targets)
-  * [3. Detailed Crate Specifications](#3-detailed-crate-specifications)
-    * [🔬 Crate 1: `jupyter_nbformat_rs`](#-crate-1-jupyter_nbformat_rs)
-    * [🔌 Crate 2: `jupyter_client_rs`](#-crate-2-jupyter_client_rs)
-    * [🖥️ Crate 3: `jupyter_server_rs`](#-crate-3-jupyter_server_rs)
-    * [🌐 Crates 4 & 5: `jupyter_lab_rs` & `jupyter_lite_rs`](#-crates-4-5-jupyter_lab_rs-jupyter_lite_rs)
-  * [4. Comprehensive Testing & Validation Flow](#4-comprehensive-testing-validation-flow)
-    * [Protocol Validation Example](#protocol-validation-example)
-* [Prompt: 47](#prompt-47)
-* [Response: 47](#response-47)
-  * [1. Unified Workspace Topology](#1-unified-workspace-topology)
-* [Cargo.toml (Workspace Root)](#cargotoml-workspace-root)
-  * [2. Feature Matrix & Core Compilation Targets](#2-feature-matrix-core-compilation-targets)
-  * [3. Detailed Crate Specifications](#3-detailed-crate-specifications)
-    * [🔬 Crate 1: `jupyter_nbformat_rs`](#-crate-1-jupyter_nbformat_rs)
-    * [🔌 Crate 2: `jupyter_client_rs`](#-crate-2-jupyter_client_rs)
-* [jupyter_client_rs/Cargo.toml](#jupyter_client_rscargotoml)
-    * [🖥️ Crate 3: `jupyter_server_rs`](#-crate-3-jupyter_server_rs)
-* [jupyter_server_rs/Cargo.toml](#jupyter_server_rscargotoml)
-    * [🌐 Crates 4 & 5: `jupyter_lab_rs` & `jupyter_lite_rs`](#-crates-4-5-jupyter_lab_rs-jupyter_lite_rs)
-  * [4. Comprehensive Testing & Validation Flow](#4-comprehensive-testing-validation-flow)
-    * [Revised Execution Sequence for Development](#revised-execution-sequence-for-development)
-* [Prompt: 48](#prompt-48)
-* [Response: 48](#response-48)
-  * [1. Expanding the Workspace Topology](#1-expanding-the-workspace-topology)
-* [Cargo.toml (Workspace Root)](#cargotoml-workspace-root)
-    * [Crate Dependencies: `jupyter_hub_rs/Cargo.toml`](#crate-dependencies-jupyter_hub_rscargotoml)
-* [jupyter_hub_rs/Cargo.toml](#jupyter_hub_rscargotoml)
-* [Conditional dependencies for Kubernetes integration](#conditional-dependencies-for-kubernetes-integration)
-  * [2. The Core `Spawner` Trait Abstraction](#2-the-core-spawner-trait-abstraction)
-  * [3. Spawner Implementations](#3-spawner-implementations)
-    * [A. Podman Rootless Spawner (`#[cfg(feature = "podman")]`)](#a-podman-rootless-spawner-cfgfeature-podman)
-    * [B. Kubernetes Spawner (`#[cfg(feature = "k8s")]`)](#b-kubernetes-spawner-cfgfeature-k8s)
-  * [4. Testing Infrastructure Allocations with `cargo-insta`](#4-testing-infrastructure-allocations-with-cargo-insta)
-* [Prompt: 49](#prompt-49)
-* [Response: 49](#response-49)
-    * [1. Jupyter `kernelspec` Specification](#1-jupyter-kernelspec-specification)
-    * [2. Jupyter Message Protocol (JMP) Specification](#2-jupyter-message-protocol-jmp-specification)
-    * [3. Jupyter Enterprise Gateway (JEG) & Server WebSocket Protocol](#3-jupyter-enterprise-gateway-jeg-server-websocket-protocol)
-      * [Text-Based (JSON) Envelope](#text-based-json-envelope)
-      * [Modern Binary WebSocket Protocol](#modern-binary-websocket-protocol)
-    * [4. JupyterLite Xeus `environment.yml` Format Specification](#4-jupyterlite-xeus-environmentyml-format-specification)
-* [Pure Python packages can be installed via pip,](#pure-python-packages-can-be-installed-via-pip)
-* [but dependencies must be manually resolved in the conda lists above.](#but-dependencies-must-be-manually-resolved-in-the-conda-lists-above)
-* [Prompt: 50](#prompt-50)
-* [Response: 50](#response-50)
-    * [1. The Kernel Host & Server Infrastructure (`jupyter_server_rs`)](#1-the-kernel-host-server-infrastructure-jupyter_server_rs)
-    * [2. The Multi-Tenant Orchestration (`jupyter_hub_rs`)](#2-the-multi-tenant-orchestration-jupyter_hub_rs)
-    * [3. Cryptographic Notebook Signatures](#3-cryptographic-notebook-signatures)
-    * [4. The WASM / Browser Execution Layer (`jupyter_lite_rs`)](#4-the-wasm-browser-execution-layer-jupyter_lite_rs)
-    * [5. Advanced Feature Support in `jupyter-protocol`](#5-advanced-feature-support-in-jupyter-protocol)
-    * [6. The WebRTC / Zero-Trust Mesh (Optional but Strategic)](#6-the-webrtc-zero-trust-mesh-optional-but-strategic)
-* [Prompt: 51](#prompt-51)
-* [Response: 51](#response-51)
-    * [1. The TLA+ Specification (`JupyterProtocol.tla`)](#1-the-tla-specification-jupyterprotocoltla)
-  * [\* INITIALIZATION](#-initialization)
-  * [\* ACTIONS (State Transitions)](#-actions-state-transitions)
-  * [\* NEXT STATE FORMULA](#-next-state-formula)
-  * [\* INVARIANTS (Safety Properties)](#-invariants-safety-properties)
-  * [\* TEMPORAL PROPERTIES (Liveness)](#-temporal-properties-liveness)
-    * [2. The TLC Model Checker Configuration (`JupyterProtocol.cfg`)](#2-the-tlc-model-checker-configuration-jupyterprotocolcfg)
-    * [3. What This Model Proves (and Prevents in Rust)](#3-what-this-model-proves-and-prevents-in-rust)
-* [Prompt: 52](#prompt-52)
-* [Response: 52](#response-52)
-    * [1. The Advanced TLA+ Specification (`JupyterAdvanced.tla`)](#1-the-advanced-tla-specification-jupyteradvancedtla)
-  * [\* INITIALIZATION](#-initialization)
-  * [\* CLIENT ACTIONS](#-client-actions)
-  * [\* SERVER & KERNEL ROUTING](#-server-kernel-routing)
-  * [\* KERNEL EXECUTION HANDLERS](#-kernel-execution-handlers)
-  * [\* NEXT STATE FORMULA](#-next-state-formula)
-  * [\* INVARIANTS (The Cryptographic / Routing Rules)](#-invariants-the-cryptographic-routing-rules)
-    * [2. The TLC Config (`JupyterAdvanced.cfg`)](#2-the-tlc-config-jupyteradvancedcfg)
-    * [What this proves for your Rust workspace (`runtimed`):](#what-this-proves-for-your-rust-workspace-runtimed)
-* [Prompt: 53](#prompt-53)
-* [Response: 53](#response-53)
-    * [1. The Core Data Structures](#1-the-core-data-structures)
-    * [2. The Actix WebSocket Actor](#2-the-actix-websocket-actor)
-    * [3. The Lifecycle and Multiplexing Handler](#3-the-lifecycle-and-multiplexing-handler)
-    * [4. Sending Data Back to the Browser](#4-sending-data-back-to-the-browser)
-    * [The Architectural Result](#the-architectural-result)
-* [Prompt: 54](#prompt-54)
-* [Response: 54](#response-54)
-    * [1. Snapshotting the Frontend: `cargo-insta` for `ipywidgets`](#1-snapshotting-the-frontend-cargo-insta-for-ipywidgets)
-    * [2. TLA+ for Yjs: Syncing CRDTs over the `comm` Mesh](#2-tla-for-yjs-syncing-crdts-over-the-comm-mesh)
-      * [The Specification (`YjsOverJupyter.tla`)](#the-specification-yjsoverjupytertla)
-  * [\* INITIALIZATION](#-initialization)
-  * [\* ACTIONS](#-actions)
-  * [\* NEXT STATE FORMULA](#-next-state-formula)
-  * [\* INVARIANTS AND TEMPORAL PROPERTIES (The Proof)](#-invariants-and-temporal-properties-the-proof)
-    * [What this proves for your architecture:](#what-this-proves-for-your-architecture)
-* [Prompt: 55](#prompt-55)
-* [Response: 55](#response-55)
-    * [1. The Data Structure Boundary (Rust)](#1-the-data-structure-boundary-rust)
-    * [2. The Browser Serialization Boundary (JavaScript)](#2-the-browser-serialization-boundary-javascript)
-    * [3. The Actix De-multiplexer (Rust)](#3-the-actix-de-multiplexer-rust)
-    * [4. The Receiver Boundary (JavaScript Reassembly)](#4-the-receiver-boundary-javascript-reassembly)
-    * [The Architectural Purity](#the-architectural-purity)
-* [Prompt: 56](#prompt-56)
-* [Response: 56](#response-56)
-    * [The Binary Frame Parser](#the-binary-frame-parser)
-    * [Integration Test Validation](#integration-test-validation)
-* [Prompt: 57](#prompt-57)
-* [Response: 57](#response-57)
-    * [1. The Rust Kernel Host (`jupyter_server_rs`)](#1-the-rust-kernel-host-jupyter_server_rs)
-    * [2. The Binary JMP Serialization](#2-the-binary-jmp-serialization)
-    * [3. The Browser Client (`jupyter_lab_rs` / Frontend)](#3-the-browser-client-jupyter_lab_rs-frontend)
-    * [4. Injecting the Yjs CRDT Mesh](#4-injecting-the-yjs-crdt-mesh)
-* [Prompt: 58](#prompt-58)
-* [Response: 58](#response-58)
-    * [1. The WebRTC Chicken-and-Egg Problem](#1-the-webrtc-chicken-and-egg-problem)
-    * [2. The Traditional Way vs. The DHT Way](#2-the-traditional-way-vs-the-dht-way)
-    * [3. Where Relays (TURN) Fit In](#3-where-relays-turn-fit-in)
-
 > From: https://gemini.google.com/app/1590dad499b96449
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2026-02-21 12:22:39
+## Prompt: 1
 
-Research and develop a plan to write a rust-based jupyter server given the source code and docs of: jupyter-server (Tornado, Python), 
-
-https://github.com/jupyter-server/jupyter_server
-https://github.com/jupyter-server/enterprise_gateway
-https://github.com/jupyterlite/xeus
-
-Rust components to consider: Actix, Axum, Rocket; Leptos
-
-- Leptos compiles to WASM with trunk
-
-Design goals:
-- run in a container
-- run in WASM
-- run in WASM in a browser tab, with jupyterlite on top, and a bash terminal, with the same filesystem as the notebooks
-- cargo build to compile
-- cargo test with coverage and test output diffing
-
----
++++ {"chat_input": true}
+> message time: 2026-02-21 12:22:39
+>
+> Research and develop a plan to write a rust-based jupyter server given the source code and docs of: jupyter-server (Tornado, Python), 
+>
+> https://github.com/jupyter-server/jupyter_server
+> https://github.com/jupyter-server/enterprise_gateway
+> https://github.com/jupyterlite/xeus
+>
+> Rust components to consider: Actix, Axum, Rocket; Leptos
+>
+> - Leptos compiles to WASM with trunk
+>
+> Design goals:
+> - run in a container
+> - run in WASM
+> - run in WASM in a browser tab, with jupyterlite on top, and a bash terminal, with the same filesystem as the notebooks
+> - cargo build to compile
+> - cargo test with coverage and test output diffing
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -491,6 +65,7 @@ Developing a Rust-based Jupyter server that runs natively in containers and enti
 
 Here is a comprehensive research and development plan to architect this system.
 
+(chat-heading-3)=
 ### 1. Architecture & Framework Selection
 To meet the requirement of running in both a container and a browser tab, the application must be split into a **Core library (WASM-compatible)** and **Target-specific runners**.
 
@@ -498,6 +73,7 @@ To meet the requirement of running in both a container and a browser tab, the ap
 * **WASM Frontend / Control Plane:** **Leptos**, built with Trunk, will serve as the reactive UI layer. While JupyterLite provides the primary notebook interface, Leptos can be used to build a lightweight, WASM-native control panel for managing kernels, sessions, and environment variables directly in the browser. 
 * **Testing & Coverage:** Use `cargo-insta` for test output snapshot diffing. Use `cargo-llvm-cov` for high-performance coverage mapping.
 
+(chat-heading-4)=
 ### 2. Phase 1: Core Server & Virtual Filesystem (VFS)
 The most critical challenge is ensuring the server, the notebooks, and the bash terminal all share the exact same filesystem, regardless of whether they are running on Linux or in a browser.
 
@@ -507,6 +83,7 @@ The most critical challenge is ensuring the server, the notebooks, and the bash 
 * **ContentsManager:** Port the Python `jupyter_server` `ContentsManager` to Rust, backing it strictly by the `Vfs` trait. This layer can be explicitly designed to natively parse and validate JSON-LD contexts and RDFstar annotations within `.ipynb` files, ensuring that rich semantic metadata and inter-cell dependencies are tracked seamlessly during notebook serialization.
 * **Universal Async Bridge:** To handle asynchronous operations (like session database lookups or IndexedDB writes) uniformly across environments, implement an asynchronous bridge. This maps native Tokio async calls to browser Web APIs, a necessary pattern when porting complex, blocking software architectures to a WASM execution context.
 
+(chat-heading-5)=
 ### 3. Phase 2: Kernel Management & `xeus` Integration
 Jupyter relies on ZMQ (ZeroMQ) for kernel communication, but ZMQ cannot run in a browser. 
 
@@ -514,6 +91,7 @@ Jupyter relies on ZMQ (ZeroMQ) for kernel communication, but ZMQ cannot run in a
 * **WASM Browser:** Instead of ZMQ, the server will utilize an in-memory message bus. You can leverage the design philosophies of `xeus` (which abstracts the Jupyter kernel protocol) to route messages directly between the Rust server and Pyodide-based WebAssembly kernels. 
 * **JupyterLite Integration:** The Rust WASM blob will register a Service Worker in the browser. When JupyterLite makes standard `fetch()` calls to `/api/contents` or opens WebSockets to `/api/kernels`, the Service Worker intercepts these and routes them directly into the Rust application's Axum/Tower router running in the same browser.
 
+(chat-heading-6)=
 ### 4. Phase 3: The WASM Bash Terminal
 Running a bash terminal in the browser that shares the notebook filesystem requires a WASI (WebAssembly System Interface) runtime.
 
@@ -521,6 +99,7 @@ Running a bash terminal in the browser that shares the notebook filesystem requi
 * **WASI Runtime:** Embed a lightweight WASI runtime (like Wasmer-JS) into the browser environment. 
 * **Execution:** Compile `bash` (or a lightweight shell like `busybox`) to `wasm32-wasi`. When the user opens a terminal in JupyterLite, the Rust server initializes the WASI shell, binds it to the shared VFS, and pipes `stdin`/`stdout` through the WebSocket using Xterm.js.
 
+(chat-heading-7)=
 ### 5. Phase 4: Build, Test, and CI/CD Pipeline
 The development workflow will be entirely managed via `cargo`, heavily emphasizing reproducible builds and provenance.
 
@@ -530,20 +109,24 @@ The development workflow will be entirely managed via `cargo`, heavily emphasizi
 * **Test & Diffing:** Write API tests utilizing `cargo-insta`. When the JSON responses of the `/api/` endpoints change, `insta` will highlight the exact diffs in the terminal, requiring a manual `cargo insta review` to accept the changes.
 * **Coverage & Supply Chain:** In the CI/CD pipeline (e.g., GitHub Actions), execute `cargo llvm-cov --all-features --workspace --lcov --output-path lcov.info`. To ensure high traceability and software supply chain security, the CI pipeline should conclude by generating Sigstore attestations (SLSA Level 3) for both the container image and the compiled WASM payloads, binding the artifacts to the exact git commit and test coverage run.
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-message time: 2026-02-21 12:49:09
-
-Also support jupyter-rtc: https://github.com/jupyterlab/jupyter-collaboration
-
----
+> message time: 2026-02-21 12:49:09
+>
+> Also support jupyter-rtc: https://github.com/jupyterlab/jupyter-collaboration
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -587,6 +170,7 @@ Because the Jupyter collaboration ecosystem (like `jupyter_server_ydoc`) is buil
 
 Here is how to weave `jupyter-rtc` support into the previous design plan.
 
+(chat-heading-10)=
 ### 1. The CRDT Document Model (`yrs`)
 The `ContentsManager` abstraction we defined earlier must be upgraded. Instead of merely reading and writing raw `.ipynb` bytes to the Virtual Filesystem (VFS), it will now act as a CRDT state manager.
 
@@ -594,37 +178,43 @@ The `ContentsManager` abstraction we defined earlier must be upgraded. Instead o
 * **State Persistence:** Implement an SQLite or IndexedDB backend (depending on the container vs. WASM target) to periodically flush the `yrs::Doc` binary state updates to disk, mimicking the `.jupyter_ystore.db` behavior in the standard Python backend. This ensures edits aren't lost if the server stops or the browser tab reloads before a full notebook save.
 * 
 
+(chat-heading-11)=
 ### 2. Real-Time Sync Protocols
 The synchronization mechanism must adapt to the target environment to route the Yjs binary update blobs between the server's `yrs` instance and the frontend JupyterLite/JupyterLab clients.
 
 * **Native Container (Axum):** Use Axum's `ws` extractor to expose the `/api/yjs/` WebSocket endpoints. You can adapt the protocol logic from `y-websocket` or `pycrdt-websocket` directly into Axum. The server will listen for binary updates from connected clients, apply them to the central `yrs::Doc`, and broadcast the resulting diffs to all other connected WebSocket clients.
 * **WASM Browser (Leptos & JupyterLite):** Since both the Rust server and the JupyterLite frontend exist within the same browser environment, WebSocket overhead is unnecessary. Instead, the Rust Service Worker can intercept the Yjs sync requests and route the updates through an in-memory message bus or a `BroadcastChannel` API. This allows multiple JupyterLite tabs in the same browser to collaborate seamlessly without a network round-trip.
 
+(chat-heading-12)=
 ### 3. Identity, Provenance, and the RTC Event Log
 Standard Jupyter RTC relies on temporary, anonymous session IDs, which lacks strong auditability. Because we are building a custom Rust backend, the CRDT update stream can be natively intercepted and cryptographically signed. 
 
 By binding the WebSocket/sync authentication to Decentralized Identifiers (DIDs) and mapping the granular `yrs` edit events to W3C PROV logs, the server can maintain an immutable trail of exact cell provenance. When the collaborative session concludes and the `Y.Doc` is serialized back to a static `.ipynb` file, these verifiable edit histories can be baked directly into the notebook as JSON-LD or RDFstar metadata, tracking exactly who executed or modified which code block.
 
----
+<hr />
 
 Would you like to draft the Rust trait definitions for the universal asynchronous bridge that handles the SQLite/IndexedDB persistence layer for the `yrs::Doc`?
 
 For a deeper look into how the core developers integrate these execution models, [Jupyter's Architecture Unpacked: Xeus and Real-Time Collaboration](https://www.youtube.com/watch?v=_-zhMzwpSOQ) discusses the specific intersection of custom kernels, Yjs, and collaborative application frameworks.
 
----
+<hr />
+
+(chat-prompt-3)=
 
 +++ {"chat_input": true}
-# Prompt: 3
+## Prompt: 3
 
 +++ {"chat_input": true}
-message time: 2026-02-21 13:05:41
-
-further develop the design and development plan with consideration for OpenID for Verifiable Presentations 1.0: https://openid.net/specs/openid-4-verifiable-presentations-1_0.html
-
----
+> message time: 2026-02-21 13:05:41
+>
+> further develop the design and development plan with consideration for OpenID for Verifiable Presentations 1.0: https://openid.net/specs/openid-4-verifiable-presentations-1_0.html
+>
+> \-\-\-
+>
+> (chat-response-3)=
 
 +++
-# Response: 3
+## Response: 3
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -658,6 +248,7 @@ Integrating OpenID for Verifiable Presentations (OID4VP) 1.0 fundamentally chang
 
 Here is how to architect this presentation layer across the native and WASM targets.
 
+(chat-heading-15)=
 ### 1. The Server as the OID4VP Verifier
 The core authentication middleware (implemented via `tower::Service` in Axum) must be updated to handle the `vp_token` response type defined in the OID4VP 1.0 specification. 
 
@@ -665,18 +256,21 @@ When an unauthenticated client attempts to access the Jupyter environment, the s
 
 * **Granular Authorization:** DCQL allows you to request selective disclosure. For example, accessing a standard Pyodide kernel might require a basic organizational credential, but mounting a highly restricted dataset to that kernel might require a separate Verifiable Credential (VC) in W3C JSON-LD or SD-JWT format proving a specific clearance level.
 
+(chat-heading-16)=
 ### 2. Target-Specific Presentation Flows
 Because OID4VP supports multiple interaction patterns, the server must adapt how it requests presentations based on where it is running.
 
 * **Native Container (Axum) - Cross-Device Flow:** The server generates the Authorization Request and issues a Request URI (`request_uri`). The Leptos frontend renders this as a QR code. The user scans the QR code with their mobile wallet, authenticates locally (e.g., via biometrics), and the wallet executes a direct `direct_post` HTTP request containing the `vp_token` back to the Axum server's response endpoint.
 * **WASM Browser (Leptos) - Same-Device Flow:** When running entirely in the browser, the presentation request is handled via deep links or by invoking local wallet browser extensions. The Leptos application intercepts the authorization response directly and passes the verifiable presentation to the Rust WASM backend for local cryptographic validation.
 
+(chat-heading-17)=
 ### 3. Cryptographic Validation and the Rust Ecosystem
 To validate the incoming Verifiable Presentations, the server must verify the cryptographic signatures against the issuer's public keys. 
 
 * **Crate Selection:** You can leverage the emerging `openid4vc` Rust workspace to handle the heavy lifting of parsing the `vp_token` and managing the OID4VP protocol mechanics. 
 * **Validation:** The server extracts the Decentralized Identifier (DID) from the presentation, resolves the DID document (e.g., via a DID or KERI resolver), and verifies the proof of possession to ensure the credential wasn't intercepted or replayed.
 
+(chat-heading-18)=
 ### 4. Binding Identity to Execution Provenance
 This is where OID4VP synergizes perfectly with the Yjs CRDT and real-time collaboration architecture discussed earlier.
 
@@ -684,24 +278,28 @@ Once a Verifiable Presentation is successfully validated, the server extracts th
 
 Every subsequent keystroke, cell execution, or bash terminal command is immutably tagged with this verified DID in the CRDT event log. When the collaborative session ends and the notebook is serialized back to the virtual filesystem, you can generate a W3C PROV record embedded via RDFstar. This creates a mathematically non-repudiable audit trail stating: *"This specific cell execution was triggered by `did:example:123`, who was cryptographically verified at time `T` to hold the required authorization credentials."*
 
----
+<hr />
 
 Would you like to map out the specific DCQL query schema required to request a selective disclosure credential for kernel access?
 
----
+<hr />
+
+(chat-prompt-4)=
 
 +++ {"chat_input": true}
-# Prompt: 4
+## Prompt: 4
 
 +++ {"chat_input": true}
-message time: 2026-02-22 16:42:56
-
-yes
-
----
+> message time: 2026-02-22 16:42:56
+>
+> yes
+>
+> \-\-\-
+>
+> (chat-response-4)=
 
 +++
-# Response: 4
+## Response: 4
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -737,6 +335,7 @@ To gate access to a Jupyter kernel, the Rust server will generate an Authorizati
 
 Here is the architectural schema and the corresponding DCQL query to enforce this.
 
+(the-dcql-query-schema)=
 ### The DCQL Query Schema
 
 When an unauthenticated client attempts to open a WebSocket connection to `/api/kernels`, the Axum server will reject it and initiate the OID4VP flow, passing the following DCQL query to the client's wallet.
@@ -775,6 +374,7 @@ This specific schema requests a `dc+sd-jwt` credential. It asks the wallet to se
 }
 ```
 
+(schema-breakdown)=
 ### Schema Breakdown
 
   * **`format`**: Setting this to `dc+sd-jwt` ensures the server expects a Selective Disclosure JWT. The wallet will return the credential with undisclosed claims completely hashed out.
@@ -782,6 +382,7 @@ This specific schema requests a `dc+sd-jwt` credential. It asks the wallet to se
   * **`claims` & `path`**: This is where selective disclosure happens. Instead of asking for the whole credential, the server is using exact JSON paths to extract only three things: the user's DID, their environment access level, and their public Sigstore key for subsequent attestations.
   * **`require_cryptographic_holder_binding`**: Setting this to `true` is critical. It forces the wallet to generate a dynamic Proof of Possession (often a signature over a nonce provided by your server) using the private key associated with the credential. This prevents replay attacks if the `vp_token` is intercepted.
 
+(connecting-the-presentation-to-execution-provenance)=
 ### Connecting the Presentation to Execution Provenance
 
 Once the wallet submits the `vp_token` containing this selectively disclosed SD-JWT to the server's response endpoint, the Rust backend executes the following logic:
@@ -791,28 +392,32 @@ Once the wallet submits the `vp_token` containing this selectively disclosed SD-
 3.  **Traceable State:** The Axum routing layer binds this verified DID to the WebSocket connection managing the `yrs` CRDT document.
 4.  **W3C PROV Export:** Because the server now cryptographically knows the identity and the permitted SLSA signing key of the actor, every code execution in the WASM bash terminal or the Jupyter cell is logged. When the notebook is saved, these actions are natively annotated as RDFstar metadata, creating an unbroken chain of provenance from the OID4VP authentication event directly to the executed code.
 
------
+<hr />
 
 Would you like me to outline the Axum middleware that intercepts the wallet's `vp_token` response and performs the cryptographic validation of the SD-JWT holder binding?
 
----
+<hr />
+
+(chat-prompt-5)=
 
 +++ {"chat_input": true}
-# Prompt: 5
+## Prompt: 5
 
 +++ {"chat_input": true}
-message time: 2026-02-22 16:49:42
-
-> Axum middleware that intercepts the wallet's vp_token response and performs the cryptographic validation of the SD-JWT holder binding?
-
-Yes.
-
-And, aren't there ssh DIDs? would those work with this?
-
----
+> message time: 2026-02-22 16:49:42
+>
+> > Axum middleware that intercepts the wallet's vp_token response and performs the cryptographic validation of the SD-JWT holder binding?
+>
+> Yes.
+>
+> And, aren't there ssh DIDs? would those work with this?
+>
+> \-\-\-
+>
+> (chat-response-5)=
 
 +++
-# Response: 5
+## Response: 5
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -838,6 +443,7 @@ Using SSH keys for the OID4VP holder binding is incredibly powerful. It means th
 
 Here is how you would architect the Axum middleware to intercept the `vp_token` and validate that the presenter actually holds the private key (e.g., the SSH private key) associated with the selectively disclosed credential.
 
+(the-axum-extractor-for-oid4vp)=
 ### The Axum Extractor for OID4VP
 
 In Axum, the cleanest way to handle this is by implementing the `FromRequest` trait. This allows you to define a custom extractor that automatically intercepts the incoming `POST` request from the wallet, parses the payload, performs the complex cryptographic checks, and only passes the request to your endpoint handler if the verification succeeds.
@@ -923,6 +529,7 @@ fn extract_claim(_jwt: &str, _path: &str) -> Result<String, (StatusCode, &'stati
 }
 ```
 
+(how-the-endpoint-uses-it)=
 ### How the Endpoint Uses It
 
 Once the extractor is implemented, securing your API endpoints becomes trivial. The cryptographic heavy lifting is hidden, and your handler only executes if the identity is proven.
@@ -953,6 +560,7 @@ pub fn app() -> Router {
 }
 ```
 
+(the-holder-binding-mechanics-the-key-binding-jwt)=
 ### The Holder Binding Mechanics (The "Key Binding JWT")
 
 When the wallet sends the `vp_token`, it doesn't just send the SD-JWT. Because we set `require_cryptographic_holder_binding: true` in the DCQL query, the wallet wraps the SD-JWT inside a **Key Binding JWT**.
@@ -967,20 +575,24 @@ The `verify_holder_binding` function in the extractor checks this signature agai
 
 Would you like me to map out how to structure the shared state in Axum to safely store and verify the `nonce` across the initial authorization request and this final `direct_post` response?
 
----
+<hr />
+
+(chat-prompt-6)=
 
 +++ {"chat_input": true}
-# Prompt: 6
+## Prompt: 6
 
 +++ {"chat_input": true}
-message time: 2026-02-22 16:56:05
-
-yes
-
----
+> message time: 2026-02-22 16:56:05
+>
+> yes
+>
+> \-\-\-
+>
+> (chat-response-6)=
 
 +++
-# Response: 6
+## Response: 6
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1016,6 +628,7 @@ For a production Axum server, particularly one dealing with high-security DevOps
 
 Here is how to structure the `AppState` and the corresponding handlers to achieve this.
 
+(chat-heading-31)=
 ### 1\. Defining the Shared State
 
 While a standard `Arc<std::sync::RwLock<HashMap>>` works for a basic implementation, it lacks automatic expiration. In a real-world Rust deployment, using a caching crate like `moka` is the standard approach for short-lived state like OID4VP nonces.
@@ -1052,6 +665,7 @@ impl AppState {
 }
 ```
 
+(chat-heading-32)=
 ### 2\. The Authorization Request Endpoint
 
 When a user attempts to access the Jupyter terminal, the frontend makes a `GET` request to initiate the flow. This endpoint generates the nonce, stores it in the shared state, and returns the DCQL query (the Authorization Request) that Leptos will render as a QR code or deep link.
@@ -1087,6 +701,7 @@ async fn generate_auth_request(
 }
 ```
 
+(chat-heading-33)=
 ### 3\. Upgrading the Extractor to Consume State
 
 Now we update the `FromRequest` extractor from the previous step. In Axum, an extractor can access the application state. We will use this to intercept the `direct_post` from the wallet, extract the `presentation_id` from the URL path, look up the `nonce`, and validate the SSH/DID signature.
@@ -1150,6 +765,7 @@ impl FromRequest<AppState> for VerifiedPresentation {
 async fn verify_holder_binding_with_nonce(_token: &str, _expected_nonce: &str) -> bool { true }
 ```
 
+(chat-heading-34)=
 ### 4\. Wiring the Router
 
 Finally, you bind the endpoints to the `AppState` using Axum's `with_state` method.
@@ -1179,20 +795,24 @@ This architecture ensures that by the time `handle_vp_response` executes, the cr
 
 Would you like to look at how to bind this authenticated `subject_did` to the `yrs` document so that cell execution events can be reliably emitted as W3C PROV records when the notebook is serialized?
 
----
+<hr />
+
+(chat-prompt-7)=
 
 +++ {"chat_input": true}
-# Prompt: 7
+## Prompt: 7
 
 +++ {"chat_input": true}
-message time: 2026-02-22 17:01:59
-
-yes, and RDF 1.2 instead of RDFstar
-
----
+> message time: 2026-02-22 17:01:59
+>
+> yes, and RDF 1.2 instead of RDFstar
+>
+> \-\-\-
+>
+> (chat-response-7)=
 
 +++
-# Response: 7
+## Response: 7
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1224,6 +844,7 @@ The W3C RDF 1.2 specification formalizes what was formerly known as RDF-star by 
 
 Here is how to architect this binding from the Rust CRDT layer down to the serialized Linked Data output.
 
+(chat-heading-37)=
 ### 1\. Mapping DIDs to the Yrs Awareness Protocol
 
 In the Yjs ecosystem, every connected user is assigned a unique, randomly generated integer called the `ClientID`. This ID acts as the actor for all conflict resolution math (Lamport clocks). However, a `ClientID` is ephemeral and resets if the user refreshes the browser tab.
@@ -1252,6 +873,7 @@ awareness.set_local_state(json!({
 }));
 ```
 
+(chat-heading-38)=
 ### 2\. The Immutable Session Provenance Log
 
 While the Awareness protocol is excellent for real-time presence (showing a cursor with the user's DID over a specific cell), it is not durable. If a user disconnects, their Awareness state is eventually garbage collected.
@@ -1260,6 +882,7 @@ To ensure strict software supply chain traceability, the Rust server must mainta
 
 When a cell is executed, the server intercepts the request, looks up the active `ClientID` of the requester, joins it against the immutable log to retrieve the `did:key`, and records an execution event containing the timestamp and the exact cell ID.
 
+(chat-heading-39)=
 ### 3\. Emitting W3C PROV using RDF 1.2 Triple Terms
 
 When the collaborative session concludes, the core `ContentsManager` serializes the `yrs::Doc` back into the `.ipynb` JSON format. Simultaneously, it iterates over the execution events and generates an accompanying RDF 1.2 metadata graph.
@@ -1288,34 +911,39 @@ _:update1 reifies <<( <urn:uuid:notebook-v1> jup:hasCell <urn:uuid:cell-42> )>> 
     prov:wasGeneratedBy <urn:uuid:exec-8f7b-4d9a> .
 ```
 
+(chat-heading-40)=
 ### 4\. Integration with JSON-LD Contexts
 
 Because `.ipynb` files are inherently JSON, you can directly embed this RDF 1.2 graph into the notebook's metadata using JSON-LD. The W3C JSON-LD 1.1 specification can be extended to represent these triple terms (often mapped via the `@included` or custom graph annotations depending on the parser profile), ensuring the provenance travels natively with the file.
 
 When this notebook is pushed to a git repository, a CI/CD pipeline using a tool like Sigstore can read the embedded DID, verify the exact cell history, and issue an SLSA Level 3 attestation affirming the entire lifecycle of the code block.
 
------
+<hr />
 
 Would you like to draft the Rust implementation for a `tower::Service` middleware layer that automatically intercepts all `/api/kernels/*/execute` REST calls and logs them to the SQLite provenance database before passing them to the Xeus kernel?
 
----
+<hr />
+
+(chat-prompt-8)=
 
 +++ {"chat_input": true}
-# Prompt: 8
+## Prompt: 8
 
 +++ {"chat_input": true}
-message time: 2026-02-22 17:13:53
-
-> Would you like to draft the Rust implementation for a tower::Service middleware layer that automatically intercepts all /api/kernels/*/execute REST calls and logs them to the SQLite provenance database before passing them to the Xeus kernel?
-
-Yes, but a more native protocol would be better.
-
-Develop a more zero-trust design for hosting jupyter kernels with required DIDs (that doesn't have both a ClientID and a DID)
-
----
+> message time: 2026-02-22 17:13:53
+>
+> > Would you like to draft the Rust implementation for a tower::Service middleware layer that automatically intercepts all /api/kernels/*/execute REST calls and logs them to the SQLite provenance database before passing them to the Xeus kernel?
+>
+> Yes, but a more native protocol would be better.
+>
+> Develop a more zero-trust design for hosting jupyter kernels with required DIDs (that doesn't have both a ClientID and a DID)
+>
+> \-\-\-
+>
+> (chat-response-8)=
 
 +++
-# Response: 8
+## Response: 8
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1351,6 +979,7 @@ A true zero-trust architecture requires cryptographic proof to be evaluated *at 
 
 Here is how to eliminate the dual-identity problem and natively integrate your Decentralized Identifiers (DIDs) into the Jupyter messaging protocol using Rust.
 
+(chat-heading-43)=
 ### 1\. Solving the Identity Duality: Deterministic ClientIDs
 
 Currently, Yjs/Yrs assigns a random, ephemeral `ClientID` (a 53-bit or 64-bit integer) per session. To eliminate the need for a lookup table mapping these integers to DIDs, we can mathematically fuse them.
@@ -1359,6 +988,7 @@ Because your authentication is anchored to a DID (like an SSH public key represe
 
 By hashing the DID string (e.g., using SHA-256) and extracting the first 8 bytes to form a `u64`, the `ClientID` becomes a permanent, cryptographic derivative of the user. If the user refreshes the browser, opens a new tab, or reconnects a week later, their CRDT operations will flawlessly append to the same actor ID without requiring the Yjs Awareness protocol to broadcast identity mappings.
 
+(chat-heading-44)=
 ### 2\. Upgrading the Jupyter Message Protocol (JMP)
 
 The standard Jupyter Message Protocol (JMP) is built on ZeroMQ and relies on a shared symmetric key (HMAC-SHA256) defined in a `connection_file.json`. Anyone with read access to that file can execute arbitrary code.
@@ -1373,6 +1003,7 @@ In this zero-trust design:
 1.  **The Header:** The client (your Leptos frontend) injects the user's verified `did:key` into the `header.session` field (or a custom `header.did` field).
 2.  **The Signature:** Instead of a symmetric HMAC, the frontend uses the Web Crypto API to sign the concatenated message dictionaries using the private key associated with the DID. The resulting Ed25519 or RSA signature is placed in the standard `<HMAC_signature>` slot.
 
+(chat-heading-45)=
 ### 3\. The Rust Zero-Trust Kernel Broker
 
 Instead of a REST middleware, you implement a native WebSocket message broker in Rust. This broker sits directly in front of the Xeus kernel (or acts as a custom Rust kernel itself). It intercepts the raw JMP stream, validates the asymmetric signature, and immutably logs the provenance.
@@ -1465,6 +1096,7 @@ async fn log_provenance_to_rdf(_pool: &sqlx::SqlitePool, _did: &str, _msg_id: &s
 async fn forward_to_xeus(_bytes: &[u8]) {}
 ```
 
+(the-security-guarantee)=
 ### The Security Guarantee
 
 By shifting the authentication from the HTTP layer down to the JMP execution layer, you create a system where the Jupyter server itself does not need to be trusted.
@@ -1473,20 +1105,24 @@ Even if a malicious actor gains root access to the Docker container hosting the 
 
 Would you like to explore how to implement the Web Crypto API logic within your Leptos WASM frontend to generate these asymmetric Ed25519 signatures before transmitting the `execute_request` over the WebSocket?
 
----
+<hr />
+
+(chat-prompt-9)=
 
 +++ {"chat_input": true}
-# Prompt: 9
+## Prompt: 9
 
 +++ {"chat_input": true}
-message time: 2026-02-22 17:22:46
-
-Are some alternatives to ZeroMQ for signed CRDT messaging and store, that work in a browser, and that work between browsers without a server?
-
----
+> message time: 2026-02-22 17:22:46
+>
+> Are some alternatives to ZeroMQ for signed CRDT messaging and store, that work in a browser, and that work between browsers without a server?
+>
+> \-\-\-
+>
+> (chat-response-9)=
 
 +++
-# Response: 9
+## Response: 9
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1522,49 +1158,58 @@ Before diving into the libraries, it is important to clarify a candid reality ab
 
 Here are the best Rust-based, WASM-compatible alternatives to ZeroMQ for your architecture.
 
+(chat-heading-49)=
 ### 1. Iroh (The Best Fit for DIDs and Rust)
 **Iroh** (built by number0) is a modern, distributed systems toolkit explicitly designed to sync state and establish direct QUIC connections. 
 * **Why it replaces ZMQ:** Iroh includes `iroh-gossip` (a scalable pub/sub messaging layer) and `iroh-docs` (a synced document store). 
 * **Native Identity:** Every Iroh node uses an `ed25519` keypair as its fundamental identity. This maps perfectly to the `did:key` (SSH key) zero-trust architecture we discussed. Messages and state updates are cryptographically signed by the node's keypair by default.
 * **Browser Support:** Iroh recently added WASM support. While early browser implementations rely on WebSockets and relays to bypass browser limitations, their roadmap is aggressively moving toward native WebRTC/WebTransport for direct browser-to-browser streams.
 
+(chat-heading-50)=
 ### 2. rust-libp2p (The Industry Standard)
 **libp2p** is the modular networking stack behind IPFS, and its Rust implementation (`rust-libp2p`) has excellent WASM compatibility.
 * **Why it replaces ZMQ:** You can use its `Gossipsub` protocol for high-throughput, decentralized pub/sub messaging. `Gossipsub` includes strict message signing and validation—if a message's signature doesn't match the sender's `PeerId` (which is derived from their public key), it is instantly dropped.
 * **Browser Support:** It fully supports WebRTC. Using `libp2p-webrtc`, two browser tabs can establish a direct, encrypted P2P connection. You only need a lightweight "Circuit Relay" node running somewhere in your network to facilitate the initial WebRTC SDP handshake.
 
+(chat-heading-51)=
 ### 3. Matchbox (The Lightweight Socket Abstraction)
 If you want to build the Zero-Trust Jupyter Message Protocol completely from scratch without adopting a heavy framework like libp2p, **Matchbox** (`johanhelsing/matchbox`) is the ideal crate.
 * **Why it replaces ZMQ:** Matchbox provides painless, low-latency WebRTC networking for Rust WASM. It gives you an API that feels almost exactly like a standard UDP or TCP socket, but it works directly between browsers.
 * **Integration:** You would handle the cryptographic signing yourself (using the Ed25519 Web Crypto logic we discussed), serialize the `yrs` CRDT updates, and push the raw bytes into the Matchbox data channels. 
 * **Signaling:** Matchbox requires a tiny, easily deployable signaling server (`matchbox_server`) to introduce the peers.
 
+(chat-heading-52)=
 ### 4. y-webrtc (The Yjs Native Approach)
 Since you are using `yrs` (the Rust port of Yjs) for the CRDT state, you can look at the ecosystem's native approach.
 * **How it works:** `y-webrtc` is the standard network provider for syncing Yjs documents directly between browsers. It uses a signaling server for the handshake, and then syncs the binary CRDT blobs via WebRTC.
 * **Security:** Out of the box, `y-webrtc` does not natively enforce asymmetric cryptographic signatures. You would need to implement an interceptor layer in your Leptos frontend that signs the Yjs update array with the user's `did:key` before handing it to the WebRTC transport, and validates incoming updates before applying them to the local `yrs::Doc`.
 
+(recommendation-for-your-architecture)=
 ### Recommendation for Your Architecture
 If you want a tightly integrated, highly secure data layer where the identities (DIDs) are mathematically bound to the network layer, **Iroh** is currently the most exciting crate in the Rust ecosystem. If you need absolute control over the raw socket behavior to perfectly mimic Jupyter's standard ZMQ patterns via WebRTC, use **Matchbox**.
 
 Would you like to explore how to implement the WebRTC SDP handshake between two browser-based Jupyter environments using a simple QR code, achieving a 100% serverless connection?
 
----
+<hr />
+
+(chat-prompt-10)=
 
 +++ {"chat_input": true}
-# Prompt: 10
+## Prompt: 10
 
 +++ {"chat_input": true}
-message time: 2026-02-22 17:30:12
-
-> Would you like to explore how to implement the WebRTC SDP handshake between two browser-based Jupyter environments using a simple QR code, achieving a 100% serverless connection?
-
-Yes.
-
----
+> message time: 2026-02-22 17:30:12
+>
+> > Would you like to explore how to implement the WebRTC SDP handshake between two browser-based Jupyter environments using a simple QR code, achieving a 100% serverless connection?
+>
+> Yes.
+>
+> \-\-\-
+>
+> (chat-response-10)=
 
 +++
-# Response: 10
+## Response: 10
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1588,8 +1233,9 @@ To make this work in your Rust/Leptos Jupyter environment, we have to aggressive
 
 Here is how to architect the "QR Tango" using `web-sys` and Leptos.
 
------
+<hr />
 
+(chat-heading-56)=
 ### 1\. The "QR Tango" Flow
 
 Because WebRTC requires both peers to agree on the connection parameters, a single scan is not enough. The handshake must be strictly bidirectional:
@@ -1599,6 +1245,7 @@ Because WebRTC requires both peers to agree on the connection parameters, a sing
 3.  **Device A:** Uses its webcam to scan QR Code 2 and sets its remote description.
 4.  **Connection:** The `RTCDataChannel` opens, and the Jupyter CRDT sync begins.
 
+(chat-heading-57)=
 ### 2\. Aggressive SDP Minification
 
 To make the QR codes scannable, we must bypass the standard JSON stringification of the SDP and compress it.
@@ -1606,10 +1253,12 @@ To make the QR codes scannable, we must bypass the standard JSON stringification
   * **Filter ICE Candidates:** By default, browsers gather local, STUN, and TURN candidates. Because you are doing an air-gapped QR exchange, the devices are likely on the same local network (WLAN) or creating a direct hotspot. You can intercept the `onicecandidate` event, filter out everything except the `host` (local IP) candidates, and rebuild a much smaller SDP.
   * **Binary Encoding & Base45:** Instead of converting the SDP to Base64 (which bloats it), compress the stripped SDP string using `miniz_oxide` (a pure Rust DEFLATE implementation) and encode it using Base45. Base45 is specifically optimized for QR code alphanumeric mode, resulting in a significantly less dense matrix.
 
+(chat-heading-58)=
 ### 3\. The Leptos & `web-sys` Implementation
 
 Here is the architectural outline for the Leptos frontend to handle the WebRTC lifecycle and QR generation.
 
+(a-the-webrtc-wrapper-web-sys)=
 #### A. The WebRTC Wrapper (`web-sys`)
 
 You will use the `web-sys` crate to interface directly with the browser's WebRTC APIs.
@@ -1640,6 +1289,7 @@ pub async fn create_offer(pc: &RtcPeerConnection) -> Result<String, JsValue> {
 }
 ```
 
+(b-generating-the-qr-code-rust)=
 #### B. Generating the QR Code (Rust)
 
 Once you have the compressed SDP string, use the `qrcode` crate to generate an SVG path directly in Rust. This avoids pulling in heavy JavaScript libraries.
@@ -1660,35 +1310,40 @@ pub fn generate_qr_svg(compressed_sdp: &str) -> String {
 }
 ```
 
+(c-the-scanner-component)=
 #### C. The Scanner Component
 
 For the scanning phase, Rust ecosystem support for raw WASM webcam barcode scanning is still maturing. The most pragmatic approach is to use `wasm-bindgen` to wrap a lightweight, battle-tested JS library like `html5-qrcode`.
 
 When the Leptos component mounts, it initializes the camera stream. When the JS library detects a QR code, it triggers a Rust callback closure containing the Base45 encoded string. Rust decodes it, decompresses the SDP, and calls `pc.set_remote_description()`.
 
------
+<hr />
 
 Would you like to draft the specific Rust logic to parse the `onicecandidate` events and strip the SDP down to only the essential `host` candidates before we compress it for the QR code?
 
 [WebRTC signalling data over QR codes](https://www.youtube.com/watch?v=EQFUPZK9CwI)
 This video demonstrates the practical flow of exchanging WebRTC session descriptions via QR codes to establish a peer-to-peer data channel.
 
----
+<hr />
+
+(chat-prompt-11)=
 
 +++ {"chat_input": true}
-# Prompt: 11
+## Prompt: 11
 
 +++ {"chat_input": true}
-message time: 2026-02-22 17:32:20
-
-Yes.
-And,
-Are there WebRTC-native DLT distributed ledgers that could host yjs documents with CRDT and mandatory keys?
-
----
+> message time: 2026-02-22 17:32:20
+>
+> Yes.
+> And,
+> Are there WebRTC-native DLT distributed ledgers that could host yjs documents with CRDT and mandatory keys?
+>
+> \-\-\-
+>
+> (chat-response-11)=
 
 +++
-# Response: 11
+## Response: 11
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1720,6 +1375,7 @@ I've integrated the `base45` crate, offering clear SDP stripping with inline ima
 
 Here is the implementation strategy for aggressively stripping the WebRTC Session Description Protocol (SDP) in Rust to generate a scannable QR code, followed by an analysis of WebRTC-native DLTs for your collaborative CRDT architecture.
 
+(chat-heading-64)=
 ### 1\. The Rust `onicecandidate` SDP Stripper
 
 When you call `setLocalDescription` on the `RtcPeerConnection`, the browser begins gathering ICE candidates in the background. The standard SDP output includes every possible network route, including verbose TCP fallbacks and lengthy TURN relay IPs.
@@ -1799,8 +1455,9 @@ fn strip_sdp_string(sdp: &str, filtered_candidates: &[String]) -> String {
 }
 ```
 
------
+<hr />
 
+(chat-heading-65)=
 ### 2\. WebRTC-Native DLTs for CRDTs and Mandatory Keys
 
 Yes, there are distributed ledgers explicitly designed for this. However, combining CRDTs (like Yjs) with traditional "blockchain" DLTs (like Ethereum) is an architectural anti-pattern. Blockchains exist to enforce *global, synchronous consensus* over a single state. CRDTs exist specifically to *avoid* consensus by mathematically resolving asynchronous conflicts locally.
@@ -1809,6 +1466,7 @@ To host Yjs documents securely in a browser mesh, you need an **Agent-Centric DL
 
 Here are the most viable WebRTC-native ledger ecosystems that enforce cryptographic keys:
 
+(a-holochain-via-the-tx5-crate)=
 #### A. Holochain (via the `tx5` crate)
 
 Holochain is arguably the perfect fit for this architecture. It is built entirely in Rust and operates without global consensus.
@@ -1817,6 +1475,7 @@ Holochain is arguably the perfect fit for this architecture. It is built entirel
   * **Mandatory Keys:** Every action on the source chain is cryptographically signed by the user's private key. If the signature is missing or invalid, the DHT validators instantly reject the data.
   * **WebRTC Native:** Holochain's networking layer is a dedicated Rust ecosystem called **`tx5`**. It is a full WebRTC P2P communication stack built to route DHT gossip directly between peers (and works flawlessly in WASM environments).
 
+(b-gundb-the-gundb-rust-ecosystem)=
 #### B. GunDB (The `gundb` Rust Ecosystem)
 
 Gun is a decentralized, local-first graph database built natively for WebRTC mesh networks.
@@ -1825,6 +1484,7 @@ Gun is a decentralized, local-first graph database built natively for WebRTC mes
   * **CRDT Native:** Gun uses its own CRDT algorithm (HAM - Hypothetical Amnesia Machine) to resolve state conflicts across the WebRTC mesh.
   * **Rust Port:** While Gun is famously a JavaScript library, there are active Rust ports (like the `gundb` crate) that implement the protocol, allowing you to bridge the native container server and the browser tab.
 
+(c-iroh-by-number0)=
 #### C. Iroh (by number0)
 
 While not marketed explicitly as a "ledger," Iroh is a next-generation distributed systems toolkit built in Rust that solves exactly this problem.
@@ -1833,28 +1493,32 @@ While not marketed explicitly as a "ledger," Iroh is a next-generation distribut
   * **Identity as First-Class Citizen:** Every Iroh node uses an `ed25519` keypair as its fundamental identity (mapping perfectly to your `did:key` requirements).
   * **Immutable Sync:** It features `iroh-docs`, which is a document store that syncs state using BLAKE3 verified streaming. You can drop the binary updates from `yrs` directly into Iroh, and it will handle the verified, cryptographically signed WebRTC routing automatically.
 
------
+<hr />
 
 Would you like me to map out how to structure the Yjs update binary arrays into a Holochain entry definition, allowing the Holochain DHT to natively validate the CRDT state?
 
----
+<hr />
+
+(chat-prompt-12)=
 
 +++ {"chat_input": true}
-# Prompt: 12
+## Prompt: 12
 
 +++ {"chat_input": true}
-message time: 2026-02-22 17:38:02
-
-> Would you like me to map out how to structure the Yjs update binary arrays into a Holochain entry definition, allowing the Holochain DHT to natively validate the CRDT state?
-
-Yes
-
-Can Holochain use PQ Post Quantum ciphers and hashes?
-
----
+> message time: 2026-02-22 17:38:02
+>
+> > Would you like me to map out how to structure the Yjs update binary arrays into a Holochain entry definition, allowing the Holochain DHT to natively validate the CRDT state?
+>
+> Yes
+>
+> Can Holochain use PQ Post Quantum ciphers and hashes?
+>
+> \-\-\-
+>
+> (chat-response-12)=
 
 +++
-# Response: 12
+## Response: 12
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1892,6 +1556,7 @@ In Holochain, an application backend (a "DNA") is composed of WebAssembly module
 
 Instead of saving the entire Jupyter notebook every time a cell changes, you append the *Yjs state updates* as an immutable log of binary blobs. Holochain natively maps to this append-only pattern.
 
+(chat-heading-71)=
 ### 1\. Structuring the Yjs Entry Definition
 
 Here is the Rust implementation using the Holochain Development Kit (HDK) and the `yrs` crate.
@@ -1918,6 +1583,7 @@ pub enum NotebookEntries {
 }
 ```
 
+(chat-heading-72)=
 ### 2\. Natively Validating the CRDT State
 
 The true power of Holochain is the `validate` callback. When a peer receives this `YjsUpdate` over the WebRTC network, their local node runs this WASM validation *before* accepting the data into their local slice of the DHT.
@@ -1946,14 +1612,16 @@ pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
 }
 ```
 
------
+<hr />
 
+(can-holochain-use-post-quantum-pq-ciphers-and-hashes)=
 ### Can Holochain use Post-Quantum (PQ) ciphers and hashes?
 
 The answer is **yes at the application layer**, but **no at the core network layer (yet)**.
 
 Because a Holochain Zome is simply a WebAssembly binary compiled from Rust, you are not restricted to Holochain's built-in cryptographic host functions.
 
+(the-application-layer-zomes-fully-customizable)=
 #### The Application Layer (Zomes): Fully Customizable
 
 You can import pure-Rust crates for NIST Post-Quantum Cryptography (PQC) standards directly into your `Cargo.toml`.
@@ -1961,6 +1629,7 @@ You can import pure-Rust crates for NIST Post-Quantum Cryptography (PQC) standar
   * **Signatures:** If you want to secure your Jupyter execution provenance with lattice-based **ML-DSA (Dilithium)** or hash-based **SLH-DSA (SPHINCS+)**, you can compile those algorithms into your Zome. When an `execute_request` occurs, you verify the PQ signature inside the `validate` callback using the payload in the `YjsUpdate` struct.
   * **Hashes:** You can use custom quantum-resistant hashes (like SHA-3-512) for internal data relationships inside your application logic.
 
+(the-network-identity-layer-the-conductor-hardcoded)=
 #### The Network & Identity Layer (The Conductor): Hardcoded
 
 Currently, Holochain's foundational routing and identity mechanics are hardcoded to classical cryptography. Modifying these requires altering the core Holochain Rust codebase.
@@ -1968,6 +1637,7 @@ Currently, Holochain's foundational routing and identity mechanics are hardcoded
   * **Agent IDs (Signatures):** Holochain uses **Ed25519** (Elliptic Curve) public keys to generate Agent IDs and sign the internal Action headers of the source chain. This curve is vulnerable to Shor's algorithm.
   * **DHT Addresses (Hashes):** Holochain uses **Blake2b-256** for content-addressable hashing. While hash functions are generally resistant to quantum attacks, Grover's algorithm effectively halves their security to 128 bits. The standard PQ recommendation is to double hash outputs to 512 bits, which the core protocol does not currently do.
 
+(the-cryptographic-bridging-strategy)=
 ### The Cryptographic Bridging Strategy
 
 If you are architecting a highly secure system, you can use decentralized identity protocols (like DID or KERI) to bridge this gap.
@@ -1976,24 +1646,28 @@ Treat the Holochain Ed25519 Agent ID strictly as an ephemeral, network-level tra
 
 Would you like to draft the Leptos frontend code necessary to sign the Yjs update with an ML-DSA private key before gossiping it to the Holochain network?
 
----
+<hr />
+
+(chat-prompt-13)=
 
 +++ {"chat_input": true}
-# Prompt: 13
+## Prompt: 13
 
 +++ {"chat_input": true}
-message time: 2026-02-22 17:41:10
-
-> Would you like to draft the Leptos frontend code necessary to sign the Yjs update with an ML-DSA private key before gossiping it to the Holochain network?
-
-Yes
-
-And and a plan to upgrade either or both Holochain or Iroh to PQ
-
----
+> message time: 2026-02-22 17:41:10
+>
+> > Would you like to draft the Leptos frontend code necessary to sign the Yjs update with an ML-DSA private key before gossiping it to the Holochain network?
+>
+> Yes
+>
+> And and a plan to upgrade either or both Holochain or Iroh to PQ
+>
+> \-\-\-
+>
+> (chat-response-13)=
 
 +++
-# Response: 13
+## Response: 13
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -2017,6 +1691,7 @@ For the Leptos frontend, we can utilize the pure-Rust `ml-dsa` crate (maintained
 
 Here is how to architect the Leptos component that intercepts the Yjs update, signs it with an ML-DSA-65 private key, and structures it for the Holochain network.
 
+(chat-heading-79)=
 ### 1\. The Leptos ML-DSA Signing Component
 
 In this implementation, the user's ML-DSA private key would ideally be derived from a secure local enclave, a wallet browser extension, or injected securely during the session. For demonstration, we assume the `SigningKey` is available in the Leptos application state.
@@ -2086,12 +1761,14 @@ pub fn NotebookEditor(
 }
 ```
 
------
+<hr />
 
+(chat-heading-80)=
 ### 2\. The Post-Quantum Upgrade Plan for the Networks
 
 Migrating decentralized networks to quantum-resistant cryptography is a massive architectural undertaking because identity and routing are mathematically bound to the keys. Here is the candid reality and the exact upgrade paths for both Holochain and Iroh.
 
+(iroh-the-pragmatic-upgrade-path)=
 #### Iroh: The Pragmatic Upgrade Path
 
 Iroh (by number0) currently hardcodes `Ed25519` for `NodeId`s and uses `BLAKE3` for hashing blobs. This was a deliberate design choice to avoid the over-engineering of "multiformats" (like IPFS uses) and keep the protocol lean.
@@ -2101,6 +1778,7 @@ However, their architecture is well-positioned for a PQ upgrade:
   * **Transport Layer:** Iroh uses TLS with the "Raw Public Keys" extension for direct connections. Because the TLS handshake explicitly signals the key type, they do not need to overhaul the transport layer.
   * **The Upgrade Plan:** To move to ML-DSA, the Iroh core team would introduce a version bump in their relay and discovery (Pkarr) protocols. They would add a new key variant (e.g., `NodeId::MlDsa65`) and increment the protocol version. Nodes running the new version would broadcast their support for the PQ key type, allowing a relatively smooth, hybrid transition period where both Ed25519 and ML-DSA nodes coexist on the same mesh.
 
+(holochain-the-structural-fork)=
 #### Holochain: The Structural Fork
 
 Holochain faces a steeper climb. Its core security model is deeply coupled to classical cryptography at the foundational level.
@@ -2109,24 +1787,28 @@ Holochain faces a steeper climb. Its core security model is deeply coupled to cl
   * **The Upgrade Plan:** Upgrading Holochain requires a core protocol fork. The framework must be updated to abstract the `AgentPubKey` type to accept larger ML-DSA keys (jumping from 32 bytes to \~1,952 bytes) and expand the DHT address space.
   * **The KERI Bridging Strategy:** Until that core fork happens, the most resilient strategy is to treat Holochain's Ed25519 `AgentPubKey` purely as an ephemeral transport ID. Inside your Rust Zomes, you enforce the actual execution provenance using an external Key Event Receipt Infrastructure (KERI) identifier. You validate the ML-DSA signatures embedded *within* the entry payloads (as shown in the Leptos code above), entirely bypassing Holochain's classical limitations for your application's data integrity.
 
------
+<hr />
 
 Would you like to explore how to implement the Web Crypto API or a Web Worker in Leptos to offload the ML-DSA signature generation, ensuring the 3.3KB signature math doesn't block the browser's main UI thread during rapid Jupyter keystrokes?
 
----
+<hr />
+
+(chat-prompt-14)=
 
 +++ {"chat_input": true}
-# Prompt: 14
+## Prompt: 14
 
 +++ {"chat_input": true}
-message time: 2026-02-22 17:44:53
-
-Yes
-
----
+> message time: 2026-02-22 17:44:53
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-14)=
 
 +++
-# Response: 14
+## Response: 14
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -2152,6 +1834,7 @@ To achieve a seamless user experience, you must offload this entirely to a Web W
 
 Here is the architectural plan and implementation using Leptos, `web-sys`, and `wasm-bindgen` to achieve an asynchronous, non-blocking signature pipeline.
 
+(chat-heading-85)=
 ### 1\. The Web Worker Architecture
 
 Instead of using a high-level abstraction crate that might serialize and copy the private key unnecessarily, we will create a dedicated WASM entry point for the worker.
@@ -2160,6 +1843,7 @@ Instead of using a high-level abstraction crate that might serialize and copy th
   * **Worker Thread (WASM):** Holds the `ml_dsa::SigningKey` in static memory. It listens for incoming `message` events, computes the 3.3KB signature, and posts the result back to the main thread.
   * **Zero-Copy Transfer:** By using the Transferable Objects API, we can pass ownership of the ArrayBuffer directly between threads, preventing memory bloat.
 
+(chat-heading-86)=
 ### 2\. The Rust Web Worker Implementation
 
 First, define the code that will be compiled to WASM and executed exclusively inside the Web Worker `worker.js`. We use `wasm_bindgen` to expose an initialization function and a message handler.
@@ -2212,6 +1896,7 @@ pub fn init_crypto_worker(seed_bytes: &[u8]) {
 }
 ```
 
+(chat-heading-87)=
 ### 3\. The Leptos Frontend Integration
 
 Now, we build the Leptos component that manages the UI. It spawns the Web Worker, initializes it, and uses a reactive channel to handle the asynchronous signature responses.
@@ -2280,30 +1965,35 @@ pub fn AsyncNotebookEditor(cx: Scope, doc_genesis: String) -> impl IntoView {
 }
 ```
 
+(the-cicd-implication)=
 ### The CI/CD Implication
 
 Because this splits the codebase into a main UI bundle and a background crypto worker bundle, your build pipeline will need to compile the Rust project twice—once for the Leptos frontend, and once to output the isolated `crypto_worker.wasm` binary that the browser fetches at runtime.
 
------
+<hr />
 
 Would you like me to map out the specific `cargo` and `wasm-pack` build scripts required to compile this split-architecture into a single deployment artifact that Trunk can serve?
 
----
+<hr />
+
+(chat-prompt-15)=
 
 +++ {"chat_input": true}
-# Prompt: 15
+## Prompt: 15
 
 +++ {"chat_input": true}
-message time: 2026-02-22 17:47:57
-
-> Would you like me to map out the specific cargo and wasm-pack build scripts required to compile this split-architecture into a single deployment artifact that Trunk can serve?
-
-Yes
-
----
+> message time: 2026-02-22 17:47:57
+>
+> > Would you like me to map out the specific cargo and wasm-pack build scripts required to compile this split-architecture into a single deployment artifact that Trunk can serve?
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-15)=
 
 +++
-# Response: 15
+## Response: 15
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -2341,6 +2031,7 @@ To solve this, we will use a Cargo workspace and leverage **Trunk Hooks**. This 
 
 Here is the complete configuration to achieve a single, deterministic deployment artifact.
 
+(chat-heading-91)=
 ### 1\. The Workspace Directory Structure
 
 We will split the application into two distinct crates within a single Cargo workspace. This prevents the heavy ML-DSA cryptographic dependencies from bloating the main UI binary.
@@ -2361,6 +2052,7 @@ We will split the application into two distinct crates within a single Cargo wor
     └── src/main.rs
 ```
 
+(chat-heading-92)=
 ### 2\. The Cargo Manifests
 
 Define the workspace at the root.
@@ -2397,6 +2089,7 @@ ml-dsa = "0.1" # The post-quantum cryptography crate
 signature = "2.2"
 ```
 
+(chat-heading-93)=
 ### 3\. The `wasm-pack` Build Script
 
 This shell script compiles the cryptographic worker. We target the `web` environment, which instructs `wasm-pack` to output standard ECMAScript modules (ESM). This is crucial for modern Web Workers.
@@ -2426,6 +2119,7 @@ rm -f ./public/worker/.gitignore
 echo "✅ Web Worker built successfully."
 ```
 
+(chat-heading-94)=
 ### 4\. The Trunk Configuration
 
 We configure Trunk to run the bash script immediately *before* it starts building the Leptos frontend. We then instruct Trunk to copy the resulting `/public/worker` directory directly into the final `dist/` deployment folder.
@@ -2461,6 +2155,7 @@ command_arguments = ["build_worker.sh"]
 </html>
 ```
 
+(chat-heading-95)=
 ### 5\. Invoking the Worker in Leptos
 
 Because we built the worker using `wasm-pack --target web`, it is an ES module. You must explicitly instantiate it as a `Module` worker in your Leptos frontend for the browser to parse it correctly.
@@ -2478,6 +2173,7 @@ pub fn spawn_crypto_worker() -> Worker {
 }
 ```
 
+(chat-heading-96)=
 ### 6\. The CI/CD Pipeline (GitHub Actions)
 
 This setup makes your CI pipeline incredibly clean. Because the worker compilation is embedded as a pre-build hook, the entire split-architecture application is built with a single command.
@@ -2515,20 +2211,24 @@ When you run `trunk serve` locally, you will see it seamlessly build the worker,
 
 Would you like to look at how to implement the memory-sharing architecture so the Leptos thread and the Crypto worker can pass the 3.3KB ML-DSA signatures back and forth without copying the data buffers via `postMessage`?
 
----
+<hr />
+
+(chat-prompt-16)=
 
 +++ {"chat_input": true}
-# Prompt: 16
+## Prompt: 16
 
 +++ {"chat_input": true}
-message time: 2026-02-22 17:53:25
-
-Yes. Can the worker sign something or is it necessary for the full signatures to be copied?
-
----
+> message time: 2026-02-22 17:53:25
+>
+> Yes. Can the worker sign something or is it necessary for the full signatures to be copied?
+>
+> \-\-\-
+>
+> (chat-response-16)=
 
 +++
-# Response: 16
+## Response: 16
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -2556,6 +2256,7 @@ By default, when you use standard `postMessage` in JavaScript or WebAssembly, th
 
 To solve this, you use **Transferable Objects**.
 
+(the-transferable-object-architecture)=
 ### The Transferable Object Architecture
 
 An `ArrayBuffer` in JavaScript (and by extension, the memory chunks backing your Rust WASM arrays) is a transferable object. When you transfer a buffer, the underlying memory block is physically moved from one context to another.
@@ -2564,6 +2265,7 @@ The worker thread instantly loses ownership of the memory, and the main thread g
 
 Here is how you implement this using the `web-sys` and `js-sys` crates to bounce the Yjs payload and the ML-DSA signature back and forth without copying.
 
+(chat-heading-100)=
 #### 1\. The Worker Thread (Signing and Transferring)
 
 Inside your Crypto Worker, after you generate the signature, you extract the underlying `ArrayBuffer` and pass it to a specific `web-sys` method designed for zero-copy transfers.
@@ -2597,6 +2299,7 @@ worker_scope.post_message_with_transfer(&buffer, &transfer_list)
 // because the memory has been detached from this thread.
 ```
 
+(chat-heading-101)=
 #### 2\. The Main Thread (Sending and Receiving)
 
 The Leptos UI thread performs the exact same operation in reverse. When the user types a character, it transfers the raw Yjs update buffer *to* the worker. It then listens for the transferred signature buffer to come back.
@@ -2636,6 +2339,7 @@ let on_message = Closure::wrap(Box::new(move |e: MessageEvent| {
 }) as Box<dyn FnMut(MessageEvent)>);
 ```
 
+(the-alternative-sharedarraybuffer)=
 ### The Alternative: `SharedArrayBuffer`
 
 There is a second mechanism called `SharedArrayBuffer` (SAB). Instead of transferring ownership back and forth, both the main thread and the worker hold a pointer to the exact same block of memory simultaneously. You use Rust's native Atomics (`std::sync::atomic`) to manage access.
@@ -2651,20 +2355,24 @@ For a cryptography pipeline bouncing 3.3KB payloads, **Transferable Objects** ar
 
 Would you like to look at how to hook this zero-copy pipeline directly into JupyterLite's internal kernel messaging events?
 
----
+<hr />
+
+(chat-prompt-17)=
 
 +++ {"chat_input": true}
-# Prompt: 17
+## Prompt: 17
 
 +++ {"chat_input": true}
-message time: 2026-02-22 18:01:21
-
-Yes
-
----
+> message time: 2026-02-22 18:01:21
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-17)=
 
 +++
-# Response: 17
+## Response: 17
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -2694,6 +2402,7 @@ The cleanest architectural hook is to override the `WebSocket` class inside Jupy
 
 Here is the implementation plan to achieve a pure zero-copy pipeline from Jupyter's TypeScript interface, through your Leptos main thread, into the ML-DSA Crypto Worker, and out to the network.
 
+(chat-heading-105)=
 ### 1\. The TypeScript Interceptor (The Mock WebSocket)
 
 When initializing JupyterLite on top of your Leptos application, you configure the `ServerConnection.ISettings` to use a custom WebSocket implementation.
@@ -2736,6 +2445,7 @@ const settings = ServerConnection.makeSettings({
 });
 ```
 
+(chat-heading-106)=
 ### 2\. The Leptos Main Thread (The WASM Boundary)
 
 In your Leptos `frontend` crate, expose the `intercept_jupyter_message` function.
@@ -2770,6 +2480,7 @@ pub fn intercept_jupyter_message(buffer: ArrayBuffer) {
 }
 ```
 
+(chat-heading-107)=
 ### 3\. The Crypto Worker (Injecting the ML-DSA Signature)
 
 The Jupyter WebSocket protocol has two formats: standard JSON text, and a custom v1 binary format used when sending buffers (like image outputs or CRDT binary blobs).
@@ -2824,6 +2535,7 @@ pub fn init_crypto_worker() {
 }
 ```
 
+(chat-heading-108)=
 ### 4\. Final Dispatch to the Mesh Network
 
 Back in the Leptos main thread, the worker's response listener catches the `MessageEvent` containing the final, Post-Quantum signed `ArrayBuffer`.
@@ -2834,20 +2546,24 @@ When the remote peer (or the native Rust container backend) receives it, it extr
 
 This architecture guarantees that even during rapid keystrokes or massive dataframe execution requests, the 3.3KB cryptographic overhead is computed seamlessly in the background, never stuttering the JupyterLite UI.
 
----
+<hr />
+
+(chat-prompt-18)=
 
 +++ {"chat_input": true}
-# Prompt: 18
+## Prompt: 18
 
 +++ {"chat_input": true}
-message time: 2026-02-22 18:05:38
-
-Isn't there less cryptographic overhead with Merkle Certificates as proposed?
-
----
+> message time: 2026-02-22 18:05:38
+>
+> Isn't there less cryptographic overhead with Merkle Certificates as proposed?
+>
+> \-\-\-
+>
+> (chat-response-18)=
 
 +++
-# Response: 18
+## Response: 18
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -2873,6 +2589,7 @@ While ML-DSA is computationally fast enough for a Web Worker, its size is brutal
 
 Here is how Merkle Certificates solve this and how we can adapt our Rust WASM architecture to use them.
 
+(how-merkle-batching-kills-the-overhead)=
 ### How Merkle Batching Kills the Overhead
 
 Instead of signing every single message, MTC and MTL modes amortize a single post-quantum signature across hundreds or thousands of events.
@@ -2881,19 +2598,24 @@ Instead of signing every single message, MTC and MTL modes amortize a single pos
 2. **The Inclusion Proof:** When the worker gossips a specific cell execution to the Holochain/Iroh network, it does not send the 3.3KB signature. Instead, it sends the raw Yjs data plus a **Merkle Inclusion Proof**—a small array of sibling hashes leading up to the root.
 3. **The "Signatureless" Optimization:** If the receiving peer already saw and verified the signed Tree Head a few seconds ago, validating the new update requires **zero asymmetric math** and **zero signature transmission**. They just do a few fast SHA-256 hashes (which takes microseconds and adds roughly ~300 bytes of overhead instead of 3,300).
 
+(adapting-our-zero-trust-architecture)=
 ### Adapting Our Zero-Trust Architecture
 
 To implement this, we shift the Web Worker from a "sign-everything" model to a "stateful-batching" model.
 
+(chat-heading-113)=
 #### 1. The Stateful Web Worker
 Instead of blindly hashing and signing whatever `ArrayBuffer` the main thread throws at it, the Web Worker maintains a dynamic Merkle Tree Ladder (MTL) in memory. As the user types in the Jupyter bash terminal or edits a Python cell, the Leptos thread streams the updates to the worker. The worker appends them to the tree as leaves.
 
+(chat-heading-114)=
 #### 2. The Epoch Sync
 Every few seconds (or immediately, if the user hits "Run Cell"), the worker finalizes the current tree, signs the root with ML-DSA-65, and broadcasts this "Epoch Checkpoint" to the WebRTC mesh. 
 
+(chat-heading-115)=
 #### 3. Lightweight Provenance Logs
 When compiling the W3C PROV logs and RDF 1.2 graphs we discussed earlier, you no longer need to embed a 3.3KB signature next to every single line of code. You embed the single ML-DSA signature at the top of the notebook metadata, and each cell simply contains a lightweight JSON array of its Merkle inclusion proof.
 
+(the-trade-off-state-management)=
 ### The Trade-off: State Management
 
 There is a reason we don't use this for everything: **it forces your cryptographic layer to become stateful.** With standard ML-DSA, the signature is stateless. If a message drops over the network, it doesn't matter; the next message contains its own full signature. With Merkle mode, if the remote peer misses the ML-DSA-signed Tree Head, all subsequent inclusion proofs are useless until they request the missing root signature. 
@@ -2902,20 +2624,24 @@ However, because we are using Yjs and Holochain/Iroh—which natively guarantee 
 
 Would you like to draft the Rust logic for the Web Worker to construct this Merkle Tree from the incoming Jupyter `ArrayBuffer` stream and generate the inclusion proofs?
 
----
+<hr />
+
+(chat-prompt-19)=
 
 +++ {"chat_input": true}
-# Prompt: 19
+## Prompt: 19
 
 +++ {"chat_input": true}
-message time: 2026-02-22 18:16:21
-
-Yes
-
----
+> message time: 2026-02-22 18:16:21
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-19)=
 
 +++
-# Response: 19
+## Response: 19
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -2935,7 +2661,7 @@ I've outlined the core Rust logic, focusing on state management and key function
 
 I have begun building the core worker state structure, including dependencies and `Vec<[u8; 32]>` for hashed Yjs updates and also `rs_merkle`.
 
-***
+<hr />
 
 [Signatures and Merkle Trees](https://www.youtube.com/watch?v=jGC3pGCfYQE)
 
@@ -2961,6 +2687,7 @@ Using the `rs_merkle` crate (the standard for advanced hash trees in Rust), we c
 
 Here is the Rust implementation for the stateful Merkle Web Worker.
 
+(chat-heading-119)=
 ### 1\. The Stateful Web Worker Implementation
 
 This code exposes three core functions to the Leptos main thread: one to append incoming JMP/Yjs updates to the tree, one to commit the epoch (sign the root), and one to extract the lightweight inclusion proof.
@@ -3053,6 +2780,7 @@ pub fn get_inclusion_proof(index: usize) -> Result<ArrayBuffer, JsValue> {
 }
 ```
 
+(chat-heading-120)=
 ### 2\. The Leptos Event Loop (Batching & Gossiping)
 
 In the main Leptos thread, you now have a highly efficient, two-tiered synchronization loop.
@@ -3061,6 +2789,7 @@ In the main Leptos thread, you now have a highly efficient, two-tiered synchroni
 2.  **The Epoch Loop (Intervals):** Every 5 seconds (or whenever a notebook cell finishes executing), Leptos calls `commit_epoch()`. It receives the 3.3KB signature and broadcasts this "Signed Tree Head" to all peers on the WebRTC mesh.
 3.  **The Gossip:** Leptos then calls `get_inclusion_proof(leaf_index)`. It sends the raw Yjs data over the mesh attached *only* to this tiny proof array.
 
+(the-bandwidth-math)=
 ### The Bandwidth Math
 
 By implementing this Merkle batching, you achieve massive data savings while maintaining strict Post-Quantum security.
@@ -3074,26 +2803,30 @@ This translates to a \>90% reduction in network bandwidth, ensuring the decentra
 
 Would you like to draft the corresponding Rust validation logic for the receiving peers on the WebRTC network to seamlessly verify these Merkle inclusion proofs against the signed tree head?
 
----
+<hr />
+
+(chat-prompt-20)=
 
 +++ {"chat_input": true}
-# Prompt: 20
+## Prompt: 20
 
 +++ {"chat_input": true}
-message time: 2026-02-22 18:20:08
-
-> Would you like to draft the corresponding Rust validation logic for the receiving peers on the WebRTC network to seamlessly verify these Merkle inclusion proofs against the signed tree head?
-
-yes
-
-> the rs_merkle crate
-
-yes
-
----
+> message time: 2026-02-22 18:20:08
+>
+> > Would you like to draft the corresponding Rust validation logic for the receiving peers on the WebRTC network to seamlessly verify these Merkle inclusion proofs against the signed tree head?
+>
+> yes
+>
+> > the rs_merkle crate
+>
+> yes
+>
+> \-\-\-
+>
+> (chat-response-20)=
 
 +++
-# Response: 20
+## Response: 20
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -3124,6 +2857,7 @@ Because `rs_merkle` requires knowing the *total number of leaves* in the tree to
 
 Here is the Rust validation logic for the WebRTC/Holochain receiving peer.
 
+(chat-heading-124)=
 ### 1\. The Network Message Structure
 
 First, define the structure of the message arriving over the WebRTC data channel or Holochain DHT gossip.
@@ -3143,6 +2877,7 @@ pub struct GossipMessage {
 }
 ```
 
+(chat-heading-125)=
 ### 2\. The Peer State Enclave
 
 To achieve the massive performance gains of Merkle batching, the receiving peer must cache roots it has already cryptographically verified. If it sees a root it recognizes, it skips the expensive ML-DSA math completely.
@@ -3170,6 +2905,7 @@ impl PeerState {
 }
 ```
 
+(chat-heading-126)=
 ### 3\. The Zero-Trust Validation Logic
 
 When a `GossipMessage` arrives, it is passed through this validation pipeline before the Yjs bytes are ever allowed to touch the local CRDT document or the Jupyter kernel.
@@ -3234,6 +2970,7 @@ pub fn verify_incoming_update(
 }
 ```
 
+(the-end-to-end-result)=
 ### The End-to-End Result
 
 If this function returns `Ok(true)`, you apply `msg.yjs_payload` directly to your local `yrs::Doc`.
@@ -3242,20 +2979,24 @@ Because you are decoupling the identity layer from the transport layer, your Jup
 
 Would you like to explore how to serialize these verified `GossipMessage` structs directly into the `.ipynb` metadata as W3C PROV RDF 1.2 graphs, cementing the software supply chain attestation into the file itself?
 
----
+<hr />
+
+(chat-prompt-21)=
 
 +++ {"chat_input": true}
-# Prompt: 21
+## Prompt: 21
 
 +++ {"chat_input": true}
-message time: 2026-02-22 18:25:42
-
-yes
-
----
+> message time: 2026-02-22 18:25:42
+>
+> yes
+>
+> \-\-\-
+>
+> (chat-response-21)=
 
 +++
-# Response: 21
+## Response: 21
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -3287,6 +3028,7 @@ Because standard Jupyter notebooks are just JSON documents, we can natively embe
 
 Here is how to architect the serialization of your stateful Merkle Tree and ML-DSA signatures into the notebook metadata.
 
+(chat-heading-130)=
 ### 1\. The Architectural Strategy: Top-Level vs. Cell-Level
 
 To prevent bloating the notebook and to perfectly map the Merkle Tree Ladder (MTL) mode we designed earlier, the provenance data must be split:
@@ -3294,6 +3036,7 @@ To prevent bloating the notebook and to perfectly map the Merkle Tree Ladder (MT
 1.  **Top-Level Notebook Metadata:** Stores the JSON-LD `@context`, the Epoch definitions, the 32-byte Merkle Roots, and the 3.3KB ML-DSA signatures.
 2.  **Cell-Level Metadata:** Stores the W3C PROV `Activity` definitions and the lightweight Merkle inclusion proofs linking the specific cell's execution to the top-level Epoch.
 
+(chat-heading-131)=
 ### 2\. The Top-Level JSON-LD Context and Graph
 
 When the Rust server (or the WASM frontend) saves the `.ipynb` file to the virtual filesystem, it injects a `provenance` block into the notebook's global `metadata` dictionary.
@@ -3338,6 +3081,7 @@ This establishes the vocabulary and defines the verified actor (`did:key`) who s
 }
 ```
 
+(chat-heading-132)=
 ### 3\. The Cell-Level RDF 1.2 Triple Terms
 
 Inside the `cells` array, each individual code block contains its own `metadata` dictionary. Here, we inject the specific W3C PROV statements.
@@ -3385,6 +3129,7 @@ Using the RDF 1.2 Reification syntax directly in JSON-LD, we create a Triple Ter
 }
 ```
 
+(chat-heading-133)=
 ### 4\. Cementing the Software Supply Chain
 
 By architecting the `.ipynb` metadata this way, you fundamentally upgrade a Jupyter notebook from a simple script into an auditable cryptographic ledger.
@@ -3393,22 +3138,26 @@ When a developer finishes their work and pushes this notebook to a Forgejo serve
 
 Would you like to explore the CI/CD pipeline architecture, specifically how a server-side git hook could extract this JSON-LD graph, verify the ML-DSA signature, and automatically generate an SLSA Level 3 provenance attestation before accepting the commit?
 
----
+<hr />
+
+(chat-prompt-22)=
 
 +++ {"chat_input": true}
-# Prompt: 22
+## Prompt: 22
 
 +++ {"chat_input": true}
-message time: 2026-02-22 18:26:55
-
-> Would you like to explore the CI/CD pipeline architecture, specifically how a server-side git hook could extract this JSON-LD graph, verify the ML-DSA signature, and automatically generate an SLSA Level 3 provenance attestation before accepting the commit?
-
-Yes
-
----
+> message time: 2026-02-22 18:26:55
+>
+> > Would you like to explore the CI/CD pipeline architecture, specifically how a server-side git hook could extract this JSON-LD graph, verify the ML-DSA signature, and automatically generate an SLSA Level 3 provenance attestation before accepting the commit?
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-22)=
 
 +++
-# Response: 22
+## Response: 22
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -3432,6 +3181,7 @@ When a developer runs `git push` to your Forgejo instance, the server intercepts
 
 Here is the architecture for building this CI/CD provenance pipeline using a Rust-based git hook.
 
+(chat-heading-136)=
 ### 1\. The `pre-receive` Hook Architecture
 
 A `pre-receive` hook is an executable script that runs on the git server. It receives three arguments on standard input: `<old-value> <new-value> <ref-name>`.
@@ -3474,6 +3224,7 @@ fn main() {
 }
 ```
 
+(chat-heading-137)=
 ### 2\. The Cryptographic Validation Engine
 
 Inside the `validate_provenance_graph` function, the hook executes the exact same validation logic we designed for the WebRTC peers, but applied statically to the JSON-LD structure:
@@ -3485,6 +3236,7 @@ Inside the `validate_provenance_graph` function, the hook executes the exact sam
 
 If a developer manually edited the output of a cell in a text editor to fake a successful test run, the `Sha256` hash of that cell will change, the Merkle inclusion proof will fail, and the git server will reject the commit.
 
+(chat-heading-138)=
 ### 3\. Generating the SLSA Level 3 Attestation
 
 SLSA (Supply Chain Levels for Software Artifacts) uses the `in-toto` specification to define provenance. Because you have already done the hard work of capturing the execution history in W3C PROV, mapping this to an `in-toto` predicate is a straightforward translation.
@@ -3525,6 +3277,7 @@ If the validation passes, the hook constructs the SLSA provenance JSON:
 }
 ```
 
+(chat-heading-139)=
 ### 4\. Attestation Signing and Storage (Sigstore)
 
 The final step inside the hook is to sign this SLSA statement so that downstream consumers (like deployment servers) can trust it.
@@ -3541,22 +3294,26 @@ By the time the `git push` command finishes executing in the developer's termina
 
 Would you like to draft the exact Rust logic for the `git notes` integration so the git server can automatically attach these Sigstore attestations to the commit without polluting the main repository tree?
 
----
+<hr />
+
+(chat-prompt-23)=
 
 +++ {"chat_input": true}
-# Prompt: 23
+## Prompt: 23
 
 +++ {"chat_input": true}
-message time: 2026-02-22 18:30:23
-
-yes. And outline the identity, auth, and authz controls for this application
-
-also find or write an OpenAPI spec for jupyter_server
-
----
+> message time: 2026-02-22 18:30:23
+>
+> yes. And outline the identity, auth, and authz controls for this application
+>
+> also find or write an OpenAPI spec for jupyter_server
+>
+> \-\-\-
+>
+> (chat-response-23)=
 
 +++
-# Response: 23
+## Response: 23
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -3574,6 +3331,7 @@ Attaching Sigstore attestations via `git notes` is an elegant solution for softw
 
 Here is the implementation for the `pre-receive` hook, the comprehensive zero-trust security outline, and the OpenAPI specification for the Rust-based server.
 
+(chat-heading-142)=
 ### 1\. The Rust `git notes` Integration
 
 Inside your Forgejo server's `pre-receive` hook, after the notebook's W3C PROV graph and ML-DSA signatures have been validated and the SLSA JSON is generated, you invoke the git CLI to append the attestation.
@@ -3630,8 +3388,9 @@ fn append_slsa_git_note(commit_hash: &str, slsa_json: &str, notes_ref: &str) -> 
 
 Once pushed, developers and auditors can fetch these attestations using `git fetch origin refs/notes/slsa-attestations:refs/notes/slsa-attestations` and view them with `git log --notes=slsa-attestations`.
 
------
+<hr />
 
+(chat-heading-143)=
 ### 2\. Identity, Auth, and Authz Controls
 
 This architecture explicitly rejects centralized session cookies and symmetric tokens, opting instead for a mathematically verifiable, zero-trust framework designed for high-security environments like Lignolux.
@@ -3645,8 +3404,9 @@ This architecture explicitly rejects centralized session cookies and symmetric t
 | **Execution Authorization** | Zero-Trust Jupyter Message Protocol (JMP) | The traditional symmetric HMAC in JMP is replaced. Every `execute_request` sent over WebRTC/WebSocket is asymmetrically signed (or Merkle-batched) using the user's private key. The kernel broker drops unsigned messages natively. |
 | **Audit & Provenance** | W3C PROV, RDF 1.2, & Sigstore | Every execution is logged as an RDF 1.2 Triple Term embedded in the `.ipynb` JSON-LD metadata. A Forgejo `pre-receive` hook validates the ML-DSA signatures and generates an immutable SLSA Level 3 attestation. |
 
------
+<hr />
 
+(chat-heading-144)=
 ### 3\. OpenAPI 3.0 Specification for the Rust Jupyter Server
 
 While the official Jupyter server uses Tornado routing, rebuilding it in Rust (Axum) requires a strict API contract. Below is a foundational OpenAPI 3.0 spec defining the core REST endpoints needed to support JupyterLite, the Contents API, and the WebRTC/Yjs collaboration signaling.
@@ -3805,20 +3565,24 @@ components:
 
 Would you like me to draft the Axum endpoint handlers corresponding to this OpenAPI spec, specifically showing how to upgrade the `/api/kernels/{kernel_id}/channels` route into a WebSocket stream that parses the incoming JMP payloads?
 
----
+<hr />
+
+(chat-prompt-24)=
 
 +++ {"chat_input": true}
-# Prompt: 24
+## Prompt: 24
 
 +++ {"chat_input": true}
-message time: 2026-02-22 18:34:32
-
-Yes
-
----
+> message time: 2026-02-22 18:34:32
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-24)=
 
 +++
-# Response: 24
+## Response: 24
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -3838,6 +3602,7 @@ In the Jupyter protocol, this single WebSocket multiplexes five distinct ZeroMQ 
 
 Here is the complete Rust implementation for the Axum router and the WebSocket handler that enforces our zero-trust Merkle/ML-DSA cryptographic perimeter before passing any message to the underlying Xeus kernel.
 
+(chat-heading-147)=
 ### 1\. Defining the App State and Router
 
 First, we define the shared application state. This holds the cryptographic validation enclave (`PeerState`) and a mapping of active kernels to their internal communication channels.
@@ -3872,6 +3637,7 @@ pub fn app(shared_state: Arc<AppState>) -> Router {
 }
 ```
 
+(chat-heading-148)=
 ### 2\. The WebSocket Upgrade Handler
 
 When JupyterLite attempts to connect to the kernel, it hits this endpoint. We extract the `kernel_id` and the `WebSocketUpgrade` primitive.
@@ -3899,6 +3665,7 @@ async fn kernel_channels_handler(
 }
 ```
 
+(chat-heading-149)=
 ### 3\. The Zero-Trust Stream Processor
 
 This is the core execution loop. It listens for incoming binary buffers from the Leptos frontend.
@@ -3971,30 +3738,35 @@ async fn handle_kernel_socket(
 }
 ```
 
+(the-multiplexing-return-path)=
 ### The Multiplexing Return Path
 
 The code above handles the **inbound** channel (from the browser to the kernel). For a complete Jupyter server, you also need to handle the **outbound** channel (from the kernel back to the browser).
 
 Jupyter kernels execute code asynchronously. When `stdout` is generated or an execution finishes, the Xeus kernel pushes a message back through a Tokio `mpsc::Receiver`. You would spawn a secondary asynchronous task running concurrently with `ws_receiver.next()` that listens to this receiver, serializes the kernel's response, and pushes it back down the `ws_sender` to the Leptos frontend.
 
------
+<hr />
 
 Would you like to map out the `tokio::select!` block required to concurrently handle both the inbound WebSocket stream and the outbound kernel responses without blocking the async executor?
 
----
+<hr />
+
+(chat-prompt-25)=
 
 +++ {"chat_input": true}
-# Prompt: 25
+## Prompt: 25
 
 +++ {"chat_input": true}
-message time: 2026-02-22 18:38:13
-
-Yes
-
----
+> message time: 2026-02-22 18:38:13
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-25)=
 
 +++
-# Response: 25
+## Response: 25
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -4014,6 +3786,7 @@ If the browser sends a keystroke, the WebSocket receiver branch fires. If the ke
 
 Here is how to integrate `tokio::select!` into our zero-trust WebSocket handler.
 
+(the-bidirectional-multiplexer)=
 ### The Bidirectional Multiplexer
 
 We need to update the function signature to accept both the `Sender` (to push verified messages *to* the kernel) and the `Receiver` (to pull execution results *from* the kernel).
@@ -4122,30 +3895,35 @@ pub async fn handle_kernel_socket(
 }
 ```
 
+(why-this-architecture-scales)=
 ### Why this Architecture Scales
 
 1.  **No Deadlocks:** Because `tokio::select!` polls all branches simultaneously, a long-running computation in the kernel won't block the server from receiving and buffering new keystrokes from the browser.
 2.  **Graceful Teardown:** If the Leptos frontend crashes or the user closes the tab, `ws_receiver.next()` returns `None`, breaking the loop. The `kernel_tx` channel is dropped, which cascades cleanly to your kernel manager.
 3.  **Strict Framing:** By enforcing `Message::Binary`, you prevent protocol confusion attacks that try to inject raw JSON strings into the secure buffer pipeline.
 
------
+<hr />
 
 Would you like me to map out how to construct the Kernel Manager that actually spawns the Xeus WASM/native child process and binds its standard I/O directly to these `mpsc` Tokio channels?
 
----
+<hr />
+
+(chat-prompt-26)=
 
 +++ {"chat_input": true}
-# Prompt: 26
+## Prompt: 26
 
 +++ {"chat_input": true}
-message time: 2026-02-22 18:42:17
-
-Yes. And a rust ipykernel
-
----
+> message time: 2026-02-22 18:42:17
+>
+> Yes. And a rust ipykernel
+>
+> \-\-\-
+>
+> (chat-response-26)=
 
 +++
-# Response: 26
+## Response: 26
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -4169,6 +3947,7 @@ By utilizing standard Inter-Process Communication (IPC) over `stdio`, we can sea
 
 Here is the implementation for both the Kernel Manager and the Rust-native kernel.
 
+(chat-heading-157)=
 ### 1\. The Zero-Trust Kernel Manager
 
 In standard Jupyter, the Kernel Manager writes a `connection_file.json` containing five randomized ports and spawns the kernel. The kernel then binds those ZeroMQ sockets.
@@ -4231,10 +4010,12 @@ pub async fn spawn_and_bind_kernel(
 }
 ```
 
+(chat-heading-158)=
 ### 2\. The Rust "ipykernel" (Guest Execution)
 
 If you want to run Rust code interactively inside this architecture, you have two paths: using the community standard, or building a bespoke execution engine.
 
+(chat-heading-159)=
 #### Option A: The Industry Standard (`evcxr_jupyter`)
 
 The definitive Jupyter kernel for Rust is **EvCxR** (Evaluation Context for Rust).
@@ -4242,6 +4023,7 @@ The definitive Jupyter kernel for Rust is **EvCxR** (Evaluation Context for Rust
   * **How it works:** Rust is a compiled language, so it doesn't naturally behave like an interpreter. When you type `let x = 5;` into a Jupyter cell, EvCxR wraps your code in a hidden main function, compiles it into a dynamic library (`.so` or `.dll`) using `rustc` in the background, loads that library into memory via `libloading`, and executes it.
   * **The Problem:** `evcxr_jupyter` is hardcoded to use the legacy ZeroMQ architecture. To use it in your zero-trust WASM/Container mesh, you would have to fork the repository and replace its `zmq` crate implementation with the `stdio` loop defined above.
 
+(option-b-a-custom-zero-trust-rust-kernel)=
 #### Option B: A Custom Zero-Trust Rust Kernel
 
 Because you are designing specific material science pipelines, advanced custom hardware simulations, and SLSA-compliant CI/CD hooks, writing a bespoke kernel is often much cleaner than fighting legacy ZMQ implementations.
@@ -4293,6 +4075,7 @@ fn main() {
 }
 ```
 
+(the-webassembly-advantage)=
 ### The WebAssembly Advantage
 
 By abstracting the kernel communication strictly to `stdin` and `stdout` arrays, your architecture becomes universally deployable.
@@ -4301,22 +4084,26 @@ If this kernel is compiled to `wasm32-wasi`, the "Kernel Manager" isn't an Axum 
 
 Would you like to explore how to implement the WebAssembly System Interface (WASI) runtime within the Leptos frontend so it can natively execute these compiled kernels directly in the browser memory?
 
----
+<hr />
+
+(chat-prompt-27)=
 
 +++ {"chat_input": true}
-# Prompt: 27
+## Prompt: 27
 
 +++ {"chat_input": true}
-message time: 2026-02-22 18:46:52
-
-> Would you like to explore how to implement the WebAssembly System Interface (WASI) runtime within the Leptos frontend so it can natively execute these compiled kernels directly in the browser memory?
-
-Yes
-
----
+> message time: 2026-02-22 18:46:52
+>
+> > Would you like to explore how to implement the WebAssembly System Interface (WASI) runtime within the Leptos frontend so it can natively execute these compiled kernels directly in the browser memory?
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-27)=
 
 +++
-# Response: 27
+## Response: 27
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -4342,6 +4129,7 @@ Critically, a WASI kernel executes synchronously. If you run an infinite loop in
 
 Here is the architectural plan to embed a WASI runtime in your Leptos application, wire up the virtual filesystem (VFS), and pipe the cryptographic Jupyter Message Protocol (JMP) stream directly into the kernel's standard I/O.
 
+(chat-heading-164)=
 ### 1\. The Architecture: WASI Web Worker
 
 You will create a second Web Worker (distinct from the ML-DSA Crypto Worker) specifically for kernel execution.
@@ -4350,6 +4138,7 @@ You will create a second Web Worker (distinct from the ML-DSA Crypto Worker) spe
   * **The VFS:** The shim allows us to mount an in-memory filesystem or the browser's Origin Private File System (OPFS). This ensures the kernel has exactly the same filesystem state as the Leptos notebook editor.
   * **Standard I/O:** We override File Descriptor 0 (`stdin`), 1 (`stdout`), and 2 (`stderr`).
 
+(chat-heading-165)=
 ### 2\. The Rust WASI Worker Implementation
 
 First, we define the Rust code compiled to `wasm32-unknown-unknown` that lives inside the Kernel Web Worker. This code uses `js-sys` and `wasm-bindgen` to initialize the WASI environment and instantiate the compiled kernel module (e.g., `rust_ipykernel.wasm` or `bash.wasm`).
@@ -4440,6 +4229,7 @@ extern "C" {
 }
 ```
 
+(chat-heading-166)=
 ### 3\. The I/O JavaScript Glue
 
 Because handling low-level ArrayBuffer memory manipulations is verbose in Rust via `js-sys`, it is usually cleaner to define the `stdin` and `stdout` File Descriptor classes in a small Javascript snippet that gets bundled with your worker.
@@ -4501,6 +4291,7 @@ export function create_stdout_fd(cb) { return new StdoutFd(cb); }
 export function push_to_stdin_buffer(fd, data) { fd.push_data(data); }
 ```
 
+(chat-heading-167)=
 ### 4\. The Data Flow Summary
 
 By wiring this together, you have achieved a seamless, fully decentralized execution loop:
@@ -4514,20 +4305,24 @@ By wiring this together, you have achieved a seamless, fully decentralized execu
 
 Would you like to explore how to compile a `bash` shell to `wasm32-wasi` and bind this exact WASI architecture to Xterm.js in the Leptos frontend, giving the user a native, offline terminal directly within the browser?
 
----
+<hr />
+
+(chat-prompt-28)=
 
 +++ {"chat_input": true}
-# Prompt: 28
+## Prompt: 28
 
 +++ {"chat_input": true}
-message time: 2026-02-22 18:50:54
-
-Yes
-
----
+> message time: 2026-02-22 18:50:54
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-28)=
 
 +++
-# Response: 28
+## Response: 28
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -4563,6 +4358,7 @@ However, bringing `bash` into a WASM environment comes with a very specific stru
 
 Here is how to overcome that limitation, compile a functioning shell, and bind it to Xterm.js natively within your Leptos frontend.
 
+(chat-heading-170)=
 ### 1\. The Compilation Strategy: BusyBox over Bash
 
 Because standard `bash` relies heavily on forking new processes for every command (like `ls` or `cat`), it cannot run natively in a single WASI sandbox.
@@ -4574,6 +4370,7 @@ To solve this, you use **BusyBox**. BusyBox compiles the shell and all standard 
     `make CC="/opt/wasi-sdk/bin/clang" LDFLAGS="--sysroot=/opt/wasi-sdk/share/wasi-sysroot"`
   * Alternatively, the WebAssembly community has already done the heavy lifting here. You can pull a pre-compiled `busybox.wasm` or `jsh.wasm` directly from projects like Wasmer or WebVM, saving you from fighting C-compiler linker errors.
 
+(chat-heading-171)=
 ### 2\. Rust Bindings for Xterm.js
 
 To render the terminal in Leptos, you need to import the Xterm.js JavaScript library. Rather than relying on a heavy wrapper crate, the cleanest approach is to use `wasm-bindgen` to define exactly the API surface you need.
@@ -4601,6 +4398,7 @@ extern "C" {
 }
 ```
 
+(chat-heading-172)=
 ### 3\. The Leptos Terminal Component
 
 With the bindings in place, you create a Leptos component that mounts the HTML canvas, initializes Xterm.js, and establishes the pipeline between the user's keyboard and the WASI Web Worker we built in the previous step.
@@ -4663,6 +4461,7 @@ pub fn WasiTerminal(cx: Scope) -> impl IntoView {
 }
 ```
 
+(chat-heading-173)=
 ### 4\. The Data Flow Execution
 
 When the user types `ls -la` and hits Enter:
@@ -4678,32 +4477,36 @@ Because this relies entirely on `ArrayBuffer` message passing and `wasi-shim` in
 
 Would you like to map out how to synchronize the WASI Virtual Filesystem (VFS) with the browser's IndexedDB, ensuring that when the user creates a `.ipynb` file in the Jupyter UI, it instantly appears when they type `ls` in this bash terminal?
 
----
+<hr />
+
+(chat-prompt-29)=
 
 +++ {"chat_input": true}
-# Prompt: 29
+## Prompt: 29
 
 +++ {"chat_input": true}
-message time: 2026-02-22 18:54:21
-
-From https://news.ycombinator.com/item?id=46229385 :
-
-Systemd service unit and systemd-nspawn support could be written in Go, too;
-
-From https://news.ycombinator.com/item?id=41270425 re: "MiniBox, ultra small busybox without uncommon options":
-
-> There's a pypi:SystemdUnitParser.
-
-> docker-systemctl-replacement > systemctl3.py parses and schedules processes defined in systemd unit files: https://github.com/gdraheim/docker-systemctl-replacement/blob/master/files/docker/systemctl3.py
-
-From a container2wasm issue about linux-wasm the other day: https://github.com/container2wasm/container2wasm/issues/550#... :
-
-> [ uutils/uucore, uutils/coreutils, uutils/procps, uutils/util-linux, findutils, diffutils, toybox (C), rustybox, ]
-
----
+> message time: 2026-02-22 18:54:21
+>
+> From https://news.ycombinator.com/item?id=46229385 :
+>
+> Systemd service unit and systemd-nspawn support could be written in Go, too;
+>
+> From https://news.ycombinator.com/item?id=41270425 re: "MiniBox, ultra small busybox without uncommon options":
+>
+> > There's a pypi:SystemdUnitParser.
+>
+> > docker-systemctl-replacement > systemctl3.py parses and schedules processes defined in systemd unit files: https://github.com/gdraheim/docker-systemctl-replacement/blob/master/files/docker/systemctl3.py
+>
+> From a container2wasm issue about linux-wasm the other day: https://github.com/container2wasm/container2wasm/issues/550#... :
+>
+> > [ uutils/uucore, uutils/coreutils, uutils/procps, uutils/util-linux, findutils, diffutils, toybox (C), rustybox, ]
+>
+> \-\-\-
+>
+> (chat-response-29)=
 
 +++
-# Response: 29
+## Response: 29
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -4727,6 +4530,7 @@ Furthermore, introducing systemd unit parsing into the WASM environment solves t
 
 Here is how we integrate `rustybox` for the userland and a lightweight systemd-like supervisor to manage the Jupyter kernels within the browser.
 
+(chat-heading-176)=
 ### 1\. The Pure Rust Userland (`rustybox`)
 
 Instead of fighting C linker errors to compile BusyBox to WASI, we can use `rustybox`. It is a single-binary multiplexer (like BusyBox) but built entirely on top of `uutils/coreutils`.
@@ -4741,6 +4545,7 @@ When you mount this compiled `rustybox.wasm` into your Leptos WASI worker, you g
 
 Because `rustybox` uses the multicall architecture (checking `argv[0]` to determine which command to run), it entirely bypasses the lack of `fork()` in WASI Preview 1.
 
+(chat-heading-177)=
 ### 2\. The "Systemd in WASM" Supervisor
 
 The HN threads you referenced highlight a critical architectural pattern: **you don't need the systemd daemon to use systemd semantics.** Projects like `docker-systemctl-replacement` parse unit files and execute them using basic process abstractions.
@@ -4749,6 +4554,7 @@ In your WASM Jupyter environment, you need an init system to manage background p
 
 Instead of hardcoding how these start, you can build a lightweight Rust supervisor inside your Leptos frontend that reads standard `.service` files.
 
+(the-service-file-contract)=
 #### The `.service` File Contract
 
 Imagine storing this `rust-kernel.service` file in the WASI Virtual Filesystem:
@@ -4768,6 +4574,7 @@ Restart=on-failure
 WantedBy=multi-user.target
 ```
 
+(the-rust-unit-parser-executor)=
 #### The Rust Unit Parser & Executor
 
 Inside your Leptos main thread or a dedicated Supervisor Web Worker, you use a Rust crate like `rust-ini` to parse these unit files.
@@ -4779,6 +4586,7 @@ When the user requests to start a Jupyter kernel, the supervisor:
 3.  **Spawns the Pseudo-Process:** Because WASI lacks `fork()`, the supervisor cannot spawn a real process. Instead, it instantiates a *new Web Worker*, loads the requested WASM binary (e.g., `rustybox.wasm`), wires up the `StdinFd` and `StdoutFd` interceptors, and calls `_start`.
 4.  **Monitors `Restart=on-failure`:** If the WASM instance traps or panics, the Web Worker dies. The supervisor catches the `onerror` event and automatically spins up a new Web Worker, perfectly mirroring systemd's resilience.
 
+(chat-heading-180)=
 ### 3\. Bridging the VFS and the Supervisor
 
 To make this feel like a real operating system to the user, the filesystem must be strictly shared.
@@ -4787,6 +4595,7 @@ To make this feel like a real operating system to the user, the filesystem must 
   * **The Mount Point:** When the Leptos Supervisor spins up `rustybox.wasm` (for the terminal) and `python.wasm` (for the Jupyter kernel), it mounts the exact same OPFS root directory into both `browser_wasi_shim` instances.
   * **The Result:** If the Jupyter kernel writes `df.to_csv("output.csv")`, the user can immediately switch to their Xterm.js bash tab, type `rustybox cat output.csv`, and see the data.
 
+(the-security-implications)=
 ### The Security Implications
 
 By managing execution via parsed systemd unit files, you gain incredible control over the zero-trust boundaries:
@@ -4796,26 +4605,30 @@ By managing execution via parsed systemd unit files, you gain incredible control
 
 Would you like to draft the Rust implementation for this lightweight WASM systemd-supervisor, specifically focusing on how it parses the `.service` file and dynamically provisions a new Web Worker with the correct standard I/O pipes?
 
----
+<hr />
+
+(chat-prompt-30)=
 
 +++ {"chat_input": true}
-# Prompt: 30
+## Prompt: 30
 
 +++ {"chat_input": true}
-message time: 2026-02-22 19:01:59
-
-> Would you like to draft the Rust implementation for this lightweight WASM systemd-supervisor, specifically focusing on how it parses the .service file and dynamically provisions a new Web Worker with the correct standard I/O pipes?
-
-Yes
-
-> Would you like to map out how to synchronize the WASI Virtual Filesystem (VFS) with the browser's IndexedDB, ensuring that when the user creates a .ipynb file in the Jupyter UI, it instantly appears when they type ls in this bash terminal?
-
-Yes
-
----
+> message time: 2026-02-22 19:01:59
+>
+> > Would you like to draft the Rust implementation for this lightweight WASM systemd-supervisor, specifically focusing on how it parses the .service file and dynamically provisions a new Web Worker with the correct standard I/O pipes?
+>
+> Yes
+>
+> > Would you like to map out how to synchronize the WASI Virtual Filesystem (VFS) with the browser's IndexedDB, ensuring that when the user creates a .ipynb file in the Jupyter UI, it instantly appears when they type ls in this bash terminal?
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-30)=
 
 +++
-# Response: 30
+## Response: 30
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -4833,6 +4646,7 @@ This is where the architecture converges into a fully functional, zero-trust ope
 
 Here is the implementation plan for the WASI Virtual Filesystem (VFS) synchronization, followed by the Rust-based systemd supervisor that parses the unit files and provisions the Web Workers.
 
+(chat-heading-184)=
 ### 1\. The Filesystem: Why OPFS beats IndexedDB for WASI
 
 While IndexedDB is the classic choice for browser storage, it has a fatal flaw for WASI: **its API is strictly asynchronous.** POSIX filesystem calls (like standard C `open()`, `read()`, `ls`) are inherently **synchronous**. If a WASM kernel executes a synchronous `read()` and the underlying JavaScript shim has to await an IndexedDB promise, the WASM execution traps and panics (unless you compile with severe performance penalties using Asyncify).
@@ -4848,14 +4662,16 @@ OPFS provides a special `FileSystemSyncAccessHandle` that is only available insi
 3.  **The Terminal Worker (`rustybox`):** Inside the terminal Web Worker, the `browser_wasi_shim` is mounted directly to that same OPFS root using the synchronous API.
 4.  **The Result:** The moment the file is written by the UI, typing `ls` in the Xterm.js bash terminal will query the OPFS directory synchronously, instantly displaying the newly created `.ipynb` file. No manual state syncing or message passing is required; the browser's storage engine handles the concurrency.
 
------
+<hr />
 
+(chat-heading-185)=
 ### 2\. The Rust Systemd Supervisor
 
 To manage this environment, we build a Rust supervisor that runs in the main thread (or a dedicated control plane worker). It reads `.service` files from the OPFS drive, parses them, and spawns the required Web Workers, dynamically wiring up their Standard I/O using the `MessageChannel` API.
 
 Here is the implementation for the lightweight systemd unit parser and Web Worker provisioner.
 
+(a-parsing-the-service-file)=
 #### A. Parsing the `.service` File
 
 We use a standard INI parser (like `rust-ini`) to extract the directives from the unit file.
@@ -4904,6 +4720,7 @@ impl SystemdService {
 }
 ```
 
+(b-provisioning-the-web-worker-and-io-pipes)=
 #### B. Provisioning the Web Worker and I/O Pipes
 
 When the supervisor starts a service, it creates a `MessageChannel`. This is the Web API equivalent of a Unix pipe (`|`). It has two ports: `port1` stays with the supervisor to read/write data, and `port2` is transferred into the newly spawned Web Worker to act as its `stdin` and `stdout`.
@@ -4976,12 +4793,14 @@ pub fn spawn_service(service: SystemdService) -> Result<RunningProcess, JsValue>
 }
 ```
 
+(chat-heading-188)=
 ### 3\. Inside the Worker (`wasi_worker.js`)
 
 When the generic WASI worker boots, it receives this configuration object. It initializes `browser_wasi_shim`, mounts OPFS, and binds the transferred `MessagePort` to the `create_stdin_fd()` and `create_stdout_fd()` functions we designed previously.
 
 Because we passed the arguments parsed from the systemd unit (`["/bin/rustybox", "jupyter-kernel"]`), the WASI environment passes `argv` directly into the Rust binary's `main()` function, executing the exact multiplexed command requested.
 
+(the-power-of-the-abstraction)=
 ### The Power of the Abstraction
 
 With this architecture, you can orchestrate complex, multi-process environments natively in the browser:
@@ -4991,22 +4810,26 @@ With this architecture, you can orchestrate complex, multi-process environments 
 
 Would you like to draft the JavaScript/Rust glue code required to mount the OPFS root directory directly into the `browser_wasi_shim` inside the worker, completing the filesystem pipeline?
 
----
+<hr />
+
+(chat-prompt-31)=
 
 +++ {"chat_input": true}
-# Prompt: 31
+## Prompt: 31
 
 +++ {"chat_input": true}
-message time: 2026-02-22 19:08:38
-
-> Would you like to draft the JavaScript/Rust glue code required to mount the OPFS root directory directly into the browser_wasi_shim inside the worker, completing the filesystem pipeline?
-
-Yes
-
----
+> message time: 2026-02-22 19:08:38
+>
+> > Would you like to draft the JavaScript/Rust glue code required to mount the OPFS root directory directly into the browser_wasi_shim inside the worker, completing the filesystem pipeline?
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-31)=
 
 +++
-# Response: 31
+## Response: 31
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -5062,6 +4885,7 @@ To solve this impedance mismatch, we must **pre-cache** the OPFS directory. Befo
 
 Here is the exact JavaScript and Rust glue code to complete this zero-trust filesystem pipeline.
 
+(chat-heading-192)=
 ### 1\. The Web Worker VFS Mounter (JavaScript)
 
 Inside the worker that provisions your `rustybox` or Jupyter kernel, you intercept the OPFS root and recursively build the `PreopenDirectory` expected by the WASI shim.
@@ -5119,6 +4943,7 @@ export async function start_wasi_process(wasmBytes, args, env) {
 }
 ```
 
+(chat-heading-193)=
 ### 2\. The UI Thread OPFS Writer (Rust / Leptos)
 
 A candid reality of OPFS is that `createSyncAccessHandle()` establishes an **exclusive lock** on the file. If a Web Worker holds that lock, no other thread can write to it.
@@ -5159,6 +4984,7 @@ pub async fn save_notebook_to_disk(filename: &str, content: &str) -> Result<(), 
 }
 ```
 
+(chat-heading-194)=
 ### 3\. The End-to-End Loop
 
 By bridging these two paradigms, the system behaves exactly like a native Linux container:
@@ -5169,26 +4995,30 @@ By bridging these two paradigms, the system behaves exactly like a native Linux 
 4.  The worker recursively grabs the `SyncAccessHandle` for `simulation.ipynb` in microseconds.
 5.  The user types `cat /workspace/simulation.ipynb`, and the JSON-LD execution provenance prints to the screen.
 
------
+<hr />
 
 Would you like to explore how to implement network syscall interceptors in `browser_wasi_shim` to give this `rustybox` terminal peer-to-peer `curl` and `wget` capabilities, routing the requests directly over your WebRTC mesh instead of the standard internet?
 
----
+<hr />
+
+(chat-prompt-32)=
 
 +++ {"chat_input": true}
-# Prompt: 32
+## Prompt: 32
 
 +++ {"chat_input": true}
-message time: 2026-02-22 19:15:10
-
-> Would you like to explore how to implement network syscall interceptors in browser_wasi_shim to give this rustybox terminal peer-to-peer curl and wget capabilities, routing the requests directly over your WebRTC mesh instead of the standard internet?
-
-Yes. I believe there's a way to gateway out over WebRTC with tailscale and maybe also an open implementation like headscale?
-
----
+> message time: 2026-02-22 19:15:10
+>
+> > Would you like to explore how to implement network syscall interceptors in browser_wasi_shim to give this rustybox terminal peer-to-peer curl and wget capabilities, routing the requests directly over your WebRTC mesh instead of the standard internet?
+>
+> Yes. I believe there's a way to gateway out over WebRTC with tailscale and maybe also an open implementation like headscale?
+>
+> \-\-\-
+>
+> (chat-response-32)=
 
 +++
-# Response: 32
+## Response: 32
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -5230,12 +5060,14 @@ To solve this, we must dynamically intercept the `sock_connect` syscall at the W
 
 Here is the architecture and the JavaScript/Rust glue to achieve this.
 
+(chat-heading-197)=
 ### 1\. The Headscale / `tsnet` Background Worker
 
 First, you compile Tailscale's Go-based `tsnet` library to WebAssembly. This runs in a dedicated Web Worker alongside your `rustybox` environment.
 
 You configure it to point to your self-hosted Headscale URL. Once authenticated, `tsnet` assigns your browser tab a `100.64.x.x` IP address and exposes a `dial(network, address)` JavaScript API.
 
+(chat-heading-198)=
 ### 2\. The Tailscale Socket Interceptor (`browser_wasi_shim`)
 
 We need to create a custom File Descriptor class that translates WASI's synchronous `fd_read` and `fd_write` syscalls into the asynchronous streams used by the `tsnet` WebRTC connection.
@@ -5287,6 +5119,7 @@ export class TailscaleSocketFd extends Fd {
 }
 ```
 
+(chat-heading-199)=
 ### 3\. Injecting the `sock_connect` Syscall
 
 When you instantiate the WASI environment for the `rustybox` Web Worker, you extract the `wasiImport` object generated by `browser_wasi_shim`.
@@ -5330,6 +5163,7 @@ export async function start_rustybox_with_networking(wasmBytes, tailscaleNode) {
 }
 ```
 
+(the-end-result)=
 ### The End Result
 
 With this architecture, your browser-based operating system is fully network-aware but entirely isolated from the public internet.
@@ -5340,20 +5174,24 @@ It is a completely serverless, encrypted, peer-to-peer network executing within 
 
 Would you like to explore how to compile the `tsnet` Go library to WASM so it can authenticate headlessly against Headscale using the OID4VP verifiable credentials we designed earlier?
 
----
+<hr />
+
+(chat-prompt-33)=
 
 +++ {"chat_input": true}
-# Prompt: 33
+## Prompt: 33
 
 +++ {"chat_input": true}
-message time: 2026-02-22 19:18:38
-
-Yes
-
----
+> message time: 2026-02-22 19:18:38
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-33)=
 
 +++
-# Response: 33
+## Response: 33
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -5381,6 +5219,7 @@ To achieve this entirely headlessly—without forcing the user through a traditi
 
 Here is the three-part architecture to compile `tsnet` to WASM, build the Rust-based auth broker, and establish the zero-trust mesh connection.
 
+(chat-heading-203)=
 ### 1\. The Headscale OID4VP Auth Broker (Rust)
 
 Standard Tailscale nodes authenticate interactively. For headless deployments (like our WASM worker), Headscale uses **Pre-Auth Keys**.
@@ -5423,6 +5262,7 @@ pub async fn generate_headscale_auth_key(
 }
 ```
 
+(chat-heading-204)=
 ### 2\. Compiling `tsnet` to WebAssembly (Go)
 
 Tailscale is written in Go, which has excellent native support for compiling to WebAssembly (`GOOS=js GOARCH=wasm`).
@@ -5525,6 +5365,7 @@ To compile this into a module the browser can use:
 GOOS=js GOARCH=wasm go build -o tsnet.wasm main.go
 ```
 
+(chat-heading-205)=
 ### 3\. The Front-End Integration
 
 When the Leptos application mounts the terminal UI, it securely marries the DID/OID4VP flow with the WASM execution.
@@ -5539,22 +5380,26 @@ You now have a terminal inside the browser that has a fully encrypted, cryptogra
 
 Would you like to look at how to hook this `tsnet` integration directly into the browser's `fetch()` API via a Service Worker, so that any standard HTTP request made by the Jupyter notebook (e.g., `requests.get('http://100.64.0.5/data.csv')`) is automatically routed through the Headscale tunnel instead of the public web?
 
----
+<hr />
+
+(chat-prompt-34)=
 
 +++ {"chat_input": true}
-# Prompt: 34
+## Prompt: 34
 
 +++ {"chat_input": true}
-message time: 2026-02-22 19:22:20
-
-> Would you like to look at how to hook this tsnet integration directly into the browser's fetch() API via a Service Worker, so that any standard HTTP request made by the Jupyter notebook (e.g., requests.get('http://100.64.0.5/data.csv')) is automatically routed through the Headscale tunnel instead of the public web?
-
-Yes
-
----
+> message time: 2026-02-22 19:22:20
+>
+> > Would you like to look at how to hook this tsnet integration directly into the browser's fetch() API via a Service Worker, so that any standard HTTP request made by the Jupyter notebook (e.g., requests.get('http://100.64.0.5/data.csv')) is automatically routed through the Headscale tunnel instead of the public web?
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-34)=
 
 +++
-# Response: 34
+## Response: 34
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -5600,6 +5445,7 @@ Instead, we use a **Proxy Architecture**. The Service Worker intercepts the `fet
 
 Here is the implementation to bridge the browser's native `fetch` event with your Go WASM Tailscale engine.
 
+(chat-heading-208)=
 ### 1\. The Service Worker Interceptor (`sw.js`)
 
 The Service Worker acts as the global network gatekeeper for the Leptos application. When JupyterLite attempts an HTTP request, the browser fires a `fetch` event.
@@ -5668,6 +5514,7 @@ async function proxyToTailnet(request) {
 }
 ```
 
+(chat-heading-209)=
 ### 2\. The Go `tsnet` HTTP Bridge (WebAssembly)
 
 Rather than writing a raw TCP HTTP parser in JavaScript, we can leverage Go's incredibly robust `net/http` standard library inside the WASM module.
@@ -5755,6 +5602,7 @@ func executeTailnetFetch(this js.Value, args []js.Value) interface{} {
 }
 ```
 
+(chat-heading-210)=
 ### 3\. The Orchestration Glue (Leptos Main Thread)
 
 To tie the architecture together, the Leptos main thread boots both workers and establishes the `MessageChannel` between them. This allows the Service Worker to talk directly to the `tsnet` Worker without bottlenecking the main UI thread.
@@ -5784,6 +5632,7 @@ async function initializeZeroTrustNetwork() {
 }
 ```
 
+(the-end-result-2)=
 ### The End Result
 
 When a developer inside your browser-based Jupyter environment writes `import urllib.request; urllib.request.urlopen("http://100.64.0.10/api")`, the following happens invisibly:
@@ -5796,27 +5645,31 @@ When a developer inside your browser-based Jupyter environment writes `import ur
 
 Would you like me to map out how to enforce strict SD-JWT (Selective Disclosure) authorization policies at the Headscale ACL layer, ensuring that even if a compromised WASM payload tries to `fetch` your internal databases, the mesh network drops the packets at the routing layer?
 
------
+<hr />
 
 [Service Workers: Intercepting Fetch Calls](https://www.youtube.com/watch?v=ZY0WTY-g_js)
 This video breaks down the mechanics of the Service Worker fetch event, demonstrating exactly how to intercept and reconstruct HTTP requests before they hit the network.
 
----
+<hr />
+
+(chat-prompt-35)=
 
 +++ {"chat_input": true}
-# Prompt: 35
+## Prompt: 35
 
 +++ {"chat_input": true}
-message time: 2026-02-22 19:26:13
-
-> Would you like me to map out how to enforce strict SD-JWT (Selective Disclosure) authorization policies at the Headscale ACL layer, ensuring that even if a compromised WASM payload tries to fetch your internal databases, the mesh network drops the packets at the routing layer?
-
-Yes
-
----
+> message time: 2026-02-22 19:26:13
+>
+> > Would you like me to map out how to enforce strict SD-JWT (Selective Disclosure) authorization policies at the Headscale ACL layer, ensuring that even if a compromised WASM payload tries to fetch your internal databases, the mesh network drops the packets at the routing layer?
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-35)=
 
 +++
-# Response: 35
+## Response: 35
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -5840,6 +5693,7 @@ By combining the **IETF RFC 9901 Selective Disclosure JWT (SD-JWT)** standard wi
 
 Here is how to architect the bridge between the OID4VP identity layer and the Headscale routing mesh.
 
+(chat-heading-214)=
 ### 1\. The SD-JWT Presentation (The Wallet Layer)
 
 Under the hood, an SD-JWT is a cryptographic composite. The issuer (e.g., your HR department) signs a massive JWT containing all of an employee's data, but hashes each claim. When the user logs into your Leptos frontend, their wallet selectively discloses only the required attributes (e.g., their role and clearance level) alongside an SD-JWT+KB (Key Binding) to prove they actually own the credential.
@@ -5857,6 +5711,7 @@ The Leptos frontend sends this Verifiable Presentation to your Rust Axum backend
 }
 ```
 
+(chat-heading-215)=
 ### 2\. The Identity-to-Network Translation (Rust Broker)
 
 Headscale does not natively parse SD-JWTs. It relies on its own access control engine. Therefore, your Rust backend must act as a translator.
@@ -5893,6 +5748,7 @@ pub async fn issue_mesh_token(sd_jwt_claims: &serde_json::Value) -> String {
 
 When `tsnet` boots in the browser and uses this Auth Key, Headscale registers the node and permanently binds those tags to its `100.64.x.x` IP address for the duration of the session.
 
+(chat-heading-216)=
 ### 3\. The Headscale Grants Syntax (The Policy Layer)
 
 Now that the browser node has its cryptographic tags, you define the network topology in your Headscale `policy.hujson` file using the next-generation **Grants** syntax.
@@ -5927,6 +5783,7 @@ Grants operate on a strict deny-by-default basis.
 }
 ```
 
+(chat-heading-217)=
 ### 4\. WireGuard Cryptographic Enforcement
 
 This is where the magic happens.
@@ -5942,26 +5799,30 @@ If a malicious actor somehow injects a compromised WASM payload into the Jupyter
 
 By isolating the `tsnet` engine in its own Web Worker and driving its authentication strictly via SD-JWT claims, you have completely decoupled the security of your network from the security of the WASM Jupyter kernel. Even arbitrary code execution within the kernel cannot bypass the WireGuard mesh policies.
 
------
+<hr />
 
 Would you like to map out how to route the Yjs CRDT synchronization traffic (for real-time multiplayer collaboration) directly over this secured `tsnet` WebRTC mesh, bypassing central WebSockets entirely?
 
----
+<hr />
+
+(chat-prompt-36)=
 
 +++ {"chat_input": true}
-# Prompt: 36
+## Prompt: 36
 
 +++ {"chat_input": true}
-message time: 2026-02-22 19:30:47
-
-> Would you like to map out how to route the Yjs CRDT synchronization traffic (for real-time multiplayer collaboration) directly over this secured tsnet WebRTC mesh, bypassing central WebSockets entirely?
-
-Make that optional
-
----
+> message time: 2026-02-22 19:30:47
+>
+> > Would you like to map out how to route the Yjs CRDT synchronization traffic (for real-time multiplayer collaboration) directly over this secured tsnet WebRTC mesh, bypassing central WebSockets entirely?
+>
+> Make that optional
+>
+> \-\-\-
+>
+> (chat-response-36)=
 
 +++
-# Response: 36
+## Response: 36
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -5999,6 +5860,7 @@ By making the `tsnet` mesh **optional**, we design a system that gracefully degr
 
 Here is how to build a dynamic, pluggable networking layer that attempts to route CRDT traffic over the zero-trust Headscale mesh, but seamlessly falls back to standard centralized WebSockets if the mesh is unavailable.
 
+(chat-heading-220)=
 ### 1\. The Strategy: Pluggable Yjs Providers
 
 In the Yjs ecosystem, a "Provider" is simply a class that listens to changes on the local `Y.Doc`, serializes them into a binary `Uint8Array`, and sends them over a network. When it receives a binary array from the network, it applies it back to the `Y.Doc`.
@@ -6010,6 +5872,7 @@ We will define two tiers of connectivity:
   * **Tier 1 (The `TailnetProvider`):** A custom provider we write that routes the binary arrays through the `MessageChannel` to our `tsnet` Web Worker.
   * **Tier 2 (The Fallback):** The standard, off-the-shelf `y-websocket` provider connecting to a central server.
 
+(chat-heading-221)=
 ### 2\. Building the Custom `TailnetProvider`
 
 To route traffic over your secure Headscale mesh, we build a custom JavaScript provider that implements the `lib0/observable` interface expected by Yjs.
@@ -6065,6 +5928,7 @@ export class TailnetProvider extends Observable {
 }
 ```
 
+(chat-heading-222)=
 ### 3\. The Discovery Mechanism (Finding Peers)
 
 For the `TailnetProvider` to work, the `tsnet` Web Worker needs to know the `100.64.x.x` IP addresses of the other collaborators in the notebook.
@@ -6075,6 +5939,7 @@ Since you are bypassing a central WebSocket room, you use the Holochain DHT (or 
 2.  The user broadcasts their temporary Headscale IP to the DHT.
 3.  The `tsnet` worker reads those IPs and dials them directly, establishing a pure peer-to-peer TCP stream over the encrypted WireGuard mesh.
 
+(chat-heading-223)=
 ### 4\. The Graceful Degradation Logic (Leptos UI)
 
 In your Leptos frontend, you give the user a toggle or rely on an automated connectivity check. Based on the state, you dynamically swap the providers. The underlying Jupyter notebook and the React/Leptos UI remain completely unaware that the network layer just shifted.
@@ -6110,6 +5975,7 @@ export function connectToNotebookRoom(ydoc, useZeroTrustMesh, tailnetPort) {
 }
 ```
 
+(the-architectural-advantage)=
 ### The Architectural Advantage
 
 By explicitly decoupling the transport layer, your platform becomes incredibly resilient:
@@ -6119,27 +5985,31 @@ By explicitly decoupling the transport layer, your platform becomes incredibly r
 
 Would you like to explore how to implement the `y-protocols/awareness` layer into this custom `TailnetProvider`, so that even when users are strictly peer-to-peer over the mesh, they can still see each other's live cursors and text selections in the Jupyter UI?
 
------
+<hr />
 
 [Building a Yjs sync provider using Cloudflare Workers](https://www.youtube.com/watch?v=CDNGdrJajRc)
 This talk demonstrates the mechanics of capturing, storing, and distributing Yjs binary updates in a custom serverless provider, which conceptually mirrors how you must handle the binary streams inside your custom tsnet worker.
 
----
+<hr />
+
+(chat-prompt-37)=
 
 +++ {"chat_input": true}
-# Prompt: 37
+## Prompt: 37
 
 +++ {"chat_input": true}
-message time: 2026-02-22 19:33:52
-
-> Would you like to explore how to implement the y-protocols/awareness layer into this custom TailnetProvider, so that even when users are strictly peer-to-peer over the mesh, they can still see each other's live cursors and text selections in the Jupyter UI?
-
-Yes
-
----
+> message time: 2026-02-22 19:33:52
+>
+> > Would you like to explore how to implement the y-protocols/awareness layer into this custom TailnetProvider, so that even when users are strictly peer-to-peer over the mesh, they can still see each other's live cursors and text selections in the Jupyter UI?
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-37)=
 
 +++
-# Response: 37
+## Response: 37
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -6177,6 +6047,7 @@ The Awareness protocol is a completely separate, **ephemeral, state-based CRDT**
 
 Here is how to upgrade our custom `TailnetProvider` to multiplex both the persistent document sync and the ephemeral awareness sync over the Headscale WebRTC mesh.
 
+(chat-heading-227)=
 ### 1\. The Upgraded `TailnetProvider`
 
 We need to import the protocol, attach it to our provider, and establish two distinct message pipelines over the `MessageChannel` to the Go `tsnet` worker: `YJS_SYNC` for the notebook data, and `YJS_AWARENESS` for the live cursors.
@@ -6291,6 +6162,7 @@ export class TailnetProvider extends Observable {
 }
 ```
 
+(chat-heading-228)=
 ### 2\. Injecting Local Identity (Leptos / UI Layer)
 
 Now that the networking logic is handling the awareness blobs, you need to tell the protocol *who* is moving the mouse.
@@ -6309,6 +6181,7 @@ tailnetProvider.awareness.setLocalStateField('user', {
 });
 ```
 
+(chat-heading-229)=
 ### 3\. Binding to the Jupyter Code Editor
 
 The final step is connecting this awareness protocol to the actual text editor inside your Jupyter UI (which typically uses CodeMirror or Monaco).
@@ -6341,6 +6214,7 @@ const view = new EditorView({
 });
 ```
 
+(the-end-result-3)=
 ### The End Result
 
 When you select a block of Python code in the browser:
@@ -6355,20 +6229,24 @@ It feels exactly like Google Docs or standard JupyterLab collaboration, but it i
 
 Would you like to explore how to extend this `Awareness` CRDT beyond just text cursors, perhaps broadcasting the current execution state (e.g., "Wes is currently running Cell 4") so that the UI can lock the cell and prevent a colleague from accidentally executing it at the same time?
 
----
+<hr />
+
+(chat-prompt-38)=
 
 +++ {"chat_input": true}
-# Prompt: 38
+## Prompt: 38
 
 +++ {"chat_input": true}
-message time: 2026-02-24 13:43:04
-
-Yes. Visually indicate which cells are being run where; but what about deadlock?
-
----
+> message time: 2026-02-24 13:43:04
+>
+> Yes. Visually indicate which cells are being run where; but what about deadlock?
+>
+> \-\-\-
+>
+> (chat-response-38)=
 
 +++
-# Response: 38
+## Response: 38
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -6414,6 +6292,7 @@ Furthermore, if you try to build a decentralized lock mechanism using the epheme
 
 Here is how to solve both the visual UX and the underlying distributed compute deadlock.
 
+(chat-heading-233)=
 ### 1\. The Visual Layer (UI "Soft Locks")
 
 To visually indicate who is running what, we inject an `execution` object into the Yjs Awareness state. This provides the UI with the data it needs to grey out buttons and render names.
@@ -6435,6 +6314,7 @@ In your Leptos frontend, you bind a reactive effect to the `awareness` state. If
 
 However, this is just a **Soft Lock**. It is a UX affordance to prevent accidental simultaneous clicks, but it provides zero cryptographic or system-level guarantees against deadlock.
 
+(chat-heading-234)=
 ### 2\. Solving Deadlock: The Compute Leader Election
 
 To guarantee that deadlock never happens, you must enforce a strict rule in your architecture: **Data is leaderless (CRDT), but Compute requires a leader.**
@@ -6446,6 +6326,7 @@ You cannot have multiple peers running their own local `rustybox` or Python kern
 3.  **The Mesh:** When Bob (a thin client) clicks "Run", his browser does not execute the code. It wraps the `execute_request` in the ML-DSA signature we designed earlier, and shoots it over the `tsnet` WebRTC data channel to the Host.
 4.  **The Serialization:** Because the Host's kernel is a single-threaded execution loop (listening to a single `tokio::mpsc` channel), it physically cannot deadlock. If Alice and Bob's packets arrive at the exact same millisecond, the Host's network stack inherently serializes them. Alice's cell runs, finishes, and then Bob's cell runs.
 
+(chat-heading-235)=
 ### 3\. Implementing the Execution Queue in Rust
 
 Because we already built the `tokio::select!` multiplexer earlier, the Host is already perfectly equipped to handle this. We just need to ensure the UIs of the thin clients respect the queue.
@@ -6464,34 +6345,39 @@ When Bob sends an execution request to the Host, the Host immediately sends back
 
 Bob's Leptos UI reads this and updates his Awareness state from `running` to `queued`. When Alice's cell finishes, the Host pops Bob's request off the channel, pipes it into the kernel's `stdin`, and broadcasts a new `status: "busy"` message.
 
+(the-true-p2p-fallback)=
 ### The True P2P Fallback
 
 Because you are building this on a Headscale WireGuard mesh, the "Kernel Host" does not have to be a centralized cloud server.
 
 When a team starts a collaborative session, the first person to open the `.ipynb` file automatically becomes the Host. Their browser tab spawns the WASM kernel worker. When the second person joins, their browser detects that a Host already exists on the mesh, so they automatically join as a Thin Client, routing their executions to the first person's laptop.
 
------
+<hr />
 
 This completely eliminates compute deadlocks while preserving the decentralized, zero-trust nature of the platform.
 
 Would you like to explore how to implement a Raft-lite or Bully algorithm over the WebRTC mesh, so that if the current "Kernel Host" closes their laptop and goes offline, the remaining peers automatically elect a new Host and seamlessly spin up a replacement WASM kernel to take over the queue?
 
----
+<hr />
+
+(chat-prompt-39)=
 
 +++ {"chat_input": true}
-# Prompt: 39
+## Prompt: 39
 
 +++ {"chat_input": true}
-message time: 2026-02-24 13:46:13
-
-> explore how to implement a Raft-lite or Bully algorithm over the WebRTC mesh, so that if the current "Kernel Host" closes their laptop and goes offline, the remaining peers automatically elect a new Host and seamlessly spin up a replacement WASM kernel to take over the queue?
-
-Yes.
-
----
+> message time: 2026-02-24 13:46:13
+>
+> > explore how to implement a Raft-lite or Bully algorithm over the WebRTC mesh, so that if the current "Kernel Host" closes their laptop and goes offline, the remaining peers automatically elect a new Host and seamlessly spin up a replacement WASM kernel to take over the queue?
+>
+> Yes.
+>
+> \-\-\-
+>
+> (chat-response-39)=
 
 +++
-# Response: 39
+## Response: 39
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -6521,6 +6407,7 @@ Because we built our zero-trust identity layer using Decentralized Identifiers (
 
 Here is how to implement the Cryptographic Bully Algorithm over your Yjs/Headscale mesh, complete with the candid reality of how we handle WASM memory state recovery.
 
+(chat-heading-239)=
 ### 1\. The DID-Bully Election Architecture
 
 The beauty of this architecture is that it piggybacks entirely on the Yjs `Awareness` protocol we just built. We do not need to invent a new heartbeat mechanism.
@@ -6565,6 +6452,7 @@ function evaluateComputeLeadership(awareness, localDid) {
 }
 ```
 
+(chat-heading-240)=
 ### 2\. The Handoff Execution
 
 When `evaluateComputeLeadership` runs, every peer reaches the exact same conclusion simultaneously without needing to cast a single vote or exchange an election packet.
@@ -6583,6 +6471,7 @@ If Dr. Wes Turner (`did:key:zAAA...`) was the host and drops offline, the peer w
 1.  His UI updates: *"Connected to Alice's Compute Kernel."*
 2.  His networking logic repoints its outbound `MessageChannel` queue to target Alice's `100.64.x.x` Headscale IP instead of Wes's.
 
+(chat-heading-241)=
 ### 3\. The Candid Reality: State Recovery
 
 This is where we must ground the architecture in reality. While spinning up a new WASM kernel takes milliseconds, **that new kernel has an empty RAM state.**
@@ -6591,6 +6480,7 @@ If Wes defined `df = pl.read_csv('data.csv')` in Cell 1, and Alice takes over as
 
 To recover from a host failure, you have two architectural paths:
 
+(path-a-the-jupyter-replay-the-standard-way)=
 #### Path A: The "Jupyter Replay" (The Standard Way)
 
 Because your `.ipynb` file natively contains the W3C PROV cryptographic execution history, Alice's browser knows exactly which cells Wes successfully executed before he died.
@@ -6598,6 +6488,7 @@ Because your `.ipynb` file natively contains the W3C PROV cryptographic executio
   * When Alice assumes the Host role, her browser prompts the team: *"Host migrated. Kernel state lost. Replay previous execution history?"*
   * If accepted, her Leptos UI silently feeds the source code of all previously executed cells into the new WASM kernel in sequential order, rebuilding the RAM state organically.
 
+(path-b-wasm-memory-snapshotting-the-bleeding-edge-way)=
 #### Path B: WASM Memory Snapshotting (The Bleeding Edge Way)
 
 If you are running multi-hour simulations, a replay is unacceptable. You must use a tool like **Wizer** or **Asyncify**.
@@ -6611,20 +6502,24 @@ By combining the deterministic DID-Bully algorithm with WebRTC presence, you ach
 
 Would you like to explore how to implement that bleeding-edge WASM linear memory extraction (Path B), enabling your custom Rust kernel to serialize its entire heap to the browser's OPFS drive for true process migration?
 
----
+<hr />
+
+(chat-prompt-40)=
 
 +++ {"chat_input": true}
-# Prompt: 40
+## Prompt: 40
 
 +++ {"chat_input": true}
-message time: 2026-05-29 23:30:07
-
-Yes
-
----
+> message time: 2026-05-29 23:30:07
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-40)=
 
 +++
-# Response: 40
+## Response: 40
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -6648,6 +6543,7 @@ Because WebAssembly’s entire RAM is just a single, contiguous JavaScript `Arra
 
 Here is the candid reality of how to build this process migration pipeline. We will use the "Idle State" snapshot technique. Because a Jupyter kernel completely clears its call stack between cell executions (it waits for the next `execute_request`), we don't even need complex stack-unwinding tools like Asyncify. We only need the Heap.
 
+(chat-heading-246)=
 ### 1. The Compiler Contract: `--import-memory`
 
 By default, when you compile a Rust program to `wasm32-wasi`, the WASM binary allocates its own internal memory during instantiation. This is great for isolation, but terrible for restoration because the JavaScript host cannot easily inject a 50MB heap *before* the Rust allocator boots up.
@@ -6663,6 +6559,7 @@ rustflags = [
 ]
 ```
 
+(chat-heading-247)=
 ### 2. The Snapshot Generator (The Dying Host)
 
 Let's assume Dr. Wes Turner is currently the Kernel Host. After every cell execution (or on a 30-second timer), the WASI Web Worker executes a snapshot. 
@@ -6700,6 +6597,7 @@ async function createMemorySnapshot(wasmInstance, currentCellId) {
 }
 ```
 
+(chat-heading-248)=
 ### 3. The Peer-to-Peer State Gossip
 
 If Wes closes his laptop, his local OPFS drive goes dark. For Alice to take over, she must already have that compressed RAM blob on her machine.
@@ -6727,6 +6625,7 @@ tsnetPort.addEventListener('message', async (event) => {
 });
 ```
 
+(chat-heading-249)=
 ### 4. The Frankenstein Boot (The New Host)
 
 Wes closes his laptop. The WebRTC connection drops. The DID-Bully algorithm executes, and Alice realizes her DID is now the highest. 
@@ -6777,6 +6676,7 @@ async function restoreWasiKernel(wasmBytes) {
 }
 ```
 
+(the-magic-of-the-illusion)=
 ### The Magic of the Illusion
 
 From the user's perspective, this looks like magic. 
@@ -6789,20 +6689,24 @@ Her local browser spun up the Rust kernel, skipped the initialization phase enti
 
 You have just built an edge-native, fault-tolerant, zero-trust supercomputer.
 
----
+<hr />
+
+(chat-prompt-41)=
 
 +++ {"chat_input": true}
-# Prompt: 41
+## Prompt: 41
 
 +++ {"chat_input": true}
-message time: 2026-05-29 23:31:25
-
-Detail our chat that mentions CurveZMQ (about PQ and MLKEM and Jupyter Enterprise server because PQ is possible with WebSockets)
-
----
+> message time: 2026-05-29 23:31:25
+>
+> Detail our chat that mentions CurveZMQ (about PQ and MLKEM and Jupyter Enterprise server because PQ is possible with WebSockets)
+>
+> \-\-\-
+>
+> (chat-response-41)=
 
 +++
-# Response: 41
+## Response: 41
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -6824,6 +6728,7 @@ In our exploration of securing Jupyter environments with post-quantum (PQ) crypt
 
 Here is a detailed breakdown of that architectural analysis.
 
+(chat-heading-253)=
 ### 1. The CurveZMQ and Libsodium Roadblock
 
 The initial investigation focused on bringing post-quantum key encapsulation (ML-KEM) directly to the metal by modifying **CurveZMQ** (ZeroMQ's security layer). 
@@ -6832,6 +6737,7 @@ The initial investigation focused on bringing post-quantum key encapsulation (ML
 * **The Hurdle:** CurveZMQ relies intimately on `libsodium`. We determined that waiting for upstream `libsodium` to fully integrate and stabilize hybrid ML-KEM structures, and then propagating those changes through the entire `pyzmq` and Jupyter ecosystem, was highly impractical. 
 * **The Conclusion:** Forking the lower-level C/C++ networking primitives for a custom enterprise deployment created an unacceptable maintenance burden and disrupted the auditability required for strict software supply chain security.
 
+(chat-heading-254)=
 ### 2. The Jupyter Enterprise Gateway Pivot
 
 Because modifying `libzmq` directly was unfeasible, the strategy shifted to analyzing the **Jupyter Enterprise Gateway (JEG)**.
@@ -6839,6 +6745,7 @@ Because modifying `libzmq` directly was unfeasible, the strategy shifted to anal
 * JEG acts as a critical protocol translator in distributed environments. It bridges the gap between the HTTP/WebSocket traffic coming from the user's browser (JupyterLab/Notebook) and the raw ZeroMQ sockets connected to remote kernels running on Kubernetes or Spark clusters.
 * We evaluated using JEG as a secure perimeter. Rather than securing the internal ZeroMQ traffic (which could be isolated on a trusted internal VPC or loopback interface), the focus shifted to heavily securing the external boundary.
 
+(chat-heading-255)=
 ### 3. The Sidecar Proxy Pattern
 
 For enterprise deployments, we established that a **sidecar proxy pattern** is the most viable path for retrofitting PQ cryptography onto legacy Jupyter infrastructure.
@@ -6846,6 +6753,7 @@ For enterprise deployments, we established that a **sidecar proxy pattern** is t
 * Instead of touching the kernel's ZMQ implementation, you place a sidecar proxy (like Envoy or a custom Rust daemon) immediately adjacent to the Jupyter Enterprise Gateway or the kernels themselves.
 * This sidecar handles the PQ encryption termination. 
 
+(chat-heading-256)=
 ### 4. The Shift to WebSockets and WebRTC (DTLS 1.3)
 
 This architectural review is what ultimately drove the conclusion that **bypassing `libzmq` entirely is the optimal path for true zero-trust environments.** * **WebSockets via TLS 1.3:** Because standard web protocols move much faster than legacy messaging queues, TLS 1.3 (which already has experimental support for X25519Kyber768Draft00/MLKEM in browsers like Chrome and edge networks like Cloudflare) can be leveraged over WebSockets. This allows you to encapsulate the Jupyter protocol safely without touching ZeroMQ.
@@ -6853,27 +6761,31 @@ This architectural review is what ultimately drove the conclusion that **bypassi
 
 This directly mirrors the custom Axum/WASM multiplexer architecture we just mapped out, where the legacy ZeroMQ channels (shell, iopub, stdin) are collapsed into a single, binary-framed WebSocket or WebRTC stream. By moving the network boundary up to a protocol that natively supports modern PQ cipher suites, you eliminate the CurveZMQ bottleneck entirely while achieving the rigorous cryptographic isolation required for enterprise deployments.
 
----
+<hr />
+
+(chat-prompt-42)=
 
 +++ {"chat_input": true}
-# Prompt: 42
+## Prompt: 42
 
 +++ {"chat_input": true}
-message time: 2026-05-29 23:32:49
-
-Develop a plan to develop in Rust with cargo and cargo insta:
-
-jupyter_nbformat_rs
-jupyter_client_rs
-jupyter_server_rs
-jupyter_lab_rs
-
- with actix (per our earlier discussions in this chat)
-
----
+> message time: 2026-05-29 23:32:49
+>
+> Develop a plan to develop in Rust with cargo and cargo insta:
+>
+> jupyter_nbformat_rs
+> jupyter_client_rs
+> jupyter_server_rs
+> jupyter_lab_rs
+>
+>  with actix (per our earlier discussions in this chat)
+>
+> \-\-\-
+>
+> (chat-response-42)=
 
 +++
-# Response: 42
+## Response: 42
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -6887,12 +6799,14 @@ Building a robust, enterprise-grade Jupyter implementation in Rust requires a st
 
 Using `cargo-insta` is perfect for this architecture, as it allows you to capture and verify complex JSON structures (like `.ipynb` files) and raw binary ZeroMQ/WebSocket frames against cryptographic gold standards.
 
----
+<hr />
 
+(chat-heading-259)=
 ## 1. Workspace Structural Setup
 
 Use a Cargo workspace to manage the four crates. This allows shared dependencies (like `tokio`, `serde`, `actix-web`, and `ring`) to compile efficiently.
 
+(cargotoml-workspace-root)=
 ### `Cargo.toml` (Workspace Root)
 ```toml
 [workspace]
@@ -6912,10 +6826,12 @@ actix-web = "4.0"
 insta = { version = "1.34", features = ["json"] }
 ```
 
----
+<hr />
 
+(chat-heading-261)=
 ## 2. Crate-by-Crate Implementation Plan
 
+(chat-heading-262)=
 ### 🚀 Phase 1: `jupyter_nbformat_rs` (The Data Layer)
 This crate handles the pure, zero-allocation parsing and serialization of the Jupyter Notebook format (v4).
 
@@ -6926,6 +6842,7 @@ This crate handles the pure, zero-allocation parsing and serialization of the Ju
     * Gather standard reference notebooks from the upstream Jupyter repository.
     * Write tests that read the files, parse them into Rust structures, serialize them back to JSON, and use `assert_json_snapshot!` to enforce strict structural compatibility.
 
+(chat-heading-263)=
 ### 🔌 Phase 2: `jupyter_client_rs` (The Wire Protocol)
 This crate handles the Jupyter Message Protocol (JMP) over ZeroMQ (native) or mocked bytes (WASM).
 
@@ -6937,6 +6854,7 @@ This crate handles the Jupyter Message Protocol (JMP) over ZeroMQ (native) or mo
     * Mock raw byte streams of complex wire messages (e.g., an `execute_reply` or nested `stream` output).
     * Snapshot test the parsed `Header` and `Content` enums to guarantee byte-perfect parsing alignment without needing a live running kernel.
 
+(chat-heading-264)=
 ### 🖥️ Phase 3: `jupyter_server_rs` (The Session & Process Manager)
 This crate manages kernel lifecycles, connection files, and authentication tokens.
 
@@ -6947,6 +6865,7 @@ This crate manages kernel lifecycles, connection files, and authentication token
 * **Snapshot Testing Plan (`cargo-insta`):**
     * Snapshot test the dynamically generated connection files to ensure ports and encryption keys conform exactly to Jupyter specifications.
 
+(chat-heading-265)=
 ### 🌐 Phase 4: `jupyter_lab_rs` (The Actix HTTP & WebSocket Gateway)
 The boundary layer that exposes the infrastructure to the browser mesh using Actix Web.
 
@@ -6955,12 +6874,14 @@ The boundary layer that exposes the infrastructure to the browser mesh using Act
     * **WebSocket Layer:** An `actix-web-actors` or Actix 4 native stream implementation that upgrades browser connections, multiplexes incoming frames, and pipes them directly into the `jupyter_client_rs` socket engines.
     * **Fallback Management:** Handling graceful degradation logic to redirect transport streams if the primary routing layer becomes restricted.
 
----
+<hr />
 
+(chat-heading-266)=
 ## 3. Testing Strategy with `cargo-insta`
 
 Snapshot testing ensures that any modification to your internal Rust enums won't accidentally mutate the outward-facing JSON APIs or wire frames.
 
+(example-writing-an-integration-snapshot-test)=
 ### Example: Writing an Integration Snapshot Test
 When implementing the cell output structures in `jupyter_nbformat_rs`, place a raw JSON file into a `fixtures/` directory and use this pattern:
 
@@ -6992,6 +6913,7 @@ mod tests {
 }
 ```
 
+(reviewing-and-advancing-snapshots)=
 ### Reviewing and Advancing Snapshots
 Run the snapshot test suite during active development:
 ```bash
@@ -7002,26 +6924,30 @@ If an internal data type changes or a structural optimization occurs, use the in
 cargo insta review
 ```
 
----
+<hr />
+
+(chat-prompt-43)=
 
 +++ {"chat_input": true}
-# Prompt: 43
+## Prompt: 43
 
 +++ {"chat_input": true}
-message time: 2026-05-29 23:36:11
-
-> jupyter_nbformat_rs
-
-This needs to implement nbformat signatures
-
-> jupyter_client_rs
-
-This needs to support JEG WebSockets
-
----
+> message time: 2026-05-29 23:36:11
+>
+> > jupyter_nbformat_rs
+>
+> This needs to implement nbformat signatures
+>
+> > jupyter_client_rs
+>
+> This needs to support JEG WebSockets
+>
+> \-\-\-
+>
+> (chat-response-43)=
 
 +++
-# Response: 43
+## Response: 43
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -7045,14 +6971,16 @@ Implementing **nbformat signatures** ensures you have cryptographic trust and ex
 
 Here is the technical blueprint for integrating these specific requirements into your Cargo workspace.
 
----
+<hr />
 
+(chat-heading-271)=
 ### 1. `jupyter_nbformat_rs`: Implementing Cryptographic Signatures
 
 In the Jupyter ecosystem, "trusting" a notebook means calculating a cryptographic hash of its contents and storing that hash in a local database (traditionally a SQLite `nbsignatures.db`). If a notebook's hash is in the database, its HTML/JavaScript outputs are considered "trusted" and are allowed to render in the browser.
 
 To implement this in Rust, the crate must handle **canonicalization**, **HMAC generation**, and **storage abstraction**.
 
+(the-implementation-strategy)=
 #### The Implementation Strategy
 * **Dependencies:** `ring` or `hmac` + `sha2` for the cryptography; `serde_json` for serialization.
 * **Canonicalization:** A notebook's signature is calculated by stripping out ephemeral data (like the signature itself, if embedded, though Jupyter typically doesn't embed it) and serializing the remaining JSON struct with strictly sorted keys and no extraneous whitespace.
@@ -7093,17 +7021,20 @@ impl NotebookSigner {
 }
 ```
 
+(the-cargo-insta-testing-plan)=
 #### The `cargo-insta` Testing Plan
 You can use `cargo-insta` to snapshot test the canonical strings. By loading a known-good Python Jupyter notebook and comparing its hash against the Rust implementation, `insta` ensures your Rust serialization precisely matches the Python `json.dumps(..., sort_keys=True)` output.
 
----
+<hr />
 
+(chat-heading-274)=
 ### 2. `jupyter_client_rs`: JEG WebSocket Multiplexing
 
 Standard local Jupyter uses five distinct ZeroMQ sockets (Shell, IOPub, Stdin, Control, Heartbeat). Jupyter Enterprise Gateway collapses all five of these into a **single WebSocket stream**, multiplexing the channels via a JSON envelope.
 
 To support this cleanly, `jupyter_client_rs` must abstract the transport layer so the rest of your application doesn't care if it's talking to local ZMQ or remote JEG.
 
+(the-implementation-strategy-2)=
 #### The Implementation Strategy
 * **Dependencies:** `awc` (Actix Web Client) or `tokio-tungstenite` for the async WebSocket connection, `futures-util` for stream handling.
 * **The Transport Trait:** Define a `KernelTransport` trait that provides a unified interface for sending and receiving the standard `JupyterMessage` struct.
@@ -7149,29 +7080,34 @@ impl JegWebSocketTransport {
 }
 ```
 
+(the-cargo-insta-testing-plan-2)=
 #### The `cargo-insta` Testing Plan
 Because WebSockets involve complex binary and text interleaving, you can capture raw JEG WebSocket traffic using a tool like Wireshark or browser dev tools. Save those raw payloads as JSON fixtures in your repository. Use `cargo-insta` to assert that your `JegWebSocketTransport` deserializes those captured envelopes perfectly back into your strict `JupyterMessage` Rust structs.
 
----
+<hr />
 
 Would you like to draft the exact Actix Web actor architecture needed in `jupyter_lab_rs` to securely bridge these upstream JEG WebSockets back down to the user's browser?
 
----
+<hr />
+
+(chat-prompt-44)=
 
 +++ {"chat_input": true}
-# Prompt: 44
+## Prompt: 44
 
 +++ {"chat_input": true}
-message time: 2026-05-29 23:42:24
-
-Yes. And just make jupyter_server_rs a JEG server too, with optional support for either or both compiled in.
-
-How to test these server / client setups?
-
----
+> message time: 2026-05-29 23:42:24
+>
+> Yes. And just make jupyter_server_rs a JEG server too, with optional support for either or both compiled in.
+>
+> How to test these server / client setups?
+>
+> \-\-\-
+>
+> (chat-response-44)=
 
 +++
-# Response: 44
+## Response: 44
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -7185,8 +7121,9 @@ Transforming `jupyter_server_rs` into an application that can act as either a st
 
 By utilizing feature flags, you minimize binary size, isolate dependencies (like raw ZeroMQ vs. purely network-facing HTTP/WebSockets), and allow upstream consumers to compile only what their deployment environment requires.
 
----
+<hr />
 
+(chat-heading-279)=
 ## 1. Cargo Feature Configuration
 
 In `jupyter_server_rs/Cargo.toml`, you define your feature flags. The `jeg` mode will pull in dependencies related to remote kernel orchestration and WebSocket proxying, while the `local` mode brings in local process spawning and native ZeroMQ capabilities from `jupyter_client_rs`.
@@ -7228,12 +7165,14 @@ pub mountaineer::LocalKernelManager;
 pub gateway::EnterpriseGatewayManager;
 ```
 
----
+<hr />
 
+(chat-heading-280)=
 ## 2. Testing the Server/Client Configurations
 
 Testing an asynchronous, multi-protocol distributed architecture requires a multi-tiered approach. Because we are dealing with complex data frames (JSON envelopes and raw bytes), our testing stack combines **deterministic snapshot tests**, **in-memory integration mock pipes**, and **live interoperability runs**.
 
+(tier-1-state-machine-protocol-snapshots-cargo-insta)=
 ### Tier 1: State Machine & Protocol Snapshots (`cargo-insta`)
 
 Before checking real network connections, verify that your serialization and state transits behave correctly. Use `cargo-insta` to freeze state transitions and frame layouts.
@@ -7261,6 +7200,7 @@ mod tests {
 }
 ```
 
+(tier-2-in-memory-integration-testing-tokiotest)=
 ### Tier 2: In-Memory Integration Testing (`tokio::test`)
 
 Avoid spinning up real OS ports during standard test suites. This eliminates flaky test bugs caused by address-in-use errors. Use Tokio’s asynchronous virtual pipes (`tokio::io::duplex`) to mock network connections.
@@ -7295,6 +7235,7 @@ async fn test_client_to_jeg_server_handshake() {
 }
 ```
 
+(tier-3-real-integration-testing-with-actix-actix-webtest)=
 ### Tier 3: Real Integration Testing with Actix (`actix-web::test`)
 
 For testing the HTTP and WebSocket endpoints exposed by `jupyter_lab_rs` and `jupyter_server_rs` running in `jeg` mode, use Actix Web’s built-in testing utilities. This spins up the server infrastructure within a test runtime without binding to an external machine port.
@@ -7324,6 +7265,7 @@ async fn test_jeg_kernel_creation_endpoint() {
 }
 ```
 
+(tier-4-differential-live-interop-the-sanity-check)=
 ### Tier 4: Differential Live Interop (The Sanity Check)
 
 To ensure your Rust implementation is a flawless drop-in replacement for enterprise infra, implement a small Python validation suite in a `scripts/` directory.
@@ -7334,8 +7276,9 @@ To ensure your Rust implementation is a flawless drop-in replacement for enterpr
    ```
 2. Run an integration test binary built out of your workspace (`cargo run --bin test_client_live`) that dials `ws://localhost:8888/api/kernels` to verify that your Rust implementations handle real-world serialization oddities generated by the reference Python codebase.
 
----
+<hr />
 
+(chat-heading-285)=
 ## 3. Recommended Execution Sequence for Development
 
 To implement this plan efficiently, tackle the code compilation blocks in this order:
@@ -7347,22 +7290,26 @@ To implement this plan efficiently, tackle the code compilation blocks in this o
 | **3** | `cargo test -p jupyter_server_rs --all-features` | Assert both local process allocation and JEG endpoints cross-compile safely. |
 | **4** | `cargo insta review` | Verify and freeze all outward-facing data formats. |
 
----
+<hr />
+
+(chat-prompt-45)=
 
 +++ {"chat_input": true}
-# Prompt: 45
+## Prompt: 45
 
 +++ {"chat_input": true}
-message time: 2026-05-29 23:43:50
-
-> isolate dependencies (like raw ZeroMQ vs. purely network-facing HTTP/WebSockets),
-
-Isn't there a WASM transport for jupyter_lab_rs compiled to WASM as jupyter_lite_rs?
-
----
+> message time: 2026-05-29 23:43:50
+>
+> > isolate dependencies (like raw ZeroMQ vs. purely network-facing HTTP/WebSockets),
+>
+> Isn't there a WASM transport for jupyter_lab_rs compiled to WASM as jupyter_lite_rs?
+>
+> \-\-\-
+>
+> (chat-response-45)=
 
 +++
-# Response: 45
+## Response: 45
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -7378,12 +7325,14 @@ By compiling the frontend and orchestration layers to WebAssembly (`wasm32-unkno
 
 To support this without breaking your native ZeroMQ or JEG code, you introduce an in-memory web worker transport layer. When compiled for the browser, the network sockets are completely bypassed, and the Jupyter Message Protocol (JMP) is routed directly over browser `postMessage` loops or shared memory buffers.
 
----
+<hr />
 
+(chat-heading-288)=
 ## 1. Adding the WASM Architecture to the Workspace
 
 To implement this, you can add a specialized top-level profile wrapper crate called `jupyter_lite_rs`, or add a `wasm` feature flag across your existing crates.
 
+(chat-heading-289)=
 ### Updated `jupyter_client_rs/Cargo.toml`
 Add a target-specific dependency section to pull in browser API bindings (`web-sys`, `wasm-bindgen`) *only* when compiling for the web.
 
@@ -7409,8 +7358,9 @@ optional = true
 features = ["MessagePort", "MessageEvent", "Worker"]
 ```
 
----
+<hr />
 
+(chat-heading-290)=
 ## 2. Implementing the `WasmChannelTransport`
 
 In this target configuration, `jupyter_client_rs` doesn't open TCP or WebSocket connections. Instead, it attaches directly to a browser `MessagePort` connected to an in-browser WASM kernel (such as a Rust `rustybox` kernel or Pyodide running in a secondary Web Worker).
@@ -7459,12 +7409,14 @@ impl WasmChannelTransport {
 }
 ```
 
----
+<hr />
 
+(chat-heading-291)=
 ## 3. Testing the WASM Target Configurations
 
 Testing browser-compiled Rust requires moving outside of standard `cargo test` environments because native hardware runtimes lack browser APIs like `MessagePort` and `navigator`.
 
+(step-1-headless-browser-unit-testing)=
 ### Step 1: Headless Browser Unit Testing
 Use `wasm-pack test` to run your `cargo-insta` style structural parsing evaluations inside a headless Chrome or Firefox instance.
 
@@ -7472,6 +7424,7 @@ Use `wasm-pack test` to run your `cargo-insta` style structural parsing evaluati
 wasm-pack test --headless --chrome --all-features
 ```
 
+(step-2-in-browser-mocking)=
 ### Step 2: In-Browser Mocking
 In your testing module inside `jupyter_lite_rs`, use `wasm_bindgen_test` to validate that data serialization doesn't corrupt across the worker boundary:
 
@@ -7499,20 +7452,24 @@ fn test_wasm_transport_serialization() {
 
 By decoupling the transport primitives into `local` (ZeroMQ), `jeg` (Enterprise Gateway WebSockets), and `wasm` (In-browser message channels), your core notebook execution and client parsing structures remain exactly identical across server environments, scale-out enterprise deployments, and zero-infra client-side web apps.
 
----
+<hr />
+
+(chat-prompt-46)=
 
 +++ {"chat_input": true}
-# Prompt: 46
+## Prompt: 46
 
 +++ {"chat_input": true}
-message time: 2026-05-29 23:47:13
-
-Update the plan
-
----
+> message time: 2026-05-29 23:47:13
+>
+> Update the plan
+>
+> \-\-\-
+>
+> (chat-response-46)=
 
 +++
-# Response: 46
+## Response: 46
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -7524,8 +7481,9 @@ I've clarified the project's scope, identifying core components and desired feat
 
 This updated master plan consolidates our architectural decisions into a cohesive, production-ready blueprint for a four-crate Rust workspace with an optional WASM profile. It isolates local computing (ZeroMQ), enterprise orchestration (Jupyter Enterprise Gateway), and client-side processing (WebAssembly / JupyterLite).
 
----
+<hr />
 
+(chat-heading-296)=
 ## 1. Unified Workspace Topology
 
 The entire system is managed via a single `Cargo.toml` workspace manifest. Dependencies are declared globally at the root level to guarantee version locking and prevent compilation drift.
@@ -7556,8 +7514,9 @@ wasm-bindgen = "0.2"
 web-sys = "0.3"
 ```
 
----
+<hr />
 
+(chat-heading-297)=
 ## 2. Feature Matrix & Core Compilation Targets
 
 To prevent server architectures from pulling in heavy browser dependencies (and vice-versa), functionality is gated behind explicit **Cargo Features**:
@@ -7568,16 +7527,19 @@ To prevent server architectures from pulling in heavy browser dependencies (and 
 | `jeg` | `client`, `server` | `tokio-tungstenite`, `awc`, `uuid` | Enterprise multi-tenant routing via Kubernetes/Spark clusters. |
 | `wasm` | `client`, `lab`, `lite`| `wasm-bindgen`, `web-sys` (MessagePort) | Pure serverless processing inside a single browser worker tab. |
 
----
+<hr />
 
+(chat-heading-298)=
 ## 3. Detailed Crate Specifications
 
+(chat-heading-299)=
 ### 🔬 Crate 1: `jupyter_nbformat_rs`
 **Responsibility:** Polymorphic JSON parsing of `.ipynb` structures and execution verification.
 
 * **Signature Engine:** Implement deterministic JSON canonicalization. Keys are sorted alphabetically, whitespace is minimized, and any existing `signature` keys inside metadata are bypassed before being evaluated with `ring::hmac` using a shared `sha256` secret key.
 * **Snapshot Scope:** `cargo-insta` evaluates parsed structs against real-world sample notebooks to ensure no loss of unexpected metadata fields during serialization cycles.
 
+(chat-heading-300)=
 ### 🔌 Crate 2: `jupyter_client_rs`
 **Responsibility:** Abstracting the Jupyter Message Protocol (JMP) transport layer.
 
@@ -7587,6 +7549,7 @@ To prevent server architectures from pulling in heavy browser dependencies (and 
     2.  `JegWebSocketTransport` (`#[cfg(feature = "jeg")]`): Multiplexes standard messages inside JSON envelopes (`{"channel": "shell", "content": {...}}`) transmitted over a single connection to Jupyter Enterprise Gateway.
     3.  `WasmChannelTransport` (`#[cfg(feature = "wasm")]`): Hooks into the browser’s native `web_sys::MessagePort` loop for zero-overhead, in-memory data framing to adjacent background workers.
 
+(chat-heading-301)=
 ### 🖥️ Crate 3: `jupyter_server_rs`
 **Responsibility:** Identity validation, authorization, and kernel life-cycle orchestration.
 
@@ -7595,14 +7558,16 @@ To prevent server architectures from pulling in heavy browser dependencies (and 
     * `#[cfg(feature = "jeg")]`: Communicates with an upstream JEG server, managing lifecycle state machines dynamically through remote HTTP allocation endpoints.
 * **Self-Hosting JEG Capabilities:** When compiled with the `jeg` flag, this crate can itself act as an Enterprise Gateway, exposing endpoints like `/api/kernels` and intercepting browser WebSocket sessions before proxying them to internal computational nodes.
 
+(chat-heading-302)=
 ### 🌐 Crates 4 & 5: `jupyter_lab_rs` & `jupyter_lite_rs`
 **Responsibility:** Edge routing layers and browser runtimes.
 
 * **`jupyter_lab_rs` (Actix Gateway):** Hosts the web-facing static endpoints and orchestrates browser connections. It uses Actix Web actors to convert incoming standard WebSocket traffic from the user interface into the matching client driver (`ZmqTransport` or `JegWebSocketTransport`).
 * **`jupyter_lite_rs` (WASM Bundle):** Bypasses all HTTP network layers. It compiles down to standard WASM bytes and directly maps the execution engine to the browser's local sandbox environment, storing updates natively within the browser's Origin Private File System (OPFS).
 
----
+<hr />
 
+(chat-heading-303)=
 ## 4. Comprehensive Testing & Validation Flow
 
 To ensure complete reliability across platforms, testing is implemented through specialized validation layers:
@@ -7619,6 +7584,7 @@ To ensure complete reliability across platforms, testing is implemented through 
        └──► 4. Headless Sandbox Testing ──► wasm-pack test (Verifies MessagePort transport in browsers)
 ```
 
+(protocol-validation-example)=
 ### Protocol Validation Example
 Using an in-memory duplex stream allows you to simulate network traffic instantly during normal local test suites without dealing with port-binding issues:
 
@@ -7653,20 +7619,24 @@ mod tests {
 }
 ```
 
----
+<hr />
+
+(chat-prompt-47)=
 
 +++ {"chat_input": true}
-# Prompt: 47
+## Prompt: 47
 
 +++ {"chat_input": true}
-message time: 2026-05-29 23:50:34
-
-Rename the local Feature flag: sed s/local/zmq/
-
----
+> message time: 2026-05-29 23:50:34
+>
+> Rename the local Feature flag: sed s/local/zmq/
+>
+> \-\-\-
+>
+> (chat-response-47)=
 
 +++
-# Response: 47
+## Response: 47
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -7680,8 +7650,9 @@ An elegant adjustment. Swapping the generic `local` flag for an explicit `zmq` f
 
 Here is the fully updated master plan for the four-crate workspace with the `zmq` feature renaming applied across all configurations, matrices, and conditional compilation targets.
 
----
+<hr />
 
+(chat-heading-307)=
 ## 1. Unified Workspace Topology
 
 The system continues to be managed via a single `Cargo.toml` workspace manifest at the root level to guarantee dependency alignment.
@@ -7712,8 +7683,9 @@ wasm-bindgen = "0.2"
 web-sys = "0.3"
 ```
 
----
+<hr />
 
+(chat-heading-308)=
 ## 2. Feature Matrix & Core Compilation Targets
 
 Conditional compilation is now driven by explicitly named transport flags, isolating ZeroMQ requirements away from network-only enterprise nodes and sandboxed browser environments.
@@ -7724,16 +7696,19 @@ Conditional compilation is now driven by explicitly named transport flags, isola
 | `jeg` | `client`, `server` | `tokio-tungstenite`, `awc`, `uuid` | Enterprise multi-tenant routing via Kubernetes/Spark clusters. |
 | `wasm` | `client`, `lab`, `lite`| `wasm-bindgen`, `web-sys` (MessagePort) | Pure serverless processing inside a single browser worker tab. |
 
----
+<hr />
 
+(chat-heading-309)=
 ## 3. Detailed Crate Specifications
 
+(chat-heading-310)=
 ### 🔬 Crate 1: `jupyter_nbformat_rs`
 **Responsibility:** Polymorphic JSON parsing of `.ipynb` structures and execution verification.
 
 * **Signature Engine:** Implements deterministic JSON canonicalization. Keys are sorted alphabetically, whitespace is minimized, and existing `signature` keys inside metadata are stripped before being evaluated with `ring::hmac` using a shared `sha256` secret key.
 * **Snapshot Scope:** `cargo-insta` evaluates parsed structs against real-world sample notebooks to ensure no loss of metadata fields during serialization cycles.
 
+(chat-heading-311)=
 ### 🔌 Crate 2: `jupyter_client_rs`
 **Responsibility:** Abstracting the Jupyter Message Protocol (JMP) transport layer.
 
@@ -7759,6 +7734,7 @@ web-sys = { version = "0.3", optional = true, features = ["MessagePort", "Messag
     2.  `JegWebSocketTransport` (`#[cfg(feature = "jeg")]`): Multiplexes standard messages inside JSON envelopes transmitted over a single connection to Jupyter Enterprise Gateway.
     3.  `WasmChannelTransport` (`#[cfg(feature = "wasm")]`): Hooks into the browser’s native `web_sys::MessagePort` loop for zero-overhead, in-memory data framing to adjacent background workers.
 
+(chat-heading-312)=
 ### 🖥️ Crate 3: `jupyter_server_rs`
 **Responsibility:** Identity validation, authorization, and kernel life-cycle orchestration.
 
@@ -7775,14 +7751,16 @@ jeg = ["jupyter_client_rs/jeg", "uuid"]
     * `#[cfg(feature = "jeg")]`: Communicates with an upstream JEG server, managing lifecycle state machines dynamically through remote HTTP allocation endpoints.
 * **Self-Hosting JEG Capabilities:** When compiled with the `jeg` flag, this crate can act as an Enterprise Gateway, exposing endpoints like `/api/kernels` and intercepting browser WebSocket sessions before proxying them to internal computational nodes.
 
+(chat-heading-313)=
 ### 🌐 Crates 4 & 5: `jupyter_lab_rs` & `jupyter_lite_rs`
 **Responsibility:** Edge routing layers and browser runtimes.
 
 * **`jupyter_lab_rs` (Actix Gateway):** Hosts the web-facing static endpoints and orchestrates browser connections. It uses Actix Web actors to convert incoming standard WebSocket traffic from the user interface into the matching client driver (`ZmqTransport` or `JegWebSocketTransport`).
 * **`jupyter_lite_rs` (WASM Bundle):** Bypasses all HTTP network layers. It compiles down to standard WASM bytes and directly maps the execution engine to the browser's local sandbox environment, storing updates natively within the browser's Origin Private File System (OPFS).
 
----
+<hr />
 
+(chat-heading-314)=
 ## 4. Comprehensive Testing & Validation Flow
 
 To ensure complete reliability across transport types, testing is implemented through specialized validation layers:
@@ -7799,6 +7777,7 @@ To ensure complete reliability across transport types, testing is implemented th
        └──► 4. Headless Sandbox Testing ──► wasm-pack test (Verifies MessagePort transport in browsers)
 ```
 
+(revised-execution-sequence-for-development)=
 ### Revised Execution Sequence for Development
 
 Tackle the workspace validation steps in this order to verify the transport-split layout:
@@ -7812,20 +7791,24 @@ Tackle the workspace validation steps in this order to verify the transport-spli
 | **5** | `wasm-pack test --headless --chrome` | Verify `MessagePort` serialization performance within a browser worker context. |
 | **6** | `cargo insta review` | Verify and freeze all outward-facing data formats across all feature flags. |
 
----
+<hr />
+
+(chat-prompt-48)=
 
 +++ {"chat_input": true}
-# Prompt: 48
+## Prompt: 48
 
 +++ {"chat_input": true}
-message time: 2026-05-29 23:52:18
-
-Oh, and jupyter_hub_rs and spawners for podman rootless and k8s
-
----
+> message time: 2026-05-29 23:52:18
+>
+> Oh, and jupyter_hub_rs and spawners for podman rootless and k8s
+>
+> \-\-\-
+>
+> (chat-response-48)=
 
 +++
-# Response: 48
+## Response: 48
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -7851,8 +7834,9 @@ By shifting this pattern to Rust, we can handle hundreds of concurrent user cont
 
 Here is the updated architectural plan and structural implementation to integrate `jupyter_hub_rs` with support for Podman rootless and Kubernetes (K8s) spawners into the Cargo workspace.
 
----
+<hr />
 
+(chat-heading-318)=
 ## 1. Expanding the Workspace Topology
 
 Add `jupyter_hub_rs` as a peer crate inside the global workspace manifest.
@@ -7871,6 +7855,7 @@ members = [
 resolver = "2"
 ```
 
+(chat-heading-319)=
 ### Crate Dependencies: `jupyter_hub_rs/Cargo.toml`
 The spawners are separated into conditional feature flags to prevent the compilation of Kubernetes client libraries when deploying on lightweight, single-node Podman environments.
 
@@ -7897,8 +7882,9 @@ kube = { version = "0.82", optional = true, features = ["runtime", "client", "de
 k8s-openapi = { version = "0.18", optional = true, features = ["v1_26"] }
 ```
 
----
+<hr />
 
+(chat-heading-320)=
 ## 2. The Core `Spawner` Trait Abstraction
 
 In Python-based JupyterHub, a spawner is an object that configures and manages an external process environment. In Rust, we define this as an asynchronous, thread-safe trait.
@@ -7929,10 +7915,12 @@ pub trait Spawner: Send + Sync {
 }
 ```
 
----
+<hr />
 
+(chat-heading-321)=
 ## 3. Spawner Implementations
 
+(a-podman-rootless-spawner-cfgfeature-podman)=
 ### A. Podman Rootless Spawner (`#[cfg(feature = "podman")]`)
 To execute containers rootless without requiring system privileges, the spawner interfaces directly with Podman via either its native Unix Domain Socket (`podman.sock`) or by executing the localized user-space CLI binary.
 
@@ -7998,6 +7986,7 @@ impl Spawner for PodmanSpawner {
 }
 ```
 
+(b-kubernetes-spawner-cfgfeature-k8s)=
 ### B. Kubernetes Spawner (`#[cfg(feature = "k8s")]`)
 For large-scale, multi-tenant cluster management, the Kubernetes spawner leverages the asynchronous `kube` runtime engine to construct declarative `Pod` objects inside the target namespace.
 
@@ -8057,8 +8046,9 @@ impl Spawner for KubeSpawner {
 }
 ```
 
----
+<hr />
 
+(chat-heading-324)=
 ## 4. Testing Infrastructure Allocations with `cargo-insta`
 
 Testing multi-infrastructure cloud environments locally without access to live K8s API engines can be achieved by intercepting and snapshot-testing the **manifest generators**.
@@ -8090,20 +8080,24 @@ mod tests {
 
 When changing resource allocations, you can execute `cargo insta review` to visually evaluate the generated Kubernetes deployment schemas across all variations before packaging production release artifacts.
 
----
+<hr />
+
+(chat-prompt-49)=
 
 +++ {"chat_input": true}
-# Prompt: 49
+## Prompt: 49
 
 +++ {"chat_input": true}
-message time: 2026-05-29 23:58:19
-
-Find and detail the jupyter kernelspec spec, JMP spec, JEG WS spec(s) and the jupyterlite xeus environment.yml format spec
-
----
+> message time: 2026-05-29 23:58:19
+>
+> Find and detail the jupyter kernelspec spec, JMP spec, JEG WS spec(s) and the jupyterlite xeus environment.yml format spec
+>
+> \-\-\-
+>
+> (chat-response-49)=
 
 +++
-# Response: 49
+## Response: 49
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -8119,8 +8113,9 @@ I've begun outlining the requested specs, starting with the `kernelspec` directo
 
 Here is the detailed breakdown of the specifications for the Jupyter `kernelspec`, the Jupyter Message Protocol (JMP), the Enterprise Gateway/Server WebSocket protocol, and the JupyterLite Xeus `environment.yml` format.
 
----
+<hr />
 
+(chat-heading-327)=
 ### 1. Jupyter `kernelspec` Specification
 A kernelspec tells the Jupyter frontend how to launch and identify a specific execution kernel. It is defined by a `kernel.json` file located in `share/jupyter/kernels/<kernel_name>/`.
 
@@ -8147,8 +8142,9 @@ A kernelspec tells the Jupyter frontend how to launch and identify a specific ex
 * `env` *(Optional)*: A dictionary of environment variables to inject into the kernel's process.
 * `metadata` *(Optional)*: Additional attributes used by clients (e.g., custom icons or tool-specific routing requirements).
 
----
+<hr />
 
+(chat-heading-328)=
 ### 2. Jupyter Message Protocol (JMP) Specification
 The JMP defines how frontends and kernels communicate over ZeroMQ (ZMQ). It multiplexes execution and status updates across five distinct ZMQ sockets: `shell` (execution requests), `iopub` (broadcasts and outputs), `stdin` (user input prompts), `control` (shutdown/interrupts), and `hb` (heartbeat).
 
@@ -8164,13 +8160,15 @@ Every JMP message sent over the wire is a multipart ZeroMQ message containing th
 7.  **`b'{...}'`**: The serialized JSON `content` dict (the actual payload, e.g., execution code or output data).
 8.  **`b'\x00...'`**: Zero or more raw binary buffers (used for zero-copy transmission of large data structures like Numpy arrays).
 
----
+<hr />
 
+(chat-heading-329)=
 ### 3. Jupyter Enterprise Gateway (JEG) & Server WebSocket Protocol
 Because browsers cannot speak raw ZeroMQ, the Jupyter Server (and Jupyter Enterprise Gateway) multiplexes all 5 ZMQ channels into a single WebSocket stream. 
 
 JEG historically supported the standard JSON envelope, while modern Jupyter Servers (`v1.kernel.websocket.jupyter.org`) support a highly optimized binary offset protocol.
 
+(text-based-json-envelope)=
 #### Text-Based (JSON) Envelope 
 Historically used for text frames, the protocol simply wraps the JMP fields inside a parent JSON object that explicitly declares the target `channel`.
 ```json
@@ -8184,6 +8182,7 @@ Historically used for text frames, the protocol simply wraps the JMP fields insi
 }
 ```
 
+(modern-binary-websocket-protocol)=
 #### Modern Binary WebSocket Protocol
 To efficiently route raw binary data alongside JSON over WebSockets, the modern spec uses a binary offset table header.
 
@@ -8193,8 +8192,9 @@ To efficiently route raw binary data alongside JSON over WebSockets, the modern 
 3.  **`msg`**: UTF-8 encoded stringified JSON of the entire JMP envelope (including the `"channel"` key).
 4.  **`buffer_0 ... buffer_n`**: The raw binary byte arrays appended sequentially.
 
----
+<hr />
 
+(chat-heading-332)=
 ### 4. JupyterLite Xeus `environment.yml` Format Specification
 JupyterLite uses Xeus to compile language kernels to WebAssembly (WASM), running them entirely in the browser using Emscripten. The `environment.yml` defines the virtual filesystem and Python packages packed into the WASM runtime at build time.
 
@@ -8221,20 +8221,24 @@ dependencies:
 * **Pip Fallback:** It only supports pure-Python pip packages (no C-extensions) because they lack WASM compiler toolchains inside the browser.
 * **Packing (`empack`):** When `jupyter lite build` runs, it uses `empack` to bundle these packages into a virtual filesystem. Developers often pair this `environment.yml` with an `empack_config.yaml` to strip out heavy tests and documentation files, keeping the final `.wasm` footprint small enough to load quickly over the web.
 
----
+<hr />
+
+(chat-prompt-50)=
 
 +++ {"chat_input": true}
-# Prompt: 50
+## Prompt: 50
 
 +++ {"chat_input": true}
-message time: 2026-05-30 09:33:41
-
-Review https://github.com/runtimed and https://github.com/runtimed/runtimed . Given the repos (and tests?) therein, what needs to be written?
-
----
+> message time: 2026-05-30 09:33:41
+>
+> Review https://github.com/runtimed and https://github.com/runtimed/runtimed . Given the repos (and tests?) therein, what needs to be written?
+>
+> \-\-\-
+>
+> (chat-response-50)=
 
 +++
-# Response: 50
+## Response: 50
 
 +++
 Based on my review of the `runtimed` and `runtimed/kernel-testbed` repositories, the goal of the `runtimed` project is to provide a comprehensive suite of Rust libraries for interacting with the Jupyter ecosystem. It aims to enable the creation of new notebook applications, REPLs, and to allow large language models to interface with code and data.
@@ -8249,6 +8253,7 @@ The `runtimed/kernel-testbed` repository provides a conformance testing suite to
 
 Given this foundation, here is what needs to be written to fulfill the vision you outlined and mature the `runtimed` ecosystem:
 
+(chat-heading-335)=
 ### 1. The Kernel Host & Server Infrastructure (`jupyter_server_rs`)
 Currently, `runtimed` provides *clients* (WebSocket and ZMQ) to connect to existing servers or kernels, and it can parse messages (`jupyter-protocol`). However, it lacks the infrastructure to *host* and *manage* kernels.
 
@@ -8258,6 +8263,7 @@ You need to write `jupyter_server_rs`. This crate must handle:
 * **The ZeroMQ Router**: A broker that listens on the five ZMQ sockets and routes traffic between the kernel and the clients.
 * **The WebSocket Proxy (JEG Mode)**: The logic to multiplex the five ZMQ channels into a single WebSocket stream, effectively implementing the Enterprise Gateway server-side protocol using `actix-web-actors` (as discussed).
 
+(chat-heading-336)=
 ### 2. The Multi-Tenant Orchestration (`jupyter_hub_rs`)
 The `runtimed` ecosystem has no concept of users or multi-tenancy. To achieve enterprise scale, you must build `jupyter_hub_rs`.
 * **The Spawner Traits**: You need to define the async traits for provisioning environments.
@@ -8265,43 +8271,51 @@ The `runtimed` ecosystem has no concept of users or multi-tenancy. To achieve en
 * **Kubernetes Spawner**: The integration with the `kube-rs` crate to generate and deploy `Pod` manifests declaratively.
 * **Reverse Proxy**: An Actix-based routing layer that authenticates a user and forwards their traffic to the correct containerized server.
 
+(chat-heading-337)=
 ### 3. Cryptographic Notebook Signatures
 The `nbformat` crate in `runtimed` parses notebooks, but to ensure security and trust (a major theme of our zero-trust architecture), it must implement **notebook signatures**.
 * You need to write the deterministic canonicalization logic for JSON.
 * You need to integrate `ring::hmac` to generate and verify the SHA-256 signatures of the notebook content against a secret key.
 
+(chat-heading-338)=
 ### 4. The WASM / Browser Execution Layer (`jupyter_lite_rs`)
 The current `runtimed` clients rely on native OS sockets (ZMQ) or TCP WebSockets. To achieve the serverless, browser-based architecture (JupyterLite equivalent), you need to write the WASM transport layer.
 * **`WasmChannelTransport`**: A new implementation in `jupyter_client_rs` that implements the `KernelTransport` trait but uses `web_sys::MessagePort` instead of ZMQ or WebSockets.
 * **WASI Kernel Integration**: The JavaScript/Rust glue code (using `wasm-bindgen`) to intercept WASI syscalls and route them through the `MessagePort`.
 
+(chat-heading-339)=
 ### 5. Advanced Feature Support in `jupyter-protocol`
 While `jupyter-protocol` likely covers Tier 1 (Basic Protocol), to pass all tiers in the `kernel-testbed` (specifically Tier 2 and 4), the protocol types need rigorous implementation and testing for:
 * `comm_info` and the complete Comms lifecycle (essential for interactive widgets like `ipywidgets`).
 * `history_request` and `history_reply`.
 * Strict `parent_header` correlation logic to ensure outputs are routed perfectly to the requesting cell.
 
+(chat-heading-340)=
 ### 6. The WebRTC / Zero-Trust Mesh (Optional but Strategic)
 If you are pursuing the peer-to-peer Headscale mesh architecture we discussed, none of this exists in the current `runtimed` repo.
 * You would need to write the `TailnetProvider` for Yjs CRDT synchronization.
 * You would need to implement the OID4VP identity translation layer to integrate with Headscale's API for headless WASM networking.
 
----
+<hr />
+
+(chat-prompt-51)=
 
 +++ {"chat_input": true}
-# Prompt: 51
+## Prompt: 51
 
 +++ {"chat_input": true}
-message time: 2026-05-30 09:44:33
-
-> the protocol types need rigorous implementation and testing
-
-develop a TLAplus program to validate the protocols / message specs / kernel states for all of this
-
----
+> message time: 2026-05-30 09:44:33
+>
+> > the protocol types need rigorous implementation and testing
+>
+> develop a TLAplus program to validate the protocols / message specs / kernel states for all of this
+>
+> \-\-\-
+>
+> (chat-response-51)=
 
 +++
-# Response: 51
+## Response: 51
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -8333,6 +8347,7 @@ Validating a distributed protocol before writing the underlying Rust implementat
 
 Here is the TLA+ specification to validate the `jupyter_server_rs` lifecycle, the ZeroMQ/WebSocket routing queues, and the strict JMP execution boundaries.
 
+(chat-heading-343)=
 ### 1. The TLA+ Specification (`JupyterProtocol.tla`)
 
 This model abstracts the physical network (ZMQ vs WebSockets) into bounded sequences (queues) and focuses on the state transitions required by the official Jupyter specification.
@@ -8457,6 +8472,7 @@ AlwaysEventuallyIdle ==
 ======================================================================
 ```
 
+(chat-heading-344)=
 ### 2. The TLC Model Checker Configuration (`JupyterProtocol.cfg`)
 
 To execute this against the TLC model checker, create the configuration file mapping the constants and properties.
@@ -8476,6 +8492,7 @@ PROPERTIES
     AlwaysEventuallyIdle
 ```
 
+(chat-heading-345)=
 ### 3. What This Model Proves (and Prevents in Rust)
 
 When you run this through the TLC checker (via the TLA+ Toolbox or VSCode extension), it will brute-force hundreds of thousands of state permutations to guarantee the following architectural truths for your Rust implementation:
@@ -8484,20 +8501,24 @@ When you run this through the TLC checker (via the TLA+ Toolbox or VSCode extens
 2.  **The Ghost-Execution Proof (`KernelConsistencySafety`):** This invariant proves that your `jupyter_server_rs` Actix multiplexer cannot accidentally trick the kernel into a `Busy` state without a backing request payload.
 3.  **The Bounded Queue Guarantee:** By enforcing `MaxQueueSize`, the model verifies that a malicious client spamming `execute_request` over WebSockets cannot unbounded-allocate memory in your `jupyter_client_rs` buffers, forcing you to think about backpressure (e.g., dropping packets or returning HTTP 429) before writing the Rust code.
 
----
+<hr />
+
+(chat-prompt-52)=
 
 +++ {"chat_input": true}
-# Prompt: 52
+## Prompt: 52
 
 +++ {"chat_input": true}
-message time: 2026-05-30 09:51:59
-
-Add support for "5. Advanced Feature Support in jupyter-protocol" to a TLAplus model for same
-
----
+> message time: 2026-05-30 09:51:59
+>
+> Add support for "5. Advanced Feature Support in jupyter-protocol" to a TLAplus model for same
+>
+> \-\-\-
+>
+> (chat-response-52)=
 
 +++
-# Response: 52
+## Response: 52
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -8521,6 +8542,7 @@ The **Comms lifecycle** (`comm_open`, `comm_msg`, `comm_close`) is asynchronous 
 
 Here is the advanced TLA+ specification to mathematically validate these complex routing and lifecycle guarantees.
 
+(chat-heading-348)=
 ### 1. The Advanced TLA+ Specification (`JupyterAdvanced.tla`)
 
 This model introduces the `active_comms` set to track widget states, an `exec_history` sequence, and a `current_parent` variable to enforce strict message correlation.
@@ -8687,6 +8709,7 @@ CommLifecycleSafety ==
 ======================================================================
 ```
 
+(chat-heading-349)=
 ### 2. The TLC Config (`JupyterAdvanced.cfg`)
 
 ```tla
@@ -8703,6 +8726,7 @@ INVARIANTS
     CommLifecycleSafety
 ```
 
+(what-this-proves-for-your-rust-workspace-runtimed)=
 ### What this proves for your Rust workspace (`runtimed`):
 
 1.  **The `StrictParentCorrelation` Invariant:** In earlier versions of Jupyter, output streams (like `print()` statements) would sometimes leak into the wrong browser tab because the kernel forgot which `msg_id` triggered the execution. This TLA+ model proves that your `current_parent` state lock is mathematically sound. In your Rust `jupyter_server_rs`, this validates that you must use a `tokio::sync::Mutex` (or thread-local state) to hold the `parent_header` for the exact duration of the execution, injecting it into all outbound ZMQ frames.
@@ -8711,20 +8735,24 @@ INVARIANTS
 
 Would you like to draft the exact Rust Actix-WebSocket handler that parses these advanced `comm` structures to multiplex multiple interactive widgets over the single JEG WebSocket connection?
 
----
+<hr />
+
+(chat-prompt-53)=
 
 +++ {"chat_input": true}
-# Prompt: 53
+## Prompt: 53
 
 +++ {"chat_input": true}
-message time: 2026-05-30 10:10:03
-
-yes
-
----
+> message time: 2026-05-30 10:10:03
+>
+> yes
+>
+> \-\-\-
+>
+> (chat-response-53)=
 
 +++
-# Response: 53
+## Response: 53
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -8748,6 +8776,7 @@ As TLC proved, we must defend against two specific hazards:
 
 Here is the Actix-Web actor implementation that sits in `jupyter_lab_rs`. It acts as the intelligent boundary between the chaotic browser WebSockets and your strictly ordered `jupyter_server_rs` kernel queues.
 
+(chat-heading-353)=
 ### 1. The Core Data Structures
 
 First, we define the strongly-typed representations of the JEG WebSocket envelope and the specific `comm` content structures.
@@ -8795,6 +8824,7 @@ pub struct CommClose {
 }
 ```
 
+(chat-heading-354)=
 ### 2. The Actix WebSocket Actor
 
 The Actor maintains the isolated state for a single connected browser tab. It holds the `active_comms` registry required to enforce our TLA+ safety rules.
@@ -8830,6 +8860,7 @@ impl Actor for JupyterWebsocketSession {
 }
 ```
 
+(chat-heading-355)=
 ### 3. The Lifecycle and Multiplexing Handler
 
 This is the execution core. When a text frame arrives from the browser, we deserialize the JSON, inspect the `msg_type`, and apply our cryptographic routing rules before handing it off to the kernel.
@@ -8911,6 +8942,7 @@ impl JupyterWebsocketSession {
 }
 ```
 
+(chat-heading-356)=
 ### 4. Sending Data Back to the Browser
 
 The final piece is handling messages *originating* from the kernel (like `stream` stdout, `display_data`, or `execute_reply`) and pushing them back up the WebSocket to the browser. 
@@ -8944,30 +8976,35 @@ impl Handler<OutboundKernelMsg> for JupyterWebsocketSession {
 }
 ```
 
+(the-architectural-result)=
 ### The Architectural Result
 
 By using Actix Actors, you guarantee that the state (`active_comms`, `current_parent_id`) is strictly thread-local to that specific WebSocket connection. There are no `Mutex` bottlenecks locking the entire server.
 
 If 100 users are simultaneously dragging `ipywidgets` sliders in different notebooks, Actix spins up 100 isolated Actor instances, each applying these TLA-verified safety checks concurrently before hitting the underlying ZeroMQ mesh.
 
----
+<hr />
 
 Would you like to see how to write the `cargo-insta` snapshot tests to verify these exact WebSocket `comm` frames against standard `ipywidgets` JSON payloads, ensuring frontend compatibility?
 
----
+<hr />
+
+(chat-prompt-54)=
 
 +++ {"chat_input": true}
-# Prompt: 54
+## Prompt: 54
 
 +++ {"chat_input": true}
-message time: 2026-05-30 10:24:50
-
-yes. also TLAplus y.js on top of these protocols
-
----
+> message time: 2026-05-30 10:24:50
+>
+> yes. also TLAplus y.js on top of these protocols
+>
+> \-\-\-
+>
+> (chat-response-54)=
 
 +++
-# Response: 54
+## Response: 54
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -8983,8 +9020,9 @@ I've sketched `cargo-insta` tests for `comm` frames and drafted a TLA+ model sim
 
 Here is the exact `cargo-insta` testing strategy to guarantee your Actix WebSocket handler safely processes real-world `ipywidgets` traffic, followed by the TLA+ specification to mathematically validate layering Yjs (CRDTs) over those exact `comm` channels.
 
----
+<hr />
 
+(chat-heading-360)=
 ### 1. Snapshotting the Frontend: `cargo-insta` for `ipywidgets`
 
 To ensure your Actix handler never panics when faced with real browser traffic, we capture the exact JSON emitted by JupyterLab when a user drags an `IntSlider` widget, and freeze its structural parsing.
@@ -9038,8 +9076,9 @@ mod tests {
 
 When you run `cargo test`, `insta` will generate a snapshot file confirming that your Rust structs successfully extract the `comm_id` and the nested `{ "value": 42 }` payload, guaranteeing strict frontend compatibility.
 
----
+<hr />
 
+(chat-heading-361)=
 ### 2. TLA+ for Yjs: Syncing CRDTs over the `comm` Mesh
 
 Running real-time collaboration (Yjs) over Jupyter requires tunneling binary CRDT synchronization blobs through the exact `comm_msg` channels we just tested. 
@@ -9048,6 +9087,7 @@ If Alice types a character, Yjs generates a `Uint8Array` binary update, wraps it
 
 Because networks partition and packets arrive out of order, we use TLA+ to prove that **no matter what order the `comm_msg` packets arrive, all peers will eventually reach identical notebook states.**
 
+(the-specification-yjsoverjupytertla)=
 #### The Specification (`YjsOverJupyter.tla`)
 
 ```tla
@@ -9124,29 +9164,34 @@ EventualConsistency ==
 ======================================================================
 ```
 
+(what-this-proves-for-your-architecture)=
 ### What this proves for your architecture:
 
 1.  **Eventual Consistency is Bulletproof:** When you run this in TLC, it confirms the `EventualConsistency` property. This mathematically proves that tunneling Yjs over Jupyter `comm` channels works. Even if Bob drops offline, Alice types 50 lines of code, and Charlie types 20 lines, the moment Bob reconnects and his `jupyter_lab_rs` WebSocket drains the queued `comm_msg` packets, his `Y.Doc` will perfectly resolve the conflicts.
 2.  **Order Independence:** Notice that `ReceiveCommMsg` pulls *any* available message out of the `comm_mesh` set, simulating severe network jitter where packets arrive out of order. TLC proves that because CRDTs are commutative, your Actix server does not need to waste CPU cycles guaranteeing strict FIFO ordering for Yjs payloads.
 
----
+<hr />
 
 Because Yjs natively outputs binary `Uint8Array` data, but the standard Jupyter `comm_msg` is defined as a JSON envelope, we have a transport conflict. Would you like to map out the exact serialization boundaries—specifically, whether to base64-encode the Yjs binary blobs into the JSON `data` field, or to append them as raw zero-copy binary frames using the Jupyter `buffers` array?
 
----
+<hr />
+
+(chat-prompt-55)=
 
 +++ {"chat_input": true}
-# Prompt: 55
+## Prompt: 55
 
 +++ {"chat_input": true}
-message time: 2026-05-30 10:31:35
-
-yes.
-
----
+> message time: 2026-05-30 10:31:35
+>
+> yes.
+>
+> \-\-\-
+>
+> (chat-response-55)=
 
 +++
-# Response: 55
+## Response: 55
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -9172,6 +9217,7 @@ Yjs synchronizes state by generating highly compressed binary blobs (`Uint8Array
 
 Here is exactly how to map those serialization boundaries, passing raw Yjs CRDT arrays from the browser, through your Rust Actix server, and out to the mesh.
 
+(chat-heading-366)=
 ### 1. The Data Structure Boundary (Rust)
 
 We must update the `JegEnvelope` in your `jupyter_lab_rs` backend. Previously, we only defined the JSON portion. Now, we add the `buffers` field, which holds a vector of raw byte arrays (`Vec<Vec<u8>>` or `Vec<Bytes>`).
@@ -9203,6 +9249,7 @@ pub struct CommMsg {
 }
 ```
 
+(chat-heading-367)=
 ### 2. The Browser Serialization Boundary (JavaScript)
 
 Inside the `TailnetProvider` we wrote earlier, when Yjs fires an `'update'` event, we intercept the `Uint8Array`. 
@@ -9265,6 +9312,7 @@ this.doc.on('update', (updateUint8Array, origin) => {
 });
 ```
 
+(chat-heading-368)=
 ### 3. The Actix De-multiplexer (Rust)
 
 When this binary frame hits `jupyter_lab_rs`, Actix receives it as a `ws::Message::Binary(bytes)`. Your server must strip the offsets, parse the JSON to figure out where to route it, and then attach the remaining bytes into the `buffers` array.
@@ -9308,6 +9356,7 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for JupyterWebsocketS
 }
 ```
 
+(chat-heading-369)=
 ### 4. The Receiver Boundary (JavaScript Reassembly)
 
 When Bob's browser receives the frame from the mesh, the exact reverse happens. The frontend extracts the JSON, sees `{ "event": "yjs_update" }`, and knows immediately that `buffers[0]` contains the raw CRDT payload.
@@ -9323,6 +9372,7 @@ if (msgType === "comm_msg" && content.data.event === "yjs_update") {
 }
 ```
 
+(the-architectural-purity)=
 ### The Architectural Purity
 
 By adhering strictly to the JMP binary specification:
@@ -9331,20 +9381,24 @@ By adhering strictly to the JMP binary specification:
 
 Would you like to draft the exact `parse_jupyter_binary_frame` Rust function to correctly unpack those 64-bit Big-Endian offsets according to the official `v1.kernel.websocket` specification?
 
----
+<hr />
+
+(chat-prompt-56)=
 
 +++ {"chat_input": true}
-# Prompt: 56
+## Prompt: 56
 
 +++ {"chat_input": true}
-message time: 2026-05-30 10:32:57
-
-yes
-
----
+> message time: 2026-05-30 10:32:57
+>
+> yes
+>
+> \-\-\-
+>
+> (chat-response-56)=
 
 +++
-# Response: 56
+## Response: 56
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -9368,6 +9422,7 @@ The `Bytes` struct acts as a reference-counted pointer to the underlying network
 
 Here is the implementation of `parse_jupyter_binary_frame` to unpack the 64-bit Big-Endian offset table.
 
+(the-binary-frame-parser)=
 ### The Binary Frame Parser
 
 ```rust
@@ -9437,6 +9492,7 @@ pub fn parse_jupyter_binary_frame(frame: Bytes) -> Result<(Bytes, Vec<Bytes>), E
 }
 ```
 
+(integration-test-validation)=
 ### Integration Test Validation
 
 To guarantee this parses the Jupyter WebSockets accurately, here is the `cargo-test` implementation simulating a Yjs CRDT frame arriving from the browser.
@@ -9481,20 +9537,24 @@ mod tests {
 }
 ```
 
----
+<hr />
+
+(chat-prompt-57)=
 
 +++ {"chat_input": true}
-# Prompt: 57
+## Prompt: 57
 
 +++ {"chat_input": true}
-message time: 2026-05-30 10:34:38
-
-given this chat, write a WebRTC rewrite of JEG WS
-
----
+> message time: 2026-05-30 10:34:38
+>
+> given this chat, write a WebRTC rewrite of JEG WS
+>
+> \-\-\-
+>
+> (chat-response-57)=
 
 +++
-# Response: 57
+## Response: 57
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -9520,8 +9580,9 @@ By using WebRTC's Stream Control Transmission Protocol (SCTP), we gain a massive
 
 Here is the implementation to rewrite the JEG protocol into a native WebRTC mesh using the `webrtc-rs` crate for the Rust kernel host and the standard browser API for the frontend.
 
----
+<hr />
 
+(chat-heading-377)=
 ### 1. The Rust Kernel Host (`jupyter_server_rs`)
 
 We introduce a new feature flag `webrtc` to our workspace. The `jupyter_server_rs` daemon acts as the WebRTC peer. It listens for incoming Data Channels and binds them directly to the underlying ZeroMQ sockets of the Python/Rust execution kernel.
@@ -9574,6 +9635,7 @@ pub async fn start_webrtc_kernel_gateway(zmq_router: Arc<ZmqKernelRouter>) {
 }
 ```
 
+(chat-heading-378)=
 ### 2. The Binary JMP Serialization
 
 Because we dropped the JSON multiplexing envelope (`{"channel": "shell", "content": {...}}`), the payload we send over the WebRTC channel can be incredibly optimized. 
@@ -9599,6 +9661,7 @@ pub fn serialize_for_webrtc(msg: JupyterMessage) -> Vec<u8> {
 }
 ```
 
+(chat-heading-379)=
 ### 3. The Browser Client (`jupyter_lab_rs` / Frontend)
 
 In the user's browser, the connection logic is completely decoupled from traditional WebSockets. Once the `RTCPeerConnection` is established over the WireGuard mesh, the client proactively creates the five channels.
@@ -9642,6 +9705,7 @@ class WebRtcJupyterClient {
 }
 ```
 
+(chat-heading-380)=
 ### 4. Injecting the Yjs CRDT Mesh
 
 Because we now have native WebRTC data channels, the `TailnetProvider` we designed earlier integrates flawlessly without hacking it into Jupyter's `comm_msg` structure.
@@ -9660,26 +9724,30 @@ this.channels.yjs_sync.onmessage = (event) => {
 
 This represents the absolute ceiling of Jupyter performance and security. Execution traffic flows directly to the Rust kernel over dedicated SCTP channels, real-time collaboration traffic bypasses the kernel entirely on its own P2P channel, and the entire mesh is wrapped in post-quantum WireGuard encryption via `tsnet`.
 
----
+<hr />
 
 Would you like to explore how to implement the WebRTC SDP Offer/Answer signaling phase over the Holochain DHT, completely eliminating the need for a centralized signaling server to establish this peer-to-peer connection?
 
----
+<hr />
+
+(chat-prompt-58)=
 
 +++ {"chat_input": true}
-# Prompt: 58
+## Prompt: 58
 
 +++ {"chat_input": true}
-message time: 2026-05-30 12:50:39
-
->  WebRTC SDP Offer/Answer signaling phase over the Holochain DHT,
-
-Perhaps later. Is that basically WebRTC relay logging?
-
----
+> message time: 2026-05-30 12:50:39
+>
+> >  WebRTC SDP Offer/Answer signaling phase over the Holochain DHT,
+>
+> Perhaps later. Is that basically WebRTC relay logging?
+>
+> \-\-\-
+>
+> (chat-response-58)=
 
 +++
-# Response: 58
+## Response: 58
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -9707,15 +9775,18 @@ To put it simply: **Signaling** is the act of exchanging business cards so two c
 
 Because you mentioned wanting to look at this later, here is the brief conceptual breakdown of why a DHT is used for signaling rather than logging.
 
+(chat-heading-383)=
 ### 1. The WebRTC Chicken-and-Egg Problem
 WebRTC is a peer-to-peer protocol for the *data plane* (sending the actual Jupyter execution bytes or Yjs CRDTs). However, before Alice and Bob can connect, they need to know each other's public IP addresses, NAT router ports (ICE candidates), and cryptographic keys. 
 
 Since they aren't connected yet, they can't send this data over WebRTC. They must use an out-of-band "Signaling Channel" to swap a text payload called the **Session Description Protocol (SDP) Offer and Answer**. 
 
+(chat-heading-384)=
 ### 2. The Traditional Way vs. The DHT Way
 * **Traditional Signaling:** Applications use a centralized WebSocket server (like a standard Node.js or Actix backend). Alice sends her SDP to the server, and the server routes it to Bob. This creates a central point of failure and a central target for surveillance.
 * **DHT Signaling (The Zero-Trust Way):** We eliminate the central server entirely. The Holochain Distributed Hash Table acts as a secure, decentralized bulletin board. Alice encrypts her SDP Offer using Bob's public key (his `did:key`) and publishes it to the DHT. Bob retrieves it, decrypts it, and posts his SDP Answer. Once they have exchanged these payloads via the DHT, the actual WebRTC UDP connection punches through their local routers, and the DHT steps out of the way.
 
+(chat-heading-385)=
 ### 3. Where Relays (TURN) Fit In
 What you are referring to as "Relay logging" usually involves **TURN (Traversal Using Relays around NAT) servers**. 
 

@@ -7,33 +7,22 @@ kernelspec:
 
 # _Kraft Lignin Sulfur to Sodium Sulfate 
 
-## Contents
-
-* [_Kraft Lignin Sulfur to Sodium Sulfate](#_kraft-lignin-sulfur-to-sodium-sulfate)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [1. Alkaline Wet Air Oxidation (WAO)](#1-alkaline-wet-air-oxidation-wao)
-    * [2. Thermal Combustion with Alkaline Scrubbing](#2-thermal-combustion-with-alkaline-scrubbing)
-    * [3. Mild Chemical Oxidation (Peroxide Treatment)](#3-mild-chemical-oxidation-peroxide-treatment)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-    * [Quick Reference Comparison](#quick-reference-comparison)
-    * [1. Alkaline Wet Air Oxidation (WAO)](#1-alkaline-wet-air-oxidation-wao)
-    * [2. Thermal Combustion with Alkaline Scrubbing](#2-thermal-combustion-with-alkaline-scrubbing)
-    * [3. Mild Chemical Oxidation (Peroxide Treatment)](#3-mild-chemical-oxidation-peroxide-treatment)
-
 > From: https://gemini.google.com/app/007b49d0c4b3cdf4
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-How to get from kraft lignin with sulfur in it to sodium sulfate?
+## Prompt: 1
 
----
++++ {"chat_input": true}
+> How to get from kraft lignin with sulfur in it to sodium sulfate?
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -67,6 +56,7 @@ Converting the organically bound sulfur in Kraft lignin (typically 1% to 3% by m
 
 Depending on whether your objective is the complete destruction of the organics for salt recovery, or selective desulfurization to yield purified precursors for downstream bio-derived polymers and vitrimers, there are three primary industrial architectures for this conversion:
 
+(chat-heading-3)=
 ### 1. Alkaline Wet Air Oxidation (WAO)
 This is a thermochemical process occurring in an aqueous phase, highly effective for industrial waste valorization and controlled lignin depolymerization.
 
@@ -78,6 +68,7 @@ $$\text{Lignin-S} + \text{NaOH} + O_2 \xrightarrow{\text{Heat, Pressure}} \text{
 
 * **Recovery:** The resulting liquor is cooled and concentrated. Sodium sulfate can be recovered via fractional crystallization, frequently dropping out as Glauber's salt (Na₂SO₄·10H₂O) at temperatures below 32°C.
 
+(chat-heading-4)=
 ### 2. Thermal Combustion with Alkaline Scrubbing
 If the lignin is being utilized strictly as a fuel or waste stream and you want to capture the sulfur as a separate byproduct, gas-phase extraction mimics the fundamental loop of a pulp mill's recovery boiler.
 
@@ -88,28 +79,33 @@ If the lignin is being utilized strictly as a fuel or waste stream and you want 
 $$SO_2(g) + 2NaOH(aq) \rightarrow Na_2SO_3(aq) + H_2O(l)$$
 $$2Na_2SO_3(aq) + O_2(g) \rightarrow 2Na_2SO_4(aq)$$
 
+(chat-heading-5)=
 ### 3. Mild Chemical Oxidation (Peroxide Treatment)
 For smaller-scale processing aimed at preserving a larger degree of the aromatic structure while stripping sulfur out of the matrix.
 
 * **Alkaline Suspension:** Suspend the lignin in an alkaline NaOH bath.
 * **Peroxide Addition:** Introduce hydrogen peroxide (H₂O₂). The peroxide selectively oxidizes the thioethers and thiols into sulfoxides and sulfones, eventually cleaving them into soluble sodium sulfate (Na₂SO₄) leaving behind a highly oxidized, desulfurized, and water-soluble lignin fraction.
 
----
+<hr />
 
 Are you aiming to completely mineralize the lignin strictly for the sulfate recovery, or are you looking to selectively desulfurize and preserve the aromatic backbones for further cross-linking?
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-Costs and efficiency for each option
-
----
+> Costs and efficiency for each option
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -133,6 +129,7 @@ Cost profiles also swing wildly between Capital Expenditure (CapEx) for heavy ma
 
 Here is the comparative breakdown of costs and efficiencies for each route:
 
+(quick-reference-comparison)=
 ### Quick Reference Comparison
 
 | Process | Desulfurization Efficiency | Lignin Preservation | CapEx | OpEx | Primary Industrial Use Case |
@@ -141,8 +138,9 @@ Here is the comparative breakdown of costs and efficiencies for each route:
 | **Thermal Combustion** | Very High (>99%) | None (Incinerated) | Very High | Low (Energy offset) | Bulk energy recovery, mill chemical looping |
 | **Mild Chemical (Peroxide)**| Moderate (60–85%) | High (Macromolecule intact) | Low | Very High | Precursor refinement for advanced materials |
 
----
+<hr />
 
+(chat-heading-9)=
 ### 1. Alkaline Wet Air Oxidation (WAO)
 This is a brute-force thermochemical approach. It excels at breaking down complex organics into simple, water-soluble components.
 
@@ -150,6 +148,7 @@ This is a brute-force thermochemical approach. It excels at breaking down comple
 * **CapEx (High):** Requires specialized, heavy-duty pressure vessels (often titanium or high-nickel alloys to resist hot alkaline corrosion) and high-pressure air/oxygen compressors.
 * **OpEx (Medium):** Air or bulk oxygen is relatively cheap. The reaction is highly exothermic, meaning once it reaches the target temperature, it generates enough heat to sustain itself, lowering ongoing energy costs.
 
+(chat-heading-10)=
 ### 2. Thermal Combustion with Alkaline Scrubbing
 This is the standard recovery boiler model used in traditional kraft pulping. It treats lignin primarily as a fuel source.
 
@@ -157,6 +156,7 @@ This is the standard recovery boiler model used in traditional kraft pulping. It
 * **CapEx (Very High):** Building a recovery boiler and a specialized wet Flue Gas Desulfurization (FGD) scrubber is a massive capital investment, typically only viable at a very large industrial scale.
 * **OpEx (Low):** Operationally, this is highly efficient because combusting the lignin generates high-pressure steam for electrical cogeneration. The energy output often offsets the operational costs of the scrubber.
 
+(chat-heading-11)=
 ### 3. Mild Chemical Oxidation (Peroxide Treatment)
 This route acts more like a targeted chemical modification than a destructive waste treatment. It is the best option if the goal is to utilize the lignin structure downstream.
 
@@ -164,6 +164,6 @@ This route acts more like a targeted chemical modification than a destructive wa
 * **CapEx (Low):** Can be performed in standard atmospheric or low-pressure stainless steel or glass-lined jacketed reactors.
 * **OpEx (Very High):** Hydrogen peroxide (H₂O₂) is an expensive consumable reagent compared to compressed air. It also requires careful thermal management, as peroxide decomposition can run away if not cooled properly.
 
----
+<hr />
 
 Are you looking to integrate this separation into an existing continuous industrial loop, or are you designing a standalone batch process to isolate the lignin macromolecule for materials formulation?

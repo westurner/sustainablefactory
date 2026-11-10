@@ -14,35 +14,11 @@ url: https://gemini.google.com/app/304320c724f90e77
 
 # gemini_google-gemini_2026-01-25T18-37-29-0500
 
-## Contents
-
-  * [url: https://gemini.google.com/app/304320c724f90e77](#url-httpsgeminigooglecomapp304320c724f90e77)
-* [gemini_google-gemini_2026-01-25T18-37-29-0500](#gemini_google-gemini_2026-01-25t18-37-29-0500)
-* [Google Gemini](#google-gemini)
-  * [Table of Contents](#table-of-contents)
-    * [chat-1](#chat-1)
-    * [**1. The Schema: Industrial Ontologies Foundry (IOF)**](#1-the-schema-industrial-ontologies-foundry-iof)
-    * [**2. The Technology: RDF-star & SPARQL-star**](#2-the-technology-rdf-star-sparql-star)
-      * [**Conceptual Model**](#conceptual-model)
-      * [**Syntax Example (Turtle-star)**](#syntax-example-turtle-star)
-* [1. The Production Step (Process)](#1-the-production-step-process)
-* [2. Input with Metadata (RDF-star)](#2-input-with-metadata-rdf-star)
-* [We state that Steel Sheet is input to the process, AND add metadata to that link](#we-state-that-steel-sheet-is-input-to-the-process-and-add-metadata-to-that-link)
-* [3. Output](#3-output)
-      * [**Querying (SPARQL-star)**](#querying-sparql-star)
-* [Match the triple AND its metadata](#match-the-triple-and-its-metadata)
-    * [**3. Open Source Tooling Stack**](#3-open-source-tooling-stack)
-    * [**Summary of Recommendation**](#summary-of-recommendation)
-          * [[top](#table-of-contents)](#toptable-of-contents)
-
-
+(google-gemini)=
 # Google Gemini
 
-## Table of Contents
-
-- [1: Goal: Objective1: Research schema and tools for modeling production pr…](#chat-1)
-
-### chat-1
+(chat-1)=
+## chat-1
 
 > Goal:
 > 
@@ -68,6 +44,7 @@ url: https://gemini.google.com/app/304320c724f90e77
 
 This research summarizes the optimal open-source path for modeling production processes (Inputs, Processes, Outputs) using Linked Data standards that bridge the gap between semantic richness (RDF) and developer usability (Property Graphs).
 
+(chat-heading-3)=
 ### **1. The Schema: Industrial Ontologies Foundry (IOF)**
 
 For modeling production, you should not invent a schema from scratch. The **Industrial Ontologies Foundry (IOF)** provides a standard, BFO-compliant vocabulary specifically designed for manufacturing.
@@ -84,10 +61,12 @@ For modeling production, you should not invent a schema from scratch. The **Indu
 **Why this fits your goal:**
 Standard RDF often forces you to create intermediate nodes just to say "Input X entered Process Y _at 10:00 AM_." This creates "node explosion." **RDF-star** solves this by allowing you to attach the timestamp directly to the relationship, just like a Property Graph.
 
+(chat-heading-4)=
 ### **2. The Technology: RDF-star & SPARQL-star**
 
 RDF-star (RDF*) allows you to treat a "triple" (a relationship) as a node itself. This enables **Property Graph behavior** within Linked Data.
 
+(conceptual-model)=
 #### **Conceptual Model**
 
 Instead of just linking `(SteelSheet) -> [fed_into] -> (StampingProcess)`, you can assert properties _about_ that link:
@@ -95,6 +74,7 @@ Instead of just linking `(SteelSheet) -> [fed_into] -> (StampingProcess)`, you c
 - _Property:_ **Flow Rate** = 10 units/min
 - _Property:_ **Timestamp** = 2023-10-27T09:00:00
 
+(syntax-example-turtle-star)=
 #### **Syntax Example (Turtle-star)**
 
 ```Code snippet
@@ -117,6 +97,7 @@ ex:Chassis_Frame_001 a iof:Product ;
     iof:is_output_of ex:Step_Stamping_001 .
 ```
 
+(querying-sparql-star)=
 #### **Querying (SPARQL-star)**
 
 To find inputs processed at high temperatures:
@@ -131,6 +112,7 @@ WHERE {
 }
 ```
 
+(chat-heading-8)=
 ### **3. Open Source Tooling Stack**
 
 To implement this _specifically_ with open-source tools that support the "star" extensions:
@@ -143,6 +125,7 @@ To implement this _specifically_ with open-source tools that support the "star" 
 | Visualization | GraphDB (Free Edition) | While the enterprise version is paid, the free version handles RDF-star visualization very well out-of-the-box. |
 | Ontology Editor | Protégé | Note: Protégé does not natively support RDF-star visualization well yet. You will likely need to write the .ttls (Turtle-star) files manually or use code (Jena/RDF4J) to populate the data. |Export to Sheets
 
+(summary-of-recommendation)=
 ### **Summary of Recommendation**
 
 1. **Schema:** adopt **IOF Core** to align with industry standards for "Process" and "Product."
@@ -151,5 +134,4 @@ To implement this _specifically_ with open-source tools that support the "star" 
 
 **Would you like me to generate a Python script using `rdflib` that converts a sample CSV of production logs into this RDF-star format?**
 
-___
-###### [top](#table-of-contents)
+<hr />

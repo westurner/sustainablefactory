@@ -7,45 +7,33 @@ kernelspec:
 
 # _Lignolux-Eyewear-Design-&-Materials
 
-## Contents
-
-* [_Lignolux-Eyewear-Design-&-Materials](#_lignolux-eyewear-design-materials)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-  * [1. Material Allocation & Architecture](#1-material-allocation-architecture)
-  * [2. Frame Engineering & Assembly Sequence](#2-frame-engineering-assembly-sequence)
-  * [3. Advanced Design Considerations](#3-advanced-design-considerations)
-    * [Circular Lifecycle (End-of-Life Routing)](#circular-lifecycle-end-of-life-routing)
-    * [Surface Finish & Sweat Resistance](#surface-finish-sweat-resistance)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-  * [1. The Modified Guth-Smallwood Equation for Modulus Prediction](#1-the-modified-guth-smallwood-equation-for-modulus-prediction)
-    * [The Percolation Threshold ($\phi_c$) Constraint](#the-percolation-threshold-phi_c-constraint)
-  * [2. Optimal Loading Ratios for Flexibility](#2-optimal-loading-ratios-for-flexibility)
-  * [3. Dynamic Covalent Network (Vitrimer) Kinetics](#3-dynamic-covalent-network-vitrimer-kinetics)
-
 > From: https://gemini.google.com/app/611a16866f6fae4e
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2026-05-21 23:09:21
+## Prompt: 1
 
-Design eyeglasses given a review of materials in our Lignolux materials chats
-
----
++++ {"chat_input": true}
+> message time: 2026-05-21 23:09:21
+>
+> Design eyeglasses given a review of materials in our Lignolux materials chats
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++
 Integrating our **Lignolux** materials into an eyewear design presents a compelling material routing challenge. As noted in our earlier technical reviews, we have a hard boundary between the structural components and the optical payload: while our bio-derived composites excel structurally, they lack the minimum $92\%$ optical clarity required for precision lenses or heads-up display (HUD) visors. 
 
 Therefore, this design enforces a strict separation of concerns: a high-performance **Lignolux Bio-Composite Frame** paired with a decoupled, standard high-clarity optical or smart lens system.
 
----
+<hr />
 
+(chat-heading-3)=
 ## 1. Material Allocation & Architecture
 
 The eyeglasses utilize a hybrid architecture, leveraging the unique mechanics of lignin-vitrimers and cellulose nanocrystals (CNCs) for the frame, while routing the optics to established materials.
@@ -57,8 +45,9 @@ The eyeglasses utilize a hybrid architecture, leveraging the unique mechanics of
 | **Hinges & Core Wires** | Bio-chelated Aluminum or Embedded CNC Ribs | High yield strength to resist cyclic fatigue without widening the frame profile. |
 | **Lenses** | Standard CR-39 / Polycarbonate (or Glass) | Strict $>92\%$ optical clarity, zero refractive distortion (bypassing raw Bio-TPU limitations). |
 
----
+<hr />
 
+(chat-heading-4)=
 ## 2. Frame Engineering & Assembly Sequence
 
 Because vitrimers possess a dynamic covalent network, we can design the frame with assembly and post-purchase adjustment in mind. The manufacturing and fitting flow operates on a closed-loop thermal cycle:
@@ -79,46 +68,54 @@ Because vitrimers possess a dynamic covalent network, we can design the frame wi
   </Step>
 </Sequence>
 
----
+<hr />
 
+(chat-heading-5)=
 ## 3. Advanced Design Considerations
 
+(circular-lifecycle-end-of-life-routing)=
 ### Circular Lifecycle (End-of-Life Routing)
 Traditional eyewear frames (like cellulose acetate) are heavily modified with plasticizers that leach or resist clean recycling. Because the frame utilizes a vitrimer matrix, it can be fully closed-loop recycled at end-of-life:
 1. **Disassembly:** Lenses are popped out mechanically.
 2. **Matrix Solvation/Regeneration:** The frame is immersed in a mild, bio-derived catalyst solution at elevated temperature to relax the network, allowing the pure cellulose nanocrystals to be filtered out and the lignin matrix to be pelletized for the next injection or compression molding run.
 
+(surface-finish-sweat-resistance)=
 ### Surface Finish & Sweat Resistance
 Raw lignin can suffer from UV degradation and moisture-induced swelling if left unmitigated. The frame surface undergoes a localized surface cross-linking flash density treatment, creating a hydrophobic barrier that resists sweat acids, skin oils, and UV-induced color shifting while retaining a premium, organic tactile feel.
 
 <FollowUp label="Would you like to detail the specific CNC-to-Vitrimer loading ratio equations for optimal frame stiffness?" query="What is the optimal weight percentage loading of cellulose nanocrystals (CNCs) in a lignin-vitrimer matrix to balance tensile strength and reformability for eyewear frames?"/>
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-message time: 2026-05-29 17:00:08
-
-> Would you like to detail the specific CNC-to-Vitrimer loading ratio equations for optimal frame stiffness?
-
-Yes
-
-For flexible glasses
-
----
+> message time: 2026-05-29 17:00:08
+>
+> > Would you like to detail the specific CNC-to-Vitrimer loading ratio equations for optimal frame stiffness?
+>
+> Yes
+>
+> For flexible glasses
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++
 To optimize the frame for a **flexible** eyewear profile—where the temples and bridge can tolerate significant elastic deformation (twisting and bending) without permanent yielding or snapping—we need to precisely calibrate the Cellulose Nanocrystal (CNC) loading within the lignin-vitrimer matrix. 
 
 In a flexible frame design, the CNCs do not act as rigid structural blocks to maximize tensile modulus; instead, they function as a controlled **percolation network** that enhances toughness and elastic recovery while keeping the glass transition temperature ($T_g$) and network topology freezing temperature ($T_v$) within workable ranges.
 
----
+<hr />
 
+(chat-heading-10)=
 ## 1. The Modified Guth-Smallwood Equation for Modulus Prediction
 
 To determine the young's modulus ($E_c$) of our CNC-reinforced flexible vitrimer, we model it using a modified **Guth-Smallwood equation** adapted for high-aspect-ratio rod-like fillers (CNCs) distributed in an elastomer/flexible matrix:
@@ -131,6 +128,7 @@ Where:
 * $\phi_f$ = Volume fraction of the CNC filler.
 * $\alpha$ = Aspect ratio of the CNCs (length/diameter, typically $\approx 10 \text{ to } 30$).
 
+(chat-heading-11)=
 ### The Percolation Threshold ($\phi_c$) Constraint
 For high flexibility with excellent shape memory recovery, the volume fraction $\phi_f$ must sit *precisely at or slightly below* the geometric percolation threshold ($\phi_c$). If $\phi_f > \phi_c$, a rigid, continuous CNC-to-CNC network forms via hydrogen bonding, drastically increasing brittleness and converting the material into a stiff structural composite.
 
@@ -142,8 +140,9 @@ For typical CNCs where $\alpha = 20$, the critical percolation volume fraction i
 
 $$\phi_c \approx \frac{0.7}{20} = 0.035 \text{ (or } 3.5\text{ vol}\%)$$
 
----
+<hr />
 
+(chat-heading-12)=
 ## 2. Optimal Loading Ratios for Flexibility
 
 To achieve maximum elasticity, spring-back, and localized thermal reformability, the optimal loading ratio is established at **2.5% to 3.0% volume fraction** ($\approx 3.8\% \text{ to } 4.5\%$ by weight, depending on exact matrix density). 
@@ -157,8 +156,9 @@ This specific ratio yields the following macro-mechanical profile for the eyegla
 | **Elongation at Break ($\epsilon_b$)** | $> 45\%$ | Prevents catastrophic snapping if the glasses are sat on. |
 | **Storage Modulus Ratio ($E'_{T_g}/E'_{T_v}$)** | High | Sharp transition allows rapid, crisp thermal fitting. |
 
----
+<hr />
 
+(chat-heading-13)=
 ## 3. Dynamic Covalent Network (Vitrimer) Kinetics
 
 Because these are flexible vitrimers, the network relies on transesterification or disulfide bond exchange to reshape. The relaxation time ($\tau$) of the frame during custom-fitting follows an Arrhenius relationship:

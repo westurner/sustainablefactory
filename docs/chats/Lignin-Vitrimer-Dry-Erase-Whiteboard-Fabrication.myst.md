@@ -7,53 +7,24 @@ kernelspec:
 
 # Lignin-Vitrimer-Dry-Erase-Whiteboard-Fabrication
 
-## Contents
-
-* [Lignin-Vitrimer-Dry-Erase-Whiteboard-Fabrication](#lignin-vitrimer-dry-erase-whiteboard-fabrication)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-    * [1. Determine Equivalent Weights](#1-determine-equivalent-weights)
-    * [2. Define the Stoichiometric Ratio ($R$)](#2-define-the-stoichiometric-ratio-r)
-    * [3. The Stoichiometry Calculation](#3-the-stoichiometry-calculation)
-    * [4. Adjusting for Network Defects](#4-adjusting-for-network-defects)
-* [Prompt: 3](#prompt-3)
-* [Response: 3](#response-3)
-    * [Process and Material Modeling Framework](#process-and-material-modeling-framework)
-    * [YAML-LD Semantic Comparison Model](#yaml-ld-semantic-comparison-model)
-* [---------------------------------------------------------------------------](#-)
-* [ALTERNATIVE 1: Cellulose Nanocrystal (CNC) Vitrimer Pathway](#alternative-1-cellulose-nanocrystal-cnc-vitrimer-pathway)
-* [---------------------------------------------------------------------------](#-)
-* [---------------------------------------------------------------------------](#-)
-* [ALTERNATIVE 2: PolyCBD-Carbonate Network Pathway](#alternative-2-polycbd-carbonate-network-pathway)
-* [---------------------------------------------------------------------------](#-)
-* [---------------------------------------------------------------------------](#-)
-* [SEMANTIC COMPARISON METRICS (EMMO / IOF BRIDGE)](#semantic-comparison-metrics-emmo-iof-bridge)
-* [---------------------------------------------------------------------------](#-)
-    * [Comparative Analysis of the Systems](#comparative-analysis-of-the-systems)
-* [Prompt: 4](#prompt-4)
-* [Response: 4](#response-4)
-    * [The Economic Metrics](#the-economic-metrics)
-    * [The Three Scales of Manufacturing](#the-three-scales-of-manufacturing)
-      * [1. Lab Scale (Discovery & Feasibility)](#1-lab-scale-discovery-feasibility)
-      * [2. Pilot Scale (The Bridge)](#2-pilot-scale-the-bridge)
-      * [3. Production Scale (Commercialization)](#3-production-scale-commercialization)
-
 > From: https://gemini.google.com/app/bde566777ffecf22
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2026-06-11 10:27:07
+## Prompt: 1
 
-How to make a dry erasable whiteboard out of peroxide-bleached lignin-vitrimer?
-
----
++++ {"chat_input": true}
+> message time: 2026-06-11 10:27:07
+>
+> How to make a dry erasable whiteboard out of peroxide-bleached lignin-vitrimer?
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -114,20 +85,24 @@ Once cooled below its $180^\circ$C $T_g$, the dynamic exchange reactions freeze.
 
 <FollowUp label="Calculate the stoichiometry for the epoxy-acid ratio" query="Walk me through the stoichiometry calculations to ensure optimal cross-link density for an epoxy-acid Lignin-Vitrimer matrix."/>
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-message time: 2026-06-11 10:34:04
-
-Walk me through the stoichiometry calculations to ensure optimal cross-link density for an epoxy-acid Lignin-Vitrimer matrix.
-
----
+> message time: 2026-06-11 10:34:04
+>
+> Walk me through the stoichiometry calculations to ensure optimal cross-link density for an epoxy-acid Lignin-Vitrimer matrix.
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -165,6 +140,7 @@ In an epoxy-acid vitrimer system, the stoichiometry dictates not only the static
 
 Here is the mathematical breakdown of the stoichiometry.
 
+(chat-heading-5)=
 ### 1. Determine Equivalent Weights
 
 Before calculating mass ratios, you must define the equivalent weights of your specific precursors. Because lignin is a heterogenous biopolymer, its epoxidation yield varies, meaning empirical titration or NMR is required to establish your exact baseline.
@@ -173,6 +149,7 @@ Before calculating mass ratios, you must define the equivalent weights of your s
 * **Acid Equivalent Weight ($AEW$):** The mass of the hardener that contains one mole of carboxyl groups. To reach a $180^\circ$C $T_g$, a rigid, aromatic crosslinker like Terephthalic acid is highly effective.
     * *Terephthalic Acid Example:* Molar mass = $166.13 \text{ g/mol}$. With two carboxyl groups, the $AEW = 83.06 \text{ g/eq}$.
 
+(chat-heading-6)=
 ### 2. Define the Stoichiometric Ratio ($R$)
 
 The molar ratio ($R$) compares the moles of carboxyl groups to the moles of epoxide groups:
@@ -182,6 +159,7 @@ $$R = \frac{n_{\text{COOH}}}{n_{\text{epoxy}}}$$
 * **For Optimal Cross-Link Density:** You should target $R = 1.0$. 
 * **The Vitrimer Advantage:** At a 1:1 ratio, the ring-opening reaction of the epoxide by the carboxylic acid generates an ester linkage and exactly one secondary hydroxyl group. This means that achieving maximum theoretical cross-link density simultaneously generates the precise density of nucleophilic $-\text{OH}$ groups needed for $Zn(acac)_2$-catalyzed transesterification when the matrix is heated above its topology-freezing temperature ($T_v$).
 
+(chat-heading-7)=
 ### 3. The Stoichiometry Calculation
 
 To determine the exact mass of the acid hardener ($m_{\text{acid}}$) required for a given batch of epoxidized lignin ($m_{\text{lignin}}$), we equate the moles:
@@ -198,13 +176,14 @@ In industrial polymer compounding, this is often expressed as **phr** (parts per
 
 $$phr_{\text{acid}} = \frac{R \cdot AEW \cdot 100}{EEW}$$
 
+(chat-heading-8)=
 ### 4. Adjusting for Network Defects
 
 While $R = 1.0$ is the theoretical optimum, steric hindrance within the bulky lignin macromonomers often prevents 100% conversion. In practice, you may need to run empirical sweeps between $R = 0.8$ and $R = 1.1$. 
 * A slight acid deficit ($R < 1.0$) ensures no free acids remain to act as plasticizers (which would lower your target $T_g$), though it leaves unreacted epoxies.
 * A slight acid excess ($R > 1.0$) guarantees maximum epoxide conversion but risks leaving unreacted dangling carboxyl chains.
 
----
+<hr />
 
 You can use the calculator below to model the required mass parameters based on your specific batch titration data.
 
@@ -212,22 +191,26 @@ You can use the calculator below to model the required mass parameters based on 
 {"component":"LlmGeneratedComponent","props":{"height":"600px","prompt":"Objective: Create a stoichiometry calculator for an epoxy-acid Lignin-Vitrimer system.\nData State: Epoxide Equivalent Weight (EEW) = 350 g/eq, Acid Equivalent Weight (AEW) = 83.06 g/eq, Lignin Mass = 100 g, Molar Ratio (R) = 1.0.\nStrategy: Form Layout.\nInputs: Numeric inputs for EEW and AEW. Slider for Molar Ratio (R) from 0.5 to 1.5. Numeric input for Lignin Mass.\nBehavior: Calculate the required mass of acid crosslinker using the formula: Acid Mass = (R * Lignin Mass * AEW) / EEW. Display the calculated mass prominently. Distinguish visually the readout area. Add a dynamic text note explaining that R=1.0 maximizes crosslink density and generates the optimal number of secondary hydroxyls for transesterification, while R < 1.0 leaves unreacted epoxies and R > 1.0 leaves unreacted acids.","id":"im_8e037b7926fff873"}}
 ```
 
----
+<hr />
+
+(chat-prompt-3)=
 
 +++ {"chat_input": true}
-# Prompt: 3
+## Prompt: 3
 
 +++ {"chat_input": true}
-message time: 2026-06-11 10:35:47
-
-Sustainable alternatives to Lignin-Vitrimer for this application?
-
-Model and compare the processes on YAML-LD with IOF, VF, EMMO
-
----
+> message time: 2026-06-11 10:35:47
+>
+> Sustainable alternatives to Lignin-Vitrimer for this application?
+>
+> Model and compare the processes on YAML-LD with IOF, VF, EMMO
+>
+> \-\-\-
+>
+> (chat-response-3)=
 
 +++
-# Response: 3
+## Response: 3
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -248,8 +231,9 @@ Two prominent sustainable alternatives fit these criteria:
 1. **Cellulose Nanocrystal (CNC) Functionalized Vitrimers:** Utilizing a heavily cross-linked nanocellulose matrix offers excellent optical clarity (eliminating the need for intensive bleaching steps) and exceptional dimensional stability.
 2. **PolyCBD-Carbonate Networks:** Poly(carboxymethyl betaine)-derived carbonate networks leverage highly ordered bio-based building blocks to yield exceptional chemical resistance and high cross-link density, presenting a naturally pristine background profile for high-contrast coatings.
 
----
+<hr />
 
+(process-and-material-modeling-framework)=
 ### Process and Material Modeling Framework
 
 To formally compare these manufacturing pathways, we can map them using a unified semantic approach across three complementary ontologies:
@@ -257,6 +241,7 @@ To formally compare these manufacturing pathways, we can map them using a unifie
 * **ValueFlows (VF):** Tracks the economic and circular ecosystem flows, accounting for resource inputs, chemical transformations, and waste/biproduct outputs.
 * **European Materials Modelling Ontology (EMMO):** Captures the microstructural physics and material properties, transitioning from molecular configurations to macroscopic performance metrics like surface roughness and $T_g$.
 
+(yaml-ld-semantic-comparison-model)=
 ### YAML-LD Semantic Comparison Model
 
 ```yaml
@@ -333,6 +318,7 @@ To formally compare these manufacturing pathways, we can map them using a unifie
         "comment": "Must maintain a baseline white/translucent profile without intensive chemical bleaching."
 ```
 
+(comparative-analysis-of-the-systems)=
 ### Comparative Analysis of the Systems
 
 | Evaluation Parameter | Cellulose Nanocrystal (CNC) Vitrimer | PolyCBD-Carbonate Network | Lignin-Vitrimer (LVH) Base Case |
@@ -343,20 +329,24 @@ To formally compare these manufacturing pathways, we can map them using a unifie
 
 While the CNC-based system eliminates the chemical overhead of bleaching, the **PolyCBD-Carbonate network** offers a more direct path to matching a high $T_g$ ($185^\circ\text{C}$) while natively providing the pristine, non-ghosting background required for a premium dry-erase application.
 
----
+<hr />
+
+(chat-prompt-4)=
 
 +++ {"chat_input": true}
-# Prompt: 4
+## Prompt: 4
 
 +++ {"chat_input": true}
-message time: 2026-06-11 10:43:35
-
-Capex, OpEx, marginal cost, cost breakdown, gross margin? At lab, pilot, and production scales?
-
----
+> message time: 2026-06-11 10:43:35
+>
+> Capex, OpEx, marginal cost, cost breakdown, gross margin? At lab, pilot, and production scales?
+>
+> \-\-\-
+>
+> (chat-response-4)=
 
 +++
-# Response: 4
+## Response: 4
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -382,33 +372,38 @@ Transitioning a sustainable material from a benchtop concept to a globally viabl
 
 Here is the breakdown of the core economic metrics and how they evolve as you move through the three primary manufacturing tiers.
 
+(the-economic-metrics)=
 ### The Economic Metrics
 * **CapEx (Capital Expenditure):** The upfront investment in fixed assets. This includes reactors, custom modular skids, facility modifications, and the intensive qualification/validation processes (IQ/OQ/PQ). In chemical TEA, this is often amortized over the expected life of the equipment (e.g., 10 years) to yield a CapEx *per unit of production*.
 * **OpEx (Operational Expenditure):** The recurring costs to keep the process running. This encompasses raw materials (feedstocks, solvents), utilities (steam, cooling water, electricity), consumable components (filters, single-use bags), and labor.
 * **Marginal Cost:** The cost to produce exactly one additional kilogram of material, assuming the facility is already running. For practical purposes in chemical manufacturing, this is effectively the variable OpEx per kilogram (raw materials + utilities), ignoring fixed CapEx and baseline facility labor.
 * **Gross Margin:** The revenue remaining after subtracting the total cost of goods sold (Total Cost per kg = Amortized CapEx per kg + OpEx per kg).
 
+(the-three-scales-of-manufacturing)=
 ### The Three Scales of Manufacturing
 
+(chat-heading-18)=
 #### 1. Lab Scale (Discovery & Feasibility)
 * **Throughput:** 10 to 100 kg/year.
 * **The Goal:** Optimize stoichiometry, validate $T_g$ targets, and prove the chemical pathway works.
 * **Economic Profile:** CapEx is relatively low ($50k–$200k for fume hoods, benchtop hot presses, and glassware). However, OpEx per kilogram is astronomical. You are buying high-purity raw materials in tiny, expensive quantities (e.g., purchasing from Sigma-Aldrich instead of bulk tankers), and a PhD materials scientist is spending days to produce a few grams. 
 * **Gross Margin:** Deeply negative. The product at this stage is data, not the physical material.
 
+(chat-heading-19)=
 #### 2. Pilot Scale (The Bridge)
 * **Throughput:** 1,000 to 10,000 kg/year.
 * **The Goal:** Stress-test the continuous flow or large-batch dynamics. You are identifying heat-transfer bottlenecks, separation inefficiencies, and generating enough material to seed the market or test downstream manufacturing (like coating the whiteboard sheets).
 * **Economic Profile:** CapEx jumps significantly ($1M–$5M) as you require custom modular skids, pilot reactors, and safety engineering (explosion-proof zoning). OpEx per kilogram drops as you begin buying raw materials in drums rather than bottles, and labor is spread over a larger output. 
 * **Gross Margin:** Usually still negative or hovering near break-even. The amortized CapEx per unit is still too heavy to support commercial pricing.
 
+(chat-heading-20)=
 #### 3. Production Scale (Commercialization)
 * **Throughput:** 1,000,000+ kg/year.
 * **The Goal:** Maximize yield, minimize energy consumption, and deliver consistent, validated output.
 * **Economic Profile:** CapEx is massive ($20M–$100M+ for a dedicated plant). However, because you are producing millions of kilograms, the *amortized CapEx per kilogram* shrinks to pennies. OpEx becomes entirely dominated by the bulk commodity pricing of your raw materials (e.g., train cars of technical lignin or betaine monomers) and industrial utility rates. Labor cost per kilogram approaches zero.
 * **Gross Margin:** Highly positive. This is the inflection point where the sheer volume absorbs the infrastructure costs.
 
----
+<hr />
 
 Use the interactive Techno-Economic dashboard below to model how plant capacity, raw material bulk discounts, and amortization periods alter the cost breakdown and dictate at which scale the material becomes profitable.
 

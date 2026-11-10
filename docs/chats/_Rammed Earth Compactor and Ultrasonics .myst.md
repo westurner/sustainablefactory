@@ -7,34 +7,22 @@ kernelspec:
 
 # _Rammed Earth Compactor and Ultrasonics 
 
-## Contents
-
-* [_Rammed Earth Compactor and Ultrasonics](#_rammed-earth-compactor-and-ultrasonics)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [**The Lignolux R-7 Rammer**](#the-lignolux-r-7-rammer)
-    * [**Is Ultrasonic Compaction Useful for Artisan Rammed Earth?**](#is-ultrasonic-compaction-useful-for-artisan-rammed-earth)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-    * [**Energy Recovery: TENG and Piezoelectric Integration**](#energy-recovery-teng-and-piezoelectric-integration)
-    * [**The Physics of the 28 kHz Wand**](#the-physics-of-the-28-khz-wand)
-    * [**Sustainable Product Designs: Resonant Compaction Tools**](#sustainable-product-designs-resonant-compaction-tools)
-      * [**1. Bulk Compactor (Lignolux C-Series)**](#1-bulk-compactor-lignolux-c-series)
-      * [**2. Tamping Head / Shoe (Lignolux T-Series)**](#2-tamping-head-shoe-lignolux-t-series)
-      * [**3. Coring Wand / Scepter (Lignolux W-Series)**](#3-coring-wand-scepter-lignolux-w-series)
-
 > From: https://gemini.google.com/app/0f9548937d2ee538
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-Design a rammed earth soil compactor with lignin-vitrimer materials. Is ultrasonic useful for (artisan) rammed earth walls?
+## Prompt: 1
 
----
++++ {"chat_input": true}
+> Design a rammed earth soil compactor with lignin-vitrimer materials. Is ultrasonic useful for (artisan) rammed earth walls?
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -64,6 +52,7 @@ Designing a tool that bridges cutting-edge polymer science with ancient earthen 
 
 Here is a conceptual design for a highly durable, artisan-focused compactor, alongside an analysis of ultrasonic viability in rammed earth.
 
+(the-lignolux-r-7-rammer)=
 ### **The Lignolux R-7 Rammer**
 
 The Lignolux R-7 is designed as a hybrid pneumatic/manual compactor specifically tailored for artisan rammed earth construction, utilizing lignin-derived vitrimers for critical wear and structural components.
@@ -79,8 +68,9 @@ Rammed earth artisans often suffer from joint degradation due to the relentless 
 **3. Modular Bio-Resin Formulations**
 Because lignin is an abundant byproduct of paper and biofuel processing, the vitrimer formulation is highly sustainable. The R-7 system includes a kit of shoes with varying stiffness profiles—harder matrix formulations for base lifts heavy in gravel, and slightly more elastic formulations for finishing lifts rich in clay and pigment.
 
----
+<hr />
 
+(is-ultrasonic-compaction-useful-for-artisan-rammed-earth)=
 ### **Is Ultrasonic Compaction Useful for Artisan Rammed Earth?**
 
 The short answer is: **Yes, but strictly as a localized finishing technique, not for bulk compaction.**
@@ -101,28 +91,32 @@ Where ultrasonic technology shines in this context is at the boundary layer:
 
 If we were to integrate an ultrasonic transducer directly into the core of the Lignolux R-7's tamping head, how would you prefer to handle the power supply—would a tethered pneumatic-electrical hybrid suit the workflow, or is complete untethered mobility critical for your application?
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-Compactor, tamping head, wand, ...
-
-Design each: electric, pneumatic, electric-pneumatic
-
-Find our chats on TENG and piezoelectric  
-harvestingwith lignin-vitrimers. Can the unit recover energy?
-
-Find our chats on sceptres with a handle at the antinode for drilling quartz in granite with 28 khz
-
-Also consider for the sustainable process and product designs:
-Resonant compaction
-
----
+> Compactor, tamping head, wand, ...
+>
+> Design each: electric, pneumatic, electric-pneumatic
+>
+> Find our chats on TENG and piezoelectric  
+> harvestingwith lignin-vitrimers. Can the unit recover energy?
+>
+> Find our chats on sceptres with a handle at the antinode for drilling quartz in granite with 28 khz
+>
+> Also consider for the sustainable process and product designs:
+> Resonant compaction
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -172,6 +166,7 @@ Integrating resonant compaction and energy recovery into a lignin-vitrimer (LV) 
 
 Here is the engineering breakdown for the equipment line, utilizing the physics of resonance and advanced polymer energy harvesting.
 
+(energy-recovery-teng-and-piezoelectric-integration)=
 ### **Energy Recovery: TENG and Piezoelectric Integration**
 
 A tamping unit can absolutely recover energy. The continuous, high-pressure kinetic impacts of rammed earth construction provide an ideal environment for scavenging energy. 
@@ -180,18 +175,21 @@ By integrating Piezoelectric Harvesting (PEH) arrays and Triboelectric Nanogener
 
 This recovered kinetic waste can be routed to an onboard supercapacitor—utilizing an architecture similar to the FCB-500—to power telemetry, onboard sensors, or offset the power draw of the primary drive.
 
+(the-physics-of-the-28-khz-wand)=
 ### **The Physics of the 28 kHz Wand**
 
 To harness 28 kHz effectively—especially when interacting with materials like quartz in granite—the physical design of the tool requires precise acoustic engineering. The 28 kHz frequency is highly effective because it induces the piezoelectric effect in the quartz lattice, causing micro-fractures that soften the stone for drilling or allow for deep compaction. 
 
 However, the physical placement of the operator's grip is critical. The handle must be located exactly at a **node** (the point of zero wave displacement) along the shaft. The working tip of the wand operates at the **antinode** (the point of maximum amplitude and vibration). If the tool were gripped at the antinode, the violent kinetic energy would transfer directly into the operator's hands, causing immediate injury and making the tool unusable.
 
----
+<hr />
 
+(sustainable-product-designs-resonant-compaction-tools)=
 ### **Sustainable Product Designs: Resonant Compaction Tools**
 
 Applying resonant compaction across different scales requires specific power modalities. Below are the designs for the bulk compactor, the modular tamping head, and the precision wand.
 
+(chat-heading-10)=
 #### **1. Bulk Compactor (Lignolux C-Series)**
 Designed for driving deep, 6-to-8-inch soil lifts in primary wall construction.
 
@@ -199,6 +197,7 @@ Designed for driving deep, 6-to-8-inch soil lifts in primary wall construction.
 * **Pneumatic (Lignolux C-10P):** Relies on compressed air for brute-force macro-compaction. The LV housing is chemically tuned for high hysteresis to dampen the severe shock, while a passive TENG shoe harvests electrostatic charge from soil friction to power an onboard compaction-density sensor.
 * **Electric-Pneumatic (Lignolux C-10H):** A hybrid system utilizing a localized, battery-powered electric compressor to drive the pneumatic piston. It offers the high kinetic impact of an air rammer with the tetherless freedom of a battery unit, supplemented by the TENG energy recovery matrix.
 
+(chat-heading-11)=
 #### **2. Tamping Head / Shoe (Lignolux T-Series)**
 The interchangeable contact point designed to interface with the soil.
 
@@ -206,6 +205,7 @@ The interchangeable contact point designed to interface with the soil.
 * **Pneumatic (Lignolux T-5P):** A passive, highly durable shoe designed to bolt onto standard air rammers. Cast entirely from a high-$T_g$ LV composite, it relies on thermal self-healing capabilities; when gouged by heavy river rock, a heat gun allows the polymer to flow and reset to a flat face.
 * **Electric-Pneumatic (Lignolux T-5H):** A dual-action head. The central mass transfers the pneumatic drive for deep lift compaction, while the outer perimeter features an electrically driven ultrasonic ring to fluidize the edges against the formwork simultaneously.
 
+(chat-heading-12)=
 #### **3. Coring Wand / Scepter (Lignolux W-Series)**
 A precision tool for intricate formwork, embedded artwork, and complex geometries. 
 

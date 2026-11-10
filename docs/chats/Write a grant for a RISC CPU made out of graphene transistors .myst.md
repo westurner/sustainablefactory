@@ -7,24 +7,20 @@ kernelspec:
 
 # Write a grant for a RISC CPU made out of graphene transistors 
 
-## Contents
-
-* [Write a grant for a RISC CPU made out of graphene transistors](#write-a-grant-for-a-risc-cpu-made-out-of-graphene-transistors)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-# Prompt: 1
+## Prompt: 1
 
 +++ {"chat_input": true}
-Write a grant for a RISC CPU made out of graphene transistors
-
----
+> Write a grant for a RISC CPU made out of graphene transistors
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++
 **Grant Proposal: Pioneering Graphene-Based RISC CPU for Next-Generation Computing**
@@ -81,18 +77,22 @@ The project is anticipated to span three years, with key milestones including:
 
 The development of a graphene-based RISC CPU represents a bold and ambitious undertaking with the potential to transform the landscape of computing. By funding this project, you will be investing in a pioneering technology that could shape the future of electronics and information technology, driving innovation and economic growth for years to come.
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-Reformat that as markdown
-
----
+> Reformat that as markdown
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++
 **Grant Proposal: Pioneering Graphene-Based RISC CPU for Next-Generation Computing**
@@ -149,4 +149,4 @@ The project is anticipated to span three years, with key milestones including:
 
 The development of a graphene-based RISC CPU represents a bold and ambitious undertaking with the potential to transform the landscape of computing. By funding this project, you will be investing in a pioneering technology that could shape the future of electronics and information technology, driving innovation and economic growth for years to come.
 
----
+<hr />

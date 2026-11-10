@@ -7,27 +7,24 @@ kernelspec:
 
 # _THz Resonators and Quantum Dots_ 
 
-## Contents
-
-* [_THz Resonators and Quantum Dots_](#_thz-resonators-and-quantum-dots_)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [Demystifying the Connection: Terahertz Resonators and Quantum Dots](#demystifying-the-connection-terahertz-resonators-and-quantum-dots)
-
 > From: https://gemini.google.com/app/77f9bff785ae7ecf
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2025-07-20 00:42:33
+## Prompt: 1
 
-Are Thz resonators useful as quantum dots?
-
----
++++ {"chat_input": true}
+> message time: 2025-07-20 00:42:33
+>
+> Are Thz resonators useful as quantum dots?
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -53,6 +50,7 @@ I'm now delving into the specific mechanisms of interaction between THz resonato
 
 I've made significant progress since last time, pinpointing key applications of THz resonators and quantum dots. While they are separate entities, I discovered several studies that combine them for novel functionalities. It's clear that THz resonators are powerful tools for enhancing the study and control of quantum dots, particularly in sensing and modulation applications. My findings are now ready for synthesis into a comprehensive response.
 
+(demystifying-the-connection-terahertz-resonators-and-quantum-dots)=
 ### Demystifying the Connection: Terahertz Resonators and Quantum Dots
 
 While Terahertz (THz) resonators are not quantum dots themselves, they are proving to be invaluable tools for manipulating and harnessing the power of these nanoscale semiconductor crystals. The relationship is not one of identity, but rather a powerful synergy that is pushing the boundaries of quantum technology, sensing, and communications.

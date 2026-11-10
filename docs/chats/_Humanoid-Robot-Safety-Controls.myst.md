@@ -7,255 +7,243 @@ kernelspec:
 
 # _Humanoid-Robot-Safety-Controls
 
-## Contents
-
-* [_Humanoid-Robot-Safety-Controls](#_humanoid-robot-safety-controls)
-* [Prompt: 1](#prompt-1)
-    * [draft letter](#draft-letter)
-    * [DRAFT TECHNICAL SPECIFICATION](#draft-technical-specification)
-* [Response: 1](#response-1)
-  * [1. Out-of-Band (OOB) Safety Architecture](#1-out-of-band-oob-safety-architecture)
-  * [2. Dynamic Fall-Zone Projection](#2-dynamic-fall-zone-projection)
-  * [3. State-Dependent Thermal Overrides](#3-state-dependent-thermal-overrides)
-  * [4. Immutable Incident Data Recorder (IDR)](#4-immutable-incident-data-recorder-idr)
-  * [5. Pinch-Point and Shear-Hazard Sheathing](#5-pinch-point-and-shear-hazard-sheathing)
-    * [Suggested Inserts for Your Drafts](#suggested-inserts-for-your-drafts)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-
 > From: https://gemini.google.com/app/7c03b49bd969d0ad
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2026-07-23 19:47:09
-
-What should do about humanoid AI robot safety?
-
-From a prior chat on this: https://g.co/gemini/share/9f4d9b0107b9
-
-- At least two (2) red mushroom emergency stop buttons
-- Grappling points,
-- > A physical, standardized first-responder disconnect loop, identical in principle to the one on EVs.
-
-
-### draft letter
-
-Subject: Inquiry Regarding the Development of an Emergency Disconnect Standard for Humanoid Robots
-
-Dear [Appropriate Department/Contact Person at A3, CPSC, NFPA, or OSHA],
-
-I am writing to you today with a proactive concern for public and occupational safety regarding the imminent deployment of autonomous humanoid robots.
-
-The need for forward-thinking safety standards for new technology is well-established. Precedents like the CPSC's mandate for SawStop's active injury prevention on table saws, and the comprehensive safety standards governing EV charging infrastructure (under NFPA 70/NEC and UL), which include the vital first-responder disconnect loop, provide a clear and successful model. A similar, dedicated standard is now urgently needed for mobile humanoid robots.
-
-While a foundational safety framework exists, it was not designed for this new paradigm. I have analyzed the key existing controls and standards, and each has significant gaps when applied to mobile humanoids:
-
-ANSI/RIA R15.06 & ISO 10218 (Industrial Robots):
-- What They Cover: These are the gold standards for traditional industrial robots, mandating E-stops and safeguarding.
-- The Gap: They fundamentally assume a robot is stationary and operates within a controlled, predictable, and restricted "workcell" accessed only by trained professionals. They do not account for a robot moving autonomously through unpredictable public spaces.
-
-ISO 13482 (Personal Care Robots):
-- What It Covers: This standard addresses robots operating in closer proximity to people.
-- The Gap: It often presumes less powerful or complex systems than a full-sized humanoid and does not adequately address the unique hazards of a heavy, bipedal robot that could fall or interact with untrained members of the public.
-
-OSHA 29 CFR 1910.147 & 1910.333 (Lockout/Tagout):
-- What They Cover: These regulations are critical for requiring the formal de-energization of machinery for service and maintenance.
-- The Gap: This is a procedural disconnect for planned maintenance, not an instantaneous E-stop for an active emergency. It is meant to protect a technician, not a member of the public or a first responder facing a malfunctioning machine.
-
-These standards leave several critical, unaddressed risks specific to mobile humanoid robots:
-
-Standardized Remote Deactivation: The drone industry has already established protocols for remote "stop codes" or kill switches. A similar standard is needed for humanoids, ensuring a secure, non-hackable wireless channel for an operator to immediately halt a unit that is behaving erratically, well before it requires intervention from emergency services.
-
-First Responder Emergency Access: In an emergency, personnel cannot be expected to approach a potentially dangerous machine. A multi-tiered standard is needed:
-
-At a minimum: A physical, standardized first-responder disconnect loop, identical in principle to the one on EVs.
-
-For non-contact stops: The standard should contemplate specifications for disabling a robot's electronics from a distance, perhaps via a directed, localized solid-state microwave or RF emitter, ensuring a safe shutdown when physical access is impossible.
-
-For physical intervention: The standard should define interfaces for an "interceptor" robot to use, such as a standardized handle or grapple point, allowing a specialized unit to safely quell and retrieve a malfunctioning one.
-
-Dynamic Mobility & Physical E-Stops: A single E-stop location is insufficient for a machine that moves, turns, and can fall, potentially rendering the button inaccessible. A standard must define requirements for multiple, consistently placed, and easily accessible physical E-stops.
-
-The "Safe-Stop" State: Unlike an industrial arm that just brakes, a bipedal robot that simply cuts power to its joints will collapse, creating a significant impact hazard. A new standard must define a "fail-safe" state, such as an autonomous crouch or kneel, to ensure the stop itself does not cause injury.
-
-Given these safety gaps, I am writing to inquire about the process for initiating a discussion on developing a new, dedicated standard for mobile humanoid robots. A forward-thinking approach is essential for the responsible and successful adoption of this technology.
-
-Thank you for your time and for your leadership in safety. I look forward to your response.
-
-Respectfully,
-
-[Your Name]
-
-[Your Contact Information]
-
-
-### DRAFT TECHNICAL SPECIFICATION
-
-TITLE: Emergency Deactivation Systems (EDS) for Publicly-Deployed Mobile Humanoid Robots (MHRs)
-
-DATE: September 28, 2025
-
-STATUS: Preliminary Draft for Review
-
-1.0 SCOPE AND PURPOSE
-
-This technical specification defines the minimum requirements for the design, implementation, and performance of Emergency Deactivation Systems (EDS) for Mobile Humanoid Robots (MHRs) intended for operation in public or unstructured environments. The purpose is to ensure a multi-layered safety framework that allows operators, the public, and emergency first responders to safely halt and de-energize an MHR during a malfunction, emergency, or other hazardous situation.
-
-2.0 DEFINITIONS
-
-Mobile Humanoid Robot (MHR): An autonomous or semi-autonomous, bipedal mobile robot with a form factor approximating the human body, designed to operate without a physical tether in unstructured environments.
-
-Emergency Deactivation System (EDS): The complete set of hardware and software components on an MHR designed to execute a Safe-Stop State.
-
-Safe-Stop State: A state in which the MHR has ceased all hazardous motion and entered a physically stable, low-energy configuration (e.g., a controlled kneel or crouch) with its joints locked to prevent collapse. This is distinct from an uncontrolled collapse resulting from simple power removal.
-
-First Responder Cut Loop (FRCL): A physical, externally accessible loop for the complete mechanical severance of all battery power.
-
-Non-Contact Stop Receiver (NCSR): A secure, standardized electronic receiver for remotely triggering the Safe-Stop State via a directed energy signal.
-
-Standardized Grapple Points (SGP): Reinforced, consistently located points on the MHR's chassis designed for capture and manipulation by another robotic or mechanical system.
-
-3.0 PHYSICAL EMERGENCY STOP ACTUATORS
-
-3.1. An MHR shall be equipped with a minimum of three (3) physical emergency stop buttons compliant with ISO 13850 (red, mushroom-shaped, twist-to-reset).
-
-3.2. Locations: One button shall be located on the upper torso (front), one on the upper torso (back), and one on an accessible limb (e.g., forearm). Locations must remain accessible if the MHR is in a 90-degree prone or supine position.
-
-4.0 REMOTE OPERATOR DEACTIVATION SYSTEM
-
-4.1. The MHR shall be controllable via a remote system that incorporates a constant-communication "heartbeat" or "dead man's switch" protocol. Loss of this signal for more than 500ms shall trigger the Safe-Stop State.
-
-4.2. The operator shall have a dedicated, encrypted "Remote Stop" command that has priority over all autonomous functions and immediately triggers the Safe-Stop State. This function shall be distinct from standard operational stop commands.
-
-5.0 FIRST RESPONDER DEACTIVATION SYSTEMS
-
-5.1. Tier 1: Physical Cut Loop (FRCL):
-
-5.1.1. The MHR must be equipped with a clearly marked First Responder Cut Loop. The loop shall be bright yellow and constructed of non-conductive, high-tensile material.
-
-5.1.2. The FRCL shall be located on the upper back, near the shoulder line, and be accessible without requiring fine motor manipulation (e.g., accessible by a hook or blade on a pole).
-
-5.1.3. Severing the FRCL shall mechanically and irreversibly disconnect all battery power from the MHR's primary motor and logic systems.
-
-5.2. Tier 2: Non-Contact Stop Receiver (NCSR):
-
-5.2.1. The MHR must be equipped with an NCSR operating on a standardized, reserved frequency band (e.g., 433 MHz band, to be determined by regulatory bodies).
-
-5.2.2. The NCSR shall require a secure, digitally signed "handshake" from a certified first-responder emitter to prevent accidental or malicious activation.
-
-5.2.3. Successful activation via the NCSR shall trigger the Safe-Stop State.
-
-5.3. Tier 3: Standardized Grapple Points (SGP):
-
-5.3.1. The MHR must have a minimum of two SGPs located on the upper torso/shoulders.
-
-5.3.2. SGPs must be constructed of high-strength material (e.g., forged aluminum or steel alloy) and be capable of supporting 1.5x the MHR's total mass without deformation.
-
-5.3.3. The geometry of the SGPs shall be standardized to allow for secure gripping by a robotic manipulator.
-
-6.0 SAFE-STOP STATE PROTOCOL
-
-6.1. Upon activation of any Tier 1, 2, or 3 stop command, the MHR's primary logic shall immediately execute the Safe-Stop State protocol.
-
-6.2. The protocol sequence shall be: 1) Cease all forward momentum and task execution; 2) Assess balance and stability; 3) Perform a controlled descent to a stable kneeling or seated position; 4) Engage mechanical or software-based joint locks; 5) Transmit a final "safe state" signal. The entire sequence from trigger to final state shall not exceed 2.5 seconds.
-
---
-
-
---
-
-Attached: A draft bill for this from the same Gemini 2.5 Pro prompts:
-
----
-H. R. [...] The Humanoid Robot Public Safety Act of 2026
-
-A BILL to ensure the safe deployment of autonomous robots in public spaces and to provide for the establishment of mandatory safety standards for such devices.
-
-SECTION 1. FINDINGS AND PURPOSE.
-
-(a) FINDINGS.—Congress finds the following:
-
-(1) Autonomous humanoid robots represent a transformative technology with the potential for significant economic and social benefit.
-
-(2) The deployment of these robots in public spaces alongside untrained citizens presents novel safety challenges not addressed by existing regulations designed for industrial or stationary machinery.
-
-(3) Proactive, clear, and robust safety standards are necessary to prevent injury, build public trust, and provide a clear framework for innovation.
-
-(4) A multi-layered safety system, accessible to operators, the public, and first responders, is essential for mitigating risk.
-
-(b) PURPOSE.—The purpose of this Act is to protect the public by mandating that all autonomous humanoid robots operating in the United States are equipped with a certified Emergency Deactivation System.
-
-SECTION 2. DEFINITIONS.
-
-In this Act:
-
-(1) The term "Autonomous Humanoid Robot" means any commercially available, bipedal, mobile robotic device that is capable of operating in a public space without continuous direct mechanical or tethered control by a human.
-
-(2) The term "Public Space" means any area, indoor or outdoor, that is accessible to the general public.
-
-(3) The term "Commission" means the Consumer Product Safety Commission.
-
-(4) The term "Emergency Deactivation System" means the set of mechanisms, compliant with the standards promulgated under this Act, designed to bring a robot to a safe, stable, and de-energized state.
-
-SECTION 3. EMERGENCY DEACTIVATION SYSTEM MANDATE.
-
-Effective two years after the date of enactment of this Act, it shall be unlawful for any person to manufacture for sale, sell, import, or operate in a public space an Autonomous Humanoid Robot that is not equipped with an Emergency Deactivation System certified under the rules promulgated by the Commission pursuant to Section 4.
-
-SECTION 4. PROMULGATION OF SAFETY STANDARDS.
-
-(a) IN GENERAL.—Not later than 18 months after the date of enactment of this Act, the Commission, in consultation with the National Institute of Standards and Technology and the Department of Homeland Security, shall promulgate final regulations to establish minimum standards for the Emergency Deactivation System.
-
-(b) REQUIREMENTS.—The standards established under subsection (a) shall require that the Emergency Deactivation System includes, at a minimum:
-
-(1) Multiple Physical Actuators: No fewer than three externally accessible, standardized emergency stop buttons.
-
-(2) Secure Remote Shutdown: A capability for a verified human operator to remotely and wirelessly command the robot to a safe state.
-
-(3) First Responder Access: A tiered system for emergency personnel, which shall include:
-
-(A) A physical, non-electronic means of fully disconnecting battery power from a safe distance, known as a "First Responder Cut Loop."
-
-(B) A secure receiver for a standardized, non-contact signal to command the robot to a safe state.
-
-(4) Controlled Failure State: A mandatory protocol that ensures the robot, upon activation of any emergency stop, enters a physically stable, controlled state, such as kneeling, and does not collapse in an uncontrolled manner.
-
-SECTION 5. ENFORCEMENT AND PENALTIES.
-
-(a) ENFORCEMENT.—This Act shall be enforced by the Commission.
-
-(b) CIVIL PENALTIES.—Any person who violates Section 3 of this Act shall be subject to civil penalties in accordance with section 20 of the Consumer Product Safety Act (15 U.S.C. 2069). Any robot found to be in violation may be subject to seizure.
-
---
-
-I have hardly reviewed this legislative bill draft; it looks like it has:
-
+## Prompt: 1
+
++++ {"chat_input": true}
+> message time: 2026-07-23 19:47:09
+>
+> What should do about humanoid AI robot safety?
+>
+> From a prior chat on this: https://g.co/gemini/share/9f4d9b0107b9
+>
+> - At least two (2) red mushroom emergency stop buttons
+> - Grappling points,
+> - > A physical, standardized first-responder disconnect loop, identical in principle to the one on EVs.
+>
+>
+> ### draft letter
+>
+> Subject: Inquiry Regarding the Development of an Emergency Disconnect Standard for Humanoid Robots
+>
+> Dear [Appropriate Department/Contact Person at A3, CPSC, NFPA, or OSHA],
+>
+> I am writing to you today with a proactive concern for public and occupational safety regarding the imminent deployment of autonomous humanoid robots.
+>
+> The need for forward-thinking safety standards for new technology is well-established. Precedents like the CPSC's mandate for SawStop's active injury prevention on table saws, and the comprehensive safety standards governing EV charging infrastructure (under NFPA 70/NEC and UL), which include the vital first-responder disconnect loop, provide a clear and successful model. A similar, dedicated standard is now urgently needed for mobile humanoid robots.
+>
+> While a foundational safety framework exists, it was not designed for this new paradigm. I have analyzed the key existing controls and standards, and each has significant gaps when applied to mobile humanoids:
+>
+> ANSI/RIA R15.06 & ISO 10218 (Industrial Robots):
+> - What They Cover: These are the gold standards for traditional industrial robots, mandating E-stops and safeguarding.
+> - The Gap: They fundamentally assume a robot is stationary and operates within a controlled, predictable, and restricted "workcell" accessed only by trained professionals. They do not account for a robot moving autonomously through unpredictable public spaces.
+>
+> ISO 13482 (Personal Care Robots):
+> - What It Covers: This standard addresses robots operating in closer proximity to people.
+> - The Gap: It often presumes less powerful or complex systems than a full-sized humanoid and does not adequately address the unique hazards of a heavy, bipedal robot that could fall or interact with untrained members of the public.
+>
+> OSHA 29 CFR 1910.147 & 1910.333 (Lockout/Tagout):
+> - What They Cover: These regulations are critical for requiring the formal de-energization of machinery for service and maintenance.
+> - The Gap: This is a procedural disconnect for planned maintenance, not an instantaneous E-stop for an active emergency. It is meant to protect a technician, not a member of the public or a first responder facing a malfunctioning machine.
+>
+> These standards leave several critical, unaddressed risks specific to mobile humanoid robots:
+>
+> Standardized Remote Deactivation: The drone industry has already established protocols for remote "stop codes" or kill switches. A similar standard is needed for humanoids, ensuring a secure, non-hackable wireless channel for an operator to immediately halt a unit that is behaving erratically, well before it requires intervention from emergency services.
+>
+> First Responder Emergency Access: In an emergency, personnel cannot be expected to approach a potentially dangerous machine. A multi-tiered standard is needed:
+>
+> At a minimum: A physical, standardized first-responder disconnect loop, identical in principle to the one on EVs.
+>
+> For non-contact stops: The standard should contemplate specifications for disabling a robot's electronics from a distance, perhaps via a directed, localized solid-state microwave or RF emitter, ensuring a safe shutdown when physical access is impossible.
+>
+> For physical intervention: The standard should define interfaces for an "interceptor" robot to use, such as a standardized handle or grapple point, allowing a specialized unit to safely quell and retrieve a malfunctioning one.
+>
+> Dynamic Mobility & Physical E-Stops: A single E-stop location is insufficient for a machine that moves, turns, and can fall, potentially rendering the button inaccessible. A standard must define requirements for multiple, consistently placed, and easily accessible physical E-stops.
+>
+> The "Safe-Stop" State: Unlike an industrial arm that just brakes, a bipedal robot that simply cuts power to its joints will collapse, creating a significant impact hazard. A new standard must define a "fail-safe" state, such as an autonomous crouch or kneel, to ensure the stop itself does not cause injury.
+>
+> Given these safety gaps, I am writing to inquire about the process for initiating a discussion on developing a new, dedicated standard for mobile humanoid robots. A forward-thinking approach is essential for the responsible and successful adoption of this technology.
+>
+> Thank you for your time and for your leadership in safety. I look forward to your response.
+>
+> Respectfully,
+>
+> [Your Name]
+>
+> [Your Contact Information]
+>
+>
+> ### DRAFT TECHNICAL SPECIFICATION
+>
+> TITLE: Emergency Deactivation Systems (EDS) for Publicly-Deployed Mobile Humanoid Robots (MHRs)
+>
+> DATE: September 28, 2025
+>
+> STATUS: Preliminary Draft for Review
+>
+> 1.0 SCOPE AND PURPOSE
+>
+> This technical specification defines the minimum requirements for the design, implementation, and performance of Emergency Deactivation Systems (EDS) for Mobile Humanoid Robots (MHRs) intended for operation in public or unstructured environments. The purpose is to ensure a multi-layered safety framework that allows operators, the public, and emergency first responders to safely halt and de-energize an MHR during a malfunction, emergency, or other hazardous situation.
+>
+> 2.0 DEFINITIONS
+>
+> Mobile Humanoid Robot (MHR): An autonomous or semi-autonomous, bipedal mobile robot with a form factor approximating the human body, designed to operate without a physical tether in unstructured environments.
+>
+> Emergency Deactivation System (EDS): The complete set of hardware and software components on an MHR designed to execute a Safe-Stop State.
+>
+> Safe-Stop State: A state in which the MHR has ceased all hazardous motion and entered a physically stable, low-energy configuration (e.g., a controlled kneel or crouch) with its joints locked to prevent collapse. This is distinct from an uncontrolled collapse resulting from simple power removal.
+>
+> First Responder Cut Loop (FRCL): A physical, externally accessible loop for the complete mechanical severance of all battery power.
+>
+> Non-Contact Stop Receiver (NCSR): A secure, standardized electronic receiver for remotely triggering the Safe-Stop State via a directed energy signal.
+>
+> Standardized Grapple Points (SGP): Reinforced, consistently located points on the MHR's chassis designed for capture and manipulation by another robotic or mechanical system.
+>
+> 3.0 PHYSICAL EMERGENCY STOP ACTUATORS
+>
+> 3.1. An MHR shall be equipped with a minimum of three (3) physical emergency stop buttons compliant with ISO 13850 (red, mushroom-shaped, twist-to-reset).
+>
+> 3.2. Locations: One button shall be located on the upper torso (front), one on the upper torso (back), and one on an accessible limb (e.g., forearm). Locations must remain accessible if the MHR is in a 90-degree prone or supine position.
+>
+> 4.0 REMOTE OPERATOR DEACTIVATION SYSTEM
+>
+> 4.1. The MHR shall be controllable via a remote system that incorporates a constant-communication "heartbeat" or "dead man's switch" protocol. Loss of this signal for more than 500ms shall trigger the Safe-Stop State.
+>
+> 4.2. The operator shall have a dedicated, encrypted "Remote Stop" command that has priority over all autonomous functions and immediately triggers the Safe-Stop State. This function shall be distinct from standard operational stop commands.
+>
+> 5.0 FIRST RESPONDER DEACTIVATION SYSTEMS
+>
+> 5.1. Tier 1: Physical Cut Loop (FRCL):
+>
+> 5.1.1. The MHR must be equipped with a clearly marked First Responder Cut Loop. The loop shall be bright yellow and constructed of non-conductive, high-tensile material.
+>
+> 5.1.2. The FRCL shall be located on the upper back, near the shoulder line, and be accessible without requiring fine motor manipulation (e.g., accessible by a hook or blade on a pole).
+>
+> 5.1.3. Severing the FRCL shall mechanically and irreversibly disconnect all battery power from the MHR's primary motor and logic systems.
+>
+> 5.2. Tier 2: Non-Contact Stop Receiver (NCSR):
+>
+> 5.2.1. The MHR must be equipped with an NCSR operating on a standardized, reserved frequency band (e.g., 433 MHz band, to be determined by regulatory bodies).
+>
+> 5.2.2. The NCSR shall require a secure, digitally signed "handshake" from a certified first-responder emitter to prevent accidental or malicious activation.
+>
+> 5.2.3. Successful activation via the NCSR shall trigger the Safe-Stop State.
+>
+> 5.3. Tier 3: Standardized Grapple Points (SGP):
+>
+> 5.3.1. The MHR must have a minimum of two SGPs located on the upper torso/shoulders.
+>
+> 5.3.2. SGPs must be constructed of high-strength material (e.g., forged aluminum or steel alloy) and be capable of supporting 1.5x the MHR's total mass without deformation.
+>
+> 5.3.3. The geometry of the SGPs shall be standardized to allow for secure gripping by a robotic manipulator.
+>
+> 6.0 SAFE-STOP STATE PROTOCOL
+>
+> 6.1. Upon activation of any Tier 1, 2, or 3 stop command, the MHR's primary logic shall immediately execute the Safe-Stop State protocol.
+>
+> 6.2. The protocol sequence shall be: 1) Cease all forward momentum and task execution; 2) Assess balance and stability; 3) Perform a controlled descent to a stable kneeling or seated position; 4) Engage mechanical or software-based joint locks; 5) Transmit a final "safe state" signal. The entire sequence from trigger to final state shall not exceed 2.5 seconds.
+>
+> --
+>
+>
+> --
+>
+> Attached: A draft bill for this from the same Gemini 2.5 Pro prompts:
+>
+> \-\-\-
+> H. R. [...] The Humanoid Robot Public Safety Act of 2026
+>
+> A BILL to ensure the safe deployment of autonomous robots in public spaces and to provide for the establishment of mandatory safety standards for such devices.
+>
+> SECTION 1. FINDINGS AND PURPOSE.
+>
+> (a) FINDINGS.—Congress finds the following:
+>
+> (1) Autonomous humanoid robots represent a transformative technology with the potential for significant economic and social benefit.
+>
+> (2) The deployment of these robots in public spaces alongside untrained citizens presents novel safety challenges not addressed by existing regulations designed for industrial or stationary machinery.
+>
+> (3) Proactive, clear, and robust safety standards are necessary to prevent injury, build public trust, and provide a clear framework for innovation.
+>
+> (4) A multi-layered safety system, accessible to operators, the public, and first responders, is essential for mitigating risk.
+>
+> (b) PURPOSE.—The purpose of this Act is to protect the public by mandating that all autonomous humanoid robots operating in the United States are equipped with a certified Emergency Deactivation System.
+>
+> SECTION 2. DEFINITIONS.
+>
+> In this Act:
+>
+> (1) The term "Autonomous Humanoid Robot" means any commercially available, bipedal, mobile robotic device that is capable of operating in a public space without continuous direct mechanical or tethered control by a human.
+>
+> (2) The term "Public Space" means any area, indoor or outdoor, that is accessible to the general public.
+>
+> (3) The term "Commission" means the Consumer Product Safety Commission.
+>
+> (4) The term "Emergency Deactivation System" means the set of mechanisms, compliant with the standards promulgated under this Act, designed to bring a robot to a safe, stable, and de-energized state.
+>
+> SECTION 3. EMERGENCY DEACTIVATION SYSTEM MANDATE.
+>
 > Effective two years after the date of enactment of this Act, it shall be unlawful for any person to manufacture for sale, sell, import, or operate in a public space an Autonomous Humanoid Robot that is not equipped with an Emergency Deactivation System certified under the rules promulgated by the Commission pursuant to Section 4.
-
---
-
-Contextually,
-
-There is at present a published exploit for a vulnerability in mass-produced humanoid robots by an overeager vendor.
-
-The Terminator (1984), AI (2001), I Robot (1950, 2004), The Wild Robot (2024), Bicentennial Man (1999)
-
-FDA doesn't yet require fuzzing for medical devices, but there is a framework of technical process recommendations and requirements.
-
-In 2009-2010 I worked in a large Hospital on software for filing medical orders and Linux systems administration. I have little experience with robots
- and no specific concerns with any particular product at present. 
-
-Thanks for your consideration,
-
-Hoping for Next Steps on this
-
-What additional controls would be appropriate given a new review of mobile humanoid robot safety controls and regulations?
-
----
+>
+> SECTION 4. PROMULGATION OF SAFETY STANDARDS.
+>
+> (a) IN GENERAL.—Not later than 18 months after the date of enactment of this Act, the Commission, in consultation with the National Institute of Standards and Technology and the Department of Homeland Security, shall promulgate final regulations to establish minimum standards for the Emergency Deactivation System.
+>
+> (b) REQUIREMENTS.—The standards established under subsection (a) shall require that the Emergency Deactivation System includes, at a minimum:
+>
+> (1) Multiple Physical Actuators: No fewer than three externally accessible, standardized emergency stop buttons.
+>
+> (2) Secure Remote Shutdown: A capability for a verified human operator to remotely and wirelessly command the robot to a safe state.
+>
+> (3) First Responder Access: A tiered system for emergency personnel, which shall include:
+>
+> (A) A physical, non-electronic means of fully disconnecting battery power from a safe distance, known as a "First Responder Cut Loop."
+>
+> (B) A secure receiver for a standardized, non-contact signal to command the robot to a safe state.
+>
+> (4) Controlled Failure State: A mandatory protocol that ensures the robot, upon activation of any emergency stop, enters a physically stable, controlled state, such as kneeling, and does not collapse in an uncontrolled manner.
+>
+> SECTION 5. ENFORCEMENT AND PENALTIES.
+>
+> (a) ENFORCEMENT.—This Act shall be enforced by the Commission.
+>
+> (b) CIVIL PENALTIES.—Any person who violates Section 3 of this Act shall be subject to civil penalties in accordance with section 20 of the Consumer Product Safety Act (15 U.S.C. 2069). Any robot found to be in violation may be subject to seizure.
+>
+> --
+>
+> I have hardly reviewed this legislative bill draft; it looks like it has:
+>
+> > Effective two years after the date of enactment of this Act, it shall be unlawful for any person to manufacture for sale, sell, import, or operate in a public space an Autonomous Humanoid Robot that is not equipped with an Emergency Deactivation System certified under the rules promulgated by the Commission pursuant to Section 4.
+>
+> --
+>
+> Contextually,
+>
+> There is at present a published exploit for a vulnerability in mass-produced humanoid robots by an overeager vendor.
+>
+> The Terminator (1984), AI (2001), I Robot (1950, 2004), The Wild Robot (2024), Bicentennial Man (1999)
+>
+> FDA doesn't yet require fuzzing for medical devices, but there is a framework of technical process recommendations and requirements.
+>
+> In 2009-2010 I worked in a large Hospital on software for filing medical orders and Linux systems administration. I have little experience with robots
+>  and no specific concerns with any particular product at present. 
+>
+> Thanks for your consideration,
+>
+> Hoping for Next Steps on this
+>
+> What additional controls would be appropriate given a new review of mobile humanoid robot safety controls and regulations?
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -319,28 +307,34 @@ Given the context of recent mass-produced humanoid exploits and the shift from c
 
 Here are five additional, critical controls that should be integrated into your technical review and specification:
 
+(chat-heading-3)=
 ## 1. Out-of-Band (OOB) Safety Architecture
 If a humanoid's primary AI, navigation stack, or network interface is exploited, any software-routed stop command is useless. 
 * **The Control:** The Emergency Deactivation System (EDS) must operate on a completely isolated, air-gapped hardware circuit (e.g., SIL 3 / PL e rated). The Non-Contact Stop Receiver (NCSR) and physical E-stops must trigger mechanical contactors that sever power to the actuators directly, bypassing the robot's main compute logic entirely. 
 
+(chat-heading-4)=
 ## 2. Dynamic Fall-Zone Projection
 Unlike fixed machinery, a walking robot's hazard zone changes based on its speed, mass distribution, and center of gravity. 
 * **The Control:** The standard should require MHRs to continuously broadcast their kinematic footprint. This can be achieved via downward-facing lasers (similar to forklift safety halos) that dynamically project a visible boundary on the floor. If the robot is moving at 1.5 m/s, the projected radius expands to show the unavoidable fall zone, giving the public intuitive visual warning.
 
+(chat-heading-5)=
 ## 3. State-Dependent Thermal Overrides
 Your "Safe-Stop" crouch is perfect for a logic error or mechanical fault. However, if the robot experiences battery thermal runaway, crouching in a public space turns it into a stationary hazard.
 * **The Control:** The EDS must include independent thermal monitoring. If a thermal event is detected, the standard Safe-Stop must be overridden. The robot should emit a distinct, high-decibel fire-hazard alarm and, if navigation is still possible, move to a pre-defined clear zone away from flammable materials before executing the hardware disconnect. Furthermore, hot-swappable battery systems must require arc-flash protected, interlocked connectors to prevent separation under active load.
 
+(chat-heading-6)=
 ## 4. Immutable Incident Data Recorder (IDR)
 Drawing from your hospital IT background, medical device frameworks heavily emphasize traceability and logging for post-market surveillance. 
 * **The Control:** Mandate a hardened, read-only "black box." This IDR must continuously buffer the last 60 seconds of telemetry, video, and safety-circuit states. Upon any Tier 1, 2, or 3 EDS activation, this buffer must lock immutably. This ensures that when a vendor's robot is exploited or causes an injury, regulatory bodies have tamper-proof forensic data.
 
+(chat-heading-7)=
 ## 5. Pinch-Point and Shear-Hazard Sheathing
 When a 150+ lb bipedal robot collapses into your Safe-Stop state, untrained bystanders may instinctively try to catch it or push it away. 
 * **The Control:** All high-torque joints capable of generating forces that exceed standard biomechanical limits (e.g., >140 N for upper limbs) must be enclosed in compliant sheathing or engineered with sufficient physical gap tolerances. This prevents accidental finger amputation or limb crushing as the unpowered chassis folds in on itself.
 
----
+<hr />
 
+(suggested-inserts-for-your-drafts)=
 ### Suggested Inserts for Your Drafts
 
 **For the Letter:**
@@ -362,20 +356,24 @@ In `SECTION 4(b)`, add a requirement for cyber-physical isolation:
   <Elicitation label="Update the legislative draft with these controls" query="Integrate the five new safety controls directly into the text of the H.R. Humanoid Robot Public Safety Act of 2026 draft."/>
 </ElicitationsGroup>
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-message time: 2026-07-23 19:49:29
-
-Prepare an updated summary letter for Congress people who are receptive to AI kill switch legislation
-
----
+> message time: 2026-07-23 19:49:29
+>
+> Prepare an updated summary letter for Congress people who are receptive to AI kill switch legislation
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -455,7 +453,7 @@ This is the perfect hook for your outreach. You can position your framework as t
 
 Here is an updated summary letter tailored directly to lawmakers sponsoring this type of legislation, integrating the five new physical controls:
 
-***
+<hr />
 
 **Subject:** Complementary Hardware Protections to the AI Kill Switch Act: Securing Physical AI
 
@@ -482,12 +480,12 @@ Respectfully,
 [Your Name]  
 [Your Contact Information]
 
-***
+<hr />
 
 <ElicitationsGroup message="To tailor this outreach further:">
   <Elicitation label="Draft a technical brief for staff" query="Draft a 1-page technical brief that expands on the Out-of-Band Safety Architecture and the IDR, designed for a congressional staffer to read."/>
   <Elicitation label="Review NCSR anti-spoofing logic" query="How should we structure the cryptography for the Non-Contact Stop Receiver to ensure it can't be triggered by bad actors in public?"/>
 </ElicitationsGroup>
 
----
+<hr />
 Powered by [AI Exporter](https://saveai.net)

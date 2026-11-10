@@ -7,38 +7,22 @@ kernelspec:
 
 # _Sustainable Lignin Bleaching Methods 
 
-## Contents
-
-* [_Sustainable Lignin Bleaching Methods](#_sustainable-lignin-bleaching-methods)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [1. Oxidative Bleaching with Hydrogen Peroxide ($H_2O_2$)](#1-oxidative-bleaching-with-hydrogen-peroxide-h_2o_2)
-    * [2. Ozonolysis ($O_3$)](#2-ozonolysis-o_3)
-    * [3. Biotechnical / Enzymatic Bleaching](#3-biotechnical-enzymatic-bleaching)
-    * [Comparison of Sustainable Bleaching Methods](#comparison-of-sustainable-bleaching-methods)
-    * [Strategic Considerations for Your Projects](#strategic-considerations-for-your-projects)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-  * [1. Titration Methods for Carboxylate ($-\text{COOH}$) Density](#1-titration-methods-for-carboxylate-textcooh-density)
-    * [Conductometric Titration (The Standard)](#conductometric-titration-the-standard)
-    * [$^{31}\text{P}$ NMR Spectroscopy (The Gold Standard)](#31textp-nmr-spectroscopy-the-gold-standard)
-  * [2. The Best Bleaching Method for Sunscreen](#2-the-best-bleaching-method-for-sunscreen)
-    * [Why $H_2O_2$ beats Ozonolysis for UV Protection:](#why-h_2o_2-beats-ozonolysis-for-uv-protection)
-    * [The "Synergy" Strategy: Lignin Nanoparticles (LNPs)](#the-synergy-strategy-lignin-nanoparticles-lnps)
-    * [Comparison for Sunscreen Application](#comparison-for-sunscreen-application)
-
 > From: https://gemini.google.com/app/2ecd75e2e17bbe4f
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-Is there a sustainable way to bleach (Kraft or other) lignin?
+## Prompt: 1
 
----
++++ {"chat_input": true}
+> Is there a sustainable way to bleach (Kraft or other) lignin?
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -58,6 +42,7 @@ I've compiled promising options for sustainable lignin bleaching, including ozon
 
 Yes, there are several sustainable, **Totally Chlorine Free (TCF)** pathways to bleach Kraft and other lignins. In the context of your work with **lignin-vitrimers** and carbon materials, the "bleaching" process is often less about aesthetics and more about **selective functionalization**—specifically increasing reactivity while removing the dark-colored chromophores (conjugated quinones and stilbenes) that characterize technical lignins.
 
+(chat-heading-3)=
 ### 1. Oxidative Bleaching with Hydrogen Peroxide ($H_2O_2$)
 This is the most industrially viable "green" method. In alkaline conditions, $H_2O_2$ dissociates into the perhydroxyl anion ($HOO^-$), which nucleophilically attacks carbonyl groups and conjugated double bonds.
 
@@ -65,6 +50,7 @@ This is the most industrially viable "green" method. In alkaline conditions, $H_
 * **For Vitrimers:** This process increases the **carboxylate ($-\text{COOH}$)** content. Oxidized Kraft Lignin (OKL) with high carboxyl content is ideal for **transesterification-based vitrimers**, as these groups serve as the dynamic covalent cross-linking sites.
 * **Sustainability:** The only byproduct is water ($H_2O$).
 
+(chat-heading-4)=
 ### 2. Ozonolysis ($O_3$)
 Ozone is a powerful, selective oxidant that can be used at ambient temperature and pressure.
 
@@ -72,6 +58,7 @@ Ozone is a powerful, selective oxidant that can be used at ambient temperature a
 * **Material Impact:** While it significantly brightens the lignin, extensive ozonolysis can reduce the molecular weight. For **carbon nanomaterials**, this might be a disadvantage if you require high-density aromatic precursors, but for vitrimers, it enhances solubility and processability in polar resins.
 * **Industrial Status:** Ozonolysis is used in TCF pulp bleaching but requires careful "dosage control" to prevent over-degradation.
 
+(chat-heading-5)=
 ### 3. Biotechnical / Enzymatic Bleaching
 Using a **Laccase-Mediator System (LMS)** is arguably the most "sustainable" route, operating at mild temperatures ($30\text{--}50^\circ\text{C}$) and near-neutral pH.
 
@@ -79,8 +66,9 @@ Using a **Laccase-Mediator System (LMS)** is arguably the most "sustainable" rou
 * **Pros:** Extremely high selectivity; preserves the bulk of the lignin structure while removing color.
 * **Cons:** Slower kinetics compared to chemical oxidation; cost of enzymes and mediators can be a hurdle for industrial scaling (Lignolux LLC contexts).
 
----
+<hr />
 
+(comparison-of-sustainable-bleaching-methods)=
 ### Comparison of Sustainable Bleaching Methods
 
 | Method | Primary Agent | Key Structural Change | Best Application |
@@ -90,8 +78,9 @@ Using a **Laccase-Mediator System (LMS)** is arguably the most "sustainable" rou
 | **LMS (Enzymatic)** | Laccase + $O_2$ | Selective phenolic oxidation | High-purity structural biopolymers |
 | **Peracetic Acid** | $CH_3COOOH$ | Rapid delignification | High-brightness applications |
 
----
+<hr />
 
+(strategic-considerations-for-your-projects)=
 ### Strategic Considerations for Your Projects
 * **For Vitrimers:** You should look for **selective oxidation** rather than full bleaching. Increasing the carboxylic acid content via $H_2O_2$ or $O_3$ allows you to utilize the **epoxy-acid** or **ester-exchange** mechanisms common in vitrimer chemistry. 
 * **For Carbon Materials:** Be cautious with ozonolysis. If your goal is high-yield carbon fibers or CNT precursors, you want to maintain the **aromaticity**. $H_2O_2$ is generally safer here as it preserves more of the carbon skeleton compared to the ring-opening nature of ozone.
@@ -99,20 +88,24 @@ Using a **Laccase-Mediator System (LMS)** is arguably the most "sustainable" rou
 
 Would you like to dive deeper into the specific titration methods for verifying the carboxylate density after an $H_2O_2$ run?
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-Yes.
-
-Which method would be best for sunscreen?
-
----
+> Yes.
+>
+> Which method would be best for sunscreen?
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -132,11 +125,13 @@ I've learned that enzymatic and mild bleaching, coupled with fractionation, prod
 
 To determine the carboxylate density after an $H_2O_2$ run and select the best bleaching method for a sunscreen application, we have to balance **aesthetic lightening** with the preservation of **UV-blocking chromophores**.
 
----
+<hr />
 
+(chat-heading-10)=
 ## 1. Titration Methods for Carboxylate ($-\text{COOH}$) Density
 For your work with oxidized Kraft lignin (OKL) intended for vitrimers, quantifying the acid groups is critical for stoichiometry.
 
+(conductometric-titration-the-standard)=
 ### Conductometric Titration (The Standard)
 This is the most widely used industrial method for technical lignins. It allows for the simultaneous determination of strong acids (sulfonic, if any), carboxylic acids, and phenolic hydroxyls.
 * **Procedure:** Dissolve the lignin in an excess of $0.1\text{ M NaOH}$, then back-titrate with $0.1\text{ M HCl}$. Alternatively, acidify the sample to $pH \approx 2$ and titrate with $NaOH$.
@@ -146,21 +141,25 @@ This is the most widely used industrial method for technical lignins. It allows 
     3.  Neutralization of Phenolic hydroxyls (steep rise).
 * **Calculation:** The volume of titrant between the first and second inflection points ($V_2 - V_1$) correlates directly to the carboxyl content.
 
+(chat-heading-12)=
 ### $^{31}\text{P}$ NMR Spectroscopy (The Gold Standard)
 If you require "Lignolux" level precision for patent claims or structural modeling:
 * **Mechanism:** Lignin is phosphitylated with a reagent like **TMDP** ($2\text{-chloro-4,4,5,5-tetramethyl-1,3,2-dioxaphospholane}$). 
 * **Result:** This provides distinct, non-overlapping signals for aliphatic $-OH$, phenolic $-OH$ (syringyl, guaiacyl, $p$-hydroxyl), and **carboxylic acids**. It is the most accurate way to verify that your $H_2O_2$ run actually increased functional density rather than just "brightening" the surface.
 
----
+<hr />
 
+(chat-heading-13)=
 ## 2. The Best Bleaching Method for Sunscreen
 For sunscreen, the "best" method is **Alkaline Hydrogen Peroxide ($H_2O_2$) combined with Fractionation**, as it offers the best trade-off between color and SPF.
 
+(chat-heading-14)=
 ### Why $H_2O_2$ beats Ozonolysis for UV Protection:
 * **Aromatic Preservation:** Sunscreen efficacy (SPF) depends on the **aromatic rings** and conjugated systems (like $C=C$ and $C=O$). 
 * **The Trap:** Ozonolysis is highly effective at bleaching because it **breaks the aromatic rings** (ring-opening). While this makes the lignin white or clear, it destroys the very structure that absorbs UV radiation, effectively killing your SPF.
 * **The $H_2O_2$ Edge:** Alkaline peroxide selectively attacks **quinones** (the dark brown/black bits) and side-chain unsaturations while leaving the bulk of the UV-absorbing aromatic skeleton intact.
 
+(the-synergy-strategy-lignin-nanoparticles-lnps)=
 ### The "Synergy" Strategy: Lignin Nanoparticles (LNPs)
 Bleaching alone won't make Kraft lignin "invisible." To achieve a commercial-grade sunscreen:
 1.  **Solvent Fractionation:** First, use an organic solvent (like ethanol or acetone/water) to extract the lower-molecular-weight, naturally lighter fragments.
@@ -168,8 +167,9 @@ Bleaching alone won't make Kraft lignin "invisible." To achieve a commercial-gra
 3.  **Nanoparticle Formation:** Convert the bleached lignin into **nanospheres**. 
     * **Result:** Reducing particle size to the nanoscale increases the specific surface area and "scatters" light differently, making the cream appear much lighter on the skin while **boosting the SPF** (up to 2.5x higher than macro-lignin).
 
----
+<hr />
 
+(comparison-for-sunscreen-application)=
 ### Comparison for Sunscreen Application
 
 | Feature | Alkaline $H_2O_2$ | Enzymatic (Laccase) | Ozonolysis ($O_3$) |

@@ -7,70 +7,36 @@ kernelspec:
 
 # design-an-a2ui-table-control-for-mobile-to-support-table-density-padding-margins-zoom-allnormalnrowsncols
 
-## Contents
-
-* [design-an-a2ui-table-control-for-mobile-to-support-table-density-padding-margins-zoom-allnormalnrowsncols](#design-an-a2ui-table-control-for-mobile-to-support-table-density-padding-margins-zoom-allnormalnrowsncols)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-  * [Design System Specifications](#design-system-specifications)
-    * [1. Table Density Matrix](#1-table-density-matrix)
-    * [2. Zoom Modes (Structural Zoom)](#2-zoom-modes-structural-zoom)
-  * [The Interactive Control Blueprint](#the-interactive-control-blueprint)
-  * [Implementation Best Practices for Mobile](#implementation-best-practices-for-mobile)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-  * [The Transposed Matrix Architecture](#the-transposed-matrix-architecture)
-  * [Updated Configuration Engine](#updated-configuration-engine)
-  * [Technical Challenges & Rules for Transposition](#technical-challenges-rules-for-transposition)
-* [Prompt: 3](#prompt-3)
-* [Response: 3](#response-3)
-  * [The UI Layout Architecture](#the-ui-layout-architecture)
-    * [1. The Persistent Table Header & Quick Actions](#1-the-persistent-table-header-quick-actions)
-    * [2. The View Customization Bottom Sheet](#2-the-view-customization-bottom-sheet)
-  * [Interactive Interface Preview](#interactive-interface-preview)
-  * [UX Principles for Table Parameter Controls](#ux-principles-for-table-parameter-controls)
-* [Prompt: 4](#prompt-4)
-* [Response: 4](#response-4)
-  * [1. The Architectural Design](#1-the-architectural-design)
-  * [2. The Python Implementation Framework](#2-the-python-implementation-framework)
-* [Output widget where the styled table will render](#output-widget-where-the-styled-table-will-render)
-* [Build UI Controls](#build-ui-controls)
-* [Bind events](#bind-events)
-* [1. Establish Density Padding mapping](#1-establish-density-padding-mapping)
-* [2. Establish Zoom / Wrapping configurations](#2-establish-zoom-wrapping-configurations)
-* [Base CSS injector targeting notebook output handles](#base-css-injector-targeting-notebook-output-handles)
-* [Generate raw HTML via Pandas Styler to avoid system default styling overrides](#generate-raw-html-via-pandas-styler-to-avoid-system-default-styling-overrides)
-* [Compute structural matrix data based on transpose settings](#compute-structural-matrix-data-based-on-transpose-settings)
-* [Top Action control bar](#top-action-control-bar)
-* [Trigger initial view loop rendering](#trigger-initial-view-loop-rendering)
-* [Composite interface display layout](#composite-interface-display-layout)
-  * [3. Visual Interface & Layout Flow](#3-visual-interface-layout-flow)
-  * [4. Optimization Strategies for Data Science Workflows](#4-optimization-strategies-for-data-science-workflows)
-
 > From: https://gemini.google.com/app/e15a7b8f1030414a
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2026-05-20 01:47:48
+## Prompt: 1
 
-Design an a2ui table control for mobile to support: table density (padding, margins), zoom all/normal/n_rows/n_cols
-
----
++++ {"chat_input": true}
+> message time: 2026-05-20 01:47:48
+>
+> Design an a2ui table control for mobile to support: table density (padding, margins), zoom all/normal/n_rows/n_cols
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++
 Designing a mobile-first table control that handles density and zooming requires balancing tiny screen real estate with data readability. On mobile, "zooming" a table isn't just about pinch-to-zoom (which breaks layouts); it’s about **structural zooming**—controlling how much data fits on the screen at once.
 
 Here is the design system framework for an `a2ui` mobile table control that handles adaptive padding and layout zooming.
 
----
+<hr />
 
+(design-system-specifications)=
 ## Design System Specifications
 
+(chat-heading-4)=
 ### 1. Table Density Matrix
 Density on mobile relies heavily on touch-target safety. The World Wide Web Consortium (W3C) and mobile guidelines recommend minimum touch targets of 44x44 or 48x48 pixels for interactive elements. Non-interactive rows can compress further, but must remain readable.
 
@@ -80,6 +46,7 @@ Density on mobile relies heavily on touch-target safety. The World Wide Web Cons
 | **Normal** | `48px` | `12px` | `12px` | `14px` / `20px` | Standard data viewing and mixed content |
 | **Compact** | `36px` | `8px` | `8px` | `12px` / `16px` | Deep data analysis, financial matrices |
 
+(chat-heading-5)=
 ### 2. Zoom Modes (Structural Zoom)
 Instead of scaling the entire UI up or down like an image, structural zooming adapts the column and row rendering engine:
 
@@ -88,8 +55,9 @@ Instead of scaling the entire UI up or down like an image, structural zooming ad
 *   **Zoom N-Rows:** Maximizes vertical scannability. It locks row heights to a strict, ultra-compact pixel budget (e.g., `32px`), truncates multi-line text to a single line with ellipses (`...`), and allows the user to see a massive bird's-eye view of the dataset vertically.
 *   **Zoom N-Cols:** Maximizes horizontal scannability. It expands column widths so that text never wraps, forcing a smooth horizontal swipe behavior while freezing the primary index column (Column 1) on the left edge so context isn't lost.
 
----
+<hr />
 
+(the-interactive-control-blueprint)=
 ## The Interactive Control Blueprint
 
 To see how these variables interact dynamically, you can use the interactive API and token generator below. Adjusting the density and zoom strategies changes the layout configuration, touch targets, and structural layout tokens in real-time.
@@ -126,18 +94,22 @@ json
 
 ---
 
-+++ {"chat_input": true}
-# Prompt: 2
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-message time: 2026-05-20 01:52:22
+## Prompt: 2
 
-Add support for transposing tables,
-
----
++++ {"chat_input": true}
+> message time: 2026-05-20 01:52:22
+>
+> Add support for transposing tables,
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++
 Transposing a table on mobile—swapping rows and columns so that columns run horizontally and rows become the vertical layout—is one of the most effective ways to make wide datasets readable on narrow screens. 
@@ -146,6 +118,7 @@ When you transpose a wide table on a phone, you instantly convert a frustrating 
 
 ---
 
+(the-transposed-matrix-architecture)=
 ## The Transposed Matrix Architecture
 
 When the `transpose` flag is set to `true`, the layout logic flips. Your primary data entities, which normally stack vertically as rows, now line up horizontally as columns.
@@ -159,6 +132,7 @@ When the `transpose` flag is set to `true`, the layout logic flips. Your primary
 
 ---
 
+(updated-configuration-engine)=
 ## Updated Configuration Engine
 
 Below is the updated design token generator, now supporting live structural transposition. Observe how the layout tokens and sticky-freeze behaviors invert when switching between standard and transposed states.
@@ -175,7 +149,7 @@ json
 ```
 </GenerateWidget>
 
----
+<hr />
 
 ## Technical Challenges & Rules for Transposition
 
@@ -191,18 +165,22 @@ json
 
 ---
 
-+++ {"chat_input": true}
-# Prompt: 3
+(chat-prompt-3)=
 
 +++ {"chat_input": true}
-message time: 2026-05-20 01:53:51
+## Prompt: 3
 
-and a UI for the transposition parameters
-
----
++++ {"chat_input": true}
+> message time: 2026-05-20 01:53:51
+>
+> and a UI for the transposition parameters
+>
+> \-\-\-
+>
+> (chat-response-3)=
 
 +++
-# Response: 3
+## Response: 3
 
 +++
 To allow mobile users to shift, transpose, and adjust these data views on the fly, the control UI needs to be highly compact, thumb-friendly, and accessible without cluttering the screen. 
@@ -211,8 +189,10 @@ On mobile, complex table parameters are best handled via a **Segmented Toolbar**
 
 ---
 
+(the-ui-layout-architecture)=
 ## The UI Layout Architecture
 
+(chat-heading-14)=
 ### 1. The Persistent Table Header & Quick Actions
 Directly above the table sits a minimal action strip. Instead of burying the `transpose` feature deep in a settings menu, it is exposed as a prominent icon-toggle because of how drastically it changes the layout.
 
@@ -227,11 +207,13 @@ Directly above the table sits a minimal action strip. Instead of burying the `tr
 +--------------------------------------------------------+
 ```
 
+(chat-heading-15)=
 ### 2. The View Customization Bottom Sheet
 Tapping the **View (⚙️)** button slides up a native-feeling bottom sheet layout. This keeps the user's focus on the bottom half of the phone screen (the "natural thumb zone") and uses large tap targets.
 
 ---
 
+(interactive-interface-preview)=
 ## Interactive Interface Preview
 
 The blueprint below demonstrates the physical user interface components, controls, and placement for managing transposition, density, and structural zooming altogether on a mobile device screen.
@@ -248,7 +230,7 @@ json
 ```
 </GenerateWidget>
 
----
+<hr />
 
 ## UX Principles for Table Parameter Controls
 
@@ -265,18 +247,22 @@ json
 
 ---
 
-+++ {"chat_input": true}
-# Prompt: 4
+(chat-prompt-4)=
 
 +++ {"chat_input": true}
-message time: 2026-05-20 01:55:50
+## Prompt: 4
 
-Design and refine such a table control for (pandas) tables in jupyter notebooks
-
----
++++ {"chat_input": true}
+> message time: 2026-05-20 01:55:50
+>
+> Design and refine such a table control for (pandas) tables in jupyter notebooks
+>
+> \-\-\-
+>
+> (chat-response-4)=
 
 +++
-# Response: 4
+## Response: 4
 
 +++
 To bring this level of adaptive mobile design into Jupyter Notebooks, we have to bridge the gap between heavy Python backend data processing (`pandas.DataFrame`) and a smooth, interactive frontend UI. 
@@ -285,6 +271,7 @@ By utilizing **IPython Widgets (`ipywidgets`)** or custom HTML/JS output wrapper
 
 ---
 
+(chat-heading-19)=
 ## 1. The Architectural Design
 
 In a Jupyter environment, we can choose two paths for interactivity:
@@ -295,6 +282,7 @@ Given that data scientists love instant feedback without waiting for a Python ce
 
 ---
 
+(chat-heading-20)=
 ## 2. The Python Implementation Framework
 
 Here is a clean, dependency-light wrapper class that transforms a standard Pandas DataFrame display into an interactive layout hub with density, zoom, and transposition toggles directly underneath your input cells.
@@ -396,8 +384,9 @@ class InteractiveNotebookTable:
         display(widgets.VBox([control_bar, self.output_area]))
 ```
 
----
+<hr />
 
+(chat-heading-21)=
 ## 3. Visual Interface & Layout Flow
 
 When initialized within a notebook, the layout produces a clean management strip that handles structural variations fluidly.
@@ -417,8 +406,9 @@ When initialized within a notebook, the layout produces a clean management strip
 +-----------------------------------------------------------+
 ```
 
----
+<hr />
 
+(chat-heading-22)=
 ## 4. Optimization Strategies for Data Science Workflows
 
 *   **Memory-Safe Transposition Safety:** Transposing a data matrix using `.T` in Pandas shifts data data-types to `object` structures if columns contain mixed types (e.g., strings mixed with floats). This can temporarily spike memory usage for huge datasets. For frames scaling beyond $10,000+$ cells, consider using `.head(100)` or slicing a preview sample before rendering it into the interactive interface.

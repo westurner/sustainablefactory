@@ -7,38 +7,31 @@ kernelspec:
 
 # transparent-carbon-c-doped-boron-nitride-bn
 
-## Contents
-
-* [transparent-carbon-c-doped-boron-nitride-bn](#transparent-carbon-c-doped-boron-nitride-bn)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-  * [1. Bandgap Engineering and Optical Transparency](#1-bandgap-engineering-and-optical-transparency)
-  * [2. Structural Dynamics: Substitution vs. Phase Separation](#2-structural-dynamics-substitution-vs-phase-separation)
-  * [3. Quantum and Optoelectronic Properties](#3-quantum-and-optoelectronic-properties)
-    * [Deep-Level Centers & Single-Photon Emission (SPE)](#deep-level-centers-single-photon-emission-spe)
-    * [Tailored Dielectric Properties](#tailored-dielectric-properties)
-  * [4. Key Applications](#4-key-applications)
-
 > From: https://gemini.google.com/app/79d07d501e187c57
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2026-05-29 01:55:03
+## Prompt: 1
 
-transparent carbon (C) doped boron nitride (BN)
-
----
++++ {"chat_input": true}
+> message time: 2026-05-29 01:55:03
+>
+> transparent carbon (C) doped boron nitride (BN)
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++
 **Carbon-doped boron nitride ($\text{C:BN}$ or $\text{BC}_x\text{N}_y$)** represents a highly tunable, wide-bandgap hybrid semiconductor platform. By structurally substituting alternating boron and nitrogen sites in a hexagonal ($\text{h-BN}$) or cubic ($\text{c-BN}$) lattice with carbon pairs ($\text{C}_2$), the material transitions from a wide-gap insulator to a highly engineered optoelectronic material while retaining excellent optical transparency across tailored spectral regimes.
 
----
+<hr />
 
+(chat-heading-3)=
 ## 1. Bandgap Engineering and Optical Transparency
 
 Pristine hexagonal boron nitride ($\text{h-BN}$) is an insulator with a wide indirect bandgap of approximately $5.95\text{ eV}$. It is intrinsically transparent from the deep ultraviolet (UV) through the visible spectrum. 
@@ -48,8 +41,9 @@ Introducing carbon dopants allows precise modification of this bandgap:
 * **Tunability:** Controlled carbon substitution narrows the optical bandgap ($\text{E}_g$) continuously from $\sim 5.5\text{ eV}$ down to $\sim 4.0\text{ eV}$ (and lower into the visible range with higher concentrations).
 * **Transparency Profile:** At low-to-moderate doping densities, the material behaves as a wide-bandgap semiconductor. Because its absorption edge remains securely in the UV range ($\text{E}_g > 3.1\text{ eV}$), it maintains high optical transparency ($>85-95\%$) across the entire visible spectrum ($380-750\text{ nm}$). 
 
----
+<hr />
 
+(chat-heading-4)=
 ## 2. Structural Dynamics: Substitution vs. Phase Separation
 
 The primary synthesis challenge for high-transparency $\text{C:BN}$ is managing the thermodynamics of the ternary $\text{B-C-N}$ system. Carbon has a high tendency to undergo spinodal decomposition or phase-separate into distinct graphene domains within the $\text{h-BN}$ matrix, which drastically drops visible transparency due to the gapless, highly absorbing nature of graphene.
@@ -66,20 +60,24 @@ To maintain true transparency and semi-insulating/semiconducting behavior, synth
 * **Isolated $\text{C}_2$ Pairs:** Replacing adjacent $\text{B}-\text{N}$ pairs with $\text{C}-\text{C}$ units minimizes lattice strain because the atomic radii of $\text{B}$, $\text{C}$, and $\text{N}$ are closely matched.
 * **Sub-monolayer and Thin-Film Geometries:** High optical quality is typically realized in 2D monolayers or amorphous/nanocrystalline thin films ($<50\text{ nm}$) grown via Radio Frequency (RF) Magnetron Sputtering, Plasma-Enhanced Chemical Vapor Deposition (PECVD), or Low-Pressure CVD (LPCVD) using methane ($\text{CH}_4$) or carbon monoxide ($\text{CO}$) as the carbon precursor.
 
----
+<hr />
 
+(chat-heading-5)=
 ## 3. Quantum and Optoelectronic Properties
 
 Beyond bulk transparency, carbon doping introduces critical localized optical phenomena:
 
+(deep-level-centers-single-photon-emission-spe)=
 ### Deep-Level Centers & Single-Photon Emission (SPE)
 In ultrathin or monolayer $\text{h-BN}$, carbon dopants act as highly localized deep-level defects. Isolated carbon configurations (such as a carbon substituting a nitrogen vacancy, $\text{C}_\text{N}$, or complexed with boron vacancies) act as **bright, stable single-photon emitters (SPEs)** operating at room temperature. These quantum emitters exhibit high photon purity and narrow linewidths within the visible spectrum, making transparent $\text{C:BN}$ highly relevant for quantum photonic integrated circuits (PICs).
 
+(tailored-dielectric-properties)=
 ### Tailored Dielectric Properties
 As carbon content shifts the material toward a narrow-gap structure, the complex dielectric function $\varepsilon(\omega) = \varepsilon_1(\omega) + i\varepsilon_2(\omega)$ changes cleanly. The real part ($\varepsilon_1$), representing index of refraction and polarization capability, increases from the pristine $\text{h-BN}$ baseline ($\sim 2.1-2.3$), allowing for the design of thin-film antireflective coatings and optical waveguiding structures with robust thermal stability.
 
----
+<hr />
 
+(chat-heading-8)=
 ## 4. Key Applications
 
 * **Transparent Conducting/Semiconducting Oxide (TCO) Alternatives:** While classic TCOs like ITO suffer from mechanical brittleness, flexible atomic layers of $\text{C:BN}$ offer a route toward deep-UV and visible-range transparent electronics.

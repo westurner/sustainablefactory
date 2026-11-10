@@ -1,0 +1,1 @@
+../../chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md

@@ -7,32 +7,12 @@ kernelspec:
 
 # CNF Processing_ PFP Confusion Clarified 
 
-## Contents
-
-* [CNF Processing_ PFP Confusion Clarified](#cnf-processing_-pfp-confusion-clarified)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [Is the "Hydro-CNF" to "Organo-CNF" process dangerous?](#is-the-hydro-cnf-to-organo-cnf-process-dangerous)
-    * [Summary](#summary)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-    * [1\. The Industrial Pores (Your Process)](#1-the-industrial-pores-your-process)
-    * [2\. The Biological Pores (The Proteins)](#2-the-biological-pores-the-proteins)
-    * [Summary Table](#summary-table)
-* [Prompt: 3](#prompt-3)
-* [Response: 3](#response-3)
-    * [Comparison: Hemp Aerogels vs. CNF Aerogels](#comparison-hemp-aerogels-vs-cnf-aerogels)
-    * [1\. The "Superelastic" Advantage](#1-the-superelastic-advantage)
-    * [2\. "Waste Hemp Noil" vs. "Hydro-CNF"](#2-waste-hemp-noil-vs-hydro-cnf)
-    * [3\. Impact on your "Solvent Exchange" Process](#3-impact-on-your-solvent-exchange-process)
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-:::{class} chat-input
-> # Prompt: 1
-:::
+## Prompt: 1
 
 +++ {"chat_input": true}
-:::{class} chat-input
 > Are PFP Pore Forming Proteins too dangerous for industrial feedstock processing? Specifically for Solvent Exchange to turn "Hydro-CNF" (Water-based) into "Organo-CNF" (Oil-based)
 >
 >
@@ -81,11 +61,12 @@ kernelspec:
 >
 > "Pore formation mechanism and size regulation study of atmospheric dried cellulose nanofiber aerogel templated by emulsions" https://pubmed.ncbi.nlm.nih.gov/39848365/
 >
-> ---
-:::
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++
 **Investigating PFP Safety**
@@ -176,6 +157,7 @@ Here is the breakdown of the confusion:
 
         *   **Solvent Exchange:** Replacing water with solvents (like acetone or tert-butanol) to prevent the structure from collapsing (hornification) during drying.
 
+(is-the-hydro-cnf-to-organo-cnf-process-dangerous)=
 ### Is the "Hydro-CNF" to "Organo-CNF" process dangerous?
 
 While **Pore Forming Proteins** are not a concern, the **Solvent Exchange** process itself does carry industrial risks that require standard safety controls:
@@ -184,6 +166,7 @@ While **Pore Forming Proteins** are not a concern, the **Solvent Exchange** proc
 
 *   **Process:** The water in the hydrogel is exchanged for the solvent, and then the solvent is often exchanged for the oil (or dried out).
 
+(summary)=
 ### Summary
 
 *   **Are PFPs dangerous?** Yes, in a biological context (they kill cells), but they are **irrelevant** to your industrial CNF process.
@@ -210,22 +193,22 @@ ARC Centre for Cryo-EM of Membrane Proteins · 1.7K views
 
 Sources
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-:::{class} chat-input
-> # Prompt: 2
-:::
+## Prompt: 2
 
 +++ {"chat_input": true}
-:::{class} chat-input
 > What are the dimensions of the pores?
 >
-> ---
-:::
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 **Analyzing Pore Dimensions**
@@ -277,6 +260,7 @@ In the context of the paper you provided (emulsion-templated CNF aerogels) and i
 
 Here is the breakdown of the dimensions:
 
+(chat-heading-7)=
 ### 1\. The Industrial Pores (Your Process)
 
 When you use methods like **Solvent Exchange**, **Emulsion Templating**, or **Ice Templating** to turn "Hydro-CNF" into "Organo-CNF" or aerogels, you are creating two types of void spaces:
@@ -295,6 +279,7 @@ When you use methods like **Solvent Exchange**, **Emulsion Templating**, or **Ic
 
     *   **Function:** These provide the massive surface area (often >200 m²/g) that makes CNF so effective at absorbing oil or acting as a catalyst support.
 
+(chat-heading-8)=
 ### 2\. The Biological Pores (The Proteins)
 
 For comparison, the "Pore Forming Proteins" (PFPs) mentioned in your earlier links create holes in cell membranes that are orders of magnitude smaller:
@@ -303,6 +288,7 @@ For comparison, the "Pore Forming Proteins" (PFPs) mentioned in your earlier lin
 
 *   **Comparison:** If a Protein Pore is the size of a **coin**, the Emulsion Pores in your feedstock are the size of a **large building**.
 
+(summary-table)=
 ### Summary Table
 
 | Pore Type | Source | Dimension | Purpose |
@@ -315,15 +301,14 @@ For comparison, the "Pore Forming Proteins" (PFPs) mentioned in your earlier lin
 
 Sources
 
----
+<hr />
+
+(chat-prompt-3)=
 
 +++ {"chat_input": true}
-:::{class} chat-input
-> # Prompt: 3
-:::
+## Prompt: 3
 
 +++ {"chat_input": true}
-:::{class} chat-input
 > "Pore formation mechanism and size regulation study of atmospheric dried cellulose nanofiber aerogel templated by emulsions" https://pubmed.ncbi.nlm.nih.gov/39848365/
 >
 >
@@ -338,11 +323,12 @@ Sources
 >
 > How do hemp aerogels compare to CNF aerogels?
 >
-> ---
-:::
+> \-\-\-
+>
+> (chat-response-3)=
 
 +++
-# Response: 3
+## Response: 3
 
 +++
 **Evaluating Aerogel Options**
@@ -389,6 +375,7 @@ Hemp aerogels are distinct from Cellulose Nanofiber (CNF) aerogels primarily in 
 
 While CNF aerogels focus on high surface area via _nanoscale_ networks (making them excellent but often brittle), Hemp aerogels leverage the _microscale_ toughness of bast fibers to create "superelastic" sponges that bounce back after compression—a property that pure CNF often struggles to achieve without expensive chemical cross-linking.
 
+(comparison-hemp-aerogels-vs-cnf-aerogels)=
 ### Comparison: Hemp Aerogels vs. CNF Aerogels
 
 | Feature | Hemp Aerogel(Microfiber/Noil) | CNF Aerogel(Nanofiber) |
@@ -400,6 +387,7 @@ While CNF aerogels focus on high surface area via _nanoscale_ networks (making t
 | Oil Absorption | High(~30–70x weight) | Very High(Up to 100–200x weight) |
 | Processing | Simpler (Dissolution or Micro-dispersion) | Complex (High-pressure homogenization / TEMPO oxidation) |
 
+(chat-heading-13)=
 ### 1\. The "Superelastic" Advantage
 
 The specific paper you linked (_"Superelastic and Ultralight Aerogel Assembled from Hemp Microfibers"_) highlights a critical structural difference:
@@ -408,12 +396,14 @@ The specific paper you linked (_"Superelastic and Ultralight Aerogel Assembled f
 
 *   **Hemp Solution:** Hemp microfibers are too stiff to pack into dense sheets. Instead, they form **entangled fibrous networks** within the pore walls. These act like thousands of tiny springs. When compressed, the fibers bend rather than break, allowing the aerogel to spring back to its original shape.
 
+(chat-heading-14)=
 ### 2\. "Waste Hemp Noil" vs. "Hydro-CNF"
 
 *   **Cost Factor:** You are correct that hemp bast fiber is cheap, but **hemp noil** (the short, tangled waste fibers left over from processing long textile fibers) is even cheaper. Using this "trash" feedstock bypasses the expensive refining required to turn wood pulp into "Hydro-CNF" (which requires turning chips into pulp, then pulp into nanofibers).
 
 *   **Hydrophobicity:** The "Self-cleaning" paper you linked notes that hemp aerogels can be easily modified to be superhydrophobic (water-repelling). Because hemp fibers naturally contain more lignin (unless heavily bleached) than high-purity CNF, they may be easier to compatibilize with oil-based treatments, though the "Self-cleaning" paper still used a chemical coating (silane/polysiloxane) to achieve this.
 
+(chat-heading-15)=
 ### 3\. Impact on your "Solvent Exchange" Process
 
 If you switched from **Hydro-CNF** to **Hemp Microfibers**, your processing risks might change:
@@ -424,4 +414,4 @@ If you switched from **Hydro-CNF** to **Hemp Microfibers**, your processing risk
 
 **Conclusion:** If your goal is a durable industrial feedstock (like a filter or oil sponge) rather than a high-tech catalyst support, **Hemp Aerogels** appear superior. They offer the "springiness" required for reusable products and utilize a cheaper, lower-tech feedstock compared to the fragile, high-tech nature of CNF.
 
----
+<hr />

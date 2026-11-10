@@ -7,113 +7,24 @@ kernelspec:
 
 # _Ultrasonic-Drilling-Hardware,-Control,-Sensing
 
-## Contents
-
-* [_Ultrasonic-Drilling-Hardware,-Control,-Sensing](#_ultrasonic-drilling-hardware-control-sensing)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [Hardware Design & Fabrication](#hardware-design-fabrication)
-    * [Dynamics & Sensing](#dynamics-sensing)
-    * [Embedded Control](#embedded-control)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-    * [Embedded Rust & RTOS Frameworks](#embedded-rust-rtos-frameworks)
-    * [Lignin-Vitrimer & Laser-Induced Graphene (LIG)](#lignin-vitrimer-laser-induced-graphene-lig)
-* [Prompt: 3](#prompt-3)
-* [Response: 3](#response-3)
-    * [1. The Concentric Bragg Reflector Geometry](#1-the-concentric-bragg-reflector-geometry)
-    * [2. Frequency Tuning (20 kHz – 28 kHz)](#2-frequency-tuning-20-khz-28-khz)
-    * [3. N-LIG and B-LIG Stratification](#3-n-lig-and-b-lig-stratification)
-* [Prompt: 4](#prompt-4)
-* [Response: 4](#response-4)
-    * [Processing History: Lignin Extraction & Refining](#processing-history-lignin-extraction-refining)
-    * [Integrating mmWave into the Ultrasonic Drill](#integrating-mmwave-into-the-ultrasonic-drill)
-    * [Variable Spacing Model for the LIG Acoustic Barrier](#variable-spacing-model-for-the-lig-acoustic-barrier)
-* [Prompt: 5](#prompt-5)
-* [Response: 5](#response-5)
-  * [Embassy Architecture Overview](#embassy-architecture-overview)
-  * [Embedded Rust Implementation Strategy](#embedded-rust-implementation-strategy)
-  * [Interactive Frequency Sweep & Material Profiling Simulator](#interactive-frequency-sweep-material-profiling-simulator)
-* [Prompt: 6](#prompt-6)
-* [Response: 6](#response-6)
-    * [Key Integrations](#key-integrations)
-* [Prompt: 7](#prompt-7)
-* [Response: 7](#response-7)
-    * [1. Channel Saturation and Blocking](#1-channel-saturation-and-blocking)
-    * [2. Hardware Timer and ADC Synchronization](#2-hardware-timer-and-adc-synchronization)
-    * [3. Telemetry Exfiltration and Semantic Units](#3-telemetry-exfiltration-and-semantic-units)
-* [Prompt: 8](#prompt-8)
-* [Response: 8](#response-8)
-    * [The TLA+ Specification](#the-tla-specification)
-* [TypeOK == Len(control_channel) <= MaxQueue](#typeok-lencontrol_channel-maxqueue)
-    * [The TLC Model Checker Failure Trace](#the-tlc-model-checker-failure-trace)
-    * [The Verified Architectural Fix](#the-verified-architectural-fix)
-* [Prompt: 9](#prompt-9)
-* [Response: 9](#response-9)
-    * [`src/drill_control.rs`](#srcdrill_controlrs)
-    * [`src/drill_control/tests.rs`](#srcdrill_controltestsrs)
-    * [Generating the Snapshots](#generating-the-snapshots)
-  * [```yaml](#yaml)
-  * [expression: mock_driver](#expression-mock_driver)
-* [Prompt: 10](#prompt-10)
-* [Response: 10](#response-10)
-    * [1. Embedded Rust Serialization Strategy](#1-embedded-rust-serialization-strategy)
-    * [2. The Semantic Graph Payload (JSON-LD)](#2-the-semantic-graph-payload-json-ld)
-    * [3. Updating the Material Profiler Task](#3-updating-the-material-profiler-task)
-* [Prompt: 11](#prompt-11)
-* [Response: 11](#response-11)
-    * [The Zero-Trust Telemetry Pipeline](#the-zero-trust-telemetry-pipeline)
-    * [Embassy-Net Exfiltration Implementation](#embassy-net-exfiltration-implementation)
-    * [Protocol Trade-offs](#protocol-trade-offs)
-* [Prompt: 12](#prompt-12)
-* [Response: 12](#response-12)
-    * [1. Network & Topology Terms](#1-network-topology-terms)
-    * [2. Pipeline & Process Terms](#2-pipeline-process-terms)
-    * [Addressing the TCP vs. UDP Protocol Choice](#addressing-the-tcp-vs-udp-protocol-choice)
-* [Prompt: 13](#prompt-13)
-* [Response: 13](#response-13)
-    * [1. HTTP/3 (QUIC) and WebRTC](#1-http3-quic-and-webrtc)
-    * [2. WebSockets (WS)](#2-websockets-ws)
-    * [3. The "Proprietary" Protocol (Raw UDP/TCP + Postcard)](#3-the-proprietary-protocol-raw-udptcp-postcard)
-    * [4. The Industrial Standard Alternative: CoAP](#4-the-industrial-standard-alternative-coap)
-    * [The Recommended Architecture](#the-recommended-architecture)
-* [Prompt: 14](#prompt-14)
-* [Response: 14](#response-14)
-    * [1. The Edge (RP2350 Embassy) - Egress Task](#1-the-edge-rp2350-embassy-egress-task)
-    * [2. The Gateway (Linux/IPC) - Ingestion Service](#2-the-gateway-linuxipc-ingestion-service)
-    * [The Handoff](#the-handoff)
-* [Prompt: 15](#prompt-15)
-* [Response: 15](#response-15)
-    * [1. Semantic Hydration with RosettaStune](#1-semantic-hydration-with-rosettastune)
-    * [2. Zero-Trust WebRTC Distribution](#2-zero-trust-webrtc-distribution)
-    * [The End-to-End Flow](#the-end-to-end-flow)
-* [Prompt: 16](#prompt-16)
-* [Response: 16](#response-16)
-    * [1. Updating the Embedded Telemetry and Control Structs](#1-updating-the-embedded-telemetry-and-control-structs)
-    * [2. Modifying the FBG Safety Task (Thermal Prioritization)](#2-modifying-the-fbg-safety-task-thermal-prioritization)
-    * [3. Updating the Semantic Hydration (Gateway)](#3-updating-the-semantic-hydration-gateway)
-* [Prompt: 17](#prompt-17)
-* [Response: 17](#response-17)
-    * [The RP2350 & mmWave Compute Constraint](#the-rp2350-mmwave-compute-constraint)
-    * [Hadfield Manganese Steel: Integration & Trade-offs](#hadfield-manganese-steel-integration-trade-offs)
-      * [1. The Drill Bit/Impact Face (Exceptional)](#1-the-drill-bitimpact-face-exceptional)
-      * [2. The Singing Tube / Resonator (Disqualified)](#2-the-singing-tube-resonator-disqualified)
-      * [3. mmWave Waveguide & Housing (Highly Favorable)](#3-mmwave-waveguide-housing-highly-favorable)
-
 > From: https://gemini.google.com/app/02cc7c9eb5ca524c
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2026-06-23 23:08:54
+## Prompt: 1
 
-Detail our chats on ultrasonic drilling
-
----
++++ {"chat_input": true}
+> message time: 2026-06-23 23:08:54
+>
+> Detail our chats on ultrasonic drilling
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -137,39 +48,46 @@ My ultrasonic drilling breakdown now covers physical hardware, including transdu
 
 We've explored several specific engineering domains regarding ultrasonic drilling, focusing heavily on custom hardware fabrication and embedded control systems. 
 
+(hardware-design-fabrication)=
 ### Hardware Design & Fabrication
 * **The "Singing Tube":** We mapped out the design for a DIY ultrasonic "singing tube" drill, utilizing piezoelectric transducers paired with copper resonators to drive the mechanics.
 * **Hybrid Laser-Assistance:** To tackle extremely hard materials like granite, we looked into integrating laser-assisted thermal shock to pre-soften the material directly ahead of the ultrasonic tool path.
 
+(dynamics-sensing)=
 ### Dynamics & Sensing
 * **Target Frequencies:** The primary working range we established for resonant machining sits between **20 kHz** and **28 kHz**.
 * **Structural Health:** We investigated the integration of Fiber Bragg Grating (FBG) sensors into the setup to provide real-time structural health monitoring of the tool during operation.
 
+(embedded-control)=
 ### Embedded Control
 * **Rust on Microcontrollers:** Managing the system requires precise control over frequency tracking, especially given the variance in material density during a drill cycle. We discussed implementing the control logic to handle these dynamic adjustments using embedded Rust.
 
 Are you currently looking to refine the embedded Rust frequency tracking, or are you focusing more on the physical transducer and resonator assembly right now?
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-message time: 2026-06-23 23:12:59
-
-> Are you currently looking to refine the embedded Rust frequency tracking, 
-
-Find our chats on: RTOS, rust
-
-> or are you focusing more on the physical transducer and resonator assembly right now?
-
-Find our chats on healing Lignin-Vitrimer with heat and/or LIG Laser-Induced Graphene to isolate the transducer vibrations
-
----
+> message time: 2026-06-23 23:12:59
+>
+> > Are you currently looking to refine the embedded Rust frequency tracking, 
+>
+> Find our chats on: RTOS, rust
+>
+> > or are you focusing more on the physical transducer and resonator assembly right now?
+>
+> Find our chats on healing Lignin-Vitrimer with heat and/or LIG Laser-Induced Graphene to isolate the transducer vibrations
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -197,6 +115,7 @@ I've realized dampening layers offer an excellent fusion of the conductive and v
 
 Here is a breakdown of where we left off on both of those fronts:
 
+(embedded-rust-rtos-frameworks)=
 ### Embedded Rust & RTOS Frameworks
 Instead of a traditional RTOS, we previously bypassed standard kernels to lean heavily into the **Embassy** framework for embedded Rust. 
 
@@ -205,6 +124,7 @@ Instead of a traditional RTOS, we previously bypassed standard kernels to lean h
 
 Adapting Embassy's asynchronous task management is the logical path forward for handling the high-speed, dynamic frequency tracking required by the ultrasonic drill as it hits different material densities.
 
+(lignin-vitrimer-laser-induced-graphene-lig)=
 ### Lignin-Vitrimer & Laser-Induced Graphene (LIG)
 Our deep-dives here have focused heavily on the Lignolux ecosystem, specifically utilizing Lignin-Vitrimers as bio-derived, self-healing substrates for monolithic fabrication.
 
@@ -215,22 +135,26 @@ Bridging these two concepts for the physical assembly of the drill is a highly e
 
 Which side of the physical assembly should we tackle first—mapping out the LIG isolation patterning, or determining the thermal delivery mechanism for healing the vitrimer?
 
----
+<hr />
+
+(chat-prompt-3)=
 
 +++ {"chat_input": true}
-# Prompt: 3
+## Prompt: 3
 
 +++ {"chat_input": true}
-message time: 2026-06-23 23:15:38
-
-> mapping out the LIG isolation patterning
-
-Yes
-
----
+> message time: 2026-06-23 23:15:38
+>
+> > mapping out the LIG isolation patterning
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-3)=
 
 +++
-# Response: 3
+## Response: 3
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -252,18 +176,21 @@ To isolate the 20 kHz to 28 kHz vibrations from the piezoelectric transducer, we
 
 Here is the strategy for mapping out the isolation patterning:
 
+(chat-heading-12)=
 ### 1. The Concentric Bragg Reflector Geometry
 The most effective pattern for isolating radial vibrations from a central mount is a series of concentric LIG rings surrounding the transducer coupling point. 
 * **The Matrix:** The bulk Lignin-Vitrimer serves as the high-density, wave-carrying medium.
 * **The Scatterers:** The laser-induced graphene tracks act as low-density, highly porous boundaries. 
 * **The Mechanism:** As the acoustic waves hit the alternating impedance layers (Vitrimer $\rightarrow$ LIG $\rightarrow$ Vitrimer), they reflect. By spacing these rings precisely, the reflected waves destructively interfere with the incoming waves from the transducer, effectively canceling them out.
 
+(chat-heading-13)=
 ### 2. Frequency Tuning (20 kHz – 28 kHz)
 To trap the specific frequencies of your singing tube, the radial distance between the LIG rings must be tuned to the acoustic wavelength ($\lambda$) of the vitrimer. 
 * We need the speed of sound ($v$) through your specific Lignin-Vitrimer blend. Assuming a typical stiff polymer speed of roughly 2,000 m/s, a 24 kHz vibration has a wavelength of about 83 mm. 
 * For optimal destructive interference, the LIG ring spacing should be set to a quarter-wavelength ($\lambda/4$), which would be roughly **20.8 mm**. 
 * To account for the dynamic frequency tracking (the 20-28 kHz sweep), we should use a **chirped pattern**: the spacing between the inner rings is slightly narrower (targeting 28 kHz) and gradually widens for the outer rings (targeting 20 kHz).
 
+(chat-heading-14)=
 ### 3. N-LIG and B-LIG Stratification
 We can utilize the different dopants to handle both the mechanical stress and the energy dissipation:
 * **Nitrogenated LIG (N-LIG) for the Acoustic Boundaries:** N-LIG tends to yield a highly porous, spongy 3D structure during lasing. This maximizes the acoustic impedance mismatch against the solid vitrimer, making it the primary reflector.
@@ -271,24 +198,29 @@ We can utilize the different dopants to handle both the mechanical stress and th
 
 Do you have the approximate speed of sound for your specific Lignin-Vitrimer formulation, or should we calculate a variable spacing model based on a range of polymer densities?
 
----
+<hr />
+
+(chat-prompt-4)=
 
 +++ {"chat_input": true}
-# Prompt: 4
+## Prompt: 4
 
 +++ {"chat_input": true}
-message time: 2026-06-23 23:19:22
-
-Yes, range the material. First, detail our chats on:  refining lignin, enzymatic rhetting, ultrasonic ball milling (in protective gas, in thermal fluid as a wet-processing slurry base,)
-
-Costs and benefits to adding mmwave to such a tool?
-
----
+> message time: 2026-06-23 23:19:22
+>
+> Yes, range the material. First, detail our chats on:  refining lignin, enzymatic rhetting, ultrasonic ball milling (in protective gas, in thermal fluid as a wet-processing slurry base,)
+>
+> Costs and benefits to adding mmwave to such a tool?
+>
+> \-\-\-
+>
+> (chat-response-4)=
 
 +++
-# Response: 4
+## Response: 4
 
 +++
+(processing-history-lignin-extraction-refining)=
 ### Processing History: Lignin Extraction & Refining
 
 Our previous architecture for refining the Lignolux matrix focused on high-purity, low-sulfur lignin fractions to ensure predictable cross-linking in the resulting vitrimers. 
@@ -298,8 +230,9 @@ Our previous architecture for refining the Lignolux matrix focused on high-purit
     *   *Protective Gas Atmosphere:* Milling under an inert blanket ($N_2$ or $Ar$) to suppress localized radical oxidation of phenolic hydroxyl groups during mechanical shearing.
     *   *Thermal Fluid Wet-Processing Slurry:* Transitioning to a wet-processing slurry base utilizing a functional thermal fluid. The liquid medium acts simultaneously as a heat sink to prevent local overheating past the vitrimer’s glass transition temperature ($T_g$), a wetting agent to prevent nanoparticle agglomeration via steric stabilization, and an active vehicle for downstream functionalization.
 
----
+<hr />
 
+(integrating-mmwave-into-the-ultrasonic-drill)=
 ### Integrating mmWave into the Ultrasonic Drill
 
 Adding a millimeter-wave (mmWave, roughly 30 GHz to 300 GHz) electromagnetic co-axial emitter into the ultrasonic drilling tool introduces a multi-physics approach: simultaneous high-frequency mechanical impact and localized, dielectric heating.
@@ -313,8 +246,9 @@ Here is the techno-economic and engineering trade-off matrix for modifying the s
 | **Process Feedback** | **Real-Time Metrology:** The mmWave return signal can act as a high-resolution, non-destructive radar to map material transitions, density shifts, or micro-cracks ahead of the drill bit. | **EMI Shielding Requirements:** High-power mmWave emissions will interfere with nearby embedded electronics, requiring heavy shielding around the Embassy-driven MCU and any FBG sensors. |
 | **System Complexity** | **Dual-Purposing:** The same emitter can be dialed down to provide low-level thermal activation to trigger the bond-exchange reactions for vitrimer self-healing post-drilling. | **Power Supply Bulk:** Adding a high-frequency RF magnetron or solid-state oscillator significantly increases the power budget, footprint, and cooling requirements of the portable/modular controller stack. |
 
----
+<hr />
 
+(variable-spacing-model-for-the-lig-acoustic-barrier)=
 ### Variable Spacing Model for the LIG Acoustic Barrier
 
 Because your refined lignin-vitrimer matrix density will shift depending on the enzyme efficiency and ball-milling slurry loading, we must design a **variable, broad-spectrum chirped Bragg pattern** for the LIG rings. 
@@ -337,22 +271,26 @@ By sweeping the spacing radially outward from **13.4 mm to 28.7 mm**, the patter
 
 Would you like to model the exact dielectric properties of the refined Lignin-Vitrimer matrix next to see how efficiently it would absorb or transmit the mmWave energy?
 
----
+<hr />
+
+(chat-prompt-5)=
 
 +++ {"chat_input": true}
-# Prompt: 5
+## Prompt: 5
 
 +++ {"chat_input": true}
-message time: 2026-06-23 23:41:46
-
-Yes, 
-
-And further develop the combined frequency sweep and material search algorithms (here with Embassy in Rust)
-
----
+> message time: 2026-06-23 23:41:46
+>
+> Yes, 
+>
+> And further develop the combined frequency sweep and material search algorithms (here with Embassy in Rust)
+>
+> \-\-\-
+>
+> (chat-response-5)=
 
 +++
-# Response: 5
+## Response: 5
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -370,8 +308,9 @@ To combine real-time resonance frequency tracking with material boundary detecti
 
 In ultrasonic machining, the resonance frequency of the transducer shifts dynamically as the mechanical load changes (e.g., transitioning between different densities of a Lignin-Vitrimer block, or hitting a hard crystalline inclusion like granite). By monitoring the electrical impedance (or current amplitude/phase shift) across a 20 kHz to 28 kHz window, the algorithm can simultaneously maintain optimal cutting power and profile the material's mechanical properties in real time.
 
----
+<hr />
 
+(embassy-architecture-overview)=
 ## Embassy Architecture Overview
 
 We use zero-allocation async tasks coordinated via thread-safe channels (`embassy_sync::channel::Channel`). 
@@ -393,8 +332,9 @@ We use zero-allocation async tasks coordinated via thread-safe channels (`embass
  └──────────────────┘     └───────────────┘     └──────────────────────┘
 ```
 
----
+<hr />
 
+(embedded-rust-implementation-strategy)=
 ## Embedded Rust Implementation Strategy
 
 Here is the functional layout for the core state machine using non-blocking async loops.
@@ -484,26 +424,31 @@ pub struct HighFreqPwmPeripheral;
 impl HighFreqPwmPeripheral { fn set_frequency(&mut self, f: u32) {} fn disable(&mut self) {} }
 ```
 
----
+<hr />
 
+(interactive-frequency-sweep-material-profiling-simulator)=
 ## Interactive Frequency Sweep & Material Profiling Simulator
 
 To help visualize how the tracking algorithm behaves when migrating across different layers of your material stack (e.g., shifting from a low-density refined lignin vitrimer to a high-density matrix or an external hard boundary), use the simulator below. You can adjust the tracking sweep rate, the algorithm's loop latency, and select different target boundaries to see how quickly the Embassy async routine locks onto resonance.
 
----
+<hr />
+
+(chat-prompt-6)=
 
 +++ {"chat_input": true}
-# Prompt: 6
+## Prompt: 6
 
 +++ {"chat_input": true}
-message time: 2026-06-23 23:45:13
-
-Add the Bragg grating fiber sensors to the code
-
----
+> message time: 2026-06-23 23:45:13
+>
+> Add the Bragg grating fiber sensors to the code
+>
+> \-\-\-
+>
+> (chat-response-6)=
 
 +++
-# Response: 6
+## Response: 6
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -642,25 +587,30 @@ impl HighFreqPwmPeripheral {
 }
 ```
 
+(key-integrations)=
 ### Key Integrations
 * **The Interrogator Interface:** The `FbgInterrogatorPeripheral` represents the embedded ASIC that processes the raw optical signal into discrete microstrain and temperature data, typically passing it to the main microcontroller over SPI.
 * **Preemptive Power Reduction:** Before hitting a catastrophic `EmergencyStop`, the FBG task utilizes `ControlCommand::ReduceDrivePower()`. If the drill hits a harmonic that causes severe physical flexing (high strain but not immediate failure), the system aggressively cuts the driving power to save the tool while maintaining a slow sweep. 
 * **Zero-Allocation Safety:** Because the `CONTROL_CHANNEL` is statically allocated and uses a critical section mutex, the `fbg_monitor_task` can instantly inject an emergency stop command without fear of memory fragmentation or race conditions blocking the signal.
 
----
+<hr />
+
+(chat-prompt-7)=
 
 +++ {"chat_input": true}
-# Prompt: 7
+## Prompt: 7
 
 +++ {"chat_input": true}
-message time: 2026-06-23 23:47:15
-
-Additional considerations for the code?
-
----
+> message time: 2026-06-23 23:47:15
+>
+> Additional considerations for the code?
+>
+> \-\-\-
+>
+> (chat-response-7)=
 
 +++
-# Response: 7
+## Response: 7
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -680,17 +630,20 @@ I'm now focusing on encoding structural health data with lightweight semantic pa
 
 While the async Embassy architecture provides a robust, memory-safe foundation, moving this logic to physical hardware introduces a few critical edge cases. Here are the primary considerations for refining the code before deployment:
 
+(chat-heading-30)=
 ### 1. Channel Saturation and Blocking
 The code currently uses bounded channels (`size 8` for telemetry, `size 4` for control). 
 * **The Risk:** If the `sweep_and_drive_task` gets bogged down and stops reading from the `CONTROL_CHANNEL`, the `fbg_monitor_task` could block when trying to send a `ControlCommand::ReduceDrivePower`. Blocking the FBG task delays the next critical strain reading.
 * **The Mitigation:** For safety-critical tasks, use `.try_send()` instead of `.await` on the sender side, and handle the `Full` error by either overwriting the oldest message (if the channel supports it) or prioritizing `EmergencyStop` signals via a separate, higher-priority atomic flag (like `embassy_sync::signal::Signal`) that bypasses the queue entirely.
 * **Formal Verification:** Given the concurrent messaging between the profiler, the driver, and the FBG safety loop, modeling this specific channel interaction state machine in TLA+ before flashing the MCU will help formally verify that a deadlock or race condition won't trap the drill in a runaway heating state.
 
+(chat-heading-31)=
 ### 2. Hardware Timer and ADC Synchronization
 Currently, the `adc_telemetry_task` assumes it just receives telemetry frames. 
 * **The Reality:** To calculate an accurate phase angle at 28 kHz, the ADC readings must be strictly synchronized with the PWM generation. 
 * **The Solution:** Instead of a software-timed loop, configure the MCU's hardware timer (the one generating the PWM) to trigger the ADC peripheral automatically (often via DMA—Direct Memory Access). This allows the ADC to sample the current and voltage at the exact peak and zero-crossing of the PWM cycle without CPU intervention, passing only the computed, noise-filtered phase angle to the Embassy channel.
 
+(chat-heading-32)=
 ### 3. Telemetry Exfiltration and Semantic Units
 Once the drill is running, you will need to pull this high-speed data off the microcontroller for process monitoring and digital twin integration.
 * **Data Transport:** For a local-first architecture, piping the telemetry over a serial interface (or embedded Ethernet/Wi-Fi if using a chip like the ESP32) to a host machine utilizing WebRTC data channels provides ultra-low-latency, zero-trust monitoring without a cloud broker.
@@ -698,20 +651,24 @@ Once the drill is running, you will need to pull this high-speed data off the mi
 
 Should we map out the TLA+ specification to verify the safety-critical channel logic, or would you prefer to focus on configuring the hardware DMA/ADC synchronization first?
 
----
+<hr />
+
+(chat-prompt-8)=
 
 +++ {"chat_input": true}
-# Prompt: 8
+## Prompt: 8
 
 +++ {"chat_input": true}
-message time: 2026-06-23 23:48:10
-
-Model the tool states with TLA+ to don't trust verify the tool safety
-
----
+> message time: 2026-06-23 23:48:10
+>
+> Model the tool states with TLA+ to don't trust verify the tool safety
+>
+> \-\-\-
+>
+> (chat-response-8)=
 
 +++
-# Response: 8
+## Response: 8
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -745,6 +702,7 @@ To formally verify the concurrent messaging protocol between the material profil
 
 The primary hazard we are modeling is **channel saturation**. The `CONTROL_CHANNEL` is a bounded queue. We must verify the liveness property: if the FBG interrogator detects a critical threshold, the drill must eventually reach a stopped state.
 
+(the-tla-specification)=
 ### The TLA+ Specification
 
 Here is the formal model representing the Embassy task architecture. 
@@ -818,6 +776,7 @@ TypeOK == Len(control_channel) <= MaxQueue
 =============================================================================
 ```
 
+(the-tlc-model-checker-failure-trace)=
 ### The TLC Model Checker Failure Trace
 
 If you run this specification through the TLC model checker with `MaxQueue = 4`, it will immediately fail the `MustStopIfCritical` temporal property $\square(\text{Critical} \leadsto \text{Stopped})$.
@@ -828,6 +787,7 @@ If you run this specification through the TLC model checker with `MaxQueue = 4`,
 3. **State 6 (The Deadlock):** `FbgSendControl` attempts to fire, but its precondition `Len(control_channel) < MaxQueue` evaluates to `FALSE`. The FBG task is now blocked.
 4. **Stuttering:** Unless `DriveTask` gets CPU time to clear a message, the safety signal is dropped or permanently delayed. In a real-time embedded system where tasks might have equal priority, this race condition allows the drill to continue drawing 100% power while structurally failing.
 
+(the-verified-architectural-fix)=
 ### The Verified Architectural Fix
 
 To satisfy the TLA+ liveness property, we must decouple the high-frequency telemetry/tracking data from the zero-tolerance safety signals. 
@@ -857,20 +817,24 @@ DriveTask ==
 
 By mapping to an `embassy_sync::signal::Signal` in Rust, the model proves that no matter how much noise the profiling algorithm generates during a transition layer sweep, the `FbgTask` can assert the stop state in exactly one instruction cycle, unconditionally bypassing the queue.
 
----
+<hr />
+
+(chat-prompt-9)=
 
 +++ {"chat_input": true}
-# Prompt: 9
+## Prompt: 9
 
 +++ {"chat_input": true}
-message time: 2026-06-23 23:53:20
-
-Update the code and add tests with parametrization, fixtures, and mocks using rstest and cargo-insta
-
----
+> message time: 2026-06-23 23:53:20
+>
+> Update the code and add tests with parametrization, fixtures, and mocks using rstest and cargo-insta
+>
+> \-\-\-
+>
+> (chat-response-9)=
 
 +++
-# Response: 9
+## Response: 9
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -896,6 +860,7 @@ To make the Embassy architecture highly testable and incorporate the findings fr
 
 Here is the refactored architecture with the complete test suite utilizing `rstest` for fixtures/parametrization and `cargo-insta` for snapshotting the mock outputs.
 
+(chat-heading-40)=
 ### `src/drill_control.rs`
 
 ```rust
@@ -963,6 +928,7 @@ pub fn evaluate_fbg_safety(readout: &FbgReadout) -> SafetyIntervention {
 }
 ```
 
+(chat-heading-41)=
 ### `src/drill_control/tests.rs`
 
 This test module utilizes `rstest` to throw a matrix of temperature and strain profiles at the logic, while a mock PWM driver records the execution history for `cargo-insta` to snapshot.
@@ -1064,6 +1030,7 @@ mod tests {
 }
 ```
 
+(generating-the-snapshots)=
 ### Generating the Snapshots
 When you first run `cargo test`, `cargo-insta` will capture the output arrays and store them in a `snapshots/` directory.
 
@@ -1082,20 +1049,24 @@ execution_history:
 is_disabled: true
 ```
 
----
+<hr />
+
+(chat-prompt-10)=
 
 +++ {"chat_input": true}
-# Prompt: 10
+## Prompt: 10
 
 +++ {"chat_input": true}
-message time: 2026-06-23 23:58:11
-
-Add support for logging material attributes and parameters in order to support online and offline optimization. Use industry-standard schema. Consider VF, IOF, EMMO
-
----
+> message time: 2026-06-23 23:58:11
+>
+> Add support for logging material attributes and parameters in order to support online and offline optimization. Use industry-standard schema. Consider VF, IOF, EMMO
+>
+> \-\-\-
+>
+> (chat-response-10)=
 
 +++
-# Response: 10
+## Response: 10
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1122,6 +1093,7 @@ Here is how we divide the semantic domains for logging the ultrasonic drill:
 * **IOF (Industrial Ontologies Foundry):** Handles the physical equipment and process events. It defines the `MachineTool` (the drill), the `ManufacturingProcess` (ultrasonic machining), and the `MeasurementEvent` (the frequency sweep and FBG polling).
 * **EMMO (Elementary Multiperspective Material Ontology):** Handles the rigorous physical and microstructural state of the materials. It defines the `Material` (Lignin-Vitrimer, N-LIG, Granite) and its dynamic properties (temperature, localized strain, acoustic impedance).
 
+(chat-heading-45)=
 ### 1. Embedded Rust Serialization Strategy
 
 Generating full JSON-LD strings directly on a microcontroller during a 28 kHz sweep will immediately exhaust memory and CPU cycles. 
@@ -1168,6 +1140,7 @@ pub struct MaterialState {
 }
 ```
 
+(chat-heading-46)=
 ### 2. The Semantic Graph Payload (JSON-LD)
 
 When the `material_profiler_task` detects a sharp drop in resonance—indicating the drill has punched through the dense acoustic barrier and into the softer, highly porous N-LIG layer—it emits a `ProcessTelemetryEvent`. 
@@ -1222,6 +1195,7 @@ Once hydrated by your edge gateway, the resulting JSON-LD log perfectly describe
 }
 ```
 
+(chat-heading-47)=
 ### 3. Updating the Material Profiler Task
 
 To support this in the code we verified earlier, we add a logging queue. When a transition occurs, we serialize the physical state and push it out to the transport layer.
@@ -1261,20 +1235,24 @@ if delta_f.abs() > 150 {
 
 Are you planning to route this binary telemetry over a standard serial interface to the gateway, or are you utilizing a specific local-first messaging protocol for the exfiltration?
 
----
+<hr />
+
+(chat-prompt-11)=
 
 +++ {"chat_input": true}
-# Prompt: 11
+## Prompt: 11
 
 +++ {"chat_input": true}
-message time: 2026-06-24 00:54:36
-
-Undecided. RP2350-ETH has an Ethernet port a good Embassy support
-
----
+> message time: 2026-06-24 00:54:36
+>
+> Undecided. RP2350-ETH has an Ethernet port a good Embassy support
+>
+> \-\-\-
+>
+> (chat-response-11)=
 
 +++
-# Response: 11
+## Response: 11
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1302,6 +1280,7 @@ Furthermore, the RP2350’s architecture pairs perfectly with Embassy. You can d
 
 Here is how we can map the exfiltration architecture to maintain a strict, zero-trust, local-first perimeter.
 
+(the-zero-trust-telemetry-pipeline)=
 ### The Zero-Trust Telemetry Pipeline
 
 By leveraging the physical Ethernet port, the drill never needs to touch the open internet or a cloud broker. The architecture is strictly segmented:
@@ -1311,6 +1290,7 @@ By leveraging the physical Ethernet port, the drill never needs to touch the ope
 3. **The Hydration & P2P Node (Edge Gateway):** This gateway catches the binary stream, uses the RosettaStune registry to resolve the units, and hydrates the data into the full IOF/EMMO JSON-LD semantic graph. 
 4. **WebRTC Distribution:** Once hydrated, the gateway acts as a WebRTC signaling and peer node. It streams the dense JSON-LD telemetry out over WebRTC data channels to any local, peer-to-peer browser dashboards or digital twins on the factory floor, ensuring secure, sub-second visualization without external dependencies.
 
+(embassy-net-exfiltration-implementation)=
 ### Embassy-Net Exfiltration Implementation
 
 To implement this on the RP2350-ETH, we add a dedicated network task that consumes the `TELEMETRY_EXFIL_CHANNEL` and pushes it over an `embassy_net::tcp::TcpSocket`.
@@ -1354,26 +1334,31 @@ pub async fn telemetry_exfiltration_task(
 }
 ```
 
+(protocol-trade-offs)=
 ### Protocol Trade-offs
 
 Because we are mapping high-speed physical events to semantic logs, the transport protocol on the RP2350 side matters. 
 
 Which transport layer should we prioritize for the `embassy-net` configuration: **UDP** to guarantee the absolute minimum latency and prevent any possibility of the TCP backpressure blocking the microcontroller's memory, or **TCP** to guarantee that not a single material transition log is dropped between the tool and the gateway?
 
----
+<hr />
+
+(chat-prompt-12)=
 
 +++ {"chat_input": true}
-# Prompt: 12
+## Prompt: 12
 
 +++ {"chat_input": true}
-message time: 2026-06-24 00:57:48
-
-Isn't there a more industrial technical term than "exfiltration" of sensor data
-
----
+> message time: 2026-06-24 00:57:48
+>
+> Isn't there a more industrial technical term than "exfiltration" of sensor data
+>
+> \-\-\-
+>
+> (chat-response-12)=
 
 +++
-# Response: 12
+## Response: 12
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1391,11 +1376,13 @@ You are absolutely right. "Exfiltration" carries a heavy cybersecurity connotati
 
 In industrial IoT, SCADA, and systems engineering, we use terminology that reflects designed, operational data movement. Here are the industry-standard terms that better fit this architecture:
 
+(chat-heading-55)=
 ### 1. Network & Topology Terms
 * **Backhaul:** The most accurate term for moving data from a remote or edge device (the drill) back to a central node or gateway. You would call this the *Telemetry Backhaul*.
 * **Data Egress:** The strict networking term for data intentionally leaving a network boundary or device. (The opposite of ingress). 
 * **Edge Forwarding:** Describes the action of the edge device pushing processed data to the next tier in the architecture.
 
+(chat-heading-56)=
 ### 2. Pipeline & Process Terms
 * **Telemetry Streaming:** Best used if you are sending a continuous, high-frequency flow of data (like the raw FBG microstrain values).
 * **Data Ingestion:** Used from the perspective of the Edge Gateway—the RP2350 is "forwarding" the data, and the gateway is "ingesting" it into the digital twin.
@@ -1403,8 +1390,9 @@ In industrial IoT, SCADA, and systems engineering, we use terminology that refle
 
 For your Embassy code, renaming the task and channel to `telemetry_egress_task` and `TELEMETRY_BACKHAUL_CHANNEL` would perfectly align with industrial standards.
 
-***
+<hr />
 
+(addressing-the-tcp-vs-udp-protocol-choice)=
 ### Addressing the TCP vs. UDP Protocol Choice
 
 Since we are renaming the egress pipeline, we need to decide what protocol actually drives it over that Ethernet port. 
@@ -1416,20 +1404,24 @@ Because your architecture is generating **semantic event logs** (triggering only
 
 Would you like to structure the Edge Gateway ingestion service next to handle unpacking the `postcard` binary from the TCP socket, or focus on the WebRTC peer-to-peer distribution?
 
----
+<hr />
+
+(chat-prompt-13)=
 
 +++ {"chat_input": true}
-# Prompt: 13
+## Prompt: 13
 
 +++ {"chat_input": true}
-message time: 2026-06-24 00:59:44
-
-Actually, HTTP/3 (UFP, QUIC) would probably be great. WebRTC or WS or proprietary protocol?
-
----
+> message time: 2026-06-24 00:59:44
+>
+> Actually, HTTP/3 (UFP, QUIC) would probably be great. WebRTC or WS or proprietary protocol?
+>
+> \-\-\-
+>
+> (chat-response-13)=
 
 +++
-# Response: 13
+## Response: 13
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1453,26 +1445,31 @@ However, we have to look at the silicon. We are running `no_std` Rust on an RP23
 
 Here is the candid breakdown of these protocols when mapped to an embedded, hard-real-time microcontroller:
 
+(chat-heading-60)=
 ### 1. HTTP/3 (QUIC) and WebRTC
 * **The Reality:** Both of these protocols are extraordinarily "fat." QUIC requires TLS 1.3 by default, and maintaining its state machine and cryptographic buffers will absolutely cannibalize the RP2350’s RAM. WebRTC is even heavier; before you can even send a UDP packet, you have to run an ICE negotiation and SDP exchange (usually over an HTTP/WS signaling server). 
 * **The Verdict:** **Do not put these on the microcontroller.** `embassy-net` does not have a native, lightweight QUIC or WebRTC implementation. These protocols belong exclusively on your Edge Gateway (the PC/Server) to distribute the data to the end-users.
 
+(chat-heading-61)=
 ### 2. WebSockets (WS)
 * **The Reality:** A WebSocket is just a framed TCP connection. If you use WS, you are inheriting the exact same TCP head-of-line blocking risks we discussed earlier, but now you are paying an additional HTTP handshake penalty just to open the socket.
 * **The Verdict:** Skip it. If you are going to use TCP on an embedded device, just use a raw TCP socket. There is no need for web overhead on a localized industrial link.
 
+(chat-heading-62)=
 ### 3. The "Proprietary" Protocol (Raw UDP/TCP + Postcard)
 * **The Reality:** Because you are using `postcard` to serialize Rust structs into binary, you already have a highly efficient, custom payload. Wrapping this in a raw TCP or UDP socket using Embassy is trivial, requires almost zero memory allocation, and gives you complete control over the buffer.
 * **The Verdict:** Highly viable and extremely common in high-performance robotics.
 
+(chat-heading-63)=
 ### 4. The Industrial Standard Alternative: CoAP
 If you want the lightweight, non-blocking nature of UDP but need the guarantee that a `BoundaryTransitionDetected` event actually reached the gateway, you should look at **CoAP (Constrained Application Protocol)**.
 * CoAP runs over UDP.
 * It is designed specifically for microcontrollers.
 * It supports **Confirmable (CON)** messages. If the drill sends a critical safety log via CoAP, the protocol requires an ACK from the gateway. If no ACK is received, it retries automatically, giving you TCP-like reliability on a UDP footprint.
 
----
+<hr />
 
+(the-recommended-architecture)=
 ### The Recommended Architecture
 
 Given that you are utilizing a **physical Ethernet cable** (which drops exponentially fewer packets than a Wi-Fi link) and are sending localized semantic *events* rather than a continuous 24 kHz waveform, the most pragmatic path is a split-tier approach:
@@ -1489,20 +1486,24 @@ Given that you are utilizing a **physical Ethernet cable** (which drops exponent
 
 If you want to keep the Embassy implementation as simple and reliable as possible, sticking to a raw TCP socket pushing `postcard` bytes is the fastest path to a working, stable backhaul. Should we map out the raw TCP socket ingestion logic on the Gateway side?
 
----
+<hr />
+
+(chat-prompt-14)=
 
 +++ {"chat_input": true}
-# Prompt: 14
+## Prompt: 14
 
 +++ {"chat_input": true}
-message time: 2026-06-24 01:01:55
-
-Yes, CoAP to control/telemetry gateway
-
----
+> message time: 2026-06-24 01:01:55
+>
+> Yes, CoAP to control/telemetry gateway
+>
+> \-\-\-
+>
+> (chat-response-14)=
 
 +++
-# Response: 14
+## Response: 14
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1526,6 +1527,7 @@ By utilizing CoAP **Confirmable (CON)** messages, the RP2350 can fire the binary
 
 Here is how we build the telemetry pipeline across both sides of the airgap.
 
+(chat-heading-67)=
 ### 1. The Edge (RP2350 Embassy) - Egress Task
 
 On the microcontroller, we bind an `embassy_net::udp::UdpSocket` and use a `no_std` CoAP crate (like `coap-lite`) to format the `postcard` binary into a Confirmable POST request.
@@ -1589,6 +1591,7 @@ pub async fn telemetry_egress_task(stack: &'static Stack<embassy_net_cyw43::Devi
 }
 ```
 
+(chat-heading-68)=
 ### 2. The Gateway (Linux/IPC) - Ingestion Service
 
 On the receiving side (your industrial PC or local server), you have a standard OS. We can use `tokio` for async I/O and standard Rust data structures to catch the CoAP packet, send the ACK, and deserialize the `postcard` binary back into the Rust struct.
@@ -1635,26 +1638,31 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
+(the-handoff)=
 ### The Handoff
 
 At this exact point in the gateway code (`// TODO:`), the system has successfully moved the physical data off the high-speed microcontroller and into the boundless memory of your edge server without dropping a single event.
 
 To complete the pipeline, should we map out how this Gateway service utilizes RosettaStune to dynamically attach the `pint`/`sympy` compatible semantic units to the event before broadcasting it out over the WebRTC data channels?
 
----
+<hr />
+
+(chat-prompt-15)=
 
 +++ {"chat_input": true}
-# Prompt: 15
+## Prompt: 15
 
 +++ {"chat_input": true}
-message time: 2026-06-24 01:03:02
-
-Yes
-
----
+> message time: 2026-06-24 01:03:02
+>
+> Yes
+>
+> \-\-\-
+>
+> (chat-response-15)=
 
 +++
-# Response: 15
+## Response: 15
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1672,6 +1680,7 @@ At the Edge Gateway, the binary data has safely crossed the airgap. Now, the ser
 
 This requires a two-stage pipeline on the Gateway: **Semantic Hydration** and **Zero-Trust Distribution**.
 
+(chat-heading-72)=
 ### 1. Semantic Hydration with RosettaStune
 
 The microcontroller knows it sent the number `22450`, but downstream optimization engines (like a Python script using `pint` or `sympy`) need to know definitively that this represents *Hertz*, measured contextually as an ultrasonic frequency. 
@@ -1710,6 +1719,7 @@ pub fn hydrate_telemetry_to_jsonld(event: ProcessTelemetryEvent, registry: &Unit
 }
 ```
 
+(chat-heading-73)=
 ### 2. Zero-Trust WebRTC Distribution
 
 With the payload semantically complete, we need to push it to the factory floor browsers. Using WebSockets would typically require a central broker. Instead, utilizing `webrtc-rs` on the Gateway allows direct, peer-to-peer Data Channels.
@@ -1748,6 +1758,7 @@ pub async fn telemetry_broadcast_loop(
 }
 ```
 
+(the-end-to-end-flow)=
 ### The End-to-End Flow
 
 This completes the entire data architecture:
@@ -1760,20 +1771,24 @@ This completes the entire data architecture:
 
 If we drop this data directly into the frontend visualizer you are building, the UI simply parses the `"iof:designatedState"` to update the drill animation, completely decoupled from the embedded hardware layer's complexities.
 
----
+<hr />
+
+(chat-prompt-16)=
 
 +++ {"chat_input": true}
-# Prompt: 16
+## Prompt: 16
 
 +++ {"chat_input": true}
-message time: 2026-06-24 01:03:45
-
-Add support for mmWave, too
-
----
+> message time: 2026-06-24 01:03:45
+>
+> Add support for mmWave, too
+>
+> \-\-\-
+>
+> (chat-response-16)=
 
 +++
-# Response: 16
+## Response: 16
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1791,6 +1806,7 @@ Integrating the co-axial millimeter-wave (mmWave) emitter introduces a secondary
 
 Here is how we integrate the mmWave subsystem into the RP2350 Embassy architecture and the downstream semantic graph.
 
+(chat-heading-77)=
 ### 1. Updating the Embedded Telemetry and Control Structs
 
 We must expand the physical parameter structs to capture the mmWave frequency (typically 30 GHz to 100 GHz for this scale) and its return loss. The return loss acts as our real-time radar metrology, indicating how much energy is being absorbed by the material versus reflecting back up the waveguide.
@@ -1833,6 +1849,7 @@ pub trait MmWaveEmitter {
 }
 ```
 
+(chat-heading-78)=
 ### 2. Modifying the FBG Safety Task (Thermal Prioritization)
 
 With the addition of mmWave, temperature spikes are no longer just a byproduct of ultrasonic friction; they are actively driven by the electromagnetic emitter. The `fbg_monitor_task` must now prioritize cutting the mmWave power *before* it touches the ultrasonic drive to prevent the vitrimer from crossing its topology-freezing temperature ($T_v$).
@@ -1871,6 +1888,7 @@ pub async fn fbg_monitor_task(mut interrogator: FbgInterrogatorPeripheral) {
 }
 ```
 
+(chat-heading-79)=
 ### 3. Updating the Semantic Hydration (Gateway)
 
 When the binary `postcard` arrives at the Edge Gateway via CoAP, the RosettaStune registry must now map the high-frequency RF properties into the IOF/EMMO JSON-LD structure. 
@@ -1935,24 +1953,28 @@ We add the `mmWaveEmitter` as a parallel input to the `TransducerCore`, and we m
 
 Are you planning to multiplex the mmWave return signal processing directly on the RP2350, or will you offload the raw ADC radar data over the CoAP backhaul for the Edge Gateway to calculate the return loss?
 
----
+<hr />
+
+(chat-prompt-17)=
 
 +++ {"chat_input": true}
-# Prompt: 17
+## Prompt: 17
 
 +++ {"chat_input": true}
-message time: 2026-06-24 01:07:22
-
-Does a 2350 have enough CPU to process the mmwave? Something with TOPS can do the sensor fusion and spatial inference, but the tool head cost is a constraint.b
-
-> becomes the primary variable for thermal runaway, fundamentally altering our safety and telemetry logic.
-
-Detail our chats about hadfield manganese steel. How does that material compare for these applications?
-
----
+> message time: 2026-06-24 01:07:22
+>
+> Does a 2350 have enough CPU to process the mmwave? Something with TOPS can do the sensor fusion and spatial inference, but the tool head cost is a constraint.b
+>
+> > becomes the primary variable for thermal runaway, fundamentally altering our safety and telemetry logic.
+>
+> Detail our chats about hadfield manganese steel. How does that material compare for these applications?
+>
+> \-\-\-
+>
+> (chat-response-17)=
 
 +++
-# Response: 17
+## Response: 17
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -1974,6 +1996,7 @@ I've specified HMS's acoustic and electromagnetic roles, considering mmWave refl
 
 I've determined HMS is ideal for drill faces, but less so as an acoustic resonator.
 
+(the-rp2350-mmwave-compute-constraint)=
 ### The RP2350 & mmWave Compute Constraint
 
 To be blunt: the RP2350 does not have the compute overhead to process raw mmWave radar data. It is a fantastic microcontroller (Cortex-M33 / Hazard3 running at ~150 MHz), but it has absolutely zero TOPS. It lacks the neural processing units (NPUs) or hardware DSPs required to run Fast Fourier Transforms (FFTs) for range-Doppler maps or spatial inference. 
@@ -1987,8 +2010,9 @@ Instead of a raw emitter, use an integrated mmWave ASIC (like the Texas Instrume
 
 The RP2350 just packages that single number into the `postcard` binary and fires it over the Ethernet cable. This keeps the physical tool head under budget while maintaining the zero-trust Embassy architecture.
 
----
+<hr />
 
+(hadfield-manganese-steel-integration-trade-offs)=
 ### Hadfield Manganese Steel: Integration & Trade-offs
 
 Our established architecture for Hadfield Manganese Steel (HMS) revolves around its extreme work-hardening capabilities in high-impact, abrasive environments. Integrated into the MetalPlantB process, the production relies on Hydrogen Thermal Plasma and Flash Joule Heating, followed by rapid sCO2 quenching. This precise quenching is critical—it freezes the carbon in an austenitic solution, entirely preventing the formation of brittle carbides that would otherwise shatter under stress. 
@@ -1997,12 +2021,15 @@ For the ultrasonic drill and Lignolux ecosystem, we previously targeted HMS for 
 
 When mapping HMS against the physics of a 28 kHz mmWave ultrasonic tool, the material properties present a very stark set of advantages and disqualifications depending on where it is placed in the assembly:
 
+(chat-heading-84)=
 #### 1. The Drill Bit/Impact Face (Exceptional)
 HMS is arguably the perfect material for the actual abrasive cutting face of the tool. The defining trait of HMS is that impact physically deforms its crystal lattice, hardening the surface dynamically. As the 28 kHz pulses drive the tool into hard crystalline materials (like granite), the tip of the bit will continuously work-harden, drastically reducing wear while the sCO2-quenched core remains ductile enough to avoid shattering.
 
+(chat-heading-85)=
 #### 2. The Singing Tube / Resonator (Disqualified)
 HMS is designed to absorb kinetic energy and permanently deform (at a micro-scale) to distribute that stress. This is exactly what we *do not* want in an ultrasonic waveguide. The material's innate acoustic damping will destroy the Q-factor of the transducer. The resonator tube itself must remain a highly elastic material like Titanium or Copper to transmit the 28 kHz wave efficiently without turning the kinetic energy into localized heat.
 
+(chat-heading-86)=
 #### 3. mmWave Waveguide & Housing (Highly Favorable)
 Properly quenched HMS is fully austenitic, meaning it is non-magnetic. While it will still reflect mmWave energy like any metal, its lack of ferromagnetism prevents it from distorting the electromagnetic field or creating inductive heating loops within the tool head. It can serve as a highly resilient outer shell or waveguide channel, provided the inner surfaces are polished to prevent scattered internal reflections.
 
@@ -2013,5 +2040,5 @@ Properly quenched HMS is fully austenitic, meaning it is non-magnetic. While it 
 
 With the physical stack defined, are you looking to refine the mechanical CAD interface where the resonant Copper tube attaches to the Hadfield Steel bit, or should we map out the SPI driver in Rust to pull the processed radar data from the mmWave ASIC?
 
----
+<hr />
 Powered by [AI Exporter](https://saveai.net)

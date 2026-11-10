@@ -7,59 +7,26 @@ kernelspec:
 
 # _Hemp-Derived-Polycarbonate-A-Sustainable-Material
 
-## Contents
-
-* [_Hemp-Derived-Polycarbonate-A-Sustainable-Material](#_hemp-derived-polycarbonate-a-sustainable-material)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [Core Chemical Innovation](#core-chemical-innovation)
-    * [Mechanical Profile and Processability](#mechanical-profile-and-processability)
-    * [Surface Energy and System Applications](#surface-energy-and-system-applications)
-    * [Circularity and End-of-Life](#circularity-and-end-of-life)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-    * [The Mechanics of Low-Temperature Deposition](#the-mechanics-of-low-temperature-deposition)
-    * [Integration into Continuous Roll-to-Roll (R2R) Lines](#integration-into-continuous-roll-to-roll-r2r-lines)
-* [Prompt: 3](#prompt-3)
-* [Response: 3](#response-3)
-  * [Semiconductor and Microelectronics Manufacturing](#semiconductor-and-microelectronics-manufacturing)
-  * [Photovoltaics (Solar Cells)](#photovoltaics-solar-cells)
-  * [Optical and Display Coatings](#optical-and-display-coatings)
-  * [Biomedical and Filtration Functionalization](#biomedical-and-filtration-functionalization)
-* [Prompt: 4](#prompt-4)
-* [Response: 4](#response-4)
-  * [Architectural & Process Comparison](#architectural-process-comparison)
-  * [PolyCBD vs. The Lignin-Vitrimer (LV) Ecosystem](#polycbd-vs-the-lignin-vitrimer-lv-ecosystem)
-    * [Thermal and Flow Dynamics](#thermal-and-flow-dynamics)
-    * [The Composite Loadouts (LVH, LVCF, LV-CNC, LV-CNS)](#the-composite-loadouts-lvh-lvcf-lv-cnc-lv-cns)
-  * [PolyCBD vs. BioTPU](#polycbd-vs-biotpu)
-  * [The Circular Synergy](#the-circular-synergy)
-* [Prompt: 5](#prompt-5)
-* [Response: 5](#response-5)
-* [MetalPlantB v0.1 - Material Ontology Registry](#metalplantb-v01-material-ontology-registry)
-* [Schema Alignment: IOF, EMMO, QUDT](#schema-alignment-iof-emmo-qudt)
-    * [Key Architectural Decisions](#key-architectural-decisions)
-* [Prompt: 6](#prompt-6)
-* [Response: 6](#response-6)
-* [MetalPlantB v0.1 - Material Ontology Registry (Thermal Dynamics Update)](#metalplantb-v01-material-ontology-registry-thermal-dynamics-update)
-* [Schema Alignment: IOF, EMMO, QUDT](#schema-alignment-iof-emmo-qudt)
-
 > From: https://gemini.google.com/app/0525262eb07daa0f
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2026-06-08 14:51:23
+## Prompt: 1
 
-Review this article: 
-
-"High-molecular-weight hemp-derived polycannabidiol carbonate thermoplastic with PET-like heat resistance, strength, and processability" https://www.cell.com/chem-circularity/fulltext/S3051-2948(26)00014-9
-
----
++++ {"chat_input": true}
+> message time: 2026-06-08 14:51:23
+>
+> Review this article: 
+>
+> "High-molecular-weight hemp-derived polycannabidiol carbonate thermoplastic with PET-like heat resistance, strength, and processability" https://www.cell.com/chem-circularity/fulltext/S3051-2948(26)00014-9
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -91,36 +58,44 @@ I've specified polyCBD's hydrophobicity benefits, lifecycle advantages, and inte
 
 The recent paper by Davis, Sotzing, Cakmak, et al. in *Chem Circularity* (2026) marks a critical milestone in bio-based polymer engineering, successfully bridging the gap between renewable feedstock generation and high-performance industrial application. By utilizing cannabidiol (CBD) extracted from hemp to synthesize a polyCBD-carbonate thermoplastic, the researchers have resolved the chronic thermal and structural deficits that typically plague plant-derived alternatives to polyethylene terephthalate (PET).
 
+(core-chemical-innovation)=
 ### Core Chemical Innovation
 The fundamental breakthrough lies in using CBD as a direct structural replacement for bisphenol-A (BPA). Historically, replacing endocrine-disrupting bisphenols with bio-based diols resulted in polymers with unacceptably low glass transition temperatures ($T_g$). The rigid, bulky sterics of the CBD molecule within the polycarbonate backbone yield a high $T_g$ polymer that remains completely dry, durable, and structurally sound even when fully submerged in boiling water. This effectively overcomes the classic industrial bottleneck where bio-plastics fail under elevated thermal loads.
 
+(mechanical-profile-and-processability)=
 ### Mechanical Profile and Processability
 The material demonstrates remarkable elasticity—extending up to 1,600% of its original size—while maintaining PET-like tensile strength. Crucially, the research establishes a rigorous processing framework linking the polymer's molecular architecture directly to melt processability and orientation development. 
 
 Because it handles easily in existing melt-processing equipment without compromising structural integrity, it is highly suitable for continuous roll-to-roll (R2R) manufacturing lines. If its thermal and physical parameters were mapped into an EMMO or QUDT-compliant material registry, the rheological data of this polyCBD-carbonate would show excellent compatibility with standard high-throughput extrusion, making it a viable substrate for advanced treatments like plasma-enhanced chemical vapor deposition (PECVD).
 
+(surface-energy-and-system-applications)=
 ### Surface Energy and System Applications
 The polymer exhibits an unexpectedly high water contact angle, outperforming most conventional polyolefins in hydrophobicity. This surface property makes it an exceptional candidate for waterproof outer membranes. In the context of sustainable thermal apparel, a spun or extruded polyCBD-carbonate film could serve as the ideal synthetic-free shell to encapsulate hemp aerogel fillers or lignin-PEG phase change materials. 
 
+(circularity-and-end-of-life)=
 ### Circularity and End-of-Life
 From a lifecycle modeling perspective, the polymer cleanly bypasses the need for complex or energy-intensive enzymatic breakdown. End-of-life recovery relies on a straightforward base-catalyzed depolymerization, elegantly recovering the pristine CBD starting material and achieving true closed-loop recycling. 
 
 Within a vertically integrated Lignolux-style biorefinery framework—where hemp biomass is already fractionated for bast fibers, hurd, and lignin—isolating the CBD fraction specifically for high-yield polycarbonate synthesis maximizes total crop utilization. This development positions polyCBD-carbonate not just as a safer alternative to BPA-laden plastics, but as a functionally superior, highly scalable material for circular industrial foundries.
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-message time: 2026-06-08 15:32:12
-
-> viable substrate for advanced treatments like plasma-enhanced chemical vapor deposition (PECVD)
-
----
+> message time: 2026-06-08 15:32:12
+>
+> > viable substrate for advanced treatments like plasma-enhanced chemical vapor deposition (PECVD)
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -146,12 +121,14 @@ The mention of Plasma-Enhanced Chemical Vapor Deposition (PECVD) highlights the 
 
 PECVD sidesteps this thermal bottleneck by using electrical energy to drive the chemical reaction. 
 
+(the-mechanics-of-low-temperature-deposition)=
 ### The Mechanics of Low-Temperature Deposition
 
 In a PECVD system, precursor gases are introduced into a vacuum chamber containing two parallel electrodes. Instead of applying extreme heat, a high-frequency radio (RF) voltage is applied across the electrodes. 
 
 This electromagnetic field strips electrons from the gas molecules, igniting a glowing plasma of highly reactive ions, free radicals, and energetic electrons. Because these active species are generated electrically, the bulk gas temperature remains near room temperature. These highly volatile fragments then rain down and polymerize onto the substrate, forming a dense, uniform nanocoating without thermally degrading the base material.
 
+(integration-into-continuous-roll-to-roll-r2r-lines)=
 ### Integration into Continuous Roll-to-Roll (R2R) Lines
 
 When scaling this into a continuous roll-to-roll (R2R) manufacturing line, PECVD transforms from a batch laboratory process into a high-throughput functionalization engine. 
@@ -168,21 +145,25 @@ The thickness and cross-linking density of these functional layers are tightly c
 
 If you are mapping out the vacuum zones for a multi-stage R2R web, what specific surface functionalities or active binding groups are you aiming to achieve with the initial plasma treatment?
 
----
+<hr />
+
+(chat-prompt-3)=
 
 +++ {"chat_input": true}
-# Prompt: 3
+## Prompt: 3
 
 +++ {"chat_input": true}
-message time: 2026-06-08 15:36:39
-
-Find our chats on PECVD.
-What are the applications for PECVD?
-
----
+> message time: 2026-06-08 15:36:39
+>
+> Find our chats on PECVD.
+> What are the applications for PECVD?
+>
+> \-\-\-
+>
+> (chat-response-3)=
 
 +++
-# Response: 3
+## Response: 3
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -202,25 +183,29 @@ Beyond environmental remediation and advanced textiles, PECVD is a cornerstone t
 
 <Image alt="Diagram showing a remote PECVD process reactor with an RF generator, plasma coil, and substrate on a heated holder inside a vacuum chamber" caption="Standard PECVD reactor configuration" src="image_agent_tag_10112589336063094314"/>
 
----
+<hr />
 
 Here are the primary industrial applications for PECVD:
 
+(semiconductor-and-microelectronics-manufacturing)=
 ## Semiconductor and Microelectronics Manufacturing
 This is the traditional stronghold of PECVD. The microchip industry relies on it to deposit insulating layers (dielectrics) without melting the microscopic metal wiring already laid down on a silicon wafer.
 *   **Passivation Layers:** Depositing silicon nitride ($Si_3N_4$) or silicon dioxide ($SiO_2$) over completed integrated circuits to protect them from moisture, scratching, and alkali ion contamination.
 *   **Interlayer Dielectrics:** Creating the insulating boundaries between the multiple stacked layers of conductive wiring in dense microprocessors.
 
+(photovoltaics-solar-cells)=
 ## Photovoltaics (Solar Cells)
 The solar industry uses PECVD extensively to improve the efficiency and lifespan of silicon solar cells.
 *   **Anti-Reflective Coatings (ARC):** A precisely tuned thin film of silicon nitride is deposited on the surface of the solar cell. This coating prevents sunlight from bouncing off the silicon, forcing more photons into the active layer to generate electricity.
 *   **Surface Passivation:** The same coating ties up "dangling bonds" on the surface of the silicon crystal, reducing electron recombination and boosting the overall voltage of the cell.
 
+(optical-and-display-coatings)=
 ## Optical and Display Coatings
 Modern displays and lenses require highly uniform, ultra-thin coatings that can be deposited on glass or transparent plastics.
 *   **OLED Encapsulation:** Organic Light Emitting Diodes are highly sensitive to oxygen and moisture. PECVD is used to deposit transparent, flexible barrier films that seal OLED screens in smartphones and TVs.
 *   **Scratch-Resistant and Anti-Glare:** Depositing hard, transparent nanocoatings on polycarbonate eyewear, camera lenses, and automotive displays.
 
+(biomedical-and-filtration-functionalization)=
 ## Biomedical and Filtration Functionalization
 Similar to the nutrient capture fleece architecture, PECVD is used to alter the surface chemistry of medical devices and membranes without changing their bulk properties.
 *   **Biocompatibility:** Coating implants (like stents or pacemakers) with ultra-thin, inert polymers to prevent the body's immune system from rejecting the device.
@@ -232,22 +217,26 @@ Similar to the nutrient capture fleece architecture, PECVD is used to alter the 
   <Elicitation label="Map the R2R vacuum zone parameters" query="If we are building a continuous R2R line for the nutrient capture fleece, what are the specific vacuum, pressure, and gas flow parameters we need for the PECVD zone?"/>
 </ElicitationsGroup>
 
----
+<hr />
+
+(chat-prompt-4)=
 
 +++ {"chat_input": true}
-# Prompt: 4
+## Prompt: 4
 
 +++ {"chat_input": true}
-message time: 2026-06-08 15:44:57
-
-> By utilizing cannabidiol (CBD) extracted from hemp to synthesize a polyCBD-carbonate thermoplastic, the researchers have resolved the chronic thermal and structural deficits that typically plague plant-derived alternatives to polyethylene terephthalate (PET).
-
-Compare this with LV Lignin-Vitrimer, LVH Lignin-vitrimer-hemp, LVCF Lignin-Vitrimer Carbon Fiber, Lignin-Vitrimer with CNC Cellulose Nanocrystals, Lignin-Vitrimer with CNS Carbon Nanospheres, our BioTPU,
-
----
+> message time: 2026-06-08 15:44:57
+>
+> > By utilizing cannabidiol (CBD) extracted from hemp to synthesize a polyCBD-carbonate thermoplastic, the researchers have resolved the chronic thermal and structural deficits that typically plague plant-derived alternatives to polyethylene terephthalate (PET).
+>
+> Compare this with LV Lignin-Vitrimer, LVH Lignin-vitrimer-hemp, LVCF Lignin-Vitrimer Carbon Fiber, Lignin-Vitrimer with CNC Cellulose Nanocrystals, Lignin-Vitrimer with CNS Carbon Nanospheres, our BioTPU,
+>
+> \-\-\-
+>
+> (chat-response-4)=
 
 +++
-# Response: 4
+## Response: 4
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -275,6 +264,7 @@ By fractionalizing the hemp plant, the cannabinoid isolate drives this high-perf
 
 Here is how polyCBD-carbonate compares structurally and operationally to the LV and BioTPU ecosystems.
 
+(architectural-process-comparison)=
 ## Architectural & Process Comparison
 
 | Material | Polymer Architecture | Primary Mechanical Trait | Thermal/Flow Paradigm | End-of-Life |
@@ -285,23 +275,27 @@ Here is how polyCBD-carbonate compares structurally and operationally to the LV 
 | **LV-CNC / LV-CNS** | Nano-composite CAN | High modulus, thermal conductivity (CNS) | Vitrimeric flow under heat + pressure | Chemical recycling |
 | **BioTPU** | Segmented Block Copolymer | Elastomeric, abrasion resistant | Static $T_g$, true liquid melt | Mechanical / Glycolysis |
 
----
+<hr />
 
+(polycbd-vs-the-lignin-vitrimer-lv-ecosystem)=
 ## PolyCBD vs. The Lignin-Vitrimer (LV) Ecosystem
 
 The fundamental difference here is topological: polyCBD is a linear thermoplastic, whereas the LV family relies on covalent adaptable networks (CANs). 
 
+(thermal-and-flow-dynamics)=
 ### Thermal and Flow Dynamics
 PolyCBD processes like a traditional thermoplastic. Above its glass transition temperature ($T_g$) and melting point, polymer chains disentangle and flow as a highly viscous liquid. This makes it a drop-in replacement for standard extrusion, injection molding, and continuous roll-to-roll (R2R) film lines.
 
 Lignin-vitrimers operate on a completely different physical mechanism. They cross-link into a solid 3D network like a thermoset (giving them incredible thermal stability and solvent resistance). When heated above their topological freezing temperature ($T_v$), the network doesn't melt into a liquid; instead, the dynamic covalent bonds rapidly break and reform (associative exchange). The material flows like glass—maintaining constant cross-link density even while being reshaped. This requires thermoforming under pressure, making it less ideal for high-speed R2R web extrusion but superior for structural molding.
 
+(the-composite-loadouts-lvh-lvcf-lv-cnc-lv-cns)=
 ### The Composite Loadouts (LVH, LVCF, LV-CNC, LV-CNS)
 PolyCBD provides PET-like strength with massive elasticity. However, for load-bearing, aerospace, or automotive applications, the LV composites remain superior:
 *   **LVCF (Carbon Fiber) and LVH (Hemp):** These provide the macro-structural rigidity that a 1600%-elongation polycarbonate cannot match. The vitrimer matrix binds the fibers securely, but unlike traditional epoxy, it allows for true end-of-life delamination and fiber recovery.
 *   **LV-CNC (Cellulose Nanocrystals):** CNCs provide nanoscopic hydrogen-bonding reinforcement to the LV matrix, creating exceptional oxygen/moisture barrier properties. PolyCBD is naturally hydrophobic, but LV-CNC would out-perform it in rigid, gas-impermeable applications.
 *   **LV-CNS (Carbon Nanospheres):** Adding CNS to a vitrimer matrix spikes its thermal and electrical conductivity. PolyCBD is strictly an insulator; LV-CNS serves roles in heat dissipation or electromagnetic shielding.
 
+(polycbd-vs-biotpu)=
 ## PolyCBD vs. BioTPU
 
 Both polyCBD-carbonate and BioTPU are melt-processable thermoplastics, and both boast high elasticity. 
@@ -312,6 +306,7 @@ BioTPU achieves its elasticity through phase separation between rigid (isocyanat
 **Environmental Resilience:**
 Traditional BioTPUs (especially ester-based ones) are highly susceptible to hydrolysis—they degrade when exposed to hot water. PolyCBD-carbonate survives boiling water submersion without mechanical loss, giving it a massive advantage in saturated, high-temperature environments or medical applications requiring autoclave sterilization. 
 
+(the-circular-synergy)=
 ## The Circular Synergy
 
 If we integrate this into a singular industrial flow:
@@ -326,20 +321,24 @@ If we integrate this into a singular industrial flow:
   <Elicitation label="Design the thermal apparel layer stack" query="Let's map out the thermal apparel system again. How exactly would we layer a PECVD-treated PolyCBD shell over the hemp aerogel and lignin-PEG phase change materials?"/>
 </ElicitationsGroup>
 
----
+<hr />
+
+(chat-prompt-5)=
 
 +++ {"chat_input": true}
-# Prompt: 5
+## Prompt: 5
 
 +++ {"chat_input": true}
-message time: 2026-06-08 18:00:58
-
-How would we structure the specific material properties (Tg, Tv, elasticity) of PolyCBD vs LV in a YAML-based ontology for the MetalPlantB foundry model?
-
----
+> message time: 2026-06-08 18:00:58
+>
+> How would we structure the specific material properties (Tg, Tv, elasticity) of PolyCBD vs LV in a YAML-based ontology for the MetalPlantB foundry model?
+>
+> \-\-\-
+>
+> (chat-response-5)=
 
 +++
-# Response: 5
+## Response: 5
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -446,6 +445,7 @@ materials:
       - iof:CompressionMolding
 ```
 
+(key-architectural-decisions)=
 ### Key Architectural Decisions
 
 **1. Structural Classification (EMMO)**
@@ -459,32 +459,36 @@ Both materials possess a glass transition temperature ($T_g$), marking the shift
 **3. Process Compatibility (IOF)**
 By tying the materials to specific IOF manufacturing processes (`iof:ContinuousExtrusion` vs. `iof:Thermoforming`), the YAML acts as a strict constraint layer. If a processing script attempts to route `Lignin_Vitrimer_Neat` through a standard continuous R2R melt-extrusion node in the MetalPlantB model, the discrepancy in the compatibility flags will instantly throw a validation error, preventing mathematically impossible process flows.
 
----
+<hr />
+
+(chat-prompt-6)=
 
 +++ {"chat_input": true}
-# Prompt: 6
+## Prompt: 6
 
 +++ {"chat_input": true}
-message time: 2026-06-08 18:06:47
-
-LV has a tunable glass temperature; from as the model has there 85C all the way up to 180C?
-
-Verify that, and what of polyCBD?
-
-Update the model to indicate that there are ranges of temperatures
-
-
-> PolyCBD-carbonate survives boiling water submersion without mechanical loss, giving it a massive advantage in saturated, high-temperature environments or medical applications requiring autoclave sterilization.
-
-Add these Thermal ranges to the yaml model for these materials:
-boiling
-charring
-burning
-
----
+> message time: 2026-06-08 18:06:47
+>
+> LV has a tunable glass temperature; from as the model has there 85C all the way up to 180C?
+>
+> Verify that, and what of polyCBD?
+>
+> Update the model to indicate that there are ranges of temperatures
+>
+>
+> > PolyCBD-carbonate survives boiling water submersion without mechanical loss, giving it a massive advantage in saturated, high-temperature environments or medical applications requiring autoclave sterilization.
+>
+> Add these Thermal ranges to the yaml model for these materials:
+> boiling
+> charring
+> burning
+>
+> \-\-\-
+>
+> (chat-response-6)=
 
 +++
-# Response: 6
+## Response: 6
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking

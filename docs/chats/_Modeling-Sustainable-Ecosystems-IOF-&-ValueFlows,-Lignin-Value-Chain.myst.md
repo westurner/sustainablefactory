@@ -7,85 +7,24 @@ kernelspec:
 
 # _Modeling-Sustainable-Ecosystems-IOF-&-ValueFlows,-Lignin-Value-Chain
 
-## Contents
-
-* [_Modeling-Sustainable-Ecosystems-IOF-&-ValueFlows,-Lignin-Value-Chain](#_modeling-sustainable-ecosystems-iof-valueflows-lignin-value-chain)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [1. Industrial Ontologies Foundry (IOF): The Physical & Production Layer](#1-industrial-ontologies-foundry-iof-the-physical-production-layer)
-    * [2. ValueFlows (VF): The Economic & Ecosystem Layer](#2-valueflows-vf-the-economic-ecosystem-layer)
-    * [Semantic Synthesis and Architecture](#semantic-synthesis-and-architecture)
-    * [Summary](#summary)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-    * [1. The IOF Layer: Physics and Material Reality](#1-the-iof-layer-physics-and-material-reality)
-    * [2. The ValueFlows Layer: Economic and Ecosystem Tracking](#2-the-valueflows-layer-economic-and-ecosystem-tracking)
-    * [3. Synthesis: YAML-LD Semantic Model](#3-synthesis-yaml-ld-semantic-model)
-* [IOF: Defining the physics of the manufacturing process](#iof-defining-the-physics-of-the-manufacturing-process)
-* [VF: Defining the economic inputs and outputs](#vf-defining-the-economic-inputs-and-outputs)
-* [Tying the physical transformation to the product](#tying-the-physical-transformation-to-the-product)
-    * [Why This Architecture Matters](#why-this-architecture-matters)
-* [Prompt: 3](#prompt-3)
-* [Response: 3](#response-3)
-    * [The Upstream Tiers](#the-upstream-tiers)
-    * [Upstream Supply Chain Model Implementation](#upstream-supply-chain-model-implementation)
-* [Prompt: 4](#prompt-4)
-* [Response: 4](#response-4)
-    * [1. Symbolic Model Implementation (`lignin_model.py`)](#1-symbolic-model-implementation-lignin_modelpy)
-* [---------------------------------------------------------](#-)
-* [Define Symbolic Variables](#define-symbolic-variables)
-* [---------------------------------------------------------](#-)
-* [Inputs: Biomass & Extraction (Tier 3 -> Tier 2)](#inputs-biomass-extraction-tier-3-tier-2)
-* [Inputs: Vitrimer Crosslinking (Tier 1)](#inputs-vitrimer-crosslinking-tier-1)
-* [Inputs: Logistics & Carbon Accounting](#inputs-logistics-carbon-accounting)
-* [---------------------------------------------------------](#-)
-* [Define Process Equations](#define-process-equations)
-* [---------------------------------------------------------](#-)
-* [Tier 2: Isolated High-Purity Lignin Yield](#tier-2-isolated-high-purity-lignin-yield)
-* [Tier 1: Vitrimer Formulation Mass Balance](#tier-1-vitrimer-formulation-mass-balance)
-* [Mass of crosslinker needed per unit mass of isolated lignin](#mass-of-crosslinker-needed-per-unit-mass-of-isolated-lignin)
-* [Carbon Footprint Model (Scope 1 & Scope 3 Upstream)](#carbon-footprint-model-scope-1-scope-3-upstream)
-* [---------------------------------------------------------](#-)
-* [Compile Symbolic Expressions via Lambdify](#compile-symbolic-expressions-via-lambdify)
-* [---------------------------------------------------------](#-)
-* [Contextual argument groupings for local evaluation](#contextual-argument-groupings-for-local-evaluation)
-    * [2. Parametrized Test Suite (`test_lignin_model.py`)](#2-parametrized-test-suite-test_lignin_modelpy)
-* [Shared baseline testing matrices for standard feedstocks](#shared-baseline-testing-matrices-for-standard-feedstocks)
-* [Form: (feedstock_name, moisture, lignin_fraction, efficiency, expected_min_lignin)](#form-feedstock_name-moisture-lignin_fraction-efficiency-expected_min_lignin)
-* [Check physical boundaries](#check-physical-boundaries)
-    * [Running the Validation](#running-the-validation)
-* [Prompt: 5](#prompt-5)
-* [Response: 5](#response-5)
-* [Define the parameter bounds](#define-the-parameter-bounds)
-* [Define fixed conditions for a standard hardwood run](#define-fixed-conditions-for-a-standard-hardwood-run)
-* [Run the compiled lambdify model](#run-the-compiled-lambdify-model)
-* [Set up the figure for side-by-side 3D plotting](#set-up-the-figure-for-side-by-side-3d-plotting)
-* [Plot 1: Isolated Lignin Yield](#plot-1-isolated-lignin-yield)
-* [Plot 2: Total Vitrimer Masterbatch Yield](#plot-2-total-vitrimer-masterbatch-yield)
-* [Prompt: 6](#prompt-6)
-* [Response: 6](#response-6)
-    * [Part 1: Adding Units in the Semantic Web](#part-1-adding-units-in-the-semantic-web)
-    * [Part 2: NumPy Libraries for Semantic Integration](#part-2-numpy-libraries-for-semantic-integration)
-    * [Part 3: Data Formats for Round-Tripping](#part-3-data-formats-for-round-tripping)
-* [Prompt: 7](#prompt-7)
-* [Response: 7](#response-7)
-    * [The Hub-and-Spoke Mapping](#the-hub-and-spoke-mapping)
-    * [The De Facto Rosetta Stones](#the-de-facto-rosetta-stones)
-
 > From: https://gemini.google.com/app/e556375fba0bf31c
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2026-05-30 13:59:10
+## Prompt: 1
 
-Review ValueFlows and IOF for modeling sustainable processes, products, supply chains, ecoysystems https://www.valueflo.ws/specification/all_vf/
-
----
++++ {"chat_input": true}
+> message time: 2026-05-30 13:59:10
+>
+> Review ValueFlows and IOF for modeling sustainable processes, products, supply chains, ecoysystems https://www.valueflo.ws/specification/all_vf/
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -127,6 +66,7 @@ Modeling sustainable processes, products, and circular ecosystems requires bridg
 
 Here is a review of how these two semantic frameworks operate and how they can be synthesized for sustainable industrial ecosystems.
 
+(chat-heading-3)=
 ### 1. Industrial Ontologies Foundry (IOF): The Physical & Production Layer
 IOF is rooted in the Basic Formal Ontology (BFO) and provides extreme rigor for engineering, manufacturing, and material science. It is designed to capture the exact physical realities of the factory floor and the lifecycle of engineered products.
 
@@ -134,6 +74,7 @@ IOF is rooted in the Basic Formal Ontology (BFO) and provides extreme rigor for 
 * **Material Definitions:** It allows for deep specification of product components. You can model the exact crosslinker stoichiometry required for a composite to achieve a specific glass transition temperature (Tg), or map the percolation network of cellulose nanocrystals (CNCs) within a polymer matrix.
 * **The Constraint:** IOF is heavily descriptive regarding the "what" and the physical "how." However, it is less equipped to natively handle the economic coordination, distributed supply chain requests, or the reciprocal exchange of value across independent business entities.
 
+(chat-heading-4)=
 ### 2. ValueFlows (VF): The Economic & Ecosystem Layer
 ValueFlows abstracts the physical processes into a network vocabulary based on the REA (Resources, Events, Agents) accounting model. It is expressly designed for distributed, peer-to-peer economic coordination and circular supply chains.
 
@@ -141,6 +82,7 @@ ValueFlows abstracts the physical processes into a network vocabulary based on t
 * **The Intent-Commitment-Event Pipeline:** Unlike static tracking, VF models the forward-looking supply chain. An `Intent` (a desire to procure bio-pigment) becomes a `Proposal`, which turns into a `Commitment` (a scheduled flow), and finally resolves into an `EconomicEvent` (the actual transfer of the masterbatch).
 * **Circular Economy & Provenance:** By tracking `RecipeFlows` and the transformation of `EconomicResources`, VF handles "track and trace" out of the box. It is ideal for modeling the journey of a sustainable product from raw biomaterial sourcing through consumer use and end-of-life recovery. 
 
+(semantic-synthesis-and-architecture)=
 ### Semantic Synthesis and Architecture
 Neither framework alone paints the complete picture of a sustainable industrial ecosystem, but they are highly interoperable. Because they are semantic web schemas, they can be seamlessly combined using JSON-LD or YAML-LD. 
 
@@ -154,25 +96,30 @@ When developing the models computationally in local-first or WASM-sandboxed note
 **Zero-Trust Provenance**
 For a sustainable supply chain to be verifiable, the `Agents` in a ValueFlows network should be tied to W3C Decentralized Identifiers (DIDs), creating a cryptographic chain of custody for every `EconomicEvent`. In highly distributed setups—such as those leveraging Holochain or WebRTC for collaboration—verifiable presentations of these events must be shared securely. Utilizing a native peer-to-peer protocol for this zero-trust architecture is crucial; relying on messaging designs that require centralized ClientIDs or broker overhead (such as traditional ZeroMQ patterns) can inherently weaken the decentralized nature of the provenance tracking. 
 
+(summary)=
 ### Summary
 * Use **IOF** to model the physics, engineering, and material science of sustainable products and the factory floor.
 * Use **ValueFlows** to model the economic transactions, ecosystem actors, distributed recipes, and the circular tracking of resources. 
 * **Combine them** via JSON-LD/YAML-LD to create a comprehensive, mathematically verifiable model of a sustainable industrial supply chain from the atomic level up to the global economic network.
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-message time: 2026-05-30 19:23:28
-
-Model a Laser-Induced Graphene on Lignin product with iof and with vf
-
----
+> message time: 2026-05-30 19:23:28
+>
+> Model a Laser-Induced Graphene on Lignin product with iof and with vf
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -196,6 +143,7 @@ By layering the Industrial Ontologies Foundry (IOF) and ValueFlows (VF), we can 
 
 Here is how the architecture breaks down for a Direct Laser Writing (DLW) process.
 
+(chat-heading-9)=
 ### 1. The IOF Layer: Physics and Material Reality
 IOF, built on the Basic Formal Ontology (BFO), strictly defines what the things are and how the physical transformation occurs. It does not care about the cost or who owns it; it only cares about the physical facts.
 
@@ -204,6 +152,7 @@ IOF, built on the Basic Formal Ontology (BFO), strictly defines what the things 
 * **`iof:ManufacturingEquipment` (The Tool):** The diode laser system. IOF allows us to attach specific physical constraints here, such as the focal length, beam wavelength, and the optimized spot size required to achieve the correct energy density for localized carbonization without ablating the matrix.
 * **`iof:MaterialArtifact` (The Product):** The resulting LIG-Lignin composite—a single monolithic material with localized conductive pathways.
 
+(chat-heading-10)=
 ### 2. The ValueFlows Layer: Economic and Ecosystem Tracking
 While IOF describes the physics of the laser carbonizing the lignin, ValueFlows describes the *production event* within a distributed network.
 
@@ -211,6 +160,7 @@ While IOF describes the physics of the laser carbonizing the lignin, ValueFlows 
 * **`vf:RecipeProcess` (The Standard Work):** The blueprint for the manufacturing stage. It dictates that to execute the `LIG Patterning` process, you must `consume` energy and `use` the laser, taking the lignin sheet as a `vf:hasRecipeInput` and yielding the patterned circuit as a `vf:hasRecipeOutput`.
 * **`vf:EconomicEvent` (The Actualization):** When the diode laser actually fires and a batch of LIG circuits is produced, a `vf:EconomicEvent` is recorded. This event alters the inventory: decrementing the raw lignin substrate and incrementing the finished LIG composites, ready for transfer or downstream assembly.
 
+(chat-heading-11)=
 ### 3. Synthesis: YAML-LD Semantic Model
 When implementing this in a local-first environment or a sandboxed notebook, YAML-LD provides an excellent, human-readable format that perfectly marries both ontologies.
 
@@ -267,23 +217,28 @@ Below is a conceptual YAML-LD document modeling a specific production event. It 
   "iof:hasMaterialState": "Carbonized Graphene Lattice on Vitrimer"
 ```
 
+(why-this-architecture-matters)=
 ### Why This Architecture Matters
 By integrating these two layers, you establish a zero-trust provenance chain that extends all the way down to the optical physics of the factory floor. If a downstream consumer receives the LIG-lignin composite, the ValueFlows data proves *where* it came from and *who* handled it, while the IOF data proves the exact laser parameters and substrate chemistry used to create it.
 
----
+<hr />
+
+(chat-prompt-3)=
 
 +++ {"chat_input": true}
-# Prompt: 3
+## Prompt: 3
 
 +++ {"chat_input": true}
-message time: 2026-05-30 19:28:25
-
-also model the lignin supply chain all the way up
-
----
+> message time: 2026-05-30 19:28:25
+>
+> also model the lignin supply chain all the way up
+>
+> \-\-\-
+>
+> (chat-response-3)=
 
 +++
-# Response: 3
+## Response: 3
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -305,6 +260,7 @@ To model a sustainable lignin supply chain "all the way up"—from the initial a
 
 By scaling up the integration of the Industrial Ontologies Foundry (IOF) and ValueFlows (VF), we can capture both the macro-level logistics of the ecosystem and the micro-level physics of clean biorefining.
 
+(the-upstream-tiers)=
 ### The Upstream Tiers
 
 1. **Tier 3: Biomass Sourcing & Logistics (The Ecosystem Edge)**
@@ -323,8 +279,9 @@ By scaling up the integration of the Industrial Ontologies Foundry (IOF) and Val
 4. **Tier 0: Material Forming (Downstream Input)**
    * **VF/IOF Layer:** A twin-screw extrusion process converts the compounded masterbatch into sheets or flexible films, which serve as the direct substrate for the downstream laser-induced graphene patterning process.
 
----
+<hr />
 
+(upstream-supply-chain-model-implementation)=
 ### Upstream Supply Chain Model Implementation
 
 This interactive simulator maps the cascading mass-balance, carbon footprints, and semantic structural transformations across the upstream supply chain. By adjusting the extraction parameters and biomass properties, you can observe how the physical IOF states and ValueFlows resource allocations shift in real time.
@@ -333,20 +290,24 @@ This interactive simulator maps the cascading mass-balance, carbon footprints, a
 {"component":"LlmGeneratedComponent","props":{"height":"800px","prompt":"Create an interactive supply chain simulator and mass-balance dashboard for an upstream lignin-vitrimer supply chain. The tool must model four distinct tiers: Biomass Sourcing, Biorefinery (Ultrasonic Milling + Low-Temperature Plasma), Vitrimer Synthesis, and Film Extrusion. Inputs should allow the user to select the feedstock type (e.g., Hardwood Chips, Agricultural Residues), input biomass mass (in metric tons), extraction processing efficiency (%), and transit distance (km). The visualization should display a step-by-step interactive process flow diagram representing the supply chain. For each tier, visually map and detail the corresponding ValueFlows (VF) entities (Agents, Economic Resources, Processes) and Industrial Ontologies Foundry (IOF) entities (Material Artifacts, Manufacturing Equipment, Chemical Processes). Below the flow diagram, provide a real-time analytics panel displaying total high-purity lignin yield (tons), co-product cellulose yield, estimated process carbon footprint (kg CO2e), and a validation checklist ensuring the semantic integrity of the data (e.g., mass-balance verification, zero-trust provenance status). All elements must adapt dynamically to slider and dropdown updates. Maintain clear functional layout hierarchy with inputs on top or in a designated panel, followed by the visual flow, and analytics at the bottom. Use clear visual indicators to distinguish between physical material transformations and economic transfers.","id":"im_f76f94b729907717"}}
 ```
 
----
+<hr />
+
+(chat-prompt-4)=
 
 +++ {"chat_input": true}
-# Prompt: 4
+## Prompt: 4
 
 +++ {"chat_input": true}
-message time: 2026-05-30 19:36:14
-
-Model that with a parameter landscape / field sampled with sympy and lambdify and pytest tests with pytest.mark.parametrize
-
----
+> message time: 2026-05-30 19:36:14
+>
+> Model that with a parameter landscape / field sampled with sympy and lambdify and pytest tests with pytest.mark.parametrize
+>
+> \-\-\-
+>
+> (chat-response-4)=
 
 +++
-# Response: 4
+## Response: 4
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -364,6 +325,7 @@ To rigorously evaluate the parameter landscape of the upstream lignin-vitrimer s
 
 Below is the complete production-grade implementation, followed by a test suite using `pytest.mark.parametrize` to validate the bounds of the material transformations and mass balances.
 
+(chat-heading-19)=
 ### 1. Symbolic Model Implementation (`lignin_model.py`)
 
 This module defines the symbolic variables, maps the mathematical relationships across the extraction and synthesis tiers, and exports lambdified functions for numerical evaluation.
@@ -445,8 +407,9 @@ def sample_parameter_landscape(biomass_range, efficiency_range, fixed_params):
     return b_grid, e_grid, lig_yield, vit_yield
 ```
 
----
+<hr />
 
+(chat-heading-20)=
 ### 2. Parametrized Test Suite (`test_lignin_model.py`)
 
 This test file utilizes `pytest.mark.parametrize` to assert edge cases, mass balance boundaries, and physical consistency across different feedstocks (e.g., Hardwood vs. Agricultural Residues) and processing efficiencies.
@@ -534,6 +497,7 @@ def test_carbon_footprint_sensitivity(distance, grid_intensity, expected_max_co2
     assert total_co2 <= expected_max_co2, f"Carbon ceiling broken: {total_co2} > {expected_max_co2}"
 ```
 
+(running-the-validation)=
 ### Running the Validation
 
 Execute the test matrix inside your development environment to guarantee that the system boundaries conform strictly to thermodynamic constraints:
@@ -542,20 +506,24 @@ Execute the test matrix inside your development environment to guarantee that th
 pytest test_lignin_model.py -v
 ```
 
----
+<hr />
+
+(chat-prompt-5)=
 
 +++ {"chat_input": true}
-# Prompt: 5
+## Prompt: 5
 
 +++ {"chat_input": true}
-message time: 2026-05-30 19:38:59
-
-add visualization of the output of sample_parameter_landscape, and run that code and show the output
-
----
+> message time: 2026-05-30 19:38:59
+>
+> add visualization of the output of sample_parameter_landscape, and run that code and show the output
+>
+> \-\-\-
+>
+> (chat-response-5)=
 
 +++
-# Response: 5
+## Response: 5
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -638,20 +606,24 @@ Below is a live, interactive visualization of the parameter landscape calculated
 {"component":"LlmGeneratedComponent","props":{"height":"800px","prompt":"Create an interactive 2D parameter landscape heatmap visualizing the output of a Lignin-Vitrimer mass balance model. The X-axis represents Biomass Input (from 5 to 20 tons). The Y-axis represents Extraction Efficiency (from 0.50 to 0.95). Color intensity maps to the output yield in tons. Include controls at the top: a toggle switch to change the heatmap metric between 'Isolated Lignin Yield' and 'Total Vitrimer Yield', and sliders for the fixed parameters: Moisture Content (10% to 50%), Base Lignin Fraction (15% to 35%), and Stoichiometric Ratio (0.8 to 1.5). Dynamically recalculate the grid yields when sliders change. The formula for Isolated Lignin Yield is: Biomass * (1 - Moisture) * Lignin Fraction * Efficiency. The formula for Total Vitrimer Yield is: Isolated Lignin Yield * (1 + (Stoich Ratio * 92 / 180)). Display a legend indicating the yield scale, and implement a tooltip that appears when hovering over the grid cells to show the precise X (Biomass), Y (Efficiency), and Z (Yield) values for that specific coordinate.","id":"im_a90818f9841cf41b"}}
 ```
 
----
+<hr />
+
+(chat-prompt-6)=
 
 +++ {"chat_input": true}
-# Prompt: 6
+## Prompt: 6
 
 +++ {"chat_input": true}
-message time: 2026-05-30 19:43:08
-
-how to add physical units to things with IOF, VF, Schema.org, QUDT? What numpy units libraries and data formats will or could round trip these linked data units?
-
----
+> message time: 2026-05-30 19:43:08
+>
+> how to add physical units to things with IOF, VF, Schema.org, QUDT? What numpy units libraries and data formats will or could round trip these linked data units?
+>
+> \-\-\-
+>
+> (chat-response-6)=
 
 +++
-# Response: 6
+## Response: 6
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -677,8 +649,9 @@ Bridging semantic, machine-readable physical units with high-performance numeric
 
 Here is a breakdown of how to define units across the major semantic frameworks, and the libraries and formats that can round-trip them through a numerical computing stack.
 
----
+<hr />
 
+(part-1-adding-units-in-the-semantic-web)=
 ### Part 1: Adding Units in the Semantic Web
 
 Different ontologies take distinct approaches to attaching units of measure to entities. When building an interoperable supply chain or manufacturing schema, you will often cross-reference these systems.
@@ -692,8 +665,9 @@ Different ontologies take distinct approaches to attaching units of measure to e
 * **Schema.org:** The most lightweight and commercially ubiquitous. It uses `schema:PropertyValue` combined with `unitCode`, which expects standard UN/CEFACT 3-character codes.
     * *Example:* `"unitCode": "KGM"` (for kilograms) or `"unitCode": "CEL"` (for Celsius).
 
----
+<hr />
 
+(part-2-numpy-libraries-for-semantic-integration)=
 ### Part 2: NumPy Libraries for Semantic Integration
 
 To perform calculations without losing semantic context, you need a Python library that wraps standard `numpy.ndarray` objects and intercepts operations to enforce dimensional analysis. 
@@ -703,8 +677,9 @@ To perform calculations without losing semantic context, you need a Python libra
 * **Astropy.units:** Extremely robust and built directly on top of NumPy. While developed for astronomy, it handles general physics and chemistry perfectly. It is highly strict but slightly less flexible than Pint when trying to map arbitrary semantic URIs from industrial ontologies.
 * **Xarray:** While not a unit library itself, Xarray wraps NumPy arrays with labeled dimensions and metadata dictionaries (`.attrs`). It pairs natively with Pint (`pint-xarray`), allowing you to store semantic URIs in the attributes while Pint handles the array math.
 
----
+<hr />
 
+(part-3-data-formats-for-round-tripping)=
 ### Part 3: Data Formats for Round-Tripping
 
 To achieve true round-tripping—where data originates as YAML-LD, is parsed into Python/NumPy for simulation, and exported back to the graph without stripping the units—the serialization formats must natively support arbitrary metadata.
@@ -720,26 +695,30 @@ If you are logging thousands of data points per second (e.g., from an ultrasonic
 **3. NetCDF / Zarr (Multidimensional Sensor Arrays)**
 For complex n-dimensional data (like thermal imaging arrays of a laser-induced graphene patterning process), Zarr is exceptional. It stores array chunks alongside a lightweight JSON metadata file (`.zattrs`), where you can effortlessly store your IOF mappings and ValueFlows standard units, keeping the mathematical operations and semantic intent permanently coupled.
 
----
+<hr />
 
 Which specific equipment telemetry or material parameter array are you looking to map to these semantic units first?
 
----
+<hr />
+
+(chat-prompt-7)=
 
 +++ {"chat_input": true}
-# Prompt: 7
+## Prompt: 7
 
 +++ {"chat_input": true}
-message time: 2026-05-30 19:54:31
-
-what maps between OM, QUDT, UN/CEFACT, IOF?
-
-is there a rosetta stone of units for these and other such schema?
-
----
+> message time: 2026-05-30 19:54:31
+>
+> what maps between OM, QUDT, UN/CEFACT, IOF?
+>
+> is there a rosetta stone of units for these and other such schema?
+>
+> \-\-\-
+>
+> (chat-response-7)=
 
 +++
-# Response: 7
+## Response: 7
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -765,6 +744,7 @@ Navigating the "Babylonian confusion" of physical units across different domains
 
 Instead, there is a web of cross-references, with a few key ontologies acting as the central hubs. Here is how the mapping works across your specific framework layers.
 
+(the-hub-and-spoke-mapping)=
 ### The Hub-and-Spoke Mapping
 
 **1. QUDT (The Heavy Lifter)**
@@ -780,6 +760,7 @@ OM is the primary alternative to QUDT and is heavily used in ecosystem modeling 
 **4. IOF (The Consumer)**
 The Industrial Ontologies Foundry avoids the business of inventing units. IOF utilizes the `iof:MeasurementInformationEntity` to describe the act of measuring on the factory floor, but it delegates the actual unit definition outward. You map the IOF entity directly to a QUDT or OM URI. 
 
+(the-de-facto-rosetta-stones)=
 ### The De Facto Rosetta Stones
 
 Because a single perfect schema doesn't exist, the industry relies on a few different mechanisms to translate these vocabularies.

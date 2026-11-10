@@ -7,33 +7,28 @@ kernelspec:
 
 # _Zwitterionic Hydrogels_ PFAS Removal 
 
-## Contents
-
-* [_Zwitterionic Hydrogels_ PFAS Removal](#_zwitterionic-hydrogels_-pfas-removal)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [What They Absorb](#what-they-absorb)
-    * [How Dense Are They?](#how-dense-are-they)
-    * [The Closed-Loop Synthesis: CO2-to-Ethanol](#the-closed-loop-synthesis-co2-to-ethanol)
-
 > From: https://gemini.google.com/app/8384b38d6a3f14dd
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-> "Ask HN: Methods for removing parts per trillions of PFAS from water?" (2024) https://news.ycombinator.com/item?id=40036764 ; RO: Reverse Osmosis, Zwitterionic hydrogels (that are reusable if washed with ethanol)
+## Prompt: 1
 
-There's CO2-to-Ethanol
-
-What can 
-zwitterionic hydrogels absorb?
-How dense?
-
----
++++ {"chat_input": true}
+> > "Ask HN: Methods for removing parts per trillions of PFAS from water?" (2024) https://news.ycombinator.com/item?id=40036764 ; RO: Reverse Osmosis, Zwitterionic hydrogels (that are reusable if washed with ethanol)
+>
+> There's CO2-to-Ethanol
+>
+> What can 
+> zwitterionic hydrogels absorb?
+> How dense?
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -67,6 +62,7 @@ Zwitterionic hydrogels are essentially "everything sponges." Because their polym
 
 Here is exactly what they can pull out of water and how densely they operate.
 
+(what-they-absorb)=
 ### What They Absorb
 
 **1. Both Organic and Inorganic Micropollutants**
@@ -80,6 +76,7 @@ The dual charges create an intense hydration layer. They can absorb 10 to 100 ti
 
 > **The Speed Advantage:** Because pollutants absorb into the entire 3D bulk volume of the hydrogel rather than just the surface (like carbon), recent MIT research shows zwitterionic networks can clear micropollutants up to **10 to 100 times faster** than commercial GAC, reaching equilibrium in minutes.
 
+(how-dense-are-they)=
 ### How Dense Are They?
 
 "Density" in hydrogels operates on three different axes:
@@ -88,6 +85,7 @@ The dual charges create an intense hydration layer. They can absorb 10 to 100 ti
 * **Cross-Linking Density (Porosity):** Intentionally very low. By minimizing the cross-links holding the polymer chains together, the hydrogel maintains a large "mesh size." This low cross-linking density is what allows rapid water diffusion and lightning-fast pollutant uptake. 
 * **Physical Density:** The dry zwitterionic polymer has a typical organic density of roughly 1.1 to 1.3 g/cm³. However, in operation, they swell so massively that their bulk density effectively drops to that of the water they hold (~1.0 g/cm³).
 
+(the-closed-loop-synthesis-co2-to-ethanol)=
 ### The Closed-Loop Synthesis: CO2-to-Ethanol
 
 Linking this to CO2-to-ethanol electrochemical reduction creates a perfectly integrated, sustainable waste-to-resource loop. 

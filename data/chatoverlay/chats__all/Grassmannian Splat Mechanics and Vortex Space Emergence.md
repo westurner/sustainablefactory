@@ -1,0 +1,1 @@
+../../chats/Grassmannian Splat Mechanics and Vortex Space Emergence.md

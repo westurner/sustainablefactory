@@ -7,88 +7,30 @@ kernelspec:
 
 # _Piñatex-Pineapple-Leaf-Fiber-Leather 
 
-## Contents
-
-* [_Piñatex-Pineapple-Leaf-Fiber-Leather](#_piñatex-pineapple-leaf-fiber-leather)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [**Manufacturing and Composition**](#manufacturing-and-composition)
-    * [**Material Properties**](#material-properties)
-    * [**Sustainability and Impact**](#sustainability-and-impact)
-    * [**References**](#references)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-  * [1. Replacing PLA with a Lignin-Vitrimer Matrix](#1-replacing-pla-with-a-lignin-vitrimer-matrix)
-  * [2. Structural Reinforcement without Plastics](#2-structural-reinforcement-without-plastics)
-  * [3. Surface Modification via Low-Temperature Plasma](#3-surface-modification-via-low-temperature-plasma)
-* [Prompt: 3](#prompt-3)
-* [Response: 3](#response-3)
-  * [1. Fiber Extraction: Enzymatic Retting + Ultrasonics](#1-fiber-extraction-enzymatic-retting-ultrasonics)
-  * [2. The Composite Matrix: Lignin + Chitin](#2-the-composite-matrix-lignin-chitin)
-  * [3. Surface Finishing: Hydrophobins](#3-surface-finishing-hydrophobins)
-* [Prompt: 4](#prompt-4)
-* [Response: 4](#response-4)
-  * [1. The Retting-to-Algae Loop](#1-the-retting-to-algae-loop)
-  * [2. Vegan Chitin via Fungal Brewing](#2-vegan-chitin-via-fungal-brewing)
-  * [3. The Chitosan-Alginate Hemostatic Fleece](#3-the-chitosan-alginate-hemostatic-fleece)
-* [Prompt: 5](#prompt-5)
-* [Response: 5](#response-5)
-* [==========================================](#)
-* [RESOURCE SPECIFICATIONS (vf:ResourceSpecification / iof-core:MaterialArtifact)](#resource-specifications-vfresourcespecification-iof-corematerialartifact)
-* [==========================================](#)
-* [Final Products](#final-products)
-* [==========================================](#)
-* [MANUFACTURING PROCESSES (vf:Process / iof-mfg:ManufacturingProcess)](#manufacturing-processes-vfprocess-iof-mfgmanufacturingprocess)
-* [==========================================](#)
-* [Implicit byproduct passed to next step](#implicit-byproduct-passed-to-next-step)
-* [==========================================](#)
-* [VALUEFLOWS RECIPE FLOWS (Defining the exact stoichiometric/mass links)](#valueflows-recipe-flows-defining-the-exact-stoichiometricmass-links)
-* [==========================================](#)
-* [Example Flow: Sugar Broth to Algae](#example-flow-sugar-broth-to-algae)
-* [Example Flow: Leather Matrix Synthesis](#example-flow-leather-matrix-synthesis)
-    * [Semantic Implications](#semantic-implications)
-* [Prompt: 6](#prompt-6)
-* [Response: 6](#response-6)
-* [Core Manufacturing Ontologies](#core-manufacturing-ontologies)
-* [Standard Units and Quantities (QUDT)](#standard-units-and-quantities-qudt)
-* [Custom Namespace](#custom-namespace)
-* [==========================================](#)
-* [PROCESS DEFINITION](#process-definition)
-* [==========================================](#)
-* [Linking the process to its specific operating parameters](#linking-the-process-to-its-specific-operating-parameters)
-* [==========================================](#)
-* [QUDT PARAMETER DEFINITIONS](#qudt-parameter-definitions)
-* [==========================================](#)
-* [1. Applied Voltage: 22.5 Kilovolts](#1-applied-voltage-225-kilovolts)
-* [2. Flow Rate: 1.2 Milliliters per Hour](#2-flow-rate-12-milliliters-per-hour)
-* [3. Tip-to-Collector Distance: 15 Centimeters](#3-tip-to-collector-distance-15-centimeters)
-    * [Why these exact numbers matter](#why-these-exact-numbers-matter)
-* [Prompt: 7](#prompt-7)
-* [Response: 7](#response-7)
-* [Next-Generation Piñatex: A Roadmap to 100% Circularity](#next-generation-piñatex-a-roadmap-to-100-circularity)
-  * [1. Upgrading the Material Stack](#1-upgrading-the-material-stack)
-  * [2. The Zero-Waste Biorefinery Ecosystem](#2-the-zero-waste-biorefinery-ecosystem)
-  * [3. Semantic Digital Infrastructure](#3-semantic-digital-infrastructure)
-
 > From: https://gemini.google.com/app/16be43b921aa22d2
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2026-06-03 15:39:07
+## Prompt: 1
 
-Research Piñatex
-https://en.wikipedia.org/wiki/Pi%C3%B1atex
-
----
++++ {"chat_input": true}
+> message time: 2026-06-03 15:39:07
+>
+> Research Piñatex
+> https://en.wikipedia.org/wiki/Pi%C3%B1atex
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++
 Piñatex is a proprietary, bio-based leather alternative manufactured from pineapple leaf fibers (PALF), a byproduct of the pineapple harvesting process. Developed by the company Ananas Anam, the material is positioned as a sustainable, circular economy solution to traditional animal leather and petroleum-based synthetic alternatives.
 
+(manufacturing-and-composition)=
 ### **Manufacturing and Composition**
 The production process valorizes agricultural waste that would otherwise be discarded or burned, which helps reduce methane emissions associated with landfilling.
 *   **Fiber Extraction:** Long fibers are extracted from pineapple leaves through mechanical processing. These fibers are washed and sun-dried before being converted into a non-woven textile base.
@@ -96,17 +38,20 @@ The production process valorizes agricultural waste that would otherwise be disc
 *   **Finishing:** To achieve leather-like durability, water resistance, and aesthetic qualities, the base is treated with non-toxic resin coatings and pigment dyes.
 *   **Biodegradability:** While the fiber base is plant-derived, the finished product is typically 85–90% biodegradable, with the remaining 10–15% attributed to the coating materials.
 
+(material-properties)=
 ### **Material Properties**
 Pineapple leaf fibers are recognized in material science for their high cellulose content and impressive mechanical profile, often compared to other bast fibers like flax and jute.
 *   **Strength:** PALF exhibits high tensile strength and a high Young's modulus, making it a robust candidate for textile and composite reinforcements.
 *   **Limitations:** Despite the strength of the raw fibers, the resulting Piñatex composite may face limitations in specific performance metrics compared to bovine leather, such as breathability, moisture absorption, and hand-feel for high-stress applications (e.g., sports equipment). 
 *   **Chemical Properties:** Raw PALF is inherently hydrophilic; therefore, treatment is essential to improve moisture resistance and compatibility with resin matrices for varied industrial uses.
 
+(sustainability-and-impact)=
 ### **Sustainability and Impact**
 *   **Resource Efficiency:** Piñatex is noted for its lower water footprint and reduced chemical usage compared to traditional chromium-tanned bovine leather. By utilizing a waste byproduct, the supply chain avoids the land-use intensity and environmental burdens associated with dedicated feedstock crops.
 *   **Social Impact:** The production model supports rural farming communities by providing an additional income stream from agricultural residues.
 *   **Circular Economy:** As a material, it contributes to circularity by diverting agricultural waste from landfills and replacing resource-intensive materials. However, the current challenge for widespread adoption lies in scaling supply chain management, reducing production costs, and standardizing processing methods.
 
+(references)=
 ### **References**
 *   Ananas Anam. (2021). *Production data on upcycled agricultural waste* [Cited in: Burnstine, A. (n.d.). From food to fashion: Bio-based textiles advancing sustainability and socioeconomic growth in emerging markets. *SPIRAL - Lynn University*].
 *   Burnstine, A. (n.d.). From food to fashion: Bio-based textiles advancing sustainability and socioeconomic growth in emerging markets. *SPIRAL - Lynn University*.
@@ -120,23 +65,27 @@ Pineapple leaf fibers are recognized in material science for their high cellulos
     * Cited by: 16
 *   Oleksińska-Merida, E. (n.d.). Bio-Based and Sustainable Alternatives to Conventional and Synthetic Leather. *PMC - NIH*.
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-message time: 2026-06-03 15:41:27
-
-From wikipedia:
-> Sustainability: Piñatex is not biodegradable.[1] It is composed of a mixture of pineapple leaves, PLA (Polylactic acid), and petroleum-based resins.[1] PLA, also known as bioplastic, is sourced from renewable resources and is commonly labeled 'biodegradable'. However, the United Nations Environmental Programme issued a report in 2015 concluding, "The adoption of plastic products labelled as 'biodegradable' will not bring about a significant decrease either in the quantity of plastic entering the ocean or the risk of physical and chemical impacts on the marine environment, on the balance of current scientific evidence."[10]
-
-How to make pineapple bio-leather more sustainable?
-
----
+> message time: 2026-06-03 15:41:27
+>
+> From wikipedia:
+> > Sustainability: Piñatex is not biodegradable.[1] It is composed of a mixture of pineapple leaves, PLA (Polylactic acid), and petroleum-based resins.[1] PLA, also known as bioplastic, is sourced from renewable resources and is commonly labeled 'biodegradable'. However, the United Nations Environmental Programme issued a report in 2015 concluding, "The adoption of plastic products labelled as 'biodegradable' will not bring about a significant decrease either in the quantity of plastic entering the ocean or the risk of physical and chemical impacts on the marine environment, on the balance of current scientific evidence."[10]
+>
+> How to make pineapple bio-leather more sustainable?
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -168,6 +117,7 @@ Because PLA requires the high heat and humidity of industrial composting facilit
 
 Here is a material science approach to solving this.
 
+(chat-heading-9)=
 ## 1. Replacing PLA with a Lignin-Vitrimer Matrix
 
 Instead of binding the pineapple leaf fibers (PALF) with PLA, the non-woven base can be embedded in a **lignin-vitrimer matrix**. 
@@ -191,6 +141,7 @@ By utilizing a lignin-based vitrimer, you achieve two things:
 }
 </GenerateWidget>
 
+(chat-heading-10)=
 ## 2. Structural Reinforcement without Plastics
 
 Current bio-leathers rely on high volumes of their synthetic binder to achieve the necessary tear strength and Young's modulus required for footwear and upholstery. 
@@ -199,6 +150,7 @@ Instead of adding more binder, the lignin matrix can be doped with **cellulose n
 
 <Image alt="Scanning Electron Microscope image of pineapple leaf fibers showing parallel striated structures" caption="SEM of raw pineapple leaf fibers" src="image_agent_tag_11971782530622688019"/>
 
+(chat-heading-11)=
 ## 3. Surface Modification via Low-Temperature Plasma
 
 The final hurdle is the coating. Piñatex and similar products use petroleum-based resins to achieve water resistance and a leather-like "hand feel." 
@@ -213,20 +165,24 @@ This process alters the surface energy of the material at the nanoscale, renderi
   <Elicitation label="Break down the low-temp plasma surface grafting" query="Walk me through the exact mechanism of using low-temperature plasma to graft hydrophobic bio-waxes onto cellulose-rich composites."/>
 </ElicitationsGroup>
 
----
+<hr />
+
+(chat-prompt-3)=
 
 +++ {"chat_input": true}
-# Prompt: 3
+## Prompt: 3
 
 +++ {"chat_input": true}
-message time: 2026-06-03 15:43:52
-
-would ultrasonic processing, enzymatic rhetting, lignin, chitin, and hydrophobins (from our other chats about lignolux sustainable concepts) be helpful for making a more sustainable bio-leather with waste pineapple leaves?
-
----
+> message time: 2026-06-03 15:43:52
+>
+> would ultrasonic processing, enzymatic rhetting, lignin, chitin, and hydrophobins (from our other chats about lignolux sustainable concepts) be helpful for making a more sustainable bio-leather with waste pineapple leaves?
+>
+> \-\-\-
+>
+> (chat-response-3)=
 
 +++
-# Response: 3
+## Response: 3
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -264,6 +220,7 @@ Yes, that specific combination of technologies completely solves the "vegan leat
 
 Here is how that exact material stack transforms the manufacturing pipeline:
 
+(chat-heading-14)=
 ## 1. Fiber Extraction: Enzymatic Retting + Ultrasonics
 Currently, PALF is extracted via harsh mechanical decortication (which damages fibers) or chemical retting (which creates toxic runoff). 
 
@@ -284,6 +241,7 @@ This synergy accelerates the retting process and gently fibrillates the cellulos
 }
 </GenerateWidget>
 
+(chat-heading-15)=
 ## 2. The Composite Matrix: Lignin + Chitin
 First-generation bio-leathers bind their fibers with PLA (which requires industrial composting) to form the sheet. 
 
@@ -293,6 +251,7 @@ To solve for the high tear-strength required for leather (such as in footwear or
 
 <Image alt="Illustration showing the hierarchical structure of a crab shell breaking down into a chitin nanofiber bundle and individual chitin nanofibers" caption="Hierarchical structure of chitin nanofibers" src="image_agent_tag_5400890698731418140"/>
 
+(chat-heading-16)=
 ## 3. Surface Finishing: Hydrophobins
 The final hurdle for bio-leathers is the coating—typically petroleum-based polyurethane (PU) or acrylic resins used to impart water resistance. 
 
@@ -300,7 +259,7 @@ The final hurdle for bio-leathers is the coating—typically petroleum-based pol
 
 This achieves the extreme water and stain resistance of synthetic fluorocarbons or PU coatings, but the surface remains 100% biodegradable and sheds zero microplastics.
 
----
+<hr />
 
 > **The Takeaway:** By utilizing ultrasonics and enzymes for extraction, lignin and chitin for structural integrity, and hydrophobins for waterproofing, the resulting PALF composite stops being a "plastic alternative" and becomes a true, closed-loop biomaterial.
 
@@ -310,33 +269,37 @@ This achieves the extreme water and stain resistance of synthetic fluorocarbons 
   <Elicitation label="Scale hydrophobin surface application" query="What are the industrial methods for scaling the production and application of hydrophobin coatings on non-woven textiles?"/>
 </ElicitationsGroup>
 
----
+<hr />
+
+(chat-prompt-4)=
 
 +++ {"chat_input": true}
-# Prompt: 4
+## Prompt: 4
 
 +++ {"chat_input": true}
-message time: 2026-06-03 16:10:19
-
-Can the waste from enzymatic rhetting of pineapple fiber be fed to algae? (Per our other discussions about enzymatic rhetting of hemp)
-
-Charred algae Is a sustainable alternative to carbon black,
-
-Algae produce Omega-3 PUFA; a vegan omega supplement
-
---
-
-Fungal chitin can be produced by brewing 
-
----
-
-Find our chats about:
-Chitosan aliginate fleece / hemostatic gauze
-
----
+> message time: 2026-06-03 16:10:19
+>
+> Can the waste from enzymatic rhetting of pineapple fiber be fed to algae? (Per our other discussions about enzymatic rhetting of hemp)
+>
+> Charred algae Is a sustainable alternative to carbon black,
+>
+> Algae produce Omega-3 PUFA; a vegan omega supplement
+>
+> --
+>
+> Fungal chitin can be produced by brewing 
+>
+> \-\-\-
+>
+> Find our chats about:
+> Chitosan aliginate fleece / hemostatic gauze
+>
+> \-\-\-
+>
+> (chat-response-4)=
 
 +++
-# Response: 4
+## Response: 4
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -376,6 +339,7 @@ I hit a system glitch trying to pull up our exact past chat logs on the chitosan
 
 Here is how all these biological processes interlock into a single, zero-waste manufacturing ecosystem:
 
+(chat-heading-19)=
 ## 1. The Retting-to-Algae Loop
 Enzymatic retting of pineapple leaf fibers (PALF) doesn't just isolate the cellulose; it hydrolyzes the plant's pectins and hemicelluloses into a liquid broth rich in simple sugars (like xylose and galacturonic acid) and organic acids. 
 
@@ -383,6 +347,7 @@ Instead of treating this "black liquor" as wastewater, it is the perfect feedsto
 *   **Vegan Omega-3 PUFAs:** Extracted from the lipid-rich algae as a high-value nutraceutical.
 *   **Charred Algae (Bio-Carbon Black):** The residual algal biomass left over after lipid extraction can be pyrolyzed. This creates a highly sustainable, bio-based pigment to dye your pineapple bio-leather deep black, entirely eliminating the need for petroleum-derived soot.
 
+(chat-heading-20)=
 ## 2. Vegan Chitin via Fungal Brewing
 Traditional chitin extraction relies on crustacean shells processed with harsh hydrochloric acid and sodium hydroxide. By pivoting to fungal fermentation (using strains like *Aspergillus niger*, which naturally produces chitin in its cell walls), you create a clean, vegan supply chain. 
 
@@ -390,6 +355,7 @@ This brewed chitin serves two distinct manufacturing pipelines:
 1.  **Industrial:** Spun into nanofibers to reinforce the tear strength of your lignin-vitrimer bio-leather.
 2.  **Medical:** Deacetylated into chitosan for advanced biomedical textiles.
 
+(chat-heading-21)=
 ## 3. The Chitosan-Alginate Hemostatic Fleece
 This is where the fungal brewing and algae cultivation converge into medical technology. 
 
@@ -399,26 +365,30 @@ By combining your brewed **fungal chitosan** (a polycationic polymer) with **alg
 *   **The Chitosan:** Because it is positively charged, it instantly binds to negatively charged red blood cells upon contact with a wound, triggering rapid platelet aggregation and artificial clotting.
 *   **The Alginate:** It acts as a massive fluid sink, absorbing blood plasma and exuding calcium ions to form a soothing, biocompatible hydrogel over the wound site.
 
----
+<hr />
 
 > **The Ecosystem Takeaway:** By linking these processes, a single agricultural waste stream (pineapple leaves) yields structural bio-leather, vegan omega supplements, carbon-neutral pigments, and life-saving hemostatic gauze—with the waste of one process serving as the literal feedstock for the next.
 
 <FollowUp label="Map out the factory layout for this?" query="If we were to design a physical pilot facility that integrates PALF extraction, algal bioreactors, and fungal brewing, what would the process flow and footprint look like?"/>
 
----
+<hr />
+
+(chat-prompt-5)=
 
 +++ {"chat_input": true}
-# Prompt: 5
+## Prompt: 5
 
 +++ {"chat_input": true}
-message time: 2026-06-03 16:12:18
-
-Yes. Develop this pineapple bioleather (and fleece gauze, and ...) production process as YAML-LD IOF and VF
-
----
+> message time: 2026-06-03 16:12:18
+>
+> Yes. Develop this pineapple bioleather (and fleece gauze, and ...) production process as YAML-LD IOF and VF
+>
+> \-\-\-
+>
+> (chat-response-5)=
 
 +++
-# Response: 5
+## Response: 5
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -608,26 +578,31 @@ By intersecting **ValueFlows (VF)** for tracking resource transformations and th
     vf:recipeProcess: ex:Process_BioLeatherAssembly
 ```
 
+(semantic-implications)=
 ### Semantic Implications
 *   **W3C PROV-O Integration:** By utilizing `prov:wasInformedBy` between processes, you maintain exact provenance of waste streams (e.g., proving the biological origin of the carbon black pigment traces directly back to the ultrasonic cavitation of the pineapple leaves). 
 *   **IOF Mapping:** Using `iof-core:hasInput` explicitly anchors the economic model of ValueFlows into a rigid physical ontology, allowing you to attach standard operating procedures (SOPs), energy requirements, or TLA+ mechanical safety boundaries to the `iof-mfg:ManufacturingProcess` nodes later.
 
 <FollowUp label="Want to map the precise YAML-LD unit definitions for the electrospinning phase?" query="Let's write out the YAML-LD JSON-LD context for the electrospinning step, mapping the exact voltage, flow rate, and needle distance parameters using standard ontological units."/>
 
----
+<hr />
+
+(chat-prompt-6)=
 
 +++ {"chat_input": true}
-# Prompt: 6
+## Prompt: 6
 
 +++ {"chat_input": true}
-message time: 2026-06-03 16:13:35
-
-Let's write out the YAML-LD JSON-LD context for the electrospinning step, mapping the exact voltage, flow rate, and needle distance parameters using standard ontological units.
-
----
+> message time: 2026-06-03 16:13:35
+>
+> Let's write out the YAML-LD JSON-LD context for the electrospinning step, mapping the exact voltage, flow rate, and needle distance parameters using standard ontological units.
+>
+> \-\-\-
+>
+> (chat-response-6)=
 
 +++
-# Response: 6
+## Response: 6
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -713,6 +688,7 @@ Here is the YAML-LD context for the electrospinning phase of the hemostatic flee
     iof-core:describes: "The gap required for solvent evaporation before the fiber hits the grounded drum."
 ```
 
+(why-these-exact-numbers-matter)=
 ### Why these exact numbers matter
 In electrospinning, these three variables are inextricably linked. If they fall out of balance, the polyelectrolyte complex won't form a nanofiber mesh; it will either drip, form defective "beaded" fibers, or remain wet and melt into a flat film upon hitting the collector. 
 
@@ -722,20 +698,24 @@ You can interact with the dynamic relationship of these parameters in the simula
 {"component":"LlmGeneratedComponent","props":{"height":"700px","prompt":"Objective: Simulate an electrospinning process to show how voltage, flow rate, and distance affect fiber morphology.\nData State: initialValues: { Voltage: 22.5, FlowRate: 1.2, Distance: 15 }.\nStrategy: Standard Layout.\nLibraries: Canvas API (for visual jet/Taylor cone simulation) and D3.js (for live metrics).\nInputs:\n- Applied Voltage (Slider: 10 to 35 kV, step: 0.5)\n- Solution Flow Rate (Slider: 0.5 to 3.0 mL/h, step: 0.1)\n- Tip-to-Collector Distance (Slider: 5 to 25 cm, step: 1)\nBehavior: Render a visual of a horizontal syringe tip emitting a polymer jet towards a vertical collector plate. Animate the jet whipping motion. Implement physics rules: If Voltage is too low relative to Flow Rate, show a dripping cone or 'beads' forming on the fibers on the collector. If Voltage is optimal (around 22kV for 1.2mL/h), show a stable Taylor cone and a smooth continuous fiber jet. If Distance is too short (< 10cm), show a 'wet/splatter' effect on the collector (solvent hasn't evaporated). Display a live dashboard showing 'Fiber Morphology State' (e.g., Beaded, Smooth, Splattered) and a calculated 'Estimated Fiber Diameter (nm)' that decreases with higher voltage and longer distance, but increases with higher flow rate.","id":"im_087f9b1f5835d455"}}
 ```
 
----
+<hr />
+
+(chat-prompt-7)=
 
 +++ {"chat_input": true}
-# Prompt: 7
+## Prompt: 7
 
 +++ {"chat_input": true}
-message time: 2026-06-03 16:14:45
-
-Summarize this chat for Piñatex
-
----
+> message time: 2026-06-03 16:14:45
+>
+> Summarize this chat for Piñatex
+>
+> \-\-\-
+>
+> (chat-response-7)=
 
 +++
-# Response: 7
+## Response: 7
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -751,12 +731,14 @@ I've formulated a detailed closed-loop system, incorporating algae, fungal brewi
 
 Here is a strategic executive summary of our proposed next-generation material stack and biorefinery model, tailored for Piñatex.
 
-***
+<hr />
 
+(chat-heading-30)=
 # Next-Generation Piñatex: A Roadmap to 100% Circularity
 
 **The Objective:** Transition Piñatex from a first-generation bio-composite (reliant on PLA and petroleum-based surface resins) into a fully circular, zero-waste biomaterial, while establishing high-value secondary revenue streams from agricultural runoff.
 
+(chat-heading-31)=
 ## 1. Upgrading the Material Stack
 Current Piñatex production faces the "vegan leather paradox"—natural fibers trapped in persistent plastics. We propose replacing the existing synthetic binders and coatings with a fully biological suite:
 
@@ -764,12 +746,14 @@ Current Piñatex production faces the "vegan leather paradox"—natural fibers t
 *   **Lignin-Vitrimer & Chitin Matrix:** Replacing the PLA binder (which requires industrial composting) with a lignin-based covalent adaptable network (CAN). By doping this matrix with brewed fungal chitin nanofibers, the material achieves extreme tear strength and flexibility, while remaining fully depolymerizable for true end-of-life recycling.
 *   **Hydrophobin Surface Finishing:** Replacing petroleum-based polyurethane (PU) coatings with self-assembling hydrophobin proteins or low-temperature plasma-grafted bio-waxes. This provides industrial-grade water and stain resistance (the "lotus effect") with zero microplastic shedding.
 
+(chat-heading-32)=
 ## 2. The Zero-Waste Biorefinery Ecosystem
 Rather than treating extraction effluent as wastewater, the new manufacturing pipeline transforms it into a closed-loop feedstock for parallel biological processes:
 
 *   **Algae Cultivation & Bio-Pigments:** The sugar-rich "black liquor" from the enzymatic retting process is fed to heterotrophic algae. This yields two products: extractable Vegan Omega-3 (PUFA) supplements, and a residual algal biomass that is pyrolyzed into "Bio-Carbon Black"—a sustainable pigment to dye the Piñatex material.
 *   **Fungal Brewing & Medical Textiles:** The chitin used to reinforce the leather matrix is sourced via clean, solid-state fungal fermentation. The excess chitin is deacetylated into chitosan and combined with brown algae alginate to produce a highly lucrative, electrospun hemostatic fleece (advanced medical gauze). 
 
+(chat-heading-33)=
 ## 3. Semantic Digital Infrastructure
 To scale this complex, multi-stage biorefinery, the entire production process—from the PALF biomass to the final bio-leather and hemostatic fleece—is mapped using machine-readable semantic web standards:
 

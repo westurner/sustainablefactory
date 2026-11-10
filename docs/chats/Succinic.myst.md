@@ -9,16 +9,17 @@ kernelspec:
 
 ## Contents
 
-* [Succinic](#succinic)
 * [Google Search Title:](#google-search-title)
 * [Google Search AI Overview:](#google-search-ai-overview)
 
+(google-search-title)=
 Google Search Title:
 ====================
 
 Succinic
 
 
+(google-search-ai-overview)=
 Google Search AI Overview:
 ==========================
 

@@ -7,46 +7,32 @@ kernelspec:
 
 # Production Process Modeling with RDF-star 
 
-## Contents
-
-* [Production Process Modeling with RDF-star](#production-process-modeling-with-rdf-star)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [**1\. The Schema: Industrial Ontologies Foundry (IOF)**](#1-the-schema-industrial-ontologies-foundry-iof)
-    * [**2\. The Technology: RDF-star & SPARQL-star**](#2-the-technology-rdf-star-sparql-star)
-      * [**Conceptual Model**](#conceptual-model)
-      * [**Syntax Example (Turtle-star)**](#syntax-example-turtle-star)
-* [1. The Production Step (Process)](#1-the-production-step-process)
-* [2. Input with Metadata (RDF-star)](#2-input-with-metadata-rdf-star)
-* [We state that Steel Sheet is input to the process, AND add metadata to that link](#we-state-that-steel-sheet-is-input-to-the-process-and-add-metadata-to-that-link)
-* [3. Output](#3-output)
-      * [**Querying (SPARQL-star)**](#querying-sparql-star)
-* [Match the triple AND its metadata](#match-the-triple-and-its-metadata)
-    * [**3\. Open Source Tooling Stack**](#3-open-source-tooling-stack)
-    * [**Summary of Recommendation**](#summary-of-recommendation)
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-# Prompt: 1
+## Prompt: 1
 
 +++ {"chat_input": true}
-Goal:
-
-
-Objective1: Research schema and tools for modeling production process inputs, processes, outputs
-
-
-Linked Data,
-
-
-property graphs w/ RDFstar and SPARQLstar
-
-
-open source
-
----
+> Goal:
+>
+>
+> Objective1: Research schema and tools for modeling production process inputs, processes, outputs
+>
+>
+> Linked Data,
+>
+>
+> property graphs w/ RDFstar and SPARQLstar
+>
+>
+> open source
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++
 **Investigating IPO Modeling**
@@ -75,6 +61,7 @@ I'm now formulating the response, refining the schema. The core will be event-ce
 
 This research summarizes the optimal open-source path for modeling production processes (Inputs, Processes, Outputs) using Linked Data standards that bridge the gap between semantic richness (RDF) and developer usability (Property Graphs).
 
+(chat-heading-3)=
 ### **1\. The Schema: Industrial Ontologies Foundry (IOF)**
 
 For modeling production, you should not invent a schema from scratch. The **Industrial Ontologies Foundry (IOF)** provides a standard, BFO-compliant vocabulary specifically designed for manufacturing.
@@ -91,12 +78,14 @@ For modeling production, you should not invent a schema from scratch. The **Indu
 
 **Why this fits your goal:** Standard RDF often forces you to create intermediate nodes just to say "Input X entered Process Y _at 10:00 AM_." This creates "node explosion." **RDF-star** solves this by allowing you to attach the timestamp directly to the relationship, just like a Property Graph.
 
-* * *
+<hr />
 
+(chat-heading-4)=
 ### **2\. The Technology: RDF-star & SPARQL-star**
 
 RDF-star (RDF\*) allows you to treat a "triple" (a relationship) as a node itself. This enables **Property Graph behavior** within Linked Data.
 
+(conceptual-model)=
 #### **Conceptual Model**
 
 Instead of just linking `(SteelSheet) -> [fed_into] -> (StampingProcess)`, you can assert properties _about_ that link:
@@ -105,6 +94,7 @@ Instead of just linking `(SteelSheet) -> [fed_into] -> (StampingProcess)`, you c
 
 *   _Property:_ **Timestamp** = 2023-10-27T09:00:00
 
+(syntax-example-turtle-star)=
 #### **Syntax Example (Turtle-star)**
 
 ```mermaid
@@ -115,20 +105,25 @@ Instead of just linking `(SteelSheet) -> [fed_into] -> (StampingProcess)`, you c
 
 ```
 
+(chat-heading-7)=
     # 1. The Production Step (Process)
     ex:Step_Stamping_001 a iof:PlannedProcess ;
         rdfs:label "Stamping Chassis" .
 
+(chat-heading-8)=
     # 2. Input with Metadata (RDF-star)
+(we-state-that-steel-sheet-is-input-to-the-process-and-add-metadata-to-that-link)=
     # We state that Steel Sheet is input to the process, AND add metadata to that link
     << ex:Sheet_Batch_99 iof:participates_in_at_some_time ex:Step_Stamping_001 >>
         ex:entryTime "2023-10-27T08:30:00"^^xsd:dateTime ;
         ex:temperature "450"^^xsd:celsius .
 
+(chat-heading-10)=
     # 3. Output
     ex:Chassis_Frame_001 a iof:Product ;
         iof:is_output_of ex:Step_Stamping_001 .
 
+(querying-sparql-star)=
 #### **Querying (SPARQL-star)**
 
 To find inputs processed at high temperatures:
@@ -145,8 +140,9 @@ To find inputs processed at high temperatures:
       FILTER (?temp > 400)
     }
 
-* * *
+<hr />
 
+(chat-heading-12)=
 ### **3\. Open Source Tooling Stack**
 
 To implement this _specifically_ with open-source tools that support the "star" extensions:
@@ -159,6 +155,7 @@ To implement this _specifically_ with open-source tools that support the "star" 
 | Visualization | GraphDB (Free Edition) | While the enterprise version is paid, the free version handles RDF-star visualization very well out-of-the-box. |
 | Ontology Editor | Protégé | Note:Protégé doesnotnatively support RDF-star visualization well yet. You will likely need to write the.ttls(Turtle-star) files manually or use code (Jena/RDF4J) to populate the data. |
 
+(summary-of-recommendation)=
 ### **Summary of Recommendation**
 
 1.  **Schema:** adopt **IOF Core** to align with industry standards for "Process" and "Product."
@@ -169,4 +166,4 @@ To implement this _specifically_ with open-source tools that support the "star" 
 
 **Would you like me to generate a Python script using `rdflib` that converts a sample CSV of production logs into this RDF-star format?**
 
----
+<hr />

@@ -7,33 +7,24 @@ kernelspec:
 
 # _Biomaterials for Advanced Energy Storage 
 
-## Contents
-
-* [_Biomaterials for Advanced Energy Storage](#_biomaterials-for-advanced-energy-storage)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-  * [1. Chitosan & Alginate: The Self-Healing Matrix](#1-chitosan-alginate-the-self-healing-matrix)
-  * [2. Hemp Fluff & Bast: The "Green Graphene"](#2-hemp-fluff-bast-the-green-graphene)
-    * [The Bio-Advantage at a Glance](#the-bio-advantage-at-a-glance)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-  * [1. The Architecture Comparison](#1-the-architecture-comparison)
-  * [2. Building Batteries on Hemostatic Fleece Gauze](#2-building-batteries-on-hemostatic-fleece-gauze)
-
 > From: https://gemini.google.com/app/123e26222ed88535
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-Chitosan-Alginate and Hemp fluff for other types of batteries energy storage devices?
+## Prompt: 1
 
-Find our other chats on same
-
----
++++ {"chat_input": true}
+> Chitosan-Alginate and Hemp fluff for other types of batteries energy storage devices?
+>
+> Find our other chats on same
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -61,8 +52,9 @@ Outside of standard Lithium-ion setups, these materials are solving some of the 
 
 Here is how these biomaterials are being deployed in other advanced devices.
 
----
+<hr />
 
+(chat-heading-3)=
 ## 1. Chitosan & Alginate: The Self-Healing Matrix
 
 In next-generation batteries, the challenge isn't just storing ions—it's preventing the battery from physically tearing itself apart or catching fire. Chitosan (derived from crustacean shells) and Alginate (from brown algae) are being engineered into highly functional hydrogels and binders.
@@ -71,6 +63,7 @@ In next-generation batteries, the challenge isn't just storing ions—it's preve
 * **Aqueous Sodium-Ion Batteries (Eco-Binders):** Sodium-ion is the holy grail for cheap, grid-scale storage, but manufacturing usually requires toxic organic solvents like NMP. Crosslinked chitosan is now being used as a water-soluble binder to create **freestanding electrodes**. It eliminates the need for both toxic solvents and heavy metallic current collectors, dropping manufacturing costs significantly.
 * **Next-Gen Silicon Anodes (Self-Healing Scaffolds):** While technically still Li-ion, Silicon anodes are a massive leap forward. Their flaw? Silicon expands by ~300% when charging, pulverizing standard binders. By combining Alginate and Carboxymethyl-chitosan, scientists create an electrostatic, **self-healing porous scaffold**. When the silicon expands and fractures the matrix, the opposing ionic charges (carboxylate and protonated amines) automatically magnetically re-bond, maintaining the electrode's structural integrity over hundreds of cycles.
 
+(chat-heading-4)=
 ## 2. Hemp Fluff & Bast: The "Green Graphene"
 
 Hemp fluff, hurd, and bast (the inner bark) are rich in lignin and cellulose. When processed, they don't just act as structural support—they become high-performance, electrochemically active carbon components.
@@ -80,8 +73,9 @@ Hemp fluff, hurd, and bast (the inner bark) are rich in lignin and cellulose. Wh
     * *The Output:* These hemp supercapacitors can store up to **12 Wh/kg** (more than double conventional commercial supercapacitors) and can operate perfectly at extreme temperatures (from 0°C to 100°C). They are ideal for systems needing massive, instantaneous power dumps, like EV regenerative braking or wind turbine blade pitch control.
 * **Sodium-Ion and Potassium-Ion Batteries (Hard Carbon Anodes):** Unlike lithium, sodium and potassium ions are physically larger and struggle to intercalate (slide into) standard graphite anodes. Hemp biomass is pyrolyzed into "hard carbon," a disordered carbon structure with wider microscopic gaps. The natural micro- and mesoporosity of the hemp plant acts like a custom-built parking garage, easily accommodating the larger sodium and potassium ions for highly efficient charge cycles.
 
----
+<hr />
 
+(the-bio-advantage-at-a-glance)=
 ### The Bio-Advantage at a Glance
 
 | Material | Primary Role | Target Device | Key Advantage |
@@ -91,21 +85,25 @@ Hemp fluff, hurd, and bast (the inner bark) are rich in lignin and cellulose. Wh
 
 <FollowUp label="Want me to break down how hydrothermal carbonization works?" query="Explain the hydrothermal carbonization process—how exactly is hemp fluff turned into graphene-like carbon nanosheets for supercapacitors?" />
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-Compare those other batteries and anodes to Lignolux energy storage devices and variants per our other chats on same.
-
-Can batteries be made on 
-Chitosan-Alginate hemostatic fleece gauze?
-
----
+> Compare those other batteries and anodes to Lignolux energy storage devices and variants per our other chats on same.
+>
+> Can batteries be made on 
+> Chitosan-Alginate hemostatic fleece gauze?
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -135,6 +133,7 @@ Both pathways share the same core philosophy—circular, waste-to-value electron
 
 Here is how the Hemp/Chitosan architectures stack up against the Lignolux ecosystem, and how they can actually merge in biomedical applications.
 
+(chat-heading-8)=
 ## 1. The Architecture Comparison
 
 If Lignolux is the "bone" of next-generation energy storage, Hemp and Chitosan-Alginate are the "tissue." 
@@ -146,8 +145,9 @@ If Lignolux is the "bone" of next-generation energy storage, Hemp and Chitosan-A
 | **Primary Devices** | Structural supercapacitors, Lignocrete integration, Lignolux PV-1 solar tiles. | Flexible Zinc-Air batteries, thin-film micro-supercapacitors, self-healing Li-ion anodes. |
 | **The Main Advantage** | Turns "dead weight" (like building walls, tiles, or chassis) into an active energy grid using vitrimers (V-1). | Solves the "liquid problem" in batteries via hydrogels; hemp carbon mimics graphene at a fraction of the cost. |
 
----
+<hr />
 
+(chat-heading-9)=
 ## 2. Building Batteries on Hemostatic Fleece Gauze
 
 Yes, you absolutely can build batteries—specifically **micro-supercapacitors** and **transient (dissolvable) bio-batteries**—directly onto a chitosan-alginate hemostatic fleece. 

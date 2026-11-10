@@ -7,47 +7,22 @@ kernelspec:
 
 # _Hydrogen Plasma for Bauxite Deoxidation 
 
-## Contents
-
-* [_Hydrogen Plasma for Bauxite Deoxidation](#_hydrogen-plasma-for-bauxite-deoxidation)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [1. The Stoichiometric Baseline](#1-the-stoichiometric-baseline)
-    * [2. Hydrogen Plasma (Thermal/Smelting)](#2-hydrogen-plasma-thermalsmelting)
-    * [3. Hydrogen Cold Plasma (Non-Equilibrium)](#3-hydrogen-cold-plasma-non-equilibrium)
-    * [Summary Comparison Table](#summary-comparison-table)
-    * [Engineering Verdict](#engineering-verdict)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-    * [1. Baseline Plasma-Chemical Yields: $Al_2O_3$ vs. $Fe_2O_3$](#1-baseline-plasma-chemical-yields-al_2o_3-vs-fe_2o_3)
-    * [2. The Impact of 20 kHz Ultrasonic Ball Milling](#2-the-impact-of-20-khz-ultrasonic-ball-milling)
-    * [3. Atmosphere Dynamics During Milling](#3-atmosphere-dynamics-during-milling)
-    * [Summary Verdict](#summary-verdict)
-* [Prompt: 3](#prompt-3)
-* [Response: 3](#response-3)
-    * [Key Mechanisms of the Max Planck Study](#key-mechanisms-of-the-max-planck-study)
-* [Prompt: 4](#prompt-4)
-* [Response: 4](#response-4)
-    * [The Researchers: Non-Equilibrium Plasma Metallurgy](#the-researchers-non-equilibrium-plasma-metallurgy)
-    * [The Alkalinity Problem](#the-alkalinity-problem)
-* [Prompt: 5](#prompt-5)
-* [Response: 5](#response-5)
-    * [Phase 1: Ultrasonic Milling (Neutralization & Chelation)](#phase-1-ultrasonic-milling-neutralization-chelation)
-    * [Phase 2: Hydrogen Cold Plasma (Hybrid Reduction)](#phase-2-hydrogen-cold-plasma-hybrid-reduction)
-    * [The Final Outcome Profile](#the-final-outcome-profile)
-
 > From: https://gemini.google.com/app/b1171cbd6385dab6
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-How much hydrogen cold plasma is necessary to deoxidize bauxite (residue) compared to hydrogen plasma?
+## Prompt: 1
 
----
++++ {"chat_input": true}
+> How much hydrogen cold plasma is necessary to deoxidize bauxite (residue) compared to hydrogen plasma?
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -73,14 +48,16 @@ To deoxidize bauxite residue (red mud), the quantity of hydrogen required depend
 
 While the theoretical amount of hydrogen required to reduce a specific mass of iron oxide remains a constant, the practical "amount" of plasma gas required varies significantly due to **Hydrogen Utilization Efficiency (HUE)** and mass transport limitations.
 
+(chat-heading-3)=
 ### 1. The Stoichiometric Baseline
 For both processes, the primary reaction for the iron oxide component (typically 30–60% of bauxite residue) is:
 $$Fe_2O_3 + 3H_2 \rightarrow 2Fe + 3H_2O$$
 * **Theoretical Mass:** To produce **1 metric ton** of metallic iron from hematite, you require approximately **54 kg** of hydrogen gas.
 * **Carbon Comparison:** This is significantly less mass than traditional carbothermic reduction, which requires ~320 kg of carbon (coke) for the same output.
 
----
+<hr />
 
+(chat-heading-4)=
 ### 2. Hydrogen Plasma (Thermal/Smelting)
 Hydrogen Plasma Smelting Reduction (HPSR) typically operates in an Electric Arc Furnace (EAF) at temperatures above **1600°C**.
 
@@ -88,8 +65,9 @@ Hydrogen Plasma Smelting Reduction (HPSR) typically operates in an Electric Arc 
 * **Utilization Efficiency (HUE):** Thermal plasma achieves an HUE of **40% to 60%**. Because the bauxite residue is in a liquid (molten) state, the atomic hydrogen ($H^\bullet$) and ions ($H^+$) can penetrate the bulk material rapidly.
 * **Required Amount:** Due to high HUE, you typically need **1.5x to 2.5x** the stoichiometric amount of $H_2$ to ensure complete reduction within a short residence time (approx. 10–15 minutes).
 
----
+<hr />
 
+(chat-heading-5)=
 ### 3. Hydrogen Cold Plasma (Non-Equilibrium)
 Cold plasma (e.g., Microwave, RF, or DBD plasma) operates at much lower macroscopic temperatures (room temp to **800°C**). The "amount" of hydrogen needed here is dictated by surface kinetics.
 
@@ -97,8 +75,9 @@ Cold plasma (e.g., Microwave, RF, or DBD plasma) operates at much lower macrosco
 * **Penetration Depth & Mass Transport:** This is the "bottleneck." Research indicates that cold plasma species typically only penetrate approximately **150 Å to 500 Å** into the solid surface. 
 * **Required Amount:** For bulk bauxite residue, the **total volume of hydrogen gas** required is significantly **higher** (often **10x to 50x** stoichiometric) because the gas must be continuously flowed over the powder to overcome the slow diffusion of oxygen from the interior of the particles.
 
----
+<hr />
 
+(summary-comparison-table)=
 ### Summary Comparison Table
 
 | Metric | Hydrogen Plasma (Thermal) | Hydrogen Cold Plasma (Non-Equilibrium) |
@@ -109,6 +88,7 @@ Cold plasma (e.g., Microwave, RF, or DBD plasma) operates at much lower macrosco
 | **Practical $H_2$ Vol.** | $\sim 2\times$ Stoichiometric | $\sim 10-50\times$ Stoichiometric |
 | **Reaction Time** | Minutes (Fast) | Hours (Slow/Surface-limited) |
 
+(engineering-verdict)=
 ### Engineering Verdict
 If your goal is **bulk deoxidation** for iron recovery (as in green steel production), **thermal hydrogen plasma** is more efficient in terms of the total mass of hydrogen consumed. 
 
@@ -116,18 +96,22 @@ If your goal is **bulk deoxidation** for iron recovery (as in green steel produc
 
 Would you like to look into the specific plasma-chemical yields for the alumina ($Al_2O_3$) fraction versus the iron ($Fe_2O_3$) fraction?
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-Yes, and also yields if ultrasonically ball-milled with a sweep around 20 kHz (in argon, or nitrogen, or ammonia)
-
----
+> Yes, and also yields if ultrasonically ball-milled with a sweep around 20 kHz (in argon, or nitrogen, or ammonia)
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -157,6 +141,7 @@ The thermodynamic and kinetic realities of treating bauxite residue (red mud) wi
 
 Here is the breakdown of the plasma-chemical yields and the mechanochemical atmospheric effects.
 
+(chat-heading-10)=
 ### 1. Baseline Plasma-Chemical Yields: $Al_2O_3$ vs. $Fe_2O_3$
 
 In a pure hydrogen cold plasma environment without pre-treatment, the reduction yields of the two primary oxides are entirely dissimilar due to their bond dissociation energies.
@@ -166,8 +151,9 @@ In a pure hydrogen cold plasma environment without pre-treatment, the reduction 
 
 **The Separation Advantage:** This disparity is actually highly desirable for materials recovery. By selectively reducing the iron to a metallic or magnetic state ($Fe_3O_4$ or $Fe$), you can utilize magnetic separation to pull the iron out of the residue, leaving a concentrated, high-purity $Al_2O_3$ slag for subsequent Hall-Héroult electrolysis or other industrial uses.
 
----
+<hr />
 
+(chat-heading-11)=
 ### 2. The Impact of 20 kHz Ultrasonic Ball Milling
 
 Applying a 20 kHz ultrasonic sweep during ball milling introduces severe acoustic fluidization and mechanochemical activation. This directly attacks the kinetic bottleneck of cold plasma reduction by:
@@ -177,8 +163,9 @@ Applying a 20 kHz ultrasonic sweep during ball milling introduces severe acousti
 
 By overcoming the penetration-depth limit, activated powders can see iron reduction yields in subsequent hydrogen cold plasma jump from **<10% to upwards of 60–80%**, depending on plasma exposure time. 
 
----
+<hr />
 
+(chat-heading-12)=
 ### 3. Atmosphere Dynamics During Milling
 
 The gas injected during the 20 kHz milling phase dictates the surface chemistry of the newly fractured particles, which entirely changes the reaction pathways once introduced to the hydrogen cold plasma.
@@ -189,21 +176,26 @@ The gas injected during the 20 kHz milling phase dictates the surface chemistry 
 | **Nitrogen ($N_2$)** | **Surface Nitridation.** High-energy impacts cleave the $N\equiv N$ bond. Nitrogen reacts with fresh surfaces to form iron nitrides ($Fe_2N$, $Fe_3N$) and potentially trace aluminum oxynitrides (AlON). | **Composite Yield.** The hydrogen plasma will reduce remaining oxides, but the stable nitrides will persist. The yield shifts from pure Fe to an $Fe/Fe_xN$ composite. Good for creating hardened, wear-resistant powders, but poor for pure metal extraction. |
 | **Ammonia ($NH_3$)** | **Co-Reduction & Nitridation.** Ammonia dissociates upon impact into active species ($NH_2^\bullet$, $H^\bullet$). This causes localized solid-state reduction *during* the milling process. | **Ultra-Fast Kinetics.** The powder enters the plasma pre-reduced and highly active. The cold plasma reduction of Fe is exceptionally fast, but the final yield will be heavily doped with nitrogen (nitrides and hydrides). |
 
+(summary-verdict)=
 ### Summary Verdict
 If the goal is to extract pure iron and isolate the alumina, **ultrasonic milling in Argon followed by Hydrogen Cold Plasma** is the optimal sequence. It maximizes the kinetic surface area for the $H^\bullet$ species to attack the iron oxide while preventing the formation of parasitic nitride compounds, leaving the alumina untouched and ready for separation.
 
----
+<hr />
+
+(chat-prompt-3)=
 
 +++ {"chat_input": true}
-# Prompt: 3
+## Prompt: 3
 
 +++ {"chat_input": true}
-Find the Max Planck article on Cold plasma reduction of bauxite residue
-
----
+> Find the Max Planck article on Cold plasma reduction of bauxite residue
+>
+> \-\-\-
+>
+> (chat-response-3)=
 
 +++
-# Response: 3
+## Response: 3
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -235,6 +227,7 @@ The article you are looking for is the landmark 2024 *Nature* paper from the Max
 **Journal:** *Nature* (Vol. 625), Published January 24, 2024
 **Authors:** Matic Jovičević-Klug, Isnaldi R. Souza Filho, Hauke Springer, Christian Adam, and Dierk Raabe.
 
+(key-mechanisms-of-the-max-planck-study)=
 ### Key Mechanisms of the Max Planck Study
 
 1. **Thermal, Not Cold:** Unlike non-equilibrium cold plasma, which relies on surface kinetics and defect generation (such as through ultrasonic milling) to penetrate solid particles, the MPIE method uses a modified Electric Arc Furnace (EAF). The 10% hydrogen plasma arc generates intense macroscopic heat, inducing a "rapid liquid-state reduction."
@@ -244,24 +237,28 @@ The article you are looking for is the landmark 2024 *Nature* paper from the Max
 
 If your engineering focus requires strictly solid-state, non-equilibrium (cold) plasma approaches—perhaps to preserve specific nanoscale morphologies or to avoid the massive electrical overhead of an EAF—you will generally find that research coming from specialized plasma-catalysis groups rather than this specific metallurgical team at MPIE.
 
----
+<hr />
+
+(chat-prompt-4)=
 
 +++ {"chat_input": true}
-# Prompt: 4
+## Prompt: 4
 
 +++ {"chat_input": true}
-> specialized plasma-catalysis groups
-
-Which?
-
---
-
-Does cold plasma reduce the alkalinity of bauxite residue too?
-
----
+> > specialized plasma-catalysis groups
+>
+> Which?
+>
+> --
+>
+> Does cold plasma reduce the alkalinity of bauxite residue too?
+>
+> \-\-\-
+>
+> (chat-response-4)=
 
 +++
-# Response: 4
+## Response: 4
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -295,6 +292,7 @@ I've decided on a direct textual response, omitting image triggers, focusing on 
 
 I've identified key groups: CSU & USTB in China, and PLASMANT at the University of Antwerp, for bauxite residue research.
 
+(the-researchers-non-equilibrium-plasma-metallurgy)=
 ### The Researchers: Non-Equilibrium Plasma Metallurgy
 
 While the Max Planck Institute (MPIE) dominates the recent headlines for *thermal* plasma smelting, the research into *non-equilibrium (cold) plasma* for solid-state oxide reduction is spearheaded by a different set of materials science and plasma catalysis groups:
@@ -303,8 +301,9 @@ While the Max Planck Institute (MPIE) dominates the recent headlines for *therma
 * **Central South University (CSU) & USTB (China):** Because China manages massive stockpiles of bauxite residue, these institutions are global heavyweights in "red mud valorization." Their research groups frequently investigate microwave plasma, low-temperature plasma (LTP), and dielectric barrier discharge (DBD) methods—not just for iron extraction, but heavily focused on stripping out trace Rare Earth Elements (REEs) like Scandium.
 * **PLASMANT Group (University of Antwerp, Belgium):** Led by Prof. Annemie Bogaerts, this is arguably the premier plasma-catalysis group globally. While their most famous work revolves around CO2 and nitrogen fixation, they are pioneering the theoretical modeling of how cold plasma interacts with solid catalysts and defects. If you want the deep computational models on *how* atomic hydrogen penetrates a lattice defect, PLASMANT's methodologies are the gold standard.
 
----
+<hr />
 
+(the-alkalinity-problem)=
 ### The Alkalinity Problem
 
 **The short answer is no.** Cold plasma does not permanently or meaningfully reduce the extreme alkalinity of bauxite residue. 
@@ -324,20 +323,24 @@ Cold plasma operates at macroscopic gas temperatures far below the melting point
 
 Therefore, if you run bauxite residue through a pure non-equilibrium hydrogen plasma and then dump the resulting powder into water, it will immediately leach sodium and spike the pH right back up to toxic, alkaline levels. To neutralize it using cold plasma, you would have to pair the plasma treatment with a secondary chemical step, such as co-milling it with an acidic additive or a calcium/gypsum neutralizing agent.
 
----
+<hr />
+
+(chat-prompt-5)=
 
 +++ {"chat_input": true}
-# Prompt: 5
+## Prompt: 5
 
 +++ {"chat_input": true}
-> such as co-milling it with an acidic additive
-
-Citric acid
-
----
+> > such as co-milling it with an acidic additive
+>
+> Citric acid
+>
+> \-\-\-
+>
+> (chat-response-5)=
 
 +++
-# Response: 5
+## Response: 5
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -357,6 +360,7 @@ Because citric acid is both a solid organic acid and a powerful chelating agent,
 
 Here is exactly what happens during this two-step process:
 
+(phase-1-ultrasonic-milling-neutralization-chelation)=
 ### Phase 1: Ultrasonic Milling (Neutralization & Chelation)
 
 When you mechanochemically mill the highly alkaline red mud with solid citric acid, you trigger two immediate solid-state reactions:
@@ -364,6 +368,7 @@ When you mechanochemically mill the highly alkaline red mud with solid citric ac
 * **Complete Alkalinity Neutralization:** The residual sodium hydroxide ($NaOH$) and the trapped sodium in the desilication products react aggressively with the citric acid. This neutralizes the pH (dropping it from 12+ down to a manageable 6–8) and converts the toxic alkaline species into benign, water-soluble sodium citrate. 
 * **Surface Chelation:** Citric acid molecules bind to the surface iron and aluminum atoms, forming metal-citrate complexes (e.g., ferric citrate). This weakens the $Fe-O$ and $Al-O$ bonds right at the surface, creating an activated "shell" around the fractured particles.
 
+(phase-2-hydrogen-cold-plasma-hybrid-reduction)=
 ### Phase 2: Hydrogen Cold Plasma (Hybrid Reduction)
 
 When this citrate-doped powder is introduced to the non-equilibrium hydrogen plasma, the dynamics change completely compared to raw bauxite. 
@@ -378,6 +383,7 @@ You are no longer relying solely on the hydrogen plasma to penetrate the particl
 
 Because the carbon/CO is generated *from within* the chelated surface layer, it bypasses the mass-transport limitations of external gases. The combined assault of excited $H^\bullet$ radicals from the plasma and $CO$ from the pyrolyzed citric acid drastically accelerates the reduction of iron oxide to metallic iron or magnetite.
 
+(the-final-outcome-profile)=
 ### The Final Outcome Profile
 
 If you execute this sequence (Ultrasonic Milling + Citric Acid $\rightarrow$ Hydrogen Cold Plasma), your outputs are distinct and easily processed:

@@ -7,48 +7,27 @@ kernelspec:
 
 # _Simulating-Quantum-Analogues-with-Hydrodynamics
 
-## Contents
-
-* [_Simulating-Quantum-Analogues-with-Hydrodynamics](#_simulating-quantum-analogues-with-hydrodynamics)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-  * [The Mathematical Foundation](#the-mathematical-foundation)
-  * [R3F Architecture Strategy](#r3f-architecture-strategy)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-  * [1. The FBO Simulation Fragment Shader](#1-the-fbo-simulation-fragment-shader)
-  * [2. The Display Vertex Shader](#2-the-display-vertex-shader)
-  * [3. The Display Fragment Shader](#3-the-display-fragment-shader)
-* [Prompt: 3](#prompt-3)
-* [Response: 3](#response-3)
-  * [1. Shader Optimization (Gradient Packing)](#1-shader-optimization-gradient-packing)
-  * [2. The Ping-Pong Manager & Physics Loop](#2-the-ping-pong-manager-physics-loop)
-  * [Architecture Notes](#architecture-notes)
-* [Prompt: 4](#prompt-4)
-* [Response: 4](#response-4)
-* [Prompt: 5](#prompt-5)
-* [Response: 5](#response-5)
-  * [1. The GPU Barrier Mask (Wave Interference)](#1-the-gpu-barrier-mask-wave-interference)
-  * [2. Droplet Collision & Lifecycle (CPU)](#2-droplet-collision-lifecycle-cpu)
-  * [3. The Statistical Accumulator](#3-the-statistical-accumulator)
-
 > From: https://gemini.google.com/app/5df103e189af3e6e
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2026-08-02 22:58:56
+## Prompt: 1
 
-Review our other R3F simulators and then
-Develop a simulator for: Classical Hydrodynamic Analogues to Madelung’s : 
-
-1. walking droplets on vibrating oil baths to visually mimic quantum phenomena like tunneling and orbital quantization. The macroscopic fluid dynamics governing these walking droplets share an equivalent mathematical structure to Madelung’s formulations
-
----
++++ {"chat_input": true}
+> message time: 2026-08-02 22:58:56
+>
+> Review our other R3F simulators and then
+> Develop a simulator for: Classical Hydrodynamic Analogues to Madelung’s : 
+>
+> 1. walking droplets on vibrating oil baths to visually mimic quantum phenomena like tunneling and orbital quantization. The macroscopic fluid dynamics governing these walking droplets share an equivalent mathematical structure to Madelung’s formulations
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -84,6 +63,7 @@ To build the **Lignolux Hydrodynamic Analog Simulator**, we can recycle the moti
 
 Here is how we map the macroscopic fluid dynamics into a React Three Fiber environment.
 
+(the-mathematical-foundation)=
 ## The Mathematical Foundation
 
 The macroscopic fluid dynamics governing Couder and Fort’s walking droplets map directly to Madelung’s hydrodynamic formulation of the Schrödinger equation. Instead of a standard wave function $\psi$, Madelung splits the system into a fluid density $\rho$ and flow velocity $\mathbf{u}$:
@@ -97,6 +77,7 @@ $$ Q = -\frac{\hbar^2}{2m} \frac{\nabla^2 \sqrt{\rho}}{\sqrt{\rho}} $$
 
 In our simulation, the vibrating silicone oil bath acts as the wave medium. The droplet’s path memory mimics this non-local quantum potential $Q$. Because the droplet continuously interacts with the decaying ripples of its own past trajectory, it can "tunnel" across Faraday instability boundaries and lock into quantized orbits.
 
+(r3f-architecture-strategy)=
 ## R3F Architecture Strategy
 
 To build the Lignolux Hydrodynamic Simulator in `@react-three/fiber`, we need to decouple the wave rendering from the physics loop to maintain 60 FPS:
@@ -151,7 +132,7 @@ function WalkerDroplet() {
 }
 ```
 
----
+<hr />
 
 You can explore the interactive pilot-wave mechanics and adjust the memory parameter below to see how wave-particle duality emerges at a macroscopic scale.
 
@@ -170,20 +151,24 @@ You can explore the interactive pilot-wave mechanics and adjust the memory param
 
 <FollowUp label="Want to dive into the shader implementation?" query="How should we structure the GLSL fragment and vertex shaders to compute the standing wave interference patterns efficiently for the Faraday bath?"/>
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-message time: 2026-08-03 02:02:12
-
-How should we structure the GLSL fragment and vertex shaders to compute the standing wave interference patterns efficiently for the Faraday bath?
-
----
+> message time: 2026-08-03 02:02:12
+>
+> How should we structure the GLSL fragment and vertex shaders to compute the standing wave interference patterns efficiently for the Faraday bath?
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -207,6 +192,7 @@ Instead, we must use a **Ping-Pong Framebuffer Object (FBO)** architecture. We c
 
 Here is how we structure the shader pipeline to handle the hydrodynamic memory and wave gradients.
 
+(chat-heading-7)=
 ## 1. The FBO Simulation Fragment Shader
 
 This shader does the actual physics math. It renders to off-screen data textures, reading the state from the previous frame ($t-1$) to compute the current frame ($t$). 
@@ -261,6 +247,7 @@ void main() {
 }
 ```
 
+(chat-heading-8)=
 ## 2. The Display Vertex Shader
 
 Once the FBO finishes computing the heightmap texture for the frame, we pass it to the material of our `<Plane>` mesh. The vertex shader samples this texture to physically displace the vertices on the Y-axis.
@@ -301,6 +288,7 @@ void main() {
 }
 ```
 
+(chat-heading-9)=
 ## 3. The Display Fragment Shader
 
 The display fragment shader is straightforward. It receives the updated `vNormal` from the vertex shader to compute standard lighting, specular highlights, and reflections, giving the surface that distinct silicone oil appearance.
@@ -336,20 +324,24 @@ By decoupling the wave state into this FBO pipeline, the path memory parameter c
 
 <FollowUp label="Map CPU data extraction for the droplet" query="How do we extract the wave gradient from the GPU FBO back to the CPU so the droplet physics loop can calculate its horizontal kick in React Three Fiber?"/>
 
----
+<hr />
+
+(chat-prompt-3)=
 
 +++ {"chat_input": true}
-# Prompt: 3
+## Prompt: 3
 
 +++ {"chat_input": true}
-message time: 2026-08-03 02:03:15
-
-Update the simulator
-
----
+> message time: 2026-08-03 02:03:15
+>
+> Update the simulator
+>
+> \-\-\-
+>
+> (chat-response-3)=
 
 +++
-# Response: 3
+## Response: 3
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -375,6 +367,7 @@ Instead, we update the simulator with a targeted 1x1 pixel read, and we modify o
 
 Here is the updated R3F architecture tying the FBO physics, data extraction, and the droplet together.
 
+(chat-heading-12)=
 ## 1. Shader Optimization (Gradient Packing)
 
 First, we update the end of `simulation.frag` to calculate the gradient and pack it into the output. 
@@ -390,6 +383,7 @@ First, we update the end of `simulation.frag` to calculate the gradient and pack
     gl_FragColor = vec4(newHeight, newVelocity, gradX, gradY);
 ```
 
+(chat-heading-13)=
 ## 2. The Ping-Pong Manager & Physics Loop
 
 We use `@react-three/drei`'s `useFBO` to create two buffers. Every frame, we read from one and write to the other, then swap them. We then extract the 1x1 pixel under the droplet to update its position.
@@ -498,6 +492,7 @@ function SimulationCore() {
 }
 ```
 
+(architecture-notes)=
 ## Architecture Notes
 
 * **Targeted Reads:** By passing a 1x1 bounds to `readRenderTargetPixels`, we minimize the CPU stall. For ultimate performance on lower-end devices, this read can be decoupled into WebGL2 asynchronous fences, reading the gradient from $t-2$ instead of $t$, which is usually negligible for droplet pathing.
@@ -505,20 +500,24 @@ function SimulationCore() {
 
 <FollowUp label="Add confinement boundaries?" query="How do we implement a harmonic confinement bowl in the simulation shader to force the droplet into quantized circular orbits rather than drifting off the bath?"/>
 
----
+<hr />
+
+(chat-prompt-4)=
 
 +++ {"chat_input": true}
-# Prompt: 4
+## Prompt: 4
 
 +++ {"chat_input": true}
-message time: 2026-08-03 02:04:29
-
-Show the simulator
-
----
+> message time: 2026-08-03 02:04:29
+>
+> Show the simulator
+>
+> \-\-\-
+>
+> (chat-response-4)=
 
 +++
-# Response: 4
+## Response: 4
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -551,20 +550,24 @@ In this simulation, the droplet's path is strictly governed by the gradients (sl
 
 <FollowUp label="Explore double-slit interference analogues?" query="How could we adapt this R3F architecture to simulate the double-slit experiment using these same walking droplets?"/>
 
----
+<hr />
+
+(chat-prompt-5)=
 
 +++ {"chat_input": true}
-# Prompt: 5
+## Prompt: 5
 
 +++ {"chat_input": true}
-message time: 2026-08-03 02:06:23
-
-How could we adapt this R3F architecture to simulate the double-slit experiment using these same walking droplets?
-
----
+> message time: 2026-08-03 02:06:23
+>
+> How could we adapt this R3F architecture to simulate the double-slit experiment using these same walking droplets?
+>
+> \-\-\-
+>
+> (chat-response-5)=
 
 +++
-# Response: 5
+## Response: 5
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -594,6 +597,7 @@ To adapt the Lignolux Hydrodynamic Simulator for the double-slit experiment, we 
 
 Here is the architectural strategy to adapt our R3F ping-pong FBO pipeline for this.
 
+(chat-heading-19)=
 ## 1. The GPU Barrier Mask (Wave Interference)
 
 We must modify the FBO `simulation.frag` to respect solid boundaries so the pilot wave is forced to diffract through the slits and reflect off the walls. 
@@ -622,6 +626,7 @@ void main() {
 
 Because the GPU computes the wave state globally every frame, the droplet's impact waves will automatically squeeze through the two slits, creating an authentic interference pattern on the far side of the barrier.
 
+(chat-heading-20)=
 ## 2. Droplet Collision & Lifecycle (CPU)
 
 The R3F physics loop needs to prevent the droplet from walking through the physical barrier and manage its lifecycle. Since a single pass only generates one data point, the system must continuously spawn droplets, track their paths, and reset them once they hit the back wall.
@@ -658,6 +663,7 @@ if (position.y > BATH_SIZE - 2.0) {
 }
 ```
 
+(chat-heading-21)=
 ## 3. The Statistical Accumulator
 
 To prove the macroscopic quantum analog, we need to visualize the probability distribution. We can use `<Html>` from `@react-three/drei` to overlay a dynamic histogram at the far end of the bath, or use an `<InstancedMesh>` to build a 3D bar chart that grows in real-time as droplets complete their journey.
@@ -679,5 +685,5 @@ As droplets pass through the interference field, they will be guided into distin
 
 <FollowUp label="Automate the droplet emitter?" query="Should we engineer the droplet emitter as an automated particle system that fires continuously, or should we build a localized injection mechanism that requires the user to manually 'drop' them?"/>
 
----
+<hr />
 Powered by [AI Exporter](https://saveai.net)

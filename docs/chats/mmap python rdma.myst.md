@@ -9,28 +9,29 @@ kernelspec:
 
 ## Contents
 
-* [mmap python rdma](#mmap-python-rdma)
 * [Google Search Title:](#google-search-title)
 * [Google Search AI Overview:](#google-search-ai-overview)
-* [1. Create a memory-mapped buffer (e.g., for a file)](#1-create-a-memory-mapped-buffer-eg-for-a-file)
+* [1. Create a memory-mapped buffer (e.g., for a file)](#chat-heading-3)
 * [Map the file into memory](#map-the-file-into-memory)
-* [2. Register the mmap buffer with the RDMA stack](#2-register-the-mmap-buffer-with-the-rdma-stack)
+* [2. Register the mmap buffer with the RDMA stack](#chat-heading-5)
 * [(Specific API call will be in the python-rdma documentation)](#specific-api-call-will-be-in-the-python-rdma-documentation)
 * [pd = ... # Get a Protection Domain object](#pd-get-a-protection-domain-object)
-* [mr = pd.reg_mr(mm) # Register the mmap object as a Memory Region](#mr-pdreg_mrmm-register-the-mmap-object-as-a-memory-region)
-* [3. Use the MR for RDMA operations](#3-use-the-mr-for-rdma-operations)
+* [mr = pd.reg_mr(mm) # Register the mmap object as a Memory Region](#chat-heading-8)
+* [3. Use the MR for RDMA operations](#chat-heading-9)
 * [qp = ... # Get a Queue Pair object](#qp-get-a-queue-pair-object)
-* [qp.post_recv(mr, ...)](#qppost_recvmr-)
-* [qp.post_send(mr, ...)](#qppost_sendmr-)
-* [... RDMA communication logic ...](#-rdma-communication-logic-)
+* [qp.post_recv(mr, ...)](#chat-heading-11)
+* [qp.post_send(mr, ...)](#chat-heading-12)
+* [... RDMA communication logic ...](#chat-heading-13)
 * [Close the mmap object (unmaps the memory)](#close-the-mmap-object-unmaps-the-memory)
 
+(google-search-title)=
 Google Search Title:
 ====================
 
 mmap python rdma
 
 
+(google-search-ai-overview)=
 Google Search AI Overview:
 ==========================
 
@@ -66,23 +67,35 @@ python
     import mmap
     import rdma  # This requires the python-rdma library
 
+(chat-heading-3)=
     # 1. Create a memory-mapped buffer (e.g., for a file)
     with open("large_data.bin", "r+b") as f:
+(map-the-file-into-memory)=
         # Map the file into memory
         mm = mmap.mmap(f.fileno(), 0) # 0 means map the entire file
 
+(chat-heading-5)=
         # 2. Register the mmap buffer with the RDMA stack
+(specific-api-call-will-be-in-the-python-rdma-documentation)=
         # (Specific API call will be in the python-rdma documentation)
+(pd-get-a-protection-domain-object)=
         # pd = ... # Get a Protection Domain object
+(chat-heading-8)=
         # mr = pd.reg_mr(mm) # Register the mmap object as a Memory Region
 
+(chat-heading-9)=
         # 3. Use the MR for RDMA operations
+(qp-get-a-queue-pair-object)=
         # qp = ... # Get a Queue Pair object
+(chat-heading-11)=
         # qp.post_recv(mr, ...)
+(chat-heading-12)=
         # qp.post_send(mr, ...)
 
+(chat-heading-13)=
         # ... RDMA communication logic ...
 
+(close-the-mmap-object-unmaps-the-memory)=
         # Close the mmap object (unmaps the memory)
         mm.close()
 

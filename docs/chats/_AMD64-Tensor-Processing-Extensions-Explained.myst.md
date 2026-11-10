@@ -7,31 +7,24 @@ kernelspec:
 
 # _AMD64-Tensor-Processing-Extensions-Explained
 
-## Contents
-
-* [_AMD64-Tensor-Processing-Extensions-Explained](#_amd64-tensor-processing-extensions-explained)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [Core Architectural Additions](#core-architectural-additions)
-    * [Real-World AMD64 Implementations](#real-world-amd64-implementations)
-* [Prompt: 2](#prompt-2)
-* [Response: 2](#response-2)
-    * [Core Architectural Additions for RISC-V](#core-architectural-additions-for-risc-v)
-
 > From: https://gemini.google.com/app/24b44c4a1305ae75
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2026-06-18 08:01:03
+## Prompt: 1
 
-What tensor processing extensions could be added to the AMD64 instruction set in order to make training and hosting models more efficient?
-
----
++++ {"chat_input": true}
+> message time: 2026-06-18 08:01:03
+>
+> What tensor processing extensions could be added to the AMD64 instruction set in order to make training and hosting models more efficient?
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -73,6 +66,7 @@ To make AI model training and hosting (inference) significantly more efficient o
 
 Instead of relying on generic scalar or vector math, adding **Tensor Processing Extensions** involves introducing specialized hardware blocks and instructions designed exclusively to handle the massive grid-based calculations required by neural networks.
 
+(core-architectural-additions)=
 ### Core Architectural Additions
 
 To achieve GPU-like tensor performance on a standard CPU architecture, several structural extensions are required:
@@ -82,6 +76,7 @@ To achieve GPU-like tensor performance on a standard CPU architecture, several s
 * **Native Low-Precision Data Types:** AI workloads do not require standard 64-bit precision. Tensor extensions add native hardware support for AI-specific formats. For inference, this involves highly optimized `INT8` or emerging `INT4` instructions. For training and hosting Large Language Models (LLMs), this involves 16-bit floating-point formats like `BF16` (Brain Float 16) or `FP8`, which pack more parameters into the same memory footprint without losing the dynamic range necessary for neural network weights.
 * **Tile Memory Streaming:** Advanced instructions specifically designed to load and store these 2D tiles directly from system memory to the tile registers, handling complex memory strides automatically to prevent cache thrashing.
 
+(real-world-amd64-implementations)=
 ### Real-World AMD64 Implementations
 
 These concepts are actively transitioning from theory to reality within the x86 ecosystem:
@@ -91,20 +86,24 @@ These concepts are actively transitioning from theory to reality within the x86 
 
 To better understand how these different instruction set paradigms process matrix math, you can use the interactive simulator below to compare traditional Vector instructions against modern Tensor architectures.
 
----
+<hr />
+
+(chat-prompt-2)=
 
 +++ {"chat_input": true}
-# Prompt: 2
+## Prompt: 2
 
 +++ {"chat_input": true}
-message time: 2026-06-18 08:03:45
-
-What instructions could be added to RISC64 in order to make training and hosting models more efficient?
-
----
+> message time: 2026-06-18 08:03:45
+>
+> What instructions could be added to RISC64 in order to make training and hosting models more efficient?
+>
+> \-\-\-
+>
+> (chat-response-2)=
 
 +++
-# Response: 2
+## Response: 2
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -158,6 +157,7 @@ Just as x86 architectures are evolving to handle matrix math natively, the RISC-
 
 Because RISC-V is inherently modular, adding tensor processing doesn't mean forcing a single, heavy architecture onto every chip. Instead, the RISC-V ecosystem is standardizing a spectrum of **Matrix Extensions** and specialized AI instructions designed to scale from low-power edge devices up to high-performance cloud accelerators.
 
+(core-architectural-additions-for-risc-v)=
 ### Core Architectural Additions for RISC-V
 
 * **Integrated Matrix Extensions (IME):** To minimize hardware cost, the IME standard reuses the existing "V" vector registers to hold 2D matrix tiles. Instead of traditional linear vector instructions, new matrix-level instructions perform outer products or fused multiply-adds (FMAs) directly on these tiles. This provides significant performance boosts without adding entirely new architectural state overhead.
@@ -171,5 +171,5 @@ To see how these architectural approaches process the same AI workload different
 [Insights on RISC-V Architecture for Machine Learning](https://www.youtube.com/watch?v=mT5uQaaWKlM)
 This presentation from a lead architect details the specific RISC-V matrix extension proposals and how they balance hardware resources against AI algorithmic demands.
 
----
+<hr />
 Powered by [AI Exporter](https://saveai.net)

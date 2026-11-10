@@ -7,27 +7,24 @@ kernelspec:
 
 # _Plasmon Amplification and Quantum Dots_ 
 
-## Contents
-
-* [_Plasmon Amplification and Quantum Dots_](#_plasmon-amplification-and-quantum-dots_)
-* [Prompt: 1](#prompt-1)
-* [Response: 1](#response-1)
-    * [Connecting the Dots: From Free Electrons to Quantum Emitters](#connecting-the-dots-from-free-electrons-to-quantum-emitters)
-
 > From: https://gemini.google.com/app/8d51a23b3cd8abb6
 
-+++ {"chat_input": true}
-# Prompt: 1
+(chat-prompt-1)=
 
 +++ {"chat_input": true}
-message time: 2025-07-19 18:07:38
+## Prompt: 1
 
-Is it possible to use this for quantum dots? "Coherent Surface Plasmon Polariton Amplification via Free Electron Pumping" (2022)  https://doi.org/10.21203/rs.3.rs-1572967/v1
-
----
++++ {"chat_input": true}
+> message time: 2025-07-19 18:07:38
+>
+> Is it possible to use this for quantum dots? "Coherent Surface Plasmon Polariton Amplification via Free Electron Pumping" (2022)  https://doi.org/10.21203/rs.3.rs-1572967/v1
+>
+> \-\-\-
+>
+> (chat-response-1)=
 
 +++
-# Response: 1
+## Response: 1
 
 +++ {"collapsed": true, "jupyter": {"source_hidden": true}}
 Thinking
@@ -73,6 +70,7 @@ Based on my research, the answer is **yes, it appears possible** to use the prin
 
 While the original paper focuses on using free electrons to amplify surface plasmon polaritons (SPPs), subsequent research has explored the application of this concept to quantum systems.
 
+(connecting-the-dots-from-free-electrons-to-quantum-emitters)=
 ### Connecting the Dots: From Free Electrons to Quantum Emitters
 
 A key finding comes from a paper titled "Dynamical Properties of Plasmon Polaritons in Nanorings Driven by Cassini-Ordered Emitters." This research suggests that the coherent amplification of terahertz plasmon polaritons, as demonstrated in the paper you cited, could be achieved in a lattice of nanorings with embedded **quantum nanoemitters** (a category that includes quantum dots).
