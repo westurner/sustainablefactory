@@ -330,7 +330,34 @@ def test_tequila_signals_benchmark_functions_and_cli_main(tmp_path, capsys):
     assert "### Table 1:" in md_tables
     assert "### Table 5:" in md_tables
 
-    # 2. Test build_arg_parser(), -v/-q/--log-level=, and main() in-process
+    # 2. Test build_arg_parser(), -v/-q/--log-level=/--lambdify-backend=, and main() in-process
+    import sympy
+    from tequila.simulators.simulator_symbolic import (
+        BackendCircuitSymbolic,
+        evaluate_sympy_with_lambdify,
+        get_lambdified_gate_factors,
+    )
+
+    sym_theta = sympy.Symbol("theta_sym")
+    for lb in ("numpy", "math", "mpmath"):
+        val_lb = evaluate_sympy_with_lambdify(
+            sympy.cos(sym_theta) + sympy.sin(sym_theta),
+            variables={sym_theta: 0.5},
+            lambdify_backend=lb,
+        )
+        assert np.isclose(complex(val_lb), np.cos(0.5) + np.sin(0.5), atol=1e-12)
+        fn_ry = get_lambdified_gate_factors("RY", lambdify_backend=lb)
+        f1, f2 = fn_ry(0.5, 1)
+        assert np.isclose(abs(complex(f1)) ** 2 + abs(complex(f2)) ** 2, 1.0, atol=1e-12)
+
+    U_sym = tq.gates.Ry(angle="theta_sym", target=0) + tq.gates.Rz(angle="phi_sym", target=0)
+    vars_sym = {"theta_sym": sympy.pi / 3, "phi_sym": sympy.pi / 5}
+    for lb in ("numpy", "math"):
+        BackendCircuitSymbolic.set_lambdify_backend(lb)
+        wfn_sym_lb = tq.simulate(U_sym, variables=vars_sym, backend="symbolic")
+        wfn_sig_lb = tq.simulate(U_sym, variables=vars_sym, backend="signals")
+        assert wfn_sym_lb.isclose(wfn_sig_lb)
+
     parser = build_arg_parser()
     parsed = parser.parse_args(
         [
@@ -339,6 +366,7 @@ def test_tequila_signals_benchmark_functions_and_cli_main(tmp_path, capsys):
             "--quick",
             "-v",
             "--log-level=DEBUG",
+            "--lambdify-backend=math",
             "--backends",
             "signals",
             "--chemistry-configs",
@@ -351,12 +379,14 @@ def test_tequila_signals_benchmark_functions_and_cli_main(tmp_path, capsys):
     assert parsed.quick is True
     assert parsed.verbose is True
     assert parsed.log_level == "DEBUG"
+    assert parsed.lambdify_backend == "math"
 
     json_file = tmp_path / "bench.json"
     md_file = tmp_path / "bench.md"
     rc = simulator_signals.main(
         [
             "-v",
+            "--lambdify-backend=math",
             "--suite",
             "quick",
             "--backends",
@@ -377,6 +407,7 @@ def test_tequila_signals_benchmark_functions_and_cli_main(tmp_path, capsys):
     captured = capsys.readouterr()
     assert "INFO [tequila.simulators.simulator_signals]" in captured.out
     assert "DEBUG [tequila.simulators.simulator_signals]" in captured.out
+    assert "lambdify_backend=math" in captured.out
     assert "[(n=4, L=2, M=24), (n=6, L=2, M=24)]" in captured.out
     assert "[Dense 1/2] Testing n_qubits=4" in captured.out
     assert "-> [Dense 1/2] n=4" in captured.out

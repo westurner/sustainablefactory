@@ -36,9 +36,16 @@ from tequila.simulators.simulator_base import (
     BackendCircuit,
     BackendExpectationValue,
 )
+from tequila.simulators.simulator_symbolic import (
+    BackendCircuitSymbolic,
+    DEFAULT_LAMBDIFY_BACKEND,
+    evaluate_sympy_with_lambdify,
+    get_lambdified_gate_factors,
+)
 from tequila.utils.bitstrings import reverse_int_bits
 from tequila.utils.keymap import KeyMapRegisterToSubregister
 from tequila.wavefunction.density_matrix import DensityMatrix
+import sympy
 
 
 class TequilaSignalsException(TequilaException):
@@ -74,6 +81,7 @@ class BackendCircuitSignals(BackendCircuit):
     numbering = BitNumbering.MSB
     supports_sampling_initialization = True
     supports_generic_initialization = True
+    lambdify_backend: str = DEFAULT_LAMBDIFY_BACKEND
 
     def __init__(
         self,
@@ -84,12 +92,16 @@ class BackendCircuitSignals(BackendCircuit):
         device=None,
         mcweeny_passes: int = 0,
         seed: int = 1337,
+        lambdify_backend: str | None = None,
         *args,
         **kwargs,
     ):
         self.measurements = None
         self.mcweeny_passes = int(mcweeny_passes)
         self.seed = int(seed)
+        self.lambdify_backend = str(
+            lambdify_backend or self.__class__.lambdify_backend or DEFAULT_LAMBDIFY_BACKEND
+        )
         self._rust_circuit = None
         self._param_callables: list = []
         self._current_angles: list[float] = []
@@ -102,6 +114,12 @@ class BackendCircuitSignals(BackendCircuit):
             *args,
             **kwargs,
         )
+
+    @classmethod
+    def set_lambdify_backend(cls, lambdify_backend: str = DEFAULT_LAMBDIFY_BACKEND) -> str:
+        cls.lambdify_backend = str(lambdify_backend or DEFAULT_LAMBDIFY_BACKEND)
+        BackendCircuitSymbolic.set_lambdify_backend(cls.lambdify_backend)
+        return cls.lambdify_backend
 
     def initialize_circuit(self, *args, **kwargs) -> list[dict]:
         return []
@@ -147,10 +165,36 @@ class BackendCircuitSignals(BackendCircuit):
     def _resolve_angle(self, param, variables) -> float:
         if isinstance(param, (int, float, np.number)):
             return float(param)
+        if isinstance(param, sympy.Basic):
+            return float(
+                evaluate_sympy_with_lambdify(
+                    param,
+                    variables=variables,
+                    lambdify_backend=self.lambdify_backend,
+                )
+            )
         if callable(param):
-            return float(param(variables))
+            raw = param(variables)
+            if isinstance(raw, sympy.Basic):
+                return float(
+                    evaluate_sympy_with_lambdify(
+                        raw,
+                        variables=variables,
+                        lambdify_backend=self.lambdify_backend,
+                    )
+                )
+            return float(raw)
         if variables is not None and param in variables:
-            return float(variables[param])
+            val = variables[param]
+            if isinstance(val, sympy.Basic):
+                return float(
+                    evaluate_sympy_with_lambdify(
+                        val,
+                        variables=variables,
+                        lambdify_backend=self.lambdify_backend,
+                    )
+                )
+            return float(val)
         return float(param)
 
     def _register_angle(
@@ -783,9 +827,11 @@ SignalsTequilaGrassmannSimulator.run_all_benchmarks = staticmethod(run_all_bench
 __all__ = [
     "BackendBraKetSignals",
     "BackendCircuitSignals",
+    "BackendCircuitSymbolic",
     "BackendExpectationValueSignals",
     "DEFAULT_CHEMISTRY_CONFIGS",
     "DEFAULT_DENSE_CONFIGS",
+    "DEFAULT_LAMBDIFY_BACKEND",
     "DEFAULT_MEMORY_WALL_QUBITS",
     "QUICK_CHEMISTRY_CONFIGS",
     "QUICK_DENSE_CONFIGS",
@@ -802,7 +848,9 @@ __all__ = [
     "build_plucker_hcb_chemistry_circuit_and_hamiltonian",
     "configure_logging",
     "ensure_tequila_signals_backend_registered",
+    "evaluate_sympy_with_lambdify",
     "format_benchmark_markdown_tables",
+    "get_lambdified_gate_factors",
     "logger",
     "main",
     "run_all_benchmarks",

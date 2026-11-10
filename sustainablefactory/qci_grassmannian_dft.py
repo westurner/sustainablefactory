@@ -319,14 +319,14 @@ def calculate_symbolic_plucker_relation(C: sp.Matrix) -> tuple[sp.Expr, dict[str
     }
 
 
-def demonstrate_lambdify() -> tuple[Any, Any]:
-    """Compiles symbolic minor p14 and cluster mutation equations into NumPy callables."""
+def demonstrate_lambdify(lambdify_backend: str = "numpy") -> tuple[Any, Any]:
+    """Compiles symbolic minor p14 and cluster mutation equations into callables via sympy.lambdify."""
     C, symbols = setup_symbolic_gr24()
     x1, x2, xX = symbols
     p14_expr = C.extract([0, 1], [0, 3]).det()
-    p14_fast = sp.lambdify((x1, x2, xX), p14_expr, "numpy")
+    p14_fast = sp.lambdify((x1, x2, xX), p14_expr, modules=lambdify_backend)
     mut_exprs = symbolic_mutation(x1, x2, xX)
-    mutation_fast = sp.lambdify((x1, x2, xX), mut_exprs, "numpy")
+    mutation_fast = sp.lambdify((x1, x2, xX), mut_exprs, modules=lambdify_backend)
     return p14_fast, mutation_fast
 
 
@@ -463,7 +463,9 @@ class SpinPolarizedGrassmannianGXC:
     ) -> tuple[sp.Matrix, sp.Matrix]:
         return self.derive_spin_projection_operators(C_alpha, C_beta)
 
-    def compile_spin_kernels(self) -> tuple[Any, Any, list[Any]]:
+    def compile_spin_kernels(
+        self, lambdify_backend: str = "numpy"
+    ) -> tuple[Any, Any, list[Any]]:
         C_alpha, C_beta = self.get_symbolic_spin_matrices()
         P_alpha, P_beta = self.get_spin_projection_operators(C_alpha, C_beta)
         alpha_flat = [
@@ -477,8 +479,8 @@ class SpinPolarizedGrassmannianGXC:
             for j in range(self.n_basis - self.n_beta)
         ]
         all_symbols = alpha_flat + beta_flat
-        p_alpha_fast = sp.lambdify(all_symbols, P_alpha, "numpy")
-        p_beta_fast = sp.lambdify(all_symbols, P_beta, "numpy")
+        p_alpha_fast = sp.lambdify(all_symbols, P_alpha, modules=lambdify_backend)
+        p_beta_fast = sp.lambdify(all_symbols, P_beta, modules=lambdify_backend)
         return p_alpha_fast, p_beta_fast, all_symbols
 
 
