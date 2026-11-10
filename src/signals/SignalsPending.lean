@@ -1445,4 +1445,65 @@ theorem rhombohedral_graphene_madness_tequila_open_shell_cayley_f12_and_lower_gr
   contract.madness_tequila_open_shell_cayley_f12_and_lower_grassmannian_bounds
     theta eps g_ijab delta_eps gamma_vrc sigma v_s h_deps_nonneg h_gamma_pos
 
+/-- Re-exports the Paper 44 primary boundary theorem. -/
+theorem rhombohedral_graphene_tequila_rust_pyo3_grassmannian_vrc_qci_simulator_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (f0 g1 cos_a sin_a q1 q2 c1 c2 wa_re wa_im wb_re wb_im : ℝ)
+    (h_circle : cos_a ^ 2 + sin_a ^ 2 = 1) :
+    Signals.DFT.tequilaGrassmannPluckerSectorDim 2 4 = 6 ∧
+      Signals.DFT.tequilaFullHilbertDim 4 = 16 ∧
+      Signals.DFT.tequilaHilbertToPluckerCompressionRatio 2 4 = 8 / 3 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 2 6 = 15 ∧
+      Signals.DFT.tequilaFullHilbertDim 6 = 64 ∧
+      (4 : ℝ) < Signals.DFT.tequilaHilbertToPluckerCompressionRatio 2 6 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 3 6 = 20 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 2 10 = 45 ∧
+      Signals.DFT.tequilaFullHilbertDim 10 = 1024 ∧
+      (22 : ℝ) < Signals.DFT.tequilaHilbertToPluckerCompressionRatio 2 10 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 2 12 = 66 ∧
+      Signals.DFT.tequilaFullHilbertDim 12 = 4096 ∧
+      (62 : ℝ) < Signals.DFT.tequilaHilbertToPluckerCompressionRatio 2 12 ∧
+      Signals.DFT.tequilaShiftRuleTwoTermGradient (1 / 2) (f0 + g1) (f0 - g1) = g1 ∧
+      (Signals.DFT.tequilaVqeBellModelEnergy cos_a sin_a) ^ 2 + ((1 / 2) * cos_a - sin_a) ^ 2 = 5 / 4 ∧
+      (Signals.DFT.tequilaVqeBellModelEnergy cos_a sin_a) ^ 2 ≤ 5 / 4 ∧
+      Signals.QuantumCausalInference.quantumJeffreyPluckerKinematicUpdate
+          q1 q2 c1 c2 0 wa_re wa_im wb_re wb_im =
+        Signals.QuantumCausalInference.jeffreyKinematicUpdate q1 q2 c1 c2 ∧
+      Signals.DFT.mcweenyPurificationPoly (19 / 20) = 3971 / 4000 ∧
+      1 - Signals.DFT.mcweenyPurificationPoly (19 / 20) < 1 / 100 :=
+  contract.tequila_rust_pyo3_grassmannian_vrc_qci_simulator_bounds
+    f0 g1 cos_a sin_a q1 q2 c1 c2 wa_re wa_im wb_re wb_im h_circle
+
+/-- Re-exports the Paper 44 deep gap-closure boundary theorem. -/
+theorem rhombohedral_graphene_tequila_high_n_butterfly_plucker_128bit_and_memory_ceiling_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (k m w : ℕ) (ar ai br bi wr wi a b c d : ℝ) :
+    Signals.DFT.tequilaNaivePauliStringOps (k + 1) m w =
+        2 * w * Signals.DFT.tequilaHermitianButterflyPairOps (k + 1) m ∧
+      Signals.DFT.tequilaHermitianPairImaginaryResidual ar ai br bi wr wi = 0 ∧
+      Signals.DFT.tequilaBosonicPermanent2x2 a b c d -
+          Signals.DFT.tequilaFermionicDeterminant2x2 a b c d = 2 * b * c ∧
+      Signals.DFT.tequilaBosonicPermanent2x2 a 0 0 d =
+        Signals.DFT.tequilaFermionicDeterminant2x2 a 0 0 d ∧
+      Signals.DFT.tequilaBosonicPermanent2x2 0 b c 0 =
+        -Signals.DFT.tequilaFermionicDeterminant2x2 0 b c 0 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 20 = 16777216 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 24 = 268435456 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 26 = 1073741824 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 27 = 2147483648 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 28 = 4294967296 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 4 16 = 1820 ∧
+      Signals.DFT.tequilaFullHilbertDim 16 = 65536 ∧
+      (36 : ℝ) < Signals.DFT.tequilaHilbertToPluckerCompressionRatio 4 16 ∧
+      Signals.DFT.tequilaSparsePluckerHcbSupportDim 6 = 64 ∧
+      Signals.DFT.tequilaSparsePluckerHcbBytes 6 = 2048 ∧
+      Signals.DFT.tequilaSparsePluckerHcbBytes 6 * 2097152 =
+        Signals.DFT.tequilaDenseStatevectorBytes 28 ∧
+      Signals.DFT.tequilaSparsePluckerHcbSupportDim 8 = 256 ∧
+      Signals.DFT.tequilaSparsePluckerHcbBytes 8 = 8192 ∧
+      Signals.DFT.tequilaSparsePluckerHcbSupportDim 8 <
+        Signals.DFT.tequilaFullHilbertDim 126 :=
+  contract.tequila_high_n_butterfly_plucker_128bit_and_memory_ceiling_bounds
+    k m w ar ai br bi wr wi a b c d
+
 end SignalsPending

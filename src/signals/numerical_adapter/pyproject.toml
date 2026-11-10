@@ -1,0 +1,15 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "signals-numerical-adapter"
+version = "0.1.0"
+description = "Rust/PyO3 Grassmannian, Plabic VRC, Madelung/DDF, and Quantum Causal Inference Simulator Backend for Tequila"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+
+[tool.maturin]
+features = ["extension-module"]
+module-name = "signals_numerical_adapter"
+manifest-path = "Cargo.toml"

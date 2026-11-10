@@ -712,10 +712,13 @@ interpretation while keeping experimental premises explicit:
    quantum computing, plus Section 19 Semi-Dirac Fermions `semi_dirac_fermions_with_and_without_grc_and_ddf_identities`,
    Section 20 $\mathrm{SU}(4)$ / Witten Twistor String / CHY / Twisted & Celestial
    Holography Unification `su4_lower_grassmannians_witten_chy_ddf_turner_and_ads_cft_unification_identities`
-   and `semi_dirac_and_su4_witten_chy_deep_gap_closure_identities`, and Section 21
+   and `semi_dirac_and_su4_witten_chy_deep_gap_closure_identities`, Section 21
    Layer-Coded Plabic & Complex VRC Quantum Chemistry in `MADNESS` `MRA-PNO` and
    `Tequila` `madness_tequila_plabic_vrc_quantum_chemistry_identities` and
-   `madness_tequila_open_shell_cayley_f12_and_lower_grassmannian_identities`). See
+   `madness_tequila_open_shell_cayley_f12_and_lower_grassmannian_identities`, and
+   Section 22 & 22.1 Rust/PyO3 (`maturin`) Grassmannian–Plabic–VRC–QCI Tequila
+   Quantum Simulation Backend `tequila_rust_pyo3_grassmannian_vrc_qci_simulator_identities`
+   and `tequila_high_n_butterfly_plucker_128bit_and_memory_ceiling_identities`). See
    [`docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md`](../../docs/grassmannian-kohn-sham-dft-complex-plabic-vrc-paper.md),
    [`docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md`](../../docs/grassmannian-speed-accuracy-barrier-quantum-chemistry-paper.md),
    [`docs/grassmannian-tuning-materials-with-light-paper.md`](../../docs/grassmannian-tuning-materials-with-light-paper.md),
@@ -725,7 +728,8 @@ interpretation while keeping experimental premises explicit:
    [`docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md`](../../docs/grassmannian-rhombohedral-graphene-superconductivity-qc-paper.md),
    [`docs/grassmannian-semi-dirac-fermions-ddf-paper.md`](../../docs/grassmannian-semi-dirac-fermions-ddf-paper.md),
    [`docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md`](../../docs/grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md),
-   and [`docs/grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md`](../../docs/grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md).
+   [`docs/grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md`](../../docs/grassmannian-madness-tequila-quantum-chemistry-plabic-vrc-paper.md),
+   and [`docs/grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md`](../../docs/grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md).
 - `Signals.DDF` Section 30 formalizes the Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$
    Fubini–Study Gross–Pitaevskii Equation (GPE), Dual-Schubert
    $Gr_{\mathbb{C}}(2,4)\times Gr_{\mathbb{C}}(2,4)^\vee$ `iGPE`, Homogeneous Plücker

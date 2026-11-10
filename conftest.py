@@ -10,6 +10,7 @@ from pathlib import Path
 # Always ensure project and package src/ modules are importable in tests.
 ROOT = Path(__file__).resolve().parent
 SEARCH_PATHS = [
+    ROOT / "src" / "tequila" / "src",
     ROOT / "src" / "docindex-core" / "src",
     ROOT / "src" / "docindex-sphinx" / "src",
     ROOT / "src" / "docindex-cli" / "src",

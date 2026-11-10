@@ -12,7 +12,47 @@ pub mod multi_array_imaging;
 pub mod orbital_splat;
 pub mod polariton_spp;
 pub mod quantum_causal_inference;
+pub mod tequila_simulator;
 pub mod thermal_inelastic;
+
+#[cfg(feature = "python")]
+use pyo3::prelude::*;
+
+#[cfg(feature = "python")]
+#[pymodule]
+fn signals_numerical_adapter(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    m.add_function(wrap_pyfunction!(
+        tequila_simulator::py_simulate_circuit_msb,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        tequila_simulator::py_expectation_pauli_hamiltonian_msb,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        tequila_simulator::py_sample_statevector_msb,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        tequila_simulator::py_mcweeny_purify_density_matrix,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        tequila_simulator::py_analyze_grassmann_qci_state,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        tequila_simulator::py_simulate_grassmann_plucker_hcb,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        tequila_simulator::py_simulate_noisy_density_msb,
+        m
+    )?)?;
+    m.add_class::<tequila_simulator::RustFastCircuit>()?;
+    m.add_class::<tequila_simulator::RustFastHamiltonianSet>()?;
+    Ok(())
+}
 
 #[cfg(feature = "cylinder")]
 pub mod cylinder;

@@ -7884,4 +7884,86 @@ lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.madness_tequila_ope
   Signals.DFT.madness_tequila_open_shell_cayley_f12_and_lower_grassmannian_identities
     theta eps g_ijab delta_eps gamma_vrc sigma v_s h_deps_nonneg h_gamma_pos
 
+/-- **Pending Boundary for Paper 44 (`tequila_rust_pyo3_grassmannian_vrc_qci_simulator_bounds`)**:
+Certifies the Grassmannian Plücker sector compression ratios ($8/3, 64/15 > 4, 1024/45 > 22, 2048/33 > 62$),
+Tequila two-term parameter-shift gradient identity, VQE Bell-state variational Cauchy–Schwarz bound
+($E_{\mathrm{VQE}}^2 \le 5/4$), Quantum Jeffrey Plücker kinematic coherence bridge, and McWeeny noisy
+density-matrix purification ($0.95 \mapsto 7943/8000$) while keeping hardware-device shot noise and
+finite-Trotter-step compilation errors under explicit calibration gates. -/
+@[blueprint "lem:signals-pending-tequila-rust-pyo3-grassmannian-vrc-qci-simulator-bounds"
+  (title := "Pending boundary for Paper 44: Rust/PyO3 Grassmannian-Plabic-VRC-QCI Tequila quantum simulation backend")
+  (statement := /-- Under a \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis} contract,
+    all Paper 44 identities for the Rust/PyO3 Tequila quantum simulation backend hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.tequila\_rust\_pyo3\_grassmannian\_vrc\_qci\_simulator\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.tequila_rust_pyo3_grassmannian_vrc_qci_simulator_bounds
+    (_contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (f0 g1 cos_a sin_a q1 q2 c1 c2 wa_re wa_im wb_re wb_im : ℝ)
+    (h_circle : cos_a ^ 2 + sin_a ^ 2 = 1) :
+    Signals.DFT.tequilaGrassmannPluckerSectorDim 2 4 = 6 ∧
+      Signals.DFT.tequilaFullHilbertDim 4 = 16 ∧
+      Signals.DFT.tequilaHilbertToPluckerCompressionRatio 2 4 = 8 / 3 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 2 6 = 15 ∧
+      Signals.DFT.tequilaFullHilbertDim 6 = 64 ∧
+      (4 : ℝ) < Signals.DFT.tequilaHilbertToPluckerCompressionRatio 2 6 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 3 6 = 20 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 2 10 = 45 ∧
+      Signals.DFT.tequilaFullHilbertDim 10 = 1024 ∧
+      (22 : ℝ) < Signals.DFT.tequilaHilbertToPluckerCompressionRatio 2 10 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 2 12 = 66 ∧
+      Signals.DFT.tequilaFullHilbertDim 12 = 4096 ∧
+      (62 : ℝ) < Signals.DFT.tequilaHilbertToPluckerCompressionRatio 2 12 ∧
+      Signals.DFT.tequilaShiftRuleTwoTermGradient (1 / 2) (f0 + g1) (f0 - g1) = g1 ∧
+      (Signals.DFT.tequilaVqeBellModelEnergy cos_a sin_a) ^ 2 + ((1 / 2) * cos_a - sin_a) ^ 2 = 5 / 4 ∧
+      (Signals.DFT.tequilaVqeBellModelEnergy cos_a sin_a) ^ 2 ≤ 5 / 4 ∧
+      Signals.QuantumCausalInference.quantumJeffreyPluckerKinematicUpdate
+          q1 q2 c1 c2 0 wa_re wa_im wb_re wb_im =
+        Signals.QuantumCausalInference.jeffreyKinematicUpdate q1 q2 c1 c2 ∧
+      Signals.DFT.mcweenyPurificationPoly (19 / 20) = 3971 / 4000 ∧
+      1 - Signals.DFT.mcweenyPurificationPoly (19 / 20) < 1 / 100 :=
+  Signals.DFT.tequila_rust_pyo3_grassmannian_vrc_qci_simulator_identities
+    f0 g1 cos_a sin_a q1 q2 c1 c2 wa_re wa_im wb_re wb_im h_circle
+
+/-- **Deep Gap-Closure Pending Boundary for Paper 44 (`tequila_high_n_butterfly_plucker_128bit_and_memory_ceiling_bounds`)**:
+Certifies the $2w\times$ operation reduction and zero imaginary drift of bitwise Pauli compilation
+with lowest-set-bit Hermitian butterfly folding, the Fermionic determinant vs. Bosonic HCB permanent
+polarization bridge, the dense `C64` statevector memory hierarchy up to $n = 28$ ($4\text{ GiB}$),
+and the 128-bit sparse Plücker / `HCB-SPA` compression laws up to $n = 126$ qubits. -/
+@[blueprint "lem:signals-pending-tequila-high-n-butterfly-plucker-128bit-memory-ceiling-bounds"
+  (title := "Deep gap-closure pending boundary for Paper 44: High-n butterfly folding, permanent-determinant bridge, and 128-bit sparse Plücker scaling")
+  (statement := /-- Under a \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis} contract,
+    all Paper 44 high-$n$ butterfly folding, permanent-determinant, and 128-bit Plücker scaling identities hold. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.tequila\_high\_n\_butterfly\_plucker\_128bit\_and\_memory\_ceiling\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.tequila_high_n_butterfly_plucker_128bit_and_memory_ceiling_bounds
+    (_contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (k m w : ℕ) (ar ai br bi wr wi a b c d : ℝ) :
+    Signals.DFT.tequilaNaivePauliStringOps (k + 1) m w =
+        2 * w * Signals.DFT.tequilaHermitianButterflyPairOps (k + 1) m ∧
+      Signals.DFT.tequilaHermitianPairImaginaryResidual ar ai br bi wr wi = 0 ∧
+      Signals.DFT.tequilaBosonicPermanent2x2 a b c d -
+          Signals.DFT.tequilaFermionicDeterminant2x2 a b c d = 2 * b * c ∧
+      Signals.DFT.tequilaBosonicPermanent2x2 a 0 0 d =
+        Signals.DFT.tequilaFermionicDeterminant2x2 a 0 0 d ∧
+      Signals.DFT.tequilaBosonicPermanent2x2 0 b c 0 =
+        -Signals.DFT.tequilaFermionicDeterminant2x2 0 b c 0 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 20 = 16777216 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 24 = 268435456 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 26 = 1073741824 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 27 = 2147483648 ∧
+      Signals.DFT.tequilaDenseStatevectorBytes 28 = 4294967296 ∧
+      Signals.DFT.tequilaGrassmannPluckerSectorDim 4 16 = 1820 ∧
+      Signals.DFT.tequilaFullHilbertDim 16 = 65536 ∧
+      (36 : ℝ) < Signals.DFT.tequilaHilbertToPluckerCompressionRatio 4 16 ∧
+      Signals.DFT.tequilaSparsePluckerHcbSupportDim 6 = 64 ∧
+      Signals.DFT.tequilaSparsePluckerHcbBytes 6 = 2048 ∧
+      Signals.DFT.tequilaSparsePluckerHcbBytes 6 * 2097152 =
+        Signals.DFT.tequilaDenseStatevectorBytes 28 ∧
+      Signals.DFT.tequilaSparsePluckerHcbSupportDim 8 = 256 ∧
+      Signals.DFT.tequilaSparsePluckerHcbBytes 8 = 8192 ∧
+      Signals.DFT.tequilaSparsePluckerHcbSupportDim 8 <
+        Signals.DFT.tequilaFullHilbertDim 126 :=
+  Signals.DFT.tequila_high_n_butterfly_plucker_128bit_and_memory_ceiling_identities
+    k m w ar ai br bi wr wi a b c d
+
 end Signals.Pending

@@ -15,10 +15,13 @@ cylinder = ["dep:memmap2", "dep:rayon"]
 hdf5 = ["dep:hdf5-pure", "dep:sha2"]
 jhtdb = ["dep:hdf5-pure", "dep:rayon", "dep:sha2"]
 vortex = ["dep:tokio", "dep:vortex", "vortex/tokio"]
+python = ["dep:pyo3", "dep:rayon"]
+extension-module = ["python", "pyo3/extension-module"]
 
 [dependencies]
 hdf5-pure = { version = "0.46.1", optional = true }
 memmap2 = { version = "0.9.11", optional = true }
+pyo3 = { version = "0.24.1", optional = true }
 rayon = { version = "1.11.0", optional = true }
 sha2 = { version = "0.10.9", optional = true }
 tokio = { version = "1.47.1", features = ["macros", "rt-multi-thread"], optional = true }
