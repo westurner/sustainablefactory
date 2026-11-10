@@ -25,6 +25,13 @@ DEFAULT_INCLUDE_GLOBS = ("*.json", "*.md")
 DEFAULT_CONFIG_NAME = "../docs/_toc.yml"
 DEFAULT_MANIFEST_PATH = "../.tmp/workflow/chat-manifest.json"
 _INVALID_TAG_CHARS = re.compile(r"[^a-zA-Z0-9._-]+")
+_TRANSFORMER_SOURCE_PATH = (
+    Path(__file__).resolve().parents[1]
+    / "src"
+    / "transform_md"
+    / "transform_md"
+    / "transform_md.py"
+)
 
 
 def _normalise_tags(value: object) -> list[str]:
@@ -111,6 +118,7 @@ def _transform_fingerprint(config: dict) -> str:
     payload = {
         "output_formats": list(config.get("output_formats", ["myst", "ipynb"])),
         "transform": config.get("transform", {}),
+        "transformer_sha256": _sha256(_TRANSFORMER_SOURCE_PATH),
     }
     return hashlib.sha256(
         json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
@@ -172,6 +180,27 @@ def remove_stale_outputs(previous: dict | None, manifest: dict) -> list[Path]:
                 output.unlink()
                 removed.append(output)
     return removed
+
+
+def remove_unreferenced_outputs(output_dir: Path, manifest: dict) -> list[Path]:
+    """Remove orphaned MyST and notebook outputs from the generated directory."""
+    output_dir = Path(output_dir)
+    expected_outputs = {
+        Path(output).resolve()
+        for record in manifest.get("files", {}).values()
+        for output in record.get("outputs", {}).values()
+    }
+    removed = []
+    for pattern in ("*.myst.md", "*.ipynb"):
+        for output in output_dir.glob(pattern):
+            if (
+                output.resolve() not in expected_outputs
+                and output.is_file()
+                and not output.is_symlink()
+            ):
+                output.unlink()
+                removed.append(output)
+    return sorted(removed)
 
 
 def remove_stale_symlinks(
@@ -415,9 +444,11 @@ def main(argv: list[str] | None = None) -> int:
             config.get("manifest_exclude", []),
         )
         manifest = build_manifest(manifest_source, manifest_files, config, previous)
-        manifest["stale_outputs_removed"] = [
-            str(path) for path in remove_stale_outputs(previous, manifest)
-        ]
+        removed_outputs = remove_stale_outputs(previous, manifest)
+        removed_outputs.extend(
+            remove_unreferenced_outputs(config["output_dir"], manifest)
+        )
+        manifest["stale_outputs_removed"] = [str(path) for path in removed_outputs]
         write_manifest(manifest_path, manifest)
     return 0
 

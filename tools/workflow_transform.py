@@ -8,9 +8,14 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 from typing import Callable, Sequence
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from data.create_symlinks import DEFAULT_MANIFEST_PATH, load_config, write_manifest
 
@@ -46,14 +51,12 @@ def transform_manifest(
 
     source_root = Path(manifest["source_root"])
     output_dir = Path(manifest["output_dir"])
-    formats = manifest.get("output_formats", config.get("output_formats", ["myst"]))
     transform = config.get("transform", {})
     split_mode = transform.get("cell_split", "m1")
     records = changed_files(manifest)
 
     for record in records:
         source = source_root / record["source"]
-        output_base = output_dir / source.stem
         temporary_dir = None
         if use_atomic_outputs:
             temporary_root = Path(
@@ -63,37 +66,39 @@ def transform_manifest(
             temporary_dir = Path(
                 tempfile.mkdtemp(prefix="transform-", dir=temporary_root)
             )
-            output_base = temporary_dir / source.stem
-
-        command = [
-            "transform-md",
-            str(source),
-            "--output",
-            str(output_base),
-            "--out-format=" + ",".join(formats),
-        ]
-        if split_mode:
-            command.extend(["--transform-cell-split", str(split_mode)])
 
         try:
-            runner(command)
-            output_values = list(record.get("outputs", {}).values())
-            if use_atomic_outputs:
-                temporary_outputs = [
-                    temporary_dir / Path(value).name for value in output_values
+            output_values = list(record.get("outputs", {}).items())
+            promoted_outputs = []
+            for output_format, value in output_values:
+                final_path = Path(value)
+                target = (
+                    temporary_dir / final_path.name
+                    if use_atomic_outputs
+                    else final_path
+                )
+                command = [
+                    "transform-md",
+                    str(source),
+                    "--output",
+                    str(target),
+                    "--out-format=" + output_format,
                 ]
-                if not all(path.exists() for path in temporary_outputs):
+                if split_mode:
+                    command.extend(["--transform-cell-split", str(split_mode)])
+                runner(command)
+                if not target.exists():
                     raise RuntimeError(
-                        f"transform did not produce all outputs for {record['source']}"
+                        f"transform did not produce {output_format} output "
+                        f"for {record['source']}"
                     )
-                for temporary, final in zip(temporary_outputs, output_values):
-                    final_path = Path(final)
+                if use_atomic_outputs:
+                    promoted_outputs.append((target, final_path))
+
+            if use_atomic_outputs:
+                for temporary, final_path in promoted_outputs:
                     final_path.parent.mkdir(parents=True, exist_ok=True)
                     os.replace(temporary, final_path)
-            elif not all(Path(value).exists() for value in output_values):
-                raise RuntimeError(
-                    f"transform did not produce all outputs for {record['source']}"
-                )
             record["transformed_sha256"] = record["sha256"]
             record["transformed_fingerprint"] = manifest.get("transform_fingerprint")
             record["status"] = "transformed"

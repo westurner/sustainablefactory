@@ -63,7 +63,7 @@ def test_transform_manifest_updates_only_stale_records(tmp_path):
 
     def run_transform(command):
         commands.append(command)
-        (output_dir / "one.myst.md").write_text("generated")
+        Path(command[3]).write_text("generated")
 
     changed, skipped = transform_manifest(
         manifest, {"transform": {"cell_split": "m1"}}, run_transform
@@ -75,7 +75,7 @@ def test_transform_manifest_updates_only_stale_records(tmp_path):
             "transform-md",
             str(source),
             "--output",
-            str(output_dir / "one"),
+            str(output_dir / "one.myst.md"),
             "--out-format=myst",
             "--transform-cell-split",
             "m1",
@@ -84,6 +84,48 @@ def test_transform_manifest_updates_only_stale_records(tmp_path):
     assert manifest["files"]["one.md"]["transformed_sha256"] == "new-hash"
     assert manifest["files"]["one.md"]["status"] == "transformed"
     assert manifest["last_transform"] == {"transformed": 1, "skipped": 0}
+
+
+def test_transform_manifest_preserves_dotted_source_names(tmp_path):
+    source_root = tmp_path / "source"
+    output_dir = tmp_path / "output"
+    source_root.mkdir()
+    output_dir.mkdir()
+    source_name = "CNT Cables 2 vs. Copper_Aluminum Cost .md"
+    source = source_root / source_name
+    source.write_text("source")
+    myst_output = output_dir / "CNT Cables 2 vs. Copper_Aluminum Cost .myst.md"
+    notebook_output = output_dir / "CNT Cables 2 vs. Copper_Aluminum Cost .ipynb"
+    manifest = {
+        "source_root": str(source_root),
+        "output_dir": str(output_dir),
+        "output_formats": ["myst", "ipynb"],
+        "files": {
+            source_name: {
+                "source": source_name,
+                "sha256": "new-hash",
+                "transformed_sha256": "old-hash",
+                "outputs": {
+                    "myst": str(myst_output),
+                    "ipynb": str(notebook_output),
+                },
+            }
+        },
+    }
+    commands = []
+
+    def run_transform(command):
+        commands.append(command)
+        Path(command[3]).write_text("generated")
+
+    changed, skipped = transform_manifest(manifest, {}, run_transform)
+
+    assert (changed, skipped) == (1, 0)
+    assert [command[3] for command in commands] == [
+        str(myst_output),
+        str(notebook_output),
+    ]
+    assert all(Path(command[3]).exists() for command in commands)
 
 
 def test_transform_manifest_does_not_mark_failed_records(tmp_path):
@@ -151,7 +193,7 @@ def test_transform_manifest_atomically_promotes_default_outputs(tmp_path, monkey
 
     def fake_run(command, check):
         assert check is True
-        Path(command[3] + ".myst.md").write_text("new")
+        Path(command[3]).write_text("new")
 
     monkeypatch.setattr("tools.workflow_transform.subprocess.run", fake_run)
 
