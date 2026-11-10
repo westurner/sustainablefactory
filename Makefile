@@ -35,15 +35,56 @@ help:
 	@echo "help  #  Display available tasks and their descriptions"
 	@grep -E '^\s+@echo "[^:]+  #  ' Makefile | sed 's/^\s*@echo "//' | sed 's/"$$//'
 
-.PHONY: docs
-docs:
-	@echo "docs  #  Build the sustainablefactory Sphinx documentation"
+.PHONY: docs docs_local docs_deploy
+docs: docs_local
+
+docs_local:
+	@echo "docs_local  #  Build the sustainablefactory Sphinx documentation locally"
 	$(MAKE) -C docs html
 
-.PHONY: signals_build
+docs_deploy:
+	@echo "docs_deploy  #  Publish locally built documentation to GitHub Pages (gh-pages)"
+	@set -eu; \
+		git remote get-url origin >/dev/null; \
+		worktree=.tmp/gh-pages; \
+		if [ -e "$$worktree" ]; then \
+			echo "Refusing to overwrite existing path: $$worktree" >&2; \
+			exit 1; \
+		fi; \
+		if [ ! -d .tmp ]; then mkdir -p .tmp && chmod 1777 .tmp; fi; \
+		git fetch origin; \
+		if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then \
+			git worktree add --detach "$$worktree" refs/remotes/origin/gh-pages; \
+		elif git show-ref --verify --quiet refs/heads/gh-pages; then \
+			git worktree add "$$worktree" gh-pages; \
+		else \
+			git worktree add --orphan -b gh-pages "$$worktree"; \
+		fi; \
+		cleanup() { git worktree remove --force "$$worktree" >/dev/null 2>&1 || true; }; \
+		trap cleanup EXIT; \
+		find "$$worktree" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf -- {} +; \
+		cp -R docs/_build/html/. "$$worktree"/; \
+		touch "$$worktree"/.nojekyll; \
+		git -C "$$worktree" add --all; \
+		if git -C "$$worktree" diff --cached --quiet; then \
+			echo "GitHub Pages is already up to date"; \
+		else \
+			git -C "$$worktree" commit -m "DOC: build documentation"; \
+			git -C "$$worktree" push origin HEAD:gh-pages; \
+		fi
+
+.PHONY: signals_build signals_blueprint signals_blueprint_profile
 signals_build:
 	@echo "signals_build  #  Build the sustainablefactory/src/signals library"
 	$(MAKE) -C src/signals lean-cache lean-build
+
+signals_blueprint:
+	@echo "signals_blueprint  #  Build the Signals HTML blueprint and API reference"
+	$(MAKE) -C src/signals blueprint
+
+signals_blueprint_profile:
+	@echo "signals_blueprint_profile  #  Profile the Signals blueprint build phases"
+	$(MAKE) -C src/signals blueprint-profile
 
 .PHONY: signals_build_e2e
 signals_build_e2e:

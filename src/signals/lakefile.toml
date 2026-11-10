@@ -35,3 +35,8 @@ globs = ["SignalsPending", "Signals.Pending"]
 
 [[lean_lib]]
 name = "SignalsPendingTests"
+
+[[lean_exe]]
+name = "signalsApiDocs"
+root = "SignalsApiDocs"
+supportInterpreter = true
