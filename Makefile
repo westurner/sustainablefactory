@@ -64,6 +64,7 @@ docs_deploy:
 		trap cleanup EXIT; \
 		find "$$worktree" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf -- {} +; \
 		cp -R docs/_build/html/. "$$worktree"/; \
+		rm -f -- "$$worktree"/tables_and_figures.html "$$worktree"/.doctrees/tables_and_figures.doctree "$$worktree"/_static/docindex.nt; \
 		touch "$$worktree"/.nojekyll; \
 		git -C "$$worktree" add --all; \
 		if git -C "$$worktree" diff --cached --quiet; then \
