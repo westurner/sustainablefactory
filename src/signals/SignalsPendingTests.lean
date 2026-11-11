@@ -6611,4 +6611,32 @@ example (p_err s_bit : ℝ) :
     toyRhombohedralGrapheneSuperconductivityContract
     p_err s_bit (3 / 5) (by norm_num) (by norm_num)
 
+example (eta_b : ℝ) :
+    Signals.DFT.subwavelengthPhotonTrueConjugateCoupling eta_b 1 = eta_b ∧
+      Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 10001 = 10001 / 20001 ∧
+      (1 / 2 : ℝ) < Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 10001 ∧
+      Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 = 10001 / 11001 ∧
+      (9 / 10 : ℝ) < Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 ∧
+      (85 / 100 : ℝ) <
+        Signals.DFT.transceiverQecNetEfficiency
+          (Signals.DFT.transceiverUncorrectedLinkEfficiency
+            (Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010) 1 (95 / 100))
+          1 (Signals.DFT.transceiverDist3LogicalError (1 / 100)) ∧
+      Signals.DFT.homodyneFieldToIntensityGainRatio (1 / 100) = 100 ∧
+      Signals.MultiArrayImaging.homodyneSubNanometerLocalizationSq 324 30 = 9 / 25 ∧
+      Signals.MultiArrayImaging.homodyneSubNanometerLocalizationSq 324 30 < 1 ∧
+      Signals.MultiArrayImaging.layeredMosaicPixelCount 2 4096 2048 = 16777216 ∧
+      (16777216 : ℝ) * Signals.MultiArrayImaging.multiExposureCosmicRaySurvivalProb (3 / 200) 4 < 1 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 15 80 2 = (3 / 4) ^ 2 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 (27 / 2) 99 3 = (1 / 2) ^ 2 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 (27 / 2) 99 3 < 1 ∧
+      Signals.MultiArrayImaging.iterativeTrueFocalVarianceSq 1 4 = 1 / 4 ∧
+      Signals.DDF.recoverDepthVarianceSq (4 + 9) ((4 + 9) / 16) = 16 ∧
+      Signals.DDF.recoverFocalDepthSq 2 13 (13 * (2 / 5) ^ 2) = 5 ^ 2 ∧
+      2 / 4 ^ 2 < Signals.DDF.convergentCrossedAxialPrecision 1 4 :=
+  SignalsPending.rhombohedral_graphene_subwavelength_photonic_wormhole_holographic_multiarray_decoding_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    eta_b 4 9 16 2 13 5 1 4
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
 end SignalsPendingTests

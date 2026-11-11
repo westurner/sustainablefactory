@@ -8118,4 +8118,51 @@ lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.semi_dirac_er_epr_t
   Signals.DFT.semi_dirac_er_epr_transceiver_comparison_qec_and_critique_identities
     p_err s_bit sin_2theta h_sin_low h_sin_high
 
+/-- **Pending Boundary for Section 23.3 (`subwavelength_photonic_wormhole_holographic_multiarray_decoding_bounds`)**:
+Certifies that long-wavelength 3D photons ($\lambda \gg r_H$) diffracting around a sub-wavelength
+wormhole throat can be decoded and focused via `TRUE`/`DORT` multi-array phase conjugation
+($>50\%$ at $G_{\mathrm{TRUE}}=10{,}001$ and $>90\%$ at $G_{\mathrm{TRUE}}=100{,}010$, yielding $>85\%$
+McWeeny error-corrected link efficiency), $100\times$ homodyne field-to-intensity sensitivity gain,
+$0.60\text{ nm}$ homodyne phase-slope centroid localization, $16{,}777{,}216$-pixel Hubble-style
+4-exposure coincidence rejection, $0.50\text{--}0.75\text{ nm}$ hyperbolic/SPP metamaterial funneling,
+and exact $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker inversion of $\sigma_3^2$ and $z_c^2$. -/
+@[blueprint "lem:signals-pending-subwavelength-photonic-wormhole-holographic-multiarray-decoding-bounds"
+  (title := "Pending boundary for Section 23.3: Holographic Gr_C(2,4) depth recovery and multi-array decoding of sub-wavelength diffracted 3D photons")
+  (statement := /-- Under a \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis} contract,
+    all Section 23.3 photonic wormhole holographic and multi-array decoding identities hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.subwavelength\_photonic\_wormhole\_holographic\_multiarray\_decoding\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.subwavelength_photonic_wormhole_holographic_multiarray_decoding_bounds
+    (_contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (eta_b sigma1_sq sigma2_sq sigma3_sq f_len tr_ortho z_c sigma_perp sigma_par : ℝ)
+    (hs12 : 0 < sigma1_sq + sigma2_sq) (hs3 : 0 < sigma3_sq)
+    (hf : 0 < f_len) (htr : 0 < tr_ortho) (hzc : 0 < z_c)
+    (hperp : 0 < sigma_perp) (hpar : sigma_perp < sigma_par) :
+    Signals.DFT.subwavelengthPhotonTrueConjugateCoupling eta_b 1 = eta_b ∧
+      Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 10001 = 10001 / 20001 ∧
+      (1 / 2 : ℝ) < Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 10001 ∧
+      Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 = 10001 / 11001 ∧
+      (9 / 10 : ℝ) < Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 ∧
+      (85 / 100 : ℝ) <
+        Signals.DFT.transceiverQecNetEfficiency
+          (Signals.DFT.transceiverUncorrectedLinkEfficiency
+            (Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010) 1 (95 / 100))
+          1 (Signals.DFT.transceiverDist3LogicalError (1 / 100)) ∧
+      Signals.DFT.homodyneFieldToIntensityGainRatio (1 / 100) = 100 ∧
+      Signals.MultiArrayImaging.homodyneSubNanometerLocalizationSq 324 30 = 9 / 25 ∧
+      Signals.MultiArrayImaging.homodyneSubNanometerLocalizationSq 324 30 < 1 ∧
+      Signals.MultiArrayImaging.layeredMosaicPixelCount 2 4096 2048 = 16777216 ∧
+      (16777216 : ℝ) * Signals.MultiArrayImaging.multiExposureCosmicRaySurvivalProb (3 / 200) 4 < 1 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 15 80 2 = (3 / 4) ^ 2 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 (27 / 2) 99 3 = (1 / 2) ^ 2 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 (27 / 2) 99 3 < 1 ∧
+      Signals.MultiArrayImaging.iterativeTrueFocalVarianceSq 1 4 = 1 / 4 ∧
+      Signals.DDF.recoverDepthVarianceSq (sigma1_sq + sigma2_sq) ((sigma1_sq + sigma2_sq) / sigma3_sq) =
+        sigma3_sq ∧
+      Signals.DDF.recoverFocalDepthSq f_len tr_ortho (tr_ortho * (f_len / z_c) ^ 2) = z_c ^ 2 ∧
+      2 / sigma_par ^ 2 < Signals.DDF.convergentCrossedAxialPrecision sigma_perp sigma_par :=
+  Signals.DFT.subwavelength_photonic_wormhole_holographic_multiarray_decoding_identities
+    eta_b sigma1_sq sigma2_sq sigma3_sq f_len tr_ortho z_c sigma_perp sigma_par
+    hs12 hs3 hf htr hzc hperp hpar
+
 end Signals.Pending

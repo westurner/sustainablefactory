@@ -1865,6 +1865,19 @@ pub fn er_epr_exact_unitary_rx_probability(sin_2theta: f64, s_bit: f64) -> f64 {
     (1.0 + sin_2theta * s_bit) / 2.0
 }
 
+/// Unitary saturated TRUE/DORT phase-conjugate sub-wavelength throat coupling efficiency
+/// `(eta_bethe * g_true) / (1 + eta_bethe * (g_true - 1))`,
+/// matching `Signals.DFT.subwavelengthPhotonTrueConjugateCoupling`.
+pub fn subwavelength_photon_true_conjugate_coupling(eta_bethe: f64, g_true: f64) -> f64 {
+    (eta_bethe * g_true) / (1.0 + eta_bethe * (g_true - 1.0))
+}
+
+/// Homodyne field-to-intensity sub-wavelength sensitivity gain ratio `a_trans / a_trans^2 = 1 / a_trans`,
+/// matching `Signals.DFT.homodyneFieldToIntensityGainRatio`.
+pub fn homodyne_field_to_intensity_gain_ratio(a_trans: f64) -> f64 {
+    a_trans / a_trans.powi(2)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2694,5 +2707,20 @@ mod tests {
                 .abs()
                 < 1e-15
         );
+
+        // 18. Section 23.3: Holographic Gr_C(2,4) Depth Recovery & Multi-Array (Hubble/TRUE/Homodyne/Metamaterial)
+        // Decoding of Sub-Wavelength Diffracted 3D Photons
+        assert!(
+            (subwavelength_photon_true_conjugate_coupling(eta_bethe, 1.0) - eta_bethe).abs()
+                < 1e-15
+        );
+        let eta_true_10k = subwavelength_photon_true_conjugate_coupling(eta_bethe, 10_001.0);
+        let eta_true_100k = subwavelength_photon_true_conjugate_coupling(eta_bethe, 100_010.0);
+        assert!((eta_true_10k - 10_001.0 / 20_001.0).abs() < 1e-12 && eta_true_10k > 0.5);
+        assert!((eta_true_100k - 10_001.0 / 11_001.0).abs() < 1e-12 && eta_true_100k > 0.9);
+        let eta_3d_decoded =
+            transceiver_qec_net_efficiency(transceiver_uncorrected_link_efficiency(eta_true_100k, 1.0, 0.95), 1.0, p_l1);
+        assert!(eta_3d_decoded > 0.85);
+        assert!((homodyne_field_to_intensity_gain_ratio(0.01) - 100.0).abs() < 1e-12);
     }
 }

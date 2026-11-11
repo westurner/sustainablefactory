@@ -1622,4 +1622,38 @@ theorem rhombohedral_graphene_semi_dirac_er_epr_transceiver_comparison_qec_and_c
   contract.semi_dirac_er_epr_transceiver_comparison_qec_and_critique_bounds
     p_err s_bit sin_2theta h_sin_low h_sin_high
 
+/-- Re-exports the Section 23.3 photonic wormhole holographic and multi-array decoding boundary theorem. -/
+theorem rhombohedral_graphene_subwavelength_photonic_wormhole_holographic_multiarray_decoding_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (eta_b sigma1_sq sigma2_sq sigma3_sq f_len tr_ortho z_c sigma_perp sigma_par : ℝ)
+    (hs12 : 0 < sigma1_sq + sigma2_sq) (hs3 : 0 < sigma3_sq)
+    (hf : 0 < f_len) (htr : 0 < tr_ortho) (hzc : 0 < z_c)
+    (hperp : 0 < sigma_perp) (hpar : sigma_perp < sigma_par) :
+    Signals.DFT.subwavelengthPhotonTrueConjugateCoupling eta_b 1 = eta_b ∧
+      Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 10001 = 10001 / 20001 ∧
+      (1 / 2 : ℝ) < Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 10001 ∧
+      Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 = 10001 / 11001 ∧
+      (9 / 10 : ℝ) < Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010 ∧
+      (85 / 100 : ℝ) <
+        Signals.DFT.transceiverQecNetEfficiency
+          (Signals.DFT.transceiverUncorrectedLinkEfficiency
+            (Signals.DFT.subwavelengthPhotonTrueConjugateCoupling (1 / 10001) 100010) 1 (95 / 100))
+          1 (Signals.DFT.transceiverDist3LogicalError (1 / 100)) ∧
+      Signals.DFT.homodyneFieldToIntensityGainRatio (1 / 100) = 100 ∧
+      Signals.MultiArrayImaging.homodyneSubNanometerLocalizationSq 324 30 = 9 / 25 ∧
+      Signals.MultiArrayImaging.homodyneSubNanometerLocalizationSq 324 30 < 1 ∧
+      Signals.MultiArrayImaging.layeredMosaicPixelCount 2 4096 2048 = 16777216 ∧
+      (16777216 : ℝ) * Signals.MultiArrayImaging.multiExposureCosmicRaySurvivalProb (3 / 200) 4 < 1 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 15 80 2 = (3 / 4) ^ 2 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 (27 / 2) 99 3 = (1 / 2) ^ 2 ∧
+      Signals.MultiArrayImaging.cascadedNanoImagingLinewidthSq 405 (27 / 2) 99 3 < 1 ∧
+      Signals.MultiArrayImaging.iterativeTrueFocalVarianceSq 1 4 = 1 / 4 ∧
+      Signals.DDF.recoverDepthVarianceSq (sigma1_sq + sigma2_sq) ((sigma1_sq + sigma2_sq) / sigma3_sq) =
+        sigma3_sq ∧
+      Signals.DDF.recoverFocalDepthSq f_len tr_ortho (tr_ortho * (f_len / z_c) ^ 2) = z_c ^ 2 ∧
+      2 / sigma_par ^ 2 < Signals.DDF.convergentCrossedAxialPrecision sigma_perp sigma_par :=
+  contract.subwavelength_photonic_wormhole_holographic_multiarray_decoding_bounds
+    eta_b sigma1_sq sigma2_sq sigma3_sq f_len tr_ortho z_c sigma_perp sigma_par
+    hs12 hs3 hf htr hzc hperp hpar
+
 end SignalsPending
