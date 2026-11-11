@@ -1878,6 +1878,19 @@ pub fn homodyne_field_to_intensity_gain_ratio(a_trans: f64) -> f64 {
     a_trans / a_trans.powi(2)
 }
 
+/// QISM Slavnov determinant contraction speedup `(m_fact)^2 / (m_packets)^3`,
+/// matching `Signals.DFT.qismSlavnovContractionSpeedup`.
+pub fn qism_slavnov_contraction_speedup(m_fact: f64, m_packets: f64) -> f64 {
+    m_fact.powi(2) / m_packets.powi(3)
+}
+
+/// QISM Yang rational R-matrix transmission probability `(u - v)^2 / ((u - v)^2 + eta^2)`,
+/// matching `Signals.Scattering.yangTransmissionProb`.
+pub fn qism_yang_transmission_prob(u: f64, v: f64, eta: f64) -> f64 {
+    let diff = u - v;
+    diff.powi(2) / (diff.powi(2) + eta.powi(2))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2722,5 +2735,18 @@ mod tests {
             transceiver_qec_net_efficiency(transceiver_uncorrected_link_efficiency(eta_true_100k, 1.0, 0.95), 1.0, p_l1);
         assert!(eta_3d_decoded > 0.85);
         assert!((homodyne_field_to_intensity_gain_ratio(0.01) - 100.0).abs() < 1e-12);
+
+        // 19. Section 23.4: QISM, Algebraic Bethe Ansatz, & Inverse Scattering Wormhole Decoding
+        assert!((qism_yang_transmission_prob(1.0, 0.0, 100.0) - eta_bethe).abs() < 1e-15);
+        let t_yang_matched = qism_yang_transmission_prob(100.0, 0.0, 1.0);
+        assert!((t_yang_matched - 10_000.0 / 10_001.0).abs() < 1e-12 && t_yang_matched > 0.999);
+        let eta_qism_qec = transceiver_qec_net_efficiency(
+            transceiver_uncorrected_link_efficiency(t_yang_matched, 1.0, 0.95),
+            1.0,
+            p_l1,
+        );
+        assert!(eta_qism_qec > 0.94);
+        let slavnov_speedup = qism_slavnov_contraction_speedup(40_320.0, 8.0);
+        assert!((slavnov_speedup - 3_175_200.0).abs() < 1e-9 && slavnov_speedup > 3_000_000.0);
     }
 }

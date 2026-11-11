@@ -6639,4 +6639,55 @@ example (eta_b : ℝ) :
     eta_b 4 9 16 2 13 5 1 4
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
 
+example (u v w η T_val : ℝ) (T L2 L1 : Signals.QISM.MonodromyMatrix2)
+    (Q_plus Q_minus : ℝ → ℝ) (u0 u1 u2 u3 v0 v1 : ℝ) (K : ℝ → ℝ → ℝ) :
+    Signals.Scattering.yangTransmissionProb 1 0 100 = Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 ∧
+      Signals.Scattering.yangTransmissionProb 1 0 100 = 1 / 10001 ∧
+      Signals.Scattering.yangTransmissionProb 1 0 100 + Signals.Scattering.yangReflectionProb 1 0 100 = 1 ∧
+      (Signals.Scattering.reconstructSpectralDiff
+          (Signals.QISM.yangSymmetricWeight u v η) (Signals.QISM.yangAntisymmetricWeight u v η) =
+        Signals.QISM.spectralDiff u v ∧
+        Signals.Scattering.reconstructYangCoupling
+          (Signals.QISM.yangSymmetricWeight u v η) (Signals.QISM.yangAntisymmetricWeight u v η) = η) ∧
+      Signals.Scattering.yangTransmissionProb 100 0 1 = 10000 / 10001 ∧
+      (999 / 1000 : ℝ) < Signals.Scattering.yangTransmissionProb 100 0 1 ∧
+      (94 / 100 : ℝ) <
+        Signals.DFT.transceiverQecNetEfficiency
+          (Signals.DFT.transceiverUncorrectedLinkEfficiency (Signals.Scattering.yangTransmissionProb 100 0 1) 1 (95 / 100))
+          1 (Signals.DFT.transceiverDist3LogicalError (1 / 100)) ∧
+      (T.transferTrace - T.A = T.D ∧
+        T.A * T.D - Signals.Geometry.twoRowMinor T.toMatrix 0 1 = T.B * T.C) ∧
+      (L2.comp L1).classicalDet = L2.classicalDet * L1.classicalDet ∧
+      Signals.QISM.casoratiWronskian Q_plus Q_minus u0 u1 *
+          Signals.QISM.casoratiWronskian Q_plus Q_minus u2 u3 -
+        Signals.QISM.casoratiWronskian Q_plus Q_minus u0 u2 *
+          Signals.QISM.casoratiWronskian Q_plus Q_minus u1 u3 +
+        Signals.QISM.casoratiWronskian Q_plus Q_minus u0 u3 *
+          Signals.QISM.casoratiWronskian Q_plus Q_minus u1 u2 = 0 ∧
+      Signals.QISM.baxterTQResidual
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus u (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) u)
+        (Q_plus u) (Q_plus (u - η)) (Q_plus (u + η)) = 0 ∧
+      (Signals.Scattering.baxterTQResidualMeasurement
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus u (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) u)
+        (Q_plus u) (Q_plus (u - η)) (Q_plus (u + η))
+        (1 / 10) (by norm_num)).consistent ∧
+      (Signals.Scattering.baxterTQResidualMeasurement T_val 1 1 0 1 1
+        (1 / 10) (by norm_num)).anomalyCandidate ∧
+      Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff u v) η *
+          Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff u w) η *
+          Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff v w) η =
+        Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff v w) η *
+          Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff u w) η *
+          Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff u v) η ∧
+      Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v0 v1 u u) = 0 ∧
+      Signals.DFT.qismSlavnovContractionSpeedup 40320 8 = 3175200 ∧
+      (3000000 : ℝ) < Signals.DFT.qismSlavnovContractionSpeedup 40320 8 :=
+  SignalsPending.rhombohedral_graphene_qism_bethe_ansatz_wormhole_inverse_scattering_and_slavnov_decoding_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    u v w η T_val T L2 L1 Q_plus Q_minus u0 u1 u2 u3 v0 v1 K
+
 end SignalsPendingTests

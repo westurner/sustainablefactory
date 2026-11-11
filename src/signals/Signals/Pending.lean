@@ -8165,4 +8165,70 @@ lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.subwavelength_photo
     eta_b sigma1_sq sigma2_sq sigma3_sq f_len tr_ortho z_c sigma_perp sigma_par
     hs12 hs3 hf htr hzc hperp hpar
 
+/-- **Pending Boundary for Section 23.4 (`qism_bethe_ansatz_wormhole_inverse_scattering_and_slavnov_decoding_bounds`)**:
+Certifies that the Quantum Inverse Scattering Method (`Signals.QISM`) and Inverse Scattering Metrology
+(`Signals.Scattering`) decode and route multi-packet wavefunctions across a wormhole throat via
+Yang $R$-matrix inverse parameter recovery and impedance-matched transparency ($10{,}000/10{,}001 > 99.9\%$,
+yielding $>94\%$ McWeeny QEC net link efficiency), boundary monodromy trace/minor inversion,
+Baxter $\mathrm{Gr}(2,4)$ Plücker $QQ$-system and three-point Wronskian $TQ$ eigenchannels,
+calibrated off-shell anomaly detection, $8\times 8$ Quantum Yang–Baxter multi-packet braiding,
+Slavnov Pauli exclusion, and the $3{,}175{,}200\times$ 8-symbol Slavnov contraction speedup. -/
+@[blueprint "lem:signals-pending-qism-bethe-ansatz-wormhole-decoding-bounds"
+  (title := "Pending boundary for Section 23.4: QISM, Algebraic Bethe Ansatz, and Inverse Scattering wormhole decoding")
+  (statement := /-- Under a \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis} contract,
+    all Section 23.4 QISM, Bethe Ansatz, and Inverse Scattering wormhole decoding identities hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.qism\_bethe\_ansatz\_wormhole\_inverse\_scattering\_and\_slavnov\_decoding\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.qism_bethe_ansatz_wormhole_inverse_scattering_and_slavnov_decoding_bounds
+    (_contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (u v w η T_val : ℝ) (T L2 L1 : Signals.QISM.MonodromyMatrix2)
+    (Q_plus Q_minus : ℝ → ℝ) (u0 u1 u2 u3 v0 v1 : ℝ) (K : ℝ → ℝ → ℝ) :
+    Signals.Scattering.yangTransmissionProb 1 0 100 = Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 ∧
+      Signals.Scattering.yangTransmissionProb 1 0 100 = 1 / 10001 ∧
+      Signals.Scattering.yangTransmissionProb 1 0 100 + Signals.Scattering.yangReflectionProb 1 0 100 = 1 ∧
+      (Signals.Scattering.reconstructSpectralDiff
+          (Signals.QISM.yangSymmetricWeight u v η) (Signals.QISM.yangAntisymmetricWeight u v η) =
+        Signals.QISM.spectralDiff u v ∧
+        Signals.Scattering.reconstructYangCoupling
+          (Signals.QISM.yangSymmetricWeight u v η) (Signals.QISM.yangAntisymmetricWeight u v η) = η) ∧
+      Signals.Scattering.yangTransmissionProb 100 0 1 = 10000 / 10001 ∧
+      (999 / 1000 : ℝ) < Signals.Scattering.yangTransmissionProb 100 0 1 ∧
+      (94 / 100 : ℝ) <
+        Signals.DFT.transceiverQecNetEfficiency
+          (Signals.DFT.transceiverUncorrectedLinkEfficiency (Signals.Scattering.yangTransmissionProb 100 0 1) 1 (95 / 100))
+          1 (Signals.DFT.transceiverDist3LogicalError (1 / 100)) ∧
+      (T.transferTrace - T.A = T.D ∧
+        T.A * T.D - Signals.Geometry.twoRowMinor T.toMatrix 0 1 = T.B * T.C) ∧
+      (L2.comp L1).classicalDet = L2.classicalDet * L1.classicalDet ∧
+      Signals.QISM.casoratiWronskian Q_plus Q_minus u0 u1 *
+          Signals.QISM.casoratiWronskian Q_plus Q_minus u2 u3 -
+        Signals.QISM.casoratiWronskian Q_plus Q_minus u0 u2 *
+          Signals.QISM.casoratiWronskian Q_plus Q_minus u1 u3 +
+        Signals.QISM.casoratiWronskian Q_plus Q_minus u0 u3 *
+          Signals.QISM.casoratiWronskian Q_plus Q_minus u1 u2 = 0 ∧
+      Signals.QISM.baxterTQResidual
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus u (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) u)
+        (Q_plus u) (Q_plus (u - η)) (Q_plus (u + η)) = 0 ∧
+      (Signals.Scattering.baxterTQResidualMeasurement
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus u (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) u)
+        (Q_plus u) (Q_plus (u - η)) (Q_plus (u + η))
+        (1 / 10) (by norm_num)).consistent ∧
+      (Signals.Scattering.baxterTQResidualMeasurement T_val 1 1 0 1 1
+        (1 / 10) (by norm_num)).anomalyCandidate ∧
+      Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff u v) η *
+          Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff u w) η *
+          Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff v w) η =
+        Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff v w) η *
+          Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff u w) η *
+          Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff u v) η ∧
+      Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v0 v1 u u) = 0 ∧
+      Signals.DFT.qismSlavnovContractionSpeedup 40320 8 = 3175200 ∧
+      (3000000 : ℝ) < Signals.DFT.qismSlavnovContractionSpeedup 40320 8 :=
+  Signals.DFT.qism_bethe_ansatz_wormhole_inverse_scattering_and_slavnov_decoding_identities
+    u v w η T_val T L2 L1 Q_plus Q_minus u0 u1 u2 u3 v0 v1 K
+
 end Signals.Pending

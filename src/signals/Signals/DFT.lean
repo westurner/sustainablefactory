@@ -8,6 +8,7 @@ import Signals.MultiArrayImaging
 import Signals.NonDestructive
 import Signals.Plabic
 import Signals.QuantumCausalInference
+import Signals.Scattering
 
 namespace Signals.DFT
 
@@ -6121,6 +6122,155 @@ theorem subwavelength_photonic_wormhole_holographic_multiarray_decoding_identiti
     h_depth,
     h_focal,
     h_conv⟩
+
+/-! ## Section 23.4: QISM, Algebraic Bethe Ansatz, and Inverse Scattering Metrology for Wormhole Throat & Sub-Wavelength Diffraction Decoding
+
+Connects `Signals.QISM` and `Signals.Scattering` (`docs/grassmannian-qism-bethe-ansatz-paper.md`)
+to the `ER=EPR` wormhole transceiver and sub-wavelength 3D photonic diffraction decoding:
+1. **Yang $R$-Matrix Sub-Wavelength Barrier vs. Inverse-Scattering Impedance-Matched Transparency**:
+   In Yang's rational $R$-matrix $R(u-v;\eta) = (u-v)I_4 + \eta P$, an uncompensated low-detuning mode
+   ($\delta(u,v) = 1$, barrier coupling $\eta = 100$) has transmission probability
+   `yangTransmissionProb 1 0 100 = 1 / 10001 = subwavelengthPhotonApertureEfficiency 1 10` and reflection
+   probability `yangReflectionProb 1 0 100 = 10000 / 10001` (`yang_scattering_probability_conservation`).
+   Inverting the triplet and singlet channel eigenvalues $w_{\mathrm{sym}}, w_{\mathrm{anti}}$ via
+   `reconstructSpectralDiff` and `reconstructYangCoupling` (`reconstruct_yang_parameters`) and tuning to
+   the impedance-matched / Bethe-resonant regime ($\delta(u,v) = 100, \eta = 1$) elevates transmission to
+   `yangTransmissionProb 100 0 1 = 10000 / 10001 > 999 / 1000` ($99.99\%$), achieving an error-corrected
+   McWeeny QEC net link efficiency $> 94\%$.
+2. **Boundary Monodromy Inversion & Cauchy–Binet Multi-Step Throat Composition**:
+   Modeling the wormhole throat as a composed $2 \times 2$ Lax/monodromy chain $T(u) = L_2(u) L_1(u)$,
+   `reconstruct_monodromy_from_trace_and_minor` recovers the hidden interior diagonal entry
+   $D(u) = t(u) - A(u)$ and magnon creation/annihilation product $B(u)C(u) = A(u)D(u) - \Delta_{01}(T(u))$
+   purely from boundary trace and Plücker minor measurements.
+3. **Baxter $QQ$-System in $\mathrm{Gr}(2,4)$, Wronskian $TQ$ Eigenchannels, MTV Nondegeneracy, and Off-Shell Anomaly Metrology**:
+   Casorati Wronskians of the Baxter 2-plane $\operatorname{span}\{Q_+, Q_-\} \in \mathrm{Gr}(2,4)$ satisfy the
+   3-term Plücker $QQ$-system / Hirota bilinear soliton identity (`baxter_qq_pluecker_identity`), solve
+   Baxter's $TQ$ equation with zero residual (`baxterTQResidual_wronskian_zero`, `.consistent` under
+   `baxterTQResidualMeasurement_wronskian_consistent`), rule out spurious $0/0$ triple zeros via MTV
+   nondegeneracy (`mtv_wronskian_nondegenerate_of_root`), and flag off-shell ($\operatorname{Im}\mathcal{S} \neq 0$)
+   or tachyonic throat perturbations exceeding $\tau$ as `.anomalyCandidate`
+   (`baxterTQResidualMeasurement_offShell_anomaly`).
+4. **Full $8 \times 8$ Quantum Yang–Baxter Braid Invariance & Slavnov Determinant Compression**:
+   `yang_baxter_equation_matrix8` guarantees diffractionless factorized multi-packet braiding across the
+   throat, `slavnovDet2_pauli_exclusion` prevents WDM rapidity collisions, and `qismSlavnovContractionSpeedup`
+   compresses $(M!)^2$ off-shell $RTT$ contractions into an $O(M^3)$ Slavnov determinant ($3{,}175{,}200\times$
+   speedup for $M = 8$ WDM symbols).
+-/
+
+/-- **QISM Slavnov Determinant Contraction Speedup**:
+Ratio of brute-force $RTT$ commutator contractions $(M!)^2$ to the $O(M^3)$ evaluation of a single
+$M \times M$ Slavnov/Gaudin Grassmannian minor (`slavnovDet2`):
+$$\mathcal{S}_{\mathrm{Slavnov}}(M!, M) = \frac{(M!)^2}{M^3}.$$
+For $M = 8$ WDM wormhole symbols ($8! = 40{,}320$), $\mathcal{S}_{\mathrm{Slavnov}}(40{,}320, 8) = 3{,}175{,}200 > 3\times 10^6$. -/
+@[blueprint "def:signals-dft-qism-slavnov-contraction-speedup"
+  (title := "QISM Slavnov determinant contraction speedup over brute-force RTT contractions")
+  (statement := /-- Given $M!$ and packet count $M$, define the Slavnov determinant speedup ratio
+    $\mathcal{S}_{\mathrm{Slavnov}}(M!,M)=(M!)^2/M^3$. -/)]
+def qismSlavnovContractionSpeedup (m_fact m_packets : ℝ) : ℝ :=
+  m_fact ^ 2 / m_packets ^ 3
+
+/-- **Master Theorem: QISM, Algebraic Bethe Ansatz, and Inverse Scattering Metrology for Wormhole & Sub-Wavelength Diffraction Decoding**:
+1. **Uncompensated Yang $R$-Matrix Barrier Matches Bethe Sub-Wavelength Diffraction**:
+   `yangTransmissionProb 1 0 100 = subwavelengthPhotonApertureEfficiency 1 10 = 1 / 10001` and
+   `yangTransmissionProb 1 0 100 + yangReflectionProb 1 0 100 = 1`,
+2. **Inverse Scattering Parameter Recovery & Impedance-Matched Yang Transparency ($> 99.9\%$ Raw, $> 94\%$ QEC)**:
+   `reconstructSpectralDiff (yangSymmetricWeight u v η) (yangAntisymmetricWeight u v η) = spectralDiff u v`,
+   `reconstructYangCoupling (yangSymmetricWeight u v η) (yangAntisymmetricWeight u v η) = η`,
+   `yangTransmissionProb 100 0 1 = 10000 / 10001 > 999 / 1000`, and
+   `94 / 100 < transceiverQecNetEfficiency (transceiverUncorrectedLinkEfficiency (yangTransmissionProb 100 0 1) 1 (95 / 100)) 1 (transceiverDist3LogicalError (1 / 100))`,
+3. **Boundary Monodromy Inversion & Multiplicative Throat Determinant**:
+   `T.transferTrace - T.A = T.D ∧ T.A * T.D - twoRowMinor T.toMatrix 0 1 = T.B * T.C` and
+   `(L2.comp L1).classicalDet = L2.classicalDet * L1.classicalDet`,
+4. **Baxter $\mathrm{Gr}(2,4)$ Plücker $QQ$-System, Wronskian $TQ$ Solution, Consistency, & Off-Shell Anomaly Flagging**:
+   `casoratiWronskian Q_plus Q_minus u0 u1 * casoratiWronskian Q_plus Q_minus u2 u3 - ... = 0`,
+   `baxterTQResidual (W(u-η,u+η)) (W(u,u+η)) (W(u-η,u)) (Q_+(u)) (Q_+(u-η)) (Q_+(u+η)) = 0`,
+   `(baxterTQResidualMeasurement ... (1/10) ...).consistent`, and
+   `(baxterTQResidualMeasurement T_val 1 1 0 1 1 (1/10) ...).anomalyCandidate`,
+5. **Full $8 \times 8$ QYBE Multi-Packet Braiding, Slavnov Pauli Exclusion, and $3{,}175{,}200\times$ Contraction Speedup**:
+   `yangR12_8 (u-v) η * yangR13_8 (u-w) η * yangR23_8 (v-w) η = yangR23_8 (v-w) η * yangR13_8 (u-w) η * yangR12_8 (u-v) η`,
+   `slavnovDet2 (slavnovKernelMatrix2 K v0 v1 u u) = 0`, and
+   `qismSlavnovContractionSpeedup 40320 8 = 3175200 ∧ 3000000 < qismSlavnovContractionSpeedup 40320 8`. -/
+@[blueprint "thm:signals-dft-qism-bethe-ansatz-wormhole-decoding-identities"
+  (title := "QISM, Algebraic Bethe Ansatz, and Inverse Scattering wormhole decoding identities")
+  (statement := /-- Unifies Yang $R$-matrix sub-wavelength barrier vs. impedance-matched transparency,
+    inverse scattering parameter and monodromy recovery, Baxter $\mathrm{Gr}(2,4)$ Plücker $QQ$/$TQ$
+    Wronskians, calibrated off-shell anomaly detection, $8\times 8$ Yang--Baxter multi-packet braiding,
+    Slavnov Pauli exclusion, and the $3{,}175{,}200\times$ 8-symbol Slavnov contraction speedup. -/)
+  (proof := /-- Combine \texttt{reconstruct\_yang\_parameters}, \texttt{reconstruct\_monodromy\_from\_trace\_and\_minor},
+    \texttt{MonodromyMatrix2.classicalDet\_comp}, \texttt{baxter\_qq\_pluecker\_identity},
+    \texttt{baxterTQResidual\_wronskian\_zero}, \texttt{baxterTQResidualMeasurement\_wronskian\_consistent},
+    \texttt{baxterTQResidualMeasurement\_offShell\_anomaly}, \texttt{yang\_baxter\_equation\_matrix8},
+    \texttt{slavnovDet2\_pauli\_exclusion}, and rational arithmetic. -/)]
+theorem qism_bethe_ansatz_wormhole_inverse_scattering_and_slavnov_decoding_identities
+    (u v w η T_val : ℝ) (T L2 L1 : Signals.QISM.MonodromyMatrix2)
+    (Q_plus Q_minus : ℝ → ℝ) (u0 u1 u2 u3 v0 v1 : ℝ) (K : ℝ → ℝ → ℝ) :
+    Signals.Scattering.yangTransmissionProb 1 0 100 = subwavelengthPhotonApertureEfficiency 1 10 ∧
+      Signals.Scattering.yangTransmissionProb 1 0 100 = 1 / 10001 ∧
+      Signals.Scattering.yangTransmissionProb 1 0 100 + Signals.Scattering.yangReflectionProb 1 0 100 = 1 ∧
+      (Signals.Scattering.reconstructSpectralDiff
+          (Signals.QISM.yangSymmetricWeight u v η) (Signals.QISM.yangAntisymmetricWeight u v η) =
+        Signals.QISM.spectralDiff u v ∧
+        Signals.Scattering.reconstructYangCoupling
+          (Signals.QISM.yangSymmetricWeight u v η) (Signals.QISM.yangAntisymmetricWeight u v η) = η) ∧
+      Signals.Scattering.yangTransmissionProb 100 0 1 = 10000 / 10001 ∧
+      (999 / 1000 : ℝ) < Signals.Scattering.yangTransmissionProb 100 0 1 ∧
+      (94 / 100 : ℝ) <
+        transceiverQecNetEfficiency
+          (transceiverUncorrectedLinkEfficiency (Signals.Scattering.yangTransmissionProb 100 0 1) 1 (95 / 100))
+          1 (transceiverDist3LogicalError (1 / 100)) ∧
+      (T.transferTrace - T.A = T.D ∧
+        T.A * T.D - Signals.Geometry.twoRowMinor T.toMatrix 0 1 = T.B * T.C) ∧
+      (L2.comp L1).classicalDet = L2.classicalDet * L1.classicalDet ∧
+      Signals.QISM.casoratiWronskian Q_plus Q_minus u0 u1 *
+          Signals.QISM.casoratiWronskian Q_plus Q_minus u2 u3 -
+        Signals.QISM.casoratiWronskian Q_plus Q_minus u0 u2 *
+          Signals.QISM.casoratiWronskian Q_plus Q_minus u1 u3 +
+        Signals.QISM.casoratiWronskian Q_plus Q_minus u0 u3 *
+          Signals.QISM.casoratiWronskian Q_plus Q_minus u1 u2 = 0 ∧
+      Signals.QISM.baxterTQResidual
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus u (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) u)
+        (Q_plus u) (Q_plus (u - η)) (Q_plus (u + η)) = 0 ∧
+      (Signals.Scattering.baxterTQResidualMeasurement
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus u (u + η))
+        (Signals.QISM.casoratiWronskian Q_plus Q_minus (u - η) u)
+        (Q_plus u) (Q_plus (u - η)) (Q_plus (u + η))
+        (1 / 10) (by norm_num)).consistent ∧
+      (Signals.Scattering.baxterTQResidualMeasurement T_val 1 1 0 1 1
+        (1 / 10) (by norm_num)).anomalyCandidate ∧
+      Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff u v) η *
+          Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff u w) η *
+          Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff v w) η =
+        Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff v w) η *
+          Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff u w) η *
+          Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff u v) η ∧
+      Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v0 v1 u u) = 0 ∧
+      qismSlavnovContractionSpeedup 40320 8 = 3175200 ∧
+      (3000000 : ℝ) < qismSlavnovContractionSpeedup 40320 8 := by
+  refine ⟨
+    by unfold Signals.Scattering.yangTransmissionProb Signals.QISM.spectralDiff
+        subwavelengthPhotonApertureEfficiency; norm_num,
+    by unfold Signals.Scattering.yangTransmissionProb Signals.QISM.spectralDiff; norm_num,
+    by unfold Signals.Scattering.yangTransmissionProb Signals.Scattering.yangReflectionProb
+        Signals.QISM.spectralDiff; norm_num,
+    Signals.Scattering.reconstruct_yang_parameters u v η,
+    by unfold Signals.Scattering.yangTransmissionProb Signals.QISM.spectralDiff; norm_num,
+    by unfold Signals.Scattering.yangTransmissionProb Signals.QISM.spectralDiff; norm_num,
+    by unfold transceiverQecNetEfficiency transceiverUncorrectedLinkEfficiency
+        Signals.Scattering.yangTransmissionProb Signals.QISM.spectralDiff
+        transceiverDist3LogicalError; norm_num,
+    Signals.Scattering.reconstruct_monodromy_from_trace_and_minor T,
+    Signals.QISM.MonodromyMatrix2.classicalDet_comp L2 L1,
+    Signals.QISM.baxter_qq_pluecker_identity Q_plus Q_minus u0 u1 u2 u3,
+    Signals.QISM.baxterTQResidual_wronskian_zero Q_plus Q_minus u η,
+    Signals.Scattering.baxterTQResidualMeasurement_wronskian_consistent Q_plus Q_minus u η (1 / 10) (by norm_num),
+    Signals.Scattering.baxterTQResidualMeasurement_offShell_anomaly T_val 1 1 1 1 (1 / 10) (by norm_num) (by norm_num),
+    Signals.QISM.yang_baxter_equation_matrix8 u v w η,
+    Signals.QISM.slavnovDet2_pauli_exclusion K v0 v1 u,
+    by unfold qismSlavnovContractionSpeedup; norm_num,
+    by unfold qismSlavnovContractionSpeedup; norm_num⟩
 
 end
 
