@@ -845,6 +845,18 @@ example (u v w η T_val : ℝ) (T L2 L1 : Signals.QISM.MonodromyMatrix2)
         (1 / 10) (by norm_num)).consistent ∧
       (Signals.Scattering.baxterTQResidualMeasurement T_val 1 1 0 1 1
         (1 / 10) (by norm_num)).anomalyCandidate ∧
+      Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff u v) η *
+          Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff u w) η *
+          Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff v w) η =
+        Signals.QISM.yangR23_8 (Signals.QISM.spectralDiff v w) η *
+          Signals.QISM.yangR13_8 (Signals.QISM.spectralDiff u w) η *
+          Signals.QISM.yangR12_8 (Signals.QISM.spectralDiff u v) η ∧
+      Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v0 v1 u u) = 0 ∧
+      qismSlavnovContractionSpeedup 40320 8 = 3175200 ∧
+      (3000000 : ℝ) < qismSlavnovContractionSpeedup 40320 8 :=
+  qism_bethe_ansatz_wormhole_inverse_scattering_and_slavnov_decoding_identities
+    u v w η T_val T L2 L1 Q_plus Q_minus u0 u1 u2 u3 v0 v1 K
+
 -- Verification of Section 23.4.1: Critique Gap-Closure Fixes for Slavnov Wronskian Factorization,
 -- Noisy MIMO Collision SNR, Overhead-Inclusive Speedup, Soft Impedance Matching, & Finite TRUE Tagging
 example (k0 k1 d0 d1 w_cas sigma_noise_sq m_fact m_packets eta_b g_true : ℝ)
@@ -957,19 +969,7 @@ Following the {download}`Research Evidence Triage <../.agents/skills/research-ev
 - (erepr-mtv2009)=
   <a id="erepr-mtv2009"></a> **Mukhin, E., Tarasov, V., & Varchenko, A. (2009).** *Schubert calculus and representations of the general linear group.* Journal of the American Mathematical Society, 22(4), 909–940. `arXiv:0711.4079`. DOI: `10.1090/S0894-0347-09-00640-7`.
 - (erepr-xu2011)=
-  <a id="erepr-xu2011"></a> **Xu, X., Liu, H., & Wang, L. V. (2011).** *Time-reversed ultrasonically encoded optical focusing into scattering media.* Nature Photonics, 5(3), 154–157. DOI: `10.1038/nphoton.2010.306nes 772–818 <../data/chats/_Airy-Beams-and-Communications-and-Illumination.md>`; [Maldacena & Susskind (2013)](#erepr-maldacenasusskind2013); [Costello & Gaiotto (2018)](#erepr-costello2018) | `scholarly theory` | Medium–High (exact in twisted/AdS subsectors) | `Signals.DFT.erEprThroatAreaFromPlucker`, `twistedHolographyDeformedConifoldResidual` | Holographic teleportation / traversable wormhole circuit benchmark on `Tequila` `signals` backend ([Jafferis et al. 2022](#erepr-jafferis2022)) |
-| **3. Positive Grassmannian $\mathrm{Gr}_{>0}(2,4)$ light-cone bound vs. $\mathrm{Gr}_{\mathbb{C}}(2,4)$ tachyons ($\hbar^2\omega^2 < 0$) and off-shell Bohmian stress ($\operatorname{Im}\mathcal{S} \neq 0$)** | {download}`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, lines 149–310 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>`; {download}`Google-Search_Density-Functional-Theory_20261105-1512.md, lines 268–445 <../data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md>` | `calibration-required` (algebra checked; physical spacetime metric premise in `Signals.Pending`) | Medium | `Signals.DFT.offShellBohmStressTensorUu`, `Signals.DDF.deborahShearFractureInstability_iff`, `Signals.Pending.ComplexGrassmannianIGPEPluckerContract` | Requires Casimir / squeezed-state homodyne noise calibration and unentangled $\operatorname{do}(F=0)$ control subtraction |
-| **4. Massless ($m=0$) vs. Semi-Dirac ($m_x^*>0, m_y^*=0$) wormhole throat transit without collapse** | {download}`Superfluid-Gravity-and-Negative-Energy.md, lines 39–110 <../data/chats/Superfluid-Gravity-and-Negative-Energy.md>`; [Gao, Jafferis & Wall (2017)](#erepr-gjw2017); [Shao et al. (2024)](#erepr-shao2024) | `scholarly theory` / `calibration-required` for analog condensed-matter bridges | High (for mathematical dispersion & Raychaudhuri flux law) | `Signals.DFT.wormholeTransitJammedEnergy`, `wormholeNetNullDefocusingFlux`, `semiDiracWormholeTransitEnergySq` | Millikelvin magnetotransport & Klein-tunneling transmission measurement across strained `RTG` / $\mathrm{ZrSiS}$ constrictions |
-| **5. Traversable macroscopic spacetime wormholes or FTL signaling without boundary coupling** | {download}`Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md, line 308 <../data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md>` | `unsupported` (excluded from verified promotion; guarded by `erEprNoSignalingMarginalA`) | Excluded | `Signals.DFT.erEprNoSignalingMarginalA`, `Signals.Pending` | Strictly excluded: local unitary operations cannot signal across uncoupled ER mouths |
-
----
-
-### Scholarly References
-
-- (erepr-epr1935)=
-  <a id="erepr-epr1935"></a> **Einstein, A., Podolsky, B., & Rosen, N. (1935).** *Can Quantum-Mechanical Description of Physical Reality Be Considered Complete?* Physical Review, 47(10), 777–780. DOI: `10.1103/PhysRev.47.777`.
-- (erepr-er1935)=
-  <a id="erepr-er1935"></a> **Einstein, A., & Rosen, N. (1935).** *The Particle Problem in the General Theory of Relativity.* Physical Review, 48(1), 73–77. DOI: `10.1103/PhysRev.48.73`.
+  <a id="erepr-xu2011"></a> **Xu, X., Liu, H., & Wang, L. V. (2011).** *Time-reversed ultrasonically encoded optical focusing into scattering media.* Nature Photonics, 5(3), 154–157. DOI: `10.1038/nphoton.2010.306`.
 - (erepr-maldacenasusskind2013)=
   <a id="erepr-maldacenasusskind2013"></a> **Maldacena, J., & Susskind, L. (2013).** *Cool horizons for entangled black holes.* Fortschritte der Physik, 61(9), 781–811. `arXiv:1306.0533`. DOI: `10.1002/prop.201300020`.
 - (erepr-witten2004)=

@@ -49,7 +49,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-iTcgARxU2pB8GUZ290gixeLrQ3BQ7O+b8SqeOYzjY+Dj2PFQnCj5ek0vdNY1PJas"  />
   
     
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-R8z61DJ5rax+qTGJUZPfVOVt9M9xF6ztHc6TunqjM8fUCxUCCt6rhZBlky+YeOnZ"  />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-nbgfm6tf9BAiN0hXX1SQj/BFzAc2B/ivlTOh//dwJ91U/AvoGnpi65Xc+vDl7IFr"  />
   
   <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-wd+/OmnPepyLvseo5r0j7dQrP8KAFOyimSMzlZ0bm8O6OQ33DR136JBrS21gODVD"  />
   <link rel="stylesheet" href="_static/css/wide-tables.css" type="text/css" integrity="sha384-n7qJeX6Wtb8aHmNaCabUPN7ohXObrRSdapgjpuTOLr80ZJSWUh+Xb1QrufVHqgSJ"  />
@@ -79,6 +79,18 @@
       <script src="_static/webmcp.js" integrity="sha384-8rfDVOu6tuWeMsM6SulIDgOZ8reY0jRRZU6i/0WaOLJQ2/SsjXDxo+8dqY9RiKZg" defer="defer" ></script>
     
   
+    
+    
+    
+      <script >window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    
+  
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" integrity="" defer="defer" crossorigin="anonymous"></script>
+    
+  
   <script src="_static/js/local.js" integrity="sha384-37nZjg22T1WK8sXgji+IDtidQEaRpSYewr6OayTm1kY2l4gQdKvYtwmsAxjtSsEI" ></script>
   <script src="_static/js/wide-tables.js" integrity="sha384-4sdPurWoQPNG4yw3hHuU9z0WWOxI5ZWYvzWTxk0Z93xrKa4ig1QQQmwiAA62lKCP" ></script>
  
@@ -103,6 +115,11 @@
                 <ul>
 <li><a class="reference internal" href="#">Lean Blueprint and Sphinxdocrs Roadmap</a><ul>
 <li><a class="reference internal" href="#current-baseline">Current Baseline</a></li>
+<li><a class="reference internal" href="#root-cause-diagnosis-and-remediation-of-signals-api-plastex-bottlenecks-2026-11-11">Root-Cause Diagnosis and Remediation of <code class="docutils literal notranslate"><span class="pre">signals-api</span></code> / <code class="docutils literal notranslate"><span class="pre">plasTeX</span></code> Bottlenecks (2026-11-11)</a><ul>
+<li><a class="reference internal" href="#why-plastex-repeatedly-printed-sect0002-html-and-warning-using-default-renderer-for-active">1. Why <code class="docutils literal notranslate"><span class="pre">plasTeX</span></code> Repeatedly Printed <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">sect0002.html</span> <span class="pre">]</span></code> and <code class="docutils literal notranslate"><span class="pre">WARNING:</span> <span class="pre">Using</span> <span class="pre">default</span> <span class="pre">renderer</span> <span class="pre">for</span> <span class="pre">active::&amp;</span></code></a></li>
+<li><a class="reference internal" href="#why-signals-api-and-blueprint-rebuilt-every-time-and-how-incremental-caching-works">2. Why <code class="docutils literal notranslate"><span class="pre">signals-api</span></code> and <code class="docutils literal notranslate"><span class="pre">blueprint</span></code> Rebuilt Every Time (and How Incremental Caching Works)</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#design-boundaries">Design Boundaries</a></li>
 <li><a class="reference internal" href="#proposed-phases">Proposed Phases</a><ul>
 <li><a class="reference internal" href="#phase-0-pin-and-capture-the-baseline">Phase 0: Pin and Capture the Baseline</a></li>
@@ -110,7 +127,7 @@
 <li><a class="reference internal" href="#phase-2-define-a-versioned-blueprint-export">Phase 2: Define a Versioned Blueprint Export</a></li>
 <li><a class="reference internal" href="#phase-2-5-optional-lean-lsp-semantic-enrichment">Phase 2.5: Optional Lean LSP Semantic Enrichment</a></li>
 <li><a class="reference internal" href="#phase-3-rust-importer-and-validator">Phase 3: Rust Importer and Validator</a></li>
-<li><a class="reference internal" href="#phase-4-sphinxdocrs-blueprint-extension">Phase 4: Sphinxdocrs Blueprint Extension</a></li>
+<li><a class="reference internal" href="#phase-4-sphinxdocrs-blueprint-api-extension-with-incremental-sqlite-json-caching">Phase 4: Sphinxdocrs Blueprint &amp; API Extension (with Incremental SQLite + JSON Caching)</a></li>
 <li><a class="reference internal" href="#phase-5-rust-leanblueprint-compatible-cli">Phase 5: Rust leanblueprint-Compatible CLI</a></li>
 <li><a class="reference internal" href="#phase-6-parity-ci-and-cutover">Phase 6: Parity, CI, and Cutover</a></li>
 </ul>
@@ -165,6 +182,11 @@
     <ul>
 <li><a class="reference internal" href="#">Lean Blueprint and Sphinxdocrs Roadmap</a><ul>
 <li><a class="reference internal" href="#current-baseline">Current Baseline</a></li>
+<li><a class="reference internal" href="#root-cause-diagnosis-and-remediation-of-signals-api-plastex-bottlenecks-2026-11-11">Root-Cause Diagnosis and Remediation of <code class="docutils literal notranslate"><span class="pre">signals-api</span></code> / <code class="docutils literal notranslate"><span class="pre">plasTeX</span></code> Bottlenecks (2026-11-11)</a><ul>
+<li><a class="reference internal" href="#why-plastex-repeatedly-printed-sect0002-html-and-warning-using-default-renderer-for-active">1. Why <code class="docutils literal notranslate"><span class="pre">plasTeX</span></code> Repeatedly Printed <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">sect0002.html</span> <span class="pre">]</span></code> and <code class="docutils literal notranslate"><span class="pre">WARNING:</span> <span class="pre">Using</span> <span class="pre">default</span> <span class="pre">renderer</span> <span class="pre">for</span> <span class="pre">active::&amp;</span></code></a></li>
+<li><a class="reference internal" href="#why-signals-api-and-blueprint-rebuilt-every-time-and-how-incremental-caching-works">2. Why <code class="docutils literal notranslate"><span class="pre">signals-api</span></code> and <code class="docutils literal notranslate"><span class="pre">blueprint</span></code> Rebuilt Every Time (and How Incremental Caching Works)</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#design-boundaries">Design Boundaries</a></li>
 <li><a class="reference internal" href="#proposed-phases">Proposed Phases</a><ul>
 <li><a class="reference internal" href="#phase-0-pin-and-capture-the-baseline">Phase 0: Pin and Capture the Baseline</a></li>
@@ -172,7 +194,7 @@
 <li><a class="reference internal" href="#phase-2-define-a-versioned-blueprint-export">Phase 2: Define a Versioned Blueprint Export</a></li>
 <li><a class="reference internal" href="#phase-2-5-optional-lean-lsp-semantic-enrichment">Phase 2.5: Optional Lean LSP Semantic Enrichment</a></li>
 <li><a class="reference internal" href="#phase-3-rust-importer-and-validator">Phase 3: Rust Importer and Validator</a></li>
-<li><a class="reference internal" href="#phase-4-sphinxdocrs-blueprint-extension">Phase 4: Sphinxdocrs Blueprint Extension</a></li>
+<li><a class="reference internal" href="#phase-4-sphinxdocrs-blueprint-api-extension-with-incremental-sqlite-json-caching">Phase 4: Sphinxdocrs Blueprint &amp; API Extension (with Incremental SQLite + JSON Caching)</a></li>
 <li><a class="reference internal" href="#phase-5-rust-leanblueprint-compatible-cli">Phase 5: Rust leanblueprint-Compatible CLI</a></li>
 <li><a class="reference internal" href="#phase-6-parity-ci-and-cutover">Phase 6: Parity, CI, and Cutover</a></li>
 </ul>
@@ -228,26 +250,123 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="lean-blueprint-and-sphinxdocrs-roadmap">
 <h1>Lean Blueprint and Sphinxdocrs Roadmap<a class="headerlink" href="#lean-blueprint-and-sphinxdocrs-roadmap" title="Link to this heading">¶</a></h1>
-<p>Status as of 2026-10-04. This plan extends dsport’s existing Sphinxdocrs H14
+<p>Status as of 2026-11-11. This plan extends dsport’s existing Sphinxdocrs H14
 work; it does not restart the Rust port of Sphinx.</p>
 <section id="current-baseline">
 <h2>Current Baseline<a class="headerlink" href="#current-baseline" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Signals uses Lean <code class="docutils literal notranslate"><span class="pre">v4.35.0-rc3</span></code> and pins Mathlib to the matching release. Its
 <code class="docutils literal notranslate"><span class="pre">blueprint</span></code> target runs LeanArchitect’s package-wide facet for all four
-Signals libraries (<code class="docutils literal notranslate"><span class="pre">:blueprint</span></code> and <code class="docutils literal notranslate"><span class="pre">:blueprintJson</span></code>, completing at 3,715
-Lake jobs across <code class="docutils literal notranslate"><span class="pre">Signals.Plabic</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Geometry</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.QISM</span></code>,
-<code class="docutils literal notranslate"><span class="pre">Signals.Scattering</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Coherence</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.OAM</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Huygens</span></code>,
-<code class="docutils literal notranslate"><span class="pre">Signals.SolitonBus</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Quadrature</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.CanonicalForms</span></code>,
-<code class="docutils literal notranslate"><span class="pre">Signals.MHD</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.DDF</span></code>, <code class="docutils literal notranslate"><span class="pre">Signals.Pending</span></code>, and <code class="docutils literal notranslate"><span class="pre">Signals.Propagation</span></code>),
-then renders the HTML with plasTeX. See <code class="docutils literal notranslate"><span class="pre">src/signals/Makefile:2,27-32</span></code>,
-<code class="docutils literal notranslate"><span class="pre">src/signals/lakefile.toml:5-15</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/blueprint/src/content.tex</span></code>,
-and <a class="reference internal" href="plan-index.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">plan-index.md</span></code></span></a>.</p></li>
-<li><p>The Sphinx HTML build runs that target, copies its output under
-<code class="docutils literal notranslate"><span class="pre">signals-blueprint/</span></code>, and exposes it through the documentation TOC. The PDF
-target still uses <code class="docutils literal notranslate"><span class="pre">latexmk</span></code> and TeX Live. See <code class="docutils literal notranslate"><span class="pre">docs/conf.py:202-238</span></code>,
+Signals libraries (<code class="docutils literal notranslate"><span class="pre">:blueprint</span></code> and <code class="docutils literal notranslate"><span class="pre">:blueprintJson</span></code>, completing at 3,628
+core / 3,811 doc-gen4 Lake jobs across 35 <code class="docutils literal notranslate"><span class="pre">Signals</span></code> modules), sanitizes
+generated <code class="docutils literal notranslate"><span class="pre">.artifacts/*.tex</span></code> files via <code class="docutils literal notranslate"><span class="pre">build_api_docs.py</span> <span class="pre">--sanitize-blueprint-tex</span></code>,
+and renders the HTML with plasTeX. See <code class="docutils literal notranslate"><span class="pre">src/signals/Makefile:45-105</span></code>,
+<code class="docutils literal notranslate"><span class="pre">src/signals/build_api_docs.py:92-265</span></code>, <code class="docutils literal notranslate"><span class="pre">src/signals/lakefile.toml:5-15</span></code>,
+<code class="docutils literal notranslate"><span class="pre">src/signals/blueprint/src/content.tex</span></code>, and <a class="reference internal" href="plan-index.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">plan-index.md</span></code></span></a>.</p></li>
+<li><p>The Sphinx HTML build (<code class="docutils literal notranslate"><span class="pre">docs/conf.py:_build_signals_blueprint</span></code>) checks a
+content-addressed SHA-256 stamp (<code class="docutils literal notranslate"><span class="pre">src/signals/.lake/build/sphinx-blueprint-inputs.sha256</span></code>)
+over all <code class="docutils literal notranslate"><span class="pre">src/signals</span></code> Lean sources, <code class="docutils literal notranslate"><span class="pre">blueprint/src</span></code> inputs (excluding
+<code class="docutils literal notranslate"><span class="pre">*.paux</span></code>), <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>, and <code class="docutils literal notranslate"><span class="pre">build_api_docs.py</span></code>, skipping subprocess invocation
+entirely when inputs are unchanged and streaming build output to
+<code class="docutils literal notranslate"><span class="pre">.tmp/signals-blueprint.log</span></code> when a rebuild is needed. See <code class="docutils literal notranslate"><span class="pre">docs/conf.py:208-276</span></code>,
 <code class="docutils literal notranslate"><span class="pre">docs/_toc.yml:43</span></code>, <code class="docutils literal notranslate"><span class="pre">docs/signals-blueprint.md:1-13</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">src/signals/Makefile:31-32</span></code>.</p></li>
+<code class="docutils literal notranslate"><span class="pre">src/signals/Makefile:45-105</span></code>.</p></li>
+</ul>
+</section>
+<section id="root-cause-diagnosis-and-remediation-of-signals-api-plastex-bottlenecks-2026-11-11">
+<h2>Root-Cause Diagnosis and Remediation of <code class="docutils literal notranslate"><span class="pre">signals-api</span></code> / <code class="docutils literal notranslate"><span class="pre">plasTeX</span></code> Bottlenecks (2026-11-11)<a class="headerlink" href="#root-cause-diagnosis-and-remediation-of-signals-api-plastex-bottlenecks-2026-11-11" title="Link to this heading">¶</a></h2>
+<section id="why-plastex-repeatedly-printed-sect0002-html-and-warning-using-default-renderer-for-active">
+<h3>1. Why <code class="docutils literal notranslate"><span class="pre">plasTeX</span></code> Repeatedly Printed <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">sect0002.html</span> <span class="pre">]</span></code> and <code class="docutils literal notranslate"><span class="pre">WARNING:</span> <span class="pre">Using</span> <span class="pre">default</span> <span class="pre">renderer</span> <span class="pre">for</span> <span class="pre">active::&amp;</span></code><a class="headerlink" href="#why-plastex-repeatedly-printed-sect0002-html-and-warning-using-default-renderer-for-active" title="Link to this heading">¶</a></h3>
+<p>With <code class="docutils literal notranslate"><span class="pre">split-level</span> <span class="pre">=</span> <span class="pre">0</span></code> in <code class="docutils literal notranslate"><span class="pre">src/signals/blueprint/src/plastex.cfg</span></code>, the single
+<code class="docutils literal notranslate"><span class="pre">\chapter{Signals</span> <span class="pre">Lean</span> <span class="pre">library}</span></code> in <code class="docutils literal notranslate"><span class="pre">src/signals/blueprint/src/content.tex</span></code>
+should emit only <code class="docutils literal notranslate"><span class="pre">index.html</span></code>, <code class="docutils literal notranslate"><span class="pre">sect0001.html</span></code> (containing Sections <code class="docutils literal notranslate"><span class="pre">1.1</span></code>–<code class="docutils literal notranslate"><span class="pre">1.9</span></code>
+and all 1,540 formal nodes), and <code class="docutils literal notranslate"><span class="pre">dep_graph_document.html</span></code>.</p>
+<p>Investigation revealed four TeX tokenization hazards in the raw
+<code class="docutils literal notranslate"><span class="pre">&#64;[blueprint</span> <span class="pre">(title</span> <span class="pre">:=</span> <span class="pre">&quot;...&quot;)]</span></code> and <code class="docutils literal notranslate"><span class="pre">(statement</span> <span class="pre">:=</span> <span class="pre">/--</span> <span class="pre">...</span> <span class="pre">-/)</span></code> strings emitted
+by LeanArchitect into <code class="docutils literal notranslate"><span class="pre">.lake/build/blueprint/module/**/*.artifacts/*.tex</span></code>:</p>
+<ol class="arabic simple">
+<li><p><strong>Unbalanced square brackets inside <code class="docutils literal notranslate"><span class="pre">\begin{definition}[title]</span></code></strong> (specifically
+half-open intervals such as <code class="docutils literal notranslate"><span class="pre">e</span> <span class="pre">∈</span> <span class="pre">[0,</span> <span class="pre">1)</span></code> in <code class="docutils literal notranslate"><span class="pre">def:signals-ddf-planetary-orbit</span></code>):
+<code class="docutils literal notranslate"><span class="pre">plasTeX</span></code>’s <code class="docutils literal notranslate"><span class="pre">TeXFragment.readArgument</span></code> balances <code class="docutils literal notranslate"><span class="pre">[</span></code> and <code class="docutils literal notranslate"><span class="pre">]</span></code> tokens even inside
+<code class="docutils literal notranslate"><span class="pre">{...}</span></code> groups. Because <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1)</span></code> has an opening <code class="docutils literal notranslate"><span class="pre">[</span></code> and a closing <code class="docutils literal notranslate"><span class="pre">)</span></code>, the
+bracket depth counter incremented from <code class="docutils literal notranslate"><span class="pre">1</span></code> to <code class="docutils literal notranslate"><span class="pre">2</span></code> at <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1)</span></code> and only
+decremented back to <code class="docutils literal notranslate"><span class="pre">1</span></code> at the end of <code class="docutils literal notranslate"><span class="pre">\begin{definition}[...]</span></code>. As a result,
+<code class="docutils literal notranslate"><span class="pre">plasTeX</span></code> consumed the closing <code class="docutils literal notranslate"><span class="pre">]</span></code> as part of the title and swallowed ~2,000
+lines of subsequent <code class="docutils literal notranslate"><span class="pre">\section</span></code> and theorem nodes inside
+<code class="docutils literal notranslate"><span class="pre">&lt;span</span> <span class="pre">class=&quot;definition_thmtitle&quot;&gt;</span></code> until encountering another <code class="docutils literal notranslate"><span class="pre">]</span></code>.</p></li>
+<li><p><strong>Unescaped <code class="docutils literal notranslate"><span class="pre">%</span></code> signs in titles and statements</strong> (e.g., <code class="docutils literal notranslate"><span class="pre">50%</span></code>, <code class="docutils literal notranslate"><span class="pre">98%</span></code>,
+<code class="docutils literal notranslate"><span class="pre">37.5%</span></code>): treated by LaTeX/plasTeX as comment characters (<code class="docutils literal notranslate"><span class="pre">catcode</span> <span class="pre">14</span></code>),
+commenting out the closing <code class="docutils literal notranslate"><span class="pre">]</span></code> on line 1 of <code class="docutils literal notranslate"><span class="pre">.artifacts/*.tex</span></code>.</p></li>
+<li><p><strong>Unescaped <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> outside matrix environments</strong> (e.g., <code class="docutils literal notranslate"><span class="pre">Al/Si</span> <span class="pre">&amp;</span> <span class="pre">Al/GaN</span></code> in
+titles or prose): parsed as TeX alignment tab tokens (<code class="docutils literal notranslate"><span class="pre">active::&amp;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">catcode</span> <span class="pre">4</span></code>), triggering <code class="docutils literal notranslate"><span class="pre">WARNING:</span> <span class="pre">Using</span> <span class="pre">default</span> <span class="pre">renderer</span> <span class="pre">for</span> <span class="pre">active::&amp;</span></code>,
+corrupting the DOM section stack, and causing <code class="docutils literal notranslate"><span class="pre">plasTeX</span></code> to spawn a phantom
+empty <code class="docutils literal notranslate"><span class="pre">sect0002.html</span></code> page (<code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">sect0002.html</span> <span class="pre">]</span> <span class="pre">[</span> <span class="pre">sect0002.html</span> <span class="pre">]</span> <span class="pre">...</span></code>).</p></li>
+<li><p><strong>Unescaped currency <code class="docutils literal notranslate"><span class="pre">$</span></code> in titles</strong> (e.g., <code class="docutils literal notranslate"><span class="pre">$876k/yr</span></code>): opened an unclosed
+math environment inside the optional <code class="docutils literal notranslate"><span class="pre">[title]</span></code> argument.</p></li>
+</ol>
+<p><strong>Fix Implemented (<code class="docutils literal notranslate"><span class="pre">src/signals/build_api_docs.py:sanitize_blueprint_tex</span></code>)</strong>:
+Added an idempotent pre-plasTeX sanitizer (<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">build_api_docs.py</span> <span class="pre">--sanitize-blueprint-tex</span></code>)
+that rewrites generated <code class="docutils literal notranslate"><span class="pre">.artifacts/*.tex</span></code> files in place:</p>
+<ul class="simple">
+<li><p>Escapes unescaped <code class="docutils literal notranslate"><span class="pre">%</span></code> <span class="math notranslate nohighlight">\(\to\)</span> <code class="docutils literal notranslate"><span class="pre">\%</span></code>,</p></li>
+<li><p>Escapes unescaped <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> <span class="math notranslate nohighlight">\(\to\)</span> <code class="docutils literal notranslate"><span class="pre">\&amp;</span></code> outside <code class="docutils literal notranslate"><span class="pre">\begin{*matrix}...\end{*matrix}</span></code>,</p></li>
+<li><p>Escapes unescaped currency <code class="docutils literal notranslate"><span class="pre">$</span></code> before digits (<code class="docutils literal notranslate"><span class="pre">\$(?=\d)</span></code>) when line 1 has an
+odd number of <code class="docutils literal notranslate"><span class="pre">$</span></code> delimiters, and</p></li>
+<li><p>Replaces nested <code class="docutils literal notranslate"><span class="pre">[</span></code> and <code class="docutils literal notranslate"><span class="pre">]</span></code> inside line-1 <code class="docutils literal notranslate"><span class="pre">\begin{...}[title]</span></code> arguments with
+<code class="docutils literal notranslate"><span class="pre">$\lbrack$</span></code> and <code class="docutils literal notranslate"><span class="pre">$\rbrack$</span></code>.</p></li>
+</ul>
+<p>With this sanitizer, <code class="docutils literal notranslate"><span class="pre">sect0002.html</span></code> and <code class="docutils literal notranslate"><span class="pre">WARNING:</span> <span class="pre">Using</span> <span class="pre">default</span> <span class="pre">renderer</span> <span class="pre">for</span> <span class="pre">active::&amp;</span></code>
+are completely eliminated, and <code class="docutils literal notranslate"><span class="pre">sect0001.html</span></code> renders all 9 sections (<code class="docutils literal notranslate"><span class="pre">1.1</span></code>–<code class="docutils literal notranslate"><span class="pre">1.9</span></code>)
+and 1,540 theorem/definition/lemma nodes cleanly.</p>
+</section>
+<section id="why-signals-api-and-blueprint-rebuilt-every-time-and-how-incremental-caching-works">
+<h3>2. Why <code class="docutils literal notranslate"><span class="pre">signals-api</span></code> and <code class="docutils literal notranslate"><span class="pre">blueprint</span></code> Rebuilt Every Time (and How Incremental Caching Works)<a class="headerlink" href="#why-signals-api-and-blueprint-rebuilt-every-time-and-how-incremental-caching-works" title="Link to this heading">¶</a></h3>
+<p>Four separate issues caused every <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">docs</span></code> or <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-C</span> <span class="pre">src/signals</span> <span class="pre">blueprint</span></code>
+run to rebuild from scratch:</p>
+<ol class="arabic simple">
+<li><p><strong>Self-Invalidating <code class="docutils literal notranslate"><span class="pre">web.paux</span></code> Hash in <code class="docutils literal notranslate"><span class="pre">src/signals/Makefile</span></code></strong>:
+The <code class="docutils literal notranslate"><span class="pre">blueprint</span></code> target previously computed <code class="docutils literal notranslate"><span class="pre">current</span></code> via
+<code class="docutils literal notranslate"><span class="pre">find</span> <span class="pre">blueprint/src</span> <span class="pre">.lake/build/blueprint</span> <span class="pre">-type</span> <span class="pre">f</span></code> <em>before</em> running <code class="docutils literal notranslate"><span class="pre">plastex</span></code>,
+which included <code class="docutils literal notranslate"><span class="pre">blueprint/src/web.paux</span></code> (2.5 MB). Because <code class="docutils literal notranslate"><span class="pre">plastex</span></code> overwrites
+<code class="docutils literal notranslate"><span class="pre">blueprint/src/web.paux</span></code> during rendering, saving the pre-<code class="docutils literal notranslate"><span class="pre">plastex</span></code> hash into
+<code class="docutils literal notranslate"><span class="pre">.lake/build/blueprint-web.sha256</span></code> guaranteed that the next run hashed the
+post-<code class="docutils literal notranslate"><span class="pre">plastex</span></code> <code class="docutils literal notranslate"><span class="pre">web.paux</span></code> and always saw a mismatch. Excluding <code class="docutils literal notranslate"><span class="pre">!</span> <span class="pre">-name</span> <span class="pre">'*.paux'</span></code>
+restores deterministic cache hits.</p></li>
+<li><p><strong>Missing Input Stamps on <code class="docutils literal notranslate"><span class="pre">lean-api</span></code> and <code class="docutils literal notranslate"><span class="pre">:blueprint</span></code></strong>:
+<code class="docutils literal notranslate"><span class="pre">lean-api</span></code> previously had no input stamp and unconditionally invoked
+<code class="docutils literal notranslate"><span class="pre">lake</span> <span class="pre">build</span> <span class="pre">Signals</span> <span class="pre">&#64;doc-gen4/coreDocs</span> <span class="pre">signalsApiDocs</span></code> and <code class="docutils literal notranslate"><span class="pre">build_api_docs.py</span></code>,
+while <code class="docutils literal notranslate"><span class="pre">blueprint</span></code> unconditionally ran <code class="docutils literal notranslate"><span class="pre">lake</span> <span class="pre">build</span> <span class="pre">:blueprint</span></code>. We added
+<code class="docutils literal notranslate"><span class="pre">.lake/build/lean-api-inputs.sha256</span></code> and <code class="docutils literal notranslate"><span class="pre">.lake/build/blueprint-lean-inputs.sha256</span></code>
+in <code class="docutils literal notranslate"><span class="pre">src/signals/Makefile</span></code>, plus <code class="docutils literal notranslate"><span class="pre">.lake/build/sphinx-blueprint-inputs.sha256</span></code>
+in <code class="docutils literal notranslate"><span class="pre">docs/conf.py</span></code>.</p></li>
+<li><p><strong>Unconditional SQLite Database Deletion in <code class="docutils literal notranslate"><span class="pre">build_api_docs.py</span></code></strong>:
+<code class="docutils literal notranslate"><span class="pre">build_api_docs.py</span></code> previously unlinked <code class="docutils literal notranslate"><span class="pre">.lake/build/api-docs-signals.db</span></code> and
+deleted <code class="docutils literal notranslate"><span class="pre">.lake/build/doc/</span></code> on every invocation. Inspection of <code class="docutils literal notranslate"><span class="pre">doc-gen4</span></code>
+(<code class="docutils literal notranslate"><span class="pre">DocGen4/DB.lean:updateModuleDb</span></code> and <code class="docutils literal notranslate"><span class="pre">DocGen4/DB/Schema.lean</span></code>) confirmed that
+<code class="docutils literal notranslate"><span class="pre">doc-gen4</span></code> natively supports <strong>incremental per-module SQLite updates</strong>:
+<code class="docutils literal notranslate"><span class="pre">updateModuleDb</span></code> runs <code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">FROM</span> <span class="pre">modules</span> <span class="pre">WHERE</span> <span class="pre">name</span> <span class="pre">=</span> <span class="pre">?</span></code>, and all 18 child
+tables declare <code class="docutils literal notranslate"><span class="pre">FOREIGN</span> <span class="pre">KEY</span> <span class="pre">(module_name)</span> <span class="pre">REFERENCES</span> <span class="pre">modules(name)</span> <span class="pre">ON</span> <span class="pre">DELETE</span> <span class="pre">CASCADE</span></code>.
+We updated <code class="docutils literal notranslate"><span class="pre">build_api_docs.py</span></code> to persist per-module <code class="docutils literal notranslate"><span class="pre">(source_sha256,</span> <span class="pre">olean_stat)</span></code>
+hashes in <code class="docutils literal notranslate"><span class="pre">.lake/build/api-docs-cache.json</span></code>:</p>
+<ul class="simple">
+<li><p><strong>0 modules changed</strong>: <code class="docutils literal notranslate"><span class="pre">build_api_docs.py</span></code> exits in <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">0.02s</span></code>.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(k &lt; N\)</span> modules changed</strong> (e.g., editing <code class="docutils literal notranslate"><span class="pre">Signals/DFT.lean</span></code> alone):
+<code class="docutils literal notranslate"><span class="pre">build_api_docs.py</span></code> retains <code class="docutils literal notranslate"><span class="pre">api-docs-signals.db</span></code> and passes <strong>only the <span class="math notranslate nohighlight">\(k\)</span>
+changed modules</strong> to <code class="docutils literal notranslate"><span class="pre">signalsApiDocs</span></code>, updating their rows in place before
+running <code class="docutils literal notranslate"><span class="pre">doc-gen4</span> <span class="pre">fromDb</span></code> and rewriting only modified HTML files.</p></li>
+<li><p><strong>Global config/schema change or <code class="docutils literal notranslate"><span class="pre">SIGNALS_API_FORCE_REBUILD=1</span></code></strong>: performs
+a clean full rebuild.</p></li>
+</ul>
+</li>
+<li><p><strong>Excessive Terminal Output During Agent Builds</strong>:
+<code class="docutils literal notranslate"><span class="pre">lake</span> <span class="pre">build</span> <span class="pre">:blueprint</span></code> emits &gt;25 KB of <code class="docutils literal notranslate"><span class="pre">(</span> <span class="pre">/workspaces/.../.artifacts/...tex</span> <span class="pre">)..</span></code>
+progress lines, and <code class="docutils literal notranslate"><span class="pre">plastex</span></code> emits per-file token streams. Redirecting these
+to <code class="docutils literal notranslate"><span class="pre">.lake/build/blueprint-lake.log</span></code>, <code class="docutils literal notranslate"><span class="pre">.lake/build/plastex.log</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">.tmp/signals-blueprint.log</span></code> (dumping <code class="docutils literal notranslate"><span class="pre">tail</span> <span class="pre">-n</span> <span class="pre">60</span></code> only on non-zero exit)
+reduces normal terminal output to 3–5 summary lines.</p></li>
+</ol>
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">leoliu0/ratex</span></code> is cloned at <code class="docutils literal notranslate"><span class="pre">v0.5.2</span></code> under <code class="docutils literal notranslate"><span class="pre">src/ratex</span></code>; it is a complete,
 self-contained TeX engine. The local checkout occupies about 1.2 GB. Building
 it from source requires Rust 1.88. See <code class="docutils literal notranslate"><span class="pre">src/ratex/Cargo.toml:17</span></code> and
@@ -275,6 +394,7 @@ for version-sensitive parity tests. The URL is in <code class="docutils literal 
 It is distinct from the full TeX engine <code class="docutils literal notranslate"><span class="pre">leoliu0/ratex</span></code> cloned at
 <code class="docutils literal notranslate"><span class="pre">src/ratex</span></code>. See <code class="docutils literal notranslate"><span class="pre">src/dsport/.gitmodules:4-6</span></code>.</p></li>
 </ul>
+</section>
 </section>
 <section id="design-boundaries">
 <h2>Design Boundaries<a class="headerlink" href="#design-boundaries" title="Link to this heading">¶</a></h2>
@@ -414,20 +534,65 @@ replacement exists.</p></li>
 unsupported schema versions instead of dropping fields.</p></li>
 </ul>
 </section>
-<section id="phase-4-sphinxdocrs-blueprint-extension">
-<h3>Phase 4: Sphinxdocrs Blueprint Extension<a class="headerlink" href="#phase-4-sphinxdocrs-blueprint-extension" title="Link to this heading">¶</a></h3>
+<section id="phase-4-sphinxdocrs-blueprint-api-extension-with-incremental-sqlite-json-caching">
+<h3>Phase 4: Sphinxdocrs Blueprint &amp; API Extension (with Incremental SQLite + JSON Caching)<a class="headerlink" href="#phase-4-sphinxdocrs-blueprint-api-extension-with-incremental-sqlite-json-caching" title="Link to this heading">¶</a></h3>
 <ul class="simple">
-<li><p>Add a small extension that consumes a validated snapshot and registers
-blueprint theorem/definition nodes, cross-references, source links, and
-dependency edges through the existing Sphinxdocrs extension/domain pipeline.</p></li>
-<li><p>First run it through the current Python Sphinx build with the Rust extension
-behind dsport’s compatibility bridge. This isolates blueprint parity from
-remaining native builder/theme gaps.</p></li>
-<li><p>Render both the graph and an accessible textual dependency list. Reuse
-existing Lean domain anchors; do not duplicate declarations in a parallel
-object index.</p></li>
+<li><p>Add a Rust crate/module (<code class="docutils literal notranslate"><span class="pre">sphinxdocrs::blueprint</span></code> and PyO3 wrapper
+<code class="docutils literal notranslate"><span class="pre">sphinxcontrib_lean_blueprint_rs</span></code>) that consumes <strong>both</strong> LeanArchitect’s
+<code class="docutils literal notranslate"><span class="pre">.lake/build/blueprint/module/**/*.json</span></code> (<code class="docutils literal notranslate"><span class="pre">:blueprintJson</span></code>) and <code class="docutils literal notranslate"><span class="pre">doc-gen4</span></code>’s
+SQLite database <code class="docutils literal notranslate"><span class="pre">.lake/build/api-docs-signals.db</span></code> directly via <code class="docutils literal notranslate"><span class="pre">serde_json</span></code>
+and <code class="docutils literal notranslate"><span class="pre">rusqlite</span></code>:</p>
+<ol class="arabic simple">
+<li><p><strong>Elimination of <code class="docutils literal notranslate"><span class="pre">plasTeX</span></code> and LaTeX Macro Intermediaries</strong>:
+By reading <code class="docutils literal notranslate"><span class="pre">:blueprintJson</span></code> + <code class="docutils literal notranslate"><span class="pre">content.tex</span></code> section structure directly in
+Rust rather than expanding <code class="docutils literal notranslate"><span class="pre">\newleannode</span></code> / <code class="docutils literal notranslate"><span class="pre">\inputleanmodule</span></code> through
+<code class="docutils literal notranslate"><span class="pre">plasTeX</span></code>, the extension completely bypasses Python <code class="docutils literal notranslate"><span class="pre">plasTeX</span></code> tokenization
+(eliminating <code class="docutils literal notranslate"><span class="pre">web.paux</span></code> serialization overhead and TeX catcode failures on
+<code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1)</span></code>, <code class="docutils literal notranslate"><span class="pre">%</span></code>, <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>, and <code class="docutils literal notranslate"><span class="pre">$</span></code>).</p></li>
+<li><p><strong>Content-Addressed Per-Module &amp; Per-Node Incremental Cache</strong>:
+Maintain a fine-grained Rust cache manifest (<code class="docutils literal notranslate"><span class="pre">.lake/build/sphinxdocrs-blueprint-cache.bin</span></code>
+keyed by <code class="docutils literal notranslate"><span class="pre">blake3</span></code> hashes of each module’s <code class="docutils literal notranslate"><span class="pre">.olean</span></code>, <code class="docutils literal notranslate"><span class="pre">:blueprintJson</span></code> file,
+and <code class="docutils literal notranslate"><span class="pre">api-docs-signals.db</span></code> row digest):</p>
+<ul>
+<li><p><strong>Module API Pages (<code class="docutils literal notranslate"><span class="pre">signals-api/Signals/*.html</span></code>)</strong>: Render HTML directly
+from <code class="docutils literal notranslate"><span class="pre">api-docs-signals.db</span></code> in Rust using parallel <code class="docutils literal notranslate"><span class="pre">rayon</span></code> workers,
+applying the <code class="docutils literal notranslate"><span class="pre">HOSTED_DOCS</span></code> (<code class="docutils literal notranslate"><span class="pre">Mathlib</span></code>, <code class="docutils literal notranslate"><span class="pre">Physlib</span></code>, <code class="docutils literal notranslate"><span class="pre">Init</span></code>, <code class="docutils literal notranslate"><span class="pre">Std</span></code>, <code class="docutils literal notranslate"><span class="pre">Lake</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Lean</span></code>) and <code class="docutils literal notranslate"><span class="pre">Architect</span></code> source-link rewrites in a single streaming pass
+at generation time (replacing the post-hoc Python regex pass in
+<code class="docutils literal notranslate"><span class="pre">build_api_docs.py:rewrite_html_links</span></code>) and re-emitting only modules
+whose SQLite rows changed.</p></li>
+<li><p><strong>Blueprint Nodes &amp; Dependency Graph (<code class="docutils literal notranslate"><span class="pre">sect0001.html</span></code>, <code class="docutils literal notranslate"><span class="pre">dep_graph_document.html</span></code>)</strong>:
+Parse <code class="docutils literal notranslate"><span class="pre">content.tex</span></code> section prose and <code class="docutils literal notranslate"><span class="pre">\inputleanmodule{...}</span></code> directives
+into a typed AST; join each node label (<code class="docutils literal notranslate"><span class="pre">def:*</span></code>, <code class="docutils literal notranslate"><span class="pre">lem:*</span></code>, <code class="docutils literal notranslate"><span class="pre">thm:*</span></code>) with
+its <code class="docutils literal notranslate"><span class="pre">:blueprintJson</span></code> metadata (<code class="docutils literal notranslate"><span class="pre">title</span></code>, <code class="docutils literal notranslate"><span class="pre">statement</span></code>, <code class="docutils literal notranslate"><span class="pre">proof</span></code>, <code class="docutils literal notranslate"><span class="pre">uses</span></code>,
+<code class="docutils literal notranslate"><span class="pre">proofUses</span></code>, <code class="docutils literal notranslate"><span class="pre">leanok</span></code>, <code class="docutils literal notranslate"><span class="pre">notready</span></code>, <code class="docutils literal notranslate"><span class="pre">discussion</span></code>, <code class="docutils literal notranslate"><span class="pre">leandecls</span></code>) and
+resolved <code class="docutils literal notranslate"><span class="pre">signals-api</span></code> declaration URLs; incrementally re-render only
+modified sections and dirty connected components of the dependency DAG.</p></li>
+</ul>
+</li>
+<li><p><strong>Dual Execution Mode (Python Sphinx Extension + Native <code class="docutils literal notranslate"><span class="pre">sphinxdocrs</span></code>)</strong>:</p>
+<ul>
+<li><p><em>Mode A (Drop-in Python Sphinx Extension)</em>: Register a PyO3 extension
+module in <code class="docutils literal notranslate"><span class="pre">docs/conf.py</span></code> (<code class="docutils literal notranslate"><span class="pre">extensions.append(&quot;sphinxcontrib_lean_blueprint_rs&quot;)</span></code>)
+that replaces <code class="docutils literal notranslate"><span class="pre">_build_signals_blueprint</span></code> and <code class="docutils literal notranslate"><span class="pre">_copy_signals_blueprint</span></code>,
+emitting incremental blueprint and API pages directly into <code class="docutils literal notranslate"><span class="pre">app.outdir</span></code>
+and registering theorem labels (<code class="docutils literal notranslate"><span class="pre">thm:signals-*</span></code>, <code class="docutils literal notranslate"><span class="pre">def:signals-*</span></code>,
+<code class="docutils literal notranslate"><span class="pre">lem:signals-*</span></code>) in Sphinx’s standard <code class="docutils literal notranslate"><span class="pre">std:label</span></code> and <code class="docutils literal notranslate"><span class="pre">lean:decl</span></code> domains
+so MyST documents can cross-reference blueprint theorems via <code class="docutils literal notranslate"><span class="pre">{ref}</span></code>.</p></li>
+<li><p><em>Mode B (Native <code class="docutils literal notranslate"><span class="pre">sphinxdocrs</span></code> H14 Builder)</em>: Register the same Rust
+<code class="docutils literal notranslate"><span class="pre">BlueprintSnapshot</span></code> and <code class="docutils literal notranslate"><span class="pre">DocGen4SqliteReader</span></code> providers directly in
+<code class="docutils literal notranslate"><span class="pre">src/dsport/src/sphinxdocrs/src/source_analysis/lean.rs</span></code>.</p></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>Render both the interactive SVG/Canvas dependency graph and an accessible
+textual dependency list. Reuse existing Lean domain anchors; do not duplicate
+declarations in a parallel object index.</p></li>
 <li><p>Acceptance: the Sphinx page has stable URLs, working theorem links, searchable
-labels, and graph edges exactly matching LeanArchitect’s export.</p></li>
+labels, zero <code class="docutils literal notranslate"><span class="pre">sect0002.html</span></code> phantom splits, sub-100 ms incremental rebuilds
+when a single Lean module or MyST doc changes, and graph edges exactly
+matching LeanArchitect’s export.</p></li>
 </ul>
 </section>
 <section id="phase-5-rust-leanblueprint-compatible-cli">

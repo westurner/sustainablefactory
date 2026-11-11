@@ -592,6 +592,349 @@ pub extern "C" fn wasm_ddf_second_sound_speed(
 }
 
 // ============================================================================
+// 4B. Grassmannian–DDF Thermo-Electro-Magnetics (`G-DDF-TEM`) vs. Lord–Shulman (1967),
+//     Four-Sector Gr_C(2,4) Stratification (Dielectric Broadband Directional Antenna Sweeps & ER=EPR),
+//     Onsager Reciprocity, G-TBC Interfaces, and Cuprate (G-CSC) / Graphene (G-MGS)
+//     Superconducting Thermo-Electro-Magnetics (`Signals.DFT` Section 24 & 24.1)
+// ============================================================================
+
+/// Coupled Magneto-Thermoelastic model generalizing Lord and Shulman (1967)
+/// (*J. Mech. Phys. Solids* 15, 299–309), matching `Signals.DFT.lordShulman*`.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct LordShulmanMagnetoThermoElasticModel {
+    /// Dimensionless relaxation ratio $\tau_0 = c_E^2 / c_{\mathrm{th}}^2 = \tau_r c_E^2 / \alpha > 0$.
+    pub tau0: f64,
+    /// Dimensionless Alfvén magneto-elastic coupling $\beta_M^2 = v_A^2 / c_E^2 \ge 0$.
+    pub beta_m_sq: f64,
+    /// Dimensionless thermoelastic coupling $\varepsilon_T = \frac{\gamma_{\mathrm{TE}}^2 T_0}{\rho_0 c_v c_E^2} > 0$.
+    pub eps_t: f64,
+}
+
+impl LordShulmanMagnetoThermoElasticModel {
+    pub fn validate(&self) -> Result<(), ValidationError> {
+        require_positive("tau0", self.tau0)?;
+        require_nonnegative("beta_m_sq", self.beta_m_sq)?;
+        require_positive("eps_t", self.eps_t)
+    }
+
+    /// Sum of squared dimensionless wave speeds $u_+ + u_- = \frac{1 + \beta_M^2}{\tau_0} + 1 + \varepsilon_T$
+    /// (`Signals.DFT.lordShulmanWaveSpeedSum`).
+    #[inline]
+    pub fn wave_speed_sum(&self) -> f64 {
+        (1.0 + self.beta_m_sq) / self.tau0 + 1.0 + self.eps_t
+    }
+
+    /// Product of squared dimensionless wave speeds $u_+ \cdot u_- = \frac{1 + \beta_M^2}{\tau_0}$
+    /// (`Signals.DFT.lordShulmanWaveSpeedProd`).
+    #[inline]
+    pub fn wave_speed_prod(&self) -> f64 {
+        (1.0 + self.beta_m_sq) / self.tau0
+    }
+
+    /// Coupled characteristic discriminant
+    /// $\Delta_{\mathrm{LS}} = (1 + \beta_M^2 - \tau_0(1 + \varepsilon_T))^2 + 4\tau_0\varepsilon_T(1 + \beta_M^2) > 0$
+    /// (`Signals.DFT.lordShulmanDiscriminant`).
+    #[inline]
+    pub fn discriminant(&self) -> f64 {
+        let diff = 1.0 + self.beta_m_sq - self.tau0 * (1.0 + self.eps_t);
+        diff * diff + 4.0 * self.tau0 * self.eps_t * (1.0 + self.beta_m_sq)
+    }
+
+    /// Characteristic polynomial $\mathcal{P}_{\mathrm{LS}}(u) = \tau_0 u^2 - (1 + \beta_M^2 + \tau_0(1 + \varepsilon_T))u + (1 + \beta_M^2)$
+    /// (`Signals.DFT.lordShulmanCharacteristicPoly`).
+    #[inline]
+    pub fn characteristic_poly(&self, u: f64) -> f64 {
+        self.tau0 * u * u - (1.0 + self.beta_m_sq + self.tau0 * (1.0 + self.eps_t)) * u
+            + (1.0 + self.beta_m_sq)
+    }
+
+    /// Exact fast quasi-magneto-elastic ($u_+$) and slow quasi-thermal second-sound ($u_-$)
+    /// squared dimensionless wave speeds $(u_+, u_-)$.
+    #[inline]
+    pub fn squared_wave_speeds_u_plus_minus(&self) -> (f64, f64) {
+        let b = 1.0 + self.beta_m_sq + self.tau0 * (1.0 + self.eps_t);
+        let sqrt_disc = self.discriminant().max(0.0).sqrt();
+        (
+            (b + sqrt_disc) / (2.0 * self.tau0),
+            (b - sqrt_disc) / (2.0 * self.tau0),
+        )
+    }
+}
+
+/// Classical non-relativistic magneto-elastic squared wave speed $v_{\mathrm{ME,NR}}^2 = c_E^2 + v_A^2$,
+/// which exceeds $c^2$ when $c_E^2 + v_A^2 > c^2$ (`Signals.DFT.nonRelativisticMagnetoElasticSpeedSq`).
+#[inline]
+pub fn nonrelativistic_magneto_elastic_speed_sq(c_e_sq: f64, v_a_sq: f64) -> f64 {
+    c_e_sq + v_a_sq
+}
+
+/// `G-DDF-TEM` Stratum 1 ($\mathrm{Gr}_{>0}(2,4)$) relativistic magneto-elastic signal-front squared speed:
+/// $$v_{\mathrm{ME,rel}}^2 = \frac{(c_E^2 + v_A^2)c^2}{c^2 + c_E^2 + v_A^2} < c^2,$$
+/// matching `Signals.DFT.gddfRelativisticMagnetoElasticSpeedSq`.
+#[inline]
+pub fn gddf_relativistic_magneto_elastic_speed_sq(c_e_sq: f64, v_a_sq: f64, c_sq: f64) -> f64 {
+    ((c_e_sq + v_a_sq) * c_sq) / (c_sq + c_e_sq + v_a_sq)
+}
+
+/// Squared electromagnetic wave speed inside a dielectric medium $c_{\mathrm{med}}^2 = \frac{c^2}{\varepsilon_r \mu_r}$
+/// (`Signals.DFT.dielectricLightSpeedSq`).
+#[inline]
+pub fn dielectric_light_speed_sq(c_sq: f64, eps_r: f64, mu_r: f64) -> f64 {
+    c_sq / (eps_r * mu_r)
+}
+
+/// Dielectric Broadband Directional Antenna medium-frame $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Plücker interval
+/// $\mathcal{I}_{\mathrm{med}} = 1 - \frac{v_{\mathrm{sweep}}^2}{c_{\mathrm{med}}^2}$,
+/// negative in Stratum 3 ($\mathrm{Gr}_{\mathbb{C}}(2,4) \setminus \mathrm{Gr}_{\ge 0}(2,4)$)
+/// when $v_{\mathrm{sweep}} > c_{\mathrm{med}}$ (`Signals.DFT.dielectricBroadbandAntennaMediumPluckerInterval`).
+#[inline]
+pub fn dielectric_broadband_antenna_medium_plucker_interval(
+    v_sweep_sq: f64,
+    c_med_sq: f64,
+) -> f64 {
+    1.0 - v_sweep_sq / c_med_sq
+}
+
+/// Dielectric Broadband Directional Antenna Cherenkov Mach-cone sine squared $\sin^2\theta_C = 1 - \frac{c_{\mathrm{med}}^2}{v_{\mathrm{sweep}}^2} \in (0, 1)$
+/// on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ (`Signals.DFT.dielectricBroadbandAntennaCherenkovSineSq`).
+#[inline]
+pub fn dielectric_broadband_antenna_cherenkov_sine_sq(c_med_sq: f64, v_sweep_sq: f64) -> f64 {
+    1.0 - c_med_sq / v_sweep_sq
+}
+
+/// Dispersive ENZ / plasma phase-group velocity squared product
+/// $v_{\mathrm{ph}}^2 \cdot v_g^2 = (c^2 / \varepsilon_{\mathrm{eff}})(c^2 \varepsilon_{\mathrm{eff}}) = c^4$
+/// (`Signals.DFT.dispersiveEnzPhaseGroupProduct`).
+#[inline]
+pub fn dispersive_enz_phase_group_product(c_sq: f64, eps_eff: f64) -> f64 {
+    (c_sq / eps_eff) * (c_sq * eps_eff)
+}
+
+/// Stratum 4 off-shell evanescent complex wave-speed modulus squared $|u_{\mathrm{evan}}|^2 = u_{\mathrm{re}}^2 + u_{\mathrm{im}}^2$
+/// (`Signals.DFT.evanescentComplexSkinDepthNormSq`).
+#[inline]
+pub fn evanescent_complex_skin_depth_norm_sq(u_re: f64, u_im: f64) -> f64 {
+    u_re * u_re + u_im * u_im
+}
+
+/// Kelvin–Onsager Peltier coefficient $\Pi = S \cdot T_0$ (`Signals.DFT.onsagerPeltierFromSeebeck`).
+#[inline]
+pub fn onsager_peltier_from_seebeck(seebeck: f64, temp_t0: f64) -> f64 {
+    seebeck * temp_t0
+}
+
+/// Transverse Nernst–Ettingshausen electric field $E_y = N_{\mathrm{NE}} B_z \partial_x T$
+/// (`Signals.DFT.nernstTransverseElectricField`).
+#[inline]
+pub fn nernst_transverse_electric_field(nernst_coeff: f64, b_z: f64, grad_t_x: f64) -> f64 {
+    nernst_coeff * b_z * grad_t_x
+}
+
+/// Joule–Thomson adiabatic expansion temperature drop $\Delta T_{\mathrm{JT}} = \mu_{\mathrm{JT}} \Delta P$
+/// (`Signals.DFT.jouleThomsonCoolingTempDrop`).
+#[inline]
+pub fn joule_thomson_cooling_temp_drop(mu_jt: f64, delta_p: f64) -> f64 {
+    mu_jt * delta_p
+}
+
+/// `G-DDF-TEM` + `G-TBC` flux-limited hyperbolic interfacial temperature jump
+/// $\Delta T_{\mathrm{CV}} = \frac{G_{\mathrm{TBC}} \Delta T q_{\max}}{(G_{\mathrm{TBC}} \Delta T + q_{\max}) G_{\mathrm{TBC}}}$
+/// (`Signals.DFT.gddfTemInterfacialTempJump`).
+#[inline]
+pub fn gddf_tem_interfacial_temp_jump(g_tbc: f64, delta_t_applied: f64, q_max: f64) -> f64 {
+    let q_sat = (g_tbc * delta_t_applied * q_max) / (g_tbc * delta_t_applied + q_max);
+    q_sat / g_tbc
+}
+
+/// `G-DDF-TEM` + `G-TBC` active Kapitza + Peltier + contact-Joule interfacial heat flux
+/// $q_{\mathrm{int}} = G_{\mathrm{TBC}} \Delta T + S_{12} T_0 J_e - \frac{1}{2} R_c J_e^2$
+/// (`Signals.DFT.gddfTemActiveInterfaceHeatFlux`).
+#[inline]
+pub fn gddf_tem_active_interface_heat_flux(
+    g_tbc: f64,
+    delta_t: f64,
+    seebeck_12: f64,
+    temp_t0: f64,
+    j_curr: f64,
+    r_contact: f64,
+) -> f64 {
+    g_tbc * delta_t + seebeck_12 * temp_t0 * j_curr - 0.5 * r_contact * j_curr * j_curr
+}
+
+/// Green–Lindsay (1972) two-relaxation-time effective thermoelastic coupling
+/// $\varepsilon_T^{\mathrm{GL}} = \varepsilon_T (1 + \tau_1 / \tau_0)$
+/// (`Signals.DFT.greenLindsayEffectiveCoupling`).
+#[inline]
+pub fn green_lindsay_effective_coupling(eps_t: f64, tau0: f64, tau1: f64) -> f64 {
+    eps_t * (1.0 + tau1 / tau0)
+}
+
+/// Green–Naghdi (1991–1993) Type-III thermal-displacement squared wave speed $c_{\mathrm{GN}}^2 = k^* / (\rho c_v)$
+/// (`Signals.DFT.greenNaghdiThermalWaveSpeedSq`).
+#[inline]
+pub fn green_naghdi_thermal_wave_speed_sq(k_star: f64, vol_heat_cap: f64) -> f64 {
+    k_star / vol_heat_cap
+}
+
+/// Finite-conductivity eddy-current magneto-elastic factor
+/// $\beta_{M,\mathrm{eff}}^2 = \frac{\beta_M^2 (\omega\tau_{\mathrm{mag}})^2}{1 + (\omega\tau_{\mathrm{mag}})^2}$
+/// (`Signals.DFT.finiteConductivityMagnetoElasticFactor`).
+#[inline]
+pub fn finite_conductivity_magneto_elastic_factor(beta_m_sq: f64, omega_tau_mag: f64) -> f64 {
+    let w2 = omega_tau_mag * omega_tau_mag;
+    (beta_m_sq * w2) / (1.0 + w2)
+}
+
+/// YBCO $245\text{ K}$ pseudogap resonant-ultrasound softened thermoelastic squared wave speed
+/// $c_{E,\mathrm{YBCO}}^2(T) = c_{E,0}^2 - \Delta C(T)/\rho_0$ (`Signals.DFT.cuprateSoftenedThermoelasticSpeedSq`).
+#[inline]
+pub fn cuprate_softened_thermoelastic_speed_sq(c_e0_sq: f64, delta_c: f64, rho0: f64) -> f64 {
+    c_e0_sq - delta_c / rho0
+}
+
+/// Superconducting London–Meissner magneto-elastic squared wave speed
+/// $v_{\mathrm{ME,London}}^2 = c_E^2 + \frac{v_A^2}{1 + k^2 \lambda_L^2(T)}$
+/// (`Signals.DFT.superconductingLondonMagnetoElasticSpeedSq`).
+#[inline]
+pub fn superconducting_london_magneto_elastic_speed_sq(
+    c_e_sq: f64,
+    v_a_sq: f64,
+    k_sq: f64,
+    lambda_l_sq: f64,
+) -> f64 {
+    c_e_sq + v_a_sq / (1.0 + k_sq * lambda_l_sq)
+}
+
+/// High-field `YBCO` superconducting tape quench thermal stability margin across a `G-TBC` bridge:
+/// $\mathcal{M}_{\mathrm{quench}} = G_{\mathrm{TBC}} \Delta T_{\max} - J^2 \rho_{ab} d_{\mathrm{tape}}$
+/// (`Signals.DFT.ybcoTapeQuenchThermalMargin`).
+#[inline]
+pub fn ybco_tape_quench_thermal_margin(
+    g_tbc: f64,
+    delta_t_max: f64,
+    j_sq: f64,
+    rho_ab: f64,
+    d_tape: f64,
+) -> f64 {
+    g_tbc * delta_t_max - j_sq * rho_ab * d_tape
+}
+
+/// Topological `QAHE` / `FQAH` antisymmetric Hall Joule power
+/// $P_{\mathrm{Hall}} = (\sigma_{xx} E_x + \sigma_{xy} E_y)E_x + (-\sigma_{xy} E_x + \sigma_{xx} E_y)E_y = \sigma_{xx}(E_x^2 + E_y^2)$
+/// (`Signals.DFT.qaheDissipationlessHallPower`).
+#[inline]
+pub fn qahe_dissipationless_hall_power(sigma_xx: f64, sigma_xy: f64, e_x: f64, e_y: f64) -> f64 {
+    (sigma_xx * e_x + sigma_xy * e_y) * e_x + (-sigma_xy * e_x + sigma_xx * e_y) * e_y
+}
+
+/// Supersolid Leggett-weighted second-sound squared wave speed
+/// $c_{\mathrm{II,SS}}^2 = c_{\mathrm{th},0}^2 (1 - \eta_{\mathrm{mod}}^2)$
+/// (`Signals.DFT.supersolidBimodalSecondSoundSpeedSq`).
+#[inline]
+pub fn supersolid_bimodal_second_sound_speed_sq(c_th0_sq: f64, eta_mod: f64) -> f64 {
+    c_th0_sq * (1.0 - eta_mod * eta_mod)
+}
+
+/// `G-GKBA` + `G-DDF-TEM` Graphite five-reservoir acoustic-weighted second-sound squared speed
+/// $c_{\mathrm{II,G\text{-}GKBA}}^2 = c_{\mathrm{th},\infty}^2 \frac{E_{\mathrm{LA}} + E_{\mathrm{TA}}}{E_{\mathrm{tot}}}$
+/// (`Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq`).
+#[inline]
+pub fn ggkba_graphite_acoustic_weighted_second_sound_speed_sq(
+    c_th_inf_sq: f64,
+    e_la: f64,
+    e_ta: f64,
+    e_tot: f64,
+) -> f64 {
+    c_th_inf_sq * ((e_la + e_ta) / e_tot)
+}
+
+/// `G-GKBA` + `G-DDF-TEM` THz-driven $\mathrm{MgB}_2$ superconducting London magneto-elastic squared speed
+/// $v_{\mathrm{ME,\mathrm{MgB}_2}}^2 = c_E^2 + \frac{n_s v_A^2}{n_s + k^2 \lambda_{L,0}^2}$
+/// (`Signals.DFT.ggkbaMgb2DrivenLondonMagnetoElasticSpeedSq`).
+#[inline]
+pub fn ggkba_mgb2_driven_london_magneto_elastic_speed_sq(
+    c_e_sq: f64,
+    v_a_sq: f64,
+    k_sq_lambda_l0_sq: f64,
+    n_s: f64,
+) -> f64 {
+    c_e_sq + (n_s * v_a_sq) / (n_s + k_sq_lambda_l0_sq)
+}
+
+/// `G-GKBA` + `G-DDF-TEM` Hubbard-correlated thermo-elastic coupling
+/// $\varepsilon_{T,\mathrm{Hubbard}} = 4 \varepsilon_{T,0} \frac{n_\uparrow n_\downarrow}{1 + 0.15(U/J) + 0.02(U/J)^2}$
+/// (`Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling`).
+#[inline]
+pub fn ggkba_hubbard_correlated_thermoelastic_coupling(
+    eps_t0: f64,
+    n_up: f64,
+    n_down: f64,
+    u_over_j: f64,
+) -> f64 {
+    let d_occ = (n_up * n_down) / (1.0 + 0.15 * u_over_j + 0.02 * u_over_j * u_over_j);
+    4.0 * eps_t0 * d_occ
+}
+
+/// `G-GKBA` + `G-DDF-TEM` high-density exciton Mott magneto-elastic coupling
+/// $\beta_{M,\mathrm{Mott}}^2 = \beta_{M,0}^2 (n_{\mathrm{ex}} / n_{\mathrm{Mott}})$
+/// (`Signals.DFT.ggkbaExcitonMottMagnetoElasticCoupling`).
+#[inline]
+pub fn ggkba_exciton_mott_magneto_elastic_coupling(
+    beta_m0_sq: f64,
+    n_exciton: f64,
+    n_mott: f64,
+) -> f64 {
+    let f_pauli = 1.0 - n_exciton / n_mott;
+    beta_m0_sq * (1.0 - f_pauli)
+}
+
+/// `G-GKBA` + `G-DDF-TEM` $\mathrm{WSe}_2$ bright-to-dark intervalley phonon heat release ($0.045\text{ eV}$ per exciton)
+/// (`Signals.DFT.ggkbaWse2IntervalleyPhononHeatSource`).
+#[inline]
+pub fn ggkba_wse2_intervalley_phonon_heat_source(n_converted: f64) -> f64 {
+    n_converted * (1.72 - 1.675)
+}
+
+/// WASM entrypoint: coupled Lord–Shulman magneto-thermoelastic discriminant $\Delta_{\mathrm{LS}}$.
+#[unsafe(no_mangle)]
+pub extern "C" fn wasm_lord_shulman_discriminant(tau0: f64, beta_m_sq: f64, eps_t: f64) -> f64 {
+    let model = LordShulmanMagnetoThermoElasticModel {
+        tau0,
+        beta_m_sq,
+        eps_t,
+    };
+    if model.validate().is_err() {
+        return f64::NAN;
+    }
+    model.discriminant()
+}
+
+/// WASM entrypoint: `G-DDF-TEM` relativistic magneto-elastic signal-front squared speed.
+#[unsafe(no_mangle)]
+pub extern "C" fn wasm_gddf_relativistic_magneto_elastic_speed_sq(
+    c_e_sq: f64,
+    v_a_sq: f64,
+    c_sq: f64,
+) -> f64 {
+    if require_positive("c_sq", c_sq).is_err() || c_e_sq + v_a_sq <= 0.0 {
+        return f64::NAN;
+    }
+    gddf_relativistic_magneto_elastic_speed_sq(c_e_sq, v_a_sq, c_sq)
+}
+
+/// WASM entrypoint: Dielectric Broadband Directional Antenna Cherenkov Mach-cone sine squared $\sin^2\theta_C = 1 - c_{\mathrm{med}}^2/v_{\mathrm{sweep}}^2$.
+#[unsafe(no_mangle)]
+pub extern "C" fn wasm_dielectric_broadband_antenna_cherenkov_sine_sq(
+    c_med_sq: f64,
+    v_sweep_sq: f64,
+) -> f64 {
+    if require_positive("c_med_sq", c_med_sq).is_err() || v_sweep_sq <= c_med_sq {
+        return f64::NAN;
+    }
+    dielectric_broadband_antenna_cherenkov_sine_sq(c_med_sq, v_sweep_sq)
+}
+
+// ============================================================================
 // 5. Parametric Tests (`rstest`) and Snapshot Tests (`insta`)
 // ============================================================================
 
@@ -885,5 +1228,138 @@ mod tests {
             ),
         );
         insta::assert_debug_snapshot!("thermal_inelastic_compton_raman_ddf_summary", summary);
+    }
+
+    #[rstest]
+    #[case(1.0, 0.0, 0.5, 2.5, 1.0, 2.25, 2.0, 0.5)] // Canonical Lord–Shulman (1967) half-space step-heating benchmark
+    #[case(1.0, 0.0, 0.0168, 2.0168, 1.0, 0.06748224, 1.13828672, 0.87851328)] // Copper at 300 K (eps_T = 0.0168)
+    #[case(0.5, 0.25, 0.2, 3.7, 2.5, 0.9225, 2.81046864, 0.88953136)] // Magnetized Lord–Shulman / G-DDF-TEM (beta_M^2 = 0.25)
+    fn parametric_gddf_tem_vs_lord_shulman_and_open_benchmark_datasets(
+        #[case] tau0: f64,
+        #[case] beta_m_sq: f64,
+        #[case] eps_t: f64,
+        #[case] expected_sum: f64,
+        #[case] expected_prod: f64,
+        #[case] expected_disc: f64,
+        #[case] expected_u_plus: f64,
+        #[case] expected_u_minus: f64,
+    ) {
+        // 1. Open Dataset 1: Lord & Shulman (1967) & Danilovskaya (1950) Twin-Wavefront Dispersion
+        let ls = LordShulmanMagnetoThermoElasticModel {
+            tau0,
+            beta_m_sq,
+            eps_t,
+        };
+        ls.validate().unwrap();
+        assert!((ls.wave_speed_sum() - expected_sum).abs() < 1e-7);
+        assert!((ls.wave_speed_prod() - expected_prod).abs() < 1e-7);
+        assert!((ls.discriminant() - expected_disc).abs() < 1e-7);
+        assert!(ls.discriminant() > 0.0);
+
+        let (u_plus, u_minus) = ls.squared_wave_speeds_u_plus_minus();
+        assert!((u_plus - expected_u_plus).abs() < 1e-6);
+        assert!((u_minus - expected_u_minus).abs() < 1e-6);
+        assert!((u_plus + u_minus - ls.wave_speed_sum()).abs() < 1e-12);
+        assert!((u_plus * u_minus - ls.wave_speed_prod()).abs() < 1e-12);
+        assert!(ls.characteristic_poly(u_plus).abs() < 1e-12);
+        assert!(ls.characteristic_poly(u_minus).abs() < 1e-12);
+        assert!(u_plus > 1.0 + beta_m_sq);
+        assert!(u_minus > 0.0 && u_minus < 1.0 + beta_m_sq);
+
+        // 2. Open Dataset 3: Four-Stratum Gr_C(2,4) Stratification (Stratum 1 Causal Signal Front vs.
+        //    Stratum 3 Superluminal Dielectric Sweep & ENZ Phase-Group Duality)
+        let nr_me = nonrelativistic_magneto_elastic_speed_sq(0.6, 0.6);
+        let rel_me = gddf_relativistic_magneto_elastic_speed_sq(0.6, 0.6, 1.0);
+        assert!((nr_me - 1.2).abs() < 1e-12 && nr_me > 1.0); // Non-relativistic Lord-Shulman violates c^2 = 1
+        assert!((rel_me - 6.0 / 11.0).abs() < 1e-12 && rel_me < 1.0 && rel_me > 0.0); // G-DDF-TEM strictly subluminal
+
+        let c_med_sq = dielectric_light_speed_sq(1.0, 25.0 / 9.0, 1.0); // Lignin-Vitrimer n_med = 5/3 => c_med = 0.6c
+        assert!((c_med_sq - 0.36).abs() < 1e-12 && c_med_sq < 1.0);
+        assert!(
+            dielectric_broadband_antenna_medium_plucker_interval(c_med_sq, c_med_sq).abs() < 1e-12
+        ); // Stratum 2 boundary
+        let i_med = dielectric_broadband_antenna_medium_plucker_interval(1.0, c_med_sq); // Sweep at v_sweep = 1.0c > 0.6c
+        assert!((i_med - (-16.0 / 9.0)).abs() < 1e-12 && i_med < 0.0); // Stratum 3 outside Gr_>=0(2,4)
+        let sin2_c = dielectric_broadband_antenna_cherenkov_sine_sq(c_med_sq, 1.0);
+        assert!((sin2_c - 0.64).abs() < 1e-12 && sin2_c > 0.0 && sin2_c < 1.0);
+        assert!((dispersive_enz_phase_group_product(1.0, 4.0 / 9.0) - 1.0).abs() < 1e-12);
+        assert!(evanescent_complex_skin_depth_norm_sq(0.5, 0.5) > 0.25); // Stratum 4 off-shell skin depth
+
+        // 3. Open Dataset 2: Peshkov He-II (19.7 m/s at 1.4 K), McNelly NaF (1950 m/s at 15.4 K),
+        //    Huberman Graphite (3200 m/s at 100 K), & Casotti Supersolid Leggett Second Sound
+        let he2_c_th = 19.7_f64;
+        let naf_c_th = 1950.0_f64;
+        let graphite_c_th = 3200.0_f64;
+        let c_light = 299_792_458.0_f64;
+        assert!(he2_c_th < naf_c_th && naf_c_th < graphite_c_th && graphite_c_th < c_light);
+        assert!(
+            (supersolid_bimodal_second_sound_speed_sq(10.0, 0.5) - 7.5).abs() < 1e-12
+                && supersolid_bimodal_second_sound_speed_sq(10.0, 0.5) < 10.0
+        );
+
+        // 4. Open Dataset 4: Onsager Reciprocity, G-TBC Interfacial Jump, Cuprate (G-CSC) Ultrasound &
+        //    Quench Margin, and Graphene (G-MGS) Dissipationless QAHE Hall Power
+        assert!((onsager_peltier_from_seebeck(200.0, 300.0) - 60_000.0).abs() < 1e-12);
+        assert!((nernst_transverse_electric_field(2.0, 3.0, 5.0) - 30.0).abs() < 1e-12);
+        assert!((joule_thomson_cooling_temp_drop(18.0, 2.5) - 45.0).abs() < 1e-12);
+        assert!(gddf_tem_interfacial_temp_jump(379.0, 50.0, 10_000.0) < 50.0);
+        assert!(
+            gddf_tem_active_interface_heat_flux(300.0, 2.0, 200.0, 300.0, -0.01, 0.0).abs()
+                < 1e-12
+        );
+        assert!((green_lindsay_effective_coupling(0.5, 1.0, 0.0) - 0.5).abs() < 1e-12);
+        assert!(green_lindsay_effective_coupling(0.5, 1.0, 2.0) > 0.5);
+        assert!(
+            (green_naghdi_thermal_wave_speed_sq(4.0 / 0.5, 2.0) - (4.0 / 2.0) / 0.5).abs() < 1e-12
+        );
+        assert!(finite_conductivity_magneto_elastic_factor(1.0, 0.0).abs() < 1e-12);
+        assert!((finite_conductivity_magneto_elastic_factor(1.0, 3.0) - 0.9).abs() < 1e-12);
+
+        // Cuprate G-CSC 245 K ultrasound softening, London magneto-elastic speed, & TiC quench margin
+        let c_e_245 = cuprate_softened_thermoelastic_speed_sq(10.0, 4.0 / 2.0, 1.0);
+        let c_e_300 = cuprate_softened_thermoelastic_speed_sq(
+            10.0,
+            4.0 / ((300.0_f64 - 245.0_f64).powi(2) + 2.0),
+            1.0,
+        );
+        assert!(c_e_245 < c_e_300);
+        let v_lon_10k =
+            superconducting_london_magneto_elastic_speed_sq(4.0, 2.0, 1.0, 1.0 / (1.0 - 10.0 / 93.0));
+        let v_lon_50k =
+            superconducting_london_magneto_elastic_speed_sq(4.0, 2.0, 1.0, 1.0 / (1.0 - 50.0 / 93.0));
+        assert!(v_lon_50k < v_lon_10k);
+        assert!((ybco_tape_quench_thermal_margin(70.0, 1.0, 90.0, 1.0, 1.0) - (-20.0)).abs() < 1e-12);
+        assert!(ybco_tape_quench_thermal_margin(103.6, 1.0, 90.0, 1.0, 1.0) > 0.0);
+
+        // Graphene G-MGS QAHE dissipationless Hall power
+        assert!(qahe_dissipationless_hall_power(0.0, 5.0, 3.0, 4.0).abs() < 1e-12);
+        assert!((qahe_dissipationless_hall_power(2.0, 5.0, 3.0, 4.0) - 50.0).abs() < 1e-12);
+
+        // 5. Open Dataset 5: G-GKBA (Paper 24 / Problem 04) + G-DDF-TEM Synthesis across
+        //    Graphite UEDS (0.5, 1.5, 5, 100 ps), MgB2 150 kV/cm THz pump, Hubbard U/J = 0..20, and WSe2
+        let c2_05ps = ggkba_graphite_acoustic_weighted_second_sound_speed_sq(4.0, 1.0, 0.5, 12.0);
+        let c2_15ps = ggkba_graphite_acoustic_weighted_second_sound_speed_sq(4.0, 3.0, 2.0, 12.0);
+        let c2_5ps = ggkba_graphite_acoustic_weighted_second_sound_speed_sq(4.0, 4.8, 3.9, 12.0);
+        let c2_100ps = ggkba_graphite_acoustic_weighted_second_sound_speed_sq(4.0, 6.0, 5.0, 12.0);
+        assert!((c2_05ps - 0.5).abs() < 1e-12);
+        assert!(c2_05ps < c2_15ps && c2_15ps < c2_5ps && c2_5ps < c2_100ps);
+
+        let v_mgb2_eq = ggkba_mgb2_driven_london_magneto_elastic_speed_sq(4.0, 2.0, 1.0, 1.0);
+        let v_mgb2_2ps = ggkba_mgb2_driven_london_magneto_elastic_speed_sq(4.0, 2.0, 1.0, 0.28);
+        let v_mgb2_norm = ggkba_mgb2_driven_london_magneto_elastic_speed_sq(4.0, 2.0, 1.0, 0.0);
+        assert!((v_mgb2_eq - 5.0).abs() < 1e-12);
+        assert!((v_mgb2_norm - 4.0).abs() < 1e-12);
+        assert!(v_mgb2_norm < v_mgb2_2ps && v_mgb2_2ps < v_mgb2_eq);
+
+        let eps_u0 = ggkba_hubbard_correlated_thermoelastic_coupling(1.0, 0.5, 0.5, 0.0);
+        let eps_u5 = ggkba_hubbard_correlated_thermoelastic_coupling(1.0, 0.5, 0.5, 5.0);
+        let eps_u15 = ggkba_hubbard_correlated_thermoelastic_coupling(1.0, 0.5, 0.5, 15.0);
+        let eps_u20 = ggkba_hubbard_correlated_thermoelastic_coupling(1.0, 0.5, 0.5, 20.0);
+        assert!((eps_u0 - 1.0).abs() < 1e-12);
+        assert!(eps_u20 < eps_u15 && eps_u15 < eps_u5 && eps_u5 < eps_u0);
+
+        assert!((ggkba_wse2_intervalley_phonon_heat_source(1.0) - 0.045).abs() < 1e-12);
+        assert!(ggkba_exciton_mott_magneto_elastic_coupling(2.0, 0.0, 10.0).abs() < 1e-12);
+        assert!((ggkba_exciton_mott_magneto_elastic_coupling(2.0, 10.0, 10.0) - 2.0).abs() < 1e-12);
     }
 }

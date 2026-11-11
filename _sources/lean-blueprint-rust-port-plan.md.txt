@@ -1,25 +1,116 @@
 # Lean Blueprint and Sphinxdocrs Roadmap
 
-Status as of 2026-10-04. This plan extends dsport's existing Sphinxdocrs H14
+Status as of 2026-11-11. This plan extends dsport's existing Sphinxdocrs H14
 work; it does not restart the Rust port of Sphinx.
 
 ## Current Baseline
 
 - Signals uses Lean `v4.35.0-rc3` and pins Mathlib to the matching release. Its
   `blueprint` target runs LeanArchitect's package-wide facet for all four
-  Signals libraries (`:blueprint` and `:blueprintJson`, completing at 3,715
-  Lake jobs across `Signals.Plabic`, `Signals.Geometry`, `Signals.QISM`,
-  `Signals.Scattering`, `Signals.Coherence`, `Signals.OAM`, `Signals.Huygens`,
-  `Signals.SolitonBus`, `Signals.Quadrature`, `Signals.CanonicalForms`,
-  `Signals.MHD`, `Signals.DDF`, `Signals.Pending`, and `Signals.Propagation`),
-  then renders the HTML with plasTeX. See `src/signals/Makefile:2,27-32`,
-  `src/signals/lakefile.toml:5-15`, `src/signals/blueprint/src/content.tex`,
-  and [`plan-index.md`](plan-index.md).
-- The Sphinx HTML build runs that target, copies its output under
-  `signals-blueprint/`, and exposes it through the documentation TOC. The PDF
-  target still uses `latexmk` and TeX Live. See `docs/conf.py:202-238`,
+  Signals libraries (`:blueprint` and `:blueprintJson`, completing at 3,628
+  core / 3,811 doc-gen4 Lake jobs across 35 `Signals` modules), sanitizes
+  generated `.artifacts/*.tex` files via `build_api_docs.py --sanitize-blueprint-tex`,
+  and renders the HTML with plasTeX. See `src/signals/Makefile:45-105`,
+  `src/signals/build_api_docs.py:92-265`, `src/signals/lakefile.toml:5-15`,
+  `src/signals/blueprint/src/content.tex`, and [`plan-index.md`](plan-index.md).
+- The Sphinx HTML build (`docs/conf.py:_build_signals_blueprint`) checks a
+  content-addressed SHA-256 stamp (`src/signals/.lake/build/sphinx-blueprint-inputs.sha256`)
+  over all `src/signals` Lean sources, `blueprint/src` inputs (excluding
+  `*.paux`), `Makefile`, and `build_api_docs.py`, skipping subprocess invocation
+  entirely when inputs are unchanged and streaming build output to
+  `.tmp/signals-blueprint.log` when a rebuild is needed. See `docs/conf.py:208-276`,
   `docs/_toc.yml:43`, `docs/signals-blueprint.md:1-13`, and
-  `src/signals/Makefile:31-32`.
+  `src/signals/Makefile:45-105`.
+
+## Root-Cause Diagnosis and Remediation of `signals-api` / `plasTeX` Bottlenecks (2026-11-11)
+
+### 1. Why `plasTeX` Repeatedly Printed `[ sect0002.html ]` and `WARNING: Using default renderer for active::&`
+
+With `split-level = 0` in `src/signals/blueprint/src/plastex.cfg`, the single
+`\chapter{Signals Lean library}` in `src/signals/blueprint/src/content.tex`
+should emit only `index.html`, `sect0001.html` (containing Sections `1.1`–`1.9`
+and all 1,540 formal nodes), and `dep_graph_document.html`.
+
+Investigation revealed four TeX tokenization hazards in the raw
+`@[blueprint (title := "...")]` and `(statement := /-- ... -/)` strings emitted
+by LeanArchitect into `.lake/build/blueprint/module/**/*.artifacts/*.tex`:
+
+1. **Unbalanced square brackets inside `\begin{definition}[title]`** (specifically
+   half-open intervals such as `e ∈ [0, 1)` in `def:signals-ddf-planetary-orbit`):
+   `plasTeX`'s `TeXFragment.readArgument` balances `[` and `]` tokens even inside
+   `{...}` groups. Because `[0, 1)` has an opening `[` and a closing `)`, the
+   bracket depth counter incremented from `1` to `2` at `[0, 1)` and only
+   decremented back to `1` at the end of `\begin{definition}[...]`. As a result,
+   `plasTeX` consumed the closing `]` as part of the title and swallowed ~2,000
+   lines of subsequent `\section` and theorem nodes inside
+   `<span class="definition_thmtitle">` until encountering another `]`.
+2. **Unescaped `%` signs in titles and statements** (e.g., `50%`, `98%`,
+   `37.5%`): treated by LaTeX/plasTeX as comment characters (`catcode 14`),
+   commenting out the closing `]` on line 1 of `.artifacts/*.tex`.
+3. **Unescaped `&` outside matrix environments** (e.g., `Al/Si & Al/GaN` in
+   titles or prose): parsed as TeX alignment tab tokens (`active::&`,
+   `catcode 4`), triggering `WARNING: Using default renderer for active::&`,
+   corrupting the DOM section stack, and causing `plasTeX` to spawn a phantom
+   empty `sect0002.html` page (`[ sect0002.html ] [ sect0002.html ] ...`).
+4. **Unescaped currency `$` in titles** (e.g., `$876k/yr`): opened an unclosed
+   math environment inside the optional `[title]` argument.
+
+**Fix Implemented (`src/signals/build_api_docs.py:sanitize_blueprint_tex`)**:
+Added an idempotent pre-plasTeX sanitizer (`python3 build_api_docs.py --sanitize-blueprint-tex`)
+that rewrites generated `.artifacts/*.tex` files in place:
+- Escapes unescaped `%` $\to$ `\%`,
+- Escapes unescaped `&` $\to$ `\&` outside `\begin{*matrix}...\end{*matrix}`,
+- Escapes unescaped currency `$` before digits (`\$(?=\d)`) when line 1 has an
+  odd number of `$` delimiters, and
+- Replaces nested `[` and `]` inside line-1 `\begin{...}[title]` arguments with
+  `$\lbrack$` and `$\rbrack$`.
+
+With this sanitizer, `sect0002.html` and `WARNING: Using default renderer for active::&`
+are completely eliminated, and `sect0001.html` renders all 9 sections (`1.1`–`1.9`)
+and 1,540 theorem/definition/lemma nodes cleanly.
+
+### 2. Why `signals-api` and `blueprint` Rebuilt Every Time (and How Incremental Caching Works)
+
+Four separate issues caused every `make docs` or `make -C src/signals blueprint`
+run to rebuild from scratch:
+
+1. **Self-Invalidating `web.paux` Hash in `src/signals/Makefile`**:
+   The `blueprint` target previously computed `current` via
+   `find blueprint/src .lake/build/blueprint -type f` *before* running `plastex`,
+   which included `blueprint/src/web.paux` (2.5 MB). Because `plastex` overwrites
+   `blueprint/src/web.paux` during rendering, saving the pre-`plastex` hash into
+   `.lake/build/blueprint-web.sha256` guaranteed that the next run hashed the
+   post-`plastex` `web.paux` and always saw a mismatch. Excluding `! -name '*.paux'`
+   restores deterministic cache hits.
+2. **Missing Input Stamps on `lean-api` and `:blueprint`**:
+   `lean-api` previously had no input stamp and unconditionally invoked
+   `lake build Signals @doc-gen4/coreDocs signalsApiDocs` and `build_api_docs.py`,
+   while `blueprint` unconditionally ran `lake build :blueprint`. We added
+   `.lake/build/lean-api-inputs.sha256` and `.lake/build/blueprint-lean-inputs.sha256`
+   in `src/signals/Makefile`, plus `.lake/build/sphinx-blueprint-inputs.sha256`
+   in `docs/conf.py`.
+3. **Unconditional SQLite Database Deletion in `build_api_docs.py`**:
+   `build_api_docs.py` previously unlinked `.lake/build/api-docs-signals.db` and
+   deleted `.lake/build/doc/` on every invocation. Inspection of `doc-gen4`
+   (`DocGen4/DB.lean:updateModuleDb` and `DocGen4/DB/Schema.lean`) confirmed that
+   `doc-gen4` natively supports **incremental per-module SQLite updates**:
+   `updateModuleDb` runs `DELETE FROM modules WHERE name = ?`, and all 18 child
+   tables declare `FOREIGN KEY (module_name) REFERENCES modules(name) ON DELETE CASCADE`.
+   We updated `build_api_docs.py` to persist per-module `(source_sha256, olean_stat)`
+   hashes in `.lake/build/api-docs-cache.json`:
+   - **0 modules changed**: `build_api_docs.py` exits in `< 0.02s`.
+   - **$k < N$ modules changed** (e.g., editing `Signals/DFT.lean` alone):
+     `build_api_docs.py` retains `api-docs-signals.db` and passes **only the $k$
+     changed modules** to `signalsApiDocs`, updating their rows in place before
+     running `doc-gen4 fromDb` and rewriting only modified HTML files.
+   - **Global config/schema change or `SIGNALS_API_FORCE_REBUILD=1`**: performs
+     a clean full rebuild.
+4. **Excessive Terminal Output During Agent Builds**:
+   `lake build :blueprint` emits >25 KB of `( /workspaces/.../.artifacts/...tex )..`
+   progress lines, and `plastex` emits per-file token streams. Redirecting these
+   to `.lake/build/blueprint-lake.log`, `.lake/build/plastex.log`, and
+   `.tmp/signals-blueprint.log` (dumping `tail -n 60` only on non-zero exit)
+   reduces normal terminal output to 3–5 summary lines.
 - `leoliu0/ratex` is cloned at `v0.5.2` under `src/ratex`; it is a complete,
   self-contained TeX engine. The local checkout occupies about 1.2 GB. Building
   it from source requires Rust 1.88. See `src/ratex/Cargo.toml:17` and
@@ -173,19 +264,55 @@ work; it does not restart the Rust port of Sphinx.
 - Acceptance: Rust round-trips the fixture schema deterministically and reports
   unsupported schema versions instead of dropping fields.
 
-### Phase 4: Sphinxdocrs Blueprint Extension
+### Phase 4: Sphinxdocrs Blueprint & API Extension (with Incremental SQLite + JSON Caching)
 
-- Add a small extension that consumes a validated snapshot and registers
-  blueprint theorem/definition nodes, cross-references, source links, and
-  dependency edges through the existing Sphinxdocrs extension/domain pipeline.
-- First run it through the current Python Sphinx build with the Rust extension
-  behind dsport's compatibility bridge. This isolates blueprint parity from
-  remaining native builder/theme gaps.
-- Render both the graph and an accessible textual dependency list. Reuse
-  existing Lean domain anchors; do not duplicate declarations in a parallel
-  object index.
+- Add a Rust crate/module (`sphinxdocrs::blueprint` and PyO3 wrapper
+  `sphinxcontrib_lean_blueprint_rs`) that consumes **both** LeanArchitect's
+  `.lake/build/blueprint/module/**/*.json` (`:blueprintJson`) and `doc-gen4`'s
+  SQLite database `.lake/build/api-docs-signals.db` directly via `serde_json`
+  and `rusqlite`:
+  1. **Elimination of `plasTeX` and LaTeX Macro Intermediaries**:
+     By reading `:blueprintJson` + `content.tex` section structure directly in
+     Rust rather than expanding `\newleannode` / `\inputleanmodule` through
+     `plasTeX`, the extension completely bypasses Python `plasTeX` tokenization
+     (eliminating `web.paux` serialization overhead and TeX catcode failures on
+     `[0, 1)`, `%`, `&`, and `$`).
+  2. **Content-Addressed Per-Module & Per-Node Incremental Cache**:
+     Maintain a fine-grained Rust cache manifest (`.lake/build/sphinxdocrs-blueprint-cache.bin`
+     keyed by `blake3` hashes of each module's `.olean`, `:blueprintJson` file,
+     and `api-docs-signals.db` row digest):
+     - **Module API Pages (`signals-api/Signals/*.html`)**: Render HTML directly
+       from `api-docs-signals.db` in Rust using parallel `rayon` workers,
+       applying the `HOSTED_DOCS` (`Mathlib`, `Physlib`, `Init`, `Std`, `Lake`,
+       `Lean`) and `Architect` source-link rewrites in a single streaming pass
+       at generation time (replacing the post-hoc Python regex pass in
+       `build_api_docs.py:rewrite_html_links`) and re-emitting only modules
+       whose SQLite rows changed.
+     - **Blueprint Nodes & Dependency Graph (`sect0001.html`, `dep_graph_document.html`)**:
+       Parse `content.tex` section prose and `\inputleanmodule{...}` directives
+       into a typed AST; join each node label (`def:*`, `lem:*`, `thm:*`) with
+       its `:blueprintJson` metadata (`title`, `statement`, `proof`, `uses`,
+       `proofUses`, `leanok`, `notready`, `discussion`, `leandecls`) and
+       resolved `signals-api` declaration URLs; incrementally re-render only
+       modified sections and dirty connected components of the dependency DAG.
+  3. **Dual Execution Mode (Python Sphinx Extension + Native `sphinxdocrs`)**:
+     - *Mode A (Drop-in Python Sphinx Extension)*: Register a PyO3 extension
+       module in `docs/conf.py` (`extensions.append("sphinxcontrib_lean_blueprint_rs")`)
+       that replaces `_build_signals_blueprint` and `_copy_signals_blueprint`,
+       emitting incremental blueprint and API pages directly into `app.outdir`
+       and registering theorem labels (`thm:signals-*`, `def:signals-*`,
+       `lem:signals-*`) in Sphinx's standard `std:label` and `lean:decl` domains
+       so MyST documents can cross-reference blueprint theorems via `{ref}`.
+     - *Mode B (Native `sphinxdocrs` H14 Builder)*: Register the same Rust
+       `BlueprintSnapshot` and `DocGen4SqliteReader` providers directly in
+       `src/dsport/src/sphinxdocrs/src/source_analysis/lean.rs`.
+- Render both the interactive SVG/Canvas dependency graph and an accessible
+  textual dependency list. Reuse existing Lean domain anchors; do not duplicate
+  declarations in a parallel object index.
 - Acceptance: the Sphinx page has stable URLs, working theorem links, searchable
-  labels, and graph edges exactly matching LeanArchitect's export.
+  labels, zero `sect0002.html` phantom splits, sub-100 ms incremental rebuilds
+  when a single Lean module or MyST doc changes, and graph edges exactly
+  matching LeanArchitect's export.
 
 ### Phase 5: Rust leanblueprint-Compatible CLI
 

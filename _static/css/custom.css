@@ -189,7 +189,10 @@ footer {
 }
 
 span.pre {
-    word-wrap: break-word;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+
+  color: #275b88;
 }
 
 pre.ap-terminal {

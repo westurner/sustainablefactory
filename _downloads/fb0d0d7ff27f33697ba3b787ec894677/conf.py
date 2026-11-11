@@ -205,6 +205,31 @@ def _regenerate_glossary(app):
         logging.getLogger(__name__).info("glossary.md regenerated from glossary.yaml")
 
 
+def _compute_signals_blueprint_input_hash(signals_dir: Path) -> str:
+    import hashlib
+
+    digest = hashlib.sha256()
+    tracked_files = sorted(
+        list((signals_dir / "Signals").rglob("*.lean"))
+        + list(signals_dir.glob("Signals*.lean"))
+        + list((signals_dir / "blueprint" / "src").rglob("*"))
+        + [
+            signals_dir / "Makefile",
+            signals_dir / "build_api_docs.py",
+            signals_dir / "lakefile.toml",
+            signals_dir / "lake-manifest.json",
+            signals_dir / "requirements-blueprint.txt",
+        ]
+    )
+    for path in tracked_files:
+        if path.is_file() and path.suffix != ".paux":
+            digest.update(str(path.relative_to(signals_dir)).encode("utf-8"))
+            digest.update(b"\0")
+            digest.update(path.read_bytes())
+            digest.update(b"\0")
+    return digest.hexdigest()
+
+
 def _build_signals_blueprint(app):
     if app.builder.format != "html":
         return
@@ -212,19 +237,46 @@ def _build_signals_blueprint(app):
         return
 
     repo_root = Path(__file__).resolve().parents[1]
+    signals_dir = repo_root / "src" / "signals"
+    build_dir = signals_dir / ".lake" / "build"
+    stamp_path = build_dir / "sphinx-blueprint-inputs.sha256"
+    web_index = signals_dir / "blueprint" / "web" / "index.html"
+    api_index = build_dir / "doc" / "Signals.html"
+
+    current_hash = _compute_signals_blueprint_input_hash(signals_dir)
+    if (
+        os.environ.get("SIGNALS_API_FORCE_REBUILD") != "1"
+        and stamp_path.is_file()
+        and stamp_path.read_text(encoding="utf-8").strip() == current_hash
+        and web_index.is_file()
+        and api_index.is_file()
+    ):
+        return
+
     tmp_dir = repo_root / ".tmp"
     if not tmp_dir.exists():
         tmp_dir.mkdir(mode=0o1777)
         tmp_dir.chmod(0o1777)
 
+    log_path = tmp_dir / "signals-blueprint.log"
     env = os.environ.copy()
     env["TMPDIR"] = str(tmp_dir)
-    subprocess.run(
-        ["make", "-C", str(repo_root / "src" / "signals"), "blueprint"],
-        cwd=repo_root,
-        env=env,
-        check=True,
-    )
+    with log_path.open("w", encoding="utf-8") as log_file:
+        result = subprocess.run(
+            ["make", "-C", str(signals_dir), "blueprint"],
+            cwd=repo_root,
+            env=env,
+            stdout=log_file,
+            stderr=subprocess.STDOUT,
+            check=False,
+        )
+    if result.returncode != 0:
+        tail = "\n".join(log_path.read_text(encoding="utf-8").splitlines()[-60:])
+        raise RuntimeError(
+            f"Signals blueprint build failed (see {log_path}):\n{tail}"
+        )
+    build_dir.mkdir(parents=True, exist_ok=True)
+    stamp_path.write_text(current_hash + "\n", encoding="utf-8")
 
 
 def _copy_signals_blueprint(app, exception):

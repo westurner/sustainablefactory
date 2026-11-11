@@ -61,6 +61,7 @@
       "grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper",
       "grassmannian-tequila-rust-pyo3-quantum-simulator-paper",
       "grassmannian-thermal-compton-raman-paper",
+      "grassmannian-thermo-electro-magnetics-lord-shulman-paper",
       "grassmannian-tuning-materials-with-light-paper",
       "grassmannian-unification-applications-roadmap-paper",
       "grassmannian-vectorial-longitudinal-polarization-paper",
@@ -91,6 +92,374 @@
     "root": "index"
   },
   "pages": [
+    {
+      "children": [],
+      "docname": "README",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "signals"
+            ],
+            "level": 1,
+            "title": "Signals"
+          },
+          {
+            "ids": [
+              "research-workflow"
+            ],
+            "level": 2,
+            "title": "Research Workflow"
+          },
+          {
+            "ids": [
+              "current-scope"
+            ],
+            "level": 2,
+            "title": "Current Scope"
+          },
+          {
+            "ids": [
+              "huygens-twistor-translation-and-plabic-routing"
+            ],
+            "level": 2,
+            "title": "Huygens, Twistor Translation, and Plabic Routing"
+          },
+          {
+            "ids": [
+              "cw-application-review"
+            ],
+            "level": 2,
+            "title": "CW Application Review"
+          },
+          {
+            "ids": [
+              "build"
+            ],
+            "level": 2,
+            "title": "Build"
+          },
+          {
+            "ids": [
+              "blueprint"
+            ],
+            "level": 2,
+            "title": "Blueprint"
+          },
+          {
+            "ids": [
+              "development-plan"
+            ],
+            "level": 2,
+            "title": "Development Plan"
+          },
+          {
+            "ids": [
+              "phase-1-stabilize-the-base-api"
+            ],
+            "level": 3,
+            "title": "Phase 1: Stabilize the base API"
+          },
+          {
+            "ids": [
+              "phase-2-formalize-standard-signal-and-field-models"
+            ],
+            "level": 3,
+            "title": "Phase 2: Formalize standard signal and field models"
+          },
+          {
+            "ids": [
+              "phase-3-add-geometry-and-fabrication-abstractions"
+            ],
+            "level": 3,
+            "title": "Phase 3: Add geometry and fabrication abstractions"
+          },
+          {
+            "ids": [
+              "phase-4-atmospheric-scavenging-and-panel-models"
+            ],
+            "level": 3,
+            "title": "Phase 4: Atmospheric scavenging and panel models"
+          },
+          {
+            "ids": [
+              "agent-loop-record"
+            ],
+            "level": 3,
+            "title": "Agent Loop Record"
+          },
+          {
+            "ids": [
+              "open-flow-dataset-research"
+            ],
+            "level": 3,
+            "title": "Open Flow Dataset Research"
+          },
+          {
+            "ids": [
+              "further-questions"
+            ],
+            "level": 3,
+            "title": "Further Questions"
+          },
+          {
+            "ids": [
+              "scholarly-basis"
+            ],
+            "level": 3,
+            "title": "Scholarly Basis"
+          },
+          {
+            "ids": [
+              "pending-physical-formalisms"
+            ],
+            "level": 3,
+            "title": "Pending Physical Formalisms"
+          },
+          {
+            "ids": [
+              "pending-contract-implications-and-validation"
+            ],
+            "level": 3,
+            "title": "Pending Contract Implications and Validation"
+          },
+          {
+            "ids": [
+              "pending-contract-promotion-checklist"
+            ],
+            "level": 4,
+            "title": "Pending-contract promotion checklist"
+          },
+          {
+            "ids": [
+              "scholarly-references"
+            ],
+            "level": 3,
+            "title": "Scholarly References"
+          },
+          {
+            "ids": [
+              "scattering-metrology-plan"
+            ],
+            "level": 3,
+            "title": "Scattering Metrology Plan"
+          },
+          {
+            "ids": [
+              "amplituhedron-formalization-plan"
+            ],
+            "level": 3,
+            "title": "Amplituhedron Formalization Plan"
+          },
+          {
+            "ids": [
+              "phase-5-lightslinger-and-resonator-models"
+            ],
+            "level": 3,
+            "title": "Phase 5: LightSlinger and resonator models"
+          },
+          {
+            "ids": [
+              "phase-6-nondestructive-measurement-and-reversible-operations"
+            ],
+            "level": 3,
+            "title": "Phase 6: Nondestructive measurement and reversible operations"
+          },
+          {
+            "ids": [
+              "phase-7-upstream-contributions"
+            ],
+            "level": 3,
+            "title": "Phase 7: Upstream contributions"
+          },
+          {
+            "ids": [
+              "research-boundaries"
+            ],
+            "level": 2,
+            "title": "Research Boundaries"
+          },
+          {
+            "ids": [
+              "radio-basics-crystal-am-and-fm-with-lean-signals"
+            ],
+            "level": 2,
+            "title": "Radio Basics: Crystal, AM, and FM with Lean Signals"
+          },
+          {
+            "ids": [
+              "introduction-to-radio-reception"
+            ],
+            "level": 3,
+            "title": "Introduction to Radio Reception"
+          },
+          {
+            "ids": [
+              "crystal-radio-the-simplest-radio-receiver"
+            ],
+            "level": 3,
+            "title": "Crystal Radio: The Simplest Radio Receiver"
+          },
+          {
+            "ids": [
+              "crystal-detector-model"
+            ],
+            "level": 4,
+            "title": "Crystal Detector Model"
+          },
+          {
+            "ids": [
+              "lc-tuning-circuit"
+            ],
+            "level": 4,
+            "title": "LC Tuning Circuit"
+          },
+          {
+            "ids": [
+              "am-amplitude-modulation"
+            ],
+            "level": 3,
+            "title": "AM (Amplitude Modulation)"
+          },
+          {
+            "ids": [
+              "am-signal-structure"
+            ],
+            "level": 4,
+            "title": "AM Signal Structure"
+          },
+          {
+            "ids": [
+              "am-bandwidth-and-sidebands"
+            ],
+            "level": 4,
+            "title": "AM Bandwidth and Sidebands"
+          },
+          {
+            "ids": [
+              "am-demodulation"
+            ],
+            "level": 4,
+            "title": "AM Demodulation"
+          },
+          {
+            "ids": [
+              "fm-frequency-modulation"
+            ],
+            "level": 3,
+            "title": "FM (Frequency Modulation)"
+          },
+          {
+            "ids": [
+              "fm-signal-structure"
+            ],
+            "level": 4,
+            "title": "FM Signal Structure"
+          },
+          {
+            "ids": [
+              "carsons-bandwidth-rule"
+            ],
+            "level": 4,
+            "title": "Carson\u2019s Bandwidth Rule"
+          },
+          {
+            "ids": [
+              "narrowband-vs-wideband-fm"
+            ],
+            "level": 4,
+            "title": "Narrowband vs. Wideband FM"
+          },
+          {
+            "ids": [
+              "radio-receiver-model"
+            ],
+            "level": 3,
+            "title": "Radio Receiver Model"
+          },
+          {
+            "ids": [
+              "example-am-radio-station"
+            ],
+            "level": 3,
+            "title": "Example: AM Radio Station"
+          },
+          {
+            "ids": [
+              "example-fm-radio-station"
+            ],
+            "level": 3,
+            "title": "Example: FM Radio Station"
+          },
+          {
+            "ids": [
+              "impedance-and-power-conversion"
+            ],
+            "level": 3,
+            "title": "Impedance and Power Conversion"
+          },
+          {
+            "ids": [
+              "narrowband-approximation"
+            ],
+            "level": 3,
+            "title": "Narrowband Approximation"
+          },
+          {
+            "ids": [
+              "key-insights-and-design-principles"
+            ],
+            "level": 3,
+            "title": "Key Insights and Design Principles"
+          },
+          {
+            "ids": [
+              "verification-examples"
+            ],
+            "level": 3,
+            "title": "Verification Examples"
+          },
+          {
+            "ids": [
+              "further-reading"
+            ],
+            "level": 3,
+            "title": "Further Reading"
+          },
+          {
+            "ids": [
+              "dilatant-dark-fluid-ddf-formalization-plan"
+            ],
+            "level": 2,
+            "title": "Dilatant Dark Fluid (DDF) Formalization Plan"
+          },
+          {
+            "ids": [
+              "citation"
+            ],
+            "level": 3,
+            "title": "Citation"
+          },
+          {
+            "ids": [
+              "theoretical-summary"
+            ],
+            "level": 3,
+            "title": "Theoretical Summary"
+          },
+          {
+            "ids": [
+              "implementation-roadmap-for-signals"
+            ],
+            "level": 3,
+            "title": "Implementation Roadmap for Signals"
+          }
+        ]
+      },
+      "source": "README.md",
+      "title": "Signals",
+      "url": "README.html"
+    },
     {
       "children": [],
       "docname": "anti-fire-cannon-review",
@@ -200259,13 +200628,6 @@
           },
           {
             "ids": [
-              "id1"
-            ],
-            "level": 3,
-            "title": "Scholarly References"
-          },
-          {
-            "ids": [
               "bibtex-provenance-entries"
             ],
             "level": 3,
@@ -205010,6 +205372,179 @@
     },
     {
       "children": [],
+      "docname": "grassmannian-thermo-electro-magnetics-lord-shulman-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "grassmannianddf-thermo-electro-magnetics-g-ddf-tem-as-a-complete-alternative-to-lordshulman-four-sector-mathrm-gr-mathbb-c-2-4-causality-subluminal-signal-fronts-vs-superluminal-dielectric-sweeps-mathrm-er-mathrm-epr-onsager-reciprocity-g-tbc-interfacial-coupling-and-cuprate-g-csc-multilayer-graphene-g-mgs-superconducting-dynamics-in-lean-4-and-rust-wasm",
+              "grassmannian-thermo-electro-magnetics-lord-shulman-paper"
+            ],
+            "level": 1,
+            "title": "Grassmannian\u2013DDF Thermo-Electro-Magnetics (G-DDF-TEM) as a Complete Alternative to Lord\u2013Shulman: Four-Sector \\mathrm{Gr}_{\\mathbb{C}}(2,4) Causality (Subluminal Signal Fronts vs. Superluminal Dielectric Sweeps & \\mathrm{ER}=\\mathrm{EPR}), Onsager Reciprocity, G-TBC Interfacial Coupling, and Cuprate (G-CSC) / Multilayer Graphene (G-MGS) Superconducting Dynamics in Lean 4 and Rust/WASM"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "mathematical-formulation-of-g-ddf-tem-vs-classical-lordshulman-greenlindsay-and-greennaghdi"
+            ],
+            "level": 2,
+            "title": "1. Mathematical Formulation of G-DDF-TEM vs. Classical Lord\u2013Shulman, Green\u2013Lindsay, and Green\u2013Naghdi"
+          },
+          {
+            "ids": [
+              "coupled-field-equations-of-thermo-electro-magnetics"
+            ],
+            "level": 3,
+            "title": "1.1 Coupled Field Equations of Thermo-Electro-Magnetics"
+          },
+          {
+            "ids": [
+              "dimensionless-coupled-magneto-thermoelastic-characteristic-dispersion-lordshulmancharacteristicpoly-lordshulmandiscriminant"
+            ],
+            "level": 3,
+            "title": "1.2 Dimensionless Coupled Magneto-Thermoelastic Characteristic Dispersion (lordShulmanCharacteristicPoly, lordShulmanDiscriminant)"
+          },
+          {
+            "ids": [
+              "six-model-comparison-table-classical-fourier-cattaneovernotte-lordshulman-1967-greenlindsay-1972-greennaghdi-19911993-and-g-ddf-tem"
+            ],
+            "level": 3,
+            "title": "1.3 Six-Model Comparison Table: Classical Fourier, Cattaneo\u2013Vernotte, Lord\u2013Shulman (1967), Green\u2013Lindsay (1972), Green\u2013Naghdi (1991\u20131993), and G-DDF-TEM"
+          },
+          {
+            "ids": [
+              "resolving-the-causality-question-via-the-four-kinematic-strata-of-mathrm-gr-mathbb-c-2-4-subluminal-signal-fronts-vs-superluminal-dielectric-sweeps-enz-phase-velocities-and-mathrm-er-mathrm-epr"
+            ],
+            "level": 2,
+            "title": "2. Resolving the Causality Question via the Four Kinematic Strata of \\mathrm{Gr}_{\\mathbb{C}}(2,4): Subluminal Signal Fronts vs. superluminal dielectric Sweeps, ENZ Phase Velocities, and \\mathrm{ER}=\\mathrm{EPR}"
+          },
+          {
+            "ids": [
+              "why-requiring-real-subluminal-wave-speeds-everywhere-is-only-true-on-mathrm-gr-0-2-4-and-why-g-ddf-tem-uses-the-full-complex-grassmannian-mathrm-gr-mathbb-c-2-4"
+            ],
+            "level": 3,
+            "title": "2.1 Why Requiring Real Subluminal Wave Speeds Everywhere Is Only True on \\mathrm{Gr}_{>0}(2,4)\u2014and Why G-DDF-TEM Uses the Full Complex Grassmannian \\mathrm{Gr}_{\\mathbb{C}}(2,4)"
+          },
+          {
+            "ids": [
+              "detailed-physics-of-the-four-mathrm-gr-mathbb-c-2-4-strata-in-g-ddf-tem"
+            ],
+            "level": 3,
+            "title": "2.2 Detailed Physics of the Four \\mathrm{Gr}_{\\mathbb{C}}(2,4) Strata in G-DDF-TEM"
+          },
+          {
+            "ids": [
+              "why-ftl-waves-inside-a-dielectric-never-violate-relativistic-causality-directionalbroadbandantenna-ereprnosignalingmarginala"
+            ],
+            "level": 4,
+            "title": "Why FTL Waves Inside a Dielectric Never Violate Relativistic Causality (DirectionalBroadbandAntenna, erEprNoSignalingMarginalA)"
+          },
+          {
+            "ids": [
+              "unification-with-interfacial-heat-transport-g-tbc-paper-25-cuprate-superconductivity-g-csc-paper-26-and-rhombohedral-moire-multilayer-graphene-g-mgs-paper-28"
+            ],
+            "level": 2,
+            "title": "3. Unification with Interfacial Heat Transport (G-TBC, Paper 25), Cuprate Superconductivity (G-CSC, Paper 26), and Rhombohedral/Moir\u00e9 Multilayer Graphene (G-MGS, Paper 28)"
+          },
+          {
+            "ids": [
+              "g-tbc-interfacial-thermo-electro-magnetics-bond-compliance-400-text-k-mathrm-gr-mathbb-c-2-5-anharmonicity-1-48-times-carbide-bridges-and-active-peltier-kapitza-cancellation"
+            ],
+            "level": 3,
+            "title": "3.1 G-TBC Interfacial Thermo-Electro-Magnetics: Bond Compliance, > 400\\text{ K} \\mathrm{Gr}_{\\mathbb{C}}(2,5) Anharmonicity, 1.48\\times Carbide Bridges, and Active Peltier Kapitza Cancellation"
+          },
+          {
+            "ids": [
+              "cuprate-superconducting-thermo-electro-magnetics-g-csc-paper-26-ybco-245-text-k-ultrasound-softening-londonmeissner-wave-dispersion-and-tic-bridged-quench-protection"
+            ],
+            "level": 3,
+            "title": "3.2 Cuprate Superconducting Thermo-Electro-Magnetics (G-CSC, Paper 26): YBCO 245\\text{ K} Ultrasound Softening, London\u2013Meissner Wave Dispersion, and TiC-Bridged Quench Protection"
+          },
+          {
+            "ids": [
+              "rhombohedral-moire-multilayer-graphene-g-mgs-paper-28-dissipationless-c-pm-5-qahe-c-1-ahc-hall-routing-fubinistudy-kinetic-inductance-supersolid-bimodal-second-sound"
+            ],
+            "level": 3,
+            "title": "3.3 Rhombohedral & Moir\u00e9 Multilayer Graphene (G-MGS, Paper 28): Dissipationless C = \\pm 5 QAHE / C = 1 AHC Hall Routing, Fubini\u2013Study Kinetic Inductance, & Supersolid Bimodal Second Sound"
+          },
+          {
+            "ids": [
+              "time-linear-grassmannian-generalized-kadanoffbaym-ansatz-g-gkba-paper-24-problem-04-microscopic-non-equilibrium-closure-for-g-ddf-tem-across-hubbard-mathrm-wse-2-graphite-and-mathrm-mgb-2"
+            ],
+            "level": 3,
+            "title": "3.4 Time-Linear Grassmannian Generalized Kadanoff\u2013Baym Ansatz (G-GKBA, Paper 24 / Problem 04): Microscopic Non-Equilibrium Closure for G-DDF-TEM Across Hubbard, \\mathrm{WSe}_2, Graphite, and \\mathrm{MgB}_2"
+          },
+          {
+            "ids": [
+              "six-concrete-engineering-applications-of-g-ddf-tem"
+            ],
+            "level": 2,
+            "title": "4. Six Concrete Engineering Applications of G-DDF-TEM"
+          },
+          {
+            "ids": [
+              "open-benchmark-datasets-check-figures-and-multi-model-error-evaluation"
+            ],
+            "level": 2,
+            "title": "5. Open Benchmark Datasets, Check Figures, and Multi-Model Error Evaluation"
+          },
+          {
+            "ids": [
+              "self-contained-machine-checked-lean-4-rust-wasm-verification"
+            ],
+            "level": 2,
+            "title": "6. Self-Contained Machine-Checked Lean 4 & Rust/WASM Verification"
+          },
+          {
+            "ids": [
+              "lean-4-verification-snippet-signals-dft-sections-24-24-1"
+            ],
+            "level": 3,
+            "title": "6.1 Lean 4 Verification Snippet (Signals.DFT Sections 24 & 24.1)"
+          },
+          {
+            "ids": [
+              "reproducible-build-test-commands"
+            ],
+            "level": 3,
+            "title": "6.2 Reproducible Build & Test Commands"
+          },
+          {
+            "ids": [
+              "scholarly-provenance-references"
+            ],
+            "level": 3,
+            "title": "Scholarly & Provenance References"
+          },
+          {
+            "ids": [
+              "bibtex-citations"
+            ],
+            "level": 3,
+            "title": "BibTeX Citations"
+          },
+          {
+            "ids": [
+              "schema-org-metadata-json-ld"
+            ],
+            "level": 3,
+            "title": "Schema.org Metadata (JSON-LD)"
+          }
+        ]
+      },
+      "source": "grassmannian-thermo-electro-magnetics-lord-shulman-paper.md",
+      "title": "Grassmannian\u2013DDF Thermo-Electro-Magnetics (G-DDF-TEM) as a Complete Alternative to Lord\u2013Shulman: Four-Sector \\mathrm{Gr}_{\\mathbb{C}}(2,4) Causality (Subluminal Signal Fronts vs. Superluminal Dielectric Sweeps & \\mathrm{ER}=\\mathrm{EPR}), Onsager Reciprocity, G-TBC Interfacial Coupling, and Cuprate (G-CSC) / Multilayer Graphene (G-MGS) Superconducting Dynamics in Lean 4 and Rust/WASM",
+      "url": "grassmannian-thermo-electro-magnetics-lord-shulman-paper.html"
+    },
+    {
+      "children": [],
       "docname": "grassmannian-tuning-materials-with-light-paper",
       "doctree": {
         "headings": [
@@ -205210,10 +205745,10 @@
           },
           {
             "ids": [
-              "causal-ultrafast-cryogenic-thermal-engineering-cattaneovernotteheatmodel-movingsheath-ddfthermaltransport"
+              "causal-ultrafast-cryogenic-thermal-engineering-and-g-ddf-tem-vs-lordshulman-cattaneovernotteheatmodel-movingsheath-ddfthermaltransport-signals-dft-sec-24"
             ],
             "level": 3,
-            "title": "2.3 Causal Ultrafast & Cryogenic Thermal Engineering (CattaneoVernotteHeatModel, MovingSheath.ddfThermalTransport_*)"
+            "title": "2.3 Causal Ultrafast & Cryogenic Thermal Engineering and G-DDF-TEM vs. Lord\u2013Shulman (CattaneoVernotteHeatModel, MovingSheath.ddfThermalTransport_*, Signals.DFT Sec. 24)"
           },
           {
             "ids": [
@@ -206013,6 +206548,7 @@
         "grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper",
         "grassmannian-tequila-rust-pyo3-quantum-simulator-paper",
         "grassmannian-thermal-compton-raman-paper",
+        "grassmannian-thermo-electro-magnetics-lord-shulman-paper",
         "grassmannian-tuning-materials-with-light-paper",
         "grassmannian-unification-applications-roadmap-paper",
         "grassmannian-vectorial-longitudinal-polarization-paper",
@@ -206220,6 +206756,27 @@
           },
           {
             "ids": [
+              "root-cause-diagnosis-and-remediation-of-signals-api-plastex-bottlenecks-2026-11-11"
+            ],
+            "level": 2,
+            "title": "Root-Cause Diagnosis and Remediation of signals-api / plasTeX Bottlenecks (2026-11-11)"
+          },
+          {
+            "ids": [
+              "why-plastex-repeatedly-printed-sect0002-html-and-warning-using-default-renderer-for-active"
+            ],
+            "level": 3,
+            "title": "1. Why plasTeX Repeatedly Printed [ sect0002.html ] and WARNING: Using default renderer for active::&"
+          },
+          {
+            "ids": [
+              "why-signals-api-and-blueprint-rebuilt-every-time-and-how-incremental-caching-works"
+            ],
+            "level": 3,
+            "title": "2. Why signals-api and blueprint Rebuilt Every Time (and How Incremental Caching Works)"
+          },
+          {
+            "ids": [
               "design-boundaries"
             ],
             "level": 2,
@@ -206269,10 +206826,10 @@
           },
           {
             "ids": [
-              "phase-4-sphinxdocrs-blueprint-extension"
+              "phase-4-sphinxdocrs-blueprint-api-extension-with-incremental-sqlite-json-caching"
             ],
             "level": 3,
-            "title": "Phase 4: Sphinxdocrs Blueprint Extension"
+            "title": "Phase 4: Sphinxdocrs Blueprint & API Extension (with Incremental SQLite + JSON Caching)"
           },
           {
             "ids": [
