@@ -7097,6 +7097,279 @@ theorem gddf_tem_ggkba_light_driven_thermo_electro_magnetics_synthesis_identitie
     by unfold ggkbaExcitonMottMagnetoElasticCoupling excitonPauliPhaseSpaceFillingFactor; simp,
     h_mott_full⟩
 
+/-! ## Section 25: DDF Fracture-Based Communication vs. $\mathrm{ER}=\mathrm{EPR}$ Entanglement / Wormholes and Hybrid Fracture-Keyed Synthesis on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ (Paper 47)
+
+Formalizes the mathematical, topological, causal, and thermodynamic distinctions—and the 4-stratum
+$\mathrm{Gr}_{\mathbb{C}}(2,4)$ connection—between:
+1. **DDF Fracture-Based Communication (`HDDF` in `src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md`)**:
+   - A **local, contiguous topological defect / phase-slip / vortex-core waveguide** formed when applied
+     shear exceeds the critical Deborah threshold $\mathrm{De} = \tau_{\mathrm{relax}}\dot{\gamma} > 1$
+     (`ddfFractureDeborahRatio`, matching $\mathrm{De}/\mathrm{De}_c > 1 \iff \hbar^2\omega^2 < 0$ in
+     `Signals.DDF.grassmannian_bogoliubov_proca_and_deborah_fracture_identities`) with quantized $2\pi n$
+     plaquette phase-slip holonomy (`Signals.DDF.plaquette_phase_slip_syndrome`).
+   - Requires **zero quantum entanglement** ($\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 = 0$, $A_{\mathrm{ER}} = 0$),
+     propagates **causally** through the intervening medium at the emergent transverse-phonon speed
+     $L_{\mathrm{path}} \le c_{\mathrm{emergent}}\,t_{\mathrm{arrival}}$ (`ddfFractureCausalTransitMargin`),
+     provides $(r/w_{\mathrm{corridor}})^2$ directional guiding gain over 3D spherical spreading
+     (`ddfFractureCorridorGuidingGain`), and achieves **non-zero standalone classical bit contrast**
+     $\Delta y_{\mathrm{fracture}} = 2\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} > 0$ (`ddfFractureStandaloneBitContrast`)
+     after subtracting the classical acoustic baseline and Kutta–Joukowski Magnus lift $L' = \rho U \Gamma$
+     (`ddfFractureMagnusSubtractedResidual`).
+   - Because $p_{23} = 0$, a purely classical fracture channel cannot teleport coherent quantum states
+     above the classical fidelity floor (`ddfFractureVsWormholeQuantumFidelity 0 sin_2theta = 1 / 2`), and
+     high-amplitude driving ($\tau_{\mathrm{drive}} > \tau_{\mathrm{crit}}$) widens/sustains the fracture
+     (`0 < ddfFractureOverloadExcessShear`) rather than triggering gravitational horizon collapse.
+2. **$\mathrm{ER}=\mathrm{EPR}$ Entanglement / Wormhole Communication (`Signals.DFT` Section 23)**:
+   - A **non-local bipartite deformed-conifold throat** on $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4$
+     requiring strictly non-zero Plücker entanglement concurrence $\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 > 0$
+     and throat area $A_{\mathrm{ER}} = 16\ell_P^2 S_{\max}|p_{23}|^2 > 0$ (`erEprThroatAreaFromPlucker`),
+     without requiring a contiguous mechanical crack through the ambient space between Alice and Bob.
+   - Alone ($g_{\mathrm{GJW}} = 0$), it transmits **zero standalone bit contrast**
+     (`erEprTransceiverDifferentialContrast 0 = 0`, `erEprNoSignalingMarginalA`), and overloading the
+     throat beyond the off-shell Bohmian negative-energy cushion ($E_{\mathrm{transit}} > \mathcal{B}_{\mathrm{Bohm}}$)
+     triggers **Raychaudhuri focusing collapse** (`0 < wormholeNetNullDefocusingFlux`).
+3. **Synergistic Synthesis — The Hybrid Fracture-Keyed $\mathrm{ER}=\mathrm{EPR}$ Transceiver (`hybridFractureKeyedErEprRxProbability`)**:
+   - Uses a causal DDF fracture / acoustic waveguide ($\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} \in (0, 1]$
+     arriving at $t_{\mathrm{arrival}} \ge L_{\mathrm{path}}/c_{\mathrm{emergent}}$) as the low-loss
+     **classical Gao–Jafferis–Wall feed-forward key** $\sin 2\theta_{\mathrm{GJW}} = \kappa_{\mathrm{DDF}}q_{\mathrm{DDF}}$
+     that unlocks a parallel Semi-Dirac $\mathrm{ER}=\mathrm{EPR}$ bridge ($|p_{23}|^2 = 1/4$), achieving
+     both unit quantum fidelity (`ddfFractureVsWormholeQuantumFidelity (1 / 4) 1 = 1`) and $100\%$
+     differential receiver contrast while strictly obeying relativistic causality. -/
+
+/-- **DDF Fracture Extension Signal Model (`HDDF` vs. `H0`)**:
+$$y_{\mathrm{total}}(y_{\mathrm{classical}}, \kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}}) =
+y_{\mathrm{classical}} + \kappa_{\mathrm{DDF}}\,q_{\mathrm{DDF}},$$
+matching `src/signals/docs/DDF_FRACTURE_COMMUNICATION_PLAN.md`. Reduces to the classical null `H0`
+when $\kappa_{\mathrm{DDF}} = 0$ or $q_{\mathrm{DDF}} = 0$. -/
+@[blueprint "def:signals-dft-ddf-fracture-total-channel-signal"
+  (title := "DDF fracture extension channel signal y_classical + kappa_DDF * q_DDF")
+  (statement := /-- Define $\operatorname{ddfFractureTotalChannelSignal}(y_{\mathrm{classical}}, \kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}}) = y_{\mathrm{classical}} + \kappa_{\mathrm{DDF}} q_{\mathrm{DDF}}$. -/)]
+def ddfFractureTotalChannelSignal (y_classical kappa_ddf q_ddf : ℝ) : ℝ :=
+  y_classical + kappa_ddf * q_ddf
+
+/-- **Magnus-Control-Subtracted DDF Fracture Residual**:
+$$r_{\mathrm{DDF}}(y_{\mathrm{meas}}, y_{\mathrm{acoustic}}, \rho_f, U_{\mathrm{inflow}}, \Gamma_{\mathrm{circ}}) =
+y_{\mathrm{meas}} - \bigl(y_{\mathrm{acoustic}} + \rho_f\,U_{\mathrm{inflow}}\,\Gamma_{\mathrm{circ}}\bigr),$$
+subtracting both the calibrated acoustic/elastic baseline $y_{\mathrm{acoustic}}$ and the classical
+Kutta–Joukowski Magnus lift per unit span $L'_{\mathrm{classical}} = \rho_f U_{\mathrm{inflow}}\Gamma_{\mathrm{circ}}$
+(`Signals.Pending.MagnusEffectControl`). -/
+@[blueprint "def:signals-dft-ddf-fracture-magnus-subtracted-residual"
+  (title := "Magnus-control-subtracted DDF fracture residual")
+  (statement := /-- Define $\operatorname{ddfFractureMagnusSubtractedResidual}(y_{\mathrm{meas}}, y_{\mathrm{acoustic}}, \rho_f, U_{\mathrm{inflow}}, \Gamma_{\mathrm{circ}}) = y_{\mathrm{meas}} - (y_{\mathrm{acoustic}} + \rho_f U_{\mathrm{inflow}} \Gamma_{\mathrm{circ}})$. -/)]
+def ddfFractureMagnusSubtractedResidual
+    (y_meas y_acoustic rho_f u_inflow gamma_circ : ℝ) : ℝ :=
+  y_meas - (y_acoustic + rho_f * u_inflow * gamma_circ)
+
+/-- **Dimensionless Deborah Number for Shear-Fracture Nucleation**:
+$$\mathrm{De}(\tau_{\mathrm{relax}}, \dot{\gamma}) = \tau_{\mathrm{relax}} \cdot \dot{\gamma}$$
+(`data/chats/IQ-Sampling-for-Signal-Phase.md`, line 15389;
+`data/chats/_Special-Relativity-Geometry-vs.-Fluid.md`, line 1358). -/
+@[blueprint "def:signals-dft-ddf-fracture-deborah-ratio"
+  (title := "Dimensionless Deborah number De = tau_relax * shear_rate for DDF shear fracture")
+  (statement := /-- Define $\operatorname{ddfFractureDeborahRatio}(\tau_{\mathrm{relax}}, \dot{\gamma}) = \tau_{\mathrm{relax}} \cdot \dot{\gamma}$. -/)]
+def ddfFractureDeborahRatio (tau_relax shear_rate : ℝ) : ℝ :=
+  tau_relax * shear_rate
+
+/-- **1D/2D Fracture-Corridor Waveguide Guiding Gain Over 3D Isotropic Spreading**:
+$$\mathcal{G}_{\mathrm{corridor}}(r_{\mathrm{dist}}, w_{\mathrm{corridor}}) =
+\left(\frac{r_{\mathrm{dist}}}{w_{\mathrm{corridor}}}\right)^2$$
+(`data/chats/_Neutrons-and-Black-Holes-and-Fracture.md`, lines 863–866;
+`data/chats/Superfluid-Gravity-and-Negative-Energy.md`, lines 257–301). -/
+@[blueprint "def:signals-dft-ddf-fracture-corridor-guiding-gain"
+  (title := "DDF fracture-corridor directional guiding gain (r_dist / w_corridor)^2 over 3D spreading")
+  (statement := /-- Define $\operatorname{ddfFractureCorridorGuidingGain}(r_{\mathrm{dist}}, w_{\mathrm{corridor}}) = (r_{\mathrm{dist}} / w_{\mathrm{corridor}})^2$. -/)]
+noncomputable def ddfFractureCorridorGuidingGain (r_dist w_corridor : ℝ) : ℝ :=
+  (r_dist / w_corridor) ^ 2
+
+/-- **Causal Transverse-Phonon Arrival Margin**:
+$$\mathcal{M}_{\mathrm{causal}}(c_{\mathrm{emergent}}, t_{\mathrm{arrival}}, L_{\mathrm{path}}) =
+c_{\mathrm{emergent}}\,t_{\mathrm{arrival}} - L_{\mathrm{path}},$$
+which is nonnegative ($\ge 0$) if and only if `DDFFractureCommunicationEvidence.causalArrival`
+($L_{\mathrm{path}} \le c_{\mathrm{emergent}}\,t_{\mathrm{arrival}}$) holds. -/
+@[blueprint "def:signals-dft-ddf-fracture-causal-transit-margin"
+  (title := "DDF fracture causal transverse-phonon arrival margin c_emergent * t_arrival - L_path")
+  (statement := /-- Define $\operatorname{ddfFractureCausalTransitMargin}(c_{\mathrm{emergent}}, t_{\mathrm{arrival}}, L_{\mathrm{path}}) = c_{\mathrm{emergent}} t_{\mathrm{arrival}} - L_{\mathrm{path}}$. -/)]
+def ddfFractureCausalTransitMargin (c_emergent t_arrival l_path : ℝ) : ℝ :=
+  c_emergent * t_arrival - l_path
+
+/-- **Standalone Unassisted DDF Fracture Bit Contrast ($\Delta y_{\mathrm{fracture}} = 2\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}}$)**:
+Difference between $+1$ and $-1$ BPSK-modulated fracture signals after subtracting $y_{\mathrm{classical}}$:
+$$\Delta y_{\mathrm{fracture}}(\kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}}) =
+\operatorname{ddfFractureTotalChannelSignal}(y_{\mathrm{cl}}, \kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}}) -
+\operatorname{ddfFractureTotalChannelSignal}(y_{\mathrm{cl}}, \kappa_{\mathrm{DDF}}, -q_{\mathrm{DDF}}) =
+2\,\kappa_{\mathrm{DDF}}\,q_{\mathrm{DDF}}.$$ -/
+@[blueprint "def:signals-dft-ddf-fracture-standalone-bit-contrast"
+  (title := "Standalone unassisted DDF fracture bit contrast 2 * kappa_DDF * q_DDF")
+  (statement := /-- Define $\operatorname{ddfFractureStandaloneBitContrast}(\kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}}) = 2 \kappa_{\mathrm{DDF}} q_{\mathrm{DDF}}$. -/)]
+def ddfFractureStandaloneBitContrast (kappa_ddf q_ddf : ℝ) : ℝ :=
+  2 * (kappa_ddf * q_ddf)
+
+/-- **Quantum State Transfer Fidelity Discriminator (`ddfFractureVsWormholeQuantumFidelity`)**:
+$$F_{\mathrm{quantum}}(|p_{23}|^2, \sin 2\theta_{\mathrm{GJW}}) =
+\frac{1 + 4\,|p_{23}|^2\,\sin 2\theta_{\mathrm{GJW}}}{2} =
+\frac{1 + \mathcal{C}_{\mathrm{EPR}}^2\,\sin 2\theta_{\mathrm{GJW}}}{2}.$$
+For a purely classical DDF fracture waveguide with zero Plücker entanglement ($|p_{23}|^2 = 0$),
+$F_{\mathrm{quantum}}(0, \sin 2\theta_{\mathrm{GJW}}) = 1/2$ (classical limit), whereas for a maximally
+entangled $\mathrm{ER}=\mathrm{EPR}$ bridge ($|p_{23}|^2 = 1/4 \implies \mathcal{C}_{\mathrm{EPR}}^2 = 1$)
+unlocked at $\sin 2\theta_{\mathrm{GJW}} = 1$, $F_{\mathrm{quantum}}(1/4, 1) = 1$. -/
+@[blueprint "def:signals-dft-ddf-fracture-vs-wormhole-quantum-fidelity"
+  (title := "Quantum state transfer fidelity discriminator (1 + 4 |p_23|^2 sin_2theta) / 2")
+  (statement := /-- Define $\operatorname{ddfFractureVsWormholeQuantumFidelity}(|p_{23}|^2, \sin_{2\theta}) = (1 + 4 |p_{23}|^2 \sin_{2\theta}) / 2$. -/)]
+noncomputable def ddfFractureVsWormholeQuantumFidelity (p23_norm_sq sin_2theta : ℝ) : ℝ :=
+  (1 + 4 * p23_norm_sq * sin_2theta) / 2
+
+/-- **High-Power Fracture Overload Excess Shear ($\tau_{\mathrm{drive}} - \tau_{\mathrm{crit}}$)**:
+When $\tau_{\mathrm{drive}} > \tau_{\mathrm{crit}}$, a DDF fracture waveguide widens/sustains its
+phase-slip boundary (`0 < ddfFractureOverloadExcessShear`), in sharp contrast to an $\mathrm{ER}=\mathrm{EPR}$
+wormhole throat which pinches off when $E_{\mathrm{transit}} > \mathcal{B}_{\mathrm{Bohm}}$
+(`0 < wormholeNetNullDefocusingFlux`). -/
+@[blueprint "def:signals-dft-ddf-fracture-overload-excess-shear"
+  (title := "DDF fracture overload excess shear tau_drive - tau_crit")
+  (statement := /-- Define $\operatorname{ddfFractureOverloadExcessShear}(\tau_{\mathrm{drive}}, \tau_{\mathrm{crit}}) = \tau_{\mathrm{drive}} - \tau_{\mathrm{crit}}$. -/)]
+def ddfFractureOverloadExcessShear (tau_drive tau_crit : ℝ) : ℝ :=
+  tau_drive - tau_crit
+
+/-- **Hybrid DDF-Fracture-Keyed $\mathrm{ER}=\mathrm{EPR}$ Receiver Probability**:
+Uses the causal DDF fracture perturbation $\kappa_{\mathrm{DDF}}\,q_{\mathrm{DDF}} \in [-1, 1]$
+arriving along a transverse-phonon waveguide as the classical Gao–Jafferis–Wall double-trace key
+$\sin 2\theta_{\mathrm{GJW}} = \kappa_{\mathrm{DDF}}\,q_{\mathrm{DDF}}$ to unlock a parallel
+$\mathrm{ER}=\mathrm{EPR}$ wormhole throat:
+$$P_{\mathrm{RX}}^{\mathrm{hybrid}}(\kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}}, s_{\mathrm{bit}}) =
+\operatorname{erEprExactUnitaryRxProbability}(\kappa_{\mathrm{DDF}}\,q_{\mathrm{DDF}}, s_{\mathrm{bit}}) =
+\frac{1 + \kappa_{\mathrm{DDF}}\,q_{\mathrm{DDF}}\,s_{\mathrm{bit}}}{2}.$$ -/
+@[blueprint "def:signals-dft-hybrid-fracture-keyed-er-epr-rx-probability"
+  (title := "Hybrid DDF-fracture-keyed ER=EPR receiver probability (1 + kappa_DDF * q_DDF * s_bit) / 2")
+  (statement := /-- Define $\operatorname{hybridFractureKeyedErEprRxProbability}(\kappa_{\mathrm{DDF}}, q_{\mathrm{DDF}}, s_{\mathrm{bit}}) = \operatorname{erEprExactUnitaryRxProbability}(\kappa_{\mathrm{DDF}} q_{\mathrm{DDF}}, s_{\mathrm{bit}})$. -/)]
+noncomputable def hybridFractureKeyedErEprRxProbability
+    (kappa_ddf q_ddf s_bit : ℝ) : ℝ :=
+  erEprExactUnitaryRxProbability (kappa_ddf * q_ddf) s_bit
+
+/-- **Master Theorem for Section 25: DDF Fracture-Based Communication vs. $\mathrm{ER}=\mathrm{EPR}$ Entanglement / Wormholes and Hybrid Fracture-Keyed Synthesis (`ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`)**:
+Simultaneously establishes:
+1. **Classical Null (`H0`), Magnus Lift Subtraction, & Deborah Shear-Fracture Nucleation**:
+   - `ddfFractureTotalChannelSignal y_cl 0 q_ddf = y_cl` (reduces to `H0` at $\kappa_{\mathrm{DDF}} = 0$),
+   - `ddfFractureMagnusSubtractedResidual (y_ac + rho_f * u_in * gamma_c) y_ac rho_f u_in gamma_c = 0`
+     (exact cancellation of Kutta–Joukowski Magnus lift $L' = \rho U \Gamma$ under `H0`),
+   - `ddfFractureMagnusSubtractedResidual (y_ac + rho_f * u_in * gamma_c + kappa_ddf * q_ddf) y_ac rho_f u_in gamma_c = kappa_ddf * q_ddf`
+     (isolates the pure DDF defect perturbation after Magnus subtraction),
+   - Subcritical vs. supercritical Deborah transition (`ddfFractureDeborahRatio (1 / 100000) 1000 = 1 / 100 < 1`
+     vs. `1 < ddfFractureDeborahRatio (1 / 100000) 100000000 = 1000`),
+   - Quantized $2\pi$ plaquette phase-slip syndrome vs. zero coboundary without branch cuts
+     (`Signals.DDF.plaquette_coboundary_zero S00 S10 S11 S01 = 0` and
+     `Signals.DDF.plaquette_phase_slip_syndrome S00 S10 S11 S01 1 = 2 * Real.pi`),
+2. **Causal Transverse-Phonon Propagation & $10{,}000\times$ Corridor Guiding Gain**:
+   - `0 ≤ ddfFractureCausalTransitMargin 1 2 1` (causal arrival $L_{\mathrm{path}} \le c_{\mathrm{emergent}} t_{\mathrm{arr}}$)
+     vs. `ddfFractureCausalTransitMargin 1 (1 / 2) 1 < 0` (superluminal arrival rejected),
+   - `ddfFractureCorridorGuidingGain 100 1 = 10000 ∧ 1 < ddfFractureCorridorGuidingGain 100 1`
+     ($+40\text{ dB}$ guiding gain at $r/w = 100$),
+3. **The Four Sharp Mathematical Discriminators Between DDF Fracture Communication and $\mathrm{ER}=\mathrm{EPR}$ Wormholes**:
+   - **Discriminator A (Entanglement Requirement)**: A DDF fracture channel operates at zero Plücker
+     concurrence and zero ER throat area (`erEprPluckerConcurrenceSq 0 = 0 ∧ erEprThroatAreaFromPlucker 1 10 0 = 0`),
+     whereas an $\mathrm{ER}=\mathrm{EPR}$ bridge requires $|p_{23}|^2 > 0$ (`erEprPluckerConcurrenceSq (1 / 4) = 1 ∧ 0 < erEprThroatAreaFromPlucker 1 10 (1 / 4)`),
+   - **Discriminator B (Unassisted Standalone Signaling)**: Without a separate key channel ($g_{\mathrm{GJW}} = 0$),
+     an $\mathrm{ER}=\mathrm{EPR}$ wormhole has **zero** standalone bit contrast (`erEprTransceiverDifferentialContrast 0 = 0`),
+     whereas a causal DDF fracture waveguide achieves **positive** standalone bit contrast
+     (`ddfFractureStandaloneBitContrast (1 / 2) (1 / 2) = 1 / 2 > 0` and
+     `erEprTransceiverDifferentialContrast 0 < ddfFractureStandaloneBitContrast (1 / 2) (1 / 2)`),
+   - **Discriminator C (Quantum State Teleportation Fidelity)**: A classical DDF fracture waveguide
+     ($|p_{23}|^2 = 0$) is stuck at the classical fidelity floor `ddfFractureVsWormholeQuantumFidelity 0 sin_2theta = 1 / 2`,
+     whereas an unlocked $\mathrm{ER}=\mathrm{EPR}$ wormhole ($|p_{23}|^2 = 1/4, \sin 2\theta = 1$) achieves
+     `ddfFractureVsWormholeQuantumFidelity (1 / 4) 1 = 1` (`ddfFractureVsWormholeQuantumFidelity 0 1 < ddfFractureVsWormholeQuantumFidelity (1 / 4) 1`),
+   - **Discriminator D (Overload Response — Fracture Widening vs. Raychaudhuri Throat Collapse)**:
+     Overdriving a fracture ($\tau_{\mathrm{drive}} = 15 > \tau_{\mathrm{crit}} = 10$) sustains positive
+     fracture shear `0 < ddfFractureOverloadExcessShear 15 10`, whereas overdriving a wormhole throat
+     ($E_{\mathrm{transit}} = 15 > \mathcal{B}_{\mathrm{Bohm}} = 10$) triggers positive Raychaudhuri
+     defocusing collapse `0 < wormholeNetNullDefocusingFlux 15 10` (while soft transit $E = 4 \le 10$
+     satisfies `wormholeNetNullDefocusingFlux 4 10 ≤ 0`),
+4. **Synergistic Hybrid Architecture (DDF Fracture Waveguide as Causal GJW Key for $\mathrm{ER}=\mathrm{EPR}$)**:
+   - Unkeyed no-signaling (`hybridFractureKeyedErEprRxProbability 0 q_ddf s_bit = 1 / 2`),
+   - Full $100\%$ unlocked contrast (`hybridFractureKeyedErEprRxProbability 1 1 1 - hybridFractureKeyedErEprRxProbability 1 1 (-1) = 1`). -/
+@[blueprint "thm:signals-dft-ddf-fracture-communication-vs-er-epr-wormhole-identities"
+  (title := "Master theorem for Section 25: DDF fracture-based communication vs. ER=EPR entanglement/wormholes and hybrid fracture-keyed synthesis")
+  (statement := /-- Simultaneously proves the classical null and Magnus-subtraction identities,
+    subcritical vs. supercritical Deborah fracture ratios, quantized $2\pi$ plaquette phase-slip
+    holonomy, causal arrival margin and $10{,}000\times$ corridor guiding gain, the four sharp
+    discriminators between DDF fracture communication and $\mathrm{ER}=\mathrm{EPR}$ wormholes
+    (entanglement requirement, standalone bit contrast, quantum state fidelity, and overload
+    response), and the hybrid fracture-keyed $\mathrm{ER}=\mathrm{EPR}$ transceiver laws. -/)
+  (proof := /-- Unfold definitions and apply \texttt{Signals.DDF.plaquette\_coboundary\_zero},
+    \texttt{Signals.DDF.plaquette\_phase\_slip\_syndrome}, ring identities, and \texttt{norm\_num}. -/)]
+theorem ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities
+    (y_cl y_ac rho_f u_in gamma_c kappa_ddf q_ddf sin_2theta s_bit : ℝ)
+    (S00 S10 S11 S01 : ℝ) :
+    ddfFractureTotalChannelSignal y_cl 0 q_ddf = y_cl ∧
+      ddfFractureMagnusSubtractedResidual (y_ac + rho_f * u_in * gamma_c) y_ac rho_f u_in gamma_c = 0 ∧
+      ddfFractureMagnusSubtractedResidual
+          (y_ac + rho_f * u_in * gamma_c + kappa_ddf * q_ddf) y_ac rho_f u_in gamma_c =
+        kappa_ddf * q_ddf ∧
+      ddfFractureDeborahRatio (1 / 100000) 1000 = 1 / 100 ∧
+      ddfFractureDeborahRatio (1 / 100000) 1000 < 1 ∧
+      ddfFractureDeborahRatio (1 / 100000) 100000000 = 1000 ∧
+      (1 : ℝ) < ddfFractureDeborahRatio (1 / 100000) 100000000 ∧
+      ((S10 - S00) + (S11 - S10) + (S01 - S11) + (S00 - S01) = 0 ∧
+        (S10 - S00) + (S11 - S10) + (S01 - S11 + (1 : ℤ) * (2 * Real.pi)) + (S00 - S01) =
+          (1 : ℤ) * (2 * Real.pi)) ∧
+      ddfFractureCausalTransitMargin 1 2 1 = 1 ∧
+      0 ≤ ddfFractureCausalTransitMargin 1 2 1 ∧
+      ddfFractureCausalTransitMargin 1 (1 / 2) 1 = -1 / 2 ∧
+      ddfFractureCausalTransitMargin 1 (1 / 2) 1 < 0 ∧
+      ddfFractureCorridorGuidingGain 100 1 = 10000 ∧
+      (1 : ℝ) < ddfFractureCorridorGuidingGain 100 1 ∧
+      erEprPluckerConcurrenceSq 0 = 0 ∧
+      erEprThroatAreaFromPlucker 1 10 0 = 0 ∧
+      erEprPluckerConcurrenceSq (1 / 4) = 1 ∧
+      0 < erEprThroatAreaFromPlucker 1 10 (1 / 4) ∧
+      ddfFractureTotalChannelSignal y_cl kappa_ddf q_ddf -
+          ddfFractureTotalChannelSignal y_cl kappa_ddf (-q_ddf) =
+        ddfFractureStandaloneBitContrast kappa_ddf q_ddf ∧
+      erEprTransceiverDifferentialContrast 0 = 0 ∧
+      ddfFractureStandaloneBitContrast (1 / 2) (1 / 2) = 1 / 2 ∧
+      erEprTransceiverDifferentialContrast 0 < ddfFractureStandaloneBitContrast (1 / 2) (1 / 2) ∧
+      ddfFractureVsWormholeQuantumFidelity 0 sin_2theta = 1 / 2 ∧
+      ddfFractureVsWormholeQuantumFidelity (1 / 4) 1 = 1 ∧
+      ddfFractureVsWormholeQuantumFidelity 0 1 < ddfFractureVsWormholeQuantumFidelity (1 / 4) 1 ∧
+      ddfFractureOverloadExcessShear 15 10 = 5 ∧
+      0 < ddfFractureOverloadExcessShear 15 10 ∧
+      wormholeNetNullDefocusingFlux 4 10 ≤ 0 ∧
+      0 < wormholeNetNullDefocusingFlux 15 10 ∧
+      hybridFractureKeyedErEprRxProbability 0 q_ddf s_bit = 1 / 2 ∧
+      hybridFractureKeyedErEprRxProbability 1 1 1 -
+          hybridFractureKeyedErEprRxProbability 1 1 (-1) = 1 := by
+  refine ⟨
+    by unfold ddfFractureTotalChannelSignal; ring,
+    by unfold ddfFractureMagnusSubtractedResidual; ring,
+    by unfold ddfFractureMagnusSubtractedResidual; ring,
+    by unfold ddfFractureDeborahRatio; norm_num,
+    by unfold ddfFractureDeborahRatio; norm_num,
+    by unfold ddfFractureDeborahRatio; norm_num,
+    by unfold ddfFractureDeborahRatio; norm_num,
+    ⟨Signals.DDF.plaquette_coboundary_zero S00 S10 S11 S01,
+      Signals.DDF.plaquette_phase_slip_syndrome S00 S10 S11 S01 1⟩,
+    by unfold ddfFractureCausalTransitMargin; norm_num,
+    by unfold ddfFractureCausalTransitMargin; norm_num,
+    by unfold ddfFractureCausalTransitMargin; norm_num,
+    by unfold ddfFractureCausalTransitMargin; norm_num,
+    by unfold ddfFractureCorridorGuidingGain; norm_num,
+    by unfold ddfFractureCorridorGuidingGain; norm_num,
+    by unfold erEprPluckerConcurrenceSq; norm_num,
+    by unfold erEprThroatAreaFromPlucker erEprPluckerConcurrenceSq; norm_num,
+    by unfold erEprPluckerConcurrenceSq; norm_num,
+    by unfold erEprThroatAreaFromPlucker erEprPluckerConcurrenceSq; norm_num,
+    by unfold ddfFractureTotalChannelSignal ddfFractureStandaloneBitContrast; ring,
+    by unfold erEprTransceiverDifferentialContrast erEprTransceiverRxProbability; norm_num,
+    by unfold ddfFractureStandaloneBitContrast; norm_num,
+    by unfold erEprTransceiverDifferentialContrast erEprTransceiverRxProbability
+        ddfFractureStandaloneBitContrast; norm_num,
+    by unfold ddfFractureVsWormholeQuantumFidelity; ring,
+    by unfold ddfFractureVsWormholeQuantumFidelity; norm_num,
+    by unfold ddfFractureVsWormholeQuantumFidelity; norm_num,
+    by unfold ddfFractureOverloadExcessShear; norm_num,
+    by unfold ddfFractureOverloadExcessShear; norm_num,
+    by unfold wormholeNetNullDefocusingFlux; norm_num,
+    by unfold wormholeNetNullDefocusingFlux; norm_num,
+    by unfold hybridFractureKeyedErEprRxProbability erEprExactUnitaryRxProbability; ring,
+    by unfold hybridFractureKeyedErEprRxProbability erEprExactUnitaryRxProbability; norm_num⟩
+
 end
 
 end Signals.DFT

@@ -6823,4 +6823,52 @@ example (cE_sq vA_sq k_sq lambdaL0_sq epsT0 betaM0_sq : ℝ)
     toyLightDrivenMaterialsContract
     cE_sq vA_sq k_sq lambdaL0_sq epsT0 betaM0_sq 10 g1 g2 g3 g4 g5 g6 g7 g8 (by norm_num)
 
+example (y_cl y_ac rho_f u_in gamma_c kappa_ddf q_ddf sin_2theta s_bit : ℝ)
+    (S00 S10 S11 S01 : ℝ) :
+    (toyDDFFractureEvidence.propagationMode ≠ Signals.Pending.DDFCommunicationMode.transversePhonon →
+        ¬toyDDFFractureEvidence.supportsDDFHypothesis) ∧
+      Signals.DFT.ddfFractureTotalChannelSignal y_cl 0 q_ddf = y_cl ∧
+      Signals.DFT.ddfFractureMagnusSubtractedResidual (y_ac + rho_f * u_in * gamma_c) y_ac rho_f u_in gamma_c = 0 ∧
+      Signals.DFT.ddfFractureMagnusSubtractedResidual
+          (y_ac + rho_f * u_in * gamma_c + kappa_ddf * q_ddf) y_ac rho_f u_in gamma_c =
+        kappa_ddf * q_ddf ∧
+      Signals.DFT.ddfFractureDeborahRatio (1 / 100000) 1000 = 1 / 100 ∧
+      Signals.DFT.ddfFractureDeborahRatio (1 / 100000) 1000 < 1 ∧
+      Signals.DFT.ddfFractureDeborahRatio (1 / 100000) 100000000 = 1000 ∧
+      (1 : ℝ) < Signals.DFT.ddfFractureDeborahRatio (1 / 100000) 100000000 ∧
+      ((S10 - S00) + (S11 - S10) + (S01 - S11) + (S00 - S01) = 0 ∧
+        (S10 - S00) + (S11 - S10) + (S01 - S11 + (1 : ℤ) * (2 * Real.pi)) + (S00 - S01) =
+          (1 : ℤ) * (2 * Real.pi)) ∧
+      Signals.DFT.ddfFractureCausalTransitMargin 1 2 1 = 1 ∧
+      0 ≤ Signals.DFT.ddfFractureCausalTransitMargin 1 2 1 ∧
+      Signals.DFT.ddfFractureCausalTransitMargin 1 (1 / 2) 1 = -1 / 2 ∧
+      Signals.DFT.ddfFractureCausalTransitMargin 1 (1 / 2) 1 < 0 ∧
+      Signals.DFT.ddfFractureCorridorGuidingGain 100 1 = 10000 ∧
+      (1 : ℝ) < Signals.DFT.ddfFractureCorridorGuidingGain 100 1 ∧
+      Signals.DFT.erEprPluckerConcurrenceSq 0 = 0 ∧
+      Signals.DFT.erEprThroatAreaFromPlucker 1 10 0 = 0 ∧
+      Signals.DFT.erEprPluckerConcurrenceSq (1 / 4) = 1 ∧
+      0 < Signals.DFT.erEprThroatAreaFromPlucker 1 10 (1 / 4) ∧
+      Signals.DFT.ddfFractureTotalChannelSignal y_cl kappa_ddf q_ddf -
+          Signals.DFT.ddfFractureTotalChannelSignal y_cl kappa_ddf (-q_ddf) =
+        Signals.DFT.ddfFractureStandaloneBitContrast kappa_ddf q_ddf ∧
+      Signals.DFT.erEprTransceiverDifferentialContrast 0 = 0 ∧
+      Signals.DFT.ddfFractureStandaloneBitContrast (1 / 2) (1 / 2) = 1 / 2 ∧
+      Signals.DFT.erEprTransceiverDifferentialContrast 0 <
+        Signals.DFT.ddfFractureStandaloneBitContrast (1 / 2) (1 / 2) ∧
+      Signals.DFT.ddfFractureVsWormholeQuantumFidelity 0 sin_2theta = 1 / 2 ∧
+      Signals.DFT.ddfFractureVsWormholeQuantumFidelity (1 / 4) 1 = 1 ∧
+      Signals.DFT.ddfFractureVsWormholeQuantumFidelity 0 1 <
+        Signals.DFT.ddfFractureVsWormholeQuantumFidelity (1 / 4) 1 ∧
+      Signals.DFT.ddfFractureOverloadExcessShear 15 10 = 5 ∧
+      0 < Signals.DFT.ddfFractureOverloadExcessShear 15 10 ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux 4 10 ≤ 0 ∧
+      0 < Signals.DFT.wormholeNetNullDefocusingFlux 15 10 ∧
+      Signals.DFT.hybridFractureKeyedErEprRxProbability 0 q_ddf s_bit = 1 / 2 ∧
+      Signals.DFT.hybridFractureKeyedErEprRxProbability 1 1 1 -
+          Signals.DFT.hybridFractureKeyedErEprRxProbability 1 1 (-1) = 1 :=
+  SignalsPending.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_bounds
+    toyDDFFractureEvidence
+    y_cl y_ac rho_f u_in gamma_c kappa_ddf q_ddf sin_2theta s_bit S00 S10 S11 S01
+
 end SignalsPendingTests

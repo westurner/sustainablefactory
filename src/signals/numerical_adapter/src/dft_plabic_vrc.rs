@@ -1947,6 +1947,75 @@ pub fn subwavelength_true_tagged_conjugate_coupling(
     (eta_bethe * eta_tag * g_true) / (1.0 + eta_bethe * eta_tag * (g_true - 1.0))
 }
 
+/// DDF fracture extension channel signal `y_classical + kappa_ddf * q_ddf`,
+/// matching `Signals.DFT.ddfFractureTotalChannelSignal`.
+pub fn ddf_fracture_total_channel_signal(y_classical: f64, kappa_ddf: f64, q_ddf: f64) -> f64 {
+    y_classical + kappa_ddf * q_ddf
+}
+
+/// Magnus-control-subtracted DDF fracture residual
+/// `y_meas - (y_acoustic + rho_f * u_inflow * gamma_circ)`,
+/// matching `Signals.DFT.ddfFractureMagnusSubtractedResidual`.
+pub fn ddf_fracture_magnus_subtracted_residual(
+    y_meas: f64,
+    y_acoustic: f64,
+    rho_f: f64,
+    u_inflow: f64,
+    gamma_circ: f64,
+) -> f64 {
+    y_meas - (y_acoustic + rho_f * u_inflow * gamma_circ)
+}
+
+/// Dimensionless Deborah number `tau_relax * shear_rate` for DDF shear fracture,
+/// matching `Signals.DFT.ddfFractureDeborahRatio`.
+pub fn ddf_fracture_deborah_ratio(tau_relax: f64, shear_rate: f64) -> f64 {
+    tau_relax * shear_rate
+}
+
+/// 1D/2D fracture-corridor directional guiding gain `(r_dist / w_corridor)^2`,
+/// matching `Signals.DFT.ddfFractureCorridorGuidingGain`.
+pub fn ddf_fracture_corridor_guiding_gain(r_dist: f64, w_corridor: f64) -> f64 {
+    (r_dist / w_corridor).powi(2)
+}
+
+/// Causal transverse-phonon arrival margin `c_emergent * t_arrival - l_path`,
+/// matching `Signals.DFT.ddfFractureCausalTransitMargin`.
+pub fn ddf_fracture_causal_transit_margin(
+    c_emergent: f64,
+    t_arrival: f64,
+    l_path: f64,
+) -> f64 {
+    c_emergent * t_arrival - l_path
+}
+
+/// Standalone unassisted DDF fracture bit contrast `2 * kappa_ddf * q_ddf`,
+/// matching `Signals.DFT.ddfFractureStandaloneBitContrast`.
+pub fn ddf_fracture_standalone_bit_contrast(kappa_ddf: f64, q_ddf: f64) -> f64 {
+    2.0 * (kappa_ddf * q_ddf)
+}
+
+/// Quantum state transfer fidelity discriminator `(1 + 4 * p23_norm_sq * sin_2theta) / 2`,
+/// matching `Signals.DFT.ddfFractureVsWormholeQuantumFidelity`.
+pub fn ddf_fracture_vs_wormhole_quantum_fidelity(p23_norm_sq: f64, sin_2theta: f64) -> f64 {
+    (1.0 + 4.0 * p23_norm_sq * sin_2theta) / 2.0
+}
+
+/// High-power fracture overload excess shear `tau_drive - tau_crit`,
+/// matching `Signals.DFT.ddfFractureOverloadExcessShear`.
+pub fn ddf_fracture_overload_excess_shear(tau_drive: f64, tau_crit: f64) -> f64 {
+    tau_drive - tau_crit
+}
+
+/// Hybrid DDF-fracture-keyed ER=EPR receiver probability `(1 + kappa_ddf * q_ddf * s_bit) / 2`,
+/// matching `Signals.DFT.hybridFractureKeyedErEprRxProbability`.
+pub fn hybrid_fracture_keyed_er_epr_rx_probability(
+    kappa_ddf: f64,
+    q_ddf: f64,
+    s_bit: f64,
+) -> f64 {
+    er_epr_exact_unitary_rx_probability(kappa_ddf * q_ddf, s_bit)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2835,5 +2904,57 @@ mod tests {
         let true_tagged =
             subwavelength_true_tagged_conjugate_coupling(1.0 / 10_001.0, 0.1, 1_000_100.0);
         assert!((true_tagged - 1_000_100.0 / 1_100_109.0).abs() < 1e-12 && true_tagged > 0.9);
+
+        // 21. Section 25: DDF Fracture-Based Communication vs. ER=EPR Entanglement/Wormholes
+        // & Hybrid Fracture-Keyed Synthesis on Gr_C(2,4)
+        assert!((ddf_fracture_total_channel_signal(3.5, 0.0, 2.0) - 3.5).abs() < 1e-15);
+        assert!(
+            (ddf_fracture_magnus_subtracted_residual(2.0 + 1.2 * 5.0 * 0.5, 2.0, 1.2, 5.0, 0.5))
+                .abs()
+                < 1e-15
+        );
+        assert!(
+            (ddf_fracture_magnus_subtracted_residual(
+                2.0 + 1.2 * 5.0 * 0.5 + 0.5 * 0.5,
+                2.0,
+                1.2,
+                5.0,
+                0.5
+            ) - 0.25)
+                .abs()
+                < 1e-15
+        );
+        let de_sub = ddf_fracture_deborah_ratio(1e-5, 1e3);
+        let de_sup = ddf_fracture_deborah_ratio(1e-5, 1e8);
+        assert!((de_sub - 0.01).abs() < 1e-15 && de_sub < 1.0);
+        assert!((de_sup - 1000.0).abs() < 1e-12 && de_sup > 1.0);
+        assert!(
+            (ddf_fracture_causal_transit_margin(1.0, 2.0, 1.0) - 1.0).abs() < 1e-15
+                && ddf_fracture_causal_transit_margin(1.0, 2.0, 1.0) >= 0.0
+        );
+        assert!(
+            (ddf_fracture_causal_transit_margin(1.0, 0.5, 1.0) - (-0.5)).abs() < 1e-15
+                && ddf_fracture_causal_transit_margin(1.0, 0.5, 1.0) < 0.0
+        );
+        assert!((ddf_fracture_corridor_guiding_gain(100.0, 1.0) - 10_000.0).abs() < 1e-12);
+        let contrast_frac = ddf_fracture_standalone_bit_contrast(0.5, 0.5);
+        assert!(
+            (contrast_frac - 0.5).abs() < 1e-15
+                && er_epr_transceiver_differential_contrast(0.0) < contrast_frac
+        );
+        assert!((ddf_fracture_vs_wormhole_quantum_fidelity(0.0, 1.0) - 0.5).abs() < 1e-15);
+        assert!((ddf_fracture_vs_wormhole_quantum_fidelity(0.25, 1.0) - 1.0).abs() < 1e-15);
+        assert!(
+            ddf_fracture_overload_excess_shear(15.0, 10.0) > 0.0
+                && wormhole_net_null_defocusing_flux(15.0, 10.0) > 0.0
+        );
+        assert!((hybrid_fracture_keyed_er_epr_rx_probability(0.0, 1.0, 1.0) - 0.5).abs() < 1e-15);
+        assert!(
+            (hybrid_fracture_keyed_er_epr_rx_probability(1.0, 1.0, 1.0)
+                - hybrid_fracture_keyed_er_epr_rx_probability(1.0, 1.0, -1.0)
+                - 1.0)
+                .abs()
+                < 1e-15
+        );
     }
 }
