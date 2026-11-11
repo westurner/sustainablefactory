@@ -104,8 +104,17 @@ output, and there are no `mjx-merror` nodes or console/page errors.
   `--inline-math-min-length` unless intentionally investigating shorter
   same-line `$$...$$` candidates.
 4. Run `pytest -q tests/test_markdown_display_math_spacing.py
-  tests/test_markdown_table_math_pipes.py`, then `make -C docs html` and
-  `git diff --check`.
+  tests/test_markdown_table_math_pipes.py`, then build the docs with output
+  logged to `.tmp/docs-html.log` to avoid excessive terminal output:
+  ```bash
+  make -C docs html > .tmp/docs-html.log 2>&1 && tail -n 20 .tmp/docs-html.log
+  git diff --check
+  ```
+  (`docs/conf.py` and `src/signals/Makefile` automatically cache `signals-api`
+  and `blueprint` via `.lake/build/sphinx-blueprint-inputs.sha256`,
+  `.lake/build/api-docs-cache.json`, and `.lake/build/blueprint-web.sha256`
+  excluding `*.paux`, and log verbose `:blueprint` / `plastex` streams to
+  `.tmp/signals-blueprint.log`).
 5. Inspect the affected generated page in a browser. Verify formulas have
   MathJax output, surrounding prose is not captured as math, and the page has
   no `mjx-merror` nodes or console/page errors.

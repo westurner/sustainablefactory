@@ -110,3 +110,42 @@ def test_generated_docs_cleanup_preserves_hosted_dependency_pages(tmp_path: Path
 def test_module_name_uses_source_path():
     source = SIGNALS_ROOT / "Signals" / "DDF.lean"
     assert module_name(source) == "Signals.DDF"
+
+
+def test_sanitize_blueprint_tex_escapes_percent_ampersand_and_currency_dollar(tmp_path: Path):
+    bp_dir = tmp_path / "blueprint" / "module" / "Signals" / "SolitonBus.artifacts"
+    bp_dir.mkdir(parents=True)
+    artifact = bp_dir / "thm:test.tex"
+    artifact.write_text(
+        "\\begin{theorem}[Master theorem: Ragone & 98% recovery, $876k/yr savings, e in [0, 1)]\n"
+        "% at /workspaces/sustainablefactory/src/signals/Signals/SolitonBus.lean:10.0-20.0\n"
+        "Proves 37.5% PWM & $\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$ balance.\n"
+        "\\end{theorem}\n",
+        encoding="utf-8",
+    )
+
+    repaired = build_api_docs.sanitize_blueprint_tex(tmp_path / "blueprint")
+    assert repaired == 1
+
+    sanitized = artifact.read_text(encoding="utf-8")
+    lines = sanitized.splitlines()
+    assert lines[0] == (
+        r"\begin{theorem}[Master theorem: Ragone \& 98\% recovery, \$876k/yr savings, "
+        r"e in $\lbrack$0, 1)]"
+    )
+    assert lines[1].startswith("% at ")
+    assert r"37.5\% PWM \& $\begin{pmatrix} a & b \\ c & d \end{pmatrix}$" in lines[2]
+    # Second run is idempotent
+    assert build_api_docs.sanitize_blueprint_tex(tmp_path / "blueprint") == 0
+
+
+def test_cache_manifest_roundtrip(tmp_path: Path, monkeypatch):
+    cache_file = tmp_path / "api-docs-cache.json"
+    monkeypatch.setattr(build_api_docs, "CACHE_MANIFEST", cache_file)
+    assert build_api_docs.load_cache_manifest() is None
+
+    build_api_docs.save_cache_manifest("global123", {"Signals.DFT": "abc", "Signals.DDF": "def"})
+    loaded = build_api_docs.load_cache_manifest()
+    assert loaded is not None
+    assert loaded["global_hash"] == "global123"
+    assert loaded["module_hashes"] == {"Signals.DFT": "abc", "Signals.DDF": "def"}

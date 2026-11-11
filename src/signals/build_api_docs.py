@@ -1,5 +1,6 @@
 """Build Signals API pages without generating dependency documentation."""
 
+import hashlib
 import html
 import json
 import os
@@ -19,6 +20,8 @@ BUILD_DIR = SIGNALS_ROOT / ".lake" / "build"
 DATABASE = BUILD_DIR / "api-docs-signals.db"
 DOC_DIR = BUILD_DIR / "doc"
 MANIFEST = BUILD_DIR / "doc-manifest.json"
+CACHE_MANIFEST = BUILD_DIR / "api-docs-cache.json"
+BLUEPRINT_DIR = BUILD_DIR / "blueprint"
 DOCGEN = SIGNALS_ROOT / ".lake" / "packages" / "doc-gen4" / ".lake" / "build" / "bin" / "doc-gen4"
 DOCGEN_BATCH = BUILD_DIR / "bin" / "signalsApiDocs"
 
@@ -31,8 +34,15 @@ HOSTED_DOCS = {
     "Lean": "https://lean-lang.org/doc/api/",
 }
 HREF_ATTRIBUTE = re.compile(r'(?P<prefix>\bhref\s*=\s*)(?P<quote>["\'])(?P<url>.*?)(?P=quote)', re.IGNORECASE)
+BEGIN_ENV_TITLE = re.compile(r"^(\\begin\{[^}]+\}\[)(.*)(\]\s*)$")
+MATRIX_SPAN = re.compile(r"\\begin\{[a-zA-Z]*matrix\}.*?\\end\{[a-zA-Z]*matrix\}")
+UNESCAPED_PERCENT = re.compile(r"(?<!\\)%")
+UNESCAPED_AMPERSAND = re.compile(r"(?<!\\)&")
+UNESCAPED_DOLLAR = re.compile(r"(?<!\\)\$")
+CURRENCY_DOLLAR = re.compile(r"(?<!\\)\$(?=\d)")
 DOCGEN_PROFILE = os.environ.get("SIGNALS_DOCGEN_PROFILE") == "1"
 DOCGEN_DEBUG = os.environ.get("SIGNALS_DOCGEN_DEBUG") == "1"
+FORCE_REBUILD = os.environ.get("SIGNALS_API_FORCE_REBUILD") == "1"
 
 
 def github_web_url(remote: str) -> str:
@@ -99,7 +109,115 @@ def rewrite_html_links(doc_dir: pathlib.Path, architect_source_base: str) -> Non
                 + match.group("quote")
             )
 
-        html_path.write_text(HREF_ATTRIBUTE.sub(replace_href, content), encoding="utf-8")
+        new_content = HREF_ATTRIBUTE.sub(replace_href, content)
+        if new_content != content:
+            html_path.write_text(new_content, encoding="utf-8")
+
+
+def sanitize_blueprint_tex_text(text: str) -> str:
+    """Escape raw %, &, and currency $ inside generated LeanArchitect .tex artifacts."""
+    lines = text.splitlines(keepends=True)
+    out: list[str] = []
+    for idx, line in enumerate(lines):
+        if line.lstrip().startswith("%"):
+            out.append(line)
+            continue
+        fixed = UNESCAPED_PERCENT.sub(r"\%", line)
+        if idx == 0 and len(UNESCAPED_DOLLAR.findall(fixed)) % 2 == 1:
+            fixed = CURRENCY_DOLLAR.sub(r"\$", fixed)
+        if "\\begin{" in fixed and "matrix}" in fixed:
+            parts: list[str] = []
+            last = 0
+            for match in MATRIX_SPAN.finditer(fixed):
+                parts.append(UNESCAPED_AMPERSAND.sub(r"\&", fixed[last:match.start()]))
+                parts.append(match.group(0))
+                last = match.end()
+            parts.append(UNESCAPED_AMPERSAND.sub(r"\&", fixed[last:]))
+            fixed = "".join(parts)
+        else:
+            fixed = UNESCAPED_AMPERSAND.sub(r"\&", fixed)
+        if idx == 0:
+            m = BEGIN_ENV_TITLE.match(fixed)
+            if m:
+                prefix, inner, suffix = m.groups()
+                if inner.startswith("{") and inner.endswith("}"):
+                    inner = inner[1:-1]
+                if "[" in inner or "]" in inner:
+                    inner = inner.replace("[", r"$\lbrack$").replace("]", r"$\rbrack$")
+                    fixed = f"{prefix}{inner}{suffix}"
+        out.append(fixed)
+    return "".join(out)
+
+
+def sanitize_blueprint_tex(blueprint_dir: pathlib.Path = BLUEPRINT_DIR) -> int:
+    """Sanitize generated .artifacts/*.tex files in-place before plasTeX runs."""
+    if not blueprint_dir.is_dir():
+        return 0
+    modified = 0
+    for tex_path in sorted(blueprint_dir.rglob("*.artifacts/*.tex")):
+        original = tex_path.read_text(encoding="utf-8")
+        sanitized = sanitize_blueprint_tex_text(original)
+        if sanitized != original:
+            tex_path.write_text(sanitized, encoding="utf-8")
+            modified += 1
+    return modified
+
+
+def olean_path_for_source(source: pathlib.Path) -> pathlib.Path:
+    rel = source.relative_to(SIGNALS_ROOT).with_suffix(".olean")
+    return BUILD_DIR / "lib" / rel
+
+
+def compute_module_hashes(sources: list[pathlib.Path]) -> dict[str, str]:
+    hashes: dict[str, str] = {}
+    for source in sources:
+        digest = hashlib.sha256()
+        digest.update(source.read_bytes())
+        olean = olean_path_for_source(source)
+        if olean.is_file():
+            stat = olean.stat()
+            digest.update(f":{stat.st_size}:{stat.st_mtime_ns}".encode("utf-8"))
+        hashes[module_name(source)] = digest.hexdigest()
+    return hashes
+
+
+def compute_global_hash(architect_source_base: str) -> str:
+    digest = hashlib.sha256()
+    digest.update(pathlib.Path(__file__).read_bytes())
+    digest.update((SIGNALS_ROOT / "lake-manifest.json").read_bytes())
+    digest.update(architect_source_base.encode("utf-8"))
+    digest.update(os.environ.get("DISABLE_EQUATIONS", "1").encode("utf-8"))
+    for binary in (DOCGEN, DOCGEN_BATCH):
+        if binary.is_file():
+            st = binary.stat()
+            digest.update(f":{binary.name}:{st.st_size}:{st.st_mtime_ns}".encode("utf-8"))
+    return digest.hexdigest()
+
+
+def load_cache_manifest() -> dict | None:
+    if not CACHE_MANIFEST.is_file():
+        return None
+    try:
+        return json.loads(CACHE_MANIFEST.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def save_cache_manifest(global_hash: str, module_hashes: dict[str, str]) -> None:
+    CACHE_MANIFEST.parent.mkdir(parents=True, exist_ok=True)
+    CACHE_MANIFEST.write_text(
+        json.dumps(
+            {
+                "version": 1,
+                "global_hash": global_hash,
+                "module_hashes": module_hashes,
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def clear_generated_docs() -> None:
@@ -150,7 +268,14 @@ def run_docgen_batch(sources: list[pathlib.Path], source_base: str) -> None:
         raise subprocess.CalledProcessError(result.returncode, command)
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
+    args = sys.argv[1:] if argv is None else argv
+    if "--sanitize-blueprint-tex" in args:
+        repaired = sanitize_blueprint_tex(BLUEPRINT_DIR)
+        if DOCGEN_DEBUG or repaired:
+            print(f"[blueprint] sanitized {repaired} generated TeX artifact(s)")
+        return
+
     if not DOCGEN.is_file():
         raise SystemExit(f"doc-gen4 executable not found: {DOCGEN}; build @doc-gen4/coreDocs first")
     if not DOCGEN_BATCH.is_file():
@@ -169,10 +294,37 @@ def main() -> None:
     ).strip()
     source_base = f"{github_web_url(source_base)}/blob/{commit}/src/signals/"
 
-    for suffix in ("", "-shm", "-wal"):
-        pathlib.Path(f"{DATABASE}{suffix}").unlink(missing_ok=True)
-    clear_generated_docs()
-    MANIFEST.unlink(missing_ok=True)
+    sources = source_modules()
+    global_hash = compute_global_hash(architect_source_base)
+    module_hashes = compute_module_hashes(sources)
+    cached = None if FORCE_REBUILD else load_cache_manifest()
+
+    can_reuse_db = (
+        cached is not None
+        and cached.get("global_hash") == global_hash
+        and DATABASE.is_file()
+        and (DOC_DIR / "Signals.html").is_file()
+        and set(cached.get("module_hashes", {})).issubset(module_hashes)
+    )
+
+    if can_reuse_db:
+        cached_modules: dict[str, str] = cached.get("module_hashes", {})
+        changed_sources = [
+            src for src in sources if cached_modules.get(module_name(src)) != module_hashes[module_name(src)]
+        ]
+        if not changed_sources:
+            print("Signals API docs unchanged; reusing cached output")
+            return
+        print(
+            f"Signals API docs incremental update: {len(changed_sources)}/{len(sources)} module(s) changed"
+        )
+        batch_sources = changed_sources
+    else:
+        for suffix in ("", "-shm", "-wal"):
+            pathlib.Path(f"{DATABASE}{suffix}").unlink(missing_ok=True)
+        clear_generated_docs()
+        MANIFEST.unlink(missing_ok=True)
+        batch_sources = sources
 
     def run_docgen(*args: str) -> None:
         command = [str(DOCGEN), *args]
@@ -195,7 +347,7 @@ def main() -> None:
             sys.stderr.write(result.stdout)
             raise subprocess.CalledProcessError(result.returncode, command)
 
-    run_docgen_batch(source_modules(), source_base)
+    run_docgen_batch(batch_sources, source_base)
 
     run_docgen(
         "fromDb",
@@ -206,6 +358,7 @@ def main() -> None:
         DATABASE.relative_to(SIGNALS_ROOT).as_posix(),
     )
     rewrite_html_links(DOC_DIR, architect_source_base)
+    save_cache_manifest(global_hash, module_hashes)
 
 
 if __name__ == "__main__":

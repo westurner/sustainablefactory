@@ -8278,4 +8278,144 @@ lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.qism_slavnov_pauli_
     k0 k1 d0 d1 delta_u w_cas sigma_noise_sq m_fact m_packets eta_b g_true
     v v0 v1 u0 u1 K h_du
 
+/-- **Pending Boundary for Section 24 (`gddf_thermo_electro_magnetics_vs_lord_shulman_and_four_strata_bounds`)**:
+Certifies the coupled Lord–Shulman characteristic discriminant and roots, the relativistic
+magneto-elastic signal-front bound in $\mathrm{Gr}_{>0}(2,4)$ vs. non-relativistic superluminal blow-up,
+superluminal dielectric sweeps and ENZ phase-group duality in
+$\mathrm{Gr}_{\mathbb{C}}(2,4)\setminus\mathrm{Gr}_{\ge 0}(2,4)$, Onsager reciprocity, `G-TBC`
+interfacial Kapitza-Peltier coupling, and the Green–Lindsay / Green–Naghdi / eddy-current critique fixes. -/
+@[blueprint "lem:signals-pending-gddf-thermo-electro-magnetics-vs-lord-shulman-bounds"
+  (title := "Pending boundary for Section 24: Grassmannian–DDF Thermo-Electro-Magnetics (G-DDF-TEM) vs. Lord–Shulman across all four Gr_C(2,4) strata")
+  (statement := /-- Under a \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis} contract,
+    all Section 24 \texttt{G-DDF-TEM} vs. Lord--Shulman and four-stratum $\mathrm{Gr}_{\mathbb{C}}(2,4)$ identities hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.gddf\_thermo\_electro\_magnetics\_vs\_lord\_shulman\_and\_four\_strata\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.gddf_thermo_electro_magnetics_vs_lord_shulman_and_four_strata_bounds
+    (_contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (tau0 betaM_sq epsT cE_sq vA_sq c_sq c_med_sq eps_eff u_re u_im seebeck T0 tau1 k_th vol_cv : ℝ)
+    (htau0 : 0 < tau0) (hbetaM : 0 ≤ betaM_sq) (hepsT : 0 < epsT)
+    (hcE_vA : 0 < cE_sq + vA_sq) (hc_sq : 0 < c_sq)
+    (hc_med : c_med_sq ≠ 0) (heps_eff : eps_eff ≠ 0)
+    (hu_im : u_im ≠ 0) (htau1 : 0 < tau1) :
+    0 < Signals.DFT.lordShulmanDiscriminant tau0 betaM_sq epsT ∧
+      Signals.DFT.lordShulmanWaveSpeedSum 1 0 (1 / 2) = 5 / 2 ∧
+      Signals.DFT.lordShulmanWaveSpeedProd 1 0 = 1 ∧
+      Signals.DFT.lordShulmanDiscriminant 1 0 (1 / 2) = 9 / 4 ∧
+      Signals.DFT.lordShulmanCharacteristicPoly 1 0 (1 / 2) 2 = 0 ∧
+      Signals.DFT.lordShulmanCharacteristicPoly 1 0 (1 / 2) (1 / 2) = 0 ∧
+      Signals.DFT.nonRelativisticMagnetoElasticSpeedSq (3 / 5) (3 / 5) = 6 / 5 ∧
+      (1 : ℝ) < Signals.DFT.nonRelativisticMagnetoElasticSpeedSq (3 / 5) (3 / 5) ∧
+      Signals.DFT.gddfRelativisticMagnetoElasticSpeedSq (3 / 5) (3 / 5) 1 = 6 / 11 ∧
+      Signals.DFT.gddfRelativisticMagnetoElasticSpeedSq (3 / 5) (3 / 5) 1 < 1 ∧
+      0 < Signals.DFT.gddfRelativisticMagnetoElasticSpeedSq cE_sq vA_sq c_sq ∧
+      Signals.DFT.gddfRelativisticMagnetoElasticSpeedSq cE_sq vA_sq c_sq < c_sq ∧
+      Signals.DFT.dielectricLightSpeedSq 1 4 1 = 1 / 4 ∧
+      Signals.DFT.dielectricLightSpeedSq 1 4 1 < 1 ∧
+      Signals.DFT.dielectricBroadbandAntennaMediumPluckerInterval c_med_sq c_med_sq = 0 ∧
+      Signals.DFT.dielectricBroadbandAntennaMediumPluckerInterval 1 (9 / 25) = -16 / 9 ∧
+      Signals.DFT.dielectricBroadbandAntennaMediumPluckerInterval 1 (9 / 25) < 0 ∧
+      Signals.DFT.dielectricBroadbandAntennaCherenkovSineSq (9 / 25) 1 = 16 / 25 ∧
+      0 < Signals.DFT.dielectricBroadbandAntennaCherenkovSineSq (9 / 25) 1 ∧
+      Signals.DFT.dielectricBroadbandAntennaCherenkovSineSq (9 / 25) 1 < 1 ∧
+      Signals.DFT.dispersiveEnzPhaseGroupProduct c_sq eps_eff = c_sq ^ 2 ∧
+      u_re ^ 2 < Signals.DFT.evanescentComplexSkinDepthNormSq u_re u_im ∧
+      Signals.DFT.onsagerPeltierFromSeebeck seebeck T0 - seebeck * T0 = 0 ∧
+      Signals.DFT.nernstTransverseElectricField 2 3 5 = 30 ∧
+      Signals.DFT.jouleThomsonCoolingTempDrop 18 (5 / 2) = 45 ∧
+      Signals.DFT.gddfTemInterfacialTempJump 379 50 10000 < 50 ∧
+      Signals.DFT.gddfTemActiveInterfaceHeatFlux 300 2 200 300 (-1 / 100) 0 = 0 ∧
+      Signals.DFT.greenLindsayEffectiveCoupling epsT tau0 0 = epsT ∧
+      epsT < Signals.DFT.greenLindsayEffectiveCoupling epsT tau0 tau1 ∧
+      Signals.DFT.greenNaghdiThermalWaveSpeedSq (k_th / tau0) vol_cv = (k_th / vol_cv) / tau0 ∧
+      Signals.DFT.finiteConductivityMagnetoElasticFactor betaM_sq 0 = 0 ∧
+      Signals.DFT.finiteConductivityMagnetoElasticFactor 1 3 = 9 / 10 :=
+  Signals.DFT.gddf_thermo_electro_magnetics_vs_lord_shulman_and_four_strata_identities
+    tau0 betaM_sq epsT cE_sq vA_sq c_sq c_med_sq eps_eff u_re u_im seebeck T0 tau1 k_th vol_cv
+    htau0 hbetaM hepsT hcE_vA hc_sq hc_med heps_eff hu_im htau1
+
+/-- **Pending Boundary for Section 24.1 (`gddf_tem_cuprate_gcsc_and_graphene_gmgs_superconducting_synthesis_bounds`)**:
+Certifies the unification of `G-DDF-TEM` with Cuprate (`G-CSC`, Paper 26) and Rhombohedral/Moiré
+Graphene (`G-MGS`, Paper 28) superconducting thermo-electro-magnetics: YBCO $245\text{ K}$ pseudogap
+ultrasound wave-speed softening, London–Meissner magneto-elastic dispersion and thermal softening,
+`TiC`-bridged YBCO quench stability, exact cancellation of topological Hall Joule heating in $C=\pm 5$
+QAHE and $C=1$ AHC states, and supersolid Leggett second-sound / graphene whirlpool identities. -/
+@[blueprint "lem:signals-pending-gddf-tem-cuprate-gcsc-and-graphene-gmgs-synthesis-bounds"
+  (title := "Pending boundary for Section 24.1: G-DDF-TEM unification with Cuprate (G-CSC) and Rhombohedral/Moiré Graphene (G-MGS) superconducting thermo-electro-magnetics")
+  (statement := /-- Under a \texttt{RhombohedralGrapheneSuperconductivityPendingHypothesis} contract,
+    all Section 24.1 Cuprate (\texttt{G-CSC}) and Graphene (\texttt{G-MGS}) superconducting thermo-electro-magnetic identities hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.gddf\_tem\_cuprate\_gcsc\_and\_graphene\_gmgs\_superconducting\_synthesis\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma RhombohedralGrapheneSuperconductivityPendingHypothesis.gddf_tem_cuprate_gcsc_and_graphene_gmgs_superconducting_synthesis_bounds
+    (_contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (cE0_sq vA_sq lambdaL_sq sigma_xx sigma_xy e_x e_y c_th0_sq : ℝ) :
+    Signals.DFT.cuprateSoftenedThermoelasticSpeedSq cE0_sq
+        (Signals.DFT.cuprateResonantUltrasoundModulusShift 4 245 Signals.DFT.cuprateYbco660PseudogapTempK 2) 1 <
+      Signals.DFT.cuprateSoftenedThermoelasticSpeedSq cE0_sq
+        (Signals.DFT.cuprateResonantUltrasoundModulusShift 4 300 Signals.DFT.cuprateYbco660PseudogapTempK 2) 1 ∧
+      Signals.DFT.superconductingLondonMagnetoElasticSpeedSq cE0_sq vA_sq 0 lambdaL_sq = cE0_sq + vA_sq ∧
+      Signals.DFT.superconductingLondonMagnetoElasticSpeedSq 4 2 1
+          (Signals.DFT.cuprateLondonPenetrationDepthSq (Signals.DFT.cuprateSuperfluidStiffness 1 50 93)) <
+        Signals.DFT.superconductingLondonMagnetoElasticSpeedSq 4 2 1
+          (Signals.DFT.cuprateLondonPenetrationDepthSq (Signals.DFT.cuprateSuperfluidStiffness 1 10 93)) ∧
+      0 < Signals.DFT.gmgsTotalSuperfluidStiffness 0 1 (1 / 4) 8 ∧
+      Signals.DFT.gmgsFlatBandKineticInductance 10 5 < Signals.DFT.gmgsFlatBandKineticInductance 10 2 ∧
+      Signals.DFT.ybcoTapeQuenchThermalMargin 70 1 90 1 1 = -20 ∧
+      Signals.DFT.ybcoTapeQuenchThermalMargin 70 1 90 1 1 < 0 ∧
+      0 < Signals.DFT.ybcoTapeQuenchThermalMargin (1036 / 10) 1 90 1 1 ∧
+      Signals.DFT.qaheDissipationlessHallPower sigma_xx sigma_xy e_x e_y = sigma_xx * (e_x ^ 2 + e_y ^ 2) ∧
+      Signals.DFT.qaheDissipationlessHallPower 0 sigma_xy e_x e_y = 0 ∧
+      Signals.DFT.gmgsProximitizedQaheChern 5 (-1) 1 = -5 ∧
+      Signals.DFT.gmgsAnomalousHallCrystalChern 5 4 = 1 ∧
+      Signals.DFT.supersolidBimodalSecondSoundSpeedSq c_th0_sq 0 = c_th0_sq ∧
+      Signals.DFT.supersolidBimodalSecondSoundSpeedSq 10 (1 / 2) = 15 / 2 ∧
+      Signals.DFT.supersolidBimodalSecondSoundSpeedSq 10 (1 / 2) < 10 ∧
+      0 < Signals.DFT.gmgsHydrodynamicWhirlpoolVorticity 5 2 Real.pi ∧
+      Signals.DFT.gmgsHydrodynamicWhirlpoolVorticity 5 1 Real.pi = 0 :=
+  Signals.DFT.gddf_tem_cuprate_gcsc_and_graphene_gmgs_superconducting_synthesis_identities
+    cE0_sq vA_sq lambdaL_sq sigma_xx sigma_xy e_x e_y c_th0_sq
+
+/-- **Pending Boundary for Section 24.2 (`gddf_tem_ggkba_light_driven_thermo_electro_magnetics_synthesis_bounds`)**:
+Certifies the unification of `G-DDF-TEM` with Time-Linear Grassmannian `G-GKBA` (Paper 24 / Problem 04)
+across Hubbard chains/ladders, $\mathrm{WSe}_2$ excitons, Graphite five-reservoir SCOP-to-acoustic
+second-sound emergence, and $\mathrm{MgB}_2$ THz-driven London magneto-elasticity. -/
+@[blueprint "lem:signals-pending-gddf-tem-ggkba-light-driven-synthesis-bounds"
+  (title := "Pending boundary for Section 24.2: G-DDF-TEM unification with Time-Linear Grassmannian G-GKBA (Paper 24 / Problem 04)")
+  (statement := /-- Under a \texttt{LightDrivenMaterialsPendingHypothesis} contract,
+    all Section 24.2 \texttt{G-GKBA} + \texttt{G-DDF-TEM} synthesis identities hold simultaneously. -/)
+  (proof := /-- Apply \texttt{Signals.DFT.gddf\_tem\_ggkba\_light\_driven\_thermo\_electro\_magnetics\_synthesis\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma LightDrivenMaterialsPendingHypothesis.gddf_tem_ggkba_light_driven_thermo_electro_magnetics_synthesis_bounds
+    (_contract : LightDrivenMaterialsPendingHypothesis)
+    (cE_sq vA_sq k_sq lambdaL0_sq epsT0 betaM0_sq n_mott : ℝ)
+    (g1 g2 g3 g4 g5 g6 g7 g8 : ℝ)
+    (hn_mott : n_mott ≠ 0) :
+    Signals.DFT.grassmannGKBASpeedupRatio 1000 10 120 = 144000000 ∧
+      Signals.DFT.effectiveGGKBASpeedupWithCumulants 1000 10 120 108000 = 14400000 ∧
+      Signals.DFT.graphiteFiveReservoirRateSum 0 g1 g2 g3 g4 g5 g6 g7 g8 = 0 ∧
+      Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 1 (1 / 2) 12 = 1 / 2 ∧
+      Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 1 (1 / 2) 12 <
+        Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 3 2 12 ∧
+      Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 3 2 12 <
+        Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 (24 / 5) (39 / 10) 12 ∧
+      Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 (24 / 5) (39 / 10) 12 <
+        Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 6 5 12 ∧
+      Signals.DFT.ggkbaMgb2DrivenLondonMagnetoElasticSpeedSq cE_sq vA_sq (k_sq * lambdaL0_sq) 1 =
+        Signals.DFT.superconductingLondonMagnetoElasticSpeedSq cE_sq vA_sq k_sq lambdaL0_sq ∧
+      Signals.DFT.ggkbaMgb2DrivenLondonMagnetoElasticSpeedSq cE_sq vA_sq (k_sq * lambdaL0_sq) 0 = cE_sq ∧
+      Signals.DFT.mgb2NonEquilibriumCriticalTemp 38 (1 / 2) = 0 ∧
+      Signals.DFT.ggkbaMgb2DrivenLondonMagnetoElasticSpeedSq 4 2 1 (7 / 25) <
+        Signals.DFT.ggkbaMgb2DrivenLondonMagnetoElasticSpeedSq 4 2 1 1 ∧
+      Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling epsT0 (1 / 2) (1 / 2) 0 = epsT0 ∧
+      Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling 1 (1 / 2) (1 / 2) 20 <
+        Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling 1 (1 / 2) (1 / 2) 15 ∧
+      Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling 1 (1 / 2) (1 / 2) 15 <
+        Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling 1 (1 / 2) (1 / 2) 5 ∧
+      Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling 1 (1 / 2) (1 / 2) 5 <
+        Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling 1 (1 / 2) (1 / 2) 0 ∧
+      Signals.DFT.ggkbaWse2IntervalleyPhononHeatSource 1 = 9 / 200 ∧
+      Signals.DFT.ggkbaExcitonMottMagnetoElasticCoupling betaM0_sq 0 n_mott = 0 ∧
+      Signals.DFT.ggkbaExcitonMottMagnetoElasticCoupling betaM0_sq n_mott n_mott = betaM0_sq :=
+  Signals.DFT.gddf_tem_ggkba_light_driven_thermo_electro_magnetics_synthesis_identities
+    cE_sq vA_sq k_sq lambdaL0_sq epsT0 betaM0_sq n_mott g1 g2 g3 g4 g5 g6 g7 g8 hn_mott
+
 end Signals.Pending

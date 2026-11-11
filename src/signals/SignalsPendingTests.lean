@@ -6724,4 +6724,103 @@ example (k0 k1 d0 d1 w_cas sigma_noise_sq m_fact m_packets eta_b g_true : ℝ)
     k0 k1 d0 d1 (1 / 10) w_cas sigma_noise_sq m_fact m_packets eta_b g_true
     v v0 v1 u0 u1 K (by norm_num)
 
+example (u_re seebeck T0 k_th vol_cv : ℝ) :
+    0 < Signals.DFT.lordShulmanDiscriminant 1 0 (1 / 2) ∧
+      Signals.DFT.lordShulmanWaveSpeedSum 1 0 (1 / 2) = 5 / 2 ∧
+      Signals.DFT.lordShulmanWaveSpeedProd 1 0 = 1 ∧
+      Signals.DFT.lordShulmanDiscriminant 1 0 (1 / 2) = 9 / 4 ∧
+      Signals.DFT.lordShulmanCharacteristicPoly 1 0 (1 / 2) 2 = 0 ∧
+      Signals.DFT.lordShulmanCharacteristicPoly 1 0 (1 / 2) (1 / 2) = 0 ∧
+      Signals.DFT.nonRelativisticMagnetoElasticSpeedSq (3 / 5) (3 / 5) = 6 / 5 ∧
+      (1 : ℝ) < Signals.DFT.nonRelativisticMagnetoElasticSpeedSq (3 / 5) (3 / 5) ∧
+      Signals.DFT.gddfRelativisticMagnetoElasticSpeedSq (3 / 5) (3 / 5) 1 = 6 / 11 ∧
+      Signals.DFT.gddfRelativisticMagnetoElasticSpeedSq (3 / 5) (3 / 5) 1 < 1 ∧
+      0 < Signals.DFT.gddfRelativisticMagnetoElasticSpeedSq (3 / 5) (3 / 5) 1 ∧
+      Signals.DFT.gddfRelativisticMagnetoElasticSpeedSq (3 / 5) (3 / 5) 1 < 1 ∧
+      Signals.DFT.dielectricLightSpeedSq 1 4 1 = 1 / 4 ∧
+      Signals.DFT.dielectricLightSpeedSq 1 4 1 < 1 ∧
+      Signals.DFT.dielectricBroadbandAntennaMediumPluckerInterval (9 / 25) (9 / 25) = 0 ∧
+      Signals.DFT.dielectricBroadbandAntennaMediumPluckerInterval 1 (9 / 25) = -16 / 9 ∧
+      Signals.DFT.dielectricBroadbandAntennaMediumPluckerInterval 1 (9 / 25) < 0 ∧
+      Signals.DFT.dielectricBroadbandAntennaCherenkovSineSq (9 / 25) 1 = 16 / 25 ∧
+      0 < Signals.DFT.dielectricBroadbandAntennaCherenkovSineSq (9 / 25) 1 ∧
+      Signals.DFT.dielectricBroadbandAntennaCherenkovSineSq (9 / 25) 1 < 1 ∧
+      Signals.DFT.dispersiveEnzPhaseGroupProduct 1 (4 / 9) = 1 ^ 2 ∧
+      u_re ^ 2 < Signals.DFT.evanescentComplexSkinDepthNormSq u_re (1 / 2) ∧
+      Signals.DFT.onsagerPeltierFromSeebeck seebeck T0 - seebeck * T0 = 0 ∧
+      Signals.DFT.nernstTransverseElectricField 2 3 5 = 30 ∧
+      Signals.DFT.jouleThomsonCoolingTempDrop 18 (5 / 2) = 45 ∧
+      Signals.DFT.gddfTemInterfacialTempJump 379 50 10000 < 50 ∧
+      Signals.DFT.gddfTemActiveInterfaceHeatFlux 300 2 200 300 (-1 / 100) 0 = 0 ∧
+      Signals.DFT.greenLindsayEffectiveCoupling (1 / 2) 1 0 = 1 / 2 ∧
+      (1 / 2 : ℝ) < Signals.DFT.greenLindsayEffectiveCoupling (1 / 2) 1 2 ∧
+      Signals.DFT.greenNaghdiThermalWaveSpeedSq (k_th / 1) vol_cv = (k_th / vol_cv) / 1 ∧
+      Signals.DFT.finiteConductivityMagnetoElasticFactor 0 0 = 0 ∧
+      Signals.DFT.finiteConductivityMagnetoElasticFactor 1 3 = 9 / 10 :=
+  SignalsPending.rhombohedral_graphene_gddf_thermo_electro_magnetics_vs_lord_shulman_and_four_strata_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    1 0 (1 / 2) (3 / 5) (3 / 5) 1 (9 / 25) (4 / 9) u_re (1 / 2) seebeck T0 2 k_th vol_cv
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
+example (cE0_sq vA_sq lambdaL_sq sigma_xx sigma_xy e_x e_y c_th0_sq : ℝ) :
+    Signals.DFT.cuprateSoftenedThermoelasticSpeedSq cE0_sq
+        (Signals.DFT.cuprateResonantUltrasoundModulusShift 4 245 Signals.DFT.cuprateYbco660PseudogapTempK 2) 1 <
+      Signals.DFT.cuprateSoftenedThermoelasticSpeedSq cE0_sq
+        (Signals.DFT.cuprateResonantUltrasoundModulusShift 4 300 Signals.DFT.cuprateYbco660PseudogapTempK 2) 1 ∧
+      Signals.DFT.superconductingLondonMagnetoElasticSpeedSq cE0_sq vA_sq 0 lambdaL_sq = cE0_sq + vA_sq ∧
+      Signals.DFT.superconductingLondonMagnetoElasticSpeedSq 4 2 1
+          (Signals.DFT.cuprateLondonPenetrationDepthSq (Signals.DFT.cuprateSuperfluidStiffness 1 50 93)) <
+        Signals.DFT.superconductingLondonMagnetoElasticSpeedSq 4 2 1
+          (Signals.DFT.cuprateLondonPenetrationDepthSq (Signals.DFT.cuprateSuperfluidStiffness 1 10 93)) ∧
+      0 < Signals.DFT.gmgsTotalSuperfluidStiffness 0 1 (1 / 4) 8 ∧
+      Signals.DFT.gmgsFlatBandKineticInductance 10 5 < Signals.DFT.gmgsFlatBandKineticInductance 10 2 ∧
+      Signals.DFT.ybcoTapeQuenchThermalMargin 70 1 90 1 1 = -20 ∧
+      Signals.DFT.ybcoTapeQuenchThermalMargin 70 1 90 1 1 < 0 ∧
+      0 < Signals.DFT.ybcoTapeQuenchThermalMargin (1036 / 10) 1 90 1 1 ∧
+      Signals.DFT.qaheDissipationlessHallPower sigma_xx sigma_xy e_x e_y = sigma_xx * (e_x ^ 2 + e_y ^ 2) ∧
+      Signals.DFT.qaheDissipationlessHallPower 0 sigma_xy e_x e_y = 0 ∧
+      Signals.DFT.gmgsProximitizedQaheChern 5 (-1) 1 = -5 ∧
+      Signals.DFT.gmgsAnomalousHallCrystalChern 5 4 = 1 ∧
+      Signals.DFT.supersolidBimodalSecondSoundSpeedSq c_th0_sq 0 = c_th0_sq ∧
+      Signals.DFT.supersolidBimodalSecondSoundSpeedSq 10 (1 / 2) = 15 / 2 ∧
+      Signals.DFT.supersolidBimodalSecondSoundSpeedSq 10 (1 / 2) < 10 ∧
+      0 < Signals.DFT.gmgsHydrodynamicWhirlpoolVorticity 5 2 Real.pi ∧
+      Signals.DFT.gmgsHydrodynamicWhirlpoolVorticity 5 1 Real.pi = 0 :=
+  SignalsPending.rhombohedral_graphene_gddf_tem_cuprate_gcsc_and_graphene_gmgs_superconducting_synthesis_bounds
+    toyRhombohedralGrapheneSuperconductivityContract
+    cE0_sq vA_sq lambdaL_sq sigma_xx sigma_xy e_x e_y c_th0_sq
+
+example (cE_sq vA_sq k_sq lambdaL0_sq epsT0 betaM0_sq : ℝ)
+    (g1 g2 g3 g4 g5 g6 g7 g8 : ℝ) :
+    Signals.DFT.grassmannGKBASpeedupRatio 1000 10 120 = 144000000 ∧
+      Signals.DFT.effectiveGGKBASpeedupWithCumulants 1000 10 120 108000 = 14400000 ∧
+      Signals.DFT.graphiteFiveReservoirRateSum 0 g1 g2 g3 g4 g5 g6 g7 g8 = 0 ∧
+      Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 1 (1 / 2) 12 = 1 / 2 ∧
+      Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 1 (1 / 2) 12 <
+        Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 3 2 12 ∧
+      Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 3 2 12 <
+        Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 (24 / 5) (39 / 10) 12 ∧
+      Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 (24 / 5) (39 / 10) 12 <
+        Signals.DFT.ggkbaGraphiteAcousticWeightedSecondSoundSpeedSq 4 6 5 12 ∧
+      Signals.DFT.ggkbaMgb2DrivenLondonMagnetoElasticSpeedSq cE_sq vA_sq (k_sq * lambdaL0_sq) 1 =
+        Signals.DFT.superconductingLondonMagnetoElasticSpeedSq cE_sq vA_sq k_sq lambdaL0_sq ∧
+      Signals.DFT.ggkbaMgb2DrivenLondonMagnetoElasticSpeedSq cE_sq vA_sq (k_sq * lambdaL0_sq) 0 = cE_sq ∧
+      Signals.DFT.mgb2NonEquilibriumCriticalTemp 38 (1 / 2) = 0 ∧
+      Signals.DFT.ggkbaMgb2DrivenLondonMagnetoElasticSpeedSq 4 2 1 (7 / 25) <
+        Signals.DFT.ggkbaMgb2DrivenLondonMagnetoElasticSpeedSq 4 2 1 1 ∧
+      Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling epsT0 (1 / 2) (1 / 2) 0 = epsT0 ∧
+      Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling 1 (1 / 2) (1 / 2) 20 <
+        Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling 1 (1 / 2) (1 / 2) 15 ∧
+      Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling 1 (1 / 2) (1 / 2) 15 <
+        Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling 1 (1 / 2) (1 / 2) 5 ∧
+      Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling 1 (1 / 2) (1 / 2) 5 <
+        Signals.DFT.ggkbaHubbardCorrelatedThermoelasticCoupling 1 (1 / 2) (1 / 2) 0 ∧
+      Signals.DFT.ggkbaWse2IntervalleyPhononHeatSource 1 = 9 / 200 ∧
+      Signals.DFT.ggkbaExcitonMottMagnetoElasticCoupling betaM0_sq 0 10 = 0 ∧
+      Signals.DFT.ggkbaExcitonMottMagnetoElasticCoupling betaM0_sq 10 10 = betaM0_sq :=
+  SignalsPending.light_driven_materials_gddf_tem_ggkba_light_driven_thermo_electro_magnetics_synthesis_bounds
+    toyLightDrivenMaterialsContract
+    cE_sq vA_sq k_sq lambdaL0_sq epsT0 betaM0_sq 10 g1 g2 g3 g4 g5 g6 g7 g8 (by norm_num)
+
 end SignalsPendingTests

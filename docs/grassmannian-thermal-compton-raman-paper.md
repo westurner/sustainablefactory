@@ -22,6 +22,7 @@ description: "An arXiv-ready formal verification and numerical simulation paper 
   7. [The Holographic Principle in Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: 't Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting in Lean 4](grassmannian-holographic-principle-paper.md)
   8. [AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: From Maldacena and $\mathfrak{psl}(2|2)_c$ Yangians to Plücker Outer Automorphisms and Holographic RG Tensor Splatting in Lean 4](grassmannian-ads-cft-ddf-paper.md)
   9. [Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian $Gr_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: Cross-Domain Plücker Invariants, Photonic–Thermal–Quantum Systems, and Formal Verification in Lean 4](grassmannian-unification-applications-roadmap-paper.md)
+  10. [Grassmannian–DDF Thermo-Electro-Magnetics (`G-DDF-TEM`) as a Complete Alternative to Lord–Shulman: Four-Sector $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Causality (Subluminal Signal Fronts vs. Superluminal Dielectric Sweeps & $\mathrm{ER}=\mathrm{EPR}$), Onsager Reciprocity, `G-TBC` Interfacial Coupling, and Cuprate (`G-CSC`) / Multilayer Graphene (`G-MGS`) Superconducting Dynamics in Lean 4 and Rust/WASM](grassmannian-thermo-electro-magnetics-lord-shulman-paper.md)
 
 ---
 
