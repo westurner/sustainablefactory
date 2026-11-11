@@ -1721,6 +1721,150 @@ pub fn libxc_unpolarized_vsigma_from_polarized(vsigma_aa: f64, vsigma_ab: f64) -
     (2.0 * vsigma_aa + vsigma_ab) / 4.0
 }
 
+/// Wootters 2-qubit EPR entanglement concurrence squared `4 * p23_norm_sq` on `Gr_C(2,4)`,
+/// matching `Signals.DFT.erEprPluckerConcurrenceSq`.
+pub fn er_epr_plucker_concurrence_sq(p23_norm_sq: f64) -> f64 {
+    4.0 * p23_norm_sq
+}
+
+/// ER=EPR / Ryu-Takayanagi wormhole throat area `4 * l_planck_sq * s_max * C_EPR^2` from `Gr_C(2,4)` Plücker minor,
+/// matching `Signals.DFT.erEprThroatAreaFromPlucker`.
+pub fn er_epr_throat_area_from_plucker(l_planck_sq: f64, s_max: f64, p23_norm_sq: f64) -> f64 {
+    4.0 * l_planck_sq * s_max * er_epr_plucker_concurrence_sq(p23_norm_sq)
+}
+
+/// Off-shell `Gr_C(2,4)` Bohmian stress-curvature null component `rho_grad_term - im_action_grad_sq`,
+/// matching `Signals.DFT.offShellBohmStressTensorUu`.
+pub fn off_shell_bohm_stress_tensor_uu(rho_grad_term: f64, im_action_grad_sq: f64) -> f64 {
+    rho_grad_term - im_action_grad_sq
+}
+
+/// DDF throat-jammed relativistic particle transit energy squared `m_rest_sq / (1 - beta_sq)^2 + e_null_sq`,
+/// matching `Signals.DFT.wormholeTransitJammedEnergy`.
+pub fn wormhole_transit_jammed_energy(m_rest_sq: f64, beta_sq: f64, e_null_sq: f64) -> f64 {
+    m_rest_sq / (1.0 - beta_sq).powi(2) + e_null_sq
+}
+
+/// Raychaudhuri / Gao-Jafferis-Wall net null focusing flux `e_transit - bohm_cushion`,
+/// matching `Signals.DFT.wormholeNetNullDefocusingFlux`.
+pub fn wormhole_net_null_defocusing_flux(e_transit: f64, bohm_cushion: f64) -> f64 {
+    e_transit - bohm_cushion
+}
+
+/// Semi-Dirac fermion directional wormhole throat transit energy squared `(tx_massive / (1 - beta_sq))^2 + py_massless^2`,
+/// matching `Signals.DFT.semiDiracWormholeTransitEnergySq`.
+pub fn semi_dirac_wormhole_transit_energy_sq(
+    tx_massive: f64,
+    py_massless: f64,
+    beta_sq: f64,
+) -> f64 {
+    (tx_massive / (1.0 - beta_sq)).powi(2) + py_massless.powi(2)
+}
+
+/// ER=EPR boundary no-signaling reduced density marginal `psi00_norm_sq + psi01_norm_sq`,
+/// matching `Signals.DFT.erEprNoSignalingMarginalA`.
+pub fn er_epr_no_signaling_marginal_a(
+    psi00_norm_sq: f64,
+    psi01_norm_sq: f64,
+    _theta_b: f64,
+) -> f64 {
+    psi00_norm_sq + psi01_norm_sq
+}
+
+/// ER=EPR transceiver receiver probability `0.5 + g_gjw * s_bit`,
+/// matching `Signals.DFT.erEprTransceiverRxProbability`.
+pub fn er_epr_transceiver_rx_probability(g_gjw: f64, s_bit: f64) -> f64 {
+    0.5 + g_gjw * s_bit
+}
+
+/// ER=EPR transceiver differential BPSK contrast `P_RX(+1) - P_RX(-1) = 2 * g_gjw`,
+/// matching `Signals.DFT.erEprTransceiverDifferentialContrast`.
+pub fn er_epr_transceiver_differential_contrast(g_gjw: f64) -> f64 {
+    er_epr_transceiver_rx_probability(g_gjw, 1.0) - er_epr_transceiver_rx_probability(g_gjw, -1.0)
+}
+
+/// Sub-wavelength 3D photon Bethe aperture coupling efficiency `(r / lambda)^4 / (1 + (r / lambda)^4)`,
+/// matching `Signals.DFT.subwavelengthPhotonApertureEfficiency`.
+pub fn subwavelength_photon_aperture_efficiency(r_throat: f64, wavelength: f64) -> f64 {
+    let ratio4 = (r_throat / wavelength).powi(4);
+    ratio4 / (1.0 + ratio4)
+}
+
+/// Semi-Dirac transceiver directional mode-filter isolation ratio `T_y / T_x = 1 + kappa_l^2`,
+/// matching `Signals.DFT.semiDiracTransceiverIsolationRatio`.
+pub fn semi_dirac_transceiver_isolation_ratio(kappa_l: f64) -> f64 {
+    1.0 / semi_dirac_wkb_barrier_transmission_x(kappa_l)
+}
+
+/// Semi-Dirac wormhole transceiver non-collapse throat margin `bohm_cushion - n_symbols * e_symbol`,
+/// matching `Signals.DFT.semiDiracTransceiverThroatMargin`.
+pub fn semi_dirac_transceiver_throat_margin(
+    bohm_cushion: f64,
+    n_symbols: f64,
+    e_symbol: f64,
+) -> f64 {
+    bohm_cushion - n_symbols * e_symbol
+}
+
+/// Maximum coherent transceiver link range `n_checkpoints * spacing_m` in meters,
+/// matching `Signals.DFT.transceiverRepeaterMaxRangeMeters`.
+pub fn transceiver_repeater_max_range_meters(n_checkpoints: usize, spacing_m: f64) -> f64 {
+    (n_checkpoints as f64) * spacing_m
+}
+
+/// Total 4K cryogenic transceiver power budget in mW,
+/// matching `Signals.DFT.transceiverTotalCryoPowerMw`.
+pub fn transceiver_total_cryo_power_mw(
+    n_nodes: f64,
+    p_pump_mw: f64,
+    duty_cycle: f64,
+    p_homodyne_mw: f64,
+    p_control_mw: f64,
+) -> f64 {
+    n_nodes * (p_pump_mw * duty_cycle + p_homodyne_mw + p_control_mw)
+}
+
+/// Uncorrected end-to-end transceiver link efficiency `eta_aperture * t_throat * eta_detector`,
+/// matching `Signals.DFT.transceiverUncorrectedLinkEfficiency`.
+pub fn transceiver_uncorrected_link_efficiency(
+    eta_aperture: f64,
+    t_throat: f64,
+    eta_detector: f64,
+) -> f64 {
+    eta_aperture * t_throat * eta_detector
+}
+
+/// Distance-3 fault-tolerant QEC / McWeeny logical error rate `3 * p^2 - 2 * p^3`,
+/// matching `Signals.DFT.transceiverDist3LogicalError`.
+pub fn transceiver_dist3_logical_error(p_phys: f64) -> f64 {
+    3.0 * p_phys.powi(2) - 2.0 * p_phys.powi(3)
+}
+
+/// Error-corrected net transceiver payload efficiency `eta_raw * code_rate * (1 - p_logical)`,
+/// matching `Signals.DFT.transceiverQecNetEfficiency`.
+pub fn transceiver_qec_net_efficiency(eta_raw: f64, code_rate: f64, p_logical: f64) -> f64 {
+    eta_raw * code_rate * (1.0 - p_logical)
+}
+
+/// Critique Fix 1: Finite-beam-waist Semi-Dirac throat stability margin
+/// `bohm_cushion - n_symbols * (e_symbol + delta_tx / (1 - beta_sq))`,
+/// matching `Signals.DFT.semiDiracFiniteBeamThroatMargin`.
+pub fn semi_dirac_finite_beam_throat_margin(
+    bohm_cushion: f64,
+    n_symbols: f64,
+    e_symbol: f64,
+    delta_tx: f64,
+    beta_sq: f64,
+) -> f64 {
+    bohm_cushion - n_symbols * (e_symbol + delta_tx / (1.0 - beta_sq))
+}
+
+/// Critique Fix 2: Exact bounded unitary GJW transceiver receiver probability
+/// `(1 + sin_2theta * s_bit) / 2`, matching `Signals.DFT.erEprExactUnitaryRxProbability`.
+pub fn er_epr_exact_unitary_rx_probability(sin_2theta: f64, s_bit: f64) -> f64 {
+    (1.0 + sin_2theta * s_bit) / 2.0
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2470,5 +2614,85 @@ mod tests {
         assert!(mra_separated_1d_directional_flops(7) < mra_unseparated_3d_box_flops(7));
         assert!((libxc_spin_symmetric_total_sigma(3.6 / 4.0) - 3.6).abs() < 1e-15);
         assert!((libxc_unpolarized_vsigma_from_polarized(1.25, 2.50) - 1.25).abs() < 1e-15);
+
+        // 15. Section 23: ER=EPR in Witten's SU(4) & Gr_C(2,4) Plückers, Tachyons/Off-Shell Stress,
+        // and Massless vs. Semi-Dirac Wormhole Transit (Paper 45)
+        let (psi00, psi01, psi10, psi11) = (1.0 / 2.0_f64.sqrt(), 0.0, 0.0, 1.0 / 2.0_f64.sqrt());
+        let p23_bell = psi00 * psi11 - psi01 * psi10;
+        assert!(
+            universal_plucker_three_term_residual(1.0, p23_bell, psi00, psi11, psi01, psi10).abs()
+                < 1e-15
+        );
+        assert!(
+            twisted_holography_deformed_conifold_residual(psi00, psi11, psi01, psi10, p23_bell)
+                .abs()
+                < 1e-15
+        );
+        assert!(er_epr_plucker_concurrence_sq(0.0).abs() < 1e-15);
+        assert!((er_epr_plucker_concurrence_sq(p23_bell.powi(2)) - 1.0).abs() < 1e-15);
+        assert!(er_epr_throat_area_from_plucker(1.0, 10.0, 0.0).abs() < 1e-15);
+        assert!((er_epr_throat_area_from_plucker(1.0, 10.0, 0.25) - 40.0).abs() < 1e-15);
+        assert!((off_shell_bohm_stress_tensor_uu(1.0, 0.0) - 1.0).abs() < 1e-15);
+        assert!(off_shell_bohm_stress_tensor_uu(1.0, 4.0) < 0.0);
+        assert!((wormhole_transit_jammed_energy(0.0, 0.36, 2.5) - 2.5).abs() < 1e-15);
+        assert!(2.5 < wormhole_transit_jammed_energy(2.0, 0.36, 2.5));
+        assert!(
+            wormhole_transit_jammed_energy(2.0, 0.0, 2.5)
+                < wormhole_transit_jammed_energy(2.0, 0.36, 2.5)
+        );
+        assert!(wormhole_net_null_defocusing_flux(2.0, 3.0) <= 0.0);
+        assert!(wormhole_net_null_defocusing_flux(5.0, 3.0) > 0.0);
+        assert!((semi_dirac_wormhole_transit_energy_sq(0.0, 4.0, 0.36) - 16.0).abs() < 1e-15);
+        assert!(
+            semi_dirac_wormhole_transit_energy_sq(3.0, 4.0, 0.0)
+                < semi_dirac_wormhole_transit_energy_sq(3.0, 4.0, 0.36)
+        );
+        assert!(
+            (er_epr_no_signaling_marginal_a(0.5, 0.0, 0.3)
+                - er_epr_no_signaling_marginal_a(0.5, 0.0, 1.9))
+                .abs()
+                < 1e-15
+        );
+
+        // 16. Section 23.1: Semi-Dirac ER=EPR Wormhole & Soliton-Bridge Transceiver
+        assert!((er_epr_transceiver_rx_probability(0.0, 1.0) - 0.5).abs() < 1e-15);
+        assert!(er_epr_transceiver_differential_contrast(0.0).abs() < 1e-15);
+        assert!((er_epr_transceiver_differential_contrast(0.25) - 0.5).abs() < 1e-15);
+        assert!(er_epr_transceiver_differential_contrast(0.25) > 0.0);
+        let eta_bethe = subwavelength_photon_aperture_efficiency(1.0, 10.0);
+        assert!((eta_bethe - 1.0 / 10_001.0).abs() < 1e-15 && eta_bethe < 1.0e-3);
+        assert!((semi_dirac_transceiver_isolation_ratio(10.0) - 101.0).abs() < 1e-12);
+        assert!(semi_dirac_transceiver_throat_margin(10.0, 8.0, 0.5) >= 0.0);
+
+        // 17. Section 23.2: Transceiver Comparison Table (Range, Power, Error, Efficiency, QEC) & Critique Fixes
+        assert!((transceiver_repeater_max_range_meters(1000, 10.0) - 10_000.0).abs() < 1e-12);
+        assert!(
+            (transceiver_total_cryo_power_mw(2.0, 1.5, 0.375, 0.1875, 0.25) - 2.0).abs() < 1e-15
+        );
+        assert!(transceiver_total_cryo_power_mw(100.0, 1.5, 0.375, 0.1875, 0.25) < 110.0);
+        let eta_3d = transceiver_uncorrected_link_efficiency(1.0 / 10_001.0, 1.0, 0.9);
+        let eta_mx = transceiver_uncorrected_link_efficiency(1.0, 1.0 / 101.0, 0.9);
+        let eta_rie = transceiver_uncorrected_link_efficiency(0.8, 0.5, 0.8);
+        let eta_sd = transceiver_uncorrected_link_efficiency(0.98, 1.0, 0.95);
+        assert!(eta_3d < eta_mx && eta_mx < eta_rie && eta_rie < eta_sd);
+        assert!((eta_sd - 0.931).abs() < 1e-15);
+        let p_l1 = transceiver_dist3_logical_error(0.01);
+        let p_l2 = transceiver_dist3_logical_error(p_l1);
+        assert!((p_l1 - 0.000298).abs() < 1e-15 && p_l1 < 3.0e-4 && p_l2 < 3.0e-7);
+        assert!(
+            transceiver_qec_net_efficiency(eta_sd, 1.0, 0.01)
+                < transceiver_qec_net_efficiency(eta_sd, 1.0, p_l1)
+        );
+        assert!(transceiver_qec_net_efficiency(eta_sd, 0.9, p_l1) > 0.83);
+        let m_finite = semi_dirac_finite_beam_throat_margin(10.0, 8.0, 0.5, 0.2, 0.36);
+        assert!((m_finite - 3.5).abs() < 1e-15 && m_finite >= 0.0);
+        assert!((er_epr_exact_unitary_rx_probability(0.0, 1.0) - 0.5).abs() < 1e-15);
+        assert!(
+            (er_epr_exact_unitary_rx_probability(1.0, 1.0)
+                - er_epr_exact_unitary_rx_probability(1.0, -1.0)
+                - 1.0)
+                .abs()
+                < 1e-15
+        );
     }
 }

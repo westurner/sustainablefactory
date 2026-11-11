@@ -1506,4 +1506,120 @@ theorem rhombohedral_graphene_tequila_high_n_butterfly_plucker_128bit_and_memory
   contract.tequila_high_n_butterfly_plucker_128bit_and_memory_ceiling_bounds
     k m w ar ai br bi wr wi a b c d
 
+/-- Re-exports the Paper 45 ER=EPR, Witten $\mathrm{SU}(4)$ Plücker, tachyon/off-shell, and massless/semi-Dirac wormhole transit boundary theorem. -/
+theorem rhombohedral_graphene_er_epr_su4_plucker_tachyon_offshell_and_semi_dirac_wormhole_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (psi00 psi01 psi10 psi11 l_p_sq s_max r_rho g_im_s : ℝ)
+    (m_rest_sq beta_sq e_null_sq e_null_soft e_jammed bohm_cushion : ℝ)
+    (tx_massive py_massless sigma_y0 t_evol theta_b1 theta_b2 : ℝ)
+    (hlp : 0 < l_p_sq) (hsmax : 0 < s_max)
+    (hg_im : r_rho < g_im_s)
+    (hm_pos : 0 < m_rest_sq) (hbeta_pos : 0 < beta_sq) (hbeta_lt : beta_sq < 1)
+    (htx_pos : 0 < tx_massive)
+    (h_soft : e_null_soft ≤ bohm_cushion) (h_collapse : bohm_cushion < e_jammed) :
+    Signals.DFT.suNRealDim 4 = 15 ∧
+      Signals.DFT.pluckerAmbientCoordCount 2 4 = 6 ∧
+      Signals.DFT.complexGrassmannianRealDim 2 4 = 8 ∧
+      Signals.DFT.grassmannianScalarCurvature 2 4 = 16 ∧
+      Signals.DFT.universalPluckerThreeTermResidual 1 (psi00 * psi11 - psi01 * psi10) psi00 psi11 psi01 psi10 = 0 ∧
+      Signals.DFT.twistedHolographyDeformedConifoldResidual psi00 psi11 psi01 psi10 (psi00 * psi11 - psi01 * psi10) = 0 ∧
+      Signals.DFT.erEprPluckerConcurrenceSq 0 = 0 ∧
+      Signals.DFT.erEprPluckerConcurrenceSq (1 / 4) = 1 ∧
+      Signals.DFT.erEprThroatAreaFromPlucker l_p_sq s_max 0 = 0 ∧
+      Signals.DFT.erEprThroatAreaFromPlucker l_p_sq s_max (1 / 4) = 4 * l_p_sq * s_max ∧
+      0 < Signals.DFT.erEprThroatAreaFromPlucker l_p_sq s_max (1 / 4) ∧
+      0 < Signals.QuantumCausalInference.causalLightconeInterval (3 / 5) ∧
+      Signals.QuantumCausalInference.causalLightconeInterval 1 = 0 ∧
+      Signals.QuantumCausalInference.causalLightconeInterval (5 / 3) < 0 ∧
+      Signals.DFT.offShellBohmStressTensorUu r_rho 0 = r_rho ∧
+      Signals.DFT.offShellBohmStressTensorUu r_rho g_im_s < 0 ∧
+      Signals.DFT.wormholeTransitJammedEnergy 0 beta_sq e_null_sq = e_null_sq ∧
+      e_null_sq < Signals.DFT.wormholeTransitJammedEnergy m_rest_sq beta_sq e_null_sq ∧
+      Signals.DFT.wormholeTransitJammedEnergy m_rest_sq 0 e_null_sq <
+        Signals.DFT.wormholeTransitJammedEnergy m_rest_sq beta_sq e_null_sq ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux e_null_soft bohm_cushion ≤ 0 ∧
+      0 < Signals.DFT.wormholeNetNullDefocusingFlux e_jammed bohm_cushion ∧
+      Signals.DFT.semiDiracWormholeTransitEnergySq 0 py_massless beta_sq = py_massless ^ 2 ∧
+      Signals.DFT.semiDiracWormholeTransitEnergySq 0 py_massless beta_sq =
+        Signals.DFT.semiDiracEnergySq 0 py_massless 1 1 0 ∧
+      Signals.DFT.semiDiracWormholeTransitEnergySq tx_massive py_massless 0 <
+        Signals.DFT.semiDiracWormholeTransitEnergySq tx_massive py_massless beta_sq ∧
+      Signals.DFT.semiDiracWkbBarrierTransmissionX 2 < Signals.DFT.semiDiracKleinTunnelingY ∧
+      Signals.DFT.semiDiracAnisotropicSplatVarY sigma_y0 t_evol =
+        Signals.DFT.semiDiracAnisotropicSplatVarY sigma_y0 0 ∧
+      Signals.DFT.erEprNoSignalingMarginalA (psi00 ^ 2) (psi01 ^ 2) theta_b1 =
+        Signals.DFT.erEprNoSignalingMarginalA (psi00 ^ 2) (psi01 ^ 2) theta_b2 :=
+  contract.er_epr_su4_plucker_tachyon_offshell_and_semi_dirac_wormhole_bounds
+    psi00 psi01 psi10 psi11 l_p_sq s_max r_rho g_im_s
+    m_rest_sq beta_sq e_null_sq e_null_soft e_jammed bohm_cushion
+    tx_massive py_massless sigma_y0 t_evol theta_b1 theta_b2
+    hlp hsmax hg_im hm_pos hbeta_pos hbeta_lt htx_pos h_soft h_collapse
+
+/-- Re-exports the Paper 45 Semi-Dirac ER=EPR wormhole transceiver boundary theorem. -/
+theorem rhombohedral_graphene_semi_dirac_er_epr_wormhole_transceiver_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (s_bit g_gjw kappa_l bohm_cushion n_sym e_sym tx_misaligned beta_sq chi_disp : ℝ)
+    (hg_pos : 0 < g_gjw)
+    (h_budget : n_sym * e_sym ≤ bohm_cushion)
+    (htx_pos : 0 < tx_misaligned)
+    (hbeta_lt : beta_sq < 1) :
+    Signals.DFT.erEprTransceiverRxProbability 0 s_bit = 1 / 2 ∧
+      Signals.DFT.erEprTransceiverDifferentialContrast 0 = 0 ∧
+      Signals.DFT.erEprTransceiverDifferentialContrast g_gjw = 2 * g_gjw ∧
+      0 < Signals.DFT.erEprTransceiverDifferentialContrast g_gjw ∧
+      Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 = 1 / 10001 ∧
+      Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 < 1 / 1000 ∧
+      Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 < Signals.DFT.semiDiracKleinTunnelingY ∧
+      Signals.DFT.semiDiracTransceiverIsolationRatio kappa_l = 1 + kappa_l ^ 2 ∧
+      Signals.DFT.semiDiracTransceiverIsolationRatio 10 = 101 ∧
+      0 ≤ Signals.DFT.semiDiracTransceiverThroatMargin bohm_cushion n_sym e_sym ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux (n_sym * e_sym) bohm_cushion ≤ 0 ∧
+      Signals.DFT.semiDiracWormholeTransitEnergySq 0 e_sym beta_sq <
+        Signals.DFT.semiDiracWormholeTransitEnergySq tx_misaligned e_sym beta_sq ∧
+      Signals.DFT.mzmDispersiveParityContrast chi_disp = 2 * chi_disp :=
+  contract.semi_dirac_er_epr_wormhole_transceiver_bounds
+    s_bit g_gjw kappa_l bohm_cushion n_sym e_sym tx_misaligned beta_sq chi_disp
+    hg_pos h_budget htx_pos hbeta_lt
+
+/-- Re-exports the Section 23.2 transceiver comparison table, QEC, and critique gap-closure boundary theorem. -/
+theorem rhombohedral_graphene_semi_dirac_er_epr_transceiver_comparison_qec_and_critique_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (p_err s_bit sin_2theta : ℝ)
+    (h_sin_low : -1 ≤ sin_2theta) (h_sin_high : sin_2theta ≤ 1) :
+    Signals.DFT.transceiverRepeaterMaxRangeMeters 1000 10 = 10000 ∧
+      Signals.DFT.transceiverTotalCryoPowerMw 2 (3 / 2) (3 / 8) (3 / 16) (1 / 4) = 2 ∧
+      Signals.DFT.transceiverTotalCryoPowerMw 100 (3 / 2) (3 / 8) (3 / 16) (1 / 4) = 100 ∧
+      Signals.DFT.transceiverTotalCryoPowerMw 100 (3 / 2) (3 / 8) (3 / 16) (1 / 4) < 110 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (1 / 10001) 1 (9 / 10) = 9 / 100010 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency 1 (1 / 101) (9 / 10) = 9 / 1010 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (4 / 5) (1 / 2) (4 / 5) = 8 / 25 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (98 / 100) 1 (95 / 100) = 931 / 1000 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (1 / 10001) 1 (9 / 10) <
+        Signals.DFT.transceiverUncorrectedLinkEfficiency 1 (1 / 101) (9 / 10) ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency 1 (1 / 101) (9 / 10) <
+        Signals.DFT.transceiverUncorrectedLinkEfficiency (4 / 5) (1 / 2) (4 / 5) ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (4 / 5) (1 / 2) (4 / 5) <
+        Signals.DFT.transceiverUncorrectedLinkEfficiency (98 / 100) 1 (95 / 100) ∧
+      1 - Signals.DFT.mcweenyPurificationPoly (1 - p_err) =
+        Signals.DFT.transceiverDist3LogicalError p_err ∧
+      Signals.DFT.transceiverDist3LogicalError (1 / 100) = 298 / 1000000 ∧
+      Signals.DFT.transceiverDist3LogicalError (1 / 100) < 3 / 10000 ∧
+      Signals.DFT.transceiverDist3LogicalError
+          (Signals.DFT.transceiverDist3LogicalError (1 / 100)) < 3 / 10000000 ∧
+      Signals.DFT.transceiverQecNetEfficiency (931 / 1000) 1 (1 / 100) <
+        Signals.DFT.transceiverQecNetEfficiency (931 / 1000) 1
+          (Signals.DFT.transceiverDist3LogicalError (1 / 100)) ∧
+      (83 / 100 : ℝ) <
+        Signals.DFT.transceiverQecNetEfficiency (931 / 1000) (9 / 10)
+          (Signals.DFT.transceiverDist3LogicalError (1 / 100)) ∧
+      Signals.DFT.semiDiracFiniteBeamThroatMargin 10 8 (1 / 2) (1 / 5) (9 / 25) = 7 / 2 ∧
+      0 ≤ Signals.DFT.semiDiracFiniteBeamThroatMargin 10 8 (1 / 2) (1 / 5) (9 / 25) ∧
+      Signals.DFT.erEprExactUnitaryRxProbability 0 s_bit = 1 / 2 ∧
+      Signals.DFT.erEprExactUnitaryRxProbability 1 1 -
+          Signals.DFT.erEprExactUnitaryRxProbability 1 (-1) = 1 ∧
+      0 ≤ Signals.DFT.erEprExactUnitaryRxProbability sin_2theta 1 ∧
+      Signals.DFT.erEprExactUnitaryRxProbability sin_2theta 1 ≤ 1 :=
+  contract.semi_dirac_er_epr_transceiver_comparison_qec_and_critique_bounds
+    p_err s_bit sin_2theta h_sin_low h_sin_high
+
 end SignalsPending

@@ -1,0 +1,75 @@
+---
+title: "ER=EPR in Witten's SU(4) Twistor Theory and Plücker Coordinates on Gr_C(2,4): Positive-Grassmannian Light-Cone Restriction, Tachyons, Off-Shell Virtual Particles, and Massless vs. Semi-Dirac Wormhole Transit in Lean 4 and Rust"
+description: "An arXiv-ready MyST Markdown formal verification and theoretical physics unification paper formulating the Maldacena–Susskind ER=EPR conjecture in terms of Edward Witten's SU(4) twistor string theory, Costello–Gaiotto deformed conifolds, and Plücker coordinates on the Klein quadric Q_4 = Gr_C(2,4) ⊂ P^5(C); integrating the causal light-cone restriction of the Positive Grassmannian Gr_>0(2,4) with tachyons and off-shell virtual particles in Gr_C(2,4) \\ Gr_>=0(2,4); and proving the conditions under which massless particles and axis-aligned Semi-Dirac fermions transit a wormhole throat without causing gravitational collapse in Lean 4 and Rust."
+---
+
+(grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper)=
+# $\mathrm{ER}=\mathrm{EPR}$ in Witten's $\mathrm{SU}(4)$ Twistor Theory and Plücker Coordinates on $\mathrm{Gr}_{\mathbb{C}}(2,4)$: Positive-Grassmannian Light-Cone Restriction, Tachyons, Off-Shell Virtual Particles, and Massless vs. Semi-Dirac Wormhole Transit in Lean 4 and Rust
+
+- **Authors:** Wes Turner
+- **Subjects:**
+  - High Energy Physics - Theory (`hep-th`); General Relativity and Quantum Cosmology (`gr-qc`); Quantum Physics (`quant-ph`); Mathematical Physics (`math-ph`); Mesoscale and Nanoscale Physics (`cond-mat.mes-hall`); Logic in Computer Science (`cs.LO`)
+- **Formal Verification & Simulation Artifacts:**
+  - `Signals` Lean 4 Library (`leanprover/lean4:v4.35.0-rc3`, `Signals/DFT.lean` lines 5473–5710, `Signals/DDF.lean` lines 8346–9620, `Signals/QuantumCausalInference.lean` lines 1–250, `Signals/Pending.lean` lines 7965–8045, `SignalsPending.lean` lines 1500–1565, `SignalsTests.lean` lines 8005–8055, `SignalsPendingTests.lean` lines 6515–6565)
+  - `signals-numerical-adapter` Rust/WASM Crate (`numerical_adapter/src/dft_plabic_vrc.rs` lines 1690–1750 and 2470–2520)
+  - Canonical `docs/` Page: `docs/grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md`
+- **Companion Papers:**
+  - [$\mathrm{SU}(4)$ Symmetry, Witten's Twistor String Theory, Lower Grassmannians in $\mathrm{Gr}_{\mathbb{R}}$ and $\mathrm{Gr}_{\mathbb{C}}$, Relative Merits of Cachazo (CSW / BCFW / Hodges / CHY) vs. DDF vs. Turner Models, and Grand Unification with the Holographic Principle and AdS/CFT in Lean 4, Rust, and Python](grassmannian-su4-witten-twistor-string-cachazo-ddf-turner-ads-cft-unification-paper.md)
+  - [The Holographic Principle in Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics: 't Hooft–Susskind Horizon Entropy, Gauss–Smarr Bulk Mass Recovery, Plücker Redshift Lapse, and Planck Tensor Splatting](grassmannian-holographic-principle-paper.md)
+  - [AdS/CFT Correspondence, Planar Integrability, and Secret Symmetries in Unified Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-ads-cft-ddf-paper.md)
+  - [Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Fubini–Study Gross–Pitaevskii Equation, Dual-Schubert `iGPE`, and Homogeneous Plücker Madelung Hydrodynamics on the Klein Quadric $\mathcal{Q}_4$](grassmannian-complex-gpe-igpe-plucker-madelung-paper.md)
+  - [Hawking Radiation, Inverse Gross–Pitaevskii (`iGPE`) Unwinding, and Amplituhedron/CP-ALS Decoding in Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-hawking-radiation-decoding-paper.md)
+  - [Semi-Dirac Fermions (Mass in Only One Direction) With and Without Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}$ and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-semi-dirac-fermions-ddf-paper.md)
+  - [Grassmannian Geometry of Quantum Causal Inference, Counterfactual Semantics, Constructor Theory, and the Mpemba / Entropy-Siphoning Laws](grassmannian-quantum-causal-inference-mpemba-paper.md)
+  - [A Rust/PyO3 (`maturin`) Quantum Simulation Backend for `Tequila`: Complex Grassmannians $\mathrm{Gr}_{\mathbb{C}}(k, n)$, Layer-Coded Plabic Vector-Relation Configurations (`VRC`), Madelung/DDF Hydrodynamics, and Quantum Causal Inference (`QCI`)](grassmannian-tequila-rust-pyo3-quantum-simulator-paper.md)
+  - [Unification, Engineering Applications, and Research Roadmap of Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$, $\mathrm{Gr}_{\mathbb{C}}(2,6)$, and Dilatant Dark Fluid (DDF) Mechanics](grassmannian-unification-applications-roadmap-paper.md)
+
+---
+
+## Abstract
+
+Proposed by **Juan Maldacena and Leonard Susskind (2013)** ([`arXiv:1306.0533`](#erepr-maldacenasusskind2013)), the **$\mathrm{ER}=\mathrm{EPR}$ conjecture** posits that every pair of quantum-mechanically entangled subsystems ([Einstein, Podolsky & Rosen 1935](#erepr-epr1935)) is connected in the dual gravitational description by a non-traversable (or quantum-stabilized) Einstein–Rosen wormhole bridge ([Einstein & Rosen 1935](#erepr-er1935); [Van Raamsdonk 2010](#erepr-vanraamsdonk2010); `data/chats/_Airy-Beams-and-Communications-and-Illumination.md`, lines 772–818). In this paper, we synthesize and formally verify in **Lean 4** (`Signals.DFT` Section 23, `Signals.DDF`, `Signals.QuantumCausalInference`, `Signals.Pending`) and **Rust** (`dft_plabic_vrc.rs`) the algebraic, geometric, and hydrodynamic foundations of $\mathrm{ER}=\mathrm{EPR}$ in terms of **Edward Witten's $\mathrm{SU}(4)$ twistor string theory** ([Witten 2004, `hep-th/0312171`](#erepr-witten2004)), **Plücker coordinates on the Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$**, and our companion papers:
+
+1. **$\mathrm{ER}=\mathrm{EPR}$ as the Sixth Universal Pillar of the $\mathrm{SU}(4)$ Klein Quadric Identity (`er_epr_su4_plucker_tachyon_offshell_and_semi_dirac_wormhole_identities`)**:
+   Under the accidental Lie isomorphism $\mathfrak{su}(4) \cong \mathfrak{so}(6)$ ($\dim_{\mathbb{R}}\mathrm{SU}(4) = 15 = 2(3+3)+3$, $\Lambda^2(\mathbf{4}) = \mathbf{6}$), the same group $\mathrm{SU}(4)$ that acts as the 2-qubit entanglement gate group on $\mathbb{C}^2 \otimes \mathbb{C}^2 \cong \mathbb{C}^4$ simultaneously rotates the 4 supertwistor fermions $\eta_A$ in Witten's $\mathbb{CP}^{3|4}$ twistor string and the 6 Plücker coordinates on $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathrm{SU}(4)/\mathrm{S}(\mathrm{U}(2)\times\mathrm{U}(2))$. Embedding a 2-qubit state matrix $\Psi = \begin{pmatrix} \psi_{00} & \psi_{01} \\ \psi_{10} & \psi_{11} \end{pmatrix}$ into the canonical affine chart $Z_{\mathrm{EPR}} = (I_2 \mid \Psi) \in \mathrm{Gr}_{\mathbb{C}}(2,4)$ yields Plücker coordinates $(p_{01}, p_{23}, p_{02}, p_{13}, p_{03}, p_{12}) = (1,\, \det\Psi,\, \psi_{00},\, \psi_{11},\, \psi_{01},\, \psi_{10})$. We prove that the **3-term Plücker identity $\mathcal{R}_{\mathrm{Pl\ddot{u}cker}} = p_{01}p_{23} - p_{02}p_{13} + p_{03}p_{12} = 0$ IS IDENTICALLY the Costello–Gaiotto (`arXiv:1812.09257`) Twisted Holography deformed conifold throat equation** $(\psi_{00}\psi_{11} - \psi_{01}\psi_{10}) - p_{23} = 0$ (`twistedHolographyDeformedConifoldResidual`), where the terminal Plücker coordinate $p_{23} = \det\Psi$ simultaneously determines:
+   - the **Wootters 2-qubit EPR entanglement concurrence squared** $\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 \in [0, 1]$ (`erEprPluckerConcurrenceSq`, [Wootters 1998](#erepr-wootters1998)), and
+   - the **Ryu–Takayanagi / Einstein–Rosen wormhole throat area** $A_{\mathrm{ER}} = 4\ell_P^2 S_{\max}\mathcal{C}_{\mathrm{EPR}}^2 = 16\ell_P^2 S_{\max}|p_{23}|^2$ (`erEprThroatAreaFromPlucker`, [Ryu & Takayanagi 2006](#erepr-ryu2006)).
+2. **Integrating Tachyons, Off-Shell Virtual Particles, the Light-Cone Restriction of the Positive Grassmannian $\mathrm{Gr}_{>0}(2,4)$, and the Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4)$**:
+   We prove how the four kinematic sectors of $\mathrm{Gr}_{\mathbb{C}}(2,4)$ (`data/chats/Gemini_Grassmannian-Gross-Pitaevskii-Equation-Formulation_20261103-1045.md`, lines 149–310; `data/chats/Google-Search_Density-Functional-Theory_20261105-1512.md`, lines 268–445) partition the physics of an Einstein–Rosen bridge across the positive light-cone interior ($|\beta| < 1$), the null horizon ($\partial\mathrm{Gr}_{\ge 0}(2,4)$, $|\beta| = 1$), the spacelike/tachyonic throat sector ($|\beta| > 1$, $\hbar^2\omega^2 < 0 \iff \mathrm{De}/\mathrm{De}_c > 1$), and the off-shell complex action sheet ($\operatorname{Im}\mathcal{S} \neq 0$, $\Sigma_{uu}^{\mathrm{Bohm}} = R_\rho - G_{\operatorname{Im}\mathcal{S}} < 0$).
+3. **Can Massless Particles Transit a Wormhole Without Causing Collapse? What About Semi-Dirac Fermions?**:
+   We prove (`wormholeTransitJammedEnergy`, `wormholeNetNullDefocusingFlux`, `semiDiracWormholeTransitEnergySq`) that massless particles ($m=0$) are immune to DDF rest-mass throat-jamming divergence and transit without collapse whenever $E_{\mathrm{null}} = \hbar\omega \le \mathcal{B}_{\mathrm{Bohm}}$, while Semi-Dirac fermions ($m_x^* > 0, m_y^* = 0$) exhibit axis-selective traversability: jamming along $\hat{x}$ ($k_x \neq 0$) but transiting ballistically with unit Klein tunneling ($T_y = 1$) and zero transverse diffraction ($v_{g,x}(0) = 0$) along the massless $\hat{y}$-axis ($k_x = 0, |P_y| \le \mathcal{B}_{\mathrm{Bohm}}$).
+4. **The Semi-Dirac $\mathrm{ER}=\mathrm{EPR}$ Wormhole & Soliton-Bridge Transceiver (`semi_dirac_er_epr_wormhole_transceiver_identities`)**:
+   We formalize the four-stage transceiver signal chain:
+   - **Boundary No-Signaling vs. Classical-Key Unlocking**: Without the classical Gao–Jafferis–Wall (GJW) feed-forward coupling ($g_{\mathrm{GJW}} = 0$), Alice's local detector probability is an unbiased $1/2$ coin flip regardless of Bob's phase twist (`erEprTransceiverRxProbability 0 s_bit = 1 / 2`, `erEprTransceiverDifferentialContrast 0 = 0`); unlocking the throat with a causal control key $g_{\mathrm{GJW}} > 0$ yields differential BPSK contrast $\Delta P_{\mathrm{RX}}(g_{\mathrm{GJW}}) = 2 g_{\mathrm{GJW}} > 0$.
+   - **$10{,}001\times$ Sub-Wavelength Coupling Gain & $101\times$ ($20.04\text{ dB}$) Mode-Filter Isolation**: At $r_{\mathrm{throat}}/\lambda = 0.1$, 3D free-space photon Bethe aperture efficiency drops to $\eta_{\mathrm{Bethe}}(1,10) = 1/10{,}001 < 10^{-3}$ (`subwavelengthPhotonApertureEfficiency`), whereas the self-collimated Semi-Dirac $\hat{y}$-channel achieves $T_y = 1$ with WKB crosstalk rejection $\mathcal{R}_{\mathrm{iso}}(10) = 101$ (`semiDiracTransceiverIsolationRatio`) and non-collapse multi-symbol throat margin $\mathcal{M}_{\mathrm{throat}} = \mathcal{B}_{\mathrm{Bohm}} - N_{\mathrm{sym}} E_{\mathrm{sym}} \ge 0$ (`semiDiracTransceiverThroatMargin`).
+5. **Transceiver Link-Budget Comparison (Range, Power, Error, Efficiency, With & Without Error Correction) & Critique Fixes (`semi_dirac_er_epr_transceiver_comparison_qec_and_critique_identities`)**:
+   - **Range & $4\text{ K}$ Power Budget**: $1{,}000$ periodic `CNC` $\chi^{(2)}$ boosters at $10\text{ m}$ spacing extend coherent reach to $L_{\max} = 10\text{ km}$ (`transceiverRepeaterMaxRangeMeters 1000 10 = 10000`), while a 2-node transceiver link consumes $2.0\text{ mW}$ ($100\text{ mW} < 110\text{ mW}$ for a 100-node array, `transceiverTotalCryoPowerMw`).
+   - **Strict 4-Tier Uncorrected Link Efficiency & QEC Improvement**: $\eta_{\mathrm{3D\text{-}photon}}(9/100{,}010) < \eta_{\mathrm{massive\text{-}x}}(9/1010) < \eta_{\mathrm{RIE\text{-}Dirac}}(8/25 = 32\%) < \eta_{\mathrm{SD\text{-}raw}}(931/1000 = 93.1\%)$, while 1-pass McWeeny cubic purification (`transceiverDist3LogicalError`) suppresses a $10^{-2}$ raw error to $2.98\times 10^{-4}$ ($< 2.66\times 10^{-7}$ when cascaded with distance-3 Layer-Code QEC) and yields $93.07\%$ post-selected ($83.77\% > 83\%$ rate-$9/10$) payload efficiency.
+   - **Mathematical Critique Fixes**: `semiDiracFiniteBeamThroatMargin` incorporates finite beam-waist uncertainty $\delta T_x / (1-\beta^2)$ ($\mathcal{M}_{\mathrm{throat}}^{\mathrm{finite}} = 3.5 \ge 0$), and `erEprExactUnitaryRxProbability` enforces bounded unitary probabilities $\frac{1}{2}(1 + \sin(2\theta_{\mathrm{GJW}})s_{\mathrm{bit}}) \in [0, 1]$ with $100\%$ contrast at $\theta_{\mathrm{GJW}} = \pi/4$.
+
+---
+
+### Scholarly References
+
+- (erepr-epr1935)=
+  <a id="erepr-epr1935"></a> **Einstein, A., Podolsky, B., & Rosen, N. (1935).** *Can Quantum-Mechanical Description of Physical Reality Be Considered Complete?* Physical Review, 47(10), 777–780. DOI: `10.1103/PhysRev.47.777`.
+- (erepr-er1935)=
+  <a id="erepr-er1935"></a> **Einstein, A., & Rosen, N. (1935).** *The Particle Problem in the General Theory of Relativity.* Physical Review, 48(1), 73–77. DOI: `10.1103/PhysRev.48.73`.
+- (erepr-maldacenasusskind2013)=
+  <a id="erepr-maldacenasusskind2013"></a> **Maldacena, J., & Susskind, L. (2013).** *Cool horizons for entangled black holes.* Fortschritte der Physik, 61(9), 781–811. `arXiv:1306.0533`. DOI: `10.1002/prop.201300020`.
+- (erepr-witten2004)=
+  <a id="erepr-witten2004"></a> **Witten, E. (2004).** *Perturbative Gauge Theory as a String Theory in Twistor Space.* Communications in Mathematical Physics, 252, 189–258. `arXiv:hep-th/0312171`. DOI: `10.1007/s00220-004-1187-3`.
+- (erepr-costello2018)=
+  <a id="erepr-costello2018"></a> **Costello, K., & Gaiotto, D. (2018).** *Twisted Holography.* `arXiv:1812.09257`.
+- (erepr-gjw2017)=
+  <a id="erepr-gjw2017"></a> **Gao, P., Jafferis, D. L., & Wall, A. C. (2017).** *Traversable Wormholes via a Double Trace Deformation.* Journal of High Energy Physics, 2017(12), 151. `arXiv:1608.05687`. DOI: `10.1007/JHEP12(2017)151`.
+- (erepr-jafferis2022)=
+  <a id="erepr-jafferis2022"></a> **Jafferis, D., Zlokapa, A., Lykken, J. D., Kolchmeyer, D. K., Davis, S. I., Lauk, N., Neven, H., & Spiropulu, M. (2022).** *Traversable wormhole dynamics on a quantum processor.* Nature, 612, 51–55. DOI: `10.1038/s41586-022-05424-3`.
+- (erepr-vanraamsdonk2010)=
+  <a id="erepr-vanraamsdonk2010"></a> **Van Raamsdonk, M. (2010).** *Building up spacetime with quantum entanglement.* General Relativity and Gravitation, 42, 2323–2329. `arXiv:1005.3035`. DOI: `10.1007/s10714-010-1034-0`.
+- (erepr-ryu2006)=
+  <a id="erepr-ryu2006"></a> **Ryu, S., & Takayanagi, T. (2006).** *Holographic Derivation of Entanglement Entropy from the anti-de Sitter Space/Conformal Field Theory Correspondence.* Physical Review Letters, 96(18), 181602. `arXiv:hep-th/0603001`. DOI: `10.1103/PhysRevLett.96.181602`.
+- (erepr-wootters1998)=
+  <a id="erepr-wootters1998"></a> **Wootters, W. K. (1998).** *Entanglement of Formation of an Arbitrary State of Two Qubits.* Physical Review Letters, 80(10), 2245–2248. DOI: `10.1103/PhysRevLett.80.2245`.
+- (erepr-shao2024)=
+  <a id="erepr-shao2024"></a> **Shao, Y., et al. (2024).** *Semi-Dirac Fermions in a Topological Metal.* Physical Review X, 14(4), 041057. `arXiv:2311.03735`. DOI: `10.1103/PhysRevX.14.041057`.

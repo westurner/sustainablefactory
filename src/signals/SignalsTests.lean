@@ -7976,4 +7976,98 @@ example (k m w : ℕ) (ar ai br bi wr wi a b c d : ℝ) :
   Signals.DFT.tequila_high_n_butterfly_plucker_128bit_and_memory_ceiling_identities
     k m w ar ai br bi wr wi a b c d
 
+example (psi00 psi01 psi10 psi11 e_null_sq py_massless sigma_y0 t_evol theta_b1 theta_b2 : ℝ) :
+    Signals.DFT.suNRealDim 4 = 15 ∧
+      Signals.DFT.pluckerAmbientCoordCount 2 4 = 6 ∧
+      Signals.DFT.complexGrassmannianRealDim 2 4 = 8 ∧
+      Signals.DFT.grassmannianScalarCurvature 2 4 = 16 ∧
+      Signals.DFT.universalPluckerThreeTermResidual 1 (psi00 * psi11 - psi01 * psi10) psi00 psi11 psi01 psi10 = 0 ∧
+      Signals.DFT.twistedHolographyDeformedConifoldResidual psi00 psi11 psi01 psi10 (psi00 * psi11 - psi01 * psi10) = 0 ∧
+      Signals.DFT.erEprPluckerConcurrenceSq 0 = 0 ∧
+      Signals.DFT.erEprPluckerConcurrenceSq (1 / 4) = 1 ∧
+      Signals.DFT.erEprThroatAreaFromPlucker 1 10 0 = 0 ∧
+      Signals.DFT.erEprThroatAreaFromPlucker 1 10 (1 / 4) = 4 * 1 * 10 ∧
+      0 < Signals.DFT.erEprThroatAreaFromPlucker 1 10 (1 / 4) ∧
+      0 < Signals.QuantumCausalInference.causalLightconeInterval (3 / 5) ∧
+      Signals.QuantumCausalInference.causalLightconeInterval 1 = 0 ∧
+      Signals.QuantumCausalInference.causalLightconeInterval (5 / 3) < 0 ∧
+      Signals.DFT.offShellBohmStressTensorUu 1 0 = 1 ∧
+      Signals.DFT.offShellBohmStressTensorUu 1 4 < 0 ∧
+      Signals.DFT.wormholeTransitJammedEnergy 0 (9 / 25) e_null_sq = e_null_sq ∧
+      e_null_sq < Signals.DFT.wormholeTransitJammedEnergy 2 (9 / 25) e_null_sq ∧
+      Signals.DFT.wormholeTransitJammedEnergy 2 0 e_null_sq <
+        Signals.DFT.wormholeTransitJammedEnergy 2 (9 / 25) e_null_sq ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux 2 3 ≤ 0 ∧
+      0 < Signals.DFT.wormholeNetNullDefocusingFlux 5 3 ∧
+      Signals.DFT.semiDiracWormholeTransitEnergySq 0 py_massless (9 / 25) = py_massless ^ 2 ∧
+      Signals.DFT.semiDiracWormholeTransitEnergySq 0 py_massless (9 / 25) =
+        Signals.DFT.semiDiracEnergySq 0 py_massless 1 1 0 ∧
+      Signals.DFT.semiDiracWormholeTransitEnergySq 3 py_massless 0 <
+        Signals.DFT.semiDiracWormholeTransitEnergySq 3 py_massless (9 / 25) ∧
+      Signals.DFT.semiDiracWkbBarrierTransmissionX 2 < Signals.DFT.semiDiracKleinTunnelingY ∧
+      Signals.DFT.semiDiracAnisotropicSplatVarY sigma_y0 t_evol =
+        Signals.DFT.semiDiracAnisotropicSplatVarY sigma_y0 0 ∧
+      Signals.DFT.erEprNoSignalingMarginalA (psi00 ^ 2) (psi01 ^ 2) theta_b1 =
+        Signals.DFT.erEprNoSignalingMarginalA (psi00 ^ 2) (psi01 ^ 2) theta_b2 :=
+  Signals.DFT.er_epr_su4_plucker_tachyon_offshell_and_semi_dirac_wormhole_identities
+    psi00 psi01 psi10 psi11 1 10 1 4 2 (9 / 25) e_null_sq 2 5 3 3 py_massless sigma_y0 t_evol theta_b1 theta_b2
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) (by norm_num) (by norm_num)
+
+example (s_bit kappa_l chi_disp : ℝ) :
+    Signals.DFT.erEprTransceiverRxProbability 0 s_bit = 1 / 2 ∧
+      Signals.DFT.erEprTransceiverDifferentialContrast 0 = 0 ∧
+      Signals.DFT.erEprTransceiverDifferentialContrast (1 / 4) = 2 * (1 / 4) ∧
+      0 < Signals.DFT.erEprTransceiverDifferentialContrast (1 / 4) ∧
+      Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 = 1 / 10001 ∧
+      Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 < 1 / 1000 ∧
+      Signals.DFT.subwavelengthPhotonApertureEfficiency 1 10 < Signals.DFT.semiDiracKleinTunnelingY ∧
+      Signals.DFT.semiDiracTransceiverIsolationRatio kappa_l = 1 + kappa_l ^ 2 ∧
+      Signals.DFT.semiDiracTransceiverIsolationRatio 10 = 101 ∧
+      0 ≤ Signals.DFT.semiDiracTransceiverThroatMargin 10 8 (1 / 2) ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux (8 * (1 / 2)) 10 ≤ 0 ∧
+      Signals.DFT.semiDiracWormholeTransitEnergySq 0 (1 / 2) (9 / 25) <
+        Signals.DFT.semiDiracWormholeTransitEnergySq 3 (1 / 2) (9 / 25) ∧
+      Signals.DFT.mzmDispersiveParityContrast chi_disp = 2 * chi_disp :=
+  Signals.DFT.semi_dirac_er_epr_wormhole_transceiver_identities
+    s_bit (1 / 4) kappa_l 10 8 (1 / 2) 3 (9 / 25) chi_disp
+    (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+
+example (p_err s_bit : ℝ) :
+    Signals.DFT.transceiverRepeaterMaxRangeMeters 1000 10 = 10000 ∧
+      Signals.DFT.transceiverTotalCryoPowerMw 2 (3 / 2) (3 / 8) (3 / 16) (1 / 4) = 2 ∧
+      Signals.DFT.transceiverTotalCryoPowerMw 100 (3 / 2) (3 / 8) (3 / 16) (1 / 4) = 100 ∧
+      Signals.DFT.transceiverTotalCryoPowerMw 100 (3 / 2) (3 / 8) (3 / 16) (1 / 4) < 110 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (1 / 10001) 1 (9 / 10) = 9 / 100010 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency 1 (1 / 101) (9 / 10) = 9 / 1010 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (4 / 5) (1 / 2) (4 / 5) = 8 / 25 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (98 / 100) 1 (95 / 100) = 931 / 1000 ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (1 / 10001) 1 (9 / 10) <
+        Signals.DFT.transceiverUncorrectedLinkEfficiency 1 (1 / 101) (9 / 10) ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency 1 (1 / 101) (9 / 10) <
+        Signals.DFT.transceiverUncorrectedLinkEfficiency (4 / 5) (1 / 2) (4 / 5) ∧
+      Signals.DFT.transceiverUncorrectedLinkEfficiency (4 / 5) (1 / 2) (4 / 5) <
+        Signals.DFT.transceiverUncorrectedLinkEfficiency (98 / 100) 1 (95 / 100) ∧
+      1 - Signals.DFT.mcweenyPurificationPoly (1 - p_err) =
+        Signals.DFT.transceiverDist3LogicalError p_err ∧
+      Signals.DFT.transceiverDist3LogicalError (1 / 100) = 298 / 1000000 ∧
+      Signals.DFT.transceiverDist3LogicalError (1 / 100) < 3 / 10000 ∧
+      Signals.DFT.transceiverDist3LogicalError
+          (Signals.DFT.transceiverDist3LogicalError (1 / 100)) < 3 / 10000000 ∧
+      Signals.DFT.transceiverQecNetEfficiency (931 / 1000) 1 (1 / 100) <
+        Signals.DFT.transceiverQecNetEfficiency (931 / 1000) 1
+          (Signals.DFT.transceiverDist3LogicalError (1 / 100)) ∧
+      (83 / 100 : ℝ) <
+        Signals.DFT.transceiverQecNetEfficiency (931 / 1000) (9 / 10)
+          (Signals.DFT.transceiverDist3LogicalError (1 / 100)) ∧
+      Signals.DFT.semiDiracFiniteBeamThroatMargin 10 8 (1 / 2) (1 / 5) (9 / 25) = 7 / 2 ∧
+      0 ≤ Signals.DFT.semiDiracFiniteBeamThroatMargin 10 8 (1 / 2) (1 / 5) (9 / 25) ∧
+      Signals.DFT.erEprExactUnitaryRxProbability 0 s_bit = 1 / 2 ∧
+      Signals.DFT.erEprExactUnitaryRxProbability 1 1 -
+          Signals.DFT.erEprExactUnitaryRxProbability 1 (-1) = 1 ∧
+      0 ≤ Signals.DFT.erEprExactUnitaryRxProbability (3 / 5) 1 ∧
+      Signals.DFT.erEprExactUnitaryRxProbability (3 / 5) 1 ≤ 1 :=
+  Signals.DFT.semi_dirac_er_epr_transceiver_comparison_qec_and_critique_identities
+    p_err s_bit (3 / 5) (by norm_num) (by norm_num)
+
 end SignalsTests
