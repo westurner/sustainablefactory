@@ -23,6 +23,7 @@
       "grassmannian-ads-cft-ddf-paper",
       "grassmannian-complex-gpe-igpe-plucker-madelung-paper",
       "grassmannian-cuprate-superconductivity-paper",
+      "grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper",
       "grassmannian-ddf-moving-sheath-paper",
       "grassmannian-enz-hyperbolic-metamaterials-paper",
       "grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper",
@@ -92,374 +93,6 @@
     "root": "index"
   },
   "pages": [
-    {
-      "children": [],
-      "docname": "README",
-      "doctree": {
-        "headings": [
-          {
-            "ids": [
-              "signals"
-            ],
-            "level": 1,
-            "title": "Signals"
-          },
-          {
-            "ids": [
-              "research-workflow"
-            ],
-            "level": 2,
-            "title": "Research Workflow"
-          },
-          {
-            "ids": [
-              "current-scope"
-            ],
-            "level": 2,
-            "title": "Current Scope"
-          },
-          {
-            "ids": [
-              "huygens-twistor-translation-and-plabic-routing"
-            ],
-            "level": 2,
-            "title": "Huygens, Twistor Translation, and Plabic Routing"
-          },
-          {
-            "ids": [
-              "cw-application-review"
-            ],
-            "level": 2,
-            "title": "CW Application Review"
-          },
-          {
-            "ids": [
-              "build"
-            ],
-            "level": 2,
-            "title": "Build"
-          },
-          {
-            "ids": [
-              "blueprint"
-            ],
-            "level": 2,
-            "title": "Blueprint"
-          },
-          {
-            "ids": [
-              "development-plan"
-            ],
-            "level": 2,
-            "title": "Development Plan"
-          },
-          {
-            "ids": [
-              "phase-1-stabilize-the-base-api"
-            ],
-            "level": 3,
-            "title": "Phase 1: Stabilize the base API"
-          },
-          {
-            "ids": [
-              "phase-2-formalize-standard-signal-and-field-models"
-            ],
-            "level": 3,
-            "title": "Phase 2: Formalize standard signal and field models"
-          },
-          {
-            "ids": [
-              "phase-3-add-geometry-and-fabrication-abstractions"
-            ],
-            "level": 3,
-            "title": "Phase 3: Add geometry and fabrication abstractions"
-          },
-          {
-            "ids": [
-              "phase-4-atmospheric-scavenging-and-panel-models"
-            ],
-            "level": 3,
-            "title": "Phase 4: Atmospheric scavenging and panel models"
-          },
-          {
-            "ids": [
-              "agent-loop-record"
-            ],
-            "level": 3,
-            "title": "Agent Loop Record"
-          },
-          {
-            "ids": [
-              "open-flow-dataset-research"
-            ],
-            "level": 3,
-            "title": "Open Flow Dataset Research"
-          },
-          {
-            "ids": [
-              "further-questions"
-            ],
-            "level": 3,
-            "title": "Further Questions"
-          },
-          {
-            "ids": [
-              "scholarly-basis"
-            ],
-            "level": 3,
-            "title": "Scholarly Basis"
-          },
-          {
-            "ids": [
-              "pending-physical-formalisms"
-            ],
-            "level": 3,
-            "title": "Pending Physical Formalisms"
-          },
-          {
-            "ids": [
-              "pending-contract-implications-and-validation"
-            ],
-            "level": 3,
-            "title": "Pending Contract Implications and Validation"
-          },
-          {
-            "ids": [
-              "pending-contract-promotion-checklist"
-            ],
-            "level": 4,
-            "title": "Pending-contract promotion checklist"
-          },
-          {
-            "ids": [
-              "scholarly-references"
-            ],
-            "level": 3,
-            "title": "Scholarly References"
-          },
-          {
-            "ids": [
-              "scattering-metrology-plan"
-            ],
-            "level": 3,
-            "title": "Scattering Metrology Plan"
-          },
-          {
-            "ids": [
-              "amplituhedron-formalization-plan"
-            ],
-            "level": 3,
-            "title": "Amplituhedron Formalization Plan"
-          },
-          {
-            "ids": [
-              "phase-5-lightslinger-and-resonator-models"
-            ],
-            "level": 3,
-            "title": "Phase 5: LightSlinger and resonator models"
-          },
-          {
-            "ids": [
-              "phase-6-nondestructive-measurement-and-reversible-operations"
-            ],
-            "level": 3,
-            "title": "Phase 6: Nondestructive measurement and reversible operations"
-          },
-          {
-            "ids": [
-              "phase-7-upstream-contributions"
-            ],
-            "level": 3,
-            "title": "Phase 7: Upstream contributions"
-          },
-          {
-            "ids": [
-              "research-boundaries"
-            ],
-            "level": 2,
-            "title": "Research Boundaries"
-          },
-          {
-            "ids": [
-              "radio-basics-crystal-am-and-fm-with-lean-signals"
-            ],
-            "level": 2,
-            "title": "Radio Basics: Crystal, AM, and FM with Lean Signals"
-          },
-          {
-            "ids": [
-              "introduction-to-radio-reception"
-            ],
-            "level": 3,
-            "title": "Introduction to Radio Reception"
-          },
-          {
-            "ids": [
-              "crystal-radio-the-simplest-radio-receiver"
-            ],
-            "level": 3,
-            "title": "Crystal Radio: The Simplest Radio Receiver"
-          },
-          {
-            "ids": [
-              "crystal-detector-model"
-            ],
-            "level": 4,
-            "title": "Crystal Detector Model"
-          },
-          {
-            "ids": [
-              "lc-tuning-circuit"
-            ],
-            "level": 4,
-            "title": "LC Tuning Circuit"
-          },
-          {
-            "ids": [
-              "am-amplitude-modulation"
-            ],
-            "level": 3,
-            "title": "AM (Amplitude Modulation)"
-          },
-          {
-            "ids": [
-              "am-signal-structure"
-            ],
-            "level": 4,
-            "title": "AM Signal Structure"
-          },
-          {
-            "ids": [
-              "am-bandwidth-and-sidebands"
-            ],
-            "level": 4,
-            "title": "AM Bandwidth and Sidebands"
-          },
-          {
-            "ids": [
-              "am-demodulation"
-            ],
-            "level": 4,
-            "title": "AM Demodulation"
-          },
-          {
-            "ids": [
-              "fm-frequency-modulation"
-            ],
-            "level": 3,
-            "title": "FM (Frequency Modulation)"
-          },
-          {
-            "ids": [
-              "fm-signal-structure"
-            ],
-            "level": 4,
-            "title": "FM Signal Structure"
-          },
-          {
-            "ids": [
-              "carsons-bandwidth-rule"
-            ],
-            "level": 4,
-            "title": "Carson\u2019s Bandwidth Rule"
-          },
-          {
-            "ids": [
-              "narrowband-vs-wideband-fm"
-            ],
-            "level": 4,
-            "title": "Narrowband vs. Wideband FM"
-          },
-          {
-            "ids": [
-              "radio-receiver-model"
-            ],
-            "level": 3,
-            "title": "Radio Receiver Model"
-          },
-          {
-            "ids": [
-              "example-am-radio-station"
-            ],
-            "level": 3,
-            "title": "Example: AM Radio Station"
-          },
-          {
-            "ids": [
-              "example-fm-radio-station"
-            ],
-            "level": 3,
-            "title": "Example: FM Radio Station"
-          },
-          {
-            "ids": [
-              "impedance-and-power-conversion"
-            ],
-            "level": 3,
-            "title": "Impedance and Power Conversion"
-          },
-          {
-            "ids": [
-              "narrowband-approximation"
-            ],
-            "level": 3,
-            "title": "Narrowband Approximation"
-          },
-          {
-            "ids": [
-              "key-insights-and-design-principles"
-            ],
-            "level": 3,
-            "title": "Key Insights and Design Principles"
-          },
-          {
-            "ids": [
-              "verification-examples"
-            ],
-            "level": 3,
-            "title": "Verification Examples"
-          },
-          {
-            "ids": [
-              "further-reading"
-            ],
-            "level": 3,
-            "title": "Further Reading"
-          },
-          {
-            "ids": [
-              "dilatant-dark-fluid-ddf-formalization-plan"
-            ],
-            "level": 2,
-            "title": "Dilatant Dark Fluid (DDF) Formalization Plan"
-          },
-          {
-            "ids": [
-              "citation"
-            ],
-            "level": 3,
-            "title": "Citation"
-          },
-          {
-            "ids": [
-              "theoretical-summary"
-            ],
-            "level": 3,
-            "title": "Theoretical Summary"
-          },
-          {
-            "ids": [
-              "implementation-roadmap-for-signals"
-            ],
-            "level": 3,
-            "title": "Implementation Roadmap for Signals"
-          }
-        ]
-      },
-      "source": "README.md",
-      "title": "Signals",
-      "url": "README.html"
-    },
     {
       "children": [],
       "docname": "anti-fire-cannon-review",
@@ -200192,6 +199825,130 @@
     },
     {
       "children": [],
+      "docname": "grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper",
+      "doctree": {
+        "headings": [
+          {
+            "ids": [
+              "ddf-fracture-based-communication-vs-mathrm-er-mathrm-epr-entanglement-and-wormholes-on-mathrm-gr-mathbb-c-2-4-topological-phase-slip-waveguides-deborah-shear-fracture-thresholds-magnus-controls-and-hybrid-fracture-keyed-quantum-bridges-in-lean-4-and-rust",
+              "grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper"
+            ],
+            "level": 1,
+            "title": "DDF Fracture-Based Communication vs. \\mathrm{ER}=\\mathrm{EPR} Entanglement and Wormholes on \\mathrm{Gr}_{\\mathbb{C}}(2,4): Topological Phase-Slip Waveguides, Deborah Shear-Fracture Thresholds, Magnus Controls, and Hybrid Fracture-Keyed Quantum Bridges in Lean 4 and Rust"
+          },
+          {
+            "ids": [
+              "abstract"
+            ],
+            "level": 2,
+            "title": "Abstract"
+          },
+          {
+            "ids": [
+              "physical-and-topological-foundations-what-is-ddf-fracture-based-communication"
+            ],
+            "level": 2,
+            "title": "1. Physical and Topological Foundations: What Is DDF Fracture-Based Communication?"
+          },
+          {
+            "ids": [
+              "superfluid-ddf-shear-jamming-the-deborah-threshold-mathrm-de-1-and-quantized-phase-slip-waveguides"
+            ],
+            "level": 3,
+            "title": "1.1 Superfluid / DDF Shear Jamming, the Deborah Threshold (\\mathrm{De} > 1), and Quantized Phase-Slip Waveguides"
+          },
+          {
+            "ids": [
+              "the-preregistered-h0-vs-hddf-signal-ledger-and-the-kuttajoukowski-magnus-control"
+            ],
+            "level": 3,
+            "title": "1.2 The Preregistered H0 vs. HDDF Signal Ledger and the Kutta\u2013Joukowski Magnus Control"
+          },
+          {
+            "ids": [
+              "core-question-how-is-fracture-based-communication-different-from-entanglement-wormholes-mathrm-er-mathrm-epr"
+            ],
+            "level": 2,
+            "title": "2. Core Question: (How) Is Fracture-Based Communication Different From Entanglement / Wormholes (\\mathrm{ER}=\\mathrm{EPR})?"
+          },
+          {
+            "ids": [
+              "four-machine-checked-mathematical-discriminators-signals-dft-section-25"
+            ],
+            "level": 3,
+            "title": "2.1 Four Machine-Checked Mathematical Discriminators (Signals.DFT Section 25)"
+          },
+          {
+            "ids": [
+              "comprehensive-seven-axis-comparison-matrix"
+            ],
+            "level": 3,
+            "title": "2.2 Comprehensive Seven-Axis Comparison Matrix"
+          },
+          {
+            "ids": [
+              "how-they-connect-on-the-four-stratum-mathrm-gr-mathbb-c-2-4-manifoldand-the-hybrid-fracture-keyed-mathrm-er-mathrm-epr-transceiver"
+            ],
+            "level": 2,
+            "title": "3. How They Connect on the Four-Stratum \\mathrm{Gr}_{\\mathbb{C}}(2,4) Manifold\u2014and the Hybrid Fracture-Keyed \\mathrm{ER}=\\mathrm{EPR} Transceiver"
+          },
+          {
+            "ids": [
+              "the-hybrid-fracture-keyed-mathrm-er-mathrm-epr-transceiver-hybridfracturekeyedereprrxprobability"
+            ],
+            "level": 3,
+            "title": "3.1 The Hybrid Fracture-Keyed \\mathrm{ER}=\\mathrm{EPR} Transceiver (hybridFractureKeyedErEprRxProbability)"
+          },
+          {
+            "ids": [
+              "machine-checked-lean-4-formalization-signals-dft-section-25-and-signals-pending"
+            ],
+            "level": 2,
+            "title": "4. Machine-Checked Lean 4 Formalization (Signals.DFT Section 25 and Signals.Pending)"
+          },
+          {
+            "ids": [
+              "rust-implementation-and-unit-test-verification-dft-plabic-vrc-rs"
+            ],
+            "level": 2,
+            "title": "5. Rust Implementation and Unit Test Verification (dft_plabic_vrc.rs)"
+          },
+          {
+            "ids": [
+              "research-evidence-triage-verification-boundaries-signals-pending"
+            ],
+            "level": 2,
+            "title": "6. Research Evidence Triage & Verification Boundaries (Signals.Pending)"
+          },
+          {
+            "ids": [
+              "scholarly-references"
+            ],
+            "level": 3,
+            "title": "Scholarly References"
+          },
+          {
+            "ids": [
+              "bibtex-provenance-entries"
+            ],
+            "level": 3,
+            "title": "BibTeX Provenance Entries"
+          },
+          {
+            "ids": [
+              "schema-org-metadata-json-ld"
+            ],
+            "level": 3,
+            "title": "Schema.org Metadata (JSON-LD)"
+          }
+        ]
+      },
+      "source": "grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md",
+      "title": "DDF Fracture-Based Communication vs. \\mathrm{ER}=\\mathrm{EPR} Entanglement and Wormholes on \\mathrm{Gr}_{\\mathbb{C}}(2,4): Topological Phase-Slip Waveguides, Deborah Shear-Fracture Thresholds, Magnus Controls, and Hybrid Fracture-Keyed Quantum Bridges in Lean 4 and Rust",
+      "url": "grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.html"
+    },
+    {
+      "children": [],
       "docname": "grassmannian-ddf-moving-sheath-paper",
       "doctree": {
         "headings": [
@@ -206510,6 +206267,7 @@
         "grassmannian-ads-cft-ddf-paper",
         "grassmannian-complex-gpe-igpe-plucker-madelung-paper",
         "grassmannian-cuprate-superconductivity-paper",
+        "grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper",
         "grassmannian-ddf-moving-sheath-paper",
         "grassmannian-enz-hyperbolic-metamaterials-paper",
         "grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper",

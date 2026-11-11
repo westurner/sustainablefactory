@@ -8418,4 +8418,70 @@ lemma LightDrivenMaterialsPendingHypothesis.gddf_tem_ggkba_light_driven_thermo_e
   Signals.DFT.gddf_tem_ggkba_light_driven_thermo_electro_magnetics_synthesis_identities
     cE_sq vA_sq k_sq lambdaL0_sq epsT0 betaM0_sq n_mott g1 g2 g3 g4 g5 g6 g7 g8 hn_mott
 
+/-- **Pending Boundary for Section 25 (`ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_bounds`)**:
+Links `DDFFractureCommunicationEvidence` Directly to Section 25 of `Signals.DFT`, certifying the
+classical null and Kutta–Joukowski Magnus subtraction identities, Deborah shear-fracture nucleation,
+quantized $2\pi$ plaquette phase-slip holonomy, causal arrival margin and $10{,}000\times$ corridor
+guiding gain, the four sharp discriminators between DDF fracture communication and $\mathrm{ER}=\mathrm{EPR}$
+wormholes, and the hybrid fracture-keyed $\mathrm{ER}=\mathrm{EPR}$ transceiver laws while keeping
+physical DDF substrate and traversable wormhole hardware claims gated under `Signals.Pending`. -/
+@[blueprint "lem:signals-pending-ddf-fracture-communication-vs-er-epr-wormhole-bounds"
+  (title := "Pending boundary for Section 25: DDF fracture-based communication vs. ER=EPR entanglement/wormholes and hybrid synthesis")
+  (statement := /-- Under a \texttt{DDFFractureCommunicationEvidence} contract, all Section 25
+    DDF fracture communication vs. $\mathrm{ER}=\mathrm{EPR}$ wormhole discrimination and hybrid
+    fracture-keyed synthesis identities hold simultaneously alongside
+    \texttt{not\_supported\_by\_noncausal\_mode}. -/)
+  (proof := /-- Combine \texttt{DDFFractureCommunicationEvidence.not\_supported\_by\_noncausal\_mode}
+    with \texttt{Signals.DFT.ddf\_fracture\_communication\_vs\_er\_epr\_wormhole\_and\_hybrid\_synthesis\_identities}. -/)
+  (latexEnv := "lemma")]
+lemma DDFFractureCommunicationEvidence.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_bounds
+    (evidence : DDFFractureCommunicationEvidence)
+    (y_cl y_ac rho_f u_in gamma_c kappa_ddf q_ddf sin_2theta s_bit : ℝ)
+    (S00 S10 S11 S01 : ℝ) :
+    (evidence.propagationMode ≠ DDFCommunicationMode.transversePhonon →
+        ¬evidence.supportsDDFHypothesis) ∧
+      Signals.DFT.ddfFractureTotalChannelSignal y_cl 0 q_ddf = y_cl ∧
+      Signals.DFT.ddfFractureMagnusSubtractedResidual (y_ac + rho_f * u_in * gamma_c) y_ac rho_f u_in gamma_c = 0 ∧
+      Signals.DFT.ddfFractureMagnusSubtractedResidual
+          (y_ac + rho_f * u_in * gamma_c + kappa_ddf * q_ddf) y_ac rho_f u_in gamma_c =
+        kappa_ddf * q_ddf ∧
+      Signals.DFT.ddfFractureDeborahRatio (1 / 100000) 1000 = 1 / 100 ∧
+      Signals.DFT.ddfFractureDeborahRatio (1 / 100000) 1000 < 1 ∧
+      Signals.DFT.ddfFractureDeborahRatio (1 / 100000) 100000000 = 1000 ∧
+      (1 : ℝ) < Signals.DFT.ddfFractureDeborahRatio (1 / 100000) 100000000 ∧
+      ((S10 - S00) + (S11 - S10) + (S01 - S11) + (S00 - S01) = 0 ∧
+        (S10 - S00) + (S11 - S10) + (S01 - S11 + (1 : ℤ) * (2 * Real.pi)) + (S00 - S01) =
+          (1 : ℤ) * (2 * Real.pi)) ∧
+      Signals.DFT.ddfFractureCausalTransitMargin 1 2 1 = 1 ∧
+      0 ≤ Signals.DFT.ddfFractureCausalTransitMargin 1 2 1 ∧
+      Signals.DFT.ddfFractureCausalTransitMargin 1 (1 / 2) 1 = -1 / 2 ∧
+      Signals.DFT.ddfFractureCausalTransitMargin 1 (1 / 2) 1 < 0 ∧
+      Signals.DFT.ddfFractureCorridorGuidingGain 100 1 = 10000 ∧
+      (1 : ℝ) < Signals.DFT.ddfFractureCorridorGuidingGain 100 1 ∧
+      Signals.DFT.erEprPluckerConcurrenceSq 0 = 0 ∧
+      Signals.DFT.erEprThroatAreaFromPlucker 1 10 0 = 0 ∧
+      Signals.DFT.erEprPluckerConcurrenceSq (1 / 4) = 1 ∧
+      0 < Signals.DFT.erEprThroatAreaFromPlucker 1 10 (1 / 4) ∧
+      Signals.DFT.ddfFractureTotalChannelSignal y_cl kappa_ddf q_ddf -
+          Signals.DFT.ddfFractureTotalChannelSignal y_cl kappa_ddf (-q_ddf) =
+        Signals.DFT.ddfFractureStandaloneBitContrast kappa_ddf q_ddf ∧
+      Signals.DFT.erEprTransceiverDifferentialContrast 0 = 0 ∧
+      Signals.DFT.ddfFractureStandaloneBitContrast (1 / 2) (1 / 2) = 1 / 2 ∧
+      Signals.DFT.erEprTransceiverDifferentialContrast 0 <
+        Signals.DFT.ddfFractureStandaloneBitContrast (1 / 2) (1 / 2) ∧
+      Signals.DFT.ddfFractureVsWormholeQuantumFidelity 0 sin_2theta = 1 / 2 ∧
+      Signals.DFT.ddfFractureVsWormholeQuantumFidelity (1 / 4) 1 = 1 ∧
+      Signals.DFT.ddfFractureVsWormholeQuantumFidelity 0 1 <
+        Signals.DFT.ddfFractureVsWormholeQuantumFidelity (1 / 4) 1 ∧
+      Signals.DFT.ddfFractureOverloadExcessShear 15 10 = 5 ∧
+      0 < Signals.DFT.ddfFractureOverloadExcessShear 15 10 ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux 4 10 ≤ 0 ∧
+      0 < Signals.DFT.wormholeNetNullDefocusingFlux 15 10 ∧
+      Signals.DFT.hybridFractureKeyedErEprRxProbability 0 q_ddf s_bit = 1 / 2 ∧
+      Signals.DFT.hybridFractureKeyedErEprRxProbability 1 1 1 -
+          Signals.DFT.hybridFractureKeyedErEprRxProbability 1 1 (-1) = 1 :=
+  ⟨evidence.not_supported_by_noncausal_mode,
+    Signals.DFT.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities
+      y_cl y_ac rho_f u_in gamma_c kappa_ddf q_ddf sin_2theta s_bit S00 S10 S11 S01⟩
+
 end Signals.Pending

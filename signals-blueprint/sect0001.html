@@ -59,7 +59,7 @@
   <a href="sect0001.html#a0000000246"><span class="toc_ref">1.8</span> <span class="toc_entry">Dilatant Dark Fluid, Madelung circulation, and Bogoliubov critical velocity</span></a>
  </li>
 <li class="">
-  <a href="sect0001.html#a0000000397"><span class="toc_ref">1.9</span> <span class="toc_entry">Existing model, Pending wakefield/propulsion, and propagation nodes</span></a>
+  <a href="sect0001.html#a0000000398"><span class="toc_ref">1.9</span> <span class="toc_entry">Existing model, Pending wakefield/propulsion, and propagation nodes</span></a>
  </li>
 
   </ul>
@@ -78,6 +78,17 @@
 <p>Only Lean declarations marked with LeanArchitect’s <span class="ttfamily">@[blueprint]</span> attribute are emitted as formal nodes. The extracted module index is generated from the Lean sources before each blueprint build. </p>
 <p>Declaration docstrings document the Lean API. Blueprint statements, titles and proof summaries are supplied explicitly in the attributes; ordinary declaration docstrings do not populate the blueprint statement. Statement and proof dependencies are inferred from the corresponding Lean terms. </p>
 <p>Readiness markers report sorry-free formal declarations, not experimental validation, calibrated data or the realization of a physical model. </p>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -88709,14 +88720,541 @@
 
   </div>
 </div>
-<h1 id="a0000000397">1.9 Existing model, Pending wakefield/propulsion, and propagation nodes</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:signals-dft-ddf-fracture-total-channel-signal">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1423</span>
+    <span class="definition_thmtitle">DDF fracture extension channel signal y_classical + kappa_DDF * q_DDF</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:signals-dft-ddf-fracture-total-channel-signal">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="signals-api/find/#doc/Signals.DFT.ddfFractureTotalChannelSignal" class="lean_decl">Signals.DFT.ddfFractureTotalChannelSignal</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Define \(\operatorname {ddfFractureTotalChannelSignal}(y_{\mathrm{classical}}, \kappa _{\mathrm{DDF}}, q_{\mathrm{DDF}}) = y_{\mathrm{classical}} + \kappa _{\mathrm{DDF}} q_{\mathrm{DDF}}\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:signals-dft-ddf-fracture-magnus-subtracted-residual">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1424</span>
+    <span class="definition_thmtitle">Magnus-control-subtracted DDF fracture residual</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:signals-dft-ddf-fracture-magnus-subtracted-residual">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="signals-api/find/#doc/Signals.DFT.ddfFractureMagnusSubtractedResidual" class="lean_decl">Signals.DFT.ddfFractureMagnusSubtractedResidual</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Define \(\operatorname {ddfFractureMagnusSubtractedResidual}(y_{\mathrm{meas}}, y_{\mathrm{acoustic}}, \rho _f, U_{\mathrm{inflow}}, \Gamma _{\mathrm{circ}}) = y_{\mathrm{meas}} - (y_{\mathrm{acoustic}} + \rho _f U_{\mathrm{inflow}} \Gamma _{\mathrm{circ}})\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:signals-dft-ddf-fracture-deborah-ratio">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1425</span>
+    <span class="definition_thmtitle">Dimensionless Deborah number De = tau_relax * shear_rate for DDF shear fracture</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:signals-dft-ddf-fracture-deborah-ratio">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="signals-api/find/#doc/Signals.DFT.ddfFractureDeborahRatio" class="lean_decl">Signals.DFT.ddfFractureDeborahRatio</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Define \(\operatorname {ddfFractureDeborahRatio}(\tau _{\mathrm{relax}}, \dot{\gamma }) = \tau _{\mathrm{relax}} \cdot \dot{\gamma }\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:signals-dft-ddf-fracture-corridor-guiding-gain">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1426</span>
+    <span class="definition_thmtitle">DDF fracture-corridor directional guiding gain (r_dist / w_corridor)^2 over 3D spreading</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:signals-dft-ddf-fracture-corridor-guiding-gain">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="signals-api/find/#doc/Signals.DFT.ddfFractureCorridorGuidingGain" class="lean_decl">Signals.DFT.ddfFractureCorridorGuidingGain</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Define \(\operatorname {ddfFractureCorridorGuidingGain}(r_{\mathrm{dist}}, w_{\mathrm{corridor}}) = (r_{\mathrm{dist}} / w_{\mathrm{corridor}})^2\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:signals-dft-ddf-fracture-causal-transit-margin">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1427</span>
+    <span class="definition_thmtitle">DDF fracture causal transverse-phonon arrival margin c_emergent * t_arrival - L_path</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:signals-dft-ddf-fracture-causal-transit-margin">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="signals-api/find/#doc/Signals.DFT.ddfFractureCausalTransitMargin" class="lean_decl">Signals.DFT.ddfFractureCausalTransitMargin</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Define \(\operatorname {ddfFractureCausalTransitMargin}(c_{\mathrm{emergent}}, t_{\mathrm{arrival}}, L_{\mathrm{path}}) = c_{\mathrm{emergent}} t_{\mathrm{arrival}} - L_{\mathrm{path}}\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:signals-dft-ddf-fracture-standalone-bit-contrast">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1428</span>
+    <span class="definition_thmtitle">Standalone unassisted DDF fracture bit contrast 2 * kappa_DDF * q_DDF</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:signals-dft-ddf-fracture-standalone-bit-contrast">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="signals-api/find/#doc/Signals.DFT.ddfFractureStandaloneBitContrast" class="lean_decl">Signals.DFT.ddfFractureStandaloneBitContrast</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Define \(\operatorname {ddfFractureStandaloneBitContrast}(\kappa _{\mathrm{DDF}}, q_{\mathrm{DDF}}) = 2 \kappa _{\mathrm{DDF}} q_{\mathrm{DDF}}\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:signals-dft-ddf-fracture-vs-wormhole-quantum-fidelity">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1429</span>
+    <span class="definition_thmtitle">Quantum state transfer fidelity discriminator (1 + 4 |p_23|^2 sin_2theta) / 2</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:signals-dft-ddf-fracture-vs-wormhole-quantum-fidelity">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="signals-api/find/#doc/Signals.DFT.ddfFractureVsWormholeQuantumFidelity" class="lean_decl">Signals.DFT.ddfFractureVsWormholeQuantumFidelity</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Define \(\operatorname {ddfFractureVsWormholeQuantumFidelity}(|p_{23}|^2, \sin _{2\theta }) = (1 + 4 |p_{23}|^2 \sin _{2\theta }) / 2\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:signals-dft-ddf-fracture-overload-excess-shear">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1430</span>
+    <span class="definition_thmtitle">DDF fracture overload excess shear tau_drive - tau_crit</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:signals-dft-ddf-fracture-overload-excess-shear">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="signals-api/find/#doc/Signals.DFT.ddfFractureOverloadExcessShear" class="lean_decl">Signals.DFT.ddfFractureOverloadExcessShear</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Define \(\operatorname {ddfFractureOverloadExcessShear}(\tau _{\mathrm{drive}}, \tau _{\mathrm{crit}}) = \tau _{\mathrm{drive}} - \tau _{\mathrm{crit}}\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:signals-dft-hybrid-fracture-keyed-er-epr-rx-probability">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1431</span>
+    <span class="definition_thmtitle">Hybrid DDF-fracture-keyed ER=EPR receiver probability (1 + kappa_DDF * q_DDF * s_bit) / 2</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:signals-dft-hybrid-fracture-keyed-er-epr-rx-probability">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:signals-dft-er-epr-exact-unitary-rx-probability">Definition 1378</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="signals-api/find/#doc/Signals.DFT.hybridFractureKeyedErEprRxProbability" class="lean_decl">Signals.DFT.hybridFractureKeyedErEprRxProbability</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    Define \(\operatorname {hybridFractureKeyedErEprRxProbability}(\kappa _{\mathrm{DDF}}, q_{\mathrm{DDF}}, s_{\mathrm{bit}}) = \operatorname {erEprExactUnitaryRxProbability}(\kappa _{\mathrm{DDF}} q_{\mathrm{DDF}}, s_{\mathrm{bit}})\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:signals-dft-ddf-fracture-communication-vs-er-epr-wormhole-identities">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1432</span>
+    <span class="theorem_thmtitle">Master theorem for Section 25: DDF fracture-based communication vs. ER=EPR entanglement/wormholes and hybrid fracture-keyed synthesis</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#thm:signals-dft-ddf-fracture-communication-vs-er-epr-wormhole-identities">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000397"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-vs-wormhole-quantum-fidelity">Definition 1429</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-er-epr-transceiver-differential-contrast">Definition 1367</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-magnus-subtracted-residual">Definition 1424</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-deborah-ratio">Definition 1425</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-causal-transit-margin">Definition 1427</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-overload-excess-shear">Definition 1430</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-standalone-bit-contrast">Definition 1428</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-hybrid-fracture-keyed-er-epr-rx-probability">Definition 1431</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-wormhole-net-null-defocusing-flux">Definition 1362</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-corridor-guiding-gain">Definition 1426</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-er-epr-throat-area-from-plucker">Definition 1359</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-total-channel-signal">Definition 1423</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-er-epr-plucker-concurrence-sq">Definition 1358</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-er-epr-exact-unitary-rx-probability">Definition 1378</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-er-epr-transceiver-rx-probability">Definition 1366</a></li>
+          
+          <li><a href="sect0001.html#thm:signals-plaquette-phase-slip-syndrome">Theorem 689</a></li>
+          
+          <li><a href="sect0001.html#thm:signals-plaquette-coboundary-zero">Theorem 688</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="signals-api/find/#doc/Signals.DFT.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities" class="lean_decl">Signals.DFT.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Simultaneously proves the classical null and Magnus-subtraction identities, subcritical vs. supercritical Deborah fracture ratios, quantized \(2\pi \) plaquette phase-slip holonomy, causal arrival margin and \(10{,}000\times \) corridor guiding gain, the four sharp discriminators between DDF fracture communication and \(\mathrm{ER}=\mathrm{EPR}\) wormholes (entanglement requirement, standalone bit contrast, quantum state fidelity, and overload response), and the hybrid fracture-keyed \(\mathrm{ER}=\mathrm{EPR}\) transceiver laws. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000397">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p> Unfold definitions and apply <span class="ttfamily">Signals.DDF.plaquette_coboundary_zero</span>, <span class="ttfamily">Signals.DDF.plaquette_phase_slip_syndrome</span>, ring identities, and <span class="ttfamily">norm_num</span>. </p>
+
+  </div>
+</div>
+<h1 id="a0000000398">1.9 Existing model, Pending wakefield/propulsion, and propagation nodes</h1>
 <p>The Pending nodes enforce momentum conservation across unclosed dual-spacetime polygons (\(\Delta \mathbf P_{\mathrm{craft}}=-\Delta \mathbf P_{\mathrm{wake}}\)), bound extracted pulse energy by the Dawson wave-breaking ceiling over a finite cavity volume, require positive hull-boundary density floors and external drive power (\(F_{\mathrm{thrust}} v\le P_{\mathrm{drive}}\)) for supercritical DDF phase-slip thrust, record \(\mathrm{He\text{-}3}\) supercritical/solidification phase constraints (\(T_c=3.32\text{ K}\), \(P_{\mathrm{solid}}\ge 3.4\text{ MPa}\)) for the \(39\text{ K}\) \(\mathrm{MgB}_2\) 5-axis active magnetic bearing spool, scope the 3-zone \(400\to 800\text{ GHz}\) <span class="ttfamily">rGO-polyCBD-SS-Lignin</span> hyperbolic SFG anti-fire cannon, \(\cdot \mathrm{OH}\) spectroscopic frequency separation (\(1.667\text{ GHz}{\lt}800\text{ GHz}{\lt}1830\text{ GHz}\)), and exothermic recombination heat-sink requirement (<span class="ttfamily">ThreeZoneHyperbolicSFGCannonHypothesis</span>), record the calibration and crossed-beam discriminator controls for the Madelung variational action and dilatant-phase jamming coupling (<span class="ttfamily">MadelungDilatantVariationalHypothesis</span>), and connect the Hawking-radiation decoding stages across dual-quadrature homodyne phase sweeps, shared-state <span class="ttfamily">InteractiveGPEPoint</span>/<span class="ttfamily">InverseGPEPoint</span> potential inversion, 2-point Hadamard <span class="ttfamily">finiteInverseQFT</span> involution, Grassmannian row-sum slice projection, and the Page-curve bond-dimension bound (<span class="ttfamily">HawkingGrassmannianSynthesisContract</span>, <span class="ttfamily">hawking_synthesis_gpe_and_page_bounds</span>), as well as the multi-modal Hubble mosaic, <span class="ttfamily">LVP</span> medical, <span class="ttfamily">LIFU</span>/<span class="ttfamily">AOT</span>/<span class="ttfamily">TRUE</span>, 3D Layer-Code, and \({\lt}1\text{ nm}\) nanolithography safety and resolution bounds (<span class="ttfamily">MultiModalSubSurfaceImagingHypothesis</span>, <span class="ttfamily">multi_modal_subsurface_imaging_layer_and_safety_bounds</span>), and the Quantum Causal Inference, Mpemba shortcut, and conditional Landauer entropy-siphoning Second-Law, OCB, and Werner threshold bounds (<span class="ttfamily">QuantumCausalMpembaSynthesisContract</span>, <span class="ttfamily">quantum_causal_mpemba_and_entropy_siphoning_bounds</span>), and the Complex Grassmannian GPE, coupled Dual-Grassmannian <span class="ttfamily">iGPE</span>, and homogeneous Plücker Madelung validation contract (<span class="ttfamily">ComplexGrassmannianGPEAndPluckerMadelungHypothesis</span>, <span class="ttfamily">complex_grassmannian_gpe_and_plucker_madelung_bounds</span>), and the Quantum Causal JEV/QCDT decision, Plücker Klein quadric rank-2 vs. rank-4, Tautological Bundle-Transformer, and QFT/QRAM Soliton VideoGen validation contract (<span class="ttfamily">QuantumCausalBundleVideoGenHypothesis</span>, <span class="ttfamily">quantum_causal_bundle_videogen_bounds</span>), and the \({\gt}6{,}400\times \) (‘13,107.2x‘, ‘104,857.6x‘, ‘1,310,720x‘, and overhead-inclusive ‘6,553.6x‘) splat-sparse Grassmannian volumetric efficiency, Jeffrey’s Kinematic Engine, 3D <span class="ttfamily">NormedTensorGaussianSplat3D</span> nanoimaging/surgical reconstruction, and Quantum Causal Semantic GraphRAG validation contract (<span class="ttfamily">QuantumCausalSurgicalSplatGraphRAGHypothesis</span>, <span class="ttfamily">quantum_causal_surgical_splat_graphrag_bounds</span>), and the Complex Grassmannian Vector-Relation Configuration (<span class="ttfamily">VRC</span>), <span class="ttfamily">QCI-GXC</span> Kohn-Sham DFT, McWeeny idempotency distillation, full 55-subset two-electron ERI / GMTKN55 <span class="ttfamily">WTMAD-2</span>, optional Complex VRC causal backend, Discovered Materials Problem 04 (<span class="ttfamily">LightDrivenMaterialsPendingHypothesis</span>), Discovered Materials Problem 05 (<span class="ttfamily">InterfacialHeatTransportPendingHypothesis</span>), Discovered Materials Problem 01 (<span class="ttfamily">CuprateSuperconductivityPendingHypothesis</span>), Discovered Materials Problem 02 (<span class="ttfamily">InterfacialElectricalPropertiesPendingHypothesis</span>), Grassmannian Multilayer Graphene Superconductivity and Quantum Computing (<span class="ttfamily">RhombohedralGrapheneSuperconductivityPendingHypothesis</span>), and 3-qudit GHZ Mermin nonlocality validation contract (<span class="ttfamily">QuantumCausalGrassmannianDFTHypothesis</span>, <span class="ttfamily">quantum_causal_grassmannian_dft_bounds</span>, <span class="ttfamily">quantum_causal_grassmannian_dft_eri_wtmad2_and_vrc_bounds</span>, <span class="ttfamily">light_driven_materials_gkba_and_four_target_bounds</span>, <span class="ttfamily">light_driven_materials_critique_and_gap_closure_bounds</span>, <span class="ttfamily">interfacial_heat_transport_gtbc_and_three_target_bounds</span>, <span class="ttfamily">interfacial_heat_transport_critique_and_gap_closure_bounds</span>, <span class="ttfamily">cuprate_superconductivity_twelve_targets_and_family_bounds</span>, <span class="ttfamily">cuprate_superconductivity_gap_closure_bounds</span>, <span class="ttfamily">interfacial_electrical_properties_five_interfaces_and_critique_bounds</span>, <span class="ttfamily">interfacial_electrical_properties_deep_gap_closure_bounds</span>, <span class="ttfamily">rhombohedral_graphene_superconductivity_eight_regimes_and_critique_bounds</span>, <span class="ttfamily">rhombohedral_graphene_superconductivity_deep_gap_closure_bounds</span>). </p>
 <div class="lemma_thmwrapper theorem-style-plain" id="lem:signals-inverse-gpe-recovers-interactive-potential">
   <div class="lemma_thmheading">
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1423</span>
+    <span class="lemma_thmlabel">1433</span>
     <span class="lemma_thmtitle">InverseGPEPoint reconstructs the exact InteractiveGPEPoint potential on shared state data</span>
     <div class="thm_header_extras">
 
@@ -88727,7 +89265,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-inverse-gpe-recovers-interactive-potential">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000398"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000399"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -88758,7 +89296,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000398">
+<div class="proof_wrapper" id="a0000000399">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -88775,7 +89313,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1424</span>
+    <span class="lemma_thmlabel">1434</span>
     <span class="lemma_thmtitle">Single-channel ObservedHomodyneTensor.trace has zero imaginary quadrature</span>
     <div class="thm_header_extras">
 
@@ -88786,7 +89324,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-observed-homodyne-trace-im-zero">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000399"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000400"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -88817,7 +89355,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000399">
+<div class="proof_wrapper" id="a0000000400">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -88834,7 +89372,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1425</span>
+    <span class="definition_thmlabel">1435</span>
     <span class="definition_thmtitle">Dual-quadrature (X + i P) spatial-temporal homodyne tensor</span>
     <div class="thm_header_extras">
 
@@ -88878,7 +89416,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1426</span>
+    <span class="lemma_thmlabel">1436</span>
     <span class="lemma_thmtitle">Homodyne 0 and π/2 local-oscillator phase sweep recovers full complex X + i P sample</span>
     <div class="thm_header_extras">
 
@@ -88889,7 +89427,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-homodyne-pi-div-two-quadrature-sweep">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000400"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000401"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -88920,7 +89458,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000400">
+<div class="proof_wrapper" id="a0000000401">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -88937,7 +89475,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1427</span>
+    <span class="lemma_thmlabel">1437</span>
     <span class="lemma_thmtitle">Two-point finiteInverseQFT Hadamard evaluation</span>
     <div class="thm_header_extras">
 
@@ -88948,7 +89486,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-finite-iqft-two-hadamard">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000401"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000402"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -88979,7 +89517,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000401">
+<div class="proof_wrapper" id="a0000000402">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -88996,7 +89534,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1428</span>
+    <span class="lemma_thmlabel">1438</span>
     <span class="lemma_thmtitle">Two-point finiteInverseQFT Hadamard involution</span>
     <div class="thm_header_extras">
 
@@ -89007,7 +89545,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-finite-iqft-two-involution">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000402"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000403"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -89038,7 +89576,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000402">
+<div class="proof_wrapper" id="a0000000403">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -89055,7 +89593,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1429</span>
+    <span class="lemma_thmlabel">1439</span>
     <span class="lemma_thmtitle">HawkingRadiationDecoding ordered-column chart requires width ≤ height</span>
     <div class="thm_header_extras">
 
@@ -89066,7 +89604,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-hawking-decoding-width-le-height">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000403"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000404"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -89121,7 +89659,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000403">
+<div class="proof_wrapper" id="a0000000404">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -89138,7 +89676,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1430</span>
+    <span class="lemma_thmlabel">1440</span>
     <span class="lemma_thmtitle">HawkingRadiationDecoding ALS observed slice equals Grassmannian row-sum times recovered trace</span>
     <div class="thm_header_extras">
 
@@ -89149,7 +89687,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-hawking-decoding-als-slice-eq-weighted-recovered">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000404"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000405"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -89204,7 +89742,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000404">
+<div class="proof_wrapper" id="a0000000405">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -89221,7 +89759,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1431</span>
+    <span class="definition_thmlabel">1441</span>
     <span class="definition_thmtitle">Connected Hawking-radiation decoding, Grassmannian/splat regime, and Page bond-dimension contract</span>
     <div class="thm_header_extras">
 
@@ -89251,7 +89789,7 @@
           
           <li><a href="sect0001.html#def:signals-selected-minor">Definition 39</a></li>
           
-          <li><a href="sect0001.html#def:signals-observed-quadrature-homodyne-tensor">Definition 1425</a></li>
+          <li><a href="sect0001.html#def:signals-observed-quadrature-homodyne-tensor">Definition 1435</a></li>
           
         </ul>
     
@@ -89291,7 +89829,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1432</span>
+    <span class="lemma_thmlabel">1442</span>
     <span class="lemma_thmtitle">Connected Hawking synthesis contract recovers the exact interactive GPE potential</span>
     <div class="thm_header_extras">
 
@@ -89302,7 +89840,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-hawking-synthesis-gpe-potential-recovery">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000405"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000406"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -89324,9 +89862,9 @@
           
           <li><a href="sect0001.html#def:signals-selected-minor">Definition 39</a></li>
           
-          <li><a href="sect0001.html#def:signals-hawking-grassmannian-synthesis-contract">Definition 1431</a></li>
+          <li><a href="sect0001.html#def:signals-hawking-grassmannian-synthesis-contract">Definition 1441</a></li>
           
-          <li><a href="sect0001.html#lem:signals-inverse-gpe-recovers-interactive-potential">Lemma 1423</a></li>
+          <li><a href="sect0001.html#lem:signals-inverse-gpe-recovers-interactive-potential">Lemma 1433</a></li>
           
         </ul>
     
@@ -89361,7 +89899,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000405">
+<div class="proof_wrapper" id="a0000000406">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -89378,7 +89916,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1433</span>
+    <span class="lemma_thmlabel">1443</span>
     <span class="lemma_thmtitle">ALS rank r ≤ 10 is strictly below the Page bond dimension exp(S_BH / 2k_B) when S_BH / k_B &gt; 2 ln 10</span>
     <div class="thm_header_extras">
 
@@ -89389,7 +89927,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-hawking-synthesis-als-rank-lt-page-bond">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000406"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000407"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -89411,7 +89949,7 @@
           
           <li><a href="sect0001.html#def:signals-selected-minor">Definition 39</a></li>
           
-          <li><a href="sect0001.html#def:signals-hawking-grassmannian-synthesis-contract">Definition 1431</a></li>
+          <li><a href="sect0001.html#def:signals-hawking-grassmannian-synthesis-contract">Definition 1441</a></li>
           
         </ul>
     
@@ -89446,7 +89984,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000406">
+<div class="proof_wrapper" id="a0000000407">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -89463,7 +90001,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1434</span>
+    <span class="lemma_thmlabel">1444</span>
     <span class="lemma_thmtitle">Bridge between Pending pointwise InverseGPEPoint and verified continuum Madelung iGPE potential reconstruction</span>
     <div class="thm_header_extras">
 
@@ -89474,7 +90012,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-hawking-synthesis-madelung-pointwise-igpe-bridge">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000407"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000408"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -89498,11 +90036,11 @@
           
           <li><a href="sect0001.html#def:signals-selected-minor">Definition 39</a></li>
           
-          <li><a href="sect0001.html#def:signals-hawking-grassmannian-synthesis-contract">Definition 1431</a></li>
+          <li><a href="sect0001.html#def:signals-hawking-grassmannian-synthesis-contract">Definition 1441</a></li>
           
           <li><a href="sect0001.html#def:signals-ddf-quantum-hamilton-jacobi-residual">Definition 873</a></li>
           
-          <li><a href="sect0001.html#lem:signals-hawking-synthesis-gpe-potential-recovery">Lemma 1432</a></li>
+          <li><a href="sect0001.html#lem:signals-hawking-synthesis-gpe-potential-recovery">Lemma 1442</a></li>
           
         </ul>
     
@@ -89537,7 +90075,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000407">
+<div class="proof_wrapper" id="a0000000408">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -89554,7 +90092,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1435</span>
+    <span class="definition_thmlabel">1445</span>
     <span class="definition_thmtitle">Bi-twistor wakefield momentum-sink contract</span>
     <div class="thm_header_extras">
 
@@ -89598,7 +90136,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1436</span>
+    <span class="lemma_thmlabel">1446</span>
     <span class="lemma_thmtitle">Vehicle impulse opposes wakefield sink momentum</span>
     <div class="thm_header_extras">
 
@@ -89609,7 +90147,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-craft-momentum-opposite-wake">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000408"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000409"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -89625,7 +90163,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-twistor-momentum-sink">Definition 1435</a></li>
+          <li><a href="sect0001.html#def:signals-twistor-momentum-sink">Definition 1445</a></li>
           
         </ul>
     
@@ -89660,7 +90198,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000408">
+<div class="proof_wrapper" id="a0000000409">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -89677,7 +90215,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1437</span>
+    <span class="lemma_thmlabel">1447</span>
     <span class="lemma_thmtitle">Closed dual polygon yields zero net impulse</span>
     <div class="thm_header_extras">
 
@@ -89688,7 +90226,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-closed-polygon-zero-thrust">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000409"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000410"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -89704,9 +90242,9 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-twistor-momentum-sink">Definition 1435</a></li>
+          <li><a href="sect0001.html#def:signals-twistor-momentum-sink">Definition 1445</a></li>
           
-          <li><a href="sect0001.html#lem:signals-craft-momentum-opposite-wake">Lemma 1436</a></li>
+          <li><a href="sect0001.html#lem:signals-craft-momentum-opposite-wake">Lemma 1446</a></li>
           
         </ul>
     
@@ -89741,7 +90279,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000409">
+<div class="proof_wrapper" id="a0000000410">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -89758,7 +90296,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1438</span>
+    <span class="definition_thmlabel">1448</span>
     <span class="definition_thmtitle">Pulsed wakefield cavity and Halbach extraction contract</span>
     <div class="thm_header_extras">
 
@@ -89824,7 +90362,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1439</span>
+    <span class="lemma_thmlabel">1449</span>
     <span class="lemma_thmtitle">Extracted pulse energy bounded by Dawson cavity ceiling</span>
     <div class="thm_header_extras">
 
@@ -89835,7 +90373,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-extracted-pulse-energy-le-dawson">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000410"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000411"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -89851,7 +90389,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-pulsed-wakefield-halbach">Definition 1438</a></li>
+          <li><a href="sect0001.html#def:signals-pulsed-wakefield-halbach">Definition 1448</a></li>
           
           <li><a href="sect0001.html#def:signals-electrostatic-wave-energy-density">Definition 568</a></li>
           
@@ -89890,7 +90428,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000410">
+<div class="proof_wrapper" id="a0000000411">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -89907,7 +90445,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1440</span>
+    <span class="lemma_thmlabel">1450</span>
     <span class="lemma_thmtitle">Pulsed wakefield average thrust bounded by peak force</span>
     <div class="thm_header_extras">
 
@@ -89918,7 +90456,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pulsed-wakefield-avg-thrust-le-peak">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000411"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000412"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -89934,7 +90472,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-pulsed-wakefield-halbach">Definition 1438</a></li>
+          <li><a href="sect0001.html#def:signals-pulsed-wakefield-halbach">Definition 1448</a></li>
           
           <li><a href="sect0001.html#def:signals-pulsed-average-force">Definition 524</a></li>
           
@@ -89973,7 +90511,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000411">
+<div class="proof_wrapper" id="a0000000412">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -89990,7 +90528,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1441</span>
+    <span class="definition_thmlabel">1451</span>
     <span class="definition_thmtitle">DDF phase-slip hull-stress and power-balance contract</span>
     <div class="thm_header_extras">
 
@@ -90034,7 +90572,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1442</span>
+    <span class="lemma_thmlabel">1452</span>
     <span class="lemma_thmtitle">Regularized hull-boundary density is strictly positive</span>
     <div class="thm_header_extras">
 
@@ -90045,7 +90583,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-ddf-hull-boundary-density-pos">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000412"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000413"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -90061,7 +90599,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-ddf-phase-slip-hull-stress">Definition 1441</a></li>
+          <li><a href="sect0001.html#def:signals-ddf-phase-slip-hull-stress">Definition 1451</a></li>
           
         </ul>
     
@@ -90096,7 +90634,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000412">
+<div class="proof_wrapper" id="a0000000413">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -90113,7 +90651,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1443</span>
+    <span class="lemma_thmlabel">1453</span>
     <span class="lemma_thmtitle">Zero external drive power forces zero net phase-slip thrust</span>
     <div class="thm_header_extras">
 
@@ -90124,7 +90662,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-ddf-zero-drive-zero-thrust">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000413"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000414"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -90140,7 +90678,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-ddf-phase-slip-hull-stress">Definition 1441</a></li>
+          <li><a href="sect0001.html#def:signals-ddf-phase-slip-hull-stress">Definition 1451</a></li>
           
         </ul>
     
@@ -90175,7 +90713,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000413">
+<div class="proof_wrapper" id="a0000000414">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -90192,7 +90730,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1444</span>
+    <span class="definition_thmlabel">1454</span>
     <span class="definition_thmtitle">Cryogenic He-3 centrifugal spool and 5-axis AMB contract</span>
     <div class="thm_header_extras">
 
@@ -90236,7 +90774,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1445</span>
+    <span class="definition_thmlabel">1455</span>
     <span class="definition_thmtitle">He-3 supercritical gas regime predicate</span>
     <div class="thm_header_extras">
 
@@ -90260,7 +90798,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-cryogenic-spool-amb">Definition 1444</a></li>
+          <li><a href="sect0001.html#def:signals-cryogenic-spool-amb">Definition 1454</a></li>
           
         </ul>
     
@@ -90300,7 +90838,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1446</span>
+    <span class="definition_thmlabel">1456</span>
     <span class="definition_thmtitle">He-3 minimum solidification pressure predicate</span>
     <div class="thm_header_extras">
 
@@ -90324,7 +90862,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-cryogenic-spool-amb">Definition 1444</a></li>
+          <li><a href="sect0001.html#def:signals-cryogenic-spool-amb">Definition 1454</a></li>
           
         </ul>
     
@@ -90364,7 +90902,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1447</span>
+    <span class="lemma_thmlabel">1457</span>
     <span class="lemma_thmtitle">He-3 is a supercritical gas at the 39 K MgB2 temperature</span>
     <div class="thm_header_extras">
 
@@ -90375,7 +90913,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-he3-supercritical-at-39k">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000414"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000415"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -90391,9 +90929,9 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-cryogenic-spool-amb">Definition 1444</a></li>
+          <li><a href="sect0001.html#def:signals-cryogenic-spool-amb">Definition 1454</a></li>
           
-          <li><a href="sect0001.html#def:signals-he3-supercritical-gas">Definition 1445</a></li>
+          <li><a href="sect0001.html#def:signals-he3-supercritical-gas">Definition 1455</a></li>
           
         </ul>
     
@@ -90428,7 +90966,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000414">
+<div class="proof_wrapper" id="a0000000415">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -90445,7 +90983,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1448</span>
+    <span class="lemma_thmlabel">1458</span>
     <span class="lemma_thmtitle">Solid He-3 labyrinth seal impossible below 3.4 MPa</span>
     <div class="thm_header_extras">
 
@@ -90456,7 +90994,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-he3-no-solid-seal-below-3-4-mpa">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000415"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000416"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -90472,9 +91010,9 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-he3-can-solidify">Definition 1446</a></li>
+          <li><a href="sect0001.html#def:signals-he3-can-solidify">Definition 1456</a></li>
           
-          <li><a href="sect0001.html#def:signals-cryogenic-spool-amb">Definition 1444</a></li>
+          <li><a href="sect0001.html#def:signals-cryogenic-spool-amb">Definition 1454</a></li>
           
         </ul>
     
@@ -90509,7 +91047,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000415">
+<div class="proof_wrapper" id="a0000000416">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -90526,7 +91064,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1449</span>
+    <span class="definition_thmlabel">1459</span>
     <span class="definition_thmtitle">3-Zone 400-&gt;800 GHz rGO-polyCBD-SS-Lignin hyperbolic SFG cannon and thermal-balance contract</span>
     <div class="thm_header_extras">
 
@@ -90590,7 +91128,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1450</span>
+    <span class="lemma_thmlabel">1460</span>
     <span class="lemma_thmtitle">800 GHz SFG carrier sits strictly between 1.667 GHz Λ-doubling and 1.83 THz rotational lines</span>
     <div class="thm_header_extras">
 
@@ -90601,7 +91139,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-oh-frequency-mismatch-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000416"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000417"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -90617,7 +91155,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-three-zone-hyperbolic-sfg-cannon">Definition 1449</a></li>
+          <li><a href="sect0001.html#def:signals-three-zone-hyperbolic-sfg-cannon">Definition 1459</a></li>
           
         </ul>
     
@@ -90652,7 +91190,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000416">
+<div class="proof_wrapper" id="a0000000417">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -90669,7 +91207,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1451</span>
+    <span class="lemma_thmlabel">1461</span>
     <span class="lemma_thmtitle">Cooling an above-reignition fire requires a positive external heat sink</span>
     <div class="thm_header_extras">
 
@@ -90680,7 +91218,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-fire-quench-requires-positive-heat-sink">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000417"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000418"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -90696,7 +91234,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-three-zone-hyperbolic-sfg-cannon">Definition 1449</a></li>
+          <li><a href="sect0001.html#def:signals-three-zone-hyperbolic-sfg-cannon">Definition 1459</a></li>
           
         </ul>
     
@@ -90731,7 +91269,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000417">
+<div class="proof_wrapper" id="a0000000418">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -90748,7 +91286,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1452</span>
+    <span class="definition_thmlabel">1462</span>
     <span class="definition_thmtitle">Madelung variational action and dilatant-phase jamming evidence contract</span>
     <div class="thm_header_extras">
 
@@ -90792,7 +91330,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1453</span>
+    <span class="lemma_thmlabel">1463</span>
     <span class="lemma_thmtitle">Stationary jamming closure forces zero sheath Euler-Lagrange residual</span>
     <div class="thm_header_extras">
 
@@ -90803,7 +91341,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-madelung-dilatant-stationary-residual-zero">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000418"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000419"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -90819,7 +91357,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-madelung-dilatant-variational-hypothesis">Definition 1452</a></li>
+          <li><a href="sect0001.html#def:signals-madelung-dilatant-variational-hypothesis">Definition 1462</a></li>
           
         </ul>
     
@@ -90854,7 +91392,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000418">
+<div class="proof_wrapper" id="a0000000419">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -90871,7 +91409,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1454</span>
+    <span class="lemma_thmlabel">1464</span>
     <span class="lemma_thmtitle">Positive translation speed forces longitudinal sheath compression Λ_∥² &gt; 1</span>
     <div class="thm_header_extras">
 
@@ -90882,7 +91420,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-madelung-dilatant-compression-gt-one">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000419"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000420"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -90898,7 +91436,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-madelung-dilatant-variational-hypothesis">Definition 1452</a></li>
+          <li><a href="sect0001.html#def:signals-madelung-dilatant-variational-hypothesis">Definition 1462</a></li>
           
         </ul>
     
@@ -90933,7 +91471,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000419">
+<div class="proof_wrapper" id="a0000000420">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -90950,7 +91488,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1455</span>
+    <span class="definition_thmlabel">1465</span>
     <span class="definition_thmtitle">Multi-modal Hubble mosaic, LVP medical, LIFU/AOT/TRUE, and sub-nanometer imaging contract</span>
     <div class="thm_header_extras">
 
@@ -91016,7 +91554,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1456</span>
+    <span class="lemma_thmlabel">1466</span>
     <span class="lemma_thmtitle">Multi-modal sub-surface imaging contract enforces 3D Layer-Code bounds, LIFU safety, TRUE gain &gt; 1, &lt; 1 nm linewidth, and control tolerances</span>
     <div class="thm_header_extras">
 
@@ -91027,7 +91565,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-multi-modal-subsurface-safety-and-resolution-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000420"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000421"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -91047,7 +91585,7 @@
           
           <li><a href="sect0001.html#def:signals-imaging-true-peak-to-background-gain">Definition 986</a></li>
           
-          <li><a href="sect0001.html#def:signals-multi-modal-subsurface-imaging-hypothesis">Definition 1455</a></li>
+          <li><a href="sect0001.html#def:signals-multi-modal-subsurface-imaging-hypothesis">Definition 1465</a></li>
           
           <li><a href="sect0001.html#def:signals-imaging-cascaded-nano-linewidth-sq">Definition 988</a></li>
           
@@ -91084,7 +91622,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000420">
+<div class="proof_wrapper" id="a0000000421">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -91101,7 +91639,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1457</span>
+    <span class="definition_thmlabel">1467</span>
     <span class="definition_thmtitle">Pending quantum causal inference, Mpemba shortcut, and entropy-siphoning validation contract</span>
     <div class="thm_header_extras">
 
@@ -91145,7 +91683,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1458</span>
+    <span class="lemma_thmlabel">1468</span>
     <span class="lemma_thmtitle">Pending quantum causal and entropy-siphoning contract enforces single-shot cooling vs. closed-loop Second-Law bounds</span>
     <div class="thm_header_extras">
 
@@ -91156,7 +91694,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-quantum-causal-mpemba-entropy-siphon-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000421"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000422"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -91172,7 +91710,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-quantum-causal-mpemba-entropy-siphon-contract">Definition 1457</a></li>
+          <li><a href="sect0001.html#def:signals-quantum-causal-mpemba-entropy-siphon-contract">Definition 1467</a></li>
           
           <li><a href="sect0001.html#def:signals-werner-conditional-entropy-at-half">Definition 1015</a></li>
           
@@ -91225,7 +91763,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000421">
+<div class="proof_wrapper" id="a0000000422">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -91242,7 +91780,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1459</span>
+    <span class="definition_thmlabel">1469</span>
     <span class="definition_thmtitle">Pending Complex Grassmannian GPE, dual iGPE, and Plücker Madelung validation contract</span>
     <div class="thm_header_extras">
 
@@ -91312,7 +91850,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1460</span>
+    <span class="lemma_thmlabel">1470</span>
     <span class="lemma_thmtitle">Pending Complex Grassmannian GPE &amp; Plücker Madelung contract enforces Kähler, symplectic norm, projector, and iGPE inversion identities</span>
     <div class="thm_header_extras">
 
@@ -91323,7 +91861,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-complex-grassmannian-gpe-plucker-madelung-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000422"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000423"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -91365,7 +91903,7 @@
           
           <li><a href="sect0001.html#def:signals-ddf-plucker-contravariant-metric-apply">Definition 911</a></li>
           
-          <li><a href="sect0001.html#def:signals-complex-grassmannian-gpe-plucker-madelung-contract">Definition 1459</a></li>
+          <li><a href="sect0001.html#def:signals-complex-grassmannian-gpe-plucker-madelung-contract">Definition 1469</a></li>
           
           <li><a href="sect0001.html#def:signals-ddf-fubini-study-kinetic-norm">Definition 917</a></li>
           
@@ -91383,7 +91921,7 @@
           
           <li><a href="sect0001.html#def:signals-ddf-plucker-continuity-source-rhs">Definition 943</a></li>
           
-          <li><a href="sect0001.html#lem:signals-inverse-gpe-recovers-interactive-potential">Lemma 1423</a></li>
+          <li><a href="sect0001.html#lem:signals-inverse-gpe-recovers-interactive-potential">Lemma 1433</a></li>
           
           <li><a href="sect0001.html#def:signals-ddf-josephson-schubert-current">Definition 929</a></li>
           
@@ -91434,7 +91972,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000422">
+<div class="proof_wrapper" id="a0000000423">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -91451,7 +91989,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1461</span>
+    <span class="definition_thmlabel">1471</span>
     <span class="definition_thmtitle">Pending Quantum Causal JEV/QCDT, Bundle-Transformer, and QFT/QRAM Soliton VideoGen contract</span>
     <div class="thm_header_extras">
 
@@ -91495,7 +92033,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1462</span>
+    <span class="lemma_thmlabel">1472</span>
     <span class="lemma_thmtitle">Pending Quantum Causal Bundle-Transformer and VideoGen contract enforces confounding, Jevons, Klein quadric, and QRAM bounds</span>
     <div class="thm_header_extras">
 
@@ -91506,7 +92044,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-quantum-causal-bundle-videogen-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000423"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000424"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -91540,7 +92078,7 @@
           
           <li><a href="sect0001.html#def:signals-plucker-2d-coord">Definition 1035</a></li>
           
-          <li><a href="sect0001.html#def:signals-quantum-causal-bundle-videogen-contract">Definition 1461</a></li>
+          <li><a href="sect0001.html#def:signals-quantum-causal-bundle-videogen-contract">Definition 1471</a></li>
           
           <li><a href="sect0001.html#def:signals-spatiotemporal-full-attention-complexity">Definition 1043</a></li>
           
@@ -91603,7 +92141,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000423">
+<div class="proof_wrapper" id="a0000000424">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -91620,7 +92158,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1463</span>
+    <span class="definition_thmlabel">1473</span>
     <span class="definition_thmtitle">Pending &gt;6,400x Splat-Grassmann, Jeffrey Kinematic Engine, Surgical Nanoimaging, and Quantum Causal GraphRAG contract</span>
     <div class="thm_header_extras">
 
@@ -91684,7 +92222,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1464</span>
+    <span class="lemma_thmlabel">1474</span>
     <span class="lemma_thmtitle">Pending Surgical Splat and Quantum Causal GraphRAG contract enforces &gt;6,400x speedup, Jeffrey kinematic deconfounding, and 3D depth recovery</span>
     <div class="thm_header_extras">
 
@@ -91695,7 +92233,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-quantum-causal-surgical-splat-graphrag-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000424"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000425"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -91747,7 +92285,7 @@
           
           <li><a href="sect0001.html#def:signals-ddf-recover-depth-variance-sq">Definition 828</a></li>
           
-          <li><a href="sect0001.html#def:signals-quantum-causal-surgical-splat-graphrag-contract">Definition 1463</a></li>
+          <li><a href="sect0001.html#def:signals-quantum-causal-surgical-splat-graphrag-contract">Definition 1473</a></li>
           
           <li><a href="sect0001.html#def:signals-ddf-splat3d-cov-det">Definition 812</a></li>
           
@@ -91788,7 +92326,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000424">
+<div class="proof_wrapper" id="a0000000425">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -91805,7 +92343,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1465</span>
+    <span class="definition_thmlabel">1475</span>
     <span class="definition_thmtitle">Pending Complex Grassmannian VRC, QCI-GXC Kohn-Sham DFT, and Topological Multi-Qudit contract</span>
     <div class="thm_header_extras">
 
@@ -91849,7 +92387,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1466</span>
+    <span class="lemma_thmlabel">1476</span>
     <span class="lemma_thmtitle">Pending Complex Grassmannian VRC and QCI-GXC DFT contract enforces Plücker, Kohn-Sham, Cayley, McWeeny, and Mermin bounds</span>
     <div class="thm_header_extras">
 
@@ -91860,7 +92398,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-quantum-causal-grassmannian-dft-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000425"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000426"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -91908,7 +92446,7 @@
           
           <li><a href="sect0001.html#def:signals-vrc-boundary-matrix">Definition 24</a></li>
           
-          <li><a href="sect0001.html#def:signals-quantum-causal-grassmannian-dft-contract">Definition 1465</a></li>
+          <li><a href="sect0001.html#def:signals-quantum-causal-grassmannian-dft-contract">Definition 1475</a></li>
           
           <li><a href="sect0001.html#def:signals-natural-orbital-linear-correlation-entropy">Definition 1106</a></li>
           
@@ -91949,7 +92487,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000425">
+<div class="proof_wrapper" id="a0000000426">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -91966,7 +92504,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1467</span>
+    <span class="lemma_thmlabel">1477</span>
     <span class="lemma_thmtitle">Pending Grassmannian DFT contract enforces 55-subset two-electron ERI, GMTKN55 WTMAD-2, optional Complex VRC, and Skyrmion/MZM bounds</span>
     <div class="thm_header_extras">
 
@@ -91977,7 +92515,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-quantum-causal-grassmannian-dft-eri-wtmad2-and-vrc-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000426"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000427"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -92017,7 +92555,7 @@
           
           <li><a href="sect0001.html#def:signals-skyrmion-pontryagin-charge">Definition 1122</a></li>
           
-          <li><a href="sect0001.html#def:signals-quantum-causal-grassmannian-dft-contract">Definition 1465</a></li>
+          <li><a href="sect0001.html#def:signals-quantum-causal-grassmannian-dft-contract">Definition 1475</a></li>
           
           <li><a href="sect0001.html#def:signals-full-basis-scf-step-flops">Definition 1115</a></li>
           
@@ -92072,7 +92610,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000426">
+<div class="proof_wrapper" id="a0000000427">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -92089,7 +92627,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1468</span>
+    <span class="definition_thmlabel">1478</span>
     <span class="definition_thmtitle">Pending Discovered Materials Problem 04 (Tuning Materials with Light) validation contract</span>
     <div class="thm_header_extras">
 
@@ -92113,7 +92651,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-quantum-causal-grassmannian-dft-contract">Definition 1465</a></li>
+          <li><a href="sect0001.html#def:signals-quantum-causal-grassmannian-dft-contract">Definition 1475</a></li>
           
         </ul>
     
@@ -92153,7 +92691,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1469</span>
+    <span class="lemma_thmlabel">1479</span>
     <span class="lemma_thmtitle">Pending Tuning Materials with Light contract enforces G-GKBA speedup and Hubbard, WSe2, Graphite, and MgB2 laws</span>
     <div class="thm_header_extras">
 
@@ -92164,7 +92702,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-light-driven-materials-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000427"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000428"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -92194,7 +92732,7 @@
           
           <li><a href="sect0001.html#def:signals-mgb2-lower-pi-gap-sq">Definition 1153</a></li>
           
-          <li><a href="sect0001.html#def:signals-light-driven-materials-contract">Definition 1468</a></li>
+          <li><a href="sect0001.html#def:signals-light-driven-materials-contract">Definition 1478</a></li>
           
           <li><a href="sect0001.html#def:signals-mgb2-katsumi-critical-temp-k">Definition 1152</a></li>
           
@@ -92249,7 +92787,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000427">
+<div class="proof_wrapper" id="a0000000428">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -92266,7 +92804,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1470</span>
+    <span class="lemma_thmlabel">1480</span>
     <span class="lemma_thmtitle">Pending Tuning Materials with Light contract enforces G1-G2 cumulant speedup, Pauli Mott screening, 5-reservoir ODE conservation, and non-equilibrium Tc</span>
     <div class="thm_header_extras">
 
@@ -92277,7 +92815,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-light-driven-materials-critique-and-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000428"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000429"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -92293,7 +92831,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-light-driven-materials-contract">Definition 1468</a></li>
+          <li><a href="sect0001.html#def:signals-light-driven-materials-contract">Definition 1478</a></li>
           
           <li><a href="sect0001.html#def:signals-mgb2-non-equilibrium-critical-temp">Definition 1164</a></li>
           
@@ -92348,7 +92886,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000428">
+<div class="proof_wrapper" id="a0000000429">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -92365,7 +92903,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1471</span>
+    <span class="definition_thmlabel">1481</span>
     <span class="definition_thmtitle">Pending Discovered Materials Problem 05 (Predicting Heat Transport across Solid Interfaces) validation contract</span>
     <div class="thm_header_extras">
 
@@ -92389,7 +92927,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-light-driven-materials-contract">Definition 1468</a></li>
+          <li><a href="sect0001.html#def:signals-light-driven-materials-contract">Definition 1478</a></li>
           
         </ul>
     
@@ -92429,7 +92967,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1472</span>
+    <span class="lemma_thmlabel">1482</span>
     <span class="lemma_thmtitle">Pending Interfacial Heat Transport contract enforces G-TBC transmission, Al/Si &amp; Al/GaN, Cu/TiC/diamond, and Au/M/PMMA/Si laws</span>
     <div class="thm_header_extras">
 
@@ -92440,7 +92978,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-interfacial-heat-transport-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000429"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000430"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -92474,7 +93012,7 @@
           
           <li><a href="sect0001.html#def:signals-gtbc-al-si-300k-conductance">Definition 1173</a></li>
           
-          <li><a href="sect0001.html#def:signals-interfacial-heat-transport-contract">Definition 1471</a></li>
+          <li><a href="sect0001.html#def:signals-interfacial-heat-transport-contract">Definition 1481</a></li>
           
           <li><a href="sect0001.html#def:signals-gtbc-al-gan-300k-conductance">Definition 1174</a></li>
           
@@ -92521,7 +93059,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000429">
+<div class="proof_wrapper" id="a0000000430">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -92538,7 +93076,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1473</span>
+    <span class="lemma_thmlabel">1483</span>
     <span class="lemma_thmtitle">Pending Problem 05 critique, gap closure, and per-dataset G-TBC vs. AMM/DMM error bounds</span>
     <div class="thm_header_extras">
 
@@ -92549,7 +93087,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-interfacial-heat-transport-critique-and-error-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000430"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000431"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -92573,7 +93111,7 @@
           
           <li><a href="sect0001.html#def:signals-gtbc-relative-error">Definition 1190</a></li>
           
-          <li><a href="sect0001.html#def:signals-interfacial-heat-transport-contract">Definition 1471</a></li>
+          <li><a href="sect0001.html#def:signals-interfacial-heat-transport-contract">Definition 1481</a></li>
           
           <li><a href="sect0001.html#def:signals-gtbc-carbide-interlayer-conductance">Definition 1186</a></li>
           
@@ -92618,7 +93156,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000430">
+<div class="proof_wrapper" id="a0000000431">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -92635,7 +93173,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1474</span>
+    <span class="definition_thmlabel">1484</span>
     <span class="definition_thmtitle">Pending Discovered Materials Problem 01 (Cuprate Superconductivity) validation contract</span>
     <div class="thm_header_extras">
 
@@ -92659,7 +93197,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-interfacial-heat-transport-contract">Definition 1471</a></li>
+          <li><a href="sect0001.html#def:signals-interfacial-heat-transport-contract">Definition 1481</a></li>
           
         </ul>
     
@@ -92699,7 +93237,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1475</span>
+    <span class="lemma_thmlabel">1485</span>
     <span class="lemma_thmtitle">Pending Cuprate Superconductivity contract enforces all 12 benchmark laws and 5-family hierarchy</span>
     <div class="thm_header_extras">
 
@@ -92710,7 +93248,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-cuprate-superconductivity-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000431"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000432"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -92734,7 +93272,7 @@
           
           <li><a href="sect0001.html#def:signals-cuprate-dwave-form-factor">Definition 1195</a></li>
           
-          <li><a href="sect0001.html#def:signals-cuprate-superconductivity-contract">Definition 1474</a></li>
+          <li><a href="sect0001.html#def:signals-cuprate-superconductivity-contract">Definition 1484</a></li>
           
           <li><a href="sect0001.html#def:signals-cuprate-pseudogap-temp">Definition 1198</a></li>
           
@@ -92795,7 +93333,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000431">
+<div class="proof_wrapper" id="a0000000432">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -92812,7 +93350,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1476</span>
+    <span class="lemma_thmlabel">1486</span>
     <span class="lemma_thmtitle">Pending Problem 01 gap-closure bounds: RVB dome, YRZ Fermi arcs, Homes’ law, MMP paramagnons, and Loram specific heat</span>
     <div class="thm_header_extras">
 
@@ -92823,7 +93361,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-cuprate-superconductivity-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000432"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000433"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -92839,7 +93377,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-cuprate-superconductivity-contract">Definition 1474</a></li>
+          <li><a href="sect0001.html#def:signals-cuprate-superconductivity-contract">Definition 1484</a></li>
           
           <li><a href="sect0001.html#def:signals-cuprate-momentum-resolved-cdw-structure-factor">Definition 1217</a></li>
           
@@ -92900,7 +93438,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000432">
+<div class="proof_wrapper" id="a0000000433">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -92917,7 +93455,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1477</span>
+    <span class="definition_thmlabel">1487</span>
     <span class="definition_thmtitle">Pending Discovered Materials Problem 02 (Interfacial Electrical Properties from Processing History) validation contract</span>
     <div class="thm_header_extras">
 
@@ -92941,7 +93479,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-cuprate-superconductivity-contract">Definition 1474</a></li>
+          <li><a href="sect0001.html#def:signals-cuprate-superconductivity-contract">Definition 1484</a></li>
           
         </ul>
     
@@ -92981,7 +93519,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1478</span>
+    <span class="lemma_thmlabel">1488</span>
     <span class="lemma_thmtitle">Pending Interfacial Electrical Properties contract enforces all 5 interface laws and error bounds</span>
     <div class="thm_header_extras">
 
@@ -92992,7 +93530,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-interfacial-electrical-properties-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000433"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000434"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -93016,7 +93554,7 @@
           
           <li><a href="sect0001.html#def:signals-giep-subthreshold-swing-with-dit">Definition 1235</a></li>
           
-          <li><a href="sect0001.html#def:signals-interfacial-electrical-properties-contract">Definition 1477</a></li>
+          <li><a href="sect0001.html#def:signals-interfacial-electrical-properties-contract">Definition 1487</a></li>
           
           <li><a href="sect0001.html#def:signals-giep-three-flux-steady-state">Definition 1220</a></li>
           
@@ -93083,7 +93621,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000433">
+<div class="proof_wrapper" id="a0000000434">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -93100,7 +93638,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1479</span>
+    <span class="lemma_thmlabel">1489</span>
     <span class="lemma_thmtitle">Pending Problem 02 deep gap-closure bounds: Deal-Grove inversion, Massoud rate, Brower-Stesmans equilibrium, nanowire charge, SiC traps, and SiGe mass balance</span>
     <div class="thm_header_extras">
 
@@ -93111,7 +93649,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-interfacial-electrical-properties-deep-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000434"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000435"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -93139,7 +93677,7 @@
           
           <li><a href="sect0001.html#def:signals-giep-nanowire-stress-induced-charge">Definition 1243</a></li>
           
-          <li><a href="sect0001.html#def:signals-interfacial-electrical-properties-contract">Definition 1477</a></li>
+          <li><a href="sect0001.html#def:signals-interfacial-electrical-properties-contract">Definition 1487</a></li>
           
           <li><a href="sect0001.html#def:signals-giep-highk-flatband-voltage-shift">Definition 1245</a></li>
           
@@ -93186,7 +93724,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000434">
+<div class="proof_wrapper" id="a0000000435">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -93203,7 +93741,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">1480</span>
+    <span class="definition_thmlabel">1490</span>
     <span class="definition_thmtitle">Pending Grassmannian Multilayer Graphene Superconductivity and Quantum Computing (G-MGS) validation contract</span>
     <div class="thm_header_extras">
 
@@ -93227,7 +93765,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-interfacial-electrical-properties-contract">Definition 1477</a></li>
+          <li><a href="sect0001.html#def:signals-interfacial-electrical-properties-contract">Definition 1487</a></li>
           
         </ul>
     
@@ -93267,7 +93805,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1481</span>
+    <span class="lemma_thmlabel">1491</span>
     <span class="lemma_thmtitle">Pending Rhombohedral Graphene Superconductivity contract enforces all 8 regimes and error bounds</span>
     <div class="thm_header_extras">
 
@@ -93278,7 +93816,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-rhombohedral-graphene-superconductivity-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000435"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000436"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -93310,7 +93848,7 @@
           
           <li><a href="sect0001.html#def:signals-gmgs-supersolid-vortex-nucleation-barrier">Definition 1269</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-gmgs-mattg-kondo-superconducting-tc">Definition 1258</a></li>
           
@@ -93381,7 +93919,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000435">
+<div class="proof_wrapper" id="a0000000436">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -93398,7 +93936,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1482</span>
+    <span class="lemma_thmlabel">1492</span>
     <span class="lemma_thmtitle">Pending G-MGS deep gap-closure bounds: Sombrero annular ring, Fubini-Study BKT bound, LAF/QAH valley mass inversion, composite Fermi liquid at ν=1/2, and QAHE-SC BdG gap reopening</span>
     <div class="thm_header_extras">
 
@@ -93409,7 +93947,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-rhombohedral-graphene-superconductivity-deep-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000436"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000437"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -93427,7 +93965,7 @@
           
           <li><a href="sect0001.html#def:signals-gmgs-fubini-study-trace-metric">Definition 1278</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-gmgs-qahe-sc-bdg-gap-sq">Definition 1283</a></li>
           
@@ -93482,7 +94020,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000436">
+<div class="proof_wrapper" id="a0000000437">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -93499,7 +94037,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1483</span>
+    <span class="lemma_thmlabel">1493</span>
     <span class="lemma_thmtitle">Pending G-MGS MZM qubit, parafermion/Plücker qudit, and four-paper cross-domain bounds</span>
     <div class="thm_header_extras">
 
@@ -93510,7 +94048,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-rhombohedral-graphene-mzm-qudit-and-four-paper-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000437"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000438"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -93580,7 +94118,7 @@
           
           <li><a href="sect0001.html#def:signals-ddf-cattaneo-second-sound-sq">Definition 766</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-gmgs-flat-band-bandwidth">Definition 1249</a></li>
           
@@ -93631,7 +94169,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000437">
+<div class="proof_wrapper" id="a0000000438">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -93648,7 +94186,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1484</span>
+    <span class="lemma_thmlabel">1494</span>
     <span class="lemma_thmtitle">Pending semi-Dirac fermion and SU(4) / Witten twistor string / CHY / DDF / Turner / AdS-CFT unification bounds</span>
     <div class="thm_header_extras">
 
@@ -93659,7 +94197,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-semi-dirac-and-su4-witten-chy-unification-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000438"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000439"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -93695,7 +94233,7 @@
           
           <li><a href="sect0001.html#def:signals-dft-semi-dirac-ddf-jammed-mass-x">Definition 1297</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-dft-semi-dirac-ddf-gr24-energy-sq">Definition 1298</a></li>
           
@@ -93754,7 +94292,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000438">
+<div class="proof_wrapper" id="a0000000439">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -93771,7 +94309,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1485</span>
+    <span class="lemma_thmlabel">1495</span>
     <span class="lemma_thmtitle">Pending boundary for Papers 35–38: Nanodiamond &amp; Biodegradable Photonics, VortexVias &amp; SHG-OPA AQM, LHAT Archival Tape, and Pressed-LLM Soliton QRAM</span>
     <div class="thm_header_extras">
 
@@ -93782,7 +94320,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-nanodiamond-vortex-via-shg-aqm-lhat-pressed-llm-qram-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000439"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000440"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -93812,7 +94350,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-hc-shock-threshold-gpa">Definition 393</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-soliton-lhat-cartridge-capacity-tb">Definition 404</a></li>
           
@@ -93869,7 +94407,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000439">
+<div class="proof_wrapper" id="a0000000440">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -93886,7 +94424,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1486</span>
+    <span class="lemma_thmlabel">1496</span>
     <span class="lemma_thmtitle">Pending boundary for Paper 39: Quantum Causal Next-Concept Modeling (QCI-NCM) and Pressed-LLM LHAT Hardware</span>
     <div class="thm_header_extras">
 
@@ -93897,7 +94435,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-qci-ncm-multiscale-counterfactual-vrc-pressed-llm-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000440"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000441"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -93935,7 +94473,7 @@
           
           <li><a href="sect0001.html#def:signals-ncm-corrupted-expected-concept-utility">Definition 1086</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-ncm-corruption-deconfounded-bias">Definition 1085</a></li>
           
@@ -93984,7 +94522,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000440">
+<div class="proof_wrapper" id="a0000000441">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -94001,7 +94539,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1487</span>
+    <span class="lemma_thmlabel">1497</span>
     <span class="lemma_thmtitle">Pending deep gap-closure boundary for Paper 39 (QCI-NCM Flag bundle, CFG, level weights, and VRC Jeffrey bridge)</span>
     <div class="thm_header_extras">
 
@@ -94012,7 +94550,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-qci-ncm-deep-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000441"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000442"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -94028,7 +94566,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-ncm-classifier-free-guided-logit">Definition 1097</a></li>
           
@@ -94077,7 +94615,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000441">
+<div class="proof_wrapper" id="a0000000442">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -94094,7 +94632,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1488</span>
+    <span class="lemma_thmlabel">1498</span>
     <span class="lemma_thmtitle">Pending boundary for Paper 40: rGO-Vitrimer active metamaterials, bistable &amp; elastomeric e-paper, chiral CNC Bio-Bragg projectors, and nanodiamond quantum displays</span>
     <div class="thm_header_extras">
 
@@ -94105,7 +94643,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-rgo-vitrimer-active-metamaterial-epaper-and-nanodiamond-display-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000442"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000443"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -94137,7 +94675,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-cnc-chiral-bragg-wavelength">Definition 425</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-soliton-gires-tournois-phase-enhancement">Definition 418</a></li>
           
@@ -94184,7 +94722,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000442">
+<div class="proof_wrapper" id="a0000000443">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -94201,7 +94739,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1489</span>
+    <span class="lemma_thmlabel">1499</span>
     <span class="lemma_thmtitle">Pending deep gap-closure boundary for Paper 40: GTE all-phase unitarity, DVM multi-strip fidelity, rGO-Bio-TPU Brownian/electro kinetics, oblique CNC Bragg compensation, and NV ODMR phase-drift cancellation</span>
     <div class="thm_header_extras">
 
@@ -94212,7 +94750,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-rgo-vitrimer-display-deep-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000443"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000444"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -94230,7 +94768,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-cnc-oblique-strain-compensation">Definition 435</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-soliton-nv-diamond-odmr-splitting-mhz">Definition 428</a></li>
           
@@ -94283,7 +94821,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000443">
+<div class="proof_wrapper" id="a0000000444">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -94300,7 +94838,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1490</span>
+    <span class="lemma_thmlabel">1500</span>
     <span class="lemma_thmtitle">Pending boundary for Paper 41: Lignolux Omni-Carbon Kinetic batteries, Q-Node pseudocapacitors, Semi-Dirac quantum capacitance, QCI-GXC DFT passivation, and biodegradable/recyclable electrical components</span>
     <div class="thm_header_extras">
 
@@ -94311,7 +94849,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-omni-carbon-kinetic-energy-storage-dft-and-components-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000444"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000445"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -94343,7 +94881,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-omni-carbon-circular-pack-cost">Definition 450</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-soliton-hbn-lightning-gulp-fluid-temp">Definition 448</a></li>
           
@@ -94388,7 +94926,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000444">
+<div class="proof_wrapper" id="a0000000445">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -94405,7 +94943,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1491</span>
+    <span class="lemma_thmlabel">1501</span>
     <span class="lemma_thmtitle">Pending deep gap-closure boundary for Paper 41: Ragone efficiency, SiS polyiodide shuttle suppression, 576x microwave phenolation speedup, 16.25 MWh/mile rail storage, and 98% closed-loop solvolysis recovery</span>
     <div class="thm_header_extras">
 
@@ -94416,7 +94954,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-omni-carbon-energy-storage-deep-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000445"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000446"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -94444,7 +94982,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-ragone-terminal-efficiency">Definition 452</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-soliton-supercapacitor-volumetric-energy-density">Definition 464</a></li>
           
@@ -94497,7 +95035,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000445">
+<div class="proof_wrapper" id="a0000000446">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -94514,7 +95052,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1492</span>
+    <span class="lemma_thmlabel">1502</span>
     <span class="lemma_thmtitle">Pending boundary for Paper 42: Plasma-fluffed hemostatic gauze, Sprout-Zero diapers, Aero-Fleece, CAM struvite geotextiles, and FJH quartzite plasma tubes</span>
     <div class="thm_header_extras">
 
@@ -94525,7 +95063,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-plasma-fluffed-gauze-diaper-fleece-geotextile-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000446"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000447"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -94553,7 +95091,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-quartz-tube-optical-transmittance">Definition 468</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-soliton-chitosan-alginate-pec-charge-neutrality">Definition 472</a></li>
           
@@ -94606,7 +95144,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000446">
+<div class="proof_wrapper" id="a0000000447">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -94623,7 +95161,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1493</span>
+    <span class="lemma_thmlabel">1503</span>
     <span class="lemma_thmtitle">Pending deep gap-closure boundary for Paper 42: MgO stoichiometry, 25:1 soil C:N balance, 77.8%-98.1% margins, 75.95% Omega-3 OpEx coverage, and $876k/yr hemp-dust savings</span>
     <div class="thm_header_extras">
 
@@ -94634,7 +95172,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-plasma-fluffed-bio-foundry-deep-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000447"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000448"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -94652,7 +95190,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-soil-carbon-to-nitrogen-ratio">Definition 481</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-soliton-k-struvite-competitive-selectivity">Definition 485</a></li>
           
@@ -94707,7 +95245,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000447">
+<div class="proof_wrapper" id="a0000000448">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -94724,7 +95262,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1494</span>
+    <span class="lemma_thmlabel">1504</span>
     <span class="lemma_thmtitle">Pending boundary for Paper 43: Layer-coded Plabic &amp; Complex VRC quantum chemistry in MADNESS MRA-PNO and Tequila</span>
     <div class="thm_header_extras">
 
@@ -94735,7 +95273,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-madness-tequila-plabic-vrc-quantum-chemistry-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000448"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000449"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -94781,7 +95319,7 @@
           
           <li><a href="sect0001.html#def:signals-dft-mra-gtensor-compression-ratio">Definition 1328</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-vector-relation-configuration">Definition 23</a></li>
           
@@ -94826,7 +95364,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000448">
+<div class="proof_wrapper" id="a0000000449">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -94843,7 +95381,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1495</span>
+    <span class="lemma_thmlabel">1505</span>
     <span class="lemma_thmtitle">Pending deep gap-closure boundary for Paper 43: Open-shell MRA-PNO, PySCF-free Cayley orbital optimization, VRC pair-energy bounds, separated BSH convolution, and lower Grassmannian active spaces</span>
     <div class="thm_header_extras">
 
@@ -94854,7 +95392,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-madness-tequila-open-shell-cayley-f12-and-lower-grassmannian-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000449"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000450"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -94886,7 +95424,7 @@
           
           <li><a href="sect0001.html#def:signals-cayley-retraction-norm-sq">Definition 1104</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-dft-sun-real-dim">Definition 1302</a></li>
           
@@ -94937,7 +95475,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000449">
+<div class="proof_wrapper" id="a0000000450">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -94954,7 +95492,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1496</span>
+    <span class="lemma_thmlabel">1506</span>
     <span class="lemma_thmtitle">Pending boundary for Paper 44: Rust/PyO3 Grassmannian-Plabic-VRC-QCI Tequila quantum simulation backend</span>
     <div class="thm_header_extras">
 
@@ -94965,7 +95503,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-tequila-rust-pyo3-grassmannian-vrc-qci-simulator-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000450"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000451"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -94981,7 +95519,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-dft-tequila-full-hilbert-dim">Definition 1343</a></li>
           
@@ -95034,7 +95572,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000450">
+<div class="proof_wrapper" id="a0000000451">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -95051,7 +95589,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1497</span>
+    <span class="lemma_thmlabel">1507</span>
     <span class="lemma_thmtitle">Deep gap-closure pending boundary for Paper 44: High-n butterfly folding, permanent-determinant bridge, and 128-bit sparse Plücker scaling</span>
     <div class="thm_header_extras">
 
@@ -95062,7 +95600,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-tequila-high-n-butterfly-plucker-128bit-memory-ceiling-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000451"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000452"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -95080,7 +95618,7 @@
           
           <li><a href="sect0001.html#def:signals-dft-tequila-fermionic-determinant-2x2">Definition 1355</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-dft-tequila-full-hilbert-dim">Definition 1343</a></li>
           
@@ -95137,7 +95675,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000451">
+<div class="proof_wrapper" id="a0000000452">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -95154,7 +95692,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1498</span>
+    <span class="lemma_thmlabel">1508</span>
     <span class="lemma_thmtitle">Pending boundary for Paper 45: ER=EPR in Witten’s SU(4) and Gr_C(2,4) Plückers, light-cone vs. tachyon/off-shell sectors, and massless vs. semi-Dirac wormhole transit</span>
     <div class="thm_header_extras">
 
@@ -95165,7 +95703,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-er-epr-su4-plucker-tachyon-offshell-and-semi-dirac-wormhole-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000452"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000453"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -95191,7 +95729,7 @@
           
           <li><a href="sect0001.html#def:signals-dft-wormhole-net-null-defocusing-flux">Definition 1362</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-dft-semi-dirac-wormhole-transit-energy-sq">Definition 1363</a></li>
           
@@ -95252,7 +95790,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000452">
+<div class="proof_wrapper" id="a0000000453">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -95269,7 +95807,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1499</span>
+    <span class="lemma_thmlabel">1509</span>
     <span class="lemma_thmtitle">Deep gap-closure pending boundary for Paper 45: Semi-Dirac ER=EPR wormhole and soliton-bridge transceiver</span>
     <div class="thm_header_extras">
 
@@ -95280,7 +95818,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-semi-dirac-er-epr-wormhole-transceiver-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000453"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000454"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -95296,7 +95834,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-dft-wormhole-net-null-defocusing-flux">Definition 1362</a></li>
           
@@ -95351,7 +95889,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000453">
+<div class="proof_wrapper" id="a0000000454">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -95368,7 +95906,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1500</span>
+    <span class="lemma_thmlabel">1510</span>
     <span class="lemma_thmtitle">Pending boundary for Section 23.2: Transceiver comparison table (range, power, error, efficiency, with QEC) and critique gap-closure</span>
     <div class="thm_header_extras">
 
@@ -95379,7 +95917,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-semi-dirac-er-epr-transceiver-comparison-qec-and-critique-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000454"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000455"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -95395,7 +95933,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-dft-er-epr-exact-unitary-rx-probability">Definition 1378</a></li>
           
@@ -95448,7 +95986,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000454">
+<div class="proof_wrapper" id="a0000000455">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -95465,7 +96003,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1501</span>
+    <span class="lemma_thmlabel">1511</span>
     <span class="lemma_thmtitle">Pending boundary for Section 23.3: Holographic Gr_C(2,4) depth recovery and multi-array decoding of sub-wavelength diffracted 3D photons</span>
     <div class="thm_header_extras">
 
@@ -95476,7 +96014,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-subwavelength-photonic-wormhole-holographic-multiarray-decoding-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000455"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000456"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -95508,7 +96046,7 @@
           
           <li><a href="sect0001.html#def:signals-imaging-cascaded-nano-linewidth-sq">Definition 988</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-ddf-recover-depth-variance-sq">Definition 828</a></li>
           
@@ -95555,7 +96093,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000455">
+<div class="proof_wrapper" id="a0000000456">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -95572,7 +96110,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1502</span>
+    <span class="lemma_thmlabel">1512</span>
     <span class="lemma_thmtitle">Pending boundary for Section 23.4: QISM, Algebraic Bethe Ansatz, and Inverse Scattering wormhole decoding</span>
     <div class="thm_header_extras">
 
@@ -95583,7 +96121,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-qism-bethe-ansatz-wormhole-decoding-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000456"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000457"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -95641,7 +96179,7 @@
           
           <li><a href="sect0001.html#def:signals-qism-baxter-tq-residual">Definition 137</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-scattering-yang-transmission-prob">Definition 187</a></li>
           
@@ -95692,7 +96230,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000456">
+<div class="proof_wrapper" id="a0000000457">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -95709,7 +96247,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1503</span>
+    <span class="lemma_thmlabel">1513</span>
     <span class="lemma_thmtitle">Pending boundary for Section 23.4.1: Slavnov Wronskian factorization, noisy MIMO collision SNR, overhead-inclusive speedup, soft impedance matching, and finite TRUE tagging</span>
     <div class="thm_header_extras">
 
@@ -95720,7 +96258,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-qism-slavnov-pauli-wronskian-mimo-and-impedance-critique-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000457"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000458"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -95740,7 +96278,7 @@
           
           <li><a href="sect0001.html#def:signals-dft-qism-slavnov-full-pipeline-speedup">Definition 1387</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-dft-wormhole-net-null-defocusing-flux">Definition 1362</a></li>
           
@@ -95795,7 +96333,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000457">
+<div class="proof_wrapper" id="a0000000458">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -95812,7 +96350,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1504</span>
+    <span class="lemma_thmlabel">1514</span>
     <span class="lemma_thmtitle">Pending boundary for Section 24: Grassmannian–DDF Thermo-Electro-Magnetics (G-DDF-TEM) vs. Lord–Shulman across all four Gr_C(2,4) strata</span>
     <div class="thm_header_extras">
 
@@ -95823,7 +96361,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-gddf-thermo-electro-magnetics-vs-lord-shulman-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000458"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000459"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -95861,7 +96399,7 @@
           
           <li><a href="sect0001.html#def:signals-dft-onsager-peltier-from-seebeck">Definition 1402</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-dft-gddf-relativistic-magneto-elastic-speed-sq">Definition 1396</a></li>
           
@@ -95914,7 +96452,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000458">
+<div class="proof_wrapper" id="a0000000459">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -95931,7 +96469,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1505</span>
+    <span class="lemma_thmlabel">1515</span>
     <span class="lemma_thmtitle">Pending boundary for Section 24.1: G-DDF-TEM unification with Cuprate (G-CSC) and Rhombohedral/Moiré Graphene (G-MGS) superconducting thermo-electro-magnetics</span>
     <div class="thm_header_extras">
 
@@ -95942,7 +96480,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-gddf-tem-cuprate-gcsc-and-graphene-gmgs-synthesis-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000459"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000460"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -95974,7 +96512,7 @@
           
           <li><a href="sect0001.html#def:signals-cuprate-resonant-ultrasound-modulus-shift">Definition 1206</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-dft-supersolid-bimodal-second-sound-speed-sq">Definition 1415</a></li>
           
@@ -96023,7 +96561,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000459">
+<div class="proof_wrapper" id="a0000000460">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -96040,7 +96578,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1506</span>
+    <span class="lemma_thmlabel">1516</span>
     <span class="lemma_thmtitle">Pending boundary for Section 24.2: G-DDF-TEM unification with Time-Linear Grassmannian G-GKBA (Paper 24 / Problem 04)</span>
     <div class="thm_header_extras">
 
@@ -96051,7 +96589,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-gddf-tem-ggkba-light-driven-synthesis-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000460"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000461"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -96071,7 +96609,7 @@
           
           <li><a href="sect0001.html#def:signals-dft-ggkba-hubbard-correlated-thermoelastic-coupling">Definition 1419</a></li>
           
-          <li><a href="sect0001.html#def:signals-light-driven-materials-contract">Definition 1468</a></li>
+          <li><a href="sect0001.html#def:signals-light-driven-materials-contract">Definition 1478</a></li>
           
           <li><a href="sect0001.html#def:signals-dft-ggkba-wse2-intervalley-phonon-heat-source">Definition 1421</a></li>
           
@@ -96124,7 +96662,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000460">
+<div class="proof_wrapper" id="a0000000461">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -96136,13 +96674,13 @@
 
   </div>
 </div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:pending-twistor-sink-momentum-balance">
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:signals-pending-ddf-fracture-communication-vs-er-epr-wormhole-bounds">
   <div class="lemma_thmheading">
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1507</span>
-    <span class="lemma_thmtitle">Pending bi-twistor sink momentum conservation</span>
+    <span class="lemma_thmlabel">1517</span>
+    <span class="lemma_thmtitle">Pending boundary for Section 25: DDF fracture-based communication vs. ER=EPR entanglement/wormholes and hybrid synthesis</span>
     <div class="thm_header_extras">
 
     
@@ -96150,9 +96688,9 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="sect0001.html#lem:pending-twistor-sink-momentum-balance">#</a>
+    <a class="icon proof" href="sect0001.html#lem:signals-pending-ddf-fracture-communication-vs-er-epr-wormhole-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000461"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000462"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -96168,9 +96706,114 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-twistor-momentum-sink">Definition 1435</a></li>
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-vs-wormhole-quantum-fidelity">Definition 1429</a></li>
           
-          <li><a href="sect0001.html#lem:signals-craft-momentum-opposite-wake">Lemma 1436</a></li>
+          <li><a href="sect0001.html#def:signals-dft-er-epr-transceiver-differential-contrast">Definition 1367</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-magnus-subtracted-residual">Definition 1424</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-deborah-ratio">Definition 1425</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-causal-transit-margin">Definition 1427</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-overload-excess-shear">Definition 1430</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-standalone-bit-contrast">Definition 1428</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-hybrid-fracture-keyed-er-epr-rx-probability">Definition 1431</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-wormhole-net-null-defocusing-flux">Definition 1362</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-corridor-guiding-gain">Definition 1426</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-er-epr-throat-area-from-plucker">Definition 1359</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-ddf-fracture-total-channel-signal">Definition 1423</a></li>
+          
+          <li><a href="sect0001.html#def:signals-dft-er-epr-plucker-concurrence-sq">Definition 1358</a></li>
+          
+          <li><a href="sect0001.html#thm:signals-dft-ddf-fracture-communication-vs-er-epr-wormhole-identities">Theorem 1432</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="signals-api/find/#doc/Signals.Pending.DDFFractureCommunicationEvidence.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_bounds" class="lean_decl">Signals.Pending.DDFFractureCommunicationEvidence.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_bounds</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Under a <span class="ttfamily">DDFFractureCommunicationEvidence</span> contract, all Section 25 DDF fracture communication vs. \(\mathrm{ER}=\mathrm{EPR}\) wormhole discrimination and hybrid fracture-keyed synthesis identities hold simultaneously alongside <span class="ttfamily">not_supported_by_noncausal_mode</span>. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000462">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p> Combine <span class="ttfamily">DDFFractureCommunicationEvidence.not_supported_by_noncausal_mode</span> with <span class="ttfamily">Signals.DFT.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities</span>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:pending-twistor-sink-momentum-balance">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1518</span>
+    <span class="lemma_thmtitle">Pending bi-twistor sink momentum conservation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:pending-twistor-sink-momentum-balance">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000463"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:signals-twistor-momentum-sink">Definition 1445</a></li>
+          
+          <li><a href="sect0001.html#lem:signals-craft-momentum-opposite-wake">Lemma 1446</a></li>
           
         </ul>
     
@@ -96205,7 +96848,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000461">
+<div class="proof_wrapper" id="a0000000463">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -96222,7 +96865,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1508</span>
+    <span class="lemma_thmlabel">1519</span>
     <span class="lemma_thmtitle">Pending pulsed wakefield Dawson energy ceiling</span>
     <div class="thm_header_extras">
 
@@ -96233,7 +96876,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-pulsed-wakefield-dawson-ceiling">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000462"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000464"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -96249,11 +96892,11 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-pulsed-wakefield-halbach">Definition 1438</a></li>
+          <li><a href="sect0001.html#def:signals-pulsed-wakefield-halbach">Definition 1448</a></li>
           
           <li><a href="sect0001.html#def:signals-electrostatic-wave-energy-density">Definition 568</a></li>
           
-          <li><a href="sect0001.html#lem:signals-extracted-pulse-energy-le-dawson">Lemma 1439</a></li>
+          <li><a href="sect0001.html#lem:signals-extracted-pulse-energy-le-dawson">Lemma 1449</a></li>
           
         </ul>
     
@@ -96288,7 +96931,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000462">
+<div class="proof_wrapper" id="a0000000464">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -96305,7 +96948,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1509</span>
+    <span class="lemma_thmlabel">1520</span>
     <span class="lemma_thmtitle">Pending supercritical DDF phase-slip requires external drive power</span>
     <div class="thm_header_extras">
 
@@ -96316,7 +96959,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-ddf-zero-drive-zero-thrust">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000463"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000465"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -96332,9 +96975,9 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-ddf-phase-slip-hull-stress">Definition 1441</a></li>
+          <li><a href="sect0001.html#def:signals-ddf-phase-slip-hull-stress">Definition 1451</a></li>
           
-          <li><a href="sect0001.html#lem:signals-ddf-zero-drive-zero-thrust">Lemma 1443</a></li>
+          <li><a href="sect0001.html#lem:signals-ddf-zero-drive-zero-thrust">Lemma 1453</a></li>
           
         </ul>
     
@@ -96369,7 +97012,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000463">
+<div class="proof_wrapper" id="a0000000465">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -96386,7 +97029,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1510</span>
+    <span class="lemma_thmlabel">1521</span>
     <span class="lemma_thmtitle">Pending He-3 supercritical and solidification phase constraints</span>
     <div class="thm_header_extras">
 
@@ -96397,7 +97040,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-cryogenic-spool-he3-phase-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000464"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000466"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -96413,15 +97056,15 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-he3-can-solidify">Definition 1446</a></li>
+          <li><a href="sect0001.html#def:signals-he3-can-solidify">Definition 1456</a></li>
           
-          <li><a href="sect0001.html#def:signals-cryogenic-spool-amb">Definition 1444</a></li>
+          <li><a href="sect0001.html#def:signals-cryogenic-spool-amb">Definition 1454</a></li>
           
-          <li><a href="sect0001.html#def:signals-he3-supercritical-gas">Definition 1445</a></li>
+          <li><a href="sect0001.html#def:signals-he3-supercritical-gas">Definition 1455</a></li>
           
-          <li><a href="sect0001.html#lem:signals-he3-no-solid-seal-below-3-4-mpa">Lemma 1448</a></li>
+          <li><a href="sect0001.html#lem:signals-he3-no-solid-seal-below-3-4-mpa">Lemma 1458</a></li>
           
-          <li><a href="sect0001.html#lem:signals-he3-supercritical-at-39k">Lemma 1447</a></li>
+          <li><a href="sect0001.html#lem:signals-he3-supercritical-at-39k">Lemma 1457</a></li>
           
         </ul>
     
@@ -96456,7 +97099,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000464">
+<div class="proof_wrapper" id="a0000000466">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -96473,7 +97116,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1511</span>
+    <span class="lemma_thmlabel">1522</span>
     <span class="lemma_thmtitle">Pending Hawking synthesis GPE potential recovery and Page bond-dimension bound</span>
     <div class="thm_header_extras">
 
@@ -96484,7 +97127,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-hawking-synthesis-gpe-and-page-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000465"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000467"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -96506,13 +97149,13 @@
           
           <li><a href="sect0001.html#def:signals-selected-minor">Definition 39</a></li>
           
-          <li><a href="sect0001.html#def:signals-hawking-grassmannian-synthesis-contract">Definition 1431</a></li>
+          <li><a href="sect0001.html#def:signals-hawking-grassmannian-synthesis-contract">Definition 1441</a></li>
           
-          <li><a href="sect0001.html#lem:signals-hawking-synthesis-gpe-potential-recovery">Lemma 1432</a></li>
+          <li><a href="sect0001.html#lem:signals-hawking-synthesis-gpe-potential-recovery">Lemma 1442</a></li>
           
-          <li><a href="sect0001.html#lem:signals-hawking-synthesis-als-rank-lt-page-bond">Lemma 1433</a></li>
+          <li><a href="sect0001.html#lem:signals-hawking-synthesis-als-rank-lt-page-bond">Lemma 1443</a></li>
           
-          <li><a href="sect0001.html#lem:signals-hawking-decoding-width-le-height">Lemma 1429</a></li>
+          <li><a href="sect0001.html#lem:signals-hawking-decoding-width-le-height">Lemma 1439</a></li>
           
         </ul>
     
@@ -96547,7 +97190,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000465">
+<div class="proof_wrapper" id="a0000000467">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -96564,7 +97207,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1512</span>
+    <span class="lemma_thmlabel">1523</span>
     <span class="lemma_thmtitle">Pending multi-modal sub-surface imaging 3D Layer-Code, LIFU, TRUE, and &lt;1nm bounds</span>
     <div class="thm_header_extras">
 
@@ -96575,7 +97218,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-multi-modal-subsurface-imaging-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000466"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000468"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -96595,11 +97238,11 @@
           
           <li><a href="sect0001.html#def:signals-imaging-true-peak-to-background-gain">Definition 986</a></li>
           
-          <li><a href="sect0001.html#def:signals-multi-modal-subsurface-imaging-hypothesis">Definition 1455</a></li>
+          <li><a href="sect0001.html#def:signals-multi-modal-subsurface-imaging-hypothesis">Definition 1465</a></li>
           
           <li><a href="sect0001.html#def:signals-imaging-cascaded-nano-linewidth-sq">Definition 988</a></li>
           
-          <li><a href="sect0001.html#lem:signals-multi-modal-subsurface-safety-and-resolution-bounds">Lemma 1456</a></li>
+          <li><a href="sect0001.html#lem:signals-multi-modal-subsurface-safety-and-resolution-bounds">Lemma 1466</a></li>
           
         </ul>
     
@@ -96634,7 +97277,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000466">
+<div class="proof_wrapper" id="a0000000468">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -96651,7 +97294,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1513</span>
+    <span class="lemma_thmlabel">1524</span>
     <span class="lemma_thmtitle">Pending quantum causal inference, Mpemba shortcut, and entropy-siphoning Second-Law bounds</span>
     <div class="thm_header_extras">
 
@@ -96662,7 +97305,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-quantum-causal-mpemba-entropy-siphon-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000467"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000469"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -96678,11 +97321,11 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-quantum-causal-mpemba-entropy-siphon-contract">Definition 1457</a></li>
+          <li><a href="sect0001.html#def:signals-quantum-causal-mpemba-entropy-siphon-contract">Definition 1467</a></li>
           
           <li><a href="sect0001.html#def:signals-werner-conditional-entropy-at-half">Definition 1015</a></li>
           
-          <li><a href="sect0001.html#lem:signals-quantum-causal-mpemba-entropy-siphon-bounds">Lemma 1458</a></li>
+          <li><a href="sect0001.html#lem:signals-quantum-causal-mpemba-entropy-siphon-bounds">Lemma 1468</a></li>
           
         </ul>
     
@@ -96717,7 +97360,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000467">
+<div class="proof_wrapper" id="a0000000469">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -96734,7 +97377,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1514</span>
+    <span class="lemma_thmlabel">1525</span>
     <span class="lemma_thmtitle">Pending Complex Grassmannian GPE, dual iGPE, and Plücker Madelung summary bounds</span>
     <div class="thm_header_extras">
 
@@ -96745,7 +97388,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-complex-grassmannian-gpe-plucker-madelung-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000468"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000470"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -96787,9 +97430,9 @@
           
           <li><a href="sect0001.html#def:signals-ddf-plucker-contravariant-metric-apply">Definition 911</a></li>
           
-          <li><a href="sect0001.html#def:signals-complex-grassmannian-gpe-plucker-madelung-contract">Definition 1459</a></li>
+          <li><a href="sect0001.html#def:signals-complex-grassmannian-gpe-plucker-madelung-contract">Definition 1469</a></li>
           
-          <li><a href="sect0001.html#lem:signals-complex-grassmannian-gpe-plucker-madelung-bounds">Lemma 1460</a></li>
+          <li><a href="sect0001.html#lem:signals-complex-grassmannian-gpe-plucker-madelung-bounds">Lemma 1470</a></li>
           
         </ul>
     
@@ -96824,7 +97467,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000468">
+<div class="proof_wrapper" id="a0000000470">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -96841,7 +97484,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1515</span>
+    <span class="lemma_thmlabel">1526</span>
     <span class="lemma_thmtitle">Pending Quantum Causal JEV/QCDT, Bundle-Transformer, and QFT/QRAM Soliton VideoGen summary bounds</span>
     <div class="thm_header_extras">
 
@@ -96852,7 +97495,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-quantum-causal-bundle-videogen-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000469"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000471"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -96886,11 +97529,11 @@
           
           <li><a href="sect0001.html#def:signals-plucker-2d-coord">Definition 1035</a></li>
           
-          <li><a href="sect0001.html#def:signals-quantum-causal-bundle-videogen-contract">Definition 1461</a></li>
+          <li><a href="sect0001.html#def:signals-quantum-causal-bundle-videogen-contract">Definition 1471</a></li>
           
           <li><a href="sect0001.html#def:signals-spatiotemporal-full-attention-complexity">Definition 1043</a></li>
           
-          <li><a href="sect0001.html#lem:signals-quantum-causal-bundle-videogen-bounds">Lemma 1462</a></li>
+          <li><a href="sect0001.html#lem:signals-quantum-causal-bundle-videogen-bounds">Lemma 1472</a></li>
           
         </ul>
     
@@ -96925,7 +97568,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000469">
+<div class="proof_wrapper" id="a0000000471">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -96942,7 +97585,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1516</span>
+    <span class="lemma_thmlabel">1527</span>
     <span class="lemma_thmtitle">Pending &gt;6,400x Splat-Grassmann, Jeffrey Kinematic Engine, Surgical Nanoimaging, and Quantum Causal GraphRAG summary bounds</span>
     <div class="thm_header_extras">
 
@@ -96953,7 +97596,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-quantum-causal-surgical-splat-graphrag-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000470"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000472"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -97005,9 +97648,9 @@
           
           <li><a href="sect0001.html#def:signals-ddf-recover-depth-variance-sq">Definition 828</a></li>
           
-          <li><a href="sect0001.html#def:signals-quantum-causal-surgical-splat-graphrag-contract">Definition 1463</a></li>
+          <li><a href="sect0001.html#def:signals-quantum-causal-surgical-splat-graphrag-contract">Definition 1473</a></li>
           
-          <li><a href="sect0001.html#lem:signals-quantum-causal-surgical-splat-graphrag-bounds">Lemma 1464</a></li>
+          <li><a href="sect0001.html#lem:signals-quantum-causal-surgical-splat-graphrag-bounds">Lemma 1474</a></li>
           
         </ul>
     
@@ -97042,7 +97685,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000470">
+<div class="proof_wrapper" id="a0000000472">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -97059,7 +97702,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1517</span>
+    <span class="lemma_thmlabel">1528</span>
     <span class="lemma_thmtitle">Pending Complex Grassmannian VRC, QCI-GXC Kohn-Sham DFT, and Topological Multi-Qudit summary bounds</span>
     <div class="thm_header_extras">
 
@@ -97070,7 +97713,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-quantum-causal-grassmannian-dft-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000471"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000473"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -97118,9 +97761,9 @@
           
           <li><a href="sect0001.html#def:signals-vrc-boundary-matrix">Definition 24</a></li>
           
-          <li><a href="sect0001.html#def:signals-quantum-causal-grassmannian-dft-contract">Definition 1465</a></li>
+          <li><a href="sect0001.html#def:signals-quantum-causal-grassmannian-dft-contract">Definition 1475</a></li>
           
-          <li><a href="sect0001.html#lem:signals-quantum-causal-grassmannian-dft-bounds">Lemma 1466</a></li>
+          <li><a href="sect0001.html#lem:signals-quantum-causal-grassmannian-dft-bounds">Lemma 1476</a></li>
           
         </ul>
     
@@ -97155,7 +97798,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000471">
+<div class="proof_wrapper" id="a0000000473">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -97172,7 +97815,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1518</span>
+    <span class="lemma_thmlabel">1529</span>
     <span class="lemma_thmtitle">Pending Grassmannian DFT 55-subset two-electron ERI, GMTKN55 WTMAD-2, optional Complex VRC, and Skyrmion/MZM summary bounds</span>
     <div class="thm_header_extras">
 
@@ -97183,7 +97826,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-quantum-causal-grassmannian-dft-eri-wtmad2-and-vrc-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000472"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000474"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -97223,9 +97866,9 @@
           
           <li><a href="sect0001.html#def:signals-skyrmion-pontryagin-charge">Definition 1122</a></li>
           
-          <li><a href="sect0001.html#def:signals-quantum-causal-grassmannian-dft-contract">Definition 1465</a></li>
+          <li><a href="sect0001.html#def:signals-quantum-causal-grassmannian-dft-contract">Definition 1475</a></li>
           
-          <li><a href="sect0001.html#lem:signals-quantum-causal-grassmannian-dft-eri-wtmad2-and-vrc-bounds">Lemma 1467</a></li>
+          <li><a href="sect0001.html#lem:signals-quantum-causal-grassmannian-dft-eri-wtmad2-and-vrc-bounds">Lemma 1477</a></li>
           
         </ul>
     
@@ -97260,7 +97903,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000472">
+<div class="proof_wrapper" id="a0000000474">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -97277,7 +97920,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1519</span>
+    <span class="lemma_thmlabel">1530</span>
     <span class="lemma_thmtitle">Pending Discovered Materials Problem 04 (Tuning Materials with Light) summary bounds</span>
     <div class="thm_header_extras">
 
@@ -97288,7 +97931,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-light-driven-materials-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000473"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000475"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -97318,7 +97961,7 @@
           
           <li><a href="sect0001.html#def:signals-mgb2-lower-pi-gap-sq">Definition 1153</a></li>
           
-          <li><a href="sect0001.html#def:signals-light-driven-materials-contract">Definition 1468</a></li>
+          <li><a href="sect0001.html#def:signals-light-driven-materials-contract">Definition 1478</a></li>
           
           <li><a href="sect0001.html#def:signals-mgb2-katsumi-critical-temp-k">Definition 1152</a></li>
           
@@ -97330,7 +97973,7 @@
           
           <li><a href="sect0001.html#def:signals-hubbard-correlated-double-occupancy">Definition 1141</a></li>
           
-          <li><a href="sect0001.html#lem:signals-light-driven-materials-bounds">Lemma 1469</a></li>
+          <li><a href="sect0001.html#lem:signals-light-driven-materials-bounds">Lemma 1479</a></li>
           
         </ul>
     
@@ -97365,7 +98008,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000473">
+<div class="proof_wrapper" id="a0000000475">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -97382,7 +98025,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1520</span>
+    <span class="lemma_thmlabel">1531</span>
     <span class="lemma_thmtitle">Pending Problem 04 critique and gap-closure summary bounds</span>
     <div class="thm_header_extras">
 
@@ -97393,7 +98036,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-light-driven-materials-critique-and-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000474"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000476"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -97409,7 +98052,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-light-driven-materials-contract">Definition 1468</a></li>
+          <li><a href="sect0001.html#def:signals-light-driven-materials-contract">Definition 1478</a></li>
           
           <li><a href="sect0001.html#def:signals-mgb2-non-equilibrium-critical-temp">Definition 1164</a></li>
           
@@ -97421,7 +98064,7 @@
           
           <li><a href="sect0001.html#def:signals-effective-ggkba-speedup-with-cumulants">Definition 1159</a></li>
           
-          <li><a href="sect0001.html#lem:signals-light-driven-materials-critique-and-gap-closure-bounds">Lemma 1470</a></li>
+          <li><a href="sect0001.html#lem:signals-light-driven-materials-critique-and-gap-closure-bounds">Lemma 1480</a></li>
           
         </ul>
     
@@ -97456,7 +98099,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000474">
+<div class="proof_wrapper" id="a0000000476">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -97473,7 +98116,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1521</span>
+    <span class="lemma_thmlabel">1532</span>
     <span class="lemma_thmtitle">Pending Discovered Materials Problem 05 (Predicting Heat Transport across Solid Interfaces) summary bounds</span>
     <div class="thm_header_extras">
 
@@ -97484,7 +98127,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-interfacial-heat-transport-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000475"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000477"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -97518,13 +98161,13 @@
           
           <li><a href="sect0001.html#def:signals-gtbc-al-si-300k-conductance">Definition 1173</a></li>
           
-          <li><a href="sect0001.html#def:signals-interfacial-heat-transport-contract">Definition 1471</a></li>
+          <li><a href="sect0001.html#def:signals-interfacial-heat-transport-contract">Definition 1481</a></li>
           
           <li><a href="sect0001.html#def:signals-gtbc-al-gan-300k-conductance">Definition 1174</a></li>
           
           <li><a href="sect0001.html#def:signals-gtbc-bond-weighted-transmission">Definition 1169</a></li>
           
-          <li><a href="sect0001.html#lem:signals-interfacial-heat-transport-bounds">Lemma 1472</a></li>
+          <li><a href="sect0001.html#lem:signals-interfacial-heat-transport-bounds">Lemma 1482</a></li>
           
         </ul>
     
@@ -97559,7 +98202,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000475">
+<div class="proof_wrapper" id="a0000000477">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -97576,7 +98219,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1522</span>
+    <span class="lemma_thmlabel">1533</span>
     <span class="lemma_thmtitle">Pending Problem 05 critique, gap closure, and per-dataset G-TBC error summary bounds</span>
     <div class="thm_header_extras">
 
@@ -97587,7 +98230,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-interfacial-heat-transport-critique-and-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000476"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000478"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -97611,7 +98254,7 @@
           
           <li><a href="sect0001.html#def:signals-gtbc-relative-error">Definition 1190</a></li>
           
-          <li><a href="sect0001.html#def:signals-interfacial-heat-transport-contract">Definition 1471</a></li>
+          <li><a href="sect0001.html#def:signals-interfacial-heat-transport-contract">Definition 1481</a></li>
           
           <li><a href="sect0001.html#def:signals-gtbc-carbide-interlayer-conductance">Definition 1186</a></li>
           
@@ -97621,7 +98264,7 @@
           
           <li><a href="sect0001.html#def:signals-gtbc-bond-compliance-ratio">Definition 1184</a></li>
           
-          <li><a href="sect0001.html#lem:signals-interfacial-heat-transport-critique-and-error-bounds">Lemma 1473</a></li>
+          <li><a href="sect0001.html#lem:signals-interfacial-heat-transport-critique-and-error-bounds">Lemma 1483</a></li>
           
         </ul>
     
@@ -97656,7 +98299,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000476">
+<div class="proof_wrapper" id="a0000000478">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -97673,7 +98316,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1523</span>
+    <span class="lemma_thmlabel">1534</span>
     <span class="lemma_thmtitle">Pending Discovered Materials Problem 01 (Cuprate Superconductivity) summary bounds</span>
     <div class="thm_header_extras">
 
@@ -97684,7 +98327,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-cuprate-superconductivity-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000477"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000479"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -97708,7 +98351,7 @@
           
           <li><a href="sect0001.html#def:signals-cuprate-dwave-form-factor">Definition 1195</a></li>
           
-          <li><a href="sect0001.html#def:signals-cuprate-superconductivity-contract">Definition 1474</a></li>
+          <li><a href="sect0001.html#def:signals-cuprate-superconductivity-contract">Definition 1484</a></li>
           
           <li><a href="sect0001.html#def:signals-cuprate-pseudogap-temp">Definition 1198</a></li>
           
@@ -97730,7 +98373,7 @@
           
           <li><a href="sect0001.html#def:signals-cuprate-cdw-structure-factor-peak">Definition 1204</a></li>
           
-          <li><a href="sect0001.html#lem:signals-cuprate-superconductivity-bounds">Lemma 1475</a></li>
+          <li><a href="sect0001.html#lem:signals-cuprate-superconductivity-bounds">Lemma 1485</a></li>
           
         </ul>
     
@@ -97765,7 +98408,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000477">
+<div class="proof_wrapper" id="a0000000479">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -97782,7 +98425,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1524</span>
+    <span class="lemma_thmlabel">1535</span>
     <span class="lemma_thmtitle">Pending Problem 01 gap-closure summary bounds</span>
     <div class="thm_header_extras">
 
@@ -97793,7 +98436,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-cuprate-superconductivity-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000478"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000480"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -97809,7 +98452,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-cuprate-superconductivity-contract">Definition 1474</a></li>
+          <li><a href="sect0001.html#def:signals-cuprate-superconductivity-contract">Definition 1484</a></li>
           
           <li><a href="sect0001.html#def:signals-cuprate-momentum-resolved-cdw-structure-factor">Definition 1217</a></li>
           
@@ -97831,7 +98474,7 @@
           
           <li><a href="sect0001.html#def:signals-cuprate-yrz-pseudogap-self-energy">Definition 1212</a></li>
           
-          <li><a href="sect0001.html#lem:signals-cuprate-superconductivity-gap-closure-bounds">Lemma 1476</a></li>
+          <li><a href="sect0001.html#lem:signals-cuprate-superconductivity-gap-closure-bounds">Lemma 1486</a></li>
           
         </ul>
     
@@ -97866,7 +98509,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000478">
+<div class="proof_wrapper" id="a0000000480">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -97883,7 +98526,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1525</span>
+    <span class="lemma_thmlabel">1536</span>
     <span class="lemma_thmtitle">Pending Discovered Materials Problem 02 (Interfacial Electrical Properties from Processing History) summary bounds</span>
     <div class="thm_header_extras">
 
@@ -97894,7 +98537,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-interfacial-electrical-properties-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000479"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000481"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -97918,7 +98561,7 @@
           
           <li><a href="sect0001.html#def:signals-giep-subthreshold-swing-with-dit">Definition 1235</a></li>
           
-          <li><a href="sect0001.html#def:signals-interfacial-electrical-properties-contract">Definition 1477</a></li>
+          <li><a href="sect0001.html#def:signals-interfacial-electrical-properties-contract">Definition 1487</a></li>
           
           <li><a href="sect0001.html#def:signals-giep-three-flux-steady-state">Definition 1220</a></li>
           
@@ -97938,7 +98581,7 @@
           
           <li><a href="sect0001.html#def:signals-giep-hydrogen-passivated-dit">Definition 1225</a></li>
           
-          <li><a href="sect0001.html#lem:signals-interfacial-electrical-properties-bounds">Lemma 1478</a></li>
+          <li><a href="sect0001.html#lem:signals-interfacial-electrical-properties-bounds">Lemma 1488</a></li>
           
         </ul>
     
@@ -97973,7 +98616,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000479">
+<div class="proof_wrapper" id="a0000000481">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -97990,7 +98633,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1526</span>
+    <span class="lemma_thmlabel">1537</span>
     <span class="lemma_thmtitle">Pending Problem 02 deep gap-closure summary bounds</span>
     <div class="thm_header_extras">
 
@@ -98001,7 +98644,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-interfacial-electrical-properties-deep-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000480"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000482"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -98029,7 +98672,7 @@
           
           <li><a href="sect0001.html#def:signals-giep-nanowire-stress-induced-charge">Definition 1243</a></li>
           
-          <li><a href="sect0001.html#def:signals-interfacial-electrical-properties-contract">Definition 1477</a></li>
+          <li><a href="sect0001.html#def:signals-interfacial-electrical-properties-contract">Definition 1487</a></li>
           
           <li><a href="sect0001.html#def:signals-giep-highk-flatband-voltage-shift">Definition 1245</a></li>
           
@@ -98039,7 +98682,7 @@
           
           <li><a href="sect0001.html#def:signals-giep-hydrogen-passivated-dit">Definition 1225</a></li>
           
-          <li><a href="sect0001.html#lem:signals-interfacial-electrical-properties-deep-gap-closure-bounds">Lemma 1479</a></li>
+          <li><a href="sect0001.html#lem:signals-interfacial-electrical-properties-deep-gap-closure-bounds">Lemma 1489</a></li>
           
         </ul>
     
@@ -98074,7 +98717,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000480">
+<div class="proof_wrapper" id="a0000000482">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -98091,7 +98734,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1527</span>
+    <span class="lemma_thmlabel">1538</span>
     <span class="lemma_thmtitle">Pending Grassmannian Multilayer Graphene Superconductivity and Quantum Computing (G-MGS) summary bounds</span>
     <div class="thm_header_extras">
 
@@ -98102,7 +98745,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-rhombohedral-graphene-superconductivity-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000481"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000483"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -98134,7 +98777,7 @@
           
           <li><a href="sect0001.html#def:signals-gmgs-supersolid-vortex-nucleation-barrier">Definition 1269</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-gmgs-mattg-kondo-superconducting-tc">Definition 1258</a></li>
           
@@ -98162,7 +98805,7 @@
           
           <li><a href="sect0001.html#def:signals-gmgs-van-hove-dos-exponent">Definition 1251</a></li>
           
-          <li><a href="sect0001.html#lem:signals-rhombohedral-graphene-superconductivity-bounds">Lemma 1481</a></li>
+          <li><a href="sect0001.html#lem:signals-rhombohedral-graphene-superconductivity-bounds">Lemma 1491</a></li>
           
         </ul>
     
@@ -98197,7 +98840,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000481">
+<div class="proof_wrapper" id="a0000000483">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -98214,7 +98857,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1528</span>
+    <span class="lemma_thmlabel">1539</span>
     <span class="lemma_thmtitle">Pending G-MGS deep gap-closure summary bounds</span>
     <div class="thm_header_extras">
 
@@ -98225,7 +98868,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-rhombohedral-graphene-superconductivity-deep-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000482"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000484"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -98243,7 +98886,7 @@
           
           <li><a href="sect0001.html#def:signals-gmgs-fubini-study-trace-metric">Definition 1278</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-gmgs-qahe-sc-bdg-gap-sq">Definition 1283</a></li>
           
@@ -98263,7 +98906,7 @@
           
           <li><a href="sect0001.html#def:signals-gmgs-streda-carrier-slope">Definition 1280</a></li>
           
-          <li><a href="sect0001.html#lem:signals-rhombohedral-graphene-superconductivity-deep-gap-closure-bounds">Lemma 1482</a></li>
+          <li><a href="sect0001.html#lem:signals-rhombohedral-graphene-superconductivity-deep-gap-closure-bounds">Lemma 1492</a></li>
           
         </ul>
     
@@ -98298,7 +98941,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000482">
+<div class="proof_wrapper" id="a0000000484">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -98315,7 +98958,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1529</span>
+    <span class="lemma_thmlabel">1540</span>
     <span class="lemma_thmtitle">Pending G-MGS MZM qubit, parafermion/Plücker qudit, and four-paper cross-domain summary bounds</span>
     <div class="thm_header_extras">
 
@@ -98326,7 +98969,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-rhombohedral-graphene-mzm-qudit-and-four-paper-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000483"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000485"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -98396,7 +99039,7 @@
           
           <li><a href="sect0001.html#def:signals-ddf-cattaneo-second-sound-sq">Definition 766</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-gmgs-flat-band-bandwidth">Definition 1249</a></li>
           
@@ -98412,7 +99055,7 @@
           
           <li><a href="sect0001.html#def:signals-skyrmion-pontryagin-charge">Definition 1122</a></li>
           
-          <li><a href="sect0001.html#lem:signals-rhombohedral-graphene-mzm-qudit-and-four-paper-bounds">Lemma 1483</a></li>
+          <li><a href="sect0001.html#lem:signals-rhombohedral-graphene-mzm-qudit-and-four-paper-bounds">Lemma 1493</a></li>
           
         </ul>
     
@@ -98447,7 +99090,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000483">
+<div class="proof_wrapper" id="a0000000485">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -98464,7 +99107,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1530</span>
+    <span class="lemma_thmlabel">1541</span>
     <span class="lemma_thmtitle">Pending semi-Dirac fermion and SU(4) / Witten twistor string / CHY / DDF / Turner / AdS-CFT unification summary bounds</span>
     <div class="thm_header_extras">
 
@@ -98475,7 +99118,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:pending-semi-dirac-and-su4-witten-chy-unification-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000484"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000486"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -98511,7 +99154,7 @@
           
           <li><a href="sect0001.html#def:signals-dft-semi-dirac-ddf-jammed-mass-x">Definition 1297</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-dft-semi-dirac-ddf-gr24-energy-sq">Definition 1298</a></li>
           
@@ -98527,7 +99170,7 @@
           
           <li><a href="sect0001.html#def:signals-dft-grassmannian-scalar-curvature">Definition 1306</a></li>
           
-          <li><a href="sect0001.html#lem:signals-semi-dirac-and-su4-witten-chy-unification-bounds">Lemma 1484</a></li>
+          <li><a href="sect0001.html#lem:signals-semi-dirac-and-su4-witten-chy-unification-bounds">Lemma 1494</a></li>
           
         </ul>
     
@@ -98562,7 +99205,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000484">
+<div class="proof_wrapper" id="a0000000486">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -98579,7 +99222,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1531</span>
+    <span class="lemma_thmlabel">1542</span>
     <span class="lemma_thmtitle">Pending boundary for the 4 Semi-Dirac applications, phase-varying carbon qudit lasing, and KiCAD DRC</span>
     <div class="thm_header_extras">
 
@@ -98590,7 +99233,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-semi-dirac-four-applications-and-carbon-qudit-lasing-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000485"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000487"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -98622,7 +99265,7 @@
           
           <li><a href="sect0001.html#def:signals-nanolitho-semi-dirac-drude-anisotropy-sq">Definition 604</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-nanolitho-semi-dirac-strain-merging-gap">Definition 602</a></li>
           
@@ -98667,7 +99310,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000485">
+<div class="proof_wrapper" id="a0000000487">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -98684,7 +99327,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1532</span>
+    <span class="lemma_thmlabel">1543</span>
     <span class="lemma_thmtitle">Pending boundary for the revised Semi-Dirac Soliton Bus and Integrated Multi-Band CNC / c-BAs Photonics</span>
     <div class="thm_header_extras">
 
@@ -98695,7 +99338,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-semi-dirac-soliton-bus-and-multiband-photonics-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000486"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000488"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -98717,7 +99360,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-fresnel-butt-joint-reflectance">Definition 387</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-soliton-nv-purcell-factor-normalized">Definition 389</a></li>
           
@@ -98770,7 +99413,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000486">
+<div class="proof_wrapper" id="a0000000488">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -98787,7 +99430,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1533</span>
+    <span class="lemma_thmlabel">1544</span>
     <span class="lemma_thmtitle">Pending wrapper for Papers 35–38: Nanodiamond &amp; Biodegradable Photonics, VortexVias &amp; SHG-OPA AQM, LHAT Archival Tape, and Pressed-LLM Soliton QRAM</span>
     <div class="thm_header_extras">
 
@@ -98798,7 +99441,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-nanodiamond-vortex-via-shg-aqm-lhat-pressed-llm-qram-wrapper">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000487"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000489"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -98828,7 +99471,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-hc-shock-threshold-gpa">Definition 393</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-soliton-lhat-cartridge-capacity-tb">Definition 404</a></li>
           
@@ -98848,7 +99491,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-vacnt-kapitza-cooling-ps">Definition 402</a></li>
           
-          <li><a href="sect0001.html#lem:signals-pending-nanodiamond-vortex-via-shg-aqm-lhat-pressed-llm-qram-bounds">Lemma 1485</a></li>
+          <li><a href="sect0001.html#lem:signals-pending-nanodiamond-vortex-via-shg-aqm-lhat-pressed-llm-qram-bounds">Lemma 1495</a></li>
           
         </ul>
     
@@ -98883,7 +99526,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000487">
+<div class="proof_wrapper" id="a0000000489">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -98900,7 +99543,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1534</span>
+    <span class="lemma_thmlabel">1545</span>
     <span class="lemma_thmtitle">Pending facade lemma for Paper 39: Quantum Causal Next-Concept Modeling (QCI-NCM) and Pressed-LLM LHAT Hardware</span>
     <div class="thm_header_extras">
 
@@ -98911,7 +99554,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-facade-qci-ncm-multiscale-counterfactual-vrc-pressed-llm-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000488"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000490"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -98949,7 +99592,7 @@
           
           <li><a href="sect0001.html#def:signals-ncm-corrupted-expected-concept-utility">Definition 1086</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-ncm-corruption-deconfounded-bias">Definition 1085</a></li>
           
@@ -98959,7 +99602,7 @@
           
           <li><a href="sect0001.html#def:signals-ncm-four-level-block-diagonal-attention-complexity">Definition 1089</a></li>
           
-          <li><a href="sect0001.html#lem:signals-pending-qci-ncm-multiscale-counterfactual-vrc-pressed-llm-bounds">Lemma 1486</a></li>
+          <li><a href="sect0001.html#lem:signals-pending-qci-ncm-multiscale-counterfactual-vrc-pressed-llm-bounds">Lemma 1496</a></li>
           
         </ul>
     
@@ -98994,7 +99637,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000488">
+<div class="proof_wrapper" id="a0000000490">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -99011,7 +99654,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1535</span>
+    <span class="lemma_thmlabel">1546</span>
     <span class="lemma_thmtitle">Pending facade lemma for Paper 39 deep gap closures (QCI-NCM Flag bundle, CFG, level weights, and VRC Jeffrey bridge)</span>
     <div class="thm_header_extras">
 
@@ -99022,7 +99665,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-facade-qci-ncm-deep-gap-closure-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000489"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000491"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -99038,7 +99681,7 @@
         
         <ul class="uses">
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-ncm-classifier-free-guided-logit">Definition 1097</a></li>
           
@@ -99052,7 +99695,7 @@
           
           <li><a href="sect0001.html#def:signals-ncm-level-loss-weight-unnorm">Definition 1096</a></li>
           
-          <li><a href="sect0001.html#lem:signals-pending-qci-ncm-deep-gap-closure-bounds">Lemma 1487</a></li>
+          <li><a href="sect0001.html#lem:signals-pending-qci-ncm-deep-gap-closure-bounds">Lemma 1497</a></li>
           
         </ul>
     
@@ -99087,7 +99730,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000489">
+<div class="proof_wrapper" id="a0000000491">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -99104,7 +99747,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1536</span>
+    <span class="lemma_thmlabel">1547</span>
     <span class="lemma_thmtitle">Pending facade lemma for Paper 40: rGO-Vitrimer active metamaterials, bistable &amp; elastomeric e-paper, chiral CNC Bio-Bragg projectors, and nanodiamond quantum displays</span>
     <div class="thm_header_extras">
 
@@ -99115,7 +99758,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-facade-rgo-vitrimer-active-metamaterial-epaper-and-nanodiamond-display-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000490"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000492"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -99147,7 +99790,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-cnc-chiral-bragg-wavelength">Definition 425</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-soliton-gires-tournois-phase-enhancement">Definition 418</a></li>
           
@@ -99159,7 +99802,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-rgo-speckle-contrast-sq">Definition 419</a></li>
           
-          <li><a href="sect0001.html#lem:signals-pending-rgo-vitrimer-active-metamaterial-epaper-and-nanodiamond-display-bounds">Lemma 1488</a></li>
+          <li><a href="sect0001.html#lem:signals-pending-rgo-vitrimer-active-metamaterial-epaper-and-nanodiamond-display-bounds">Lemma 1498</a></li>
           
         </ul>
     
@@ -99194,7 +99837,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000490">
+<div class="proof_wrapper" id="a0000000492">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -99211,7 +99854,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">1537</span>
+    <span class="lemma_thmlabel">1548</span>
     <span class="lemma_thmtitle">Pending facade lemma for Paper 41: Lignolux Omni-Carbon Kinetic batteries, Q-Node pseudocapacitors, Semi-Dirac quantum capacitance, QCI-GXC DFT passivation, and biodegradable/recyclable electrical components</span>
     <div class="thm_header_extras">
 
@@ -99222,7 +99865,7 @@
 
     <a class="icon proof" href="sect0001.html#lem:signals-pending-facade-omni-carbon-kinetic-energy-storage-dft-and-components-bounds">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000491"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000493"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -99254,7 +99897,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-omni-carbon-circular-pack-cost">Definition 450</a></li>
           
-          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1480</a></li>
+          <li><a href="sect0001.html#def:signals-rhombohedral-graphene-superconductivity-contract">Definition 1490</a></li>
           
           <li><a href="sect0001.html#def:signals-soliton-hbn-lightning-gulp-fluid-temp">Definition 448</a></li>
           
@@ -99264,7 +99907,7 @@
           
           <li><a href="sect0001.html#def:signals-soliton-maglev-kinetic-spool-specific-energy">Definition 449</a></li>
           
-          <li><a href="sect0001.html#lem:signals-pending-omni-carbon-kinetic-energy-storage-dft-and-components-bounds">Lemma 1490</a></li>
+          <li><a href="sect0001.html#lem:signals-pending-omni-carbon-kinetic-energy-storage-dft-and-components-bounds">Lemma 1500</a></li>
           
         </ul>
     
@@ -99299,7 +99942,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000491">
+<div class="proof_wrapper" id="a0000000493">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -99316,7 +99959,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1538</span>
+    <span class="theorem_thmlabel">1549</span>
     <div class="thm_header_extras">
 
     
@@ -99326,7 +99969,7 @@
 
     <a class="icon proof" href="sect0001.html#thm:link-transfer-factor-le-one">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000492"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000494"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -99357,7 +100000,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000492">
+<div class="proof_wrapper" id="a0000000494">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -99374,7 +100017,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">1539</span>
+    <span class="theorem_thmlabel">1550</span>
     <div class="thm_header_extras">
 
     
@@ -99384,7 +100027,7 @@
 
     <a class="icon proof" href="sect0001.html#thm:link-received-power-bound">#</a>
     
-    <a class="icon proof" href="sect0001.html#a0000000493"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="sect0001.html#a0000000495"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -99415,7 +100058,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000493">
+<div class="proof_wrapper" id="a0000000495">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof

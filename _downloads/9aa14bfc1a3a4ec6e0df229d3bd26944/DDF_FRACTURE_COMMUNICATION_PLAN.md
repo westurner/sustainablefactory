@@ -18,16 +18,26 @@ The relevant formal boundary is [`Signals/DDF.lean`](Signals/DDF.lean):
   transmission operator, a detector coupling, or a faster-than-light channel.
 
 The finite trace and acoustic boundaries remain in
-[`Signals/Pending.lean`](Signals/Pending.lean), and the numerical handoff is
+[`Signals/Pending.lean`](../Signals/Pending.lean), and the numerical handoff is
 specified in [`RUST_NUMERICAL_ADAPTER_SPEC.md`](RUST_NUMERICAL_ADAPTER_SPEC.md)
 (see also the cross-domain synthesis in
-[`docs/grassmannian-unification-applications-roadmap-paper.md`](../../docs/grassmannian-unification-applications-roadmap-paper.md)
-and [`docs/plan-index.md`](../../docs/plan-index.md)).
+[`docs/grassmannian-unification-applications-roadmap-paper.md`](../../../docs/grassmannian-unification-applications-roadmap-paper.md),
+the $\mathrm{ER}=\mathrm{EPR}$ unification in
+[`docs/grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md`](../../../docs/grassmannian-er-epr-witten-su4-plucker-tachyons-semi-dirac-paper.md),
+the companion comparison paper
+[`docs/grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md`](../../../docs/grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md),
+and [`docs/plan-index.md`](../../../docs/plan-index.md)).
 
-The Lean Pending boundary now includes `DDFCommunicationMode` and
-`DDFFractureCommunicationEvidence`. Its support predicate requires an
+The Lean Pending boundary now includes `DDFCommunicationMode`,
+`DDFFractureCommunicationEvidence`, and the Section 25 discrimination theorem
+`DDFFractureCommunicationEvidence.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_bounds`
+(backed by `Signals.DFT.ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`
+in [`Signals/DFT.lean`](../Signals/DFT.lean) lines 7104–7375 and Rust evaluators in
+[`numerical_adapter/src/dft_plabic_vrc.rs`](../numerical_adapter/src/dft_plabic_vrc.rs) lines 1940–2020).
+Its support predicate requires an
 independent defect proposition and detectable defect observable, a classical
-residual outside tolerance, nonzero coupling, a causal transverse-phonon mode,
+residual outside tolerance (after subtracting both calibrated acoustic transfer
+and Kutta–Joukowski Magnus lift), nonzero coupling, a causal transverse-phonon mode,
 replication, held-out agreement, and an energy-closure premise. This is a
 typed contract over supplied premises, not a measurement or DDF existence
 theorem.
@@ -37,12 +47,13 @@ theorem.
 ### Summary
 The revised model is:
 
-- `H0`: ordinary calibrated acoustic, elastic, optical, detector, and environmental effects explain the signal.
-- `HDDF`: an additional reproducible term exists, tied to an independently measured DDF defect, pressure/enthalpy deficit, phase winding, or transverse-mode signature.
-- DDF propagation remains causal at the declared transverse-phonon speed. FTL, SQG-current, or longitudinal-Proca results reject this DDF model rather than confirm it.
+- `H0`: ordinary calibrated acoustic, elastic, optical, detector, and environmental effects explain the signal (`ddfFractureTotalChannelSignal y_cl 0 q_ddf = y_cl`).
+- `HDDF`: an additional reproducible term exists, tied to an independently measured DDF defect, pressure/enthalpy deficit, phase winding (`plaquette_phase_slip_syndrome`), or transverse-mode signature (`ddfFractureTotalChannelSignal y_cl kappa_ddf q_ddf`).
+- DDF propagation remains causal at the declared transverse-phonon speed (`0 ≤ ddfFractureCausalTransitMargin`). FTL, SQG-current, or uncalibrated longitudinal-Proca results reject this DDF model rather than confirm it (`not_supported_by_noncausal_mode`).
 - The active-radiation null test is separate and cannot establish fracture communication.
+- **Crucial Boundary vs. $\mathrm{ER}=\mathrm{EPR}$ Entanglement/Wormholes**: DDF fracture-based communication is a **local, contiguous topological-defect waveguide** that operates at **zero quantum entanglement** ($\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 = 0$, $A_{\mathrm{ER}} = 0$) and provides **non-zero standalone classical bit contrast** ($\Delta y_{\mathrm{fracture}} = 2\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} > 0$), whereas an $\mathrm{ER}=\mathrm{EPR}$ wormhole throat requires $\mathcal{C}_{\mathrm{EPR}}^2 > 0$, has **zero standalone unkeyed signaling contrast** (`erEprTransceiverDifferentialContrast 0 = 0`), and collapses under high-energy overload (`0 < wormholeNetNullDefocusingFlux`). In a hybrid architecture (`hybridFractureKeyedErEprRxProbability`), the causal DDF fracture channel can serve as the classical Gao–Jafferis–Wall (GJW) feed-forward key that unlocks a parallel $\mathrm{ER}=\mathrm{EPR}$ quantum bridge.
 
-This plan covers classical calibration, PIV/JHTDB flow maps, weak trace/jump controls, mode and arrival-time analysis, blinded waveform transmission, conservation accounting, replication, and explicit rejection criteria.
+This plan covers classical calibration, PIV/JHTDB flow maps, weak trace/jump controls, mode and arrival-time analysis, blinded waveform transmission, conservation accounting, replication, explicit rejection criteria, and the formal discrimination between DDF fracture waveguides and $\mathrm{ER}=\mathrm{EPR}$ entanglement bridges.
 
 
 ### Classical null hypothesis
@@ -50,9 +61,9 @@ This plan covers classical calibration, PIV/JHTDB flow maps, weak trace/jump con
 `H0` states that every observed signal is explained by the ordinary calibrated
 source, medium, instrument, and environment:
 
-\[
+$$
 y(t) = y_{\mathrm{classical}}(t; \theta) + \epsilon(t).
-\]
+$$
 
 The classical model must include acoustic/elastic transfer, optical or
 radio-link response, detector response, clock synchronization, environmental
@@ -64,11 +75,11 @@ backgrounds, missing-data handling, and an input/output energy ledger.
 the DDF substrate contributes an additional, reproducible perturbation to the
 ordinary channel:
 
-\[
+$$
 y(t) = y_{\mathrm{classical}}(t; \theta)
       + \kappa_{\mathrm{DDF}} q_{\mathrm{DDF}}(t; \psi)
       + \epsilon(t),
-\]
+$$
 
 where `q_DDF` is not a free residual. It must be tied to independently measured
 or solver-supplied defect geometry, pressure/enthalpy deficit, transverse-mode
@@ -112,16 +123,45 @@ The inflow Magnus effect is a classical control, not a DDF observable. With a
 declared circulation sign convention, the first control law is the
 Kutta-Joukowski relation per unit span:
 
-\[
+$$
 L'_{\mathrm{classical}} = \rho U \Gamma.
-\]
+$$
 
 An observed lift or transverse drift explained by this relation belongs to
-`H0`. A DDF candidate requires a residual after this control, an independent
-circulation/pressure/defect measurement, causal transverse-mode propagation,
+`H0` (`ddfFractureMagnusSubtractedResidual (y_ac + rho_f * u_in * gamma_c) y_ac rho_f u_in gamma_c = 0`).
+A DDF candidate requires a nonzero residual after this control
+(`ddfFractureMagnusSubtractedResidual (y_ac + rho_f * u_in * gamma_c + kappa_ddf * q_ddf) y_ac rho_f u_in gamma_c = kappa_ddf * q_ddf`),
+an independent circulation/pressure/defect measurement, causal transverse-mode propagation,
 and replication. It is invalid to relabel ordinary Magnus lift as DDF
 coupling, and the current DDF paper formalization does not itself claim a
 Magnus law.
+
+## How DDF Fracture-Based Communication Differs From—and Connects With—$\mathrm{ER}=\mathrm{EPR}$ Entanglement and Wormholes on $\mathrm{Gr}_{\mathbb{C}}(2,4)$
+
+In earlier exploratory chats (`data/chats/_Neutrons-and-Black-Holes-and-Fracture.md`, lines 861–954; `data/chats/Superfluid-Gravity-and-Negative-Energy.md`, lines 243–305; `data/chats/Review-Pop-III-GW-Remnants.md`, lines 1515–1650), **superfluid/DDF shear fractures** ($\mathrm{De}/\mathrm{De}_c > 1$) and **$\mathrm{ER}=\mathrm{EPR}$ wormhole bridges** ($p_{23} = \det\Psi \neq 0$) were discussed alongside one another because both involve non-positive sectors of the Complex Grassmannian $\mathrm{Gr}_{\mathbb{C}}(2,4) \cong \mathcal{Q}_4 \subset \mathbb{P}^5(\mathbb{C})$. Our formalization in [`Signals/DFT.lean`](../Signals/DFT.lean) Sections 23–25 (`ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`) establishes their exact mathematical separation and their hybrid synthesis:
+
+### 1. Seven-Axis Discrimination Table: DDF Fracture Waveguide vs. $\mathrm{ER}=\mathrm{EPR}$ Entanglement Bridge
+
+| Discrimination Axis | DDF Fracture-Based Communication (`HDDF` in `Signals.Pending`) | $\mathrm{ER}=\mathrm{EPR}$ Entanglement / Wormhole Bridge (`Signals.DFT` Sec. 23) | Hybrid Fracture-Keyed $\mathrm{ER}=\mathrm{EPR}$ Transceiver (`Signals.DFT` Sec. 25) |
+| --- | --- | --- | --- |
+| **1. Physical & Topological Mechanism** | **Local, contiguous 1D/2D defect waveguide**: a vortex core or shear-fracture interface ($\mathrm{De} = \tau_{\mathrm{relax}}\dot{\gamma} > 1$, FTLE $\sigma > \sigma_{\mathrm{crit}}$, plaquette holonomy $2\pi n$) spanning the medium between $A$ and $B$. | **Non-local bipartite conifold bridge**: a deformed twistor conifold throat $\det Z_{2\times 2} = p_{23} = g_s N_c \neq 0$ on $\mathrm{Gr}_{\mathbb{C}}(2,4)$ connecting entangled mouths $A, B$ without a contiguous mechanical crack in 3D space. | **Dual-channel architecture**: an $\mathrm{ER}=\mathrm{EPR}$ entangled bridge ($p_{23} \neq 0$) paired with a parallel causal DDF fracture/phonon waveguide carrying the classical GJW key. |
+| **2. Plücker Entanglement Concurrence $\mathcal{C}_{\mathrm{EPR}}^2 = 4\|p_{23}\|^2$** | **Not required** ($\mathcal{C}_{\mathrm{EPR}}^2 = 0$, $p_{23} = 0$, $A_{\mathrm{ER}} = 0$): works for completely unentangled product states (`erEprPluckerConcurrenceSq 0 = 0`). | **Strictly required** ($\mathcal{C}_{\mathrm{EPR}}^2 = 4\|p_{23}\|^2 > 0 \implies A_{\mathrm{ER}} = 16\ell_P^2 S_{\max}\|p_{23}\|^2 > 0$); vanishes if $p_{23} = 0$. | **Required on quantum arm** ($\|p_{23}\|^2 = 1/4 \implies \mathcal{C}_{\mathrm{EPR}}^2 = 1$), while key arm is classical ($p_{23} = 0$). |
+| **3. Unassisted Standalone Bit Contrast ($\Delta P$)** | **Non-zero** ($\Delta y_{\mathrm{fracture}} = 2\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} > 0$, `ddfFractureStandaloneBitContrast`) after causal transit $t_{\mathrm{arr}} \ge L_{\mathrm{path}}/c_{\mathrm{emergent}}$. | **Identically zero** when unkeyed ($g_{\mathrm{GJW}} = 0 \implies \Delta P_{\mathrm{RX}} = 0$, `erEprTransceiverDifferentialContrast 0 = 0`, `erEprNoSignalingMarginalA`). | **Zero before key arrival** ($1/2$ coin flip at $\kappa_{\mathrm{DDF}} = 0$); **$100\%$ contrast** ($\Delta P_{\mathrm{RX}}^{\mathrm{hybrid}} = 1$) once causal fracture key $\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} = 1$ arrives. |
+| **4. Quantum State Transfer Fidelity Ceiling** | **Classical limit** ($F_{\mathrm{quantum}}(0, \sin 2\theta) = 1/2$, or $2/3$ average qubit measure-and-prepare ceiling) unless waveguide preserves full quantum phase coherence without decoherence. | **Unit quantum teleportation fidelity** ($F_{\mathrm{quantum}}(1/4, 1) = 1 > 1/2$, `ddfFractureVsWormholeQuantumFidelity`) when unlocked by $2\theta_{\mathrm{GJW}} = \pi/2$. | **Unit quantum fidelity** ($F_{\mathrm{quantum}}(1/4, 1) = 1$) with $(r/w)^2 = 10{,}000\times$ guided key efficiency (`ddfFractureCorridorGuidingGain 100 1 = 10000`). |
+| **5. High-Power Overload Behavior** | **Widens / sustains fracture**: driving shear $\tau_{\mathrm{drive}} > \tau_{\mathrm{crit}}$ increases excess fracture shear (`0 < ddfFractureOverloadExcessShear 15 10`). | **Collapses wormhole throat**: driving energy $E_{\mathrm{transit}} > \mathcal{B}_{\mathrm{Bohm}}$ yields positive Raychaudhuri focusing flux (`0 < wormholeNetNullDefocusingFlux 15 10`), pinching off the throat. | Soft quantum symbols ($N_{\mathrm{sym}}E_{\mathrm{sym}} \le \mathcal{B}_{\mathrm{Bohm}}$) transit the throat while high-power classical key pulses travel safely along the separate fracture corridor. |
+| **6. Dominant Loss & Failure Mode** | Dilatant high-$k$ viscosity $\eta(k) = \eta_0(1+\alpha k^2) \ge \eta_0$ (`dilatantViscosity_ge_baseline`), damping $\gamma_{\mathrm{damp}}(k) \ge 0$, or crack healing when $\mathrm{De} < 1$. | 3D Bethe sub-wavelength diffraction ($\eta_{\mathrm{Bethe}} = 1/10{,}001$ unless Semi-Dirac/`TRUE`/QISM matched), DDF rest-mass throat jamming $\gamma_\varphi^4$, and decoherence of $p_{23}$. | Protected by directional Semi-Dirac mode isolation ($\mathcal{R}_{\mathrm{iso}}(10) = 101$) + 1-pass McWeeny / distance-3 Plücker QEC ($p_L = 2.98\times 10^{-4}$). |
+| **7. Owning `Signals` Verification Contract** | `DDFFractureCommunicationEvidence`, `DDFVortexObservable`, `MagnusEffectControl`, `WeakTraceJumpContract` | `er_epr_su4_plucker_tachyon_offshell_and_semi_dirac_wormhole_identities`, `semi_dirac_er_epr_wormhole_transceiver_identities` | `ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities` & `ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_bounds` |
+
+### 2. Where Both Phenomena Live on the Four-Stratum $\mathrm{Gr}_{\mathbb{C}}(2,4)$ Manifold
+
+1. **Stratum 1 — Positive Grassmannian Interior $\mathrm{Gr}_{>0}(2,4)$ ($\mathcal{I}_{\mathrm{lc}} = 1 - \beta^2 > 0$, Causal Propagation)**:
+   Houses both the causal transverse-phonon signal `DDFCommunicationMode.transversePhonon` propagating along a DDF fracture boundary ($v_g \le c_{\mathrm{emergent}} \le c$, `0 ≤ ddfFractureCausalTransitMargin`) and the causal classical GJW feed-forward key channel required to unlock an $\mathrm{ER}=\mathrm{EPR}$ bridge.
+2. **Stratum 2 — Positive Boundary $\partial\mathrm{Gr}_{\ge 0}(2,4)$ ($\mathcal{I}_{\mathrm{lc}} = 0$, Horizon / Cherenkov Locus)**:
+   Represents the acoustic event horizon $r = r_H$ ($|v_\phi| = c$) in `RiverExterior` and the dielectric Cherenkov threshold $v_{\mathrm{sweep}} = c_{\mathrm{med}}$ in `Signals.DFT` Section 24.
+3. **Stratum 3 — Spacelike / Tachyonic Shear-Fracture Sector in $\mathrm{Gr}_{\mathbb{C}}(2,4) \setminus \mathrm{Gr}_{\ge 0}(2,4)$ ($\mathrm{De}/\mathrm{De}_c > 1 \iff \hbar^2\omega^2 < 0$)**:
+   By `grassmannian_bogoliubov_proca_and_deborah_fracture_identities`, exceeding the critical Deborah ratio $\mathrm{De}/\mathrm{De}_c > 1$ softens the Bogoliubov dispersion to $\hbar^2\omega^2 < 0$. In a DDF medium, this **nucleates the topological vortex/fracture sheet** (`DDFVortexObservable`); in an $\mathrm{ER}=\mathrm{EPR}$ geometry, it describes the spacelike bridge interior ($r < r_H$) and throat pinch-off instability. Crucially, **neither permits superluminal boundary signaling** (`not_supported_by_noncausal_mode` and `erEprNoSignalingMarginalA`).
+4. **Stratum 4 — Off-Shell / Complex Boundary-Jump Sector in $\mathrm{Gr}_{\mathbb{C}}(2,4) \setminus \mathrm{Gr}_{\ge 0}(2,4)$ ($\operatorname{Im}\mathcal{S} \neq 0$)**:
+   Across a DDF fracture, the spatial discontinuity is governed by the weak trace and flux jump `WeakTraceJumpContract` and quantized $2\pi n$ plaquette phase slip (`plaquette_phase_slip_syndrome`). Across a traversable $\mathrm{ER}=\mathrm{EPR}$ throat, $\operatorname{Im}\mathcal{S} \neq 0$ generates the negative Bohmian null stress cushion $\Sigma_{uu}^{\mathrm{Bohm}} = R_\rho - G_{\operatorname{Im}\mathcal{S}} < 0$ (`offShellBohmStressTensorUu`) and Dual-Schubert Josephson current $J_{\mathrm{Josephson}}$ that prevent Raychaudhuri collapse.
 
 ## What Each Analysis Can Establish
 
@@ -243,7 +283,11 @@ Reject the current `HDDF` hypothesis when any necessary condition fails:
 - the fitted coupling changes with detector, interpolation, mask, or clock
   settings rather than physical source parameters;
 - the energy or momentum ledger does not close;
-- the result fails an independent replication or held-out waveform test.
+- the result fails an independent replication or held-out waveform test;
+- an unentangled fracture/phonon residual ($\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 = 0$) is
+  claimed as evidence of an $\mathrm{ER}=\mathrm{EPR}$ wormhole bridge without independent Bell/tomography
+  certification of $|p_{23}| > 0$, or an unkeyed $\mathrm{ER}=\mathrm{EPR}$ state ($g_{\mathrm{GJW}} = 0$)
+  is claimed to transmit standalone information (`erEprNoSignalingMarginalA`).
 
 A failure of one dataset to contain a time axis, pressure, density, or 3D field
 is **inconclusive**, not evidence against DDF. A failure of the complete
@@ -267,6 +311,14 @@ against the hypothesis.
    the classical Magnus control. Populate it only after an independent
    observable and a classical control are available; no current fixture is
    physical DDF evidence.
+6. [Complete, formal discrimination & hybrid synthesis] Formalize the quantitative
+   discrimination between DDF fracture-based communication (`HDDF`, $p_{23}=0$,
+   standalone causal contrast $\Delta y = 2\kappa_{\mathrm{DDF}}q_{\mathrm{DDF}} > 0$)
+   and $\mathrm{ER}=\mathrm{EPR}$ entanglement/wormholes ($\mathcal{C}_{\mathrm{EPR}}^2 = 4|p_{23}|^2 > 0$,
+   unkeyed contrast $0$, Raychaudhuri overload collapse) together with the hybrid
+   fracture-keyed $\mathrm{ER}=\mathrm{EPR}$ transceiver (`Signals.DFT` Section 25,
+   `ddf_fracture_communication_vs_er_epr_wormhole_and_hybrid_synthesis_identities`,
+   and [`docs/grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md`](../../../docs/grassmannian-ddf-fracture-communication-vs-er-epr-wormholes-paper.md)).
 
 The bounded Rust JHTDB loop is complete: the reader validates the HDF5
 checksum, root time-index attributes, `(z,y,x,vector)` velocity datasets, and
