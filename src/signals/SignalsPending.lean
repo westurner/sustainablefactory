@@ -1709,4 +1709,39 @@ theorem rhombohedral_graphene_qism_bethe_ansatz_wormhole_inverse_scattering_and_
   contract.qism_bethe_ansatz_wormhole_inverse_scattering_and_slavnov_decoding_bounds
     u v w η T_val T L2 L1 Q_plus Q_minus u0 u1 u2 u3 v0 v1 K
 
+/-- Re-exports the Section 23.4.1 critique gap-closure boundary theorem for Slavnov Wronskian factorization, noisy MIMO collision SNR, overhead-inclusive speedup, soft impedance matching, and finite TRUE tagging. -/
+theorem rhombohedral_graphene_qism_slavnov_pauli_wronskian_mimo_and_impedance_critique_bounds
+    (contract : RhombohedralGrapheneSuperconductivityPendingHypothesis)
+    (k0 k1 d0 d1 delta_u w_cas sigma_noise_sq m_fact m_packets eta_b g_true : ℝ)
+    (v v0 v1 u0 u1 : ℝ) (K : ℝ → ℝ → ℝ)
+    (h_du : delta_u ≠ 0) :
+    Signals.DFT.slavnovLinearizedNearCollisionDet2 k0 k1 d0 d1 delta_u = delta_u * (k0 * d1 - k1 * d0) ∧
+      Signals.DFT.slavnovLinearizedNearCollisionDet2 k0 k1 d0 d1 0 = 0 ∧
+      Signals.DFT.slavnovLinearizedNearCollisionDet2 k0 k1 d0 d1 delta_u / delta_u = k0 * d1 - k1 * d0 ∧
+      Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v v u0 u1) = 0 ∧
+      Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v0 v1 u1 u0) =
+        - Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v0 v1 u0 u1) ∧
+      Signals.DFT.slavnovMimoCollisionSnrEfficiency 0 w_cas sigma_noise_sq = 0 ∧
+      Signals.DFT.slavnovMimoCollisionSnrEfficiency (-delta_u) w_cas sigma_noise_sq =
+        Signals.DFT.slavnovMimoCollisionSnrEfficiency delta_u w_cas sigma_noise_sq ∧
+      Signals.DFT.slavnovMimoCollisionSnrEfficiency 10 1 1 = 100 / 101 ∧
+      (99 / 100 : ℝ) < Signals.DFT.slavnovMimoCollisionSnrEfficiency 10 1 1 ∧
+      Signals.DFT.qismSlavnovFullPipelineSpeedup m_fact m_packets 0 =
+        Signals.DFT.qismSlavnovContractionSpeedup m_fact m_packets ∧
+      Signals.DFT.qismSlavnovFullPipelineSpeedup 40320 8 8 = 1587600 ∧
+      (1500000 : ℝ) < Signals.DFT.qismSlavnovFullPipelineSpeedup 40320 8 8 ∧
+      Signals.DFT.qismImpedanceMatchedYangTransmission 1 100 1 =
+        Signals.Scattering.yangTransmissionProb 1 0 100 ∧
+      Signals.DFT.qismImpedanceMatchedYangTransmission 1 100 10000 = 10000 / 10001 ∧
+      (999 / 1000 : ℝ) < Signals.DFT.qismImpedanceMatchedYangTransmission 1 100 10000 ∧
+      Signals.DFT.wormholeNetNullDefocusingFlux (8 * (1 / 2)) 10 ≤ 0 ∧
+      0 < Signals.DFT.wormholeNetNullDefocusingFlux 100 10 ∧
+      Signals.DFT.subwavelengthTrueTaggedConjugateCoupling eta_b 1 g_true =
+        Signals.DFT.subwavelengthPhotonTrueConjugateCoupling eta_b g_true ∧
+      Signals.DFT.subwavelengthTrueTaggedConjugateCoupling (1 / 10001) (1 / 10) 1000100 = 1000100 / 1100109 ∧
+      (9 / 10 : ℝ) < Signals.DFT.subwavelengthTrueTaggedConjugateCoupling (1 / 10001) (1 / 10) 1000100 :=
+  contract.qism_slavnov_pauli_wronskian_mimo_and_impedance_critique_bounds
+    k0 k1 d0 d1 delta_u w_cas sigma_noise_sq m_fact m_packets eta_b g_true
+    v v0 v1 u0 u1 K h_du
+
 end SignalsPending

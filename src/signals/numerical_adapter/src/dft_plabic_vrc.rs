@@ -1891,6 +1891,62 @@ pub fn qism_yang_transmission_prob(u: f64, v: f64, eta: f64) -> f64 {
     diff.powi(2) / (diff.powi(2) + eta.powi(2))
 }
 
+/// Critique Fix 5: Linearized near-collision 2×2 Slavnov determinant
+/// `k0 * (k1 + d1 * delta_u) - (k0 + d0 * delta_u) * k1 = delta_u * (k0 * d1 - k1 * d0)`,
+/// matching `Signals.DFT.slavnovLinearizedNearCollisionDet2`.
+pub fn slavnov_linearized_near_collision_det2(
+    k0: f64,
+    k1: f64,
+    d0: f64,
+    d1: f64,
+    delta_u: f64,
+) -> f64 {
+    k0 * (k1 + d1 * delta_u) - (k0 + d0 * delta_u) * k1
+}
+
+/// Critique Fix 6: Noisy 2-channel Slavnov MIMO distinguishability / SNR efficiency
+/// `(delta_u * w_casorati)^2 / ((delta_u * w_casorati)^2 + sigma_noise_sq)`,
+/// matching `Signals.DFT.slavnovMimoCollisionSnrEfficiency`.
+pub fn slavnov_mimo_collision_snr_efficiency(
+    delta_u: f64,
+    w_casorati: f64,
+    sigma_noise_sq: f64,
+) -> f64 {
+    let num = (delta_u * w_casorati).powi(2);
+    num / (num + sigma_noise_sq)
+}
+
+/// Critique Fix 7: Overhead-inclusive Slavnov pipeline speedup
+/// `(m_fact)^2 / (m_packets^3 + c_kernel * m_packets^2)`,
+/// matching `Signals.DFT.qismSlavnovFullPipelineSpeedup`.
+pub fn qism_slavnov_full_pipeline_speedup(m_fact: f64, m_packets: f64, c_kernel: f64) -> f64 {
+    m_fact.powi(2) / (m_packets.powi(3) + c_kernel * m_packets.powi(2))
+}
+
+/// Critique Fix 8: Soft impedance-matched Yang R-matrix transmission probability
+/// `delta_soft^2 / (delta_soft^2 + (eta_raw / g_match)^2)`,
+/// matching `Signals.DFT.qismImpedanceMatchedYangTransmission`.
+pub fn qism_impedance_matched_yang_transmission(
+    delta_soft: f64,
+    eta_raw: f64,
+    g_match: f64,
+) -> f64 {
+    let d2 = delta_soft.powi(2);
+    let eta_eff2 = (eta_raw / g_match).powi(2);
+    d2 / (d2 + eta_eff2)
+}
+
+/// Critique Fix 9: Finite-tagging-efficiency TRUE/DORT phase-conjugate throat coupling
+/// `(eta_bethe * eta_tag * g_true) / (1 + eta_bethe * eta_tag * (g_true - 1))`,
+/// matching `Signals.DFT.subwavelengthTrueTaggedConjugateCoupling`.
+pub fn subwavelength_true_tagged_conjugate_coupling(
+    eta_bethe: f64,
+    eta_tag: f64,
+    g_true: f64,
+) -> f64 {
+    (eta_bethe * eta_tag * g_true) / (1.0 + eta_bethe * eta_tag * (g_true - 1.0))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2748,5 +2804,36 @@ mod tests {
         assert!(eta_qism_qec > 0.94);
         let slavnov_speedup = qism_slavnov_contraction_speedup(40_320.0, 8.0);
         assert!((slavnov_speedup - 3_175_200.0).abs() < 1e-9 && slavnov_speedup > 3_000_000.0);
+
+        // 20. Section 23.4.1: Critique Gap-Closure Fixes for Slavnov Wronskian Factorization,
+        // Noisy MIMO Collision SNR, Overhead-Inclusive Speedup, Soft Impedance Matching, & Finite TRUE Tagging
+        let det_lin = slavnov_linearized_near_collision_det2(3.0, 5.0, 2.0, 7.0, 0.1);
+        let w_cas = 3.0 * 7.0 - 5.0 * 2.0;
+        assert!((det_lin - 0.1 * w_cas).abs() < 1e-13);
+        assert!((slavnov_linearized_near_collision_det2(3.0, 5.0, 2.0, 7.0, 0.0)).abs() < 1e-15);
+        assert!((det_lin / 0.1 - w_cas).abs() < 1e-12);
+        assert!((slavnov_mimo_collision_snr_efficiency(0.0, w_cas, 1.0)).abs() < 1e-15);
+        assert!(
+            (slavnov_mimo_collision_snr_efficiency(-0.1, w_cas, 1.0)
+                - slavnov_mimo_collision_snr_efficiency(0.1, w_cas, 1.0))
+                .abs()
+                < 1e-15
+        );
+        let mimo_10 = slavnov_mimo_collision_snr_efficiency(10.0, 1.0, 1.0);
+        assert!((mimo_10 - 100.0 / 101.0).abs() < 1e-15 && mimo_10 > 0.99);
+        let full_speedup = qism_slavnov_full_pipeline_speedup(40_320.0, 8.0, 8.0);
+        assert!((full_speedup - 1_587_600.0).abs() < 1e-9 && full_speedup > 1_500_000.0);
+        assert!(
+            (qism_impedance_matched_yang_transmission(1.0, 100.0, 1.0) - eta_bethe).abs() < 1e-15
+        );
+        let t_soft_matched = qism_impedance_matched_yang_transmission(1.0, 100.0, 10_000.0);
+        assert!((t_soft_matched - 10_000.0 / 10_001.0).abs() < 1e-12 && t_soft_matched > 0.999);
+        assert!(
+            wormhole_net_null_defocusing_flux(8.0 * 0.5, 10.0) <= 0.0
+                && wormhole_net_null_defocusing_flux(100.0, 10.0) > 0.0
+        );
+        let true_tagged =
+            subwavelength_true_tagged_conjugate_coupling(1.0 / 10_001.0, 0.1, 1_000_100.0);
+        assert!((true_tagged - 1_000_100.0 / 1_100_109.0).abs() < 1e-12 && true_tagged > 0.9);
     }
 }

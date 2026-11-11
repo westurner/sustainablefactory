@@ -6272,6 +6272,156 @@ theorem qism_bethe_ansatz_wormhole_inverse_scattering_and_slavnov_decoding_ident
     by unfold qismSlavnovContractionSpeedup; norm_num,
     by unfold qismSlavnovContractionSpeedup; norm_num⟩
 
+/-! ### 23.4.1 Adversarial Critique & Gap-Closure Fixes for Slavnov Pauli Exclusion, Vandermonde Wronskian Factorization, Overhead-Inclusive Speedup, Soft Impedance Matching, and Finite `TRUE` Tagging (`qism_slavnov_pauli_wronskian_mimo_and_impedance_critique_identities`)
+
+Addresses five mathematical and physical critiques of Sections 23.3–23.4:
+1. **Critique Fix 5 (Vandermonde $0/0$ Removable Singularity vs. Confluent Casorati Wronskian Factorization)**:
+   In Slavnov's scalar-product formula $S_2(v_0,v_1; u_0,u_1) = \frac{\det M(v_0,v_1; u_0,u_1)}{(v_1-v_0)(u_1-u_0)}$, both the numerator $\det M$ (`slavnovDet2_pauli_exclusion`) and the Vandermonde denominator $\Delta u = u_1 - u_0$ vanish at a rapidity collision $u_1 \to u_0 = u$. Expanding the second column to first order $K(v_j, u + \Delta u) = k_j + d_j\,\Delta u$ (`slavnovLinearizedNearCollisionDet2`), we prove the exact factorization:
+   $$\det\begin{pmatrix} k_0 & k_0 + d_0\,\Delta u \\ k_1 & k_1 + d_1\,\Delta u \end{pmatrix} = \Delta u \cdot (k_0 d_1 - k_1 d_0),$$
+   confirming that $\det M = 0$ at $\Delta u = 0$ while dividing by $\Delta u \neq 0$ removes the $0/0$ singularity identically and recovers the confluent Casorati Wronskian $W_{\mathrm{Cas}} = k_0 d_1 - k_1 d_0$.
+2. **Critique Fix 6 (Noisy MIMO Channel Distinguishability Collapse at $\Delta u \to 0$)**:
+   In a physical receiver with additive thermal/shot noise $\sigma_{\mathrm{noise}}^2 > 0$, the 2-channel Slavnov MIMO SNR efficiency (`slavnovMimoCollisionSnrEfficiency`) is
+   $$\eta_{\mathrm{Slavnov\text{-}MIMO}}(\Delta u, W_{\mathrm{Cas}}, \sigma_{\mathrm{noise}}^2) = \frac{(\Delta u \cdot W_{\mathrm{Cas}})^2}{(\Delta u \cdot W_{\mathrm{Cas}})^2 + \sigma_{\mathrm{noise}}^2},$$
+   which vanishes identically (`= 0`) at a rapidity collision $\Delta u = 0$, is invariant under rapidity swap $\Delta u \mapsto -\Delta u$ (`slavnovDet2_swap_bethe`), and exceeds $99\%$ (`100 / 101 > 99 / 100`) for well-separated rapidities ($\Delta u = 10, W_{\mathrm{Cas}} = 1, \sigma_{\mathrm{noise}}^2 = 1$).
+3. **Critique Fix 7 (Overhead-Inclusive Slavnov Pipeline Speedup with $O(M^2)$ Kernel Assembly)**:
+   Including $c_{\mathrm{kernel}} M^2$ operations to evaluate the $M^2$ Slavnov kernel entries $K(v_j, u_k)$ prior to $M^3$ determinant evaluation (`qismSlavnovFullPipelineSpeedup`), even $c_{\mathrm{kernel}} = 8$ flops/entry at $M = 8$ ($512 + 512 = 1{,}024$ ops) achieves an exact $1{,}587{,}600\times > 1.5\times 10^6\times$ speedup over $(8!)^2 = 1{,}625{,}702{,}400$ brute-force $RTT$ contractions.
+4. **Critique Fix 8 (Soft Impedance-Matched Yang Transparency vs. Brute-Force Energy Collapse)**:
+   Achieving $\delta/\eta_{\mathrm{eff}} = 100$ by brute-force boosting wavepacket energy to $E_{\mathrm{boost}} = 100 > \mathcal{B}_{\mathrm{Bohm}} = 10$ triggers Raychaudhuri throat collapse (`0 < wormholeNetNullDefocusingFlux 100 10`). Instead, `qismImpedanceMatchedYangTransmission` scales down the barrier coupling $\eta_{\mathrm{eff}} = \eta_{\mathrm{raw}} / G_{\mathrm{match}}$ at soft rapidity $\delta_{\mathrm{soft}} = 1$ ($E_{\mathrm{sym}} = 1/2$, $8 E_{\mathrm{sym}} = 4 \le 10$), achieving $T_{\mathrm{prob}} = 10{,}000 / 10{,}001 > 99.9\%$ while preserving `wormholeNetNullDefocusingFlux (8 * (1 / 2)) 10 ≤ 0`.
+5. **Critique Fix 9 (Finite Acousto-Optic Guide-Star Tagging Efficiency $\eta_{\mathrm{tag}} < 1$ in `TRUE` Phase Conjugation)**:
+   `subwavelengthTrueTaggedConjugateCoupling` incorporates finite ultrasonic sideband tagging efficiency $\eta_{\mathrm{tag}} \in (0, 1]$ and proves that even at $\eta_{\mathrm{tag}} = 1/10$ ($10\%$), a Hubble-scale mosaic with $G_{\mathrm{TRUE}} = 1{,}000{,}100 \ll 1.68\times 10^7$ achieves $1{,}000{,}100 / 1{,}100{,}109 > 90\%$ throat coupling. -/
+
+/-- **Critique Fix 5: Linearized Near-Collision $2\times 2$ Slavnov Determinant**:
+$\det\begin{pmatrix} k_0 & k_0 + d_0\,\Delta u \\ k_1 & k_1 + d_1\,\Delta u \end{pmatrix} = k_0(k_1 + d_1\,\Delta u) - (k_0 + d_0\,\Delta u)k_1$. -/
+@[blueprint "def:signals-dft-slavnov-linearized-near-collision-det2"
+  (title := "Critique Fix 5: Linearized near-collision 2×2 Slavnov determinant")
+  (statement := /-- Define $\operatorname{slavnovLinearizedNearCollisionDet2}(k_0, k_1, d_0, d_1, \Delta u) = k_0(k_1 + d_1\,\Delta u) - (k_0 + d_0\,\Delta u)k_1$. -/)]
+def slavnovLinearizedNearCollisionDet2 (k0 k1 d0 d1 delta_u : ℝ) : ℝ :=
+  k0 * (k1 + d1 * delta_u) - (k0 + d0 * delta_u) * k1
+
+/-- **Critique Fix 6: Noisy 2-Channel Slavnov MIMO Distinguishability / SNR Efficiency**:
+$$\eta_{\mathrm{Slavnov\text{-}MIMO}}(\Delta u, W_{\mathrm{Cas}}, \sigma_{\mathrm{noise}}^2) = \frac{(\Delta u \cdot W_{\mathrm{Cas}})^2}{(\Delta u \cdot W_{\mathrm{Cas}})^2 + \sigma_{\mathrm{noise}}^2}.$$ -/
+@[blueprint "def:signals-dft-slavnov-mimo-collision-snr-efficiency"
+  (title := "Critique Fix 6: Noisy 2-channel Slavnov MIMO collision SNR efficiency")
+  (statement := /-- Define $\operatorname{slavnovMimoCollisionSnrEfficiency}(\Delta u, W_{\mathrm{Cas}}, \sigma_{\mathrm{noise}}^2) = (\Delta u \cdot W_{\mathrm{Cas}})^2 / ((\Delta u \cdot W_{\mathrm{Cas}})^2 + \sigma_{\mathrm{noise}}^2)$. -/)]
+noncomputable def slavnovMimoCollisionSnrEfficiency
+    (delta_u w_casorati sigma_noise_sq : ℝ) : ℝ :=
+  (delta_u * w_casorati) ^ 2 / ((delta_u * w_casorati) ^ 2 + sigma_noise_sq)
+
+/-- **Critique Fix 7: Overhead-Inclusive Slavnov Pipeline Speedup**:
+$$\mathcal{S}_{\mathrm{Slavnov}}^{\mathrm{full}}(M!, M, c_{\mathrm{kernel}}) = \frac{(M!)^2}{M^3 + c_{\mathrm{kernel}}\,M^2}.$$ -/
+@[blueprint "def:signals-dft-qism-slavnov-full-pipeline-speedup"
+  (title := "Critique Fix 7: Overhead-inclusive QISM Slavnov determinant speedup including O(M^2) kernel assembly")
+  (statement := /-- Define $\operatorname{qismSlavnovFullPipelineSpeedup}(M!, M, c_{\mathrm{kernel}}) = (M!)^2 / (M^3 + c_{\mathrm{kernel}} M^2)$. -/)]
+noncomputable def qismSlavnovFullPipelineSpeedup
+    (m_fact m_packets c_kernel : ℝ) : ℝ :=
+  m_fact ^ 2 / (m_packets ^ 3 + c_kernel * m_packets ^ 2)
+
+/-- **Critique Fix 8: Soft Impedance-Matched Yang $R$-Matrix Transmission Probability**:
+$$T_{\mathrm{Yang}}^{\mathrm{matched}}(\delta_{\mathrm{soft}}, \eta_{\mathrm{raw}}, G_{\mathrm{match}}) = \frac{\delta_{\mathrm{soft}}^2}{\delta_{\mathrm{soft}}^2 + (\eta_{\mathrm{raw}} / G_{\mathrm{match}})^2}.$$ -/
+@[blueprint "def:signals-dft-qism-impedance-matched-yang-transmission"
+  (title := "Critique Fix 8: Soft impedance-matched Yang R-matrix transmission probability")
+  (statement := /-- Define $\operatorname{qismImpedanceMatchedYangTransmission}(\delta_{\mathrm{soft}}, \eta_{\mathrm{raw}}, G_{\mathrm{match}}) = \delta_{\mathrm{soft}}^2 / (\delta_{\mathrm{soft}}^2 + (\eta_{\mathrm{raw}} / G_{\mathrm{match}})^2)$. -/)]
+noncomputable def qismImpedanceMatchedYangTransmission
+    (delta_soft eta_raw g_match : ℝ) : ℝ :=
+  delta_soft ^ 2 / (delta_soft ^ 2 + (eta_raw / g_match) ^ 2)
+
+/-- **Critique Fix 9: Finite-Tagging-Efficiency `TRUE`/`DORT` Phase-Conjugate Throat Coupling**:
+$$\eta_{\mathrm{TRUE}}^{\mathrm{tagged}}(\eta_{\mathrm{Bethe}}, \eta_{\mathrm{tag}}, G_{\mathrm{TRUE}}) = \frac{\eta_{\mathrm{Bethe}}\,\eta_{\mathrm{tag}}\,G_{\mathrm{TRUE}}}{1 + \eta_{\mathrm{Bethe}}\,\eta_{\mathrm{tag}}\,(G_{\mathrm{TRUE}} - 1)}.$$ -/
+@[blueprint "def:signals-dft-subwavelength-true-tagged-conjugate-coupling"
+  (title := "Critique Fix 9: Finite-tagging-efficiency TRUE/DORT phase-conjugate throat coupling")
+  (statement := /-- Define $\operatorname{subwavelengthTrueTaggedConjugateCoupling}(\eta_{\mathrm{Bethe}}, \eta_{\mathrm{tag}}, G_{\mathrm{TRUE}}) = (\eta_{\mathrm{Bethe}} \cdot \eta_{\mathrm{tag}} \cdot G_{\mathrm{TRUE}}) / (1 + \eta_{\mathrm{Bethe}} \cdot \eta_{\mathrm{tag}} \cdot (G_{\mathrm{TRUE}} - 1))$. -/)]
+noncomputable def subwavelengthTrueTaggedConjugateCoupling
+    (eta_bethe eta_tag g_true : ℝ) : ℝ :=
+  (eta_bethe * eta_tag * g_true) / (1 + eta_bethe * eta_tag * (g_true - 1))
+
+/-- **Master Critique Gap-Closure Theorem for Sections 23.3–23.4 (`qism_slavnov_pauli_wronskian_mimo_and_impedance_critique_identities`)**:
+Simultaneously establishes:
+1. **Confluent Casorati Wronskian Factorization & $0/0$ Vandermonde Singularity Removal**:
+   - `slavnovLinearizedNearCollisionDet2 k0 k1 d0 d1 delta_u = delta_u * (k0 * d1 - k1 * d0)`,
+   - `slavnovLinearizedNearCollisionDet2 k0 k1 d0 d1 0 = 0`,
+   - For $\Delta u \neq 0$, `slavnovLinearizedNearCollisionDet2 k0 k1 d0 d1 delta_u / delta_u = k0 * d1 - k1 * d0`,
+   - Dual-rapidity collision ($v_0 = v_1 = v$) and rapidity-swap antisymmetry ($u_0 \leftrightarrow u_1$):
+     `Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v v u0 u1) = 0` and
+     `Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v0 v1 u1 u0) = - Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v0 v1 u0 u1)`,
+2. **Noisy 2-Channel Slavnov MIMO Distinguishability Collapse vs. Well-Separated Recovery**:
+   - `slavnovMimoCollisionSnrEfficiency 0 w_cas sigma_noise_sq = 0`,
+   - `slavnovMimoCollisionSnrEfficiency (-delta_u) w_cas sigma_noise_sq = slavnovMimoCollisionSnrEfficiency delta_u w_cas sigma_noise_sq`,
+   - `slavnovMimoCollisionSnrEfficiency 10 1 1 = 100 / 101 ∧ 99 / 100 < slavnovMimoCollisionSnrEfficiency 10 1 1`,
+3. **Overhead-Inclusive Slavnov Pipeline Speedup ($> 1.58\times 10^6\times$ with $O(M^2)$ Kernel Assembly)**:
+   - `qismSlavnovFullPipelineSpeedup m_fact m_packets 0 = qismSlavnovContractionSpeedup m_fact m_packets`,
+   - `qismSlavnovFullPipelineSpeedup 40320 8 8 = 1587600 ∧ 1500000 < qismSlavnovFullPipelineSpeedup 40320 8 8`,
+4. **Soft Impedance-Matched Yang Transparency ($> 99.9\%$) Without Raychaudhuri Throat Collapse**:
+   - `qismImpedanceMatchedYangTransmission 1 100 1 = Signals.Scattering.yangTransmissionProb 1 0 100`,
+   - `qismImpedanceMatchedYangTransmission 1 100 10000 = 10000 / 10001 ∧ 999 / 1000 < qismImpedanceMatchedYangTransmission 1 100 10000`,
+   - `wormholeNetNullDefocusingFlux (8 * (1 / 2)) 10 ≤ 0 ∧ 0 < wormholeNetNullDefocusingFlux 100 10`,
+5. **Finite-Tagging `TRUE` Phase Conjugation ($\eta_{\mathrm{tag}} = 10\% \implies > 90\%$ Coupling)**:
+   - `subwavelengthTrueTaggedConjugateCoupling eta_b 1 g_true = subwavelengthPhotonTrueConjugateCoupling eta_b g_true`,
+   - `subwavelengthTrueTaggedConjugateCoupling (1 / 10001) (1 / 10) 1000100 = 1000100 / 1100109 ∧ 9 / 10 < subwavelengthTrueTaggedConjugateCoupling (1 / 10001) (1 / 10) 1000100`. -/
+@[blueprint "thm:signals-dft-qism-slavnov-pauli-wronskian-mimo-and-impedance-critique-identities"
+  (title := "Critique gap-closure theorem for Sections 23.3–23.4: Slavnov Wronskian factorization, noisy MIMO collision SNR, overhead-inclusive speedup, soft impedance matching, and finite TRUE tagging")
+  (statement := /-- Certifies the confluent Casorati Wronskian factorization and $0/0$ Vandermonde
+    singularity removal for colliding Bethe rapidities, dual Pauli exclusion and swap antisymmetry,
+    noisy 2-channel Slavnov MIMO SNR collapse at $\Delta u=0$ vs. $>99\%$ recovery at $\Delta u=10$,
+    the $1{,}587{,}600\times$ overhead-inclusive Slavnov speedup, soft impedance-matched Yang
+    transparency without Raychaudhuri collapse, and $>90\%$ finite-tagging \texttt{TRUE} coupling. -/)
+  (proof := /-- Combine ring algebra, \texttt{field\_simp} for $\Delta u \neq 0$,
+    \texttt{slavnovDet2\_dual\_pauli\_exclusion}, \texttt{slavnovDet2\_swap\_bethe}, and rational arithmetic. -/)]
+theorem qism_slavnov_pauli_wronskian_mimo_and_impedance_critique_identities
+    (k0 k1 d0 d1 delta_u w_cas sigma_noise_sq m_fact m_packets eta_b g_true : ℝ)
+    (v v0 v1 u0 u1 : ℝ) (K : ℝ → ℝ → ℝ)
+    (h_du : delta_u ≠ 0) :
+    slavnovLinearizedNearCollisionDet2 k0 k1 d0 d1 delta_u = delta_u * (k0 * d1 - k1 * d0) ∧
+      slavnovLinearizedNearCollisionDet2 k0 k1 d0 d1 0 = 0 ∧
+      slavnovLinearizedNearCollisionDet2 k0 k1 d0 d1 delta_u / delta_u = k0 * d1 - k1 * d0 ∧
+      Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v v u0 u1) = 0 ∧
+      Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v0 v1 u1 u0) =
+        - Signals.QISM.slavnovDet2 (Signals.QISM.slavnovKernelMatrix2 K v0 v1 u0 u1) ∧
+      slavnovMimoCollisionSnrEfficiency 0 w_cas sigma_noise_sq = 0 ∧
+      slavnovMimoCollisionSnrEfficiency (-delta_u) w_cas sigma_noise_sq =
+        slavnovMimoCollisionSnrEfficiency delta_u w_cas sigma_noise_sq ∧
+      slavnovMimoCollisionSnrEfficiency 10 1 1 = 100 / 101 ∧
+      (99 / 100 : ℝ) < slavnovMimoCollisionSnrEfficiency 10 1 1 ∧
+      qismSlavnovFullPipelineSpeedup m_fact m_packets 0 =
+        qismSlavnovContractionSpeedup m_fact m_packets ∧
+      qismSlavnovFullPipelineSpeedup 40320 8 8 = 1587600 ∧
+      (1500000 : ℝ) < qismSlavnovFullPipelineSpeedup 40320 8 8 ∧
+      qismImpedanceMatchedYangTransmission 1 100 1 =
+        Signals.Scattering.yangTransmissionProb 1 0 100 ∧
+      qismImpedanceMatchedYangTransmission 1 100 10000 = 10000 / 10001 ∧
+      (999 / 1000 : ℝ) < qismImpedanceMatchedYangTransmission 1 100 10000 ∧
+      wormholeNetNullDefocusingFlux (8 * (1 / 2)) 10 ≤ 0 ∧
+      0 < wormholeNetNullDefocusingFlux 100 10 ∧
+      subwavelengthTrueTaggedConjugateCoupling eta_b 1 g_true =
+        subwavelengthPhotonTrueConjugateCoupling eta_b g_true ∧
+      subwavelengthTrueTaggedConjugateCoupling (1 / 10001) (1 / 10) 1000100 = 1000100 / 1100109 ∧
+      (9 / 10 : ℝ) < subwavelengthTrueTaggedConjugateCoupling (1 / 10001) (1 / 10) 1000100 := by
+  have h_div : slavnovLinearizedNearCollisionDet2 k0 k1 d0 d1 delta_u / delta_u = k0 * d1 - k1 * d0 := by
+    unfold slavnovLinearizedNearCollisionDet2
+    field_simp [h_du]
+    ring
+  refine ⟨
+    by unfold slavnovLinearizedNearCollisionDet2; ring,
+    by unfold slavnovLinearizedNearCollisionDet2; ring,
+    h_div,
+    Signals.QISM.slavnovDet2_dual_pauli_exclusion K v u0 u1,
+    Signals.QISM.slavnovDet2_swap_bethe K v0 v1 u0 u1,
+    by unfold slavnovMimoCollisionSnrEfficiency; simp,
+    by unfold slavnovMimoCollisionSnrEfficiency; ring,
+    by unfold slavnovMimoCollisionSnrEfficiency; norm_num,
+    by unfold slavnovMimoCollisionSnrEfficiency; norm_num,
+    by unfold qismSlavnovFullPipelineSpeedup qismSlavnovContractionSpeedup; ring,
+    by unfold qismSlavnovFullPipelineSpeedup; norm_num,
+    by unfold qismSlavnovFullPipelineSpeedup; norm_num,
+    by unfold qismImpedanceMatchedYangTransmission Signals.Scattering.yangTransmissionProb
+        Signals.QISM.spectralDiff; norm_num,
+    by unfold qismImpedanceMatchedYangTransmission; norm_num,
+    by unfold qismImpedanceMatchedYangTransmission; norm_num,
+    by unfold wormholeNetNullDefocusingFlux; norm_num,
+    by unfold wormholeNetNullDefocusingFlux; norm_num,
+    by unfold subwavelengthTrueTaggedConjugateCoupling subwavelengthPhotonTrueConjugateCoupling; ring,
+    by unfold subwavelengthTrueTaggedConjugateCoupling; norm_num,
+    by unfold subwavelengthTrueTaggedConjugateCoupling; norm_num⟩
+
 end
 
 end Signals.DFT
